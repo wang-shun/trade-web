@@ -86,6 +86,7 @@ import com.centaline.trans.spv.repository.ToSpvReceiptMapper;
 import com.centaline.trans.spv.repository.ToSpvVoucherMapper;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
+import com.centaline.trans.spv.vo.SpvCaseFlowOutInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
@@ -391,7 +392,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public ToSpv findToSpvBySpvCode(String spvCode) {
 		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
-		toSpv.setAmount(toSpv.getAmount() != null ? toSpv.getAmount().divide(new BigDecimal(10000)) : null);
 		return toSpv;
 	}
 
@@ -935,28 +935,31 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public SpvChargeInfoVO findSpvChargeInfoVOByCashFlowApplyCode(String cashFlowApplyCode) {
 		
 		SpvChargeInfoVO spvChargeOutInfoVO = new SpvChargeInfoVO();
-		
-		cashFlowApplyCode = "ZY-JGLS-201609-001";
+		List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVOList = new ArrayList<SpvCaseFlowOutInfoVO>();
+
 		/**1.查询申请*/
 		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
 		
-		if(toSpvCashFlowApply == null) throw new BusinessException("找不到该申请号对应的申请！");
+		if(toSpvCashFlowApply == null){
+			return null;
+		}
 		
 		Long cashFlowApplyId = toSpvCashFlowApply.getPkid();
-		/**2.查询流水*/
-		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(cashFlowApplyId);
-		/**3.查询审核记录*/
+		/**2.查询审核记录*/
 		List<ToSpvAduit> toSpvAduitList = toSpvAduitMapper.selectByCashFlowApplyId(cashFlowApplyId.toString());
+		/**3.查询流水*/
+		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(cashFlowApplyId);
 		/**4.查询贷记凭证*/
-		List<ToSpvVoucher> toSpvVoucherList = new ArrayList<ToSpvVoucher>();
 		/**5.查询小票、回单*/
-		List<ToSpvReceipt> toSpvReceiptList = new ArrayList<ToSpvReceipt>();
 		Iterator<ToSpvCashFlow> iterator = toSpvCashFlowList.iterator();
 		while(iterator.hasNext()){
+			SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO = new SpvCaseFlowOutInfoVO();
 			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(iterator.next().getPkid().toString());
 			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(iterator.next().getPkid().toString());
-			toSpvVoucherList.addAll(tempListV);
-			toSpvReceiptList.addAll(tempListR);
+			spvCaseFlowOutInfoVO.setToSpvCashFlow(iterator.next());
+			spvCaseFlowOutInfoVO.setToSpvVoucherList(tempListV);
+			spvCaseFlowOutInfoVO.setToSpvReceiptList(tempListR);
+			spvCaseFlowOutInfoVOList.add(spvCaseFlowOutInfoVO);
 		}
 
 		/**6.查询申请附件*/
@@ -964,10 +967,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 		
 		/**装载属性*/
 		spvChargeOutInfoVO.setToSpvCashFlowApply(toSpvCashFlowApply);
-		spvChargeOutInfoVO.setToSpvCashFlowList(toSpvCashFlowList);
 		spvChargeOutInfoVO.setToSpvAduitList(toSpvAduitList);
-		spvChargeOutInfoVO.setToSpvVoucherList(toSpvVoucherList);
-		spvChargeOutInfoVO.setToSpvReceiptList(toSpvReceiptList);
+		spvChargeOutInfoVO.setSpvCaseFlowOutInfoVOList(spvCaseFlowOutInfoVOList);
 		spvChargeOutInfoVO.setToSpvCashFlowApplyAttachList(toSpvCashFlowApplyAttachList);
 		
 		return spvChargeOutInfoVO;
@@ -996,29 +997,13 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvCashFlowApply.setUpdateTime(new Date());
 			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);
 		}
-		
-		/**2.流水*/
-		List<ToSpvCashFlow> toSpvCashFlowList = spvChargeInfoVO.getToSpvCashFlowList();
-		if(toSpvCashFlowList != null && !toSpvCashFlowList.isEmpty()){
-			for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
-				if(toSpvCashFlow.getPkid() == null){
-					toSpvCashFlow.setCreateBy(user.getId());
-					toSpvCashFlow.setCreateTime(new Date());
-					toSpvCashFlow.setIsDeleted("0");
-					toSpvCashFlowMapper.insertSelective(toSpvCashFlow);
-				}else{
-					toSpvCashFlow.setUpdateBy(user.getId());
-					toSpvCashFlow.setUpdateTime(new Date());
-					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
-				}
-			}
-		}
-		
-		/**3.审批记录*/
+			
+		/**2.审批记录*/
 		List<ToSpvAduit> toSpvAduitList = spvChargeInfoVO.getToSpvAduitList();
 		if(toSpvAduitList != null && !toSpvAduitList.isEmpty()){
 			for(ToSpvAduit toSpvAduit:toSpvAduitList){
 				if(toSpvAduit.getPkid() == null){
+					toSpvAduit.setApplyId(toSpvCashFlowApply.getPkid().toString());
 					toSpvAduit.setCreateBy(user.getId());
 					toSpvAduit.setCreateTime(new Date());
 					toSpvAduitMapper.insertSelective(toSpvAduit);
@@ -1030,44 +1015,12 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 		}
 		
-		/**4.贷记凭证*/
-		List<ToSpvVoucher> toSpvVoucherList = spvChargeInfoVO.getToSpvVoucherList();
-		if(toSpvVoucherList != null && !toSpvVoucherList.isEmpty()){
-			for(ToSpvVoucher toSpvVoucher:toSpvVoucherList){
-				if(toSpvVoucher.getPkid() == null){
-					toSpvVoucher.setCreateBy(user.getId());
-					toSpvVoucher.setCreateTime(new Date());
-					toSpvVoucher.setIsDeleted("0");
-					toSpvVoucherMapper.insertSelective(toSpvVoucher);
-				}else{
-					toSpvVoucher.setUpdateBy(user.getId());
-					toSpvVoucher.setUpdateTime(new Date());
-					toSpvVoucherMapper.updateByPrimaryKeySelective(toSpvVoucher);
-				}
-			}
-		}
-		
-		/**5.小票、回单*/
-		List<ToSpvReceipt> toSpvReceiptList = spvChargeInfoVO.getToSpvReceiptList();
-		if(toSpvReceiptList != null && !toSpvReceiptList.isEmpty()){
-			for(ToSpvReceipt toSpvReceipt:toSpvReceiptList){
-				if(toSpvReceipt.getPkid() == null){
-					toSpvReceipt.setCreateBy(user.getId());
-					toSpvReceipt.setCreateTime(new Date());
-					toSpvReceipt.setIsDeleted("0");
-					toSpvReceiptMapper.insertSelective(toSpvReceipt);
-				}else{
-					toSpvReceipt.setUpdateBy(user.getId());
-					toSpvReceipt.setUpdateTime(new Date());
-					toSpvReceiptMapper.updateByPrimaryKeySelective(toSpvReceipt);
-				}
-			}
-		}
-		/**6.申请附件*/
+		/**3.申请附件*/
 		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
 		if(toSpvCashFlowApplyAttachList != null && !toSpvCashFlowApplyAttachList.isEmpty()){
 			for(ToSpvCashFlowApplyAttach toSpvCashFlowApplyAttach:toSpvCashFlowApplyAttachList){
 				if(toSpvCashFlowApplyAttach.getPkid() == null){
+					toSpvCashFlowApplyAttach.setApplyId(toSpvCashFlowApply.getPkid().toString());
 					toSpvCashFlowApplyAttach.setCreateBy(user.getId());
 					toSpvCashFlowApplyAttach.setCreateTime(new Date());
 					toSpvCashFlowApplyAttach.setIsDeleted("0");
@@ -1080,6 +1033,63 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 		}
 		
+		List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVOList = spvChargeInfoVO.getSpvCaseFlowOutInfoVOList();
+		if(spvCaseFlowOutInfoVOList != null && !spvCaseFlowOutInfoVOList.isEmpty()){
+			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO:spvCaseFlowOutInfoVOList){
+				/**4.流水*/
+				ToSpvCashFlow toSpvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
+				if(toSpvCashFlow.getPkid() == null){
+					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
+					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
+					toSpvCashFlow.setCreateBy(user.getId());
+					toSpvCashFlow.setCreateTime(new Date());
+					toSpvCashFlow.setIsDeleted("0");
+					toSpvCashFlowMapper.insertSelective(toSpvCashFlow);
+				}else{
+					toSpvCashFlow.setUpdateBy(user.getId());
+					toSpvCashFlow.setUpdateTime(new Date());
+					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
+				}
+				
+				/**5.贷记凭证*/
+				List<ToSpvVoucher> toSpvVoucherList = spvCaseFlowOutInfoVO.getToSpvVoucherList();
+				if(toSpvVoucherList != null && !toSpvVoucherList.isEmpty()){
+					for(ToSpvVoucher toSpvVoucher:toSpvVoucherList){
+						if(toSpvVoucher.getPkid() == null){
+							toSpvVoucher.setCashflowId(toSpvCashFlow.getPkid().toString());
+							toSpvVoucher.setCreateBy(user.getId());
+							toSpvVoucher.setCreateTime(new Date());
+							toSpvVoucher.setIsDeleted("0");
+							toSpvVoucherMapper.insertSelective(toSpvVoucher);
+						}else{
+							toSpvVoucher.setUpdateBy(user.getId());
+							toSpvVoucher.setUpdateTime(new Date());
+							toSpvVoucherMapper.updateByPrimaryKeySelective(toSpvVoucher);
+						}
+					}
+				}
+				
+				/**6.小票、回单*/
+				List<ToSpvReceipt> toSpvReceiptList = spvCaseFlowOutInfoVO.getToSpvReceiptList();
+				if(toSpvReceiptList != null && !toSpvReceiptList.isEmpty()){
+					for(ToSpvReceipt toSpvReceipt:toSpvReceiptList){
+						if(toSpvReceipt.getPkid() == null){
+							toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());
+							toSpvReceipt.setCreateBy(user.getId());
+							toSpvReceipt.setCreateTime(new Date());
+							toSpvReceipt.setIsDeleted("0");
+							toSpvReceiptMapper.insertSelective(toSpvReceipt);
+						}else{
+							toSpvReceipt.setUpdateBy(user.getId());
+							toSpvReceipt.setUpdateTime(new Date());
+							toSpvReceiptMapper.updateByPrimaryKeySelective(toSpvReceipt);
+						}
+					}
+				}
+				
+			}
+		}
+	
 	}
 
 }

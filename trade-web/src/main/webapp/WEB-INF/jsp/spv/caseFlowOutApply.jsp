@@ -46,6 +46,7 @@
 		<input type="hidden" id="source" name="source" value="${source}">
 		<input type="hidden" id="urlType" name="source" value="${urlType}">
 		<input type="hidden" id="handle" name="handle" value="${handle }">
+		<input type="hidden" id="spvCode" name="spvCode" value="${spvCode }">
 		<!-- main Start -->
             <!-- main Start -->
 
@@ -228,9 +229,47 @@
                                 </div>
                             </div>
                         </div>
+                        <form id="workFolwApplyForm" style="display:none;">
+                              <input type="hidden" name="toSpvCashFlowApply.cashflowApplyCode" value="${spvChargeInfoVO.toSpvCashFlowApply.cashflowApplyCode }" />
+                              <input type="hidden" name="toSpvCashFlowApply.spvCode" value="${spvCode }" />
+                              <input type="hidden" name="toSpvCashFlowApply.usage" value="out" />
+                        </form>
                         <div class="mt20">
                             <div class="agree-tile">
-                                出账申请信息
+                                出账凭证信息
+                            </div>
+                            <form class="form-inline table-capital">
+                                <div class="table-box" >
+                                    <table class="table table-bordered customerinfo">
+                                        <thead>
+                                        <th>凭证类型</th>
+                                        <th>凭证附件</th>
+                                        </thead>
+                                        <tbody id="addTr">
+                                        <tr>
+                                            <td width="310">
+                                                <select name="" class="table-select boderbbt">
+                                                    <option value="">请选择</option>
+                                                    <option value="">转账凭证</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <span class="btn_file">
+                                                    <input type="file" class="file" />
+                                                    <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div class="mt20">
+                            <div class="agree-tile">
+                                出账流水信息
                             </div>
                             <form class="form-inline table-capital">
                                 <div class="table-box" >
@@ -288,6 +327,13 @@
                             </form>
                         </div>
 
+                        <div class="submitter">
+                            提交人：<span>张三(业务员)</span>
+                        </div>
+                        <div class="excuse">
+                            <form action="">
+                                <textarea name="" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                            </form>
                         <div class="form-btn">
                             <div class="text-center">
                             <c:if test="${empty handle }">
@@ -321,6 +367,8 @@
                             </c:if>    
                             </div>
                         </div>
+                        </div>
+  
                     </div>
                 </div>
             </div>
