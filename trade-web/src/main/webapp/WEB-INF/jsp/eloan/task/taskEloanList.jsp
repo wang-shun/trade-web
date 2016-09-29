@@ -206,7 +206,9 @@
                                <ul class="dropdown-menu" role="menu" style="left:-95px;">
                                       <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">查看</a></li>
                                       <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=update">修改</a></li>
-                                      <li><a href="#">删除</a></li>
+                                      <shiro:hasPermission name="TRADE.ELONE.DELETE">
+                                      <li><a id="link_btn" onclick="deleteItem({{item.pkId}})">删除</a></li>
+                                      </shiro:hasPermission>
                                </ul>
                       </div>
                 </td>
