@@ -169,7 +169,7 @@
 														{{item.FIN_ORDER_ROLL}}
 													</td>
 													<td>{{item.FIN_ORDER_RATE}}</td>
-													<td></td>
+													<td>{{item.COM_LS_RATE}}</td>
 													<td>{{item.AWARD_KPI_MONEY}}</td>
                                                 </tr>
 					{{/each}}
