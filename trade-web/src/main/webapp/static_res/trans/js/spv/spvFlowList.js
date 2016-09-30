@@ -41,7 +41,7 @@
 							          params.search_prAddress=$("input[name='prAddress']").val();
 											initData();
 											
-										})
+						})
 						function show(pkid){
 							var hide=$("#cashFlow"+pkid).css("display");
 							$("#cashFlow"+pkid).slideToggle("slow");
@@ -73,14 +73,14 @@
 							}
 						  })
 						}
-						//加载页面
+						//加载流水申请页面
 						function initData() {
 							$(".bonus-table")
 									.aistGrid({
 												ctx : ctx,
-												queryId : 'ToSpvCaseFlowListQuery',
+												queryId : 'ToSpvCaseFlowApplyListQuery',
 												   rows : '12',
-												templeteId : 'querSpvCaseFlowList',
+												templeteId : 'querSpvCaseFlowApplyList',
 												gridClass : 'table table_blue table-striped table-bordered table-hover ',
 												data : params,
 												wrapperData : {job : $("#serviceJobCode").val()},
@@ -104,6 +104,35 @@
 															colName : "审批状态"
 														} , {
 															colName : "操作"
+														}  ]
+
+											});
+						}
+						//加载流水页面
+						function initFlowListData() {
+							$(".bonus-table")
+									.aistGrid({
+												ctx : ctx,
+												queryId : 'ToSpvCaseFlowListQuery',
+												   rows : '12',
+												templeteId : 'querSpvCaseFlowList',
+												gridClass : 'table table_blue table-striped table-bordered table-hover',
+												data : params,
+												wrapperData : {job : $("#serviceJobCode").val()},
+												columns : [
+														{
+																   colName :"<span style='color:#ffffff' onclick='caseCodeSort();' >流水申请编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
+	/* 								    		    	           sortColumn : "SPV_CODE",
+									    		    	           sord: "desc",
+									    		    	           sortActive : true */
+														},{
+															colName : "金额"
+														},{
+															colName : "账户信息"
+														}, {
+															colName : "审批状态"
+														}, {
+															colName : "物业地址"
 														}  ]
 
 											});
