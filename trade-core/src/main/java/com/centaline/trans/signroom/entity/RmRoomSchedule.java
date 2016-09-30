@@ -26,6 +26,11 @@ public class RmRoomSchedule implements Serializable {
 	private String updateBy;// 更新人
 	
 	private String timeSlot;//时间段
+	
+	private boolean isZhiHui;//判断该时间段是否置灰
+	private String resStatus;//该时段对应的预约状态
+	private Date checkInTime;//签到时间
+	private Date checkOutTime;//签退时间
 
 	public Long getPkid() {
 		return pkid;
@@ -130,6 +135,40 @@ public class RmRoomSchedule implements Serializable {
 	public void setTimeSlot(String timeSlot) {
 		this.timeSlot = timeSlot;
 	}
+
+	public boolean isZhiHui() {
+		return isZhiHui;
+	}
+
+	public void setZhiHui(boolean isZhiHui) {
+		this.isZhiHui = isZhiHui;
+	}
+
+	public String getResStatus() {
+		return resStatus;
+	}
+
+	public void setResStatus(String resStatus) {
+		this.resStatus = resStatus;
+	}
+
+	public Date getCheckInTime() {
+		return checkInTime;
+	}
+
+	public void setCheckInTime(Date checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+
+	public Date getCheckOutTime() {
+		return checkOutTime;
+	}
+
+	public void setCheckOutTime(Date checkOutTime) {
+		this.checkOutTime = checkOutTime;
+	}
+	
+	
 	
 	
 
