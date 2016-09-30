@@ -796,7 +796,8 @@ public class SpvController {
      */
     @RequestMapping("task/cashFlowOutAppr/process")
 	public String cashFlowOutAppprProcess(HttpServletRequest request,String source,String instCode,
-			String taskId,String handle,String businessKey)  {
+			String taskId,String handle,String businessKey,String spvCode) throws Exception {
+    	request.setAttribute("spvCode", spvCode);
     	
     	if(!StringUtils.isBlank(handle)){ 	
         	switch (handle) {
@@ -847,41 +848,46 @@ public class SpvController {
      * @throws
      */
     @RequestMapping("cashFlowOutAppr/deal")
-	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,
+	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,String taskItem,
 			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeOutAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
-			//String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
-			String cashflowApplyCode = "";
+			String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
+			
 			if(!StringUtils.isBlank(handle)){ 
 				
-				//if(StringUtils.isBlank(cashflowApplyCode)) throw new BusinessException("页面没有传入申请号！");
+				if(StringUtils.isBlank(cashflowApplyCode)) throw new BusinessException("页面没有传入申请号！");
 				
 				switch (handle) {
 				case "apply":
-					cashFlowOutService.cashFlowOutApplyDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
+					cashFlowOutService.cashFlowOutApplyDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode, chargeOutAppr);
 					break;
 			    case "directorAduit":
-			    	cashFlowOutService.cashFlowOutDirectorAduitDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
+			    	cashFlowOutService.cashFlowOutDirectorAduitDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 					break;
 			    case "financeAduit":
-			    	cashFlowOutService.cashFlowOutFinanceAduitDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
+			    	cashFlowOutService.cashFlowOutFinanceAduitDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			    	break;
 			    case "financeSecondAduit":
-			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
+			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			        break;
 			    case "cashFlowOut":
-	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, handle, spvChargeInfoVO, chargeOutAppr);
+	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, chargeOutAppr);
 	                break;    
 				}	
 			}else{
-				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
+				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode);
 			}
 
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
-			response.setMessage(""+e.getStackTrace());
+			String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(sOut);
 			e.printStackTrace();
 		}
     	
@@ -904,7 +910,13 @@ public class SpvController {
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
-			response.setMessage(e.getMessage());
+			String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(sOut);
+			e.printStackTrace();
 		}
     	
     	return response;
