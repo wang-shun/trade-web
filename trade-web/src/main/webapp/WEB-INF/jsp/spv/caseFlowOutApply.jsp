@@ -110,7 +110,7 @@
                             </div>
                             <form class="form-inline table-capital">
                                 <div class="table-box" >
-                                    <table class="table table-bordered  customerinfo">
+                                    <table class="table table-bordered  customerinfo" id="cashFolwRecord">
                                         <thead>
                                         <tr>
                                             <th>
@@ -164,6 +164,7 @@
                                 出入账记录
                             </div>
                             <div class="table-capital">
+                             <form>
                                 <div class="table_content">
                                     <table class="table table-bordered customerinfo">
                                         <thead>
@@ -230,6 +231,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                </form>
                             </div>
                         </div>
                         <form id="workFolwApplyForm" style="display:none;">
@@ -343,7 +345,7 @@
                             <input type="hidden" name="toSpvAduitList[${status4.index }].pkId" value="${toSpvAduit.pkId }" />
                             <div class="view clearfix">
                                 <p>
-                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }(资金监管专员)</em></span>
+                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }(${toSpvAduit.operatorJobName })</em></span>
                                    <span class="result pink_bg">${toSpvAduit.result }</span>
                                    <span class="time">审核日期:<em><fmt:formatDate value="${toSpvAduit.createTime }" pattern="yyyy-MM-dd"/> </em></span>
                                 </p>
@@ -405,7 +407,7 @@
             </div>
             <!-- main End -->
         </div>
-
+    </div>
     <!-- Mainly scripts -->
     <script src="${ctx}/static_res/trans/js/spv/jquery-2.1.1.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/bootstrap.min.js"></script>
@@ -438,10 +440,10 @@ function getAtr(i){
     $str+="<tr>";
     $str+="<input type='hidden' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.pkId' >";
     $str+=" <td><input class='table-input-one' type='text' placeholder='请输入姓名' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payer' /></td>";
-    $str+="<td><p><input class='table_input' type='text' placeholder='请输入银行卡号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payerAcc' /></p><p><input class='table_input' type='text' value='请输入银行名称' name='spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payerBank' /></p></td>";
+    $str+="<td><p><input class='table_input' type='text' placeholder='请输入银行卡号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payerAcc' /></p><p><input class='table_input' type='text' placeholder='请输入银行名称' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payerBank' /></p></td>";
     $str+="<td><input style='border:none;width: 50px;' type='text' placeholder='金额' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' />万元</td>";
     $str+="<td><input class='table_input' type='text' placeholder='请输入编号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' /></td>";
-    $str+="<td><select class='table-select' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.direction' onChange='this.value'><option value=''>请选择</option><option value=''>请选择</option><option value='转账'>转账</option><option value='刷卡'>刷卡</option><option value='现金'>现金</option></select></td>";
+    $str+="<td><select class='table-select' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.direction' onChange='this.value'><option value=''>请选择</option><option value='转账'>转账</option><option value='刷卡'>刷卡</option><option value='现金'>现金</option></select></td>";
     $str+="<td><button class='btn btn-sm btn-x space3'>凭证1<i class='icon iconfont icon_x'>&#xe60a;</i></button><button class='btn btn-sm btn-x space3'>凭证2<i class='icon iconfont icon_x'>&#xe60a;</i></button><span class='btn_file'><input type='file' class='file' /><img class='bnt-flie' src='${ctx }/static_res/trans/img/bnt-flie.png' alt='' /></span></td>";
     $str+="<td class='btn-height' align='center'><a href='javascript:void(0);'  onClick='getAtr(this)'  >添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)' >删除</a></td>";
     $str+="</tr>";

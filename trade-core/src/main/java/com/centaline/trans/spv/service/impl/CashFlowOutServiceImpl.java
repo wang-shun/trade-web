@@ -69,6 +69,24 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutPage(HttpServletRequest request, String source, String instCode, String taskId,
 			String handle, String businessKey) {
 			setRequestAttribute(request,businessKey);	
+	}	
+
+	@Override
+	public void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception {
+		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
+		SessionUser user = uamSessionService.getSessionUser();
+		String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
+		//创建spvApplyCode
+		String spvApplyCode = createSpvApplyCode();
+		if(StringUtils.isBlank(cashflowApplyCode)){
+			spvChargeInfoVO.getToSpvCashFlowApply().setCashflowApplyCode(spvApplyCode);
+		}
+		
+		//设置申请人为当前用户
+		spvChargeInfoVO.getToSpvCashFlowApply().setApplier(user.getId());
+		//乘万操作
+		multiplyTenThousand(spvChargeInfoVO);
+		toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);
 	}
 
 	@Override
@@ -298,4 +316,5 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			}		
 		}
 	}
+
 }

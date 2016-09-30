@@ -17,6 +17,7 @@ import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -852,9 +853,7 @@ public class SpvController {
 	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,String taskItem,
 			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeOutAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
-    	try {
-			
-			
+    	try {	
 			if(!StringUtils.isBlank(handle)){ 
 				String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 				
@@ -908,8 +907,9 @@ public class SpvController {
 	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO) {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
-    		toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO); 
+    		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO); 
 			response.setSuccess(true);
+			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
 		} catch (Exception e) {
 			response.setSuccess(false);
 			String sOut = "";

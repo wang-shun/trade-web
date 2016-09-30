@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	var handle = $("#handle").val();
 	
-	$(".customerinfo").find("select").prop("disabled",true);
+	$("#cashFolwRecord").find("select").prop("disabled",true);
 	
 	//流程开启后只读表单
 	if(handle == 'directorAduit' || handle == 'financeAduit' 
@@ -68,7 +68,7 @@ function saveBtnClick(){
  				    	 window.opener.location.reload(); //刷新父窗口
  			        	 window.close(); //关闭子窗口.
  				     }else{
-			    	     window.location.reload();
+			    	     //window.location.href="${ctx}/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
 			     }
  					 $.unblockUI();
  				}	 
@@ -156,21 +156,19 @@ function submitBtnClick(handle,chargeOutAppr){
      		totalArr.push(obj[i]);
 		}
 	  });
-	  
-	  data.spvChargeInfoVO = totalArr;	  
-	  data.chargeOutAppr = chargeOutAppr; 
+
+	   alert(JSON.stringify(totalArr));
 
 	  $.ajax({
 		url:ctx+"/spv/cashFlowOutAppr/deal",
 		method:"post",
 		dataType:"json",
-		data:{handle:handle,taskId:$("#taskId").val()},   		        				        		    
+		data:totalArr,   		        				        		    
  		beforeSend:function(){  
 			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 			$(".blockOverlay").css({'z-index':'9998'});
       },
       complete: function() {
-    	  debugger;
                $.unblockUI(); 
                if(status=='timeout'){ //超时,status还有success,error等值的情况
 	          	  Modal.alert(
@@ -203,10 +201,6 @@ function submitBtnClick(handle,chargeOutAppr){
 function readOnlyRiskForm(){
 	$("input").prop("readOnly",true);
 	$(":radio").prop("disabled",true);
-	$("input[name='spvCustList[0].idValiDate']").prop("disabled",true);
-	$("input[name='spvCustList[1].idValiDate']").prop("disabled",true);
 	$("select").prop("disabled",true);
-	$("#realName").prop("disabled",true);
-	$("input[id^=picFileupload]").prop("disabled",true);
 	$("img").prop("disabled",true);
 }
