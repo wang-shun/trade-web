@@ -798,7 +798,7 @@ public class SpvController {
 	public String cashFlowOutAppprProcess(HttpServletRequest request,String source,String instCode,
 			String taskId,String handle,String businessKey,String spvCode) throws Exception {
     	request.setAttribute("spvCode", spvCode);
-    	
+    	SessionUser user = uamSessionService.getSessionUser();
     	if(!StringUtils.isBlank(handle)){ 	
         	switch (handle) {
         	case "apply":
@@ -830,6 +830,7 @@ public class SpvController {
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
 		request.setAttribute("handle", handle);
+		request.setAttribute("user", user);
 		
 		return "spv/caseFlowOutApply";
 	}
@@ -852,9 +853,10 @@ public class SpvController {
 			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeOutAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
-			String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
+			
 			
 			if(!StringUtils.isBlank(handle)){ 
+				String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 				
 				if(StringUtils.isBlank(cashflowApplyCode)) throw new BusinessException("页面没有传入申请号！");
 				
@@ -876,7 +878,7 @@ public class SpvController {
 	                break;    
 				}	
 			}else{
-				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode);
+				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, null);
 			}
 
 			response.setSuccess(true);

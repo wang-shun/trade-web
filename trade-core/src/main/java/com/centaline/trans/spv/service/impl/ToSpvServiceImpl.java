@@ -994,6 +994,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if(toSpvCashFlowApply.getPkid() == null){
 			toSpvCashFlowApply.setCreateBy(user.getId());
 			toSpvCashFlowApply.setCreateTime(new Date());
+			toSpvCashFlowApply.setStatus("0");
 			toSpvCashFlowApply.setIsDeleted("0");
 			toSpvCashFlowApplyMapper.insertSelective(toSpvCashFlowApply);
 		}else{
@@ -1003,7 +1004,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 			
 		/**2.审批记录*/
-		List<ToSpvAduit> toSpvAduitList = spvChargeInfoVO.getToSpvAduitList();
+/*		List<ToSpvAduit> toSpvAduitList = spvChargeInfoVO.getToSpvAduitList();
 		if(toSpvAduitList != null && !toSpvAduitList.isEmpty()){
 			for(ToSpvAduit toSpvAduit:toSpvAduitList){
 				if(toSpvAduit.getPkid() == null){
@@ -1017,7 +1018,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 					toSpvAduitMapper.updateByPrimaryKeySelective(toSpvAduit);
 				}
 			}
-		}
+		}*/
 		
 		/**3.申请附件*/
 		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();

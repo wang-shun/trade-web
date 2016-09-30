@@ -59,18 +59,18 @@ function saveBtnClick(){
  			                } 
  			            } ,   
  			success : function(data) {   
+	 				if(data.ajaxResponse.success){
+	 						alert("数据保存成功！");
+	 				}else{
+	 					    alert("数据保存出错:"+data.ajaxResponse.message);
+	 				}
 			    	 if($("#urlType").val() == 'myTask'){    	 
  				    	 window.opener.location.reload(); //刷新父窗口
  			        	 window.close(); //关闭子窗口.
  				     }else{
- 				    	 alert("数据保存成功！");
-			    	// window.location.href = ctx+"/spv/spvList";
+			    	     window.location.reload();
 			     }
  					 $.unblockUI();
- 				},		
- 			error : function(errors) {
- 					$.unblockUI();   
- 					alert("数据保存出错:"+JSON.stringify(errors));
  				}	 
       	  });
 }
@@ -180,7 +180,6 @@ function submitBtnClick(handle,chargeOutAppr){
 		                } 
 		            } ,   
 		success : function(data) {   
-			alert(JSON.stringify(data));
 			if(data.ajaxResponse.success){
 				if(!handle){
 					alert("流程开启成功！");
@@ -194,8 +193,7 @@ function submitBtnClick(handle,chargeOutAppr){
 			    	 window.opener.location.reload(); //刷新父窗口
 		        	 window.close(); //关闭子窗口.
 			     }else{
-			          
-			    	 //window.location.href = ctx+"/spv/spvList";
+			          window.location.reload();
 			     }
 				 $.unblockUI();
 			}

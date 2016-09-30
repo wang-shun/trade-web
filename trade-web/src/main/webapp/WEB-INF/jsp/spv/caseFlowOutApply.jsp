@@ -175,13 +175,14 @@
                                             <th>物业地址</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody> 
                                         <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
+                                        <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.pkId" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkId }" />
                                         <tr>
                                             <td>
                                                 <p class="big">
                                                     <a href="javascript:void(0);">
-                                                        ${spvCaseFlowOutInfoVO.toSpvCashFlowApply.cashflowApplyId }
+                                                        ${spvCaseFlowOutInfoVO.toSpvCashFlow.cashflowApplyId }
                                                     </a>
                                                 </p>
                                                 <p>
@@ -194,7 +195,7 @@
                                             <td>
                                                 <p class="big">
                                                     <span class="sign_normal navy_bg">
-                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlowApply.usage eq in?'入账':'出账' }
+                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlow.usage eq in?'入账':'出账' }
                                                     </span>
                                                 </p>
                                                 <p class="big">
@@ -232,6 +233,7 @@
                             </div>
                         </div>
                         <form id="workFolwApplyForm" style="display:none;">
+                              <input type="hidden" name="toSpvCashFlowApply.pkId" value="${spvCaseFlowOutInfoVO.toSpvCashFlowApply.pkId }" />
                               <input type="hidden" name="toSpvCashFlowApply.cashflowApplyCode" value="${spvChargeInfoVO.toSpvCashFlowApply.cashflowApplyCode }" />
                               <input type="hidden" name="toSpvCashFlowApply.spvCode" value="${spvCode }" />
                               <input type="hidden" name="toSpvCashFlowApply.usage" value="out" />
@@ -242,18 +244,19 @@
                             </div>
                             <form class="form-inline table-capital">
                                 <div class="table-box" >
-                                    <table class="table table-bordered customerinfo">
+                                    <table class="table table-bordered">
                                         <thead>
-                                        <th>凭证类型</th>
-                                        <th>凭证附件</th>
+                                        <th>出账条件</th>
+                                        <th>附件</th>
                                         </thead>
                                         <tbody id="addTr2">
+                                        <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status3">
+                                        <input type="hidden" name="toSpvCashFlowApplyAttachList[${status3.index }]" value="${toSpvCashFlowApplyAttach.pkId }" />
                                         <tr>
                                             <td width="310">
-                                                <select name="" class="table-select boderbbt">
-                                                    <option value="">请选择</option>
-                                                    <option value="">转账凭证</option>
-                                                </select>
+                                                <aist:dict id="" name="" clazz="form-control input-one"
+									            display="select"  dictType="SPV_DE_COND"  
+									            ligerui='none' defaultvalue="" ></aist:dict>
                                             </td>
                                             <td>
                                                 <span class="btn_file">
@@ -262,7 +265,7 @@
                                                 </span>
                                             </td>
                                         </tr>
-
+                                        </c:forEach>
                                         </tbody>
                                     </table>
 
@@ -301,12 +304,14 @@
                                                 <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.amount" />万元
                                             </td>
                                             <td>
-                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[0].toSpvVoucher.attachId" />
+                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.voucherNo" />
                                             </td>
                                             <td>
-                                                <select name="" class="table-select boderbbt">
+                                                <select name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.direction" class="table-select boderbbt" onChanege="this.value">
                                                     <option value="">请选择</option>
-                                                    <option value="">转账凭证</option>
+                                                    <option value="转账">转账</option>
+                                                    <option value="刷卡">刷卡</option>
+                                                    <option value="现金">现金</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -327,14 +332,15 @@
                                 </div>
                             </form>
                         </div>
-                        
+
                         <div class="ibox-content clearfix space30">
                         <div class="title">
                             <strong>审核意见</strong>
                         </div>
                         <div class="view-content">
                             <div class="view-box">
-                            <c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status3">
+                            <c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status4">
+                            <input type="hidden" name="toSpvAduitList[${status4.index }].pkId" value="${toSpvAduit.pkId }" />
                             <div class="view clearfix">
                                 <p>
                                    <span class="auditor">审核人：<em>${toSpvAduit.operator }(资金监管专员)</em></span>
@@ -350,14 +356,19 @@
                         </div>
                         </div>
                         
+                        <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' }">
                         <div class="submitter">
-                            提交人：<span>张三(业务员)</span>
+                            提交人：<span>${user.realName }(${user.serviceJobName })</span>
                         </div>
                         <div class="excuse">
                             <form action="">
                                 <textarea name="toSpvAduitList[0].content" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                             </form>
-                        <div class="form-btn">
+                        </div>  
+                        </c:if>
+                    </div>
+
+                    <div class="form-btn">
                             <div class="text-center">
                             <c:if test="${empty handle }">
                                 <button id="none_save_btn" class="btn btn-success mr15">保存</button>
@@ -390,9 +401,6 @@
                             </c:if>    
                             </div>
                         </div>
-                        </div>
-  
-                    </div>
                 </div>
             </div>
             <!-- main End -->
@@ -423,16 +431,17 @@ $(function() {
 $('.response').responsivegallery();
 
 
-var sum = 0;
+var sum = 1;
 
 function getAtr(i){
     $str='';
     $str+="<tr>";
-    $str+=" <td><input class='table-input-one' type='text' value='请输入姓名' /></td>";
-    $str+="<td><p><input class='table_input' type='text' value='请输入银行卡号' /></p><p><input class='table_input' type='text' value='请输入银行名称' /></p></td>";
-    $str+="<td><input style='border:none;width: 50px;' type='text' value='金额' />万元</td>";
-    $str+="<td><input class='table_input' type='text' value='请输入编号' /></td>";
-    $str+="<td><select name='' class='table-select'><option value=''>请选择</option><option value=''>转账凭证</option></select></td>";
+    $str+="<input type='hidden' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.pkId' >";
+    $str+=" <td><input class='table-input-one' type='text' placeholder='请输入姓名' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payer' /></td>";
+    $str+="<td><p><input class='table_input' type='text' placeholder='请输入银行卡号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payerAcc' /></p><p><input class='table_input' type='text' value='请输入银行名称' name='spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payerBank' /></p></td>";
+    $str+="<td><input style='border:none;width: 50px;' type='text' placeholder='金额' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' />万元</td>";
+    $str+="<td><input class='table_input' type='text' placeholder='请输入编号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' /></td>";
+    $str+="<td><select class='table-select' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.direction' onChange='this.value'><option value=''>请选择</option><option value="">请选择</option><option value='转账'>转账</option><option value='刷卡'>刷卡</option><option value='现金'>现金</option></select></td>";
     $str+="<td><button class='btn btn-sm btn-x space3'>凭证1<i class='icon iconfont icon_x'>&#xe60a;</i></button><button class='btn btn-sm btn-x space3'>凭证2<i class='icon iconfont icon_x'>&#xe60a;</i></button><span class='btn_file'><input type='file' class='file' /><img class='bnt-flie' src='${ctx }/static_res/trans/img/bnt-flie.png' alt='' /></span></td>";
     $str+="<td class='btn-height' align='center'><a href='javascript:void(0);'  onClick='getAtr(this)'  >添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)' >删除</a></td>";
     $str+="</tr>";
