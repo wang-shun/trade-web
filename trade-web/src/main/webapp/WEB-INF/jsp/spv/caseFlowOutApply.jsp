@@ -441,7 +441,7 @@ function getAtr(i){
     $str+="<td><p><input class='table_input' type='text' placeholder='请输入银行卡号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payerAcc' /></p><p><input class='table_input' type='text' value='请输入银行名称' name='spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payerBank' /></p></td>";
     $str+="<td><input style='border:none;width: 50px;' type='text' placeholder='金额' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' />万元</td>";
     $str+="<td><input class='table_input' type='text' placeholder='请输入编号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' /></td>";
-    $str+="<td><select class='table-select' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.direction' onChange='this.value'><option value=''>请选择</option><option value="">请选择</option><option value='转账'>转账</option><option value='刷卡'>刷卡</option><option value='现金'>现金</option></select></td>";
+    $str+="<td><select class='table-select' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.direction' onChange='this.value'><option value=''>请选择</option><option value=''>请选择</option><option value='转账'>转账</option><option value='刷卡'>刷卡</option><option value='现金'>现金</option></select></td>";
     $str+="<td><button class='btn btn-sm btn-x space3'>凭证1<i class='icon iconfont icon_x'>&#xe60a;</i></button><button class='btn btn-sm btn-x space3'>凭证2<i class='icon iconfont icon_x'>&#xe60a;</i></button><span class='btn_file'><input type='file' class='file' /><img class='bnt-flie' src='${ctx }/static_res/trans/img/bnt-flie.png' alt='' /></span></td>";
     $str+="<td class='btn-height' align='center'><a href='javascript:void(0);'  onClick='getAtr(this)'  >添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)' >删除</a></td>";
     $str+="</tr>";
