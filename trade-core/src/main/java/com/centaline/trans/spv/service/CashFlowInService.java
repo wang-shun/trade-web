@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVO;
+import com.centaline.trans.spv.vo.SpvReturnCashflowVO;
 
 public interface CashFlowInService {
 	/**
@@ -21,7 +22,7 @@ public interface CashFlowInService {
 	 * @author: hejf 
 	 * @throws
 	 */
-    void cashFlowInPageDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvRecordedsVO spvRecordedsVO,String businessKey) throws Exception ;
+    void cashFlowInPageDeal(HttpServletRequest request,String handle,SpvRecordedsVO spvRecordedsVO,String businessKey) throws Exception ;
 	
 	/** 
 	 * @Title: cashFlowInApplyProcess 
@@ -37,7 +38,7 @@ public interface CashFlowInService {
 	 * @author: hejf 
 	 * @throws
 	 */
-	void cashFlowInApplyDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey) throws Exception ;
+	void cashFlowInApplyDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvRecordedsVO spvRecordedsVO,String businessKey) throws Exception ;
 	
 	/**
 	 * @Title: cashFlowInDirectorAduitProcess 
@@ -102,5 +103,8 @@ public interface CashFlowInService {
 	 * @throws
 	 */
 	void cashFlowInDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeInAppr) throws Exception ;
-
+	
+	void cashFlowInPageDealApply(HttpServletRequest request, String instCode, String taskId, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception;
+	
+	SpvReturnCashflowVO saveCashFlowApply(HttpServletRequest request, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception;
 }

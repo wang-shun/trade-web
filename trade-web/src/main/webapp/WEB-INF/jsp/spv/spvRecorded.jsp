@@ -84,6 +84,8 @@
                                 	入账申请信息
                             </div>
                         <form class="form-inline table-capital" id="teacForm" >
+                        
+                        <input type="hidden" name="type" value="addCashFlow" />
                         <input type="hidden" name="prdCode" value="${spvBaseInfoVO.toSpv.prdCode==1?"光大四方资金监管":"" }" />
                         <input type="hidden" name="amount" value="${spvBaseInfoVO.toSpv.amount}" />
                         <input type="hidden" name="prAddr" value="${spvBaseInfoVO.toSpvProperty.prAddr}" />
@@ -94,11 +96,15 @@
                         <input type="hidden" name="caseCode" value="${spvBaseInfoVO.toSpv.caseCode}" />
                         
                          <%-- 流程相关 --%>
-						<input type="hidden" id="taskId" name="taskId" value="">
-						<input type="hidden" id="instCode" name="instCode" value="">
-						<input type="hidden" id="urlType" name="source" value="">
-						<input type="hidden" id="handle" name="handle" value="">
-                        <input type="hidden" name="oldpkid"  />
+						<input type="hidden" id="taskId" name="taskId" value="" />
+						<input type="hidden" id="instCode" name="instCode" value="" />
+						<input type="hidden" id="urlType" name="source" value="" />
+						<input type="hidden" id="handle" name="handle" value="addCashFlow" />
+                         <%-- 保存数据返回的pkid --%>
+						<input type="hidden"  id="toSpvCashFlowApplyPkid" name="toSpvCashFlowApplyPkid" value="" />
+						<input type="hidden"  id="ToSpvCashFlowPkid" name="ToSpvCashFlowPkid" value="" />
+						<input type="hidden"  id="ToSpvReceiptPkid" name="ToSpvReceiptPkid" value="" />
+						
                             <div class="table-box" >
                                 <table class="table table-bordered customerinfo">
                                     <thead>
