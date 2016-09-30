@@ -240,6 +240,13 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
         	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
         	divideTenThousand(spvChargeInfoVO);
+        	List<ToSpvAduit> toSpvAduitList = spvChargeInfoVO.getToSpvAduitList();
+        	if(toSpvAduitList != null && !toSpvAduitList.isEmpty()){
+        		for(ToSpvAduit toSpvAduit:toSpvAduitList){
+        			toSpvAduit.setOperatorJobName(uamSessionService.getSessionUserById(toSpvAduit.getOperator()).getServiceJobName());
+            	}
+        	}
+        	
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);  
         	request.setAttribute("applyAuditorName", applyAuditorName);
         	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
