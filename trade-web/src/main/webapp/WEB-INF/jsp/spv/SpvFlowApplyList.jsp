@@ -57,16 +57,16 @@
 	 <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <h2 class="title">
-                        监管资金出入账流水查询
+                        监管资金出入账申请
                     </h2>
 			<form method="get" class="form_list mt5  form-inline clear" id="serachForm">
                         <div class="row">
 
                             <div class="form_content form_nomargin">
                                 <label class="control-label sign_left">
-                                    合约流水申请编号
+                                    监管合约编号
                                 </label>
-                                <input class="input_type ml10" name="cashFlowApplyCode" placeholder="" value="">
+                                <input class="input_type ml10" name="spvCode" placeholder="请输入合约编号" value="">
                             </div>
                             <div class="form_content form_nomargin">
                                 <label class="control-label sign_left_small">
@@ -99,7 +99,7 @@
                                 <input class="input_type ml10" name="prAddress" style="width: 392px;" placeholder="" value="">
                             </div>
                             <div class="form_content" style="margin-left:60px;">
-						<button type="button" id="btn_searchFrom" class="btn btn-success mr15">
+						<button type="button" id="btn_search" class="btn btn-success mr15">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
 						<button type="button" onclick="clearForm()" class="btn btn-default mr15 btn-padding">清空</button>
@@ -146,7 +146,7 @@
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- 模板 -->
        <script src="${ctx}/static/trans/js/spv/FlowDetail.js"></script>
        <script src="${ctx}/static/trans/js/spv/spvFlowList.js"></script>
-	<script id="querSpvCaseFlowList" type="text/html">
+	<script id="querSpvCaseFlowApplyList" type="text/html">
          {{each rows as item index}}
                              <tr>
                                         <td>
@@ -155,55 +155,65 @@
                                                    {{item.CASHFLOW_APPLY_CODE}}
                                                 </a>
                                             </p>
-                                            <p>
-                                                转账
-                                                <a href="javascript:;" class="under font12">
-                                                    凭证编号
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                                <a href="javascript:;">
+                                                    {{item.SPV_CODE}}
                                                 </a>
                                             </p>
                                         </td>
                                         <td>
-                                             <p class="big">
-                                               {{if item.USAGE=="in"}}
+                                            <p class="big">
+                                               {{item.amount>0?item.amount/10000:0}}万元
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                               {{if item.USAGE=='in'}}
                                                 <span class="sign_normal navy_bg">入账</span>
                                                {{/if}}
-												{{if item.USAGE=="out"}}
+												{{if item.USAGE=='out'}}
                                                 <span class="sign_normal pink_bg">出账</span>
                                                {{/if}}
                                             </p>
-                                           
-                                            <p class="big">
-                                               {{item.AMOUNT>0?item.AMOUNT/10000:0}}万元
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p><span class="pink">付：</span>{{item.PAYER}}&nbsp;&nbsp;{{item.PAYER_ACC}}/{{item.PAYER_BANK}}</p>
-                                            <p><span class="navy">收：</span>{{item.RECEIVER}}&nbsp;&nbsp;{{item.RECEIVER_ACC}}/{{item.RECEIVER_BANK}}</p>
-                                        </td>
-                                        <td>
-                                            <p class="smll_sign">
-                                                <i class="sign_normal">录入</i>
-                                                <a href="javascript:void(0)">{{item.applyerName}}&nbsp;</a>{{item.INPUT_TIME}}
-                                            </p>
-                                            {{if item.CLOSE_TIME!=nudefined}}
-                                            <p class="smll_sign">
-                                                <i class="sign_normal">结束</i>
-                                                {{item.CLOSE_TIME}}
-                                            </p>
-											{{/if}}
                                         </td>
                                         <td>
                                             <p>
                                                 {{item.PR_ADDR}}
                                             </p>
+                                        </td>
+                                        <td>
                                             <p class="smll_sign">
-                                                                                                                                        审核人：<a href="javascript:void(0)">
-                                                {{item.applyAuditorName}}
-                                                {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
-												{{item.ftPreAuditorName}}
-											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}
-											    {{item.ftPostAuditorName}}</a>
+                                                <a href="javascript:void(0)">{{item.applyerName}}&nbsp;</a>{{item.CREATE_TIME}}
                                             </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <i class="sign_blue">
+                                                    {{item.STATUS}}
+                                                </i>
+                                            </p>
+                                        </td>
+                                        <td>
+                                           <a href="javascript:void(0)" class="spread" id="caozuo{{item.PKID}}" onclick="show({{item.PKID}})">展开</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="spread_line cashFlow" id="cashFlow{{item.PKID}}">
+                                        <td colspan="8" class="spread_td">
+                                        <table class="table spread_tab table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>凭证</th>
+                                                <th>金额</th>
+                                                <th>付款方式</th>
+                                                <th>付款人账户信息</th>
+                                                <th>收款人账户信息</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tbody{{item.PKID}}">
+                                            </tbody>
+                                        </table>
                                         </td>
                                     </tr>
 			{{/each}}          
@@ -211,18 +221,8 @@
 						
 						//初始化
 						jQuery(document).ready(function() {
-							initFlowListData();
-							//查询
-							
+							initData();
 						});
-						$("#btn_searchFrom").click(function() {
-					          params.search_cashFlowApplyCode=$("input[name='cashFlowApplyCode']").val();
-					          params.search_usage=$("select[name='usage']").val();
-					          params.search_applier=$("input[name='applier']").val();
-					          params.search_prAddress=$("input[name='prAddress']").val();
-					          initFlowListData();
-									
-				         })
 					</script> </content>
 </body>
 </html>

@@ -54,6 +54,7 @@ import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.service.CashFlowInService;
 import com.centaline.trans.spv.service.CashFlowOutService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
@@ -98,6 +99,8 @@ public class SpvController {
 	ProcessInstanceService processInstanceService;
 	@Autowired
 	private UamPermissionService uamPermissionService;
+	@Autowired
+	private CashFlowInService cashFlowInService;
 
 	
 	//列表页面
@@ -113,6 +116,17 @@ public class SpvController {
 	}
 	
 	//流水列表页面
+	@RequestMapping("spvFlowApplyList")
+	public String spvFlowApplyList(HttpServletRequest request){
+/*		SessionUser currentUser = uamSessionService.getSessionUser();
+		String currentDeptId = currentUser.getServiceDepId();
+		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
+		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
+	
+		request.setAttribute("orgId", parentOrg.getId());*/
+		return "spv/SpvFlowApplyList";
+	}
+	
 	@RequestMapping("spvFlowList")
 	public String spvFlowList(HttpServletRequest request){
 /*		SessionUser currentUser = uamSessionService.getSessionUser();
@@ -123,6 +137,7 @@ public class SpvController {
 		request.setAttribute("orgId", parentOrg.getId());*/
 		return "spv/SpvFlowList";
 	}
+	
 	
 	//新增页面
 	@RequestMapping("saveHTML")
@@ -924,6 +939,56 @@ public class SpvController {
     	return response;
 	}
 
+    /**
+     * @throws Exception  
+     * @Title: cashFlowOutApprProcess 
+     * @Description: 出款申请页面
+     * @author: gongjd 
+     * @param request
+     * @param source
+     * @param instCode
+     * @param taskId
+     * @param handle
+     * @param businessKey
+     * @return String 
+     * @throws
+     */
+    @RequestMapping("task/spvCashflowInAppr/process")
+   	public String cashFlowInAppprProcess(HttpServletRequest request,String source,String instCode,
+   			String taskId,String handle,String businessKey)  {
+       	String url="";
+       	if(!StringUtils.isBlank(handle)){ 	
+           	switch (handle) {
+           	case "apply":
+           			cashFlowOutService.cashFlowOutApplyProcess(request, source, instCode, taskId, handle, businessKey);
+           			url="spv/spvRecordedApp";
+           		break;
+               case "directorAduit":
+            	   //cashFlowOutService.cashFlowOutDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+            	   cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+            	   url="spv/spvRecordShow";
+           		break;
+               case "financeAduit":
+            	   cashFlowOutService.cashFlowOutFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
+            	   url="spv/spvRecordShow";
+               	break;
+               	
+           	}
+           }else{
+           	cashFlowInService.cashFlowInPage(request, source, instCode, taskId, handle, businessKey);
+           }
+
+   	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
+   	    request.setAttribute("imgweb", app.genAbsoluteUrl());
+   	    
+       	request.setAttribute("taskId", taskId); 
+       	request.setAttribute("instCode", instCode);
+   		request.setAttribute("source", source);
+   		request.setAttribute("handle", handle);
+   		
+   	//	return  "forward:" +url;
+   		return  url;
+   	}
 }
 
 

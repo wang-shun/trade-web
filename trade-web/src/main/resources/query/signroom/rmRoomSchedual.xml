@@ -35,14 +35,19 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT  T.PKID AS pkid,T.ROOM_ID AS roomId,SUBSTRING(CONVERT(varchar(100), T.START_DATE, 24),1,5) +'-'+ SUBSTRING(CONVERT(varchar(100), T.END_DATE, 24),1,5) AS timeSlot ,
-        CASE WHEN T.USE_STATUS = 'N' THEN T.USE_STATUS
-             ELSE R.RES_STATUS
-        END  useStatus
-FROM    sctrans.T_RM_ROOM_SCHEDULE T
-        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
-WHERE   
-		T.IS_DELETE = '0'
+				SELECT  T.PKID AS pkid ,
+			        T.ROOM_ID AS roomId ,
+					T.START_DATE AS startDate,
+					T.END_DATE AS endDate,
+			        SUBSTRING(CONVERT(VARCHAR(100), T.START_DATE, 24), 1, 5) + '-'
+			        + SUBSTRING(CONVERT(VARCHAR(100), T.END_DATE, 24), 1, 5) AS timeSlot ,
+			        T.USE_STATUS  AS useStatus,
+			        R.RES_STATUS AS resStatus,
+					R.CHECK_IN_TIME AS checkInTime,
+					R.CHECKED_OUT_TIME AS checkOutTime
+			FROM    sctrans.T_RM_ROOM_SCHEDULE T
+			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
+			WHERE   T.IS_DELETE = '0'
 		<if test="curDate != null">
 				 AND DATEDIFF(DAY, T.START_DATE, #curDate#) = 0
 		</if>
@@ -68,8 +73,13 @@ WHERE
 			<table-row>
 				<column type="both" name="pkid" index="" checkbox="" display="pkid" />
 				<column type="both" name="roomId" index="" checkbox="" display="roomId" title="roomId" />
+				<column type="both" name="startDate" index="" checkbox="" display="startDate" title="startDate" />
+				<column type="both" name="endDate" index="" checkbox="" display="endDate" title="endDate" />
 				<column type="both" name="timeSlot" index="" checkbox="" display="timeSlot" title="timeSlot" customDict="" />
 				<column type="both" name="useStatus" index="" checkbox="" display="useStatus" title="useStatus" />
+				<column type="both" name="resStatus" index="" checkbox="" display="resStatus" title="resStatus" />
+				<column type="both" name="checkInTime" index="" checkbox="" display="checkInTime" title="checkInTime" />
+				<column type="both" name="checkOutTime" index="" checkbox="" display="checkOutTime" title="checkOutTime" />
 			</table-row>
 		</grid>
 	</query>

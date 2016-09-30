@@ -1,5 +1,6 @@
 package com.centaline.trans.spv.service.impl;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,8 +46,10 @@ import com.centaline.trans.spv.repository.ToSpvVoucherMapper;
 import com.centaline.trans.spv.service.CashFlowInService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
+import com.centaline.trans.spv.vo.SpvCaseFlowOutInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVO;
+import com.centaline.trans.spv.vo.SpvReturnCashflowVO;
 
 @Service
 public class CashFlowInServiceImpl implements CashFlowInService {
@@ -111,7 +114,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 	}
 
 	@Override
-	public void cashFlowInPageDeal(HttpServletRequest request, String instCode, String taskId,
+	public void cashFlowInPageDealApply(HttpServletRequest request, String instCode, String taskId,
 			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception {
 		SessionUser user = uamSessionService.getSessionUser();
 		//判断流程是否已存在
@@ -123,7 +126,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		if(null == spvRecordedsVO || null == spvRecordedsVO.getItems()) throw new BusinessException("申请入账流水信息不存在！");
 		
 		//保存数据
-		toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO); 
+		//toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO); 
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
 		//开启流程
@@ -134,7 +137,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setBusinessKey("SpvCashflowInProcess");
 		if(null != spvRecordedsVO.getSpvConCode()){
-			workFlow.setCaseCode(spvRecordedsVO.getSpvConCode());
+			workFlow.setCaseCode(spvRecordedsVO.getCaseCode());
 		}else{
 			throw new BusinessException("监管合约信息不存在！");
 		}
@@ -180,37 +183,43 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 
 	@Override
 	public void cashFlowInApplyDeal(HttpServletRequest request, String instCode, String taskId,
-			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey) throws Exception {
-		
+			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception {
+		//multiplyTenThousand(spvChargeInfoVO);
 	   // toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
 		
+		//保存数据
+		//toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO); 
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		taskService.submitTask(taskId, variables);
+		
 	}
 
 	@Override
 	public void cashFlowInDirectorAduitProcess(HttpServletRequest request, String source, String instCode,
 			String taskId, String handle, String businessKey) {
-		String spvCode;
+        
+        String spvCode;
         SpvBaseInfoVO spvBaseInfoVO;
-        SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCode(businessKey);
-
-        if(spvChargeInfoVO != null && spvChargeInfoVO.getToSpvCashFlowApply() != null && !StringUtils.isBlank(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode())){
-        	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
-        	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
-        	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
-        	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
+        SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCodeByIn(businessKey);
+    	spvCode = (String) request.getAttribute("spvCode");
+    	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
+    	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv == null?null:toSpv.getPkid());
+    	if(spvChargeInfoVO != null){       	
+    		String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
         	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
         	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
         	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
+        	divideTenThousand(spvChargeInfoVO);
+        	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);  
         	request.setAttribute("applyAuditorName", applyAuditorName);
         	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
         	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
         	request.setAttribute("createByName", createByName);
-        	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
-        	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
-        }        
+    	}
+
+    	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);    
+        
 	}
 
 	@Override
@@ -331,6 +340,66 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 	
 	private String createSpvApplyCode() {
 		return uamBasedataService.nextSeqVal("SPV_CODE", new SimpleDateFormat("yyyyMMdd").format(new Date()));
+	}
+	
+	@Override
+	public void cashFlowInPageDeal(HttpServletRequest request, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception {
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		if(null == spvRecordedsVO || null == spvRecordedsVO.getItems()) throw new BusinessException("申请入账流水信息不存在！");
+		
+		//创建spvApplyCode
+		String spvApplyCode = createSpvApplyCode();
+		if(null == spvApplyCode ) throw new BusinessException("创建spvApplyCode失败！");
+		//保存数据
+		toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO,handle,spvApplyCode); 
+		
+		Map<String, Object> vars = new HashMap<String, Object>();
+		//开启流程
+		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
+				propertyUtilsService.getSpvCashflowInProcess(), spvApplyCode, vars);
+
+		//插入工作流表
+		ToWorkFlow workFlow = new ToWorkFlow();
+		workFlow.setBusinessKey("SpvCashflowInProcess");
+		if(null != spvRecordedsVO.getSpvConCode()){
+			workFlow.setCaseCode(spvRecordedsVO.getCaseCode());
+		}else{
+			throw new BusinessException("监管合约信息不存在！");
+		}
+		workFlow.setInstCode(processInstance.getId());
+		workFlow.setProcessDefinitionId(propertyUtilsService.getSpvCashflowInProcess());
+		workFlow.setProcessOwner(user.getId());
+		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+		toWorkFlowService.insertSelective(workFlow);
+		
+		// 提交申请任务
+		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
+		List<TaskVo> taskList = pageableVo.getData();
+		for (TaskVo task : taskList) {
+			if ("SpvCashflowInApply".equals(task.getTaskDefinitionKey())) {
+				taskService.complete(task.getId() + "");
+			}
+		}
+	}
+	@Override
+	public SpvReturnCashflowVO saveCashFlowApply(HttpServletRequest request, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception {
+		if(null == spvRecordedsVO || null == spvRecordedsVO.getItems()) throw new BusinessException("申请入账流水信息不存在！");
+		String type = null;
+		//保存数据
+		return toSpvService.saveSpvChargeInfoVOFormHtml(spvRecordedsVO,type); 
+		
+	}
+	
+	//除万操作
+	private void divideTenThousand(SpvChargeInfoVO spvChargeInfoVO){
+		List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVOList = spvChargeInfoVO.getSpvCaseFlowOutInfoVOList();
+		if(spvCaseFlowOutInfoVOList != null && !spvCaseFlowOutInfoVOList.isEmpty()){
+			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO : spvCaseFlowOutInfoVOList){
+				ToSpvCashFlow toSpvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
+				toSpvCashFlow.setAmount(toSpvCashFlow.getAmount() == null?null:toSpvCashFlow.getAmount().divide(new BigDecimal(10000)));
+			}		
+		}
 	}
 
 }
