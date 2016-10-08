@@ -306,7 +306,7 @@
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 转介人员工编号 </label> <input
-									class="input_type sign_right_two" disabled="disabled"
+									class="input_type sign_right_two" readonly="readonly"
 									value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
 							</div>
 
@@ -328,7 +328,7 @@
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 产品部员工编号 </label> <input
 									class="input_type  sign_right_two" value="${eloanCase.pdCode}"
-									disabled="disabled" name="pdCode" id="pdCode">
+									readonly="readonly" name="pdCode" id="pdCode">
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 产品部分成比例 </label> <input
@@ -686,78 +686,23 @@
 							});
 
 							// 关联案件
-							$('.eloanApply-table')
-									.on(
-											"click",
-											'.linkCase',
-											function() {
+							$('.eloanApply-table').on("click",'.linkCase',function() {
 												//
 												var index = $(this).attr("id");
-												$("#content_caseCode")
-														.html(
-																$(
-																		"#modal_caseCode"
-																				+ index)
-																		.html());
-												$("#caseCode")
-														.val(
-																$(
-																		"#modal_caseCode"
-																				+ index)
-																		.html());
-												$("#content_propertyAddr")
-														.html(
-																$(
-																		"#modal_propertyAddr"
-																				+ index)
-																		.html());
-												$("#content_processorId")
-														.html(
-																$(
-																		"#modal_processorId"
-																				+ index)
-																		.html());
-												$("#content_buyer")
-														.html(
-																$(
-																		"#modal_buyer"
-																				+ index)
-																		.html());
-												$("#content_agentName")
-														.html(
-																$(
-																		"#modal_agentName"
-																				+ index)
-																		.html());
-												$("#content_seller")
-														.html(
-																$(
-																		"#modal_seller"
-																				+ index)
-																		.html());
-												$("#content_agentName")
-														.html(
-																$(
-																		"#modal_agentName"
-																				+ index)
-																		.html());
-												$("#zjName")
-														.val(
-																$(
-																		"#modal_agentName"
-																				+ index)
-																		.html());
-												$("#zjCode")
-														.val(
-																$(
-																		"#modal_employeeCode"
-																				+ index)
-																		.val());
+												$("#content_caseCode").html($("#modal_caseCode" + index).html());
+												$("#caseCode").val($("#modal_caseCode"+ index).html());
+												$("#content_propertyAddr").html($("#modal_propertyAddr"+ index).html());
+												$("#content_processorId").html($("#modal_processorId"+ index).html());
+												$("#content_buyer").html($("#modal_buyer"+ index).html());
+												$("#content_agentName").html($("#modal_agentName"+ index).html());
+												$("#content_seller").html($("#modal_seller"+ index).html());
+												$("#content_agentName").html($("#modal_agentName"+ index).html());
+												$("#zjName").val($("#modal_agentName"+ index).html());
+												$("#zjCode").val($("#modal_employeeCode"+ index).val());
 												$('.case_content').show();
 												$('#myModal').modal('hide');
 
-												getCustomerNameAndTel($(
-														"#caseCode").val());
+												getCustomerNameAndTel($("#caseCode").val());
 											});
 
 						});
@@ -953,7 +898,12 @@
 		}
 
 		function saveEloanApply() {
+			//alert($("#zjCode").val());
+			//alert($("#pdCode").val());
+			
 			var jsonData = $("#eloanApplyForm").serializeArray();
+			console.log("===Result==="+JSON.stringify(jsonData));
+			//return;
 			var url = "${ctx}/eloan/saveEloanApply";
 			$.ajax({
 				cache : false,
