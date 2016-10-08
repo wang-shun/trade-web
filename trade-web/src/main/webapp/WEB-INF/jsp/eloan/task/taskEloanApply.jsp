@@ -332,7 +332,7 @@
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 产品部分成比例 </label> <input
-									class="input_type sign_right_two" value="${eloanCase.pdPart}"
+									class="input_type sign_right_two" value="${eloanCase.pdPart == null?10:eloanCase.pdPart}"
 									disabled="disabled" name="pdPart" id="pdPart">
 								<div class="input-group date_icon">
 									<span class="danwei">%</span>
@@ -463,9 +463,9 @@
 							} else {
 								$("#eContent").attr("disabled", true);
 							}
-
+							
+							//显示手续费
 							function showAndHide(loanSrvCode, finOrgCode, month) {
-
 								if (loanSrvCode == "30004014"
 										&& finOrgCode == "W0003" && month != ""
 										&& month <= 12) {
@@ -477,46 +477,35 @@
 									$("#divCharge").hide();
 								}
 							}
-
-							$("#loanSrvCode").click(
-									function() {
+							//产品类型 选择
+							$("#loanSrvCode").click(function() {
 										var value = this.value;
 										var finOrgCode = $(
-												"#finOrgCode option:selected")
-												.val();
+												"#finOrgCode option:selected").val();
 										var month = $("#month").val();
 
 										showAndHide(value, finOrgCode, month);
-
 									});
 
 							$("#month").blur(
 									function() {
-										var loanSrvCode = $(
-												"#loanSrvCode option:selected")
-												.val();
-										var finOrgCode = $(
-												"#finOrgCode option:selected")
-												.val();
+										var loanSrvCode = $("#loanSrvCode option:selected").val();
+										var finOrgCode = $("#finOrgCode option:selected").val();
 										var month = this.value;
-
 										showAndHide(loanSrvCode, finOrgCode,
 												month);
 									});
-
-							$("#finOrgCode").change(
-									function() {
-										var loanSrvCode = $(
-												"#loanSrvCode option:selected")
-												.val();
+							
+							//贷款机构选择变化时 ，产品部分成比例变化
+							$("#finOrgCode").change(function() {
+										var loanSrvCode = $("#loanSrvCode option:selected").val();
 										var value = this.value;
 										var month = $("#month").val();
 
 										showAndHide(loanSrvCode, value, month);
 									});
 
-							$("#chargeAmount").blur(
-									function() {
+							$("#chargeAmount").blur(function() {
 										var value = $.trim(this.value);
 										var applyAmount = $.trim($(
 												"#applyAmount").val());
