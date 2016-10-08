@@ -469,6 +469,7 @@
                                     <td>{{item.CREATE_BY}}</td>
                                     <td>{{item.RISK_COMMENT}}</td>
 									<td>
+	                                    {{if item.CREATE_BY == wrapperData.userName}}
                                             <shiro:hasPermission name="TRADE.RISKCONTROL.ADD">
  											{{if item.RISK_TYPE == '押卡'}}
                                                 <a href="${ctx}/riskControl/guarantycards?pkid={{wrapperData.pkId}}"> <button type="button" class="btn btn-success"> 修改  </button></a>
@@ -481,6 +482,7 @@
 											<shiro:hasPermission name="TRADE.RISKCONTROL.DELETE">
                                             <a href="${ctx}/riskControl/deleteRiskControl?pkid={{item.PKID}}&riskType={{item.RISK_TYPE}}&eloanPkId={{wrapperData.pkId}}"><button type="reset" class="btn btn-grey">删除</button></a>
 											</shiro:hasPermission>
+                                         {{/if}}
                                      </td>
                                 </tr>
 						{{/each}}
@@ -489,13 +491,14 @@
 		   jQuery(document).ready(function() {
 			   var eloanCode = "${eloanCase.eloanCode }";
 			   var pkId = "${pkId}";
+			   var userName = "${userName}";
 			   $(".riskControl-table").aistGrid({
 					ctx : "${ctx}",
 					queryId : 'riskControlListQuery',
 				    templeteId : 'queryRiskControlList',
 				    gridClass : 'table table-striped',
 				    data : {eloanCode : eloanCode},
-				    wrapperData : {pkId : pkId},
+				    wrapperData : {pkId : pkId,userName:userName},
 				    columns : [{
 				    	           colName :"风控项目"
 				    	      },{

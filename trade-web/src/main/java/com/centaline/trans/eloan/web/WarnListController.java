@@ -272,6 +272,9 @@ public class WarnListController {
 			model.addAttribute("eloanRelList", eloanRels);
 			model.addAttribute("eloanCase", eloanCase);
 			model.addAttribute("pkId", pkid);
+			
+			SessionUser user = uamSessionService.getSessionUser();
+			model.addAttribute("userName", user.getRealName());
 		}
 		
 		if("update".equals(action)){
