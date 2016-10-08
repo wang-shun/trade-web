@@ -41,8 +41,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-			      SELECT sca.PKID, 
-			      (select sum(sc.AMOUNT) FROM sctrans.T_TO_SPV_CASHFLOW sc where sca.PKID=sc.CASHFLOW_APPLY_ID ) amount,
+			      SELECT sca.PKID, (select sum(sc.AMOUNT) FROM sctrans.T_TO_SPV_CASHFLOW sc where sca.PKID=sc.CASHFLOW_APPLY_ID ) amount,
 			      sca.CASHFLOW_APPLY_CODE,
 			      sca.USAGE,
 			      sca.SPV_CODE,
@@ -56,6 +55,7 @@
 			      FROM  sctrans.T_TO_SPV_CASHFLOW_APPLY  sca
                   LEFT JOIN sctrans.T_TO_SPV spv ON sca.SPV_CODE=spv.SPV_CODE
                   LEFT JOIN sctrans.T_TO_SPV_PROPERTY sp ON sca.SPV_CODE=sp.SPV_CODE
+                  LEFT JOIN sctrans.sys_org org ON org.id=sca.APPLIER
                    where sca.IS_DELETED=0
                       <if test="serviceJobCode == 'JYFKZY' ">
 			           and sca.APPLIER = #sessionUserId#
@@ -65,9 +65,6 @@
 			        </if>
 			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
 			        and sca.FT_PRE_AUDITOR = #sessionUserId# or sca.FT_POST_AUDITOR = #sessionUserId# 
-			        </if>
-			        <if test="serviceDepHierarchy == 'yucui_district'">
-			        and org.PARENT_ID = #serviceDepId#
 			        </if>
 				]]>
 			</baseSql>

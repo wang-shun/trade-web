@@ -36,10 +36,18 @@
 <link rel="stylesheet" href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
 <!-- index_css -->
+
+<!-- index_css -->
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+
+<%--控件颜色变化 
 <link rel="stylesheet" href="${ctx}/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" /> --%>
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
@@ -179,10 +187,10 @@ text-decoration: underline !important;
 							<div id="select_div_0" class="sign_left">
 								<aist:dict id="case_date_0" name="case_date" clazz="form-control" display="select" defaultvalue="30005001" dictType="30005" />
 							</div>
-							<div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left"  data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
+							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
+								<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
 									<span class="input-group-addon">到</span> 
-								<input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
+								<input id="dtEnd_0" name="dtEnd" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
 							</div>
 							<div id="addLine" class="pull-left m-l"></div>
 						</div>

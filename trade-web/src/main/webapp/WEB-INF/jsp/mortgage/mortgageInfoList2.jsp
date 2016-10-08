@@ -29,10 +29,10 @@
 	rel="stylesheet" />
 
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 </head>
 
 <body>
