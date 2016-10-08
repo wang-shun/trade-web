@@ -2,11 +2,15 @@
  * calendar.js
  * 日历参数设置
  */
+function Appendzero (obj) {
+    if (obj < 10) return "0" + obj; else return obj;
+}
+
 function show(){
 	var mydate = new Date();
 	var str = "" + mydate.getFullYear() + "-";
-	str += "0" + (mydate.getMonth()+1) + "-";
-	str += mydate.getDate();
+	str += Appendzero((mydate.getMonth()+1)) + "-";
+	str += Appendzero(mydate.getDate());
 	return str;
 }
 $("#SelDate").val(show());

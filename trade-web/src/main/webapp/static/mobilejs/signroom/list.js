@@ -6,7 +6,6 @@ var selDate = $("#SelDate").val();
 var selBespeakTime = $("#selBespeakTime option:selected").val();
 
 $(function(){
-	
 	init();
 	
 	$("#selBespeakTime").change(function(){
@@ -61,6 +60,7 @@ function initCalendar(){
 	 var currYear = (new Date()).getFullYear(); // 获取年  
      var currMonth = (new Date()).getMonth(); // 获取月  
      var currDay = (new Date()).getDate(); // 获取日
+     
 	$("#SelDate").mobiscroll().date({ 
 		theme: 'android-ics light', //皮肤样式
         display: 'modal', //显示方式
@@ -131,7 +131,7 @@ function getTradeCenterList(){
 		async:false,
 		type:"POST",
 		dataType:"json",
-		url:ctx+"/mobile/reservation/getTradeCenterList",
+		url:ctx+"/weixin/signroom/getTradeCenterList",
 		success:function(data){
 			if(data.length > 0){
 				for(var i=0;i<data.length;i++){
@@ -157,7 +157,7 @@ function getBespeakTime(){
 		async:false,
 		type:"POST",
 		dataType:"json",
-		url:ctx+"/mobile/reservation/getBespeakTime",
+		url:ctx+"/weixin/signroom/getBespeakTime",
 		success:function(data){
 			if(data.length > 0){
 				for(var i=0;i<data.length;i++){
@@ -178,7 +178,7 @@ function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 		async:false,
 		type:"POST",
 		dataType:"json",
-		url:ctx+"/mobile/reservation/getBespeakTime",
+		url:ctx+"/weixin/signroom/getBespeakTime",
 		success:function(data){
 			if(data.length > 0){
 				if(selBespeakTime == ""){
@@ -219,7 +219,7 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 		async:false,
 		type:"POST",
 		dataType:"json",
-		url:ctx+"/mobile/reservation/getSignRoomInfoList",
+		url:ctx+"/weixin/signroom/getSignRoomInfoList",
 		data:{tradeCenterId:defaultTradeCenterId,startTime:startTime,endTime:endTime},
 		success:function(data){
 			if(data.length > 0){
