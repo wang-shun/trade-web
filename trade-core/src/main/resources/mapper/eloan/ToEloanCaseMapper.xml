@@ -356,8 +356,8 @@
       <if test="isRelFinish != null" >
         IS_REL_FINISH = #{isRelFinish,jdbcType=CHAR},
       </if>
-        CREATE_TIME = GETDATE(),
-        CREATE_BY = @{SESSION_USER_ID},
+<!--         CREATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID}, -->
         UPDATE_TIME = GETDATE(),
         UPDATE_BY = @{SESSION_USER_ID},
     </set>
@@ -444,8 +444,8 @@
       <if test="isRelFinish != null" >
         IS_REL_FINISH = #{isRelFinish,jdbcType=CHAR},
       </if>
-        CREATE_TIME = GETDATE(),
-        CREATE_BY = @{SESSION_USER_ID},
+<!--         CREATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID}, -->
         UPDATE_TIME = GETDATE(),
         UPDATE_BY = @{SESSION_USER_ID},
     </set>
@@ -534,8 +534,8 @@
       <if test="isRelFinish != null" >
         IS_REL_FINISH = #{isRelFinish,jdbcType=CHAR},
       </if>
-        CREATE_TIME = GETDATE(),
-        CREATE_BY = @{SESSION_USER_ID},
+<!--         CREATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID}, -->
         UPDATE_TIME = GETDATE(),
         UPDATE_BY = @{SESSION_USER_ID},
     </set>
