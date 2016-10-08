@@ -47,15 +47,17 @@ public class TsKpiPsnMonthServiceImpl implements TsKpiPsnMonthService {
 			if(StringUtils.isBlank(employeeCode)) {
 				continue;
 			}
-			User user = uamUserOrgService.getUserByEmployeeCode(employeeCode);
+			//User user = uamUserOrgService.getUserByEmployeeCode(employeeCode);
 		    //List<UserOrgJob> uoj  = uamUserOrgService.getUserOrgJobByUserId(user.getId());
 
 			TsKpiPsnMonth monthKpi = new TsKpiPsnMonth();
 			monthKpi.setCreateTime(new Date());
 			monthKpi.setCreateBy(createBy);
 			monthKpi.setBelongMonth(belongM);
-			monthKpi.setType("IMP");
-			monthKpi.setParticipant(user.getId());
+			monthKpi.setParticipantName(employeeCode);//这里直接放Code后台统一更新
+			monthKpi.setType("JRDBL");
+			monthKpi.setComments("IMP");
+			//monthKpi.setParticipant(user.getId());
 			monthKpi.setFinOrder(Integer.parseInt(String.valueOf(kpiMonthVO.getFinOrder())));
 			// 上月滚存数
 			// 过户案件数

@@ -47,9 +47,19 @@ public class ToEloanRelServiceImpl implements ToEloanRelService {
 		toEloanCaseMapper.updateEloanCaseByEloanCode(eloanCase);
 		
 		int i = 0;
-		for(ToEloanRel toEloanRel : toEloanRelList) {
-			i+= toEloanRelMapper.insertSelective(toEloanRel);
+		if(null != toEloanRelList && toEloanRelList.size()>0){
+			for(int k=0 ;k < toEloanRelList.size();k++){
+				ToEloanRel toEloanRel = toEloanRelList.get(k);
+				if(null != toEloanRel){
+					if(toEloanRel.getReleaseAmount() != null && toEloanRel.getReleaseTime() != null){
+						i+= toEloanRelMapper.insertSelective(toEloanRel);
+					}
+				}
+			}
 		}
+/*		for(ToEloanRel toEloanRel : toEloanRelList) {
+			i+= toEloanRelMapper.insertSelective(toEloanRel);
+		}*/
 		
 		return i;
 	}
@@ -76,6 +86,12 @@ public class ToEloanRelServiceImpl implements ToEloanRelService {
 		eloanRel.setConfirmStatus(approved);
 		eloanRel.setEloanCode(eloanCode);
 		return toEloanRelMapper.updateEloanRelByEloanCode(eloanRel);
+	}
+
+	@Override
+	public void updateEloanRelByEloanCodeForModify(List<ToEloanRel> eloanRelList) {
+		// TODO Auto-generated method stub
+		toEloanRelMapper.updateEloanRelByEloanCodeForModify(eloanRelList);
 	}
 
 }

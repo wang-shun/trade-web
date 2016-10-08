@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.spv.repository.toSpvCashFlowApplyMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.toSpvCashFlowApply" >
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvCashFlowApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvCashFlowApply" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="SPV_CODE" property="spvCode" jdbcType="VARCHAR" />
     <result column="CASHFLOW_APPLY_CODE" property="cashflowApplyCode" jdbcType="VARCHAR" />
@@ -41,7 +41,7 @@
     delete from sctrans.T_TO_SPV_CASHFLOW_APPLY
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.centaline.trans.spv.entity.toSpvCashFlowApply" >
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlowApply" >
     insert into sctrans.T_TO_SPV_CASHFLOW_APPLY (PKID, SPV_CODE, CASHFLOW_APPLY_CODE, 
       USAGE, COMMENT, STATUS, 
       IS_DELETED, APPLIER, APPLY_AUDITOR, 
@@ -55,7 +55,7 @@
       #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.toSpvCashFlowApply" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlowApply"  useGeneratedKeys="true" keyProperty="pkid" >
     insert into sctrans.T_TO_SPV_CASHFLOW_APPLY
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -152,7 +152,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.toSpvCashFlowApply" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlowApply" >
     update sctrans.T_TO_SPV_CASHFLOW_APPLY
     <set >
       <if test="spvCode != null" >
@@ -200,7 +200,7 @@
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.toSpvCashFlowApply" >
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlowApply" >
     update sctrans.T_TO_SPV_CASHFLOW_APPLY
     set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
       CASHFLOW_APPLY_CODE = #{cashflowApplyCode,jdbcType=VARCHAR},

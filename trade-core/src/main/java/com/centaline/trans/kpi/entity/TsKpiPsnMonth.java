@@ -11,6 +11,8 @@ public class TsKpiPsnMonth {
     private String type;
 
     private String participant;
+    
+    private String participantName;
 
     private String teamId;
 
@@ -33,6 +35,8 @@ public class TsKpiPsnMonth {
     private Integer orgOrder;
 
     private Integer totalCase;
+    
+    private String comments;
 
     public Long getPkid() {
         return pkid;
@@ -153,4 +157,20 @@ public class TsKpiPsnMonth {
     public void setTotalCase(Integer totalCase) {
         this.totalCase = totalCase;
     }
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public String getParticipantName() {
+		return participantName;
+	}
+
+	public void setParticipantName(String participantName) {
+		this.participantName = participantName;
+	}
 }

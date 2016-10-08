@@ -193,6 +193,15 @@
     update sctrans.T_TS_AWARD_KPI_PAY
     set
       STATUS = #{status,jdbcType=VARCHAR}
-    where DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0
+    where DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0;
+    update ab
+		set ab.paid_time=GETDATE()
+		from
+		sctrans.t_ts_award_base ab
+		inner join sctrans.T_TS_AWARD_KPI_PAY_detail payt
+		on ab.pkid=payt.award_base_id
+		left join sctrans.T_TS_AWARD_KPI_PAY pay
+		on pay.pkid = payt.award_kpi_pay_id
+	where DATEDIFF(mm,pay.BELONG_MONTH,#{belongMonth}) = 0;
   </update>
 </mapper>

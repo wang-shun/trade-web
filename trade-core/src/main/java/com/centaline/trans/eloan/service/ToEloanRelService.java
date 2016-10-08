@@ -13,4 +13,6 @@ public interface ToEloanRelService {
 	
 	int saveEloanReleaseConfirm(String taskId,String approved,String eloanCode,SessionUser user,Map map,String processInstanceId);
 
+	void updateEloanRelByEloanCodeForModify(List<ToEloanRel> eloanRelList);
+
 }

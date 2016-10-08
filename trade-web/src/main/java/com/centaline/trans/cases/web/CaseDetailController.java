@@ -3,19 +3,13 @@ package com.centaline.trans.cases.web;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import com.aist.uam.permission.remote.UamPermissionService;
+import com.aist.uam.permission.remote.vo.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -200,6 +194,9 @@ public class CaseDetailController {
 	private ToEloanRelService toEloanRelService;
 	@Autowired
 	private ToEloanCaseService toEloanCaseService;
+
+	@Autowired
+	UamPermissionService uamPermissionService;
 
 	/**
 	 * 页面初始化
@@ -1305,7 +1302,9 @@ public class CaseDetailController {
 				isMortgageSelect = true;
 			}
 		}
-		
+		String jobId = uamSessionService.getSessionUser().getServiceJobId();
+		List<Resource> resourcelist = uamPermissionService.getResourceByJobId(jobId);
+		request.setAttribute("resourcelist", resourcelist);
 
 		//商贷预警信息
 		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(toCase.getCaseCode());

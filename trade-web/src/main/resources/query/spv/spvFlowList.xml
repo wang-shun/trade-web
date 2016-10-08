@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqManagerInfo" beanName="qqManagerInfo" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+		<customDict id="getUserNameByUserId" beanName="qqcdUserIdName"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query  id="ToSpvCaseFlowApplyListQuery">
+	    <searchCondition>
+            <condition field="sp.PR_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		    <condition field="sca.USAGE" name="usage" label="用途" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		    <condition field="sca.SPV_CODE" name="spvCode" label="监管合约编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="sca.APPLIER" name="applier" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			      SELECT sca.PKID, 
+			      (select sum(sc.AMOUNT) FROM sctrans.T_TO_SPV_CASHFLOW sc where sca.PKID=sc.CASHFLOW_APPLY_ID ) amount,
+			      sca.CASHFLOW_APPLY_CODE,
+			      sca.USAGE,
+			      sca.SPV_CODE,
+			      sca.CREATE_TIME,
+			       sp.PR_ADDR ,
+			       sca.STATUS,
+			      sca.APPLIER,
+			      sca.APPLY_AUDITOR,
+			      sca.FT_PRE_AUDITOR,
+			      sca.FT_POST_AUDITOR
+			      FROM  sctrans.T_TO_SPV_CASHFLOW_APPLY  sca
+                  LEFT JOIN sctrans.T_TO_SPV spv ON sca.SPV_CODE=spv.SPV_CODE
+                  LEFT JOIN sctrans.T_TO_SPV_PROPERTY sp ON sca.SPV_CODE=sp.SPV_CODE
+                   where sca.IS_DELETED=0
+                      <if test="serviceJobCode == 'JYFKZY' ">
+			           and sca.APPLIER = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode == 'JYFKZJ' ">
+			        and spv.APPLY_AUDITOR = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
+			        and sca.FT_PRE_AUDITOR = #sessionUserId# or sca.FT_POST_AUDITOR = #sessionUserId# 
+			        </if>
+			        <if test="serviceDepHierarchy == 'yucui_district'">
+			        and org.PARENT_ID = #serviceDepId#
+			        </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID"  title="监管申请流水ID" index="" checkbox="" display="pkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+				<column type="both" name="amount"  title="金额" index="" checkbox="" display="amount" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASHFLOW_APPLY_CODE"  title="监管申请流水编号" index="" checkbox="" display="CASHFLOW_APPLY_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="USAGE" index=""  title="类别" checkbox="" display="USAGE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="SPV_CODE" index="" title="合约编号" checkbox="" display="SPV_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CREATE_TIME" index="" title="创建时间" checkbox="" display="CREATE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_ADDR" index="" title="物业地址" checkbox="" display="PR_ADDR" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="STATUS" index="" title="状态" checkbox="" display="STATUS" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				
+				<column type="both" name="APPLIER" index="" checkbox="" display="APPLIER" customDict=""   sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="APPLY_AUDITOR" index="" checkbox="" display="APPLY_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FT_PRE_AUDITOR" index="" checkbox="" display="FT_PRE_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FT_POST_AUDITOR" index="" checkbox="" display="FT_POST_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				
+				<column type="virtual" name="createTime"  title="申请时间" referencecol="CREATE_TIME" index="" checkbox="" display="" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="applyerName"  title="申请人" referencecol="APPLIER" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="applyAuditorName" title="申请复审人" referencecol="APPLY_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ftPreAuditorName"  title="财务初审人" referencecol="FT_PRE_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ftPostAuditorName" title="财物复审人" referencecol="FT_POST_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+		<query  id="ToSpvCaseFlowListQuery">
+	    <searchCondition>
+            <condition field="sp.PR_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		    <condition field="sca.USAGE" name="usage" label="用途" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		    <condition field="sca.CASHFLOW_APPLY_CODE" name="cashFlowApplyCode" label="流水申请编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="sca.APPLIER" name="applier" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			       SELECT  sca.CASHFLOW_APPLY_CODE,
+			       sca.USAGE,
+			       sc.AMOUNT,
+			       sc.PAYER,
+			       sc.PAYER_ACC,
+			       sc.PAYER_BANK,
+			       sc.RECEIVER,
+			       sc.RECEIVER_ACC,
+			       sc.RECEIVER_BANK,
+			       sc.CREATE_BY,
+			       sc.INPUT_TIME,
+			       sc.CLOSE_TIME,
+			       sc.STATUS,
+			       sp.PR_ADDR,
+			      sca.APPLIER,
+			      sca.APPLY_AUDITOR,
+			      sca.FT_PRE_AUDITOR,
+			      sca.FT_POST_AUDITOR  
+			       FROM sctrans.T_TO_SPV_CASHFLOW sc
+  				   LEFT JOIN sctrans.T_TO_SPV_CASHFLOW_APPLY sca ON sc.CASHFLOW_APPLY_ID=sca.PKID
+                   LEFT JOIN SCTRANS.T_TO_SPV_PROPERTY sp ON sc.SPV_CODE=sp.SPV_CODE
+                   where sca.IS_DELETED=0
+                      <if test="serviceJobCode == 'JYFKZY' ">
+			           and sca.APPLIER = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode == 'JYFKZJ' ">
+			        and sca.APPLY_AUDITOR = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
+			        and sca.FT_PRE_AUDITOR = #sessionUserId# or sca.FT_POST_AUDITOR = #sessionUserId# 
+			        </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID"  title="监管流水ID" index="" checkbox="" display="pkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+				<column type="both" name="AMOUNT"  title="金额" index="" checkbox="" display="amount" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASHFLOW_APPLY_CODE"  title="监管申请流水编号" index="" checkbox="" display="CASHFLOW_APPLY_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="USAGE" index=""  title="类别" checkbox="" display="USAGE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="INPUT_TIME" index="" title="创建时间" checkbox="" display="INPUT_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
+				<column type="both" name="CLOSE_TIME" index="" title="创建时间" checkbox="" display="CLOSE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_ADDR" index="" title="物业地址" checkbox="" display="PR_ADDR" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="STATUS" index="" title="状态" checkbox="" display="STATUS" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PAYER" index="" title="付款人账号名称" checkbox="" display="PAYER" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PAYER_ACC" index="" title="付款人账户" checkbox="" display="PAYER_ACC" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PAYER_BANK" index="" title="付款人银行" checkbox="" display="PAYER_BANK" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RECEIVER" index="" title="收款人账号名称" checkbox="" display="RECEIVER" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RECEIVER_ACC" index="" title="收款人账号" checkbox="" display="RECEIVER_ACC" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RECEIVER_BANK" index="" title="收款人银行" checkbox="" display="RECEIVER_BANK" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="APPLIER" index="" checkbox="" display="APPLIER" customDict=""   sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="APPLY_AUDITOR" index="" checkbox="" display="APPLY_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FT_PRE_AUDITOR" index="" checkbox="" display="FT_PRE_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FT_POST_AUDITOR" index="" checkbox="" display="FT_POST_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				
+				<column type="virtual" name="applyerName"  title="申请人" referencecol="APPLIER" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="applyAuditorName" title="申请复审人" referencecol="APPLY_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ftPreAuditorName"  title="财务初审人" referencecol="FT_PRE_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ftPostAuditorName" title="财物复审人" referencecol="FT_POST_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	<query  id="ToSpvCashFlowById">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			      SELECT 
+                     sc.PKID, 
+                     sc.CASHFLOW_APPLY_ID, 
+                     sc.DIRECTION,  sc.VOUCHER_NO, 
+                     sc.RECEIVER,  sc.RECEIVER_ACC, 
+                     sc.RECEIVER_BANK, 
+                     sc.PAYER, 
+                     sc.PAYER_ACC, 
+                     sc.PAYER_BANK, 
+                     sc.FLOW_CONDITION, 
+                     sc.AMOUNT
+			      FROM  sctrans.T_TO_SPV_CASHFLOW  sc
+                   where sc.CASHFLOW_APPLY_ID=#id#
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="pkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+				<column type="both" name="CASHFLOW_APPLY_ID" index="" checkbox="" display="CASHFLOW_APPLY_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="DIRECTION" index="" checkbox="" display="DIRECTION" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="VOUCHER_NO" index="" checkbox="" display="VOUCHER_NO" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RECEIVER" index="" checkbox="" display="RECEIVER" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RECEIVER_ACC" index="" checkbox="" display="RECEIVER_ACC" customDict="" sysDict="" format="" width="0" isSort=""   align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RECEIVER_BANK" index="" checkbox="" display="RECEIVER_BANK" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PAYER" index="" checkbox="" display="PAYER" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				
+				<column type="both" name="PAYER_ACC" index="" checkbox="" display="PAYER_ACC" customDict=""   sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PAYER_BANK" index="" checkbox="" display="PAYER_BANK" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AMOUNT" index="" checkbox="" display="AMOUNT" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

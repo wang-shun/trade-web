@@ -318,7 +318,7 @@ width:160px;
             		  if(checkFileTypeExcel()){
             			 $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
            		    	 $(".blockOverlay").css({'z-index':'9998'});
-           		    	 $("#excelInForm").attr("action",ctx+"/kpi/doMonthKpiImport"); 
+           		    	 $("#excelInForm").attr("action",ctx+"/award/doMonthKpiImport"); 
            		    	 $("#excelInForm").attr("method","POST"); 
            		    	 
            		    	 $("#belongMonth").remove();
@@ -387,7 +387,7 @@ width:160px;
  		 var isKpiMoney = false;
     	 $.ajax({
 			  async: false,
-	          url:ctx+ "/kpi/getTsAwardKpiPayByStatus" ,
+	          url:ctx+ "/award/getTsAwardKpiPayByStatus" ,
 	          method: "post",
 	          dataType: "json",
 	          data: {belongMonth:bm},

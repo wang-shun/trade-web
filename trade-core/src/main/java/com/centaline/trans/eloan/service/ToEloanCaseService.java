@@ -28,4 +28,6 @@ public interface ToEloanCaseService {
     List<String> validateEloanApply(ToEloanCase tEloanCase);
     
     AjaxResponse<Boolean> validateIsFinishRelease(String eloanCode,Double sumAmount);
+
+	void eloanInfoForUpdate(ToEloanCase toEloanCase);
 }

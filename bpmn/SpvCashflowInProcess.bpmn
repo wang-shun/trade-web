@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
-  <process id="ChargeOutProcess" name="ChargeOutProcess" isExecutable="true">
+  <process id="SpvCashflowInProcess" name="SpvCashflowInProcess" isExecutable="true">
     <userTask id="SpvCashflowInApply" name="入款申请" activiti:formKey="/spv/task/spvCashflowInAppr/process?handle=apply"></userTask>
     <userTask id="SpvCashflowInDirectorAduit" name="入款总监审批" activiti:formKey="/spv/task/spvCashflowInAppr/process?handle=directorAduit"></userTask>
     <sequenceFlow id="flow1" sourceRef="SpvCashflowInApply" targetRef="SpvCashflowInDirectorAduit"></sequenceFlow>
@@ -25,8 +25,8 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeAduit}]]></conditionExpression>
     </sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_ChargeOutProcess">
-    <bpmndi:BPMNPlane bpmnElement="ChargeOutProcess" id="BPMNPlane_ChargeOutProcess">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_SpvCashflowInProcess">
+    <bpmndi:BPMNPlane bpmnElement="SpvCashflowInProcess" id="BPMNPlane_SpvCashflowInProcess">
       <bpmndi:BPMNShape bpmnElement="SpvCashflowInApply" id="BPMNShape_SpvCashflowInApply">
         <omgdc:Bounds height="55.0" width="105.0" x="200.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>

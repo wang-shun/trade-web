@@ -309,10 +309,10 @@
 				$("input[type='hidden']").attr("disabled", false);
 				$("select:not([name='approved'])").attr("disabled", true);
 				
-				$("input[name='custName']").attr("disabled", false);
+/* 				$("input[name='custName']").attr("disabled", false);
 				$("input[name='custPhone']").attr("disabled", false);
 				$("input[name='applyAmount']").attr("disabled", false);
-				$("input[name='month']").attr("disabled", false);			
+				$("input[name='month']").attr("disabled", false);	 */		
 				
 				getBankList($("#finOrgCode").val());
 

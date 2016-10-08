@@ -66,7 +66,27 @@ table.dataTable thead .sorting:after {
 .task-list tr td .case-ctm {
   font-size: 12px;
 }
-
+.blue-block {
+  display: block;
+  float: left;
+  margin-right: 1px;
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  padding: 3px 9px;
+  background-color: #428fcc;
+}
+.blue-block:first-child {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.blue-block:last-child {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.grey-block {
+  background-color: #dcdcdc;
+}
 .sign_blue {
   display: inline-block;
   color: #fff;
@@ -77,6 +97,15 @@ table.dataTable thead .sorting:after {
   margin-right: 5px;
   border-radius: 3px;
   background-color: #52cdec;
+}
+.sign_blue_small {
+  display: inline-block;
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  padding: 1px 3px;
+  border-radius: 3px;
+  background-color: #428fcc;
 }
 
 .manager {
@@ -110,7 +139,9 @@ table.dataTable thead .sorting:after {
 .smll_sign {
   margin: 2px 0px;
 }
-
+.blue_bg {
+  background: #1c84c6!important;
+}
 .tooltip-demo a {
   text-decoration: none !important;
   font-size: 13px;
@@ -154,7 +185,80 @@ table.dataTable thead .sorting:after {
 .tint_grey {
   color: #808080;
 }
+.grey_no {
+  color: #c9c9c9;
+}
+.grey95 {
+  color: #959595;
+}
+.user_red {
+  color: #ff5e80;
+}
 
+.popup-box {
+  padding:30px 15px 50px 15px;
+}
+.popup-box .modal_title {
+  font-family: 'Microsoft Yahei';
+  font-size: 14px;
+  font-weight:bold;
+}
+.popup-text {
+  line-height: 30px;
+  margin-left: 5px;
+}
+.pop-name {
+  width: 100px;
+}
+.sign_right_pop {
+  width: 470px;
+}
+.text-white {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+}
+.selected {
+  border: 1px solid #428fcc;
+}
+.textarearoom {
+  width: 678px;
+  height: 100px;
+  max-width: 678px;
+  max-height: 100px;
+  margin-left: 4px;
+  padding:5px 7px;
+  border: 1px solid #e5e6e7;
+  border-radius: 2px;
+  outline:0;
+}
+.textareasmall {
+  width: 462px;
+  height: 100px;
+  max-width: 462px;
+  max-height: 100px;
+  margin-left: 4px;
+  padding:5px 7px;
+  border: 1px solid #e5e6e7;
+  border-radius: 2px;
+  outline:0;
+}
 .tag_sign {
   width: 13px;
   height: 14px;
@@ -319,6 +423,12 @@ table thead tr th {
   border-radius: 2px;
   background-color: #52cdec;
 }
+.sign_qing_bg {
+  background-color: #19aa8d;
+}
+.sign_blue_bg {
+  background-color: #428fcc;
+}
 
 .sign_grey {
   margin-right: 5px;
@@ -385,12 +495,20 @@ table thead tr th {
   opacity: 1;
 }
 
+.text_info {
+  color: #337ab7;
+}
+
+.btn-space {
+  margin-right: 5px;
+}
+
 .close {
   float: right;
   font-size: 21px;
   font-weight: normal;
   line-height: 1;
-  padding-bottom: 4px !important;
+  padding-bottom: 6px !important;
   padding-left: 2px !important;
   text-shadow: 0 1px 0 #fff;
   filter: alpha(opacity=100);
@@ -399,6 +517,7 @@ table thead tr th {
 
 .yes_color {
   margin-left: 5px;
+  margin-right: 5px;
   padding: 0px 5px;
   background: #f8ac59;
   font-size: 14px;
@@ -406,6 +525,30 @@ table thead tr th {
   border-radius: 2px;
 }
 
+.waiting_color {
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 0px 5px;
+  background: #52cdec;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 2px;
+}
+.ml5 {
+  margin-left: 5px;
+}
+.yellow_bg {
+  padding: 1px 2px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background: #f8ac59;
+}
+
+.underline {
+  text-decoration: underline;
+}
 .no_color {
   margin-left: 5px;
   margin-right: 5px;
@@ -419,4 +562,18 @@ table thead tr th {
 .manager em {
   font-style: normal;
   margin-right: 5px;
+}
+
+.icon_day {
+  margin-right: 7px;
+  font-size: 16px;
+  color: #52cdec;
+}
+
+.ibox-space {
+  padding-bottom: 30px !important;
+}
+
+.text_pink {
+  color: #f784a5;
 }

@@ -97,26 +97,23 @@
 										<em>归属人</em><span class="span_one">${excutorName}</span>
 									</p>
 								</div>
-        <%--                            <div class="case_lump">
+                                 <div class="case_lump">
                                        <p><em>客户姓名</em><span class="span_one">${eloanCase.custName}</span></p>
                                    </div>
                                    <div class="case_lump">
                                        <p><em>客户电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
-                                   </div> --%>
+                                   </div> 
                                 </div>
                                 <div class="case_row">
-<%--                                    <div class="case_lump">
+                                   <div class="case_lump">
                                        <p><em>申请金额</em><span class="span_one">${eloanCase.applyAmount}万</span></p>
-                                   </div> --%>
+                                   </div> 
                                    <div class="case_lump">
                                        <p><em>申请时间</em><span class="span_one"><fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" /></span></p>
                                    </div>
-<%--                                    <div class="case_lump">
+                                    <div class="case_lump">
                                        <p><em>申请期数</em><span class="span_one">${eloanCase.month}月</span></p>
-                                   </div> --%>
-                                   <div class="case_lump">
-                                       <p><em>面签时间</em><span class="span_one"><fmt:formatDate value="${eloanCase.signTime}" pattern="yyyy-MM-dd" /></span></p>
-                                   </div>
+                                   </div>                           
                                 </div>
                                 
                                 <c:if test="${!empty eloanCase.chargeAmount}">
@@ -163,7 +160,7 @@
                                        <p><em>分成比例贷款</em><span class="span_one">${eloanCase.coPart}%</span></p>
                                    </div>
                                 </div>
-<%--                                 <div class="case_row">
+                                 <div class="case_row">
                                    <div class="case_lump">
                                        <p><em>面签金额</em><span class="span_one">${eloanCase.signAmount}万</span></p>
                                    </div>
@@ -172,7 +169,7 @@
                                    </div>
                                    <div class="case_lump">
                                    </div>
-                                </div> --%>
+                                </div> 
                             </div>
                         </div>
                     </div>
@@ -190,7 +187,7 @@
 					     <!--  -->
 					     <input type="hidden" id="eloanCode" name="eloanCode" value="${eloanCase.eloanCode}">
                        	 <ul class="form_lump">
-                       	 	                       		<li>
+<%--                        	 	                       		<li>
                                 <div class="form_content">
                                     <label class="control-label sign_left_two">
                                         	客户姓名
@@ -232,7 +229,7 @@
                                         <span class="danwei">万</span>
                                     </div>
                                 </div>
-                            </li>
+                            </li> --%>
                        	 	
                             <li>
                                 <div class="form_content">

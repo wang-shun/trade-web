@@ -25,4 +25,6 @@ public interface ToEloanCaseMapper {
     int updateApplyEloanCaseByEloanCode(ToEloanCase record);
     
     List<String> validateEloanApply(ToEloanCase record);
+
+	void eloanInfoForUpdate(ToEloanCase toEloanCase);
 }

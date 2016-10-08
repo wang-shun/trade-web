@@ -13,8 +13,6 @@
 <title>E+贷款详情</title>
 
 <link href="${ctx}/static/trans/css/eloan/eloan/eloan.css" rel="stylesheet" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/eloan/eloan_detail.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/eloan/eloan_guaranty.css">
 
 <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css" >
 <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
@@ -30,6 +28,8 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css">
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css">
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/uplodydome.css">
+<link rel="stylesheet" href="${ctx}/static/trans/css/eloan/eloan_detail.css">
+<link rel="stylesheet" href="${ctx}/static/trans/css/eloan/eloan_guaranty.css">
 <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.css">
 <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" type="text/css" />
 <!-- 分页控件 -->
@@ -264,14 +264,11 @@
 									</div>
 									<div class="case_lump">
 										<p>
-											<em>放款状态</em><span class="" id="content_caseCode"> <c:if
-													test="${item.confirmStatus==1}">
-																		审批通过
-																	</c:if> <c:if test="${item.confirmStatus==2}">
-																		审批拒绝
-																	</c:if> <c:if test="${item.confirmStatus==0}">
-																		待确认
-																	</c:if>
+											<em>放款状态</em>
+											<span class="" id="content_caseCode"> 
+												<c:if	test="${item.confirmStatus==1}">	审批通过     </c:if> 
+												<c:if 	test="${item.confirmStatus==2}">	审批拒绝     </c:if> 
+												<c:if 	test="${item.confirmStatus==0}">	待确认	</c:if>
 											</span>
 										</p>
 									</div>
@@ -314,7 +311,7 @@
                                                         <%-- <a href="${ctx}/riskControl/guarantymortgage?pkid=${pkId}"> --%>
                                                         <button class="btn btn-success btn-space ykqing mortgageButton">抵押</button>
                                                         <%-- <a href="${ctx}/riskControl/guarantyfair?pkid=${pkId}"> --%>
-                                                        <button class="btn btn-success ykqing forceFairButton">强制公正</button>
+                                                        <button class="btn btn-success btn-space ykqing forceFairButton">强制公正</button>
                                                         </shiro:hasPermission>
                                                         </div>
                                                         <div class="riskControl-table">

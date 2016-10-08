@@ -18,5 +18,5 @@ public interface ToSpvReceiptMapper {
 
     int updateByPrimaryKey(ToSpvReceipt record);
 
-	List<ToSpvReceipt> selectByCashFlowId(Long cashFlowId);
+	List<ToSpvReceipt> selectByCashFlowId(String cashFlowId);
 }

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
@@ -31,7 +32,6 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
-import com.alibaba.druid.pool.vendor.SybaseExceptionSorter;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.MyCaseListService;
@@ -62,7 +62,6 @@ import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.utils.DateUtil;
-import com.centaline.trans.utils.UriUtility;
 
 @Controller
 @RequestMapping(value="/eloan")
@@ -139,7 +138,7 @@ public class WarnListController {
 		
 		//E+ 申请查询审核结果
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();					
-		toApproveRecordForItem.setProcessInstance((String)request.getAttribute("instCode"));
+		toApproveRecordForItem.setProcessInstance(processInstanceId);
 		toApproveRecordForItem.setPartCode("eApplyApprove");
 		getApproveRecordForItem(toApproveRecordForItem,request);
 		
@@ -172,13 +171,15 @@ public class WarnListController {
 	
 	//获取E+详细信息
 	@RequestMapping("getEloanCaseDetails")
-	public String getEloanDetail(Long pkid, Model model) {
+	public String getEloanDetail(Long pkid, Model model, String action) {
 		if (pkid != null) {
+			
 			ToEloanCase eloanCase= toEloanCaseService.getToEloanCaseByPkId(pkid);
 			ToCase toCase= toCaseService.findToCaseByCaseCode(eloanCase.getCaseCode());
 			//人物信息
-			User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
-			User excutor =uamUserOrgService.getUserById(eloanCase.getExcutorId());
+			User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());//交易顾问
+			User excutor =uamUserOrgService.getUserById(eloanCase.getExcutorId());//E+执行人			
+			
 			Map<String,Object> object = new HashMap<String,Object>();
 			if(excutor!=null){
 			object.put("excutorName", excutor.getRealName());
@@ -223,15 +224,101 @@ public class WarnListController {
 			object.put("applyTime",applyTime );
 			//合作机构查询
 			String finOrgName=finorgService.findBankByFinOrg(eloanCase.getFinOrgCode()).getFinOrgName();
+			
+			ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
+			User agentUser = null;
+			// 经纪人
+			if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
+				agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
+			}
+			
+			// 上下家
+			List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
+			StringBuffer seller = new StringBuffer();
+			StringBuffer sellerMobil = new StringBuffer();
+			StringBuffer buyer = new StringBuffer();
+			StringBuffer buyerMobil = new StringBuffer();
+			for (TgGuestInfo guest : guestList) {
+				if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+					seller.append(guest.getGuestName());
+					sellerMobil.append(guest.getGuestPhone());
+					seller.append("/");
+					sellerMobil.append("/");
+				} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+					buyer.append(guest.getGuestName());
+					buyerMobil.append(guest.getGuestPhone());
+					buyer.append("/");
+					buyerMobil.append("/");
+				}
+			}
+
+			if (guestList.size() > 0) {
+				if (seller.length() > 1) {
+					seller.deleteCharAt(seller.length() - 1);
+					sellerMobil.deleteCharAt(sellerMobil.length() - 1);
+				}
+
+				if (buyer.length() > 1) {
+					buyer.deleteCharAt(buyer.length() - 1);
+					buyerMobil.deleteCharAt(buyerMobil.length() - 1);
+				}
+			}			
+			object.put("agentName",agentUser==null?"":agentUser.getRealName());
+			object.put("sellerName",seller.toString());
+			object.put("buyerName",buyer.toString());	
+			
 			object.put("finOrgName",finOrgName );
 			model.addAttribute("info", object);
 			model.addAttribute("eloanRelList", eloanRels);
 			model.addAttribute("eloanCase", eloanCase);
 			model.addAttribute("pkId", pkid);
 		}
-
-		return "/eloan/task/taskEloanDetail";
+		
+		if("update".equals(action)){
+			return "/eloan/task/modifyEloanInfo";
+		}else{
+			return "/eloan/task/taskEloanDetail";
+		}
+		
 	}
+	
+	
+	//E+  产品部分信息修改
+	@RequestMapping("modifyEloanCaseInfo")	
+	@ResponseBody
+	public AjaxResponse<String> modifyEloanCaseInfo(@RequestBody ToEloanRelListVO eloanRelListVO){
+	/*public String modifyEloanCaseInfo(@RequestBody ToEloanRelListVO eloanRelListVO){*/
+		
+		ToEloanCase  toEloanCase  = new  ToEloanCase();
+		try{
+			if(null != eloanRelListVO){
+				ToEloanCase  eloanCase = eloanRelListVO.getToEloanCase();
+				if(null != eloanCase){		
+					toEloanCase.setEloanCode(eloanCase.getEloanCode()==null?"":eloanCase.getEloanCode());
+					toEloanCase.setCustName(eloanCase.getCustName()==null?"":eloanCase.getCustName());
+					toEloanCase.setApplyAmount(eloanCase.getApplyAmount());
+					toEloanCase.setCustPhone(eloanCase.getCustPhone()==null?"":eloanCase.getCustPhone());
+					toEloanCase.setMonth(eloanCase.getMonth());
+				}
+				
+				List<ToEloanRel> eloanRelList = eloanRelListVO.getEloanRelList();
+				if (null != eloanRelList && eloanRelList.size()>0) {
+					toEloanRelService.updateEloanRelByEloanCodeForModify(eloanRelList);
+				}
+				
+			}
+			toEloanCaseService.eloanInfoForUpdate(toEloanCase);	
+			return AjaxResponse.success("操作成功");
+					
+		} catch(Exception e) {
+			logger.debug("修改E+贷款信息失败", e);
+			return AjaxResponse.fail("操作失败");
+		}
+		
+		//return  "";
+	}
+	
+	
 	
 	private Model getDetailByPkId(Long pkid, Model model) {
 		if (pkid != null) {
@@ -254,7 +341,7 @@ public class WarnListController {
 			BigDecimal releaseAmount=new BigDecimal(0);
 			List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
 			for (ToEloanRel toEloanRel : eloanRels) {
-				if(toEloanRel.getConfirmStatus().equals("1")){
+				if(toEloanRel.getConfirmStatus().equals("1")){//1审批通过
 					releaseAmount=releaseAmount.add(toEloanRel.getReleaseAmount());
 				
 				}
@@ -311,10 +398,9 @@ public class WarnListController {
 		}
 	}
 	
-	@RequestMapping(value="/validateEloanApply")
+	@RequestMapping(value="validateEloanApply")
 	@ResponseBody
-	public AjaxResponse<Boolean> validateEloanApply(Model model,ToEloanCase tEloanCase){
-System.out.println("---------------------");
+	public AjaxResponse<Boolean> validateEloanApply(Model model,ToEloanCase tEloanCase){		
 		AjaxResponse<Boolean> response = new AjaxResponse<Boolean>();
 		SessionUser user = uamSessionService.getSessionUser();
 		try {
@@ -375,10 +461,10 @@ System.out.println("---------------------");
 			toEloanCase.setApplyConfTime(new Date());
 			if(null != eloanCase){
 				toEloanCase.setEloanCode(eloanCase.getEloanCode()==null?"":eloanCase.getEloanCode());
-				toEloanCase.setCustName(eloanCase.getCustName()==null?"":eloanCase.getCustName());
+/*				toEloanCase.setCustName(eloanCase.getCustName()==null?"":eloanCase.getCustName());
 				toEloanCase.setApplyAmount(eloanCase.getApplyAmount());
 				toEloanCase.setCustPhone(eloanCase.getCustPhone()==null?"":eloanCase.getCustPhone());
-				toEloanCase.setMonth(eloanCase.getMonth());
+				toEloanCase.setMonth(eloanCase.getMonth());*/
 			}
 			
 			boolean isUpdate = false;
@@ -387,8 +473,7 @@ System.out.println("---------------------");
 				map.put("ApplyApprove", true);
 				isUpdate = true;
 			} else {
-				map.put("ApplyApprove", false);
-				isUpdate = true;
+				map.put("ApplyApprove", false);				
 			}
 			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase,isUpdate);
 			
@@ -419,7 +504,7 @@ System.out.println("---------------------");
 		
 		//E+ 申请查询审核结果
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();					
-		toApproveRecordForItem.setProcessInstance((String)request.getAttribute("instCode"));
+		toApproveRecordForItem.setProcessInstance(processInstanceId);
 		toApproveRecordForItem.setPartCode("eSignApprove");
 		getApproveRecordForItem(toApproveRecordForItem,request);
 		
@@ -518,19 +603,18 @@ System.out.println("---------------------");
 			//toEloanCase.setEloanCode(eloanCode);
 			if(null != eloanCase){
 				toEloanCase.setEloanCode(eloanCase.getEloanCode()==null?"":eloanCase.getEloanCode());
-				toEloanCase.setCustName(eloanCase.getCustName()==null?"":eloanCase.getCustName());
+	/*			toEloanCase.setCustName(eloanCase.getCustName()==null?"":eloanCase.getCustName());
 				toEloanCase.setApplyAmount(eloanCase.getApplyAmount());
 				toEloanCase.setCustPhone(eloanCase.getCustPhone()==null?"":eloanCase.getCustPhone());
 				toEloanCase.setMonth(eloanCase.getMonth());
-				toEloanCase.setSignAmount(eloanCase.getSignAmount());
+				toEloanCase.setSignAmount(eloanCase.getSignAmount());*/
 			}
 			
-			//boolean isUpdate = false;
-			boolean isUpdate = true;
+			boolean isUpdate = false;
 			Map<String,Object> map = new HashMap<String,Object>();
 			if("1".equals(approved)) {
 				map.put("SignApprove", true);
-				//isUpdate = true;
+				isUpdate = true;
 			} else {
 				map.put("SignApprove", false);				
 			}
@@ -562,6 +646,13 @@ System.out.println("---------------------");
 		// 显示所有放款金额
 		List<ToEloanRel> eloanRelList = toEloanRelService.getEloanRelByEloanCode(businessKey);
 		request.setAttribute("eloanRelList", eloanRelList);
+		
+		//E+ 申请查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();					
+		toApproveRecordForItem.setProcessInstance(processInstanceId);
+		toApproveRecordForItem.setPartCode("eLoanApprove");
+		getApproveRecordForItem(toApproveRecordForItem,request);
+		
     	return "eloan/task/taskEloanRelease";
 	}
 	
@@ -570,17 +661,23 @@ System.out.println("---------------------");
 	public AjaxResponse<String> saveEloanRelease(Model model,@RequestBody ToEloanRelListVO eloanRelListVO){
 		try {
 			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("ReleaseAmount", eloanRelListVO.getEloanRelList().get(0).getReleaseAmount());
+			if(null != eloanRelListVO.getEloanRelList() && eloanRelListVO.getEloanRelList().size()>0){
+				map.put("ReleaseAmount", eloanRelListVO.getEloanRelList().get(0).getReleaseAmount());
+			}else{
+				map.put("ReleaseAmount", "");
+			}
+			
 			if("1".equals(eloanRelListVO.getIsRelFinish())) {
 				map.put("isRelFinish", true);
 			} else {
 				map.put("isRelFinish", false);
 			}
 			
+			/*toEloanCaseService.eloanProcessConfirm(eloanRelListVO.getTaskId(), map, eloanRelListVO.getToEloanCase(),true);*/
 			toEloanRelService.saveEloanRelease(eloanRelListVO.getTaskId(), eloanRelListVO.getEloanRelList(), map,eloanRelListVO.getIsRelFinish());
 			return AjaxResponse.success("操作放款成功");
 		} catch(Exception e) {
-			logger.debug("保存E+放款失败", e);
+			logger.debug("保存E+放款信息失败", e);
 			return AjaxResponse.fail("操作放款失败");
 		}
 	}
@@ -592,12 +689,15 @@ System.out.println("---------------------");
 		// 显示所有放款金额
 		List<ToEloanRel> eloanRelList = toEloanRelService.getEloanRelByEloanCode(businessKey);
 		request.setAttribute("eloanRelList", eloanRelList);
+		
     	return "eloan/task/taskEloanReleaseConfirm";
 	}
 	
 	@RequestMapping(value="saveEloanReleaseConfirm")
 	@ResponseBody
-	public AjaxResponse<String> saveEloanReleaseConfirm(Model model,String taskId,String approved,String eloanCode,String processInstanceId){
+	
+	/*public AjaxResponse<String> saveEloanReleaseConfirm(Model model,String taskId,String approved,String eloanCode,String processInstanceId){*/
+	public AjaxResponse<String> saveEloanReleaseConfirm(ToEloanCase eloanCase,String taskId,String approved,String eLoanContent){
 		SessionUser user = uamSessionService.getSessionUser();
 		try  {
 			boolean isUpdate = false;
@@ -609,7 +709,20 @@ System.out.println("---------------------");
 				map.put("ReleaseApprove", false);
 			}
 			
-			toEloanRelService.saveEloanReleaseConfirm(taskId, approved, eloanCode, user, map,processInstanceId);
+			toEloanRelService.saveEloanReleaseConfirm(taskId, approved, eloanCase.getEloanCode(), user, map,eloanCase.getProcessInstanceId());
+			
+			//E+借贷审核添加 审核说明，条件审核记录到ToApproveRecord
+			ToApproveRecord toApproveRecord=new ToApproveRecord();			
+			toApproveRecord.setCaseCode(eloanCase.getCaseCode());
+			toApproveRecord.setContent(eLoanContent);
+			toApproveRecord.setApproveType("11");
+			toApproveRecord.setOperator(user.getId());
+			toApproveRecord.setTaskId(taskId);
+			toApproveRecord.setOperatorTime(new Date());
+			toApproveRecord.setPartCode("eLoanApprove");//e+借贷
+			toApproveRecord.setProcessInstance(eloanCase.getProcessInstanceId());
+			toApproveRecordService.insertToApproveRecord(toApproveRecord);
+			
 			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {
 			logger.debug("保存E+放款确认失败", e);

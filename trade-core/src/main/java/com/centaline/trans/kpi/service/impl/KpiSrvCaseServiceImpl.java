@@ -498,6 +498,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		AwardBaseEntity awardBase = awardBaseEntityMapper.selectByCaseCodeAndSrvCode(entity.getCaseCode(), srvCode);
 		if (awardBase != null) {
 			newEntity.setTeamId(awardBase.getTeamId());
+			newEntity.setOrgId(awardBase.getOrgId());
 			newEntity.setDistrictId(awardBase.getDistrictId());
 		}
 

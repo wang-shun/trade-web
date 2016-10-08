@@ -68,7 +68,7 @@
       #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlow" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlow"  useGeneratedKeys="true" keyProperty="pkid" >
     insert into sctrans.T_TO_SPV_CASHFLOW
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
