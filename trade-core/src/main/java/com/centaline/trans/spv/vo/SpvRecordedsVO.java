@@ -40,8 +40,41 @@ public class SpvRecordedsVO {
     private String instCode;
     
     private String caseCode;
+    //页面类型
+    private String type;
+    //保存数据返回的表pkid
+    private String toSpvCashFlowApplyPkid;
     
- 	public String getCaseCode() {
+	private String ToSpvCashFlowPkid;
+	
+	private String ToSpvReceiptPkid;
+    
+ 	
+	public String getToSpvCashFlowApplyPkid() {
+		return toSpvCashFlowApplyPkid;
+	}
+	public void setToSpvCashFlowApplyPkid(String toSpvCashFlowApplyPkid) {
+		this.toSpvCashFlowApplyPkid = toSpvCashFlowApplyPkid;
+	}
+	public String getToSpvCashFlowPkid() {
+		return ToSpvCashFlowPkid;
+	}
+	public void setToSpvCashFlowPkid(String toSpvCashFlowPkid) {
+		ToSpvCashFlowPkid = toSpvCashFlowPkid;
+	}
+	public String getToSpvReceiptPkid() {
+		return ToSpvReceiptPkid;
+	}
+	public void setToSpvReceiptPkid(String toSpvReceiptPkid) {
+		ToSpvReceiptPkid = toSpvReceiptPkid;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getCaseCode() {
 		return caseCode;
 	}
 	public void setCaseCode(String caseCode) {

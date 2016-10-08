@@ -63,6 +63,7 @@ import com.centaline.trans.spv.vo.SpvRecordReturnVO;
 import com.centaline.trans.spv.vo.SpvRecordedInfoVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVOItem;
+import com.centaline.trans.spv.vo.SpvReturnCashflowVO;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
@@ -113,14 +114,23 @@ public class SpvCashFlowInController {
 	 * 起草入账页面保存
 	 * @param spvrevo
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/saveDate")
 	@ResponseBody
-	public void  saveDate(SpvRecordedsVO spvrevo,HttpServletRequest request){
-		// SpvRecordReturnVO spvRecordReturnVO  = toSpvService.saveSpvCashFlowApplyVO(spvrevo);
-		 
-		//request.setAttribute("type", "success");
+	public AjaxResponse<?>  saveDate(SpvRecordedsVO spvrevo,HttpServletRequest request) throws Exception{
+		AjaxResponse<?> response = new AjaxResponse<>();
+		String handle = null;
+		String cashflowApplyCode = null;
+		SpvReturnCashflowVO spvReturnCashflowVO = cashFlowInService.saveCashFlowApply(request, handle, spvrevo, cashflowApplyCode);
+		request.setAttribute("type", "success");
 		//return spvRecordReturnVO.getToSpvCashFlowApplyPkid();
+		response.setMessage("toSpvCashFlowApplyPkid:"+spvReturnCashflowVO.getToSpvCashFlowApplyPkid()+
+				";ToSpvCashFlowPkid:"+spvReturnCashflowVO.getToSpvCashFlowPkid()+
+				";ToSpvReceiptPkid:"+spvReturnCashflowVO.getToSpvReceiptPkid()
+				);
+		response.success("success");
+		return response;
 	}
 	
 	/**
@@ -204,16 +214,18 @@ public class SpvCashFlowInController {
 	 */
 	@RequestMapping("spvRecordShow")
 	public String spvRecordShow(Long pkid,String caseCode,HttpServletRequest request){
-		SessionUser currentUser = uamSessionService.getSessionUser();
+	/*	SessionUser currentUser = uamSessionService.getSessionUser();
 		String currentDeptId = currentUser.getServiceDepId();
 		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
 		
 		//toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApple(request,pkid,caseCode);
-		SpvRecordedInfoVO spvRecordedInfoVO = toSpvService.findSpvRecordedInfoVOByCashFlowApplyCode(caseCode);
+		SpvRecordedInfoVO spvRecordedInfoVO = toSpvService.findSpvRecordedInfoVOByCashFlowApplyCode(caseCode);*/
+	//	String a = request.getAttribute("taskId"); 
+		/*cashFlowOutService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
 		
 		request.setAttribute("spvRecordedInfoVO", spvRecordedInfoVO);
-		request.setAttribute("orgId", parentOrg.getId());
+		request.setAttribute("orgId", parentOrg.getId());*/
 		return "spv/spvRecordShow";
 	}
 	/**
@@ -268,11 +280,11 @@ public class SpvCashFlowInController {
 		
 		String cashflowApplyCode = "";
 		try{
-			if(StringUtils.isBlank(taskId)){
-				
-				cashFlowInService.cashFlowInPageDeal(request, instCode, taskId, handle, spvrevo, cashflowApplyCode);
-			}else{
-				cashFlowInService.cashFlowInPageDeal(request, instCode, taskId, handle, spvrevo, cashflowApplyCode);
+			if(StringUtils.equals(spvrevo.getHandle(), "addCashFlow")){
+				cashFlowInService.cashFlowInPageDeal(request, handle, spvrevo, cashflowApplyCode);
+			}
+			if(StringUtils.equals(handle, "apply")){
+				cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvrevo, cashflowApplyCode);
 			}
 			response.setSuccess(true);
 		} catch (Exception e) {
@@ -311,7 +323,7 @@ public class SpvCashFlowInController {
 				
 				switch (handle) {
 				case "apply":
-					cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
+					//cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
 					break;
 			    case "directorAduit":
 			    	cashFlowInService.cashFlowInDirectorAduitDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode,chargeInAppr);
@@ -322,7 +334,7 @@ public class SpvCashFlowInController {
 				}	
 			}else{
 				//cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
-				cashFlowInService.cashFlowInPageDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode);
+				//cashFlowInService.cashFlowInPageDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode);
 			}
 
 			response.setSuccess(true);

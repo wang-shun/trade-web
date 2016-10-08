@@ -41,6 +41,7 @@
 		<pattern>/mortgage/mortgageApproveLost</pattern>
 		<pattern>/mortgageInfo/list</pattern>
 		<pattern>/spv/spvList</pattern>
+		<pattern>/spv/spvFlowApplyList</pattern>
 		<pattern>/spv/spvFlowList</pattern>
 		<pattern>/spv/saveHTML</pattern>
 		<pattern>/spv/spvDetail</pattern>

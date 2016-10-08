@@ -23,6 +23,7 @@ import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvRecordReturnVO;
 import com.centaline.trans.spv.vo.SpvRecordedInfoVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVO;
+import com.centaline.trans.spv.vo.SpvReturnCashflowVO;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
@@ -231,6 +232,11 @@ public interface ToSpvService {
 	
     SpvRecordedInfoVO findSpvRecordedInfoVOByCashFlowApplyCode(String cashFlowApplyCode);
     
-    void saveSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO)throws Exception;
+    void saveSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String type,String spvApplyCode)throws Exception;
+    
+    void sumbitSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String type) throws Exception;
+    
+    SpvReturnCashflowVO saveSpvChargeInfoVOFormHtml(SpvRecordedsVO spvRecordedsVO,String type) throws Exception;
 
+    SpvChargeInfoVO findSpvChargeInfoVOByCashFlowApplyCodeByIn(String cashFlowApplyCode);
 }
