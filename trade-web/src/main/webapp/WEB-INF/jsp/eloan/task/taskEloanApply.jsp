@@ -252,12 +252,10 @@
 									<span class="danwei">万</span>
 								</div>
 							</div>
-							<div class="form_content input-daterange"
-								data-date-format="yyyy-mm-dd">
+							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i
 									class="red">* </i> 申请时间
-								</label> <input class="input_type sign_right_two"
-									value="<fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" />"
+								</label> <input class="input_type sign_right_two" value="<fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" />"
 									name="applyTime" id="applyTime" />
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
