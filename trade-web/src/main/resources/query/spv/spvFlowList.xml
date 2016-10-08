@@ -31,20 +31,12 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query  id="ToSpvCaseFlowListQuery">
+	<query  id="ToSpvCaseFlowApplyListQuery">
 	    <searchCondition>
-          <!--   <condition field="sp.PR_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-		    <condition field="spv.CREATE_TIME" name="startDate" label="开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.CREATE_TIME" name="endDate" label="结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.STATUS" name="status" label="合约状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.SPV_CODE" name="spvCode" label="合约编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.APPLY_TIME" name="applyTimeStart" label="申请开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.APPLY_TIME" name="applyTimeEnd" label="申请结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.SIGN_TIME" name="signTimeStart" label="面签开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.SIGN_TIME" name="signTimeEnd" label="面签结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.close_time" name="closeTimeStart" label="完成开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.close_time" name="closeTimeEnd" label="完成结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="spv.APPLY_USER" name="applyUser" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/> -->
+            <condition field="sp.PR_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		    <condition field="sca.USAGE" name="usage" label="用途" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		    <condition field="sca.SPV_CODE" name="spvCode" label="监管合约编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="sca.APPLIER" name="applier" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -104,7 +96,78 @@
 			</table-row>
 		</grid>
 	</query>
-	
+		<query  id="ToSpvCaseFlowListQuery">
+	    <searchCondition>
+            <condition field="sp.PR_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		    <condition field="sca.USAGE" name="usage" label="用途" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		    <condition field="sca.CASHFLOW_APPLY_CODE" name="cashFlowApplyCode" label="流水申请编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="sca.APPLIER" name="applier" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			       SELECT  sca.CASHFLOW_APPLY_CODE,
+			       sca.USAGE,
+			       sc.AMOUNT,
+			       sc.PAYER,
+			       sc.PAYER_ACC,
+			       sc.PAYER_BANK,
+			       sc.RECEIVER,
+			       sc.RECEIVER_ACC,
+			       sc.RECEIVER_BANK,
+			       sc.CREATE_BY,
+			       sc.INPUT_TIME,
+			       sc.CLOSE_TIME,
+			       sc.STATUS,
+			       sp.PR_ADDR,
+			      sca.APPLIER,
+			      sca.APPLY_AUDITOR,
+			      sca.FT_PRE_AUDITOR,
+			      sca.FT_POST_AUDITOR  
+			       FROM sctrans.T_TO_SPV_CASHFLOW sc
+  				   LEFT JOIN sctrans.T_TO_SPV_CASHFLOW_APPLY sca ON sc.CASHFLOW_APPLY_ID=sca.PKID
+                   LEFT JOIN SCTRANS.T_TO_SPV_PROPERTY sp ON sc.SPV_CODE=sp.SPV_CODE
+                   where sca.IS_DELETED=0
+                      <if test="serviceJobCode == 'JYFKZY' ">
+			           and sca.APPLIER = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode == 'JYFKZJ' ">
+			        and sca.APPLY_AUDITOR = #sessionUserId#
+			        </if>
+			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
+			        and sca.FT_PRE_AUDITOR = #sessionUserId# or sca.FT_POST_AUDITOR = #sessionUserId# 
+			        </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID"  title="监管流水ID" index="" checkbox="" display="pkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+				<column type="both" name="AMOUNT"  title="金额" index="" checkbox="" display="amount" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASHFLOW_APPLY_CODE"  title="监管申请流水编号" index="" checkbox="" display="CASHFLOW_APPLY_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="USAGE" index=""  title="类别" checkbox="" display="USAGE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="INPUT_TIME" index="" title="创建时间" checkbox="" display="INPUT_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
+				<column type="both" name="CLOSE_TIME" index="" title="创建时间" checkbox="" display="CLOSE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_ADDR" index="" title="物业地址" checkbox="" display="PR_ADDR" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="STATUS" index="" title="状态" checkbox="" display="STATUS" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PAYER" index="" title="付款人账号名称" checkbox="" display="PAYER" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PAYER_ACC" index="" title="付款人账户" checkbox="" display="PAYER_ACC" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PAYER_BANK" index="" title="付款人银行" checkbox="" display="PAYER_BANK" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RECEIVER" index="" title="收款人账号名称" checkbox="" display="RECEIVER" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RECEIVER_ACC" index="" title="收款人账号" checkbox="" display="RECEIVER_ACC" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RECEIVER_BANK" index="" title="收款人银行" checkbox="" display="RECEIVER_BANK" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="APPLIER" index="" checkbox="" display="APPLIER" customDict=""   sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="APPLY_AUDITOR" index="" checkbox="" display="APPLY_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FT_PRE_AUDITOR" index="" checkbox="" display="FT_PRE_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FT_POST_AUDITOR" index="" checkbox="" display="FT_POST_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				
+				<column type="virtual" name="applyerName"  title="申请人" referencecol="APPLIER" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="applyAuditorName" title="申请复审人" referencecol="APPLY_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ftPreAuditorName"  title="财务初审人" referencecol="FT_PRE_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ftPostAuditorName" title="财物复审人" referencecol="FT_POST_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
 	<query  id="ToSpvCashFlowById">
 		<searchSql>
 			<baseSql>

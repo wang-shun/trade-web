@@ -41,6 +41,7 @@
 		<pattern>/mortgage/mortgageApproveLost</pattern>
 		<pattern>/mortgageInfo/list</pattern>
 		<pattern>/spv/spvList</pattern>
+		<pattern>/spv/spvFlowApplyList</pattern>
 		<pattern>/spv/spvFlowList</pattern>
 		<pattern>/spv/saveHTML</pattern>
 		<pattern>/spv/spvDetail</pattern>
@@ -53,6 +54,7 @@
 		<pattern>/spv/task/cashflowIntApply/spvRecordShow</pattern>	
 		<pattern>/spv/task/cashflowIntApply/spvRecordedApp</pattern>	
 		<pattern>/spv/task/cashflowIntApply/spvRecorded</pattern>
+		<pattern>/spv/task/cashflowIntApply/process</pattern>
 		<!--<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>
 		<pattern>/case/unlocatedCase2</pattern> -->
@@ -88,5 +90,8 @@
 	</decorator>
 	<decorator name="wechat"  page="w_INSPINIA_template.jsp">
 		<pattern>/mobile/property/box/*</pattern>
+	</decorator>
+	<decorator name="weixin"  page="w_INSPINIA_template.jsp">
+		<pattern>/weixin/*</pattern>
 	</decorator>
 </decorators>

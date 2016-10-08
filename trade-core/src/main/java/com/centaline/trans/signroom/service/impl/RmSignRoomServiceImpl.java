@@ -103,7 +103,41 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 				for (RmSignRoom signRoom : signRooms) {
 					rrs = new ArrayList<RmRoomSchedule>();
 					for (RmRoomSchedule rmRoomSchedule : rmRoomSchedules) {
+						Long startTime = rmRoomSchedule.getStartDate().getTime();//该时间段的开始时间
+						Long curTime = new Date().getTime();//当前时间
+						Long endTime = rmRoomSchedule.getEndDate().getTime();//该时间段的结束时间
 						if (signRoom.getPkid().equals(rmRoomSchedule.getRoomId())) {
+							if(rmRoomSchedule.getResStatus()==null){
+								rmRoomSchedule.setUseStatus("N");
+							}else if(rmRoomSchedule.getResStatus()!=null && "4".equals(rmRoomSchedule.getResStatus().trim())){//预约已取消状态为空置
+								rmRoomSchedule.setUseStatus("N");
+							}else{
+								if(rmRoomSchedule.getCheckInTime()!=null){//是否已签到
+									if(rmRoomSchedule.getCheckOutTime()!=null){//是否已签退
+										rmRoomSchedule.setUseStatus("N");
+										
+									}else{
+										rmRoomSchedule.setUseStatus("1");//使用中
+									}
+								}else{//未签到的话就判断是否已超出时间段开始时间半个小时
+									
+									Long second = (curTime-startTime)/1000/60;//取得两者时间查转成分钟
+									if(second>30){//超过三十分钟的话状态就为空置
+										rmRoomSchedule.setUseStatus("N");
+									}else{
+										rmRoomSchedule.setUseStatus("0");
+									}
+								}
+							}
+							if("N".equals(rmRoomSchedule.getUseStatus())){//当空置状态在判断当前时间与结束时间段比较小于结束时间页面不置灰，大于结束页面置灰，其他情况页面都置灰
+								if(curTime<endTime){
+									rmRoomSchedule.setZhiHui(false);
+								}else if(curTime>=endTime){
+									rmRoomSchedule.setZhiHui(true);
+								}
+							}else{
+								rmRoomSchedule.setZhiHui(true);
+							}
 							rrs.add(rmRoomSchedule);
 						}
 					}

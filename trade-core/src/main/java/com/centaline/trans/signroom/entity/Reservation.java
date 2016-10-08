@@ -28,6 +28,8 @@ public class Reservation {
 
 	private String scheduleId; // 签约室安排id
 
+	private int numberOfPeople; // 容纳人数
+
 	private String caseCode; // 案件编号
 
 	private String propertyAddress; // 产证地址
@@ -49,6 +51,14 @@ public class Reservation {
 	private Date updateTime; // 更新时间
 
 	private String updateBy; // 更新人
+
+	public int getNumberOfPeople() {
+		return numberOfPeople;
+	}
+
+	public void setNumberOfPeople(int numberOfPeople) {
+		this.numberOfPeople = numberOfPeople;
+	}
 
 	public Long getSigningCenterId() {
 		return signingCenterId;

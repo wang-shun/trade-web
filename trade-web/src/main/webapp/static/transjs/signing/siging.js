@@ -236,16 +236,14 @@ function ajaxSubmit(obj) {
 				   var roomType = $.trim(data.content.signRooms[i].roomType)=='0'?'普通房间':'机动房间';
 				  th += "<tr><td><p class='big'>"+data.content.signRooms[i].roomNo+"<em class='yellow_bg ml5'>"+roomType+"</em></p></td><td><p class='big'>"+data.content.signRooms[i].districtName+"</p></td><td><p class='smll_sign'>"+data.content.signRooms[i].numbeOfAccommodatePeople+"</p></td>" ;
 				  for(var j=0;j<data.content.signRooms[i].rmRoomSchedules.length;j++){
-					  if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N'){
+					  if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N' && data.content.signRooms[i].rmRoomSchedules[j].zhiHui==false){
 						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot +"','"+data.content.signRooms[i].rmRoomSchedules[j].pkid+"','"+data.content.signRooms[i].tradeCenter+"','"+data.content.signRooms[i].tradeCenterId+"','"+data.content.signRooms[i].pkid+"')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
+					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N' && data.content.signRooms[i].rmRoomSchedules[j].zhiHui==true){
+						  th+="<td><span class='grey_no big'>空置</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='0'){
 						  th+="<td><span class='grey_no big'>预约中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='1'){
 						  th+="<td><span class='grey_no big'>使用中</span></td>";
-					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='2'){
-						  th+="<td><span class='grey_no big'>已使用</span></td>";
-					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='3'){
-						  th+="<td><span class='user_red'>已过期</span></td>";
 					  }
 				  }
 				  th+="</tr>";
@@ -266,6 +264,10 @@ function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterI
 	$("#tradeCenter").val(tradeCenter);
 	$("#tradeCenterId").val(tradeCenterId);
 	$("#roomId").val(roomId);
+	$("#jjrName").val("");
+	$("#jjrName").attr('hVal', "");
+	$("#resPersonOrgId").val("");
+	$("#caseCode").val("");
 	
 	var curdate = $("#curDate").val();
 	$("#signDate").html(curdate.substring(5,7)+'/'+curdate.substr(8));

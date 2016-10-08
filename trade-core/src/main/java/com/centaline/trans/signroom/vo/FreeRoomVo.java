@@ -12,6 +12,8 @@ public class FreeRoomVo {
 
 	private int numberOfParticipants; // 参与人数
 
+	private int numberOfPeople; // 房间容纳人数
+
 	private String startDate; // 开始预约时间
 
 	private String endDate; // 结束预约时间
@@ -23,6 +25,14 @@ public class FreeRoomVo {
 	private String resOrgId; // 归属组织ID
 
 	private String signingCenter; // 签约中心
+
+	public int getNumberOfPeople() {
+		return numberOfPeople;
+	}
+
+	public void setNumberOfPeople(int numberOfPeople) {
+		this.numberOfPeople = numberOfPeople;
+	}
 
 	public String getResOrgId() {
 		return resOrgId;
