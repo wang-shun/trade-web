@@ -91,4 +91,7 @@
 	<decorator name="wechat"  page="w_INSPINIA_template.jsp">
 		<pattern>/mobile/property/box/*</pattern>
 	</decorator>
+	<decorator name="weixin"  page="w_INSPINIA_template.jsp">
+		<pattern>/weixin/*</pattern>
+	</decorator>
 </decorators>
