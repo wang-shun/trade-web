@@ -20,6 +20,9 @@
             <span class="aui-iconfont aui-icon-left"></span>
         </a>
         <div class="aui-title">我的预约</div>
+        <a class="aui-pull-right aui-btn " href="${ctx }/weixin/signroom/list">
+	        <span class="aui-iconfont aui-icon-home"></span>
+	    </a>
     </header>
     <article class="aui-content">
         <ul class="aui-list aui-media-list white" id="myReservationList">
