@@ -94,7 +94,7 @@ $(function () {
 	     			     signingCenter : signingCenter,
 	     			     signingCenterId : signingCenterId,
 	     			     roomId : roomId,
-	     			     resStatus : '3',
+	     			     resStatus : '1',
 	     			     resPersonOrgId : resPersonOrgId
 	     			     /*startDate : startDate,
 	     			     endDate : endDate*/
