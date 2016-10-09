@@ -167,14 +167,10 @@
 
 						<div class="form_sign col-sm-10 clearfix" id="loanLostApply"
 							style="display: block">
-							<c:forEach items="${loanLostApplyReasons}"
-								var="loanLostApplyReasonForShow">
+							<c:forEach items="${loanLostApplyReasons}"	var="loanLostApplyReasonForShow">
 								<div class="col-sm-6 ">
-									<input type="checkbox"
-										value="${loanLostApplyReasonForShow.name}"
-										id="loanLostApplyReasonShow" name="loanLostApplyReasonShow"
-										class="btn btn-white"
-										onChange="loanLostApplyReasonAppend(this.checked,'${loanLostApplyReasonForShow.name}');">
+									<input type="checkbox"	   value="${loanLostApplyReasonForShow.name}"	id="loanLostApplyReasonShow" name="loanLostApplyReasonShow"
+										class="btn btn-white"	onChange="loanLostApplyReasonAppend(this.checked,'${loanLostApplyReasonForShow.name}');">
 									<label>${loanLostApplyReasonForShow.name}</label>
 								</div>
 							</c:forEach>
