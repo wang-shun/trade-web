@@ -82,11 +82,11 @@ $(function(){
     $(".datatime").val(show());
 
     $("#today").click(function(){
-        $(".datatime").val(getDateWeek(0));
+        $(".data_style").val(getDateWeek(0));
     });
     
     $("#tommrow").click(function(){
-        $(".datatime").val(getDateWeek(1));
+        $(".data_style").val(getDateWeek(1));
     });
     
     //添加跟进信息
@@ -106,7 +106,6 @@ $(function(){
 	$("#searchForm input[name='resPersonId']").attr("hval","");
 	$("#searchForm input[name='resPeopleId']").val("");
 	$("#searchForm input[name='resNo']").val("");
-	console.log($("#searchForm input[name='resNo']").val());
 	$("#searchForm input[name='mobile']").val("");
 	$("#searchForm input[name='startDateTime']").val(getCurrentDate());
 	$("#searchForm input[name='endDateTime']").val(getCurrentDate());
