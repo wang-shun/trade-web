@@ -77,14 +77,31 @@ $(function() {
     	var tradeCenterId = $("#tradeCenterId").val();
     	var selDate = $("#selDate").val();
     	var bespeakTime = $("#bespeakTime").val();
+    	var inputNumberOfPeople = Number($("#inputNumberOfPeople").val());
+    	numberOfPeople = Number(numberOfPeople);
     	
+    	console.log(inputNumberOfPeople + "-" + numberOfPeople);
+    	
+    	var actNumberOfPeople;
+    	if(inputNumberOfPeople > numberOfPeople){
+    		actNumberOfPeople = numberOfPeople;
+    	}
+    	else if(inputNumberOfPeople < numberOfPeople){
+    		actNumberOfPeople = inputNumberOfPeople;
+    	}
+    	else if(inputNumberOfPeople = numberOfPeople){
+    		actNumberOfPeople = numberOfPeople;
+    	}
+    	
+    	console.log("最小值:" + actNumberOfPeople);
+    	 
     	$.ajax({
     		cache:false,
     		async:false,
     		type:"POST",
     		dataType:"json",
     		url:ctx+"/weixin/signroom/save",
-    		data: {resType:'0',resPersonId:agentCode,caseCode:caseCode,propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,tradeCenterId:tradeCenterId,selDate:selDate,bespeakTime:bespeakTime},
+    		data: {resType:'0',actNumberOfPeople:actNumberOfPeople,resPersonId:agentCode,caseCode:caseCode,propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,tradeCenterId:tradeCenterId,selDate:selDate,bespeakTime:bespeakTime},
     		success:function(data){
     			if(data.isSuccess == "true"){
     				myOpenSuccess(data.resNo,data.numberOfPeople,data.selDate,data.bespeakTime);

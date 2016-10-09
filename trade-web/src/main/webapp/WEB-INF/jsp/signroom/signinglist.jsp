@@ -344,7 +344,7 @@
 				 <td>
                       <p class="smll_sign big">{{item.followDateTime}}</p>
                       <p>
-                         <a href="#"  class="demo-right" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.comment}}</br>{{/each}}">
+                         <a href="#"  class="demo-right" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.comment}}&nbsp;&nbsp;{{flowupInfo.createDateTime}}</br>{{/each}}">
 							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 12}}
 								{{item.latestComment.substring(0,12)}}....
 					  		{{else}}
@@ -359,7 +359,7 @@
                                 <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
-								{{if item.resStatus == '0' && item.currentTime <= item.endTime}}
+								{{if item.resStatus == '0'}}
 									<li><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
 								{{/if}}
                                 

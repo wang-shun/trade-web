@@ -27,6 +27,7 @@
 		<input type="hidden" id="selDate" value="${selDate }"/>
 		<input type="hidden" id="bespeakTime" value="${bespeakTime }"/>
 		<input type="hidden" id="agentCode" value="${agentCode }"/>
+		<input type="hidden" id="inputNumberOfPeople" value="${numberOfPeople }"/>
 		<input type="hidden" id="caseCode"/>
 		
 		<div class="aui-padded-l-10 aui-padded-r-10 pt15 pb5">

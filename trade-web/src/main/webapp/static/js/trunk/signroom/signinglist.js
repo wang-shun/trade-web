@@ -83,10 +83,12 @@ $(function(){
 
     $("#today").click(function(){
         $(".data_style").val(getDateWeek(0));
+        $("#searchForm").submit();
     });
     
     $("#tommrow").click(function(){
         $(".data_style").val(getDateWeek(1));
+        $("#searchForm").submit();
     });
     
     //添加跟进信息

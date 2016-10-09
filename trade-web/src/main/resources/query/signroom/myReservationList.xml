@@ -35,7 +35,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT r.PKID as resId,r.RES_NO as resNo,r.PROPERTY_ADDRESS as propertyAddr,
+					SELECT r.PKID as resId,r.RES_NO as resNo,r.PROPERTY_ADDRESS as propertyAddr,r.SPECIAL_REQUIREMENT as specialReq,
 					(select DISTRICT_NAME from sctrans.T_RM_SIGN_ROOM_ORG_MAPPING where TRADE_CENTER_ID = r.SIGNING_CENTER_ID ORDER BY PKID OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as distinctName,rs.START_DATE as startDate,rs.END_DATE as endDate,r.RES_STATUS as resStatus,getdate() as currentDate,rs.START_DATE AS resDate FROM sctrans.T_RM_RESERVATION r
 					LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON r.PKID = rs.RES_ID
 					LEFT JOIN sctrans.T_RM_SIGN_ROOM sr ON rs.ROOM_ID = sr.PKID
@@ -62,6 +62,7 @@
 				<column type="virtual" name="actStatus" title="实际状态" referencecol="resStatus" customDict="getShowResStatusStatus" />
 				<column type="both" name="currentDate" index="" checkbox="" display="当前日期" title="当前日期" beanFormatter="dateFormatter" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="resDate"  index="" checkbox="" display="预约时间" title="预约时间" beanFormatter="dateFormatter" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="specialReq" display="特殊要求" title="特殊要求" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

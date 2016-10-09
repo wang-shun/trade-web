@@ -27,14 +27,14 @@ $(function(){
 });
 
 //取号
-function quhao(obj){
+function quhao(obj,selBespeakTime,numberOfPeople){
 	defaultTradeCenterId = $("#selTradeCenter option:selected").val();
 	selDate = $("#SelDate").val();
-	selBespeakTime = $(obj).siblings("input[name='actBespeakTime']").val();
 	
 	$("#defaultTradeCenterId").val(defaultTradeCenterId);
 	$("#inputSelDate").val(selDate);
 	$("#inputBespeakTime").val(selBespeakTime);
+	$("#inputNumberOfPeople").val(numberOfPeople);
 	
 	$("#form1").submit();
 }
@@ -277,7 +277,7 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 		                    	subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div><span class='baoman'></span>";
 		                    } 
 		                    else {
-		                    	subStrHtml += "<a href='javascript:void(0);' onClick='quhao(this);'><div class='aui-btn aui-btn-primary ml20'>取号</div></a><input type='hidden' name='actBespeakTime' value='" + selBespeakTime + "'/></div>";
+		                    	subStrHtml += "<a href='javascript:void(0);' onClick=\"quhao(this,'" + selBespeakTime + "','" + data[i].numberOfPeople + "');\"><div class='aui-btn aui-btn-primary ml20'>取号</div></a></div>";
 		                    }
 						}
 						else {

@@ -123,6 +123,9 @@ public class ReservationMobileController {
 				.getParameter("defaultTradeCenterId"));
 		String selDate = request.getParameter("inputSelDate");
 		String bespeakTime = request.getParameter("inputBespeakTime");
+		Integer numberOfPeople = Integer.parseInt(request
+				.getParameter("inputNumberOfPeople"));
+
 		List<TransactItemVo> transactItemVoList = reservationService
 				.getTransactItemList();
 
@@ -131,6 +134,7 @@ public class ReservationMobileController {
 		request.setAttribute("selDate", selDate);
 		request.setAttribute("bespeakTime", bespeakTime);
 		request.setAttribute("agentCode", sessionUser.getId());
+		request.setAttribute("numberOfPeople", numberOfPeople);
 		// request.setAttribute("agentCode",
 		// "E39F5661B6614F968F27E7BD24BA324A");
 

@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.quickQuery.service.CustomDictService;
-import com.centaline.trans.signroom.entity.ResFlowup;
 import com.centaline.trans.signroom.service.ResFlowupService;
+import com.centaline.trans.signroom.vo.ResFlowupVo;
 
 /**
  * @author yinjf2
@@ -28,13 +28,14 @@ public class QuickQueryGetFlowupInfoListServiceImpl implements
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for (Map<String, Object> key : keys) {
-			List<ResFlowup> resFlowupList = new ArrayList<ResFlowup>();
+			List<ResFlowupVo> resFlowupList = new ArrayList<ResFlowupVo>();
 
 			Object resIdObj = key.get("resId");
 			if (resIdObj != null) {
 				Long resId = Long.parseLong(resIdObj.toString());
 
 				resFlowupList = resFlowupService.getResFlowupListByResId(resId);
+
 			}
 
 			key.put("val", resFlowupList);

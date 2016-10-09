@@ -62,28 +62,32 @@
                         <div class="aui-list-item-text font12">
                             房屋地址：{{item.propertyAddr}}
                         </div>
+						{{if item.specialReq}}
+							<div class="aui-list-item-text font12">
+								备注：{{item.specialReq}}
+							</div>
+						{{/if}}
                     </div>
-                    <div class="aui-list-item-media listspace">
+                    <div class="aui-list-item-media listspace"></div>
 						{{if item.resStatus == '0'}}
-							<div class="aui-btn cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
+							<div class="aui-btn aui-center cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
 						{{/if}}
 
 						{{if item.resStatus == '1'}}
-							<div class="aui-btn trans_bg">使用中</div>
+							<div class="aui-btn aui-center trans_bg">使用中</div>
 						{{/if}}
 
 						{{if item.resStatus == '2'}}
-							<div class="aui-btn trans_bg">已使用</div>
+							<div class="aui-btn aui-center trans_bg">已使用</div>
 						{{/if}}
 
 						{{if item.resStatus == '3'}}
-							<div class="aui-btn trans_bg">已过期</div>
+							<div class="aui-btn aui-center trans_bg">已过期</div>
 						{{/if}}
 
 						{{if item.resStatus == '4'}}
-							<div class="aui-btn trans_bg red">已取消</div>
+							<div class="aui-btn aui-center trans_bg red">已取消</div>
 						{{/if}}
-                    </div>
 
 					{{if item.currentDate == item.resDate}}
 						<span class="shuxing"></span>
