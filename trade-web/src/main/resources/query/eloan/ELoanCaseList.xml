@@ -54,10 +54,12 @@
 			    ec.PKID as pkId,ec.CASE_CODE as caseCode,ec.LOAN_SRV_CODE as loanSrvCode,INFO.PROPERTY_ADDR as propertyAddress,
 			    ec.EXCUTOR_ID as excutorName,u.MOBILE as phone, ec.CUST_NAME as custName,ec.APPLY_TIME as applyTime,ec.SIGN_TIME as signTime,
 			   (select MAX(RELEASE_TIME) from sctrans.T_TO_ELOAN_REL WHERE ELOAN_CODE = ec.ELOAN_CODE)as releaseTime,ec.APPLY_AMOUNT as Applymoney
-			    ,u.REAL_NAME as REAL_NAME,ec.APPLY_CONF_TIME
+			    ,u.REAL_NAME as REAL_NAME,ec.APPLY_CONF_TIME,art.TASK_DEF_KEY_ as taskKey
 			FROM sctrans.T_TO_ELOAN_CASE ec
 			LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =  ec.CASE_CODE
 			LEFT JOIN  sctrans.sys_user u ON ec.EXCUTOR_ID=u.ID
+			LEFT JOIN sctrans.T_TO_WORKFLOW wf on ec.CASE_CODE=wf.CASE_CODE and wf.BUSINESS_KEY='EloanProcess'
+            LEFT JOIN sctrans.ACT_RU_TASK art ON wf.INST_CODE=art.proc_inst_id_
 			WHERE 1=1 
 			 and  EXISTS (select * from sctrans.T_TO_ELOAN_REL ers
 			    <if test="releaseTimeStart !='' ||releaseTimeStart !=''">
@@ -108,6 +110,8 @@
 				<column  name="Applymoney" title="申请金额"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="REAL_NAME" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 			    <column  name="APPLY_CONF_TIME" title="申请确认时间"  index="" checkbox="" customDict="" sysDict=""   beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />
+				<column  name="taskKey" title="流程状态"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			
 			</table-row>
 		</grid>
 	</query>
