@@ -41,12 +41,14 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <div id="wrapper">
         <%-- 流程相关 --%>
+        <form id="procForm" action="">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
-		<input type="hidden" id="urlType" name="source" value="${urlType}">
+		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
 		<input type="hidden" id="handle" name="handle" value="${handle }">
 		<input type="hidden" id="spvCode" name="spvCode" value="${spvCode }">
+		</form>
 		<!-- main Start -->
             <!-- main Start -->
 
@@ -131,26 +133,26 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${spvBaseInfoVO.toSpvDeDetailList }" var="toSpvDeDetail" varStatus="status1">
+                                        <c:forEach items="${deDetailMixList }" var="mix" varStatus="status1">
                                         <tr>
                                             <td>
                                                 <c:if test="${status1.count eq 1 }">
-                                                ${fn:length(spvBaseInfoVO.toSpvDeDetailList) }
+                                                ${fn:length(deDetailMixList) }
                                                 </c:if>
                                             </td>
                                             <td>
                                                 <aist:dict id="" name="" clazz="form-control input-one"
 									            display="select"  dictType="SPV_DE_COND"  
-									            ligerui='none' defaultvalue="${toSpvDeDetail.deCondCode }" ></aist:dict>
+									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict>
                                             </td>
                                             <td>
-                                                ${toSpvDeDetail.deAmount }万元
+                                                ${mix.totalDeAmount }万元
                                             </td>
                                             <td>
-                                                ${toSpvDeDetail.deAmount }万元
+                                                ${mix.sellerDeAmount }万元
                                             </td>
                                             <td>
-                                                ${toSpvDeDetail.deAmount }万元
+                                                ${mix.fundDeAmount }万元
                                             </td>
                                         </tr>
                                         </c:forEach>                                       
@@ -178,7 +180,6 @@
                                         </thead>
                                         <tbody> 
                                         <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
-                                        <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.pkId" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkId }" />
                                         <tr>
                                             <td>
                                                 <p class="big">
@@ -228,6 +229,9 @@
                                             </td>
                                         </tr>
                                         </c:forEach>
+                                        <c:if test="${empty spvChargeInfoVO.spvCaseFlowOutInfoVOList }">
+                                        <tr><td colspan="5">没有相关信息</td></tr>
+                                        </c:if>
                                         </tbody>
                                     </table>
                                 </div>
@@ -253,7 +257,6 @@
                                         </thead>
                                         <tbody id="addTr2">
                                         <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status3">
-                                        <input type="hidden" name="toSpvCashFlowApplyAttachList[${status3.index }]" value="${toSpvCashFlowApplyAttach.pkId }" />
                                         <tr>
                                             <td width="310">
                                                 <aist:dict id="" name="" clazz="form-control input-one"
@@ -268,6 +271,9 @@
                                             </td>
                                         </tr>
                                         </c:forEach>
+                                        <c:if test="${empty spvChargeInfoVO.toSpvCashFlowApplyAttachList }">
+                                        <tr><td colspan="5">没有相关信息</td></tr>
+                                        </c:if>
                                         </tbody>
                                     </table>
 

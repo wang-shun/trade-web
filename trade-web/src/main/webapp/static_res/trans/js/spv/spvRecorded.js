@@ -68,6 +68,7 @@ function saveBtnClick(){
  				    	 window.opener.location.reload(); //刷新父窗口
  			        	 window.close(); //关闭子窗口.
  				     }else{
+ 				    	 window.location.reload();
 			    	     //window.location.href="${ctx}/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
 			     }
  					 $.unblockUI();
@@ -104,7 +105,7 @@ function submitBtnClick(handle,chargeOutAppr){
 			 		  return false;
 			 	  } 
 		  }else{
-			  var refuseReason = $("#refuseReason").val();
+			  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 		   	   if(refuseReason=='' || refuseReason==null){
 		   		   alert("请在备注栏填写驳回原因！");
 		   		   return false;
@@ -119,7 +120,7 @@ function submitBtnClick(handle,chargeOutAppr){
 			 		  return false;
 			 	  } 
 		  }else{
-			  var refuseReason = $("#refuseReason").val();
+			  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 		   	   if(refuseReason=='' || refuseReason==null){
 		   		   alert("请在备注栏填写驳回原因！");
 		   		   return false;
@@ -134,7 +135,7 @@ function submitBtnClick(handle,chargeOutAppr){
 			 		  return false;
 			 	  } 
 		  }else{
-			  var refuseReason = $("#refuseReason").val();
+			  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 		   	   if(refuseReason=='' || refuseReason==null){
 		   		   alert("请在备注栏填写驳回原因！");
 		   		   return false;
@@ -150,15 +151,14 @@ function submitBtnClick(handle,chargeOutAppr){
 	  }
 	  
 	  var totalArr = [];
+	  totalArr.push({"name":"chargeOutAppr","value":chargeOutAppr});
 	  $("form").each(function(){
 		 var obj = $(this).serializeArray();
 		for(var i in obj){
      		totalArr.push(obj[i]);
 		}
 	  });
-
-	   alert(JSON.stringify(totalArr));
-
+console.log(JSON.stringify(totalArr));
 	  $.ajax({
 		url:ctx+"/spv/cashFlowOutAppr/deal",
 		method:"post",
