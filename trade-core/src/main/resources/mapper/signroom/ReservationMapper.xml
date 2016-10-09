@@ -240,8 +240,8 @@ FROM    sctrans.T_RM_RESERVATION T
 WHERE   R.START_DATE > GETDATE()
 		AND S.IS_DELETE = 0
 		AND T.RES_STATUS IN ('0','1')
-		<if test="roomNo != null" >
-			AND s.ROOM_NO = #{roomNo,jdbcType=VARCHAR}  COLLATE Chinese_PRC_CS_AI
+		<if test="pkid != null" >
+			AND s.PKID = #{pkid}
 		</if>
   </select>
   
