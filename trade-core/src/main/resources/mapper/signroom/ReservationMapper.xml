@@ -175,11 +175,6 @@
 		SELECT count(*) FROM sctrans.T_RM_SIGN_ROOM sr1
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON rs1.ROOM_ID = sr1.PKID
 		WHERE rs1.IS_DELETE = 0 AND rs1.USE_STATUS = 'N' AND sr1.ROOM_TYPE = 0  and sr1.NUMBE_OF_ACCOMMODATE_PEOPLE = sr.NUMBE_OF_ACCOMMODATE_PEOPLE AND rs1.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs1.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr1.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
-		and sr1.PKID not in (
-			SELECT DISTINCT rs2.ROOM_ID FROM sctrans.T_RM_RESERVATION r2
-			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs2 ON r2.SCHEDULE_ID = rs2.PKID
-			WHERE (r2.RES_STATUS = '1' OR (r2.RES_STATUS = '0' AND GETDATE() &lt; rs2.END_DATE)) and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
-		)
 		) as residualNumber
 		FROM sctrans.T_RM_SIGN_ROOM sr
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
@@ -199,7 +194,7 @@
 		and sr.PKID not in (
 			SELECT DISTINCT rs1.ROOM_ID FROM sctrans.T_RM_RESERVATION r1
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON r1.SCHEDULE_ID = rs1.PKID
-			WHERE (r1.RES_STATUS = '1' OR (r1.RES_STATUS = '0' AND GETDATE() &lt; rs1.END_DATE)) AND r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+			WHERE (r1.RES_STATUS = '1' OR (r1.RES_STATUS = '0' AND GETDATE() &lt; rs1.END_DATE)) AND r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT} and rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} 
 		) 
 		AND rs.CAN_RES = 1 AND rs.USE_STATUS = 'N' AND rs.IS_DELETE = 0
 		ORDER BY sr.NUMBE_OF_ACCOMMODATE_PEOPLE ASC

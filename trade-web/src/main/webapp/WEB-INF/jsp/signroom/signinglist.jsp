@@ -50,6 +50,7 @@
                         	<input type="hidden" name="resPeopleId" id="resPeopleId" value="${resPeopleId }"/>
                         	<input type="hidden" name="resTime" value="${resTime }"/>
                         	<input type="hidden" name="resStatus" value="${resStatus }"/>
+                        	<input type="hidden" name="distinctId" value="${distinctId }" />
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -308,24 +309,24 @@
                  </td>
 				 <td>
                       <p class="big">
-							{{if item.currentTime > item.endTime}}
+							{{if item.resStatus == '0'}}
+								预约中
+							{{/if}}
+
+							{{if item.resStatus == '1'}}
+								使用中
+							{{/if}}
+
+							{{if item.resStatus == '2'}}
+								已使用
+							{{/if}}
+
+							{{if item.resStatus == '3'}}
 								已过期
-							{{else}}
-								{{if item.resStatus == '0'}}
-									预约中
-								{{/if}}
+							{{/if}}
 
-								{{if item.resStatus == '4'}}
-									已取消
-								{{/if}}
-
-								{{if item.resStatus == '1'}}
-									使用中
-								{{/if}}
-
-								{{if item.resStatus == '2'}}
-									已使用
-								{{/if}}
+							{{if item.resStatus == '4'}}
+								已取消
 							{{/if}}
 					  </p>
                  </td>
