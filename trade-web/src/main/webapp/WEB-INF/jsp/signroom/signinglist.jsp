@@ -77,8 +77,8 @@
                                         预约日期
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                                        <input name="startDateTime" class="form-control data_style datatime" type="text" value="${startDateTime }" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input name="endDateTime" class="form-control data_style datatime" type="text" value="${endDateTime }" placeholder="结束日期">
+                                        <input name="startDateTime" class="form-control data_style" type="text" value="${startDateTime }" placeholder="起始日期"> <span class="input-group-addon">到</span>
+                                        <input name="endDateTime" class="form-control data_style" type="text" value="${endDateTime }" placeholder="结束日期">
                                     </div>
                                     <div class="seldata">
                                         <span id="today" class="today date-time">今</span>

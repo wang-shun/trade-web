@@ -1,3 +1,6 @@
+.ml5 {
+    margin-left: 5px;
+}
 .ml10 {
     margin-left: 10px;
 }
@@ -37,8 +40,36 @@
 .mt85rem {
     margin-top: 0.85rem;
 }
+.pt5 {
+    padding-top: 5px;
+}
+.pt10 {
+    padding-top: 10px;
+}
+.pt15 {
+    padding-top: 15px;
+}
+.pt20 {
+    padding-top: 20px;
+}
+.pb5 {
+    padding-bottom: 5px;
+}
+.pb10 {
+    padding-bottom: 10px;
+}
+.pb15 {
+    padding-bottom: 15px;
+}
+.pb20 {
+    padding-bottom: 20px;
+}
 .ptd5 {
     padding: 5px 0px;
+}
+.aui-btn-big {
+    padding: 0.4rem 5rem;
+    font-size: 0.8rem ;
 }
 .excend10 {
     min-height: 1.5rem!important;
@@ -108,7 +139,10 @@
     color: #428fcc!important;
     background: #eeeeee;
 }
-
+.form-con {
+    padding-bottom: 30px;
+    background: #fff;
+}
 /*--COLOR
 ------------------------------*/
 .blue {
@@ -291,4 +325,16 @@ select {
     top: -0.05rem;
     left: 0.2rem;
     font-size: 20px!important;
+}
+.false-login {
+    padding:  5rem 2rem 2rem;
+}
+.false-login h3 {
+    margin-bottom: 0.5rem;
+    font-size: 18px;
+    color: #b1b1b1;
+}
+.false-login p {
+    font-size: 15px;
+    color: #b1b1b1;
 }

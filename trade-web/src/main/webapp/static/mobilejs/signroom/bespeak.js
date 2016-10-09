@@ -97,7 +97,7 @@ $(function() {
     		data: {resType:'0',resPersonId:agentCode,caseCode:caseCode,propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,tradeCenterId:tradeCenterId,selDate:selDate,bespeakTime:bespeakTime},
     		success:function(data){
     			if(data.isSuccess == "true"){
-    				myOpenSuccess(data.roomNo,data.numberOfPeople,data.selDate,data.bespeakTime);
+    				myOpenSuccess(data.resNo,data.numberOfPeople,data.selDate,data.bespeakTime);
     			}
     			else {
     				myOpenFail(data.isSuccess);
@@ -111,6 +111,7 @@ $(function() {
     		layer.open({
                 type: 0,
                 title: '',
+                shadeClose: false,
                 content: '<div class="dialog-user">'+
                             '<i class="iconfont iconfont70 mt20 falsegrey">&#xe60b;</i>'
                             + '<h2 class="dialog-head mt20 font18">预约失败！</h2>'
@@ -124,6 +125,7 @@ $(function() {
     		layer.open({
                 type: 0,
                 title: '',
+                shadeClose: false,
                 content: '<div class="dialog-user">'+
                             '<i class="iconfont iconfont70 mt20 falsegrey">&#xe60b;</i>'
                             + '<h2 class="dialog-head mt20 font18">未有闲置的房间！</h2>'
@@ -135,19 +137,19 @@ $(function() {
     	}
     }
     
-    function myOpenSuccess(roomNo,numberOfPeople,selDate,bespeakTime){
+    function myOpenSuccess(resNo,numberOfPeople,selDate,bespeakTime){
         layer.open({
             type: 0,
             title: '',
+            shadeClose: false,
             content: '<div class="dialog-user">'+
                         '<i class="iconfont iconfont70 mt20 cyan">&#xe606;</i>'
                         + '<h2 class="dialog-head mt20 font18">恭喜你预约成功</h2>'
                         + '<div class="dialog-info">'
-                        + '<p class="font14 mt20">房间号<span class="yellow font18">' + roomNo + '</span>（最大容纳' + numberOfPeople + '人）</p>'
+                        + '<p class="font14 mt20">预约编号<span class="yellow font18">' + resNo + '</span>（最大容纳' + numberOfPeople + '人）</p>'
                         + '<p class="mt5 font12">时间：' + selDate + '&nbsp;&nbsp;' + bespeakTime + '</p></div>'
                         + '<div class="btn-box mt20">'
-                        + '<a href="' + ctx + '/weixin/signroom/myReservationList"><div class="aui-btn aui-btn-primary aui-margin-r-10">我的预约</div></a>'
-                        + '<a href="' + ctx + '/weixin/signroom/list"><div class="aui-btn aui-btn-grey aui-margin-l-10">继续预约</div></a>'
+                        + '<a href="' + ctx + '/weixin/signroom/myReservationList"><div class="aui-btn aui-btn-primary aui-btn-big">确定</div></a>'
                         + '</div>'
         });
     };

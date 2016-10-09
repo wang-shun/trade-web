@@ -180,10 +180,18 @@ public class SignRoomController {
 	public AjaxResponse<T> deleteSignRoom(Model model,HttpServletRequest requst,RmSignRoom rmSignRoom){
 		AjaxResponse<T> response = new AjaxResponse<T>();
 		try{
-			rmSignRoomService.deleteSignRoom(rmSignRoom);
-			response.setCode("400");
-			response.setMessage("删除成功！");
-			response.setSuccess(true);
+			
+			boolean isCanDel = rmSignRoomService.isCanDelSignRoom(rmSignRoom);
+			if(isCanDel){
+				response.setCode("500");
+				response.setMessage("该签约室存在预约信息，不能删除！");
+				response.setSuccess(false);
+			}else{
+				rmSignRoomService.deleteSignRoom(rmSignRoom);
+				response.setCode("400");
+				response.setMessage("删除成功！");
+				response.setSuccess(true);
+			}
 		}catch(Exception e){
 			response.setCode("500");
 			response.setMessage("删除失败！");

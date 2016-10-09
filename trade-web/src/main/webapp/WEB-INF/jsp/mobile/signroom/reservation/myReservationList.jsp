@@ -16,12 +16,9 @@
 	<input type="hidden" id="ctx" value="${ctx }"/>
 	<input type="hidden" id="agentCode" value="${agentCode }"/>
     <header class="aui-bar aui-bar-nav">
-        <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
-            <span class="aui-iconfont aui-icon-left"></span>
-        </a>
         <div class="aui-title">我的预约</div>
         <a class="aui-pull-right aui-btn " href="${ctx }/weixin/signroom/list">
-	        <span class="aui-iconfont aui-icon-home"></span>
+	        <span class="aui-iconfont aui-icon-plus"></span>
 	    </a>
     </header>
     <article class="aui-content">
