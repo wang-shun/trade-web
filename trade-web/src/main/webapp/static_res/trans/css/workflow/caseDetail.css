@@ -176,7 +176,7 @@
 }
 
 .modal-content {
-  width: 500px;
+  width: 820px;
 }
 
 .text-left {
@@ -188,9 +188,9 @@
   margin-right: 0px !important;
 }
 
-/* .modal-content {
-  width: 1000px !important;
-} */
+.modal-content {
+  width: 580px !important;
+}
 
 .min-h215 {
   min-height: 215px;
