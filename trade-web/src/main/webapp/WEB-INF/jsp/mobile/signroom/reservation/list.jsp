@@ -17,7 +17,7 @@
 </head>
 <body>
 
-	<form id="form1" action="${ctx }/mobile/reservation/bespeakUI" method="post">
+	<form id="form1" action="${ctx }/weixin/signroom/bespeakUI" method="post">
 		<input type="hidden" id="defaultTradeCenterId" name="defaultTradeCenterId" value="${defaultTradeCenterId }"/>
 		<input type="hidden" id="inputSelDate" name="inputSelDate"/>
 		<input type="hidden" id="inputBespeakTime" name="inputBespeakTime"/>
@@ -63,7 +63,7 @@
     </section>
 </body>
 
-<script type="text/javascript" src="${ctx}/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-2.1.1.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/api.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-dialog.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-main.js"></script>

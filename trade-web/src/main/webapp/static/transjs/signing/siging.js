@@ -121,7 +121,7 @@ $(function () {
 				async:false,
 				type:"POST",
 				dataType:"text",
-				url:ctx+"/mobile/reservation/getCaseCodeByPropertyAddr",
+				url:ctx+"/weixin/signroom/getCaseCodeByPropertyAddr",
 				data: {propertyAddress:propertyAddress},
 				success:function(data){
 					$("#caseCode").val(data);
@@ -174,7 +174,7 @@ function signRoomSelectUserBack(array) {
 					async:false,
 					type:"POST",
 					dataType:"json",
-					url: ctx + "/mobile/reservation/getPropertyAddressList",
+					url: ctx + "/weixin/signroom/getPropertyAddressList",
 					data: {inputValue: $("#propertyAddress").val(),agentCode : agentCode},
 					success:function(data){
 						if(data.length > 0){

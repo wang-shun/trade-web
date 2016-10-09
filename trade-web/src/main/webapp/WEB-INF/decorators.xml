@@ -13,7 +13,7 @@
 		<pattern>/index.jsp</pattern>
 		<pattern>/mobile/case/box/*</pattern>
 		<pattern>/mobile/dashboard/box/*</pattern>
-		<pattern>/mobile/reservation/*</pattern>
+		<pattern>/weixin/signroom/*</pattern>
 	</excludes>
 
 	<decorator name="default" page="INSPINIA_template.jsp">
@@ -90,5 +90,8 @@
 	</decorator>
 	<decorator name="wechat"  page="w_INSPINIA_template.jsp">
 		<pattern>/mobile/property/box/*</pattern>
+	</decorator>
+	<decorator name="weixin"  page="w_INSPINIA_template.jsp">
+		<pattern>/weixin/*</pattern>
 	</decorator>
 </decorators>

@@ -356,7 +356,7 @@ function getResTime(){
 		async:false,
 		type:"POST",
 		dataType:"json",
-		url:ctx+"/mobile/reservation/getBespeakTime",
+		url:ctx+"/weixin/signroom/getBespeakTime",
 		success:function(data){
 			if(data.length > 0){
 				for(var i=0;i<data.length;i++){

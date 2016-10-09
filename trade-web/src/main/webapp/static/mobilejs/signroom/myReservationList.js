@@ -67,11 +67,11 @@ function cancelReservation(resId){
 		async:false,
 		type:"POST",
 		dataType:"text",
-		url:ctx+"/mobile/reservation/cancelReservation",
+		url:ctx+"/weixin/signroom/cancelReservation",
 		data:{resId:resId},
 		success:function(data){
 			if(data == "true"){
-				window.location.href = ctx + "/mobile/reservation/myReservationList";
+				window.location.href = ctx + "/weixin/signroom/myReservationList";
 			}
 		}
 	});

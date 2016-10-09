@@ -294,7 +294,7 @@
 					<div class="form_sign col-sm-12 clearfix" id="notApproves"
 						style="display: none">
 						<c:forEach items="${notApproves}" var="notApprove">
-							<div class="col-sm-6 sign">
+							<div class="col-sm-6">
 								<input type="checkbox" value="${notApprove.code}"
 									name="notApprove" class="btn btn-white"
 									onClick="appendNotApprove(this.checked,'${notApprove.name}');">

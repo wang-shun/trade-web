@@ -41,7 +41,7 @@ import com.centaline.trans.utils.DateUtil;
  *
  */
 @Controller
-@RequestMapping(value = "mobile/reservation")
+@RequestMapping(value = "weixin/signroom")
 public class ReservationMobileController {
 
 	@Autowired

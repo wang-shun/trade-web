@@ -252,12 +252,10 @@
 									<span class="danwei">万</span>
 								</div>
 							</div>
-							<div class="form_content input-daterange"
-								data-date-format="yyyy-mm-dd">
+							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i
 									class="red">* </i> 申请时间
-								</label> <input class="input_type sign_right_two"
-									value="<fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" />"
+								</label> <input class="input_type sign_right_two" value="<fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" />"
 									name="applyTime" id="applyTime" />
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
@@ -306,7 +304,7 @@
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 转介人员工编号 </label> <input
-									class="input_type sign_right_two" disabled="disabled"
+									class="input_type sign_right_two" readonly="readonly"
 									value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
 							</div>
 
@@ -328,11 +326,11 @@
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 产品部员工编号 </label> <input
 									class="input_type  sign_right_two" value="${eloanCase.pdCode}"
-									disabled="disabled" name="pdCode" id="pdCode">
+									readonly="readonly" name="pdCode" id="pdCode">
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 产品部分成比例 </label> <input
-									class="input_type sign_right_two" value="${eloanCase.pdPart}"
+									class="input_type sign_right_two" value="${eloanCase.pdPart == null?10:eloanCase.pdPart}"
 									disabled="disabled" name="pdPart" id="pdPart">
 								<div class="input-group date_icon">
 									<span class="danwei">%</span>
@@ -463,9 +461,9 @@
 							} else {
 								$("#eContent").attr("disabled", true);
 							}
-
+							
+							//显示手续费
 							function showAndHide(loanSrvCode, finOrgCode, month) {
-
 								if (loanSrvCode == "30004014"
 										&& finOrgCode == "W0003" && month != ""
 										&& month <= 12) {
@@ -477,46 +475,35 @@
 									$("#divCharge").hide();
 								}
 							}
-
-							$("#loanSrvCode").click(
-									function() {
+							//产品类型 选择
+							$("#loanSrvCode").click(function() {
 										var value = this.value;
 										var finOrgCode = $(
-												"#finOrgCode option:selected")
-												.val();
+												"#finOrgCode option:selected").val();
 										var month = $("#month").val();
 
 										showAndHide(value, finOrgCode, month);
-
 									});
 
 							$("#month").blur(
 									function() {
-										var loanSrvCode = $(
-												"#loanSrvCode option:selected")
-												.val();
-										var finOrgCode = $(
-												"#finOrgCode option:selected")
-												.val();
+										var loanSrvCode = $("#loanSrvCode option:selected").val();
+										var finOrgCode = $("#finOrgCode option:selected").val();
 										var month = this.value;
-
 										showAndHide(loanSrvCode, finOrgCode,
 												month);
 									});
-
-							$("#finOrgCode").change(
-									function() {
-										var loanSrvCode = $(
-												"#loanSrvCode option:selected")
-												.val();
+							
+							//贷款机构选择变化时 ，产品部分成比例变化
+							$("#finOrgCode").change(function() {
+										var loanSrvCode = $("#loanSrvCode option:selected").val();
 										var value = this.value;
 										var month = $("#month").val();
 
 										showAndHide(loanSrvCode, value, month);
 									});
 
-							$("#chargeAmount").blur(
-									function() {
+							$("#chargeAmount").blur(function() {
 										var value = $.trim(this.value);
 										var applyAmount = $.trim($(
 												"#applyAmount").val());
@@ -686,78 +673,23 @@
 							});
 
 							// 关联案件
-							$('.eloanApply-table')
-									.on(
-											"click",
-											'.linkCase',
-											function() {
+							$('.eloanApply-table').on("click",'.linkCase',function() {
 												//
 												var index = $(this).attr("id");
-												$("#content_caseCode")
-														.html(
-																$(
-																		"#modal_caseCode"
-																				+ index)
-																		.html());
-												$("#caseCode")
-														.val(
-																$(
-																		"#modal_caseCode"
-																				+ index)
-																		.html());
-												$("#content_propertyAddr")
-														.html(
-																$(
-																		"#modal_propertyAddr"
-																				+ index)
-																		.html());
-												$("#content_processorId")
-														.html(
-																$(
-																		"#modal_processorId"
-																				+ index)
-																		.html());
-												$("#content_buyer")
-														.html(
-																$(
-																		"#modal_buyer"
-																				+ index)
-																		.html());
-												$("#content_agentName")
-														.html(
-																$(
-																		"#modal_agentName"
-																				+ index)
-																		.html());
-												$("#content_seller")
-														.html(
-																$(
-																		"#modal_seller"
-																				+ index)
-																		.html());
-												$("#content_agentName")
-														.html(
-																$(
-																		"#modal_agentName"
-																				+ index)
-																		.html());
-												$("#zjName")
-														.val(
-																$(
-																		"#modal_agentName"
-																				+ index)
-																		.html());
-												$("#zjCode")
-														.val(
-																$(
-																		"#modal_employeeCode"
-																				+ index)
-																		.val());
+												$("#content_caseCode").html($("#modal_caseCode" + index).html());
+												$("#caseCode").val($("#modal_caseCode"+ index).html());
+												$("#content_propertyAddr").html($("#modal_propertyAddr"+ index).html());
+												$("#content_processorId").html($("#modal_processorId"+ index).html());
+												$("#content_buyer").html($("#modal_buyer"+ index).html());
+												$("#content_agentName").html($("#modal_agentName"+ index).html());
+												$("#content_seller").html($("#modal_seller"+ index).html());
+												$("#content_agentName").html($("#modal_agentName"+ index).html());
+												$("#zjName").val($("#modal_agentName"+ index).html());
+												$("#zjCode").val($("#modal_employeeCode"+ index).val());
 												$('.case_content').show();
 												$('#myModal').modal('hide');
 
-												getCustomerNameAndTel($(
-														"#caseCode").val());
+												getCustomerNameAndTel($("#caseCode").val());
 											});
 
 						});
@@ -953,7 +885,12 @@
 		}
 
 		function saveEloanApply() {
+			//alert($("#zjCode").val());
+			//alert($("#pdCode").val());
+			
 			var jsonData = $("#eloanApplyForm").serializeArray();
+			console.log("===Result==="+JSON.stringify(jsonData));
+			//return;
 			var url = "${ctx}/eloan/saveEloanApply";
 			$.ajax({
 				cache : false,

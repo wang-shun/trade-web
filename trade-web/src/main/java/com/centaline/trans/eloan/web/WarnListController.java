@@ -272,6 +272,9 @@ public class WarnListController {
 			model.addAttribute("eloanRelList", eloanRels);
 			model.addAttribute("eloanCase", eloanCase);
 			model.addAttribute("pkId", pkid);
+			
+			SessionUser user = uamSessionService.getSessionUser();
+			model.addAttribute("userName", user.getRealName());
 		}
 		
 		if("update".equals(action)){
@@ -901,11 +904,23 @@ public class WarnListController {
 	private boolean getApproveRecordForItem(ToApproveRecord toApproveRecord,HttpServletRequest request) {
 		boolean flag = false;
 		//E+ 申请查询审核结果		
-		ToApproveRecord toApproveRecord2=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecord);	
+		if(toApproveRecord != null){
+			//为空，则为新增E+申请 不显示审核意见
+			if(toApproveRecord.getProcessInstance() == null){
+				request.setAttribute("toApproveRecord", null);
+			}else{
+				ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecord);
+				if(toApproveRecord2 != null){
+					flag=true;
+					request.setAttribute("toApproveRecord", toApproveRecord2);
+				}
+			}
+		}
+/*		ToApproveRecord toApproveRecord2=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecord);	
 		if(toApproveRecord != null){
 			flag=true;
 			request.setAttribute("toApproveRecord", toApproveRecord2);
-		}		
+		}	*/	
 		
 		return flag;
 	}

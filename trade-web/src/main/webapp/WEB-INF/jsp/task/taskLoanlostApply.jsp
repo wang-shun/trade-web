@@ -169,7 +169,7 @@
 							style="display: block">
 							<c:forEach items="${loanLostApplyReasons}"
 								var="loanLostApplyReasonForShow">
-								<div class="col-sm-6 sign">
+								<div class="col-sm-6 ">
 									<input type="checkbox"
 										value="${loanLostApplyReasonForShow.name}"
 										id="loanLostApplyReasonShow" name="loanLostApplyReasonShow"
