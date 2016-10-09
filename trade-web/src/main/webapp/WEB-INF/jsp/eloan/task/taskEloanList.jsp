@@ -207,7 +207,7 @@
                                       <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">查看</a></li>
                                       <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=update">修改</a></li>
                                       <shiro:hasPermission name="TRADE.ELONE.DELETE">
-                                       {{if item.APPLY_CONF_TIME ==undefined}}
+                                       {{if item.taskKey =='EloanApply'}}
                                       <li><a id="link_btn" onclick="deleteItem({{item.pkId}})">删除</a></li>{{/if}}
                                       </shiro:hasPermission>
                                </ul>
