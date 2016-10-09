@@ -331,7 +331,7 @@
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 产品部分成比例 </label> <input
 									class="input_type sign_right_two" value="${eloanCase.pdPart == null?10:eloanCase.pdPart}"
-									disabled="disabled" name="pdPart" id="pdPart">
+									readonly="readonly" name="pdPart" id="pdPart">
 								<div class="input-group date_icon">
 									<span class="danwei">%</span>
 								</div>
@@ -839,11 +839,11 @@
 		根据银行选择产品分成比例
 		 */
 		$("#finOrgCode").change(function() {
+			//安家贷分成比例为20%    其他的全部为10%
 			var finOrgCode = $("#finOrgCode").val();
 			if (finOrgCode == "W0001") {
 				$("#pdPart").val(20);
-
-			} else if (finOrgCode == "W0003" || finOrgCode == "W0004") {
+			} else{        // if (finOrgCode == "W0003" || finOrgCode == "W0004") {
 				$("#pdPart").val(10);
 			}
 		})
@@ -886,11 +886,9 @@
 
 		function saveEloanApply() {
 			//alert($("#zjCode").val());
-			//alert($("#pdCode").val());
-			
+			//alert($("#pdPart").val());			
 			var jsonData = $("#eloanApplyForm").serializeArray();
-			console.log("===Result==="+JSON.stringify(jsonData));
-			//return;
+			console.log("===Result==="+JSON.stringify(jsonData));			
 			var url = "${ctx}/eloan/saveEloanApply";
 			$.ajax({
 				cache : false,
