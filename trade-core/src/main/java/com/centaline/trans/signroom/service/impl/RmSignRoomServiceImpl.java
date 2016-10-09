@@ -323,6 +323,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		if (reservationInfoVo != null) {
 			reservation.setResNo(resNo);
 			reservation.setResType(reservationInfoVo.getResType());
+			reservation.setCheckInTime(Calendar.getInstance().getTime());
 			reservation.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
 			reservation.setResPersonId(reservationInfoVo.getResPersonId());
 			reservation.setResStatus(reservationInfoVo.getResStatus());
@@ -332,6 +333,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			reservation.setSigningCenter(reservationInfoVo.getSigningCenter());
 			reservation.setSigningCenterId(reservationInfoVo.getSigningCenterId());
 			reservation.setNumberOfParticipants(reservationInfoVo.getNumberOfParticipants());
+			reservation.setNumberOfPeople(reservationInfoVo.getNumberOfPeople());
 			reservation.setTransactItemCode(reservationInfoVo.getTransactItemCode());
 			reservation.setCreateTime(Calendar.getInstance().getTime());
 			reservation.setCreateBy(currentUser.getId());

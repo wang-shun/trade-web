@@ -40,7 +40,7 @@
         RES_TYPE,
       </if>
       <if test="checkInTime != null" >
-        "CHECK IN_TIME",
+        CHECK_IN_TIME,
       </if>
       <if test="checkedOutTime != null" >
         CHECKED_OUT_TIME,
@@ -175,6 +175,11 @@
 		SELECT count(*) FROM sctrans.T_RM_SIGN_ROOM sr1
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON rs1.ROOM_ID = sr1.PKID
 		WHERE rs1.IS_DELETE = 0 AND rs1.USE_STATUS = 'N' AND sr1.ROOM_TYPE = 0  and sr1.NUMBE_OF_ACCOMMODATE_PEOPLE = sr.NUMBE_OF_ACCOMMODATE_PEOPLE AND rs1.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs1.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr1.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+			and sr1.PKID not in (
+			SELECT DISTINCT rs2.ROOM_ID FROM sctrans.T_RM_RESERVATION r2
+			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs2 ON r2.SCHEDULE_ID = rs2.PKID
+			WHERE (r2.RES_STATUS = '1' OR (r2.RES_STATUS = '0' AND GETDATE() &lt; rs2.END_DATE)) and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+		)
 		) as residualNumber
 		FROM sctrans.T_RM_SIGN_ROOM sr
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
