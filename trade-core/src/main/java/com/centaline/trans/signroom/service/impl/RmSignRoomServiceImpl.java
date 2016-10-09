@@ -104,6 +104,10 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 					rrs = new ArrayList<RmRoomSchedule>();
 					for (RmRoomSchedule rmRoomSchedule : rmRoomSchedules) {
 						Long startTime = rmRoomSchedule.getStartDate().getTime();//该时间段的开始时间
+						Long createTime = null;
+						if(rmRoomSchedule.getCreateTime()!=null){
+							createTime = rmRoomSchedule.getCreateTime().getTime();//真实预约时间
+						}
 						Long curTime = new Date().getTime();//当前时间
 						Long endTime = rmRoomSchedule.getEndDate().getTime();//该时间段的结束时间
 						if (signRoom.getPkid().equals(rmRoomSchedule.getRoomId())) {
@@ -120,13 +124,23 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 										rmRoomSchedule.setUseStatus("1");//使用中
 									}
 								}else{//未签到的话就判断是否已超出时间段开始时间半个小时
-									
-									Long second = (curTime-startTime)/1000/60;//取得两者时间查转成分钟
-									if(second>30){//超过三十分钟的话状态就为空置
-										rmRoomSchedule.setUseStatus("N");
+									Long second = null;
+									if(createTime!=null && (createTime>startTime)){
+										second = (curTime-createTime)/1000/60;//取得两者时间查转成分钟
+										if(second>30){//超过三十分钟的话状态就为空置
+											rmRoomSchedule.setUseStatus("N");
+										}else{
+											rmRoomSchedule.setUseStatus("0");
+										}
 									}else{
-										rmRoomSchedule.setUseStatus("0");
+										second = (curTime-startTime)/1000/60;//取得两者时间查转成分钟
+										if(second>30){//超过三十分钟的话状态就为空置
+											rmRoomSchedule.setUseStatus("N");
+										}else{
+											rmRoomSchedule.setUseStatus("0");
+										}
 									}
+									
 								}
 							}
 							if("N".equals(rmRoomSchedule.getUseStatus())){//当空置状态在判断当前时间与结束时间段比较小于结束时间页面不置灰，大于结束页面置灰，其他情况页面都置灰
