@@ -232,4 +232,17 @@
   		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = '2',CHECKED_OUT_TIME = GETDATE(),UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=BIGINT};
   </update>
   
+  <select id="getReservationNotCancleCount"  resultType="java.lang.Integer" parameterType="com.centaline.trans.signroom.entity.RmSignRoom">
+    SELECT  COUNT(1)
+FROM    sctrans.T_RM_RESERVATION T
+        INNER JOIN sctrans.T_RM_ROOM_SCHEDULE R ON R.PKID = T.SCHEDULE_ID
+        INNER JOIN sctrans.T_RM_SIGN_ROOM S ON S.PKID = R.ROOM_ID
+WHERE   R.START_DATE > GETDATE()
+		AND S.IS_DELETE = 0
+		AND T.RES_STATUS IN ('0','1')
+		<if test="roomNo != null" >
+			AND s.ROOM_NO = #{roomNo,jdbcType=VARCHAR}  COLLATE Chinese_PRC_CS_AI
+		</if>
+  </select>
+  
 </mapper>

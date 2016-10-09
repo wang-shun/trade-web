@@ -369,4 +369,13 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		return false;
 	}
 
+	@Override
+	public boolean isCanDelSignRoom(RmSignRoom rmSignRoom) {
+		int num = reservationMapper.getReservationNotCancleCount(rmSignRoom);
+		if(num>0){
+			return true;
+		}
+		return false;
+	}
+
 }
