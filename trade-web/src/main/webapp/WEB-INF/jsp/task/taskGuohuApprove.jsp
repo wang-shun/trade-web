@@ -303,13 +303,13 @@
 						</c:forEach>
 						
 						<c:if test="${not empty users }">	
-						<div class="col-sm-6 sign">&nbsp;</div>
-						<div class="col-sm-6 sign">&nbsp;</div>
-                        <div class="col-sm-6 sign">&nbsp;</div>
-						<div class="col-sm-6 sign">分配人员：</div>
-						<div class="col-sm-6 sign">&nbsp;</div>
+						<div class="col-sm-6">&nbsp;</div>
+						<div class="col-sm-6">&nbsp;</div>
+                        <div class="col-sm-6">&nbsp;</div>
+						<div class="col-sm-6">分配人员：</div>
+						<div class="col-sm-6">&nbsp;</div>
 						<c:forEach items="${users}" var="user" varStatus="var">
-							<div class="col-sm-6 sign">
+							<div class="col-sm-6">
 								<input type="checkbox" value="${user.username }"
 									name="members" class="btn btn-white" >                                                                                                                                                                                                                                                                               
 								<label>${user.realName}(${var.index eq 0 ? '前台':'后台' })</label>
