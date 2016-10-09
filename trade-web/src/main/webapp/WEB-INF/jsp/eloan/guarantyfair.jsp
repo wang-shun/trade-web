@@ -419,7 +419,6 @@
         	 });
         	 
              $(".close_btn").click(function(){
-         		    window.close();
 					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
           		})
 	    });

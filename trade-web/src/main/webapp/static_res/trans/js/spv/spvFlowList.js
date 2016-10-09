@@ -44,7 +44,7 @@
 						})
 						function show(pkid){
 							var hide=$("#cashFlow"+pkid).css("display");
-							$("#cashFlow"+pkid).slideToggle("slow");
+							$("#cashFlow"+pkid).slideToggle("fast");
 							$("#caozuo"+pkid).html(hide=="none"?"收起":"展开");
 							if(hide!="none")return;
 							$.ajax({
