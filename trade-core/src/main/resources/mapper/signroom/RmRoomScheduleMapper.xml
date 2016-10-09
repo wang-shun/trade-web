@@ -15,6 +15,9 @@
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
     <result column="timeSlot" property="timeSlot" jdbcType="VARCHAR" />
+	<result column="resStatus" property="resStatus" jdbcType="VARCHAR" />
+    <result column="checkInTime" property="checkInTime" jdbcType="TIMESTAMP" />
+    <result column="checkOutTime" property="checkOutTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -57,14 +60,23 @@ ORDER BY t.START_DATE ASC
   		UPDATE sctrans.T_RM_ROOM_SCHEDULE SET USE_STATUS = 'N',CAN_RES = 1,UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} WHERE PKID = #{scheduleId,jdbcType=VARCHAR}
   </update>
    <select id="getRmRoomScheduleByPkid" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-		SELECT  T.PKID,T.ROOM_ID,T.USE_STATUS
-		FROM    sctrans.T_RM_ROOM_SCHEDULE T
-		WHERE   
-		T.IS_DELETE = '0'
+		SELECT  T.PKID,
+			        T.ROOM_ID,
+					T.START_DATE,
+					T.END_DATE,
+			        SUBSTRING(CONVERT(VARCHAR(100), T.START_DATE, 24), 1, 5) + '-'
+			        + SUBSTRING(CONVERT(VARCHAR(100), T.END_DATE, 24), 1, 5) AS timeSlot ,
+			        T.USE_STATUS,
+			        R.RES_STATUS AS resStatus,
+					R.CHECK_IN_TIME AS checkInTime,
+					R.CHECKED_OUT_TIME AS checkOutTime,
+					R.CREATE_TIME AS CREATE_TIME
+			FROM    sctrans.T_RM_ROOM_SCHEDULE T
+			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
+			WHERE   T.IS_DELETE = '0'
 		<if test="_parameter != null">
 			AND	 T.PKID = #{_parameter}
 		</if>
-		
   </select>
  
 

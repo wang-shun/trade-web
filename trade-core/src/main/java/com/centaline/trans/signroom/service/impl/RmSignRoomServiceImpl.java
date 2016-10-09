@@ -375,14 +375,44 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	@Override
 	public boolean isUsedByRmRoomSchedule(ReservationInfoVo reservationInfoVo) {
 		RmRoomSchedule rmRoomSchedule = rmRoomScheduleMapper.getRmRoomScheduleByPkid(Long.valueOf(reservationInfoVo.getScheduleId()));
-		if(rmRoomSchedule!=null){
-			if("Y".equals(rmRoomSchedule.getUseStatus().trim())){//说明该时段排期已被预约
-				return false;
-			}else{
-				return true;
+		
+		Long startTime = rmRoomSchedule.getStartDate().getTime();//该时间段的开始时间
+		Long createTime = null;
+		if(rmRoomSchedule.getCreateTime()!=null){
+			createTime = rmRoomSchedule.getCreateTime().getTime();//真实预约时间
+		}
+		Long curTime = new Date().getTime();//当前时间
+		if(rmRoomSchedule.getResStatus()==null){
+			return true;
+		}else if(rmRoomSchedule.getResStatus()!=null && "4".equals(rmRoomSchedule.getResStatus().trim())){//预约已取消状态为空置
+			return true;
+		}else{
+			if(rmRoomSchedule.getCheckInTime()!=null){//是否已签到
+				if(rmRoomSchedule.getCheckOutTime()!=null){//是否已签退
+					return true;
+				}else{
+					return false;//使用中
+				}
+			}else{//未签到的话就判断是否已超出时间段开始时间半个小时
+				Long second = null;
+				if(createTime!=null && (createTime>startTime)){
+					second = (curTime-createTime)/1000/60;//取得两者时间查转成分钟
+					if(second>30){//超过三十分钟的话状态就为空置
+						return true;
+					}else{
+						return false;//预约中
+					}
+				}else{
+					second = (curTime-startTime)/1000/60;//取得两者时间查转成分钟
+					if(second>30){//超过三十分钟的话状态就为空置
+						return true;
+					}else{
+						rmRoomSchedule.setUseStatus("0");
+						return false;//预约中
+					}
+				}
 			}
 		}
-		return false;
 	}
 
 	@Override
