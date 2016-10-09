@@ -46,6 +46,7 @@ public class ReservationServiceImpl implements ReservationService {
 			Long resId = reservation.getPkid(); // 预约单id
 
 			freeRoomInfo = getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
+			freeRoomInfo.setResNo(reservation.getResNo());
 
 			FreeRoomVo freeRoomVo = new FreeRoomVo();
 			freeRoomVo.setResId(resId);

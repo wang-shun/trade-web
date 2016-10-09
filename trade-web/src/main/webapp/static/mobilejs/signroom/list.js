@@ -79,6 +79,8 @@ function initCalendar(){
         headerText: function (valueText) { array = valueText.split('-'); return array[0] + "年" + array[1] + "月"+array[2]+"日"; }, //自定义弹出框头部格式
 		//点击确定的事件
 		onSelect:function(valueText,inst){
+			getBespeakTime();
+			
 			defaultTradeCenterId = $("#selTradeCenter option:selected").val();
 			selDate = valueText;
 			selBespeakTime = $("#selBespeakTime option:selected").val();
@@ -150,6 +152,7 @@ function getTradeCenterList(){
 }
 
 function getBespeakTime(){
+	var selDate = $("#SelDate").val();
 	var strHtml = "<option value=''>预约时间</option>";
 	
 	$.ajax({
@@ -160,8 +163,16 @@ function getBespeakTime(){
 		url:ctx+"/weixin/signroom/getBespeakTime",
 		success:function(data){
 			if(data.length > 0){
+				var currentDateTime = new Date()
+				
 				for(var i=0;i<data.length;i++){
-					strHtml += "<option value='"+ data[i] + "'>" + data[i] + "</option>";
+					var resTime = data[i];
+					var resStartTime = selDate + " " + resTime.substring(0,resTime.indexOf("-"));
+					var resStartDateTime = new Date(resStartTime);
+					
+					if(currentDateTime <= resStartDateTime){
+						strHtml += "<option value='"+ data[i] + "'>" + data[i] + "</option>";
+					}
 				}
 			}
 		}
@@ -182,8 +193,16 @@ function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 		success:function(data){
 			if(data.length > 0){
 				if(selBespeakTime == ""){
+					var currentDateTime = new Date()
+					
 					for(var i=0;i<data.length;i++){
-						strHtml += getSignRoomByTime(defaultTradeCenterId,selDate,data[i]);
+						var resTime = data[i];
+						var resStartTime = selDate + " " + resTime.substring(0,resTime.indexOf("-"));
+						var resStartDateTime = new Date(resStartTime);
+						
+						if(currentDateTime <= resStartDateTime){
+							strHtml += getSignRoomByTime(defaultTradeCenterId,selDate,data[i]);
+						}
 					}
 				}
 				else {
