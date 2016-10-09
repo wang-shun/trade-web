@@ -197,7 +197,7 @@
                                             <td>
                                                 <p class="big">
                                                     <span class="sign_normal navy_bg">
-                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlow.usage eq in?'入账':'出账' }
+                                                    ${spvChargeInfoVO.toSpvCashFlowApply.usage eq in?'入账':'出账' }
                                                     </span>
                                                 </p>
                                                 <p class="big">

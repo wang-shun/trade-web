@@ -260,9 +260,12 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
     	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv == null?null:toSpv.getPkid());
     	if(spvChargeInfoVO != null){       	
-    		String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
-        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
-        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
+    		String applyAuditor = spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor();
+    		String applyAuditorName = applyAuditor == null?null:uamSessionService.getSessionUserById(applyAuditor).getRealName();
+    		String ftPreAuditor = spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor();
+        	String ftPreAuditorName = ftPreAuditor == null?null:uamSessionService.getSessionUserById(ftPreAuditor).getRealName();
+    		String ftPostAuditor = spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor();
+        	String ftPostAuditorName = ftPostAuditor == null?null:uamSessionService.getSessionUserById(ftPostAuditor).getRealName();
         	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
         	divideTenThousand(spvChargeInfoVO);
         	List<ToSpvAduit> toSpvAduitList = spvChargeInfoVO.getToSpvAduitList();
