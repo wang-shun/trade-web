@@ -78,7 +78,7 @@ public interface CashFlowOutService {
 	/**
 	 * 通过申请ID查询附件信息
 	 */
-	List<ToSpvCashFlowApplyAttach> quereyAttachmentsByCashFolwApplyId(String cashFolwApplyId);
+	List<ToSpvCashFlowApplyAttach> quereyAttachmentsByCashFlowApplyCode(String cashFlowApplyCode);
 
 	/**
 	 * 修改(添加、删除)出账申请附件

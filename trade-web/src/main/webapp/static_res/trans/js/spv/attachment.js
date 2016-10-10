@@ -93,8 +93,8 @@ function getExplPicByhouseCode() {
 		dataType : 'json',
 		url : ctx+'/spv/quereyCashFolwApplyAttachments',
 		data : [ {
-			name : 'cashFolwApplyId',
-			value : $("input[name='toSpvCashFlowApply.pkId']").val()
+			name : 'cashFlowApplyCode',
+			value : $("#businessKey").val()
 		}],
 		dataType : "json",
 		success : function(attachList) {
@@ -108,7 +108,7 @@ function getExplPicByhouseCode() {
 				trStr+="<div id='picContainers"+attach.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
 				trStr+="<div class=\"preview span12\">";
 				trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+attach.pkid+"\" />";
-				trStr+="<img src='"+appCtx['shcl-image-web'] +"/image/"+attach.attachId+"/80_80_f.jpg' alt=''>";
+				trStr+="<img src='"+appCtx['shcl-image-web'] +"/image/"+attach.attachId+"/80_80_f.jpg' alt='地方'>";
 				trStr+="</div>";
 				trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
 				trStr+="<button onclick=\"romoveDiv('picContainers',"+attach.pkid+");\" class=\"btn red\""; 
@@ -128,7 +128,6 @@ function getExplPicByhouseCode() {
 }
 //添加图片在原来实勘上
 function subAddFrom() {
-	debugger;
 	//获取上传成功的图片的信息，包括ID，类型
 	if(getUploadPicOkInfo()){
 		return;
@@ -147,8 +146,8 @@ function subAddFrom() {
 			name : 'pictureNo',
 			value : picIdArr
 		},{
-			name : 'cashFlowApplyId',
-			value : $("input[name='toSpvCashFlowApply.pkId']").val(),
+			name : 'cashFlowApplyCode',
+			value : $("#businessKey").val(),
 		}
 		/*, {
 			name : 'framePart',
@@ -183,7 +182,6 @@ function subAddFrom() {
 
 //修改图片在原来实勘上
 function subUpdFrom() {
-	debugger;
 	if(pkIdArr==''){
 		alert("请选择一张要修改的照片！！！");
     	return;
@@ -203,8 +201,8 @@ function subUpdFrom() {
 				name : 'pictureNo',
 				value : picIdArr
 			},{
-				name : 'cashFlowApplyId',
-				value : $("input[name='toSpvCashFlowApply.pkId']").val(),
+				name : 'cashFlowApplyCode',
+				value : $("#businessKey").val(),
 			}
 			/*, {
 				name : 'framePart',
@@ -301,7 +299,6 @@ function checkAttachment() {
 
 //保存
 function deleteAndModify(){
-	debugger;
 	var picDiv=$("div[name='allPicDiv1']");
     //所选图片和上传的图片的数目要相同
     if(picDiv.length>0){

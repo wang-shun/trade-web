@@ -49,6 +49,7 @@
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var source = "${source}";
+	var handle = "${handle}";
 	if ("${idList}" != "") {
 		var idList = eval("(" + "${idList}" + ")");
 	} else {
@@ -59,6 +60,7 @@
         <%-- 流程相关 --%>
         <form id="procForm" action="">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+		<input type="hidden" id="businessKey" name="businessKey" value="${businessKey}">
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
@@ -357,13 +359,13 @@
                                                     <option value="">请选择</option>
                                                     <option value="转账">转账</option>
                                                     <option value="刷卡">刷卡</option>
-                                                    <option value="现金">现金${fn:length(spvChargeInfoVO.toSpvCashFlowApplyAttachList) }</option>
+                                                    <option value="现金">现金</option>
                                                 </select>
                                             </td>
                                             <td>
                                             <c:choose>
-					<c:when test="${spvChargeInfoVO.toSpvCashFlowApplyAttachList!=null}">
-						<c:forEach var="accesory" items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList}"
+					<c:when test="${accesoryList!=null}">
+						<c:forEach var="accesory" items="${accesoryList}"
 							varStatus="status">
 							<div class="" id="fileupload_div_pic">
 								<form id="fileupload"
@@ -372,8 +374,8 @@
 									<noscript>
 										<input type="hidden" name="redirect"
 											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-										<input type="hidden" id="preFileCode" name="preFileCode"
-											value="${accesory.type }">
+										<%-- <input type="hidden" id="preFileCode" name="preFileCode"
+											value="${accesory.type }"> --%>
 									</noscript>
 										<div class="" >
 											<div role="presentation" >
@@ -439,7 +441,7 @@
 							        {% } else { %}
 							            <div class="preview span12">
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="${accesory.type }"></input>
+										<%-- <input type="hidden" name="picTag" value="${accesory.type }"></input>--%>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.id) { %}
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}

@@ -6,9 +6,7 @@ package com.centaline.trans.spv.web;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +34,6 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
-import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.SpvStatusEnum;
@@ -58,7 +55,6 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
-import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
 import com.centaline.trans.spv.service.CashFlowInService;
 import com.centaline.trans.spv.service.CashFlowOutService;
 import com.centaline.trans.spv.service.ToSpvService;
@@ -843,10 +839,11 @@ public class SpvController {
         	cashFlowOutService.cashFlowOutPage(request, source, instCode, taskId, handle, businessKey);
         	request.setAttribute("urlType", "spvApply");
         }
-    	toAccesoryListService.getAccesoryList(request, "TransSign");
+    	//toAccesoryListService.getAccesoryList(request, "TransSign");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 	    
+	    request.setAttribute("businessKey", businessKey);
     	request.setAttribute("taskId", taskId); 
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("source", source);
@@ -954,8 +951,8 @@ public class SpvController {
      */
 	@RequestMapping(value = "quereyCashFolwApplyAttachments")
 	@ResponseBody
-	public List<ToSpvCashFlowApplyAttach> quereyAttachments(String cashFolwApplyId) {
-		return cashFlowOutService.quereyAttachmentsByCashFolwApplyId(cashFolwApplyId);
+	public List<ToSpvCashFlowApplyAttach> quereyAttachments(String cashFlowApplyCode) {
+		return cashFlowOutService.quereyAttachmentsByCashFlowApplyCode(cashFlowApplyCode);
 	}
 	
 	/**
@@ -968,10 +965,10 @@ public class SpvController {
 	 */
 	@RequestMapping(value = "saveCashFolwApplyAttachment")
 	@ResponseBody
-	public AjaxResponse<String> saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyId) {
+	public AjaxResponse<String> saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyCode) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
-			cashFlowOutService.saveAttachments(fileUploadVO,cashFlowApplyId);
+			cashFlowOutService.saveAttachments(fileUploadVO,cashFlowApplyCode);
 			response.setSuccess(true);
 		}catch(Exception e){
 			response.setSuccess(false);

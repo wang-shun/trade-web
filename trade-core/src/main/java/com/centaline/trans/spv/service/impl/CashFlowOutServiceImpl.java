@@ -31,6 +31,7 @@ import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeDetailMix;
@@ -279,6 +280,17 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         			toSpvAduit.setOperatorJobName(uamSessionService.getSessionUserById(toSpvAduit.getOperator()).getServiceJobName());
             	}
         	}
+
+        	List<ToSpvCashFlowApplyAttach> attachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
+    		if (attachList != null && attachList.size() > 0) {
+    			int size = attachList.size();
+    			request.setAttribute("accesoryList", attachList);
+    			List<Long> idList = new ArrayList<Long>(size);
+    			for (int i = 0; i < size; i++) {
+    				idList.add(attachList.get(i).getPkid());
+    			}
+    			request.setAttribute("idList", idList);
+    		}
         	
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);  
         	request.setAttribute("applyAuditorName", applyAuditorName);
@@ -372,17 +384,24 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	}
 
 	@Override
-	public List<ToSpvCashFlowApplyAttach> quereyAttachmentsByCashFolwApplyId(String cashFolwApplyId) {		
-		List<ToSpvCashFlowApplyAttach> attachList = new ArrayList<ToSpvCashFlowApplyAttach>();		
-		if(StringUtils.isNotBlank(cashFolwApplyId)){	
-			attachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId(cashFolwApplyId);
+	public List<ToSpvCashFlowApplyAttach> quereyAttachmentsByCashFlowApplyCode(String cashFlowApplyCode) {	
+		
+		List<ToSpvCashFlowApplyAttach> attachList = new ArrayList<ToSpvCashFlowApplyAttach>();	
+		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
+		
+		if(StringUtils.isNotBlank(cashFlowApplyCode)){			
+			if(toSpvCashFlowApply != null){
+				attachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid().toString());
+			}
 	    }
 		return attachList;
 	}
 
 	@Override
-	public void saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyId) {
+	public void saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyCode) {
 		SessionUser user = uamSessionService.getSessionUser();
+		
+		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
 		
 		if(fileUploadVO.getPkIdArr() != null && !fileUploadVO.getPkIdArr().isEmpty()) {
 			delAttachment(fileUploadVO.getPkIdArr());
@@ -392,7 +411,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			for(int i=0; i<fileUploadVO.getPictureNo().size(); i++) {
 				ToSpvCashFlowApplyAttach attach = new ToSpvCashFlowApplyAttach();
 				attach.setAttachId(fileUploadVO.getPictureNo().get(i));
-				attach.setApplyId(cashFlowApplyId);
+				attach.setApplyId(toSpvCashFlowApply.getPkid().toString());
 //				int length = fileUploadVO.getPicName().get(i).length();
 //				int index = fileUploadVO.getPicName().get(i).lastIndexOf(".");
 //				attach.setType(fileUploadVO.getPicName().get(i).substring(index+1, length));
