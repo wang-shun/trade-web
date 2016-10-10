@@ -87,8 +87,8 @@ function setPieCharts() {
 	getMTypeCases();	
 	//$("#mAllCases").text(mAllCases);
 	//$("#mTotalAmount").text(mTotalAmount);
-	mTypeAmountTitle = '贷款类型分析（总金额: '+mTotalAmount+' 万元'+'）'
-	mTypeCasesTitle = '贷款类型分析（总单数: '+mAllCases+' 件'+'）'
+	mTypeAmountTitle = '贷款总金额: '+mTotalAmount.toFixed(2)+' 万元'
+	mTypeCasesTitle = '贷款总单数: '+mAllCases+' 件'
 	option = setAmountOptions(mTypeAmount);
 	pChartMTypeAmount.setOption(option);
 	option = setCaseOptions(mTypeCases);
