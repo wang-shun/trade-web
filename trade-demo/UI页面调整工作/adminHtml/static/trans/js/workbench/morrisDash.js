@@ -5,11 +5,14 @@ $(function() {
         // 指定图表的配置项和数据
         var option = {
             tooltip : {
-        trigger: 'axis',
-        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-            type : 'shadow'       // 默认为直线，可选为：'line' | 'shadow'
-        },
-    },
+                trigger: 'item',
+                hideDelay: 100,
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'       // 默认为直线，可选为：'line' | 'shadow'
+                },
+            },
+
+    //数据视图
     toolbox : {
             show : true,
             feature : {

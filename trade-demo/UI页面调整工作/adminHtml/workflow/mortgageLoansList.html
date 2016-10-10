@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>可计件奖金案件筛选</title>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
-    <link rel="stylesheet" href="../static/css/animate.css" />
-    <link rel="stylesheet" href="../static/css/style.css" />
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>
+            按揭贷款列表
+        </title>
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+        <link href="../static/css/animate.css" rel="stylesheet"/>
+        <link href="../static/css/style.css" rel="stylesheet"/>
+        <!-- Data Tables -->
+        <link href="../static/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
+        <link href="../static/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet"/>
+        <link href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet"/>
+        <link href="../static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
-    <!-- Data Tables -->
-    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
-    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
-    <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
-    <link href="../static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
-
-    <!-- index_css -->
-    <link rel="stylesheet" href="../static/trans/css/common/base.css" />
-    <link rel="stylesheet" href="../static/trans/css/common/table.css" />
-    <link rel="stylesheet" href="../static/trans/css/common/input.css" />
-    <link rel="stylesheet" href="../static/trans/css/award/baseAward.css" ">
-
-
-</head>
-
-<body>
-    <div id="wrapper">
-        <nav class="navbar-default navbar-static-side" role="navigation">
+         <!-- index_css -->
+        <link rel="stylesheet" href="../static/trans/css/common/base.css" />
+        <link rel="stylesheet" href="../static/trans/css/common/table.css" />
+        <link rel="stylesheet" href="../static/trans/css/common/input.css" />
+        <link rel="stylesheet" href="../static/trans/css/common/btn.css" />
+        <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+    </head>
+    <body>
+        <div id="wrapper">
+            <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
@@ -81,7 +78,7 @@
                             </span>
                         </a>
                     </li>
-                    <li class="">
+                    <li class="active">
                         <a href="#">
                             <i class="fa fa-th-large">
                             </i>
@@ -92,7 +89,7 @@
                             </span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li class="active">
+                            <li class="">
                                 <a href="../workflow/myCaseList.html">
                                     <i class="fa ">
                                     </i>
@@ -134,7 +131,7 @@
                                     案件追踪
                                 </a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="mortgageApproveLost.html">
                                     <i class="fa ">
                                     </i>
@@ -177,7 +174,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a href="#">
                             <i class="fa fa-cny">
                             </i>
@@ -216,8 +213,8 @@
                                     计件奖金报表
                                 </a>
                             </li>
-                            <li class="active">
-                                <a href="../award/kjjianCase.html">
+                            <li class="">
+                                <a href="../award/baseAwardReport.html">
                                     <i class="fa ">
                                     </i>
                                     可计件奖金案件筛选
@@ -289,6 +286,13 @@
                                     <i class="fa ">
                                     </i>
                                     产调结果
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../propertyresearch/sourceList.html">
+                                    <i class="fa ">
+                                    </i>
+                                    产调来源清单
                                 </a>
                             </li>
                         </ul>
@@ -769,295 +773,477 @@
                 </ul>
             </div>
         </nav>
-        <div id="page-wrapper" class="gray-bg">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#">
-                            <i class="fa fa-bars">
-                            </i>
-                        </a>
-                    </div>
-                    <div class="navbar-header" style="margin-left: 30%;">
-                        <h2 class="welcome">
-                            欢迎使用誉萃交易平台！
-                        </h2>
-                        <iframe id="tmp_downloadhelper_iframe" style="display:none;">
-                        </iframe>
-                    </div>
-                    <ul class="nav navbar-top-links navbar-right">
-                    <li>
-                        <span class="m-r-sm text-muted welcome-message">    </span>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                            <i class="fa fa-envelope"></i>  <span class="label label-warning" id="sp_badge">766</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-messages" id="messageul">
+            <div id="page-wrapper" class="gray-bg">
+                <div class="row border-bottom">
+                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header">
+                            <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#">
+                                <i class="fa fa-bars">
+                                </i>
+                            </a>
+                        </div>
+                        <div class="navbar-header" style="margin-left: 30%;">
+                            <h2 class="welcome">
+                                欢迎使用誉萃交易平台！
+                            </h2>
+                            <iframe id="tmp_downloadhelper_iframe" style="display:none;">
+                            </iframe>
+                        </div>
+                        <ul class="nav navbar-top-links navbar-right">
                             <li>
-                                <div class="dropdown-messages-box">
-                                    <a class="pull-left">
-                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
-                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
-                                        </span>
-                                    </a>
-                                    <div class="media-body">
-                                        <strong>
-                                            跟进提醒
-                                        </strong>
-                                        <br>
-                                        编号为ZY-NAJ-201607-0863，地址为上海杨浦区五角场街道国权路43号独栋号2411室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
-                                        <br>
-                                        <small class="text-muted">
-                                            2016-07-22
-                                        </small>
-                                    </div>
-                                </div>
+                                <span class="m-r-sm text-muted welcome-message">
+                                </span>
                             </li>
-                            <div class="divider">
-                            </div>
-                            <li>
-                                <div class="dropdown-messages-box">
-                                    <a class="pull-left">
-                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
-                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
-                                        </span>
-                                    </a>
-                                    <div class="media-body">
-                                        <strong>
-                                            跟进提醒
-                                        </strong>
-                                        <br>
-                                        编号为ZY-NAJ-201607-0866，地址为上海杨浦区五角场镇市京一村13号0502室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
-                                        <br>
-                                        <small class="text-muted">
-                                            2016-07-22
-                                        </small>
-                                    </div>
-                                </div>
-                            </li>
-                            <div class="divider">
-                            </div>
-                            <li>
-                                <div class="dropdown-messages-box">
-                                    <a class="pull-left">
-                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
-                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
-                                        </span>
-                                    </a>
-                                    <div class="media-body">
-                                        <strong>
-                                            临时银行处理提醒
-                                        </strong>
-                                        <br>
-                                        编号为ZY-AJ-201605-1527，地址为上海黄浦区西藏南路片区西藏南路1374弄21号0403室的案件临时银行已经处理. 临时银行为顾村公园支行(其他),
-                                        请及时跟进.
-                                        <br>
-                                        <small class="text-muted">
-                                            2016-07-22
-                                        </small>
-                                    </div>
-                                </div>
-                            </li>
-                            <div class="divider">
-                            </div>
-                            <li>
-                                <div class="dropdown-messages-box">
-                                    <a class="pull-left">
-                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
-                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
-                                        </span>
-                                    </a>
-                                    <div class="media-body">
-                                        <strong>
-                                            跟进提醒
-                                        </strong>
-                                        <br>
-                                        编号为ZY-NAJ-201607-0862，地址为上海杨浦区五角场街道国权路43号独栋号2410室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
-                                        <br>
-                                        <small class="text-muted">
-                                            2016-07-22
-                                        </small>
-                                    </div>
-                                </div>
-                            </li>
-                            <div class="divider">
-                            </div>
-                            <li>
-                                <div class="dropdown-messages-box">
-                                    <a class="pull-left">
-                                        <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
-                                            <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg">
-                                        </span>
-                                    </a>
-                                    <div class="media-body">
-                                        <strong>
-                                            跟进提醒
-                                        </strong>
-                                        <br>
-                                        编号为ZY-NAJ-201607-0865，地址为上海杨浦区五角场镇浣纱六村(浣沙六村)31号0603室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
-                                        <br>
-                                        <small class="text-muted">
-                                            2016-07-22
-                                        </small>
-                                    </div>
-                                </div>
-                            </li>
-                            <div class="divider">
-                            </div>
-                            <li class="text-center link-block">
-                                <div>
-                                </div>
-                                <a href="http://trade.centaline.com:8083/trade-web/message/box/siteList.html"
-                                target="messageContent">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                                     <i class="fa fa-envelope">
                                     </i>
-                                    <strong>
-                                        去消息中心
-                                    </strong>
+                                    <span class="label label-warning" id="sp_badge">
+                                        766
+                                    </span>
                                 </a>
+                                <ul class="dropdown-menu dropdown-messages" id="messageul">
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a class="pull-left">
+                                                <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                                    <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg"/>
+                                                </span>
+                                            </a>
+                                            <div class="media-body">
+                                                <strong>
+                                                    跟进提醒
+                                                </strong>
+                                                <br/>
+                                                编号为ZY-NAJ-201607-0863，地址为上海杨浦区五角场街道国权路43号独栋号2411室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
+                                                <br/>
+                                                <small class="text-muted">
+                                                    2016-07-22
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <div class="divider">
+                                    </div>
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a class="pull-left">
+                                                <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                                    <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg"/>
+                                                </span>
+                                            </a>
+                                            <div class="media-body">
+                                                <strong>
+                                                    跟进提醒
+                                                </strong>
+                                                <br/>
+                                                编号为ZY-NAJ-201607-0866，地址为上海杨浦区五角场镇市京一村13号0502室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
+                                                <br/>
+                                                <small class="text-muted">
+                                                    2016-07-22
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <div class="divider">
+                                    </div>
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a class="pull-left">
+                                                <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                                    <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg"/>
+                                                </span>
+                                            </a>
+                                            <div class="media-body">
+                                                <strong>
+                                                    临时银行处理提醒
+                                                </strong>
+                                                <br/>
+                                                编号为ZY-AJ-201605-1527，地址为上海黄浦区西藏南路片区西藏南路1374弄21号0403室的案件临时银行已经处理. 临时银行为顾村公园支行(其他), 请及时跟进.
+                                                <br/>
+                                                <small class="text-muted">
+                                                    2016-07-22
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <div class="divider">
+                                    </div>
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a class="pull-left">
+                                                <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                                    <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg"/>
+                                                </span>
+                                            </a>
+                                            <div class="media-body">
+                                                <strong>
+                                                    跟进提醒
+                                                </strong>
+                                                <br/>
+                                                编号为ZY-NAJ-201607-0862，地址为上海杨浦区五角场街道国权路43号独栋号2410室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
+                                                <br/>
+                                                <small class="text-muted">
+                                                    2016-07-22
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <div class="divider">
+                                    </div>
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a class="pull-left">
+                                                <span class="shead" style="background-image: url(&quot;http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg&quot;);">
+                                                    <img class="img-circle himg" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/A1820.jpg"/>
+                                                </span>
+                                            </a>
+                                            <div class="media-body">
+                                                <strong>
+                                                    跟进提醒
+                                                </strong>
+                                                <br/>
+                                                编号为ZY-NAJ-201607-0865，地址为上海杨浦区五角场镇浣纱六村(浣沙六村)31号0603室的案件需要您立即跟进！经纪人”杨先芝“电话为（15800504374）
+                                                <br/>
+                                                <small class="text-muted">
+                                                    2016-07-22
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <div class="divider">
+                                    </div>
+                                    <li class="text-center link-block">
+                                        <div>
+                                        </div>
+                                        <a href="#" target="messageContent">
+                                            <i class="fa fa-envelope">
+                                            </i>
+                                            <strong>
+                                                去消息中心
+                                            </strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    切换岗位
+                                </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob">
+                                    <li>
+                                        <a href="javascript:void(0);" onClick="orgJob.changeOrgJob(&quot;8dc9766035cc47819e7eb28ad2c16bc6&quot;,&quot;ff8080814f459a78014f45ab2c39000d&quot;)">
+                                            交易顾问@虹口杨浦贵宾服务部A组
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
-                    </li>
-                    <li>
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        切换岗位
-                    </a>
-                    <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob">
-                    <li><a href="javascript:void(0);" onclick="orgJob.changeOrgJob(&quot;8dc9766035cc47819e7eb28ad2c16bc6&quot;,&quot;ff8080814f459a78014f45ab2c39000d&quot;)">交易顾问@虹口杨浦贵宾服务部A组</a></li></ul>
-                    </li>
-                </ul>
-                </nav>
-            </div>
+                    </nav>
+                </div>
 
-            <!--*********************** HTML_main*********************** -->
-            <div class="wrapper wrapper-content animated fadeInRight">
-                <div class="ibox-content border-bottom clearfix space_box">
-                    <h2 class="title">可计件奖金案件筛选</h2>
-                    <form method="get" class="form_list">
+                <!--*********************** HTML_main*********************** -->
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="ibox-content border-bottom clearfix space_box">
+                        <h2 class="title">贷款信息报表</h2>
+                        <form method="get" class="form_list">
                             <div class="line">
                                 <div class="form_content">
-                                    <label class="control-label sign_left">
-                                        案件编号
-                                    </label>
-                                    <input type="text" class="select_control sign_right_one" />
+                                    <label class="control-label sign_left_small"> 案件编号 </label> <input type="text"
+                                                                                                       class="teamcode input_type"
+                                                                                                       id="caseCode"
+                                                                                                       placeholder=""
+                                                                                                       name="caseCode"
+                                                                                                       value="">
                                 </div>
                                 <div class="form_content">
-                                    <label class="control-label sign_left">
-                                        产证地址
-                                    </label>
-                                    <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="">
+                                    <label class="control-label sign_left_small"> 产证地址 </label> <input type="text"
+                                                                                                       class="teamcode input_type"
+                                                                                                       style="width: 435px;"
+                                                                                                       id="propertyAddr"
+                                                                                                       placeholder=""
+                                                                                                       name="propertyAddr"
+                                                                                                       value="">
                                 </div>
-
                             </div>
+
                             <div class="line">
                                 <div class="form_content">
-                                    <label class="control-label sign_left select_style mend_select">
-                                        过户时间
-                                    </label>
-                                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd">
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
+                                    <label class="control-label sign_left_small"> 贷款专员 </label> <input
+                                        class="teamcode input_type" placeholder="" value="" id="REAL_NAME"
+                                        name="REAL_NAME"
+                                        onclick="chooseCaseOperator(&#39;6114AB949B4445828D4383977C4FAC71&#39;)"
+                                        hval="">
+
+                                    <div class="input-group float_icon organize_icon" id="MortgageLostListOnclick">
+                                        <i class="icon iconfont"></i>
                                     </div>
                                 </div>
-                                 <div class="form_content">
-                                    <label class="control-label sign_left_small select_style mend_select">
-                                        过户审核时间
-                                    </label>
-                                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd">
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small"> 组织 </label> <input
+                                        class="teamcode input_type" placeholder="" value="" id="orgName" name="orgName"
+                                        onclick="orgSelect({displayId:&#39;oriGrpId&#39;,displayName:&#39;radioOrgName&#39;, startOrgId:&#39;6114AB949B4445828D4383977C4FAC71&#39;,
+						orgType:&#39;&#39;,departmentType:&#39;&#39;,departmentHeriarchy:&#39;&#39;,expandNodeId:&#39;6114AB949B4445828D4383977C4FAC71&#39;,
+						chkStyle:&#39;radio&#39;,callBack:radioYuCuiOrgSelectCallBack})">
+                                    <input type="hidden" id="yuCuiOriGrpId" value="">
+                                    <div class="input-group float_icon organize_icon"
+                                         id="MortgageLostListOrganizeOnclick">
+                                        <i class="icon iconfont"></i>
+                                    </div>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small"> 主贷人 </label> <input class="input_type"
+                                                                                                      placeholder=""
+                                                                                                      id="custName"
+                                                                                                      name="custName"
+                                                                                                      value=""
+                                                                                                      style="width: 74px;">
+                                </div>
+                            </div>
+
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small"> 贷款银行 </label>
+
+                                    <select name="loanLostFinOrgName" id="loanLostFinOrgName"
+                                            class="teamcode select_control ">
+
+                                        <option value="">请选择</option>
+                                        <option colevel="null" value="1022900">工商银行</option>
+                                        <option colevel="null" value="3012900">交通银行</option>
+                                        <option colevel="null" value="1042900">中国银行</option>
+                                        <option colevel="null" value="1032900">农业银行</option>
+                                        <option colevel="null" value="1052900">建设银行</option>
+                                        <option colevel="null" value="3082900">招商银行</option>
+                                        <option colevel="null" value="3042900">华夏银行</option>
+                                        <option colevel="null" value="3182900">渤海银行</option>
+                                        <option colevel="null" value="3062900">广发银行</option>
+                                        <option colevel="null" value="3072900">平安银行</option>
+                                        <option colevel="null" value="3022900">中信银行</option>
+                                        <option colevel="null" value="3032900">光大银行</option>
+                                        <option colevel="null" value="3052900">民生银行</option>
+                                        <option colevel="null" value="3092900">兴业银行</option>
+                                        <option colevel="null" value="3102900">上海浦东发展银行</option>
+                                        <option colevel="null" value="4032900">邮政储蓄银行</option>
+                                        <option colevel="null" value="313290001">北京银行</option>
+                                        <option colevel="null" value="7872900">富邦华一银行</option>
+                                        <option colevel="null" value="313290002">杭州银行</option>
+                                        <option colevel="null" value="313290003">江苏银行</option>
+                                        <option colevel="null" value="313290004">南京银行</option>
+                                        <option colevel="null" value="313290005">宁波通商银行</option>
+                                        <option colevel="null" value="313290006">宁波银行</option>
+                                        <option colevel="null" value="3222900">上海农商银行</option>
+                                        <option colevel="null" value="313290007">上海银行</option>
+                                        <option colevel="null" value="313290008">天津银行</option>
+                                        <option colevel="null" value="313290009">温州银行</option>
+                                        <option colevel="null" value="7812900">厦门国际银行</option>
+                                        <option colevel="null" value="313290010">浙江稠州商业银行</option>
+                                        <option colevel="null" value="313290011">浙江民泰商业银行</option>
+                                        <option colevel="null" value="313290012">浙江泰隆商业银行</option>
+                                        <option colevel="null" value="3162900">浙商银行</option>
+                                        <option colevel="null" value="9999999991">100</option>
+                                        <option colevel="null" value="8888888">121</option>
+                                    </select>
+                                </div>
+                                <div class="form_content" style="margin-left: 126px;">
+                                    <select class="form-control mend_select sign_left_small"
+                                            id="loanLostCaseListTimeSelect" style="width: 120px;">
+                                        <option value="SIGN_DATE" selected="selected">签约时间</option>
+                                        <option value="APPR_DATE">审批时间</option>
+                                        <option value="LEND_DATE">放款时间</option>
+                                    </select>
+                                    <div class="input-group sign-right dataleft input-daterange"
+                                         data-date-format="yyyy-mm-dd" id="datepicker_0">
+                                        <input id="dtBegin_0" name="dtBegin" class="form-control data_style" type="text"
+                                               value="2016-10-01" placeholder="起始时间"> <span
+                                            class="input-group-addon">到</span> <input id="dtEnd_0" name="dtEnd"
+                                                                                      class="form-control data_style"
+                                                                                      type="text" value="2016-10-31"
+                                                                                      placeholder="结束日期">
                                     </div>
                                 </div>
                             </div>
-                            <div class="form_content" style="margin-left:176px;">
-                                <div class="add_btn">
-                                    <button type="button" class="btn btn-success">
-                                        <i class="icon iconfont"></i>
-                                        查询
+
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small"> 贷款支行 </label> <select
+                                        name="loanLostFinOrgNameYc" id="loanLostFinOrgNameYc"
+                                        class="teamcode select_control ">
+
+                                    <option value="">请选择</option>
+                                </select>
+                                </div>
+                                <div class="form_content" style="margin-left: 126px;">
+                                    <select class="form-control mend_select sign_left_small"
+                                            id="loanLostCaseListAmountSelect" style="width: 120px;">
+                                        <option value="COM_AMOUNT" selected="selected">商贷</option>
+                                        <option value="MORT_TOTAL_AMOUNT">总额</option>
+                                        <option value="PRF_AMOUNT">公积金</option>
+                                    </select>
+                                    <div class="input-group sign-right dataleft " data-date-format="yyyy-mm-dd">
+                                        <input id="amountBegin_0" name="amountBegin_0" class="form-control data_style"
+                                               type="text" value="" placeholder="万元"> <span
+                                            class="input-group-addon">到</span> <input id="amountEnd_0"
+                                                                                      name="amountEnd_0"
+                                                                                      class="form-control data_style"
+                                                                                      type="text" value=""
+                                                                                      placeholder="万元">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small"> 贷款需求选择 </label> <select
+                                        name="loanType" id="loanType" class="teamcode select_control ">
+                                    <option value="" selected="selected">请选择</option>
+                                    <option value="1">商业贷款委托中原办理</option>
+                                    <option value="2">公积金贷款委托中原办理</option>
+                                    <option value="3">自办贷款</option>
+                                </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small"> 是否临时银行 </label>
+                                    <div class="controls">
+                                        <label class="radio inline"> <input type="radio" value="2" checked="checked"
+                                                                            name="isTempBank" id="isTempBankAll"> 全部
+                                        </label> <label class="radio inline"> <input type="radio" value="1"
+                                                                                     name="isTempBank"> 是
+                                    </label> <label class="radio inline"> <input type="radio" value="0"
+                                                                                 name="isTempBank"> 否
+                                    </label>
+                                    </div>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small"> 是否流失 </label>
+                                    <div class="controls">
+                                        <label class="radio inline">
+                                            <input type="radio" value="2" checked="checked" name="isLoseLoan"
+                                                   id="isLoseAll"> 全部
+                                        </label>
+                                        <label class="radio inline">
+                                            <input type="radio" value="1" name="isLoseLoan"> 是
+                                        </label>
+                                        <label class="radio inline">
+                                            <input type="radio" value="0" name="isLoseLoan"> 否
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="line">
+                                <div  style="margin-left: 128px;">
+                                    <button type="button" class="btn btn-success btn-icon" id="mortgageInfoSearchButton">
+                                        <i class="icon iconfont"></i> 查询
                                     </button>
-                                    <button type="button" class="btn btn-success">
-                                        详细导出
+                                    <button type="button" id="mortgageInfoToExcel" class="btn btn-success"
+                                            onclick="javascript:mortgageInfoToExcel()">导出列表
                                     </button>
-                                    <button type="reset" class="btn btn-grey">
-                                        清空
+                                    <button type="button" class="btn  btn-icon btn-toggle mr5" id="TypeBtn">
+                                    <i class="iconfont icon">&#xe63d;</i> 贷款报表
                                     </button>
+                                     <button type="button" class="btn  btn-icon btn-toggle mr5 "  id="TypeBtn2"><i class="iconfont icon">&#xe63f;</i>
+                                        组织报表
+                                    </button>
+                                    <button type="button" class="btn btn-grey" id="mortgageInfoCleanButton">清空</button>
+<!--   -->
+                                </div>
+                                    <!--图表-->
+
+                                <div class="row charone" style="margin-top: 40px;padding-top: 10px;border-top: 1px solid #f4f4f4;">
+                                    <div class="col-md-6">
+                                                <div id="TypeOne"  style="width:100%;height:400px;">1</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                                <div id="TypeTwo"  style="width:100%;height:400px;">1</div>
+                                    </div>
+                                </div>
+
+                                <div class="row chartwo" style="margin-top: 40px;padding-top: 10px;border-top: 1px solid #f4f4f4;">
+                                             <div class="col-md-6">
+                                                             <div id="LoansOne" style="width:100%;height:400px;">2</div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                             <div id="LoansTwo" style="width:100%;height:400px;">2</div>
+                                                </div>
 
                                 </div>
                             </div>
                         </form>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="table_content">
-                            <table class="table table_blue table-hover table-striped table-bordered">
-                                <thead>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <table border="0" cellpadding="0" cellspacing="0"
+                                       class="table table_blue table-striped table-bordered table-hover " id="editable">
+                                    <thead>
                                     <tr>
-                                        <th>
-                                            <span>案件编码</span>
+                                        <th><span class="sort" sortcolumn="CASE_CODE" sord="desc"
+                                                  onclick="caseCodeSort();" style="cursor: pointer;">案件编号<i
+                                                class="icon-chevron-down"></i></span><i id="caseCodeSorti"
+                                                                                        class="fa fa-sort-desc fa_down"></i>
                                         </th>
-                                        <th>
-                                            产证地址
-                                        </th>
-                                        <th>
-                                            过户时间
-                                        </th>
-                                        <th>
-                                            经办人
-                                        </th>
-                                        <th>
-                                            所属组织
-                                        </th>
-                                        <th>
-                                            案件状态
-                                        </th>
+                                        <th>案件地址</th>
+                                        <th>时间</th>
+                                        <th>主贷人</th>
+                                        <th>贷款金额</th>
+                                        <th>案件类型</th>
+                                        <th>归属组</th>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
+                                    </thead>
+                                    <tbody id="mortgageInfoList">
+
+                                    <tr class="tr-1">
+
+                                        <td class="big"><a
+                                                href="http://trade.centaline.com:8083/trade-web/case/caseDetail?caseId=16618"
+                                                target="_blank">ZY-SH-201610-0017</a></td>
                                         <td>
                                             <p class="big">
-                                                <a href="javascript:;">
-                                                    ZY-AJ-201605-0952
+                                                上海浦东新区惠南片区南六公路1465弄48号0000室
+                                            </p>
+                                            <p>
+                                                <a class="salesman-info"
+                                                   href="http://trade.centaline.com:8083/trade-web/mortgageInfo/list?1475907796919#">
+                                                    工商银行/顾村公园支行
                                                 </a>
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="big">
-                                                上海杨浦区平路街道（内环）鞍山八村29号0608室
+                                            <p>
+                                                <i class="sign_normal">签</i>
+                                                2016-10-08
                                             </p>
-                                        </td>
-                                        <td>
-                                            <p class="smll_sign">
-                                                <i class="sign_normal">过</i>
-                                                2016-05-30
-                                            </p>
-                                            <p class="smll_sign">
+                                            <p>
                                                 <i class="sign_normal">审</i>
-                                                2016-05-30
+                                                2016-10-08
                                             </p>
-                                            <p class="smll_sign">
-                                                <i class="sign_grey">完</i>
+                                            <p>
+                                                <i class="sign_grey">放</i>
                                             </p>
-
                                         </td>
                                         <td class="center">
-                                            <span class="manager"><a href="#"><em>经办人：</em>金娇娇</a></span>
-                                            <span class="manager"><a href="#"><em>主办人：</em>许庆祺</a></span>
+                                            阿雯
                                         </td>
-                                        <td>
-                                           <p><i class="sign_red sign-left">片区</i>虹口区域B片区(李代明直带)</p>
-                                           <p><i class="sign_normal sign-left">组织</i>杨浦贵宾服务部A组</p>
+                                        <td class="center">
+                                            <span class="manager">总额：100万</span>
+                                            <span class="manager">商贷：100万</span>
+                                            <span class="manager">公积金：0万</span>
                                         </td>
-                                        <td>
-                                            已领证
+                                        <td class="center">
+                                            <p>商业贷款委托中原办理</p>
+                                        </td>
+                                        <td class="center">
+                                            虹口杨浦贵宾服务部A组
+                                            <span class="manager">贷款专员：<a
+                                                    href="#">浦雅萍</a></span>
                                         </td>
                                     </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-
-
-                                </tbody>
-                            </table>
                             <div class="text-center page_box">
                                 <span id="currentTotalPage">
                                     <strong>
@@ -1141,31 +1327,66 @@
                         </div>
                     </div>
                 </div>
+                <!--*********************** HTML_main*********************** -->
             </div>
-            <!--*********************** HTML_main*********************** -->
         </div>
-    </div>
-    <!-- Mainly scripts -->
-    <script src="../static/js/jquery-2.1.1.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-    <!-- Custom and plugin javascript -->
-    <script src="../static/js/inspinia.js"></script>
-    <script src="../static/js/plugins/pace/pace.min.js"></script>
-    <script>
-        $(document).ready(function () {
+        <!-- Mainly scripts -->
+        <script src="../static/js/jquery-2.1.1.js">
+        </script>
+        <script src="../static/js/bootstrap.min.js">
+        </script>
+        <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js">
+        </script>
+        <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js">
+        </script>
+        <!-- Custom and plugin javascript -->
+        <script src="../static/js/inspinia.js">
+        </script>
+        <script src="../static/js/plugins/pace/pace.min.js">
+        </script>
 
-            $('.input-daterange').datepicker({
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true
+        <!-- ECharts.js -->
+        <script src="../static/js/echarts.min.js"></script>
+
+        <!-- index_js -->
+     <script src="../static/trans/js/workbench/morrisLoans.js"></script>
+
+        <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                 //图标toggle切换显示隐藏JS
+                $(".charone,.chartwo").hide();
+                $("#TypeBtn").click(function() {
+                    $(".charone").toggle();
+                    $(".chartwo").hide();
+                    $("#TypeBtn").addClass('btn-bg');
+                    $("#TypeBtn2 ").removeClass('btn-bg');
+                    if($(".charone").is(":hidden")) {
+                                   $("#TypeBtn").removeClass('btn-bg');
+                                }
+                });
+
+                $("#TypeBtn2").click(function() {
+
+                    $(".chartwo").toggle();
+                    $(".charone").hide();
+                    $("#TypeBtn2 ").addClass('btn-bg');
+                    $("#TypeBtn ").removeClass('btn-bg');
+                    if($(".chartwo").is(":hidden")) {
+                                   $("#TypeBtn2").removeClass('btn-bg');
+                                }
+                });
+
+                $('.input-daterange').datepicker({
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    autoclose: true
+                });
             });
 
+        </script>
 
-        });
-    </script>
-</body>
+    </body>
 </html>

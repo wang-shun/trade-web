@@ -1,0 +1,22 @@
+.btn-icon {
+  padding: 5px 12px;
+}
+.btn-toggle {
+    color: #1a7bb9;
+    border: 1px solid #1a7bb9;
+    background: #fff;
+    outline: none!important;
+}
+.btn-toggle:hover,.btn-toggle:focus {
+     color: #1a7bb9;
+}
+
+.btn-bg {
+    background-color: #1a7bb9;
+    border: 1px solid #1a7bb9;
+    font-size: 14px;
+    color: #fff;
+}
+.btn-bg:hover,.btn-bg:focus {
+     color: #fff;
+}

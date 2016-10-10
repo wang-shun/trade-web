@@ -62,7 +62,9 @@ table.dataTable thead .sorting:after {
 .task-list tr td.pl10 {
   padding: 0 0 0 10px;
 }
-
+.mr5 {
+  margin-right: 5px;
+}
 .task-list tr td .case-ctm {
   font-size: 12px;
 }
