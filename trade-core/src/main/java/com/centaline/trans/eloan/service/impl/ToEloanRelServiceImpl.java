@@ -94,4 +94,10 @@ public class ToEloanRelServiceImpl implements ToEloanRelService {
 		toEloanRelMapper.updateEloanRelByEloanCodeForModify(eloanRelList);
 	}
 
+	@Override
+	public List<ToEloanRel> getEloanRelByEloanCodeAndConfirmStatus(String eloanCode) {
+		// TODO Auto-generated method stub
+		return toEloanRelMapper.getEloanRelByEloanCodeAndConfirmStatus(eloanCode);
+	}
+
 }

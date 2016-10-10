@@ -243,6 +243,7 @@
 			   if(releaseAmount == "" || releaseAmount == null){
 				   $("#releaseInfoForShow").hide();
 			   }
+			   $("input[name='releaseTime']").attr("disabled", true);
 			   
 	        	$('.input-daterange').datepicker({
 	              	format : 'yyyy-mm-dd',
