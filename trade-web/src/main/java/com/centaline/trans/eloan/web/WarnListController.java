@@ -302,6 +302,7 @@ public class WarnListController {
 					toEloanCase.setApplyAmount(eloanCase.getApplyAmount());
 					toEloanCase.setCustPhone(eloanCase.getCustPhone()==null?"":eloanCase.getCustPhone());
 					toEloanCase.setMonth(eloanCase.getMonth());
+					toEloanCase.setSignAmount(eloanCase.getSignAmount());
 				}
 				
 				List<ToEloanRel> eloanRelList = eloanRelListVO.getEloanRelList();

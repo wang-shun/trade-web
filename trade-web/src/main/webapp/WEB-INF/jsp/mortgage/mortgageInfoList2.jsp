@@ -299,20 +299,21 @@
 
 	<content tag="local_script"> 
 	<script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
-	<script
-		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
-		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <script
-		src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
+	<script	src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+	<script	src="${ctx}/js/jquery.blockui.min.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<script src="${ctx}/js/trunk/task/mortgageInfo_list2.js"></script> <jsp:include
-		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script
-		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 排序插件 --> <script
-		src="${ctx}/js/plugins/jquery.custom.js"></script> <!-- 分页控件  --> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script	src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	<script src="${ctx}/js/trunk/task/mortgageInfo_list2.js"></script> 
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
+	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	<!-- 排序插件 --> 
+	<script	src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	<!-- 分页控件  --> 
+	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<!-- 日期拖拽 -->
 	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.js"></script>
 	<!-- <script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script> -->
