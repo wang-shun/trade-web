@@ -178,7 +178,7 @@
 			and sr1.PKID not in (
 			SELECT DISTINCT rs2.ROOM_ID FROM sctrans.T_RM_RESERVATION r2
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs2 ON r2.SCHEDULE_ID = rs2.PKID
-			WHERE (r2.RES_STATUS = '1' OR (r2.RES_STATUS = '0' AND GETDATE() &lt; rs2.END_DATE)) and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+			WHERE (r2.RES_STATUS = '1' OR r2.RES_STATUS = '0') AND rs2.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs2.END_DATE = #{endTime,jdbcType=VARCHAR} and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
 		)
 		) as residualNumber
 		FROM sctrans.T_RM_SIGN_ROOM sr

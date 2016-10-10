@@ -256,9 +256,30 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 				
 				for(var i=0;i<data.length;i++){
 					subStrHtml += "<li class='aui-info ptd5 aui-padded-l-10 aui-padded-r-10 border-bottom'>"
-						+ "<div class='aui-info-item'><div class='room'><i class='iconfont blue'>&#xe603;</i>"
-						+ "<span class='num'>" + data[i].numberOfPeople + "人间</span></div></div>"
-						+ "<div class='aui-info-item'>剩余间数：<span class='aui-text-warning'>" + data[i].residualNumber + "</span>";
+						+ "<div class='aui-info-item'><div class='room'>";
+					
+					if(data[i].numberOfPeople >= 1 && data[i].numberOfPeople <= 6){
+						subStrHtml += "<i class='iconfont blue'>&#xe603;</i>";
+					}
+					else if(data[i].numberOfPeople >= 7 && data[i].numberOfPeople <= 9){
+						subStrHtml += "<i class='iconfont cyan'>&#xe602;</i>";
+					}
+					else if(data[i].numberOfPeople >= 10 && data[i].numberOfPeople <= 12){
+						subStrHtml += "<i class='iconfont yellow'>&#xe601;</i>";
+					}
+					else {
+						subStrHtml += "<i class='iconfont orange'>&#xe600;</i>";
+					}
+					
+					subStrHtml += "<span class='num'>" + data[i].numberOfPeople + "人间</span></div></div>"
+						+ "<div class='aui-info-item'>";
+					
+					if(data[i].residualNumber == 0){
+						subStrHtml += "剩余间数：<span class='aui-text-warning'>0</span>";
+					}
+					else {
+						subStrHtml += "剩余间数：<span class='aui-text-primary'>" + data[i].residualNumber + "</span>";
+					}
                 
 					if(selBespeakTime != ""){
 						var strStartDateTime = selDate + " " + selBespeakTime.substring(0,selBespeakTime.indexOf("-"));
@@ -284,9 +305,9 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 							subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div>";
 						}
 					}
-
-                    subStrHtml += "</li></ul></article>";     
 				}
+				
+				subStrHtml += "</li></ul></article>";  
 			}
 		}
 	});
