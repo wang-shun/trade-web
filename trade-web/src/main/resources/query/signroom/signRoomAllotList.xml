@@ -72,7 +72,7 @@ WHERE   T.IS_DELETE = '0'
 				]]>
 			</baseSql>
 			<orderBySql>
-				order by R.ROOM_NO
+				order by R.NUMBE_OF_ACCOMMODATE_PEOPLE asc
 			</orderBySql>
 			<groupSql>
 			</groupSql>
