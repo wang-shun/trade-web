@@ -410,8 +410,7 @@ function getParamsValue() {
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.custName = custName;
-	// params.finCode = finCode;
-
+	// params.finCode = finCode;	
 	return params;
 }
 

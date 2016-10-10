@@ -340,7 +340,7 @@
                        	</td>
                         <td class="center">
                                     {{item.ORG_NAME}}
-                           <span class="manager">贷款专员：<a href="#">{{item.REAL_NAME}}</a></span>
+                           <span class="manager">贷款专员 ：<a href="#">{{item.REAL_NAME}}</a></span>
                         </td>
 				  </tr>
        {{/each}}
