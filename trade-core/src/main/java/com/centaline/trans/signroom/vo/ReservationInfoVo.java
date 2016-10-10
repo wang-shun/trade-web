@@ -30,6 +30,8 @@ public class ReservationInfoVo {
 	private Long signingCenterId; // 签约中心标识
 
 	private Integer numberOfParticipants; // 参与人数
+	
+	private Integer numberOfPeople;//容纳人数
 
 	private String transactItemCode; // 办理事项编号(签合同:contract,办贷款:doLoan,E+贷款:Eloan)
 
@@ -207,6 +209,14 @@ public class ReservationInfoVo {
 
 	public void setSigningCenterId(Long signingCenterId) {
 		this.signingCenterId = signingCenterId;
+	}
+
+	public Integer getNumberOfPeople() {
+		return numberOfPeople;
+	}
+
+	public void setNumberOfPeople(Integer numberOfPeople) {
+		this.numberOfPeople = numberOfPeople;
 	}
 	
 	

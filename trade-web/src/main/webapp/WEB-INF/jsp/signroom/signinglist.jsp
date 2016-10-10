@@ -50,6 +50,7 @@
                         	<input type="hidden" name="resPeopleId" id="resPeopleId" value="${resPeopleId }"/>
                         	<input type="hidden" name="resTime" value="${resTime }"/>
                         	<input type="hidden" name="resStatus" value="${resStatus }"/>
+                        	<input type="hidden" name="distinctId" value="${distinctId }" />
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -77,8 +78,8 @@
                                         预约日期
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                                        <input name="startDateTime" class="form-control data_style datatime" type="text" value="${startDateTime }" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input name="endDateTime" class="form-control data_style datatime" type="text" value="${endDateTime }" placeholder="结束日期">
+                                        <input name="startDateTime" class="form-control data_style" type="text" value="${startDateTime }" placeholder="起始日期"> <span class="input-group-addon">到</span>
+                                        <input name="endDateTime" class="form-control data_style" type="text" value="${endDateTime }" placeholder="结束日期">
                                     </div>
                                     <div class="seldata">
                                         <span id="today" class="today date-time">今</span>
@@ -308,24 +309,24 @@
                  </td>
 				 <td>
                       <p class="big">
-							{{if item.currentTime > item.endTime}}
+							{{if item.resStatus == '0'}}
+								预约中
+							{{/if}}
+
+							{{if item.resStatus == '1'}}
+								使用中
+							{{/if}}
+
+							{{if item.resStatus == '2'}}
+								已使用
+							{{/if}}
+
+							{{if item.resStatus == '3'}}
 								已过期
-							{{else}}
-								{{if item.resStatus == '0'}}
-									预约中
-								{{/if}}
+							{{/if}}
 
-								{{if item.resStatus == '4'}}
-									已取消
-								{{/if}}
-
-								{{if item.resStatus == '1'}}
-									使用中
-								{{/if}}
-
-								{{if item.resStatus == '2'}}
-									已使用
-								{{/if}}
+							{{if item.resStatus == '4'}}
+								已取消
 							{{/if}}
 					  </p>
                  </td>
@@ -343,7 +344,7 @@
 				 <td>
                       <p class="smll_sign big">{{item.followDateTime}}</p>
                       <p>
-                         <a href="#"  class="demo-right" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.comment}}</br>{{/each}}">
+                         <a href="#"  class="demo-right" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.comment}}&nbsp;&nbsp;{{flowupInfo.createDateTime}}</br>{{/each}}">
 							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 12}}
 								{{item.latestComment.substring(0,12)}}....
 					  		{{else}}
@@ -358,7 +359,7 @@
                                 <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
-								{{if item.resStatus == '0' && item.currentTime <= item.endTime}}
+								{{if item.resStatus == '0'}}
 									<li><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
 								{{/if}}
                                 

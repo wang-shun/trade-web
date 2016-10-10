@@ -46,6 +46,7 @@ public class ReservationServiceImpl implements ReservationService {
 			Long resId = reservation.getPkid(); // 预约单id
 
 			freeRoomInfo = getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
+			freeRoomInfo.setResNo(reservation.getResNo());
 
 			FreeRoomVo freeRoomVo = new FreeRoomVo();
 			freeRoomVo.setResId(resId);
@@ -69,6 +70,20 @@ public class ReservationServiceImpl implements ReservationService {
 			freeRoomInfo.setIsSuccess(isSuccss);
 
 		return freeRoomInfo;
+	}
+
+	public Integer getMinNum(int numberOfPeople, int numberOfParticipants) {
+		int min = 0;
+
+		if (numberOfPeople > numberOfParticipants) {
+			min = numberOfParticipants;
+		} else if (numberOfPeople < numberOfParticipants) {
+			min = numberOfPeople;
+		} else {
+			min = numberOfPeople;
+		}
+
+		return min;
 	}
 
 	@Override
@@ -114,7 +129,8 @@ public class ReservationServiceImpl implements ReservationService {
 
 		FreeRoomVo freeRoomVo = new FreeRoomVo();
 		freeRoomVo.setTradeCenterId(tradeCenterId);
-		freeRoomVo.setNumberOfParticipants(numberOfParticipants);
+		freeRoomVo
+				.setNumberOfParticipants(reservationVo.getActNumberOfPeople());
 
 		String formatStartDate = "";
 		String formatEndDate = "";

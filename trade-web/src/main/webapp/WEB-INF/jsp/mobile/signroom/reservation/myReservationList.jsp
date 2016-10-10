@@ -16,10 +16,10 @@
 	<input type="hidden" id="ctx" value="${ctx }"/>
 	<input type="hidden" id="agentCode" value="${agentCode }"/>
     <header class="aui-bar aui-bar-nav">
-        <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
-            <span class="aui-iconfont aui-icon-left"></span>
-        </a>
         <div class="aui-title">我的预约</div>
+        <a class="aui-pull-right aui-btn " href="${ctx }/weixin/signroom/list">
+	        <span class="aui-iconfont aui-icon-plus"></span>
+	    </a>
     </header>
     <article class="aui-content">
         <ul class="aui-list aui-media-list white" id="myReservationList">
@@ -62,28 +62,32 @@
                         <div class="aui-list-item-text font12">
                             房屋地址：{{item.propertyAddr}}
                         </div>
+						{{if item.specialReq}}
+							<div class="aui-list-item-text font12">
+								备注：{{item.specialReq}}
+							</div>
+						{{/if}}
                     </div>
-                    <div class="aui-list-item-media listspace">
+                    <div class="aui-list-item-media listspace"></div>
+						{{if item.resStatus == '0'}}
+							<div class="aui-btn aui-center cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
+						{{/if}}
+
 						{{if item.resStatus == '1'}}
-							<div class="aui-btn trans_bg">使用中</div>
+							<div class="aui-btn aui-center trans_bg">使用中</div>
 						{{/if}}
 
 						{{if item.resStatus == '2'}}
-							<div class="aui-btn trans_bg">使用完</div>
+							<div class="aui-btn aui-center trans_bg">已使用</div>
+						{{/if}}
+
+						{{if item.resStatus == '3'}}
+							<div class="aui-btn aui-center trans_bg">已过期</div>
 						{{/if}}
 
 						{{if item.resStatus == '4'}}
-							<div class="aui-btn trans_bg red">已取消</div>
+							<div class="aui-btn aui-center trans_bg red">已取消</div>
 						{{/if}}
-
-						{{if item.resStatus == '0'}}
-							{{if item.currentTime > item.endDate}}
-								<div class="aui-btn trans_bg">已过期</div>
-							{{else}}
-								<div class="aui-btn cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
-							{{/if}}
-						{{/if}}
-                    </div>
 
 					{{if item.currentDate == item.resDate}}
 						<span class="shuxing"></span>

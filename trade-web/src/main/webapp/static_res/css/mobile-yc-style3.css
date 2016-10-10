@@ -1,6 +1,10 @@
-.ml5 {
-    margin-left: 5px;
-}
+/*
+ *
+ *   AIST - Mobile style for YC
+ *   version 2.0+
+ *   微信端网页公共模版的部分
+ *
+*/
 .ml10 {
     margin-left: 10px;
 }
@@ -40,36 +44,8 @@
 .mt85rem {
     margin-top: 0.85rem;
 }
-.pt5 {
-    padding-top: 5px;
-}
-.pt10 {
-    padding-top: 10px;
-}
-.pt15 {
-    padding-top: 15px;
-}
-.pt20 {
-    padding-top: 20px;
-}
-.pb5 {
-    padding-bottom: 5px;
-}
-.pb10 {
-    padding-bottom: 10px;
-}
-.pb15 {
-    padding-bottom: 15px;
-}
-.pb20 {
-    padding-bottom: 20px;
-}
 .ptd5 {
     padding: 5px 0px;
-}
-.aui-btn-big {
-    padding: 0.4rem 5rem;
-    font-size: 0.8rem ;
 }
 .excend10 {
     min-height: 1.5rem!important;
@@ -110,13 +86,6 @@
 .relative {
     position:  relative;
 }
-.aui-center {
-    padding:0.23rem 0.55rem;
-    margin-top:-15px;
-    position:absolute;
-    top:50%;
-    right:20px;
-}
 .aui-list .listspace {
    padding: 1.2rem 0;
 }
@@ -146,10 +115,7 @@
     color: #428fcc!important;
     background: #eeeeee;
 }
-.form-con {
-    padding-bottom: 30px;
-    background: #fff;
-}
+
 /*--COLOR
 ------------------------------*/
 .blue {

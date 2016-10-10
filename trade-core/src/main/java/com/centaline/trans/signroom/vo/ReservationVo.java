@@ -16,6 +16,10 @@ public class ReservationVo {
 
 	private Integer numberOfParticipants; // 参与人数
 
+	private Integer numberOfPeople; // 房间容纳人数
+
+	private Integer actNumberOfPeople; // 实际容纳人数
+
 	private String transactItemCode; // 办理事项编号(签合同:contract,办贷款:doLoan,E+贷款:Eloan)
 
 	private String specialRequirement; // 特殊需求
@@ -25,6 +29,22 @@ public class ReservationVo {
 	private String selDate; // 预约日期
 
 	private String bespeakTime; // 预约时间段
+
+	public Integer getActNumberOfPeople() {
+		return actNumberOfPeople;
+	}
+
+	public void setActNumberOfPeople(Integer actNumberOfPeople) {
+		this.actNumberOfPeople = actNumberOfPeople;
+	}
+
+	public Integer getNumberOfPeople() {
+		return numberOfPeople;
+	}
+
+	public void setNumberOfPeople(Integer numberOfPeople) {
+		this.numberOfPeople = numberOfPeople;
+	}
 
 	public Long getTradeCenterId() {
 		return tradeCenterId;

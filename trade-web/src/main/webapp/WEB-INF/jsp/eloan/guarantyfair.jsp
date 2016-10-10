@@ -407,8 +407,6 @@
      				},
      				success : function(data) {
      					alert(data.message);
-     					window.close();
-     					//window.opener.callback();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
@@ -421,7 +419,6 @@
         	 });
         	 
              $(".close_btn").click(function(){
-         		window.close();
 					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
           		})
 	    });

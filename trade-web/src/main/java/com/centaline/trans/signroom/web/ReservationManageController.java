@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.signroom.entity.ResFlowup;
 import com.centaline.trans.signroom.service.ResFlowupService;
 import com.centaline.trans.signroom.service.ReservationService;
@@ -36,6 +38,9 @@ public class ReservationManageController {
 	@Autowired
 	private UamSessionService uamSessionService;
 
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
+
 	/**
 	 * 签约室列表
 	 * 
@@ -45,6 +50,19 @@ public class ReservationManageController {
 	 */
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
+		SessionUser currentUser = uamSessionService.getSessionUser();
+
+		String distinctId = "";
+		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
+			Org org = uamUserOrgService.getOrgById(currentUser
+					.getServiceCompanyId());
+
+			distinctId = org.getParentId();
+		} else if ("yucui_district"
+				.equals(currentUser.getServiceDepHierarchy())) {
+			distinctId = currentUser.getServiceCompanyId();
+		}
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String resPersonId = request.getParameter("resPersonId");
 		String resPeopleId = request.getParameter("resPeopleId");
@@ -71,6 +89,7 @@ public class ReservationManageController {
 		request.setAttribute("endDateTime", endDateTime);
 		request.setAttribute("resTime", resTime);
 		request.setAttribute("resStatus", resStatus);
+		request.setAttribute("distinctId", distinctId);
 
 		return "signroom/signinglist";
 	}

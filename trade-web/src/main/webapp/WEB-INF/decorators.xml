@@ -13,7 +13,8 @@
 		<pattern>/index.jsp</pattern>
 		<pattern>/mobile/case/box/*</pattern>
 		<pattern>/mobile/dashboard/box/*</pattern>
-		<pattern>/mobile/reservation/*</pattern>
+		<pattern>/weixin/signroom/*</pattern>
+		<pattern>/weixinAuth/*</pattern>
 	</excludes>
 
 	<decorator name="default" page="INSPINIA_template.jsp">

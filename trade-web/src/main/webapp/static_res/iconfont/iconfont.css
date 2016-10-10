@@ -11,6 +11,9 @@
   font-family:"iconfont" !important;
   font-size:16px;
   font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
 }
 .icon-edit:before { content: "\e600"; }
 .icon-favorfill:before { content: "\e601"; }
@@ -70,3 +73,16 @@
 .icon-wuzhurenwu:before { content: "\e637"; }
 .icon-wuzhuziyuan:before { content: "\e638"; }
 .icon-ezhuanhua:before { content: "\e639"; }
+
+.icon-dingwei:before { content: "\e60a"; }
+.icon-duihao:before { content: "\e607"; }
+.icon-dingwei1:before { content: "\e608"; }
+.icon-iconfontyoubianfangxiang:before { content: "\e604"; }
+.icon-duihao1:before { content: "\e609"; }
+.icon-naozhong:before { content: "\e605"; }
+.icon-iconfonthuiyixl:before { content: "\e600"; }
+.icon-iconfonthuiyil:before { content: "\e601"; }
+.icon-iconfonthuiyim:before { content: "\e602"; }
+.icon-iconfonthuiyis:before { content: "\e603"; }
+.icon-chenggong1:before { content: "\e606"; }
+.icon-cuowu:before { content: "\e60b"; }

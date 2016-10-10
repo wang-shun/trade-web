@@ -6,7 +6,6 @@ var selDate = $("#SelDate").val();
 var selBespeakTime = $("#selBespeakTime option:selected").val();
 
 $(function(){
-	
 	init();
 	
 	$("#selBespeakTime").change(function(){
@@ -28,14 +27,14 @@ $(function(){
 });
 
 //取号
-function quhao(obj){
+function quhao(obj,selBespeakTime,numberOfPeople){
 	defaultTradeCenterId = $("#selTradeCenter option:selected").val();
 	selDate = $("#SelDate").val();
-	selBespeakTime = $(obj).siblings("input[name='actBespeakTime']").val();
 	
 	$("#defaultTradeCenterId").val(defaultTradeCenterId);
 	$("#inputSelDate").val(selDate);
 	$("#inputBespeakTime").val(selBespeakTime);
+	$("#inputNumberOfPeople").val(numberOfPeople);
 	
 	$("#form1").submit();
 }
@@ -61,6 +60,7 @@ function initCalendar(){
 	 var currYear = (new Date()).getFullYear(); // 获取年  
      var currMonth = (new Date()).getMonth(); // 获取月  
      var currDay = (new Date()).getDate(); // 获取日
+     
 	$("#SelDate").mobiscroll().date({ 
 		theme: 'android-ics light', //皮肤样式
         display: 'modal', //显示方式
@@ -79,6 +79,8 @@ function initCalendar(){
         headerText: function (valueText) { array = valueText.split('-'); return array[0] + "年" + array[1] + "月"+array[2]+"日"; }, //自定义弹出框头部格式
 		//点击确定的事件
 		onSelect:function(valueText,inst){
+			getBespeakTime();
+			
 			defaultTradeCenterId = $("#selTradeCenter option:selected").val();
 			selDate = valueText;
 			selBespeakTime = $("#selBespeakTime option:selected").val();
@@ -131,7 +133,7 @@ function getTradeCenterList(){
 		async:false,
 		type:"POST",
 		dataType:"json",
-		url:ctx+"/mobile/reservation/getTradeCenterList",
+		url:ctx+"/weixin/signroom/getTradeCenterList",
 		success:function(data){
 			if(data.length > 0){
 				for(var i=0;i<data.length;i++){
@@ -150,6 +152,7 @@ function getTradeCenterList(){
 }
 
 function getBespeakTime(){
+	var selDate = $("#SelDate").val();
 	var strHtml = "<option value=''>预约时间</option>";
 	
 	$.ajax({
@@ -157,11 +160,19 @@ function getBespeakTime(){
 		async:false,
 		type:"POST",
 		dataType:"json",
-		url:ctx+"/mobile/reservation/getBespeakTime",
+		url:ctx+"/weixin/signroom/getBespeakTime",
 		success:function(data){
 			if(data.length > 0){
+				var currentDateTime = new Date()
+				
 				for(var i=0;i<data.length;i++){
-					strHtml += "<option value='"+ data[i] + "'>" + data[i] + "</option>";
+					var resTime = data[i];
+					var resStartTime = selDate + " " + resTime.substring(0,resTime.indexOf("-"));
+					var resStartDateTime = new Date(resStartTime);
+					
+					if(currentDateTime <= resStartDateTime){
+						strHtml += "<option value='"+ data[i] + "'>" + data[i] + "</option>";
+					}
 				}
 			}
 		}
@@ -178,12 +189,20 @@ function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 		async:false,
 		type:"POST",
 		dataType:"json",
-		url:ctx+"/mobile/reservation/getBespeakTime",
+		url:ctx+"/weixin/signroom/getBespeakTime",
 		success:function(data){
 			if(data.length > 0){
 				if(selBespeakTime == ""){
+					var currentDateTime = new Date()
+					
 					for(var i=0;i<data.length;i++){
-						strHtml += getSignRoomByTime(defaultTradeCenterId,selDate,data[i]);
+						var resTime = data[i];
+						var resStartTime = selDate + " " + resTime.substring(0,resTime.indexOf("-"));
+						var resStartDateTime = new Date(resStartTime);
+						
+						if(currentDateTime <= resStartDateTime){
+							strHtml += getSignRoomByTime(defaultTradeCenterId,selDate,data[i]);
+						}
 					}
 				}
 				else {
@@ -219,7 +238,7 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 		async:false,
 		type:"POST",
 		dataType:"json",
-		url:ctx+"/mobile/reservation/getSignRoomInfoList",
+		url:ctx+"/weixin/signroom/getSignRoomInfoList",
 		data:{tradeCenterId:defaultTradeCenterId,startTime:startTime,endTime:endTime},
 		success:function(data){
 			if(data.length > 0){
@@ -258,7 +277,7 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 		                    	subStrHtml += "<div class='aui-btn ml20 trans_bg'>取号</div></div><span class='baoman'></span>";
 		                    } 
 		                    else {
-		                    	subStrHtml += "<a href='javascript:void(0);' onClick='quhao(this);'><div class='aui-btn aui-btn-primary ml20'>取号</div></a><input type='hidden' name='actBespeakTime' value='" + selBespeakTime + "'/></div>";
+		                    	subStrHtml += "<a href='javascript:void(0);' onClick=\"quhao(this,'" + selBespeakTime + "','" + data[i].numberOfPeople + "');\"><div class='aui-btn aui-btn-primary ml20'>取号</div></a></div>";
 		                    }
 						}
 						else {
