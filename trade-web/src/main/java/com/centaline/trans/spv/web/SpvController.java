@@ -6,7 +6,9 @@ package com.centaline.trans.spv.web;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +19,6 @@ import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,13 +36,15 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
+import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.entity.ToWorkFlow;
-import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.SpvStatusEnum;
+import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -52,8 +55,10 @@ import com.centaline.trans.product.service.ProductCategoryService;
 import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
 import com.centaline.trans.spv.service.CashFlowInService;
 import com.centaline.trans.spv.service.CashFlowOutService;
 import com.centaline.trans.spv.service.ToSpvService;
@@ -838,7 +843,7 @@ public class SpvController {
         	cashFlowOutService.cashFlowOutPage(request, source, instCode, taskId, handle, businessKey);
         	request.setAttribute("urlType", "spvApply");
         }
-
+    	toAccesoryListService.getAccesoryList(request, "TransSign");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 	    
@@ -938,6 +943,66 @@ public class SpvController {
     	
     	return response;
 	}
+    
+    /**
+     * @Title: quereyCashFolwApplyAttachments 
+     * @Description: 获取出账申请附件
+     * @author: gongjd 
+     * @param cashFolwApplyId
+     * @return attachList
+     * @throws
+     */
+	@RequestMapping(value = "quereyCashFolwApplyAttachments")
+	@ResponseBody
+	public List<ToSpvCashFlowApplyAttach> quereyAttachments(String cashFolwApplyId) {
+		return cashFlowOutService.quereyAttachmentsByCashFolwApplyId(cashFolwApplyId);
+	}
+	
+	/**
+	 * @Title: saveCashFolwApplyAttachment 
+	 * @Description: 修改(添加、删除)出账申请附件
+	 * @author: gongjd 
+	 * @param toSpvCashFlowApplyAttach
+	 * @return response
+	 * @throws
+	 */
+	@RequestMapping(value = "saveCashFolwApplyAttachment")
+	@ResponseBody
+	public AjaxResponse<String> saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyId) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			cashFlowOutService.saveAttachments(fileUploadVO,cashFlowApplyId);
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setSuccess(false);
+			response.setMessage("保存失败！");
+		}
+		return response;
+	}
+	
+	/**
+	 * @Title: delAttachment 
+	 * @Description: 刪除出账申请附件
+	 * @author: gongjd 
+	 * @param request
+	 * @param fileUploadVO
+	 * @return 
+	 * @throws
+	 */
+	@RequestMapping(value = "delAttachment")
+	@ResponseBody
+	public AjaxResponse<String> delAttachment(FileUploadVO fileUploadVO) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			cashFlowOutService.delAttachment(fileUploadVO.getPkIdArr());
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setSuccess(false);
+			response.setMessage("删除失败！");
+		}
+		
+		return response;
+	}
 
     /**
      * @throws Exception  
@@ -990,6 +1055,3 @@ public class SpvController {
    		return  url;
    	}
 }
-
-
-
