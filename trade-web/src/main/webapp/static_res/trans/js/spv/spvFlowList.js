@@ -68,6 +68,7 @@
 										htmlText+="<td> <p>"+item.PAYER+"&nbsp;&nbsp;"+item.PAYER_ACC+"/"+item.PAYER_BANK+"</p></td>";
 										htmlText+="<td> <p>"+item.RECEIVER+"&nbsp;&nbsp;"+item.RECEIVER_ACC+"/"+item.RECEIVER_BANK+"</p></td></tr>";
 									})
+									 htmlText = htmlText.replace(new RegExp("undefined","g"),"");
 									 tbodyhtml.html(htmlText);	
 							
 							}
