@@ -1,3 +1,5 @@
+var tryTime = 0;
+var webSocket = null;
 $(function () {
     $(".choices span").click(function() {
         if($(this).hasClass("selected")) {
@@ -31,7 +33,59 @@ $(function () {
         ajaxSubmit(1);
     });
     
+  //产证地址文本框失去焦点获取对应的caseCode
+	$("#propertyAddress").blur(function(){
+		$(".autocompleter").hide();
+	});
+	
+	$("#propertyAddress").focus(function(){
+		$(".autocompleter").show();
+	});
+    
     ajaxSubmit(0);
+    
+    //initSocket();
+    /**
+     * 初始化websocket，建立连接
+    */
+    function initSocket() {
+	     if (!window.WebSocket) {
+		    alert("您的浏览器不支持websocket！");
+		     return false;
+	    }
+	    webSocket = new WebSocket("ws://trade.centaline.com:8083/trade-web/signRoomWebsocket");
+	    // 收到服务端消息
+	    webSocket.onmessage = function (msg) {
+	    	console.log(msg);
+	    };
+
+	    // 异常
+	    webSocket.onerror = function (event) {
+	    	console.log(event);
+	    };
+
+	    // 建立连接
+	    webSocket.onopen = function (event) {
+	    	console.log(event);
+	    };
+
+	    // 断线重连
+	    webSocket.onclose = function () {
+	    // 重试10次，每次之间间隔10秒
+	    if (tryTime < 10) {
+		    setTimeout(function () {
+		    webSocket = null;
+		    tryTime++;
+		    initSocket();
+		    	}, 500);
+	    	} else {
+	    	tryTime = 0;
+	    	}
+	    };
+    }
+    
+    
+    
     $("#searchBtn").click(function(){
     	var curDate = $.trim($('#curDate').val());
     	if(curDate==''){
@@ -72,13 +126,12 @@ $(function () {
 		var signingCenterId = $("#tradeCenterId").val();//签约中心id
 		var roomId = $("#roomId").val(); //房间ID
 		var resPersonOrgId = $("#resPersonOrgId").val();//预约人组织ID
-		
+		var startDate = $("#startDate").val();//排期起始时间
 		/*var slotTime = $("#slotTime").html();
 		var curDate = $("#curDate").val();*/
 		
 		/*var startDate = curDate +' '+slotTime.substring(0,slotTime.indexOf('-'));
 		var endDate = curDate +' '+slotTime.substr(slotTime.indexOf('-')+1);*/
-	  	
 	   	$.ajax({
 	     		url:ctx+"/signroom/addReservation",
 	     		method:"post",
@@ -95,9 +148,9 @@ $(function () {
 	     			     signingCenterId : signingCenterId,
 	     			     roomId : roomId,
 	     			     resStatus : '1',
-	     			     resPersonOrgId : resPersonOrgId
-	     			     /*startDate : startDate,
-	     			     endDate : endDate*/
+	     			     resPersonOrgId : resPersonOrgId,
+	     			     startDate : startDate
+	     			     /*endDate : endDate*/
 	     		},	 
 				success : function(data) {   
 						if(data.success){
@@ -116,15 +169,15 @@ $(function () {
 	//产证地址文本框失去焦点获取对应的caseCode
 	$("#propertyAddress").blur(function(){
 		var propertyAddress = this.value;
-		
+		var agentCode = $("#jjrName").attr('hVal'); //预约人id
 		if(propertyAddress != ""){
 			$.ajax({
 				cache:false,
 				async:false,
 				type:"POST",
 				dataType:"text",
-				url:ctx+"/weixin/signroom/getCaseCodeByPropertyAddr",
-				data: {propertyAddress:propertyAddress},
+				url:ctx+"/weixin/signroom/getCaseCodeByPropertyAddrBack",
+				data: {propertyAddress:propertyAddress,agentCode:agentCode},
 				success:function(data){
 					$("#caseCode").val(data);
 				}
@@ -166,37 +219,7 @@ function signRoomSelectUserBack(array) {
 	
 	var agentCode = $("#jjrName").attr('hVal');
 	
-	//文本框自动填充
-	   $("#propertyAddress").keyup(function(){
-		   var inputValue = this.value;
-		   
-		   if(inputValue != ""){
-			   $.ajax({
-					cache:false,
-					async:false,
-					type:"POST",
-					dataType:"json",
-					url: ctx + "/weixin/signroom/getPropertyAddressList",
-					data: {inputValue: $("#propertyAddress").val(),agentCode : agentCode},
-					success:function(data){
-						if(data.length > 0){
-							 $("#propertyAddress").autocompleter({
-							       highlightMatches: true,
-							       source: data,
-							       hint: true,
-							       empty: false,
-							       limit: 3,
-							       callback: function (value, index, selected) {
-							           if (selected) {
-							               $('.icon').css('background-color');
-							           }
-							       }
-							   });
-						}
-					}
-				});
-		   }
-	   });
+	getPropertyAddress(agentCode);
 	
 }
 
@@ -244,7 +267,7 @@ function ajaxSubmit(obj) {
 				  	th+="<td><p class='big'>"+data.content.signRooms[i].districtName+"</p></td><td><p class='smll_sign'>"+data.content.signRooms[i].numbeOfAccommodatePeople+"</p></td>" ;
 				  for(var j=0;j<data.content.signRooms[i].rmRoomSchedules.length;j++){
 					  if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N' && data.content.signRooms[i].rmRoomSchedules[j].zhiHui==false){
-						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot +"','"+data.content.signRooms[i].rmRoomSchedules[j].pkid+"','"+data.content.signRooms[i].tradeCenter+"','"+data.content.signRooms[i].tradeCenterId+"','"+data.content.signRooms[i].pkid+"','"+data.content.signRooms[i].numbeOfAccommodatePeople+"')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
+						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot +"','"+data.content.signRooms[i].rmRoomSchedules[j].pkid+"','"+data.content.signRooms[i].tradeCenter+"','"+data.content.signRooms[i].tradeCenterId+"','"+data.content.signRooms[i].pkid+"','"+data.content.signRooms[i].numbeOfAccommodatePeople+"','"+data.content.signRooms[i].rmRoomSchedules[j].startDate+"')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N' && data.content.signRooms[i].rmRoomSchedules[j].zhiHui==true){
 						  th+="<td><span class='grey_no big'>空置</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='0'){
@@ -263,7 +286,7 @@ function ajaxSubmit(obj) {
     });
 }
 
-function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterId,roomId,numberOfPeople){
+function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterId,roomId,numberOfPeople,startDate){
 	$("#roomNo").html(roomNo);
 	$("#roomType").html(roomType);
 	$("#slotTime").html(slotTime);
@@ -272,10 +295,13 @@ function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterI
 	$("#tradeCenterId").val(tradeCenterId);
 	$("#roomId").val(roomId);
 	$("#numberOfPeople").val(numberOfPeople);
+	$("#startDate").val(startDate);
 	$("#jjrName").val("");
 	$("#jjrName").attr('hVal', "");
 	$("#resPersonOrgId").val("");
 	$("#caseCode").val("");
+	$("#propertyAddress").val("");
+	$('#propertyAddress').autocompleter('destroy');
 	
 	var curdate = $("#curDate").val();
 	$("#signDate").html(curdate.substring(5,7)+'/'+curdate.substr(8));
@@ -328,7 +354,24 @@ function checkZhengShu(num)
      return te.test(num);
 }
 
-
+//获取产证地址列表
+function getPropertyAddress(agentCode){
+	$.ajax({
+		cache:false,
+		async:false,
+		type:"POST",
+		dataType:"json",
+		url: ctx + "/weixin/signroom/getPropertyAddressList",
+		data: {agentCode : agentCode},
+		success:function(data){
+			if(data.length > 0){
+				 $("#propertyAddress").autocompleter({
+				       source: data
+				   });
+			}
+		}
+	});
+}
 
 
 
