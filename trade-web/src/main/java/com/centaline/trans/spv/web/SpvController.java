@@ -976,6 +976,7 @@ public class SpvController {
 		}catch(Exception e){
 			response.setSuccess(false);
 			response.setMessage("保存失败！");
+			e.printStackTrace();
 		}
 		return response;
 	}
@@ -999,6 +1000,7 @@ public class SpvController {
 		}catch(Exception e){
 			response.setSuccess(false);
 			response.setMessage("删除失败！");
+			e.printStackTrace();
 		}
 		
 		return response;

@@ -383,27 +383,28 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	@Override
 	public void saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyId) {
 		SessionUser user = uamSessionService.getSessionUser();
-		List<String> preFileCodes = fileUploadVO.getFramePart();
-		int size = preFileCodes.size();
 		
-		if(fileUploadVO.getPkIdArr() != null) {
+		if(fileUploadVO.getPkIdArr() != null && !fileUploadVO.getPkIdArr().isEmpty()) {
 			delAttachment(fileUploadVO.getPkIdArr());
 		}
 		
-		for(int i=0; i<size; i++) {
-			ToSpvCashFlowApplyAttach attach = new ToSpvCashFlowApplyAttach();
-			attach.setAttachId(fileUploadVO.getPictureNo().get(i));
-			attach.setApplyId(cashFlowApplyId);
-			int length = fileUploadVO.getPicName().get(i).length();
-			int index = fileUploadVO.getPicName().get(i).lastIndexOf(".");
-			attach.setType(fileUploadVO.getPicName().get(i).substring(index+1, length));
-			attach.setComment(fileUploadVO.getPicName().get(i));
-			attach.setIsDeleted("0");
-			attach.setCreateBy(user.getId());
-			attach.setCreateTime(new Date());
-			
-			toSpvCashFlowApplyAttachMapper.insertSelective(attach);
-		}	
+		if(fileUploadVO.getPictureNo() != null && !fileUploadVO.getPictureNo().isEmpty()){
+			for(int i=0; i<fileUploadVO.getPictureNo().size(); i++) {
+				ToSpvCashFlowApplyAttach attach = new ToSpvCashFlowApplyAttach();
+				attach.setAttachId(fileUploadVO.getPictureNo().get(i));
+				attach.setApplyId(cashFlowApplyId);
+//				int length = fileUploadVO.getPicName().get(i).length();
+//				int index = fileUploadVO.getPicName().get(i).lastIndexOf(".");
+//				attach.setType(fileUploadVO.getPicName().get(i).substring(index+1, length));
+				attach.setComment(/*fileUploadVO.getPicName().get(i)*/"123");
+				attach.setIsDeleted("0");
+				attach.setCreateBy(user.getId());
+				attach.setCreateTime(new Date());
+				
+				toSpvCashFlowApplyAttachMapper.insertSelective(attach);
+			}	
+		}
+		
 	}
 	
 	@Override

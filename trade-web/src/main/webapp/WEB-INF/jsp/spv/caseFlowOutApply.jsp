@@ -357,7 +357,7 @@
                                                     <option value="">请选择</option>
                                                     <option value="转账">转账</option>
                                                     <option value="刷卡">刷卡</option>
-                                                    <option value="现金">现金</option>
+                                                    <option value="现金">现金${fn:length(spvChargeInfoVO.toSpvCashFlowApplyAttachList) }</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -373,7 +373,7 @@
 										<input type="hidden" name="redirect"
 											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
 										<input type="hidden" id="preFileCode" name="preFileCode"
-											value="${accesory.accessoryCode }">
+											value="${accesory.type }">
 									</noscript>
 										<div class="" >
 											<div role="presentation" >
@@ -439,7 +439,7 @@
 							        {% } else { %}
 							            <div class="preview span12">
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<!--<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>-->
+										<input type="hidden" name="picTag" value="${accesory.type }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.id) { %}
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
@@ -573,7 +573,9 @@
     <!-- Custom and plugin javascript -->
     <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
-    	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+    <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
+    <!-- 上传附件相关 --> 
+    <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
@@ -596,6 +598,8 @@
 	<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachment.js"></script>
     <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
+    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+    <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
 
 <script>
