@@ -192,7 +192,8 @@ public class WarnListController {
 			object.put("propertyAddr", toPropertyInfo.getPropertyAddr());
 			//放款信息
 			BigDecimal releaseAmount=new BigDecimal(0);
-			List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
+			//toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
+			List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCodeAndConfirmStatus(eloanCase.getEloanCode());
 			for (ToEloanRel toEloanRel : eloanRels) {
 				if(toEloanRel.getConfirmStatus().equals("1")){
 					releaseAmount=releaseAmount.add(toEloanRel.getReleaseAmount());

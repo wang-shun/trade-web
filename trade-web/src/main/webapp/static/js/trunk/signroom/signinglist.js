@@ -126,8 +126,20 @@ $(function(){
   $("#selResTime").change(function(){
 	  $("#searchForm input[name='resTime']").val(this.value);
   });
-    
+  
 });
+
+function showTip(obj){
+	$(obj).poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'right',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+		});
+}
 
 //签约室开始使用
 function startUse(obj,resDate,startTime,endTime){
