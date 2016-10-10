@@ -205,7 +205,13 @@ function ajaxSubmit() {
 				 for(var i=0;i<data.content.length;i++){
 					 var roomType = $.trim(data.content[i].roomType)=='0'?'普通房间':'机动房间';
 					 var roomStatus = $.trim(data.content[i].roomStatus)=='0'?'关闭':'开放';
-					   th+="<tr><td><p class='big'>"+data.content[i].roomNo+"</p></td><td><p><i class='sign_blue'>"+roomType+"</i></p></td><td><p class='big'>"+data.content[i].tradeCenter+"</p></td><td><p class='big'>"+data.content[i].numbeOfAccommodatePeople+"</p></td>";
+					 th+="<tr><td><p class='big'>"+data.content[i].roomNo+"</p></td>";
+					 if($.trim(data.content[i].roomType)=='0'){
+						 th+="<td><p><i class='sign_blue'>"+roomType+"</i></p></td>";
+					 }else{
+						 th+="<td><p><i class='sign_yellow'>"+roomType+"</i></p></td>";
+					 }
+					   th+="<td><p class='big'>"+data.content[i].tradeCenter+"</p></td><td><p class='big'>"+data.content[i].numbeOfAccommodatePeople+"</p></td>";
 					   th+="<td>";
 					   var week='';
 					   if(data.content[i].weeks[1]){

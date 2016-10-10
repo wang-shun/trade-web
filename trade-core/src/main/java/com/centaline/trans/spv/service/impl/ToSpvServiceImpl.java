@@ -89,7 +89,6 @@ import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvCaseFlowOutInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
-import com.centaline.trans.spv.vo.SpvRecordReturnVO;
 import com.centaline.trans.spv.vo.SpvRecordedInfoVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVOItem;
@@ -1023,7 +1022,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}*/
 		
 		/**3.申请附件*/
-		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
+/*		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
 		if(toSpvCashFlowApplyAttachList != null && !toSpvCashFlowApplyAttachList.isEmpty()){
 			for(ToSpvCashFlowApplyAttach toSpvCashFlowApplyAttach:toSpvCashFlowApplyAttachList){
 				if(toSpvCashFlowApplyAttach.getPkid() == null){
@@ -1038,7 +1037,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 					toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(toSpvCashFlowApplyAttach);
 				}
 			}
-		}
+		}*/
 		
 		List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVOList = spvChargeInfoVO.getSpvCaseFlowOutInfoVOList();
 		if(spvCaseFlowOutInfoVOList != null && !spvCaseFlowOutInfoVOList.isEmpty()){

@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	var handle = $("#handle").val();
 	
-	$("#cashFolwRecord").find("select").prop("disabled",true);
+	$("#cashFlowRecord").find("select").prop("disabled",true);
 	
 	//流程开启后只读表单
 	if(handle == 'directorAduit' || handle == 'financeAduit' 
@@ -202,5 +202,4 @@ function readOnlyRiskForm(){
 	$("input").prop("readOnly",true);
 	$(":radio").prop("disabled",true);
 	$("select").prop("disabled",true);
-	$("img").prop("disabled",true);
 }

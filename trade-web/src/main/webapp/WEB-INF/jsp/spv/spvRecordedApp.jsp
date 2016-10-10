@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -30,6 +31,7 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " />
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                    
@@ -43,20 +45,20 @@
                                     <label>
                                        产品类型
                                     </label>
-                                    <span class="info_one">光大四方资金监管</span>
+                                    <span class="info_one">${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }</span>
                                 </p>
                                 <p>
                                     <label>
                                         监管金额
                                     </label>
-                                    <span class="info_one">300万元人民币</span>
+                                   <span class="info_one">${spvBaseInfoVO.toSpv.amount }万元</span>
                                 </p>
 
                                 <p>
                                     <label>
                                         物业地址
                                     </label>
-                                    <span class="info">上海市长宁区畅园3栋1702室</span>
+                                    <span class="info">${spvBaseInfoVO.toSpvProperty.prAddr }</span>
                                 </p>
 
                             </div>
@@ -65,21 +67,21 @@
                                     <label>
                                         收款人名称
                                     </label>
-                                    <span class="info_one">中原地产监管账户</span>
+                                   <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].name }</span>
                                 </p>
 
                                 <p>
                                     <label>
                                         收款人账户
                                     </label>
-                                    <span class="info_one">62248757878587</span>
+                                    <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].account }</span>
                                 </p>
 
                                 <p>
                                     <label>
                                         收款人开户行
                                     </label>
-                                    <span class="info">中原地产监管账户开户行</span>
+                                    <span class="info">${spvBaseInfoVO.toSpvAccountList[1].bank }</span>
                                 </p>
                             </div>
                         </div>
@@ -96,11 +98,13 @@
 		                        <input type="hidden" name="spvAccountCode" value="${spvBaseInfoVO.toSpvAccountList[2].account}" />
 		                        <input type="hidden" name="spvAccountBank" value="${spvBaseInfoVO.toSpvAccountList[2].bank}" />
 		                         <%-- 流程相关 --%>
-								<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-								<input type="hidden" id="instCode" name="instCode" value="${instCode}">
-								<input type="hidden" id="source" name="source" value="${source}">
-								<input type="hidden" id="urlType" name="source" value="${urlType}">
-								<input type="hidden" id="handle" name="handle" value="${handle }">
+								<input type="hidden" id="taskId" name="taskId" value="${taskId }" />
+								<input type="hidden" id="instCode" name="instCode" value="${instCode}" />
+								<input type="hidden" id="source" name="source" value="${source}" />
+								<input type="hidden" id="urlType" name="source" value="${urlType}" />
+								<input type="hidden" id="handle" name="handle" value="${handle }" />
+								<input type="hidden" id="chargeInAppr" name="chargeInAppr" />
+								<input type="hidden" id="businessKey" name="businessKey" value="${businessKey }" />
 		                        <input type="hidden" name="oldpkid"  />
                                 <div class="table-box" >
                                     <table class="table table-bordered customerinfo">
@@ -114,27 +118,31 @@
                                             <th>操作</th>
                                         </thead>
                                         <tbody id="addTr">
-                                            <tr>
+                                           <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
+                                           <tr>
                                                 <td>
-                                                    <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" />
+                                                    <input class="table-input-one boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }" />
                                                 </td>
                                                 <td>
-                                                    <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" /></p>
+                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }" /></p>
                                                     <p>
-                                                    <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" /></p>
+                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerBank }" /></p>
                                                     <p>
                                                 </td>
 
                                                 <td class="text-left" >
-                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" />万元
+                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" />万元
                                                 </td>
                                                 <td>
-                                                    <input class="table_input boderbbt" type="text" placeholder="请输入编号" />
+                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" />
                                                 </td>
                                                 <td>
-                                                    <select name="" class="table-select boderbbt">
+                                                    <select name="select_direction" id="select_direction" class="table-select boderbbt" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction }">
+                                                        
                                                         <option value="">请选择</option>
-                                                        <option value="">转账凭证</option>
+                                                        <option value="转账">转账</option>                                                                                                                                                 ';
+														<option value="刷卡">刷卡</option>  
+														<option value="现金">现金</option> 
                                                     </select>
                                                 </td>
                                                 <td>
@@ -145,9 +153,15 @@
                                                         <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
                                                     </span>
                                                 </td>
-                                                <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
+                                                <td align="center">
+	                                                <a href="javascript:void(0)" onClick="getTR(0)">添加</span></a>
+	                                                <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
                                                 </td>
                                             </tr>
+                                          
+                                          
+                                          
+                                       </c:forEach>
 
                                         </tbody>
                                     </table>
@@ -169,44 +183,22 @@
                         </div>
                         <div class="view-content ">
                             <div class="view-box">
-                                <div class="view clearfix">
-                                    <p>
-                                        <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
-                                        <span class="result pink_bg">未通过</span>
-                                        <span class="time">审核日期:<em>2016-9-12</em></span>
-                                    </p>
-                                    <p>
-                                        <span class="auditing">审核意见</span>
-                                        <em class="view_content">账号与附件不一致，重新填写</em>
-                                    </p>
-                                </div>
-                                <div class="view clearfix">
-                                    <p>
-                                        <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
-                                        <span class="result pink_bg">未通过</span>
-                                        <span class="time">审核日期:<em>2016-9-12</em></span>
-                                    </p>
-                                    <p>
-                                        <span class="auditing">审核意见</span>
-                                        <em class="view_content">账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写</em>
-                                    </p>
-                                </div>
-
-                                <div class="view clearfix">
-                                    <p>
-                                        <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
-                                        <span class="result pink_bg">未通过</span>
-                                        <span class="time">审核日期:<em>2016-9-12</em></span>
-                                    </p>
-                                    <p>
-                                        <span class="auditing">审核意见</span>
-                                        <em class="view_content">账号与附件不一致，重新填写</em>
-                                    </p>
-                                </div>
+                                	<c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status3">
+	                            <div class="view clearfix">
+	                                <p>
+	                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }</em></span>
+	                                   <span class="result pink_bg">${toSpvAduit.result }</span>
+	                                   <span class="time">审核日期:<em><fmt:formatDate value="${toSpvAduit.createTime }" pattern="yyyy-MM-dd"/> </em></span>
+	                                </p>
+	                                <p>
+	                                    <span class="auditing">审核意见</span>
+	                                    <em class="view_content">${toSpvAduit.content }</em>
+	                                </p>
+	                            </div>
+                            </c:forEach>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <!-- main End -->
@@ -237,8 +229,17 @@ $(function() {
 
 });
 $('.response').responsivegallery();
+
+function rescCallbocak(){
+	 /*   if($("#urlType").val() == 'myTask'){    	 
+		   window.opener.location.reload(); //刷新父窗口
+   	   window.close(); //关闭子窗口.
+	     }else{ */
+	    	 window.location.href = ctx+"/spv/spvList";
+	    // }
+	}
+
 </script>
 
 </body>
-
 </html>

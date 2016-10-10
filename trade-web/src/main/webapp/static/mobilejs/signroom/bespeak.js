@@ -169,11 +169,7 @@ $(function() {
 			success:function(data){
 				if(data.length > 0){
 					 $("#propertyAddress").autocompleter({
-					       highlightMatches: true,
-					       source: data,
-					       hint: true,
-					       empty: false,
-					       focusOpen:true
+					       source: data
 					   });
 				}
 			}

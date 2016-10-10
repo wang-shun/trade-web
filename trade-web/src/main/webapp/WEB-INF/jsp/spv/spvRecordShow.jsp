@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -95,11 +96,14 @@
                         <input type="hidden" name="spvAccountCode" value="${spvBaseInfoVO.toSpvAccountList[2].account}" />
                         <input type="hidden" name="spvAccountBank" value="${spvBaseInfoVO.toSpvAccountList[2].bank}" />
                          <%-- 流程相关 --%>
-						<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-						<input type="hidden" id="instCode" name="instCode" value="${instCode}">
-						<input type="hidden" id="source" name="source" value="${source}">
-						<input type="hidden" id="urlType" name="source" value="${urlType}">
-						<input type="hidden" id="handle" name="handle" value="${handle }">
+						<input type="hidden" id="taskId" name="taskId" value="${taskId }" />
+						<input type="hidden" id="instCode" name="instCode" value="${instCode}" />
+						<input type="hidden" id="source" name="source" value="${source}" />
+						<input type="hidden" id="urlType" name="source" value="${urlType}" />
+						<input type="hidden" id="handle" name="handle" value="${handle }" />
+						<input type="hidden" id="chargeInAppr" name="chargeInAppr" />
+						<input type="hidden" id="businessKey" name="businessKey" value="${businessKey }" />
+						<input type="hidden" id="turndownContent" name="turndownContent" />
                         <input type="hidden" name="oldpkid"  />
                               <div class="table-box" >
                                   <table class="table table-bordered customerinfo">
@@ -126,10 +130,10 @@
                                                   <div class="big">${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }万元</div>
                                               </td>
                                               <td>
-                                                  <div class="big">${spvCaseFlowOutInfoVO.toSpvCashFlowApply.cashflowApplyId }</div>
+                                                  <div class="big"><%--  ${spvCaseFlowOutInfoVO.toSpvCashFlowApply.cashflowApplyId } --%> </div>
                                               </td>
                                               <td>
-                                                  <div class="big">${spvCaseFlowOutInfoVO.toSpvCashFlowApply.direction }</div>
+                                                  <div class="big"> ${spvCaseFlowOutInfoVO.toSpvCashFlow.direction } </div>
                                               </td>
                                               <td>
                                                   <a class="response" href="../static/trans/img/uplody01.png" title="凭证1"><button type="button" class="btn btn-sm btn-default" ><i class="icon iconfont icon_y">&#xe635;</i> 凭证1</button></a>
@@ -155,7 +159,7 @@
  							<c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status3">
 	                            <div class="view clearfix">
 	                                <p>
-	                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }(资金监管专员)</em></span>
+	                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }</em></span>
 	                                   <span class="result pink_bg">${toSpvAduit.result }</span>
 	                                   <span class="time">审核日期:<em><fmt:formatDate value="${toSpvAduit.createTime }" pattern="yyyy-MM-dd"/> </em></span>
 	                                </p>
@@ -170,11 +174,11 @@
 
 
                       <div class="submitter">
-                          提交人：<span>${spvChargeInfoVO.toSpvCashFlowApply.createBy}(业务员)</span>
+                     <%--      提交人：<span>${spvChargeInfoVO.toSpvCashFlowApply.createBy}(业务员)</span> --%>
                       </div>
                       <div class="excuse">
                           <form action="">
-                              <textarea name="" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                              <textarea name="turndownContent_" id="turndownContent_" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                           </form>
                           <div class="form-btn">
                           <div class="text-center">

@@ -11,6 +11,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出账</title>
+    <!-- 上传相关 -->
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+		rel="stylesheet">
+	<!-- 展示相关 -->
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+	<!-- 备件相关结束 -->
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/bootstrap.min.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/font-awesome.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/animate.css" rel="stylesheet">
@@ -28,6 +44,8 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
 </head>
+<body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var source = "${source}";
@@ -37,8 +55,6 @@
 		var idList = [];
 	}
 </script>
-<body>
-<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <div id="wrapper">
         <%-- 流程相关 --%>
         <form id="procForm" action="">
@@ -72,7 +88,7 @@
                                     <label>
                                         监管金额
                                     </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpv.amount }万元</span>
+                                    <span class="info_one">${spvBaseInfoVO.toSpv.amount }万</span>
                                 </p>
 
                                 <p>
@@ -112,7 +128,7 @@
                             </div>
                             <form class="form-inline table-capital">
                                 <div class="table-box" >
-                                    <table class="table table-bordered  customerinfo" id="cashFolwRecord">
+                                    <table class="table table-bordered  customerinfo" id="cashFlowRecord">
                                         <thead>
                                         <tr>
                                             <th>
@@ -223,7 +239,7 @@
                                                     </span>
                                                 </p>
                                                 <p class="big">
-                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }万元
+                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }万
                                                 </p>
                                             </td>
                                             <td>
@@ -286,10 +302,10 @@
 									            ligerui='none' defaultvalue="" ></aist:dict>
                                             </td>
                                             <td>
-                                                <span class="btn_file">
+                                                <%-- <span class="btn_file">
                                                     <input type="file" class="file" />
                                                     <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
-                                                </span>
+                                                </span> --%>
                                             </td>
                                         </tr>
                                         </c:forEach>
@@ -331,7 +347,7 @@
                                             </td>
 
                                             <td class="text-left" >
-                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.amount" />万元
+                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.amount" />万
                                             </td>
                                             <td>
                                                 <input class="table_input boderbbt" type="text" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.voucherNo" />
@@ -345,12 +361,124 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <a class="response" href="${ctx }/static_res/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <a class="response" href="${ctx }/static_res/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <span class="btn_file">
+                                            <c:choose>
+					<c:when test="${spvChargeInfoVO.toSpvCashFlowApplyAttachList!=null}">
+						<c:forEach var="accesory" items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList}"
+							varStatus="status">
+							<div class="" id="fileupload_div_pic">
+								<form id="fileupload"
+									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+									method="POST" enctype="multipart/form-data">
+									<noscript>
+										<input type="hidden" name="redirect"
+											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+										<input type="hidden" id="preFileCode" name="preFileCode"
+											value="${accesory.accessoryCode }">
+									</noscript>
+										<div class="" >
+											<div role="presentation" >
+												<div id="picContainer${accesory.pkid }" class="files"
+													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+												<a id="chandiaotuBtn" class="response" href="${ctx }/static_res/trans/img/uplody01.png"  title="凭证3">
+												<button type="button" class="btn btn-sm btn-default">凭证3
+                                                <c:if test="${empty handle or handle eq 'apply' }"><i class="icon iconfont icon_x">&#xe60a;</i></c:if>
+                                                <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }"><i class="icon iconfont icon_y">&#xe635;</i></c:if>
+                                                </button>
+												</a>
+												<span class="btn_file">
+                                                    <input id="picFileupload${accesory.pkid }" type="file" class="file"
+													name="files[]" multiple
+													data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+													data-sequential-uploads="true">
+                                                    <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
+												</span>
+											</div>
+										</div>
+								</form>
+							</div>
+		
+							<div class="row-fluid">
+								<div class="">
+									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+									<!--图片缩图  -->
+							        <div class="preview"><span class="fade"></span></div>
+									<!--  错误信息 -->
+							        {% if (file.error) { %}
+							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else if (o.files.valid && !i) { %}
+									<!-- 单个对应的按钮  -->
+							            <div class="start span1" style="display: none">
+										{% if (!o.options.autoUpload) { %}
+							                <button class="btn">
+							                    <i class="icon-upload icon-white"></i>
+							                    <span>上传</span>
+							                </button>
+							            {% } %}
+										</div>
+							        {% } else { %}
+							            <div class="span1" colspan="2"></div>
+							        {% } %}
+							        <div class="cancel" style="margin-top:-125px;margin-left:85%;">
+									{% if (!i) { %}
+							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        {% } %}
+									</div>
+							    </div>
+							{% } %}
+						</script>
+									<script id="templateDownload${accesory.pkid }"
+										type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+							        {% if (file.error) { %}
+							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else { %}
+							            <div class="preview span12">
+										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
+										<!--<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>-->
+										<input type="hidden" name="picName" value="{%=file.name%}"></input>
+							            {% if (file.id) { %}
+                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
+							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
+                                              {% } else { %}
+ 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
+  											  {% } %}
+							            {% } %}</div>
+							        {% } %}
+							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
+							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        </div>
+							    </div>
+							{% } %}
+						</script>
+								</div>
+							</div>
+						</c:forEach>
+		
+						<div class="row-fluid" style="display: none;">
+							<div class="span4">
+								<div class="control-group">
+									<a class="btn blue start" id="startUpload"
+										style="height: 30px; width: 50px"> <i
+										class="icon-upload icon-white"></i> <span>上传</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</c:when>
+				</c:choose>
+                                               <%--  <a class="response" href="${ctx }/static_res/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                <a class="response" href="${ctx }/static_res/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a> --%>
+                                                <%-- <span class="btn_file">
                                                     <input type="file" class="file" />
                                                     <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
-                                                </span>
+                                                </span> --%>
                                             </td>
                                             <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
                                             </td>
@@ -437,6 +565,7 @@
         </div>
     </div>
     <!-- Mainly scripts -->
+    <content tag="local_script">
     <script src="${ctx}/static_res/trans/js/spv/jquery-2.1.1.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/bootstrap.min.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/jquery.metisMenu.js"></script>
@@ -444,6 +573,27 @@
     <!-- Custom and plugin javascript -->
     <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
+    	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+	<!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachment.js"></script>
     <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
@@ -469,7 +619,7 @@ function getAtr(i){
     $str+="<input type='hidden' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.pkId' >";
     $str+=" <td><input class='table-input-one' type='text' placeholder='请输入姓名' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payer' /></td>";
     $str+="<td><p><input class='table_input' type='text' placeholder='请输入银行卡号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payerAcc' /></p><p><input class='table_input' type='text' placeholder='请输入银行名称' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payerBank' /></p></td>";
-    $str+="<td><input style='border:none;width: 50px;' type='text' placeholder='金额' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' />万元</td>";
+    $str+="<td><input style='border:none;width: 50px;' type='text' placeholder='金额' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' />万</td>";
     $str+="<td><input class='table_input' type='text' placeholder='请输入编号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' /></td>";
     $str+="<td><select class='table-select' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.direction' onChange='this.value'><option value=''>请选择</option><option value='转账'>转账</option><option value='刷卡'>刷卡</option><option value='现金'>现金</option></select></td>";
     $str+="<td><button class='btn btn-sm btn-x space3'>凭证1<i class='icon iconfont icon_x'>&#xe60a;</i></button><button class='btn btn-sm btn-x space3'>凭证2<i class='icon iconfont icon_x'>&#xe60a;</i></button><span class='btn_file'><input type='file' class='file' /><img class='bnt-flie' src='${ctx }/static_res/trans/img/bnt-flie.png' alt='' /></span></td>";
@@ -487,7 +637,6 @@ function getDel(k){
 }
 
 </script>
-
+</content>
 </body>
-
 </html>

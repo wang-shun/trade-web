@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -284,7 +285,7 @@ public class SpvCashFlowInController {
 				cashFlowInService.cashFlowInPageDeal(request, handle, spvrevo, cashflowApplyCode);
 			}
 			if(StringUtils.equals(handle, "apply")){
-				cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvrevo, cashflowApplyCode);
+				//cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvrevo, cashflowApplyCode);
 			}
 			response.setSuccess(true);
 		} catch (Exception e) {
@@ -311,9 +312,12 @@ public class SpvCashFlowInController {
      */
     @RequestMapping("deal")
 	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,
-			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeInAppr) {
+			//String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeInAppr) {
+    	String taskId,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
-    	SpvRecordedsVO spvRecordedsVO = new SpvRecordedsVO();
+//    	SpvRecordedsVO spvRecordedsVO = new SpvRecordedsVO();
+    	SpvChargeInfoVO spvChargeInfoVO = new SpvChargeInfoVO();
+    	
     	try {
 			//String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 			String cashflowApplyCode = "";
@@ -323,13 +327,13 @@ public class SpvCashFlowInController {
 				
 				switch (handle) {
 				case "apply":
-					//cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
+					cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
 					break;
 			    case "directorAduit":
-			    	cashFlowInService.cashFlowInDirectorAduitDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode,chargeInAppr);
+			    	cashFlowInService.cashFlowInDirectorAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
 					break;
 			    case "financeAduit":
-			    	cashFlowInService.cashFlowInFinanceAduitDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode,chargeInAppr);
+			    	cashFlowInService.cashFlowInFinanceAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
 			    	break;
 				}	
 			}else{
@@ -367,6 +371,32 @@ public class SpvCashFlowInController {
 		}
     	
     	return response;
+	}
+    
+
+	   /**
+	 * @throws Exception 
+  * @Title: cashFlowOutApprDeal 
+  * @Description: 出款申请操作
+  * @author: gongjd 
+  * @param request
+  * @param source
+  * @param instCode
+  * @param taskId
+  * @param handle
+  * @param spvChargeInfoVO
+  * @return response
+  * @throws
+  */
+ @RequestMapping("dealAppDelete")
+	public AjaxResponse<?> cashFlowOutApprDealAppDelete(HttpServletRequest request,String source,String instCode,
+			String taskId,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) throws Exception {
+ 	AjaxResponse<?> response = new AjaxResponse<>();
+ 	String businessKey = null;
+	cashFlowInService.cashFlowOutApprDealAppDelete( request,  instCode,  taskId,
+			 handle,  spvRecordedsVO,  businessKey,  chargeInAppr);
+	response.setSuccess(true);
+ 	return response;
 	}
 }
 

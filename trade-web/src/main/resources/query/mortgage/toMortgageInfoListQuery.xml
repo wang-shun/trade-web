@@ -108,7 +108,8 @@
 					(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
 					case 
 						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '否' 
-						when c.LOAN_REQ=1 and ((select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') or (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) is NULL) and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '是' 
+						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '是'
+						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016003') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '公'  
 					end   SDSTATUS,
 					case 
 						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then  '1'
@@ -122,11 +123,14 @@
 					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
 					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 					
                 where 
-					m.is_active = '1'						
+					c.LOAN_REQ=1
+					AND m.is_active = '1'				
 					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
 					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>			
 				)T    
-				where 1=1
+				where T.SDSTATUS IS NOT NULL
+				AND T.LOANTYPE IS NOT NULL 
+				AND 1=1
 				
 				<ifNotNull signTimeStart>
 				     and T.SIGN_DATE >= #signTimeStart#
@@ -193,22 +197,7 @@
 				</ifNotNull>
 				<ifNotNull loanType>
 					and T.LOANTYPE = #loanType#
-				</ifNotNull>
-				
-<!-- 			贷款类型
-				<if test="loanType!=null">						
-							<if test="loanType==1"> 
-							 and	T.MORT_TYPE_OLD IN ('30016001','30016002')  AND T.IS_DELEGATE_YUCUI = 1	
-							</if>
-							<if test="loanType==2"> 
-							and  T.MORT_TYPE_OLD IN ('30016003')  AND T.IS_DELEGATE_YUCUI = 1				
-							</if>
-							<if test="loanType==3"> 
-							 and	T.MORT_TYPE_OLD IN ('30016001','30016002')  AND T.IS_DELEGATE_YUCUI = 0				
-							</if>
-					 	)
-				</if>	 -->
-	
+				</ifNotNull>	
 
 				]]>
 			</baseSql>

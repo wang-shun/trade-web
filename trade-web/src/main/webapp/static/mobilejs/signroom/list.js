@@ -183,6 +183,7 @@ function getBespeakTime(){
 
 function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 	var strHtml = "";
+	var isHasBespeakTime = false;
 	
 	$.ajax({
 		cache:false,
@@ -201,6 +202,7 @@ function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 						var resStartDateTime = new Date(resStartTime);
 						
 						if(currentDateTime <= resStartDateTime){
+							isHasBespeakTime = true;
 							strHtml += getSignRoomByTime(defaultTradeCenterId,selDate,data[i]);
 						}
 					}
@@ -211,6 +213,11 @@ function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 			}
 		}
 	});
+	
+	if(!isHasBespeakTime){
+		strHtml = "<section class='aui-content  reminder-login'><img src='" + ctx + "/static/image/reminder.png' width='100%' alt='' />" +
+		"<h3 style='text-align:center'>对不起，<br/>当天没有可预约房间！</h3></section>";
+	}
 	
 	$("#reservationList").html(strHtml);
 	
