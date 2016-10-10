@@ -58,7 +58,7 @@
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-inner">
-                        <div class="aui-list-item-title font15 order-title">{{item.distinctName}}<span class="ml10">预约号：<em class="yellow">{{item.resNo}}</em></span></div>
+                        <div class="aui-list-item-title font15 order-title">{{item.tradeCenterName}}<span class="ml10">预约号：<em class="yellow">{{item.resNo}}</em></span></div>
                         <div class="aui-list-item-text font12">
                             房屋地址：{{item.propertyAddr}}
                         </div>
