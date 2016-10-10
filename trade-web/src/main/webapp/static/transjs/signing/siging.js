@@ -235,8 +235,13 @@ function ajaxSubmit(obj) {
 					   th='';
 				}
 			   for(var i=0;i<data.content.signRooms.length;i++){
-				   var roomType = $.trim(data.content.signRooms[i].roomType)=='0'?'普通房间':'机动房间';
-				  th += "<tr><td><p class='big'>"+data.content.signRooms[i].roomNo+"<em class='yellow_bg ml5'>"+roomType+"</em></p></td><td><p class='big'>"+data.content.signRooms[i].districtName+"</p></td><td><p class='smll_sign'>"+data.content.signRooms[i].numbeOfAccommodatePeople+"</p></td>" ;
+				   var roomType = $.trim(data.content.signRooms[i].roomType)=='0'?'普通':'机动';
+				   if($.trim(data.content.signRooms[i].roomType)=='0'){
+					   th += "<tr><td><p class='big'>"+data.content.signRooms[i].roomNo+"<em class='qing_bg ml5'>"+roomType+"</em></p></td>";
+				   }else{
+					   th += "<tr><td><p class='big'>"+data.content.signRooms[i].roomNo+"<em class='yellow_bg ml5'>"+roomType+"</em></p></td>";
+				   }
+				  	th+="<td><p class='big'>"+data.content.signRooms[i].districtName+"</p></td><td><p class='smll_sign'>"+data.content.signRooms[i].numbeOfAccommodatePeople+"</p></td>" ;
 				  for(var j=0;j<data.content.signRooms[i].rmRoomSchedules.length;j++){
 					  if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N' && data.content.signRooms[i].rmRoomSchedules[j].zhiHui==false){
 						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot +"','"+data.content.signRooms[i].rmRoomSchedules[j].pkid+"','"+data.content.signRooms[i].tradeCenter+"','"+data.content.signRooms[i].tradeCenterId+"','"+data.content.signRooms[i].pkid+"','"+data.content.signRooms[i].numbeOfAccommodatePeople+"')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";

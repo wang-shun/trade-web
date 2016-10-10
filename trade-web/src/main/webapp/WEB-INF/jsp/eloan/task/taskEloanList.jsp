@@ -140,6 +140,7 @@
 			<tr>
 				<td class="text-center">
 				    {{item.loanSrvCode}}
+                    {{item.taskKey}}
 				</td>
 				<td>
 				      {{item.propertyAddress}}
@@ -186,7 +187,7 @@
 					   申请
                       {{/if}}
  					{{if item.signTime!=undefined&&item.releaseTime==undefined}}
-					    放款
+					    面签
                       {{/if}}
 				     {{if item.releaseTime!=undefined}}
                  

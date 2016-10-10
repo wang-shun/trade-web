@@ -28,7 +28,7 @@
 		</formatter>
 	</formatters>	
 	
-	<query id="findToMortgageIsActive">
+	<query id="queryMortgageTypeAmountAnalysis">
 	    <searchCondition>
 		   <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
@@ -36,8 +36,13 @@
         </searchCondition> 
 		<searchSql>
 			<baseSql>
-				<![CDATA[  				
-			SELECT
+				<![CDATA[  	
+			SELECT 
+			MTYPEAMOUNT.LOANTYPE AS MLOANTYPE,
+			SUM(MTYPEAMOUNT.COM_AMOUNT) AS MCOMAMOUNT,
+			SUM(MTYPEAMOUNT.PRF_AMOUNT) AS MPRFAMOUNT
+			FROM		
+			(SELECT
 					T.PKID,
 					T.CASE_CODE,
 					T.PROPERTY_ADDR,
@@ -197,49 +202,22 @@
 				</ifNotNull>
 				<ifNotNull loanType>
 					and T.LOANTYPE = #loanType#
-				</ifNotNull>	
+				</ifNotNull> 
+				) AS MTYPEAMOUNT
 
 				]]>
 			</baseSql>
 			<groupSql>
+				GROUP BY MTYPEAMOUNT.LOANTYPE
 			</groupSql>
 			<orderBySql>
-			  ORDER BY T.SIGN_DATE DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
-			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-			    <column type="both" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="true"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="MORT_TYPE"  title="贷款类型"  referencecol="MORT_TYPE_OLD"  customDict="qqcdMortName"  isSort="true" order="desc"/>
-				<column type="both" name="MORT_TOTAL_AMOUNT" index="" checkbox="" title="贷款总额(万元)"  expType="Double" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="FIN_ORG_CODE" index="" checkbox=""   title="贷款银行代码" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="FIN_ORG_NAME" index="" checkbox="true" title="贷款银行全称"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="FIN_ORG_NAME_YC" index="" checkbox="true" title="贷款银行分行全称"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="true" title="贷款银行分行代码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="FENHANG" index="" checkbox="true" title="贷款银行分行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				
-				<column type="both" name="PROCESSOR_ID" index="" checkbox="true" title="货代专员id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ORG_ID" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
-				<column type="both" name="LOAN_AGENT" index="" checkbox="true" title="货代专员id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="LOAN_AGENT_TEAM" index="" checkbox="true" title="组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
-				<column type="both" name="IS_DELEGATE_YUCUI" index="" checkbox="true" title="是否中原办理"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
-				<column type="both" name="LOANTYPE" index="" checkbox="true" title="贷款类型"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>																	
-								
-					
-				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
-                <column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"  expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
-				<column type="both" name="SIGN_DATE" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="APPR_DATE" index="" checkbox="" title="货代审批时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="LEND_DATE" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="IS_TMP_BANK" index="" checkbox="" title="临时银行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="REAL_NAME" index="" checkbox="" title="贷款专员"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ORG_NAME" index="" checkbox="" title="贷款专员所属组"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ORG_ORG_NAME" index="" checkbox="" title="贷款专员所属贵宾服务部"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="SDSTATUS" index="" checkbox="" title="是否流失"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			<column type="both" name="MLOANTYPE" index="" checkbox="" display="贷款类型" title="贷款类型" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />			
+			<column type="both" name="MCOMAMOUNT" index="" checkbox="" display="商贷金额" title="商贷金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="MPRFAMOUNT" index="" checkbox="" display="公积金贷款金额" title="公积金贷款金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
