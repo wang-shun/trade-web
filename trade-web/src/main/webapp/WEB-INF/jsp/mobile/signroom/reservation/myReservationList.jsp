@@ -58,19 +58,20 @@
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-inner">
-                        <div class="aui-list-item-title font15 order-title">{{item.tradeCenterName}}<span class="ml10">预约号：<em class="yellow">{{item.resNo}}</em></span></div>
-                        <div class="aui-list-item-text font12">
+                        <div class="aui-list-item-title font15 order-title left mr10">{{item.tradeCenterName}}<span class="newgrey">({{item.numberOfPeople}}人间)</span></div>
+                        <div class="aui-list-item-title font15 order-title left" >
+                            预约号：<em class="yellow">{{item.resNo}}</em>
+                        </div>
+                        <div class="aui-list-item-text font12 newgrey clear">
                             房屋地址：{{item.propertyAddr}}
                         </div>
-						{{if item.specialReq}}
-							<div class="aui-list-item-text font12">
-								备注：{{item.specialReq}}
-							</div>
-						{{/if}}
+                        <div class="aui-list-item-text font12 newgrey">
+                            备注：{{item.specialReq}}
+                        </div>
                     </div>
                     <div class="aui-list-item-media listspace"></div>
 						{{if item.resStatus == '0'}}
-							<div class="aui-btn aui-center cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
+							<div class="aui-btn aui-center text-blue cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
 						{{/if}}
 
 						{{if item.resStatus == '1'}}
