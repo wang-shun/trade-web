@@ -959,9 +959,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 		Iterator<ToSpvCashFlow> iterator = toSpvCashFlowList.iterator();
 		while(iterator.hasNext()){
 			SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO = new SpvCaseFlowOutInfoVO();
-			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(iterator.next().getPkid().toString());
-			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(iterator.next().getPkid().toString());
-			spvCaseFlowOutInfoVO.setToSpvCashFlow(iterator.next());
+			ToSpvCashFlow flow = iterator.next();
+			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(flow.getPkid().toString());
+			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(flow.getPkid().toString());
+			spvCaseFlowOutInfoVO.setToSpvCashFlow(flow);
 			spvCaseFlowOutInfoVO.setToSpvVoucherList(tempListV);
 			spvCaseFlowOutInfoVO.setToSpvReceiptList(tempListR);
 			spvCaseFlowOutInfoVOList.add(spvCaseFlowOutInfoVO);
