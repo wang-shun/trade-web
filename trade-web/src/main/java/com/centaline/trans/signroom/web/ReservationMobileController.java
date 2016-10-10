@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.map.HashedMap;
+import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -267,6 +268,28 @@ public class ReservationMobileController {
 		return propertyAddrInfoVoList;
 	}
 
+	/**
+	 * 管理界面ajax根据产证地址获取对应的案件编号
+	 * 
+	 * @return 案件编号
+	 */
+	@RequestMapping(value = "getCaseCodeByPropertyAddrBack")
+	@ResponseBody
+	public String getCaseCodeByPropertyAddrBack(HttpServletRequest request) {
+		String propertyAddress = request.getParameter("propertyAddress");
+		String agentCode = request.getParameter("agentCode");
+
+		PropertyAddrSearchVo propertyAddrSearchVo = new PropertyAddrSearchVo();
+		if(!StringUtil.isBlank(propertyAddress)){
+			propertyAddrSearchVo.setInputValue(propertyAddress);
+		}
+		if(!StringUtil.isBlank(agentCode)){
+			propertyAddrSearchVo.setAgentCode(agentCode);
+		}
+		return toPropertyInfoService
+				.getCaseCodeByPropertyAddr(propertyAddrSearchVo);
+	}
+	
 	/**
 	 * ajax根据产证地址获取对应的案件编号
 	 * 

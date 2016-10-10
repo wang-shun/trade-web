@@ -390,10 +390,10 @@ public class SpvCashFlowInController {
   */
  @RequestMapping("dealAppDelete")
 	public AjaxResponse<?> cashFlowOutApprDealAppDelete(HttpServletRequest request,String source,String instCode,
-			String taskId,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr,String pkid) throws Exception {
+			String taskId,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) throws Exception {
  	AjaxResponse<?> response = new AjaxResponse<>();
  	String businessKey = null;
-	cashFlowInService.cashFlowOutApprDealAppDelete( request,  instCode,  pkid,
+	cashFlowInService.cashFlowOutApprDealAppDelete( request,  instCode,  taskId,
 			 handle,  spvRecordedsVO,  businessKey,  chargeInAppr);
 	response.setSuccess(true);
  	return response;

@@ -80,8 +80,6 @@ $(function() {
     	var inputNumberOfPeople = Number($("#inputNumberOfPeople").val());
     	numberOfPeople = Number(numberOfPeople);
     	
-    	console.log(inputNumberOfPeople + "-" + numberOfPeople);
-    	
     	var actNumberOfPeople;
     	if(inputNumberOfPeople > numberOfPeople){
     		actNumberOfPeople = numberOfPeople;
@@ -92,8 +90,6 @@ $(function() {
     	else if(inputNumberOfPeople = numberOfPeople){
     		actNumberOfPeople = numberOfPeople;
     	}
-    	
-    	console.log("最小值:" + actNumberOfPeople);
     	 
     	$.ajax({
     		cache:false,
@@ -173,10 +169,7 @@ $(function() {
 			success:function(data){
 				if(data.length > 0){
 					 $("#propertyAddress").autocompleter({
-					       highlightMatches: true,
-					       source: data,
-					       hint: true,
-					       empty: false
+					       source: data
 					   });
 				}
 			}

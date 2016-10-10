@@ -89,7 +89,6 @@ import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvCaseFlowOutInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
-import com.centaline.trans.spv.vo.SpvRecordReturnVO;
 import com.centaline.trans.spv.vo.SpvRecordedInfoVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVOItem;
@@ -959,9 +958,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 		Iterator<ToSpvCashFlow> iterator = toSpvCashFlowList.iterator();
 		while(iterator.hasNext()){
 			SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO = new SpvCaseFlowOutInfoVO();
-			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(iterator.next().getPkid().toString());
-			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(iterator.next().getPkid().toString());
-			spvCaseFlowOutInfoVO.setToSpvCashFlow(iterator.next());
+			ToSpvCashFlow flow = iterator.next();
+			List<ToSpvVoucher> tempListV = toSpvVoucherMapper.selectByCashFlowId(flow.getPkid().toString());
+			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(flow.getPkid().toString());
+			spvCaseFlowOutInfoVO.setToSpvCashFlow(flow);
 			spvCaseFlowOutInfoVO.setToSpvVoucherList(tempListV);
 			spvCaseFlowOutInfoVO.setToSpvReceiptList(tempListR);
 			spvCaseFlowOutInfoVOList.add(spvCaseFlowOutInfoVO);
@@ -1022,7 +1022,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}*/
 		
 		/**3.申请附件*/
-		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
+/*		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
 		if(toSpvCashFlowApplyAttachList != null && !toSpvCashFlowApplyAttachList.isEmpty()){
 			for(ToSpvCashFlowApplyAttach toSpvCashFlowApplyAttach:toSpvCashFlowApplyAttachList){
 				if(toSpvCashFlowApplyAttach.getPkid() == null){
@@ -1037,7 +1037,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 					toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(toSpvCashFlowApplyAttach);
 				}
 			}
-		}
+		}*/
 		
 		List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVOList = spvChargeInfoVO.getSpvCaseFlowOutInfoVOList();
 		if(spvCaseFlowOutInfoVOList != null && !spvCaseFlowOutInfoVOList.isEmpty()){

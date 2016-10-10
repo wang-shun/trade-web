@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -241,5 +242,4 @@ function rescCallbocak(){
 </script>
 
 </body>
-
 </html>

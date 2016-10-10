@@ -7,6 +7,8 @@ import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 @MyBatisRepository
 public interface ToSpvCashFlowApplyAttachMapper {
     int deleteByPrimaryKey(Long pkid);
+    
+    int setIsDeletedByPrimaryKey(Long pkid);
 
     int insert(ToSpvCashFlowApplyAttach record);
 

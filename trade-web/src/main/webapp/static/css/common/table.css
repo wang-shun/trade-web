@@ -107,6 +107,17 @@ table.dataTable thead .sorting:after {
   border-radius: 3px;
   background-color: #428fcc;
 }
+.sign_yellow {
+  display: inline-block;
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  padding: 1px 10px;
+  margin-top: 2px;
+  margin-right: 5px;
+  border-radius: 3px;
+  background-color: #f8ac59;
+}
 
 .manager {
   display: block;
@@ -544,6 +555,14 @@ table thead tr th {
   font-style: normal;
   border-radius: 2px;
   background: #f8ac59;
+}
+.qing_bg {
+  padding: 1px 2px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background: #52cdec;
 }
 
 .underline {

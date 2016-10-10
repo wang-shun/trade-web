@@ -1,21 +1,19 @@
-@media (min-width: 768px) {
-  .dl-horizontal dt {
-    float: left;
-    width: 80px;
-    overflow: hidden;
-    text-align: right;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 5px 10px;
-    font-weight: normal;
-    color: #808080;
-  }
+.dl-horizontal dt {
+  float: left;
+  width: 90px;
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 5px 10px;
+  font-weight: normal;
+  color: #808080;
+}
 
-  .dl-horizontal dd {
-    margin-left: 85px;
-    padding: 5px;
-    color: #333;
-  }
+.dl-horizontal dd {
+  margin-left: 85px;
+  padding: 5px;
+  color: #333;
 }
 .elan_detail {
   font-family: "Microsoft Yahei";

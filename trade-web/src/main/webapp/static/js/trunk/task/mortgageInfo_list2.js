@@ -1,6 +1,15 @@
 var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
 
+var pChartMTypeCases = echarts.init(document.getElementById('pieChartMTypeCases'));
+var pChartMTypeAmount = echarts.init(document.getElementById('pieChartMTypeAmount'));
+var mTypeLegends = new Array("商贷收单", "公积金", "商贷流失");
+var mTypeCases = new Array(0, 0, 0);
+var mTypeAmount = new Array(0, 0, 0);
+var mAllCases = 0;
+var mTotalAmount = 0;
+var mPRFAmount = 0;
+
 /**
  * 案件统计详情
  */
@@ -40,7 +49,490 @@ $(document).ready(function() {
 			//getBranchBankList($("select[name='loanLostFinOrgNameYc']"),$("select[name='loanLostFinOrgName']").val(),"",'cl');
 		//}
 	})
+	
+	setPieCharts();
+	
+	$(".charone").hide();
+    $("#mortTypeAnalysis").click(function() {
+        $(".charone").toggle();
+        $("#mortTypeAnalysis").addClass('btn-bg');
+        if($(".charone").is(":hidden")) {
+             $("#mortTypeAnalysis").removeClass('btn-bg');
+        }
+    });
+	
+	/*document.getElementById('mortTypeAnalysis').addEventListener('click', function () {
+	    toggle(document.querySelectorAll('.toggle-div'));
+	});*/
 });
+
+function resetData() {
+	var x;
+	for(x in mTypeLegends) {
+		mTypeCases[x] = 0;
+		mTypeAmount[x] = 0;
+	}
+	
+	mAllCases = 0;
+	mTotalAmount = 0;
+	mPRFAmount = 0;
+}
+
+function setPieCharts() {
+	var option = {};
+	resetData();
+	getMTypeAmount();
+	getMTypeCases();	
+	//$("#mAllCases").text(mAllCases);
+	//$("#mTotalAmount").text(mTotalAmount);
+	option = setAmountOptions(mTypeAmount);
+	pChartMTypeAmount.setOption(option);
+	option = setCaseOptions(mTypeCases);
+	pChartMTypeCases.setOption(option);
+	//chartAll.setOption(option);
+}
+
+function toggle (elements, specifiedDisplay) {
+  var element, index;
+
+  elements = elements.length ? elements : [elements];
+  for (index = 0; index < elements.length; index++) {
+    element = elements[index];
+
+    if (isElementHidden(element)) {
+      element.style.display = '';
+
+      // If the element is still hidden after removing the inline display
+      if (isElementHidden(element)) {
+        element.style.display = specifiedDisplay || 'block';
+      }
+    } else {
+      element.style.display = 'none';
+    }
+  }
+  function isElementHidden (element) {
+    return window.getComputedStyle(element, null).getPropertyValue('display') === 'none';
+  }
+}
+
+function show(elements, specifiedDisplay) {
+	elements = elements.length ? elements : [ elements ];
+	for (var index = 0; index < elements.length; index++) {
+		elements[index].style.display = specifiedDisplay || 'block';
+	}
+}
+
+function setQueryData() {
+	
+	var data = getParamsValue();
+
+	var queryOrgFlag = $("#queryOrgFlag").val();
+	var isAdminFlag = $("#isAdminFlag").val();
+	var queryOrgs = $("#queryOrgs").val();
+	var arguUserId = null;
+	if (queryOrgFlag == 'true') {
+		arguUserId = null;
+		if (isAdminFlag == 'true') {
+			queryOrgs = null;
+		}
+	} else {
+		queryOrgs = null;
+		arguUserId = "yes";
+	}
+
+	var sortcolumn = $('span.active').attr("sortColumn");
+	var sortgz = $('span.active').attr("sord");
+	data.sidx = sortcolumn;
+	data.sord = sortgz;
+
+	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
+	data.argu_idflag = arguUserId;
+	data.argu_queryorgs = orgArray;
+	aist.wrap(data);
+	
+	return data;
+}
+
+function getMTypeCases() {
+	
+	var data = setQueryData();
+	data.queryId = "queryMortgageTypeAnalysis";
+	data.rows = 10;
+	data.page = 1;
+
+	$.ajax({
+		async : false,
+		url : ctx + "/quickGrid/findPage",
+		method : "post",
+		dataType : "json",
+		data : data,
+		success : function(data) {
+			var index
+			for (index in data.rows) {
+				mTypeCases[data.rows[index].MTYPE-1] = data.rows[index].MCASES;
+				mAllCases += data.rows[index].MCASES;
+			}
+
+		}
+	});
+}
+
+function getMTypeAmount() {
+	
+	var data = setQueryData();
+	data.queryId = "queryMortgageTypeAmountAnalysis";
+	data.rows = 10;
+	data.page = 1;
+
+	$.ajax({
+		async : false,
+		url : ctx + "/quickGrid/findPage",
+		method : "post",
+		dataType : "json",
+		data : data,
+		success : function(data) {
+			var index
+			for (index in data.rows) {
+				mTypeAmount[data.rows[index].MLOANTYPE-1] = data.rows[index].MCOMAMOUNT;
+				mTotalAmount += data.rows[index].MCOMAMOUNT;
+				mPRFAmount += data.rows[index].MPRFAMOUNT;
+			}
+			mTypeAmount[1] = mPRFAmount;
+			mTotalAmount += mPRFAmount;
+		}
+	});
+}
+
+function setAmountOptions(values) {
+	var option = {
+		title : {
+			text : '贷款类型分析（金额）',
+			subtext : '',
+			padding : [ 25, 10 ],
+			x : 'center',
+		},
+		tooltip : {
+			trigger : 'item',
+			triggerOn : 'mousemove',
+			/* alwaysShowContent:true, */
+			hideDelay : 1500,
+			enterable : true,
+			formatter : "{b}: {c} 万元 ({d}%)"
+		},
+
+		legend : {
+			orient : 'vertical',
+			x : 'right',
+			y : 'top',
+			top : 15,
+
+			data : [ '商贷（收单）', '商贷（流失）', '公积金' ]
+		},
+		color : [ '#52bdbd', '#f784a5', '#ffad6b', '#295aa5', ],
+		series : [
+
+		{
+			name : '贷款类型分析(金额)',
+			type : 'pie',
+			radius : [ '35%', '55%' ],
+			animation : true,
+			selectedMode : 'multiple',
+			data : [ {
+				value : values[0],
+				name : '商贷（收单）',
+				itemStyle : {
+					normal : {
+						label : {
+							show : function() {
+								if (values[0] === 0) {
+									return false;
+								}
+							}()
+						},
+						labelLine : {
+							show : function() {
+								if (values[0] === 0) {
+									return false;
+								}
+							}()
+						}
+					}
+				}
+			}, {
+				value : values[2],
+				name : '商贷（流失）',
+				itemStyle : {
+					normal : {
+						label : {
+							show : function() {
+								if (values[2] === 0) {
+									return false;
+								}
+							}()
+						},
+						labelLine : {
+							show : function() {
+								if (values[2] === 0) {
+									return false;
+								}
+							}()
+						}
+					}
+				}
+			}, {
+				value : values[1],
+				name : '公积金',
+				itemStyle : {
+					normal : {
+						label : {
+							show : function() {
+								if (values[1] === 0) {
+									return false;
+								}
+							}()
+						},
+						labelLine : {
+							show : function() {
+								if (values[1] === 0) {
+									return false;
+								}
+							}()
+						}
+					}
+				}
+			} ]
+		} ]
+	};
+	
+	return option;
+}
+
+function setCaseOptions(values) {
+	var option = {
+		title : {
+			text : '贷款类型分析（单数）',
+			subtext : '',
+			padding : [ 25, 10 ],
+			x : 'center',
+		},
+		tooltip : {
+			trigger : 'item',
+			triggerOn : 'mousemove',
+			/* alwaysShowContent:true, */
+			hideDelay : 1500,
+			formatter : "{b}: {c} 件 ({d}%)"
+		},
+		// 数据视图
+		/*
+		 * toolbox : { show : true, orient : 'vertical', x: 'center',
+		 * y:'bottom', feature : { dataView : { show : true, readOnly : false },
+		 * restore : { show : true }, saveAsImage : { show : true } } },
+		 */
+
+		legend : {
+			orient : 'vertical',
+			x : 'right',
+			y : 'top',
+			top : 15,
+
+			data : [ '商贷（收单）', '商贷（流失）', '公积金' ]
+		},
+		color : [ '#52bdbd', '#f784a5', '#ffad6b', '#295aa5', ],
+		series : [
+
+		{
+			name : '贷款类型分析（单数）',
+			type : 'pie',
+			radius : [ '35%', '55%' ],
+			animation : true,
+			selectedMode : 'multiple',
+			data : [ {
+				value : values[0],
+				name : '商贷（收单）',
+				itemStyle : {
+					normal : {
+						label : {
+							show : function() {
+								if (values[0] === 0) {
+									return false;
+								}
+							}()
+						},
+						labelLine : {
+							show : function() {
+								if (values[0] === 0) {
+									return false;
+								}
+							}()
+						}
+					}
+				}
+			}, {
+				value : values[2],
+				name : '商贷（流失）',
+				itemStyle : {
+					normal : {
+						label : {
+							show : function() {
+								if (values[2] === 0) {
+									return false;
+								}
+							}()
+						},
+						labelLine : {
+							show : function() {
+								if (values[2] === 0) {
+									return false;
+								}
+							}()
+						}
+					}
+				}
+			}, {
+				value : values[1],
+				name : '公积金',
+				itemStyle : {
+					normal : {
+						label : {
+							show : function() {
+								if (values[1] === 0) {
+									return false;
+								}
+							}()
+						},
+						labelLine : {
+							show : function() {
+								if (values[1] === 0) {
+									return false;
+								}
+							}()
+						}
+					}
+				}
+			} ]
+		} ]
+	};
+	
+	return option;
+}
+
+function setOptions(values) {
+
+	var option = {
+
+		tooltip : {
+			trigger : 'item',
+			formatter : "{a} <br/>{b} : {c} ({d}%)"
+		},
+		
+		color:['#f784a5', '#52bdbd','#ffad6b','#87d6c6'],
+		
+		legend: {
+	        orient: 'vertical',
+	        left: 'left',
+	        data: mTypeLegends
+	    },
+	    
+		series : [ {
+			name : '贷款类型分析',
+			type : 'pie',
+			radius : '50%',
+			center : [ '50%', '50%' ],
+			data : [ {
+				value : values[0],
+				name : mTypeLegends[0],
+				itemStyle : {
+					normal : {
+						label : {
+							show : function() {
+								if (values[0] === 0) {
+									return false;
+								}
+							}()
+						},
+						labelLine : {
+							show : function() {
+								if (values[0] === 0) {
+									return false;
+								}
+							}()
+						}
+					}
+				}
+			}, {
+				value : values[1],
+				name : mTypeLegends[1],
+				itemStyle : {
+					normal : {
+						label : {
+							show : function() {
+								if (values[1] === 0) {
+									return false;
+								}
+							}()
+						},
+						labelLine : {
+							show : function() {
+								if (values[1] === 0) {
+									return false;
+								}
+							}()
+						}
+					}
+				}
+			}, {
+				value : values[2],
+				name : mTypeLegends[2],
+				itemStyle : {
+					normal : {
+						label : {
+							show : function() {
+								if (values[2] === 0) {
+									return false;
+								}
+							}()
+						},
+						labelLine : {
+							show : function() {
+								if (values[2] === 0) {
+									return false;
+								}
+							}()
+						}
+					}
+				}
+			} ].sort(function(a, b) {
+				return a.value - b.value
+			}),
+			//roseType : 'angle',
+			label : {
+				normal : {
+					textStyle : {
+						color : 'rgba(0, 0, 0, 0.8)'
+					}
+				}
+			},
+			labelLine : {
+				normal : {
+					lineStyle : {
+						color : 'rgba(0, 0, 0, 0.8)'
+					},
+					smooth : 0.2,
+					length : 10,
+					length2 : 20
+				}
+			},
+			/*itemStyle : {
+				normal : {
+					shadowBlur : 0,
+					shadowColor : 'rgba(0, 0, 0, 0.5)'
+				}
+			},*/
+		} ]
+	};
+
+	return option
+}
 
 $('#mortgageInfoToExcel').click(function() {
 	var url = "/quickGrid/findPage?xlsx&";
@@ -114,6 +606,7 @@ $('#datepicker_0').datepicker({
 /* 查询按钮查询 */
 $('#mortgageInfoSearchButton').click(function() {
 	loanLostApproveSearchMethod();
+	setPieCharts();
 });
 
 // 查询
@@ -410,8 +903,7 @@ function getParamsValue() {
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.custName = custName;
-	// params.finCode = finCode;
-
+	// params.finCode = finCode;	
 	return params;
 }
 
@@ -591,6 +1083,3 @@ function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
 
 	return true;
 }
-
-
-	

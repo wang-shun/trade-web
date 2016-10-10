@@ -29,15 +29,18 @@
     <link rel="stylesheet" href="../static/trans/css/spv/see.css" />
     <link rel="stylesheet" href="../static/trans/css/spv/spv.css" />
 
-    <link rel="stylesheet" href="../static/trans/js/response/css/jkresponsivegallery.css
-" />
+    <link rel="stylesheet" href="../static/trans/css/spv/thumb.css" />
+
+
 
 
 </head>
 
 <body>
 
+
     <div id="wrapper">
+
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
@@ -1314,14 +1317,21 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                <span class="btn_file">
-                                                    <input type="file" class="file" />
-                                                    <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
-                                                </span>
+
+                                                <button type="button" class="btn btn-sm btn-default clickMe" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button>
+                                                 <p style="display:none;"><img class="sourceimg" src="../static/trans/img/11.png"></p>
+
+
+
+                                                <button type="button" class="btn btn-sm btn-default clickMe" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button>
+                                                 <p style="display:none;"><img class="sourceimg" src="../static/trans/img/12.png"></p>
+
+                                                    <span class="btn_file">
+                                                        <input type="file" class="file" />
+                                                        <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
+                                                    </span>
                                             </td>
-                                            <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
+                                            <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</a>
                                             </td>
                                         </tr>
 
@@ -1343,7 +1353,19 @@
                     </div>
                 </div>
             </div>
+
+
+            <!--图库弹出层 开始-->
+            <div id="goodcover"></div>
+
+            <div id="code">
+                <div class="close1"><a href="javascript:void(0)" id="closebt"><img src="../static/trans/img/close.png"></a></div>
+                <div class="code-img"> <img id="ewmsrc" src=""></div>
+            </div>
+            <!--图库弹出层 结束-->
             <!-- main End -->
+
+
 
         </div>
     </div>
@@ -1361,20 +1383,8 @@
     <!-- stickup plugin -->
     <script src="../static/trans/js/spv/spvRecorded.js"></script>
 
-    <script src="../static/trans/js/response/js/jkresponsivegallery.js"></script>
+    <script src="../static/trans/js/spv/thumb.js"></script>
 
-<script>
-
-$(function() {
-    $(".icon_x").click(function() {
-        $(this).parent().parent().remove();
-        return false;
-    });
-
-
-});
-$('.response').responsivegallery();
-</script>
 
 </body>
 

@@ -2,11 +2,17 @@
 h1, h2, h3, h4, h5, h6 {
   font-family: "Microsoft Yahei";
 }
-
+.mr5 {
+  margin-right:  5px;
+}
 button, input, select, textarea {
   font-family: "Microsoft Yahei";
 }
-
+.btn-grey {
+    color: #428fcc;
+    background-color: #eee;
+    border-color: #eee;
+}
 .wrapper-content {
   padding: 20px 0px 40px;
 }
