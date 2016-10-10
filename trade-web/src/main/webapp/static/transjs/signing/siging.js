@@ -1,5 +1,5 @@
-var tryTime = 0;
-var webSocket = null;
+var time=60000;//定时器执行间隔时间 1min
+
 $(function () {
     $(".choices span").click(function() {
         if($(this).hasClass("selected")) {
@@ -43,48 +43,6 @@ $(function () {
 	});
     
     ajaxSubmit(0);
-    
-    //initSocket();
-    /**
-     * 初始化websocket，建立连接
-    */
-    function initSocket() {
-	     if (!window.WebSocket) {
-		    alert("您的浏览器不支持websocket！");
-		     return false;
-	    }
-	    webSocket = new WebSocket("ws://trade.centaline.com:8083/trade-web/signRoomWebsocket");
-	    // 收到服务端消息
-	    webSocket.onmessage = function (msg) {
-	    	console.log(msg);
-	    };
-
-	    // 异常
-	    webSocket.onerror = function (event) {
-	    	console.log(event);
-	    };
-
-	    // 建立连接
-	    webSocket.onopen = function (event) {
-	    	console.log(event);
-	    };
-
-	    // 断线重连
-	    webSocket.onclose = function () {
-	    // 重试10次，每次之间间隔10秒
-	    if (tryTime < 10) {
-		    setTimeout(function () {
-		    webSocket = null;
-		    tryTime++;
-		    initSocket();
-		    	}, 500);
-	    	} else {
-	    	tryTime = 0;
-	    	}
-	    };
-    }
-    
-    
     
     $("#searchBtn").click(function(){
     	var curDate = $.trim($('#curDate').val());
@@ -185,6 +143,11 @@ $(function () {
 		}
 	});
     
+	
+	setInterval(function() {
+		ajaxSubmit(1);
+	}, time);
+	
     
 })
 //选取营业部经纪人
@@ -247,7 +210,7 @@ function ajaxSubmit(obj) {
 		dataType:"json",
 		data : params,
 		success:function(data){
-			console.log(data);
+			//console.log(data);
 			if(data.success){
 				var th='';
 				if(obj==0){
@@ -372,6 +335,7 @@ function getPropertyAddress(agentCode){
 		}
 	});
 }
+
 
 
 
