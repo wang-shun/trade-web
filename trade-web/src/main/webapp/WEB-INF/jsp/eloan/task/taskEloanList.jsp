@@ -140,7 +140,6 @@
 			<tr>
 				<td class="text-center">
 				    {{item.loanSrvCode}}
-                    {{item.taskKey}}
 				</td>
 				<td>
 				      {{item.propertyAddress}}
