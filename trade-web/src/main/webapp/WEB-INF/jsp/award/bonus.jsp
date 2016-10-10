@@ -226,10 +226,10 @@
                                                     <th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>满意度</th>
-                                                    <th>是否达标</th>
-                                                    <th>考核结果</th>
-                                                    <th>环节占比</th>
 													<th>满意度占比</th>
+                                                    <th>金融达标</th>
+                                                    <th>贷款流失</th>
+                                                    <th>环节占比</th>
                                                     <th>绩效奖金</th>
                                                 </tr>
                                             </thead>
@@ -240,10 +240,10 @@
                                                     <td>{{item.SRV_CODE}}</td>
                                                     <td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SATISFACTION}}</td>
-                                                    <td>{{item.MKPI}}</td>
-                                                    <td>{{item.KPI_RATE_SUM}}</td>
-                                                    <td>{{item.SRV_PART_IN}}</td>
 													<td>{{item.SRV_PART}}</td>
+                                                    <td>{{item.MKPI}}({{item.KPI_RATE_SUM}})</td>
+                                                    <td>{{item.COM_LS_RATE}}({{item.COM_LS_KPI}})</td>
+                                                    <td>{{item.SRV_PART_IN}}</td>
                                                     <td>{{item.AWARD_KPI_MONEY}}</td>
                                                 </tr>
 												{{/each}}
