@@ -87,7 +87,7 @@
                                     <label class="control-label sign_left_small"style="float:left">
                                                        备注
                                     </label>
-                                    <textarea class="select_control sign_right_two" value="${rcRiskControl.riskComment }" id="riskComment" name="riskComment" style="width:400px;height:100px; display:block;margin-left:124px"></textarea>
+                                    <textarea class="select_control sign_right_two" id="riskComment" name="riskComment" style="width:400px;height:100px; display:block;margin-left:124px">${rcRiskControl.riskComment }</textarea>
                                 </div>
                             </div> 
 
@@ -419,7 +419,6 @@
         	 });
         	 
              $(".close_btn").click(function(){
-         		    window.close();
 					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
           		})
 	    });

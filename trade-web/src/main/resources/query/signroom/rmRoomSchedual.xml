@@ -44,7 +44,8 @@
 			        T.USE_STATUS  AS useStatus,
 			        R.RES_STATUS AS resStatus,
 					R.CHECK_IN_TIME AS checkInTime,
-					R.CHECKED_OUT_TIME AS checkOutTime
+					R.CHECKED_OUT_TIME AS checkOutTime,
+					R.CREATE_TIME AS createTime
 			FROM    sctrans.T_RM_ROOM_SCHEDULE T
 			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
 			WHERE   T.IS_DELETE = '0'
@@ -80,6 +81,7 @@
 				<column type="both" name="resStatus" index="" checkbox="" display="resStatus" title="resStatus" />
 				<column type="both" name="checkInTime" index="" checkbox="" display="checkInTime" title="checkInTime" />
 				<column type="both" name="checkOutTime" index="" checkbox="" display="checkOutTime" title="checkOutTime" />
+				<column type="both" name="createTime" index="" checkbox="" display="createTime" title="createTime" />
 			</table-row>
 		</grid>
 	</query>

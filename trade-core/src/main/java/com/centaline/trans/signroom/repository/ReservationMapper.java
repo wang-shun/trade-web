@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.vo.FreeRoomInfo;
 import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
@@ -118,5 +119,12 @@ public interface ReservationMapper {
 	 * @return 如果返回1,结束使用成功;返回0,结束使用失败。
 	 */
 	public int endUse(Long resId);
+
+	/**
+	 * 查询当前时间点以后的预约情况
+	 * @param rmSignRoom
+	 * @return
+	 */
+	public int getReservationNotCancleCount(RmSignRoom rmSignRoom);
 
 }

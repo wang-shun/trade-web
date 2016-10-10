@@ -18,6 +18,8 @@ public class FreeRoomInfo {
 
 	private String roomNo; // 房间号
 
+	private String resNo; // 预约编号
+
 	private String orgId; // 所在机构id
 
 	private int numberOfPeople; // 房间容纳人数
@@ -29,6 +31,14 @@ public class FreeRoomInfo {
 	private String selDate; // 预约日期
 
 	private String bespeakTime; // 预约时间段
+
+	public String getResNo() {
+		return resNo;
+	}
+
+	public void setResNo(String resNo) {
+		this.resNo = resNo;
+	}
 
 	public String getIsSuccess() {
 		return isSuccess;

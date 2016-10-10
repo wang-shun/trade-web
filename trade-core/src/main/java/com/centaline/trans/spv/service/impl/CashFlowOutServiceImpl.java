@@ -2,6 +2,7 @@ package com.centaline.trans.spv.service.impl;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +18,6 @@ import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
-import com.aist.uam.permission.remote.UamPermissionService;
-import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.ToWorkFlowService;
@@ -31,6 +30,8 @@ import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
+import com.centaline.trans.spv.entity.ToSpvDeDetail;
+import com.centaline.trans.spv.entity.ToSpvDeDetailMix;
 import com.centaline.trans.spv.repository.ToSpvAduitMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvMapper;
@@ -39,6 +40,7 @@ import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvCaseFlowOutInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
+import com.centaline.trans.utils.NumberUtil;
 
 @Service
 public class CashFlowOutServiceImpl implements CashFlowOutService {
@@ -69,6 +71,24 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutPage(HttpServletRequest request, String source, String instCode, String taskId,
 			String handle, String businessKey) {
 			setRequestAttribute(request,businessKey);	
+	}	
+
+	@Override
+	public void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception {
+		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
+		SessionUser user = uamSessionService.getSessionUser();
+		String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
+		//创建spvApplyCode
+		String spvApplyCode = createSpvApplyCode();
+		if(StringUtils.isBlank(cashflowApplyCode)){
+			spvChargeInfoVO.getToSpvCashFlowApply().setCashflowApplyCode(spvApplyCode);
+		}
+		
+		//设置申请人为当前用户
+		spvChargeInfoVO.getToSpvCashFlowApply().setApplier(user.getId());
+		//乘万操作
+		multiplyTenThousand(spvChargeInfoVO);
+		toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);
 	}
 
 	@Override
@@ -231,13 +251,21 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		String spvCode;
         SpvBaseInfoVO spvBaseInfoVO;
         SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCode(businessKey);
-    	spvCode = (String) request.getAttribute("spvCode");
-    	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
+        if(StringUtils.isBlank(businessKey)){
+        	spvCode = (String) request.getAttribute("spvCode");   	
+        }else{
+        	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
+        }
+        
+        ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
     	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv == null?null:toSpv.getPkid());
     	if(spvChargeInfoVO != null){       	
-    		String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
-        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
-        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
+    		String applyAuditor = spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor();
+    		String applyAuditorName = applyAuditor == null?null:uamSessionService.getSessionUserById(applyAuditor).getRealName();
+    		String ftPreAuditor = spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor();
+        	String ftPreAuditorName = ftPreAuditor == null?null:uamSessionService.getSessionUserById(ftPreAuditor).getRealName();
+    		String ftPostAuditor = spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor();
+        	String ftPostAuditorName = ftPostAuditor == null?null:uamSessionService.getSessionUserById(ftPostAuditor).getRealName();
         	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
         	divideTenThousand(spvChargeInfoVO);
         	List<ToSpvAduit> toSpvAduitList = spvChargeInfoVO.getToSpvAduitList();
@@ -252,6 +280,45 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
         	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
         	request.setAttribute("createByName", createByName);
+    	}
+    	
+    	//生成约定详情整合list
+    	if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpvDeDetailList() != null && !spvBaseInfoVO.getToSpvDeDetailList().isEmpty()){
+    		List<ToSpvDeDetailMix> deDetailMixList = new ArrayList<ToSpvDeDetailMix>();
+
+    		for(ToSpvDeDetail toSpvDeDetail : spvBaseInfoVO.getToSpvDeDetailList()){
+    			Boolean repeatFlag = false;
+                for(ToSpvDeDetailMix mix : deDetailMixList){
+                	if(toSpvDeDetail.getDeCondCode().equals(mix.getDeCondCode())){
+                		repeatFlag = true;
+            			if(toSpvDeDetail.getPayeeAccountType().equals("FUND")){
+            				mix.setFundDeAmount(toSpvDeDetail.getDeAmount());
+            			}else if(toSpvDeDetail.getPayeeAccountType().equals("SELLER")){
+            				mix.setSellerDeAmount(toSpvDeDetail.getDeAmount());
+            			}
+            			mix.setTotalDeAmount(NumberUtil.add(mix.getFundDeAmount(), mix.getSellerDeAmount()));
+                	}
+                }
+                
+                if(!repeatFlag){   
+    			ToSpvDeDetailMix deDetailMix = new ToSpvDeDetailMix();
+    			deDetailMix.setDeCondCode(toSpvDeDetail.getDeCondCode());
+    			deDetailMix.setFundDeAmount(BigDecimal.ZERO);
+    			deDetailMix.setSellerDeAmount(BigDecimal.ZERO);
+    			if(toSpvDeDetail.getPayeeAccountType().equals("FUND")){
+    				deDetailMix.setFundDeAmount(toSpvDeDetail.getDeAmount());
+    			}else if(toSpvDeDetail.getPayeeAccountType().equals("SELLER")){
+    				deDetailMix.setSellerDeAmount(toSpvDeDetail.getDeAmount());
+    			}
+    			
+    			deDetailMix.setTotalDeAmount(NumberUtil.add(deDetailMix.getFundDeAmount(), deDetailMix.getSellerDeAmount()));
+    			deDetailMixList.add(deDetailMix);
+                }else{
+                	continue;
+                }
+    		}
+    		
+    		request.setAttribute("deDetailMixList", deDetailMixList);
     	}
 
     	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);    
@@ -298,4 +365,5 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			}		
 		}
 	}
+
 }

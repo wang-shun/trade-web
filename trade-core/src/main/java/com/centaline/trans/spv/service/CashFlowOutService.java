@@ -2,7 +2,6 @@ package com.centaline.trans.spv.service;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 
 public interface CashFlowOutService {
@@ -65,5 +64,11 @@ public interface CashFlowOutService {
 	 *  财务出款操作
 	 */
 	void cashFlowOutDeal(HttpServletRequest request,String instCode,String taskId,String taskItem,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception ;
+
+	/**
+	 *  保存操作
+	 * @throws Exception 
+	 */
+	void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception;
 	
 }

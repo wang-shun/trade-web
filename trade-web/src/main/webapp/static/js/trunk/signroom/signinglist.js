@@ -82,11 +82,13 @@ $(function(){
     $(".datatime").val(show());
 
     $("#today").click(function(){
-        $(".datatime").val(getDateWeek(0));
+        $(".data_style").val(getDateWeek(0));
+        $("#searchForm").submit();
     });
     
     $("#tommrow").click(function(){
-        $(".datatime").val(getDateWeek(1));
+        $(".data_style").val(getDateWeek(1));
+        $("#searchForm").submit();
     });
     
     //添加跟进信息
@@ -106,7 +108,6 @@ $(function(){
 	$("#searchForm input[name='resPersonId']").attr("hval","");
 	$("#searchForm input[name='resPeopleId']").val("");
 	$("#searchForm input[name='resNo']").val("");
-	console.log($("#searchForm input[name='resNo']").val());
 	$("#searchForm input[name='mobile']").val("");
 	$("#searchForm input[name='startDateTime']").val(getCurrentDate());
 	$("#searchForm input[name='endDateTime']").val(getCurrentDate());
@@ -256,6 +257,7 @@ function reloadGrid(){
 }
 
 function getParams() {
+	var distinctId = $("input[name='distinctId']").val();
 	var resPersonId = $("input[name='resPersonId']").attr("hVal");
 	var resNo = $.trim($("input[name='resNo']").val());
 	var mobile = $.trim($("input[name='mobile']").val());
@@ -282,6 +284,7 @@ function getParams() {
 	}
 	
 	var data = {};
+	data.distinctId = distinctId;
 	data.resPersonId = resPersonId;
 	data.resNo = resNo;
 	data.mobile = mobile;

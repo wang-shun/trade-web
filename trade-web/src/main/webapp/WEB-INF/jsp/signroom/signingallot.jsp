@@ -114,6 +114,7 @@
                             	<input type="hidden" id="tradeCenterId" value=""/>
                             	<input type="hidden" id="roomId" value=""/>
                             	<input type="hidden" id="resPersonOrgId" value=""/>
+                            	<input type="hidden" id="numberOfPeople" value=""/>
                                 <div class="trade">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small select_style mend_select">

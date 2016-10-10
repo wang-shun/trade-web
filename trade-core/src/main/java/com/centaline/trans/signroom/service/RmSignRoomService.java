@@ -61,5 +61,12 @@ public interface RmSignRoomService {
 	 * @return
 	 */
 	boolean isUsedByRmRoomSchedule(ReservationInfoVo reservationInfoVo);
+	
+	/**
+	 * 判断是否能够删除签约室
+	 * @param rmSignRoom
+	 * @return
+	 */
+	boolean isCanDelSignRoom(RmSignRoom rmSignRoom);
 
 }

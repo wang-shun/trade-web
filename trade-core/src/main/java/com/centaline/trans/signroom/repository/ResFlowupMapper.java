@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.signroom.entity.ResFlowup;
+import com.centaline.trans.signroom.vo.ResFlowupVo;
 
 @MyBatisRepository
 public interface ResFlowupMapper {
@@ -24,5 +25,5 @@ public interface ResFlowupMapper {
 	 *            预约单标识
 	 * @return 跟进信息列表
 	 */
-	public List<ResFlowup> getResFlowupListByResId(Long resId);
+	public List<ResFlowupVo> getResFlowupListByResId(Long resId);
 }

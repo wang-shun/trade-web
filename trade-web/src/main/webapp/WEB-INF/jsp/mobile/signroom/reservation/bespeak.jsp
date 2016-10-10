@@ -14,20 +14,28 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/validate.css" />
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/autocompleter.css" />
 </head>
-<body class="white">
+<body>
     <header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
             <span class="aui-iconfont aui-icon-left"></span>
         </a>
         <div class="aui-title">预约取号</div>
     </header>
-    <form action="" id="form1">
+    <form action="" id="form1" class="form-con">
     	<input type="hidden" id="ctx" value="${ctx }"/>
     	<input type="hidden" id="tradeCenterId" value="${tradeCenterId }"/>
 		<input type="hidden" id="selDate" value="${selDate }"/>
 		<input type="hidden" id="bespeakTime" value="${bespeakTime }"/>
 		<input type="hidden" id="agentCode" value="${agentCode }"/>
+		<input type="hidden" id="inputNumberOfPeople" value="${numberOfPeople }"/>
 		<input type="hidden" id="caseCode"/>
+		
+		<div class="aui-padded-l-10 aui-padded-r-10 pt15 pb5">
+            <div class="aui-info-item">
+               <i class="iconfont blue mr5">&#xe605;</i>${bespeakTime }
+               <span class="color80 ml5" > ${selDate }</span>
+            </div>
+        </div>
 		
         <div class="aui-content aui-padded-l-10 aui-padded-r-10 margin10 border_grey radius3 linehgl30 relative">
             <input type="text" id="propertyAddress" name="propertyAddress" placeholder="交易单地址" class="excend10 font-small" data-required="true" data-descriptions="address">
@@ -71,7 +79,7 @@
                     <textarea name="" id="specialRequirement" cols="30" rows="3" class="" placeholder="如有其他特殊要求可填入此栏" ></textarea>
                 </div>
             </div>
-            <div class="plr30"><input type="button" class="aui-btn aui-btn-info aui-btn-block aui-btn-user" value="领取预约号" id="btnBespoke"></div>
+            <div class="plr30"><input type="button" class="aui-btn aui-btn-info aui-btn-block aui-btn-user mt15" value="领取预约号" id="btnBespoke"></div>
         </section>
     </form>
 </body>

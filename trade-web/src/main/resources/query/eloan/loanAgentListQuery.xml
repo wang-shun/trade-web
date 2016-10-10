@@ -164,7 +164,7 @@ SELECT
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE = loanAgent.CASE_CODE
 					LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
-					LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE
+					LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE and rel.CONFIRM_STATUS=1
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE 
 					<ifNotNull isJygw>

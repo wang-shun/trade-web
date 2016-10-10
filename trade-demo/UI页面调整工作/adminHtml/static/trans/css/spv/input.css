@@ -37,7 +37,11 @@ input, .form-control {
   font-family: "Microsoft Yahei";
   font-weight: 700;
 }
-
+.btn-grey {
+    color: #428fcc;
+    background-color: #eee;
+    border-color: #eee;
+}
 .form-row {
   font-family: "Microsoft Yahei";
 }

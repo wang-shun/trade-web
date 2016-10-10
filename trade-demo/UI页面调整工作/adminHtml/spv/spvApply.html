@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../static/trans/css/common/base.css" />
     <link rel="stylesheet" href="../static/trans/css/common/table.css" />
     <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
-    <link rel="stylesheet" href="../static/trans/css/common/inputSec.css" />
+    <link rel="stylesheet" href="../static/trans/css/common/input.css" />
     <link rel="stylesheet" href="../static/trans/css/spv/spv.css" />
 
 
@@ -950,87 +950,58 @@
                     <h2 class="title">
                         监管资金出入账申请
                     </h2>
-                    <form method="get" class="form-horizontal form_box clear">
-                            <div class="row clearfix">
-                                <div class="form_content">
-                                    <div id="dateDiv_0">
-                                        <div class="sign_left">
-                                            <select name="case_date" class="form-control" id="case_date_0">
-                                                <option value="" selected="selected">
-                                                    请选择
-                                                </option>
-                                                <option value="">
-                                                    签约日期
-                                                </option>
-                                                <option value="">
-                                                    过户日期
-                                                </option>
-                                                <option value="">
-                                                    领证日期
-                                                </option>
 
-                                            </select>
-                                        </div>
-                                        <div id="datepicker_0" class="input-group input-medium date-picker input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                                            <input id="dtBegin_0" name="dtBegin" class="form-control" style="font-size: 13px; width: 159px; border-radius: 0px;" type="text" value="" placeholder="起始日期">
-                                            <span class="input-group-addon">
-                                                到
-                                            </span>
-                                            <input id="dtEnd_0" name="dtEnd" class="form-control" style="font-size: 13px; width: 159px; border-radius: 0px;" type="text" value="" placeholder="结束日期">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form_content">
-                                    <label class="sign_left control-label">
-                                        监管机构
-                                    </label>
-                                    <div class="sign_right big_pad">
-                                        <select id="" name="" class="form-control patch_formatone">
-                                            <option value="" selected="selected">
-                                                请选择
-                                            </option>
-                                            <option value="">
-                                                光大银行
-                                            </option>
-                                            <option value="">
-                                                光大银行
-                                            </option>
-                                            <option value="">
-                                                光大银行
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
+                    <form method="get" class="form_list mt5 clear" id="serachForm">
+                        <div class="row">
 
+                            <div class="form_content form_nomargin">
+                                <label class="control-label sign_left">
+                                    监管合约编号
+                                </label>
+                                <input class="input_type ml10" placeholder="请输入合约编号" value="">
                             </div>
-                            <div class="row clearfix">
-                                <div class="form_content">
-                                    <a class="add_btn" href="javascript:void(0);" id="addBtn">
-                                        <span class="retrieve">
-                                            添加日期检索
-                                        </span>
-                                    </a>
+                            <div class="form_content form_nomargin">
+                                <label class="control-label sign_left_small">
+                                    出入账类型
+                                </label>
+                                <select class="select_control" name="status" id="status">
+                                    <option value="">请选择</option>
+                                    <option value="0">起草</option>
+                                    <option value="2">申请</option>
+                                    <option value="3">签约</option>
+                                    <option value="4">完成</option>
+                                </select>
+                            </div>
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">
+                                    申请人
+                                </label>
+                                <input class="input_type" placeholder="" value="">
+                                <div class="input-group float_icon organize_icon">
+                                    <i class="icon iconfont"></i>
                                 </div>
                             </div>
 
-                            <div class="row m-t-sm">
-                                <div class="form_content">
-                                    <div class="more_btn">
-                                        <button id="searchButton" type="button" class="btn btn-success mr15"><i class="icon iconfont"></i>
-                                            查询
-                                        </button>
-                                        <button type="reset" class="btn btn-grey mr15">
-                                            清空
-                                        </button>
-                                        <button type="button" class="btn btn-success mr15">
-                                            导出列表
-                                        </button>
+                        </div>
+                        <div class="row">
+                            <div class="form_content form_nomargin">
+                                <label class="control-label sign_left">
+                                    物业地址
+                                </label>
+                                <input class="input_type ml10" style="width: 392px;" placeholder="" value="">
+                            </div>
+                            <div class="form_content" style="margin-left:60px;">
+                                <button type="button" class="btn btn-success mr5 btn-icon">
+                                    <i class="icon iconfont"></i>
+                                    查询
+                                </button>
+                                <a href="eloan.html"><button type="button" class="btn btn-success btn-blue btn-icon"><i class=" iconfont"></i> 新增</button></a>
+                                <button type="reset" class="btn btn-grey mr5">
+                                清空
+                            </button>
+                            </div>
+                        </div>
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="exportExcel">
-                            </div>
                         </form>
                 </div>
                 <div class="row">

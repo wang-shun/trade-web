@@ -75,15 +75,14 @@
     select 
       count(1)
     from sctrans.T_RM_SIGN_ROOM
-    <where>
-      	 
+    where IS_DELETE = 0 
       <if test="roomNo != null" >
-        ROOM_NO = #{roomNo,jdbcType=VARCHAR}
+        AND ROOM_NO = #{roomNo,jdbcType=VARCHAR}    COLLATE Chinese_PRC_CS_AI
       </if>
       <if test="tradeCenterId != null" >
         AND TRADE_CENTER_ID = #{tradeCenterId,jdbcType=CHAR}
       </if>
-    </where>
+      
   </select>
   
   <insert id="addRmSignRoom" parameterType="com.centaline.trans.signroom.entity.RmSignRoom" useGeneratedKeys="true" keyProperty="pkid">
