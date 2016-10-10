@@ -154,7 +154,11 @@
 	<import resource="query/eloan/ELoanCaseList.xml" />
 	<import resource="query/eloan/eloanContractList.xml" />
 	<!-- 商贷信息列表 -->
-	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />	
+	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />
+	<!-- 贷款类型单量分析 -->
+	<import resource="query/mortgage/toMortgageTypeAnalysis.xml" />		
+	<!-- 贷款类型金额分析 -->
+	<import resource="query/mortgage/toMortgageTypeAmountAnalysis.xml" />
 	<!-- 本组临时银行案件管理列表 -->
 	<import resource="query/tmpBank/toTmpBankCaseListQueryByTeam.xml" />
 	<!-- 本区临时银行案件管理列表 -->
