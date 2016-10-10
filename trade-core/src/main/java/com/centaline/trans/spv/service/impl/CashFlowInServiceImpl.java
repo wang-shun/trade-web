@@ -162,7 +162,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			String handle, String businessKey) {
 		String spvCode;
         SpvBaseInfoVO spvBaseInfoVO;
-        SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCode(businessKey);
+        SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCodeByIn(businessKey);
 
         if(spvChargeInfoVO != null && spvChargeInfoVO.getToSpvCashFlowApply() != null && !StringUtils.isBlank(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode())){
         	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
@@ -183,10 +183,36 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 
 	@Override
 	public void cashFlowInApplyDeal(HttpServletRequest request, String instCode, String taskId,
-			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception {
-		//multiplyTenThousand(spvChargeInfoVO);
-	   // toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
+			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey, Boolean chargeInAppr) throws Exception {
+
+		SessionUser user = uamSessionService.getSessionUser();
+		String spvApplyCode = null;
+		//保存数据
+		//toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO,handle,spvApplyCode);  
 		
+		/**1.查询申请*/
+		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
+		
+		ToSpvAduit toSpvAduit = new ToSpvAduit();
+		
+		//流水ID
+		//toSpvAduit.setApplyId(spvRecordedsVO.getToSpvCashFlowApplyPkid());
+		toSpvAduit.setApplyId(toSpvCashFlowApply.getPkid().toString());
+		//流程实例
+		toSpvAduit.setActProcId(taskId);
+		//流程节点
+		toSpvAduit.setTaskDefKey(instCode);
+		//任务ID
+		toSpvAduit.setTaskId(taskId);
+		//操作人
+		toSpvAduit.setOperator(user.getId());
+		//审核结果
+		toSpvAduit.setResult("入账申请提交");
+		//内容
+		toSpvAduit.setContent("入账申请提交");
+		toSpvAduit.setCreateBy(user.getId());
+		toSpvAduit.setCreateTime(new Date());
+		toSpvAduitMapper.insertSelective(toSpvAduit);
 		//保存数据
 		//toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO); 
 		Map<String, Object> variables = new HashMap<String, Object>();
@@ -203,14 +229,17 @@ public class CashFlowInServiceImpl implements CashFlowInService {
         SpvBaseInfoVO spvBaseInfoVO;
         SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCodeByIn(businessKey);
     	spvCode = (String) request.getAttribute("spvCode");
+    	if(null == spvCode && spvChargeInfoVO != null && !StringUtils.isBlank(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode())){
+    		spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
+    	}
     	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
-    	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv == null?null:toSpv.getPkid());
+    	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(null == toSpv?null:toSpv.getPkid());
     	if(spvChargeInfoVO != null){       	
     		String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
         	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
         	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
         	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
-        	divideTenThousand(spvChargeInfoVO);
+        //	divideTenThousand(spvChargeInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);  
         	request.setAttribute("applyAuditorName", applyAuditorName);
         	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
@@ -224,22 +253,100 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 
 	@Override
 	public void cashFlowInDirectorAduitDeal(HttpServletRequest request, String instCode, String taskId,
-			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeInAppr)
+			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey, Boolean chargeInAppr)
 			throws Exception {
-
+			SessionUser user = uamSessionService.getSessionUser();
 		    //toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
+			
+			/**1.查询申请*/
+			ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
+			
+			ToSpvAduit toSpvAduit = new ToSpvAduit();
+			
+			//流水ID
+			//toSpvAduit.setApplyId(spvRecordedsVO.getToSpvCashFlowApplyPkid());
+			toSpvAduit.setApplyId(toSpvCashFlowApply.getPkid().toString());
+			//流程实例
+			toSpvAduit.setActProcId(taskId);
+			//流程节点
+			toSpvAduit.setTaskDefKey(instCode);
+			//任务ID
+			toSpvAduit.setTaskId(taskId);
+			//操作人
+			toSpvAduit.setOperator(user.getId());
+			//审核结果
+			String resultType="";
+			switch (handle) {
+           	case "apply":
+           			resultType = "风控专员";
+           			break;
+               case "directorAduit":
+            	   resultType = "总监审批";
+           			break;
+               case "financeAduit":
+            	   resultType = "财务审核";
+            	   break;
+            	   }
+			
+			if(chargeInAppr){
+				toSpvAduit.setResult(resultType+"通过");
+			}else{
+				toSpvAduit.setResult(resultType+"驳回");
+			}
+			//内容
+			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());
+			toSpvAduit.setCreateBy(user.getId());
+			toSpvAduit.setCreateTime(new Date());
+			toSpvAduitMapper.insertSelective(toSpvAduit);
+					
+			
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put("directorAduit",chargeInAppr);
 			
 			taskService.submitTask(taskId, variables);
+			
 	}
-
+/*	@Override
+	public void cashFlowInDirectorAduitDeal(HttpServletRequest request, String instCode, String taskId,
+			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeInAppr)
+					throws Exception {
+		SessionUser user = uamSessionService.getSessionUser();
+		//toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
+		
+		ToSpvAduit toSpvAduit = new ToSpvAduit();
+		
+		//流水ID
+		toSpvAduit.setApplyId(spvChargeInfoVO.getToSpvCashFlowApply().getPkid().toString());
+		//流程实例
+		toSpvAduit.setActProcId(taskId);
+		//流程节点
+		toSpvAduit.setTaskDefKey(instCode);
+		//任务ID
+		toSpvAduit.setTaskId(taskId);
+		//操作人
+		toSpvAduit.setOperator(user.getId());
+		//审核结果
+		toSpvAduit.setResult("审核通过");
+		//内容
+		toSpvAduit.setContent("审核通过");
+		toSpvAduit.setCreateBy(user.getId());
+		toSpvAduit.setCreateTime(new Date());
+		toSpvAduitMapper.insertSelective(toSpvAduit);
+		
+		
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("directorAduit",chargeInAppr);
+		
+		taskService.submitTask(taskId, variables);
+		
+	}
+*/
 	@Override
 	public void cashFlowInFinanceAduitProcess(HttpServletRequest request, String source, String instCode,
 			String taskId, String handle, String businessKey) {
 		String spvCode;
         SpvBaseInfoVO spvBaseInfoVO;
-        SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCode(businessKey);
+        SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCodeByIn(businessKey);
 
         if(spvChargeInfoVO != null && spvChargeInfoVO.getToSpvCashFlowApply() != null && !StringUtils.isBlank(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode())){
         	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
@@ -260,15 +367,115 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 
 	@Override
 	public void cashFlowInFinanceAduitDeal(HttpServletRequest request, String instCode, String taskId,
-			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeInAppr)
+			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey, Boolean chargeInAppr)
 			throws Exception {
 
+			SessionUser user = uamSessionService.getSessionUser();
+		    //toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
+			
+			/**1.查询申请*/
+			ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
+			
+			ToSpvAduit toSpvAduit = new ToSpvAduit();
+			
+			//流水ID
+			//toSpvAduit.setApplyId(spvRecordedsVO.getToSpvCashFlowApplyPkid());
+			toSpvAduit.setApplyId(toSpvCashFlowApply.getPkid().toString());
+			//流程实例
+			toSpvAduit.setActProcId(taskId);
+			//流程节点
+			toSpvAduit.setTaskDefKey(instCode);
+			//任务ID
+			toSpvAduit.setTaskId(taskId);
+			//操作人
+			toSpvAduit.setOperator(user.getId());
+			//审核结果
+			String resultType="";
+			switch (handle) {
+	       	case "apply":
+	       			resultType = "风控专员";
+	       			break;
+	           case "directorAduit":
+	        	   resultType = "总监审批";
+	       			break;
+	           case "financeAduit":
+	        	   resultType = "财务审核";
+	        	   break;
+	        	   }
+			
+			if(chargeInAppr){
+				toSpvAduit.setResult(resultType+"通过");
+			}else{
+				toSpvAduit.setResult(resultType+"驳回");
+			}
+			//内容
+			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());
+			toSpvAduit.setCreateBy(user.getId());
+			toSpvAduit.setCreateTime(new Date());
+			toSpvAduitMapper.insertSelective(toSpvAduit);
+					
+		
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put("financeAduit",chargeInAppr);
 			
 			taskService.submitTask(taskId, variables);
 	}
-
+/*	@Override
+	public void cashFlowInFinanceAduitDeal(HttpServletRequest request, String instCode, String taskId,
+			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeInAppr)
+					throws Exception {
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		//toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
+		
+		*//**1.查询申请*//*
+		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
+		
+		ToSpvAduit toSpvAduit = new ToSpvAduit();
+		
+		//流水ID
+		//toSpvAduit.setApplyId(spvRecordedsVO.getToSpvCashFlowApplyPkid());
+		toSpvAduit.setApplyId(toSpvCashFlowApply.getPkid().toString());
+		//流程实例
+		toSpvAduit.setActProcId(taskId);
+		//流程节点
+		toSpvAduit.setTaskDefKey(instCode);
+		//任务ID
+		toSpvAduit.setTaskId(taskId);
+		//操作人
+		toSpvAduit.setOperator(user.getId());
+		//审核结果
+		String resultType="";
+		switch (handle) {
+		case "apply":
+			resultType = "风控专员";
+			break;
+		case "directorAduit":
+			resultType = "总监审批";
+			break;
+		case "financeAduit":
+			resultType = "财务审核";
+			break;
+		}
+		
+		if(chargeInAppr){
+			toSpvAduit.setResult(resultType+"通过");
+		}else{
+			toSpvAduit.setResult(resultType+"驳回");
+		}
+		//内容
+		toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());
+		toSpvAduit.setCreateBy(user.getId());
+		toSpvAduit.setCreateTime(new Date());
+		toSpvAduitMapper.insertSelective(toSpvAduit);
+		
+		
+		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("financeAduit",chargeInAppr);
+		
+		taskService.submitTask(taskId, variables);
+	}
+*/
 	@Override
 	public void cashFlowInFinanceSecondAduitProcess(HttpServletRequest request, String source, String instCode,
 			String taskId, String handle, String businessKey) {
@@ -400,6 +607,20 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 				toSpvCashFlow.setAmount(toSpvCashFlow.getAmount() == null?null:toSpvCashFlow.getAmount().divide(new BigDecimal(10000)));
 			}		
 		}
+	}
+	
+	@Override
+	public void cashFlowOutApprDealAppDelete(HttpServletRequest request, String instCode, String pkid,
+			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey, Boolean chargeInAppr) throws Exception {
+
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		ToSpvCashFlow toSpvCashFlow = toSpvCashFlowMapper.selectByPrimaryKey(Long.valueOf(pkid));
+		toSpvCashFlow.setUpdateBy(user.getId());
+		toSpvCashFlow.setUpdateTime(new Date());
+		toSpvCashFlow.setIsDeleted("1");
+		toSpvCashFlowMapper.updateByPrimaryKey(toSpvCashFlow);
+		
 	}
 
 }

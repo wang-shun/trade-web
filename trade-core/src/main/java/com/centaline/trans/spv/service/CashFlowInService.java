@@ -38,7 +38,8 @@ public interface CashFlowInService {
 	 * @author: hejf 
 	 * @throws
 	 */
-	void cashFlowInApplyDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvRecordedsVO spvRecordedsVO,String businessKey) throws Exception ;
+     void cashFlowInApplyDeal(HttpServletRequest request, String instCode, String taskId,
+			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey, Boolean chargeInAppr) throws Exception ;
 	
 	/**
 	 * @Title: cashFlowInDirectorAduitProcess 
@@ -54,9 +55,17 @@ public interface CashFlowInService {
 	 * @author: hejf 
 	 * @throws
 	 */
+	void cashFlowInDirectorAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvRecordedsVO spvRecordedsVO,String businessKey, Boolean chargeInAppr) throws Exception ;
+	
+/*	*//**
+	 * @Title: cashFlowInDirectorAduitDeal 
+	 * @Description: 入款总监审批操作
+	 * @author: hejf 
+	 * @throws
+	 *//*
 	void cashFlowInDirectorAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeInAppr) throws Exception ;
 	
-	/**
+*/	/**
 	 * @Title: cashFlowInFinanceAduitProcess 
 	 * @Description: 入款财务初审页面
 	 * @author: hejf  
@@ -70,9 +79,17 @@ public interface CashFlowInService {
 	 * @author: hejf  
 	 * @throws
 	 */
+	void cashFlowInFinanceAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvRecordedsVO spvRecordedsVO,String businessKey, Boolean chargeInAppr) throws Exception ;
+	
+/*	*//**
+	 * @Title: cashFlowInFinanceAduitDeal 
+	 * @Description: 入款财务初审操作
+	 * @author: hejf  
+	 * @throws
+	 *//*
 	void cashFlowInFinanceAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeInAppr) throws Exception ;
 	
-	/**
+*/	/**
 	 * @Title: cashFlowInFinanceSecondAduitProcess 
 	 * @Description: 入款财务复审页面
 	 * @author: hejf  
@@ -107,4 +124,12 @@ public interface CashFlowInService {
 	void cashFlowInPageDealApply(HttpServletRequest request, String instCode, String taskId, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception;
 	
 	SpvReturnCashflowVO saveCashFlowApply(HttpServletRequest request, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception;
+	/**
+	 * @Title: cashFlowOutApprDealAppDelete 
+	 * @Description: 删除入账流水信息
+	 * @author: hejf 
+	 * @throws
+	 */
+	void cashFlowOutApprDealAppDelete(HttpServletRequest request, String instCode, String taskId,
+			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey, Boolean chargeInAppr) throws Exception ;
 }

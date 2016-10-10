@@ -1025,18 +1025,20 @@ public class SpvController {
        	if(!StringUtils.isBlank(handle)){ 	
            	switch (handle) {
            	case "apply":
-           			cashFlowOutService.cashFlowOutApplyProcess(request, source, instCode, taskId, handle, businessKey);
-           			url="spv/spvRecordedApp";
-           		break;
-               case "directorAduit":
-            	   //cashFlowOutService.cashFlowOutDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-            	   cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-            	   url="spv/spvRecordShow";
-           		break;
-               case "financeAduit":
-            	   cashFlowOutService.cashFlowOutFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
-            	   url="spv/spvRecordShow";
-               	break;
+       			//cashFlowOutService.cashFlowOutApplyProcess(request, source, instCode, taskId, handle, businessKey);
+       			cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
+       			url="spv/spvRecordedApp";//
+       		break;
+           case "directorAduit":
+        	   //cashFlowOutService.cashFlowOutDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+        	   cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+        	   url="spv/spvRecordShow";
+       		break;
+           case "financeAduit":
+        	  // cashFlowOutService.cashFlowOutFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
+        	   cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
+        	   url="spv/spvRecordShow";
+           	break;
                	
            	}
            }else{
