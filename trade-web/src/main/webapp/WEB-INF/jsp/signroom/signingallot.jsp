@@ -180,7 +180,7 @@
                                             	办理事项
                                         </label>
                                         <c:forEach items="${transactItemVoList}" var="transactItemVo">
-                                             <span name="srvcode" class="text-white mr5 "  id="${transactItemVo.code }">
+                                             <span name="srvcode" class="text-white "  id="${transactItemVo.code }">
                                             	${transactItemVo.name }
                                         </span>
                                         </c:forEach>
