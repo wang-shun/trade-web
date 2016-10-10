@@ -110,6 +110,13 @@
 .relative {
     position:  relative;
 }
+.aui-center {
+    padding:0.23rem 0.55rem;
+    margin-top:-15px;
+    position:absolute;
+    top:50%;
+    right:20px;
+}
 .aui-list .listspace {
    padding: 1.2rem 0;
 }

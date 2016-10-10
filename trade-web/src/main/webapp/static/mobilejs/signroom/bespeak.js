@@ -8,21 +8,11 @@ $(function() {
 	
 	//产证地址文本框失去焦点获取对应的caseCode
 	$("#propertyAddress").blur(function(){
-		var propertyAddress = this.value;
-		
-		if(propertyAddress != ""){
-			$.ajax({
-				cache:false,
-				async:false,
-				type:"POST",
-				dataType:"text",
-				url:ctx+"/weixin/signroom/getCaseCodeByPropertyAddr",
-				data: {propertyAddress:propertyAddress},
-				success:function(data){
-					$("#caseCode").val(data);
-				}
-			});
-		}
+		$(".autocompleter").hide();
+	});
+	
+	$("#propertyAddress").focus(function(){
+		$(".autocompleter").show();
 	});
 	
   
@@ -87,14 +77,27 @@ $(function() {
     	var tradeCenterId = $("#tradeCenterId").val();
     	var selDate = $("#selDate").val();
     	var bespeakTime = $("#bespeakTime").val();
+    	var inputNumberOfPeople = Number($("#inputNumberOfPeople").val());
+    	numberOfPeople = Number(numberOfPeople);
     	
+    	var actNumberOfPeople;
+    	if(inputNumberOfPeople > numberOfPeople){
+    		actNumberOfPeople = numberOfPeople;
+    	}
+    	else if(inputNumberOfPeople < numberOfPeople){
+    		actNumberOfPeople = inputNumberOfPeople;
+    	}
+    	else if(inputNumberOfPeople = numberOfPeople){
+    		actNumberOfPeople = numberOfPeople;
+    	}
+    	 
     	$.ajax({
     		cache:false,
     		async:false,
     		type:"POST",
     		dataType:"json",
     		url:ctx+"/weixin/signroom/save",
-    		data: {resType:'0',resPersonId:agentCode,caseCode:caseCode,propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,tradeCenterId:tradeCenterId,selDate:selDate,bespeakTime:bespeakTime},
+    		data: {resType:'0',actNumberOfPeople:actNumberOfPeople,resPersonId:agentCode,caseCode:caseCode,propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,tradeCenterId:tradeCenterId,selDate:selDate,bespeakTime:bespeakTime},
     		success:function(data){
     			if(data.isSuccess == "true"){
     				myOpenSuccess(data.resNo,data.numberOfPeople,data.selDate,data.bespeakTime);
@@ -169,7 +172,8 @@ $(function() {
 					       highlightMatches: true,
 					       source: data,
 					       hint: true,
-					       empty: false
+					       empty: false,
+					       focusOpen:true
 					   });
 				}
 			}

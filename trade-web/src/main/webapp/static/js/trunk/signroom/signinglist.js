@@ -83,10 +83,12 @@ $(function(){
 
     $("#today").click(function(){
         $(".data_style").val(getDateWeek(0));
+        $("#searchForm").submit();
     });
     
     $("#tommrow").click(function(){
         $(".data_style").val(getDateWeek(1));
+        $("#searchForm").submit();
     });
     
     //添加跟进信息
@@ -255,6 +257,7 @@ function reloadGrid(){
 }
 
 function getParams() {
+	var distinctId = $("input[name='distinctId']").val();
 	var resPersonId = $("input[name='resPersonId']").attr("hVal");
 	var resNo = $.trim($("input[name='resNo']").val());
 	var mobile = $.trim($("input[name='mobile']").val());
@@ -281,6 +284,7 @@ function getParams() {
 	}
 	
 	var data = {};
+	data.distinctId = distinctId;
 	data.resPersonId = resPersonId;
 	data.resNo = resNo;
 	data.mobile = mobile;

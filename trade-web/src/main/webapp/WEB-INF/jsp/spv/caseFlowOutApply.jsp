@@ -133,7 +133,13 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <c:set var="sumTotalAmt" value="0"/>
+                                        <c:set var="sumSellerAmt" value="0"/>
+                                        <c:set var="sumFundAmt" value="0"/>
                                         <c:forEach items="${deDetailMixList }" var="mix" varStatus="status1">
+                                        <c:set var="sumTotalAmt" value="${sumTotalAmt + mix.totalDeAmount }" />
+                                        <c:set var="sumSellerAmt" value="${sumSellerAmt + mix.sellerDeAmount }"/>
+                                        <c:set var="sumFundAmt" value="${sumFundAmt + mix.fundDeAmount }"/>
                                         <tr>
                                             <td>
                                                 <c:if test="${status1.count eq 1 }">
@@ -146,16 +152,32 @@
 									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict>
                                             </td>
                                             <td>
-                                                ${mix.totalDeAmount }万元
+                                                ${mix.totalDeAmount }万
                                             </td>
                                             <td>
-                                                ${mix.sellerDeAmount }万元
+                                                ${mix.sellerDeAmount }万
                                             </td>
                                             <td>
-                                                ${mix.fundDeAmount }万元
+                                                ${mix.fundDeAmount }万
                                             </td>
                                         </tr>
-                                        </c:forEach>                                       
+                                        </c:forEach>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                合计
+                                            </td>
+                                            <td>
+                                                ${sumTotalAmt }万
+                                            </td>
+                                            <td>
+                                                ${sumSellerAmt }万
+                                            </td>
+                                            <td>
+                                                ${sumFundAmt }万
+                                            </td>
+                                        </tr>                                       
                                         </tbody>
                                     </table>
                                 </div>
@@ -201,7 +223,7 @@
                                                     </span>
                                                 </p>
                                                 <p class="big">
-                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }
+                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }万元
                                                 </p>
                                             </td>
                                             <td>
@@ -224,7 +246,7 @@
                                                 </p>
                                                 <p class="smll_sign">
                                                     审核人：<a href="javascript:void(0)">
-                                                    ${applyAuditorName }&gt;${ftPreAuditorName }&gt;${ftPostAuditorName }</a>
+                                                    ${empty applyAuditorName?'?':applyAuditorName }&gt;${empty ftPreAuditorName?'?':ftPreAuditorName }&gt;${empty ftPostAuditorName?'?':ftPostAuditorName }</a>
                                                 </p>
                                             </td>
                                         </tr>

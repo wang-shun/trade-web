@@ -57,6 +57,7 @@ $(function () {
 	  	var caseCode = $("#caseCode").val();//案件编号
 	  	var agentCode = $("#jjrName").attr('hVal'); //预约人id
     	var numberOfParticipants = $("#numberOfParticipants").val();//参与人数
+    	var numberOfPeople = $("#numberOfPeople").val();//容纳人数
     	var propertyAddress = $.trim($("#propertyAddress").val());//产证地址
     	var transactItemCode='';//办理事项编号
 		$('.choices span').each(function(){
@@ -86,13 +87,14 @@ $(function () {
 	     			     resPersonId : agentCode,
 	     			     caseCode : caseCode,
 	     			     propertyAddress : propertyAddress,
+	     			     numberOfPeople : numberOfPeople,
 	     			     numberOfParticipants : numberOfParticipants,
 	     			     transactItemCode : transactItemCode,
 	     			     scheduleId : scheduleId,
 	     			     signingCenter : signingCenter,
 	     			     signingCenterId : signingCenterId,
 	     			     roomId : roomId,
-	     			     resStatus : '0',
+	     			     resStatus : '1',
 	     			     resPersonOrgId : resPersonOrgId
 	     			     /*startDate : startDate,
 	     			     endDate : endDate*/
@@ -237,7 +239,7 @@ function ajaxSubmit(obj) {
 				  th += "<tr><td><p class='big'>"+data.content.signRooms[i].roomNo+"<em class='yellow_bg ml5'>"+roomType+"</em></p></td><td><p class='big'>"+data.content.signRooms[i].districtName+"</p></td><td><p class='smll_sign'>"+data.content.signRooms[i].numbeOfAccommodatePeople+"</p></td>" ;
 				  for(var j=0;j<data.content.signRooms[i].rmRoomSchedules.length;j++){
 					  if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N' && data.content.signRooms[i].rmRoomSchedules[j].zhiHui==false){
-						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot +"','"+data.content.signRooms[i].rmRoomSchedules[j].pkid+"','"+data.content.signRooms[i].tradeCenter+"','"+data.content.signRooms[i].tradeCenterId+"','"+data.content.signRooms[i].pkid+"')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
+						  th+="<td><a href='#' onclick=\"goSlotRoom('" + data.content.signRooms[i].roomNo + "','" + roomType + "','" + data.content.signRooms[i].rmRoomSchedules[j].timeSlot +"','"+data.content.signRooms[i].rmRoomSchedules[j].pkid+"','"+data.content.signRooms[i].tradeCenter+"','"+data.content.signRooms[i].tradeCenterId+"','"+data.content.signRooms[i].pkid+"','"+data.content.signRooms[i].numbeOfAccommodatePeople+"')\" class='underline big' data-toggle='modal' data-target='#myModal'>空置</a></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='N' && data.content.signRooms[i].rmRoomSchedules[j].zhiHui==true){
 						  th+="<td><span class='grey_no big'>空置</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='0'){
@@ -256,7 +258,7 @@ function ajaxSubmit(obj) {
     });
 }
 
-function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterId,roomId){
+function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterId,roomId,numberOfPeople){
 	$("#roomNo").html(roomNo);
 	$("#roomType").html(roomType);
 	$("#slotTime").html(slotTime);
@@ -264,6 +266,7 @@ function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterI
 	$("#tradeCenter").val(tradeCenter);
 	$("#tradeCenterId").val(tradeCenterId);
 	$("#roomId").val(roomId);
+	$("#numberOfPeople").val(numberOfPeople);
 	$("#jjrName").val("");
 	$("#jjrName").attr('hVal', "");
 	$("#resPersonOrgId").val("");

@@ -21,6 +21,7 @@
 		<input type="hidden" id="defaultTradeCenterId" name="defaultTradeCenterId" value="${defaultTradeCenterId }"/>
 		<input type="hidden" id="inputSelDate" name="inputSelDate"/>
 		<input type="hidden" id="inputBespeakTime" name="inputBespeakTime"/>
+		<input type="hidden" id="inputNumberOfPeople" name="inputNumberOfPeople"/>
 	</form>
 	
 	<input type="hidden" id="ctx" value="${ctx }"/>

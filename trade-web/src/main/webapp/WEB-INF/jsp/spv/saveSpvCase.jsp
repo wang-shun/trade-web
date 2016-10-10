@@ -85,7 +85,7 @@
 		<input type="hidden" id="taskitem" name="taskitem" value="${taskitem }">
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
-		<input type="hidden" id="urlType" name="source" value="${urlType}">
+		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
 		<!-- main Start -->
 		<div
 			class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
