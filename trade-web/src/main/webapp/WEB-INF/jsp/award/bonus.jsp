@@ -243,7 +243,7 @@
                                                     <td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SATISFACTION}}({{item.SKPI_RATE}})</td>
 													<td>{{item.SRV_PART}}</td>
-                                                    <td>{{item.MKPI}}({{item.MKPIV})</td>
+                                                    <td>{{item.MKPI}}({{item.MKPIV}})</td>
                                                     <td>{{item.COM_LS_RATE}}({{item.COM_LS_KPI}})</td>
                                                     <td>{{item.SRV_PART_IN}}</td>
 													<td>{{item.KPI_RATE_SUM}}</td>
