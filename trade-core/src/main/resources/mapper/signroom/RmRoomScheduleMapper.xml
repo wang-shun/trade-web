@@ -78,6 +78,10 @@ ORDER BY t.START_DATE ASC
 			AND	 T.PKID = #{_parameter}
 		</if>
   </select>
+  
+  <delete id="deleteRmRoomScheduleByRoomId" parameterType="java.lang.Long" >
+    update sctrans.T_RM_ROOM_SCHEDULE set IS_DELETE = '1' where ROOM_ID = #{pkid,jdbcType=BIGINT}
+  </delete>
  
 
 </mapper>

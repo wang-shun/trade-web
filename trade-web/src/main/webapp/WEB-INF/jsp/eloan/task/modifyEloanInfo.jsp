@@ -243,6 +243,7 @@
 			   if(releaseAmount == "" || releaseAmount == null){
 				   $("#releaseInfoForShow").hide();
 			   }
+			   $("input[name='releaseTime']").attr("disabled", true);
 			   
 	        	$('.input-daterange').datepicker({
 	              	format : 'yyyy-mm-dd',
@@ -295,7 +296,7 @@
              			releaseAmount : releaseAmount,
             			releaseTime : releaseTime,
             			eloanCode : eloanCode, 
-            			pkid :pkid,
+            			pkid : pkid,
             			confirmStatus : confirmStatus
             		}             		
             		eloanRelList.push(eloanRel);
@@ -333,6 +334,8 @@
 						$(".blockOverlay").css({
 							'z-index' : '1900'
 						}); 
+						
+						
 					},
 					success : function(data) {	
 						if(data.success == true){
@@ -341,7 +344,7 @@
 						} 
 					},
 					error : function(errors) {
-						$.unblockUI();   
+						$.unblockUI();    
 						alert("数据保存出错");
 					}
 				});

@@ -15,11 +15,11 @@ function getTR(thisIndex){
 	$str+='		<input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="items['+thisIndex+'].payerName">                                                                                         ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<p><input class="table_input boderbbt" type="text"placeholder="请输入银行卡号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="items['+thisIndex+'].payerAcc"></p>                                                                                   ';
+	$str+='		<p><input class="table_input boderbbt" type="text"placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="items['+thisIndex+'].payerAcc"></p>                                                                                   ';
 	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="items['+thisIndex+'].payerBank"></p>                                                                                  ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td class="text-left">                                                                                                                                                                     ';
-	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if ((event.keyCode > 32 && event.keyCode < 45) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="items['+thisIndex+'].payerAmount">万元                                                                        ';
+	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="items['+thisIndex+'].payerAmount">万元                                                                        ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
 	$str+='		<input class="table_input boderbbt" type="text" placeholder="请输入编号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="items['+thisIndex+'].receiptNo">                                                                                             ';
@@ -33,8 +33,6 @@ function getTR(thisIndex){
 	$str+='		</select>                                                                                                                                                                              ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	//$str+='		<a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default">凭证3<i class="icon iconfont icon_x"></i></button></a>';
-	//$str+='		<a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default">凭证4<i class="icon iconfont icon_x"></i></button></a>';
 	$str+='		<span class="btn_file">                                                                                                                                                                ';
 	$str+='			<input type="file" class="file">                                                                                                                                                   ';
 	$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="">                                                                        ';
@@ -68,11 +66,11 @@ function sumbitRe(){
 		type : "POST",
 		url : url,
 		dataType : "json",
-		data : data,//{handle:handle,taskId:$("#taskId").val(),chargeInAppr:true},
+		data : data,
 		beforeSend:function(){  
          },
 		success : function(data) {
-			 window.location.href = ctx+"/spv/spvList";
+			 window.location.href = ctx+"/task/myTaskList";
 			/*if(data.ajaxResponse.success){
 				if(!handle){
 					alert("流程开启成功！");
@@ -98,6 +96,20 @@ function getFormData(){
 
 //保存起草提交
 function saveRe(){
+	
+	
+	//test
+	alert("saveRe");
+	 if(!deleteAndModify()){
+		  return false;
+	  }
+	 return ;
+	//test 
+	 
+	 
+	 
+	 
+	 
 	/*if(!confirm("保存入账申请信息数据！")){
 	  return false;
     }*/

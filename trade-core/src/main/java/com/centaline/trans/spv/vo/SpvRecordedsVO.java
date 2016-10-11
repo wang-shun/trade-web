@@ -48,8 +48,24 @@ public class SpvRecordedsVO {
 	private String ToSpvCashFlowPkid;
 	
 	private String ToSpvReceiptPkid;
-    
+	
+	private String businessKey;
+	
+	private String turndownContent;
+	
  	
+	public String getTurndownContent() {
+		return turndownContent;
+	}
+	public void setTurndownContent(String turndownContent) {
+		this.turndownContent = turndownContent;
+	}
+	public String getBusinessKey() {
+		return businessKey;
+	}
+	public void setBusinessKey(String businessKey) {
+		this.businessKey = businessKey;
+	}
 	public String getToSpvCashFlowApplyPkid() {
 		return toSpvCashFlowApplyPkid;
 	}

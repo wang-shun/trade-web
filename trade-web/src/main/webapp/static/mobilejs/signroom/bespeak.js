@@ -9,6 +9,7 @@ $(function() {
 	//产证地址文本框失去焦点获取对应的caseCode
 	$("#propertyAddress").blur(function(){
 		$(".autocompleter").hide();
+		getServiceSpecialistByPropertyAddr(this.value);
 	});
 	
 	$("#propertyAddress").focus(function(){
@@ -29,24 +30,27 @@ $(function() {
     $("#btnBespoke").click(function(){
     	var propertyAddress = $("#propertyAddress").val();
     	var numberOfPeople = $("#numberOfPeople").val();
+    	var serviceSpecialist = $("#serviceSpecialist").val();
     	
     	if(propertyAddress == ""){
-    		$(".zvalid-resultformat").html("请输入交易单地址");
-    		$(".field-tooltipWrap").show(300).delay(1500).hide(300);
+    		showTip("请输入交易单地址");
+    		return false;
+    	}
+    	
+    	if(serviceSpecialist == ""){
+    		showTip("请输入服务顾问");
     		return false;
     	}
     	
     	if(numberOfPeople == ""){
-    		$(".zvalid-resultformat").html("请输入参与人数");
-    		$(".field-tooltipWrap").show(300).delay(1500).hide(300);
+    		showTip("请输入参与人数");
     		return false;
     	}
     	else {
     		numberOfPeople = Number(numberOfPeople);
     		
     		if(numberOfPeople <= 0){
-    			$(".zvalid-resultformat").html("请输入合法的参与人数");
-        		$(".field-tooltipWrap").show(300).delay(1500).hide(300);
+    			showTip("请输入合法的参与人数");
         		return false;
     		}
     	}
@@ -61,23 +65,31 @@ $(function() {
     	});
     	
     	if(!isSelectTransactItem){
-    		$(".zvalid-resultformat").html("请选择办理事项");
-    		$(".field-tooltipWrap").show(300).delay(1500).hide(300); ;
+    		showTip("请选择办理事项");
     		return false;
     	}
     	
     	transactItem = transactItem.substring(0,transactItem.lastIndexOf(","));
     	
-    	save(propertyAddress,numberOfPeople,transactItem);  //保存签约室预约信息
+    	save(propertyAddress,numberOfPeople,transactItem,serviceSpecialist);  //保存签约室预约信息
     });
     
-    function save(propertyAddress,numberOfPeople,transactItem){
+    //显示提示信息
+    function showTip(message){
+    	$(".zvalid-resultformat").html(message);
+		$(".field-tooltipWrap").show(300).delay(1500).hide(300); 
+    }
+    
+    //保存预约信息
+    function save(propertyAddress,numberOfPeople,transactItem,serviceSpecialist){
     	var caseCode = $("#caseCode").val();
     	var specialRequirement = $("#specialRequirement").val();
     	var tradeCenterId = $("#tradeCenterId").val();
     	var selDate = $("#selDate").val();
     	var bespeakTime = $("#bespeakTime").val();
     	var inputNumberOfPeople = Number($("#inputNumberOfPeople").val());
+    	var serviceSpecialist = $("#serviceSpecialist").val();
+    	
     	numberOfPeople = Number(numberOfPeople);
     	
     	var actNumberOfPeople;
@@ -97,7 +109,7 @@ $(function() {
     		type:"POST",
     		dataType:"json",
     		url:ctx+"/weixin/signroom/save",
-    		data: {resType:'0',actNumberOfPeople:actNumberOfPeople,resPersonId:agentCode,caseCode:caseCode,propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,tradeCenterId:tradeCenterId,selDate:selDate,bespeakTime:bespeakTime},
+    		data: {serviceSpecialist:serviceSpecialist,resType:'0',actNumberOfPeople:actNumberOfPeople,resPersonId:agentCode,caseCode:caseCode,propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,tradeCenterId:tradeCenterId,selDate:selDate,bespeakTime:bespeakTime},
     		success:function(data){
     			if(data.isSuccess == "true"){
     				myOpenSuccess(data.resNo,data.numberOfPeople,data.selDate,data.bespeakTime);
@@ -169,11 +181,38 @@ $(function() {
 			success:function(data){
 				if(data.length > 0){
 					 $("#propertyAddress").autocompleter({
-					       source: data
+					       source: data,
+					       callback: function (value, index, selected) {
+					    	   getServiceSpecialistByPropertyAddr(value);
+					      }
 					   });
 				}
 			}
 		});
+    }
+    
+    //根据产证地址获取服务顾问
+    function getServiceSpecialistByPropertyAddr(propertyAddress){
+    	 $.ajax({
+	       		cache:false,
+	       		async:false,
+	       		type:"POST",
+	       		dataType:"text",
+	       		url:ctx+"/weixin/signroom/getServiceSpecialistByPropertyAddr",
+	       		data: {propertyAddress:propertyAddress},
+	       		success:function(data){
+	       			if(data != null && data != ""){
+	       				$("#serviceSpecialist").val(data);
+		       			$("#serviceSpecialist").attr("readonly",true);
+		       			$("#serviceSpecialist").css("background-color","#ccc");
+	       			}
+	       			else {
+	       				$("#serviceSpecialist").val("");
+		       			$("#serviceSpecialist").attr("readonly",false);
+		       			$("#serviceSpecialist").css("background-color","#fff");
+	       			}
+	       		}
+	       	});
     }
     
 });

@@ -309,7 +309,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	public void deleteSignRoom(RmSignRoom rmSignRoom) {
 		// rmRoomScheStragegyMapper.deleteRmRoomScheStragegyByPkid(rmSignRoom.getStragegyPkid());
 		rmSignRoomMapper.deleteRmSignRoomById(rmSignRoom.getPkid());
-
+		rmRoomScheduleMapper.deleteRmRoomScheduleByRoomId(rmSignRoom.getPkid());
 	}
 
 	@Override
@@ -321,12 +321,11 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
 
 		if (reservationInfoVo != null) {
+			Long startDate = reservationInfoVo.getStartDate();
 			reservation.setResNo(resNo);
 			reservation.setResType(reservationInfoVo.getResType());
-			reservation.setCheckInTime(Calendar.getInstance().getTime());
 			reservation.setResPersonOrgId(reservationInfoVo.getResPersonOrgId());
 			reservation.setResPersonId(reservationInfoVo.getResPersonId());
-			reservation.setResStatus(reservationInfoVo.getResStatus());
 			reservation.setScheduleId(reservationInfoVo.getScheduleId());
 			reservation.setCaseCode(reservationInfoVo.getCaseCode());
 			reservation.setPropertyAddress(reservationInfoVo.getPropertyAddress());
@@ -339,12 +338,18 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			reservation.setCreateBy(currentUser.getId());
 			reservation.setUpdateTime(Calendar.getInstance().getTime());
 			reservation.setUpdateBy(currentUser.getId());
+			if(startDate!=null && startDate>(new Date().getTime())){//预约房间
+				reservation.setResStatus("0");
+			}else{//临时分配房间
+				reservation.setResStatus(reservationInfoVo.getResStatus());
+				reservation.setCheckInTime(Calendar.getInstance().getTime());
+			}
 			reservationMapper.insertSelective(reservation);// 插入临时分配的信息
-
 			FreeRoomVo freeRoomVo = new FreeRoomVo();
 			freeRoomVo.setResId(reservation.getPkid());
 			freeRoomVo.setScheduleId(reservationInfoVo.getScheduleId());
 			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo); // 更新闲置房间的使用状态
+			
 		}
 
 	}

@@ -5,10 +5,12 @@ var pChartMTypeCases = echarts.init(document.getElementById('pieChartMTypeCases'
 var pChartMTypeAmount = echarts.init(document.getElementById('pieChartMTypeAmount'));
 var mTypeLegends = new Array("商贷收单", "公积金", "商贷流失");
 var mTypeCases = new Array(0, 0, 0);
-var mTypeAmount = new Array(0, 0, 0);
+var mTypeComAmount = new Array(0, 0, 0);
+var mTypePRFAmount = new Array(0, 0, 0);
 var mAllCases = 0;
-var mTotalAmount = 0;
-var mPRFAmount = 0;
+var mTypeAmount = new Array(0, 0, 0);
+var mTypeCasesTitle = "";
+var mTypeAmountTitle = "";
 
 /**
  * 案件统计详情
@@ -85,6 +87,8 @@ function setPieCharts() {
 	getMTypeCases();	
 	//$("#mAllCases").text(mAllCases);
 	//$("#mTotalAmount").text(mTotalAmount);
+	mTypeAmountTitle = '贷款总金额: '+mTotalAmount.toFixed(2)+' 万元'
+	mTypeCasesTitle = '贷款总单数: '+mAllCases+' 件'
 	option = setAmountOptions(mTypeAmount);
 	pChartMTypeAmount.setOption(option);
 	option = setCaseOptions(mTypeCases);
@@ -193,12 +197,14 @@ function getMTypeAmount() {
 		success : function(data) {
 			var index
 			for (index in data.rows) {
-				mTypeAmount[data.rows[index].MLOANTYPE-1] = data.rows[index].MCOMAMOUNT;
+				mTypeComAmount[data.rows[index].MLOANTYPE-1] = data.rows[index].MCOMAMOUNT;
+				mTypePRFAmount[data.rows[index].MLOANTYPE-1] = data.rows[index].MPRFAMOUNT;
 				mTotalAmount += data.rows[index].MCOMAMOUNT;
-				mPRFAmount += data.rows[index].MPRFAMOUNT;
+				mTotalAmount += data.rows[index].MPRFAMOUNT;
 			}
-			mTypeAmount[1] = mPRFAmount;
-			mTotalAmount += mPRFAmount;
+			mTypeAmount[0] = mTypeComAmount[0];
+			mTypeAmount[1] = mTypePRFAmount[0]+mTypePRFAmount[1];
+			mTypeAmount[2] = mTypeComAmount[2]+mTypePRFAmount[2];
 		}
 	});
 }
@@ -206,7 +212,8 @@ function getMTypeAmount() {
 function setAmountOptions(values) {
 	var option = {
 		title : {
-			text : '贷款类型分析（金额）',
+			text : mTypeAmountTitle,
+			//text : '贷款类型分析（金额）',
 			subtext : '',
 			padding : [ 25, 10 ],
 			x : 'center',
@@ -228,7 +235,7 @@ function setAmountOptions(values) {
 
 			data : [ '商贷（收单）', '商贷（流失）', '公积金' ]
 		},
-		color : [ '#52bdbd', '#f784a5', '#ffad6b', '#295aa5', ],
+		color : [ '#52bdbd', '#f784a5', '#ffad6b', '#295aa5' ],
 		series : [
 
 		{
@@ -238,11 +245,12 @@ function setAmountOptions(values) {
 			animation : true,
 			selectedMode : 'multiple',
 			data : [ {
-				value : values[0],
+				value : values[0].toFixed(2),
 				name : '商贷（收单）',
 				itemStyle : {
 					normal : {
 						label : {
+							formatter : '{b}: {c} 万元',
 							show : function() {
 								if (values[0] === 0) {
 									return false;
@@ -259,11 +267,12 @@ function setAmountOptions(values) {
 					}
 				}
 			}, {
-				value : values[2],
+				value : values[2].toFixed(2),
 				name : '商贷（流失）',
 				itemStyle : {
 					normal : {
 						label : {
+							formatter : '{b}: {c} 万元',
 							show : function() {
 								if (values[2] === 0) {
 									return false;
@@ -280,11 +289,12 @@ function setAmountOptions(values) {
 					}
 				}
 			}, {
-				value : values[1],
+				value : values[1].toFixed(2),
 				name : '公积金',
 				itemStyle : {
 					normal : {
 						label : {
+							formatter : '{b}: {c} 万元',
 							show : function() {
 								if (values[1] === 0) {
 									return false;
@@ -310,7 +320,8 @@ function setAmountOptions(values) {
 function setCaseOptions(values) {
 	var option = {
 		title : {
-			text : '贷款类型分析（单数）',
+			text : mTypeCasesTitle,
+			//text : '贷款类型分析（单数）',
 			subtext : '',
 			padding : [ 25, 10 ],
 			x : 'center',
@@ -337,7 +348,7 @@ function setCaseOptions(values) {
 
 			data : [ '商贷（收单）', '商贷（流失）', '公积金' ]
 		},
-		color : [ '#52bdbd', '#f784a5', '#ffad6b', '#295aa5', ],
+		color : [ '#52bdbd', '#f784a5', '#ffad6b', '#295aa5' ],
 		series : [
 
 		{
@@ -352,6 +363,7 @@ function setCaseOptions(values) {
 				itemStyle : {
 					normal : {
 						label : {
+							formatter : '{b}: {c} 件',
 							show : function() {
 								if (values[0] === 0) {
 									return false;
@@ -373,6 +385,7 @@ function setCaseOptions(values) {
 				itemStyle : {
 					normal : {
 						label : {
+							formatter : '{b}: {c} 件',
 							show : function() {
 								if (values[2] === 0) {
 									return false;
@@ -394,6 +407,7 @@ function setCaseOptions(values) {
 				itemStyle : {
 					normal : {
 						label : {
+							formatter : '{b}: {c} 件',
 							show : function() {
 								if (values[1] === 0) {
 									return false;
@@ -410,7 +424,37 @@ function setCaseOptions(values) {
 					}
 				}
 			} ]
-		} ]
+		}
+		/*,
+		{
+            name:'总单数',
+            type:'pie',
+            selectedMode: 'single',
+            radius: [0, '30%'],
+            color: 'white',
+
+            label: {
+                normal: {
+                    position: 'inside'
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data:[ {
+            	value: values[0]+values[1]+values[2], 
+            	name: '总计',
+            	itemStyle : {
+					normal : {
+						label : {
+							formatter : '{b}\n{c}件'
+						}
+					}
+				}}
+            ]
+        }*/ ]
 	};
 	
 	return option;
@@ -903,8 +947,7 @@ function getParamsValue() {
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.custName = custName;
-	// params.finCode = finCode;
-
+	// params.finCode = finCode;	
 	return params;
 }
 

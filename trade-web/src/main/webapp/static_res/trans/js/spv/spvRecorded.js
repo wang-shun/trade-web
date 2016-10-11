@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	var handle = $("#handle").val();
 	
-	$("#cashFolwRecord").find("select").prop("disabled",true);
+	$("#cashFlowRecord").find("select").prop("disabled",true);
 	
 	//流程开启后只读表单
 	if(handle == 'directorAduit' || handle == 'financeAduit' 
@@ -24,10 +24,10 @@ $(document).ready(function(){
 
 //保存按钮方法
 function saveBtnClick(){
-/*	  if(!deleteAndModify()){
+	  if(!deleteAndModify()){
 		  return false;
 	  }
-	  if(!checkFormSave()){
+	/*  if(!checkFormSave()){
   		  return false;
   	  }*/
 
@@ -46,11 +46,11 @@ function saveBtnClick(){
         		data:totalArr,
         		async:false,
         		beforeSend:function(){  
- 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+ 				//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
  				$(".blockOverlay").css({'z-index':'9998'});
              },
  	        complete: function() {
- 	                 $.unblockUI(); 
+ 	                // $.unblockUI(); 
  	                 if(status=='timeout'){ //超时,status还有success,error等值的情况
  		          	  Modal.alert(
  					  {
@@ -71,7 +71,7 @@ function saveBtnClick(){
  				    	 window.location.reload();
 			    	     //window.location.href="${ctx}/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
 			     }
- 					 $.unblockUI();
+ 					// $.unblockUI();
  				}	 
       	  });
 }
@@ -202,5 +202,4 @@ function readOnlyRiskForm(){
 	$("input").prop("readOnly",true);
 	$(":radio").prop("disabled",true);
 	$("select").prop("disabled",true);
-	$("img").prop("disabled",true);
 }

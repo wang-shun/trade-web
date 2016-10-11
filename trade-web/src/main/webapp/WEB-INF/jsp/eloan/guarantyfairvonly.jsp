@@ -97,9 +97,10 @@
 						<div class="line">
 							<div class="form_content">
 								<label class="control-label sign_left_small"> 备注 </label>
-								<textarea disabled="disabled" class="sign_right_two"
+								<%-- <textarea disabled="disabled" class="sign_right_two"
 									value="${rcRiskControl.riskComment }" id="riskComment"
-									name="riskComment" style="width: 400px; height: 100px;"></textarea>
+									name="riskComment" style="width: 400px; height: 100px;"></textarea> --%>
+								<textarea class="select_control sign_right_two" id="riskComment" name="riskComment" style="width:400px;height:100px; display:block;margin-left:124px">${rcRiskControl.riskComment }</textarea>
 							</div>
 						</div>
 

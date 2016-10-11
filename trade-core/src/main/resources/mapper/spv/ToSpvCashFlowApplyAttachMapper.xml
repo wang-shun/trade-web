@@ -35,6 +35,13 @@
     delete from sctrans.T_TO_SPV_CASHFLOW_APPLY_ATTACH
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  
+  <delete id="setIsDeletedByPrimaryKey"  parameterType="java.lang.Long" >
+    update sctrans.T_TO_SPV_CASHFLOW_APPLY_ATTACH
+    set IS_DELETED = '1'
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  
   <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach" >
     insert into sctrans.T_TO_SPV_CASHFLOW_APPLY_ATTACH (PKID, APPLY_ID, TYPE, 
       ATTACH_ID, COMMENT, IS_DELETED, 

@@ -140,7 +140,6 @@
 			<tr>
 				<td class="text-center">
 				    {{item.loanSrvCode}}
-                    {{item.taskKey}}
 				</td>
 				<td>
 				      {{item.propertyAddress}}
@@ -206,8 +205,10 @@
                          </button>
                                <ul class="dropdown-menu" role="menu" style="left:-95px;">
                                       <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">查看</a></li>
+                                      <shiro:hasPermission name="TRADE.ELONE.UPDATE">
                                       <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=update">修改</a></li>
-                                      <shiro:hasPermission name="TRADE.ELONE.DELETE">
+                                      </shiro:hasPermission>
+                                       <shiro:hasPermission name="TRADE.ELONE.DELETE">
                                        {{if item.taskKey =='EloanApply'}}
                                       <li><a id="link_btn" onclick="deleteItem({{item.pkId}})">删除</a></li>{{/if}}
                                       </shiro:hasPermission>

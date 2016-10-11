@@ -23,11 +23,12 @@
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="SERVICE_SPECIALIST" property="serviceSpecialist" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     PKID, RES_NO,RES_TYPE,CHECK_IN_TIME,CHECKED_OUT_TIME,RES_PERSON_ORG_ID,RES_PERSON_ID,RES_STATUS,SCHEDULE_ID,NUMBE_OF_ACCOMMODATE_PEOPLE,CASE_CODE,PROPERTY_ADDRESS,
-    SIGNING_CENTER,SIGNING_CENTER_ID,NUMBER_OF_PARTICIPANTS,NUMBER_OF_PARTICIPANTS,TRANSACT_ITEM_CODE,SPECIAL_REQUIREMENT,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
+    SIGNING_CENTER,SIGNING_CENTER_ID,NUMBER_OF_PARTICIPANTS,NUMBER_OF_PARTICIPANTS,TRANSACT_ITEM_CODE,SPECIAL_REQUIREMENT,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,SERVICE_SPECIALIST
   </sql>
   
   <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.Reservation" useGeneratedKeys="true" keyProperty="pkid">
@@ -93,6 +94,9 @@
       <if test="updateBy != null" >
         UPDATE_BY,
       </if>
+      <if test="serviceSpecialist != null" >
+        SERVICE_SPECIALIST,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="resNo != null" >
@@ -155,6 +159,9 @@
       <if test="updateBy != null" >
         #{updateBy,jdbcType=VARCHAR},
       </if>
+      <if test="serviceSpecialist != null" >
+        #{serviceSpecialist,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   
@@ -174,7 +181,7 @@
 		(
 		SELECT count(*) FROM sctrans.T_RM_SIGN_ROOM sr1
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON rs1.ROOM_ID = sr1.PKID
-		WHERE rs1.IS_DELETE = 0 AND rs1.USE_STATUS = 'N' AND sr1.ROOM_TYPE = 0  and sr1.NUMBE_OF_ACCOMMODATE_PEOPLE = sr.NUMBE_OF_ACCOMMODATE_PEOPLE AND rs1.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs1.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr1.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+		WHERE sr1.IS_DELETE = 0 and rs1.IS_DELETE = 0 AND rs1.USE_STATUS = 'N' AND sr1.ROOM_TYPE = 0  and sr1.NUMBE_OF_ACCOMMODATE_PEOPLE = sr.NUMBE_OF_ACCOMMODATE_PEOPLE AND rs1.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs1.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr1.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
 			and sr1.PKID not in (
 			SELECT DISTINCT rs2.ROOM_ID FROM sctrans.T_RM_RESERVATION r2
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs2 ON r2.SCHEDULE_ID = rs2.PKID
@@ -237,7 +244,7 @@
 FROM    sctrans.T_RM_RESERVATION T
         INNER JOIN sctrans.T_RM_ROOM_SCHEDULE R ON R.PKID = T.SCHEDULE_ID
         INNER JOIN sctrans.T_RM_SIGN_ROOM S ON S.PKID = R.ROOM_ID
-WHERE   DATEDIFF(mi,R.START_DATE,GETDATE()) >= 30
+WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE >= GETDATE() AND DATEDIFF(mi,t.CREATE_TIME,GETDATE()) &lt; 30 ))   
 		AND S.IS_DELETE = 0
 		AND T.RES_STATUS IN ('0','1')
 		<if test="pkid != null" >

@@ -43,5 +43,7 @@ public interface RmRoomScheduleMapper {
 	 */
 	public RmRoomSchedule getRmRoomScheduleByPkid(Long pkid);
 	
+	int deleteRmRoomScheduleByRoomId(Long pkid);
+	
 
 }

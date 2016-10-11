@@ -145,8 +145,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款自办确认函编号</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="loanLostConfirmCode"
-								name="loanLostConfirmCode" value="${mortgage.loanLostConfirmCode}"> 
+							<input type="text" class="form-control" id="loanLostConfirmCode" name="loanLostConfirmCode" value="${mortgage.loanLostConfirmCode}"> 
 						</div>
 					</div>
 
@@ -229,44 +228,33 @@
 					<div class="ibox-content"
 						style="height: 280px; overflow-y: scroll;">
 						<h5>${accesoryList[0].accessoryName }</h5>
-						<c:forEach var="accesory" items="${accesoryList}"
-							varStatus="status">
-							<div class="" id="fileupload_div_pic">
-								<form id="fileupload"
-									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-									method="POST" enctype="multipart/form-data">
+						<c:forEach var="accesory" items="${accesoryList}"	varStatus="status">
+							<div class="" id="fileupload_div_pic">							
+								<form id="fileupload"	action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	method="POST" enctype="multipart/form-data">
 									<noscript>
-										<input type="hidden" name="redirect"
-											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-										<input type="hidden" id="preFileCode" name="preFileCode"
-											value="${accesory.accessoryCode }">
+										<input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+										<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">
 									</noscript>
 									<c:if test="${status.index != 0}">
-										<h5 align="left">
-											<br>${accesory.accessoryName }</h5>
+										<h5 align="left"><br>${accesory.accessoryName }</h5>
 									</c:if>
+									
 									<div class="row-fluid fileupload-buttonbar">
 										<div class="" style="height: auto">
-											<div role="presentation" class="table table-striped "
-												style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-												<div id="picContainer${accesory.pkid }" class="files"
-													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+											<div role="presentation" class="table table-striped "	style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+												<div id="picContainer${accesory.pkid }" class="files"	data-toggle="modal-gallery" data-target="#modal-gallery"></div>
 												<!-- 用于'贷款自办确认函'验证 -->
-												<input type="hidden" id="fileFlagCode${accesory.pkid }"
-											    value="${accesory.accessoryCode }">
-												<span class=" fileinput-button "
-													style="margin-left: 10px !important; width: 80px;">
-													<div id="chandiaotuBtn" class=""
-														style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+												<input type="hidden" id="fileFlagCode${accesory.pkid }"   value="${accesory.accessoryCode }">
+												
+												<span class=" fileinput-button "	style="margin-left: 10px !important; width: 80px;">
+													<div id="chandiaotuBtn" class="" style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
 														<i class="fa fa-plus"></i>
-													</div> <input id="picFileupload${accesory.pkid }" type="file"
-													name="files[]" multiple
-													data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-													data-sequential-uploads="true">
+													</div> 													
+													<input id="picFileupload${accesory.pkid }" type="file"	name="files[]" multiple 	data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	data-sequential-uploads="true">
 												</span>
 											</div>
 										</div>
-									</div>
+									</div>									
 								</form>
 							</div>
 
@@ -303,8 +291,7 @@
 							    </div>
 							{% } %}
 						</script>
-									<script id="templateDownload${accesory.pkid }"
-										type="text/x-tmpl">
+						<script id="templateDownload${accesory.pkid }"	type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 							        {% if (file.error) { %}
@@ -358,41 +345,47 @@
 				class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
 		</div>
 	</div>
-	<content tag="local_script"> <!-- Peity --> <script
-		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+	<content tag="local_script"> <!-- Peity --> 
+	<script		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+	<!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <!-- Data picker -->
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<!-- Custom and plugin javascript -->
+	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
+	<!-- Data picker -->
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+	<!-- 上传附件相关 --> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
-	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> <!-- bank select -->
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <script
-		src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+	<!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> 
+	<script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
+	<!-- bank select -->
+	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
+	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script>
 			var source = "${source}";
 			function readOnlyForm() {
 				$(".readOnly_date").removeClass('date');
@@ -480,7 +473,7 @@
 
 			/**提交数据*/
 			function submit() {
-				if (checkAttachmentForLoanLost($("#loanLostConfirmCode").val())) {
+				if (checkAttachmentForLoanLost($("#loanLostConfirmCode").val())) {//验证是否上传附件
 					save(true);
 				}
 			}

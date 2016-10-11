@@ -6,6 +6,175 @@
 		<customDict id="getDistCode" beanName="qqDistCode" />
 		<customDict id="getPrStatusCode" beanName="qqcdDictPrStatusCode" />
 		<customDict id="getIsSuccess" beanName="qqisSuccess" />
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+	</formatters>
+	<query id="querySourceReport">
+		<searchCondition>
+		<!--
+		    <condition field="SYSUAPP.REAL_NAME" name="sysUApp" label="产调申请人" searchType="LIKE" showType="textbox" showCallback="" defaultValue="" />
+			<condition field="PR.PR_COST_ORG_MGR" name="prMgr" label="成本归属" searchType="LIKE" showType="textbox" showCallback="" defaultValue="" />
+			<condition field="PR.PR_STATUS" name="prStatus" label="状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="SYSUEXE.REAL_NAME" name="sysUExe" label="贵宾服务部" searchType="LIKE" showType="textbox" showCallback="" defaultValue="" />
+			<condition field="PR.PR_APPLY_ORG_NAME" name="prAppOrg" label="产调来源" searchType="LIKE" showType="textbox" showCallback="" defaultValue="" />
+			<condition field="PR.PR_APPLY_TIME" name="prApplyTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue="" />
+			<condition field="PR.PR_APPLY_TIME" name="prApplyTimeStop" label="" searchType="LTE" showType="" showCallback="" defaultValue="" />
+			<condition field="PR.IS_SUCCESS" name="prIsSuccess" label="是否有效" searchType="EQ" showType="" showCallback="" defaultValue="" />
+		-->	
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				SELECT 
+				PRSRC.IS_SUCCESS,
+				PRSRC.PR_APPLY_DEP_name,
+				COUNT(PRSRC.PKID) AS PR_COUNT
+				FROM
+				(SELECT
+					PR.PKID,
+					PR.PR_CODE, 
+					PR.IS_SUCCESS, 
+					PR.UNSUCCESS_REASON,
+					PR.DIST_CODE AS DIST_CODE_OLD, 
+					DICT.NAME,
+					PR.PR_ADDRESS, 
+					PR.PR_APPLY_ORG_ID, 
+					PR.PR_EXECUTOR,
+					SYSUEXE.REAL_NAME AS EXE_RNAME,
+					PR.PR_APPLIANT,
+					SYSUAPP.REAL_NAME AS APP_RNAME,
+					PR.PR_APPLY_ORG_NAME,
+					PR.PR_COST_ORG_MGR,
+					PR.PR_COST_ORG_NAME,
+					PR.PR_APPLY_TIME,
+					PR.PR_ACCPET_TIME,
+					PR.PR_COMPLETE_TIME,
+					PR.PR_DISTRICT_ID,
+					SYSORG.ORG_NAME,
+					PR.PR_APPLY_DEP_NAME,
+					PR.PR_STATUS AS PR_STATUS_OLD
+				FROM sctrans.T_TO_PROPERTY_RESEARCH AS PR
+				
+				LEFT JOIN sctrans.SYS_DICT AS DICT 
+				ON PR.DIST_CODE = DICT.CODE
+				LEFT JOIN sctrans.SYS_USER AS SYSUEXE
+				ON PR.PR_EXECUTOR = SYSUEXE.ID
+				LEFT JOIN sctrans.SYS_USER AS SYSUAPP
+				ON PR.PR_APPLIANT = SYSUAPP.ID
+				LEFT JOIN sctrans.SYS_ORG AS SYSORG
+				ON PR.PR_DISTRICT_ID = SYSORG.ID
+				
+				WHERE PR.IS_SUCCESS IS NOT NULL
+				AND PR.PR_APPLY_DEP_NAME IS NOT NULL
+				AND 1=1
+				
+				<if test="sPrDep == 'yucui_district' ">
+				    AND PR.PR_DISTRICT_ID = #sPrDistrictId#
+			    </if>
+			    
+			    <ifNotNull sPrApp>
+					AND SYSUAPP.REAL_NAME = #sPrApp#
+				</ifNotNull>
+				
+				<ifNotNull sPrCostMgr>
+					AND PR.PR_COST_ORG_MGR = #sPrCostMgr#
+				</ifNotNull>
+				
+				<ifNotNull sPrStatus>
+					AND PR.PR_STATUS = #sPrStatus#
+				</ifNotNull>
+				
+				<ifNotNull sPrDistName>
+					AND SYSORG.ORG_NAME = #sPrDistName#
+				</ifNotNull>
+				
+				<ifNotNull sPrAppDep>
+					AND PR.PR_APPLY_DEP_NAME = #sPrAppDep#
+				</ifNotNull>
+				
+				<ifNotNull sTimeType>
+					<if test="sTimeType == 0">
+						<if test="sStartTime != ''">
+						    AND PR.PR_APPLY_TIME &gt;= #sStartTime#
+						</if>
+						<if test="sEndTime != ''">
+						    AND PR.PR_APPLY_TIME &lt;= #sEndTime#
+						</if>
+			    	</if>
+			    	<if test="sTimeType == 1">
+						<if test="sStartTime != ''">
+						    AND PR.PR_ACCPET_TIME &gt;= #sStartTime#
+						</if>
+						<if test="sEndTime != ''">
+						    AND PR.PR_ACCPET_TIME &lt;= #sEndTime#
+						</if>
+			    	</if>
+			    	<if test="sTimeType == 2">
+						<if test="sStartTime != ''">
+						    AND PR.PR_COMPLETE_TIME &gt;= #sStartTime#
+						</if>
+						<if test="sEndTime != ''">
+						    AND PR.PR_COMPLETE_TIME &lt;= #sEndTime#
+						</if>
+			    	</if>
+				</ifNotNull>
+				
+				<ifNotNull sPrIsSuccess>
+					AND PR.IS_SUCCESS = #sPrIsSuccess#
+				</ifNotNull>
+				) AS PRSRC
+			    
+				]]>
+			</baseSql>
+			<groupSql>
+			GROUP BY PRSRC.PR_APPLY_DEP_name, PRSRC.IS_SUCCESS
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="IS_SUCCESS" index="" checkbox="" display="是否有效" title="是否有效" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="PR_APPLY_DEP_NAME" index="" checkbox="" display="产调来源" title="产调来源" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+			    <column type="both" name="PR_COUNT" index="" checkbox="" display="产调数量" title="产调数量" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+
+</querys>
+
+
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<customDict id="userDict" beanName="qqcdUserIdName" />
+		<customDict id="getDistCode" beanName="qqDistCode" />
+		<customDict id="getPrStatusCode" beanName="qqcdDictPrStatusCode" />
+		<customDict id="getIsSuccess" beanName="qqisSuccess" />
 		<customDict id="qqcdUserOrgName" beanName="qqcdUserOrgName" />
 	</dicts>
 
@@ -93,11 +262,11 @@
 		<grid>
 			<table-row>
 				<column type="both" name="IS_SUCCESS" index="" checkbox="" display="是否有效" title="是否有效" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<!-- <column type="virtual" name="IS_SUCCESS"  display="是否有效" referencecol="IS_SUCCESS_OLD"  customDict="getIsSuccess" isSort="true" /> -->
+				<column type="virtual" name="IS_SUCCESS"  display="是否有效" referencecol="IS_SUCCESS_OLD"  customDict="getIsSuccess" isSort="true" />
 				<column type="both" name="PR_APPLY_DEP_NAME" index="" checkbox="" display="产调来源" title="产调来源" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			    <column type="both" name="PR_COUNT" index="" checkbox="" display="产调数量" title="产调数量" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
 
-</querys>
+</querys> -->

@@ -47,9 +47,9 @@ public class ReservationInfoVo {
 	
 	private Long roomId;//房间编号
 	
-	private String startDate;//房间排期开始时间
+	private Long startDate;//房间排期开始时间
 	
-	private String endDate;//房间排期结束时间
+	private Date endDate;//房间排期结束时间
 
 	public String getResNo() {
 		return resNo;
@@ -186,20 +186,21 @@ public class ReservationInfoVo {
 	public void setRoomId(Long roomId) {
 		this.roomId = roomId;
 	}
+	
 
-	public String getStartDate() {
+	public Long getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(Long startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
