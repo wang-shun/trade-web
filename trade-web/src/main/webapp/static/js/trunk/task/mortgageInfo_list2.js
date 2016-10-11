@@ -1,8 +1,15 @@
 var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
 
-var pChartMTypeCases = echarts.init(document.getElementById('pieChartMTypeCases'));
-var pChartMTypeAmount = echarts.init(document.getElementById('pieChartMTypeAmount'));
+var pChartMTypeCases = echarts.init(document
+		.getElementById('pieChartMTypeCases'));
+var pChartMTypeAmount = echarts.init(document
+		.getElementById('pieChartMTypeAmount'));
+var pChartMOrgCases = echarts
+		.init(document.getElementById('pieChartMOrgCases'));
+var pChartMOrgAmount = echarts.init(document
+		.getElementById('pieChartMOrgAmount'));
+
 var mTypeLegends = new Array("商贷收单", "公积金", "商贷流失");
 var mTypeCases = new Array(0, 0, 0);
 var mTypeComAmount = new Array(0, 0, 0);
@@ -11,123 +18,164 @@ var mAllCases = 0;
 var mTypeAmount = new Array(0, 0, 0);
 var mTypeCasesTitle = "";
 var mTypeAmountTitle = "";
+var mOrgCasesTitle = "";
+
+var legends = new Array();
+var caseItems = new Array();
 
 /**
  * 案件统计详情
  */
-$(document).ready(function() {
+$(document).ready(
+		function() {
 
-	var url = "/quickGrid/findPage";
-	var ctx = $("#ctx").val();
-	url = ctx + url;
-	
-	var signTimeStart = $("#dtBegin_0").val();
-	var signTimeEnd = '';
-	if (!$.isBlank($("#dtEnd_0").val())) {
-		signTimeEnd = $("#dtEnd_0").val() + " 23:59:59";
-	}
-	// 初始化列表
-	var data = {};
-	data.queryId = "findToMortgageIsActive";
-	data.rows = 10;
-	data.page = 1;
-	data.signTimeStart = signTimeStart;
-	data.signTimeEnd = signTimeEnd;
-	/* 加载排序查询组件 */
-	aist.sortWrapper({
-		reloadGrid : loanLostApproveSearchMethod
-	});
+			var url = "/quickGrid/findPage";
+			var ctx = $("#ctx").val();
+			url = ctx + url;
 
-	reloadGrid(data);
-	
-	getParentBank($("select[name='loanLostFinOrgName']"),$("select[name='loanLostFinOrgNameYc']"),"","","");
-	
-	
-	$("select[name='loanLostFinOrgName']").change(function(){
-		/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
-		//if(data.content && data.content.isTmpBank=='1'){
-			getBranchBankList($("select[name='loanLostFinOrgNameYc']"),$("select[name='loanLostFinOrgName']").val(),"");
-		//}else{
-			//getBranchBankList($("select[name='loanLostFinOrgNameYc']"),$("select[name='loanLostFinOrgName']").val(),"",'cl');
-		//}
-	})
-	
-	setPieCharts();
-	
-	$(".charone").hide();
-    $("#mortTypeAnalysis").click(function() {
-        $(".charone").toggle();
-        $("#mortTypeAnalysis").addClass('btn-bg');
-        if($(".charone").is(":hidden")) {
-             $("#mortTypeAnalysis").removeClass('btn-bg');
-        }
-    });
-	
-	/*document.getElementById('mortTypeAnalysis').addEventListener('click', function () {
-	    toggle(document.querySelectorAll('.toggle-div'));
-	});*/
-});
+			var signTimeStart = $("#dtBegin_0").val();
+			var signTimeEnd = '';
+			if (!$.isBlank($("#dtEnd_0").val())) {
+				signTimeEnd = $("#dtEnd_0").val() + " 23:59:59";
+			}
+			// 初始化列表
+			var data = {};
+			data.queryId = "findToMortgageIsActive";
+			data.rows = 10;
+			data.page = 1;
+			data.signTimeStart = signTimeStart;
+			data.signTimeEnd = signTimeEnd;
+			/* 加载排序查询组件 */
+			aist.sortWrapper({
+				reloadGrid : loanLostApproveSearchMethod
+			});
+
+			reloadGrid(data);
+
+			getParentBank($("select[name='loanLostFinOrgName']"),
+					$("select[name='loanLostFinOrgNameYc']"), "", "", "");
+
+			$("select[name='loanLostFinOrgName']").change(
+					function() {
+						/* $("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy"); */
+						// if(data.content && data.content.isTmpBank=='1'){
+						getBranchBankList(
+								$("select[name='loanLostFinOrgNameYc']"), $(
+										"select[name='loanLostFinOrgName']")
+										.val(), "");
+						// }else{
+						// getBranchBankList($("select[name='loanLostFinOrgNameYc']"),$("select[name='loanLostFinOrgName']").val(),"",'cl');
+						// }
+					})
+
+			setPieCharts();
+
+			/*
+			 * $(".charone").hide(); $("#mortTypeAnalysis").click(function() {
+			 * $(".charone").toggle();
+			 * $("#mortTypeAnalysis").addClass('btn-bg');
+			 * if($(".charone").is(":hidden")) {
+			 * $("#mortTypeAnalysis").removeClass('btn-bg'); } });
+			 */
+
+			$(".charone,.chartwo").hide();
+			$("#mortTypeAnalysis").click(function() {
+				$(".charone").toggle();
+				$(".chartwo").hide();
+				$("#mortTypeAnalysis").addClass('btn-bg');
+				$("#mortOrgAnalysis ").removeClass('btn-bg');
+				if ($(".charone").is(":hidden")) {
+					$("#mortTypeAnalysis").removeClass('btn-bg');
+				}
+			});
+
+			$("#mortOrgAnalysis").click(function() {
+
+				$(".chartwo").toggle();
+				$(".charone").hide();
+				$("#mortOrgAnalysis ").addClass('btn-bg');
+				$("#mortTypeAnalysis ").removeClass('btn-bg');
+				if ($(".chartwo").is(":hidden")) {
+					$("#mortOrgAnalysis").removeClass('btn-bg');
+				}
+			});
+
+			/*
+			 * document.getElementById('mortTypeAnalysis').addEventListener('click',
+			 * function () { toggle(document.querySelectorAll('.toggle-div'));
+			 * });
+			 */
+		});
 
 function resetData() {
 	var x;
-	for(x in mTypeLegends) {
+	for (x in mTypeLegends) {
 		mTypeCases[x] = 0;
 		mTypeAmount[x] = 0;
 	}
-	
+
 	mAllCases = 0;
 	mTotalAmount = 0;
 	mPRFAmount = 0;
+	
+	legends.splice(0,legends.length)
+	caseItems.splice(0,caseItems.length)
 }
 
 function setPieCharts() {
 	var option = {};
 	resetData();
 	getMTypeAmount();
-	getMTypeCases();	
-	//$("#mAllCases").text(mAllCases);
-	//$("#mTotalAmount").text(mTotalAmount);
-	mTypeAmountTitle = '贷款总金额: '+mTotalAmount.toFixed(2)+' 万元'
-	mTypeCasesTitle = '贷款总单数: '+mAllCases+' 件'
+	getMTypeCases();
+	getMOrgAnalysis();
+
+	// $("#mAllCases").text(mAllCases);
+	// $("#mTotalAmount").text(mTotalAmount);
+	mTypeAmountTitle = '贷款总金额: ' + mTotalAmount.toFixed(2) + ' 万元';
+	mTypeCasesTitle = '贷款总单数: ' + mAllCases + ' 件'
 	option = setAmountOptions(mTypeAmount);
 	pChartMTypeAmount.setOption(option);
+	pChartMOrgAmount.setOption(option);
 	option = setCaseOptions(mTypeCases);
 	pChartMTypeCases.setOption(option);
-	//chartAll.setOption(option);
+	option = setOrgOption('贷款组织分析', legends, caseItems);
+	pChartMOrgCases.setOption(option);
+	// chartAll.setOption(option);
 }
 
-function toggle (elements, specifiedDisplay) {
-  var element, index;
+/*function toggle(elements, specifiedDisplay) {
+ var element, index;
 
-  elements = elements.length ? elements : [elements];
-  for (index = 0; index < elements.length; index++) {
-    element = elements[index];
+ elements = elements.length ? elements : [ elements ];
+ for (index = 0; index < elements.length; index++) {
+ element = elements[index];
 
-    if (isElementHidden(element)) {
-      element.style.display = '';
+ if (isElementHidden(element)) {
+ element.style.display = '';
 
-      // If the element is still hidden after removing the inline display
-      if (isElementHidden(element)) {
-        element.style.display = specifiedDisplay || 'block';
-      }
-    } else {
-      element.style.display = 'none';
-    }
-  }
-  function isElementHidden (element) {
-    return window.getComputedStyle(element, null).getPropertyValue('display') === 'none';
-  }
-}
+ // If the element is still hidden after removing the inline display
+ if (isElementHidden(element)) {
+ element.style.display = specifiedDisplay || 'block';
+ }
+ } else {
+ element.style.display = 'none';
+ }
+ }
+ function isElementHidden(element) {
+ return window.getComputedStyle(element, null).getPropertyValue(
+ 'display') === 'none';
+ }
+ }
 
-function show(elements, specifiedDisplay) {
-	elements = elements.length ? elements : [ elements ];
-	for (var index = 0; index < elements.length; index++) {
-		elements[index].style.display = specifiedDisplay || 'block';
-	}
-}
+ function show(elements, specifiedDisplay) {
+ elements = elements.length ? elements : [ elements ];
+ for (var index = 0; index < elements.length; index++) {
+ elements[index].style.display = specifiedDisplay || 'block';
+ }
+ }*/
 
 function setQueryData() {
-	
+
 	var data = getParamsValue();
 
 	var queryOrgFlag = $("#queryOrgFlag").val();
@@ -153,41 +201,73 @@ function setQueryData() {
 	data.argu_idflag = arguUserId;
 	data.argu_queryorgs = orgArray;
 	aist.wrap(data);
-	
+
 	return data;
 }
 
 function getMTypeCases() {
-	
+
 	var data = setQueryData();
 	data.queryId = "queryMortgageTypeAnalysis";
 	data.rows = 10;
 	data.page = 1;
 
-	$.ajax({
-		async : false,
-		url : ctx + "/quickGrid/findPage",
-		method : "post",
-		dataType : "json",
-		data : data,
-		success : function(data) {
-			var index
-			for (index in data.rows) {
-				mTypeCases[data.rows[index].MTYPE-1] = data.rows[index].MCASES;
-				mAllCases += data.rows[index].MCASES;
-			}
+	$
+			.ajax({
+				async : false,
+				url : ctx + "/quickGrid/findPage",
+				method : "post",
+				dataType : "json",
+				data : data,
+				success : function(data) {
+					var index
+					for (index in data.rows) {
+						mTypeCases[data.rows[index].MTYPE - 1] = data.rows[index].MCASES;
+						mAllCases += data.rows[index].MCASES;
+					}
 
-		}
-	});
+				}
+			});
 }
 
 function getMTypeAmount() {
-	
+
 	var data = setQueryData();
 	data.queryId = "queryMortgageTypeAmountAnalysis";
 	data.rows = 10;
 	data.page = 1;
 
+	$
+			.ajax({
+				async : false,
+				url : ctx + "/quickGrid/findPage",
+				method : "post",
+				dataType : "json",
+				data : data,
+				success : function(data) {
+					var index
+					for (index in data.rows) {
+						mTypeComAmount[data.rows[index].MLOANTYPE - 1] = data.rows[index].MCOMAMOUNT;
+						mTypePRFAmount[data.rows[index].MLOANTYPE - 1] = data.rows[index].MPRFAMOUNT;
+						mTotalAmount += data.rows[index].MCOMAMOUNT;
+						mTotalAmount += data.rows[index].MPRFAMOUNT;
+					}
+					mTypeAmount[0] = mTypeComAmount[0];
+					mTypeAmount[1] = mTypePRFAmount[0] + mTypePRFAmount[1];
+					mTypeAmount[2] = mTypeComAmount[2] + mTypePRFAmount[2];
+				}
+			});
+}
+
+function getMOrgAnalysis() {
+	var data = setQueryData();
+	data.queryId = "queryMortgageOrgAnalysis";
+	data.rows = 100;
+	data.page = 1;
+
+	//check user job
+	var userJobCode = $("#userJobCode").val();
+
 	$.ajax({
 		async : false,
 		url : ctx + "/quickGrid/findPage",
@@ -195,25 +275,82 @@ function getMTypeAmount() {
 		dataType : "json",
 		data : data,
 		success : function(data) {
-			var index
+			var index;
 			for (index in data.rows) {
-				mTypeComAmount[data.rows[index].MLOANTYPE-1] = data.rows[index].MCOMAMOUNT;
-				mTypePRFAmount[data.rows[index].MLOANTYPE-1] = data.rows[index].MPRFAMOUNT;
-				mTotalAmount += data.rows[index].MCOMAMOUNT;
-				mTotalAmount += data.rows[index].MPRFAMOUNT;
+				var name;
+				if (userJobCode == '0') {
+					name = data.rows[index].OONAME;
+				} else if (userJobCode == '1') {
+
+				} else if (userJobCode == '2') {
+
+				} else if (userJobCode == '3') {
+
+				}
+
+				var value = data.rows[index].MCASES;
+				var caseItem = {
+					name : name,
+					value : value
+				};
+
+				var idx = legends.indexOf(name);
+				if (idx != -1) {
+					caseItems[idx].value += value;
+				} else {
+					legends.push(name);
+					caseItems.push(caseItem);
+				}
 			}
-			mTypeAmount[0] = mTypeComAmount[0];
-			mTypeAmount[1] = mTypePRFAmount[0]+mTypePRFAmount[1];
-			mTypeAmount[2] = mTypeComAmount[2]+mTypePRFAmount[2];
 		}
 	});
+}
+
+function setOrgOption(title, legendName, dataValue) {
+	var option = {
+		title : {
+			text : title,
+			subtext : '',
+			padding : [ 25, 10 ],
+			x : 'center',
+		},
+		tooltip : {
+			trigger : 'item',
+			triggerOn : 'mousemove',
+			/* alwaysShowContent:true, */
+			hideDelay : 1500,
+			enterable : true,
+			formatter : "{b}: {c} ({d}%)"
+		},
+
+		legend : {
+			orient : 'vertical',
+			x : 'right',
+			y : 'top',
+			top : 15,
+
+			data : legendName
+		},
+		color : [ '#f784a5', '#ffad6b', '#52bdbd', '#295aa5' ],
+		series : [
+
+		{
+			name : title,
+			type : 'pie',
+			radius : [ '35%', '55%' ],
+			animation : true,
+			selectedMode : 'multiple',
+			data : dataValue
+		} ]
+	};
+	return option;
 }
 
 function setAmountOptions(values) {
 	var option = {
 		title : {
 			text : mTypeAmountTitle,
-			//text : '贷款类型分析（金额）',
+			// text : '贷款类型分析（金额）',
 			subtext : '',
 			padding : [ 25, 10 ],
 			x : 'center',
@@ -313,7 +450,7 @@ function setAmountOptions(values) {
 			} ]
 		} ]
 	};
-	
+
 	return option;
 }
 
@@ -321,7 +458,7 @@ function setCaseOptions(values) {
 	var option = {
 		title : {
 			text : mTypeCasesTitle,
-			//text : '贷款类型分析（单数）',
+			// text : '贷款类型分析（单数）',
 			subtext : '',
 			padding : [ 25, 10 ],
 			x : 'center',
@@ -425,38 +562,16 @@ function setCaseOptions(values) {
 				}
 			} ]
 		}
-		/*,
-		{
-            name:'总单数',
-            type:'pie',
-            selectedMode: 'single',
-            radius: [0, '30%'],
-            color: 'white',
-
-            label: {
-                normal: {
-                    position: 'inside'
-                }
-            },
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-            data:[ {
-            	value: values[0]+values[1]+values[2], 
-            	name: '总计',
-            	itemStyle : {
-					normal : {
-						label : {
-							formatter : '{b}\n{c}件'
-						}
-					}
-				}}
-            ]
-        }*/ ]
+		/*
+		 * , { name:'总单数', type:'pie', selectedMode: 'single', radius: [0,
+		 * '30%'], color: 'white',
+		 * 
+		 * label: { normal: { position: 'inside' } }, labelLine: { normal: {
+		 * show: false } }, data:[ { value: values[0]+values[1]+values[2], name:
+		 * '总计', itemStyle : { normal : { label : { formatter : '{b}\n{c}件' } } }} ] }
+		 */]
 	};
-	
+
 	return option;
 }
 
@@ -468,15 +583,15 @@ function setOptions(values) {
 			trigger : 'item',
 			formatter : "{a} <br/>{b} : {c} ({d}%)"
 		},
-		
-		color:['#f784a5', '#52bdbd','#ffad6b','#87d6c6'],
-		
-		legend: {
-	        orient: 'vertical',
-	        left: 'left',
-	        data: mTypeLegends
-	    },
-	    
+
+		color : [ '#f784a5', '#52bdbd', '#ffad6b', '#87d6c6' ],
+
+		legend : {
+			orient : 'vertical',
+			left : 'left',
+			data : mTypeLegends
+		},
+
 		series : [ {
 			name : '贷款类型分析',
 			type : 'pie',
@@ -548,7 +663,7 @@ function setOptions(values) {
 			} ].sort(function(a, b) {
 				return a.value - b.value
 			}),
-			//roseType : 'angle',
+			// roseType : 'angle',
 			label : {
 				normal : {
 					textStyle : {
@@ -566,77 +681,76 @@ function setOptions(values) {
 					length2 : 20
 				}
 			},
-			/*itemStyle : {
-				normal : {
-					shadowBlur : 0,
-					shadowColor : 'rgba(0, 0, 0, 0.5)'
-				}
-			},*/
+		/*
+		 * itemStyle : { normal : { shadowBlur : 0, shadowColor : 'rgba(0, 0, 0,
+		 * 0.5)' } },
+		 */
 		} ]
 	};
 
 	return option
 }
 
-$('#mortgageInfoToExcel').click(function() {
-	var url = "/quickGrid/findPage?xlsx&";
-	// excel导出列
-	var displayColomn = new Array;
-	displayColomn.push('CASE_CODE');
-	displayColomn.push('PROPERTY_ADDR');	
-	displayColomn.push('SIGN_DATE');
-	displayColomn.push('LEND_DATE');
-	displayColomn.push('APPR_DATE');	
-	displayColomn.push('CUST_NAME');
-	displayColomn.push('MORT_TOTAL_AMOUNT');
-	displayColomn.push('COM_AMOUNT');	
-	displayColomn.push('PRF_AMOUNT');
-	displayColomn.push('SDSTATUS');	
-	displayColomn.push('FIN_ORG_NAME');
-	displayColomn.push('FIN_ORG_NAME_YC');	
-	displayColomn.push('IS_TMP_BANK');
-	displayColomn.push('REAL_NAME');
-	displayColomn.push('ORG_NAME');	
-	displayColomn.push('ORG_ORG_NAME');
+$('#mortgageInfoToExcel').click(
+		function() {
+			var url = "/quickGrid/findPage?xlsx&";
+			// excel导出列
+			var displayColomn = new Array;
+			displayColomn.push('CASE_CODE');
+			displayColomn.push('PROPERTY_ADDR');
+			displayColomn.push('SIGN_DATE');
+			displayColomn.push('LEND_DATE');
+			displayColomn.push('APPR_DATE');
+			displayColomn.push('CUST_NAME');
+			displayColomn.push('MORT_TOTAL_AMOUNT');
+			displayColomn.push('COM_AMOUNT');
+			displayColomn.push('PRF_AMOUNT');
+			displayColomn.push('SDSTATUS');
+			displayColomn.push('FIN_ORG_NAME');
+			displayColomn.push('FIN_ORG_NAME_YC');
+			displayColomn.push('IS_TMP_BANK');
+			displayColomn.push('REAL_NAME');
+			displayColomn.push('ORG_NAME');
+			displayColomn.push('ORG_ORG_NAME');
 
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var arguUserId = null;
-	if (queryOrgFlag == 'true') {
-		arguUserId = null;
-		if (isAdminFlag == 'true') {
-			queryOrgs = null;
-		}
-	} else {
-		queryOrgs = null;
-		arguUserId = "yes";
-	}
+			var queryOrgFlag = $("#queryOrgFlag").val();
+			var isAdminFlag = $("#isAdminFlag").val();
+			var queryOrgs = $("#queryOrgs").val();
+			var arguUserId = null;
+			if (queryOrgFlag == 'true') {
+				arguUserId = null;
+				if (isAdminFlag == 'true') {
+					queryOrgs = null;
+				}
+			} else {
+				queryOrgs = null;
+				arguUserId = "yes";
+			}
 
-	var orgArray = queryOrgs == null ? '' : queryOrgs.split(",");
+			var orgArray = queryOrgs == null ? '' : queryOrgs.split(",");
 
-	var argu_idflag = '&argu_idflag=' + arguUserId;
+			var argu_idflag = '&argu_idflag=' + arguUserId;
 
-	if (arguUserId == null)
-		argu_idflag = '&argu_idflag=';
-	var argu_queryorgs = "&" + jQuery.param({
-		argu_queryorgs : orgArray
-	});
-	if (argu_queryorgs == null)
-		argu_queryorgs = '&argu_queryorgs=';
-	var params = getParamsValue();	
-	var queryId = '&queryId=findToMortgageIsActive';
-	var colomns = '&colomns=' + displayColomn;
+			if (arguUserId == null)
+				argu_idflag = '&argu_idflag=';
+			var argu_queryorgs = "&" + jQuery.param({
+				argu_queryorgs : orgArray
+			});
+			if (argu_queryorgs == null)
+				argu_queryorgs = '&argu_queryorgs=';
+			var params = getParamsValue();
+			var queryId = '&queryId=findToMortgageIsActive';
+			var colomns = '&colomns=' + displayColomn;
 
-	url = ctx + url + jQuery.param(params) + queryId + argu_idflag
-			+ argu_queryorgs + colomns;
+			url = ctx + url + jQuery.param(params) + queryId + argu_idflag
+					+ argu_queryorgs + colomns;
 
-	$('#excelForm').attr('action', url);
+			$('#excelForm').attr('action', url);
 
-	$('#excelForm').method = "post";
-	$('#excelForm').submit();
+			$('#excelForm').method = "post";
+			$('#excelForm').submit();
 
-})
+		})
 
 // 日期控件
 $('#datepicker_0').datepicker({
@@ -664,23 +778,23 @@ function loanLostApproveSearchMethod(page) {
 	params.queryId = "findToMortgageIsActive";
 	reloadGrid(params);
 };
-function isTempBankRadio(rName,rValue){
-    var rObj = document.getElementsByName(rName);
-    for(var i = 0;i < rObj.length;i++){
-        if(rObj[i].value == rValue){
-            rObj[i].checked =  'checked';
-            $("#isTempBankAll").val(2);
-        }
-    }
+function isTempBankRadio(rName, rValue) {
+	var rObj = document.getElementsByName(rName);
+	for (var i = 0; i < rObj.length; i++) {
+		if (rObj[i].value == rValue) {
+			rObj[i].checked = 'checked';
+			$("#isTempBankAll").val(2);
+		}
+	}
 }
-function isLoseRadio(rName,rValue){
-    var rObj = document.getElementsByName(rName);
-    for(var i = 0;i < rObj.length;i++){
-        if(rObj[i].value == rValue){
-            rObj[i].checked =  'checked';           
-        	$("#isLoseAll").val(2);  
-        }
-    }
+function isLoseRadio(rName, rValue) {
+	var rObj = document.getElementsByName(rName);
+	for (var i = 0; i < rObj.length; i++) {
+		if (rObj[i].value == rValue) {
+			rObj[i].checked = 'checked';
+			$("#isLoseAll").val(2);
+		}
+	}
 }
 // 清空
 $('#mortgageInfoCleanButton').click(function() {
@@ -692,20 +806,20 @@ $('#mortgageInfoCleanButton').click(function() {
 	$("input[name='orgName']").val('');
 	$("input[name='custName']").val('');
 	// select清除
-	//$("select").val("");
+	// $("select").val("");
 	$("input[name='amountBegin_0']").val('');
 	$("input[name='amountEnd_0']").val('');
-	//清空单选按钮
+	// 清空单选按钮
 	$('input[name="isLoseLoan"]:checked').val('');
-	$('input[name="isLoseLoan"]:checked').attr("checked",false);
+	$('input[name="isLoseLoan"]:checked').attr("checked", false);
 	$('input[name="isTempBank"]:checked').val('');
-	$('input[name="isTempBank"]:checked').attr("checked",false);
-	
-	isTempBankRadio('isTempBank',$("#isTempBankAll").val());
-	isLoseRadio('isLoseLoan',$("#isLoseAll").val());
-	
+	$('input[name="isTempBank"]:checked').attr("checked", false);
+
+	isTempBankRadio('isTempBank', $("#isTempBankAll").val());
+	isLoseRadio('isLoseLoan', $("#isLoseAll").val());
+
 	$("#yuCuiOriGrpId").val("");
-	//select框情况设置
+	// select框情况设置
 	$("#loanLostFinOrgNameYc").val("");
 	$("#loanLostFinOrgName").val("");
 	$("#loanType").val("");
@@ -819,7 +933,7 @@ function getParamsValue() {
 	var comAmountEnd = null;
 	var prfAmountStart = null;
 	var prfAmountEnd = null;
-	var mortTotalAmountStart =null;
+	var mortTotalAmountStart = null;
 	var mortTotalAmountEnd = null;
 	// 设置查询参数
 	var params = {};
@@ -835,14 +949,13 @@ function getParamsValue() {
 	}
 	// 获取誉萃组织
 	var organizeOrgId = $('#yuCuiOriGrpId').val().trim();
-	
-/*	if (org == "ff8080814f459a78014f45a73d820006") {
-		org = null;
-	} else if (org == "" || org == null) {
-		org = $("#org").val();
-	}*/
+
+	/*
+	 * if (org == "ff8080814f459a78014f45a73d820006") { org = null; } else if
+	 * (org == "" || org == null) { org = $("#org").val(); }
+	 */
 	var processorOrgId = $('#REAL_NAME').val().trim();
-	
+
 	// 案件编号
 	var caseCode = $("#caseCode").val().trim();
 	if ("" == caseCode || null == caseCode) {
@@ -860,15 +973,15 @@ function getParamsValue() {
 	if (custName == "" || custName == null) {
 		custName = null;
 	}
-	
-	
-	//获取银行和支行信息	
+
+	// 获取银行和支行信息
 	var loanLostFinOrgNameCode = $("#loanLostFinOrgName option:selected").val();
-	var loanLostFinOrgNameYcCode = $("#loanLostFinOrgNameYc option:selected").val();
+	var loanLostFinOrgNameYcCode = $("#loanLostFinOrgNameYc option:selected")
+			.val();
 	params.loanLostFinOrgNameCode = loanLostFinOrgNameCode;
 	params.loanLostFinOrgNameYcCode = loanLostFinOrgNameYcCode;
-	params.processorOrgId=processorOrgId;
-	params.organizeOrgId=organizeOrgId;
+	params.processorOrgId = processorOrgId;
+	params.organizeOrgId = organizeOrgId;
 	// 获取select 选中时间的值
 	var timeSelect = $("#loanLostCaseListTimeSelect option:selected").val();
 	if (timeSelect == "SIGN_DATE") {
@@ -892,62 +1005,62 @@ function getParamsValue() {
 	if (amountSelect == "COM_AMOUNT") {
 		comAmountStart = startAmount;
 		comAmountEnd = endAmount;
-		if(comAmountStart==0 && comAmountEnd==0){
-			comAmountStart=null;
-			comAmountEnd=null;
+		if (comAmountStart == 0 && comAmountEnd == 0) {
+			comAmountStart = null;
+			comAmountEnd = null;
 		}
 		params.comAmountStart = comAmountStart;
 		params.comAmountEnd = comAmountEnd;
 	} else if (amountSelect == "MORT_TOTAL_AMOUNT") {
 		mortTotalAmountStart = startAmount;
 		mortTotalAmountEnd = endAmount;
-		if(mortTotalAmountStart==0 && mortTotalAmountEnd==0){
-			mortTotalAmountStart=null;
-			mortTotalAmountEnd=null;
+		if (mortTotalAmountStart == 0 && mortTotalAmountEnd == 0) {
+			mortTotalAmountStart = null;
+			mortTotalAmountEnd = null;
 		}
 		params.mortTotalAmountStart = mortTotalAmountStart;
 		params.mortTotalAmountEnd = mortTotalAmountEnd;
 	} else if (amountSelect == "PRF_AMOUNT") {
 		prfAmountStart = startAmount;
 		prfAmountEnd = endAmount;
-		if(prfAmountStart==0 && prfAmountEnd==0){
-			prfAmountStart=null;
-			prfAmountEnd=null;
-		}		
+		if (prfAmountStart == 0 && prfAmountEnd == 0) {
+			prfAmountStart = null;
+			prfAmountEnd = null;
+		}
 		params.prfAmountStart = prfAmountStart;
 		params.prfAmountEnd = prfAmountEnd;
 	}
 	// 产品类型
 	// var finCode = getCheckBoxValues("finCode");
-	var isTempBank = $("input[name='isTempBank']:checked").val();	
-	//alert("isTempBank==="+isTempBank);
-	if(isTempBank == 2){
-		isTempBank=null;//为2 设置为null则不添加该查询条件
-	}else if (isTempBank == 1){		
-		isTempBank='是';
-	}else if(isTempBank == 0){
-		isTempBank='否';
+	var isTempBank = $("input[name='isTempBank']:checked").val();
+	// alert("isTempBank==="+isTempBank);
+	if (isTempBank == 2) {
+		isTempBank = null;// 为2 设置为null则不添加该查询条件
+	} else if (isTempBank == 1) {
+		isTempBank = '是';
+	} else if (isTempBank == 0) {
+		isTempBank = '否';
 	}
 	var isLose = $("input[name='isLoseLoan']:checked").val();
-	//alert("isLose==="+isLose);
+	// alert("isLose==="+isLose);
 	var a = isLose;
-	if(isLose == 2){
-		isLose=null;//为2 设置为null则不添加该查询条件
-	}else if (isLose == 1){
-		isLose='是';
-	}else if(isLose == 0){
-		isLose='否';
+	if (isLose == 2) {
+		isLose = null;// 为2 设置为null则不添加该查询条件
+	} else if (isLose == 1) {
+		isLose = '是';
+	} else if (isLose == 0) {
+		isLose = '否';
 	}
-		
+
 	// 贷款类型选择
 	var loanType = $("#loanType option:selected").val();
-	params.loanType=loanType;
+	params.loanType = loanType;
 	params.isTempBank = isTempBank;
-	params.isLose = isLose;	
+	params.isLose = isLose;
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.custName = custName;
-	// params.finCode = finCode;	
+	// params.finCode = finCode;
 	return params;
 }
 
@@ -1037,93 +1150,109 @@ function caseCodeSort() {
 	}
 }
 
-
-//查询分行信息
-function getParentBank(selector,selectorBranch,finOrgCode,tag,flag){
+// 查询分行信息
+function getParentBank(selector, selectorBranch, finOrgCode, tag, flag) {
 	var bankHtml = "<option value=''>请选择</option>";
-	var param = {nowCode:finOrgCode};
-	//cl 表示入围银行（即和中原合作的银行，范围小一些）;  不加tag=cl 表示临时银行,范围大一些，银行多一些
-	//finOrgCode  银行的代码，不加该字段表示查询所有的分行信息
-	//flag, "egu" 农业银行 单独处理
-	if(tag == 'cl'){
+	var param = {
+		nowCode : finOrgCode
+	};
+	// cl 表示入围银行（即和中原合作的银行，范围小一些）; 不加tag=cl 表示临时银行,范围大一些，银行多一些
+	// finOrgCode 银行的代码，不加该字段表示查询所有的分行信息
+	// flag, "egu" 农业银行 单独处理
+	if (tag == 'cl') {
 		param.tag = 'cl';
 	}
-    $.ajax({
-    	cache:true,
-    	url:ctx+"/manage/queryParentBankList",
-		method:"post",
-		dataType:"json",
-		async:false,
-		data:param,
-		success:function(data){
-			if(data != null){
-				for(var i = 0;i<data.length;i++){
-					if((data[i].finOrgCode!='1032900'&&data[i].finOrgCode!='3082900')||flag!='egu'){//不作农业银行的讯价
-						var coLevelStr='';
-						bankHtml+="<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>";
+	$
+			.ajax({
+				cache : true,
+				url : ctx + "/manage/queryParentBankList",
+				method : "post",
+				dataType : "json",
+				async : false,
+				data : param,
+				success : function(data) {
+					if (data != null) {
+						for (var i = 0; i < data.length; i++) {
+							if ((data[i].finOrgCode != '1032900' && data[i].finOrgCode != '3082900')
+									|| flag != 'egu') {// 不作农业银行的讯价
+								var coLevelStr = '';
+								bankHtml += "<option coLevel='"
+										+ data[i].coLevel + "' value='"
+										+ data[i].finOrgCode + "'>"
+										+ data[i].finOrgNameYc + coLevelStr
+										+ "</option>";
+							}
+						}
 					}
+				},
+				error : function(e) {
+					alert(e);
 				}
-			}
-		},
-       error:function(e){
-    	   alert(e);
-       }
-     });
-    
-     selector.find('option').remove();
-	 selector.append($(bankHtml));
-	 $.ajax({
-		    url:ctx+"/manage/queryParentBankInfo",
-		    method:"post",
-		    dataType:"json",
-			async:false,
-		    data:{finOrgCode:finOrgCode,flag:flag},
-		    success:function(data){
-	    		if(data != null){
-	    			selector.val(data.content);
-	    		}
-	    	}
-		});	
-	 
-	 getBranchBankList(selectorBranch,selector.val(),finOrgCode,tag,flag);
+			});
 
-	 return bankHtml;
+	selector.find('option').remove();
+	selector.append($(bankHtml));
+	$.ajax({
+		url : ctx + "/manage/queryParentBankInfo",
+		method : "post",
+		dataType : "json",
+		async : false,
+		data : {
+			finOrgCode : finOrgCode,
+			flag : flag
+		},
+		success : function(data) {
+			if (data != null) {
+				selector.val(data.content);
+			}
+		}
+	});
+
+	getBranchBankList(selectorBranch, selector.val(), finOrgCode, tag, flag);
+
+	return bankHtml;
 }
 
-
-//查询 分行对应的支行信息
-function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
+// 查询 分行对应的支行信息
+function getBranchBankList(selectorBranch, pcode, finOrgCode, tag, flag) {
 	selectorBranch.find('option').remove();
 	selectorBranch[0];
 	selectorBranch.append($("<option value=''>请选择</option>"));
-	var param = {faFinOrgCode:pcode,flag:flag,nowCode:finOrgCode};
-	if(tag == 'cl'){
+	var param = {
+		faFinOrgCode : pcode,
+		flag : flag,
+		nowCode : finOrgCode
+	};
+	if (tag == 'cl') {
 		param.tag = 'cl';
 	}
 	$.ajax({
-		cache:true,
-	    url:ctx+"/manage/queryBankListByParentCode",
-	    method:"post",
-	    dataType:"json",
-		async:false,
-	    data:param,
-	    	success:function(data){
-	    		if(data != null){
-	    			for(var i = 0;i<data.length;i++){
-						var coLevelStr='('+data[i].coLevelStr+')';
-			
-						//以下各支行后面有(其他)
-						//var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
-						var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+"</option>");
-						if(data[i].finOrgCode==finOrgCode){
-							option.attr("selected",true);
-						}
-						
-						selectorBranch.append(option);
-	    			}
-	    		}
-	    	}
-	 });
+		cache : true,
+		url : ctx + "/manage/queryBankListByParentCode",
+		method : "post",
+		dataType : "json",
+		async : false,
+		data : param,
+		success : function(data) {
+			if (data != null) {
+				for (var i = 0; i < data.length; i++) {
+					var coLevelStr = '(' + data[i].coLevelStr + ')';
+
+					// 以下各支行后面有(其他)
+					// var option = $("<option coLevel='"+data[i].coLevel+"'
+					// value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
+					var option = $("<option coLevel='" + data[i].coLevel
+							+ "' value='" + data[i].finOrgCode + "'>"
+							+ data[i].finOrgNameYc + "</option>");
+					if (data[i].finOrgCode == finOrgCode) {
+						option.attr("selected", true);
+					}
+
+					selectorBranch.append(option);
+				}
+			}
+		}
+	});
 
 	return true;
 }
