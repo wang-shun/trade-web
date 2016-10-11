@@ -1,4 +1,4 @@
-var time=60000;//定时器执行间隔时间 1min
+var time=300000;//定时器执行间隔时间 1min
 
 $(function () {
     $(".choices span").click(function() {
@@ -236,7 +236,7 @@ function ajaxSubmit(obj) {
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='0'){
 						  th+="<td><span class='grey_no big'>预约中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='1'){
-						  th+="<td><span class='grey_no big'>使用中</span></td>";
+						  th+="<td><span class='big'>使用中</span></td>";
 					  }
 				  }
 				  th+="</tr>";
