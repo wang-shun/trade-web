@@ -62,4 +62,14 @@ public interface ToPropertyInfoMapper {
 	public String getCaseCodeByPropertyAddr(
 			PropertyAddrSearchVo propertyAddrSearchVo);
 
+	/**
+	 * 根据产证地址获取对应案件的服务顾问(交易顾问)
+	 * 
+	 * @param propertyAddrSearchVo
+	 *            产证地址条件
+	 * @return 服务顾问(交易顾问)名称
+	 */
+	public String getServiceSpecialistByPropertyAddr(
+			PropertyAddrSearchVo propertyAddrSearchVo);
+
 }

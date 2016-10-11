@@ -30,6 +30,16 @@ public class ReservationVo {
 
 	private String bespeakTime; // 预约时间段
 
+	private String serviceSpecialist; // 服务顾问
+
+	public String getServiceSpecialist() {
+		return serviceSpecialist;
+	}
+
+	public void setServiceSpecialist(String serviceSpecialist) {
+		this.serviceSpecialist = serviceSpecialist;
+	}
+
 	public Integer getActNumberOfPeople() {
 		return actNumberOfPeople;
 	}

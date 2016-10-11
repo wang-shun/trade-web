@@ -62,7 +62,9 @@ table.dataTable thead .sorting:after {
 .task-list tr td.pl10 {
   padding: 0 0 0 10px;
 }
-
+.mr5 {
+  margin-right: 5px;
+}
 .task-list tr td .case-ctm {
   font-size: 12px;
 }
@@ -118,7 +120,6 @@ table.dataTable thead .sorting:after {
   border-radius: 3px;
   background-color: #f8ac59;
 }
-
 .manager {
   display: block;
   margin: 3px 0;
@@ -595,4 +596,19 @@ table thead tr th {
 
 .text_pink {
   color: #f784a5;
+}
+
+
+/*----Color----*/
+.orange-hint {
+  background-color: #f8cd59!important;
+  color: #fff;
+  border-radius: 3px;
+ padding: 1px 6px;
+}
+.red-hint {
+    background-color: #ff5e80!important;
+  color: #fff;
+  border-radius: 3px;
+  padding: 1px 6px;
 }

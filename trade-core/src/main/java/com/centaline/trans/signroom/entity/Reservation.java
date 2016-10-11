@@ -44,6 +44,8 @@ public class Reservation {
 
 	private String specialRequirement; // 特殊需求
 
+	private String serviceSpecialist; // 服务专员
+
 	private Date createTime; // 创建时间
 
 	private String createBy; // 创建人
@@ -51,6 +53,14 @@ public class Reservation {
 	private Date updateTime; // 更新时间
 
 	private String updateBy; // 更新人
+
+	public String getServiceSpecialist() {
+		return serviceSpecialist;
+	}
+
+	public void setServiceSpecialist(String serviceSpecialist) {
+		this.serviceSpecialist = serviceSpecialist;
+	}
 
 	public int getNumberOfPeople() {
 		return numberOfPeople;
