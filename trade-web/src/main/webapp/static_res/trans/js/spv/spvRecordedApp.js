@@ -123,7 +123,10 @@ function getFormData(){
 
 //保存起草提交
 function saveRe(){
-	
+	alert("5");
+	 if(!deleteAndModify()){
+		  return false;
+	  }
 	$('#chargeInAppr').val(false);
 	//提交页面的参数
 	var data = $("#teacForm").serialize();

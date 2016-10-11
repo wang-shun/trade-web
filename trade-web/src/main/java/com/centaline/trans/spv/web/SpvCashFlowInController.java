@@ -52,8 +52,10 @@ import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
 import com.centaline.trans.spv.service.CashFlowInService;
 import com.centaline.trans.spv.service.CashFlowOutService;
 import com.centaline.trans.spv.service.ToSpvService;
@@ -110,6 +112,9 @@ public class SpvCashFlowInController {
 	
 	@Autowired
 	private CashFlowOutService cashFlowOutService;
+	
+	@Autowired
+	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
 	
 	/**
 	 * 起草入账页面保存
@@ -202,6 +207,27 @@ public class SpvCashFlowInController {
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		
+	    /**
+	     * 测试代码
+	     */
+	    
+	    List<ToSpvCashFlowApplyAttach> attachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId("ZY-JG-20161010-0043");
+	    request.setAttribute("accesoryList", parentOrg.getId());
+		if (attachList != null && attachList.size() > 0) {
+			int size = attachList.size();
+			request.setAttribute("accesoryList", attachList);
+			List<Long> idList = new ArrayList<Long>(size);
+			for (int i = 0; i < size; i++) {
+				idList.add(attachList.get(i).getPkid());
+			}
+			request.setAttribute("idList", idList);
+		}
+    	
+	    /**
+	     * 测试代码
+	     */
+	    
+	    
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/spvRecorded";

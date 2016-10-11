@@ -96,6 +96,20 @@ function getFormData(){
 
 //保存起草提交
 function saveRe(){
+	
+	
+	//test
+	alert("saveRe");
+	 if(!deleteAndModify()){
+		  return false;
+	  }
+	 return ;
+	//test 
+	 
+	 
+	 
+	 
+	 
 	/*if(!confirm("保存入账申请信息数据！")){
 	  return false;
     }*/
