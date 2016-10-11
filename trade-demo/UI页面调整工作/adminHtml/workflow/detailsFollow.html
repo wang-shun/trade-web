@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="../static/trans/css/workflow/caseDetail.css" >
     <link rel="stylesheet" href="../static/trans/css/workflow/details.css" >
 
+
+
 </head>
 
 <body class="pace-done"><div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
@@ -842,16 +844,12 @@
                         首次跟进
                     </h2>
                 <div class="mt20">
-<button id="more" type="button" class="btn  btn-icon btn-toggle mr5">
-<i class="iconfont icon">&#xe63d;</i>
-                                            在途单列表
-
-                                        </button>
-                                        <button id="more" type="button" class="btn  btn-icon btn-toggle mr5">
-<i class="iconfont icon">&#xe63d;</i>
-                                            案件视图
-
-                                        </button>
+                    <button type="button" class="btn btn-icon btn-blue mr5">
+                    <i class="iconfont icon">&#xe63d;</i>在途单列表
+                    </button>
+                    <button type="button" class="btn btn-icon btn-blue mr5">
+                        <i class="iconfont icon">&#xe63d;</i>案件视图
+                    </button>
 
                 </div>
 
@@ -906,74 +904,26 @@
                             </label>
                         </div>
                     </div>
-                     <div class="form_content">
-                            <label class="control-label sign_left_small select_style mend_select">
-                                预约日期
-                            </label>
-                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                                <input name="" class="input_type yuanwid datatime" type="text" value="" placeholder="">
-                            </div>
-                        </div>
                     <div class="form_content">
                         <label class="control-label sign_left_small"> 抵押情况 </label>
-                             <select name="" id="" class=" select_control data_style">
-                        <option value="">请选择</option></select>
-                    </div>
-
-                </div>
-
-                <div class="line">
-                    <div class="form_content">
-                        <label class="control-label sign_left_small pull-left"> 产品需求 </label>
-                        <div class=" inlineblock pull-left goodstyle" >
-                                        <span id="srvCode_0_0" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            交易过户
-                                        </span>
-                                        <span id="srvCode_0_1" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            首付贷（抵押类）
-                                        </span>
-                                        <span id="srvCode_0_2" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            佣金卡
-                                        </span>
-                                        <span id="srvCode_0_3" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            商业贷款
-                                        </span>
-                                        <span id="srvCode_0_4" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            税费卡
-                                        </span>
-                                        <span id="srvCode_0_5" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            代收代付
-                                        </span>
-                                        <span id="srvCode_0_6" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            资金监管/安心宝
-                                        </span>
-                                        <span id="srvCode_0_7" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            纯公积金贷款
-                                        </span>
-                                        <span id="srvCode_0_8" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            首付贷
-                                        </span>
-                                        <span id="srvCode_0_9" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            消费贷
-                                        </span>
-                                        <span id="srvCode_0_10" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            换房贷
-                                        </span>
-                                        <span id="srvCode_0_11" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            抵押贷
-                                        </span>
-                                        <span id="srvCode_0_12" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            委托贷
-                                        </span>
-                                        <span id="srvCode_0_13" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            赎楼贷
-                                        </span>
-                                        <span id="srvCode_0_14" name="srvCode" class="btn btn-white" onclick="" value="">
-                                            全款贷
-                                        </span>
+                             <div class="controls ismortgage">
+                           <label class="radio inline"> <input type="radio" value="1" name="mortgage" checked=""> 无抵押
+                            </label> <label class="radio inline"> <input type="radio" value="0" name="mortgage"> 有抵押
+                            </label>
                         </div>
                     </div>
+                    <div class="form_content mt3">
+                        <label class="control-label sign_left_small select_style mend_select">
+                            预约日期
+                        </label>
+                        <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                            <input name="" class="input_type yuanwid datatime" type="text" value="" placeholder="">
+                        </div>
+                    </div>
+
+
                 </div>
+
                 <div class="line">
 
                   <div class="form_content line34">
@@ -1053,16 +1003,13 @@
                         <div class="submitter">
                             提交人：<span>张三(业务员)</span>
                         </div> -->
-                        <div class="excuse">
-                            <form action="">
-                                <textarea name="" id="" placeholder="请填写跟进内容" class="newstextone" ></textarea>
-                            </form>
-                            <div class="form-btn">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-success btn-space">提交跟进</button>
-                                <button type="reset" class="btn btn-grey">清空</button>
+                        <div class="excuse clearfix">
+                             <div class="pull-left"><textarea class="chackTextarea" ></textarea></div>
+                            <div class="pull-left">
+                                <button type="button" class="btn btn-icon btn-blue ml10">提交跟进</button>
                             </div>
-                        </div>
+
+
                         </div>
 
                         <div class="title">
@@ -1224,6 +1171,7 @@
                                         </table>
                                         </div>
                         </div>
+
                      <div class="form-btn">
                             <div class="text-center">
                                 <button  class="btn btn-success btn-space">保存</button>
@@ -1231,6 +1179,8 @@
                             </div>
                         </div>
                     </div>
+
+
 
 
 
@@ -1254,6 +1204,8 @@
     <!-- Custom and plugin javascript -->
     <script src="../static/js/inspinia.js"></script>
     <script src="../static/js/plugins/pace/pace.min.js"></script>
+
+    <script src="../static/trans/js/common/textarea.js"></script>
  <script>
             $(document).ready(function () {
 
@@ -1310,12 +1262,20 @@
              $(".marinfo").hide();
         });
 
+        $(".chackTextarea").autoTextarea({
+            maxHeight:220,
+        })
+
 
  });
 
 
 
+
         </script>
+
+
+
 
 
     </body>
