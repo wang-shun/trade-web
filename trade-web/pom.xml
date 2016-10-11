@@ -282,12 +282,6 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- websocket -->
-		<dependency>
-		    <groupId>javax.websocket</groupId>
-		    <artifactId>javax.websocket-api</artifactId>
-		    <version>1.0</version>
-		</dependency>
 
 	</dependencies>
 

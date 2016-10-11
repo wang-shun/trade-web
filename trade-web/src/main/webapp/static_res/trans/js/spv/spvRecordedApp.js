@@ -1,6 +1,11 @@
 $(function(){
-	$("#addTr").html(getTR(0));
+	//$("#addTr").html(getTR(0));
+	//alert($("#select_direction").val());
+	//$("#select_direction   option[value='"+province_2+"']").attr("selected",true);
 	
+});
+$(window).load(function() {
+	//alert($("#select_direction").val());
 });
 var handle = $("#handle").val();
 var trindex = 0;
@@ -47,12 +52,38 @@ function getTR(thisIndex){
 function getDel(k){
     $(k).parents('tr').remove();
 }
+//删除入账申请信息tr
+function getDelHtml(k,pkid){
+	if(!confirm("是否删除！")){
+		  return false;
+	    }
+	var data = {pkid:pkid};
+	var url = ctx+"/spv/task/cashflowIntApply/dealAppDelete";
+	$.ajax({
+		cache : false,
+		async : false,//false同步，true异步
+		type : "POST",
+		url : url,
+		dataType : "json",
+		data : data,
+		beforeSend:function(){  
+         },
+		success : function(data) {
+			$(k).parents('tr').remove();
+			alert("删除成功！");
+			
+		},complete: function() { 
+		},
+		error : function(errors) {
+		}
+		
+	});
+}
 //提交
 function sumbitRe(){
-	
-	
+	$('#chargeInAppr').val(true);
 	//提交页面的参数
-	var data = getFormData();
+	var data = $("#teacForm").serialize();
 	//console.log(params);
 	var url = ctx+"/spv/task/cashflowIntApply/deal";
 	$.ajax({
@@ -61,13 +92,12 @@ function sumbitRe(){
 		type : "POST",
 		url : url,
 		dataType : "json",
-		data : {handle:handle,taskId:$("#taskId").val(),chargeInAppr:true},
+		data : data,
 		beforeSend:function(){  
          },
 		success : function(data) {
-			 //window.location.href = ctx+"/spv/spvList";
-			 //window.location.href = ctx+"/spv/task/cashflowIntApply/spvRecordShow?pkid=";
-			
+			window.location.href = ctx+"/spv/spvList";
+			/*
 			alert(JSON.stringify(data));
 			if(data.ajaxResponse.success){
 				if(!handle){
@@ -77,7 +107,7 @@ function sumbitRe(){
 				}
 			}else{
 				alert("数据保存出错1:"+data.ajaxResponse.message);
-			}
+			}*/
 			
 		},complete: function() { 
 		},
@@ -93,9 +123,13 @@ function getFormData(){
 
 //保存起草提交
 function saveRe(){
-	
+	alert("5");
+	 if(!deleteAndModify()){
+		  return false;
+	  }
+	$('#chargeInAppr').val(false);
 	//提交页面的参数
-	var data = getFormData();
+	var data = $("#teacForm").serialize();
 	//console.log(params);
 	var url = ctx+"/spv/cashflowApply/deal";
 	$.ajax({
@@ -104,12 +138,13 @@ function saveRe(){
 		type : "POST",
 		url : url,
 		dataType : "json",
-		data : {handle:handle},
+		data : data,
 		beforeSend:function(){  
          },
 		success : function(data) {
+			window.location.href = ctx+"/spv/spvList";
 			//alert("保存数据成功！");
-			alert(JSON.stringify(data));
+			/*alert(JSON.stringify(data));
 			if(data.ajaxResponse.success){
 				if(!handle){
 					alert("流程开启成功！");
@@ -118,7 +153,7 @@ function saveRe(){
 				}
 			}else{
 				alert("数据保存出错1:"+data.ajaxResponse.message);
-			}
+			}*/
 			
 		},complete: function() { 
 		},

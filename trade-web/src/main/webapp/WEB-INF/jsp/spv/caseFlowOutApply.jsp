@@ -49,6 +49,7 @@
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var source = "${source}";
+	var handle = "${handle}";
 	if ("${idList}" != "") {
 		var idList = eval("(" + "${idList}" + ")");
 	} else {
@@ -59,6 +60,7 @@
         <%-- 流程相关 --%>
         <form id="procForm" action="">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+		<input type="hidden" id="businessKey" name="businessKey" value="${businessKey}">
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
@@ -362,8 +364,8 @@
                                             </td>
                                             <td>
                                             <c:choose>
-					<c:when test="${spvChargeInfoVO.toSpvCashFlowApplyAttachList!=null}">
-						<c:forEach var="accesory" items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList}"
+					<c:when test="${accesoryList!=null}">
+						<c:forEach var="accesory" items="${accesoryList}"
 							varStatus="status">
 							<div class="" id="fileupload_div_pic">
 								<form id="fileupload"
@@ -372,8 +374,8 @@
 									<noscript>
 										<input type="hidden" name="redirect"
 											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-										<input type="hidden" id="preFileCode" name="preFileCode"
-											value="${accesory.accessoryCode }">
+										<%-- <input type="hidden" id="preFileCode" name="preFileCode"
+											value="${accesory.type }"> --%>
 									</noscript>
 										<div class="" >
 											<div role="presentation" >
@@ -439,7 +441,7 @@
 							        {% } else { %}
 							            <div class="preview span12">
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<!--<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>-->
+										<%-- <input type="hidden" name="picTag" value="${accesory.type }"></input>--%>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.id) { %}
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
@@ -573,7 +575,9 @@
     <!-- Custom and plugin javascript -->
     <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
-    	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+    <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
+    <!-- 上传附件相关 --> 
+    <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
@@ -596,6 +600,8 @@
 	<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachment.js"></script>
     <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
+    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+    <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
 
 <script>

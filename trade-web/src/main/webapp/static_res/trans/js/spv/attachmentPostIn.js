@@ -16,20 +16,21 @@ var isCrucial;
 var dataLength=0;
 // 获取上传成功的图片的信息，包括ID，类型
 function getUploadPicOkInfo() {
+	alert("getUploadPicOkInfo");
 	// 每次选择的时候清空
 	picIdArr = [];
 	picTypeArr = [];
 	picNameArr = [];
-	// 图片的ID
+	// 图片的ID(attachId)
 	var spans = $("input[name='preFileAdress']");
 	$.each(spans, function(i, item) {
 		picIdArr.push(spans[i].value);
 	});
 	// 每个图片对应的类型
-	var selects = $("input[name='picTag']");
+/*	var selects = $("input[name='picTag']");
 	$.each(selects, function(j, item) {
 		picTypeArr.push(selects[j].value);
-	});
+	});*/
 	// 必须上传图片
 	if (picIdArr.length <= 0) {
 		alert("请先上传图片成功后再提交！");
@@ -49,7 +50,7 @@ function getUploadPicOkInfo() {
 }
 //初始化
 $(function() {
-	
+	alert("1");
 	/**上传备件初始化*/
 	var updFun = function(e) {
 		var that = $(this).data('blueimp-fileupload')
@@ -61,10 +62,12 @@ $(function() {
 				});
 	};
 
-	$.each(idList, function(index, value){		
+	$.each(idList, function(index, value){
+		alert("2");
+		alert(value+"=="+index);
 		AistUpload.init('picFileupload'+value, 'picContainer'+value,
 				'templateUpload'+value, 'templateDownload'+value, updFun,'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i');
-		
+		alert(13);
 		/**监听 div 执行自动上传*/
 		$("#picContainer"+value).bind('DOMNodeInserted', function(e) {
 			var picDiv=$("div[name='allPicDiv1']");
@@ -80,53 +83,46 @@ $(function() {
 		});
 	});
 	/**上传备件初始化结束*/
-	
+	alert("2222");
     getExplPicByhouseCode();
 
 });
 
 //
 function getExplPicByhouseCode() {
+	alert("3");
 	$.ajax({
 		type : 'post',
 		cache : false,
 		async : true,//false同步，true异步
 		dataType : 'json',
-		url : ctx+'/attachment/quereyAttachments',
-		data : [{
-			name : 'caseCode',
-			value : caseCode
-		}, {
-			name : 'partCode',
-			value : taskitem
+		url : ctx+'/spv/quereyCashFolwApplyAttachments',
+		data : [ {
+			name : 'cashFlowApplyCode',
+			value : $("#businessKey").val()
 		}],
 		dataType : "json",
-		success : function(data) {
+		success : function(attachList) {
 //					dataLength=data.attList.length;
 			//将返回的数据进行包装
-			$.each(data.accList, function(indexAcc, accValue){
+			$.each(attachList, function(index, attach){
 				//实勘描述
-				if(!$("#picContainer"+accValue.pkid)[0])return true;
+				if(!$("#picContainer"+attach.pkid)[0])return true;
 				var trStr = "";
-				$.each(data.attList,function(index, value) {
-					if(value.preFileCode==accValue.accessoryCode){
-						dataLength++;
-						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
-						trStr+="<div class=\"preview span12\">";
-						trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
-						trStr+="<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' alt=''>";
-						trStr+="</div>";
-						trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
-						trStr+="<button onclick=\"romoveDiv('picContainers',"+value.pkid+");\" class=\"btn red\""; 
-						trStr+="style=\"line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;\">";
-						trStr+="<i class=\"icon-remove\"></i>";
-						trStr+="</button>";
-						trStr+="</div>";
-						trStr+="</div>";
-						
-					}
-				});
-				$("#picContainer"+accValue.pkid).append(trStr);
+				dataLength = attachList.length;
+				trStr+="<div id='picContainers"+attach.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
+				trStr+="<div class=\"preview span12\">";
+				trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+attach.pkid+"\" />";
+				trStr+="<img src='"+appCtx['shcl-image-web'] +"/image/"+attach.attachId+"/80_80_f.jpg' alt='地方'>";
+				trStr+="</div>";
+				trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
+				trStr+="<button onclick=\"romoveDiv('picContainers',"+attach.pkid+");\" class=\"btn red\""; 
+				trStr+="style=\"line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;\">";
+				trStr+="<i class=\"icon-remove\"></i>";
+				trStr+="</button>";
+				trStr+="</div>";
+				trStr+="</div>";					
+				$("#picContainer"+attach.pkid).append(trStr);
 			});
 		},
 		error : function(errors) {
@@ -149,28 +145,24 @@ function subAddFrom() {
 		cache : true,
 		async : false,//false同步，true异步
 		type : "POST",
-		url : ctx+'/attachment/saveAttachment',
+		url : ctx+'/spv/saveCashFolwApplyAttachment',
 		dataType : "json",
 		data : [ {
 			name : 'pictureNo',
 			value : picIdArr
+		},{
+			name : 'cashFlowApplyCode',
+			value : $("#businessKey").val(),
 		}
-		, {
+		/*, {
 			name : 'framePart',
 			value : picTypeArr
 		},{
 			name : 'picName',
 			value :  picNameArr
-		},{
+		}*/,{
 			name : 'pkIdArr',
 			value :  pkIdArr
-		},
-		{
-			name : 'caseCode',
-			value :  caseCode
-		},{
-			name : 'partCode',
-			value :  taskitem
 		}],
 		success : function(data) {
 				if(data){
@@ -183,55 +175,6 @@ function subAddFrom() {
 					    	}
 				    	}
 				    });
-				}else if(!data) {
-					Modal.alert({msg:data.message});
-				}
-		},
-		error : function(errors) {
-			alert("附件添加出错。");
-		}
-	});
-}
-//添加图片在原来实勘上
-function subAddFromWithProperty() {
-	//获取上传成功的图片的信息，包括ID，类型
-	if(getUploadPicOkInfo()){
-		return;
-	};
-	if(picIdArr==''){
-		alert("当前没有要新增的图片数据！");
-    	return;
-	};
-	$.ajax({
-		cache : true,
-		async : false,//false同步，true异步
-		type : "POST",
-		url : ctx+'/attachment/saveAttachment',
-		dataType : "json",
-		data : [ {
-			name : 'pictureNo',
-			value : picIdArr
-		}
-		, {
-			name : 'framePart',
-			value : picTypeArr
-		},{
-			name : 'picName',
-			value :  picNameArr
-		},{
-			name : 'pkIdArr',
-			value :  pkIdArr
-		},
-		{
-			name : 'caseCode',
-			value :  caseCode
-		},{
-			name : 'partCode',
-			value :  taskitem
-		}],
-		success : function(data) {
-				if(data){
-					alert("保存成功");
 				}else if(!data) {
 					Modal.alert({msg:data.message});
 				}
@@ -257,28 +200,24 @@ function subUpdFrom() {
 			cache : true,
 			async : false,//false同步，true异步
 			type : "POST",
-			url : ctx+'/attachment/saveAttachment',
+			url : ctx+'/spv/saveCashFolwApplyAttachment',
 			dataType : "json",
 			data : [{
 				name : 'pictureNo',
 				value : picIdArr
+			},{
+				name : 'cashFlowApplyCode',
+				value : $("#businessKey").val(),
 			}
-			, {
+			/*, {
 				name : 'framePart',
 				value : picTypeArr
 			},{
 				name : 'picName',
 				value :  picNameArr
-			},{
+			}*/,{
 				name : 'pkIdArr',
 				value :  pkIdArr
-			},
-			{
-				name : 'caseCode',
-				value :  caseCode
-			},{
-				name : 'partCode',
-				value :  taskitem
 			}],
 			success : function(data) {
 					if(data){
@@ -311,6 +250,7 @@ function romoveDiv(type,pkid){
 	}
 	$("#"+type+pkid).remove();
 }
+
 
 //批量删除
 function deletePicBatch(){
@@ -359,76 +299,18 @@ function checkAttachment() {
 			checkAtt = true;
 		}
 	});
-	/*var picDiv=$("div[name='allPicDiv1']");
-	var input=$("input[name='pic']");
-	if(picDiv.length == 0 && input.length == 0) {
-		alert("请上传备件！");
-		return false;
-	}*/
-	return checkAtt;
-}
-
-function checkAttachment2() {
-	var succcess = false;
-	$.each(idList, function(index, value){
-		var length = $("#picContainer"+value).find("img").length;
-		if(length > 0) {
-			succcess = true;
-			return false;
-		}
-	});
-    if(!succcess) {
-		alert("请上传备件！");
-		checkAtt = false;
-    } else {
-    	checkAtt = true;
-    }
-	return checkAtt;
-}
-
-function checkAttachmentForLoanLost(loanLostConfirmCode){
-	if(loanLostConfirmCode != ''){
-		$.each(idList, function(index, value){
-			var length = $("#picContainer"+value).find("img").length;
-			if(length == 0) {
-				alert("请上传备件！");
-				checkAtt = false;
-				return false;
-			} else {
-				checkAtt = true;
-			}
-		});
-	}else{
-		$.each(idList, function(index, value){
-			var length = $("#picContainer"+value).find("img").length;
-			if($("#fileFlagCode"+value).val() == 'loan_lost_confirmation'){
-				if(length != 0){
-					alert("【贷款自办确认函】备件须与【贷款自办确认函编号】同步！");
-					checkAtt = false;
-					return false;
-				}else{
-					checkAtt = true;
-				}
-			}else{
-				if(length == 0) {
-					alert("请上传备件！");
-					checkAtt = false;
-					return false;
-				} else {
-					checkAtt = true;
-				}
-			}
-			
-		});
-	}
 	return checkAtt;
 }
 
 //保存
 function deleteAndModify(){
+	alert("deleteAndModify");
 	var picDiv=$("div[name='allPicDiv1']");
+	alert(picDiv);
+	alert(picDiv.length);
     //所选图片和上传的图片的数目要相同
     if(picDiv.length>0){
+    	alert(picDiv.length);
     	//获取已知文件类型的长度   已保存的文件数量
 		var input=$("input[name='pic']");
 		//图片的ID 新增的文件数量
@@ -462,58 +344,3 @@ function deleteAndModify(){
     }
 	return true;
 }
-
-function juage(){
-	var fg;
-	 var picDiv=$("div[name='allPicDiv1']");
-	 if(picDiv.length>0){
-		 fg=true;
-	 }else{
-		 fg=false;
-	 }
-	 return fg;
-}
-//去空格
-function trim(str){  
-	return str.replace(/(^\s*)|(\s*$)/g, "");  
-}
-
-//修改实勘描述
-function modifyExplDescr(){
-	$.ajax({
-		cache : true,
-		async : false,//false同步，true异步
-		type : "POST",
-		url : ctx+'/houExpl/modifyExplDescr',
-		dataType : "json",
-		data : [{
-			name : 'explCode',
-			value : explCode
-		},{
-			name : 'newDesc',
-			value : $("#newDesc").val()
-		},{
-			name : 'isValid',
-			value : isValid
-		}],
-		success : function(data) {
-				if(data.success){
-					Modal.confirm({
-					    msg: data.message,
-					    title: '提示',
-					    btnok: '确定'
-					  }); 
-				    $(".cancel").hide();
-				    $(".btn-primary").one("click",function(){
-				    	parent.$.fancybox.close();
-				    });
-				}else if(!data.success) {
-					Modal.alert({msg:data.message});
-				}
-		},
-		error : function(errors) {
-			Modal.alert({msg:"实勘修改出错"+errors});
-		}
-	});
-}
-

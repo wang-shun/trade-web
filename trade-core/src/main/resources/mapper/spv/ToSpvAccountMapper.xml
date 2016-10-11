@@ -25,6 +25,13 @@
     from sctrans.T_TO_SPV_ACCOUNT
     where PKID = #{pkid,jdbcType=BIGINT}  and IS_DELETED = 0
   </select>
+  <select id="selectBySpvCodeinCaseFlowApple" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+   select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_ACCOUNT
+    where PKID = #{pkid,jdbcType=BIGINT}  and IS_DELETED = 0
+  </select>
+
   
   <select id="selectBySpvCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
