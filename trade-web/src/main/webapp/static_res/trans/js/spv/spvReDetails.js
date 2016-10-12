@@ -23,7 +23,7 @@ function getTR(thisIndex){
 	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="items['+thisIndex+'].payerAmount">万元                                                                        ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<input class="table_input boderbbt" type="text" placeholder="请输入编号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="items['+thisIndex+'].receiptNo">                                                                                             ';
+	$str+='		<input class="table_input boderbbt forvalue" type="text" placeholder="请输入编号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="items['+thisIndex+'].receiptNo">                                                                                             ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
 	$str+='		<select name="items['+thisIndex+'].voucherNo" class="table-select boderbbt" onChange="this.value">                                                                                                                                ';
@@ -33,7 +33,7 @@ function getTR(thisIndex){
 	$str+='			<option value="现金">现金</option>                                                                                                                                                 ';
 	$str+='		</select>                                                                                                                                                                              ';
 	$str+='	</td>                                                                                                                                                                                      ';
-	$str+='	<td>                                                                                                                                                                                       ';
+	$str+='	<td id="td_file'+thisIndex+'">                                                                                                                                                                                         ';
 	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
 	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
 	$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
@@ -52,32 +52,55 @@ function getTR(thisIndex){
 		autoUpload: true,
         dataType: 'json',
         done: function (e, data) {
-        	console.log(JSON.stringify(data));
+        	if(data.result){
+            	var fileId =  data.result.files[0].id;
+            	var fileUrl = data.result.files[0].url;
+            	var fileName = data.result.files[0].name;
+            	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
+            	$('#td_file'+thisIndex).prepend(image);	
+        	}
         }
     });
 
 	cleanPkid();
 }
-var updFun22 = function(e) {
-	var that = $(this).data('blueimp-fileupload')
-			|| $(this).data('fileupload');
-	that._resetFinishedDeferreds();
-	that._transition($(this).find('.fileupload-progress'))
-			.done(function() {
-				that._trigger('started', e);
-			});
-};
+function getUploadImage(thisIndex,fileUrl,fileId,fileName){
+	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
+	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'"/>';
+	image += '<button type="button" class="btn btn-sm btn-default" >'+fileName+'<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;</i></button></a>';
+	return image;
+}
 //删除入账申请信息tr
 function getDel(k){
     $(k).parents('tr').remove();
     cleanPkid();
 }
 
+function checkReceiptNo(){
+	var theSameFlag = true;
+	var receiptNoArray = new Array();
+		receiptNoArray = $(".forvalue");
+	for(var i=0; i<receiptNoArray.length; i++){		
+		if(receiptNoArray[i].value == receiptNoArray[i+1].value){
+			theSameFlag=false;
+			alert("贷记凭证编号不能重复！");
+			if(theSameFlag==false){
+				break;
+			}
+		}
+
+	}
+	return theSameFlag;
+}
 //提交
 function sumbitRe(){
 	if(!confirm("是否确定提交申请，开启流程！")){
 	  return false;
     }
+	
+	if(!checkReceiptNo()){
+		return;
+	}	
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
 	//console.log(data);
