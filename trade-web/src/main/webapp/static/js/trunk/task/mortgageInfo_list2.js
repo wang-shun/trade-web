@@ -715,6 +715,7 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('COM_AMOUNT');
 			displayColomn.push('PRF_AMOUNT');
 			displayColomn.push('SDSTATUS');
+			displayColomn.push('LOANLOST_APPLY_REASON');//流失原因
 			displayColomn.push('FIN_ORG_NAME');
 			displayColomn.push('FIN_ORG_NAME_YC');
 			displayColomn.push('IS_TMP_BANK');
