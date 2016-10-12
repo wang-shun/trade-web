@@ -38,8 +38,11 @@
 			<baseSql>
 				<![CDATA[  	
 			SELECT  
-			MTYPECOUNT.LOANTYPE AS MTYPE,
-			COUNT(MTYPECOUNT.PKID) AS MCASES
+			MTYPEANAL.LOANTYPE AS MTYPE,
+			COUNT(MTYPEANAL.PKID) AS MCASES,
+			SUM(MTYPEANAL.COM_AMOUNT) AS MCOMAMOUNT,
+			SUM(MTYPEANAL.PRF_AMOUNT) AS MPRFAMOUNT,
+			SUM(MTYPEANAL.MORT_TOTAL_AMOUNT) AS MTOTALAMOUNT
 			FROM		
 			(SELECT
 					T.PKID,
@@ -202,12 +205,12 @@
 				<ifNotNull loanType>
 					and T.LOANTYPE = #loanType#
 				</ifNotNull> 
-				) AS MTYPECOUNT
+				) AS MTYPEANAL
 
 				]]>
 			</baseSql>
 			<groupSql>
-				GROUP BY MTYPECOUNT.LOANTYPE
+				GROUP BY MTYPEANAL.LOANTYPE
 			</groupSql>
 			<orderBySql>
 			</orderBySql>
@@ -216,6 +219,9 @@
 			<table-row>
 			<column type="both" name="MTYPE" index="" checkbox="" display="贷款类型" title="贷款类型" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />			
 			<column type="both" name="MCASES" index="" checkbox="" display="单数" title="单数" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="MCOMAMOUNT" index="" checkbox="" display="商贷金额" title="商贷金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="MPRFAMOUNT" index="" checkbox="" display="公积金贷款金额" title="公积金贷款金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="MTOTALAMOUNT" index="" checkbox="" display="贷款总额" title="贷款总额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

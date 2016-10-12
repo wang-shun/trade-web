@@ -209,20 +209,20 @@
 					<div class="row charone"
 						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4;">
 						<div class="col-md-6">
-							<div id="pieChartMTypeAmount" style="width: 100%; height: 400px;">1</div>
+							<div id="pieChartMTypeAmount" style="width: 100%; height: 440px;"></div>
 						</div>
 						<div class="col-md-6">
-							<div id="pieChartMTypeCases" style="width: 100%; height: 400px;">1</div>
+							<div id="pieChartMTypeCases" style="width: 100%; height: 440px;"></div>
 						</div>
 					</div>
 
 					<div class="row chartwo"
 						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4;">
 						<div class="col-md-6">
-							<div id="pieChartMOrgCases" style="width: 100%; height: 400px;">2</div>
+							<div id="pieChartMOrgAmount" style="width: 100%; height: 440px;"></div>
 						</div>
 						<div class="col-md-6">
-							<div id="pieChartMOrgAmount" style="width: 100%; height: 400px;">2</div>
+							<div id="pieChartMOrgCases" style="width: 100%; height: 440px;"></div>
 						</div>
 					</div>
 				</div>
