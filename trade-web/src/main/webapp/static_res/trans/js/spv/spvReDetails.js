@@ -33,7 +33,7 @@ function getTR(thisIndex){
 	$str+='			<option value="现金">现金</option>                                                                                                                                                 ';
 	$str+='		</select>                                                                                                                                                                              ';
 	$str+='	</td>                                                                                                                                                                                      ';
-	$str+='	<td>                                                                                                                                                                                       ';
+	$str+='	<td id="td_file'+thisIndex+'">                                                                                                                                                                                         ';
 	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
 	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
 	$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
@@ -52,21 +52,24 @@ function getTR(thisIndex){
 		autoUpload: true,
         dataType: 'json',
         done: function (e, data) {
-        	console.log(JSON.stringify(data));
+        	if(data.result){
+            	var fileId =  data.result.files[0].id;
+            	var fileUrl = data.result.files[0].url;
+            	var fileName = data.result.files[0].name;
+            	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
+            	$('#td_file'+thisIndex).prepend(image);	
+        	}
         }
     });
 
 	cleanPkid();
 }
-var updFun22 = function(e) {
-	var that = $(this).data('blueimp-fileupload')
-			|| $(this).data('fileupload');
-	that._resetFinishedDeferreds();
-	that._transition($(this).find('.fileupload-progress'))
-			.done(function() {
-				that._trigger('started', e);
-			});
-};
+function getUploadImage(thisIndex,fileUrl,fileId,fileName){
+	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
+	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'"/>';
+	image += '<button type="button" class="btn btn-sm btn-default" >'+fileName+'<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;</i></button></a>';
+	return image;
+}
 //删除入账申请信息tr
 function getDel(k){
     $(k).parents('tr').remove();
