@@ -88,7 +88,7 @@ function checkReceiptNo(){
 	var receiptNoArray = new Array();
 		receiptNoArray = $(".forvalue");
 	for(var i=0; i<receiptNoArray.length; i++){	
-		for(var j=receiptNoArray.length-1; j>=0 ;j--){
+		for(var j=i+1; j<receiptNoArray.length ;j++){
 				if(receiptNoArray[i].value == receiptNoArray[j].value){
 					theSameFlag=false;
 					alert("贷记凭证编号不能重复！");
@@ -111,7 +111,7 @@ function sumbitRe(){
 	
 	if(!checkReceiptNo()){
 		return;
-	}	
+	}		
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
 	//console.log(data);
