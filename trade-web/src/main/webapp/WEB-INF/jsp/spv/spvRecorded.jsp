@@ -309,15 +309,15 @@
     </div>
 <content tag="local_script">
 <!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
+<script src="${ctx}/static/js/jquery-2.1.1.js"></script><%-- 
+<script src="${ctx}/static/js/bootstrap.min.js"></script> --%>
 <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 	  <!-- 上传附件相关 --> 
 <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script><%-- 
+<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>  --%>
 <script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
@@ -338,8 +338,8 @@ src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 	
 	<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachmentPostIn.js"></script>
 
-<!-- Custom and plugin javascript -->
- <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script>
+<!-- Custom and plugin javascript --><%-- 
+ <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script> --%>
  <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
  <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
  <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
