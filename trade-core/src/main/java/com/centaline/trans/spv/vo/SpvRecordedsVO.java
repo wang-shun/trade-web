@@ -5,23 +5,12 @@ import java.util.List;
 
 public class SpvRecordedsVO {
 	private List<SpvRecordedsVOItem> items = new ArrayList<SpvRecordedsVOItem>();
-	public void setItems(List<SpvRecordedsVOItem> items) {
-		this.items = items;
-	}
-	public List<SpvRecordedsVOItem> getItems() {
-		return items;
-	}
-	
-	//产品类型
-	private String prdCode;
-	//监管金额
-	private Double amount;
-	//物业地址
-	private String prAddr;
-	//收款人名称
-	private String spvAccountName;
-	//收款人账户
-	private String spvAccountCode;
+	private List<SpvRecordedsVOItem> itemsApp = new ArrayList<SpvRecordedsVOItem>();
+	private String prdCode;//产品类型
+	private Double amount;//监管金额
+	private String prAddr;//物业地址
+	private String spvAccountName;//收款人名称
+	private String spvAccountCode;//收款人账户
 	//收款人开户行
 	private String spvAccountBank;
 	
@@ -167,5 +156,17 @@ public class SpvRecordedsVO {
 	}
 	public void setSpvAccountBank(String spvAccountBank) {
 		this.spvAccountBank = spvAccountBank;
+	}
+	public List<SpvRecordedsVOItem> getItemsApp() {
+		return itemsApp;
+	}
+	public void setItemsApp(List<SpvRecordedsVOItem> itemsApp) {
+		this.itemsApp = itemsApp;
+	}
+	public void setItems(List<SpvRecordedsVOItem> items) {
+		this.items = items;
+	}
+	public List<SpvRecordedsVOItem> getItems() {
+		return items;
 	}
 }

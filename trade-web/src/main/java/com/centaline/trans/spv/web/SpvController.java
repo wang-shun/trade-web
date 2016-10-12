@@ -1022,26 +1022,23 @@ public class SpvController {
    			String taskId,String handle,String businessKey)  {
        	String url="";
        	if(!StringUtils.isBlank(handle)){ 	
-           	switch (handle) {
-           	case "apply":
-       			//cashFlowOutService.cashFlowOutApplyProcess(request, source, instCode, taskId, handle, businessKey);
-       			cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
-       			url="spv/spvRecordedApp";//
-       		break;
-           case "directorAduit":
-        	   //cashFlowOutService.cashFlowOutDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-        	   cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-        	   url="spv/spvRecordShow";
-       		break;
-           case "financeAduit":
-        	  // cashFlowOutService.cashFlowOutFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
-        	   cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
-        	   url="spv/spvRecordShow";
-           	break;
-               	
-           	}
+	           	switch (handle) {
+	           	case "apply":
+	       			cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
+	       			url="spv/spvRecordedApp";
+	       		break;
+	           	case "directorAduit":
+	        	   cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+	        	   url="spv/spvRecordShow";
+	       		break;
+	           	case "financeAduit":
+	        	   cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
+	        	   url="spv/spvRecordShow";
+	           	break;
+	               	
+	           	}
            }else{
-           	cashFlowInService.cashFlowInPage(request, source, instCode, taskId, handle, businessKey);
+           		cashFlowInService.cashFlowInPage(request, source, instCode, taskId, handle, businessKey);
            }
 
    	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
@@ -1052,7 +1049,6 @@ public class SpvController {
    		request.setAttribute("source", source);
    		request.setAttribute("handle", handle);
    		
-   	//	return  "forward:" +url;
    		return  url;
    	}
     

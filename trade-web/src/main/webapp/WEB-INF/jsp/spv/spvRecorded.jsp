@@ -361,14 +361,6 @@ $(function() {
 });
 /* $('.response').responsivegallery(); */
 
-function rescCallbocak(){
- 	 /*   if($("#urlType").val() == 'myTask'){    	 
- 		   window.opener.location.reload(); //刷新父窗口
-     	   window.close(); //关闭子窗口.
-	     }else{ */
-	    	 window.location.href = ctx+"/spv/spvList";
-	    // }
-	}
 
 </script>
 <input type="hidden" id="ctx" value="${ctx}" />
