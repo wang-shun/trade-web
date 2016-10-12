@@ -118,10 +118,6 @@
 	padding-right: 0;
 }
 
-.modal-content {
-	width: 820px;
-}
-
 .text-left {
 	text-align: left !important;
 	margin-left: -10px;
@@ -135,6 +131,9 @@
 	width: 1000px !important;
 }
 
+.modal-dialog{
+	width: 1000px !important;
+}
 .min-h215 {
 	min-height: 215px;
 }
