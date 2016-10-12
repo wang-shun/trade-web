@@ -294,6 +294,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		
 			Map<String, Object> variables = new HashMap<String, Object>();
 			taskService.submitTask(taskId, variables);
+			//更新申请和流水的状态
 	}	
 	
 	private String createSpvApplyCode() {
@@ -320,19 +321,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         			toSpvAduit.setOperatorName(uamSessionService.getSessionUserById(toSpvAduit.getOperator()).getRealName());
         			toSpvAduit.setOperatorJobName(uamSessionService.getSessionUserById(toSpvAduit.getOperator()).getServiceJobName());
             	}
-        	}
-
-/*        	List<ToSpvCashFlowApplyAttach> attachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
-    		if (attachList != null && attachList.size() > 0) {
-    			int size = attachList.size();
-    			request.setAttribute("accesoryList", attachList);
-    			List<Long> idList = new ArrayList<Long>(size);
-    			for (int i = 0; i < size; i++) {
-    				idList.add(attachList.get(i).getPkid());
-    			}
-    			request.setAttribute("idList", idList);
-    		}*/
-        	       	
+        	}   	
     	}
     	
     	//生成约定详情整合list
