@@ -28,6 +28,8 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " />
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 </head>
 
 <body>
@@ -57,7 +59,7 @@
                                   <label>
                                     	  物业地址
                                   </label>
-                                  <span class="info">${spvBaseInfoVO.toSpvProperty.prAddr }</span>
+                                  <p  class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }">${spvBaseInfoVO.toSpvProperty.prAddr }</p>
                               </p>
 
                           </div>
@@ -130,7 +132,7 @@
                                                   <div class="big">${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }万元</div>
                                               </td>
                                               <td>
-                                                  <div class="big"><%--  ${spvCaseFlowOutInfoVO.toSpvCashFlowApply.cashflowApplyId } --%> </div>
+                                                  <div class="big">  ${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptNo }  </div>
                                               </td>
                                               <td>
                                                   <div class="big"> ${spvCaseFlowOutInfoVO.toSpvCashFlow.direction } </div>
@@ -206,7 +208,8 @@
 <script src="${ctx}/static/js/inspinia.js"></script>
 <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <script src="${ctx}/static/trans/js/response/js/jkresponsivegallery.js"></script>
-
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <script>
 $(function() {
@@ -222,6 +225,53 @@ function rescCallbocak(){
 	    // }
 	}
 
+</script>
+<script type="text/javascript">
+$(function(){
+		//left
+		$('.demo-left').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'left',
+			alignY: 'center',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//right
+		$('.demo-right').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'right',
+			alignY: 'center',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//top
+		$('.demo-top').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'top',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//bottom
+		$('.demo-bottom').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'bottom',
+			offsetX: 8,
+			offsetY: 5,
+		});
+	});
 </script>
 
 

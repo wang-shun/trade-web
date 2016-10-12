@@ -55,7 +55,9 @@ import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.entity.ToSpvReceipt;
 import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
+import com.centaline.trans.spv.repository.ToSpvReceiptMapper;
 import com.centaline.trans.spv.service.CashFlowInService;
 import com.centaline.trans.spv.service.CashFlowOutService;
 import com.centaline.trans.spv.service.ToSpvService;
@@ -115,6 +117,8 @@ public class SpvCashFlowInController {
 	
 	@Autowired
 	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
+	@Autowired
+	private ToSpvReceiptMapper toSpvReceiptMapper;
 	
 	/**
 	 * 起草入账页面保存
@@ -211,7 +215,7 @@ public class SpvCashFlowInController {
 	     * 测试代码
 	     */
 	    
-	    List<ToSpvCashFlowApplyAttach> attachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId("ZY-JG-20161010-0043");
+	    List<ToSpvReceipt> attachList = toSpvReceiptMapper.selectByCashFlowId("184");
 	    request.setAttribute("accesoryList", parentOrg.getId());
 		if (attachList != null && attachList.size() > 0) {
 			int size = attachList.size();
