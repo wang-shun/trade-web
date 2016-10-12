@@ -31,6 +31,7 @@
 
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+
 </head>
 
 <body>
@@ -299,27 +300,34 @@
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 
-	<content tag="local_script"> <script
-		src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
+	<content tag="local_script"> 
+	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
+	<script	src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <script
-		src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> <script
-		src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<script src="${ctx}/js/trunk/task/mortgageInfo_list2.js"></script> <jsp:include
-		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script
-		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 排序插件 --> <script
-		src="${ctx}/js/plugins/jquery.custom.js"></script> <!-- 分页控件  --> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- 日期拖拽 -->
-	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.js"></script>
-	<!-- <script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script> -->
-	<script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script>
+	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+	<script	src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
+	<script	src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script	src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>	
+	<script src="${ctx}/js/trunk/task/mortgageInfo_list2.js"></script> 	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
+	
+	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	<!-- 排序插件 --> 
+	<script	src="${ctx}/js/plugins/jquery.custom.js"></script> 
 
+	<!-- 分页控件  -->
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<!-- 日期拖拽 -->
+	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.js"></script>	
+	<script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script>
+		
 	<!-- 必须JS -->
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	
 	<script	id="template_mortgageInfoList" type="text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
@@ -331,7 +339,7 @@
 						<td class="t-left">
 					
 						{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-							<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+							<p class="demo-top"  title="{{item.PROPERTY_ADDR}}">
 							{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 						{{else}}
 							</p>
@@ -444,8 +452,9 @@
 					offsetX: 8,
 					offsetY: 5,
 				});
+				
 			});
-	</script>
+	</script> 
  </content>
 </body>
 </html>

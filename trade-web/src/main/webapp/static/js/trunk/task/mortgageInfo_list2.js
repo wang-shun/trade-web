@@ -710,6 +710,7 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('SIGN_DATE');
 			displayColomn.push('LEND_DATE');
 			displayColomn.push('APPR_DATE');
+			displayColomn.push('REAL_HT_TIME');
 			displayColomn.push('CUST_NAME');
 			displayColomn.push('MORT_TOTAL_AMOUNT');
 			displayColomn.push('COM_AMOUNT');
