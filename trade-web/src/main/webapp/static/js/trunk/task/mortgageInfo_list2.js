@@ -912,7 +912,20 @@ function initpage(totalCount, pageSize, currentPage, records) {
 	$(currentTotalstrong).empty();
 	$(currentTotalstrong).text(currentPage + '/' + totalCount);
 	$('#totalP').text(records);
-
+	$(function(){
+		//top
+		$('.demo-top').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'top',
+			offsetX: 8,
+			offsetY: 5,
+		});
+	});
+	
+	
 	$("#pageBar").twbsPagination({
 		totalPages : totalCount,
 		visiblePages : 9,

@@ -339,7 +339,7 @@
 						<td class="t-left">
 					
 						{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-							<p class="demo-top"  title="{{item.PROPERTY_ADDR}}">
+							<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
 							{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
 						{{else}}
 							</p>
