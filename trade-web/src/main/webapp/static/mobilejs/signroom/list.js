@@ -209,6 +209,7 @@ function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 				}
 				else {
 					strHtml += getSignRoomByTime(defaultTradeCenterId,selDate,selBespeakTime);
+					isHasBespeakTime = true;
 				}
 			}
 		}
