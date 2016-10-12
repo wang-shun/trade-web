@@ -23,7 +23,9 @@ $(document).ready(function(){
 });
 
 function checkFormSave(){
-	$("input[name^='toSpvCashFlow.amount']").each(function(i,e){
+	var amountFlag = false;
+	var amountEle;
+	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
     	if($(e).val() != null && $(e).val() != ''){
     		if(!isNumber($(e).val())){
     		 amountFlag = false;
@@ -41,24 +43,11 @@ function checkFormSave(){
 }
 
 function checkFormSubmit(){
-	var $row = $("#cashFlowTable tr:first td:first-child:not(div)");
-	var rowFlag = false;
-	$row.each(function(i,e){
-		if($(e).val()){
-			rowFlag = true;
-			rowEle = $(e);
-			return false;
-		}
-	});
-	if(!rowFlag){
-		alert("请添加至少一条流水信息！");
-		changeClass(rowEle);
-		return false;
-	}
 	
-	var payerFlag = true;	
-	$("input[name^='toSpvCashFlow.payer']").each(function(i,e){
-		if(!$(e).val() || ($(e).val() && !isName($(e).val()))){
+	var payerFlag = true;
+	var payerEle;
+	$("input[name$='toSpvCashFlow.payer']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
 			 payerFlag = false;
 			 payerEle = $(e);
 			 return false;
@@ -72,8 +61,9 @@ function checkFormSubmit(){
     }
     
 	var payerAccFlag = true;	
-	$("input[name^='toSpvCashFlow.payerAcc']").each(function(i,e){
-		if(!$(e).val() || ($(e).val() && !isNumber2($(e).val()))){
+	var payerAccEle;
+	$("input[name$='toSpvCashFlow.payerAcc']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
 			 payerAccFlag = false;
 			 payerAccEle = $(e);
 			 return false;
@@ -86,9 +76,10 @@ function checkFormSubmit(){
 		return false;
     }
     
-	var payerBankFlag = true;	
-	$("input[name^='toSpvCashFlow.payerBank']").each(function(i,e){
-		if(!$(e).val()){
+	var payerBankFlag = true;
+	var payerBankEle;
+	$("input[name$='toSpvCashFlow.payerBank']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '')){
 			 payerBankFlag = false;
 			 payerBankEle = $(e);
 			 return false;
@@ -102,9 +93,10 @@ function checkFormSubmit(){
     }
 
 	var amountFlag = true;	
+	var amountEle;
 	var sumAmount = 0;
-	$("input[name^='toSpvCashFlow.amount']").each(function(i,e){
-		if(!$(e).val() || ($(e).val() && !isNumber($(e).val()))){
+	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
     		 amountFlag = false;
     		 amountEle = $(e);
     		 sumAmount = accAdd(sumAmount,$(e).val());
@@ -126,8 +118,9 @@ function checkFormSubmit(){
     }
     
 	var voucherNoFlag = true;	
-	$("input[name^='toSpvCashFlow.voucherNo']").each(function(i,e){
-		if(!$(e).val() || ($(e).val() && !isNumber2($(e).val()))){
+	var voucherNoEle;
+	$("input[name$='toSpvCashFlow.voucherNo']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
 			 voucherNoFlag = false;
 			 voucherNoEle = $(e);
 			 return false;
@@ -141,8 +134,9 @@ function checkFormSubmit(){
     }
     
 	var directionFlag = true;	
-	$("select[name^='toSpvCashFlow.direction']").each(function(i,e){
-		if(!$(e).val()){
+	var directionEle;
+	$("select[name$='toSpvCashFlow.direction']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '')){
 			 directionFlag = false;
 			 directionEle = $(e);
 			 return false;
@@ -159,7 +153,9 @@ function checkFormSubmit(){
 
 function changeClass(object){
 	$(object).focus();
-	$(object).addClass("borderClass");
+	$(object).addClass("borderClass").blur(function(){
+		$(this).removeClass("borderClass");
+	});	;
 }
 
 //保存按钮方法

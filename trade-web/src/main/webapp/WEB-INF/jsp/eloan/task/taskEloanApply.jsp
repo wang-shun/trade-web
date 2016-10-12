@@ -189,7 +189,7 @@
 					<input type="hidden" id="eloanCode" name="eloanCode"
 						value="${eloanCase.eloanCode}">
 						<input type="hidden" id="createTime" name="createTime"
-						value="<fmt:formatDate value="${eloanCase.createTime}" pattern="yyyy-MM-dd hh:mm:ss"/>" >
+						value="<fmt:formatDate value="${eloanCase.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>" >
 						<input type="hidden" id="createBy" name="createBy"
 						value="${eloanCase.createBy}">
 					<ul class="form_lump">
