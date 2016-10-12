@@ -34,71 +34,28 @@ function getTR(thisIndex){
 	$str+='		</select>                                                                                                                                                                              ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<span class="btn_file">                                                                                                                                                                ';
-	$str+='			<input type="file" class="file">                                                                                                                                                   ';
+	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
+	$str+='			<input id="fileupload_'+thisIndex+'" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
 	$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="">                                                                        ';
 	$str+='		</span>                                                                                                                                                                                ';
-	
-	/*$str+=' 			<div class="" id="fileupload_div_pic"> 																											 ';
-	$str+=' 				<form id="fileupload"                                                                                                                        ';
-	$str+=' 					action="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload"                                                              ';
-	$str+=' 					method="POST" enctype="multipart/form-data">                                                                                             ';
-	$str+=' 					<noscript>                                                                                                                               ';
-	$str+=' 						<input type="hidden" name="redirect"                                                                                                 ';
-	$str+=' 							value="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload">                                                      ';
-	$str+=' 						<%-- <input type="hidden" id="preFileCode" name="preFileCode"                                                                        ';
-	$str+=' 							value="${accesory.type }"> --%>                                                                                                  ';
-	$str+=' 					</noscript>                                                                                                                              ';
-	$str+=' 						<div class="" >                                                                                                                      ';
-	$str+=' 							<div role="presentation" >                                                                                                       ';
-	$str+=' 								<div id="picContainer'+thisIndex+'" class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></div>        ';
-	$str+=' 								<span class="btn_file">                                                                                                      ';
-    $str+='                                    <input id="picFileupload'+thisIndex+'" type="file" class="file"                                                       ';
-	$str+=' 									name="files[]" multiple                                                                                                  ';
-	$str+=' 									data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload"                                            ';
-	$str+=' 									data-sequential-uploads="true">                                                                                          ';
-    $str+='                                     <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />                                         ';
-	$str+=' 								</span>                                                                                                                      ';
-	$str+=' 							</div>                                                                                                                           ';
-	$str+=' 						</div>                                                                                                                               ';
-	$str+=' 				</form>                                                                                                                                      ';
-	$str+=' 			</div>                                                                                                                                           ';
-    
-	$str+='		<div class="row-fluid" style="display: none;">																											 ';
-	$str+='			<div class="span4">                                                                                                                                  ';
-	$str+='				<div class="control-group">                                                                                                                      ';
-	$str+='					<a class="btn blue start" id="startUpload"                                                                                                   ';
-	$str+='						style="height: 30px; width: 50px"> <i                                                                                                    ';
-	$str+='						class="icon-upload icon-white"></i> <span>上传</span>                                                                                    ';
-	$str+='					</a>                                                                                                                                         ';
-	$str+='				</div>                                                                                                                                           ';
-	$str+='			</div>                                                                                                                                               ';
-	$str+='		</div>																																			         ';
-	*/
-	
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
-	if(thisIndex > 0)
-	$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
+	if(thisIndex > 0){
+		$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
+	}
 	$str+='</tr>                                                                                                                                                                                          ';
-	$("#addTr").append($str);
-	/*var value = thisIndex;
-	AistUpload.init('picFileupload'+value, 'picContainer'+value,'templateUpload'+value, 'templateDownload'+value, updFun22,'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i');
-	*//**监听 div 执行自动上传*//*
-	$("#picContainer"+value).bind('DOMNodeInserted', function(e) {
-		var picDiv=$("div[name='allPicDiv1']");
-		var input=$("input[name='picTag']");
-		if(picDiv.length > input.length) {
-			index++;
-			if(index % 2 == 0) {
-				//alert("执行自动上传");
-				index = 0;
-				$("#startUpload").click();
-			}
-		}
-	});*/
 	
-	//console.log($str);
+	$("#addTr").append($str);
+
+	$('#fileupload_'+thisIndex).fileupload({
+		acceptFileTypes:'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i',
+		autoUpload: true,
+        dataType: 'json',
+        done: function (e, data) {
+        	console.log(JSON.stringify(data));
+        }
+    });
+
 	cleanPkid();
 }
 var updFun22 = function(e) {

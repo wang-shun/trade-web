@@ -80,7 +80,15 @@ em, i {
 .table_content .table > tbody > tr {
     height: 48px;
 }
-
+.dl-horizontal {
+  font-family: SimSun;
+}
+.grey-shallow {
+  color: #808080;
+}
+.grey-deep {
+  color: #333;
+}
 
 
 
