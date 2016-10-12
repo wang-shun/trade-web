@@ -107,15 +107,6 @@ $(document).ready(
 		});
 
 function resetData() {
-<<<<<<< Updated upstream
-	var x;
-	
-	for(x in mTypeLegends) {		
-		mTypeCases[x] = 0;
-		mTypeAmount[x] = 0;
-	}
-=======
->>>>>>> Stashed changes
 
 	mAllCases = 0;
 	mTotalAmount = 0;
@@ -139,21 +130,12 @@ function setPieCharts() {
 
 	mTypeAmountTitle = '贷款总金额: ' + mTotalAmount.toFixed(2) + ' 万';
 	mTypeCasesTitle = '贷款总单数: ' + mAllCases + ' 件'
-<<<<<<< Updated upstream
-	option = setAmountOptions(mTypeAmount);
-	//贷款总金额
-	pChartMTypeAmount.setOption(option);
-	pChartMOrgAmount.setOption(option);
-	option = setCaseOptions(mTypeCases);
-	//贷款总单数
-=======
 	
 	//option = setAmountOptions(mTypeAmount);
 	option = setOptions(mTypeAmountTitle, typeLegends, typeAmountItems);
 	pChartMTypeAmount.setOption(option);
 	
 	option = setOptions(mTypeCasesTitle, typeLegends, typeCaseItems);
->>>>>>> Stashed changes
 	pChartMTypeCases.setOption(option);
 	
 	option = setOptions(mTypeAmountTitle, orgLegends, orgAmountItems);
@@ -163,40 +145,6 @@ function setPieCharts() {
 	pChartMOrgCases.setOption(option);
 }
 
-<<<<<<< Updated upstream
-/*function toggle(elements, specifiedDisplay) {
- var element, index;
-  
- elements = elements.length ? elements : [ elements ];
- for (index = 0; index < elements.length; index++) {
- element = elements[index];
-
- if (isElementHidden(element)) {
- element.style.display = '';
-
- // If the element is still hidden after removing the inline display
- if (isElementHidden(element)) {
- element.style.display = specifiedDisplay || 'block';
- }
- } else {
- element.style.display = 'none';
- }
- }
- function isElementHidden(element) {
- return window.getComputedStyle(element, null).getPropertyValue(
- 'display') === 'none';
- }
- }
-
- function show(elements, specifiedDisplay) {
- elements = elements.length ? elements : [ elements ];
- for (var index = 0; index < elements.length; index++) {
- elements[index].style.display = specifiedDisplay || 'block';
- }
- }*/
-
-=======
->>>>>>> Stashed changes
 function setQueryData() {
 
 	var data = getParamsValue();
@@ -227,13 +175,8 @@ function setQueryData() {
 
 	return data;
 }
-<<<<<<< Updated upstream
-//获取各方式贷款总数
-function getMTypeCases() {
-=======
 
 function getMTypeAnalysis() {
->>>>>>> Stashed changes
 
 	var data = setQueryData();
 	data.queryId = "queryMortgageTypeAnalysis";
@@ -307,37 +250,8 @@ function getMTypeAnalysis() {
 						mAllCases += cases;
 						mTotalAmount += data.rows[index].MTOTALAMOUNT;
 					}
-<<<<<<< Updated upstream
-
-				}
-			});
-}
-//获取各方式贷款金额
-function getMTypeAmount() {
-
-	var data = setQueryData();
-	data.queryId = "queryMortgageTypeAmountAnalysis";
-	data.rows = 10;
-	data.page = 1;
-
-	$
-			.ajax({
-				async : false,
-				url : ctx + "/quickGrid/findPage",
-				method : "post",
-				dataType : "json",
-				data : data,
-				success : function(data) {
-					var index
-					for (index in data.rows) {
-						mTypeComAmount[data.rows[index].MLOANTYPE - 1] = data.rows[index].MCOMAMOUNT;
-						mTypePRFAmount[data.rows[index].MLOANTYPE - 1] = data.rows[index].MPRFAMOUNT;
-						mTotalAmount += data.rows[index].MCOMAMOUNT;
-						mTotalAmount += data.rows[index].MPRFAMOUNT;
-=======
 					for (index in typeAmountItems) {
 						typeAmountItems[index].value = parseFloat(typeAmountItems[index].value.toFixed(2));
->>>>>>> Stashed changes
 					}
 				}
 			});
@@ -359,19 +273,17 @@ function getMOrgAnalysis() {
 		dataType : "json",
 		data : data,
 		success : function(data) {
-
-			//console.log("===Result==="+JSON.stringify(data));
-			var index
+			var index;
 			for (index in data.rows) {
 				var name;
 				if (userJobCode == '0') {
 					name = data.rows[index].OONAME;
 				} else if (userJobCode == '1') {
-
+					name = data.rows[index].ONAME;
 				} else if (userJobCode == '2') {
-
+					name = data.rows[index].RNAME;
 				} else if (userJobCode == '3') {
-
+					name = data.rows[index].RNAME;
 				}
 
 				var cases = data.rows[index].MCASES;
@@ -410,16 +322,9 @@ function getMOrgAnalysis() {
 					orgAmountItems.push(amountItem);
 				}
 			}
-<<<<<<< Updated upstream
-
-			mTypeAmount[0] = mTypeComAmount[0];//商贷收单
-			mTypeAmount[1] = mTypePRFAmount[0]+mTypePRFAmount[1];//公积金
-			mTypeAmount[2] = mTypeComAmount[2]+mTypePRFAmount[2];//商贷流失
-=======
 			for (index in orgAmountItems) {
 				orgAmountItems[index].value = parseFloat(orgAmountItems[index].value.toFixed(2));
 			}
-
 		}
 	});
 }
@@ -687,8 +592,7 @@ function initpage(totalCount, pageSize, currentPage, records) {
 			offsetY: 5,
 		});
 	});
-	
-	
+
 	$("#pageBar").twbsPagination({
 		totalPages : totalCount,
 		visiblePages : 9,
@@ -789,7 +693,6 @@ function getParamsValue() {
 		params.apprTimeStart = apprTimeStart;
 		params.apprTimeEnd = apprTimeEnd;
 	}else if(timeSelect == "REAL_HT_TIME"){
-		
 		realhtTimeStart = start;
 		realhtTimeEnd = end;
 		params.realhtTimeStart = realhtTimeStart;
