@@ -43,6 +43,10 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+    <style>
+	.borderClass {border:1px solid red!important;resize: none;}
+	.borderClass:focus {border:1px solid red!important;resize: none;}
+   </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -729,7 +733,6 @@
     <!-- Mainly scripts -->
     <content tag="local_script">
     <script src="${ctx}/static_res/trans/js/spv/jquery-2.1.1.js"></script>
-    <script src="${ctx}/static_res/trans/js/spv/bootstrap.min.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/jquery.metisMenu.js"></script>
     <script src="${ctx}/static_res/trans/js/spv/jquery.slimscroll.min.js"></script>
     <!-- Custom and plugin javascript -->
