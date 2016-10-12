@@ -70,7 +70,7 @@ $(document).ready(function() {
 
 function resetData() {
 	var x;
-	for(x in mTypeLegends) {
+	for(x in mTypeLegends) {		
 		mTypeCases[x] = 0;
 		mTypeAmount[x] = 0;
 	}
@@ -90,15 +90,17 @@ function setPieCharts() {
 	mTypeAmountTitle = '贷款总金额: '+mTotalAmount.toFixed(2)+' 万元'
 	mTypeCasesTitle = '贷款总单数: '+mAllCases+' 件'
 	option = setAmountOptions(mTypeAmount);
+	//贷款总金额
 	pChartMTypeAmount.setOption(option);
 	option = setCaseOptions(mTypeCases);
+	//贷款总单数
 	pChartMTypeCases.setOption(option);
 	//chartAll.setOption(option);
 }
 
 function toggle (elements, specifiedDisplay) {
   var element, index;
-
+  
   elements = elements.length ? elements : [elements];
   for (index = 0; index < elements.length; index++) {
     element = elements[index];
@@ -156,7 +158,7 @@ function setQueryData() {
 	
 	return data;
 }
-
+//获取各方式贷款总数
 function getMTypeCases() {
 	
 	var data = setQueryData();
@@ -180,7 +182,7 @@ function getMTypeCases() {
 		}
 	});
 }
-
+//获取各方式贷款金额
 function getMTypeAmount() {
 	
 	var data = setQueryData();
@@ -195,6 +197,7 @@ function getMTypeAmount() {
 		dataType : "json",
 		data : data,
 		success : function(data) {
+			//console.log("===Result==="+JSON.stringify(data));
 			var index
 			for (index in data.rows) {
 				mTypeComAmount[data.rows[index].MLOANTYPE-1] = data.rows[index].MCOMAMOUNT;
@@ -202,9 +205,9 @@ function getMTypeAmount() {
 				mTotalAmount += data.rows[index].MCOMAMOUNT;
 				mTotalAmount += data.rows[index].MPRFAMOUNT;
 			}
-			mTypeAmount[0] = mTypeComAmount[0];
-			mTypeAmount[1] = mTypePRFAmount[0]+mTypePRFAmount[1];
-			mTypeAmount[2] = mTypeComAmount[2]+mTypePRFAmount[2];
+			mTypeAmount[0] = mTypeComAmount[0];//商贷收单
+			mTypeAmount[1] = mTypePRFAmount[0]+mTypePRFAmount[1];//公积金
+			mTypeAmount[2] = mTypeComAmount[2]+mTypePRFAmount[2];//商贷流失
 		}
 	});
 }
@@ -814,6 +817,8 @@ function getParamsValue() {
 	var lendTimeEnd = null;
 	var apprTimeStart = null;
 	var apprTimeEnd = null;
+	var realhtTimeStart = null;
+	var realhtTimeEnd = null;
 
 	var comAmountStart = null;
 	var comAmountEnd = null;
@@ -886,6 +891,14 @@ function getParamsValue() {
 		apprTimeEnd = end;
 		params.apprTimeStart = apprTimeStart;
 		params.apprTimeEnd = apprTimeEnd;
+	}else if(timeSelect == "REAL_HT_TIME"){
+		
+		realhtTimeStart = start;
+		realhtTimeEnd = end;
+		alert(realhtTimeStart);
+		alert(realhtTimeEnd);
+		params.realhtTimeStart = realhtTimeStart;
+		params.realhtTimeEnd = realhtTimeEnd;
 	}
 	// 获取select 选中时间的值
 	var amountSelect = $("#loanLostCaseListAmountSelect option:selected").val();

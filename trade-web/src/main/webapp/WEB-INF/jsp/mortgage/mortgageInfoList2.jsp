@@ -13,20 +13,14 @@
 <link href="${ctx}/css/animate.css" rel="stylesheet" />
 <link href="${ctx}/css/style.css" rel="stylesheet" />
 <!-- Data Tables -->
-<link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css"
-	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css"
-	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css"
-	rel="stylesheet" />
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
 
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
 
 <!-- index_css -->
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
@@ -34,6 +28,9 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/css/btn.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 </head>
 
 <body>
@@ -104,6 +101,7 @@
 							<option value="SIGN_DATE" selected="selected">签约时间</option>
 							<option value="APPR_DATE">审批时间</option>
 							<option value="LEND_DATE">放款时间</option>
+							<option value="REAL_HT_TIME">过户时间</option>
 						</select>
 						<div class="input-group sign-right dataleft input-daterange"
 							data-date-format="yyyy-mm-dd" id="datepicker_0">
@@ -321,8 +319,7 @@
 
 	<!-- 必须JS -->
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-		<script
-		id="template_mortgageInfoList" type="text/html">
+	<script	id="template_mortgageInfoList" type="text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
  				      <tr class="tr-1">
@@ -330,10 +327,17 @@
                        <tr class="tr-2">
                    {{/if}}
 						<td class="big"> <a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></td>
-						<td>
-                             <p class="big">
-                                 {{item.PROPERTY_ADDR}}
-                        	</p>
+						<td class="t-left">
+					
+						{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+							<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+							{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+						{{else}}
+							</p>
+						<p>
+							{{item.PROPERTY_ADDR}}
+						{{/if}}	
+						</p> 
                              <p>
                                 <a class="salesman-info" href="#" >
                                     {{item.FENHANG}}/{{item.FIN_ORG_NAME_YC}}                                               
@@ -376,6 +380,19 @@
                                  {{item.LEND_DATE}}          
                            </p>
 						{{/if}}	
+
+						{{if item.REAL_HT_TIME!=null}}
+						   <p>  
+                              <i class="sign_normal">过</i>
+                                 {{item.REAL_HT_TIME}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">过</i>
+                                 {{item.REAL_HT_TIME}}          
+                           </p>
+						{{/if}}	
+
                          </td>
 						<td class="center">   
                                     {{item.CUST_NAME}}
@@ -413,12 +430,21 @@
                         </td>
 				  </tr>
        {{/each}}
-     </script> <script></script> </content>
-
-
-
-	<script type="text/javascript">
-
+     </script> 
+     <script type="text/javascript">
+			$(function(){				
+				//top
+				$('.demo-top').poshytip({
+					className: 'tip-twitter',
+					showTimeout: 1,
+					alignTo: 'target',
+					alignX: 'center',
+					alignY: 'top',
+					offsetX: 8,
+					offsetY: 5,
+				});
+			});
 	</script>
+ </content>
 </body>
 </html>
