@@ -191,6 +191,17 @@ public class ReservationMobileController {
 
 		reservation.setCaseCode(toPropertyInfoService
 				.getCaseCodeByPropertyAddr(propertyAddrSearchVo));
+
+		String serviceSpecialist = toPropertyInfoService
+				.getServiceSpecialistByPropertyAddr(propertyAddrSearchVo);
+
+		if (serviceSpecialist != null && !"".equals(serviceSpecialist)) {
+			reservation.setServiceSpecialist(serviceSpecialist);
+		} else {
+			reservation.setServiceSpecialist(reservationVo
+					.getServiceSpecialist());
+		}
+
 		reservation.setPropertyAddress(reservationVo.getPropertyAddress());
 		reservation.setNumberOfParticipants(reservationVo
 				.getNumberOfParticipants());
@@ -280,16 +291,16 @@ public class ReservationMobileController {
 		String agentCode = request.getParameter("agentCode");
 
 		PropertyAddrSearchVo propertyAddrSearchVo = new PropertyAddrSearchVo();
-		if(!StringUtil.isBlank(propertyAddress)){
+		if (!StringUtil.isBlank(propertyAddress)) {
 			propertyAddrSearchVo.setInputValue(propertyAddress);
 		}
-		if(!StringUtil.isBlank(agentCode)){
+		if (!StringUtil.isBlank(agentCode)) {
 			propertyAddrSearchVo.setAgentCode(agentCode);
 		}
 		return toPropertyInfoService
 				.getCaseCodeByPropertyAddr(propertyAddrSearchVo);
 	}
-	
+
 	/**
 	 * ajax根据产证地址获取对应的案件编号
 	 * 
@@ -320,6 +331,25 @@ public class ReservationMobileController {
 		Long resId = Long.parseLong(request.getParameter("resId"));
 
 		return reservationService.cancelReservation(resId);
+	}
+
+	/**
+	 * ajax根据产证地址获取对应案件的服务顾问(交易顾问)
+	 * 
+	 * @return 服务顾问(交易顾问)名称
+	 */
+	@RequestMapping(value = "getServiceSpecialistByPropertyAddr")
+	@ResponseBody
+	public String getServiceSpecialistByPropertyAddr(HttpServletRequest request) {
+		SessionUser currentUser = uamSessionService.getSessionUser();
+		String propertyAddress = request.getParameter("propertyAddress");
+
+		PropertyAddrSearchVo propertyAddrSearchVo = new PropertyAddrSearchVo();
+		propertyAddrSearchVo.setInputValue(propertyAddress);
+		propertyAddrSearchVo.setAgentCode(currentUser.getId());
+
+		return toPropertyInfoService
+				.getServiceSpecialistByPropertyAddr(propertyAddrSearchVo);
 	}
 
 }

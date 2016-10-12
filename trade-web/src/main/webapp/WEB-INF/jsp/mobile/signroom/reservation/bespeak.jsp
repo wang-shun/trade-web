@@ -42,6 +42,15 @@
             <i class="dingwei iconfont orange">&#xe60a;</i>
         </div>
         <section class="aui-content">
+        	<div class="aui-row pad10 clearfix overvisible">
+                <div class="aui-col-xs-3 linehgl30">
+                   	 服务顾问
+                </div>
+                <div class="aui-col-xs-5">
+                    <input type="text" id="serviceSpecialist" placeholder="" class="border_grey input30 radius3 font-small" data-required="true" >
+                </div>
+            </div>
+        
             <div class="aui-row pad10">
                 <div class="aui-col-xs-3 linehgl30">
                     参与人数

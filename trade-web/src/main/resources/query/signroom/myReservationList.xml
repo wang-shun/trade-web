@@ -39,11 +39,11 @@
 					(select CENTER_NAME from sctrans.T_RM_TRADE_CENTER where PKID = r.SIGNING_CENTER_ID) as tradeCenterName,rs.START_DATE as startDate,rs.END_DATE as endDate,r.RES_STATUS as resStatus,getdate() as currentDate,rs.START_DATE AS resDate FROM sctrans.T_RM_RESERVATION r
 					LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON r.PKID = rs.RES_ID
 					LEFT JOIN sctrans.T_RM_SIGN_ROOM sr ON rs.ROOM_ID = sr.PKID
-					WHERE r.RES_PERSON_ID = #resPersonId# AND sr.ROOM_STATUS = 1 AND sr.IS_DELETE = 0
+					WHERE r.RES_PERSON_ID = #resPersonId# AND sr.ROOM_STATUS = 1 and CONVERT(varchar(100), rs.START_DATE, 23) >= CONVERT(varchar(100), GETDATE(), 23) and r.RES_STATUS != 4
 				]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY r.CREATE_TIME DESC
+				ORDER BY rs.START_DATE asc
 			</orderBySql>
 			<groupSql>
 			</groupSql>

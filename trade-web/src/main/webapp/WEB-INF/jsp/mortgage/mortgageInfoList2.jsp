@@ -196,6 +196,10 @@
 							id="mortTypeAnalysis">
 							<i class="iconfont icon">&#xe63d;</i> 贷款报表
 						</button>
+						<button type="button" class="btn  btn-icon btn-toggle mr5 "
+							id="mortOrgAnalysis">
+							<i class="iconfont icon">&#xe63f;</i> 组织报表
+						</button>
 						<button type="button" class="btn btn-grey"
 							id="mortgageInfoCleanButton">清空</button>
 						<!-- <button type="button" id="mortTypeAnalysis"
@@ -211,16 +215,15 @@
 						</div>
 					</div>
 
-					<!-- <div class="row chartwo"
+					<div class="row chartwo"
 						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4;">
 						<div class="col-md-6">
-							<div id="LoansOne" style="width: 100%; height: 400px;">2</div>
+							<div id="pieChartMOrgCases" style="width: 100%; height: 400px;">2</div>
 						</div>
 						<div class="col-md-6">
-							<div id="LoansTwo" style="width: 100%; height: 400px;">2</div>
+							<div id="pieChartMOrgAmount" style="width: 100%; height: 400px;">2</div>
 						</div>
-
-					</div> -->
+					</div>
 				</div>
 			</form>
 		</div>
@@ -291,28 +294,26 @@
 
 	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
+	<input type="hidden" id="userJobCode" value="${userJobCode}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 
-	<content tag="local_script"> 
-	<script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
-	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
-	<script	src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-	<script	src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script	src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<script src="${ctx}/js/trunk/task/mortgageInfo_list2.js"></script> 
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
-	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
-	<!-- 排序插件 --> 
-	<script	src="${ctx}/js/plugins/jquery.custom.js"></script> 
-	<!-- 分页控件  --> 
-	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
-	<!-- 日期拖拽 -->
+	<content tag="local_script"> <script
+		src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
+	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <script
+		src="${ctx}/js/jquery.blockui.min.js"></script> <script
+		src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> <script
+		src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
+		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
+		src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	<script src="${ctx}/js/trunk/task/mortgageInfo_list2.js"></script> <jsp:include
+		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script
+		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 排序插件 --> <script
+		src="${ctx}/js/plugins/jquery.custom.js"></script> <!-- 分页控件  --> <script
+		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
+		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- 日期拖拽 -->
 	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.js"></script>
 	<!-- <script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script> -->
 	<script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script>

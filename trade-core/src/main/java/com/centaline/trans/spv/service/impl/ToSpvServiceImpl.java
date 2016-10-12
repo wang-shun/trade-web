@@ -1357,6 +1357,12 @@ public class ToSpvServiceImpl implements ToSpvService {
 		//申请复审人toSpvCashFlowApply.setApplyAuditor()
 		//财务初审人toSpvCashFlowApply.setFtPreAuditor(ftPreAuditor);
 		//财务复审人toSpvCashFlowApply.setFtPostAuditor(ftPostAuditor);
+		//申请复审人	现在测试设置为wangqaio7
+		toSpvCashFlowApply.setApplyAuditor("ff80808156b51e7b0156b55f02ce0008");
+		//财务初审人	现在测试设置为wangqaio7
+		toSpvCashFlowApply.setFtPreAuditor("ff80808156b51e7b0156b55f02ce0008");
+		//财务复审人	现在测试设置为wangqaio7
+		toSpvCashFlowApply.setFtPostAuditor("ff80808156b51e7b0156b55f02ce0008");
 		//创建时间
 		toSpvCashFlowApply.setCreateTime(new Date());
 		//创建人
@@ -1503,14 +1509,15 @@ public class ToSpvServiceImpl implements ToSpvService {
 		/**2.查询审核记录*/
 		List<ToSpvAduit> toSpvAduitList = toSpvAduitMapper.selectByCashFlowApplyId(cashFlowApplyId.toString());
 		/**3.查询流水*/
-		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(cashFlowApplyId);
+		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyIdByIn(cashFlowApplyId);
 		/**4.查询贷记凭证*/
 		/**5.查询小票、回单*/
 		Iterator<ToSpvCashFlow> iterator = toSpvCashFlowList.iterator();
 		while(iterator.hasNext()){
 			SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO = new SpvCaseFlowOutInfoVO();
-			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(iterator.next().getPkid().toString());
-			spvCaseFlowOutInfoVO.setToSpvCashFlow(iterator.next());
+			ToSpvCashFlow flow = iterator.next();
+			List<ToSpvReceipt> tempListR = toSpvReceiptMapper.selectByCashFlowId(flow.getPkid().toString());
+			spvCaseFlowOutInfoVO.setToSpvCashFlow(flow);
 			spvCaseFlowOutInfoVO.setToSpvReceiptList(tempListR);
 			spvCaseFlowOutInfoVOList.add(spvCaseFlowOutInfoVO);
 		}
@@ -1773,6 +1780,12 @@ public class ToSpvServiceImpl implements ToSpvService {
 			//申请复审人toSpvCashFlowApply.setApplyAuditor()
 			//财务初审人toSpvCashFlowApply.setFtPreAuditor(ftPreAuditor);
 			//财务复审人toSpvCashFlowApply.setFtPostAuditor(ftPostAuditor);
+			//申请复审人	现在测试设置为wangqaio7
+			toSpvCashFlowApply.setApplyAuditor("ff80808156b51e7b0156b55f02ce0008");
+			//财务初审人	现在测试设置为wangqaio7
+			toSpvCashFlowApply.setFtPreAuditor("ff80808156b51e7b0156b55f02ce0008");
+			//财务复审人	现在测试设置为wangqaio7
+			toSpvCashFlowApply.setFtPostAuditor("ff80808156b51e7b0156b55f02ce0008");
 			//创建时间
 			toSpvCashFlowApply.setCreateTime(new Date());
 			//创建人
@@ -1856,11 +1869,12 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvCashFlow.setCreateBy(user.getId());
 				//更新时间	toSpvCashFlow.setUpdateTime(updateTime);
 				//更新时间	toSpvCashFlow.setUpdateBy(updateBy);
+				toSpvCashFlow.setReceiptNo(spvRecordedsVOItems.get(i).getReceiptNo());//回单编号
 				
 				toSpvCashFlowMapper.insertSelective(toSpvCashFlow);
 				spvReturnCashflowVO.setToSpvCashFlowPkid(toSpvCashFlow.getPkid().toString());
 				
-				/**4.小票、回单*/
+				/**4.小票、回单*//*
 				ToSpvReceipt toSpvReceipt = new ToSpvReceipt();
 				//流水ID
 				toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());
@@ -1878,14 +1892,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				
 				//更新人	toSpvReceipt.setUpdateBy(updateBy);
 				
-				toSpvReceiptMapper.insertSelective(toSpvReceipt);
-				spvReturnCashflowVO.setToSpvReceiptPkid(toSpvReceipt.getPkid().toString());
-				
-				//回单编号	
-				toSpvCashFlow.setReceiptNo(toSpvReceipt.getPkid().toString());
-				//回单生成时间	
-				toSpvCashFlow.setReceiptTime(new Date());
-				toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
+				toSpvReceiptMapper.insertSelective(toSpvReceipt);*/
 			}
 		}else{
 			spvReturnCashflowVO.setToSpvCashFlowApplyPkid(spvRecordedsVO.getToSpvCashFlowApplyPkid().toString());

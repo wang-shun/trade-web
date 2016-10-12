@@ -293,4 +293,14 @@ WHERE ci.AGENT_CODE = #{agentCode,jdbcType=VARCHAR} AND b.CASE_PROPERTY != '3000
 	OFFSET 0 ROWS FETCH  next 1 ROWS ONLY;
   </select>
   
+    <select id="getServiceSpecialistByPropertyAddr" parameterType="com.centaline.trans.signroom.vo.PropertyAddrSearchVo" resultType="java.lang.String">
+  	SELECT u.REAL_NAME FROM sctrans.T_TO_PROPERTY_INFO pi
+	LEFT JOIN sctrans.T_TO_CASE_INFO ci ON ci.CASE_CODE = pi.CASE_CODE
+	LEFT JOIN sctrans.T_TO_CASE c ON ci.CASE_CODE = c.CASE_CODE
+	LEFT JOIN sctrans.SYS_USER u ON u.ID = c.LEADING_PROCESS_ID
+	WHERE pi.PROPERTY_ADDR = #{inputValue,jdbcType=VARCHAR} and ci.AGENT_CODE = #{agentCode,jdbcType=VARCHAR}
+	ORDER BY pi.CREATE_TIME DESC
+	OFFSET 0 ROWS FETCH  next 1 ROWS ONLY;
+  </select>
+  
 </mapper>

@@ -209,6 +209,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>人员</th>
+													<th>组织</th>
                                                     <th>服务</th>
                                                     <th>基础奖金</th>
                                                     <th>满意度</th>
@@ -225,6 +226,7 @@
                                                {{each rows as item index}}
                                                 <tr> 
                                                     <td>{{item.PARTICIPANT}}</td>
+													<td>{{item.ORG_NAME}}</td>
                                                     <td>{{item.SRV_CODE}}</td>
                                                     <td>{{item.BASE_AMOUNT}}</td>
                                                     <td>{{item.SATISFACTION}}({{item.SKPI_RATE}})</td>

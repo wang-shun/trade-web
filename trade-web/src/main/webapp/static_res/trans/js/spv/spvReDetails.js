@@ -1,7 +1,8 @@
-
+/**
+ * 入账申请
+ */
 $(function(){
 	$("#addTr").html(getTR(0));
-	
 });
 var handle = $("#handle").val();
 var trindex = 0;
@@ -37,14 +38,78 @@ function getTR(thisIndex){
 	$str+='			<input type="file" class="file">                                                                                                                                                   ';
 	$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="">                                                                        ';
 	$str+='		</span>                                                                                                                                                                                ';
+	
+	/*$str+=' 			<div class="" id="fileupload_div_pic"> 																											 ';
+	$str+=' 				<form id="fileupload"                                                                                                                        ';
+	$str+=' 					action="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload"                                                              ';
+	$str+=' 					method="POST" enctype="multipart/form-data">                                                                                             ';
+	$str+=' 					<noscript>                                                                                                                               ';
+	$str+=' 						<input type="hidden" name="redirect"                                                                                                 ';
+	$str+=' 							value="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload">                                                      ';
+	$str+=' 						<%-- <input type="hidden" id="preFileCode" name="preFileCode"                                                                        ';
+	$str+=' 							value="${accesory.type }"> --%>                                                                                                  ';
+	$str+=' 					</noscript>                                                                                                                              ';
+	$str+=' 						<div class="" >                                                                                                                      ';
+	$str+=' 							<div role="presentation" >                                                                                                       ';
+	$str+=' 								<div id="picContainer'+thisIndex+'" class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></div>        ';
+	$str+=' 								<span class="btn_file">                                                                                                      ';
+    $str+='                                    <input id="picFileupload'+thisIndex+'" type="file" class="file"                                                       ';
+	$str+=' 									name="files[]" multiple                                                                                                  ';
+	$str+=' 									data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload"                                            ';
+	$str+=' 									data-sequential-uploads="true">                                                                                          ';
+    $str+='                                     <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />                                         ';
+	$str+=' 								</span>                                                                                                                      ';
+	$str+=' 							</div>                                                                                                                           ';
+	$str+=' 						</div>                                                                                                                               ';
+	$str+=' 				</form>                                                                                                                                      ';
+	$str+=' 			</div>                                                                                                                                           ';
+    
+	$str+='		<div class="row-fluid" style="display: none;">																											 ';
+	$str+='			<div class="span4">                                                                                                                                  ';
+	$str+='				<div class="control-group">                                                                                                                      ';
+	$str+='					<a class="btn blue start" id="startUpload"                                                                                                   ';
+	$str+='						style="height: 30px; width: 50px"> <i                                                                                                    ';
+	$str+='						class="icon-upload icon-white"></i> <span>上传</span>                                                                                    ';
+	$str+='					</a>                                                                                                                                         ';
+	$str+='				</div>                                                                                                                                           ';
+	$str+='			</div>                                                                                                                                               ';
+	$str+='		</div>																																			         ';
+	*/
+	
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
 	if(thisIndex > 0)
 	$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
 	$str+='</tr>                                                                                                                                                                                          ';
 	$("#addTr").append($str);
+	/*var value = thisIndex;
+	AistUpload.init('picFileupload'+value, 'picContainer'+value,'templateUpload'+value, 'templateDownload'+value, updFun22,'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i');
+	*//**监听 div 执行自动上传*//*
+	$("#picContainer"+value).bind('DOMNodeInserted', function(e) {
+		var picDiv=$("div[name='allPicDiv1']");
+		var input=$("input[name='picTag']");
+		if(picDiv.length > input.length) {
+			index++;
+			if(index % 2 == 0) {
+				//alert("执行自动上传");
+				index = 0;
+				$("#startUpload").click();
+			}
+		}
+	});*/
+	
+	//console.log($str);
 	cleanPkid();
 }
+var updFun22 = function(e) {
+	var that = $(this).data('blueimp-fileupload')
+			|| $(this).data('fileupload');
+	that._resetFinishedDeferreds();
+	that._transition($(this).find('.fileupload-progress'))
+			.done(function() {
+				that._trigger('started', e);
+			});
+};
 //删除入账申请信息tr
 function getDel(k){
     $(k).parents('tr').remove();
@@ -94,26 +159,19 @@ function getFormData(){
 	var data = $("#teacForm").serialize();
 }
 
+
 //保存起草提交
 function saveRe(){
-	
-	
-	//test
-	alert("saveRe");
-	 if(!deleteAndModify()){
-		  return false;
-	  }
-	 return ;
-	//test 
-	 
-	 
-	 
-	 
-	 
 	/*if(!confirm("保存入账申请信息数据！")){
 	  return false;
     }*/
 //提交页面的参数
+	 //保存必填项
+	/*if(!checkFormSave()){
+		  return false;
+	  }*/
+	
+	
 	var data = $("#teacForm").serialize();
 	//console.log(params);
 	var url = ctx+"/spv/task/cashflowIntApply/saveDate";
@@ -143,22 +201,22 @@ function saveRe(){
 							$("#ToSpvReceiptPkid").val(s[j+1]);
 					}
 				}
+				 //保存附件
+				/* if(!deleteAndModify()){
+					  return false;
+				  }*/
+				 //window.opener.location.reload(); //刷新父窗口
 			}
-			alert("121_"+data.success);
 			if(data.success){
 				alert("保存数据成功！");
 			}else{
 				alert("数据保存出错："+$("#toSpvCashFlowApplyPkid").val()+":"+$("#ToSpvCashFlowPkid").val()+":"+$("#ToSpvReceiptPkid").val());
 			}
-			
-			//alert("保存数据成功！");
-			alert($("#toSpvCashFlowApplyPkid").val()+":"+$("#ToSpvCashFlowPkid").val()+":"+$("#ToSpvReceiptPkid").val());
-			
+			//alert($("#toSpvCashFlowApplyPkid").val()+":"+$("#ToSpvCashFlowPkid").val()+":"+$("#ToSpvReceiptPkid").val());
 		},complete: function() { 
 		},
 		error : function(errors) {
 		}
-		
 	});
 }
 
@@ -168,6 +226,10 @@ function cleanPkid(){
 	$("#ToSpvReceiptPkid").val("")
 }
 
+//保存必填项
+function checkFormSave(){
+	
+}
 
 
 

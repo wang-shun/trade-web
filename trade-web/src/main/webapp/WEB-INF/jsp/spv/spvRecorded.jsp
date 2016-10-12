@@ -166,20 +166,20 @@
                                     </tbody>
                                     	<!-- 附件上传 -->
                                     	
-                                    	<td>
-                                            <c:choose>
+                                    	<!-- <td> -->
+                   <%--                          <c:choose>
 					<c:when test="${accesoryList!=null}">
 						<c:forEach var="accesory" items="${accesoryList}"
-							varStatus="status">
-							<div class="" id="fileupload_div_pic">
+							varStatus="status"> --%>
+							<%-- <div class="" id="fileupload_div_pic">
 								<form id="fileupload"
 									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 									method="POST" enctype="multipart/form-data">
 									<noscript>
 										<input type="hidden" name="redirect"
 											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-										<%-- <input type="hidden" id="preFileCode" name="preFileCode"
-											value="${accesory.type }"> --%>
+										<input type="hidden" id="preFileCode" name="preFileCode"
+											value="${accesory.type }">
 									</noscript>
 										<div class="" >
 											<div role="presentation" >
@@ -201,11 +201,11 @@
 											</div>
 										</div>
 								</form>
-							</div>
+							</div> --%>
 		
-							<div class="row-fluid">
+						<%-- 	<div class="row-fluid">
 								<div class="">
-									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
+									<script id="templateUpload0" type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 									<!--图片缩图  -->
@@ -236,7 +236,7 @@
 							    </div>
 							{% } %}
 						</script>
-									<script id="templateDownload${accesory.pkid }"
+									<script id="templateDownload0"
 										type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
@@ -245,7 +245,7 @@
 							        {% } else { %}
 							            <div class="preview span12">
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<%-- <input type="hidden" name="picTag" value="${accesory.type }"></input>--%>
+										<input type="hidden" name="picTag" value="${accesory.type }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.id) { %}
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
@@ -278,14 +278,14 @@
 							</div>
 						</div>
 					</c:when>
-				</c:choose>
+				</c:choose> --%>
                                                <%--  <a class="response" href="${ctx }/static_res/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
                                                 <a class="response" href="${ctx }/static_res/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a> --%>
                                                 <%-- <span class="btn_file">
                                                     <input type="file" class="file" />
                                                     <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
                                                 </span> --%>
-                                            </td>
+                                          <!--   </td> -->
                                     	
                                     	<!-- 附件上传 -->
                                     
@@ -307,65 +307,45 @@
 
         </div>
     </div>
+<content tag="local_script">
 <!-- Mainly scripts -->
 <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-<script src="${ctx}/static/trans/js/spv/spvReDetails.js"></script>
 <script src="${ctx}/static/js/bootstrap.min.js"></script>
 <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
+	  <!-- 上传附件相关 --> 
+<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
 
-  <!-- 上传附件相关 --> 
-   <%--  <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
+src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+<script
+	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>  --%>
+<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	<!-- 上传附件 结束 -->
-	
-	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
-
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	
 	<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachmentPostIn.js"></script>
 
 <!-- Custom and plugin javascript -->
-    <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script>
-    <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
-    <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
-    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-    <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
+ <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script>
+ <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
+ <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
+ <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+ <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 
+<script src="${ctx}/static_res/trans/js/spv/spvReDetails.js"></script>
 
 
 
@@ -392,6 +372,7 @@ function rescCallbocak(){
 
 </script>
 <input type="hidden" id="ctx" value="${ctx}" />
+</content>
 </body>
 
 </html>

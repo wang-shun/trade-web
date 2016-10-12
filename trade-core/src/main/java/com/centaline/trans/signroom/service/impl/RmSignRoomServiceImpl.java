@@ -309,7 +309,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	public void deleteSignRoom(RmSignRoom rmSignRoom) {
 		// rmRoomScheStragegyMapper.deleteRmRoomScheStragegyByPkid(rmSignRoom.getStragegyPkid());
 		rmSignRoomMapper.deleteRmSignRoomById(rmSignRoom.getPkid());
-
+		rmRoomScheduleMapper.deleteRmRoomScheduleByRoomId(rmSignRoom.getPkid());
 	}
 
 	@Override

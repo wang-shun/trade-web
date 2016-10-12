@@ -91,6 +91,16 @@
 .linehgl30 {
     line-height: 1.5rem;
 }
+
+
+.clearfix:before,.clearfix:after  {
+  display: table;
+  content: " ";
+  clear: both;
+}
+.overvisible {
+    overflow: visible;
+}
 .text-grey {
     color: #757575;
 }

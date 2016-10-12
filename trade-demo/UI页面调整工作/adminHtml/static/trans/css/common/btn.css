@@ -29,7 +29,9 @@
 .mr30 {
   margin-right: 20px!important;
 }
-
+.mt3 {
+  margin-top: 3px!important;
+}
 .mt5 {
   margin-top: 5px!important;
 }
@@ -139,7 +141,7 @@
     color: #333;
 }
 .btn-icon {
-  padding: 5px 12px;
+    padding: 5px 12px;
 }
 .btn-toggle {
     color: #1a7bb9;
@@ -148,7 +150,7 @@
     outline: none!important;
 }
 .btn-toggle:hover,.btn-toggle:focus {
-     color: #1a7bb9;
+    color: #1a7bb9;
 }
 
 .btn-bg {
@@ -158,9 +160,28 @@
     color: #fff;
 }
 .btn-bg:hover,.btn-bg:focus {
-     color: #fff;
+    color: #fff;
+}
+.btn-blue {
+    color: #1a7bb9;
+    border: 1px solid #1a7bb9;
+    background: #fff;
+    outline: none!important;
+}
+.btn-blue:hover,.btn-blue:focus {
+  color: #fff;
+  background-color: #1a7bb9;
+  border: 1px solid #1a7bb9;
 }
 .selected-mark {
     color: #00b7f1;
     border: 1px solid #00b7f1;
+}
+.chackTextarea {
+    width:490px;
+    max-width: 490px;
+    height: 35px;
+    min-height:35px!important;
+    border: 1px solid #eee;
+    overflow:hidden;
 }

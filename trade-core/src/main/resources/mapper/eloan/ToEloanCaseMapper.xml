@@ -356,6 +356,12 @@
       <if test="isRelFinish != null" >
         IS_REL_FINISH = #{isRelFinish,jdbcType=CHAR},
       </if>
+       <if test="createTime  != null" >
+        CREATE_TIME  = #{createTime ,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy  != null" >
+        CREATE_BY  = #{createBy ,jdbcType=VARCHAR},
+      </if>
 <!--         CREATE_TIME = GETDATE(),
         CREATE_BY = @{SESSION_USER_ID}, -->
         UPDATE_TIME = GETDATE(),
@@ -443,6 +449,12 @@
       </if>
       <if test="isRelFinish != null" >
         IS_REL_FINISH = #{isRelFinish,jdbcType=CHAR},
+      </if>
+      <if test="createTime  != null" >
+        CREATE_TIME  = #{createTime ,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy  != null" >
+        CREATE_BY  = #{createBy ,jdbcType=VARCHAR},
       </if>
 <!--         CREATE_TIME = GETDATE(),
         CREATE_BY = @{SESSION_USER_ID}, -->
@@ -533,6 +545,12 @@
       </if>
       <if test="isRelFinish != null" >
         IS_REL_FINISH = #{isRelFinish,jdbcType=CHAR},
+      </if>
+      <if test="createTime  != null" >
+        CREATE_TIME  = #{createTime ,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy  != null" >
+        CREATE_BY  = #{createBy ,jdbcType=VARCHAR},
       </if>
 <!--         CREATE_TIME = GETDATE(),
         CREATE_BY = @{SESSION_USER_ID}, -->

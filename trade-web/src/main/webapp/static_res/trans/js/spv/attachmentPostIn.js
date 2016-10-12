@@ -16,7 +16,6 @@ var isCrucial;
 var dataLength=0;
 // 获取上传成功的图片的信息，包括ID，类型
 function getUploadPicOkInfo() {
-	alert("getUploadPicOkInfo");
 	// 每次选择的时候清空
 	picIdArr = [];
 	picTypeArr = [];
@@ -50,8 +49,7 @@ function getUploadPicOkInfo() {
 }
 //初始化
 $(function() {
-	alert("1");
-	/**上传备件初始化*/
+/*	*//**上传备件初始化*//*
 	var updFun = function(e) {
 		var that = $(this).data('blueimp-fileupload')
 				|| $(this).data('fileupload');
@@ -63,12 +61,9 @@ $(function() {
 	};
 
 	$.each(idList, function(index, value){
-		alert("2");
-		alert(value+"=="+index);
 		AistUpload.init('picFileupload'+value, 'picContainer'+value,
 				'templateUpload'+value, 'templateDownload'+value, updFun,'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i');
-		alert(13);
-		/**监听 div 执行自动上传*/
+		*//**监听 div 执行自动上传*//*
 		$("#picContainer"+value).bind('DOMNodeInserted', function(e) {
 			var picDiv=$("div[name='allPicDiv1']");
 			var input=$("input[name='picTag']");
@@ -82,15 +77,13 @@ $(function() {
 			}
 		});
 	});
-	/**上传备件初始化结束*/
-	alert("2222");
-    getExplPicByhouseCode();
+	*//**上传备件初始化结束*//*
+    getExplPicByhouseCode();*/
 
 });
 
 //
 function getExplPicByhouseCode() {
-	alert("3");
 	$.ajax({
 		type : 'post',
 		cache : false,
@@ -106,6 +99,7 @@ function getExplPicByhouseCode() {
 //					dataLength=data.attList.length;
 			//将返回的数据进行包装
 			$.each(attachList, function(index, attach){
+				alert(5);
 				//实勘描述
 				if(!$("#picContainer"+attach.pkid)[0])return true;
 				var trStr = "";
@@ -126,7 +120,7 @@ function getExplPicByhouseCode() {
 			});
 		},
 		error : function(errors) {
-			alert("产调加载失败");
+			alert("加载失败！");
 			return false;
 		}
 	});
@@ -145,22 +139,22 @@ function subAddFrom() {
 		cache : true,
 		async : false,//false同步，true异步
 		type : "POST",
-		url : ctx+'/spv/saveCashFolwApplyAttachment',
+		url : ctx+'/spv/saveSpvReceipt',
 		dataType : "json",
 		data : [ {
 			name : 'pictureNo',
 			value : picIdArr
 		},{
-			name : 'cashFlowApplyCode',
-			value : $("#businessKey").val(),
+			name : 'cashFlowCode',
+			value : $("#ToSpvCashFlowPkid").val(),
 		}
-		/*, {
+		, {
 			name : 'framePart',
 			value : picTypeArr
 		},{
 			name : 'picName',
 			value :  picNameArr
-		}*/,{
+		},{
 			name : 'pkIdArr',
 			value :  pkIdArr
 		}],
@@ -200,22 +194,22 @@ function subUpdFrom() {
 			cache : true,
 			async : false,//false同步，true异步
 			type : "POST",
-			url : ctx+'/spv/saveCashFolwApplyAttachment',
+			url : ctx+'/spv/saveSpvReceipt',
 			dataType : "json",
 			data : [{
 				name : 'pictureNo',
 				value : picIdArr
 			},{
-				name : 'cashFlowApplyCode',
-				value : $("#businessKey").val(),
+				name : 'cashFlowCode',
+				value : $("#ToSpvCashFlowPkid").val(),
 			}
-			/*, {
+			, {
 				name : 'framePart',
 				value : picTypeArr
 			},{
 				name : 'picName',
 				value :  picNameArr
-			}*/,{
+			},{
 				name : 'pkIdArr',
 				value :  pkIdArr
 			}],
