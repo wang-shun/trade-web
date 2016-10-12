@@ -1055,4 +1055,28 @@ public class SpvController {
    	//	return  "forward:" +url;
    		return  url;
    	}
+    
+    /**
+	 * @Title: saveSpvReceipt 
+	 * @Description: 修改(添加、删除)回单小票附件
+	 * @author: hejf 
+	 * @param toSpvCashFlowApplyAttach
+	 * @return response
+	 * @throws
+	 */
+	@RequestMapping(value = "saveSpvReceipt")
+	@ResponseBody
+	public AjaxResponse<String> saveSpvReceipt(FileUploadVO fileUploadVO,String cashFlowCode) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			cashFlowInService.saveAttachments(fileUploadVO,cashFlowCode);
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setSuccess(false);
+			response.setMessage("保存失败！");
+			e.printStackTrace();
+		}
+		return response;
+	}
+    
 }
