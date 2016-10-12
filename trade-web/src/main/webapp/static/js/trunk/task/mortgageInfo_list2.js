@@ -1014,8 +1014,6 @@ function getParamsValue() {
 		
 		realhtTimeStart = start;
 		realhtTimeEnd = end;
-		alert(realhtTimeStart);
-		alert(realhtTimeEnd);
 		params.realhtTimeStart = realhtTimeStart;
 		params.realhtTimeEnd = realhtTimeEnd;
 	}
