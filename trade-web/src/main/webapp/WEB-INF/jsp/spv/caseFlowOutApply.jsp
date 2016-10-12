@@ -66,7 +66,11 @@
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
 		<input type="hidden" id="handle" name="handle" value="${handle }">
 		<input type="hidden" id="spvCode" name="spvCode" value="${spvCode }">
+		<%--附件id --%>
+		<input type="hidden" id="insertAttachIdArrStr" name="insertAttachIdArrStr" value="">
 		</form>
+		<input type="hidden" id="totalCashFlowInAmount" value="${totalCashFlowInAmount }" >
+		<input type="hidden" id="totalCashFlowOutAmount" value="${totalCashFlowOutAmount }" >
 		<!-- main Start -->
             <!-- main Start -->
 
@@ -219,12 +223,12 @@
                                         </tr>
                                         </thead>
                                         <tbody> 
-                                        <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
+                                        <c:forEach items="${cashFlowList}" var="cashFlow" varStatus="status2">
                                         <tr>
                                             <td>
                                                 <p class="big">
                                                     <a href="javascript:void(0);">
-                                                        ${spvCaseFlowOutInfoVO.toSpvCashFlow.cashflowApplyId }
+                                                        ${cashFlow.cashflowApplyId }
                                                     </a>
                                                 </p>
                                                 <p>
@@ -237,25 +241,25 @@
                                             <td>
                                                 <p class="big">
                                                     <span class="sign_normal navy_bg">
-                                                    ${spvChargeInfoVO.toSpvCashFlowApply.usage eq in?'入账':'出账' }
+                                                    ${cashFlow.usage eq in?'入账':'出账' }
                                                     </span>
                                                 </p>
                                                 <p class="big">
-                                                    ${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }万
+                                                    ${cashFlow.amount }万
                                                 </p>
                                             </td>
                                             <td>
-                                                <p><span class="pink">付：</span>${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }&nbsp;&nbsp;${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }/${spvCaseFlowOutInfoVO.toSpvCashFlow.payerBank }</p>
-                                                <p><span class="navy">收：</span>${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }&nbsp;&nbsp;${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverAcc }/${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverBank }</p>
+                                                <p><span class="pink">付：</span>${cashFlow.payer }&nbsp;&nbsp;${cashFlow.payerAcc }/${cashFlow.payerBank }</p>
+                                                <p><span class="navy">收：</span>${cashFlow.receiver }&nbsp;&nbsp;${cashFlow.receiverAcc }/${cashFlow.receiverBank }</p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
                                                     <i class="sign_normal">录入</i>
-                                                    <a href="javascript:void(0)">${createByName }&nbsp;</a><fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.createTime }" pattern="yyyy-MM-dd"/>
+                                                    <a href="javascript:void(0)">${cashFlow.createByName }&nbsp;</a><fmt:formatDate value="${cashFlow.createTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                                 <p class="smll_sign">
                                                     <i class="sign_normal">结束</i>             
-                                                    <fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                    <fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                             </td>
                                             <td>
@@ -264,12 +268,12 @@
                                                 </p>
                                                 <p class="smll_sign">
                                                     审核人：<a href="javascript:void(0)">
-                                                    ${empty applyAuditorName?'?':applyAuditorName }&gt;${empty ftPreAuditorName?'?':ftPreAuditorName }&gt;${empty ftPostAuditorName?'?':ftPostAuditorName }</a>
+                                                    ${empty cashFlow.applyAuditorName?'?':cashFlow.applyAuditorName }&gt;${empty cashFlow.ftPreAuditorName?'?':cashFlow.ftPreAuditorName }&gt;${empty cashFlow.ftPostAuditorName?'?':cashFlow.ftPostAuditorName }</a>
                                                 </p>
                                             </td>
                                         </tr>
                                         </c:forEach>
-                                        <c:if test="${empty spvChargeInfoVO.spvCaseFlowOutInfoVOList }">
+                                        <c:if test="${empty cashFlowList }">
                                         <tr><td colspan="5">没有相关信息</td></tr>
                                         </c:if>
                                         </tbody>
@@ -279,9 +283,9 @@
                             </div>
                         </div>
                         <form id="workFolwApplyForm" style="display:none;">
-                              <input type="hidden" name="toSpvCashFlowApply.pkId" value="${spvCaseFlowOutInfoVO.toSpvCashFlowApply.pkId }" />
+                              <input type="hidden" name="toSpvCashFlowApply.pkid" value="${spvChargeInfoVO.toSpvCashFlowApply.pkid }" />
                               <input type="hidden" name="toSpvCashFlowApply.cashflowApplyCode" value="${spvChargeInfoVO.toSpvCashFlowApply.cashflowApplyCode }" />
-                              <input type="hidden" name="toSpvCashFlowApply.spvCode" value="${spvCode }" />
+                              <input type="hidden" name="toSpvCashFlowApply.spvCode" value="${empty spvCode?spvChargeInfoVO.toSpvCashFlowApply.spvCode:spvCode }" />
                               <input type="hidden" name="toSpvCashFlowApply.usage" value="out" />
                         </form>
                         <div class="mt20">
@@ -296,7 +300,7 @@
                                         <th>附件</th>
                                         </thead>
                                         <tbody id="addTr2">
-                                        <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status3">
+                                        <%-- <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status3"> --%>
                                         <tr>
                                             <td width="310">
                                                 <aist:dict id="" name="" clazz="form-control input-one"
@@ -304,16 +308,16 @@
 									            ligerui='none' defaultvalue="" ></aist:dict>
                                             </td>
                                             <td>
-                                                <%-- <span class="btn_file">
+                                                <span class="btn_file">
                                                     <input type="file" class="file" />
                                                     <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
-                                                </span> --%>
+                                                </span> 
                                             </td>
                                         </tr>
-                                        </c:forEach>
-                                        <c:if test="${empty spvChargeInfoVO.toSpvCashFlowApplyAttachList }">
+                                        <%-- </c:forEach> --%>
+                                        <%-- <c:if test="${empty spvChargeInfoVO.toSpvCashFlowApplyAttachList }">
                                         <tr><td colspan="5">没有相关信息</td></tr>
-                                        </c:if>
+                                        </c:if> --%>
                                         </tbody>
                                     </table>
 
@@ -322,11 +326,11 @@
                         </div>
                         <div class="mt20">
                             <div class="agree-tile">
-                                出账流水信息
+                                出账申请信息
                             </div>
                             <form class="form-inline table-capital">
                                 <div class="table-box" >
-                                    <table class="table table-bordered customerinfo">
+                                    <table class="table table-bordered customerinfo" id="cashFlowTable">
                                         <thead>
                                         <th style="width: 100px;">付款人姓名</th>
                                         <th>付款人账户</th>
@@ -337,25 +341,27 @@
                                         <th>操作</th>
                                         </thead>
                                         <tbody id="addTr">
+                                        <%-- <c:if test="${not empty spvChargeInfoVO.spvCaseFlowOutInfoVOList }">
+                                        <c:forEach items="spvChargeInfoVO.spvCaseFlowOutInfoVOList" var="spvCaseFlowOutInfoVO" varStatus="status">
                                         <tr>
                                             <td>
-                                                <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payer" />
+                                                <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="spvCaseFlowOutInfoVOList[${status.index }].toSpvCashFlow.payer" />
                                             </td>
                                             <td>
-                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payerAcc" /></p>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" name="spvCaseFlowOutInfoVOList[${status.index }].toSpvCashFlow.payerAcc" /></p>
                                                 <p>
-                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payerBank" /></p>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList[${status.index }].toSpvCashFlow.payerBank" /></p>
                                                 <p>
                                             </td>
 
                                             <td class="text-left" >
-                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.amount" />万
+                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" name="spvCaseFlowOutInfoVOList[${status.index }].toSpvCashFlow.amount" />万
                                             </td>
                                             <td>
-                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.voucherNo" />
+                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[${status.index }].toSpvCashFlow.voucherNo" />
                                             </td>
                                             <td>
-                                                <select name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.direction" class="table-select boderbbt" onChanege="this.value">
+                                                <select name="spvCaseFlowOutInfoVOList[${status.index }].toSpvCashFlow.direction" class="table-select boderbbt" onChanege="this.value">
                                                     <option value="">请选择</option>
                                                     <option value="转账">转账</option>
                                                     <option value="刷卡">刷卡</option>
@@ -374,19 +380,21 @@
 									<noscript>
 										<input type="hidden" name="redirect"
 											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-										<%-- <input type="hidden" id="preFileCode" name="preFileCode"
-											value="${accesory.type }"> --%>
+										<input type="hidden" id="preFileCode" name="preFileCode"
+											value="${accesory.accessoryCode }">
 									</noscript>
 										<div class="" >
-											<div role="presentation" >
+											<div role="presentation" >											    
 												<div id="picContainer${accesory.pkid }" class="files"
 													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+												<c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }">	
 												<a id="chandiaotuBtn" class="response" href="${ctx }/static_res/trans/img/uplody01.png"  title="凭证3">
 												<button type="button" class="btn btn-sm btn-default">凭证3
                                                 <c:if test="${empty handle or handle eq 'apply' }"><i class="icon iconfont icon_x">&#xe60a;</i></c:if>
                                                 <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }"><i class="icon iconfont icon_y">&#xe635;</i></c:if>
                                                 </button>
 												</a>
+												</c:forEach>
 												<span class="btn_file">
                                                     <input id="picFileupload${accesory.pkid }" type="file" class="file"
 													name="files[]" multiple
@@ -441,7 +449,7 @@
 							        {% } else { %}
 							            <div class="preview span12">
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<%-- <input type="hidden" name="picTag" value="${accesory.type }"></input>--%>
+										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.id) { %}
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
@@ -476,6 +484,159 @@
 					</c:when>
 				</c:choose>
                                                <%--  <a class="response" href="${ctx }/static_res/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                <a class="response" href="${ctx }/static_res/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
+                                                <span class="btn_file">
+                                                    <input type="file" class="file" />
+                                                    <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
+                                                </span>
+                                            </td>
+                                            <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
+                                            </td>
+                                        </tr>
+              </c:forEach></c:if>  
+              --%>
+                                   <tr>
+                                            <td>
+                                                <input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payer" />
+                                            </td>
+                                            <td>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payerAcc" /></p>
+                                                <p>
+                                                <p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.payerBank" /></p>
+                                                <p>
+                                            </td>
+
+                                            <td class="text-left" >
+                                                <input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.amount" />万
+                                            </td>
+                                            <td>
+                                                <input class="table_input boderbbt" type="text" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.voucherNo" />
+                                            </td>
+                                            <td>
+                                                <select name="spvCaseFlowOutInfoVOList[0].toSpvCashFlow.direction" class="table-select boderbbt" onChanege="this.value">
+                                                    <option value="">请选择</option>
+                                                    <option value="转账">转账</option>
+                                                    <option value="刷卡">刷卡</option>
+                                                    <option value="现金">现金</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                            <c:choose>
+					<c:when test="${accesoryList!=null}">
+						<c:forEach var="accesory" items="${accesoryList}"
+							varStatus="status">
+							<div class="" id="fileupload_div_pic">
+								<form id="fileupload"
+									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+									method="POST" enctype="multipart/form-data">
+									<noscript>
+										<input type="hidden" name="redirect"
+											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+										<input type="hidden" id="preFileCode" name="preFileCode"
+											value="${accesory.accessoryCode }">
+									</noscript>
+										<div class="" >
+											<div role="presentation" >											    
+												<div id="picContainer${accesory.pkid }" class="files"
+													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+											    <%-- <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }">--%>
+												<a id="chandiaotuBtn" class="response" href="${ctx }/static_res/trans/img/uplody01.png"  title="凭证3">
+												<button type="button" class="btn btn-sm btn-default">凭证3
+                                                <c:if test="${empty handle or handle eq 'apply' }"><i class="icon iconfont icon_x">&#xe60a;</i></c:if>
+                                                <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }"><i class="icon iconfont icon_y">&#xe635;</i></c:if>
+                                                </button>
+												</a>
+												<%-- </c:forEach>--%>
+												<span class="btn_file">
+                                                    <input id="picFileupload${accesory.pkid }" type="file" class="file"
+													name="files[]" multiple
+													data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+													data-sequential-uploads="true">
+                                                    <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
+												</span>
+											</div>
+										</div>
+								</form>
+							</div>
+		
+							<div class="row-fluid">
+								<div class="">
+									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+									<!--图片缩图  -->
+							        <div class="preview"><span class="fade"></span></div>
+									<!--  错误信息 -->
+							        {% if (file.error) { %}
+							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else if (o.files.valid && !i) { %}
+									<!-- 单个对应的按钮  -->
+							            <div class="start span1" style="display: none">
+										{% if (!o.options.autoUpload) { %}
+							                <button class="btn">
+							                    <i class="icon-upload icon-white"></i>
+							                    <span>上传</span>
+							                </button>
+							            {% } %}
+										</div>
+							        {% } else { %}
+							            <div class="span1" colspan="2"></div>
+							        {% } %}
+							        <div class="cancel" style="margin-top:-125px;margin-left:85%;">
+									{% if (!i) { %}
+							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        {% } %}
+									</div>
+							    </div>
+							{% } %}
+						</script>
+									<script id="templateDownload${accesory.pkid }"
+										type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+							        {% if (file.error) { %}
+							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else { %}
+							            <div class="preview span12">
+										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
+										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
+										<input type="hidden" name="picName" value="{%=file.name%}"></input>
+							            {% if (file.id) { %}
+                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
+							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
+                                              {% } else { %}
+ 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
+  											  {% } %}
+							            {% } %}</div>
+							        {% } %}
+							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
+							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        </div>
+							    </div>
+							{% } %}
+						</script>
+								</div>
+							</div>
+						</c:forEach>
+		
+						<div class="row-fluid" style="display: none;">
+							<div class="span4">
+								<div class="control-group">
+									<a class="btn blue start" id="startUpload"
+										style="height: 30px; width: 50px"> <i
+										class="icon-upload icon-white"></i> <span>上传</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</c:when>
+
+				</c:choose>
+                                               <%--  <a class="response" href="${ctx }/static_res/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
                                                 <a class="response" href="${ctx }/static_res/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a> --%>
                                                 <%-- <span class="btn_file">
                                                     <input type="file" class="file" />
@@ -485,7 +646,6 @@
                                             <td align="center"><a href="javascript:void(0)" onClick="getAtr(this)">添加</span></a>
                                             </td>
                                         </tr>
-
                                         </tbody>
                                     </table>
 
@@ -500,10 +660,10 @@
                         <div class="view-content">
                             <div class="view-box">
                             <c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status4">
-                            <input type="hidden" name="toSpvAduitList[${status4.index }].pkId" value="${toSpvAduit.pkId }" />
+                            <input type="hidden" name="toSpvAduitList[${status4.index }].pkid" value="${toSpvAduit.pkid }" />
                             <div class="view clearfix">
                                 <p>
-                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }(${toSpvAduit.operatorJobName })</em></span>
+                                   <span class="auditor">审核人：<em>${toSpvAduit.operatorName }(${toSpvAduit.operatorJobName })</em></span>
                                    <span class="result pink_bg">${toSpvAduit.result }</span>
                                    <span class="time">审核日期:<em><fmt:formatDate value="${toSpvAduit.createTime }" pattern="yyyy-MM-dd"/> </em></span>
                                 </p>
@@ -617,12 +777,12 @@ $(function() {
 $('.response').responsivegallery();
 
 
-var sum = 1;
+var sum = parseInt("${fn:length(spvChargeInfoVO.spvCaseFlowOutInfoVOList)}")+1;
 
 function getAtr(i){
     $str='';
     $str+="<tr>";
-    $str+="<input type='hidden' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.pkId' >";
+    $str+="<input type='hidden' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.pkid' >";
     $str+=" <td><input class='table-input-one' type='text' placeholder='请输入姓名' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payer' /></td>";
     $str+="<td><p><input class='table_input' type='text' placeholder='请输入银行卡号' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payerAcc' /></p><p><input class='table_input' type='text' placeholder='请输入银行名称' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.payerBank' /></p></td>";
     $str+="<td><input style='border:none;width: 50px;' type='text' placeholder='金额' name='spvCaseFlowOutInfoVOList["+sum+"].toSpvCashFlow.amount' />万</td>";

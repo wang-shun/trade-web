@@ -15,6 +15,9 @@ public class ToSpvAduit {
 
     private String operator;
     
+    //审核人姓名
+    private String operatorName;
+    
     //审核人职位
     private String operatorJobName;
 
@@ -76,9 +79,17 @@ public class ToSpvAduit {
 
     public void setOperator(String operator) {
         this.operator = operator == null ? null : operator.trim();
-    }
+    }  
+    
+    public String getOperatorName() {
+		return operatorName;
+	}
 
-    public String getOperatorJobName() {
+	public void setOperatorName(String operatorName) {
+		this.operatorName = operatorName;
+	}
+
+	public String getOperatorJobName() {
 		return operatorJobName;
 	}
 

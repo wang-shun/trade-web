@@ -52,7 +52,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach"   useGeneratedKeys="true" keyProperty="pkid" >
     insert into sctrans.T_TO_SPV_CASHFLOW_APPLY_ATTACH
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
