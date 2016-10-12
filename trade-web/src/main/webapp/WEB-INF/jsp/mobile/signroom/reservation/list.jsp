@@ -13,7 +13,7 @@
     <!--time css-->
     <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/mobiscroll.css" />
     <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/mobiscroll_date.css" />
-
+    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/loaders.css" />
 </head>
 <body>
 
@@ -68,7 +68,9 @@
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/api.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-dialog.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-main.js"></script>
+<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-toast.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/layer.js"></script>
+<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery.showLoading.min.js"></script>
 
 <!--time-->
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/mobiscroll_date.js" charset="gb2312"></script>
