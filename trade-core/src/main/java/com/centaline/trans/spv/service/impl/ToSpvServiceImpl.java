@@ -1041,7 +1041,26 @@ public class ToSpvServiceImpl implements ToSpvService {
 		
 		List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVOList = spvChargeInfoVO.getSpvCaseFlowOutInfoVOList();
 		if(spvCaseFlowOutInfoVOList != null && !spvCaseFlowOutInfoVOList.isEmpty()){
-			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO:spvCaseFlowOutInfoVOList){
+			
+			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid());
+			for(ToSpvCashFlow cashFlow : toSpvCashFlowList){
+				cashFlow.setUpdateBy(user.getId());
+				cashFlow.setUpdateTime(new Date());
+				cashFlow.setIsDeleted("1");
+				toSpvCashFlowMapper.updateByPrimaryKeySelective(cashFlow);
+			}
+			
+			List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVONewList = new ArrayList<SpvCaseFlowOutInfoVO>();
+			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO : spvCaseFlowOutInfoVOList){
+				ToSpvCashFlow caSpvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
+				if(!(caSpvCashFlow.getPayer() == null || caSpvCashFlow.getPayerAcc() == null || caSpvCashFlow.getPayerBank() == null
+						|| caSpvCashFlow.getAmount() == null || caSpvCashFlow.getVoucherNo() == null || caSpvCashFlow.getDirection() == null)){
+					spvCaseFlowOutInfoVONewList.add(spvCaseFlowOutInfoVO);
+				}
+			}
+			
+			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO:spvCaseFlowOutInfoVONewList){
+				
 				/**4.流水*/
 				ToSpvCashFlow toSpvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
 				if(toSpvCashFlow.getPkid() == null){
@@ -1054,9 +1073,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 				}else{
 					toSpvCashFlow.setUpdateBy(user.getId());
 					toSpvCashFlow.setUpdateTime(new Date());
+					toSpvCashFlow.setIsDeleted("0");
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
 				}
-				
+
 				/**5.贷记凭证*/
 				List<ToSpvVoucher> toSpvVoucherList = spvCaseFlowOutInfoVO.getToSpvVoucherList();
 				if(toSpvVoucherList != null && !toSpvVoucherList.isEmpty()){
@@ -1094,6 +1114,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				}
 				
 			}
+
 		}
 	
 	}
