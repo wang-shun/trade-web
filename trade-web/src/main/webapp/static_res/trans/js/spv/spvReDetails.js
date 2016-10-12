@@ -77,15 +77,19 @@ function checkReceiptNo(){
 	var theSameFlag = true;
 	var receiptNoArray = new Array();
 		receiptNoArray = $(".forvalue");
-	for(var i=0; i<receiptNoArray.length; i++){		
-		if(receiptNoArray[i].value == receiptNoArray[i+1].value){
-			theSameFlag=false;
-			alert("贷记凭证编号不能重复！");
-			if(theSameFlag==false){
-				break;
+	for(var i=0; i<receiptNoArray.length; i++){	
+		for(var j=receiptNoArray.length-1; j>=0 ;j--){
+				if(receiptNoArray[i].value == receiptNoArray[j].value){
+					theSameFlag=false;
+					alert("贷记凭证编号不能重复！");
+				}
+				if(theSameFlag==false){
+					break;
+				}
 			}
+		if(theSameFlag==false){
+			break;
 		}
-
 	}
 	return theSameFlag;
 }
