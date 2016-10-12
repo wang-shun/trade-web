@@ -56,6 +56,4 @@ public class SpvChargeInfoVO {
 		this.toSpvCashFlowApplyAttachList = toSpvCashFlowApplyAttachList;
 	}
 	
-	
-
 }

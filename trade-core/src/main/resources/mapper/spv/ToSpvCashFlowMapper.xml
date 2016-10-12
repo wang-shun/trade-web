@@ -46,6 +46,13 @@
     where CASHFLOW_APPLY_ID = #{cashFlowApplyId,jdbcType=BIGINT}
   </select>
   
+  <select id="selectByCashFlowListBySpvCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_CASHFLOW
+    where SPV_CODE = #{spvCode,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_SPV_CASHFLOW
     where PKID = #{pkid,jdbcType=BIGINT}

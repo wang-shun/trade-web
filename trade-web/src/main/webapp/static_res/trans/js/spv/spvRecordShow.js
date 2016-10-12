@@ -140,7 +140,10 @@ function turndown(){
 		
 	});
 }
-
+function rescCallbocak(){
+	   window.opener.location.reload(); //刷新父窗口
+	   window.close(); //关闭子窗口.
+	}
 
 
 

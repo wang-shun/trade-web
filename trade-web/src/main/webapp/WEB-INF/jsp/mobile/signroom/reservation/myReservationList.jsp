@@ -51,7 +51,8 @@
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 </html>
 <script id="template_myReservationList" type="text/html">
-      {{each rows as item index}}
+	  {{if rows.size > 0}}
+      	{{each rows as item index}}
   			<li class="aui-list-header header_grey_bg">
                 <i class="iconfont blue mr5">&#xe605;</i>{{item.actStartDate}}-{{item.actEndDate}}&nbsp;<span class="color80">{{item.resDate}}</span>
             </li>
@@ -96,4 +97,10 @@
                 </div>
             </li>  
       {{/each}}
+	{{else}}
+		<section class="aui-content  reminder-login">
+        	<img src="${ctx}/static/image/reminder.png" width="100%" alt="" />
+        	<h3 style="text-align:center">对不起，<br/>当天无签约室预约信息！</h3>
+    	</section>
+	{{/if}}
 </script> 

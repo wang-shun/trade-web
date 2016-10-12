@@ -39,8 +39,9 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
-<link href="${ctx}/css/transcss/case/caseDetail.css" rel="stylesheet" />
+
 <link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
+<link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 
 </head>

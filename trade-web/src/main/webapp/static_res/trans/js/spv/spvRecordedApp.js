@@ -19,7 +19,7 @@ function getTR(thisIndex){
 	$str+='		<input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="items['+thisIndex+'].payerName">                                                                                         ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="items['+thisIndex+'].payerAcc"></p>                                                                                   ';
+	$str+='		<p><input class="table_input boderbbt" type="text"placeholder="请输入银行卡号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="items['+thisIndex+'].payerAcc"></p>                                                                                   ';
 	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="items['+thisIndex+'].payerBank"></p>                                                                                  ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td class="text-left">                                                                                                                                                                     ';
@@ -29,9 +29,11 @@ function getTR(thisIndex){
 	$str+='		<input class="table_input boderbbt" type="text" placeholder="请输入编号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="items['+thisIndex+'].receiptNo">                                                                                             ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<select name="items['+thisIndex+'].voucherNo" class="table-select boderbbt">                                                                                                                                ';
+	$str+='		<select name="items['+thisIndex+'].voucherNo" class="table-select boderbbt" onChange="this.value">                                                                                                                                ';
 	$str+='			<option value="">请选择</option>                                                                                                                                                   ';
-	$str+='			<option value="">转账凭证</option>                                                                                                                                                 ';
+	$str+='			<option value="转账">转账</option>                                                                                                                                                 ';
+	$str+='			<option value="刷卡">刷卡</option>                                                                                                                                                 ';
+	$str+='			<option value="现金">现金</option>                                                                                                                                                 ';
 	$str+='		</select>                                                                                                                                                                              ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
@@ -47,6 +49,7 @@ function getTR(thisIndex){
 	$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
 	$str+='</tr>                                                                                                                                                                                          ';
 	$("#addTr").append($str);
+	cleanPkid();
 }
 //删除入账申请信息tr
 function getDel(k){
@@ -70,8 +73,7 @@ function getDelHtml(k,pkid){
          },
 		success : function(data) {
 			$(k).parents('tr').remove();
-			alert("删除成功！");
-			
+			window.location.reload(); 
 		},complete: function() { 
 		},
 		error : function(errors) {
@@ -84,6 +86,8 @@ function sumbitRe(){
 	$('#chargeInAppr').val(true);
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
+	/*var a =1;
+	return;*/
 	//console.log(params);
 	var url = ctx+"/spv/task/cashflowIntApply/deal";
 	$.ajax({
@@ -162,6 +166,10 @@ function saveRe(){
 		
 	});
 }
+function rescCallbocak(){
+	   window.opener.location.reload(); //刷新父窗口
+	   window.close(); //关闭子窗口.
+	}
 
 
 

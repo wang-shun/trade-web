@@ -75,7 +75,7 @@ function getDel(k){
 
 //提交
 function sumbitRe(){
-	if(!confirm("是否确定提交申请！")){
+	if(!confirm("是否确定提交申请，开启流程！")){
 	  return false;
     }
 	//提交页面的参数
@@ -92,18 +92,13 @@ function sumbitRe(){
 		beforeSend:function(){  
          },
 		success : function(data) {
-			 window.location.href = ctx+"/task/myTaskList";
-			/*if(data.ajaxResponse.success){
-				if(!handle){
-					alert("流程开启成功！");
-				}else{
-					alert("任务提交成功！");
-				}
+			// window.location.href = ctx+"/task/myTaskList";
+			if(data.success){
+				alert("流程开启成功！");
 			}else{
-				alert("数据保存出错1:"+data.ajaxResponse.message);
-			}*/
-			// window.location.href = ctx+"/spv/task/cashflowIntApply/spvRecordShow?pkid=";
-			
+				alert("任务提交成功！"+data.message); 
+			}
+			window.location.href = ctx+"/task/myTaskList";
 		},complete: function() { 
 		},
 		error : function(errors) {
@@ -119,9 +114,9 @@ function getFormData(){
 
 //保存起草提交
 function saveRe(){
-	/*if(!confirm("保存入账申请信息数据！")){
+	if(!confirm("保存入账申请信息数据！")){
 	  return false;
-    }*/
+    }
 //提交页面的参数
 	 //保存必填项
 	/*if(!checkFormSave()){
@@ -130,7 +125,6 @@ function saveRe(){
 	
 	
 	var data = $("#teacForm").serialize();
-	//console.log(params);
 	var url = ctx+"/spv/task/cashflowIntApply/saveDate";
 	$.ajax({
 		cache : false,
@@ -158,21 +152,17 @@ function saveRe(){
 							$("#ToSpvReceiptPkid").val(s[j+1]);
 					}
 				}
-				 //保存附件
-				/* if(!deleteAndModify()){
-					  return false;
-				  }*/
-				 //window.opener.location.reload(); //刷新父窗口
 			}
 			if(data.success){
 				alert("保存数据成功！");
 			}else{
-				alert("数据保存出错："+$("#toSpvCashFlowApplyPkid").val()+":"+$("#ToSpvCashFlowPkid").val()+":"+$("#ToSpvReceiptPkid").val());
+				alert("数据保存出错!");
+				//alert("数据保存出错!"+$("#toSpvCashFlowApplyPkid").val()+":"+$("#ToSpvCashFlowPkid").val()+":"+$("#ToSpvReceiptPkid").val());
 			}
-			//alert($("#toSpvCashFlowApplyPkid").val()+":"+$("#ToSpvCashFlowPkid").val()+":"+$("#ToSpvReceiptPkid").val());
 		},complete: function() { 
 		},
 		error : function(errors) {
+			alert("数据保存出错!"+errors);
 		}
 	});
 }
@@ -186,6 +176,9 @@ function cleanPkid(){
 //保存必填项
 function checkFormSave(){
 	
+}
+function rescCallbocak(){
+	window.location.href = ctx+"/spv/spvList";
 }
 
 

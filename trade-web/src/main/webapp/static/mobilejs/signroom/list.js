@@ -1,5 +1,7 @@
 
 var ctx = $("#ctx").val();
+var toast = new auiToast();
+var isReturn;
 
 var defaultTradeCenterId = $("#defaultTradeCenterId").val();
 var selDate = $("#SelDate").val();
@@ -9,6 +11,7 @@ $(function(){
 	init();
 	
 	$("#selBespeakTime").change(function(){
+		loading();
 		defaultTradeCenterId = $("#selTradeCenter option:selected").val();
 		selDate = $("#SelDate").val();
 		selBespeakTime = $("#selBespeakTime option:selected").val();
@@ -17,14 +20,40 @@ $(function(){
 	});
 	
 	$("#selTradeCenter").change(function(){
+		isReturn = false;
+		
+		loading();
+		
 		defaultTradeCenterId = this.value;
 		selDate = $("#SelDate").val();
 		selBespeakTime = $("#selBespeakTime option:selected").val();
 		
 		getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime);
 	});
-	
 });
+
+//显示加载效果
+function loading(){
+    layer.open({
+     className: 'popuo-loading',
+     type: 1,
+     shadeClose: false,
+     shade: false,
+   content: '<div class="item-loader-container">'
+         + '<div class="la-line-spin-clockwise-fade la-2x left">'
+         + '<div></div>'
+         + '<div></div>'
+         + '<div></div>'
+         + '<div></div>'
+         + '<div></div>'
+         + '<div></div>'
+         + '<div></div>'
+         + '<div></div>'
+         + '</div>'
+         + '<p class="dialog-head left font16 ml10">加载中...</p>'
+
+ })
+ };
 
 //取号
 function quhao(obj,selBespeakTime,numberOfPeople){
@@ -79,6 +108,8 @@ function initCalendar(){
         headerText: function (valueText) { array = valueText.split('-'); return array[0] + "年" + array[1] + "月"+array[2]+"日"; }, //自定义弹出框头部格式
 		//点击确定的事件
 		onSelect:function(valueText,inst){
+			loading();
+			
 			getBespeakTime();
 			
 			defaultTradeCenterId = $("#selTradeCenter option:selected").val();
@@ -221,8 +252,15 @@ function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 	}
 	
 	$("#reservationList").html(strHtml);
-	
+	isReturn = true;
 }
+
+
+setInterval(function(){
+	if(isReturn == true){
+		layer.closeAll('loading');
+	}
+},500)
 
 function getSignRoomByTime(defaultTradeCenterId,selDate,realSelBespeakTime){
 	var startTime = realSelBespeakTime.substring(0,realSelBespeakTime.indexOf("-"));
