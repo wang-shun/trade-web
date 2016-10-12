@@ -76,9 +76,9 @@ function getDel(k){
 function checkReceiptNo(){
 	var theSameFlag = true;
 	var receiptNoArray = new Array();
-	receiptNoArray = $(".forvalue");
+		receiptNoArray = $(".forvalue");
 	for(var i=0; i<receiptNoArray.length; i++){		
-		if(receiptNoArray[i].value==receiptNoArray[i+1].value){
+		if(receiptNoArray[i].value == receiptNoArray[i+1].value){
 			theSameFlag=false;
 			alert("贷记凭证编号不能重复！");
 			if(theSameFlag==false){
