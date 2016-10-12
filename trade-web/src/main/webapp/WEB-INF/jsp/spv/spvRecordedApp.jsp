@@ -190,13 +190,16 @@
 	                                                    </select>
 	                                                </td>
 	                                                <td>
-	                                                    <a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-	                                                    <a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-	                                                    <span class="btn_file">
-	                                                        <input type="file" class="file" />
-	                                                        <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
-	                                                    </span>
-	                                                    
+                                                	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
+	                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
+														<input type="hidden" name ="itemsApp[${status3.index}].fileId" value = "${toSpvReceiptList.attachId}"/>
+														<input type="hidden" name ="itemsApp[${status3.index}].fileName" value = "${toSpvReceiptList.comment}" />
+															<button type="button" class="btn btn-sm btn-default" >${toSpvReceiptList.comment}</button>
+																<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;
+																</i>
+															</button>
+														</a>
+                                                	 </c:forEach>    
 	                                                </td>
 	                                                <td align="center">
 		                                                <a href="javascript:void(0)" onClick="getTR(0)">添加</span></a>
@@ -247,7 +250,7 @@
 
         </div>
     </div>
-
+<content tag="local_script">
   <!-- Mainly scripts -->
 <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
 <script src="${ctx}/static/trans/js/spv/spvRecordedApp.js"></script>
@@ -261,8 +264,8 @@
 
 <!-- 上传附件相关 --> 
 <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script><%-- 
+<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>  --%>
 <script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
@@ -304,6 +307,6 @@ function rescCallbocak(){
 	}
 
 </script>
-
+</content>
 </body>
 </html>

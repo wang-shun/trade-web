@@ -138,8 +138,12 @@
                                                   <div class="big"> ${spvCaseFlowOutInfoVO.toSpvCashFlow.direction } </div>
                                               </td>
                                               <td>
-                                                  <a class="response" href="../static/trans/img/uplody01.png" title="凭证1"><button type="button" class="btn btn-sm btn-default" ><i class="icon iconfont icon_y">&#xe635;</i> 凭证1</button></a>
-                                                  <a class="response" href="../static/trans/img/uplody02.png" title="凭证2"><button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#showImg"  ><i class="icon iconfont icon_y">&#xe635;</i>凭证2</button></a>
+                                                  <c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
+                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
+														<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
+														<button type="button" class="btn btn-sm btn-default" >${toSpvReceiptList.comment}</button>
+													</a>
+                                               	 </c:forEach>
                                               </td>
                                           </tr>
                                        </c:forEach>

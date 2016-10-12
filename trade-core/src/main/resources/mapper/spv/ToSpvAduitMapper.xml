@@ -30,7 +30,7 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_AUDIT
-    where APPLY_ID = #{cashFlowApplyId,jdbcType=VARCHAR}  and IS_DELETED = 0
+    where APPLY_ID = #{cashFlowApplyId,jdbcType=VARCHAR}  
     order by CREATE_TIME desc
   </select>
   
