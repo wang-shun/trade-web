@@ -20,6 +20,7 @@ $(document).ready(function(){
 	$("#financeSecondAduit_pass_btn").click(function(){submitBtnClick(handle,true)});
 	$("#financeSecondAduit_reject_btn").click(function(){submitBtnClick(handle,false)});
 	$("#cashFlowOut_submit_btn").click(function(){submitBtnClick(handle)});
+
 });
 
 function checkFormSave(){
@@ -160,9 +161,11 @@ function changeClass(object){
 
 //保存按钮方法
 function saveBtnClick(){
-	  if(!deleteAndModify()){
-		  return false;
-	  }
+	if($("#addSum").val() != $("#doneSum").val()){
+		alert("请先上传图片成功后再提交");
+		return false;
+	}
+
 	  if(!checkFormSave()){
   		  return false;
   	  }
@@ -214,10 +217,6 @@ function saveBtnClick(){
 
 //提交、同意、驳回按钮方法
 function submitBtnClick(handle,chargeOutAppr){
-	  var data = {};
-	  if(!deleteAndModify()){
-		  return false;
-	  }
 	  if(!checkFormSubmit()){
 		  return false;
 	  }
@@ -288,7 +287,7 @@ function submitBtnClick(handle,chargeOutAppr){
      		totalArr.push(obj[i]);
 		}
 	  });
-console.log(JSON.stringify(totalArr));
+
 	  $.ajax({
 		url:ctx+"/spv/cashFlowOutAppr/deal",
 		method:"post",
@@ -332,6 +331,7 @@ function readOnlyRiskForm(){
 	$("input").prop("readOnly",true);
 	$(":radio").prop("disabled",true);
 	$("select").prop("disabled",true);
+	$("a").prop("disabled",true);
 }
 
 /**************************************验证************************************************/
