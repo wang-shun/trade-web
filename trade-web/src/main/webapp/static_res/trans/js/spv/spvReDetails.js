@@ -51,6 +51,12 @@ function getTR(thisIndex){
 		acceptFileTypes:'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i',
 		autoUpload: true,
         dataType: 'json',
+        add:function(e,data){
+        	var fileName = data.files[0].name;
+        	if($("input[fileName='"+fileName+"']").size()==0){
+        		data.submit();
+        	}
+        },
         done: function (e, data) {
         	if(data.result){
             	var fileId =  data.result.files[0].id;
@@ -65,9 +71,10 @@ function getTR(thisIndex){
 	cleanPkid();
 }
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
+	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
 	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
-	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'"/>';
-	image += '<button type="button" class="btn btn-sm btn-default" >'+fileName+'<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;</i></button></a>';
+	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>';
+	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;</i></button></a>';
 	return image;
 }
 //删除入账申请信息tr
