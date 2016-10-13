@@ -48,6 +48,8 @@ public class ReservationServiceImpl implements ReservationService {
 		try {
 			reservationMapper.insertSelective(reservation);
 
+			logger.debug("预约信息保存成功！");
+
 			Long resId = reservation.getPkid(); // 预约单id
 
 			freeRoomInfo = getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
@@ -59,12 +61,16 @@ public class ReservationServiceImpl implements ReservationService {
 
 			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo); // 更新闲置房间的使用状态
 
+			logger.debug("更新闲置房间的使用状态成功！");
+
 			freeRoomVo = new FreeRoomVo();
 			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
 			freeRoomVo.setResId(resId);
 			freeRoomVo.setNumberOfPeople(freeRoomInfo.getNumberOfPeople());
 
 			reservationMapper.updateReservationInfo(freeRoomVo); // 更新预约单的信息
+
+			logger.debug("更新预约单的信息成功！");
 
 		} catch (Exception e) {
 			isSuccss = "false";
