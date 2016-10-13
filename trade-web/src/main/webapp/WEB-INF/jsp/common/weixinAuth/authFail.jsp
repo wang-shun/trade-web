@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="${ctx}/static/css/mobile-yc-style3.css" >
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/iconfont/iconfont.css" />
 </head>
-<body class="white">
+<body class="">
     <header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
             <span class="aui-iconfont aui-icon-left"></span>
