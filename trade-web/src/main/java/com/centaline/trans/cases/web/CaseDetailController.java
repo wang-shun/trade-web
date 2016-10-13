@@ -1453,7 +1453,7 @@ public class CaseDetailController {
 		toCase.setLeadingProcessId(userId);
 		int reToCase = toCaseService.updateByPrimaryKey(toCase);
 		
-
+		User u1 = uamUserOrgService.getUserById(userId);
 		record.setProcessorId(userId);
 		record.setCaseCode(caseCode);
 		/*
@@ -1467,7 +1467,7 @@ public class CaseDetailController {
 			String variableName = "caseOwner";
 			RestVariable restVariable = new RestVariable();
 			restVariable.setType("string");
-			restVariable.setValue(u.getUsername());
+			restVariable.setValue(u1.getUsername());
 			workFlowManager.setVariableByProcessInsId(instCode, variableName, restVariable);
 			TaskQuery tq = new TaskQuery();
 			tq.setProcessInstanceId(instCode);
