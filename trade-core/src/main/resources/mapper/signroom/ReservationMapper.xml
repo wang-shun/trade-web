@@ -173,7 +173,7 @@
   
   <select id="getOrgIdByGrpcode" parameterType="java.lang.String" resultType="java.lang.String">
     SELECT ID FROM sctrans.SYS_ORG 
-	WHERE ORG_CODE = (select YU_TEAM_CODE from sctrans_dev.sctrans.T_TS_TEAM_SCOPE_TARGET where GRP_CODE = #{grpCode,jdbcType=VARCHAR});
+	WHERE ORG_CODE = (select YU_TEAM_CODE from sctrans.T_TS_TEAM_SCOPE_TARGET where GRP_CODE = #{grpCode,jdbcType=VARCHAR});
   </select>
   
    <select id="getSignRoomInfoListByCondition" parameterType="com.centaline.trans.signroom.vo.ReservationSearchVo" resultType="com.centaline.trans.signroom.vo.ReservationInfo">
