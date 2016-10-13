@@ -185,7 +185,7 @@
 }
 
 .modal-content {
-  width: 1000px !important;
+  width: 470px !important;
 }
 
 .modal-dialog{
@@ -325,6 +325,9 @@ p.title {
     color: #808080;
   }
 
+	.dl-horizontal {
+	  font-family: SimSun;
+	}
   .ibox-conn .dl-horizontal dd {
     margin-left: 70px;
     margin-bottom: 7px;
@@ -378,6 +381,9 @@ dt {
 .priceRow {
 	margin-right : -15px;
 	margin-left : -15px;
+}
+.wrapper .row {
+	margin-left: 0px !important;
 }
 
 .isStuck {
