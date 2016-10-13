@@ -99,10 +99,12 @@
 							<button type="button" class="btn btn_blue" id="btn_search">
 								<i class="icon iconfont"></i> 查询
 							</button>
+							 <shiro:hasPermission name="TRADE.ELONE.ADD">
 							<a type="button" class="btn btn_blue "
 								href="${ctx}/eloan/task/eloanApply/process"> <i
 								class=" iconfont">&#xe617;</i>&nbsp;新增
 							</a>
+							</shiro:hasPermission>
 						</div>
 					</div>
 				</form>
@@ -113,7 +115,9 @@
 			<div class="bonus-table "></div>
 		</div>
 	</div>
-
+	<!--                 <shiro:hasPermission name="TRADE.ELONE.DELETE">
+				    <button type="button" id="link_btn" onclick="deleteItem({{item.pkId}})" class="btn btn-success btn-blue">删除</button>
+                    </shiro:hasPermission>    -->
 	<!-- main End -->
 
 	<content tag="local_script"> <!-- Peity --> <script
@@ -182,7 +186,7 @@
 					   申请
                       {{/if}}
  					{{if item.signTime!=undefined&&item.releaseTime==undefined}}
-					    放款
+					    面签
                       {{/if}}
 				     {{if item.releaseTime!=undefined}}
                  
@@ -194,14 +198,23 @@
                              {{item.Applymoney}}万
 				         <input name="{{item.pkId}}" type="hidden" value="{{item.releaseTime}}">
 				</td>
-				<td class="text-center">
-					<a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">
-				    <button type="button" id="link_btn"  class="btn btn-success btn-blue">详情</button>
-				   </a>		
-	                <shiro:hasPermission name="TRADE.ELONE.DELETE">
-				    <button type="button" id="link_btn" onclick="deleteItem({{item.pkId}})" class="btn btn-success btn-blue">删除</button>
-                    </shiro:hasPermission>                 
-               </td>
+				<td class="text-center">					
+                      <div class="btn-group">
+                         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">操作
+                             <span class="caret"></span>
+                         </button>
+                               <ul class="dropdown-menu" role="menu" style="left:-95px;">
+                                      <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">查看</a></li>
+                                      <shiro:hasPermission name="TRADE.ELONE.UPDATE">
+                                      <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=update">修改</a></li>
+                                      </shiro:hasPermission>
+                                       <shiro:hasPermission name="TRADE.ELONE.DELETE">
+                                       {{if item.taskKey =='EloanApply'}}
+                                      <li><a id="link_btn" onclick="deleteItem({{item.pkId}})">删除</a></li>{{/if}}
+                                      </shiro:hasPermission>
+                               </ul>
+                      </div>
+                </td>
 			</tr>
 			{{/each}}          
 	    </script> <script>
@@ -339,7 +352,10 @@
 												}, {
 													colName : "客户"
 												}, {
-													colName : "流程时间"
+													 colName :"<span style='color:#ffffff' onclick='caseCodeSort();' >流程时间</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
+						    		    	           sortColumn : "APPLY_TIME",
+						    		    	           sord: "desc",
+						    		    	           sortActive : true
 												}, {
 													colName : "状态"
 												}, {

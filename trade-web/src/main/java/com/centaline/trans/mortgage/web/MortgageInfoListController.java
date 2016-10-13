@@ -48,6 +48,7 @@ public class MortgageInfoListController {
 		String userJob=user.getServiceJobCode();
 		boolean queryOrgFlag = false;
 		boolean isAdminFlag = false;
+		int userJobCode = -1;
 
         StringBuffer reBuffer = new StringBuffer();
         //如果不是交易顾问
@@ -57,6 +58,7 @@ public class MortgageInfoListController {
 			String userOrgIdString = user.getServiceDepId();
 			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
 				reBuffer.append(userOrgIdString);
+				userJobCode = 2;
 			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
 				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
 				for(Org org:orgList){
@@ -64,16 +66,19 @@ public class MortgageInfoListController {
 					reBuffer.append(",");
 				}
 				reBuffer.deleteCharAt(reBuffer.length()-1);
-				
+				userJobCode = 1;
 			}else{
 				isAdminFlag=true;
+				userJobCode = 0;
 			}
+		} else {
+			userJobCode = 3;
 		}
 		request.setAttribute("queryOrgs", reBuffer.toString());
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);	
+		request.setAttribute("userJobCode", userJobCode);
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
-		
 		
 		//银行信息
 		List<TsFinOrg> tsFinOrgList= tsFinOrgService.findAllFinOrg();

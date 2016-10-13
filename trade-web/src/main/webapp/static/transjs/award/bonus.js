@@ -20,7 +20,7 @@ var BonusList = function () {
   		
 		 $.ajax({
   			  async: true,
-  	          url:ctx+ "/kpi/getTsAwardKpiPayByProperty" ,
+  	          url:ctx+ "/award/getTsAwardKpiPayByProperty" ,
   	          method: "post",
   	          dataType: "json",
   	          data: data2,

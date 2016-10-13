@@ -82,7 +82,7 @@ var handleScrollers = function() {
 handleScrollers();
 
 //待办事项数据
-$(document).ready(function() {
+$(document).ready(function() {	
 	new messageGrid().init({
 		e : $("#div_messagelist1"),
 		u : appCtx['aist-message-web'],

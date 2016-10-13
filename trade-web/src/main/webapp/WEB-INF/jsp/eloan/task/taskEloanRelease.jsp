@@ -100,13 +100,13 @@
                                    </div>
                                    <div class="case_lump">
                                        <p><em>客户电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
-                                   </div>
+                                   </div> 
 
                                 </div>
                                 <div class="case_row">
-                                   <div class="case_lump">
+                                  <div class="case_lump">
                                        <p><em>申请金额</em><span class="span_one">${eloanCase.applyAmount}万</span></p>
-                                   </div>
+                                   </div> 
                                    <div class="case_lump">
                                        <p><em>申请时间</em><span class="span_one"><fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" /></span></p>
                                    </div>
@@ -160,12 +160,12 @@
                                    </div>
                                 </div>
                                 <div class="case_row">
-                                   <div class="case_lump">
+                                <div class="case_lump">
                                        <p><em>面签金额</em><span class="span_one">${eloanCase.signAmount}万</span></p>
                                    </div>
-                                   <div class="case_lump">
+                                 <div class="case_lump">
                                        <p><em>面签时间</em><span class="span_one"><fmt:formatDate value="${eloanCase.signTime}" pattern="yyyy-MM-dd" /></span></p>
-                                   </div>
+                                   </div> 
                                    <div class="case_lump">
                                    </div>
                                 </div>
@@ -206,74 +206,118 @@
                             <h5>贷款放款任务</h5>
                         </div>
                         <form method="get" class="form_list">
-                        <ul class="form_lump loan_ul">
-                           <!-- <li>
+               <%--          		<ul class="form_lump">
+                        		<li>
                                 <div class="form_content">
-                                    <label class="control-label sign_left_two">放款金额</label>
-                                    <input class="input_type sign_right_two" value="" >
+                                    <label class="control-label sign_left_two">
+                                        	客户姓名
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.custName}" name="custName" id="custName">
+                                </div>
+                                <div class="input-group">
+                                    <label class="control-label sign_left_two">
+                                        	客户电话
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.custPhone}"  name="custPhone" id="custPhone"/>
+                                </div>
+                            </li>
+                            
+                            <li>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_two">
+                                        	申请金额
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.applyAmount}" name="applyAmount" id="applyAmount">
                                     <div class="input-group date_icon">
                                         <span class="danwei">万</span>
                                     </div>
                                 </div>
-                                <div class="form_content form_nomargin input-daterange" data-date-format="yyyy-mm-dd">
-                                    <label class="control-label sign_left_two">放款时间</label>
-                                    <input class="input_type sign_right_two" value="" />
+                                <div class="input-group">
+                                    <label class="control-label sign_left_two">
+                                        	申请期数
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.month}"  name="month" id="month"/>
+<!--                                     <div class="input-group date_icon">
+                                        <span class="danwei">月</span>
+                                    </div> -->
+                                   
+                                   <label class="control-label sign_left_two">
+                                        	面签金额
+                                    </label>
+                                    <input class="input_type sign_right_two" value="${eloanCase.signAmount}" name="signAmount" id="signAmount">
                                     <div class="input-group date_icon">
-                                        <i class="fa fa-calendar"></i>
+                                        <span class="danwei">万</span>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-success margin_tagl15">删除</button>
-                            </li> -->
-                        </ul>
-                        <p class="add_money"><a href="javascript:add_money();" id="add_money">添加放款金额</a> (可支持多条放款记录登记)</p>
-                           <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                                                                               是否放款完成
-                                    </label>
-                                    <select name="isRelFinish" id="isRelFinish" class="select_control sign_right_two">
-                                       <option value="">请选择</option>
-                                       <option value="1">是</option>
-                                       <option value="0">否</option>
-                                    </select>
-                                </div>
-                                <p>
-                                <input type="hidden" name="eloanCode" id="eloanCode" value="${eloanCase.eloanCode}"/>
-                                <input type="hidden" name="taskId" id="taskId" value="${taskId}"/>
-                        <input type="button" class="btn btn-success submit_btn" value="提交" />
-						</p>
+                            </li>
+                        		</ul> --%>
+                        		<ul class="form_lump">
+                        		<li>
+                        	         <div class="form_content" id="eLoanApplyPassOrRefuseReasonForShow">
+                                    <label class="control-label sign_left_two pull-left">驳回原因</label>
+									<textarea class="input_type sign_right pull-left"  rows="2"  id="eLoanContent"	name="eLoanContent" style="margin-left: 4px;width: 757px;
+    											height: 71px;resize:none;">${toApproveRecord.content }</textarea>
+                                </div>  
+                                </li>
+                        		</ul> 
+		                       <ul class="form_lump loan_ul">
+		                		
+		                           <!-- <li>
+		                                <div class="form_content">
+		                                    <label class="control-label sign_left_two">放款金额</label>
+		                                    <input class="input_type sign_right_two" value="" >
+		                                    <div class="input-group date_icon">
+		                                        <span class="danwei">万</span>
+		                                    </div>
+		                                </div>
+		                                <div class="form_content form_nomargin input-daterange" data-date-format="yyyy-mm-dd">
+		                                    <label class="control-label sign_left_two">放款时间</label>
+		                                    <input class="input_type sign_right_two" value="" />
+		                                    <div class="input-group date_icon">
+		                                        <i class="fa fa-calendar"></i>
+		                                    </div>
+		                                </div>
+		                                <button type="button" class="btn btn-success margin_tagl15">删除</button>
+		                            </li> -->
+		                        </ul>
+		                             
+		                        <p class="add_money"><a href="javascript:add_money();" id="add_money">添加放款金额</a> (可支持多条放款记录登记)</p>
+		                           <div class="form_content">
+		                                    <label class="control-label sign_left_two">
+		                                                                                               是否放款完成
+		                                    </label>
+		                                    <select name="isRelFinish" id="isRelFinish" class="select_control sign_right_two">
+		                                       <option value="">请选择</option>
+		                                       <option value="1">是</option>
+		                                       <option value="0">否</option>
+		                                    </select>
+		                            </div>
+		                                                        
+
+                           
+		                                <p class="text-center">
+		                                <input type="hidden" name="eloanCode" id="eloanCode" value="${eloanCase.eloanCode}"/>
+		                                <input type="hidden" name="taskId" id="taskId" value="${taskId}"/>
+								  		<input type="button" class="btn btn-success submit_From" value="提交">
+		                           		<input type="button" onclick="closeWindow()" class="btn btn-grey ml5" value="关闭">
+		                         </p>  
+		                                     
                         </form>
                     </div>
-
                 </div>
             </div>
             <!-- main End -->
     </div>
 
     <!-- Mainly scripts -->
-     <content tag="local_script">
-  <%--<script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-    <script src="${ctx}/static/js/bootstrap.min.js"></script>
-    <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- ECharts.js -->
-    <script src="${ctx}/static/js/echarts.min.js"></script> --%>
-
-
-
+    <content tag="local_script">
     <!-- Custom and plugin javascript -->
     <script src="${ctx}/static/js/inspinia.js"></script>
     <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
-
-    <!-- stickup plugin -->
-    <%-- <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
-    <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script> --%>
-
-
     <!-- Toastr script -->
     <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script>
     <script src="${ctx}/static/js/morris/morris.js"></script>
     <script src="${ctx}/static/js/morris/raphael-min.js"></script>
-
     <!-- index_js -->
     <script src="${ctx}/static/trans/js/eloan/eloan.js"></script>
     <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -302,6 +346,14 @@
         $(document).ready(function () {	
         	getBankList();
         	
+			 //驳回原因显示问题
+			 var eLoanContent = $("#eLoanContent").val();	
+			 if(eLoanContent == '' || eLoanContent == null){			
+				$("#eLoanApplyPassOrRefuseReasonForShow").hide();				
+			 } else{
+				 $("#eLoanContent").attr("disabled",true);
+			 }	
+        	
         	$('.input-daterange').datepicker({
               	format : 'yyyy-mm-dd',
           		weekStart : 1,
@@ -309,33 +361,63 @@
           		todayBtn : 'linked',
           		language : 'zh-CN'
             });
+			function closeWindow(){
+				window.close();
+				window.opener.callback();
+			}
             
-            $('.submit_btn').click(function(){
+            $('.submit_From').click(function(){
             	var eloanRelList = new Array();
             	var eloanCode =  $('#eloanCode').val();
             	var isRelFinish = $('#isRelFinish').val();
+/*             	var custName = $('#custName').val();
+            	var custPhone = $('#custPhone').val();            	
+            	var applyAmount = $('#applyAmount').val();
+            	var month = $('#month').val();
+            	var signAmount = $('#signAmount').val(); */            	
             	if(isRelFinish==""){
             		alert("请选择房款是否完成");
             		return;
             	}
             	var sumAmount = 0;
-            	$(".loan_ul li").each(function(){
-            		var releaseAmount = $(this).find("#releaseAmount").val();
-            		sumAmount+=Number(releaseAmount);
-            		var releaseTime = $(this).find("#releaseTime").val();
-            		
+            	
+            	if(clickCount > 0){
+                	$(".loan_ul li").each(function(){
+                		var releaseAmount = $(this).find("#releaseAmount").val();
+                		sumAmount+=Number(releaseAmount);
+                		var releaseTime = $(this).find("#releaseTime").val();            		
+                		
+                		var eloanRel = {
+                			releaseAmount : releaseAmount,
+                			releaseTime : releaseTime,
+                			eloanCode : eloanCode,            			 
+                		}
+                		eloanRelList.push(eloanRel);
+                	})
+            	}else{
             		var eloanRel = {
-            			releaseAmount : releaseAmount,
-            			releaseTime : releaseTime,
-            			eloanCode : eloanCode
-            		}
+                			eloanCode : eloanCode,            			 
+                		}
             		eloanRelList.push(eloanRel);
-            	})
+            	}
+
+            	
+/*             	var toEloanCase = {};
+            	toEloanCase.eloanCode = eloanCode;
+            	toEloanCase.custName = custName;
+            	toEloanCase.custPhone = custPhone;
+            	toEloanCase.applyAmount = applyAmount;
+            	toEloanCase.month = month;
+            	toEloanCase.signAmount = signAmount; */
+            	
+            	
             	var eloanRelListVO = {
             		eloanRelList : eloanRelList,
             		isRelFinish : isRelFinish,
             		taskId : $('#taskId').val()
+            		/* toEloanCase : toEloanCase      */       		
             	}
+            	
             	//console.log(eloanRelListVO);
             	var msg = validateIsFinishRelease(eloanCode,sumAmount);
             	if(($.trim(msg) === '请选择放款完成!' && $('#isRelFinish').val()==1) || $.trim(msg) === '操作成功') {
@@ -440,6 +522,7 @@
 		}
         // 添加日期查询条件
         var divIndex = 1;
+        var clickCount = 0;//判断是否添加了放款金额
         function add_money() {
         	var addMoneyReleaseHtml = template('addMoneyRelease' , {divIndex:divIndex});
         	$(".loan_ul").append(addMoneyReleaseHtml);
@@ -452,10 +535,12 @@
         		language : 'zh-CN'
         	});
         	divIndex++;
+        	clickCount++;
         }
         
         //删除日期控件
         function removeDiv(index) {
+        	clickCount--;
         	$("#releaseDiv" + index).remove();
         }
     </script>

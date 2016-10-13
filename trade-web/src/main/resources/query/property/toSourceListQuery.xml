@@ -83,7 +83,9 @@
 				LEFT JOIN sctrans.SYS_ORG AS SYSORG
 				ON PR.PR_DISTRICT_ID = SYSORG.ID
 				
-				WHERE 1=1
+				WHERE PR.IS_SUCCESS IS NOT NULL
+				AND PR.PR_APPLY_DEP_NAME IS NOT NULL
+				AND 1=1
 				
 				<if test="sPrDep == 'yucui_district' ">
 				    AND PR.PR_DISTRICT_ID = #sPrDistrictId#

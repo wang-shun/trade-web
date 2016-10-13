@@ -26,7 +26,7 @@
 	href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
 <link rel="stylesheet"
 	href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
-
+<link rel="stylesheet" href="${ctx}/static/trans/css/spv/input.css" />
 <!-- index_css -->
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
@@ -66,9 +66,9 @@
 							class="form-control select-one" name="status"  id="status">
 							<option value="">请选择</option>
 							<option value="0">起草</option>
-							<option value="1">申请</option>
-							<option value="2">签约</option>
-							<option value="3d">完成</option>
+							<option value="2">申请</option>
+							<option value="3">签约</option>
+							<option value="4">完成</option>
 						</select>
 					</div>
 					<div class="form-group form-margin form-space-one ">
@@ -92,7 +92,17 @@
 				<div class="form-row">
 					<div class="form-group form-margin pull-left">
 						<label for="" class="lable-one">物业地址</label> <input type="text"
-							class="form-control input-widest" placeholder="" name="prAddress">
+							class="form-control  input-five" placeholder="" name="prAddress">
+					</div>
+					<div class="form-group form-margin pull-left">
+						
+						        <label for="" class="lable-one">申请人</label>
+						        <input type="hidden" id="userName" name="applyUser" value=''>
+						        <input type="text" id="realName"  style="background-color:#FFFFFF;width:120px;" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value=''>
+                                 <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont">&#xe627;</i>
+                                    </div>
 					</div>
 					<div class="btn-left btn-left-space" style="margin-left:40px;">
 						<button type="button" id="btn_search" class="btn btn-success mr15">
@@ -120,7 +130,12 @@
                                             </p> -->
 	<!-- main End -->
 
-	<content tag="local_script"> <!-- Peity --> <script
+	<content tag="local_script"> <!-- Peity -->
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>	
+
+	 <script
 		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
@@ -197,17 +212,21 @@
 					</p>
                                         </td>
                                         <td class="center">
-                                            
                                             <span class="manager">
-                                                <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
+												 <a href="#"><em>申请人：{{item.APPLY_USER}}</em></a>
+                                            </span>
+                                            <span class="manager">
+                                                <a href="#"><em>经办人{{}}：{{item.CREATE_BY}}</em></a>
                                             </span>
                                         </td>
                                         <td class="text-center"> 
                                         
                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-success dropdown-toggle"  data-toggle="dropdown" >操作
+                                                <button type="button" class="btn btn-success dropdown-toggle"    {{if wrapperData.job != 'JYFKZY'}} disabled="true" {{/if}}                                  
+                                                data-toggle="dropdown" >操作{{serviceJobCode}}
                                                     <span class="caret"></span>
                                                 </button>
+                                               
                                                 <ul class="dropdown-menu" role="menu" style="left:-95px;">
                                                     <shiro:hasPermission name="TRADE.SPV.UPDATE">
 												 		{{if item.STATUS==0&&item.applyTime==undefined}}
@@ -220,10 +239,14 @@
                                                     	{{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">
-                                                        <li><a href="../spv/spvRecorded.html">入账</a></li>
+                                                      {{if item.STATUS==3&&item.signTime!=undefined}}
+                                                        <li><a href="${ctx}/spv/task/cashflowIntApply/spvRecorded?pkid={{item.PKID}}">入账</a></li>
+                                                      {{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.OUT">
-													    <li><a href="#">出账</a></li>
+													{{if item.SumRu>0}}
+                                                        <li><a href="${ctx}/spv/task/cashFlowOutAppr/process?spvCode={{item.SPV_CODE}}">出账</a></li>
+                                                     {{/if}}
 													</shiro:hasPermission>
                                                     	<li class="divider"></li>
                                                     <shiro:hasPermission name="TRADE.SPV.CLOSE">
@@ -240,7 +263,7 @@
 						var params = {
 							page : 1,
 							sessionUserId : $("#userId").val(),
-							servicDepId : $("#serviceDepId").val(),
+							serviceDepId : $("#serviceDepId").val(),
 							serviceJobCode : $("#serviceJobCode").val(),
 							serviceDepHierarchy : $("#serviceDepHierarchy")
 									.val()
@@ -289,6 +312,9 @@
 											params.search_status=$(
 											"select[name='status']")
 											.val();
+											params.search_applyUser=$(
+											"input[name='applyUser']")
+											.val();
 											params.search_applyTimeStart=null;		
 											params.search_applyTimeEnd=null;
 											params.search_signTimeStart=null;
@@ -336,6 +362,7 @@
 												templeteId : 'queryMortgageApproveLost',
 												gridClass : 'table table_blue table-striped table-bordered table-hover ',
 												data : params,
+												wrapperData : {job : $("#serviceJobCode").val()},
 												columns : [
 										/* 				{
 															colName : ""
@@ -369,7 +396,40 @@
 								$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 							}
 						}
-
+						
+						/**
+						 * 选择用户
+						 * @param param
+						 */
+						function userSelect(param){
+							var options = {
+							        dialogId : "selectUserDialog", //指定别名，自定义关闭时需此参数
+							        dialog : { 
+										height: 463
+									   ,width: 756
+									   ,title:'选择用户'
+									   ,url: appCtx['aist-uam-web']+'/userOrgSelect/userSelect.html'
+									   ,data:param
+									   ,buttons: [
+							                      { text: '确定', onclick: function (item, dialog) { dialog.frame.save();}},
+							                      { text: '取消', onclick: function (item, dialog) { dialog.close(); } }
+							                   ]
+									}
+							    };
+							openDialog(options);
+						} 
+						/**
+						 * 更新input的值
+						 */
+						function selectUserBack(array){
+							if(array && array.length >0){
+								 $("#realName").val(array[0].username);
+								$("#userName").val(array[0].userId);
+							}else{
+								 $("#realName").val("");
+								$("#userName").val("");
+							}
+						}
 						//初始化
 						jQuery(document).ready(function() {
 							initData();

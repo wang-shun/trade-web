@@ -197,6 +197,11 @@ public class TaskController {
 			if(c.getCreateTime()!=null){
 				request.setAttribute("afterTimeFlag", c.getCreateTime().after(new Date(1467302399999l)));
 			}
+			//税费卡
+			int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
+			if ( cou >0) {
+				caseBaseVO.setLoanType("30004005");
+			}
 			request.setAttribute("caseBaseVO", caseBaseVO);
 		}
 		

@@ -39,14 +39,13 @@
 	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
-<link href="${ctx}/css/transcss/case/caseDetail.css" rel="stylesheet" />
+
 <link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+
 
 </head>
 
 <body>
-
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="ctm" value="${toCaseInfo.ctmCode}" />
 	<input type="hidden" id="Lamp1" value="${Lamp1}" />
@@ -62,10 +61,14 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
 	<script>
+		var resourceDistributionBtn = false;
 		<%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
 		<%} else {%>
 			alert("<%=request.getAttribute("msg")%>");
 		<%}%>
+		<shiro:hasPermission name="TRADE.CASE.DISTRIBUTION">
+		 resourceDistributionBtn = true;
+		</shiro:hasPermission>
 	</script>
 
 	<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
@@ -164,6 +167,9 @@
 	                   	</c:if>
 	                   </div>                   		
                    	</c:if>
+                   	<c:if test="${caseDetailVO.loanType=='30004005'}">
+                  		<div class="sign sign-yellow">税费卡</div>
+                  	</c:if> 
 					<div class="panel-body">
 						<div class="ibox-content-head">
 							<h5>案件基本信息</h5>
@@ -1455,13 +1461,12 @@
                                     itemHover: 'active',
                                     marginTop: 'auto'
                                   });
-
-           
-
             });
         });
-	       
-	</script> </content>
+
+	</script>
+</content>
+
 </body>
 </html>
 

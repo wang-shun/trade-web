@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -52,12 +53,13 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	@Autowired
 	private ToCaseService toCaseService;
 	// ****//
-	static final Map<String, Set<String>> SRV_CODE_MAPPING;
+	//static final Map<String, Set<String>> SRV_CODE_MAPPING;
 	static final Set<String> ZBJR;
 	static final Set<String> QZJD;
 	static final String zbjr = "zbjr";
 	static final String qzjd = "qzjd";
-	static final Set<String> ALL;
+
+	///static final Set<String> ALL;
 
 	static {
 		ZBJR = new HashSet<>();
@@ -67,11 +69,11 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		QZJD = new HashSet<>();
 		QZJD.add("Guohu");
 		QZJD.add("PSFSign");
-		SRV_CODE_MAPPING = new HashMap<>();
-		SRV_CODE_MAPPING.put("ZBJR", ZBJR);
-		SRV_CODE_MAPPING.put("QZJD", QZJD);
-		ALL = new HashSet<>(ZBJR);
-		ALL.addAll(QZJD);
+		//SRV_CODE_MAPPING = new HashMap<>();
+		//SRV_CODE_MAPPING.put("ZBJR", ZBJR);
+		//SRV_CODE_MAPPING.put("QZJD", QZJD);
+		//ALL = new HashSet<>(ZBJR);
+		//ALL.addAll(QZJD);
 	}
 
 	private int countManagerTeam(String userId) {
@@ -133,19 +135,29 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		// 助理
 		addToList(awardList, getAwardToList(mOrgs, TransJobs.TJYZL.getCode()));
 		// 总经理
-		addToList(awardList, getAwardToList(orgsArr, TransJobs.TZJL.getCode()));
+		addToList(awardList, getAwardToList(orgsArr, TransJobs.TZJL.getCode(),TransJobs.TZJL.getCode()));
 		// 总监
-		List<AwardBase> dManager = getAwardToList(districtId, TransJobs.TZJ.getCode());
+		List<AwardBase> dManager = getAwardToList(districtId, TransJobs.TZJ.getCode(),TransJobs.TZJ.getCode());
 		// 计算总监SrvPart
 		calculateSrvPart(allMap, dManager, countAll);
-		// 将总管数据添加到集合
+		// 将总监数据添加到集合
 		addToListB(awardList, dManager);
+		
+		// 主办高级交易主管
+		List<AwardBase> mManagers = getAwardToList(mOrgs, TransJobs.TSJYZG.getCode(),TransJobs.TSJYZG.getCode());
+		// 协办高级交易主管
+		List<AwardBase> nmManagers = getAwardToList(nmOrgs, TransJobs.TSJYZG.getCode(),TransJobs.TSJYZG.getCode());
+		// 计算协办高级交易主管SrvPart
+		calculateSrvPart(qzjdMap, nmManagers, countQzjd);
+		// 合并高级交易主管数据
+		mManagers.addAll(nmManagers);
+		// 将主管数据添加到集合中(这里要考虑前台主管为同一人应有两条数据，但同时也要考虑岗位优先级规则)
+		addToListB(awardList, mManagers);
+		
 		// 主办主管
-		List<AwardBase> mManager = getAwardToList(mOrgs, TransJobs.TJYZG.getCode());
-		setSrvCode(mManager, zbjr);// 设置对应的SrvCode
+		List<AwardBase> mManager = getAwardToList(mOrgs, TransJobs.TJYZG.getCode(),zbjr);
 		// 协办主管
-		List<AwardBase> nmManager = getAwardToList(nmOrgs, TransJobs.TJYZG.getCode());
-		setSrvCode(nmManager, qzjd);// 设置对应的SrvCode
+		List<AwardBase> nmManager = getAwardToList(nmOrgs, TransJobs.TJYZG.getCode(),qzjd);
 		// 计算协办主管SrvPart
 		calculateSrvPart(qzjdMap, nmManager, countQzjd);
 		// 合并主管数据
@@ -173,7 +185,7 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			ab.setCreateTime(new Date());
 			ab.setCaseCode(caseCode);
 			ab.setPaid("0");
-			if (TransJobs.TJYGW.getCode().equals(ab.getJobCode())) {
+			if (!TransJobs.TJYZL.getCode().equals(ab.getJobCode())) {
 				continue;
 			}
 			AwardBaseConfig conf = getAwardBaseConfig(ab);
@@ -378,18 +390,18 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		return null;
 
 	}
-
-	/**
-	 * 获得对应org下面对应岗位人员
-	 * 
-	 * @param orgsArr
-	 * @param jobCode
-	 * @param awardSet
-	 */
-	private List<AwardBase> getAwardToList(Set<String> orgsArr, String jobCode) {
+/**
+ * 
+ * @param orgsArr
+ * @param jobCode
+ * @param srvCode
+ * @return
+ */
+	private List<AwardBase> getAwardToList(Set<String> orgsArr, String jobCode,String srvCode){
 		List<AwardBase> result = new ArrayList<>();
 		Set<AwardBase> awardSet = null;
 		for (String orgId : orgsArr) {
+			//TYCZB
 			Org org = null;
 			Org district = uamUserOrgService.getParentOrgByDepHierarchy(orgId, DepTypeEnum.TYCQY.getCode());
 			if (TransJobs.TZJ.getCode().equals(jobCode)) {
@@ -412,8 +424,10 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			}
 			if (users != null && !users.isEmpty()) {
 				for (User user : users) {
-					AwardBase ab = new AwardBase(user.getId(), jobCode, orgId);
-					
+					AwardBase ab = new AwardBase(user.getId(), jobCode, org.getId());
+					if(!StringUtils.isBlank(srvCode)){
+						ab.setSrvCode(srvCode);
+					}
 					/**
 					 * 这里将SrvPart和SrvPartIn设置成1，后面会到所有不为100%的数据作处理
 					 */
@@ -439,6 +453,16 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 			result = new ArrayList<>(awardSet);
 		}
 		return result;
+	}
+	/**
+	 * 获得对应org下面对应岗位人员
+	 * 
+	 * @param orgsArr
+	 * @param jobCode
+	 * @param awardSet
+	 */
+	private List<AwardBase> getAwardToList(Set<String> orgsArr, String jobCode) {
+		return getAwardToList(orgsArr,jobCode,null);
 	}
 
 	/**

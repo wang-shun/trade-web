@@ -84,11 +84,11 @@
         D.FIN_ORDER_ROLL,
 		D.FIN_ORDER_RATE             
 FROM    sctrans.t_ts_award_base A
-        LEFT JOIN sctrans.T_TS_AWARD_KPI_PAY_DETAIL C ON A.PKID = C.AWARD_BASE_ID                                                        
+        RIGHT JOIN sctrans.T_TS_AWARD_KPI_PAY_DETAIL C ON A.PKID = C.AWARD_BASE_ID                                                        
 		LEFT JOIN sctrans.T_TS_AWARD_KPI_RATE E ON c.KPI_RATE_ID = E.PKID
         LEFT JOIN sctrans.T_TS_KPI_SRV_CASE B ON E.SRV_CASE_ID = B.PKID   
         LEFT JOIN sctrans.T_TS_KPI_PSN_MONTH D ON E.PSN_MONTH_ID = D.PKID
-        where 1=1
+        where A.IS_DELETED='0'
 		<ifNotNull caseCode>
 				AND A.CASE_CODE = #caseCode# 
 		</ifNotNull>
@@ -180,16 +180,16 @@ FROM    sctrans.t_ts_award_base A
         B.SATISFACTION ,  
         B.SRV_PART,           
         C.AWARD_KPI_MONEY ,          
-        D.FIN_ORDER ,
-        D.FIN_ORDER_ROLL,
-		D.FIN_ORDER_RATE             
+        E.FIN_ORDER ,
+        E.FIN_ORDER_ROLL,
+		E.FIN_ORDER_RATE,
+		E.COM_LS_RATE             
 FROM    sctrans.t_ts_award_base A
 		LEFT JOIN sctrans.SYS_USER S ON A.PARTICIPANT = S.ID
         LEFT JOIN sctrans.T_TS_AWARD_KPI_PAY_DETAIL C ON A.PKID = C.AWARD_BASE_ID                                                        
 		LEFT JOIN sctrans.T_TS_AWARD_KPI_RATE E ON c.KPI_RATE_ID = E.PKID
         LEFT JOIN sctrans.T_TS_KPI_SRV_CASE B ON E.SRV_CASE_ID = B.PKID   
-        LEFT JOIN sctrans.T_TS_KPI_PSN_MONTH D ON E.PSN_MONTH_ID = D.PKID
-        where 1=1
+        where a.is_deleted='0'
 		<ifNotNull caseCode>
 				AND A.CASE_CODE = #caseCode# 
 		</ifNotNull>
@@ -212,6 +212,8 @@ FROM    sctrans.t_ts_award_base A
 				<column name="FIN_ORDER" />
 				<column name="FIN_ORDER_ROLL" />
 				<column name="FIN_ORDER_RATE" />
+				<column name="COM_LS_RATE" />
+				
 			</table-row>
 		</grid>
 	</query>

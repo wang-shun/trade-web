@@ -11,7 +11,22 @@
 <meta name="viewpoart" content="width=device-width, initial-scale=1.0">
 
 <title>监管合约</title>
-
+<!-- 上传相关 -->
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+	rel="stylesheet">
+<!-- 展示相关 -->
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+	rel="stylesheet">
+<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+<!-- 备件相关结束 -->
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/static/font-awesome/css/font-awesome.css"
 	rel="stylesheet">
@@ -40,7 +55,20 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/input.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 <!-- stickUp fixed css -->
+<script type="text/javascript">
+	var ctx = "${ctx}";
+	var taskitem = "SpvApplyApprove";
+	var caseCode = "${caseCode}";
+	var source = "${source}";
+	if ("${idList}" != "") {
+		var idList = eval("(" + "${idList}" + ")");
+	} else {
+		var idList = [];
+	}
+</script>
 <style>
 	.borderClass {border:1px solid red!important;resize: none;}
 	.borderClass:focus {border:1px solid red!important;resize: none;}
@@ -54,9 +82,10 @@
 	    <%-- 流程相关 --%>
 		<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+		<input type="hidden" id="taskitem" name="taskitem" value="${taskitem }">
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
-		<input type="hidden" id="urlType" name="source" value="${urlType}">
+		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
 		<!-- main Start -->
 		<div
 			class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
@@ -65,17 +94,18 @@
 				<li class="menuItem"><a href="#spvone_info">房产及交易信息</a></li>
 				<li class="menuItem"><a href="#spvtwo_info">监管资金及账户信息</a></li>
 				<li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
+				<li class="menuItem"><a href="#spvfour_info">上传备件</a></li>
 			</ul>
 			<c:if test="${empty handle or handle eq 'SpvApply'}">
 			<div class="menu_btn"
 				style="margin-left: 960px; margin-top: 7px;">
-				<button id="saveBtn" class="btn btn-warning">保存</button>
+				<button id="saveBtn" class="btn btn-save">保存</button>
 			</div>
 			</c:if>
 			<c:if test="${handle eq 'SpvSign'}">
 			<div class="menu_btn"
 				style="margin-left: 960px; margin-top: 7px;display:none;" >
-				<button id="saveBtn" class="btn btn-warning">保存</button>
+				<button id="saveBtn" class="btn btn-save">保存</button>
 			</div>
 			</c:if>
 		</div>
@@ -113,26 +143,47 @@
                                    <p><em>下家姓名</em><span class="span_two" id="content_buyer">${buyerName}</span></p>
                                </div>
                            </div>
-                           
+                           </div>
                        </div>
 
                             <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
-                                <div class="modal-dialog" style="width: 1070px;">
-                                    <div class="modal-content animated fadeIn apply_box">
+                                 <div class="modal-dialog" style="width: 1070px;">
+                                    <div class="modal-content animated fadeIn apply_box ibox-content">
                                         <form action="" class="form_list clearfix">
-                                            <div class="form_tan">
-                                                <label class="control-label sign_left">
-                                                                                                                                         产证地址
-                                                </label>
-                                                <input class="sign_right input_type" placeholder="请输入" value="" id="propertyAddr" name="propertyAddr">
+                                          <div class="modal_title">
+                                                                                                                                           监管合约关联案件
                                             </div>
-                                            <div class="form_tan tan_space">
-                                                <div class="add_btn">
-                                                    <button type="button" class="btn btn-success" id="searchButton">
-                                                        <i class="icon iconfont">&#xe635;</i>&nbsp;查询
-                                                    </button>
-                                                </div>
-                                            </div>
+                                           <div class="line">
+					                        <div class="form_content">
+					                            <label class="control-label mr10">
+					                                   	 案件编码
+					                            </label>
+					                            <input class="teamcode input_type" value="" placeholder="请输入" id="caseCodet" name="caseCodet" >
+					                        </div>
+					                        <div class="form_content">
+					                            <label class="control-label sign_left">
+					                                   	 产证地址
+					                            </label>
+					                            <input class="input_type" value="" placeholder="请输入" style="width:435px;" id="propertyAddr" name="propertyAddr" >
+					                        </div>
+					                    </div>
+				                    	<div class="line">
+					                        <div class="form_content">
+					                            <label class="control-label mr10">
+					                                     	上家姓名
+					                            </label>
+					                            <input class="teamcode input_type" value="" placeholder="请输入" id="caseNamet" name="caseNamet" >
+					                        </div>
+					                        <div class="form_content space">
+					                            <div class="add_btn">
+					                                <button type="button" class="btn btn-success" id="searchButton"  >
+					                                <i class="icon iconfont"></i>
+					                                   	 查询
+					                                </button>
+					                            </div>
+					                        </div>
+				                    	</div>
+                                            
                                         </form>
                                         <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong">
                                                 &#xe60a;
@@ -152,12 +203,17 @@
 							<div class="form-group form-margin form-space-one left-extent">							
    						        <input type="hidden" name="spvCustList[0].pkid" value="${spvBaseInfoVO.spvCustList[0].pkid }" />
 							    <input type="hidden" name="spvCustList[0].tradePosition" value="BUYER" />
-								<label for="" class="lable-one"><i style="color:red;">*</i> 买方姓名</label> <input name="spvCustList[0].name" 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 姓名</label> <input name="spvCustList[0].name" 
 								value="${not empty spvBaseInfoVO.spvCustList[0].name?spvBaseInfoVO.spvCustList[0].name:buyerName }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
+							<div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 手机号码</label> <input name="spvCustList[0].phone"
+								    value="${not empty spvBaseInfoVO.spvCustList[0].phone?spvBaseInfoVO.spvCustList[0].phone:buyerMobil }"
+									type="text" class="form-control input-one" placeholder="">
+							</div>
 							<div class="form-group form-margin form-space-one ">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 买方性别</label> <span
+								<label for="" class="lable-one"><i style="color:red;">*</i> 性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input 
 										type="radio" name="spvCustList[0].gender" id="sex1" value="1" ${spvBaseInfoVO.spvCustList[0].gender eq '1'?'checked="checked"':'' }>
 										男
@@ -166,15 +222,10 @@
 								</label>
 								</span>
 							</div>
-							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 买方手机号码</label> <input name="spvCustList[0].phone"
-								    value="${not empty spvBaseInfoVO.spvCustList[0].phone?spvBaseInfoVO.spvCustList[0].phone:buyerMobil }"
-									type="text" class="form-control input-one" placeholder="">
-							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 买方证件类型</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件类型</label> 
 									<aist:dict id="spvCustList[0].idType" name="spvCustList[0].idType" clazz="form-control input-one"
 									display="select"  dictType="CERT_TYPE"  
 									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[0].idType }"></aist:dict>
@@ -199,14 +250,14 @@
 									class="form-control input-four" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 买方家庭地址</label> <input name="spvCustList[0].homeAddr"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 家庭地址</label> <input name="spvCustList[0].homeAddr"
 								    value="${spvBaseInfoVO.spvCustList[0].homeAddr }"
 									type="text" class="form-control input-five" placeholder="">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">是否委托他人办理</label> <label
+								<label for="" class="lable-one">委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[0].hasDele" id="BuyRadio1" value="1" ${spvBaseInfoVO.spvCustList[0].hasDele eq '1'?'checked="checked"':'' } > 是
 								</label> <label class="radio-inline"> <input type="radio"
@@ -218,13 +269,13 @@
 						<div class="form-row form-rowbot">
 							<div
 								class="form-group form-margin form-space-one left-extent buyinfo">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 委托人姓名</label> <input type="text" name="spvCustList[0].agentName"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 姓名</label> <input type="text" name="spvCustList[0].agentName"
 								    value="${spvBaseInfoVO.spvCustList[0].agentName }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div
 								class="form-group form-margin form-space-one left-extent buyinfo">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 委托人证件类型</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件类型</label> 
 									<aist:dict  id="spvCustList[0].agentIdType" name="spvCustList[0].agentIdType" clazz="form-control input-one"
 									display="select"  dictType="CERT_TYPE"  
 									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[0].agentIdType }"></aist:dict>
@@ -244,12 +295,17 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="spvCustList[1].pkid" value="${spvBaseInfoVO.spvCustList[1].pkid }" />
 							    <input type="hidden" name="spvCustList[1].tradePosition" value="SELLER" />
-								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方姓名</label> <input type="text" name="spvCustList[1].name"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 姓名</label> <input type="text" name="spvCustList[1].name"
 								     value="${not empty spvBaseInfoVO.spvCustList[1].name?spvBaseInfoVO.spvCustList[1].name:sellerName }"
 									class="form-control input-one" placeholder="">
 							</div>
+							<div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one"><i style="color:red;">*</i> 手机号码</label> <input name="spvCustList[1].phone"
+								    value="${not empty spvBaseInfoVO.spvCustList[1].phone?spvBaseInfoVO.spvCustList[1].phone:sellerMobil }"
+									type="text" class="form-control input-one" placeholder="">
+							</div>
 							<div class="form-group form-margin form-space-one ">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方性别</label> <span
+								<label for="" class="lable-one"><i style="color:red;">*</i> 性别</label> <span
 									class="sex-char"> <label class="radio-inline"> <input 
 										type="radio" name="spvCustList[1].gender" id="sex3" value="1" ${spvBaseInfoVO.spvCustList[1].gender eq '1'?'checked="checked"':'' }>
 										男
@@ -258,15 +314,10 @@
 								</label>
 								</span>
 							</div>
-							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方手机号码</label> <input name="spvCustList[1].phone"
-								    value="${not empty spvBaseInfoVO.spvCustList[1].phone?spvBaseInfoVO.spvCustList[1].phone:sellerMobil }"
-									type="text" class="form-control input-one" placeholder="">
-							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方证件类型</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件类型</label> 
 									<aist:dict id="spvCustList[1].idType" name="spvCustList[1].idType" clazz="form-control input-one"
 									display="select"  dictType="CERT_TYPE"  
 									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[1].idType }"></aist:dict>
@@ -292,14 +343,14 @@
 									class="form-control input-four" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 卖方家庭地址</label> <input name="spvCustList[1].homeAddr"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 家庭地址</label> <input name="spvCustList[1].homeAddr"
 								    value="${spvBaseInfoVO.spvCustList[1].homeAddr }"
 									type="text" class="form-control input-five" placeholder="">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one">是否委托他人办理</label> <label
+								<label for="" class="lable-one">委托他人办理</label> <label
 									class="radio-inline"> <input type="radio"
 									name="spvCustList[1].hasDele" id="SellRadio1" value="1" ${spvBaseInfoVO.spvCustList[1].hasDele eq '1'?'checked="checked"':'' }> 是
 								</label> <label class="radio-inline"> <input type="radio"
@@ -310,13 +361,13 @@
 						<div class="form-row form-rowbot">
 							<div
 								class="form-group form-margin form-space-one left-extent sellinfo">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 委托人姓名</label> <input type="text" name="spvCustList[1].agentName"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 姓名</label> <input type="text" name="spvCustList[1].agentName"
 								    value="${spvBaseInfoVO.spvCustList[1].agentName }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div
 								class="form-group form-margin form-space-one left-extent sellinfo">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 委托人证件类型</label> 
+								<label for="" class="lable-one"><i style="color:red;">*</i> 证件类型</label> 
 										<aist:dict  id="spvCustList[1].agentIdType" name="spvCustList[1].agentIdType" clazz="form-control input-one"
 									display="select"   dictType="CERT_TYPE"  
 									ligerui='none' defaultvalue="${spvBaseInfoVO.spvCustList[1].agentIdType }"></aist:dict>
@@ -599,9 +650,12 @@
 						    <div class="form-group form-margin form-space-one">
 						        <label for="" class="lable-one">申请人</label>
 						        <input type="hidden" id="userName" name="toSpv.applyUser" value='${spvBaseInfoVO.toSpv.applyUser }'>
-						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control tbspuser" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
+						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${applyUserName }'>
 							    <input type="hidden" id="team" name="toSpv.applyTeam"  value='${spvBaseInfoVO.toSpv.applyTeam }'>
+							<div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont">&#xe627;</i>
+                                    </div>
 							</div>
 					    </div>
 					    
@@ -621,7 +675,7 @@
 						
 					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" style="display:none;">						
 						<div class="form-group form-margin form-space-one">
-							<label class="lable-one"  style="text-align: right;">驳回原因</label>							
+							<label class="lable-one"  style="text-align: right;">审批记录</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
 								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">${toApproveRecord.content }</textarea>
 							</div>
@@ -675,20 +729,150 @@
 								  <%-- 默认显示一行，方便用户添加 --%>
 								  <c:if test="${empty spvBaseInfoVO.toSpvDeDetailList }" >
 								  <tr id="example" align="center">
-										<td class="text-left"></td>
-										<td class="text-left"></td>
-										<td></td>
-										<td class="text-left"></td>
-										<td align="center">
-										<c:if test="${empty handle or handle eq 'SpvApply'}">
-										    <a href="javascript:void(0)" onClick="javascript:getAtr(this);">添加</a>
-										</c:if>    
-										</td>	
+
+									<td class='text-left'><aist:dict id='toSpvDeDetailList[0].deCondCode' name='toSpvDeDetailList[0].deCondCode' clazz='table-select' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>
+									<td class='text-left'><aist:dict id='toSpvDeDetailList[0].payeeAccountType' name='toSpvDeDetailList[0].payeeAccountType' tag='DE' clazz='table-select' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>
+									<td><input name='toSpvDeDetailList[0].deAmount' class='table-input-one'  type='text' placeholder='请输入金额'>万</td>
+									<td class='text-left' ><input name='toSpvDeDetailList[0].deAddition' class='table-input' type='text' placeholder='' /></td>
+									<td align="center">
+									<c:if test="${empty handle or handle eq 'SpvApply'}">
+									<a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a>
+									</c:if>  
+									</td>	
 								  </tr>
 								  </c:if>
 								</tbody>					
 							</table>							
-							
+						</div>
+					</form>
+				</div>
+				
+				<div class="ibox-content" id="spvfour_info" >
+				<c:choose>
+					<c:when test="${accesoryList!=null}">
+					<div class="title">上传备件<br> <br></div>
+						<h5 align="left">${accesoryList[0].accessoryName }</h5>
+						<c:forEach var="accesory" items="${accesoryList}"
+							varStatus="status">
+							<div class="" id="fileupload_div_pic">
+								<form id="fileupload"
+									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+									method="POST" enctype="multipart/form-data">
+									<noscript>
+										<input type="hidden" name="redirect"
+											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+										<input type="hidden" id="preFileCode" name="preFileCode"
+											value="${accesory.accessoryCode }">
+									</noscript>
+									<c:if test="${status.index != 0}">
+										<h5 align="left">
+											<br>${accesory.accessoryName }</h5>
+									</c:if>
+									<div class="row-fluid fileupload-buttonbar">
+										<div class="" style="height: auto">
+											<div role="presentation" class="table table-striped "
+												style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+												<div id="picContainer${accesory.pkid }" class="files"
+													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+												<span class=" fileinput-button "
+													style="margin-left: 10px !important; width: 80px;">
+													<div id="chandiaotuBtn" class=""
+														style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+														<i class="fa fa-plus"></i>
+													</div> <input id="picFileupload${accesory.pkid }" type="file"
+													name="files[]" multiple
+													data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+													data-sequential-uploads="true">
+												</span>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+		
+							<div class="row-fluid">
+								<div class="">
+									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+									<!--图片缩图  -->
+							        <div class="preview"><span class="fade"></span></div>
+									<!--  错误信息 -->
+							        {% if (file.error) { %}
+							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else if (o.files.valid && !i) { %}
+									<!-- 单个对应的按钮  -->
+							            <div class="start span1" style="display: none">
+										{% if (!o.options.autoUpload) { %}
+							                <button class="btn">
+							                    <i class="icon-upload icon-white"></i>
+							                    <span>上传</span>
+							                </button>
+							            {% } %}
+										</div>
+							        {% } else { %}
+							            <div class="span1" colspan="2"></div>
+							        {% } %}
+							        <div class="cancel" style="margin-top:-125px;margin-left:85%;">
+									{% if (!i) { %}
+							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        {% } %}
+									</div>
+							    </div>
+							{% } %}
+						</script>
+									<script id="templateDownload${accesory.pkid }"
+										type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+							        {% if (file.error) { %}
+							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else { %}
+							            <div class="preview span12">
+										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
+										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
+										<input type="hidden" name="picName" value="{%=file.name%}"></input>
+							            {% if (file.id) { %}
+                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
+							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
+                                              {% } else { %}
+ 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
+  											  {% } %}
+							            {% } %}</div>
+							        {% } %}
+							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
+							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        </div>
+							    </div>
+							{% } %}
+						</script>
+								</div>
+							</div>
+						</c:forEach>
+		
+						<div class="row-fluid" style="display: none;">
+							<div class="span4">
+								<div class="control-group">
+									<a class="btn blue start" id="startUpload"
+										style="height: 30px; width: 50px"> <i
+										class="icon-upload icon-white"></i> <span>上传</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<h5>
+							上传备件<br>无需上传备件
+						</h5>
+					</c:otherwise>
+				</c:choose>
+				</div>
+				<div class="ibox-content" id="spvthree_info" >			
 							<div class="form-btn">
 							<input type="hidden" id="handle" name="handle" value="${handle }">							
 							<c:if test="${handle eq 'SpvApply' }">
@@ -720,8 +904,6 @@
 								</div>
 							</c:if>			
 							</div>
-						</div>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -740,6 +922,27 @@
 		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
 	<script src="${ctx}/static/trans/js/eloan/eloan.js"></script> <script
 		src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+			
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> <script
@@ -792,7 +995,7 @@
         </td>
         <td class="text-left">
             <button type="button" class="btn btn-success linkCase" name="linkCase" id="{{index}}">
-                              关联案件
+                              关联
             </button>
         </td>
     </tr>
@@ -828,8 +1031,7 @@
   				$("input[name='toSpvAccountList[1].telephone']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("#bank_1").prop("disabled",false);
   				$("select[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-  				$("#signDiv").show();
-  				$("#signDiv").find("input").prop("readOnly",false);
+  				$("#signDiv").show().find("input").prop("readOnly",false);
 	         }
 			
 			$("select[name='toSpvAccountList[3].name']").change(function(){
@@ -845,39 +1047,29 @@
 					$("input[name='toSpvAccountList[3].account']").val("457263590104");
 					break;
 				}
-			});
-			
-			$("select[name='toSpvAccountList[3].name']").change();
+			}).change();
 
 			$("input[name='toSpv.amount']").blur(function(){
 				$("#amountDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpv.amountOwn']").blur(function(){
 				$("#amountOwnDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpv.amountMort']").blur(function(){
 				$("#amountMortDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpv.amountMortCom']").blur(function(){
 				$("#amountMortComDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpv.amountMortPsf']").blur(function(){
 				$("#amountMortPsfDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpvProperty.signAmount']").blur(function(){
 				$("#signAmountDX").val(DX($(this).val()*10000));
-			});
+			}).blur();
 			$("input[name='toSpvProperty.leftAmount']").blur(function(){
 				$("#leftAmountDX").val(DX($(this).val()*10000));
-			});			
-	 			
-			$("input[name='toSpv.amount']").blur();
-			$("input[name='toSpv.amountOwn']").blur();
-			$("input[name='toSpv.amountMort']").blur();
-			$("input[name='toSpv.amountMortCom']").blur();
-			$("input[name='toSpv.amountMortPsf']").blur();
-			$("input[name='toSpvProperty.signAmount']").blur();
-			$("input[name='toSpvProperty.leftAmount']").blur();
+			}).blur();			
 			
 	       	getParentBank($("#bank_1"),$("select[name='toSpvAccountList[1].bank']"),'${spvBaseInfoVO.toSpvAccountList[1].bank }');
 	       	getParentBank($("#bank_0"),$("select[name='toSpvAccountList[0].bank']"),'${spvBaseInfoVO.toSpvAccountList[0].bank }');
@@ -973,14 +1165,21 @@
 		}
 
         function reloadGrid() {
-        	var propertyAddr = $("#propertyAddr").val();
+        	var data = {};
+        	var propertyAddr = $.trim($("#propertyAddr").val());
+           	var caseCode = $.trim($("#caseCodet").val());
+           	var caseName = $.trim($("#caseNamet").val()); 
+           	
+            data.propertyAddr=propertyAddr;
+            data.caseCode=caseCode;
+           	data.sname=caseName; 
     	    $(".eloanApply-table").reloadGrid({
     	    	ctx : "${ctx}",
     	    	rows : '6',
     			queryId : 'queryCastListItemList',
     		    templeteId : 'queryCastListItemList2',
     		    wrapperData :{ctx : ctx},
-    		    data : {propertyAddr:propertyAddr}
+    		    data : data
     	    })
     	}
         
@@ -1008,21 +1207,24 @@
 		};
 		
 		
-		var sum = parseInt($("#toSpvDeDetailListSize").val()); //定义sum为全局变量
+		var sum = parseInt($("#toSpvDeDetailListSize").val());
+		if( sum==0){
+			sum=1;
+		}
 		function getAtr(i) {
 		$str = '';
 		$str += "<tr align='center'>";
-		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].deCondCode' name='toSpvDeDetailList["+sum+"].deCondCode' clazz='form-control input-one' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>";
-		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].payeeAccountType' name='toSpvDeDetailList["+sum+"].payeeAccountType' tag='DE' clazz='form-control input-one' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>";
+		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].deCondCode' name='toSpvDeDetailList["+sum+"].deCondCode' clazz='table-select' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>";
+		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].payeeAccountType' name='toSpvDeDetailList["+sum+"].payeeAccountType' tag='DE' clazz='table-select' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>";
 		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万</td>";
 		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
 		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
 		$str += "</tr>";
 		$("#addTr").append($str);
 		sum++;
-		if(sum > 0){
+/* 		if(sum > 1){
 			$('#example').hide();
-		}
+		} */
 		$("#sum").html(sum);
 		}
 		

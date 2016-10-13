@@ -46,6 +46,10 @@ public class LoanlostApplyController {
 		request.setAttribute("approveType", "1");
 		request.setAttribute("operator", user != null ? user.getId() : "");
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
+		if ( cou >0) {
+			caseBaseVO.setLoanType("30004005");
+		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		toAccesoryListService.getAccesoryList(request, taskitem);

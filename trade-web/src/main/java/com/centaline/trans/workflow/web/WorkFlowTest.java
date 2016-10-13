@@ -25,6 +25,8 @@ import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.product.entity.ProductCategory;
+import com.centaline.trans.product.service.ProductCategoryService;
 
 @Controller
 @RequestMapping(value = "/workflow")
@@ -37,6 +39,8 @@ public class WorkFlowTest {
 	private FindUserLogic findUserLogic;
 	@Autowired
 	private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private ProductCategoryService productCategoryService ; 
 	@RequestMapping(value = "/executionAction")
 	@ResponseBody
 	public ExecutionVo executionAction(ExecuteAction action){
@@ -72,11 +76,16 @@ public class WorkFlowTest {
 
 	@RequestMapping(value = "/test")
 	@ResponseBody
-	public PageableVo test(TaskHistoricQuery tq) {
+	public ProductCategory test(TaskHistoricQuery tq) {
 
-		return workFlowManager.listHistTasks(tq);
+		return productCategoryService.getProductCategoryById("5");
 	}
+	@RequestMapping(value = "/test1")
+	@ResponseBody
+	public ProductCategory test1(TaskHistoricQuery tq) {
 
+		return productCategoryService.getProductCategoryByCode("5");
+	}
 	@RequestMapping(value = "/getVar")
 	@ResponseBody
 	public Object getVar(String id, String name) {

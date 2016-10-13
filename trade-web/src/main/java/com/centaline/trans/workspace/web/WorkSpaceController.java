@@ -129,7 +129,7 @@ public class WorkSpaceController {
 	
 	
 	
-	@RequestMapping(value = "dashboard")
+	@RequestMapping(value = "/dashboard")
 	public String showWorkSpace2(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		SessionUser user = uamSessionService.getSessionUser();
 		//SessionUser currentUser = uamSessionService.getSessionUser();		
@@ -1160,7 +1160,7 @@ public class WorkSpaceController {
 		//无主任务预警数
 		Long unLocatedTask = getUnlocatedTaskCount(currentUser);
 		//待分配任务预警数
-		Long caseDistributeCount =  getCaseDistributeCount();
+		//Long caseDistributeCount =  getCaseDistributeCount();
 		
 		int bizwarnCaseCount = 0;
 		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
@@ -1176,7 +1176,7 @@ public class WorkSpaceController {
 		
 		map.put("unLocatedCaseCount", unLocatedCase);
 		map.put("unLocatedTaskCount", unLocatedTask);
-		map.put("caseDistributeCount", caseDistributeCount);
+		//map.put("caseDistributeCount", caseDistributeCount);
 		
 		return map;
 	}

@@ -11,9 +11,8 @@ select distinct aht.id_ as pkid,aht.TASK_DEF_KEY_ as taskDefKey,aht.PROC_INST_ID
  on tf.INST_CODE=aht.PROC_INST_ID_
  left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi on tsi.CASE_CODE=tf.CASE_CODE 
  left join sctrans.SYS_DICT d on d.CODE=aht.TASK_DEF_KEY_ and tsi.SRV_CODE=d.TYPE
- left join sctrans.V_USER_ORG_JOB u on u.USERNAME=aht.ASSIGNEE_
+ left join sctrans.V_USER_ORG_JOB u on u.USERNAME=aht.ASSIGNEE_ and u.JOB_CODE='consultant'
  where d.id is not null and aht.ID_ in (
- 
  select max(aht.ID_)
  from sctrans.ACT_HI_TASKINST aht 
  right join sctrans.T_TO_WORKFLOW tf 

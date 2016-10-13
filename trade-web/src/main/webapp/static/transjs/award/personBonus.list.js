@@ -1,150 +1,57 @@
-var PersonBonusList = (function(){    
-    return {    
-       init : function(ctx,url,gridTableId,gridPagerId,belongMonth){    
-    	 //jqGrid 初始化
-    		$("#"+gridTableId).jqGrid({
-    			url : ctx+url,
-    			mtype : 'GET',
-    			datatype : "json",
-    			height : 550,
-    			autowidth : true,
-    			shrinkToFit : true,
-    			rowNum : 8,
-    			/*   rowList: [10, 20, 30], */
-    			colNames : [ '主键','案件编号','过户时间','结案时间','产证地址','人员','服务','基础奖金','环节占比','满意度','是否达标','考核结果','满意度占比','绩效奖金'],
-    			colModel : [ {
-    				name : 'PKID',
-    				index : 'PKID',
-    				align : "center",
-    				width : 0,
-    				key : true,
-    				resizable : false,
-    				hidden : true
-    			}, {
-    				name : 'CASE_CODE',
-    				index : 'CASE_CODE',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			}, {
-    				name : 'GUOHU_TIME',
-    				index : 'GUOHU_TIME',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'CLOSE_TIME',
-    				index : 'CLOSE_TIME',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'PROPERTY_ADDR',
-    				index : 'PROPERTY_ADDR',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'PARTICIPANT',
-    				index : 'PARTICIPANT',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'SRV_CODE',
-    				index : 'SRV_CODE',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'BASE_AMOUNT',
-    				index : 'BASE_AMOUNT',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'SRV_PART_IN',
-    				index : 'SRV_PART_IN',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'SATISFACTION',
-    				index : 'SATISFACTION',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'MKPI',
-    				index : 'MKPI',
-    				align : "center",
-    				width : 20,
-    				resizable : false
-    				/*,
-    				formatter : function(cellvalue, options, rowObject) {
-    					if(cellvalue == 1) {
-    						return '是'
-    					} else if(cellvalue == 0) {
-    						return '否'
-    					} else {
-    						return ''
-    					}
-    				}*/
-    			},{
-    				name : 'KPI_RATE_SUM',
-    				index : 'KPI_RATE_SUM',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'SRV_PART',
-    				index : 'SRV_PART',
-    				align : "center",
-    				width : 20,
-    				resizable : false
-    			},{
-    				name : 'AWARD_KPI_MONEY',
-    				index : 'AWARD_KPI_MONEY',
-    				align : "center",
-    				width : 20,
-    				resizable : false
-    			}],
-    			multiselect: true,
-    			pager : "#"+gridPagerId,
-    			sortname:'PKID',
-    	        sortorder:'desc',
-    	        viewrecords : true,
-    			pagebuttions : true,
-    			multiselect:false,
-    			hidegrid : false,
-    			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-    			pgtext : " {0} 共 {1} 页",
+var PersonBonus = function () {
+	 return {
+		init : function (_ctx,data1) {
+		  ctx=_ctx;
+		  $.ajax({
+  			  async: false,
+  	          url:ctx+ "/quickGrid/findPage" ,
+  	          method: "post",
+  	          dataType: "json",
+  	          data: data1,
+  	          success: function(data){
+  	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
+	                  $("#TsAwardBaseList").empty();
+	                  $("#TsAwardBaseList").html(tsAwardBaseList);
+	                  
+	                 // 显示分页 
+	                 initpage(data.total,data.pagesize,data.page, data.records);
+  	          }
+  	     });
+  		
+		}
+	 };
+}();
 
-    			gridComplete:function(){
-    				
-    			},
-    			postData : {
-    				queryId : "personBonusList",
-                    argu_belongMonth : belongMonth
-    			}
-
-    		});
-    		
-    		// Add responsive to jqGrid
-    		$(window).bind('resize', function() {
-    			var width = $('.jqGrid_wrapper').width();
-    			$("#"+gridTableId).setGridWidth(width);
-    		});
-       }
-    };    
-})();  
-
-function test() {
-	 var prCodeArray = new Array();
-	 var pkidList = jQuery("#gridTable").jqGrid('getGridParam', 'selarrrow');
-	 for(var i = 0;i<pkidList.length;i++){
-		 var item=$("#gridTable").jqGrid('getRowData',pkidList[i]);
-		 prCodeArray.push(item.PKID);
-	 }
-	 alert(prCodeArray);
+function initpage(totalCount,pageSize,currentPage,records)
+{
+	if(totalCount>1500){
+		totalCount = 1500;
+	}
+	var currentTotalstrong=$('#currentTotalPage').find('strong');
+	if (totalCount<1 || pageSize<1 || currentPage<1)
+	{
+		$(currentTotalstrong).empty();
+		$('#totalP').text(0);
+		$("#pageBar").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	$('#totalP').text(records);
+	
+	
+	$("#pageBar").twbsPagination({
+		totalPages:totalCount,
+		visiblePages:9,
+		startPage:currentPage,
+		first:'<i class="icon-step-backward"></i>',
+		prev:'<i class="icon-chevron-left"></i>',
+		next:'<i class="icon-chevron-right"></i>',
+		last:'<i class="icon-step-forward"></i>',
+		showGoto:true,
+		onPageClick: function (event, page) {
+			 //console.log(page);
+			goPage(page);
+	    }
+	});
 }

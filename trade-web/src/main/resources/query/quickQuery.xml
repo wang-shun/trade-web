@@ -47,6 +47,7 @@
 	<!-- E贷款 -->
 	<import resource="query/eloan/warnListQuery.xml" />
 	<import resource="query/eloan/changeListQuery.xml" />
+	<import resource="query/eloan/eloanRiskCtlList.xml" />
 	
 	<!-- 审批记录 -->
 	<import resource="query/task/toApproveRecordQuery.xml" />
@@ -153,7 +154,13 @@
 	<import resource="query/eloan/ELoanCaseList.xml" />
 	<import resource="query/eloan/eloanContractList.xml" />
 	<!-- 商贷信息列表 -->
-	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />	
+	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />
+	<!-- 贷款类型单量分析 -->
+	<import resource="query/mortgage/toMortgageTypeAnalysis.xml" />		
+	<!-- 贷款类型金额分析 -->
+	<import resource="query/mortgage/toMortgageTypeAmountAnalysis.xml" />
+	<!-- 贷款组织分析 -->
+	<import resource="query/mortgage/toMortgageOrgAnalysis.xml" />
 	<!-- 本组临时银行案件管理列表 -->
 	<import resource="query/tmpBank/toTmpBankCaseListQueryByTeam.xml" />
 	<!-- 本区临时银行案件管理列表 -->
@@ -162,4 +169,16 @@
 	<import resource="query/tmpBank/toTmpBankCaseExcelListQuery.xml" />
 	<!-- 金额监管列表 -->
 	<import resource="query/spv/spvList.xml" />
+	<import resource="query/spv/spvFlowList.xml" />
+	<import resource="query/eloan/RiskControlQuery.xml" />
+
+	<!-- 我的预约列表 -->
+	<import resource="query/signroom/myReservationList.xml" />
+	<!-- 签约室 -->
+	<import resource="query/signroom/signRoomAllotList.xml" />
+	<import resource="query/signroom/rmRoomSchedual.xml" />
+	
+	<!-- 签约室列表 -->
+	<import resource="query/signroom/signingList.xml" />
+
 </queryConfig>

@@ -177,7 +177,7 @@ public class KpiImportController {
 		List<KpiMonthVO> errorList = checkImportData(list);
 		if (errorList != null && errorList.size() > 0) {
 			request.setAttribute("errorList", errorList);
-			return "kpi/monthKpiImport";
+			return "award/monthKpiImport";
 		}
 		String createBy = uamSessionService.getSessionUser().getId();
 		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(belongM, createBy, list);

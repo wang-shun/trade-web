@@ -104,6 +104,15 @@
 		<mapper resource="mapper/spv/ToSpvDeDetailMapper.xml" />
 		<mapper resource="mapper/spv/ToSpvDeMapper.xml" />
 		<mapper resource="mapper/spv/ToSpvPropertyMapper.xml" />
+		
+		<!-- 出入款 -->
+   		<mapper resource="mapper/spv/ToSpvCashFlowApplyMapper.xml"/>
+  		<mapper resource="mapper/spv/ToSpvAduitMapper.xml"/> 
+ 	    <mapper resource="mapper/spv/ToSpvCashFlowMapper.xml"/>
+		<mapper resource="mapper/spv/ToSpvVoucherMapper.xml"/>
+		<mapper resource="mapper/spv/ToSpvReceiptMapper.xml"/> 
+		<mapper resource="mapper/spv/ToSpvCashFlowApplyAttachMapper.xml"/>  
+		
 
 		<!-- 知识库 -->
 		<mapper resource="mapper/knowledge/KnowledgeRepoMapper.xml" />
@@ -175,5 +184,31 @@
 		
 		<!-- 产品信息接口 -->
 		<mapper resource="mapper/product/ProductMapper.xml" />
+
+		<!-- 任务提交日记 -->
+		<mapper resource="mapper/task/TlTaskSubmitLogMapper.xml"/>
+		
+		<mapper resource="mapper/eloan/RcRiskControlMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcAttachmentMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcForceRegisterMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcMortgageCardMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcMortgageInfoMapper.xml" />
+		<mapper resource="mapper/eloan/ToRcMortgageMapper.xml" />
+
+		
+		<!-- 预约取号信息接口 -->
+		<mapper resource="mapper/signroom/ReservationMapper.xml" />
+		
+
+		<!-- 交易中心信息接口 -->
+		<mapper resource="mapper/signroom/TradeCenterMapper.xml" />
+
+		<!-- 签约室 -->
+		<mapper resource="mapper/signroom/RmRoomScheduleMapper.xml" />
+		<mapper resource="mapper/signroom/RmSignRoomMapper.xml" />
+		<mapper resource="mapper/signroom/RmRoomScheStragegyMapper.xml" />
+		<mapper resource="mapper/signroom/RmSignRoomOrgMappingMapper.xml" />
+		<mapper resource="mapper/signroom/ResFlowupMapper.xml" />
+
 	</mappers>
 </configuration>

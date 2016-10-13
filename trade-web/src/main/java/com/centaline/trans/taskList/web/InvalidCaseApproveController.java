@@ -34,6 +34,13 @@ public class InvalidCaseApproveController {
 		request.setAttribute("operator", user != null ? user.getId():"");
 		
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		
+		//设置显示税费卡提示
+		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
+		if ( cou >0) {
+			caseBaseVO.setLoanType("30004005");
+		}
+		
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		return "task/taskInvalidCaseApprove";

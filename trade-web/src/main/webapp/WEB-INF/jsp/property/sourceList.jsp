@@ -46,9 +46,14 @@
 
 <link rel="stylesheet"
 	href="${ctx}/css/trans/css/propertyresearch/successList.css" />
-	
-	<!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+
+<!-- 必须CSS -->
+<link rel="stylesheet"
+	href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css"
+	type="text/css" />
+
+<link rel="stylesheet" href="${ctx}/static/css/btn.css" />
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 
 </head>
 
@@ -60,15 +65,18 @@
 				<div class="ibox-content border-bottom clearfix space_box">
 					<!-- 					<h4>已完成产调</h4> -->
 					<h2 class="title">产调来源清单</h2>
-					<form method="post" class="form_list" id="sourceForm" action="${ctx}/quickGrid/findPage?xlsx">
+					<form method="post" class="form_list" id="sourceForm"
+						action="${ctx}/quickGrid/findPage?xlsx">
 						<div class="line">
-							<input type="hidden" id="xlsx" name="xlsx" value="xlsx" /> 
-							<input type="hidden" id="queryId" name="queryId" value="querySourceList" />
-							<input type="hidden" id="ctx" value="${ctx}" />
-							<input type="hidden" id="prDistrictId" name="search_prDistrictId" value="${prDistrictId}" />
-							<input type="hidden" id="prDep" name="search_prDep" value="${prDep}" />
-							<input type="hidden" id="xlsx" name="xlsx" value="xlsx"/>
-		    				<input type="hidden" name="colomns" value="PR_CODE,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,
+							<input type="hidden" id="xlsx" name="xlsx" value="xlsx" /> <input
+								type="hidden" id="queryId" name="queryId"
+								value="querySourceList" /> <input type="hidden" id="ctx"
+								value="${ctx}" /> <input type="hidden" id="prDistrictId"
+								name="search_prDistrictId" value="${prDistrictId}" /> <input
+								type="hidden" id="prDep" name="search_prDep" value="${prDep}" />
+							<input type="hidden" id="xlsx" name="xlsx" value="xlsx" /> <input
+								type="hidden" name="colomns"
+								value="PR_CODE,IS_SUCCESS,UNSUCCESS_REASON,DIST_CODE,
 		    					PR_ADDRESS,APP_RNAME,PR_APPLY_ORG_NAME,PR_APPLY_DEP_NAME,ORG_NAME,EXE_RNAME,PR_COST_ORG_MGR,
 		    					PR_COST_ORG_NAME,PR_STATUS,PR_APPLY_TIME,PR_ACCPET_TIME,PR_COMPLETE_TIME" />
 							<!-- <input type="hidden" id="prStatus" name="search_prStatus"
@@ -106,15 +114,16 @@
 								<label class="control-label sign_left_small"> 贵宾服务部 </label> <input
 									class="teamcode input_type" type="text" id="prDistName"
 									name="searchPrDistName" readonly="readonly"
-										   onclick="chooseDist('ff8080814f459a78014f45a73d820006')"
-										   hVal="" placeholder="" value="" />
+									onclick="chooseDist('ff8080814f459a78014f45a73d820006')"
+									hVal="" placeholder="" value="" />
 								<div class="input-group float_icon organize_icon">
 									<i class="icon iconfont"></i>
 								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_small"> 产调来源 </label> <select
-									name="searchPrAppDep" id="prAppDep" class="select_control teamcode">
+									name="searchPrAppDep" id="prAppDep"
+									class="select_control teamcode">
 									<option value="" selected="selected">请选择</option>
 									<option value="工商铺部">工商铺部</option>
 									<option value="直带区住宅部">直带区住宅部</option>
@@ -128,7 +137,8 @@
 						</div>
 						<div class="line">
 							<div class="form_content">
-								<select name="searchTimeType" id="timeType" class="form-control mend_select sign_left_small"
+								<select name="searchTimeType" id="timeType"
+									class="form-control mend_select sign_left_small"
 									style="width: 105px; margin-right: 17px;">
 									<option value="" selected="selected">请选择</option>
 									<option value="0">申请时间</option>
@@ -137,11 +147,12 @@
 								</select>
 								<div class="input-group sign-right dataleft input-daterange"
 									data-date-format="yyyy-mm-dd">
-									<input name="searchStartTime" id="startTime" 
-									    class="form-control data_style" type="text" value="" placeholder="起始时间">
-										<span class="input-group-addon">到</span>
+									<input name="searchStartTime" id="startTime"
+										class="form-control data_style" type="text" value=""
+										placeholder="起始时间"> <span class="input-group-addon">到</span>
 									<input name="searchEndTime" id="endTime"
-										class="form-control data_style" type="text" value="" placeholder="结束日期">
+										class="form-control data_style" type="text" value=""
+										placeholder="结束日期">
 								</div>
 							</div>
 
@@ -166,8 +177,30 @@
 									<i class="icon iconfont"></i> 查询
 								</button>
 								<!-- <button type="button" class="btn btn-success" onclick="submitForm()">导出列表</button> -->
-								<button id="exportBtn" type="button" class="btn btn-success">导出列表</button> 
+								<button id="exportBtn" type="button" class="btn btn-success">导出列表</button>
+								<button type="button" class="btn  btn-icon btn-toggle mr5"
+									id="sourceReportBtn">
+									<i class="iconfont icon">&#xe63d;</i> 来源报表
+								</button>
 								<button id="cleanBtn" type="reset" class="btn btn-grey">清空</button>
+							</div>
+							<div class="row charone"
+								style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4;">
+								<div class="col-md-4">
+									<!-- <span class="label label-success pull-right" id="labelAll">0</span>
+									<h4>所有产调</h4> -->
+									<div id="pieChartAll" style="height: 320px;"></div>
+								</div>
+								<div class="col-md-4">
+									<!-- <span class="label label-success pull-right" id="labelS">0</span>
+									<h4>有效产调</h4> -->
+									<div id="pieChartOne" style="height: 320px;"></div>
+								</div>
+								<div class="col-md-4">
+									<!-- <span class="label label-success pull-right" id="labelUS">0</span>
+									<h4>无效产调</h4> -->
+									<div id="pieChartZero" style="height: 320px;"></div>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -180,32 +213,26 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!--*********************** HTML_main*********************** -->
 
-	<content tag="local_script"> 
-	
-	<!-- js模板引擎 -->
-	<script src="${ctx}/static/js/template.js"></script> 
-	<!-- 分页控件  --> 
-	<script	src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<!-- 自定义扩展jQuery库 --> 
-	<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
-<!-- 	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script> -->
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<content tag="local_script"> <script
+		src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
 
-	<!-- datapicker -->
-	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<!-- js模板引擎 --> <script src="${ctx}/static/js/template.js"></script> <!-- 分页控件  -->
+	<script
+		src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<!-- 自定义扩展jQuery库 --> <script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	<!-- 	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script> -->
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- datapicker -->
+	<script
+		src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-	<!-- 必须JS -->
-	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-	<!-- owner --> 
-	<script src="${ctx}/js/trunk/property/propertySourceList.js"></script> 
-	
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	
-	
-	<script id="template_sourceList" type="text/html">
+	<!-- 必须JS --> <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<!-- owner --> <script
+		src="${ctx}/js/trunk/property/propertySourceList.js"></script> <jsp:include
+		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script
+		id="template_sourceList" type="text/html">
 		{{each rows as item index}}
 			<tr>
 				<td>
@@ -270,9 +297,7 @@
                 </td>
 			</tr>
 		{{/each}}
-	</script>
-	    
-	<script>
+	</script> <script>
 	
 		/* function submitForm(){
 			$('#sourceForm').submit();
@@ -302,14 +327,9 @@
             });
         });
 		
-	</script> 
-	
-    <script type="text/javascript">
+	</script> <script type="text/javascript">
 		$(function() {
 			setStyle();
 		});
-	</script>
-	    
-    </content>
-	
+	</script> </content>
 </body>

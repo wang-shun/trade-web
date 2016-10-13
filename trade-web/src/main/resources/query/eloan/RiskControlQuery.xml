@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getUserNameByUserId" beanName="qqcdUserIdName"></customDict>
+		<customDict id="getRiskControlType" beanName="getRiskControlType"></customDict>
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="riskControlListQuery">
+		<searchCondition>
+		    <condition field="ELOAN_CODE" name="eloanCode" label="金融编码" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+	    </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						riskControl.PKID,
+						riskControl.ELOAN_CODE,
+						riskControl.RISK_TYPE,
+						riskControl.CREATE_BY,
+						riskControl.CREATE_TIME,
+						riskControl.RISK_COMMENT
+					FROM 
+						sctrans.T_RC_RISK_CONTROL AS riskControl
+					WHERE 
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ELOAN_CODE" index="" checkbox="" display="金融编号" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="RISK_TYPE" index="" checkbox="" display="风控类型" customDict="getRiskControlType" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CREATE_BY" index="" checkbox="" display="执行人" customDict="getUserNameByUserId" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CREATE_TIME" index="" checkbox="" display="执行时间" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="RISK_COMMENT" index="" checkbox="" display="备注" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

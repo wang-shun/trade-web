@@ -497,6 +497,13 @@ function exportToExcel() {
 			var val = this.value;
 			displayColomn.push(colNames[val]);
 		});
+		
+		/*新增确认函编号*/
+		displayColomn.push('REC_LETTER_NO');
+		displayColomn.push('LOANLOST_CONFIRM_CODE');		
+		displayColomn.push('SELF_DEL_REASON');
+		displayColomn.push('loanlost_apply_reason');
+		
 		$("input[name='trade_info_item']:checked").each(function() {
 			var val = this.value;
 			displayColomn.push(colNames[val]);

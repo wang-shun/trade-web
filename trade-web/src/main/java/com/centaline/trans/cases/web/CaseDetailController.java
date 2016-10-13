@@ -3,19 +3,13 @@ package com.centaline.trans.cases.web;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import com.aist.uam.permission.remote.UamPermissionService;
+import com.aist.uam.permission.remote.vo.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -200,6 +194,9 @@ public class CaseDetailController {
 	private ToEloanRelService toEloanRelService;
 	@Autowired
 	private ToEloanCaseService toEloanCaseService;
+
+	@Autowired
+	UamPermissionService uamPermissionService;
 
 	/**
 	 * 页面初始化
@@ -739,10 +736,10 @@ public class CaseDetailController {
 			reVo.setCaseProperty(te.getCaseProperty());
 		}
 		
-	/*	int cou = toCaseService.findToLoanAgentByCaseCode(toCase.getCaseCode());
+		int cou = toCaseService.findToLoanAgentByCaseCode(toCase.getCaseCode());
 		if ( cou >0) {
 			reVo.setLoanType("30004005");
-		}*/
+		}
 
 		// 物业信息
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
@@ -1305,7 +1302,9 @@ public class CaseDetailController {
 				isMortgageSelect = true;
 			}
 		}
-		
+		String jobId = uamSessionService.getSessionUser().getServiceJobId();
+		List<Resource> resourcelist = uamPermissionService.getResourceByJobId(jobId);
+		request.setAttribute("resourcelist", resourcelist);
 
 		//商贷预警信息
 		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(toCase.getCaseCode());
@@ -1453,7 +1452,8 @@ public class CaseDetailController {
 		record.setPreProcessorId(toCase.getLeadingProcessId());
 		toCase.setLeadingProcessId(userId);
 		int reToCase = toCaseService.updateByPrimaryKey(toCase);
-
+		
+		User u1 = uamUserOrgService.getUserById(userId);
 		record.setProcessorId(userId);
 		record.setCaseCode(caseCode);
 		/*
@@ -1464,7 +1464,11 @@ public class CaseDetailController {
 
 		// 更新流程引擎
 		if (!StringUtils.isBlank(instCode)) {
-
+			String variableName = "caseOwner";
+			RestVariable restVariable = new RestVariable();
+			restVariable.setType("string");
+			restVariable.setValue(u1.getUsername());
+			workFlowManager.setVariableByProcessInsId(instCode, variableName, restVariable);
 			TaskQuery tq = new TaskQuery();
 			tq.setProcessInstanceId(instCode);
 			tq.setFinished(false);
@@ -1518,8 +1522,6 @@ public class CaseDetailController {
 		SessionUser user = uamSessionService.getSessionUser();
 	
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
-		//记录产调申请人的组织
-		ToPropertyResearchVo pro = toPropertyInfoService.getPropertyDepInfoByuserDepId(user.getServiceDepId());
 		if (toPropertyInfo == null || toPropertyInfo.getPkid() == null)
 			return AjaxResponse.fail("无法找到物业信息！");
 		ToCaseInfo cInfo =toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
@@ -1528,6 +1530,15 @@ public class CaseDetailController {
 		}
 		ToPropertyResearchVo vo = new ToPropertyResearchVo();
 		vo.setCaseCode(caseCode);
+		
+		//记录产调申请人的组织
+		ToPropertyResearchVo pro = toPropertyInfoService.getPropertyDepInfoByuserDepId(user.getServiceDepId());
+		//记录产调申请人的组织
+		if(pro != null){
+			vo.setPrApplyDepId(pro.getPrApplyDepId());
+			vo.setPrApplyDepName(pro.getPrApplyDepName());
+		}
+		
 		// 产调项目
 		StringBuffer prCat = new StringBuffer();
 		for (String prCode : prItems) {
@@ -1550,11 +1561,6 @@ public class CaseDetailController {
 		vo.setPrApplyOrgName(user.getServiceDepName());
 		vo.setPropertyAddr(toPropertyInfo.getPropertyAddr());
 		vo.setAgentCode(cInfo.getAgentCode());
-		//记录产调申请人的组织
-		if(pro != null){
-			vo.setPrApplyDepId(pro.getPrApplyDepId());
-			vo.setPrApplyDepName(pro.getPrApplyDepName());
-		}
 		int reInt=toPropertyResarchService.recordProperty(vo);
 		
 		if (reInt == 0)

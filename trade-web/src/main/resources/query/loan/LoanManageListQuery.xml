@@ -134,9 +134,9 @@
 				<column type="virtual" name="applyStatus" customDict="qqcdDictApplyStatus" referencecol="applyStatus_OLD"  display="自填状态" title="自填状态"/>
 				<column type="both" name="confirmStatus_OLD" index="" checkbox="" title="案件已确认状态" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="virtual" name="confirmStatus" customDict="qqcdDictApplyStatus" referencecol="confirmStatus_OLD"  display="案件已确认状态" title="案件已确认状态"/>
-				<column type="both" name="loanAmount" index="" checkbox="" title="申请金额" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="loanAmount" index="" checkbox="" title="申请金额"  expType="Double" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="applyTime" index="" checkbox="" title="申请时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="actualAmount" index="" checkbox="" title="放款金额" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="actualAmount" index="" checkbox="" title="放款金额" expType="Double" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="releaseTime" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="agentName" index="" checkbox="" title="业务员姓名" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
 				

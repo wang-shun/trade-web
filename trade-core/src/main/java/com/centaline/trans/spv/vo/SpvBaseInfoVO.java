@@ -19,6 +19,8 @@ public class SpvBaseInfoVO {
 	private ToSpvProperty toSpvProperty;
 
 	private List<ToSpvAccount> toSpvAccountList = new ArrayList<ToSpvAccount>();
+	
+	private List<ToSpvAccountVO> toSpvAccountListVo = new ArrayList<ToSpvAccountVO>();
 
 	private ToSpvDe toSpvDe;
 
@@ -78,5 +80,12 @@ public class SpvBaseInfoVO {
 	}
 	public String getHandle() {
 		return handle;
+	}
+	public List<ToSpvAccountVO> getToSpvAccountListVo() {
+		return toSpvAccountListVo;
+	}
+
+	public void setToSpvAccountListVo(List<ToSpvAccountVO> toSpvAccountListVo) {
+		this.toSpvAccountListVo = toSpvAccountListVo;
 	}
 }

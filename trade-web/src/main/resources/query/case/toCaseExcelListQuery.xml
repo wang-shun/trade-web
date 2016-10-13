@@ -530,11 +530,11 @@
 				<column type="both" name="LOAN_LOST_TYPE" title="贷款流失类型"
 					customDict="" hidden="true" />
 					
-				<column type="both" name="MORT_TOTAL_AMOUNT" title="总金额(万元)"
+				<column type="both" name="MORT_TOTAL_AMOUNT" title="总金额(万元)"	expType="Double"
 					customDict="" hidden="true" />
-				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"
+				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"	expType="Double"
 					customDict="" hidden="true" />
-				<column type="both" name="PRF_AMOUNT" title="公积金贷款金额(万元)"
+				<column type="both" name="PRF_AMOUNT" title="公积金贷款金额(万元)"	expType="Double"
 					customDict="" hidden="true" />
 
 				<column type="both" name="BANK_CODE" title="贷款银行(支行)Code"
@@ -577,16 +577,16 @@
 				<column type="both" name="LEND_DATE" title="放款时间" customDict=""
 					hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 
-				<column type="both" name="COM_DISCOUNT" title="利率折扣"
+				<column type="both" name="COM_DISCOUNT" title="利率折扣" expType="Double"
 					customDict="" hidden="true" />
 
-				<column type="both" name="REAL_PRICE" title="成交价(万元)"
+				<column type="both" name="REAL_PRICE" title="成交价(万元)" expType="Double"
 					customDict="" hidden="true" />
-				<column type="both" name="CON_PRICE" title="合同价(万元)"
+				<column type="both" name="CON_PRICE" title="合同价(万元)" 	expType="Double"
 					customDict="" hidden="true" />
-				<column type="both" name="CHECK_PRICE" title="核定价"
+				<column type="both" name="CHECK_PRICE" title="核定价"		expType="Double"
 					customDict="" hidden="true" />
-				<column type="both" name="UNIT_PRICE" title="过户单价"
+				<column type="both" name="UNIT_PRICE" title="过户单价"	expType="Double"
 					customDict="" hidden="true" />
 				<column type="both" name="REAL_CON_TIME" title="签约时间"
 					customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
@@ -611,7 +611,7 @@
 					hidden="true" />
 				<column type="virtual" name="SPV_TYPE" title="监管类型" customDict="getSrvNameByCode" referencecol="SPV_TYPE_OLD"  hidden="true"/>
 
-				<column type="both" name="AMOUNT" title="监管金额" customDict=""
+				<column type="both" name="AMOUNT" title="监管金额" customDict=""	expType="Double"
 					hidden="true" />
 
 				<column type="both" name="SIGN_TIME" title="监管签约时间"

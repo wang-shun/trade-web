@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getUserNameByUserId" beanName="qqcdUserIdName"></customDict>
+		<customDict id="getParentOrgNameByOrgId" beanName="qqcdYuCuiOrgName"></customDict>
+		<customDict id="qqcdDictServCode" beanName="qqcdDictServCode"></customDict>
+		<customDict id="qqcdDictApplyStatus" beanName="qqcdDictApplyStatus"></customDict>
+		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>
+		<customDict id="getRiskType" beanName="qqcdRiskTypeDict"></customDict>
+		<customDict id="getOrgNameByOrgId" beanName="qqcdOrgIdName"></customDict>
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>
+	<query id="queryEloanRiskControlList">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				SELECT
+					RCDATA.ELOANCODE, 
+					RCDATA.RISKTYPE, 
+					RCDATA.ELOANPKID,
+					RCDATA.SERVICECODE, 
+					RCDATA.FINORGCODE,
+					RCDATA.CUSTOMERNAME,
+					RCDATA.EXECUTORID,
+					SYSU0.REAL_NAME AS EXENAME,
+					RCDATA.EXECUTORTEAMID,
+					RCDATA.EXECUTORDISTID,
+					ORG.ORG_NAME,
+					RCDATA.EXETIME,
+					RCDATA.RCEXEID AS RCEXEIDSTR,
+					SYSU1.REAL_NAME AS RCEXENAME
+					FROM
+					(SELECT 
+					RCCITEM.ECODE AS ELOANCODE, 
+					RCCITEM.RTYPE AS RISKTYPE, 
+					RCCITEM.EPKID AS ELOANPKID,
+					RCCITEM.SRVCODE AS SERVICECODE, 
+					RCCITEM.FOCODE AS FINORGCODE,
+					RCCITEM.CNAME AS CUSTOMERNAME,
+					RCCITEM.EXEID AS EXECUTORID,
+					RCCITEM.EXETEAM AS EXECUTORTEAMID,
+					RCCITEM.EXEDIST AS EXECUTORDISTID,
+					RCMGC.CREATE_TIME AS EXETIME,
+					RCMGC.CREATE_BY AS RCEXEID
+					FROM 
+					(SELECT 
+					RCC.ELOAN_CODE AS ECODE, 
+					RCC.RISK_TYPE AS RTYPE, 
+					RCC.PKID AS RCID, 
+					ELOAN.PKID AS EPKID,
+					ELOAN.LOAN_SRV_CODE AS SRVCODE,
+					ELOAN.FIN_ORG_CODE AS FOCODE,
+					ELOAN.CUST_NAME AS CNAME,
+					ELOAN.EXCUTOR_ID AS EXEID,
+					ELOAN.EXCUTOR_TEAM AS EXETEAM,
+					ELOAN.EXCUTOR_DISTRICT AS EXEDIST
+					FROM 
+					sctrans.T_RC_RISK_CONTROL AS RCC
+					JOIN sctrans.T_TO_ELOAN_CASE AS ELOAN
+					ON RCC.ELOAN_CODE = ELOAN.ELOAN_CODE) AS RCCITEM 
+					JOIN sctrans.T_TO_RC_MORTGAGE_CARD AS RCMGC
+					ON RCCITEM.RCID = RCMGC.RC_ID
+					
+					UNION
+					
+					SELECT 
+					RCCITEM.ECODE AS ELOANCODE, 
+					RCCITEM.RTYPE AS RISKTYPE, 
+					RCCITEM.EPKID AS ELOANPKID,
+					RCCITEM.SRVCODE AS SERVICECODE, 
+					RCCITEM.FOCODE AS FINORGCODE,
+					RCCITEM.CNAME AS CUSTOMERNAME,
+					RCCITEM.EXEID AS EXECUTORID,
+					RCCITEM.EXETEAM AS EXECUTORTEAMID,
+					RCCITEM.EXEDIST AS EXECUTORDISTID,
+					RCFR.EXECUTE_TIME AS EXETIME,
+					RCFR.CREATE_BY AS RCEXEID
+					FROM 
+					(SELECT 
+					RCC.ELOAN_CODE AS ECODE, 
+					RCC.RISK_TYPE AS RTYPE, 
+					RCC.PKID AS RCID, 
+					ELOAN.PKID AS EPKID,
+					ELOAN.LOAN_SRV_CODE AS SRVCODE,
+					ELOAN.FIN_ORG_CODE AS FOCODE,
+					ELOAN.CUST_NAME AS CNAME,
+					ELOAN.EXCUTOR_ID AS EXEID,
+					ELOAN.EXCUTOR_TEAM AS EXETEAM,
+					ELOAN.EXCUTOR_DISTRICT AS EXEDIST 
+					FROM 
+					sctrans.T_RC_RISK_CONTROL AS RCC
+					JOIN sctrans.T_TO_ELOAN_CASE AS ELOAN
+					ON RCC.ELOAN_CODE = ELOAN.ELOAN_CODE) AS RCCITEM 
+					JOIN sctrans.T_TO_RC_FORCE_REGISTER AS RCFR
+					ON RCCITEM.RCID = RCFR.RC_ID
+					
+					UNION
+					
+					SELECT 
+					RCCITEM.ECODE AS ELOANCODE, 
+					RCCITEM.RTYPE AS RISKTYPE, 
+					RCCITEM.EPKID AS ELOANPKID,
+					RCCITEM.SRVCODE AS SERVICECODE, 
+					RCCITEM.FOCODE AS FINORGCODE,
+					RCCITEM.CNAME AS CUSTOMERNAME,
+					RCCITEM.EXEID AS EXECUTORID,
+					RCCITEM.EXETEAM AS EXECUTORTEAMID,
+					RCCITEM.EXEDIST AS EXECUTORDISTID,
+					RCMG.CREATE_TIME AS EXETIME,
+					RCMG.CREATE_BY AS RCEXEID
+					FROM 
+					(SELECT RCC.ELOAN_CODE AS ECODE, 
+					RCC.RISK_TYPE AS RTYPE, 
+					RCC.PKID AS RCID, 
+					ELOAN.PKID AS EPKID,
+					ELOAN.LOAN_SRV_CODE AS SRVCODE,
+					ELOAN.FIN_ORG_CODE AS FOCODE,
+					ELOAN.CUST_NAME AS CNAME,
+					ELOAN.EXCUTOR_ID AS EXEID,
+					ELOAN.EXCUTOR_TEAM AS EXETEAM,
+					ELOAN.EXCUTOR_DISTRICT AS EXEDIST
+					FROM 
+					sctrans.T_RC_RISK_CONTROL AS RCC
+					JOIN sctrans.T_TO_ELOAN_CASE AS ELOAN
+					ON RCC.ELOAN_CODE = ELOAN.ELOAN_CODE) AS RCCITEM 
+					JOIN sctrans.T_TO_RC_MORTGAGE AS RCMG
+					ON RCCITEM.RCID = RCMG.RC_ID) AS RCDATA
+					
+					LEFT JOIN sctrans.SYS_USER AS SYSU0
+					ON RCDATA.EXECUTORID = SYSU0.ID
+					LEFT JOIN sctrans.SYS_ORG AS ORG
+					ON RCDATA.EXECUTORDISTID = ORG.ID
+					LEFT JOIN sctrans.SYS_USER AS SYSU1
+					ON RCDATA.RCEXEID = SYSU1.ID
+					
+					WHERE 1=1
+					
+				    <ifNotNull sEloanCode>
+						AND RCDATA.ELOANCODE LIKE '%'+#sEloanCode#+'%'
+					</ifNotNull>
+					
+					<ifNotNull sEloanRiskType>
+						AND RCDATA.RISKTYPE = #sEloanRiskType#
+					</ifNotNull>
+					
+					<ifNotNull sEloanChooseRole>
+						<if test="sEloanChooseRole == 0">
+							<if test="sEloanName != ''">
+							    AND SYSU0.REAL_NAME LIKE '%'+#sEloanName#+'%'
+							</if>
+				    	</if>
+				    	<if test="sEloanChooseRole == 1">
+							<if test="sEloanName != ''">
+							    AND SYSU1.REAL_NAME LIKE '%'+#sEloanName#+'%'
+							</if>
+				    	</if>
+				    	<if test="sEloanChooseRole == 2">
+							<if test="sEloanName != ''">
+							    AND RCDATA.CUSTOMERNAME LIKE '%'+#sEloanName#+'%'
+							</if>
+				    	</if>
+					</ifNotNull>
+					
+					<if test="sStartTime != ''">
+						AND RCDATA.EXETIME &gt;= #sStartTime#
+					</if>
+					<if test="sEndTime != ''">
+						AND RCDATA.EXETIME &lt;= #sEndTime#
+					</if>
+					
+					<ifNotNull sExeTeam>
+						AND ORG.ORG_NAME like '%'+#sExeTeam#+'%'
+					</ifNotNull>
+					
+					<choose>
+						<when test="USER_JOBCODE=='GeneralManager' ">
+							AND 1=1
+					    </when>
+					    <when test="USER_JOBCODE=='director' ">
+							AND RCDATA.EXECUTORDISTID = #orgId#
+					    </when>
+					    <when test="USER_JOBCODE=='Manager' ">
+							AND RCDATA.EXECUTORTEAMID = #orgId#
+					    </when>
+					    <when test="USER_JOBCODE=='consultant' ">
+							AND RCDATA.EXECUTORID = #userId#
+					    </when>
+					    <when test="USER_JOBCODE=='yucui_product' ">
+							AND RCDATA.RCEXEID = #userId#
+					    </when>
+					    <otherwise>
+					    	AND 1=0
+					    </otherwise>
+					</choose>	
+					
+					]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+			<column name="ELOANPKID" title="E+金融主键"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			<column name="ELOANCODE" title="E+金融编号"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			<column name="RISKTYPE" customDict="getRiskType" title="风控措施类型"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />				
+			<column name="SERVICECODE" customDict="qqcdDictServCode" title="贷款类型"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />				
+			<column name="FINORGCODE" customDict="qqcdFinOrgNameDict" title="合作机构"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />				
+			<column name="CUSTOMERNAME" title="借款人"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			<column name="EXECUTORID" customDict="getUserNameByUserId" title="贷款专员"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			<column name="EXECUTORTEAMID" customDict="getOrgNameByOrgId" title="贷款专员所在组织"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			<column name="EXECUTORDISTID" customDict="getOrgNameByOrgId" title="贷款专员所在区域"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			<column name="EXETIME" title="执行时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="" isSort="" align="" halign="" order="" resizable=""/>
+			<!-- <column name="RCEXEIDSTR" title="执行人"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			<column name="RCEXEID" customDict="getUserNameByUserId" title="执行人"  index="" default="" checkbox="" ysDict="" format="" width="0" isSort="" align="" halign="" resizable="" /> -->
+			<column type="both" name="RCEXEIDSTR" display="执行人" title="执行人" customDict="" width="" isSort="" />			
+			<column type="virtual" name="RCEXEID" display="执行人" title="执行人" referencecol="RCEXEIDSTR"  customDict="getUserNameByUserId" isSort="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

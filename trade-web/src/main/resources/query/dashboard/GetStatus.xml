@@ -337,7 +337,7 @@
 						        NULL AS REAL_PRICE
 						FROM    sctrans.T_TO_ELOAN_REL ttr
 						        LEFT JOIN sctrans.T_TO_ELOAN_CASE ttc ON ttc.ELOAN_CODE = ttr.ELOAN_CODE
-						WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' 
+						WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' and ttr.CONFIRM_STATUS=1
 						<if test="user_Id != null">
 						 	and ttc.EXCUTOR_ID = #user_Id#
 						 </if>

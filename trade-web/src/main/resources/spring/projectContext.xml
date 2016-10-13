@@ -52,6 +52,7 @@
     <bean name="qqcdDictIsFeeGet" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="IS_EVAL_FEE_GET "></property>
     </bean>
+    <!-- 根据part_code查询part_name -->
      <bean name="qqcdDictPartName" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="part_code "></property>
     </bean>
@@ -133,6 +134,10 @@
     <!-- 贷款服务编码 -->
     <bean name="qqcdDictServCode" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_serv_cat_code_tree"></property>
+    </bean>
+    <!-- 风控措施编码 -->
+    <bean name="qqcdRiskTypeDict" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="RISK_CONTROL_TYPE"></property>
     </bean>
     <!-- 金融产品申请状态  -->
     <bean name="qqcdDictApplyStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
@@ -327,6 +332,28 @@
     
     <!-- 获取临时银行案件报表状态 -->
     <bean name="getTmpBankCaseStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetTmpBankCaseStatusServiceImpl"></bean>
+    
+   <bean name="getRiskControlType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="RISK_CONTROL_TYPE"></property>
+    </bean>
+
+    <!-- 获取我的预约列表预约状态 -->
+    <bean name="getShowResStatusStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetShowResStatusServiceImpl"></bean>
+    
+    <!-- 获取我的预约列表开始预约时间 -->
+    <bean name="getShowResStartTime" class="com.centaline.trans.common.service.impl.QuickQueryGetShowResStartTimeServiceImpl"></bean>
+    
+    <!-- 获取我的预约列表预约结束时间 -->
+    <bean name="getShowResEndTime" class="com.centaline.trans.common.service.impl.QuickQueryGetShowResEndTimeServiceImpl"></bean>
+    
+    <!-- 格式化时间 -->
+    <bean name="getShowTime" class="com.centaline.trans.common.service.impl.QuickQueryGetShowTimeServiceImpl"></bean>
+
+    <!-- 根据预约单标识获取跟进信息列表 -->
+    <bean name="getFlowupInfoList" class="com.centaline.trans.common.service.impl.QuickQueryGetFlowupInfoListServiceImpl"></bean>
+    
+     <!-- 将字符串以,隔开的办理事项转换为集合list -->
+    <bean name="getTransactItemCodeList" class="com.centaline.trans.common.service.impl.QuickQueryGetTransactItemCodeListServiceImpl"></bean>
     
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

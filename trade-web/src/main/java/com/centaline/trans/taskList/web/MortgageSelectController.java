@@ -89,6 +89,11 @@ public class MortgageSelectController {
 	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		//税费卡
+		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
+		if ( cou >0) {
+			caseBaseVO.setLoanType("30004005");
+		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		

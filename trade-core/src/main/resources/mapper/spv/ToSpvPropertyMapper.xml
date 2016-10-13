@@ -62,7 +62,7 @@
       #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvProperty" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvProperty"  useGeneratedKeys="true" keyProperty="pkid" >
     insert into sctrans.T_TO_SPV_PROPERTY
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

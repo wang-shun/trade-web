@@ -553,7 +553,7 @@
 				<column type="both" name="LEND_DATE" title="放款时间" customDict=""
 					hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
 
-				<column type="both" name="COM_DISCOUNT" title="利率折扣"
+				<column type="both" name="COM_DISCOUNT" title="利率折扣" expType="Double"
 					customDict="" hidden="true" />
 
 				<column type="both" name="REAL_PRICE" title="成交价(万元)"

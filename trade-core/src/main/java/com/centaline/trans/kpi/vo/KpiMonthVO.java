@@ -7,9 +7,9 @@ public class KpiMonthVO {
 	private String userName;
 	@ExcelField(title = "员工编号")
 	private String employeeCode;
-	/*@ExcelField(title = "所在组织")
+	@ExcelField(title = "所在组织")
 	private String orgName;
-	@ExcelField(title = "岗位")
+	/*@ExcelField(title = "岗位")
 	private String jobName;*/
 	@ExcelField(title = "当月金融产品完成单数(包含外单)")
 	private String finOrder;
@@ -48,6 +48,14 @@ public class KpiMonthVO {
 
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
+	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
 	}
 
 }

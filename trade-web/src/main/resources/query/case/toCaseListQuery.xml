@@ -89,6 +89,7 @@
                         B.PROPERTY_ADDR,
                         B.CASE_CODE,
                         B.AGENT_NAME,
+                        B.AGENT_CODE,
                         B.GRP_NAME AGENT_ORG_NAME,
                         B.CTM_CODE as ctmCode,B.AGENT_PHONE, 
                         (SELECT U.REAL_NAME FROM   sctrans.SYS_USER U    inner join  sctrans.T_TO_CASE C on U.ID=C.LEADING_PROCESS_ID AND C.CASE_CODE = B.CASE_CODE)  FONT_NAME
@@ -286,6 +287,7 @@
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_CODE" index="" checkbox="" display="经纪人Id" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				
 				
@@ -325,9 +327,11 @@
                         (						
 select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CASE_CODE=B.CASE_CODE and a.TRANS_POSITION='30006001'
    for xml path('')),1,1,''))  sname,
-                        B.CTM_CODE as ctmCode,B.AGENT_PHONE, 
+                        B.CTM_CODE as ctmCode,B.AGENT_PHONE, B.AGENT_CODE,us.EMPLOYEE_CODE,
                         (SELECT U.REAL_NAME FROM   sctrans.SYS_USER U    inner join  sctrans.T_TO_CASE C on U.ID=C.LEADING_PROCESS_ID AND C.CASE_CODE = B.CASE_CODE)  FONT_NAME
+					    
 					FROM sctrans.V_CASE_LIST_BASE B
+					left join sctrans.SYS_USER us on B.AGENT_CODE=us.ID
 					where 
 					  (  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = B.CASE_CODE  
 					  )
@@ -372,6 +376,8 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="ctmCode"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="电话" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="AGENT_CODE" index="" checkbox="" display="经纪人Id" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			     <column type="both" name="EMPLOYEE_CODE" index="" checkbox="" display="员工编号" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

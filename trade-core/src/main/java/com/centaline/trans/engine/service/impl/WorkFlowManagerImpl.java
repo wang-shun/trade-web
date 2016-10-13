@@ -31,6 +31,7 @@ import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.FindUserLogic;
+import com.centaline.trans.engine.service.TaskSubmitLogService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.utils.WorkFlowUtils;
 import com.centaline.trans.engine.vo.ExecutionVo;
@@ -65,6 +66,8 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	private TaskPlanSetService taskPlanSetService;
 	@Autowired
 	private UamSessionService uamSesstionService;
+	@Autowired
+	private TaskSubmitLogService taskSubmitLogService;
 	static Map<String, String> claimByActivitMap;
 	static {
 		claimByActivitMap = new HashMap<>();
@@ -326,7 +329,12 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		}
 		taskOperate = new TaskOperate(taskId, "complete");
 		taskOperate.setVariables(variables);
+		taskSubmitLogService.record(task);//记录提交日志
 		this.operaterTask(taskOperate);
+
+		
+			
+		
 		if (isClaimByActivit(processInstanceId)) {
 			return true;
 		}
@@ -585,8 +593,10 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		String dfId = process.getProcessDefinitionId();
 		return isClaimByActivitVersion(dfId);
 	}
-
-	private boolean isClaimByActivitVersion(String dfId) {
+public static void main(String[] args) {
+	System.out.println(isClaimByActivitVersion("operation_process:49:695144"));
+}
+	private static boolean isClaimByActivitVersion(String dfId) {
 		String key = dfId.substring(0, dfId.indexOf(":"));
 		String versionFlag = claimByActivitMap.get(key);
 		if (versionFlag == null) {

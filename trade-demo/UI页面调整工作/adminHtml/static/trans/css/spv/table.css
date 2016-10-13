@@ -52,7 +52,9 @@
   top: 8px;
   right: 10px;
 }
-
+.mr5 {
+  margin-right: 5px;
+}
 .input-money {
   position: relative;
   margin-top: 20px;

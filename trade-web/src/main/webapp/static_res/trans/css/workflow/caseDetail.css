@@ -23,6 +23,14 @@
   height: 35px;
 }
 
+#basicInfo .sign-yellow {
+  background: url(../../img/qizi-03.png) no-repeat;
+  top: 0px;
+  left: 265px;
+  width: 52px;
+  height: 35px;
+}
+
 .title {
   float: left;
   font-size: 14px;
@@ -167,10 +175,6 @@
   padding-right: 0;
 }
 
-.modal-content {
-  width: 820px;
-}
-
 .text-left {
   text-align: left !important;
   margin-left: -10px;
@@ -181,7 +185,11 @@
 }
 
 .modal-content {
-  width: 1000px !important;
+  width: 1000px;
+}
+
+.modal-dialog{
+	width: 1000px !important;
 }
 
 .min-h215 {
@@ -215,7 +223,6 @@ p.title {
 .info_box span {
   padding: 3px 10px;
   font-size: 14px;
-  font-weight: bold;
   color: #ffffff;
   background-color: #00CFEC;
   display: inline-block;
@@ -304,17 +311,46 @@ p.title {
 }
 
 @media (min-width: 768px) {
+  .ibox-conn {
+    font-family: "Microsoft Yahei";
+  }
+
+  .ibox-conn .dl-horizontal {
+    margin: 0;
+  }
+
   .ibox-conn .dl-horizontal dt {
     width: 60px;
     line-height: 22px;
+    color: #808080;
   }
 
+	.dl-horizontal {
+	  font-family: SimSun;
+	}
   .ibox-conn .dl-horizontal dd {
     margin-left: 70px;
     margin-bottom: 7px;
     line-height: 22px;
+    color: #333;
   }
 }
+.mt15 {
+  margin-top: 15px;
+}
+
+.cards {
+  min-height: 63px;
+}
+
+.ibox-conn .cards-bg {
+  font-family: "Microsoft Yahei";
+  font-size: 13px;
+  font-weight: normal;
+  border-radius: 3px;
+  background-color: #00CFEC;
+}
+
 .navbar {
   margin-bottom: 0px;
 }
@@ -329,14 +365,25 @@ dt {
   margin-right: 12px;
 }
 
+.ibox-content-head {
+  font-family: "Microsoft Yahei";
+}
+
 .ibox-content-head h5 {
   margin-left: 20px;
   float: left;
   margin-bottom: 15px;
 }
 
-.wrapper .row {
+.page-heading {
   margin-left: 0px !important;
+}
+.priceRow {
+	margin-right : -15px;
+	margin-left : -15px;
+}
+.wrapper .row {
+	margin-left: 0px !important;
 }
 
 .isStuck {

@@ -333,7 +333,7 @@ function reloadGrid(data) {
 		
 		
 		success : function(data) {
-			console.log("===Result==="+JSON.stringify(data));		
+			//console.log("===Result==="+JSON.stringify(data));		
 			$.unblockUI();
 			data.ctx = ctx;
 			var myEloanContractList = template('template_eloanContractList',data);
