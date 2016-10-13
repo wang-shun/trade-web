@@ -79,7 +79,7 @@
 		        and (ec.EXCUTOR_TEAM =#serviceDepId# )
 		        </if>
 		         <if test="serviceJobCode == 'TeamAssistant' and serviceDepHierarchy == 'yucui_team' ">
-		        and ec.EXCUTOR_DISTRICT=#serviceOrgId#
+		        and ec.EXCUTOR_TEAM=#serviceDepId#
 		        </if>
 		        <if test="serviceDepHierarchy == 'BUSIGRP'">
 		        and ec.EXCUTOR_ID =#serviceDepId#  
