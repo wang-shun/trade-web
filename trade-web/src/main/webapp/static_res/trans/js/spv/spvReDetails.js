@@ -16,11 +16,11 @@ function getTR(thisIndex){
 	$str+='		<input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="items['+thisIndex+'].payerName">                                                                                         ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<p><input class="table_input boderbbt" type="text"placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="items['+thisIndex+'].payerAcc"></p>                                                                                   ';
+	$str+='		<p><input class="table_input boderbbt forBankNo" type="text"placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="items['+thisIndex+'].payerAcc"></p>                                                                                   ';
 	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="items['+thisIndex+'].payerBank"></p>                                                                                  ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td class="text-left">                                                                                                                                                                     ';
-	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="items['+thisIndex+'].payerAmount">万元                                                                        ';
+	$str+='		<input class="boderbbt forPayerAmount" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="items['+thisIndex+'].payerAmount">万元                                                                        ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
 	$str+='		<input class="table_input boderbbt forvalue" type="text" placeholder="请输入编号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="items['+thisIndex+'].receiptNo">                                                                                             ';
@@ -121,6 +121,42 @@ function checkReceiptNo(){
 	 
 	return theSameFlag;
 }
+
+function checkBankNoAndPayerAmount(){
+	var regForBankNo = /^[0-9]*$/;
+	var regForPayerAmount = /^\d+(\.\d+)?$/;
+	//var r = new RegExp("^\\d+(\\.\\d+)?$");
+	var bankNoArray = $(".forBankNo");
+	var PayerAmountArray = $(".forPayerAmount");
+	var flag = true;
+	 $.each(bankNoArray,function(i, item) {
+			if (item.value != '') {				
+				if(!regForBankNo.test(item.value.trim())){
+					alert("银行卡号只能由数字组成！");
+					flag = false;
+					return flag;
+				}				
+			}
+			if(flag==false){
+				return  false;
+			}
+	 })
+	 
+	 $.each(PayerAmountArray,function(i, item) {
+			if (item.value != '') {
+				//if(!reg.exec(item.value.trim())){
+				if(!regForPayerAmount.test(item.value.trim())){
+					alert("入职金额只能由数字和小数点组成！");
+					flag = false;
+					return flag;
+				}				
+			}
+			if(flag==false){
+				return  false;
+			}
+	 })
+	return flag;
+}
 //提交
 function sumbitRe(){
 	if(!confirm("是否确定提交申请，开启流程！")){
@@ -130,7 +166,10 @@ function sumbitRe(){
 	if(!checkReceiptNo()){
 		return;
 	}	
-	return;
+	//银行卡号、金额等
+	if(!checkBankNoAndPayerAmount()){
+		return;
+	}	
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
 	//console.log(data);
