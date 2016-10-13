@@ -3,6 +3,8 @@ package com.centaline.trans.signroom.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,9 @@ public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	private ResFlowupMapper resFlowupMapper;
 
+	private Logger logger = LoggerFactory
+			.getLogger(ReservationServiceImpl.class);
+
 	@Override
 	public FreeRoomInfo saveReservation(Reservation reservation,
 			ReservationVo reservationVo) {
@@ -63,7 +68,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 		} catch (Exception e) {
 			isSuccss = "false";
-			e.printStackTrace();
+			logger.error("预约报错信息", e);
 		}
 
 		if (freeRoomInfo != null)

@@ -199,7 +199,11 @@
 						</button>
 						<button type="button" class="btn  btn-icon btn-toggle mr5 "
 							id="mortOrgAnalysis">
-							<i class="iconfont icon">&#xe63f;</i> 组织报表
+							<i class="iconfont icon">&#xe63d;</i> 组织报表
+						</button>
+						<button type="button" class="btn  btn-icon btn-toggle mr5 "
+							id="mortTmpBankAnalysis">
+							<i class="iconfont icon">&#xe63d;</i> 临时银行报表
 						</button>
 						<button type="button" class="btn btn-grey"
 							id="mortgageInfoCleanButton">清空</button>
@@ -223,6 +227,16 @@
 						</div>
 						<div class="col-md-6">
 							<div id="pieChartMOrgCases" style="width: 100%; height: 440px;"></div>
+						</div>
+					</div>
+					
+					<div class="row chartthree"
+						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4;">
+						<div class="col-md-6">
+							<div id="pieChartMTmpBankAmount" style="width: 100%; height: 440px;"></div>
+						</div>
+						<div class="col-md-6">
+							<div id="pieChartMTmpBankCases" style="width: 100%; height: 440px;"></div>
 						</div>
 					</div>
 				</div>

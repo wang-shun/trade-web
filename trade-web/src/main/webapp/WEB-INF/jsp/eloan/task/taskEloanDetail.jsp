@@ -480,7 +480,7 @@
                                             {{/if}}
                                             </shiro:hasPermission>
 											<shiro:hasPermission name="TRADE.RISKCONTROL.DELETE">
-                                            <a href="${ctx}/riskControl/deleteRiskControl?pkid={{item.PKID}}&riskType={{item.RISK_TYPE}}&eloanPkId={{wrapperData.pkId}}"><button type="reset" class="btn btn-grey">删除</button></a>
+                                            	<button type="reset" class="btn btn-grey" onclick="deleteRiskControl('{{item.PKID}}','{{item.RISK_TYPE}}','{{wrapperData.pkId}}')">删除</button>
 											</shiro:hasPermission>
                                          {{/if}}
                                      </td>
@@ -583,6 +583,43 @@
 				});
 				return isExist;
 			}
+		   
+		   function deleteRiskControl(pkid,riskType,eloanPkId){
+			   var url = "${ctx}/riskControl/deleteRiskControl?pkid="+pkid+"&riskType="+riskType+"&eloanPkId="+eloanPkId;
+				$.ajax({
+					cache : false,
+					async : false,//false同步，true异步
+					type : "POST",
+					url : url,
+					dataType : "json",
+					//contentType:"application/json",  
+					beforeSend : function() {
+						$.blockUI({
+							message : $("#salesLoading"),
+							css : {
+								'border' : 'none',
+								'z-index' : '1900'
+							}
+						});
+						$(".blockOverlay").css({
+							'z-index' : '1900'
+						});
+					},
+					complete : function() {
+						$.unblockUI();
+					},
+					success : function(data) {
+						setTimeout('refresh()',1000);
+					},
+					error : function(errors) {
+						alert("数据保存出错");
+					}
+				});
+		   }
+		   
+		   function refresh(){
+			   window.location.reload();
+		   }
 	   </script> 
 	</content>
 </body>

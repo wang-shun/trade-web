@@ -178,28 +178,28 @@
 								</button>
 								<!-- <button type="button" class="btn btn-success" onclick="submitForm()">导出列表</button> -->
 								<button id="exportBtn" type="button" class="btn btn-success">导出列表</button>
-								<!-- <button type="button" class="btn  btn-icon btn-toggle mr5"
+								<button type="button" class="btn  btn-icon btn-toggle mr5"
 									id="sourceReportBtn">
 									<i class="iconfont icon">&#xe63d;</i> 来源报表
-								</button> -->
+								</button>
 								<button id="cleanBtn" type="reset" class="btn btn-grey">清空</button>
 							</div>
 							<div class="row charone"
 								style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4;">
 								<div class="col-md-4">
-									<span class="label label-success pull-right" id="labelAll">0</span>
-									<h4>所有产调</h4>
-									<div id="pieChartAll" style="height: 260px;"></div>
+									<!-- <span class="label label-success pull-right" id="labelAll">0</span>
+									<h4>所有产调</h4> -->
+									<div id="pieChartAll" style="height: 320px;"></div>
 								</div>
 								<div class="col-md-4">
-									<span class="label label-success pull-right" id="labelS">0</span>
-									<h4>有效产调</h4>
-									<div id="pieChartOne" style="height: 260px;"></div>
+									<!-- <span class="label label-success pull-right" id="labelS">0</span>
+									<h4>有效产调</h4> -->
+									<div id="pieChartOne" style="height: 320px;"></div>
 								</div>
 								<div class="col-md-4">
-									<span class="label label-success pull-right" id="labelUS">0</span>
-									<h4>无效产调</h4>
-									<div id="pieChartZero" style="height: 260px;"></div>
+									<!-- <span class="label label-success pull-right" id="labelUS">0</span>
+									<h4>无效产调</h4> -->
+									<div id="pieChartZero" style="height: 320px;"></div>
 								</div>
 							</div>
 						</div>

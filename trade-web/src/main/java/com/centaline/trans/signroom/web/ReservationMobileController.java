@@ -152,7 +152,7 @@ public class ReservationMobileController {
 	 */
 	@RequestMapping(value = "save")
 	@ResponseBody
-	public FreeRoomInfo save(ReservationVo reservationVo) throws ParseException {
+	public FreeRoomInfo save(ReservationVo reservationVo) {
 		FreeRoomInfo freeRoomInfo = reservationService
 				.getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
 
