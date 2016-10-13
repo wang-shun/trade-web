@@ -175,6 +175,10 @@
   padding-right: 0;
 }
 
+.modal-content {
+  width: 820px;
+}
+
 .text-left {
   text-align: left !important;
   margin-left: -10px;
@@ -186,10 +190,6 @@
 
 .modal-content {
   width: 1000px !important;
-}
-
-.modal-dialog{
-	width: 1000px !important;
 }
 
 .min-h215 {
@@ -372,12 +372,8 @@ dt {
   margin-bottom: 15px;
 }
 
-.page-heading {
+.wrapper .row {
   margin-left: 0px !important;
-}
-.priceRow {
-	margin-right : -15px;
-	margin-left : -15px;
 }
 
 .isStuck {

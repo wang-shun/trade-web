@@ -51,19 +51,21 @@ function getTR(thisIndex){
 		acceptFileTypes:'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i',
 		autoUpload: true,
         dataType: 'json',
+        //上传附件
         add:function(e,data){
         	var fileName = data.files[0].name;
         	if($("input[fileName='"+fileName+thisIndex+"']").size()==0){
         		data.submit();
         	}
         },
+        //fileupload 回调
         done: function (e, data) {
         	if(data.result){
             	var fileId =  data.result.files[0].id;
             	var fileUrl = data.result.files[0].url;
             	var fileName = data.result.files[0].name;
             	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
-            	$('#td_file'+thisIndex).prepend(image);	
+            	$('#td_file'+thisIndex).prepend(image);	//在指定元素前面插入图片图标
         	}
         }
     });

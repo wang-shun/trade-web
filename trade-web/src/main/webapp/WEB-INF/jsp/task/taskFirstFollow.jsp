@@ -162,7 +162,7 @@
 							<div class="form-group"  name="isYouXiao">
 						<label class="col-md-2 control-label"><font color="red">*</font>价格</label>
 						<div class="col-md-10">
-							<div class="row">
+							<div class="priceRow">
 								<div class="col-md-5">
 								<div class="input-group">
 									<span class="input-group-addon">成交价</span>
