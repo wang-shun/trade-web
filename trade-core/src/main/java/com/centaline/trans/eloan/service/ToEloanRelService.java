@@ -15,4 +15,6 @@ public interface ToEloanRelService {
 
 	void updateEloanRelByEloanCodeForModify(List<ToEloanRel> eloanRelList);
 
+	List<ToEloanRel> getEloanRelByEloanCodeAndConfirmStatus(String eloanCode);
+
 }

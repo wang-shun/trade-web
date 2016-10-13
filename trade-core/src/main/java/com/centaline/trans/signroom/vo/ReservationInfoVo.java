@@ -30,6 +30,8 @@ public class ReservationInfoVo {
 	private Long signingCenterId; // 签约中心标识
 
 	private Integer numberOfParticipants; // 参与人数
+	
+	private Integer numberOfPeople;//容纳人数
 
 	private String transactItemCode; // 办理事项编号(签合同:contract,办贷款:doLoan,E+贷款:Eloan)
 
@@ -45,9 +47,9 @@ public class ReservationInfoVo {
 	
 	private Long roomId;//房间编号
 	
-	private String startDate;//房间排期开始时间
+	private Long startDate;//房间排期开始时间
 	
-	private String endDate;//房间排期结束时间
+	private Date endDate;//房间排期结束时间
 
 	public String getResNo() {
 		return resNo;
@@ -184,20 +186,21 @@ public class ReservationInfoVo {
 	public void setRoomId(Long roomId) {
 		this.roomId = roomId;
 	}
+	
 
-	public String getStartDate() {
+	public Long getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(Long startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
@@ -207,6 +210,14 @@ public class ReservationInfoVo {
 
 	public void setSigningCenterId(Long signingCenterId) {
 		this.signingCenterId = signingCenterId;
+	}
+
+	public Integer getNumberOfPeople() {
+		return numberOfPeople;
+	}
+
+	public void setNumberOfPeople(Integer numberOfPeople) {
+		this.numberOfPeople = numberOfPeople;
 	}
 	
 	

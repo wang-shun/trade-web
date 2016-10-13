@@ -27,19 +27,19 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_CASHFLOW_APPLY
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=BIGINT}  and IS_DELETED = 0
   </select>
   
   <select id="selectByCashFlowApplyCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_CASHFLOW_APPLY
-    where CASHFLOW_APPLY_CODE = #{cashFlowApplyCode,jdbcType=VARCHAR}
+    where CASHFLOW_APPLY_CODE = #{cashFlowApplyCode,jdbcType=VARCHAR}  and IS_DELETED = 0
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_SPV_CASHFLOW_APPLY
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=BIGINT} 
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCashFlowApply" >
     insert into sctrans.T_TO_SPV_CASHFLOW_APPLY (PKID, SPV_CODE, CASHFLOW_APPLY_CODE, 

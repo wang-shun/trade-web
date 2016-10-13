@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -188,6 +188,10 @@
 					<!--  -->
 					<input type="hidden" id="eloanCode" name="eloanCode"
 						value="${eloanCase.eloanCode}">
+						<input type="hidden" id="createTime" name="createTime"
+						value="<fmt:formatDate value="${eloanCase.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>" >
+						<input type="hidden" id="createBy" name="createBy"
+						value="${eloanCase.createBy}">
 					<ul class="form_lump">
 						<li>
 							<div class="form_content">

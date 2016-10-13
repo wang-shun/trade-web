@@ -83,10 +83,12 @@ $(function(){
 
     $("#today").click(function(){
         $(".data_style").val(getDateWeek(0));
+        $("#searchForm").submit();
     });
     
     $("#tommrow").click(function(){
         $(".data_style").val(getDateWeek(1));
+        $("#searchForm").submit();
     });
     
     //添加跟进信息
@@ -124,8 +126,34 @@ $(function(){
   $("#selResTime").change(function(){
 	  $("#searchForm input[name='resTime']").val(this.value);
   });
-    
+  
 });
+
+//显示跟进信息
+function showTip(obj){
+	$(obj).poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'right',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+		});
+}
+
+//显示手机号信息
+function showMobile(obj){
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
+}
 
 //签约室开始使用
 function startUse(obj,resDate,startTime,endTime){
@@ -255,6 +283,7 @@ function reloadGrid(){
 }
 
 function getParams() {
+	var distinctId = $("input[name='distinctId']").val();
 	var resPersonId = $("input[name='resPersonId']").attr("hVal");
 	var resNo = $.trim($("input[name='resNo']").val());
 	var mobile = $.trim($("input[name='mobile']").val());
@@ -281,6 +310,7 @@ function getParams() {
 	}
 	
 	var data = {};
+	data.distinctId = distinctId;
 	data.resPersonId = resPersonId;
 	data.resNo = resNo;
 	data.mobile = mobile;

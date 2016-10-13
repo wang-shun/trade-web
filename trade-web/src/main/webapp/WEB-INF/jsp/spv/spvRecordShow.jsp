@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -27,6 +28,8 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " />
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 </head>
 
 <body>
@@ -56,7 +59,7 @@
                                   <label>
                                     	  物业地址
                                   </label>
-                                  <span class="info">${spvBaseInfoVO.toSpvProperty.prAddr }</span>
+                                  <p  class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }">${spvBaseInfoVO.toSpvProperty.prAddr }</p>
                               </p>
 
                           </div>
@@ -95,11 +98,14 @@
                         <input type="hidden" name="spvAccountCode" value="${spvBaseInfoVO.toSpvAccountList[2].account}" />
                         <input type="hidden" name="spvAccountBank" value="${spvBaseInfoVO.toSpvAccountList[2].bank}" />
                          <%-- 流程相关 --%>
-						<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-						<input type="hidden" id="instCode" name="instCode" value="${instCode}">
-						<input type="hidden" id="source" name="source" value="${source}">
-						<input type="hidden" id="urlType" name="source" value="${urlType}">
-						<input type="hidden" id="handle" name="handle" value="${handle }">
+						<input type="hidden" id="taskId" name="taskId" value="${taskId }" />
+						<input type="hidden" id="instCode" name="instCode" value="${instCode}" />
+						<input type="hidden" id="source" name="source" value="${source}" />
+						<input type="hidden" id="urlType" name="source" value="${urlType}" />
+						<input type="hidden" id="handle" name="handle" value="${handle }" />
+						<input type="hidden" id="chargeInAppr" name="chargeInAppr" />
+						<input type="hidden" id="businessKey" name="businessKey" value="${businessKey }" />
+						<input type="hidden" id="turndownContent" name="turndownContent" />
                         <input type="hidden" name="oldpkid"  />
                               <div class="table-box" >
                                   <table class="table table-bordered customerinfo">
@@ -126,14 +132,18 @@
                                                   <div class="big">${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }万元</div>
                                               </td>
                                               <td>
-                                                  <div class="big">${spvCaseFlowOutInfoVO.toSpvCashFlowApply.cashflowApplyId }</div>
+                                                  <div class="big">  ${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptNo }  </div>
                                               </td>
                                               <td>
-                                                  <div class="big">${spvCaseFlowOutInfoVO.toSpvCashFlowApply.direction }</div>
+                                                  <div class="big"> ${spvCaseFlowOutInfoVO.toSpvCashFlow.direction } </div>
                                               </td>
                                               <td>
-                                                  <a class="response" href="../static/trans/img/uplody01.png" title="凭证1"><button type="button" class="btn btn-sm btn-default" ><i class="icon iconfont icon_y">&#xe635;</i> 凭证1</button></a>
-                                                  <a class="response" href="../static/trans/img/uplody02.png" title="凭证2"><button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#showImg"  ><i class="icon iconfont icon_y">&#xe635;</i>凭证2</button></a>
+                                                  <c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
+                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
+														<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
+														<button type="button" class="btn btn-sm btn-default" >${toSpvReceiptList.comment}</button>
+													</a>
+                                               	 </c:forEach>
                                               </td>
                                           </tr>
                                        </c:forEach>
@@ -155,7 +165,7 @@
  							<c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status3">
 	                            <div class="view clearfix">
 	                                <p>
-	                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }(资金监管专员)</em></span>
+	                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }</em></span>
 	                                   <span class="result pink_bg">${toSpvAduit.result }</span>
 	                                   <span class="time">审核日期:<em><fmt:formatDate value="${toSpvAduit.createTime }" pattern="yyyy-MM-dd"/> </em></span>
 	                                </p>
@@ -170,11 +180,11 @@
 
 
                       <div class="submitter">
-                          提交人：<span>${spvChargeInfoVO.toSpvCashFlowApply.createBy}(业务员)</span>
+                     <%--      提交人：<span>${spvChargeInfoVO.toSpvCashFlowApply.createBy}(业务员)</span> --%>
                       </div>
                       <div class="excuse">
                           <form action="">
-                              <textarea name="" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                              <textarea name="turndownContent_" id="turndownContent_" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                           </form>
                           <div class="form-btn">
                           <div class="text-center">
@@ -202,22 +212,62 @@
 <script src="${ctx}/static/js/inspinia.js"></script>
 <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <script src="${ctx}/static/trans/js/response/js/jkresponsivegallery.js"></script>
-
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <script>
 $(function() {
     $('.response').responsivegallery();
 });
 
-function rescCallbocak(){
-	 /*   if($("#urlType").val() == 'myTask'){    	 
-		   window.opener.location.reload(); //刷新父窗口
-    	   window.close(); //关闭子窗口.
-	     }else{ */
-	    	 window.location.href = ctx+"/spv/spvList";
-	    // }
-	}
 
+</script>
+<script type="text/javascript">
+$(function(){
+		//left
+		$('.demo-left').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'left',
+			alignY: 'center',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//right
+		$('.demo-right').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'right',
+			alignY: 'center',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//top
+		$('.demo-top').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'top',
+			offsetX: 8,
+			offsetY: 5,
+		});
+
+		//bottom
+		$('.demo-bottom').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'bottom',
+			offsetX: 8,
+			offsetY: 5,
+		});
+	});
 </script>
 
 

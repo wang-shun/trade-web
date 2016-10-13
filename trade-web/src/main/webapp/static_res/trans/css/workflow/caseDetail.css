@@ -175,10 +175,6 @@
   padding-right: 0;
 }
 
-.modal-content {
-  width: 820px;
-}
-
 .text-left {
   text-align: left !important;
   margin-left: -10px;
@@ -189,7 +185,11 @@
 }
 
 .modal-content {
-  width: 580px !important;
+  width: 1000px;
+}
+
+.modal-dialog{
+	width: 1000px !important;
 }
 
 .min-h215 {
@@ -223,7 +223,6 @@ p.title {
 .info_box span {
   padding: 3px 10px;
   font-size: 14px;
-  font-weight: bold;
   color: #ffffff;
   background-color: #00CFEC;
   display: inline-block;
@@ -323,12 +322,17 @@ p.title {
   .ibox-conn .dl-horizontal dt {
     width: 60px;
     line-height: 22px;
+    color: #808080;
   }
 
+	.dl-horizontal {
+	  font-family: SimSun;
+	}
   .ibox-conn .dl-horizontal dd {
     margin-left: 70px;
     margin-bottom: 7px;
     line-height: 22px;
+    color: #333;
   }
 }
 .mt15 {
@@ -371,8 +375,15 @@ dt {
   margin-bottom: 15px;
 }
 
-.wrapper .row {
+.page-heading {
   margin-left: 0px !important;
+}
+.priceRow {
+	margin-right : -15px;
+	margin-left : -15px;
+}
+.wrapper .row {
+	margin-left: 0px !important;
 }
 
 .isStuck {

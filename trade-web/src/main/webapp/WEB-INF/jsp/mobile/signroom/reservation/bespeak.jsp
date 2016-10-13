@@ -27,6 +27,7 @@
 		<input type="hidden" id="selDate" value="${selDate }"/>
 		<input type="hidden" id="bespeakTime" value="${bespeakTime }"/>
 		<input type="hidden" id="agentCode" value="${agentCode }"/>
+		<input type="hidden" id="inputNumberOfPeople" value="${numberOfPeople }"/>
 		<input type="hidden" id="caseCode"/>
 		
 		<div class="aui-padded-l-10 aui-padded-r-10 pt15 pb5">
@@ -41,6 +42,15 @@
             <i class="dingwei iconfont orange">&#xe60a;</i>
         </div>
         <section class="aui-content">
+        	<div class="aui-row pad10 clearfix overvisible">
+                <div class="aui-col-xs-3 linehgl30">
+                   	 服务顾问
+                </div>
+                <div class="aui-col-xs-5">
+                    <input type="text" id="serviceSpecialist" placeholder="" class="border_grey input30 radius3 font-small" data-required="true" >
+                </div>
+            </div>
+        
             <div class="aui-row pad10">
                 <div class="aui-col-xs-3 linehgl30">
                     参与人数

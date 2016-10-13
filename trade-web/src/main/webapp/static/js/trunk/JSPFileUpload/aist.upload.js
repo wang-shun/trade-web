@@ -50,7 +50,7 @@ var AistUpload = function () {
 			});
 		},
 		//houDelAdd 中文件上传
-		init:function(){
+		init:function(){			
 			var len= arguments.length; 
 			if(len==6){
 				this._init2(arguments[0],arguments[1],arguments[2],arguments[3],arguments[4],arguments[5]);

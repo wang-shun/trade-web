@@ -26,6 +26,16 @@ public class FreeRoomVo {
 
 	private String signingCenter; // 签约中心
 
+	private Integer actNumberOfPeople; // 实际容纳人数
+
+	public Integer getActNumberOfPeople() {
+		return actNumberOfPeople;
+	}
+
+	public void setActNumberOfPeople(Integer actNumberOfPeople) {
+		this.actNumberOfPeople = actNumberOfPeople;
+	}
+
 	public int getNumberOfPeople() {
 		return numberOfPeople;
 	}

@@ -285,7 +285,8 @@ $(document).ready(function(){
 	 					  }); 
 	 			                } 
 	 			            } ,   
-	 			success : function(data) {   
+	 			success : function(data) {
+	 				debugger;
 				    	 isSuccess = true;
 				    	 if($("#urlType").val() == 'myTask'){    	 
 	 				    	 window.opener.location.reload(); //刷新父窗口

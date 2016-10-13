@@ -114,6 +114,8 @@
                             	<input type="hidden" id="tradeCenterId" value=""/>
                             	<input type="hidden" id="roomId" value=""/>
                             	<input type="hidden" id="resPersonOrgId" value=""/>
+                            	<input type="hidden" id="numberOfPeople" value=""/>
+                            	<input type="hidden" id="startDate" value=""/>
                                 <div class="trade">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small select_style mend_select">
@@ -178,7 +180,7 @@
                                             	办理事项
                                         </label>
                                         <c:forEach items="${transactItemVoList}" var="transactItemVo">
-                                             <span name="srvcode" class="text-white mr5 "  id="${transactItemVo.code }">
+                                             <span name="srvcode" class="text-white "  id="${transactItemVo.code }">
                                             	${transactItemVo.name }
                                         </span>
                                         </c:forEach>

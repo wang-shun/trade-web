@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.centaline.trans.signroom.entity.ResFlowup;
 import com.centaline.trans.signroom.repository.ResFlowupMapper;
 import com.centaline.trans.signroom.service.ResFlowupService;
+import com.centaline.trans.signroom.vo.ResFlowupVo;
 
 @Service
 public class ResFlowupServiceImpl implements ResFlowupService {
@@ -21,7 +22,7 @@ public class ResFlowupServiceImpl implements ResFlowupService {
 	}
 
 	@Override
-	public List<ResFlowup> getResFlowupListByResId(Long resId) {
+	public List<ResFlowupVo> getResFlowupListByResId(Long resId) {
 		return resFlowupMapper.getResFlowupListByResId(resId);
 	}
 

@@ -1452,7 +1452,8 @@ public class CaseDetailController {
 		record.setPreProcessorId(toCase.getLeadingProcessId());
 		toCase.setLeadingProcessId(userId);
 		int reToCase = toCaseService.updateByPrimaryKey(toCase);
-
+		
+		User u1 = uamUserOrgService.getUserById(userId);
 		record.setProcessorId(userId);
 		record.setCaseCode(caseCode);
 		/*
@@ -1463,7 +1464,11 @@ public class CaseDetailController {
 
 		// 更新流程引擎
 		if (!StringUtils.isBlank(instCode)) {
-
+			String variableName = "caseOwner";
+			RestVariable restVariable = new RestVariable();
+			restVariable.setType("string");
+			restVariable.setValue(u1.getUsername());
+			workFlowManager.setVariableByProcessInsId(instCode, variableName, restVariable);
 			TaskQuery tq = new TaskQuery();
 			tq.setProcessInstanceId(instCode);
 			tq.setFinished(false);

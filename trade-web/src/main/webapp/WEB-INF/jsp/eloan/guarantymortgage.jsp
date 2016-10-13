@@ -175,7 +175,7 @@
                                     <label class="control-label sign_left_small" style="float:left">
                                                                                                       备注
                                     </label>
-                                    <textarea class="select_control sign_right_two" value="${toRcMortgageVO.rcRiskControl.riskComment }" id="riskComment" name="riskComment" style="width:400px;height:100px; display:block;margin-left:124px"></textarea>
+                                    <textarea class="select_control sign_right_two" id="riskComment" name="riskComment" style="width:400px;height:100px; display:block;margin-left:124px">${toRcMortgageVO.rcRiskControl.riskComment }</textarea>
                                 </div>
                             </div> 
                         </form>

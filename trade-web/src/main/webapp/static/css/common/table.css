@@ -62,7 +62,9 @@ table.dataTable thead .sorting:after {
 .task-list tr td.pl10 {
   padding: 0 0 0 10px;
 }
-
+.mr5 {
+  margin-right: 5px;
+}
 .task-list tr td .case-ctm {
   font-size: 12px;
 }
@@ -107,7 +109,17 @@ table.dataTable thead .sorting:after {
   border-radius: 3px;
   background-color: #428fcc;
 }
-
+.sign_yellow {
+  display: inline-block;
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  padding: 1px 10px;
+  margin-top: 2px;
+  margin-right: 5px;
+  border-radius: 3px;
+  background-color: #f8ac59;
+}
 .manager {
   display: block;
   margin: 3px 0;
@@ -214,28 +226,33 @@ table.dataTable thead .sorting:after {
   width: 470px;
 }
 .text-white {
+  position: relative;
   display: inline-block;
-  padding: 6px 12px;
-  margin-bottom: 0;
   font-size: 14px;
   font-weight: 400;
   line-height: 1.42857143;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
+  margin: 0;
+  background: #fff;
+  padding: 6px 12px;
   border: 1px solid #e5e5e5;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .selected {
+  color: #00b7f1;
   border: 1px solid #428fcc;
+  background: url(../mobile/image/right-mark.png) no-repeat right bottom;
+  background-size: 25%;
 }
 .textarearoom {
   width: 678px;
@@ -545,6 +562,14 @@ table thead tr th {
   border-radius: 2px;
   background: #f8ac59;
 }
+.qing_bg {
+  padding: 1px 2px;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  border-radius: 2px;
+  background: #52cdec;
+}
 
 .underline {
   text-decoration: underline;
@@ -576,4 +601,19 @@ table thead tr th {
 
 .text_pink {
   color: #f784a5;
+}
+
+
+/*----Color----*/
+.orange-hint {
+  background-color: #f8cd59!important;
+  color: #fff;
+  border-radius: 3px;
+ padding: 1px 6px;
+}
+.red-hint {
+    background-color: #ff5e80!important;
+  color: #fff;
+  border-radius: 3px;
+  padding: 1px 6px;
 }

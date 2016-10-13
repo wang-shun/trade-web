@@ -59,16 +59,29 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 			}
 		}
 	}
+	/*
+	 * 移除全部不通的
+	 */
+	private List<KpiSrvCaseVo>romveCanottCall(List<KpiSrvCaseVo> listVOs){
+		List<KpiSrvCaseVo> returnList=new ArrayList<>();
+		for (KpiSrvCaseVo x : listVOs) {
+			if(x.getCallBack().equals("通") || x.getSalesCallBack().equals("通")){
+				returnList.add(x);
+			}
+		}
+		return returnList;
+	}
 
 	@Transactional(readOnly = false)
 	@Override
 	public List<KpiSrvCaseVo> importBatch(List<KpiSrvCaseVo> listVOs, Boolean currentMonth) {
+		listVOs=romveCanottCall(listVOs);
 		List<KpiSrvCaseVo> errList = null; //checkVo(listVOs);
 		if (errList != null) {
 			return errList;
 		}
 		Set<String> caseCodes = kpiSrvCaseMapper.getCaseCodeByCaseCode(listVOs);
-		errList = filterByCaseCodeSetMsg(listVOs, caseCodes, "该案件数据已经存在");
+		errList = filterByCaseCodeSetMsg(listVOs, caseCodes, "该案件数据已经存在并且已经发放奖金");
 		if (errList != null) {
 			return errList;
 		}
@@ -78,12 +91,12 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		if (errList != null) {
 			return errList;
 		}
-		/* 只有过户审批通过的案件才能导入   */
+		/* 只有过户审批通过的案件才能导入   
 		caseCodes = kpiSrvCaseMapper.getCaseCodeByCaseCodefromTToAwardBase(listVOs);
 		errList = filterNoGuoHuCaseCodeSetMsg(listVOs,caseCodes,"该案件数据还未过户");
 		if (errList != null) {
 			return errList;
-		}
+		}*/
 		/* 满意度0-10的整数  上下家电话只能是通过、不通过两种*/
 		errList = filterNoInteger(listVOs);
 		if (errList != null) {
@@ -97,7 +110,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		if (listVOs != null && !listVOs.isEmpty()) {
 			int i = 0;// 每条数据插入有19个参数 每导入一条数据会被拆分成五条 每导入一条数据大概100个参数
 						// 2100个参数就是最多能导入21条数据左右
-			int pSize = 20;// 插入一条数据有多少个参数
+			int pSize = 21;// 插入一条数据有多少个参数
 			int maxSize = 2100;// 数据库限制最多只有2100个参数
 			for (KpiSrvCaseVo kpiSrvCaseVo : listVOs) {
 				if (StringUtils.isBlank(kpiSrvCaseVo.getCaseCode())) {
@@ -495,7 +508,15 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		newEntity.setSrvCode(srvCode);
 		newEntity.setSalerSatis(DoubleToBigDecimal(ssc));
 		newEntity.setBuyerSatis(DoubleToBigDecimal(bsc));
-		AwardBaseEntity awardBase = awardBaseEntityMapper.selectByCaseCodeAndSrvCode(entity.getCaseCode(), srvCode);
+		AwardBaseEntity awardBase =null;
+		try {
+			 awardBase = awardBaseEntityMapper.selectByCaseCodeAndSrvCode(entity.getCaseCode(), srvCode);
+		} catch (Exception e) {
+			System.err.println(entity.getCaseCode()+"----"+ srvCode);
+			throw e;
+		}
+	
+		
 		if (awardBase != null) {
 			newEntity.setTeamId(awardBase.getTeamId());
 			newEntity.setOrgId(awardBase.getOrgId());

@@ -50,6 +50,7 @@
                         	<input type="hidden" name="resPeopleId" id="resPeopleId" value="${resPeopleId }"/>
                         	<input type="hidden" name="resTime" value="${resTime }"/>
                         	<input type="hidden" name="resStatus" value="${resStatus }"/>
+                        	<input type="hidden" name="distinctId" value="${distinctId }" />
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -146,7 +147,7 @@
                                             	预约状态
                                         </th>
                                         <th style="background-color:#52cdec;">
-                                           	 	预约人
+                                           	 	经办人
                                         </th>
                                         <th style="background-color:#52cdec;">
                                             	特殊要求
@@ -287,8 +288,8 @@
                    </p>
                 </td>
 				<td>
-                   <p class="smll_sign big">{{item.roomNO}}</p>
-                   <p class="smll_sign"><span class="big tint_grey">{{item.numberOfPeople}}人间</span></p>
+					<p class="smll_sign big">{{item.roomNO}}（<span class="big ">{{item.numberOfPeople}}人间</span>） </p>
+                    <p class="smll_sign">参加人数：{{item.numberOfParticipants}}人</p>
                 </td>
 				<td>
                     <p class="smll_sign">
@@ -307,43 +308,54 @@
                     </p>
                  </td>
 				 <td>
-                      <p class="big">
-							{{if item.currentTime > item.endTime}}
-								已过期
-							{{else}}
-								{{if item.resStatus == '0'}}
-									预约中
-								{{/if}}
+							{{if item.resStatus == '0'}}
+								预约中
+							{{/if}}
 
-								{{if item.resStatus == '4'}}
-									已取消
-								{{/if}}
-
-								{{if item.resStatus == '1'}}
-									使用中
-								{{/if}}
-
-								{{if item.resStatus == '2'}}
-									已使用
+							{{if item.resStatus == '1'}}
+								{{if item.timeDifference <= 0}}
+									<span class="big orange-hint text-center">使用中</span>
+								{{else if item.timeDifference > 0}}
+									<span class="big red-hint text-center">使用中</span>
+								{{else}}
+									<span class="big text-center">使用中</span>
 								{{/if}}
 							{{/if}}
-					  </p>
+
+							{{if item.resStatus == '2'}}
+								已使用
+							{{/if}}
+
+							{{if item.resStatus == '3'}}
+								已过期
+							{{/if}}
+
+							{{if item.resStatus == '4'}}
+								已取消
+							{{/if}}
                  </td>
 				 <td>
-                      <span class="manager">{{item.realName}}</span>
-                      <span class="manager">{{item.mobile}}</span>
+					  <span class="manager"><a href="#" title="{{item.mobile}}" class="demo-top" onMouseover="showMobile(this);"><em>预约人:</em>{{item.realName}}</a></span>
+                      <span class="manager"><a href="#"><em>服务专员:</em>{{item.serviceSpecialist}}</a></span>
                  </td>
 				 <td>
+					  <p class="smll_sign">
+						  {{each item.transactItemCodeList as transactItemCode index}}
+								{{if transactItemCode == 'contract'}}<i class="sign_blue">签合同</i>{{/if}}
+								{{if transactItemCode == 'doLoan'}}<i class="sign_blue">办贷款</i>{{/if}}
+								{{if transactItemCode == 'Eloan'}}<i class="sign_blue">e+贷款</i>{{/if}}
+						  {{/each}}
+                      </p>
 					  {{if item.specialReq != null && item.specialReq!="" && item.specialReq.length > 24}}
-								<p class="big" title="{{item.specialReq}}">{{item.specialReq.substring(item.specialReq.length-24,item.specialReq.length)}}</p>
+								<p class="smll_sign big" title="{{item.specialReq}}">{{item.specialReq.substring(item.specialReq.length-24,item.specialReq.length)}}</p>
 					  {{else}}
-								<p class="big">{{item.specialReq}}</p>
+								<p class="smll_sign big">{{item.specialReq}}</p>
 					  {{/if}}
                  </td>
 				 <td>
                       <p class="smll_sign big">{{item.followDateTime}}</p>
                       <p>
-                         <a href="#"  class="demo-right" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.comment}}</br>{{/each}}">
+                         <a href="#"  class="demo-right" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
 							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 12}}
 								{{item.latestComment.substring(0,12)}}....
 					  		{{else}}
@@ -358,7 +370,7 @@
                                 <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
-								{{if item.resStatus == '0' && item.currentTime <= item.endTime}}
+								{{if item.resStatus == '0'}}
 									<li><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
 								{{/if}}
                                 
@@ -395,6 +407,16 @@
 				offsetX: 8,
 				offsetY: 5,
 				});
+			
+			$('.demo-top').poshytip({
+				className: 'tip-twitter',
+				showTimeout: 1,
+				alignTo: 'target',
+				alignX: 'center',
+				alignY: 'top',
+				offsetX: 8,
+				offsetY: 5,
+			});
 			});
 	</script>
 </content>

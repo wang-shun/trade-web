@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -51,8 +52,12 @@ import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
+import com.centaline.trans.spv.entity.ToSpvReceipt;
+import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
+import com.centaline.trans.spv.repository.ToSpvReceiptMapper;
 import com.centaline.trans.spv.service.CashFlowInService;
 import com.centaline.trans.spv.service.CashFlowOutService;
 import com.centaline.trans.spv.service.ToSpvService;
@@ -109,6 +114,11 @@ public class SpvCashFlowInController {
 	
 	@Autowired
 	private CashFlowOutService cashFlowOutService;
+	
+	@Autowired
+	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
+	@Autowired
+	private ToSpvReceiptMapper toSpvReceiptMapper;
 	
 	/**
 	 * 起草入账页面保存
@@ -201,6 +211,27 @@ public class SpvCashFlowInController {
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		
+	    /**
+	     * 测试代码
+	     */
+	    
+	    List<ToSpvReceipt> attachList = toSpvReceiptMapper.selectByCashFlowId("184");
+	    request.setAttribute("accesoryList", parentOrg.getId());
+		if (attachList != null && attachList.size() > 0) {
+			int size = attachList.size();
+			request.setAttribute("accesoryList", attachList);
+			List<Long> idList = new ArrayList<Long>(size);
+			for (int i = 0; i < size; i++) {
+				idList.add(attachList.get(i).getPkid());
+			}
+			request.setAttribute("idList", idList);
+		}
+    	
+	    /**
+	     * 测试代码
+	     */
+	    
+	    
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/spvRecorded";
@@ -263,8 +294,6 @@ public class SpvCashFlowInController {
 	public AjaxResponse<?>  sumbitDate(SpvRecordedsVO spvrevo,HttpServletRequest request){
 		
 		AjaxResponse<?> response = new AjaxResponse<>();
-		SpvChargeInfoVO spvChargeInfoVO = new SpvChargeInfoVO();
-
 		String taskId = "";
 		String handle = "";
 		String instCode = "";
@@ -284,7 +313,7 @@ public class SpvCashFlowInController {
 				cashFlowInService.cashFlowInPageDeal(request, handle, spvrevo, cashflowApplyCode);
 			}
 			if(StringUtils.equals(handle, "apply")){
-				cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvrevo, cashflowApplyCode);
+				//cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvrevo, cashflowApplyCode);
 			}
 			response.setSuccess(true);
 		} catch (Exception e) {
@@ -309,27 +338,24 @@ public class SpvCashFlowInController {
      * @return response
      * @throws
      */
-    @RequestMapping("deal")
-	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,
-			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeInAppr) {
+    @RequestMapping(value = "/deal")
+    @ResponseBody
+	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode, 
+			String taskId,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
-    	SpvRecordedsVO spvRecordedsVO = new SpvRecordedsVO();
+    	SpvChargeInfoVO spvChargeInfoVO = new SpvChargeInfoVO();
     	try {
-			//String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 			String cashflowApplyCode = "";
 			if(!StringUtils.isBlank(handle)){ 
-				
-				//if(StringUtils.isBlank(cashflowApplyCode)) throw new BusinessException("页面没有传入申请号！");
-				
 				switch (handle) {
 				case "apply":
-					//cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
+					cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
 					break;
 			    case "directorAduit":
-			    	cashFlowInService.cashFlowInDirectorAduitDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode,chargeInAppr);
+			    	cashFlowInService.cashFlowInDirectorAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
 					break;
 			    case "financeAduit":
-			    	cashFlowInService.cashFlowInFinanceAduitDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode,chargeInAppr);
+			    	cashFlowInService.cashFlowInFinanceAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
 			    	break;
 				}	
 			}else{
@@ -367,6 +393,32 @@ public class SpvCashFlowInController {
 		}
     	
     	return response;
+	}
+    
+
+	   /**
+	 * @throws Exception 
+  * @Title: cashFlowOutApprDeal 
+  * @Description: 出款申请操作
+  * @author: gongjd 
+  * @param request
+  * @param source
+  * @param instCode
+  * @param taskId
+  * @param handle
+  * @param spvChargeInfoVO
+  * @return response
+  * @throws
+  */
+ @RequestMapping("dealAppDelete")
+	public AjaxResponse<?> cashFlowOutApprDealAppDelete(HttpServletRequest request,String source,String instCode,
+			String pkid,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) throws Exception {
+ 	AjaxResponse<?> response = new AjaxResponse<>();
+ 	String businessKey = null;
+	cashFlowInService.cashFlowOutApprDealAppDelete( request,  instCode,  pkid,
+			 handle,  spvRecordedsVO,  businessKey,  chargeInAppr);
+	response.setSuccess(true);
+ 	return response;
 	}
 }
 

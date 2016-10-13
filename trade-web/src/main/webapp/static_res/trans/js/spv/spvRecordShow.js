@@ -1,6 +1,6 @@
 
 $(function(){
-	$("#addTr").html(getTR(0));
+	//$("#addTr").html(getTR(0));
 	
 });
 var handle = $("#handle").val();
@@ -51,9 +51,17 @@ function getDel(k){
 
 //审批通过
 function approvalby(){
+	if(!confirm("是否审批通过！")){
+		  return false;
+	    }
+	//设置流程判断参数
+	$('#chargeInAppr').val(true);
+	$('#turndownContent').val($('#turndownContent_').val());//审批意见
+	
 	//提交页面的参数
-	var data = getFormData();
-	//console.log(params);
+	var data = $("#teacForm").serialize();
+//	alert(console.log(data));
+	
 	var url = ctx+"/spv/task/cashflowIntApply/deal";
 	$.ajax({
 		cache : false,
@@ -61,13 +69,14 @@ function approvalby(){
 		type : "POST",
 		url : url,
 		dataType : "json",
-		data :  {handle:handle,taskId:$("#taskId").val(),chargeInAppr:true},
+		data :  data,
 		beforeSend:function(){  
          },
 		success : function(data) {
 			 //window.location.href = ctx+"/spv/spvList";
 			// window.location.href = ctx+"/spv/task/cashflowIntApply/spvRecordedApp?pkid=";
-			alert(JSON.stringify(data));
+			window.location.href = ctx+"/task/myTaskList";
+			/*alert(JSON.stringify(data));
 			if(data.ajaxResponse.success){
 				if(!handle){
 					alert("流程开启成功！");
@@ -76,7 +85,7 @@ function approvalby(){
 				}
 			}else{
 				alert("数据保存出错1:"+data.ajaxResponse.message);
-			}
+			}*/
 			
 		},complete: function() { 
 		},
@@ -92,8 +101,13 @@ function getFormData(){
 
 //审批驳回
 function turndown(){
+	if(!confirm("是否审批驳回！")){
+		  return false;
+	    }
+	$('#chargeInAppr').val(false);
+	$('#turndownContent').val($('#turndownContent_').val());
 	//提交页面的参数
-	var data = getFormData();
+	var data = $("#teacForm").serialize();
 	//console.log(params);
 	var url = ctx+"/spv/task/cashflowIntApply/deal";
 	$.ajax({
@@ -102,12 +116,13 @@ function turndown(){
 		type : "POST",
 		url : url,
 		dataType : "json",
-		data :  {handle:handle,taskId:$("#taskId").val(),chargeInAppr:false},
+		data :  data,
 		beforeSend:function(){  
          },
 		success : function(data) {
 			// window.location.href = ctx+"/spv/task/cashflowIntApply/spvRecordedApp?pkid=";
-			alert(JSON.stringify(data));
+			window.location.href = ctx+"/task/myTaskList";
+			/*alert(JSON.stringify(data));
 			if(data.ajaxResponse.success){
 				if(!handle){
 					alert("流程开启成功！");
@@ -116,7 +131,7 @@ function turndown(){
 				}
 			}else{
 				alert("数据保存出错1:"+data.ajaxResponse.message);
-			}
+			}*/
 			
 		},complete: function() { 
 		},
@@ -125,7 +140,10 @@ function turndown(){
 		
 	});
 }
-
+function rescCallbocak(){
+	   window.opener.location.reload(); //刷新父窗口
+	   window.close(); //关闭子窗口.
+	}
 
 
 

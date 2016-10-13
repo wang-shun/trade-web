@@ -352,5 +352,8 @@
     <!-- 根据预约单标识获取跟进信息列表 -->
     <bean name="getFlowupInfoList" class="com.centaline.trans.common.service.impl.QuickQueryGetFlowupInfoListServiceImpl"></bean>
     
+     <!-- 将字符串以,隔开的办理事项转换为集合list -->
+    <bean name="getTransactItemCodeList" class="com.centaline.trans.common.service.impl.QuickQueryGetTransactItemCodeListServiceImpl"></bean>
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

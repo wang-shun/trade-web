@@ -3,6 +3,7 @@ package com.centaline.trans.signroom.service;
 import java.util.List;
 
 import com.centaline.trans.signroom.entity.ResFlowup;
+import com.centaline.trans.signroom.vo.ResFlowupVo;
 
 public interface ResFlowupService {
 
@@ -22,6 +23,6 @@ public interface ResFlowupService {
 	 *            预约单标识
 	 * @return 跟进信息列表
 	 */
-	public List<ResFlowup> getResFlowupListByResId(Long resId);
+	public List<ResFlowupVo> getResFlowupListByResId(Long resId);
 
 }

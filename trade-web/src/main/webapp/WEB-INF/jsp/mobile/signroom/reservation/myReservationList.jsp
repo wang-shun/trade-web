@@ -21,10 +21,8 @@
 	        <span class="aui-iconfont aui-icon-plus"></span>
 	    </a>
     </header>
-    <article class="aui-content">
-        <ul class="aui-list aui-media-list white" id="myReservationList">
+    <article class="aui-content" id="myReservationList">
             
-        </ul>
     </article>
 
 
@@ -51,39 +49,46 @@
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 </html>
 <script id="template_myReservationList" type="text/html">
-      {{each rows as item index}}
+	{{if rows.length > 0}}
+		<ul class="aui-list aui-media-list white">
+      	{{each rows as item index}}
   			<li class="aui-list-header header_grey_bg">
                 <i class="iconfont blue mr5">&#xe605;</i>{{item.actStartDate}}-{{item.actEndDate}}&nbsp;<span class="color80">{{item.resDate}}</span>
             </li>
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-inner">
-                        <div class="aui-list-item-title font15 order-title">{{item.distinctName}}<span class="ml10">预约号：<em class="yellow">{{item.resNo}}</em></span></div>
-                        <div class="aui-list-item-text font12">
+                        <div class="aui-list-item-title font15 order-title left mr10">{{item.tradeCenterName}}<span class="newgrey">({{item.numberOfPeople}}人间)</span></div>
+                        <div class="aui-list-item-title font15 order-title left" >
+                            预约号：<em class="yellow">{{item.resNo}}</em>
+                        </div>
+                        <div class="aui-list-item-text font12 newgrey clear">
                             房屋地址：{{item.propertyAddr}}
                         </div>
+                        <div class="aui-list-item-text font12 newgrey">
+                            备注：{{item.specialReq}}
+                        </div>
                     </div>
-                    <div class="aui-list-item-media listspace">
+                    <div class="aui-list-item-media listspace"></div>
+						{{if item.resStatus == '0'}}
+							<div class="aui-btn aui-center text-blue cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
+						{{/if}}
+
 						{{if item.resStatus == '1'}}
-							<div class="aui-btn trans_bg">使用中</div>
+							<div class="aui-btn aui-center trans_bg">使用中</div>
 						{{/if}}
 
 						{{if item.resStatus == '2'}}
-							<div class="aui-btn trans_bg">使用完</div>
+							<div class="aui-btn aui-center trans_bg">已使用</div>
+						{{/if}}
+
+						{{if item.resStatus == '3'}}
+							<div class="aui-btn aui-center trans_bg">已过期</div>
 						{{/if}}
 
 						{{if item.resStatus == '4'}}
-							<div class="aui-btn trans_bg red">已取消</div>
+							<div class="aui-btn aui-center trans_bg red">已取消</div>
 						{{/if}}
-
-						{{if item.resStatus == '0'}}
-							{{if item.currentTime > item.endDate}}
-								<div class="aui-btn trans_bg">已过期</div>
-							{{else}}
-								<div class="aui-btn cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
-							{{/if}}
-						{{/if}}
-                    </div>
 
 					{{if item.currentDate == item.resDate}}
 						<span class="shuxing"></span>
@@ -91,4 +96,11 @@
                 </div>
             </li>  
       {{/each}}
+	</ul>
+	{{else}}
+		<section class="aui-content  reminder-login">
+        	<img src="${ctx}/static/image/reminder.png" width="100%" alt="" />
+        	<h3 style="text-align:center">对不起，<br/>当天无签约室预约信息！</h3>
+    	</section>
+	{{/if}}
 </script> 

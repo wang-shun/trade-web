@@ -385,7 +385,7 @@ function checkAttachment2() {
 
 function checkAttachmentForLoanLost(loanLostConfirmCode){
 	if(loanLostConfirmCode != ''){
-		$.each(idList, function(index, value){
+		$.each(idList, function(index, value){//遍历所传附件的fileId
 			var length = $("#picContainer"+value).find("img").length;
 			if(length == 0) {
 				alert("请上传备件！");

@@ -61,9 +61,10 @@ $(function() {
 				});
 	};
 
-	$.each(idList, function(index, value){
+	$.each(idList, function(index, value){		
 		AistUpload.init('picFileupload'+value, 'picContainer'+value,
 				'templateUpload'+value, 'templateDownload'+value, updFun,'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i');
+		
 		/**监听 div 执行自动上传*/
 		$("#picContainer"+value).bind('DOMNodeInserted', function(e) {
 			var picDiv=$("div[name='allPicDiv1']");

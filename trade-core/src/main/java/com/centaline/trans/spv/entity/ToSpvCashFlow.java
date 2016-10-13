@@ -49,6 +49,20 @@ public class ToSpvCashFlow {
     private Date updateTime;
 
     private String updateBy;
+    
+    //对应申请的用途
+    private String usage; 
+    
+    //总监审批人
+    private String applyAuditorName;
+
+    //财务初审人
+    private String ftPreAuditorName;
+
+    //财务复审人
+    private String ftPostAuditorName;
+    
+    private String createByName;
 
     public Long getPkid() {
         return pkid;
@@ -233,4 +247,46 @@ public class ToSpvCashFlow {
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
+
+	public String getUsage() {
+		return usage;
+	}
+
+	public void setUsage(String usage) {
+		this.usage = usage;
+	}
+
+	public String getApplyAuditorName() {
+		return applyAuditorName;
+	}
+
+	public void setApplyAuditorName(String applyAuditorName) {
+		this.applyAuditorName = applyAuditorName;
+	}
+
+	public String getFtPreAuditorName() {
+		return ftPreAuditorName;
+	}
+
+	public void setFtPreAuditorName(String ftPreAuditorName) {
+		this.ftPreAuditorName = ftPreAuditorName;
+	}
+
+	public String getFtPostAuditorName() {
+		return ftPostAuditorName;
+	}
+
+	public void setFtPostAuditorName(String ftPostAuditorName) {
+		this.ftPostAuditorName = ftPostAuditorName;
+	}
+
+	public String getCreateByName() {
+		return createByName;
+	}
+
+	public void setCreateByName(String createByName) {
+		this.createByName = createByName;
+	}
+	
+
 }

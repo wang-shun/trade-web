@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>入账</title>
-<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
+<%-- <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
 <link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
 <link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
@@ -27,10 +27,56 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " />
+<link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " /> --%>
+
+ <!-- 上传相关 -->
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+		rel="stylesheet">
+	<!-- 展示相关 -->
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+	<!-- 备件相关结束 -->
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/bootstrap.min.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/font-awesome.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/style.css" rel="stylesheet">
+    <!-- stickUp fixed css -->
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/stickup.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/stickmenu.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/steps.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/toastr.min.css">
+    <!-- index_css  -->
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/iconfont.css" >
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+
+
 </head>
 
 <body >
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<script type="text/javascript">
+	var ctx = "${ctx}";
+	var source = "${source}";
+	var handle = "${handle}";
+	if ("${idList}" != "") {
+		var idList = eval("(" + "${idList}" + ")");
+	} else {
+		var idList = [];
+	}
+</script>
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                     <div class="ibox-content space30" >
@@ -136,16 +182,47 @@
 
         </div>
     </div>
+<content tag="local_script">
 <!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-<script src="${ctx}/static/trans/js/spv/spvReDetails.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
+<script src="${ctx}/static/js/jquery-2.1.1.js"></script><%-- 
+<script src="${ctx}/static/js/bootstrap.min.js"></script> --%>
 <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<!-- Custom and plugin javascript -->
-<script src="${ctx}/static/js/inspinia.js"></script>
-<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
-<script src="${ctx}/static/trans/js/response/js/jkresponsivegallery.js"></script>
+
+	  <!-- 上传附件相关 --> 
+<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script><%-- 
+<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>  --%>
+<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+
+<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
+src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+<script
+	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+
+<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+
+<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+	<!-- 上传附件 结束 -->
+	
+	<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachmentPostIn.js"></script>
+
+<!-- Custom and plugin javascript --><%-- 
+ <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script> --%>
+ <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
+ <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
+ <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+ <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
+
+<script src="${ctx}/static_res/trans/js/spv/spvReDetails.js"></script>
+
+
 
 <script>
 
@@ -157,19 +234,12 @@ $(function() {
 
 
 });
-$('.response').responsivegallery();
+/* $('.response').responsivegallery(); */
 
-function rescCallbocak(){
- 	 /*   if($("#urlType").val() == 'myTask'){    	 
- 		   window.opener.location.reload(); //刷新父窗口
-     	   window.close(); //关闭子窗口.
-	     }else{ */
-	    	 window.location.href = ctx+"/spv/spvList";
-	    // }
-	}
 
 </script>
 <input type="hidden" id="ctx" value="${ctx}" />
+</content>
 </body>
 
 </html>

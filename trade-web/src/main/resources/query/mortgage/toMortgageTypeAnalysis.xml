@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>		
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>	
+	
+	<query id="queryMortgageTypeAnalysis">
+	    <searchCondition>
+		   <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="T.CUST_NAME"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>       
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[  	
+			SELECT  
+			MTYPEANAL.LOANTYPE AS MTYPE,
+			COUNT(MTYPEANAL.PKID) AS MCASES,
+			SUM(MTYPEANAL.COM_AMOUNT) AS MCOMAMOUNT,
+			SUM(MTYPEANAL.PRF_AMOUNT) AS MPRFAMOUNT,
+			SUM(MTYPEANAL.MORT_TOTAL_AMOUNT) AS MTOTALAMOUNT
+			FROM		
+			(SELECT
+					T.PKID,
+					T.CASE_CODE,
+					T.PROPERTY_ADDR,
+					T.MORT_TYPE_OLD,
+					T.FIN_ORG_NAME,
+					T.FIN_ORG_NAME_YC,--支行名称
+					T.FA_FIN_ORG_CODE,--分行code
+					T.FIN_ORG_CODE,--支行code
+					T.FENHANG,--分行名称
+					T.CUST_NAME,
+					T.MORT_TOTAL_AMOUNT,
+					T.COM_AMOUNT,
+					T.PRF_AMOUNT,
+					T.SIGN_DATE,
+					T.LEND_DATE,
+					T.APPR_DATE,
+					T.REAL_NAME,
+					T.ORG_NAME,
+					T.ORG_ORG_NAME,
+					T.IS_TMP_BANK,
+					T.SDSTATUS,
+					T.LOAN_AGENT,
+					T.LOAN_AGENT_TEAM,
+					T.IS_DELEGATE_YUCUI,
+					T.LOANTYPE,
+					T.REAL_HT_TIME,
+					T.LOANLOST_APPLY_REASON
+				FROM				
+				(select 
+					c.pkid,
+					p.property_addr,
+					m.case_code,
+					m.mort_type as MORT_TYPE_OLD,
+					(Select FO.FIN_ORG_NAME from sctrans.T_TS_FIN_ORG FO  where FO.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME,					
+					(Select FOYC.FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG FOYC  where FOYC.FIN_ORG_CODE=m.fin_org_code) FIN_ORG_NAME_YC,					
+					(Select FOCODE.FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG FOCODE  where FOCODE.FIN_ORG_CODE=m.fin_org_code)FA_FIN_ORG_CODE,					
+					(select TOP 1 FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in (	select distinct FA_FIN_ORG_CODE  from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in(select FIN_ORG_CODE 	from sctrans.T_TS_SUP ts where ts.SUP_CAT='0' and ts.FIN_ORG_CODE=m.FIN_ORG_CODE)))  FENHANG,
+					m.FIN_ORG_CODE,					
+					m.cust_name,
+					ISNULL(m.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,--总金额
+					ISNULL(m.COM_AMOUNT,0)/10000 COM_AMOUNT,
+					ISNULL(m.PRF_AMOUNT,0)/10000 PRF_AMOUNT,
+					m.IS_DELEGATE_YUCUI,
+					m.SIGN_DATE,
+					m.LEND_DATE,
+					m.APPR_DATE,--批贷时间	
+					m.LOAN_AGENT,--贷款专员id
+					m.LOAN_AGENT_TEAM,----贷款专员组织id			
+					(SELECT top 1 uj.real_name from SCTRANS.V_USER_ORG_JOB uj   where  uj.USER_ID=M.LOAN_AGENT)	REAL_NAME,
+					(SELECT top 1 uu.org_name from SCTRANS.V_USER_ORG_JOB  uu  where  uu.ORG_ID=M.LOAN_AGENT_TEAM)	ORG_NAME,
+					(select top 1 org2.ORG_NAME orgName1	
+								from sctrans.sys_org org1
+								left join sctrans.V_USER_ORG_JOB uoj
+								on org1.ID=uoj.ORG_ID
+								left join sctrans.V_USER_ORG_JOB uoj1
+								on org1.PARENT_ID=uoj1.ORG_ID
+								left join sctrans.SYS_ORG org2 
+								on org2.ID=uoj1.ORG_ID 
+								where org1.PARENT_ID in (
+										'FF5BC56E0E4B45289DAA5721A494C7C5',
+										'8a8493d453141f3301532c9568011af9',
+										'd5878adf8b0c4032aeae895c701ed693',
+										'de81a98a8ec341caa8e9bc77c46cd370',
+										'54b3233fdf994d9987e7c8febc223588',
+										'960089538bc54a9a9139ef52ceb45b33',
+										'6114AB949B4445828D4383977C4FAC71',
+										'6a84979158b942b78a8a5921cc30b8c3')
+								and org1.ID=M.LOAN_AGENT_TEAM) ORG_ORG_NAME,
+										
+					(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
+					case 
+						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '否' 
+						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '是'
+						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016003') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '公'  
+					end   SDSTATUS,
+					case 
+						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then  '1'
+						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016003') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   		   then  '2'
+						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then  '3'						
+					end   LOANTYPE,
+					ht.REAL_HT_TIME,
+					m.loanlost_apply_reason
+					
+                from 
+					sctrans.T_TO_MORTGAGE m 
+					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
+					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 	
+					left join sctrans.T_TO_HOUSE_TRANSFER ht on ht.case_code=m.case_code 										
+                where 
+					c.LOAN_REQ=1
+					AND m.is_active = '1'				
+					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
+					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>			
+				)T    
+				where T.SDSTATUS IS NOT NULL
+				AND T.LOANTYPE IS NOT NULL 
+				AND 1=1
+				
+				<ifNotNull signTimeStart>
+				     and T.SIGN_DATE >= #signTimeStart#
+				</ifNotNull>				
+				<ifNotNull signTimeEnd>
+				     and T.SIGN_DATE &lt;= #signTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull lendTimeStart>
+				     and T.LEND_DATE >= #lendTimeStart#
+				</ifNotNull>				
+				<ifNotNull lendTimeEnd>
+				     and T.LEND_DATE &lt;= #lendTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull apprTimeStart>
+				     and T.APPR_DATE >= #apprTimeStart#
+				</ifNotNull>				
+				<ifNotNull apprTimeEnd>
+				     and T.APPR_DATE &lt;= #apprTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull realhtTimeStart>
+				     and T.REAL_HT_TIME >= #realhtTimeStart#
+				</ifNotNull>				
+				<ifNotNull realhtTimeEnd>
+				     and T.REAL_HT_TIME &lt;= #realhtTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull comAmountStart>
+				     and T.COM_AMOUNT >= #comAmountStart#
+				</ifNotNull>				
+				<ifNotNull comAmountEnd>
+				     and T.COM_AMOUNT &lt;= #comAmountEnd#
+				</ifNotNull>
+				
+				<ifNotNull mortTotalAmountStart>
+				     and T.MORT_TOTAL_AMOUNT >= #mortTotalAmountStart#
+				</ifNotNull>				
+				<ifNotNull mortTotalAmountEnd>
+				     and T.MORT_TOTAL_AMOUNT &lt;= #mortTotalAmountEnd#
+				</ifNotNull>
+				
+				<ifNotNull prfAmountStart>
+				     and T.PRF_AMOUNT >= #prfAmountStart#
+				</ifNotNull>				
+				<ifNotNull prfAmountEnd>
+				     and T.PRF_AMOUNT &lt;= #prfAmountEnd#
+				</ifNotNull>
+				
+				<ifNotNull isTempBank>
+				     and T.IS_TMP_BANK = #isTempBank#
+				</ifNotNull>
+				
+				<ifNotNull loanLostFinOrgNameCode>
+				     and T.FA_FIN_ORG_CODE = #loanLostFinOrgNameCode#
+				</ifNotNull>
+				
+				<ifNotNull loanLostFinOrgNameYcCode>
+				     and T.FIN_ORG_CODE = #loanLostFinOrgNameYcCode#
+				</ifNotNull> 
+				
+				<ifNotNull isLose>
+					and T.SDSTATUS = #isLose#
+				</ifNotNull>
+				<ifNotNull processorOrgId>
+					and T.REAL_NAME = #processorOrgId#
+				</ifNotNull>	
+				<ifNotNull organizeOrgId>
+					and T.LOAN_AGENT_TEAM = #organizeOrgId#
+				</ifNotNull>
+				<ifNotNull loanType>
+					and T.LOANTYPE = #loanType#
+				</ifNotNull> 
+				) AS MTYPEANAL
+
+				]]>
+			</baseSql>
+			<groupSql>
+				GROUP BY MTYPEANAL.LOANTYPE
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+			<column type="both" name="MTYPE" index="" checkbox="" display="贷款类型" title="贷款类型" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />			
+			<column type="both" name="MCASES" index="" checkbox="" display="单数" title="单数" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="MCOMAMOUNT" index="" checkbox="" display="商贷金额" title="商贷金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="MPRFAMOUNT" index="" checkbox="" display="公积金贷款金额" title="公积金贷款金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="MTOTALAMOUNT" index="" checkbox="" display="贷款总额" title="贷款总额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>
