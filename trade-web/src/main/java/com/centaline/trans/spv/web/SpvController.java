@@ -839,7 +839,6 @@ public class SpvController {
         	cashFlowOutService.cashFlowOutPage(request, source, instCode, taskId, handle, businessKey);
         	request.setAttribute("urlType", "spvApply");
         }
-    	//toAccesoryListService.getAccesoryList(request, "TransSign");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 	    
@@ -867,8 +866,8 @@ public class SpvController {
      * @throws
      */
     @RequestMapping("cashFlowOutAppr/deal")
-	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,String taskItem,
-			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeOutAppr) {
+	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,String taskitem,
+			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeOutAppr,String insertAttachIdArrStr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {	
 			if(!StringUtils.isBlank(handle)){ 
@@ -878,23 +877,23 @@ public class SpvController {
 				
 				switch (handle) {
 				case "apply":
-					cashFlowOutService.cashFlowOutApplyDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode, chargeOutAppr);
+					cashFlowOutService.cashFlowOutApplyDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode, chargeOutAppr, insertAttachIdArrStr);
 					break;
 			    case "directorAduit":
-			    	cashFlowOutService.cashFlowOutDirectorAduitDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
+			    	cashFlowOutService.cashFlowOutDirectorAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 					break;
 			    case "financeAduit":
-			    	cashFlowOutService.cashFlowOutFinanceAduitDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
+			    	cashFlowOutService.cashFlowOutFinanceAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			    	break;
 			    case "financeSecondAduit":
-			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
+			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			        break;
 			    case "cashFlowOut":
-	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, chargeOutAppr);
+	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, chargeOutAppr);
 	                break;    
 				}	
 			}else{
-				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskItem, handle, spvChargeInfoVO, null);
+				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null,insertAttachIdArrStr);
 			}
 
 			response.setSuccess(true);
@@ -921,10 +920,10 @@ public class SpvController {
      * @throws
      */
     @RequestMapping("cashFlowOutAppr/save")
-	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO) {
+	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO,String insertAttachIdArrStr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
-    		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO); 
+    		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO,insertAttachIdArrStr); 
 			response.setSuccess(true);
 			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
 		} catch (Exception e) {
@@ -968,8 +967,9 @@ public class SpvController {
 	public AjaxResponse<String> saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyCode) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
-			cashFlowOutService.saveAttachments(fileUploadVO,cashFlowApplyCode);
+			String insertAttachIdArrStr = cashFlowOutService.saveAttachments(fileUploadVO,cashFlowApplyCode);
 			response.setSuccess(true);
+			response.setContent(insertAttachIdArrStr);
 		}catch(Exception e){
 			response.setSuccess(false);
 			response.setMessage("保存失败！");
@@ -1022,26 +1022,23 @@ public class SpvController {
    			String taskId,String handle,String businessKey)  {
        	String url="";
        	if(!StringUtils.isBlank(handle)){ 	
-           	switch (handle) {
-           	case "apply":
-       			//cashFlowOutService.cashFlowOutApplyProcess(request, source, instCode, taskId, handle, businessKey);
-       			cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
-       			url="spv/spvRecordedApp";//
-       		break;
-           case "directorAduit":
-        	   //cashFlowOutService.cashFlowOutDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-        	   cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-        	   url="spv/spvRecordShow";
-       		break;
-           case "financeAduit":
-        	  // cashFlowOutService.cashFlowOutFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
-        	   cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
-        	   url="spv/spvRecordShow";
-           	break;
-               	
-           	}
+	           	switch (handle) {
+	           	case "apply":
+	       			cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
+	       			url="spv/spvRecordedApp";
+	       		break;
+	           	case "directorAduit":
+	        	   cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+	        	   url="spv/spvRecordShow";
+	       		break;
+	           	case "financeAduit":
+	        	   cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
+	        	   url="spv/spvRecordShow";
+	           	break;
+	               	
+	           	}
            }else{
-           	cashFlowInService.cashFlowInPage(request, source, instCode, taskId, handle, businessKey);
+           		cashFlowInService.cashFlowInPage(request, source, instCode, taskId, handle, businessKey);
            }
 
    	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
@@ -1052,7 +1049,6 @@ public class SpvController {
    		request.setAttribute("source", source);
    		request.setAttribute("handle", handle);
    		
-   	//	return  "forward:" +url;
    		return  url;
    	}
     

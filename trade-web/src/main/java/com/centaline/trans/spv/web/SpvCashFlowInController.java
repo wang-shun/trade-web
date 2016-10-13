@@ -294,8 +294,6 @@ public class SpvCashFlowInController {
 	public AjaxResponse<?>  sumbitDate(SpvRecordedsVO spvrevo,HttpServletRequest request){
 		
 		AjaxResponse<?> response = new AjaxResponse<>();
-		SpvChargeInfoVO spvChargeInfoVO = new SpvChargeInfoVO();
-
 		String taskId = "";
 		String handle = "";
 		String instCode = "";
@@ -340,21 +338,15 @@ public class SpvCashFlowInController {
      * @return response
      * @throws
      */
-    @RequestMapping("deal")
-	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,
-			//String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeInAppr) {
-    	String taskId,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) {
+    @RequestMapping(value = "/deal")
+    @ResponseBody
+	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode, 
+			String taskId,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
-//    	SpvRecordedsVO spvRecordedsVO = new SpvRecordedsVO();
     	SpvChargeInfoVO spvChargeInfoVO = new SpvChargeInfoVO();
-    	
     	try {
-			//String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 			String cashflowApplyCode = "";
 			if(!StringUtils.isBlank(handle)){ 
-				
-				//if(StringUtils.isBlank(cashflowApplyCode)) throw new BusinessException("页面没有传入申请号！");
-				
 				switch (handle) {
 				case "apply":
 					cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
@@ -420,10 +412,10 @@ public class SpvCashFlowInController {
   */
  @RequestMapping("dealAppDelete")
 	public AjaxResponse<?> cashFlowOutApprDealAppDelete(HttpServletRequest request,String source,String instCode,
-			String taskId,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) throws Exception {
+			String pkid,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) throws Exception {
  	AjaxResponse<?> response = new AjaxResponse<>();
  	String businessKey = null;
-	cashFlowInService.cashFlowOutApprDealAppDelete( request,  instCode,  taskId,
+	cashFlowInService.cashFlowOutApprDealAppDelete( request,  instCode,  pkid,
 			 handle,  spvRecordedsVO,  businessKey,  chargeInAppr);
 	response.setSuccess(true);
  	return response;

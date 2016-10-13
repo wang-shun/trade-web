@@ -163,182 +163,50 @@
                                             <th>操作</th>
                                         </thead>
                                         <tbody id="addTr">
-                                           <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
-                                           <tr>
-                                                <td>
-                                                    <input class="table-input-one boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }" />
-                                                </td>
-                                                <td>
-                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }" /></p>
-                                                    <p>
-                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerBank }" /></p>
-                                                    <p>
-                                                </td>
-
-                                                <td class="text-left" >
-                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" />万元
-                                                </td>
-                                                <td>
-                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" />
-                                                </td>
-                                                <td>
-                                                    <select name="select_direction" id="select_direction" class="table-select boderbbt" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction }">
-                                                        
-                                                        <option value="">请选择</option>
-                                                        <option value="转账">转账</option>                                                                                                                                                 ';
-														<option value="刷卡">刷卡</option>  
-														<option value="现金">现金</option> 
-                                                    </select>
-                                                </td>
-                                                	<!-- 上传附件 -->
-                                                <td>
-									                  <%-- <c:choose>
-														<c:when test="${spvChargeInfoVO.toSpvCashFlowApplyAttachList!=null}"> --%>
-															<c:forEach var="accesory" items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList}"
-																varStatus="status">
-																<div class="" id="fileupload_div_pic">
-																	<form id="fileupload"
-																		action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-																		method="POST" enctype="multipart/form-data">
-																		<noscript>
-																			<input type="hidden" name="redirect"
-																				value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-																			<input type="hidden" id="preFileCode" name="preFileCode"
-																				value="${accesory.type }">
-																		</noscript>
-																			<div class="" >
-																				<div role="presentation" >
-																					<div id="picContainer${accesory.pkid }" class="files"
-																						data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-																					<a id="chandiaotuBtn" class="response" href="${ctx }/static_res/trans/img/uplody01.png"  title="凭证3">
-																					<button type="button" class="btn btn-sm btn-default">凭证3
-									                                                <c:if test="${empty handle or handle eq 'apply' }"><i class="icon iconfont icon_x">&#xe60a;</i></c:if>
-									                                                <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }"><i class="icon iconfont icon_y">&#xe635;</i></c:if>
-									                                                </button>
-																					</a>
-																					<span class="btn_file">
-									                                                    <input id="picFileupload${accesory.pkid }" type="file" class="file"
-																						name="files[]" multiple
-																						data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-																						data-sequential-uploads="true">
-									                                                    <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
-																					</span>
-																				</div>
-																			</div>
-																	</form>
-																</div>
-											
-																<div class="row-fluid">
-																	<div class="">
-																		<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-									<!--图片缩图  -->
-							        <div class="preview"><span class="fade"></span></div>
-									<!--  错误信息 -->
-							        {% if (file.error) { %}
-							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else if (o.files.valid && !i) { %}
-									<!-- 单个对应的按钮  -->
-							            <div class="start span1" style="display: none">
-										{% if (!o.options.autoUpload) { %}
-							                <button class="btn">
-							                    <i class="icon-upload icon-white"></i>
-							                    <span>上传</span>
-							                </button>
-							            {% } %}
-										</div>
-							        {% } else { %}
-							            <div class="span1" colspan="2"></div>
-							        {% } %}
-							        <div class="cancel" style="margin-top:-125px;margin-left:85%;">
-									{% if (!i) { %}
-							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        {% } %}
-									</div>
-							    </div>
-							{% } %}		
-																		</script>
-																		<script id="templateDownload${accesory.pkid }"
-																			type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-							        {% if (file.error) { %}
-							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else { %}
-							            <div class="preview span12">
-										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="${accesory.type }"></input>
-										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.id) { %}
-                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
-							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
-                                              {% } else { %}
- 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
-  											  {% } %}
-							            {% } %}</div>
-							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        </div>
-							    </div>
-							{% } %}
-						</script>
-																	</div>
-																</div>
-															</c:forEach>
-											
-															<div class="row-fluid" style="display: none;">
-																<div class="span4">
-																	<div class="control-group">
-																		<a class="btn blue start" id="startUpload"
-																			style="height: 30px; width: 50px"> <i
-																			class="icon-upload icon-white"></i> <span>上传</span>
-																		</a>
-																	</div>
-																</div>
-															</div>
-															
-															<%-- 
-														</c:when>
-													</c:choose> --%>
-													
-													
-													
-													
-	                                               <%--  <a class="response" href="${ctx }/static_res/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-	                                                <a class="response" href="${ctx }/static_res/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a> --%>
-	                                                <%-- <span class="btn_file">
-	                                                    <input type="file" class="file" />
-	                                                    <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
-	                                                </span> --%>
-	                                            </td>
-                                                	<!-- 上传附件 -->
-                                                <td>
-                                                    <a class="response" href="../static/trans/img/uplody01.png" title="凭证3"><button type="button" class="btn btn-sm btn-default" >凭证3<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                    <a class="response" href="../static/trans/img/uplody02.png" title="凭证4"><button type="button" class="btn btn-sm btn-default" >凭证4<i class="icon iconfont icon_x">&#xe60a;</i></button></a>
-                                                    <span class="btn_file">
-                                                        <input type="file" class="file" />
-                                                        <img class="bnt-flie" src="../static/trans/img/bnt-flie.png" alt="" />
-                                                    </span>
-                                                    
-                                                </td>
-                                                
-                                                
-                                                <td align="center">
-	                                                <a href="javascript:void(0)" onClick="getTR(0)">添加</span></a>
-	                                                <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
-                                                </td>
-                                            </tr>
-                                          
-                                          
-                                          
-                                       </c:forEach>
-
+	                                           <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
+	                                           	<tr>
+	                                                <td>
+	                                                    <input class="table-input-one boderbbt" type="text" name="itemsApp[${status2.index }].payerName"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }" />
+	                                                </td>
+	                                                <td>
+	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }"  name="itemsApp[${status2.index }].payerAcc" /></p>
+	                                                    <p>
+	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerBank }"  name="itemsApp[${status2.index }].payerBank"/></p>
+	                                                    <p>
+	                                                </td>
+	
+	                                                <td class="text-left" >
+	                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" name="itemsApp[${status2.index }].payerAmount" />万元
+	                                                </td>
+	                                                <td>
+	                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptNo }" name="itemsApp[${status2.index }].receiptNo" />
+	                                                </td>
+	                                                <td>
+	                                                    <select  id="select_direction" class="table-select boderbbt" name="itemsApp[${status2.index }].voucherNo"  onChange="this.value" >
+	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq ''}"> selected="selected" </c:if> value="">请选择</option>
+	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '转账'}"> selected="selected" </c:if> value="转账">转账</option>                                                                                                                                                
+															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option>  
+															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> 
+	                                                    </select>
+	                                                </td>
+	                                                <td>
+                                                	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
+	                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
+														<input type="hidden" name ="itemsApp[${status3.index}].fileId" value = "${toSpvReceiptList.attachId}"/>
+														<input type="hidden" name ="itemsApp[${status3.index}].fileName" value = "${toSpvReceiptList.comment}" />
+															<button type="button" class="btn btn-sm btn-default" >${toSpvReceiptList.comment}</button>
+																<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;
+																</i>
+															</button>
+														</a>
+                                                	 </c:forEach>    
+	                                                </td>
+	                                                <td align="center">
+		                                                <a href="javascript:void(0)" onClick="getTR(0)">添加</span></a>
+		                                                <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
+	                                                </td>
+	                                            </tr>
+	                                       </c:forEach>
                                         </tbody>
                                     </table>
                                     <div class="form-btn">
@@ -382,7 +250,7 @@
 
         </div>
     </div>
-
+<content tag="local_script">
   <!-- Mainly scripts -->
 <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
 <script src="${ctx}/static/trans/js/spv/spvRecordedApp.js"></script>
@@ -396,8 +264,8 @@
 
 <!-- 上传附件相关 --> 
 <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script><%-- 
+<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>  --%>
 <script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
@@ -439,6 +307,6 @@ function rescCallbocak(){
 	}
 
 </script>
-
+</content>
 </body>
 </html>

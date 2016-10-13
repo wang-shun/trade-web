@@ -15,9 +15,9 @@ public interface CashFlowOutService {
 	void cashFlowOutPage(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
-	 * 出款申请新增、修改操作 
+	 * 出款申请提交申请操作 
 	 */
-    void cashFlowOutPageDeal(HttpServletRequest request,String instCode,String taskId,String taskItem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey) throws Exception ;
+    void cashFlowOutPageDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, String insertAttachIdArrStr) throws Exception ;
 	
 	/**  
 	 *  出款申请页面
@@ -27,7 +27,7 @@ public interface CashFlowOutService {
 	/**
 	 *  出款申请操作
 	 */
-	void cashFlowOutApplyDeal(HttpServletRequest request,String instCode,String taskId,String taskItem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey,Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutApplyDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey,Boolean chargeOutAppr,String insertAttachIdArrStr) throws Exception ;
 	
 	/** 
 	 *  出款总监审批页面
@@ -37,7 +37,7 @@ public interface CashFlowOutService {
 	/** 
 	 *  出款总监审批操作
 	 */
-	void cashFlowOutDirectorAduitDeal(HttpServletRequest request,String instCode,String taskId,String taskItem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutDirectorAduitDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
 	
 	/** 
 	 *  出款财务初审页面
@@ -47,7 +47,7 @@ public interface CashFlowOutService {
 	/**
 	 *  出款财务初审操作
 	 */
-	void cashFlowOutFinanceAduitDeal(HttpServletRequest request,String instCode,String taskId,String taskItem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutFinanceAduitDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
 	
 	/** 
 	 *  出款财务复审页面
@@ -57,7 +57,7 @@ public interface CashFlowOutService {
 	/**
 	 *  出款财务复审操作
 	 */
-	void cashFlowOutFinanceSecondAduitDeal(HttpServletRequest request,String instCode,String taskId,String taskItem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutFinanceSecondAduitDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
 
 	/** 
 	 *  财务出款页面
@@ -67,13 +67,13 @@ public interface CashFlowOutService {
 	/**
 	 *  财务出款操作
 	 */
-	void cashFlowOutDeal(HttpServletRequest request,String instCode,String taskId,String taskItem,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception ;
 
 	/**
 	 *  保存操作
 	 * @throws Exception 
 	 */
-	void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception;
+	void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO, String insertAttachIdArrStr) throws Exception;
 
 	/**
 	 * 通过申请ID查询附件信息
@@ -82,8 +82,9 @@ public interface CashFlowOutService {
 
 	/**
 	 * 修改(添加、删除)出账申请附件
+	 * @return 
 	 */
-	void saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyId);
+	String saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyId);
 
 	/**
 	 * 删除出账申请附件

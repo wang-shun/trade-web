@@ -26,10 +26,10 @@ function getUploadPicOkInfo() {
 		picIdArr.push(spans[i].value);
 	});
 	// 每个图片对应的类型
-/*	var selects = $("input[name='picTag']");
+	var selects = $("input[name='picTag']");
 	$.each(selects, function(j, item) {
 		picTypeArr.push(selects[j].value);
-	});*/
+	});
 	// 必须上传图片
 	if (picIdArr.length <= 0) {
 		alert("请先上传图片成功后再提交！");
@@ -102,7 +102,7 @@ function getExplPicByhouseCode() {
 			//将返回的数据进行包装
 			$.each(attachList, function(index, attach){
 				//实勘描述
-				if(!$("#picContainer"+attach.pkid)[0])return true;
+				//if(!$("#picContainer"+attach.pkid)[0])return true;
 				var trStr = "";
 				dataLength = attachList.length;
 				trStr+="<div id='picContainers"+attach.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
@@ -148,14 +148,13 @@ function subAddFrom() {
 		},{
 			name : 'cashFlowApplyCode',
 			value : $("#businessKey").val(),
-		}
-		/*, {
+		}, {
 			name : 'framePart',
 			value : picTypeArr
 		},{
 			name : 'picName',
 			value :  picNameArr
-		}*/,{
+		},{
 			name : 'pkIdArr',
 			value :  pkIdArr
 		}],
@@ -170,6 +169,7 @@ function subAddFrom() {
 					    	}
 				    	}
 				    });
+				    $("#insertAttachIdArrStr").val(data.content);
 				}else if(!data) {
 					Modal.alert({msg:data.message});
 				}
@@ -203,14 +203,13 @@ function subUpdFrom() {
 			},{
 				name : 'cashFlowApplyCode',
 				value : $("#businessKey").val(),
-			}
-			/*, {
+			},{
 				name : 'framePart',
 				value : picTypeArr
 			},{
 				name : 'picName',
 				value :  picNameArr
-			}*/,{
+			},{
 				name : 'pkIdArr',
 				value :  pkIdArr
 			}],
@@ -221,6 +220,7 @@ function subUpdFrom() {
 					    $(".btn-primary").one("click",function(){
 					    	parent.$.fancybox.close();
 					    });
+					    $("#insertAttachIdArrStr").val(data.content);
 					}else if(!data) {
 						alert("附件修改出错"+errors);
 					}
@@ -316,6 +316,8 @@ function deleteAndModify(){
 		}else
 		//如果原来数据的长度大于复选框的长度且有新的图片数据--》调用修改的方法
 		if(dataLength>input.length && spans.length>0){
+			/*alert("搞起："+dataLength+","+input.length+","+spans.length);
+			return false;*/
 			subUpdFrom();
 		}
     } else {
