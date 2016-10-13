@@ -609,12 +609,16 @@
 						$.unblockUI();
 					},
 					success : function(data) {
-						window.location.reload();
+						setTimeout('refresh()',1000);
 					},
 					error : function(errors) {
 						alert("数据保存出错");
 					}
 				});
+		   }
+		   
+		   function refresh(){
+			   window.location.reload();
 		   }
 	   </script> 
 	</content>
