@@ -5,7 +5,7 @@ $(document).ready(function(){
 	
 	//流程开启后只读表单
 	if(handle == 'directorAduit' || handle == 'financeAduit' 
-		&& handle == 'financeSecondAduit' || handle == 'cashFlowOut'){
+		|| handle == 'financeSecondAduit' || handle == 'cashFlowOut'){
 	    readOnlyRiskForm();
 	}
 	
@@ -24,7 +24,7 @@ $(document).ready(function(){
 });
 
 function checkFormSave(){
-	var amountFlag = false;
+	var amountFlag = true;
 	var amountEle;
 	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
     	if($(e).val() != null && $(e).val() != ''){
@@ -41,6 +41,8 @@ function checkFormSave(){
 	    changeClass(amountEle);
 		return false;
     }
+    
+    return true;
 }
 
 function checkFormSubmit(){
@@ -149,7 +151,8 @@ function checkFormSubmit(){
 	    changeClass(directionEle);
 		return false;
     }
-
+    
+    return true;
 }
 
 function changeClass(object){
