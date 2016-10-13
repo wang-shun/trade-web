@@ -195,7 +195,7 @@
 							onclick="javascript:mortgageInfoToExcel()">导出列表</button>
 						<button type="button" class="btn  btn-icon btn-toggle mr5"
 							id="mortTypeAnalysis">
-							<i class="iconfont icon">&#xe63d;</i> 贷款报表
+							<i class="iconfont icon">&#xe63d;</i> 类型报表
 						</button>
 						<button type="button" class="btn  btn-icon btn-toggle mr5 "
 							id="mortOrgAnalysis">

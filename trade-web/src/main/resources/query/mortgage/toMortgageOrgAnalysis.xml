@@ -40,7 +40,6 @@
 			SELECT
 			    MORGANAL.MOONAME AS OONAME,
 			    MORGANAL.MONAME AS ONAME,
-			    MORGANAL.MRNAME AS RNAME,
 			    COUNT(MORGANAL.PKID) AS MCASES,
 			    SUM(MORGANAL.MORT_TOTAL_AMOUNT) AS TAMOUNT,
 			    SUM(MORGANAL.COM_AMOUNT) AS CAMOUNT,
@@ -48,7 +47,6 @@
 			FROM		
 			(SELECT
 					T.PKID,
-					T.PKID AS IDID,
 					T.CASE_CODE,
 					T.PROPERTY_ADDR,
 					T.MORT_TYPE_OLD,
@@ -64,14 +62,17 @@
 					T.SIGN_DATE,
 					T.LEND_DATE,
 					T.APPR_DATE,
-					ISNULL(T.REAL_NAME, '无名氏') MRNAME,
-		            ISNULL(T.ORG_NAME, '无名组织') MONAME,
-		            ISNULL(T.ORG_ORG_NAME, '无名区域') MOONAME,
+					T.REAL_NAME,
+					ISNULL(T.ORG_NAME, '无名组') AS MONAME,
+					ISNULL(T.ORG_ORG_NAME, '无名区') AS MOONAME,
+					T.IS_TMP_BANK,
 					T.SDSTATUS,
 					T.LOAN_AGENT,
 					T.LOAN_AGENT_TEAM,
 					T.IS_DELEGATE_YUCUI,
-					T.LOANTYPE
+					T.LOANTYPE,
+					T.REAL_HT_TIME,
+					T.LOANLOST_APPLY_REASON
 				FROM				
 				(select 
 					c.pkid,
@@ -124,13 +125,15 @@
 						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then  '1'
 						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016003') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   		   then  '2'
 						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then  '3'						
-					end   LOANTYPE
-					
+					end   LOANTYPE,
+					ht.REAL_HT_TIME,
+					m.loanlost_apply_reason
 					
                 from 
 					sctrans.T_TO_MORTGAGE m 
 					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
-					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 					
+					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 	
+					left join sctrans.T_TO_HOUSE_TRANSFER ht on ht.case_code=m.case_code 										
                 where 
 					c.LOAN_REQ=1
 					AND m.is_active = '1'				
@@ -160,6 +163,13 @@
 				</ifNotNull>				
 				<ifNotNull apprTimeEnd>
 				     and T.APPR_DATE &lt;= #apprTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull realhtTimeStart>
+				     and T.REAL_HT_TIME >= #realhtTimeStart#
+				</ifNotNull>				
+				<ifNotNull realhtTimeEnd>
+				     and T.REAL_HT_TIME &lt;= #realhtTimeEnd#
 				</ifNotNull>
 				
 				<ifNotNull comAmountStart>
@@ -206,12 +216,12 @@
 				</ifNotNull>
 				<ifNotNull loanType>
 					and T.LOANTYPE = #loanType#
-				</ifNotNull> 
+				</ifNotNull>
 				) AS MORGANAL
 				]]>
 			</baseSql>
 			<groupSql>
-				GROUP BY MORGANAL.MOONAME, MORGANAL.MONAME, MORGANAL.MRNAME
+				GROUP BY MORGANAL.MOONAME, MORGANAL.MONAME
 			</groupSql>
 			<orderBySql>
 			</orderBySql>

@@ -1,22 +1,30 @@
 var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
 
-var pChartMTypeCases = echarts.init(document.getElementById('pieChartMTypeCases'));
-var pChartMTypeAmount = echarts.init(document.getElementById('pieChartMTypeAmount'));
-var pChartMOrgCases = echarts.init(document.getElementById('pieChartMOrgCases'));
-var pChartMOrgAmount = echarts.init(document.getElementById('pieChartMOrgAmount'));
+var pChartMTypeCases = echarts.init(document
+		.getElementById('pieChartMTypeCases'));
+var pChartMTypeAmount = echarts.init(document
+		.getElementById('pieChartMTypeAmount'));
+var pChartMOrgCases = echarts
+		.init(document.getElementById('pieChartMOrgCases'));
+var pChartMOrgAmount = echarts.init(document
+		.getElementById('pieChartMOrgAmount'));
 
-var mTypeLegends = new Array('商贷(收单)', '公积金', '商贷(流失)');
-
-var mAllCases = 0;
-var mTotalAmount = 0;
-
+var mTypeAllCases = 0;
+var mTypeTotalAmount = 0;
 var mTypeCasesTitle = "";
 var mTypeAmountTitle = "";
 
-var typeLegends = new Array();
+var typeLegends = new Array('商贷(收单)', '公积金', '商贷(流失)');
+var typeCases = new Array(0, 0, 0);
+var typeAmount = new Array(0, 0, 0);
 var typeCaseItems = new Array();
 var typeAmountItems = new Array();
+
+var mOrgAllCases = 0;
+var mOrgTotalAmount = 0;
+var mOrgCasesTitle = "";
+var mOrgAmountTitle = "";
 
 var orgLegends = new Array();
 var orgCaseItems = new Array();
@@ -107,40 +115,51 @@ $(document).ready(
 		});
 
 function resetData() {
+	
+	var index;
+	for(index in typeCases) {
+		typeCases[index] = 0;
+		typeAmount[index] = 0;
+	}
+	
+	mTypeAllCases = 0;
+	mTypeTotalAmount = 0;
 
-	mAllCases = 0;
-	mTotalAmount = 0;
+	// typeLegends.splice(0, typeLegends.length);
+	typeCaseItems.splice(0, typeCaseItems.length);
+	typeAmountItems.splice(0, typeAmountItems.length);
 	
-	typeLegends.splice(0,typeLegends.length)
-	typeCaseItems.splice(0,typeCaseItems.length)
-	typeAmountItems.splice(0,typeAmountItems.length)
-	
-	orgLegends.splice(0,orgLegends.length)
-	orgCaseItems.splice(0,orgCaseItems.length)
-	orgAmountItems.splice(0,orgAmountItems.length)
+	mOrgAllCases = 0;
+	mOrgTotalAmount = 0;
+
+	orgLegends.splice(0, orgLegends.length);
+	orgCaseItems.splice(0, orgCaseItems.length);
+	orgAmountItems.splice(0, orgAmountItems.length);
 }
 
 function setPieCharts() {
 	var option = {};
-	
+
 	resetData();
-	
+
 	getMTypeAnalysis();
 	getMOrgAnalysis();
 
-	mTypeAmountTitle = '贷款总金额: ' + mTotalAmount.toFixed(2) + ' 万';
-	mTypeCasesTitle = '贷款总单数: ' + mAllCases + ' 件'
-	
-	//option = setAmountOptions(mTypeAmount);
+	mTypeAmountTitle = '总金额: ' + mTypeTotalAmount.toFixed(2) + ' 万';
+	mTypeCasesTitle = '总单数: ' + mTypeAllCases + ' 件'
+
 	option = setOptions(mTypeAmountTitle, typeLegends, typeAmountItems);
 	pChartMTypeAmount.setOption(option);
-	
+
 	option = setOptions(mTypeCasesTitle, typeLegends, typeCaseItems);
 	pChartMTypeCases.setOption(option);
 	
+	mOrgAmountTitle = '总金额: ' + mOrgTotalAmount.toFixed(2) + ' 万';
+	mOrgCasesTitle = '总单数: ' + mOrgAllCases + ' 件'
+
 	option = setOptions(mTypeAmountTitle, orgLegends, orgAmountItems);
 	pChartMOrgAmount.setOption(option);
-	
+
 	option = setOptions(mTypeCasesTitle, orgLegends, orgCaseItems);
 	pChartMOrgCases.setOption(option);
 }
@@ -182,7 +201,7 @@ function getMTypeAnalysis() {
 	data.queryId = "queryMortgageTypeAnalysis";
 	data.rows = 10;
 	data.page = 1;
-	
+
 	$
 			.ajax({
 				async : false,
@@ -193,11 +212,115 @@ function getMTypeAnalysis() {
 				success : function(data) {
 					var index
 					for (index in data.rows) {
-						//mTypeCases[data.rows[index].MTYPE - 1] = data.rows[index].MCASES;
-						//mAllCases += data.rows[index].MCASES;
-						
+
+						if (data.rows[index].MTYPE == "1") {
+							typeCases[0] += data.rows[index].MCASES;
+							typeAmount[0] += data.rows[index].MCOMAMOUNT;
+							typeAmount[1] += data.rows[index].MPRFAMOUNT;
+						}
+
+						if (data.rows[index].MTYPE == "2") {
+							typeCases[1] += data.rows[index].MCASES;
+							typeAmount[1] += data.rows[index].MPRFAMOUNT;
+						}
+
+						if (data.rows[index].MTYPE == "3") {
+							typeCases[2] += data.rows[index].MCASES;
+							typeAmount[2] += data.rows[index].MCOMAMOUNT;
+							typeAmount[2] += data.rows[index].MPRFAMOUNT;
+						}
+
+						mTypeAllCases += data.rows[index].MCASES;
+						mTypeTotalAmount += data.rows[index].MTOTALAMOUNT;
+					}
+
+					for (index in typeLegends) {
+						var caseItem = {
+							name : typeLegends[index],
+							value : typeCases[index],
+							itemStyle : {
+								normal : {
+									label : {
+										formatter : '{b}\n{c} 件',
+										show : function() {
+											if (typeCases[index] === 0) {
+												return false;
+											}
+										}()
+									},
+									labelLine : {
+										show : function() {
+											if (typeCases[index] === 0) {
+												return false;
+											}
+										}()
+									}
+								}
+							}
+						};
+
+						var amountItem = {
+							name : typeLegends[index],
+							value : typeAmount[index],
+							itemStyle : {
+								normal : {
+									label : {
+										formatter : '{b}\n{c} 万',
+										show : function() {
+											if (typeAmount[index] === 0.00) {
+												return false;
+											}
+										}()
+									},
+									labelLine : {
+										show : function() {
+											if (typeAmount[index] === 0.00) {
+												return false;
+											}
+										}()
+									}
+								}
+							}
+						};
+
+						typeCaseItems.push(caseItem);
+						typeAmountItems.push(amountItem);
+					}
+
+					for (index in typeAmountItems) {
+						typeAmountItems[index].value = parseFloat(typeAmountItems[index].value
+								.toFixed(2));
+					}
+				}
+			});
+}
+
+function getMOrgAnalysis() {
+	var data = setQueryData();
+	data.queryId = "queryMortgageOrgAnalysis";
+	data.rows = 100;
+	data.page = 1;
+
+	// check user job
+	var userJobCode = $("#userJobCode").val();
+
+	$
+			.ajax({
+				async : false,
+				url : ctx + "/quickGrid/findPage",
+				method : "post",
+				dataType : "json",
+				data : data,
+				success : function(data) {
+					var index;
+					for (index in data.rows) {
 						var name;
-						name = mTypeLegends[data.rows[index].MTYPE - 1];
+						if (userJobCode == '0') {
+							name = data.rows[index].OONAME;
+						} else {
+							name = data.rows[index].ONAME;
+						}
+
 						var cases = data.rows[index].MCASES;
 						var caseItem = {
 							name : name,
@@ -210,8 +333,8 @@ function getMTypeAnalysis() {
 								}
 							}
 						};
-						
-						var amount = 0;
+
+						var amount = data.rows[index].TAMOUNT;
 						var amountItem = {
 							name : name,
 							value : amount,
@@ -223,110 +346,26 @@ function getMTypeAnalysis() {
 								}
 							}
 						};
-						
-						if(data.rows[index].MTYPE == "1") {
-							typeLegends.push(name);
-							typeCaseItems.push(caseItem);
-							amountItem.value += data.rows[index].MCOMAMOUNT;
-							typeAmountItems.push(amountItem);
+
+						var idx = orgLegends.indexOf(name);
+						if (idx != -1) {
+							orgCaseItems[idx].value += cases;
+							orgAmountItems[idx].value += amount;
+						} else {
+							orgLegends.push(name);
+							orgCaseItems.push(caseItem);
+							orgAmountItems.push(amountItem);
 						}
 						
-						if(data.rows[index].MTYPE == "2") {
-							typeLegends.push(name);
-							typeCaseItems.push(caseItem);
-							amountItem.value += data.rows[0].MPRFAMOUNT;
-							amountItem.value += data.rows[1].MPRFAMOUNT;
-							typeAmountItems.push(amountItem);				
-						}
-						
-						if(data.rows[index].MTYPE == "3") {
-							typeLegends.push(name);
-							typeCaseItems.push(caseItem);
-							amountItem.value += data.rows[2].MCOMAMOUNT;
-							amountItem.value += data.rows[2].MPRFAMOUNT;
-							typeAmountItems.push(amountItem);
-						}
-						
-						mAllCases += cases;
-						mTotalAmount += data.rows[index].MTOTALAMOUNT;
+						mOrgAllCases += data.rows[index].MCASES;
+						mOrgTotalAmount += data.rows[index].MTOTALAMOUNT;
 					}
-					for (index in typeAmountItems) {
-						typeAmountItems[index].value = parseFloat(typeAmountItems[index].value.toFixed(2));
+					for (index in orgAmountItems) {
+						orgAmountItems[index].value = parseFloat(orgAmountItems[index].value
+								.toFixed(2));
 					}
 				}
 			});
-}
-
-function getMOrgAnalysis() {
-	var data = setQueryData();
-	data.queryId = "queryMortgageOrgAnalysis";
-	data.rows = 100;
-	data.page = 1;
-
-	//check user job
-	var userJobCode = $("#userJobCode").val();
-
-	$.ajax({
-		async : false,
-		url : ctx + "/quickGrid/findPage",
-		method : "post",
-		dataType : "json",
-		data : data,
-		success : function(data) {
-			var index;
-			for (index in data.rows) {
-				var name;
-				if (userJobCode == '0') {
-					name = data.rows[index].OONAME;
-				} else if (userJobCode == '1') {
-					name = data.rows[index].ONAME;
-				} else if (userJobCode == '2') {
-					name = data.rows[index].RNAME;
-				} else if (userJobCode == '3') {
-					name = data.rows[index].RNAME;
-				}
-
-				var cases = data.rows[index].MCASES;
-				var caseItem = {
-					name : name,
-					value : cases,
-					itemStyle : {
-						normal : {
-							label : {
-								formatter : '{b}\n{c} 件'
-							}
-						}
-					}
-				};
-				
-				var amount = data.rows[index].TAMOUNT;
-				var amountItem = {
-					name : name,
-					value : amount,
-					itemStyle : {
-						normal : {
-							label : {
-								formatter : '{b}\n{c} 万'
-							}
-						}
-					}
-				};
-
-				var idx = orgLegends.indexOf(name);
-				if (idx != -1) {
-					orgCaseItems[idx].value += cases;
-					orgAmountItems[idx].value += amount;
-				} else {
-					orgLegends.push(name);
-					orgCaseItems.push(caseItem);
-					orgAmountItems.push(amountItem);
-				}
-			}
-			for (index in orgAmountItems) {
-				orgAmountItems[index].value = parseFloat(orgAmountItems[index].value.toFixed(2));
-			}
-		}
-	});
 }
 
 function setOptions(title, legendName, dataValue) {
@@ -355,8 +394,7 @@ function setOptions(title, legendName, dataValue) {
 
 			data : legendName
 		},
-		series : [
-		{
+		series : [ {
 			name : title,
 			type : 'pie',
 			radius : [ '35%', '55%' ],
@@ -384,7 +422,7 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('COM_AMOUNT');
 			displayColomn.push('PRF_AMOUNT');
 			displayColomn.push('SDSTATUS');
-			displayColomn.push('LOANLOST_APPLY_REASON');//流失原因
+			displayColomn.push('LOANLOST_APPLY_REASON');// 流失原因
 			displayColomn.push('FIN_ORG_NAME');
 			displayColomn.push('FIN_ORG_NAME_YC');
 			displayColomn.push('IS_TMP_BANK');
@@ -580,16 +618,16 @@ function initpage(totalCount, pageSize, currentPage, records) {
 	$(currentTotalstrong).empty();
 	$(currentTotalstrong).text(currentPage + '/' + totalCount);
 	$('#totalP').text(records);
-	$(function(){
-		//top
+	$(function() {
+		// top
 		$('.demo-top').poshytip({
-			className: 'tip-twitter',
-			showTimeout: 1,
-			alignTo: 'target',
-			alignX: 'center',
-			alignY: 'top',
-			offsetX: 8,
-			offsetY: 5,
+			className : 'tip-twitter',
+			showTimeout : 1,
+			alignTo : 'target',
+			alignX : 'center',
+			alignY : 'top',
+			offsetX : 8,
+			offsetY : 5,
 		});
 	});
 
@@ -692,7 +730,7 @@ function getParamsValue() {
 		apprTimeEnd = end;
 		params.apprTimeStart = apprTimeStart;
 		params.apprTimeEnd = apprTimeEnd;
-	}else if(timeSelect == "REAL_HT_TIME"){
+	} else if (timeSelect == "REAL_HT_TIME") {
 		realhtTimeStart = start;
 		realhtTimeEnd = end;
 		params.realhtTimeStart = realhtTimeStart;
