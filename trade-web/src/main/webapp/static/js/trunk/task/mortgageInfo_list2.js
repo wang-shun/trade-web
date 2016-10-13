@@ -376,7 +376,8 @@ function setOptions(title, legendName, dataValue) {
 			padding : [ 25, 10 ],
 			x : 'center',
 		},
-		color : [ '#52bdbd', '#ffad6b', '#f784a5', '#295aa5' ],
+		color : [ '#52bdbd', '#ffad6b', '#f784a5', '#295aa5', 
+		          '#34b971', '#809eff', '#a8e3f0', '#00a3e0'],
 		tooltip : {
 			trigger : 'item',
 			triggerOn : 'mousemove',
