@@ -25,12 +25,12 @@ $(function () {
     $("#today").click(function(){
         $(".datatime").val(getDateWeek(0));
         $('.datatime').datepicker('update');
-        ajaxSubmit(1);
+        signRommAjaxSubmit(1);
     });
     $("#tommrow").click(function(){
         $(".datatime").val(getDateWeek(1));
         $('.datatime').datepicker('update');
-        ajaxSubmit(1);
+        signRommAjaxSubmit(1);
     });
     
   //产证地址文本框失去焦点获取对应的caseCode
@@ -42,7 +42,7 @@ $(function () {
 		$(".autocompleter").show();
 	});
     
-    ajaxSubmit(0);
+    signRommAjaxSubmit(0);
     
     $("#searchBtn").click(function(){
     	var curDate = $.trim($('#curDate').val());
@@ -50,7 +50,7 @@ $(function () {
     		alert("请选择预约日期！");
     		return;
     	}
-    	ajaxSubmit(1);
+    	signRommAjaxSubmit(1);
     });
     //清空条件
     $("#clearBtn").click(function(){
@@ -145,7 +145,7 @@ $(function () {
     
 	
 	setInterval(function() {
-		ajaxSubmit(1);
+		signRommAjaxSubmit(1);
 	}, time);
 	
     
@@ -201,7 +201,7 @@ function getParamsValue() {
 	return params;
 }
 
-function ajaxSubmit(obj) {
+function signRommAjaxSubmit(obj) {
 	$("#signRoomTable tbody tr").remove();
 	var params = getParamsValue();
 	$.ajax({
