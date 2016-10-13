@@ -877,7 +877,7 @@ public class SpvController {
 				
 				switch (handle) {
 				case "apply":
-					cashFlowOutService.cashFlowOutApplyDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode, chargeOutAppr, insertAttachIdArrStr);
+					cashFlowOutService.cashFlowOutApplyDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode, chargeOutAppr);
 					break;
 			    case "directorAduit":
 			    	cashFlowOutService.cashFlowOutDirectorAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
@@ -893,7 +893,7 @@ public class SpvController {
 	                break;    
 				}	
 			}else{
-				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null,insertAttachIdArrStr);
+				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null);
 			}
 
 			response.setSuccess(true);
@@ -920,10 +920,10 @@ public class SpvController {
      * @throws
      */
     @RequestMapping("cashFlowOutAppr/save")
-	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO,String insertAttachIdArrStr) {
+	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO) {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
-    		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO,insertAttachIdArrStr); 
+    		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO); 
 			response.setSuccess(true);
 			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
 		} catch (Exception e) {

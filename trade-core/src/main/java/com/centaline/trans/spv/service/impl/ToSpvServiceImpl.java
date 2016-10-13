@@ -1022,23 +1022,39 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}*/
 		
 		/**3.申请附件*/
-/*		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
+		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = spvChargeInfoVO.getToSpvCashFlowApplyAttachList();
+		
+		List<ToSpvCashFlowApplyAttach> attachs = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid().toString());
+		for(ToSpvCashFlowApplyAttach attach : attachs){
+			attach.setUpdateBy(user.getId());
+			attach.setUpdateTime(new Date());
+			attach.setIsDeleted("1");
+			toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(attach);
+		}
+		
 		if(toSpvCashFlowApplyAttachList != null && !toSpvCashFlowApplyAttachList.isEmpty()){
 			for(ToSpvCashFlowApplyAttach toSpvCashFlowApplyAttach:toSpvCashFlowApplyAttachList){
-				if(toSpvCashFlowApplyAttach.getPkid() == null){
-					toSpvCashFlowApplyAttach.setApplyId(toSpvCashFlowApply.getPkid().toString());
-					toSpvCashFlowApplyAttach.setCreateBy(user.getId());
-					toSpvCashFlowApplyAttach.setCreateTime(new Date());
-					toSpvCashFlowApplyAttach.setIsDeleted("0");
-					toSpvCashFlowApplyAttachMapper.insertSelective(toSpvCashFlowApplyAttach);
-				}else{
-					toSpvCashFlowApplyAttach.setUpdateBy(user.getId());
-					toSpvCashFlowApplyAttach.setUpdateTime(new Date());
-					toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(toSpvCashFlowApplyAttach);
-				}
+				if(toSpvCashFlowApplyAttach != null){
+					if(toSpvCashFlowApplyAttach.getPkid() == null){
+						if(StringUtils.isNotBlank(toSpvCashFlowApplyAttach.getAttachId())){
+							toSpvCashFlowApplyAttach.setApplyId(toSpvCashFlowApply.getPkid().toString());
+							toSpvCashFlowApplyAttach.setType(toSpvCashFlowApplyAttach.getComment().substring(toSpvCashFlowApplyAttach.getComment().indexOf(".")+1, toSpvCashFlowApplyAttach.getComment().length()));
+							toSpvCashFlowApplyAttach.setIsDeleted("0");
+							toSpvCashFlowApplyAttach.setCreateBy(user.getId());
+							toSpvCashFlowApplyAttach.setCreateTime(new Date());
+							toSpvCashFlowApplyAttachMapper.insertSelective(toSpvCashFlowApplyAttach);
+						}
+					}else{
+						toSpvCashFlowApplyAttach.setIsDeleted("0");
+						toSpvCashFlowApplyAttach.setUpdateBy(user.getId());
+						toSpvCashFlowApplyAttach.setUpdateTime(new Date());
+						toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(toSpvCashFlowApplyAttach);
+					}
+				}			
 			}
-		}*/
+		}
 		
+		//流水
 		List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVOList = spvChargeInfoVO.getSpvCaseFlowOutInfoVOList();
 		if(spvCaseFlowOutInfoVOList != null && !spvCaseFlowOutInfoVOList.isEmpty()){
 			
@@ -1053,8 +1069,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 			List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVONewList = new ArrayList<SpvCaseFlowOutInfoVO>();
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO : spvCaseFlowOutInfoVOList){
 				ToSpvCashFlow caSpvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
-				if(!(caSpvCashFlow.getPayer() == null || caSpvCashFlow.getPayerAcc() == null || caSpvCashFlow.getPayerBank() == null
-						|| caSpvCashFlow.getAmount() == null || caSpvCashFlow.getVoucherNo() == null || caSpvCashFlow.getDirection() == null)){
+				if(!(StringUtils.isBlank(caSpvCashFlow.getPayer()) && StringUtils.isBlank(caSpvCashFlow.getPayerAcc()) && StringUtils.isBlank(caSpvCashFlow.getPayerBank())
+						&& caSpvCashFlow.getAmount() == null && StringUtils.isBlank(caSpvCashFlow.getVoucherNo()) && StringUtils.isBlank(caSpvCashFlow.getDirection())
+						&& spvCaseFlowOutInfoVO.getToSpvVoucherList() == null && StringUtils.isBlank(caSpvCashFlow.getAttachIdArr()))){
 					spvCaseFlowOutInfoVONewList.add(spvCaseFlowOutInfoVO);
 				}
 			}
@@ -1079,10 +1096,36 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 				/**5.贷记凭证*/
 				List<ToSpvVoucher> toSpvVoucherList = spvCaseFlowOutInfoVO.getToSpvVoucherList();
+				
+				List<ToSpvVoucher> vouchers = toSpvVoucherMapper.selectByCashFlowId(toSpvCashFlow.getPkid().toString());
+				for(ToSpvVoucher voucher : vouchers){
+					voucher.setUpdateBy(user.getId());
+					voucher.setUpdateTime(new Date());
+					voucher.setIsDeleted("1");
+					toSpvVoucherMapper.updateByPrimaryKeySelective(voucher);
+				}
+				
+				if(StringUtils.isNotBlank(toSpvCashFlow.getAttachIdArr())){
+					String[] attachIdArr = toSpvCashFlow.getAttachIdArr().split(",");
+					String[] commentArr = toSpvCashFlow.getCommentArr().split(",");
+					for(int i=0;i<attachIdArr.length;i++){
+						ToSpvVoucher voucher = new ToSpvVoucher();
+						voucher.setCashflowId(toSpvCashFlow.getPkid().toString());
+						voucher.setAttachId(attachIdArr[i]);
+						voucher.setComment(commentArr[i]);
+						voucher.setIsDeleted("0");
+						voucher.setCreateBy(user.getId());
+						voucher.setCreateTime(new Date());
+						voucher.setType(commentArr[i].substring(commentArr[i].indexOf(".")+1, commentArr[i].length()));
+						toSpvVoucherMapper.insertSelective(voucher);
+					}
+				}
+	
 				if(toSpvVoucherList != null && !toSpvVoucherList.isEmpty()){
 					for(ToSpvVoucher toSpvVoucher:toSpvVoucherList){
 						if(toSpvVoucher.getPkid() == null){
 							toSpvVoucher.setCashflowId(toSpvCashFlow.getPkid().toString());
+							toSpvVoucher.setType(toSpvVoucher.getComment().substring(toSpvVoucher.getComment().indexOf(".")+1, toSpvVoucher.getComment().length()));
 							toSpvVoucher.setCreateBy(user.getId());
 							toSpvVoucher.setCreateTime(new Date());
 							toSpvVoucher.setIsDeleted("0");
@@ -1090,6 +1133,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 						}else{
 							toSpvVoucher.setUpdateBy(user.getId());
 							toSpvVoucher.setUpdateTime(new Date());
+							toSpvVoucher.setIsDeleted("0");
 							toSpvVoucherMapper.updateByPrimaryKeySelective(toSpvVoucher);
 						}
 					}

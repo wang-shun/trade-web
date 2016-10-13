@@ -65,8 +65,7 @@
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
 		<input type="hidden" id="handle" name="handle" value="${handle }">
 		<input type="hidden" id="spvCode" name="spvCode" value="${spvCode }">
-		<%--附件id --%>
-		<input type="hidden" id="insertAttachIdArrStr" name="insertAttachIdArrStr" value="">
+
 		</form>
 		<%--出入账金额比较 --%>
 		<input type="hidden" id="totalCashFlowInAmount" value="${totalCashFlowInAmount }" >
@@ -74,6 +73,8 @@
 		<%--上传图片添加的图片和上传成功的图片数量，用于确认是否完全上传成功 --%>
 		<input type="hidden" id="addSum" value="0" >
 		<input type="hidden" id="doneSum" value="0" >
+		<%--流水--%>
+		<input type="hidden" id="sum" value="${fn:length(spvChargeInfoVO.spvCaseFlowOutInfoVOList)}" >
 		<!-- main Start -->
             <!-- main Start -->
 
@@ -303,24 +304,38 @@
                                         <th>附件</th>
                                         </thead>
                                         <tbody id="addTr2">
-                                        <%-- <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status3"> --%>
                                         <tr>
                                             <td width="310">
                                                 <aist:dict id="" name="" clazz="form-control input-one"
 									            display="select"  dictType="SPV_DE_COND"  
 									            ligerui='none' defaultvalue="" ></aist:dict>
                                             </td>
-                                            <td>
-                                                <span class="btn_file">
-                                                    <input type="file" class="file" />
-                                                    <img class="bnt-flie" src="${ctx }/static_res/trans/img/bnt-flie.png" alt="" />
-                                                </span> 
+                                            <td id="td_filex">
+                                                <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status">
+	                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvCashFlowApplyAttach.attachId}" title="${toSpvCashFlowApplyAttach.comment}" alt="${toSpvCashFlowApplyAttach.comment}">
+	                                                 	<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].pkid" value = "${toSpvCashFlowApplyAttach.pkid}"/>
+														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].attachId" value = "${toSpvCashFlowApplyAttach.attachId}"/>
+														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].comment" value = "${toSpvCashFlowApplyAttach.comment}" />
+															<button type="button" class="btn btn-sm btn-default" >${toSpvCashFlowApplyAttach.comment}
+ 															<c:if test="${empty handle or handle eq 'apply' }">
+																<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;
+																</i>
+															</c:if>
+															<c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }">
+															    <i class="icon iconfont icon_y" onClick="$(this).parent().parent().remove();return false;">&#xe635;
+																</i>
+															</c:if> 
+															</button>
+														</a>
+                                                </c:forEach>  
+                                              	 <c:if test="${empty handle or handle eq 'apply' }">
+                                                	 <span class="btn_file_x">                                                                                                                                                               
+       			                                             <input id="fileupload_x" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">
+			                                                      <img class="bnt-flie" src="${ctx }/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$('#fileupload_x').trigger('click');">
+		                                             </span>
+		                                         </c:if> 
                                             </td>
                                         </tr>
-                                        <%-- </c:forEach> --%>
-                                        <%-- <c:if test="${empty spvChargeInfoVO.toSpvCashFlowApplyAttachList }">
-                                        <tr><td colspan="5">没有相关信息</td></tr>
-                                        </c:if> --%>
                                         </tbody>
                                     </table>
 
@@ -344,7 +359,67 @@
                                         <th>操作</th>
                                         </thead>
                                         <tbody id="addTr">
-                                        <%-- 文件上传部分 --%>
+                                        	<c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
+	                                           	<tr>
+	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.pkid"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid }" />
+	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid }" />
+	                                                <td>
+	                                                    <input class="table-input-one boderbbt" type="text" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payer"  placeholder="请输入姓名"  value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }" />
+	                                                </td>
+	                                                <td>
+	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }" placeholder="请输入银行卡号"  name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payerAcc" /></p>
+	                                                    <p>
+	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerBank }" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payerBank"/></p>
+	                                                    <p>
+	                                                </td>
+	
+	                                                <td class="text-left" >
+	                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" placeholder="金额" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.amount" />万
+	                                                </td>
+	                                                <td>
+	                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.voucherNo }" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.voucherNo" />
+	                                                </td>
+	                                                <td>
+	                                                    <select  id="select_direction" class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.direction"  onChange="this.value" >
+	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq ''}"> selected="selected" </c:if> value="">请选择</option>
+	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '转账'}"> selected="selected" </c:if> value="转账">转账</option>                                                                                                                                                
+															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option>  
+															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> 
+	                                                    </select>
+	                                                </td>
+	                                                <td id="td_file${status2.index  }">
+                                                	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvVoucherList}" var="toSpvVoucher" varStatus="status3">
+	                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvVoucher.attachId}" title="${toSpvVoucher.comment}" alt="${toSpvVoucher.comment}">
+	                                                 	<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].pkid" value = "${toSpvVoucher.pkid}"/>
+														<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].attachId" value = "${toSpvVoucher.attachId}"/>
+														<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].comment" value = "${toSpvVoucher.comment}" />
+															<button type="button" class="btn btn-sm btn-default" >${toSpvVoucher.comment}
+															<c:if test="${empty handle or handle eq 'apply' }">
+																<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;
+																</i>
+															</c:if>
+															<c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }">
+															    <i class="icon iconfont icon_y" onClick="$(this).parent().parent().remove();return false;">&#xe635;
+																</i>
+															</c:if>	
+															</button>
+														</a>
+                                                	 </c:forEach>  
+                                                	 <c:if test="${empty handle or handle eq 'apply' }">
+                                                	 <span class="btn_file${status2.index}">                                                                                                                                                               
+       			                                             <input id="fileupload_${status2.index}" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">
+			                                                      <img class="bnt-flie" src="${ctx }/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$('#fileupload_${status2.index}').trigger('click');">
+		                                             </span>
+		                                             </c:if>   
+	                                                </td>
+	                                                <c:if test="${empty handle or handle eq 'apply' }">
+	                                                <td align="center">
+		                                                <a href="javascript:void(0)" onClick="getTR(parseInt($('#sum').val())+1)">添加</span></a>
+		                                                <a href="javascript:void(0)" onClick="getDel(this)">删除</span></a>
+	                                                </td>
+	                                                </c:if>
+	                                            </tr>
+	                                       </c:forEach>
                                         </tbody>
                                     </table>
 
@@ -462,21 +537,28 @@
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
 
 <script>
-var sum = parseInt("${fn:length(spvChargeInfoVO.spvCaseFlowOutInfoVOList)}");
+var sum = $("#sum").val();
+var attSum = $("#attSum").val();
 var addSum = 0;
 var doneSum = 0;
+
 $(function() {
     $(".icon_x").click(function() {
         $(this).parent().parent().remove();
         return false;
     });
 
-    for(var i = 0;i<sum;i++){
-    	$("#addTr").append(getTR(i));
+    renderFileUpload("x","attach");
+    
+    for(var i = 0;i<parseInt("${fn:length(spvChargeInfoVO.spvCaseFlowOutInfoVOList)}");i++){
+    	var k = i;
+    	renderFileUpload(k);
     }
+
     if(!handle || handle == 'apply'){
     	$("#addTr").append(getTR(sum));
     }
+
 
 });
 $('.response').responsivegallery();
@@ -484,51 +566,83 @@ $('.response').responsivegallery();
 
 //添加入账申请信息tr
 function getTR(thisIndex){
-	var nextIndex = thisIndex+1;
 	var  $str='';
 	$str+='<tr>                                                                                                                                                                                           ';
-	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.payer" value="${spvChargeInfoVO.spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.payer}">                                                                                         ';
+	$str+='	<td>                                                                                                                                                                                     ';
+	$str+='		<input class="table-input-one boderbbt" type="text" placeholder="请输入姓名" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.payer" >                                                                                         ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<p><input class="table_input boderbbt" type="text"placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.payerAcc" value="${spvChargeInfoVO.spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.payerAcc}"></p>                                                                                   ';
-	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.payerBank" value="${spvChargeInfoVO.spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.payerBank}"></p>                                                                                  ';
+	$str+='		<p><input class="table_input boderbbt" type="text"placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.payerAcc" ></p>                                                                                   ';
+	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.payerBank" ></p>                                                                                  ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td class="text-left">                                                                                                                                                                     ';
-	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.amount" value="${spvChargeInfoVO.spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.amount}">万元                                                                        ';
+	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.amount" >万                                                                       ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<input class="table_input boderbbt forvalue" type="text" placeholder="请输入编号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.voucherNo" value="${spvChargeInfoVO.spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.voucherNo}">                                                                                             ';
+	$str+='		<input class="table_input boderbbt forvalue" type="text" placeholder="请输入编号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.voucherNo" >                                                                                             ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td>                                                                                                                                                                                       ';
-	$str+='		<select name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.direction" value="${spvChargeInfoVO.spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.direction}" class="table-select boderbbt" onChange="this.value">                                                                                                                                ';
+	$str+='		<select name="spvCaseFlowOutInfoVOList['+thisIndex+'].toSpvCashFlow.direction" class="table-select boderbbt" onChange="this.value">                                                                                                                                ';
 	$str+='			<option value="">请选择</option>                                                                                                                                                   ';
 	$str+='			<option value="转账">转账</option>                                                                                                                                                 ';
 	$str+='			<option value="刷卡">刷卡</option>                                                                                                                                                 ';
 	$str+='			<option value="现金">现金</option>                                                                                                                                                 ';
 	$str+='		</select>                                                                                                                                                                              ';
 	$str+='	</td>                                                                                                                                                                                      ';
-	$str+='	<td id="td_file'+thisIndex+'">                                                                                                                                                                                         ';
+	$str+='	<td id="td_file'+thisIndex+'">';
 	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
 	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
 	$str+='			<img class="bnt-flie" src="'+ctx+'/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
-	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
+	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+(parseInt(sum)+1)+')">添加</a>';
 	if(thisIndex > 0){
 		$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
 	}
 	$str+='</tr>                                                                                                                                                                                          ';
+	sum++;
+	$("#sum").val(sum);
 	
 	$("#addTr").append($str);
+    
+	renderFileUpload(thisIndex);
+}
 
-	$('#fileupload_'+thisIndex).fileupload({
+function getUploadImage(thisIndex,fileUrl,fileId,fileName){
+	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
+	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
+	image += '<input type="hidden" name ="spvCaseFlowOutInfoVOList['+thisIndex+'].ToSpvCashFlow.attachIdArr" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
+	image += '<input type="hidden" name ="spvCaseFlowOutInfoVOList['+thisIndex+'].ToSpvCashFlow.commentArr" value="'+fileName+'" />';
+	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;</i></button></a>';
+	return image;
+}
+
+function getUploadImage2(thisIndex,fileUrl,fileId,fileName){
+	thisIndex = $("#td_filex").find("a").size()+1;
+	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
+	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
+	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+thisIndex+'].attachId" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
+	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+thisIndex+'].comment" value="'+fileName+'" />';
+	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;</i></button></a>';
+	return image;
+}
+//删除入账申请信息tr
+function getDel(k){
+	if(!confirm("是否删除！")){
+		  return false;
+	    }
+    $(k).parents('tr').remove();
+}
+
+//添加上传方法
+function renderFileUpload(k,a){
+	$('#fileupload_'+k).fileupload({
 		acceptFileTypes:'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i',
 		autoUpload: true,
         dataType: 'json',
         add:function(e,data){
         	var fileName = data.files[0].name;
-        	if($("input[fileName='"+fileName+"']").size()==0){
+        	if($("input[fileName='"+fileName+k+"']").size()==0){
         		data.submit();
         	}
         	addSum++;
@@ -539,28 +653,20 @@ function getTR(thisIndex){
             	var fileId =  data.result.files[0].id;
             	var fileUrl = data.result.files[0].url;
             	var fileName = data.result.files[0].name;
-            	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
-            	$('#td_file'+thisIndex).prepend(image);	
+            	var image;
+            	if(a == 'attach'){
+            		image = getUploadImage2(k,fileUrl,fileId,fileName);
+            	}else{
+                	image = getUploadImage(k,fileUrl,fileId,fileName);
+            	}
+            	$('#td_file'+k).prepend(image);	
             	doneSum++;
             	$("#doneSum").val(doneSum);
+            	$('.response').responsivegallery();
         	}
         }
     })
 }
-function getUploadImage(thisIndex,fileUrl,fileId,fileName){
-	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
-	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>';
-	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;</i></button></a>';
-	return image;
-}
-//删除入账申请信息tr
-function getDel(k){
-    $(k).parents('tr').remove();
-    sum--;
-    $("#sum").html(sum);
-}
-
 </script>
 </content>
 </body>

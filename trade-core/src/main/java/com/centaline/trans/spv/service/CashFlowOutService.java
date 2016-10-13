@@ -17,7 +17,7 @@ public interface CashFlowOutService {
 	/**
 	 * 出款申请提交申请操作 
 	 */
-    void cashFlowOutPageDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, String insertAttachIdArrStr) throws Exception ;
+    void cashFlowOutPageDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey) throws Exception ;
 	
 	/**  
 	 *  出款申请页面
@@ -27,7 +27,7 @@ public interface CashFlowOutService {
 	/**
 	 *  出款申请操作
 	 */
-	void cashFlowOutApplyDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey,Boolean chargeOutAppr,String insertAttachIdArrStr) throws Exception ;
+	void cashFlowOutApplyDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey,Boolean chargeOutAppr) throws Exception ;
 	
 	/** 
 	 *  出款总监审批页面
@@ -73,7 +73,7 @@ public interface CashFlowOutService {
 	 *  保存操作
 	 * @throws Exception 
 	 */
-	void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO, String insertAttachIdArrStr) throws Exception;
+	void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception;
 
 	/**
 	 * 通过申请ID查询附件信息

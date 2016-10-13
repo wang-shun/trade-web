@@ -62,6 +62,12 @@ public class ToSpvCashFlow {
     //财务复审人
     private String ftPostAuditorName;
     
+    //附件ID组合
+    private String attachIdArr;
+    
+    //文件名组合
+    private String commentArr;
+    
     private String createByName;
 
     public Long getPkid() {
@@ -278,6 +284,22 @@ public class ToSpvCashFlow {
 
 	public void setFtPostAuditorName(String ftPostAuditorName) {
 		this.ftPostAuditorName = ftPostAuditorName;
+	}
+
+	public String getAttachIdArr() {
+		return attachIdArr;
+	}
+
+	public void setAttachIdArr(String attachIdArr) {
+		this.attachIdArr = attachIdArr;
+	}
+
+	public String getCommentArr() {
+		return commentArr;
+	}
+
+	public void setCommentArr(String commentArr) {
+		this.commentArr = commentArr;
 	}
 
 	public String getCreateByName() {
