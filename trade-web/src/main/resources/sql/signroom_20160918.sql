@@ -1,3 +1,6 @@
+
+-- sprint 1013 版本发布 ，签约室初始化语句， 执行方式依次往下执行--
+
 -- sctrans.T_RM_TRADE_CENTER
 insert into sctrans.T_RM_TRADE_CENTER(CENTER_NAME) values('市区');
 insert into sctrans.T_RM_TRADE_CENTER(CENTER_NAME) values('闵行');
