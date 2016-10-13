@@ -28,7 +28,7 @@
 		</formatter>
 	</formatters>	
 	
-	<query id="queryMortgageOrgAnalysis">
+	<query id="queryMortgageOrgAnalysis" cacheCount="true">
 	    <searchCondition>
 		   <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
@@ -48,6 +48,7 @@
 			FROM		
 			(SELECT
 					T.PKID,
+					T.PKID AS IDID,
 					T.CASE_CODE,
 					T.PROPERTY_ADDR,
 					T.MORT_TYPE_OLD,
@@ -63,10 +64,9 @@
 					T.SIGN_DATE,
 					T.LEND_DATE,
 					T.APPR_DATE,
-					T.REAL_NAME,
 					ISNULL(T.REAL_NAME, '无名氏') MRNAME,
-		            ISNULL(T.ORG_NAME, '无组织') MONAME,
-		            ISNULL(T.ORG_ORG_NAME, '无区域') MOONAME,
+		            ISNULL(T.ORG_NAME, '无名组织') MONAME,
+		            ISNULL(T.ORG_ORG_NAME, '无名区域') MOONAME,
 					T.SDSTATUS,
 					T.LOAN_AGENT,
 					T.LOAN_AGENT_TEAM,

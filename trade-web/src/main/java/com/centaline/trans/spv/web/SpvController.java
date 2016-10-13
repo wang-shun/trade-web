@@ -839,7 +839,6 @@ public class SpvController {
         	cashFlowOutService.cashFlowOutPage(request, source, instCode, taskId, handle, businessKey);
         	request.setAttribute("urlType", "spvApply");
         }
-    	toAccesoryListService.getAccesoryList(request, "TransSign");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 	    

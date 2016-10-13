@@ -15,7 +15,23 @@ public class SpvRecordedsVOItem {
 	private BigDecimal payerAmount;
 	//转账凭证
 	private String voucherNo;
+	//文件id
+	private String fileId;
+	//文件名
+	private String fileName;
 	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getFileId() {
+		return fileId;
+	}
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
+	}
 	public String getPayerName() {
 		return payerName;
 	}

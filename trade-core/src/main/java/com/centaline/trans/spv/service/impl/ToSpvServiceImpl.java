@@ -1493,6 +1493,39 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvCashFlow.setReceiptNo(spvRecordedsVOItems.get(i).getReceiptNo());//回单编号	
 			
 			toSpvCashFlowMapper.insertSelective(toSpvCashFlow);
+			if(spvRecordedsVOItems.get(i).getFileId().indexOf(",")>0){
+				String[] fileIds = spvRecordedsVOItems.get(i).getFileId().split(",");
+				String[] fileNames = spvRecordedsVOItems.get(i).getFileName().split(",");
+			    for (int f = 0 ; f <fileIds.length ; f++ ) {
+			    	/**4.小票、回单*/
+					ToSpvReceipt toSpvReceipt = new ToSpvReceipt();
+					toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());//流水ID
+					toSpvReceipt.setType(fileNames[f].substring(fileNames[f].indexOf("."), fileNames[f].length()));//凭证类型
+					toSpvReceipt.setAttachId(fileIds[f]);//附件ID
+					toSpvReceipt.setComment(fileNames[f]);//备注
+					toSpvReceipt.setIsDeleted("0");//是否删除
+					toSpvReceipt.setCreateTime(new Date());//创建时间
+					toSpvReceipt.setCreateBy(user.getId());//创建人
+					//更新时间	toSpvReceipt.setUpdateTime(updateTime);
+					//更新人	toSpvReceipt.setUpdateBy(updateBy);
+					toSpvReceiptMapper.insertSelective(toSpvReceipt);
+	
+			    }
+			}else{
+				/**4.小票、回单*/
+				ToSpvReceipt toSpvReceipt = new ToSpvReceipt();
+				toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());//流水ID
+				toSpvReceipt.setType(spvRecordedsVOItems.get(i).getFileName().substring(spvRecordedsVOItems.get(i).getFileName().indexOf("."), spvRecordedsVOItems.get(i).getFileName().length()));//凭证类型
+				toSpvReceipt.setAttachId(spvRecordedsVOItems.get(i).getFileId());//附件ID
+				toSpvReceipt.setComment(spvRecordedsVOItems.get(i).getFileName());//备注
+				toSpvReceipt.setIsDeleted("0");//是否删除
+				toSpvReceipt.setCreateTime(new Date());//创建时间
+				toSpvReceipt.setCreateBy(user.getId());//创建人
+				//更新时间	toSpvReceipt.setUpdateTime(updateTime);
+				//更新人	toSpvReceipt.setUpdateBy(updateBy);
+				toSpvReceiptMapper.insertSelective(toSpvReceipt);
+			}
+			
 		}
 	}
 	
