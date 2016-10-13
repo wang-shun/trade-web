@@ -87,6 +87,7 @@ function checkReceiptNo(){
 	var theSameFlag = true;
 	var receiptNoArray = new Array();
 		receiptNoArray = $(".forvalue");
+	var reg = /^[0-9]*$/;
 	for(var i=0; i<receiptNoArray.length; i++){	
 		for(var j=i+1; j<receiptNoArray.length ;j++){
 				if(receiptNoArray[i].value == receiptNoArray[j].value){
@@ -94,13 +95,30 @@ function checkReceiptNo(){
 					alert("贷记凭证编号不能重复！");
 				}
 				if(theSameFlag==false){
-					break;
+					//break;
+					return  false;
 				}
 			}
 		if(theSameFlag==false){
-			break;
+			//break;
+			return  false;
 		}
 	}
+	
+	 $.each(receiptNoArray,function(i, item) {
+			if (item.value != '') {
+				//if(!reg.exec(item.value.trim())){
+				if(!reg.test(item.value.trim())){
+					alert("贷记凭证编号只能由数字组成！");
+					theSameFlag = false;
+					return theSameFlag;
+				}				
+			}
+			if(theSameFlag==false){
+				return  false;
+			}
+	 })
+	 
 	return theSameFlag;
 }
 //提交
@@ -108,10 +126,11 @@ function sumbitRe(){
 	if(!confirm("是否确定提交申请，开启流程！")){
 	  return false;
     }
-	
+	//验证凭证编号不能重复和只能为数字
 	if(!checkReceiptNo()){
 		return;
-	}		
+	}	
+	return;
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
 	//console.log(data);
