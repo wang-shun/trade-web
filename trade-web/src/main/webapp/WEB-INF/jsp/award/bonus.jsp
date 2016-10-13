@@ -386,8 +386,9 @@
 	        	$.exportExcel({
 	    	    	ctx : "${ctx}",
 	    	    	queryId : 'tsAwardBaseDetailList',
-	    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','PARTICIPANT','SRV_CODE','BASE_AMOUNT','SRV_PART_IN','SATISFACTION','MKPI','KPI_RATE_SUM','SRV_PART','AWARD_KPI_MONEY'],
-	    	    	data : {search_caseCode:$('#caseCode').val(),argu_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : monthSel.getDate().format('yyyy-MM-dd')}
+	    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','PARTICIPANT','SRV_CODE','BASE_AMOUNT','SATISFACTION','SKPI_RATE','SRV_PART',
+	    	    	           'MKPI','MKPIV', 'COM_LS_RATE','COM_LS_KPI','SRV_PART_IN','KPI_RATE_SUM','AWARD_KPI_MONEY'],
+	    	    	data : {search_caseCode:$('#caseCode').val(),argu_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : monthSel.getDate().format('yyyy-MM-dd'),sord:'AWARD_BASE.CASE_CODE'}
 	    	    }) 
 	         }
 	    	

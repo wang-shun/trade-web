@@ -173,7 +173,7 @@
   
   <select id="getOrgIdByGrpcode" parameterType="java.lang.String" resultType="java.lang.String">
     SELECT ID FROM sctrans.SYS_ORG 
-	WHERE ORG_CODE = (select YU_TEAM_CODE from sctrans_dev.sctrans.T_TS_TEAM_SCOPE_TARGET where GRP_CODE = #{grpCode,jdbcType=VARCHAR});
+	WHERE ORG_CODE = (select YU_TEAM_CODE from sctrans.T_TS_TEAM_SCOPE_TARGET where GRP_CODE = #{grpCode,jdbcType=VARCHAR});
   </select>
   
    <select id="getSignRoomInfoListByCondition" parameterType="com.centaline.trans.signroom.vo.ReservationSearchVo" resultType="com.centaline.trans.signroom.vo.ReservationInfo">
@@ -190,7 +190,7 @@
 		) as residualNumber
 		FROM sctrans.T_RM_SIGN_ROOM sr
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
-		WHERE rs.IS_DELETE = 0 AND sr.ROOM_TYPE = 0 and rs.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+		WHERE sr.IS_DELETE = 0 AND rs.IS_DELETE = 0 AND sr.ROOM_TYPE = 0 and rs.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs.END_DATE = #{endTime,jdbcType=VARCHAR} AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
   </select>
   
   <select id="getTransactItemList" resultType="com.centaline.trans.signroom.vo.TransactItemVo">
@@ -228,7 +228,7 @@
   </update>
   
    <select id="getTradeCenterIdListByGrpCode" parameterType="java.lang.String" resultType="java.lang.Long">
-    	SELECT DISTINCT TRADE_CENTER_ID FROM sctrans.T_RM_SIGN_ROOM_ORG_MAPPING WHERE TEAM_ID IN (SELECT ID FROM sctrans.SYS_ORG WHERE ORG_CODE IN (SELECT YU_TEAM_CODE FROM sctrans_dev.sctrans.T_TS_TEAM_SCOPE_TARGET WHERE GRP_CODE = #{grpCode,jdbcType=VARCHAR}));
+    	SELECT DISTINCT TRADE_CENTER_ID FROM sctrans.T_RM_SIGN_ROOM_ORG_MAPPING WHERE TEAM_ID IN (SELECT ID FROM sctrans.SYS_ORG WHERE ORG_CODE IN (SELECT YU_TEAM_CODE FROM sctrans.T_TS_TEAM_SCOPE_TARGET WHERE GRP_CODE = #{grpCode,jdbcType=VARCHAR}));
   </select>
   
    <update id="startUse" parameterType="java.lang.Long">

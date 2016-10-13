@@ -23,14 +23,14 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_AUDIT
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=BIGINT}  and IS_DELETED = 0
   </select>
   
   <select id="selectByCashFlowApplyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_AUDIT
-    where APPLY_ID = #{cashFlowApplyId,jdbcType=VARCHAR}
+    where APPLY_ID = #{cashFlowApplyId,jdbcType=VARCHAR}  
     order by CREATE_TIME desc
   </select>
   
