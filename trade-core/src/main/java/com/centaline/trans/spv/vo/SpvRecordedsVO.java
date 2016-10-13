@@ -5,7 +5,6 @@ import java.util.List;
 
 public class SpvRecordedsVO {
 	private List<SpvRecordedsVOItem> items = new ArrayList<SpvRecordedsVOItem>();
-	private List<SpvRecordedsVOItem> itemsApp = new ArrayList<SpvRecordedsVOItem>();
 	private String prdCode;//产品类型
 	private Double amount;//监管金额
 	private String prAddr;//物业地址
@@ -156,12 +155,6 @@ public class SpvRecordedsVO {
 	}
 	public void setSpvAccountBank(String spvAccountBank) {
 		this.spvAccountBank = spvAccountBank;
-	}
-	public List<SpvRecordedsVOItem> getItemsApp() {
-		return itemsApp;
-	}
-	public void setItemsApp(List<SpvRecordedsVOItem> itemsApp) {
-		this.itemsApp = itemsApp;
 	}
 	public void setItems(List<SpvRecordedsVOItem> items) {
 		this.items = items;

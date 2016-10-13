@@ -166,43 +166,48 @@
 	                                           <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
 	                                           	<tr>
 	                                                <td>
-	                                                    <input class="table-input-one boderbbt" type="text" name="itemsApp[${status2.index }].payerName"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }" />
+	                                                    <input class="table-input-one boderbbt" type="text" name="items[${status2.index }].payerName"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }" />
 	                                                </td>
 	                                                <td>
-	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }"  name="itemsApp[${status2.index }].payerAcc" /></p>
+	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }"  name="items[${status2.index }].payerAcc" /></p>
 	                                                    <p>
-	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerBank }"  name="itemsApp[${status2.index }].payerBank"/></p>
+	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerBank }"  name="items[${status2.index }].payerBank"/></p>
 	                                                    <p>
 	                                                </td>
 	
 	                                                <td class="text-left" >
-	                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" name="itemsApp[${status2.index }].payerAmount" />万元
+	                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" name="items[${status2.index }].payerAmount" />万元
 	                                                </td>
 	                                                <td>
-	                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptNo }" name="itemsApp[${status2.index }].receiptNo" />
+	                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptNo }" name="items[${status2.index }].receiptNo" />
 	                                                </td>
 	                                                <td>
-	                                                    <select  id="select_direction" class="table-select boderbbt" name="itemsApp[${status2.index }].voucherNo"  onChange="this.value" >
+	                                                    <select  id="select_direction" class="table-select boderbbt" name="items[${status2.index }].voucherNo"  onChange="this.value" >
 	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq ''}"> selected="selected" </c:if> value="">请选择</option>
 	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '转账'}"> selected="selected" </c:if> value="转账">转账</option>                                                                                                                                                
 															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option>  
 															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> 
 	                                                    </select>
 	                                                </td>
-	                                                <td>
-                                                	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
-	                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
-														<input type="hidden" name ="itemsApp[${status3.index}].fileId" value = "${toSpvReceiptList.attachId}"/>
-														<input type="hidden" name ="itemsApp[${status3.index}].fileName" value = "${toSpvReceiptList.comment}" />
-															<button type="button" class="btn btn-sm btn-default" >${toSpvReceiptList.comment}</button>
-																<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;
-																</i>
-															</button>
+	                                                <td id="td_file${status2.index }" >
+                                                	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status6">
+	                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" 
+	                                                 	title="${toSpvReceiptList.comment}" 
+	                                                 	alt="${toSpvReceiptList.comment}">
+														<input type="hidden"  name ="items[${status2.index }].fileId" value = "${toSpvReceiptList.attachId}"/>
+														<input type="hidden" name ="items[${status2.index }].fileName" value = "${toSpvReceiptList.comment}" />
+															<button type="button" class="btn btn-sm btn-default" >
+															${toSpvReceiptList.comment}</button>
+															<i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i>
 														</a>
-                                                	 </c:forEach>    
+                                                	 </c:forEach>   
+                                                		 <span class="btn_file${status2.index }">                                                                                                                                                                
+															<input id="fileupload_${status2.index }" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 
+															<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$('#fileupload_${status2.index }').trigger('click');">                                                                        
+														</span>  
 	                                                </td>
 	                                                <td align="center">
-		                                                <a href="javascript:void(0)" onClick="getTR(0)">添加</span></a>
+		                                                <a href="javascript:void(0)" onClick="getTR(${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()})">添加</span></a>
 		                                                <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
 	                                                </td>
 	                                            </tr>
@@ -230,7 +235,7 @@
                                 	<c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status3">
 	                            <div class="view clearfix">
 	                                <p>
-	                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }</em></span>
+	                                   <span class="auditor">审核人：<em>${toSpvAduit.operatorName }(${toSpvAduit.operatorJobName })</em></span>
 	                                   <span class="result pink_bg">${toSpvAduit.result }</span>
 	                                   <span class="time">审核日期:<em><fmt:formatDate value="${toSpvAduit.createTime }" pattern="yyyy-MM-dd"/> </em></span>
 	                                </p>
@@ -253,7 +258,6 @@
 <content tag="local_script">
   <!-- Mainly scripts -->
 <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-<script src="${ctx}/static/trans/js/spv/spvRecordedApp.js"></script>
 <script src="${ctx}/static/js/bootstrap.min.js"></script>
 <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -284,6 +288,7 @@
 <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
+<script src="${ctx}/static/trans/js/spv/spvRecordedApp.js"></script>
 
 <script>
 
@@ -292,11 +297,13 @@ $(function() {
         $(this).parent().parent().remove();
         return false;
     });
-
+    var fileRowSize = ${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()};
+    for(var i=0;i<fileRowSize;i++){
+    	render_fileupload(i);
+    }
 
 });
 $('.response').responsivegallery();
-
 function rescCallbocak(){
 	 /*   if($("#urlType").val() == 'myTask'){    	 
 		   window.opener.location.reload(); //刷新父窗口

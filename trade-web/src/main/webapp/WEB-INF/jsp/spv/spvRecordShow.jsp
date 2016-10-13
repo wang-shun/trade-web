@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>申请审批意见</title>
-<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
+<%-- <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
 <link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
 <link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
@@ -30,6 +30,41 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+<link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" /> --%>
+
+ <!-- 上传相关 -->
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+		rel="stylesheet">
+	<!-- 展示相关 -->
+	<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+		rel="stylesheet">
+	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+	<!-- 备件相关结束 -->
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/bootstrap.min.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/font-awesome.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/style.css" rel="stylesheet">
+    <!-- stickUp fixed css -->
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/stickup.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/stickmenu.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/steps.css">
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/toastr.min.css">
+    <!-- index_css  -->
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/iconfont.css" >
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
+    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+
 </head>
 
 <body>
@@ -165,7 +200,7 @@
  							<c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status3">
 	                            <div class="view clearfix">
 	                                <p>
-	                                   <span class="auditor">审核人：<em>${toSpvAduit.operator }</em></span>
+	                                   <span class="auditor">审核人：<em>${toSpvAduit.operatorName }(${toSpvAduit.operatorJobName })</em></span>
 	                                   <span class="result pink_bg">${toSpvAduit.result }</span>
 	                                   <span class="time">审核日期:<em><fmt:formatDate value="${toSpvAduit.createTime }" pattern="yyyy-MM-dd"/> </em></span>
 	                                </p>
@@ -211,9 +246,13 @@
 <!-- Custom and plugin javascript -->
 <script src="${ctx}/static/js/inspinia.js"></script>
 <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
-<script src="${ctx}/static/trans/js/response/js/jkresponsivegallery.js"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+
+<!-- stickup plugin -->
+<script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+<script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 
 <script>
 $(function() {

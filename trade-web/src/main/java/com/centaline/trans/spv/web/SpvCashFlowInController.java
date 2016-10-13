@@ -143,51 +143,6 @@ public class SpvCashFlowInController {
 		return response;
 	}
 	
-	/**
-	 * 审批通过
-	 * @param spvrevo
-	 * @return
-	 */
-	@RequestMapping(value = "/approvalby")
-	@ResponseBody
-	public AjaxResponse<?>  approvalby(SpvRecordedsVO spvrevo){
-		//toSpvService.saveSpvCashFlowApplyVO(spvrevo);
-		return AjaxResponse.success("保存成功！");
-	}
-	/**
-	 * 审批驳回
-	 * @param spvrevo
-	 * @return
-	 */
-	@RequestMapping(value = "/turndown")
-	@ResponseBody
-	public AjaxResponse<?>  turndown(SpvRecordedsVO spvrevo){
-		//toSpvService.saveSpvCashFlowApplyVO(spvrevo);
-		return AjaxResponse.success("保存成功！");
-	}
-	/**
-	 * 驳回页面提交
-	 * @param spvrevo
-	 * @return
-	 */
-	@RequestMapping(value = "/appSumbitDate")
-	@ResponseBody
-	public AjaxResponse<?>  appSumbitDate(SpvRecordedsVO spvrevo){
-		//toSpvService.saveSpvCashFlowApplyVO(spvrevo);
-		return AjaxResponse.success("保存成功！");
-	}
-	/**
-	 * 驳回页面保存
-	 * @param spvrevo
-	 * @return
-	 */
-	@RequestMapping(value = "/appSaveDate")
-	@ResponseBody
-	public void  appSaveDate(SpvRecordedsVO spvrevo,HttpServletRequest request){
-		 //SpvRecordReturnVO spvRecordReturnVO  = toSpvService.saveSpvCashFlowApplyVO(spvrevo);
-		 
-		//request.setAttribute("type", "success");
-	}
 	
 	/**
 	 * 新增入账流水页面

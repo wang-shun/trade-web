@@ -43,20 +43,23 @@ function getTR(thisIndex){
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
-	if(thisIndex > 0){
+	//if(thisIndex > 0){
 		$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
-	}
+	//}
 	$str+='</tr>                                                                                                                                                                                          ';
 	
 	$("#addTr").append($str);
+	render_fileupload(thisIndex);
+}
 
+function render_fileupload(thisIndex){
 	$('#fileupload_'+thisIndex).fileupload({
 		acceptFileTypes:'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i',
 		autoUpload: true,
         dataType: 'json',
         add:function(e,data){
         	var fileName = data.files[0].name;
-        	if($("input[fileName='"+fileName+"']").size()==0){
+        	if($("input[fileName='"+fileName+thisIndex+"']").size()==0){
         		data.submit();
         	}
         },
@@ -66,18 +69,20 @@ function getTR(thisIndex){
             	var fileUrl = data.result.files[0].url;
             	var fileName = data.result.files[0].name;
             	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
-            	$('#td_file'+thisIndex).prepend(image);	
+            	var $image = $(image);
+            	$('#td_file'+thisIndex).prepend($image);
+            	$image.responsivegallery();
         	}
         }
     });
-
 }
+
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
+	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+shortName+'" alt="'+fileName+'">';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;</i></button></a>';
+	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'</button><i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i></a>';
 	return image;
 }
 //删除入账申请信息tr
@@ -156,10 +161,10 @@ function getFormData(){
 
 //保存起草提交
 function saveRe(){
-	alert("5");
-	 if(!deleteAndModify()){
-		  return false;
-	  }
+	
+	alert("保存数据成功！");
+	rescCallbocak();
+	
 	$('#chargeInAppr').val(false);
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
