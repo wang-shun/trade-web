@@ -39,6 +39,7 @@
 				<![CDATA[  	
 			SELECT  
 			MTYPEANAL.LOANTYPE AS MTYPE,
+			MTYPEANAL.IS_TMP_BANK AS MISTMP,
 			COUNT(MTYPEANAL.PKID) AS MCASES,
 			SUM(MTYPEANAL.COM_AMOUNT) AS MCOMAMOUNT,
 			SUM(MTYPEANAL.PRF_AMOUNT) AS MPRFAMOUNT,
@@ -221,7 +222,7 @@
 				]]>
 			</baseSql>
 			<groupSql>
-				GROUP BY MTYPEANAL.LOANTYPE
+				GROUP BY MTYPEANAL.LOANTYPE, MTYPEANAL.IS_TMP_BANK
 			</groupSql>
 			<orderBySql>
 			</orderBySql>
@@ -229,6 +230,7 @@
 		<grid>
 			<table-row>
 			<column type="both" name="MTYPE" index="" checkbox="" display="贷款类型" title="贷款类型" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />			
+			<column type="both" name="MISTMP" index="" checkbox="" display="是否临时银行" title="是否临时银行" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />			
 			<column type="both" name="MCASES" index="" checkbox="" display="单数" title="单数" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
 			<column type="both" name="MCOMAMOUNT" index="" checkbox="" display="商贷金额" title="商贷金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
 			<column type="both" name="MPRFAMOUNT" index="" checkbox="" display="公积金贷款金额" title="公积金贷款金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
