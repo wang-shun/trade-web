@@ -630,9 +630,11 @@
 								ctx : "${ctx}",
 								queryId : 'queryMortgageApproveLost',
 								colomns : [ 'CASE_CODE', 'PROPERTY_ADDR',
-										'LEADING_PROCESS_ID', 'AGENT_ORG_NAME',
-										'AGENT_NAME', 'MORT_TYPE', 'real_name',
-										'END_TIME_' ],
+										'LEADING_PROCESS_ID','ORG_NAME','ORG_ORG_NAME',
+										'AGENT_ORG_NAME','AGENT_NAME', 
+										'real_name','END_TIME_','MORT_TYPE', 'MORT_TOTAL_AMOUNT','COM_AMOUNT','PRF_AMOUNT',
+										'FIN_ORG_NAME','FIN_ORG_NAME_YC',
+										'loanlost_apply_reason' ],
 								data : data
 							})
 						} 
