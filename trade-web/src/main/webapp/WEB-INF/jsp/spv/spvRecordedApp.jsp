@@ -284,11 +284,10 @@
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 <!-- 上传附件 结束 -->
-<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachment.js"></script>
 <!-- stickup plugin -->
 <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-<script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <%-- 
+<script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin --> --%>
 <script src="${ctx}/static/trans/js/spv/spvRecordedApp.js"></script>
 
 <script>

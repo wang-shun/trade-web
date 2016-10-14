@@ -64,6 +64,9 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
  	 <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+ 	 <link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+ 	 
 
 </head>
 
@@ -176,7 +179,7 @@
                                                   <c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
                                                  	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
 														<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
-														<button type="button" class="btn btn-sm btn-default" >
+														<button type="button" class="btn btn-sm btn-default" ><i class="icon iconfont icon_y" >&#xe635;
 														${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
 														</button>
 													</a>
@@ -256,15 +259,9 @@
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 
-<script>
-$(function() {
-    $('.response').responsivegallery();
-});
-
-
-</script>
 <script type="text/javascript">
 $(function(){
+
 		//left
 		$('.demo-left').poshytip({
 			className: 'tip-twitter',
@@ -309,6 +306,9 @@ $(function(){
 			offsetY: 5,
 		});
 	});
+
+$('.response').responsivegallery();
+
 </script>
 
 
