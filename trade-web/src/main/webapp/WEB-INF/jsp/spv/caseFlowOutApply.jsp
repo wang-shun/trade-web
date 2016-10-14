@@ -46,6 +46,7 @@
     <style>
 	.borderClass {border:1px solid red!important;resize: none;}
 	.borderClass:focus {border:1px solid red!important;resize: none;}
+	.bar {height: 18px;background: green;}
    </style>
 </head>
 <body>
@@ -498,6 +499,9 @@
                 </div>
             </div>
             <!-- main End -->
+            <div id="progress">
+               <div class="bar" style="width: 0%;"></div>
+            </div>
         </div>
     </div>
     <!-- Mainly scripts -->
@@ -650,7 +654,7 @@ function renderFileUpload(k,a){
         },
         done: function (e, data) {
         	if(data.result){
-            	var fileId =  data.result.files[0].id;
+        		var fileId =  data.result.files[0].id;
             	var fileUrl = data.result.files[0].url;
             	var fileName = data.result.files[0].name;
             	var image;
@@ -664,6 +668,17 @@ function renderFileUpload(k,a){
             	$("#doneSum").val(doneSum);
             	$('.response').responsivegallery();
         	}
+        },
+        progressall: function (e, data) {
+        	$('#progress').show();
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css(
+                'width',
+                progress + '%'
+            );
+            if(progress == 100){
+                setTimeout($('#progress').fadeOut(2000));
+            }
         }
     })
 }
