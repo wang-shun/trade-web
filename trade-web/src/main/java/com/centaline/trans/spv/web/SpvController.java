@@ -733,8 +733,6 @@ public class SpvController {
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
 		spv.setStatus("2");
 		toSpvService.updateByPrimaryKey(spv);
-		// (签约)发送消息
-		//messageService.sendSpvFinishMsgByIntermi(instCode);
 
 		return AjaxResponse.success();
 	}

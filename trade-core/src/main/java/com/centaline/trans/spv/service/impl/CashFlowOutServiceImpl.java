@@ -21,6 +21,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.service.ProcessInstanceService;
@@ -71,6 +72,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	private UamSessionService uamSessionService;	
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Autowired
+	private MessageService messageService;
 
 	@Override
 	public void cashFlowOutPage(HttpServletRequest request, String source, String instCode, String taskId,
@@ -311,17 +314,21 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutDeal(HttpServletRequest request, String instCode, String taskId,String taskitem, String handle,
 			SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception {
 		    //更新申请状态
-		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
 		    toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
-					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
 		
 			Map<String, Object> variables = new HashMap<String, Object>();
 			taskService.submitTask(taskId, variables);
+			
+			//发起消息通知资金尽管流程 ：SpvProcess
+			// (签约)发送消息
+			messageService.sendSpvFinishMsgByIntermi(instCode);
 	}	
 	
 	private String createSpvApplyCode() {
