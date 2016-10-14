@@ -20,7 +20,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.entity.ToWorkFlow;
-import com.centaline.trans.common.enums.SpvCashFlowEnum;
+import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.ToAccesoryListService;
@@ -216,7 +216,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		toSpvAduit.setCreateTime(new Date());
 		toSpvAduitMapper.insertSelective(toSpvAduit);
 		
-		toSpvCashFlowApply.setStatus(SpvCashFlowEnum.DIRECTORADUIT.getCode());
+		toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());
 		toSpvCashFlowApply.setUpdateBy(user.getId());
 		toSpvCashFlowApply.setUpdateTime(new Date());
 		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);
@@ -298,10 +298,10 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
-				toSpvCashFlowApply.setStatus(SpvCashFlowEnum.FINANCEADUIT.getCode());
+				toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.FINANCEADUIT.getCode());
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
-				toSpvCashFlowApply.setStatus(SpvCashFlowEnum.APPLY.getCode());
+				toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.APPLY.getCode());
 			}
 			//内容
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());
@@ -412,10 +412,10 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
-				toSpvCashFlowApply.setStatus(SpvCashFlowEnum.AUDITCOMPLETED.getCode());
+				toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode());
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
-				toSpvCashFlowApply.setStatus(SpvCashFlowEnum.APPLY.getCode());
+				toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.APPLY.getCode());
 			}
 			
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());//内容

@@ -19,6 +19,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
@@ -34,7 +35,6 @@ import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeDetailMix;
 import com.centaline.trans.spv.repository.ToSpvAduitMapper;
-import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowMapper;
 import com.centaline.trans.spv.repository.ToSpvMapper;
@@ -155,6 +155,10 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(workFlow);
 		
+		//更新申请状态
+		spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
+		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
+		
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
 		List<TaskVo> taskList = pageableVo.getData();
@@ -191,6 +195,10 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		taskService.submitTask(taskId, variables);
+		
+		//更新申请状态
+		spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
+		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}
 
 	@Override
@@ -215,6 +223,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			variables.put("directorAduit",chargeOutAppr);
 			
 			taskService.submitTask(taskId, variables);
+			//更新申请状态
+			spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTDIRECTORADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}
 
 	@Override
@@ -239,6 +250,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			variables.put("financeAduit",chargeOutAppr);
 			
 			taskService.submitTask(taskId, variables);
+			//更新申请状态
+			spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}
 
 	@Override
@@ -263,6 +277,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			variables.put("financeSecondAduit",chargeOutAppr);
 			
 			taskService.submitTask(taskId, variables);
+			//更新申请状态
+			spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCE2ADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}
 
 	@Override
@@ -277,7 +294,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		
 			Map<String, Object> variables = new HashMap<String, Object>();
 			taskService.submitTask(taskId, variables);
-			//更新申请和流水的状态
+			//更新申请状态
+			spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}	
 	
 	private String createSpvApplyCode() {
@@ -365,9 +384,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	cashFlow.setFtPostAuditorName(ftPostAuditorName);
         	cashFlow.setCreateByName(cashFlow.getCreateBy() == null?null:uamSessionService.getSessionUserById(cashFlow.getCreateBy()).getRealName());
         	if("in".equals(cashFlow.getUsage())){
-        		totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount().divide(new BigDecimal(10000)));
+        		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
         	}else if("out".equals(cashFlow.getUsage())){
-        		totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount().divide(new BigDecimal(10000)));
+        		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
         	}	
     	}
     	
