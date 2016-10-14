@@ -213,9 +213,6 @@ src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	<!-- 上传附件 结束 -->
-	
-	<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachmentPostIn.js"></script>
-
 <!-- Custom and plugin javascript --><%-- 
  <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script> --%>
  <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
