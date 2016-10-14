@@ -156,7 +156,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		toWorkFlowService.insertSelective(workFlow);
 		
 		//更新申请状态
-		spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+		spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
 		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 		
 		// 提交申请任务
@@ -195,6 +195,10 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		taskService.submitTask(taskId, variables);
+		
+		//更新申请状态
+		spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
+		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}
 
 	@Override
@@ -219,7 +223,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			variables.put("directorAduit",chargeOutAppr);
 			
 			taskService.submitTask(taskId, variables);
-			//更新状态
+			//更新申请状态
+			spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTDIRECTORADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}
 
 	@Override
@@ -244,7 +250,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			variables.put("financeAduit",chargeOutAppr);
 			
 			taskService.submitTask(taskId, variables);
-			//更新状态
+			//更新申请状态
+			spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}
 
 	@Override
@@ -269,7 +277,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			variables.put("financeSecondAduit",chargeOutAppr);
 			
 			taskService.submitTask(taskId, variables);
-			//更新状态
+			//更新申请状态
+			spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCE2ADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}
 
 	@Override
@@ -284,7 +294,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		
 			Map<String, Object> variables = new HashMap<String, Object>();
 			taskService.submitTask(taskId, variables);
-			//更新申请和流水的状态
+			//更新申请状态
+			spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 	}	
 	
 	private String createSpvApplyCode() {
