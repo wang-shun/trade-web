@@ -6,7 +6,8 @@ $(function(){
 });
 var handle = $("#handle").val();
 var trindex = 0;
-
+var imageSum = 0;
+var imageSumb = 0;
 //添加入账申请信息tr
 function getTR(thisIndex){
 	var nextIndex = thisIndex+1;
@@ -41,7 +42,7 @@ function getTR(thisIndex){
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
 	if(thisIndex > 0){
-		$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
+		$str+='  &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
 	}
 	$str+='</tr>                                                                                                                                                                                          ';
 	
@@ -51,32 +52,37 @@ function getTR(thisIndex){
 		acceptFileTypes:'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i',
 		autoUpload: true,
         dataType: 'json',
-        //上传附件
         add:function(e,data){
         	var fileName = data.files[0].name;
         	if($("input[fileName='"+fileName+thisIndex+"']").size()==0){
         		data.submit();
+        		imageSum ++;//记录上传附件的个数
         	}
         },
-        //fileupload 回调
         done: function (e, data) {
         	if(data.result){
             	var fileId =  data.result.files[0].id;
             	var fileUrl = data.result.files[0].url;
             	var fileName = data.result.files[0].name;
             	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
-            	$('#td_file'+thisIndex).prepend(image);	//在指定元素前面插入图片图标
+            	var $image = $(image);
+            	$('#td_file'+thisIndex).prepend($image);
+            	$image.responsivegallery();
+            	imageSumb++;////记录完成上传附件的个数
         	}
+        	
         }
     });
 
 	cleanPkid();
 }
+
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
 	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
-	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'<i class="icon iconfont icon_x" onClick="$(this).parent().parent().remove();return false;">&#xe60a;</i></button></a>';
+	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
+	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'</button><i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i></a>';
 	return image;
 }
 //删除入账申请信息tr
@@ -89,8 +95,105 @@ function checkReceiptNo(){
 	var theSameFlag = true;
 	var receiptNoArray = new Array();
 		receiptNoArray = $(".forvalue");
+	
+	var payerNameFlag = true;
+	var payerNameEle;
+	$("input[name$='payerName']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+			payerNameFlag = false;
+			payerNameEle = $(e);
+			 return false;
+			 }
+		});
+	
+	 if(!payerNameFlag){
+    	alert("请填写有效的付款人姓名！");
+	    changeClass(payerNameEle);
+		return false;
+	 }
+	
+	var payerAccFlag = true;
+	var payerAccEle;
+	$("input[name$='payerAcc']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
+			payerAccFlag = false;
+			payerAccEle = $(e);
+			return false;
+		}
+	});
+	 if(!payerAccFlag){
+    	alert("请填写有效的付款人银行卡号！");
+	    changeClass(payerAccEle);
+		return false;
+	 }
+	var payerBankFlag = true;
+	var payerBankEle;
+	$("input[name$='payerBank']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+			payerBankFlag = false;
+			payerBankEle = $(e);
+			return false;
+		}
+	});
+	 if(!payerBankFlag){
+	    	alert("请填写有效的付款人银行名称！");
+		    changeClass(payerAccEle);
+			return false;
+		 }
+	var receiptNoFlag = true;
+	var receiptNoEle;
+	$("input[name$='receiptNo']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
+			receiptNoFlag = false;
+			receiptNoEle = $(e);
+			return false;
+		}
+	});
+	 if(!receiptNoFlag){
+	    	alert("请填写有效的贷记凭证编号！");
+		    changeClass(receiptNoEle);
+			return false;
+		 }
+	var payerAmountFlag = true;
+	var payerAmountEle;
+	$("input[name$='payerAmount']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
+			payerAmountFlag = false;
+			payerAmountEle = $(e);
+			return false;
+		}
+	});
+	 if(!payerAmountFlag){
+	    	alert("请填写有效的金额！");
+		    changeClass(payerAmountEle);
+			return false;
+		 }
+	var voucherNoFlag = true;
+	var voucherNoEle;
+	$("input[name$='voucherNo']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+			voucherNoFlag = false;
+			voucherNoEle = $(e);
+			return false;
+		}
+	});
+	 if(!voucherNoFlag){
+	    	alert("请填写有效的转账凭证！");
+		    changeClass(voucherNoEle);
+			return false;
+		 }
+		
 	var reg = /^[0-9]*$/;
+	if(receiptNoArray.length<0){
+		alert("贷记凭证编号不能为空！");
+		return  false;	
+	}
+		
 	for(var i=0; i<receiptNoArray.length; i++){	
+		if($.trim(receiptNoArray[i].value).length<1){
+			alert("贷记凭证编号不能为空！");
+			return  false;
+		}
 		for(var j=i+1; j<receiptNoArray.length ;j++){
 				if(receiptNoArray[i].value == receiptNoArray[j].value){
 					theSameFlag=false;
@@ -159,19 +262,32 @@ function checkBankNoAndPayerAmount(){
 	 })
 	return flag;
 }
+function checkSumbitHtml(){
+	
+	if(imageSumb <0 || imageSum != imageSumb){			//附件
+		alert("请先上传图片成功后再提交");
+		return false;
+	}
+	if(!checkReceiptNo()){				//验证凭证编号不能重复和只能为数字
+		return;
+	}
+	if(!checkBankNoAndPayerAmount()){	//银行卡号、金额等
+		return;
+	}
+	
+	return true;
+}
 //提交
 function sumbitRe(){
+	
 	if(!confirm("是否确定提交申请，开启流程！")){
 	  return false;
     }
-	//验证凭证编号不能重复和只能为数字
-	if(!checkReceiptNo()){
+	
+	if(!checkSumbitHtml()){
 		return;
-	}	
-	//银行卡号、金额等
-	if(!checkBankNoAndPayerAmount()){
-		return;
-	}	
+	}
+		
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
 	//console.log(data);
@@ -186,7 +302,6 @@ function sumbitRe(){
 		beforeSend:function(){  
          },
 		success : function(data) {
-			// window.location.href = ctx+"/task/myTaskList";
 			if(data.success){
 				alert("流程开启成功！");
 			}else{
@@ -216,7 +331,6 @@ function saveRe(){
 	/*if(!checkFormSave()){
 		  return false;
 	  }*/
-	
 	
 	var data = $("#teacForm").serialize();
 	var url = ctx+"/spv/task/cashflowIntApply/saveDate";
@@ -251,7 +365,6 @@ function saveRe(){
 				alert("保存数据成功！");
 			}else{
 				alert("数据保存出错!");
-				//alert("数据保存出错!"+$("#toSpvCashFlowApplyPkid").val()+":"+$("#ToSpvCashFlowPkid").val()+":"+$("#ToSpvReceiptPkid").val());
 			}
 		},complete: function() { 
 		},
@@ -275,6 +388,39 @@ function rescCallbocak(){
 	window.location.href = ctx+"/spv/spvList";
 }
 
+function changeClass(object){
+	$(object).focus();
+	$(object).addClass("borderClass").blur(function(){
+		$(this).removeClass("borderClass");
+	});	;
+}
 
+/**************************************验证************************************************/
+//姓名验证(汉字和英文大小写)
+function isName(name){
+	name = name.replace(/\s/g,"");//去除中间空格
+	reg = /((^[\u4E00-\u9FA5]{1,5}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/;
+	if (!reg.test(name)) {
+       return false; 
+   }
+   return true;
+}
+//金额验证(两位小数)
+function isNumber(num){
+	var reg=/^([1-9]{1}\d*|0)(\.\d{1,2})?$/;
+	if(!reg.test(num)){
+		return false;
+	}
+	return true;
+}
+//金额验证(整数)
+function isNumber2(num){
+	var reg=/^[1-9]{1}\d*$/;
+	if(!reg.test(num)){
+		return false;
+	}
+	return true;
+}
+/*****************************************************************************************/
 
 
