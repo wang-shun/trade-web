@@ -310,11 +310,7 @@ public class SpvCashFlowInController {
 			    	cashFlowInService.cashFlowInFinanceAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
 			    	break;
 				}	
-			}else{
-				//cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
-				//cashFlowInService.cashFlowInPageDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode);
 			}
-
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
