@@ -267,9 +267,6 @@ public class SpvCashFlowInController {
 			if(StringUtils.equals(spvrevo.getHandle(), "addCashFlow")){
 				cashFlowInService.cashFlowInPageDeal(request, handle, spvrevo, cashflowApplyCode);
 			}
-			if(StringUtils.equals(handle, "apply")){
-				//cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvrevo, cashflowApplyCode);
-			}
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
