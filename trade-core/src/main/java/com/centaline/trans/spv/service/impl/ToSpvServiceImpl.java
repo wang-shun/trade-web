@@ -1393,8 +1393,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if("apply".equals(handle)){
 			
 			toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
-			//toSpvReceiptMapper.deleteByPrimaryKey(Long.parseLong(spvRecordedsVO.getToSpvReceiptPkid()));
-			//toSpvCashFlowMapper.deleteByPrimaryKey(toSpvCashFlowApply.getPkid());
 			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(Long.valueOf(toSpvCashFlowApply.getPkid()));
 			for(int i=0;i<toSpvCashFlowList.size();i++){//驳回的流水
 				ToSpvCashFlow toSpvCashFlow = toSpvCashFlowList.get(i);
@@ -1452,7 +1450,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvCashFlowApplyMapper.insertSelective(toSpvCashFlowApply);
 		}
 			
-		
 		/**流水*/
 		
 		for(int i=0;i<spvRecordedsVOItems.size();i++){
@@ -1493,7 +1490,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			if(null != spvRecordedsVOItems.get(i).getPayerAmount()){//流水金额
 				toSpvCashFlow.setAmount(spvRecordedsVOItems.get(i).getPayerAmount().multiply(new BigDecimal(10000)));
 			}
-			toSpvCashFlow.setStatus("0");//审核状态
+			toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());//审核状态
 			//送结束日期	toSpvCashFlow.setCloseTime(closeTime);
 			//录入日期		toSpvCashFlow.setInputTime(inputTime);
 			toSpvCashFlow.setIsDeleted("0");//是否删除

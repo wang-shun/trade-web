@@ -267,9 +267,6 @@ public class SpvCashFlowInController {
 			if(StringUtils.equals(spvrevo.getHandle(), "addCashFlow")){
 				cashFlowInService.cashFlowInPageDeal(request, handle, spvrevo, cashflowApplyCode);
 			}
-			if(StringUtils.equals(handle, "apply")){
-				//cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvrevo, cashflowApplyCode);
-			}
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
@@ -313,11 +310,7 @@ public class SpvCashFlowInController {
 			    	cashFlowInService.cashFlowInFinanceAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
 			    	break;
 				}	
-			}else{
-				//cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, handle, spvChargeInfoVO, cashflowApplyCode);
-				//cashFlowInService.cashFlowInPageDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode);
 			}
-
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
