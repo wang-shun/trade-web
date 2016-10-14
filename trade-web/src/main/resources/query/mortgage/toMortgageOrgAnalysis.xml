@@ -48,6 +48,7 @@
 			(SELECT
 					T.PKID,
 					T.CASE_CODE,
+					T.CASE_CODE AS CCODE,
 					T.PROPERTY_ADDR,
 					T.MORT_TYPE_OLD,
 					T.FIN_ORG_NAME,
@@ -142,20 +143,20 @@
 				)T    
 				where T.SDSTATUS IS NOT NULL
 				AND T.LOANTYPE IS NOT NULL 
-				AND 1=1
-				
-				<ifNotNull signTimeStart>
-				     and T.SIGN_DATE >= #signTimeStart#
-				</ifNotNull>				
-				<ifNotNull signTimeEnd>
-				     and T.SIGN_DATE &lt;= #signTimeEnd#
-				</ifNotNull>
+				AND 1=1			
 				
 				<ifNotNull lendTimeStart>
 				     and T.LEND_DATE >= #lendTimeStart#
 				</ifNotNull>				
 				<ifNotNull lendTimeEnd>
 				     and T.LEND_DATE &lt;= #lendTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull signTimeStart>
+				     and T.SIGN_DATE >= #signTimeStart#
+				</ifNotNull>				
+				<ifNotNull signTimeEnd>
+				     and T.SIGN_DATE &lt;= #signTimeEnd#
 				</ifNotNull>
 				
 				<ifNotNull apprTimeStart>

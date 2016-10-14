@@ -52,7 +52,6 @@ import com.centaline.trans.product.service.ProductCategoryService;
 import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
-import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.CashFlowInService;
@@ -877,7 +876,7 @@ public class SpvController {
 				
 				switch (handle) {
 				case "apply":
-					cashFlowOutService.cashFlowOutApplyDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode, chargeOutAppr, insertAttachIdArrStr);
+					cashFlowOutService.cashFlowOutApplyDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode, chargeOutAppr);
 					break;
 			    case "directorAduit":
 			    	cashFlowOutService.cashFlowOutDirectorAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
@@ -893,10 +892,11 @@ public class SpvController {
 	                break;    
 				}	
 			}else{
-				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null,insertAttachIdArrStr);
+				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null);
 			}
 
 			response.setSuccess(true);
+			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
 		} catch (Exception e) {
 			response.setSuccess(false);
 			String sOut = "";
@@ -920,10 +920,10 @@ public class SpvController {
      * @throws
      */
     @RequestMapping("cashFlowOutAppr/save")
-	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO,String insertAttachIdArrStr) {
+	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO) {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
-    		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO,insertAttachIdArrStr); 
+    		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO); 
 			response.setSuccess(true);
 			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
 		} catch (Exception e) {
@@ -938,69 +938,6 @@ public class SpvController {
 		}
     	
     	return response;
-	}
-    
-    /**
-     * @Title: quereyCashFolwApplyAttachments 
-     * @Description: 获取出账申请附件
-     * @author: gongjd 
-     * @param cashFolwApplyId
-     * @return attachList
-     * @throws
-     */
-	@RequestMapping(value = "quereyCashFolwApplyAttachments")
-	@ResponseBody
-	public List<ToSpvCashFlowApplyAttach> quereyAttachments(String cashFlowApplyCode) {
-		return cashFlowOutService.quereyAttachmentsByCashFlowApplyCode(cashFlowApplyCode);
-	}
-	
-	/**
-	 * @Title: saveCashFolwApplyAttachment 
-	 * @Description: 修改(添加、删除)出账申请附件
-	 * @author: gongjd 
-	 * @param toSpvCashFlowApplyAttach
-	 * @return response
-	 * @throws
-	 */
-	@RequestMapping(value = "saveCashFolwApplyAttachment")
-	@ResponseBody
-	public AjaxResponse<String> saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyCode) {
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		try{
-			String insertAttachIdArrStr = cashFlowOutService.saveAttachments(fileUploadVO,cashFlowApplyCode);
-			response.setSuccess(true);
-			response.setContent(insertAttachIdArrStr);
-		}catch(Exception e){
-			response.setSuccess(false);
-			response.setMessage("保存失败！");
-			e.printStackTrace();
-		}
-		return response;
-	}
-	
-	/**
-	 * @Title: delAttachment 
-	 * @Description: 刪除出账申请附件
-	 * @author: gongjd 
-	 * @param request
-	 * @param fileUploadVO
-	 * @return 
-	 * @throws
-	 */
-	@RequestMapping(value = "delAttachment")
-	@ResponseBody
-	public AjaxResponse<String> delAttachment(FileUploadVO fileUploadVO) {
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		try{
-			cashFlowOutService.delAttachment(fileUploadVO.getPkIdArr());
-			response.setSuccess(true);
-		}catch(Exception e){
-			response.setSuccess(false);
-			response.setMessage("删除失败！");
-			e.printStackTrace();
-		}
-		
-		return response;
 	}
 
     /**

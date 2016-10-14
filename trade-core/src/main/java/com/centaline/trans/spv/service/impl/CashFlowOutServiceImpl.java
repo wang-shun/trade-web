@@ -22,7 +22,6 @@ import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
-import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.vo.PageableVo;
@@ -32,7 +31,6 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
-import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeDetailMix;
 import com.centaline.trans.spv.repository.ToSpvAduitMapper;
@@ -68,8 +66,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	private ToSpvCashFlowMapper ToSpvCashFlowMapper;
 	@Autowired
 	private ToSpvAduitMapper toSpvAduitMapper;
-	@Autowired
-	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
 		
 	@Autowired
 	private UamSessionService uamSessionService;	
@@ -83,8 +79,19 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	}	
 
 	@Override
-	public void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO,String insertAttachIdArrStr) throws Exception {
+	public void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception {
 		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
+		
+		if(spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
+			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
+			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
+				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
+					cashFlows.add(spvCaseFlowOutInfoVO);
+				}
+			}
+			spvChargeInfoVO.setSpvCaseFlowOutInfoVOList(cashFlows);
+		}
+		
 		SessionUser user = uamSessionService.getSessionUser();
 		String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 		//创建spvApplyCode
@@ -97,31 +104,27 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		spvChargeInfoVO.getToSpvCashFlowApply().setApplier(user.getId());
 		//乘万操作
 		multiplyTenThousand(spvChargeInfoVO);
-		//只有一行且各字段都没有值则不插入spvChargeInfoVO.spvCaseFlowOutInfoVOList
-		if(isEmptyRow(spvChargeInfoVO,insertAttachIdArrStr)){
-			spvChargeInfoVO.setSpvCaseFlowOutInfoVOList(null);
-		}
+
 		toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);
-		//更新附件表apply_id字段
-		if(StringUtils.isNotBlank(insertAttachIdArrStr)){
-			insertAttachIdArrStr = insertAttachIdArrStr.substring(0, insertAttachIdArrStr.length()-1);
-			String[] splitArr = insertAttachIdArrStr.split(",");
-			for(String id:splitArr){
-				ToSpvCashFlowApplyAttach attach = new ToSpvCashFlowApplyAttach();
-				attach.setPkid(Long.parseLong(id));
-				attach.setApplyId(spvChargeInfoVO.getToSpvCashFlowApply().getPkid().toString());
-				toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(attach);
-			}
 		}
-	}
 
 	@Override
 	public void cashFlowOutPageDeal(HttpServletRequest request, String instCode, String taskId,String taskitem,
-			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, String insertAttachIdArrStr) throws Exception {
+			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey) throws Exception {
 		SessionUser user = uamSessionService.getSessionUser();
         // TODO 判断流程是否已存在
 		
 		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
+		
+		if(spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
+			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
+			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
+				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
+					cashFlows.add(spvCaseFlowOutInfoVO);
+				}
+			}
+			spvChargeInfoVO.setSpvCaseFlowOutInfoVOList(cashFlows);
+		}
 	
 		//创建spvApplyCode
 		String spvApplyCode = createSpvApplyCode();
@@ -132,23 +135,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		spvChargeInfoVO.getToSpvCashFlowApply().setApplier(user.getId());
 		//乘万操作
 		multiplyTenThousand(spvChargeInfoVO);
-		//只有一行且各字段都没有值则不插入spvChargeInfoVO.spvCaseFlowOutInfoVOList
-		if(isEmptyRow(spvChargeInfoVO,insertAttachIdArrStr)){
-			spvChargeInfoVO.setSpvCaseFlowOutInfoVOList(null);
-		}
 		//保存数据
 		toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);
-		//更新附件表apply_id字段
-		if(StringUtils.isNotBlank(insertAttachIdArrStr)){
-			insertAttachIdArrStr = insertAttachIdArrStr.substring(0, insertAttachIdArrStr.length()-1);
-			String[] splitArr = insertAttachIdArrStr.split(",");
-			for(String id:splitArr){
-				ToSpvCashFlowApplyAttach attach = new ToSpvCashFlowApplyAttach();
-				attach.setPkid(Long.parseLong(id));
-				attach.setApplyId(spvChargeInfoVO.getToSpvCashFlowApply().getPkid().toString());
-				toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(attach);
-			}
-		}
 		//获取合约
 		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode());
 		Map<String, Object> vars = new HashMap<String, Object>();
@@ -185,25 +173,20 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 
 	@Override
 	public void cashFlowOutApplyDeal(HttpServletRequest request, String instCode, String taskId,String taskitem,
-			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey,Boolean chargeOutAppr,String insertAttachIdArrStr) throws Exception {
-		
-		multiplyTenThousand(spvChargeInfoVO);
-		//只有一行且各字段都没有值则不插入spvChargeInfoVO.spvCaseFlowOutInfoVOList
-		if(isEmptyRow(spvChargeInfoVO,insertAttachIdArrStr)){
-			spvChargeInfoVO.setSpvCaseFlowOutInfoVOList(null);
+			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey,Boolean chargeOutAppr) throws Exception {
+		if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
+			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
+			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
+				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
+					cashFlows.add(spvCaseFlowOutInfoVO);
+				}
+			}
+			spvChargeInfoVO.setSpvCaseFlowOutInfoVOList(cashFlows);
 		}
+
+		multiplyTenThousand(spvChargeInfoVO);
+		
 	    toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
-	    //更新附件表apply_id字段
-  		if(StringUtils.isNotBlank(insertAttachIdArrStr)){
-  			insertAttachIdArrStr = insertAttachIdArrStr.substring(0, insertAttachIdArrStr.length()-1);
-  			String[] splitArr = insertAttachIdArrStr.split(",");
-  			for(String id:splitArr){
-  				ToSpvCashFlowApplyAttach attach = new ToSpvCashFlowApplyAttach();
-  				attach.setPkid(Long.parseLong(id));
-  				attach.setApplyId(spvChargeInfoVO.getToSpvCashFlowApply().getPkid().toString());
-  				toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(attach);
-  			}
-  		}
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
@@ -437,75 +420,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				toSpvCashFlow.setAmount(toSpvCashFlow.getAmount() == null?null:toSpvCashFlow.getAmount().multiply(new BigDecimal(10000)));
 			}		
 		}
-	}
-
-	@Override
-	public List<ToSpvCashFlowApplyAttach> quereyAttachmentsByCashFlowApplyCode(String cashFlowApplyCode) {	
-		
-		List<ToSpvCashFlowApplyAttach> attachList = new ArrayList<ToSpvCashFlowApplyAttach>();	
-
-		if(StringUtils.isNotBlank(cashFlowApplyCode)){	
-			ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
-			if(toSpvCashFlowApply != null){
-				attachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid().toString());
-			}
-	    }
-		return attachList;
-	}
-
-	@Override
-	public String saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyCode) {
-		SessionUser user = uamSessionService.getSessionUser();
-		
-		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
-		
-		if(fileUploadVO.getPkIdArr() != null && !fileUploadVO.getPkIdArr().isEmpty()) {
-			delAttachment(fileUploadVO.getPkIdArr());
-		}
-		
-		StringBuffer insertAttachIdArrStr = new StringBuffer(""); 
-		if(fileUploadVO.getPictureNo() != null && !fileUploadVO.getPictureNo().isEmpty()){
-			for(int i=0; i<fileUploadVO.getPictureNo().size(); i++) {
-				ToSpvCashFlowApplyAttach attach = new ToSpvCashFlowApplyAttach();
-				attach.setAttachId(fileUploadVO.getPictureNo().get(i));
-				attach.setApplyId(toSpvCashFlowApply == null?null:toSpvCashFlowApply.getPkid().toString());
-				
-				int length = fileUploadVO.getPicName().get(i).length();
-				int index = fileUploadVO.getPicName().get(i).lastIndexOf(".");
-				attach.setType(fileUploadVO.getPicName().get(i).substring(index+1, length));
-				
-				attach.setComment(fileUploadVO.getPicName().get(i));
-				attach.setIsDeleted("0");
-				attach.setCreateBy(user.getId());
-				attach.setCreateTime(new Date());
-				
-				toSpvCashFlowApplyAttachMapper.insertSelective(attach);
-				insertAttachIdArrStr.append(attach.getPkid()+",");
-			}	
-		}
-		
-		return insertAttachIdArrStr.toString();
-		
-	}
-	
-	@Override
-	public void delAttachment(List<Long> pkIdArr) {
-		for(Long pkid:pkIdArr) {
-			toSpvCashFlowApplyAttachMapper.setIsDeletedByPrimaryKey(pkid);
-		}
-	}
-	
-	private Boolean isEmptyRow(SpvChargeInfoVO spvChargeInfoVO,String insertAttachIdArrStr){
-		if(spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList().size() == 1){
-			ToSpvCashFlow toSpvCashFlow = spvChargeInfoVO.getSpvCaseFlowOutInfoVOList().get(0).getToSpvCashFlow();
-			if(StringUtils.isBlank(toSpvCashFlow.getPayer()) && StringUtils.isBlank(toSpvCashFlow.getPayerAcc()) &&
-					StringUtils.isBlank(toSpvCashFlow.getPayerBank()) && toSpvCashFlow.getAmount() == null && 
-					StringUtils.isBlank(toSpvCashFlow.getVoucherNo()) && StringUtils.isBlank(toSpvCashFlow.getDirection()) &&
-					StringUtils.isBlank(insertAttachIdArrStr)){
-				return true;
-			}
-		}
-		return false;
 	}
 
 }

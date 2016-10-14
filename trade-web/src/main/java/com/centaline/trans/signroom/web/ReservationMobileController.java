@@ -152,7 +152,7 @@ public class ReservationMobileController {
 	 */
 	@RequestMapping(value = "save")
 	@ResponseBody
-	public FreeRoomInfo save(ReservationVo reservationVo) throws ParseException {
+	public FreeRoomInfo save(ReservationVo reservationVo) {
 		FreeRoomInfo freeRoomInfo = reservationService
 				.getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
 
@@ -164,8 +164,6 @@ public class ReservationMobileController {
 		}
 
 		SessionUser currentUser = uamSessionService.getSessionUser();
-		User resPerson = uamUserOrgService.getUserById(reservationVo
-				.getResPersonId());
 
 		String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
 		String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
@@ -179,7 +177,7 @@ public class ReservationMobileController {
 		map.put("pkid", reservationVo.getTradeCenterId());
 		TradeCenter tradeCenter = tradeCenterService.getTradeCenter(map);
 
-		reservation.setResPersonOrgId(resPerson.getOrgId());
+		reservation.setResPersonOrgId(currentUser.getServiceDepId());
 		reservation.setSigningCenterId(reservationVo.getTradeCenterId());
 		reservation.setSigningCenter(tradeCenter.getCenterName());
 		reservation.setResStatus("0");

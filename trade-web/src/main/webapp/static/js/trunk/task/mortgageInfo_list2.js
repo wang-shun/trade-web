@@ -1,14 +1,12 @@
 var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
 
-var pChartMTypeCases = echarts.init(document
-		.getElementById('pieChartMTypeCases'));
-var pChartMTypeAmount = echarts.init(document
-		.getElementById('pieChartMTypeAmount'));
-var pChartMOrgCases = echarts
-		.init(document.getElementById('pieChartMOrgCases'));
-var pChartMOrgAmount = echarts.init(document
-		.getElementById('pieChartMOrgAmount'));
+var pChartMTypeCases = echarts.init(document.getElementById('pieChartMTypeCases'));
+var pChartMTypeAmount = echarts.init(document.getElementById('pieChartMTypeAmount'));
+var pChartMOrgCases = echarts.init(document.getElementById('pieChartMOrgCases'));
+var pChartMOrgAmount = echarts.init(document.getElementById('pieChartMOrgAmount'));
+var pChartMTmpBankCases = echarts.init(document.getElementById('pieChartMTmpBankCases'));
+var pChartMTmpBankAmount = echarts.init(document.getElementById('pieChartMTmpBankAmount'));
 
 var mTypeAllCases = 0;
 var mTypeTotalAmount = 0;
@@ -29,6 +27,17 @@ var mOrgAmountTitle = "";
 var orgLegends = new Array();
 var orgCaseItems = new Array();
 var orgAmountItems = new Array();
+
+var mTmpBankAllCases = 0;
+var mTmpBankTotalAmount = 0;
+var mTmpBankCasesTitle = "";
+var mTmpBankAmountTitle = "";
+
+var tmpBankLegends = new Array('合作银行', '临时银行');
+var tmpBankCases = new Array(0, 0);
+var tmpBankAmount = new Array(0, 0);
+var tmpBankCaseItems = new Array();
+var tmpBankAmountItems = new Array();
 
 /**
  * 案件统计详情
@@ -85,25 +94,40 @@ $(document).ready(
 			 * $("#mortTypeAnalysis").removeClass('btn-bg'); } });
 			 */
 
-			$(".charone,.chartwo").hide();
+			$(".charone,.chartwo,.chartthree").hide();
 			$("#mortTypeAnalysis").click(function() {
 				$(".charone").toggle();
 				$(".chartwo").hide();
+				$(".chartthree").hide();
 				$("#mortTypeAnalysis").addClass('btn-bg');
-				$("#mortOrgAnalysis ").removeClass('btn-bg');
+				$("#mortOrgAnalysis").removeClass('btn-bg');
+				$("#mortTmpBankAnalysis").removeClass('btn-bg');
 				if ($(".charone").is(":hidden")) {
 					$("#mortTypeAnalysis").removeClass('btn-bg');
 				}
 			});
 
 			$("#mortOrgAnalysis").click(function() {
-
 				$(".chartwo").toggle();
 				$(".charone").hide();
-				$("#mortOrgAnalysis ").addClass('btn-bg');
-				$("#mortTypeAnalysis ").removeClass('btn-bg');
+				$(".chartthree").hide();
+				$("#mortOrgAnalysis").addClass('btn-bg');
+				$("#mortTypeAnalysis").removeClass('btn-bg');
+				$("#mortTmpBankAnalysis").removeClass('btn-bg');
 				if ($(".chartwo").is(":hidden")) {
 					$("#mortOrgAnalysis").removeClass('btn-bg');
+				}
+			});
+			
+			$("#mortTmpBankAnalysis").click(function() {
+				$(".chartthree").toggle();
+				$(".charone").hide();
+				$(".chartwo").hide();
+				$("#mortTmpBankAnalysis").addClass('btn-bg');
+				$("#mortTypeAnalysis").removeClass('btn-bg');
+				$("#mortOrgAnalysis").removeClass('btn-bg');
+				if ($(".chartthree").is(":hidden")) {
+					$("#mortTmpBankAnalysis").removeClass('btn-bg');
 				}
 			});
 
@@ -135,6 +159,18 @@ function resetData() {
 	orgLegends.splice(0, orgLegends.length);
 	orgCaseItems.splice(0, orgCaseItems.length);
 	orgAmountItems.splice(0, orgAmountItems.length);
+	
+	for(index in tmpBankCases) {
+		tmpBankCases[index] = 0;
+		tmpBankAmount[index] = 0;
+	}
+	
+	mTmpBankAllCases = 0;
+	mTmpBankTotalAmount = 0;
+
+	// orgLegends.splice(0, orgLegends.length);
+	tmpBankCaseItems.splice(0, tmpBankCaseItems.length);
+	tmpBankAmountItems.splice(0, tmpBankAmountItems.length);
 }
 
 function setPieCharts() {
@@ -162,6 +198,15 @@ function setPieCharts() {
 
 	option = setOptions(mTypeCasesTitle, orgLegends, orgCaseItems);
 	pChartMOrgCases.setOption(option);
+	
+	mTmpBankAmountTitle = '商贷(收单)总金额: ' + mTmpBankTotalAmount.toFixed(2) + ' 万';
+	mTmpBankCasesTitle = '商贷(收单)总单数: ' + mTmpBankAllCases + ' 件'
+
+	option = setOptions(mTmpBankAmountTitle, tmpBankLegends, tmpBankAmountItems);
+	pChartMTmpBankAmount.setOption(option);
+
+	option = setOptions(mTmpBankCasesTitle, tmpBankLegends, tmpBankCaseItems);
+	pChartMTmpBankCases.setOption(option);
 }
 
 function setQueryData() {
@@ -213,18 +258,30 @@ function getMTypeAnalysis() {
 					var index
 					for (index in data.rows) {
 
-						if (data.rows[index].MTYPE == "1") {
+						if (data.rows[index].MTYPE === "1") {
 							typeCases[0] += data.rows[index].MCASES;
 							typeAmount[0] += data.rows[index].MCOMAMOUNT;
 							typeAmount[1] += data.rows[index].MPRFAMOUNT;
+							if(data.rows[index].MISTMP === "否") {
+								mTmpBankAllCases += data.rows[index].MCASES;
+								mTmpBankTotalAmount += data.rows[index].MCOMAMOUNT;
+								tmpBankCases[0] += data.rows[index].MCASES;
+								tmpBankAmount[0] += data.rows[index].MCOMAMOUNT;
+							}
+							if(data.rows[index].MISTMP === "是") {
+								mTmpBankAllCases += data.rows[index].MCASES;
+								mTmpBankTotalAmount += data.rows[index].MCOMAMOUNT;
+								tmpBankCases[1] += data.rows[index].MCASES;
+								tmpBankAmount[1] += data.rows[index].MCOMAMOUNT;
+							}
 						}
 
-						if (data.rows[index].MTYPE == "2") {
+						if (data.rows[index].MTYPE === "2") {
 							typeCases[1] += data.rows[index].MCASES;
 							typeAmount[1] += data.rows[index].MPRFAMOUNT;
 						}
 
-						if (data.rows[index].MTYPE == "3") {
+						if (data.rows[index].MTYPE === "3") {
 							typeCases[2] += data.rows[index].MCASES;
 							typeAmount[2] += data.rows[index].MCOMAMOUNT;
 							typeAmount[2] += data.rows[index].MPRFAMOUNT;
@@ -289,6 +346,64 @@ function getMTypeAnalysis() {
 
 					for (index in typeAmountItems) {
 						typeAmountItems[index].value = parseFloat(typeAmountItems[index].value
+								.toFixed(2));
+					}
+					
+					for (index in tmpBankLegends) {
+						var caseItem = {
+							name : tmpBankLegends[index],
+							value : tmpBankCases[index],
+							itemStyle : {
+								normal : {
+									label : {
+										formatter : '{b}\n{c} 件',
+										show : function() {
+											if (tmpBankCases[index] === 0) {
+												return false;
+											}
+										}()
+									},
+									labelLine : {
+										show : function() {
+											if (tmpBankCases[index] === 0) {
+												return false;
+											}
+										}()
+									}
+								}
+							}
+						};
+
+						var amountItem = {
+							name : tmpBankLegends[index],
+							value : tmpBankAmount[index],
+							itemStyle : {
+								normal : {
+									label : {
+										formatter : '{b}\n{c} 万',
+										show : function() {
+											if (tmpBankAmount[index] === 0.00) {
+												return false;
+											}
+										}()
+									},
+									labelLine : {
+										show : function() {
+											if (tmpBankAmount[index] === 0.00) {
+												return false;
+											}
+										}()
+									}
+								}
+							}
+						};
+
+						tmpBankCaseItems.push(caseItem);
+						tmpBankAmountItems.push(amountItem);
+					}
+					
+					for (index in tmpBankAmountItems) {
+						tmpBankAmountItems[index].value = parseFloat(tmpBankAmountItems[index].value
 								.toFixed(2));
 					}
 				}
@@ -373,10 +488,11 @@ function setOptions(title, legendName, dataValue) {
 		title : {
 			text : title,
 			subtext : '',
-			padding : [ 25, 10 ],
+			padding : [ 5, 10 ],
 			x : 'center',
 		},
-		color : [ '#52bdbd', '#ffad6b', '#f784a5', '#295aa5' ],
+		color : [ '#52bdbd', '#ffad6b', '#f784a5', '#295aa5', 
+		          '#34b971', '#809eff', '#a8e3f0', '#00a3e0'],
 		tooltip : {
 			trigger : 'item',
 			triggerOn : 'mousemove',

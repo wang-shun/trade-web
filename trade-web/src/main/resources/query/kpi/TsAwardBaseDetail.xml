@@ -87,16 +87,16 @@
 				<column type="both" name="SRV_PART_IN" index="" checkbox="" title="环节占比" customDict="" sysDict=""  format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="SATISFACTION" index="" checkbox="" title="满意度" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="MKPI_OLD" index="" checkbox="" title="是否达标" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="COM_LS_KPI" index="" checkbox="" title="贷款流失" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="COM_LS_KPI" index="" checkbox="" title="贷款流失考核" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="COM_LS_RATE" index="" checkbox="" title="贷款流失" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="SKPI_RATE" index="" checkbox="" title="满意度" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="virtual" name="MKPI" title="是否达标" referencecol="MKPI_OLD"  customDict="qqMKpi"/>
-				<column type="both" name="KPI_RATE_SUM" index="" checkbox="" title="考核结果" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
-				<column type="both" name="MKPIV" index="" checkbox="" title="金融达标" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="SKPI_RATE" index="" checkbox="" title="满意度考核" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="virtual" name="MKPI" title="金融达标" referencecol="MKPI_OLD"  customDict="qqMKpi"/>
+				<column type="both" name="KPI_RATE_SUM" index="" checkbox="" title="最终考核结果" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="MKPIV" index="" checkbox="" title="金融达标考核" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="SRV_PART" index="" checkbox="" title="满意度占比" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="AWARD_KPI_MONEY" index="" checkbox="" title="绩效奖金" customDict="" sysDict=""  format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="ORG_ID" display="誉翠组ID" title="誉翠组ID"/>
-				<column type="virtual" name="ORG_NAME" customDict="getOrgNameByOrgId" referencecol="ORG_ID"  display="所属组别" title="所属组别"/>
+				<column type="virtual" name="ORG_NAME" customDict="getOrgNameByOrgId" referencecol="ORG_ID"  display="组织" title="组织"/>
 			</table-row>
 		</grid>
 	</query>
