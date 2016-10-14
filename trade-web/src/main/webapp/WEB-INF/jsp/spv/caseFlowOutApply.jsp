@@ -362,7 +362,7 @@
                                         	<c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
 	                                           	<tr>
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.pkid"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid }" />
-	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid }" />
+	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.spvCode }" />
 	                                                <td>
 	                                                    <input class="table-input-one boderbbt" type="text" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payer"  placeholder="请输入姓名"  value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }" />
 	                                                </td>
@@ -555,7 +555,7 @@ $(function() {
     	renderFileUpload(k);
     }
 
-    if(!handle || handle == 'apply'){
+    if((!handle || handle == 'apply') && sum == 0){
     	$("#addTr").append(getTR(sum));
     }
 

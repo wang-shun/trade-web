@@ -22,7 +22,6 @@ import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
-import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.vo.PageableVo;
@@ -32,7 +31,6 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
-import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeDetailMix;
 import com.centaline.trans.spv.repository.ToSpvAduitMapper;
@@ -68,8 +66,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	private ToSpvCashFlowMapper ToSpvCashFlowMapper;
 	@Autowired
 	private ToSpvAduitMapper toSpvAduitMapper;
-	@Autowired
-	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
 		
 	@Autowired
 	private UamSessionService uamSessionService;	
@@ -189,10 +185,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		}
 
 		multiplyTenThousand(spvChargeInfoVO);
-		//只有一行且各字段都没有值则不插入spvChargeInfoVO.spvCaseFlowOutInfoVOList
-/*		if(isEmptyRow(spvChargeInfoVO,insertAttachIdArrStr)){
-			spvChargeInfoVO.setSpvCaseFlowOutInfoVOList(null);
-		}*/
+		
 	    toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
@@ -427,75 +420,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				toSpvCashFlow.setAmount(toSpvCashFlow.getAmount() == null?null:toSpvCashFlow.getAmount().multiply(new BigDecimal(10000)));
 			}		
 		}
-	}
-
-	@Override
-	public List<ToSpvCashFlowApplyAttach> quereyAttachmentsByCashFlowApplyCode(String cashFlowApplyCode) {	
-		
-		List<ToSpvCashFlowApplyAttach> attachList = new ArrayList<ToSpvCashFlowApplyAttach>();	
-
-		if(StringUtils.isNotBlank(cashFlowApplyCode)){	
-			ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
-			if(toSpvCashFlowApply != null){
-				attachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid().toString());
-			}
-	    }
-		return attachList;
-	}
-
-	@Override
-	public String saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyCode) {
-		SessionUser user = uamSessionService.getSessionUser();
-		
-		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(cashFlowApplyCode);
-		
-		if(fileUploadVO.getPkIdArr() != null && !fileUploadVO.getPkIdArr().isEmpty()) {
-			delAttachment(fileUploadVO.getPkIdArr());
-		}
-		
-		StringBuffer insertAttachIdArrStr = new StringBuffer(""); 
-		if(fileUploadVO.getPictureNo() != null && !fileUploadVO.getPictureNo().isEmpty()){
-			for(int i=0; i<fileUploadVO.getPictureNo().size(); i++) {
-				ToSpvCashFlowApplyAttach attach = new ToSpvCashFlowApplyAttach();
-				attach.setAttachId(fileUploadVO.getPictureNo().get(i));
-				attach.setApplyId(toSpvCashFlowApply == null?null:toSpvCashFlowApply.getPkid().toString());
-				
-				int length = fileUploadVO.getPicName().get(i).length();
-				int index = fileUploadVO.getPicName().get(i).lastIndexOf(".");
-				attach.setType(fileUploadVO.getPicName().get(i).substring(index+1, length));
-				
-				attach.setComment(fileUploadVO.getPicName().get(i));
-				attach.setIsDeleted("0");
-				attach.setCreateBy(user.getId());
-				attach.setCreateTime(new Date());
-				
-				toSpvCashFlowApplyAttachMapper.insertSelective(attach);
-				insertAttachIdArrStr.append(attach.getPkid()+",");
-			}	
-		}
-		
-		return insertAttachIdArrStr.toString();
-		
-	}
-	
-	@Override
-	public void delAttachment(List<Long> pkIdArr) {
-		for(Long pkid:pkIdArr) {
-			toSpvCashFlowApplyAttachMapper.setIsDeletedByPrimaryKey(pkid);
-		}
-	}
-	
-	private Boolean isEmptyRow(SpvChargeInfoVO spvChargeInfoVO,String insertAttachIdArrStr){
-		if(spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList().size() == 1){
-			ToSpvCashFlow toSpvCashFlow = spvChargeInfoVO.getSpvCaseFlowOutInfoVOList().get(0).getToSpvCashFlow();
-			if(StringUtils.isBlank(toSpvCashFlow.getPayer()) && StringUtils.isBlank(toSpvCashFlow.getPayerAcc()) &&
-					StringUtils.isBlank(toSpvCashFlow.getPayerBank()) && toSpvCashFlow.getAmount() == null && 
-					StringUtils.isBlank(toSpvCashFlow.getVoucherNo()) && StringUtils.isBlank(toSpvCashFlow.getDirection()) &&
-					StringUtils.isBlank(insertAttachIdArrStr)){
-				return true;
-			}
-		}
-		return false;
 	}
 
 }

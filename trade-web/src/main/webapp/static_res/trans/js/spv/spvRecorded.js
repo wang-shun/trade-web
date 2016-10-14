@@ -24,6 +24,7 @@ $(document).ready(function(){
 });
 
 function checkFormSave(){
+	
 	var amountFlag = true;
 	var amountEle;
 	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
@@ -49,6 +50,7 @@ function checkFormSubmit(){
 	
 	var payerFlag = true;
 	var payerEle;
+
 	$("input[name$='toSpvCashFlow.payer']").each(function(i,e){
 		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
 			 payerFlag = false;
@@ -210,8 +212,8 @@ function saveBtnClick(){
  				    	 window.opener.location.reload(); //刷新父窗口
  			        	 window.close(); //关闭子窗口.
  				     }else{
- 				    	 window.location.reload();
-			    	     //window.location.href="${ctx}/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
+ 				    	 //window.location.reload();
+			    	     window.location.href=ctx+"/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
 			     }
  					// $.unblockUI();
  				}	 
@@ -324,6 +326,7 @@ function submitBtnClick(handle,chargeOutAppr){
 		        	 window.close(); //关闭子窗口.
 			     }else{
 			          window.location.reload();
+			          //window.location.href=ctx+"/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
 			     }
 				 //$.unblockUI();
 			}

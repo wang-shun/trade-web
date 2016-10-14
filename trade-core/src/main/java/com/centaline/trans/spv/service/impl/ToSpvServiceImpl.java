@@ -1124,12 +1124,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 				if(toSpvVoucherList != null && !toSpvVoucherList.isEmpty()){
 					for(ToSpvVoucher toSpvVoucher:toSpvVoucherList){
 						if(toSpvVoucher.getPkid() == null){
-							toSpvVoucher.setCashflowId(toSpvCashFlow.getPkid().toString());
-							toSpvVoucher.setType(toSpvVoucher.getComment().substring(toSpvVoucher.getComment().indexOf(".")+1, toSpvVoucher.getComment().length()));
-							toSpvVoucher.setCreateBy(user.getId());
-							toSpvVoucher.setCreateTime(new Date());
-							toSpvVoucher.setIsDeleted("0");
-							toSpvVoucherMapper.insertSelective(toSpvVoucher);
+							if(StringUtils.isNotBlank(toSpvVoucher.getAttachId())){
+								toSpvVoucher.setCashflowId(toSpvCashFlow.getPkid().toString());
+								toSpvVoucher.setType(toSpvVoucher.getComment().substring(toSpvVoucher.getComment().indexOf(".")+1, toSpvVoucher.getComment().length()));
+								toSpvVoucher.setCreateBy(user.getId());
+								toSpvVoucher.setCreateTime(new Date());
+								toSpvVoucher.setIsDeleted("0");
+								toSpvVoucherMapper.insertSelective(toSpvVoucher);
+							}
 						}else{
 							toSpvVoucher.setUpdateBy(user.getId());
 							toSpvVoucher.setUpdateTime(new Date());
