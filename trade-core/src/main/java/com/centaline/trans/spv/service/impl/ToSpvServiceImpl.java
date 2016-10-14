@@ -33,6 +33,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.SpvCashFlowEnum;
 import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -1431,7 +1432,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 			toSpvCashFlowApply.setUsage("in");
 			//备注	toSpvCashFlowApply.setComment(comment);
-			toSpvCashFlowApply.setStatus("0");//状态
+			toSpvCashFlowApply.setStatus(SpvCashFlowEnum.DIRECTORADUIT.getCode());//状态
 			toSpvCashFlowApply.setIsDeleted("0");//是否删除
 			if(!StringUtils.isBlank(user.getId())){//申请人
 				toSpvCashFlowApply.setApplier(user.getId());
@@ -1662,8 +1663,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		//用途
 		toSpvCashFlowApply.setUsage("in");
 		//备注	toSpvCashFlowApply.setComment(comment);
-		//状态
-		toSpvCashFlowApply.setStatus("0");
+		toSpvCashFlowApply.setStatus(SpvCashFlowEnum.DIRECTORADUIT.getCode());//状态
 		//是否删除
 		toSpvCashFlowApply.setIsDeleted("0");
 		//申请人

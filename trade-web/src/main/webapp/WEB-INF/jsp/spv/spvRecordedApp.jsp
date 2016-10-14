@@ -197,13 +197,14 @@
 														<input type="hidden"  name ="items[${status2.index }].fileId" value = "${toSpvReceiptList.attachId}"/>
 														<input type="hidden" name ="items[${status2.index }].fileName" value = "${toSpvReceiptList.comment}" />
 															<button type="button" class="btn btn-sm btn-default" >
-															${toSpvReceiptList.comment}</button>
+															${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
+															</button>
 															<i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i>
 														</a>
                                                 	 </c:forEach>   
                                                 		 <span class="btn_file${status2.index }">                                                                                                                                                                
 															<input id="fileupload_${status2.index }" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 
-															<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$('#fileupload_${status2.index }').trigger('click');">                                                                        
+															<img class="bnt-flie" src="${ctx}/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$('#fileupload_${status2.index }').trigger('click');">                                                                        
 														</span>  
 	                                                </td>
 	                                                <td align="center">
@@ -293,6 +294,7 @@
 <script>
 
 $(function() {
+	$('.response').responsivegallery();
     $(".icon_x").click(function() {
         $(this).parent().parent().remove();
         return false;
@@ -303,7 +305,7 @@ $(function() {
     }
 
 });
-$('.response').responsivegallery();
+
 function rescCallbocak(){
 	 /*   if($("#urlType").val() == 'myTask'){    	 
 		   window.opener.location.reload(); //刷新父窗口

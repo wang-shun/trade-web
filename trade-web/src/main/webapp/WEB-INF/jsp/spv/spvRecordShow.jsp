@@ -63,7 +63,7 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+ 	 <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
 
 </head>
 
@@ -176,7 +176,9 @@
                                                   <c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
                                                  	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
 														<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
-														<button type="button" class="btn btn-sm btn-default" >${toSpvReceiptList.comment}</button>
+														<button type="button" class="btn btn-sm btn-default" >
+														${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
+														</button>
 													</a>
                                                	 </c:forEach>
                                               </td>

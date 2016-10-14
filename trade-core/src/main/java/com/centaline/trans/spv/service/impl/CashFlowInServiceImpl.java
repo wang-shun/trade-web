@@ -20,6 +20,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.enums.SpvCashFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.ToAccesoryListService;
@@ -214,6 +215,12 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		toSpvAduit.setCreateBy(user.getId());
 		toSpvAduit.setCreateTime(new Date());
 		toSpvAduitMapper.insertSelective(toSpvAduit);
+		
+		toSpvCashFlowApply.setStatus(SpvCashFlowEnum.DIRECTORADUIT.getCode());
+		toSpvCashFlowApply.setUpdateBy(user.getId());
+		toSpvCashFlowApply.setUpdateTime(new Date());
+		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);
+		
 		//保存数据
 		//toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO); 
 		Map<String, Object> variables = new HashMap<String, Object>();
@@ -291,15 +298,20 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
+				toSpvCashFlowApply.setStatus(SpvCashFlowEnum.FINANCEADUIT.getCode());
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
+				toSpvCashFlowApply.setStatus(SpvCashFlowEnum.APPLY.getCode());
 			}
 			//内容
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());
 			toSpvAduit.setCreateBy(user.getId());
 			toSpvAduit.setCreateTime(new Date());
 			toSpvAduitMapper.insertSelective(toSpvAduit);
-					
+
+			toSpvCashFlowApply.setUpdateBy(user.getId());
+			toSpvCashFlowApply.setUpdateTime(new Date());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);
 			
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put("directorAduit",chargeInAppr);
@@ -379,19 +391,13 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			
 			ToSpvAduit toSpvAduit = new ToSpvAduit();
 			
-			//流水ID
-			//toSpvAduit.setApplyId(spvRecordedsVO.getToSpvCashFlowApplyPkid());
+			//toSpvAduit.setApplyId(spvRecordedsVO.getToSpvCashFlowApplyPkid());//流水ID
 			toSpvAduit.setApplyId(toSpvCashFlowApply.getPkid().toString());
-			//流程实例
-			toSpvAduit.setActProcId(taskId);
-			//流程节点
-			toSpvAduit.setTaskDefKey(instCode);
-			//任务ID
-			toSpvAduit.setTaskId(taskId);
-			//操作人
-			toSpvAduit.setOperator(user.getId());
-			//审核结果
-			String resultType="";
+			toSpvAduit.setActProcId(taskId);//流程实例
+			toSpvAduit.setTaskDefKey(instCode);//流程节点
+			toSpvAduit.setTaskId(taskId);//任务ID
+			toSpvAduit.setOperator(user.getId());//操作人
+			String resultType="";//审核结果
 			switch (handle) {
 	       	case "apply":
 	       			resultType = "风控专员";
@@ -406,16 +412,21 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
+				toSpvCashFlowApply.setStatus(SpvCashFlowEnum.AUDITCOMPLETED.getCode());
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
+				toSpvCashFlowApply.setStatus(SpvCashFlowEnum.APPLY.getCode());
 			}
-			//内容
-			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());
+			
+			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());//内容
 			toSpvAduit.setCreateBy(user.getId());
 			toSpvAduit.setCreateTime(new Date());
 			toSpvAduitMapper.insertSelective(toSpvAduit);
-					
-		
+			
+			toSpvCashFlowApply.setUpdateBy(user.getId());
+			toSpvCashFlowApply.setUpdateTime(new Date());
+			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);
+			
 			Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put("financeAduit",chargeInAppr);
 			
