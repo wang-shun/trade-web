@@ -75,8 +75,10 @@ import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
+import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.service.impl.VariableServiceImpl;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -170,7 +172,6 @@ public class CaseDetailController {
 	UamBasedataService uamBasedataService;
 	@Autowired
 	private TsTeamPropertyService teamPropertyService;
-
 	@Autowired(required = true)
 	private ToHouseTransferService toHouseTransferService;
 
@@ -1468,7 +1469,14 @@ public class CaseDetailController {
 			RestVariable restVariable = new RestVariable();
 			restVariable.setType("string");
 			restVariable.setValue(u1.getUsername());
-			workFlowManager.setVariableByProcessInsId(instCode, variableName, restVariable);
+			try{
+				workFlowManager.setVariableByProcessInsId(instCode, variableName, restVariable);
+			}catch(WorkFlowException e){
+				if(404!=e.getStatusCode()){
+					throw e;
+				}
+			}
+			
 			TaskQuery tq = new TaskQuery();
 			tq.setProcessInstanceId(instCode);
 			tq.setFinished(false);
