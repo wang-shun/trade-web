@@ -216,13 +216,20 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		toSpvAduit.setCreateTime(new Date());
 		toSpvAduitMapper.insertSelective(toSpvAduit);
 		
+		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid());
+		if(null != toSpvCashFlowList)
+			for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
+				toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());
+				toSpvCashFlow.setUpdateBy(user.getId());
+				toSpvCashFlow.setUpdateTime(new Date());
+				toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
+			}
+		
 		toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());
 		toSpvCashFlowApply.setUpdateBy(user.getId());
 		toSpvCashFlowApply.setUpdateTime(new Date());
 		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);
 		
-		//保存数据
-		//toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO); 
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		taskService.submitTask(taskId, variables);
@@ -264,8 +271,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey, Boolean chargeInAppr)
 			throws Exception {
 			SessionUser user = uamSessionService.getSessionUser();
-		    //toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
-			
+			String statusType="";
 			/**1.查询申请*/
 			ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
 			
@@ -298,10 +304,10 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
-				toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.FINANCEADUIT.getCode());
+				statusType = SpvCashFlowApplyStatusEnum.FINANCEADUIT.getCode();
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
-				toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.APPLY.getCode());
+				statusType = SpvCashFlowApplyStatusEnum.APPLY.getCode();
 			}
 			//内容
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());
@@ -309,6 +315,16 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			toSpvAduit.setCreateTime(new Date());
 			toSpvAduitMapper.insertSelective(toSpvAduit);
 
+			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid());
+			if(null != toSpvCashFlowList)
+				for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
+					toSpvCashFlow.setStatus(statusType);
+					toSpvCashFlow.setUpdateBy(user.getId());
+					toSpvCashFlow.setUpdateTime(new Date());
+					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
+				}
+			
+			toSpvCashFlowApply.setStatus(statusType);
 			toSpvCashFlowApply.setUpdateBy(user.getId());
 			toSpvCashFlowApply.setUpdateTime(new Date());
 			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);
@@ -384,8 +400,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			throws Exception {
 
 			SessionUser user = uamSessionService.getSessionUser();
-		    //toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO);    
-			
+			String statusType = "";
 			/**1.查询申请*/
 			ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
 			
@@ -412,10 +427,10 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
-				toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode());
+				statusType = SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode();
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
-				toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.APPLY.getCode());
+				statusType = SpvCashFlowApplyStatusEnum.APPLY.getCode();
 			}
 			
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());//内容
@@ -423,6 +438,15 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			toSpvAduit.setCreateTime(new Date());
 			toSpvAduitMapper.insertSelective(toSpvAduit);
 			
+			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid());
+			if(null != toSpvCashFlowList)
+				for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
+					toSpvCashFlow.setStatus(statusType);
+					toSpvCashFlow.setUpdateBy(user.getId());
+					toSpvCashFlow.setUpdateTime(new Date());
+					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
+				}
+			toSpvCashFlowApply.setStatus(statusType);
 			toSpvCashFlowApply.setUpdateBy(user.getId());
 			toSpvCashFlowApply.setUpdateTime(new Date());
 			toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);
