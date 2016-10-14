@@ -313,6 +313,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	@Override
 	public void cashFlowOutDeal(HttpServletRequest request, String instCode, String taskId,String taskitem, String handle,
 			SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception {
+		
+		    String spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
+		    
 		    //更新申请状态
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
 		    toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
@@ -326,9 +329,16 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			Map<String, Object> variables = new HashMap<String, Object>();
 			taskService.submitTask(taskId, variables);
 			
-			//发起消息通知资金尽管流程 ：SpvProcess
-			// (签约)发送消息
-			messageService.sendSpvFinishMsgByIntermi(instCode);
+			//当出款总额等于监管金额时发起消息通知资金尽管流程 ：SpvProcess
+			Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
+	    	//所有合约下已完成的出账金额总和
+			BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
+	    	//监管总额
+			ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);	
+			BigDecimal toSpvTotalAmount = toSpv.getAmount();
+	    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
+				messageService.sendSpvFinishMsgByIntermi(instCode);	
+	    	}
 	}	
 	
 	private String createSpvApplyCode() {
@@ -397,44 +407,12 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     		request.setAttribute("deDetailMixList", deDetailMixList);
     	}
     	
-    	List<ToSpvCashFlow> cashFlowList = toSpvCashFlowMapper.selectByCashFlowListBySpvCode(spvCode);
-    	List<ToSpvCashFlow> cashFlowNewList = new ArrayList<ToSpvCashFlow>();
-    	
-    	BigDecimal totalCashFlowInAmount = BigDecimal.ZERO;
-    	BigDecimal totalCashFlowOutAmount = BigDecimal.ZERO;
-    	
-    	for(ToSpvCashFlow cashFlow: cashFlowList){
-    		ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(cashFlow.getCashflowApplyId());
-    		//只选取完成的流水记录
-    		if("in".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
-    			continue;         
-    		}else if("out".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
-    			continue;
-    		}
-    		String applyAuditor = apply.getApplyAuditor();
-    		String applyAuditorName = applyAuditor == null?null:uamSessionService.getSessionUserById(applyAuditor).getRealName();
-    		String ftPreAuditor = apply.getFtPreAuditor();
-        	String ftPreAuditorName = ftPreAuditor == null?null:uamSessionService.getSessionUserById(ftPreAuditor).getRealName();
-    		String ftPostAuditor = apply.getFtPostAuditor();
-        	String ftPostAuditorName = ftPostAuditor == null?null:uamSessionService.getSessionUserById(ftPostAuditor).getRealName();
-        	cashFlow.setUsage(apply.getUsage());
-        	cashFlow.setApplyAuditorName(applyAuditorName);
-        	cashFlow.setFtPreAuditorName(ftPreAuditorName);
-        	cashFlow.setFtPostAuditorName(ftPostAuditorName);
-        	cashFlow.setCreateByName(cashFlow.getCreateBy() == null?null:uamSessionService.getSessionUserById(cashFlow.getCreateBy()).getRealName());
-        	if("in".equals(cashFlow.getUsage())){
-        		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
-        	}else if("out".equals(cashFlow.getUsage())){
-        		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
-        	}	
-        	cashFlowNewList.add(cashFlow);
-    	}
-    	
-    	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);  
-    	request.setAttribute("cashFlowList", cashFlowNewList);
-    	request.setAttribute("totalCashFlowInAmount", totalCashFlowInAmount);
-    	request.setAttribute("totalCashFlowOutAmount", totalCashFlowOutAmount);
+    	Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
+    	request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
+    	request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
+    	request.setAttribute("totalCashFlowOutAmount", completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
 
+    	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);  
     	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);    
 	}
 	
@@ -479,6 +457,51 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				toSpvCashFlow.setAmount(toSpvCashFlow.getAmount() == null?null:toSpvCashFlow.getAmount().multiply(new BigDecimal(10000)));
 			}		
 		}
+	}
+	
+	//查询spvCode对应合约下所有已完成的流水信息
+	private Map<String, Object> getCompleteCashFlowInfoBySpvCode(String spvCode){
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+    	List<ToSpvCashFlow> cashFlowList = toSpvCashFlowMapper.selectCashFlowListBySpvCode(spvCode);
+    	List<ToSpvCashFlow> cashFlowNewList = new ArrayList<ToSpvCashFlow>();
+    	
+    	BigDecimal totalCashFlowInAmount = BigDecimal.ZERO;
+    	BigDecimal totalCashFlowOutAmount = BigDecimal.ZERO;
+    	
+    	for(ToSpvCashFlow cashFlow: cashFlowList){
+    		ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(cashFlow.getCashflowApplyId());
+    		//只选取完成的流水记录
+    		if("in".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+    			continue;         
+    		}else if("out".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+    			continue;
+    		}
+    		String applyAuditor = apply.getApplyAuditor();
+    		String applyAuditorName = applyAuditor == null?null:uamSessionService.getSessionUserById(applyAuditor).getRealName();
+    		String ftPreAuditor = apply.getFtPreAuditor();
+        	String ftPreAuditorName = ftPreAuditor == null?null:uamSessionService.getSessionUserById(ftPreAuditor).getRealName();
+    		String ftPostAuditor = apply.getFtPostAuditor();
+        	String ftPostAuditorName = ftPostAuditor == null?null:uamSessionService.getSessionUserById(ftPostAuditor).getRealName();
+        	cashFlow.setUsage(apply.getUsage());
+        	cashFlow.setApplyAuditorName(applyAuditorName);
+        	cashFlow.setFtPreAuditorName(ftPreAuditorName);
+        	cashFlow.setFtPostAuditorName(ftPostAuditorName);
+        	cashFlow.setCreateByName(cashFlow.getCreateBy() == null?null:uamSessionService.getSessionUserById(cashFlow.getCreateBy()).getRealName());
+        	if("in".equals(cashFlow.getUsage())){
+        		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
+        	}else if("out".equals(cashFlow.getUsage())){
+        		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
+        	}	
+        	cashFlowNewList.add(cashFlow);
+    	}
+    	
+    	resultMap.put("cashFlowList", cashFlowNewList);
+    	resultMap.put("totalCashFlowInAmount", totalCashFlowInAmount);
+    	resultMap.put("totalCashFlowOutAmount", totalCashFlowOutAmount);
+    	
+		return resultMap;
 	}
 
 }
