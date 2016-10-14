@@ -217,6 +217,10 @@ function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 	var strHtml = "";
 	var isHasBespeakTime = false;
 	
+	if(defaultTradeCenterId == 0){
+		defaultTradeCenterId = 1;
+	}
+	
 	$.ajax({
 		cache:false,
 		async:false,
