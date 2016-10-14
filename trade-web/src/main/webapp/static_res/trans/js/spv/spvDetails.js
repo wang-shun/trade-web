@@ -286,7 +286,6 @@ $(document).ready(function(){
 	 			                } 
 	 			            } ,   
 	 			success : function(data) {
-	 				debugger;
 				    	 isSuccess = true;
 				    	 if($("#urlType").val() == 'myTask'){    	 
 	 				    	 window.opener.location.reload(); //刷新父窗口
@@ -890,19 +889,23 @@ $(document).ready(function(){
 		var isVerify = true;
 		var isRepeat = false;
 		var rowElement1,rowElement2;
-		var pkid = $("input[name='spvCustList[0].pkid']").val();
 		
-		if(pkid == ""){
-			if(length <= 1){
-				alert("请至少添加一条资金出款约定！");
-				return false;
-			}
+		var isNull = true;
+		for(var i=0;i<length;i++){
+			var deCondCode = $("select[name='toSpvDeDetailList["+i+"].deCondCode'] option:selected").val();
+			var payeeAccountType = $("select[name='toSpvDeDetailList["+i+"].payeeAccountType'] option:selected").val();
+		    var deAmount = $("select[name='toSpvDeDetailList["+i+"].deAmount']").val();
+		    var deAddition = $("select[name='toSpvDeDetailList["+i+"].deAddition']").val();
+		    if((deCondCode != null && deCondCode != '') || (payeeAccountType != null && payeeAccountType != '') 
+		    		|| (deAmount != null && deAmount != '') || (deAddition != null && deAddition != '')){
+		    	isNull = false;
+		    	return fasle;
+		    }
 		}
-		else {
-			if(length < 1){
-				alert("请至少添加一条资金出款约定！");
-				return false;
-			}
+		
+		if(!isNull){
+			alert("请至少添加一条资金出款约定！");
+			return false;
 		}
 
 		$("#addTr tr:visible").each(function(index){
@@ -943,7 +946,7 @@ $(document).ready(function(){
 		}
 	
 		var rowsAmount = getRowsAmount();
-		if(rowsAmount != amount){
+		if(rowsAmount != amountV){
 			alert("监管总金额应等于资金出款约定金额之和！");
 			return false;
 		}
