@@ -76,13 +76,12 @@ function getTR(thisIndex){
 
 	cleanPkid();
 }
-
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
+	var image = '<a class="response" style="margin-right:5px;" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'</button><i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i></a>';
+	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'<i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i></button></a>';
 	return image;
 }
 //删除入账申请信息tr

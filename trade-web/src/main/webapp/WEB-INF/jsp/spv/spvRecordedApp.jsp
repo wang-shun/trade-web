@@ -198,8 +198,8 @@
 														<input type="hidden" name ="items[${status2.index }].fileName" value = "${toSpvReceiptList.comment}" />
 															<button type="button" class="btn btn-sm btn-default" >
 															${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
-															</button>
-															<i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i>
+															
+															<i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i></button>
 														</a>
                                                 	 </c:forEach>   
                                                 		 <span class="btn_file${status2.index }">                                                                                                                                                                
