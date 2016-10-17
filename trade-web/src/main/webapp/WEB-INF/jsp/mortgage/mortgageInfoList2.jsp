@@ -369,7 +369,7 @@
                         </td>
 
 					    <td>
-						{{if item.SIGN_DATE!=null}}
+						{{if item.SIGN_DATE != null}}
 						   <p>  
                               <i class="sign_normal">签</i>
                                  {{item.SIGN_DATE}}          
