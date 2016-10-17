@@ -55,6 +55,7 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/steps.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/toastr.min.css">
     <!-- index_css  -->
+    <link rel="stylesheet" href="${ctx}/static/css/plugins/datapicker/datepicker3.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/iconfont.css" >
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
@@ -161,6 +162,7 @@
                                         <th style="width: 120px;">贷记凭证编号</th>
                                         <th>付款方式</th>
                                         <th>凭证附件</th>
+                                        <th>入账时间</th>
                                         <th>操作</th>
                                     </thead>
                                     <tbody id="addTr">
@@ -206,7 +208,7 @@ src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 <script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
@@ -229,6 +231,8 @@ $(function() {
 	        $(this).parent().remove();
 	        event.stopPropagation();
 	   })
+
+
 });
 /* $('.response').responsivegallery(); */
 

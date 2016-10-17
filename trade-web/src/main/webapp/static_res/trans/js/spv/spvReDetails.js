@@ -42,6 +42,9 @@ function getTR(thisIndex){
 	$str+='         <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;margin-top:17px;margin-bottom:-14px;cursor:pointer; background-image:url('+$("#ctx").val()+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');"/>';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
+	$str+='	<td> <div id="datepicker_'+thisIndex+'"  class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">';
+	$str+=' <input id="inputTime'+thisIndex+'" style="width:106px" name="inputTime"class="form-control input-one" type="text" value=""placeholder="入账日期"></div>' ;                                                                                                                                                                                     
+	$str+='	</td> ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
 	if(thisIndex > 0){
 		$str+='  &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
@@ -78,6 +81,13 @@ function getTR(thisIndex){
     });
 
 	cleanPkid();
+	   // 日期控件
+	$("#datepicker_"+thisIndex).datepicker({
+		format : 'yyyy-mm-dd',
+		weekStart : 1,
+		autoclose : true,
+		todayBtn : 'linked'
+	})
 }
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	index++;

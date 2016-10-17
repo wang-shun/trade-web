@@ -56,6 +56,7 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/steps.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/toastr.min.css">
     <!-- index_css  -->
+    <link rel="stylesheet" href="${ctx}/static/css/plugins/datapicker/datepicker3.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/iconfont.css" >
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
@@ -162,6 +163,7 @@
                                             <th style="width: 120px;">贷记凭证编号</th>
                                             <th>付款方式</th>
                                             <th>凭证附件</th>
+                                            <th>入账时间</th>
                                             <th>操作</th>
                                         </thead>
                                         <tbody id="addTr">
@@ -205,9 +207,13 @@
 															<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;margin-top:17px;margin-bottom:-14px;cursor:pointer; background-image:url(${ctx}/static/trans/img/bnt-flie.png) " onClick="$('#fileupload_${status2.index }').trigger('click');"/>                                                                        
 														</span>  
 	                                                </td>
+	                                                 <td>
+	                                                 <div id="datepicker_0" class="input-medium date-picker input-daterange sign_right_speciale" data-date-format="yyyy-mm-dd">';
+	$str+=' <input id="inputTime'+thisIndex+'" name="inputTime'+thisIndex+'"class="form-control input-one" type="text" value=""placeholder="入账日期"></div>' ;                                    
+	                                                 </td>    
 	                                                <td align="center">
-		                                                <a href="javascript:void(0)" onClick="getTR(${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()})">添加</span></a>
-		                                                <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
+		                                               <a href="javascript:void(0)" onClick="getTR(${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()})">添加</span></a>
+		                                              <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
 	                                                </td>
 	                                            </tr>
 	                                       </c:forEach>
@@ -280,7 +286,8 @@
 <script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 <!-- 上传附件 结束 -->
 <!-- stickup plugin -->
 <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
