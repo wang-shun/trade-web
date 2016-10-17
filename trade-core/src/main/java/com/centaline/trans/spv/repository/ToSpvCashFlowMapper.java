@@ -22,5 +22,5 @@ public interface ToSpvCashFlowMapper {
     
     List<ToSpvCashFlow> selectByCashFlowApplyIdByIn(Long cashFlowApplyId);
     
-    List<ToSpvCashFlow> selectByCashFlowListBySpvCode(String spvCode);
+    List<ToSpvCashFlow> selectCashFlowListBySpvCode(String spvCode);
 }

@@ -317,7 +317,7 @@ $(document).ready(function(){
 		var signAmount = $("input[name='toSpvProperty.signAmount']").val();
 		if(signAmount != null && signAmount != ''){
 			if(!isNumber(signAmount)){
-				alert("请填写有效的网签金额！");
+				alert("请填写有效的网签金额！(首位非0且小数位不超过2位的数字)");
 				changeClass($("input[name='toSpvProperty.signAmount']"));
 				return false;
 			}
@@ -325,7 +325,7 @@ $(document).ready(function(){
 		var toSpvAmount = $("input[name='toSpv.amount']").val();
         if(toSpvAmount != null && toSpvAmount != ''){
         	if(!isNumber(toSpvAmount)){
-        		alert("请填写有效的监管总金额！");
+        		alert("请填写有效的监管总金额！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpvProperty.signAmount']"));
         		return false;
         	}
@@ -337,28 +337,28 @@ $(document).ready(function(){
         var amountMortPsf = $("input[name='toSpv.amountMortPsf']");
         if(amountOwn.val() != null && amountOwn.val() != ''){
         	if(!isNumber(amountOwn.val())){
-        		alert("请填写有效的自筹资金！");
+        		alert("请填写有效的自筹资金！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpv.amountOwn']"));
         		return false;
         	}
         }
         if(amountMort.val() != null && amountMort.val() != ''){
         	if(!isNumber(amountMort.val())){
-        		alert("请填写有效的贷款资金！");
+        		alert("请填写有效的贷款资金！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpv.amountMort']"));
         		return false;
         	}
         }
         if(amountMortCom.val() != null && amountMortCom.val() != ''){
         	if(!isNumber(amountMortCom.val())){
-        		alert("请填写有效的商业贷款！");
+        		alert("请填写有效的商业贷款！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpv.amountMortCom']"));
         		return false;
         	}
         }
         if(amountMortPsf.val() != null && amountMortPsf.val() != ''){
         	if(!isNumber(amountMortPsf.val())){
-        		alert("请填写有效的公积金贷款！");
+        		alert("请填写有效的公积金贷款！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpv.amountMortPsf']"));
         		return false;
         	}
@@ -377,7 +377,7 @@ $(document).ready(function(){
 		});
 
         if(!deAmountFlag){
-        	alert("请填写有效的监管资金金额！");
+        	alert("请填写有效的监管资金金额！(首位非0且小数位不超过2位的数字)");
 		    changeClass(deAmountEle);
 			return false;
         }
@@ -404,7 +404,7 @@ $(document).ready(function(){
 			  }
 			  if(spvAccountTelephone != null && spvAccountTelephone != ''){
 				  if(!isMobile(spvAccountTelephone)){
-					  alert("请填写有效的卖方电话!");
+					  alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
 					  changeClass($("input[name='toSpvAccountList[1].telephone']"));
 					  return false;
 				  }
@@ -459,7 +459,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isName(buyerName)){
-			alert("请填写有效的买方姓名！");
+			alert("请填写有效的买方姓名！(1-5个汉字或者多个英文)");
 			changeClass($("input[name='spvCustList[0].name']"));
 			return false;
 		}
@@ -523,7 +523,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isName(sellerName)){
-			alert("请填写有效的卖方姓名！");
+			alert("请填写有效的卖方姓名！(1-5个汉字或者多个英文)");
 			changeClass($("input[name='spvCustList[1].name']"));
 			return false;
 		}
@@ -587,7 +587,7 @@ $(document).ready(function(){
 		
 		if(sellerHasDele && (sellerAgentName != null && sellerAgentName != '')){
 			if(!isName(sellerAgentName)){
-				alert("请填写有效的卖方委托人姓名！");
+				alert("请填写有效的卖方委托人姓名！(1-5个汉字或者多个英文)");
 				changeClass($("input[name='spvCustList[1].agentName']"));
 				return false;
 			}
@@ -619,7 +619,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isName(prOwnerName)){
-			alert("请填写有效的房产权利人！");
+			alert("请填写有效的房产权利人！(1-5个汉字或者多个英文)");
 			changeClass($("input[name='toSpvProperty.prOwnerName']"));
 			return false;
 		}
@@ -639,7 +639,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isNumber(prSize)){
-			alert("请填写有效的房屋面积！");
+			alert("请填写有效的房屋面积！(首位非0且小数位不超过2位的数字)");
 			changeClass($("input[name='toSpvProperty.prSize']"));
 			return false;
 		}
@@ -674,7 +674,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isNumber2(signNo)){
-			alert("请填写有效的网签合同号！");
+			alert("请填写有效的网签合同号！(首位非0的整数)");
 			changeClass($("input[name='toSpvProperty.signNo']"));
 			return false;
 		}
@@ -687,7 +687,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isNumber(signAmount.val())){
-			alert("请填写有效的网签金额！");
+			alert("请填写有效的网签金额！(首位非0且小数位不超过2位的数字)");
 			changeClass(signAmount);
 			return false;
 		}
@@ -706,7 +706,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isNumber(amount.val())){
-			alert("请填写有效的监管总金额！");
+			alert("请填写有效的监管总金额！(首位非0且小数位不超过2位的数字)");
 			changeClass(amount);
 			return false;
 		}
@@ -736,7 +736,7 @@ $(document).ready(function(){
         }  
         if(amountOwn.val() != null && amountOwn.val() != ''){
         	if(!isNumber(amountOwn.val())){
-        		alert("请填写有效的自筹资金！");
+        		alert("请填写有效的自筹资金！(首位非0且小数位不超过2位的数字)");
         		changeClass(amountOwn);
         		return false;
         	}
@@ -748,7 +748,7 @@ $(document).ready(function(){
         }
         if(amountMort.val() != null && amountMort.val() != ''){
         	if(!isNumber(amountMort.val())){
-        		alert("请填写有效的贷款资金！");
+        		alert("请填写有效的贷款资金！(首位非0且小数位不超过2位的数字)");
         		changeClass(amountMort);
         		return false;
         	}
@@ -760,7 +760,7 @@ $(document).ready(function(){
         }
         if(amountMortCom.val() != null && amountMortCom.val() != ''){
         	if(!isNumber(amountMortCom.val())){
-        		alert("请填写有效的商业贷款！");
+        		alert("请填写有效的商业贷款！(首位非0且小数位不超过2位的数字)");
         		changeClass(amountMortCom);
         		return false;
         	}
@@ -772,7 +772,7 @@ $(document).ready(function(){
         }
         if(amountMortPsf.val() != null && amountMortPsf.val() != ''){
         	if(!isNumber(amountMortPsf.val())){
-        		alert("请填写有效的公积金贷款！");
+        		alert("请填写有效的公积金贷款！(首位非0且小数位不超过2位的数字)");
         		changeClass(amountMortPsf);
         		return false;
         	}
@@ -800,8 +800,8 @@ $(document).ready(function(){
 		/** ------资金监管账号信息验证开始--------  **/
 		var sellerAccount = $("input[name='toSpvAccountList[1].account']").val();
 		if(sellerAccount != null && sellerAccount != ''){
-			if(!isNumber2(buyerAccount)){
-				alert("请填写有效的卖方收款账号");
+			if(!isNumber2(sellerAccount)){
+				alert("请填写有效的卖方收款账号！(首位非0的整数)");
 				changeClass($("input[name='toSpvAccountList[1].account']"));
 				return false;
 			}
@@ -810,7 +810,7 @@ $(document).ready(function(){
 		var sellerAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
 		if(sellerAccountTelephone != null && sellerAccountTelephone != ''){
 			if(!isMobile(sellerAccountTelephone)){
-				alert("请填写有效的卖方电话");
+				alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
 				changeClass($("input[name='toSpvAccountList[1].telephone']"));
 				return false;
 			}
@@ -832,7 +832,7 @@ $(document).ready(function(){
 		
 		if(buyerAccount != null && buyerAccount != ''){
 		    if(!isNumber2(buyerAccount)){
-		    	alert("请填写有效的买方退款账号！");
+		    	alert("请填写有效的买方退款账号！(首位非0的整数)");
 		    	changeClass($("input[name='toSpvAccountList[0].account']"));
 		    	return false;
 		    }
@@ -847,7 +847,7 @@ $(document).ready(function(){
 		
 		if(buyerAccountTelephone != null && buyerAccountTelephone != ''){
 			if(!isMobile(buyerAccountTelephone)){
-				alert("请填写有效的买方电话");
+				alert("请填写有效的买方电话！(1(3、4、5、7、8)+9位数字)");
 				changeClass($("input[name='toSpvAccountList[0].telephone']"));
 				return false;
 			}
@@ -876,7 +876,7 @@ $(document).ready(function(){
 		
 		if(spvAccount != null && spvAccount != ''){
 		    if(!isNumber2(spvAccount)){
-		    	alert("请填写有效的托管账号！");
+		    	alert("请填写有效的托管账号！(首位非0的整数)");
 		    	changeClass($("input[name='toSpvAccountList[2].account']"));
 		    	return false;
 		    }
@@ -899,7 +899,7 @@ $(document).ready(function(){
 		    if((deCondCode != null && deCondCode != '') || (payeeAccountType != null && payeeAccountType != '') 
 		    		|| (deAmount != null && deAmount != '') || (deAddition != null && deAddition != '')){
 		    	isNull = false;
-		    	return fasle;
+		    	return false;
 		    }
 		}
 		

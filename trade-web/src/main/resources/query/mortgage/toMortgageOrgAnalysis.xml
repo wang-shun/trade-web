@@ -30,9 +30,9 @@
 	
 	<query id="queryMortgageOrgAnalysis" cacheCount="true">
 	    <searchCondition>
-		   <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		   <!-- <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="T.CUST_NAME"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>       
+           <condition field="T.CUST_NAME"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>  -->      
         </searchCondition> 
 		<searchSql>
 			<baseSql>
@@ -143,20 +143,32 @@
 				)T    
 				where T.SDSTATUS IS NOT NULL
 				AND T.LOANTYPE IS NOT NULL 
-				AND 1=1			
+				AND 1=1
+				
+				<ifNotNull caseCode>
+				    AND T.CASE_CODE LIKE '%'+#caseCode#+'%'
+				</ifNotNull>
+				
+				<ifNotNull propertyAddr>
+				    AND T.PROPERTY_ADDR LIKE '%'+#propertyAddr#+'%'
+				</ifNotNull>
+				
+				<ifNotNull custName>
+				    AND T.CUST_NAME LIKE '%'+#custName#+'%'
+				</ifNotNull>
+				
+				<ifNotNull signTimeStart>
+				    and T.SIGN_DATE >= #signTimeStart#
+				</ifNotNull>
+				<ifNotNull signTimeEnd>
+				    and T.SIGN_DATE &lt;= #signTimeEnd#
+				</ifNotNull>		
 				
 				<ifNotNull lendTimeStart>
 				     and T.LEND_DATE >= #lendTimeStart#
 				</ifNotNull>				
 				<ifNotNull lendTimeEnd>
 				     and T.LEND_DATE &lt;= #lendTimeEnd#
-				</ifNotNull>
-				
-				<ifNotNull signTimeStart>
-				     and T.SIGN_DATE >= #signTimeStart#
-				</ifNotNull>				
-				<ifNotNull signTimeEnd>
-				     and T.SIGN_DATE &lt;= #signTimeEnd#
 				</ifNotNull>
 				
 				<ifNotNull apprTimeStart>
@@ -231,7 +243,6 @@
 			<table-row>
 			<column type="both" name="OONAME" index="" checkbox="" display="贷款专员所属贵宾服务部" title="贷款专员所属贵宾服务部" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
 			<column type="both" name="ONAME" index="" checkbox="" display="贷款专员所属组" title="贷款专员所属组" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
-			<column type="both" name="RNAME" index="" checkbox="" display="贷款专员" title="贷款专员" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
 			<column type="both" name="MCASES" index="" checkbox="" display="贷款单数" title="贷款单数" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
 			<column type="both" name="TAMOUNT" index="" checkbox="" display="贷款总额" title="贷款总额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
 			<column type="both" name="CAMOUNT" index="" checkbox="" display="商贷金额" title="商贷金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
