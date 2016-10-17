@@ -899,7 +899,7 @@ $(document).ready(function(){
 		    if((deCondCode != null && deCondCode != '') || (payeeAccountType != null && payeeAccountType != '') 
 		    		|| (deAmount != null && deAmount != '') || (deAddition != null && deAddition != '')){
 		    	isNull = false;
-		    	return fasle;
+		    	return false;
 		    }
 		}
 		
