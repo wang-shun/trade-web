@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1476173039'); /* IE9*/
-  src: url('iconfont.eot?t=1476173039#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1476173039') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1476173039') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1476173039#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1476342000'); /* IE9*/
+  src: url('iconfont.eot?t=1476342000#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1476342000') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1476342000') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1476342000#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -45,6 +45,7 @@
 .icon-bingtu:before { content: "\e63f"; }
 .icon-tianjialianxiren1:before { content: "\e627"; }
 .icon-fenzu:before { content: "\e61b"; }
+.icon-duanxin:before { content: "\e62a"; }
 .icon-click-rate:before { content: "\e620"; }
 .icon-fangxiangyou:before { content: "\e611"; }
 .icon-fangxiangzuo:before { content: "\e613"; }

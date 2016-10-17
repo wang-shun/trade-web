@@ -63,6 +63,23 @@ em, i {
     border: 1px solid #47bfe2;
 }
 
+.btn-grey-border{
+    color: #ccc;
+    border: 1px solid #eee;
+    background: #fff;
+    outline: none!important;
+}
+.btn-grey-border:hover,.btn-grey-border:focus {
+  color: #ccc;
+  background-color: #fff;
+  border: 1px solid #eee;
+}
+.add-member {
+  margin-left: 127px;
+  color: #1a7bb9;
+  cursor: pointer;
+}
+
 
 
 .spread_tab {
@@ -195,4 +212,75 @@ input width reset set */
 
 .line34 {
   line-height: 34px;
+}
+.form_content p {
+  display: inline-block;
+}
+ul.textinfo {
+  overflow: hidden;
+  padding-left: 0!important;
+  margin-left: 0!important;
+}
+ul.textinfo li {
+  float: left;
+  list-style: none;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+ul.textinfo li em {
+  display: inline-block;
+  font-style: normal;
+  width: 102px;
+  margin-right: 20px;
+  text-align: right;
+  color: #808080;
+}
+ul.textinfo li span {
+  display: inline-block;
+  color: #333;
+}
+.infolong {
+  width: 775px;
+}
+.optionwid {
+  width: 757px;
+}
+.marginbot {
+    margin-bottom: 66px!important;
+}
+
+/*jqGrid_wrapper表格*/
+.jqGrid_wrapper {
+    margin: 20px 0 30px;
+}
+.ui-jqgrid-labels {
+    height: 35px!important;
+}
+.ui-th-ltr,.ui-jqgrid-hbox {
+    color: #fff!important;
+    background-color: #52cdec!important;
+    font-weight: normal!important;
+    font-size: 13px!important;
+    text-shadow: none!important;
+}
+.add-jqgrid {
+    height: 48px!important;
+    padding-left: 15px!important;
+    font-size: 14px!important;
+}
+.ui-jqgrid-btable tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+
+/* dowebok viewer图片预览js  */
+#dowebok { }
+#dowebok li {
+    display: inline-block;
+    width: 120px;
+    margin-right: 10px;
+    padding-top: 10px;
+}
+#dowebok li img {
+    width: 100%;
 }

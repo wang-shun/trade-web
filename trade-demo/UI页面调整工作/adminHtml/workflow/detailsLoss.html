@@ -3,17 +3,23 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>首次跟进详情页
+    <title>贷款流失审批（主管）详情页
     </title>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../static/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="../static/css/animate.css" />
+    <!-- <link rel="stylesheet" href="../static/css/animate.css" /> -->
     <link rel="stylesheet" href="../static/css/style.css" />
     <!-- Data Tables -->
     <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.bootstrap.css" />
     <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.responsive.css" />
     <link rel="stylesheet" href="../static/css/plugins/dataTables/dataTables.tableTools.min.css" />
-      <link href="../static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="../static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="../static/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+
+    <!-- 图片预览插件 -->
+    <link href="../static/trans/js/plugins/viewer/css/viewer.min.css" rel="stylesheet">
+
     <!-- index_css -->
     <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
     <link rel="stylesheet" href="../static/trans/css/common/btn.css" >
@@ -23,8 +29,6 @@
 
     <link rel="stylesheet" href="../static/trans/css/workflow/caseDetail.css" >
     <link rel="stylesheet" href="../static/trans/css/workflow/details.css" >
-
-
 
 </head>
 
@@ -156,7 +160,7 @@
                                     本组待办列表
                                 </a>
                             </li>
-                            <li class="active">
+                            <li class="">
                                 <a href="../workflow/detailsFollow.html">
                                     <i class="fa ">
                                     </i>
@@ -198,13 +202,14 @@
                                     填写交易计划详情页
                                 </a>
                             </li>
-                            <li class="">
+                            <li class="active">
                                 <a href="../workflow/detailsLoss.html">
                                     <i class="fa">
                                     </i>
                                     贷款流失审批（主管）详情页
                                 </a>
                             </li>
+
                         </ul>
                     </li>
                     <li class="">
@@ -771,7 +776,7 @@
     </nav>
     <div class="wrapper wrapper-content">
         <div class="row animated fadeInDown">
-            <div class="scroll_box fadeInDown animated">
+            <div class="scroll_box fadeInDown animated marginbot">
                 <div class="top12 panel" id="basicInfo">
                     <div class="sign sign-red">
                         结案
@@ -785,7 +790,7 @@
                     <div class="panel-body">
                         <div class="ibox-content-head">
                             <h2 class="title">
-                                案件基本信息
+                                贷款流失筛选
                             </h2>
                             <small class="pull-right">誉萃编号：ZY-SH-201608-0095｜中原编号：CBC-1-201608-0014</small>
                         </div>
@@ -880,10 +885,10 @@
                     </div>
                 </div>
 
-            <div class="row wrapper white-bg new-heading ">
+        <div class="row wrapper white-bg new-heading ">
              <div class="pl10">
                  <h2 class="newtitle-big">
-                        首次跟进
+                        流失审批（主管）
                     </h2>
                 <div class="mt20">
                     <button type="button" class="btn btn-icon btn-blue mr5">
@@ -892,348 +897,94 @@
                     <button type="button" class="btn btn-icon btn-blue mr5">
                         <i class="iconfont icon">&#xe642;</i> 案件视图
                     </button>
-
                 </div>
-
-
-             </div>
+            </div>
         </div>
 
         <div class="ibox-content border-bottom clearfix space_box noborder">
-            <h2 class="newtitle">填写任务信息</h2>
-            <form method="get" class="form_list">
-            <div class="line">
-                <div class="form_content">
-                        <label class="control-label sign_left_small"> 案件标记 </label>
-                        <div class="controls">
-                           <label class="radio inline"> <input type="radio" value="1" name="mark" checked="" id="UserMark"> 有效
-                            </label> <label class="radio inline"> <input type="radio" value="0" name="mark" id="NouserMark"> 无效
-                            </label>
-                        </div>
-                    </div>
+        <div class="clearfix">
+            <h2 class="newtitle">业务单信息</h2>
+            <div class="text_list">
+                <ul class="textinfo">
+                    <li>
+                        <em>业务单编号</em><span class="yuanwid">ZY-AJ-201512-1438</span>
+                    </li>
+                    <li>
+                        <em>物业地址</em><span>上海闸北区彭浦片区场中路2471弄19号0506室</span>
+                    </li>
+                    <li>
+                        <em>主贷人</em><span class="yuanwid">王和龙</span>
+                    </li>
+                    <li>
+                        <em>主贷人单位</em><span class="yuanwid">1</span>
+                    </li>
+                    <li>
+                        <em>流失原因</em><span class="yuanwid">收入、流水不足</span>
+                    </li>
+                    <li>
+                        <em class="pull-left">流失说明</em><span class="infolong pull-left">在存款偏离度考核下，银行仍很难改变追逐存款行为。在该监管下，银行存款吸收难度可能增加，不排除阶段性存款增速进一步放缓、负债成本难以有效下降、从而限制信贷投放能力的可能性。</span>
+                    </li>
+                </ul>
             </div>
-            <div class="marinfo">
-                <div class="line">
-                     <div class="form_content">
-                                <label class="control-label sign_left_small"> 所在区域 </label>
-                                     <select name="loanLostFinOrgName"  class=" select_control data_style ">
-                                <option value="">请选择</option></select>
-                            </div>
-                    <div class="form_content">
-                        <label class="control-label sign_left_small"> 成交价 </label> <input class=" input_type yuanwid" placeholder="" value="" >
-                       <span class="date_icon">万元</span>
-                    </div>
-                    <div class="form_content">
-                        <label class="control-label sign_left_small"> 合同价 </label> <input class=" input_type yuanwid" placeholder="" value="" >
-                       <span class="date_icon">万元</span>
-                    </div>
-                </div>
-                <div class="line">
-                    <div class="form_content">
-                        <label class="control-label sign_left_small"> 产证面积 </label> <input class=" input_type data_style" placeholder="" value="" >
-                       <span class="date_icon">平方米</span>
-                    </div>
-                            <div class="form_content">
-                                <label class="control-label sign_left_small"> 产证地址 </label> <input class="input_type mendwidth" placeholder="" value="" >
-                            </div>
-                </div>
-                <div class="line">
-                    <div class="form_content">
-                        <label class="control-label sign_left_small"> 查限购 </label>
-                        <div class="controls isnowid">
-                           <label class="radio inline"> <input type="radio" value="1" name="isTempBank" checked=""> 是
-                            </label> <label class="radio inline"> <input type="radio" value="0" name="isTempBank"> 否
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form_content">
-                        <label class="control-label sign_left_small"> 抵押情况 </label>
-                             <div class="controls ismortgage">
-                           <label class="radio inline"> <input type="radio" value="1" name="mortgage" checked=""> 无抵押
-                            </label> <label class="radio inline"> <input type="radio" value="0" name="mortgage"> 有抵押
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form_content mt3">
-                        <label class="control-label sign_left_small select_style mend_select">
-                           预计签约日期
-                        </label>
-                        <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                            <input name="" class="input_type yuanwid datatime" type="text" value="" placeholder="">
-                        </div>
-                    </div>
+        </div>
 
 
-                </div>
 
-                <div class="line">
-
-                  <div class="form_content line34">
-                            <label class="control-label sign_left_small"> 合作项目 </label> <span class=" " placeholder="" value="" >交易过户（除签约外）</span>
-                        </div>
-                         <div class="form_content">
-                        <label class="control-label sign_left_small"> 合作顾问 </label>
-                             <select name="" id="" class=" select_control data_style">
-                        <option value="">请选择</option></select>
-                    </div>
-                </div>
-                </div>
-                <div class="line sourcebox">
-                    <div class="form_content clearfix">
-                        <label class="control-label sign_left_small"> 无效原因 </label> <input class="mendwidth input_type" placeholder="" value="" >
-                    </div>
-                </div>
-                <div class="line alerted">
-                     <div class="form_content">
-                        <label class="control-label sign_left_small"> 商贷预警 </label>
-                        <div class="controls">
-                            <label class="radio inline">
-                                    <input type="radio" value="1" name="isLoseLoan" id="Radio1"> 是
-                            </label>
-                            <label class="radio inline">
-                                    <input type="radio" value="0" name="isLoseLoan" checked=""  id="Radio2"> 否
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="line warncon">
-                    <div class="form_content clearfix">
-                        <label class="control-label sign_left_small"> 预警内容 </label> <input class="mendwidth input_type" placeholder="" value="" >
-                    </div>
-                </div>
-            </form>
-
-                        <div class="title">
-                            <strong>案件跟进</strong>
-                        </div>
-                        <div class="view-content">
-                            <div class="view-box">
-                            <div class="view clearfix">
-                                <p>
-                                   <span class="auditor">跟进人：<em>张小核(资金监管专员)</em></span>
-                                   <span class="time">跟进日期:<em>2016-9-12</em></span>
-                                </p>
-                                <p>
-                                    <span class="auditing">跟进备注</span>
-                                    <em class="view_content">账号与附件不一致，重新填写</em>
-                                </p>
-                            </div>
-                             <div class="view clearfix">
-                                <p>
-                                   <span class="auditor">跟进人：<em>张小核(资金监管专员)</em></span>
-                                   <span class="time">跟进日期:<em>2016-9-12</em></span>
-                                </p>
-                                <p>
-                                    <span class="auditing">跟进备注</span>
-                                    <em class="view_content">账号与附件不一致，重新填写</em>
-                                </p>
-                            </div>
-
-                             <div class="view clearfix">
-                                <p>
-                                   <span class="auditor">跟进人：<em>张小核(资金监管专员)</em></span>
-                                   <span class="time">跟进日期:<em>2016-9-12</em></span>
-                                </p>
-                                <p>
-                                    <span class="auditing">跟进备注</span>
-                                    <em class="view_content">账号与附件不一致，重新填写</em>
-                                </p>
+        <div>
+            <h2 class="newtitle">填写任务信息</h2>
+            <div class="form_list">
+                <div class="marinfo">
+                    <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">审批结果</label>
+                            <div class="controls ">
+                               <label class="radio inline"> <input type="radio" value="1" name="mortgage" checked="">审批通过
+                                </label> <label class="radio inline"> <input type="radio" value="0" name="mortgage">审批不通过
+                                </label>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">审批意见</label>
+                            <input class="input_type optionwid" placeholder="" value="" >
                         </div>
-                        <!--
-                        <div class="submitter">
-                            提交人：<span>张三(业务员)</span>
-                        </div> -->
-                        <div class="excuse clearfix">
-                             <div class="pull-left"><textarea class="chackTextarea" ></textarea></div>
-                            <div class="pull-left">
-                                <button type="button" class="btn btn-icon btn-blue ml10">提交跟进</button>
-                            </div>
-
-
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+            <h2 class="newtitle">附件浏览：贷款自办确认函、贷款流失申请书</h2>
+            <ul id="dowebok">
+                <li><img data-original="../static/trans/js/plugins/viewer/img/tibet-2.jpg" src="../static/trans/js/plugins/viewer/img/tibet-2.jpg" alt="图片1"></li>
+                <li><img data-original="../static/trans/js/plugins/viewer/img/tibet-2.jpg" src="../static/trans/js/plugins/viewer/img/tibet-2.jpg" alt="图片1"></li>
+                <li><img data-original="../static/trans/js/plugins/viewer/img/tibet-2.jpg" src="../static/trans/js/plugins/viewer/img/tibet-2.jpg" alt="图片1"></li>
+               <li><img data-original="../static/trans/js/plugins/viewer/img/tibet-2.jpg" src="../static/trans/js/plugins/viewer/img/tibet-2.jpg" alt="图片1"></li>
+                <li><img data-original="../static/trans/js/plugins/viewer/img/tibet-2.jpg" src="../static/trans/js/plugins/viewer/img/tibet-2.jpg" alt="图片1"></li>
+            </ul>
+        </div>
+                    <div>
+                        <h2 class="newtitle">审批记录</h2>
+                        <div class="jqGrid_wrapper">
+                            <table id="table_list_3"></table>
                         </div>
-
-                        <div class="title">
-                            <strong>ctm附件</strong>
-                        </div>
-                        <div class="view-content">
-
-                                <div class="news-box">
-                                        <table class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin " id="editable">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        附件类型
-                                                    </th>
-                                                    <th>
-                                                        附件名称
-                                                    </th>
-                                                    <th>
-                                                        附件路径
-                                                    </th>
-                                                    <th>
-                                                        上传时间
-                                                    </th>
-                                                    <th>
-                                                        操作
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody >
-                                            <tr>
-                                                    <td>
-                                                        <p class="big">
-                                                            上家身份证件
-                                                        </p>
-                                                    </td>
-                                                    <td>
-                                                        上家身份证件2.jpg
-                                                    </td>
-                                                    <td class="center">
-                                                        //shs-ctmlsql01/adminHtml/workflow/detailsFollow
-                                                    </td>
-                                                    <td class="center">
-                                                       2016-08-11
-                                                    </td>
-                                                    <td class="text-left">
-                                                        <button type="button" class="btn btn-success">
-                                                        查看附件
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p class="big">
-                                                            下家身份证件
-                                                        </p>
-                                                    </td>
-                                                    <td>
-                                                        下家身份证件1.jpg
-                                                    </td>
-                                                    <td class="center">
-                                                        //shs-ctmlsql01/adminHtml/workflow/shenfenzheng
-                                                    </td>
-                                                    <td class="center">
-                                                       2016-08-11
-                                                    </td>
-                                                    <td class="text-left">
-                                                        <button type="button" class="btn btn-success">
-                                                        查看附件
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p class="big">
-                                                            上家房地产权证
-                                                        </p>
-                                                    </td>
-                                                    <td>
-                                                        上家房地产权证2.jpg
-                                                    </td>
-                                                    <td class="center">
-                                                        //shs-ctmlsql01/adminHtml/workflow/fangchanzheng
-                                                    </td>
-                                                    <td class="center">
-                                                       2016-08-11
-                                                    </td>
-                                                    <td class="text-left">
-                                                        <button type="button" class="btn btn-success">
-                                                        查看附件
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p class="big">
-                                                            下家身份证件
-                                                        </p>
-                                                    </td>
-                                                    <td>
-                                                        下家身份证件2.jpg
-                                                    </td>
-                                                    <td class="center">
-                                                        //shs-ctmlsql01/adminHtml/workflow/shenfenzheng2
-                                                    </td>
-                                                    <td class="center">
-                                                       2016-08-11
-                                                    </td>
-                                                    <td class="text-left">
-                                                        <button type="button" class="btn btn-success">
-                                                        查看附件
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p class="big">
-                                                            下家身份证件
-                                                        </p>
-                                                    </td>
-                                                    <td>
-                                                        下家身份证件2.jpg
-                                                    </td>
-                                                    <td class="center">
-                                                        //shs-ctmlsql01/adminHtml/workflow/shenfenzheng2
-                                                    </td>
-                                                    <td class="center">
-                                                       2016-08-11
-                                                    </td>
-                                                    <td class="text-left">
-                                                        <button type="button" class="btn btn-success">
-                                                        查看附件
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p class="big">
-                                                            下家身份证件
-                                                        </p>
-                                                    </td>
-                                                    <td>
-                                                        下家身份证件2.jpg
-                                                    </td>
-                                                    <td class="center">
-                                                        //shs-ctmlsql01/adminHtml/workflow/shenfenzheng2
-                                                    </td>
-                                                    <td class="center">
-                                                       2016-08-11
-                                                    </td>
-                                                    <td class="text-left">
-                                                        <button type="button" class="btn btn-success">
-                                                        查看附件
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-
-                                            </tbody>
-                                        </table>
-                                        </div>
-                        </div>
-
+                    </div>
                      <div class="form-btn">
                             <div class="text-center">
-                                <button  class="btn btn-success btn-space">保存</button>
                                  <button class="btn btn-success btn-space">提交</button>
+                                 <button class="btn btn-grey btn-space">关闭</button>
                             </div>
                         </div>
                     </div>
-
-
-
-
-
+                </div>
             </div>
         </div>
+    </div>
 
-        </div>
+<style>
 
-        </div>
-
-
+</style>
     <!-- Mainly scripts -->
     <script src="../static/js/jquery-2.1.1.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
@@ -1241,15 +992,33 @@
     <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-
+        <!-- jqGrid -->
+    <script src="../static/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+    <script src="../static/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 
     <!-- Custom and plugin javascript -->
     <script src="../static/js/inspinia.js"></script>
     <script src="../static/js/plugins/pace/pace.min.js"></script>
 
-    <script src="../static/trans/js/common/textarea.js"></script>
+    <!-- 图片预览插件 -->
+    <script src="../static/trans/js/plugins/viewer/js/viewer-jquery.min.js"></script>
 
+
+    <script src="../static/trans/js/common/textarea.js"></script>
     <script src="../static/trans/js/workflow/details.js"></script>
+    <script>
+        $(function() {
+            $('#dowebok').viewer({
+                url: 'data-original',
+            });
+        });
+    </script>
+
+
+
+
+
+
 
 
     </body>
