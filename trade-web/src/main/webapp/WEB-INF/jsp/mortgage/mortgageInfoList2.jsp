@@ -376,8 +376,8 @@
                           </p>
 						{{else}}
                             <p>  
-                              <i class="sign_grey">签</i>
-                                 {{item.SIGN_DATE}}          
+                              <i class="sign_normal">签</i>
+                                 {{item.UPDATE_TIME}}          
                            </p>
 						{{/if}}
 

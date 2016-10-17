@@ -13,7 +13,7 @@
 	<description>跟当前项目相关配置，跟平台和部署无关</description>
 	
 	<!-- 扫描注解Bean -->
-    <context:component-scan base-package="com.centaline.trans.**.handle,com.centaline.trans.**.service,com.centaline.trans.**.remote,com.aist.message.**.remote,com.aist.common.quickQuery,com.centaline.trans.**.aop,com.centaline.trans.**.core">
+    <context:component-scan base-package="com.centaline.trans.**.handle,com.centaline.trans.**.service,com.centaline.trans.**.remote,com.aist.message.**.remote,com.aist.common.quickQuery,com.aist.common.rapidQuery,com.centaline.trans.**.aop,com.centaline.trans.**.core">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
     <bean name="variableSql" class="com.aist.common.quickQuery.sqlBuild.VariableSql"/>
