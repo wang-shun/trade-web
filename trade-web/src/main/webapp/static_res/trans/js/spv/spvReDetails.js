@@ -70,7 +70,7 @@ function getTR(thisIndex){
             	var $img = $(image);
             	$('#td_file'+thisIndex).prepend($img);
             	/*$image.responsivegallery();*/
-            	$('.wrapper-content').viewer();
+            	$img.viewer();
             	imageSumb++;////记录完成上传附件的个数
         	}
         	
@@ -360,7 +360,7 @@ function saveRe(){
 					var s = strs[i].split(":");
 					for (j=0;j<s.length ;j++ ){ 
 						if("toSpvCashFlowApplyPkid" == s[j]){
-							$("#toSpvCashFlowApplyPkid").val(s[j+1]);
+							$("#toSpvCashFlowApplyPkid").val(s[j+1]=="null"?'':s[j+1]);
 						}
 						if("ToSpvCashFlowPkid" == s[j])
 							$("#ToSpvCashFlowPkid").val(s[j+1]);
