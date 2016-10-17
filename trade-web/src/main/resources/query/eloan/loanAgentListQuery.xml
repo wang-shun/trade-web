@@ -80,7 +80,9 @@
 					  caseInfo.GRP_NAME,
 					  caseInfo.QJDS_NAME,
 					  finOrg.FIN_ORG_NAME as 'finOrgName',
-					  loanAgent.cust_name as custName
+					  loanAgent.cust_name as custName,
+					  caseInfo.AGENT_NAME as AgentName,
+					  '' as zjName
 					FROM 
 					   sctrans.T_TO_LOAN_AGENT loanAgent
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
@@ -158,7 +160,9 @@ SELECT
 					caseInfo.GRP_NAME,
 					caseInfo.QJDS_NAME,
 					finOrg.FIN_ORG_NAME as 'finOrgName',
-					loanAgent.cust_name as custName
+					loanAgent.cust_name as custName,
+					caseInfo.AGENT_NAME as AgentName,
+					loanAgent.ZJ_NAME
 					FROM 
 					   sctrans.T_TO_ELOAN_CASE loanAgent
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
@@ -243,6 +247,9 @@ SELECT
 				<column type="both" name="QJDS_NAME" display="区董" title="区董"/>
 				<column type="both" name="finOrgName" index="" checkbox="" title="合作机构" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="custName" index="" checkbox="" title="客户姓名" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+			    <column type="both" name="AgentName" index="" checkbox="" title="经纪人" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+			    <column type="both" name="zjName" index="" checkbox="" title="转介人" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+			    
 			</table-row>
 		</grid>
 	</query>
