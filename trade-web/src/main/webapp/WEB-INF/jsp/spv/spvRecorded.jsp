@@ -239,6 +239,7 @@ $(function() {
 
 </script>
 <input type="hidden" id="ctx" value="${ctx}" />
+<input type="hidden" id="appCtx" value="<aist:appCtx appName='shcl-filesvr-web'/>" />
 </content>
 </body>
 

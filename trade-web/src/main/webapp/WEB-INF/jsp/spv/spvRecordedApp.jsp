@@ -195,10 +195,10 @@
 	                                                </td>
 	                                                <td id="td_file${status2.index }" >
                                                 	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status6">
-	                                                 	<img id="image_${status2.index }" src="${imgweb }/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
+	                                                 	<img id="image_${status6.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
 														<input type="hidden"  name ="items[${status2.index }].fileId" value = "${toSpvReceiptList.attachId}"/>
 														<input type="hidden" name ="items[${status2.index }].fileName" value = "${toSpvReceiptList.comment}" />
-															<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status2.index }').trigger('click');">
+															<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status6.index }').trigger('click');">
 															${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
 															<i class="icon iconfont icon_x">&#xe60a;</i></button>
                                                 	 </c:forEach>   
@@ -208,8 +208,8 @@
 														</span>  
 	                                                </td>
 	                                                 <td>
-	                                                 <div id="datepicker_0" class="input-medium date-picker input-daterange sign_right_speciale" data-date-format="yyyy-mm-dd">';
-	$str+=' <input id="inputTime'+thisIndex+'" name="inputTime'+thisIndex+'"class="form-control input-one" type="text" value=""placeholder="入账日期"></div>' ;                                    
+	                                                 <div id="datepicker_0" class="input-medium date-picker input-daterange sign_right_speciale" data-date-format="yyyy-mm-dd">
+	<input id="inputTime'+thisIndex+'" name="inputTime'+thisIndex+'"class="form-control input-one" type="text" value=""placeholder="入账日期"></div>                                  
 	                                                 </td>    
 	                                                <td align="center">
 		                                               <a href="javascript:void(0)" onClick="getTR(${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()})">添加</span></a>
