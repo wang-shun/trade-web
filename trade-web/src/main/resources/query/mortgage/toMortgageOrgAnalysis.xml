@@ -30,9 +30,9 @@
 	
 	<query id="queryMortgageOrgAnalysis" cacheCount="true">
 	    <searchCondition>
-		   <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		   <!-- <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="T.CUST_NAME"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>       
+           <condition field="T.CUST_NAME"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>  -->      
         </searchCondition> 
 		<searchSql>
 			<baseSql>
@@ -144,6 +144,18 @@
 				where T.SDSTATUS IS NOT NULL
 				AND T.LOANTYPE IS NOT NULL 
 				AND 1=1
+				
+				<ifNotNull caseCode>
+				    AND T.CASE_CODE LIKE '%'+#caseCode#+'%'
+				</ifNotNull>
+				
+				<ifNotNull propertyAddr>
+				    AND T.PROPERTY_ADDR LIKE '%'+#propertyAddr#+'%'
+				</ifNotNull>
+				
+				<ifNotNull custName>
+				    AND T.CUST_NAME LIKE '%'+#custName#+'%'
+				</ifNotNull>
 				
 				<ifNotNull signTimeStart>
 				    and T.SIGN_DATE >= #signTimeStart#
