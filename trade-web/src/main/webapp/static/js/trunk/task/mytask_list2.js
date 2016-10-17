@@ -5,7 +5,7 @@
 $(document).ready(function() {
 	
 
-			var url = "/quickGrid/findPage";
+			var url = "/rapidQuery/findPage";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
 			

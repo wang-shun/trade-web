@@ -6,7 +6,7 @@ function caseTaskCheck(){
 }
 
 function initGrid() {
-	var url = "/quickGrid/findPage";
+	var url = "/rapidQuery/findPage";
 	url = ctx + url;
 	//jqGrid初始化
 	$("#table_list_case_task").jqGrid(
