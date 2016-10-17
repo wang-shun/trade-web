@@ -99,13 +99,13 @@
 			<c:if test="${empty handle or handle eq 'SpvApply'}">
 			<div class="menu_btn"
 				style="margin-left: 960px; margin-top: 7px;">
-				<button id="saveBtn" class="btn btn-save">保存</button>
+				<button id="saveBtn" class="btn btn-warning">保存</button>
 			</div>
 			</c:if>
 			<c:if test="${handle eq 'SpvSign'}">
 			<div class="menu_btn"
 				style="margin-left: 960px; margin-top: 7px;display:none;" >
-				<button id="saveBtn" class="btn btn-save">保存</button>
+				<button id="saveBtn" class="btn btn-warning">保存</button>
 			</div>
 			</c:if>
 		</div>
@@ -199,7 +199,7 @@
 				<div class="ibox-content" id="base_info">
 					<form class="form-inline">
 						<div class="title">买方客户信息</div>
-						<div class="form-row form-rowbot">
+						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">							
    						        <input type="hidden" name="spvCustList[0].pkid" value="${spvBaseInfoVO.spvCustList[0].pkid }" />
 							    <input type="hidden" name="spvCustList[0].tradePosition" value="BUYER" />
@@ -291,7 +291,7 @@
 					<form class="form-inline" >
 						<div class="title">卖方客户信息</div>
 
-						<div class="form-row form-rowbot">
+						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="spvCustList[1].pkid" value="${spvBaseInfoVO.spvCustList[1].pkid }" />
 							    <input type="hidden" name="spvCustList[1].tradePosition" value="SELLER" />
@@ -383,7 +383,7 @@
 				<div class="ibox-content" id="spvone_info">
 					<form class="form-inline">
 						<div class="title">房产及交易信息</div>
-						<div class="form-row form-rowbot">
+						<div class="form-row form-rowbot clear">
 						<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 房产权利人</label> <input name="toSpvProperty.prOwnerName" type="text"
 									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prOwnerName?spvBaseInfoVO.toSpvProperty.prOwnerName:sellerName }">
@@ -478,7 +478,7 @@
 					    <input type="hidden" name="toSpv.caseCode" value="${caseCode }"/>
 					    <input type="hidden" name="toSpv.applyTime" value="${spvBaseInfoVO.toSpv.applyTime }" />
 						<div class="title">监管资金及账户信息</div>
-						<div class="form-row form-rowbot">
+						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管总金额</label> <input name="toSpv.amount"
 								value="<fmt:formatNumber type="number" value="${spvBaseInfoVO.toSpv.amount}" pattern="0.00" maxFractionDigits="2"/>" type="text"
@@ -501,7 +501,7 @@
 							</div>
 						</div>
 						<div class="title">监管资金的支付</div>
-						<div class="form-row form-rowbot">
+						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 下家付款方式</label>
 								<aist:dict id="toSpv.buyerPayment" name="toSpv.buyerPayment" clazz="form-control input-one"
@@ -558,7 +558,7 @@
 						    </div>
 						</div>
 						<div class="title">资金监管账号信息</div>
-						<div class="form-row form-rowbot">
+						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[1].pkid" value="${spvBaseInfoVO.toSpvAccountList[1].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[1].accountType" value="SELLER" />
@@ -748,10 +748,10 @@
 				</div>
 				
 				<div class="ibox-content" id="spvfour_info" >
+				<div class="ibox-title" style="height: auto;">
 				<c:choose>
 					<c:when test="${accesoryList!=null}">
-					<div class="title">上传备件<br> <br></div>
-						<h5 align="left">${accesoryList[0].accessoryName }</h5>
+						<h5>上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
 						<c:forEach var="accesory" items="${accesoryList}"
 							varStatus="status">
 							<div class="" id="fileupload_div_pic">
@@ -904,6 +904,7 @@
 								</div>
 							</c:if>			
 							</div>
+				</div>
 				</div>
 			</div>
 		</div>
