@@ -894,16 +894,16 @@ $(document).ready(function(){
 		for(var i=0;i<length;i++){
 			var deCondCode = $("select[name='toSpvDeDetailList["+i+"].deCondCode'] option:selected").val();
 			var payeeAccountType = $("select[name='toSpvDeDetailList["+i+"].payeeAccountType'] option:selected").val();
-		    var deAmount = $("select[name='toSpvDeDetailList["+i+"].deAmount']").val();
-		    var deAddition = $("select[name='toSpvDeDetailList["+i+"].deAddition']").val();
+		    var deAmount = $("input[name='toSpvDeDetailList["+i+"].deAmount']").val();
+		    var deAddition = $("input[name='toSpvDeDetailList["+i+"].deAddition']").val();
 		    if((deCondCode != null && deCondCode != '') || (payeeAccountType != null && payeeAccountType != '') 
 		    		|| (deAmount != null && deAmount != '') || (deAddition != null && deAddition != '')){
 		    	isNull = false;
-		    	return false;
+		    	break;
 		    }
 		}
 		
-		if(!isNull){
+		if(isNull){
 			alert("请至少添加一条资金出款约定！");
 			return false;
 		}
