@@ -61,6 +61,8 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+    
+    <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 
 </head>
 
@@ -218,17 +220,15 @@ src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 
 <script src="${ctx}/static_res/trans/js/spv/spvReDetails.js"></script>
 
-
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
 
 <script>
 
 $(function() {
-    $(".icon_x").click(function() {
-        $(this).parent().parent().remove();
-        return false;
-    });
-
-
+	 $("body").on("click",".icon_x",function(event){
+	        $(this).parent().remove();
+	        event.stopPropagation();
+	   })
 });
 /* $('.response').responsivegallery(); */
 

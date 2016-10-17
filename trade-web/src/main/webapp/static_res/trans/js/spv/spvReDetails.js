@@ -8,6 +8,8 @@ var handle = $("#handle").val();
 var trindex = 0;
 var imageSum = 0;
 var imageSumb = 0;
+var index = 0;
+
 //添加入账申请信息tr
 function getTR(thisIndex){
 	var nextIndex = thisIndex+1;
@@ -37,7 +39,7 @@ function getTR(thisIndex){
 	$str+='	<td id="td_file'+thisIndex+'">                                                                                                                                                                                         ';
 	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
 	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
-	$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
+	$str+='         <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;cursor:pointer; background-image:url('+$("#ctx").val()+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');"/>';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
@@ -65,9 +67,10 @@ function getTR(thisIndex){
             	var fileUrl = data.result.files[0].url;
             	var fileName = data.result.files[0].name;
             	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
-            	var $image = $(image);
-            	$('#td_file'+thisIndex).prepend($image);
-            	$image.responsivegallery();
+            	var $img = $(image);
+            	$('#td_file'+thisIndex).prepend($img);
+            	/*$image.responsivegallery();*/
+            	$('.wrapper-content').viewer();
             	imageSumb++;////记录完成上传附件的个数
         	}
         	
@@ -77,13 +80,19 @@ function getTR(thisIndex){
 	cleanPkid();
 }
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
+	index++;
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = '<a class="response" style="margin-right:5px;" target="_blank" href="'+fileUrl+'" title="'+fileName+'" alt="'+fileName+'">';
+	var image = "<img id='image_"+index+"' src='"+fileUrl+"' style='width:0px;height:0px;display: none;' class='viewer-toggle'>";
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'<i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i></button></a>';
+	image += "<button type='button' class='btn btn-sm btn-default' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x'>&#xe60a;</i></button>"
 	return image;
 }
+
+function showImg(imgId){
+	$(imgId).trigger("click");
+}
+
 //删除入账申请信息tr
 function getDel(k){
     $(k).parents('tr').remove();

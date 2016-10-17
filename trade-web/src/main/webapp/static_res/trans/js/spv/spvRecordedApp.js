@@ -71,18 +71,19 @@ function render_fileupload(thisIndex){
             	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
             	var $image = $(image);
             	$('#td_file'+thisIndex).prepend($image);
-            	$image.responsivegallery();
+            	//$image.responsivegallery();
         	}
         }
     });
 }
 
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
+	
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+shortName+'" alt="'+fileName+'">';
+	var image = '<img id="image_'+thisIndex+'" src="'+fileUrl+'" style="width:0px;height:0px;display: none;" class="viewer-toggle">';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'</button><i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i></a>';
+	image += '<button type="button" class="btn btn-sm btn-default" onClick="$(\'#image_'+thisIndex+'\').trigger(\'click\');">'+shortName+'<i class="icon iconfont icon_x">&#xe60a;</i></button>';
 	return image;
 }
 //删除入账申请信息tr

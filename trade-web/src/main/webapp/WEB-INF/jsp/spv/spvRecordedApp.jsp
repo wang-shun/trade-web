@@ -62,6 +62,8 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+    
+    <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 
 
 
@@ -191,20 +193,16 @@
 	                                                </td>
 	                                                <td id="td_file${status2.index }" >
                                                 	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status6">
-	                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" 
-	                                                 	title="${toSpvReceiptList.comment}" 
-	                                                 	alt="${toSpvReceiptList.comment}">
+	                                                 	<img id="image_${status2.index }" src="${imgweb }/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
 														<input type="hidden"  name ="items[${status2.index }].fileId" value = "${toSpvReceiptList.attachId}"/>
 														<input type="hidden" name ="items[${status2.index }].fileName" value = "${toSpvReceiptList.comment}" />
-															<button type="button" class="btn btn-sm btn-default" >
+															<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status2.index }').trigger('click');">
 															${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
-															
-															<i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i></button>
-														</a>
+															<i class="icon iconfont icon_x">&#xe60a;</i></button>
                                                 	 </c:forEach>   
                                                 		 <span class="btn_file${status2.index }">                                                                                                                                                                
-															<input id="fileupload_${status2.index }" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 
-															<img class="bnt-flie" src="${ctx}/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$('#fileupload_${status2.index }').trigger('click');">                                                                        
+															<input id="fileupload_${status2.index }" style="display:none;" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 
+															<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;margin-top:17px;margin-bottom:-14px;cursor:pointer; background-image:url(${ctx}/static/trans/img/bnt-flie.png) " onClick="$('#fileupload_${status2.index }').trigger('click');"/>                                                                        
 														</span>  
 	                                                </td>
 	                                                <td align="center">
@@ -289,15 +287,18 @@
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <%-- 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin --> --%>
 <script src="${ctx}/static/trans/js/spv/spvRecordedApp.js"></script>
-
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
 <script>
-
 $(function() {
-	$('.response').responsivegallery();
-    $(".icon_x").click(function() {
+	$('.icon_x').click(function(event){
+		$(this).parent().remove();
+		event.stopPropagation();
+	});
+	/* $('.response').responsivegallery(); */
+    /* $(".icon_x").click(function() {
         $(this).parent().parent().remove();
         return false;
-    });
+    }); */
     var fileRowSize = ${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()};
     for(var i=0;i<fileRowSize;i++){
     	render_fileupload(i);
@@ -313,7 +314,7 @@ function rescCallbocak(){
 	    	 window.location.href = ctx+"/spv/spvList";
 	    // }
 	}
-
+$('.wrapper-content').viewer();
 </script>
 </content>
 </body>
