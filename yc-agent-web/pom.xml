@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.centaline</groupId>
-	<artifactId>agent-portal</artifactId>
+	<artifactId>yc-agent-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>agent-portal</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Yucui Agent Web</name>
+	<description>Yucui portal for Agent</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
