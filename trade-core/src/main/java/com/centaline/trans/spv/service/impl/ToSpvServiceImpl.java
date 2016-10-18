@@ -715,62 +715,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		return uamBasedataService.nextSeqVal("SPV_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
 	}
 
-	@Override
-	public void setAttribute(ServletRequest request, String caseCode) {
-
-		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
-		// 物业信息
-		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
-		User agentUser = null;
-		// 经纪人
-		if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
-			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
-		}
-		// 交易顾问
-		User consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
-		// 上下家
-		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
-		StringBuffer seller = new StringBuffer();
-		StringBuffer sellerMobil = new StringBuffer();
-		StringBuffer buyer = new StringBuffer();
-		StringBuffer buyerMobil = new StringBuffer();
-		for (TgGuestInfo guest : guestList) {
-			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
-				seller.append(guest.getGuestName());
-				sellerMobil.append(guest.getGuestPhone());
-				seller.append("/");
-				sellerMobil.append("/");
-			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
-				buyer.append(guest.getGuestName());
-				buyerMobil.append(guest.getGuestPhone());
-				buyer.append("/");
-				buyerMobil.append("/");
-			}
-		}
-
-		if (guestList.size() > 0) {
-			if (seller.length() > 1) {
-				seller.deleteCharAt(seller.length() - 1);
-				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
-			}
-
-			if (buyer.length() > 1) {
-				buyer.deleteCharAt(buyer.length() - 1);
-				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
-			}
-		}
-		request.setAttribute("caseCode", toCase.getCaseCode());
-		request.setAttribute("propertyAddr", toPropertyInfo.getPropertyAddr());
-		request.setAttribute("propertySquare", toPropertyInfo.getSquare());
-		request.setAttribute("processorName", consultUser == null ? "" : consultUser.getRealName());
-		request.setAttribute("agentName", agentUser == null ? "" : agentUser.getRealName());
-		request.setAttribute("sellerName", seller.indexOf("/") == -1?seller:seller.substring(0, seller.indexOf("/")));
-		request.setAttribute("sellerMobil", sellerMobil.indexOf("/") == -1?sellerMobil:sellerMobil.substring(0, sellerMobil.indexOf("/")));
-		request.setAttribute("buyerName", buyer.indexOf("/") == -1?buyer:buyer.substring(0, buyer.indexOf("/")));
-		request.setAttribute("buyerMobil", buyerMobil.indexOf("/") == -1?buyerMobil:buyerMobil.substring(0, buyerMobil.indexOf("/")));
-	}
-
 	/**
 	 * 获取流程变量并查询拼接spvBaseInfoVO
 	 */
@@ -780,21 +724,21 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request, Long pkid, String caseCode) {
+	public void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request, Long pkid) {
 		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkid(pkid);
+		Map<String, Object> caseInfoMap = new HashMap<String, Object>();
 		/** 查询案件相关信息 */
-		if (!StringUtils.isEmpty(caseCode)) {
-				setAttribute(request, caseCode);
-		} else {
-			if (spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null) {
-				setAttribute(request, spvBaseInfoVO.getToSpv().getCaseCode());
-			}
+		if (spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null && StringUtils.isNotBlank(spvBaseInfoVO.getToSpv().getCaseCode())) {
+		    caseInfoMap	= queryCaseInfoMapByCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+			request.setAttribute("caseCode", caseInfoMap.get("caseCode"));
+		    request.setAttribute("caseInfoMap", caseInfoMap);
 		}
 
 		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
 				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
 			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
 		}
+		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 	}
 
@@ -1166,7 +1110,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	
 	}
 	@Override
-	public void setAttributeSpvCashFlowApple(ServletRequest request, String caseCode) {
+	public void setAttributeSpvCashFlowApply(ServletRequest request, String caseCode) {
 		
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
@@ -1420,13 +1364,16 @@ public class ToSpvServiceImpl implements ToSpvService {
 			if(!StringUtils.isBlank(spvApplyCode)){//流水申请编号
 				toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
 			}else{
-				throw new BusinessException("流程申请编号生成失败！");
+				spvApplyCode = createSpvApplyCode();
+				toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
+				//throw new BusinessException("流程申请编号生成失败！");
 			}
 			
 			if(!StringUtils.isBlank(spvRecordedsVO.getSpvConCode())){//监管合约内部编号
 				toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());
 			}else{
-				throw new BusinessException("没有监管合约编号！");
+				toSpvCashFlowApply.setSpvCode(createSpvCode());
+				//throw new BusinessException("没有监管合约编号！");
 			}
 			toSpvCashFlowApply.setUsage("in");
 			//备注	toSpvCashFlowApply.setComment(comment);
@@ -1962,6 +1909,75 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 		
 		return spvReturnCashflowVO;
+	}
+
+	@Override
+	public Map<String,Object> queryInfoByCaseCode(String caseCode) {
+		Map<String,Object> infoMap = new HashMap<String,Object>();
+        Map<String,Object> caseInfoMap = queryCaseInfoMapByCaseCode(caseCode);
+		ToSpv toSpv = queryToSpvByCaseCode(caseCode);
+		infoMap.put("toSpv", toSpv);
+		infoMap.put("caseInfoMap", caseInfoMap);
+		return infoMap;
+	}
+	
+	@Override
+	public Map<String,Object> queryCaseInfoMapByCaseCode(String caseCode) {
+        Map<String,Object> caseInfoMap = new HashMap<String,Object>();
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
+		// 物业信息
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		User agentUser = null;
+		// 经纪人
+		if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
+			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
+		}
+		// 交易顾问
+		User consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		// 上下家
+		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
+		StringBuffer seller = new StringBuffer();
+		StringBuffer sellerMobil = new StringBuffer();
+		StringBuffer buyer = new StringBuffer();
+		StringBuffer buyerMobil = new StringBuffer();
+		for (TgGuestInfo guest : guestList) {
+			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+				seller.append(guest.getGuestName());
+				sellerMobil.append(guest.getGuestPhone());
+				seller.append("/");
+				sellerMobil.append("/");
+			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+				buyer.append(guest.getGuestName());
+				buyerMobil.append(guest.getGuestPhone());
+				buyer.append("/");
+				buyerMobil.append("/");
+			}
+		}
+
+		if (guestList.size() > 0) {
+			if (seller.length() > 1) {
+				seller.deleteCharAt(seller.length() - 1);
+				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
+			}
+
+			if (buyer.length() > 1) {
+				buyer.deleteCharAt(buyer.length() - 1);
+				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
+			}
+		}
+		
+		caseInfoMap.put("caseCode", toCase.getCaseCode());
+		caseInfoMap.put("propertyAddr", toPropertyInfo.getPropertyAddr());
+		caseInfoMap.put("propertySquare", toPropertyInfo.getSquare());
+		caseInfoMap.put("processorName", consultUser == null ? "" : consultUser.getRealName());
+		caseInfoMap.put("agentName", agentUser == null ? "" : agentUser.getRealName());
+		caseInfoMap.put("sellerName", seller.indexOf("/") == -1?seller:seller.substring(0, seller.indexOf("/")));
+		caseInfoMap.put("sellerMobil", sellerMobil.indexOf("/") == -1?sellerMobil:sellerMobil.substring(0, sellerMobil.indexOf("/")));
+		caseInfoMap.put("buyerName", buyer.indexOf("/") == -1?buyer:buyer.substring(0, buyer.indexOf("/")));
+		caseInfoMap.put("buyerMobil", buyerMobil.indexOf("/") == -1?buyerMobil:buyerMobil.substring(0, buyerMobil.indexOf("/")));
+		
+		return caseInfoMap;
 	}
 	
 }

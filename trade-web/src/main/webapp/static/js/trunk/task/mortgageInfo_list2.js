@@ -184,28 +184,28 @@ function setPieCharts() {
 	mTypeAmountTitle = '总金额: ' + mTypeTotalAmount.toFixed(2) + ' 万';
 	mTypeCasesTitle = '总单数: ' + mTypeAllCases + ' 件'
 
-	option = setOptions(mTypeAmountTitle, typeLegends, typeAmountItems);
+	option = setOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", typeLegends, typeAmountItems);
 	pChartMTypeAmount.setOption(option);
 
-	option = setOptions(mTypeCasesTitle, typeLegends, typeCaseItems);
+	option = setOptions(mTypeCasesTitle, "{b}: {c} 单({d}%)", typeLegends, typeCaseItems);
 	pChartMTypeCases.setOption(option);
 	
 	mOrgAmountTitle = '总金额: ' + mOrgTotalAmount.toFixed(2) + ' 万';
 	mOrgCasesTitle = '总单数: ' + mOrgAllCases + ' 件'
 
-	option = setOptions(mTypeAmountTitle, orgLegends, orgAmountItems);
+	option = setOrgOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", orgLegends, orgAmountItems);
 	pChartMOrgAmount.setOption(option);
 
-	option = setOptions(mTypeCasesTitle, orgLegends, orgCaseItems);
+	option = setOrgOptions(mTypeCasesTitle, "{b}: {c} 单({d}%)", orgLegends, orgCaseItems);
 	pChartMOrgCases.setOption(option);
 	
 	mTmpBankAmountTitle = '商贷(收单)总金额: ' + mTmpBankTotalAmount.toFixed(2) + ' 万';
 	mTmpBankCasesTitle = '商贷(收单)总单数: ' + mTmpBankAllCases + ' 件'
 
-	option = setOptions(mTmpBankAmountTitle, tmpBankLegends, tmpBankAmountItems);
+	option = setOptions(mTmpBankAmountTitle, "{b}: {c} 万({d}%)", tmpBankLegends, tmpBankAmountItems);
 	pChartMTmpBankAmount.setOption(option);
 
-	option = setOptions(mTmpBankCasesTitle, tmpBankLegends, tmpBankCaseItems);
+	option = setOptions(mTmpBankCasesTitle, "{b}: {c} 单({d}%)", tmpBankLegends, tmpBankCaseItems);
 	pChartMTmpBankCases.setOption(option);
 }
 
@@ -298,7 +298,7 @@ function getMTypeAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 件',
+										formatter : '{b}\n{c} 件({d}%)',
 										show : function() {
 											if (typeCases[index] === 0) {
 												return false;
@@ -322,7 +322,7 @@ function getMTypeAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 万',
+										formatter : '{b}\n{c} 万({d}%)',
 										show : function() {
 											if (typeAmount[index] === 0.00) {
 												return false;
@@ -356,7 +356,7 @@ function getMTypeAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 件',
+										formatter : '{b}\n{c} 件({d}%)',
 										show : function() {
 											if (tmpBankCases[index] === 0) {
 												return false;
@@ -380,7 +380,7 @@ function getMTypeAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 万',
+										formatter : '{b}\n{c} 万({d}%)',
 										show : function() {
 											if (tmpBankAmount[index] === 0.00) {
 												return false;
@@ -443,7 +443,7 @@ function getMOrgAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 件'
+										formatter : '{b}\n{c} 件({d}%)'
 									}
 								}
 							}
@@ -456,7 +456,7 @@ function getMOrgAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 万'
+										formatter : '{b}\n{c} 万({d}%)'
 									}
 								}
 							}
@@ -483,7 +483,7 @@ function getMOrgAnalysis() {
 			});
 }
 
-function setOptions(title, legendName, dataValue) {
+function setOrgOptions(title, format, legendName, dataValue) {
 	var option = {
 		title : {
 			text : title,
@@ -499,7 +499,43 @@ function setOptions(title, legendName, dataValue) {
 			/* alwaysShowContent:true, */
 			hideDelay : 1500,
 			enterable : true,
-			formatter : "{b}: {c} ({d}%)"
+			formatter : format
+		},
+
+		legend : {
+			orient : 'horizontal',
+			y : 'bottom',
+			data : legendName
+		},
+		series : [ {
+			name : title,
+			type : 'pie',
+			radius : [ '35%', '55%' ],
+			animation : true,
+			selectedMode : 'multiple',
+			data : dataValue
+		} ]
+	};
+	return option;
+}
+
+function setOptions(title, format, legendName, dataValue) {
+	var option = {
+		title : {
+			text : title,
+			subtext : '',
+			padding : [ 5, 10 ],
+			x : 'center',
+		},
+		color : [ '#52bdbd', '#ffad6b', '#f784a5', '#295aa5', 
+		          '#34b971', '#809eff', '#a8e3f0', '#00a3e0'],
+		tooltip : {
+			trigger : 'item',
+			triggerOn : 'mousemove',
+			/* alwaysShowContent:true, */
+			hideDelay : 1500,
+			enterable : true,
+			formatter : format
 		},
 
 		legend : {
@@ -533,6 +569,7 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('LEND_DATE');
 			displayColomn.push('APPR_DATE');
 			displayColomn.push('REAL_HT_TIME');
+			displayColomn.push('END_TIME_');
 			displayColomn.push('CUST_NAME');
 			displayColomn.push('MORT_TOTAL_AMOUNT');
 			displayColomn.push('COM_AMOUNT');
@@ -775,6 +812,8 @@ function getParamsValue() {
 	var apprTimeEnd = null;
 	var realhtTimeStart = null;
 	var realhtTimeEnd = null;
+	var endTimeStart = null;
+	var endTimeEnd = null;
 
 	var comAmountStart = null;
 	var comAmountEnd = null;
@@ -851,7 +890,13 @@ function getParamsValue() {
 		realhtTimeEnd = end;
 		params.realhtTimeStart = realhtTimeStart;
 		params.realhtTimeEnd = realhtTimeEnd;
+	}else if (timeSelect == "END_TIME_") {
+		endTimeStart = start;
+		endTimeEnd = end;
+		params.endTimeStart = endTimeStart;
+		params.endTimeEnd = endTimeEnd;
 	}
+	
 	// 获取select 选中时间的值
 	var amountSelect = $("#loanLostCaseListAmountSelect option:selected").val();
 	if (amountSelect == "COM_AMOUNT") {

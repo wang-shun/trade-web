@@ -66,9 +66,9 @@
 							class="form-control select-one" name="status"  id="status">
 							<option value="">请选择</option>
 							<option value="0">起草</option>
-							<option value="2">申请</option>
-							<option value="3">签约</option>
-							<option value="4">完成</option>
+							<option value="1">申请</option>
+							<option value="2">签约</option>
+							<option value="3">完成</option>
 						</select>
 					</div>
 					<div class="form-group form-margin form-space-one ">
@@ -239,7 +239,7 @@
                                                     	{{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">
-                                                      {{if item.STATUS==3&&item.signTime!=undefined}}
+                                                      {{if item.STATUS==2&&item.signTime!=undefined}}
                                                         <li><a href="${ctx}/spv/task/cashflowIntApply/spvRecorded?pkid={{item.PKID}}">入账</a></li>
                                                       {{/if}}
                                                     </shiro:hasPermission>

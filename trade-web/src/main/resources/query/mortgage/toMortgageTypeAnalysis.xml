@@ -30,9 +30,9 @@
 	
 	<query id="queryMortgageTypeAnalysis">
 	    <searchCondition>
-		   <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		   <!-- <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <condition field="T.CUST_NAME"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>       
+           <condition field="T.CUST_NAME"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>  -->      
         </searchCondition> 
 		<searchSql>
 			<baseSql>
@@ -72,8 +72,9 @@
 					T.IS_DELEGATE_YUCUI,
 					T.LOANTYPE,
 					T.REAL_HT_TIME,
-					T.LOANLOST_APPLY_REASON
-				FROM				
+					T.LOANLOST_APPLY_REASON,
+					T.END_TIME_		
+			FROM				
 				(select 
 					c.pkid,
 					p.property_addr,
@@ -114,7 +115,6 @@
 										'6114AB949B4445828D4383977C4FAC71',
 										'6a84979158b942b78a8a5921cc30b8c3')
 								and org1.ID=M.LOAN_AGENT_TEAM) ORG_ORG_NAME,
-										
 					(CASE m.IS_TMP_BANK WHEN '1' THEN '是' WHEN '0' THEN '否' END) IS_TMP_BANK,			
 					case 
 						when c.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '否' 
@@ -127,22 +127,38 @@
 						when (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where c.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then  '3'						
 					end   LOANTYPE,
 					ht.REAL_HT_TIME,
-					m.loanlost_apply_reason
-					
+					m.loanlost_apply_reason,
+					(select  MAX(END_TIME_) from(SELECT 	END_TIME_,W.CASE_CODE
+												FROM sctrans.T_HI_WORKFLOW W
+												INNER JOIN sctrans.ACT_HI_TASKINST taskInst ON taskInst.PROC_INST_ID_ = W.INST_CODE		AND taskInst.task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') 
+												AND taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_  and   DELETE_REASON_='completed'
+												AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector'))	
+												)WK WHERE WK.CASE_CODE =  M.CASE_CODE
+					)END_TIME_
                 from 
 					sctrans.T_TO_MORTGAGE m 
 					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
-					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 	
-					left join sctrans.T_TO_HOUSE_TRANSFER ht on ht.case_code=m.case_code 										
-                where 
+					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 
+					left join sctrans.T_TO_HOUSE_TRANSFER ht on ht.case_code=m.case_code 					
+			     where 
 					c.LOAN_REQ=1
-					AND m.is_active = '1'				
+					AND m.is_active = '1'	
 					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
-					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>			
-				)T    
-				where T.SDSTATUS IS NOT NULL
-				AND T.LOANTYPE IS NOT NULL 
-				AND 1=1
+					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>		
+				) T  
+				where  1=1
+				
+				<ifNotNull caseCode>
+				    AND T.CASE_CODE LIKE '%'+#caseCode#+'%'
+				</ifNotNull>
+				
+				<ifNotNull propertyAddr>
+				    AND T.PROPERTY_ADDR LIKE '%'+#propertyAddr#+'%'
+				</ifNotNull>
+				
+				<ifNotNull custName>
+				    AND T.CUST_NAME LIKE '%'+#custName#+'%'
+				</ifNotNull>
 				
 				<ifNotNull signTimeStart>
 				     and T.SIGN_DATE >= #signTimeStart#
@@ -170,6 +186,13 @@
 				</ifNotNull>				
 				<ifNotNull realhtTimeEnd>
 				     and T.REAL_HT_TIME &lt;= #realhtTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull endTimeStart>
+				     and T.END_TIME_ >= #endTimeStart#
+				</ifNotNull>				
+				<ifNotNull endTimeEnd>
+				     and T.END_TIME_ &lt;= #endTimeEnd#
 				</ifNotNull>
 				
 				<ifNotNull comAmountStart>
@@ -216,7 +239,7 @@
 				</ifNotNull>
 				<ifNotNull loanType>
 					and T.LOANTYPE = #loanType#
-				</ifNotNull> 
+				</ifNotNull>
 				) AS MTYPEANAL
 
 				]]>

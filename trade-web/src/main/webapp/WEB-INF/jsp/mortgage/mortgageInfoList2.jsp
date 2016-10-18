@@ -100,9 +100,10 @@
 						<select class="form-control mend_select sign_left_small"
 							id="loanLostCaseListTimeSelect" style="width: 120px;">
 							<option value="SIGN_DATE" selected="selected">签约时间</option>
-							<option value="APPR_DATE">审批时间</option>
+							<option value="APPR_DATE">放款审批时间</option>
 							<option value="LEND_DATE">放款时间</option>
 							<option value="REAL_HT_TIME">过户时间</option>
+							<option value="END_TIME_">流失审批时间</option>
 						</select>
 						<div class="input-group sign-right dataleft input-daterange"
 							data-date-format="yyyy-mm-dd" id="datepicker_0">
@@ -369,7 +370,7 @@
                         </td>
 
 					    <td>
-						{{if item.SIGN_DATE!=null}}
+						{{if item.SIGN_DATE != null}}
 						   <p>  
                               <i class="sign_normal">签</i>
                                  {{item.SIGN_DATE}}          
@@ -413,6 +414,18 @@
                             <p>  
                               <i class="sign_grey">过</i>
                                  {{item.REAL_HT_TIME}}          
+                           </p>
+						{{/if}}	
+
+						{{if item.END_TIME_!=null}}
+						   <p>  
+                              <i class="sign_normal">流</i>
+                                 {{item.END_TIME_}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">流</i>
+                                 {{item.END_TIME_}}          
                            </p>
 						{{/if}}	
 

@@ -131,9 +131,16 @@ $(document).ready(function(){
      	  if(!checkFormSubmit()){
      		  return false;
      	  }
-     	  if(!confirm("确定提交并开启流程吗！")){
-     		  return false;
+     	  if($("#handle").val() == null || $("#handle").val() == ''){
+     		 if(!confirm("确定提交并开启流程吗！")){
+       		  return false;
+       	  } 	
+     	  }else{
+     		 if(!confirm("确定提交任务吗！")){
+          		  return false;
+          	  } 
      	  }
+     	  
       	  var totalArr = [];
       	  $("form").each(function(){
       		 var obj = $(this).serializeArray();
@@ -183,22 +190,22 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
-    	   riskAjaxRequest(null,'spvApply',ctx+'/spv/spvApply/deal');	
+    	   riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
        });
        
        //风控总监审批通过
        $("#riskDirectorApproveY").click(function(){
-    	   riskAjaxRequest(true,'spvApprove',ctx+'/spv/spvApprove/deal');
+    	   riskAjaxRequest(true,'SpvApprove',ctx+'/spv/spvApprove/deal');
        });
        
        //风控总监审批驳回
        $("#riskDirectorApproveN").click(function(){      	   
-    	   riskAjaxRequest(false,'spvApprove',ctx+'/spv/spvApprove/deal');
+    	   riskAjaxRequest(false,'SpvApprove',ctx+'/spv/spvApprove/deal');
        });
        
        //风控专员签约
        $("#RiskOfficerSign").click(function(){
-    	   riskAjaxRequest(null,'spvSign',ctx+'/spv/spvSign/deal');
+    	   riskAjaxRequest(null,'SpvSign',ctx+'/spv/spvSign/deal');
        });
 
        $('#chat-discussion').hide();
@@ -894,16 +901,16 @@ $(document).ready(function(){
 		for(var i=0;i<length;i++){
 			var deCondCode = $("select[name='toSpvDeDetailList["+i+"].deCondCode'] option:selected").val();
 			var payeeAccountType = $("select[name='toSpvDeDetailList["+i+"].payeeAccountType'] option:selected").val();
-		    var deAmount = $("select[name='toSpvDeDetailList["+i+"].deAmount']").val();
-		    var deAddition = $("select[name='toSpvDeDetailList["+i+"].deAddition']").val();
+		    var deAmount = $("input[name='toSpvDeDetailList["+i+"].deAmount']").val();
+		    var deAddition = $("input[name='toSpvDeDetailList["+i+"].deAddition']").val();
 		    if((deCondCode != null && deCondCode != '') || (payeeAccountType != null && payeeAccountType != '') 
 		    		|| (deAmount != null && deAmount != '') || (deAddition != null && deAddition != '')){
 		    	isNull = false;
-		    	return fasle;
+		    	break;
 		    }
 		}
 		
-		if(!isNull){
+		if(isNull){
 			alert("请至少添加一条资金出款约定！");
 			return false;
 		}
@@ -1008,13 +1015,19 @@ $(document).ready(function(){
 	    if(SpvApplyApprove != null){
 	    	data.SpvApplyApprove = SpvApplyApprove;
 	    }
-	    //验证参数是否填写正确
-    	var startWorkfollow = saveBtnClick(handle,SpvApplyApprove,'checkForSubmit');
+	    if(handle == "SpvSign"){
+	    	data.spvConCode = $("input[name='toSpv.spvConCode']").val();
+	    	data.signTime = $("input[name='toSpv.signTime']").val();
+	    }
+	    if(!handle || handle == "SpvApply"){
+	    	//验证参数是否填写正确
+	    	var startWorkfollow = saveBtnClick(handle,SpvApplyApprove,'checkForSubmit');
 
-	    //是否启动流程标记，false不启动，true启动
-	    if(!startWorkfollow){
-	    	return false;
-    	}
+		    //是否启动流程标记，false不启动，true启动
+		    if(!startWorkfollow){
+		    	return false;
+	    	}
+	    }   
 
 	    //调用ajax方法
 	    ajaxCall(url,data);
@@ -1028,8 +1041,7 @@ $(document).ready(function(){
     	$("input[name='spvCustList[1].idValiDate']").prop("disabled",true);
     	$("select").prop("disabled",true);
     	$("#realName").prop("disabled",true);
-    	$("input[id^=picFileupload]").prop("disabled",true);
-    	$("img").prop("disabled",true);
+    	$("input[id^='picFileupload']").prop("disabled",true);
     }
     
     function getParentBank(selector,selectorBranch,finOrgCode){

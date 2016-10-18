@@ -112,7 +112,7 @@
 		<div class="row">
 			<div class="wrapper wrapper-content animated fadeInUp">
 			                    <!-- <div class="ibox"> -->
-			      <c:if test="${empty handle}">
+			      <c:if test="${empty handle or handle eq 'SpvApply'}">
                     <div class="ibox-content" id="case_info">
                         <div class="main_titile" style="position: relative;">
                             
@@ -121,26 +121,26 @@
 						    
                            <div class="case_row">
                                <div class="case_lump">
-                                   <p><em>案件编号</em><span class="span_one" id="content_caseCode">${caseCode}</span></p>
+                                   <p><em>案件编号</em><span class="span_one" id="content_caseCode">${caseInfoMap['caseCode']}</span></p>
                                </div>
                                <div class="case_lump">
-                                   <p><em>产证地址</em><span class="span_two" id="content_propertyAddr">${propertyAddr}</span></p>
-                               </div>
-                           </div>
-                           <div class="case_row">
-                               <div class="case_lump">
-                                   <p><em>交易顾问</em><span class="span_one" id="content_processorId">${processorName}</span></p>
-                               </div>
-                               <div class="case_lump">
-                                   <p><em>上家姓名</em><span class="span_two" id="content_seller">${sellerName}</span></p>
+                                   <p><em>产证地址</em><span class="span_two" id="content_propertyAddr">${caseInfoMap['propertyAddr']}</span></p>
                                </div>
                            </div>
                            <div class="case_row">
                                <div class="case_lump">
-                                   <p><em>经纪人</em><span class="span_one" id="content_agentName">${agentName}</span></p>
+                                   <p><em>交易顾问</em><span class="span_one" id="content_processorId">${caseInfoMap['processorName']}</span></p>
                                </div>
                                <div class="case_lump">
-                                   <p><em>下家姓名</em><span class="span_two" id="content_buyer">${buyerName}</span></p>
+                                   <p><em>上家姓名</em><span class="span_two" id="content_seller">${caseInfoMap['sellerName']}</span></p>
+                               </div>
+                           </div>
+                           <div class="case_row">
+                               <div class="case_lump">
+                                   <p><em>经纪人</em><span class="span_one" id="content_agentName">${caseInfoMap['agentName']}</span></p>
+                               </div>
+                               <div class="case_lump">
+                                   <p><em>下家姓名</em><span class="span_two" id="content_buyer">${caseInfoMap['buyerName']}</span></p>
                                </div>
                            </div>
                            </div>
@@ -149,7 +149,7 @@
                             <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
                                  <div class="modal-dialog" style="width: 1070px;">
                                     <div class="modal-content animated fadeIn apply_box ibox-content">
-                                        <form action="" class="form_list clearfix">
+                                        <form action="" class="form_list clearfix">	
                                           <div class="modal_title">
                                                                                                                                            监管合约关联案件
                                             </div>
@@ -198,18 +198,19 @@
 				<!-- <div class="ibox"> -->
 				<div class="ibox-content" id="base_info">
 					<form class="form-inline">
+					    <input type="hidden" id="handle" name="handle" value="${handle }">
 						<div class="title">买方客户信息</div>
 						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">							
    						        <input type="hidden" name="spvCustList[0].pkid" value="${spvBaseInfoVO.spvCustList[0].pkid }" />
 							    <input type="hidden" name="spvCustList[0].tradePosition" value="BUYER" />
 								<label for="" class="lable-one"><i style="color:red;">*</i> 姓名</label> <input name="spvCustList[0].name" 
-								value="${not empty spvBaseInfoVO.spvCustList[0].name?spvBaseInfoVO.spvCustList[0].name:buyerName }" type="text"
+								value="${not empty spvBaseInfoVO.spvCustList[0].name?spvBaseInfoVO.spvCustList[0].name:caseInfoMap['buyerName'] }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 手机号码</label> <input name="spvCustList[0].phone"
-								    value="${not empty spvBaseInfoVO.spvCustList[0].phone?spvBaseInfoVO.spvCustList[0].phone:buyerMobil }"
+								    value="${not empty spvBaseInfoVO.spvCustList[0].phone?spvBaseInfoVO.spvCustList[0].phone:caseInfoMap['buyerMobil'] }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one ">
@@ -296,12 +297,12 @@
 							    <input type="hidden" name="spvCustList[1].pkid" value="${spvBaseInfoVO.spvCustList[1].pkid }" />
 							    <input type="hidden" name="spvCustList[1].tradePosition" value="SELLER" />
 								<label for="" class="lable-one"><i style="color:red;">*</i> 姓名</label> <input type="text" name="spvCustList[1].name"
-								     value="${not empty spvBaseInfoVO.spvCustList[1].name?spvBaseInfoVO.spvCustList[1].name:sellerName }"
+								     value="${not empty spvBaseInfoVO.spvCustList[1].name?spvBaseInfoVO.spvCustList[1].name:caseInfoMap['sellerName'] }"
 									class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 手机号码</label> <input name="spvCustList[1].phone"
-								    value="${not empty spvBaseInfoVO.spvCustList[1].phone?spvBaseInfoVO.spvCustList[1].phone:sellerMobil }"
+								    value="${not empty spvBaseInfoVO.spvCustList[1].phone?spvBaseInfoVO.spvCustList[1].phone:caseInfoMap['sellerMobil'] }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one ">
@@ -386,7 +387,7 @@
 						<div class="form-row form-rowbot clear">
 						<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 房产权利人</label> <input name="toSpvProperty.prOwnerName" type="text"
-									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prOwnerName?spvBaseInfoVO.toSpvProperty.prOwnerName:sellerName }">
+									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prOwnerName?spvBaseInfoVO.toSpvProperty.prOwnerName:caseInfoMap['sellerName'] }">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvProperty.pkid" value="${spvBaseInfoVO.toSpvProperty.pkid }" />
@@ -402,12 +403,12 @@
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 面积</label> <input name="toSpvProperty.prSize" type="text"
-									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prSize?spvBaseInfoVO.toSpvProperty.prSize:propertySquare }"> 
+									class="form-control input-one" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prSize?spvBaseInfoVO.toSpvProperty.prSize:caseInfoMap['propertySquare'] }"> 
 									<span class="date_icon">㎡</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 产证地址</label> <input name="toSpvProperty.prAddr" type="text"
-									class="form-control input-five" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prAddr?spvBaseInfoVO.toSpvProperty.prAddr:propertyAddr }">
+									class="form-control input-five" placeholder="" value="${not empty spvBaseInfoVO.toSpvProperty.prAddr?spvBaseInfoVO.toSpvProperty.prAddr:caseInfoMap['propertyAddr'] }">
 							</div>
 						</div>
 						<div class="form-row form-rowbot"></div>
@@ -873,8 +874,7 @@
 				</c:choose>
 				</div>
 				<div class="ibox-content" id="spvthree_info" >			
-							<div class="form-btn">
-							<input type="hidden" id="handle" name="handle" value="${handle }">							
+							<div class="form-btn">						
 							<c:if test="${handle eq 'SpvApply' }">
 							    <div>
 									<a id="riskOfficerApply" class="btn btn-success">提交申请</a>
@@ -1145,10 +1145,20 @@
    						}*/
    					     if(data.ajaxResponse.content == '1'){
    					    	 alert(data.ajaxResponse.message);
-   					    	 window.location.href = "${ctx}/spv/saveHTML";
+   					    	 //window.location.reload();
+   					    	 //window.location.href = "${ctx}/spv/saveHTML";
    					     }else{
-   					    	//刷新回到原页面
-   			   	 			window.location.href = "${ctx}/spv/saveHTML?&caseCode="+$("#modal_caseCode"+index).html();
+				    		var caseInfoMap = eval('('+data.ajaxResponse.content+')');
+				    		$("#content_caseCode").html(caseInfoMap['caseCode']);
+				    		$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
+				    		$("#content_processorId").html(caseInfoMap['processorName']);
+				    		$("#content_seller").html(caseInfoMap['sellerName']);
+				    		$("#content_agentName").html(caseInfoMap['agentName']);
+				    		$("#content_buyer").html(caseInfoMap['buyerName']);
+				    		$("input[name='toSpv.caseCode']").val(caseInfoMap['caseCode']);
+				    		
+							$('.case_content').show();
+							$('#myModal').modal('hide');
    					     }
    						 $.unblockUI();
    					},		

@@ -42,6 +42,9 @@ function getTR(thisIndex){
 	$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
+	$str+='	<td> <div id="datepicker_0" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">';
+	$str+=' <input id="inputTime'+thisIndex+'" style="width:106px" name="items['+thisIndex+'].inputTime"class="form-control input-one" type="text" value=""placeholder="入账日期"></div>' ;                                                                                                                                                                                     
+	$str+='	</td> ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
 	//if(thisIndex > 0){
 		$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
@@ -50,6 +53,13 @@ function getTR(thisIndex){
 	
 	$("#addTr").append($str);
 	render_fileupload(thisIndex);
+	   // 日期控件
+	$("#datepicker_"+thisIndex).datepicker({
+		format : 'yyyy-mm-dd',
+		weekStart : 1,
+		autoclose : true,
+		todayBtn : 'linked'
+	})
 }
 
 function render_fileupload(thisIndex){
@@ -71,18 +81,19 @@ function render_fileupload(thisIndex){
             	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
             	var $image = $(image);
             	$('#td_file'+thisIndex).prepend($image);
-            	$image.responsivegallery();
+            	//$image.responsivegallery();
         	}
         }
     });
 }
 
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
+	
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = '<a class="response" target="_blank" href="'+fileUrl+'" title="'+shortName+'" alt="'+fileName+'">';
+	var image = '<img id="image_'+thisIndex+'" src="'+fileUrl+'" style="width:0px;height:0px;display: none;" class="viewer-toggle">';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" >'+shortName+'</button><i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i></a>';
+	image += '<button type="button" class="btn btn-sm btn-default" onClick="$(\'#image_'+thisIndex+'\').trigger(\'click\');">'+shortName+'<i class="icon iconfont icon_x">&#xe60a;</i></button>';
 	return image;
 }
 //删除入账申请信息tr
@@ -204,8 +215,4 @@ function rescCallbocak(){
 	   window.opener.location.reload(); //刷新父窗口
 	   window.close(); //关闭子窗口.
 	}
-
-
-
-
 
