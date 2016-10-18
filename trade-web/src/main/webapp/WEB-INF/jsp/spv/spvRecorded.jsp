@@ -61,7 +61,6 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
     
     <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 
@@ -186,44 +185,14 @@
         </div>
     </div>
 <content tag="local_script">
-<!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script><%-- 
-<script src="${ctx}/static/js/bootstrap.min.js"></script> --%>
-<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-	  <!-- 上传附件相关 --> 
+<!-- 上传附件相关 --> 
 <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script><%-- 
-<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>  --%>
-<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
-<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
-<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
-
-<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-<script
-	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-
-<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
-<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
-	<!-- 上传附件 结束 -->
-<!-- Custom and plugin javascript --><%-- 
- <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script> --%>
- <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
- <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
- <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
- <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
-
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> 
+<script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+<script src="${ctx}/js/template.js" type="text/javascript"></script>
 <script src="${ctx}/static_res/trans/js/spv/spvReDetails.js"></script>
-
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
-
 <script>
 $(function() {
 	 $("body").on("click",".icon_x",function(event){
@@ -233,9 +202,6 @@ $(function() {
 
 
 });
-/* $('.response').responsivegallery(); */
-
-
 </script>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="appCtx" value="<aist:appCtx appName='shcl-filesvr-web'/>" />
