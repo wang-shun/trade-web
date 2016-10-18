@@ -567,6 +567,11 @@ public class SpvController {
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
 		}
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
+			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
+		}
+		
 		return "spv/saveSpvCase";
 	}
     
@@ -634,6 +639,10 @@ public class SpvController {
 		request.setAttribute("urlType", "myTask");
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
+		}
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
+			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
 		}
 		
 		return "spv/saveSpvCase";
@@ -711,6 +720,11 @@ public class SpvController {
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
 		}
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
+			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
+		}
+		
 		return "spv/saveSpvCase";
 	}
 	

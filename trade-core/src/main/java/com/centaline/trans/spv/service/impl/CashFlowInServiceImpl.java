@@ -627,14 +627,12 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 	}
 	@Override
 	public SpvReturnCashflowVO saveCashFlowApply(HttpServletRequest request, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception {
-		//if(null == spvRecordedsVO || null == spvRecordedsVO.getItems() || StringUtils.isEmpty(spvRecordedsVO.getItems().get(0).getPayerName()) ) throw new BusinessException("申请入账流水信息不存在！");
+		if(null == spvRecordedsVO || null == spvRecordedsVO.getItems() || StringUtils.isEmpty(spvRecordedsVO.getItems().get(0).getPayerName()) ) throw new BusinessException("申请入账流水信息不存在！");
 		//保存数据
-		//toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO,handle,spvApplyCode); 
+		toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO,handle,businessKey); 
 		String type = null;
-		SpvReturnCashflowVO spvReturnCashflowVO = new SpvReturnCashflowVO();
-		return spvReturnCashflowVO;
 		//保存数据
-		//return toSpvService.saveSpvChargeInfoVOFormHtml(spvRecordedsVO,type); 
+		return toSpvService.saveSpvChargeInfoVOFormHtml(spvRecordedsVO,type); 
 		
 	}
 	

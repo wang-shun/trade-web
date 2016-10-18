@@ -177,12 +177,18 @@
                                               </td>
                                               <td>
                                                   <c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
-                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
+                                                 	<%-- <a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
 														<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
 														<button type="button" class="btn btn-sm btn-default" ><i class="icon iconfont icon_y" >&#xe635;
 														${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
 														</button>
-													</a>
+													</a> --%>
+													
+													<img id="image_${status3.index }" src="${imgweb }/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
+													<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
+													<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status3.index }').trigger('click');"><i class="icon iconfont icon_y" >&#xe635;
+													${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
+													</button>
                                                	 </c:forEach>
                                               </td>
                                           </tr>
@@ -258,6 +264,7 @@
 <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
 
 <script type="text/javascript">
 $(function(){
@@ -307,7 +314,7 @@ $(function(){
 		});
 	});
 
-$('.response').responsivegallery();
+$('.wrapper-content').viewer();
 
 </script>
 

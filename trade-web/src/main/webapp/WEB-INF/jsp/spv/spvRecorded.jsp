@@ -55,12 +55,15 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/steps.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/toastr.min.css">
     <!-- index_css  -->
+    <link rel="stylesheet" href="${ctx}/static/css/plugins/datapicker/datepicker3.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/iconfont.css" >
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+    
+    <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 
 </head>
 
@@ -159,6 +162,7 @@
                                         <th style="width: 120px;">贷记凭证编号</th>
                                         <th>付款方式</th>
                                         <th>凭证附件</th>
+                                        <th>入账时间</th>
                                         <th>操作</th>
                                     </thead>
                                     <tbody id="addTr">
@@ -204,7 +208,7 @@ src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 <script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
@@ -218,15 +222,14 @@ src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 
 <script src="${ctx}/static_res/trans/js/spv/spvReDetails.js"></script>
 
-
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
 
 <script>
-
 $(function() {
-    $(".icon_x").click(function() {
-        $(this).parent().parent().remove();
-        return false;
-    });
+	 $("body").on("click",".icon_x",function(event){
+	        $(this).parent().remove();
+	        event.stopPropagation();
+	   })
 
 
 });
@@ -235,6 +238,7 @@ $(function() {
 
 </script>
 <input type="hidden" id="ctx" value="${ctx}" />
+<input type="hidden" id="appCtx" value="<aist:appCtx appName='shcl-filesvr-web'/>" />
 </content>
 </body>
 
