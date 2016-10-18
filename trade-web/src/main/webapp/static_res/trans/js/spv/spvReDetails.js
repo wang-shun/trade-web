@@ -38,7 +38,7 @@ function getTR(thisIndex){
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td id="td_file'+thisIndex+'">                                                                                                                                                                                         ';
 	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
-	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
+	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="'+$("#appCtx").val()+'/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
 	$str+='         <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;margin-top:17px;margin-bottom:-14px;cursor:pointer; background-image:url('+$("#ctx").val()+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');"/>';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
@@ -95,11 +95,18 @@ function getTR(thisIndex){
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	index++;
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = "<img id='image_"+index+"' src='"+fileUrl+"' style='width:0px;height:0px;display: none;' class='viewer-toggle'>";
+	var image = "<span><img id='image_"+index+"' src='"+fileUrl+"' style='width:0px;height:0px;display: none;' class='viewer-toggle'>";
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += "<button type='button' class='btn btn-sm btn-default' style='margin-right:5px;' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x'>&#xe60a;</i></button>"
+	image += "<button type='button' class='btn btn-sm btn-default' style='margin-right:5px;' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x' onClick='removeImg(this,event);'>&#xe60a;</i></button></span>"
 	return image;
+}
+
+function removeImg(object,event){
+	 $(object).parent().parent().remove();
+	 $('.wrapper-content').viewer('destroy');
+	 $('.wrapper-content').viewer();
+	 event.stopPropagation();
 }
 
 function showImg(imgId){
