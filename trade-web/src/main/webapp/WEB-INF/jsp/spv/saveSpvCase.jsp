@@ -1157,6 +1157,15 @@
 				    		$("#content_buyer").html(caseInfoMap['buyerName']);
 				    		$("input[name='toSpv.caseCode']").val(caseInfoMap['caseCode']);
 				    		
+				    		if($("input[name='spvCustList[0].name']").val() == '')
+				    			$("input[name='spvCustList[0].name']").val(caseInfoMap['buyerName']);
+				    		if($("input[name='spvCustList[0].phone']").val() == '')
+				    			$("input[name='spvCustList[0].phone']").val(caseInfoMap['buyerMobil']);
+				    		if($("input[name='spvCustList[1].name']").val() == '')
+				    			$("input[name='spvCustList[1].name']").val(caseInfoMap['buyerName']);
+				    		if($("input[name='spvCustList[1].phone']").val() == '')
+				    			$("input[name='spvCustList[1].phone']").val(caseInfoMap['buyerMobil']);
+				    		
 							$('.case_content').show();
 							$('#myModal').modal('hide');
    					     }
