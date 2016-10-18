@@ -193,10 +193,10 @@ function setPieCharts() {
 	mOrgAmountTitle = '总金额: ' + mOrgTotalAmount.toFixed(2) + ' 万';
 	mOrgCasesTitle = '总单数: ' + mOrgAllCases + ' 件'
 
-	option = setOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", orgLegends, orgAmountItems);
+	option = setOrgOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", orgLegends, orgAmountItems);
 	pChartMOrgAmount.setOption(option);
 
-	option = setOptions(mTypeCasesTitle, "{b}: {c} 单({d}%)", orgLegends, orgCaseItems);
+	option = setOrgOptions(mTypeCasesTitle, "{b}: {c} 单({d}%)", orgLegends, orgCaseItems);
 	pChartMOrgCases.setOption(option);
 	
 	mTmpBankAmountTitle = '商贷(收单)总金额: ' + mTmpBankTotalAmount.toFixed(2) + ' 万';
@@ -481,6 +481,42 @@ function getMOrgAnalysis() {
 					}
 				}
 			});
+}
+
+function setOrgOptions(title, format, legendName, dataValue) {
+	var option = {
+		title : {
+			text : title,
+			subtext : '',
+			padding : [ 5, 10 ],
+			x : 'center',
+		},
+		color : [ '#52bdbd', '#ffad6b', '#f784a5', '#295aa5', 
+		          '#34b971', '#809eff', '#a8e3f0', '#00a3e0'],
+		tooltip : {
+			trigger : 'item',
+			triggerOn : 'mousemove',
+			/* alwaysShowContent:true, */
+			hideDelay : 1500,
+			enterable : true,
+			formatter : format
+		},
+
+		legend : {
+			orient : 'horizontal',
+			y : 'bottom',
+			data : legendName
+		},
+		series : [ {
+			name : title,
+			type : 'pie',
+			radius : [ '35%', '55%' ],
+			animation : true,
+			selectedMode : 'multiple',
+			data : dataValue
+		} ]
+	};
+	return option;
 }
 
 function setOptions(title, format, legendName, dataValue) {
