@@ -30,15 +30,6 @@
 
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-
-<!-- 新调整页面样式 -->
-<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
-<link href="${ctx}/css/common/details.css" rel="stylesheet">
-<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
-<link href="${ctx}/css/common/btn.css" rel="stylesheet">
-<link href="${ctx}/css/common/input.css" rel="stylesheet">
-<link href="${ctx}/css/common/table.css" rel="stylesheet">
-
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var coworkService = "${firstFollow.coworkService }";
@@ -69,36 +60,29 @@
 .product-type span{margin:0 5px 5px 0}
 .product-type .selected,.product-type span:hover{border-color:#f8ac59}
 .ibox-content-task{padding-bottom:40px !important;}
-#corss_area{padding:0 8px 0 0;margin-left:369px;}
-#corss_area select{height:34px;border-radius:2px;margin-left:20px;}
+#corss_area{padding:0 8px 0 0;}
+#corss_area select{float:right;height:34px;border-radius:2px;margin-left:20px;}
 </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
-		<div class="row wrapper white-bg new-heading ">
-             <div class="pl10">
-                 <h2 class="newtitle-big">
-                        	首次跟进
-                 </h2>
-                <div class="mt20">
-                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
-                    	<i class="iconfont icon">&#xe640;</i> 在途单列表
-                    </button>
-                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView">
-                        <i class="iconfont icon">&#xe642;</i>案件视图
-                    </button>
-                </div>
-             </div>
-        </div>
-
-        <div class="ibox-content border-bottom clearfix space_box noborder">
-            <h2 class="newtitle">填写任务信息</h2>
-            	<form method="get" class="form_list" id="firstFollowform" style="overflow: visible;">
-            		<input type="hidden" id="ctx" value="${ctx }" />
-            	
-            		<%--环节编码 --%>
+		<div class="row wrapper border-bottom white-bg page-heading">
+	         <div class="col-md-10">
+	             <h2>首次跟进</h2>
+	             <ol class="breadcrumb">
+					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
+					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
+	             </ol>
+	         </div>
+ 		</div>	
+		<div class="ibox-title">
+			<h5>填写任务信息</h5>
+			<div class="ibox-content ibox-content-task">
+				<form method="get" class="form-horizontal" id="firstFollowform">
+					
+					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 交易单编号 -->
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
@@ -118,154 +102,251 @@
 					<%--自办服务 --%>
 					<input type="hidden" id="zbkServices" name="zbkServices" value="3000401001" />
 					
-		            <div class="line">
-		                <div class="form_content">
-	                        <label class="control-label sign_left_small"> 案件标记 </label>
-	                        <div class="controls">
-	                           <c:choose>
-									<c:when test="${firstFollow.caseProperty == '30003001'}">
-										<label class="radio inline"> 
-											<input type="radio" value="30003003" id="optionsRadios1" name="caseProperty">有效
-										</label>
-										<label class="radio inline">
-											 <input type="radio" checked="checked" value="30003001" id="optionsRadios2" name="caseProperty">无效
-										</label>
-									</c:when>
-									<c:otherwise>
-										<label class="radio inline"> 
-											<input type="radio" checked="checked" value="30003003" id="optionsRadios1" name="caseProperty">有效
-										</label>
-										<label class="radio inline"> 
-											<input type="radio" value="30003001" id="optionsRadios2" name="caseProperty">无效
-										</label>
-									</c:otherwise>
-								</c:choose>
-	                        </div>
-		                 </div>
-		            </div>
-		            
-		            <div class="marinfo">
-		                <div class="line">
-		                     <div class="form_content">
-                                <label class="control-label sign_left_small"> 所在区域 </label>
-                                <aist:dict clazz="select_control data_style" id="distCode" name="distCode" display="select" defaultvalue="${firstFollow.distCode}" dictType="yu_shanghai_district" />
-		                     </div>
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 成交价 </label>
-		                        <input type="text" placeholder="成交价" class="input_type yuanwid" id="realPrice" name="realPrice" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${ firstFollow.realPrice}' type='number' pattern='#0.00'/>"> 
-		                       	<span class="date_icon">万元</span>
-		                    </div>
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 合同价 </label> 
-		                        <input type="text" placeholder="合同价" class="input_type yuanwid" id="conPrice" name="conPrice" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${ firstFollow.conPrice}' type='number' pattern='#0.00'/>">
-		                        <span class="date_icon">万元</span>
-		                    </div>
-		                </div>
-		                <div class="line">
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 产证面积 </label> 
-		                        <input type="text" class="input_type data_style" id="square" name="square" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${firstFollow.square}' type='number' pattern='#0.0#' />">
-		                        <span class="date_icon">平方米</span>
-		                    </div>
-                            <div class="form_content">
-                                <label class="control-label sign_left_small">产证地址 </label> 
-                                <input type="text" class="input_type mendwidth" id="propertyAddr" name="propertyAddr" value="${firstFollow.propertyAddr}">
-                            </div>
-		                </div>
-		                <div class="line">
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 查限购 </label>
-	                            <select class="select_control data_style" name="chaxiangou" id="chaxiangou">
-									<option value="">请选择</option>
-									<option value="true" ${firstFollow.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
-									<option value="false" ${firstFollow.isPerchaseReserachNeed=="0"?'selected':''}>否</option>
-							   </select>
-		                    </div>
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 抵押情况 </label>
-		                        <select class="select_control data_style" name="diya" id="diya" style="width:180px;">
-									<option value="">请选择</option>
-									<option value="true" ${firstFollow.isLoanClose=="1"?'selected':''}>有抵押</option>
-									<option value="false" ${firstFollow.isLoanClose=="0"?'selected':''}>无抵押</option>
-								</select>
-		                    </div>
-		                    <div class="form_content mt3">
-		                        <label class="control-label sign_left_small select_style mend_select">
-		                           	预计签约日期
-		                        </label>
-		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="data_1" data-date-format="yyyy-mm-dd">
-		                        	<input type="text" class="input_type yuanwid datatime" id="realConTime" name="realConTime" onfocus="this.blur()"
+					
+					<div class="row">
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group">
+								<label class="col-md-2 control-label">案件标记</label>
+								<div class="col-md-4">
+									<div class="radio i-checks radio-inline">
+										<c:choose>
+											<c:when test="${firstFollow.caseProperty == '30003001'}">
+												<label> <input type="radio" value="30003003"
+													id="optionsRadios1" name="caseProperty">有效
+												</label>
+												<label> <input type="radio" checked="checked"
+													value="30003001" id="optionsRadios2" name="caseProperty">无效
+												</label>
+											</c:when>
+											<c:otherwise>
+												<label> <input type="radio" checked="checked"
+													value="30003003" id="optionsRadios1" name="caseProperty">有效
+												</label>
+												<label> <input type="radio" value="30003001"
+													id="optionsRadios2" name="caseProperty">无效
+												</label>
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-5">
+							<div class="form-group" id="data_1" name="isYouXiao">
+									<label class="col-md-4 control-label"><font color="red">*</font>预计签约时间</label>
+									<div class="col-md-8">
+										<div class="input-group date">
+											<span class="input-group-addon"><i
+												class="fa fa-calendar"></i></span> <input type="text"
+												class="form-control" id="realConTime" name="realConTime"
+												onfocus="this.blur()"
 												value="<fmt:formatDate  value='${firstFollow.realConTime}' type='both' pattern='yyyy-MM-dd'/>">
-		                        </div> 
-		                    </div>
-		                </div>
-		
-		                <div class="line clearfix" id="hzxm" style="overflow:visible;">
-		
-		                 <!--  <div class="form_content line34">
-		                      <label class="control-label sign_left_small"> 合作项目 </label> <span class=" " placeholder="" value="" >交易过户（除签约外）</span>
-		                  </div>
-		                         <div class="form_content">
-		                        <label class="control-label sign_left_small"> 合作顾问 </label>
-		                             <select name="" id="" class=" select_control data_style">
-		                        	<option value="">请选择</option></select>
-		                    </div> -->
-		                </div>
-		                </div>
-                <div class="line sourcebox">
-                    <div class="form_content clearfix">
-                        <label class="control-label sign_left_small"> 无效原因 </label> 
-                        <input type="text" class="mendwidth input_type" id="invalid_reason" name="invalid_reason" 
+										</div>
+									</div>
+								</div>
+						</div>
+					</div>
+					<div class="row">
+					<div class="col-md-7">
+					<div class="from-group" name="isShiXiao" style="display: none;">
+						<label class="col-md-2 control-label"><font color="red">*</font>无效原因</label>
+						<div class="col-md-10 input-group">
+							<input type="text" class="form-control" id="invalid_reason" name="invalid_reason" 
 								value="${houseTransfer.invalid_reason}">
-                    </div>
-                </div>
-                <div class="line alerted">
-                     <div class="form_content">
-                        <label class="control-label sign_left_small"> 商贷预警 </label>
-                        <div class="controls">
-                        	<label class="radio inline"> 
-                        		<input type="radio" value="true" id="optionsRadios1" name="businessLoanWarn" <c:if test="${!empty bizWarnInfo }">checked="checked"</c:if>>是
-							</label>
-							<label class="radio inline"> 
-								<input type="radio" <c:if test="${empty bizWarnInfo }">checked="checked"</c:if> value="false" id="optionsRadios2" name="businessLoanWarn">否
-							</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="line warncon"  id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
-                    <div class="form_content clearfix">
-                        <label class="control-label sign_left_small"> 预警内容 </label> 
-                        <input type="text" class="mendwidth input_type" id="content" name="content" value="${bizWarnInfo.content }" style="width:500px;">
-                    </div>
-                </div>
-            </form>
-
-            <div class="view-content" id="caseCommentList">
-            </div>
-            
-          
-
-           <div class="title">
-               <strong style="font-weight:bold;">ctm附件</strong>
-           </div>
-            <div class="view-content">
-                <div class="news-box">
-                		<table id="gridTable" class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin"></table>
-	    				<div id="gridPager"></div>
-                </div>
-            </div>
-
-            <div class="form-btn">
-                    <div class="text-center">
-                        <button  class="btn btn-success btn-space" onclick="save(false)" id="btnSave">保存</button>
-                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
-                    </div>
-                </div>
-            </div>
+						</div>
+					</div>
+					</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group"  name="isYouXiao">
+						<label class="col-md-2 control-label"><font color="red">*</font>价格</label>
+						<div class="col-md-10">
+							<div class="priceRow">
+								<div class="col-md-5">
+								<div class="input-group">
+									<span class="input-group-addon">成交价</span>
+									<input type="text" placeholder="成交价" class="form-control" id="realPrice" name="realPrice" onkeyup="checkNum(this)"
+										value="<fmt:formatNumber value='${ firstFollow.realPrice}' type='number' pattern='#0.00'/>">
+									<span class="input-group-addon">万元</span>
+								</div>
+								</div>
+								<div class="col-md-5">
+								<div class="input-group">
+									<span class="input-group-addon">合同价</span>
+									<input type="text" placeholder="合同价" class="form-control" id="conPrice" name="conPrice" onkeyup="checkNum(this)"
+										value="<fmt:formatNumber value='${ firstFollow.conPrice}' type='number' pattern='#0.00'/>">
+									<span class="input-group-addon">万元</span>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+						</div>
+						<div class="col-xs-12 col-md-5">
+							<div class="form-group"  name="isYouXiao">
+						<label class="col-md-4 control-label"><font color="red">*</font>产证地址</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" id="propertyAddr" name="propertyAddr" value="${firstFollow.propertyAddr}">
+						</div>
+					</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group"  name="isYouXiao">
+						<label class="col-md-2 control-label"><font color="red">*</font>所在区域</label>
+						<div class="col-md-10">
+							<aist:dict clazz="form-control" id="distCode" name="distCode" display="select" defaultvalue="${firstFollow.distCode}" dictType="yu_shanghai_district" />
+						</div>
+					</div>
+						</div>
+						<div class="col-xs-12 col-md-5">
+							<div class="form-group" id="data_1" name="isYouXiao">
+									<label class="col-md-4 control-label"><font color="red">*</font>产证面积</label>
+									<div class="col-md-8">
+										<div class="input-group">
+							<input type="text" class="form-control" id="square" name="square" onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${firstFollow.square}' type='number' pattern='#0.0#' />">
+							<span class="input-group-addon">平米</span>
+						</div>
+									</div>
+								</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group"  name="isYouXiao">
+						<label class="col-md-2 control-label"><font color="red">*</font>抵押情况</label>
+						<div class="col-md-10">
+							<select class="form-control" name="diya" id="diya">
+								<option value="">请选择</option>
+								<option value="true" ${firstFollow.isLoanClose=="1"?'selected':''}>有抵押</option>
+								<option value="false" ${firstFollow.isLoanClose=="0"?'selected':''}>无抵押</option>
+							</select>
+						</div>
+					</div>
+						</div>
+						<div class="col-xs-12 col-md-5">
+							<div class="form-group" id="data_1" name="isYouXiao">
+									<label class="col-md-4 control-label"><font color="red">*</font>是否需要查限购</label>
+									<div class="col-md-8">
+										<select class="form-control" name="chaxiangou" id="chaxiangou">
+											<option value="">请选择</option>
+											<option value="true" ${firstFollow.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
+											<option value="false" ${firstFollow.isPerchaseReserachNeed=="0"?'selected':''}>否</option>
+										</select>
+									</div>
+								</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group"  name="isYouXiao">
+						<label class="col-md-2 control-label">备注</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" id="comment" name="comment" value="${firstFollow.comment}" />
+						</div>
+					</div>
+						</div>
+					
+					
+					</div>
+					<div class="row product-type">
+						<div class="col-xs-12 col-md-12">
+							<div class="form-group"  name="isYouXiao">
+						<label class="col-md-1 control-label m-l">产品需求</label>
+						<div class="col-md-10">
+							<aist:dict id="srvCode" name="srvCode" clazz="btn btn-white" display="checkboxcustom" defaultvalue="${firstFollow.srvCode }" dictType="yu_serv_cat_code_tree" tag="FIRST_FOLLOW"/>
+						</div>
+					</div>
+						</div>
+					</div>	
+					<hr>
+	
+					<%-- <div class="row">
+						<div class="col-xs-12 col-md-8">
+							<div class="form-group"  name="isYouXiao">
+						<label class="col-md-2 control-label">合作项目</label>
+						<div class="col-md-10">
+						<input type="hidden" id="zbkServices" name="zbkServices" value="${zbkServices }">
+							<p id="" class="form-control-static">交易过户（除签约外）</p>
+						</div>
+					</div>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<div class="form-group" id="data_1" name="isYouXiao">
+									<label class="col-md-4 control-label"><font color="red">*</font>合作顾问</label>
+									<div class="col-md-8">
+										<select class="form-control" name="chaxiangou" id="chaxiangou">
+											<option value="">请选择</option>
+											<option value="true">有限购</option>
+											<option value="false">无限购</option>
+										</select>
+									</div>
+								</div>
+						</div>
+					</div> --%>
+					<div id="hzxm">
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group">
+								<label class="col-md-2 control-label" style="width:140px;">是否需要商贷预警</label>
+								<div class="col-md-4">
+									<div class="radio i-checks radio-inline">
+										<label> <input type="radio" value="true"
+											id="optionsRadios1" name="businessLoanWarn" <c:if test="${!empty bizWarnInfo }">checked="checked"</c:if>>是
+										</label>
+										<label> <input type="radio" <c:if test="${empty bizWarnInfo }">checked="checked"</c:if>
+											value="false" id="optionsRadios2" name="businessLoanWarn">否
+										</label>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-xs-12 col-md-5" id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
+								<div class="form-group" style="width:800px;">
+										<label class="col-md-4 control-label" style="width:120px;"><font color="red">*</font>预警内容</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="content" name="content" value="${bizWarnInfo.content }" style="width:500px;">
+										</div>
+								</div>
+						   </div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<!-- 案件备注 -->
+		<div id="caseCommentList" class="add_form">
+		</div>
+		
+		<div class="ibox-title" name="isYouXiao" style="display: display;">
+			<h5>ctm附件</h5>
+			<div class="ibox-content">
+	            <table id="gridTable"></table>
+	    		<div id="gridPager"></div>
+			</div>
+		</div>
+		<div class="ibox-title" name="isShiXiao" style="display: none;">
+			<h5>审批记录</h5>
+			<div class="ibox-content">
+				<div class="jqGrid_wrapper">
+					<table id="reminder_list"></table>
+					<div id="pager_list_1"></div>	
+				</div>
+			</div>
+		</div>
+			
+		<div class="ibox-title">
+			<a name="isYouXiao" href="#" class="btn" onclick="save(false)">保存</a>
+			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+		</div>
 		
 	</div>
 	
@@ -288,7 +369,7 @@
 	<!-- bank select -->
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 	
-	<script src="${ctx}/transjs/task/follow.pic.list_new.js"></script>
+	<script src="${ctx}/transjs/task/follow.pic.list.js"></script>
 	<script type="text/javascript" src="${ctx}/static/js/jquery.json.min.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	<!-- 校验 -->
@@ -300,30 +381,12 @@
 	<script src="${ctx}/js/plugins/layer/layer.js"></script>
 	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
 	
-	<script src="${ctx}/js/trunk/comment/caseComment_new.js"></script>
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script>
 		$(document).ready(function(){
-			
-			var ctx = $("#ctx").val();
-			
-			$("#btnZaitu").click(function(){
-				location.href = ctx + "/case/myCaseList";
-			});
-			
-			$("#btnCaseView").click(function(){
-				var caseCode = $("#firstFollowform #caseCode").val();
-				location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode;
-			});
-			
-			//日历控件
-		    $('.input-daterange').datepicker({
-		        keyboardNavigation: false,
-		        forceParse: false,
-		        autoclose: true
-		    });
 			
 			$("input[name=businessLoanWarn]").change(function(){
 				var value = this.value;
@@ -358,39 +421,20 @@
 			$("input:radio[name='caseProperty']").change(function (){ //拨通
 				var optionsRadios =  $('input[name=caseProperty]:checked').val(); 
 				if(optionsRadios=='30003001') {/*无效案件*/
-					$(".sourcebox").show();
-			        $(".marinfo,.alerted").hide();
-			        $("#btnSave").hide();
-			        $("#divContent").hide();
-					//isShow('isYouXiao', 'none');
-					//isShow('isShiXiao', '');
+					isShow('isYouXiao', 'none');
+					isShow('isShiXiao', '');
 				} else {/*有效案件*/
-					 $(".sourcebox").hide();
-			         $(".marinfo,.alerted").show();
-			         $("#btnSave").show();
-			         
-			         var businessLoanWarn =  $('input[name=businessLoanWarn]:checked').val(); 
-			         
-			         if(businessLoanWarn == "true"){
-			        	 $("#divContent").show();
-			         }
-			         else {
-			        	 $("#divContent").hide();
-			         }
-					//isShow('isYouXiao', '');
-					//isShow('isShiXiao', 'none');
+					isShow('isYouXiao', '');
+					isShow('isShiXiao', 'none');
 				}
 			});
 			
 			if(caseProperty == '30003001') {/*无效案件*/
-				$(".sourcebox").show();
-		        $(".marinfo,.alerted").hide();
-		        $("#divContent").hide();
-				//isShow('isYouXiao', 'none');
-				//isShow('isShiXiao', '');
+				isShow('isYouXiao', 'none');
+				isShow('isShiXiao', '');
 			} else {/*有效案件*/
-				 $(".sourcebox").hide();
-		         $(".marinfo,.alerted").show();
+				isShow('isYouXiao', '');
+				isShow('isShiXiao', 'none');
 			}
 			
 			/*加载默认基础服务和合作项目*/
@@ -442,25 +486,7 @@
 				dataType : "json",
 				data : {"serviceCode":'3000401002'},
 				success : function(data) {
-							txt = "<div class='form_content line34'><label class='control-label sign_left_small'> 合作项目 </label>";
-							txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/><span class='' placeholder='' value=''>" + data.dic.name + "</span></div>"
-							txt += "<div class='form_content'><label class='control-label sign_left_small'>合作顾问 </label>";
-							txt += "<select class='select_control data_style' name='unCrossCooperationUser' id='cooperationUser" + index + "'>";
-							txt += "<option value='0'>----未选择----</option>";
-							
-							$.each(data.users, function(j, user){
-								txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
-							
-							});
-							
-							if($.trim(data.orgcode)!='033F045'){
-								txt += "<option value='-1'>----跨区选择----</option>";
-							}
-							
-							txt += "</select>";
-							txt += "<input type='hidden' id='coUser"+index+"' name='cooperationUser' value=''/>";
-					
-							/* txt = "<div class='row'>";
+						    txt = "<div class='row'>";
 						    txt += "<div class='col-xs-12 col-md-8'>";
 						    txt += "<div class='form-group'  name='isYouXiao'>";
 						    txt += "<label class='col-md-2 control-label'>合作项目</label>";
@@ -476,6 +502,7 @@
 							txt += "<div class='col-md-8'>";
 							txt += "<select class='form-control m-b' name='unCrossCooperationUser' id='cooperationUser"+index+"'>";
 							txt += "<option value='0'>----未选择----</option>";
+							
 							$.each(data.users, function(j, user){
 									txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
 								
@@ -487,7 +514,7 @@
 							txt += '<input type="hidden" id="coUser'+index+'" name="cooperationUser" value=""/>';
 							txt += "</div></div></div>";
 							txt += "</div>";
-							var txt = '<div class="form-group" name="isYouXiao" style="display: display;">';
+							/* var txt = '<div class="form-group" name="isYouXiao" style="display: display;">';
 							txt += "<input type='hidden' name='coworkService' value='"+value.dicCode+"'/>";
 							txt += "<label class='col-sm-2 control-label'>合作项目</label>";
 							txt += "<div class='col-sm-3' style='padding-top: 6px;'><span>"+value.dicName+"</span></div>";
@@ -501,14 +528,13 @@
 								txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";
 							});
 							txt += '</select></div></div>'; */
-							
 							$("#hzxm").append(txt);
 							
 							$('#coUser'+index).val($("#cooperationUser" + index).find(':selected').val());
 							//alert($('#coUser'+index).val());
 							
 							var chaxiangou = $("#cooperationUser" + index);
-							chaxiangou.chosen({no_results_text:"未找到该选项",width:"316px",search_contains:true,disable_search_threshold:10});
+							chaxiangou.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
 
 				},
 				error : function(errors) {
@@ -547,14 +573,14 @@
 				var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
 				var corsstxt = "";
 				corsstxt += "<div class='col-md-12' id='corss_area'>";
-				corsstxt += "<select id='crossDistrict"+index+"' name='dept'>";
-				corsstxt += "<option value='0'>----部门----</option>";
+				corsstxt += "<select name='crossCooperationUser' id='crossConsult"+index+"'>";
+				corsstxt += "<option value='0'>----人员----</option>";
 				corsstxt += '</select>';
 				corsstxt += "<select name='crossOrg' id='corssOrg"+index+"'>";
 				corsstxt += "<option value='0'>----组别----</option>";
-				corsstxt += '</select>';
-				corsstxt += "<select name='crossCooperationUser' id='crossConsult"+index+"'>";
-				corsstxt += "<option value='0'>----人员----</option>";
+				corsstxt += '</select>';				
+				corsstxt += "<select id='crossDistrict"+index+"'>";
+				corsstxt += "<option value='0'>----部门----</option>";
 				corsstxt += '</select></div>';
 				$("#hzxm").append(corsstxt);
 				
@@ -565,6 +591,7 @@
 					url : url,
 					dataType : "json",
 					success : function(data) {
+						console.log("数据"+JSON.stringify(data));
 						/*三级联动*/
 						var district = $('#crossDistrict'+index);
 						var org = $('#corssOrg'+index);
@@ -681,7 +708,7 @@
 			if (b) {
 				url = "${ctx}/task/firstFollow/submit";
 			}
-			
+
 			$.ajax({
 				cache : true,
 				async : false,//false同步，true异步
@@ -764,132 +791,99 @@
 
 		//验证控件checkUI();
 		function checkForm() {
-			var optionsRadios = $('input[name=caseProperty]:checked').val();
 			
-			if(optionsRadios == "30003003"){
+			if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
+				alert("合作顾问未选择");
+				return false;
+			}
+			// 如果选择了跨区合作并且人员为空
+			if ($("#cooperationUser0").val() == -1 && $("#consult0").val() == 0) {
+				alert("跨区合作顾问未选择");
+				return false;
+			}
+
+			var optionsRadios = $('input[name=caseProperty]:checked').val();
+
+			if (optionsRadios == '有效案件'
+					|| (optionsRadios != '30003001' && optionsRadios != undefined)) {
+				/*有效案件*/
+				if ($('#distCode').val() == "") {
+					alert("所在区域为必选项!");
+					$('#distCode').focus();
+					return false;
+				}
+				var flag = false;
+				$('select[name="unCrossCooperationUser"] option:selected')
+						.each(
+								function(i, item) {
+									if (item.value == "0") {
+										alert("合作顾问为必选项!");
+										//	 					 item.focus();
+										flag = true;
+										return false;
+									} else if (item.value == "-1") {
+										$(
+												'#consult' + index
+														+ ' option:selected')
+												.each(function(j, item2) {
+													if (item2.value == "0") {
+														alert("跨区合作顾问未选择!");
+														flag = true;
+														return false;
+													}
+												});
+									}
+								});
+				if (flag)
+					return false;
+				if ($('input[name=realConTime]').val() == '') {
+					alert("签约时间为必填项!");
+					$('input[name=realConTime]').focus();
+					return false;
+				}
 				if ($('input[name=realPrice]').val() == '') {
 					alert("成交价为必填项!");
 					$('input[name=realPrice]').focus();
 					return false;
 				}
-				
 				if ($('input[name=conPrice]').val() == '') {
 					alert("合同价为必填项!");
 					$('input[name=conPrice]').focus();
 					return false;
 				}
-				
-				if ($('input[name=square]').val() == '') {
-					alert("产证面积为必填项!");
-					$('input[name=square]').focus();
-					return false;
-				}
-				
 				if ($('input[name=propertyAddr]').val() == '') {
 					alert("产证地址为必填项!");
 					$('input[name=propertyAddr]').focus();
 					return false;
 				}
-				
-				
-				if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
-					alert("合作顾问未选择");
+				if ($('input[name=square]').val() == '') {
+					alert("产证面积为必填项!");
+					$('input[name=square]').focus();
 					return false;
 				}
-				// 如果选择了跨区合作并且人员为空
-				if ($("#cooperationUser0").val() == -1 && $("#consult0").val() == 0) {
-					alert("跨区合作顾问未选择");
-					return false;
-				}
-				
 				if ($('select[name=chaxiangou]').val() == '') {
 					alert("限购查询为必选项!");
 					$('select[name=chaxiangou]').focus();
 					return false;
 				}
-				
 				if ($('select[name=diya]').val() == '') {
 					alert("抵押情况为必选项!");
 					$('select[name=diya]').focus();
 					return false;
 				}
-				
-				if ($('input[name=realConTime]').val() == '') {
-					alert("预计签约日期为必填项!");
-					$('input[name=realConTime]').focus();
-					return false;
-				}
-
-
-				if (optionsRadios == '有效案件'
-						|| (optionsRadios != '30003001' && optionsRadios != undefined)) {
-					/*有效案件*/
-					if ($('#distCode').val() == "") {
-						alert("所在区域为必选项!");
-						$('#distCode').focus();
-						return false;
-					}
-					
-					var flag = true;
-					
-					 var cooperationUser = $('select[name="unCrossCooperationUser"] option:selected').val();
-					 if(cooperationUser == "0"){
-						 alert("合作顾问为必选项!");
-						 $('select[name="unCrossCooperationUser"]').focus();
-						 return false;
-					 }
-					 else if(cooperationUser == "-1"){
-						 $("select[name='dept']").each(function(){
-							 var dept = this.value;
-							 
-							 if(dept == "0"){
-								 flag = false;
-								 return;
-							 }
-						 });
-						 
-						 $("select[name='crossOrg']").each(function(){
-							 var crossOrg = this.value;
-							 
-							 if(crossOrg == "0"){
-								 flag = false;
-								 return;
-							 }
-						 });
-						 
-						 $("select[name='crossCooperationUser']").each(function(){
-							 var crossCooperationUser = this.value;
-							 
-							 if(crossCooperationUser == "0"){
-								 flag = false;
-								 return;
-							 }
-						 });
-					 }
-				}
-				
-				if(!flag){
-					 alert("跨区合作顾问未选择!"); 
-					 return false;
-				}
-				
-				if($("input[name=businessLoanWarn]:checked").val() == "true"){
-					var content = $("input[name=content]").val();
-					
-					if(content == ""){
-						alert("请填写预警内容！");
-						$('input[name=content]').focus();
-						return false;
-					}
-				}
 			}
-			else if(optionsRadios == "30003001"){
-				var invalid_reason = $("#invalid_reason").val();
+			if ($('select[name="unCrossCooperationUser"]').size() == 0) {
+				alert("正在加载合作项目!");
+				return false;
+			}
+			
+			if($("input[name=businessLoanWarn]:checked").val() == "true"){
+				var content = $("input[name=content]").val();
 				
-				if(invalid_reason == ""){
-					alert("无效案件必须填写失效原因!");
-					$('input[name=invalid_reason]').focus();
-					return;
+				if(content == ""){
+					alert("请填写预警内容！");
+					$('input[name=content]').focus();
+					return false;
 				}
 			}
 			
