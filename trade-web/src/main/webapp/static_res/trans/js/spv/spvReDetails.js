@@ -95,11 +95,18 @@ function getTR(thisIndex){
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	index++;
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = "<img id='image_"+index+"' src='"+fileUrl+"' style='width:0px;height:0px;display: none;' class='viewer-toggle'>";
+	var image = "<span><img id='image_"+index+"' src='"+fileUrl+"' style='width:0px;height:0px;display: none;' class='viewer-toggle'>";
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += "<button type='button' class='btn btn-sm btn-default' style='margin-right:5px;' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x'>&#xe60a;</i></button>"
+	image += "<button type='button' class='btn btn-sm btn-default' style='margin-right:5px;' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x' onClick='removeImg(this,event);'>&#xe60a;</i></button></span>"
 	return image;
+}
+
+function removeImg(object,event){
+	 $(object).parent().parent().remove();
+	 $('.wrapper-content').viewer('destroy');
+	 $('.wrapper-content').viewer();
+	 event.stopPropagation();
 }
 
 function showImg(imgId){
