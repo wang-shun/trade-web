@@ -6,7 +6,9 @@ package com.centaline.trans.spv.web;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +66,7 @@ import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @Controller
@@ -141,13 +144,13 @@ public class SpvController {
 	
 	//新增页面
 	@RequestMapping("saveHTML")
-	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
+	public String saveHTML(Long pkid,HttpServletRequest request){
 		SessionUser currentUser = uamSessionService.getSessionUser();
 		String currentDeptId = currentUser.getServiceDepId();
 		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
 
-		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
+		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid);
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
@@ -533,9 +536,16 @@ public class SpvController {
      */
     @RequestMapping("task/SpvApply/process")
 	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
-    	
-    	
-        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(instCode);	
+    	   	
+        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(instCode);
+		Map<String, Object> caseInfoMap = new HashMap<String, Object>();
+		
+		if (spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null && StringUtils.isNotBlank(spvBaseInfoVO.getToSpv().getCaseCode())) {
+		    caseInfoMap	= toSpvService.queryCaseInfoMapByCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+			request.setAttribute("caseCode", caseInfoMap.get("caseCode"));
+		    request.setAttribute("caseInfoMap", caseInfoMap);
+		}
+		
 		//查询审核结果
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
@@ -564,9 +574,7 @@ public class SpvController {
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApply");
 		request.setAttribute("urlType", "myTask");
-		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
-			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
-		}
+		
 		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
 				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
 			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
@@ -616,7 +624,7 @@ public class SpvController {
 	public String toSpvApproveProcess(HttpServletRequest request,String source,String instCode,String taskId){	
 		
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(instCode);
-		
+
 		//查询审核结果
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
@@ -753,15 +761,18 @@ public class SpvController {
 	
 	@RequestMapping("queryByCaseCode")
 	public AjaxResponse<String> queryByCaseCode(String caseCode){
-        
+		
         AjaxResponse<String> response = new AjaxResponse<String>();
     	try{
-    		ToSpv toSpv = toSpvService.queryToSpvByCaseCode(caseCode);
+    		Map<String,Object> infoMap = toSpvService.queryInfoByCaseCode(caseCode);
+    		ToSpv toSpv = (ToSpv) infoMap.get("toSpv");
+    		Map<String,Object> caseInfoMap = (Map<String, Object>) infoMap.get("caseInfoMap");
     		if(toSpv != null){
     			response.setSuccess(true);
     			response.setMessage("该案件已经关联合约，不得重复关联！");
     			response.setContent("1");
     		} else{
+    			response.setContent(JSONObject.toJSONString(caseInfoMap));
     			response.setSuccess(true);
     		}
     	}catch(Exception e){

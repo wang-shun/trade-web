@@ -131,9 +131,16 @@ $(document).ready(function(){
      	  if(!checkFormSubmit()){
      		  return false;
      	  }
-     	  if(!confirm("确定提交并开启流程吗！")){
-     		  return false;
+     	  if($("#handle").val() == null || $("#handle").val() == ''){
+     		 if(!confirm("确定提交并开启流程吗！")){
+       		  return false;
+       	  } 	
+     	  }else{
+     		 if(!confirm("确定提交任务吗！")){
+          		  return false;
+          	  } 
      	  }
+     	  
       	  var totalArr = [];
       	  $("form").each(function(){
       		 var obj = $(this).serializeArray();
@@ -1008,13 +1015,15 @@ $(document).ready(function(){
 	    if(SpvApplyApprove != null){
 	    	data.SpvApplyApprove = SpvApplyApprove;
 	    }
-	    //验证参数是否填写正确
-    	var startWorkfollow = saveBtnClick(handle,SpvApplyApprove,'checkForSubmit');
+	    if(!handle || handle == "SpvApply"){
+	    	//验证参数是否填写正确
+	    	var startWorkfollow = saveBtnClick(handle,SpvApplyApprove,'checkForSubmit');
 
-	    //是否启动流程标记，false不启动，true启动
-	    if(!startWorkfollow){
-	    	return false;
-    	}
+		    //是否启动流程标记，false不启动，true启动
+		    if(!startWorkfollow){
+		    	return false;
+	    	}
+	    }   
 
 	    //调用ajax方法
 	    ajaxCall(url,data);
@@ -1028,8 +1037,7 @@ $(document).ready(function(){
     	$("input[name='spvCustList[1].idValiDate']").prop("disabled",true);
     	$("select").prop("disabled",true);
     	$("#realName").prop("disabled",true);
-    	$("input[id^=picFileupload]").prop("disabled",true);
-    	$("img").prop("disabled",true);
+    	$("input[id^='picFileupload']").prop("disabled",true);
     }
     
     function getParentBank(selector,selectorBranch,finOrgCode){
