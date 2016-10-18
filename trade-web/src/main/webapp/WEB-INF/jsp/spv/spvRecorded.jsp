@@ -225,7 +225,6 @@ src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 
 <script>
-
 $(function() {
 	 $("body").on("click",".icon_x",function(event){
 	        $(this).parent().remove();
