@@ -213,19 +213,6 @@
 <script src="${ctx}/static_res/trans/js/spv/spvReDetails.js"></script>
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 
-<script>
-$(function() {
-	 $("body").on("click",".icon_x",function(event){
-	        $(this).parent().remove();
-	        event.stopPropagation();
-	   })
-
-
-});
-/* $('.response').responsivegallery(); */
-
-
-</script>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="appCtx" value="<aist:appCtx appName='shcl-filesvr-web'/>" />
 </content>
