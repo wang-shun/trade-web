@@ -117,8 +117,7 @@
                         <div class="main_titile" style="position: relative;">
                             
                             <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal">关联案件</button></h5>
-						    <c:if test="${not empty caseCode }">
-						    <div class="case_content">
+						    <div class="case_content" ${empty caseCode?'style="display:none;"':''}>
 						    
                            <div class="case_row">
                                <div class="case_lump">
@@ -145,7 +144,6 @@
                                </div>
                            </div>
                            </div>
-                           </c:if>
                        </div>
 
                             <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
