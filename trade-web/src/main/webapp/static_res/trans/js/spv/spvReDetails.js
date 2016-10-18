@@ -72,9 +72,12 @@ function getTR(thisIndex){
             	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
             	var $img = $(image);
             	$('#td_file'+thisIndex).prepend($img);
-            	/*$image.responsivegallery();*/
-            	$img.viewer();
+            	//$('.wrapper-content').viewer();
             	imageSumb++;////记录完成上传附件的个数
+            	if(imageSum==imageSumb){
+            		$('.wrapper-content').viewer('destroy');
+            		$('.wrapper-content').viewer();
+            	}
         	}
         	
         }

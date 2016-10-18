@@ -1364,13 +1364,16 @@ public class ToSpvServiceImpl implements ToSpvService {
 			if(!StringUtils.isBlank(spvApplyCode)){//流水申请编号
 				toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
 			}else{
-				throw new BusinessException("流程申请编号生成失败！");
+				spvApplyCode = createSpvApplyCode();
+				toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
+				//throw new BusinessException("流程申请编号生成失败！");
 			}
 			
 			if(!StringUtils.isBlank(spvRecordedsVO.getSpvConCode())){//监管合约内部编号
 				toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());
 			}else{
-				throw new BusinessException("没有监管合约编号！");
+				toSpvCashFlowApply.setSpvCode(createSpvCode());
+				//throw new BusinessException("没有监管合约编号！");
 			}
 			toSpvCashFlowApply.setUsage("in");
 			//备注	toSpvCashFlowApply.setComment(comment);

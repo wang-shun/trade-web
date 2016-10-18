@@ -533,6 +533,7 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('LEND_DATE');
 			displayColomn.push('APPR_DATE');
 			displayColomn.push('REAL_HT_TIME');
+			displayColomn.push('END_TIME_');
 			displayColomn.push('CUST_NAME');
 			displayColomn.push('MORT_TOTAL_AMOUNT');
 			displayColomn.push('COM_AMOUNT');
@@ -775,6 +776,8 @@ function getParamsValue() {
 	var apprTimeEnd = null;
 	var realhtTimeStart = null;
 	var realhtTimeEnd = null;
+	var endTimeStart = null;
+	var endTimeEnd = null;
 
 	var comAmountStart = null;
 	var comAmountEnd = null;
@@ -851,7 +854,13 @@ function getParamsValue() {
 		realhtTimeEnd = end;
 		params.realhtTimeStart = realhtTimeStart;
 		params.realhtTimeEnd = realhtTimeEnd;
+	}else if (timeSelect == "END_TIME_") {
+		endTimeStart = start;
+		endTimeEnd = end;
+		params.endTimeStart = endTimeStart;
+		params.endTimeEnd = endTimeEnd;
 	}
+	
 	// 获取select 选中时间的值
 	var amountSelect = $("#loanLostCaseListAmountSelect option:selected").val();
 	if (amountSelect == "COM_AMOUNT") {
