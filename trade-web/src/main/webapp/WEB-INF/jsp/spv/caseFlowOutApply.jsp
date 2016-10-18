@@ -47,7 +47,7 @@
     <style>
 	.borderClass {border:1px solid red!important;resize: none;}
 	.borderClass:focus {border:1px solid red!important;resize: none;}
-	.bar {height: 18px;background: green;}
+	.bar {height: 18px;background: green;position:fixed;bottom:0;}
    </style>
 </head>
 <body>
@@ -316,11 +316,11 @@
                                             <td id="td_filex">
                                                 <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status">
 	                                                 	<span>
-	                                                 	<img id="image_${status.index }" href="${imgweb}/filesvr/downLoad?id=${toSpvCashFlowApplyAttach.attachId}" title="${toSpvCashFlowApplyAttach.comment}" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
+	                                                 	<img id="image_${status.index }" href="${imgweb}/filesvr/downLoad?id=${toSpvCashFlowApplyAttach.attachId}" style="width:0px;height:0px;display: none;" title="${toSpvCashFlowApplyAttach.comment}" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
 	                                                 	<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].pkid" value = "${toSpvCashFlowApplyAttach.pkid}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].attachId" value = "${toSpvCashFlowApplyAttach.attachId}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].comment" value = "${toSpvCashFlowApplyAttach.comment}" />
-															<button type="button" class="btn btn-sm btn-default" >${toSpvCashFlowApplyAttach.comment}
+															<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:12px;" onClick="showImg('#image_${status.index }')" >${toSpvCashFlowApplyAttach.comment}
  															<c:if test="${empty handle or handle eq 'apply' }">
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
@@ -394,11 +394,11 @@
 	                                                <td id="td_file${status2.index  }">
                                                 	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvVoucherList}" var="toSpvVoucher" varStatus="status3">
 	                                                 	<span>
-	                                                 	<img id="image_${status3.index }" src="${imgweb}/filesvr/downLoad?id=${toSpvVoucher.attachId}" title="${toSpvVoucher.comment}" alt="${toSpvVoucher.comment}" class="viewer-toggle" />
+	                                                 	<img id="image_${status3.index }" src="${imgweb}/filesvr/downLoad?id=${toSpvVoucher.attachId}" style="width:0px;height:0px;display: none;" title="${toSpvVoucher.comment}" alt="${toSpvVoucher.comment}" class="viewer-toggle" />
 	                                                 	<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].pkid" value = "${toSpvVoucher.pkid}"/>
 														<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].attachId" value = "${toSpvVoucher.attachId}"/>
 														<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].comment" value = "${toSpvVoucher.comment}" />
-															<button type="button" class="btn btn-sm btn-default" >${toSpvVoucher.comment}
+															<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:12px;" onClick="showImg('#image_${status3.index }')">${toSpvVoucher.comment}
 															<c:if test="${empty handle or handle eq 'apply' }">
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
@@ -503,17 +503,15 @@
                 </div>
             </div>
             <!-- main End -->
-            <div class="progress">
-               <div class="bar" style="width: 0%;"></div>
+            <div id="progress">
+                <div class="bar" style="width: 0%;">
+                    <span></span>
+                </div>
             </div>
         </div>
     </div>
     <!-- Mainly scripts -->
     <content tag="local_script">
-    <script src="${ctx}/static_res/trans/js/spv/jquery-2.1.1.js"></script>
-    <script src="${ctx}/static_res/trans/js/spv/bootstrap.min.js"></script>
-    <script src="${ctx}/static_res/trans/js/spv/jquery.metisMenu.js"></script>
-    <script src="${ctx}/static_res/trans/js/spv/jquery.slimscroll.min.js"></script>
     <!-- Custom and plugin javascript -->
     <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
     <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
@@ -551,10 +549,9 @@ var addSum = 0;
 var doneSum = 0;
 
 $(function() {
-    $(".icon_x").click(function() {
-        $(this).parent().parent().remove();
-        return false;
-    });
+	//图片渲染
+	$('.wrapper-content').viewer('destroy');
+	$('.wrapper-content').viewer();
 
     renderFileUpload("x","attach");
     
@@ -618,7 +615,7 @@ function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	var image = '<span><img id="image_'+thisIndex+'" src="'+fileUrl+'" style="width:0px;height:0px;display: none;" title="'+fileName+'" alt="'+fileName+'" class="viewer-toggle" />';
 	image += '<input type="hidden" name ="spvCaseFlowOutInfoVOList['+thisIndex+'].ToSpvCashFlow.attachIdArr" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
 	image += '<input type="hidden" name ="spvCaseFlowOutInfoVOList['+thisIndex+'].ToSpvCashFlow.commentArr" value="'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;" onClick="showImg(\'#image_'+thisIndex+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
+	image += '<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:10px;" onClick="showImg(\'#image_'+thisIndex+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
 	return image;
 }
 
@@ -627,7 +624,7 @@ function getUploadImage2(thisIndex,fileUrl,fileId,fileName){
 	var image = '<span><img id="image_'+addSum+'" src="'+fileUrl+'" style="width:0px;height:0px;display: none;" title="'+fileName+'" alt="'+fileName+'" class="viewer-toggle" />';
 	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+addSum+'].attachId" value = "'+fileId+'" fileName="'+fileName+addSum+'"/>';
 	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+addSum+'].comment" value="'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;" onClick="showImg(\'#image_'+addSum+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
+	image += '<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:10px;" onClick="showImg(\'#image_'+addSum+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
 	return image;
 }
 //删除入账申请信息tr
@@ -686,10 +683,7 @@ function renderFileUpload(k,a){
         progressall: function (e, data) {
         	$('#progress').show();
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress .bar').css(
-                'width',
-                progress + '%'
-            );
+            $('#progress .bar').css('width',progress+'%').find("span").css('color','red').text(progress+'%');
             if(progress == 100){
                 setTimeout($('#progress').fadeOut(2000));
             }
