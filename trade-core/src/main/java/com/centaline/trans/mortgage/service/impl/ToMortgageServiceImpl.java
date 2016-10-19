@@ -412,7 +412,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, manager.getUsername(),caseCode);
 		//插入工作流表
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
-		toWorkFlow.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
+		toWorkFlow.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 		toWorkFlow.setCaseCode(caseCode);
 		toWorkFlow.setInstCode(vo.getId());
 		toWorkFlow.setProcessDefinitionId(propertyUtilsService.getProcessTmpBankAuditDfKey());
@@ -459,7 +459,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 				//更新流程状态为‘4’：已完成
 				ToWorkFlow twf = new ToWorkFlow();
-				twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
+				twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 				twf.setCaseCode(caseCode);
 				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 				if(record != null){
@@ -495,7 +495,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				mortageDb.setTmpBankRejectReason(temBankRejectReason);
 				//更新流程状态为‘4’：已完成
 				ToWorkFlow twf = new ToWorkFlow();
-				twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
+				twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 				twf.setCaseCode(caseCode);
 				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 				if(record != null){
@@ -529,7 +529,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			
 			//更新流程状态为‘4’：已完成
 			ToWorkFlow twf = new ToWorkFlow();
-			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
+			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 			twf.setCaseCode(caseCode);
 			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 			if(record != null){

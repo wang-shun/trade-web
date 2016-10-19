@@ -120,7 +120,7 @@ public class ToMortgageController {
 			//临时银行开启时不允许反选
 			ToWorkFlow twf = new ToWorkFlow();
 
-			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
+			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 
 			twf.setCaseCode(toMortgage.getCaseCode());
 			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
