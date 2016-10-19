@@ -1450,7 +1450,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 			toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());//审核状态
 			//送结束日期	toSpvCashFlow.setCloseTime(closeTime);
-			//录入日期		toSpvCashFlow.setInputTime(inputTime);
+			toSpvCashFlow.setInputTime(spvRecordedsVOItems.get(i).getCashFlowCreateTime());//录入日期
 			toSpvCashFlow.setIsDeleted("0");//是否删除
 			toSpvCashFlow.setCreateTime(new Date());//创建时间
 			toSpvCashFlow.setCreateBy(user.getId());//创建人

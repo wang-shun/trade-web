@@ -209,7 +209,7 @@
 	                                                </td>
 	                                                 <td>
 	                                                 <div id="datepicker_0" class="input-medium date-picker input-daterange sign_right_speciale" data-date-format="yyyy-mm-dd">
-	<input id="inputTime'+thisIndex+'" name="inputTime'+thisIndex+'"class="form-control input-one" type="text" value=""placeholder="入账日期"></div>                                  
+	<input id="inputTime'+thisIndex+'" name="inputTime'+thisIndex+'"class="form-control input-one" type="text" value="<fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.inputTime }" pattern="yyyy-MM-dd"/>" placeholder="入账日期"></div>                                  
 	                                                 </td>    
 	                                                <td align="center">
 		                                               <a href="javascript:void(0)" onClick="getTR(${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()})">添加</span></a>
@@ -220,8 +220,8 @@
                                         </tbody>
                                     </table>
                                     <div class="form-btn">
-                                <div class="text-center">
-                                    <!-- <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button> -->
+                                <div class="text-center"><!-- 
+                                    <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button> -->
                                     <button type="button" onclick="rescCallbocak()"class="btn btn-default mr15">关闭</button>
                                     <a onclick="sumbitRe()" class="btn btn-success">提交</a>
                                 </div>

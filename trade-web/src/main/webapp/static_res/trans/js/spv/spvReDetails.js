@@ -43,7 +43,7 @@ function getTR(thisIndex){
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td> <div id="datepicker_'+thisIndex+'"  class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">';
-	$str+=' <input id="inputTime'+thisIndex+'" style="width:106px" name="inputTime"class="form-control input-one" type="text" value=""placeholder="入账日期"></div>' ;                                                                                                                                                                                     
+	$str+=' <input id="inputTime'+thisIndex+'" style="width:106px" name="items['+thisIndex+'].cashFlowCreateTime"class="form-control input-one" type="text" placeholder="入账日期"></div>' ;                                                                                                                                                                                     
 	$str+='	</td> ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
 	if(thisIndex > 0){

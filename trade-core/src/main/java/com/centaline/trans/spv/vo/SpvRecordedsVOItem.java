@@ -1,6 +1,7 @@
 package com.centaline.trans.spv.vo;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class SpvRecordedsVOItem {
 	//付款人姓名
@@ -20,6 +21,14 @@ public class SpvRecordedsVOItem {
 	//文件名
 	private String fileName;
 	
+	private Date cashFlowCreateTime;
+	
+	public Date getCashFlowCreateTime() {
+		return cashFlowCreateTime;
+	}
+	public void setCashFlowCreateTime(Date cashFlowCreateTime) {
+		this.cashFlowCreateTime = cashFlowCreateTime;
+	}
 	public String getFileName() {
 		return fileName;
 	}
