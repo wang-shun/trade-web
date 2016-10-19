@@ -239,3 +239,11 @@ em, i {
 .submitter span {
   color: #333;
 }
+.enregisterarea {
+  display:inline;
+  float: left;
+  width:748px;
+  max-width:748px;
+  height:100px;
+  margin-left:5px;
+}

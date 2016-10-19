@@ -594,7 +594,7 @@ function getTR(thisIndex){
 	$str+='	<td id="td_file'+thisIndex+'">';
 	$str+='		<span class="btn_file'+thisIndex+'">';
 	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload" data-sequential-uploads="true">';
-	$str+='			<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;cursor:pointer; background-image:url('+ctx+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');"/>';
+	$str+='			<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;cursor:pointer; background-image:url('+ctx+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');" >;</label>';
 	$str+='		</span>';
 	$str+='	</td>';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+(parseInt(sum)+1)+')">添加</a>';

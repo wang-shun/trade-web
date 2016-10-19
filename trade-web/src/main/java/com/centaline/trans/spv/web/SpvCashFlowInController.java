@@ -81,21 +81,12 @@ public class SpvCashFlowInController {
 	
 	@Autowired
 	private ToSpvService toSpvService;
-	
-	@Autowired
-	private ToApproveRecordService toApproveRecordService;
-	
 	@Autowired
 	private UamSessionService uamSessionService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
-	private ToCaseService toCaseService;
-	 
-	@Autowired
 	private ToAccesoryListService toAccesoryListService;
-	@Autowired
-	private WorkFlowManager workFlowManager;
 	@Autowired
 	MessageService messageService;
 	@Autowired
@@ -108,18 +99,8 @@ public class SpvCashFlowInController {
 	ProcessInstanceService processInstanceService;
 	@Autowired
 	private UamPermissionService uamPermissionService;
-	
 	@Autowired
 	private CashFlowInService cashFlowInService;
-	
-	@Autowired
-	private CashFlowOutService cashFlowOutService;
-	
-	@Autowired
-	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
-	@Autowired
-	private ToSpvReceiptMapper toSpvReceiptMapper;
-	
 	/**
 	 * 起草入账页面保存
 	 * @param spvrevo
@@ -159,60 +140,12 @@ public class SpvCashFlowInController {
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
 
 		toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApple(request,pkid,caseCode);
-		
-		
-		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
-		
-	    /**
-	     * 测试代码
-	     */
-	    
-	    List<ToSpvReceipt> attachList = toSpvReceiptMapper.selectByCashFlowId("184");
-	    request.setAttribute("accesoryList", parentOrg.getId());
-		if (attachList != null && attachList.size() > 0) {
-			int size = attachList.size();
-			request.setAttribute("accesoryList", attachList);
-			List<Long> idList = new ArrayList<Long>(size);
-			for (int i = 0; i < size; i++) {
-				idList.add(attachList.get(i).getPkid());
-			}
-			request.setAttribute("idList", idList);
-		}
-    	
-	    /**
-	     * 测试代码
-	     */
-	    
-	    
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/spvRecorded";
-	}
-	/**
-	 * 入账审核页面
-	 * @param pkid
-	 * @param caseCode
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("spvRecordShow")
-	public String spvRecordShow(Long pkid,String caseCode,HttpServletRequest request){
-	/*	SessionUser currentUser = uamSessionService.getSessionUser();
-		String currentDeptId = currentUser.getServiceDepId();
-		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
-		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
-		
-		//toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApple(request,pkid,caseCode);
-		SpvRecordedInfoVO spvRecordedInfoVO = toSpvService.findSpvRecordedInfoVOByCashFlowApplyCode(caseCode);*/
-	//	String a = request.getAttribute("taskId"); 
-		/*cashFlowOutService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-		
-		request.setAttribute("spvRecordedInfoVO", spvRecordedInfoVO);
-		request.setAttribute("orgId", parentOrg.getId());*/
-		return "spv/spvRecordShow";
 	}
 	/**
 	 * 入账驳回页面
@@ -347,8 +280,8 @@ public class SpvCashFlowInController {
 	   /**
 	 * @throws Exception 
   * @Title: cashFlowOutApprDeal 
-  * @Description: 出款申请操作
-  * @author: gongjd 
+  * @Description: 入账申请删除流水操作
+  * @author:hejf 
   * @param request
   * @param source
   * @param instCode
@@ -368,6 +301,36 @@ public class SpvCashFlowInController {
 	response.setSuccess(true);
  	return response;
 	}
+ /**
+  * @throws Exception 
+  * @Title: deleteCashFlowAll 
+  * @Description: 根据cashflowappid删除所有相关入账信息
+  * @author: hejf 
+  * @param request
+  * @param source
+  * @param instCode
+  * @param taskId
+  * @param handle
+  * @param spvChargeInfoVO
+  * @return response
+  * @throws
+  */
+ @RequestMapping("deleteCashFlowAll")
+ public AjaxResponse<?> cashFlowOutApprDeleteCashFlowAll(HttpServletRequest request,String instCode,
+		 String pkid,String handle) throws Exception {
+	 AjaxResponse<?> response = new AjaxResponse<>();
+	 try{
+		 cashFlowInService.cashFlowOutApprDeleteCashFlowAll( request,  instCode,  pkid, handle);
+		 response.setSuccess(true);
+	 }catch(Exception e){
+		 response.setMessage(e.getMessage());
+		 response.setSuccess(false);
+		 throw e;
+	 }
+	
+	 return response;
+ }
+ 
 }
 
 
