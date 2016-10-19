@@ -696,25 +696,35 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			toSpvCashFlowApplyAttachMapper.setIsDeletedByPrimaryKey(pkid);
 		}
 	}
-	
+	/**
+	 * 删除入账申请数据
+	 */
 	@Override
 	public void cashFlowOutApprDeleteCashFlowAll(HttpServletRequest request, String instCode, String pkid,
 			String handle) throws Exception {
 		SessionUser user = uamSessionService.getSessionUser();
 		if(StringUtils.equals("apply", handle) && !StringUtils.isBlank(instCode)){
-			processInstanceService.deleteProcess(instCode);//删除流程
 			ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByPrimaryKey(Long.valueOf(pkid));
-			
-			ToSpvCashFlow toSpvCashFlow = toSpvCashFlowMapper.selectByPrimaryKey(Long.valueOf(pkid));
-			toSpvCashFlow.setUpdateBy(user.getId());
-			toSpvCashFlow.setUpdateTime(new Date());
-			toSpvCashFlow.setIsDeleted("1");
-			toSpvCashFlowMapper.updateByPrimaryKey(toSpvCashFlow);
+			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid());
+			for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
+				toSpvCashFlow.setUpdateBy(user.getId());
+				toSpvCashFlow.setUpdateTime(new Date());
+				toSpvCashFlow.setIsDeleted("1");
+				toSpvCashFlowMapper.updateByPrimaryKey(toSpvCashFlow);//删除入账流水
+				List<ToSpvReceipt> toSpvReceiptList = toSpvReceiptMapper.selectByCashFlowId(toSpvCashFlow.getPkid().toString());
+				for(ToSpvReceipt toSpvReceipt:toSpvReceiptList){
+					toSpvReceipt.setUpdateBy(user.getId());
+					toSpvReceipt.setUpdateTime(new Date());
+					toSpvReceipt.setIsDeleted("1");
+					toSpvReceiptMapper.updateByPrimaryKeySelective(toSpvReceipt);//删除入账流水附件
+				}
+			}
+			toSpvCashFlowApply.setUpdateBy(user.getId());
+			toSpvCashFlowApply.setUpdateTime(new Date());
+			toSpvCashFlowApply.setIsDeleted("1");
+			toSpvCashFlowApplyMapper.updateByPrimaryKey(toSpvCashFlowApply);//删除入账申请
+			processInstanceService.deleteProcess(instCode);//删除流程
 		}
-		
-		
-		
-		
 	}
 
 }
