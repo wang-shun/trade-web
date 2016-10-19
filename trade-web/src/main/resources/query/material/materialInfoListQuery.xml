@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>		
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>	
+	
+	<query id="findMaterialInfoList">
+	    <searchCondition>    
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[  				
+				SELECT 
+					C.PKID,
+					M.CASE_CODE,
+					M.CREATE_BY,
+					M.ITEM_MANAGER,
+					M.CREATE_TIME,
+					M.ITEM_BACK_TIME,
+					M.ITEM_INPUT_TIME,
+					M.ITEM_OUTPUT_TIME,
+					M.ITEM_STATUS,
+					M.ITEM_ADDR_CODE,
+					P.PROPERTY_ADDR
+				FROM  sctrans.T_MM_MATERIAL_ITEM M
+				LEFT JOIN sctrans.T_TO_PROPERTY_INFO P ON P.CASE_CODE=M.CASE_CODE
+				LEFT JOIN sctrans.T_TO_CASE  C ON C.CASE_CODE=M.CASE_CODE
+				where  1=1				
+<!-- 				<ifNotNull signTimeStart>
+				     and T.SIGN_DATE >= #signTimeStart#
+				</ifNotNull>				
+				<ifNotNull signTimeEnd>
+				     and T.SIGN_DATE &lt;= #signTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull lendTimeStart>
+				     and T.LEND_DATE >= #lendTimeStart#
+				</ifNotNull>				
+				<ifNotNull lendTimeEnd>
+				     and T.LEND_DATE &lt;= #lendTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull apprTimeStart>
+				     and T.APPR_DATE >= #apprTimeStart#
+				</ifNotNull>				
+				<ifNotNull apprTimeEnd>
+				     and T.APPR_DATE &lt;= #apprTimeEnd#
+				</ifNotNull> -->
+	
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  ORDER BY M.CREATE_TIME DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+			    <column type="both" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="true"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="MORT_TYPE"  title="贷款类型"  referencecol="MORT_TYPE_OLD"  customDict="qqcdMortName"  isSort="true" order="desc"/>
+				
+			
+				<column type="both" name="ITEM_MANAGER" index="" checkbox=""   title="保管人" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CREATE_BY" index="" checkbox="true" title="提交人"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+						
+				<column type="both" name="CREATE_TIME" index="" checkbox="" title="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ITEM_BACK_TIME" index="" checkbox="" title="退还时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ITEM_INPUT_TIME" index="" checkbox="" title="入库时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ITEM_OUTPUT_TIME" index="" checkbox="" title="借出时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				
+				<column type="both" name="ITEM_STATUS" index="" checkbox="" title="物品状态"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_ADDR_CODE" index="" checkbox="" title="物品位置编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+			</table-row>
+		</grid>
+	</query>
+</querys>
