@@ -139,4 +139,7 @@ public interface CashFlowInService {
 	void saveAttachments(FileUploadVO fileUploadVO,String cashFlowCode);
 	
 	void delAttachment(List<Long> pkIdArr);
+	
+	 void cashFlowOutApprDeleteCashFlowAll(HttpServletRequest request, String instCode, String pkid,
+				String handle) throws Exception;
 }

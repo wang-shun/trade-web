@@ -221,7 +221,7 @@
                                     </table>
                                     <div class="form-btn">
                                 <div class="text-center">
-                                    <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button>
+                                    <!-- <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button> -->
                                     <button type="button" onclick="rescCallbocak()"class="btn btn-default mr15">关闭</button>
                                     <a onclick="sumbitRe()" class="btn btn-success">提交</a>
                                 </div>
@@ -261,11 +261,6 @@
         </div>
     </div>
 <content tag="local_script">
-  <!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
-<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <!-- Custom and plugin javascript -->
 <script src="${ctx}/static/js/inspinia.js"></script>
 <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script><%-- 

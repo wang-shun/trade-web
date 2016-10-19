@@ -280,8 +280,8 @@ public class SpvCashFlowInController {
 	   /**
 	 * @throws Exception 
   * @Title: cashFlowOutApprDeal 
-  * @Description: 出款申请操作
-  * @author: gongjd 
+  * @Description: 入账申请删除流水操作
+  * @author:hejf 
   * @param request
   * @param source
   * @param instCode
@@ -301,6 +301,36 @@ public class SpvCashFlowInController {
 	response.setSuccess(true);
  	return response;
 	}
+ /**
+  * @throws Exception 
+  * @Title: deleteCashFlowAll 
+  * @Description: 根据cashflowappid删除所有相关入账信息
+  * @author: hejf 
+  * @param request
+  * @param source
+  * @param instCode
+  * @param taskId
+  * @param handle
+  * @param spvChargeInfoVO
+  * @return response
+  * @throws
+  */
+ @RequestMapping("deleteCashFlowAll")
+ public AjaxResponse<?> cashFlowOutApprDeleteCashFlowAll(HttpServletRequest request,String instCode,
+		 String pkid,String handle) throws Exception {
+	 AjaxResponse<?> response = new AjaxResponse<>();
+	 try{
+		 cashFlowInService.cashFlowOutApprDeleteCashFlowAll( request,  instCode,  pkid, handle);
+		 response.setSuccess(true);
+	 }catch(Exception e){
+		 response.setMessage(e.getMessage());
+		 response.setSuccess(false);
+		 throw e;
+	 }
+	
+	 return response;
+ }
+ 
 }
 
 
