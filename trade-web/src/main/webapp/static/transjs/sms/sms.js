@@ -26,7 +26,7 @@
 				msTempleCode.append($('<option>').val('').text("请选择").attr('selected',true));
 				var msPhone=$("<input>").addClass('msPhone form-control  m-b');
 				var msContent=$("<textarea>").addClass('msContent form-control  m-b').attr('style',"height: 220px;");
-				var btnSend=$("<button>").addClass('btn btn-primary  m-b').text('发送').click(this.sendSms);
+				var btnSend=$("<button>").addClass('btn btn-success btn-space').text('发送').click(this.sendSms);
 				$(this._data).each(function(){
 					msTempleCode.append($('<option>').val(this.userFlag).text(this.userName));
 				});
