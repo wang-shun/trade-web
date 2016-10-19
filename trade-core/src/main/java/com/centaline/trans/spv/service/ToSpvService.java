@@ -233,8 +233,6 @@ public interface ToSpvService {
     
     void saveSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String type,String spvApplyCode)throws Exception;
     
-    void sumbitSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String type) throws Exception;
-    
     SpvReturnCashflowVO saveSpvChargeInfoVOFormHtml(SpvRecordedsVO spvRecordedsVO,String type) throws Exception;
 
     SpvChargeInfoVO findSpvChargeInfoVOByCashFlowApplyCodeByIn(String cashFlowApplyCode);
