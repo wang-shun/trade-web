@@ -179,7 +179,6 @@ function checkReceiptNo(){
 			
 			return false;
 		}else{
-			alert($(e).val());
 			sumAmount = accAdd(sumAmount,$(e).val());
 		}
 		
