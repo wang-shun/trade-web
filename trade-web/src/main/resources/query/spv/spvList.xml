@@ -67,7 +67,7 @@
 							a.agent_phone as MOBILE,
 							SYSUSER.ORG_ID,
 							c.pkid as caseId,
-							(select COUNT(cp.PKID) from   sctrans.T_TO_SPV_CASHFLOW_APPLY cp WHERE spv.SPV_CODE=cp.SPV_CODE and cp.STATUS=4 and cp.USAGE='in') as SumRu
+							(select COUNT(cp.PKID) from   sctrans.T_TO_SPV_CASHFLOW_APPLY cp WHERE spv.SPV_CODE=cp.SPV_CODE and cp.STATUS=03 and cp.USAGE='in') as SumRu
 							FROM sctrans.T_TO_SPV spv
 					LEFT JOIN sctrans.T_TO_SPV_PROPERTY sp on spv.SPV_CODE=sp.SPV_CODE
 					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON spv.CASE_CODE=a.CASE_CODE
