@@ -20,6 +20,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
+import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToWorkFlowService;
@@ -115,7 +116,16 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutPageDeal(HttpServletRequest request, String instCode, String taskId,String taskitem,
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey) throws Exception {
 		SessionUser user = uamSessionService.getSessionUser();
-        // TODO 判断流程是否已存在
+        // 判断流程是否已存在
+		if(StringUtils.isNotBlank(businessKey)){
+			PageableVo pVo = processInstanceService.getByBusinessKey(businessKey);
+			List<TaskVo> tList  = pVo.getData();
+			for(TaskVo tVo : tList){
+				if(tVo.getProcessDefinition().contains(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode())){
+					throw new BusinessException("流程已存在，请勿重复开启！");
+				}
+			}	
+		}
 		
 		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
 		
@@ -147,6 +157,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		//获取合约
 		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode());
 		Map<String, Object> vars = new HashMap<String, Object>();
+		vars.put("assignee", "jinjj02");
+		
 		String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 		//开启流程
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
@@ -154,7 +166,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 
 		//插入工作流表
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setBusinessKey("SPVCashflowOutProcess");
+		workFlow.setBusinessKey(cashflowApplyCode);
 		workFlow.setCaseCode(toSpv.getCaseCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(propertyUtilsService.getSPVCashflowOutProcessDfKey());

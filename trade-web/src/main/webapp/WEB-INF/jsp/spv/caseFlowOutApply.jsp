@@ -77,6 +77,7 @@
 		<input type="hidden" id="doneSum" value="0" >
 		<%--流水--%>
 		<input type="hidden" id="sum" value="${fn:length(spvChargeInfoVO.spvCaseFlowOutInfoVOList)}" >
+		<input type="hidden" id="attSum_" value="${fn:length(spvChargeInfoVO.toSpvCashFlowApplyAttachList)}" >
 		<!-- main Start -->
             <!-- main Start -->
 
@@ -316,7 +317,7 @@
                                             <td id="td_filex">
                                                 <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status">
 	                                                 	<span>
-	                                                 	<img id="image_${status.index }" href="${imgweb}/filesvr/downLoad?id=${toSpvCashFlowApplyAttach.attachId}" style="width:0px;height:0px;display: none;" title="${toSpvCashFlowApplyAttach.comment}" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
+	                                                 	<img id="image_${status.index }" href="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvCashFlowApplyAttach.attachId}" style="width:0px;height:0px;display: none;" title="${toSpvCashFlowApplyAttach.comment}" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
 	                                                 	<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].pkid" value = "${toSpvCashFlowApplyAttach.pkid}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].attachId" value = "${toSpvCashFlowApplyAttach.attachId}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].comment" value = "${toSpvCashFlowApplyAttach.comment}" />
@@ -394,7 +395,7 @@
 	                                                <td id="td_file${status2.index  }">
                                                 	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvVoucherList}" var="toSpvVoucher" varStatus="status3">
 	                                                 	<span>
-	                                                 	<img id="image_${status3.index }" src="${imgweb}/filesvr/downLoad?id=${toSpvVoucher.attachId}" style="width:0px;height:0px;display: none;" title="${toSpvVoucher.comment}" alt="${toSpvVoucher.comment}" class="viewer-toggle" />
+	                                                 	<img id="image_${status3.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvVoucher.attachId}" style="width:0px;height:0px;display: none;" title="${toSpvVoucher.comment}" alt="${toSpvVoucher.comment}" class="viewer-toggle" />
 	                                                 	<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].pkid" value = "${toSpvVoucher.pkid}"/>
 														<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].attachId" value = "${toSpvVoucher.attachId}"/>
 														<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].comment" value = "${toSpvVoucher.comment}" />
@@ -419,7 +420,7 @@
 	                                                </td>
 	                                                <c:if test="${empty handle or handle eq 'apply' }">
 	                                                <td align="center">
-		                                                <a href="javascript:void(0)" onClick="getTR(parseInt($('#sum').val())+1)">添加</span></a>
+		                                                <a href="javascript:void(0)" onClick="getTR(parseInt($('#sum').val()))">添加</span></a>
 		                                                <a href="javascript:void(0)" onClick="getDel(this)">删除</span></a>
 	                                                </td>
 	                                                </c:if>
@@ -543,8 +544,8 @@
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
     <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <script>
-var sum = $("#sum").val();
-var attSum = $("#attSum").val();
+var sum = parseInt($("#sum").val());
+var attSum_ = parseInt($("#attSum_").val());
 var addSum = 0;
 var doneSum = 0;
 
@@ -597,7 +598,7 @@ function getTR(thisIndex){
 	$str+='			<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;cursor:pointer; background-image:url('+ctx+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');" >;</label>';
 	$str+='		</span>';
 	$str+='	</td>';
-	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+(parseInt(sum)+1)+')">添加</a>';
+	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+(parseInt(thisIndex)+1)+')">添加</a>';
 	if(thisIndex > 0){
 		$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>';
 	}
@@ -621,10 +622,12 @@ function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 
 function getUploadImage2(thisIndex,fileUrl,fileId,fileName){
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = '<span><img id="image_'+addSum+'" src="'+fileUrl+'" style="width:0px;height:0px;display: none;" title="'+fileName+'" alt="'+fileName+'" class="viewer-toggle" />';
-	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+addSum+'].attachId" value = "'+fileId+'" fileName="'+fileName+addSum+'"/>';
-	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+addSum+'].comment" value="'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:10px;" onClick="showImg(\'#image_'+addSum+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
+	var attSum = attSum_;
+	var image = '<span><img id="image_'+attSum+'" src="'+fileUrl+'" style="width:0px;height:0px;display: none;" title="'+fileName+'" alt="'+fileName+'" class="viewer-toggle" />';
+	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+attSum+'].attachId" value = "'+fileId+'" fileName="'+fileName+addSum+'"/>';
+	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+attSum+'].comment" value="'+fileName+'" />';
+	image += '<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:10px;" onClick="showImg(\'#image_'+attSum+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
+	attSum_++;
 	return image;
 }
 //删除入账申请信息tr

@@ -1,8 +1,10 @@
 
-$(document).ready(function(){
+$(document).ready(function(){	    
 		//流程开启后只读表单
 		if($("#handle").val() != null && $("#handle").val() != '' && $("#handle").val() != 'SpvApply'){
 		    readOnlyRiskForm();
+		}else{
+			$(".delete").show();
 		}
 
 		$("select[name='toSpv.buyerPayment']").change(function(){
@@ -226,8 +228,8 @@ $(document).ready(function(){
 });
     
     function saveBtnClick(handle,SpvApplyApprove,type){
-
-    	if(type == 'checkForSubmit' && handle == 'spvApply'){
+debugger;
+    	if(type == 'checkForSubmit' && handle == 'SpvApply'){
       	  if(!checkFormSubmit()){
         		  return false;
         	  }
@@ -237,16 +239,16 @@ $(document).ready(function(){
       	  }
       }	 
 
-  	  if(handle == 'spvApply'){
+  	  if(handle == 'SpvApply'){
 	  		if(!confirm("是否确定提交申请！")){
 	  		  return false;
 	  	  }
-  	  }else if(handle == 'spvApprove' && SpvApplyApprove){
+  	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
 	   	   if(!confirm("是否确定通过！")){
 	 		  return false;
 	 	  }
 
-  	  }else if(handle == 'spvApprove' && !SpvApplyApprove){
+  	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
     	   var passOrRefuseReason = $("#passOrRefuseReason").val();
      	   if(passOrRefuseReason=='' || passOrRefuseReason==null){
      		   alert("请在备注栏填写驳回原因！");
@@ -255,7 +257,7 @@ $(document).ready(function(){
 	  		if(!confirm("是否确定驳回！")){
 	     		  return false;
 	     	  }
-  	  }else if(handle == 'spvSign'){
+  	  }else if(handle == 'SpvSign'){
 	   	   if(!confirm("是否确定签约！")){
 	 		  return false;
 	 	  }
@@ -299,7 +301,7 @@ $(document).ready(function(){
 	 			        	 window.close(); //关闭子窗口.
 	 				     }else{
 	 				    	 alert("数据保存成功！");
-				    	 window.location.href = ctx+"/spv/spvList";
+				    	     window.location.reload();
 				     }
 	 					 $.unblockUI();
 	 				},		
@@ -1019,15 +1021,13 @@ $(document).ready(function(){
 	    	data.spvConCode = $("input[name='toSpv.spvConCode']").val();
 	    	data.signTime = $("input[name='toSpv.signTime']").val();
 	    }
-	    if(!handle || handle == "SpvApply"){
-	    	//验证参数是否填写正确
-	    	var startWorkfollow = saveBtnClick(handle,SpvApplyApprove,'checkForSubmit');
+    	//验证参数是否填写正确
+    	var startWorkfollow = saveBtnClick(handle,SpvApplyApprove,'checkForSubmit');
 
-		    //是否启动流程标记，false不启动，true启动
-		    if(!startWorkfollow){
-		    	return false;
-	    	}
-	    }   
+	    //是否启动流程标记，false不启动，true启动
+	    if(!startWorkfollow){
+	    	return false;
+    	} 
 
 	    //调用ajax方法
 	    ajaxCall(url,data);
