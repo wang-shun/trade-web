@@ -4,8 +4,11 @@
 .newtitle {
     font-size: 14px;
     font-weight: 700;
+    font-family: "Microsoft Yahei";
 }
 .newtitle-big {
+	margin-top: 20px;
+	font-family: "Microsoft Yahei";
     font-size: 16px;
     font-weight: 700;
 }
@@ -108,14 +111,6 @@ em, i {
 }
 
 
-
-
-
-
-
-
-
-
 .view-content {
   padding: 25px 30px 0px;
   margin-top: 20px;
@@ -176,7 +171,7 @@ em, i {
 }
 .excuse {
     clear: both;
-    padding: 25px 30px;
+    padding: 25px 30px!important;
     font-family: "Microsoft Yahei";
 }
 .newstextone {

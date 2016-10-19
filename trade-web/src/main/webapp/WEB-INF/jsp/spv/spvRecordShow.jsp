@@ -45,9 +45,11 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
- 	 <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
- 	 <link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+ 	<link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+ 	<link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
+	<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+	<!-- 必须CSS -->
+	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
  	 
 
 </head>
@@ -79,7 +81,7 @@
                                   <label>
                                     	  物业地址
                                   </label>
-                                  <p  class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }">${spvBaseInfoVO.toSpvProperty.prAddr }</p>
+                                  <span class="info" ><span class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }">${spvBaseInfoVO.toSpvProperty.prAddr }</span></span>
                               </p>
 
                           </div>
@@ -88,14 +90,14 @@
                                   <label>
                                    	   收款人名称
                                   </label>
-                                  <span class="info_one">${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}</span>
+                                  <span class="info_one"><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}">${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}</span></span>
                               </p>
 
                               <p>
                                   <label>
                                       	收款人账户
                                   </label>
-                                  <span class="info_one">${spvBaseInfoVO.toSpvAccountList[2].account }</span>
+                                  <span class="info_one"><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].account }">${spvBaseInfoVO.toSpvAccountList[2].account }</span></span>
                               </p>
 
                               <p>
@@ -232,14 +234,13 @@
 <script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
 <script src="${ctx}/static/js/inspinia.js"></script>
 <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
-<!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-
 <!-- stickup plugin -->
 <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <script type="text/javascript">
 $(function(){

@@ -4,43 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpvRecordedsVO {
+	
 	private List<SpvRecordedsVOItem> items = new ArrayList<SpvRecordedsVOItem>();
 	private String prdCode;//产品类型
 	private Double amount;//监管金额
 	private String prAddr;//物业地址
 	private String spvAccountName;//收款人名称
 	private String spvAccountCode;//收款人账户
-	//收款人开户行
-	private String spvAccountBank;
-	
-	
-	//监管合约编号
-    private String spvConCode;
-    
+	private String spvAccountBank;//收款人开户行
+    private String spvConCode;//监管合约编号
     private String handle;
-    
     private String taskId;
-    
     private Boolean chargeInAppr;
-    
     private String source;
-    
     private String instCode;
-    
     private String caseCode;
-    //页面类型
-    private String type;
-    //保存数据返回的表pkid
-    private String toSpvCashFlowApplyPkid;
-    
+    private String type;//页面类型
+    private String toSpvCashFlowApplyPkid;//保存数据返回的表pkid
 	private String ToSpvCashFlowPkid;
-	
 	private String ToSpvReceiptPkid;
-	
 	private String businessKey;
-	
 	private String turndownContent;
-	
  	
 	public String getTurndownContent() {
 		return turndownContent;

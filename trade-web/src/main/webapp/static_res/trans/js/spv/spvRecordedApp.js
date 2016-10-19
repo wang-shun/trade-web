@@ -276,6 +276,33 @@ function checkReceiptNo(){
 		    changeClass(payerAccEle);
 			return false;
 		 }
+	
+	var payerAmountFlag = true;
+	var payerAmountEle;
+	var sumAmount = 0;
+	$("input[name$='payerAmount']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
+			payerAmountFlag = false;
+			payerAmountEle = $(e);
+			
+			return false;
+		}else{
+			sumAmount = accAdd(sumAmount,$(e).val());
+		}
+		
+	});
+	if(!payerAmountFlag){
+	    	alert("请填写有效的金额！");
+		    changeClass(payerAmountEle);
+			return false;
+	}
+	
+    var amount = $("#amount").attr("value");
+    if(parseFloat(sumAmount) > parseFloat(amount)){
+    	alert("入账金额不能大于监管金额！");
+    	return false;
+    }
+	 
 	var receiptNoFlag = true;
 	var receiptNoEle;
 	$("input[name$='receiptNo']").each(function(i,e){
@@ -290,34 +317,34 @@ function checkReceiptNo(){
 		    changeClass(receiptNoEle);
 			return false;
 		 }
-	var payerAmountFlag = true;
-	var payerAmountEle;
-	$("input[name$='payerAmount']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
-			payerAmountFlag = false;
-			payerAmountEle = $(e);
-			return false;
-		}
-	});
-	 if(!payerAmountFlag){
-	    	alert("请填写有效的金额！");
-		    changeClass(payerAmountEle);
-			return false;
-		 }
 	var voucherNoFlag = true;
 	var voucherNoEle;
-	$("input[name$='voucherNo']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+	$("select[name$='voucherNo']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '')){
 			voucherNoFlag = false;
 			voucherNoEle = $(e);
 			return false;
 		}
 	});
-	 if(!voucherNoFlag){
-	    	alert("请填写有效的转账凭证！");
-		    changeClass(voucherNoEle);
+	if(!voucherNoFlag){
+    	alert("请选择有效的付款方式！");
+	    changeClass(voucherNoEle);
+		return false;
+	 }
+	var cashFlowCreateTimeFlag = true;
+	var cashFlowCreateTimeEle;
+	$("input[name$='cashFlowCreateTime']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '')){
+			cashFlowCreateTimeFlag = false;
+			cashFlowCreateTimeEle = $(e);
 			return false;
-		 }
+		}
+	});
+	if(!cashFlowCreateTimeFlag){
+		alert("请选择有效的入账时间！");
+		changeClass(cashFlowCreateTimeEle);
+		return false;
+	}
 		
 	var reg = /^[0-9]*$/;
 	if(receiptNoArray.length<0){
@@ -448,4 +475,15 @@ function isNumber2(num){
 	return true;
 }
 /*****************************************************************************************/
+//加法函数，用来得到精确的加法结果
+//说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+//调用：accAdd(arg1,arg2)
+//返回值：arg1加上arg2的精确结果
+function accAdd(arg1,arg2){
+var r1,r2,m;
+try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+m=Math.pow(10,Math.max(r1,r2));
+return ((arg1*m+arg2*m)/m).toFixed(2);
+}
 

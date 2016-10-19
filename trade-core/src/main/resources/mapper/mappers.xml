@@ -214,5 +214,8 @@
 		<mapper resource="mapper/material/MmIoBatchMapper.xml" />
 		<mapper resource="mapper/material/MmItemBatchMapper.xml" />
 		<mapper resource="mapper/material/MmMaterialItemMapper.xml" />
+		
+		<!-- 回访登记 -->
+		<mapper resource="/mapper/cases/ReturnVisitRegistrationMapper.xml" />
 	</mappers>
 </configuration>
