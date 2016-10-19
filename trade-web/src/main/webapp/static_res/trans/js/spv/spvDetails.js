@@ -190,22 +190,22 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
-    	   riskAjaxRequest(null,'spvApply',ctx+'/spv/spvApply/deal');	
+    	   riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
        });
        
        //风控总监审批通过
        $("#riskDirectorApproveY").click(function(){
-    	   riskAjaxRequest(true,'spvApprove',ctx+'/spv/spvApprove/deal');
+    	   riskAjaxRequest(true,'SpvApprove',ctx+'/spv/spvApprove/deal');
        });
        
        //风控总监审批驳回
        $("#riskDirectorApproveN").click(function(){      	   
-    	   riskAjaxRequest(false,'spvApprove',ctx+'/spv/spvApprove/deal');
+    	   riskAjaxRequest(false,'SpvApprove',ctx+'/spv/spvApprove/deal');
        });
        
        //风控专员签约
        $("#RiskOfficerSign").click(function(){
-    	   riskAjaxRequest(null,'spvSign',ctx+'/spv/spvSign/deal');
+    	   riskAjaxRequest(null,'SpvSign',ctx+'/spv/spvSign/deal');
        });
 
        $('#chat-discussion').hide();
@@ -1014,6 +1014,10 @@ $(document).ready(function(){
 	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),remark:$("#passOrRefuseReason").val(),source:$("#source").val()};
 	    if(SpvApplyApprove != null){
 	    	data.SpvApplyApprove = SpvApplyApprove;
+	    }
+	    if(handle == "SpvSign"){
+	    	data.spvConCode = $("input[name='toSpv.spvConCode']").val();
+	    	data.signTime = $("input[name='toSpv.signTime']").val();
 	    }
 	    if(!handle || handle == "SpvApply"){
 	    	//验证参数是否填写正确

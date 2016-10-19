@@ -747,13 +747,15 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId, String spvConCode, Date signTime){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
 		spv.setStatus("2");
+		spv.setSpvConCode(spvConCode);
+		spv.setSignTime(signTime);
 		toSpvService.updateByPrimaryKey(spv);
 
 		return AjaxResponse.success();

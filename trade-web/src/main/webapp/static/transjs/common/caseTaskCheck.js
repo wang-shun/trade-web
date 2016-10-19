@@ -94,8 +94,12 @@ function initGrid() {
 
 			});
 
+	    
+	        var width = $('.test').width();
+	        $('#table_list_case_task').setGridWidth(width);
+	    
 	 
-		$('#table_list_case_task').setGridWidth('650px');
+		/*$('#table_list_case_task').setGridWidth('1000px');*/
 		$('#case-task-modal-form').on('show.bs.modal', function (m) {
 			$('#case-task-modal-form').on('hide.bs.modal', function (m) {
 				returnTaskPage();});

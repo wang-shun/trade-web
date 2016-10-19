@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="../static/trans/css/common/base.css" />
     <link rel="stylesheet" href="../static/trans/css/common/table.css" />
     <link rel="stylesheet" href="../static/trans/css/common/input.css" />
+    <link rel="stylesheet" href="../static/trans/css/common/btn.css" />
     <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
 
 </head>
@@ -1055,14 +1056,18 @@
                         <div class="form-row">
                             <div class="form-group form-margin pull-left">
                                 <label for="" class="lable-one">物业地址</label>
-                                <input type="text" class="form-control input-widest" placeholder="">
+                                <input type="text" class="form-control" style="width:418px;" placeholder="">
                             </div>
                             <div class="btn-left btn-left-space" style="margin-left:40px;">
                                 <button type="submit" class="btn btn-success btn-icon  mr5"><i class="icon iconfont">&#xe635;</i> 查询</button>
-                                <a href="javascript:void(0)" class="btn btn-success mr5">入库</a>
-                                <a href="javascript:void(0)" class="btn btn-success mr5">借用</a>
-                                <a href="javascript:void(0)" class="btn btn-success mr5">归还</a>
-                                <a href="javascript:void(0)" class="btn btn-success mr5">退还</a>
+                                <button type="reset" class="btn btn-grey mr5">
+                                    清空
+                                </button>
+                                <a href="javascript:void(0)" class="btn btn-toggle mr5">入库</a>
+                                <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#myModal">借用</a>
+                                <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#Return">归还</a>
+                                <a href="javascript:void(0)" class="btn btn-toggle mr5"
+                                data-toggle="modal" data-target="#GiveBack">退还</a>
                             </div>
                         </div>
 
@@ -1392,6 +1397,133 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="width: 800px;">
+                        <div class="modal-content animated fadeIn popup-box">
+                            <div class="modal_title">
+                                借用申请
+                            </div>
+                            <form method="get" class="form_list">
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            借款人
+                                        </label>
+                                        <input class="teamcode input_type" placeholder="" value="">
+                                    </div>
+                                    <div class="form_content input-daterange">
+                                        <label class="control-label sign_left_small">
+                                            预计归还日期
+                                        </label>
+                                        <input class="teamcode input_type  " placeholder="" value="">
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            借用原因
+                                        </label>
+                                        <input class="teamcode input_type" style="width:590px;" placeholder="" value="">
+                                    </div>
+                                </div>
+                                <div class="line clearfix">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small pull-left">
+                                            备注
+                                        </label>
+                                        <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" name="" id="" cols="30" rows="10"></textarea>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="add_btn text-center" style="margin:15px 126px;">
+                                        <button type="button" class="btn btn-success">
+                                            提交
+                                        </button>
+                                        <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                            关闭
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+            </div>
+            <div class="modal inmodal in" id="Return" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" style="width: 800px;">
+                    <div class="modal-content animated fadeIn popup-box">
+                        <div class="modal_title">
+                            归还
+                        </div>
+                        <form method="get" class="form_list">
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        归还人
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="" value="">
+                                </div>
+                            </div>
+                            <div class="line clearfix">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small pull-left">
+                                        备注
+                                    </label>
+                                    <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" name="" id="" cols="30" rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="add_btn text-center" style="margin:15px 126px;">
+                                    <button type="button" class="btn btn-success">
+                                        提交
+                                    </button>
+                                    <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                        关闭
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal inmodal in" id="GiveBack" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" style="width: 800px;">
+                    <div class="modal-content animated fadeIn popup-box">
+                        <div class="modal_title">
+                            退还
+                        </div>
+                        <form method="get" class="form_list">
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        退还人
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="" value="">
+                                </div>
+                            </div>
+                            <div class="line clearfix">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small pull-left">
+                                        备注
+                                    </label>
+                                    <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" name="" id="" cols="30" rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="add_btn text-center" style="margin:15px 126px;">
+                                    <button type="button" class="btn btn-success">
+                                        提交
+                                    </button>
+                                    <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                        关闭
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
