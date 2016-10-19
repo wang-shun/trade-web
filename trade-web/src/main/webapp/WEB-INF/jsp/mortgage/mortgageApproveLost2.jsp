@@ -23,10 +23,8 @@
 	rel="stylesheet">
 
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"	rel="stylesheet" />
 
 <!-- index_css -->
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
