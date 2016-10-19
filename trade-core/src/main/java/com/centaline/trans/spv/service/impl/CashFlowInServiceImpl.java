@@ -58,8 +58,6 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 	@Autowired
 	private ToSpvService toSpvService;	
 	@Autowired
-	private ToAccesoryListService toAccesoryListService;
-	@Autowired
 	private ProcessInstanceService processInstanceService;
 	@Autowired
 	private PropertyUtilsServiceImpl propertyUtilsService;
@@ -67,25 +65,16 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 	private TaskService taskService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
-	
-	@Autowired
-	private UamPermissionService uamPermissionService;	
 	@Autowired
 	private UamSessionService uamSessionService;	
 	@Autowired
-	private UamUserOrgService uamUserOrgService;
-	@Autowired
 	private UamBasedataService uamBasedataService;
-	
 	@Autowired
 	private ToSpvCashFlowApplyMapper toSpvCashFlowApplyMapper;	
-	
 	@Autowired
 	private ToSpvCashFlowMapper toSpvCashFlowMapper;
 	@Autowired
 	private ToSpvAduitMapper toSpvAduitMapper;
-	@Autowired
-	private ToSpvVoucherMapper toSpvVoucherMapper;
 	@Autowired
 	private ToSpvReceiptMapper toSpvReceiptMapper;
 	@Autowired
