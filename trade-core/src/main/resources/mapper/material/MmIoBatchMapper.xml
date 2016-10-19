@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.material.repository.MmIoBatchMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.material.entity.MmIoBatch" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="ATTACH_ID" property="attachId" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="LOG_ACTION" property="logAction" jdbcType="VARCHAR" />
+    <result column="MANAGER" property="manager" jdbcType="VARCHAR" />
+    <result column="ACTION_USER" property="actionUser" jdbcType="VARCHAR" />
+    <result column="ACTION_PRE_DATE" property="actionPreDate" jdbcType="TIMESTAMP" />
+    <result column="ACTION_REASON" property="actionReason" jdbcType="NVARCHAR" />
+    <result column="ACTION_REMARK" property="actionRemark" jdbcType="NVARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, ATTACH_ID, CASE_CODE, LOG_ACTION, MANAGER, ACTION_USER, ACTION_PRE_DATE, ACTION_REASON, 
+    ACTION_REMARK, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_MM_IO_BATCH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_MM_IO_BATCH
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.material.entity.MmIoBatch" >
+    insert into sctrans.T_MM_IO_BATCH (PKID, ATTACH_ID, CASE_CODE, 
+      LOG_ACTION, MANAGER, ACTION_USER, 
+      ACTION_PRE_DATE, ACTION_REASON, ACTION_REMARK, 
+      CREATE_BY, CREATE_TIME, UPDATE_BY, 
+      UPDATE_TIME)
+    values (#{pkid,jdbcType=BIGINT}, #{attachId,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, 
+      #{logAction,jdbcType=VARCHAR}, #{manager,jdbcType=VARCHAR}, #{actionUser,jdbcType=VARCHAR}, 
+      #{actionPreDate,jdbcType=TIMESTAMP}, #{actionReason,jdbcType=NVARCHAR}, #{actionRemark,jdbcType=NVARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.material.entity.MmIoBatch" >
+    insert into sctrans.T_MM_IO_BATCH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="attachId != null" >
+        ATTACH_ID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="logAction != null" >
+        LOG_ACTION,
+      </if>
+      <if test="manager != null" >
+        MANAGER,
+      </if>
+      <if test="actionUser != null" >
+        ACTION_USER,
+      </if>
+      <if test="actionPreDate != null" >
+        ACTION_PRE_DATE,
+      </if>
+      <if test="actionReason != null" >
+        ACTION_REASON,
+      </if>
+      <if test="actionRemark != null" >
+        ACTION_REMARK,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="attachId != null" >
+        #{attachId,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="logAction != null" >
+        #{logAction,jdbcType=VARCHAR},
+      </if>
+      <if test="manager != null" >
+        #{manager,jdbcType=VARCHAR},
+      </if>
+      <if test="actionUser != null" >
+        #{actionUser,jdbcType=VARCHAR},
+      </if>
+      <if test="actionPreDate != null" >
+        #{actionPreDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actionReason != null" >
+        #{actionReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="actionRemark != null" >
+        #{actionRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.material.entity.MmIoBatch" >
+    update sctrans.T_MM_IO_BATCH
+    <set >
+      <if test="attachId != null" >
+        ATTACH_ID = #{attachId,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="logAction != null" >
+        LOG_ACTION = #{logAction,jdbcType=VARCHAR},
+      </if>
+      <if test="manager != null" >
+        MANAGER = #{manager,jdbcType=VARCHAR},
+      </if>
+      <if test="actionUser != null" >
+        ACTION_USER = #{actionUser,jdbcType=VARCHAR},
+      </if>
+      <if test="actionPreDate != null" >
+        ACTION_PRE_DATE = #{actionPreDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actionReason != null" >
+        ACTION_REASON = #{actionReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="actionRemark != null" >
+        ACTION_REMARK = #{actionRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.material.entity.MmIoBatch" >
+    update sctrans.T_MM_IO_BATCH
+    set ATTACH_ID = #{attachId,jdbcType=BIGINT},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      LOG_ACTION = #{logAction,jdbcType=VARCHAR},
+      MANAGER = #{manager,jdbcType=VARCHAR},
+      ACTION_USER = #{actionUser,jdbcType=VARCHAR},
+      ACTION_PRE_DATE = #{actionPreDate,jdbcType=TIMESTAMP},
+      ACTION_REASON = #{actionReason,jdbcType=NVARCHAR},
+      ACTION_REMARK = #{actionRemark,jdbcType=NVARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>
