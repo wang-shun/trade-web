@@ -13,23 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>入账</title>
-<%-- <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
-<!-- stickUp fixed css -->
-<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
-<link rel="stylesheet" href="${ctx}/static/trans/static/css/plugins/toastr/toastr.min.css">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " /> --%>
-
- <!-- 上传相关 -->
+	 <!-- 上传相关 -->
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
 		rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
@@ -68,16 +52,6 @@
 
 <body >
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<script type="text/javascript">
-	var ctx = "${ctx}";
-	var source = "${source}";
-	var handle = "${handle}";
-	if ("${idList}" != "") {
-		var idList = eval("(" + "${idList}" + ")");
-	} else {
-		var idList = [];
-	}
-</script>
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                     <div class="ibox-content space30" >
@@ -108,7 +82,7 @@
                                     <label>
                                       	  收款人名称
                                     </label>
-                                    <span class="info_one" id="spvAccountName" >${spvBaseInfoVO.toSpvAccountList[2].name}</span>
+                                    <span class="info_one" id="spvAccountName" >${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}</span>
                                 </p>
 
                                 <p>
@@ -122,7 +96,7 @@
                                     <label>
                                         	收款人开户行
                                     </label>
-                                    <span class="info" id="spvAccountBank" >${spvBaseInfoVO.toSpvAccountList[2].bank}</span>
+                                    <span class="info" id="spvAccountBank" >光大银行市北支行<%-- ${spvBaseInfoVO.toSpvAccountList[2].bank} --%></span>
                                 </p>
                             </div>
                         </div>
@@ -148,7 +122,7 @@
 						<input type="hidden" id="urlType" name="source" value="" />
 						<input type="hidden" id="handle" name="handle" value="addCashFlow" />
                          <%-- 保存数据返回的pkid --%>
-						<input type="hidden"  id="toSpvCashFlowApplyPkid" name="toSpvCashFlowApplyPkid" value="" />
+						<input type="hidden"  id="toSpvCashFlowApplyPkid" name="toSpvCashFlowApplyPkid" />
 						<input type="hidden"  id="ToSpvCashFlowPkid" name="ToSpvCashFlowPkid" value="" />
 						<input type="hidden"  id="ToSpvReceiptPkid" name="ToSpvReceiptPkid" value="" />
 						
@@ -169,7 +143,6 @@
                                 </table>
                                 <div class="form-btn">
                             <div class="text-center">
-                                <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button>
                                 <button type="button" onclick="rescCallbocak()"  class="btn btn-default mr15">关闭</button>
                                 <a onclick="sumbitRe()" class="btn btn-success">提交</a>
                             </div>

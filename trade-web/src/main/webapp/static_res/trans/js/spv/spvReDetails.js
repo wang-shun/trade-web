@@ -359,7 +359,6 @@ function saveRe(){
 	/*if(!checkFormSave()){
 		  return false;
 	  }*/
-	
 	var data = $("#teacForm").serialize();
 	var url = ctx+"/spv/task/cashflowIntApply/saveDate";
 	$.ajax({
@@ -372,28 +371,26 @@ function saveRe(){
 		beforeSend:function(){  
          },
 		success : function(data) {
-			if(data.message){
-				var strs= new Array();
-				strs=data.message.split(";");
-				for (i=0;i<strs.length ;i++ ){ 
-					//alert(strs[i]); //分割后的字符输出 
-					var s = strs[i].split(":");
-					for (j=0;j<s.length ;j++ ){ 
-						if("toSpvCashFlowApplyPkid" == s[j]){
-							$("#toSpvCashFlowApplyPkid").val(s[j+1]=="null"?'':s[j+1]);
-						}
-						if("ToSpvCashFlowPkid" == s[j])
-							$("#ToSpvCashFlowPkid").val(s[j+1]);
-						if("ToSpvReceiptPkid" == s[j])
-							$("#ToSpvReceiptPkid").val(s[j+1]);
-					}
-				}
-			}
 			if(data.success){
 				alert("保存数据成功！");
+				if(data.message){
+					var strs= new Array();
+					strs=data.message.split(";");
+					for (i=0;i<strs.length ;i++ ){ 
+						//alert(strs[i]); //分割后的字符输出 
+						var s = strs[i].split(":");
+						for (j=0;j<s.length ;j++ ){ 
+							if("toSpvCashFlowApplyPkid" == s[j]){
+								alert(s[j+1]=="null"?'':s[j+1]);
+								$("#toSpvCashFlowApplyPkid").val(s[j+1]=="null"?'':s[j+1]);
+							}
+						}
+					}
+				}
 			}else{
 				alert("数据保存出错!");
 			}
+			
 		},complete: function() { 
 		},
 		error : function(errors) {

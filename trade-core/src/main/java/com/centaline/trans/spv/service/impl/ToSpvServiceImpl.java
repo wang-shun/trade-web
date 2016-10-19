@@ -1355,25 +1355,36 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvCashFlowApply.setUpdateBy(user.getId());//更新人
 			toSpvCashFlowApplyMapper.updateByPrimaryKey(toSpvCashFlowApply);
 		}else if(!StringUtils.isBlank(spvRecordedsVO.getToSpvCashFlowApplyPkid())){
-			toSpvCashFlowApplyMapper.deleteByPrimaryKey(Long.parseLong(spvRecordedsVO.getToSpvCashFlowApplyPkid()));
-			//toSpvReceiptMapper.deleteByPrimaryKey(Long.parseLong(spvRecordedsVO.getToSpvReceiptPkid()));
-			toSpvCashFlowMapper.deleteByPrimaryKey(Long.parseLong(spvRecordedsVO.getToSpvCashFlowPkid()));
+			toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByPrimaryKey(Long.parseLong(spvRecordedsVO.getToSpvCashFlowApplyPkid()));
+			/*if(null != toSpvCashFlowApply1){
+					toSpvCashFlowApply1.setIsDeleted("1");
+					toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply1);
+			}*/
+			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(Long.parseLong(spvRecordedsVO.getToSpvCashFlowApplyPkid()));
+			for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
+				
+				List<ToSpvReceipt> toSpvReceiptList = toSpvReceiptMapper.selectByCashFlowId(toSpvCashFlow.getPkid().toString());
+				for(ToSpvReceipt toSpvReceipt:toSpvReceiptList){
+					toSpvReceipt.setIsDeleted("1");
+					toSpvReceiptMapper.updateByPrimaryKey(toSpvReceipt);
+				}
+				toSpvCashFlow.setIsDeleted("1");
+				toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
+			}
+			
 		}
 
 		if(!"apply".equals(handle)){
 			if(!StringUtils.isBlank(spvApplyCode)){//流水申请编号
 				toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
 			}else{
-				spvApplyCode = createSpvApplyCode();
-				toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
-				//throw new BusinessException("流程申请编号生成失败！");
+				throw new BusinessException("流程申请编号生成失败！");
 			}
 			
 			if(!StringUtils.isBlank(spvRecordedsVO.getSpvConCode())){//监管合约内部编号
 				toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());
 			}else{
-				toSpvCashFlowApply.setSpvCode(createSpvCode());
-				//throw new BusinessException("没有监管合约编号！");
+				throw new BusinessException("没有监管合约编号！");
 			}
 			toSpvCashFlowApply.setUsage("in");
 			//备注	toSpvCashFlowApply.setComment(comment);
@@ -1750,6 +1761,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public SpvReturnCashflowVO saveSpvChargeInfoVOFormHtml(SpvRecordedsVO spvRecordedsVO,String type) throws Exception{
 		SessionUser user = uamSessionService.getSessionUser();
 		SpvReturnCashflowVO spvReturnCashflowVO = new SpvReturnCashflowVO();
+		List<SpvRecordedsVOItem> spvRecordedsVOItems = spvRecordedsVO.getItems();
 		
 		if(null == spvRecordedsVO){
 			throw new BusinessException("申请信息数据为空！");
@@ -1760,27 +1772,23 @@ public class ToSpvServiceImpl implements ToSpvService {
 			String spvApplyCode = createSpvApplyCode();
 	
 			ToSpvCashFlowApply toSpvCashFlowApply = new ToSpvCashFlowApply();
-			//流水申请编号
-			if(!StringUtils.isBlank(spvApplyCode)){
+			
+			if(!StringUtils.isBlank(spvApplyCode)){//流水申请编号
 				toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
 			}else{
 				throw new BusinessException("流程申请编号生成失败！");
 			}
-			//监管合约内部编号
-			if(!StringUtils.isBlank(spvRecordedsVO.getSpvConCode())){
+			
+			if(!StringUtils.isBlank(spvRecordedsVO.getSpvConCode())){//监管合约内部编号
 				toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());
 			}else{
 				throw new BusinessException("没有监管合约编号！");
 			}
-			//用途
 			toSpvCashFlowApply.setUsage("in");
 			//备注	toSpvCashFlowApply.setComment(comment);
-			//状态
-			toSpvCashFlowApply.setStatus("0");
-			//是否删除
-			toSpvCashFlowApply.setIsDeleted("0");
-			//申请人
-			if(!StringUtils.isBlank(user.getId())){
+			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());//状态
+			toSpvCashFlowApply.setIsDeleted("0");//是否删除
+			if(!StringUtils.isBlank(user.getId())){//申请人
 				toSpvCashFlowApply.setApplier(user.getId());
 			}else{
 				throw new BusinessException("申请人信息为空！");
@@ -1788,119 +1796,103 @@ public class ToSpvServiceImpl implements ToSpvService {
 			//申请复审人toSpvCashFlowApply.setApplyAuditor()
 			//财务初审人toSpvCashFlowApply.setFtPreAuditor(ftPreAuditor);
 			//财务复审人toSpvCashFlowApply.setFtPostAuditor(ftPostAuditor);
-			//申请复审人	现在测试设置为wangqaio7
-			toSpvCashFlowApply.setApplyAuditor("ff80808156b51e7b0156b55f02ce0008");
-			//财务初审人	现在测试设置为wangqaio7
-			toSpvCashFlowApply.setFtPreAuditor("ff80808156b51e7b0156b55f02ce0008");
-			//财务复审人	现在测试设置为wangqaio7
-			toSpvCashFlowApply.setFtPostAuditor("ff80808156b51e7b0156b55f02ce0008");
-			//创建时间
-			toSpvCashFlowApply.setCreateTime(new Date());
-			//创建人
-			toSpvCashFlowApply.setCreateBy(user.getId());
+			toSpvCashFlowApply.setApplyAuditor("ff80808156b51e7b0156b55f02ce0008");//申请复审人	现在测试设置为wangqaio7
+			toSpvCashFlowApply.setFtPreAuditor("ff80808156b51e7b0156b55f02ce0008");//财务初审人	现在测试设置为wangqaio7
+			toSpvCashFlowApply.setFtPostAuditor("ff80808156b51e7b0156b55f02ce0008");//财务复审人	现在测试设置为wangqaio7
+			toSpvCashFlowApply.setCreateTime(new Date());//创建时间
+			toSpvCashFlowApply.setCreateBy(user.getId());//创建人
 			//更新时间toSpvCashFlowApply.setUpdateBy(updateBy);
 			//更新人toSpvCashFlowApply.setUpdateBy(updateBy);
 			toSpvCashFlowApplyMapper.insertSelective(toSpvCashFlowApply);
 			spvReturnCashflowVO.setToSpvCashFlowApplyPkid(toSpvCashFlowApply.getPkid().toString());
 			
-			/*ToSpvReceipt toSpvReceipta = new ToSpvReceipt();
-			toSpvReceipta.setCashflowId("1111");
-			toSpvReceipta.setCreateBy(user.getId());
-			toSpvReceipta.setCreateTime(new Date());
-			toSpvReceipta.setIsDeleted("0");
-			toSpvReceiptMapper.insertSelective(toSpvReceipta);
-			*/
-			/**2.审批记录 ToSpvAduit*/
-			
-			/**3.申请附件*/
-			
-			/**5.流水*/
-			List<SpvRecordedsVOItem> spvRecordedsVOItems = spvRecordedsVO.getItems();
-			if(null == spvRecordedsVOItems){
-				throw new BusinessException("付款信息为空！");
-			}
+			/**流水*/
 			
 			for(int i=0;i<spvRecordedsVOItems.size();i++){
+				
+				if(null == spvRecordedsVOItems.get(i) || null == spvRecordedsVOItems.get(i).getPayerAcc()){
+					break;
+				}
+				
 				ToSpvCashFlow toSpvCashFlow = new ToSpvCashFlow();
-				//监管合约内部编号_中原
-				toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
-				//流水申请ID
-				toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
-				
-				//流水方向
-				toSpvCashFlow.setDirection(spvRecordedsVOItems.get(i).getVoucherNo());
-				
-				//收款人名称
-				if(!StringUtils.isBlank(spvRecordedsVO.getSpvAccountName())){
+				toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());//监管合约内部编号_中原
+				toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());//流水申请ID
+				toSpvCashFlow.setDirection(spvRecordedsVOItems.get(i).getVoucherNo());//流水方向
+				if(!StringUtils.isBlank(spvRecordedsVO.getSpvAccountName())){//收款人名称
 					toSpvCashFlow.setReceiver(spvRecordedsVO.getSpvAccountName());
 				}else{
 					throw new BusinessException("收款人名称为空！");
 				}
-				//收款账户
-				if(!StringUtils.isBlank(spvRecordedsVO.getSpvAccountCode())){
+				if(!StringUtils.isBlank(spvRecordedsVO.getSpvAccountCode())){//收款账户
 					toSpvCashFlow.setReceiverAcc(spvRecordedsVO.getSpvAccountCode());
 				}else{
 					throw new BusinessException("收款账户为空！");
 				}
-				//收款人开户行
-				if(!StringUtils.isBlank(spvRecordedsVO.getSpvAccountBank())){
+				if(!StringUtils.isBlank(spvRecordedsVO.getSpvAccountBank())){//收款人开户行
 					toSpvCashFlow.setReceiverBank(spvRecordedsVO.getSpvAccountBank());
 				}else{
 					//throw new BusinessException("收款人开户行为空！");
 				}
-				//付款人名称
-				if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerName())){
+				if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerName())){//付款人名称
 					toSpvCashFlow.setPayer(spvRecordedsVOItems.get(i).getPayerName());
 				}
-				//付款人账户
-				if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerAcc())){
+				if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerAcc())){//付款人账户
 					toSpvCashFlow.setPayerAcc(spvRecordedsVOItems.get(i).getPayerAcc());
 				}
-				//付款人银行
-				if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerBank())){
+				if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerBank())){//付款人银行
 					toSpvCashFlow.setPayerBank(spvRecordedsVOItems.get(i).getPayerBank());
 				}
 				//进出账条件	toSpvCashFlow.setFlowCondition(flowCondition);
-				//流水金额
-				if(null != spvRecordedsVOItems.get(i).getPayerAmount()){
-					toSpvCashFlow.setAmount(spvRecordedsVOItems.get(i).getPayerAmount());
+				if(null != spvRecordedsVOItems.get(i).getPayerAmount()){//流水金额
+					toSpvCashFlow.setAmount(spvRecordedsVOItems.get(i).getPayerAmount().multiply(new BigDecimal(10000)));
 				}
-				//审核状态
-				toSpvCashFlow.setStatus("0");
+				toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());//审核状态
 				//送结束日期	toSpvCashFlow.setCloseTime(closeTime);
 				//录入日期		toSpvCashFlow.setInputTime(inputTime);
-				//是否删除
-				toSpvCashFlow.setIsDeleted("0");
-				//创建时间
-				toSpvCashFlow.setCreateTime(new Date());
-				//创建人
-				toSpvCashFlow.setCreateBy(user.getId());
+				toSpvCashFlow.setIsDeleted("0");//是否删除
+				toSpvCashFlow.setCreateTime(new Date());//创建时间
+				toSpvCashFlow.setCreateBy(user.getId());//创建人
 				//更新时间	toSpvCashFlow.setUpdateTime(updateTime);
 				//更新时间	toSpvCashFlow.setUpdateBy(updateBy);
-				toSpvCashFlow.setReceiptNo(spvRecordedsVOItems.get(i).getReceiptNo());//回单编号
+				if(null != spvRecordedsVOItems.get(i).getReceiptNo())
+					toSpvCashFlow.setReceiptNo(spvRecordedsVOItems.get(i).getReceiptNo());//回单编号	
 				
 				toSpvCashFlowMapper.insertSelective(toSpvCashFlow);
-				spvReturnCashflowVO.setToSpvCashFlowPkid(toSpvCashFlow.getPkid().toString());
 				
-				/**4.小票、回单*//*
-				ToSpvReceipt toSpvReceipt = new ToSpvReceipt();
-				//流水ID
-				toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());
-				//凭证类型
-				toSpvReceipt.setType("in");
-				//附件ID	toSpvReceipt.setAttachId(attachId);
-				//备注toSpvReceipt.setComment(comment);
-				//是否删除
-				toSpvReceipt.setIsDeleted("0");
-				//创建时间
-				toSpvReceipt.setCreateTime(new Date());
-				//创建人
-				toSpvReceipt.setCreateBy(user.getId());
-				//更新时间	toSpvReceipt.setUpdateTime(updateTime);
+				if(spvRecordedsVOItems.get(i).getFileId().indexOf(",")>0){
+					String[] fileIds = spvRecordedsVOItems.get(i).getFileId().split(",");
+					String[] fileNames = spvRecordedsVOItems.get(i).getFileName().split(",");
+				    for (int f = 0 ; f <fileIds.length ; f++ ) {
+				    	//4.小票、回单
+						ToSpvReceipt toSpvReceipt = new ToSpvReceipt();
+						toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());//流水ID
+						toSpvReceipt.setType(fileNames[f].substring(fileNames[f].indexOf("."), fileNames[f].length()));//凭证类型
+						toSpvReceipt.setAttachId(fileIds[f]);//附件ID
+						toSpvReceipt.setComment(fileNames[f]);//备注
+						toSpvReceipt.setIsDeleted("0");//是否删除
+						toSpvReceipt.setCreateTime(new Date());//创建时间
+						toSpvReceipt.setCreateBy(user.getId());//创建人
+						//更新时间	toSpvReceipt.setUpdateTime(updateTime);
+						//更新人	toSpvReceipt.setUpdateBy(updateBy);
+						toSpvReceiptMapper.insertSelective(toSpvReceipt);
+		
+				    }
+				}else{
+					//4.小票、回单
+					ToSpvReceipt toSpvReceipt = new ToSpvReceipt();
+					toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());//流水ID
+					toSpvReceipt.setType(spvRecordedsVOItems.get(i).getFileName().substring(spvRecordedsVOItems.get(i).getFileName().indexOf("."), spvRecordedsVOItems.get(i).getFileName().length()));//凭证类型
+					toSpvReceipt.setAttachId(spvRecordedsVOItems.get(i).getFileId());//附件ID
+					toSpvReceipt.setComment(spvRecordedsVOItems.get(i).getFileName());//备注
+					toSpvReceipt.setIsDeleted("0");//是否删除
+					toSpvReceipt.setCreateTime(new Date());//创建时间
+					toSpvReceipt.setCreateBy(user.getId());//创建人
+					//更新时间	toSpvReceipt.setUpdateTime(updateTime);
+					//更新人	toSpvReceipt.setUpdateBy(updateBy);
+					toSpvReceiptMapper.insertSelective(toSpvReceipt);
+					spvReturnCashflowVO.setToSpvCashFlowPkid(toSpvCashFlow.getPkid().toString());
+				}
 				
-				//更新人	toSpvReceipt.setUpdateBy(updateBy);
-				
-				toSpvReceiptMapper.insertSelective(toSpvReceipt);*/
 			}
 		}else{
 			spvReturnCashflowVO.setToSpvCashFlowApplyPkid(spvRecordedsVO.getToSpvCashFlowApplyPkid().toString());
