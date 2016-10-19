@@ -184,7 +184,7 @@
 														</button>
 													</a> --%>
 													
-													<img id="image_${status3.index }" src="${imgweb }/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
+													<img id="image_${status3.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
 													<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
 													<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status3.index }').trigger('click');"><i class="icon iconfont icon_y" >&#xe635;
 													${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
