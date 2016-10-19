@@ -335,7 +335,7 @@ function sumbitRe(){
 			}else{
 				alert("任务提交成功！"+data.message); 
 			}
-			window.location.href = ctx+"/task/myTaskList";
+			window.location.href = ctx+"/spv/spvList";
 		},complete: function() { 
 		},
 		error : function(errors) {

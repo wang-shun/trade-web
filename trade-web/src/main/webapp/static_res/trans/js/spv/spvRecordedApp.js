@@ -42,8 +42,8 @@ function getTR(thisIndex){
 	$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
-	$str+='	<td> <div id="datepicker_0" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">';
-	$str+=' <input id="inputTime'+thisIndex+'" style="width:106px" name="items['+thisIndex+'].inputTime"class="form-control input-one" type="text" value=""placeholder="入账日期"></div>' ;                                                                                                                                                                                     
+	$str+='	<td> <div id="datepicker_'+thisIndex+'" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">';
+	$str+=' <input id="inputTime'+thisIndex+'" style="width:106px" name="items['+thisIndex+'].cashFlowCreateTime"class="form-control input-one" type="text" placeholder="入账日期"></div>' ;                                                                                                                                                                                     
 	$str+='	</td> ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
 	//if(thisIndex > 0){

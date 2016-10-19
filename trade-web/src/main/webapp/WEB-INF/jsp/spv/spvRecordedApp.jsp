@@ -208,8 +208,8 @@
 														</span>  
 	                                                </td>
 	                                                 <td>
-	                                                 <div id="datepicker_0" class="input-medium date-picker input-daterange sign_right_speciale" data-date-format="yyyy-mm-dd">
-	<input id="inputTime'+thisIndex+'" name="inputTime'+thisIndex+'"class="form-control input-one" type="text" value="<fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.inputTime }" pattern="yyyy-MM-dd"/>" placeholder="入账日期"></div>                                  
+	                                                 <div id="datepicker_${status2.index }" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">
+	<input id="inputTime'+thisIndex+'" style="width:106px" name="items[${status2.index }].cashFlowCreateTime"class="form-control input-one" type="text" value="<fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.inputTime }" pattern="yyyy-MM-dd"/>" placeholder="入账日期"></div>                                  
 	                                                 </td>    
 	                                                <td align="center">
 		                                               <a href="javascript:void(0)" onClick="getTR(${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()})">添加</span></a>
@@ -304,8 +304,15 @@ $(function() {
     var fileRowSize = ${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()};
     for(var i=0;i<fileRowSize;i++){
     	render_fileupload(i);
+    	//日期控件
+    	$("#datepicker_"+i).datepicker({
+    		format : 'yyyy-mm-dd',
+    		weekStart : 1,
+    		autoclose : true,
+    		todayBtn : 'linked'
+    	})
     }
-
+    
 });
 
 function rescCallbocak(){
@@ -317,6 +324,7 @@ function rescCallbocak(){
 	    // }
 	}
 $('.wrapper-content').viewer();
+
 </script>
 </content>
 </body>
