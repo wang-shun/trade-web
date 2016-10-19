@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+		<customDict id="qqcdSellerPhone" beanName="qqcdSellerPhone" />
+		<customDict id="qqcdBuyerPhone" beanName="qqcdBuyerPhone" />
+		<customDict id="partName" beanName="qqcdDictPartName"></customDict>
+		<customDict id="getReturnVisitList" beanName="getReturnVisitList"></customDict>		
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryTradeChangedCaseList" cacheCount="true">
+		<searchCondition>
+		   <condition field="T.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="O.PROPERTY_ADDR"  name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		   <condition field="T.PART_CODE" name="partCode" label="环节编码" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>	
+		   <condition field="CONVERT(varchar(10),S.CHANGE_TIME,120)"  name="changeTime" label="变更时间" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="I.DISTRICT_ID" name="districtId" label="所属贵宾服务部ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="I.TEAM_ID" name="teamId" label="所属组别ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="Y.REAL_NAME" name="realName" label="变更人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT  T.CASE_CODE ,
+        O.PROPERTY_ADDR ,
+        T.PART_CODE AS PART_CODE_OLD,
+        S.OLD_EST_PART_TIME ,
+        T.EST_PART_TIME ,
+        S.CHANGER_ID ,
+        Y.REAL_NAME ,
+        S.CHANGE_TIME ,
+        S.CHANGE_REASON ,
+        I.DISTRICT_NAME ,
+        I.TEAM_NAME,
+        S.PKID AS historyId
+FROM    sctrans.T_TO_TRANS_PLAN T
+        INNER JOIN sctrans.T_TS_TRANS_PLAN_HISTORY S ON T.CASE_CODE = S.CASE_CODE AND T.PART_CODE = s.PART_CODE
+        LEFT JOIN sctrans.T_TO_PROPERTY_INFO O ON O.CASE_CODE = T.CASE_CODE
+        LEFT JOIN sctrans.SYS_USER Y ON Y.ID = S.CHANGER_ID AND Y.IS_DELETED = '0'
+        INNER JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY S.UPDATE_TIME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PART_CODE_OLD" index="" checkbox="" title="环节编码"  customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="virtual" name="PART_CODE" title="环节名称" display="环节名称" customDict="partName" referencecol="PART_CODE_OLD"  />
+				<column type="both" name="OLD_EST_PART_TIME" index="" checkbox="" display="原预计时间" title="原预计时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="EST_PART_TIME" index="" checkbox="" display="新预计时间" title="新预计时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="REAL_NAME" index="" checkbox="" display="变更人" title="变更人" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CHANGE_TIME" index="" checkbox="" display="变更时间" title="变更时间" customDict="" sysDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CHANGE_REASON" index="" checkbox="" display="变更原因" title="变更原因" customDict="" sysDict="" format="" width="90"  align="" halign="" order="" resizable="" />
+				<column type="both" name="DISTRICT_NAME" display="所属贵宾服务部" title="所属贵宾服务部" customDict="" hidden=""/>
+				<column type="both" name="TEAM_NAME" display="所属组别" title="所属组别" customDict="" hidden=""/>
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="SELLERPHONE" referencecol="CASE_CODE" index="" checkbox="" display="上家电话" customDict="qqcdSellerPhone" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYERPHONE" referencecol="CASE_CODE" index="" checkbox="" display="下家电话" customDict="qqcdBuyerPhone" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="returnVisitList" title="回访登记列表" referencecol="historyId" customDict="getReturnVisitList" />	
+			</table-row>
+		</grid>
+	</query>
+</querys>

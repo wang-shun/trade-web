@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.cases.repository.ReturnVisitRegistrationMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO" >
+    <result column="PLAN_HISTORY_ID" property="planHistoryId" jdbcType="BIGINT" />
+    <result column="VISIT_REMARK" property="visitRemark" jdbcType="CHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="queryReturnVisitRegistrations" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+       PLAN_HISTORY_ID ,
+       VISIT_REMARK ,
+       CONTENT ,
+       CREATE_TIME ,
+       CREATE_BY
+    from sctrans.T_TS_RETURN_VISIT_REGISTRATION
+    where PLAN_HISTORY_ID = #{historyId,jdbcType=BIGINT}
+  </select>
+</mapper>
