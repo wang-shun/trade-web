@@ -1162,9 +1162,9 @@
 				    		if($("input[name='spvCustList[0].phone']").val() == '')
 				    			$("input[name='spvCustList[0].phone']").val(caseInfoMap['buyerMobil']);
 				    		if($("input[name='spvCustList[1].name']").val() == '')
-				    			$("input[name='spvCustList[1].name']").val(caseInfoMap['buyerName']);
+				    			$("input[name='spvCustList[1].name']").val(caseInfoMap['sellerName']);
 				    		if($("input[name='spvCustList[1].phone']").val() == '')
-				    			$("input[name='spvCustList[1].phone']").val(caseInfoMap['buyerMobil']);
+				    			$("input[name='spvCustList[1].phone']").val(caseInfoMap['sellerMobil']);
 				    		
 							$('.case_content').show();
 							$('#myModal').modal('hide');

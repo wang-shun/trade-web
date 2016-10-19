@@ -204,7 +204,7 @@ public class SpvController {
 		//驳回原因
     if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
-		record.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
+		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		record.setCaseCode(spv.getCaseCode());
 	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
 		 

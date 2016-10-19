@@ -3,7 +3,6 @@ package com.centaline.trans.cases.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -75,7 +74,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
 
 		ToWorkFlow twf=new ToWorkFlow();
-		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
+		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
 		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
@@ -106,7 +105,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		/*删除临时银行流程相关*/
 		ToWorkFlow twf=new ToWorkFlow();
 		
-		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
+		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
 		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
