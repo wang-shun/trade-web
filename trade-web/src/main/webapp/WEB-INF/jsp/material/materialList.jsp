@@ -92,23 +92,24 @@
                      </div>
                  </div>
              </div>
+             
              <div class="form-row">
                  <div class="form-group form-margin pull-left">
                      <label for="" class="lable-one">物业地址</label>
-                     <input type="text" class="form-control" style="width:418px;" placeholder="" id="propertyAddr" name="propertyAddr">
+                     <input type="text" class="form-control" style="width:355px;" placeholder="" id="propertyAddr" name="propertyAddr">
                  </div>
-                 <div class="btn-left btn-left-space" style="margin-left:40px;">
+                 <div class="btn-left btn-left-space ml40">
                      <button type="submit" class="btn btn-success btn-icon  mr5" id="searchButton"><i class="icon iconfont">&#xe635;</i> 查询</button>
                      <button type="reset" class="btn btn-grey mr5">清空</button>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5">入库</a>
+                     <a href="../spv/spvStorageConfirm.html" class="btn btn-toggle mr5">入库</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#myModal">借用</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#Return">归还</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5"
                      data-toggle="modal" data-target="#GiveBack">退还</a>
+                     <a href="javascript:void(0)" class="btn btn-toggle mr5">删除</a>
                  </div>
              </div>
-
-         </form>
+            </form>
      </div>
      
      <div class="row">
@@ -170,119 +171,70 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td class="big"> <a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></td>
-						<td class="t-left">
-					
-						{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-							<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
+						<td> <input type="checkbox" class="i-checks" name="materialCheck"></td>
+						<td><p class="big"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></p>
+                            <p class="big">						
+							{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+								<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
 							{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
-						{{else}}
+							{{else}}
 							</p>
-						<p>
-							{{item.PROPERTY_ADDR}}
-						{{/if}}	
-						</p> 
-                             <p>
-                                <a class="salesman-info" href="#" >
-                                    {{item.FENHANG}}/{{item.FIN_ORG_NAME_YC}}                                               
-                                </a>
-                            </p>
+							<p>
+								{{item.PROPERTY_ADDR}}
+							{{/if}}	
+							</p>
+						</td>
+
+						<td>
+                            <p><i class="sign_blue"> 银行卡</i></p>
+                            <p>中国建设银行储蓄卡</p>
+                        </td>
+						<td>
+							<p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">{{item.CREATE_BY}}</a> </p>
+                        </td>
+
+						<td>
+							<p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">{{item.ITEM_MANAGER}}</a> </p>
+                        </td>
+                        <td>
+                            <p class="big">{{item.ITEM_ADDR_CODE}}</p>
+                        </td>
+
+                        <td>
+                            <p class="big">{{item.ITEM_STATUS}}</p>
                         </td>
 
 					    <td>
-						{{if item.SIGN_DATE != null}}
-						   <p>  
-                              <i class="sign_normal">签</i>
-                                 {{item.SIGN_DATE}}          
-                          </p>
-						{{else}}
-                            <p>  
-                              <i class="sign_grey">签</i>
-                                 {{item.SIGN_DATE}}          
-                           </p>
+						{{if item.ITEM_STATUS == "1"}}
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">入库</i>2016-09-22
+                                            </p>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">退还</i>2016-09-25
+                                            </p>
+						{{else item.ITEM_STATUS == "2"}}
+                                           <p class="smll_sign">
+                                                <i class="sign_normal">入库</i>2016-09-22
+                                            </p>
+						{{else item.ITEM_STATUS == "3"}}
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">入库</i>2016-09-22
+                                            </p>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">借用</i>2016-09-22
+                                            </p>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">归还</i>2016-09-23
+                                            </p>
+						{{else item.ITEM_STATUS == "4"}}
+                                            <p class="smll_sign">                                                
+                                            </p>
 						{{/if}}
-
-						{{if item.APPR_DATE!=null}}
-						   <p>  
-                              <i class="sign_normal">审</i>
-                                 {{item.APPR_DATE}}          
-                          </p>
-						{{else}}
-                            <p>  
-                              <i class="sign_grey">审</i>
-                                 {{item.APPR_DATE}}          
-                           </p>
-						{{/if}}
-						{{if item.LEND_DATE!=null}}
-						   <p>  
-                              <i class="sign_normal">放</i>
-                                 {{item.LEND_DATE}}          
-                          </p>
-						{{else}}
-                            <p>  
-                              <i class="sign_grey">放</i>
-                                 {{item.LEND_DATE}}          
-                           </p>
-						{{/if}}	
-
-						{{if item.REAL_HT_TIME!=null}}
-						   <p>  
-                              <i class="sign_normal">过</i>
-                                 {{item.REAL_HT_TIME}}          
-                          </p>
-						{{else}}
-                            <p>  
-                              <i class="sign_grey">过</i>
-                                 {{item.REAL_HT_TIME}}          
-                           </p>
-						{{/if}}	
-
-						{{if item.END_TIME_!=null}}
-						   <p>  
-                              <i class="sign_normal">流</i>
-                                 {{item.END_TIME_}}          
-                          </p>
-						{{else}}
-                            <p>  
-                              <i class="sign_grey">流</i>
-                                 {{item.END_TIME_}}          
-                           </p>
-						{{/if}}	
-
-                         </td>
-						<td class="center">   
-                                    {{item.CUST_NAME}}
                         </td>
-						<td class="center">
-                          	<span class="manager">总额：{{item.MORT_TOTAL_AMOUNT}}万</span>
-                          	<span class="manager">商贷：{{item.COM_AMOUNT}}万</span>
-                          	<span class="manager">公积金：{{item.PRF_AMOUNT}}万</span>
-                       </td>
-
-						<td class="center">
-
-						{{if  item.IS_TMP_BANK == '是'}}
-                      	 <p> <i class="sign_blue">临时银行</i></p>
-						{{/if}}
-
-						{{if  item.SDSTATUS=='是'}}
-                      	 <p>流失</p>
-						{{/if}}
-						
-						{{if  item.LOANTYPE=='1'}}
-                      	 <p>商业贷款委托中原办理</p>
-						{{/if}}
-                        {{if  item.LOANTYPE=='2'}}
-                      	 <p>公积金贷款委托中原办理</p>
-						{{/if}}
-						{{if  item.LOANTYPE=='3'}}
-                      	 <p>自办贷款</p>
-						{{/if}}
-						
-                       	</td>
-                        <td class="center">
-                                    {{item.ORG_NAME}}
-                           <span class="manager">贷款专员 ：<a href="#">{{item.REAL_NAME}}</a></span>
+						 <td class="text-center">
+                            <a href="material/materialDetail.jsp">
+                               <button type="button" class="btn btn-undertint btn-padding-3"><i class="icon iconfont color-corbule btn-look">&#xe63b;</i></button>
+                            </a>
                         </td>
 				  </tr>
        {{/each}}
@@ -306,7 +258,7 @@ $('.wrapper-content').viewer();
 
 //通过复选框 设置全选 和  全不选
 function mycheck(a) {
- 	 var temp = $("[name=retainsCheck]:checkbox");//document.getElementsByName("love");
+ 	 var temp = $("[name=materialCheck]:checkbox");//document.getElementsByName("love");
 	 if (a.checked == true) {
   		for ( var i = 0; i < temp.length; i++) {
    			var val = temp[i];
@@ -324,7 +276,7 @@ function getCheck(){
 	var ids = ''; 
 	var flag = 0; 
 	$("#ids").attr("value",ids); 
-	$("input[name='retainsCheck']:checkbox").each(function(){ 
+	$("input[name='materialCheck']:checkbox").each(function(){ 
 		if (true == $(this).attr("checked")) { 
 			ids += $(this).attr('value')+','; 
 			flag += 1; 
