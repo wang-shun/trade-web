@@ -608,7 +608,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 
 		//插入工作流表
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setBusinessKey("SpvCashflowInProcess");
+		workFlow.setBusinessKey(spvApplyCode);
 		if(null != spvRecordedsVO.getSpvConCode()){
 			workFlow.setCaseCode(spvRecordedsVO.getCaseCode());
 		}else{
