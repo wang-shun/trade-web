@@ -326,12 +326,25 @@ function checkReceiptNo(){
 			return false;
 		}
 	});
-	 if(!voucherNoFlag){
-	    	alert("请选择有效的付款方式！");
-		    changeClass(voucherNoEle);
+	if(!voucherNoFlag){
+    	alert("请选择有效的付款方式！");
+	    changeClass(voucherNoEle);
+		return false;
+	 }
+	var cashFlowCreateTimeFlag = true;
+	var cashFlowCreateTimeEle;
+	$("input[name$='cashFlowCreateTime']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '')){
+			cashFlowCreateTimeFlag = false;
+			cashFlowCreateTimeEle = $(e);
 			return false;
-		 }
-	 
+		}
+	});
+	if(!cashFlowCreateTimeFlag){
+		alert("请选择有效的入账时间！");
+		changeClass(cashFlowCreateTimeEle);
+		return false;
+	}
 		
 	var reg = /^[0-9]*$/;
 	if(receiptNoArray.length<0){
