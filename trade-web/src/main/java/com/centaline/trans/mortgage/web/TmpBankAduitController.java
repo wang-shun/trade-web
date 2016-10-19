@@ -56,7 +56,7 @@ public class TmpBankAduitController {
 	public AjaxResponse<String> startWorkFlow(String caseCode) {	
 		
 	ToWorkFlow twf = new ToWorkFlow();
-	twf.setBusinessKey(WorkFlowEnum.TMP_BANK_BUSSKEY.getCode());
+	twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 	twf.setCaseCode(caseCode);
 
 	ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);

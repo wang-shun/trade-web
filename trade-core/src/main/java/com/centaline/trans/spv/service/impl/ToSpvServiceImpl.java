@@ -663,7 +663,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	public void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user) {
 	
 		ToWorkFlow twf = new ToWorkFlow();
-		twf.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
+		twf.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		twf.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
 		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 
@@ -695,7 +695,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
-		workFlow.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
+		workFlow.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());
 		workFlow.setProcessOwner(user.getId());
