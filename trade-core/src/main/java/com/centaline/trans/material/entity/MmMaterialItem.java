@@ -10,7 +10,7 @@ public class MmMaterialItem {
     private String itemCode;
 
     private String itemName;
-
+    //物品类别
     private String itemCategory;
 
     private Date itemInputTime;
@@ -30,7 +30,7 @@ public class MmMaterialItem {
     private String itemBusinessRemark;
 
     private String itemRemark;
-
+    //物品状态
     private String itemStatus;
 
     private String createBy;

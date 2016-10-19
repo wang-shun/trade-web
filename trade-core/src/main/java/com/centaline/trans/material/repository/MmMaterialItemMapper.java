@@ -1,5 +1,7 @@
 package com.centaline.trans.material.repository;
 
+import java.util.List;
+
 import com.centaline.trans.material.entity.MmMaterialItem;
 
 public interface MmMaterialItemMapper {
@@ -14,4 +16,12 @@ public interface MmMaterialItemMapper {
     int updateByPrimaryKeySelective(MmMaterialItem record);
 
     int updateByPrimaryKey(MmMaterialItem record);
+    
+    
+    //查询物品管理信息列表
+	List<MmMaterialItem> queryMmMaterialItemList();
+
+	void insertMaterialInfoFromSpv(MmMaterialItem mmMaterialItem);
+
+	int updateMaterialInfoByCaseCode(String itemCode);
 }
