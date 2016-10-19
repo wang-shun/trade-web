@@ -127,10 +127,15 @@
 .pr30 {
   padding-right: 30px!important;
 }
-.noborder {
-  border: 0;
+.clear {
+	clear: both;
 }
-
+.noborder {
+  border: 0!important;
+}
+.ibox-content  {
+	font-family: "Microsoft Yahei"!important;
+}
 .btn {
   font-family: "Microsoft Yahei";
 }
@@ -152,7 +157,6 @@
 .btn-toggle:hover,.btn-toggle:focus {
     color: #1a7bb9;
 }
-
 .btn-bg {
     background-color: #1a7bb9;
     border: 1px solid #1a7bb9;
