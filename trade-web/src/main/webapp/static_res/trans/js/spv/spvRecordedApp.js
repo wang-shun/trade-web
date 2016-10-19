@@ -9,6 +9,8 @@ $(window).load(function() {
 });
 var handle = $("#handle").val();
 var trindex = 0;
+var imageSum = 0;
+var imageSumb = 0;
 
 //添加入账申请信息tr
 function getTR(thisIndex){
@@ -71,6 +73,7 @@ function render_fileupload(thisIndex){
         	var fileName = data.files[0].name;
         	if($("input[fileName='"+fileName+thisIndex+"']").size()==0){
         		data.submit();
+        		imageSum ++;//记录上传附件的个数
         	}
         },
         done: function (e, data) {
@@ -81,6 +84,7 @@ function render_fileupload(thisIndex){
             	var image = getUploadImage(thisIndex,fileUrl,fileId,fileName);
             	var $image = $(image);
             	$('#td_file'+thisIndex).prepend($image);
+            	imageSumb++;////记录完成上传附件的个数
             	//$image.responsivegallery();
         	}
         }
@@ -128,12 +132,18 @@ function getDelHtml(k,pkid){
 }
 //提交
 function sumbitRe(){
+	
+	if(!confirm("是否确定重新提交申请！")){
+		  return false;
+	}
+		
+	if(!checkSumbitHtml()){
+		return;
+	}
+	
 	$('#chargeInAppr').val(true);
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
-	/*var a =1;
-	return;*/
-	//console.log(params);
 	var url = ctx+"/spv/task/cashflowIntApply/deal";
 	$.ajax({
 		cache : false,
@@ -215,4 +225,227 @@ function rescCallbocak(){
 	   window.opener.location.reload(); //刷新父窗口
 	   window.close(); //关闭子窗口.
 	}
+
+
+function checkReceiptNo(){
+	var theSameFlag = true;
+	var receiptNoArray = new Array();
+		receiptNoArray = $(".forvalue");
+	
+	var payerNameFlag = true;
+	var payerNameEle;
+	$("input[name$='payerName']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+			payerNameFlag = false;
+			payerNameEle = $(e);
+			 return false;
+			 }
+		});
+	
+	 if(!payerNameFlag){
+    	alert("请填写有效的付款人姓名！");
+	    changeClass(payerNameEle);
+		return false;
+	 }
+	
+	var payerAccFlag = true;
+	var payerAccEle;
+	$("input[name$='payerAcc']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
+			payerAccFlag = false;
+			payerAccEle = $(e);
+			return false;
+		}
+	});
+	 if(!payerAccFlag){
+    	alert("请填写有效的付款人银行卡号！");
+	    changeClass(payerAccEle);
+		return false;
+	 }
+	var payerBankFlag = true;
+	var payerBankEle;
+	$("input[name$='payerBank']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+			payerBankFlag = false;
+			payerBankEle = $(e);
+			return false;
+		}
+	});
+	 if(!payerBankFlag){
+	    	alert("请填写有效的付款人银行名称！");
+		    changeClass(payerAccEle);
+			return false;
+		 }
+	var receiptNoFlag = true;
+	var receiptNoEle;
+	$("input[name$='receiptNo']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
+			receiptNoFlag = false;
+			receiptNoEle = $(e);
+			return false;
+		}
+	});
+	 if(!receiptNoFlag){
+	    	alert("请填写有效的贷记凭证编号！");
+		    changeClass(receiptNoEle);
+			return false;
+		 }
+	var payerAmountFlag = true;
+	var payerAmountEle;
+	$("input[name$='payerAmount']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
+			payerAmountFlag = false;
+			payerAmountEle = $(e);
+			return false;
+		}
+	});
+	 if(!payerAmountFlag){
+	    	alert("请填写有效的金额！");
+		    changeClass(payerAmountEle);
+			return false;
+		 }
+	var voucherNoFlag = true;
+	var voucherNoEle;
+	$("input[name$='voucherNo']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+			voucherNoFlag = false;
+			voucherNoEle = $(e);
+			return false;
+		}
+	});
+	 if(!voucherNoFlag){
+	    	alert("请填写有效的转账凭证！");
+		    changeClass(voucherNoEle);
+			return false;
+		 }
+		
+	var reg = /^[0-9]*$/;
+	if(receiptNoArray.length<0){
+		alert("贷记凭证编号不能为空！");
+		return  false;	
+	}
+		
+	for(var i=0; i<receiptNoArray.length; i++){	
+		if($.trim(receiptNoArray[i].value).length<1){
+			alert("贷记凭证编号不能为空！");
+			return  false;
+		}
+		for(var j=i+1; j<receiptNoArray.length ;j++){
+				if(receiptNoArray[i].value == receiptNoArray[j].value){
+					theSameFlag=false;
+					alert("贷记凭证编号不能重复！");
+				}
+				if(theSameFlag==false){
+					//break;
+					return  false;
+				}
+			}
+		if(theSameFlag==false){
+			//break;
+			return  false;
+		}
+	}
+	
+	 $.each(receiptNoArray,function(i, item) {
+			if (item.value != '') {
+				//if(!reg.exec(item.value.trim())){
+				if(!reg.test(item.value.trim())){
+					alert("贷记凭证编号只能由数字组成！");
+					theSameFlag = false;
+					return theSameFlag;
+				}				
+			}
+			if(theSameFlag==false){
+				return  false;
+			}
+	 })
+	 
+	return theSameFlag;
+}
+
+function checkBankNoAndPayerAmount(){
+	var regForBankNo = /^[0-9]*$/;
+	var regForPayerAmount = /^\d+(\.\d+)?$/;
+	//var r = new RegExp("^\\d+(\\.\\d+)?$");
+	var bankNoArray = $(".forBankNo");
+	var PayerAmountArray = $(".forPayerAmount");
+	var flag = true;
+	 $.each(bankNoArray,function(i, item) {
+			if (item.value != '') {				
+				if(!regForBankNo.test(item.value.trim())){
+					alert("银行卡号只能由数字组成！");
+					flag = false;
+					return flag;
+				}				
+			}
+			if(flag==false){
+				return  false;
+			}
+	 })
+	 
+	 $.each(PayerAmountArray,function(i, item) {
+			if (item.value != '') {
+				//if(!reg.exec(item.value.trim())){
+				if(!regForPayerAmount.test(item.value.trim())){
+					alert("入职金额只能由数字和小数点组成！");
+					flag = false;
+					return flag;
+				}				
+			}
+			if(flag==false){
+				return  false;
+			}
+	 })
+	return flag;
+}
+function checkSumbitHtml(){
+	
+	if(imageSumb <0 || imageSum != imageSumb){			//附件
+		alert("请先上传图片成功后再提交");
+		return false;
+	}
+	if(!checkReceiptNo()){				//验证凭证编号不能重复和只能为数字
+		return;
+	}
+	if(!checkBankNoAndPayerAmount()){	//银行卡号、金额等
+		return;
+	}
+	
+	return true;
+}
+
+function changeClass(object){
+	$(object).focus();
+	$(object).addClass("borderClass").blur(function(){
+		$(this).removeClass("borderClass");
+	});	;
+}
+
+/**************************************验证************************************************/
+//姓名验证(汉字和英文大小写)
+function isName(name){
+	name = name.replace(/\s/g,"");//去除中间空格
+	reg = /((^[\u4E00-\u9FA5]{1,5}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/;
+	if (!reg.test(name)) {
+       return false; 
+   }
+   return true;
+}
+//金额验证(两位小数)
+function isNumber(num){
+	var reg=/^([1-9]{1}\d*|0)(\.\d{1,2})?$/;
+	if(!reg.test(num)){
+		return false;
+	}
+	return true;
+}
+//金额验证(整数)
+function isNumber2(num){
+	var reg=/^[1-9]{1}\d*$/;
+	if(!reg.test(num)){
+		return false;
+	}
+	return true;
+}
+/*****************************************************************************************/
 

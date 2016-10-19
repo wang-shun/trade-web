@@ -115,21 +115,21 @@
                                     <label>
                                         收款人名称
                                     </label>
-                                   <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].name }</span>
+                                   <span class="info_one">${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}</span>
                                 </p>
 
                                 <p>
                                     <label>
                                         收款人账户
                                     </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].account }</span>
+                                    <span class="info_one">${spvBaseInfoVO.toSpvAccountList[2].account }</span>
                                 </p>
 
                                 <p>
                                     <label>
                                         收款人开户行
                                     </label>
-                                    <span class="info">${spvBaseInfoVO.toSpvAccountList[1].bank }</span>
+                                    <span class="info"><%-- ${spvBaseInfoVO.toSpvAccountList[2].bank } --%>光大银行市北支行</span>
                                 </p>
                             </div>
                         </div>

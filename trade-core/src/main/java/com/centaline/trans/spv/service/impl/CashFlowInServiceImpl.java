@@ -166,7 +166,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
         SpvBaseInfoVO spvBaseInfoVO;
         SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCodeByIn(businessKey);
 
-        if(spvChargeInfoVO != null && spvChargeInfoVO.getToSpvCashFlowApply() != null && !StringUtils.isBlank(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode())){
+        if(null != spvChargeInfoVO  && null != spvChargeInfoVO.getToSpvCashFlowApply() && !StringUtils.isBlank(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode())){
         	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
         	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
         	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
