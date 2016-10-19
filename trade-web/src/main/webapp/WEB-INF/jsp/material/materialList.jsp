@@ -32,8 +32,8 @@
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
 <link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"	rel="stylesheet" />
-
-
+<!-- 必须CSS -->
+<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 </head>
 
 <body>
@@ -48,53 +48,53 @@
              <div class="form-row form-rowbot">
                  <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one" >案件编号</label>
-                     <input type="text" class="form-control input-one" placeholder="">
+                     <input type="text" class="form-control input-one" placeholder="" id="caseCode" name="caseCode">
                  </div>
                  <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one">提交人</label>
-                     <input type="text" class="form-control input-one" placeholder="">
+                     <input type="text" class="form-control input-one" placeholder="" id="createBy" name="createBy">
                  </div>
                  <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one">保管人</label>
-                     <input type="text" class="form-control input-one" placeholder="">
+                     <input type="text" class="form-control input-one" placeholder="" id="itemManager" name="itemManager">
                  </div>
              </div>
              <div class="form-row form-rowbot">
                   <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one">物品类型</label>
-                     <select class="form-control input-one">
-                         <option>身份证</option>
-                         <option>已完成</option>
-                         <option>已完成</option>
+                     <select class="form-control input-one" id="itemCategory">
+                         <option value="">身份证</option>
+                         <option value="">银行卡</option>
+                         <option value="">房产证</option>
                      </select>
                  </div>
                  <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one">物品状态</label>
-                     <select class="form-control input-one">
-                         <option>完好无损</option>
-                         <option>已完成</option>
-                         <option>已完成</option>
+                     <select class="form-control input-one" id="itemStatus">
+                         <option value="">完好无损</option>
+                         <option value="">已完成</option>
+                         <option value="">已完成</option>
                      </select>
                  </div>
                  <div class="form-group form-margin" style="margin-left:15px;">
-                     <select class="form-control select-one">
-                         <option>入库时间</option>
-                         <option>起草时间</option>
+                     <select class="form-control select-one" id="">
+                         <option value="">入库时间</option>
+                         <option value="">起草时间</option>
                      </select>
-                     <div class="input-daterange input-group" id="datepicker">
-                         <input type="text" class="form-control date-width" name="start" value="">
+                     <div class="input-daterange input-group" id="datepicker_0">
+                         <input id="dtBegin_0"  type="text" class="form-control date-width" name="start" value="">
                          <span class="input-group-addon">到</span>
-                         <input type="text" class="form-control date-width" name="end" value="">
+                         <input id="dtEnd_0"  type="text" class="form-control date-width" name="end" value="">
                      </div>
                  </div>
              </div>
              <div class="form-row">
                  <div class="form-group form-margin pull-left">
                      <label for="" class="lable-one">物业地址</label>
-                     <input type="text" class="form-control" style="width:418px;" placeholder="">
+                     <input type="text" class="form-control" style="width:418px;" placeholder="" id="propertyAddr" name="propertyAddr">
                  </div>
                  <div class="btn-left btn-left-space" style="margin-left:40px;">
-                     <button type="submit" class="btn btn-success btn-icon  mr5"><i class="icon iconfont">&#xe635;</i> 查询</button>
+                     <button type="submit" class="btn btn-success btn-icon  mr5" id="searchButton"><i class="icon iconfont">&#xe635;</i> 查询</button>
                      <button type="reset" class="btn btn-grey mr5">清空</button>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5">入库</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#myModal">借用</a>
@@ -106,6 +106,7 @@
 
          </form>
      </div>
+     
      <div class="row">
          <div class="col-md-12">
              <div class="table_content">
@@ -125,320 +126,21 @@
                              <th>操作</th>
                          </tr>
                      </thead>
-                     <tbody>
-                         <tr>
-                             <td>
-                                 <input type="checkbox" class="i-checks" name="retainsCheck" value='${item.pkid}'>
-                             </td>
-                             <td>
-                                 <p class="big">
-                                     SH20160906001
-                                 </p>
-                                 <p class="big">
-                                    	上海市长宁区延安西路889弄1号202
-                                 </p>
-                             </td>
-                             <td>
-                                 <p>
-                                     <i class="sign_blue">
-                                        	 银行卡
-                                     </i>
-                                 </p>
-                                  <p>
-                                     	中国建设银行储蓄卡
-                                 </p>
-                             </td>
-                             <td>
-                                 <p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">小赵</a> </p>
-                             </td>
-                             <td>
-                                 <p><a class="demo-top" title="手机号： 1548754875<br/>虹口杨浦贵宾服务部A组" href="#">王振宇</a> </p>
-                             </td>
-                             <td>
-                                 <p class="big">
-                                     DAG-001
-                                 </p>
-                             </td>
-                             <td>
-                                 <p class="big">
-                                     	退还
-                                 </p>
-                             </td>
-                             <td>
-                                 <p class="smll_sign">
-                                     <i class="sign_normal">入库</i>2016-09-22
-                                 </p>
-                                 <p class="smll_sign">
-                                     <i class="sign_normal">退还</i>2016-09-25
-                                 </p>
-                             </td>
-                             <td class="text-center">
-                                 <div class="btn-group">
-                                     <button type="button" class="btn btn-undertint btn-padding-3"><i class="icon iconfont color-corbule btn-look">&#xe63b;</i>
-                                     </button>
-                                 </div>
-                             </td>
-                         </tr>
-                         <tr>
-                             <td>
-                                 <input type="checkbox" class="i-checks" name="retainsCheck">
-                             </td>
-                             <td>
-                                 <p class="big">
-                                     SH20160906001
-                                 </p>
-                                 <p class="big">
-                                     	上海市长宁区延安西路889弄1号202
-                                 </p>
-                             </td>
-                             <td>
-                                 <p>
-                                     <i class="sign_blue">
-                                         	银行卡
-                                     </i>
-                                 </p>
-                                  <p>
-                                     	中国农业银行储蓄卡
-                                 </p>
-                             </td>
-                             <td>
-                                 <p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">小赵</a> </p>
-                             </td>
-                             <td>
-                                 <p><a class="demo-top" title="手机号： 1548754875<br/>虹口杨浦贵宾服务部A组" href="#">王振宇</a> </p>
-                             </td>
-                             <td>
-                                 <p class="big">
-                                     DAG-001
-                                 </p>
-                             </td>
-                             <td>
-                                 <p class="big">
-                                   	  在库
-                                 </p>
-                             </td>
-                             <td>
-                                 <p class="smll_sign">
-                                     <i class="sign_normal">入库</i>2016-09-22
-                                 </p>
-                                 <p class="smll_sign">
-                                     <i class="sign_normal">退还</i>
-                                 </p>
-                             </td>
-                             <td class="text-center">
-                                 <div class="btn-group">
-                                     <button type="button" class="btn btn-undertint btn-padding-3"><i class="icon iconfont color-corbule btn-look">&#xe63b;</i>
-                                     </button>
-                                 </div>
-                             </td>
-                         </tr>
-                         <tr>
-                             <td>
-                                 <input type="checkbox" class="i-checks" name="retainsCheck">
-                             </td>
-                             <td>
-                                 <p class="big">
-                                     SH20160906001
-                                 </p>
-                                 <p class="big">
-                                     	上海市长宁区延安西路889弄1号202
-                                 </p>
-                             </td>
-                             <td>
-                                 <p>
-                                     <i class="sign_blue">
-                                      	   银行卡
-                                     </i>
-                                 </p>
-                                  <p>
-                                   	  中国建设银行储蓄卡
-                                 </p>
-                             </td>
-                             <td>
-                                 <p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">小赵</a> </p>
-                             </td>
-                             <td>
-                                 <p><a class="demo-top" title="手机号： 1548754875<br/>虹口杨浦贵宾服务部A组" href="#">王振宇</a> </p>
-                             </td>
-                             <td>
-                                 <p class="big">
-                                     DAG-001
-                                 </p>
-                             </td>
-                             <td>
-                                 <p>
-                                     <i class="sign_brown">
-                                        	 外借
-                                     </i>
-                                 </p>
-                             </td>
-                             <td>
-                                 <p class="smll_sign">
-                                     <i class="sign_normal">入库</i>2016-09-22
-                                 </p>
-                                 <p class="smll_sign">
-                                     <i class="sign_normal">退还</i>
-                                 </p>
-                             </td>
-                             <td class="text-center">
-                                 <div class="btn-group">
-                                     <button type="button" class="btn btn-undertint btn-padding-3"><i class="icon iconfont color-corbule btn-look">&#xe63b;</i>
-                                     </button>
-                                 </div>
-                             </td>
-                         </tr>
-                         <tr>
-                             <td>
-                                 <input type="checkbox" class="i-checks" name="retainsCheck">
-                             </td>
-                             <td>
-                                 <p class="big">
-                                     SH20160906001
-                                 </p>
-                                 <p class="big">
-                                     	上海市长宁区延安西路889弄1号202
-                                 </p>
-                             </td>
-                             <td>
-                                 <p>
-                                     <i class="sign_blue">
-                                       	  银行卡
-                                     </i>
-                                 </p>
-                                  <p>
-                                    	 中国建设银行储蓄卡
-                                 </p>
-                             </td>
-                             <td>
-                                 <p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">小赵</a> </p>
-                             </td>
-                             <td>
-                                 <p><a class="demo-top" title="手机号： 1548754875<br/>虹口杨浦贵宾服务部A组" href="#">王振宇</a> </p>
-                             </td>
-                             <td>
-                                 <p class="big">
-                                     DAG-001
-                                 </p>
-                             </td>
-                             <td>
-                                 <p>
-                                     <i class="sign_brown">
-                                         	待入库
-                                     </i>
-                                 </p>
-                             </td>
-                             <td>
-                                 <p class="smll_sign">
-                                     <i class="sign_normal">入库</i>
-                                 </p>
-                                 <p class="smll_sign">
-                                     <i class="sign_normal">退还</i>
-                                 </p>
-                             </td>
-                             <td class="text-center">
-                                 <div class="btn-group">
-                                     <button type="button" class="btn btn-undertint btn-padding-3"><i class="icon iconfont color-corbule btn-look">&#xe63b;</i>
-                                     </button>
-                                 </div>
-                             </td>
-                         </tr>
-
-                     </tbody>
+                     <tbody id="mortgageInfoList"></tbody> 
                  </table>
-    
-    <!-- 分页 -->             
-<!--     <div class="text-center">
-		<span id="currentTotalPage"><strong class="bold"></strong></span>
-		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-    </div> -->
-                 
-                 <div class="text-center page_box">
-                     <span id="currentTotalPage">
-                         <strong>
-                             1/8
-                         </strong>
-                     </span>
-                     <span class="ml15">
-                        	 共
-                         <strong id="totalP">
-                             144
-                         </strong>
-                        	 条
-                     </span>
-                     &nbsp;
-                     <div id="pageBar" class="pagination text-center">
-                         <ul class="pagination">
-                             <li class="first disabled">
-                                 <a href="#"><i class="fa fa-step-backward"></i></a>
-                             </li>
-                             <li class="prev disabled">
-                                 <a href="#"><i class="fa fa-chevron-left"></i></a>
-                             </li>
-                             <li class="page active">
-                                 <a href="#">
-                                     1
-                                 </a>
-                             </li>
-                             <li class="page">
-                                 <a href="#">
-                                     2
-                                 </a>
-                             </li>
-                             <li class="page">
-                                 <a href="#">
-                                     3
-                                 </a>
-                             </li>
-                             <li class="page">
-                                 <a href="#">
-                                     4
-                                 </a>
-                             </li>
-                             <li class="page">
-                                 <a href="#">
-                                     5
-                                 </a>
-                             </li>
-                             <li class="page">
-                                 <a href="#">
-                                     6
-                                 </a>
-                             </li>
-                             <li class="page">
-                                 <a href="#">
-                                     7
-                                 </a>
-                             </li>
-                             <li class="page">
-                                 <a href="#">
-                                     8
-                                 </a>
-                             </li>
-                             <li class="next">
-                                 <a href="#"><i class="fa fa-chevron-right"></i></a>
-                             </li>
-                             <li class="last">
-                                 <a href="#"><i class="fa fa-step-forward"></i></a>
-                             </li>
-                         </ul>
-                         <div class="pagergoto">
-                             <span class="go_text">
-                               	  跳转至
-                             </span>
-                             <span>
-                             <input type="text" class="go_input" value="">
-                             <input type="button" class="go_btn" value="GO"></span>
-                         </div>
-
-                     </div>
-                 </div>
-             </div>
+              </div>
+    		  <div class="text-center page_box">
+					<span id="currentTotalPage"><strong></strong></span> <span
+						class="ml15">共<strong id="totalP"></strong>条
+					</span>&nbsp;
+					<div id="pageBar" class="pagergoto"></div>
+			  </div>
+            </div>
          </div>
-     </div>
- </div>
-  
+    </div>
 
+  
+<content tag="local_script"> 
 <!-- Mainly scripts -->
 <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
 <script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
@@ -450,13 +152,137 @@
 <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <!-- stickup plugin -->
 <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
+<script src="${ctx}/js/trunk/material/materialList.js"></script> 	
+<script	id="template_mortgageInfoList" type="text/html">
+      {{each rows as item index}}
+  				  {{if index%2 == 0}}
+ 				      <tr class="tr-1">
+                  {{else}}
+                       <tr class="tr-2">
+                   {{/if}}
+						<td class="big"> <a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></td>
+						<td class="t-left">
+					
+						{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+							<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
+							{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+						{{else}}
+							</p>
+						<p>
+							{{item.PROPERTY_ADDR}}
+						{{/if}}	
+						</p> 
+                             <p>
+                                <a class="salesman-info" href="#" >
+                                    {{item.FENHANG}}/{{item.FIN_ORG_NAME_YC}}                                               
+                                </a>
+                            </p>
+                        </td>
 
+					    <td>
+						{{if item.SIGN_DATE != null}}
+						   <p>  
+                              <i class="sign_normal">签</i>
+                                 {{item.SIGN_DATE}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">签</i>
+                                 {{item.SIGN_DATE}}          
+                           </p>
+						{{/if}}
+
+						{{if item.APPR_DATE!=null}}
+						   <p>  
+                              <i class="sign_normal">审</i>
+                                 {{item.APPR_DATE}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">审</i>
+                                 {{item.APPR_DATE}}          
+                           </p>
+						{{/if}}
+						{{if item.LEND_DATE!=null}}
+						   <p>  
+                              <i class="sign_normal">放</i>
+                                 {{item.LEND_DATE}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">放</i>
+                                 {{item.LEND_DATE}}          
+                           </p>
+						{{/if}}	
+
+						{{if item.REAL_HT_TIME!=null}}
+						   <p>  
+                              <i class="sign_normal">过</i>
+                                 {{item.REAL_HT_TIME}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">过</i>
+                                 {{item.REAL_HT_TIME}}          
+                           </p>
+						{{/if}}	
+
+						{{if item.END_TIME_!=null}}
+						   <p>  
+                              <i class="sign_normal">流</i>
+                                 {{item.END_TIME_}}          
+                          </p>
+						{{else}}
+                            <p>  
+                              <i class="sign_grey">流</i>
+                                 {{item.END_TIME_}}          
+                           </p>
+						{{/if}}	
+
+                         </td>
+						<td class="center">   
+                                    {{item.CUST_NAME}}
+                        </td>
+						<td class="center">
+                          	<span class="manager">总额：{{item.MORT_TOTAL_AMOUNT}}万</span>
+                          	<span class="manager">商贷：{{item.COM_AMOUNT}}万</span>
+                          	<span class="manager">公积金：{{item.PRF_AMOUNT}}万</span>
+                       </td>
+
+						<td class="center">
+
+						{{if  item.IS_TMP_BANK == '是'}}
+                      	 <p> <i class="sign_blue">临时银行</i></p>
+						{{/if}}
+
+						{{if  item.SDSTATUS=='是'}}
+                      	 <p>流失</p>
+						{{/if}}
+						
+						{{if  item.LOANTYPE=='1'}}
+                      	 <p>商业贷款委托中原办理</p>
+						{{/if}}
+                        {{if  item.LOANTYPE=='2'}}
+                      	 <p>公积金贷款委托中原办理</p>
+						{{/if}}
+						{{if  item.LOANTYPE=='3'}}
+                      	 <p>自办贷款</p>
+						{{/if}}
+						
+                       	</td>
+                        <td class="center">
+                                    {{item.ORG_NAME}}
+                           <span class="manager">贷款专员 ：<a href="#">{{item.REAL_NAME}}</a></span>
+                        </td>
+				  </tr>
+       {{/each}}
+</script> 
 <script type="text/javascript">
 $(function(){
 		//top
@@ -510,5 +336,6 @@ function getCheck(){
 }
 
 </script>
+</content>
 </body>
 </html>

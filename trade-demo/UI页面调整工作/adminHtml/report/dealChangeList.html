@@ -4,7 +4,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>
-            产调来源报表
+            交易变更列表
         </title>
         <link href="../static/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
@@ -21,8 +21,6 @@
         <link rel="stylesheet" href="../static/trans/css/common/table.css" />
         <link rel="stylesheet" href="../static/trans/css/common/input.css" />
         <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
-        <link rel="stylesheet" href="../static/trans/js/plugins/rangeSlider/css/ion.rangeSlider.css" />
-        <link rel="stylesheet" href="../static/trans/js/plugins/rangeSlider/css/ion.rangeSlider.skinFlat.css"/>
     </head>
     <body>
         <div id="wrapper">
@@ -223,33 +221,33 @@
                                 </li>
                             </ul>
                         </li>
-                    <li class="">
-                        <a href="">
-                            <i class="fa fa-glass">
-                            </i>
-                            <span class="nav-label">
-                                资金监管
-                            </span>
-                            <span class="fa arrow">
-                            </span>
-                        </a>
-                        <ul class="nav nav-second-level collapse">
-                            <li class="">
-                                <a href="../spv/spvCaseList.html">
-                                    <i class="fa ">
-                                    </i>
-                                    监管合约列表
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="../spv/waterDetail.html">
-                                    <i class="fa ">
-                                    </i>
-                                    监管资金出入账流水
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                        <li class="">
+                            <a href="">
+                                <i class="fa fa-glass">
+                                </i>
+                                <span class="nav-label">
+                                    资金监管
+                                </span>
+                                <span class="fa arrow">
+                                </span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <li class="">
+                                    <a href="../spv/spvCaseList.html">
+                                        <i class="fa ">
+                                        </i>
+                                        监管合约列表
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="../spv/waterDetail.html">
+                                        <i class="fa ">
+                                        </i>
+                                        监管资金出入账流水
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="">
                             <a href="#">
                                 <i class="fa fa-comment">
@@ -933,50 +931,366 @@
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
                         <h2 class="title">
-                            产调来源报表
+                            临时银行案件列表
                         </h2>
-                        <div class="row pt10">
-                            <div class="col-md-8">
-                                <input type="text" id="range_1" value="6" />
-                            </div>
-                            <div class="col-md-4">
-                                <div class="control-group col-md-9">
-                                        <select class="form-control ">
-                                            <option>默认</option>
-                                            <option>虹口区贵宾服务部A组</option>
-                                            <option>杨浦区贵宾服务部C组</option>
-                                            <option>静安区区贵宾服务部A组</option>
-                                        </select>
-
+                        <form method="get" class="form_list">
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        案件编号
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="" value="" />
                                 </div>
-                                <div class="col-md-3" style="padding-left:0;">
-                                        <button id="searchButton" type="button" class="btn btn-success "><i class="icon iconfont"></i>
+
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        产证地址
+                                    </label>
+                                    <input class="teamcode input_type" style="width:435px;" placeholder="" value="" />
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        申请人
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="" value="" />
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        申请人所在组
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="" value="" />
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        状态筛选
+                                    </label>
+                                    <select name="" id="" class="select_control selwidth ">
+                                        <option value="">请选择</option>
+                                        <option value="">状态筛选</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        贷款银行
+                                    </label>
+                                    <select name="" id="" class="teamcode select_control ">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small select_style mend_select">
+                                        申请时间
+                                    </label>
+                                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
+                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始时间"> <span class="input-group-addon">到</span>
+                                        <input  name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        贷款支行
+                                    </label>
+                                     <select name="" id="" class="teamcode select_control ">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small select_style mend_select">
+                                        审批时间
+                                    </label>
+                                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
+                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始时间"> <span class="input-group-addon">到</span>
+                                        <input  name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="add_btn" style="margin-left:126px;">
+                                    <button type="button" class="btn btn-success">
+                                        <i class="icon iconfont">&#xe635;</i>
                                         查询
+                                    </button>
+                                    <button type="button" class="btn btn-success">
+                                        导出列表
+                                    </button>
+                                    <button type="button" class="btn btn-grey">
+                                        清空
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row pt20">
-                            <div class="col-md-4">
-                                <h4>所有产调</h4>
-                                <div id="char1" style="height:260px;"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <h4>有效产调</h4>
-                                <div id="char2" style="height:260px;"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <h4>无效产调</h4>
-                                <div id="char3" style="height:260px;"></div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table_content">
+                                <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                            </th>
+                                            <th>
+                                                当前环节
+                                            </th>
+                                            <th>
+                                                产证地址
+                                            </th>
+                                            <th>
+                                                时间
+                                            </th>
+                                            <th>
+                                                主办人
+                                            </th>
+                                            <th>
+                                                申请人所在组
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    <a href="javascript:;">
+                                                        ZY-AJ-201605-0952
+                                                    </a>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <i class="sign_blue">
+                                                        总监审批
+                                                    </i>
+                                                </p>
+                                                 <p>
+                                                    已驳回<a href="#" class="ml5">驳回原因</a>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                    上海杨浦区平路街道（内环）鞍山八村29号060室
+                                                </p>
+                                                <p>
+                                                    <a class="salesman-info" href="javascript:;" >
+                                                        中国建设银行股份有限公司上海分行/江苏路支行
+                                                    </a>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">申</i>
+                                                    2016-08-21
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">审</i>
+                                                    2016-08-22
+                                                </p>
+                                            </td>
+                                            <td class="center">
+                                                <p class="manager">申请人：<a href="#">娇娇</a></p>
+                                                <p class="manager">审批人：<a href="#">呼呼</a></p>
+                                            </td>
+                                            <td class="center">
+                                                虹口杨浦贵宾服务部A组
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    <a href="javascript:;">
+                                                        ZY-AJ-201605-0952
+                                                    </a>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <i class="sign_blue">
+                                                        总监审批
+                                                    </i>
+                                                </p>
+                                                 <p>
+                                                    审批中
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                    上海杨浦区平路街道（内环）鞍山八村29号060室
+                                                </p>
+                                                <p>
+                                                    <a class="salesman-info" href="javascript:;" >
+                                                        中国建设银行股份有限公司上海分行/江苏路支行
+                                                    </a>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">申</i>
+                                                    2016-08-21
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">审</i>
+                                                    2016-08-22
+                                                </p>
+                                            </td>
+                                            <td class="center">
+                                                <p class="manager">申请人：<a href="#">娇娇</a></p>
+                                                <p class="manager">审批人：<a href="#">呼呼</a></p>
+                                            </td>
+                                            <td class="center">
+                                                虹口杨浦贵宾服务部
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    <a href="javascript:;">
+                                                        ZY-AJ-201605-0952
+                                                    </a>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <i class="sign_blue">
+                                                        总监审批
+                                                    </i>
+                                                </p>
+                                                 <p>
+                                                    已通过
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                    上海杨浦区平路街道（内环）鞍山八村29号060室
+                                                </p>
+                                                <p>
+                                                    <a class="salesman-info" href="javascript:;" >
+                                                        中国建设银行股份有限公司上海分行/江苏路支行
+                                                    </a>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">申</i>
+                                                    2016-08-21
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">审</i>
+                                                    2016-08-22
+                                                </p>
+                                            </td>
+                                            <td class="center">
+                                                <p class="manager">申请人：<a href="#">娇娇</a></p>
+                                                <p class="manager">审批人：<a href="#">呼呼</a></p>
+                                            </td>
+                                            <td class="center">
+                                                虹口杨浦贵宾服务部
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-center page_box">
+                                    <span id="currentTotalPage">
+                                        <strong>
+                                            1/8
+                                        </strong>
+                                    </span>
+                                    <span class="ml15">
+                                        共
+                                        <strong id="totalP">
+                                            144
+                                        </strong>
+                                        条
+                                    </span>
+                                    &nbsp;
+                                    <div id="pageBar" class="pagination text-center">
+                                        <ul class="pagination">
+                                            <li class="first disabled">
+                                                <a href="#"><i class="fa fa-step-backward"></i></a>
+                                            </li>
+                                            <li class="prev disabled">
+                                                <a href="#"><i class="fa fa-chevron-left"></i></a>
+                                            </li>
+                                            <li class="page active">
+                                                <a href="#">
+                                                    1
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    2
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    3
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    4
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    5
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    6
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    7
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    8
+                                                </a>
+                                            </li>
+                                            <li class="next">
+                                                <a href="#"><i class="fa fa-chevron-right"></i></a>
+                                            </li>
+                                            <li class="last">
+                                                <a href="#"><i class="fa fa-step-forward"></i></a>
+                                            </li>
+                                        </ul>
+                                        <div class="pagergoto">
+                                            <span class="go_text">
+                                                跳转至
+                                            </span>
+                                            <span>
+                                            <input type="text" class="go_input" value="">
+                                            <input type="button" class="go_btn" value="GO"></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-            </div>
                 <!--*********************** HTML_main*********************** -->
+            </div>
         </div>
-
+<style>
+    .add {
+        border: 1px solid red;
+    }
+</style>
         <!-- Mainly scripts -->
         <script src="../static/js/jquery-2.1.1.js">
         </script>
@@ -987,12 +1301,24 @@
         <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js">
         </script>
         <!-- Custom and plugin javascript -->
-        <script src="../static/js/plugins/pace/pace.min.js"></script>
-        <script src="../static/trans/js/plugins/rangeSlider/js/ion.rangeSlider.js"></script>
-        <script src="../static/js/ionRange.demo.js"></script>
-        <script src="../static/js/echarts.min.js"></script>
-        <script src="../static/js/echarts.demo.js"></script>
+        <script src="../static/js/inspinia.js">
+        </script>
+        <script src="../static/js/plugins/pace/pace.min.js">
+        </script>
 
+
+        <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $('.input-daterange').datepicker({
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    autoclose: true
+                });
+            });
+
+        </script>
 
     </body>
 </html>
