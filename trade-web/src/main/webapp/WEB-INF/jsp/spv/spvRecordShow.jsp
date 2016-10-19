@@ -136,6 +136,7 @@
                                           <th style="width: 120px;">贷记凭证编号</th>
                                           <th>付款方式</th>
                                           <th>凭证附件</th>
+                                          <th>入账时间</th>
                                       </thead>
                                       <tbody id="addTr">
                                       <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
@@ -165,6 +166,11 @@
 													${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
 													</button>
                                                	 </c:forEach>
+                                              </td>
+                                               <td>
+                                                  <div class="big">  
+                                                  <fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.inputTime }" pattern="yyyy-MM-dd"/>
+                                                  </div>
                                               </td>
                                           </tr>
                                        </c:forEach>

@@ -63,23 +63,27 @@
                   <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one">物品类型</label>
                      <select class="form-control input-one" id="itemCategory">
-                         <option value="">身份证</option>
-                         <option value="">银行卡</option>
-                         <option value="">房产证</option>
+                     	 <option value="" selected="selected">请选择</option>
+                         <option value="1">身份证</option>
+                         <option value="2">银行卡</option>
+                         <option value="3">房产证</option>
                      </select>
                  </div>
                  <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one">物品状态</label>
                      <select class="form-control input-one" id="itemStatus">
-                         <option value="">完好无损</option>
-                         <option value="">已完成</option>
-                         <option value="">已完成</option>
+                     	 <option value="" selected="selected">请选择</option>
+                         <option value="1">完好无损</option>
+                         <option value="2">已损坏</option>
+                         <option value="3">部分破损</option>
                      </select>
                  </div>
                  <div class="form-group form-margin" style="margin-left:15px;">
-                     <select class="form-control select-one" id="">
-                         <option value="">入库时间</option>
-                         <option value="">起草时间</option>
+                     <select class="form-control select-one" id="timeSelect">
+                         <option value="ITEM_INPUT_TIME">入库时间</option>
+                         <option value="ITEM_OUTPUT_TIME">借出时间</option>
+                         <option value="ACTION_PRE_DATE">归还时间</option>
+                         <option value="ITEM_BACK_TIME">退还时间</option>
                      </select>
                      <div class="input-daterange input-group" id="datepicker_0">
                          <input id="dtBegin_0"  type="text" class="form-control date-width" name="start" value="">
@@ -126,7 +130,7 @@
                              <th>操作</th>
                          </tr>
                      </thead>
-                     <tbody id="mortgageInfoList"></tbody> 
+                     <tbody id="materialInfoList"></tbody> 
                  </table>
               </div>
     		  <div class="text-center page_box">
@@ -159,7 +163,7 @@
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <script src="${ctx}/js/trunk/material/materialList.js"></script> 	
-<script	id="template_mortgageInfoList" type="text/html">
+<script	id="template_materialInfoList" type="text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
  				      <tr class="tr-1">
