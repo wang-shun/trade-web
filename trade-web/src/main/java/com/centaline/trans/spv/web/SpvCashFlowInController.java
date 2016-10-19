@@ -4,23 +4,15 @@
  */
 package com.centaline.trans.spv.web;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -28,52 +20,18 @@ import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
-import com.aist.uam.userorg.remote.vo.User;
-import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.cases.entity.ToCase;
-import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.cases.vo.CaseBaseVO;
-import com.centaline.trans.common.entity.ToAccesoryList;
-import com.centaline.trans.common.entity.ToWorkFlow;
-import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.AppTypeEnum;
-import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToWorkFlowService;
-import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.ProcessInstanceService;
-import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.mgr.Consts;
-import com.centaline.trans.product.entity.Product;
-import com.centaline.trans.product.entity.ProductCategory;
 import com.centaline.trans.product.service.ProductCategoryService;
 import com.centaline.trans.product.service.ProductService;
-import com.centaline.trans.spv.entity.ToCashFlow;
-import com.centaline.trans.spv.entity.ToSpv;
-import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
-import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
-import com.centaline.trans.spv.entity.ToSpvDeCond;
-import com.centaline.trans.spv.entity.ToSpvDeRec;
-import com.centaline.trans.spv.entity.ToSpvReceipt;
-import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
-import com.centaline.trans.spv.repository.ToSpvReceiptMapper;
 import com.centaline.trans.spv.service.CashFlowInService;
-import com.centaline.trans.spv.service.CashFlowOutService;
 import com.centaline.trans.spv.service.ToSpvService;
-import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
-import com.centaline.trans.spv.vo.SpvDeRecVo;
-import com.centaline.trans.spv.vo.SpvRecordReturnVO;
-import com.centaline.trans.spv.vo.SpvRecordedInfoVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVO;
-import com.centaline.trans.spv.vo.SpvRecordedsVOItem;
 import com.centaline.trans.spv.vo.SpvReturnCashflowVO;
-import com.centaline.trans.spv.vo.SpvVo;
-import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.service.ToApproveRecordService;
-import com.centaline.trans.task.vo.ProcessInstanceVO;
-
 
 @Controller
 @RequestMapping(value="/spv/task/cashflowIntApply")
