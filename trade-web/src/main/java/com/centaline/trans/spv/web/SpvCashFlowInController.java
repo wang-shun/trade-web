@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -82,7 +81,6 @@ public class SpvCashFlowInController {
 		return response;
 	}
 	
-	
 	/**
 	 * 新增入账流水页面
 	 * @param pkid
@@ -143,6 +141,7 @@ public class SpvCashFlowInController {
 		String taskId = "";
 		String handle = "";
 		String instCode = "";
+		String cashflowApplyCode = "";
 		
 		if(null != spvrevo){
 			if(null!= spvrevo.getTaskId())
@@ -152,8 +151,6 @@ public class SpvCashFlowInController {
 			if(null!= spvrevo.getInstCode())
 				instCode = spvrevo.getInstCode();
 		}
-		
-		String cashflowApplyCode = "";
 		try{
 			if(StringUtils.equals(spvrevo.getHandle(), "addCashFlow")){
 				cashFlowInService.cashFlowInPageDeal(request, handle, spvrevo, cashflowApplyCode);
@@ -170,8 +167,8 @@ public class SpvCashFlowInController {
 
 	   /**
      * @Title: cashFlowOutApprDeal 
-     * @Description: 出款申请操作
-     * @author: gongjd 
+     * @Description: 入账
+     * @author: hejf 
      * @param request
      * @param source
      * @param instCode
@@ -186,7 +183,6 @@ public class SpvCashFlowInController {
 	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode, 
 			String taskId,String handle,SpvRecordedsVO spvRecordedsVO,Boolean chargeInAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
-    	SpvChargeInfoVO spvChargeInfoVO = new SpvChargeInfoVO();
     	try {
 			String cashflowApplyCode = "";
 			if(!StringUtils.isBlank(handle)){ 
@@ -214,8 +210,8 @@ public class SpvCashFlowInController {
     
     /** 
      * @Title: cashFlowOutApprSave 
-     * @Description: 出款保存操作
-     * @author: gongjd 
+     * @Description:入账
+     * @author: hejf 
      * @param spvChargeInfoVO
      * @return response
      * @throws
@@ -235,8 +231,8 @@ public class SpvCashFlowInController {
 	}
     
 
-	   /**
-	 * @throws Exception 
+  /**
+  * @throws Exception 
   * @Title: cashFlowOutApprDeal 
   * @Description: 入账申请删除流水操作
   * @author:hejf 
