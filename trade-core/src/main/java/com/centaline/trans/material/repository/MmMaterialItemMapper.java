@@ -2,8 +2,9 @@ package com.centaline.trans.material.repository;
 
 import java.util.List;
 
+import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.material.entity.MmMaterialItem;
-
+@MyBatisRepository
 public interface MmMaterialItemMapper {
     int deleteByPrimaryKey(Long pkid);
 

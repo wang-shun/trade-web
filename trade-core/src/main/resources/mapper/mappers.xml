@@ -209,6 +209,10 @@
 		<mapper resource="mapper/signroom/RmRoomScheStragegyMapper.xml" />
 		<mapper resource="mapper/signroom/RmSignRoomOrgMappingMapper.xml" />
 		<mapper resource="mapper/signroom/ResFlowupMapper.xml" />
-
+		
+		<!-- 物品管理 -->
+		<mapper resource="mapper/material/MmIoBatchMapper.xml" />
+		<mapper resource="mapper/material/MmItemBatchMapper.xml" />
+		<mapper resource="mapper/material/MmMaterialItemMapper.xml" />
 	</mappers>
 </configuration>

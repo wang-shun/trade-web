@@ -11,10 +11,16 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="REFER_CODE" property="referCode" jdbcType="VARCHAR" />
+    <result column="REFER_NAME" property="referName" jdbcType="VARCHAR" />
+    <result column="REFER_USER" property="referUser" jdbcType="VARCHAR" />
+    <result column="REFER_ADDREASS" property="referAddreass" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, RISK_CONTROL_ID, MORTGAGE_CATEGORY, MORTGAGE_CODE, MORTGAGE_NAME, CREATE_BY, 
-    CREATE_TIME, UPDATE_TIME, UPDATE_BY
+    CREATE_TIME, UPDATE_TIME, UPDATE_BY, REFER_CODE, REFER_NAME, REFER_USER, REFER_ADDREASS, 
+    IS_DELETED
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -44,12 +50,14 @@
   <insert id="insert" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
     insert into sctrans.T_TO_RC_MORTGAGE_INFO (PKID, RISK_CONTROL_ID, MORTGAGE_CATEGORY, 
       MORTGAGE_CODE, MORTGAGE_NAME, CREATE_BY, 
-      CREATE_TIME, UPDATE_TIME, UPDATE_BY
-      )
+      CREATE_TIME, UPDATE_TIME, UPDATE_BY, 
+      REFER_CODE, REFER_NAME, REFER_USER, 
+      REFER_ADDREASS, IS_DELETED)
     values (#{pkid,jdbcType=BIGINT}, #{riskControlId,jdbcType=BIGINT}, #{mortgageCategory,jdbcType=VARCHAR}, 
       #{mortgageCode,jdbcType=VARCHAR}, #{mortgageName,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{referCode,jdbcType=VARCHAR}, #{referName,jdbcType=VARCHAR}, #{referUser,jdbcType=VARCHAR}, 
+      #{referAddreass,jdbcType=VARCHAR}, #{isDeleted,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
     insert into sctrans.T_TO_RC_MORTGAGE_INFO
@@ -68,6 +76,21 @@
       </if>
       <if test="mortgageName != null" >
         MORTGAGE_NAME,
+      </if>
+      <if test="referCode != null" >
+        REFER_CODE,
+      </if>
+      <if test="referName != null" >
+        REFER_NAME,
+      </if>
+      <if test="referUser != null" >
+        REFER_USER,
+      </if>
+      <if test="referAddreass != null" >
+        REFER_ADDREASS,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
       </if>
         CREATE_BY,
         CREATE_TIME,
@@ -89,6 +112,21 @@
       </if>
       <if test="mortgageName != null" >
         #{mortgageName,jdbcType=VARCHAR},
+      </if>
+      <if test="referCode != null" >
+        #{referCode,jdbcType=VARCHAR},
+      </if>
+      <if test="referName != null" >
+        #{referName,jdbcType=VARCHAR},
+      </if>
+      <if test="referUser != null" >
+        #{referUser,jdbcType=VARCHAR},
+      </if>
+      <if test="referAddreass != null" >
+        #{referAddreass,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=CHAR},
       </if>
         @{SESSION_USER_ID},
  		GETDATE(),
@@ -123,6 +161,21 @@
       <if test="updateBy != null" >
         UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
       </if>
+      <if test="referCode != null" >
+        REFER_CODE = #{referCode,jdbcType=VARCHAR},
+      </if>
+      <if test="referName != null" >
+        REFER_NAME = #{referName,jdbcType=VARCHAR},
+      </if>
+      <if test="referUser != null" >
+        REFER_USER = #{referUser,jdbcType=VARCHAR},
+      </if>
+      <if test="referAddreass != null" >
+        REFER_ADDREASS = #{referAddreass,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -135,7 +188,12 @@
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      REFER_CODE = #{referCode,jdbcType=VARCHAR},
+      REFER_NAME = #{referName,jdbcType=VARCHAR},
+      REFER_USER = #{referUser,jdbcType=VARCHAR},
+      REFER_ADDREASS = #{referAddreass,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -180,5 +180,8 @@
 	
 	<!-- 签约室列表 -->
 	<import resource="query/signroom/signingList.xml" />
+	
+	<!-- 卡证管理列表 -->
+	<import resource="query/material/materialInfoListQuery.xml" />
 
 </queryConfig>
