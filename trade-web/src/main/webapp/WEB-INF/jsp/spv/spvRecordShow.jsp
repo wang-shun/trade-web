@@ -13,24 +13,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>申请审批意见</title>
-<%-- <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
-<!-- stickUp fixed css -->
-<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
-<link rel="stylesheet" href="${ctx}/static/trans/static/css/plugins/toastr/toastr.min.css">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " />
-<!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
-<link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" /> --%>
 
  <!-- 上传相关 -->
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
@@ -177,13 +159,6 @@
                                               </td>
                                               <td>
                                                   <c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
-                                                 	<%-- <a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
-														<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
-														<button type="button" class="btn btn-sm btn-default" ><i class="icon iconfont icon_y" >&#xe635;
-														${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
-														</button>
-													</a> --%>
-													
 													<img id="image_${status3.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
 													<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
 													<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status3.index }').trigger('click');"><i class="icon iconfont icon_y" >&#xe635;
@@ -247,14 +222,8 @@
 
       </div>
   </div>
-
-<!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script>
+<content tag="local_script">
 <script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
-<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<!-- Custom and plugin javascript -->
 <script src="${ctx}/static/js/inspinia.js"></script>
 <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <!-- 必须JS -->
@@ -317,8 +286,6 @@ $(function(){
 $('.wrapper-content').viewer();
 
 </script>
-
-
-
+</content>
 </body>
 </html>
