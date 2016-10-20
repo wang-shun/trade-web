@@ -5,6 +5,7 @@ import com.centaline.trans.utils.ConstantsUtil;
 public enum EventTypeEnum {
 	
 	INTERMEDIATECATCHEVENT(ConstantsUtil.MESSAGE_EVENT,"MortgageFinishMsgEventCatch","MortgageFinishMsgEventCatch "), 
+	SPVFINISHEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"SpvFinishMsgEventCatch","SpvFinishMsgEventCatch"),
 	TRADEBOUNDARYMSG(ConstantsUtil.MESSAGE_EVENT,"TradeBoundaryMsg", "TradeBoundaryMsg");
 
 	private String eventType;

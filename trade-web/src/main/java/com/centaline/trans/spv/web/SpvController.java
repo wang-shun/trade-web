@@ -365,7 +365,8 @@ public class SpvController {
     		SessionUser user= uamSessionService.getSessionUser();
     		toSpvService.saveNewSpv(spvBaseInfoVO,user);
     		response.setSuccess(true);
-    		response.setMessage("保存房款监管签约成功！");
+    		response.setContent(spvBaseInfoVO.getToSpv().getPkid().toString());
+    		response.setMessage("保存资金监管签约成功！");
     	}catch(Exception e){
     		response.setSuccess(false);
     		response.setMessage(e.getMessage());

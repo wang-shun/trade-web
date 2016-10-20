@@ -33,50 +33,102 @@
         </searchCondition> 
 		<searchSql>
 			<baseSql>
-				<![CDATA[  				
-				SELECT 
-					C.PKID,
-					M.CASE_CODE,
-					M.CREATE_BY,
-					M.ITEM_MANAGER,
-					M.CREATE_TIME,
-					M.ITEM_BACK_TIME,
-					M.ITEM_INPUT_TIME,
-					M.ITEM_OUTPUT_TIME,
-					M.ITEM_STATUS,
-					M.ITEM_ADDR_CODE,
-					P.PROPERTY_ADDR
-				FROM  sctrans.T_MM_MATERIAL_ITEM M
-				LEFT JOIN sctrans.T_TO_PROPERTY_INFO P ON P.CASE_CODE=M.CASE_CODE
-				LEFT JOIN sctrans.T_TO_CASE  C ON C.CASE_CODE=M.CASE_CODE
-				where  1=1				
-<!-- 				<ifNotNull signTimeStart>
-				     and T.SIGN_DATE >= #signTimeStart#
+				<![CDATA[  	
+				SELECT
+					T.PKID,
+					T.CASE_CODE,
+					T.CREATE_BY,
+					T.ITEM_MANAGER,
+					T.CREATE_TIME,
+					T.ITEM_BACK_TIME,
+					T.ITEM_INPUT_TIME,
+					T.ITEM_OUTPUT_TIME,
+					T.ACTION_PRE_DATE,
+					T.ITEM_STATUS,
+					T.ITEM_ADDR_CODE,
+					T.ITEM_CATEGORY,
+					T.PROPERTY_ADDR,					
+					T.CREATE_BY_REAL_NAME,
+					T.CREATE_BY_ORG_NAME,
+					T.CREATE_BY_MOBILE,
+					T.ITEM_MANAGER_REAL_NAME,
+					T.ITEM_MANAGER_ORG_NAME,
+					T.ITEM_MANAGER_MOBILE,
+					T.TODAY
+				FROM			
+				(
+					SELECT 
+						C.PKID,
+						M.CASE_CODE,	
+						M.CREATE_BY,
+						M.ITEM_MANAGER,
+						M.CREATE_TIME,
+						M.ITEM_BACK_TIME,
+						M.ITEM_INPUT_TIME,
+						M.ITEM_OUTPUT_TIME,
+						M.ACTION_PRE_DATE,
+						M.ITEM_STATUS,
+						M.ITEM_ADDR_CODE,
+						M.ITEM_CATEGORY,
+						P.PROPERTY_ADDR,
+						(SELECT TOP 1 U.REAL_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.CREATE_BY AND U.ismain=1)CREATE_BY_REAL_NAME,
+						(SELECT TOP 1 U.ORG_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.CREATE_BY AND U.ismain=1)CREATE_BY_ORG_NAME,
+						(SELECT TOP 1 U.MOBILE FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.CREATE_BY AND U.ismain=1)CREATE_BY_MOBILE,
+						(SELECT TOP 1 U.REAL_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.ITEM_MANAGER AND U.ismain=1)ITEM_MANAGER_REAL_NAME,
+						(SELECT TOP 1 U.ORG_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.ITEM_MANAGER AND U.ismain=1)ITEM_MANAGER_ORG_NAME,
+						(SELECT TOP 1 U.MOBILE FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.ITEM_MANAGER AND U.ismain=1)ITEM_MANAGER_MOBILE,
+						GETDATE() TODAY
+					FROM  sctrans.T_MM_MATERIAL_ITEM M
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO P ON P.CASE_CODE=M.CASE_CODE
+					LEFT JOIN sctrans.T_TO_CASE  C ON C.CASE_CODE=M.CASE_CODE
+				)T	
+				WHERE 1=1		
+				<ifNotNull inputTimeStart>
+				     and T.ITEM_INPUT_TIME >= #inputTimeStart#
 				</ifNotNull>				
-				<ifNotNull signTimeEnd>
-				     and T.SIGN_DATE &lt;= #signTimeEnd#
+				<ifNotNull inputTimeEnd>
+				     and T.ITEM_INPUT_TIME &lt;= #inputTimeEnd#
 				</ifNotNull>
 				
-				<ifNotNull lendTimeStart>
-				     and T.LEND_DATE >= #lendTimeStart#
+				<ifNotNull outputTimeStart>
+				     and T.ITEM_OUTPUT_TIME >= #outputTimeStart#
 				</ifNotNull>				
-				<ifNotNull lendTimeEnd>
-				     and T.LEND_DATE &lt;= #lendTimeEnd#
+				<ifNotNull outputTimeEnd>
+				     and T.ITEM_OUTPUT_TIME &lt;= #outputTimeEnd#
+				</ifNotNull>
+								
+				<ifNotNull backTimeStart>
+				     and T.ITEM_BACK_TIME >= #backTimeStart#
+				</ifNotNull>				
+				<ifNotNull backTimeEnd>
+				     and T.ITEM_BACK_TIME &lt;= #backTimeEnd#
+				</ifNotNull>				
+								
+				<ifNotNull caseCode>
+				    AND T.CASE_CODE LIKE '%'+#caseCode#+'%'
+				</ifNotNull>
+				<ifNotNull propertyAddr>
+				    AND T.PROPERTY_ADDR LIKE '%'+#propertyAddr#+'%'
+				</ifNotNull>
+				<ifNotNull itemCategory>
+				    AND T.ITEM_CATEGORY LIKE '%'+#itemCategory#+'%'
+				</ifNotNull>
+				<ifNotNull itemStatus>
+				    AND T.ITEM_STATUS LIKE '%'+#itemStatus#+'%'
+				</ifNotNull>
+				<ifNotNull itemManager>
+				    AND T.ITEM_MANAGER_REAL_NAME LIKE '%'+#itemManager#+'%'
+				</ifNotNull>
+				<ifNotNull createBy>
+				    AND T.CREATE_BY_REAL_NAME LIKE '%'+#createBy#+'%'
 				</ifNotNull>
 				
-				<ifNotNull apprTimeStart>
-				     and T.APPR_DATE >= #apprTimeStart#
-				</ifNotNull>				
-				<ifNotNull apprTimeEnd>
-				     and T.APPR_DATE &lt;= #apprTimeEnd#
-				</ifNotNull> -->
-	
 				]]>
 			</baseSql>
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  ORDER BY M.CREATE_TIME DESC
+			  ORDER BY T.CREATE_TIME DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
@@ -88,7 +140,7 @@
 				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="true"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="MORT_TYPE"  title="贷款类型"  referencecol="MORT_TYPE_OLD"  customDict="qqcdMortName"  isSort="true" order="desc"/>
 				
-			
+				<column type="both" name="ITEM_CATEGORY" index="" checkbox=""   title="物品类别" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="ITEM_MANAGER" index="" checkbox=""   title="保管人" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="CREATE_BY" index="" checkbox="true" title="提交人"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 						
@@ -96,9 +148,18 @@
 				<column type="both" name="ITEM_BACK_TIME" index="" checkbox="" title="退还时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="ITEM_INPUT_TIME" index="" checkbox="" title="入库时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="ITEM_OUTPUT_TIME" index="" checkbox="" title="借出时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ACTION_PRE_DATE" index="" checkbox="" title="预计归还时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="TODAY" index="" checkbox="" title="当前时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				
 				<column type="both" name="ITEM_STATUS" index="" checkbox="" title="物品状态"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ITEM_ADDR_CODE" index="" checkbox="" title="物品位置编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY_REAL_NAME" index="" checkbox="" title="提交人姓名"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY_ORG_NAME" index="" checkbox="" title="提交人组别"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY_MOBILE" index="" checkbox="" title="提交人手机号码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_MANAGER_REAL_NAME" index="" checkbox="" title="提交人姓名"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_MANAGER_ORG_NAME" index="" checkbox="" title="提交人组别"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_MANAGER_MOBILE" index="" checkbox="" title="提交人手机号码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
 				
 			</table-row>
 		</grid>

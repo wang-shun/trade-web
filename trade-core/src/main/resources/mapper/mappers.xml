@@ -216,6 +216,6 @@
 		<mapper resource="mapper/material/MmMaterialItemMapper.xml" />
 		
 		<!-- 回访登记 -->
-		<mapper resource="/mapper/cases/ReturnVisitRegistrationMapper.xml" />
+		<mapper resource="mapper/cases/ReturnVisitRegistrationMapper.xml" />
 	</mappers>
 </configuration>

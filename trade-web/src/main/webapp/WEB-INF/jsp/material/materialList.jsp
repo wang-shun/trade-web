@@ -64,9 +64,11 @@
                      <label for="" class="lable-one">物品类型</label>
                      <select class="form-control input-one" id="itemCategory">
                      	 <option value="" selected="selected">请选择</option>
-                         <option value="1">身份证</option>
-                         <option value="2">银行卡</option>
-                         <option value="3">房产证</option>
+                         <option value="carded">身份证</option>
+                         <option value="bankCard">银行卡</option>
+                         <option value="propertyCard">产权证</option>
+                         <option value="mortgageContract">抵押合同</option>
+                         <option value="otherCard">他证</option>
                      </select>
                  </div>
                  <div class="form-group form-margin form-space-one">
@@ -81,8 +83,7 @@
                  <div class="form-group form-margin" style="margin-left:15px;">
                      <select class="form-control select-one" id="timeSelect">
                          <option value="ITEM_INPUT_TIME">入库时间</option>
-                         <option value="ITEM_OUTPUT_TIME">借出时间</option>
-                         <option value="ACTION_PRE_DATE">归还时间</option>
+                         <option value="ITEM_OUTPUT_TIME">借出时间</option>                        
                          <option value="ITEM_BACK_TIME">退还时间</option>
                      </select>
                      <div class="input-daterange input-group" id="datepicker_0">
@@ -99,7 +100,7 @@
                      <input type="text" class="form-control" style="width:355px;" placeholder="" id="propertyAddr" name="propertyAddr">
                  </div>
                  <div class="btn-left btn-left-space ml40">
-                     <button type="submit" class="btn btn-success btn-icon  mr5" id="searchButton"><i class="icon iconfont">&#xe635;</i> 查询</button>
+                     <button type="button" class="btn btn-success btn-icon  mr5" id="searchButton"><i class="icon iconfont">&#xe635;</i> 查询</button>
                      <button type="reset" class="btn btn-grey mr5">清空</button>
                      <a href="../spv/spvStorageConfirm.html" class="btn btn-toggle mr5">入库</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#myModal">借用</a>
@@ -134,16 +135,24 @@
                      <tbody id="materialInfoList"></tbody> 
                  </table>
               </div>
-    		  <div class="text-center page_box">
-					<span id="currentTotalPage"><strong></strong></span> <span
-						class="ml15">共<strong id="totalP"></strong>条
-					</span>&nbsp;
-					<div id="pageBar" class="pagergoto"></div>
-			  </div>
+	          <div class="text-center">
+				<span id="currentTotalPage"><strong class="bold"></strong></span> <span
+					class="ml15">共<strong class="bold" id="totalP"></strong>
+				</span>&nbsp;
+				<div id="pageBar" class="pagination my-pagination text-center m0"></div>
+			</div>
             </div>
          </div>
     </div>
+	<input type="hidden" id="ctx" value="${ctx}" />
+	<input type="hidden" id="signTimeStart" value="${signTimeStart}" />
+	<input type="hidden" id="signTimeEnd" value="${signTimeEnd}" />
 
+	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
+	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
+	<input type="hidden" id="userJobCode" value="${userJobCode}" />
+	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
+	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
   
 <content tag="local_script"> 
 <!-- Mainly scripts -->
@@ -163,7 +172,9 @@
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
-<script src="${ctx}/js/trunk/material/materialList.js"></script> 	
+<script src="${ctx}/js/trunk/material/materialList.js"></script> 
+
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>	
 <script	id="template_materialInfoList" type="text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
@@ -186,53 +197,65 @@
 						</td>
 
 						<td>
-                            <p><i class="sign_blue"> 银行卡</i></p>
+                            <p><i class="sign_blue">{{item.ITEM_CATEGORY}}</i></p>
                             <p>中国建设银行储蓄卡</p>
                         </td>
 						<td>
-							<p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">{{item.CREATE_BY}}</a> </p>
+							<p><a class="demo-top" title="手机号： {{item.CREATE_BY_MOBILE}}<br/>{{item.CREATE_BY_ORG_NAME}}" href="#">{{item.CREATE_BY_REAL_NAME}}</a> </p>
                         </td>
 
 						<td>
-							<p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">{{item.ITEM_MANAGER}}</a> </p>
+							<p><a class="demo-top" title="手机号： {{item.ITEM_MANAGER_MOBILE}}<br/>{{item.ITEM_MANAGER_ORG_NAME}}" href="#">{{item.ITEM_MANAGER_REAL_NAME}}</a> </p>
                         </td>
                         <td>
                             <p class="big">{{item.ITEM_ADDR_CODE}}</p>
                         </td>
 
                         <td>
-                            <p class="big">{{item.ITEM_STATUS}}</p>
+						{{if item.ITEM_STATUS == "back"}}
+                         	<p class="big">退还</p>
+						{{else if item.ITEM_STATUS == "instock"}}
+							<p class="big">在库</p>
+						{{else if item.ITEM_STATUS == "borrow"}}
+								{{if item.TODAY  < item.ACTION_PRE_DATE}}
+                            		<p><i class="sign_brown">外借</i></p>
+								{{else}}
+									<p class="big">外借</p>
+								{{/if}}   	
+						{{else if item.ITEM_STATUS == "stay"}}
+                            <p><i class="sign_brown"> 待入库</i></p>
+						{{/if}}                           
                         </td>
 
 					    <td>
-						{{if item.ITEM_STATUS == "1"}}
+						{{if item.ITEM_STATUS == "back"}}
                                             <p class="smll_sign">
-                                                <i class="sign_normal">入库</i>2016-09-22
+                                                <i class="sign_normal">入库</i>{{item.ITEM_INPUT_TIME}}
                                             </p>
                                             <p class="smll_sign">
-                                                <i class="sign_normal">退还</i>2016-09-25
+                                                <i class="sign_normal">退还</i>{{item.ITEM_BACK_TIME}}
                                             </p>
-						{{else item.ITEM_STATUS == "2"}}
+						{{else if item.ITEM_STATUS == "instock"}}
                                            <p class="smll_sign">
-                                                <i class="sign_normal">入库</i>2016-09-22
+                                                <i class="sign_normal">入库</i>{{item.ITEM_INPUT_TIME}}
                                             </p>
-						{{else item.ITEM_STATUS == "3"}}
+						{{else if item.ITEM_STATUS == "borrow"}}
                                             <p class="smll_sign">
-                                                <i class="sign_normal">入库</i>2016-09-22
-                                            </p>
-                                            <p class="smll_sign">
-                                                <i class="sign_normal">借用</i>2016-09-22
+                                                <i class="sign_normal">入库</i>{{item.ITEM_INPUT_TIME}}
                                             </p>
                                             <p class="smll_sign">
-                                                <i class="sign_normal">归还</i>2016-09-23
+                                                <i class="sign_normal">借用</i>{{item.ITEM_OUTPUT_TIME}}
                                             </p>
-						{{else item.ITEM_STATUS == "4"}}
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">归还</i>{{item.ACTION_PRE_DATE}}
+                                            </p>
+						{{else if item.ITEM_STATUS == "stay"}}
                                             <p class="smll_sign">                                                
                                             </p>
 						{{/if}}
                         </td>
 						 <td class="text-center">
-                            <a href="material/materialDetail.jsp">
+                            <a href="./materialDetail.jsp">
                                <button type="button" class="btn btn-undertint btn-padding-3"><i class="icon iconfont color-corbule btn-look">&#xe63b;</i></button>
                             </a>
                         </td>
@@ -240,18 +263,6 @@
        {{/each}}
 </script> 
 <script type="text/javascript">
-$(function(){
-		//top
-		$('.demo-top').poshytip({
-			className: 'tip-twitter',
-			showTimeout: 1,
-			alignTo: 'target',
-			alignX: 'center',
-			alignY: 'top',
-			offsetX: 8,
-			offsetY: 5,
-		});
-});
 
 $('.wrapper-content').viewer();
 
