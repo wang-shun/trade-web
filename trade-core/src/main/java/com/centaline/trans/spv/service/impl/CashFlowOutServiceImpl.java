@@ -86,10 +86,13 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception {
 		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
 		
+		spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+		
 		if(spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 					cashFlows.add(spvCaseFlowOutInfoVO);
 				}
 			}
