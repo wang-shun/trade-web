@@ -179,30 +179,18 @@ function checkReceiptNo(){
 	
 	var payerAmountFlag = true;
 	var payerAmountEle;
-	var sumAmount = 0;
 	$("input[name$='payerAmount']").each(function(i,e){
 		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
 			payerAmountFlag = false;
 			payerAmountEle = $(e);
 			
 			return false;
-		}else{
-			sumAmount = accAdd(sumAmount,$(e).val());
 		}
-		
 	});
 	if(!payerAmountFlag){
 	    	alert("请填写有效的金额！");
 		    changeClass(payerAmountEle);
 			return false;
-	}
-	
-	sumAmount = accAdd(sumAmount,$("#completedAmount").val());
-	var amount = $("#amount").attr("value");
-	//alert("sumAmount="+sumAmount+";amount="+amount);
-	if(parseFloat(sumAmount) > parseFloat(amount)){
-		alert("入账金额已经超过可申请的入账金额！");
-		return false;
 	}
 	 
 	var receiptNoFlag = true;
