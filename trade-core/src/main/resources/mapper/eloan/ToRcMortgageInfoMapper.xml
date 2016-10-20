@@ -40,12 +40,11 @@
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from sctrans.T_TO_RC_MORTGAGE_INFO
+    UPDATE sctrans.T_TO_RC_MORTGAGE_INFO SET IS_DELETED = 'Y'
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-   <delete id="deleteToRcMortgageInfoByRcId" parameterType="java.lang.Long" >
-    delete from sctrans.T_TO_RC_MORTGAGE_INFO
-    where RISK_CONTROL_ID = #{riskControlId,jdbcType=BIGINT}
+  <delete id="deleteToRcMortgageInfoByRcId" parameterType="java.lang.Long" >
+    UPDATE sctrans.T_TO_RC_MORTGAGE_INFO SET IS_DELETED = 'Y'  where RISK_CONTROL_ID = #{riskControlId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
     insert into sctrans.T_TO_RC_MORTGAGE_INFO (PKID, RISK_CONTROL_ID, MORTGAGE_CATEGORY, 
