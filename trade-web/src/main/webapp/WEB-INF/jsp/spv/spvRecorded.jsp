@@ -49,7 +49,11 @@
     <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
     <!-- 必须CSS -->
 	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
-
+	<style>
+		.borderClass {border:1px solid red!important;resize: none;}
+		.borderClass:focus {border:1px solid red!important;resize: none;}
+		.bar {height: 18px;background: green;position:fixed;bottom:0;}
+	</style>
 </head>
 
 <body >
@@ -156,6 +160,11 @@
                 </div>
             </div>
             <!-- main End -->
+            <div id="progress">
+                <div class="bar" style="width: 0%;">
+                    <span></span>
+                </div>
+            </div>
 
         </div>
     </div>

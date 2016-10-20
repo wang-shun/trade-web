@@ -1,11 +1,6 @@
 $(function(){
-	//$("#addTr").html(getTR(0));
-	//alert($("#select_direction").val());
-	//$("#select_direction   option[value='"+province_2+"']").attr("selected",true);
-	
 });
 $(window).load(function() {
-	//alert($("#select_direction").val());
 });
 var handle = $("#handle").val();
 var trindex = 0;
@@ -87,6 +82,14 @@ function render_fileupload(thisIndex){
             	imageSumb++;////记录完成上传附件的个数
             	//$image.responsivegallery();
         	}
+        },
+        progressall: function (e, data) {
+        	$('#progress').show();
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css('width',progress+'%').find("span").css('color','red').text(progress+'%');
+            if(progress == 100){
+                setTimeout($('#progress').fadeOut(2000));
+            }
         }
     });
 }
@@ -202,18 +205,6 @@ function saveRe(){
          },
 		success : function(data) {
 			window.location.href = ctx+"/spv/spvList";
-			//alert("保存数据成功！");
-			/*alert(JSON.stringify(data));
-			if(data.ajaxResponse.success){
-				if(!handle){
-					alert("流程开启成功！");
-				}else{
-					alert("任务提交成功！");
-				}
-			}else{
-				alert("数据保存出错1:"+data.ajaxResponse.message);
-			}*/
-			
 		},complete: function() { 
 		},
 		error : function(errors) {
