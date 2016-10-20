@@ -47,7 +47,13 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     
     <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
-
+    <!-- 必须CSS -->
+	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+	<style>
+		.borderClass {border:1px solid red!important;resize: none;}
+		.borderClass:focus {border:1px solid red!important;resize: none;}
+		.bar {height: 18px;background: green;position:fixed;bottom:0;}
+	</style>
 </head>
 
 <body >
@@ -66,14 +72,14 @@
                                     <label>
                                         	监管金额
                                     </label>
-                                    <span class="info_one" id="amount">${spvBaseInfoVO.toSpv.amount}万元人民币</span>
+                                    <span class="info_one" id="amount" value="${spvBaseInfoVO.toSpv.amount}" >${spvBaseInfoVO.toSpv.amount}万元人民币</span>
                                 </p>
 
                                 <p>
                                     <label>
                                      	   物业地址
                                     </label>
-                                    <span id="prAddr" >${spvBaseInfoVO.toSpvProperty.prAddr}</span>
+                                    <span class="info" id="prAddr" ><span class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr}">${spvBaseInfoVO.toSpvProperty.prAddr}</span></span>
                                 </p>
 
                             </div>
@@ -82,14 +88,14 @@
                                     <label>
                                       	  收款人名称
                                     </label>
-                                    <span class="info_one" id="spvAccountName" >${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}</span>
+                                    <span class="info_one" id="spvAccountName" ><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}">${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}</span></span>
                                 </p>
 
                                 <p>
                                     <label>
                                         	收款人账户
                                     </label>
-                                    <span class="info_one" id="spvAccountCode">${spvBaseInfoVO.toSpvAccountList[2].account}</span>
+                                    <span class="info_one" id="spvAccountCode"><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].account}">${spvBaseInfoVO.toSpvAccountList[2].account}</span></span>
                                 </p>
 
                                 <p>
@@ -110,9 +116,9 @@
                         <input type="hidden" name="prdCode" value="${spvBaseInfoVO.toSpv.prdCode==1?"光大四方资金监管":"" }" />
                         <input type="hidden" name="amount" value="${spvBaseInfoVO.toSpv.amount}" />
                         <input type="hidden" name="prAddr" value="${spvBaseInfoVO.toSpvProperty.prAddr}" />
-                        <input type="hidden" name="spvAccountName" value="${spvBaseInfoVO.toSpvAccountList[2].name}" />
+                        <input type="hidden" name="spvAccountName" value="${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}" />
                         <input type="hidden" name="spvAccountCode" value="${spvBaseInfoVO.toSpvAccountList[2].account}" />
-                        <input type="hidden" name="spvAccountBank" value="${spvBaseInfoVO.toSpvAccountList[2].bank}" />
+                        <input type="hidden" name="spvAccountBank" value="光大银行市北支行" />
                         <input type="hidden" name="spvConCode" value="${spvBaseInfoVO.toSpv.spvCode}" />
                         <input type="hidden" name="caseCode" value="${spvBaseInfoVO.toSpv.caseCode}" />
                         
@@ -154,6 +160,11 @@
                 </div>
             </div>
             <!-- main End -->
+            <div id="progress">
+                <div class="bar" style="width: 0%;">
+                    <span></span>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -177,7 +188,7 @@
 <script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
-	<!-- 上传附件 结束 -->
+<!-- 上传附件 结束 -->
 
 <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
@@ -185,9 +196,26 @@
 
 <script src="${ctx}/static_res/trans/js/spv/spvReDetails.js"></script>
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="appCtx" value="<aist:appCtx appName='shcl-filesvr-web'/>" />
+
+<script type="text/javascript">
+$(function(){
+		$('.demo-top').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'top',
+			offsetX: 8,
+			offsetY: 5,
+		});
+	});
+
+</script>
 </content>
 </body>
 

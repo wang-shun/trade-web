@@ -269,54 +269,37 @@
 		
 	</div>
 	
-<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<content tag="local_script"> 
-	<!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
-	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
-	<!-- Custom and plugin javascript -->
-	<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-
-	<!-- Data picker -->
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-
-    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
-	<!-- bank select -->
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-	
-	<script src="${ctx}/transjs/task/follow.pic.list_new.js"></script>
-	<script type="text/javascript" src="${ctx}/static/js/jquery.json.min.js"></script>
-	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
-	<!-- 校验 -->
-    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
-	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
-	<script src="${ctx}/js/trunk/task/taskFirstFollow.validate.js"></script>
-	<!-- 弹出框插件 -->
-	<script src="${ctx}/js/plugins/layer/layer.js"></script>
-	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
-	
-	<script src="${ctx}/js/trunk/comment/caseComment_new.js"></script>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+		<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
+		<script src="${ctx}/transjs/task/showAttachment.js"></script> 
+		<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+		<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
+		<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+		<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+		<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+		<script src="${ctx}/transjs/task/follow.pic.list_new.js"></script>
+		<script src="${ctx}/static/js/jquery.json.min.js"></script>
+		<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+	    <script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
+		<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
+		<script src="${ctx}/js/trunk/task/taskFirstFollow.validate.js"></script>
+		<script src="${ctx}/js/plugins/layer/layer.js"></script>
+		<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+		<script src="${ctx}/js/template.js"></script>
+		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+		<!-- 改版引入的新的js文件 -->
+		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+		<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	<script>
 		$(document).ready(function(){
 			
 			var ctx = $("#ctx").val();
-			
-			$("#btnZaitu").click(function(){
-				location.href = ctx + "/case/myCaseList";
-			});
-			
-			$("#btnCaseView").click(function(){
-				var caseCode = $("#firstFollowform #caseCode").val();
-				location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode;
-			});
 			
 			//日历控件
 		    $('.input-daterange').datepicker({

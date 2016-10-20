@@ -153,8 +153,6 @@ public class SpvController {
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid);
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
-	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
@@ -863,8 +861,6 @@ public class SpvController {
         	cashFlowOutService.cashFlowOutPage(request, source, instCode, taskId, handle, businessKey);
         	request.setAttribute("urlType", "spvApply");
         }
-	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 	    
 	    request.setAttribute("businessKey", businessKey);
     	request.setAttribute("taskId", taskId); 

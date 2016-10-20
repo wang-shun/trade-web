@@ -61,8 +61,8 @@
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "SpvApplyApprove";
-	var caseCode = "${caseCode}";
 	var source = "${source}";
+	var appName = "<aist:appCtx appName='shcl-filesvr-web'/>";
 	if ("${idList}" != "") {
 		var idList = eval("(" + "${idList}" + ")");
 	} else {
@@ -839,7 +839,7 @@
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
 							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
                                               {% } else { %}
- 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
+ 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
   											  {% } %}
 							            {% } %}</div>
 							        {% } %}
@@ -1149,6 +1149,7 @@
    					    	 //window.location.href = "${ctx}/spv/saveHTML";
    					     }else{
 				    		var caseInfoMap = eval('('+data.ajaxResponse.content+')');
+				    		$("#caseCode").html(caseInfoMap['caseCode']);
 				    		$("#content_caseCode").html(caseInfoMap['caseCode']);
 				    		$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
 				    		$("#content_processorId").html(caseInfoMap['processorName']);
@@ -1164,7 +1165,13 @@
 				    		if($("input[name='spvCustList[1].name']").val() == '')
 				    			$("input[name='spvCustList[1].name']").val(caseInfoMap['sellerName']);
 				    		if($("input[name='spvCustList[1].phone']").val() == '')
-				    			$("input[name='spvCustList[1].phone']").val(caseInfoMap['sellerMobil']);
+				    			$("input[name='spvCustList[1].phone']").val(caseInfoMap['sellerMobil']);	    		
+				    		if($("input[name='toSpvProperty.prOwnerName']").val() == '')
+				    			$("input[name='toSpvProperty.prOwnerName']").val(caseInfoMap['sellerName']);
+				    		if($("input[name='toSpvProperty.prSize']").val() == '')
+				    			$("input[name='toSpvProperty.prSize']").val(caseInfoMap['propertySquare']);
+				    		if($("input[name='toSpvProperty.prAddr']").val() == '')
+				    			$("input[name='toSpvProperty.prAddr']").val(caseInfoMap['propertyAddr']);
 				    		
 							$('.case_content').show();
 							$('#myModal').modal('hide');

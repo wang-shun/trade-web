@@ -13,23 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>审批驳回</title><%-- 
-<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet"> --%>
-<!-- stickUp fixed css --><%-- 
-<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
-<link rel="stylesheet" href="${ctx}/static/trans/static/css/plugins/toastr/toastr.min.css">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " /> --%>
-
+<title>审批驳回</title>
  <!-- 上传相关 -->
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
 		rel="stylesheet">
@@ -63,23 +47,17 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
-    
     <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
-
-
-
+    <!-- 必须CSS -->
+	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+	<style>
+		.borderClass {border:1px solid red!important;resize: none;}
+		.borderClass:focus {border:1px solid red!important;resize: none;}
+		.bar {height: 18px;background: green;position:fixed;bottom:0;}
+	</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<script type="text/javascript">
-	var ctx = "${ctx}";
-	var source = "${source}";
-	if ("${idList}" != "") {
-		var idList = eval("(" + "${idList}" + ")");
-	} else {
-		var idList = [];
-	}
-</script>
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                    
@@ -93,20 +71,20 @@
                                     <label>
                                        产品类型
                                     </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }</span>
+                                    <span class="info_one" >${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }</span>
                                 </p>
                                 <p>
                                     <label>
                                         监管金额
                                     </label>
-                                   <span class="info_one">${spvBaseInfoVO.toSpv.amount }万元</span>
+                                   <span class="info_one" id="amount" value="${spvBaseInfoVO.toSpv.amount }">${spvBaseInfoVO.toSpv.amount }万元</span>
                                 </p>
 
                                 <p>
                                     <label>
                                         物业地址
                                     </label>
-                                    <span class="info">${spvBaseInfoVO.toSpvProperty.prAddr }</span>
+                                    <span class="info" ><span class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }"> ${spvBaseInfoVO.toSpvProperty.prAddr }</span></span>
                                 </p>
 
                             </div>
@@ -115,14 +93,14 @@
                                     <label>
                                         收款人名称
                                     </label>
-                                   <span class="info_one">${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}</span>
+                                   <span class="info_one"><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}"> ${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}</span></span>
                                 </p>
 
                                 <p>
                                     <label>
                                         收款人账户
                                     </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpvAccountList[2].account }</span>
+                                    <span class="info_one"><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].account }"> ${spvBaseInfoVO.toSpvAccountList[2].account }</span></span>
                                 </p>
 
                                 <p>
@@ -256,16 +234,17 @@
                 </div>
             </div>
             <!-- main End -->
-
-
+            <div id="progress">
+                <div class="bar" style="width: 0%;">
+                    <span></span>
+                </div>
+            </div>
         </div>
     </div>
 <content tag="local_script">
 <!-- Custom and plugin javascript -->
 <script src="${ctx}/static/js/inspinia.js"></script>
-<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script><%-- 
-<script src="${ctx}/static/trans/js/response/js/jkresponsivegallery.js"></script> --%>
-
+<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <!-- 上传附件相关 --> 
 <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script><%-- 
@@ -286,21 +265,18 @@
 <!-- 上传附件 结束 -->
 <!-- stickup plugin -->
 <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <%-- 
-<script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin --> --%>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/static/trans/js/spv/spvRecordedApp.js"></script>
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 <script>
 $(function() {
 	$('.icon_x').click(function(event){
 		$(this).parent().remove();
 		event.stopPropagation();
 	});
-	/* $('.response').responsivegallery(); */
-    /* $(".icon_x").click(function() {
-        $(this).parent().parent().remove();
-        return false;
-    }); */
+	
     var fileRowSize = ${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()};
     for(var i=0;i<fileRowSize;i++){
     	render_fileupload(i);
@@ -312,17 +288,21 @@ $(function() {
     		todayBtn : 'linked'
     	})
     }
+    $('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
     
 });
 
 function rescCallbocak(){
-	 /*   if($("#urlType").val() == 'myTask'){    	 
-		   window.opener.location.reload(); //刷新父窗口
-   	   window.close(); //关闭子窗口.
-	     }else{ */
-	    	 window.location.href = ctx+"/spv/spvList";
-	    // }
-	}
+	window.location.href = ctx+"/spv/spvList";
+}
 $('.wrapper-content').viewer();
 
 </script>

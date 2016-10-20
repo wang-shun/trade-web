@@ -1,9 +1,7 @@
-/****
- *  
- *    备注模块组件
- *    
- * 
- */
+
+/*  ---------------备注模块组件开始------------------*/
+
+//渲染跟进备注控件
 ; !function($, window) {
 	 "use strict";
 
@@ -19,8 +17,10 @@
 			+ '<span class="time">跟进日期:<em>{{item.CREATE_TIME}}</em></span></p>'
 			+ '<p><span class="auditing">跟进备注</span><em class="view_content">{{item.COMMENT}}</em></p>'
 			+ '</div>'
-	        +'{{/each}}'
-	        +'{{/if}}</div>';
+	        + '{{/each}}'
+	        + '{{else}}'
+	        + '<p class="text-center"><img src="'+ ctx + '/image/false.png" height="100" alt="" /></p>'
+	        + '{{/if}}</div>';
 		
 		
 		var commentButton = '<div class="excuse clearfix">';
@@ -30,28 +30,17 @@
 		commentButton += '<div class="pull-left"><button type="button" class="btn btn-icon btn-blue ml10" onclick="saveCaseComment()">提交跟进</button></div></div>';
 		$(this).after(commentButton);	
             
-		/*var commentButton = '<div class="input_line">';
-		commentButton+='<input type="hidden" name="caseComment_caseCode" id="caseComment_caseCode"/>';
-		commentButton+='<input type="hidden" name="caseComment_srvCode" id="caseComment_srvCode"/>';
-		commentButton+='<input type="text" placeholder="填写内容" name="caseComment" id="caseComment" style="width:1030px;">';
-		commentButton+='<div class="btn btn-primary add_btn" onclick="saveCaseComment()">添加案件跟进</div>';
-		commentButton+='</div>';
-		$(this).after(commentButton);*/
-		
-		var commentTitile ='<div class="title"><strong style="font-weight:bold;">案件跟进</strong></div>';
+		var commentTitile ='<div class="title mb20"><strong style="font-weight:bold;">案件跟进</strong></div>';
 		$(this).before(commentTitile);
 		self = $(this);
 		tempSource = templeteSource;
-		
-		/*var commentTitile ='<div style="padding:10px;margin-top:5px;background-color:#ffffff;"><h3>案件跟进</h3></div>';
-		$(this).before(commentTitile);
-		self = $(this);
-		tempSource = templeteSource;*/
 		
 		var caseCode = options.caseCode;
 		var srvCode = options.srvCode;
 		$('#caseComment_caseCode').val(caseCode);
 		$('#caseComment_srvCode').val(srvCode);
+		
+		setMaxHeight();
 		
 		$(this).aistGrid({
    			ctx : ctx,
@@ -63,6 +52,7 @@
 	
 }(jQuery, window);
 
+//保存跟进备注信息
 function saveCaseComment() {
 	var caseCode = $('#caseComment_caseCode').val();
 	var comment = $("#caseComment").val();
@@ -100,24 +90,10 @@ function reloadGrid() {
 		+ '<span class="time">跟进日期:<em>{{item.CREATE_TIME}}</em></span></p>'
 		+ '<p><span class="auditing">跟进备注</span><em class="view_content">{{item.COMMENT}}</em></p>'
 		+ '</div>'
-        +'{{/each}}'
-        +'{{/if}}</div>';
-	
-	
-	/*var templeteSource =  '{{if rows.length>0}}'
-						+ '{{each rows as item index}}'
-						+ '{{if index == 0}}'
-						+ '<div class="form_one col-sm-12 unline_none">'
-				        + '{{else}}'
-				        + '<div class="form_one col-sm-12">'
-				        + '{{/if}}'
-				        + '<span id="title">{{item.CREATE_TIME}}<span class="time">{{item.CREATE_BY}}</span><i class="sq_label">{{item.SRV_CODE}}</i></span>'
-				        + '<span>{{item.COMMENT}}</span>'
-				        + '</div>'
-				        +'{{/each}}'
-				        +'{{else}}'
-				        +'<div class="form_one col-sm-12">无备注</div>'
-				        +'{{/if}}';*/
+        +' {{/each}}'
+        + '{{else}}'
+        + '<p class="text-center"><img src="'+ ctx + '/image/false.png" height="100" alt="" /></p>'
+        +' {{/if}}</div>';
 	
 	var caseCode = $('#caseComment_caseCode').val();
 	$("#caseCommentList").reloadGrid({
@@ -127,3 +103,63 @@ function reloadGrid() {
 		    data : {caseCode:caseCode}
     })
 };
+
+  /*  ---------------备注模块组件结束------------------*/
+
+ 
+	$(function(){
+		
+		//在途列表点击链接转向
+		$("#btnZaitu").click(function(){
+			location.href = ctx + "/case/myCaseList";
+		});
+		
+		//案件视图点击链接转向
+		$("#btnCaseView").click(function(){
+			var caseCode = $("#firstFollowform #caseCode").val();
+			location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode;
+		});
+		
+		//日历控件
+	    $('.input-daterange').datepicker({
+	        keyboardNavigation: false,
+	        forceParse: false,
+	        autoclose: true
+	    });
+	    
+	    //发送短信提醒
+	    $("#sendSMS").click(function() {
+			var t = '';
+			var s = '/';
+			$("#reminder_list").find("input:checkbox:checked").closest('td').next().each(function() {
+				t += ($(this).text() + s);
+			});
+			
+			if (t != '') {
+				t = t.substring(0, t.length - 1);
+			}
+			
+			$("#smsPlatFrom").smsPlatFrom({
+				ctx : '${ctx}',
+				caseCode : $('#caseCode').val(),
+				serviceItem : t
+			});
+		});
+	    
+	    //设置提交跟进信息文本框高度自适应
+	    $(".chackTextarea").autoTextarea({
+	        maxHeight:220,
+	    });
+	});
+	
+	//设置提交跟进信息文本框高度自适应
+	function setMaxHeight(){
+		$(".chackTextarea").autoTextarea({
+	        maxHeight:220,
+	    });
+	}
+
+	
+	
+
+	

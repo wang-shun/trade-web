@@ -104,7 +104,6 @@ function checkFormSubmit(){
 		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
     		 amountFlag = false;
     		 amountEle = $(e);
-    		 sumAmount = accAdd(sumAmount,$(e).val());
 			 return false;
     	} 
 	});
@@ -115,8 +114,14 @@ function checkFormSubmit(){
 		return false;
     }  
     
-    var totalCashFlowInAmount = $("#totalCashFlowInAmount").val();
-    var totalCashFlowOutAmount = $("#totalCashFlowOutAmount").val();
+	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
+		if(($(e).val() != null && $(e).val() != '' && isNumber($(e).val()))){
+			sumAmount = accAdd(sumAmount,Number($(e).val()));
+		}
+	});
+    
+    var totalCashFlowInAmount = Number($("#totalCashFlowInAmount").val());
+    var totalCashFlowOutAmount = Number($("#totalCashFlowOutAmount").val());
     if(accAdd(sumAmount,totalCashFlowOutAmount) > totalCashFlowInAmount){
     	alert("出账流水总和不能大于入账流水总和！");
     	return false;
@@ -209,10 +214,8 @@ function saveBtnClick(){
 	 					    alert("数据保存出错:"+data.ajaxResponse.message);
 	 				}
 			    	 if($("#urlType").val() == 'myTask'){    	 
- 				    	 window.opener.location.reload(); //刷新父窗口
- 			        	 window.close(); //关闭子窗口.
+ 				    	 window.location.reload(); //刷新父窗口
  				     }else{
- 				    	 //window.location.reload();
 			    	     window.location.href=ctx+"/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
 			     }
  					// $.unblockUI();
@@ -325,8 +328,7 @@ function submitBtnClick(handle,chargeOutAppr){
 			    	 window.opener.location.reload(); //刷新父窗口
 		        	 window.close(); //关闭子窗口.
 			     }else{
-			          window.location.reload();
-			          //window.location.href=ctx+"/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
+			          window.location.href=ctx+"/spv/spvFlowApplyList";
 			     }
 				 //$.unblockUI();
 			}
