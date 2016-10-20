@@ -121,7 +121,6 @@
                         <input type="hidden" name="spvAccountBank" value="光大银行市北支行" />
                         <input type="hidden" name="spvConCode" value="${spvBaseInfoVO.toSpv.spvCode}" />
                         <input type="hidden" name="caseCode" value="${spvBaseInfoVO.toSpv.caseCode}" />
-                        <input type="hidden" id="completedAmount" name="completedAmount" value="${completedAmount}" />
                         
                          <%-- 流程相关 --%>
 						<input type="hidden" id="taskId" name="taskId" value="" />

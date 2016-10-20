@@ -1170,35 +1170,13 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public void findSpvBaseInfoVOAndSetAttrinCaseFlowApple(HttpServletRequest request, Long pkid, String caseCode) {
 		
-		BigDecimal completedAmount = new BigDecimal(0);
 		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkidinCaseFlowApple(request, pkid);//监管合约信息
-		List<ToSpvCashFlowApply> toSpvCashFlowApplyList = toSpvCashFlowApplyMapper.selectBySpvCode(spvBaseInfoVO.getToSpv().getSpvCode());
-		
-		if(null != toSpvCashFlowApplyList && toSpvCashFlowApplyList.size()>0){
-			for(ToSpvCashFlowApply toSpvCashFlowApply:toSpvCashFlowApplyList){
-				if(StringUtils.equals("0", toSpvCashFlowApply.getIsDeleted())){
-					List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid());
-					for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
-						if(StringUtils.equals("0", toSpvCashFlow.getIsDeleted())){
-							if(StringUtils.equals(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode(), toSpvCashFlow.getStatus())//总监审批
-								|| StringUtils.equals(SpvCashFlowApplyStatusEnum.FINANCEADUIT.getCode(), toSpvCashFlow.getStatus())//财务审核
-								|| StringUtils.equals(SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode(), toSpvCashFlow.getStatus()) ){//审核完成
-								if(null != toSpvCashFlow.getAmount() && !("").equals(toSpvCashFlow.getAmount())){
-									completedAmount = completedAmount.add(toSpvCashFlow.getAmount()!= null ? toSpvCashFlow.getAmount().divide(new BigDecimal(10000)) : null);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 		
 		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
 				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
 			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
 		}
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
-		request.setAttribute("completedAmount", completedAmount);
 	}
 	
 		/**
