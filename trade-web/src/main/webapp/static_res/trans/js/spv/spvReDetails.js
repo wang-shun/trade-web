@@ -197,11 +197,13 @@ function checkReceiptNo(){
 			return false;
 	}
 	
-    var amount = $("#amount").attr("value");
-    if(parseFloat(sumAmount) > parseFloat(amount)){
-    	alert("入账金额不能大于监管金额！");
-    	return false;
-    }
+	sumAmount = accAdd(sumAmount,$("#completedAmount").val());
+	var amount = $("#amount").attr("value");
+	//alert("sumAmount="+sumAmount+";amount="+amount);
+	if(parseFloat(sumAmount) > parseFloat(amount)){
+		alert("入账金额已经超过可申请的入账金额！");
+		return false;
+	}
 	 
 	var receiptNoFlag = true;
 	var receiptNoEle;
@@ -343,7 +345,7 @@ function checkSumbitHtml(){
 }
 //提交
 function sumbitRe(){
-	
+
 	if(!confirm("是否确定提交申请，开启流程！")){
 	  return false;
     }

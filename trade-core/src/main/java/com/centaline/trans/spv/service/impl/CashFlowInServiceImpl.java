@@ -388,6 +388,9 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 					toSpvCashFlow.setStatus(statusType);
 					toSpvCashFlow.setUpdateBy(user.getId());
 					toSpvCashFlow.setUpdateTime(new Date());
+					if(chargeInAppr){
+						toSpvCashFlow.setCloseTime(new Date());//完成时间
+					}
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
 				}
 			toSpvCashFlowApply.setStatus(statusType);
