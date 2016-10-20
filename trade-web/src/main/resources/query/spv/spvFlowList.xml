@@ -6,6 +6,7 @@
 		<customDict id="qqManagerInfo" beanName="qqManagerInfo" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
 		<customDict id="getUserNameByUserId" beanName="qqcdUserIdName"></customDict>
+		<customDict id="getSpvFlowApplyStatus" beanName="getCashFlowApplyStatus"></customDict>
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -78,13 +79,14 @@
 				<column type="both" name="SPV_CODE" index="" title="合约编号" checkbox="" display="SPV_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CREATE_TIME" index="" title="创建时间" checkbox="" display="CREATE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_ADDR" index="" title="物业地址" checkbox="" display="PR_ADDR" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="STATUS" index="" title="状态" checkbox="" display="STATUS" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="STATUS" index="" title="" checkbox="" display="STATUS"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				
 				<column type="both" name="APPLIER" index="" checkbox="" display="APPLIER" customDict=""   sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="APPLY_AUDITOR" index="" checkbox="" display="APPLY_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FT_PRE_AUDITOR" index="" checkbox="" display="FT_PRE_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FT_POST_AUDITOR" index="" checkbox="" display="FT_POST_AUDITOR" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				
+				<column type="virtual" name="status"  title="状态" referencecol="STATUS" index="" checkbox="" display="" customDict="getSpvFlowApplyStatus" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="createTime"  title="申请时间" referencecol="CREATE_TIME" index="" checkbox="" display="" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="applyerName"  title="申请人" referencecol="APPLIER" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="applyAuditorName" title="申请复审人" referencecol="APPLY_AUDITOR" index="" checkbox="" display="" customDict="getUserNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
@@ -172,13 +174,16 @@
 			      SELECT 
                      sc.PKID, 
                      sc.CASHFLOW_APPLY_ID, 
-                     sc.DIRECTION,  sc.VOUCHER_NO, 
-                     sc.RECEIVER,  sc.RECEIVER_ACC, 
+                     sc.DIRECTION,  
+                     sc.VOUCHER_NO, 
+                     sc.RECEIVER,  
+                     sc.RECEIVER_ACC, 
                      sc.RECEIVER_BANK, 
                      sc.PAYER, 
                      sc.PAYER_ACC, 
                      sc.PAYER_BANK, 
                      sc.FLOW_CONDITION, 
+                     sc.INPUT_TIME,
                      sc.AMOUNT
 			      FROM  sctrans.T_TO_SPV_CASHFLOW  sc
                    where sc.CASHFLOW_APPLY_ID=#id#
@@ -198,6 +203,8 @@
 				
 				<column type="both" name="PAYER_ACC" index="" checkbox="" display="PAYER_ACC" customDict=""   sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PAYER_BANK" index="" checkbox="" display="PAYER_BANK" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="INPUT_TIME" index="" checkbox="" display="时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				
 				<column type="both" name="AMOUNT" index="" checkbox="" display="AMOUNT" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>

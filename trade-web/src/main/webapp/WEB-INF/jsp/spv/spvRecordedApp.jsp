@@ -161,7 +161,7 @@
 	                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" name="items[${status2.index }].payerAmount" />万元
 	                                                </td>
 	                                                <td>
-	                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptNo }" name="items[${status2.index }].receiptNo" />
+	                                                    <input class="table_input boderbbt forvalue" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptNo }" name="items[${status2.index }].receiptNo" />
 	                                                </td>
 	                                                <td>
 	                                                    <select  id="select_direction" class="table-select boderbbt" name="items[${status2.index }].voucherNo"  onChange="this.value" >
@@ -189,7 +189,7 @@
 	                                                	 <div id="datepicker_${status2.index }" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">
 															<input id="inputTime'+thisIndex+'" style="width:106px" name="items[${status2.index }].cashFlowCreateTime"
 															class="form-control input-one" type="text" 
-															value="<fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.inputTime }" 
+															value="<fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptTime }" 
 															pattern="yyyy-MM-dd"/>" placeholder="入账日期"/>
 														 </div>                                  
 	                                                 </td>    

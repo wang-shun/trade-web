@@ -288,29 +288,19 @@ function checkReceiptNo(){
 	
 	var payerAmountFlag = true;
 	var payerAmountEle;
-	var sumAmount = 0;
 	$("input[name$='payerAmount']").each(function(i,e){
 		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
 			payerAmountFlag = false;
 			payerAmountEle = $(e);
 			
 			return false;
-		}else{
-			sumAmount = accAdd(sumAmount,$(e).val());
 		}
-		
 	});
 	if(!payerAmountFlag){
 	    	alert("请填写有效的金额！");
 		    changeClass(payerAmountEle);
 			return false;
 	}
-	
-    var amount = $("#amount").attr("value");
-    if(parseFloat(sumAmount) > parseFloat(amount)){
-    	alert("入账金额不能大于监管金额！");
-    	return false;
-    }
 	 
 	var receiptNoFlag = true;
 	var receiptNoEle;
@@ -326,6 +316,48 @@ function checkReceiptNo(){
 		    changeClass(receiptNoEle);
 			return false;
 		 }
+	 
+	 var reg = /^[0-9]*$/;
+		if(receiptNoArray.length<0){
+			alert("贷记凭证编号不能为空！");
+			return  false;	
+		}
+			
+		for(var i=0; i<receiptNoArray.length; i++){	
+			if($.trim(receiptNoArray[i].value).length<1){
+				alert("贷记凭证编号不能为空！");
+				return  false;
+			}
+			for(var j=i+1; j<receiptNoArray.length ;j++){
+					if(receiptNoArray[i].value == receiptNoArray[j].value){
+						theSameFlag=false;
+						alert("贷记凭证编号不能重复！");
+					}
+					if(theSameFlag==false){
+						//break;
+						return  false;
+					}
+				}
+			if(theSameFlag==false){
+				//break;
+				return  false;
+			}
+		}
+		
+		 $.each(receiptNoArray,function(i, item) {
+				if (item.value != '') {
+					//if(!reg.exec(item.value.trim())){
+					if(!reg.test(item.value.trim())){
+						alert("贷记凭证编号只能由数字组成！");
+						theSameFlag = false;
+						return theSameFlag;
+					}				
+				}
+				if(theSameFlag==false){
+					return  false;
+				}
+		 })
+	 
 	var voucherNoFlag = true;
 	var voucherNoEle;
 	$("select[name$='voucherNo']").each(function(i,e){
@@ -354,47 +386,7 @@ function checkReceiptNo(){
 		changeClass(cashFlowCreateTimeEle);
 		return false;
 	}
-		
-	var reg = /^[0-9]*$/;
-	if(receiptNoArray.length<0){
-		alert("贷记凭证编号不能为空！");
-		return  false;	
-	}
-		
-	for(var i=0; i<receiptNoArray.length; i++){	
-		if($.trim(receiptNoArray[i].value).length<1){
-			alert("贷记凭证编号不能为空！");
-			return  false;
-		}
-		for(var j=i+1; j<receiptNoArray.length ;j++){
-				if(receiptNoArray[i].value == receiptNoArray[j].value){
-					theSameFlag=false;
-					alert("贷记凭证编号不能重复！");
-				}
-				if(theSameFlag==false){
-					//break;
-					return  false;
-				}
-			}
-		if(theSameFlag==false){
-			//break;
-			return  false;
-		}
-	}
-	
-	 $.each(receiptNoArray,function(i, item) {
-			if (item.value != '') {
-				//if(!reg.exec(item.value.trim())){
-				if(!reg.test(item.value.trim())){
-					alert("贷记凭证编号只能由数字组成！");
-					theSameFlag = false;
-					return theSameFlag;
-				}				
-			}
-			if(theSameFlag==false){
-				return  false;
-			}
-	 })
+	 
 	 
 	return theSameFlag;
 }
