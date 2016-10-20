@@ -116,7 +116,7 @@ function reloadGrid() {
 		
 		//案件视图点击链接转向
 		$("#btnCaseView").click(function(){
-			var caseCode = $("#firstFollowform #caseCode").val();
+			var caseCode = $(this).attr("lang");
 			location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode;
 		});
 		
