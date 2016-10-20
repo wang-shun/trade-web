@@ -181,13 +181,13 @@
 									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict>
                                             </td>
                                             <td>
-                                                ${mix.totalDeAmount }万
+                                                <c:if test="${mix.totalDeAmount != 0}">${mix.totalDeAmount }万</c:if>
                                             </td>
                                             <td>
-                                                ${mix.sellerDeAmount }万
+                                                <c:if test="${mix.sellerDeAmount != 0}">${mix.sellerDeAmount }万</c:if>
                                             </td>
                                             <td>
-                                                ${mix.fundDeAmount }万
+                                                <c:if test="${mix.fundDeAmount != 0}">${mix.fundDeAmount }万</c:if>
                                             </td>
                                         </tr>
                                         </c:forEach>
@@ -198,13 +198,13 @@
                                                 合计
                                             </td>
                                             <td>
-                                                ${sumTotalAmt }万
+                                                <c:if test="${sumTotalAmt != 0}">${sumTotalAmt }万</c:if>
                                             </td>
                                             <td>
-                                                ${sumSellerAmt }万
+                                                <c:if test="${sumSellerAmt != 0}">${sumSellerAmt }万</c:if>
                                             </td>
                                             <td>
-                                                ${sumFundAmt }万
+                                                <c:if test="${sumFundAmt != 0}">${sumFundAmt }万</c:if>
                                             </td>
                                         </tr>                                       
                                         </tbody>
