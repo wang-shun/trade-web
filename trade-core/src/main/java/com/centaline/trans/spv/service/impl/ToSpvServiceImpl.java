@@ -1448,6 +1448,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			if(null != spvRecordedsVOItems.get(i).getPayerAmount()){//流水金额
 				toSpvCashFlow.setAmount(spvRecordedsVOItems.get(i).getPayerAmount().multiply(new BigDecimal(10000)));
 			}
+			//toSpvCashFlow.setReceiptNo(receiptNo);回单编号	
 			toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());//审核状态
 			//送结束日期	toSpvCashFlow.setCloseTime(closeTime);
 			toSpvCashFlow.setReceiptTime(spvRecordedsVOItems.get(i).getCashFlowCreateTime());//回单生成时间
@@ -1458,7 +1459,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			//更新时间	toSpvCashFlow.setUpdateTime(updateTime);
 			//更新时间	toSpvCashFlow.setUpdateBy(updateBy);
 			if(null != spvRecordedsVOItems.get(i).getReceiptNo())
-				toSpvCashFlow.setReceiptNo(spvRecordedsVOItems.get(i).getReceiptNo());//回单编号	
+				toSpvCashFlow.setVoucherNo(spvRecordedsVOItems.get(i).getReceiptNo());//贷记凭证编号
 			
 			toSpvCashFlowMapper.insertSelective(toSpvCashFlow);
 			

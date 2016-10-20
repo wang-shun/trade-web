@@ -88,7 +88,7 @@
                                     <label>
                                       	  收款人名称
                                     </label>
-                                    <span class="info_one" id="spvAccountName" ><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}">${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}</span></span>
+                                    <span class="info_one" id="spvAccountName" ><span class="demo-top" title="上海中原物业顾问有限公司">上海中原物业顾问有限公司</span></span>
                                 </p>
 
                                 <p>
@@ -116,7 +116,7 @@
                         <input type="hidden" name="prdCode" value="${spvBaseInfoVO.toSpv.prdCode==1?"光大四方资金监管":"" }" />
                         <input type="hidden" name="amount" value="${spvBaseInfoVO.toSpv.amount}" />
                         <input type="hidden" name="prAddr" value="${spvBaseInfoVO.toSpvProperty.prAddr}" />
-                        <input type="hidden" name="spvAccountName" value="${spvBaseInfoVO.toSpvAccountList[2].name==1?"上海中原物业顾问有限公司":""}" />
+                        <input type="hidden" name="spvAccountName" value="上海中原物业顾问有限公司" />
                         <input type="hidden" name="spvAccountCode" value="${spvBaseInfoVO.toSpvAccountList[2].account}" />
                         <input type="hidden" name="spvAccountBank" value="光大银行市北支行" />
                         <input type="hidden" name="spvConCode" value="${spvBaseInfoVO.toSpv.spvCode}" />
