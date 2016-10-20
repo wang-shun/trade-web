@@ -1,11 +1,9 @@
-$(function(){
-});
-$(window).load(function() {
-});
+
 var handle = $("#handle").val();
 var trindex = 0;
 var imageSum = 0;
 var imageSumb = 0;
+var index = 0;
 
 //添加入账申请信息tr
 function getTR(thisIndex){
@@ -95,20 +93,39 @@ function render_fileupload(thisIndex){
 }
 
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
-	
+	index++;
 	var shortName = fileName.length>5?fileName.substring(0,5):fileName;
-	var image = '<img id="image_'+thisIndex+'" src="'+fileUrl+'" style="width:0px;height:0px;display: none;" class="viewer-toggle">';
-	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>';
+	var image = "<span><img id='image_"+index+"' src='"+fileUrl+"' style='width:0px;height:0px;display: none;' class='viewer-toggle'>";
+	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" onClick="$(\'#image_'+thisIndex+'\').trigger(\'click\');">'+shortName+'<i class="icon iconfont icon_x">&#xe60a;</i></button>';
+	image += "<button type='button' class='btn btn-sm btn-default' style='margin-right:5px;' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x' onClick='removeImg(this,event);'>&#xe60a;</i></button></span>";
 	return image;
 }
 //删除入账申请信息tr
 function getDel(k){
+	if($("input[name$='payerName']").size()==1){
+		alert("入账申请信息不能少于一行数据！");
+		return false;
+	}
     $(k).parents('tr').remove();
+}
+function removeImg(object,event){
+	 $(object).parent().parent().remove();
+	 $('.wrapper-content').viewer('destroy');
+	 $('.wrapper-content').viewer();
+	 event.stopPropagation();
+}
+function showImg(imgId){
+	$(imgId).trigger("click");
 }
 //删除入账申请信息tr
 function getDelHtml(k,pkid){
+	
+	if($("input[name$='payerName']").size()==1){
+		alert("入账申请信息不能少于一行数据！");
+		return false;
+	}
+	
 	if(!confirm("是否删除！")){
 		  return false;
 	    }
@@ -158,7 +175,8 @@ function sumbitRe(){
 		beforeSend:function(){  
          },
 		success : function(data) {
-			window.location.href = ctx+"/spv/spvList";
+			 window.opener.location.reload(); //刷新父窗口
+		   	 window.close(); //关闭子窗口.
 			/*
 			alert(JSON.stringify(data));
 			if(data.ajaxResponse.success){

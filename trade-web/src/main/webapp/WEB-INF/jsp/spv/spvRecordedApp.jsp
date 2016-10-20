@@ -186,12 +186,16 @@
 														</span>  
 	                                                </td>
 	                                                 <td>
-	                                                 <div id="datepicker_${status2.index }" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">
-	<input id="inputTime'+thisIndex+'" style="width:106px" name="items[${status2.index }].cashFlowCreateTime"class="form-control input-one" type="text" value="<fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.inputTime }" pattern="yyyy-MM-dd"/>" placeholder="入账日期"></div>                                  
+	                                                	 <div id="datepicker_${status2.index }" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">
+															<input id="inputTime'+thisIndex+'" style="width:106px" name="items[${status2.index }].cashFlowCreateTime"
+															class="form-control input-one" type="text" 
+															value="<fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.inputTime }" 
+															pattern="yyyy-MM-dd"/>" placeholder="入账日期"/>
+														 </div>                                  
 	                                                 </td>    
 	                                                <td align="center">
 		                                               <a href="javascript:void(0)" onClick="getTR(${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()})">添加</span></a>
-		                                              <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
+		                                               <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
 	                                                </td>
 	                                            </tr>
 	                                       </c:forEach>
@@ -301,7 +305,8 @@ $(function() {
 });
 
 function rescCallbocak(){
-	window.location.href = ctx+"/spv/spvList";
+	   window.opener.location.reload(); //刷新父窗口
+   	   window.close(); //关闭子窗口.
 }
 $('.wrapper-content').viewer();
 

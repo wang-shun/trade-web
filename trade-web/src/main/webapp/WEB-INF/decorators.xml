@@ -83,6 +83,7 @@
 		<pattern>/eloan/task/newEloanApply/process</pattern>
 		<pattern>/signroom/signRoomAllotList</pattern>
 		<pattern>/signroom/signingManage</pattern>
+		<pattern>/report/dealChangeCaseList</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

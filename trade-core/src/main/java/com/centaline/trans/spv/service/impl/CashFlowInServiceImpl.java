@@ -183,7 +183,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		
 		/**1.查询申请*/
 		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
-		ToSpvAduit toSpvAduit = new ToSpvAduit();
+		/*ToSpvAduit toSpvAduit = new ToSpvAduit();
 		//toSpvAduit.setApplyId(spvRecordedsVO.getToSpvCashFlowApplyPkid());//流水ID
 		toSpvAduit.setApplyId(toSpvCashFlowApply.getPkid().toString());
 		toSpvAduit.setActProcId(taskId);//流程实例
@@ -195,7 +195,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		toSpvAduit.setCreateBy(user.getId());
 		toSpvAduit.setCreateTime(new Date());
 		toSpvAduitMapper.insertSelective(toSpvAduit);//保存审核记录
-		
+*/		
 		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid());
 		if(null != toSpvCashFlowList)
 			for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){

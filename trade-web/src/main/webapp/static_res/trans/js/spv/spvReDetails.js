@@ -106,7 +106,7 @@ function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	var image = "<span><img id='image_"+index+"' src='"+fileUrl+"' style='width:0px;height:0px;display: none;' class='viewer-toggle'>";
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += "<button type='button' class='btn btn-sm btn-default' style='margin-right:5px;' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x' onClick='removeImg(this,event);'>&#xe60a;</i></button></span>"
+	image += "<button type='button' class='btn btn-sm btn-default' style='margin-right:5px;' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x' onClick='removeImg(this,event);'>&#xe60a;</i></button></span>";
 	return image;
 }
 
