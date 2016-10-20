@@ -586,7 +586,15 @@ table thead tr th {
   color: #fff;
   border-radius: 2px;
 }
-
+.red_color {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 0px 5px;
+    background: #ed5565;
+    font-size: 14px;
+    color: #fff;
+    border-radius: 2px;
+}
 .waiting_color {
   margin-left: 5px;
   margin-right: 5px;

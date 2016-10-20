@@ -1,4 +1,6 @@
-
+em,i {
+  font-style: normal;
+}
 
 .ml10 {
   margin-left: 10px!important;
@@ -512,7 +514,7 @@ input {
 .info_content .line .info_one {
   float: left;
   display: inline-block;
-  width: 120px;
+  width: 125px;
   color: #333;
   overflow: hidden;
   white-space: nowrap;
@@ -521,7 +523,9 @@ input {
 .info_content .line span {
   color: #333;
 }
-
+.blue-text {
+  color: #337ab7;
+}
 .btn-space {
   margin: 0px 10px;
 }
@@ -595,4 +599,8 @@ input {
 }
 .status_btn {
   margin: 20px 0px 30px;
+}
+.tip-inner {
+  font-family: "Microsoft Yahei";
+  line-height: 18px!important;
 }
