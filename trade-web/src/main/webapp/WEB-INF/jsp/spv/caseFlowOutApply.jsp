@@ -144,9 +144,9 @@
                                     <table class="table table-bordered  customerinfo" id="cashFlowRecord">
                                         <thead>
                                         <tr>
-                                            <th>
+<!--                                             <th>
                                                 次数
-                                            </th>
+                                            </th> -->
                                             <th>
                                                 划转条件
                                             </th>
@@ -165,15 +165,17 @@
                                         <c:set var="sumTotalAmt" value="0"/>
                                         <c:set var="sumSellerAmt" value="0"/>
                                         <c:set var="sumFundAmt" value="0"/>
+                                        <c:set var="codeArrStr" value=""/>
                                         <c:forEach items="${deDetailMixList }" var="mix" varStatus="status1">
                                         <c:set var="sumTotalAmt" value="${sumTotalAmt + mix.totalDeAmount }" />
                                         <c:set var="sumSellerAmt" value="${sumSellerAmt + mix.sellerDeAmount }"/>
                                         <c:set var="sumFundAmt" value="${sumFundAmt + mix.fundDeAmount }"/>
+                                        <c:set var="codeArrStr" value="${mix.deCondCode},${codeArrStr }"/>
                                         <tr>
-                                            <td>
+<%--                                             <td>
                                                 <c:if test="${status1.count eq 1 }">
                                                 ${fn:length(deDetailMixList) }
-                                                </c:if>
+                                                </c:if> --%>
                                             </td>
                                             <td>
                                                 <aist:dict id="" name="" clazz="form-control input-one"
@@ -181,30 +183,30 @@
 									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict>
                                             </td>
                                             <td>
-                                                ${mix.totalDeAmount }万
+                                                <c:if test="${mix.totalDeAmount != 0}">${mix.totalDeAmount }万</c:if>
                                             </td>
                                             <td>
-                                                ${mix.sellerDeAmount }万
+                                                <c:if test="${mix.sellerDeAmount != 0}">${mix.sellerDeAmount }万</c:if>
                                             </td>
                                             <td>
-                                                ${mix.fundDeAmount }万
+                                                <c:if test="${mix.fundDeAmount != 0}">${mix.fundDeAmount }万</c:if>
                                             </td>
                                         </tr>
                                         </c:forEach>
                                         <tr>
-                                            <td>
-                                            </td>
+<!--                                             <td>
+                                            </td> -->
                                             <td>
                                                 合计
                                             </td>
                                             <td>
-                                                ${sumTotalAmt }万
+                                                <c:if test="${sumTotalAmt != 0}">${sumTotalAmt }万</c:if>
                                             </td>
                                             <td>
-                                                ${sumSellerAmt }万
+                                                <c:if test="${sumSellerAmt != 0}">${sumSellerAmt }万</c:if>
                                             </td>
                                             <td>
-                                                ${sumFundAmt }万
+                                                <c:if test="${sumFundAmt != 0}">${sumFundAmt }万</c:if>
                                             </td>
                                         </tr>                                       
                                         </tbody>
@@ -248,7 +250,7 @@
                                             <td>
                                                 <p class="big">
                                                     <span class="sign_normal navy_bg">
-                                                    ${cashFlow.usage eq in?'入账':'出账' }
+                                                    ${cashFlow.usage eq 'in'?'入账':'出账' }
                                                     </span>
                                                 </p>
                                                 <p class="big">
@@ -271,7 +273,7 @@
                                             </td>
                                             <td>
                                                 <p>
-                                                   上海市长宁区延安西路998号1弄202
+                                                   ${spvBaseInfoVO.toSpvProperty.prAddr }
                                                 </p>
                                                 <p class="smll_sign">
                                                     审核人：<a href="javascript:void(0)">
@@ -297,7 +299,7 @@
                         </form>
                         <div class="mt20">
                             <div class="agree-tile">
-                                出账凭证信息
+                                出账申请附件信息
                             </div>
                             <form class="form-inline table-capital">
                                 <div class="table-box" >
@@ -309,15 +311,13 @@
                                         <tbody id="addTr2">
                                         <tr>
                                             <td width="310">
-                                                <select name="" class="table-select boderbbt">
-                                                    <option value="">请选择</option>
-                                                    <option value="">转账凭证</option>
-                                                </select>
+                                                <aist:dict id='' name='' 
+                                                clazz='table-select' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict>
                                             </td>
                                             <td id="td_filex">
                                                 <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status">
 	                                                 	<span>
-	                                                 	<img id="image_${status.index }" href="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvCashFlowApplyAttach.attachId}" style="width:0px;height:0px;display: none;" title="${toSpvCashFlowApplyAttach.comment}" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
+	                                                 	<img id="image_${status.index }" href="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvCashFlowApplyAttach.attachId}" style="width:0px;height:0px;display: none;" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
 	                                                 	<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].pkid" value = "${toSpvCashFlowApplyAttach.pkid}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].attachId" value = "${toSpvCashFlowApplyAttach.attachId}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].comment" value = "${toSpvCashFlowApplyAttach.comment}" />
@@ -550,9 +550,18 @@ var addSum = 0;
 var doneSum = 0;
 
 $(function() {
+	//筛选条件 
+	var codeArrStr = "${codeArrStr}";
+	$("#addTr2").find("option").each(function(i,e){
+		if(codeArrStr.indexOf($(e).val()) == -1){
+			$(e).remove();
+		}
+	});
 	//图片渲染
-	$('.wrapper-content').viewer('destroy');
-	$('.wrapper-content').viewer();
+	if($("img[id^='image_']").size()>0){
+		$('.wrapper-content').viewer('destroy');
+		$('.wrapper-content').viewer();
+	}
 
     renderFileUpload("x","attach");
     

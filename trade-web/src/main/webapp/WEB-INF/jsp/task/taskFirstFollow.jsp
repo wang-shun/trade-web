@@ -86,14 +86,14 @@
                     <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
                     	<i class="iconfont icon">&#xe640;</i> 在途单列表
                     </button>
-                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView">
+                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
                         <i class="iconfont icon">&#xe642;</i>案件视图
                     </button>
                 </div>
              </div>
         </div>
 
-        <div class="ibox-content border-bottom clearfix space_box noborder">
+        <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
             <h2 class="newtitle">填写任务信息</h2>
             	<form method="get" class="form_list" id="firstFollowform" style="overflow: visible;">
             		<input type="hidden" id="ctx" value="${ctx }" />

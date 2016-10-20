@@ -81,7 +81,7 @@
 	                   <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
 	                   	<i class="iconfont icon">&#xe640;</i> 在途单列表
 	                   </button>
-	                   <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView">
+	                   <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
 	                       <i class="iconfont icon">&#xe642;</i>案件视图
 	                   </button>
 	               </div>
