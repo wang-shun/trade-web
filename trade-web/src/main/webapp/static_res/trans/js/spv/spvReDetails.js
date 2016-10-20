@@ -80,6 +80,14 @@ function getTR(thisIndex){
             	}
         	}
         	
+        },
+        progressall: function (e, data) {
+        	$('#progress').show();
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css('width',progress+'%').find("span").css('color','red').text(progress+'%');
+            if(progress == 100){
+                setTimeout($('#progress').fadeOut(2000));
+            }
         }
     });
 

@@ -105,7 +105,7 @@ float: none;
 			<div class="col-lg-12">
 				<input class="form-control" type="text" name="propertyAddr"
 					id="propertyAddr" placeholder="产调地址" style="padding-left: 15px;"
-					onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;"
+					onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)||(event.keyCode > 122 && event.keyCode < 127)) event.returnValue = false;"
 					>
 			</div>
 		</div>

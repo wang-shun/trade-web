@@ -21,6 +21,9 @@
         <link rel="stylesheet" href="../static/trans/css/common/table.css" />
         <link rel="stylesheet" href="../static/trans/css/common/input.css" />
         <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
+
+        <!-- 提示 -->
+        <link rel="stylesheet" href="../static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" />
     </head>
     <body>
         <div id="wrapper">
@@ -931,7 +934,7 @@
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
                         <h2 class="title">
-                            临时银行案件列表
+                            交易变更列表
                         </h2>
                         <form method="get" class="form_list">
                             <div class="line">
@@ -941,27 +944,9 @@
                                     </label>
                                     <input class="teamcode input_type" placeholder="" value="" />
                                 </div>
-
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        产证地址
-                                    </label>
-                                    <input class="teamcode input_type" style="width:435px;" placeholder="" value="" />
-                                </div>
-                            </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        申请人
-                                    </label>
-                                    <input class="teamcode input_type" placeholder="" value="" />
-                                    <div class="input-group float_icon organize_icon">
-                                        <i class="icon iconfont"></i>
-                                    </div>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        申请人所在组
+                                        所在组
                                     </label>
                                     <input class="teamcode input_type" placeholder="" value="" />
                                     <div class="input-group float_icon organize_icon">
@@ -970,53 +955,56 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        状态筛选
+                                        回访标记
                                     </label>
                                     <select name="" id="" class="select_control selwidth ">
-                                        <option value="">请选择</option>
-                                        <option value="">状态筛选</option>
+                                        <option value="">异常</option>
+                                        <option value="">正常</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        贷款银行
+                                        变更人
                                     </label>
-                                    <select name="" id="" class="teamcode select_control ">
-                                        <option value="">请选择</option>
-                                    </select>
+                                    <input class="teamcode input_type" placeholder="" value="" />
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
                                 </div>
+                                <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small select_style mend_select">
-                                        申请时间
+                                        变更时间
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
                                         <input name="" class="form-control data_style" type="text" value="" placeholder="起始时间"> <span class="input-group-addon">到</span>
                                         <input  name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
                                     </div>
                                 </div>
+                            </div>
 
                             </div>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        贷款支行
+                                        环节名称
                                     </label>
-                                     <select name="" id="" class="teamcode select_control ">
+                                    <select name="" id="" class="select_control selwidth ">
                                         <option value="">请选择</option>
+                                        <option value="">e+金融贷款</option>
                                     </select>
                                 </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small select_style mend_select">
-                                        审批时间
+
+                                 <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        产证地址
                                     </label>
-                                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始时间"> <span class="input-group-addon">到</span>
-                                        <input  name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
-                                    </div>
+                                    <input class="teamcode input_type" style="width:435px;" placeholder="" value="" />
                                 </div>
                             </div>
+
                             <div class="line">
                                 <div class="add_btn" style="margin-left:126px;">
                                     <button type="button" class="btn btn-success">
@@ -1026,7 +1014,7 @@
                                     <button type="button" class="btn btn-success">
                                         导出列表
                                     </button>
-                                    <button type="button" class="btn btn-grey">
+                                    <button type="reset" class="btn btn-grey">
                                         清空
                                     </button>
                                 </div>
@@ -1042,20 +1030,24 @@
                                             <th>
                                                 <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
                                             </th>
-                                            <th>
-                                                当前环节
-                                            </th>
+
                                             <th>
                                                 产证地址
                                             </th>
                                             <th>
-                                                时间
+                                                客户姓名
                                             </th>
                                             <th>
-                                                主办人
+                                                预计时间
                                             </th>
                                             <th>
-                                                申请人所在组
+                                                变更
+                                            </th>
+                                            <th>
+                                                所在组
+                                            </th>
+                                            <th>
+                                                操作
                                             </th>
                                         </tr>
                                     </thead>
@@ -1067,43 +1059,45 @@
                                                         ZY-AJ-201605-0952
                                                     </a>
                                                 </p>
+                                                <span class="red_color">异常</span><a href="#"><i class="icon iconfont" style="font-size: 20px;color:#808080"></i></a>
                                             </td>
                                             <td>
-                                                <p>
+                                             <p>
                                                     <i class="sign_blue">
-                                                        总监审批
+                                                        e+金融贷款
                                                     </i>
                                                 </p>
-                                                 <p>
-                                                    已驳回<a href="#" class="ml5">驳回原因</a>
-                                                </p>
-                                            </td>
-                                            <td>
                                                 <p class="big">
                                                     上海杨浦区平路街道（内环）鞍山八村29号060室
                                                 </p>
-                                                <p>
-                                                    <a class="salesman-info" href="javascript:;" >
-                                                        中国建设银行股份有限公司上海分行/江苏路支行
-                                                    </a>
-                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="manager"><span>上家:</span><a href="#" class="mr5">金娇娇</a></p>
+                                                <p class="manager"><span>上家:</span><a href="#" class="mr5">金娇娇</a></p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">申</i>
+                                                    <i class="sign_normal">原预计</i>
                                                     2016-08-21
                                                 </p>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">审</i>
+                                                    <i class="sign_normal">新预计</i>
                                                     2016-08-22
                                                 </p>
                                             </td>
-                                            <td class="center">
-                                                <p class="manager">申请人：<a href="#">娇娇</a></p>
-                                                <p class="manager">审批人：<a href="#">呼呼</a></p>
+                                            <td>
+
+                                                <p class="manager"><i class="sign_normal">原因</i><span class="demo-top" title="原因有许多，需要哪一条？来看看，原因有许多，需要哪一条？来看看">原因有许多，需要</span></p>
+                                                <p class="smll_sign">
+                                                    2016-08-22
+                                                </p>
                                             </td>
-                                            <td class="center">
-                                                虹口杨浦贵宾服务部A组
+                                            <td>
+                                                 <p class="manager"><span>变更人:</span><a href="#" class="mr5">金娇娇</a></p>
+                                                <p>虹口杨浦贵宾服务部A组</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">处理</button>
                                             </td>
                                         </tr>
                                         <tr>
@@ -1113,89 +1107,45 @@
                                                         ZY-AJ-201605-0952
                                                     </a>
                                                 </p>
+                                                <a href="#"><i class="icon iconfont" style="font-size: 20px;color:#808080"></i></a>
                                             </td>
                                             <td>
-                                                <p>
+                                             <p>
                                                     <i class="sign_blue">
-                                                        总监审批
+                                                        e+金融贷款
                                                     </i>
                                                 </p>
-                                                 <p>
-                                                    审批中
-                                                </p>
-                                            </td>
-                                            <td>
                                                 <p class="big">
                                                     上海杨浦区平路街道（内环）鞍山八村29号060室
                                                 </p>
-                                                <p>
-                                                    <a class="salesman-info" href="javascript:;" >
-                                                        中国建设银行股份有限公司上海分行/江苏路支行
-                                                    </a>
-                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="manager"><span>上家:</span><a href="#" class="mr5">金娇娇</a></p>
+                                                <p class="manager"><span>上家:</span><a href="#" class="mr5">金娇娇</a></p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">申</i>
+                                                    <i class="sign_normal">原预计</i>
                                                     2016-08-21
                                                 </p>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">审</i>
+                                                    <i class="sign_normal">新预计</i>
                                                     2016-08-22
                                                 </p>
                                             </td>
-                                            <td class="center">
-                                                <p class="manager">申请人：<a href="#">娇娇</a></p>
-                                                <p class="manager">审批人：<a href="#">呼呼</a></p>
-                                            </td>
-                                            <td class="center">
-                                                虹口杨浦贵宾服务部
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <td>
-                                                <p class="big">
-                                                    <a href="javascript:;">
-                                                        ZY-AJ-201605-0952
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    <i class="sign_blue">
-                                                        总监审批
-                                                    </i>
-                                                </p>
-                                                 <p>
-                                                    已通过
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号060室
-                                                </p>
-                                                <p>
-                                                    <a class="salesman-info" href="javascript:;" >
-                                                        中国建设银行股份有限公司上海分行/江苏路支行
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td>
+
+                                                <p class="manager"><i class="sign_normal">原因</i><span class="demo-top" title="原因有许多，需要哪一条？来看看，原因有许多，需要哪一条？来看看">原因有许多，需要</span></p>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">申</i>
-                                                    2016-08-21
-                                                </p>
-                                                <p class="smll_sign">
-                                                    <i class="sign_normal">审</i>
                                                     2016-08-22
                                                 </p>
                                             </td>
-                                            <td class="center">
-                                                <p class="manager">申请人：<a href="#">娇娇</a></p>
-                                                <p class="manager">审批人：<a href="#">呼呼</a></p>
+                                            <td>
+                                                 <p class="manager"><span>变更人:</span><a href="#" class="mr5">金娇娇</a></p>
+                                                <p>虹口杨浦贵宾服务部A组</p>
                                             </td>
-                                            <td class="center">
-                                                虹口杨浦贵宾服务部
+                                            <td class="text-center">
+                                                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">处理</button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1283,6 +1233,122 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" >
+                    <div class="modal-dialog" style="width: 980px;">
+                        <div class="modal-content animated fadeIn popup-box">
+                            <div class="modal_title">
+                                案件回访
+                            </div>
+                            <div class="mt15">
+                                    <div class="info_content">
+                                        <div class="line">
+                                            <p>
+                                                <label>
+                                                   案件编号
+                                                </label>
+                                                <span class="info_one">SH20160906001</span>
+                                            </p>
+                                            <p>
+                                                <label>
+                                                    案件地址
+                                                </label>
+                                                <span>上海市长宁区延安西路889号1弄202</span>
+                                            </p>
+                                        </div>
+                                        <div class="line">
+                                            <p>
+                                                <label>
+                                                    变更人
+                                                </label>
+                                                <span class="info_one">李明<em class="ml5 blue-text">13468868686</em></span>
+                                            </p>
+                                            <p>
+                                                <label>
+                                                    环节
+                                                </label>
+                                                <span>过户</span>
+                                            </p>
+                                            <p>
+                                                <label>
+                                                    贵宾服务部
+                                                </label>
+                                                <span class="info">杨浦区贵宾服务部A组</span>
+                                            </p>
+
+                                        </div>
+                                        <div class="line">
+                                            <p>
+                                                <label>
+                                                    变更原因
+                                                </label>
+                                                <span>变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因</span>
+                                            </p>
+                                        </div>
+                                        <div class="line">
+                                            <p>
+                                                <label>
+                                                    上家
+                                                </label>
+                                                <span class="mr10">赵水法<em class="ml5 blue-text">1587515787</em></span>
+                                                <span class="mr10">宋公明<em class="ml5 blue-text">1587515787</em></span>
+                                                <span class="mr10">石阡<em class="ml5 blue-text">1587515787</em></span>
+                                            </p>
+                                        </div>
+                                        <div class="line">
+                                            <p>
+                                                <label>
+                                                    下家
+                                                </label>
+                                                <span class="mr10">柘城<em class="ml5 blue-text">1385515787</em></span>
+                                                <span class="mr10">郑爽<em class="ml5 blue-text">1385515787</em></span>
+                                                <span class="mr10">李松<em class="ml5 blue-text">1385515787</em></span>
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <form method="get" class="form_list">
+                                <div class="line">
+                                    <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        回访标记
+                                    </label>
+                                    <div class="checkbox i-checks radio-inline sign sign_right">
+                                        <label>
+                                            <input type="radio" value="1" name="status" checked="">
+                                                正常
+                                        </label>
+                                        <label>
+                                            <input type="radio" value="2" name="status">
+                                                异常
+                                        </label>
+                                    </div>
+                                </div>
+
+                                </div>
+                                <div class="line clearfix">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small pull-left">
+                                            回访跟进
+                                        </label>
+                                        <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" name="" id="" cols="30" rows="10"></textarea>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="add_btn text-center" style="margin:15px 126px;">
+                                        <button type="button" class="btn btn-success">
+                                            提交
+                                        </button>
+                                        <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                            关闭
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
                 <!--*********************** HTML_main*********************** -->
             </div>
         </div>
@@ -1305,6 +1371,10 @@
         </script>
         <script src="../static/js/plugins/pace/pace.min.js">
         </script>
+
+        <!-- 提示 -->
+        <script src="../static/trans/js/plugins/poshytip/jquery.poshytip.js"></script>
+        <script src="../static/trans/js/plugins/poshytip/jquery.poshytipuser.js"></script>
 
 
         <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
