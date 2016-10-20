@@ -37,10 +37,19 @@ public class MmMaterialItemServiceImpl implements MmMaterialItemService{
 
 
 	@Override
-	public int updateMaterialInfoByItemCode(MmMaterialItem mmMaterialItem) {
+
+	public int updateMaterialInfoByItemCode(String itemCode) {
 		// TODO Auto-generated method stub
 		
-		return mmMaterialItemMapper.updateMaterialInfoByItemCode(mmMaterialItem);
+
+		return mmMaterialItemMapper.updateMaterialInfoByItemCode(itemCode);
+	}
+
+
+	@Override
+	public MmMaterialItem queryMmMaterialByPkid(Long pkid) {
+		// TODO Auto-generated method stub
+		return  mmMaterialItemMapper.selectByPrimaryKey(pkid);
 	}
 
 }

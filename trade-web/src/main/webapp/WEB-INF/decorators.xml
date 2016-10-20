@@ -57,6 +57,8 @@
 		<pattern>/spv/task/cashflowIntApply/spvRecorded</pattern>
 		<pattern>/spv/task/cashflowIntApply/process</pattern>
 		<pattern>/material/materialList</pattern>
+		<pattern>/material/materialStorgae</pattern>
+		
 		<!--<pattern>/case/caseDistribute2</pattern>
 		<pattern>/task/unlocatedTask2</pattern>
 		<pattern>/case/unlocatedCase2</pattern> -->

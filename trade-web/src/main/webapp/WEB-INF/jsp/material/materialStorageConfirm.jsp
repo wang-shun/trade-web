@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>扣押物品列表</title>
+<title>入库确认</title>
 
 <!-- Data Tables -->
 <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css">
@@ -37,113 +37,119 @@
 </head>
 
 <body>
-<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-                    
- <div class="wrapper wrapper-content animated fadeInRight">
-     <div class="ibox-content border-bottom clearfix space_box">
-         <h2 class="title">
-             	扣押物品列表
-         </h2>
-         <form class="form-inline">
-             <div class="form-row form-rowbot">
-                 <div class="form-group form-margin form-space-one">
-                     <label for="" class="lable-one" >案件编号</label>
-                     <input type="text" class="form-control input-one" placeholder="" id="caseCode" name="caseCode">
-                 </div>
-                 <div class="form-group form-margin form-space-one">
-                     <label for="" class="lable-one">提交人</label>
-                     <input type="text" class="form-control input-one" placeholder="" id="createBy" name="createBy">
-                 </div>
-                 <div class="form-group form-margin form-space-one">
-                     <label for="" class="lable-one">保管人</label>
-                     <input type="text" class="form-control input-one" placeholder="" id="itemManager" name="itemManager">
-                 </div>
-             </div>
-             <div class="form-row form-rowbot">
-                  <div class="form-group form-margin form-space-one">
-                     <label for="" class="lable-one">物品类型</label>
-                     <select class="form-control input-one" id="itemCategory">
-                     	 <option value="" selected="selected">请选择</option>
-                         <option value="carded">身份证</option>
-                         <option value="bankCard">银行卡</option>
-                         <option value="propertyCard">产权证</option>
-                         <option value="mortgageContract">抵押合同</option>
-                         <option value="otherCard">他证</option>
-                     </select>
-                 </div>
-                 <div class="form-group form-margin form-space-one">
-                     <label for="" class="lable-one">物品状态</label>
-                     <select class="form-control input-one" id="itemStatus">
-                     	 <option value="" selected="selected">请选择</option>
-                         <option value="1">完好无损</option>
-                         <option value="2">已损坏</option>
-                         <option value="3">部分破损</option>
-                     </select>
-                 </div>
-                 <div class="form-group form-margin" style="margin-left:15px;">
-                     <select class="form-control select-one" id="timeSelect">
-                         <option value="ITEM_INPUT_TIME">入库时间</option>
-                         <option value="ITEM_OUTPUT_TIME">借出时间</option>                        
-                         <option value="ITEM_BACK_TIME">退还时间</option>
-                     </select>
-                     <div class="input-daterange input-group" id="datepicker_0">
-                         <input id="dtBegin_0"  type="text" class="form-control date-width" name="start" value="">
-                         <span class="input-group-addon">到</span>
-                         <input id="dtEnd_0"  type="text" class="form-control date-width" name="end" value="">
-                     </div>
-                 </div>
-             </div>
-             
-             <div class="form-row">
-                 <div class="form-group form-margin pull-left">
-                     <label for="" class="lable-one">物业地址</label>
-                     <input type="text" class="form-control" style="width:355px;" placeholder="" id="propertyAddr" name="propertyAddr">
-                 </div>
-                 <div class="btn-left btn-left-space ml40">
-                     <button type="button" class="btn btn-success btn-icon  mr5" id="searchButton"><i class="icon iconfont">&#xe635;</i> 查询</button>
-                     <button type="reset" class="btn btn-grey mr5">清空</button>
-                     <a href="#" class="btn btn-toggle mr5" id="storage">入库</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#myModal">借用</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#Return">归还</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5"
-                     data-toggle="modal" data-target="#GiveBack">退还</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5">删除</a>
-                 </div>
-             </div>
-            </form>
-     </div>
-     
-     <div class="row">
-         <div class="col-md-12">
-             <div class="table_content">
-                 <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
-                     <thead>
-                         <tr>
-                             <th class="">
-                                 <input type="checkbox" class="i-checks" name="input"  id="allOrNotChoose" onclick="mycheck(this)">
-                             </th>
-                             <th>案件编码</th>
-                             <th>保管物品</th>
-                             <th>提交人</th>
-                             <th>保管人</th>
-                             <th>文件位置</th>
-                             <th>状态</th>
-                             <th>时间记录</th>
-                             <th>操作</th>
-                         </tr>
-                     </thead>
-                     <tbody id="materialInfoList"></tbody> 
-                 </table>
-              </div>
-	          <div class="text-center">
-				<span id="currentTotalPage"><strong class="bold"></strong></span> <span
-					class="ml15">共<strong class="bold" id="totalP"></strong>
-				</span>&nbsp;
-				<div id="pageBar" class="pagination my-pagination text-center m0"></div>
-			</div>
-            </div>
-         </div>
-    </div>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>                    
+    <div class="row">
+       <div class="wrapper wrapper-content animated fadeInUp marginbot-30 ">
+           <div class="ibox-content" id="reportOne">
+                <div class="row">
+                   <div class="col-lg-12">
+                       <div class="m-b-md">
+                           <h4>入库</h4>
+                       </div>
+                       <div class="row" id="">
+                           <div class="info_content">
+                               <div class="line clearfix">
+                                   <p>
+                                       <label> 案件编号</label>
+                                       <span class="info_one">${mmMaterialItemList.get(0).caseCode}</span>
+                                   </p>
+                                   <p>
+                                       <label>案件地址</label>
+                                       <span>上海市长宁区延安西路889号1弄202</span>
+                                   </p>
+                               </div>
+                               <div class="line">
+                                   <p class="input-infoht">
+                                       <label>
+                                           	文件位置编号
+                                       </label>
+                                       <input type="text" value=" " class="select_control info_two"  name="itemAddrCode"  id="itemAddrCode">
+                                   <p>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <table class="table table_blue mt20 no-border">
+                   <thead>
+                       <tr>
+                           <th>
+                              	 客户确认书
+                           </th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <tr>
+                           <td>
+                               <ul class="filelist clearfix">
+                                   <li id="WU_FILE_0">
+                                       <p class="imgWrap">
+                                           <img src="../static/trans/img/uplody01.png">
+                                       </p>
+                                       <div class="file-panel" >
+                                           <span class="file-name">公证书1</span>
+                                           <span class="cancel pull-right">删除</span>
+                                       </div>
+                                   </li>
+                                   <li>
+                                       <p class="imgWrap fileposition">
+                                           <img src="../static/trans/img/uplody02.png">
+                                           <input type="file" name="file" class="webupload_file" multiple="multiple" accept="image/*">
+                                       </p>
+                                   </li>
+                               </ul>
+                           </td>
+                       </tr>
+                   </tbody>
+               </table>
+               
+               <div class="enregister">
+                   <div class="modal_title">
+                       <h4>物品信息登记</h4>
+                   </div>
+                   <c:forEach items="${mmMaterialItemList}" var="mmMaterialInfo">
+                   <div class="form_list">
+                       <div class="line">
+                           <div class="form_content">
+                               <label class="control-label sign_left_small">
+                                  	 物品类型
+                               </label>
+                               <input class="input_type extent-one"  name="itemCategory" id="itemCategory" value="${mmMaterialInfo.itemCategory}">
+                           </div>
+                           <div class="form_content">
+                               <label class="control-label sign_left_small">
+                                   	物品名称
+                               </label>
+                               <input class="input_type"  value="${mmMaterialInfo.itemName}" name="itemName" id="itemName" >
+                           </div>
+                           <div class="form_content">
+                               <label class="control-label sign_left_small">
+                                  	 业务描述
+                               </label>
+                               <input class="input_type extent-three" value="${mmMaterialInfo.itemBusinessRemark}" name="itemBusinessRemark" id="itemBusinessRemark" >
+                           </div>
+                       </div>
+
+
+                       <div class="line clearfix">
+                           <div class="form_content">
+                               <label class="control-label sign_left_small pull-left">
+                                  	 备注
+                               </label>
+                               <textarea class="enregisterarea textarea" name="itemRemark" id="itemRemark" ></textarea>
+                           </div>
+                       </div>
+                   </div>
+                 </c:forEach>
+               </div>
+
+               <div class="status_btn text-center">
+                   <button class="btn btn-success btn-space">提交</button>
+                   <button class="btn btn-grey" data-dismiss="modal" data-toggle="modal" data-target="#myModal">关闭</button>
+               </div>
+           </div>
+       </div>
+   </div>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="signTimeStart" value="${signTimeStart}" />
 	<input type="hidden" id="signTimeEnd" value="${signTimeEnd}" />
@@ -182,10 +188,8 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td> <input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}">							
-							 <input type='hidden' name='caseCodes' value="{{item.CASE_CODE}}">							
-						</td>
-						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank"  class="caseCodeForshow">{{item.CASE_CODE}}</a></p>
+						<td> <input type="checkbox" class="i-checks" name="materialCheck"></td>
+						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></p>
                             <p class="big">						
 							{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
 								<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
@@ -265,6 +269,44 @@
        {{/each}}
 </script> 
 <script type="text/javascript">
+
+$('.wrapper-content').viewer();
+
+
+//通过复选框 设置全选 和  全不选
+function mycheck(a) {
+ 	 var temp = $("[name=materialCheck]:checkbox");//document.getElementsByName("love");
+	 if (a.checked == true) {
+  		for ( var i = 0; i < temp.length; i++) {
+   			var val = temp[i];
+   			val.checked = true;
+  			}
+ 	 }else{
+  		for ( var i = 0; i < temp.length; i++) {
+   		var val = temp[i];
+   		val.checked = false;
+  	}
+  }
+}
+//判断复选框是否选中
+function getCheck(){
+	var ids = ''; 
+	var flag = 0; 
+	$("#ids").attr("value",ids); 
+	$("input[name='materialCheck']:checkbox").each(function(){ 
+		if (true == $(this).attr("checked")) { 
+			ids += $(this).attr('value')+','; 
+			flag += 1; 
+		} 
+	}); 
+	if(flag > 0) { 
+		$("#ids").attr("value",ids); 
+		return true; 
+	}else { 
+		alert('请至少选择一项！'); 
+		return false; 
+	} 
+}
 
 </script>
 </content>

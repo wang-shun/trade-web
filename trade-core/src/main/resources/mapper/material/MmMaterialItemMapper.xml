@@ -308,7 +308,8 @@
     </trim>
   </insert>
   
- <update id="updateMaterialInfoByItemCode" parameterType="com.centaline.trans.material.entity.MmMaterialItem">
+
+ <update id="updateMaterialInfoByItemCode" parameterType="java.lang.String">
     update sctrans.T_MM_MATERIAL_ITEM
     <set>
       <if test="caseCode != null">
