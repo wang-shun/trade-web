@@ -1,10 +1,8 @@
 
 $(document).ready(function(){	    
 		//流程开启后只读表单
-		if($("#handle").val() != null && $("#handle").val() != '' && $("#handle").val() != 'SpvApply'){
+		if($("#handle").val() != '' && $("#handle").val() != 'SpvApply'){
 		    readOnlyRiskForm();
-		}else{
-			$(".delete").show();
 		}
 
 		$("select[name='toSpv.buyerPayment']").change(function(){
@@ -228,7 +226,6 @@ $(document).ready(function(){
 });
     
     function saveBtnClick(handle,SpvApplyApprove,type){
-debugger;
     	if(type == 'checkForSubmit' && handle == 'SpvApply'){
       	  if(!checkFormSubmit()){
         		  return false;
@@ -300,8 +297,8 @@ debugger;
 	 				    	 window.opener.location.reload(); //刷新父窗口
 	 			        	 window.close(); //关闭子窗口.
 	 				     }else{
-	 				    	 alert("数据保存成功！");
-				    	     window.location.reload();
+	 				    	 alert("保存资金监管签约成功！");
+	 				    	 window.location.href = ctx+"/spv/saveHTML?pkid="+data.content;
 				     }
 	 					 $.unblockUI();
 	 				},		
@@ -1042,6 +1039,7 @@ debugger;
     	$("select").prop("disabled",true);
     	$("#realName").prop("disabled",true);
     	$("input[id^='picFileupload']").prop("disabled",true);
+    	$(".delete").hide();
     }
     
     function getParentBank(selector,selectorBranch,finOrgCode){
