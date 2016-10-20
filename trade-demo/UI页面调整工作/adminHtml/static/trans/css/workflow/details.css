@@ -123,7 +123,7 @@ em, i {
 
 .view-box {
   clear: both;
-  height: 140px;
+  height: 110px;
   padding: 20px;
   overflow: hidden;
   overflow-y: scroll;
@@ -176,7 +176,7 @@ em, i {
 }
 .excuse {
     clear: both;
-    padding: 25px 30px;
+    padding: 25px 0px;
     font-family: "Microsoft Yahei";
 }
 .newstextone {
