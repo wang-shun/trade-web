@@ -139,6 +139,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO : spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayer("上海中原物业顾问有限公司");
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayerBank("光大银行市北支行");
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
 					cashFlows.add(spvCaseFlowOutInfoVO);
 				}
@@ -204,6 +206,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayer("上海中原物业顾问有限公司");
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayerBank("光大银行市北支行");
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
 					cashFlows.add(spvCaseFlowOutInfoVO);
 				}
