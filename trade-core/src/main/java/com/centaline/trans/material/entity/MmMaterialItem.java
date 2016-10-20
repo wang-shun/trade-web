@@ -26,9 +26,9 @@ public class MmMaterialItem {
     private String itemManager;
 
     private String itemAddrCode;
-
+    //业务描述
     private String itemBusinessRemark;
-
+    //备注
     private String itemRemark;
     //物品状态
     private String itemStatus;

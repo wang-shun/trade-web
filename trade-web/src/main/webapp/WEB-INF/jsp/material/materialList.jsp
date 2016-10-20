@@ -102,7 +102,7 @@
                  <div class="btn-left btn-left-space ml40">
                      <button type="button" class="btn btn-success btn-icon  mr5" id="searchButton"><i class="icon iconfont">&#xe635;</i> 查询</button>
                      <button type="reset" class="btn btn-grey mr5">清空</button>
-                     <a href="../spv/spvStorageConfirm.html" class="btn btn-toggle mr5">入库</a>
+                     <a href="#" class="btn btn-toggle mr5" id="storage">入库</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#myModal">借用</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#Return">归还</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5"
@@ -182,8 +182,10 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td> <input type="checkbox" class="i-checks" name="materialCheck"></td>
-						<td><p class="big"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></p>
+						<td> <input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}">							
+							 <input type='hidden' name='caseCodes' value="{{item.CASE_CODE}}">							
+						</td>
+						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank"  class="caseCodeForshow">{{item.CASE_CODE}}</a></p>
                             <p class="big">						
 							{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
 								<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
@@ -263,44 +265,6 @@
        {{/each}}
 </script> 
 <script type="text/javascript">
-
-$('.wrapper-content').viewer();
-
-
-//通过复选框 设置全选 和  全不选
-function mycheck(a) {
- 	 var temp = $("[name=materialCheck]:checkbox");//document.getElementsByName("love");
-	 if (a.checked == true) {
-  		for ( var i = 0; i < temp.length; i++) {
-   			var val = temp[i];
-   			val.checked = true;
-  			}
- 	 }else{
-  		for ( var i = 0; i < temp.length; i++) {
-   		var val = temp[i];
-   		val.checked = false;
-  	}
-  }
-}
-//判断复选框是否选中
-function getCheck(){
-	var ids = ''; 
-	var flag = 0; 
-	$("#ids").attr("value",ids); 
-	$("input[name='materialCheck']:checkbox").each(function(){ 
-		if (true == $(this).attr("checked")) { 
-			ids += $(this).attr('value')+','; 
-			flag += 1; 
-		} 
-	}); 
-	if(flag > 0) { 
-		$("#ids").attr("value",ids); 
-		return true; 
-	}else { 
-		alert('请至少选择一项！'); 
-		return false; 
-	} 
-}
 
 </script>
 </content>

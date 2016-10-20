@@ -308,7 +308,7 @@
     </trim>
   </insert>
   
- <update id="updateMaterialInfoByCaseCode" parameterType="java.lang.String">
+ <update id="updateMaterialInfoByItemCode" parameterType="java.lang.String">
     update sctrans.T_MM_MATERIAL_ITEM
     <set>
       <if test="caseCode != null">
