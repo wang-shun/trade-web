@@ -28,7 +28,7 @@ function approvalby(){
 		beforeSend:function(){  
          },
 		success : function(data) {
-			window.location.href = ctx+"/task/myTaskList";
+			rescCallbocak();
 		},complete: function() { 
 		},
 		error : function(errors) {
@@ -65,7 +65,7 @@ function turndown(){
 		beforeSend:function(){  
          },
 		success : function(data) {
-			window.location.href = ctx+"/task/myTaskList";
+			rescCallbocak();
 		},complete: function() { 
 		},
 		error : function(errors) {

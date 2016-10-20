@@ -76,6 +76,11 @@ public class ToEloanCase {
 	
 	private String remark;   // 情况说明
 	
+	private String status;  
+	
+	private String abanReason; 
+	
+	private Date abanTime;  
 	
 	public BigDecimal getChargeAmount() {
 		return chargeAmount;
@@ -363,6 +368,30 @@ public class ToEloanCase {
 
 	public void setProcessInstanceId(String processInstanceId) {
 		this.processInstanceId = processInstanceId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status == null ? null : status.trim();
+	}
+
+	public String getAbanReason() {
+		return abanReason;
+	}
+
+	public void setAbanReason(String abanReason) {
+		this.abanReason = abanReason == null ? null : abanReason.trim();
+	}
+
+	public Date getAbanTime() {
+		return abanTime;
+	}
+
+	public void setAbanTime(Date abanTime) {
+		this.abanTime = abanTime;
 	}
 
 }

@@ -23,6 +23,5 @@ public interface MmMaterialItemMapper {
 	List<MmMaterialItem> queryMmMaterialItemList();
 
 	void insertMaterialInfoFromSpv(MmMaterialItem mmMaterialItem);
-
 	int updateMaterialInfoByItemCode(String itemCode);
 }

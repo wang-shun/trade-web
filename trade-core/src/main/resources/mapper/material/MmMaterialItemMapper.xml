@@ -308,14 +308,12 @@
     </trim>
   </insert>
   
+
  <update id="updateMaterialInfoByItemCode" parameterType="java.lang.String">
     update sctrans.T_MM_MATERIAL_ITEM
     <set>
       <if test="caseCode != null">
         CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      </if>
-      <if test="itemCode != null">
-        ITEM_CODE = #{itemCode,jdbcType=VARCHAR},
       </if>
       <if test="itemName != null">
         ITEM_NAME = #{itemName,jdbcType=VARCHAR},

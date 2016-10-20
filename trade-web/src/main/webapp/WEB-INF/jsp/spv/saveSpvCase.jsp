@@ -619,7 +619,7 @@
 							    <input type="hidden" name="toSpvAccountList[2].accountType" value="SPV" />
 								<label for="" class="lable-one"><i style="color:red;">*</i> 托管账户名称</label> 
 								<select name="toSpvAccountList[2].name" <%-- value="${spvBaseInfoVO.toSpvAccountList[2].name }" --%> class="form-control input-two">
-								<option value="1">上海中原物业顾问有限公司</option>
+								<option value="上海中原物业顾问有限公司">上海中原物业顾问有限公司</option>
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">

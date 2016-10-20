@@ -191,7 +191,7 @@
                                         <td>
                                             <p>
                                                 <i class="sign_blue">
-                                                    {{item.STATUS}}
+                                                    {{item.status}}
                                                 </i>
                                             </p>
                                         </td>
@@ -209,6 +209,7 @@
                                                 <th>付款方式</th>
                                                 <th>付款人账户信息</th>
                                                 <th>收款人账户信息</th>
+                                                <th>结算时间</th>
                                             </tr>
                                             </thead>
                                             <tbody id="tbody{{item.PKID}}">

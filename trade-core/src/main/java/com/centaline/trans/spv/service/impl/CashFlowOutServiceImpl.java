@@ -86,10 +86,13 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception {
 		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
 		
+		spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+		
 		if(spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 					cashFlows.add(spvCaseFlowOutInfoVO);
 				}
 			}
@@ -136,6 +139,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO : spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayer("上海中原物业顾问有限公司");
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayerBank("光大银行市北支行");
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
 					cashFlows.add(spvCaseFlowOutInfoVO);
 				}
@@ -201,6 +206,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayer("上海中原物业顾问有限公司");
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayerBank("光大银行市北支行");
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
 					cashFlows.add(spvCaseFlowOutInfoVO);
 				}
@@ -334,6 +341,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
+					spvCaseFlowOutInfoVO.getToSpvCashFlow().setCloseTime(new Date());
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
@@ -501,6 +509,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	cashFlow.setFtPreAuditorName(ftPreAuditorName);
         	cashFlow.setFtPostAuditorName(ftPostAuditorName);
         	cashFlow.setCreateByName(cashFlow.getCreateBy() == null?null:uamSessionService.getSessionUserById(cashFlow.getCreateBy()).getRealName());
+        	cashFlow.setAmount(cashFlow.getAmount() == null?null:cashFlow.getAmount().divide(new BigDecimal(10000)));
         	if("in".equals(cashFlow.getUsage())){
         		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
         	}else if("out".equals(cashFlow.getUsage())){

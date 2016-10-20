@@ -152,6 +152,10 @@
     <bean name="qqcdDictyu_cash_direction" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_cash_direction"></property>
     </bean> 
+       <!-- 进出账方向 -->
+    <bean name="getCashFlowApplyStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetSpvCashFlowStatusServiceImpl">
+    	
+    </bean> 
     <!-- 根据组织id查询组织名称 -->
 	<bean name="qqcdOrgIdName" class="com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl">
     	<property name="prop" value="orgName"></property>

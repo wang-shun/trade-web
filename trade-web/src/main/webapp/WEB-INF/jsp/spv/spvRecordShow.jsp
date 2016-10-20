@@ -171,7 +171,7 @@
                                               </td>
                                                <td>
                                                   <div class="big">  
-                                                  <fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.inputTime }" pattern="yyyy-MM-dd"/>
+                                                  <fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptTime }" pattern="yyyy-MM-dd"/>
                                                   </div>
                                               </td>
                                           </tr>

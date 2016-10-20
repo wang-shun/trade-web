@@ -62,11 +62,12 @@
 									 tbodyhtml.html("");
 									 var htmlText="";
 									$.each(data.rows,function(i,item){
-										htmlText+="<tr><td>"+item.VOUCHER_NO+"</td>";
+										htmlText+="<tr><td><p class='big'>"+item.VOUCHER_NO+"</p></td>";
 										htmlText+="<td> <p class='big'>"+(item.AMOUNT>0?item.AMOUNT/10000:0)+"万元</p></td>";
 										htmlText+="<td> <p class='big'>"+item.DIRECTION+"</p></td>";
 										htmlText+="<td> <p>"+item.PAYER+"&nbsp;&nbsp;"+item.PAYER_ACC+"/"+item.PAYER_BANK+"</p></td>";
-										htmlText+="<td> <p>"+item.RECEIVER+"&nbsp;&nbsp;"+item.RECEIVER_ACC+"/"+item.RECEIVER_BANK+"</p></td></tr>";
+										htmlText+="<td> <p>"+item.RECEIVER+"&nbsp;&nbsp;"+item.RECEIVER_ACC+"/"+item.RECEIVER_BANK+"</p></td>";
+										htmlText+="<td> <p>"+item.INPUT_TIME+"</p></td></tr>";
 									})
 									 htmlText = htmlText.replace(new RegExp("undefined","g"),"");
 									 tbodyhtml.html(htmlText);	
@@ -100,7 +101,7 @@
 														}, {
 															colName : "物业地址"
 														}, {
-															colName : "创建"
+															colName : "申请"
 														}, {
 															colName : "审批状态"
 														} , {
