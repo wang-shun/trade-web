@@ -280,7 +280,10 @@ public class WarnListController {
 		
 		if("update".equals(action)){
 			return "/eloan/task/modifyEloanInfo";
-		}else{
+		}else if("invalid".equals(action)){
+			return "/eloan/task/taskEloanInvaild";
+		}
+		else{
 			return "/eloan/task/taskEloanDetail";
 		}
 		
@@ -392,6 +395,7 @@ public class WarnListController {
 		try {
 			if(StringUtils.isBlank(tEloanCase.getTaskId())) {
 				buildFCaseCode(tEloanCase);
+				tEloanCase.setStatus("VALID");
 				toEloanCaseService.saveEloanApply(user, tEloanCase);
 			} else {
 				toEloanCaseService.updateEloanApply(user, tEloanCase);
@@ -800,10 +804,10 @@ public class WarnListController {
 		return caseInfos;
 	}
 	
-	/*根据pkId删除案件*/
+	/*根据pkId删除，作废案件*/
 	@RequestMapping("deteleItem")
 	@ResponseBody
-	public AjaxResponse<ToEloanCase> deteleItem(Long pkid, ServletRequest request){
+	public AjaxResponse<ToEloanCase> deteleItem(Long pkid, String action, String content, ServletRequest request){
 		AjaxResponse<ToEloanCase> result = new AjaxResponse<>();
 		try {
 			ToEloanCase eloanCase=toEloanCaseService.getToEloanCaseByPkId(pkid);
@@ -813,18 +817,28 @@ public class WarnListController {
 				record.setCaseCode(eloanCase.getCaseCode());
 			    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
 				if(workFlow!=null){
-					workFlow.setStatus("4");
+				workFlow.setStatus("4");
 			    flowService.updateByPrimaryKey(workFlow);
-				toEloanCaseService.deleteById(eloanCase.getPkid());
-				 processInstanceService.deleteProcess(workFlow.getInstCode());
+				processInstanceService.deleteProcess(workFlow.getInstCode());
+				}if("aban".equals(action)){
+					eloanCase.setStatus("ABAN");
+					eloanCase.setAbanReason(content);
+					eloanCase.setAbanTime(new Date());
+					toEloanCaseService.eloanInfoForUpdate(eloanCase);
+				}else{
+					List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
+					toEloanCaseService.deleteById(eloanCase.getPkid());
+					if(eloanRels.size()>0){
+						toEloanRelService.deleteEloanRelByEloanCode(eloanCase.getEloanCode());
+					}
 				}
-			
 			}
 			result.setSuccess(true);
-			result.setMessage("删除成功!");
+			result.setMessage("操作成功!");
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setSuccess(false);
-			result.setMessage("删除失败!");
+			result.setMessage("操作失败!");
 		}
 		return result;
 	}

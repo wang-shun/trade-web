@@ -35,14 +35,17 @@
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
     <result column="CHARGE_AMOUNT" property="chargeAmount" jdbcType="DECIMAL" />
-    <result column="REMARK" property="remark" jdbcType="NVARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ABAN_REASON" property="abanReason" jdbcType="NVARCHAR" />
+    <result column="ABAN_TIME" property="abanTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, ELOAN_CODE, CASE_CODE, LOAN_SRV_CODE, FIN_ORG_CODE, CUST_NAME, CUST_PHONE, 
     APPLY_TIME, APPLY_AMOUNT, MONTH, SIGN_AMOUNT, SIGN_TIME, EXCUTOR_ID, EXCUTOR_TEAM, 
     EXCUTOR_DISTRICT, ZJ_NAME, ZJ_CODE, CO_NAME, CO_CODE, CO_PART, PD_CODE, PD_NAME, 
     PD_PART, APPLY_CONF_TIME, APPLY_CONF_USER, SIGN_CONF_TIME, SIGN_CONF_USER, IS_REL_FINISH, 
-    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,CHARGE_AMOUNT,REMARK
+    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,CHARGE_AMOUNT,REMARK,STATUS,ABAN_REASON,ABAN_TIME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -170,6 +173,9 @@
       <if test="remark != null" >
         REMARK,
       </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
         CREATE_TIME,
         CREATE_BY,
         UPDATE_TIME,
@@ -265,6 +271,9 @@
       </if>
        <if test="remark != null" >
         #{remark,jdbcType=NVARCHAR},
+      </if>
+       <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
       </if>
         GETDATE(),
         @{SESSION_USER_ID},
@@ -362,6 +371,15 @@
       <if test="createBy  != null" >
         CREATE_BY  = #{createBy ,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="abanReason  != null" >
+        ABAN_REASON  = #{abanReason ,jdbcType=NVARCHAR},
+      </if>
+      <if test="abanTime  != null" >
+        ABAN_TIME  = #{abanTime ,jdbcType=TIMESTAMP},
+      </if>
 <!--         CREATE_TIME = GETDATE(),
         CREATE_BY = @{SESSION_USER_ID}, -->
         UPDATE_TIME = GETDATE(),
@@ -456,6 +474,16 @@
       <if test="createBy  != null" >
         CREATE_BY  = #{createBy ,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="abanReason  != null" >
+        ABAN_REASON  = #{abanReason ,jdbcType=NVARCHAR},
+      </if>
+      <if test="abanTime  != null" >
+        ABAN_TIME  = #{abanTime ,jdbcType=TIMESTAMP},
+      </if>
+      
 <!--         CREATE_TIME = GETDATE(),
         CREATE_BY = @{SESSION_USER_ID}, -->
         UPDATE_TIME = GETDATE(),
@@ -551,6 +579,15 @@
       </if>
       <if test="createBy  != null" >
         CREATE_BY  = #{createBy ,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="abanReason != null" >
+        ABAN_REASON  = #{abanReason ,jdbcType=NVARCHAR},
+      </if>
+      <if test="abanTime  != null" >
+        ABAN_TIME  = #{abanTime ,jdbcType=TIMESTAMP},
       </if>
 <!--         CREATE_TIME = GETDATE(),
         CREATE_BY = @{SESSION_USER_ID}, -->

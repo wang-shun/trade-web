@@ -115,9 +115,6 @@
 			<div class="bonus-table "></div>
 		</div>
 	</div>
-	<!--                 <shiro:hasPermission name="TRADE.ELONE.DELETE">
-				    <button type="button" id="link_btn" onclick="deleteItem({{item.pkId}})" class="btn btn-success btn-blue">删除</button>
-                    </shiro:hasPermission>    -->
 	<!-- main End -->
 
 	<content tag="local_script"> <!-- Peity --> <script
@@ -210,8 +207,11 @@
                                       </shiro:hasPermission>
                                        <shiro:hasPermission name="TRADE.ELONE.DELETE">
                                        {{if item.taskKey =='EloanApply'}}
-                                      <li><a id="link_btn" onclick="deleteItem({{item.pkId}})">删除</a></li>{{/if}}
+                                      <li><a id="link_btn" onclick="deleteItem({{item.pkId}},'delete')">删除</a></li>{{/if}}
+                                       {{if item.taskKey !='EloanApply'&& item.applyTime!=undefined}}
+                                        <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=invalid">作废</a></li>{{/if}}
                                       </shiro:hasPermission>
+                                      
                                </ul>
                       </div>
                 </td>
@@ -239,16 +239,10 @@
 						    releaseTimeEnd:''
 						};
 						//删除
-						function deleteItem(pkid){
-							/* if(serviceJobCode != 'consultant') */
-					      var release=$("input[name="+pkid+"]").val();
-							var confim= confirm("确定要删除这条数据吗？")
+						function deleteItem(pkid,status){
+							var confim= confirm("确定要删除这条数据吗？")  
 							if(!confim){
 							return
-							}
-							if(release!=undefined&&release!=""){
-								alert("案件放款中，不能删除");
-								return;
 							}
 							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 							$.ajax({
@@ -257,7 +251,7 @@
 								type:"POST",
 								url:ctx+"/eloan/deteleItem",
 								dataType:'json',
-								data:{pkid:pkid},
+								data:{pkid:pkid,action:status},
 								success:function(data){
 										alert(data.message);
 										initData();//刷新列表
