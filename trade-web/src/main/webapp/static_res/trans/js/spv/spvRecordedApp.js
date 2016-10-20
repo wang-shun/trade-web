@@ -1,7 +1,4 @@
-$(function(){
-});
-$(window).load(function() {
-});
+
 var handle = $("#handle").val();
 var trindex = 0;
 var imageSum = 0;
@@ -106,6 +103,10 @@ function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 }
 //删除入账申请信息tr
 function getDel(k){
+	if($("input[name$='payerName']").size()==1){
+		alert("入账申请信息不能少于一行数据！");
+		return false;
+	}
     $(k).parents('tr').remove();
 }
 function removeImg(object,event){
@@ -119,6 +120,12 @@ function showImg(imgId){
 }
 //删除入账申请信息tr
 function getDelHtml(k,pkid){
+	
+	if($("input[name$='payerName']").size()==1){
+		alert("入账申请信息不能少于一行数据！");
+		return false;
+	}
+	
 	if(!confirm("是否删除！")){
 		  return false;
 	    }
