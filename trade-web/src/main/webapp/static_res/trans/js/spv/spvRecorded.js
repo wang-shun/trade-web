@@ -143,6 +143,23 @@ function checkFormSubmit(){
 		return false;
     }
     
+	var vouNoRepeatFlag = false;
+	$("input[name$='toSpvCashFlow.voucherNo']").each(function(i,e){
+		var voucherNo = $(e).val();
+		$("input[name$='toSpvCashFlow.voucherNo']").each(function(i_,e_){
+			var voucherNo_ = $(e_).val();
+			if(i != i_ && voucherNo == voucherNo_){
+				vouNoRepeatFlag = true;
+				return false;
+			}
+		});
+		});
+	
+	if(vouNoRepeatFlag){
+		alert("贷记凭证编号不能相同！");
+		return false;
+	}
+    
 	var directionFlag = true;	
 	var directionEle;
 	$("select[name$='toSpvCashFlow.direction']").each(function(i,e){

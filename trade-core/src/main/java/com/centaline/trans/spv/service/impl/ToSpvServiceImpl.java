@@ -914,7 +914,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		/**6.查询申请附件*/
 		List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList = toSpvCashFlowApplyAttachMapper.selectByCashFlowApplyId(cashFlowApplyId.toString());
-		
+		if(toSpvCashFlowApplyAttachList != null && !toSpvCashFlowApplyAttachList.isEmpty()){
+			spvChargeOutInfoVO.setToSpvCashFlowApplyAttachType(toSpvCashFlowApplyAttachList.get(0).getType());
+		}
 		/**装载属性*/
 		spvChargeOutInfoVO.setToSpvCashFlowApply(toSpvCashFlowApply);
 		spvChargeOutInfoVO.setToSpvAduitList(toSpvAduitList);
@@ -940,7 +942,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if(toSpvCashFlowApply.getPkid() == null){
 			toSpvCashFlowApply.setCreateBy(user.getId());
 			toSpvCashFlowApply.setCreateTime(new Date());
-			toSpvCashFlowApply.setStatus("0");
 			toSpvCashFlowApply.setIsDeleted("0");
 			toSpvCashFlowApplyMapper.insertSelective(toSpvCashFlowApply);
 		}else{
@@ -973,6 +974,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		for(ToSpvCashFlowApplyAttach attach : attachs){
 			attach.setUpdateBy(user.getId());
 			attach.setUpdateTime(new Date());
+			attach.setType(spvChargeInfoVO.getToSpvCashFlowApplyAttachType());
 			attach.setIsDeleted("1");
 			toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(attach);
 		}
@@ -983,7 +985,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 					if(toSpvCashFlowApplyAttach.getPkid() == null){
 						if(StringUtils.isNotBlank(toSpvCashFlowApplyAttach.getAttachId())){
 							toSpvCashFlowApplyAttach.setApplyId(toSpvCashFlowApply.getPkid().toString());
-							toSpvCashFlowApplyAttach.setType(toSpvCashFlowApplyAttach.getComment().substring(toSpvCashFlowApplyAttach.getComment().indexOf(".")+1, toSpvCashFlowApplyAttach.getComment().length()));
+							//toSpvCashFlowApplyAttach.setType(toSpvCashFlowApplyAttach.getComment().substring(toSpvCashFlowApplyAttach.getComment().indexOf(".")+1, toSpvCashFlowApplyAttach.getComment().length()));
 							toSpvCashFlowApplyAttach.setIsDeleted("0");
 							toSpvCashFlowApplyAttach.setCreateBy(user.getId());
 							toSpvCashFlowApplyAttach.setCreateTime(new Date());
