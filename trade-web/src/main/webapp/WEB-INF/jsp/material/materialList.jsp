@@ -153,7 +153,9 @@
 	<input type="hidden" id="userJobCode" value="${userJobCode}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
-  
+  	<form action="${ctx}/material/materialStorgae" accept-charset="utf-8" method="post" id="materialStorgaeForm">
+  		<input type="hidden" id="pkids" name="pkids" value="" />  		
+  	</form>
 <content tag="local_script"> 
 <!-- Mainly scripts -->
 <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
@@ -182,8 +184,13 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td> <input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}">							
-							 <input type='hidden' name='caseCodes' value="{{item.CASE_CODE}}">							
+						<td> 
+						{{if item.ITEM_STATUS != "stay"}}
+							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}"  disabled>		
+					
+						{{else}}	
+							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}">							
+						{{/if}}	
 						</td>
 						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank"  class="caseCodeForshow">{{item.CASE_CODE}}</a></p>
                             <p class="big">						
@@ -257,7 +264,7 @@
 						{{/if}}
                         </td>
 						 <td class="text-center">
-                            <a href="./materialDetail.jsp">
+                            <a href="${ctx}/material/materialDetail?pkid={{item.PKIDFORACTION}}">
                                <button type="button" class="btn btn-undertint btn-padding-3"><i class="icon iconfont color-corbule btn-look">&#xe63b;</i></button>
                             </a>
                         </td>

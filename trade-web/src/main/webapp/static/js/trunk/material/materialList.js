@@ -226,10 +226,12 @@ $("#storage").click(function(){
 	if(!caseCodeTheSameCheck()){
 		return false;
 	}	
-	
 	//请求后端数据
-	if(pkids){
-		var url = ctx+"/material/materialStorgae";
+	if(pkids){	
+		$("#pkids").val(pkids);
+		$("#materialStorgaeForm").submit();
+		
+/*		var url = ctx+"/material/materialStorgae";
 		$.ajax({
 			cache : false,
 			async : false,//false同步，true异步
@@ -237,28 +239,30 @@ $("#storage").click(function(){
 			url : url,
 			dataType : "json",
 			data : { "pkids" : pkids},
-/*			beforeSend : function() {
-				$.blockUI({
-					message : $("#salesLoading"),
-					css : {
-						'border' : 'none',
-						'z-index' : '9999'
-					}
-				});
-				$(".blockOverlay").css({
-					'z-index' : '9998'
-				});
-			},*/
-			success : function(data) {
-				//$.unblockUI();
-				console.log("===Result==="+JSON.stringify(data));
+       		beforeSend:function(){   			
+ 				$(".blockOverlay").css({'z-index':'9998'});
+             },
+  	        complete: function() {	                
+	                 if(status=='timeout'){ //超时,status还有success,error等值的情况
+		          	  Modal.alert(
+					  {
+					    msg:"抱歉，系统处理超时。"
+					  }); 
+			                } 
+			          } , 
+			success : function(data) {					
+				console.log("===Result==="+JSON.stringify(data));				
+				window.location.href = ctx+"/material/materialStorageConfirm";
 			},
 			error : function(errors) {
-			}
 			
-		});
+			}			
+		});*/
 	}
 })
+
+
+
 //验证勾选的复选框的caseCode
 function caseCodeTheSameCheck(){	
 	var flag=true;
