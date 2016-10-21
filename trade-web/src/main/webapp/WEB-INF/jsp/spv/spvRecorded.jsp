@@ -58,6 +58,7 @@
 
 <body >
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<input type="hidden" id="sum" value="0" >
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                     <div class="ibox-content space30" >

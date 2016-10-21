@@ -1,5 +1,6 @@
 
 var handle = $("#handle").val();
+var sum = parseInt($("#sum").val());
 var trindex = 0;
 var imageSum = 0;
 var imageSumb = 0;
@@ -7,6 +8,7 @@ var index = 0;
 
 //添加入账申请信息tr
 function getTR(thisIndex){
+	thisIndex = sum;
 	var nextIndex = thisIndex+1;
 	var  $str='';
 	$str+='<tr>                                                                                                                                                                                           ';
@@ -40,13 +42,17 @@ function getTR(thisIndex){
 	$str+='	<td> <div id="datepicker_'+thisIndex+'" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">';
 	$str+=' <input id="inputTime'+thisIndex+'" style="width:106px" name="items['+thisIndex+'].cashFlowCreateTime"class="form-control input-one" type="text" placeholder="入账日期"></div>' ;                                                                                                                                                                                     
 	$str+='	</td> ';
-	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
+	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+sum+')">添加</a>';
 	//if(thisIndex > 0){
 		$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
 	//}
 	$str+='</tr>                                                                                                                                                                                          ';
 	
 	$("#addTr").append($str);
+	
+	sum++;
+	$("#sum").val(sum);
+	
 	render_fileupload(thisIndex);
 	   // 日期控件
 	$("#datepicker_"+thisIndex).datepicker({

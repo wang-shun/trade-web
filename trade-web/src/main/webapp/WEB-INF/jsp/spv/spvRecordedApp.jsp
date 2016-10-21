@@ -58,6 +58,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<input type="hidden" id="sum" value="${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()}" >
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                    
@@ -120,7 +121,7 @@
 		                        <input type="hidden" name="prdCode" value="${spvBaseInfoVO.toSpv.prdCode==1?"光大四方资金监管":"" }" />
 		                        <input type="hidden" name="amount" value="${spvBaseInfoVO.toSpv.amount}" />
 		                        <input type="hidden" name="prAddr" value="${spvBaseInfoVO.toSpvProperty.prAddr}" />
-		                        <input type="hidden" name="spvAccountName" value=""上海中原物业顾问有限公司"" />
+		                        <input type="hidden" name="spvAccountName" value="上海中原物业顾问有限公司" />
 		                        <input type="hidden" name="spvAccountCode" value="${spvBaseInfoVO.toSpvAccountList[2].account}" />
 		                        <input type="hidden" name="spvAccountBank" value="光大银行市北支行" />
 		                         <%-- 流程相关 --%>
@@ -194,7 +195,7 @@
 														 </div>                                  
 	                                                 </td>    
 	                                                <td align="center">
-		                                               <a href="javascript:void(0)" onClick="getTR(${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()})">添加</span></a>
+		                                               <a href="javascript:void(0)" onClick="getTR(parseInt($('#sum').val()))">添加</span></a>
 		                                               <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
 	                                                </td>
 	                                            </tr>

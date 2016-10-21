@@ -2,16 +2,18 @@
  * 入账申请
  */
 $(function(){
-	$("#addTr").html(getTR(0));
+	$("#addTr").html(getTR(sum));
 });
 var handle = $("#handle").val();
 var trindex = 0;
 var imageSum = 0;
 var imageSumb = 0;
 var index = 0;
+var sum = parseInt($("#sum").val());
 
 //添加入账申请信息tr
 function getTR(thisIndex){
+	thisIndex = sum;
 	var nextIndex = thisIndex+1;
 	var  $str='';
 	$str+='<tr>                                                                                                                                                                                           ';
@@ -45,13 +47,15 @@ function getTR(thisIndex){
 	$str+='	<td> <div id="datepicker_'+thisIndex+'"  class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">';
 	$str+=' <input id="inputTime'+thisIndex+'" style="width:106px" name="items['+thisIndex+'].cashFlowCreateTime"class="form-control input-one" type="text" placeholder="入账日期"></div>' ;                                                                                                                                                                                     
 	$str+='	</td> ';
-	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+nextIndex+')">添加</a>';
+	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+sum+')">添加</a>';
 	if(thisIndex > 0){
 		$str+='  &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
 	}
 	$str+='</tr>                                                                                                                                                                                          ';
 	
 	$("#addTr").append($str);
+	sum++;
+	$("#sum").val(sum);
 
 	$('#fileupload_'+thisIndex).fileupload({
 		acceptFileTypes:'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i',
@@ -74,10 +78,8 @@ function getTR(thisIndex){
             	$('#td_file'+thisIndex).prepend($img);
             	//$('.wrapper-content').viewer();
             	imageSumb++;////记录完成上传附件的个数
-            	if(imageSum==imageSumb){
-            		$('.wrapper-content').viewer('destroy');
-            		$('.wrapper-content').viewer();
-            	}
+        		$('.wrapper-content').viewer('destroy');
+        		$('.wrapper-content').viewer();
         	}
         	
         },
