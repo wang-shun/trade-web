@@ -193,11 +193,17 @@ function ajaxSubmit() {
 	$("#schedualable tbody tr").remove();
 	var params = getParamsValue();
 	$.ajax({
+		async: true,
 		url:ctx+"/signroom/signRoomShedualList",
 		method:"post",
 		dataType:"json",
 		data : params,
+		beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
 		success:function(data){
+			
 			if(data.success){
 				var th='';
 				
@@ -271,7 +277,11 @@ function ajaxSubmit() {
 		    }else{
 		    	alert(data.message);
 		    }
-		}
+			$.unblockUI();
+		},
+		error: function (e, jqxhr, settings, exception) {
+        	$.unblockUI();   	 
+        }  
     });
 }
 
