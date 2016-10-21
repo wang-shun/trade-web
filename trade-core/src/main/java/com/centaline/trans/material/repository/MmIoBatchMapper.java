@@ -2,6 +2,7 @@ package com.centaline.trans.material.repository;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.material.entity.MmIoBatch;
+
 @MyBatisRepository
 public interface MmIoBatchMapper {
     int deleteByPrimaryKey(Long pkid);
@@ -14,5 +15,6 @@ public interface MmIoBatchMapper {
 
     int updateByPrimaryKeySelective(MmIoBatch record);
 
-    int updateByPrimaryKey(MmIoBatch record);
+    int updateByPrimaryKey(MmIoBatch record);    
+    
 }
