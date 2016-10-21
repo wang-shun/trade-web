@@ -23,64 +23,24 @@ $(document).ready(function(){
 
 });
 
-function checkFormSave(){
+function checkFormSubmit(){
 	
     if($("#toSpvCashFlowApplyAttachType").val() == null || $("#toSpvCashFlowApplyAttachType").val() == ''){
     	alert("请选择出账条件！");
     	return false;
     }
     
-    var payerFlg = true;
+    var payerFlag = true;
     $("select[name$='toSpvCashFlow.payer'] option:selected").each(function(i,e){
     	if($(e).val() == null || $(e).val() == ''){
-    		payerFlg = false;
+    		payerFlag = false;
     		return false;
     	}
     });
     
-    if(!payerFlg){
+    if(!payerFlag){
     	alert("请选择收款人姓名！");
     	return false;
-    }
-	
-	var amountFlag = true;
-	var amountEle;
-	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
-    	if($(e).val() != null && $(e).val() != ''){
-    		if(!isNumber($(e).val())){
-    		 amountFlag = false;
-    		 amountEle = $(e);
-			 return false;
-			 }
-    	} 
-	});
-	
-    if(!amountFlag){
-    	alert("请填写有效的出账金额！");
-	    changeClass(amountEle);
-		return false;
-    }
-    
-    return true;
-}
-
-function checkFormSubmit(){
-	
-	var payerFlag = true;
-	var payerEle;
-
-	$("input[name$='toSpvCashFlow.payer']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
-			 payerFlag = false;
-			 payerEle = $(e);
-			 return false;
-			 }
-		});
-	
-    if(!payerFlag){
-    	alert("请填写有效的付款人姓名！");
-	    changeClass(payerEle);
-		return false;
     }
     
 	var payerAccFlag = true;	
@@ -102,7 +62,7 @@ function checkFormSubmit(){
 	var payerBankFlag = true;
 	var payerBankEle;
 	$("input[name$='toSpvCashFlow.payerBank']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '')){
+		if($(e).val() == null || $(e).val() == ''){
 			 payerBankFlag = false;
 			 payerBankEle = $(e);
 			 return false;
