@@ -275,6 +275,8 @@
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+
+<input type="hidden" id="ctx" value="${ctx}" />
 <script>
 $(function() {
 	$('.icon_x').click(function(event){

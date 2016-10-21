@@ -183,19 +183,6 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		
 		/**1.查询申请*/
 		ToSpvCashFlowApply toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
-		/*ToSpvAduit toSpvAduit = new ToSpvAduit();
-		//toSpvAduit.setApplyId(spvRecordedsVO.getToSpvCashFlowApplyPkid());//流水ID
-		toSpvAduit.setApplyId(toSpvCashFlowApply.getPkid().toString());
-		toSpvAduit.setActProcId(taskId);//流程实例
-		toSpvAduit.setTaskDefKey(instCode);//流程节点
-		toSpvAduit.setTaskId(taskId);//任务ID
-		toSpvAduit.setOperator(user.getId());//操作人
-		toSpvAduit.setResult("入账申请提交");//审核结果
-		toSpvAduit.setContent("入账申请提交");//内容
-		toSpvAduit.setCreateBy(user.getId());
-		toSpvAduit.setCreateTime(new Date());
-		toSpvAduitMapper.insertSelective(toSpvAduit);//保存审核记录
-*/		
 		List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(toSpvCashFlowApply.getPkid());
 		if(null != toSpvCashFlowList)
 			for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
