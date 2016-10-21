@@ -155,7 +155,7 @@
                                                    {{item.CASHFLOW_APPLY_CODE}}
                                             </p>
 
-                                               <span >转账 <a class="hint hint-top " data-hint="凭证编号: {{item.VOUCHER_NO}}"  >凭证编号</a><span >
+                                               <span >转账  {{item.VOUCHER_NO}}<span >
                                         </td>
                                         <td>
                                              <p class="big">
