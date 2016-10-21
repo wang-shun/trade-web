@@ -67,7 +67,10 @@ function changeTaskAssignee(sendData){
 	});
 }
 $(document).ready(function() {
-
+			$("#subscribe").subscribeToggle({
+				moduleType:"1001",
+				subscribeType:"2001"
+			});
 			$("#sel_changeFrom option").each(function(){
 				var _this=$(this);
 				var taskDfKey=_this.val();
@@ -1583,4 +1586,6 @@ function caseReset(){
 		});
 	}
 }
+
+
 

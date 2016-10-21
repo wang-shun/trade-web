@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.common.repository.ToModuleSubscribeMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.ToModuleSubscribe">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="SUBSCRIBER_ID" jdbcType="VARCHAR" property="subscriberId" />
+    <result column="MODULE_CODE" jdbcType="VARCHAR" property="moduleCode" />
+    <result column="SUBSCRIBE_TYPE" jdbcType="VARCHAR" property="subscribeType" />
+    <result column="REMARK" jdbcType="LONGVARCHAR" property="remark" />
+    <result column="MODULE_TYPE" jdbcType="VARCHAR" property="moduleType" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, SUBSCRIBER_ID, MODULE_CODE, SUBSCRIBE_TYPE, REMARK, MODULE_TYPE, CREATE_TIME
+  </sql>
+
+  <insert id="saveModuleSubscribe" parameterType="com.centaline.trans.common.entity.ToModuleSubscribe">
+    insert into sctrans.T_TO_MODULE_SUBSCRIBE (SUBSCRIBER_ID, MODULE_CODE,
+    SUBSCRIBE_TYPE, REMARK,MODULE_TYPE, CREATE_TIME)
+    values (#{subscriberId,jdbcType=VARCHAR}, #{moduleCode,jdbcType=VARCHAR},
+    #{subscribeType,jdbcType=VARCHAR}, #{remark,jdbcType=NVARCHAR},#{moduleType,jdbcType=VARCHAR},getdate()
+   )
+  </insert>
+
+  <delete id="deleteModuleSubscribe" parameterType="com.centaline.trans.common.entity.ToModuleSubscribe">
+    delete from sctrans.T_TO_MODULE_SUBSCRIBE
+
+    where SUBSCRIBER_ID = #{subscriberId,jdbcType=VARCHAR}
+    and MODULE_CODE = #{moduleCode,jdbcType=VARCHAR}
+    and SUBSCRIBE_TYPE = #{subscribeType,jdbcType=VARCHAR}
+    and MODULE_TYPE = #{moduleType,jdbcType=VARCHAR}
+  </delete>
+
+  <select id="findByUserAndModule" resultType="com.centaline.trans.common.entity.ToModuleSubscribe">
+    select
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MODULE_SUBSCRIBE
+
+    where SUBSCRIBER_ID = #{subscriberId,jdbcType=VARCHAR}
+    and MODULE_CODE = #{moduleCode,jdbcType=VARCHAR}
+    and SUBSCRIBE_TYPE = #{subscribeType,jdbcType=VARCHAR}
+    and MODULE_TYPE = #{moduleType,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

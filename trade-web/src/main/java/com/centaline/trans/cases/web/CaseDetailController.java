@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.Resource;
+import com.centaline.trans.common.enums.*;
+import com.centaline.trans.common.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,23 +50,6 @@ import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToServChangeHistroty;
 import com.centaline.trans.common.entity.ToWorkFlow;
-import com.centaline.trans.common.enums.CasePropertyEnum;
-import com.centaline.trans.common.enums.DepTypeEnum;
-import com.centaline.trans.common.enums.LampEnum;
-import com.centaline.trans.common.enums.PrChannelEnum;
-import com.centaline.trans.common.enums.PropertyStatusEnum;
-import com.centaline.trans.common.enums.ToAttachmentEnum;
-import com.centaline.trans.common.enums.ToPropertyResearchEnum;
-import com.centaline.trans.common.enums.TransDictEnum;
-import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.common.enums.TransPositionEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.service.PropertyUtilsService;
-import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.TgServItemAndProcessorService;
-import com.centaline.trans.common.service.ToPropertyInfoService;
-import com.centaline.trans.common.service.ToServChangeHistrotyService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.vo.AgentManagerInfo;
 import com.centaline.trans.common.vo.BuyerSellerInfo;
 import com.centaline.trans.eloan.entity.ToEloanCase;
@@ -198,6 +183,10 @@ public class CaseDetailController {
 
 	@Autowired
 	UamPermissionService uamPermissionService;
+
+	//关注
+	@Autowired
+	ToModuleSubscribeService toModuleSubscribeService;
 
 	/**
 	 * 页面初始化
@@ -722,9 +711,10 @@ public class CaseDetailController {
 	 * @return
 	 */
 	@RequestMapping(value = "caseDetail")
-	public String caseDetail(Long caseId, ServletRequest request) {
+	public String caseDetail(Long caseId,ServletRequest request) {
 		if (caseId == null)
 			return "case/caseList";
+
 		CaseDetailShowVO reVo = new CaseDetailShowVO();
 		// TODO
 		// 基本信息
@@ -1309,7 +1299,9 @@ public class CaseDetailController {
 
 		//商贷预警信息
 		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(toCase.getCaseCode());
-		
+
+		//是否关注
+		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
 		request.setAttribute("isMortgageSelect", isMortgageSelect);
 		request.setAttribute("bizWarnInfo", bizWarnInfo);
 		request.setAttribute("isCaseManager", isCaseManager);
@@ -1336,6 +1328,9 @@ public class CaseDetailController {
 		request.setAttribute("toEloanCases", toEloanCases);
 		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
 		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
+		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
+		request.setAttribute("isSubscribe", isSubscribe);
+
 		return "case/caseDetail";
 	}
 	
