@@ -43,7 +43,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-			      SELECT sca.PKID, (select sum(sc.AMOUNT) FROM sctrans.T_TO_SPV_CASHFLOW sc where sca.PKID=sc.CASHFLOW_APPLY_ID ) amount,
+			      SELECT sca.PKID, (select sum(sc.AMOUNT) FROM sctrans.T_TO_SPV_CASHFLOW sc where sca.PKID=sc.CASHFLOW_APPLY_ID and sc.IS_DELETED=0 ) amount,
 			      sca.CASHFLOW_APPLY_CODE,
 			      sca.USAGE,
 			      sca.SPV_CODE,
@@ -129,7 +129,7 @@
 			       FROM sctrans.T_TO_SPV_CASHFLOW sc
   				   LEFT JOIN sctrans.T_TO_SPV_CASHFLOW_APPLY sca ON sc.CASHFLOW_APPLY_ID=sca.PKID
                    LEFT JOIN SCTRANS.T_TO_SPV_PROPERTY sp ON sc.SPV_CODE=sp.SPV_CODE
-                   where sca.IS_DELETED=0
+                   where sca.IS_DELETED=0 and sc.IS_DELETED=0
                       <if test="serviceJobCode == 'JYFKZY' ">
 			           and sca.APPLIER = #sessionUserId#
 			        </if>
@@ -190,7 +190,7 @@
                      sc.INPUT_TIME,
                      sc.AMOUNT
 			      FROM  sctrans.T_TO_SPV_CASHFLOW  sc
-                   where sc.CASHFLOW_APPLY_ID=#id#
+                   where sc.CASHFLOW_APPLY_ID=#id# and sc.IS_DELETED=0
 				]]>
 			</baseSql>
 		</searchSql>
