@@ -947,12 +947,10 @@
                     <div class="ibox-content border-bottom clearfix space_box">
                         <h2 class="title">资金流水列表</h2>
                         <form method="get" class="form_list">
-
-
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        放款类型
+                                        产品名称
                                     </label>
                                     <select class="select_control sign_right_one">
                                         <option value="">
@@ -965,7 +963,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        产品名称
+                                        放款类型
                                     </label>
                                     <select class="select_control sign_right_one">
                                         <option value="">
@@ -997,18 +995,19 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small select_style mend_select">
-                                        放款时间
-                                    </label>
-                                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd">
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
-                                        <input name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            贷款专员
+                                        </label>
+                                        <input class="sign_right_one input_type" placeholder="请输入" value="">
+                                        <div class="input-group float_icon organize_icon">
+                                            <i class="icon iconfont"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form_content">
+                                  <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        贷款编号
+                                        放款账号
                                     </label>
                                     <input class="teamcode input_type" placeholder="" value="">
                                 </div>
@@ -1018,22 +1017,39 @@
                                     <label class="control-label sign_left_small">
                                         物业地址
                                     </label>
-                                    <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="">
+                                    <input class="teamcode input_type" style="width:461px;" placeholder="请输入" value="">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        专员所在组
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="请输入" value="">
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
                                 </div>
                             </div>
-
                             <div class="line">
-                                <div  style="margin-left: 128px;">
+                                <div class="form_content mr30">
+                                    <label class="control-label sign_left_small select_style mend_select">
+                                        放款时间
+                                    </label>
+                                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd">
+                                        <input name="" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon">到</span>
+                                        <input name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
+                                    </div>
+                                </div>
+                                <div>
                                     <button type="button" class="btn btn-success btn-icon" id="mortgageInfoSearchButton">
                                         <i class="icon iconfont"></i> 查询
                                     </button>
                                     <button type="button" id="mortgageInfoToExcel" class="btn btn-success"
                                             onclick="javascript:mortgageInfoToExcel()">导出列表
                                     </button>
-                                    <button type="button" class="btn  btn-icon btn-toggle mr5" id="TypeBtn">
+                                    <button type="button" class="btn  btn-icon btn-toggle" id="TypeBtn">
                                     <i class="iconfont icon">&#xe63d;</i> 贷款报表
                                     </button>
-                                     <button type="button" class="btn  btn-icon btn-toggle mr5 "  id="TypeBtn2"><i class="iconfont icon">&#xe63f;</i>
+                                     <button type="button" class="btn  btn-icon btn-toggle "  id="TypeBtn2"><i class="iconfont icon">&#xe63f;</i>
                                         组织报表
                                     </button>
                                     <button type="button" class="btn btn-grey" id="mortgageInfoCleanButton">清空</button>
@@ -1057,6 +1073,7 @@
                                 </div>
                             </div>
                         </form>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -1066,62 +1083,65 @@
                                     <thead>
                                     <tr>
                                         <th>贷款编号</th>
-                                        <th>产品名称</th>
-                                        <th>物业地址</th>
-                                        <th>流水号</th>
-                                        <th>金额（万元）</th>
-                                        <th>借款人</th>
+                                        <th>借款金额</th>
+                                        <th>借款信息</th>
+                                        <th>放款账户</th>
                                         <th>放款机构</th>
-                                        <th>放款账号名称</th>
-                                        <th>放款账号</th>
-                                        <th>放款时间</th>
-                                        <th>确认状态</th>
+                                        <th>状态</th>
                                         <th>贷款专员</th>
-                                        <th>所在组</th>
                                     </tr>
                                     </thead>
                                     <tbody id="mortgageInfoList">
                                     <tr class="tr-1">
-                                        <td class="big"><a
-                                                href="#"
-                                                target="_blank">DK-201610-0017</a></td>
-                                        <td>
+                                        <td class="big">
                                             <p class="big">
-                                                及时雨
+                                                <a href="#" target="_blank">DK-201610-0017</a>
+                                            </p>
+                                            <p class="big">
+                                                中原地产贷款产品
                                             </p>
                                         </td>
                                         <td>
-                                            上海市长宁区区延安西路889号
+                                            <p class="smll_sign big">
+                                                  89万
+                                                </p>
+                                            <p class="smll_sign">
+                                                    <i class="sign_normal">放</i>2016-08-22
+                                                </p>
                                         </td>
                                         <td>
-                                            000010000
+                                            <p class="big blue-text">
+                                               上海市长宁区区延安西路889号
+                                            </p>
+                                            <p class="big">
+                                                借款人: 客户一
+                                            </p>
                                         </td>
                                         <td>
-                                            89
+                                            <p class="big">
+                                                4561515445484862248
+                                            </p>
+                                            <p class="big">
+                                                中原地产放款账户
+                                            </p>
                                         </td>
                                         <td>
-                                            <p>李晓明</p>
+                                           <p class="big">
+                                               中原地产放款机构
+                                           </p>
                                         </td>
                                         <td>
-                                            上海市广大银行
+                                            <p class="big">
+                                               未确认
+                                           </p>
                                         </td>
                                         <td>
-                                            上海市及时雨
-                                        </td>
-                                        <td>
-                                            6228481525125125125
-                                        </td>
-                                        <td>
-                                            2016-10-09 15:30
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0)">确认</a>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0)">赵公明</a>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0)">长宁区一组</a>
+                                            <p class="big blue-text">
+                                                金姣姣
+                                            </p>
+                                            <p class="big blue-text">
+                                                一组
+                                            </p>
                                         </td>
                                     </tr>
                                     </tbody>
