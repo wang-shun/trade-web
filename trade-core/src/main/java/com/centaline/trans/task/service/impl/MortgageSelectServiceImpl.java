@@ -180,12 +180,21 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			isNewFlow=true;
 		}
 		if(isNewFlow) {
-			doBusiness(vo);
-			
+			ActRuEventSubScr event = new ActRuEventSubScr();
+			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
+			event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
+			event.setProcInstId(vo.getProcessInstanceId());
+			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
+			if (CollectionUtils.isEmpty(subScrsList)) {
+				throw new BusinessException("当前流程下不允许变更贷款需求！");
+			}
 			String mortType = vo.getMortageService();
 			if(mortType==null) {
 				throw new BusinessException("请选择相应的贷款需求！");
 			}
+			doBusiness(vo);
+			
 			ToWorkFlow wf=new ToWorkFlow();
 			String processDfId=null;
 			wf.setCaseCode(vo.getCaseCode());
@@ -194,15 +203,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				List<RestVariable> variables = new ArrayList<RestVariable>();
 				editRestVariables(variables, vo.getMortageService());
 				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(),variables);
-				ActRuEventSubScr event = new ActRuEventSubScr();
-				event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
-				event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
-				event.setProcInstId(vo.getProcessInstanceId());
-				event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
-				List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
-				if (CollectionUtils.isEmpty(subScrsList)) {
-					throw new BusinessException("当前流程下不允许变更贷款需求！");
-				}
+				
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送消息
@@ -249,15 +250,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				toWorkFlowService.insertSelective(workFlow);
 			} 
 			
-			ActRuEventSubScr event = new ActRuEventSubScr();
-			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
-			event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
-			event.setProcInstId(vo.getProcessInstanceId());
-			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
-			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
-			if (CollectionUtils.isEmpty(subScrsList)) {
-				throw new BusinessException("当前流程下不允许变更贷款需求！");
-			}
+			
 		} else {
 			TaskHistoricQuery query =new TaskHistoricQuery();
 			query.setFinished(true);
