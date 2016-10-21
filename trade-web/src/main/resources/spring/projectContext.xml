@@ -367,6 +367,7 @@
     
     <!-- 根据交易历史表ID获取回访登记信息列表 -->
     <bean name="getReturnVisitList" class="com.centaline.trans.common.service.impl.QuickQueryGetReturnVisitListServiceImpl"></bean>
-    
+    <!-- 回访登记标记 -->
+    <bean name="getReturnVisitRemark" class="com.centaline.trans.common.service.impl.QuickQueryReturnVisitRemarkServiceImpl" />
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

@@ -68,6 +68,7 @@
                                     	<option value="">请选择</option>
                                         <option value="0">异常</option>
                                         <option value="1">正常</option>
+                                        <option value="2">未处理</option>
                                     </select>
                                 </div>
                             </div>
@@ -371,13 +372,28 @@
 						  {{if index1==0 && returnVisit.visitRemark=='0'}}
 							<span class="red_color">异常</span>
 						  {{/if}}
-					  
+						  {{if index1==0 && returnVisit.visitRemark=='1'}}
+							<span class="yes_color">正常</span>
+						  {{/if}}
 						{{/each}}
+						{{if item.returnVisitList.length==0}}
+							<span class="no_color">未处理</span>
+						{{/if}}
 					{{else if visitRemark=='0'}}
-						<span class="red_color">异常</span>
+						{{if item.returnVisitList.length>0}}
+							<span class="red_color">异常</span>
+						{{/if}}
+					{{else if visitRemark=='1'}}
+						{{if item.returnVisitList.length>0}}
+							<span class="yes_color">正常</span>
+						{{/if}}
+					{{else if visitRemark=='2'}}
+						{{if item.returnVisitList.length==0}}
+							<span class="no_color">未处理</span>
+						{{/if}}
 					{{/if}}
                     <a href="#">
-						<i class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;&nbsp;{{returnVisit.content}}<br/> {{/each}}"></i>
+						<i class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;{{returnVisit.content}}&nbsp;{{returnVisit.createTime}}<br/> {{/each}}"></i>
 					</a>
                 </td>
 				<td>
