@@ -167,7 +167,7 @@ function checkReceiptNo(){
 	var payerBankFlag = true;
 	var payerBankEle;
 	$("input[name$='payerBank']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isBankName($(e).val()))){
 			payerBankFlag = false;
 			payerBankEle = $(e);
 			return false;
@@ -470,6 +470,15 @@ function isName(name){
        return false; 
    }
    return true;
+}
+//银行验证(汉字和英文大小写)
+function isBankName(name){
+	name = name.replace(/\s/g,"");//去除中间空格
+	reg = /((^[\u4E00-\u9FA5]{1,30}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/;
+	if (!reg.test(name)) {
+		return false; 
+	}
+	return true;
 }
 //金额验证(两位小数)
 function isNumber(num){

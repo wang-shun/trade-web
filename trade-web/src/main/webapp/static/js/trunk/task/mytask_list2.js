@@ -17,6 +17,7 @@ $(document).ready(function() {
     	    data.queryId = "queryTaskListItemList";
     	    data.rows = 10;
     	    data.page = 1;
+			data.argu_sessionUserId = $("#userId").val();
     	    aist.wrap(data);
     		reloadGrid(data);
     		
@@ -181,6 +182,10 @@ function isRedFormatter(cellvalue) {
 }
 //search
 function searchMethod(page){
+	var isSubscribeFilter = $('#isSubscribeFilter option:selected').val();
+	if(isSubscribeFilter==null || isSubscribeFilter=='') {
+		isSubscribeFilter = -1;
+	}
 	//延迟天数范围
 	var minDateLamp=null;
 	var maxDateLamp=null;
@@ -248,6 +253,8 @@ function searchMethod(page){
 		page = 1;
 	}
 	var params = {
+			argu_sessionUserId : $("#userId").val(),
+			argu_isSubscribeFilter : isSubscribeFilter,
 			search_caseCode : caseCode,
 			search_ctmCode : ctmCode,
 			search_minDateLamp : minDateLamp,
@@ -291,6 +298,10 @@ function reloadGrid(data) {
 			  $("#myTaskList").html(myTaskList);
 			  // 显示分页 
               initpage(data.total,data.pagesize,data.page, data.records);
+			$("#myTaskList").subscribeToggle({
+				moduleType:"1001",
+				subscribeType:"2001"
+			});
         }
   });
 }

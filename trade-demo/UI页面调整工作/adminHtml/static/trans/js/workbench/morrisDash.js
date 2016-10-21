@@ -1,7 +1,6 @@
 $(function() {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
-
         // 指定图表的配置项和数据
         var option = {
             tooltip : {
@@ -11,7 +10,6 @@ $(function() {
                     type : 'shadow'       // 默认为直线，可选为：'line' | 'shadow'
                 },
             },
-
     //数据视图
     toolbox : {
             show : true,
@@ -94,6 +92,5 @@ $(function() {
 
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
-
 
 })

@@ -1,99 +1,133 @@
-var divIndex = 1;
+hide();
+var x = 1;
 function getAtr(i){
     $str='';
-    $str+= '<div class="line" id="addTr_' + divIndex + '">'
-                + '<div class="form_content">'
-                + '<label class="control-label sign_left_small mar24">抵押物品类别</label>'
-                + '<select name="" id="" class="select_control sign_right_one">'
-                + '<option value="">身份证</option>'
-                + '<option value="">银行卡</option>'
-                + '</select>'
-                + '</div>'
-                + '<div class="form_content">'
-                + '<label class="control-label sign_left_small mar24">抵押物品名称</label>'
-                + '<input type="text" placeholder="" class="select_control teamcode">'
-                + '</div>'
-                + '<a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a><a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
-                + '</div>'
+    $str+= '<div class="line" status="mark" id="addTr_' + x + '">'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">物品类别</label>'
+        + '<select name="" class="select_control sign_right_one mark" onclick="change(this)">'
+        + '<option value="0">请选择</option>'
+        + '<option value="1">身份证</option>'
+        + '<option value="2">银行卡</option>'
+        + '</select>'
+        + '</div>'
+        + '<a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a><a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
+        + '<div class="entry">'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">姓名</label>'
+        + '<input type="text" class="select_control sign_right_one">'
+        + '</div>'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">'
+            + '身份证号'
+        + '</label>'
+        + '<input type="text" class="select_control teamcode">'
+        + '</div>'
+        + '</div>'
+        + '<div class="entry">'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">'
+            + '户名'
+        + '</label>'
+        + '<input type="text" class="select_control sign_right_one">'
+        + '</div>'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">'
+            + '银行卡号'
+        + '</label>'
+        + '<input type="text" class="select_control teamcode">'
+        + '</div>'
+        +  '</div>'
+        + '</div>'
     $(".form_list").append($str);
-    divIndex++;
+    x++;
+}
+function getAdd(i){
+    $str='';
+    $str+= '<div class="line" status="mark" id="addTr_' + x + '">'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">物品类别</label>'
+        + '<select name="" class="select_control sign_right_one mark" onclick="change(this)">'
+        + '<option value="0">请选择</option>'
+        + '<option value="1">房地产权证</option>'
+        + '<option value="2">他项权利证</option>'
+        + '</select>'
+        + '</div>'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">'
+            + '物品名称'
+        + '</label>'
+        + '<input type="text" placeholder="" class="select_control teamcode">'
+        + '</div>'
+        + '<a href="javascript:void(0)" class="add_space" onclick="getAdd(this)">添加</a><a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
+        + '<div class="entry">'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">产权编号</label>'
+        + '<input type="text" class="select_control sign_right_one">'
+        + '</div>'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">'
+            + '产权人姓名'
+        + '</label>'
+        + '<input type="text" class="select_control teamcode">'
+        + '</div>'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">'
+            + '房屋地址'
+        + '</label>'
+        + '<input type="text" class="select_control teamcode">'
+        + '</div>'
+        + '</div>'
+        + '<div class="entry">'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">'
+            + '他证编号'
+        + '</label>'
+        + '<input type="text" class="select_control sign_right_one">'
+        + '</div>'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">'
+            + '他项权利人'
+        + '</label>'
+        + '<input type="text" class="select_control teamcode">'
+        + '</div>'
+        + '<div class="form_content">'
+        + '<label class="control-label sign_left_small mar24">'
+            + '房屋地址'
+        + '</label>'
+        + '<input type="text" class="select_control teamcode">'
+        + '</div>'
+        +  '</div>'
+        + '</div>'
+    $(".form_list").append($str);
+    x++;
 }
 
 function getDel(k){
-    $(k).parents('.line').remove();
-    divIndex--;
+    var status = $(k).parents('.line').attr("status");
+    console.log(status);
+    if(text = "mark" ) {
+         $(k).parents('.line').hide();
+    }
 }
 
-$(function() {
-
-/*开关按钮*/
-  $('[name="status"]').bootstrapSwitch({
-      onText:"已修改",
-      offText:"未修改",
-      onColor:"primary",
-      offColor:"default",
-      size:"small",
-      onSwitchChange:function(event,state){
-          if(state==true){
-              $(this).val("1");
-          }else{
-              $(this).val("2");
-          }
-      }
-  })
-
-
-  /*poshytip 提示框JS*/
-  //left
-    $('.demo-left').poshytip({
-      className: 'tip-twitter',
-      showTimeout: 1,
-      alignTo: 'target',
-      alignX: 'left',
-      alignY: 'center',
-      offsetX: 8,
-      offsetY: 5,
-    });
-
-    //right
-    $('.demo-right').poshytip({
-      className: 'tip-twitter',
-      showTimeout: 1,
-      alignTo: 'target',
-      alignX: 'right',
-      alignY: 'center',
-      offsetX: 8,
-      offsetY: 5,
-    });
-
-    //top
-    $('.demo-top').poshytip({
-      className: 'tip-twitter',
-      showTimeout: 1,
-      alignTo: 'target',
-      alignX: 'center',
-      alignY: 'top',
-      offsetX: 8,
-      offsetY: 5,
-    });
-
-    //bottom
-    $('.demo-bottom').poshytip({
-      className: 'tip-twitter',
-      showTimeout: 1,
-      alignTo: 'target',
-      alignX: 'center',
-      alignY: 'bottom',
-      offsetX: 8,
-      offsetY: 5,
-    });
-
-    //押卡信息登记添加删除效果
-
-
-
-
-
-})
+function change(boj) {
+    var $entry = $(boj).parents(".line").find(".entry");
+    var $mark = $(boj).val();
+    if ($mark == 0) {
+      $entry.hide();
+    }
+    if ($mark == 1) {
+      $entry.eq(0).show();
+      $entry.eq(1).hide();
+    }
+    if ($mark == 2) {
+      $entry.eq(1).show();
+      $entry.eq(0).hide();
+    }
+}
+function hide() {
+    $(".entry").hide();
+}
 
 

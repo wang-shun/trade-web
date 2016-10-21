@@ -25,7 +25,7 @@ var config = {
 
 // 查询
 $('#searchButton').click(function() {
-	searchMethod();
+	//searchMethod();
 });
 // 添加日期查询条件
 var divIndex = 1;

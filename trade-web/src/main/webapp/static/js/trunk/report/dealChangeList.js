@@ -39,24 +39,6 @@ function reloadGrid(page){
         success: function(data){
           $.unblockUI();
       	  data.visitRemark = visitRemark;
-      	  var rows = data.rows;
-      	  if(!visitRemark){
-      		  
-      	  }else{
-      		var arrayObj = new Array();
-      		for(var i=0;i<rows.length;i++){
-        		  var row = rows[i];
-        		  var returnVisitList = row.returnVisitList;
-        		  var arrayObj = new Array();
-        		  for(var j=0;j<returnVisitList.length;j++){
-        			  var returnVisit = returnVisitList[j];
-        			  if(returnVisit.visitRemark == visitRemark){
-        				  arrayObj.push(returnVisit);
-        			  }
-        		  }
-        		  row.returnVisitList = arrayObj;
-        	  }
-      	  }
       	  var dealChangeList = template('template_dealChangeList' , data);
 		  $("#dealChangeList").empty();
 		  $("#dealChangeList").html(dealChangeList);
@@ -310,10 +292,11 @@ function changeStyle(){
 function exportToExcel() {
 	var queryId = "queryTradeChangedCaseList";
 	var data = getParams();
+	console.log(data);
 	$.exportExcel({
 		ctx : "..",
 		queryId : queryId,
-		colomns : ['CASE_CODE','PROPERTY_ADDR','PART_CODE','OLD_EST_PART_TIME','EST_PART_TIME','REAL_NAME','CHANGE_TIME','CHANGE_REASON','DISTRICT_NAME','TEAM_NAME','SELLERANDPHONE','BUYERANDPHONE'],
+		colomns : ['CASE_CODE','PROPERTY_ADDR','PART_CODE','OLD_EST_PART_TIME','EST_PART_TIME','REAL_NAME','CHANGE_TIME','CHANGE_REASON','DISTRICT_NAME','TEAM_NAME','SELLERANDPHONE','BUYERANDPHONE','visitRemark','CONTENT','CREATE_TIME'],
 		data:data
 	});
 }
