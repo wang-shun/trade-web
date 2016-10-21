@@ -176,6 +176,20 @@ function checkFormSubmit(){
 		return false;
     }
     
+    var imgFlag = true;
+    $("td[id^='td_file']").each(function(i,e){
+    	var length = $(e).find("img").length;
+    	if(length == 0){
+    		imgFlag = false;
+    		return false;
+    	}
+    });
+    
+    if(!imgFlag){
+    	alert("需要上传至少一张附件！");
+    	return false;
+    }
+    
     return true;
 }
 
