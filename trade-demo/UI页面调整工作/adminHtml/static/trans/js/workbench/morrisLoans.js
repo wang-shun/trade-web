@@ -65,25 +65,6 @@ $(function() {
                 hideDelay: 1500,
                 formatter: "{b}: {c} ({d}%)"
             },
-               //数据视图
-           /* toolbox : {
-                    show : true,
-                orient : 'vertical',
-                    x: 'center',
-                    y:'bottom',
-                    feature : {
-                        dataView : {
-                            show : true,
-                            readOnly : false
-                        },
-                        restore : {
-                            show : true
-                        },
-                        saveAsImage : {
-                            show : true
-                        }
-                    }
-                },*/
 
             legend: {
                 orient: 'vertical',

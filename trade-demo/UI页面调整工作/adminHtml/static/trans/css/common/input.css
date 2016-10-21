@@ -80,6 +80,17 @@ em,i {
 h2, h3, h4, h5, p, button, table {
   font-family: "Microsoft Yahei";
 }
+.clearboth {
+  clear: both;
+}
+.title-mark {
+  padding-left: 6px!important;
+  border-left: 3px solid #00CFEC!important;
+  line-height: 18px!important;
+}
+ .entry {
+    clear: both;
+}
 .no-underline {
   text-decoration: none!important;
 }
@@ -89,7 +100,6 @@ h2, h3, h4, h5, p, button, table {
   font-size: 14px;
   overflow: hidden;
 }
-
 .form_list .form_content {
   position: relative;
   float: left;
@@ -622,4 +632,7 @@ input {
 .tip-inner {
   font-family: "Microsoft Yahei";
   line-height: 18px!important;
+}
+.entry {
+  display: none;
 }
