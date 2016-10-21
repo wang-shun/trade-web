@@ -16,12 +16,12 @@ public interface MmMaterialItemMapper {
 
     int updateByPrimaryKeySelective(MmMaterialItem record);
 
-    int updateByPrimaryKey(MmMaterialItem record);
-    
+    int updateByPrimaryKey(MmMaterialItem record);    
     
     //查询物品管理信息列表
 	List<MmMaterialItem> queryMmMaterialItemList();
 
 	void insertMaterialInfoFromSpv(MmMaterialItem mmMaterialItem);
-	int updateMaterialInfoByItemCode(String itemCode);
+	
+	int updateMaterialInfoByItemCode(MmMaterialItem mmMaterialItem);
 }
