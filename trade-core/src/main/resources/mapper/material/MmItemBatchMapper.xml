@@ -9,16 +9,26 @@
   <sql id="Base_Column_List" >
     PKID, BATCH_ID, ITEM_ID
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_MM_ITEM_BATCH
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  
+  <select id="queryMmItemBatchList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_MM_ITEM_BATCH
+   where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_MM_ITEM_BATCH
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  
   <insert id="insert" parameterType="com.centaline.trans.material.entity.MmItemBatch" >
     insert into sctrans.T_MM_ITEM_BATCH (PKID, BATCH_ID, ITEM_ID
       )

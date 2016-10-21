@@ -27,12 +27,17 @@ function reloadGrid(page){
 	data.page = page;
 	aist.wrap(data);
 	$.ajax({
-		async: false,
+		async: true,
         url:ctx+ "/quickGrid/findPage" ,
         method: "post",
         dataType: "json",
         data: data,
+        beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
         success: function(data){
+          $.unblockUI();
       	  data.visitRemark = visitRemark;
       	  var rows = data.rows;
       	  if(!visitRemark){
@@ -53,11 +58,16 @@ function reloadGrid(page){
         	  }
       	  }
       	  var dealChangeList = template('template_dealChangeList' , data);
-			  $("#dealChangeList").empty();
-			  $("#dealChangeList").html(dealChangeList);
-			  // 显示分页 
-              initpage(data.total,data.pagesize,data.page, data.records);
-        }
+		  $("#dealChangeList").empty();
+		  $("#dealChangeList").html(dealChangeList);
+		  
+		  // 显示分页 
+          initpage(data.total,data.pagesize,data.page, data.records);
+        },
+        error: function (e, jqxhr, settings, exception) {
+        	$.unblockUI();   	 
+        }  
+        
   });
 	//top
 	$('.demo-top').poshytip({

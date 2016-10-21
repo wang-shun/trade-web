@@ -8,10 +8,9 @@ public interface MmMaterialItemService {
 	
     List<MmMaterialItem> queryMmMaterialItemList();
     
-    void  insertMaterialInfoFromSpv(MmMaterialItem mmMaterialItem);
-    
+    void  insertMaterialInfoFromSpv(MmMaterialItem mmMaterialItem);    
 
-    int  updateMaterialInfoByItemCode(String itemCode);
+    int  updateMaterialInfoByItemCode(MmMaterialItem mmMaterialItem);
     
     MmMaterialItem queryMmMaterialByPkid(Long pkid);
 }

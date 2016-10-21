@@ -19,7 +19,6 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.entity.TradeCenter;
@@ -171,7 +170,7 @@ public class ReservationMobileController {
 		Reservation reservation = new Reservation();
 		reservation.setResNo(resNo);
 		reservation.setResType(reservationVo.getResType());
-		reservation.setResPersonId(reservationVo.getResPersonId());
+		reservation.setResPersonId(currentUser.getId());
 
 		Map<String, Object> map = new HashedMap<String, Object>();
 		map.put("pkid", reservationVo.getTradeCenterId());

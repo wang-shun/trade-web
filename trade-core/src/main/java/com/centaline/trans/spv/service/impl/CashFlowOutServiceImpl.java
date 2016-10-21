@@ -30,7 +30,10 @@ import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
@@ -59,6 +62,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	private TaskService taskService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private TsFinOrgService tsFinOrgService;
 		
 	@Autowired
 	private ToSpvMapper toSpvMapper;
@@ -139,8 +144,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO : spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
-					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayer("上海中原物业顾问有限公司");
-					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayerBank("光大银行市北支行");
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
 					cashFlows.add(spvCaseFlowOutInfoVO);
 				}
@@ -183,7 +186,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
 		List<TaskVo> taskList = pageableVo.getData();
 		for (TaskVo task : taskList) {
-			if ("CashflowOutApply".equals(task.getTaskDefinitionKey())) {
+			if ("CashFlowOutApply".equals(task.getTaskDefinitionKey())) {
 				taskService.complete(task.getId() + "");
 			}
 		}
@@ -206,8 +209,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			List<SpvCaseFlowOutInfoVO> cashFlows = new ArrayList<SpvCaseFlowOutInfoVO>();
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 				if(spvCaseFlowOutInfoVO.getToSpvCashFlow() != null){
-					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayer("上海中原物业顾问有限公司");
-					spvCaseFlowOutInfoVO.getToSpvCashFlow().setPayerBank("光大银行市北支行");
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(SpvCashFlowApplyStatusEnum.OUTINPROGRESS.getCode());
 					cashFlows.add(spvCaseFlowOutInfoVO);
 				}
@@ -378,7 +379,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
     	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv == null?null:toSpv.getPkid());
     	if(spvChargeInfoVO != null){       		
-        	divideTenThousand(spvChargeInfoVO);
         	List<ToSpvAduit> toSpvAduitList = spvChargeInfoVO.getToSpvAduitList();
         	if(toSpvAduitList != null && !toSpvAduitList.isEmpty()){
         		for(ToSpvAduit toSpvAduit:toSpvAduitList){
@@ -424,10 +424,34 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
                 }
     		}
     		
+    		//request.setAttribute("", spvBaseInfoVO.getToSpvDeDetailList().get(0).getPayeeAccountId());
     		request.setAttribute("deDetailMixList", deDetailMixList);
     	}
     	
+    	List<Map<String, String>> bankNameList = new ArrayList<Map<String, String>>();
+    	if(spvBaseInfoVO.getToSpvAccountList() != null && !spvBaseInfoVO.getToSpvAccountList().isEmpty()){
+    	for(ToSpvAccount account : spvBaseInfoVO.getToSpvAccountList()){
+    		if("SELLER".equals(account.getAccountType())){
+    			Map<String, String> map = new HashMap<String, String>();
+    			TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
+    			map.put("name", account.getName());
+    			map.put("account", account.getAccount());
+    			map.put("bankName", to != null?to.getFinOrgName():null);
+    			bankNameList.add(0, map);
+    		}else if("SPV".equals(account.getAccountType())){
+    			Map<String, String> map = new HashMap<String, String>();
+    			TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
+    			map.put("name", account.getName());
+    			map.put("account", account.getAccount());
+    			map.put("bankName", to != null?to.getFinOrgName():null);
+    			bankNameList.add(1, map);
+    		}
+    	   }
+    	 }
+
     	Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
+    	
+    	request.setAttribute("bankNameList", bankNameList);
     	request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
     	request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
     	request.setAttribute("totalCashFlowOutAmount", completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
@@ -509,12 +533,12 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	cashFlow.setFtPreAuditorName(ftPreAuditorName);
         	cashFlow.setFtPostAuditorName(ftPostAuditorName);
         	cashFlow.setCreateByName(cashFlow.getCreateBy() == null?null:uamSessionService.getSessionUserById(cashFlow.getCreateBy()).getRealName());
-        	cashFlow.setAmount(cashFlow.getAmount() == null?null:cashFlow.getAmount().divide(new BigDecimal(10000)));
         	if("in".equals(cashFlow.getUsage())){
         		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
         	}else if("out".equals(cashFlow.getUsage())){
         		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
         	}	
+        	
         	cashFlowNewList.add(cashFlow);
     	}
     	

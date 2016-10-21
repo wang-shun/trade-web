@@ -18,6 +18,7 @@ import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.material.entity.MmIoBatch;
 import com.centaline.trans.material.entity.MmItemBatch;
 import com.centaline.trans.material.entity.MmMaterialItem;
+import com.centaline.trans.material.service.MmIoBatchService;
 import com.centaline.trans.material.service.MmItemBatchService;
 import com.centaline.trans.material.service.MmMaterialItemService;
 
@@ -40,6 +41,10 @@ public class MaterialManagementController {
     
     @Autowired
     private MmItemBatchService mmItemBatchService;
+    
+    @Autowired
+    private MmIoBatchService mmIoBatchService;
+    
     
 	//物品管理列表页面
 	@RequestMapping("materialList")

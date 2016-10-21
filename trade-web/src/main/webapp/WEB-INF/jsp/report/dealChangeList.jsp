@@ -35,6 +35,7 @@
 </style>
     </head>
     <body>
+    <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
                 <!--*********************** HTML_main*********************** -->
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
@@ -341,6 +342,7 @@
         <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 		<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+		<script src="${ctx}/js/jquery.blockui.min.js"></script> 
       	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
         <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
