@@ -41,6 +41,10 @@ public class MaterialManagementController {
     @Autowired
     private MmItemBatchService mmItemBatchService;
     
+    @Autowired
+    private MmIoBatchService mmIoBatchService;
+    
+    
 	//物品管理列表页面
 	@RequestMapping("materialList")
 	public String spvList(HttpServletRequest request){

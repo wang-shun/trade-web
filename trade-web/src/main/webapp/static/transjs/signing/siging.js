@@ -61,10 +61,19 @@ $(function () {
 	//保存 临时分配数据
 	$("#saveBtn").click(function(){
 		
-  	   //添加时校验
-  	   if(!checkFormSave()){
+		var flag=false;
+		$('.choices span').each(function(){
+			if($(this).hasClass("selected") && $(this).prop("id")=='OpenRegularMeeting') {
+				flag = true;
+	        } 
+	    });
+		//添加时校验
+  	    if(!checkFormSave(flag)){
   		  return;
-  	   }
+  	    }
+		
+		
+  	   
   	   $("#propertyAddress").blur();
 	  	var caseCode = $("#caseCode").val();//案件编号
 	  	var agentCode = $("#jjrName").attr('hVal'); //预约人id
@@ -271,17 +280,19 @@ function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterI
 	
 }
 
-function checkFormSave(){
+function checkFormSave(isMeet){
 	
 	if($("#jjrName").val()==''){
 		alert("请选择经纪人！");
 		$("#jjrName").focus();
 		return false;
 	}
-	if($.trim($("#propertyAddress").val())==''){
-		alert("请输入交易地址！");
-		$("#propertyAddress").focus();
-		return false;
+	if(!isMeet){
+		if($.trim($("#propertyAddress").val())==''){
+			alert("请输入交易地址！");
+			$("#propertyAddress").focus();
+			return false;
+		}
 	}
 	if($.trim($("#numberOfParticipants").val())==''){
 		alert("请输入参与人数！");

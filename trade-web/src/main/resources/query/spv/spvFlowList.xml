@@ -38,6 +38,7 @@
 		    <condition field="sca.USAGE" name="usage" label="用途" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		    <condition field="sca.SPV_CODE" name="spvCode" label="监管合约编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="sca.APPLIER" name="applier" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="sca.CREATE_TIME" name="CREATE_TIME" label="申请时间" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -100,6 +101,7 @@
             <condition field="sp.PR_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 		    <condition field="sca.USAGE" name="usage" label="用途" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		    <condition field="sca.CASHFLOW_APPLY_CODE" name="cashFlowApplyCode" label="流水申请编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="sc.CREATE_TIME" name="CREATE_TIME" label="申请时间" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="sca.APPLIER" name="applier" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
@@ -108,6 +110,7 @@
 			       SELECT  sca.CASHFLOW_APPLY_CODE,
 			       sca.USAGE,
 			       sc.AMOUNT,
+			       sc.VOUCHER_NO,
 			       sc.PAYER,
 			       sc.PAYER_ACC,
 			       sc.PAYER_BANK,
@@ -116,7 +119,7 @@
 			       sc.RECEIVER_BANK,
 			       sc.CREATE_BY,
 			       sc.INPUT_TIME,
-			       sc.CLOSE_TIME,
+			       sc.CREATE_TIME,
 			       sc.STATUS,
 			       sp.PR_ADDR,
 			      sca.APPLIER,
@@ -143,10 +146,11 @@
 			<table-row>
 				<column type="both" name="PKID"  title="监管流水ID" index="" checkbox="" display="pkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 				<column type="both" name="AMOUNT"  title="金额" index="" checkbox="" display="amount" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="VOUCHER_NO"  title="凭证" index="" checkbox="" display="VOUCHER_NO" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASHFLOW_APPLY_CODE"  title="监管申请流水编号" index="" checkbox="" display="CASHFLOW_APPLY_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="USAGE" index=""  title="类别" checkbox="" display="USAGE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="INPUT_TIME" index="" title="创建时间" checkbox="" display="INPUT_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
-				<column type="both" name="CLOSE_TIME" index="" title="创建时间" checkbox="" display="CLOSE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
+				<column type="both" name="CREATE_TIME" index="" title="创建时间" checkbox="" display="CLOSE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_ADDR" index="" title="物业地址" checkbox="" display="PR_ADDR" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="STATUS" index="" title="状态" checkbox="" display="STATUS" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="PAYER" index="" title="付款人账号名称" checkbox="" display="PAYER" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
