@@ -235,6 +235,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutDirectorAduitDeal(HttpServletRequest request, String instCode, String taskId,String taskitem,
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeOutAppr)
 			throws Exception {
+		    
+		    multiplyTenThousand(spvChargeInfoVO);
 		    //更新申请状态
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTDIRECTORADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
@@ -268,6 +270,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutFinanceAduitDeal(HttpServletRequest request, String instCode, String taskId,String taskitem,
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeOutAppr)
 			throws Exception {
+		
+		    multiplyTenThousand(spvChargeInfoVO);
 		    //更新申请状态
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
@@ -301,6 +305,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutFinanceSecondAduitDeal(HttpServletRequest request, String instCode, String taskId,String taskitem,
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeOutAppr)
 			throws Exception {
+		    
+		    multiplyTenThousand(spvChargeInfoVO);
 		    //更新申请状态
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCE2ADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
@@ -336,6 +342,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		
 		    String spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
 		    
+		    multiplyTenThousand(spvChargeInfoVO);
 		    //更新申请状态
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
 		    toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
@@ -378,7 +385,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         
         ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
     	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv == null?null:toSpv.getPkid());
-    	if(spvChargeInfoVO != null){       		
+    	if(spvChargeInfoVO != null){
+    		//除万
+    		divideTenThousand(spvChargeInfoVO);
         	List<ToSpvAduit> toSpvAduitList = spvChargeInfoVO.getToSpvAduitList();
         	if(toSpvAduitList != null && !toSpvAduitList.isEmpty()){
         		for(ToSpvAduit toSpvAduit:toSpvAduitList){
@@ -532,11 +541,12 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	cashFlow.setApplyAuditorName(applyAuditorName);
         	cashFlow.setFtPreAuditorName(ftPreAuditorName);
         	cashFlow.setFtPostAuditorName(ftPostAuditorName);
+        	cashFlow.setAmount(cashFlow.getAmount() == null?null:cashFlow.getAmount().divide(new BigDecimal(10000)));
         	cashFlow.setCreateByName(cashFlow.getCreateBy() == null?null:uamSessionService.getSessionUserById(cashFlow.getCreateBy()).getRealName());
         	if("in".equals(cashFlow.getUsage())){
-        		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
+        		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}else if("out".equals(cashFlow.getUsage())){
-        		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:(cashFlow.getAmount().divide(new BigDecimal(10000))));
+        		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}	
         	
         	cashFlowNewList.add(cashFlow);

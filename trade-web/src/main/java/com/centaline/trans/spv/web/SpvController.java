@@ -863,7 +863,7 @@ public class SpvController {
             	cashFlowOutService.cashFlowOutFinanceSecondAduitProcess(request, source, instCode, taskId, handle, businessKey);
                 break;
             case "cashFlowOut":
-            	cashFlowOutService.cashFlowOutFinanceSecondAduitProcess(request, source, instCode, taskId, handle, businessKey);
+            	cashFlowOutService.cashFlowOutDealProcess(request, source, instCode, taskId, handle, businessKey);
                 break;
         	}
     		request.setAttribute("urlType", "myTask");
