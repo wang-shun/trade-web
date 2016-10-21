@@ -202,18 +202,6 @@
 		                        </div> 
 		                    </div>
 		                </div>
-		
-		                <div class="line clearfix" id="hzxm" style="overflow:visible;">
-		
-		                 <!--  <div class="form_content line34">
-		                      <label class="control-label sign_left_small"> 合作项目 </label> <span class=" " placeholder="" value="" >交易过户（除签约外）</span>
-		                  </div>
-		                         <div class="form_content">
-		                        <label class="control-label sign_left_small"> 合作顾问 </label>
-		                             <select name="" id="" class=" select_control data_style">
-		                        	<option value="">请选择</option></select>
-		                    </div> -->
-		                </div>
 		                </div>
                 <div class="line sourcebox">
                     <div class="form_content clearfix">
@@ -242,21 +230,31 @@
                         <input type="text" class="mendwidth input_type" id="content" name="content" value="${bizWarnInfo.content }" style="width:500px;">
                     </div>
                 </div>
+                
+                <div class="hr"></div>
+                
+                <div class="line clearfix" id="hzxm" style="overflow:visible;">
+		
+		                 <!--  <div class="form_content line34">
+		                      <label class="control-label sign_left_small"> 合作项目 </label> <span class=" " placeholder="" value="" >交易过户（除签约外）</span>
+		                  </div>
+		                         <div class="form_content">
+		                        <label class="control-label sign_left_small"> 合作顾问 </label>
+		                             <select name="" id="" class=" select_control data_style">
+		                        	<option value="">请选择</option></select>
+		                    </div> -->
+		        </div>
             </form>
 
             <div class="view-content" id="caseCommentList">
             </div>
-            
-          
 
            <div class="title">
                <strong style="font-weight:bold;">ctm附件</strong>
            </div>
             <div class="view-content">
-                <div class="news-box">
-                		<table id="gridTable" class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin"></table>
-	    				<div id="gridPager"></div>
-                </div>
+              	<table id="gridTable" class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin"></table>
+   				<div id="gridPager"></div>
             </div>
 
             <div class="form-btn">
@@ -345,12 +343,16 @@
 			        $(".marinfo,.alerted").hide();
 			        $("#btnSave").hide();
 			        $("#divContent").hide();
+			        $("#hzxm").hide();
+			        $(".hr").hide();
 					//isShow('isYouXiao', 'none');
 					//isShow('isShiXiao', '');
 				} else {/*有效案件*/
 					 $(".sourcebox").hide();
 			         $(".marinfo,.alerted").show();
 			         $("#btnSave").show();
+			         $("#hzxm").show();
+			         $(".hr").show();
 			         
 			         var businessLoanWarn =  $('input[name=businessLoanWarn]:checked').val(); 
 			         
@@ -369,11 +371,15 @@
 				$(".sourcebox").show();
 		        $(".marinfo,.alerted").hide();
 		        $("#divContent").hide();
+		        $("#hzxm").hide();
+		        $(".hr").hide();
 				//isShow('isYouXiao', 'none');
 				//isShow('isShiXiao', '');
 			} else {/*有效案件*/
 				 $(".sourcebox").hide();
 		         $(".marinfo,.alerted").show();
+		         $("#hzxm").show();
+		         $(".hr").show();
 			}
 			
 			/*加载默认基础服务和合作项目*/
@@ -428,7 +434,7 @@
 							txt = "<div class='form_content line34'><label class='control-label sign_left_small'> 合作项目 </label>";
 							txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/><span class='' placeholder='' value=''>" + data.dic.name + "</span></div>"
 							txt += "<div class='form_content'><label class='control-label sign_left_small'>合作顾问 </label>";
-							txt += "<select class='select_control data_style' name='unCrossCooperationUser' id='cooperationUser" + index + "'>";
+							txt += "<select class='select_control mendwidth' name='unCrossCooperationUser' id='cooperationUser" + index + "'>";
 							txt += "<option value='0'>----未选择----</option>";
 							
 							$.each(data.users, function(j, user){
@@ -491,7 +497,7 @@
 							//alert($('#coUser'+index).val());
 							
 							var chaxiangou = $("#cooperationUser" + index);
-							chaxiangou.chosen({no_results_text:"未找到该选项",width:"316px",search_contains:true,disable_search_threshold:10});
+							chaxiangou.chosen({no_results_text:"未找到该选项",width:"500px",search_contains:true,disable_search_threshold:10});
 
 				},
 				error : function(errors) {

@@ -10,7 +10,7 @@
 	var tempSource = '';
 	jQuery.fn.caseCommentGrid = function(options) {
 		
-		var templeteSource = '<div class="view-box" style="height:175px;">{{if rows.length>0}}'  
+		var templeteSource = '<div class="view-box" style="height:100px;">{{if rows.length>0}}'  
 			+'{{each rows as item index}}'
 			+ '<div class="view clearfix">'
 			+ '<p><span class="auditor">跟进人：<em>{{item.CREATE_BY}}({{item.jobName}})</em></span>'
@@ -26,8 +26,10 @@
 		var commentButton = '<div class="excuse clearfix">';
 		commentButton += '<input type="hidden" name="caseComment_caseCode" id="caseComment_caseCode"/>';
 		commentButton += '<input type="hidden" name="caseComment_srvCode" id="caseComment_srvCode"/>';
-		commentButton += '<div class="pull-left"><textarea class="chackTextarea" name="caseComment" id="caseComment"></textarea></div>';
-		commentButton += '<div class="pull-left"><button type="button" class="btn btn-icon btn-blue ml10" onclick="saveCaseComment()">提交跟进</button></div></div>';
+		commentButton += '<div class="form_list clearfix"><input class="input_type pull-left" name="caseComment" id="caseComment" placeholder="" value="" style="width:93%;">';
+		commentButton += '<button class="btn btn_more pull-right" style="width:60px;" onclick="saveCaseComment()">跟进</button>';
+		/*commentButton += '<div class="pull-left"><textarea class="chackTextarea" name="caseComment" id="caseComment"></textarea></div>';
+		commentButton += '<div class="pull-left"><button type="button" class="btn btn-icon btn-blue ml10" onclick="saveCaseComment()">提交跟进</button></div></div>';*/
 		$(this).after(commentButton);	
             
 		var commentTitile ='<div class="title mb20"><strong style="font-weight:bold;">案件跟进</strong></div>';
@@ -83,7 +85,7 @@ function saveCaseComment() {
 };
 
 function reloadGrid() {
-	var templeteSource = '<div class="view-box" style="height:175px;">{{if rows.length>0}}'  
+	var templeteSource = '<div class="view-box" style="height:100px;">{{if rows.length>0}}'  
 		+'{{each rows as item index}}'
 		+ '<div class="view clearfix">'
 		+ '<p><span class="auditor">跟进人：<em>{{item.CREATE_BY}}({{item.jobName}})</em></span>'

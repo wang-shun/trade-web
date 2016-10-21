@@ -94,8 +94,7 @@
 								 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeTr}' type='both' pattern='yyyy-MM-dd'/>">
 	                                </div>
 	                            </div>
-	                        </div>
-	                        <div class="line">
+	                        
 	                            <div class="form_content mt3">
 	                                <label class="control-label sign_left_small select_style mend_select">
 	                                   	<font color=" red" class="mr5" >*</font>预计过户时间
@@ -114,9 +113,7 @@
 											onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeLz}' type='both' pattern='yyyy-MM-dd'/>">
 	                                </div>
 	                            </div>
-	                        </div>
 	                        <c:if test="${dk}">
-		                        <div class="line">
 		                            <div class="form_content mt3">
 		                                <label class="control-label sign_left_small select_style mend_select">
 		                                   	<font color=" red" class="mr5" >*</font>预计放款时间
