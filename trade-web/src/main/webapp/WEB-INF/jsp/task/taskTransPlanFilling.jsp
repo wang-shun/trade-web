@@ -54,7 +54,7 @@
 
         <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
             <div>
-                <h2 class="newtitle">填写任务信息</h2>
+                <h2 class="newtitle title-mark">填写任务信息</h2>
                 <div class="form_list">
                 	<form method="POST" class="form-horizontal" id="transPlanForm">
                 		<%--环节编码 --%>
