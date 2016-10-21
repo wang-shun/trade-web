@@ -151,16 +151,11 @@
                              <tr>
                                         <td>
                                             <p class="big">
-                                                <a href="javascript:;">
+ 
                                                    {{item.CASHFLOW_APPLY_CODE}}
-                                                </a>
                                             </p>
-                                            <p>
-                                                转账
-                                                <a href="javascript:;" class="under font12">
-                                                    凭证编号
-                                                </a>
-                                            </p>
+
+                                               <span >转账 <a class="hint hint-top " data-hint="凭证编号: {{item.VOUCHER_NO}}"  >凭证编号</a><span >
                                         </td>
                                         <td>
                                              <p class="big">
@@ -177,13 +172,13 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p><span class="pink">付：</span>{{item.PAYER}}&nbsp;&nbsp;{{item.PAYER_ACC}}/{{item.PAYER_BANK}}</p>
-                                            <p><span class="navy">收：</span>{{item.RECEIVER}}&nbsp;&nbsp;{{item.RECEIVER_ACC}}/{{item.RECEIVER_BANK}}</p>
+                                            <span class="pink">付：</span> <a class="hint hint-top " data-hint="账户/银行： {{item.PAYER_ACC}}/{{item.PAYER_BANK}}">{{item.PAYER}}</a></br>
+                                            <span class="navy">收：</span><a class="hint hint-top " data-hint="账户/银行：{{item.RECEIVER_ACC}}/{{item.RECEIVER_BANK}}">{{item.RECEIVER}}</a>
                                         </td>
                                         <td>
                                             <p class="smll_sign">
                                                 <i class="sign_normal">录入</i>
-                                                <a href="javascript:void(0)">{{item.applyerName}}&nbsp;</a>{{item.INPUT_TIME}}
+                                                {{item.applyerName}}&nbsp;{{item.INPUT_TIME}}
                                             </p>
                                             {{if item.CLOSE_TIME!=nudefined}}
                                             <p class="smll_sign">
@@ -197,12 +192,12 @@
                                                 {{item.PR_ADDR}}
                                             </p>
                                             <p class="smll_sign">
-                                                                                                                                        审核人：<a href="javascript:void(0)">
+                                                                                                                                        审核人：
                                                 {{item.applyAuditorName}}
                                                 {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
 												{{item.ftPreAuditorName}}
 											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}
-											    {{item.ftPostAuditorName}}</a>
+											    {{item.ftPostAuditorName}}
                                             </p>
                                         </td>
                                     </tr>
