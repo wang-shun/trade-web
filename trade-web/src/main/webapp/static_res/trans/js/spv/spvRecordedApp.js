@@ -160,12 +160,11 @@ function getDelHtml(k,pkid){
 //提交
 function sumbitRe(){
 	
-	if(!confirm("是否确定重新提交申请！")){
-		  return false;
-	}
-		
 	if(!checkSumbitHtml()){
 		return;
+	}
+	if(!confirm("是否确定重新提交申请！")){
+		  return false;
 	}
 	
 	$('#chargeInAppr').val(true);

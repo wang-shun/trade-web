@@ -351,15 +351,12 @@ function checkSumbitHtml(){
 }
 //提交
 function sumbitRe(){
-
-	if(!confirm("是否确定提交申请，开启流程！")){
-	  return false;
-    }
-	
 	if(!checkSumbitHtml()){
 		return;
 	}
-		
+	if(!confirm("是否确定提交申请，开启流程！")){
+	  return false;
+    }
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
 	//console.log(data);
