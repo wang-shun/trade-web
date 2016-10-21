@@ -25,13 +25,16 @@
         <link rel="stylesheet" href="${ctx}/css/common/table.css" />
         <link rel="stylesheet" href="${ctx}/css/common/input.css" />
         <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
-
+		<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
         <!-- 提示 -->
-        <link rel="stylesheet" href="${ctx}/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" />
+        <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" />
+        <style>
+    .add {
+        border: 1px solid red;
+    }
+</style>
     </head>
     <body>
-        <div id="wrapper">
-            <div id="page-wrapper" class="gray-bg">
                 <!--*********************** HTML_main*********************** -->
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
@@ -50,7 +53,8 @@
                                     <label class="control-label sign_left_small">
                                         所在组
                                     </label>
-                                    <input class="teamcode input_type" placeholder="" value="" />
+                                    <input type="text" readonly="readonly" class="teamcode input_type" id="teamId" name="teamId" hVal="" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
+                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";>
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
@@ -60,8 +64,9 @@
                                         回访标记
                                     </label>
                                     <select name="visitRemark" id="visitRemark" class="select_control selwidth ">
-                                        <option value="">异常</option>
-                                        <option value="">正常</option>
+                                    	<option value="">请选择</option>
+                                        <option value="0">异常</option>
+                                        <option value="1">正常</option>
                                     </select>
                                 </div>
                             </div>
@@ -70,7 +75,7 @@
                                     <label class="control-label sign_left_small">
                                         变更人
                                     </label>
-                                    <input class="teamcode input_type" placeholder="" value="" />
+                                    <input class="teamcode input_type" name="changeId" id="changeId" hVal="${changeId }" placeholder=""  readonly="readonly" placeholder="" value="" onclick="chooseChanger('${serviceDepId}')">
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
@@ -81,8 +86,8 @@
                                         变更时间
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                                        <input name="changeTimeStart" id="changeTimeStart" class="form-control data_style" type="text" value="${defaultDate }" placeholder="起始时间"> <span class="input-group-addon">到</span>
-                                        <input  name="changeTimeEnd" name="changeTimeEnd" class="form-control data_style" type="text" value="${defaultDate }" placeholder="结束日期">
+                                        <input name="changeTimeStart" id="changeTimeStart" class="form-control data_style" type="text" value="${curMonthStart }" placeholder="起始时间"> <span class="input-group-addon">到</span>
+                                        <input  name="changeTimeEnd" name="changeTimeEnd" class="form-control data_style" type="text" value="${curMonthEnd }" placeholder="结束日期">
                                     </div>
                                 </div>
                             </div>
@@ -93,30 +98,27 @@
                                     <label class="control-label sign_left_small">
                                         环节名称
                                     </label>
-                                    <select name="partCode" id="partCode" class="select_control selwidth ">
-                                        <option value="">请选择</option>
-                                        <option value="">e+金融贷款</option>
-                                    </select>
+                                    <aist:dict id="partCode" name="partCode" clazz="select_control selwidth " display="select" dictType="part_code" defaultvalue="" />
                                 </div>
 
                                  <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         产证地址
                                     </label>
-                                    <input class="teamcode input_type" style="width:435px;" placeholder="" value="" />
+                                    <input name="propertyAddr" id="propertyAddr" class="teamcode input_type" style="width:435px;" placeholder="" value="" />
                                 </div>
                             </div>
 
                             <div class="line">
                                 <div class="add_btn" style="margin-left:126px;">
-                                    <button type="button" class="btn btn-success">
+                                    <button type="button" class="btn btn-success" id="searchBtn">
                                         <i class="icon iconfont">&#xe635;</i>
                                         查询
                                     </button>
-                                    <button type="button" class="btn btn-success">
+                                    <button type="button" class="btn btn-success" onclick="javascript:exportToExcel()">
                                         导出列表
                                     </button>
-                                    <button type="reset" class="btn btn-grey">
+                                    <button type="reset" class="btn btn-grey" id="clearBtn">
                                         清空
                                     </button>
                                 </div>
@@ -130,7 +132,7 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                <span>案件编码</span><a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                                <span class="sort" sortColumn="T.CASE_CODE" sord="desc" onclick="changeStyle();">案件编码</span><i id="flag" class="fa fa-sort-desc fa_down"></i>
                                             </th>
 
                                             <th>
@@ -153,7 +155,7 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="dealChangeList">
                                         <tr>
                                             <td>
                                                 <p class="big">
@@ -206,83 +208,18 @@
                                 </table>
                                 <div class="text-center page_box">
                                     <span id="currentTotalPage">
-                                        <strong>
-                                            1/8
+                                        <strong class="bold">
                                         </strong>
                                     </span>
-                                    <span class="ml15">
-                                        共
-                                        <strong id="totalP">
-                                            144
-                                        </strong>
-                                        条
+                                    <span class="ml15">共
+                                        <strong class="bold" id="totalP">
+                                        </strong>条
                                     </span>
                                     &nbsp;
                                     <div id="pageBar" class="pagination text-center">
-                                        <ul class="pagination">
-                                            <li class="first disabled">
-                                                <a href="#"><i class="fa fa-step-backward"></i></a>
-                                            </li>
-                                            <li class="prev disabled">
-                                                <a href="#"><i class="fa fa-chevron-left"></i></a>
-                                            </li>
-                                            <li class="page active">
-                                                <a href="#">
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li class="page">
-                                                <a href="#">
-                                                    2
-                                                </a>
-                                            </li>
-                                            <li class="page">
-                                                <a href="#">
-                                                    3
-                                                </a>
-                                            </li>
-                                            <li class="page">
-                                                <a href="#">
-                                                    4
-                                                </a>
-                                            </li>
-                                            <li class="page">
-                                                <a href="#">
-                                                    5
-                                                </a>
-                                            </li>
-                                            <li class="page">
-                                                <a href="#">
-                                                    6
-                                                </a>
-                                            </li>
-                                            <li class="page">
-                                                <a href="#">
-                                                    7
-                                                </a>
-                                            </li>
-                                            <li class="page">
-                                                <a href="#">
-                                                    8
-                                                </a>
-                                            </li>
-                                            <li class="next">
-                                                <a href="#"><i class="fa fa-chevron-right"></i></a>
-                                            </li>
-                                            <li class="last">
-                                                <a href="#"><i class="fa fa-step-forward"></i></a>
-                                            </li>
-                                        </ul>
-                                        <div class="pagergoto">
-                                            <span class="go_text">
-                                                跳转至
-                                            </span>
-                                            <span>
-                                            <input type="text" class="go_input" value="">
-                                            <input type="button" class="go_btn" value="GO"></span>
-                                        </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -300,13 +237,13 @@
                                                 <label>
                                                    案件编号
                                                 </label>
-                                                <span class="info_one">SH20160906001</span>
+                                                <span class="info_one" id="case_code"></span>
                                             </p>
                                             <p>
                                                 <label>
                                                     案件地址
                                                 </label>
-                                                <span>上海市长宁区延安西路889号1弄202</span>
+                                                <span id="property_addr"></span>
                                             </p>
                                         </div>
                                         <div class="line">
@@ -314,19 +251,19 @@
                                                 <label>
                                                     变更人
                                                 </label>
-                                                <span class="info_one">李明<em class="ml5 blue-text">13468868686</em></span>
+                                                <span class="info_one" ><span id="change_name"></span><em class="ml5 blue-text" id="change_mobile"></em></span>
                                             </p>
                                             <p>
                                                 <label>
                                                     环节
                                                 </label>
-                                                <span>过户</span>
+                                                <span id="part_code"></span>
                                             </p>
                                             <p>
                                                 <label>
                                                     贵宾服务部
                                                 </label>
-                                                <span class="info">杨浦区贵宾服务部A组</span>
+                                                <span class="info" id="team_name"></span>
                                             </p>
 
                                         </div>
@@ -335,28 +272,21 @@
                                                 <label>
                                                     变更原因
                                                 </label>
-                                                <span>变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因</span>
+                                                <span id="change_reason"></span>
                                             </p>
                                         </div>
                                         <div class="line">
-                                            <p>
+                                            <p id="seller">
                                                 <label>
                                                     上家
                                                 </label>
-                                                <span class="mr10">赵水法<em class="ml5 blue-text">1587515787</em></span>
-                                                <span class="mr10">宋公明<em class="ml5 blue-text">1587515787</em></span>
-                                                <span class="mr10">石阡<em class="ml5 blue-text">1587515787</em></span>
                                             </p>
                                         </div>
                                         <div class="line">
-                                            <p>
+                                            <p id="buyer">
                                                 <label>
                                                     下家
                                                 </label>
-                                                <span class="mr10">柘城<em class="ml5 blue-text">1385515787</em></span>
-                                                <span class="mr10">郑爽<em class="ml5 blue-text">1385515787</em></span>
-                                                <span class="mr10">李松<em class="ml5 blue-text">1385515787</em></span>
-
                                             </p>
                                         </div>
                                     </div>
@@ -369,11 +299,11 @@
                                     </label>
                                     <div class="checkbox i-checks radio-inline sign sign_right">
                                         <label>
-                                            <input type="radio" value="1" name="status" checked="">
+                                            <input type="radio" value="1" name="remark_visit" checked="">
                                                 正常
                                         </label>
                                         <label>
-                                            <input type="radio" value="2" name="status">
+                                            <input type="radio" value="0" name="remark_visit">
                                                 异常
                                         </label>
                                     </div>
@@ -385,12 +315,12 @@
                                         <label class="control-label sign_left_small pull-left">
                                             回访跟进
                                         </label>
-                                        <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" name="" id="" cols="30" rows="10"></textarea>
+                                        <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" name="content" id="content" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                                 <div class="line">
                                     <div class="add_btn text-center" style="margin:15px 126px;">
-                                        <button type="button" class="btn btn-success">
+                                        <button type="button" class="btn btn-success" id="submitBtn">
                                             提交
                                         </button>
                                         <button type="reset" class="btn btn-grey" data-dismiss="modal">
@@ -403,25 +333,112 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" id="ctx" value="${ctx }"> 
+                <input type="hidden" id="historyId" value="" />
                 <!--*********************** HTML_main*********************** -->
-            </div>
-        </div>
-<style>
-    .add {
-        border: 1px solid red;
-    }
-</style>
-        <!-- Custom and plugin javascript -->
-        <script src="${ctx}/js/inspinia.js"></script>
-        <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
-
-        <!-- 提示 -->
+        <content tag="local_script">
+        <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+		<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+      	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+		<!-- 提示 -->
         <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
         <script src="${ctx}/js/poshytitle/src/jquery.poshytipuser.js"></script>
-
-
-        <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-        <script>
+        
+        <script src="${ctx}/js/trunk/report/dealChangeList.js?v=1.1"></script>
+        <script id="template_dealChangeList" type="text/html">
+      {{each rows as item index}}
+  		   {{if index%2 == 0}}
+ 				<tr class="tr-1">
+           {{else}}
+                <tr class="tr-2">
+           {{/if}}
+				<td>
+                    <p class="big">
+                       <a href="javascript:;">
+                           {{item.CASE_CODE}}
+                       </a>
+                    </p>
+					{{if visitRemark==''}}
+						{{each item.returnVisitList as returnVisit index1}}
+ 					  
+						  {{if index1==0 && returnVisit.visitRemark=='0'}}
+							<span class="red_color">异常</span>
+						  {{/if}}
+					  
+						{{/each}}
+					{{else if visitRemark=='0'}}
+						<span class="red_color">异常</span>
+					{{/if}}
+                    <a href="#">
+						<i class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;&nbsp;{{returnVisit.content}}<br/> {{/each}}"></i>
+					</a>
+                </td>
+				<td>
+                    <p>
+                        <i class="sign_blue">{{ item.PART_CODE }}</i>
+                    </p>
+                    <p class="big">{{item.PROPERTY_ADDR}}</p>
+                </td>
+				<td>
+                    <p class="manager"><span>上家:</span>
+					 {{ if item.SELLER !="" && item.SELLER !=null }}
+						   {{if item.SELLER.split("/").length >1}}
+								<a href="#" class="mr5 demo-top" title="{{item.SELLER}}">{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}</a>
+							{{else}}
+								<a href="#" class="mr5" >{{item.SELLER}}</a>
+							{{/if}}
+					{{/if}}
+					</p>
+                    <p class="manager"><span>下家:</span>
+					{{ if  item.BUYER !=null && item.BUYER !="" }}
+						   {{if item.BUYER.split("/").length >1}}
+								<a href="#" class="mr5 demo-top" title="{{item.BUYER}}">{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}</a>
+							{{else}}
+								<a href="#" class="mr5" >{{item.BUYER}}</a>
+							{{/if}}
+					{{/if}}
+					</p>
+                </td>
+				<td>
+                    <p class="smll_sign">
+                         <i class="sign_normal">原预计</i>
+                         {{item.OLD_EST_PART_TIME}}
+                    </p>
+                    <p class="smll_sign">
+                         <i class="sign_normal">新预计</i>
+                         {{item.EST_PART_TIME}}
+                    </p>
+                 </td>
+                 <td>
+                     <p class="manager"><i class="sign_normal">原因</i>
+						<span class="demo-top" title="{{item.CHANGE_REASON}}">
+							{{if item.CHANGE_REASON !=null && item.CHANGE_REASON.length>10 }}
+									{{item.CHANGE_REASON.substring(1,10)}}...
+							{{else}}
+									{{item.CHANGE_REASON}}
+							{{/if}}
+						</span>
+					 </p>
+                     <p class="smll_sign">
+                      {{item.CHANGE_TIME}}
+                     </p>
+                 </td>
+				<td>
+                     <p class="manager"><span>变更人:</span><a href="#" class="mr5">{{item.REAL_NAME}}</a></p>
+                     <p>{{item.TEAM_NAME}}</p>
+                </td>
+                <td class="text-center">
+                     <button class="btn btn-success" data-toggle="modal" data-target="#myModal" onclick="doDeal('{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.REAL_NAME+','+item.MOBILE}}','{{item.PART_CODE}}','{{item.TEAM_NAME}}','{{item.CHANGE_REASON}}','{{item.SELLERANDPHONE}}','{{item.BUYERANDPHONE}}','{{item.historyId}}')">处理</button>
+                </td>
+		   </tr>
+       {{/each}}
+	</script>  
+    <script>
             $(document).ready(function () {
 
                 $('.input-daterange').datepicker({
@@ -432,6 +449,6 @@
             });
 
         </script>
-
+		</content>
     </body>
 </html>

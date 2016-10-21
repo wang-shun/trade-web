@@ -9,7 +9,8 @@ var FollowPicList = (function(){
     			height : 250,
     			autowidth : true,
     			shrinkToFit : true,
-    			rowNum : 20,
+    			rownumWidth:true,
+    			rowNum : 18,
     			/*   rowList: [10, 20, 30], */
     			colNames : [ '附件类型','附件名称','上传时间','操作'],
     			colModel : [ {
@@ -34,7 +35,7 @@ var FollowPicList = (function(){
     				name : 'READ',
     				index : 'READ',
     				align : "center",
-    				width : 20,
+    				width : 30,
     				resizable : false
     			}],
     			multiselect: true,

@@ -204,7 +204,9 @@
 	                                </p>
 	                            </div>
                             </c:forEach>
-                           <!--  <p class="text-center"><img src="'+ ctx + '/image/false.png" height="100" alt="" /></p> -->
+                            <c:if test="${spvChargeInfoVO.toSpvAduitList.size()<1 }">
+                  				<p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p>
+                  			</c:if> 
                      	 </div>
                       </div>
 

@@ -175,9 +175,9 @@
 	                                                <td id="td_file${status2.index }" >
                                                 	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status6">
 	                                                 	<img id="image_${status6.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
+														<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status6.index }').trigger('click');">
 														<input type="hidden"  name ="items[${status2.index }].fileId" value = "${toSpvReceiptList.attachId}"/>
 														<input type="hidden" name ="items[${status2.index }].fileName" value = "${toSpvReceiptList.comment}" />
-															<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status6.index }').trigger('click');">
 															${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
 															<i class="icon iconfont icon_x">&#xe60a;</i></button>
                                                 	 </c:forEach>   
