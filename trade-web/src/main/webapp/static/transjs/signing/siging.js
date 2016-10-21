@@ -77,6 +77,7 @@ $(function () {
   	   $("#propertyAddress").blur();
 	  	var caseCode = $("#caseCode").val();//案件编号
 	  	var agentCode = $("#jjrName").attr('hVal'); //预约人id
+	  	
     	var numberOfParticipants = $("#numberOfParticipants").val();//参与人数
     	var numberOfPeople = $("#numberOfPeople").val();//容纳人数
     	var propertyAddress = $.trim($("#propertyAddress").val());//产证地址
@@ -218,8 +219,13 @@ function signRommAjaxSubmit(obj) {
 		method:"post",
 		dataType:"json",
 		data : params,
+		beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
 		success:function(data){
 			//console.log(data);
+			$.unblockUI();
 			if(data.success){
 				var th='';
 				if(obj==0){
@@ -254,7 +260,10 @@ function signRommAjaxSubmit(obj) {
 		    }else{
 		    	alert(data.message);
 		    }
-		}
+		},
+		error: function (e, jqxhr, settings, exception) {
+        	$.unblockUI();   	 
+        }  
     });
 }
 
