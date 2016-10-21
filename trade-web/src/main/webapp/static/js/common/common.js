@@ -124,6 +124,7 @@ function reloadGrid() {
 		
 		//日历控件
 	    $('.input-daterange').datepicker({
+	    	todayBtn: "linked",
 	        keyboardNavigation: false,
 	        forceParse: false,
 	        autoclose: true

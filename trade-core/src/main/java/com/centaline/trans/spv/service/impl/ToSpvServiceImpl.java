@@ -1410,7 +1410,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 			
 		/**流水*/
-		
+		if(null != spvRecordedsVOItems)
 		for(int i=0;i<spvRecordedsVOItems.size();i++){
 			
 			if(null == spvRecordedsVOItems.get(i) || null == spvRecordedsVOItems.get(i).getPayerAcc()){
