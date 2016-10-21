@@ -204,7 +204,7 @@
 	                                </p>
 	                            </div>
                             </c:forEach>
-                            <p class="text-center"><img src="'+ ctx + '/image/false.png" height="100" alt="" /></p>
+                           <!--  <p class="text-center"><img src="'+ ctx + '/image/false.png" height="100" alt="" /></p> -->
                      	 </div>
                       </div>
 
