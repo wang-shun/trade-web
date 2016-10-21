@@ -261,6 +261,12 @@
     	<property name="transPosition" value="30006001"></property>
     </bean>
     
+    <bean name="qqcdSellerAndPhone" class="com.centaline.trans.common.service.impl.QuickQueryGuestNameAndPhoneCustomDictServiceImpl">
+    	<property name="transPosition" value="30006001"></property>
+    </bean>
+    <bean name="qqcdBuyerAndPhone" class="com.centaline.trans.common.service.impl.QuickQueryGuestNameAndPhoneCustomDictServiceImpl">
+    	<property name="transPosition" value="30006002"></property>
+    </bean>
     
     <bean name="qqManagerInfo" class="com.centaline.trans.common.service.impl.QuickQueryManagerInfoCustomDictServiceImpl">
     	<property name="jobCode" value="JFHJL"></property>

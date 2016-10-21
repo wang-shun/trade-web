@@ -19,7 +19,6 @@ import com.centaline.trans.signroom.vo.ResFlowupVo;
  * @author zhoujp
  * @date 2016年10月19日
  */
-@Service
 public class QuickQueryGetReturnVisitListServiceImpl implements
 		CustomDictService {
 

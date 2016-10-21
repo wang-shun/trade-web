@@ -8,7 +8,7 @@
 			jdbcType="BIGINT" />
 		<result column="VISIT_REMARK" property="visitRemark" jdbcType="CHAR" />
 		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
-		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
 		<result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
 	</resultMap>
 
@@ -18,11 +18,12 @@
 		PLAN_HISTORY_ID ,
 		VISIT_REMARK ,
 		CONTENT ,
-		CREATE_TIME ,
+		CONVERT(varchar(19),CREATE_TIME,120) AS createTime,
 		CREATE_BY
 		from sctrans.T_TS_RETURN_VISIT_REGISTRATION
 		where
 		PLAN_HISTORY_ID = #{historyId,jdbcType=BIGINT}
+		order by CREATE_TIME desc
 	</select>
 	<insert id="insertReturnVisitRegistration"
 		parameterType="com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO">
@@ -35,7 +36,7 @@
 		) values
 		( #{planHistoryId,jdbcType=BIGINT},
 		#{visitRemark,jdbcType=CHAR},
-		#{content,jdbcType=VARCHAR},,GETDATE(),@{SESSION_USER_ID})
+		#{content,jdbcType=VARCHAR},GETDATE(),@{SESSION_USER_ID})
 	</insert>
 
 </mapper>

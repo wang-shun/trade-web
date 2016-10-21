@@ -1337,43 +1337,42 @@ public class ToSpvServiceImpl implements ToSpvService {
 		
 		/**申请  ToSpvCashFlowApply**/	
 		if("apply".equals(handle)){
-			
 			toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
 			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(Long.valueOf(toSpvCashFlowApply.getPkid()));
-			for(int i=0;i<toSpvCashFlowList.size();i++){//驳回的流水
-				ToSpvCashFlow toSpvCashFlow = toSpvCashFlowList.get(i);
+			if(null != toSpvCashFlowList)
+			for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){//驳回的流水
 				toSpvCashFlow.setIsDeleted("1");
+				toSpvCashFlow.setUpdateBy(user.getId());
+				toSpvCashFlow.setUpdateTime(new Date());
 				toSpvCashFlowMapper.updateByPrimaryKey(toSpvCashFlow);
 				
 				List<ToSpvReceipt>  toSpvReceiptList = toSpvReceiptMapper.selectByCashFlowId(toSpvCashFlow.getPkid().toString());
-				for(int k=0;k<toSpvReceiptList.size();k++){
-					ToSpvReceipt toSpvReceipt = toSpvReceiptList.get(k);
-					toSpvReceipt.setIsDeleted("0");
+				if(null != toSpvReceiptList)
+				for(ToSpvReceipt toSpvReceipt:toSpvReceiptList){
+					toSpvReceipt.setIsDeleted("1");
+					toSpvReceipt.setUpdateBy(user.getId());
+					toSpvReceipt.setUpdateTime(new Date());
 					toSpvReceiptMapper.updateByPrimaryKeySelective(toSpvReceipt);
 				}
 			}
-			
-			toSpvCashFlowApply.setUpdateTime(new Date());//更新时间
-			toSpvCashFlowApply.setUpdateBy(user.getId());//更新人
-			toSpvCashFlowApplyMapper.updateByPrimaryKey(toSpvCashFlowApply);
 		}else if(!StringUtils.isBlank(spvRecordedsVO.getToSpvCashFlowApplyPkid())){
 			toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByPrimaryKey(Long.parseLong(spvRecordedsVO.getToSpvCashFlowApplyPkid()));
-			/*if(null != toSpvCashFlowApply1){
-					toSpvCashFlowApply1.setIsDeleted("1");
-					toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply1);
-			}*/
 			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(Long.parseLong(spvRecordedsVO.getToSpvCashFlowApplyPkid()));
+			if(null != toSpvCashFlowList)
 			for(ToSpvCashFlow toSpvCashFlow:toSpvCashFlowList){
-				
 				List<ToSpvReceipt> toSpvReceiptList = toSpvReceiptMapper.selectByCashFlowId(toSpvCashFlow.getPkid().toString());
+				if(null != toSpvReceiptList)
 				for(ToSpvReceipt toSpvReceipt:toSpvReceiptList){
 					toSpvReceipt.setIsDeleted("1");
+					toSpvReceipt.setUpdateBy(user.getId());
+					toSpvReceipt.setUpdateTime(new Date());
 					toSpvReceiptMapper.updateByPrimaryKey(toSpvReceipt);
 				}
 				toSpvCashFlow.setIsDeleted("1");
+				toSpvCashFlow.setUpdateBy(user.getId());
+				toSpvCashFlow.setUpdateTime(new Date());
 				toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
 			}
-			
 		}
 
 		if(!"apply".equals(handle)){
