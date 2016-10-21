@@ -23,6 +23,9 @@ public class SpvChargeInfoVO {
     private List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVOList;
 	
 	private List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList;
+	
+	//申请附件类型
+	private String toSpvCashFlowApplyAttachType;
 
 	public ToSpvCashFlowApply getToSpvCashFlowApply() {
 		return toSpvCashFlowApply;
@@ -54,6 +57,14 @@ public class SpvChargeInfoVO {
 
 	public void setToSpvCashFlowApplyAttachList(List<ToSpvCashFlowApplyAttach> toSpvCashFlowApplyAttachList) {
 		this.toSpvCashFlowApplyAttachList = toSpvCashFlowApplyAttachList;
+	}
+
+	public String getToSpvCashFlowApplyAttachType() {
+		return toSpvCashFlowApplyAttachType;
+	}
+
+	public void setToSpvCashFlowApplyAttachType(String toSpvCashFlowApplyAttachType) {
+		this.toSpvCashFlowApplyAttachType = toSpvCashFlowApplyAttachType;
 	}
 	
 }
