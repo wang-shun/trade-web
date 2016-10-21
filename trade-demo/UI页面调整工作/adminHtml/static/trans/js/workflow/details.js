@@ -47,7 +47,7 @@ $(document).ready(function () {
     });
     $("#NouserMark").on("click",function() {
         $(".sourcebox").show();
-         $(".marinfo,.alerted").hide();
+        $(".marinfo").hide();
     });
 
     $(".chackTextarea").autoTextarea({
@@ -141,10 +141,31 @@ $(document).ready(function () {
         var width = $('.jqGrid_wrapper').width();
         $('#table_list_3').setGridWidth(width);
     });
+
+
+
+
+
 });
 
 
-
+ //星星点击
+    $(".starmack").click(function () {
+        var obj = $(this).find(".iconfont");
+        var info = $(this).find("span");
+        var status = obj.attr("status");
+        if(obj.hasClass('star-grey')){
+            obj.addClass('star-yellow').removeClass('star-grey').html('&#xe63e;');
+            info.text("已标星号");
+            status = 1;
+            console.log(status);
+        } else {
+            obj.addClass('star-grey').removeClass('star-yellow').html('&#xe644;');
+            info.text("未标星号");
+            status = 0;
+            console.log(status);
+        }
+    });
 
 //添加删除上下家
 var divIndex = 1;

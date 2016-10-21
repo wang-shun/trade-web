@@ -21,6 +21,7 @@
     <!-- index_css -->
     <link rel="stylesheet" href="../static/trans/css/common/base.css" />
     <link rel="stylesheet" href="../static/trans/css/common/table.css" />
+
     <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
     <link rel="stylesheet" href="../static/trans/css/workflow/myCaseList.css" />
 
@@ -1130,6 +1131,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form_content" style="margin-left:94px;">
+                                    <label class="sign_left_two control-label">
+                                        是否选择星号
+                                    </label>
+                                    <div class="checkbox i-checks radio-inline sign sign_right">
+                                        <label class="mr10">
+                                            <input type="radio" value="1" id="lamp1" name="star" checked="">
+                                                星号
+                                        </label>
+                                        <label>
+                                            <input type="radio" value="2" id="lamp2" name="star">
+                                                无星号
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row clearfix">
@@ -1281,6 +1297,9 @@
                                                 <a href="../workflow/details.html">
                                                     ZY-AJ-201605-0952
                                                 </a>
+                                                <span class="starmack">
+                                                    <i class="iconfont star-yellow markstar" status="1">&#xe63e;</i>
+                                                </span>
                                             </p>
                                             <p>
                                                 <i class="tag_sign">c</i>BKS-2-451341-2154
@@ -1340,7 +1359,7 @@
                                             <p class="big">
                                                 <a href="../workflow/details.html">
                                                     ZY-AJ-201605-0952
-                                                </a>
+                                                </a><i class="iconfont star-grey">&#xe641;</i>
                                             </p>
                                             <p>
                                                 <i class="tag_sign">c</i>BKS-2-451341-2154
@@ -1401,7 +1420,7 @@
                                             <p class="big">
                                                 <a href="../workflow/details.html">
                                                     ZY-AJ-201605-0952
-                                                </a>
+                                                </a><i class="iconfont star-grey">&#xe641;</i>
                                             </p>
                                             <p>
                                                 <i class="tag_sign">c</i>BKS-2-451341-2154
@@ -1962,8 +1981,9 @@
 
     <script src="../static/trans/js/workflow/myCaseList.js"></script>
     <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-    <!-- Index_js -->
-    <script src="../static/js/workflow/myCaseList.js"></script>
+
+    <script src="../static/trans/js/workflow/details.js"></script>
+
 
     <script>
         $(document).ready(function () {
