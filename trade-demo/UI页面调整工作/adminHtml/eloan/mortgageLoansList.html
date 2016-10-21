@@ -962,21 +962,21 @@
                                     </select>
                                 </div>
                                 <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        放款类型
-                                    </label>
-                                    <select class="select_control sign_right_one">
-                                        <option value="">
-                                            请选择
-                                        </option>
-                                        <option value="">
-                                            e+贷款
-                                        </option>
-                                    </select>
-                                </div>
+                                        <label class="control-label sign_left_small">
+                                            状态
+                                        </label>
+                                        <select class="select_control sign_right_one">
+                                            <option value="">
+                                                已确认
+                                            </option>
+                                            <option value="">
+                                                未确认
+                                            </option>
+                                        </select>
+                                    </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        贷款编号
+                                        E+编号
                                     </label>
                                     <input class="teamcode input_type" placeholder="" value="">
                                 </div>
@@ -984,7 +984,7 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        放款机构
+                                        合作机构
                                     </label>
                                     <select class="select_control sign_right_one">
                                         <option value="">
@@ -1005,21 +1005,7 @@
                                             <i class="icon iconfont"></i>
                                         </div>
                                     </div>
-                                  <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        放款账号
-                                    </label>
-                                    <input class="teamcode input_type" placeholder="" value="">
-                                </div>
-                            </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        物业地址
-                                    </label>
-                                    <input class="teamcode input_type" style="width:461px;" placeholder="请输入" value="">
-                                </div>
-                                <div class="form_content">
+                                    <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         专员所在组
                                     </label>
@@ -1028,6 +1014,15 @@
                                         <i class="icon iconfont"></i>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        产证地址
+                                    </label>
+                                    <input class="teamcode input_type" style="width:461px;" placeholder="请输入" value="">
+                                </div>
+
                             </div>
                             <div class="line">
                                 <div class="form_content mr30">
@@ -1057,18 +1052,15 @@
                                     <!--图表-->
                                 <div class="row charone" style="margin-top: 40px;padding-top: 10px;border-top: 1px solid #f4f4f4;">
                                     <div class="col-md-6">
-                                        <div id="TypeOne"  style="width:100%;height:400px;">1</div>
+                                        <div id="TypeOne"  style="width:100%;height:400px;"></div>
                                     </div>
                                     <div class="col-md-6">
                                         <div id="TypeTwo"  style="width:100%;height:400px;">1</div>
                                     </div>
                                 </div>
                                 <div class="row chartwo" style="margin-top: 40px;padding-top: 10px;border-top: 1px solid #f4f4f4;">
-                                     <div class="col-md-6">
-                                            <div id="LoansOne" style="width:100%;height:400px;">2</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div id="LoansTwo" style="width:100%;height:400px;">2</div>
+                                     <div class="col-md-12">
+                                            <div id="Cont" style="width:100%;height:300px;"></div>
                                         </div>
                                 </div>
                             </div>
@@ -1082,47 +1074,33 @@
                                        class="table table_blue table-striped table-bordered table-hover " id="editable">
                                     <thead>
                                     <tr>
-                                        <th>贷款编号</th>
-                                        <th>借款金额</th>
-                                        <th>借款信息</th>
-                                        <th>放款账户</th>
-                                        <th>放款机构</th>
-                                        <th>状态</th>
+                                        <th>E+编号</th>
+                                        <th>产证地址</th>
+                                        <th>合作机构</th>
+                                        <th>借款人</th>
+                                        <th>放款金额</th>
+                                        <th>时间</th>
                                         <th>贷款专员</th>
+                                        <th>状态</th>
                                     </tr>
                                     </thead>
                                     <tbody id="mortgageInfoList">
                                     <tr class="tr-1">
-                                        <td class="big">
+                                        <td>
                                             <p class="big">
-                                                <a href="#" target="_blank">DK-201610-0017</a>
-                                            </p>
-                                            <p class="big">
-                                                中原地产贷款产品
+                                                <a href="javascript:;">
+                                                    ZY-AJ-201605-0952
+                                                </a>
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="smll_sign big">
-                                                  89万
-                                                </p>
-                                            <p class="smll_sign">
-                                                    <i class="sign_normal">放</i>2016-08-22
-                                                </p>
-                                        </td>
-                                        <td>
-                                            <p class="big blue-text">
-                                               上海市长宁区区延安西路889号
+                                            <p>
+                                                <i class="sign_blue">
+                                                    首付款（抵押类）
+                                                </i>
                                             </p>
-                                            <p class="big">
-                                                借款人: 客户一
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="big">
-                                                4561515445484862248
-                                            </p>
-                                            <p class="big">
-                                                中原地产放款账户
+                                            <p>
+                                               上海市长宁区区延安西路889号街道A区
                                             </p>
                                         </td>
                                         <td>
@@ -1132,16 +1110,33 @@
                                         </td>
                                         <td>
                                             <p class="big">
-                                               未确认
-                                           </p>
+                                                客户一
+                                            </p>
                                         </td>
+                                        <td>
+                                            <p class="smll_sign big">
+                                              89万
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="smll_sign">
+                                                <i class="sign_normal">放</i>2016-08-22
+                                            </p>
+                                        </td>
+
+
                                         <td>
                                             <p class="big blue-text">
                                                 金姣姣
                                             </p>
                                             <p class="big blue-text">
-                                                一组
+                                                杨浦区贵宾服务部一组
                                             </p>
+                                        </td>
+                                        <td>
+                                            <p class="big">
+                                               未确认
+                                           </p>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -1254,7 +1249,8 @@
         <script src="../static/js/echarts.min.js"></script>
 
         <!-- index_js -->
-     <script src="../static/trans/js/workbench/morrisLoans.js"></script>
+        <script src="../static/trans/js/eloan/eloan.js"></script>
+
 
         <script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
         <script>
