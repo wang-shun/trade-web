@@ -165,7 +165,10 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		//获取合约
 		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode());
 		Map<String, Object> vars = new HashMap<String, Object>();
-		vars.put("assignee", "jinjj02");
+		vars.put("RiskControlOfficer", user.getUsername());
+		vars.put("RiskControlDirector", "wufeng01");
+		vars.put("FinanceFirstAduitor", "zhangmy21");
+		vars.put("FinanceSecondAduitor", "renw");
 		
 		String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 		//开启流程
@@ -447,7 +450,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     			map.put("account", account.getAccount());
     			map.put("bankName", to != null?to.getFinOrgName():null);
     			bankNameList.add(0, map);
-    		}else if("SPV".equals(account.getAccountType())){
+    		}else if("FUND".equals(account.getAccountType())){
     			Map<String, String> map = new HashMap<String, String>();
     			TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
     			map.put("name", account.getName());

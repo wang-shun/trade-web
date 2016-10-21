@@ -355,8 +355,8 @@
                                 <div class="table-box" >
                                     <table class="table table-bordered customerinfo" id="cashFlowTable">
                                         <thead>
-                                        <th style="width: 100px;">付款人姓名</th>
-                                        <th>付款人账户</th>
+                                        <th style="width: 100px;">收款人姓名</th>
+                                        <th>收款人账户</th>
                                         <th style="width: 100px;">出账金额</th>
                                         <th style="width: 120px;">贷记凭证编号</th>
                                         <th>付款方式</th>

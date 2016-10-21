@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
   <process id="SPVCashflowOutProcess" name="SPVCashflowOutProcess" isExecutable="true">
-    <userTask id="CashFlowOutApply" name="出款申请" activiti:assignee="${assignee}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=apply&amp;__decorator=UI_V2"></userTask>
-    <userTask id="CashFlowOutDirectorAduit" name="出款总监审批" activiti:assignee="${assignee}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=directorAduit&amp;__decorator=UI_V2"></userTask>
+    <userTask id="CashFlowOutApply" name="出款申请" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=apply&amp;__decorator=UI_V2"></userTask>
+    <userTask id="CashFlowOutDirectorAduit" name="出款总监审批" activiti:assignee="${RiskControlDirector}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=directorAduit&amp;__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow1" sourceRef="CashFlowOutApply" targetRef="CashFlowOutDirectorAduit"></sequenceFlow>
-    <userTask id="CashFlowOutFinanceAduit" name="出款财务初审" activiti:assignee="${assignee}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeAduit&amp;__decorator=UI_V2"></userTask>
-    <userTask id="CashFlowOutFinanceSecondAduit" name="出款财务复审" activiti:assignee="${assignee}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeSecondAduit&amp;__decorator=UI_V2"></userTask>
+    <userTask id="CashFlowOutFinanceAduit" name="出款财务初审" activiti:assignee="${FinanceFirstAduitor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeAduit&amp;__decorator=UI_V2"></userTask>
+    <userTask id="CashFlowOutFinanceSecondAduit" name="出款财务复审" activiti:assignee="${FinanceFirstAduitor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeSecondAduit&amp;__decorator=UI_V2"></userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="CashFlowOutFinanceAduit">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${directorAduit}]]></conditionExpression>
@@ -30,7 +30,7 @@
     <sequenceFlow id="flow15" sourceRef="exclusivegateway3" targetRef="CashFlowOutApply">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeSecondAduit == false}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="CashFlowOutDeal" name="出款" activiti:assignee="${assignee}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=cashFlowOut&amp;__decorator=UI_V2"></userTask>
+    <userTask id="CashFlowOutDeal" name="出款" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=cashFlowOut&amp;__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow16" sourceRef="exclusivegateway3" targetRef="CashFlowOutDeal">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeSecondAduit}]]></conditionExpression>
     </sequenceFlow>
