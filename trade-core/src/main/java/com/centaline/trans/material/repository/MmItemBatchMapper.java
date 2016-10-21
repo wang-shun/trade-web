@@ -1,5 +1,7 @@
 package com.centaline.trans.material.repository;
 
+import java.util.List;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.material.entity.MmItemBatch;
 @MyBatisRepository
@@ -15,4 +17,6 @@ public interface MmItemBatchMapper {
     int updateByPrimaryKeySelective(MmItemBatch record);
 
     int updateByPrimaryKey(MmItemBatch record);
+    
+    List<MmItemBatch> queryMmItemBatchList(Long itemId);
 }
