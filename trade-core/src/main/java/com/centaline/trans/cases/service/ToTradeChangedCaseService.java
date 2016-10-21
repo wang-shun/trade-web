@@ -17,4 +17,11 @@ public interface ToTradeChangedCaseService {
 	 */
 	List<CaseReturnVisitRegistrationVO> queryReturnVisitRegistrations(Long historyId);
 	
+	/**
+	 * 新增回访跟进内容
+	 * @param caseReturnVisitRegistrationVO
+	 * @return
+	 */
+	int addReturnVisit(CaseReturnVisitRegistrationVO caseReturnVisitRegistrationVO);
+	
 }

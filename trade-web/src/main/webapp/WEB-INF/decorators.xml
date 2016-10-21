@@ -58,20 +58,8 @@
 		<pattern>/spv/task/cashflowIntApply/process</pattern>
 		<pattern>/material/materialList</pattern>
 		<pattern>/material/materialStorgae</pattern>
-		
-		<!--<pattern>/case/caseDistribute2</pattern>
-		<pattern>/task/unlocatedTask2</pattern>
-		<pattern>/case/unlocatedCase2</pattern> -->
-		
-		<!-- <pattern>/case/myCaseList2</pattern>
-		<pattern>/case/caseDistribute2</pattern>
-		<pattern>/case/unlocatedCase2</pattern> 
-		<pattern>/task/toTaskOfGroupList2</pattern>
-		<pattern>/case/taskTracking2</pattern> 
-		<pattern>/case/tracking2</pattern> 
-		<pattern>/unlocatedTasks</pattern> 
-		<pattern>/unlocatedTasks/a</pattern>  -->
-		
+		<pattern>/material/materialDetail</pattern>
+
 	    <pattern>/case/myCaseList</pattern>
 		<pattern>/case/caseDistribute</pattern>
 		<pattern>/case/unlocatedCase</pattern> 

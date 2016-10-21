@@ -7,7 +7,7 @@ public class CaseReturnVisitRegistrationVO {
 	private Long planHistoryId;//交易计划变更历史表ID
     private String visitRemark;//回访标记
     private String content;//回访跟进
-    private Date createTime;//创建时间
+    private String createTime;//创建时间
     private String createBy;//创建者
 	public Long getPlanHistoryId() {
 		return planHistoryId;
@@ -27,10 +27,11 @@ public class CaseReturnVisitRegistrationVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getCreateTime() {
+	
+	public String getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 	public String getCreateBy() {

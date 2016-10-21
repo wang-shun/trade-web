@@ -198,7 +198,6 @@ function ajaxSubmit() {
 		dataType:"json",
 		data : params,
 		success:function(data){
-			console.log(data);
 			if(data.success){
 				var th='';
 				
