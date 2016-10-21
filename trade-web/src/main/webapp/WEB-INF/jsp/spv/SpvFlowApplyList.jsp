@@ -151,16 +151,16 @@
                              <tr>
                                         <td>
                                             <p class="big">
-                                                <a href="javascript:;">
+                                                
                                                    {{item.CASHFLOW_APPLY_CODE}}
-                                                </a>
+                                              
                                             </p>
                                         </td>
                                         <td>
                                             <p class="big">
-                                                <a href="javascript:;">
+                                                
                                                     {{item.SPV_CODE}}
-                                                </a>
+                                                
                                             </p>
                                         </td>
                                         <td>
@@ -185,7 +185,7 @@
                                         </td>
                                         <td>
                                             <p class="smll_sign">
-                                                <a href="javascript:void(0)">{{item.applyerName}}&nbsp;</a>{{item.CREATE_TIME}}
+                                                {{item.applyerName}}&nbsp;{{item.CREATE_TIME}}
                                             </p>
                                         </td>
                                         <td>
