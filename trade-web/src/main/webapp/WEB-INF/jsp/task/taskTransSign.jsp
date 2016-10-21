@@ -90,7 +90,7 @@
 	
 	       <div class="ibox-content border-bottom clearfix space_box noborder">
 	        <div class="">
-	            <h2 class="newtitle">完成提醒</h2>
+	            <h2 class="newtitle title-mark">完成提醒</h2>
 	            <div class="jqGrid_wrapper">
 	                <table id="reminder_list"></table>
 					<div id="pager_list_1"></div>
@@ -117,7 +117,7 @@
 			<input type="hidden" id="signPkid" name="signPkid" value="${transSign.signPkid}"> 
 			<input type="hidden" id="housePkid" name="housePkid" value="${houseTransfer.pkid}">
 	        <div>
-	            <h4>填写任务信息</h4>
+	            <h4 class="title-mark">填写任务信息</h4>
 	            <div class="form_list">
 	                <div class="marinfo">
 	                    <div class="line">
@@ -179,7 +179,7 @@
 	            </div>
 	        </div>
 	        <div>
-	            <h2 class="newtitle">付款信息</h2>
+	            <h2 class="newtitle title-mark">付款信息</h2>
 	            <div class="form_list">
 	                <div class="marinfo">
 	                    <div class="line">
@@ -301,7 +301,7 @@
 	        </div>
 	
 	        <div>
-	            <h2 class="newtitle">上家信息</h2>
+	            <h2 class="newtitle title-mark">上家信息</h2>
 	            <div class="form_list">
 	                <div class="marinfo" id="topHome">
 	                    <div id="guestUpDiv"></div>
@@ -313,7 +313,7 @@
 				</div>
 	        </div>
 	        <div>
-	            <h2 class="newtitle">下家信息</h2>
+	            <h2 class="newtitle title-mark">下家信息</h2>
 	            <div class="form_list">
 	                <div class="marinfo" id="downHome">
 	                	<div id="guestDownDiv"></div>
@@ -325,7 +325,7 @@
 	        </div>
 	
 	        <div>
-	            <h2 class="newtitle">产证信息</h2>
+	            <h2 class="newtitle title-mark">产证信息</h2>
 	            <div class="form_list">
 	                <div class="marinfo">
 	                    <div class="line">
@@ -386,7 +386,7 @@
 	        </div>
 	
 	        <div>
-	            <h2 class="newtitle">预估税费</h2>
+	            <h2 class="newtitle title-mark">预估税费</h2>
 	            <div class="form_list">
 	                <div class="marinfo">
 	                    <div class="line">
@@ -438,8 +438,8 @@
             <div class="ibox-title" style="height: auto;border:0;padding-left:0;">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
-					<h5>
-						上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
+					<h5 class="title-mark">
+						上传备件</h5><br> <br> <br><h5>${accesoryList[0].accessoryName }</h5>
 					<c:forEach var="accesory" items="${accesoryList}"
 						varStatus="status">
 						<div class="" id="fileupload_div_pic">

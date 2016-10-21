@@ -25,6 +25,24 @@ $(document).ready(function(){
 
 function checkFormSave(){
 	
+    if($("#toSpvCashFlowApplyAttachType").val() == null || $("#toSpvCashFlowApplyAttachType").val() == ''){
+    	alert("请选择出账条件！");
+    	return false;
+    }
+    
+    var payerFlg = true;
+    $("select[name$='toSpvCashFlow.payer'] option:selected").each(function(i,e){
+    	if($(e).val() == null || $(e).val() == ''){
+    		payerFlg = false;
+    		return false;
+    	}
+    });
+    
+    if(!payerFlg){
+    	alert("请选择收款人姓名！");
+    	return false;
+    }
+	
 	var amountFlag = true;
 	var amountEle;
 	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){

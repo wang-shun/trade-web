@@ -94,7 +94,7 @@
         </div>
 
         <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
-            <h2 class="newtitle">填写任务信息</h2>
+            <h2 class="newtitle title-mark">填写任务信息</h2>
             	<form method="get" class="form_list" id="firstFollowform" style="overflow: visible;">
             		<input type="hidden" id="ctx" value="${ctx }" />
             	
@@ -249,7 +249,7 @@
             <div class="view-content" id="caseCommentList">
             </div>
 
-           <div class="title">
+           <div class="title title-mark">
                <strong style="font-weight:bold;">ctm附件</strong>
            </div>
             <div class="view-content">
