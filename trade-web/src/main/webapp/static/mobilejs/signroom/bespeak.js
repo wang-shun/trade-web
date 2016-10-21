@@ -6,6 +6,33 @@ $(function() {
 	
 	getPropertyAddress();
 	
+	//办理事项点击事件
+	$("input[name='transactItemCode']").click(function(){
+		var transactItemCode = $(this).attr("id");
+		
+		if(transactItemCode == "OpenRegularMeeting"){
+			$("#divPropertyAddress").hide();
+			$("#divServiceSpecialist").hide();
+			
+			$("input[name='transactItemCode']").each(function(){
+				var transItemCode = $(this).attr("id");
+				
+				if(transItemCode != "OpenRegularMeeting" && $(this).hasClass("selected-mark")){
+					$(this).removeClass("selected-mark");
+				}
+			});
+		}
+		else {
+			if($("#OpenRegularMeeting").hasClass("selected-mark")){
+				$("#OpenRegularMeeting").removeClass("selected-mark");
+			}
+			
+			$("#divPropertyAddress").show();
+			$("#divServiceSpecialist").show();
+		}
+	});
+	
+	
 	//产证地址文本框失去焦点获取对应的caseCode
 	$("#propertyAddress").blur(function(){
 		$(".autocompleter").hide();
@@ -32,29 +59,6 @@ $(function() {
     	var numberOfPeople = $("#numberOfPeople").val();
     	var serviceSpecialist = $("#serviceSpecialist").val();
     	
-    	if(propertyAddress == ""){
-    		showTip("请输入交易单地址");
-    		return false;
-    	}
-    	
-    	if(serviceSpecialist == ""){
-    		showTip("请输入服务顾问");
-    		return false;
-    	}
-    	
-    	if(numberOfPeople == ""){
-    		showTip("请输入参与人数");
-    		return false;
-    	}
-    	else {
-    		numberOfPeople = Number(numberOfPeople);
-    		
-    		if(numberOfPeople <= 0){
-    			showTip("请输入合法的参与人数");
-        		return false;
-    		}
-    	}
-    	
     	var transactItem = "";
     	var isSelectTransactItem = false;
     	$("input[name=transactItemCode]").each(function(){
@@ -70,6 +74,31 @@ $(function() {
     	}
     	
     	transactItem = transactItem.substring(0,transactItem.lastIndexOf(","));
+    	
+    	if(transactItem != "OpenRegularMeeting"){
+    		if(propertyAddress == ""){
+        		showTip("请输入交易单地址");
+        		return false;
+        	}
+        	
+        	if(serviceSpecialist == ""){
+        		showTip("请输入服务顾问");
+        		return false;
+        	}
+    	}
+        	
+    	if(numberOfPeople == ""){
+    		showTip("请输入参与人数");
+    		return false;
+    	}
+    	else {
+    		numberOfPeople = Number(numberOfPeople);
+    		
+    		if(numberOfPeople <= 0){
+    			showTip("请输入合法的参与人数");
+        		return false;
+    		}
+    	}
     	
     	save(propertyAddress,numberOfPeople,transactItem,serviceSpecialist);  //保存签约室预约信息
     });

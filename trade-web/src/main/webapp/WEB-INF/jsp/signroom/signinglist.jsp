@@ -344,6 +344,7 @@
 								{{if transactItemCode == 'contract'}}<i class="sign_blue">签合同</i>{{/if}}
 								{{if transactItemCode == 'doLoan'}}<i class="sign_blue">办贷款</i>{{/if}}
 								{{if transactItemCode == 'Eloan'}}<i class="sign_blue">e+贷款</i>{{/if}}
+								{{if transactItemCode == 'OpenRegularMeeting'}}<i class="sign_blue">开例会</i>{{/if}}
 						  {{/each}}
                       </p>
 					  {{if item.specialReq != null && item.specialReq!="" && item.specialReq.length > 24}}

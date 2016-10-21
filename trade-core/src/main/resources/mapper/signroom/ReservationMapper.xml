@@ -195,7 +195,8 @@
   
   <select id="getTransactItemList" resultType="com.centaline.trans.signroom.vo.TransactItemVo">
     	SELECT CODE AS code,NAME AS name FROM sctrans.SYS_DICT
-		WHERE TYPE = 'transactItem' AND PARENT_ID != '';
+		WHERE TYPE = 'transactItem' AND PARENT_ID != ''
+		ORDER BY ORDERBY ASC;
   </select>
   
    <select id="getFreeRoomByCondition" parameterType="com.centaline.trans.signroom.vo.FreeRoomVo" resultType="com.centaline.trans.signroom.vo.FreeRoomInfo">

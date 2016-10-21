@@ -37,12 +37,25 @@
             </div>
         </div>
 		
-        <div class="aui-content aui-padded-l-10 aui-padded-r-10 margin10 border_grey radius3 linehgl30 relative">
+		<div class="aui-row pad10">
+                <div class="aui-col-xs-3 linehgl30">
+                    	办理事项
+                </div>
+                <div class="aui-col-xs-9 add-select">
+                	<c:forEach items="${transactItemVoList}" var="transactItemVo">
+	                    <div class="choiceoption">
+	                          <input type="button" id="${transactItemVo.code }" class="aui-border-btn" name="transactItemCode" value="${transactItemVo.name }" data-required="true" data-descriptions="choices" />
+	                    </div>
+                    </c:forEach>
+                </div>
+            </div>
+		
+        <div class="aui-content aui-padded-l-10 aui-padded-r-10 margin10 border_grey radius3 linehgl30 relative" id="divPropertyAddress">
             <input type="text" id="propertyAddress" name="propertyAddress" placeholder="交易单地址" class="excend10 font-small" data-required="true" data-descriptions="address">
             <i class="dingwei iconfont orange">&#xe60a;</i>
         </div>
         <section class="aui-content">
-        	<div class="aui-row pad10 clearfix overvisible">
+        	<div class="aui-row pad10 clearfix overvisible" id="divServiceSpecialist">
                 <div class="aui-col-xs-3 linehgl30">
                    	 服务顾问
                 </div>
@@ -57,18 +70,6 @@
                 </div>
                 <div class="aui-col-xs-5">
                     <input id="numberOfPeople" name="numberOfPeople" type="number" min="1" class="border_grey input30 radius3 font-small" placeholder="请输入实际人数" data-validate="phone" data-describedby="phone-description">
-                </div>
-            </div>
-            <div class="aui-row pad10">
-                <div class="aui-col-xs-3 linehgl30">
-                    办理事项
-                </div>
-                <div class="aui-col-xs-9 add-select">
-                	<c:forEach items="${transactItemVoList}" var="transactItemVo">
-	                    <div class="choiceoption">
-	                          <input type="button" id="${transactItemVo.code }" class="aui-border-btn" name="transactItemCode" value="${transactItemVo.name }" data-required="true" data-descriptions="choices" />
-	                    </div>
-                    </c:forEach>
                 </div>
             </div>
             
