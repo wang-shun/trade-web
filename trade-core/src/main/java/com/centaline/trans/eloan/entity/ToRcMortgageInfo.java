@@ -33,6 +33,10 @@ public class ToRcMortgageInfo {
 
 	private String isDeleted;
 
+	private String isWillDeleted;
+
+	private String itemManager;
+
 	public Long getPkid() {
 		return pkid;
 	}
@@ -151,6 +155,22 @@ public class ToRcMortgageInfo {
 
 	public void setIsDeleted(String isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public String getIsWillDeleted() {
+		return isWillDeleted;
+	}
+
+	public void setIsWillDeleted(String isWillDeleted) {
+		this.isWillDeleted = isWillDeleted;
+	}
+
+	public String getItemManager() {
+		return itemManager;
+	}
+
+	public void setItemManager(String itemManager) {
+		this.itemManager = itemManager;
 	}
 
 }

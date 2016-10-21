@@ -36,6 +36,7 @@
 				<![CDATA[  	
 				SELECT
 					T.PKID,
+					T.PKIDFORACTION,
 					T.CASE_CODE,
 					T.CREATE_BY,
 					T.ITEM_MANAGER,
@@ -59,6 +60,7 @@
 				(
 					SELECT 
 						C.PKID,
+						M.PKID AS PKIDFORACTION,
 						M.CASE_CODE,	
 						M.CREATE_BY,
 						M.ITEM_MANAGER,
@@ -134,6 +136,7 @@
 		<grid>
 			<table-row>
 			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+			    <column type="both" name="PKIDFORACTION" index="" checkbox="" display="PKIDFORACTION" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 			    <column type="both" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				

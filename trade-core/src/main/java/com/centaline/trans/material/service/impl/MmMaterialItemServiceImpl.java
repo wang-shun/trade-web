@@ -3,13 +3,14 @@ package com.centaline.trans.material.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
 import com.centaline.trans.material.entity.MmMaterialItem;
 import com.centaline.trans.material.repository.MmMaterialItemMapper;
 import com.centaline.trans.material.service.MmMaterialItemService;
 
-
+@Service
 public class MmMaterialItemServiceImpl implements MmMaterialItemService{
 	
 	@Autowired
@@ -36,10 +37,19 @@ public class MmMaterialItemServiceImpl implements MmMaterialItemService{
 
 
 	@Override
-	public int updateMaterialInfoByCaseCode(String itemCode) {
+
+	public int updateMaterialInfoByItemCode(String itemCode) {
 		// TODO Auto-generated method stub
 		
-		return mmMaterialItemMapper.updateMaterialInfoByCaseCode(itemCode);
+
+		return mmMaterialItemMapper.updateMaterialInfoByItemCode(itemCode);
+	}
+
+
+	@Override
+	public MmMaterialItem queryMmMaterialByPkid(Long pkid) {
+		// TODO Auto-generated method stub
+		return  mmMaterialItemMapper.selectByPrimaryKey(pkid);
 	}
 
 }

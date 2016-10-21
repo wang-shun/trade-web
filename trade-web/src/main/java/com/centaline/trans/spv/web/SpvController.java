@@ -251,6 +251,15 @@ public class SpvController {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
     		toSpvService.saveNewSpv(spvBaseInfoVO,user);
+    		ToWorkFlow record=new ToWorkFlow();
+			record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+			record.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+			if(workFlow!=null){
+			workFlow.setStatus("4");
+		    flowService.updateByPrimaryKey(workFlow);
+			processInstanceService.deleteProcess(workFlow.getInstCode());
+			}
     		response.setSuccess(true);
     		response.setMessage("监管合约删除成功！");
     	}catch(Exception e){

@@ -50,6 +50,10 @@
     delete from sctrans.T_TO_ELOAN_REL
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+   <delete id="deleteByEloanCode" parameterType="java.lang.String" >
+    delete from sctrans.T_TO_ELOAN_REL
+    where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.centaline.trans.eloan.entity.ToEloanRel" >
     insert into sctrans.T_TO_ELOAN_REL (PKID, ELOAN_CODE, RELEASE_AMOUNT, 
       RELEASE_TIME, CONFIRM_TIME, CONFIRM_STATUS, 

@@ -60,7 +60,7 @@
 			LEFT JOIN  sctrans.sys_user u ON ec.EXCUTOR_ID=u.ID
 			LEFT JOIN sctrans.T_TO_WORKFLOW wf on ec.CASE_CODE=wf.CASE_CODE and wf.BUSINESS_KEY='EloanProcess'
             LEFT JOIN sctrans.ACT_RU_TASK art ON wf.INST_CODE=art.proc_inst_id_
-			WHERE 1=1 
+			WHERE  (ec.STATUS IS NULL OR ec.STATUS='VALID')
 			 and  EXISTS (select * from sctrans.T_TO_ELOAN_REL ers
 			    <if test="releaseTimeStart !='' ||releaseTimeStart !=''">
 			      where ers.ELOAN_CODE = ec.ELOAN_CODE and ers.CONFIRM_STATUS=1

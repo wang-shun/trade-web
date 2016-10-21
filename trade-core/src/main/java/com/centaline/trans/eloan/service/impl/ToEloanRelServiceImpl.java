@@ -100,4 +100,9 @@ public class ToEloanRelServiceImpl implements ToEloanRelService {
 		return toEloanRelMapper.getEloanRelByEloanCodeAndConfirmStatus(eloanCode);
 	}
 
+	@Override
+	public int deleteEloanRelByEloanCode(String eloancode) {
+		return toEloanRelMapper.deleteByEloanCode(eloancode);
+	}
+
 }

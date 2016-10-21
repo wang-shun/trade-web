@@ -5,7 +5,7 @@ import com.centaline.trans.eloan.vo.ToRcMortgageCardVO;
 import com.centaline.trans.eloan.vo.ToRcMortgageVO;
 
 public interface ToRcMortgageService {
-	int saveRcMortgageCard(ToRcMortgageCardVO toRcMortgageCardVO);
+	void saveRcMortgageCard(ToRcMortgageCardVO toRcMortgageCardVO);
 	
 	ToRcMortgageCardVO getRcMortgageCardInfoByProperty(String riskType,String eloanCode);
 	

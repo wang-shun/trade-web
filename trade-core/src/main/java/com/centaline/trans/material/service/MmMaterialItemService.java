@@ -10,5 +10,8 @@ public interface MmMaterialItemService {
     
     void  insertMaterialInfoFromSpv(MmMaterialItem mmMaterialItem);
     
-    int  updateMaterialInfoByCaseCode(String itemCode);
+
+    int  updateMaterialInfoByItemCode(String itemCode);
+    
+    MmMaterialItem queryMmMaterialByPkid(Long pkid);
 }
