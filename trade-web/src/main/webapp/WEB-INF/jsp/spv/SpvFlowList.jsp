@@ -155,7 +155,7 @@
                                                    {{item.CASHFLOW_APPLY_CODE}}
                                             </p>
 
-                                               <span >转账  {{item.VOUCHER_NO}}<span >
+                                               <span >{{item.DIRECTION}} {{item.VOUCHER_NO}}<span >
                                         </td>
                                         <td>
                                              <p class="big">
@@ -178,7 +178,7 @@
                                         <td>
                                             <p class="smll_sign">
                                                 <i class="sign_normal">录入</i>
-                                                {{item.applyerName}}&nbsp;{{item.INPUT_TIME}}
+                                                {{item.applyerName}}&nbsp;{{item.CREATE_TIME}}
                                             </p>
                                             {{if item.CLOSE_TIME!=nudefined}}
                                             <p class="smll_sign">
