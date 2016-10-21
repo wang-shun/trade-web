@@ -20,4 +20,9 @@ public class ToTradeChangedCaseServiceImpl implements ToTradeChangedCaseService 
 		return returnVisitRegistrationMapper.queryReturnVisitRegistrations(historyId);
 	}
 
+	@Override
+	public int addReturnVisit(CaseReturnVisitRegistrationVO caseReturnVisitRegistrationVO) {
+		return returnVisitRegistrationMapper.insertReturnVisitRegistration(caseReturnVisitRegistrationVO);
+	}
+
 }
