@@ -947,12 +947,10 @@
                     <div class="ibox-content border-bottom clearfix space_box">
                         <h2 class="title">资金流水列表</h2>
                         <form method="get" class="form_list">
-
-
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        放款类型
+                                        产品名称
                                     </label>
                                     <select class="select_control sign_right_one">
                                         <option value="">
@@ -965,7 +963,7 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        产品名称
+                                        放款类型
                                     </label>
                                     <select class="select_control sign_right_one">
                                         <option value="">
@@ -997,7 +995,42 @@
                                         </option>
                                     </select>
                                 </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            贷款专员
+                                        </label>
+                                        <input class="sign_right_one input_type" placeholder="请输入" value="">
+                                        <div class="input-group float_icon organize_icon">
+                                            <i class="icon iconfont"></i>
+                                        </div>
+                                    </div>
+                                  <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        放款账号
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="" value="">
+                                </div>
+                            </div>
+                            <div class="line">
                                 <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        物业地址
+                                    </label>
+                                    <input class="teamcode input_type" style="width:461px;" placeholder="请输入" value="">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        专员所在组
+                                    </label>
+                                    <input class="teamcode input_type" placeholder="请输入" value="">
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="form_content mr30">
                                     <label class="control-label sign_left_small select_style mend_select">
                                         放款时间
                                     </label>
@@ -1006,60 +1039,17 @@
                                         <input name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
                                     </div>
                                 </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        放款账号
-                                    </label>
-                                    <input class="teamcode input_type" placeholder="" value="">
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        专员所在组
-                                    </label>
-                                    <select class="select_control sign_right_one">
-                                        <option value="">
-                                            请选择
-                                        </option>
-                                        <option value="">
-                                            广大银行
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        贷款专员
-                                    </label>
-                                    <select class="select_control sign_right_one">
-                                        <option value="">
-                                            请选择
-                                        </option>
-                                        <option value="">
-                                            广大银行
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        物业地址
-                                    </label>
-                                    <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="">
-                                </div>
-                            </div>
-
-                            <div class="line">
-                                <div  style="margin-left: 128px;">
+                                <div>
                                     <button type="button" class="btn btn-success btn-icon" id="mortgageInfoSearchButton">
                                         <i class="icon iconfont"></i> 查询
                                     </button>
                                     <button type="button" id="mortgageInfoToExcel" class="btn btn-success"
                                             onclick="javascript:mortgageInfoToExcel()">导出列表
                                     </button>
-                                    <button type="button" class="btn  btn-icon btn-toggle mr5" id="TypeBtn">
+                                    <button type="button" class="btn  btn-icon btn-toggle" id="TypeBtn">
                                     <i class="iconfont icon">&#xe63d;</i> 贷款报表
                                     </button>
-                                     <button type="button" class="btn  btn-icon btn-toggle mr5 "  id="TypeBtn2"><i class="iconfont icon">&#xe63f;</i>
+                                     <button type="button" class="btn  btn-icon btn-toggle "  id="TypeBtn2"><i class="iconfont icon">&#xe63f;</i>
                                         组织报表
                                     </button>
                                     <button type="button" class="btn btn-grey" id="mortgageInfoCleanButton">清空</button>
@@ -1083,6 +1073,7 @@
                                 </div>
                             </div>
                         </form>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
