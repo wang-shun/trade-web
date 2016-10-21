@@ -583,51 +583,52 @@ $(function() {
 });
 
 //添加入账申请信息tr
-function getTR(sum){
+function getTR(index){
+	index = sum;
 	var  $str='';
 	$str+='<tr>';
 	$str+='	<td>';
-	$str+='<select name="spvCaseFlowOutInfoVOList['+sum+'].toSpvCashFlow.payer" class="table-select boderbbt" onChange="this.value;selectChange(this,'+sum+');">';
+	$str+='<select name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" class="table-select boderbbt" onChange="this.value;selectChange(this,'+index+');">';
 	$str+='<option value="" >请选择</option>';
     $str+='<option value="${bankNameList[0].name }" >${bankNameList[0].name }</option>';
     $str+='<option value="${bankNameList[1].name }" >${bankNameList[1].name }</option>';
     $str+='</select>';
 	$str+='	</td>';
 	$str+='	<td>';
-	$str+='		<p><input class="table_input boderbbt" type="text"placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+sum+'].toSpvCashFlow.payerAcc" ></p>';
-	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+sum+'].toSpvCashFlow.payerBank" ></p>';
+	$str+='		<p><input class="table_input boderbbt" type="text"placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc" ></p>';
+	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank" ></p>';
 	$str+='	</td>';
 	$str+='	<td class="text-left">';
-	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+sum+'].toSpvCashFlow.amount" >万';
+	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.amount" >万';
 	$str+='	</td>';
 	$str+='	<td>';
-	$str+='		<input class="table_input boderbbt forvalue" type="text" placeholder="请输入编号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+sum+'].toSpvCashFlow.voucherNo" >';
+	$str+='		<input class="table_input boderbbt forvalue" type="text" placeholder="请输入编号" onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.voucherNo" >';
 	$str+='	</td>';
 	$str+='	<td>';
-	$str+='		<select name="spvCaseFlowOutInfoVOList['+sum+'].toSpvCashFlow.direction" class="table-select boderbbt" onChange="this.value">';
+	$str+='		<select name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.direction" class="table-select boderbbt" onChange="this.value">';
 	$str+='			<option value="">请选择</option>';
 	$str+='			<option value="转账">转账</option>';
 	$str+='			<option value="刷卡">刷卡</option>';
 	$str+='			<option value="现金">现金</option>';
 	$str+='		</select>';
 	$str+='	</td>';
-	$str+='	<td id="td_file'+sum+'">';
-	$str+='		<span class="btn_file'+sum+'">';
-	$str+='			<input id="fileupload_'+sum+'" style="display:none" type="file" name="files[]" multiple="" data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload" data-sequential-uploads="true">';
-	$str+='			<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;cursor:pointer; background-image:url('+ctx+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+sum+'\').trigger(\'click\');" >;</label>';
+	$str+='	<td id="td_file'+index+'">';
+	$str+='		<span class="btn_file'+index+'">';
+	$str+='			<input id="fileupload_'+index+'" style="display:none" type="file" name="files[]" multiple="" data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload" data-sequential-uploads="true">';
+	$str+='			<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;cursor:pointer; background-image:url('+ctx+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+index+'\').trigger(\'click\');" >;</label>';
 	$str+='		</span>';
 	$str+='	</td>';
-	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+(sum+1)+')">添加</a>';
-	if(sum > 0){
+	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+sum+')">添加</a>';
+	if(index > 0){
 		$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>';
 	}
 	$str+='</tr>';
 	$("#addTr").append($str);
-	
-	renderFileUpload(sum);
-	
+
 	sum++;
 	$("#sum").val(sum);	
+	
+	renderFileUpload(index);
 }
 
 function getUploadImage(thisIndex,fileUrl,fileId,fileName){
