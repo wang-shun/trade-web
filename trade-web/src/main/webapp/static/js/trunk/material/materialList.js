@@ -183,6 +183,15 @@ $('#datepicker_0').datepicker({
 	language : 'zh-CN'
 });
 
+$('#datepicker_1').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
+
+
 //通过复选框 设置全选 和  全不选
 function mycheck(a) {
  	 var temp = $("[name=materialCheck]:checkbox");//document.getElementsByName("love");
@@ -218,6 +227,22 @@ function getCheck(){
 		alert('请至少选择一条记录！'); 
 		return null; 
 	} 
+}
+
+//操作 提取pkid数组
+function getPkidsArray(){
+	var pkids = '';
+	var ids="";	
+	$("input[type=checkbox][name='materialCheck']").each(function(){ 
+		if ($(this).prop("checked") == true) {			
+			if($(this).attr("value")){				
+				ids +=$(this).attr("value")+","; 
+			}			
+			
+		} 
+	}); 
+	pkids = ids.substring(0,ids.length-1);	
+	return pkids; 
 }
 
 $("#storage").click(function(){	
@@ -256,7 +281,7 @@ function compareCaseCode(a,b){
 		  if(i != b){
 			  if($(caseCodeArray[i]).attr("kkk") != $(a).attr("kkk")){
 				caseCodeFlag = false;
-				alert("单次入库，请选择相同CaseCode对应的资料入库！");
+				alert("单次操作请选择相同CaseCode对应的物品！");
 			  }
 		  }
 		 if(caseCodeFlag==false){				
@@ -266,3 +291,80 @@ function compareCaseCode(a,b){
 	return caseCodeFlag;
 }
 
+
+//借用弹出按钮判断
+$("#materialBorrow").click(function(){
+	var pkids = getCheck();	
+	if(pkids){
+		 if(!caseCodeTheSameCheck()){
+				return false;
+		 }else{
+			 $("#myModal").show();	
+		 }				
+	}	
+})
+
+$("#materialBorrowClose").click(function(){	
+	$("#myModal").hide();
+})
+//借用div提交信息
+$("#materialBorrowSubmit").click(function(){	
+	 var pkids = getPkidsArray();
+	 //var mmIoBatch = {}; 
+	 var actionUser = $("input[name='actionUser']").val();
+	 var actionPreDate = $("input[name='actionPreDate']").val();
+	 var actionReason = $("input[name='actionReason']").val();
+	 var actionRemark = $("#actionRemark").val();
+	 logActionSubmit(pkids,actionUser,actionPreDate,actionReason,actionRemark);
+	 
+})
+
+
+
+
+//归还弹出按钮判断
+$("#materialReturn").click(function(){
+	var pkids = getCheck();	
+	if(pkids){
+		 if(!caseCodeTheSameCheck()){
+				return false;
+		 }else{
+			 $("#Return").show();	
+		 }				
+	}	
+})
+//归还提交信息
+$("#materialReturnSubmit").click(function(){	
+	 var pkids = getPkidsArray();
+	 //var mmIoBatch = {}; 
+	 var actionUser = $("input[name='returnActionUser']").val();
+	 var actionRemark = $("#returnaAtionRemark").val();
+	 logActionSubmit(pkids,actionUser,null,null,actionRemark);
+	 
+})
+
+function logActionSubmit(pkids,actionUser,actionPreDate,actionReason,actionRemark){			
+		$.ajax({
+			url:ctx+"/material/materialBorrowSave",
+			method:"post",
+			dataType:"json",
+			data:{"pkids" : pkids,"actionUser" : actionUser,"actionPreDate":actionPreDate,"actionReason":actionReason,"actionRemark":actionRemark},//"mmIoBatch" : mmIoBatch,
+			success:function(data){ 
+			console.log("Result=====" +JSON.stringify(data));
+				if(data != null ){
+					if(data.success){
+						$("#myModal").hide();
+						alert(data.message);						
+						window.location.reload();
+					}else{
+						$("#myModal").hide();
+						alert(data.message);
+						window.location.reload();
+					}
+				}	
+			},       
+			error:function(e){
+		    	 alert(e);
+		   }
+		});
+	}

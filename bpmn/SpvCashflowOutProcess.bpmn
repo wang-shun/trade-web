@@ -4,8 +4,16 @@
     <userTask id="CashFlowOutApply" name="出款申请" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=apply&amp;__decorator=UI_V2"></userTask>
     <userTask id="CashFlowOutDirectorAduit" name="出款总监审批" activiti:assignee="${RiskControlDirector}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=directorAduit&amp;__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow1" sourceRef="CashFlowOutApply" targetRef="CashFlowOutDirectorAduit"></sequenceFlow>
-    <userTask id="CashFlowOutFinanceAduit" name="出款财务初审" activiti:assignee="${FinanceFirstAduitor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeAduit&amp;__decorator=UI_V2"></userTask>
-    <userTask id="CashFlowOutFinanceSecondAduit" name="出款财务复审" activiti:assignee="${FinanceFirstAduitor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeSecondAduit&amp;__decorator=UI_V2"></userTask>
+    <userTask id="CashFlowOutFinanceAduit" name="出款财务初审" activiti:assignee="${FinanceFirstAduitor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeAduit&amp;__decorator=UI_V2">
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="#{commonUserListService.getAssigneeByOrgId(execution,'ff808081566e099e01566e7701bb003e','YCCWFIRST')}" activiti:elementVariable="FinanceFirstAduitor">
+        <completionCondition>${nrOfCompletedInstances == 1}</completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <userTask id="CashFlowOutFinanceSecondAduit" name="出款财务复审" activiti:assignee="${FinanceSecondAduitor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeSecondAduit&amp;__decorator=UI_V2">
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="#{commonUserListService.getAssigneeByOrgId(execution,'ff808081566e099e01566e7701bb003e','YCCWSecond')}" activiti:elementVariable="FinanceSecondAduitor">
+        <completionCondition>${nrOfCompletedInstances == 1}</completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="CashFlowOutFinanceAduit">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${directorAduit}]]></conditionExpression>
