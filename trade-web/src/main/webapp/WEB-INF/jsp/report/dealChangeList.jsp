@@ -362,7 +362,7 @@
            {{/if}}
 				<td>
                     <p class="big">
-                       <a href="javascript:;">
+                       <a href="${ctx}/case/caseDetail?caseId={{item.PKID}}"  target="_blank"">
                            {{item.CASE_CODE}}
                        </a>
                     </p>
