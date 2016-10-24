@@ -94,7 +94,7 @@
         </div>
 
         <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
-            <h2 class="newtitle">填写任务信息</h2>
+            <h2 class="newtitle title-mark">填写任务信息</h2>
             	<form method="get" class="form_list" id="firstFollowform" style="overflow: visible;">
             		<input type="hidden" id="ctx" value="${ctx }" />
             	
@@ -120,7 +120,7 @@
 					
 		            <div class="line">
 		                <div class="form_content">
-	                        <label class="control-label sign_left_small"> 案件标记 </label>
+	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>案件标记 </label>
 	                        <div class="controls">
 	                           <c:choose>
 									<c:when test="${firstFollow.caseProperty == '30003001'}">
@@ -147,17 +147,17 @@
 		            <div class="marinfo">
 		                <div class="line">
 		                     <div class="form_content">
-                                <label class="control-label sign_left_small"> 所在区域 </label>
+                                <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>所在区域 </label>
                                 <aist:dict clazz="select_control data_style" id="distCode" name="distCode" display="select" defaultvalue="${firstFollow.distCode}" dictType="yu_shanghai_district" />
 		                     </div>
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 成交价 </label>
+		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>成交价 </label>
 		                        <input type="text" placeholder="成交价" class="input_type yuanwid" id="realPrice" name="realPrice" onkeyup="checkNum(this)"
 										value="<fmt:formatNumber value='${ firstFollow.realPrice}' type='number' pattern='#0.00'/>"> 
 		                       	<span class="date_icon">万元</span>
 		                    </div>
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 合同价 </label> 
+		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>合同价 </label> 
 		                        <input type="text" placeholder="合同价" class="input_type yuanwid" id="conPrice" name="conPrice" onkeyup="checkNum(this)"
 										value="<fmt:formatNumber value='${ firstFollow.conPrice}' type='number' pattern='#0.00'/>">
 		                        <span class="date_icon">万元</span>
@@ -165,19 +165,19 @@
 		                </div>
 		                <div class="line">
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 产证面积 </label> 
+		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证面积 </label> 
 		                        <input type="text" class="input_type data_style" id="square" name="square" onkeyup="checkNum(this)"
 								value="<fmt:formatNumber value='${firstFollow.square}' type='number' pattern='#0.0#' />">
 		                        <span class="date_icon">平方米</span>
 		                    </div>
                             <div class="form_content">
-                                <label class="control-label sign_left_small">产证地址 </label> 
+                                <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证地址 </label> 
                                 <input type="text" class="input_type mendwidth" id="propertyAddr" name="propertyAddr" value="${firstFollow.propertyAddr}">
                             </div>
 		                </div>
 		                <div class="line">
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 查限购 </label>
+		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>查限购 </label>
 	                            <select class="select_control data_style" name="chaxiangou" id="chaxiangou">
 									<option value="">请选择</option>
 									<option value="true" ${firstFollow.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
@@ -185,7 +185,7 @@
 							   </select>
 		                    </div>
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"> 抵押情况 </label>
+		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>抵押情况 </label>
 		                        <select class="select_control data_style" name="diya" id="diya" style="width:180px;">
 									<option value="">请选择</option>
 									<option value="true" ${firstFollow.isLoanClose=="1"?'selected':''}>有抵押</option>
@@ -194,7 +194,7 @@
 		                    </div>
 		                    <div class="form_content mt3">
 		                        <label class="control-label sign_left_small select_style mend_select">
-		                           	预计签约日期
+		                           	<font color=" red" class="mr5" >*</font>预计签约日期
 		                        </label>
 		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="data_1" data-date-format="yyyy-mm-dd">
 		                        	<input type="text" class="input_type yuanwid datatime" id="realConTime" name="realConTime" onfocus="this.blur()"
@@ -205,14 +205,14 @@
 		                </div>
                 <div class="line sourcebox">
                     <div class="form_content clearfix">
-                        <label class="control-label sign_left_small"> 无效原因 </label> 
+                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>无效原因 </label> 
                         <input type="text" class="mendwidth input_type" id="invalid_reason" name="invalid_reason" 
 								value="${houseTransfer.invalid_reason}">
                     </div>
                 </div>
                 <div class="line alerted">
                      <div class="form_content">
-                        <label class="control-label sign_left_small"> 商贷预警 </label>
+                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>商贷预警 </label>
                         <div class="controls">
                         	<label class="radio inline"> 
                         		<input type="radio" value="true" id="optionsRadios1" name="businessLoanWarn" <c:if test="${!empty bizWarnInfo }">checked="checked"</c:if>>是
@@ -226,7 +226,7 @@
                 
                 <div class="line warncon"  id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
                     <div class="form_content clearfix">
-                        <label class="control-label sign_left_small"> 预警内容 </label> 
+                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>预警内容 </label> 
                         <input type="text" class="mendwidth input_type" id="content" name="content" value="${bizWarnInfo.content }" style="width:500px;">
                     </div>
                 </div>
@@ -249,7 +249,7 @@
             <div class="view-content" id="caseCommentList">
             </div>
 
-           <div class="title">
+           <div class="title title-mark">
                <strong style="font-weight:bold;">ctm附件</strong>
            </div>
             <div class="view-content">
@@ -433,7 +433,7 @@
 				success : function(data) {
 							txt = "<div class='form_content line34'><label class='control-label sign_left_small'> 合作项目 </label>";
 							txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/><span class='' placeholder='' value=''>" + data.dic.name + "</span></div>"
-							txt += "<div class='form_content'><label class='control-label sign_left_small'>合作顾问 </label>";
+							txt += "<div class='form_content'><label class='control-label sign_left_small'><font color='red' class='mr5' >*</font>合作顾问 </label>";
 							txt += "<select class='select_control mendwidth' name='unCrossCooperationUser' id='cooperationUser" + index + "'>";
 							txt += "<option value='0'>----未选择----</option>";
 							

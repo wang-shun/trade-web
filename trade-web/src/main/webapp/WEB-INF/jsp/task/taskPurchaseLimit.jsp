@@ -78,7 +78,7 @@
 
         <div class="ibox-content border-bottom clearfix space_box noborder">
             <div class="">
-                <h2 class="newtitle">完成提醒</h2>
+                <h2 class="newtitle title-mark">完成提醒</h2>
                 <div class="jqGrid_wrapper">
                 	<table id="reminder_list"></table>
 					<div id="pager_list_1"></div>
@@ -100,7 +100,7 @@
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 					<input type="hidden" id="pkid" name="pkid" value="${purchaseLimit.pkid}">
 					
-		            <h2 class="newtitle">填写任务信息</h2>
+		            <h2 class="newtitle title-mark">填写任务信息</h2>
 		            <div class="form_list">
 		                <div class="marinfo">
 		                    <div class="line">

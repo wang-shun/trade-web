@@ -676,10 +676,10 @@ table thead tr th {
   background-color: #f8cd59!important;
   color: #fff;
   border-radius: 3px;
- padding: 1px 6px;
+  padding: 1px 6px;
 }
 .red-hint {
-    background-color: #ff5e80!important;
+  background-color: #ff5e80!important;
   color: #fff;
   border-radius: 3px;
   padding: 1px 6px;

@@ -27,37 +27,29 @@ function reloadGrid(page){
 	data.page = page;
 	aist.wrap(data);
 	$.ajax({
-		async: false,
+		async: true,
         url:ctx+ "/quickGrid/findPage" ,
         method: "post",
         dataType: "json",
         data: data,
+        beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
         success: function(data){
+          $.unblockUI();
       	  data.visitRemark = visitRemark;
-      	  var rows = data.rows;
-      	  if(!visitRemark){
-      		  
-      	  }else{
-      		var arrayObj = new Array();
-      		for(var i=0;i<rows.length;i++){
-        		  var row = rows[i];
-        		  var returnVisitList = row.returnVisitList;
-        		  var arrayObj = new Array();
-        		  for(var j=0;j<returnVisitList.length;j++){
-        			  var returnVisit = returnVisitList[j];
-        			  if(returnVisit.visitRemark == visitRemark){
-        				  arrayObj.push(returnVisit);
-        			  }
-        		  }
-        		  row.returnVisitList = arrayObj;
-        	  }
-      	  }
       	  var dealChangeList = template('template_dealChangeList' , data);
-			  $("#dealChangeList").empty();
-			  $("#dealChangeList").html(dealChangeList);
-			  // 显示分页 
-              initpage(data.total,data.pagesize,data.page, data.records);
-        }
+		  $("#dealChangeList").empty();
+		  $("#dealChangeList").html(dealChangeList);
+		  
+		  // 显示分页 
+          initpage(data.total,data.pagesize,data.page, data.records);
+        },
+        error: function (e, jqxhr, settings, exception) {
+        	$.unblockUI();   	 
+        }  
+        
   });
 	//top
 	$('.demo-top').poshytip({
@@ -300,10 +292,11 @@ function changeStyle(){
 function exportToExcel() {
 	var queryId = "queryTradeChangedCaseList";
 	var data = getParams();
+	console.log(data);
 	$.exportExcel({
 		ctx : "..",
 		queryId : queryId,
-		colomns : ['CASE_CODE','PROPERTY_ADDR','PART_CODE','OLD_EST_PART_TIME','EST_PART_TIME','REAL_NAME','CHANGE_TIME','CHANGE_REASON','DISTRICT_NAME','TEAM_NAME','SELLERANDPHONE','BUYERANDPHONE'],
+		colomns : ['CASE_CODE','PROPERTY_ADDR','PART_CODE','OLD_EST_PART_TIME','EST_PART_TIME','REAL_NAME','CHANGE_TIME','CHANGE_REASON','DISTRICT_NAME','TEAM_NAME','SELLERANDPHONE','BUYERANDPHONE','visitRemark','CONTENT','CREATE_TIME'],
 		data:data
 	});
 }

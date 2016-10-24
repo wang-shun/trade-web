@@ -43,7 +43,8 @@
 <link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
 <link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
-
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" />
 </head>
 
 <body>
@@ -172,9 +173,28 @@
                   		<div class="sign sign-yellow">税费卡</div>
                   	</c:if> 
 					<div class="panel-body">
-						<div class="ibox-content-head">
+						<div class="ibox-content-head lh24">
 							<h5>案件基本信息</h5>
 							<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
+							<p class="star-position" id="subscribe">
+
+								<c:if test="${isSubscribe}">
+										<span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="${toCase.caseCode}" isSubscribe="false">
+											<i class="iconfont markstar star_subscribe" status="1"></i>
+											<span class="star_text_1">未关注</span>
+											<span class="star_text_2">已关注</span>
+										 </span>
+								</c:if>
+								<c:if test="${isSubscribe==false}">
+										<span style="cursor: pointer;" class="starmack subscribe action"  moduleCode="${toCase.caseCode}" isSubscribe="true">
+											<i class="iconfont markstar star_subscribe" status="1"></i>
+											<span class="star_text_1">未关注</span>
+											<span class="star_text_2">已关注</span>
+										 </span>
+								</c:if>
+
+							</p>
+
 						</div>
 						<div id="infoDiv infos" class="row">
 							<div class="ibox white_bg">
@@ -1141,7 +1161,8 @@
 		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jasny/jasny-bootstrap.min.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> <%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
-	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script> 
+		<script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
+		<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script>
 	<%-- <script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%> 
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachmentByJagd.js"></script>
@@ -1448,7 +1469,6 @@
  			}
  			return str;
  		}
-		
         jQuery(function($) {
             $(document).ready( function() {
                $('.stickup-nav-bar').stickUp({

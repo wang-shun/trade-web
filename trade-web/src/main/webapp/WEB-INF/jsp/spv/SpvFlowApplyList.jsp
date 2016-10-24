@@ -196,7 +196,7 @@
                                             </p>
                                         </td>
                                         <td>
-                                           <a href="javascript:void(0)" class="spread" id="caozuo{{item.PKID}}" onclick="show({{item.PKID}})">展开</a>
+                                           <a href="javascript:void(0)" class="spread" id="caozuo{{item.PKID}}" onclick="show({{item.PKID}},'{{item.USAGE}}')">展开</a>
                                         </td>
                                     </tr>
                                     <tr class="spread_line cashFlow" id="cashFlow{{item.PKID}}">
@@ -209,7 +209,9 @@
                                                 <th>付款方式</th>
                                                 <th>付款人账户信息</th>
                                                 <th>收款人账户信息</th>
-                                                <th>结算时间</th>
+                                                 {{if item.USAGE=='in'}}
+                                                <th>入账时间</th>
+												 {{/if}}
                                             </tr>
                                             </thead>
                                             <tbody id="tbody{{item.PKID}}">

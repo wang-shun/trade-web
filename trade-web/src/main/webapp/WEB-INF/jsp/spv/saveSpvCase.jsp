@@ -1149,7 +1149,7 @@
    					    	 //window.location.href = "${ctx}/spv/saveHTML";
    					     }else{
 				    		var caseInfoMap = eval('('+data.ajaxResponse.content+')');
-				    		$("#caseCode").html(caseInfoMap['caseCode']);
+				    		$("#caseCode").val(caseInfoMap['caseCode']);
 				    		$("#content_caseCode").html(caseInfoMap['caseCode']);
 				    		$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
 				    		$("#content_processorId").html(caseInfoMap['processorName']);
@@ -1157,7 +1157,7 @@
 				    		$("#content_agentName").html(caseInfoMap['agentName']);
 				    		$("#content_buyer").html(caseInfoMap['buyerName']);
 				    		$("input[name='toSpv.caseCode']").val(caseInfoMap['caseCode']);
-				    		
+
 				    		if($("input[name='spvCustList[0].name']").val() == '')
 				    			$("input[name='spvCustList[0].name']").val(caseInfoMap['buyerName']);
 				    		if($("input[name='spvCustList[0].phone']").val() == '')

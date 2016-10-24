@@ -35,6 +35,7 @@
 </style>
     </head>
     <body>
+    <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
                 <!--*********************** HTML_main*********************** -->
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
@@ -67,6 +68,7 @@
                                     	<option value="">请选择</option>
                                         <option value="0">异常</option>
                                         <option value="1">正常</option>
+                                        <option value="2">未处理</option>
                                     </select>
                                 </div>
                             </div>
@@ -341,6 +343,7 @@
         <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 		<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+		<script src="${ctx}/js/jquery.blockui.min.js"></script> 
       	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
         <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
@@ -369,13 +372,28 @@
 						  {{if index1==0 && returnVisit.visitRemark=='0'}}
 							<span class="red_color">异常</span>
 						  {{/if}}
-					  
+						  {{if index1==0 && returnVisit.visitRemark=='1'}}
+							<span class="yes_color">正常</span>
+						  {{/if}}
 						{{/each}}
+						{{if item.returnVisitList.length==0}}
+							<span class="no_color">未处理</span>
+						{{/if}}
 					{{else if visitRemark=='0'}}
-						<span class="red_color">异常</span>
+						{{if item.returnVisitList.length>0}}
+							<span class="red_color">异常</span>
+						{{/if}}
+					{{else if visitRemark=='1'}}
+						{{if item.returnVisitList.length>0}}
+							<span class="yes_color">正常</span>
+						{{/if}}
+					{{else if visitRemark=='2'}}
+						{{if item.returnVisitList.length==0}}
+							<span class="no_color">未处理</span>
+						{{/if}}
 					{{/if}}
                     <a href="#">
-						<i class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;&nbsp;{{returnVisit.content}}<br/> {{/each}}"></i>
+						<i class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;{{returnVisit.content}}&nbsp;{{returnVisit.createTime}}<br/> {{/each}}"></i>
 					</a>
                 </td>
 				<td>

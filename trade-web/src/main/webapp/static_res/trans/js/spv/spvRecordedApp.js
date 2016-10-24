@@ -36,7 +36,8 @@ function getTR(thisIndex){
 	$str+='	<td id="td_file'+thisIndex+'">                                                                                                                                                                                         ';
 	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
 	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
-	$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
+	//$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
+	$str+='         <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;margin-top:17px;margin-bottom:-14px;cursor:pointer; background-image:url('+$("#ctx").val()+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');"/>';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td> <div id="datepicker_'+thisIndex+'" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">';
@@ -159,12 +160,11 @@ function getDelHtml(k,pkid){
 //提交
 function sumbitRe(){
 	
-	if(!confirm("是否确定重新提交申请！")){
-		  return false;
-	}
-		
 	if(!checkSumbitHtml()){
 		return;
+	}
+	if(!confirm("是否确定重新提交申请！")){
+		  return false;
 	}
 	
 	$('#chargeInAppr').val(true);
@@ -181,19 +181,12 @@ function sumbitRe(){
 		beforeSend:function(){  
          },
 		success : function(data) {
-			 window.opener.location.reload(); //刷新父窗口
-		   	 window.close(); //关闭子窗口.
-			/*
-			alert(JSON.stringify(data));
-			if(data.ajaxResponse.success){
-				if(!handle){
-					alert("流程开启成功！");
-				}else{
-					alert("任务提交成功！");
-				}
+		   	if(data.success){
+		   		window.opener.location.reload(); //刷新父窗口
+			   	window.close(); //关闭子窗口.
 			}else{
-				alert("数据保存出错1:"+data.ajaxResponse.message);
-			}*/
+				alert("提交失败！"+data.message); 
+			}
 			
 		},complete: function() { 
 		},
@@ -378,6 +371,21 @@ function checkReceiptNo(){
 	    changeClass(voucherNoEle);
 		return false;
 	 }
+	
+	var imgFlag = true;
+    $("td[id^='td_file']").each(function(i,e){
+    	var length = $(e).find("img").length;
+    	if(length == 0){
+    		imgFlag = false;
+    		return false;
+    	}
+    });
+    
+    if(!imgFlag){
+    	alert("需要上传至少一张附件！");
+    	return false;
+    }
+	
 	var cashFlowCreateTimeFlag = true;
 	var cashFlowCreateTimeEle;
 	$("input[name$='cashFlowCreateTime']").each(function(i,e){

@@ -289,9 +289,7 @@ input {
   border-radius: 3px;
   cursor: pointer;
 }
-.today {
-  background:#f8ac59;
-}
+
 .tommrow {
   background-color: #428fcc;
 }
@@ -621,5 +619,10 @@ input {
 }
 .tip-inner {
   font-family: "Microsoft Yahei";
+  line-height: 18px!important;
+}
+.title-mark {
+  padding-left: 6px!important;
+  border-left: 3px solid #00CFEC!important;
   line-height: 18px!important;
 }

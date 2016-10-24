@@ -42,7 +42,7 @@
 											initData();
 											
 						})
-						function show(pkid){
+						function show(pkid,use){
 							var hide=$("#cashFlow"+pkid).css("display");
 							$("#cashFlow"+pkid).slideToggle("fast");
 							$("#caozuo"+pkid).html(hide=="none"?"收起":"展开");
@@ -67,7 +67,8 @@
 										htmlText+="<td> <p class='big'>"+item.DIRECTION+"</p></td>";
 										htmlText+="<td> <p>"+item.PAYER+"&nbsp;&nbsp;"+item.PAYER_ACC+"/"+item.PAYER_BANK+"</p></td>";
 										htmlText+="<td> "+item.RECEIVER+"&nbsp;&nbsp;"+item.RECEIVER_ACC+"/"+item.RECEIVER_BANK+"</td>";
-										htmlText+="<td> <p>"+item.INPUT_TIME+"</p></td></tr>";
+										if(use=='in')htmlText+="<td> <p>"+item.INPUT_TIME+"</p></td></tr>";
+										
 									})
 									 htmlText = htmlText.replace(new RegExp("undefined","g"),"");
 									 tbodyhtml.html(htmlText);	

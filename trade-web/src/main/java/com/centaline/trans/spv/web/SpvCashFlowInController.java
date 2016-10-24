@@ -158,11 +158,15 @@ public class SpvCashFlowInController {
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
-			response.setMessage(""+e.getStackTrace());
+			String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(e.getMessage()+"异常："+sOut);
 			e.printStackTrace();
 		}
-		
-		return AjaxResponse.success("保存成功！");
+		return response;
 	}
 
 	   /**
@@ -201,7 +205,12 @@ public class SpvCashFlowInController {
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
-			response.setMessage(""+e.getStackTrace());
+			String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(e.getMessage()+"异常："+sOut);
 			e.printStackTrace();
 		}
     	

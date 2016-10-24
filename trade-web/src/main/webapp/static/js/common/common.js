@@ -32,7 +32,7 @@
 		commentButton += '<div class="pull-left"><button type="button" class="btn btn-icon btn-blue ml10" onclick="saveCaseComment()">提交跟进</button></div></div>';*/
 		$(this).after(commentButton);	
             
-		var commentTitile ='<div class="title mb20"><strong style="font-weight:bold;">案件跟进</strong></div>';
+		var commentTitile ='<div class="title mb20 title-mark"><strong style="font-weight:bold;">案件跟进</strong></div>';
 		$(this).before(commentTitile);
 		self = $(this);
 		tempSource = templeteSource;
@@ -124,6 +124,7 @@ function reloadGrid() {
 		
 		//日历控件
 	    $('.input-daterange').datepicker({
+	    	todayBtn: "linked",
 	        keyboardNavigation: false,
 	        forceParse: false,
 	        autoclose: true

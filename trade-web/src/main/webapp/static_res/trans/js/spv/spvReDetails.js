@@ -167,7 +167,7 @@ function checkReceiptNo(){
 	var payerBankFlag = true;
 	var payerBankEle;
 	$("input[name$='payerBank']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isBankName($(e).val()))){
 			payerBankFlag = false;
 			payerBankEle = $(e);
 			return false;
@@ -265,6 +265,21 @@ function checkReceiptNo(){
 	    changeClass(voucherNoEle);
 		return false;
 	 }
+	
+   var imgFlag = true;
+    $("td[id^='td_file']").each(function(i,e){
+    	var length = $(e).find("img").length;
+    	if(length == 0){
+    		imgFlag = false;
+    		return false;
+    	}
+    });
+    
+    if(!imgFlag){
+    	alert("需要上传至少一张附件！");
+    	return false;
+    }
+	
 	var cashFlowCreateTimeFlag = true;
 	var cashFlowCreateTimeEle;
 	$("input[name$='cashFlowCreateTime']").each(function(i,e){
@@ -336,15 +351,12 @@ function checkSumbitHtml(){
 }
 //提交
 function sumbitRe(){
-
-	if(!confirm("是否确定提交申请，开启流程！")){
-	  return false;
-    }
-	
 	if(!checkSumbitHtml()){
 		return;
 	}
-		
+	if(!confirm("是否确定提交申请，开启流程！")){
+	  return false;
+    }
 	//提交页面的参数
 	var data = $("#teacForm").serialize();
 	//console.log(data);
@@ -361,10 +373,10 @@ function sumbitRe(){
 		success : function(data) {
 			if(data.success){
 				alert("流程开启成功！");
+				window.location.href = ctx+"/spv/spvList";
 			}else{
-				alert("任务提交成功！"+data.message); 
+				alert("流程开启失败！"+data.message); 
 			}
-			window.location.href = ctx+"/spv/spvList";
 		},complete: function() { 
 		},
 		error : function(errors) {
@@ -458,6 +470,15 @@ function isName(name){
        return false; 
    }
    return true;
+}
+//银行验证(汉字和英文大小写)
+function isBankName(name){
+	name = name.replace(/\s/g,"");//去除中间空格
+	reg = /((^[\u4E00-\u9FA5]{1,30}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/;
+	if (!reg.test(name)) {
+		return false; 
+	}
+	return true;
 }
 //金额验证(两位小数)
 function isNumber(num){
