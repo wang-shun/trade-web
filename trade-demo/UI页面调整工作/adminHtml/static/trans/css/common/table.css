@@ -684,18 +684,35 @@ table thead tr th {
   border-radius: 3px;
   padding: 1px 6px;
 }
-.star-yellow {
-  color:#f8cd59;
-}
-.star-grey {
-  color: #ccc;
+.star {
+  cursor: pointer;
 }
 .star-red {
   color: #f784a5;
 }
+.star-yellow {
+  color: #f8cd59;
+}
+.star-grey {
+  color: #ccc;
+}
+.star-bgyellow {
+  background:#f8cd59;
+  color:#fff!important;
+  outline: none!important;
+}
+.star-bggrey {
+  background:#f4f4f4!important;
+  color:#ccc!important;
+  outline: none!important;
+}
+.starmack {
+  padding:0 8px;
+}
+
 .star-position {
   float: right;
-  margin-right: 10px;
+  margin-left: 10px;
   cursor: pointer;
 }
 .lh24 {
@@ -704,5 +721,5 @@ table thead tr th {
 }
 .markstar {
   margin-right: 5px;
-  font-size: 20px;
+  font-size: 16px;
 }
