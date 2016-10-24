@@ -48,6 +48,7 @@
 <link href="${ctx}/css/common/btn.css" rel="stylesheet">
 <link href="${ctx}/css/common/input.css" rel="stylesheet">
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -151,7 +152,7 @@
 	                        </div>
 	                    </div>
 	
-	                    <div class="line">
+	                    <div class="line" id="divDiYaAndChaxiangou">
 	                        <div class="form_content">
 	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>抵押情况 </label>
 	                            <div class="controls ismortgage " style="width: 180px;margin-left: 0px;">
@@ -609,7 +610,7 @@
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<!-- 改版引入的新的js文件 --> 
 	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
 	<script>
 			//判断是否有重复字符
 			function isUniqueChar(value){
@@ -678,18 +679,6 @@
 							serviceItem : t
 						});
 					});
-
-			function readOnlyForm() {
-				$(".readOnly_date").removeClass('date');
-				$(".readOnly_date input").attr('readOnly', true);
-				$("select[readOnlydata=1]").closest('.row').hide();
-				$("[readOnlydata=1]").attr('readonly', true);
-				$("[readOnlydata=1]").each(function() {
-					if ($(this).is('a')) {
-						$(this).hide();
-					}
-				});
-			}
 
 			$(function() {
 				var caseCode = $('#caseCode').val();
@@ -1282,6 +1271,19 @@
 							}
 						});
 			}
+			
+			function readOnlyForm() {
+				$(".readOnly_date").removeClass('date');
+				$(".readOnly_date input").attr('readOnly', true);
+				$("#divDiYaAndChaxiangou").hide();
+				$("[readOnlydata=1]").attr('readonly', true);
+				$("[readOnlydata=1]").each(function() {
+					if ($(this).is('a')) {
+						$(this).hide();
+					}
+				}); 
+			}
+			
 		</script> </content>
 </body>
 

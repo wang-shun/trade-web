@@ -31,15 +31,18 @@ function checkFormSubmit(){
     }
     
     var payerFlag = true;
-    $("select[name$='toSpvCashFlow.payer'] option:selected").each(function(i,e){
+    var payerEle;
+    $("input[name$='toSpvCashFlow.payer']").each(function(i,e){
     	if($(e).val() == null || $(e).val() == ''){
     		payerFlag = false;
+    		payerEle = $(e);
     		return false;
     	}
     });
     
     if(!payerFlag){
-    	alert("请选择收款人姓名！");
+    	alert("请填写收款人姓名！");
+    	changeClass(payerEle);
     	return false;
     }
     
@@ -100,8 +103,9 @@ function checkFormSubmit(){
     
     var totalCashFlowInAmount = Number($("#totalCashFlowInAmount").val());
     var totalCashFlowOutAmount = Number($("#totalCashFlowOutAmount").val());
-    if(accAdd(sumAmount,totalCashFlowOutAmount) > totalCashFlowInAmount){
-    	alert("出账流水总和不能大于入账流水总和！");
+    var totalProcessCashFlowOutAmout = Number($("#totalProcessCashFlowOutAmout").val());
+    if(accAdd(accAdd(sumAmount,totalCashFlowOutAmount),totalProcessCashFlowOutAmout) > totalCashFlowInAmount){
+    	alert("出账流水总和不能大于(入账流水总和+申请中的出账流水)！");
     	return false;
     }
     
@@ -371,7 +375,7 @@ function isNumber(num){
 }
 //金额验证(整数)
 function isNumber2(num){
-	var reg=/^[1-9]{1}\d*$/;
+	var reg=/^\d*$/;
 	if(!reg.test(num)){
 		return false;
 	}

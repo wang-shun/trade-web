@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <style type="text/css">
 	.test {
-	width: 1000px!important;}
+	width: 500px!important;}
 </style>
 
 <!-- 案件任务列表 -->
@@ -11,7 +11,7 @@
 	role="dialog" aria-labelledby="case-task-modal-title"
 	aria-hidden="true">
 	<div class="modal-dialog" style="width:800px">
-		<div class="modal-content">
+		<div class="modal-content" style="margin:0 auto;">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">×</button>

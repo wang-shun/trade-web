@@ -52,9 +52,11 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT  T.CASE_CODE ,
+	SELECT  
+					C.PKID,
+					S.CASE_CODE ,
         O.PROPERTY_ADDR ,
-        T.PART_CODE AS PART_CODE_OLD ,
+        S.PART_CODE AS PART_CODE_OLD ,
         S.OLD_EST_PART_TIME ,
         T.EST_PART_TIME ,
         S.CHANGER_ID ,
@@ -65,19 +67,15 @@
         I.DISTRICT_NAME ,
         I.TEAM_NAME ,
         S.PKID AS historyId 
-        <if test='visitRemark == "0" or visitRemark == "1"'>
-        ,A.VISIT_REMARK ,
-        A.CONTENT ,
-        A.CREATE_TIME
-        </if>
-FROM    SCTRANS.T_TO_TRANS_PLAN T
-		INNER JOIN SCTRANS.T_TO_CASE C ON C.CASE_CODE = T.CASE_CODE
-        INNER JOIN SCTRANS.T_TS_TRANS_PLAN_HISTORY S ON T.CASE_CODE = S.CASE_CODE
-                                                        AND T.PART_CODE = s.PART_CODE
-        LEFT JOIN sctrans.T_TO_PROPERTY_INFO O ON O.CASE_CODE = T.CASE_CODE
+FROM    
+		SCTRANS.T_TS_TRANS_PLAN_HISTORY S
+		INNER JOIN SCTRANS.T_TO_CASE C ON C.CASE_CODE = S.CASE_CODE
+        LEFT JOIN SCTRANS.T_TO_TRANS_PLAN T ON T.CASE_CODE = S.CASE_CODE
+                                                        AND T.PART_CODE = S.PART_CODE
+        LEFT JOIN sctrans.T_TO_PROPERTY_INFO O ON O.CASE_CODE = S.CASE_CODE
         LEFT JOIN sctrans.SYS_USER Y ON Y.ID = S.CHANGER_ID
                                         AND Y.IS_DELETED = '0'
-        INNER JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID
+        INNER JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID 
         <ifNotNull visitRemark>
             <if test=' visitRemark == "0" or visitRemark == "1"'>
             	INNER JOIN sctrans.T_TS_RETURN_VISIT_REGISTRATION A ON A.PKID = ( SELECT
@@ -94,6 +92,9 @@ FROM    SCTRANS.T_TO_TRANS_PLAN T
             	WHERE C.CASE_PROPERTY NOT IN ('30003001','30003005') AND NOT EXISTS (SELECT 1 FROM sctrans.T_TS_RETURN_VISIT_REGISTRATION B WHERE B.PLAN_HISTORY_ID = S.PKID)
             </if>
         </ifNotNull>
+        <if test='visitRemark==null || visitRemark=="" '>
+           where 1=1 
+        </if>
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -104,6 +105,7 @@ FROM    SCTRANS.T_TO_TRANS_PLAN T
 		</searchSql>
 		<grid>
 			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="案件ID" title="案件ID" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PART_CODE_OLD" index="" checkbox="" title="环节编码"  customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />

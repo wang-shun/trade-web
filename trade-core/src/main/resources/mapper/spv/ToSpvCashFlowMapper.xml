@@ -324,4 +324,7 @@
     from sctrans.T_TO_SPV_CASHFLOW
     where CASHFLOW_APPLY_ID = #{cashFlowApplyId,jdbcType=BIGINT} and IS_DELETED=0
   </select>
+   <select id="getUserIdByUserName" parameterType="java.lang.String" resultType="java.lang.String">
+  	select ID from sctrans.SYS_USER u where u.USERNAME=#{userName,jdbcType=VARCHAR};
+  </select>
 </mapper>

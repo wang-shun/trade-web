@@ -209,6 +209,7 @@ function doDeal(caseCode,propertyAddr,changeNameAndMobile,partCode,teamName,chan
             $(this).prop("checked",true);
         }
     });
+	$(".mr10").remove();
 	$("#historyId").val(historyId);
 	$("#case_code").html(caseCode);
 	$("#property_addr").html(propertyAddr);

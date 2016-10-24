@@ -1,6 +1,40 @@
 /**
  * Created by caoyuan7 on 2016/10/19.
  */
+/**
+ *插件注释:
+ *1.页面按钮效果html
+ *  moduleCode为关注模块主键，isSubscribe为true为关注，false为不关注
+<span id="myCaseList">
+    <span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
+        <i class="iconfont markstar star_subscribe" status="1"></i>
+     </span>
+ <span>
+ *调用方法:
+  $("#myCaseList").subscribeToggle({
+        moduleType:"1001",//模块类型1001为案件类型
+        subscribeType:"2001"//模块功能类型2001为收藏
+    });
+ *基本CSS
+     .starmack .star_subscribe{
+      color: #ccc;
+    }
+     .starmack .star_text_2{
+      display: none;
+    }
+     .starmack .star_text_1{
+      display: inline;
+    }
+     .starmack.active .star_subscribe{
+      color:#f8cd59;
+    }
+     .starmack.active .star_text_1{
+      display: none;
+    }
+     .starmack.active .star_text_2{
+      display: inline;
+    }
+ */
 (function() {
     $.fn.subscribeToggle = function (options) {
         var ops = $.extend({},$.fn.subscribeToggle.defaults,options);

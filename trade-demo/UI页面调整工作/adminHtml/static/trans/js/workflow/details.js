@@ -151,17 +151,53 @@ $(document).ready(function () {
 
  //星星点击
     $(".starmack").click(function () {
-        var obj = $(this).find(".iconfont");
+        var obj = $(this);
         var info = $(this).find("span");
+        var mark = $(this).find("i");
+        var status = mark.attr("status");
+        if(obj.hasClass('star-bgyellow')){
+            obj.addClass('star-bggrey').removeClass('star-bgyellow');
+            mark.html('&#xe644;');
+            info.text("未标星号");
+            status = 1;
+            console.log(status);
+        } else {
+            obj.addClass('star-bgyellow').removeClass('star-bggrey');
+            mark.html('&#xe63e;');
+            info.text("已标星号");
+            status = 0;
+            console.log(status);
+        }
+    });
+
+    $(".starmark").click(function () {
+        var obj = $(this);
+        var info = $(this).find("span");
+        var mark = $(this).find("i");
+        var status = mark.attr("status");
+        if(obj.hasClass('star-bgyellow')){
+            obj.addClass('star-bggrey').removeClass('star-bgyellow');
+            mark.html('&#xe644;');
+            info.text("未标星号");
+            status = 1;
+            console.log(status);
+        } else {
+            obj.addClass('star-bgyellow').removeClass('star-bggrey');
+            mark.html('&#xe63e;');
+            info.text("已标星号");
+            status = 0;
+            console.log(status);
+        }
+    });
+    $(".star").click(function () {
+        var obj = $(this);
         var status = obj.attr("status");
         if(obj.hasClass('star-grey')){
             obj.addClass('star-yellow').removeClass('star-grey').html('&#xe63e;');
-            info.text("已标星号");
             status = 1;
             console.log(status);
         } else {
             obj.addClass('star-grey').removeClass('star-yellow').html('&#xe644;');
-            info.text("未标星号");
             status = 0;
             console.log(status);
         }
