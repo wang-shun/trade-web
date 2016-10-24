@@ -19,6 +19,7 @@ $(document).ready(function() {
 		    	    data.rows = 10;
 		    	    data.page = 1;
 		    	    data.argu_isNotResearchCloseCase = "true";
+					data.argu_sessionUserId = $("#userId").val();
 		    	    aist.wrap(data);
 		    		reloadGrid(data);
 
