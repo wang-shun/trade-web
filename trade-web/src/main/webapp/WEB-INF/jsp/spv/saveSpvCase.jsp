@@ -636,8 +636,8 @@
 								<label for="" class="lable-one">资金方账户名称</label>
 								<select name="toSpvAccountList[3].name" value="${spvBaseInfoVO.toSpvAccountList[3].name }" class="form-control input-two">
 								<option value="">请选择</option>
-								<option value="1" ${spvBaseInfoVO.toSpvAccountList[3].name eq '1'?'selected="selected"':'' }>搜易贷（北京）金融信息服务有限公司</option>
-								<option value="2" ${spvBaseInfoVO.toSpvAccountList[3].name eq '2'?'selected="selected"':'' }>上海嘉定及时雨小额贷款股份有限公司</option>
+								<option value="搜易贷（北京）金融信息服务有限公司" ${spvBaseInfoVO.toSpvAccountList[3].name eq '搜易贷（北京）金融信息服务有限公司'?'selected="selected"':'' }>搜易贷（北京）金融信息服务有限公司</option>
+								<option value="上海嘉定及时雨小额贷款股份有限公司" ${spvBaseInfoVO.toSpvAccountList[3].name eq '上海嘉定及时雨小额贷款股份有限公司'?'selected="selected"':'' }>上海嘉定及时雨小额贷款股份有限公司</option>
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
@@ -709,12 +709,9 @@
 										<aist:dict id="toSpvDeDetailList[${status.index }].deCondCode" name="toSpvDeDetailList[${status.index }].deCondCode" clazz="form-control input-one"
 									    display="select"  dictType="SPV_DE_COND"  
 									    ligerui='none' defaultvalue="${toSpvDeDetail.deCondCode }"></aist:dict>	
-									    
 										</td>
 										<td class="text-left">
-										<aist:dict id="toSpvDeDetailList[${status.index }].payeeAccountType" name="toSpvDeDetailList[${status.index }].payeeAccountType" clazz="form-control input-one"
-									    display="select"  dictType="SPV_POSITION" tag="DE" 
-									    ligerui='none' defaultvalue="${toSpvDeDetail.payeeAccountType }"></aist:dict>	
+									    <input name="toSpvDeDetailList[${status.index }].payeeAccountType" value="${toSpvDeDetail.payeeAccountType }" class="table-input-one" type="text" placeholder="请输入账户"  />	
 										</td>
 										<td><input name="toSpvDeDetailList[${status.index }].deAmount" value="<fmt:formatNumber type="number" value="${toSpvDeDetail.deAmount }" pattern="0.00" maxFractionDigits="2"/>" class="table-input-one" type="text"
 											placeholder="请输入金额" />万元</td>
@@ -732,7 +729,7 @@
 								  <tr id="example" align="center">
 
 									<td class='text-left'><aist:dict id='toSpvDeDetailList[0].deCondCode' name='toSpvDeDetailList[0].deCondCode' clazz='table-select' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>
-									<td class='text-left'><aist:dict id='toSpvDeDetailList[0].payeeAccountType' name='toSpvDeDetailList[0].payeeAccountType' tag='DE' clazz='table-select' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>
+									<td class='text-left'><input name="toSpvDeDetailList[${status.index }].payeeAccountType" class="table-input-one" type="text" placeholder="请输入账户"  /></td>
 									<td><input name='toSpvDeDetailList[0].deAmount' class='table-input-one'  type='text' placeholder='请输入金额'>万</td>
 									<td class='text-left' ><input name='toSpvDeDetailList[0].deAddition' class='table-input' type='text' placeholder='' /></td>
 									<td align="center">
@@ -1235,20 +1232,22 @@
 		
 		
 		var sum = parseInt($("#toSpvDeDetailListSize").val());
+		var sum_ = parseInt($("#toSpvDeDetailListSize").val())+1;
 		if( sum==0){
 			sum=1;
 		}
 		function getAtr(i) {
 		$str = '';
 		$str += "<tr align='center'>";
-		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].deCondCode' name='toSpvDeDetailList["+sum+"].deCondCode' clazz='table-select' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>";
-		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum+"].payeeAccountType' name='toSpvDeDetailList["+sum+"].payeeAccountType' tag='DE' clazz='table-select' display='select' dictType='SPV_POSITION'  ligerui='none' ></aist:dict></td>";
-		$str += "<td><input name='toSpvDeDetailList["+sum+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万</td>";
-		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
+		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum_+"].deCondCode' name='toSpvDeDetailList["+sum_+"].deCondCode' clazz='table-select' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>";
+		$str += "<td class='text-left'><input name='toSpvDeDetailList["+sum_+"].payeeAccountType' class='table-input-one' type='text' placeholder='请输入账户' />	</td>";
+		$str += "<td><input name='toSpvDeDetailList["+sum_+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万</td>";
+		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum_+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
 		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
 		$str += "</tr>";
 		$("#addTr").append($str);
 		sum++;
+		sum_++;
 /* 		if(sum > 1){
 			$('#example').hide();
 		} */

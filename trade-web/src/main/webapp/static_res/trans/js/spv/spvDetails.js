@@ -899,7 +899,7 @@ $(document).ready(function(){
 		var isNull = true;
 		for(var i=0;i<length;i++){
 			var deCondCode = $("select[name='toSpvDeDetailList["+i+"].deCondCode'] option:selected").val();
-			var payeeAccountType = $("select[name='toSpvDeDetailList["+i+"].payeeAccountType'] option:selected").val();
+			var payeeAccountType = $("input[name='toSpvDeDetailList["+i+"].payeeAccountType']").val();
 		    var deAmount = $("input[name='toSpvDeDetailList["+i+"].deAmount']").val();
 		    var deAddition = $("input[name='toSpvDeDetailList["+i+"].deAddition']").val();
 		    if((deCondCode != null && deCondCode != '') || (payeeAccountType != null && payeeAccountType != '') 
@@ -916,7 +916,7 @@ $(document).ready(function(){
 
 		$("#addTr tr:visible").each(function(index){
 			var deCondCode = $("select[name='toSpvDeDetailList[" + index  + "].deCondCode'] option:selected").val();
-    		var payeeAccountType = $("select[name='toSpvDeDetailList[" + index + "].payeeAccountType'] option:selected").val();
+    		var payeeAccountType = $("input[name='toSpvDeDetailList[" + index + "].payeeAccountType']").val();
     		var deAmount = $("input[name='toSpvDeDetailList[" + index + "].deAmount'").val();
     		
     		if(deCondCode == "" || payeeAccountType == "" || deAmount == ""){
@@ -928,7 +928,7 @@ $(document).ready(function(){
     		$("#addTr tr:visible").each(function(index1){
     			if(index != index1 && 
     					deCondCode == $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode'] option:selected").val() &&
-    					payeeAccountType == $("select[name='toSpvDeDetailList[" + index1 + "].payeeAccountType'] option:selected").val()){
+    					payeeAccountType == $("input[name='toSpvDeDetailList[" + index1 + "].payeeAccountType']").val()){
     				rowElement2 = $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode']");
     				isRepeat = true;
     				return false;

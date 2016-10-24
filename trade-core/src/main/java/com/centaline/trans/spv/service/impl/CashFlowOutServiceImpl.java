@@ -39,6 +39,7 @@ import com.centaline.trans.spv.entity.ToSpvCashFlow;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.entity.ToSpvDeDetailMix;
+import com.centaline.trans.spv.repository.ToSpvAccountMapper;
 import com.centaline.trans.spv.repository.ToSpvAduitMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowMapper;
@@ -73,6 +74,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	private ToSpvCashFlowMapper toSpvCashFlowMapper;
 	@Autowired
 	private ToSpvAduitMapper toSpvAduitMapper;
+	@Autowired
+	private ToSpvAccountMapper toSpvAccountMapper;
 		
 	@Autowired
 	private UamSessionService uamSessionService;	
@@ -409,12 +412,22 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
                 for(ToSpvDeDetailMix mix : deDetailMixList){
                 	if(toSpvDeDetail.getDeCondCode().equals(mix.getDeCondCode())){
                 		repeatFlag = true;
-            			if(toSpvDeDetail.getPayeeAccountType().equals("FUND")){
+            			if("FUND".equals(toSpvDeDetail.getPayeeAccountType())){
             				mix.setFundDeAmount(toSpvDeDetail.getDeAmount());
-            			}else if(toSpvDeDetail.getPayeeAccountType().equals("SELLER")){
+            			}else if("SELLER".equals(toSpvDeDetail.getPayeeAccountType())){
             				mix.setSellerDeAmount(toSpvDeDetail.getDeAmount());
             			}
             			mix.setTotalDeAmount(NumberUtil.add(mix.getFundDeAmount(), mix.getSellerDeAmount()));
+//            			List<ToSpvAccount> toSpvAccounts = toSpvAccountMapper.selectBySpvCode(spvCode);
+//            			if(toSpvAccounts  != null && !toSpvAccounts.isEmpty()){
+//            				for(ToSpvAccount account : toSpvAccounts){
+//            					if("FUND".equals(toSpvDeDetail.getPayeeAccountType()) && "FUND".equals(account.getAccountType())){
+//            						mix.setFundName(account.getName());
+//            					}else if("SELLER".equals(toSpvDeDetail.getPayeeAccountType()) && "SELLER".equals(account.getAccountType())){
+//            						mix.setSellerName(account.getName());
+//            					}
+//            				}		
+//            			}
                 	}
                 }
                 
@@ -423,11 +436,22 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     			deDetailMix.setDeCondCode(toSpvDeDetail.getDeCondCode());
     			deDetailMix.setFundDeAmount(BigDecimal.ZERO);
     			deDetailMix.setSellerDeAmount(BigDecimal.ZERO);
-    			if(toSpvDeDetail.getPayeeAccountType().equals("FUND")){
-    				deDetailMix.setFundDeAmount(toSpvDeDetail.getDeAmount());
-    			}else if(toSpvDeDetail.getPayeeAccountType().equals("SELLER")){
-    				deDetailMix.setSellerDeAmount(toSpvDeDetail.getDeAmount());
+    			if("FUND".equals(toSpvDeDetail.getPayeeAccountType())){
+    				deDetailMix.setFundDeAmount(toSpvDeDetail.getDeAmount());		
+    			}else if("SELLER".equals(toSpvDeDetail.getPayeeAccountType())){
+    				deDetailMix.setSellerDeAmount(toSpvDeDetail.getDeAmount());   					
     			}
+    			
+//    			List<ToSpvAccount> toSpvAccounts = toSpvAccountMapper.selectBySpvCode(spvCode);
+//    			if(toSpvAccounts  != null && !toSpvAccounts.isEmpty()){
+//    				for(ToSpvAccount account : toSpvAccounts){
+//    					if("FUND".equals(toSpvDeDetail.getPayeeAccountType()) && "FUND".equals(account.getAccountType())){
+//    						deDetailMix.setFundName(account.getName());
+//    					}else if("SELLER".equals(toSpvDeDetail.getPayeeAccountType()) && "SELLER".equals(account.getAccountType())){
+//    						deDetailMix.setSellerName(account.getName());
+//    					}
+//    				}		
+//    			}
     			
     			deDetailMix.setTotalDeAmount(NumberUtil.add(deDetailMix.getFundDeAmount(), deDetailMix.getSellerDeAmount()));
     			deDetailMixList.add(deDetailMix);
@@ -436,11 +460,10 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
                 }
     		}
     		
-    		//request.setAttribute("", spvBaseInfoVO.getToSpvDeDetailList().get(0).getPayeeAccountId());
     		request.setAttribute("deDetailMixList", deDetailMixList);
     	}
     	
-    	List<Map<String, String>> bankNameList = new ArrayList<Map<String, String>>();
+/*    	List<Map<String, String>> bankNameList = new ArrayList<Map<String, String>>();
     	if(spvBaseInfoVO.getToSpvAccountList() != null && !spvBaseInfoVO.getToSpvAccountList().isEmpty()){
     	for(ToSpvAccount account : spvBaseInfoVO.getToSpvAccountList()){
     		if("SELLER".equals(account.getAccountType())){
@@ -459,11 +482,11 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     			bankNameList.add(1, map);
     		}
     	   }
-    	 }
+    	 }*/
 
     	Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
     	
-    	request.setAttribute("bankNameList", bankNameList);
+//    	request.setAttribute("bankNameList", bankNameList);
     	request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
     	request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
     	request.setAttribute("totalCashFlowOutAmount", completeCashFlowInfoMap.get("totalCashFlowOutAmount"));

@@ -31,15 +31,18 @@ function checkFormSubmit(){
     }
     
     var payerFlag = true;
-    $("select[name$='toSpvCashFlow.payer'] option:selected").each(function(i,e){
+    var payerEle;
+    $("input[name$='toSpvCashFlow.payer']").each(function(i,e){
     	if($(e).val() == null || $(e).val() == ''){
     		payerFlag = false;
+    		payerEle = $(e);
     		return false;
     	}
     });
     
     if(!payerFlag){
-    	alert("请选择收款人姓名！");
+    	alert("请填写收款人姓名！");
+    	changeClass(payerEle);
     	return false;
     }
     
@@ -371,7 +374,7 @@ function isNumber(num){
 }
 //金额验证(整数)
 function isNumber2(num){
-	var reg=/^[1-9]{1}\d*$/;
+	var reg=/^\d*$/;
 	if(!reg.test(num)){
 		return false;
 	}
