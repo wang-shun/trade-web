@@ -117,6 +117,18 @@ public class WarnListController {
 		return "/eloan/task/taskEloanList";
 	}
 	
+	
+	//E+放款流水列表
+	@RequestMapping("EloanRelCashList")
+	public String EloanRelCashList(HttpServletRequest request) {
+		SessionUser user = uamSessionService.getSessionUser();
+		//记录产调申请人的组织
+		ToPropertyResearchVo pro = toPropertyInfoService.getPropertyDepInfoByuserDepIdEloan(user.getServiceDepId());
+		if(pro != null)
+			request.setAttribute("orgId", pro.getPrApplyDepId());
+
+		return "/eloan/task/taskEloanRelCashList";
+	}
 	//E+申请页面 ，填写信息保存
 	@RequestMapping(value="/task/eloanApply/process")
 	public String eloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,

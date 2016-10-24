@@ -68,6 +68,7 @@
                                     	<option value="">请选择</option>
                                         <option value="0">异常</option>
                                         <option value="1">正常</option>
+                                        <option value="2">未处理</option>
                                     </select>
                                 </div>
                             </div>
@@ -238,7 +239,7 @@
                                                 <label>
                                                    案件编号
                                                 </label>
-                                                <span class="info_one" id="case_code"></span>
+                                                <span class="info_one" id="case_code" style="width: 140px"></span>
                                             </p>
                                             <p>
                                                 <label>
@@ -252,7 +253,7 @@
                                                 <label>
                                                     变更人
                                                 </label>
-                                                <span class="info_one" ><span id="change_name"></span><em class="ml5 blue-text" id="change_mobile"></em></span>
+                                                <span class="info_one" style="width: 140px"><span id="change_name"></span><em class="ml5 blue-text" id="change_mobile"></em></span>
                                             </p>
                                             <p>
                                                 <label>
@@ -361,7 +362,7 @@
            {{/if}}
 				<td>
                     <p class="big">
-                       <a href="javascript:;">
+                       <a href="${ctx}/case/caseDetail?caseId={{item.PKID}}"  target="_blank"">
                            {{item.CASE_CODE}}
                        </a>
                     </p>
@@ -371,13 +372,28 @@
 						  {{if index1==0 && returnVisit.visitRemark=='0'}}
 							<span class="red_color">异常</span>
 						  {{/if}}
-					  
+						  {{if index1==0 && returnVisit.visitRemark=='1'}}
+							<span class="yes_color">正常</span>
+						  {{/if}}
 						{{/each}}
+						{{if item.returnVisitList.length==0}}
+							<span class="no_color">未处理</span>
+						{{/if}}
 					{{else if visitRemark=='0'}}
-						<span class="red_color">异常</span>
+						{{if item.returnVisitList.length>0}}
+							<span class="red_color">异常</span>
+						{{/if}}
+					{{else if visitRemark=='1'}}
+						{{if item.returnVisitList.length>0}}
+							<span class="yes_color">正常</span>
+						{{/if}}
+					{{else if visitRemark=='2'}}
+						{{if item.returnVisitList.length==0}}
+							<span class="no_color">未处理</span>
+						{{/if}}
 					{{/if}}
                     <a href="#">
-						<i class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;&nbsp;{{returnVisit.content}}<br/> {{/each}}"></i>
+						<i class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;{{returnVisit.content}}&nbsp;{{returnVisit.createTime}}<br/> {{/each}}"></i>
 					</a>
                 </td>
 				<td>

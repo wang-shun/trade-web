@@ -362,6 +362,61 @@
     where ITEM_CODE = #{itemCode,jdbcType=VARCHAR} 
   </update>
   
+  
+  <update id="updateMaterialInfoByPkid" parameterType="com.centaline.trans.material.entity.MmMaterialItem">
+    update sctrans.T_MM_MATERIAL_ITEM
+    <set>
+      <if test="caseCode != null">
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCategory != null">
+        ITEM_CATEGORY = #{itemCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="itemInputTime != null">
+        ITEM_INPUT_TIME = #{itemInputTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemOutputTime != null">
+        ITEM_OUTPUT_TIME = #{itemOutputTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actionPreDate != null">
+        ACTION_PRE_DATE = #{actionPreDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemBackTime != null">
+        ITEM_BACK_TIME = #{itemBackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemResource != null">
+        ITEM_RESOURCE = #{itemResource,jdbcType=VARCHAR},
+      </if>
+      <if test="itemManager != null">
+        ITEM_MANAGER = #{itemManager,jdbcType=VARCHAR},
+      </if>
+      <if test="itemAddrCode != null">
+        ITEM_ADDR_CODE = #{itemAddrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemBusinessRemark != null">
+        ITEM_BUSINESS_REMARK = #{itemBusinessRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemRemark != null">
+        ITEM_REMARK = #{itemRemark,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemStatus != null">
+        ITEM_STATUS = #{itemStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    ,UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.material.entity.MmMaterialItem">
     update sctrans.T_MM_MATERIAL_ITEM
     <set>

@@ -19,6 +19,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -29,6 +30,7 @@ import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -79,6 +81,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 	private ToSpvReceiptMapper toSpvReceiptMapper;
 	@Autowired
 	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
+	@Autowired
+	private WorkFlowManager workFlowManager;
 
 	@Override
 	public void cashFlowInPage(HttpServletRequest request, String source, String instCode, String taskId,
@@ -160,12 +164,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
         	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
         	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
         	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
-        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
-        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
         	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
         	request.setAttribute("applyAuditorName", applyAuditorName);
-        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
-        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
         	request.setAttribute("createByName", createByName);
         	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
@@ -198,7 +198,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);//更新状态
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("assignee", "wufeng01");	  
+		variables.put("RiskControlOfficer", user.getUsername());
+		variables.put("RiskControlDirector", "wufeng01"); 
 		taskService.submitTask(taskId, variables);
 		
 	}
@@ -218,14 +219,10 @@ public class CashFlowInServiceImpl implements CashFlowInService {
     	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(null == toSpv?null:toSpv.getPkid());
     	if(spvChargeInfoVO != null){       	
     		String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
-        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
-        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
         	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
         //	divideTenThousand(spvChargeInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);  
         	request.setAttribute("applyAuditorName", applyAuditorName);
-        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
-        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
         	request.setAttribute("createByName", createByName);
     	}
 
@@ -267,11 +264,11 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
 				statusType = SpvCashFlowApplyStatusEnum.FINANCEADUIT.getCode();
-				variables.put("assignee", "wufeng01");	
+				//variables.put("assignee", "wufeng01");	
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
 				statusType = SpvCashFlowApplyStatusEnum.APPLY.getCode();
-				variables.put("assignee", "wangqiao7");	
+				//variables.put("assignee", "wangqiao7");	
 			}
 			
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());//内容
@@ -310,12 +307,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
         	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
         	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
         	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
-        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
-        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
         	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
         	request.setAttribute("applyAuditorName", applyAuditorName);
-        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
-        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
         	request.setAttribute("createByName", createByName);
         	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
         	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
@@ -328,6 +321,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			throws Exception {
 
 			SessionUser user = uamSessionService.getSessionUser();
+			TaskVo task = workFlowManager.getHistoryTask(taskId);
 			Map<String, Object> variables = new HashMap<String, Object>();
 			String statusType = "";
 			/**1.查询申请*/
@@ -357,11 +351,11 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
 				statusType = SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode();
-				variables.put("assignee", "wufeng01");	
+				//variables.put("assignee", "wufeng01");	
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
 				statusType = SpvCashFlowApplyStatusEnum.APPLY.getCode();
-				variables.put("assignee", "wangqiao7");	
+				//variables.put("assignee", "wangqiao7");	
 			}
 			
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());//内容
@@ -380,6 +374,11 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 					}
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
 				}
+			
+			if(!StringUtils.isBlank(toSpvCashFlowMapper.getUserIdByUserName(task.getAssignee()))){
+				toSpvCashFlowApply.setFtPostAuditor(toSpvCashFlowMapper.getUserIdByUserName(task.getAssignee()));//设置处理人
+			}
+			
 			toSpvCashFlowApply.setStatus(statusType);
 			toSpvCashFlowApply.setUpdateBy(user.getId());
 			toSpvCashFlowApply.setUpdateTime(new Date());
@@ -475,7 +474,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO,handle,spvApplyCode); 
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
-		vars.put("assignee", "wufeng01");
+		vars.put("RiskControlOfficer", user.getUsername());
+		vars.put("RiskControlDirector", "wufeng01");
 		//开启流程
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
 				propertyUtilsService.getSpvCashflowInProcess(), spvApplyCode, vars);

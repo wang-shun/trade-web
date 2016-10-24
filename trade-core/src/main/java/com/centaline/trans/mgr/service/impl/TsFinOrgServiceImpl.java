@@ -1,6 +1,7 @@
 package com.centaline.trans.mgr.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -164,4 +165,9 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	public List<TsFinOrg> getMainBankListInTempBankReport() {
 		return tsFinOrgMapper.queryMainBankListInTempBankReport();
 	}
+	@Override
+	public List<TsFinOrg> findBankByFinOrgList(List<Map<String, Object>> finOrgs) {
+		return tsFinOrgMapper.findBankByFinOrgList(finOrgs);
+	}
+
 }

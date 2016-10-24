@@ -10,7 +10,11 @@ public class ToSpvDeDetailMix {
 	
 	private BigDecimal sellerDeAmount;
 	
+	private String sellerName;
+	
 	private BigDecimal fundDeAmount;
+	
+	private String fundName;
 
 	public String getDeCondCode() {
 		return deCondCode;
@@ -36,14 +40,28 @@ public class ToSpvDeDetailMix {
 		this.sellerDeAmount = sellerDeAmount;
 	}
 
+	public String getSellerName() {
+		return sellerName;
+	}
+
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}
+
 	public BigDecimal getFundDeAmount() {
 		return fundDeAmount;
 	}
 
 	public void setFundDeAmount(BigDecimal fundDeAmount) {
 		this.fundDeAmount = fundDeAmount;
+	}
+
+	public String getFundName() {
+		return fundName;
+	}
+
+	public void setFundName(String fundName) {
+		this.fundName = fundName;
 	} 
-	
-	
 
 }

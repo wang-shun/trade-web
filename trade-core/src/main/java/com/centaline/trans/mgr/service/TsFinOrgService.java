@@ -1,6 +1,7 @@
 package com.centaline.trans.mgr.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.mgr.entity.TsFinOrg;
 
@@ -51,6 +52,14 @@ public interface TsFinOrgService {
 	 * @return
 	 */
 	TsFinOrg findBankByFinOrg(String orgCode);
+	
+	/**
+	 * 根据金融机构编码查询金融机构
+	 * 
+	 * @param orgCode
+	 * @return
+	 */
+	List<TsFinOrg> findBankByFinOrgList(List<Map<String, Object>> finOrgs);
 
 	/**
 	 * 根据id查询金融机构

@@ -38,7 +38,8 @@
 <link rel="stylesheet" href="${ctx}/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
-
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
@@ -81,6 +82,7 @@ text-decoration: underline !important;
 
 <body>
 <input type="hidden" id="ctx" value="${ctx}" />
+<input type="hidden" id="userId" value="${userId}" />
 <input type="hidden" id="Lamp1" value="${Lamp1}" />
 <input type="hidden" id="Lamp2" value="${Lamp2}" />
 <input type="hidden" id="Lamp3" value="${Lamp3}" />
@@ -141,7 +143,22 @@ text-decoration: underline !important;
 						<label class="control-label sign_left">任务名</label>
 						<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
 					</div>
-						
+					<div class="form_content">
+						<label class="control-label sign_left">
+							是否关注
+						</label>
+						<select class="select_control teamcode" id="isSubscribeFilter">
+							<option value="">
+								请选择
+							</option>
+							<option value="0">
+								已关注
+							</option>
+							<option value="1">
+								未关注
+							</option>
+						</select>
+					</div>
 					<div class="form_content space">
                             <div class="add_btn" align="center">
                                 <button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>
@@ -205,7 +222,7 @@ text-decoration: underline !important;
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-
+<script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 	 
@@ -269,9 +286,16 @@ text-decoration: underline !important;
 				
 					<td class="t-left">
 						<p class="big">
-                       		<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">
-								{{item.CASE_CODE}}
-							</a>
+                       		<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a>
+							{{if item.SUBSCRIBE_COUNT == 0}}
+							  	   <span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
+                             		    <i class="iconfont markstar star_subscribe" status="1"></i>
+                         		   </span>
+							{{else}}
+								   <span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="{{item.CASE_CODE}}" isSubscribe="false">
+											<i class="iconfont markstar star_subscribe" status="1"></i>
+								   </span>
+							{{/if}}
 						</p>
 						<p>
 							<i class="tag_sign">c</i>{{item.CTM_CODE}}

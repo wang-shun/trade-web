@@ -90,7 +90,10 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 				} else {
 					toRcMortgageInfoMapper.updateByPrimaryKeySelective(toRcMortgageInfo);
 					MmMaterialItem mmMaterialItem = transferToMmItem(toRcMortgageInfo,caseCode);
+
+					// 修改
 					mmMaterialItemService.updateMaterialInfoByItemCode(mmMaterialItem);
+					//mmMaterialItemService.updateMaterialInfoByItemCode(mmMaterialItem.getItemCode());
 				}
 			}
 		}

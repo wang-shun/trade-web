@@ -19,4 +19,10 @@ public class MmIoBatchServiceImpl implements  MmIoBatchService{
 		return mmIoBatchMapper.selectByPrimaryKey(pkid);
 	}
 
+	@Override
+	public long insertMmIoBatchInfo(MmIoBatch mmIoBatch) {
+		// TODO Auto-generated method stub
+		return mmIoBatchMapper.insertMmIoBatchInfo(mmIoBatch);
+	}
+
 }

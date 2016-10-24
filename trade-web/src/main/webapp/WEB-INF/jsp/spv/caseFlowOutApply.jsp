@@ -67,9 +67,9 @@
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
 		<input type="hidden" id="handle" name="handle" value="${handle }">
 		<input type="hidden" id="spvCode" name="spvCode" value="${spvCode }">
-
 		</form>
 		<%--出入账金额比较 --%>
+		<input type="hidden" id="totalProcessCashFlowOutAmout" value="${totalProcessCashFlowOutAmout }" >
 		<input type="hidden" id="totalCashFlowInAmount" value="${totalCashFlowInAmount }" >
 		<input type="hidden" id="totalCashFlowOutAmount" value="${totalCashFlowOutAmount }" >
 		<%--上传图片添加的图片和上传成功的图片数量，用于确认是否完全上传成功 --%>
@@ -224,7 +224,7 @@
                                     <table class="table table-bordered customerinfo">
                                         <thead>
                                         <tr>
-                                            <th>流水编号</th>
+                                            <th>凭证编号</th>
                                             <th>金额</th>
                                             <th>账户信息</th>
                                             <th>审批状态</th>
@@ -237,14 +237,11 @@
                                             <td>
                                                 <p class="big">
                                                     <a href="javascript:void(0);">
-                                                        ${cashFlow.cashflowApplyId }
+                                                        ${cashFlow.voucherNo }
                                                     </a>
                                                 </p>
                                                 <p>
-                                                    转账
-                                                    <a href="javascript:;" class="under font12">
-                                                        凭证编号
-                                                    </a>
+                                                    ${cashFlow.direction }
                                                 </p>
                                             </td>
                                             <td>
@@ -258,8 +255,8 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <p><span class="pink">付：</span>${cashFlow.payer }&nbsp;&nbsp;${cashFlow.payerAcc }/${cashFlow.payerBank }</p>
-                                                <p><span class="navy">收：</span>${cashFlow.receiver }&nbsp;&nbsp;${cashFlow.receiverAcc }/${cashFlow.receiverBank }</p>
+                                                <p><span>付：</span>${cashFlow.payer }&nbsp;&nbsp;${cashFlow.payerAcc }/${cashFlow.payerBank }</p>
+                                                <p><span>收：</span>${cashFlow.receiver }&nbsp;&nbsp;${cashFlow.receiverAcc }/${cashFlow.receiverBank }</p>
                                             </td>
                                             <td>
                                                 <p class="smll_sign">
@@ -369,11 +366,7 @@
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.pkid"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid }" />
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.spvCode }" />
 	                                                <td>
-	                                                    <select name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payer" class="table-select boderbbt" onChange="this.value;selectChange(this,${status2.index });">
-	                                                    <option value="" >请选择</option>
-                                                        <option value="${bankNameList[0].name }" ${bankNameList[0].name eq spvCaseFlowOutInfoVO.toSpvCashFlow.payer?'selected="selected"':'' }>${bankNameList[0].name }</option>
-	                                                    <option value="${bankNameList[1].name }" ${bankNameList[1].name eq spvCaseFlowOutInfoVO.toSpvCashFlow.payer?'selected="selected"':'' }>${bankNameList[1].name }</option>
-	                                                    </select>
+	                                                    <input  class="table_input boderbbt" type="text"  placeholder="请输入收款人姓名" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payer" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }" />
 	                                                </td>
 	                                                <td>
 	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }" placeholder="请输入银行卡号"  name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payerAcc" /></p>
@@ -444,6 +437,7 @@
                         </div>
                         <div class="view-content">
                             <div class="view-box">
+                            <c:if test="${not empty spvChargeInfoVO.toSpvAduitList }">
                             <c:forEach items="${spvChargeInfoVO.toSpvAduitList }" var="toSpvAduit" varStatus="status4">
                             <input type="hidden" name="toSpvAduitList[${status4.index }].pkid" value="${toSpvAduit.pkid }" />
                             <div class="view clearfix">
@@ -458,6 +452,10 @@
                                 </p>
                             </div>
                             </c:forEach>
+                            </c:if>
+                            <c:if test="${empty spvChargeInfoVO.toSpvAduitList }">
+                                    <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p>
+                            </c:if>
                         </div>
                         </div>
                         
@@ -554,15 +552,65 @@ var sum = parseInt($("#sum").val());
 var attSum_ = parseInt($("#attSum_").val());
 var addSum = 0;
 var doneSum = 0;
+var accountType = 'all';
 
 $(function() {
-	//筛选条件 
+ 	//筛选条件 
 	var codeArrStr = "${codeArrStr}";
 	$("#addTr2").find("option").each(function(i,e){
 		if(codeArrStr.indexOf($(e).val()) == -1){
 			$(e).remove();
 		}
 	});
+	/*	$("#addTr2").find("select").change(function(){
+		debugger;
+		if($(this).find("option:selected").val() == ''){
+			$("select[name$='toSpvCashFlow.payer'] option:nth-child(1)").prop("selected",true);
+			$("input[name$='toSpvCashFlow.payerAcc']").val('');
+			$("input[name$='toSpvCashFlow.payerBank']").val('');
+			return;
+		}
+	
+		var size = ${deDetailMixList.size()};
+		for(var i=0;i<size;i++){		
+			if(i == 0){
+				var deCondCode = '${deDetailMixList[0].deCondCode}';
+				var sellerName = '${deDetailMixList[0].sellerName}';
+				var fundName = '${deDetailMixList[0].fundName}';
+			}else if(i == 1){
+				var deCondCode = '${deDetailMixList[1].deCondCode}';
+				var sellerName = '${deDetailMixList[1].sellerName}';
+				var fundName = '${deDetailMixList[1].fundName}';
+			}else if(i == 2){
+				var deCondCode = '${deDetailMixList[2].deCondCode}';
+				var sellerName = '${deDetailMixList[2].sellerName}';
+				var fundName = '${deDetailMixList[2].fundName}';
+			}else if(i == 3){
+				var deCondCode = '${deDetailMixList[3].deCondCode}';
+				var sellerName = '${deDetailMixList[3].sellerName}';
+				var fundName = '${deDetailMixList[3].fundName}';
+			}
+
+			if($(this).find("option:selected").val() == deCondCode){
+				if(sellerName == ''){
+					$("select[name$='toSpvCashFlow.payer'] option:nth-child(3)").prop("selected",true);
+					$("input[name$='toSpvCashFlow.payerAcc']").val('${bankNameList[1].account}');
+					$("input[name$='toSpvCashFlow.payerBank']").val('${bankNameList[1].bankName}');
+					accountType = 'seller';
+				}else if(fundName == ''){
+					$("select[name$='toSpvCashFlow.payer'] option:nth-child(2)").prop("selected",true);
+					$("input[name$='toSpvCashFlow.payerAcc']").val('${bankNameList[0].account}');
+					$("input[name$='toSpvCashFlow.payerBank']").val('${bankNameList[0].bankName}');
+					accountType = 'fund';
+				}else{
+					$("select[name$='toSpvCashFlow.payer'] option:nth-child(1)").prop("selected",true);
+					$("input[name$='toSpvCashFlow.payerAcc']").val('');
+					$("input[name$='toSpvCashFlow.payerBank']").val('');
+					accountType = 'all';
+				}
+			}
+		}
+	}); */
 	//图片渲染
 	if($("img[id^='image_']").size()>0){
 		$('.wrapper-content').viewer('destroy');
@@ -584,19 +632,27 @@ $(function() {
 
 //添加入账申请信息tr
 function getTR(index){
+	debugger;
 	index = sum;
+/* 	var sellerNameSelect = '';
+	var fundNameSelect = '';
+	
+	if(accountType == 'seller'){
+		fundNameSelect = 'selected="selected"';
+	}else if(accountType == 'fund'){
+		sellerNameSelect = 'selected="selected"';
+	} */
+	
 	var  $str='';
 	$str+='<tr>';
 	$str+='	<td>';
-	$str+='<select name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" class="table-select boderbbt" onChange="this.value;selectChange(this,'+index+');">';
-	$str+='<option value="" >请选择</option>';
-    $str+='<option value="${bankNameList[0].name }" >${bankNameList[0].name }</option>';
-    $str+='<option value="${bankNameList[1].name }" >${bankNameList[1].name }</option>';
-    $str+='</select>';
+	$str+='<input  class="table_input boderbbt" type="text" placeholder="请输入付款人姓名" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" >';
 	$str+='	</td>';
 	$str+='	<td>';
-	$str+='		<p><input class="table_input boderbbt" type="text"placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc" ></p>';
-	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank" ></p>';
+	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc" >';
+	$str+='</p>';
+	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"';
+	$str+='></p>';
 	$str+='	</td>';
 	$str+='	<td class="text-left">';
 	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.amount" >万';
@@ -714,8 +770,7 @@ function renderFileUpload(k,a){
     })
 }
 
-function selectChange(this_,index){
-	var i = this_.selectedIndex;
+/* function selectChange(i,index){
 	if(i == 0){
 		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('');
 		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('');
@@ -726,6 +781,11 @@ function selectChange(this_,index){
 		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('${bankNameList[1].account}');
 		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('${bankNameList[1].bankName}');
 	}
+} */
+
+function rescCallbocak(){
+	 window.opener.location.reload(); //刷新父窗口
+	 window.close();  //关闭子窗口.
 }
 </script>
 </content>

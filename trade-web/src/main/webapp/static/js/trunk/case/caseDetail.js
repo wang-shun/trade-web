@@ -67,7 +67,10 @@ function changeTaskAssignee(sendData){
 	});
 }
 $(document).ready(function() {
-
+			$("#subscribe").subscribeToggle({
+				moduleType:"1001",
+				subscribeType:"2001"
+			});
 			$("#sel_changeFrom option").each(function(){
 				var _this=$(this);
 				var taskDfKey=_this.val();
@@ -76,8 +79,9 @@ $(document).ready(function() {
 				}
 			});
 			$("#sel_changeFrom").change(function(){
-				$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
+					$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
 			});
+			
 			$("#sel_changeFrom").change();
 			$("#changeForm-form").submit(function(){
 				$('#changeForm-modal-form').modal("hide");
@@ -1583,4 +1587,6 @@ function caseReset(){
 		});
 	}
 }
+
+
 

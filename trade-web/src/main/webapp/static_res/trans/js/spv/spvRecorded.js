@@ -23,64 +23,27 @@ $(document).ready(function(){
 
 });
 
-function checkFormSave(){
+function checkFormSubmit(){
 	
     if($("#toSpvCashFlowApplyAttachType").val() == null || $("#toSpvCashFlowApplyAttachType").val() == ''){
     	alert("请选择出账条件！");
     	return false;
     }
     
-    var payerFlg = true;
-    $("select[name$='toSpvCashFlow.payer'] option:selected").each(function(i,e){
+    var payerFlag = true;
+    var payerEle;
+    $("input[name$='toSpvCashFlow.payer']").each(function(i,e){
     	if($(e).val() == null || $(e).val() == ''){
-    		payerFlg = false;
+    		payerFlag = false;
+    		payerEle = $(e);
     		return false;
     	}
     });
     
-    if(!payerFlg){
-    	alert("请选择收款人姓名！");
-    	return false;
-    }
-	
-	var amountFlag = true;
-	var amountEle;
-	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
-    	if($(e).val() != null && $(e).val() != ''){
-    		if(!isNumber($(e).val())){
-    		 amountFlag = false;
-    		 amountEle = $(e);
-			 return false;
-			 }
-    	} 
-	});
-	
-    if(!amountFlag){
-    	alert("请填写有效的出账金额！");
-	    changeClass(amountEle);
-		return false;
-    }
-    
-    return true;
-}
-
-function checkFormSubmit(){
-	
-	var payerFlag = true;
-	var payerEle;
-
-	$("input[name$='toSpvCashFlow.payer']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
-			 payerFlag = false;
-			 payerEle = $(e);
-			 return false;
-			 }
-		});
-	
     if(!payerFlag){
-    	alert("请填写有效的付款人姓名！");
-	    changeClass(payerEle);
-		return false;
+    	alert("请填写收款人姓名！");
+    	changeClass(payerEle);
+    	return false;
     }
     
 	var payerAccFlag = true;	
@@ -102,7 +65,7 @@ function checkFormSubmit(){
 	var payerBankFlag = true;
 	var payerBankEle;
 	$("input[name$='toSpvCashFlow.payerBank']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '')){
+		if($(e).val() == null || $(e).val() == ''){
 			 payerBankFlag = false;
 			 payerBankEle = $(e);
 			 return false;
@@ -140,8 +103,9 @@ function checkFormSubmit(){
     
     var totalCashFlowInAmount = Number($("#totalCashFlowInAmount").val());
     var totalCashFlowOutAmount = Number($("#totalCashFlowOutAmount").val());
-    if(accAdd(sumAmount,totalCashFlowOutAmount) > totalCashFlowInAmount){
-    	alert("出账流水总和不能大于入账流水总和！");
+    var totalProcessCashFlowOutAmout = Number($("#totalProcessCashFlowOutAmout").val());
+    if(accAdd(accAdd(sumAmount,totalCashFlowOutAmount),totalProcessCashFlowOutAmout) > totalCashFlowInAmount){
+    	alert("出账流水总和不能大于(入账流水总和+申请中的出账流水)！");
     	return false;
     }
     
@@ -411,7 +375,7 @@ function isNumber(num){
 }
 //金额验证(整数)
 function isNumber2(num){
-	var reg=/^[1-9]{1}\d*$/;
+	var reg=/^\d*$/;
 	if(!reg.test(num)){
 		return false;
 	}

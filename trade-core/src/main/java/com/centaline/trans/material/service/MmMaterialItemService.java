@@ -13,4 +13,6 @@ public interface MmMaterialItemService {
     int  updateMaterialInfoByItemCode(MmMaterialItem mmMaterialItem);
     
     MmMaterialItem queryMmMaterialByPkid(Long pkid);
+    
+    int updateMaterialInfoByPkid(MmMaterialItem mmMaterialItem);
 }

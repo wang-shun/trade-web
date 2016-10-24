@@ -147,15 +147,21 @@
     <bean name="qqcdSrvCode" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="KPI_SRV_CODE"></property>
     </bean>
-
+    <!-- 根据金融机构编码查询金融机构-->
+	<bean name="qqfinOrgIdName" class="com.centaline.trans.common.service.impl.QuickQueryFinOrgImpl">
+    	<property name="prop" value="finOrgName"></property>
+    </bean>
     <!-- 进出账方向 -->
     <bean name="qqcdDictyu_cash_direction" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_cash_direction"></property>
     </bean> 
        <!-- 进出账方向 -->
     <bean name="getCashFlowApplyStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetSpvCashFlowStatusServiceImpl">
-    	
-    </bean> 
+    </bean>
+      <!-- 格式化日期 -->
+    <bean name="getFormatDate" class="com.centaline.trans.common.service.impl.QuickQueryFormatDateServiceImpl">
+    <property name="format" value="YYYY-MM-DD"></property>
+    </bean>  
     <!-- 根据组织id查询组织名称 -->
 	<bean name="qqcdOrgIdName" class="com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl">
     	<property name="prop" value="orgName"></property>
@@ -367,6 +373,7 @@
     
     <!-- 根据交易历史表ID获取回访登记信息列表 -->
     <bean name="getReturnVisitList" class="com.centaline.trans.common.service.impl.QuickQueryGetReturnVisitListServiceImpl"></bean>
-    
+    <!-- 回访登记标记 -->
+    <bean name="getReturnVisitRemark" class="com.centaline.trans.common.service.impl.QuickQueryReturnVisitRemarkServiceImpl" />
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

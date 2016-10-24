@@ -103,8 +103,8 @@
                      <button type="button" class="btn btn-success btn-icon  mr5" id="searchButton"><i class="icon iconfont">&#xe635;</i> 查询</button>
                      <button type="reset" class="btn btn-grey mr5">清空</button>
                      <a href="#" class="btn btn-toggle mr5" id="storage">入库</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#myModal">借用</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5" data-toggle="modal" data-target="#Return">归还</a>
+                     <a href="#" class="btn btn-toggle mr5" id="materialBorrow">借用</a>
+                     <a href="javascript:void(0)" class="btn btn-toggle mr5" id="materialReturn">归还</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5"
                      data-toggle="modal" data-target="#GiveBack">退还</a>
                      <a href="javascript:void(0)" class="btn btn-toggle mr5">删除</a>
@@ -143,6 +143,107 @@
 			</div>
             </div>
          </div>
+         
+         
+     <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+       <div class="modal-dialog" style="width: 800px;">
+             <div class="modal-content animated fadeIn popup-box">
+                   <div class="modal_title">借用申请</div>
+                   <form  class="form_list" id="materialBorrowForm">
+                       <div class="line">
+                           <div class="form_content">
+                               <label class="control-label sign_left_small">借用人</label>
+                               <input class="teamcode input_type" placeholder="" value="" name="actionUser" id="actionUser">
+                               <div class="input-group float_icon organize_icon">
+                               <i class="icon iconfont"></i>
+                           </div>
+                           </div>
+                           <div class="form_content input-daterange" id="datepicker_1">
+                               <label class="control-label sign_left_small">预计归还日期</label>
+                               <input class="teamcode input_type  " placeholder="" value="" name="actionPreDate" id="actionPreDate">
+                           </div>
+                       </div>
+                       <div class="line">
+                           <div class="form_content">
+                               <label class="control-label sign_left_small">用途</label>
+                               <input class="teamcode input_type" style="width:590px;" placeholder="" value="" name="actionReason" id="actionReason">
+                           </div>
+                       </div>
+                       <div class="line clearfix">
+                           <div class="form_content">
+                               <label class="control-label sign_left_small pull-left">备注</label>
+                               <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" 
+                               name="actionRemark" id="actionRemark" cols="30" rows="10"></textarea>
+                           </div>
+                       </div>
+                       <div class="line">
+                           <div class="add_btn text-center" style="margin:15px 126px;">
+                               <button type="button" class="btn btn-success" id="materialBorrowSubmit">提交</button>
+                               <button type="button" class="btn btn-grey" id="materialBorrowClose">关闭</button>
+                           </div>
+                       </div>
+                   </form>
+
+               </div>
+           </div>
+   </div>
+   <div class="modal inmodal in" id="Return" tabindex="-1" role="dialog" aria-hidden="true">
+       <div class="modal-dialog" style="width: 800px;">
+           <div class="modal-content animated fadeIn popup-box">
+               <div class="modal_title">归还</div>
+               <form method="post" class="form_list">
+                   <div class="line">
+                       <div class="form_content">
+                           <label class="control-label sign_left_small">归还人</label>
+                           <input class="teamcode input_type" placeholder="" value=""  name="returnActionUser" id="returnActionUser">
+                       </div>
+                   </div>
+                   <div class="line clearfix">
+                       <div class="form_content">
+                           <label class="control-label sign_left_small pull-left">备注</label>
+                           <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" 
+                           name="returnaAtionRemark" id="returnaAtionRemark" cols="30" rows="10"></textarea>
+                       </div>
+                   </div>
+                   <div class="line">
+                       <div class="add_btn text-center" style="margin:15px 126px;">
+                           <button type="button" class="btn btn-success" id="materialReturnSubmit">提交</button>
+                           <button type="reset" class="btn btn-grey" data-dismiss="modal">关闭</button>
+                       </div>
+                   </div>
+               </form>
+
+           </div>
+       </div>
+   </div>
+   <div class="modal inmodal in" id="GiveBack" tabindex="-1" role="dialog" aria-hidden="true">
+       <div class="modal-dialog" style="width: 800px;">
+           <div class="modal-content animated fadeIn popup-box">
+               <div class="modal_title">退还</div>
+               <form method="get" class="form_list">
+                   <div class="line">
+                       <div class="form_content">
+                           <label class="control-label sign_left_small">退还人</label>
+                           <input class="teamcode input_type" placeholder="" value="">
+                       </div>
+                   </div>
+                   <div class="line clearfix">
+                       <div class="form_content">
+                           <label class="control-label sign_left_small pull-left">备注</label>
+                           <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" name="" id="" cols="30" rows="10"></textarea>
+                       </div>
+                   </div>
+                   <div class="line">
+                       <div class="add_btn text-center" style="margin:15px 126px;">
+                           <button type="button" class="btn btn-success">提交</button>
+                           <button type="reset" class="btn btn-grey" data-dismiss="modal">关闭</button>
+                       </div>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+         
     </div>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="signTimeStart" value="${signTimeStart}" />
@@ -184,13 +285,9 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td> 
-						{{if item.ITEM_STATUS != "stay"}}
-							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}"  disabled>		
-					
-						{{else}}	
-							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}">							
-						{{/if}}	
+						<td> 	
+							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}">						
+						
 						</td>
 						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank"  class="caseCodeForshow">{{item.CASE_CODE}}</a></p>
                             <p class="big">						
@@ -226,7 +323,7 @@
 						{{else if item.ITEM_STATUS == "instock"}}
 							<p class="big">在库</p>
 						{{else if item.ITEM_STATUS == "borrow"}}
-								{{if item.TODAY  < item.ACTION_PRE_DATE}}
+								{{if item.TODAY  > item.ACTION_PRE_DATE}}
                             		<p><i class="sign_brown">外借</i></p>
 								{{else}}
 									<p class="big">外借</p>

@@ -41,6 +41,7 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>                    
     <div class="row">
        <div class="wrapper wrapper-content animated fadeInUp marginbot-30 ">
+       	<form action="${ctx}/material/materialStay"  method="post" id="materialStorgaeForm">
            <div class="ibox-content" id="reportOne">
                 <div class="row">
                    <div class="col-lg-12">
@@ -75,61 +76,63 @@
                    <thead>
                        <tr><th> 客户确认书</th></tr>
                    </thead>
-		                   <tbody>
-		                       <tr>
-		                           <td>
-		                               <ul class="filelist clearfix">
-		                                   <li id="WU_FILE_0">
-		                                       <p class="imgWrap">
-		                                           <img src="../static/trans/img/uplody01.png">
-		                                       </p>
-		                                       <div class="file-panel" >
-		                                           <span class="file-name">公证书1</span>
-		                                           <span class="cancel pull-right">删除</span>
-		                                       </div>
-		                                   </li>
-		                                   <li>
-		                                       <p class="imgWrap fileposition">
-		                                           <img src="../static/trans/img/uplody02.png">
-		                                           <input type="file" name="file" class="webupload_file" multiple="multiple" accept="image/*">
-		                                       </p>
-		                                   </li>
-		                               </ul>
-		                           </td>
-		                       </tr>
-		                   </tbody>
+                   <tbody>
+                       <tr>
+                           <td>
+                               <ul class="filelist clearfix">
+                                   <li id="WU_FILE_0">
+                                       <p class="imgWrap">
+                                           <img src="../static/trans/img/uplody01.png">
+                                       </p>
+                                       <div class="file-panel" >
+                                           <span class="file-name">公证书1</span>
+                                           <span class="cancel pull-right">删除</span>
+                                       </div>
+                                   </li>
+                                   <li>
+                                       <p class="imgWrap fileposition">
+                                           <img src="../static/trans/img/uplody02.png">
+                                           <input type="file" name="file" class="webupload_file" multiple="multiple" accept="image/*">
+                                       </p>
+                                   </li>
+                               </ul>
+                           </td>
+                       </tr>
+                   </tbody>
                </table>
                
                <div class="enregister">
                    <div class="modal_title">
                        <h4>物品信息登记</h4>
                    </div>
-                   <c:forEach items="${mmMaterialItemList}" var="mmMaterialInfo">
+                   <c:forEach items="${mmMaterialItemList}"  var="mmMaterialInfo"  varStatus="status">
                    <div class="form_list">
                        <div class="line">
                            <div class="form_content">
                                <label class="control-label sign_left_small">
                                   	 物品类型
                                </label>
-                               <input class="input_type extent-one"  name="itemCategory" id="itemCategory" value="${mmMaterialInfo.itemCategory}" readonly="readonly">
+                               <input type="hidden" name="materialList[${status.index}].pkid" id="pkid" value="${mmMaterialInfo.pkid}">
+                               <input type="hidden" name="materialList[${status.index}].caseCode"  value="${mmMaterialInfo.caseCode}">
+                               <input class="input_type extent-one"  name="materialList[${status.index}].itemCategory" id="itemCategory" value="${mmMaterialInfo.itemCategory}" readonly="readonly">
                            </div>
                            <div class="form_content">
                                <label class="control-label sign_left_small">
                                    	物品名称
                                </label>
-                               <input class="input_type"  value="${mmMaterialInfo.itemName}" name="itemName" id="itemName" readonly="readonly">
+                               <input class="input_type"  value="${mmMaterialInfo.itemName}" name="materialList[${status.index}].itemName" id="itemName" readonly="readonly">
                            </div>
                            <div class="form_content">
                                <label class="control-label sign_left_small">
                                   	 业务描述
                                </label>
-                               <input class="input_type extent-three" value="${mmMaterialInfo.itemBusinessRemark}" name="itemBusinessRemark" id="itemBusinessRemark" readonly="readonly">
+                               <input class="input_type extent-three" value="${mmMaterialInfo.itemBusinessRemark}" name="materialList[${status.index}].itemBusinessRemark" id="itemBusinessRemark" readonly="readonly">
                            </div>
                        </div>
                        <div class="line clearfix">
                            <div class="form_content">
                                <label class="control-label sign_left_small pull-left">备注</label>
-                               <textarea class="enregisterarea textarea" name="itemRemark" id="itemRemark" ></textarea>
+                               <textarea class="enregisterarea textarea" name="materialList[${status.index}].itemRemark" id="itemRemark" ></textarea>
                            </div>
                        </div>
                    </div>
@@ -137,10 +140,11 @@
                </div>
 
                <div class="status_btn text-center">
-                   <button class="btn btn-success btn-space">提交</button>
+                   <button class="btn btn-success btn-space" id="materialStorgaeSubmit">提交</button>
                    <button class="btn btn-grey" data-dismiss="modal" data-toggle="modal" data-target="#myModal" id="materialStorageClose">关闭</button>
                </div>
            </div>
+          </form>
        </div>
    </div>
   	<input type="hidden" id="ctx" value="${ctx}" />
@@ -181,6 +185,23 @@ $(function(){
 $("#materialStorageClose").click(function(){
 		window.location.href = ctx+"/material/materialList";
 })
+$("#materialStorgaeSubmit").click(function(){
+		if(!itemAddrCodeCheck()){
+			alert(111);
+			return false;
+		}		
+		$("#materialStorgaeForm").submit();
+})
+
+function itemAddrCodeCheck(){
+	var itemAddrCodeFlag = true;
+	var itemAddrCode = $("#itemAddrCode").val();
+	if(null == itemAddrCode || ""==itemAddrCode){
+		itemAddrCodeFlag = false;
+		alert("文件位置编号必须填写！");
+	}
+	return itemAddrCodeFlag;
+}
 </script>
 </content>
 </body>

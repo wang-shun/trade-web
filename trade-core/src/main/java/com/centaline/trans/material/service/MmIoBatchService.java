@@ -5,4 +5,6 @@ import com.centaline.trans.material.entity.MmIoBatch;
 public interface MmIoBatchService {
 
 	MmIoBatch queryMmIoBatchByPkid(Long pkid);
+	
+	long insertMmIoBatchInfo(MmIoBatch mmIoBatch);
 }

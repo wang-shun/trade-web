@@ -15,6 +15,8 @@ public interface MmIoBatchMapper {
 
     int updateByPrimaryKeySelective(MmIoBatch record);
 
-    int updateByPrimaryKey(MmIoBatch record);    
+    int updateByPrimaryKey(MmIoBatch record);   
+    
+    long insertMmIoBatchInfo(MmIoBatch mmIoBatch);
     
 }

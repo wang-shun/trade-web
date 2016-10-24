@@ -59,6 +59,7 @@
 		<pattern>/material/materialList</pattern>
 		<pattern>/material/materialStorgae</pattern>
 		<pattern>/material/materialDetail</pattern>
+		<pattern>/material/materialStay</pattern>
 
 	    <pattern>/case/myCaseList</pattern>
 		<pattern>/case/caseDistribute</pattern>
@@ -74,6 +75,7 @@
 		<pattern>/signroom/signRoomAllotList</pattern>
 		<pattern>/signroom/signingManage</pattern>
 		<pattern>/report/dealChangeCaseList</pattern>
+		<pattern>/eloan/EloanRelCashList</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

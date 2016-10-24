@@ -145,8 +145,15 @@ em, i {
 
 .icon_x {
   margin-left: 5px;
+  font-size: 14px;
 }
-
+.icon-file {
+  padding: 3px 12px;
+  background: #428fcc;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+}
 .icon_x:hover {
   background: #1c84c6;
   color: #fff;
@@ -167,8 +174,8 @@ em, i {
   position: absolute;
   top: 0;
   left: 0;
-  width: 52px;
-  height: 34px;
+  width: 70px;
+  height: 22px;
   cursor: pointer;
   opacity: 0;
 }
@@ -246,4 +253,7 @@ em, i {
   max-width:748px;
   height:100px;
   margin-left:5px;
+}
+.clickMe {
+  padding: 0 8px;
 }

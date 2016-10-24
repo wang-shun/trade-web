@@ -273,7 +273,7 @@ function checkReceiptNo(){
 	var payerBankFlag = true;
 	var payerBankEle;
 	$("input[name$='payerBank']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+		if($(e).val() == null || $(e).val() == ''){
 			payerBankFlag = false;
 			payerBankEle = $(e);
 			return false;
@@ -304,7 +304,7 @@ function checkReceiptNo(){
 	var receiptNoFlag = true;
 	var receiptNoEle;
 	$("input[name$='receiptNo']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber3($(e).val()))){
 			receiptNoFlag = false;
 			receiptNoEle = $(e);
 			return false;
@@ -342,20 +342,6 @@ function checkReceiptNo(){
 				return  false;
 			}
 		}
-		
-		 $.each(receiptNoArray,function(i, item) {
-				if (item.value != '') {
-					//if(!reg.exec(item.value.trim())){
-					if(!reg.test(item.value.trim())){
-						alert("贷记凭证编号只能由数字组成！");
-						theSameFlag = false;
-						return theSameFlag;
-					}				
-				}
-				if(theSameFlag==false){
-					return  false;
-				}
-		 })
 	 
 	var voucherNoFlag = true;
 	var voucherNoEle;
@@ -473,6 +459,15 @@ function isName(name){
    }
    return true;
 }
+//银行验证(汉字和英文大小写)
+function isName2(name){
+	name = name.replace(/\s/g,"");//去除中间空格
+	reg = /((^[\u4E00-\u9FA5]{1,30}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/;
+	if (!reg.test(name)) {
+		return false; 
+	}
+	return true;
+}
 //金额验证(两位小数)
 function isNumber(num){
 	var reg=/^([1-9]{1}\d*|0)(\.\d{1,2})?$/;
@@ -484,6 +479,15 @@ function isNumber(num){
 //金额验证(整数)
 function isNumber2(num){
 	var reg=/^[1-9]{1}\d*$/;
+	if(!reg.test(num)){
+		return false;
+	}
+	return true;
+}
+//凭证验证 数据字母
+function isNumber3(num){
+	var reg=/^[A-Za-z0-9]+$/;
+	//var reg=/^[A-Za-z0-9]{1}\d*$/;
 	if(!reg.test(num)){
 		return false;
 	}
