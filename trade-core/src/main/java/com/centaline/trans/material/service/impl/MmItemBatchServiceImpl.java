@@ -21,4 +21,10 @@ public class MmItemBatchServiceImpl implements MmItemBatchService{
 		return mmItemBatchMapper.queryMmItemBatchList(itemId);
 	}
 
+	@Override
+	public int insertSelective(MmItemBatch mmItemBatch) {
+		// TODO Auto-generated method stub
+		return mmItemBatchMapper.insertSelective(mmItemBatch);
+	}
+
 }

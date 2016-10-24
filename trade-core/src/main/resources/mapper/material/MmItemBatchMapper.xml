@@ -21,7 +21,7 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_MM_ITEM_BATCH
-   where PKID = #{pkid,jdbcType=BIGINT}
+    where ITEM_ID = #{itemId,jdbcType=BIGINT}
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
@@ -35,8 +35,9 @@
     values (#{pkid,jdbcType=BIGINT}, #{batchId,jdbcType=BIGINT}, #{itemId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.material.entity.MmItemBatch" >
-    insert into sctrans.T_MM_ITEM_BATCH
+  
+  <insert id="insertSelective" parameterType="com.centaline.trans.material.entity.MmItemBatch"	useGeneratedKeys="true"  keyProperty="pkid">
+	insert into sctrans.T_MM_ITEM_BATCH
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
         PKID,
@@ -60,6 +61,7 @@
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.material.entity.MmItemBatch" >
     update sctrans.T_MM_ITEM_BATCH
     <set >

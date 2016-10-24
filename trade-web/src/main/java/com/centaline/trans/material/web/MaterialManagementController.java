@@ -90,7 +90,7 @@ public class MaterialManagementController {
 		
 	}
 	
-	//物品产品详细信息
+	//物品产品详细信息查看
 	@RequestMapping("materialDetail")
 	public String  materialDetail(HttpServletRequest request,String pkid){		
 		MmMaterialItem mmMaterialItem= new MmMaterialItem();	
@@ -208,39 +208,39 @@ public class MaterialManagementController {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 		String userId = currentUser.getId();
 		List<MmMaterialItem> materialList = new ArrayList<MmMaterialItem>();
-		String itemAddrCode = "";
+		String itemAddrCode = "";//物品存放路径
 		MmIoBatch mmIoBatch = new MmIoBatch();
-		mmIoBatch.setCaseCode(materialList.get(0).getCaseCode());
-		mmIoBatch.setActionPreDate(new Date());
-		mmIoBatch.setLogAction(MaterialActionEnum.IN.getCode());
-		mmIoBatch.setManager(userId);
-		//插入操作获取pkid
-		if(null != material){
+		//long insertMmIoBatch = 0;//插入动作表返回的主键  返回的主键id在对象里面取值
+		
+		if( null != material){
 			itemAddrCode = material.getItemAddrCode();
 			materialList = material.getMaterialList();
-			if(materialList.size()>0){
-				for(int i=0; i<materialList.size() ;i++){
-					//更新主表状态
-					MmMaterialItem mmMaterialItem = materialList.get(i);
-					mmMaterialItem.setItemAddrCode(itemAddrCode);
-		/*			mmMaterialItem.setUpdateBy(userId);
-					mmMaterialItem.setUpdateTime(new Date());*/
-					mmMaterialItem.setItemManager(userId);
-					mmMaterialItem.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
-					mmMaterialItem.setItemInputTime(new Date());
-					mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
-					
-					//向中间表插入记录	 插入之前先插入记录，获取pkid作为BATCH_ID插入下表				
-					MmItemBatch mmItemBatch = new MmItemBatch();
-					mmItemBatch.setItemId(materialList.get(i).getPkid());
-					//mmItemBatchService.insert();
-				}				
-			}
-			
 		}
-		//MmMaterialItem mmMaterialItem=new MmMaterialItem();
-
-		return "material/materialList";
+		
+		if(materialList.size() > 0){
+			mmIoBatch.setCaseCode(materialList.get(0).getCaseCode());				
+			mmIoBatch.setLogAction(MaterialActionEnum.IN.getCode());//入库操作
+			mmIoBatch.setManager(userId);
+			mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);			
+			
+			//插入操作获取pkid
+			for(int i=0; i<materialList.size() ;i++){
+				//更新主表状态
+				MmMaterialItem mmMaterialItem = materialList.get(i);
+				mmMaterialItem.setItemAddrCode(itemAddrCode);
+				mmMaterialItem.setItemManager(userId);
+				mmMaterialItem.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
+				mmMaterialItem.setItemInputTime(new Date());
+				mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
+				
+				//向中间表插入记录	 插入之前先插入记录，获取pkid作为BATCH_ID插入下表				
+				MmItemBatch mmItemBatch = new MmItemBatch();
+				mmItemBatch.setItemId(materialList.get(i).getPkid());
+				mmItemBatch.setBatchId(mmIoBatch.getPkid());//sqlserver返回插入的主键id
+				mmItemBatchService.insertSelective(mmItemBatch);
+			}	
+		}	
+		return  "material/materialList";
 	}
 	
 }
