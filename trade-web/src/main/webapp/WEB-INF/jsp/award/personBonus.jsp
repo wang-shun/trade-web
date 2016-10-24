@@ -28,14 +28,23 @@
                 <div class="main-bonus">
                     <div class="bonus-wrap">
                         <div class="bonus-header">
-                        <div class="bonus-m">
-                            <div class="ibox-title">
-                                <input type="button" class="btn btn-warning m-r-sm" value="&lt;">
-                                <h5 class="month">yyyy/MM月</h5>
-                                <input type="button" class="btn btn-warning m-r-sm disable" disabled value="&gt;" style="margin-left:10px;">
+	                         <div class="bonus-m">
+	                            <div class="ibox-title">
+	                                <input type="button" class="btn btn-warning m-r-sm" value="&lt;">
+	                                <h5 class="month">yyyy/MM月</h5>
+	                                <input type="button" class="btn btn-warning m-r-sm disable" disabled value="&gt;" style="margin-left:10px;">
+	                            </div>
+	                            <div class="ibox-tools">
+	                                <span class="nav-label">绩效奖金总额<i id="awardAmount">00.00</i></span>
+	                            </div>
+	                        </div>
+	                        <div class="row m-t">
+                                <div class="col-lg-7">
+                                </div>
+                                <div class="col-lg-5" style="text-align:right;">
+                                    <button id="exportExcelButton" type="button" class="btn btn-primary" onclick="javascript:exportToExcel()">导出案件环节明细</button>               
+                                </div>
                             </div>
-                            
-                        </div>
                         <div class="ibox-content bonus-m-con">
                             <div class="row m-t">
                                 <div class="col-lg-4 col-md-4">
@@ -245,15 +254,19 @@
 	    </script>
 	    <script>
 	        var ctx = "${ctx}";
+	        var d=new Date();//默认显示上一个月
+	        d.setMonth(d.getMonth()-1);
 	  		//初始化日期控件
-        	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});	 
-    		
+        	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:moveDone,cust_date:d});	 
+
         	jQuery(document).ready(function() {
         		//初始化数据
         	    reloadGrid();
+        	    getPersonBonusTotal();
         	 	// 查询
      			$('#searchButton').click(function() {
      				reloadGrid();
+     				getPersonBonusTotal();
      			});
         		
 	    		$(document).on("click",".expand",function(){
@@ -286,7 +299,10 @@
     			});
 	    	
 	    	});
-        	
+    		function moveDone(){
+    			getPersonBonusTotal();
+    			reloadGrid();
+    		}
 			function reloadGrid(bm) {
 				if(!bm){
 					bm=monthSel.getDate().format('yyyy-MM-dd');	
@@ -323,6 +339,33 @@
         	    }
         	    PersonBonus.init(ctx,data1);
 	    	}
+	    	function getPersonBonusTotal(){
+	    		var data={belongM:monthSel.getDate().format('yyyy-MM-dd')};
+	    		$.ajax({
+		    			  async: true,
+		    	          url:ctx+ "/award/getPersonBonusTotal" ,
+		    	          method: "post",
+		    	          dataType: "json",
+		    	          data: data,
+		    	          success: function(data){
+		    				  $("#awardAmount").empty();
+		    				  if(data.success){
+		    				  	$("#awardAmount").html(data.content);
+		    				  }else{
+		    					  alert(data.message);
+		    				  }
+		    	          }
+		    	     });
+	    	}
+	    	function exportToExcel() {
+	        	$.exportExcel({
+	    	    	ctx : "${ctx}",
+	    	    	queryId : 'tsMyAwardBaseDetailList',
+	    	    	colomns : ['CASE_CODE','PROPERTY_ADDR','ORG_NAME','PARTICIPANT','SRV_CODE','BASE_AMOUNT','SATISFACTION','SKPI_RATE','SRV_PART',
+	    	    	           'MKPI','MKPIV', 'COM_LS_RATE','COM_LS_KPI','SRV_PART_IN','KPI_RATE_SUM','AWARD_KPI_MONEY'],
+	    	    	data : {search_caseCode:$('#caseCode').val(),argu_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : monthSel.getDate().format('yyyy-MM-dd'),sord:'AWARD_BASE.CASE_CODE'}
+	    	    }) 
+	         }
 	    	
 	    </script>
 	    </content> 

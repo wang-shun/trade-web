@@ -1,5 +1,6 @@
 package com.centaline.trans.kpi.service.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import com.centaline.trans.kpi.service.TsAwardKpiPayDetailService;
 public class TsAwardKpiPayDetailServiceImpl implements TsAwardKpiPayDetailService {
 	@Autowired
 	TsAwardKpiPayDetailMapper tsAwardKpiPayDetailMapper;
-	
+
 	@Override
 	public void getPAwardKpiRate(Map map) {
 		tsAwardKpiPayDetailMapper.getPAwardKpiRate(map);
@@ -20,6 +21,11 @@ public class TsAwardKpiPayDetailServiceImpl implements TsAwardKpiPayDetailServic
 	@Override
 	public void getPAwardKpiRateStatic(Map map) {
 		tsAwardKpiPayDetailMapper.getPAwardKpiRateStatic(map);
+	}
+
+	@Override
+	public Double getPersonBonusTotal(Date belongM) {
+		return tsAwardKpiPayDetailMapper.getPersonBonusTotal(belongM);
 	}
 
 }
