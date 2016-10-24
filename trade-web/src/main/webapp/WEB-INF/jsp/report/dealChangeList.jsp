@@ -239,7 +239,7 @@
                                                 <label>
                                                    案件编号
                                                 </label>
-                                                <span class="info_one" id="case_code"></span>
+                                                <span class="info_one" id="case_code" style="width: 140px"></span>
                                             </p>
                                             <p>
                                                 <label>
@@ -253,7 +253,7 @@
                                                 <label>
                                                     变更人
                                                 </label>
-                                                <span class="info_one" ><span id="change_name"></span><em class="ml5 blue-text" id="change_mobile"></em></span>
+                                                <span class="info_one" style="width: 140px"><span id="change_name"></span><em class="ml5 blue-text" id="change_mobile"></em></span>
                                             </p>
                                             <p>
                                                 <label>
