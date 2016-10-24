@@ -1,6 +1,7 @@
 package com.centaline.trans.material.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +19,13 @@ import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.material.entity.MmIoBatch;
 import com.centaline.trans.material.entity.MmItemBatch;
 import com.centaline.trans.material.entity.MmMaterialItem;
+import com.centaline.trans.material.enums.MaterialActionEnum;
+import com.centaline.trans.material.enums.MaterialStatusEnum;
+import com.centaline.trans.material.service.MmIoBatchService;
 import com.centaline.trans.material.service.MmItemBatchService;
 import com.centaline.trans.material.service.MmMaterialItemService;
+import com.centaline.trans.material.vo.MaterialPackageVo;
+
 
 
 @Controller
@@ -46,13 +52,14 @@ public class MaterialManagementController {
     
     
 	//物品管理列表页面
+    //快速查询
 	@RequestMapping("materialList")
-	public String spvList(HttpServletRequest request){
+	public String materialList(HttpServletRequest request){
 		
 		SessionUser currentUser = uamSessionService.getSessionUser();
 		String currentDeptId = currentUser.getServiceDepId();
 		
-		//MmMaterialItem mmMaterialItem=new MmMaterialItem();
+		//MmMaterialItem mmMaterialItem=new MmMaterialItem();		
 		request.setAttribute("currentDeptId", currentDeptId);
 		return "material/materialList";
 	}
@@ -78,8 +85,6 @@ public class MaterialManagementController {
 				request.setAttribute("propertyAddr", toPropertyInfo.getPropertyAddr());
 			}
 			request.setAttribute("mmMaterialItemList", mmMaterialItemList);	
-		}else{
-			request.setAttribute("mmMaterialItemList", null);	
 		}
 		return "material/materialStorageConfirm";
 		
@@ -141,27 +146,101 @@ public class MaterialManagementController {
 					mmMaterialItem.setItemStatus("退还");
 				}				
 			}
-			request.setAttribute("mmMaterialItem", mmMaterialItem);	
-			
-		}else{
-			request.setAttribute("mmMaterialItem", null);	
-		}		
+			request.setAttribute("mmMaterialItem", mmMaterialItem);				
+		}	
 		return "material/materialDetail";		
 	}
 	
-	//封装查询 出入记录
+	//封装查询 出入记录、
+	//todo 根据pkid获取上传的客户确认书需完善
 	private  List<MmIoBatch>  getMmIoBatchList(String pkid){
+		//出入记录
 		List<MmIoBatch> mmIoBatchlist = new  ArrayList<MmIoBatch>();
+		//中间表
 		List<MmItemBatch> mmItemBatchList = new  ArrayList<MmItemBatch>();
-		MmIoBatch mmIoBatch = new MmIoBatch();
+		
+		MmIoBatch mmIoBatch = new MmIoBatch();		
 		mmItemBatchList = mmItemBatchService.queryMmItemBatchList(Long.parseLong(pkid));
 		if(mmItemBatchList.size() > 0){
 			for(int i=0; i<mmItemBatchList.size(); i++){
-				//mmIoBatch = mmIoBatchlist mmItemBatchList.get(i).getBatchId();
+				if(null != mmItemBatchList.get(i).getBatchId()){
+					mmIoBatch = mmIoBatchService.queryMmIoBatchByPkid(mmItemBatchList.get(i).getBatchId());
+					if(null != mmIoBatch){						
+						if(null != mmIoBatch.getLogAction() && !"".equals(mmIoBatch.getLogAction())){
+							if(mmIoBatch.getLogAction().equals("stay")){
+								mmIoBatch.setLogAction("入库");
+							}else if(mmIoBatch.getLogAction().equals("borrow")){
+								mmIoBatch.setLogAction("借用");
+							}else if(mmIoBatch.getLogAction().equals("instock")){
+								mmIoBatch.setLogAction("在库");
+							}else if(mmIoBatch.getLogAction().equals("back")){
+								mmIoBatch.setLogAction("退还");
+							}
+						}
+						//查询操作人相关信息
+						if(null != mmIoBatch.getActionUser() && !"".equals(mmIoBatch.getActionUser())){
+							User actionUser = uamUserOrgService.getUserById(mmIoBatch.getActionUser());
+							if(null != actionUser){
+								mmIoBatch.setActionUser(actionUser.getRealName());
+							}				
+						}
+						//查询负责人相关信息
+						if(null != mmIoBatch.getManager() && !"".equals(mmIoBatch.getManager())){
+							User managerUser = uamUserOrgService.getUserById(mmIoBatch.getManager());
+							if(null != managerUser){
+								mmIoBatch.setManager(managerUser.getRealName());
+							}				
+						}
+						
+					}
+					mmIoBatchlist.add(mmIoBatch);
+				}
 			}			
 		}
 		
 		return mmIoBatchlist;
+	}
+	
+	//物品入库   提交信息保存	
+	@RequestMapping("materialStay")
+	public String materialStay(HttpServletRequest request,MaterialPackageVo material){
+		
+		SessionUser currentUser = uamSessionService.getSessionUser();
+		String userId = currentUser.getId();
+		List<MmMaterialItem> materialList = new ArrayList<MmMaterialItem>();
+		String itemAddrCode = "";
+		MmIoBatch mmIoBatch = new MmIoBatch();
+		mmIoBatch.setCaseCode(materialList.get(0).getCaseCode());
+		mmIoBatch.setActionPreDate(new Date());
+		mmIoBatch.setLogAction(MaterialActionEnum.IN.getCode());
+		mmIoBatch.setManager(userId);
+		//插入操作获取pkid
+		if(null != material){
+			itemAddrCode = material.getItemAddrCode();
+			materialList = material.getMaterialList();
+			if(materialList.size()>0){
+				for(int i=0; i<materialList.size() ;i++){
+					//更新主表状态
+					MmMaterialItem mmMaterialItem = materialList.get(i);
+					mmMaterialItem.setItemAddrCode(itemAddrCode);
+		/*			mmMaterialItem.setUpdateBy(userId);
+					mmMaterialItem.setUpdateTime(new Date());*/
+					mmMaterialItem.setItemManager(userId);
+					mmMaterialItem.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
+					mmMaterialItem.setItemInputTime(new Date());
+					mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
+					
+					//向中间表插入记录	 插入之前先插入记录，获取pkid作为BATCH_ID插入下表				
+					MmItemBatch mmItemBatch = new MmItemBatch();
+					mmItemBatch.setItemId(materialList.get(i).getPkid());
+					//mmItemBatchService.insert();
+				}				
+			}
+			
+		}
+		//MmMaterialItem mmMaterialItem=new MmMaterialItem();
+
+		return "material/materialList";
 	}
 	
 }

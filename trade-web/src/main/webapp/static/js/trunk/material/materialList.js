@@ -3,6 +3,7 @@ var serviceDepId = $("#serviceDepId").val();//"${serviceDepId}";
 
 $(function(){	
 	reloadGrid();
+	$('.wrapper-content').viewer();
 	 //全选
     $("#CheckedAll").click(function(){
         var isChecked = $(this).prop("checked");
@@ -229,35 +230,8 @@ $("#storage").click(function(){
 	//请求后端数据
 	if(pkids){	
 		$("#pkids").val(pkids);
+		alert($("#pkids").val());
 		$("#materialStorgaeForm").submit();
-		
-/*		var url = ctx+"/material/materialStorgae";
-		$.ajax({
-			cache : false,
-			async : false,//false同步，true异步
-			type : "POST",
-			url : url,
-			dataType : "json",
-			data : { "pkids" : pkids},
-       		beforeSend:function(){   			
- 				$(".blockOverlay").css({'z-index':'9998'});
-             },
-  	        complete: function() {	                
-	                 if(status=='timeout'){ //超时,status还有success,error等值的情况
-		          	  Modal.alert(
-					  {
-					    msg:"抱歉，系统处理超时。"
-					  }); 
-			                } 
-			          } , 
-			success : function(data) {					
-				console.log("===Result==="+JSON.stringify(data));				
-				window.location.href = ctx+"/material/materialStorageConfirm";
-			},
-			error : function(errors) {
-			
-			}			
-		});*/
 	}
 })
 

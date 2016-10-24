@@ -37,10 +37,8 @@ public class MmMaterialItemServiceImpl implements MmMaterialItemService{
 
 
 	@Override
-
 	public int updateMaterialInfoByItemCode(MmMaterialItem mmMaterialItem) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 
 		return mmMaterialItemMapper.updateMaterialInfoByItemCode(mmMaterialItem);
 	}
@@ -50,6 +48,13 @@ public class MmMaterialItemServiceImpl implements MmMaterialItemService{
 	public MmMaterialItem queryMmMaterialByPkid(Long pkid) {
 		// TODO Auto-generated method stub
 		return  mmMaterialItemMapper.selectByPrimaryKey(pkid);
+	}
+
+
+	@Override
+	public int updateMaterialInfoByPkid(MmMaterialItem mmMaterialItem) {
+		// TODO Auto-generated method stub
+		return mmMaterialItemMapper.updateMaterialInfoByPkid(mmMaterialItem);
 	}
 
 }

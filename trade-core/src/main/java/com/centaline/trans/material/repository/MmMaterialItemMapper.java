@@ -24,4 +24,7 @@ public interface MmMaterialItemMapper {
 	void insertMaterialInfoFromSpv(MmMaterialItem mmMaterialItem);
 	
 	int updateMaterialInfoByItemCode(MmMaterialItem mmMaterialItem);
+	
+	int updateMaterialInfoByPkid(MmMaterialItem mmMaterialItem);
+	
 }

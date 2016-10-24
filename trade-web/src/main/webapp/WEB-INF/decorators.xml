@@ -59,6 +59,7 @@
 		<pattern>/material/materialList</pattern>
 		<pattern>/material/materialStorgae</pattern>
 		<pattern>/material/materialDetail</pattern>
+		<pattern>/material/materialStay</pattern>
 
 	    <pattern>/case/myCaseList</pattern>
 		<pattern>/case/caseDistribute</pattern>

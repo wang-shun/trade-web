@@ -163,30 +163,16 @@
                          </tr>
                      </thead>
                      <tbody>
+                      <c:forEach items="${mmIoBatchlist}" var="mmIoBatch">
                          <tr>
-                             <td>押卡</td>
-                             <td>2016-01-05</td>
-                             <td><a href="#">张明</a></td>
-                             <td><a href="#">张晓松</a></td>
-                             <td>用于信息登记</td>
-                             <td></td>
+                             <td>${mmIoBatch.logAction}</td>
+                             <td><fmt:formatDate value="${mmIoBatch.actionPreDate}" pattern="yyyy-MM-dd"/></td>
+                             <td><a href="#">${mmIoBatch.actionUser}</a></td>
+                             <td><a href="#">${mmIoBatch.manager}</a></td>
+                             <td>${mmIoBatch.actionReason}</td>
+                             <td>${mmIoBatch.actionRemark}</td>
                          </tr>
-                         <tr>
-                             <td><i class="sign_brown">外借</i></td>
-                             <td>2016-09-05</td>
-                             <td><a href="#">赵相映</a></td>
-                             <td><a href="#">张晓松</a></td>
-                             <td>办理过户，预计2016-10-21归还</td>
-                             <td></td>
-                         </tr>
-                         <tr>
-                             <td>归还</td>
-                             <td>2016-01-05</td>
-                             <td><a href="#">史湘云</a></td>
-                             <td><a href="#">张晓松</a></td>
-                             <td>用于信息登记</td>
-                             <td></td>
-                         </tr>
+ 						</c:forEach>
                      </tbody>
                  </table>
              </div>
@@ -213,133 +199,10 @@
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <script src="${ctx}/js/trunk/material/materialList.js"></script> 	
-<script	id="template_materialInfoList" type="text/html">
-      {{each rows as item index}}
-  				  {{if index%2 == 0}}
- 				      <tr class="tr-1">
-                  {{else}}
-                       <tr class="tr-2">
-                   {{/if}}
-						<td> <input type="checkbox" class="i-checks" name="materialCheck"></td>
-						<td><p class="big"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></p>
-                            <p class="big">						
-							{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-								<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
-							{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
-							{{else}}
-							</p>
-							<p>
-								{{item.PROPERTY_ADDR}}
-							{{/if}}	
-							</p>
-						</td>
-
-						<td>
-                            <p><i class="sign_blue"> 银行卡</i></p>
-                            <p>中国建设银行储蓄卡</p>
-                        </td>
-						<td>
-							<p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">{{item.CREATE_BY}}</a> </p>
-                        </td>
-
-						<td>
-							<p><a class="demo-top" title="手机号： 1346754675<br/>虹口杨浦贵宾服务部B组" href="#">{{item.ITEM_MANAGER}}</a> </p>
-                        </td>
-                        <td>
-                            <p class="big">{{item.ITEM_ADDR_CODE}}</p>
-                        </td>
-
-                        <td>
-                            <p class="big">{{item.ITEM_STATUS}}</p>
-                        </td>
-
-					    <td>
-						{{if item.ITEM_STATUS == "1"}}
-                                            <p class="smll_sign">
-                                                <i class="sign_normal">入库</i>2016-09-22
-                                            </p>
-                                            <p class="smll_sign">
-                                                <i class="sign_normal">退还</i>2016-09-25
-                                            </p>
-						{{else item.ITEM_STATUS == "2"}}
-                                           <p class="smll_sign">
-                                                <i class="sign_normal">入库</i>2016-09-22
-                                            </p>
-						{{else item.ITEM_STATUS == "3"}}
-                                            <p class="smll_sign">
-                                                <i class="sign_normal">入库</i>2016-09-22
-                                            </p>
-                                            <p class="smll_sign">
-                                                <i class="sign_normal">借用</i>2016-09-22
-                                            </p>
-                                            <p class="smll_sign">
-                                                <i class="sign_normal">归还</i>2016-09-23
-                                            </p>
-						{{else item.ITEM_STATUS == "4"}}
-                                            <p class="smll_sign">                                                
-                                            </p>
-						{{/if}}
-                        </td>
-						 <td class="text-center">
-                            <a href="../spv/spvRetainsDetail.html">
-                               <button type="button" class="btn btn-undertint btn-padding-3"><i class="icon iconfont color-corbule btn-look">&#xe63b;</i></button>
-                            </a>
-                        </td>
-				  </tr>
-       {{/each}}
-</script> 
 <script type="text/javascript">
 $(function(){
-		//top
-		$('.demo-top').poshytip({
-			className: 'tip-twitter',
-			showTimeout: 1,
-			alignTo: 'target',
-			alignX: 'center',
-			alignY: 'top',
-			offsetX: 8,
-			offsetY: 5,
-		});
+	$('.wrapper-content').viewer();
 });
-
-$('.wrapper-content').viewer();
-
-
-//通过复选框 设置全选 和  全不选
-function mycheck(a) {
- 	 var temp = $("[name=materialCheck]:checkbox");//document.getElementsByName("love");
-	 if (a.checked == true) {
-  		for ( var i = 0; i < temp.length; i++) {
-   			var val = temp[i];
-   			val.checked = true;
-  			}
- 	 }else{
-  		for ( var i = 0; i < temp.length; i++) {
-   		var val = temp[i];
-   		val.checked = false;
-  	}
-  }
-}
-//判断复选框是否选中
-function getCheck(){
-	var ids = ''; 
-	var flag = 0; 
-	$("#ids").attr("value",ids); 
-	$("input[name='materialCheck']:checkbox").each(function(){ 
-		if (true == $(this).attr("checked")) { 
-			ids += $(this).attr('value')+','; 
-			flag += 1; 
-		} 
-	}); 
-	if(flag > 0) { 
-		$("#ids").attr("value",ids); 
-		return true; 
-	}else { 
-		alert('请至少选择一项！'); 
-		return false; 
-	} 
-}
-
 </script>
 </content>
 </body>

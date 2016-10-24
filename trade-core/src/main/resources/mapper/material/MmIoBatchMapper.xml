@@ -20,12 +20,14 @@
     PKID, ATTACH_ID, CASE_CODE, LOG_ACTION, MANAGER, ACTION_USER, ACTION_PRE_DATE, ACTION_REASON, 
     ACTION_REMARK, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_MM_IO_BATCH
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_MM_IO_BATCH
     where PKID = #{pkid,jdbcType=BIGINT}
