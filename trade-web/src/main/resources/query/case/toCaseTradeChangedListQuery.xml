@@ -70,8 +70,9 @@
         A.CONTENT ,
         A.CREATE_TIME
         </if>
-FROM    sctrans.T_TO_TRANS_PLAN T
-        INNER JOIN sctrans.T_TS_TRANS_PLAN_HISTORY S ON T.CASE_CODE = S.CASE_CODE
+FROM    SCTRANS.T_TO_TRANS_PLAN T
+		INNER JOIN SCTRANS.T_TO_CASE C ON C.CASE_CODE = T.CASE_CODE
+        INNER JOIN SCTRANS.T_TS_TRANS_PLAN_HISTORY S ON T.CASE_CODE = S.CASE_CODE
                                                         AND T.PART_CODE = s.PART_CODE
         LEFT JOIN sctrans.T_TO_PROPERTY_INFO O ON O.CASE_CODE = T.CASE_CODE
         LEFT JOIN sctrans.SYS_USER Y ON Y.ID = S.CHANGER_ID
@@ -87,10 +88,10 @@ FROM    sctrans.T_TO_TRANS_PLAN T
                                                               E.PLAN_HISTORY_ID = S.PKID
                                                               )
 															  AND A.VISIT_REMARK = #visitRemark#
-				 where 1=1 
+				 where C.CASE_PROPERTY NOT IN ('30003001','30003005')
             </if>
             <if test='visitRemark == "2"'>
-            	WHERE NOT EXISTS (SELECT 1 FROM sctrans.T_TS_RETURN_VISIT_REGISTRATION B WHERE B.PLAN_HISTORY_ID = S.PKID)
+            	WHERE C.CASE_PROPERTY NOT IN ('30003001','30003005') AND NOT EXISTS (SELECT 1 FROM sctrans.T_TS_RETURN_VISIT_REGISTRATION B WHERE B.PLAN_HISTORY_ID = S.PKID)
             </if>
         </ifNotNull>
 				]]>
