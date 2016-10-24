@@ -104,10 +104,10 @@ table.dataTable thead .sorting:after {
   background-color: #dcdcdc;
 }
 .table thead tr th {
-    background-color: #4bccec;
-    font-size: 14px;
-    font-weight: normal;
-    color: #fff;
+  background-color: #4bccec;
+  font-size: 14px;
+  font-weight: normal;
+  color: #fff;
 }
 .customerinfo {
   border: none !important;
@@ -601,13 +601,13 @@ table thead tr th {
   border-radius: 2px;
 }
 .red_color {
-    margin-left: 5px;
-    margin-right: 5px;
-    padding: 0px 5px;
-    background: #ed5565;
-    font-size: 14px;
-    color: #fff;
-    border-radius: 2px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 0px 5px;
+  background: #ed5565;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 2px;
 }
 .waiting_color {
   margin-left: 5px;
@@ -690,6 +690,19 @@ table thead tr th {
 .star-grey {
   color: #ccc;
 }
+.star-position.starmack .star_subscribe{
+  color: #ccc;
+}
+.star-position.starmack .star_text_2{
+  display: none;
+}
+.star-position.starmack.active .star_subscribe{
+  color:#f8cd59;
+}
+.star-position.starmack.active .star_text_1{
+  display: none;
+}
+
 .star-red {
   color: #f784a5;
 }
