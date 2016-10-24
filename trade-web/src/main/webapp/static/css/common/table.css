@@ -690,19 +690,24 @@ table thead tr th {
 .star-grey {
   color: #ccc;
 }
-.star-position.starmack .star_subscribe{
+.starmack .star_subscribe{
   color: #ccc;
 }
-.star-position.starmack .star_text_2{
+.starmack .star_text_2{
   display: none;
 }
-.star-position.starmack.active .star_subscribe{
+.starmack .star_text_1{
+  display: inline;
+}
+.starmack.active .star_subscribe{
   color:#f8cd59;
 }
-.star-position.starmack.active .star_text_1{
+.starmack.active .star_text_1{
   display: none;
 }
-
+.starmack.active .star_text_2{
+  display: inline;
+}
 .star-red {
   color: #f784a5;
 }

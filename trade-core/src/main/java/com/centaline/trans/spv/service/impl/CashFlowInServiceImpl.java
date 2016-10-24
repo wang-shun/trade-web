@@ -198,7 +198,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);//更新状态
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("assignee", "wufeng01");	  
+		variables.put("applyAssignee", user.getUsername());  
 		taskService.submitTask(taskId, variables);
 		
 	}
@@ -267,11 +267,11 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
 				statusType = SpvCashFlowApplyStatusEnum.FINANCEADUIT.getCode();
-				variables.put("assignee", "wufeng01");	
+				//variables.put("assignee", "wufeng01");	
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
 				statusType = SpvCashFlowApplyStatusEnum.APPLY.getCode();
-				variables.put("assignee", "wangqiao7");	
+				//variables.put("assignee", "wangqiao7");	
 			}
 			
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());//内容
@@ -357,11 +357,11 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
 				statusType = SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode();
-				variables.put("assignee", "wufeng01");	
+				//variables.put("assignee", "wufeng01");	
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
 				statusType = SpvCashFlowApplyStatusEnum.APPLY.getCode();
-				variables.put("assignee", "wangqiao7");	
+				//variables.put("assignee", "wangqiao7");	
 			}
 			
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());//内容
@@ -475,7 +475,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO,handle,spvApplyCode); 
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
-		vars.put("assignee", "wufeng01");
+		vars.put("applyAssignee", user.getUsername());
 		//开启流程
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
 				propertyUtilsService.getSpvCashflowInProcess(), spvApplyCode, vars);
