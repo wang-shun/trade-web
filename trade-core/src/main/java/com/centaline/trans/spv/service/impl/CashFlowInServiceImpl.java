@@ -375,11 +375,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
 				}
 			
-			if(StringUtils.equals("fengmin01", task.getAssignee())){
-				toSpvCashFlowApply.setFtPostAuditor("ff80808157a87eaa0157d064e3350049");
-			}
-			if(StringUtils.equals("renw", task.getAssignee())){
-				toSpvCashFlowApply.setFtPostAuditor("ff808081566e099e01566e7a278a0048");
+			if(!StringUtils.isBlank(toSpvCashFlowMapper.getUserIdByUserName(task.getAssignee()))){
+				toSpvCashFlowApply.setFtPostAuditor(toSpvCashFlowMapper.getUserIdByUserName(task.getAssignee()));//设置处理人
 			}
 			
 			toSpvCashFlowApply.setStatus(statusType);
