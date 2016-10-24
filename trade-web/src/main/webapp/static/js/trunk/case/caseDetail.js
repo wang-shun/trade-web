@@ -79,8 +79,9 @@ $(document).ready(function() {
 				}
 			});
 			$("#sel_changeFrom").change(function(){
-				$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
+					$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
 			});
+			
 			$("#sel_changeFrom").change();
 			$("#changeForm-form").submit(function(){
 				$('#changeForm-modal-form').modal("hide");

@@ -13,7 +13,7 @@
 		var templeteSource = '<div class="view-box" style="height:100px;">{{if rows.length>0}}'  
 			+'{{each rows as item index}}'
 			+ '<div class="view clearfix">'
-			+ '<p><span class="auditor">跟进人：<em>{{item.CREATE_BY}}({{item.jobName}})</em></span>'
+			+ '<p><span class="auditor">跟进人：<em>{{item.CREATE_BY}}({{item.jobName}})</em></span><i class="sq_label">{{item.SRV_CODE}}</i>'
 			+ '<span class="time">跟进日期:<em>{{item.CREATE_TIME}}</em></span></p>'
 			+ '<p><span class="auditing">跟进备注</span><em class="view_content">{{item.COMMENT}}</em></p>'
 			+ '</div>'
@@ -31,9 +31,11 @@
 		/*commentButton += '<div class="pull-left"><textarea class="chackTextarea" name="caseComment" id="caseComment"></textarea></div>';
 		commentButton += '<div class="pull-left"><button type="button" class="btn btn-icon btn-blue ml10" onclick="saveCaseComment()">提交跟进</button></div></div>';*/
 		$(this).after(commentButton);	
-            
+		
 		var commentTitile ='<div class="title mb20 title-mark"><strong style="font-weight:bold;">案件跟进</strong></div>';
 		$(this).before(commentTitile);
+		
+		
 		self = $(this);
 		tempSource = templeteSource;
 		
@@ -88,7 +90,7 @@ function reloadGrid() {
 	var templeteSource = '<div class="view-box" style="height:100px;">{{if rows.length>0}}'  
 		+'{{each rows as item index}}'
 		+ '<div class="view clearfix">'
-		+ '<p><span class="auditor">跟进人：<em>{{item.CREATE_BY}}({{item.jobName}})</em></span>'
+		+ '<p><span class="auditor">跟进人：<em>{{item.CREATE_BY}}({{item.jobName}})</em></span><i class="sq_label">{{item.SRV_CODE}}</i>'
 		+ '<span class="time">跟进日期:<em>{{item.CREATE_TIME}}</em></span></p>'
 		+ '<p><span class="auditing">跟进备注</span><em class="view_content">{{item.COMMENT}}</em></p>'
 		+ '</div>'
@@ -98,6 +100,7 @@ function reloadGrid() {
         +' {{/if}}</div>';
 	
 	var caseCode = $('#caseComment_caseCode').val();
+	
 	$("#caseCommentList").reloadGrid({
     	ctx : ctx,
 		queryId : 'queryCasePartCommentList',
