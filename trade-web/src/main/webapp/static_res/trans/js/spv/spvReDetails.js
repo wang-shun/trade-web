@@ -198,7 +198,7 @@ function checkReceiptNo(){
 	var receiptNoFlag = true;
 	var receiptNoEle;
 	$("input[name$='receiptNo']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber3($(e).val()))){
 			receiptNoFlag = false;
 			receiptNoEle = $(e);
 			return false;
@@ -237,7 +237,7 @@ function checkReceiptNo(){
 			}
 		}
 		
-		 $.each(receiptNoArray,function(i, item) {
+	/*	 $.each(receiptNoArray,function(i, item) {
 				if (item.value != '') {
 					//if(!reg.exec(item.value.trim())){
 					if(!reg.test(item.value.trim())){
@@ -249,7 +249,7 @@ function checkReceiptNo(){
 				if(theSameFlag==false){
 					return  false;
 				}
-		 })
+		 })*/
 	 
 	var voucherNoFlag = true;
 	var voucherNoEle;
@@ -491,6 +491,15 @@ function isNumber(num){
 //金额验证(整数)
 function isNumber2(num){
 	var reg=/^[1-9]{1}\d*$/;
+	if(!reg.test(num)){
+		return false;
+	}
+	return true;
+}
+//凭证验证 数据字母
+function isNumber3(num){
+	var reg=/^[A-Za-z0-9]+$/;
+	//var reg=/^[A-Za-z0-9]{1}\d*$/;
 	if(!reg.test(num)){
 		return false;
 	}
