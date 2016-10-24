@@ -103,8 +103,9 @@ function checkFormSubmit(){
     
     var totalCashFlowInAmount = Number($("#totalCashFlowInAmount").val());
     var totalCashFlowOutAmount = Number($("#totalCashFlowOutAmount").val());
-    if(accAdd(sumAmount,totalCashFlowOutAmount) > totalCashFlowInAmount){
-    	alert("出账流水总和不能大于入账流水总和！");
+    var totalProcessCashFlowOutAmout = Number($("#totalProcessCashFlowOutAmout").val());
+    if(accAdd(accAdd(sumAmount,totalCashFlowOutAmount),totalProcessCashFlowOutAmout) > totalCashFlowInAmount){
+    	alert("出账流水总和不能大于(入账流水总和+申请中的出账流水)！");
     	return false;
     }
     

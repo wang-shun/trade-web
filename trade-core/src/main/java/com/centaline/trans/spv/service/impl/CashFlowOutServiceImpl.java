@@ -488,6 +488,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	
 //    	request.setAttribute("bankNameList", bankNameList);
     	request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
+    	request.setAttribute("totalProcessCashFlowOutAmout", completeCashFlowInfoMap.get("totalProcessCashFlowOutAmout"));
     	request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
     	request.setAttribute("totalCashFlowOutAmount", completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
 
@@ -548,6 +549,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	
     	BigDecimal totalCashFlowInAmount = BigDecimal.ZERO;
     	BigDecimal totalCashFlowOutAmount = BigDecimal.ZERO;
+    	BigDecimal totalProcessCashFlowOutAmout = BigDecimal.ZERO;
     	
     	for(ToSpvCashFlow cashFlow: cashFlowList){
     		ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(cashFlow.getCashflowApplyId());
@@ -555,6 +557,9 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     		if("in".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
     			continue;         
     		}else if("out".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+    			if(!SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode().equals(cashFlow.getStatus())){
+    				totalProcessCashFlowOutAmout = totalProcessCashFlowOutAmout.add(totalProcessCashFlowOutAmout);
+    			}
     			continue;
     		}
     		String applyAuditor = apply.getApplyAuditor();
@@ -579,6 +584,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	}
     	
     	resultMap.put("cashFlowList", cashFlowNewList);
+    	resultMap.put("totalProcessCashFlowOutAmout", totalProcessCashFlowOutAmout);
     	resultMap.put("totalCashFlowInAmount", totalCashFlowInAmount);
     	resultMap.put("totalCashFlowOutAmount", totalCashFlowOutAmount);
     	

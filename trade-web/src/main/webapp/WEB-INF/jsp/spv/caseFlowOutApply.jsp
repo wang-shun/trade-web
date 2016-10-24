@@ -67,9 +67,9 @@
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
 		<input type="hidden" id="handle" name="handle" value="${handle }">
 		<input type="hidden" id="spvCode" name="spvCode" value="${spvCode }">
-
 		</form>
 		<%--出入账金额比较 --%>
+		<input type="hidden" id="totalProcessCashFlowOutAmout" value="${totalProcessCashFlowOutAmout }" >
 		<input type="hidden" id="totalCashFlowInAmount" value="${totalCashFlowInAmount }" >
 		<input type="hidden" id="totalCashFlowOutAmount" value="${totalCashFlowOutAmount }" >
 		<%--上传图片添加的图片和上传成功的图片数量，用于确认是否完全上传成功 --%>
