@@ -1396,12 +1396,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}else{
 				throw new BusinessException("申请人信息为空！");
 			}
-			//申请复审人toSpvCashFlowApply.setApplyAuditor()
-			//财务初审人toSpvCashFlowApply.setFtPreAuditor(ftPreAuditor);
-			//财务复审人toSpvCashFlowApply.setFtPostAuditor(ftPostAuditor);
-			toSpvCashFlowApply.setApplyAuditor("ff80808156b51e7b0156b55f02ce0008");//申请复审人	现在测试设置为wangqaio7
-			toSpvCashFlowApply.setFtPreAuditor("ff80808156b51e7b0156b55f02ce0008");//财务初审人	现在测试设置为wangqaio7
-			toSpvCashFlowApply.setFtPostAuditor("ff80808156b51e7b0156b55f02ce0008");//财务复审人	现在测试设置为wangqaio7
+		
+			toSpvCashFlowApply.setApplyAuditor("8a8493d45095534b0150a338bcf26063");//申请复审人	 wufeng01
+			//toSpvCashFlowApply.setFtPreAuditor("ff80808156b51e7b0156b55f02ce0008");//财务初审人	
+			//toSpvCashFlowApply.setFtPostAuditor("ff80808156b51e7b0156b55f02ce0008");//财务复审人	现在测试设置为wangqaio7
 			toSpvCashFlowApply.setCreateTime(new Date());//创建时间
 			toSpvCashFlowApply.setCreateBy(user.getId());//创建人
 			//更新时间toSpvCashFlowApply.setUpdateBy(updateBy);
