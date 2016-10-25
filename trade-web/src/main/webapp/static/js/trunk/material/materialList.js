@@ -315,35 +315,10 @@ $("#materialBorrowSubmit").click(function(){
 	 var actionPreDate = $("input[name='actionPreDate']").val();
 	 var actionReason = $("input[name='actionReason']").val();
 	 var actionRemark = $("#actionRemark").val();
-	 logActionSubmit(pkids,actionUser,actionPreDate,actionReason,actionRemark);
+	 logActionBorrowSubmit(pkids,actionUser,actionPreDate,actionReason,actionRemark);
 	 
 })
-
-
-
-
-//归还弹出按钮判断
-$("#materialReturn").click(function(){
-	var pkids = getCheck();	
-	if(pkids){
-		 if(!caseCodeTheSameCheck()){
-				return false;
-		 }else{
-			 $("#Return").show();	
-		 }				
-	}	
-})
-//归还提交信息
-$("#materialReturnSubmit").click(function(){	
-	 var pkids = getPkidsArray();
-	 //var mmIoBatch = {}; 
-	 var actionUser = $("input[name='returnActionUser']").val();
-	 var actionRemark = $("#returnaAtionRemark").val();
-	 logActionSubmit(pkids,actionUser,null,null,actionRemark);
-	 
-})
-
-function logActionSubmit(pkids,actionUser,actionPreDate,actionReason,actionRemark){			
+function logActionBorrowSubmit(pkids,actionUser,actionPreDate,actionReason,actionRemark){			
 		$.ajax({
 			url:ctx+"/material/materialBorrowSave",
 			method:"post",
@@ -368,3 +343,82 @@ function logActionSubmit(pkids,actionUser,actionPreDate,actionReason,actionRemar
 		   }
 		});
 	}
+
+
+
+
+//归还弹出按钮判断
+$("#materialReturn").click(function(){
+	var pkids = getCheck();	
+	if(pkids){
+		 if(!caseCodeTheSameCheck()){
+				return false;
+		 }else{
+			 $("#Return").show();	
+		 }				
+	}	
+})
+//归还提交信息
+$("#materialReturnSubmit").click(function(){	
+	 var pkids = getPkidsArray();
+	 //var mmIoBatch = {}; 
+	 var actionUser = $("input[name='returnActionUser']").val();
+	 var actionRemark = $("#returnActionRemark").val();
+	 var flag = true;
+	 logActionReturnSubmit(pkids,actionUser,actionRemark,flag);
+	 
+})
+$("#materialReturnClose").click(function(){	
+	$("#Return").hide();
+})
+
+function logActionReturnSubmit(pkids,actionUser,actionRemark,flag){			
+	$.ajax({
+		url:ctx+"/material/materialReturnSave",
+		method:"post",
+		dataType:"json",
+		data:{"pkids" : pkids,"actionUser" : actionUser,"actionRemark":actionRemark,"flag" : flag},//"mmIoBatch" : mmIoBatch,
+		success:function(data){ 
+		console.log("Result=====" +JSON.stringify(data));
+			if(data != null ){
+				if(data.success){
+					$("#Return").hide();
+					alert(data.message);						
+					window.location.reload();
+				}else{
+					$("#Return").hide();
+					alert(data.message);
+					window.location.reload();
+				}
+			}	
+		},       
+		error:function(e){
+	    	 alert(e);
+	   }
+	});
+}
+
+//退还弹出按钮判断
+$("#materialRefund").click(function(){
+	var pkids = getCheck();	
+	if(pkids){
+		 if(!caseCodeTheSameCheck()){
+				return false;
+		 }else{
+			 $("#GiveBack").show();	
+		 }				
+	}	
+})
+
+//归还提交信息
+$("#materialRefundSubmit").click(function(){	
+	 var pkids = getPkidsArray();
+	 var flag = false;	
+	 var actionUser = $("input[name='refundActionUser']").val();
+	 var actionRemark = $("#refundActionRemark").val();
+	 logActionReturnSubmit(pkids,actionUser,actionRemark,flag);
+	 
+})
+$("#materialRefundClose").click(function(){	
+	$("#GiveBack").hide();
+})

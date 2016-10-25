@@ -307,7 +307,7 @@ public class MaterialManagementController {
     //归还
     @RequestMapping(value="materialReturnSave")
     @ResponseBody
-    public AjaxResponse<String> materialReturnSave(String  pkids,String actionUser,String actionRemark){
+    public AjaxResponse<String> materialReturnSave(String  pkids,String actionUser,String actionRemark,String flag){
     	
     	
     	AjaxResponse<String> response = new AjaxResponse<String>();
@@ -329,12 +329,28 @@ public class MaterialManagementController {
      			mmIoBatch.setActionUser(actionUser);
      			mmIoBatch.setCaseCode(mmMaterialItemForCaseCode == null ? "":mmMaterialItemForCaseCode.getCaseCode());     			
      			mmIoBatch.setManager(userId);
-     			mmIoBatch.setLogAction(MaterialActionEnum.RETURN.getCode());
+     			if("true".equals(flag)){
+     				//归还
+     				//todo 是否需要设置相关时间
+     				mmIoBatch.setLogAction(MaterialActionEnum.RETURN.getCode());
+     			}else if("false".equals(flag)){
+     				//退还
+     				//todo 是否需要设置相关时间
+     				mmIoBatch.setLogAction(MaterialActionEnum.REFUND.getCode());
+     			}
+     			
      			m = mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);//插入外借动作	             		
      		
-			for(int i=0; i<pkid.length; i++){
-				mmMaterialItem.setItemStatus(MaterialStatusEnum.BORROW.getCode());
-				mmMaterialItem.setPkid(Long.parseLong(pkid[i]));
+			for(int i=0; i<pkid.length; i++){				
+     			if("true".equals(flag)){
+     				mmMaterialItem.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
+     				mmMaterialItem.setPkid(Long.parseLong(pkid[i]));
+     			}else if("false".equals(flag)){
+     				mmMaterialItem.setItemStatus(MaterialStatusEnum.BACK.getCode());
+     				mmMaterialItem.setItemBackTime(new Date());
+     				mmMaterialItem.setPkid(Long.parseLong(pkid[i]));
+     				
+     			}
 				n = mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
 				
 				//向中间表插入记录	 插入之前先插入记录，获取pkid作为BATCH_ID插入下表				
@@ -346,10 +362,10 @@ public class MaterialManagementController {
         	} 	
      		if(m>0 && n>0 && k>0){
      			response.setSuccess(true);
-     			response.setMessage("恭喜,借用成功！"); 
+     			response.setMessage("恭喜,归还成功！"); 
      		}else{
      			response.setSuccess(false);
-     			response.setMessage("物品借用操作失败！"); 
+     			response.setMessage("物品归还操作失败！"); 
      		}
      	}catch(Exception e){
      		response.setSuccess(false);
