@@ -17,7 +17,9 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.material.entity.MmIoBatch;
 import com.centaline.trans.material.entity.MmItemBatch;
@@ -53,6 +55,8 @@ public class MaterialManagementController {
     @Autowired
     private MmIoBatchService mmIoBatchService;
     
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
     
 	//物品管理列表页面
     //快速查询
@@ -68,7 +72,7 @@ public class MaterialManagementController {
 	}
 	
 	
-	//物品入库前信息查询
+	//物品入库页面  案件信息查询
 	@RequestMapping("materialStorgae")
 	public String  materialStorgae(HttpServletRequest request,String pkids){
 		List<MmMaterialItem>  mmMaterialItemList =  new ArrayList<MmMaterialItem>();
@@ -89,6 +93,20 @@ public class MaterialManagementController {
 			}
 			request.setAttribute("mmMaterialItemList", mmMaterialItemList);	
 		}
+		//查询附件信息记录表
+		ToAccesoryList toAccesoryList = new ToAccesoryList();
+		toAccesoryList.setPartCode("CustomerConfirmation");
+		List<ToAccesoryList> list = toAccesoryListService.qureyToAccesoryList(toAccesoryList);
+		if(list != null && list.size() > 0) {
+			int size = list.size();
+			request.setAttribute("accesoryList", list);
+			List<Long> idList = new ArrayList<Long>(size);
+			for(int i=0; i<size; i++) {
+				idList.add(list.get(i).getPkid());
+			}
+			request.setAttribute("idList", idList);
+		}
+		
 		return "material/materialStorageConfirm";
 		
 	}
@@ -122,8 +140,7 @@ public class MaterialManagementController {
 					request.setAttribute("user", user);
 				}				
 			}
-			if(null != mmMaterialItem.getItemCategory() && !"".equals(mmMaterialItem.getItemCategory())){
-				
+			if(null != mmMaterialItem.getItemCategory() && !"".equals(mmMaterialItem.getItemCategory())){				
 				if(mmMaterialItem.getItemCategory().equals("carded")){
 					mmMaterialItem.setItemCategory("身份证");
 				}else if(mmMaterialItem.getItemCategory().equals("mortgageContract")){
@@ -134,11 +151,9 @@ public class MaterialManagementController {
 					mmMaterialItem.setItemCategory("产权证");
 				}else if(mmMaterialItem.getItemCategory().equals("otherCard")){
 					mmMaterialItem.setItemCategory("他证");
-				}
-				
+				}				
 			}
-			if(null != mmMaterialItem.getItemStatus() && !"".equals(mmMaterialItem.getItemStatus())){
-				
+			if(null != mmMaterialItem.getItemStatus() && !"".equals(mmMaterialItem.getItemStatus())){				
 				if(mmMaterialItem.getItemStatus().equals("stay")){
 					mmMaterialItem.setItemStatus("待入库");
 				}else if(mmMaterialItem.getItemStatus().equals("borrow")){
@@ -161,12 +176,13 @@ public class MaterialManagementController {
 		List<MmIoBatch> mmIoBatchlist = new  ArrayList<MmIoBatch>();
 		//中间表
 		List<MmItemBatch> mmItemBatchList = new  ArrayList<MmItemBatch>();
-		
+		//查询中间表的BatchId列表，关联查询动作表
 		MmIoBatch mmIoBatch = new MmIoBatch();		
 		mmItemBatchList = mmItemBatchService.queryMmItemBatchList(Long.parseLong(pkid));
 		if(mmItemBatchList.size() > 0){
 			for(int i=0; i<mmItemBatchList.size(); i++){
 				if(null != mmItemBatchList.get(i).getBatchId()){
+					//通过BatchId关联查询动作表
 					mmIoBatch = mmIoBatchService.queryMmIoBatchByPkid(mmItemBatchList.get(i).getBatchId());
 					if(null != mmIoBatch){						
 						if(null != mmIoBatch.getLogAction() && !"".equals(mmIoBatch.getLogAction())){
@@ -223,8 +239,6 @@ public class MaterialManagementController {
 			mmIoBatch.setCaseCode(materialList.get(0).getCaseCode());				
 			mmIoBatch.setLogAction(MaterialActionEnum.IN.getCode());//入库操作
 			mmIoBatch.setManager(userId);
-			mmIoBatch.setCreateBy(userId);
-			mmIoBatch.setCreateTime(new Date());
 			mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);			
 			
 			//插入操作获取pkid
@@ -388,7 +402,7 @@ public class MaterialManagementController {
         		String pkid[] = pkids.split(","); 
         		for(int i=0; i<pkid.length; i++){
         			//逻辑删除
-     				mmMaterialItem.setIsDelete("Y");				
+     				mmMaterialItem.setIsDeleted("Y");				
      				mmMaterialItem.setPkid(Long.parseLong(pkid[i])); 
      				m = mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
 				}			

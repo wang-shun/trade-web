@@ -286,7 +286,7 @@
                        <tr class="tr-2">
                    {{/if}}
 						<td> 	
-							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}} statusFlag={{item.ITEM_STATUS}}">						
+							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}" statusFlag="{{item.ITEM_STATUS}}">						
 						
 						</td>
 						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank"  class="caseCodeForshow">{{item.CASE_CODE}}</a></p>

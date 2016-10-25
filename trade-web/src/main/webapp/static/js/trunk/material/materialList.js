@@ -211,18 +211,20 @@ function getPkidsArray(){
 	pkids = ids.substring(0,ids.length-1);	
 	return pkids; 
 }
-
+//物品入库
 $("#materialStorage").click(function(){	
 
 	var pkids = getCheck();	
 	
 	if(!caseCodeTheSameCheck()){
 		return false;
+	}
+	if(!statusFlagCheck()){
+		return false;
 	}	
 	//请求后端数据
 	if(pkids){	
-		$("#pkids").val(pkids);
-		alert($("#pkids").val());
+		$("#pkids").val(pkids);		
 		$("#materialStorgaeForm").submit();
 	}
 })
@@ -338,7 +340,7 @@ $("#materialReturnSubmit").click(function(){
 $("#materialReturnClose").click(function(){	
 	$("#Return").hide();
 })
-
+//归还、退还共有的提交方法
 function logActionReturnSubmit(pkids,actionUser,actionRemark,flag){			
 	$.ajax({
 		url:ctx+"/material/materialReturnSave",
@@ -390,48 +392,48 @@ $("#materialRefundClose").click(function(){
 	$("#GiveBack").hide();
 })
 
-
-
 //物品删除
 $("#materialDelete").click(function(){
 	var pkids = getCheck();	
 	if(pkids){
 		 if(!statusFlagCheck()){
 			 return false;
-		 }else{
-				$.ajax({
-					url:ctx+"/material/materialDelete",
-					method:"post",
-					dataType:"json",
-					data:{"pkids" : pkids},
-					success:function(data){ 
-					console.log("Result=====" +JSON.stringify(data));
-						if(data != null ){
-							if(data.success){								
-								alert(data.message);						
-								window.location.reload();
-							}else{								
-								alert(data.message);
-								window.location.reload();
-							}
-						}	
-					},       
-					error:function(e){
-				    	 alert(e);
-				   }
-				});
-		 }				
+		 }
+ 		if(confirm("确定要删除您选中的物品信息吗？")){
+			$.ajax({
+				url:ctx+"/material/materialDelete",
+				method:"post",
+				dataType:"json",
+				data:{"pkids" : pkids},
+				success:function(data){ 
+				//console.log("Result=====" +JSON.stringify(data));
+					if(data != null ){						
+						if(data.success){								
+							alert(data.message);						
+							window.location.reload();
+						}else{								
+							alert(data.message);
+							window.location.reload();
+						}
+					}	
+				},       
+				error:function(e){
+			    	 alert(e);
+			   }
+			});
+		}		 				
 	}	
 })
 
-//验证勾选的复选框是否是待入库状态
+//验证勾选的复选框是否是"待入库"状态
 function statusFlagCheck(){	
 	var flag=true;
 	var statusFlagArray = $("input[type=checkbox][name='materialCheck']:checked");
-	$("input[type=checkbox][name='materialCheck']:checked").each(function(index,statusFlag){	
+	$("input[type=checkbox][name='materialCheck']:checked").each(function(index,statusFlag){
+		//statusFlag.value  js对象
 		if($(statusFlag).attr("statusFlag") != "stay"){
 			flag = false;
-			alert("待入库状态的物品信息才可删除！");
+			alert("待入库状态的物品才可入库或者删除！");
 		}
 		
 		if(flag == false){

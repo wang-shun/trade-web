@@ -41,7 +41,7 @@ public class MmMaterialItem {
 
     private Date updateTime;
     
-    private String isDelete;
+    private String isDeleted;
 
     public Long getPkid() {
         return pkid;
@@ -195,12 +195,12 @@ public class MmMaterialItem {
         this.updateTime = updateTime;
     }
 
-	public String getIsDelete() {
-		return isDelete;
+	public String getIsDeleted() {
+		return isDeleted;
 	}
 
-	public void setIsDelete(String isDelete) {
-		this.isDelete = isDelete;
+	public void setIsDeleted(String isDeleted) {
+		this.isDeleted = isDeleted;
 	}
     
     
