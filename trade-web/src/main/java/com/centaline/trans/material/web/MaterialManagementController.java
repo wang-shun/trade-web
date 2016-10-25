@@ -213,8 +213,7 @@ public class MaterialManagementController {
 		List<MmMaterialItem> materialList = new ArrayList<MmMaterialItem>();
 		String itemAddrCode = "";//物品存放路径
 		MmIoBatch mmIoBatch = new MmIoBatch();
-		//long insertMmIoBatch = 0;//插入动作表返回的主键  返回的主键id在对象里面取值
-		
+		//long insertMmIoBatch = 0;//插入动作表返回的主键  返回的主键id在对象里面取值		
 		if( null != material){
 			itemAddrCode = material.getItemAddrCode();
 			materialList = material.getMaterialList();
@@ -224,6 +223,8 @@ public class MaterialManagementController {
 			mmIoBatch.setCaseCode(materialList.get(0).getCaseCode());				
 			mmIoBatch.setLogAction(MaterialActionEnum.IN.getCode());//入库操作
 			mmIoBatch.setManager(userId);
+			mmIoBatch.setCreateBy(userId);
+			mmIoBatch.setCreateTime(new Date());
 			mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);			
 			
 			//插入操作获取pkid
@@ -236,7 +237,7 @@ public class MaterialManagementController {
 				mmMaterialItem.setItemInputTime(new Date());
 				mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
 				
-				//向中间表插入记录	 插入之前先插入记录，获取pkid作为BATCH_ID插入下表				
+				//向中间表插入记录，插入之前先获取插入表mmIoBatch记录的pkid作为BATCH_ID插入下表				
 				MmItemBatch mmItemBatch = new MmItemBatch();
 				mmItemBatch.setItemId(materialList.get(i).getPkid());
 				mmItemBatch.setBatchId(mmIoBatch.getPkid());//sqlserver返回插入的主键id
@@ -246,7 +247,8 @@ public class MaterialManagementController {
 		return  "material/materialList";
 	}
 
-    //借用
+    
+	//借用
     @RequestMapping(value="materialBorrowSave")
     @ResponseBody
     public AjaxResponse<String> materialBorrowSave(String  pkids,String actionUser,String actionPreDate,String actionReason,String actionRemark){
@@ -272,6 +274,8 @@ public class MaterialManagementController {
      			mmIoBatch.setActionUser(actionUser);
      			mmIoBatch.setCaseCode(mmMaterialItemForCaseCode == null ? "":mmMaterialItemForCaseCode.getCaseCode());     			
      			mmIoBatch.setManager(userId);
+     			mmIoBatch.setCreateBy(userId);
+     			mmIoBatch.setCreateTime(new Date());
      			mmIoBatch.setLogAction(MaterialActionEnum.OUT.getCode());
      			m = mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);//插入外借动作	             		
      		
@@ -307,9 +311,7 @@ public class MaterialManagementController {
     //归还 退还合二为一
     @RequestMapping(value="materialReturnSave")
     @ResponseBody
-    public AjaxResponse<String> materialReturnSave(String  pkids,String actionUser,String actionRemark,String flag){
-    	
-    	
+    public AjaxResponse<String> materialReturnSave(String  pkids,String actionUser,String actionRemark,String flag){ 
     	AjaxResponse<String> response = new AjaxResponse<String>();
     	SessionUser currentUser = uamSessionService.getSessionUser();
 		String userId = currentUser.getId();
@@ -323,22 +325,20 @@ public class MaterialManagementController {
         		//单次操作的caseCode相同
         		mmMaterialItemForCaseCode = mmMaterialItemService.queryMmMaterialByPkid(Long.parseLong(pkid[0]));
         		//插入动作表
-        		MmIoBatch mmIoBatch = new MmIoBatch();
-     			mmIoBatch.setActionPreDate(new Date());     			
+        		MmIoBatch mmIoBatch = new MmIoBatch();     			     			
      			mmIoBatch.setActionRemark(actionRemark);
      			mmIoBatch.setActionUser(actionUser);
      			mmIoBatch.setCaseCode(mmMaterialItemForCaseCode == null ? "":mmMaterialItemForCaseCode.getCaseCode());     			
      			mmIoBatch.setManager(userId);
+     			mmIoBatch.setCreateBy(userId);
+     			mmIoBatch.setCreateTime(new Date());
      			if("true".equals(flag)){
-     				//归还
-     				//todo 是否需要设置相关时间
+     				//归还     	
      				mmIoBatch.setLogAction(MaterialActionEnum.RETURN.getCode());
      			}else if("false".equals(flag)){
-     				//退还
-     				//todo 是否需要设置相关时间
+     				//退还     	
      				mmIoBatch.setLogAction(MaterialActionEnum.REFUND.getCode());
-     			}
-     			
+     			}     			
      			m = mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);//插入外借动作	             		
      		
 			for(int i=0; i<pkid.length; i++){				
@@ -387,7 +387,8 @@ public class MaterialManagementController {
         	if(!"".equals(pkids) && pkids != null){
         		String pkid[] = pkids.split(","); 
         		for(int i=0; i<pkid.length; i++){
-     				mmMaterialItem.setItemStatus("//todo  删除标识");     				
+        			//逻辑删除
+     				mmMaterialItem.setIsDelete("Y");				
      				mmMaterialItem.setPkid(Long.parseLong(pkid[i])); 
      				m = mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
 				}			

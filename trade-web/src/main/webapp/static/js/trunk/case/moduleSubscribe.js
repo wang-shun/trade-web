@@ -47,9 +47,11 @@
                 SUBSCRIBE._subscribe(moduleCode,ops.moduleType,ops.subscribeType,"",isSubscribe,function(obj){
                     if(isSubscribe=='true'){
                         $this_c.addClass("active");
+                        $this_c.children("i").html("&#xe63e;");
                         $this_c.attr("isSubscribe",false);
                     }else{
                         $this_c.removeClass("active");
+                        $this_c.children("i").html("&#xe644;");
                         $this_c.attr("isSubscribe",true);
                     }
                 },function(obj){

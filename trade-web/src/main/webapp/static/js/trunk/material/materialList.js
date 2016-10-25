@@ -4,40 +4,7 @@ var serviceDepId = $("#serviceDepId").val();//"${serviceDepId}";
 $(function(){	
 	reloadGrid();
 	$('.wrapper-content').viewer();
-	 //全选
-    $("#CheckedAll").click(function(){
-        var isChecked = $(this).prop("checked");
-        $('input[name=items]').prop("checked", isChecked );
-        $("#work").prop("checked", false );
-
-    });
-    
-    $('input[type=checkbox][name=items]').click(function(){
-        var flag=true;
-        $('input[type=checkbox][name=items]').each(function(){
-            if(!$(this).prop("checked") == true){
-                flag = false;
-            }
-        });
-        if( flag ){
-            $('#CheckedAll').prop('checked', true );
-        }else{
-            $('#CheckedAll').prop('checked', false );
-        }
-    });
-    
-    //工作日选择
-    $("#work").click(function() {
-        var isChecked = $(this).prop("checked");
-        if($(this).prop("checked") == true){				 //如果当前点击的多选框被选中
-            $('.work1').prop("checked", isChecked );
-            $(".zhoumo").prop("checked", false );
-            $("#CheckedAll").prop("checked", false );
-        }else{
-            $('.work1').prop("checked", false );
-        }
-    });
-
+	
 	//top
 	$('.demo-top').poshytip({
 		className: 'tip-twitter',

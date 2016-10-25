@@ -166,7 +166,7 @@
                       <c:forEach items="${mmIoBatchlist}" var="mmIoBatch">
                          <tr>
                              <td>${mmIoBatch.logAction}</td>
-                             <td><fmt:formatDate value="${mmIoBatch.actionPreDate}" pattern="yyyy-MM-dd"/></td>
+                             <td><fmt:formatDate value="${mmIoBatch.createTime}" pattern="yyyy-MM-dd"/></td>
                              <td><a href="#">${mmIoBatch.actionUser}</a></td>
                              <td><a href="#">${mmIoBatch.manager}</a></td>
                              <td>${mmIoBatch.actionReason}</td>
