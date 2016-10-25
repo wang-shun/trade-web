@@ -83,6 +83,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	@Autowired(required = true)
+	private UamUserOrgService uamUserOrgService;
 
 	@Override
 	public void cashFlowInPage(HttpServletRequest request, String source, String instCode, String taskId,
@@ -351,6 +353,9 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
 				statusType = SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode();
+				ToWorkFlow workFlow = toWorkFlowService.queryWorkFlowByInstCode(instCode);//更新状态
+				workFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
+				toWorkFlowService.updateByPrimaryKeySelective(workFlow);
 				//variables.put("assignee", "wufeng01");	
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
@@ -475,14 +480,16 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("RiskControlOfficer", user.getUsername());
-		vars.put("RiskControlDirector", "wufeng01");
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		vars.put("RiskControlDirector", riskControlDirector.getUsername());
 		//开启流程
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
 				propertyUtilsService.getSpvCashflowInProcess(), spvApplyCode, vars);
 
 		//插入工作流表
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setBusinessKey(spvApplyCode);
+		//workFlow.setBusinessKey(spvApplyCode);
+		workFlow.setBusinessKey("SpvCashflowInProcess");
 		if(null != spvRecordedsVO.getSpvConCode()){
 			workFlow.setCaseCode(spvRecordedsVO.getCaseCode());
 		}else{
@@ -492,7 +499,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		workFlow.setProcessDefinitionId(propertyUtilsService.getSpvCashflowInProcess());
 		workFlow.setProcessOwner(user.getId());
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-		toWorkFlowService.insertSelective(workFlow);
+		toWorkFlowService.insertSpvCashflowInProcessSelective(workFlow);
 		
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);

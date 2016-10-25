@@ -179,10 +179,10 @@
                                                 监管金额<span>{{item.AMOUNT>0?item.AMOUNT/10000:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                入账金额<span>0万</span>
+                                                入账金额<span>{{item.ru>0?item.ru/10000:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                出账金额<span>0万</span>
+                                                出账金额<span>{{item.chu>0?item.chu/10000:0}}万</span>
                                             </p>
                                         </td>
                                         <td>
@@ -244,7 +244,7 @@
                                                       {{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.OUT">
-													{{if item.SumRu>0}}
+													{{if item.ru>0}}
                                                         <li><a href="${ctx}/spv/task/cashFlowOutAppr/process?spvCode={{item.SPV_CODE}}">出账</a></li>
                                                      {{/if}}
 													</shiro:hasPermission>

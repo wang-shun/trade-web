@@ -47,6 +47,7 @@ import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.product.entity.Product;
 import com.centaline.trans.product.entity.ProductCategory;
@@ -989,6 +990,8 @@ public class SpvController {
    	public String cashFlowInAppprProcess(HttpServletRequest request,String source,String instCode,
    			String taskId,String handle,String businessKey)  {
        	String url="";
+       	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
+		businessKey = processInstance.getBusinessKey();
        	if(!StringUtils.isBlank(handle)){ 	
 	           	switch (handle) {
 	           	case "apply":

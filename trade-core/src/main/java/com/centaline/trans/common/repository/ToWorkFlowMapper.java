@@ -11,6 +11,8 @@ public interface ToWorkFlowMapper {
 	int deleteByPrimaryKey(Long pkid);
 
 	int insertSelective(ToWorkFlow record);
+	
+	int insertSpvCashflowInProcessSelective(ToWorkFlow record);
 
 	ToWorkFlow selectByPrimaryKey(Long pkid);
 

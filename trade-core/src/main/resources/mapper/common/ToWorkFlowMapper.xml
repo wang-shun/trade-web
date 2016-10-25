@@ -173,6 +173,94 @@
     </trim>;
     select 1 ;
   </insert>
+  <insert id="insertSpvCashflowInProcessSelective" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
+    insert into sctrans.T_TO_WORKFLOW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="instCode != null" >
+        INST_CODE,
+      </if>
+      <if test="businessKey != null" >
+        BUSINESS_KEY,
+      </if>
+      <if test="processDefinitionId != null" >
+        PROCESS_DEFINITION_ID,
+      </if>
+      <if test="processOwner != null" >
+        PROCESS_OWNER,
+      </if>
+      CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="instCode != null" >
+        #{instCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessKey != null" >
+        #{businessKey,jdbcType=VARCHAR},
+      </if>
+      <if test="processDefinitionId != null" >
+        #{processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="processOwner != null" >
+        #{processOwner,jdbcType=VARCHAR},
+      </if>
+      GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID},
+      </trim>;
+      insert into sctrans.T_HI_WORKFLOW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      
+        PKID,
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="instCode != null" >
+        INST_CODE,
+      </if>
+      <if test="businessKey != null" >
+        BUSINESS_KEY,
+      </if>
+      <if test="processDefinitionId != null" >
+        PROCESS_DEFINITION_ID,
+      </if>
+      <if test="processOwner != null" >
+        PROCESS_OWNER,
+      </if>
+      CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      
+        @@IDENTITY,
+      
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="instCode != null" >
+        #{instCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessKey != null" >
+        #{businessKey,jdbcType=VARCHAR},
+      </if>
+      <if test="processDefinitionId != null" >
+        #{processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="processOwner != null" >
+        #{processOwner,jdbcType=VARCHAR},
+      </if>
+      GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID},
+    </trim>;
+    select 1 ;
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToWorkFlow" >
     update sctrans.T_TO_WORKFLOW
     <set >
