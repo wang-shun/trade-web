@@ -266,7 +266,10 @@ $("#submitBtn").click(function(){
 		success : function(data) {
 			if(data.success){
 				alert(data.message);
-				window.location.href = ctx+"/report/dealChangeCaseList";
+				$("#close").click();
+				reloadGrid(1);
+				
+				//window.location.href = ctx+"/report/dealChangeCaseList";
 			}else{
 				alert(data.message);
 			}
@@ -297,7 +300,7 @@ function exportToExcel() {
 	$.exportExcel({
 		ctx : "..",
 		queryId : queryId,
-		colomns : ['CASE_CODE','PROPERTY_ADDR','PART_CODE','OLD_EST_PART_TIME','EST_PART_TIME','REAL_NAME','CHANGE_TIME','CHANGE_REASON','DISTRICT_NAME','TEAM_NAME','SELLERANDPHONE','BUYERANDPHONE','visitRemark','CONTENT','CREATE_TIME'],
+		colomns : ['CASE_CODE','PROPERTY_ADDR','PART_CODE','OLD_EST_PART_TIME','NEW_EST_PART_TIME','REAL_NAME','CHANGE_TIME','CHANGE_REASON','DISTRICT_NAME','TEAM_NAME','SELLERANDPHONE','BUYERANDPHONE','visitRemark','CONTENT','CREATE_TIME'],
 		data:data
 	});
 }

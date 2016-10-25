@@ -21,11 +21,12 @@
     <result column="CREATE_TIME" 			jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_BY" 				jdbcType="VARCHAR" property="updateBy" />
     <result column="UPDATE_TIME" 			jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="IS_DELETE" 				jdbcType="VARCHAR" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
     PKID, CASE_CODE, ITEM_CODE, ITEM_NAME, ITEM_CATEGORY, ITEM_INPUT_TIME, ITEM_OUTPUT_TIME, 
     ACTION_PRE_DATE, ITEM_BACK_TIME, ITEM_RESOURCE, ITEM_MANAGER, ITEM_ADDR_CODE, ITEM_BUSINESS_REMARK, 
-    ITEM_REMARK, ITEM_STATUS, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+    ITEM_REMARK, ITEM_STATUS, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME,IS_DELETE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -52,14 +53,14 @@
       ITEM_RESOURCE, ITEM_MANAGER, ITEM_ADDR_CODE, 
       ITEM_BUSINESS_REMARK, ITEM_REMARK, ITEM_STATUS, 
       CREATE_BY, CREATE_TIME, UPDATE_BY, 
-      UPDATE_TIME)
+      UPDATE_TIME,IS_DELETE)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
       #{itemName,jdbcType=VARCHAR}, #{itemCategory,jdbcType=VARCHAR}, #{itemInputTime,jdbcType=TIMESTAMP}, 
       #{itemOutputTime,jdbcType=TIMESTAMP}, #{actionPreDate,jdbcType=TIMESTAMP}, #{itemBackTime,jdbcType=TIMESTAMP}, 
       #{itemResource,jdbcType=VARCHAR}, #{itemManager,jdbcType=VARCHAR}, #{itemAddrCode,jdbcType=VARCHAR}, 
       #{itemBusinessRemark,jdbcType=NVARCHAR}, #{itemRemark,jdbcType=NVARCHAR}, #{itemStatus,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{updateTime,jdbcType=TIMESTAMP},#{isDelete,jdbcType=VARCHAR})
   </insert>
 
   
@@ -123,6 +124,9 @@
       <if test="updateTime != null">
         UPDATE_TIME,
       </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
@@ -181,6 +185,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -246,6 +253,9 @@
       <if test="updateTime != null">
         UPDATE_TIME,
       </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
@@ -305,6 +315,9 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   
@@ -356,6 +369,9 @@
       </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=VARCHAR},
       </if>
     </set>
     ,UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
@@ -410,6 +426,9 @@
       </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=VARCHAR},
       </if>
     </set>
     ,UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
@@ -474,6 +493,9 @@
       <if test="updateTime != null">
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=VARCHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -496,7 +518,8 @@
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
-      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      IS_DELETE = #{isDelete,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update> 
 </mapper>

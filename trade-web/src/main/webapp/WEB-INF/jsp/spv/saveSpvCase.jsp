@@ -918,8 +918,7 @@
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> <script
 		src="${ctx}/static/js/morris/morris.js"></script> <script
 		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
-	<script src="${ctx}/static/trans/js/eloan/eloan.js"></script> <script
-		src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
@@ -1189,6 +1188,7 @@
 		}
 
         function reloadGrid() {
+			debugger;
         	var data = {};
         	var propertyAddr = $.trim($("#propertyAddr").val());
            	var caseCode = $.trim($("#caseCodet").val());

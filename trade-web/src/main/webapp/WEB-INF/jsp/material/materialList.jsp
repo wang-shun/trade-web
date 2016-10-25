@@ -102,12 +102,11 @@
                  <div class="btn-left btn-left-space ml40">
                      <button type="button" class="btn btn-success btn-icon  mr5" id="searchButton"><i class="icon iconfont">&#xe635;</i> 查询</button>
                      <button type="reset" class="btn btn-grey mr5">清空</button>
-                     <a href="#" class="btn btn-toggle mr5" id="storage">入库</a>
+                     <a href="#" class="btn btn-toggle mr5" id="materialStorage">入库</a>
                      <a href="#" class="btn btn-toggle mr5" id="materialBorrow">借用</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5" id="materialReturn">归还</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5"
-                     data-toggle="modal" data-target="#GiveBack">退还</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5">删除</a>
+                     <a href="#" class="btn btn-toggle mr5" id="materialReturn">归还</a>
+                     <a href="#" class="btn btn-toggle mr5" id="materialRefund">退还</a>
+                     <a href="#" class="btn btn-toggle mr5" id="materialDelete">删除</a>
                  </div>
              </div>
             </form>
@@ -202,13 +201,13 @@
                        <div class="form_content">
                            <label class="control-label sign_left_small pull-left">备注</label>
                            <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" 
-                           name="returnaAtionRemark" id="returnaAtionRemark" cols="30" rows="10"></textarea>
+                           name="returnActionRemark" id="returnActionRemark" cols="30" rows="10"></textarea>
                        </div>
                    </div>
                    <div class="line">
                        <div class="add_btn text-center" style="margin:15px 126px;">
                            <button type="button" class="btn btn-success" id="materialReturnSubmit">提交</button>
-                           <button type="reset" class="btn btn-grey" data-dismiss="modal">关闭</button>
+                           <button type="button" class="btn btn-grey" id="materialReturnClose">关闭</button>
                        </div>
                    </div>
                </form>
@@ -224,19 +223,20 @@
                    <div class="line">
                        <div class="form_content">
                            <label class="control-label sign_left_small">退还人</label>
-                           <input class="teamcode input_type" placeholder="" value="">
+                           <input class="teamcode input_type" placeholder="" value=""  name="refundActionUser" id="refundActionUser">
                        </div>
                    </div>
                    <div class="line clearfix">
                        <div class="form_content">
                            <label class="control-label sign_left_small pull-left">备注</label>
-                           <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" name="" id="" cols="30" rows="10"></textarea>
+                           <textarea style="width:590px;max-width:590px;height:100px;display:inline;margin-left:5px;" class="pull-left textarea" 
+                           name="refundActionRemark" id="refundActionRemark" cols="30" rows="10"></textarea>
                        </div>
                    </div>
                    <div class="line">
                        <div class="add_btn text-center" style="margin:15px 126px;">
-                           <button type="button" class="btn btn-success">提交</button>
-                           <button type="reset" class="btn btn-grey" data-dismiss="modal">关闭</button>
+                           <button type="button" class="btn btn-success" id="materialRefundSubmit" >提交</button>
+                           <button type="reset" class="btn btn-grey" id="materialRefundClose">关闭</button>
                        </div>
                    </div>
                </form>
@@ -286,7 +286,7 @@
                        <tr class="tr-2">
                    {{/if}}
 						<td> 	
-							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}">						
+							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}} statusFlag={{item.ITEM_STATUS}}">						
 						
 						</td>
 						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank"  class="caseCodeForshow">{{item.CASE_CODE}}</a></p>
