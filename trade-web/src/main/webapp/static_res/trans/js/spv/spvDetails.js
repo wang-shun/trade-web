@@ -292,14 +292,20 @@ $(document).ready(function(){
 	 			                } 
 	 			            } ,   
 	 			success : function(data) {
-				    	 isSuccess = true;
-				    	 if($("#urlType").val() == 'myTask'){    	 
-	 				    	 window.opener.location.reload(); //刷新父窗口
-	 			        	 window.close(); //关闭子窗口.
-	 				     }else{
-	 				    	 alert("保存资金监管签约成功！");
-	 				    	 window.location.href = ctx+"/spv/saveHTML?pkid="+data.content;
-				     }
+				    	 if(data.success){
+				    		 isSuccess = true;
+				    		 if($("#urlType").val() == 'myTask'){    	 
+		 				    	 window.opener.location.reload(); //刷新父窗口
+		 			        	 window.close(); //关闭子窗口.
+		 				     }else{
+		 				    	 alert(data.message);
+		 				    	 window.location.href = ctx+"/spv/saveHTML?pkid="+data.content;
+					     } 
+				    	 }else{
+				    		 isSuccess = false;
+				    		 alert("保存资金监管签约失败！"+data.message);
+				    	 }
+				    	 
 	 					 $.unblockUI();
 	 				},		
 	 			error : function(errors) {
@@ -1313,3 +1319,40 @@ function rescCallbocak(){
 	    	 window.location.href = ctx+"/spv/spvList";
 	     }
 	}
+
+
+function updateAccTypeOptions(){
+	var accTypeOptions_ = getAccTypeOptions();
+	$("select[name^='toSpvDeDetailList'][name$='payeeAccountType']").each(function(i,e){
+		var index = $(e).attr("name").replace('toSpvDeDetailList[','').replace('].payeeAccountType','');
+		var eVal = $(e).val();
+		$(e).empty().html(accTypeOptions_);
+		$(e).find("option").each(function(i_,e_){
+			if($(e_).val() == eVal){
+				$(e_).prop("selected",true);
+				return false;
+			}
+		});
+	});
+}
+
+function getAccTypeOptions(){
+	accTypeOptions = '';
+	accTypeOptions += '<option value="">请选择</option>';
+	$("*[name^='toSpvAccountList'][name$='name']").each(function(i,e){
+		if($(e).attr("name").indexOf("[0]") != -1){
+			accTypeOptions += '<option value="BUYER">'+$(e).val()+'(买方账户)</option>';
+		}else if($(e).attr("name").indexOf("[1]") != -1){
+			accTypeOptions += '<option value="SELLER">'+$(e).val()+'(卖方账户)</option>';
+		}else if($(e).attr("name").indexOf("[3]") != -1){
+			accTypeOptions += '<option value="FUND">'+$(e).val()+'(资金方账户)</option>';
+		}else if($(e).attr("name").indexOf("[2]") != -1){
+			//*
+		}else{
+			var index = $(e).attr("name").replace('toSpvAccountList[','').replace('].name','');
+			accTypeOptions += '<option value="CUSTOM_'+index+'">'+$(e).val()+'(新添加)</option>';
+		}
+	});
+    
+	return accTypeOptions;
+}

@@ -10,12 +10,11 @@ public enum SpvCashFlowApplyStatusEnum {
 	AUDITCOMPLETED("03", "审核完成"),
 	
 	/**出账*/
-	OUTDRAFT("10","出账起草状态"),
-	OUTINPROGRESS("11","出账审核中状态"),
-	OUTDIRECTORADUIT("12","出账总监审批状态"),
-	OUTFINANCEADUIT("13", "出账财务初审状态"),
-	OUTFINANCE2ADUIT("14", "出账财务复审状态"),
-	OUTAUDITCOMPLETED("15", "出账审核完成状态");
+	OUTDRAFT("10","出账起草"),
+	OUTDIRECTORADUIT("11","总监审批"),
+	OUTFINANCEADUIT("12", "财务初审"),
+	OUTFINANCE2ADUIT("13", "财务复审"),
+	OUTAUDITCOMPLETED("14", "审核完成");
     
     private String name;
 

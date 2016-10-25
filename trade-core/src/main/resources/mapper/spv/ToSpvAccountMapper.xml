@@ -37,7 +37,7 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_ACCOUNT
-    where SPV_CODE = #{pkid,jdbcType=VARCHAR}  and IS_DELETED = 0
+    where SPV_CODE = #{pkid,jdbcType=VARCHAR}  and IS_DELETED = 0  order by pkid asc
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
