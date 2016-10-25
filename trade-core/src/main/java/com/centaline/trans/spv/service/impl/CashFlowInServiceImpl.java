@@ -353,6 +353,9 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
 				statusType = SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode();
+				ToWorkFlow workFlow = toWorkFlowService.queryWorkFlowByInstCode(instCode);//更新状态
+				workFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
+				toWorkFlowService.updateByPrimaryKeySelective(workFlow);
 				//variables.put("assignee", "wufeng01");	
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
