@@ -40,9 +40,9 @@
 	</formatters>
 	<query id="queryTradeChangedCaseList" cacheCount="true">
 		<searchCondition>
-		   <condition field="T.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="S.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		   <condition field="O.PROPERTY_ADDR"  name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-		   <condition field="T.PART_CODE" name="partCode" label="环节编码" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>	
+		   <condition field="S.PART_CODE" name="partCode" label="环节编码" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>	
 		   <condition field="S.CHANGE_TIME"  name="changeTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
            <condition field="S.CHANGE_TIME"  name="changeTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 		   <condition field="I.DISTRICT_ID" name="districtId" label="所属贵宾服务部ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>
