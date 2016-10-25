@@ -4,40 +4,7 @@ var serviceDepId = $("#serviceDepId").val();//"${serviceDepId}";
 $(function(){	
 	reloadGrid();
 	$('.wrapper-content').viewer();
-	 //全选
-    $("#CheckedAll").click(function(){
-        var isChecked = $(this).prop("checked");
-        $('input[name=items]').prop("checked", isChecked );
-        $("#work").prop("checked", false );
-
-    });
-    
-    $('input[type=checkbox][name=items]').click(function(){
-        var flag=true;
-        $('input[type=checkbox][name=items]').each(function(){
-            if(!$(this).prop("checked") == true){
-                flag = false;
-            }
-        });
-        if( flag ){
-            $('#CheckedAll').prop('checked', true );
-        }else{
-            $('#CheckedAll').prop('checked', false );
-        }
-    });
-    
-    //工作日选择
-    $("#work").click(function() {
-        var isChecked = $(this).prop("checked");
-        if($(this).prop("checked") == true){				 //如果当前点击的多选框被选中
-            $('.work1').prop("checked", isChecked );
-            $(".zhoumo").prop("checked", false );
-            $("#CheckedAll").prop("checked", false );
-        }else{
-            $('.work1').prop("checked", false );
-        }
-    });
-
+	
 	//top
 	$('.demo-top').poshytip({
 		className: 'tip-twitter',
@@ -245,7 +212,7 @@ function getPkidsArray(){
 	return pkids; 
 }
 
-$("#storage").click(function(){	
+$("#materialStorage").click(function(){	
 
 	var pkids = getCheck();	
 	
@@ -422,3 +389,54 @@ $("#materialRefundSubmit").click(function(){
 $("#materialRefundClose").click(function(){	
 	$("#GiveBack").hide();
 })
+
+
+
+//物品删除
+$("#materialDelete").click(function(){
+	var pkids = getCheck();	
+	if(pkids){
+		 if(!statusFlagCheck()){
+			 return false;
+		 }else{
+				$.ajax({
+					url:ctx+"/material/materialDelete",
+					method:"post",
+					dataType:"json",
+					data:{"pkids" : pkids},
+					success:function(data){ 
+					console.log("Result=====" +JSON.stringify(data));
+						if(data != null ){
+							if(data.success){								
+								alert(data.message);						
+								window.location.reload();
+							}else{								
+								alert(data.message);
+								window.location.reload();
+							}
+						}	
+					},       
+					error:function(e){
+				    	 alert(e);
+				   }
+				});
+		 }				
+	}	
+})
+
+//验证勾选的复选框是否是待入库状态
+function statusFlagCheck(){	
+	var flag=true;
+	var statusFlagArray = $("input[type=checkbox][name='materialCheck']:checked");
+	$("input[type=checkbox][name='materialCheck']:checked").each(function(index,statusFlag){	
+		if($(statusFlag).attr("statusFlag") != "stay"){
+			flag = false;
+			alert("待入库状态的物品信息才可删除！");
+		}
+		
+		if(flag == false){
+			return false;
+		}
+	})			
+	return flag;
+}

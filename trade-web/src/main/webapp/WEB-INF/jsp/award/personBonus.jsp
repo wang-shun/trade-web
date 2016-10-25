@@ -348,9 +348,11 @@
 		    	          dataType: "json",
 		    	          data: data,
 		    	          success: function(data){
-		    				  $("#awardAmount").empty();
+		    				  $("#awardAmount").html("0.00");
 		    				  if(data.success){
-		    				  	$("#awardAmount").html(data.content);
+		    					 if(data.content!=null){
+		    				  		$("#awardAmount").html(data.content);
+		    					 }
 		    				  }else{
 		    					  alert(data.message);
 		    				  }

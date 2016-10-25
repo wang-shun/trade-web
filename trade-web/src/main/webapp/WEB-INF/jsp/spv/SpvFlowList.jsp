@@ -172,8 +172,8 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <span class="pink">付：</span> <a class="hint hint-top " data-hint="账户/银行： {{item.PAYER_ACC}}/{{item.PAYER_BANK}}">{{item.PAYER}}</a></br>
-                                            <span class="navy">收：</span><a class="hint hint-top " data-hint="账户/银行：{{item.RECEIVER_ACC}}/{{item.RECEIVER_BANK}}">{{item.RECEIVER}}</a>
+                                            <span class="">付：</span> <a class="hint hint-top " data-hint="账户/银行： {{item.PAYER_ACC}}/{{item.PAYER_BANK}}">{{item.PAYER}}</a></br>
+                                            <span class="">收：</span><a class="hint hint-top " data-hint="账户/银行：{{item.RECEIVER_ACC}}/{{item.RECEIVER_BANK}}">{{item.RECEIVER}}</a>
                                         </td>
                                         <td>
                                             <p class="smll_sign">
@@ -194,6 +194,7 @@
                                             <p class="smll_sign">
                                                                                                                                         审核人：
                                                 {{item.applyAuditorName}}
+                                                {{if item.USAGE=="in" && item.STATUS=="02" &&item.ftPostAuditorName=="" }}&gt;冯敏 / 张美瑜  / 任雯{{/if}}
                                                 {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
 												{{item.ftPreAuditorName}}
 											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}

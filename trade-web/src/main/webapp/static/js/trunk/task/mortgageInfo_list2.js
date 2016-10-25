@@ -284,7 +284,7 @@ function getMTypeAnalysis() {
 						if (data.rows[index].MTYPE === "3") {
 							typeCases[2] += data.rows[index].MCASES;
 							typeAmount[2] += data.rows[index].MCOMAMOUNT;
-							typeAmount[2] += data.rows[index].MPRFAMOUNT;
+							typeAmount[1] += data.rows[index].MPRFAMOUNT;
 						}
 
 						mTypeAllCases += data.rows[index].MCASES;

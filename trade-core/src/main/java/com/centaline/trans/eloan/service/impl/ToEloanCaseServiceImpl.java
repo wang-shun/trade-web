@@ -1,6 +1,7 @@
 package com.centaline.trans.eloan.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -264,6 +265,13 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		ToEloanCase newObj=new ToEloanCase();
 		unbindServItem(newObj, eloanCase);
 		toEloanCaseMapper.deleteByPrimaryKey(pkid);
+	}
+	
+	@Override
+	public void abanById(ToEloanCase eloanCase) {
+		ToEloanCase newObj=new ToEloanCase();
+		unbindServItem(newObj, eloanCase);
+		eloanInfoForUpdate(eloanCase);
 	}
 
 	@Override
