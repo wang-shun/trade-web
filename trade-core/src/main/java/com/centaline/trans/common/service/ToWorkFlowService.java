@@ -8,6 +8,8 @@ import com.centaline.trans.common.entity.ToWorkFlow;
 public interface ToWorkFlowService {
 
 	int insertSelective(ToWorkFlow record);
+	
+	int insertSpvCashflowInProcessSelective(ToWorkFlow record);
 
 	ToWorkFlow selectByPrimaryKey(Long pkid);
 

@@ -17,7 +17,9 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.material.entity.MmIoBatch;
 import com.centaline.trans.material.entity.MmItemBatch;
@@ -53,6 +55,8 @@ public class MaterialManagementController {
     @Autowired
     private MmIoBatchService mmIoBatchService;
     
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
     
 	//物品管理列表页面
     //快速查询
@@ -68,7 +72,7 @@ public class MaterialManagementController {
 	}
 	
 	
-	//物品入库前信息查询
+	//物品入库页面  案件信息查询
 	@RequestMapping("materialStorgae")
 	public String  materialStorgae(HttpServletRequest request,String pkids){
 		List<MmMaterialItem>  mmMaterialItemList =  new ArrayList<MmMaterialItem>();
@@ -89,6 +93,20 @@ public class MaterialManagementController {
 			}
 			request.setAttribute("mmMaterialItemList", mmMaterialItemList);	
 		}
+		//查询附件信息记录表
+		ToAccesoryList toAccesoryList = new ToAccesoryList();
+		toAccesoryList.setPartCode("CustomerConfirmation");
+		List<ToAccesoryList> list = toAccesoryListService.qureyToAccesoryList(toAccesoryList);
+		if(list != null && list.size() > 0) {
+			int size = list.size();
+			request.setAttribute("accesoryList", list);
+			List<Long> idList = new ArrayList<Long>(size);
+			for(int i=0; i<size; i++) {
+				idList.add(list.get(i).getPkid());
+			}
+			request.setAttribute("idList", idList);
+		}
+		
 		return "material/materialStorageConfirm";
 		
 	}
@@ -122,8 +140,7 @@ public class MaterialManagementController {
 					request.setAttribute("user", user);
 				}				
 			}
-			if(null != mmMaterialItem.getItemCategory() && !"".equals(mmMaterialItem.getItemCategory())){
-				
+			if(null != mmMaterialItem.getItemCategory() && !"".equals(mmMaterialItem.getItemCategory())){				
 				if(mmMaterialItem.getItemCategory().equals("carded")){
 					mmMaterialItem.setItemCategory("身份证");
 				}else if(mmMaterialItem.getItemCategory().equals("mortgageContract")){
@@ -134,11 +151,9 @@ public class MaterialManagementController {
 					mmMaterialItem.setItemCategory("产权证");
 				}else if(mmMaterialItem.getItemCategory().equals("otherCard")){
 					mmMaterialItem.setItemCategory("他证");
-				}
-				
+				}				
 			}
-			if(null != mmMaterialItem.getItemStatus() && !"".equals(mmMaterialItem.getItemStatus())){
-				
+			if(null != mmMaterialItem.getItemStatus() && !"".equals(mmMaterialItem.getItemStatus())){				
 				if(mmMaterialItem.getItemStatus().equals("stay")){
 					mmMaterialItem.setItemStatus("待入库");
 				}else if(mmMaterialItem.getItemStatus().equals("borrow")){
@@ -161,12 +176,13 @@ public class MaterialManagementController {
 		List<MmIoBatch> mmIoBatchlist = new  ArrayList<MmIoBatch>();
 		//中间表
 		List<MmItemBatch> mmItemBatchList = new  ArrayList<MmItemBatch>();
-		
+		//查询中间表的BatchId列表，关联查询动作表
 		MmIoBatch mmIoBatch = new MmIoBatch();		
 		mmItemBatchList = mmItemBatchService.queryMmItemBatchList(Long.parseLong(pkid));
 		if(mmItemBatchList.size() > 0){
 			for(int i=0; i<mmItemBatchList.size(); i++){
 				if(null != mmItemBatchList.get(i).getBatchId()){
+					//通过BatchId关联查询动作表
 					mmIoBatch = mmIoBatchService.queryMmIoBatchByPkid(mmItemBatchList.get(i).getBatchId());
 					if(null != mmIoBatch){						
 						if(null != mmIoBatch.getLogAction() && !"".equals(mmIoBatch.getLogAction())){
@@ -213,8 +229,7 @@ public class MaterialManagementController {
 		List<MmMaterialItem> materialList = new ArrayList<MmMaterialItem>();
 		String itemAddrCode = "";//物品存放路径
 		MmIoBatch mmIoBatch = new MmIoBatch();
-		//long insertMmIoBatch = 0;//插入动作表返回的主键  返回的主键id在对象里面取值
-		
+		//long insertMmIoBatch = 0;//插入动作表返回的主键  返回的主键id在对象里面取值		
 		if( null != material){
 			itemAddrCode = material.getItemAddrCode();
 			materialList = material.getMaterialList();
@@ -236,7 +251,7 @@ public class MaterialManagementController {
 				mmMaterialItem.setItemInputTime(new Date());
 				mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
 				
-				//向中间表插入记录	 插入之前先插入记录，获取pkid作为BATCH_ID插入下表				
+				//向中间表插入记录，插入之前先获取插入表mmIoBatch记录的pkid作为BATCH_ID插入下表				
 				MmItemBatch mmItemBatch = new MmItemBatch();
 				mmItemBatch.setItemId(materialList.get(i).getPkid());
 				mmItemBatch.setBatchId(mmIoBatch.getPkid());//sqlserver返回插入的主键id
@@ -246,7 +261,8 @@ public class MaterialManagementController {
 		return  "material/materialList";
 	}
 
-    //借用
+    
+	//借用
     @RequestMapping(value="materialBorrowSave")
     @ResponseBody
     public AjaxResponse<String> materialBorrowSave(String  pkids,String actionUser,String actionPreDate,String actionReason,String actionRemark){
@@ -272,6 +288,8 @@ public class MaterialManagementController {
      			mmIoBatch.setActionUser(actionUser);
      			mmIoBatch.setCaseCode(mmMaterialItemForCaseCode == null ? "":mmMaterialItemForCaseCode.getCaseCode());     			
      			mmIoBatch.setManager(userId);
+     			mmIoBatch.setCreateBy(userId);
+     			mmIoBatch.setCreateTime(new Date());
      			mmIoBatch.setLogAction(MaterialActionEnum.OUT.getCode());
      			m = mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);//插入外借动作	             		
      		
@@ -307,9 +325,7 @@ public class MaterialManagementController {
     //归还 退还合二为一
     @RequestMapping(value="materialReturnSave")
     @ResponseBody
-    public AjaxResponse<String> materialReturnSave(String  pkids,String actionUser,String actionRemark,String flag){
-    	
-    	
+    public AjaxResponse<String> materialReturnSave(String  pkids,String actionUser,String actionRemark,String flag){ 
     	AjaxResponse<String> response = new AjaxResponse<String>();
     	SessionUser currentUser = uamSessionService.getSessionUser();
 		String userId = currentUser.getId();
@@ -323,22 +339,20 @@ public class MaterialManagementController {
         		//单次操作的caseCode相同
         		mmMaterialItemForCaseCode = mmMaterialItemService.queryMmMaterialByPkid(Long.parseLong(pkid[0]));
         		//插入动作表
-        		MmIoBatch mmIoBatch = new MmIoBatch();
-     			mmIoBatch.setActionPreDate(new Date());     			
+        		MmIoBatch mmIoBatch = new MmIoBatch();     			     			
      			mmIoBatch.setActionRemark(actionRemark);
      			mmIoBatch.setActionUser(actionUser);
      			mmIoBatch.setCaseCode(mmMaterialItemForCaseCode == null ? "":mmMaterialItemForCaseCode.getCaseCode());     			
      			mmIoBatch.setManager(userId);
+     			mmIoBatch.setCreateBy(userId);
+     			mmIoBatch.setCreateTime(new Date());
      			if("true".equals(flag)){
-     				//归还
-     				//todo 是否需要设置相关时间
+     				//归还     	
      				mmIoBatch.setLogAction(MaterialActionEnum.RETURN.getCode());
      			}else if("false".equals(flag)){
-     				//退还
-     				//todo 是否需要设置相关时间
+     				//退还     	
      				mmIoBatch.setLogAction(MaterialActionEnum.REFUND.getCode());
-     			}
-     			
+     			}     			
      			m = mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);//插入外借动作	             		
      		
 			for(int i=0; i<pkid.length; i++){				
@@ -387,7 +401,8 @@ public class MaterialManagementController {
         	if(!"".equals(pkids) && pkids != null){
         		String pkid[] = pkids.split(","); 
         		for(int i=0; i<pkid.length; i++){
-     				mmMaterialItem.setItemStatus("//todo  删除标识");     				
+        			//逻辑删除
+     				mmMaterialItem.setIsDeleted("Y");				
      				mmMaterialItem.setPkid(Long.parseLong(pkid[i])); 
      				m = mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
 				}			

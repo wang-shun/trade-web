@@ -40,9 +40,9 @@
 	</formatters>
 	<query id="queryTradeChangedCaseList" cacheCount="true">
 		<searchCondition>
-		   <condition field="T.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="S.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		   <condition field="O.PROPERTY_ADDR"  name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-		   <condition field="T.PART_CODE" name="partCode" label="环节编码" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>	
+		   <condition field="S.PART_CODE" name="partCode" label="环节编码" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>	
 		   <condition field="S.CHANGE_TIME"  name="changeTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
            <condition field="S.CHANGE_TIME"  name="changeTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 		   <condition field="I.DISTRICT_ID" name="districtId" label="所属贵宾服务部ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>
@@ -67,6 +67,11 @@
         I.DISTRICT_NAME ,
         I.TEAM_NAME ,
         S.PKID AS historyId 
+        <if test='visitRemark == "0" or visitRemark == "1" or visitRemark=="" '>
+        ,A.VISIT_REMARK ,
+        A.CONTENT ,
+        A.CREATE_TIME
+        </if>
 FROM    
 		SCTRANS.T_TS_TRANS_PLAN_HISTORY S
 		INNER JOIN SCTRANS.T_TO_CASE C ON C.CASE_CODE = S.CASE_CODE
@@ -93,7 +98,14 @@ FROM
             </if>
         </ifNotNull>
         <if test='visitRemark==null || visitRemark=="" '>
-           where 1=1 
+           LEFT JOIN sctrans.T_TS_RETURN_VISIT_REGISTRATION A ON A.PKID = ( SELECT
+                                                              MAX(E.PKID)
+                                                              FROM
+                                                              sctrans.T_TS_RETURN_VISIT_REGISTRATION E
+                                                              WHERE
+                                                              E.PLAN_HISTORY_ID = S.PKID
+                                                              )
+           where C.CASE_PROPERTY NOT IN ('30003001','30003005') 
         </if>
 				]]>
 			</baseSql>

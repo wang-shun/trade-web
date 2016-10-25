@@ -40,8 +40,9 @@ import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
+
 @Service
-@Transactional(readOnly=true)
+@Transactional(readOnly = true)
 public class ServiceRestartServiceImpl implements ServiceRestartService {
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
@@ -69,97 +70,116 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private TaskService taskService;
 	@Autowired
 	private BizWarnInfoMapper bizWarnInfoMapper;
+
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly = false)
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
 
-		ToWorkFlow twf=new ToWorkFlow();
+		ToWorkFlow twf = new ToWorkFlow();
 		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
 		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
 
-		ToWorkFlow wf=new ToWorkFlow();
+		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
-		ToWorkFlow sameOne= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-		if(sameOne!=null){
+		ToWorkFlow sameOne = toWorkFlowService
+				.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+		if (sameOne != null) {
 			throw new BusinessException("当前重启流程尚未结束！");
 		}
-		
-		ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
-		StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());
+
+		ProcessInstance pi = new ProcessInstance(
+				propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART
+						.getCode()), vo.getCaseCode());
+		StartProcessInstanceVo spv = workFlowManager.startCaseWorkFlow(pi,
+				vo.getUserName(), vo.getCaseCode());
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
 		wf.setProcessOwner(vo.getUserId());
-		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
+		wf.setProcessDefinitionId(propertyUtilsService
+				.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
 		wf.setInstCode(spv.getId());
 		toWorkFlowService.insertSelective(wf);
 		return spv;
 	}
-	
 
 	@Override
-	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {	
-		
-		/*删除临时银行流程相关*/
-		ToWorkFlow twf=new ToWorkFlow();
-		
+	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {
+
+		/* 删除临时银行流程相关 */
+		ToWorkFlow twf = new ToWorkFlow();
+
 		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
 		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
-		
-		
-		ToWorkFlow wf=new ToWorkFlow();
-	    wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
-	    wf.setCaseCode(vo.getCaseCode());
-	    ToWorkFlow sameOne= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-	    if(sameOne!=null){
-		    throw new BusinessException("当前重启流程尚未结束！");
-	    }
-	    deleteMortFlowByCaseCode(vo.getCaseCode());
-	    /*ProcessInstance pi=new ProcessInstance(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
-	    StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi, vo.getUserName(),vo.getCaseCode());*/
-	    Map<String,Object>vars=new HashMap<>();
-	    User manager=uamUserOrgService.getLeaderUserByOrgIdAndJobCode(vo.getOrgId(), "Manager");
-	    vars.put("consultant", vo.getUserName());
-	    vars.put("Manager", manager.getUsername());
-	    StartProcessInstanceVo spv =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode(), vars);
-	    List<TaskVo>tasks= taskService.listTasks(spv.getId(),false,vo.getUserName()).getData();
-	    if(tasks!=null&&!tasks.isEmpty()){
-	    	spv.setActiveTaskId(tasks.get(0).getId()+"");
-	    }
-	    wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
-	    wf.setCaseCode(vo.getCaseCode());
-	    wf.setProcessOwner(vo.getUserId());
-	    wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
-	    wf.setInstCode(spv.getId());
-	    toWorkFlowService.insertSelective(wf);
-	    return spv;
+
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+		wf.setCaseCode(vo.getCaseCode());
+		ToWorkFlow sameOne = toWorkFlowService
+				.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+		if (sameOne != null) {
+			throw new BusinessException("当前重启流程尚未结束！");
+		}
+		deleteMortFlowByCaseCode(vo.getCaseCode());
+		/*
+		 * ProcessInstance pi=new
+		 * ProcessInstance(propertyUtilsService.getProcessDfId
+		 * (WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode());
+		 * StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi,
+		 * vo.getUserName(),vo.getCaseCode());
+		 */
+		Map<String, Object> vars = new HashMap<>();
+		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(
+				vo.getOrgId(), "Manager");
+		vars.put("consultant", vo.getUserName());
+		vars.put("Manager", manager.getUsername());
+		StartProcessInstanceVo spv = processInstanceService
+				.startWorkFlowByDfId(
+						propertyUtilsService
+								.getProcessDfId(WorkFlowEnum.SERVICE_RESTART
+										.getCode()), vo.getCaseCode(), vars);
+		List<TaskVo> tasks = taskService.listTasks(spv.getId(), false,
+				vo.getUserName()).getData();
+		if (tasks != null && !tasks.isEmpty()) {
+			spv.setActiveTaskId(tasks.get(0).getId() + "");
+		}
+		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+		wf.setCaseCode(vo.getCaseCode());
+		wf.setProcessOwner(vo.getUserId());
+		wf.setProcessDefinitionId(propertyUtilsService
+				.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
+		wf.setInstCode(spv.getId());
+		toWorkFlowService.insertSelective(wf);
+		return spv;
 	}
 
 	/****
-	 *  删除该案件下的所有贷款类型
+	 * 删除该案件下的所有贷款类型
 	 */
-	
+
 	private void deleteMortFlowByCaseCode(String caseCode) {
-	
+
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(caseCode);
-		List<ToWorkFlow> wordkFlowDBList = toWorkFlowMapper.getMortToWorkFlowByCaseCode(workFlow);
-	
-		for(ToWorkFlow workFlowDB : wordkFlowDBList) {
+		List<ToWorkFlow> wordkFlowDBList = toWorkFlowMapper
+				.getMortToWorkFlowByCaseCode(workFlow);
+
+		for (ToWorkFlow workFlowDB : wordkFlowDBList) {
 			workFlowManager.deleteProcess(workFlowDB.getInstCode());
 			toWorkFlowMapper.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
 		}
 	}
-	
-	@Transactional(readOnly=false)
+
+	@Transactional(readOnly = false)
 	@Override
 	public boolean apply(ServiceRestartVo vo) {
-		workFlowManager.submitTask(null, vo.getTaskId(),vo.getInstCode(),null, vo.getCaseCode());
-		ToApproveRecord record=new ToApproveRecord();
+		workFlowManager.submitTask(null, vo.getTaskId(), vo.getInstCode(),
+				null, vo.getCaseCode());
+		ToApproveRecord record = new ToApproveRecord();
 		record.setApproveType("7");
 		record.setCaseCode(vo.getCaseCode());
 		record.setContent(vo.getContent());
@@ -170,14 +190,16 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toApproveService.insertToApproveRecord(record);
 		return true;
 	}
-	@Transactional(readOnly=false)
+
+	@Transactional(readOnly = false)
 	@Override
 	public boolean approve(ServiceRestartVo vo) {
-		List<RestVariable> vs=new ArrayList<>();
-		RestVariable v=new RestVariable("is_approved",vo.getIsApproved());
+		List<RestVariable> vs = new ArrayList<>();
+		RestVariable v = new RestVariable("is_approved", vo.getIsApproved());
 		vs.add(v);
-		workFlowManager.submitTask(vs, vo.getTaskId(),vo.getInstCode(),null, vo.getCaseCode());
-		ToApproveRecord record=new ToApproveRecord();
+		workFlowManager.submitTask(vs, vo.getTaskId(), vo.getInstCode(), null,
+				vo.getCaseCode());
+		ToApproveRecord record = new ToApproveRecord();
 		record.setApproveType("7");
 		record.setCaseCode(vo.getCaseCode());
 		record.setContent(vo.getContent());
@@ -186,86 +208,101 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		record.setPartCode(vo.getPartCode());
 		record.setProcessInstance(vo.getInstCode());
 		toApproveService.insertToApproveRecord(record);
-		if(vo.getIsApproved()){
+		if (vo.getIsApproved()) {
 			doApproved(vo);
 		}
-		
-		//如果流程重启申请审批通过的话，就删除对应的预警信息
-		if(vo.getIsApproved()){
+
+		// 如果流程重启申请审批通过的话，就删除对应的预警信息
+		if (vo.getIsApproved()) {
 			bizWarnInfoMapper.deleteByCaseCode(vo.getCaseCode());
 		}
-		
-		//流程重启更改掉案件临时银行的状态
-		ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo.getCaseCode());
-		if(toMortgage != null){
+
+		// 流程重启更改掉案件临时银行的状态
+		ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo
+				.getCaseCode());
+		if (toMortgage != null) {
 			toMortgageService.updateTmpBankStatus(vo.getCaseCode());
 		}
-		
+
 		return true;
 	}
+
 	/**
 	 * 审批同意操作
+	 * 
 	 * @param vo
 	 */
-	private void doApproved(ServiceRestartVo vo){
-		toTransPlanService.deleteTransPlansByCaseCode(vo.getCaseCode());
-		//删除原主流程 更新原主流程记录
-		ToWorkFlow t=new ToWorkFlow();
+	private void doApproved(ServiceRestartVo vo) {
+		// toTransPlanService.deleteTransPlansByCaseCode(vo.getCaseCode());
+		// 删除原主流程 更新原主流程记录
+		ToWorkFlow t = new ToWorkFlow();
 		t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		t.setCaseCode(vo.getCaseCode());
-		ToWorkFlow mainflow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(t);
-		if(mainflow!=null){
-			try{
+		ToWorkFlow mainflow = toWorkFlowService
+				.queryActiveToWorkFlowByCaseCodeBusKey(t);
+		if (mainflow != null) {
+			try {
 				unlocatedTaskService.deleteByInstCode(mainflow.getInstCode());
 				workFlowManager.deleteProcess(mainflow.getInstCode());
 			} catch (WorkFlowException e) {
-				if(!e.getMessage().contains("statusCode[404]"))throw e;
+				if (!e.getMessage().contains("statusCode[404]"))
+					throw e;
 			}
 			mainflow.setStatus(WorkFlowStatus.TERMINATE.getCode());
 			toWorkFlowService.updateByPrimaryKeySelective(mainflow);
 		}
-		//启动新的主流程并记录流程表
-		ToCase cas=toCaseService.findToCaseByCaseCode(vo.getCaseCode());
+		// 启动新的主流程并记录流程表
+		ToCase cas = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 		cas.setStatus(CaseStatusEnum.YFD.getCode());
-		//更新Case表
+		// 更新Case表
 		toCaseService.updateByCaseCodeSelective(cas);
-		User u=uamUserOrgService.getUserById(cas.getLeadingProcessId());
-		//无效业务表单
+		User u = uamUserOrgService.getUserById(cas.getLeadingProcessId());
+		// 无效业务表单
 		toWorkFlowService.inActiveForm(vo.getCaseCode());
-		//更新当前流程为结束
-		ToWorkFlow tf= toWorkFlowService.queryWorkFlowByInstCode(vo.getInstCode());
+		// 更新当前流程为结束
+		ToWorkFlow tf = toWorkFlowService.queryWorkFlowByInstCode(vo
+				.getInstCode());
 		tf.setStatus(WorkFlowStatus.COMPLETE.getCode());
 		toWorkFlowService.updateByPrimaryKeySelective(tf);
-		
-		/*ProcessInstance process = new ProcessInstance();
-    	process.setBusinessKey(vo.getCaseCode());
-    	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));*/
-    	/*流程引擎相关*/
-    	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
-/*		List<RestVariable> variables = new ArrayList<RestVariable>();
-	    Iterator it = defValsMap.keySet().iterator();  
-	    while (it.hasNext()) {  
-            String key = it.next().toString();  
-    		RestVariable restVariable = new RestVariable();
-    		restVariable.setName(key); 
-    		restVariable.setValue(defValsMap.get(key));
-    		variables.add(restVariable);
-	    }
-    	process.setVariables(variables);
-    	StartProcessInstanceVo spi=workFlowManager.startCaseWorkFlow(process, u.getUsername(),vo.getCaseCode());
-    	
-    	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
-    	User user = uamUserOrgService.getUserById(userId);*/
-    	defValsMap.put("caseOwner", u.getUsername());
-        StartProcessInstanceVo pIVo = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()), vo.getCaseCode(), defValsMap);
-    	
-    	
-    	ToWorkFlow wf=new ToWorkFlow();
-    	wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+
+		/*
+		 * ProcessInstance process = new ProcessInstance();
+		 * process.setBusinessKey(vo.getCaseCode());
+		 * process.setProcessDefinitionId
+		 * (propertyUtilsService.getProcessDfId(WorkFlowEnum
+		 * .WBUSSKEY.getCode()));
+		 */
+		/* 流程引擎相关 */
+		Map<String, Object> defValsMap = propertyUtilsService
+				.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
+		/*
+		 * List<RestVariable> variables = new ArrayList<RestVariable>();
+		 * Iterator it = defValsMap.keySet().iterator(); while (it.hasNext()) {
+		 * String key = it.next().toString(); RestVariable restVariable = new
+		 * RestVariable(); restVariable.setName(key);
+		 * restVariable.setValue(defValsMap.get(key));
+		 * variables.add(restVariable); } process.setVariables(variables);
+		 * StartProcessInstanceVo spi=workFlowManager.startCaseWorkFlow(process,
+		 * u.getUsername(),vo.getCaseCode());
+		 * 
+		 * Map<String, Object> defValsMap =
+		 * propertyUtilsService.getProcessDefVals
+		 * (WorkFlowEnum.WBUSSKEY.getCode()); User user =
+		 * uamUserOrgService.getUserById(userId);
+		 */
+		defValsMap.put("caseOwner", u.getUsername());
+		StartProcessInstanceVo pIVo = processInstanceService
+				.startWorkFlowByDfId(propertyUtilsService
+						.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()), vo
+						.getCaseCode(), defValsMap);
+
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		wf.setCaseCode(vo.getCaseCode());
 		wf.setProcessOwner(cas.getLeadingProcessId());
-		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
+		wf.setProcessDefinitionId(propertyUtilsService
+				.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
 		wf.setInstCode(pIVo.getId());
 		toWorkFlowService.insertSelective(wf);
 	}
