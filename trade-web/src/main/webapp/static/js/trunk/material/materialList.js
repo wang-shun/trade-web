@@ -245,7 +245,7 @@ function getPkidsArray(){
 	return pkids; 
 }
 
-$("#storage").click(function(){	
+$("#materialStorage").click(function(){	
 
 	var pkids = getCheck();	
 	
@@ -422,3 +422,54 @@ $("#materialRefundSubmit").click(function(){
 $("#materialRefundClose").click(function(){	
 	$("#GiveBack").hide();
 })
+
+
+
+//物品删除
+$("#materialDelete").click(function(){
+	var pkids = getCheck();	
+	if(pkids){
+		 if(!statusFlagCheck()){
+			 return false;
+		 }else{
+				$.ajax({
+					url:ctx+"/material/materialDelete",
+					method:"post",
+					dataType:"json",
+					data:{"pkids" : pkids},
+					success:function(data){ 
+					console.log("Result=====" +JSON.stringify(data));
+						if(data != null ){
+							if(data.success){								
+								alert(data.message);						
+								window.location.reload();
+							}else{								
+								alert(data.message);
+								window.location.reload();
+							}
+						}	
+					},       
+					error:function(e){
+				    	 alert(e);
+				   }
+				});
+		 }				
+	}	
+})
+
+//验证勾选的复选框是否是待入库状态
+function statusFlagCheck(){	
+	var flag=true;
+	var statusFlagArray = $("input[type=checkbox][name='materialCheck']:checked");
+	$("input[type=checkbox][name='materialCheck']:checked").each(function(index,statusFlag){	
+		if($(statusFlag).attr("statusFlag") != "stay"){
+			flag = false;
+			alert("待入库状态的物品信息才可删除！");
+		}
+		
+		if(flag == false){
+			return false;
+		}
+	})			
+	return flag;
+}
