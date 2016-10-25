@@ -62,8 +62,8 @@ public class KpiImportController {
 	@Autowired
 	private TsAwardKpiPayService tsAwardKpiPayService;
 	
-	private String months[] = {"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"}; 
-	
+	private String months[] = { "一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月" };
+
 	@RequestMapping(value = "/personBonus")
 	public String personBonus(HttpServletRequest request) {
 		request.setAttribute("belongM", LocalDate.now());
@@ -71,36 +71,50 @@ public class KpiImportController {
 		return "award/personBonus";
 	}
 
+	@RequestMapping(value = "/getPersonBonusTotal")
+	@ResponseBody
+	public AjaxResponse getPersonBonusTotal(HttpServletRequest request, Date belongM) {
+		AjaxResponse result = new AjaxResponse();
+		try {
+			result.setContent(tsAwardKpiPayDetailService.getPersonBonusTotal(belongM));
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("获取个人奖金汇总失败");
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	@RequestMapping(value = "/import")
 	public String kpiImport(HttpServletRequest request) {
-		
+
 		SessionUser user = uamSessionService.getSessionUser();
-		
-		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+
+		request.setAttribute("serviceDepId", user.getServiceDepId());// 登录用户的org_id
 		request.setAttribute("serviceDepName", user.getServiceDepName());
-		
-		
+
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
-		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);
-		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue()-1]);
+		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue() - 1]);
+		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue() - 1]);
 		return "award/kpiImport";
 	}
-	
+
 	@RequestMapping(value = "/import2")
 	public String kpiImport2(HttpServletRequest request) {
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
-		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);
-		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue()-1]);
+		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue() - 1]);
+		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue() - 1]);
 		return "award/kpiImport2";
-	}	
-	
+	}
+
 	@RequestMapping(value = "/bonus")
 	public String bonus(HttpServletRequest request) {
 		return "award/bonus";
 	}
-	
+
 	@RequestMapping(value = "/testbonus")
 	public String testbonus(HttpServletRequest request) {
 		return "award/testbonus";
@@ -133,8 +147,8 @@ public class KpiImportController {
 		} else {
 			request.setAttribute("fList", fList);
 		}
-		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue()-1]);
-		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue()-1]);
+		request.setAttribute("belongMon", months[LocalDate.now().getMonthValue() - 1]);
+		request.setAttribute("belongLastMon", months[LocalDate.now().plus(-1, ChronoUnit.MONTHS).getMonthValue() - 1]);
 		return "award/kpiImport";
 	}
 
@@ -181,32 +195,32 @@ public class KpiImportController {
 		}
 		String createBy = uamSessionService.getSessionUser().getId();
 		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(belongM, createBy, list);
-		
+
 		staticMoneyKpi(belongM);
-		
+
 		// eg : 四月份月度kpi修改，则需要重新统计五月份所有的未提交的数据
 		TsKpiPsnMonth record2 = new TsKpiPsnMonth();
 		record2.setBelongMonth(DateUtil.plusMonth(belongM, 1));
 		List<TsKpiPsnMonth> mList = tsKpiPsnMonthService.getTsKpiPsnMonthListByPro(record2);
-		
+
 		TsAwardKpiPay record3 = new TsAwardKpiPay();
 		record3.setStatus("0");
 		record3.setBelongMonth(DateUtil.plusMonth(belongM, 1));
 		List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record3);
-		
-		if(CollectionUtils.isNotEmpty(mList) && CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
+
+		if (CollectionUtils.isNotEmpty(mList) && CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
 			staticMoneyKpi(DateUtil.plusMonth(belongM, 1));
 		}
-		
+
 		return "award/monthKpiImport";
 	}
-	
+
 	// 统计该月份的绩效奖金相关数据
 	private void staticMoneyKpi(Date belongM) {
-	
+
 		tsKpiPsnMonthService.getPMonthKpiStastic(belongM);
-		
-		//统计AwardKpiRate
+
+		// 统计AwardKpiRate
 		Map map = new HashMap();
 		map.put("belongMonth", belongM);
 		map.put("createBy", uamSesstionService.getSessionUser().getId());
@@ -234,7 +248,7 @@ public class KpiImportController {
 				errorList.add(kpiMonthVO);
 				continue;
 			}
-			if(!NumberUtil.isMatchesRegex(finOrder, "^[\\d]*$")) {
+			if (!NumberUtil.isMatchesRegex(finOrder, "^[\\d]*$")) {
 				kpiMonthVO.setErrorMessage("金融产品需输入正整数");
 				errorList.add(kpiMonthVO);
 				continue;
@@ -242,17 +256,18 @@ public class KpiImportController {
 		}
 		return errorList;
 	}
-	
+
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/getTsAwardKpiPayByProperty")
 	@ResponseBody
-	public AjaxResponse getTsAwardKpiPayByProperty(HttpServletRequest request,HttpServletResponse response,String belongMonth) {
+	public AjaxResponse getTsAwardKpiPayByProperty(HttpServletRequest request, HttpServletResponse response,
+			String belongMonth) {
 		AjaxResponse result = new AjaxResponse();
 		try {
 			TsAwardKpiPay record = new TsAwardKpiPay();
 			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
 			List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record);
-			if(CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
+			if (CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
 				result.setContent(tsAwardKpiPayList.get(0));
 			}
 			result.success("查询当前奖金总数成功");
@@ -261,17 +276,18 @@ public class KpiImportController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/getTsAwardKpiPayByStatus")
 	@ResponseBody
-	public AjaxResponse getTsAwardKpiPayByStatus(HttpServletRequest request,HttpServletResponse response,String belongMonth) {
+	public AjaxResponse getTsAwardKpiPayByStatus(HttpServletRequest request, HttpServletResponse response,
+			String belongMonth) {
 		AjaxResponse result = new AjaxResponse();
 		try {
 			TsAwardKpiPay record = new TsAwardKpiPay();
 			record.setStatus("1");
 			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
 			List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record);
-			if(CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
+			if (CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
 				result.setContent(tsAwardKpiPayList.get(0));
 			}
 			result.success("查询已经提交奖金成功");
@@ -280,10 +296,11 @@ public class KpiImportController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/updateTsAwardKpiPayStatus")
 	@ResponseBody
-	public AjaxResponse updateTsAwardKpiPayStatus(HttpServletRequest request,HttpServletResponse response,String belongMonth) {
+	public AjaxResponse updateTsAwardKpiPayStatus(HttpServletRequest request, HttpServletResponse response,
+			String belongMonth) {
 		AjaxResponse result = new AjaxResponse();
 		try {
 			TsAwardKpiPay record = new TsAwardKpiPay();
@@ -291,11 +308,11 @@ public class KpiImportController {
 			record.setStatus("1");
 			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
 			int count = tsAwardKpiPayService.updateTsAwardKpiPayStatus(record);
-		    if(count >0 ) {
-		    	result.success("奖金提交成功");
-		    } else {
-		    	result.fail("奖金提交失败");
-		    }
+			if (count > 0) {
+				result.success("奖金提交成功");
+			} else {
+				result.fail("奖金提交失败");
+			}
 		} catch (Exception e) {
 			result.fail("奖金提交失败");
 		}

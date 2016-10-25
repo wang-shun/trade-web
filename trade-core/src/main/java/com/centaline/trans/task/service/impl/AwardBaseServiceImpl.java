@@ -65,10 +65,10 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 		ZBJR = new HashSet<>();
 		ZBJR.add("TransSign");
 		ZBJR.add("ComLoanProcess");
-		ZBJR.add("LoanClose");
 		QZJD = new HashSet<>();
 		QZJD.add("Guohu");
 		QZJD.add("PSFSign");
+		QZJD.add("LoanClose");
 		//SRV_CODE_MAPPING = new HashMap<>();
 		//SRV_CODE_MAPPING.put("ZBJR", ZBJR);
 		//SRV_CODE_MAPPING.put("QZJD", QZJD);

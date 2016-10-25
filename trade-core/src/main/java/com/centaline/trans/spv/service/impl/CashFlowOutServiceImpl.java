@@ -18,6 +18,8 @@ import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -30,10 +32,8 @@ import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
-import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.spv.entity.ToSpv;
-import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
@@ -83,6 +83,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	private UamBasedataService uamBasedataService;
 	@Autowired
 	private MessageService messageService;
+	@Autowired(required = true)
+	private UamUserOrgService uamUserOrgService;
 
 	@Override
 	public void cashFlowOutPage(HttpServletRequest request, String source, String instCode, String taskId,
@@ -169,9 +171,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode());
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("RiskControlOfficer", user.getUsername());
-		vars.put("RiskControlDirector", "wufeng01");
-		vars.put("FinanceFirstAduitor", "zhangmy21");
-		vars.put("FinanceSecondAduitor", "renw");
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		vars.put("RiskControlDirector", riskControlDirector.getUsername());
 		
 		String cashflowApplyCode = spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode();
 		//开启流程

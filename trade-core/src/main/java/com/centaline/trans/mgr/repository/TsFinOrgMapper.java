@@ -1,6 +1,7 @@
 package com.centaline.trans.mgr.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -72,6 +73,13 @@ public interface TsFinOrgMapper {
      * @return
      */
     TsFinOrg findParentBank(String finOrgCode);
+    
+    /**
+     * 根据支行编码查询分行
+     * @param finOrgCode
+     * @return
+     */
+    List<TsFinOrg> findBankByFinOrgList(List<Map<String, Object>> finOrgs);
     
     /**
      * 查询所有支行

@@ -198,7 +198,7 @@ function checkReceiptNo(){
 	var receiptNoFlag = true;
 	var receiptNoEle;
 	$("input[name$='receiptNo']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber3($(e).val()))){
+		if($(e).val() == null || $(e).val() == ''){
 			receiptNoFlag = false;
 			receiptNoEle = $(e);
 			return false;

@@ -1,5 +1,6 @@
 package com.centaline.trans.kpi.repository;
 
+import java.util.Date;
 import java.util.Map;
 
 import com.centaline.trans.common.MyBatisRepository;
@@ -22,4 +23,6 @@ public interface TsAwardKpiPayDetailMapper {
     void getPAwardKpiRate(Map map);
     
     void getPAwardKpiRateStatic(Map map);
+    
+    Double getPersonBonusTotal(Date  belongM);
 }
