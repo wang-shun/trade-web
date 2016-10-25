@@ -266,7 +266,10 @@ $("#submitBtn").click(function(){
 		success : function(data) {
 			if(data.success){
 				alert(data.message);
-				window.location.href = ctx+"/report/dealChangeCaseList";
+				$("#close").click();
+				reloadGrid(1);
+				
+				//window.location.href = ctx+"/report/dealChangeCaseList";
 			}else{
 				alert(data.message);
 			}

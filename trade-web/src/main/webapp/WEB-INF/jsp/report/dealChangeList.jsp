@@ -325,7 +325,7 @@
                                         <button type="button" class="btn btn-success" id="submitBtn">
                                             提交
                                         </button>
-                                        <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                        <button type="reset" class="btn btn-grey" data-dismiss="modal" id="close">
                                             关闭
                                         </button>
                                     </div>
@@ -429,7 +429,7 @@
                     </p>
                     <p class="smll_sign">
                          <i class="sign_normal">新预计</i>
-                         {{item.EST_PART_TIME}}
+                         {{item.NEW_EST_PART_TIME}}
                     </p>
                  </td>
                  <td>
