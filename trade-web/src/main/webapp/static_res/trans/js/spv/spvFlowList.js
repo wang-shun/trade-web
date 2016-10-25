@@ -67,7 +67,7 @@
 										htmlText+="<td> <p class='big'>"+item.DIRECTION+"</p></td>";
 										htmlText+="<td> <p>"+item.PAYER+"&nbsp;&nbsp;"+item.PAYER_ACC+"/"+item.PAYER_BANK+"</p></td>";
 										htmlText+="<td> "+item.RECEIVER+"&nbsp;&nbsp;"+item.RECEIVER_ACC+"/"+item.RECEIVER_BANK+"</td>";
-										if(use=='in')htmlText+="<td> <p>"+item.INPUT_TIME+"</p></td></tr>";
+										if(use=='in')htmlText+="<td> <p>"+item.RECEIPT_TIME+"</p></td></tr>";
 										
 									})
 									 htmlText = htmlText.replace(new RegExp("undefined","g"),"");
