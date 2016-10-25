@@ -17,7 +17,9 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.material.entity.MmIoBatch;
 import com.centaline.trans.material.entity.MmItemBatch;
@@ -53,6 +55,8 @@ public class MaterialManagementController {
     @Autowired
     private MmIoBatchService mmIoBatchService;
     
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
     
 	//物品管理列表页面
     //快速查询
@@ -89,6 +93,20 @@ public class MaterialManagementController {
 			}
 			request.setAttribute("mmMaterialItemList", mmMaterialItemList);	
 		}
+		//查询附件信息记录表
+		ToAccesoryList toAccesoryList = new ToAccesoryList();
+		toAccesoryList.setPartCode("CustomerConfirmation");
+		List<ToAccesoryList> list = toAccesoryListService.qureyToAccesoryList(toAccesoryList);
+		if(list != null && list.size() > 0) {
+			int size = list.size();
+			request.setAttribute("accesoryList", list);
+			List<Long> idList = new ArrayList<Long>(size);
+			for(int i=0; i<size; i++) {
+				idList.add(list.get(i).getPkid());
+			}
+			request.setAttribute("idList", idList);
+		}
+		
 		return "material/materialStorageConfirm";
 		
 	}
@@ -388,7 +406,7 @@ public class MaterialManagementController {
         		String pkid[] = pkids.split(","); 
         		for(int i=0; i<pkid.length; i++){
         			//逻辑删除
-     				mmMaterialItem.setIsDelete("Y");				
+     				mmMaterialItem.setIsDeleted("Y");				
      				mmMaterialItem.setPkid(Long.parseLong(pkid[i])); 
      				m = mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
 				}			
