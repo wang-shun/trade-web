@@ -72,7 +72,7 @@ public class MaterialManagementController {
 	}
 	
 	
-	//物品入库前信息查询
+	//物品入库页面  案件信息查询
 	@RequestMapping("materialStorgae")
 	public String  materialStorgae(HttpServletRequest request,String pkids){
 		List<MmMaterialItem>  mmMaterialItemList =  new ArrayList<MmMaterialItem>();
@@ -140,8 +140,7 @@ public class MaterialManagementController {
 					request.setAttribute("user", user);
 				}				
 			}
-			if(null != mmMaterialItem.getItemCategory() && !"".equals(mmMaterialItem.getItemCategory())){
-				
+			if(null != mmMaterialItem.getItemCategory() && !"".equals(mmMaterialItem.getItemCategory())){				
 				if(mmMaterialItem.getItemCategory().equals("carded")){
 					mmMaterialItem.setItemCategory("身份证");
 				}else if(mmMaterialItem.getItemCategory().equals("mortgageContract")){
@@ -152,11 +151,9 @@ public class MaterialManagementController {
 					mmMaterialItem.setItemCategory("产权证");
 				}else if(mmMaterialItem.getItemCategory().equals("otherCard")){
 					mmMaterialItem.setItemCategory("他证");
-				}
-				
+				}				
 			}
-			if(null != mmMaterialItem.getItemStatus() && !"".equals(mmMaterialItem.getItemStatus())){
-				
+			if(null != mmMaterialItem.getItemStatus() && !"".equals(mmMaterialItem.getItemStatus())){				
 				if(mmMaterialItem.getItemStatus().equals("stay")){
 					mmMaterialItem.setItemStatus("待入库");
 				}else if(mmMaterialItem.getItemStatus().equals("borrow")){
@@ -179,12 +176,13 @@ public class MaterialManagementController {
 		List<MmIoBatch> mmIoBatchlist = new  ArrayList<MmIoBatch>();
 		//中间表
 		List<MmItemBatch> mmItemBatchList = new  ArrayList<MmItemBatch>();
-		
+		//查询中间表的BatchId列表，关联查询动作表
 		MmIoBatch mmIoBatch = new MmIoBatch();		
 		mmItemBatchList = mmItemBatchService.queryMmItemBatchList(Long.parseLong(pkid));
 		if(mmItemBatchList.size() > 0){
 			for(int i=0; i<mmItemBatchList.size(); i++){
 				if(null != mmItemBatchList.get(i).getBatchId()){
+					//通过BatchId关联查询动作表
 					mmIoBatch = mmIoBatchService.queryMmIoBatchByPkid(mmItemBatchList.get(i).getBatchId());
 					if(null != mmIoBatch){						
 						if(null != mmIoBatch.getLogAction() && !"".equals(mmIoBatch.getLogAction())){
@@ -241,8 +239,6 @@ public class MaterialManagementController {
 			mmIoBatch.setCaseCode(materialList.get(0).getCaseCode());				
 			mmIoBatch.setLogAction(MaterialActionEnum.IN.getCode());//入库操作
 			mmIoBatch.setManager(userId);
-			mmIoBatch.setCreateBy(userId);
-			mmIoBatch.setCreateTime(new Date());
 			mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);			
 			
 			//插入操作获取pkid

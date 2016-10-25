@@ -218,6 +218,9 @@ $("#materialStorage").click(function(){
 	
 	if(!caseCodeTheSameCheck()){
 		return false;
+	}
+	if(!statusFlagCheck()){
+		return false;
 	}	
 	//请求后端数据
 	if(pkids){	
@@ -430,7 +433,7 @@ function statusFlagCheck(){
 		//statusFlag.value  js对象
 		if($(statusFlag).attr("statusFlag") != "stay"){
 			flag = false;
-			alert("待入库状态的物品信息才可删除！");
+			alert("待入库状态的物品才可入库或者删除！");
 		}
 		
 		if(flag == false){

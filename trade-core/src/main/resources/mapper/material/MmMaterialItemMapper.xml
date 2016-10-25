@@ -441,11 +441,11 @@
       </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      </if>
+      </if> 
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted,jdbcType=CHAR},
       </if>
-       ,UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
+       UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -466,8 +466,8 @@
       ITEM_BUSINESS_REMARK = #{itemBusinessRemark,jdbcType=NVARCHAR},
       ITEM_REMARK = #{itemRemark,jdbcType=NVARCHAR},
       ITEM_STATUS = #{itemStatus,jdbcType=VARCHAR},
-      CREATE_BY = #{createBy,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = @{SESSION_USER_ID},
+      CREATE_TIME = GETDATE(),
       UPDATE_TIME = GETDATE(),
       UPDATE_BY = @{SESSION_USER_ID},
       IS_DELETED = #{isDeleted,jdbcType=CHAR}
