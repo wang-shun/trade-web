@@ -83,6 +83,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 	private ToSpvCashFlowApplyAttachMapper toSpvCashFlowApplyAttachMapper;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	@Autowired(required = true)
+	private UamUserOrgService uamUserOrgService;
 
 	@Override
 	public void cashFlowInPage(HttpServletRequest request, String source, String instCode, String taskId,
@@ -475,7 +477,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("RiskControlOfficer", user.getUsername());
-		vars.put("RiskControlDirector", "wufeng01");
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		vars.put("RiskControlDirector", riskControlDirector.getUsername());
 		//开启流程
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
 				propertyUtilsService.getSpvCashflowInProcess(), spvApplyCode, vars);
