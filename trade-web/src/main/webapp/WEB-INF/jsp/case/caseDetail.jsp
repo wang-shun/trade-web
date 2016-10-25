@@ -178,18 +178,18 @@
 							<p class="star-position" id="subscribe">
 
 								<c:if test="${isSubscribe}">
-										<span style="cursor: pointer;" class="starmack subscribe subscribe_detail active"  moduleCode="${toCase.caseCode}" isSubscribe="false">
-											<i class="iconfont markstar star_subscribe" status="1"></i>
-											<span class="star_text_1">未关注</span>
-											<span class="star_text_2">已关注</span>
-										 </span>
+									<span style="cursor: pointer;" class="starmack subscribe subscribe_detail active"  moduleCode="${toCase.caseCode}" isSubscribe="false">
+										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe63e;</i>
+										<span class="star_text_1">未关注</span>
+										<span class="star_text_2">已关注</span>
+									</span>
 								</c:if>
 								<c:if test="${isSubscribe==false}">
-										<span style="cursor: pointer;" class="starmack subscribe subscribe_detail action"  moduleCode="${toCase.caseCode}" isSubscribe="true">
-											<i class="iconfont markstar star_subscribe" status="1"></i>
-											<span class="star_text_1">未关注</span>
-											<span class="star_text_2">已关注</span>
-										 </span>
+									<span style="cursor: pointer;" class="starmack subscribe subscribe_detail"  moduleCode="${toCase.caseCode}" isSubscribe="true">
+									<i class="iconfont_s  markstar star_subscribe" status="1">&#xe644;</i>
+									<span class="star_text_1">未关注</span>
+									<span class="star_text_2">已关注</span>
+									</span>
 								</c:if>
 
 							</p>

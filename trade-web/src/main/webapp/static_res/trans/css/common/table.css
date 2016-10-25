@@ -713,7 +713,8 @@ table thead tr th {
   background: #f4f4f4;
   color: #ccc;
   outline: none;
-  padding: 4px 7px 4px 7px;
+  padding: 4px 10px 4px 7px;
+  border-radius: 3px;
 }
 #subscribe .subscribe_detail.active{
   background: #f8cd59;
@@ -722,6 +723,11 @@ table thead tr th {
 }
 #subscribe .subscribe_detail.active .star_subscribe{
   color: #fff;
+}
+.subscribe .star_subscribe{
+  overflow: hidden;
+  width: 17px;
+  display: inline-table;
 }
 .big .subscribe i{
   font-size: 16px;
@@ -742,3 +748,9 @@ table thead tr th {
   margin-right: 5px;
   font-size: 20px;
 }
+.iconfont{
+  font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;}
