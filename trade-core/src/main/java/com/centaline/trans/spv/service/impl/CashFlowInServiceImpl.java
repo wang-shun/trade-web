@@ -485,7 +485,8 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 
 		//插入工作流表
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setBusinessKey(spvApplyCode);
+		//workFlow.setBusinessKey(spvApplyCode);
+		workFlow.setBusinessKey("SpvCashflowInProcess");
 		if(null != spvRecordedsVO.getSpvConCode()){
 			workFlow.setCaseCode(spvRecordedsVO.getCaseCode());
 		}else{
@@ -495,7 +496,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		workFlow.setProcessDefinitionId(propertyUtilsService.getSpvCashflowInProcess());
 		workFlow.setProcessOwner(user.getId());
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-		toWorkFlowService.insertSelective(workFlow);
+		toWorkFlowService.insertSpvCashflowInProcessSelective(workFlow);
 		
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
