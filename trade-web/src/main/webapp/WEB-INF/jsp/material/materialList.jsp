@@ -102,11 +102,11 @@
                  <div class="btn-left btn-left-space ml40">
                      <button type="button" class="btn btn-success btn-icon  mr5" id="searchButton"><i class="icon iconfont">&#xe635;</i> 查询</button>
                      <button type="reset" class="btn btn-grey mr5">清空</button>
-                     <a href="#" class="btn btn-toggle mr5" id="storage">入库</a>
+                     <a href="#" class="btn btn-toggle mr5" id="materialStorage">入库</a>
                      <a href="#" class="btn btn-toggle mr5" id="materialBorrow">借用</a>
                      <a href="#" class="btn btn-toggle mr5" id="materialReturn">归还</a>
                      <a href="#" class="btn btn-toggle mr5" id="materialRefund">退还</a>
-                     <a href="javascript:void(0)" class="btn btn-toggle mr5">删除</a>
+                     <a href="#" class="btn btn-toggle mr5" id="materialDelete">删除</a>
                  </div>
              </div>
             </form>
@@ -286,7 +286,7 @@
                        <tr class="tr-2">
                    {{/if}}
 						<td> 	
-							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}">						
+							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}} statusFlag={{item.ITEM_STATUS}}">						
 						
 						</td>
 						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank"  class="caseCodeForshow">{{item.CASE_CODE}}</a></p>

@@ -304,7 +304,7 @@ public class MaterialManagementController {
     }
     
     
-    //归还
+    //归还 退还合二为一
     @RequestMapping(value="materialReturnSave")
     @ResponseBody
     public AjaxResponse<String> materialReturnSave(String  pkids,String actionUser,String actionRemark,String flag){
@@ -366,6 +366,38 @@ public class MaterialManagementController {
      		}else{
      			response.setSuccess(false);
      			response.setMessage("物品归还操作失败！"); 
+     		}
+     	}catch(Exception e){
+     		response.setSuccess(false);
+     		response.setMessage(e.getMessage());	
+     	}
+     	return response;
+    }
+    
+    
+    //物品删除
+    @RequestMapping(value="materialDelete")
+    @ResponseBody
+    public AjaxResponse<String> materialDelete(String  pkids,String actionUser,String actionRemark,String flag){    	
+    	
+    	AjaxResponse<String> response = new AjaxResponse<String>();    	
+		MmMaterialItem mmMaterialItem = new MmMaterialItem();//物品主表
+    	long m=0;
+     	try{
+        	if(!"".equals(pkids) && pkids != null){
+        		String pkid[] = pkids.split(","); 
+        		for(int i=0; i<pkid.length; i++){
+     				mmMaterialItem.setItemStatus("//todo  删除标识");     				
+     				mmMaterialItem.setPkid(Long.parseLong(pkid[i])); 
+     				m = mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
+				}			
+        	} 	
+     		if(m>0){
+     			response.setSuccess(true);
+     			response.setMessage("恭喜,物品信息删除成功！"); 
+     		}else{
+     			response.setSuccess(false);
+     			response.setMessage("物品信息删除失败！"); 
      		}
      	}catch(Exception e){
      		response.setSuccess(false);
