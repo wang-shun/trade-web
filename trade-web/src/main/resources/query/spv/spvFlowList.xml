@@ -109,6 +109,7 @@
 				<![CDATA[
 			       SELECT  sca.CASHFLOW_APPLY_CODE,
 			       sca.USAGE,
+			       sca.STATUS as applyStatus,
 			       sc.AMOUNT,
 			       sc.VOUCHER_NO,
 			       sc.PAYER,
@@ -147,6 +148,7 @@
 			<table-row>
 				<column type="both" name="PKID"  title="监管流水ID" index="" checkbox="" display="pkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 				<column type="both" name="AMOUNT"  title="金额" index="" checkbox="" display="amount" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="applyStatus"  title="状态" index="" checkbox="" display="amount" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="VOUCHER_NO"  title="凭证" index="" checkbox="" display="VOUCHER_NO" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASHFLOW_APPLY_CODE"  title="监管申请流水编号" index="" checkbox="" display="CASHFLOW_APPLY_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="USAGE" index=""  title="类别" checkbox="" display="USAGE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>

@@ -194,6 +194,7 @@
                                             <p class="smll_sign">
                                                                                                                                         审核人：
                                                 {{item.applyAuditorName}}
+                                                {{if item.USAGE=="in" && item.STATUS=="02" &&item.ftPostAuditorName=="" }}&gt;冯敏 / 张美瑜{{/if}}
                                                 {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
 												{{item.ftPreAuditorName}}
 											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}
