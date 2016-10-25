@@ -708,6 +708,24 @@ table thead tr th {
 .starmack.active .star_text_2{
   display: inline;
 }
+.subscribe_detail{
+  margin-left: 10px;
+  background: #f4f4f4;
+  color: #ccc;
+  outline: none;
+  padding: 4px 7px 4px 7px;
+}
+#subscribe .subscribe_detail.active{
+  background: #f8cd59;
+  color: #fff;
+  outline: none;
+}
+#subscribe .subscribe_detail.active .star_subscribe{
+  color: #fff;
+}
+.big .subscribe i{
+  font-size: 16px;
+}
 .star-red {
   color: #f784a5;
 }

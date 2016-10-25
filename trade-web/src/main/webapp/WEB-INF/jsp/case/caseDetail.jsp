@@ -175,18 +175,17 @@
 					<div class="panel-body">
 						<div class="ibox-content-head lh24">
 							<h5>案件基本信息</h5>
-							<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
 							<p class="star-position" id="subscribe">
 
 								<c:if test="${isSubscribe}">
-										<span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="${toCase.caseCode}" isSubscribe="false">
+										<span style="cursor: pointer;" class="starmack subscribe subscribe_detail active"  moduleCode="${toCase.caseCode}" isSubscribe="false">
 											<i class="iconfont markstar star_subscribe" status="1"></i>
 											<span class="star_text_1">未关注</span>
 											<span class="star_text_2">已关注</span>
 										 </span>
 								</c:if>
 								<c:if test="${isSubscribe==false}">
-										<span style="cursor: pointer;" class="starmack subscribe action"  moduleCode="${toCase.caseCode}" isSubscribe="true">
+										<span style="cursor: pointer;" class="starmack subscribe subscribe_detail action"  moduleCode="${toCase.caseCode}" isSubscribe="true">
 											<i class="iconfont markstar star_subscribe" status="1"></i>
 											<span class="star_text_1">未关注</span>
 											<span class="star_text_2">已关注</span>
@@ -194,7 +193,7 @@
 								</c:if>
 
 							</p>
-
+							<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
 						</div>
 						<div id="infoDiv infos" class="row">
 							<div class="ibox white_bg">
