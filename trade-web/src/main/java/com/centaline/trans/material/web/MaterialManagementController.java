@@ -388,7 +388,7 @@ public class MaterialManagementController {
         		String pkid[] = pkids.split(","); 
         		for(int i=0; i<pkid.length; i++){
         			//逻辑删除
-     				mmMaterialItem.setItemStatus("Y");     				
+     				mmMaterialItem.setIsDelete("Y");				
      				mmMaterialItem.setPkid(Long.parseLong(pkid[i])); 
      				m = mmMaterialItemService.updateMaterialInfoByPkid(mmMaterialItem);
 				}			
