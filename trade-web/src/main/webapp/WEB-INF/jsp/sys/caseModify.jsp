@@ -43,10 +43,10 @@
 							</div>
 							<div class="col-lg-4 col-md-4">
 								<div class="form-group">
-									<label class="col-lg-3 col-md-3 control-label font_w">tagertCode</label>
+									<label class="col-lg-3 col-md-3 control-label font_w">目标组别</label>
 									<div class="col-lg-9 col-md-9">
-										<input type="text" class="form-control" id="targetCode"
-											name="targetCode">
+										<select class="form-control" name="targetCode" id="targetCode">
+										</select>
 									</div>
 								</div>
 							</div>
@@ -59,7 +59,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="bonus-wrap">
 				<div class="bonus-header">
 					<div class="ibox-content bonus-m-con">
@@ -91,19 +91,20 @@
 	<content tag="local_script"> <%--  <script src="${ctx}/js/bootstrap.min.js"></script> --%>
 	<script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 	<script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-	<!-- Custom and plugin javascript --> <script
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/inspinia.js"></script> <script
 		src="${ctx}/js/plugins/pace/pace.min.js"></script> <script>
 			$(document).ready(function() {
 				$('#modifTagetCode').click(function() {
 					modifTagetCode();
 				});
-				
+
 				$('#exportCase').click(function() {
 					exportCase();
 				});
-				
+
+				getAllTeamList();
+
 			});
 
 			function exportCase() {
@@ -124,16 +125,16 @@
 					dataType : "json",
 					data : data,
 					success : function(data) {
-						if(data.success){
+						if (data.success) {
 							alert("修改成功!");
-						}else{
+						} else {
 							alert("修改失败!");
 						}
 					}
 				});
 
 			}
-			
+
 			function modifTagetCode() {
 				var ctmCode = $("#ctmCode").val().trim();
 				var targetCode = $("#targetCode").val().trim();
@@ -159,14 +160,34 @@
 					dataType : "json",
 					data : data,
 					success : function(data) {
-						if(data.success){
+						if (data.success) {
 							alert("修改成功!");
-						}else{
+						} else {
 							alert("修改失败!");
 						}
 					}
 				});
+			}
 
+			function getAllTeamList() {
+				var url = "/case/getAllTeamList";
+				$.ajax({
+					cache : false,
+					async : true,
+					type : "POST",
+					url : ctx + url,
+					dataType : "json",
+					timeout : 10000,
+					success : function(data) {
+						var targetCode = $("#targetCode");
+						$("#targetCode option").remove();
+						targetCode.append("<option>请选择组别</option>");
+						$.each(data, function(i, item) {
+							targetCode.append("<option value='"+item.orgCode+"'>"
+									+ item.orgName + "</option>");
+						});
+					}
+				});
 			}
 		</script> </content>
 </body>
