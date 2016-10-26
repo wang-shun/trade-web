@@ -66,6 +66,16 @@
                         <div class="info_content">
                             <div class="line">
                                 <p>
+                                    <label> 案件编号  </label>
+                                     <span class="info"><span  class="demo-top" title="${spvBaseInfoVO.toSpv.caseCode }" >${spvBaseInfoVO.toSpv.caseCode }</span></span>
+                                </p>
+                                <p>
+                                    <label>合约编号 </label>
+                                   <span  class="info demo-top" title="${spvBaseInfoVO.toSpv.spvCode }">${spvBaseInfoVO.toSpv.spvCode }</span>
+                                </p>
+                            </div>
+                            <div class="line">
+                                <p>
                                     <label> 产品类型  </label>
                                     <span class="info_one"  id="prdCode" >${spvBaseInfoVO.toSpv.prdCode==1?"光大四方资金监管":"" }</span>
                                 </p>
