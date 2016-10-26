@@ -1422,7 +1422,7 @@
 				var $select_ = $("select[name='toSpvAccountList["+index+"].bank']"); 
 				getParentBank($(e),$select_,$select_.attr("value"));
 				$(e).change(function(){
-					getBranchBankList($select_,$(e).attr("value"));
+					getBranchBankList($select_,$(e).val());
 				});
 		}
 		
