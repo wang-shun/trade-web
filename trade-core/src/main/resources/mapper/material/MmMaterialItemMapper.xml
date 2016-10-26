@@ -162,8 +162,8 @@
       <if test="itemStatus != null">
         #{itemStatus,jdbcType=VARCHAR},
       </if>
-      <if test="isDelete != null">
-        #{isDelete,jdbcType=CHAR},
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=CHAR},
       </if>
       @{SESSION_USER_ID},GETDATE(), @{SESSION_USER_ID},GETDATE(),
     </trim>
