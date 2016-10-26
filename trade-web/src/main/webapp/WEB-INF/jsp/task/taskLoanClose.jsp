@@ -12,23 +12,23 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- 展示相关 -->
 <link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 <link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css" rel="stylesheet">
 <link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css" rel="stylesheet">
-<!-- jdGrid相关 -->
-
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/common/common.css" rel="stylesheet">
+<link href="${ctx}/css/common/common.css" rel="stylesheet"> 
 <link href="${ctx}/css/style.css" rel="stylesheet">
-<!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<!-- datepikcer -->
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -42,136 +42,111 @@
 		var idList = [];
 	}
 </script>
+<style>
+	.readonlyCss {background-color:#ccc;}
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
-	<div class="row">
-		<div class="ibox-title">
-		<div class="row wrapper border-bottom white-bg page-heading">
-			<div class="col-lg-10">
-				<h2>贷款结清</h2>
-				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
-			</div>
-			<div class="col-lg-2"></div>
-		</div>
-		</div>
-		<div class="ibox-title">
-			<h5>完成提醒</h5>
-			<a class="btn btn-primary pull-right" href="#" id="sendSMS">发送短信提醒</a>
-			<div class="ibox-content">
-				<div class="jqGrid_wrapper">
-					<table id="reminder_list"></table>
-					<div id="pager_list_1"></div>	
-				</div>
-			</div>
-		</div>
-		<div class="ibox-title">
-			<h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form method="get" class="form-horizontal" id="loanCloseForm">
-					<%--环节编码 --%>
-					<input type="hidden" id="taskitem" name="taskitem" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-					<!-- 流程引擎需要字段 -->
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="pkid" name="pkid" value="${loanClose.pkid}">
-					<div class="form-group" id="data_1">
-						<label class="col-sm-2 control-label">还款时间<font color="red">*</font></label>
-						<div class="input-group date readOnly_date">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-							<input type="text" class="form-control" id="loanCloseCode" name="loanCloseCode" style="width:127px"
-								value="<fmt:formatDate  value='${loanClose.loanCloseCode}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">上手抵押金额<font color="red">*</font></label>
-						<div class="col-sm-2" style="padding-left: 0px;">
-						<div class="input-group">
-							<input type="text" class="form-control" id="uncloseMoney" name="uncloseMoney" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${ loanClose.uncloseMoney}' type='number' pattern='#0.00' />">
-							<span class="input-group-addon">万</span>
-						</div>
-						</div>
-						<label class="col-sm-2 control-label">还款资金来源<font color="red">*</font></label>
-						<div class="col-sm-2 input-group">
-							<aist:dict clazz="form-control m-b" id="closeType" name="closeType" display="select" defaultvalue="${loanClose.closeType}" dictType="LoanCloseMethod" />
-						</div>
-					</div>
-					
-					<div class="form-group">
-					</div>
-					
-					<div class="form-group">
-						<label class="col-sm-2 control-label">抵押银行<font color="red">*</font></label>
-						<div class="col-sm-4"  style="padding-left: 0px;">
-							<select class="form-control m-b chosen-select" name="bank" id="bank">
-							</select>
-						</div>
-						
-						<label class="col-sm-2 control-label">支行名称<font color="red">*</font></label>
-						<div class="col-sm-4 input-group">
-							<select class="form-control m-b chosen-select" name="mortgageBank" id="mortgageBank">
-							</select>
-						</div>
-					</div>
+	<div class="row wrapper white-bg new-heading ">
+             <div class="pl10">
+                 <h2 class="newtitle-big">
+                        	贷款结清
+                    </h2>
+                <div class="mt20">
+                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+                    	<i class="iconfont icon">&#xe640;</i> 在途单列表
+                    </button>
+                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+                        <i class="iconfont icon">&#xe642;</i>案件视图
+                    </button>
+                </div>
+             </div>
+        </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 control-label">备注</label>
-						<div class="col-sm-10 input-group">
-							<input type="text" class="form-control" id="comment" name="comment" value="${loanClose.comment}">
-						</div>
-					</div>
-				</form>
-
-			</div>
+        <div class="ibox-content border-bottom clearfix space_box noborder">
+            <div class="">
+                <h2 class="newtitle title-mark">完成提醒</h2>
+                <div class="jqGrid_wrapper">
+                    <table id="reminder_list"></table>
+					<div id="pager_list_1"></div>
+                    <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS">
+                        <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
+                    </button>
+                </div>
+            </div>
+        <div>
+            <h2 class="newtitle title-mark">填写任务信息</h2>
+            <form method="get" class="form-horizontal" id="loanCloseForm">
+            	<%--环节编码 --%>
+				<input type="hidden" id="taskitem" name="taskitem" value="${taskitem}">
+				<!-- 交易单编号 -->
+				<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+				<!-- 流程引擎需要字段 -->
+				<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+				<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+				<%-- 原有数据对应id --%>
+				<input type="hidden" id="pkid" name="pkid" value="${loanClose.pkid}">
+	            <div class="form_list clearfix" style="overflow:visible;">
+	                <div class="marinfo">
+	                    <div class="line">
+	                        <div class="form_content mt3">
+	                            <label class="control-label sign_left_small select_style mend_select">
+	                                	<font color=" red" class="mr5" >*</font>还款时间
+	                            </label>
+	                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+	                            	<input type="text" class="input_type yuanwid datatime" id="loanCloseCode" name="loanCloseCode"
+										value="<fmt:formatDate  value='${loanClose.loanCloseCode}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+	                            </div>
+	                        </div>
+	                        <div class="form_content">
+	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>上手抵押金额</label>
+	                            <input type="text" class="input_type yuanwid" id="uncloseMoney" name="uncloseMoney" onkeyup="checkNum(this)"
+									value="<fmt:formatNumber value='${ loanClose.uncloseMoney}' type='number' pattern='#0.00' />">
+	                            <span class="date_icon">万元</span>
+	                        </div>
+	                        <div class="form_content">
+	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>还款资金来源</label>
+	                            <aist:dict clazz="select_control data_style" id="closeType" name="closeType" display="select" defaultvalue="${loanClose.closeType}" dictType="LoanCloseMethod" />
+	                        </div>
+	                    </div>
+	
+	                    <div class="line clearfix" style="overflow:visible;">
+	                        <div class="form_content">
+	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>承办银行 </label> 
+	                            <select class="input_type mendwidth" name="bank" id="bank">
+								</select>
+	                        </div>
+	                        <div class="form_content">
+	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>支行名称 </label>
+	                            <select class="input_type mendwidth" name="mortgageBank" id="mortgageBank">
+								</select> 
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+            </form>
+        </div>
+        
+        <!-- 案件备注信息 -->
+		<div id="caseCommentList" class="view-content">
 		</div>
 
-		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
-		</div>
-
-		<div class="ibox-title">
-			<a href="#" class="btn" onclick="save(false)">保存</a>
-			<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
-		</div>
-		<div id="smsPlatFrom"></div>
-	</div>
+       <div class="form-btn">
+              <div class="text-center">
+                  <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
+                   <button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1" id="btnSubmit">提交</button>
+              </div>
+              <!-- <div id="smsPlatFrom"></div> -->
+       </div>
+ </div>
 
 	<content tag="local_script"> 
-	<!-- Peity --> 
-	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
-	<!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<!-- Custom and plugin javascript -->
-	<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-
-	<!-- Data picker -->
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-
-    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
-	<!-- bank select -->
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
-	<script src="${ctx}/transjs/sms/sms.js"></script> 
-
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
-	
-	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>	
 	<script>
 	var source = "${source}";
-	function readOnlyForm(){
+	/* function readOnlyForm(){
 		$(".readOnly_date").removeClass('date');
 		$(".readOnly_date input").attr('readOnly',true);
 		$("select[readOnlydata=1]").closest('.row').hide();
@@ -181,13 +156,26 @@
 				$(this).hide();
 			}
 		});
-	}
+	} */
+	
+	 function readOnlyForm(){
+		//将还款时间设置为只读,不能修改
+		$("#loanCloseCode").parent().removeClass("input-daterange");
+		$("#loanCloseCode").removeClass("datatime");
+		$("#loanCloseCode").attr("readonly",true);
+		$("#loanCloseCode").css("background-color","#ccc");
+		
+		//将提交按钮隐藏
+		$("#btnSubmit").hide();
+	 }
 
 		$(document).ready(function() {
 			if('caseDetails'==source){
 					readOnlyForm();
 				
 			}
+			
+			
 				$("#sendSMS").click(function(){
 					var t='';
 					var s='/';
@@ -343,9 +331,12 @@
                 $('input[name=uncloseMoney]').focus();
                 return false;
            }
-			if($('input[name=closeType]').val()=='') {
+			
+		   var closeType = $("#closeType option:selected").val();
+			
+			if(closeType == '') {
                 alert("还款资金来源为必填项!");
-                $('input[name=closeType]').focus();
+                $('#closeType').focus();
                 return false;
            }
 			/* if($('input[name=commet]').val()=='') {
@@ -379,7 +370,7 @@
 	    				} else {
 	    					getBranchBankList(data.bankCode);
 	    				}
-						friend.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
+						friend.chosen({no_results_text:"未找到该选项",width:"493px",search_contains:true,disable_search_threshold:10});
 		    		}
 		    	}
 			  });
@@ -407,11 +398,28 @@
 		    				}
 		    			}
 		    		}
-					friend.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
+					friend.chosen({no_results_text:"未找到该选项",width:"493px",search_contains:true,disable_search_threshold:10});
 		    	}
 			  });
 		}
 	</script> 
+	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
+	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+	<script src="${ctx}/transjs/sms/sms.js"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>	
+	<!-- 改版引入的新的js文件 -->
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	</content>
 </body>
 
