@@ -95,7 +95,7 @@
 					<c:choose>
 						<c:when test="${accesoryList!=null}">
 							<h5>上传附件</h5>
-							<span style="color: red">【说明：单次上传客户确认书，请做成一张附件上传！】</span>
+							<span style="color: red;font-size: 15px;">&nbsp;&nbsp;[&nbsp;说明：单次上传客户确认书，请做成一张附件上传&nbsp;&nbsp;]</span>
 							<div class="ibox-content" style="height: 280px; overflow-y: scroll;">
 								<h5>${accesoryList[0].accessoryName }</h5>
 								
@@ -199,38 +199,7 @@
 				<h5>上传备件<br>无需上传备件</h5>
 			</c:otherwise>
 		</c:choose>
-	</div>
-<!--     
-<table class="table table_blue mt20 no-border">
-      <thead>
-          <tr><th> 客户确认书</th></tr>
-      </thead>
-    <tbody>
-          <tr>
-              <td>
-                  <ul class="filelist clearfix">
-                      <li id="WU_FILE_0">
-                          <p class="imgWrap">
-                              <img src="../static/trans/img/uplody01.png">
-                          </p>
-                          <div class="file-panel" >
-                              <span class="file-name">公证书1</span>
-                              <span class="cancel pull-right">删除</span>
-                          </div>
-                      </li>
-                      <li>
-                          <p class="imgWrap fileposition">
-                              <img src="../static/trans/img/uplody02.png">
-                              <input type="file" name="file" class="webupload_file" multiple="multiple" accept="image/*">
-                          </p>
-                      </li>
-                  </ul>
-              </td>
-          </tr>
-      </tbody> 
-</table> 
- -->
-               
+	</div>               
                <div class="enregister">
                    <div class="modal_title">
                        <h4>物品信息登记</h4>
@@ -326,18 +295,18 @@
 <script type="text/javascript">
 var ctx = "${ctx}";
 $(function(){				
-/* 	$("input[name='itemCategory']").attr("disabled", false);
-	$("input[name='itemName']").attr("disabled", false);
-	$("input[name='itemBusinessRemark']").attr("disabled", false); */
+
 });
 //关闭按钮
 $("#materialStorageClose").click(function(){
 		window.location.href = ctx+"/material/materialList";
 })
 $("#materialStorgaeSubmit").click(function(){
+		//文件存放位置必填验证
 		if(!itemAddrCodeCheck()){			
 			return false;
-		}	
+		}
+		//上传附件只能上传一张
 		if(!imgCheckNum()){
 			return false;
 		}

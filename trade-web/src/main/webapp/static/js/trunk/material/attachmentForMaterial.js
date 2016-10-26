@@ -172,7 +172,8 @@ function subAddFrom() {
 		success : function(data) {
 				console.log("===Result==="+JSON.stringify(data));
 				if(data.success){
-					$("#attachPkid").val(data.message);					
+					$("#attachPkid").val(data.message);	
+					alert("插入附件的pkid============"+$("#attachPkid").val());
 				    $(".cancel").hide();
 				    $(".btn-primary").one("click",function(){
 				    	parent.$.fancybox.close();

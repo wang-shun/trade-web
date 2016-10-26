@@ -66,8 +66,7 @@
                      	 <option value="" selected="selected">请选择</option>
                          <option value="carded">身份证</option>
                          <option value="bankCard">银行卡</option>
-                         <option value="propertyCard">产权证</option>
-                         <option value="mortgageContract">抵押合同</option>
+                         <option value="propertyCard">产权证</option>                       
                          <option value="otherCard">他证</option>
                      </select>
                  </div>
@@ -75,9 +74,10 @@
                      <label for="" class="lable-one">物品状态</label>
                      <select class="form-control input-one" id="itemStatus">
                      	 <option value="" selected="selected">请选择</option>
-                         <option value="1">完好无损</option>
-                         <option value="2">已损坏</option>
-                         <option value="3">部分破损</option>
+                         <option value="stay">待入库</option>
+                         <option value="instock">在库</option>
+                         <option value="borrow">外借</option>
+                         <option value="back">退还</option>
                      </select>
                  </div>
                  <div class="form-group form-margin" style="margin-left:15px;">
@@ -321,8 +321,8 @@
 						</td>
 
 						<td>
-                            <p><i class="sign_blue">{{item.ITEM_CATEGORY}}</i></p>
-                            <p>中国建设银行储蓄卡</p>
+                            <p><i class="sign_blue">{{item.CATEGORY}}</i></p>
+                            <p>{{item.ITEM_NAME}}</p>
                         </td>
 						<td>
 							<p><a class="demo-top" title="手机号： {{item.CREATE_BY_MOBILE}}<br/>{{item.CREATE_BY_ORG_NAME}}" href="#">{{item.CREATE_BY_REAL_NAME}}</a> </p>

@@ -39,6 +39,7 @@
 					T.PKIDFORACTION,
 					T.CASE_CODE,
 					T.CREATE_BY,
+					T.ITEM_NAME,
 					T.ITEM_MANAGER,
 					T.CREATE_TIME,
 					T.ITEM_BACK_TIME,
@@ -56,7 +57,8 @@
 					T.ITEM_MANAGER_REAL_NAME,
 					T.ITEM_MANAGER_ORG_NAME,
 					T.ITEM_MANAGER_MOBILE,
-					T.TODAY
+					T.TODAY,
+					T.CATEGORY
 				FROM			
 				(
 					SELECT 
@@ -64,6 +66,7 @@
 						M.PKID AS PKIDFORACTION,
 						M.CASE_CODE,	
 						M.CREATE_BY,
+						M.ITEM_NAME,
 						M.ITEM_MANAGER,
 						M.CREATE_TIME,
 						M.ITEM_BACK_TIME,
@@ -81,7 +84,13 @@
 						(SELECT TOP 1 U.REAL_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.ITEM_MANAGER AND U.ismain=1)ITEM_MANAGER_REAL_NAME,
 						(SELECT TOP 1 U.ORG_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.ITEM_MANAGER AND U.ismain=1)ITEM_MANAGER_ORG_NAME,
 						(SELECT TOP 1 U.MOBILE FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.ITEM_MANAGER AND U.ismain=1)ITEM_MANAGER_MOBILE,
-						GETDATE() TODAY
+						GETDATE() TODAY,
+						case 
+							when M.ITEM_CATEGORY = 'carded'  then '身份证' 
+							when M.ITEM_CATEGORY = 'bankCard'  then '银行卡' 
+							when M.ITEM_CATEGORY = 'propertyCard'  then '产权证' 
+							when M.ITEM_CATEGORY = 'otherCard'  then '他证' 						 
+						end   CATEGORY
 					FROM  sctrans.T_MM_MATERIAL_ITEM M
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO P ON P.CASE_CODE=M.CASE_CODE
 					LEFT JOIN sctrans.T_TO_CASE  C ON C.CASE_CODE=M.CASE_CODE
@@ -141,13 +150,12 @@
 			    <column type="both" name="PKIDFORACTION" index="" checkbox="" display="PKIDFORACTION" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 			    <column type="both" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				
-				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="true"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="MORT_TYPE"  title="贷款类型"  referencecol="MORT_TYPE_OLD"  customDict="qqcdMortName"  isSort="true" order="desc"/>
-				
+		
 				<column type="both" name="ITEM_CATEGORY" index="" checkbox=""   title="物品类别" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="ITEM_MANAGER" index="" checkbox=""   title="保管人" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="CREATE_BY" index="" checkbox="true" title="提交人"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_NAME" index="" checkbox=""   title="物品名称" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CATEGORY" index="" checkbox=""   title="物品类别中文" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 						
 				<column type="both" name="CREATE_TIME" index="" checkbox="" title="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="ITEM_BACK_TIME" index="" checkbox="" title="退还时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />

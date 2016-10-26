@@ -217,9 +217,9 @@ $("#materialStorage").click(function(){
 	}
 	if(!statusFlagCheck()){
 		return false;
-	}	
-	//请求后端数据
+	}		
 	if(pkids){	
+		//填充表单，请求后端数据
 		$("#pkids").val(pkids);		
 		$("#materialStorgaeForm").submit();
 	}
