@@ -962,7 +962,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		for(ToSpvCashFlowApplyAttach attach : attachs){
 			attach.setUpdateBy(user.getId());
 			attach.setUpdateTime(new Date());
-			attach.setType(spvChargeInfoVO.getToSpvCashFlowApplyAttachType());
 			attach.setIsDeleted("1");
 			toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(attach);
 		}
@@ -973,6 +972,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 					if(toSpvCashFlowApplyAttach.getPkid() == null){
 						if(StringUtils.isNotBlank(toSpvCashFlowApplyAttach.getAttachId())){
 							toSpvCashFlowApplyAttach.setApplyId(toSpvCashFlowApply.getPkid().toString());
+							toSpvCashFlowApplyAttach.setType(spvChargeInfoVO.getToSpvCashFlowApplyAttachType());
 							//toSpvCashFlowApplyAttach.setType(toSpvCashFlowApplyAttach.getComment().substring(toSpvCashFlowApplyAttach.getComment().indexOf(".")+1, toSpvCashFlowApplyAttach.getComment().length()));
 							toSpvCashFlowApplyAttach.setIsDeleted("0");
 							toSpvCashFlowApplyAttach.setCreateBy(user.getId());
@@ -1018,6 +1018,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 				if(toSpvCashFlow.getPkid() == null){
 					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
 					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
+					toSpvCashFlow.setPayer("上海中原物业顾问有限公司");
+					toSpvCashFlow.setPayerAcc("76310188000148842");
+					toSpvCashFlow.setPayerBank("光大银行市北支行");
 					toSpvCashFlow.setCreateBy(user.getId());
 					toSpvCashFlow.setCreateTime(new Date());
 					toSpvCashFlow.setIsDeleted("0");
