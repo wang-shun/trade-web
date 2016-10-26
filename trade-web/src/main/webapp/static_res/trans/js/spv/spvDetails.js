@@ -1,9 +1,5 @@
 
 $(document).ready(function(){	    
-		//流程开启后只读表单
-		if($("#handle").val() != '' && $("#handle").val() != 'SpvApply'){
-		    readOnlyRiskForm();
-		}
 
 		$("select[name='toSpv.buyerPayment']").change(function(){
 			var val = $(this).val();
@@ -43,6 +39,11 @@ $(document).ready(function(){
 				break;
 			} 
 		}).change();
+		
+		//流程开启后只读表单
+		if($("#handle").val() != '' && $("#handle").val() != 'SpvApply'){
+		    readOnlyRiskForm();
+		}
 
        	$('#loading-example-btn').click(function () {
             btn = $(this);
@@ -125,6 +126,7 @@ $(document).ready(function(){
 
        
        $("#submitBtn").click(function(){
+    	   debugger;
       	  if(!deleteAndModify()){
      		  return false;
      	  }
