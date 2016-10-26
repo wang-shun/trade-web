@@ -810,6 +810,7 @@ $(document).ready(function(){
 		/** ------监管资金的支付信息验证结束--------  **/
 		
 		/** ------资金监管账号信息验证开始--------  **/
+        /**卖方*/
 		var sellerAccount = $("input[name='toSpvAccountList[1].account']").val();
 		if(sellerAccount != null && sellerAccount != ''){
 			if(!isNumber2(sellerAccount)){
@@ -827,7 +828,7 @@ $(document).ready(function(){
 				return false;
 			}
 		}
-		
+		/**买方*/
 		var buyerAccountName = $("input[name='toSpvAccountList[0].name']").val();
 		if(buyerAccountName == null || buyerAccountName == ''){
 			alert("请填写买方退款账户名称！");
@@ -872,6 +873,68 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		/**新增*/
+   $("input[name^='toSpvAccountList'][name$='accountType']").each(function(i,e){
+	   var customFlag = true;
+	   var index = $(e).attr("name").replace('toSpvAccountList[','').replace('].accountType','');
+	   if(parseInt(index) > 3){
+		var buyerAccountName = $("input[name='toSpvAccountList["+index+"].name']").val();
+		if(buyerAccountName == null || buyerAccountName == ''){
+			alert("请填写新增账户名称！");
+			changeClass($("input[name='toSpvAccountList["+index+"].name']"));
+			customFlag = false;
+			return false;
+		}
+		
+		var buyerAccount = $("input[name='toSpvAccountList["+index+"].account']").val();
+		if(buyerAccount == null || buyerAccount == ''){
+			alert("请填写新增账户账号！");
+			changeClass($("input[name='toSpvAccountList["+index+"].account']"));
+			customFlag = false;
+			return false;
+		}
+		
+		if(buyerAccount != null && buyerAccount != ''){
+		    if(!isNumber2(buyerAccount)){
+		    	alert("请填写有效的新增账户账号！(首位非0的整数)");
+		    	changeClass($("input[name='toSpvAccountList["+index+"].account']"));
+		    	customFlag = false;
+		    	return false;
+		    }
+		}
+		
+		var buyerAccountTelephone = $("input[name='toSpvAccountList["+index+"].telephone']").val();
+		if(buyerAccountTelephone == null || buyerAccountTelephone == ''){
+			alert("请填写新增账户电话！");
+			changeClass($("input[name='toSpvAccountList["+index+"].telephone']"));
+			customFlag = false;
+			return false;
+		}
+		
+		if(buyerAccountTelephone != null && buyerAccountTelephone != ''){
+			if(!isMobile(buyerAccountTelephone)){
+				alert("请填写有效的新增账户电话！(1(3、4、5、7、8)+9位数字)");
+				changeClass($("input[name='toSpvAccountList["+index+"].telephone']"));
+				customFlag = false;
+				return false;
+			}
+		}
+		
+		var buyerBank = $("select[name='toSpvAccountList["+index+"].bank'] option:selected").val();
+		if(buyerBank == null || buyerBank == ''){
+			alert("请选择新增账户开户行！");
+			changeClass($("select[name='toSpvAccountList["+index+"].bank']"));
+			customFlag = false;
+			return false;
+		}
+		}
+		});
+      
+        if(!customFlag){
+        	return false;
+        }
+	
+		/**托管方*/
 		var spvAccountName = $("select[name='toSpvAccountList[2].name'] option:selected").val();
 		if(spvAccountName == null || spvAccountName == ''){
 			alert("请选择托管账户名称！");
@@ -1325,10 +1388,10 @@ function updateAccTypeOptions(){
 	var accTypeOptions_ = getAccTypeOptions();
 	$("select[name^='toSpvDeDetailList'][name$='payeeAccountType']").each(function(i,e){
 		var index = $(e).attr("name").replace('toSpvDeDetailList[','').replace('].payeeAccountType','');
-		var eVal = $(e).val();
+		var eVal = $(e).attr("value");
 		$(e).empty().html(accTypeOptions_);
 		$(e).find("option").each(function(i_,e_){
-			if($(e_).val() == eVal){
+			if($(e_).attr("value") == eVal){
 				$(e_).prop("selected",true);
 				return false;
 			}
