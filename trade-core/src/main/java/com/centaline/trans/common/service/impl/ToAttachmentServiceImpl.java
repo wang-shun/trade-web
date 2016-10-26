@@ -125,6 +125,11 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 	public List<ToAttachment> quereyAttachments(ToAttachment toAttachment) {
 		return toAttachmentMapper.quereyAttachments(toAttachment);
 	}
+	
+	@Override
+	public List<ToAttachment> quereyAttachmentForMaterial(ToAttachment toAttachment) {
+		return toAttachmentMapper.quereyAttachmentForMaterial(toAttachment);
+	}
 
 	@Override
 	public boolean delAttachment(List<Long> pkIdArr) {

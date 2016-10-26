@@ -21,6 +21,8 @@ public interface ToAttachmentMapper {
     
     List<ToAttachment> quereyAttachments(ToAttachment record);
     
+    List<ToAttachment> quereyAttachmentForMaterial(ToAttachment record);
+    
     Integer findAttachmentByCount(ToAttachment record);
 
     /**

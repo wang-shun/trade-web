@@ -120,6 +120,7 @@ public class AttachmentController {
 		return map;
 	}
 	
+	
 	@RequestMapping(value = "quereyAttachment")
 	@ResponseBody
 	public List<ToAttachment> quereyAttachments(HttpServletRequest request, ToAttachment toAttachment) {
@@ -134,6 +135,22 @@ public class AttachmentController {
 		/** 读取上传附件备件表 */
 		return attachments;
 	}
+	
+	@RequestMapping(value = "quereyAttachmentForMaterial")
+	@ResponseBody
+	public List<ToAttachment> quereyAttachmentForMaterial(HttpServletRequest request, ToAttachment toAttachment) {
+		List<ToAttachment> attachments = toAttachmentService.quereyAttachmentForMaterial(toAttachment);
+		if(attachments!=null && attachments.size()>0){
+			for(ToAttachment attachment:attachments){
+				if(!StringUtils.isEmpty(attachment.getPreFileCode())){
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+				}
+			}
+		}
+		/** 读取上传附件备件表 */
+		return attachments;
+	}
+	
 	@RequestMapping(value = "quereyAttachmentCaseClose")
 	@ResponseBody
 	public Map<String, Object> quereyAttachmentCaseClose(HttpServletRequest request, ToAttachment toAttachment) {
