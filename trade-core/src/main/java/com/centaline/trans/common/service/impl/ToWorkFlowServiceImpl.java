@@ -22,6 +22,11 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 		 toWorkFlowMapper.insertSelective(record);
 		 return 1;
 	}
+	@Override
+	public int insertSpvCashflowInProcessSelective(ToWorkFlow record) {
+		toWorkFlowMapper.insertSpvCashflowInProcessSelective(record);
+		return 1;
+	}
 
 	@Override
 	public ToWorkFlow selectByPrimaryKey(Long pkid) {

@@ -68,6 +68,8 @@
 	} else {
 		var idList = [];
 	}
+	var accTypeOptions = '';
+	var accSum = 1;
 </script>
 <style>
 	.borderClass {border:1px solid red!important;resize: none;}
@@ -564,7 +566,7 @@
 							    <input type="hidden" name="toSpvAccountList[1].pkid" value="${spvBaseInfoVO.toSpvAccountList[1].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[1].accountType" value="SELLER" />
 								<label for="" class="lable-one">卖方收款账号名称</label> <input name="toSpvAccountList[1].name"
-								 value="${spvBaseInfoVO.toSpvAccountList[1].name }"
+								 value="${spvBaseInfoVO.toSpvAccountList[1].name }" onBlur="updateAccTypeOptions()"
 								 type="text" class="form-control input-one" placeholder="">
 							</div>
                             <div class="form-group form-margin form-space-one left-extent">
@@ -591,7 +593,7 @@
 							    <input type="hidden" name="toSpvAccountList[0].pkid" value="${spvBaseInfoVO.toSpvAccountList[0].pkid }"/>
 								<input type="hidden" name="toSpvAccountList[0].accountType" value="BUYER" />
 								<label for="" class="lable-one"><i style="color:red;">*</i> 买方退款账号名称</label> <input name="toSpvAccountList[0].name"
-								    value="${spvBaseInfoVO.toSpvAccountList[0].name }"
+								    value="${spvBaseInfoVO.toSpvAccountList[0].name }" onBlur="updateAccTypeOptions()"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
                             <div class="form-group form-margin form-space-one">
@@ -614,6 +616,43 @@
 							</div>	
 						</div>
 						<div class="form-row form-rowbot">
+						<div class="form-group form-margin form-space-one">
+								<a onClick="getAccTr()">添加账户</a>
+						</div>	
+						</div>
+						<c:if test="${fn:length(spvBaseInfoVO.toSpvAccountList) gt 4 }">
+						<c:forEach items="${spvBaseInfoVO.toSpvAccountList }" var="toSpvAccount" varStatus="status4">
+						<div class="form-row form-rowbot">
+							<div class="form-group form-margin form-space-one left-extent">
+							    <input type="hidden" name="toSpvAccountList[${status4.index }].pkid" value="${toSpvAccount.pkid }"/>
+								<input type="hidden" name="toSpvAccountList[${status4.index }].accountType" value="CUSTOM_${status4.index }" />
+								<label for="" class="lable-one">账号名称</label> <input name="toSpvAccountList[${status4.index }].name"
+								    value="${toSpvAccount.name }" onBlur="updateAccTypeOptions()"
+									type="text" class="form-control input-one" placeholder="">
+							</div>
+                            <div class="form-group form-margin form-space-one">
+								<label for="" class="lable-one">账号</label> <input name="toSpvAccountList[${status4.index }].account"
+								    value="${toSpvAccount.account }" type="text"
+									class="form-control input-two" placeholder="">
+							</div>
+							
+						</div>
+						<div class="form-row form-rowbot">
+							<div class="form-group form-margin form-space-one">
+								<label for="" class="lable-one">电话</label> <input name="toSpvAccountList[${status4.index }].telephone"
+								    value="${toSpvAccount.telephone }" type="text"
+									class="form-control input-one" placeholder="">
+							</div>	
+							<div class="form-group form-margin form-space-one">
+								<label for="" class="lable-one">开户行</label>
+									<select id="bank_${status4.index }" class="form-control input-one"></select>
+									<select name="toSpvAccountList[${status4.index }].bank" class="form-control input-two" value="${toSpvAccount.bank }"></select>
+							</div>	
+						</div>
+						</c:forEach>
+						</c:if>
+						
+						<div id="spvAccDiv" class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[2].accountType" value="SPV" />
@@ -711,7 +750,8 @@
 									    ligerui='none' defaultvalue="${toSpvDeDetail.deCondCode }"></aist:dict>	
 										</td>
 										<td class="text-left">
-									    <input name="toSpvDeDetailList[${status.index }].payeeAccountType" value="${toSpvDeDetail.payeeAccountType }" class="table-input-one" type="text" placeholder="请输入账户"  />	
+									    <select name="toSpvDeDetailList[${status.index }].payeeAccountType" value="${toSpvDeDetail.payeeAccountType }" class="table-select" onChange="this.value" >
+									    </select>
 										</td>
 										<td><input name="toSpvDeDetailList[${status.index }].deAmount" value="<fmt:formatNumber type="number" value="${toSpvDeDetail.deAmount }" pattern="0.00" maxFractionDigits="2"/>" class="table-input-one" type="text"
 											placeholder="请输入金额" />万元</td>
@@ -725,11 +765,9 @@
 									</tr>
 								   </c:forEach>
 								  <%-- 默认显示一行，方便用户添加 --%>
-								  <c:if test="${empty spvBaseInfoVO.toSpvDeDetailList }" >
-								  <tr id="example" align="center">
-
+								  <tr id="example" align="center" ${empty spvBaseInfoVO.toSpvDeDetailList?'':'style="display:none"' }>
 									<td class='text-left'><aist:dict id='toSpvDeDetailList[0].deCondCode' name='toSpvDeDetailList[0].deCondCode' clazz='table-select' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>
-									<td class='text-left'><input name="toSpvDeDetailList[${status.index }].payeeAccountType" class="table-input-one" type="text" placeholder="请输入账户"  /></td>
+									<td class='text-left'><select name="toSpvDeDetailList[0].payeeAccountType" class="table-select" onChange="this.value" ></select></td>
 									<td><input name='toSpvDeDetailList[0].deAmount' class='table-input-one'  type='text' placeholder='请输入金额'>万</td>
 									<td class='text-left' ><input name='toSpvDeDetailList[0].deAddition' class='table-input' type='text' placeholder='' /></td>
 									<td align="center">
@@ -738,7 +776,6 @@
 									</c:if>  
 									</td>	
 								  </tr>
-								  </c:if>
 								</tbody>					
 							</table>							
 						</div>
@@ -999,7 +1036,16 @@
     {{/each}}		
 		</script>
 		<script>
-		$(document).ready(function(){
+		var accTypeSum = parseInt('${fn:length(spvBaseInfoVO.toSpvAccountList)}')==0?4:parseInt('${fn:length(spvBaseInfoVO.toSpvAccountList)}');
+		$(document).ready(function(){			 
+			 
+			 $("select[id^='bank_']").each(function(i,e){
+				 initBankList(e);
+			 });	
+
+			 //更新账户类型下拉选 
+			 updateAccTypeOptions();
+			 
 			 //驳回原因显示问题
 			 var remark = $("#passOrRefuseReason").val();	
 			 //当前用户标示 前者是风控专员，后者是风控总监
@@ -1037,13 +1083,14 @@
 				case '':
 					$("input[name='toSpvAccountList[3].account']").val("");
 					break;
-				case '1':
+				case '搜易贷（北京）金融信息服务有限公司':
 					$("input[name='toSpvAccountList[3].account']").val("137441512010000275");
 					break;
-				case '2':
+				case '上海嘉定及时雨小额贷款股份有限公司':
 					$("input[name='toSpvAccountList[3].account']").val("457263590104");
 					break;
 				}
+				updateAccTypeOptions();
 			}).change();
 
 			$("input[name='toSpv.amount']").blur(function(){
@@ -1068,14 +1115,7 @@
 				$("#leftAmountDX").val(DX($(this).val()*10000));
 			}).blur();			
 			
-	       	getParentBank($("#bank_1"),$("select[name='toSpvAccountList[1].bank']"),'${spvBaseInfoVO.toSpvAccountList[1].bank }');
-	       	getParentBank($("#bank_0"),$("select[name='toSpvAccountList[0].bank']"),'${spvBaseInfoVO.toSpvAccountList[0].bank }');
-	       	$("#bank_1").change(function(){
-				getBranchBankList($("select[name='toSpvAccountList[1].bank']"),$("#bank_1").val());
-		    });
-	       	$("#bank_0").change(function(){
-				getBranchBankList($("select[name='toSpvAccountList[0].bank']"),$("#bank_0").val());
-	    });
+
 	       	
 	       	/* getPrdCategory($("#prd"),$("select[name='toSpv.prdCode']"),'${spvBaseInfoVO.toSpv.prdCode }');
 	       	$("#prd").change(function(){
@@ -1188,7 +1228,6 @@
 		}
 
         function reloadGrid() {
-			debugger;
         	var data = {};
         	var propertyAddr = $.trim($("#propertyAddr").val());
            	var caseCode = $.trim($("#caseCodet").val());
@@ -1240,7 +1279,7 @@
 		$str = '';
 		$str += "<tr align='center'>";
 		$str += "<td class='text-left'><aist:dict id='toSpvDeDetailList["+sum_+"].deCondCode' name='toSpvDeDetailList["+sum_+"].deCondCode' clazz='table-select' display='select'  dictType='SPV_DE_COND' ligerui='none' defaultvalue='' ></aist:dict></td>";
-		$str += "<td class='text-left'><input name='toSpvDeDetailList["+sum_+"].payeeAccountType' class='table-input-one' type='text' placeholder='请输入账户' />	</td>";
+		$str += "<td class='text-left'><select name='toSpvDeDetailList["+sum_+"].payeeAccountType' class='form-control input-two' onChange='this.value'>"+getAccTypeOptions()+"</select></td>";
 		$str += "<td><input name='toSpvDeDetailList["+sum_+"].deAmount' class='table-input-one' type='text' placeholder='请输入金额'>万</td>";
 		$str += "<td class='text-left' ><input name='toSpvDeDetailList["+sum_+"].deAddition' class='table-input' type='text' placeholder='' /></td>";
 		$str += "<td class='btn-height'><a href='javascript:void(0)'  onClick='getAtr(this)'>添加</a><a onClick='getDel(this)' class='grey' href='javascript:void(0)'>删除</a></td>";
@@ -1255,6 +1294,7 @@
 		}
 		
 		function getDel(k) {
+			debugger;
 		$(k).parents('tr').remove();
 		sum--;
 		if(sum == 0){
@@ -1262,6 +1302,63 @@
 		}
 		$("#sum").html(sum);
 	}
+		
+		/**自定义账户 */
+		function getAccTr(){
+			$str = '';
+			$str += '<div class="form-row form-rowbot">';
+			$str += '<div class="form-group form-margin form-space-one left-extent">';
+			$str +=     '<input type="hidden" name="toSpvAccountList['+accTypeSum+'].pkid"/>';
+			$str += 	'<input type="hidden" name="toSpvAccountList['+accTypeSum+'].accountType" value="CUSTOM_'+accTypeSum+'" />';
+			$str += 	'<label for="" class="lable-one">账号名称</label> <input name="toSpvAccountList['+accTypeSum+'].name" '; 
+			$str += 		'type="text" class="form-control input-one" placeholder=""  onBlur="updateAccTypeOptions()">';
+			$str += '</div>';
+			$str += '<div class="form-group form-margin form-space-one">';
+			$str += 	'<label for="" class="lable-one">账号</label> <input name="toSpvAccountList['+accTypeSum+'].account" type="text" ';
+			$str += 		'class="form-control input-two" placeholder="">';
+			$str += '</div>';			
+			$str += '</div>';
+			$str += '<div class="form-row form-rowbot">';
+			$str += '<div class="form-group form-margin form-space-one">';
+			$str += 	'<label for="" class="lable-one">电话</label> <input name="toSpvAccountList['+accTypeSum+'].telephone" type="text" ';
+			$str += 		'class="form-control input-one" placeholder="">';
+			$str += '</div>	';
+			$str += '<div class="form-group form-margin form-space-one">';
+			$str += 	'<label for="" class="lable-one">开户行</label>';
+			$str += 		'<select id="bank_'+accTypeSum+'" class="form-control input-one"></select>';
+			$str += 		'<select name="toSpvAccountList['+accTypeSum+'].bank" class="form-control input-two"></select>';
+			$str +=	'&nbsp;&nbsp;&nbsp;<a onClick="delAccTr(this)">删除账户</a>';
+			$str +='</div>';
+			$str += '</div>';
+			
+			$("#spvAccDiv").before($str);				
+			initBankList($("#bank_"+accTypeSum));	
+			updateAccTypeOptions();
+			
+			accTypeSum++;
+		}
+		
+		function delAccTr(this_){
+			var deleteFlag = true;
+			var accountType = $(this_).parents('.form-rowbot').prev().find('input[name$="accountType"]').val();
+			$("select[name^='toSpvDeDetailList'][name$='payeeAccountType']").each(function(i,e){
+				var eVal = $(e).val();
+				if(eVal == accountType){
+					if(!confirm("出款约定中已选择该账户类型，是否确定删除?")){
+						deleteFlag = false;
+						return false;
+					}
+				}
+			});
+			
+			if(!deleteFlag){
+				return false;
+			}
+			
+			$(this_).parents('.form-rowbot').prev().remove();
+			$(this_).parents('.form-rowbot').remove();
+			updateAccTypeOptions();
+		}
 		
 		/**
 		 * 选择用户
@@ -1298,6 +1395,16 @@
 				$("#userName").val("");
 				$("#team").val("");
 			}
+		}
+		
+		/**初始化银行列表 */
+		function initBankList(e){	
+				var index = $(e).attr("id").replace('bank_','');
+				var $select_ = $("select[name='toSpvAccountList["+index+"].bank']");
+				getParentBank($(e),$select_,$select_.val());
+				$(e).change(function(){
+					getBranchBankList($select_,$(e).val());
+				});
 		}
 		
 		</script> 

@@ -477,6 +477,7 @@ function checkAttachmentForLoanLost(loanLostConfirmCode){
 
 //保存
 function deleteAndModify(){
+	caseCode = $("#caseCode").val();
 	var picDiv=$("div[name='allPicDiv1']");
     //所选图片和上传的图片的数目要相同
     if(picDiv.length>0){

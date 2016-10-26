@@ -836,7 +836,7 @@ public class WarnListController {
 					eloanCase.setStatus("ABAN");
 					eloanCase.setAbanReason(content);
 					eloanCase.setAbanTime(new Date());
-					toEloanCaseService.eloanInfoForUpdate(eloanCase);
+					toEloanCaseService.abanById(eloanCase);
 				}else{
 					List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
 					toEloanCaseService.deleteById(eloanCase.getPkid());

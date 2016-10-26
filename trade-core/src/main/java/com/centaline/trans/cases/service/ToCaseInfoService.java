@@ -1,6 +1,7 @@
 package com.centaline.trans.cases.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -81,5 +82,17 @@ public interface ToCaseInfoService {
 	int isExistCaseCode(String caseCode);
 	CaseDetailShowVO getCaseDetailShowVO(String caseCode, ToMortgage toMortgage);
 	
+	/**
+	 * 根据ctmCode 修改targetCode
+	 * @param param
+	 * @return
+	 */
+	Integer updateByTargetCode(Map<String, Object> param);
 	
+	/**
+	 * 导入单个新案件
+	 * @param ctmCode
+	 * @return
+	 */
+	Integer exportCTMCase(String ctmCode);
 }

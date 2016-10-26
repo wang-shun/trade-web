@@ -121,6 +121,7 @@
 			       sc.CREATE_BY,
 			       sc.INPUT_TIME,
 			       sc.CREATE_TIME,
+			       sc.RECEIPT_TIME,
 			       sc.STATUS,
 			       sc.DIRECTION,
 			       sp.PR_ADDR,
@@ -154,6 +155,7 @@
 				<column type="both" name="USAGE" index=""  title="类别" checkbox="" display="USAGE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="INPUT_TIME" index="" title="创建时间" checkbox="" display="INPUT_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
 				<column type="both" name="CREATE_TIME" index="" title="创建时间" checkbox="" display="CLOSE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
+				<column type="both" name="RECEIPT_TIME" index="" title="入账时间" checkbox="" display="CLOSE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_ADDR" index="" title="物业地址" checkbox="" display="PR_ADDR" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="STATUS" index="" title="状态" checkbox="" display="STATUS" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="DIRECTION" index="" title="方式" checkbox="" display="DIRECTION" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>

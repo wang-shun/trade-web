@@ -564,7 +564,7 @@
 			<div class="form-btn clear pt20">
 		        <div class="text-center">
 		            <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
-		            <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+		            <button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
 		        </div>
 		    </div>
 		    
@@ -574,43 +574,6 @@
  </div>
 
 	<content tag="local_script"> 
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
-	<script src="${ctx}/js/trunk/task/attachment.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
-	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
-	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
-	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
-	<script src="${ctx}/js/trunk/task/taskTransSign.validate.js?v=1.1.0"></script>
-	<script src="${ctx}/js/plugins/layer/layer.js"></script>
-	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> 
-	<script src="${ctx}/transjs/sms/sms.js"></script> 
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
-	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script> 
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<!-- 改版引入的新的js文件 --> 
-	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-	<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
 	<script>
 			//判断是否有重复字符
 			function isUniqueChar(value){
@@ -1272,7 +1235,7 @@
 						});
 			}
 			
-			function readOnlyForm() {
+			/* function readOnlyForm() {
 				$(".readOnly_date").removeClass('date');
 				$(".readOnly_date input").attr('readOnly', true);
 				$("#divDiYaAndChaxiangou").hide();
@@ -1282,9 +1245,58 @@
 						$(this).hide();
 					}
 				}); 
+			} */
+			
+			function readOnlyForm() {
+				//设置实际签约时间不可修改
+				$("#realConTime").parent().removeClass("input-daterange");
+				$("#realConTime").removeClass("datatime");
+				$("#realConTime").attr("readonly",true);
+				$("#realConTime").css("background-color","#ccc");
+				
+				//设置提交按钮隐藏
+				$("#btnSubmit").hide();
 			}
 			
-		</script> </content>
+		</script> 
+		<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
+		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+		<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
+		<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+		<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+		<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+		<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
+		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
+		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+		<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
+		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+		<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+		<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
+		<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
+		<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+		<script src="${ctx}/js/trunk/task/attachment.js"></script>
+		<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+		<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
+		<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
+		<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
+		<script src="${ctx}/js/trunk/task/taskTransSign.validate.js?v=1.1.0"></script>
+		<script src="${ctx}/js/plugins/layer/layer.js"></script>
+		<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> 
+		<script src="${ctx}/transjs/sms/sms.js"></script> 
+		<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+		<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script> 
+		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+		<script src="${ctx}/js/template.js" type="text/javascript"></script>
+		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+		<!-- 改版引入的新的js文件 --> 
+		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+		<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
+		</content>
 </body>
 
 </html>

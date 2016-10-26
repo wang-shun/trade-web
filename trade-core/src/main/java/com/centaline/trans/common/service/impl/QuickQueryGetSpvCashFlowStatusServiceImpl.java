@@ -42,7 +42,7 @@ public class QuickQueryGetSpvCashFlowStatusServiceImpl implements CustomDictServ
 				val = "出账起草";
 				break;
 			case "11":
-				val = "审核中";
+				val = "总监审批";
 				break;
 			case "12":
 				val = "总监审批";

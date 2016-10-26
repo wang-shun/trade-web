@@ -243,7 +243,7 @@
 										<div class="" style="height: auto">
 											<div role="presentation" class="table table-striped "	style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
 												<div id="picContainer${accesory.pkid }" class="files"	data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-												<!-- 用于'贷款自办确认函'验证 -->
+												<!-- 用于'客户确认书'验证 -->
 												<input type="hidden" id="fileFlagCode${accesory.pkid }"   value="${accesory.accessoryCode }">
 												
 												<span class=" fileinput-button "	style="margin-left: 10px !important; width: 80px;">

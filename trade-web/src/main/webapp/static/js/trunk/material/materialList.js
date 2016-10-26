@@ -211,18 +211,20 @@ function getPkidsArray(){
 	pkids = ids.substring(0,ids.length-1);	
 	return pkids; 
 }
-
+//物品入库
 $("#materialStorage").click(function(){	
 
 	var pkids = getCheck();	
 	
 	if(!caseCodeTheSameCheck()){
 		return false;
+	}
+	if(!statusFlagCheck()){
+		return false;
 	}	
 	//请求后端数据
 	if(pkids){	
-		$("#pkids").val(pkids);
-		alert($("#pkids").val());
+		$("#pkids").val(pkids);		
 		$("#materialStorgaeForm").submit();
 	}
 })
@@ -278,7 +280,7 @@ $("#materialBorrowClose").click(function(){
 $("#materialBorrowSubmit").click(function(){	
 	 var pkids = getPkidsArray();
 	 //var mmIoBatch = {}; 
-	 var actionUser = $("input[name='actionUser']").val();
+	 var actionUser = $("#actionUser").attr('hVal');//$("input[name='actionUser']").val();
 	 var actionPreDate = $("input[name='actionPreDate']").val();
 	 var actionReason = $("input[name='actionReason']").val();
 	 var actionRemark = $("#actionRemark").val();
@@ -329,7 +331,7 @@ $("#materialReturn").click(function(){
 $("#materialReturnSubmit").click(function(){	
 	 var pkids = getPkidsArray();
 	 //var mmIoBatch = {}; 
-	 var actionUser = $("input[name='returnActionUser']").val();
+	 var actionUser =  $("#returnActionUser").attr('hVal');//$("input[name='returnActionUser']").val();
 	 var actionRemark = $("#returnActionRemark").val();
 	 var flag = true;
 	 logActionReturnSubmit(pkids,actionUser,actionRemark,flag);
@@ -338,7 +340,7 @@ $("#materialReturnSubmit").click(function(){
 $("#materialReturnClose").click(function(){	
 	$("#Return").hide();
 })
-
+//归还、退还共有的提交方法
 function logActionReturnSubmit(pkids,actionUser,actionRemark,flag){			
 	$.ajax({
 		url:ctx+"/material/materialReturnSave",
@@ -381,7 +383,7 @@ $("#materialRefund").click(function(){
 $("#materialRefundSubmit").click(function(){	
 	 var pkids = getPkidsArray();
 	 var flag = false;	
-	 var actionUser = $("input[name='refundActionUser']").val();
+	 var actionUser = $("#refundActionUser").attr('hVal');//$("input[name='refundActionUser']").val();
 	 var actionRemark = $("#refundActionRemark").val();
 	 logActionReturnSubmit(pkids,actionUser,actionRemark,flag);
 	 
@@ -390,48 +392,48 @@ $("#materialRefundClose").click(function(){
 	$("#GiveBack").hide();
 })
 
-
-
 //物品删除
 $("#materialDelete").click(function(){
 	var pkids = getCheck();	
 	if(pkids){
 		 if(!statusFlagCheck()){
 			 return false;
-		 }else{
-				$.ajax({
-					url:ctx+"/material/materialDelete",
-					method:"post",
-					dataType:"json",
-					data:{"pkids" : pkids},
-					success:function(data){ 
-					console.log("Result=====" +JSON.stringify(data));
-						if(data != null ){
-							if(data.success){								
-								alert(data.message);						
-								window.location.reload();
-							}else{								
-								alert(data.message);
-								window.location.reload();
-							}
-						}	
-					},       
-					error:function(e){
-				    	 alert(e);
-				   }
-				});
-		 }				
+		 }
+ 		if(confirm("确定要删除您选中的物品信息吗？")){
+			$.ajax({
+				url:ctx+"/material/materialDelete",
+				method:"post",
+				dataType:"json",
+				data:{"pkids" : pkids},
+				success:function(data){ 
+				//console.log("Result=====" +JSON.stringify(data));
+					if(data != null ){						
+						if(data.success){								
+							alert(data.message);						
+							window.location.reload();
+						}else{								
+							alert(data.message);
+							window.location.reload();
+						}
+					}	
+				},       
+				error:function(e){
+			    	 alert(e);
+			   }
+			});
+		}		 				
 	}	
 })
 
-//验证勾选的复选框是否是待入库状态
+//验证勾选的复选框是否是"待入库"状态
 function statusFlagCheck(){	
 	var flag=true;
 	var statusFlagArray = $("input[type=checkbox][name='materialCheck']:checked");
-	$("input[type=checkbox][name='materialCheck']:checked").each(function(index,statusFlag){	
+	$("input[type=checkbox][name='materialCheck']:checked").each(function(index,statusFlag){
+		//statusFlag.value  js对象
 		if($(statusFlag).attr("statusFlag") != "stay"){
 			flag = false;
-			alert("待入库状态的物品信息才可删除！");
+			alert("待入库状态的物品才可入库或者删除！");
 		}
 		
 		if(flag == false){
@@ -440,3 +442,100 @@ function statusFlagCheck(){
 	})			
 	return flag;
 }
+
+//借用组织图
+ function chooseBorrowOperator(id){		
+			userSelect({
+				startOrgId : id,
+				expandNodeId : id,
+				nameType : 'long|short',
+				orgType : '',
+				departmentType : '',
+				departmentHeriarchy : '',
+				chkStyle : 'radio',
+	/*			jobCode : 'Manager,Senior_Manager',*/
+				callBack : selectBorrowUserBack
+			});
+			
+	
+ }
+
+//选取人员的回调函数
+function selectBorrowUserBack(array) {	
+	if (array && array.length > 0) {
+		$("#actionUser").val(array[0].username);
+		$("#actionUser").attr('hVal', array[0].userId);
+
+	} else {
+		$("#actionUser").val("");
+		$("#actionUser").attr('hVal', "");
+	}
+}
+//主办图标选择
+$('#materialBorrowUser').click(function() {
+	chooseBorrowOperator(serviceDepId);
+});
+
+
+
+//归还人员组织
+function chooseReturnOperator(id){		
+	userSelect({
+		startOrgId : id,
+		expandNodeId : id,
+		nameType : 'long|short',
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+/*			jobCode : 'Manager,Senior_Manager',*/
+		callBack : selectReturnUserBack
+	});
+
+}
+
+//选取人员的回调函数
+function selectReturnUserBack(array) {	
+	if (array && array.length > 0) {
+		$("#returnActionUser").val(array[0].username);
+		$("#returnActionUser").attr('hVal', array[0].userId);	
+	} else {
+		$("#returnActionUser").val("");
+		$("#returnActionUser").attr('hVal', "");
+	}
+}
+//主办图标选择
+$('#materialReturnUser').click(function() {
+	chooseReturnOperator(serviceDepId);
+});
+
+//退还人员组织
+function chooseRefundOperator(id){		
+	userSelect({
+		startOrgId : id,
+		expandNodeId : id,
+		nameType : 'long|short',
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+/*			jobCode : 'Manager,Senior_Manager',*/
+		callBack : selectRefundUserBack
+	});
+
+}
+
+//选取人员的回调函数
+function selectRefundUserBack(array) {	
+	if (array && array.length > 0) {
+		$("#refundActionUser").val(array[0].username);
+		$("#refundActionUser").attr('hVal', array[0].userId);	
+	} else {
+		$("#refundActionUser").val("");
+		$("#refundActionUser").attr('hVal', "");
+	}
+}
+//主办图标选择
+$('#materialRefundUser').click(function() {
+	chooseRefundOperator(serviceDepId);
+});

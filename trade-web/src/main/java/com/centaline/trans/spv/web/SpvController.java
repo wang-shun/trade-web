@@ -47,6 +47,7 @@ import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.product.entity.Product;
 import com.centaline.trans.product.entity.ProductCategory;
@@ -378,7 +379,13 @@ public class SpvController {
     		response.setMessage("保存资金监管签约成功！");
     	}catch(Exception e){
     		response.setSuccess(false);
-    		response.setMessage(e.getMessage());
+    		String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(sOut);
+			e.printStackTrace();
     	}
     	return response;
     }
@@ -398,7 +405,13 @@ public class SpvController {
     		response.setMessage("开启资金监管流程成功！");
     	}catch(Exception e){
     		response.setSuccess(false);
-    		response.setMessage(e.getMessage());
+    		String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(sOut);
+			e.printStackTrace();
     	}
     	return response;
     }
@@ -989,6 +1002,8 @@ public class SpvController {
    	public String cashFlowInAppprProcess(HttpServletRequest request,String source,String instCode,
    			String taskId,String handle,String businessKey)  {
        	String url="";
+       	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
+		businessKey = processInstance.getBusinessKey();
        	if(!StringUtils.isBlank(handle)){ 	
 	           	switch (handle) {
 	           	case "apply":

@@ -558,19 +558,33 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 
 		/** 3.保存到‘资金监管账户信息’表 */
+		List<ToSpvAccount> toSpvAccountOriList = toSpvAccountMapper.selectBySpvCode(spvCode);
+		
+		if(toSpvAccountOriList != null && !toSpvAccountOriList.isEmpty()){
+			for(ToSpvAccount acc : toSpvAccountOriList){
+				acc.setUpdateBy(user.getId());
+				acc.setUpdateTime(new Date());
+				acc.setIsDeleted("1");
+				toSpvAccountMapper.updateByPrimaryKeySelective(acc);
+			}
+		}
+		
 		List<ToSpvAccount> toSpvAccountList = spvBaseInfoVO.getToSpvAccountList();
 		if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
 			for (ToSpvAccount toSpvAccount : toSpvAccountList) {
-				if (toSpvAccount.getPkid() != null) {
-					toSpvAccount.setUpdateBy(user.getId());
-					toSpvAccount.setUpdateTime(new Date());
-					toSpvAccountMapper.updateByPrimaryKeySelective(toSpvAccount);
-				} else {
-					toSpvAccount.setCreateBy(user.getId());
-					toSpvAccount.setCreateTime(new Date());
-					toSpvAccount.setSpvCode(spvCode);
-					toSpvAccount.setIsDeleted("0");
-					toSpvAccountMapper.insertSelective(toSpvAccount);
+				if(!(toSpvAccount == null || toSpvAccount.getName() == null || toSpvAccount.getAccount() == null || toSpvAccount.getBank() == null || toSpvAccount.getTelephone() == null)){
+					if (toSpvAccount.getPkid() != null) {
+						toSpvAccount.setUpdateBy(user.getId());
+						toSpvAccount.setUpdateTime(new Date());
+						toSpvAccount.setIsDeleted("0");
+						toSpvAccountMapper.updateByPrimaryKeySelective(toSpvAccount);
+					} else {
+						toSpvAccount.setCreateBy(user.getId());
+						toSpvAccount.setCreateTime(new Date());
+						toSpvAccount.setSpvCode(spvCode);
+						toSpvAccount.setIsDeleted("0");
+						toSpvAccountMapper.insertSelective(toSpvAccount);
+					}
 				}
 			}
 		}
@@ -762,38 +776,12 @@ public class ToSpvServiceImpl implements ToSpvService {
 		String spvCode = toSpv.getSpvCode();
 		/** 2.spvCustList */
 		List<ToSpvCust> spvCustList = toSpvCustMapper.selectBySpvCode(spvCode);
-		List<ToSpvCust> spvNewCustList = Arrays.asList(null, null, null, null);
-		// 排序：买方->卖方->监管账户->资金方
-		for (ToSpvCust toSpvCust : spvCustList) {
-			if ("BUYER".equals(toSpvCust.getTradePosition())) {
-				spvNewCustList.set(0, toSpvCust);
-			} else if ("SELLER".equals(toSpvCust.getTradePosition())) {
-				spvNewCustList.set(1, toSpvCust);
-			} else if ("SPV".equals(toSpvCust.getTradePosition())) {
-				spvNewCustList.set(2, toSpvCust);
-			} else if ("FUND".equals(toSpvCust.getTradePosition())) {
-				spvNewCustList.set(3, toSpvCust);
-			}
-		}
 		/** 3.toSpvDe */
 		ToSpvDe toSpvDe = toSpvDeMapper.selectBySpvCode(spvCode);
 		/** 4.toSpvDeDetailList */
 		List<ToSpvDeDetail> toSpvDeDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
 		/** 5.toSpvAccountList */
 		List<ToSpvAccount> toSpvAccountList = toSpvAccountMapper.selectBySpvCode(spvCode);
-		List<ToSpvAccount> toSpvNewAccountList = Arrays.asList(null, null, null, null);
-		// 排序：买方->卖方->监管账户->资金方
-		for (ToSpvAccount toSpvAccount : toSpvAccountList) {
-			if ("BUYER".equals(toSpvAccount.getAccountType())) {
-				toSpvNewAccountList.set(0, toSpvAccount);
-			} else if ("SELLER".equals(toSpvAccount.getAccountType())) {
-				toSpvNewAccountList.set(1, toSpvAccount);
-			} else if ("SPV".equals(toSpvAccount.getAccountType())) {
-				toSpvNewAccountList.set(2, toSpvAccount);
-			} else if ("FUND".equals(toSpvAccount.getAccountType())) {
-				toSpvNewAccountList.set(3, toSpvAccount);
-			}
-		}
 		// PayeeAccountId -> PayeeAccountType
 		for (ToSpvDeDetail detail : toSpvDeDetailList) {
 			if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
@@ -828,10 +816,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 		/** 装载属性 */
 		spvBaseInfoVO.setToSpv(toSpv);
-		spvBaseInfoVO.setSpvCustList(spvNewCustList);
+		spvBaseInfoVO.setSpvCustList(spvCustList);
 		spvBaseInfoVO.setToSpvDe(toSpvDe);
 		spvBaseInfoVO.setToSpvDeDetailList(toSpvDeDetailList);
-		spvBaseInfoVO.setToSpvAccountList(toSpvNewAccountList);
+		spvBaseInfoVO.setToSpvAccountList(toSpvAccountList);
 		spvBaseInfoVO.setToSpvProperty(toSpvProperty);
 
 		return spvBaseInfoVO;
@@ -974,7 +962,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		for(ToSpvCashFlowApplyAttach attach : attachs){
 			attach.setUpdateBy(user.getId());
 			attach.setUpdateTime(new Date());
-			attach.setType(spvChargeInfoVO.getToSpvCashFlowApplyAttachType());
 			attach.setIsDeleted("1");
 			toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(attach);
 		}
@@ -985,6 +972,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 					if(toSpvCashFlowApplyAttach.getPkid() == null){
 						if(StringUtils.isNotBlank(toSpvCashFlowApplyAttach.getAttachId())){
 							toSpvCashFlowApplyAttach.setApplyId(toSpvCashFlowApply.getPkid().toString());
+							toSpvCashFlowApplyAttach.setType(spvChargeInfoVO.getToSpvCashFlowApplyAttachType());
 							//toSpvCashFlowApplyAttach.setType(toSpvCashFlowApplyAttach.getComment().substring(toSpvCashFlowApplyAttach.getComment().indexOf(".")+1, toSpvCashFlowApplyAttach.getComment().length()));
 							toSpvCashFlowApplyAttach.setIsDeleted("0");
 							toSpvCashFlowApplyAttach.setCreateBy(user.getId());
@@ -1030,6 +1018,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 				if(toSpvCashFlow.getPkid() == null){
 					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
 					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
+					toSpvCashFlow.setPayer("上海中原物业顾问有限公司");
+					toSpvCashFlow.setPayerAcc("76310188000148842");
+					toSpvCashFlow.setPayerBank("光大银行市北支行");
 					toSpvCashFlow.setCreateBy(user.getId());
 					toSpvCashFlow.setCreateTime(new Date());
 					toSpvCashFlow.setIsDeleted("0");
