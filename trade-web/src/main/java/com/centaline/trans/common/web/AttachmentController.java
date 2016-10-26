@@ -78,6 +78,29 @@ public class AttachmentController {
 		return response;
 	}
 
+	
+	@RequestMapping(value = "saveAttachmentForMaterial")
+	@ResponseBody
+	public AjaxResponse<String> saveAttachmentForMaterial(HttpServletRequest request,
+			FileUploadVO fileUploadVO) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			String attPkid = toAttachmentService.saveAttachmentForMaterial(fileUploadVO);
+			if(null != attPkid && !"".equals(attPkid)){
+				response.setSuccess(true);
+				response.setMessage(attPkid);
+			}else{
+				response.setSuccess(false);
+				response.setMessage("error");
+			}
+		}catch(Exception e){
+			response.setSuccess(false);
+			response.setMessage("保存失败！");
+		}
+		return response;
+	}
+
+	
 	@RequestMapping(value = "quereyAttachments")
 	@ResponseBody
 	public Map<String, Object> quereyAttachments(HttpServletRequest request,

@@ -9,6 +9,10 @@ public class MaterialPackageVo {
 	
     private String itemAddrCode;
     
+    private String attachPkid;
+    
+    private String relevantUser;
+    
     private List<MmMaterialItem> materialList;
     
 	public String getItemAddrCode() {
@@ -24,6 +28,19 @@ public class MaterialPackageVo {
 	public void setMaterialList(List<MmMaterialItem> materialList) {
 		this.materialList = materialList;
 	}
-
+	public String getAttachPkid() {
+		return attachPkid;
+	}
+	public void setAttachPkid(String attachPkid) {
+		this.attachPkid = attachPkid;
+	}
+	public String getRelevantUser() {
+		return relevantUser;
+	}
+	public void setRelevantUser(String relevantUser) {
+		this.relevantUser = relevantUser;
+	}
+	
+	
 	
 }

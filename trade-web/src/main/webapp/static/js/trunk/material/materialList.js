@@ -280,7 +280,7 @@ $("#materialBorrowClose").click(function(){
 $("#materialBorrowSubmit").click(function(){	
 	 var pkids = getPkidsArray();
 	 //var mmIoBatch = {}; 
-	 var actionUser = $("input[name='actionUser']").val();
+	 var actionUser = $("#actionUser").attr('hVal');//$("input[name='actionUser']").val();
 	 var actionPreDate = $("input[name='actionPreDate']").val();
 	 var actionReason = $("input[name='actionReason']").val();
 	 var actionRemark = $("#actionRemark").val();
@@ -331,7 +331,7 @@ $("#materialReturn").click(function(){
 $("#materialReturnSubmit").click(function(){	
 	 var pkids = getPkidsArray();
 	 //var mmIoBatch = {}; 
-	 var actionUser = $("input[name='returnActionUser']").val();
+	 var actionUser =  $("#returnActionUser").attr('hVal');//$("input[name='returnActionUser']").val();
 	 var actionRemark = $("#returnActionRemark").val();
 	 var flag = true;
 	 logActionReturnSubmit(pkids,actionUser,actionRemark,flag);
@@ -383,7 +383,7 @@ $("#materialRefund").click(function(){
 $("#materialRefundSubmit").click(function(){	
 	 var pkids = getPkidsArray();
 	 var flag = false;	
-	 var actionUser = $("input[name='refundActionUser']").val();
+	 var actionUser = $("#refundActionUser").attr('hVal');//$("input[name='refundActionUser']").val();
 	 var actionRemark = $("#refundActionRemark").val();
 	 logActionReturnSubmit(pkids,actionUser,actionRemark,flag);
 	 
@@ -442,3 +442,100 @@ function statusFlagCheck(){
 	})			
 	return flag;
 }
+
+//借用组织图
+ function chooseBorrowOperator(id){		
+			userSelect({
+				startOrgId : id,
+				expandNodeId : id,
+				nameType : 'long|short',
+				orgType : '',
+				departmentType : '',
+				departmentHeriarchy : '',
+				chkStyle : 'radio',
+	/*			jobCode : 'Manager,Senior_Manager',*/
+				callBack : selectBorrowUserBack
+			});
+			
+	
+ }
+
+//选取人员的回调函数
+function selectBorrowUserBack(array) {	
+	if (array && array.length > 0) {
+		$("#actionUser").val(array[0].username);
+		$("#actionUser").attr('hVal', array[0].userId);
+
+	} else {
+		$("#actionUser").val("");
+		$("#actionUser").attr('hVal', "");
+	}
+}
+//主办图标选择
+$('#materialBorrowUser').click(function() {
+	chooseBorrowOperator(serviceDepId);
+});
+
+
+
+//归还人员组织
+function chooseReturnOperator(id){		
+	userSelect({
+		startOrgId : id,
+		expandNodeId : id,
+		nameType : 'long|short',
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+/*			jobCode : 'Manager,Senior_Manager',*/
+		callBack : selectReturnUserBack
+	});
+
+}
+
+//选取人员的回调函数
+function selectReturnUserBack(array) {	
+	if (array && array.length > 0) {
+		$("#returnActionUser").val(array[0].username);
+		$("#returnActionUser").attr('hVal', array[0].userId);	
+	} else {
+		$("#returnActionUser").val("");
+		$("#returnActionUser").attr('hVal', "");
+	}
+}
+//主办图标选择
+$('#materialReturnUser').click(function() {
+	chooseReturnOperator(serviceDepId);
+});
+
+//退还人员组织
+function chooseRefundOperator(id){		
+	userSelect({
+		startOrgId : id,
+		expandNodeId : id,
+		nameType : 'long|short',
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+/*			jobCode : 'Manager,Senior_Manager',*/
+		callBack : selectRefundUserBack
+	});
+
+}
+
+//选取人员的回调函数
+function selectRefundUserBack(array) {	
+	if (array && array.length > 0) {
+		$("#refundActionUser").val(array[0].username);
+		$("#refundActionUser").attr('hVal', array[0].userId);	
+	} else {
+		$("#refundActionUser").val("");
+		$("#refundActionUser").attr('hVal', "");
+	}
+}
+//主办图标选择
+$('#materialRefundUser').click(function() {
+	chooseRefundOperator(serviceDepId);
+});
