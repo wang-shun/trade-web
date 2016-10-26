@@ -379,7 +379,13 @@ public class SpvController {
     		response.setMessage("保存资金监管签约成功！");
     	}catch(Exception e){
     		response.setSuccess(false);
-    		response.setMessage(e.getMessage());
+    		String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(sOut);
+			e.printStackTrace();
     	}
     	return response;
     }
@@ -399,7 +405,13 @@ public class SpvController {
     		response.setMessage("开启资金监管流程成功！");
     	}catch(Exception e){
     		response.setSuccess(false);
-    		response.setMessage(e.getMessage());
+    		String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut += "\tat " + s + "\r\n";
+	        }
+			response.setMessage(sOut);
+			e.printStackTrace();
     	}
     	return response;
     }
