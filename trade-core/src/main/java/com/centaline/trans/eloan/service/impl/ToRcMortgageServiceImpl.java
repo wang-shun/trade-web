@@ -18,10 +18,12 @@ import com.centaline.trans.eloan.repository.ToRcMortgageCardMapper;
 import com.centaline.trans.eloan.repository.ToRcMortgageInfoMapper;
 import com.centaline.trans.eloan.repository.ToRcMortgageMapper;
 import com.centaline.trans.eloan.service.ToRcMortgageService;
+import com.centaline.trans.eloan.util.CreateComment;
 import com.centaline.trans.eloan.vo.ToRcForceRegisterVO;
 import com.centaline.trans.eloan.vo.ToRcMortgageCardVO;
 import com.centaline.trans.eloan.vo.ToRcMortgageVO;
 import com.centaline.trans.material.entity.MmMaterialItem;
+import com.centaline.trans.material.enums.MaterialStatusEnum;
 import com.centaline.trans.material.service.MmMaterialItemService;
 
 @Service
@@ -81,7 +83,8 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 				toRcMortgageInfoMapper.insertSelective(toRcMortgageInfo);
 				
 				MmMaterialItem mmMaterialItem = transferToMmItem(toRcMortgageInfo,caseCode);
-				mmMaterialItem.setItemStatus("stay");
+				mmMaterialItem.setItemStatus(MaterialStatusEnum.STAY.getCode());
+				mmMaterialItem.setIsDeleted("N");
 				// 新增
 				mmMaterialItemService.insertMaterialInfoFromSpv(mmMaterialItem);
 			} else {
@@ -107,14 +110,13 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 		mmMaterialItem.setItemCategory(toRcMortgageInfo.getMortgageCategory());
 		mmMaterialItem.setItemResource(ToRcMortgageServiceImpl.ITEM_RESOURCE_RC);
 		mmMaterialItem.setItemManager(toRcMortgageInfo.getItemManager());
-		mmMaterialItem.setItemBusinessRemark("");
+		mmMaterialItem.setItemBusinessRemark(CreateComment.createMmComment(toRcMortgageInfo));
 		
 		return mmMaterialItem;
 	}
 	
 	@Override
-	public int saveRcMortgage(ToRcMortgageVO toRcMortgageVO) {
-		int i = 0;
+	public void saveRcMortgage(ToRcMortgageVO toRcMortgageVO) {
 		if(toRcMortgageVO.getRcRiskControl().getPkid()==null) {
 			rcRiskControlMapper.insertSelective(toRcMortgageVO.getRcRiskControl());
 			
@@ -122,10 +124,9 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 			toRcMortgage.setRcId(toRcMortgageVO.getRcRiskControl().getPkid());
 			toRcMortgageMapper.insertSelective(toRcMortgage);
 			
-			for(ToRcMortgageInfo toRcMortgageInfo : toRcMortgageVO.getToRcMortgageInfoList()) {
-				toRcMortgageInfo.setRiskControlId(toRcMortgageVO.getRcRiskControl().getPkid());
-				i+= toRcMortgageInfoMapper.insertSelective(toRcMortgageInfo);
-			}
+			saveInfoAndTransferToMmItem(toRcMortgageVO.getToRcMortgageInfoList(),
+					toRcMortgageVO.getRcRiskControl().getPkid(),
+					toRcMortgageVO.getRcRiskControl().getCaseCode());
 		} else {
 			rcRiskControlMapper.updateByPrimaryKeySelective(toRcMortgageVO.getRcRiskControl());
 			// 更新押卡表
@@ -133,13 +134,10 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 			toRcMortgage.setRcId(toRcMortgageVO.getRcRiskControl().getPkid());
 			toRcMortgageMapper.updateMortgageByRcId(toRcMortgage);
 			// 更新抵押物品基本信息
-			toRcMortgageInfoMapper.deleteToRcMortgageInfoByRcId(toRcMortgageVO.getRcRiskControl().getPkid());
-			for(ToRcMortgageInfo toRcMortgageInfo : toRcMortgageVO.getToRcMortgageInfoList()) {
-				toRcMortgageInfo.setRiskControlId(toRcMortgageVO.getRcRiskControl().getPkid());
-				i+= toRcMortgageInfoMapper.insertSelective(toRcMortgageInfo);
-			}
+			saveInfoAndTransferToMmItem(toRcMortgageVO.getToRcMortgageInfoList(),
+					toRcMortgageVO.getRcRiskControl().getPkid(),
+					toRcMortgageVO.getRcRiskControl().getCaseCode());
 		}
-		return i;
 	}
 	
 	@Override
