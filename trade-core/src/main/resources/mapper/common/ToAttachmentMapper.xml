@@ -163,14 +163,41 @@
     order by PRE_FILE_CODE
   </select>
   
-   <select id="findAttachmentByCount" parameterType="com.centaline.trans.common.entity.ToAttachment" resultType="java.lang.Integer">
-
+  
+    <select id="quereyAttachmentForMaterial" resultMap="BaseResultMap" parameterType="com.centaline.trans.common.entity.ToAttachment" >
     select 
-
-    count(1)
-
+    <include refid="Base_Column_List" />
     from sctrans.T_TO_ATTACHMENT
-
+    where 1=1 
+    <if test="pkid != null" >
+    	and PKID = #{pkid,jdbcType=BIGINT}
+    </if>
+    <if test="caseCode != null" >
+      	and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="preFileAdress != null" >
+     	and PRE_FILE_ADRESS = #{preFileAdress,jdbcType=VARCHAR}
+    </if>
+    <if test="preFileCode != null" >
+     	and PRE_FILE_CODE = #{preFileCode,jdbcType=VARCHAR}
+    </if>
+    <if test="partCode != null" >
+     	and PART_CODE = #{partCode,jdbcType=VARCHAR}
+    </if>
+    <if test="fileCat != null" >
+     	and FILE_CAT = #{fileCat,jdbcType=VARCHAR}
+    </if>
+    <if test="fileName != null" >
+     	and FILE_NAME = #{fileName,jdbcType=VARCHAR}
+    </if>
+    order by PRE_FILE_CODE
+  </select>
+  
+  
+   <select id="findAttachmentByCount" parameterType="com.centaline.trans.common.entity.ToAttachment" resultType="java.lang.Integer">
+    select 
+    count(1)
+    from sctrans.T_TO_ATTACHMENT
     where 1=1 
     <if test="caseCode != null" >
       	and CASE_CODE = #{caseCode,jdbcType=VARCHAR}

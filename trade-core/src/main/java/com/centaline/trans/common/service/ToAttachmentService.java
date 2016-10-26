@@ -8,8 +8,11 @@ import com.centaline.trans.common.vo.FileUploadVO;
 public interface ToAttachmentService {
 
 	public void saveAttachment(FileUploadVO fileUploadVO);
+	public String saveAttachmentForMaterial(FileUploadVO fileUploadVO);
 	
 	public List<ToAttachment> quereyAttachments(ToAttachment toAttachment);
+	
+	public List<ToAttachment> quereyAttachmentForMaterial(ToAttachment toAttachment);
 	
 	public boolean delAttachment(List<Long> pkIdArr);
 

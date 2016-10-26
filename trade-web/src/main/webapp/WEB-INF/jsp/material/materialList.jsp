@@ -152,10 +152,11 @@
                        <div class="line">
                            <div class="form_content">
                                <label class="control-label sign_left_small">借用人</label>
-                               <input class="teamcode input_type" placeholder="" value="" name="actionUser" id="actionUser">
-                               <div class="input-group float_icon organize_icon">
-                               <i class="icon iconfont"></i>
-                           </div>
+                               <input class="teamcode input_type" placeholder="" value="" name="actionUser"  id="actionUser" 
+                                hVal="" readonly="readonly"	onclick="chooseBorrowOperator('${serviceDepId}')" />
+                               <div class="input-group float_icon organize_icon" id="materialBorrowUser">
+                               		<i class="icon iconfont">&#xe627;</i>
+                               </div>
                            </div>
                            <div class="form_content input-daterange" id="datepicker_1">
                                <label class="control-label sign_left_small">预计归还日期</label>
@@ -194,7 +195,12 @@
                    <div class="line">
                        <div class="form_content">
                            <label class="control-label sign_left_small">归还人</label>
-                           <input class="teamcode input_type" placeholder="" value=""  name="returnActionUser" id="returnActionUser">
+                           <input class="teamcode input_type" placeholder="" value=""  name="returnActionUser" id="returnActionUser"
+							hVal="" readonly="readonly"	onclick="chooseReturnOperator('${serviceDepId}')" />
+							
+							<div class="input-group float_icon organize_icon" id="materialReturnUser">
+                               <i class="icon iconfont">&#xe627;</i>
+                            </div>
                        </div>
                    </div>
                    <div class="line clearfix">
@@ -223,7 +229,11 @@
                    <div class="line">
                        <div class="form_content">
                            <label class="control-label sign_left_small">退还人</label>
-                           <input class="teamcode input_type" placeholder="" value=""  name="refundActionUser" id="refundActionUser">
+                           <input class="teamcode input_type" placeholder="" value=""  name="refundActionUser" id="refundActionUser"
+							hVal="" readonly="readonly"	onclick="chooseRefundOperator('${serviceDepId}')" />							
+							<div class="input-group float_icon organize_icon" id="materialRefundUser">
+                               <i class="icon iconfont">&#xe627;</i>
+                            </div>
                        </div>
                    </div>
                    <div class="line clearfix">
@@ -259,7 +269,11 @@
   	</form>
 <content tag="local_script"> 
 <!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script>
+
+<%-- 
+引入jquery导致不能弹出层
+<script src="${ctx}/static/js/jquery-2.1.1.js"></script> 
+--%>
 <script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
 <script src="${ctx}/static/js/bootstrap.min.js"></script>
 <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -278,6 +292,10 @@
 <script src="${ctx}/js/trunk/material/materialList.js"></script> 
 
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>	
+
+<!-- 选择组织控件 -->
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 	
+<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 <script	id="template_materialInfoList" type="text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
