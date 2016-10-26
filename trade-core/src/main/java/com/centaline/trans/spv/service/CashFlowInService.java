@@ -11,13 +11,6 @@ import com.centaline.trans.spv.vo.SpvRecordedsVO;
 import com.centaline.trans.spv.vo.SpvReturnCashflowVO;
 
 public interface CashFlowInService {
-	/**
-	 * @Title: cashFlowInPage 
-	 * @Description: 入款申请新增、修改页面
-	 * @author: hejf  
-	 * @throws
-	 */
-	void cashFlowInPage(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
 	 * @Title: cashFlowInPageDeal 
@@ -93,31 +86,8 @@ public interface CashFlowInService {
 	void cashFlowInFinanceAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeInAppr) throws Exception ;
 	
 */	
-	/**
-	 * @Title: cashFlowInFinanceSecondAduitDeal 
-	 * @Description: 入款财务复审操作
-	 * @author: hejf  
-	 * @throws
-	 */
-	void cashFlowInFinanceSecondAduitDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeInAppr) throws Exception ;
 
-	/**
-	 * @Title: cashFlowInFinanceSecondAduitProcess 
-	 * @Description: 财务入款页面
-	 * @author: hejf  
-	 * @throws
-	 */
-	void cashFlowInDealProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
-	/**
-	 * @Title: cashFlowInFinanceSecondAduitDeal 
-	 * @Description: 财务入款操作
-	 * @author: hejf 
-	 * @throws
-	 */
-	void cashFlowInDeal(HttpServletRequest request,String instCode,String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeInAppr) throws Exception ;
-	
-	void cashFlowInPageDealApply(HttpServletRequest request, String instCode, String taskId, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception;
 	
 	SpvReturnCashflowVO saveCashFlowApply(HttpServletRequest request, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception;
 	/**
