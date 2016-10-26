@@ -299,7 +299,8 @@ $(document).ready(function(){
 		 			        	 window.close(); //关闭子窗口.
 		 				     }else{
 		 				    	 alert(data.message);
-		 				    	 window.location.href = ctx+"/spv/saveHTML?pkid="+data.content;
+		 				    	 //window.location.href = ctx+"/spv/saveHTML?pkid="+data.content;
+						    	 window.location.href = ctx+"/spv/spvList";
 					     } 
 				    	 }else{
 				    		 isSuccess = false;
@@ -874,8 +875,8 @@ $(document).ready(function(){
 		}
 		
 		/**新增*/
+		var customFlag = true;
    $("input[name^='toSpvAccountList'][name$='accountType']").each(function(i,e){
-	   var customFlag = true;
 	   var index = $(e).attr("name").replace('toSpvAccountList[','').replace('].accountType','');
 	   if(parseInt(index) > 3){
 		var buyerAccountName = $("input[name='toSpvAccountList["+index+"].name']").val();
@@ -1396,6 +1397,8 @@ function updateAccTypeOptions(){
 				return false;
 			}
 		});
+	}).change(function(){
+		$(this).attr("value",this.value);
 	});
 }
 
