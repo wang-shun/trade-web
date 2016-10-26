@@ -271,7 +271,9 @@ public class MaterialManagementController {
 			mmIoBatch.setCaseCode(materialList.get(0).getCaseCode());				
 			mmIoBatch.setLogAction(MaterialActionEnum.IN.getCode());//入库操作
 			mmIoBatch.setManager(userId);
-			mmIoBatch.setAttachId(Long.parseLong(attachPkid));
+			if(!"".equals(attachPkid) && null != attachPkid){
+				mmIoBatch.setAttachId(Long.parseLong(attachPkid));
+			}
 			mmIoBatch.setActionUser(relevantUser);
 			mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);			
 			

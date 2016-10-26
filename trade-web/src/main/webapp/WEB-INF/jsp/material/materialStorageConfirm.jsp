@@ -95,6 +95,7 @@
 					<c:choose>
 						<c:when test="${accesoryList!=null}">
 							<h5>上传附件</h5>
+							<span style="color: red">【说明：单次上传客户确认书，请做成一张附件上传！】</span>
 							<div class="ibox-content" style="height: 280px; overflow-y: scroll;">
 								<h5>${accesoryList[0].accessoryName }</h5>
 								
