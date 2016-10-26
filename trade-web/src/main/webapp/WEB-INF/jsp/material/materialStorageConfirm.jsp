@@ -77,11 +77,12 @@
                                <div class="line">
                                    <p class="input-infoht">
                                        <label>文件位置编号</label>
+                                       <input type="hidden" id="attachPkid"  name="attachPkid"  value="" />
                                        <input type="text" value="" class="select_control info_one"  name="itemAddrCode"  id="itemAddrCode">
                                    <p>
                                    <p class="input-infoht"  style="position:relative;">
                                        <label>申请人</label>
-                                       <input type="text" value="" class="select_control info_two" name="itemAddrCode"  id="itemAddrCode">
+                                       <input type="text" value="" class="select_control info_two" name="relevantUser"  id="relevantUser">
                                        <i class="icon iconfont input-group add-icon organize_icon"></i>
                                    <p>
                                </div>
@@ -94,6 +95,7 @@
 					<c:choose>
 						<c:when test="${accesoryList!=null}">
 							<h5>上传附件</h5>
+							<span style="color: red">【说明：单次上传客户确认书，请做成一张附件上传！】</span>
 							<div class="ibox-content" style="height: 280px; overflow-y: scroll;">
 								<h5>${accesoryList[0].accessoryName }</h5>
 								
@@ -278,6 +280,7 @@
   	<input type="hidden" id="ctx" value="${ctx}" />
   	<input type="hidden" id="caseCode" value="${mmMaterialItemList.get(0).caseCode}" />
   	
+  	
 <content tag="local_script"> 
 <!-- Mainly scripts -->
 <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
@@ -319,7 +322,7 @@
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <script src="${ctx}/js/trunk/material/materialList.js"></script> 
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>	
-
+<script src="${ctx}/js/trunk/material/attachmentForMaterial.js"></script> 
 <script type="text/javascript">
 var ctx = "${ctx}";
 $(function(){				
@@ -335,8 +338,11 @@ $("#materialStorgaeSubmit").click(function(){
 		if(!itemAddrCodeCheck()){			
 			return false;
 		}	
+		if(!imgCheckNum()){
+			return false;
+		}
 		//上传附件信息
-		deleteAndModify();
+		attachmentForMaterial();
 		//表单提交保存业务信息
 		$("#materialStorgaeForm").submit();
 })
@@ -349,6 +355,17 @@ function itemAddrCodeCheck(){
 		alert("文件位置编号必须填写！");
 	}
 	return itemAddrCodeFlag;
+}
+
+
+function  imgCheckNum(){
+	var imgFlag = true;
+	var picDiv=$("div[name='allPicDiv1']");
+	if(picDiv.length > 1){
+		imgFlag = false;
+		alert("客户确认书请做成一张附件再上传！");
+	}
+	return imgFlag;
 }
 </script>
 </content>

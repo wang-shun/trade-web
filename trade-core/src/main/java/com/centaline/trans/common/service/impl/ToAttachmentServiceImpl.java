@@ -66,6 +66,42 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 			}
 		}
 	}
+	/**
+	 * 保存附件改变
+	 */
+	@Override
+	public String saveAttachmentForMaterial(FileUploadVO fileUploadVO) {
+		String toAttachmentPkid = null;
+		List<String> preFileCodes = fileUploadVO.getFramePart();
+		int size = preFileCodes.size();
+		
+		if(fileUploadVO.getPkIdArr() != null) {
+			delAttachment(fileUploadVO.getPkIdArr());
+		}
+		
+		for(int i=0; i<size; i++) {
+			ToAttachment toAttachment = new ToAttachment();
+			toAttachment.setCaseCode(fileUploadVO.getCaseCode());
+			toAttachment.setPartCode(fileUploadVO.getPartCode());
+			toAttachment.setFileName(fileUploadVO.getPicName().get(i));
+			
+			int length = toAttachment.getFileName().length();
+			int index = toAttachment.getFileName().lastIndexOf(".");
+			toAttachment.setFileCat(fileUploadVO.getPicName().get(i).substring(index+1, length));
+			
+			toAttachment.setPreFileAdress(fileUploadVO.getPictureNo().get(i));
+			toAttachment.setPreFileCode(preFileCodes.get(i));
+			if(toAttachmentMapper.findAttachmentByCount(toAttachment) == 0) {
+				toAttachmentMapper.insertSelective(toAttachment);
+				saveRcAttachment(fileUploadVO.getCaseCode(),fileUploadVO.getPartCode(),toAttachment.getPkid());
+				toAttachmentPkid = toAttachment.getPkid().toString();//获取插入附件的id
+			}
+		}
+		return toAttachmentPkid;
+	}
+	
+	
+	
 	
 	/***
 	 *   风控维持附件表的一个关联关系
@@ -100,6 +136,11 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 	@Override
 	public List<ToAttachment> quereyAttachments(ToAttachment toAttachment) {
 		return toAttachmentMapper.quereyAttachments(toAttachment);
+	}
+	
+	@Override
+	public List<ToAttachment> quereyAttachmentForMaterial(ToAttachment toAttachment) {
+		return toAttachmentMapper.quereyAttachmentForMaterial(toAttachment);
 	}
 
 	@Override

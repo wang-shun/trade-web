@@ -572,7 +572,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		List<ToSpvAccount> toSpvAccountList = spvBaseInfoVO.getToSpvAccountList();
 		if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
 			for (ToSpvAccount toSpvAccount : toSpvAccountList) {
-				if(!(toSpvAccount == null || toSpvAccount.getName() == null || toSpvAccount.getAccount() == null || toSpvAccount.getBank() == null || toSpvAccount.getTelephone() == null)){
 					if (toSpvAccount.getPkid() != null) {
 						toSpvAccount.setUpdateBy(user.getId());
 						toSpvAccount.setUpdateTime(new Date());
@@ -585,7 +584,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 						toSpvAccount.setIsDeleted("0");
 						toSpvAccountMapper.insertSelective(toSpvAccount);
 					}
-				}
 			}
 		}
 

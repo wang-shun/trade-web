@@ -90,6 +90,21 @@
                             资金出账申请
                         </div>
                         <div class="info_content">
+                                                    <div class="line">
+                                <p>
+                                    <label>
+                                        案件编号
+                                    </label>
+                                    <span class="info_two">${spvBaseInfoVO.toSpv.caseCode }</span>
+                                </p>
+
+                                <p>
+                                    <label>
+                                        合约编号
+                                    </label>
+                                    <span class="info_two">${spvBaseInfoVO.toSpv.spvCode }</span>
+                                </p>
+                            </div>
                             <div class="line">
                                 <p>
                                     <label>
@@ -112,28 +127,6 @@
                                 </p>
 
                             </div>
-<%--                             <div class="line">
-                                <p>
-                                    <label>
-                                        收款人名称
-                                    </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].name }</span>
-                                </p>
-
-                                <p>
-                                    <label>
-                                        收款人账户
-                                    </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].account }</span>
-                                </p>
-
-                                <p>
-                                    <label>
-                                        收款人开户行
-                                    </label>
-                                    <span class="info">${spvBaseInfoVO.toSpvAccountList[1].bank }</span>
-                                </p>
-                            </div> --%>
                         </div>
                         <div class="mt20">
                             <div class="agree-tile">
@@ -167,15 +160,11 @@
                                         <c:set var="sumFundAmt" value="0"/>
                                         <c:set var="codeArrStr" value=""/>
                                         <c:forEach items="${deDetailMixList }" var="mix" varStatus="status1">
-                                        <c:set var="sumTotalAmt" value="${sumTotalAmt + mix.totalDeAmount }" />
-                                        <c:set var="sumSellerAmt" value="${sumSellerAmt + mix.sellerDeAmount }"/>
-                                        <c:set var="sumFundAmt" value="${sumFundAmt + mix.fundDeAmount }"/>
+                                        <c:set var="sumTotalAmt" value="${sumTotalAmt + mix.totalDeAmount}"/>
+                                        <c:set var="sumSellerAmt" value="${sumSellerAmt + mix.sellerDeAmount}"/>
+                                        <c:set var="sumFundAmt" value="${sumFundAmt + mix.fundDeAmount}"/>
                                         <c:set var="codeArrStr" value="${mix.deCondCode},${codeArrStr }"/>
                                         <tr>
-<%--                                             <td>
-                                                <c:if test="${status1.count eq 1 }">
-                                                ${fn:length(deDetailMixList) }
-                                                </c:if> --%>
                                             </td>
                                             <td>
                                                 <aist:dict id="" name="" clazz="form-control input-one"
@@ -183,13 +172,13 @@
 									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict>
                                             </td>
                                             <td>
-                                                <c:if test="${mix.totalDeAmount != 0}">${mix.totalDeAmount }万</c:if>
+                                                <c:if test="${not empty mix.totalDeAmount}">${mix.totalDeAmount }万</c:if>
                                             </td>
                                             <td>
-                                                <c:if test="${mix.sellerDeAmount != 0}">${mix.sellerDeAmount }万</c:if>
+                                                <c:if test="${not empty mix.sellerDeAmount}">${mix.sellerDeAmount }万</c:if>
                                             </td>
                                             <td>
-                                                <c:if test="${mix.fundDeAmount != 0}">${mix.fundDeAmount }万</c:if>
+                                                <c:if test="${not empty mix.fundDeAmount}">${mix.fundDeAmount }万</c:if>
                                             </td>
                                         </tr>
                                         </c:forEach>
@@ -562,8 +551,7 @@ $(function() {
 			$(e).remove();
 		}
 	});
-	/*	$("#addTr2").find("select").change(function(){
-		debugger;
+		$("#addTr2").find("select").change(function(){
 		if($(this).find("option:selected").val() == ''){
 			$("select[name$='toSpvCashFlow.payer'] option:nth-child(1)").prop("selected",true);
 			$("input[name$='toSpvCashFlow.payerAcc']").val('');
@@ -610,7 +598,7 @@ $(function() {
 				}
 			}
 		}
-	}); */
+	}); 
 	//图片渲染
 	if($("img[id^='image_']").size()>0){
 		$('.wrapper-content').viewer('destroy');
@@ -634,14 +622,14 @@ $(function() {
 function getTR(index){
 	debugger;
 	index = sum;
-/* 	var sellerNameSelect = '';
+ 	var sellerNameSelect = '';
 	var fundNameSelect = '';
 	
 	if(accountType == 'seller'){
 		fundNameSelect = 'selected="selected"';
 	}else if(accountType == 'fund'){
 		sellerNameSelect = 'selected="selected"';
-	} */
+	} 
 	
 	var  $str='';
 	$str+='<tr>';
@@ -770,7 +758,7 @@ function renderFileUpload(k,a){
     })
 }
 
-/* function selectChange(i,index){
+ function selectChange(i,index){
 	if(i == 0){
 		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('');
 		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('');
@@ -781,7 +769,7 @@ function renderFileUpload(k,a){
 		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('${bankNameList[1].account}');
 		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('${bankNameList[1].bankName}');
 	}
-} */
+} 
 
 function rescCallbocak(){
 	 window.opener.location.reload(); //刷新父窗口
