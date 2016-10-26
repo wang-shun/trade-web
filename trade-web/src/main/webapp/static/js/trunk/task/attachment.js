@@ -165,7 +165,7 @@ function getExplPicByhouseCode() {
 						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
 						trStr+="<div class=\"preview span12\">";
 						trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
-						trStr+="<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' alt=''>";
+						trStr+="<img src='"+appName+"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' alt='' width='80px' height='80px'>";
 						trStr+="</div>";
 						trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
 						trStr+="<button onclick=\"romoveDiv('picContainers',"+value.pkid+");\" class=\"btn red\""; 
