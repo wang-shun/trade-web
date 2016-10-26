@@ -393,29 +393,6 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			taskService.submitTask(taskId, variables);
 	}
 
-	@Override
-	public void cashFlowInFinanceSecondAduitProcess(HttpServletRequest request, String source, String instCode,
-			String taskId, String handle, String businessKey) {
-		String spvCode;
-        SpvBaseInfoVO spvBaseInfoVO;
-        SpvChargeInfoVO spvChargeInfoVO = toSpvService.findSpvChargeInfoVOByCashFlowApplyCode(businessKey);
-
-        if(spvChargeInfoVO != null && spvChargeInfoVO.getToSpvCashFlowApply() != null && !StringUtils.isBlank(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode())){
-        	spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
-        	ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
-        	spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv.getPkid());
-        	String applyAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getApplyAuditor()).getRealName();
-        	String ftPreAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor()).getRealName();
-        	String ftPostAuditorName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getFtPostAuditor()).getRealName();
-        	String createByName = uamSessionService.getSessionUserById(spvChargeInfoVO.getToSpvCashFlowApply().getCreateBy()).getRealName();
-        	request.setAttribute("applyAuditorName", applyAuditorName);
-        	request.setAttribute("ftPreAuditorName", ftPreAuditorName);
-        	request.setAttribute("ftPostAuditorName", ftPostAuditorName);
-        	request.setAttribute("createByName", createByName);
-        	request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
-        	request.setAttribute("spvChargeInfoVO", spvChargeInfoVO);
-        }        
-	}
 
 	@Override
 	public void cashFlowInFinanceSecondAduitDeal(HttpServletRequest request, String instCode, String taskId,
@@ -521,16 +498,6 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		
 	}
 	
-	//除万操作
-	private void divideTenThousand(SpvChargeInfoVO spvChargeInfoVO){
-		List<SpvCaseFlowOutInfoVO> spvCaseFlowOutInfoVOList = spvChargeInfoVO.getSpvCaseFlowOutInfoVOList();
-		if(spvCaseFlowOutInfoVOList != null && !spvCaseFlowOutInfoVOList.isEmpty()){
-			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO : spvCaseFlowOutInfoVOList){
-				ToSpvCashFlow toSpvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
-				toSpvCashFlow.setAmount(toSpvCashFlow.getAmount() == null?null:toSpvCashFlow.getAmount().divide(new BigDecimal(10000)));
-			}		
-		}
-	}
 	
 	@Override
 	public void cashFlowOutApprDealAppDelete(HttpServletRequest request, String instCode, String pkid,
