@@ -72,4 +72,13 @@ public class CaseModifyController {
 		}
 		return new AjaxResponse(false,msg);
 	}
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "checkCaseMapping.json")
+	@ResponseBody
+	public AjaxResponse checkCaseMapping(@RequestParam(required = true) String salesOrgId){
+		
+		Boolean result = tsTeamScopeTargetService.checkCaseMapping(salesOrgId);
+		return new AjaxResponse(result);
+	}
 }

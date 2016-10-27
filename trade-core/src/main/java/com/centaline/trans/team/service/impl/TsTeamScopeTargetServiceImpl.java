@@ -98,4 +98,27 @@ public class TsTeamScopeTargetServiceImpl implements TsTeamScopeTargetService {
 		return "";
 	}
 
+	@Override
+	public Boolean checkCaseMapping(String salesOrgId) {
+		Org salesOrg = UamUserOrgService.getComapnyByOrgId(salesOrgId);
+
+		if (salesOrg == null || StringUtils.isBlank(salesOrg.getDepHierarchy().trim())) {
+			return false;
+		}
+		if (DepTypeHierarchy.BUSIAR.getCode().equals(salesOrg.getDepHierarchy())) {
+			TsTeamScopeAr ar = new TsTeamScopeAr();
+			ar.setArCode(salesOrg.getOrgCode());
+			List<TsTeamScopeAr> list = tsTeamScopeArMapper.getTsTeamScopeArListByProperty(ar);
+			return list != null && !list.isEmpty(); 
+		}
+		
+		if (DepTypeHierarchy.BUSIGRP.getCode().equals(salesOrg.getDepHierarchy())) {
+			TsTeamScopeGrp grp = new TsTeamScopeGrp();
+			grp.setGrpCode(salesOrg.getOrgCode());
+			List<TsTeamScopeGrp> list = tsTeamScopeGrpMapper.getTsTeamScopeGrpListByProperty(grp);
+			return list != null && !list.isEmpty(); 
+		}
+		return false;
+	}
+
 }

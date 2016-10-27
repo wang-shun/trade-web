@@ -118,6 +118,9 @@
 								<button class="btn btn-warning" id="addCaseMapping">
 									<span class="bold">添加</span>
 								</button>
+								<button class="btn btn-warning" id="checkCaseMapping">
+									<span class="bold">检查映射</span>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -147,6 +150,10 @@
 				
 				$('#addCaseMapping').click(function() {
 					addCaseMapping();
+				});
+				
+				$('#checkCaseMapping').click(function() {
+					checkCaseMapping();
 				});
 
 				getAllTeamList();
@@ -282,6 +289,31 @@
 							alert("修改成功!");
 						} else {
 							alert(data.message);
+						}
+					}
+				});
+			}
+			
+			function checkCaseMapping(){
+				var salesOrgId = $("#salesCode").val().trim();
+				if (salesOrgId.length == 0) {
+					alert("组织为空!");
+					return;
+				}
+				var data = {};
+				data.salesOrgId = salesOrgId;
+
+				$.ajax({
+					async : false,
+					url : ctx + "/caseModify/checkCaseMapping.json",
+					method : "post",
+					dataType : "json",
+					data : data,
+					success : function(data) {
+						if (data.success) {
+							alert("配置已经存在！");
+						} else {
+							alert("配置不存在！");
 						}
 					}
 				});
