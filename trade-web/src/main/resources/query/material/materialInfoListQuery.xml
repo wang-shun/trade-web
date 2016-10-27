@@ -141,7 +141,7 @@
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  ORDER BY T.CREATE_TIME DESC
+			  ORDER BY T.ITEM_INPUT_TIME ASC 
 			</orderBySql>
 		</searchSql>
 		<grid>

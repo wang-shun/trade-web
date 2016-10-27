@@ -1032,10 +1032,8 @@
 						</a> 
 					</div>
 					
-					<div class="ibox-content panel-collapse collapse" id="second">
-						
+					<div class="ibox-content panel-collapse collapse" id="second">						
 						<div id="wizard1">
-
 							<h1>询价</h1>
 						   <div style="width:100%">
 							<div class="step-content" style="margin-top: -25px;">
@@ -1061,15 +1059,13 @@
 								  </div>
 							</div>
 
-							<h1>提醒清单</h1>
-							
+							<h1>提醒清单</h1>							
 						    <div style="width:100%">
 							<div class="step-content">
 
 								<div class="ibox-title">
 									<h5>备件列表</h5>
-									<a class="btn btn-primary pull-right" href="#" id="sendSMS1">发送短信提醒</a>
-									
+									<a class="btn btn-primary pull-right" href="#" id="sendSMS1">发送短信提醒</a>									
 								</div>
 
 								<table id="table_list_5"></table>
@@ -1091,177 +1087,166 @@
 							<div class="step-content" style="margin-top: -15px;">
 								<div class="row">
 								<form id="mortgageForm1">
-									<input type="hidden" name="pkid" id="pkid"/>
-									<input type="hidden" name="caseCode" value="${caseCode}">
-									<input type="hidden" name="isMainLoanBank" value="0"/>
-									
-									<div class="form-group">
-										<label class="col-sm-2 control-label">贷款类型<span class="star">*</span>：</label>
-										<div class="col-sm-10">
-											<aist:dict id="mortType" name="mortType"
-												clazz="form-control m-b" display="select" dictType="30016"
-												defaultvalue="" />
-
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">贷款总额<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<input type="text" name="mortTotalAmount"
-												id="mortTotalAmount" class="form-control" onkeyup="checknum(this)" placeholder="万元">
-										</div>
-										<label class="col-sm-2 control-label" style="width:15%">商贷部分金额<span class="star">*</span>：</label>
-										<div class="col-md-2" style="width:18%">
-											<input type="text" name="comAmount" id="comAmount"
-												class="form-control" onkeyup="checknum(this)" placeholder="万元">
-										</div>
-										<label class="col-sm-2 control-label">商贷部分年限<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<input type="text" name="comYear" id="comYear"
-												class="form-control" onkeyup="checknum(this)">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间"
-												class="form-control"  onkeyup="autoCompleteComDiscount(this)">
-										</div>
-										<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>
-										<div class="col-md-2" style="width:18%">
-											<input type="text" name="prfAmount" id="prfAmount"
-												class="form-control" onkeyup="checknum(this)" placeholder="万元">
-										</div>
-										<label class="col-sm-2 control-label">公积金贷款年限：</label>
-										<div class="col-md-2">
-											<input type="text" name="prfYear" id="prfYear"
-												class="form-control" onkeyup="checknum(this)">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-sm-2 control-label">主贷人<span class="star">*</span>：</label>
-										<div class="col-md-2">
-										<select name="custCode" id="custCode" class="form-control">
-										</select>
-										<input type="hidden" name="custName" id="custName" />
-										</div>
-										<label class="col-sm-2 control-label" style="width:15%">主贷人单位：</label>
-										<div class="col-md-2" style="width:18%">
-											<input type="text" name="custCompany" id="custCompany"
-												class="form-control">
-										</div>
-										<label class="col-sm-2 control-label">放款方式<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<aist:dict id="lendWay" name="lendWay" clazz="form-control"
-												display="select" dictType="30017" defaultvalue="" />
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-sm-2 control-label">信贷员姓名<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<input type="text" name="loanerName" id="loanerName"
-												placeholder="姓名" class="form-control">
-										</div>
-										<label class="col-sm-2 control-label" style="width:15%">信贷员电话<span class="star">*</span>：</label>
-										<div class="col-md-2" style="width:18%">
-											<input type="text" name="loanerPhone" id="loanerPhone"
-												placeholder="联系方式" class="form-control">
-										</div>
-										<label class="col-sm-2 control-label">信贷员到场：</label>
-										<div class="col-md-2">
-											<label class="checkbox-inline"> <input
-												type="checkbox" value="1" name="isLoanerArrive"
-												id="isLoanerArrive"> 是
-											</label>
-										</div>
-
-									</div>
-									<div style="clear: both"></div>
-
-									<div class="form-group">
-										<label class="col-sm-2 control-label">认定套数：</label>
-										<div class="col-md-2">
-											<input type="text" name="houseNum" id="houseNum"
-												class="form-control" onkeyup="checkInt(this)">
-										</div>
-										
-										<label class="col-sm-2 control-label" style="width:15%">签约时间<span class="star" >*</span>：</label>
-										<div class="col-md-2" style="width:18%">
-										<div class="input-group date readOnly_date" id="date_44">
-											<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="signDate" id="signDate" readonly>
-										</div>
-											
-										</div>
-										<label class="col-sm-2 control-label">需要放款前报告：</label>
-										<div class="col-md-2">
-										<label class="checkbox-inline">
-											<input type="checkbox" value="1" name="ifReportBeforeLend"
-												id="ifReportBeforeLend"> 是
-										</label>
-										</div>
-									</div>
-									<div style="clear: both"></div>
-									<div class="form-group">
-									<label class="col-sm-2 control-label">是否临时银行：</label>
-									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank" disabled="true">是
-									</div>
-									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
-										<div class="col-sm-4">
-											<input type="text" name="recLetterNo" id="recLetterNo" class="form-control">
-										</div>
-									</div>
-									<div style="clear: both"></div>
-									<div class="tmpBankReasonDiv">
-										<label class="col-sm-2 control-label">临时银行原因<span class="star">*</span>: </label>
-										<div class="col-sm-10">
-											<input type="text" name="tmpBankReason" class="form-control">
-										</div>
-									</div>
-									<div style="clear: both"></div>
-
-									<div class="form-group">
-										<label class="col-sm-2 control-label">贷款银行：</label>
-										<div class="col-md-4" style="height:38px">																										
-											<select  name="bank_type" class="form-control"
-												id="bank_type" >
-											</select>
-											
-										</div>
-									
-										<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：</label>
-										<div class="col-md-4" style="height:38px">
-											<select name="finOrgCode" class="form-control"
-																	id="finOrgCode"  >
-
-											</select>
-											
-										</div>
-									</div>
-
-									<div style="clear: both"></div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">补件名称：</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" name="supContent" id="supContent">										
-										</div>
-										<label class="col-sm-2 control-label">补件时间：</label>
-										<div class="col-md-4" >
-											<div class="input-group date" id="date_11">
-												<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="remindTime" id="remindTime" readonly>
+										<input type="hidden" name="pkid" id="pkid"/>
+										<input type="hidden" name="caseCode" value="${caseCode}">
+										<input type="hidden" name="isMainLoanBank" value="0"/>									
+										<div class="form-group">
+											<label class="col-sm-2 control-label">贷款类型<span class="star">*</span>：</label>
+											<div class="col-sm-10">
+												<aist:dict id="mortType" name="mortType"
+													clazz="form-control m-b" display="select" dictType="30016"
+													defaultvalue="" />
+	
 											</div>
 										</div>
-									</div>
-									<div style="clear: both"></div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">备注：</label>
-										<div class="col-sm-10">
-											<input type="text" name="remark" id="remark" class="form-control">
+										<div class="form-group">
+											<label class="col-sm-2 control-label">贷款总额<span class="star">*</span>：</label>
+											<div class="col-md-2">
+												<input type="text" name="mortTotalAmount"
+													id="mortTotalAmount" class="form-control" onkeyup="checknum(this)" placeholder="万元">
+											</div>
+											<label class="col-sm-2 control-label" style="width:15%">商贷部分金额<span class="star">*</span>：</label>
+											<div class="col-md-2" style="width:18%">
+												<input type="text" name="comAmount" id="comAmount"
+													class="form-control" onkeyup="checknum(this)" placeholder="万元">
+											</div>
+											<label class="col-sm-2 control-label">商贷部分年限<span class="star">*</span>：</label>
+											<div class="col-md-2">
+												<input type="text" name="comYear" id="comYear"
+													class="form-control" onkeyup="checknum(this)">
+											</div>
 										</div>
-									</div>
+	
+										<div class="form-group">
+											<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
+											<div class="col-md-2">
+												<input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间"
+													class="form-control"  onkeyup="autoCompleteComDiscount(this)">
+											</div>
+											<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>
+											<div class="col-md-2" style="width:18%">
+												<input type="text" name="prfAmount" id="prfAmount"
+													class="form-control" onkeyup="checknum(this)" placeholder="万元">
+											</div>
+											<label class="col-sm-2 control-label">公积金贷款年限：</label>
+											<div class="col-md-2">
+												<input type="text" name="prfYear" id="prfYear"
+													class="form-control" onkeyup="checknum(this)">
+											</div>
+										</div>
+	
+										<div class="form-group">
+											<label class="col-sm-2 control-label">主贷人<span class="star">*</span>：</label>
+											<div class="col-md-2">
+											<select name="custCode" id="custCode" class="form-control">
+											</select>
+											<input type="hidden" name="custName" id="custName" />
+											</div>
+											<label class="col-sm-2 control-label" style="width:15%">主贷人单位：</label>
+											<div class="col-md-2" style="width:18%">
+												<input type="text" name="custCompany" id="custCompany"
+													class="form-control">
+											</div>
+											<label class="col-sm-2 control-label">放款方式<span class="star">*</span>：</label>
+											<div class="col-md-2">
+												<aist:dict id="lendWay" name="lendWay" clazz="form-control"
+													display="select" dictType="30017" defaultvalue="" />
+											</div>
+										</div>
+	
+										<div class="form-group">
+											<label class="col-sm-2 control-label">信贷员姓名<span class="star">*</span>：</label>
+											<div class="col-md-2">
+												<input type="text" name="loanerName" id="loanerName"
+													placeholder="姓名" class="form-control">
+											</div>
+											<label class="col-sm-2 control-label" style="width:15%">信贷员电话<span class="star">*</span>：</label>
+											<div class="col-md-2" style="width:18%">
+												<input type="text" name="loanerPhone" id="loanerPhone"
+													placeholder="联系方式" class="form-control">
+											</div>
+											<label class="col-sm-2 control-label">信贷员到场：</label>
+											<div class="col-md-2">
+												<label class="checkbox-inline"> <input
+													type="checkbox" value="1" name="isLoanerArrive"
+													id="isLoanerArrive"> 是
+												</label>
+											</div>
+										</div>
+										<div style="clear: both"></div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">认定套数：</label>
+											<div class="col-md-2">
+												<input type="text" name="houseNum" id="houseNum"
+													class="form-control" onkeyup="checkInt(this)">
+											</div>
+											
+											<label class="col-sm-2 control-label" style="width:15%">签约时间<span class="star" >*</span>：</label>
+											<div class="col-md-2" style="width:18%">
+											<div class="input-group date readOnly_date" id="date_44">
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="signDate" id="signDate" readonly>
+											</div>
+												
+											</div>
+											<label class="col-sm-2 control-label">需要放款前报告：</label>
+											<div class="col-md-2">
+											<label class="checkbox-inline">
+												<input type="checkbox" value="1" name="ifReportBeforeLend"
+													id="ifReportBeforeLend"> 是
+											</label>
+											</div>
+										</div>
+										<div style="clear: both"></div>
+										<div class="form-group">
+										<label class="col-sm-2 control-label">是否临时银行：</label>
+										<div class="col-sm-4">
+											<input type="checkbox" value="1" name="isTmpBank" disabled="true">是
+										</div>
+										<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
+											<div class="col-sm-4">
+												<input type="text" name="recLetterNo" id="recLetterNo" class="form-control">
+											</div>
+										</div>
+										<div style="clear: both"></div>
+										<div class="tmpBankReasonDiv">
+											<label class="col-sm-2 control-label">临时银行原因<span class="star">*</span>: </label>
+											<div class="col-sm-10">
+												<input type="text" name="tmpBankReason" class="form-control">
+											</div>
+										</div>
+										<div style="clear: both"></div>
+	
+										<div class="form-group">
+											<label class="col-sm-2 control-label">贷款银行：</label>
+											<div class="col-md-4" style="height:38px">																										
+												<select  name="bank_type" class="form-control" id="bank_type" ></select>
+											</div>									
+											<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：</label>
+											<div class="col-md-4" style="height:38px">
+												<select name="finOrgCode" class="form-control"	id="finOrgCode" ></select>
+											</div>
+										</div>
+	
+										<div style="clear: both"></div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">补件名称：</label>
+											<div class="col-md-4">
+												<input type="text" class="form-control" name="supContent" id="supContent">										
+											</div>
+											<label class="col-sm-2 control-label">补件时间：</label>
+											<div class="col-md-4" >
+												<div class="input-group date" id="date_11">
+													<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="remindTime" id="remindTime" readonly>
+												</div>
+											</div>
+										</div>
+										<div style="clear: both"></div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">备注：</label>
+											<div class="col-sm-10">
+												<input type="text" name="remark" id="remark" class="form-control">
+											</div>
+										</div>
 									</form>
 								</div>
 							</div>
@@ -1277,34 +1262,30 @@
 		<h5>上传备件<br><br><br>${accesoryList1[0].accessoryName }</h5>
 		<c:forEach var="accesory" items="${accesoryList1}" varStatus="status">
                <div class="att_second" id="fileupload_div_pic"> 
-               <form id="fileupload"
-				action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-				method="POST" enctype="multipart/form-data">
-				
+               <form id="fileupload"	action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	method="POST" enctype="multipart/form-data">				
 					<input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-					<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">
-				
-				<c:if test="${status.index != 0}">
-					<h5 align="left"><br>${accesory.accessoryName }</h5>
-				</c:if>
-				<div class="row-fluid fileupload-buttonbar">
-					<div class="" style="height: auto">
-						<div role="presentation" class="table table-striped "
-							style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-							<div id="picContainer${accesory.pkid }" class="files" data-toggle="modal-gallery"
-								data-target="#modal-gallery"></div>
-								<span class=" fileinput-button " style="margin-left:10px!important;width:80px;">
-								<div id="chandiaotuBtn" class=""
-									style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-									<i class="fa fa-plus"></i>
-								</div> 
-								<input id="picFileupload${accesory.pkid }" type="file" name="files[]" multiple
-								data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-								data-sequential-uploads="true">
-							</span>
+					<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">				
+					<c:if test="${status.index != 0}">
+						<h5 align="left"><br>${accesory.accessoryName }</h5>
+					</c:if>
+					<div class="row-fluid fileupload-buttonbar">
+						<div class="" style="height: auto">
+							<div role="presentation" class="table table-striped "
+								style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+								<div id="picContainer${accesory.pkid }" class="files" data-toggle="modal-gallery"
+									data-target="#modal-gallery"></div>
+									<span class=" fileinput-button " style="margin-left:10px!important;width:80px;">
+									<div id="chandiaotuBtn" class=""
+										style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+										<i class="fa fa-plus"></i>
+									</div> 
+									<input id="picFileupload${accesory.pkid }" type="file" name="files[]" multiple
+									data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+									data-sequential-uploads="true">
+								</span>
+							</div>
 						</div>
-					</div>
-				</div>  
+					</div>  
 				</form>
 			</div>
 			
@@ -1390,106 +1371,102 @@
 
 							<h1>有收费评估报告发起</h1>
 							<div style="width:100%">							
-							<div class="step-content" style="margin-top: -25px;">
-								<div class="col-lg-12">
-									<div class="ibox">
-										<div class="ibox-title">
-											<h5>报告查看</h5>
-										</div>
-										<div class="ibox-content" >
-											<div class="jqGrid_wrapper">
-												<table id="table_list_6"></table>
-												<div id="pager_list_6"></div>
+								<div class="step-content" style="margin-top: -25px;">
+									<div class="col-lg-12">
+										<div class="ibox">
+											<div class="ibox-title">
+												<h5>报告查看</h5>
+											</div>
+											<div class="ibox-content" >
+												<div class="jqGrid_wrapper">
+													<table id="table_list_6"></table>
+													<div id="pager_list_6"></div>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							</div>
 
 							<h1>完成</h1>
 							<div class="step-content" >
 								<div class="ibox-content" style="height:300px;">
-							<form id="completeForm1">
-								<input type="hidden" name="pkid" />
-								<input type="hidden" name="finOrgCode" />
-								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">支 行：</label><span id="sp_sub_bank" class="col-sm-3">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-3">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span></div>
-								<div class="form-group row tmpBankDiv"  ><label class="col-sm-3 control-label">临时银行处理人：</label><span id="sp_tmp_bank_u" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行处理时间：</label><span id="sp_tmp_bank_t" class="col-sm-3">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
-									<label class="checkbox-inline"> <input type="checkbox"
-										value="1" id="lastBankSub" name="lastBankSub"> 是
-									</label>
+									<form id="completeForm1">
+										<input type="hidden" name="pkid" />
+										<input type="hidden" name="finOrgCode" />
+										<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">支 行：</label><span id="sp_sub_bank" class="col-sm-3">&nbsp;</span></div>
+										<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-3">&nbsp;</span></div>
+										<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span></div>
+										<div class="form-group row tmpBankDiv"  ><label class="col-sm-3 control-label">临时银行处理人：</label><span id="sp_tmp_bank_u" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行处理时间：</label><span id="sp_tmp_bank_t" class="col-sm-3">&nbsp;</span></div>
+										<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
+											<label class="checkbox-inline"> <input type="checkbox"
+												value="1" id="lastBankSub" name="lastBankSub"> 是
+											</label>
+										</div>
+		
+										<div class="form-group row"  >
+											<label class="col-sm-3 control-label">审批时间<span class="star">*</span>：</label>
+											<div class="col-sm-4">
+											<div class="input-group date readOnly_date" id="date_22">
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="apprDate" id="apprDate" readonly >
+											</div>
+											</div>
+										</div>
+									</form>	
 								</div>
-
-								<div class="form-group row"  >
-									<label class="col-sm-3 control-label">审批时间<span class="star">*</span>：</label>
-									<div class="col-sm-4">
-									<div class="input-group date readOnly_date" id="date_22">
-										<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="apprDate" id="apprDate" readonly >
-									</div>
-									</div>
-								</div>
-							</form>	
-							</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		
-		
-		<div id="smsPlatFrom"></div>
-		
-		<div id="caseCommentList" class="add_form">
-		</div>
+		</div>		
+		<div id="smsPlatFrom"></div>		
+		<div id="caseCommentList" class="add_form"></div>
 </div>
 </div>
 <content tag="local_script"> 
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
-   	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
-	<script src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> 
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js?v=1.01"></script> 
-	<!-- 上传附件相关 --> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+ 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
+<script src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> 
+<script src="${ctx}/js/plugins/chosen/chosen.jquery.js?v=1.01"></script> 
+<!-- 上传附件相关 --> 
+<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> 
+<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> 
+<script	src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+<script	src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
+<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
+<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
+<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
-	
-	<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4。9"></script> 
-	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
-	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
-	
-	<script src="${ctx}/transjs/sms/sms.js"></script>	
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
-	
-	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script>
+<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
+<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
+<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+
+<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4。9"></script> 
+<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
+<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
+
+<script src="${ctx}/transjs/sms/sms.js"></script>	
+<script src="${ctx}/js/jquery.blockui.min.js"></script>
+
+<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+
+<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+<script>
 	var source = "${source}";
 	var afterTimeFlag=${afterTimeFlag};
 	function readOnlyForm(){
@@ -1544,6 +1521,7 @@ function checkInt(obj){
 		$("#eva_code").val(evaCode);
 	}
  	var index = 0;
+ 	
 	jQuery(document).ready(function() {
 		$("#mortgageForm1").find("select[name='custCode']").change(guestCompanyReadOnly);
 		$("select[name='mortType']").change(function(){
@@ -1637,44 +1615,7 @@ function checkInt(obj){
 				$(this).css("border-color","#e5e6e7");
 			}
 		});
-		
-		/* $("#date_1").datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        });
-		$("#date_11").datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        });
-		$("#date_2").datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        });
-		$("#date_22").datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        });
-		$("#date_3").datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        });
-		
-		$("#date_4").datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        });
-		$("#date_44").datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        }); */
-		/**日期组件*/
+
 		$('.input-group.date').datepicker({
 			todayBtn : "linked",
 			keyboardNavigation : false,
@@ -1817,7 +1758,7 @@ function checkInt(obj){
 
 	}
 	
- 	</script> </content>
+ 	</script> 
+ </content>
 </body>
-
 </html>

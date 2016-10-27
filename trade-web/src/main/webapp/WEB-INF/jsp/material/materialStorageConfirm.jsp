@@ -24,7 +24,6 @@
 <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" />
 
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" /> 
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
@@ -83,9 +82,9 @@
                                    <p class="input-infoht"  style="position:relative;">
                                        <label>申请人</label>
                                        <input type="text" value="" class="select_control info_two" name="relevantUser"  id="relevantUser" 
-                                        hVal="" readonly="readonly"	onclick="chooseApplyOperator('${serviceDepId}')" />
-                                       <input  type="hidden"  value=""  name="relevantUserId"  id="relevantUserId">
+                                        hVal="" readonly="readonly"	onclick="chooseApplyOperator('${serviceDepId}')" />                                       
                                        <i class="icon iconfont input-group add-icon organize_icon" id="materialApplyUser"></i>
+                                       <input  type="hidden"  value=""  name="relevantUserId"  id="relevantUserId">
                                    <p>
                                </div>
                            </div>
@@ -96,9 +95,8 @@
 		       <div class="ibox-title">
 					<c:choose>
 						<c:when test="${accesoryList!=null}">
-							<h5>上传附件</h5>
-							<span style="color: red;font-size: 15px;">&nbsp;&nbsp;[&nbsp;说明：单次上传客户确认书，请做成一张附件上传&nbsp;&nbsp;]</span>
-							<div class="ibox-content" style="height: 280px; overflow-y: scroll;">
+							<h5>上传附件<span style="color: red;font-size: 15px;">&nbsp;&nbsp;[&nbsp;说明：单次上传客户确认书，请做成一张附件上传&nbsp;]</span></h5>							
+							<div class="ibox-content" style="height: 180px; overflow-y: scroll;">
 								<h5>${accesoryList[0].accessoryName }</h5>
 								
 								<c:forEach var="accesory"  items="${accesoryList}"	varStatus="status">
@@ -215,19 +213,28 @@
                                </label>
                                <input type="hidden" name="materialList[${status.index}].pkid" id="pkid" value="${mmMaterialInfo.pkid}">
                                <input type="hidden" name="materialList[${status.index}].caseCode"  value="${mmMaterialInfo.caseCode}">
-                               <input class="input_type extent-one"  name="materialList[${status.index}].itemCategory" id="itemCategory" value="${mmMaterialInfo.itemCategory}" readonly="readonly">
+                               <input class="input_type extent-one_material"  name="materialList[${status.index}].itemCategory" id="itemCategory" value="${mmMaterialInfo.itemCategory}" readonly="readonly">
                            </div>
                            <div class="form_content">
                                <label class="control-label sign_left_small">
                                    	物品名称
                                </label>
-                               <input class="input_type"  value="${mmMaterialInfo.itemName}" name="materialList[${status.index}].itemName" id="itemName" readonly="readonly">
+                               <input class="input_type extent-two_material"  value="${mmMaterialInfo.itemName}" name="materialList[${status.index}].itemName" id="itemName" readonly="readonly">
                            </div>
-                           <div class="form_content">
+<%--                            <div class="form_content">
                                <label class="control-label sign_left_small">
                                   	 业务描述
                                </label>
                                <input class="input_type extent-three" value="${mmMaterialInfo.itemBusinessRemark}" name="materialList[${status.index}].itemBusinessRemark" id="itemBusinessRemark" readonly="readonly">
+                           </div> --%>
+                       </div>
+                       
+                       <div class="line">
+                           <div class="form_content">
+                               <label class="control-label sign_left_small">
+                                  	 业务描述
+                               </label>
+                               <input class="input_type extent-three_material" value="${mmMaterialInfo.itemBusinessRemark}" name="materialList[${status.index}].itemBusinessRemark" id="itemBusinessRemark" readonly="readonly">
                            </div>
                        </div>
                        <div class="line clearfix">
@@ -342,17 +349,17 @@ function  imgCheckNum(){
 }
 
 //借用组织图
-function chooseApplyOperator(id){		
+function chooseApplyOperator(serviceDepId){		
 		userSelect({
-			startOrgId : id,
-			expandNodeId : id,
+			startOrgId : serviceDepId,
+			expandNodeId : serviceDepId,
 			nameType : 'long|short',
 			orgType : '',
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
 /*			jobCode : 'Manager,Senior_Manager',*/
-			jobCode : 'consultant',
+/* 			jobCode : 'consultant', */
 			callBack : selectApplyUserBack
 		});	
 }

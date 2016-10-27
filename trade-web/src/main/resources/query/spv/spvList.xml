@@ -71,7 +71,7 @@
 							LEFT JOIN sctrans.T_TO_SPV_CASHFLOW sc on sa.PKID=sc.CASHFLOW_APPLY_ID and sc.STATUS='03' and sc.IS_DELETED='0' 
 							WHERE spv.SPV_CODE=sa.SPV_CODE  and sa.USAGE='in') as ru,
 							(select SUM(sc.AMOUNT) from   sctrans.T_TO_SPV_CASHFLOW_APPLY sa 
-							LEFT JOIN sctrans.T_TO_SPV_CASHFLOW sc on sa.PKID=sc.CASHFLOW_APPLY_ID  and sc.IS_DELETED='0' 
+							LEFT JOIN sctrans.T_TO_SPV_CASHFLOW sc on sa.PKID=sc.CASHFLOW_APPLY_ID  and sc.IS_DELETED='0' and sc.STATUS!='10' and sc.STATUS!='11'
 							WHERE spv.SPV_CODE=sa.SPV_CODE  and sa.USAGE='out') as chu
 							FROM sctrans.T_TO_SPV spv
 					LEFT JOIN sctrans.T_TO_SPV_PROPERTY sp on spv.SPV_CODE=sp.SPV_CODE
