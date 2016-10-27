@@ -284,7 +284,7 @@ function statusInstockCheck(){
 		//statusFlag.value  js对象
 		if($(statusFlag).attr("statusFlag") != "instock"){
 			flag = false;
-			alert("只有在库状态的物品才可借用！");
+			alert("只有在库状态的物品才可 借用和退还！");
 		}
 		
 		if(flag == false){

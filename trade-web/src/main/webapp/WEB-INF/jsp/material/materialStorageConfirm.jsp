@@ -83,9 +83,9 @@
                                    <p class="input-infoht"  style="position:relative;">
                                        <label>申请人</label>
                                        <input type="text" value="" class="select_control info_two" name="relevantUser"  id="relevantUser" 
-                                        hVal="" readonly="readonly"	onclick="chooseApplyOperator('${serviceDepId}')" />
-                                       <input  type="hidden"  value=""  name="relevantUserId"  id="relevantUserId">
+                                        hVal="" readonly="readonly"	onclick="chooseApplyOperator('${serviceDepId}')" />                                       
                                        <i class="icon iconfont input-group add-icon organize_icon" id="materialApplyUser"></i>
+                                       <input  type="hidden"  value=""  name="relevantUserId"  id="relevantUserId">
                                    <p>
                                </div>
                            </div>
@@ -215,19 +215,28 @@
                                </label>
                                <input type="hidden" name="materialList[${status.index}].pkid" id="pkid" value="${mmMaterialInfo.pkid}">
                                <input type="hidden" name="materialList[${status.index}].caseCode"  value="${mmMaterialInfo.caseCode}">
-                               <input class="input_type extent-one"  name="materialList[${status.index}].itemCategory" id="itemCategory" value="${mmMaterialInfo.itemCategory}" readonly="readonly">
+                               <input class="input_type extent-one_material"  name="materialList[${status.index}].itemCategory" id="itemCategory" value="${mmMaterialInfo.itemCategory}" readonly="readonly">
                            </div>
                            <div class="form_content">
                                <label class="control-label sign_left_small">
                                    	物品名称
                                </label>
-                               <input class="input_type"  value="${mmMaterialInfo.itemName}" name="materialList[${status.index}].itemName" id="itemName" readonly="readonly">
+                               <input class="input_type extent-two_material"  value="${mmMaterialInfo.itemName}" name="materialList[${status.index}].itemName" id="itemName" readonly="readonly">
                            </div>
-                           <div class="form_content">
+<%--                            <div class="form_content">
                                <label class="control-label sign_left_small">
                                   	 业务描述
                                </label>
                                <input class="input_type extent-three" value="${mmMaterialInfo.itemBusinessRemark}" name="materialList[${status.index}].itemBusinessRemark" id="itemBusinessRemark" readonly="readonly">
+                           </div> --%>
+                       </div>
+                       
+                       <div class="line">
+                           <div class="form_content">
+                               <label class="control-label sign_left_small">
+                                  	 业务描述
+                               </label>
+                               <input class="input_type extent-three_material" value="${mmMaterialInfo.itemBusinessRemark}" name="materialList[${status.index}].itemBusinessRemark" id="itemBusinessRemark" readonly="readonly">
                            </div>
                        </div>
                        <div class="line clearfix">
