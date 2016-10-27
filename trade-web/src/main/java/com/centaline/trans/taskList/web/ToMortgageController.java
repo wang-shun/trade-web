@@ -150,6 +150,8 @@ public class ToMortgageController {
 	@RequestMapping(value="/saveMortgage")  
 	@ResponseBody
     public AjaxResponse<String> saveMortgage(ToMortgage toMortgage,ToSupDocu toSupDocu,HttpServletRequest request) {
+		//贷款签约 时登录用户即为贷款专员 需保持进数据库
+		SessionUser user = uamSessionService.getSessionUser();
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
 			
@@ -171,6 +173,10 @@ public class ToMortgageController {
 			if(toMortgage.getIsTmpBank() == null){
 				toMortgage.setIsTmpBank("0");
 			}
+			
+
+			toMortgage.setLoanAgent(user.getId());
+			toMortgage.setLoanAgentTeam(user.getServiceDepId());
 			
 			toMortgage.setToSupDocu(toSupDocu);
 			toMortgageService.saveToMortgageAndSupDocu(toMortgage);
