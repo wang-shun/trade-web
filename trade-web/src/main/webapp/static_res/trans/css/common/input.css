@@ -80,6 +80,17 @@ em,i {
 h2, h3, h4, h5, p, button, table {
   font-family: "Microsoft Yahei";
 }
+.clearboth {
+  clear: both;
+}
+.title-mark {
+  padding-left: 6px!important;
+  border-left: 3px solid #00CFEC!important;
+  line-height: 18px!important;
+}
+ .entry {
+    clear: both;
+}
 .no-underline {
   text-decoration: none!important;
 }
@@ -89,7 +100,6 @@ h2, h3, h4, h5, p, button, table {
   font-size: 14px;
   overflow: hidden;
 }
-
 .form_list .form_content {
   position: relative;
   float: left;
@@ -112,7 +122,30 @@ h2, h3, h4, h5, p, button, table {
   top: 4px;
   right: 6px;
 }
+.add-icon {
+  position: absolute;
+  top: 0px;
+  right: 6px;
+}
+.hr {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.btn_more, .btn_more:visited, .btn_more:active, .btn_more:focus {
+  background-color: #fff;
+  border: 1px solid #1a7bb9;
+  font-size: 14px;
+  color: #333;
+}
 
+.btn_more:hover {
+  background-color: #1a7bb9;
+  border: 1px solid #1a7bb9;
+  font-size: 14px;
+  color: #fff;
+}
 .week label {
   margin-right: 20px;
   margin-bottom: 5px;
@@ -492,7 +525,6 @@ input {
 .info_content .line p {
   float: left;
   margin: 7px 28px 7px 0px;
-  font-size: 14px;
 }
 .info_content .line label {
   float: left;
@@ -514,7 +546,7 @@ input {
 .info_content .line .info_one {
   float: left;
   display: inline-block;
-  width: 125px;
+  width: 150px;
   color: #333;
   overflow: hidden;
   white-space: nowrap;
@@ -525,6 +557,7 @@ input {
 }
 .blue-text {
   color: #337ab7;
+  cursor: pointer;
 }
 .btn-space {
   margin: 0px 10px;
@@ -594,6 +627,16 @@ input {
 .extent-three {
   width: 210px!important;
 }
+
+.extent-one_material {
+  width: 148px!important;
+}
+.extent-two_material {
+  width: 467px!important;
+}
+.extent-three_material {
+  width: 748px!important;
+}
 .marginbot-30 {
     margin-bottom: 30px!important;
 }
@@ -603,4 +646,21 @@ input {
 .tip-inner {
   font-family: "Microsoft Yahei";
   line-height: 18px!important;
+}
+.entry {
+  display: none;
+}
+.btn-edge {
+    background-color: #fff;
+    border: 1px solid #1a7bb9;
+    font-size: 14px;
+    color: #1a7bb9;
+}
+.btn-edge:hover {
+    background-color: #1a7bb9;
+    border: 1px solid #1a7bb9;
+    color: #fff;
+}
+.btn-edgegro {
+    margin: 5px 0px 20px;
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.centaline.trans.common.entity.Pic;
 import com.centaline.trans.common.entity.ToAttachment;
+import com.centaline.trans.common.enums.AttachmentPartCodeEnum;
 import com.centaline.trans.common.enums.ToPropertyResearchEnum;
 import com.centaline.trans.common.repository.ToAttachmentMapper;
 import com.centaline.trans.common.service.ToAttachmentService;
@@ -106,11 +107,22 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 	 *   风控维持附件表的一个关联关系
 	 */
 	private void saveRcAttachment(String caseCode,String partCode,Long toAttachmentPkId) {
-		if("RiskControl".equals(partCode)) {
+		if(AttachmentPartCodeEnum.RISKCONTROL.getCode().equals(partCode)) {
 			// 查询风控项目为强制公证
 			RcRiskControl property = new RcRiskControl();
 			property.setEloanCode(caseCode);
 			property.setRiskType("forceRegister");
+			List<RcRiskControl> rcRiskControlList = rcRiskControlMapper.getRiskControlByProperty(property);
+			if(CollectionUtils.isNotEmpty(rcRiskControlList)) {
+				ToRcAttachment record = new ToRcAttachment();
+				record.setRiskControlId(rcRiskControlList.get(0).getPkid());
+				record.setAttachmentId(toAttachmentPkId);
+				toRcAttachmentMapper.insertSelective(record);
+			}
+		} else if(AttachmentPartCodeEnum.RISKCONTROL_CARD.getCode().equals(partCode)||AttachmentPartCodeEnum.RISKCONTROL_MORTGAGE.getCode().equals(partCode)) {
+			RcRiskControl property = new RcRiskControl();
+			property.setEloanCode(caseCode);
+			property.setRiskType(partCode);
 			List<RcRiskControl> rcRiskControlList = rcRiskControlMapper.getRiskControlByProperty(property);
 			if(CollectionUtils.isNotEmpty(rcRiskControlList)) {
 				ToRcAttachment record = new ToRcAttachment();
@@ -124,6 +136,12 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 	@Override
 	public List<ToAttachment> quereyAttachments(ToAttachment toAttachment) {
 		return toAttachmentMapper.quereyAttachments(toAttachment);
+	}
+	
+	
+	@Override
+	public List<ToAttachment> quereyAttachmentForMaterial(ToAttachment toAttachment) {
+		return toAttachmentMapper.quereyAttachmentForMaterial(toAttachment);
 	}
 
 	@Override

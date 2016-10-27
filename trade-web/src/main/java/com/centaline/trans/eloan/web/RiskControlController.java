@@ -29,6 +29,7 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.AttachmentPartCodeEnum;
 import com.centaline.trans.common.service.OrgService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToAccesoryListService;
@@ -37,7 +38,6 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.eloan.entity.RcRiskControl;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
-import com.centaline.trans.eloan.entity.ToRcForceRegister;
 import com.centaline.trans.eloan.enums.RiskTypeEnum;
 import com.centaline.trans.eloan.service.RcRiskControlService;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
@@ -100,8 +100,9 @@ public class RiskControlController {
 	
 	//押卡
 	@RequestMapping("guarantycards")
-	public String guarantycards(Long pkid, Model model) {
+	public String guarantycards(Long pkid, HttpServletRequest request,Model model) {
 		getDetailByPkId(pkid, model);
+		getAccesoryList(request, AttachmentPartCodeEnum.RISKCONTROL_CARD.getCode());
 		ToEloanCase eloanCase= toEloanCaseService.getToEloanCaseByPkId(pkid);
 		ToRcMortgageCardVO toRcMortgageCardVO = toRcMortgageService.getRcMortgageCardInfoByProperty("card", eloanCase.getEloanCode());
 		model.addAttribute("toRcMortgageCardVO", toRcMortgageCardVO);
@@ -120,8 +121,10 @@ public class RiskControlController {
 	
 	//抵押
 	@RequestMapping("guarantymortgage")
-	public String guarantymortgage(Long pkid, Model model) {
+	public String guarantymortgage(Long pkid, HttpServletRequest request,Model model) {
 		getDetailByPkId(pkid, model);
+		
+		getAccesoryList(request, AttachmentPartCodeEnum.RISKCONTROL_MORTGAGE.getCode());
 		ToEloanCase eloanCase= toEloanCaseService.getToEloanCaseByPkId(pkid);
 		ToRcMortgageVO toRcMortgageVO = toRcMortgageService.getMortgageByProperty("mortgage", eloanCase.getEloanCode());
 		model.addAttribute("toRcMortgageVO", toRcMortgageVO);

@@ -87,13 +87,12 @@
     where 1=1 
     <if test="partCode!=null">
     	and PART_CODE = #{partCode,jdbcType=VARCHAR}
-    </if>
-    
+    </if>    
     <if test="accessoryCode!=null">
     	and ACCESSORY_CODE like '%'+ #{accessoryCode,jdbcType=VARCHAR} +'%'
-    </if>
-    
+    </if>    
   </select>
+  
   <select id="findAccessoryNameByCode" resultType="java.lang.String" parameterType="java.lang.String" >
     select 
     ACCESSORY_NAME
