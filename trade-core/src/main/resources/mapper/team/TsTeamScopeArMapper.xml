@@ -24,10 +24,10 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.team.entity.TsTeamScopeAr" >
-    insert into sctrans.T_TS_TEAM_SCOPE_AR (PKID, AR_CODE, YU_TEAM_CODE, 
+    insert into sctrans.T_TS_TEAM_SCOPE_AR (AR_CODE, YU_TEAM_CODE, 
       AR_NAME, YU_TEAM_NAME, UPDATE_TIME, 
       IS_RESPONSE_TEAM)
-    values (#{pkid,jdbcType=BIGINT}, #{arCode,jdbcType=NVARCHAR}, #{yuTeamCode,jdbcType=NVARCHAR}, 
+    values (#{arCode,jdbcType=NVARCHAR}, #{yuTeamCode,jdbcType=NVARCHAR}, 
       #{arName,jdbcType=NVARCHAR}, #{yuTeamName,jdbcType=NVARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{isResponseTeam,jdbcType=CHAR})
   </insert>

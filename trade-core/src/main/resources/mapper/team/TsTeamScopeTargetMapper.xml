@@ -1,68 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.team.repository.TsTeamScopeTargetMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.team.entity.TsTeamScopeTarget" >
-    <result column="YU_TEAM_CODE" property="yuTeamCode" jdbcType="NVARCHAR" />
-    <result column="YU_TEAM_NAME" property="yuTeamName" jdbcType="NVARCHAR" />
-    <result column="IS_RESPONSE_TEAM" property="isResponseTeam" jdbcType="CHAR" />
-    <result column="GRP_CODE" property="grpCode" jdbcType="VARCHAR" />
-    <result column="GRP_NAME" property="grpName" jdbcType="VARCHAR" />
-  </resultMap>
-  <insert id="insert" parameterType="com.centaline.trans.team.entity.TsTeamScopeTarget" >
-    insert into sctrans.T_TS_TEAM_SCOPE_TARGET (YU_TEAM_CODE, YU_TEAM_NAME, IS_RESPONSE_TEAM, 
-      GRP_CODE, GRP_NAME)
-    values (#{yuTeamCode,jdbcType=NVARCHAR}, #{yuTeamName,jdbcType=NVARCHAR}, #{isResponseTeam,jdbcType=CHAR}, 
-      #{grpCode,jdbcType=VARCHAR}, #{grpName,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.team.entity.TsTeamScopeTarget" >
-    insert into sctrans.T_TS_TEAM_SCOPE_TARGET
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="yuTeamCode != null" >
-        YU_TEAM_CODE,
-      </if>
-      <if test="yuTeamName != null" >
-        YU_TEAM_NAME,
-      </if>
-      <if test="isResponseTeam != null" >
-        IS_RESPONSE_TEAM,
-      </if>
-      <if test="grpCode != null" >
-        GRP_CODE,
-      </if>
-      <if test="grpName != null" >
-        GRP_NAME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="yuTeamCode != null" >
-        #{yuTeamCode,jdbcType=NVARCHAR},
-      </if>
-      <if test="yuTeamName != null" >
-        #{yuTeamName,jdbcType=NVARCHAR},
-      </if>
-      <if test="isResponseTeam != null" >
-        #{isResponseTeam,jdbcType=CHAR},
-      </if>
-      <if test="grpCode != null" >
-        #{grpCode,jdbcType=VARCHAR},
-      </if>
-      <if test="grpName != null" >
-        #{grpName,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  
-   <select id="getTeamScopeTargetListByProperty" parameterType="com.centaline.trans.team.entity.TsTeamScopeTarget" resultMap="BaseResultMap">
-	    select 
-	    	*
-	    from sctrans.T_TS_TEAM_SCOPE_TARGET targetScope
-	    <where>
-	        <if test="grpCode != null">
-	            AND targetScope.GRP_CODE = #{grpCode}
-	        </if>
-	        <if test="yuTeamCode != null">
-	            AND targetScope.YU_TEAM_CODE = #{yuTeamCode}
-	        </if>
-	    </where>
-  </select>
+<mapper namespace="com.centaline.trans.team.repository.TsTeamScopeTargetMapper">
+	<resultMap id="BaseResultMap"
+		type="com.centaline.trans.team.entity.TsTeamScopeTarget">
+		<result column="YU_TEAM_CODE" property="yuTeamCode" jdbcType="NVARCHAR" />
+		<result column="YU_TEAM_NAME" property="yuTeamName" jdbcType="NVARCHAR" />
+		<result column="IS_RESPONSE_TEAM" property="isResponseTeam"
+			jdbcType="CHAR" />
+		<result column="GRP_CODE" property="grpCode" jdbcType="VARCHAR" />
+		<result column="GRP_NAME" property="grpName" jdbcType="VARCHAR" />
+	</resultMap>
+	<insert id="insert" parameterType="com.centaline.trans.team.entity.TsTeamScopeTarget">
+		insert into sctrans.T_TS_TEAM_SCOPE_TARGET (YU_TEAM_CODE,
+		YU_TEAM_NAME, IS_RESPONSE_TEAM,
+		GRP_CODE, GRP_NAME)
+		values (#{yuTeamCode,jdbcType=NVARCHAR}, #{yuTeamName,jdbcType=NVARCHAR},
+		#{isResponseTeam,jdbcType=CHAR},
+		#{grpCode,jdbcType=VARCHAR}, #{grpName,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.centaline.trans.team.entity.TsTeamScopeTarget">
+		insert into sctrans.T_TS_TEAM_SCOPE_TARGET
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="yuTeamCode != null">
+				YU_TEAM_CODE,
+			</if>
+			<if test="yuTeamName != null">
+				YU_TEAM_NAME,
+			</if>
+			<if test="isResponseTeam != null">
+				IS_RESPONSE_TEAM,
+			</if>
+			<if test="grpCode != null">
+				GRP_CODE,
+			</if>
+			<if test="grpName != null">
+				GRP_NAME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="yuTeamCode != null">
+				#{yuTeamCode,jdbcType=NVARCHAR},
+			</if>
+			<if test="yuTeamName != null">
+				#{yuTeamName,jdbcType=NVARCHAR},
+			</if>
+			<if test="isResponseTeam != null">
+				#{isResponseTeam,jdbcType=CHAR},
+			</if>
+			<if test="grpCode != null">
+				#{grpCode,jdbcType=VARCHAR},
+			</if>
+			<if test="grpName != null">
+				#{grpName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="getTeamScopeTargetListByProperty" parameterType="com.centaline.trans.team.entity.TsTeamScopeTarget"
+		resultMap="BaseResultMap">
+		select
+		*
+		from sctrans.T_TS_TEAM_SCOPE_TARGET targetScope
+		<where>
+			<if test="grpCode != null">
+				AND targetScope.GRP_CODE = #{grpCode}
+			</if>
+			<if test="yuTeamCode != null">
+				AND targetScope.YU_TEAM_CODE = #{yuTeamCode}
+			</if>
+		</where>
+	</select>
+
+	<update id="updateGrpMap">
+		exec [sctrans].[P_MK_YC_GRP_MAP_TABLE]
+	</update>
 </mapper>

@@ -8,4 +8,11 @@ public interface TsTeamScopeTargetService {
 	
 	List<TsTeamScopeTarget> getTeamScopeTargetListByProperty(TsTeamScopeTarget record);
 
+	/**
+	 * 添加誉萃，grp 对应关系
+	 * @param salesId
+	 * @param yuTeamCode
+	 * @return
+	 */
+	String addCaseMapping(String salesId,String yuTeamCode);
 }
