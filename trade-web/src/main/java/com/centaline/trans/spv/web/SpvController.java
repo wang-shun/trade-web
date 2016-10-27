@@ -861,6 +861,8 @@ public class SpvController {
 			String taskId,String handle,String businessKey,String spvCode) throws Exception {
     	request.setAttribute("spvCode", spvCode);
     	SessionUser user = uamSessionService.getSessionUser();
+    	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
+		businessKey = processInstance.getBusinessKey();
     	if(!StringUtils.isBlank(handle)){ 	
         	switch (handle) {
         	case "apply":

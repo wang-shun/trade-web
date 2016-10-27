@@ -157,10 +157,6 @@
 				$("#play_mv").attr("play","");
 			}
 		}
-		$("body").click(function(){
-			//doPlay("<em>浦东贵宾服务部A组</em> 顾问 <em>王小毛</em> 攻榜成功！目前在E+金融周榜中排名第一，金融产品申请金额总计 <strong>1000万</strong> ");
-			//doPlay("<em>浦东贵宾服务部A组</em> 顾问 <em>王小毛</em> 签约一单 <em>E+首付贷/换房贷</em>，金额<strong>50万</strong>，为E+金融产品推波助澜");
-		}); 
 		
 		 setInterval(function(){
 			$.ajax({

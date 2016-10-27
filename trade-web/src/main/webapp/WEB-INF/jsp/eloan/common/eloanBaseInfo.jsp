@@ -22,7 +22,7 @@
                                 <div class="row" id="">
 							<div class="col-lg-5" id="cluster_info">
 								<dl class="dl-horizontal">
-									<dt>E+编号</dt>
+									<dt>e+编号</dt>
 									<dd>
 										<a herf="#">${eloanCase.eloanCode }</a>
 									</dd>

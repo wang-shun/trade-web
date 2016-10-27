@@ -84,23 +84,33 @@
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                     <!-- <div class="ibox"> -->
-
+					
                     <div class="ibox-content space30" >
                         <div class="agree-tile">
-                            资金出账申请
+                           	 资金出账申请
                         </div>
                         <div class="info_content">
-                                                    <div class="line">
+                        	<div class="line">
+                                <p>
+                                    <label> 案件编号  </label>
+                                     <span class="info"><span  class="demo-top" title="${spvBaseInfoVO.toSpv.caseCode }" >${spvBaseInfoVO.toSpv.caseCode }</span></span>
+                                </p>
+                                <p>
+                                    <label>合约编号 </label>
+                                   <span  class="info demo-top" title="${spvBaseInfoVO.toSpv.spvCode }">${spvBaseInfoVO.toSpv.spvCode }</span>
+                                </p>
+                            </div>
+                              <div class="line">
                                 <p>
                                     <label>
-                                        案件编号
+                                        	案件编号
                                     </label>
                                     <span class="info_two">${spvBaseInfoVO.toSpv.caseCode }</span>
                                 </p>
 
                                 <p>
                                     <label>
-                                        合约编号
+                                        	合约编号
                                     </label>
                                     <span class="info_two">${spvBaseInfoVO.toSpv.spvCode }</span>
                                 </p>
@@ -108,29 +118,29 @@
                             <div class="line">
                                 <p>
                                     <label>
-                                       产品类型
+                                       	产品类型
                                     </label>
                                     <span class="info_one">${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }</span>
                                 </p>
                                 <p>
                                     <label>
-                                        监管金额
+                                      	  监管金额
                                     </label>
                                     <span class="info_one">${spvBaseInfoVO.toSpv.amount }万</span>
                                 </p>
 
                                 <p>
                                     <label>
-                                        物业地址
+                                        	物业地址
                                     </label>
-                                    <span class="info">${spvBaseInfoVO.toSpvProperty.prAddr }</span>
+                                    <span class="info" ><span class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }">${spvBaseInfoVO.toSpvProperty.prAddr }</span></span>
                                 </p>
 
                             </div>
                         </div>
                         <div class="mt20">
                             <div class="agree-tile">
-                                资金放款方案
+                               	 资金放款方案
                             </div>
                             <form class="form-inline table-capital">
                                 <div class="table-box" >
@@ -141,16 +151,16 @@
                                                 次数
                                             </th> -->
                                             <th>
-                                                划转条件
+                                              	  划转条件
                                             </th>
                                             <th>
-                                                每次划转金额
+                                               	 每次划转金额
                                             </th>
                                             <th>
-                                                卖方账户
+                                               	 卖方账户
                                             </th>
                                             <th>
-                                                资金方
+                                                	资金方
                                             </th>
                                         </tr>
                                         </thead>
@@ -167,9 +177,24 @@
                                         <tr>
                                             </td>
                                             <td>
-                                                <aist:dict id="" name="" clazz="form-control input-one"
+                                                 <%-- <aist:dict id="" name="" clazz="form-control input-one"
 									            display="select"  dictType="SPV_DE_COND"  
-									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict>
+									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict>  --%>
+									            
+									            <c:choose>  
+												    <c:when test="${mix.deCondCode=='01'}">  
+												        	满足过户收件收据
+												     </c:when>  
+												    <c:when test="${mix.deCondCode=='02'}">  
+												      		  出新产证 
+												    </c:when>  
+												    <c:when test="${mix.deCondCode=='03'}">  
+												                              物业结清
+												    </c:when>  
+												    <c:when test="${mix.deCondCode=='04'}">  
+												        	其他 
+												    </c:when>  
+												</c:choose>  
                                             </td>
                                             <td>
                                                 <c:if test="${not empty mix.totalDeAmount}">${mix.totalDeAmount }万</c:if>
@@ -186,7 +211,7 @@
 <!--                                             <td>
                                             </td> -->
                                             <td>
-                                                合计
+                                               	 合计
                                             </td>
                                             <td>
                                                 <c:if test="${sumTotalAmt != 0}">${sumTotalAmt }万</c:if>
@@ -216,7 +241,7 @@
                                             <th>凭证编号</th>
                                             <th>金额</th>
                                             <th>账户信息</th>
-                                            <th>审批状态</th>
+                                            <th>审批时间</th>
                                             <th>物业地址</th>
                                         </tr>
                                         </thead>
@@ -254,16 +279,27 @@
                                                 </p>
                                                 <p class="smll_sign">
                                                     <i class="sign_normal">结束</i>             
-                                                    <fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                    <a href="javascript:void(0)">${cashFlow.ftPostAuditorName }&nbsp;</a><fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                             </td>
                                             <td>
-                                                <p>
+                                                <%-- <p>
                                                    ${spvBaseInfoVO.toSpvProperty.prAddr }
-                                                </p>
+                                                </p> --%>
                                                 <p class="smll_sign">
-                                                    审核人：<a href="javascript:void(0)">
-                                                    ${empty cashFlow.applyAuditorName?'?':cashFlow.applyAuditorName }&gt;${empty cashFlow.ftPreAuditorName?'?':cashFlow.ftPreAuditorName }&gt;${empty cashFlow.ftPostAuditorName?'?':cashFlow.ftPostAuditorName }</a>
+                                                 	   审核人：<a href="javascript:void(0)">
+                                                    ${ empty cashFlow.applyAuditorName?'':cashFlow.applyAuditorName }
+                                                    <c:if test="${cashFlow.usage eq 'out' }">
+                                                    <c:if test="${cashFlow.ftPreAuditorName.length()>0 }">
+                                                    &gt;
+                                                    </c:if>
+                                                    ${ empty cashFlow.ftPreAuditorName?'':cashFlow.ftPreAuditorName }
+                                                    </c:if>
+                                                    <c:if test="${cashFlow.ftPostAuditorName.length()>0 }">
+                                                    &gt;
+                                                    ${ empty cashFlow.ftPostAuditorName?'':cashFlow.ftPostAuditorName }
+                                                    </c:if>
+                                                    </a>
                                                 </p>
                                             </td>
                                         </tr>
@@ -335,7 +371,7 @@
                         </div>
                         <div class="mt20">
                             <div class="agree-tile">
-                                出账申请信息
+                                	出账申请信息
                             </div>
                             <form class="form-inline table-capital">
                                 <div class="table-box" >
@@ -355,12 +391,12 @@
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.pkid"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid }" />
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.spvCode }" />
 	                                                <td>
-	                                                    <input  class="table_input boderbbt" type="text"  placeholder="请输入收款人姓名" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payer" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payer }" />
+	                                                    <input  class="table_input boderbbt" type="text"  placeholder="请输入收款人姓名" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payer" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" />
 	                                                </td>
 	                                                <td>
-	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerAcc }" placeholder="请输入银行卡号"  name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payerAcc" /></p>
+	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverAcc }" placeholder="请输入银行卡号"  name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payerAcc" /></p>
 	                                                    <p>
-	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.payerBank }" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payerBank"/></p>
+	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverBank }" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payerBank"/></p>
 	                                                    <p>
 	                                                </td>
 	
@@ -536,6 +572,8 @@
     <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
     <script src="${ctx}/js/viewer/viewer.min.js"></script>
+    <!-- 必须CSS -->
+	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 <script>
 var sum = parseInt($("#sum").val());
 var attSum_ = parseInt($("#attSum_").val());
@@ -615,6 +653,16 @@ $(function() {
     if((!handle || handle == 'apply') && sum == 0){
     	$("#addTr").append(getTR(0));
     }
+  
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
 
 });
 
@@ -696,6 +744,10 @@ function getUploadImage2(thisIndex,fileUrl,fileId,fileName){
 }
 //删除入账申请信息tr
 function getDel(k){
+	if($("input[name$='payer']").size()==1){
+		alert("入账申请信息不能少于一行数据！");
+		return false;
+	}
 	if(!confirm("是否删除！")){
 		  return false;
 	    }

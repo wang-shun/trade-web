@@ -226,7 +226,7 @@
                       </div>
                       <div class="excuse">
                           <form action="">
-                              <textarea name="turndownContent_" id="turndownContent_" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                              <font color="red">*</font><textarea name="turndownContent_" id="turndownContent_" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                           </form>
                           <div class="form-btn">
                           <div class="text-center">

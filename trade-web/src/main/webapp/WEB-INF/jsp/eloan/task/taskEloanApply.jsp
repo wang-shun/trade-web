@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>E+贷款</title>
+<title>e+产品</title>
 
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/static/font-awesome/css/font-awesome.css"
@@ -117,7 +117,7 @@
 						<div class="modal-dialog" style="width: 1070px;">
 							<div class="modal-content animated fadeIn apply_box info_box">
 								<form action="" class="form_list clearfix">
-									<div class="modal_title">E+贷款关联案件</div>
+									<div class="modal_title">e+产品关联案件</div>
 									<!-- <div class="form_tan">
                                                 <label class="control-label" style="width:60px;">
                                                     	产证地址

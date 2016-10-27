@@ -57,6 +57,7 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
+<link href="${ctx}/css/font-awesome.css" rel="stylesheet">
 <!-- stickUp fixed css -->
 <script type="text/javascript">
 	var ctx = "${ctx}";
