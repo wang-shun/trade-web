@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>E+贷款</title>
+    <title>e+产品</title>
 
     <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -78,7 +78,7 @@
 		                           </div>
 		                 </div>
                         <div class="main_titile" style="position: relative;">
-                            <h5>E+产品</h5>
+                            <h5>e+产品</h5>
                             <div class="case_content">
                                 <div class="case_row">
                                    <div class="case_lump">

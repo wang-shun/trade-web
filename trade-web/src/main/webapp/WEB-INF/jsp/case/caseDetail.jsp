@@ -745,7 +745,7 @@
 							</li>
 							<li class=""><a href="#messages_info" data-toggle="tab">房款监管信息</a>
 							</li>
-							<li class=""><a href="#settings_info" data-toggle="tab">金融服务信息</a>
+							<li class=""><a href="#settings_info" data-toggle="tab">e+服务信息</a>
 							</li>
 							<li class=""><a href="#fujian_info" data-toggle="tab">附件信息</a>
 							</li>
@@ -1006,7 +1006,7 @@
 								<c:if test="${toEloanCases.size()>0&&toLoanAgents.size()>0}">
 								<div class="hr-line-dashed"></div>
 								</c:if>
-								<!-- E+ -->
+								<!-- e+ -->
 								<c:forEach var="toEloanCase" items="${toEloanCases}"
 									varStatus="status">
 									<c:forEach var="toEloanCaseVO" items="${toEloanCaseVOs}"
