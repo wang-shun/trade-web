@@ -57,7 +57,7 @@
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="row">
 			<div class="ibox-content border-bottom clearfix space_box">
-				<h2 class="title">E+贷款</h2>
+				<h2 class="title">e+产品</h2>
 				<form method="get" class="form_list">
 					<%-- 	<div class="form_content">
 						<label class="control-label sign_left"> 状态搜索项 </label>

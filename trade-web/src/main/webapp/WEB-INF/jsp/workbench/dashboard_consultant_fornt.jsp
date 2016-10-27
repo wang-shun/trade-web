@@ -249,9 +249,9 @@
 									<ul class="nav nav-tabs">
 										<li class="active"><a href="#tab-1" data-toggle="tab">交易顾问工作数据显示</a>
 										</li>
-										<li class=""><a href="#tab-2" data-toggle="tab">贷款详情</a>
-										</li>
-										<li class=""><a href="#tab-3" data-toggle="tab">E＋贷款</a>
+										<!-- <li class=""><a href="#tab-2" data-toggle="tab">贷款详情</a>
+										</li> -->
+										<li class=""><a href="#tab-3" data-toggle="tab">e+产品</a>
 										</li>
 									</ul>
 								</div>
@@ -264,7 +264,7 @@
 										<div class="data-progress-wrap">
 											<div class="data-progress data1">
 												<div class="data-left">
-													<span class="left-label h50 pt10">E+申请金额</span>
+													<span class="left-label h50 pt10">e+申请金额</span>
 													<div class="data-bar">
 														<div class="progress progress-small">
 															<div id="sp_loanAmount_bar" style="width: 100%;"
@@ -275,7 +275,7 @@
 														style="color: #337ab7; cursor: pointer;">4000万</span>
 												</div>
 												<div class="data-left">
-													<span class="left-label">E+面签金额</span>
+													<span class="left-label">e+面签金额</span>
 													<div class="data-bar">
 														<div class="progress progress-small">
 															<div id="sp_signAmount_bar" style="width: 80%;"
@@ -286,7 +286,7 @@
 														style="color: #337ab7; cursor: pointer;">2000万</span>
 												</div>
 												<div class="data-left">
-													<span class="left-label">E+放款金额</span>
+													<span class="left-label">e+放款金额</span>
 													<div class="data-bar">
 														<div class="progress progress-small">
 															<div id="sp_actualAmount_bar" style="width: 56%;"
@@ -297,7 +297,7 @@
 														style="color: #337ab7; cursor: pointer;">2000万</span>
 												</div>
 												<div class="data-left">
-													<span class="left-label h50 pb10">E+转换率</span>
+													<span class="left-label h50 pb10">e+转换率</span>
 													<div class="data-bar">
 														<div class="progress progress-small">
 															<div id="sp_convRate_bar" style="width: 100%;"
@@ -305,7 +305,7 @@
 														</div>
 													</div>
 													<span id="sp_convRate" class="right-label hint hint-top1"
-														data-hint="E+转换率=总的面签金额/总的合同价">100%</span>
+														data-hint="e+转换率=总的面签金额/总的合同价">100%</span>
 												</div>
 
 											</div>
@@ -512,7 +512,7 @@
 												<div class="ibox hide" id="bt_1">
 													<div class="ibox-title"
 														style="border-width: 0px !important;">
-														<h5 style="font-size: 16px !important;">E+贷款(面签单数)</h5>
+														<h5 style="font-size: 16px !important;">e+产品(面签单数)</h5>
 													</div>
 													<div class="ibox-content" id=""
 														style="border-width: 0px !important;">
@@ -525,7 +525,7 @@
 												<div class="ibox hide" id="bt_2">
 													<div class="ibox-title"
 														style="border-width: 0px !important;">
-														<h5 style="font-size: 16px !important;">E+贷款(面签金额)</h5>
+														<h5 style="font-size: 16px !important;">e+产品(面签金额)</h5>
 													</div>
 													<div class="ibox-content" id="doughnutChart"
 														style="border-width: 0px !important;">
@@ -650,7 +650,7 @@
 											<div class="col-md-6">
 												<div class="panel panel-danger">
 													<div class="panel-heading">
-														E+金融申请榜
+														e+金融申请榜
 														<c:if test="${not empty rank.loanAmountRank}">
 															<span class="btn btn-xs btn-white pull-right" id="loanAmountRank"> <strong
 																class="text-danger">
@@ -689,7 +689,7 @@
 											<div class="col-md-6">
 												<div class="panel panel-warning">
 													<div class="panel-heading">
-														E+金融签约榜
+														e+金融签约榜
 														<c:if test="${not empty rank.signAmountRank}">
 															<span class="btn btn-xs btn-white pull-right"> <strong id="signAmountRank"
 																class="text-danger">
@@ -731,7 +731,7 @@
 											<div class="col-md-6">
 												<div class="panel panel-info">
 													<div class="panel-heading">
-														E+金融放款榜
+														e+金融放款榜
 														<c:if test="${ not empty rank.actualAmountRank}">
 															<span class="btn btn-xs btn-white pull-right"> <strong id="actualAmountRank"
 																class="text-danger"></strong>
