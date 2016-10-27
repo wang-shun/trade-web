@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="css/aui.2.0.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="iconfont/iconfont.css" />
+    <!--time css-->
+    <link rel="stylesheet" type="text/css" href="css/mobiscroll.css" />
+    <link rel="stylesheet" type="text/css" href="css/mobiscroll_date.css" />
+
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav">
+        <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
+            <span class="">取消</span>
+        </a>
+        <div class="aui-title">签约室预约</div>
+    </header>
+    <section class="aui-content aui-margin-b-15">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe605;</i>预约中心
+                    </div>
+                    <div class="aui-list-item-input aui-list-item-arrow">
+                        <select>
+                            <option>浦东贵宾中心</option>
+                            <option>杨浦贵宾中心</option>
+                            <option>长宁贵宾中心</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe605;</i>到场人数
+                    </div>
+                    <div class="aui-list-item-input aui-list-item-arrow">
+                        <input type="number" placeholder="请输入到场人数">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe605;</i>预约时段
+                    </div>
+                    <div class="aui-list-item-input aui-list-item-arrow">
+                        <input type="text" onclick="dateselect();" placeholder="2016-11-31  12:00－13:30">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-header">办理事项</li>
+            <li class="aui-item">
+                <div class="aui-list-item-inner aui-input-list">
+                        <div class="aui-col-xs-3 aui-input-element">
+                            <i class="iconfont blue mr5">&#xe605;</i>签合同
+                        </div>
+                        <div class="aui-col-xs-3 aui-input-element">
+                            办贷款
+                        </div>
+                        <div class="aui-col-xs-3 aui-input-element">
+                            e+贷款
+                        </div>
+                        <div class="aui-col-xs-3 aui-input-element">
+                            开列会
+                        </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe605;</i>交易地址
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" placeholder="">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe605;</i>贷款专员
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" placeholder="请输入名称">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-header">办理事项</li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-input">
+                        <textarea placeholder="请输入内容"></textarea>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+        <div class="plr15 mt15"><input type="submit" class="aui-btn aui-btn-info aui-btn-block aui-btn-user" value="领取预约号"></div>
+
+    </section>
+    <div id="layui-m-layer2" class="layui-m-layer layui-m-layer0" index="2">
+        <div class="layui-m-layershade"></div>
+        <div class="layui-m-layermain">
+            <div class="layui-m-layersection">
+                <div class="layui-m-layerchild  layui-m-anim-scale noradius">
+                    <div class="date-title">2016-10-02</div>
+                    <section class="aui-grid">
+                        <table class="table table-date">
+                          <thead>
+                            <tr>
+                              <th>周一</th>
+                              <th>周二</th>
+                              <th>周三</th>
+                              <th>周四</th>
+                              <th>周五</th>
+                              <th>周六</th>
+                              <th>周末</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>28</td>
+                              <td>29</td>
+                              <td>30</td>
+                              <td>31</td>
+                              <td>1</td>
+                              <td>2</td>
+                              <td>3</td>
+                            </tr>
+                            <tr>
+                              <td>4</td>
+                              <td class="curr">5</td>
+                              <td>6</td>
+                              <td>7</td>
+                              <td>8</td>
+                              <td>9</td>
+                              <td>10</td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+<script type="text/javascript" src="script/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="script/aui-dialog.js"></script>
+<script type="text/javascript" src="script/aui-main.js"></script>
+<script type="text/javascript" src="script/layer.js"></script>
+
+<!--time-->
+<script type="text/javascript" src="script/mobiscroll_date.js"></script>
+<script type="text/javascript" src="script/mobiscroll.js"></script>
+
+<script type="text/javascript" src="script/calendar.js"></script>
+
+<script>
+
+</script>
+
+
+
+</html>
