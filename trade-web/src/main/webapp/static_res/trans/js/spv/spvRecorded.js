@@ -104,8 +104,10 @@ function checkFormSubmit(){
     var totalCashFlowInAmount = Number($("#totalCashFlowInAmount").val());
     var totalCashFlowOutAmount = Number($("#totalCashFlowOutAmount").val());
     var totalProcessCashFlowOutAmout = Number($("#totalProcessCashFlowOutAmout").val());
+    
     if(accAdd(accAdd(sumAmount,totalCashFlowOutAmount),totalProcessCashFlowOutAmout) > totalCashFlowInAmount){
-    	alert("出账流水总和不能大于(入账流水总和+申请中的出账流水)！");
+    	alert("已经超过可出账的金额！");
+    	//alert("出账流水总和不能大于(入账流水总和+申请中的出账流水)！");
     	return false;
     }
     
@@ -337,12 +339,12 @@ function submitBtnClick(handle,chargeOutAppr){
 			}else{
 				alert("数据保存出错:"+data.ajaxResponse.message);
 			}
-			     if($("#urlType").val() == 'myTask'){    	 
+			    // if($("#urlType").val() == 'myTask'){    	 
 			    	 window.opener.location.reload(); //刷新父窗口
 		        	 window.close(); //关闭子窗口.
-			     }else{
-			          window.location.href=ctx+"/spv/spvFlowApplyList";
-			     }
+			    // }else{
+			    //      window.location.href=ctx+"/spv/spvFlowApplyList";
+			    // }
 				 //$.unblockUI();
 			}
  });

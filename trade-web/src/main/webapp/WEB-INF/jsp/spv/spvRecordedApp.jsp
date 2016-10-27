@@ -212,13 +212,6 @@
 	                                       </c:forEach>
                                         </tbody>
                                     </table>
-                                    <div class="form-btn">
-                                <div class="text-center"><!-- 
-                                    <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button> -->
-                                    <button type="button" onclick="rescCallbocak()"class="btn btn-default mr15">关闭</button>
-                                    <a onclick="sumbitRe()" class="btn btn-success">提交</a>
-                                </div>
-                                </div>
                                 </div>
                             </form>
                         </div>
@@ -245,6 +238,15 @@
                             </c:forEach>
                             </div>
                         </div>
+                        
+                        <div class="form-btn">
+                              <div class="text-center"><!-- 
+                                  <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button> -->
+                                  <button type="button" onclick="rescCallbocak()"class="btn btn-default mr15">关闭</button>
+                                  <a onclick="sumbitRe()" class="btn btn-success">提交</a>
+                              </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
