@@ -83,7 +83,7 @@
                                        <label>申请人</label>
                                        <input type="text" value="" class="select_control info_two" name="relevantUser"  id="relevantUser" 
                                         hVal="" readonly="readonly"	onclick="chooseApplyOperator('${serviceDepId}')" />                                       
-                                       <i class="icon iconfont input-group add-icon organize_icon" id="materialApplyUser"></i>
+                                       <i class="icon iconfont input-group add-icon organize_icon" id="materialApplyUser">&#xe627;</i>
                                        <input  type="hidden"  value=""  name="relevantUserId"  id="relevantUserId">
                                    <p>
                                </div>
@@ -257,7 +257,7 @@
    </div>
   	<input type="hidden" id="ctx" value="${ctx}" />
   	<input type="hidden" id="caseCode" value="${mmMaterialItemList.get(0).caseCode}" />
-  	
+  	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
   	
 <content tag="local_script"> 
 <!-- Mainly scripts -->
@@ -307,6 +307,7 @@
 <script type="text/javascript">
 var ctx = "${ctx}";
 var pkid = "${pkid}";
+var serviceDepId = $("#serviceDepId").val();
 //关闭按钮
 $("#materialStorageClose").click(function(){	
 	window.location.href = ctx+"/material/materialList";
@@ -379,8 +380,8 @@ function  selectApplyUserBack(array) {
 	}
 }
 //主办图标选择
-$('#materialApplyUser').click(function() {
-	chooseApplyOperator(serviceDepId);
+$("#materialApplyUser").click(function() {
+		chooseApplyOperator(serviceDepId);
 });
 </script>
 </content>
