@@ -55,7 +55,7 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>                    
     <div class="row">
        <div class="wrapper wrapper-content animated fadeInUp marginbot-30 ">
-       	<form action="${ctx}/material/materialStay"  method="post" id="materialStorgaeForm">
+       	<form action="${ctx}/material/materialStay"  method="post"  id="materialStorgaeInfoSave">
            <div class="ibox-content" id="reportOne">
                 <div class="row">
                    <div class="col-lg-12">
@@ -82,8 +82,10 @@
                                    <p>
                                    <p class="input-infoht"  style="position:relative;">
                                        <label>申请人</label>
-                                       <input type="text" value="" class="select_control info_two" name="relevantUser"  id="relevantUser">
-                                       <i class="icon iconfont input-group add-icon organize_icon"></i>
+                                       <input type="text" value="" class="select_control info_two" name="relevantUser"  id="relevantUser" 
+                                        hVal="" readonly="readonly"	onclick="chooseApplyOperator('${serviceDepId}')" />
+                                       <input  type="hidden"  value=""  name="relevantUserId"  id="relevantUserId">
+                                       <i class="icon iconfont input-group add-icon organize_icon" id="materialApplyUser"></i>
                                    <p>
                                </div>
                            </div>
@@ -239,8 +241,8 @@
                </div>
 
                <div class="status_btn text-center">
-                   <button class="btn btn-success btn-space" id="materialStorgaeSubmit">提交</button>
-                   <button class="btn btn-grey" data-dismiss="modal" data-toggle="modal" data-target="#myModal" id="materialStorageClose">关闭</button>
+                   <button type="button" class="btn btn-success btn-space" id="materialStorgaeSubmit">提交</button>
+                   <button type="button"  class="btn btn-grey"  id="materialStorageClose">关闭</button>
                </div>
            </div>
           </form>
@@ -252,7 +254,7 @@
   	
 <content tag="local_script"> 
 <!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script>
+<%-- <script src="${ctx}/static/js/jquery-2.1.1.js"></script> --%>
 <script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
 <script src="${ctx}/static/js/bootstrap.min.js"></script>
 <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -277,31 +279,33 @@
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 <!-- 上传附件 结束 -->
-<!-- 附件保存修改相关 --> 
-<script src="${ctx}/js/trunk/task/attachment.js"></script>
+<!-- 附件保存修改相关 -->
 <script src="${ctx}/js/jquery.blockui.min.js"></script> 
 <script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <!-- stickup plugin -->
-<script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
+<%-- <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script> --%>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-<script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
+<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+<!-- stickup plugin -->
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
-<script src="${ctx}/js/trunk/material/materialList.js"></script> 
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>	
 <script src="${ctx}/js/trunk/material/attachmentForMaterial.js"></script> 
+
+<!-- 选择组织控件 -->
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 	
+<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 <script type="text/javascript">
 var ctx = "${ctx}";
-$(function(){				
-
-});
+var pkid = "${pkid}";
 //关闭按钮
-$("#materialStorageClose").click(function(){
-		window.location.href = ctx+"/material/materialList";
+$("#materialStorageClose").click(function(){	
+	window.location.href = ctx+"/material/materialList";
 })
-$("#materialStorgaeSubmit").click(function(){
+
+$("#materialStorgaeSubmit").click(function(){	
 		//文件存放位置必填验证
 		if(!itemAddrCodeCheck()){			
 			return false;
@@ -311,9 +315,9 @@ $("#materialStorgaeSubmit").click(function(){
 			return false;
 		}
 		//上传附件信息
-		attachmentForMaterial();
+		materialAttachmentSave();
 		//表单提交保存业务信息
-		$("#materialStorgaeForm").submit();
+		$("#materialStorgaeInfoSave").submit();
 })
 
 function itemAddrCodeCheck(){
@@ -336,6 +340,41 @@ function  imgCheckNum(){
 	}
 	return imgFlag;
 }
+
+//借用组织图
+function chooseApplyOperator(id){		
+		userSelect({
+			startOrgId : id,
+			expandNodeId : id,
+			nameType : 'long|short',
+			orgType : '',
+			departmentType : '',
+			departmentHeriarchy : '',
+			chkStyle : 'radio',
+/*			jobCode : 'Manager,Senior_Manager',*/
+			jobCode : 'consultant',
+			callBack : selectApplyUserBack
+		});	
+}
+
+//选取人员的回调函数relevantUserId
+function  selectApplyUserBack(array) {	
+	if (array && array.length > 0) {
+		// todo 添加隐藏属性和实体类对应
+		$("#relevantUser").val(array[0].username);
+		$("#relevantUser").attr('hVal', array[0].userId);
+		$("#relevantUserId").val(array[0].userId);
+		
+	} else {
+		$("#relevantUser").val("");
+		$("#relevantUser").attr('hVal', "");
+		$("#relevantUserId").val("");
+	}
+}
+//主办图标选择
+$('#materialApplyUser').click(function() {
+	chooseApplyOperator(serviceDepId);
+});
 </script>
 </content>
 </body>

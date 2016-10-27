@@ -19,7 +19,7 @@ public interface ToAttachmentMapper {
 
     int updateByPrimaryKey(ToAttachment record);
     
-    List<ToAttachment> quereyAttachments(ToAttachment record);
+    List<ToAttachment> quereyAttachments(ToAttachment record); 
     
     List<ToAttachment> quereyAttachmentForMaterial(ToAttachment record);
     

@@ -83,15 +83,19 @@ $(function() {
 	
 	getExplPicByhouseCode();
 });
-//
+//页面初始化查询附件信息
 function getExplPicByhouseCode() {
 	$.ajax({
 		type : 'post',
 		cache : false,
 		async : true,//false同步，true异步
 		dataType : 'json',
-		url : ctx+'/attachment/quereyAttachments',
+		url : ctx+'/attachment/quereyAttachmentsForMaterital',
 		data : [{
+			name : 'pkid',
+			value : pkid
+		}, 
+		 {
 			name : 'caseCode',
 			value : caseCode
 		}, {
@@ -173,7 +177,7 @@ function subAddFrom() {
 				console.log("===Result==="+JSON.stringify(data));
 				if(data.success){
 					$("#attachPkid").val(data.message);	
-					alert("插入附件的pkid============"+$("#attachPkid").val());
+					//alert("插入附件的pkid============"+$("#attachPkid").val());
 				    $(".cancel").hide();
 				    $(".btn-primary").one("click",function(){
 				    	parent.$.fancybox.close();
@@ -328,7 +332,7 @@ function checkAttachment2() {
 }
 
 //保存
-function attachmentForMaterial(){
+function materialAttachmentSave(){
 	var picDiv=$("div[name='allPicDiv1']");
     //所选图片和上传的图片的数目要相同
     if(picDiv.length>0){

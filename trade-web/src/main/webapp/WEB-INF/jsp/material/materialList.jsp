@@ -385,9 +385,6 @@
                         </td>
 				  </tr>
        {{/each}}
-</script> 
-<script type="text/javascript">
-
 </script>
 </content>
 </body>

@@ -494,9 +494,9 @@ function statusFlagCheck(){
 				departmentHeriarchy : '',
 				chkStyle : 'radio',
 	/*			jobCode : 'Manager,Senior_Manager',*/
+				jobCode : 'consultant',
 				callBack : selectBorrowUserBack
 			});
-			
 	
  }
 
@@ -529,6 +529,7 @@ function chooseReturnOperator(id){
 		departmentHeriarchy : '',
 		chkStyle : 'radio',
 /*			jobCode : 'Manager,Senior_Manager',*/
+		jobCode : 'consultant',
 		callBack : selectReturnUserBack
 	});
 
@@ -560,6 +561,7 @@ function chooseRefundOperator(id){
 		departmentHeriarchy : '',
 		chkStyle : 'radio',
 /*			jobCode : 'Manager,Senior_Manager',*/
+		jobCode : 'consultant',
 		callBack : selectRefundUserBack
 	});
 
