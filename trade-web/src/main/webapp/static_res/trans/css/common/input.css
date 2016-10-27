@@ -546,7 +546,7 @@ input {
 .info_content .line .info_one {
   float: left;
   display: inline-block;
-  width: 125px;
+  width: 150px;
   color: #333;
   overflow: hidden;
   white-space: nowrap;
@@ -626,6 +626,16 @@ input {
 }
 .extent-three {
   width: 210px!important;
+}
+
+.extent-one_material {
+  width: 148px!important;
+}
+.extent-two_material {
+  width: 467px!important;
+}
+.extent-three_material {
+  width: 748px!important;
 }
 .marginbot-30 {
     margin-bottom: 30px!important;
