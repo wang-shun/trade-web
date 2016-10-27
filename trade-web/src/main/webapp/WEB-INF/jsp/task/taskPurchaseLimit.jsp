@@ -130,59 +130,23 @@
                </div>
            </div>
 	</div>
-
+	
 	<content tag="local_script"> 
-		
-	<script>
-	var source = "${source}";
-	/* function readOnlyForm(){
-		$(".readOnly_date").removeClass('date');
-		$(".readOnly_date input").attr('readOnly',true);
-		$("select[readOnlydata=1]").closest('.row').hide();
-		$("[readOnlydata=1]").attr('readonly',true);
-		$("[readOnlydata=1]").each(function(){
-			if($(this).is('a')){
-				$(this).hide();
-			}
-		});
-	} */
+		<script>
+			var source = "${source}";
 	
-	function readOnlyForm(){
-		//设置查限购时间不可修改
-		$("#realPlsTime").parent().removeClass("input-daterange");
-		$("#realPlsTime").removeClass("datatime");
-		$("#realPlsTime").attr("readonly",true);
-		$("#realPlsTime").css("background-color","#ccc");
-		
-		//设置提交按钮隐藏
-		$("#btnSubmit").hide();
-	}
-	
-	$(document).ready(function() {
-		if('caseDetails'==source){
-			readOnlyForm();
-		}
-		
-	/* 	$("#sendSMS").click(function(){
-			var t='';
-			var s='/';
-			$("#reminder_list").find("input:checkbox:checked").closest('td').next().each(function(){
-				t+=($(this).text()+s);
-			});
-			if(t!='') {
-				t=t.substring(0,t.length-1);
-			}
-			$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
-		}); */
-		
-		$("#reminder_list").jqGrid({
+			$(document).ready(function() {
+				if('caseDetails'==source){
+					readOnlyForm();
+				}
+				
+				$("#reminder_list").jqGrid({
 					url:"${ctx}/quickGrid/findPage",
 					datatype : "json",
 					height:210,
 					multiselect : true,
 					autowidth : true,
 					shrinkToFit : true,
-			        // rowNum:8,
 			        viewrecords:true,
 					colNames : [ '提醒事项', '备注' ],
 					colModel : [ {
@@ -196,19 +160,15 @@
 					}
 
 					],
-					// pager : "#pager_list_1",
 					viewrecords : false,
 					pagebuttions : false,
 					hidegrid : false,
-					// recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-					// pgtext : " {0} 共 {1} 页",
 					postData:{
 			        	queryId:"queryToReminderList",
 			        	search_partCode: taskitem
 			        },
 				});
-
-
+		
 				$('#data_1 .input-group.date').datepicker({
 					todayBtn : "linked",
 					keyboardNavigation : false,
@@ -216,107 +176,107 @@
 					calendarWeeks : false,
 					autoclose : true
 				});
-
-			$("#caseCommentList").caseCommentGrid({
-				caseCode : caseCode,
-				srvCode : taskitem
-			});			
-		});
 		
-		/**提交数据*/
-		function submit() {
-			if(checkAttachment()) {
-				save(true);
-			}
-		}
-
-		/**保存数据*/
-		function save(b) {
-			if(!checkForm()) {
-				return;
-			}
-			var jsonData = $("#purchaseLimitForm").serializeArray();
-			deleteAndModify(); 
-			
-			var url = "${ctx}/task/purchaseLimit/savePls";
-			if(b) {
-				url = "${ctx}/task/purchaseLimit/submitPls";
-			}
-			
-			$.ajax({
-				cache : true,
-				async : false,//false同步，true异步
-				type : "POST",
-				url : url,
-				dataType : "json",
-				data : jsonData,
-    		    beforeSend:function(){  
-    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-    				$(".blockOverlay").css({'z-index':'9998'});
-                },
-                complete: function() {  
-                	$.unblockUI();  
-                	if(b){ 
-                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
-    				    $(".blockOverlay").css({'z-index':'1900'});
-                	}   
-
-                    if(status=='timeout'){//超时,status还有success,error等值的情况
-    	          	  Modal.alert(
-    				  {
-    				    msg:"抱歉，系统处理超时。"
-    				  });
-    		  		 $(".btn-primary").one("click",function(){
-    		  				parent.$.fancybox.close();
-    		  			});	 
-    		                }
-    		            } ,
-				success : function(data) {
-					if(b) {
-						caseTaskCheck();
-						if(null!=data.message){
-							alert(data.message);
-						}
-						//window.location.href = "${ctx }/task/myTaskList";
-					} else {
-						 alert("保存成功。");
-						 window.close();
-						 window.opener.callback();
-					}
-				},
-				error : function(errors) {
-					alert("数据保存出错");
-				}
+				$("#caseCommentList").caseCommentGrid({
+					caseCode : caseCode,
+					srvCode : taskitem
+				});			
 			});
-		}
+				
+			//提交数据
+			function submit() {
+				if(checkAttachment()) {
+					save(true);
+				}
+			}
 		
-		//验证控件checkUI();
-		function checkForm() {
-			if($('input[name=realPlsTime]').val()=='') {
-                alert("查限购时间为必填项!");
-                $('input[name=realPlsTime]').focus();
-                return false;
-           }
-			/* if($('input[name=comment]').val()=='') {
-                alert("备注为必填项!");
-                $('input[name=comment]').focus();
-                return false;
-           } */
-			return true;
-		}
-	</script> 
-	<!-- Peity --> 
+			//保存数据
+			function save(b) {
+				if(!checkForm()) {
+					return;
+				}
+				var jsonData = $("#purchaseLimitForm").serializeArray();
+				deleteAndModify(); 
+				
+				var url = "${ctx}/task/purchaseLimit/savePls";
+				if(b) {
+					url = "${ctx}/task/purchaseLimit/submitPls";
+				}
+				
+				$.ajax({
+					cache : true,
+					async : false,
+					type : "POST",
+					url : url,
+					dataType : "json",
+					data : jsonData,
+	    		    beforeSend:function(){  
+	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	    				$(".blockOverlay").css({'z-index':'9998'});
+	                },
+	                complete: function() {  
+	                	$.unblockUI();  
+	                	if(b){ 
+	                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
+	    				    $(".blockOverlay").css({'z-index':'1900'});
+	                	}   
+	
+	                	//超时,status还有success,error等值的情况
+	                    if(status=='timeout'){
+	    	          	  Modal.alert(
+	    				  {
+	    				    msg:"抱歉，系统处理超时。"
+	    				  });
+	    		  		 $(".btn-primary").one("click",function(){
+	    		  				parent.$.fancybox.close();
+	    		  			});	 
+	    		                }
+	    		            } ,
+					success : function(data) {
+						if(b) {
+							caseTaskCheck();
+							if(null!=data.message){
+								alert(data.message);
+							}
+						} else {
+							 alert("保存成功。");
+							 window.close();
+							 window.opener.callback();
+						}
+					},
+					error : function(errors) {
+						alert("数据保存出错");
+					}
+				});
+			}
+				
+			//验证控件checkUI();
+			function checkForm() {
+				if($('input[name=realPlsTime]').val()=='') {
+	                alert("查限购时间为必填项!");
+	                $('input[name=realPlsTime]').focus();
+	                return false;
+	             }
+				
+				return true;
+			}
+			
+			function readOnlyForm(){
+				//设置查限购时间不可修改
+				$("#realPlsTime").parent().removeClass("input-daterange");
+				$("#realPlsTime").removeClass("datatime");
+				$("#realPlsTime").attr("readonly",true);
+				$("#realPlsTime").css("background-color","#ccc");
+				
+				//设置提交按钮隐藏
+				$("#btnSubmit").hide();
+			}
+		</script> 
 		<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
-		<!-- jqGrid -->
 		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-		<!-- Custom and plugin javascript -->
 		<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-	
-		<!-- Data picker -->
 		<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	
-		<!-- 上传附件相关 --> 
 		<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> 
 		<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> 
 		<script	src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
@@ -324,35 +284,26 @@
 		<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
 		<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
-	
 		<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
 		<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 		<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-	
 		<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-	
 		<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 		<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 		<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
-		<!-- 上传附件 结束 -->
-		<!-- 附件保存修改相关 -->
 		<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 		<script src="${ctx}/transjs/sms/sms.js"></script>
 	    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 		<script src="${ctx}/js/jquery.blockui.min.js"></script>
 		<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
-	
 		<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-		
 		<!-- 改版引入的新的js文件 --> 
 		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 		<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	</content>
 </body>
-
-
 </html>
