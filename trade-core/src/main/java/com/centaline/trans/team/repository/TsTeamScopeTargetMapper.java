@@ -12,4 +12,10 @@ public interface TsTeamScopeTargetMapper {
     int insertSelective(TsTeamScopeTarget record);
     
     List<TsTeamScopeTarget> getTeamScopeTargetListByProperty(TsTeamScopeTarget record);
+    
+    /**
+     * 更新mapping
+     * @return
+     */
+    Integer updateGrpMap();
 }
