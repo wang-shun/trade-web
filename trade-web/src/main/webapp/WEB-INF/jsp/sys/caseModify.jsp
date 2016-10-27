@@ -139,14 +139,14 @@
 						<div class="row m-t" style="padding: 30px 0;">
 							<div class="col-lg-4 col-md-4">
 								<div class="form-group">
-									<label class="col-lg-3 col-md-3 control-label font_w" style="margin-top: 5px;">ctm编号</label>
+									<label class="col-lg-3 col-md-3 control-label font_w" style="margin-top: 7px;text-align: right;padding-right: 0;font-weight: normal;">ctm编号</label>
 									<div class="col-lg-9 col-md-9">
-										<input type="text" class="form-control" id="invalidCtmCode" name="invalidCtmCode">
+										<input type="text" class="form-control" id="invalidCtmCode" name="invalidCtmCode" style="margin-left: 5px;">
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-4 col-md-4">
-								<button class="btn btn-warning" id="searchIvalidMapingCase">
+								<button class="btn btn-warning" id="searchIvalidMapingCase" style="height: 35px;padding: 6px 22px;margin-left: 20px;">
 									<span class="bold">修改</span>
 								</button>
 							</div>
