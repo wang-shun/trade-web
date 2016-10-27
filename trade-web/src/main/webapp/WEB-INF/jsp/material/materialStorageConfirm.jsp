@@ -24,7 +24,6 @@
 <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" />
 
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" /> 
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
@@ -96,9 +95,8 @@
 		       <div class="ibox-title">
 					<c:choose>
 						<c:when test="${accesoryList!=null}">
-							<h5>上传附件</h5>
-							<span style="color: red;font-size: 15px;">&nbsp;&nbsp;[&nbsp;说明：单次上传客户确认书，请做成一张附件上传&nbsp;&nbsp;]</span>
-							<div class="ibox-content" style="height: 280px; overflow-y: scroll;">
+							<h5>上传附件<span style="color: red;font-size: 15px;">&nbsp;&nbsp;[&nbsp;说明：单次上传客户确认书，请做成一张附件上传&nbsp;]</span></h5>							
+							<div class="ibox-content" style="height: 180px; overflow-y: scroll;">
 								<h5>${accesoryList[0].accessoryName }</h5>
 								
 								<c:forEach var="accesory"  items="${accesoryList}"	varStatus="status">
@@ -351,17 +349,17 @@ function  imgCheckNum(){
 }
 
 //借用组织图
-function chooseApplyOperator(id){		
+function chooseApplyOperator(serviceDepId){		
 		userSelect({
-			startOrgId : id,
-			expandNodeId : id,
+			startOrgId : serviceDepId,
+			expandNodeId : serviceDepId,
 			nameType : 'long|short',
 			orgType : '',
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
 /*			jobCode : 'Manager,Senior_Manager',*/
-			jobCode : 'consultant',
+/* 			jobCode : 'consultant', */
 			callBack : selectApplyUserBack
 		});	
 }

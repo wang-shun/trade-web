@@ -103,6 +103,9 @@ public class MaterialManagementController {
 	//物品入库页面  案件信息查询
 	@RequestMapping("materialStorgae")
 	public String  materialStorgae(HttpServletRequest request,String pkids){
+		//申请人所在组织的id
+		SessionUser user = uamSessionService.getSessionUser();
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		List<MmMaterialItem>  mmMaterialItemList =  new ArrayList<MmMaterialItem>();
 		MmMaterialItem mmMaterialItem= new MmMaterialItem();
 		if(!"".equals(pkids) && pkids !=null){

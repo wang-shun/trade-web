@@ -172,12 +172,10 @@ public class ToMortgageController {
 			}
 			if(toMortgage.getIsTmpBank() == null){
 				toMortgage.setIsTmpBank("0");
-			}
-			
-
+			}	
+			//贷款专员的id和组织id
 			toMortgage.setLoanAgent(user.getId());
-			toMortgage.setLoanAgentTeam(user.getServiceDepId());
-			
+			toMortgage.setLoanAgentTeam(user.getServiceDepId());			
 			toMortgage.setToSupDocu(toSupDocu);
 			toMortgageService.saveToMortgageAndSupDocu(toMortgage);
 			

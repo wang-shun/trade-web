@@ -226,7 +226,6 @@ $("#materialStorage").click(function(){
 })
 
 
-
 //验证勾选的复选框的caseCode必须一样
 function caseCodeTheSameCheck(){	
 	var flag=true;
@@ -284,7 +283,7 @@ function statusInstockCheck(){
 		//statusFlag.value  js对象
 		if($(statusFlag).attr("statusFlag") != "instock"){
 			flag = false;
-			alert("只有在库状态的物品才可 借用和退还！");
+			alert("只有在库状态的物品才可借用或退还！");
 		}
 		
 		if(flag == false){
@@ -515,7 +514,6 @@ function selectBorrowUserBack(array) {
 $('#materialBorrowUser').click(function() {
 	chooseBorrowOperator(serviceDepId);
 });
-
 
 
 //归还人员组织
