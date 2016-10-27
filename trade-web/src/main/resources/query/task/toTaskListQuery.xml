@@ -66,7 +66,7 @@
 						A.CTM_CODE as CTM_CODE,
 						b.pkid as PKID,
 						wfe.WFE_NAME as WFE_NAME,
-						(select Count(PKID) from sctrans_dev.sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
+						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
 					FROM
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
