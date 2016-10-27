@@ -212,7 +212,7 @@
 <script type="text/javascript">
 var attaPkid = "${attaPkid}";
 var ctx = "${ctx}";
-
+var caseCode = "${mmMaterialItem.caseCode}";
 $(function(){	
 	//获取附件列表信息
 	getShowAttachmentForMaterial();	
@@ -229,6 +229,14 @@ function getShowAttachmentForMaterial() {
 		data : [{
 			name : 'pkid',
 			value : attaPkid
+		},
+		{
+			name : 'caseCode',
+			value : caseCode
+		},
+		{
+			name : 'partCode',
+			value : 'CustomerConfirmation'
 		}],
 		dataType : "json",
 		success : function(data) {

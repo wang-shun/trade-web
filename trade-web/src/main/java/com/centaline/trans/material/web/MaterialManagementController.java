@@ -206,8 +206,7 @@ public class MaterialManagementController {
 		return "material/materialDetail";		
 	}
 	
-	//封装查询 出入记录、
-	//todo 根据pkid获取上传的客户确认书需完善
+	//封装查询 出入记录
 	private  List<MmIoBatch>  getMmIoBatchList(HttpServletRequest request,String pkid){
 		//出入记录
 		List<MmIoBatch> mmIoBatchlist = new  ArrayList<MmIoBatch>();
