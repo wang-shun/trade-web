@@ -101,7 +101,7 @@
 						NB.RES_DATE,
 
                         (SELECT U.REAL_NAME FROM   sctrans.SYS_USER U    inner join  sctrans.T_TO_CASE C on U.ID=C.LEADING_PROCESS_ID AND C.CASE_CODE = NB.CASE_CODE)  FONT_NAME,
-                        (select Count(PKID) from sctrans_dev.sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=NB.CASE_CODE ) as SUBSCRIBE_COUNT
+                        (select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=NB.CASE_CODE ) as SUBSCRIBE_COUNT
 					FROM sctrans.V_CASE_LIST_BASE NB
 					<ifNotNull realConTime>
 						INNER JOIN sctrans.T_TO_SIGN AS G ON NB.CASE_CODE = G.CASE_CODE

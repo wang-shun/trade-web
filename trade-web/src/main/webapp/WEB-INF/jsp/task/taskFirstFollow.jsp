@@ -27,10 +27,8 @@
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-
 <!-- 新调整页面样式 -->
 <link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
 <link href="${ctx}/css/common/details.css" rel="stylesheet">
@@ -58,14 +56,10 @@
 	}
 </script>
 <style type="text/css">
-.radio.radio-inline > label{
-	margin-left:10px;}
-.radio.radio-inline > input{
-	margin-left:10px;}
-.checkbox.checkbox-inline > div{
-	margin-left:25px;}
-.checkbox.checkbox-inline > input{
-	margin-left:20px;}
+.radio.radio-inline > label{margin-left:10px;}
+.radio.radio-inline > input{margin-left:10px;}
+.checkbox.checkbox-inline > div{margin-left:25px;}
+.checkbox.checkbox-inline > input{margin-left:20px;}
 .product-type span{margin:0 5px 5px 0}
 .product-type .selected,.product-type span:hover{border-color:#f8ac59}
 .ibox-content-task{padding-bottom:40px !important;}
@@ -202,691 +196,619 @@
 		                        </div> 
 		                    </div>
 		                </div>
-		                </div>
-                <div class="line sourcebox">
-                    <div class="form_content clearfix">
-                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>无效原因 </label> 
-                        <input type="text" class="mendwidth input_type" id="invalid_reason" name="invalid_reason" 
-								value="${houseTransfer.invalid_reason}">
-                    </div>
-                </div>
-                <div class="line alerted">
-                     <div class="form_content">
-                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>商贷预警 </label>
-                        <div class="controls">
-                        	<label class="radio inline"> 
-                        		<input type="radio" value="true" id="optionsRadios1" name="businessLoanWarn" <c:if test="${!empty bizWarnInfo }">checked="checked"</c:if>>是
-							</label>
-							<label class="radio inline"> 
-								<input type="radio" <c:if test="${empty bizWarnInfo }">checked="checked"</c:if> value="false" id="optionsRadios2" name="businessLoanWarn">否
-							</label>
-                        </div>
-                    </div>
-                </div>
+		            </div>
+		            
+	                <div class="line sourcebox">
+	                    <div class="form_content clearfix">
+	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>无效原因 </label> 
+	                        <input type="text" class="mendwidth input_type" id="invalid_reason" name="invalid_reason" 
+									value="${houseTransfer.invalid_reason}">
+	                    </div>
+	                </div>
+	                
+	                <div class="line alerted">
+	                     <div class="form_content">
+	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>商贷预警 </label>
+	                        <div class="controls">
+	                        	<label class="radio inline"> 
+	                        		<input type="radio" value="true" id="optionsRadios1" name="businessLoanWarn" <c:if test="${!empty bizWarnInfo }">checked="checked"</c:if>>是
+								</label>
+								<label class="radio inline"> 
+									<input type="radio" <c:if test="${empty bizWarnInfo }">checked="checked"</c:if> value="false" id="optionsRadios2" name="businessLoanWarn">否
+								</label>
+	                        </div>
+	                    </div>
+	                </div>
                 
-                <div class="line warncon"  id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
-                    <div class="form_content clearfix">
-                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>预警内容 </label> 
-                        <input type="text" class="mendwidth input_type" id="content" name="content" value="${bizWarnInfo.content }" style="width:500px;">
-                    </div>
-                </div>
+	                <div class="line warncon"  id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
+	                    <div class="form_content clearfix">
+	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>预警内容 </label> 
+	                        <input type="text" class="mendwidth input_type" id="content" name="content" value="${bizWarnInfo.content }" style="width:500px;">
+	                    </div>
+	                </div>
                 
-                <div class="hr"></div>
-                
-                <div class="line clearfix" id="hzxm" style="overflow:visible;">
-		
-		                 <!--  <div class="form_content line34">
-		                      <label class="control-label sign_left_small"> 合作项目 </label> <span class=" " placeholder="" value="" >交易过户（除签约外）</span>
-		                  </div>
-		                         <div class="form_content">
-		                        <label class="control-label sign_left_small"> 合作顾问 </label>
-		                             <select name="" id="" class=" select_control data_style">
-		                        	<option value="">请选择</option></select>
-		                    </div> -->
-		        </div>
-            </form>
+	                <div class="hr"></div>
+	                
+	                <div class="line clearfix" id="hzxm" style="overflow:visible;"></div>
+            	</form>
+            	
+            	<div class="view-content" id="caseCommentList"> </div>
 
-            <div class="view-content" id="caseCommentList">
-            </div>
-
-           <div class="title title-mark">
-               <strong style="font-weight:bold;">ctm附件</strong>
-           </div>
-            <div class="view-content">
-              	<table id="gridTable" class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin"></table>
-   				<div id="gridPager"></div>
-            </div>
-
-            <div class="form-btn">
-                    <div class="text-center">
-                        <button  class="btn btn-success btn-space" onclick="save(false)" id="btnSave">保存</button>
-                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
-                    </div>
-                </div>
-            </div>
-		
-	</div>
+	            <div class="title title-mark">
+	               <strong style="font-weight:bold;">ctm附件</strong>
+	            </div>
+	            
+	            <div class="view-content">
+	              	<table id="gridTable" class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin"></table>
+	   				<div id="gridPager"></div>
+	            </div>
 	
-	<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
-	<content tag="local_script"> 
-		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-		<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
-		<script src="${ctx}/transjs/task/showAttachment.js"></script> 
-		<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
-		<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-		<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-		<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
-		<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-		<script src="${ctx}/transjs/task/follow.pic.list_new.js"></script>
-		<script src="${ctx}/static/js/jquery.json.min.js"></script>
-		<script src="${ctx}/js/plugins/jquery.custom.js"></script>
-	    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
-	    <script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
-		<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
-		<script src="${ctx}/js/trunk/task/taskFirstFollow.validate.js"></script>
-		<script src="${ctx}/js/plugins/layer/layer.js"></script>
-		<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
-		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-		<script src="${ctx}/js/template.js"></script>
-		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-		<!-- 改版引入的新的js文件 -->
-		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-		<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
-	<script>
-		$(document).ready(function(){
-			
-			var ctx = $("#ctx").val();
-			
-			//日历控件
-		    $('.input-daterange').datepicker({
-		        keyboardNavigation: false,
-		        forceParse: false,
-		        autoclose: true
-		    });
-			
-			$("input[name=businessLoanWarn]").change(function(){
-				var value = this.value;
-				
-				if(value == "true"){
-					$("#divContent").show();
-				}
-				else {
-					$("#divContent").hide();
-				}
-			});
-			
-			TaskFirstFollowValidate.init("firstFollowform","");
-			
-			initMortageService();
-			
-			
-			/*  字典对应表关系
-				合作项目
-				30004001	商业贷／组合贷
-				30004002	纯公积金贷
-				30004010	交易过户服务（包括审税／核价／查限购／过户／领证）
-				合作项
-				0	无贷款
-				1	商贷／组合贷款（委托中原）
-				2	纯公积金（委托中原）
-				3	商贷／组合贷款（自办）
-				4	纯公积金贷款（自办）
-			 */
-			
-			/*监听案件是否有效*/
-			$("input:radio[name='caseProperty']").change(function (){ //拨通
-				var optionsRadios =  $('input[name=caseProperty]:checked').val(); 
-				if(optionsRadios=='30003001') {/*无效案件*/
-					$(".sourcebox").show();
-			        $(".marinfo,.alerted").hide();
-			        $("#btnSave").hide();
-			        $("#divContent").hide();
-			        $("#hzxm").hide();
-			        $(".hr").hide();
-					//isShow('isYouXiao', 'none');
-					//isShow('isShiXiao', '');
-				} else {/*有效案件*/
-					 $(".sourcebox").hide();
-			         $(".marinfo,.alerted").show();
-			         $("#btnSave").show();
-			         $("#hzxm").show();
-			         $(".hr").show();
-			         
-			         var businessLoanWarn =  $('input[name=businessLoanWarn]:checked').val(); 
-			         
-			         if(businessLoanWarn == "true"){
-			        	 $("#divContent").show();
-			         }
-			         else {
-			        	 $("#divContent").hide();
-			         }
-					//isShow('isYouXiao', '');
-					//isShow('isShiXiao', 'none');
-				}
-			});
-			
-			if(caseProperty == '30003001') {/*无效案件*/
-				$(".sourcebox").show();
-		        $(".marinfo,.alerted").hide();
-		        $("#divContent").hide();
-		        $("#hzxm").hide();
-		        $(".hr").hide();
-				//isShow('isYouXiao', 'none');
-				//isShow('isShiXiao', '');
-			} else {/*有效案件*/
-				 $(".sourcebox").hide();
-		         $(".marinfo,.alerted").show();
-		         $("#hzxm").show();
-		         $(".hr").show();
-			}
-			
-			/*加载默认基础服务和合作项目*/
-			
-			
-			/* $("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
-			$("input:checkbox[name='srvCode'][value='30004002']").parent().parent().parent().hide();
-			$("input:checkbox[name='srvCode'][value='30004001']").parent().parent().parent().hide(); */
-			/* $("span[value='30004010']").hide();
-			$("span[value='30004002']").hide();
-			$("span[value='30004001']").hide(); */
-			
-			FollowPicList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}','${caseCode}');
-			
-			$("span[name='srvCode']").click(function(){
-				var id = $(this).attr("id");
-				$("span[id='"+id+"']").changeSelect();
-			});
+	            <div class="form-btn">
+	                    <div class="text-center">
+	                        <button  class="btn btn-success btn-space" onclick="save(false)" id="btnSave">保存</button>
+	                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+	                    </div>
+	                </div>
+	            </div>
+			</div>
 	
-		});
-		
-		/*设置div显示或隐藏*/
-		function isShow(divName, stats) {
-		    var div_array = document.getElementsByName(divName);   
-		    for(i=0;i<div_array.length;i++)  
-		    {  
-			    div_array[i].style.display = stats; 
-		    }  
-		}
-		
-		/**日期组件*/
-        $('#data_1 .input-group.date').datepicker({
-            todayBtn: "linked",
-            keyboardNavigation: false,
-            forceParse: false,
-            calendarWeeks: false,
-            autoclose: true
-        });
-		
-        function initMortageService() {
-        	
-			var url = "${ctx}/task/firstFollow/queryMortageServiceByServiceCode";
-			$("#hzxm").html("");
-			$.ajax({
-				cache : false,
-				async : true,//false同步，true异步
-				type : "POST",
-				url : url,
-				dataType : "json",
-				data : {"serviceCode":'3000401002'},
-				success : function(data) {
-							txt = "<div class='form_content line34'><label class='control-label sign_left_small'> 合作项目 </label>";
-							txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/><span class='' placeholder='' value=''>" + data.dic.name + "</span></div>"
-							txt += "<div class='form_content'><label class='control-label sign_left_small'><font color='red' class='mr5' >*</font>合作顾问 </label>";
-							txt += "<select class='select_control mendwidth' name='unCrossCooperationUser' id='cooperationUser" + index + "'>";
-							txt += "<option value='0'>----未选择----</option>";
-							
-							$.each(data.users, function(j, user){
-								txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
-							
-							});
-							
-							if($.trim(data.orgcode)!='033F045'){
-								txt += "<option value='-1'>----跨区选择----</option>";
-							}
-							
-							txt += "</select>";
-							txt += "<input type='hidden' id='coUser"+index+"' name='cooperationUser' value=''/>";
-					
-							/* txt = "<div class='row'>";
-						    txt += "<div class='col-xs-12 col-md-8'>";
-						    txt += "<div class='form-group'  name='isYouXiao'>";
-						    txt += "<label class='col-md-2 control-label'>合作项目</label>";
-						    txt += "<div class='col-md-10'>";
-							txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/>";
-							txt += "<p id='' class='form-control-static'>"+data.dic.name+"</p>";
-							txt += "</div>";
-							txt += "</div>";
-							txt += "</div>";
-							txt += "<div class='col-xs-12 col-md-4'>";
-							txt += "<div class='form-group' id='data_1' name='isYouXiao'>";
-							txt += "<label class='col-md-4 control-label'><font color='red'>*</font>合作顾问</label>";
-							txt += "<div class='col-md-8'>";
-							txt += "<select class='form-control m-b' name='unCrossCooperationUser' id='cooperationUser"+index+"'>";
-							txt += "<option value='0'>----未选择----</option>";
-							$.each(data.users, function(j, user){
-									txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
-								
-							});
-							if($.trim(data.orgcode)!='033F045'){
-								txt += "<option value='-1'>----跨区选择----</option>";
-							}
-							txt += '</select>';
-							txt += '<input type="hidden" id="coUser'+index+'" name="cooperationUser" value=""/>';
-							txt += "</div></div></div>";
-							txt += "</div>";
-							var txt = '<div class="form-group" name="isYouXiao" style="display: display;">';
-							txt += "<input type='hidden' name='coworkService' value='"+value.dicCode+"'/>";
-							txt += "<label class='col-sm-2 control-label'>合作项目</label>";
-							txt += "<div class='col-sm-3' style='padding-top: 6px;'><span>"+value.dicName+"</span></div>";
-							txt += "<label class='col-sm-2 control-label'>合作顾问</label>";
-							txt += "<div class=\"col-sm-3\">";
-						    txt += "<div class=\"input-group \"  style='width: 250px;'>";
-							txt += "<select class='form-control m-b' name='cooperationUser' id='cooperationUser"+index+"'>";
-							txt += "<option value='0'>----未选择----</option>";
-							$.each(value.users, function(j, user){
-							
-								txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";
-							});
-							txt += '</select></div></div>'; */
-							
-							$("#hzxm").append(txt);
-							
-							$('#coUser'+index).val($("#cooperationUser" + index).find(':selected').val());
-							//alert($('#coUser'+index).val());
-							
-							var chaxiangou = $("#cooperationUser" + index);
-							chaxiangou.chosen({no_results_text:"未找到该选项",width:"500px",search_contains:true,disable_search_threshold:10});
-
-				},
-				error : function(errors) {
-					alert("数据出错。");
-				}
-			});
-		}
-
-		/*点击生成或清除合作顾问下拉框*/
-		$(document).on("click","#cooperationUser0_chosen",function(){
-			$(".chosen-single>span").each(function(){
-				if($(this).text()=="----跨区选择----"){
-					$('#coUser'+index).val('');
-					if($("#corss_area").length==0){
-						crossAreaCooperation();
-					}
-					//alert($('#coUser'+index).val());
-				}else{
-					$('#coUser'+index).val($("#cooperationUser" + index).find(':selected').val());
-					if($("#corss_area").length>0){
-						removeCrossAreaCooperation();
-					}
-					//alert($('#coUser'+index).val());
-				}	
-			});
-		});
-		
-		/*删除跨区合作的DOM节点*/
-		function removeCrossAreaCooperation(){
-			$("#corss_area").remove();
-		}        
-        
-		 /*点击下拉框跨区合作的选项触发跨区合作的选项*/
-		function crossAreaCooperation(){
+			<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
+			<content tag="local_script"> 
+				<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+				<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+				<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
+				<script src="${ctx}/transjs/task/showAttachment.js"></script> 
+				<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+				<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
+				<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+				<script src="${ctx}/js/jquery.blockui.min.js"></script>
+			    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+				<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+				<script src="${ctx}/transjs/task/follow.pic.list_new.js"></script>
+				<script src="${ctx}/static/js/jquery.json.min.js"></script>
+				<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+			    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+			    <script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
+				<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
+				<script src="${ctx}/js/trunk/task/taskFirstFollow.validate.js"></script>
+				<script src="${ctx}/js/plugins/layer/layer.js"></script>
+				<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+				<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+				<script src="${ctx}/js/template.js"></script>
+				<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+				<!-- 改版引入的新的js文件 -->
+				<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+				<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 				
-				var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
-				var corsstxt = "";
-				corsstxt += "<div class='col-md-12' id='corss_area'>";
-				corsstxt += "<select id='crossDistrict"+index+"' name='dept'>";
-				corsstxt += "<option value='0'>----部门----</option>";
-				corsstxt += '</select>';
-				corsstxt += "<select name='crossOrg' id='corssOrg"+index+"'>";
-				corsstxt += "<option value='0'>----组别----</option>";
-				corsstxt += '</select>';
-				corsstxt += "<select name='crossCooperationUser' id='crossConsult"+index+"'>";
-				corsstxt += "<option value='0'>----人员----</option>";
-				corsstxt += '</select></div>';
-				$("#hzxm").append(corsstxt);
-				
-				$.ajax({
-					cache : true,
-					async : false,//false同步，true异步
-					type : "POST",
-					url : url,
-					dataType : "json",
-					success : function(data) {
-						/*三级联动*/
-						var district = $('#crossDistrict'+index);
-						var org = $('#corssOrg'+index);
-						var consult = $("#crossConsult"+index);
-						var districtStr="";
+				<script>
+					$(document).ready(function(){
+						var ctx = $("#ctx").val();
 						
-						$.each(data.cross,function(j,items){
-							districtStr += "<option value='"+ items.districtId+"'>" + items.districtName+"</option>";
-						});
-						district.empty().append("<option value='0'>----部门----</option>"+districtStr);
+						//日历控件
+					    $('.input-daterange').datepicker({
+					        keyboardNavigation: false,
+					        forceParse: false,
+					        autoclose: true
+					    });
 						
-						district.bind("change", function(){
-							var orgStr="";
-							var myIndex = district.find(":selected").index()-1;							
-							if(myIndex>=0){
-								//有选择部门   index()取下标  0开始， 0对应部门
-								$.each(data.cross[myIndex].orgs, function(i, items){
-									orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
-								})
-								//显示部门下面的所有组别
-								org.empty().append("<option value='0'>----组别----</option>"+orgStr);
-								var val1 = org.find(":selected").val();
-								if(val1!='0'){
-									changeConsult();
-								}
-							}else{
-								//没有选择部门
-								org.empty().append("<option value='0'>----组别----</option>");
-								consult.empty().append("<option value='0'>----人员----</option>");
-							}
-						});
-						
-						org.bind("change", changeConsult);
-						function changeConsult(){
-							var consultStr="";
-							var index1 = district.find(":selected").index()-1;
-							var index2 = org.find(":selected").index()-1;
-							if(index2>=0){
-								$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
-									consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
-								});
-								consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
-								if(consultStr == ""){
-									consult.empty();
-									consult.append("<option value='0'>----人员----</option>");
-								}
-								getVals();
-							}else{
-								consult.empty().append("<option value='0'>----人员----</option>");
-							}
-						}
-						
-						consult.bind("change", getVals);
-						/*改变隐藏框的值*/
-						function getVals(){
-							var guwen=consult.find(':selected').val();
+						//选择商贷预警事件
+						$("input[name=businessLoanWarn]").change(function(){
+							var value = this.value;
 							
-							if(guwen!='0'){
-								$('#coUser'+index).val(guwen);
+							if(value == "true"){
+								$("#divContent").show();
 							}
-						//alert($('#coUser'+index).val());
-						}						
-					},
-					error : function(errors) {
-						alert("数据出错。");
-					}
-				});
-		 }
-		
-		/**提交数据*/
-		function submit() {
-		if ($('#optionsRadios2:checked').val() == "30003001") {
-				if ($('input[name=invalid_reason]').val() == '') {
-					alert("无效案件必须填写失效原因!");
-					$('input[name=invalid_reason]').focus();
-					return;
-				}
-			}
-		
-			save(true);
-		}
-
-		/**保存数据*/
-		function save(b) {
-				if (!checkForm()) {
-					return;
-				}
-			
-			if (!$("#firstFollowform").valid()) {
-				return;
-			}
-
-			var jsonData = $("#firstFollowform").serializeArray();
-			
-			var result = ''
-			$("span.selected[name='srvCode']").each(function() {
-				result += $(this).attr('value') + ',';
-			});
-			var obj = {
-				name : 'srvCode',
-				value : result.substring(0, result.length - 1)
-			};
-			jsonData.push(obj);
-
-			for (var i = 0; i < jsonData.length; i++) {
-				var item = jsonData[i];
-				if (item["name"] == 'cooperationUser'
-						&& (item["value"] == 0 || item["value"] == -1)) {
-					delete jsonData[parseInt(i)];
-				}
-			}
-
-			var url = "${ctx}/task/firstFollow/saveFirstFollow";
-			if (b) {
-				url = "${ctx}/task/firstFollow/submit";
-			}
-			
-			$.ajax({
-				cache : true,
-				async : false,//false同步，true异步
-				type : "POST",
-				url : url,
-				dataType : "json",
-				//contentType:"application/json",  
-				data : jsonData,
-				beforeSend : function() {
-					$.blockUI({
-						message : $("#salesLoading"),
-						css : {
-							'border' : 'none',
-							'z-index' : '9999'
-						}
-					});
-					$(".blockOverlay").css({
-						'z-index' : '9998'
-					});
-				},
-				complete : function() {
-
-					$.unblockUI();
-					if (b) {
-						$.blockUI({
-							message : $("#salesLoading"),
-							css : {
-								'border' : 'none',
-								'z-index' : '1900'
+							else {
+								$("#divContent").hide();
 							}
 						});
-						$(".blockOverlay").css({
-							'z-index' : '1900'
+						
+						TaskFirstFollowValidate.init("firstFollowform","");
+						initMortageService();
+						
+						/*  字典对应表关系
+							合作项目
+							30004001	商业贷／组合贷
+							30004002	纯公积金贷
+							30004010	交易过户服务（包括审税／核价／查限购／过户／领证）
+							合作项
+							0	无贷款
+							1	商贷／组合贷款（委托中原）
+							2	纯公积金（委托中原）
+							3	商贷／组合贷款（自办）
+							4	纯公积金贷款（自办）
+						 */
+						
+						//监听案件是否有效
+						$("input:radio[name='caseProperty']").change(function (){ 
+							var optionsRadios =  $('input[name=caseProperty]:checked').val(); 
+							
+							//无效案件
+							if(optionsRadios=='30003001') {
+								$(".sourcebox").show();
+						        $(".marinfo,.alerted").hide();
+						        $("#btnSave").hide();
+						        $("#divContent").hide();
+						        $("#hzxm").hide();
+						        $(".hr").hide();
+						    //有效案件
+							} else {
+								 $(".sourcebox").hide();
+						         $(".marinfo,.alerted").show();
+						         $("#btnSave").show();
+						         $("#hzxm").show();
+						         $(".hr").show();
+						         
+						         var businessLoanWarn =  $('input[name=businessLoanWarn]:checked').val(); 
+						         
+						         if(businessLoanWarn == "true"){
+						        	 $("#divContent").show();
+						         }
+						         else {
+						        	 $("#divContent").hide();
+						         }
+							}
 						});
-					}
-					if (status == 'timeout') {//超时,status还有success,error等值的情况
-						Modal.alert({
-							msg : "抱歉，系统处理超时。"
-						});
-						$(".btn-primary").one("click", function() {
-							parent.$.fancybox.close();
-						});
-					}
-				},
-				success : function(data) {
-					if (b) {
-						if(data.message){
-							alert(data.message);
-						}
-						setTimeout('caseTaskCheck()', 1000);
-						//$('#case-task-modal-form').modal("show");
-					} else {
-						if (data.firstFollowVO.isrepeat == true) {
-							alert("请不要重复保存数据");
+						
+						//无效案件
+						if(caseProperty == '30003001') {
+							$(".sourcebox").show();
+					        $(".marinfo,.alerted").hide();
+					        $("#divContent").hide();
+					        $("#hzxm").hide();
+					        $(".hr").hide();
+					    //有效案件
 						} else {
-							alert("保存成功.");
-							window.close();
-							window.opener.callback();
+							 $(".sourcebox").hide();
+					         $(".marinfo,.alerted").show();
+					         $("#hzxm").show();
+					         $(".hr").show();
 						}
+						
+						FollowPicList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}','${caseCode}');
+						
+						$("span[name='srvCode']").click(function(){
+							var id = $(this).attr("id");
+							$("span[id='"+id+"']").changeSelect();
+						});
+				
+					});
+					
+					//设置div显示或隐藏
+					function isShow(divName, stats) {
+					    var div_array = document.getElementsByName(divName);   
+					    for(i=0;i<div_array.length;i++)  
+					    {  
+						    div_array[i].style.display = stats; 
+					    }  
 					}
-				},
-				error : function(errors) {
-					alert("数据保存出错");
-				}
-			});
-		}
-
-		/*double 验证*/
-		function checkNum(obj) {
-			//先把非数字的都替换掉，除了数字和.
-			obj.value = obj.value.replace(/[^\d.]/g, "");
-			//必须保证第一个为数字而不是.
-			obj.value = obj.value.replace(/^\./g, "");
-			//保证只有出现一个.而没有多个.
-			obj.value = obj.value.replace(/\.{2,}/g, ".");
-			//保证.只出现一次，而不能出现两次以上
-			obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
-					.replace("$#$", ".");
-		}
-
-		//验证控件checkUI();
-		function checkForm() {
-			var optionsRadios = $('input[name=caseProperty]:checked').val();
+					
+					//日期组件
+			        $('#data_1 .input-group.date').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
+					
+			        function initMortageService() {
+						var url = "${ctx}/task/firstFollow/queryMortageServiceByServiceCode";
+						$("#hzxm").html("");
+						$.ajax({
+							cache : false,
+							async : true,//false同步，true异步
+							type : "POST",
+							url : url,
+							dataType : "json",
+							data : {"serviceCode":'3000401002'},
+							success : function(data) {
+										txt = "<div class='form_content line34'><label class='control-label sign_left_small'> 合作项目 </label>";
+										txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/><span class='' placeholder='' value=''>" + data.dic.name + "</span></div>"
+										txt += "<div class='form_content'><label class='control-label sign_left_small'><font color='red' class='mr5' >*</font>合作顾问 </label>";
+										txt += "<select class='select_control mendwidth' name='unCrossCooperationUser' id='cooperationUser" + index + "'>";
+										txt += "<option value='0'>----未选择----</option>";
+										
+										$.each(data.users, function(j, user){
+											txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
+										
+										});
+										
+										if($.trim(data.orgcode)!='033F045'){
+											txt += "<option value='-1'>----跨区选择----</option>";
+										}
+										
+										txt += "</select>";
+										txt += "<input type='hidden' id='coUser"+index+"' name='cooperationUser' value=''/>";
+								
+										$("#hzxm").append(txt);
+										
+										$('#coUser'+index).val($("#cooperationUser" + index).find(':selected').val());
+										
+										var chaxiangou = $("#cooperationUser" + index);
+										chaxiangou.chosen({no_results_text:"未找到该选项",width:"500px",search_contains:true,disable_search_threshold:10});
 			
-			if(optionsRadios == "30003003"){
-				if ($('input[name=realPrice]').val() == '') {
-					alert("成交价为必填项!");
-					$('input[name=realPrice]').focus();
-					return false;
-				}
-				
-				if ($('input[name=conPrice]').val() == '') {
-					alert("合同价为必填项!");
-					$('input[name=conPrice]').focus();
-					return false;
-				}
-				
-				if ($('input[name=square]').val() == '') {
-					alert("产证面积为必填项!");
-					$('input[name=square]').focus();
-					return false;
-				}
-				
-				if ($('input[name=propertyAddr]').val() == '') {
-					alert("产证地址为必填项!");
-					$('input[name=propertyAddr]').focus();
-					return false;
-				}
-				
-				
-				if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
-					alert("合作顾问未选择");
-					return false;
-				}
-				// 如果选择了跨区合作并且人员为空
-				if ($("#cooperationUser0").val() == -1 && $("#consult0").val() == 0) {
-					alert("跨区合作顾问未选择");
-					return false;
-				}
-				
-				if ($('select[name=chaxiangou]').val() == '') {
-					alert("限购查询为必选项!");
-					$('select[name=chaxiangou]').focus();
-					return false;
-				}
-				
-				if ($('select[name=diya]').val() == '') {
-					alert("抵押情况为必选项!");
-					$('select[name=diya]').focus();
-					return false;
-				}
-				
-				if ($('input[name=realConTime]').val() == '') {
-					alert("预计签约日期为必填项!");
-					$('input[name=realConTime]').focus();
-					return false;
-				}
-
-
-				if (optionsRadios == '有效案件'
-						|| (optionsRadios != '30003001' && optionsRadios != undefined)) {
-					/*有效案件*/
-					if ($('#distCode').val() == "") {
-						alert("所在区域为必选项!");
-						$('#distCode').focus();
-						return false;
+							},
+							error : function(errors) {
+								alert("数据出错。");
+							}
+						});
 					}
-					
-					var flag = true;
-					
-					 var cooperationUser = $('select[name="unCrossCooperationUser"] option:selected').val();
-					 if(cooperationUser == "0"){
-						 alert("合作顾问为必选项!");
-						 $('select[name="unCrossCooperationUser"]').focus();
-						 return false;
-					 }
-					 else if(cooperationUser == "-1"){
-						 $("select[name='dept']").each(function(){
-							 var dept = this.value;
-							 
-							 if(dept == "0"){
-								 flag = false;
-								 return;
-							 }
-						 });
-						 
-						 $("select[name='crossOrg']").each(function(){
-							 var crossOrg = this.value;
-							 
-							 if(crossOrg == "0"){
-								 flag = false;
-								 return;
-							 }
-						 });
-						 
-						 $("select[name='crossCooperationUser']").each(function(){
-							 var crossCooperationUser = this.value;
-							 
-							 if(crossCooperationUser == "0"){
-								 flag = false;
-								 return;
-							 }
-						 });
-					 }
-				}
-				
-				if(!flag){
-					 alert("跨区合作顾问未选择!"); 
-					 return false;
-				}
-				
-				if($("input[name=businessLoanWarn]:checked").val() == "true"){
-					var content = $("input[name=content]").val();
-					
-					if(content == ""){
-						alert("请填写预警内容！");
-						$('input[name=content]').focus();
-						return false;
-					}
-				}
-			}
-			else if(optionsRadios == "30003001"){
-				var invalid_reason = $("#invalid_reason").val();
-				
-				if(invalid_reason == ""){
-					alert("无效案件必须填写失效原因!");
-					$('input[name=invalid_reason]').focus();
-					return;
-				}
-			}
 			
-			return true;
-		}
-	</script> 
-	</content>
-</body>
-
-
+					//点击生成或清除合作顾问下拉框
+					$(document).on("click","#cooperationUser0_chosen",function(){
+						$(".chosen-single>span").each(function(){
+							if($(this).text()=="----跨区选择----"){
+								$('#coUser'+index).val('');
+								if($("#corss_area").length==0){
+									crossAreaCooperation();
+								}
+							}else{
+								$('#coUser'+index).val($("#cooperationUser" + index).find(':selected').val());
+								if($("#corss_area").length>0){
+									removeCrossAreaCooperation();
+								}
+							}	
+						});
+					});
+					
+					//删除跨区合作的DOM节点
+					function removeCrossAreaCooperation(){
+						$("#corss_area").remove();
+					}        
+			        
+					//点击下拉框跨区合作的选项触发跨区合作的选项
+					function crossAreaCooperation(){
+							var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
+							var corsstxt = "";
+							corsstxt += "<div class='col-md-12' id='corss_area'>";
+							corsstxt += "<select id='crossDistrict"+index+"' name='dept'>";
+							corsstxt += "<option value='0'>----部门----</option>";
+							corsstxt += '</select>';
+							corsstxt += "<select name='crossOrg' id='corssOrg"+index+"'>";
+							corsstxt += "<option value='0'>----组别----</option>";
+							corsstxt += '</select>';
+							corsstxt += "<select name='crossCooperationUser' id='crossConsult"+index+"'>";
+							corsstxt += "<option value='0'>----人员----</option>";
+							corsstxt += '</select></div>';
+							$("#hzxm").append(corsstxt);
+							
+							$.ajax({
+								cache : true,
+								async : false,
+								type : "POST",
+								url : url,
+								dataType : "json",
+								success : function(data) {
+									//三级联动
+									var district = $('#crossDistrict'+index);
+									var org = $('#corssOrg'+index);
+									var consult = $("#crossConsult"+index);
+									var districtStr="";
+									
+									$.each(data.cross,function(j,items){
+										districtStr += "<option value='"+ items.districtId+"'>" + items.districtName+"</option>";
+									});
+									
+									district.empty().append("<option value='0'>----部门----</option>"+districtStr);
+									
+									district.bind("change", function(){
+										var orgStr="";
+										var myIndex = district.find(":selected").index()-1;							
+										if(myIndex>=0){
+											//有选择部门   index()取下标  0开始， 0对应部门
+											$.each(data.cross[myIndex].orgs, function(i, items){
+												orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
+											})
+											//显示部门下面的所有组别
+											org.empty().append("<option value='0'>----组别----</option>"+orgStr);
+											var val1 = org.find(":selected").val();
+											if(val1!='0'){
+												changeConsult();
+											}
+										}else{
+											//没有选择部门
+											org.empty().append("<option value='0'>----组别----</option>");
+											consult.empty().append("<option value='0'>----人员----</option>");
+										}
+									});
+									
+									org.bind("change", changeConsult);
+									function changeConsult(){
+										var consultStr="";
+										var index1 = district.find(":selected").index()-1;
+										var index2 = org.find(":selected").index()-1;
+										if(index2>=0){
+											$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
+												consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
+											});
+											consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
+											if(consultStr == ""){
+												consult.empty();
+												consult.append("<option value='0'>----人员----</option>");
+											}
+											getVals();
+										}else{
+											consult.empty().append("<option value='0'>----人员----</option>");
+										}
+									}
+									
+									consult.bind("change", getVals);
+									//改变隐藏框的值
+									function getVals(){
+										var guwen=consult.find(':selected').val();
+										
+										if(guwen!='0'){
+											$('#coUser'+index).val(guwen);
+										}
+									}						
+								},
+								error : function(errors) {
+									alert("数据出错。");
+								}
+							});
+					 }
+					
+					//提交数据
+					function submit() {
+					if ($('#optionsRadios2:checked').val() == "30003001") {
+							if ($('input[name=invalid_reason]').val() == '') {
+								alert("无效案件必须填写失效原因!");
+								$('input[name=invalid_reason]').focus();
+								return;
+							}
+						}
+					
+						save(true);
+					}
+			
+					//保存数据
+					function save(b) {
+							if (!checkForm()) {
+								return;
+							}
+						
+						if (!$("#firstFollowform").valid()) {
+							return;
+						}
+			
+						var jsonData = $("#firstFollowform").serializeArray();
+						
+						var result = ''
+						$("span.selected[name='srvCode']").each(function() {
+							result += $(this).attr('value') + ',';
+						});
+						var obj = {
+							name : 'srvCode',
+							value : result.substring(0, result.length - 1)
+						};
+						jsonData.push(obj);
+			
+						for (var i = 0; i < jsonData.length; i++) {
+							var item = jsonData[i];
+							if (item["name"] == 'cooperationUser'
+									&& (item["value"] == 0 || item["value"] == -1)) {
+								delete jsonData[parseInt(i)];
+							}
+						}
+			
+						var url = "${ctx}/task/firstFollow/saveFirstFollow";
+						if (b) {
+							url = "${ctx}/task/firstFollow/submit";
+						}
+						
+						$.ajax({
+							cache : true,
+							async : false,
+							type : "POST",
+							url : url,
+							dataType : "json",
+							data : jsonData,
+							beforeSend : function() {
+								$.blockUI({
+									message : $("#salesLoading"),
+									css : {
+										'border' : 'none',
+										'z-index' : '9999'
+									}
+								});
+								$(".blockOverlay").css({
+									'z-index' : '9998'
+								});
+							},
+							complete : function() {
+								$.unblockUI();
+								if (b) {
+									$.blockUI({
+										message : $("#salesLoading"),
+										css : {
+											'border' : 'none',
+											'z-index' : '1900'
+										}
+									});
+									$(".blockOverlay").css({
+										'z-index' : '1900'
+									});
+								}
+								//超时,status还有success,error等值的情况
+								if (status == 'timeout') {
+									Modal.alert({
+										msg : "抱歉，系统处理超时。"
+									});
+									$(".btn-primary").one("click", function() {
+										parent.$.fancybox.close();
+									});
+								}
+							},
+							success : function(data) {
+								if (b) {
+									if(data.message){
+										alert(data.message);
+									}
+									setTimeout('caseTaskCheck()', 1000);
+								} else {
+									if (data.firstFollowVO.isrepeat == true) {
+										alert("请不要重复保存数据");
+									} else {
+										alert("保存成功.");
+										window.close();
+										window.opener.callback();
+									}
+								}
+							},
+							error : function(errors) {
+								alert("数据保存出错");
+							}
+						});
+					}
+			
+					//double验证
+					function checkNum(obj) {
+						//先把非数字的都替换掉，除了数字和.
+						obj.value = obj.value.replace(/[^\d.]/g, "");
+						//必须保证第一个为数字而不是.
+						obj.value = obj.value.replace(/^\./g, "");
+						//保证只有出现一个.而没有多个.
+						obj.value = obj.value.replace(/\.{2,}/g, ".");
+						//保证.只出现一次，而不能出现两次以上
+						obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
+								.replace("$#$", ".");
+					}
+			
+					//验证控件checkUI();
+					function checkForm() {
+						var optionsRadios = $('input[name=caseProperty]:checked').val();
+						
+						if(optionsRadios == "30003003"){
+							if ($('input[name=realPrice]').val() == '') {
+								alert("成交价为必填项!");
+								$('input[name=realPrice]').focus();
+								return false;
+							}
+							
+							if ($('input[name=conPrice]').val() == '') {
+								alert("合同价为必填项!");
+								$('input[name=conPrice]').focus();
+								return false;
+							}
+							
+							if ($('input[name=square]').val() == '') {
+								alert("产证面积为必填项!");
+								$('input[name=square]').focus();
+								return false;
+							}
+							
+							if ($('input[name=propertyAddr]').val() == '') {
+								alert("产证地址为必填项!");
+								$('input[name=propertyAddr]').focus();
+								return false;
+							}
+							
+							
+							if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
+								alert("合作顾问未选择");
+								return false;
+							}
+							// 如果选择了跨区合作并且人员为空
+							if ($("#cooperationUser0").val() == -1 && $("#consult0").val() == 0) {
+								alert("跨区合作顾问未选择");
+								return false;
+							}
+							
+							if ($('select[name=chaxiangou]').val() == '') {
+								alert("限购查询为必选项!");
+								$('select[name=chaxiangou]').focus();
+								return false;
+							}
+							
+							if ($('select[name=diya]').val() == '') {
+								alert("抵押情况为必选项!");
+								$('select[name=diya]').focus();
+								return false;
+							}
+							
+							if ($('input[name=realConTime]').val() == '') {
+								alert("预计签约日期为必填项!");
+								$('input[name=realConTime]').focus();
+								return false;
+							}
+			
+			
+							if (optionsRadios == '有效案件'
+									|| (optionsRadios != '30003001' && optionsRadios != undefined)) {
+								//有效案件
+								if ($('#distCode').val() == "") {
+									alert("所在区域为必选项!");
+									$('#distCode').focus();
+									return false;
+								}
+								
+								var flag = true;
+								
+								 var cooperationUser = $('select[name="unCrossCooperationUser"] option:selected').val();
+								 if(cooperationUser == "0"){
+									 alert("合作顾问为必选项!");
+									 $('select[name="unCrossCooperationUser"]').focus();
+									 return false;
+								 }
+								 else if(cooperationUser == "-1"){
+									 $("select[name='dept']").each(function(){
+										 var dept = this.value;
+										 
+										 if(dept == "0"){
+											 flag = false;
+											 return;
+										 }
+									 });
+									 
+									 $("select[name='crossOrg']").each(function(){
+										 var crossOrg = this.value;
+										 
+										 if(crossOrg == "0"){
+											 flag = false;
+											 return;
+										 }
+									 });
+									 
+									 $("select[name='crossCooperationUser']").each(function(){
+										 var crossCooperationUser = this.value;
+										 
+										 if(crossCooperationUser == "0"){
+											 flag = false;
+											 return;
+										 }
+									 });
+								 }
+							}
+							
+							if(!flag){
+								 alert("跨区合作顾问未选择!"); 
+								 return false;
+							}
+							
+							if($("input[name=businessLoanWarn]:checked").val() == "true"){
+								var content = $("input[name=content]").val();
+								
+								if(content == ""){
+									alert("请填写预警内容！");
+									$('input[name=content]').focus();
+									return false;
+								}
+							}
+						}
+						else if(optionsRadios == "30003001"){
+							var invalid_reason = $("#invalid_reason").val();
+							
+							if(invalid_reason == ""){
+								alert("无效案件必须填写失效原因!");
+								$('input[name=invalid_reason]').focus();
+								return;
+							}
+						}
+						
+						return true;
+					}
+				</script> 
+			</content>
+	</body>
 </html>

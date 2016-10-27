@@ -33,8 +33,10 @@ import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
@@ -182,7 +184,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 
 		//插入工作流表
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setBusinessKey(cashflowApplyCode);
+		//workFlow.setBusinessKey(cashflowApplyCode);
+		workFlow.setBusinessKey("SPVCashflowOutProcess");
 		workFlow.setCaseCode(toSpv.getCaseCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(propertyUtilsService.getSPVCashflowOutProcessDfKey());
@@ -418,16 +421,16 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
             				mix.setSellerDeAmount(toSpvDeDetail.getDeAmount());
             			}
             			mix.setTotalDeAmount(NumberUtil.add(mix.getFundDeAmount(), mix.getSellerDeAmount()));
-//            			List<ToSpvAccount> toSpvAccounts = toSpvAccountMapper.selectBySpvCode(spvCode);
-//            			if(toSpvAccounts  != null && !toSpvAccounts.isEmpty()){
-//            				for(ToSpvAccount account : toSpvAccounts){
-//            					if("FUND".equals(toSpvDeDetail.getPayeeAccountType()) && "FUND".equals(account.getAccountType())){
-//            						mix.setFundName(account.getName());
-//            					}else if("SELLER".equals(toSpvDeDetail.getPayeeAccountType()) && "SELLER".equals(account.getAccountType())){
-//            						mix.setSellerName(account.getName());
-//            					}
-//            				}		
-//            			}
+           			List<ToSpvAccount> toSpvAccounts = toSpvAccountMapper.selectBySpvCode(spvCode);
+           				if(toSpvAccounts  != null && !toSpvAccounts.isEmpty()){
+            				for(ToSpvAccount account : toSpvAccounts){
+            					if("FUND".equals(toSpvDeDetail.getPayeeAccountType()) && "FUND".equals(account.getAccountType())){
+            						mix.setFundName(account.getName());
+            					}else if("SELLER".equals(toSpvDeDetail.getPayeeAccountType()) && "SELLER".equals(account.getAccountType())){
+            						mix.setSellerName(account.getName());
+            					}
+            				}		
+            			}
                 	}
                 }
                 
@@ -442,16 +445,16 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     				deDetailMix.setSellerDeAmount(toSpvDeDetail.getDeAmount());   					
     			}
     			
-//    			List<ToSpvAccount> toSpvAccounts = toSpvAccountMapper.selectBySpvCode(spvCode);
-//    			if(toSpvAccounts  != null && !toSpvAccounts.isEmpty()){
-//    				for(ToSpvAccount account : toSpvAccounts){
-//    					if("FUND".equals(toSpvDeDetail.getPayeeAccountType()) && "FUND".equals(account.getAccountType())){
-//    						deDetailMix.setFundName(account.getName());
-//    					}else if("SELLER".equals(toSpvDeDetail.getPayeeAccountType()) && "SELLER".equals(account.getAccountType())){
-//    						deDetailMix.setSellerName(account.getName());
-//    					}
-//    				}		
-//    			}
+    			List<ToSpvAccount> toSpvAccounts = toSpvAccountMapper.selectBySpvCode(spvCode);
+    			if(toSpvAccounts  != null && !toSpvAccounts.isEmpty()){
+    				for(ToSpvAccount account : toSpvAccounts){
+    					if("FUND".equals(toSpvDeDetail.getPayeeAccountType()) && "FUND".equals(account.getAccountType())){
+    						deDetailMix.setFundName(account.getName());
+    					}else if("SELLER".equals(toSpvDeDetail.getPayeeAccountType()) && "SELLER".equals(account.getAccountType())){
+    						deDetailMix.setSellerName(account.getName());
+    					}
+    				}		
+    			}
     			
     			deDetailMix.setTotalDeAmount(NumberUtil.add(deDetailMix.getFundDeAmount(), deDetailMix.getSellerDeAmount()));
     			deDetailMixList.add(deDetailMix);
@@ -463,7 +466,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     		request.setAttribute("deDetailMixList", deDetailMixList);
     	}
     	
-/*    	List<Map<String, String>> bankNameList = new ArrayList<Map<String, String>>();
+    	List<Map<String, String>> bankNameList = new ArrayList<Map<String, String>>();
     	if(spvBaseInfoVO.getToSpvAccountList() != null && !spvBaseInfoVO.getToSpvAccountList().isEmpty()){
     	for(ToSpvAccount account : spvBaseInfoVO.getToSpvAccountList()){
     		if("SELLER".equals(account.getAccountType())){
@@ -482,11 +485,11 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     			bankNameList.add(1, map);
     		}
     	   }
-    	 }*/
+    	 }
 
     	Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
     	
-//    	request.setAttribute("bankNameList", bankNameList);
+    	request.setAttribute("bankNameList", bankNameList);
     	request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
     	request.setAttribute("totalProcessCashFlowOutAmout", completeCashFlowInfoMap.get("totalProcessCashFlowOutAmout"));
     	request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
@@ -555,12 +558,12 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     		ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(cashFlow.getCashflowApplyId());
     		//只选取完成的流水记录
     		if("in".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
-    			continue;         
-    		}else if("out".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
-    			if(!SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode().equals(cashFlow.getStatus())){
+    			//continue;         
+    		}else if("out".equals(apply.getUsage()) /*&& !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())*/){
+    			//if(!SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode().equals(cashFlow.getStatus())){
     				totalProcessCashFlowOutAmout = totalProcessCashFlowOutAmout.add(totalProcessCashFlowOutAmout);
-    			}
-    			continue;
+    			//}
+    			//continue;
     		}
     		String applyAuditor = apply.getApplyAuditor();
     		String applyAuditorName = applyAuditor == null?null:uamSessionService.getSessionUserById(applyAuditor).getRealName();
@@ -581,6 +584,13 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	}	
         	
         	cashFlowNewList.add(cashFlow);
+    	}
+    	ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
+    	if(null != toSpv && null != toSpv.getAmount()){
+    		if(null != totalCashFlowInAmount )
+    			if(totalCashFlowInAmount.compareTo(toSpv.getAmount().divide(new BigDecimal(10000)))==1){
+    				totalCashFlowInAmount = toSpv.getAmount().divide(new BigDecimal(10000));
+    			}
     	}
     	
     	resultMap.put("cashFlowList", cashFlowNewList);

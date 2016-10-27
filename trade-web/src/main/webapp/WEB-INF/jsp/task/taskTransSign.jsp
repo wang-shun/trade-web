@@ -40,7 +40,6 @@
 <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
 <!-- 备注信息 -->
 <link href="${ctx}/css/transcss/comment/caseComment_new.css" rel="stylesheet">
-
 <!-- 新调整页面样式 -->
 <link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
 <link href="${ctx}/css/common/details.css" rel="stylesheet">
@@ -49,7 +48,6 @@
 <link href="${ctx}/css/common/input.css" rel="stylesheet">
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
-
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -73,7 +71,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	
 	<div class="marginbot">
-		  <div class="row wrapper white-bg new-heading ">
+		  <div class="row wrapper white-bg new-heading">
 	            <div class="pl10">
 	                <h2 class="newtitle-big">
 	                       	签约
@@ -90,7 +88,7 @@
 	       </div>
 	
 	       <div class="ibox-content border-bottom clearfix space_box noborder">
-	        <div class="">
+	       <div class="">
 	            <h2 class="newtitle title-mark">完成提醒</h2>
 	            <div class="jqGrid_wrapper">
 	                <table id="reminder_list"></table>
@@ -99,339 +97,345 @@
 	                    <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
 	                </button>
 	            </div>
-	        </div>
+	       </div>
 	
-		<form method="post" class="form-horizontal" id="transSignForm">
-			<%--环节编码 --%>
-			<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-			<!-- 交易单编号 -->
-			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-			<!-- 流程引擎需要字段 -->
-			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-			<%-- 原有数据对应id --%>
-			<input type="hidden" id="propertyPkid" name="propertyPkid" value="${transSign.propertyPkid}"> 
-			<input type="hidden" id="initPayPkid" name="initPayPkid" value="${transSign.initPayPkid}"> 
-			<input type="hidden" id="secPayPkid" name="secPayPkid" value="${transSign.secPayPkid}">
-			<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${transSign.lastPayPkid}"> 
-			<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${transSign.compensatePayPkid}"> 
-			<input type="hidden" id="signPkid" name="signPkid" value="${transSign.signPkid}"> 
-			<input type="hidden" id="housePkid" name="housePkid" value="${houseTransfer.pkid}">
-	        <div>
-	            <h4 class="title-mark">填写任务信息</h4>
-	            <div class="form_list">
-	                <div class="marinfo">
-	                    <div class="line">
-	                        <div class="form_content mt3">
+		   <form method="post" class="form-horizontal" id="transSignForm">
+				<%--环节编码 --%>
+				<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+				<!-- 交易单编号 -->
+				<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+				<!-- 流程引擎需要字段 -->
+				<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+				<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+				<%-- 原有数据对应id --%>
+				<input type="hidden" id="propertyPkid" name="propertyPkid" value="${transSign.propertyPkid}"> 
+				<input type="hidden" id="initPayPkid" name="initPayPkid" value="${transSign.initPayPkid}"> 
+				<input type="hidden" id="secPayPkid" name="secPayPkid" value="${transSign.secPayPkid}">
+				<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${transSign.lastPayPkid}"> 
+				<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${transSign.compensatePayPkid}"> 
+				<input type="hidden" id="signPkid" name="signPkid" value="${transSign.signPkid}"> 
+				<input type="hidden" id="housePkid" name="housePkid" value="${houseTransfer.pkid}">
+				
+	        	<div>
+	            	<h4 class="title-mark">填写任务信息</h4>
+	            	<div class="form_list">
+	                	<div class="marinfo">
+	                    	<div class="line">
+	                        	<div class="form_content mt3">
+		                            <label class="control-label sign_left_small select_style mend_select">
+		                               	 <font color=" red" class="mr5" >*</font>实际签约时间
+		                            </label>
+		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+		                                <input type="text" class="input_type yuanwid datatime" id="realConTime" name="realConTime"
+													value="<fmt:formatDate value='${transSign.realConTime}' type='both' pattern='yyyy-MM-dd'/>"
+													onfocus="this.blur()">
+		                            </div>
+	                        	</div>
 	                        	
-	                            <label class="control-label sign_left_small select_style mend_select">
-	                               	 <font color=" red" class="mr5" >*</font>实际签约时间
-	                            </label>
-	                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-	                                <input type="text" class="input_type yuanwid datatime" id="realConTime" name="realConTime"
-												value="<fmt:formatDate value='${transSign.realConTime}' type='both' pattern='yyyy-MM-dd'/>"
-												onfocus="this.blur()">
-	                            </div>
-	                        </div>
-	                        <div class="form_content">
-	                           <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>成交价 </label> 
-	                           <input type="text" placeholder="成交价"
+	                        	<div class="form_content">
+	                           		<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>成交价 </label> 
+	                           		<input type="text" placeholder="成交价"
 														value="<fmt:formatNumber value='${ transSign.realPrice/10000}' type='number' pattern='#0.00' />"
 														class="input_type yuanwid" id="realPrice" name="realPrice"
 														onkeyup="checkNum(this)"> 
-							   <span class="date_icon">万元</span>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>合同价 </label> 
-	                            
-	                            <input type="text" placeholder="合同价"
-														value="<fmt:formatNumber value='${ transSign.conPrice/10000}' type='number' pattern='#0.00' />"
-														class="input_type yuanwid" id="conPrice" name="conPrice"
-														onkeyup="checkNum(this)"> 
-	                            <span class="date_icon">万元</span>
-	                        </div>
-	                    </div>
+							   		<span class="date_icon">万元</span>
+	                        	</div>
+	                        	
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>合同价 </label> 
+		                            
+		                            <input type="text" placeholder="合同价"
+															value="<fmt:formatNumber value='${ transSign.conPrice/10000}' type='number' pattern='#0.00' />"
+															class="input_type yuanwid" id="conPrice" name="conPrice"
+															onkeyup="checkNum(this)"> 
+		                            <span class="date_icon">万元</span>
+		                        </div>
+	                    	</div>
 	
-	                    <div class="line" id="divDiYaAndChaxiangou">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>抵押情况 </label>
-	                            <div class="controls ismortgage " style="width: 180px;margin-left: 0px;">
-	                              	  <select class="select_control data_style" readOnlydata='1' name="isLoanClose" id="diya">
-											<option value="">请选择</option>
-											<option value="true" ${transSign.isLoanClose=="1"?'selected':''}>有抵押</option>
-											<option value="false" ${transSign.isLoanClose=="0"?'selected':''}>无抵押</option>
-							 		  </select>
-	                            </div>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>查限购 </label>
-	                            <div class="controls isnowid" style="margin-left: 0px;">
-	                               <select class="select_control data_style" readOnlydata='1' name="isPerchaseReserachNeed" id="chaxiangou">
-											<option value="">请选择</option>
-											<option value="true" ${transSign.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
-											<option value="false" ${transSign.isPerchaseReserachNeed=="0"?'selected':''}>否</option>
-									</select>
-	                            </div>
-	                        </div>
-	
-	
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	        <div>
-	            <h2 class="newtitle title-mark">付款信息</h2>
-	            <div class="form_list">
-	                <div class="marinfo">
-	                    <div class="line">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"> 首付付款 </label>
-	                            <input type="hidden" value="首付付款" id="initPayName" name="initPayName">
-	                            <input type="text"
+		                    <div class="line" id="divDiYaAndChaxiangou">
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>抵押情况 </label>
+		                            <div class="controls ismortgage " style="width: 180px;margin-left: 0px;">
+		                              	  <select class="select_control data_style" readOnlydata='1' name="isLoanClose" id="diya">
+												<option value="">请选择</option>
+												<option value="true" ${transSign.isLoanClose=="1"?'selected':''}>有抵押</option>
+												<option value="false" ${transSign.isLoanClose=="0"?'selected':''}>无抵押</option>
+								 		  </select>
+		                            </div>
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>查限购 </label>
+		                            <div class="controls isnowid" style="margin-left: 0px;">
+		                               <select class="select_control data_style" readOnlydata='1' name="isPerchaseReserachNeed" id="chaxiangou">
+												<option value="">请选择</option>
+												<option value="true" ${transSign.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
+												<option value="false" ${transSign.isPerchaseReserachNeed=="0"?'selected':''}>否</option>
+										</select>
+		                            </div>
+		                        </div>
+		                    </div>
+	                	</div>
+	            	</div>
+	        	</div>
+	        	
+	        	<div>
+	            	<h2 class="newtitle title-mark">付款信息</h2>
+	            	<div class="form_list">
+	                	<div class="marinfo">
+	                    	<div class="line">
+	                        	<div class="form_content">
+	                            	<label class="control-label sign_left_small"> 首付付款 </label>
+	                            	<input type="hidden" value="首付付款" id="initPayName" name="initPayName">
+	                            	<input type="text"
 												value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
 												class="input_type yuanwid" id="initAmount" name="initAmount"
 												onkeyup="checkNum(this)"> 
-	                            <span class="date_icon">万元</span>
-	                        </div>
-	                        <div class="form_content mt3">
-	                            <label class="control-label sign_left_small select_style mend_select">
-	                               	 时间
-	                            </label>
-	                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-	                            	<input type="text"
-												value="<fmt:formatDate  value='${transSign.initPayTime }' type='both' pattern='yyyy-MM-dd' />"
-												class="input_type yuanwid datatime" id="initPayTime" name="initPayTime"
-												onfocus="this.blur()">
-	                            </div>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small">方式 </label>
-	                            	<aist:dict clazz="select_control data_style" id="initPayType"
-												name="initPayType" display="select"
-												defaultvalue="${transSign.initPayType}" dictType="30015" />
-	                        </div>
-	                    </div>
-	                    <div class="line">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small">二期付款</label> 
-	                            <input type="hidden" value="二期付款" id="secPayName" name="secPayName">
-	                            <input type="text"
-												value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
-												class="input_type yuanwid" id="secAmount" name="secAmount"
-												onkeyup="checkNum(this)"> 
-	                            <span class="date_icon">万元</span>
-	                        </div>
-	                        <div class="form_content mt3">
-	                            <label class="control-label sign_left_small select_style mend_select">
-	                                	时间
-	                            </label>
-	                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-	                            	<input type="text"
-												value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
-												class="input_type yuanwid datatime" id="secPayTime" name="secPayTime"
-												onfocus="this.blur()">
-	                            </div>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small">方式 </label>
-	                            <aist:dict clazz="select_control data_style" id="secPayType"
-												name="secPayType" display="select"
-												defaultvalue="${transSign.secPayType}" dictType="30015" />
-	                        </div>
-	                    </div>
-	                    <div class="line">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small">尾款付款</label> 
-	                            <input type="hidden" value="尾款付款" id="lastPayName" name="lastPayName">
-	                            <input type="text"
-												value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
-												class="input_type yuanwid" id="lastAmount" name="lastAmount"
-												onkeyup="checkNum(this)"> 
-	                            <span class="date_icon">万元</span>
-	                        </div>
-	                        <div class="form_content mt3">
-	                            <label class="control-label sign_left_small select_style mend_select">
-	                                	时间
-	                            </label>
-	                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-	                            	<input type="text"
-												value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
-												class="input_type yuanwid datatime" id="lastPayTime" name="lastPayTime"
-												onfocus="this.blur()">
-	                            </div>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"> 方式 </label>
-	                            <aist:dict clazz="select_control data_style" id="lastPayType"
-												name="lastPayType" display="select"
-												defaultvalue="${transSign.lastPayType}" dictType="30015" />
-	                        </div>
-	                    </div>
-	                    <div class="line">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small">装修补偿款</label>
-	                            <input type="hidden" value="装修补偿款" id="compensatePayName" name="compensatePayName">
-	                            <input type="text"
-												value="<fmt:formatNumber value='${transSign.compensateAmount}' type='number' pattern='#0.00' />"
-												class="input_type yuanwid" id="compensateAmount"
-												name="compensateAmount" onkeyup="checkNum(this)"> 
-	                           <span class="date_icon">万元</span>
-	                        </div>
-	                        <div class="form_content mt3">
-	                            <label class="control-label sign_left_small select_style mend_select">
-	                               	 时间
-	                            </label>
-	                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-	                            	<input type="text"
-												value="<fmt:formatDate  value='${transSign.compensatePayTime }' type='both' pattern='yyyy-MM-dd' />"
-												class="input_type yuanwid datatime" id="compensatePayTime"
-												name="compensatePayTime" onfocus="this.blur()">
-	                            </div>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"> 方式 </label>
-	                            	<aist:dict clazz="select_control data_style" id="compensatePayType"
-												name="compensatePayType" display="select"
-												defaultvalue="${transSign.compensatePayType}"
-												dictType="30015" />
-	                        </div>
-	                    </div>
-	                </div>
+	                            	<span class="date_icon">万元</span>
+	                        	</div>
+	                        	
+		                        <div class="form_content mt3">
+		                            <label class="control-label sign_left_small select_style mend_select">
+		                               	 时间
+		                            </label>
+		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+		                            	<input type="text"
+													value="<fmt:formatDate  value='${transSign.initPayTime }' type='both' pattern='yyyy-MM-dd' />"
+													class="input_type yuanwid datatime" id="initPayTime" name="initPayTime"
+													onfocus="this.blur()">
+		                            </div>
+		                        </div>
+		                        
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small">方式 </label>
+		                            	<aist:dict clazz="select_control data_style" id="initPayType"
+													name="initPayType" display="select"
+													defaultvalue="${transSign.initPayType}" dictType="30015" />
+		                        </div>
+	                    	</div>
+	                    	
+		                    <div class="line">
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small">二期付款</label> 
+		                            <input type="hidden" value="二期付款" id="secPayName" name="secPayName">
+		                            <input type="text"
+													value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
+													class="input_type yuanwid" id="secAmount" name="secAmount"
+													onkeyup="checkNum(this)"> 
+		                            <span class="date_icon">万元</span>
+		                        </div>
+		                        <div class="form_content mt3">
+		                            <label class="control-label sign_left_small select_style mend_select">
+		                                	时间
+		                            </label>
+		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+		                            	<input type="text"
+													value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
+													class="input_type yuanwid datatime" id="secPayTime" name="secPayTime"
+													onfocus="this.blur()">
+		                            </div>
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small">方式 </label>
+		                            <aist:dict clazz="select_control data_style" id="secPayType"
+													name="secPayType" display="select"
+													defaultvalue="${transSign.secPayType}" dictType="30015" />
+		                        </div>
+		                    </div>
+		                    
+		                    <div class="line">
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small">尾款付款</label> 
+		                            <input type="hidden" value="尾款付款" id="lastPayName" name="lastPayName">
+		                            <input type="text"
+													value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
+													class="input_type yuanwid" id="lastAmount" name="lastAmount"
+													onkeyup="checkNum(this)"> 
+		                            <span class="date_icon">万元</span>
+		                        </div>
+		                        <div class="form_content mt3">
+		                            <label class="control-label sign_left_small select_style mend_select">
+		                                	时间
+		                            </label>
+		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+		                            	<input type="text"
+													value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
+													class="input_type yuanwid datatime" id="lastPayTime" name="lastPayTime"
+													onfocus="this.blur()">
+		                            </div>
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"> 方式 </label>
+		                            <aist:dict clazz="select_control data_style" id="lastPayType"
+													name="lastPayType" display="select"
+													defaultvalue="${transSign.lastPayType}" dictType="30015" />
+		                        </div>
+		                    </div>
+		                    
+		                    <div class="line">
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small">装修补偿款</label>
+		                            <input type="hidden" value="装修补偿款" id="compensatePayName" name="compensatePayName">
+		                            <input type="text"
+													value="<fmt:formatNumber value='${transSign.compensateAmount}' type='number' pattern='#0.00' />"
+													class="input_type yuanwid" id="compensateAmount"
+													name="compensateAmount" onkeyup="checkNum(this)"> 
+		                           <span class="date_icon">万元</span>
+		                        </div>
+		                        <div class="form_content mt3">
+		                            <label class="control-label sign_left_small select_style mend_select">
+		                               	 时间
+		                            </label>
+		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+		                            	<input type="text"
+													value="<fmt:formatDate  value='${transSign.compensatePayTime }' type='both' pattern='yyyy-MM-dd' />"
+													class="input_type yuanwid datatime" id="compensatePayTime"
+													name="compensatePayTime" onfocus="this.blur()">
+		                            </div>
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"> 方式 </label>
+		                            	<aist:dict clazz="select_control data_style" id="compensatePayType"
+													name="compensatePayType" display="select"
+													defaultvalue="${transSign.compensatePayType}"
+													dictType="30015" />
+		                        </div>
+		                    </div>
+	                	</div>
+	            	</div>
+	        	</div>
 	
-	            </div>
-	        </div>
+		        <div>
+		            <h2 class="newtitle title-mark">上家信息</h2>
+		            <div class="form_list">
+		                <div class="marinfo" id="topHome">
+		                    <div id="guestUpDiv"></div>
+		                </div>
+		            </div> 
+		            
+		            <div class="clear add-member">
+						<a href="javascript:addDateDivUp();">添加上家</a>
+					</div>
+		        </div>
+		        
+		        <div>
+		            <h2 class="newtitle title-mark">下家信息</h2>
+		            <div class="form_list">
+		                <div class="marinfo" id="downHome">
+		                	<div id="guestDownDiv"></div>
+		                </div>
+		            </div>
+		            <div class="clear add-member">
+		            	<a href="javascript:addDateDivDown();">添加下家</a>
+		            </div>
+		        </div>
 	
-	        <div>
-	            <h2 class="newtitle title-mark">上家信息</h2>
-	            <div class="form_list">
-	                <div class="marinfo" id="topHome">
-	                    <div id="guestUpDiv"></div>
-	                </div>
-	            </div> 
-	            
-	            <div class="clear add-member">
-					<a href="javascript:addDateDivUp();">添加上家</a>
-				</div>
-	        </div>
-	        <div>
-	            <h2 class="newtitle title-mark">下家信息</h2>
-	            <div class="form_list">
-	                <div class="marinfo" id="downHome">
-	                	<div id="guestDownDiv"></div>
-	                </div>
-	            </div>
-	            <div class="clear add-member">
-	            	<a href="javascript:addDateDivDown();">添加下家</a>
-	            </div>
-	        </div>
+		        <div>
+		            <h2 class="newtitle title-mark">产证信息</h2>
+		            <div class="form_list">
+		                <div class="marinfo">
+		                    <div class="line">
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证面积 </label>
+		                            <input type="text" class="input_type data_style" id="square" name="square"
+										onkeyup="checkNum(this)"
+										value="<fmt:formatNumber value='${transSign.square}' type='number' pattern='#0.00' />">
+		                           <span class="date_icon">平方米</span>
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证地址 </label> 
+		                            <input type="text" class="input_type mendwidth" id="propertyAddr"
+										name="propertyAddr" value="${transSign.propertyAddr}">
+		                        </div>
+		
+		                    </div>
+		                    <div class="line">
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>所在楼层 </label> 
+		                            <input type="text" class="input_type data_style" id="locateFloor"
+									name="locateFloor" onkeyup="checkNum2(this)"
+									value="${transSign.locateFloor}">
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>总层高</label> 
+		                            <input type="text" class="input_type data_style" id="totalFloor"
+									name="totalFloor" onkeyup="checkNum2(this)"
+									value="${transSign.totalFloor}">
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>竣工年份 </label>
+		                            <select class="select_control data_style" name="finishYear" id="finishYear"></select>
+		                        </div>
+		                    </div>
+		                    <div class="line">
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋类型 </label>
+		                            <aist:dict clazz="select_control data_style" id="propertyType"
+									name="propertyType" display="select"
+									defaultvalue="${transSign.propertyType}" dictType="30014" />
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>合同公证 </label>
+		                            <aist:dict clazz="select_control data_style" id="isHukou" name="isHukou"
+									display="select" defaultvalue="${transSign.isConCert}"
+									dictType="gongzheng_need" />
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋有户口</label>
+		                            	<aist:dict clazz="select_control data_style" id="isConCert" name="isConCert"
+										display="select" defaultvalue="${transSign.isHukou}"
+										dictType="hukou_remain" />
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
 	
-	        <div>
-	            <h2 class="newtitle title-mark">产证信息</h2>
-	            <div class="form_list">
-	                <div class="marinfo">
-	                    <div class="line">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证面积 </label>
-	                            <input type="text" class="input_type data_style" id="square" name="square"
-									onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${transSign.square}' type='number' pattern='#0.00' />">
-	                           <span class="date_icon">平方米</span>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证地址 </label> 
-	                            <input type="text" class="input_type mendwidth" id="propertyAddr"
-									name="propertyAddr" value="${transSign.propertyAddr}">
-	                        </div>
-	
-	                    </div>
-	                    <div class="line">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>所在楼层 </label> 
-	                            <input type="text" class="input_type data_style" id="locateFloor"
-								name="locateFloor" onkeyup="checkNum2(this)"
-								value="${transSign.locateFloor}">
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>总层高</label> 
-	                            <input type="text" class="input_type data_style" id="totalFloor"
-								name="totalFloor" onkeyup="checkNum2(this)"
-								value="${transSign.totalFloor}">
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>竣工年份 </label>
-	                            <select class="select_control data_style" name="finishYear" id="finishYear"></select>
-	                        </div>
-	                    </div>
-	                    <div class="line">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋类型 </label>
-	                            <aist:dict clazz="select_control data_style" id="propertyType"
-								name="propertyType" display="select"
-								defaultvalue="${transSign.propertyType}" dictType="30014" />
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>合同公证 </label>
-	                            <aist:dict clazz="select_control data_style" id="isHukou" name="isHukou"
-								display="select" defaultvalue="${transSign.isConCert}"
-								dictType="gongzheng_need" />
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋有户口</label>
-	                            	<aist:dict clazz="select_control data_style" id="isConCert" name="isConCert"
-									display="select" defaultvalue="${transSign.isHukou}"
-									dictType="hukou_remain" />
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	
-	        <div>
-	            <h2 class="newtitle title-mark">预估税费</h2>
-	            <div class="form_list">
-	                <div class="marinfo">
-	                    <div class="line">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房产税 </label> 
-	                            <input type="text" class="input_type yuanwid" id="houseHodingTax"
-								name="houseHodingTax" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${ houseTransfer.houseHodingTax}' type='number' pattern='#0.00' />">
-	                            <span class="date_icon">万元</span>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>个人所得税 </label> 
-	                            <input type="text" class="input_type yuanwid" id="personalIncomeTax"
-								name="personalIncomeTax" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${ houseTransfer.personalIncomeTax}' type='number' pattern='#0.00' />">
-	                           <span class="date_icon">万元</span>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>上家营业税 </label>
-	                            <input type="text" class="input_type yuanwid" id="businessTax"
-								name="businessTax" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${ houseTransfer.businessTax}' type='number' pattern='#0.00' />"> 
-	                            <span class="date_icon">万元</span>
-	                        </div>
-	                    </div>
-	                    <div class="line">
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>下家契税 </label>
-	                            <input type="text" class="input_type yuanwid" id="contractTax"
-								name="contractTax" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${ houseTransfer.contractTax}' type='number' pattern='#0.00' />">
-	                           <span class="date_icon">万元</span>
-	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>土地增值税 </label>
-	                            <input type="text" class="input_type yuanwid" id="landIncrementTax"
-								name="landIncrementTax" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${ houseTransfer.landIncrementTax}' type='number' pattern='#0.00' />">
-	                           <span class="date_icon">万元</span>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
+		        <div>
+		            <h2 class="newtitle title-mark">预估税费</h2>
+		            <div class="form_list">
+		                <div class="marinfo">
+		                    <div class="line">
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房产税 </label> 
+		                            <input type="text" class="input_type yuanwid" id="houseHodingTax"
+									name="houseHodingTax" onkeyup="checkNum(this)"
+									value="<fmt:formatNumber value='${ houseTransfer.houseHodingTax}' type='number' pattern='#0.00' />">
+		                            <span class="date_icon">万元</span>
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>个人所得税 </label> 
+		                            <input type="text" class="input_type yuanwid" id="personalIncomeTax"
+									name="personalIncomeTax" onkeyup="checkNum(this)"
+									value="<fmt:formatNumber value='${ houseTransfer.personalIncomeTax}' type='number' pattern='#0.00' />">
+		                           <span class="date_icon">万元</span>
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>上家营业税 </label>
+		                            <input type="text" class="input_type yuanwid" id="businessTax"
+									name="businessTax" onkeyup="checkNum(this)"
+									value="<fmt:formatNumber value='${ houseTransfer.businessTax}' type='number' pattern='#0.00' />"> 
+		                            <span class="date_icon">万元</span>
+		                        </div>
+		                    </div>
+		                    <div class="line">
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>下家契税 </label>
+		                            <input type="text" class="input_type yuanwid" id="contractTax"
+									name="contractTax" onkeyup="checkNum(this)"
+									value="<fmt:formatNumber value='${ houseTransfer.contractTax}' type='number' pattern='#0.00' />">
+		                           <span class="date_icon">万元</span>
+		                        </div>
+		                        <div class="form_content">
+		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>土地增值税 </label>
+		                            <input type="text" class="input_type yuanwid" id="landIncrementTax"
+									name="landIncrementTax" onkeyup="checkNum(this)"
+									value="<fmt:formatNumber value='${ houseTransfer.landIncrementTax}' type='number' pattern='#0.00' />">
+		                           <span class="date_icon">万元</span>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
 	        </form>
 	        
 			<div id="caseCommentList" class="view-content"></div>
@@ -561,16 +565,13 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-			<div class="form-btn clear pt20">
-		        <div class="text-center">
-		            <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
-		            <button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
-		        </div>
-		    </div>
-		    
+		<div class="form-btn clear pt20">
+	        <div class="text-center">
+	            <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
+	            <button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
+	        </div>
+	    </div>
 	</div>
-	
-	
  </div>
 
 	<content tag="local_script"> 
@@ -591,19 +592,11 @@
 				}
 				return (result.length==1);
 			}
+			
 			//验证手机和电话号码
 			function checkContactNumber(ContactNumber) {
-				
 				var mobile = $.trim(ContactNumber);				
-				//var phone=/^(0|17951)?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/;
-				//var telephone=/^[0-9]{5,11}$/;				
-				//var isMobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
-				//var isPhone = /^(?:(?:0\d{2,3})-)?(?:\d{7,8})(-(?:\d{3,}))?$/;
-				
-				var number=/^[0-9]*$/;	//数字			
-				//var repeat8=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{8}$/;	  //8位相同数字		
-				//var repeat11=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{11}$/; //8位相同数字					
-				//var repeat13=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{13}$/; //8位相同数字						
+				var number=/^[0-9]*$/;						
 				var isValid = true;
 				
 				if(!number.exec(mobile)){					
@@ -625,23 +618,24 @@
 				return isValid;
 			}
 
-			$("#sendSMS").click(
-					function() {
-						var t = '';
-						var s = '/';
-						$("#reminder_list").find("input:checkbox:checked")
-								.closest('td').next().each(function() {
-									t += ($(this).text() + s);
-								});
-						if (t != '') {
-							t = t.substring(0, t.length - 1);
-						}
-						$("#smsPlatFrom").smsPlatFrom({
-							ctx : '${ctx}',
-							caseCode : $('#caseCode').val(),
-							serviceItem : t
-						});
-					});
+			$("#sendSMS").click(function() {
+				var t = '';
+				var s = '/';
+				
+				$("#reminder_list").find("input:checkbox:checked").closest('td').next().each(function() {
+					t += ($(this).text() + s);
+				});
+				
+				if (t != '') {
+					t = t.substring(0, t.length - 1);
+				}
+				
+				$("#smsPlatFrom").smsPlatFrom({
+					ctx : '${ctx}',
+					caseCode : $('#caseCode').val(),
+					serviceItem : t
+				});
+			});
 
 			$(function() {
 				var caseCode = $('#caseCode').val();
@@ -650,23 +644,19 @@
 					caseCode : caseCode,
 					srvCode : srvCode
 				});
+				
 				TaskTransSignValidate.init("transSignForm", "");
-				// Examle data for jqGrid
-				//AistUpload.initHouAddPicUpload();
-				//AistUpload.initHouTapeInfoUpload();
 				if ('caseDetails' == source) {
 					readOnlyForm();
 				}
 
 				$("#reminder_list").jqGrid({
-					//data : reminderdata,
 					url : "${ctx}/quickGrid/findPage",
 					datatype : "json",
 					height : 210,
 					multiselect : true,
 					autowidth : true,
 					shrinkToFit : true,
-					// rowNum:8,
 					viewrecords : true,
 					colNames : [ '提醒事项', '备注' ],
 					colModel : [ {
@@ -680,25 +670,22 @@
 					}
 
 					],
-					// pager : "#pager_list_1",
 					viewrecords : false,
 					pagebuttions : false,
 					hidegrid : false,
-					// recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-					// pgtext : " {0} 共 {1} 页",
 					postData : {
 						queryId : "queryToReminderList",
 						search_partCode : taskitem
 					},
 				});
-				// Add responsive to jqGrid
+				
 				$(window).bind('resize', function() {
 					var width = $('.jqGrid_wrapper').width();
 					$('#reminder_list').setGridWidth(width);
 
 				});
 
-				/**日期组件*/
+				//日期组件
 				$('#data_1 .input-group.date').datepicker({
 					todayBtn : "linked",
 					keyboardNavigation : false,
@@ -707,10 +694,9 @@
 					autoclose : true
 				});
 
-				/**年份选择初始化*/
+				//年份选择初始化
 				initSelectYear("finishYear", finishYear);
 
-				// Add responsive to jqGrid
 				$(window).bind('resize', function() {
 					var width = $('.jqGrid_wrapper').width();
 					$('#table_list_1').setGridWidth(width);
@@ -723,7 +709,7 @@
 
 			});
 
-			/**初始化select*/
+			//初始化select
 			function initSelectYear(id, value) {
 				var d = new Date();
 				var endYear = d.getFullYear();
@@ -747,7 +733,7 @@
 				}
 			}
 
-			/**提交数据*/
+			//提交数据
 			function submit() {
 				save(true);
 			}
@@ -888,7 +874,7 @@
 			}
 			
 
-			/**保存数据*/
+			//保存数据
 			function save(b) {	
 				
 				if (!checkForm()) {
@@ -909,7 +895,7 @@
 
 				$.ajax({
 					cache : true,
-					async : false,//false同步，true异步
+					async : false,
 					type : "POST",
 					url : url,
 					dataType : "json",
@@ -940,7 +926,9 @@
 								'z-index' : '1900'
 							});
 						}
-						if (status == 'timeout') {//超时,status还有success,error等值的情况
+						
+						//超时,status还有success,error等值的情况
+						if (status == 'timeout') {
 							Modal.alert({
 								msg : "抱歉，系统处理超时。"
 							});
@@ -955,7 +943,6 @@
 							if (null != data.message) {
 								alert(data.message);
 							}
-							//window.location.href = "${ctx }/task/myTaskList";
 						} else {
 							alert("保存成功。");
 							window.close();
@@ -967,7 +954,7 @@
 					}
 				});
 			}
-			/*double 验证*/
+			//double 验证
 			function checkNum(obj) {
 				//先把非数字的都替换掉，除了数字和.
 				obj.value = obj.value.replace(/[^\d.]/g, "");
@@ -994,7 +981,6 @@
 				var selectsPhoneDown = $("input[name='guestPhoneDown']");
 				var selectsPhoneUp = $("input[name='guestPhoneUp']");				
 				
-				
 				$.each(selectsPhoneUp, function(j, item) {
 					if (item.value == '') {
 						alert("上家电话为必填项!");
@@ -1003,15 +989,16 @@
 					} else {						
 						checkGuestPhone = checkContactNumber(item.value);						
 						if (!checkGuestPhone) {								
-							//alert("上家电话不符合手机号码或电话号码格式!");
 							selectsPhoneUp[j].focus();
 							return false;
 						}
 					}
 				});
+				
 				if (!checkGuestPhone || selectsPhoneUp == null) {
 					return false;
 				}
+				
 				//验证下家电话号码
 				$.each(selectsPhoneDown, function(j, item) {
 					if (item.value == '') {
@@ -1021,15 +1008,16 @@
 					} else {
 						checkGuestPhone = checkContactNumber(item.value);
 						if (!checkGuestPhone) {
-							//alert("下家电话不符合手机号码或电话号码格式!");
 							selectsPhoneDown[j].focus();
 							return false;
 						}
 					}
 				});
+				
 				if (!checkGuestPhone || selectsPhoneDown == null) {
 					return false;
-				}				
+				}
+				
 				$.each(selectsPhoneUp,function(i, itemPhoneUp) {
 						if (itemPhoneUp.value != '') {
 							$.each(selectsPhoneDown,function(j,	itemPhoneDown) {
@@ -1043,7 +1031,8 @@
 							})							
 					    }
 				if(checkGuestPhone==false) {return  false;}
-				})				
+				});
+				
 				return checkGuestPhone;
 			}
 			
@@ -1155,10 +1144,9 @@
 			}
 
 			function initGuestInfo(transPosition) {
-				$
-						.ajax({
+				$.ajax({
 							cache : true,
-							async : false,//false同步，true异步
+							async : false,
 							type : "POST",
 							url : "${ctx}/task/sign/queryGuestInfo",
 							dataType : "json",
@@ -1235,18 +1223,6 @@
 						});
 			}
 			
-			/* function readOnlyForm() {
-				$(".readOnly_date").removeClass('date');
-				$(".readOnly_date input").attr('readOnly', true);
-				$("#divDiYaAndChaxiangou").hide();
-				$("[readOnlydata=1]").attr('readonly', true);
-				$("[readOnlydata=1]").each(function() {
-					if ($(this).is('a')) {
-						$(this).hide();
-					}
-				}); 
-			} */
-			
 			function readOnlyForm() {
 				//设置实际签约时间不可修改
 				$("#realConTime").parent().removeClass("input-daterange");
@@ -1296,7 +1272,7 @@
 		<!-- 改版引入的新的js文件 --> 
 		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 		<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
-		</content>
+	</content>
 </body>
 
 </html>

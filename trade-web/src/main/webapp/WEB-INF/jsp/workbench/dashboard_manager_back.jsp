@@ -346,7 +346,7 @@
 											<div class="col-md-6">
 												<div class="panel panel-danger">
 													<div class="panel-heading">
-														E+金融申请榜 <span class="btn btn-xs btn-white pull-right">
+														e+产品申请榜 <span class="btn btn-xs btn-white pull-right">
 															<strong id="loanAmountRank" class="text-danger">
 														</strong>
 														</span> 
@@ -359,7 +359,7 @@
 											<div class="col-md-6">
 												<div class="panel panel-warning">
 													<div class="panel-heading">
-														E+金融签约榜 <span class="btn btn-xs btn-white pull-right">
+														e+产品签约榜 <span class="btn btn-xs btn-white pull-right">
 														<strong id="signAmountRank" class="text-danger"></strong>
 														</span> 
 													</div>
@@ -373,7 +373,7 @@
 											<div class="col-md-6">
 												<div class="panel panel-info">
 													<div class="panel-heading">
-														E+金融放款榜 <span class="btn btn-xs btn-white pull-right">
+														e+产品放款榜 <span class="btn btn-xs btn-white pull-right">
 															<strong id="actualAmountRank" class="text-danger"></strong>
 														</span> 
 													</div>

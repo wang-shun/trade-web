@@ -315,7 +315,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                         <div class="col-md-6">
                                                             <div class="panel panel-danger">
                                                                 <div class="panel-heading">
-                                                                	E+金融申请榜
+                                                                	e+金融申请榜
                                                                 	<c:if test="${not empty rank.loanAmountRank}">
                                                                 	<span class="btn btn-xs btn-white pull-right">
                                                                 		<strong class="text-danger">
@@ -352,7 +352,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                         <div class="col-md-6">
                                                             <div class="panel panel-warning">
                                                                 <div class="panel-heading">
-                                                                	E+金融签约榜
+                                                                	e+金融签约榜
                                                                 	<c:if test="${not empty rank.signAmountRank}" >
                                                                 	<span class="btn btn-xs btn-white pull-right">
                                                                 		<strong class="text-danger">
@@ -392,7 +392,7 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
                                                         <div class="col-md-6">
                                                             <div class="panel panel-info">
                                                                 <div class="panel-heading">
-                                                                	E+金融放款榜
+                                                                	e+金融放款榜
                                                                 	<c:if test="${ not empty rank.actualAmountRank}">
                                                                 	<span class="btn btn-xs btn-white pull-right">
                                                                 		<strong class="text-danger">你的排名：${rank.actualAmountRank}</strong>

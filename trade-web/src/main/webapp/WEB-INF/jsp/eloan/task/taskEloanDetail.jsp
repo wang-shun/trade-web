@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 
-<title>E+贷款详情</title>
+<title>e+产品详情</title>
 
 <link href="${ctx}/static/trans/css/eloan/eloan/eloan.css" rel="stylesheet" />
 
@@ -70,7 +70,7 @@
                                 <div class="row" id="">
 							<div class="col-lg-5" id="cluster_info">
 								<dl class="dl-horizontal">
-									<dt>E+编号</dt>
+									<dt>e+编号</dt>
 									<dd>
 										<a herf="#">${eloanCase.eloanCode }</a>
 									</dd>

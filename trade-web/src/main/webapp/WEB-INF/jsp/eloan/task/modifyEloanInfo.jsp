@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 
-<title>E+贷款详情</title>
+<title>e+产品详情</title>
 
 <link href="${ctx}/static/trans/css/eloan/eloan/eloan.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/eloan/eloan_detail.css">
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <div class="main_titile" style="position: relative;">
-                            <h5>E+产品</h5>
+                            <h5>e+产品</h5>
                             <div class="case_content">
                                 <div class="case_row">
                                    <div class="case_lump">

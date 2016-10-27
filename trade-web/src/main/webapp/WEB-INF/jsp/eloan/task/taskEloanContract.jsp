@@ -132,7 +132,7 @@
 					<thead>
 						<tr>
 							<th class="text-center light_icon">	<i	class="iconfont icon_light"> &#xe604; </i></th>
-							<th><span class="sort" sortColumn="ELOAN_CODE" sord="desc"	onclick="eloanCodeSort();">E+合约编号</span><i id="eloanCodeSorti"	class="fa fa-sort-desc fa_down"></i></th>
+							<th><span class="sort" sortColumn="ELOAN_CODE" sord="desc"	onclick="eloanCodeSort();">e+合约编号</span><i id="eloanCodeSorti"	class="fa fa-sort-desc fa_down"></i></th>
 							<th>物业地址</th>
 							<th>产品名称</th>
 							<th>归属组</th>
