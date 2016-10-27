@@ -51,10 +51,10 @@ function loadGrid(page) {
         method: "post",
         dataType: "json",
         data: data,
-        beforeSend: function () {  
-        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-			$(".blockOverlay").css({'z-index':'9998'});
-        },  
+//        beforeSend: function () {  
+//        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+//			$(".blockOverlay").css({'z-index':'9998'});
+//        },  
         success: function(data){
         	
         	$.unblockUI();   	 
@@ -72,7 +72,6 @@ function loadGrid(page) {
     			offsetX: 8,
     			offsetY: 5,
     		});
-
     		//top
     		$('.demo-top').poshytip({
     			className: 'tip-twitter',

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys id="tasks">
+	<query id="noMappingCase">
+		<searchScript>
+			SELECT CI.CTM_CODE,CI.CASE_CODE,CI.TARGET_CODE,
+				O1.ORG_NAME TARGET_NAME,CI.GRP_CODE,CI.GRP_NAME
+			FROM 
+				SCTRANS.T_TO_CASE_INFO CI 
+				LEFT JOIN  SCTRANS.T_TS_TEAM_SCOPE_TARGET T ON CI.TARGET_CODE = T.GRP_CODE 
+				LEFT JOIN  SCTRANS.SYS_ORG O1 ON O1.ORG_CODE = CI.TARGET_CODE
+			WHERE T.GRP_CODE IS NULL AND CI.IS_RESPONSED = 0
+				AND (CI.TARGET_CODE IS NOT NULL AND CI.TARGET_CODE !='')
+				<if test="#ctmCode != null and #ctmCode != '' ">
+					AND CI.CTM_CODE = #{ctmCode}
+				</if>
+		</searchScript>
+		<grid>
+			<column name="CTM_CODE"/>
+			<column name="CASE_CODE"/>
+			<column name="TARGET_CODE"/>
+			<column name="GRP_CODE"/>
+			<column name="GRP_NAME"/>
+			<column name="TARGET_NAME"/>
+		</grid>
+	</query>
+</querys>
