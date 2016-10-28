@@ -20,7 +20,9 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -52,6 +54,7 @@ import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvCaseFlowOutInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
+import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.utils.NumberUtil;
 
 @Service
@@ -252,8 +255,17 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
-					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
-					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
+					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
+					spvCashFlow.setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+					spvCashFlow.setReceiver(spvCashFlow.getPayer());
+					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
+					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
+					spvCashFlow.setPayer("上海中原物业顾问有限公司");
+					spvCashFlow.setPayerAcc("76310188000148842");
+					spvCashFlow.setPayerBank("光大银行市北支行");
+					//spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+					//toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
+					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCashFlow);
 				}
 			}
 		    
@@ -287,7 +299,15 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCE2ADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
+					
+					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCE2ADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+					spvCashFlow.setReceiver(spvCashFlow.getPayer());
+					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
+					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
+					spvCashFlow.setPayer("上海中原物业顾问有限公司");
+					spvCashFlow.setPayerAcc("76310188000148842");
+					spvCashFlow.setPayerBank("光大银行市北支行");
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
@@ -322,7 +342,15 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
+					
+					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+					spvCashFlow.setReceiver(spvCashFlow.getPayer());
+					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
+					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
+					spvCashFlow.setPayer("上海中原物业顾问有限公司");
+					spvCashFlow.setPayerAcc("76310188000148842");
+					spvCashFlow.setPayerBank("光大银行市北支行");
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
@@ -358,7 +386,15 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
-					spvCaseFlowOutInfoVO.getToSpvCashFlow().setCloseTime(new Date());
+					//spvCaseFlowOutInfoVO.getToSpvCashFlow().setCloseTime(new Date());
+					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
+					spvCashFlow.setReceiver(spvCashFlow.getPayer());
+					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
+					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
+					spvCashFlow.setPayer("上海中原物业顾问有限公司");
+					spvCashFlow.setPayerAcc("76310188000148842");
+					spvCashFlow.setPayerBank("光大银行市北支行");
+					spvCashFlow.setCloseTime(new Date());
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
@@ -467,28 +503,73 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	}
     	
     	List<Map<String, String>> bankNameList = new ArrayList<Map<String, String>>();
-    	if(spvBaseInfoVO.getToSpvAccountList() != null && !spvBaseInfoVO.getToSpvAccountList().isEmpty()){
-    	for(ToSpvAccount account : spvBaseInfoVO.getToSpvAccountList()){
-    		if("SELLER".equals(account.getAccountType())){
-    			Map<String, String> map = new HashMap<String, String>();
-    			TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
-    			map.put("name", account.getName());
-    			map.put("account", account.getAccount());
-    			map.put("bankName", to != null?to.getFinOrgName():null);
-    			bankNameList.add(0, map);
-    		}else if("FUND".equals(account.getAccountType())){
-    			Map<String, String> map = new HashMap<String, String>();
-    			TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
-    			map.put("name", account.getName());
-    			map.put("account", account.getAccount());
-    			map.put("bankName", to != null?to.getFinOrgName():null);
-    			bankNameList.add(1, map);
+    	boolean ty = false;
+    	List<JSONObject> jsonList = new ArrayList<JSONObject>();
+		if(spvBaseInfoVO.getToSpvAccountList() != null && !spvBaseInfoVO.getToSpvAccountList().isEmpty()){
+			
+			for(int k=0;k<spvBaseInfoVO.getToSpvDeDetailList().size();k++){
+				ToSpvDeDetail d = spvBaseInfoVO.getToSpvDeDetailList().get(k);
+				for(int i=0;i< spvBaseInfoVO.getToSpvAccountList().size();i++){
+		    		ToSpvAccount account = spvBaseInfoVO.getToSpvAccountList().get(i);
+		    		JSONObject subJsonObj = new JSONObject();
+	    			TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
+	    			subJsonObj.put("type",d.getDeCondCode());
+	    			subJsonObj.put("name", account.getName());
+	    			subJsonObj.put("account", account.getAccount());
+	    			subJsonObj.put("bankName", to != null?to.getFinOrgName():"");
+	    			if(d.getPayeeAccountId().equals(account.getPkid()))
+	    				jsonList.add(subJsonObj);
+		    	}
+			}
+			
+	    	
+    	}
+    	
+    	
+/*    	if(spvBaseInfoVO.getToSpvAccountList() != null && !spvBaseInfoVO.getToSpvAccountList().isEmpty()){
+    		for(ToSpvAccount account : spvBaseInfoVO.getToSpvAccountList()){
+    			if(!StringUtils.isBlank(account.getAccountType())){
+    				Map<String, String> map = new HashMap<String, String>();
+    				TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
+    				
+    				if("SELLER".equals(account.getAccountType())){
+    					map.put("type", account.getAccountType());
+    					map.put("name", account.getName());
+    					map.put("account", account.getAccount());
+    					map.put("bankName", to != null?to.getFinOrgName():null);
+    					bankNameList.add(0, map);
+    				}else if("FUND".equals(account.getAccountType())){
+    					map.put("type", account.getAccountType());
+    					map.put("name", account.getName());
+    					map.put("account", account.getAccount());
+    					map.put("bankName", to != null?to.getFinOrgName():null);
+    					bankNameList.add(1, map);
+    				}else if("BUYER".equals(account.getAccountType())){
+    					map.put("type", account.getAccountType());
+    					map.put("name", account.getName());
+    					map.put("account", account.getAccount());
+    					map.put("bankName", to != null?to.getFinOrgName():null);
+    					bankNameList.add(2, map);
+    				}else if("SPV".equals(account.getAccountType())){
+    					map.put("type", account.getAccountType());
+    					map.put("name", account.getName());
+    					map.put("account", account.getAccount());
+    					map.put("bankName", to != null?to.getFinOrgName():null);
+    					bankNameList.add(3, map);
+    				}else if(account.getAccountType().indexOf("CUSTOM_") != -1){
+    					map.put("type", account.getAccountType());
+    					map.put("name", account.getName());
+    					map.put("account", account.getAccount());
+    					map.put("bankName", to != null?to.getFinOrgName():null);
+    					bankNameList.add(4, map);
+    				}
+    			}
     		}
-    	   }
-    	 }
-
+    	}
+*/
     	Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
     	
+    	request.setAttribute("jsonList", jsonList);
     	request.setAttribute("bankNameList", bankNameList);
     	request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
     	request.setAttribute("totalProcessCashFlowOutAmout", completeCashFlowInfoMap.get("totalProcessCashFlowOutAmout"));

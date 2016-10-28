@@ -11,7 +11,7 @@
 		<pattern>/media/*</pattern>
 		<pattern>/login.jsp</pattern>
 		<pattern>/index.jsp</pattern>
-		<pattern>/mobile/case/box/*</pattern>
+		<pattern>/weixin/case/*</pattern>
 		<pattern>/mobile/dashboard/box/*</pattern>
 		<pattern>/weixin/signroom/*</pattern>
 		<pattern>/weixinAuth/*</pattern>
@@ -81,7 +81,7 @@
 		<pattern>/*/box/*</pattern>
 	</decorator>
 	<decorator name="mobile"  page="m_INSPINIA_template.jsp" webapp="../mobile/common">
-		<pattern>/*/mobile/*</pattern>
+		<pattern>/weixin/case/*</pattern>
 	</decorator>
 	<decorator name="wechat"  page="w_INSPINIA_template.jsp">
 		<pattern>/mobile/property/box/*</pattern>

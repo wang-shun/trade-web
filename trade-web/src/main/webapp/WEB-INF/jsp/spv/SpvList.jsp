@@ -223,7 +223,7 @@
                                         
                                            <div class="btn-group">
                                                 <button type="button" class="btn btn-success dropdown-toggle"    {{if wrapperData.job != 'JYFKZY'}} disabled="true" {{/if}}                                  
-                                                data-toggle="dropdown" >操作{{serviceJobCode}}
+                                                data-toggle="dropdown" >操作
                                                     <span class="caret"></span>
                                                 </button>
                                                
@@ -238,7 +238,7 @@
                                                     	<li><a onclick="deleteSpv({{item.PKID}})" href="#">删除</a></li>
                                                     	{{/if}}
                                                     </shiro:hasPermission>
-                                                    <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">
+                                                    <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">{{
                                                       {{if item.STATUS==2&&item.signTime!=undefined}}
                                                         <li><a href="${ctx}/spv/task/cashflowIntApply/spvRecorded?pkid={{item.PKID}}">入账</a></li>
                                                       {{/if}}

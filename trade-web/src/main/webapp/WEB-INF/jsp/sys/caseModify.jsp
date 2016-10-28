@@ -71,7 +71,7 @@
 						<div class="row m-t">
 							<div class="col-lg-4 col-md-4">
 								<div class="form-group">
-									<label class="col-lg-3 col-md-3 control-label font_w">导入编号</label>
+									<label class="col-lg-3 col-md-3 control-label font_w">CTM编号</label>
 									<div class="col-lg-9 col-md-9">
 										<input type="text" class="form-control" id="expCtmCode"
 											name="expCtmCode">
@@ -80,7 +80,7 @@
 							</div>
 							<div class="col-lg-4 col-md-4">
 								<button class="btn btn-warning" id="exportCase">
-									<span class="bold">导入</span>
+									<span class="bold">导入案件</span>
 								</button>
 							</div>
 						</div>

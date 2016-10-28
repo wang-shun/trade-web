@@ -12,6 +12,14 @@
 				<property name="pattern">yyyy/MM/dd</property>
 			</properties>
 		</formatter>
+		
+		<formatter id="dateFormatter1" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		
 		<formatter id="numberFormater" ref=""
 			class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
@@ -61,7 +69,7 @@
 				<column type="both" name="resStatus" display="预约状态" title="预约状态" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="virtual" name="actStatus" title="实际状态" referencecol="resStatus" customDict="getShowResStatusStatus" />
 				<column type="both" name="currentDate" index="" checkbox="" display="当前日期" title="当前日期" beanFormatter="dateFormatter" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="resDate"  index="" checkbox="" display="预约时间" title="预约时间" beanFormatter="dateFormatter" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="resDate"  index="" checkbox="" display="预约时间" title="预约时间" beanFormatter="dateFormatter1" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="specialReq" display="特殊要求" title="特殊要求" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="numberOfPeople" display="容纳人数" title="容纳人数" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 			</table-row>

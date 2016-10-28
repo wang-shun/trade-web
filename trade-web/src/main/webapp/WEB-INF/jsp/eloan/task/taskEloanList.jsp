@@ -136,7 +136,10 @@
          {{each rows as item index}}
 			<tr>
 				<td class="text-center">
-				    {{item.loanSrvCode}}
+				    <p>{{item.loanSrvCode}}</p>
+                       {{if item.STATUS=='ABAN'}}
+						 <span class="yes_color">作废</span>
+					    {{/if}}
 				</td>
 				<td>
 				      {{item.propertyAddress}}

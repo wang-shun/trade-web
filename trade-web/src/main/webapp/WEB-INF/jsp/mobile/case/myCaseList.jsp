@@ -10,7 +10,7 @@
 	<title>经纪人案件列表</title>
 	<script type="text/javascript" src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
 	<script type="text/javascript" src="${ctx}/momedia/js/iscroll-probe.js"></script>
-	<script type="text/javascript" src="${ctx}/momedia/js/iscroll.js"></script>
+	<script type="text/javascript" src="${ctx}/momedia/js/iscroll.js?v=1.1.2"></script>
 	<script src="${ctx}/momedia/js/template.js"></script>
 	<link rel="stylesheet" href="${ctx}/momedia/css/myCaseListStyle.css">
 	<style type="text/css">
@@ -22,7 +22,7 @@
 	var postData={queryId:"queryCastListItemListForMobile",search_prStatus:'1',search_agentId:'${userId}',rows:10,page:1};
 	
     function goDetails(caseId){
-    	location.href=ctx+'/mobile/case/box/progressDetailList?caseId='+caseId;
+    	location.href=ctx+'/weixin/case/progressDetailList?caseId='+caseId;
     }
     $(document).ready(function(){
     	loaded("init");

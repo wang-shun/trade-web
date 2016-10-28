@@ -10,12 +10,15 @@ function radioYuCuiOrgSelectCallBack(array){
 }
 
 function changeTaskAssignee(page,username){
+
 		 var data = {};
 		 data.rows = 5;
 		     if(!page) {
 		    	 data.page = 1;
+
 		     }else{
 		    	data.page = page;
+
 		     }  
 		  //data.username = parameters.username;   
 		  data.username = username;   
@@ -26,6 +29,7 @@ function changeTaskAssignee(page,username){
 			url : ctx+"/manage/listUser",
 			dataType : "json",
 			data : data,
+
 			beforeSend:function(){  				
 				$.blockUI({
 					message : $("#salesLoading"),
@@ -49,9 +53,11 @@ function changeTaskAssignee(page,username){
 		        $.unblockUI();
 			},
 			error : function(errors) {
+				
 				$.unblockUI();
 			}
 		});
+
 }
 
 
@@ -61,8 +67,10 @@ function changeTaskAssignee(page,username){
 $('#searchButton').click(function() {
 	reloadGrid(1);
 });
+
 // 分配任务 人员查询
 $('#searchUsername').click(function() {
+
 	changeTaskAssignee(1, $.trim($('#username').val()));
 });
 
