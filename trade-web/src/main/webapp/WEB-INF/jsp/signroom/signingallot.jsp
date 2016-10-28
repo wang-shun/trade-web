@@ -50,7 +50,7 @@
                                         <input name="curDate" id="curDate" class="input_type data_style datatime" type="text" value="${curDate }" placeholder="">
                                     </div>
                                     <div class="seldata">
-                                        <span id="today" class="today date-time">今</span>
+                                        <span id="today" class="todaycolor date-time">今</span>
                                         <span id="tommrow" class="tommrow date-time">明</span>
                                     </div>
                                 </div>
