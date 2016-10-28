@@ -100,21 +100,6 @@
                                    <span  class="info demo-top" title="${spvBaseInfoVO.toSpv.spvCode }">${spvBaseInfoVO.toSpv.spvCode }</span>
                                 </p>
                             </div>
-                              <div class="line">
-                                <p>
-                                    <label>
-                                        	案件编号
-                                    </label>
-                                    <span class="info_two">${spvBaseInfoVO.toSpv.caseCode }</span>
-                                </p>
-
-                                <p>
-                                    <label>
-                                        	合约编号
-                                    </label>
-                                    <span class="info_two">${spvBaseInfoVO.toSpv.spvCode }</span>
-                                </p>
-                            </div>
                             <div class="line">
                                 <p>
                                     <label>
@@ -154,6 +139,18 @@
                                               	  划转条件
                                             </th>
                                             <th>
+                                               	账户
+                                            </th>
+                                            <th>
+                                               	 划转金额
+                                            </th>
+                                            <th>
+                                                	备注
+                                            </th>
+<!--                                             <th>
+                                              	  划转条件
+                                            </th>
+                                            <th>
                                                	 每次划转金额
                                             </th>
                                             <th>
@@ -161,7 +158,7 @@
                                             </th>
                                             <th>
                                                 	资金方
-                                            </th>
+                                            </th> -->
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -169,17 +166,50 @@
                                         <c:set var="sumSellerAmt" value="0"/>
                                         <c:set var="sumFundAmt" value="0"/>
                                         <c:set var="codeArrStr" value=""/>
+                                        
+                                        <c:forEach items="${spvBaseInfoVO.toSpvDeDetailList}" var="item">
+                                        <c:set var="codeArrStr" value="${item.deCondCode},${codeArrStr }"/>
+										<tr>
+											<td>
+												<aist:dict id="${item.deCondCode}" name="deCondCode" clazz="form-control input-one"
+									    display="onlyLabel"  dictType="SPV_DE_COND"  
+									    ligerui='none' dictCode="${item.deCondCode }"></aist:dict>	
+											</td>
+											<td>
+											
+											<c:choose>  
+										    <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[0].pkid}">
+										              买方
+										   </c:when>  
+										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[1].pkid}">
+										              卖方
+										   </c:when> 
+										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[2].pkid}">
+										            监管账户      
+										   </c:when> 
+										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[3].pkid}">
+										           资金方       
+										   </c:when>  
+										</c:choose>	
+											</td>
+											<td>${item.deAmount>0?item.deAmount:0}万元</td>
+											<td>${item.deAddition}</td>
+										</tr>
+										</c:forEach>
+                                        
+                                        
+                                      <%--   
                                         <c:forEach items="${deDetailMixList }" var="mix" varStatus="status1">
                                         <c:set var="sumTotalAmt" value="${sumTotalAmt + mix.totalDeAmount}"/>
                                         <c:set var="sumSellerAmt" value="${sumSellerAmt + mix.sellerDeAmount}"/>
                                         <c:set var="sumFundAmt" value="${sumFundAmt + mix.fundDeAmount}"/>
-                                        <c:set var="codeArrStr" value="${mix.deCondCode},${codeArrStr }"/>
-                                        <tr>
+                                        <c:set var="codeArrStr" value="${mix.deCondCode},${codeArrStr }"/> --%>
+                                        <%-- <tr>
                                             </td>
                                             <td>
-                                                 <%-- <aist:dict id="" name="" clazz="form-control input-one"
+                                                 <aist:dict id="" name="" clazz="form-control input-one"
 									            display="select"  dictType="SPV_DE_COND"  
-									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict>  --%>
+									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict> 
 									            
 									            <c:choose>  
 												    <c:when test="${mix.deCondCode=='01'}">  
@@ -205,9 +235,11 @@
                                             <td>
                                                 <c:if test="${not empty mix.fundDeAmount}">${mix.fundDeAmount }万</c:if>
                                             </td>
-                                        </tr>
-                                        </c:forEach>
-                                        <tr>
+                                        </tr> --%>
+                                       <%--  </c:forEach> --%>
+                                        
+                                        
+                                        <%-- <tr>
 <!--                                             <td>
                                             </td> -->
                                             <td>
@@ -222,7 +254,7 @@
                                             <td>
                                                 <c:if test="${sumFundAmt != 0}">${sumFundAmt }万</c:if>
                                             </td>
-                                        </tr>                                       
+                                        </tr>      --%>                                  
                                         </tbody>
                                     </table>
                                 </div>
@@ -242,7 +274,7 @@
                                             <th>金额</th>
                                             <th>账户信息</th>
                                             <th>审批时间</th>
-                                            <th>物业地址</th>
+                                            <th>审核人</th>
                                         </tr>
                                         </thead>
                                         <tbody> 
@@ -580,6 +612,8 @@ var attSum_ = parseInt($("#attSum_").val());
 var addSum = 0;
 var doneSum = 0;
 var accountType = 'all';
+var obj =${jsonList};
+var deId = "0";
 
 $(function() {
  	//筛选条件 
@@ -592,12 +626,12 @@ $(function() {
 		$("#addTr2").find("select").change(function(){
 		if($(this).find("option:selected").val() == ''){
 			$("select[name$='toSpvCashFlow.payer'] option:nth-child(1)").prop("selected",true);
-			$("input[name$='toSpvCashFlow.payerAcc']").val('');
-			$("input[name$='toSpvCashFlow.payerBank']").val('');
+			$("select[name$='toSpvCashFlow.payerAcc']").val('');
+			$("select[name$='toSpvCashFlow.payerBank']").val('');
 			return;
 		}
-	
-		var size = ${deDetailMixList.size()};
+		 deId=$(this).find("option:selected").val();
+		 var size = ${deDetailMixList.size()};
 		for(var i=0;i<size;i++){		
 			if(i == 0){
 				var deCondCode = '${deDetailMixList[0].deCondCode}';
@@ -616,12 +650,12 @@ $(function() {
 				var sellerName = '${deDetailMixList[3].sellerName}';
 				var fundName = '${deDetailMixList[3].fundName}';
 			}
-
-			if($(this).find("option:selected").val() == deCondCode){
+			addselect(deId,obj);
+			 /* if($(this).find("option:selected").val() == deCondCode){
 				if(sellerName == ''){
 					$("select[name$='toSpvCashFlow.payer'] option:nth-child(3)").prop("selected",true);
-					$("input[name$='toSpvCashFlow.payerAcc']").val('${bankNameList[1].account}');
-					$("input[name$='toSpvCashFlow.payerBank']").val('${bankNameList[1].bankName}');
+ 					$("input[name$='toSpvCashFlow.payerAcc']").val('${bankNameList[1].account}');
+					$("input[name$='toSpvCashFlow.payerBank']").val('${bankNameList[1].bankName}'); 
 					accountType = 'seller';
 				}else if(fundName == ''){
 					$("select[name$='toSpvCashFlow.payer'] option:nth-child(2)").prop("selected",true);
@@ -634,9 +668,12 @@ $(function() {
 					$("input[name$='toSpvCashFlow.payerBank']").val('');
 					accountType = 'all';
 				}
-			}
+			} 
+			 */
 		}
+		
 	}); 
+		
 	//图片渲染
 	if($("img[id^='image_']").size()>0){
 		$('.wrapper-content').viewer('destroy');
@@ -666,9 +703,21 @@ $(function() {
 
 });
 
+function addselect(deId,obj){
+	$("select[name$='toSpvCashFlow.payer']").empty(); 
+	$("select[name$='toSpvCashFlow.payerAcc']").empty(); 
+	$("select[name$='toSpvCashFlow.payerBank']").empty(); 
+	$.each(obj,function(n,date) { 
+		if(deId==date.type){
+		      $("select[name$='toSpvCashFlow.payer']").append("<option value='"+date.name+"'>"+date.name+"</option>");
+		      $("select[name$='toSpvCashFlow.payerAcc']").append("<option value='"+date.account+"'>"+date.account+"</option>");
+		      $("select[name$='toSpvCashFlow.payerBank']").append("<option value='"+date.bankName+"'>"+date.bankName+"</option>");
+		}
+  	});  
+}
+
 //添加入账申请信息tr
 function getTR(index){
-	debugger;
 	index = sum;
  	var sellerNameSelect = '';
 	var fundNameSelect = '';
@@ -682,13 +731,20 @@ function getTR(index){
 	var  $str='';
 	$str+='<tr>';
 	$str+='	<td>';
-	$str+='<input  class="table_input boderbbt" type="text" placeholder="请输入付款人姓名" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" >';
+//	$str+='<input  class="table_input boderbbt" type="text" placeholder="请输入付款人姓名" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" >';
+	$str+='		<select  class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" onChange="this.value" >';
+	$str+='		</select>';	
 	$str+='	</td>';
 	$str+='	<td>';
-	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc" >';
+//	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc" >';
+	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc"  onChange="this.value"   >';
+	$str+='		</select>';
+	
 	$str+='</p>';
-	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"';
-	$str+='></p>';
+//	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"';
+	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank" onChange="this.value" >';
+	$str+='		</select>';	
+	$str+=' </p>';
 	$str+='	</td>';
 	$str+='	<td class="text-left">';
 	$str+='		<input class="boderbbt" style="border:none;width: 50px;" type="text" placeholder="金额" onKeypress="if (!(event.keyCode > 45 && event.keyCode < 58 &&event.keyCode !=47 ) ) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.amount" >万';
@@ -719,6 +775,7 @@ function getTR(index){
 
 	sum++;
 	$("#sum").val(sum);	
+	addselect(deId,obj);
 	
 	renderFileUpload(index);
 }
