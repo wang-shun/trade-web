@@ -17,81 +17,194 @@
 <body>
     <header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
-            <span class="aui-iconfont aui-icon-left"></span>
+            <span class="">取消</span>
         </a>
-        <div class="aui-title">预约取号</div>
+        <div class="aui-title">签约室预约</div>
     </header>
-    <form action="" id="form1" class="form-con">
-    	<input type="hidden" id="ctx" value="${ctx }"/>
-    	<input type="hidden" id="tradeCenterId" value="${tradeCenterId }"/>
-		<input type="hidden" id="selDate" value="${selDate }"/>
-		<input type="hidden" id="bespeakTime" value="${bespeakTime }"/>
-		<input type="hidden" id="agentCode" value="${agentCode }"/>
-		<input type="hidden" id="inputNumberOfPeople" value="${numberOfPeople }"/>
-		<input type="hidden" id="caseCode"/>
-		
-		<div class="aui-padded-l-10 aui-padded-r-10 pt15 pb5">
-            <div class="aui-info-item">
-               <i class="iconfont blue mr5">&#xe605;</i>${bespeakTime }
-               <span class="color80 ml5" > ${selDate }</span>
+    <section class="aui-content aui-margin-b-15">
+        <ul class="aui-list aui-form-list">
+
+            <li class="aui-list-header newgrey">您还剩余<span class="num">3</span>次预约机会</li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe60d;</i>预约中心
+                    </div>
+                    <div class="aui-list-item-input aui-list-item-arrow">
+                        <select>
+                            <option>浦东贵宾中心</option>
+                            <option>杨浦贵宾中心</option>
+                            <option>长宁贵宾中心</option>
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe610;</i>到场人数
+                    </div>
+                    <div class="aui-list-item-input aui-list-item-arrow">
+                        <input type="number" placeholder="请输入到场人数">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe60e;</i>预约时段
+                    </div>
+                    <div class="aui-list-item-input aui-list-item-arrow">
+                        <input type="text" id="dateseLect" placeholder="2016-11-31 12:00－13:30">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-header newgrey">办理事项</li>
+            <li class="aui-item">
+                <div class="aui-list-item-inner aui-input-list">
+                        <div class="aui-col-xs-3 aui-input-element choiceoption">
+                            签合同
+                        </div>
+                        <div class="aui-col-xs-3 aui-input-element choiceoption">
+                            办贷款
+                        </div>
+                        <div class="aui-col-xs-3 aui-input-element choiceoption">
+                            e+贷款
+                        </div>
+                        <div class="aui-col-xs-3 aui-input-element choiceoption" id="choices4">
+                            开列会
+                        </div>
+                </div>
+            </li>
+            <li class="aui-list-item item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe608;</i>交易地址
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" placeholder="">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        <i class="iconfont blue mr5">&#xe60c;</i>贷款专员
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" placeholder="请输入名称">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-header newgrey">备注信息</li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-input">
+                        <textarea placeholder="请输入内容"></textarea>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+        <div class="plr15 mt28"><input type="submit" class="aui-btn aui-btn-info aui-btn-block aui-btn-user" value="领取预约号"></div>
+    </section>
+    <div id="roomList" class="layui-m-layer layui-m-layer0" >
+        <div class="layui-m-layershade"></div>
+        <div class="layui-m-layermain">
+            <div class="layui-m-layersection">
+                <div class="layui-m-layerchild  layui-m-anim-scale noradius">
+                    <div class="date-title">2016-10-02</div>
+                    <section class="aui-grid">
+                        <table class="table table-date">
+                          <thead>
+                            <tr>
+                              <th>周一</th>
+                              <th>周二</th>
+                              <th>周三</th>
+                              <th>周四</th>
+                              <th>周五</th>
+                              <th>周六</th>
+                              <th>周末</th>
+                            </tr>
+                          </thead>
+                          <tbody id="dayList">
+                            <tr>
+                              <td date="2016-10-24">24</td>
+                              <td date="2016-10-25">25</td>
+                              <td date="2016-10-26">26</td>
+                              <td date="2016-10-27">27</td>
+                              <td date="2016-10-28" class="warn">28</td>
+                              <td date="2016-10-29" class="usable-date">29</td>
+                              <td date="2016-10-30" class="usable-date">30</td>
+                            </tr>
+                            <tr>
+                              <td date="2016-10-31" class="usable-date">31</td>
+                              <td date="2016-11-01" class="usable-date">1</td>
+                              <td date="2016-11-02" class="usable-date">2</td>
+                              <td date="2016-11-03">3</td>
+                              <td date="2016-11-04">4</td>
+                              <td date="2016-11-05">5</td>
+                              <td date="2016-11-06">6</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </section>
+                    <article class="aui-content">
+                        <ul class="aui-list aui-date-list">
+                            <li class="aui-list-item aui-padded-lr20">
+                                <div class="aui-info-item">
+                                    <i class="iconfont blue mr5">&#xe605;</i>
+                                    <span class="time">19:30-21:00</span>
+                                </div>
+                                <div class="aui-info-item aui-text-grey">
+                                   会议室剩余间数<span class="aui-text-red mlr5">0</span>间
+                                </div>
+                            </li>
+                            <li class="aui-list-item aui-padded-lr20">
+                                <div class="aui-info-item">
+                                    <i class="iconfont blue mr5">&#xe605;</i>
+                                    <span class="time">19:30-21:00</span>
+                                </div>
+                                <div class="aui-info-item aui-text-grey">
+                                   会议室剩余间数<span class="aui-text-blue mlr5">3</span>间
+                                </div>
+                            </li>
+                            <li class="aui-list-item aui-padded-lr20">
+                                <div class="aui-info-item">
+                                    <i class="iconfont blue mr5">&#xe605;</i>
+                                    <span class="time">19:30-21:00</span>
+                                </div>
+                                <div class="aui-info-item aui-text-grey">
+                                   会议室剩余间数<span class="aui-text-blue mlr5">3</span>间
+                                </div>
+                            </li>
+                            <li class="aui-list-item aui-padded-lr20">
+                                <div class="aui-info-item">
+                                    <i class="iconfont blue mr5">&#xe605;</i>
+                                    <span class="time">19:30-21:00</span>
+                                </div>
+                                <div class="aui-info-item aui-text-grey">
+                                   会议室剩余间数<span class="aui-text-blue mlr5">12</span>间
+                                </div>
+                            </li>
+                            <li class="aui-list-item aui-padded-lr20">
+                                <div class="aui-info-item">
+                                    <i class="iconfont blue mr5">&#xe605;</i>
+                                    <span class="time">19:30-21:00</span>
+                                </div>
+                                <div class="aui-info-item aui-text-grey">
+                                   会议室剩余间数<span class="aui-text-red mlr5">0</span>间
+                                </div>
+                            </li>
+                        </ul>
+                    </article>
+                </div>
             </div>
         </div>
-		
-		<div class="aui-row pad10">
-                <div class="aui-col-xs-3 linehgl30">
-                    	办理事项
-                </div>
-                <div class="aui-col-xs-9 add-select">
-                	<c:forEach items="${transactItemVoList}" var="transactItemVo">
-	                    <div class="choiceoption">
-	                          <input type="button" id="${transactItemVo.code }" class="aui-border-btn" name="transactItemCode" value="${transactItemVo.name }" data-required="true" data-descriptions="choices" />
-	                    </div>
-                    </c:forEach>
-                </div>
-            </div>
-		
-        <div class="aui-content aui-padded-l-10 aui-padded-r-10 margin10 border_grey radius3 linehgl30 relative" id="divPropertyAddress">
-            <input type="text" id="propertyAddress" name="propertyAddress" placeholder="交易单地址" class="excend10 font-small" data-required="true" data-descriptions="address">
-            <i class="dingwei iconfont orange">&#xe60a;</i>
-        </div>
-        <section class="aui-content">
-        	<div class="aui-row pad10 clearfix overvisible" id="divServiceSpecialist">
-                <div class="aui-col-xs-3 linehgl30">
-                   	 服务顾问
-                </div>
-                <div class="aui-col-xs-5">
-                    <input type="text" id="serviceSpecialist" placeholder="" class="border_grey input30 radius3 font-small" data-required="true" >
-                </div>
-            </div>
-        
-            <div class="aui-row pad10">
-                <div class="aui-col-xs-3 linehgl30">
-                    参与人数
-                </div>
-                <div class="aui-col-xs-5">
-                    <input id="numberOfPeople" name="numberOfPeople" type="number" min="1" class="border_grey input30 radius3 font-small" placeholder="请输入实际人数" data-validate="phone" data-describedby="phone-description">
-                </div>
-            </div>
-            
-            <div class="field-tooltipWrap" style="display:none;">
-            	<div class="field-tooltipInner">
-            		<div class="field-tooltip fieldTipBounceIn"><div class="zvalid-resultformat">请输入交易单地址</div>
-            	</div>
-            </div>
-            </div>
-            
-            
-            <div class="aui-row pad10">
-                <div class="">
-                    备注信息：
-                </div>
-                <div class="textarea">
-                    <textarea name="" id="specialRequirement" cols="30" rows="3" class="" placeholder="如有其他特殊要求可填入此栏" ></textarea>
-                </div>
-            </div>
-            <div class="plr30"><input type="button" class="aui-btn aui-btn-info aui-btn-block aui-btn-user mt15" value="领取预约号" id="btnBespoke"></div>
-        </section>
-    </form>
+    </div>
+    <div class="sign_bg">
+        <img src="${ctx }/image/sigin_bg.png" alt="" />
+    </div>
 </body>
 
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-2.1.1.js"></script>

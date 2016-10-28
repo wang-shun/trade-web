@@ -31,7 +31,6 @@ import com.centaline.trans.signroom.vo.PropertyAddrSearchVo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
 import com.centaline.trans.signroom.vo.ReservationVo;
-import com.centaline.trans.signroom.vo.TransactItemVo;
 import com.centaline.trans.utils.DateUtil;
 
 /**
@@ -117,24 +116,24 @@ public class ReservationMobileController {
 	 */
 	@RequestMapping(value = "bespeakUI")
 	public String bespeakUI(Model model, HttpServletRequest request) {
-		SessionUser sessionUser = uamSessionService.getSessionUser();
+		// SessionUser sessionUser = uamSessionService.getSessionUser();
 
-		Long tradeCenterId = Long.parseLong(request
-				.getParameter("defaultTradeCenterId"));
-		String selDate = request.getParameter("inputSelDate");
-		String bespeakTime = request.getParameter("inputBespeakTime");
-		Integer numberOfPeople = Integer.parseInt(request
-				.getParameter("inputNumberOfPeople"));
+		// Long tradeCenterId = Long.parseLong(request
+		// .getParameter("defaultTradeCenterId"));
+		// String selDate = request.getParameter("inputSelDate");
+		// String bespeakTime = request.getParameter("inputBespeakTime");
+		// Integer numberOfPeople = Integer.parseInt(request
+		// .getParameter("inputNumberOfPeople"));
 
-		List<TransactItemVo> transactItemVoList = reservationService
-				.getTransactItemList();
+		// List<TransactItemVo> transactItemVoList = reservationService
+		// .getTransactItemList();
 
-		request.setAttribute("transactItemVoList", transactItemVoList);
-		request.setAttribute("tradeCenterId", tradeCenterId);
-		request.setAttribute("selDate", selDate);
-		request.setAttribute("bespeakTime", bespeakTime);
-		request.setAttribute("agentCode", sessionUser.getId());
-		request.setAttribute("numberOfPeople", numberOfPeople);
+		// request.setAttribute("transactItemVoList", transactItemVoList);
+		// request.setAttribute("tradeCenterId", tradeCenterId);
+		// request.setAttribute("selDate", selDate);
+		// request.setAttribute("bespeakTime", bespeakTime);
+		// request.setAttribute("agentCode", sessionUser.getId());
+		// request.setAttribute("numberOfPeople", numberOfPeople);
 		// request.setAttribute("agentCode",
 		// "E39F5661B6614F968F27E7BD24BA324A");
 
