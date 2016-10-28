@@ -48,7 +48,7 @@
              <div class="form-row form-rowbot">
                  <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one" >案件编号</label>
-                     <input type="text" class="form-control input-one" placeholder="" id="caseCode" name="caseCode">
+                     <input type="text" class="form-control" placeholder="" id="caseCode" name="caseCode" style="width:180px;">
                  </div>
                  <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one">提交人</label>
@@ -62,7 +62,7 @@
              <div class="form-row form-rowbot">
                   <div class="form-group form-margin form-space-one">
                      <label for="" class="lable-one">物品类型</label>
-                     <select class="form-control input-one" id="itemCategory">
+                     <select class="form-control" id="itemCategory" style="width:180px;">
                      	 <option value="" selected="selected">请选择</option>
                          <option value="carded">身份证</option>
                          <option value="bankCard">银行卡</option>
