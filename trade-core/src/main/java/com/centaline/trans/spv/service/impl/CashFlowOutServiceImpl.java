@@ -255,8 +255,17 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
-					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
-					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
+					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
+					spvCashFlow.setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+					spvCashFlow.setReceiver(spvCashFlow.getPayer());
+					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
+					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
+					spvCashFlow.setPayer("上海中原物业顾问有限公司");
+					spvCashFlow.setPayerAcc("76310188000148842");
+					spvCashFlow.setPayerBank("光大银行市北支行");
+					//spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+					//toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
+					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCashFlow);
 				}
 			}
 		    
@@ -290,7 +299,15 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCE2ADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
+					
+					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCE2ADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+					spvCashFlow.setReceiver(spvCashFlow.getPayer());
+					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
+					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
+					spvCashFlow.setPayer("上海中原物业顾问有限公司");
+					spvCashFlow.setPayerAcc("76310188000148842");
+					spvCashFlow.setPayerBank("光大银行市北支行");
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
@@ -325,7 +342,15 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
+					
+					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
+					spvCashFlow.setReceiver(spvCashFlow.getPayer());
+					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
+					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
+					spvCashFlow.setPayer("上海中原物业顾问有限公司");
+					spvCashFlow.setPayerAcc("76310188000148842");
+					spvCashFlow.setPayerBank("光大银行市北支行");
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
@@ -361,7 +386,15 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
-					spvCaseFlowOutInfoVO.getToSpvCashFlow().setCloseTime(new Date());
+					//spvCaseFlowOutInfoVO.getToSpvCashFlow().setCloseTime(new Date());
+					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
+					spvCashFlow.setReceiver(spvCashFlow.getPayer());
+					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
+					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
+					spvCashFlow.setPayer("上海中原物业顾问有限公司");
+					spvCashFlow.setPayerAcc("76310188000148842");
+					spvCashFlow.setPayerBank("光大银行市北支行");
+					spvCashFlow.setCloseTime(new Date());
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
