@@ -14,7 +14,7 @@ public class UserPagebleVO extends JQGridParam {
 
 	/**
 	 * @param username
-	 *            the username to set
+	 * the username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;

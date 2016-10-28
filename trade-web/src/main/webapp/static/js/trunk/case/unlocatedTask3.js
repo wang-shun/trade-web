@@ -10,13 +10,13 @@ function radioYuCuiOrgSelectCallBack(array){
 }
 
 function changeTaskAssignee(page,username){
-		var data = {};
+		 var data = {};
 		 data.rows = 5;
 		     if(!page) {
 		    	 data.page = 1;
-		    } else {
+		     }else{
 		    	data.page = page;
-		    }  
+		     }  
 		  //data.username = parameters.username;   
 		  data.username = username;   
 		$.ajax({
@@ -26,8 +26,17 @@ function changeTaskAssignee(page,username){
 			url : ctx+"/manage/listUser",
 			dataType : "json",
 			data : data,
-			beforeSend:function(){  
-				var a=1;
+			beforeSend:function(){  				
+				$.blockUI({
+					message : $("#salesLoading"),
+					css : {
+						'border' : 'none',
+						'z-index' : '9999'
+					}
+				});
+				$(".blockOverlay").css({
+					'z-index' : '9998'
+				});
 	         },
 			success : function(data) {
 				//console.log("数据"+JSON.stringify(data));
@@ -37,14 +46,13 @@ function changeTaskAssignee(page,username){
 		        $("#taskListf").html(tsAwardBaseList);
 		        
 		        initpagef(data.total,data.pagesize,data.page, data.records);
-			},complete: function() { 
-				var a=1;
+		        $.unblockUI();
 			},
 			error : function(errors) {
-				var a=1;
+				$.unblockUI();
 			}
 		});
-	}
+}
 
 
 
@@ -53,10 +61,8 @@ function changeTaskAssignee(page,username){
 $('#searchButton').click(function() {
 	reloadGrid(1);
 });
-// 查询
+// 分配任务 人员查询
 $('#searchUsername').click(function() {
-	/*var parameters ={};
-	parameters.username = $.trim($('#username').val());*/
 	changeTaskAssignee(1, $.trim($('#username').val()));
 });
 
