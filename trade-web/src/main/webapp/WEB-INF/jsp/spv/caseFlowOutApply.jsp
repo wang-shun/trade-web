@@ -709,16 +709,28 @@ $(function() {
 	});
 
 });
+function doSearch(){
+	var index = $("select[name$='toSpvCashFlow.payer'] option:selected").attr("gl");
+	addselect(deId,obj,index);
+}
 
-function addselect(deId,obj){
+function addselect(deId,obj,index){
 	$("select[name$='toSpvCashFlow.payer']").empty(); 
 	$("select[name$='toSpvCashFlow.payerAcc']").empty(); 
 	$("select[name$='toSpvCashFlow.payerBank']").empty(); 
+	
 	$.each(obj,function(n,date) { 
 		if(deId==date.type){
-		      $("select[name$='toSpvCashFlow.payer']").append("<option value='"+date.name+"'>"+date.name+"</option>");
-		      $("select[name$='toSpvCashFlow.payerAcc']").append("<option value='"+date.account+"'>"+date.account+"</option>");
-		      $("select[name$='toSpvCashFlow.payerBank']").append("<option value='"+date.bankName+"'>"+date.bankName+"</option>");
+			if(index == n){
+				 $("select[name$='toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+date.name+"' selected>"+date.name+"</option>");
+			      $("select[name$='toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+date.account+"' selected>"+date.account+"</option>");
+			      $("select[name$='toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+date.bankName+"' selected>"+date.bankName+"</option>");
+			}
+			else {
+				 $("select[name$='toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+date.name+"'>"+date.name+"</option>");
+			      $("select[name$='toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+date.account+"'>"+date.account+"</option>");
+			      $("select[name$='toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+date.bankName+"'>"+date.bankName+"</option>");
+			}
 		}
   	});  
 }
@@ -739,17 +751,17 @@ function getTR(index){
 	$str+='<tr>';
 	$str+='	<td>';
 //	$str+='<input  class="table_input boderbbt" type="text" placeholder="请输入付款人姓名" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" >';
-	$str+='		<select  class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" onChange="this.value" >';
+	$str+='		<select  class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" onChange="doSearch()" >';
 	$str+='		</select>';	
 	$str+='	</td>';
 	$str+='	<td>';
 //	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc" >';
-	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc"  onChange="this.value"   >';
+	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc"     >';
 	$str+='		</select>';
 	
 	$str+='</p>';
 //	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"';
-	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank" onChange="this.value" >';
+	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"  >';
 	$str+='		</select>';	
 	$str+=' </p>';
 	$str+='	</td>';
@@ -782,7 +794,7 @@ function getTR(index){
 
 	sum++;
 	$("#sum").val(sum);	
-	addselect(deId,obj);
+	addselect(deId,obj,0);
 	
 	renderFileUpload(index);
 }
