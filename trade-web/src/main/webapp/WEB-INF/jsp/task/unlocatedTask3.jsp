@@ -81,7 +81,7 @@ text-decoration: underline !important;
 
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="taskId">
 	 <div class="wrapper wrapper-content animated fadeInRight">
              <div class="ibox-content border-bottom clearfix space_box">
@@ -339,12 +339,14 @@ function loadUser(){
        		}).trigger('reloadGrid');
 }
 
+
 $(document).ready(function() {
 	 /*加载排序查询组件*/
 	aist.sortWrapper({
 		reloadGrid : reloadGrid
 	});
 	reloadGrid();
+	//
 	changeTaskAssignee(1);
 });
 
@@ -473,9 +475,8 @@ function doGroupClaim(taskId){
 	});
 }			
 function showLocate(taskId){
-	$("#taskId").val(taskId);
-//	$('#modal-form').modal("show");
-	$('#myModal').modal("show");
+		$("#taskId").val(taskId);
+		$('#myModal').modal("show");
 }
 
 </script> 
