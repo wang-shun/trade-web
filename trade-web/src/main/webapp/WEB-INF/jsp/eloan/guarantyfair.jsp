@@ -95,38 +95,6 @@
                                 <i class="iconfont icon_rong">&#xe60a;
                                 </i>
                             </button>
-                           <%--  <table class="table table_blue ">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                公证书
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <ul class="filelist">
-                                                    <li id="WU_FILE_0">
-                                                        <p class="imgWrap">
-                                                            <img src="${ctx}/static/trans/img/uplody01.png">
-                                                        </p>
-                                                        <div class="file-panel" >
-                                                            <span class="file-name">公证书1</span>
-                                                            <span class="cancel pull-right">删除</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <p class="imgWrap fileposition">
-                                                            <img src="${ctx}/static/trans/img/uplody02.png">
-                                                            <input type="file" name="file" class="webupload_file" multiple="multiple" accept="image/*">
-                                                        </p>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table> --%>
                                 
            <div class="ibox-title" style="height: auto;">
 			<c:choose>

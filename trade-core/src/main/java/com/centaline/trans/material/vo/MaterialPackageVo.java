@@ -13,6 +13,8 @@ public class MaterialPackageVo {
     
     private String relevantUser;
     
+    private String relevantUserId;
+    
     private List<MmMaterialItem> materialList;
     
 	public String getItemAddrCode() {
@@ -39,6 +41,12 @@ public class MaterialPackageVo {
 	}
 	public void setRelevantUser(String relevantUser) {
 		this.relevantUser = relevantUser;
+	}
+	public String getRelevantUserId() {
+		return relevantUserId;
+	}
+	public void setRelevantUserId(String relevantUserId) {
+		this.relevantUserId = relevantUserId;
 	}
 	
 	

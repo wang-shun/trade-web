@@ -194,7 +194,7 @@ text-decoration: underline !important;
                                 <div class="ibox-content" >
                                     <!-- <div class="row">
                                         <div class="col-md-12">
-                                            <h4 class="pull-left">E+金融面签金额达标率</h4>
+                                            <h4 class="pull-left">e+产品面签金额达标率</h4>
                                             <span class="pull-right text-warning font-bold">48.2%</span>
                                         </div>
                                     </div>
@@ -420,25 +420,25 @@ text-decoration: underline !important;
                                         <div class="col-md-4">
                                             <ul class="sortable-list connectList agile-list ui-sortable row">
                                                 <li class="info-element">
-                                                    E+申请金额
+                                                    e+申请金额
                                                     <div class="agile-detail">
                                                         <span class="fa-2x font-bold text-success case-num" id="sp_loanAmount">${sta.loanAmount }</span>
                                                     </div>
                                                 </li>
                                                 <li class="info-element">
-                                                    E+面签金额
+                                                    e+面签金额
                                                     <div class="agile-detail">
                                                         <span class="fa-2x font-bold text-success case-num" id="sp_signAmount">${sta.signAmount }</span>
                                                     </div>
                                                 </li>
                                                 <li class="info-element">
-                                                    E+转换率
+                                                    e+转换率
                                                     <div class="agile-detail">
                                                         <span class="fa-2x font-bold text-success" id="sp_convRate">${sta.convRate }</span>
                                                     </div>
                                                 </li>
                                                 <li class="info-element">
-                                                    E+放款金额
+                                                    e+放款金额
                                                     <div class="agile-detail">
                                                         <span class="fa-2x font-bold text-success case-num" id="sp_actualAmount">${sta.actualAmount }</span>
                                                     </div>
@@ -528,7 +528,7 @@ text-decoration: underline !important;
                                                 </div>
                                                 <div class="ibox-content detail">
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                       <!--  <div class="col-md-6">
                                                             <p class="font-bold">首付贷款</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
@@ -546,9 +546,9 @@ text-decoration: underline !important;
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                        </div>
+                                                        </div> -->
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">税费卡</p>
+                                                            <p class="font-bold">E+产品1号-sfk</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -567,7 +567,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">消费贷款</p>
+                                                            <p class="font-bold">E+产品4号-xfd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -586,7 +586,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">换房贷款</p>
+                                                            <p class="font-bold">E+产品5号-hfd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -605,7 +605,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">抵押贷款</p>
+                                                            <p class="font-bold">E+产品6号-dyd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -624,7 +624,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">委托贷款</p>
+                                                            <p class="font-bold">E+产品7号-wtd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -643,7 +643,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">赎楼贷款</p>
+                                                            <p class="font-bold">E+产品3号-sld</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -662,7 +662,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">全款贷款</p>
+                                                            <p class="font-bold">E+产品2号-qkd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -681,7 +681,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">首付贷（抵押类）</p>
+                                                            <p class="font-bold">E+产品8号-xfd(dy)</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -700,7 +700,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">佣金卡</p>
+                                                            <p class="font-bold">E+产品9号-yjk</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -729,7 +729,7 @@ text-decoration: underline !important;
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_1">
                                                             	 	<div class="ibox-title">
-                                                            	 		<h5>E+贷款(面签单数)</h5>
+                                                            	 		<h5>e+贷款(面签单数)</h5>
                                                             	 	</div>
                                                             		<div class="ibox-content" id="">
                                                             			<div id="doughnutChart1"></div>
@@ -739,7 +739,7 @@ text-decoration: underline !important;
                                                             <div class="col-md-6">
                                                             	 <div class="ibox hide" id="bt_2">
                                                             	 	<div class="ibox-title">
-                                                            	 		<h5>E+贷款(面签金额)</h5>
+                                                            	 		<h5>e+贷款(面签金额)</h5>
                                                             	 	</div>
                                                             		<div class="ibox-content" id="doughnutChart">
                                                             			<div id="doughnutChart2"></div>
@@ -812,7 +812,7 @@ text-decoration: underline !important;
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="panel panel-danger">
-                                            <div class="panel-heading">E+金融申请榜<c:if test="${not empty rank.loanAmountRank}"> <span class="btn btn-xs btn-white pull-right"><strong class="text-danger">你的排名：${rank.loanAmountRank}</strong></span></c:if></div>
+                                            <div class="panel-heading">e+产品申请榜<c:if test="${not empty rank.loanAmountRank}"> <span class="btn btn-xs btn-white pull-right"><strong class="text-danger">你的排名：${rank.loanAmountRank}</strong></span></c:if></div>
                                             <div class="panel-body">
                                                 <div class="feed-activity-list">
                                                 	<c:forEach items="${rank.loanAmountRankList}"  var="item">
@@ -840,7 +840,7 @@ text-decoration: underline !important;
                                     </div>
                                     <div class="col-md-6">
                                         <div class="panel panel-warning">
-                                            <div class="panel-heading">E+金融签约榜<c:if test="${not empty rank.signAmountRank}" ><span class="btn btn-xs btn-white pull-right"><strong class="text-danger">你的排名：${rank.signAmountRank}</strong></span></c:if></div>
+                                            <div class="panel-heading">e+产品签约榜<c:if test="${not empty rank.signAmountRank}" ><span class="btn btn-xs btn-white pull-right"><strong class="text-danger">你的排名：${rank.signAmountRank}</strong></span></c:if></div>
                                             <div class="panel-body">
                                                 <div class="feed-activity-list">
                                                     <c:forEach items="${rank.signAmountRankList}"  var="item">
@@ -871,7 +871,7 @@ text-decoration: underline !important;
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="panel panel-info">
-                                            <div class="panel-heading">E+金融放款榜<c:if test="${ not empty rank.actualAmountRank}"> <span class="btn btn-xs btn-white pull-right"><strong class="text-danger">你的排名：${rank.actualAmountRank}</strong></span></c:if></div>
+                                            <div class="panel-heading">e+产品放款榜<c:if test="${ not empty rank.actualAmountRank}"> <span class="btn btn-xs btn-white pull-right"><strong class="text-danger">你的排名：${rank.actualAmountRank}</strong></span></c:if></div>
                                             <div class="panel-body">
                                                 <div class="feed-activity-list">
                                                      <c:forEach items="${rank.actualAmountRankList}"  var="item">

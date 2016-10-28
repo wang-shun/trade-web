@@ -82,7 +82,7 @@
                                         <input name="endDateTime" class="form-control data_style" type="text" value="${endDateTime }" placeholder="结束日期">
                                     </div>
                                     <div class="seldata">
-                                        <span id="today" class="today date-time">今</span>
+                                        <span id="today" class="todaycolor date-time">今</span>
                                         <span id="tommrow" class="tommrow date-time">明</span>
                                     </div>
                                 </div>

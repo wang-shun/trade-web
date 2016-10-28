@@ -1,111 +1,119 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.common.repository.ToAccesoryListMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.ToAccesoryList" >
-    <id column="PKID" property="pkid" jdbcType="BIGINT" />
-    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
-    <result column="ACCESSORY_NAME" property="accessoryName" jdbcType="NVARCHAR" />
-    <result column="ACCESSORY_CODE" property="accessoryCode" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    PKID, PART_CODE, ACCESSORY_NAME, ACCESSORY_CODE
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from sctrans.T_TO_ACCESORY_LIST
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from sctrans.T_TO_ACCESORY_LIST
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.centaline.trans.common.entity.ToAccesoryList" >
-    insert into sctrans.T_TO_ACCESORY_LIST (PKID, PART_CODE, ACCESSORY_NAME, 
-      ACCESSORY_CODE)
-    values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{accessoryName,jdbcType=NVARCHAR}, 
-      #{accessoryCode,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToAccesoryList">
-    insert into sctrans.T_TO_ACCESORY_LIST
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        PKID,
-      </if>
-      <if test="partCode != null" >
-        PART_CODE,
-      </if>
-      <if test="accessoryName != null" >
-        ACCESSORY_NAME,
-      </if>
-      <if test="accessoryCode != null" >
-        ACCESSORY_CODE,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        #{pkid,jdbcType=BIGINT},
-      </if>
-      <if test="partCode != null" >
-        #{partCode,jdbcType=VARCHAR},
-      </if>
-      <if test="accessoryName != null" >
-        #{accessoryName,jdbcType=NVARCHAR},
-      </if>
-      <if test="accessoryCode != null" >
-        #{accessoryCode,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToAccesoryList" >
-    update sctrans.T_TO_ACCESORY_LIST
-    <set >
-      <if test="partCode != null" >
-        PART_CODE = #{partCode,jdbcType=VARCHAR},
-      </if>
-      <if test="accessoryName != null" >
-        ACCESSORY_NAME = #{accessoryName,jdbcType=NVARCHAR},
-      </if>
-      <if test="accessoryCode != null" >
-        ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToAccesoryList" >
-    update sctrans.T_TO_ACCESORY_LIST
-    set PART_CODE = #{partCode,jdbcType=VARCHAR},
-      ACCESSORY_NAME = #{accessoryName,jdbcType=NVARCHAR},
-      ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </update>
-  
-  <select id="qureyToAccesoryList" resultMap="BaseResultMap" parameterType="com.centaline.trans.common.entity.ToAccesoryList" >
-    select 
-    <include refid="Base_Column_List" />
-    from sctrans.T_TO_ACCESORY_LIST
-    where 1=1 
-    <if test="partCode!=null">
-    	and PART_CODE = #{partCode,jdbcType=VARCHAR}
-    </if>
-    
-    <if test="accessoryCode!=null">
-    	and ACCESSORY_CODE like '%'+ #{accessoryCode,jdbcType=VARCHAR} +'%'
-    </if>
-    
-  </select>
-  <select id="findAccessoryNameByCode" resultType="java.lang.String" parameterType="java.lang.String" >
-    select 
-    ACCESSORY_NAME
-    from sctrans.T_TO_ACCESORY_LIST
-    where 1=1 
-    and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
-  </select>
-  <select id="findAccesoryByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from sctrans.T_TO_ACCESORY_LIST
-    where 1=1 
-    and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
-  </select>
+<mapper namespace="com.centaline.trans.common.repository.ToAccesoryListMapper">
+	<resultMap id="BaseResultMap"
+		type="com.centaline.trans.common.entity.ToAccesoryList">
+		<id column="PKID" property="pkid" jdbcType="BIGINT" />
+		<result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+		<result column="ACCESSORY_NAME" property="accessoryName"
+			jdbcType="NVARCHAR" />
+		<result column="ACCESSORY_CODE" property="accessoryCode"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		PKID, PART_CODE, ACCESSORY_NAME, ACCESSORY_CODE
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from sctrans.T_TO_ACCESORY_LIST
+		where PKID = #{pkid,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from sctrans.T_TO_ACCESORY_LIST
+		where PKID = #{pkid,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.centaline.trans.common.entity.ToAccesoryList">
+		insert into sctrans.T_TO_ACCESORY_LIST (PKID, PART_CODE,
+		ACCESSORY_NAME,
+		ACCESSORY_CODE)
+		values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR},
+		#{accessoryName,jdbcType=NVARCHAR},
+		#{accessoryCode,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToAccesoryList">
+		insert into sctrans.T_TO_ACCESORY_LIST
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkid != null">
+				PKID,
+			</if>
+			<if test="partCode != null">
+				PART_CODE,
+			</if>
+			<if test="accessoryName != null">
+				ACCESSORY_NAME,
+			</if>
+			<if test="accessoryCode != null">
+				ACCESSORY_CODE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkid != null">
+				#{pkid,jdbcType=BIGINT},
+			</if>
+			<if test="partCode != null">
+				#{partCode,jdbcType=VARCHAR},
+			</if>
+			<if test="accessoryName != null">
+				#{accessoryName,jdbcType=NVARCHAR},
+			</if>
+			<if test="accessoryCode != null">
+				#{accessoryCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToAccesoryList">
+		update sctrans.T_TO_ACCESORY_LIST
+		<set>
+			<if test="partCode != null">
+				PART_CODE = #{partCode,jdbcType=VARCHAR},
+			</if>
+			<if test="accessoryName != null">
+				ACCESSORY_NAME = #{accessoryName,jdbcType=NVARCHAR},
+			</if>
+			<if test="accessoryCode != null">
+				ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where PKID = #{pkid,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToAccesoryList">
+		update sctrans.T_TO_ACCESORY_LIST
+		set PART_CODE = #{partCode,jdbcType=VARCHAR},
+		ACCESSORY_NAME = #{accessoryName,jdbcType=NVARCHAR},
+		ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
+		where PKID = #{pkid,jdbcType=BIGINT}
+	</update>
+
+	<select id="qureyToAccesoryList" resultMap="BaseResultMap"
+		parameterType="com.centaline.trans.common.entity.ToAccesoryList">
+		select
+		<include refid="Base_Column_List" />
+		from sctrans.T_TO_ACCESORY_LIST
+		where 1=1
+		<if test="partCode!=null">
+			and PART_CODE = #{partCode,jdbcType=VARCHAR}
+		</if>
+		<if test="accessoryCode!=null">
+			and ACCESSORY_CODE like '%'+ #{accessoryCode,jdbcType=VARCHAR} +'%'
+		</if>
+	</select>
+
+	<select id="findAccessoryNameByCode" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select
+		ACCESSORY_NAME
+		from sctrans.T_TO_ACCESORY_LIST
+		where 1=1
+		and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
+	</select>
+	<select id="findAccesoryByCode" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sctrans.T_TO_ACCESORY_LIST
+		where 1=1
+		and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
+	</select>
 </mapper>

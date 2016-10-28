@@ -2,4 +2,5 @@
 <queryConfig debug="true">
 	<import resource="query/rapidQuery/toTaskListQuery.xml" />
 	<import resource="query/rapidQuery/QueryEloanRelCash.xml" />
+	<import resource="query/rapidQuery/noMappingCase.xml" />
 </queryConfig>

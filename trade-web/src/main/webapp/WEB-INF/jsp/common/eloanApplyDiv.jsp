@@ -8,7 +8,7 @@
                                <div class="modal-content animated fadeIn apply_box info_box">
                                    <form action="" class="form_list clearfix" >
                                        <div class="modal_title">
-                                           E+贷款关联案件
+                                           e+产品关联案件
                                        </div>
                                        <div class="line">
 					                        <div class="form_content">

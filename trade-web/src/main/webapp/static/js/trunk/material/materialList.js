@@ -33,8 +33,6 @@ $('#searchButton').click(function() {
 		});			
 });
 
-
-
 function materialManagermentSearch(page){
 	if (!page) {
 		page = 1;
@@ -213,25 +211,22 @@ function getPkidsArray(){
 }
 //物品入库
 $("#materialStorage").click(function(){	
-
-	var pkids = getCheck();	
-	
+	var pkids = getCheck();		
 	if(!caseCodeTheSameCheck()){
 		return false;
 	}
 	if(!statusFlagCheck()){
 		return false;
-	}	
-	//请求后端数据
+	}		
 	if(pkids){	
+		//填充表单，请求后端数据
 		$("#pkids").val(pkids);		
 		$("#materialStorgaeForm").submit();
 	}
 })
 
 
-
-//验证勾选的复选框的caseCode
+//验证勾选的复选框的caseCode必须一样
 function caseCodeTheSameCheck(){	
 	var flag=true;
 	$("input[type=checkbox][name='materialCheck']:checked").each(function(i,e){	
@@ -265,17 +260,39 @@ function compareCaseCode(a,b){
 $("#materialBorrow").click(function(){
 	var pkids = getCheck();	
 	if(pkids){
+		 if(!statusInstockCheck()){
+			 return false;
+		 }
 		 if(!caseCodeTheSameCheck()){
 				return false;
-		 }else{
-			 $("#myModal").show();	
-		 }				
+		 }
+		 $("#myModal").show();	
+		 				
 	}	
 })
 
 $("#materialBorrowClose").click(function(){	
 	$("#myModal").hide();
 })
+
+//在库状态的物品才可借用、退还
+function statusInstockCheck(){	
+	var flag=true;
+	var statusFlagArray = $("input[type=checkbox][name='materialCheck']:checked");
+	$("input[type=checkbox][name='materialCheck']:checked").each(function(index,statusFlag){
+		//statusFlag.value  js对象
+		if($(statusFlag).attr("statusFlag") != "instock"){
+			flag = false;
+			alert("只有在库状态的物品才可借用或退还！");
+		}
+		
+		if(flag == false){
+			return false;
+		}
+	})			
+	return flag;
+}
+
 //借用div提交信息
 $("#materialBorrowSubmit").click(function(){	
 	 var pkids = getPkidsArray();
@@ -314,17 +331,18 @@ function logActionBorrowSubmit(pkids,actionUser,actionPreDate,actionReason,actio
 	}
 
 
-
-
 //归还弹出按钮判断
 $("#materialReturn").click(function(){
 	var pkids = getCheck();	
 	if(pkids){
+		 if(!statusBorrowCheck()){
+			 return false;
+		 }
 		 if(!caseCodeTheSameCheck()){
 				return false;
-		 }else{
-			 $("#Return").show();	
-		 }				
+		 }
+		 $("#Return").show();	
+					
 	}	
 })
 //归还提交信息
@@ -340,6 +358,24 @@ $("#materialReturnSubmit").click(function(){
 $("#materialReturnClose").click(function(){	
 	$("#Return").hide();
 })
+
+//在库状态的物品才可借用
+function statusBorrowCheck(){	
+	var flag=true;
+	var statusFlagArray = $("input[type=checkbox][name='materialCheck']:checked");
+	$("input[type=checkbox][name='materialCheck']:checked").each(function(index,statusFlag){
+		//statusFlag.value  js对象
+		if($(statusFlag).attr("statusFlag") != "borrow"){
+			flag = false;
+			alert("只有在外借状态下的物品才可归还！");
+		}
+		
+		if(flag == false){
+			return false;
+		}
+	})			
+	return flag;
+}
 //归还、退还共有的提交方法
 function logActionReturnSubmit(pkids,actionUser,actionRemark,flag){			
 	$.ajax({
@@ -371,11 +407,14 @@ function logActionReturnSubmit(pkids,actionUser,actionRemark,flag){
 $("#materialRefund").click(function(){
 	var pkids = getCheck();	
 	if(pkids){
+		 if( !statusInstockCheck() ){
+			 return false;
+		 }
 		 if(!caseCodeTheSameCheck()){
 				return false;
-		 }else{
-			 $("#GiveBack").show();	
-		 }				
+		 }
+		 $("#GiveBack").show();	
+					
 	}	
 })
 
@@ -454,9 +493,9 @@ function statusFlagCheck(){
 				departmentHeriarchy : '',
 				chkStyle : 'radio',
 	/*			jobCode : 'Manager,Senior_Manager',*/
+				jobCode : 'consultant',
 				callBack : selectBorrowUserBack
 			});
-			
 	
  }
 
@@ -477,7 +516,6 @@ $('#materialBorrowUser').click(function() {
 });
 
 
-
 //归还人员组织
 function chooseReturnOperator(id){		
 	userSelect({
@@ -489,6 +527,7 @@ function chooseReturnOperator(id){
 		departmentHeriarchy : '',
 		chkStyle : 'radio',
 /*			jobCode : 'Manager,Senior_Manager',*/
+		jobCode : 'consultant',
 		callBack : selectReturnUserBack
 	});
 
@@ -520,6 +559,7 @@ function chooseRefundOperator(id){
 		departmentHeriarchy : '',
 		chkStyle : 'radio',
 /*			jobCode : 'Manager,Senior_Manager',*/
+		jobCode : 'consultant',
 		callBack : selectRefundUserBack
 	});
 

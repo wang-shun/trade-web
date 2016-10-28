@@ -11,7 +11,7 @@ public interface ToRcMortgageService {
 	
 	ToRcMortgageVO getMortgageByProperty(String riskType, String eloanCode);
 
-	int saveRcMortgage(ToRcMortgageVO toRcMortgageVO);
+	void saveRcMortgage(ToRcMortgageVO toRcMortgageVO);
 	
 	int saveToRcForceRegister(ToRcForceRegisterVO toRcForceRegisteVO);
 }

@@ -861,6 +861,8 @@ public class SpvController {
 			String taskId,String handle,String businessKey,String spvCode) throws Exception {
     	request.setAttribute("spvCode", spvCode);
     	SessionUser user = uamSessionService.getSessionUser();
+    	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
+		businessKey = processInstance.getBusinessKey();
     	if(!StringUtils.isBlank(handle)){ 	
         	switch (handle) {
         	case "apply":
@@ -1001,31 +1003,26 @@ public class SpvController {
     @RequestMapping("task/spvCashflowInAppr/process")
    	public String cashFlowInAppprProcess(HttpServletRequest request,String source,String instCode,
    			String taskId,String handle,String businessKey)  {
+    	
        	String url="";
        	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
 		businessKey = processInstance.getBusinessKey();
        	if(!StringUtils.isBlank(handle)){ 	
 	           	switch (handle) {
-	           	case "apply":
-	       			cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
-	       			url="spv/spvRecordedApp";
-	       		break;
-	           	case "directorAduit":
-	        	   cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-	        	   url="spv/spvRecordShow";
-	       		break;
-	           	case "financeAduit":
-	        	   cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
-	        	   url="spv/spvRecordShow";
-	           	break;
-	               	
+			           	case "apply":
+			       			  cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
+			       			  url="spv/spvRecordedApp";
+			       			  break;
+			           	case "directorAduit":
+			        	      cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+			        	      url="spv/spvRecordShow";
+			        	      break;
+			           	case "financeAduit":
+			           		  cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
+			        	      url="spv/spvRecordShow";
+			           	      break;
 	           	}
-           }else{
-           		cashFlowInService.cashFlowInPage(request, source, instCode, taskId, handle, businessKey);
-           }
-
-   	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-   	    request.setAttribute("imgweb", app.genAbsoluteUrl());
+         }
    	    
        	request.setAttribute("taskId", taskId); 
        	request.setAttribute("instCode", instCode);
