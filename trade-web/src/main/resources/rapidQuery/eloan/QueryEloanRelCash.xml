@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys id="abc">
+	<query id="queryEloanCashList">
+		<searchScript>
+			SELECT
+			er.ELOAN_CODE,
+			ec.LOAN_SRV_CODE,
+			er.RELEASE_AMOUNT,
+			er.RELEASE_TIME,
+			er.CONFIRM_STATUS,
+			INFO.PROPERTY_ADDR,
+			ec.CUST_NAME,
+			ec.FIN_ORG_CODE,
+			ec.EXCUTOR_ID,
+			ec.EXCUTOR_TEAM
+			FROM
+			sctrans.T_TO_ELOAN_REL er
+			LEFT JOIN sctrans.T_TO_ELOAN_CASE ec on
+			ER.ELOAN_CODE=ec.ELOAN_CODE
+			LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO
+			ON INFO.CASE_CODE =
+			ec.CASE_CODE
+			LEFT JOIN sctrans.sys_user u ON
+			ec.EXCUTOR_ID=u.ID
+			<where>
+				(ec.STATUS IS NULL OR ec.STATUS='VALID')
+				<trim prefix="and" prefixOverrides="and|or">
+					<if test="#SYS_JOBCODE =='consultant'"> and
+						ec.EXCUTOR_ID= #{sessionUserId} and ec.EXCUTOR_TEAM
+						=#{serviceDepId}
+					</if>
+					<if
+						test="#SYS_JOBCODE != 'consultant' and #SYS_BUSIDEPHIERARCHY== 
+						'yucui_team' and #SYS_JOBCODE != 'TeamAssistant' "> and (ec.EXCUTOR_TEAM
+						=#{serviceDepId} )
+					</if>
+					<if
+						test="#SYS_BUSIDEPHIERARCHY == 'TeamAssistant' 
+						and #SYS_JOBCODE == 'yucui_team' "> and ec.EXCUTOR_TEAM=#{serviceDepId}
+					</if>
+					<if test="#SYS_BUSIDEPHIERARCHY == 'yucui_district'"> and ec.EXCUTOR_DISTRICT
+						=#{serviceDepId}
+					</if>
+					<if test="#eloanCode !=null and #eloanCode != '' ">
+						and er.ELOAN_CODE=#{eloanCode}
+					</if>
+					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
+						and ec.LOAN_SRV_CODE=#{loanSrvCode}
+					</if>
+					<if test="#status !=null and #status != '' ">
+						and er.CONFIRM_STATUS=#{status}
+					</if>
+					<if test="#teamCode!=null and #teamCode != '' ">
+						and  ec.EXCUTOR_TEAM=#{team}
+					</if>
+					<if test="#excutorId !=null and #excutorId != '' ">
+						and ec.EXCUTOR_ID=#{excutorId}
+					</if>
+					<if test="#address !=null and #address != '' ">
+						and INFO.PROPERTY_ADDR=#{address}
+					</if>
+					<if test="#startTime !=null and #startTime != '' ">
+						and er.RELEASE_TIME &gt; =#{startTime}
+					</if>
+					<if test="#endTime !=null and #endTime != '' ">
+						and er.RELEASE_TIME &lt; =#{endTime}
+					</if>
+					<if test="#finOrgCode !=null and #finOrgCode != '' ">
+						and ec.FIN_ORG_CODE =#{finOrgCode}
+					</if>
+				</trim>
+			</where>
+		</searchScript>
+		<grid>
+			<column name="ELOAN_CODE" title="ELOAN_CODE" hidden="true" />
+			<column name="LOAN_SRV_CODE" field="LOAN_SRV_CODE" title="LOAN_SRV_CODE"
+				hidden="true" customDict="qqcdDictServCode" />
+			<column name="RELEASE_AMOUNT" title="RELEASE_AMOUNT" hidden="true" />
+			<column name="RELEASE_TIME" title="RELEASE_TIME" field="RELEASE_TIME"
+				hidden="true" customDict="getFormatDate" />
+			<column name="CONFIRM_STATUS" title="CONFIRM_STATUS" hidden="true" />
+			<column name="PROPERTY_ADDR" title="PROPERTY_ADDR" hidden="true" />
+			<column name="CUST_NAME" title="CUST_NAME" hidden="true" />
+			<column name="FIN_ORG_CODE" title="FIN_ORG_CODE" field="FIN_ORG_CODE"
+				customDict="qqfinOrgIdName" hidden="true" />
+			<column name="EXCUTOR_ID" field="EXCUTOR_ID" customDict="qqcdUserIdName"
+				title="EXCUTOR_ID" />
+			<column name="EXCUTOR_TEAM" title="EXCUTOR_TEAM" field="EXCUTOR_TEAM"
+				customDict="qqcdOrgIdName" />
+		</grid>
+	</query>
+		<query id="queryLoanSpv">
+		<searchScript>
+                SELECT 
+                sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka, 
+                sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
+                sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then r.RELEASE_AMOUNT else 0 end) as kaAmount, 
+                sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then r.RELEASE_AMOUNT else 0 end) as daiAmount ,
+		        DatePart(mm, r.RELEASE_TIME) as mm,DatePart(yyyy, r.RELEASE_TIME) as  years
+                from sctrans.T_TO_ELOAN_REL r
+                LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE 
+                LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =c.CASE_CODE
+			<where>
+				(c.STATUS IS NULL OR c.STATUS='VALID')
+				<trim prefix="and" prefixOverrides="and|or">
+					<if test="#SYS_JOBCODE =='consultant'"> and
+						c.EXCUTOR_ID= #{sessionUserId} and c.EXCUTOR_TEAM
+						=#{serviceDepId}
+					</if>
+					<if
+						test="#SYS_JOBCODE != 'consultant' and #SYS_BUSIDEPHIERARCHY== 
+						'yucui_team' and #SYS_JOBCODE != 'TeamAssistant' "> and (c.EXCUTOR_TEAM
+						=#{serviceDepId} )
+					</if>
+					<if
+						test="#SYS_BUSIDEPHIERARCHY == 'TeamAssistant' 
+						and #SYS_JOBCODE == 'yucui_team' "> and c.EXCUTOR_TEAM=#{serviceDepId}
+					</if>
+					<if test="#SYS_BUSIDEPHIERARCHY == 'yucui_district'"> and c.EXCUTOR_DISTRICT
+						=#{serviceDepId}
+					</if>
+					<if test="#eloanCode !=null and #eloanCode != '' ">
+						and r.ELOAN_CODE=#{eloanCode}
+					</if>
+					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
+						and c.LOAN_SRV_CODE=#{loanSrvCode}
+					</if>
+					<if test="#status !=null and #status != '' ">
+						and r.CONFIRM_STATUS=#{status}
+					</if>
+					<if test="#teamCode!=null and #teamCode != '' ">
+						and  c.EXCUTOR_TEAM=#{team}
+					</if>
+					<if test="#excutorId !=null and #excutorId != '' ">
+						and c.EXCUTOR_ID=#{excutorId}
+					</if>
+					<if test="#address !=null and #address != '' ">
+						and INFO.PROPERTY_ADDR=#{address}
+					</if>
+					<if test="#startTime !=null and #startTime != '' ">
+						and r.RELEASE_TIME &gt; =#{startTime}
+					</if>
+					<if test="#endTime !=null and #endTime != '' ">
+						and r.RELEASE_TIME &lt; = #{endTime}
+					</if>
+					<if test="#finOrgCode !=null and #finOrgCode != '' ">
+						and c.FIN_ORG_CODE =#{finOrgCode}
+					</if>
+				</trim>
+			</where>
+			  GROUP BY DatePart(mm, r.RELEASE_TIME),DatePart(yyyy, r.RELEASE_TIME)
+		</searchScript>
+         <grid>
+			<column name="ka" title="ka" field="ka" hidden="true" />
+            <column name="dai" title="dai" field="dai" hidden="true" />
+            <column name="kaAmount" title="kaAmount" field="kaAmount" hidden="true" />
+            <column name="daiAmount" title="daiAmount" field="daiAmount" hidden="true" />
+            <column name="mm" title="mm" field="mm" hidden="true" />
+            <column name="years" title="years" field="years" hidden="true" />
+		</grid>
+	</query>
+		<query id="queryLoanSpv2">
+		<searchScript>
+                SELECT count(c.FIN_ORG_CODE ) as num, c.FIN_ORG_CODE as finOrgName ,sum(r.RELEASE_AMOUNT) RELEASE_AMOUNT from sctrans.T_TO_ELOAN_REL r
+                LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE 
+                LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =c.CASE_CODE
+			<where>
+				(c.STATUS IS NULL OR c.STATUS='VALID') 
+				<trim prefix="and" prefixOverrides="and|or">
+					<if test="#SYS_JOBCODE =='consultant'"> and
+						c.EXCUTOR_ID= #{sessionUserId} and c.EXCUTOR_TEAM
+						=#{serviceDepId}
+					</if>
+					<if
+						test="#SYS_JOBCODE != 'consultant' and #SYS_BUSIDEPHIERARCHY== 
+						'yucui_team' and #SYS_JOBCODE != 'TeamAssistant' "> and (c.EXCUTOR_TEAM
+						=#{serviceDepId} )
+					</if>
+					<if
+						test="#SYS_BUSIDEPHIERARCHY == 'TeamAssistant' 
+						and #SYS_JOBCODE == 'yucui_team' "> and c.EXCUTOR_TEAM=#{serviceDepId}
+					</if>
+					<if test="#SYS_BUSIDEPHIERARCHY == 'yucui_district'"> and c.EXCUTOR_DISTRICT
+						=#{serviceDepId}
+					</if>
+					<if test="#eloanCode !=null and #eloanCode != '' ">
+						and r.ELOAN_CODE=#{eloanCode}
+					</if>
+					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
+						and c.LOAN_SRV_CODE=#{loanSrvCode}
+					</if>
+					<if test="#status !=null and #status != '' ">
+						and r.CONFIRM_STATUS=#{status}
+					</if>
+					<if test="#teamCode!=null and #teamCode != '' ">
+						and  c.EXCUTOR_TEAM=#{team}
+					</if>
+					<if test="#excutorId !=null and #excutorId != '' ">
+						and c.EXCUTOR_ID=#{excutorId}
+					</if>
+					<if test="#address !=null and #address != '' ">
+						and INFO.PROPERTY_ADDR=#{address}
+					</if>
+					<if test="#startTime !=null and #startTime != '' ">
+						and r.RELEASE_TIME &gt; =#{startTime}
+					</if>
+					<if test="#endTime !=null and #endTime != '' ">
+						and r.RELEASE_TIME &lt; = #{endTime}
+					</if>
+					<if test="#finOrgCode !=null and #finOrgCode != '' ">
+						and c.FIN_ORG_CODE =#{finOrgCode}
+					</if>
+				</trim>
+			</where>
+			 GROUP BY c.FIN_ORG_CODE
+			 ORDER BY  c.FIN_ORG_CODE
+		</searchScript>
+         <grid>
+            <column name="num" title="num" field="num" hidden="true" />
+			<column name="finOrgName" title="finOrgName" field="finOrgName" hidden="true" customDict="qqfinOrgIdName" />
+            <column name="RELEASE_AMOUNT" title="RELEASE_AMOUNT" field="RELEASE_AMOUNT" hidden="true" />
+		</grid>
+	</query>
+</querys>
