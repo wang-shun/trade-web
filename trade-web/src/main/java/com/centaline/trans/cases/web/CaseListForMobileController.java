@@ -51,10 +51,6 @@ public class CaseListForMobileController {
 	@RequestMapping(value = "findPage")
 	@ResponseBody
 	public DatagridVO findPage(JQGridParam gridParam, HttpServletRequest request) {
-		Object user = request.getSession().getAttribute("agentUser");
-		if (user == null) {
-			return null;
-		}
 		return quickQuery.findPage(gridParam, request);
 
 	}

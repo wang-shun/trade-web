@@ -63,6 +63,16 @@
                         	  资金入账申请
                       </div>
                       <div class="info_content">
+                    	  <div class="line">
+                                <p>
+                                    <label> 案件编号  </label>
+                                     <span class="info"><span  class="demo-top" title="${spvBaseInfoVO.toSpv.caseCode }" >${spvBaseInfoVO.toSpv.caseCode }</span></span>
+                                </p>
+                                <p>
+                                    <label>合约编号 </label>
+                                   <span  class="info demo-top" title="${spvBaseInfoVO.toSpv.spvCode }">${spvBaseInfoVO.toSpv.spvCode }</span>
+                                </p>
+                            </div>
                           <div class="line">
                               <p>
                                   <label>
@@ -216,7 +226,7 @@
                       </div>
                       <div class="excuse">
                           <form action="">
-                              <textarea name="turndownContent_" id="turndownContent_" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                              <font color="red">*</font><textarea name="turndownContent_" id="turndownContent_" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                           </form>
                           <div class="form-btn">
                           <div class="text-center">

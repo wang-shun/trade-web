@@ -549,7 +549,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 					} else {
 						toSpvCust.setCreateBy(user.getId());
 						toSpvCust.setCreateTime(new Date());
-						toSpvCust.setSpvCode(spvCode);
+						toSpvCust.setSpvCode(toSpv.getSpvCode());
 						toSpvCust.setIsDeleted("0");
 						toSpvCustMapper.insertSelective(toSpvCust);
 					}
@@ -558,7 +558,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 
 		/** 3.保存到‘资金监管账户信息’表 */
-		List<ToSpvAccount> toSpvAccountOriList = toSpvAccountMapper.selectBySpvCode(spvCode);
+		List<ToSpvAccount> toSpvAccountOriList = toSpvAccountMapper.selectBySpvCode(toSpv.getSpvCode());
 		
 		if(toSpvAccountOriList != null && !toSpvAccountOriList.isEmpty()){
 			for(ToSpvAccount acc : toSpvAccountOriList){
@@ -569,10 +569,17 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 		}
 		
-		List<ToSpvAccount> toSpvAccountList = spvBaseInfoVO.getToSpvAccountList();
+		List<ToSpvAccount> toSpvAccountPageList = spvBaseInfoVO.getToSpvAccountList();
+		List<ToSpvAccount> toSpvAccountList = new ArrayList<ToSpvAccount>();
+		
+		for(ToSpvAccount tsa : toSpvAccountPageList){
+			if(StringUtils.isNotBlank(tsa.getAccountType())){
+				toSpvAccountList.add(tsa);
+			}
+		}
+		
 		if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
 			for (ToSpvAccount toSpvAccount : toSpvAccountList) {
-				if(!(toSpvAccount == null || toSpvAccount.getName() == null || toSpvAccount.getAccount() == null || toSpvAccount.getBank() == null || toSpvAccount.getTelephone() == null)){
 					if (toSpvAccount.getPkid() != null) {
 						toSpvAccount.setUpdateBy(user.getId());
 						toSpvAccount.setUpdateTime(new Date());
@@ -581,11 +588,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 					} else {
 						toSpvAccount.setCreateBy(user.getId());
 						toSpvAccount.setCreateTime(new Date());
-						toSpvAccount.setSpvCode(spvCode);
+						toSpvAccount.setSpvCode(toSpv.getSpvCode());
 						toSpvAccount.setIsDeleted("0");
 						toSpvAccountMapper.insertSelective(toSpvAccount);
 					}
-				}
 			}
 		}
 
@@ -599,7 +605,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			} else {
 				toSpvDe.setCreateBy(user.getId());
 				toSpvDe.setCreateTime(new Date());
-				toSpvDe.setSpvCode(spvCode);
+				toSpvDe.setSpvCode(toSpv.getSpvCode());
 				toSpvDe.setIsDeleted("0");
 				toSpvDeMapper.insertSelective(toSpvDe);
 			}
@@ -665,7 +671,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			} else {
 				toSpvProperty.setCreateBy(user.getId());
 				toSpvProperty.setCreateTime(new Date());
-				toSpvProperty.setSpvCode(spvCode);
+				toSpvProperty.setSpvCode(toSpv.getSpvCode());
 				toSpvProperty.setIsDeleted("0");
 				toSpvPropertyMapper.insertSelective(toSpvProperty);
 			}
@@ -1018,6 +1024,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 				if(toSpvCashFlow.getPkid() == null){
 					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
 					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
+					toSpvCashFlow.setReceiver(toSpvCashFlow.getPayer());
+					toSpvCashFlow.setReceiverAcc(toSpvCashFlow.getPayerAcc());
+					toSpvCashFlow.setReceiverBank(toSpvCashFlow.getPayerBank());
 					toSpvCashFlow.setPayer("上海中原物业顾问有限公司");
 					toSpvCashFlow.setPayerAcc("76310188000148842");
 					toSpvCashFlow.setPayerBank("光大银行市北支行");

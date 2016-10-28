@@ -103,14 +103,22 @@ public class MaterialManagementController {
 	//物品入库页面  案件信息查询
 	@RequestMapping("materialStorgae")
 	public String  materialStorgae(HttpServletRequest request,String pkids){
+		//申请人所在组织的id
+		SessionUser user = uamSessionService.getSessionUser();
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		List<MmMaterialItem>  mmMaterialItemList =  new ArrayList<MmMaterialItem>();
 		MmMaterialItem mmMaterialItem= new MmMaterialItem();
 		if(!"".equals(pkids) && pkids !=null){
-			String pkid[] = pkids.split(",");
+				
+			String pkid[] = pkids.split(",");			
 			for(int i=0; i<pkid.length;i++){				
 				mmMaterialItem = mmMaterialItemService.queryMmMaterialByPkid(Long.parseLong(pkid[i]));
 				mmMaterialItemList.add(mmMaterialItem);
-			}			
+			}
+			//保存pkid 主要为了关联查询查询附件信息	,同一批次的pkid 对应的T_MM_IO_BATCH表的pkid相同
+			if(pkid.length>0){
+				request.setAttribute("pkid", pkid[0]);	
+			}
 		}
 		
 		if(mmMaterialItemList.size()>0){
@@ -142,11 +150,12 @@ public class MaterialManagementController {
 	//物品产品详细信息查看
 	@RequestMapping("materialDetail")
 	public String  materialDetail(HttpServletRequest request,String pkid){		
-		MmMaterialItem mmMaterialItem= new MmMaterialItem();	
+		MmMaterialItem mmMaterialItem= new MmMaterialItem();
+		//pkid是主表（MmMaterialItem）case的主键
 		if(!"".equals(pkid) && pkid !=null){				
 			mmMaterialItem = mmMaterialItemService.queryMmMaterialByPkid(Long.parseLong(pkid));	
 			
-			List<MmIoBatch> mmIoBatchlist = getMmIoBatchList(pkid);
+			List<MmIoBatch> mmIoBatchlist = getMmIoBatchList(request,pkid);
 			if(mmIoBatchlist.size() > 0){
 				request.setAttribute("mmIoBatchlist", mmIoBatchlist);	
 			}
@@ -197,9 +206,8 @@ public class MaterialManagementController {
 		return "material/materialDetail";		
 	}
 	
-	//封装查询 出入记录、
-	//todo 根据pkid获取上传的客户确认书需完善
-	private  List<MmIoBatch>  getMmIoBatchList(String pkid){
+	//封装查询 出入记录
+	private  List<MmIoBatch>  getMmIoBatchList(HttpServletRequest request,String pkid){
 		//出入记录
 		List<MmIoBatch> mmIoBatchlist = new  ArrayList<MmIoBatch>();
 		//中间表
@@ -213,6 +221,12 @@ public class MaterialManagementController {
 					//通过BatchId关联查询动作表
 					mmIoBatch = mmIoBatchService.queryMmIoBatchByPkid(mmItemBatchList.get(i).getBatchId());
 					if(null != mmIoBatch){						
+						//通过主表的pkid找到动作表的pkid 并且动作为in 时，关联附件表信息
+						if(!"".equals(mmIoBatch.getLogAction()) && null != mmIoBatch.getLogAction()){
+							if(MaterialActionEnum.IN.getCode().equals(mmIoBatch.getLogAction())){
+								request.setAttribute("attaPkid", mmIoBatch.getAttachId());
+							}
+						}						
 						if(null != mmIoBatch.getLogAction() && !"".equals(mmIoBatch.getLogAction())){
 							if(mmIoBatch.getLogAction().equals("in")){
 								mmIoBatch.setLogAction("入库");
@@ -238,7 +252,6 @@ public class MaterialManagementController {
 								mmIoBatch.setManager(managerUser.getRealName());
 							}				
 						}
-						
 					}
 					mmIoBatchlist.add(mmIoBatch);
 				}
@@ -257,13 +270,13 @@ public class MaterialManagementController {
 		List<MmMaterialItem> materialList = new ArrayList<MmMaterialItem>();
 		String itemAddrCode = "";//物品存放路径
 		String attachPkid = ""; //上传附件的pkid
-		String relevantUser = ""; //动作申请人
+		String relevantUserId = ""; //动作申请人id
 		MmIoBatch mmIoBatch = new MmIoBatch();
 		//long insertMmIoBatch = 0;//插入动作表返回的主键  返回的主键id在对象里面取值		
 		if( null != material){
 			itemAddrCode = material.getItemAddrCode();
 			attachPkid = material.getAttachPkid();
-			relevantUser = material.getRelevantUser();
+			relevantUserId = material.getRelevantUserId();
 			materialList = material.getMaterialList();
 		}
 		
@@ -274,7 +287,7 @@ public class MaterialManagementController {
 			if(!"".equals(attachPkid) && null != attachPkid){
 				mmIoBatch.setAttachId(Long.parseLong(attachPkid));
 			}
-			mmIoBatch.setActionUser(relevantUser);
+			mmIoBatch.setActionUser(relevantUserId);
 			mmIoBatchService.insertMmIoBatchInfo(mmIoBatch);			
 			
 			//插入操作获取pkid

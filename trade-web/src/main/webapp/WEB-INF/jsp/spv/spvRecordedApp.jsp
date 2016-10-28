@@ -64,26 +64,36 @@
                    
                     <div class="ibox-content space30" >
                         <div class="agree-tile">
-                            资金入账申请
+                           	 资金入账申请
                         </div>
                         <div class="info_content">
+                        	<div class="line">
+                                <p>
+                                    <label> 案件编号  </label>
+                                     <span class="info"><span  class="demo-top" title="${spvBaseInfoVO.toSpv.caseCode }" >${spvBaseInfoVO.toSpv.caseCode }</span></span>
+                                </p>
+                                <p>
+                                    <label>合约编号 </label>
+                                   <span  class="info demo-top" title="${spvBaseInfoVO.toSpv.spvCode }">${spvBaseInfoVO.toSpv.spvCode }</span>
+                                </p>
+                            </div>
                             <div class="line">
                                 <p>
                                     <label>
-                                       产品类型
+                                       	产品类型
                                     </label>
                                     <span class="info_one" >${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }</span>
                                 </p>
                                 <p>
                                     <label>
-                                        监管金额
+                                        	监管金额
                                     </label>
                                    <span class="info_one" id="amount" value="${spvBaseInfoVO.toSpv.amount }">${spvBaseInfoVO.toSpv.amount }万元</span>
                                 </p>
 
                                 <p>
                                     <label>
-                                        物业地址
+                                        	物业地址
                                     </label>
                                     <span class="info" ><span class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }"> ${spvBaseInfoVO.toSpvProperty.prAddr }</span></span>
                                 </p>
@@ -92,21 +102,21 @@
                             <div class="line">
                                 <p>
                                     <label>
-                                        收款人名称
+                                        	收款人名称
                                     </label>
                                    <span class="info_one"><span class="demo-top" title="上海中原物业顾问有限公司">上海中原物业顾问有限公司</span></span>
                                 </p>
 
                                 <p>
                                     <label>
-                                        收款人账户
+                                        	收款人账户
                                     </label>
                                     <span class="info_one"><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].account }"> ${spvBaseInfoVO.toSpvAccountList[2].account }</span></span>
                                 </p>
 
                                 <p>
                                     <label>
-                                        收款人开户行
+                                        	收款人开户行
                                     </label>
                                     <span class="info"><%-- ${spvBaseInfoVO.toSpvAccountList[2].bank } --%>光大银行市北支行</span>
                                 </p>
@@ -114,7 +124,7 @@
                         </div>
                         <div class="mt20">
                             <div class="agree-tile">
-                                入账申请信息
+                                	入账申请信息
                             </div>
 
                             <form class="form-inline table-capital" id="teacForm" >
@@ -202,13 +212,6 @@
 	                                       </c:forEach>
                                         </tbody>
                                     </table>
-                                    <div class="form-btn">
-                                <div class="text-center"><!-- 
-                                    <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button> -->
-                                    <button type="button" onclick="rescCallbocak()"class="btn btn-default mr15">关闭</button>
-                                    <a onclick="sumbitRe()" class="btn btn-success">提交</a>
-                                </div>
-                                </div>
                                 </div>
                             </form>
                         </div>
@@ -235,6 +238,15 @@
                             </c:forEach>
                             </div>
                         </div>
+                        
+                        <div class="form-btn">
+                              <div class="text-center"><!-- 
+                                  <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button> -->
+                                  <button type="button" onclick="rescCallbocak()"class="btn btn-default mr15">关闭</button>
+                                  <a onclick="sumbitRe()" class="btn btn-success">提交</a>
+                              </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

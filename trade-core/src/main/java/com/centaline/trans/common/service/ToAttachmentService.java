@@ -12,6 +12,8 @@ public interface ToAttachmentService {
 	
 	public List<ToAttachment> quereyAttachments(ToAttachment toAttachment);
 	
+	public List<ToAttachment> quereyAttachmentForMaterial(ToAttachment toAttachment);
+	
 	public boolean delAttachment(List<Long> pkIdArr);
 
 	void saveToAttachment(ToAttachment toAttachment);

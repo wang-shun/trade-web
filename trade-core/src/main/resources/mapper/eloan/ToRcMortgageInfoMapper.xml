@@ -22,6 +22,11 @@
     CREATE_TIME, UPDATE_TIME, UPDATE_BY, REFER_CODE, REFER_NAME, REFER_USER, REFER_ADDREASS, 
     IS_DELETED
   </sql>
+   <sql id="Base_Mortgage_Column_List" >
+    mortgageInfo.PKID, mortgageInfo.RISK_CONTROL_ID, mortgageInfo.MORTGAGE_CATEGORY, mortgageInfo.MORTGAGE_CODE, mortgageInfo.MORTGAGE_NAME, mortgageInfo.CREATE_BY, 
+    mortgageInfo.CREATE_TIME, mortgageInfo.UPDATE_TIME, mortgageInfo.UPDATE_BY, mortgageInfo.REFER_CODE, mortgageInfo.REFER_NAME, mortgageInfo.REFER_USER, mortgageInfo.REFER_ADDREASS, 
+    mortgageInfo.IS_DELETED
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
@@ -30,12 +35,12 @@
   </select>
   <select id="getToRcMortgageInfoByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.eloan.entity.RcRiskControl" >
 		SELECT 
-		mortgageInfo.MORTGAGE_CATEGORY,
-		mortgageInfo.MORTGAGE_NAME
+		 <include refid="Base_Mortgage_Column_List" />
 		FROM sctrans.T_RC_RISK_CONTROL riskControl 
 		INNER JOIN  sctrans.T_TO_RC_MORTGAGE_INFO  mortgageInfo
 		ON riskControl.PKID = mortgageInfo.RISK_CONTROL_ID
-		WHERE riskControl.RISK_TYPE = #{riskType,jdbcType=VARCHAR}
+		WHERE mortgageInfo.IS_DELETED IS NULL
+		AND riskControl.RISK_TYPE = #{riskType,jdbcType=VARCHAR}
 		AND riskControl.ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </select>
   

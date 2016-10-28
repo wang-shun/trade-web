@@ -412,6 +412,7 @@
 						jQuery(document).ready(function() {
 							initData();
 						});
-					</script> </content>
+					</script> 
+     </content>
 </body>
 </html>
