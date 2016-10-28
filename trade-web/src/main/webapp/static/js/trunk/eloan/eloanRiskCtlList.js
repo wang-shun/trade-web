@@ -9,32 +9,6 @@ var userId = $("#userId").val();
 
 $(document).ready(function() {
 	
-	var data = {};
-
-    $("#riskCtlList").aistGrid({
-		ctx : ctx,
-		queryId : 'queryEloanRiskControlList',
-	    templeteId : 'template_eloanRiskCtlList',
-	    data : data,
-	    wrapperData : data,
-	    columns : [{
-			           colName :"贷款合约编号"
-			      },{
-	    	           colName :"产品类型"
-	    	      },{
-	    	           colName :"风控措施类型"
-	    	      },{
-	    	           colName :"借款人"
-    	          },{
-	    	           colName :"贷款专员"
-    	          },{
-		    	       colName :"风控执行人"
-	    	      },{
-		    	       colName :"操作"
-	    	      }]
-	
-	});
-    
     $('#searchBtn').click(function(){
 		reloadGrid();
 	});

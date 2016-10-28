@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queryConfig debug="true">
+	<import resource="rapidQuery/toTaskListQuery.xml" />
+	<import resource="rapidQuery/eloan/QueryEloanRelCash.xml" />
+	<import resource="rapidQuery/sys/noMappingCase.xml" />
+</queryConfig>

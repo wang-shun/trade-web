@@ -1,4 +1,3 @@
-
 $(function() {
 	 //获取jQuery 对象
     var $roomlist = $("#roomList");
@@ -101,5 +100,3 @@ $(function() {
     })
     
 });
-
-

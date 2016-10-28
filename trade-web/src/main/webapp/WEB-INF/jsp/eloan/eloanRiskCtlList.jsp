@@ -136,7 +136,13 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div id="riskCtlList" class="table_content"></div>
+						<div  class="table_content">
+							<table id="riskCtlList" class="table table_blue table-striped table-bordered table-hover">
+							<thead><tr><th>贷款合约编号</th><th>产品类型</th><th>风控措施类型</th><th>借款人</th><th>贷款专员</th><th>风控执行人</th><th>操作</th></tr></thead>
+							<tbody>
+							</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

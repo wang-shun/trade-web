@@ -218,5 +218,4 @@
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/bespeak.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-mvalidate.js"></script>
 
-
 </html>

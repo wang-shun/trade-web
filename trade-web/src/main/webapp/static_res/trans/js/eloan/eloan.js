@@ -1,199 +1,173 @@
-$(function() {
-        // 基于准备好的dom，初始化echarts实例
-        var myChart1 = echarts.init(document.getElementById('TypeOne'));
-        var myChart2 = echarts.init(document.getElementById('TypeTwo'));
-        var myChart3 = echarts.init(document.getElementById('Cont'));
 
-        // 指定图表的配置项和数据
-        var option1 = {
-            title: {
-                text: '贷款类型分析（金额）',
-                subtext:'',
-                padding: [25, 10],
-                x:'center',
-            },
-            tooltip: {
-                trigger: 'item',
-                triggerOn: 'mousemove',
-                /*alwaysShowContent:true,*/
-                hideDelay: 1500,
-                enterable: true,
-                formatter: "{b}: {c} ({d}%)"
-            },
+ 
+// 返回背景颜色
+function getColor(colors) {
+	return {
+		normal : {
+			color : colors,
 
-            legend: {
-                orient: 'vertical',
-                x: 'right',
-                y: 'top',
-                top: 15,
+		}
+	}
 
-                data:['商贷（收单）','商贷（流失）','公积金']
-            },
-            color:[
-                '#f784a5', '#ffad6b', '#52bdbd', '#295aa5',
-            ],
-            series: [
+}
 
-                {
-                    name:'贷款类型分析(金额)',
-                    type:'pie',
-                    radius: ['35%', '55%'],
-                    animation: true,
-                    selectedMode: 'multiple',
-                    data:[
-                        {value:125111, name:'商贷（收单）'},
-                        {value:114724, name:'商贷（流失）'},
-                        {value:80212, name:'公积金'}
-                    ]
-                }
-            ]
-};
+function  StatusEchart2(finOrgNames,number,amount){
+	// 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('TypeOne'));
+    var myChart2 = echarts.init(document.getElementById('TypeTwo'));
+	// 指定图表的配置项和数据
+    var option1 = {
+        title: {
+            text: '贷款类型分析（金额）',
+            subtext:'',
+            padding: [25, 10],
+            x:'center',
+        },
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove',
+            /*alwaysShowContent:true,*/
+            hideDelay: 1500,
+            enterable: true,
+            formatter: "{b}: {c}万 ({d}%)"
+        },
 
-       // 指定图表的配置项和数据
-        var option2 = {
-            title: {
-                text: '贷款类型分析（单数）',
-                subtext:'',
-                padding: [25, 10],
-                x:'center',
-            },
-            tooltip: {
-                trigger: 'item',
-                triggerOn: 'mousemove',
-                /*alwaysShowContent:true,*/
-                hideDelay: 1500,
-                formatter: "{b}: {c} ({d}%)"
-            },
+        legend: {
+            x : 'center',
+            y : 'bottom',
+            data:finOrgNames,
+            size:'9'
+        },
+        color:[
+            '#ade9e9', '#84d3dc', '#58afc2', '#ffdabd','#ffd480','#ffac88','#ffad6b','#ffd2df','#dc96d0','#ff9696','#f784a5','#bfd8ff','#7aa6ea','#439cf0','#0e73da','#295aa5'
+        ],
+        series: [
 
-            legend: {
-                orient: 'vertical',
-                x: 'right',
-                y: 'top',
-                top: 15,
-
-                data:['商贷（收单）','商贷（流失）','公积金']
-            },
-            color:[
-                '#f784a5', '#ffad6b', '#52bdbd', '#295aa5',
-            ],
-            series: [
-
-                {
-                    name:'贷款类型分析（单数）',
-                    type:'pie',
-                    radius: ['35%', '55%'],
-                    animation: true,
-                    selectedMode: 'multiple',
-                    data:[
-                        {value:80, name:'商贷（收单）'},
-                        {value:90, name:'商贷（流失）'},
-                        {value:100, name:'公积金'}
-                    ]
-                }
-            ]
-};
-
-    // 指定图表的配置项和数据
-        var option3 = {
-            title: {
-                text: '贷款类型分析（单数）',
-                subtext:'',
-                padding: [15, 20],
-                x:'center',
-            },
-            tooltip : {
-                trigger: 'item',
-                hideDelay: 100,
-                showDelay : 0,
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    type : 'shadow'       // 默认为直线，可选为：'line' | 'shadow'
-                },
-            },
-
-    //数据视图
-    toolbox : {
-            show : true,
-            feature : {
-                dataView : {
-                    show : true,
-                    readOnly : false
-                },
-                restore : {
-                    show : true
-                },
-                saveAsImage : {
-                    show : true
-                }
+            {
+                name:'贷款类型分析(金额)',
+                type:'pie',
+                radius: ['25%', '45%'],
+                animation: true,
+                selectedMode: 'multiple',
+                data:amount
             }
+        ]
+};
+ // 指定图表的配置项和数据
+    var option2 = {
+        title: {
+            text: '贷款类型分析（单数）',
+            subtext:'',
+            padding: [25, 10],
+            x:'center',
         },
-    barBorderRadius:0,
-    legend : {
-            orient : 'vertical',
-            x : 'right',
-            y : 'center',
-            data : [ '接单', '签约', '过户', '结案' ],
-            selected : {
-                '结案' : false
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove',
+            /*alwaysShowContent:true,*/
+            hideDelay: 1500,
+            formatter: "{b}: {c}个 ({d}%)"
+        },
+
+        legend: {
+            x : 'center',
+            y : 'bottom',
+            data:finOrgNames
+        },
+        color:[
+               '#ade9e9', '#84d3dc', '#58afc2', '#ffdabd','#ffd480','#ffac88','#ffad6b','#ffd2df','#dc96d0','#ff9696','#f784a5','#bfd8ff','#7aa6ea','#439cf0','#0e73da','#295aa5'
+           ],
+        series: [
+
+            {
+                name:'贷款类型分析（单数）',
+                type:'pie',
+                radius: ['25%', '45%'],
+                animation: true,
+                selectedMode: 'multiple',
+                data:number
             }
+        ]
+};
+	
+	// 使用刚指定的配置项和数据显示图表。
+    myChart1.setOption(option1);
+    myChart2.setOption(option2);
+   }
 
-        },
-    grid : {
-            left : '1%',
-            right : '10%',
-            bottom : '1%',
-            containLabel : true
-        },
-    xAxis : [
-        {
-            type : 'category',
-            data : ['上半年','7月','8月','9月','10月','11月','12月']
-        }
-    ],
-    yAxis : [
-        {
-            type : 'value'
-        }
-    ],
-    color:[
-        '#f784a5', '#ffad6b', '#52bdbd', '#295aa5',
-    ],
-    series : [
-        {
-            name:'接单',
-            type:'bar',
-            barWidth: 30,
-            stack: '7月',
-            data:[120,10,51, 20, 32, 10, 83]
-        },
-        {
-            name:'签约',
-            type:'bar',
-            barWidth: 30,
-            stack: '7月',
-            data:[14,3,5, 6, 8, 33, 29]
-        },
-        {
-            name:'过户',
-            type:'bar',
-            barWidth: 30,
-            stack: '7月',
-            data:[12,2,2, 3, 0, 5, 9]
-        },
-        {
-            name:'结案',
-            type:'bar',
-            barWidth: 30,
-            stack: '7月',
-            data:[30,2,5, 8, 7, 18, 17]
-        },
+function StatusEchart1(kas,dais,xAxis) {
+	// 基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('Cont'));
 
-    ]
-        };
-        // 使用刚指定的配置项和数据显示图表。
-        myChart1.setOption(option1);
-        myChart2.setOption(option2);
-        myChart3.setOption(option3);
+	// 指定图表的配置项和数据
 
+	var option = {
+		tooltip : {
+			trigger : 'axis',
+			axisPointer : { // 坐标轴指示器，坐标轴触发有效
+				type : 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+			},
+	        formatter: function(params) {  
+	              var res = params[0].name +'<br/>'+params[0].seriesName+'：'+params[0].value+'万/'+params[0].data.num+'个</br>';  
+	                  res+=params[1].seriesName+'：'+params[1].value+'万/'+params[1].data.num+'个';  
+	              return res;  
+				 },
+		},
+		toolbox : {
+			show : true,
+			feature : {
+				dataView : {
+					show : true,
+					readOnly : false
+				},
+				restore : {
+					show : true
+				},
+				saveAsImage : {
+					show : true
+				}
+			}
+		},
+		legend : {
+			orient : 'vertical',
+			x : 'right',
+			y : 'center',
+			data : [ '卡类', '贷款类' ],
 
+		},
+		grid : {
+			left : '1%',
+			right : '10%',
+			bottom : '1%',
+			containLabel : true
+		},
+		xAxis : [ {
+			type : 'category',
 
-})
+			data :xAxis
+		} ],
+		yAxis : [ {
+			type : 'value'
+		} ],
+		series : [ {
+			name : '卡类',
+			type : 'bar',
+			barWidth : 30,
+			stack : 'mm',
+			itemStyle : getColor('#52bdbd'),
+			dataType:'json',
+			data : kas
+		}, {
+			name : '贷款类',
+			type : 'bar',
+			barWidth : 30,
+			dataType:'json',
+			stack : '7月',
+			itemStyle : getColor('#295aa5'),
+			data :dais
+		} ]
+	};
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+
+}

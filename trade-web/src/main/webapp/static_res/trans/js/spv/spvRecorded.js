@@ -333,15 +333,18 @@ function submitBtnClick(handle,chargeOutAppr){
 			if(data.ajaxResponse.success){
 				if(!handle){
 					alert("流程开启成功！");
+					window.location.href = ctx+"/spv/spvList";
 				}else{
 					alert("任务提交成功！");
+					window.opener.location.reload(); //刷新父窗口
+		        	window.close(); //关闭子窗口.
 				}
 			}else{
 				alert("数据保存出错:"+data.ajaxResponse.message);
 			}
 			    // if($("#urlType").val() == 'myTask'){    	 
-			    	 window.opener.location.reload(); //刷新父窗口
-		        	 window.close(); //关闭子窗口.
+			    	// window.opener.location.reload(); //刷新父窗口
+		        	// window.close(); //关闭子窗口.
 			    // }else{
 			    //      window.location.href=ctx+"/spv/spvFlowApplyList";
 			    // }
