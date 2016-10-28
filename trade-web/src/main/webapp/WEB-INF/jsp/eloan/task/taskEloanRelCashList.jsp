@@ -219,7 +219,7 @@
 			    <tr class="tr-1">
                                         <td>
                                             <p class="big">
-                                                <a href="javascript:;">
+                                                <a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">
                                                     {{item.ELOAN_CODE}}
                                                 </a>
                                             </p>
@@ -244,7 +244,7 @@
                                         </td>
                                         <td>
                                             <p class="smll_sign big">
-                                                                                                                                       金额 ：{{item.RELEASE_AMOUNT}}
+                                                                                                                                       金额 ：{{item.RELEASE_AMOUNT}}万
                                             </p>
                                             <p class="smll_sign">
                                                                                                                                        时间：{{item.RELEASE_TIME}}
@@ -253,10 +253,10 @@
 
 
                                         <td>
-                                            <p class="big blue-text">
+                                            <p class="smll_sign bigt">
                                                {{item.EXCUTOR_ID}}
                                             </p>
-                                            <p class="big blue-text">
+                                            <p class="smll_sign big">
                                                {{item.EXCUTOR_TEAM}}
                                             </p>
                                         </td>

@@ -3,6 +3,7 @@
 	<query id="queryEloanCashList">
 		<searchScript>
 			SELECT
+			er.PKID,
 			er.ELOAN_CODE,
 			ec.LOAN_SRV_CODE,
 			er.RELEASE_AMOUNT,
@@ -72,6 +73,7 @@
 			</where>
 		</searchScript>
 		<grid>
+		     <column name="PKID" title="PKID" hidden="true" />
 			<column name="ELOAN_CODE" title="ELOAN_CODE" hidden="true" />
 			<column name="LOAN_SRV_CODE" field="LOAN_SRV_CODE" title="LOAN_SRV_CODE"
 				hidden="true" customDict="qqcdDictServCode" />
