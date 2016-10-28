@@ -22,7 +22,7 @@
 	var postData={queryId:"queryCastListItemListForMobile",search_prStatus:'1',search_agentId:'${userId}',rows:10,page:1};
 	
     function goDetails(caseId){
-    	location.href=ctx+'/mobile/case/box/progressDetailList?caseId='+caseId;
+    	location.href=ctx+'/weixin/case/progressDetailList?caseId='+caseId;
     }
     $(document).ready(function(){
     	loaded("init");
