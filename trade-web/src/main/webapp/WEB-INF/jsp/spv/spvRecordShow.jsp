@@ -84,7 +84,7 @@
                                   <label>
                                     	  监管金额
                                   </label>
-                                  <span class="info_one">${spvBaseInfoVO.toSpv.amount }万元</span>
+                                  <span class="info_one demo-top" title="${spvBaseInfoVO.toSpv.amount }" >${spvBaseInfoVO.toSpv.amount }万元</span>
                               </p>
 
                               <p>
