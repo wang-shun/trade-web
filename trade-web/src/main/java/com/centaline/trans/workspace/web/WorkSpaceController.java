@@ -12,13 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.centaline.trans.report.service.OrgReportFormService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +45,7 @@ import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LightColorEnum;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.report.service.OrgReportFormService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.TsTransPlanHistoryService;
@@ -55,6 +54,7 @@ import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.utils.CheckMobileUtils;
 import com.centaline.trans.utils.DateUtil;
+import com.centaline.trans.workspace.entity.CacheGridParam;
 import com.centaline.trans.workspace.entity.LoanStaDetails;
 import com.centaline.trans.workspace.entity.WorkLoad;
 import com.centaline.trans.workspace.entity.WorkSpace;
@@ -566,7 +566,7 @@ public class WorkSpaceController {
 	@ResponseBody	
 	public Map doGetRankByQuickQuery(HttpServletRequest request, HttpServletResponse response) throws IOException {	
 		SessionUser user = uamSessionService.getSessionUser();
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);		
 
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -1031,7 +1031,7 @@ public class WorkSpaceController {
 	public String showDistrict(Model model, ServletRequest request) {
 		Map<String, String> toCaseOrgNameList = new HashMap<>();
 		List<ToOrgVo> orgIdList = toCaseService.getOrgIdAllByDep(DepTypeEnum.TYCTEAM.getCode());// 获取到组织
-		JQGridParam gp = new JQGridParam();	//查询组织列表改为快速查询
+		JQGridParam gp = new CacheGridParam();	//查询组织列表改为快速查询
 		gp.setQueryId("queryOrgIdList");
 		gp.put("depType", DepTypeEnum.TYCTEAM.getCode());
 		gp.setPagination(false);
@@ -1187,7 +1187,7 @@ public class WorkSpaceController {
 	 * 待分配任务预警数
 	 */
 	public Long getCaseDistributeCount(){
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setCountOnly(true);
 		gp.setQueryId("queryCastListItemListUnDistribute");
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
@@ -1199,7 +1199,7 @@ public class WorkSpaceController {
 	 * @return
 	 */
 	public Long getUnlocatedTaskCount(SessionUser currentUser){
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		String jobCode = currentUser.getServiceJobCode();
 		//设置当前系统用户的登录名
 		gp.put("candidateId", currentUser.getUsername());
@@ -1220,7 +1220,7 @@ public class WorkSpaceController {
 	 * @return
 	 */
 	public Long getUnlocatedCaseCount(){
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setCountOnly(true);
 		gp.setQueryId("queryUnlocatedCase");
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
@@ -1229,7 +1229,7 @@ public class WorkSpaceController {
 	
 	//查找红灯预警数量
 	private int redLightCountQuery(WorkSpace wk) {		
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		
 		gp.setPagination(false);		
 		if(wk!=null){
@@ -1250,7 +1250,7 @@ public class WorkSpaceController {
 	
 	//查找黄灯预警数量
 	private int yeLightCountQuery(WorkSpace wk) {		
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);
 		if(wk!=null){			
 			gp.put("user_Id", wk.getUserId());
@@ -1273,7 +1273,7 @@ public class WorkSpaceController {
 	//查找本组流失预警数量
 	private int benchBizwarnCaseCountQueryByTeam(String userName) {	
 		
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);				
 		gp.put("user_LoginName", userName);
 		
@@ -1289,7 +1289,7 @@ public class WorkSpaceController {
 	//查找本组流失预警数量
 	private int benchBizwarnCaseCountQueryByDistinct(String ServiceCompanyId) {	
 		
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);				
 		gp.put("currentOrgId", ServiceCompanyId);
 		
@@ -1308,7 +1308,7 @@ public class WorkSpaceController {
 	@ResponseBody
 	public Map newWorkSpaceSta(String serachId, String mo) {
 		WorkSpace work = buildWorkSpaceBean(serachId, mo);		
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);
 		if(work!=null){			
 			gp.put("mo", work.getMo());

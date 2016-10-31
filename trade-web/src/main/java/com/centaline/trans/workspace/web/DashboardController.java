@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.common.enums.LightColorEnum;
 import com.centaline.trans.task.service.impl.TsTaskDelegateServiceImpl;
+import com.centaline.trans.workspace.entity.CacheGridParam;
 import com.centaline.trans.workspace.entity.WorkSpace;
 import com.centaline.trans.workspace.service.WorkSpaceService;
 
@@ -61,7 +64,7 @@ public class DashboardController {
     @ResponseBody
     public Page<Map<String, Object>> queryRyLightList(HttpServletRequest request, HttpServletResponse response,
                               String orgId) {
-        JQGridParam gp = new JQGridParam();
+        JQGridParam gp = new CacheGridParam();
         gp.setQueryId("queryRyLightList");
         gp.setPagination(true);
         gp.setPage(1);
