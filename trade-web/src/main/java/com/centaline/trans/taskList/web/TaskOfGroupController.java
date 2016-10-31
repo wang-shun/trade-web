@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.enums.LampEnum;
 
 @Controller
@@ -26,14 +25,4 @@ public class TaskOfGroupController {
 		request.setAttribute("serviceDepId", suser.getServiceDepId());
 		return "/task/toTaskOfGroupList2";
 	}
-	/*@RequestMapping("toTaskOfGroupList2")
-	private String toTaskOfGroupList2(ServletRequest request){
-		String[] lamps = LampEnum.getCodes();
-		request.setAttribute("Lamp1", lamps[0]);
-		request.setAttribute("Lamp2", lamps[1]);
-		request.setAttribute("Lamp3", lamps[2]);
-		SessionUser suser= uamSessionService.getSessionUser();
-		request.setAttribute("serviceDepId", suser.getServiceDepId());
-		return "/task/toTaskOfGroupList2";
-	}*/
 }

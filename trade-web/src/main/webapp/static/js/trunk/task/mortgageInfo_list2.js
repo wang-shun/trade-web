@@ -42,12 +42,11 @@ var tmpBankAmountItems = new Array();
 /**
  * 案件统计详情
  */
-$(document).ready(
-		function() {
+$(document).ready(function() {
 
-			var url = "/quickGrid/findPage";
+/*			var url = "/quickGrid/findPage";
 			var ctx = $("#ctx").val();
-			url = ctx + url;
+			url = ctx + url;*/
 
 			var signTimeStart = $("#dtBegin_0").val();
 			var signTimeEnd = '';
@@ -71,28 +70,14 @@ $(document).ready(
 			getParentBank($("select[name='loanLostFinOrgName']"),
 					$("select[name='loanLostFinOrgNameYc']"), "", "", "");
 
-			$("select[name='loanLostFinOrgName']").change(
-					function() {
-						/* $("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy"); */
-						// if(data.content && data.content.isTmpBank=='1'){
-						getBranchBankList(
-								$("select[name='loanLostFinOrgNameYc']"), $(
+			$("select[name='loanLostFinOrgName']").change(function() {
+				getBranchBankList($("select[name='loanLostFinOrgNameYc']"), $(
 										"select[name='loanLostFinOrgName']")
 										.val(), "");
-						// }else{
-						// getBranchBankList($("select[name='loanLostFinOrgNameYc']"),$("select[name='loanLostFinOrgName']").val(),"",'cl');
-						// }
+
 					})
 
 			setPieCharts();
-
-			/*
-			 * $(".charone").hide(); $("#mortTypeAnalysis").click(function() {
-			 * $(".charone").toggle();
-			 * $("#mortTypeAnalysis").addClass('btn-bg');
-			 * if($(".charone").is(":hidden")) {
-			 * $("#mortTypeAnalysis").removeClass('btn-bg'); } });
-			 */
 
 			$(".charone,.chartwo,.chartthree").hide();
 			$("#mortTypeAnalysis").click(function() {
@@ -247,8 +232,7 @@ function getMTypeAnalysis() {
 	data.rows = 10;
 	data.page = 1;
 
-	$
-			.ajax({
+	$.ajax({
 				async : false,
 				url : ctx + "/quickGrid/findPage",
 				method : "post",
@@ -740,14 +724,14 @@ function reloadGrid(data) {
 				'z-index' : '9998'
 			});
 		},
-		success : function(data) {
-			$.unblockUI();
+		success : function(data) {			
 			data.ctx = ctx;
 			var mortgageInfoList = template('template_mortgageInfoList', data);
 			$("#mortgageInfoList").empty();
 			$("#mortgageInfoList").html(mortgageInfoList);
 			// 显示分页
 			initpage(data.total, data.pagesize, data.page, data.records);
+			$.unblockUI();
 		},
 		error : function(e, jqxhr, settings, exception) {
 			$.unblockUI();
