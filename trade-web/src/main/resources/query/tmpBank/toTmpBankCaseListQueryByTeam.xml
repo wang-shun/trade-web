@@ -38,58 +38,33 @@
 					SELECT t.PKID,t.CASE_CODE,t.PROPERTY_ADDR,t.IS_TMP_BANK,u.USERNAME,u.REAL_NAME,u.ID as applicantId,o.ORG_NAME,o.ID AS currentOrgId,
 					(SELECT ORG_NAME FROM sctrans.SYS_ORG WHERE ID = (SELECT PARENT_ID FROM sctrans.SYS_ORG WHERE ID = c.ORG_ID)) AS parentOrgName,
 					m.FIN_ORG_CODE,m.TMP_BANK_STATUS,m.TMP_BANK_REJECT_REASON,
-					(
-					SELECT u.REAL_NAME
-					FROM
-					(
-					SELECT  A.CASE_CODE,A.NAME,A.PART_CODE,A.ASSIGNEE AS ASSIGNEE_OLD,A.END_TIME,A.status AS status_OLD
-										   FROM ((SELECT TW.CASE_CODE,ART.NAME_ AS NAME,ART.TASK_DEF_KEY_ AS PART_CODE,ART.ASSIGNEE_ AS ASSIGNEE,NULL AS END_TIME,'RUN' as status
-												FROM
-												  sctrans.T_HI_WORKFLOW TW
-													INNER JOIN sctrans.ACT_RU_TASK ART ON ART.PROC_INST_ID_ = TW.INST_CODE
-													LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = ART.TASK_DEF_KEY_
-												  left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
-												WHERE 1=1 AND TW.CASE_CODE = t.CASE_CODE
-												)UNION(
-												SELECT TW.CASE_CODE,AHT.NAME_ AS NAME,AHT.TASK_DEF_KEY_ AS PART_CODE,AHT.ASSIGNEE_ AS ASSIGNEE,AHT.END_TIME_ AS END_TIME,AHT.DELETE_REASON_ as status
-												FROM
-												 	sctrans.T_HI_WORKFLOW TW
-													INNER JOIN sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = TW.INST_CODE AND (AHT.DELETE_REASON_='completed' or AHT.DELETE_REASON_='ACTIVITI_DELETED' or AHT.DELETE_REASON_='deleted')
-													LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = AHT.TASK_DEF_KEY_
-												  left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
-												WHERE 1=1 AND TW.CASE_CODE = t.CASE_CODE)) A 
-					WHERE (A.PART_CODE = 'ManagerAduit' OR A.PART_CODE = 'DirectorAudit' OR A.PART_CODE = 'SuperManagerAudit') AND END_TIME IS NOT NULL AND A.status != 'deleted'
-					ORDER BY END_TIME DESC
-					OFFSET 0 ROWS FETCH  next 1 ROWS ONLY
-					) t2
-					LEFT JOIN sctrans.SYS_USER u ON u.USERNAME = t2.ASSIGNEE_OLD
-					) AS approver,
-					(
-					SELECT t2.END_TIME
-					FROM
-					(
-					SELECT  A.CASE_CODE,A.NAME,A.PART_CODE,A.ASSIGNEE AS ASSIGNEE_OLD,A.END_TIME,A.status AS status_OLD
-										   FROM ((SELECT TW.CASE_CODE,ART.NAME_ AS NAME,ART.TASK_DEF_KEY_ AS PART_CODE,ART.ASSIGNEE_ AS ASSIGNEE,NULL AS END_TIME,'RUN' as status
-												FROM
-												    sctrans.T_HI_WORKFLOW TW
-													INNER JOIN sctrans.ACT_RU_TASK ART ON ART.PROC_INST_ID_ = TW.INST_CODE
-													LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = ART.TASK_DEF_KEY_
-												  left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
-												WHERE 1=1 AND TW.CASE_CODE = t.CASE_CODE
-												)UNION(
-												SELECT TW.CASE_CODE,AHT.NAME_ AS NAME,AHT.TASK_DEF_KEY_ AS PART_CODE,AHT.ASSIGNEE_ AS ASSIGNEE,AHT.END_TIME_ AS END_TIME,AHT.DELETE_REASON_ as status
-												FROM
-												 	sctrans.T_HI_WORKFLOW TW
-													INNER JOIN sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = TW.INST_CODE AND (AHT.DELETE_REASON_='completed' or AHT.DELETE_REASON_='ACTIVITI_DELETED' or AHT.DELETE_REASON_='deleted')
-													LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = AHT.TASK_DEF_KEY_
-												  left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
-												WHERE 1=1 AND TW.CASE_CODE = t.CASE_CODE)) A 
-					WHERE (A.PART_CODE = 'ManagerAduit' OR A.PART_CODE = 'DirectorAudit' OR A.PART_CODE = 'SuperManagerAudit') AND END_TIME IS NOT NULL AND A.status != 'deleted'
-					ORDER BY END_TIME DESC
-					OFFSET 0 ROWS FETCH  next 1 ROWS ONLY
-					) t2
-					LEFT JOIN sctrans.SYS_USER u ON u.USERNAME = t2.ASSIGNEE_OLD
-					) AS auditDateTime,
+					( SELECT    u.REAL_NAME FROM ( 
+                                            SELECT  AHT.ASSIGNEE_ AS ASSIGNEE_OLD
+                                                FROM    sctrans.T_HI_WORKFLOW TW INNER JOIN sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = TW.INST_CODE AND ( AHT.DELETE_REASON_ = 'completed'  OR AHT.DELETE_REASON_ = 'ACTIVITI_DELETED')
+																				 LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = AHT.TASK_DEF_KEY_
+																			     LEFT JOIN sctrans.SYS_WFE_TEMPLATE AS wfe ON TW.BUSINESS_KEY = wfe.WFE_CODE
+                                                WHERE   1 = 1 AND TW.CASE_CODE = t.CASE_CODE
+													   AND ( AHT.TASK_DEF_KEY_ = 'ManagerAduit' OR AHT.TASK_DEF_KEY_ = 'DirectorAudit' OR AHT.TASK_DEF_KEY_ = 'SuperManagerAudit' )
+                                                       AND AHT.END_TIME_ IS NOT NULL
+											           ORDER BY  AHT.END_TIME_ DESC
+                                                       OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY
+                           ) A
+                           LEFT JOIN sctrans.SYS_USER u ON u.USERNAME = A.ASSIGNEE_OLD
+                    ) AS approver ,
+                     (SELECT   AHT.END_TIME_ 
+                                                FROM    sctrans.T_HI_WORKFLOW TW
+                                                        INNER JOIN sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = TW.INST_CODE AND ( AHT.DELETE_REASON_ = 'completed' OR AHT.DELETE_REASON_ = 'ACTIVITI_DELETED')
+                                                        LEFT JOIN sctrans.T_TO_TRANS_PLAN TP ON TP.CASE_CODE = TW.CASE_CODE AND TP.PART_CODE = AHT.TASK_DEF_KEY_
+                                                        LEFT JOIN sctrans.SYS_WFE_TEMPLATE
+                                                        AS wfe ON TW.BUSINESS_KEY = wfe.WFE_CODE
+                                                WHERE   1 = 1
+                                                        AND TW.CASE_CODE = t.CASE_CODE
+														AND ( AHT.TASK_DEF_KEY_ = 'ManagerAduit' OR AHT.TASK_DEF_KEY_ = 'DirectorAudit' OR AHT.TASK_DEF_KEY_ = 'SuperManagerAudit' )
+                                                        AND AHT.END_TIME_ IS NOT NULL
+											           ORDER BY  AHT.END_TIME_ DESC
+                                                       OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY
+        
+                    ) AS auditDateTime ,
 					m.APPR_DATE,m.CREATE_TIME,
 					(
 					SELECT TASK_DEF_KEY_ FROM sctrans.ACT_HI_TASKINST 
