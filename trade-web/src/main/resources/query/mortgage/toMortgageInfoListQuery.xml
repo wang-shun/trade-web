@@ -37,7 +37,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[  				
-SELECT
+				SELECT
 					T.PKID,
 					T.CASE_CODE,
 					T.PROPERTY_ADDR,
@@ -65,7 +65,11 @@ SELECT
 					T.LOANTYPE,
 					T.REAL_HT_TIME,
 					T.LOANLOST_APPLY_REASON,
-					T.END_TIME_		
+					T.END_TIME_,
+					T.CON_PRICE,
+					T.EVAL_FEE,
+					T.CREATE_TIME,
+					T.CASETRANSFERDATE  --过户申请时间
 			FROM				
 				(select 
 					c.pkid,
@@ -126,15 +130,21 @@ SELECT
 												AND taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_  and   DELETE_REASON_='completed'
 												AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector'))	
 												)WK WHERE WK.CASE_CODE =  M.CASE_CODE
-					)END_TIME_
+					)END_TIME_,
+					ISNULL(S.CON_PRICE,0)/10000 CON_PRICE,
+					ISNULL(EFR.EVAL_FEE,0)/10000 EVAL_FEE,
+					M.CREATE_TIME,
+					(select TOP 1 AT.END_TIME_ FROM sctrans.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='GuohuApprove'  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE  FROM sctrans.T_TO_WORKFLOW TW  WHERE TW.CASE_CODE=M.CASE_CODE AND TW.BUSINESS_KEY = 'operation_process' and TW.STATUS in (0, 4) )) CASETRANSFERDATE	
                 from 
 					sctrans.T_TO_MORTGAGE m 
 					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
 					left join sctrans.T_TO_CASE c on m.case_code = c.case_code 
-					left join sctrans.T_TO_HOUSE_TRANSFER ht on ht.case_code=m.case_code 					
+					left join sctrans.T_TO_HOUSE_TRANSFER ht on ht.case_code=m.case_code 	
+					left join sctrans.T_TO_SIGN S on S.case_code=m.case_code 	
+					left join sctrans.T_TO_EVA_FEE_RECORD  EFR ON EFR.case_code=m.case_code 		
 			     where 
 					c.LOAN_REQ=1
-					AND m.is_active = '1'	
+					AND m.is_active = '1'			
 					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
 					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>		
 				) T  
@@ -250,6 +260,8 @@ SELECT
 				<column type="both" name="IS_DELEGATE_YUCUI" index="" checkbox="true" title="是否中原办理"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
 				<column type="both" name="LOANTYPE" index="" checkbox="true" title="贷款类型"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>																	
 								
+				<column type="both" name="CON_PRICE" title="合同金额(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
+				<column type="both" name="EVAL_FEE" title="评估费(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
 					
 				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
@@ -259,6 +271,8 @@ SELECT
 				<column type="both" name="LEND_DATE" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="REAL_HT_TIME" index="" checkbox="" title="过户时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="END_TIME_" index="" checkbox="" title="流失审核时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CREATE_TIME" index="" checkbox="" title="流失申请时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASETRANSFERDATE" index="" checkbox="" title="过户审批" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="IS_TMP_BANK" index="" checkbox="" title="临时银行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="REAL_NAME" index="" checkbox="" title="贷款专员"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ORG_NAME" index="" checkbox="" title="贷款专员所属组"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
