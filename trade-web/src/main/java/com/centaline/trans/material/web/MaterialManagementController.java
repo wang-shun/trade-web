@@ -452,7 +452,7 @@ public class MaterialManagementController {
     //物品删除
     @RequestMapping(value="materialDelete")
     @ResponseBody
-    public AjaxResponse<String> materialDelete(String  pkids,String actionUser,String actionRemark,String flag){    	
+    public AjaxResponse<String> materialDelete(String  pkids){    	
     	
     	AjaxResponse<String> response = new AjaxResponse<String>();    	
 		MmMaterialItem mmMaterialItem = new MmMaterialItem();//物品主表

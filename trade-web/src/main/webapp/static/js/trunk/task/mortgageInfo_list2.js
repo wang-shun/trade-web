@@ -553,11 +553,15 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('LEND_DATE');
 			displayColomn.push('APPR_DATE');
 			displayColomn.push('REAL_HT_TIME');
+			displayColomn.push('CREATE_TIME');
 			displayColomn.push('END_TIME_');
 			displayColomn.push('CUST_NAME');
 			displayColomn.push('MORT_TOTAL_AMOUNT');
 			displayColomn.push('COM_AMOUNT');
 			displayColomn.push('PRF_AMOUNT');
+			displayColomn.push('CON_PRICE');
+			displayColomn.push('EVAL_FEE');
+			
 			displayColomn.push('SDSTATUS');
 			displayColomn.push('LOANLOST_APPLY_REASON');// 流失原因
 			displayColomn.push('FIN_ORG_NAME');
