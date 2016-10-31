@@ -66,20 +66,20 @@
 					  ISNULL(mortgage.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,--总金额
 					  ISNULL(mortgage.COM_AMOUNT,0)/10000 COM_AMOUNT,--shangdai
 					  ISNULL(mortgage.PRF_AMOUNT,0)/10000 PRF_AMOUNT,--gongjij
-					 (Select FO.FIN_ORG_NAME from sctrans.T_TS_FIN_ORG FO  where FO.FIN_ORG_CODE=mortgage.fin_org_code) FIN_ORG_NAME,					
-					 (Select FOYC.FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG FOYC  where FOYC.FIN_ORG_CODE=mortgage.fin_org_code) FIN_ORG_NAME_YC,					
-					 (Select FOCODE.FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG FOCODE  where FOCODE.FIN_ORG_CODE=mortgage.fin_org_code)FA_FIN_ORG_CODE,					
+					  FO.FIN_ORG_NAME FIN_ORG_NAME,
+					  FO.FIN_ORG_NAME_YC FIN_ORG_NAME_YC,
+					  FO.FA_FIN_ORG_CODE FA_FIN_ORG_CODE,
 					 (select TOP 1 FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in (	select distinct FA_FIN_ORG_CODE  from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in(select FIN_ORG_CODE 	from sctrans.T_TS_SUP ts where ts.SUP_CAT='0' and ts.FIN_ORG_CODE=mortgage.FIN_ORG_CODE)))  FENHANG,
 					  mortgage.loanlost_apply_reason,
 					 (SELECT top 1 uu.org_name from SCTRANS.V_USER_ORG_JOB  uu  where  uu.ORG_ID=mortgage.LOAN_AGENT_TEAM)	ORG_NAME,
 					 (select top 1 org2.ORG_NAME orgName1	
 								from sctrans.sys_org org1
-								left join sctrans.V_USER_ORG_JOB uoj
-								on org1.ID=uoj.ORG_ID
-								left join sctrans.V_USER_ORG_JOB uoj1
-								on org1.PARENT_ID=uoj1.ORG_ID
+								--left join sctrans.V_USER_ORG_JOB uoj
+								--on org1.ID=uoj.ORG_ID
+								--left join sctrans.V_USER_ORG_JOB uoj1
+								--on org1.PARENT_ID=uoj1.ORG_ID
 								left join sctrans.SYS_ORG org2 
-								on org2.ID=uoj1.ORG_ID 
+								on org2.ID=org1.PARENT_ID 
 								where org1.PARENT_ID in (
 										'FF5BC56E0E4B45289DAA5721A494C7C5',
 										'8a8493d453141f3301532c9568011af9',
@@ -98,6 +98,7 @@
 					  (SELECT SU.ORG_ID FROM sctrans.SYS_USER SU WHERE SU.ID=base.AGENT_CODE AND SU.IS_DELETED=0) ORG_ID					
 					FROM 
 					(SELECT * FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0 AND  (MORT_TYPE IN ('30016001','30016002','') OR MORT_TYPE IS NULL)) mortgage
+					LEFT JOIN sctrans.T_TS_FIN_ORG FO ON mortgage.fin_org_code = FO.FIN_ORG_CODE
 					INNER JOIN sctrans.T_TO_CASE C ON C.CASE_CODE=mortgage.CASE_CODE AND C.LOAN_REQ='1'
 					INNER JOIN sctrans.V_CASE_LIST_BASE base	ON  mortgage.CASE_CODE = base.CASE_CODE
 					INNER JOIN sctrans.SYS_USER U 				ON u.ID = base.LEADING_PROCESS_ID
