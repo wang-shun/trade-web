@@ -352,14 +352,14 @@ function  imgCheckNum(){
 //借用组织图
 function chooseApplyOperator(serviceDepId){		
 		userSelect({
-			startOrgId : serviceDepId,
-			expandNodeId : serviceDepId,
+			startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
+			expandNodeId : 'ff8080814f459a78014f45a73d820006',
 			nameType : 'long|short',
 			orgType : '',
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
-/*			jobCode : 'Manager,Senior_Manager',*/
+			jobCode : '',
 /* 			jobCode : 'consultant', */
 			callBack : selectApplyUserBack
 		});	

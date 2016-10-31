@@ -173,6 +173,7 @@
                         </div>
                          <div class="main_titile" style="position: relative;">
 		                           <h5>放款记录</h5>
+		                           
 		                           <div class="case_content">
 		                           		      <c:forEach items="${eloanRelList}" var="item">
 													    <div class="case_row">
@@ -185,6 +186,7 @@
 							                             <div class="case_lump">
 							                                   <p><em>放款状态</em><span class="span_one" id="content_caseCode">
 							                                   	   <c:if test="${item.confirmStatus==1}">
+							                                   	   <input type="hidden"  name="eloanRelSize" value="${eloanRelList.size()}">
 																		审批通过
 																	</c:if>
 							                                        <c:if test="${item.confirmStatus==2}">
@@ -374,9 +376,9 @@
             	var custPhone = $('#custPhone').val();            	
             	var applyAmount = $('#applyAmount').val();
             	var month = $('#month').val();
-            	var signAmount = $('#signAmount').val(); */            	
+            	var signAmount = $('#signAmount').val(); */   
             	if(isRelFinish==""){
-            		alert("请选择房款是否完成");
+            		alert("请选择放款是否完成");
             		return;
             	}
             	var sumAmount = 0;
@@ -400,8 +402,17 @@
                 		}
             		eloanRelList.push(eloanRel);
             	}
-
+            
+            	var size=$("input[name='eloanRelSize']").val();
+            	if(clickCount<=0&&size==undefined){
+            		alert("请添加一条放款记录");
+            		return;
+            	}
             	
+            	if(eloanRelList[0].releaseAmount==""||eloanRelList[0].releaseTime==""){
+            		alert("请将信息填写完整");
+            		return;
+            	}
 /*             	var toEloanCase = {};
             	toEloanCase.eloanCode = eloanCode;
             	toEloanCase.custName = custName;
@@ -417,7 +428,7 @@
             		taskId : $('#taskId').val()
             		/* toEloanCase : toEloanCase      */       		
             	}
-            	
+
             	//console.log(eloanRelListVO);
             	var msg = validateIsFinishRelease(eloanCode,sumAmount);
             	if(($.trim(msg) === '请选择放款完成!' && $('#isRelFinish').val()==1) || $.trim(msg) === '操作成功') {

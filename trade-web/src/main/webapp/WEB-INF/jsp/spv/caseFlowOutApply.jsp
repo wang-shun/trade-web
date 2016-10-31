@@ -179,21 +179,21 @@
 											
 											<c:choose>  
 										    <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[0].pkid}">
-										              买方
+										              ${spvBaseInfoVO.toSpvAccountList[0].name} (买方)
 										   </c:when>  
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[1].pkid}">
-										              卖方
+										             ${spvBaseInfoVO.toSpvAccountList[1].name} (卖方)
 										   </c:when> 
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[2].pkid}">
-										            监管账户      
+										            ${spvBaseInfoVO.toSpvAccountList[2].name} (监管账户 )  
 										   </c:when> 
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[3].pkid}">
-										           资金方       
+										            ${spvBaseInfoVO.toSpvAccountList[3].name} (资金方)       
 										   </c:when>  
 										    <c:otherwise> 
 										     <c:forEach items="${spvBaseInfoVO.toSpvAccountList}" begin='4' var="toSpvAccount">  
 										    <c:if test="${item.payeeAccountId==toSpvAccount.pkid}">
-										           ${toSpvAccount.name }
+										           ${toSpvAccount.name }(自定义)
 										   </c:if>
 										    </c:forEach>
 									       </c:otherwise> 
@@ -299,9 +299,16 @@
                                             </td>
                                             <td>
                                                 <p class="big">
+                                                <c:if test="${cashFlow.usage eq 'in'}">
                                                     <span class="sign_normal navy_bg">
-                                                    ${cashFlow.usage eq 'in'?'入账':'出账' }
+                                                    入账
                                                     </span>
+                                                </c:if>
+                                                <c:if test="${cashFlow.usage eq 'out'}">
+                                                    <span class="sign_normal pink_bg">
+                                                   出账
+                                                    </span>
+                                                </c:if>    
                                                 </p>
                                                 <p class="big">
                                                     ${cashFlow.amount }万
@@ -709,9 +716,12 @@ $(function() {
 	});
 
 });
-function doSearch(){
-	var index = $("select[name$='toSpvCashFlow.payer'] option:selected").attr("gl");
-	addselect(deId,obj,index);
+function doSearch(this_){
+	var index = $(this_).find("option:selected").attr("gl");
+	var i = $(this_).attr("name").replace('spvCaseFlowOutInfoVOList[','').replace('].toSpvCashFlow.payer','');
+
+    $("select[name='spvCaseFlowOutInfoVOList["+i+"].toSpvCashFlow.payerAcc'] option[gl="+index+"]").prop("selected", true);
+    $("select[name='spvCaseFlowOutInfoVOList["+i+"].toSpvCashFlow.payerBank'] option[gl="+index+"]").prop("selected", true);
 }
 
 function addselect(deId,obj,index){
@@ -719,18 +729,28 @@ function addselect(deId,obj,index){
 	$("select[name$='toSpvCashFlow.payerAcc']").empty(); 
 	$("select[name$='toSpvCashFlow.payerBank']").empty(); 
 	
-	$.each(obj,function(n,date) { 
-		if(deId==date.type){
+	$.each(obj,function(n,data) { 
+		if(deId==data.type){
 			if(index == n){
-				 $("select[name$='toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+date.name+"' selected>"+date.name+"</option>");
-			      $("select[name$='toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+date.account+"' selected>"+date.account+"</option>");
-			      $("select[name$='toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+date.bankName+"' selected>"+date.bankName+"</option>");
+				 $("select[name$='toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+data.name+"' selected>"+data.name+"</option>");
+			      $("select[name$='toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+data.account+"' selected>"+data.account+"</option>");
+			      $("select[name$='toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+data.bankName+"' selected>"+data.bankName+"</option>");
 			}
 			else {
-				 $("select[name$='toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+date.name+"'>"+date.name+"</option>");
-			      $("select[name$='toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+date.account+"'>"+date.account+"</option>");
-			      $("select[name$='toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+date.bankName+"'>"+date.bankName+"</option>");
+				 $("select[name$='toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
+			      $("select[name$='toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
+			      $("select[name$='toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
 			}
+		}
+  	});  
+}
+
+function addselectOne(deId,obj,index){	
+	$.each(obj,function(n,data) { 
+		if(deId==data.type){
+				 $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
+			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
+			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
 		}
   	});  
 }
@@ -751,17 +771,17 @@ function getTR(index){
 	$str+='<tr>';
 	$str+='	<td>';
 //	$str+='<input  class="table_input boderbbt" type="text" placeholder="请输入付款人姓名" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" >';
-	$str+='		<select  class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" onChange="doSearch()" >';
+	$str+='		<select  class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" onChange="doSearch(this)" >';
 	$str+='		</select>';	
 	$str+='	</td>';
 	$str+='	<td>';
 //	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc" >';
-	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc"    disabled >';
+	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc"    readonly >';
 	$str+='		</select>';
 	
 	$str+='</p>';
 //	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"';
-	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"  disabled>';
+	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"  readonly>';
 	$str+='		</select>';	
 	$str+=' </p>';
 	$str+='	</td>';
@@ -794,7 +814,7 @@ function getTR(index){
 
 	sum++;
 	$("#sum").val(sum);	
-	addselect(deId,obj,0);
+	addselectOne(deId,obj,index);
 	
 	renderFileUpload(index);
 }
