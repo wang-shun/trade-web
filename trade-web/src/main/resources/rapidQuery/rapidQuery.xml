@@ -3,4 +3,5 @@
 	<import resource="rapidQuery/toTaskListQuery.xml" />
 	<import resource="rapidQuery/eloan/QueryEloanRelCash.xml" />
 	<import resource="rapidQuery/sys/noMappingCase.xml" />
+		<import resource="rapidQuery/sys/getAllYCCWMapping.xml" />
 </queryConfig>

@@ -194,7 +194,7 @@
                                             <p class="smll_sign">
                                                                                                                                         审核人：
                                                 {{item.applyAuditorName}}
-                                                {{if item.USAGE=="in" && item.STATUS=="02" &&item.ftPostAuditorName=="" }}&gt;冯敏 / 张美瑜  / 任雯{{/if}}
+                                                {{if item.USAGE=="in" && item.STATUS=="02" &&item.ftPostAuditorName=="" }}&gt;<a name="allCW"></a>{{/if}}
                                                 {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
 												{{item.ftPreAuditorName}}
 											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}
@@ -208,9 +208,44 @@
 						//初始化
 						jQuery(document).ready(function() {
 							initFlowListData();
+							initCW()
 							//查询
 							
 						});
+						function initCW(){
+							$.ajax({
+								 url:ctx+"/rapidQuery/findPage",
+								 method:"post",
+								 dataType:"json",
+								 data:{
+									    page : 1,
+										rows : 12,
+										queryId:'getAllYCCW'
+								 },
+								 success:function(data){
+									 var str="";
+									 debugger;
+									 if(data.records>0){
+										 var len=data.rows.length;
+										 $.each(data.rows,function(i,item){
+											 if(i==(len-1)){
+												 str+=item.name;
+												 return;
+											 }
+											str+=item.name+"/"; 
+											
+										 })
+									 }
+									var a=$("[name=allCW]");
+									 if(a.length>0){
+									 $.each(a,function(i,item){
+											item.outerText=str ;
+										 })
+										}
+									 
+								 }
+							});
+						};
 						$("#btn_searchFrom").click(function() {
 					          params.search_cashFlowApplyCode=$("input[name='cashFlowApplyCode']").val();
 					          params.search_usage=$("select[name='usage']").val();

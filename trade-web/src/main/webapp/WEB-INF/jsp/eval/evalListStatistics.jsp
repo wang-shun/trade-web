@@ -43,6 +43,7 @@ display: none;}
     </head>
     
     <body class="pace-done">
+    <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
         <div id="wrapper" class="Index">
        			<!-- Main view -->
                 <div class="main-bonus">
@@ -240,12 +241,25 @@ display: none;}
 	    	}
 			function fetchData(p){
 				  $.ajax({
-		  			  async: false,
+		  			  async: true,
 		  	          url:ctx+ "/quickGrid/findPage" ,
 		  	          method: "post",
 		  	          dataType: "json",
 		  	          data: p,
+		  	          beforeSend : function() {
+						$.blockUI({
+							message : $("#salesLoading"),
+							css : {
+								'border' : 'none',
+								'z-index' : '9999'
+							}
+						});
+						$(".blockOverlay").css({
+							'z-index' : '9998'
+						});
+					},
 		  	          success: function(data){
+		  	        	  $.unblockUI();
 		  	        	  data.ctx = ctx;
 		  	        	  var tsAwardBaseList= template('evalListTemp' , data);
 			                  $("#t_body_data_contents").empty();
