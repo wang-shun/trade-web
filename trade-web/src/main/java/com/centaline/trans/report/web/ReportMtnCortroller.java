@@ -1,22 +1,18 @@
 package com.centaline.trans.report.web;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+
+import java.util.*;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.centaline.trans.report.service.OrgReportFormService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.ConnectionUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,29 +22,14 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
-import com.alibaba.fastjson.JSONArray;
-import com.centaline.trans.cases.entity.ToCase;
-import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
-import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
-import com.centaline.trans.common.entity.Pic;
-import com.centaline.trans.common.entity.ToAttachment;
-import com.centaline.trans.common.entity.ToWorkFlow;
-import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.common.service.ToAttachmentService;
-import com.centaline.trans.common.service.ToWorkFlowService;
-import com.centaline.trans.engine.bean.ProcessInstance;
-import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
-import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
-import com.centaline.trans.task.entity.ToPropertyResearch;
 import com.centaline.trans.task.service.ToHouseTransferService;
 /**
  * 报表
@@ -80,7 +61,9 @@ public class ReportMtnCortroller {
 	
 	@Autowired(required = true)
 	UamUserOrgService uamUserOrgService;
-	
+
+	@Autowired
+	private OrgReportFormService quickGridService;
 	/**
 	 * 总部(区域查询)
 	 * @param model
@@ -369,39 +352,41 @@ public class ReportMtnCortroller {
      */
     @RequestMapping(value="district/countData")
     @ResponseBody
-    public List<ToCaseInfoCountVo> dCountData(Model model, ServletRequest request,String startDate,String endDate){
-    	List<ToCaseInfoCountVo> voList  = new ArrayList<>();
-    	List<String> orgIdList = new ArrayList<>();
-    	List<ToOrgVo> toOrgVoList = new ArrayList<>();
-    	if(startDate == "")startDate = null;
-    	if(endDate== "")endDate = null;
-    	String orgName = "";
-    	List<ToOrgVo> orgIdLists = toCaseService.getOrgIdAllByDep(DepTypeEnum.TYCTEAM.getCode());
-    	  for (ToOrgVo orgVo : orgIdLists) {
-    		  	orgIdList.add(orgVo.getId());
-    			//接单数
-	        	int toCaseInfoJDS = toCaseInfoService.countToCaseInfoByOrgList(orgIdList, startDate, endDate);
-	        	//签约数 
-	        	int toSignQYS = toSpvService.countToSignByOrgList(orgIdList, startDate, endDate);
-	        	//过户数
-	        	int toHouseTransferGHS = toHouseTransferService.countToHouseTransferByOrgList(orgIdList, startDate, endDate);
-	        	//结案数
-	        	int toCloseJAS = toCloseService.countToCloseByOrgList(orgIdList, startDate, endDate);
-	        	
-	        	ToCaseInfoCountVo toCaseInfoVo = new ToCaseInfoCountVo();
-	        	
-	        	toCaseInfoVo.setCountJDS(toCaseInfoJDS+toCloseJAS);
-	        	toCaseInfoVo.setCountQYS(toSignQYS);
-	        	toCaseInfoVo.setCountGHS(toHouseTransferGHS);
-	        	toCaseInfoVo.setCountJAS(toCloseJAS);
-	        	toCaseInfoVo.setOrgName(orgVo.getOrgName());
-    		  
-	        	voList.add(toCaseInfoVo);
-	        	orgIdList.remove(0);
-    	  }
-    	
-    	return voList;
-    }
+	public List<ToCaseInfoCountVo> dCountData(Model model, ServletRequest request,String startDate,String endDate){
+		List<ToCaseInfoCountVo> voList  = new ArrayList<>();
+		List<String> orgIdList = new ArrayList<>();
+		List<ToOrgVo> toOrgVoList = new ArrayList<>();
+		if(startDate == "")startDate = null;
+		if(endDate== "")endDate = null;
+		JQGridParam gp = new JQGridParam();	//查询组织列表改为快速查询
+		gp.setQueryId("queryOrgIdListForReportCount");
+		gp.put("depType", DepTypeEnum.TYCTEAM.getCode());
+		gp.setPagination(false);
+		Page<Map<String, Object>> pages = quickGridService.findPageForReportOrgForm(gp, DepTypeEnum.TYCTEAM.getCode());
+		List<Map<String,Object>> list = pages.getContent();
+		for(Map<String,Object> map : list){
+			if(map!=null){
+				if(map.get("orgId")!=null&&map.get("orgName")!=null){
+					//接单数
+					int toCaseInfoJDS = (int)map.get("countJDS");
+					//签约数
+					int toSignQYS =  (int)map.get("countQYS");
+					//过户数
+					int toHouseTransferGHS =  (int)map.get("countGHS");
+					//结案数
+					int toCloseJAS =  (int)map.get("countJAS");
+					ToCaseInfoCountVo toCaseInfoVo = new ToCaseInfoCountVo();
+					toCaseInfoVo.setCountJDS(toCaseInfoJDS+toCloseJAS);
+					toCaseInfoVo.setCountQYS(toSignQYS);
+					toCaseInfoVo.setCountGHS(toHouseTransferGHS);
+					toCaseInfoVo.setCountJAS(toCloseJAS);
+					toCaseInfoVo.setOrgName((String)map.get("orgName"));
+					voList.add(toCaseInfoVo);
+				}
+			}
+		}
+		return voList;
+	}
     /**
      * 组别(个人查询)
      * @param model
@@ -484,26 +469,32 @@ public class ReportMtnCortroller {
      * @param request
      * @return
      */
-    @RequestMapping(value="district/getRedcountList")
-    @ResponseBody
-    public List<ToOrgVo> dGetRedcountList(Model model, ServletRequest request,String strNum,String endNum){
-    	List<String> orgIdList = new ArrayList<>();
-    	List<ToOrgVo> toOrgVoList = new ArrayList<>();
-    	if(strNum == "")strNum = null;
-    	if(endNum == "")endNum = null;
-    	List<ToOrgVo> orgIdLists = toCaseService.getOrgIdAllByDep(DepTypeEnum.TYCTEAM.getCode());
-    	for (ToOrgVo orgVos : orgIdLists) {
-    		Org org = uamUserOrgService.getOrgById(orgVos.getId());
-    		orgIdList.add(org.getId());
-			int redNum = toCaseService.getRedcountByOrgList(orgIdList,strNum,endNum);
-			ToOrgVo orgVo = new ToOrgVo();
-			orgVo.setOrgName(org.getOrgName());
-			orgVo.setRedNum(redNum);
-			toOrgVoList.add(orgVo);
- 			orgIdList.remove(0);
-    	}
-    	return toOrgVoList;
-    }
+	@RequestMapping(value="district/getRedcountList")
+	@ResponseBody
+	public List<ToOrgVo> dGetRedcountList(Model model, ServletRequest request,String strNum,String endNum){
+		List<String> orgIdList = new ArrayList<>();
+		List<ToOrgVo> toOrgVoList = new ArrayList<>();
+		if(strNum == "")strNum = null;
+		if(endNum == "")endNum = null;
+		JQGridParam gp = new JQGridParam();	//查询组织列表改为快速查询
+		gp.setQueryId("queryOrgIdListFortRedcountList");
+		gp.put("depType", DepTypeEnum.TYCTEAM.getCode());
+		gp.setPagination(false);
+		Page<Map<String, Object>> pages = quickGridService.findPageForReportRedCountList(gp, DepTypeEnum.TYCTEAM.getCode());
+		List<Map<String,Object>> list = pages.getContent();
+		for(Map<String,Object> map : list){
+			if(map!=null){
+				if(map.get("orgId")!=null&&map.get("orgName")!=null){
+					int redNum = (int)map.get("redCount");
+					ToOrgVo orgVo = new ToOrgVo();
+					orgVo.setOrgName((String)map.get("orgName"));
+					orgVo.setRedNum(redNum);
+					toOrgVoList.add(orgVo);
+				}
+			}
+		}
+		return toOrgVoList;
+	}
     /**
      *  组别红灯数报表(个人查询)
      * @param model

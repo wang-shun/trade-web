@@ -398,4 +398,142 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 			</table-row>
 		</grid>
 	</query>
+	<query id="queryOrgIdListForReportCount">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						SELECT
+					  	 ID as orgId,
+						 ORG_NAME AS orgName,
+						 (SELECT COUNT(CASE_CODE) AS countJDS
+							FROM sctrans.T_TO_CASE
+								WHERE datediff(year,CREATE_TIME,getdate())=0  AND  CASE_CODE IN((select CASE_CODE from sctrans.T_TO_CASE WHERE ORG_ID = sys_org.ID
+								 <if test="startDate != null">
+									 AND   CREATE_TIME &gt;= #startDate#
+								 </if>
+								 <if test="endDate != null">
+									  AND  CREATE_TIME  &lt;= #endDate#
+								 </if>
+								)UNION(
+									SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE  ORG_ID =sys_org.ID
+								 <if test="startDate != null">
+									 AND   CREATE_TIME &gt;= #startDate#
+								 </if>
+								 <if test="endDate != null">
+									  AND  CREATE_TIME  &lt;= #endDate#
+								 </if>))
+								) as countJDS,
+								(SELECT COUNT(CASE_CODE) as countQYS FROM sctrans.T_TO_CASE WHERE CASE_CODE IN((SELECT CASE_CODE FROM   sctrans.T_TO_SIGN	WHERE  PART_CODE is not  null and  datediff(year,CREATE_TIME,getdate())=0 ) )
+									AND  CASE_CODE IN((
+										select CASE_CODE from sctrans.T_TO_CASE
+										WHERE ORG_ID=sys_org.ID
+										 <if test="startDate != null">
+											 AND   CREATE_TIME &gt;= #startDate#
+										 </if>
+										 <if test="endDate != null">
+											  AND  CREATE_TIME  &lt;= #endDate#
+										 </if>
+											)UNION(SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE  ORG_ID =sys_org.ID
+										 <if test="startDate != null">
+											 AND   CREATE_TIME &gt;= #startDate#
+										 </if>
+										 <if test="endDate != null">
+											  AND  CREATE_TIME  &lt;= #endDate#
+										 </if>))) as countQYS,
+										 (SELECT
+												COUNT(CASE_CODE) as countGHS
+											 FROM sctrans.T_TO_CASE WHERE CASE_CODE
+											 IN((SELECT CASE_CODE  FROM   sctrans.T_TO_HOUSE_TRANSFER	WHERE  datediff(year,CREATE_TIME,getdate())=0))
+											 AND  CASE_CODE IN((select CASE_CODE from sctrans.T_TO_CASE WHERE  ORG_ID =sys_org.ID
+												 <if test="startDate != null">
+													 AND   CREATE_TIME &gt;= #startDate#
+												 </if>
+												 <if test="endDate != null">
+													  AND  CREATE_TIME  &lt;= #endDate#
+												 </if>
+													)UNION(
+													SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+													WHERE  ORG_ID=sys_org.ID
+													<if test="startDate != null">
+														 AND   CREATE_TIME &gt;= #startDate#
+													 </if>
+													 <if test="endDate != null">
+														  AND  CREATE_TIME  &lt;= #endDate#
+													 </if>))) as countGHS,
+													 ( SELECT
+														COUNT(CASE_CODE) AS countJAS
+													FROM sctrans.T_TO_CASE
+													where  datediff(month,Close_Time,getdate())=0
+													AND  CASE_CODE  IN((
+														select CASE_CODE from sctrans.T_TO_CASE WHERE
+														 ORG_ID=sys_org.ID
+														 <if test="startDate != null">
+															 AND   CREATE_TIME &gt;= #startDate#
+														 </if>
+														 <if test="endDate != null">
+															  AND  CREATE_TIME  &lt;= #endDate#
+														 </if>
+															)UNION(
+															SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+															WHERE ORG_ID =sys_org.ID
+
+													 <if test="startDate != null">
+															 AND   CREATE_TIME &gt;= #startDate#
+														 </if>
+														 <if test="endDate != null">
+															  AND  CREATE_TIME  &lt;= #endDate#
+														 </if>
+														)
+													)) as countJAS
+											FROM sctrans.SYS_ORG  sys_org
+											WHERE DEP_HIERARCHY = #depType#
+
+										]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="orgId" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="orgName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countJDS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countQYS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countGHS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countJAS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryOrgIdListFortRedcountList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						SELECT
+					  	 ID as orgId,
+						 ORG_NAME AS orgName,
+						 (	 select count(distinct trans_plan.CASE_CODE)
+									from
+									sctrans.T_TO_TRANS_PLAN trans_plan
+									left join
+									sctrans.T_TG_SERV_ITEM_AND_PROCESSOR item_and_processor
+									on trans_plan.CASE_CODE = item_and_processor.CASE_CODE where trans_plan.RED_LOCK=1  and item_and_processor.ORG_ID= sys_org.ID
+									 <if test="startDate != null">
+										 AND   trans_plan.CREATE_TIME &gt;= #startDate#
+									 </if>
+									 <if test="endDate != null">
+										  AND  trans_plan.CREATE_TIME  &lt;= #endDate#
+									 </if>
+									) as redCount
+									FROM sctrans.SYS_ORG  sys_org
+									WHERE DEP_HIERARCHY = #depType#
+								]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="orgId" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="orgName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="redCount" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
 </querys>

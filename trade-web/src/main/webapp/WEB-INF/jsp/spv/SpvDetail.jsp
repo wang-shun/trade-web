@@ -476,8 +476,7 @@
 									    display="onlyLabel"  dictType="SPV_DE_COND"  
 									    ligerui='none' dictCode="${item.deCondCode }"></aist:dict>	
 											</td>
-											<td>
-											
+											<td> 
 											<c:choose>  
 										    <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[0].pkid}">
 										              买方
@@ -491,7 +490,15 @@
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[3].pkid}">
 										           资金方       
 										   </c:when>  
+										    <c:otherwise> 
+										     <c:forEach items="${spvBaseInfoVO.toSpvAccountList}" begin='4' var="toSpvAccount">  
+										    <c:if test="${item.payeeAccountId==toSpvAccount.pkid}">
+										           ${toSpvAccount.name }
+										   </c:if>
+										    </c:forEach>
+									       </c:otherwise> 
 										</c:choose>	
+										
 											</td>
 											<td>${item.deAmount>0?item.deAmount:0}万元</td>
 											<td>${item.deAddition}</td>

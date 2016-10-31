@@ -464,6 +464,22 @@
 			</table-row>
 		</grid>
 	</query>
+
+	<query id="queryOrgIdList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						SELECT ID AS id,ORG_NAME AS orgName FROM sctrans.SYS_ORG  WHERE DEP_HIERARCHY = #depType#
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="id" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="orgName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
 	
 		<query id="personalWorkbenchConvRateQuery">
 		<searchSql>

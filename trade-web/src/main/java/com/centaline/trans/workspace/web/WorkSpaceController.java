@@ -18,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.report.service.OrgReportFormService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,9 @@ public class WorkSpaceController {
 	
 	@Autowired
 	private BizWarnInfoService bizWarnInfoService;
+
+	@Autowired
+	private OrgReportFormService orgReportFormService;
 
 	/**
 	 * 检查访问方式是否为移动端
@@ -1025,24 +1029,22 @@ public class WorkSpaceController {
 	 */
 	@RequestMapping(value = "report/district")
 	public String showDistrict(Model model, ServletRequest request) {
-		// 获取到组织
-		String orgName = "";
-		String orgId = "";
 		Map<String, String> toCaseOrgNameList = new HashMap<>();
-		// List<ToCase> orgIdList = toCaseService.getOrgId();
-		List<ToOrgVo> orgIdList = toCaseService
-				.getOrgIdAllByDep(DepTypeEnum.TYCTEAM.getCode());
-		for (ToOrgVo orgVo : orgIdList) {
-			Org org = uamUserOrgService.getOrgById(orgVo.getId());
-			// Org orgParentList =
-			// uamUserOrgService.getOrgById(org.getParentId());
-			// List<ToOrgVo> orgParentList =
-			// toCaseService.getOrgIdAllByDep(DepTypeEnum.TYCTEAM.getCode());
-			toCaseOrgNameList.put(org.getId(), org.getOrgName());
+		List<ToOrgVo> orgIdList = toCaseService.getOrgIdAllByDep(DepTypeEnum.TYCTEAM.getCode());// 获取到组织
+		JQGridParam gp = new JQGridParam();	//查询组织列表改为快速查询
+		gp.setQueryId("queryOrgIdList");
+		gp.put("depType", DepTypeEnum.TYCTEAM.getCode());
+		gp.setPagination(false);
+		Page<Map<String, Object>> pages = orgReportFormService.findPageForReportFormPage(gp, DepTypeEnum.TYCTEAM.getCode());
+		List<Map<String,Object>> list = pages.getContent();
+		for(Map<String,Object> map : list){
+			if(map!=null){
+				if(map.get("id")!=null&&map.get("orgName")!=null){
+					toCaseOrgNameList.put((String)map.get("id"), (String)map.get("orgName"));
+				}
+			}
 		}
-		// List<Org> toCaseOrgList = MenuConstants.getOrg();
 		model.addAttribute("toCaseOrgNameList", toCaseOrgNameList);
-
 		return "workspace/report/district";
 	}
 

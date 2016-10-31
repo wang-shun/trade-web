@@ -31,7 +31,6 @@ function  StatusEchart2(finOrgNames,number,amount){
             enterable: true,
             formatter: "{b}: {c}万 ({d}%)"
         },
-
         legend: {
             x : 'center',
             y : 'bottom',
@@ -39,12 +38,11 @@ function  StatusEchart2(finOrgNames,number,amount){
             size:'9'
         },
         color:[
-            '#ade9e9', '#84d3dc', '#58afc2', '#ffdabd','#ffd480','#ffac88','#ffad6b','#ffd2df','#dc96d0','#ff9696','#f784a5','#bfd8ff','#7aa6ea','#439cf0','#0e73da','#295aa5'
-        ],
+               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'        ],
         series: [
 
             {
-                name:'贷款类型分析(金额)',
+                name:'总金额: ' + 1 + ' 万',
                 type:'pie',
                 radius: ['25%', '45%'],
                 animation: true,
@@ -75,12 +73,12 @@ function  StatusEchart2(finOrgNames,number,amount){
             data:finOrgNames
         },
         color:[
-               '#ade9e9', '#84d3dc', '#58afc2', '#ffdabd','#ffd480','#ffac88','#ffad6b','#ffd2df','#dc96d0','#ff9696','#f784a5','#bfd8ff','#7aa6ea','#439cf0','#0e73da','#295aa5'
+               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
            ],
         series: [
 
             {
-                name:'贷款类型分析（单数）',
+                name:'贷款类型分析（金额）',
                 type:'pie',
                 radius: ['25%', '45%'],
                 animation: true,
