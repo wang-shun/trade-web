@@ -648,6 +648,9 @@
 								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"  readOnly="readOnly"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }"
 									class="form-control input-two" placeholder="">
+								<label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].bank"  readOnly="readOnly"
+								    value="${spvBaseInfoVO.toSpvAccountList[3].bank }"
+									class="form-control input-two" placeholder="">
 							</div>
 						</div>
 						<c:if test="${empty handle or handle eq 'SpvApply' }">
@@ -1097,9 +1100,11 @@
 					break;
 				case '搜易贷（北京）金融信息服务有限公司':
 					$("input[name='toSpvAccountList[3].account']").val("137441512010000275");
+					$("input[name='toSpvAccountList[3].bank']").val("广发银行股份有限公司北京石景山支行");
 					break;
 				case '上海嘉定及时雨小额贷款股份有限公司':
 					$("input[name='toSpvAccountList[3].account']").val("457263590104");
+					$("input[name='toSpvAccountList[3].bank']").val("中行上海南京西路支行");
 					break;
 				}
 				updateAccTypeOptions();
