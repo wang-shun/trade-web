@@ -1,12 +1,12 @@
 package com.centaline.trans.report.web;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
-import com.aist.common.quickQuery.bo.JQGridParam;
-import com.centaline.trans.report.service.OrgReportFormService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -29,8 +30,10 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.report.service.OrgReportFormService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.ToHouseTransferService;
+import com.centaline.trans.workspace.entity.CacheGridParam;
 /**
  * 报表
  * @author aisliahail
@@ -358,7 +361,7 @@ public class ReportMtnCortroller {
 		List<ToOrgVo> toOrgVoList = new ArrayList<>();
 		if(startDate == "")startDate = null;
 		if(endDate== "")endDate = null;
-		JQGridParam gp = new JQGridParam();	//查询组织列表改为快速查询
+		JQGridParam gp = new CacheGridParam();	//查询组织列表改为快速查询
 		gp.setQueryId("queryOrgIdListForReportCount");
 		gp.put("depType", DepTypeEnum.TYCTEAM.getCode());
 		gp.setPagination(false);
@@ -476,7 +479,7 @@ public class ReportMtnCortroller {
 		List<ToOrgVo> toOrgVoList = new ArrayList<>();
 		if(strNum == "")strNum = null;
 		if(endNum == "")endNum = null;
-		JQGridParam gp = new JQGridParam();	//查询组织列表改为快速查询
+		JQGridParam gp = new CacheGridParam();	//查询组织列表改为快速查询
 		gp.setQueryId("queryOrgIdListFortRedcountList");
 		gp.put("depType", DepTypeEnum.TYCTEAM.getCode());
 		gp.setPagination(false);

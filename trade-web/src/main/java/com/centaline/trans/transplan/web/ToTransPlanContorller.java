@@ -23,6 +23,7 @@ import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
 import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.workspace.entity.CacheGridParam;
 
 /**
  * 待办事项
@@ -69,7 +70,7 @@ public class ToTransPlanContorller {
 		SessionUser user = uamSessionService.getSessionUser();		
 		List<ToTransPlanOrToPropertyInfo> toTransPlanList = new ArrayList<ToTransPlanOrToPropertyInfo>();
 		//获取到待办事项
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);
 		gp.put("leadingProcessId", user.getId());		
 		gp.setQueryId("qqToGetTransPlanListQuery");	
