@@ -179,21 +179,21 @@
 											
 											<c:choose>  
 										    <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[0].pkid}">
-										              买方
+										              ${spvBaseInfoVO.toSpvAccountList[0].name} (买方)
 										   </c:when>  
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[1].pkid}">
-										              卖方
+										             ${spvBaseInfoVO.toSpvAccountList[1].name} (卖方)
 										   </c:when> 
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[2].pkid}">
-										            监管账户      
+										            ${spvBaseInfoVO.toSpvAccountList[2].name} (监管账户 )  
 										   </c:when> 
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[3].pkid}">
-										           资金方       
+										            ${spvBaseInfoVO.toSpvAccountList[3].name} (资金方)       
 										   </c:when>  
 										    <c:otherwise> 
 										     <c:forEach items="${spvBaseInfoVO.toSpvAccountList}" begin='4' var="toSpvAccount">  
 										    <c:if test="${item.payeeAccountId==toSpvAccount.pkid}">
-										           ${toSpvAccount.name }
+										           ${toSpvAccount.name }(自定义)
 										   </c:if>
 										    </c:forEach>
 									       </c:otherwise> 
@@ -299,7 +299,7 @@
                                             </td>
                                             <td>
                                                 <p class="big">
-                                                    <span class="sign_normal navy_bg">
+                                                    <span class="sign_normal ${cashFlow.usage eq 'in'?'navy_bg':'pink_bg' }">
                                                     ${cashFlow.usage eq 'in'?'入账':'出账' }
                                                     </span>
                                                 </p>

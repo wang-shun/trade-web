@@ -512,11 +512,17 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				for(int i=0;i< spvBaseInfoVO.getToSpvAccountList().size();i++){
 		    		ToSpvAccount account = spvBaseInfoVO.getToSpvAccountList().get(i);
 		    		JSONObject subJsonObj = new JSONObject();
-	    			TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
+		    		TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
+		    		if(StringUtils.equals("广发银行股份有限公司北京石景山支行", account.getBank())){
+		    			subJsonObj.put("bankName","广发银行股份有限公司北京石景山支行");
+		    		}else if(StringUtils.equals("中行上海南京西路支行", account.getBank())){
+		    			subJsonObj.put("bankName", "中行上海南京西路支行");
+		    		}else{
+		    			subJsonObj.put("bankName", to != null?to.getFinOrgName():"");
+		    		}
 	    			subJsonObj.put("type",d.getDeCondCode());
 	    			subJsonObj.put("name", account.getName());
 	    			subJsonObj.put("account", account.getAccount());
-	    			subJsonObj.put("bankName", to != null?to.getFinOrgName():"");
 	    			if(d.getPayeeAccountId().equals(account.getPkid()))
 	    				jsonList.add(subJsonObj);
 		    	}
