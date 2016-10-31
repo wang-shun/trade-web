@@ -52,7 +52,7 @@
 						and er.CONFIRM_STATUS=#{status}
 					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
-						and  ec.EXCUTOR_TEAM=#{team}
+						and  ec.EXCUTOR_TEAM=#{teamCode}
 					</if>
 					<if test="#excutorId !=null and #excutorId != '' ">
 						and ec.EXCUTOR_ID=#{excutorId}
@@ -131,7 +131,7 @@
 						and r.CONFIRM_STATUS=#{status}
 					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
-						and  c.EXCUTOR_TEAM=#{team}
+						and  c.EXCUTOR_TEAM=#{teamCode}
 					</if>
 					<if test="#excutorId !=null and #excutorId != '' ">
 						and c.EXCUTOR_ID=#{excutorId}
@@ -195,7 +195,7 @@
 						and r.CONFIRM_STATUS=#{status}
 					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
-						and  c.EXCUTOR_TEAM=#{team}
+						and  c.EXCUTOR_TEAM=#{teamCode}
 					</if>
 					<if test="#excutorId !=null and #excutorId != '' ">
 						and c.EXCUTOR_ID=#{excutorId}
