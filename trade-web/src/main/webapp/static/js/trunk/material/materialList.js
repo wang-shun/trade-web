@@ -448,11 +448,13 @@ $("#materialDelete").click(function(){
 				//console.log("Result=====" +JSON.stringify(data));
 					if(data != null ){						
 						if(data.success){								
-							alert(data.message);						
-							window.location.reload();
+							alert(data.message);	
+							reloadGrid();							
+							//window.location.reload();
 						}else{								
 							alert(data.message);
-							window.location.reload();
+							reloadGrid();
+							//window.location.reload();
 						}
 					}	
 				},       
