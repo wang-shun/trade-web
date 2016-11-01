@@ -37,7 +37,7 @@ function getTR(thisIndex){
 	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
 	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
 	//$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
-	$str+='         <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;margin-top:17px;margin-bottom:-14px;cursor:pointer; background-image:url('+$("#ctx").val()+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');"/>';
+	$str+='         <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-14px;cursor:pointer; background:url('+$("#ctx").val()+'/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');"/>';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td> <div id="datepicker_'+thisIndex+'" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">';
@@ -105,7 +105,7 @@ function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	var image = "<span><img id='image_"+index+"' src='"+fileUrl+"' style='width:0px;height:0px;display: none;' class='viewer-toggle'>";
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileId" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
 	image += '<input type="hidden" name ="items['+thisIndex+'].fileName" value = "'+fileName+'" />';
-	image += "<button type='button' class='btn btn-sm btn-default' style='margin-right:5px;' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x' onClick='removeImg(this,event);'>&#xe60a;</i></button></span>";
+	image += "<button type='button' class='btn btn-sm btn-default' style='margin-bottom: 5px;margin-right:5px;padding: 0 8px;' onClick=\"showImg('#image_"+index+"')\">"+shortName+"<i class='icon iconfont icon_x' onClick='removeImg(this,event);'>&#xe60a;</i></button></span>";
 	return image;
 }
 //删除入账申请信息tr

@@ -150,10 +150,10 @@
                                             <th>付款人账户</th>
                                             <th style="width: 100px;">入账金额</th>
                                             <th style="width: 120px;">贷记凭证编号</th>
-                                            <th>付款方式</th>
+                                            <th style="width: 90px;">付款方式</th>
                                             <th>凭证附件</th>
                                             <th>入账时间</th>
-                                            <th>操作</th>
+                                            <th style="width: 50px;">操作</th>
                                         </thead>
                                         <tbody id="addTr">
 	                                           <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
@@ -184,8 +184,8 @@
 	                                                </td>
 	                                                <td id="td_file${status2.index }" >
                                                 	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status6">
-														<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status6.index }').trigger('click');">
-														<img id="image_${status6.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
+														<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status6.index }').trigger('click');" style='margin-bottom: 5px;margin-right:5px;padding: 0 8px;'>
+														<img id="image_${status6.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none; " class="viewer-toggle">
 														<input type="hidden"  name ="items[${status2.index }].fileId" value = "${toSpvReceiptList.attachId}"/>
 														<input type="hidden" name ="items[${status2.index }].fileName" value = "${toSpvReceiptList.comment}" />
 															${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
@@ -193,7 +193,7 @@
                                                 	 </c:forEach>   
                                                 		 <span class="btn_file${status2.index }">                                                                                                                                                                
 															<input id="fileupload_${status2.index }" style="display:none;" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 
-															<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;margin-top:17px;margin-bottom:-14px;cursor:pointer; background-image:url(${ctx}/static/trans/img/bnt-flie.png) " onClick="$('#fileupload_${status2.index }').trigger('click');"/>                                                                        
+															<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-14px;cursor:pointer; background:url(${ctx}/static/trans/img/bnt-flie.png)  no-repeat; background-size: 38%;" onClick="$('#fileupload_${status2.index }').trigger('click');"/>                                                                        
 														</span>  
 	                                                </td>
 	                                                 <td>
