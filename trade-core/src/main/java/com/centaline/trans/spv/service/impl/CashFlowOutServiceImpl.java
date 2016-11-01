@@ -605,7 +605,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	    	String name = financeUser.getRealName();
 	    	financeName.append(name+"/");
 	    }	    
-	    request.setAttribute("financeName", financeName);
+	    String financeName_ = financeName.substring(0,financeName.length()-1);
+	    request.setAttribute("financeName", financeName_);
 		
     	Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
     	
@@ -632,7 +633,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		toSpvAduit.setTaskDefKey(taskitem);
 		toSpvAduit.setTaskId(taskId);
 		toSpvAduit.setOperator(user.getId());
-		toSpvAduit.setResult(chargeOutAppr?"通过":"未通过");
+		toSpvAduit.setResult(chargeOutAppr?"通过":"驳回");
 		toSpvAduit.setContent(spvChargeInfoVO.getToSpvAduitList().get(0).getContent());
 		toSpvAduit.setCreateBy(user.getId());
 		toSpvAduit.setCreateTime(new Date());
