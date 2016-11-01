@@ -108,7 +108,7 @@
 					left join sctrans.V_CASE_LIST_BASE B on m.case_code = B.case_code 
 					left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR  sp  on sp.SRV_CODE='3000400101'  and sp.CASE_CODE=m.case_code
 					LEFT JOIN sctrans.MORT_STEP ms ON ms.CASE_CODE = m.CASE_CODE
-          			where m.is_active = '1'	and m.IS_TMP_BANK = '1' AND ms.STEP >= 5 AND sp.ORG_ID in (SELECT ORG_ID FROM sctrans.v_yucui_org_hierarchy orgHierarchy
+          			where m.is_active = '1'	and m.IS_TMP_BANK = '1' AND ms.STEP >= 2 AND sp.ORG_ID in (SELECT ORG_ID FROM sctrans.v_yucui_org_hierarchy orgHierarchy
 					WHERE (orgHierarchy.TEAM_ID = #currentOrgId# or orgHierarchy.DISTRICT_ID = #currentOrgId# or orgHierarchy.hq_id = #currentOrgId#))) t
 					LEFT JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = t.CASE_CODE
 					LEFT JOIN sctrans.SYS_USER u ON u.ID = c.LEADING_PROCESS_ID
