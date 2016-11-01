@@ -444,7 +444,9 @@
                                         <th style="width: 120px;">贷记凭证编号</th>
                                         <th>付款方式</th>
                                         <th>凭证附件</th>
+                                        <c:if test="${empty handle or handle eq 'apply' }">
                                         <th>操作</th>
+                                        </c:if>
                                         </thead>
                                         <tbody id="addTr">
                                         	<c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
