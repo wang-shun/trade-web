@@ -309,19 +309,7 @@ public class MaterialManagementController {
 			//插入操作获取pkid
 			for(int i=0; i<materialList.size() ;i++){
 				//更新主表状态
-				MmMaterialItem mmMaterialItem = materialList.get(i);
-				
-				if(mmMaterialItem.getItemCategory().equals("身份证")){
-					mmMaterialItem.setItemCategory("carded");
-				}else if(mmMaterialItem.getItemCategory().equals("抵押合同")){
-					mmMaterialItem.setItemCategory("mortgageContract");
-				}else if(mmMaterialItem.getItemCategory().equals("银行卡")){
-					mmMaterialItem.setItemCategory("bankCard");
-				}else if(mmMaterialItem.getItemCategory().equals("产权证")){
-					mmMaterialItem.setItemCategory("propertyCard");
-				}else if(mmMaterialItem.getItemCategory().equals("他证")){
-					mmMaterialItem.setItemCategory("otherCard");
-				}					
+				MmMaterialItem mmMaterialItem = materialList.get(i);				
 				mmMaterialItem.setItemAddrCode(itemAddrCode);
 				mmMaterialItem.setItemManager(userId);
 				mmMaterialItem.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
