@@ -23,6 +23,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
+import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
@@ -373,7 +374,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 					spvCashFlow.setPayer("上海中原物业顾问有限公司");
 					spvCashFlow.setPayerAcc("76310188000148842");
 					spvCashFlow.setPayerBank("光大银行市北支行");
-					spvCashFlow.setCloseTime(new Date());
+					if(chargeOutAppr) spvCashFlow.setCloseTime(new Date());
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
@@ -384,6 +385,23 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			if(chargeOutAppr){
 				spvChargeInfoVO.getToSpvCashFlowApply().setFtPostAuditor(user.getId());
 			    toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
+		    	//更新t_to_workflow表
+		    	ToWorkFlow workFlow = toWorkFlowService.queryWorkFlowByInstCode(instCode);//更新状态
+				workFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
+				toWorkFlowService.updateByPrimaryKeySelective(workFlow);
+				//更新spv表
+				ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
+				toSpv.setStatus(SpvStatusEnum.COMPLETE.getCode());
+				
+				//当出款总额等于监管金额时发起消息通知资金监管流程 ：SpvProcess
+				Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
+		    	//所有合约下已完成的出账金额总和
+				BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
+		    	//监管总额
+				BigDecimal toSpvTotalAmount = toSpv.getAmount();
+		    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
+					messageService.sendSpvFinishMsgByIntermi(instCode);	
+		    	}
 			}else{
 				Long pkid = spvChargeInfoVO.getToSpvCashFlowApply().getPkid();
 				ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(pkid);
@@ -400,17 +418,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			variables.put("financeSecondAduit",chargeOutAppr);
 			
 			taskService.submitTask(taskId, variables);
-			
-			//当出款总额等于监管金额时发起消息通知资金监管流程 ：SpvProcess
-			Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
-	    	//所有合约下已完成的出账金额总和
-			BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
-	    	//监管总额
-			ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);	
-			BigDecimal toSpvTotalAmount = toSpv.getAmount();
-	    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
-				messageService.sendSpvFinishMsgByIntermi(instCode);	
-	    	}
 	}
 
 /*	@Override
