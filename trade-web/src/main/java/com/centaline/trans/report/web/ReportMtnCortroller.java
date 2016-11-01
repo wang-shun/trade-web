@@ -1,12 +1,12 @@
 package com.centaline.trans.report.web;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.ServletRequest;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.centaline.trans.report.service.OrgReportFormService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -30,10 +29,8 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.report.service.OrgReportFormService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.ToHouseTransferService;
-import com.centaline.trans.workspace.entity.CacheGridParam;
 /**
  * 报表
  * @author aisliahail
@@ -157,65 +154,32 @@ public class ReportMtnCortroller {
 	 */
 	@RequestMapping(value="district/getCaseCount")
 	public AjaxResponse dGetCaseCount(Model model, ServletRequest request,String orgId){
-		List<ToCaseInfoCountVo> toCaseInfoCountList = new ArrayList<ToCaseInfoCountVo>();;
-		List<ToCaseInfoCountVo> toSignCountList = new ArrayList<ToCaseInfoCountVo>();
-		List<ToCaseInfoCountVo> toHouseTransferCountList = new ArrayList<ToCaseInfoCountVo>();;
-		List<ToCaseInfoCountVo> toCloseCountList = new ArrayList<ToCaseInfoCountVo>();;
-		List<String> orgList = new ArrayList<>();
-		if(orgId == ""){
-			orgId = null;
-			toCaseInfoCountList  =  toCaseInfoService.countToCaseInfoListByOrgId(orgId);
-			//,签约
-			toSignCountList = toSpvService.countToSignListByOrgId(orgId);
-			//,过户
-			toHouseTransferCountList = toHouseTransferService.countToHouseTransferListByOrgId(orgId);
-			//,结案
-			toCloseCountList = toCloseService.countToCloseListByOrgId(orgId);
-		}else{
-			orgList.add(orgId);
-			toCaseInfoCountList  =  toCaseInfoService.countToCaseInfoListByOrgList(orgList);
-			//,签约
-			toSignCountList = toSpvService.countToSignListByOrgList(orgList);
-			//,过户
-			toHouseTransferCountList = toHouseTransferService.countToHouseTransferListByOrgList(orgList);
-			//,结案
-			toCloseCountList = toCloseService.countToCloseListByOrgList(orgList);
-			
-			
-		}
 		List<ToCaseInfoCountVo> voList = new ArrayList<>();
-		for (ToCaseInfoCountVo toCaseInfoCount : toCaseInfoCountList) {
+		orgId = "".equals(orgId) ? null : orgId;
+		String cacheKey =  StringUtils.isBlank(orgId) ? "all" : orgId;
+		JQGridParam gp = new JQGridParam();
+		gp.setQueryId("queryCaseReportFormCount");
+		gp.put("orgSearchId", orgId);
+		gp.setPagination(false);
+		Page<Map<String, Object>> pages = quickGridService.findPageForCaseReportFormCount(gp, cacheKey);
+		List<Map<String,Object>> list = pages.getContent();
+		for(Map<String,Object> map : list){
 			ToCaseInfoCountVo vo = new ToCaseInfoCountVo();
-			String createTime = toCaseInfoCount.getCreateTime();
-			int countJDS = toCaseInfoCount.getCountJDS();
-			vo.setCountJDS(countJDS);
-			vo.setCreateTime(createTime);
-			//签约数
-			for (ToCaseInfoCountVo toSignCount : toSignCountList) {
-				if(createTime.equals(toSignCount.getCreateTime())){
-					int toSignQYS = toSignCount.getCountQYS();
-					vo.setCountQYS(toSignQYS);
-				}
+			if(map.get("countGHS")!=null){
+				vo.setCountGHS((int) map.get("countGHS"));
 			}
-			//过户数
-			for (ToCaseInfoCountVo toHouseTransferCount : toHouseTransferCountList) {
-				if(createTime.equals(toHouseTransferCount.getCreateTime())){
-					int toHouseTransferGHS = toHouseTransferCount.getCountGHS();
-					vo.setCountGHS(toHouseTransferGHS);
-				}
+			if(map.get("countJAS")!=null){
+				vo.setCountJAS((int) map.get("countJAS"));
 			}
-			//结案数
-			for (ToCaseInfoCountVo toCloseCount : toCloseCountList) {
-				if(createTime.equals(toCloseCount.getCreateTime())){
-					if(toCloseCount.getCountJAS()!= null) {
-						int toCloseJAS = toCloseCount.getCountJAS();
-						vo.setCountJAS(toCloseJAS);
-					}
-				}
+			if(map.get("countJDS")!=null){
+				vo.setCountJDS((int) map.get("countJDS"));
 			}
-			voList.add(vo);	
+			if(map.get("countQYS")!=null){
+				vo.setCountQYS((int) map.get("countQYS"));
+			}
+			vo.setCreateTime((String)map.get("createTime"));
+			voList.add(vo);
 		}
-		
 		AjaxResponse<ToCaseInfoCountVo> result = new AjaxResponse<>();
 		model.addAttribute("voList", voList);
 		
@@ -361,11 +325,14 @@ public class ReportMtnCortroller {
 		List<ToOrgVo> toOrgVoList = new ArrayList<>();
 		if(startDate == "")startDate = null;
 		if(endDate== "")endDate = null;
-		JQGridParam gp = new CacheGridParam();	//查询组织列表改为快速查询
+		String chcheKey = new StringBuilder(DepTypeEnum.TYCTEAM.getCode()).append(startDate).append(endDate).toString();
+		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("queryOrgIdListForReportCount");
 		gp.put("depType", DepTypeEnum.TYCTEAM.getCode());
+		gp.put("startDate", startDate);
+		gp.put("endDate", endDate);
 		gp.setPagination(false);
-		Page<Map<String, Object>> pages = quickGridService.findPageForReportOrgForm(gp, DepTypeEnum.TYCTEAM.getCode());
+		Page<Map<String, Object>> pages = quickGridService.findPageForReportOrgForm(gp, chcheKey);
 		List<Map<String,Object>> list = pages.getContent();
 		for(Map<String,Object> map : list){
 			if(map!=null){
@@ -479,11 +446,14 @@ public class ReportMtnCortroller {
 		List<ToOrgVo> toOrgVoList = new ArrayList<>();
 		if(strNum == "")strNum = null;
 		if(endNum == "")endNum = null;
-		JQGridParam gp = new CacheGridParam();	//查询组织列表改为快速查询
+		String chcheKey = new StringBuilder(DepTypeEnum.TYCTEAM.getCode()).append(strNum).append(endNum).toString();
+		JQGridParam gp = new JQGridParam();	//查询组织列表改为快速查询
 		gp.setQueryId("queryOrgIdListFortRedcountList");
 		gp.put("depType", DepTypeEnum.TYCTEAM.getCode());
+		gp.put("strNum", strNum);
+		gp.put("endNum", endNum);
 		gp.setPagination(false);
-		Page<Map<String, Object>> pages = quickGridService.findPageForReportRedCountList(gp, DepTypeEnum.TYCTEAM.getCode());
+		Page<Map<String, Object>> pages = quickGridService.findPageForReportRedCountList(gp, chcheKey);
 		List<Map<String,Object>> list = pages.getContent();
 		for(Map<String,Object> map : list){
 			if(map!=null){
