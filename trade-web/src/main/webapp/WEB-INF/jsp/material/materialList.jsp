@@ -379,7 +379,7 @@
 						{{/if}}
                         </td>
 						 <td class="text-center">
-                            <a href="${ctx}/material/materialDetail?pkid={{item.PKIDFORACTION}}">
+                            <a href="${ctx}/material/materialDetail?pkid={{item.PKIDFORACTION}}" target="_blank">
                                <button type="button" class="btn btn-undertint btn-padding-3"><i class="icon iconfont color-corbule btn-look">&#xe63b;</i></button>
                             </a>
                         </td>

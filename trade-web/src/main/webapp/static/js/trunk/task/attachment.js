@@ -61,7 +61,7 @@ $(function() {
 					that._trigger('started', e);
 				});
 	};
-
+	
 	$.each(idList, function(index, value){		
 		AistUpload.init('picFileupload'+value, 'picContainer'+value,
 				'templateUpload'+value, 'templateDownload'+value, updFun,'/(gif|jpg|jpeg|bmp|png|tif|tiff)/i');
@@ -80,7 +80,7 @@ $(function() {
 			}
 		});
 	});
-	/**上传备件初始化结束*/
+	/**上传备件初始化结束*/	
 	if(caseCode != ''){
 	    getExplPicByhouseCode();
 	}
@@ -138,7 +138,6 @@ function getExplPicByhouseCode() {
 			return false;
 		}
 	});*/
-	
 	$.ajax({
 		type : 'post',
 		cache : false,
@@ -157,10 +156,12 @@ function getExplPicByhouseCode() {
 //					dataLength=data.attList.length;
 			//将返回的数据进行包装
 			$.each(data.accList, function(indexAcc, accValue){
-				//实勘描述
+				//实勘描述				
 				var trStr = "";
 				$.each(data.attList,function(index, value) {
+				
 					if(value.preFileCode==accValue.accessoryCode){
+						alert(88888);
 						dataLength++;
 						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
 						trStr+="<div class=\"preview span12\">";
@@ -176,17 +177,71 @@ function getExplPicByhouseCode() {
 						trStr+="</div>";
 						}
 						trStr+="</div>";
-						
+						alert(85858555555);
 					}
+					alert(22222);
 				});
+				alert(234234);
 				$("#picContainer"+accValue.pkid).append(trStr);
 			});
 		},
+		
+		success : function(data) {
+//			dataLength=data.attList.length;
+	//将返回的数据进行包装
+	$.each(data.accList, function(indexAcc, accValue){
+		//实勘描述
+		var trStr = "";
+		$.each(data.attList,function(index, value) {
+			if(value.preFileCode==accValue.accessoryCode){
+				dataLength++;
+				trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
+				trStr+="<div class=\"preview span12\">";
+				trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
+				trStr+="<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' alt=''>";
+				trStr+="</div>";
+				trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
+				trStr+="<button onclick=\"romoveDiv('picContainers',"+value.pkid+");\" class=\"btn red\""; 
+				trStr+="style=\"line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;\">";
+				trStr+="<i class=\"icon-remove\"></i>";
+				trStr+="</button>";
+				trStr+="</div>";
+				trStr+="</div>";
+				
+			}
+		});
+		$("#picContainer"+accValue.pkid).append(trStr);
+	});
+},
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		error : function(errors) {
 			alert("产调加载失败");
 			return false;
 		}
 	});
+
 }
 //添加图片在原来实勘上
 function subAddFrom() {
