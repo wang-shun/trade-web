@@ -104,11 +104,17 @@ function checkFormSubmit(){
     var totalCashFlowInAmount = Number($("#totalCashFlowInAmount").val());
     var totalCashFlowOutAmount = Number($("#totalCashFlowOutAmount").val());
     var totalProcessCashFlowOutAmout = Number($("#totalProcessCashFlowOutAmout").val());
-    var ableCashFlowOutAmout = accSub(accSub(totalCashFlowInAmount, totalCashFlowOutAmount),totalProcessCashFlowOutAmout);
 
-    if(accAdd(Number(sumAmount),accAdd(totalCashFlowOutAmount,totalProcessCashFlowOutAmout)) > totalCashFlowInAmount){
-    	alert("已经超过可出账的金额！("+ableCashFlowOutAmout+")");
-    	return false;
+    if(!handle){
+    	if(accAdd(Number(sumAmount),accAdd(totalCashFlowOutAmount,totalProcessCashFlowOutAmout)) > totalCashFlowInAmount){
+        	alert("已经超过可出账的金额！");
+        	return false;
+        }
+    }else if(handle == 'apply'){
+	    if(accAdd(totalCashFlowOutAmount,totalProcessCashFlowOutAmout) > totalCashFlowInAmount){
+	    	alert("已经超过可出账的金额！");
+	    	return false;
+	    }
     }
     
 	var voucherNoFlag = true;	
