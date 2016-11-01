@@ -394,6 +394,18 @@ function fetchData(p){
  	          method: "post",
  	          dataType: "json",
  	          data: p,
+			  beforeSend:function(){  				
+					$.blockUI({
+						message : $("#salesLoading"),
+						css : {
+							'border' : 'none',
+							'z-index' : '9999'
+						}
+					});
+					$(".blockOverlay").css({
+						'z-index' : '9998'
+					});
+		       },
  	          success: function(data){
  	        	  //console.log("数据"+JSON.stringify(data));
  	        	  data.ctx = ctx;
@@ -422,6 +434,7 @@ function fetchData(p){
          			offsetX: 8,
          			offsetY: 5,
          		});
+         		 $.unblockUI();
  	          }
  	     });
 } 

@@ -448,11 +448,13 @@ $("#materialDelete").click(function(){
 				//console.log("Result=====" +JSON.stringify(data));
 					if(data != null ){						
 						if(data.success){								
-							alert(data.message);						
-							window.location.reload();
+							alert(data.message);	
+							reloadGrid();							
+							//window.location.reload();
 						}else{								
 							alert(data.message);
-							window.location.reload();
+							reloadGrid();
+							//window.location.reload();
 						}
 					}	
 				},       
@@ -485,15 +487,15 @@ function statusFlagCheck(){
 //借用组织图
  function chooseBorrowOperator(id){		
 			userSelect({
-				startOrgId : id,
-				expandNodeId : id,
+				startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
+				expandNodeId : 'ff8080814f459a78014f45a73d820006',
 				nameType : 'long|short',
 				orgType : '',
 				departmentType : '',
 				departmentHeriarchy : '',
 				chkStyle : 'radio',
-	/*			jobCode : 'Manager,Senior_Manager',*/
-				jobCode : 'consultant',
+				//	jobCode : 'Manager,Senior_Manager',
+				jobCode : '',
 				callBack : selectBorrowUserBack
 			});
 	
@@ -519,15 +521,15 @@ $('#materialBorrowUser').click(function() {
 //归还人员组织
 function chooseReturnOperator(id){		
 	userSelect({
-		startOrgId : id,
-		expandNodeId : id,
+		startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
+		expandNodeId : 'ff8080814f459a78014f45a73d820006',
 		nameType : 'long|short',
 		orgType : '',
 		departmentType : '',
 		departmentHeriarchy : '',
 		chkStyle : 'radio',
-/*			jobCode : 'Manager,Senior_Manager',*/
-		jobCode : 'consultant',
+		jobCode : '',
+		//jobCode : 'consultant',
 		callBack : selectReturnUserBack
 	});
 
@@ -551,15 +553,16 @@ $('#materialReturnUser').click(function() {
 //退还人员组织
 function chooseRefundOperator(id){		
 	userSelect({
-		startOrgId : id,
-		expandNodeId : id,
+		startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
+		expandNodeId : 'ff8080814f459a78014f45a73d820006',
 		nameType : 'long|short',
 		orgType : '',
 		departmentType : '',
 		departmentHeriarchy : '',
 		chkStyle : 'radio',
-/*			jobCode : 'Manager,Senior_Manager',*/
-		jobCode : 'consultant',
+		jobCode : '',
+		//jobCode : 'Manager,Senior_Manager',
+		//jobCode : 'consultant',
 		callBack : selectRefundUserBack
 	});
 

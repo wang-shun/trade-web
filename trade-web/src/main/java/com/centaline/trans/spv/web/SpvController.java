@@ -378,14 +378,7 @@ public class SpvController {
     		response.setContent(spvBaseInfoVO.getToSpv().getPkid().toString());
     		response.setMessage("保存资金监管签约成功！");
     	}catch(Exception e){
-    		response.setSuccess(false);
-    		String sOut = "";
-	        StackTraceElement[] trace = e.getStackTrace();
-	        for (StackTraceElement s : trace) {
-	            sOut += "\tat " + s + "\r\n";
-	        }
-			response.setMessage(sOut);
-			e.printStackTrace();
+			setExMsgForResp(response,e);
     	}
     	return response;
     }
@@ -404,14 +397,7 @@ public class SpvController {
     		response.setSuccess(true);
     		response.setMessage("开启资金监管流程成功！");
     	}catch(Exception e){
-    		response.setSuccess(false);
-    		String sOut = "";
-	        StackTraceElement[] trace = e.getStackTrace();
-	        for (StackTraceElement s : trace) {
-	            sOut += "\tat " + s + "\r\n";
-	        }
-			response.setMessage(sOut);
-			e.printStackTrace();
+			setExMsgForResp(response,e);
     	}
     	return response;
     }
@@ -877,9 +863,9 @@ public class SpvController {
             case "financeSecondAduit":
             	cashFlowOutService.cashFlowOutFinanceSecondAduitProcess(request, source, instCode, taskId, handle, businessKey);
                 break;
-            case "cashFlowOut":
+/*            case "cashFlowOut":
             	cashFlowOutService.cashFlowOutDealProcess(request, source, instCode, taskId, handle, businessKey);
-                break;
+                break;*/
         	}
     		request.setAttribute("urlType", "myTask");
         }else{
@@ -933,9 +919,9 @@ public class SpvController {
 			    case "financeSecondAduit":
 			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			        break;
-			    case "cashFlowOut":
+/*			    case "cashFlowOut":
 	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, chargeOutAppr);
-	                break;    
+	                break;*/    
 				}	
 			}else{
 				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null);
@@ -944,14 +930,7 @@ public class SpvController {
 			response.setSuccess(true);
 			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
 		} catch (Exception e) {
-			response.setSuccess(false);
-			String sOut = "";
-	        StackTraceElement[] trace = e.getStackTrace();
-	        for (StackTraceElement s : trace) {
-	            sOut += "\tat " + s + "\r\n";
-	        }
-			response.setMessage(sOut);
-			e.printStackTrace();
+			setExMsgForResp(response,e);
 		}
     	
     	return response;
@@ -972,15 +951,8 @@ public class SpvController {
     		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO); 
 			response.setSuccess(true);
 			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
-		} catch (Exception e) {
-			response.setSuccess(false);
-			String sOut = "";
-	        StackTraceElement[] trace = e.getStackTrace();
-	        for (StackTraceElement s : trace) {
-	            sOut += "\tat " + s + "\r\n";
-	        }
-			response.setMessage(sOut);
-			e.printStackTrace();
+		} catch (Exception e) {	
+			setExMsgForResp(response,e);		
 		}
     	
     	return response;
@@ -1053,6 +1025,25 @@ public class SpvController {
 			e.printStackTrace();
 		}
 		return response;
+	}
+	
+    /**
+     * @Title: setExMsgForResp 
+     * @Description: 将错误信息封装给response.message
+     * @author: gongjd 
+     * @param response
+     * @param e 
+     * @throws
+     */
+    private void setExMsgForResp(AjaxResponse<?> response,Exception e) {
+    	response.setSuccess(false);
+    	StringBuffer sOut = new StringBuffer();
+        StackTraceElement[] trace = e.getStackTrace();
+        for (StackTraceElement s : trace) {
+            sOut.append("\tat " + s + "\r\n");
+        }
+		response.setMessage(sOut.toString());
+		e.printStackTrace();
 	}
     
 }

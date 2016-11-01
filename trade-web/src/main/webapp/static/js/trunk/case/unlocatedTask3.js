@@ -52,8 +52,7 @@ function changeTaskAssignee(page,username){
 		        initpagef(data.total,data.pagesize,data.page, data.records);
 		        $.unblockUI();
 			},
-			error : function(errors) {
-				
+			error : function(errors) {				
 				$.unblockUI();
 			}
 		});

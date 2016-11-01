@@ -113,6 +113,21 @@ public class MaterialManagementController {
 			String pkid[] = pkids.split(",");			
 			for(int i=0; i<pkid.length;i++){				
 				mmMaterialItem = mmMaterialItemService.queryMmMaterialByPkid(Long.parseLong(pkid[i]));
+				if(mmMaterialItem != null ){
+					if(mmMaterialItem.getItemCategory() !=null && !"".equals(mmMaterialItem.getItemCategory())){
+						if(mmMaterialItem.getItemCategory().equals("carded")){
+							mmMaterialItem.setItemCategory("身份证");
+						}else if(mmMaterialItem.getItemCategory().equals("mortgageContract")){
+							mmMaterialItem.setItemCategory("抵押合同");
+						}else if(mmMaterialItem.getItemCategory().equals("bankCard")){
+							mmMaterialItem.setItemCategory("银行卡");
+						}else if(mmMaterialItem.getItemCategory().equals("propertyCard")){
+							mmMaterialItem.setItemCategory("产权证");
+						}else if(mmMaterialItem.getItemCategory().equals("otherCard")){
+							mmMaterialItem.setItemCategory("他证");
+						}	
+					}
+				}
 				mmMaterialItemList.add(mmMaterialItem);
 			}
 			//保存pkid 主要为了关联查询查询附件信息	,同一批次的pkid 对应的T_MM_IO_BATCH表的pkid相同
@@ -437,7 +452,7 @@ public class MaterialManagementController {
     //物品删除
     @RequestMapping(value="materialDelete")
     @ResponseBody
-    public AjaxResponse<String> materialDelete(String  pkids,String actionUser,String actionRemark,String flag){    	
+    public AjaxResponse<String> materialDelete(String  pkids){    	
     	
     	AjaxResponse<String> response = new AjaxResponse<String>();    	
 		MmMaterialItem mmMaterialItem = new MmMaterialItem();//物品主表

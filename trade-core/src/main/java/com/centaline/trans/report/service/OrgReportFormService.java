@@ -15,4 +15,6 @@ public interface OrgReportFormService {
     Page<Map<String,Object>> findPageForReportFormPage(JQGridParam gp, String chcheKey);
 
     Page<Map<String,Object>> findPageForReportRedCountList(JQGridParam gp, String chcheKey);
+
+    Page<Map<String,Object>> findPageForCaseReportFormCount(JQGridParam gp, String cacheKey);
 }

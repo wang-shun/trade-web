@@ -61,7 +61,7 @@
                     <div class="ibox-content ibox-space">
                         <form method="get" class="form_list">
                             <input type="hidden" id="riskControlId" name="riskControlId" value="${toRcForceRegister.rcId }">
-                            <div class="modal_title">
+                            <div class="modal_title title-mark">
                                 强制公正信息登记
                             </div>
                             <div class="line">

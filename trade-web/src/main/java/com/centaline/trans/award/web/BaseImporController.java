@@ -29,6 +29,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.award.service.BaseImportService;
 import com.centaline.trans.award.vo.BaseImportVo;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.workspace.entity.CacheGridParam;
 
 //jjm budf
 @Controller
@@ -119,7 +120,7 @@ public class BaseImporController {
 
 		SessionUser sesssionUser = uamSessionService.getSessionUser();
 		String countMsg = "";
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);
 		gp.put("paidTime", paidTime);
 		gp.put("caseCode", caseCode);

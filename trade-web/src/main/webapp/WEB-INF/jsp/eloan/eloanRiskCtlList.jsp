@@ -55,6 +55,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="row">
 		<div class="col-md-12">
 			<!--*********************** HTML_main*********************** -->
@@ -157,6 +158,7 @@
 	<script	src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<!-- 自定义扩展jQuery库 --> 
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 <!-- 	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script> -->
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 

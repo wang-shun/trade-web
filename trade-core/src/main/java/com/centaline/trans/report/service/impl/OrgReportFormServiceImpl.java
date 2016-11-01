@@ -35,4 +35,10 @@ public class OrgReportFormServiceImpl implements OrgReportFormService {
     public Page<Map<String, Object>> findPageForReportRedCountList(JQGridParam gp, String chcheKey) {
         return quickGridService.findPageForSqlServer(gp, null);
     }
+
+    @Override
+    @Cacheable(value="OrgReportFormServiceImpl.findPageForCaseReportFormCount", key="#cacheKey")
+    public Page<Map<String, Object>> findPageForCaseReportFormCount(JQGridParam gp, String cacheKey) {
+        return quickGridService.findPageForSqlServer(gp, null);
+    }
 }

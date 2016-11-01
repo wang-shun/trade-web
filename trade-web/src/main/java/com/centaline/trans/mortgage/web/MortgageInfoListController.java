@@ -80,7 +80,7 @@ public class MortgageInfoListController {
 		request.setAttribute("userJobCode", userJobCode);
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		
-		//银行信息
+/*		//银行信息
 		List<TsFinOrg> tsFinOrgList= tsFinOrgService.findAllFinOrg();
 		List<Map<String, String>> FinOrgNameList=new ArrayList<Map<String,String>>();
 
@@ -96,7 +96,7 @@ public class MortgageInfoListController {
 				FinOrgNameList.add(FinOrgNameMap);
 			}
 		}
-		request.setAttribute("FinOrgNameList", FinOrgNameList);
+		request.setAttribute("FinOrgNameList", FinOrgNameList);*/
 		
 		
 		//默认显示上周一至周日的时间

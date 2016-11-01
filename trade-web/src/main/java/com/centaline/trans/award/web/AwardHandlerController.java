@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.permission.remote.UamPermissionService;
+import com.centaline.trans.workspace.entity.CacheGridParam;
 
 @Controller
 @RequestMapping(value = "/awards")
@@ -106,7 +107,7 @@ public class AwardHandlerController {
 			String caseCode, String propertyAddr, String dtBegin, String dtEnd) {
 
 		String countMsg = "";
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);
 		gp.put("paidTime", paidTime);
 		gp.put("caseCode", caseCode);

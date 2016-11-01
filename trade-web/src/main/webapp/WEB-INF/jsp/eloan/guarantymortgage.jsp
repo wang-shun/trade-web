@@ -58,7 +58,7 @@
                         <form method="get" class="form_list" id="mortgageForm">
                          	<input type="hidden" id="riskControlId" name="riskControlId" value="${toRcMortgageVO.toRcMortgage.rcId }">
                             <div class="modal_title title-mark">
-                                押卡信息登记
+                                抵押信息登记
                             </div>
                             <div class="line">
                                 <div class="form_content">
