@@ -194,7 +194,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		workFlow.setProcessDefinitionId(propertyUtilsService.getSPVCashflowOutProcessDfKey());
 		workFlow.setProcessOwner(user.getId());
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-		toWorkFlowService.insertSelective(workFlow);
+		toWorkFlowService.insertSpvCashflowInProcessSelective(workFlow);
 		
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
@@ -677,14 +677,15 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	BigDecimal totalProcessCashFlowOutAmout = BigDecimal.ZERO;
     	
     	for(ToSpvCashFlow cashFlow: cashFlowList){
+    		cashFlow.setAmount(cashFlow.getAmount() == null?null:cashFlow.getAmount().divide(new BigDecimal(10000)));
     		ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(cashFlow.getCashflowApplyId());
     		//只选取完成的流水记录
-    		if("in".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+    		if("in".equals(apply.getUsage()) 
+    				&& !SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
     			continue;         
-    		}else if("out".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
-    			if(!SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode().equals(cashFlow.getStatus())){
-    				totalProcessCashFlowOutAmout = totalProcessCashFlowOutAmout.add(totalProcessCashFlowOutAmout);
-    			}
+    		}else if("out".equals(apply.getUsage()) 
+    				&& !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+    				totalProcessCashFlowOutAmout = totalProcessCashFlowOutAmout.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
     		}
     		String applyAuditor = apply.getApplyAuditor();
     		String applyAuditorName = applyAuditor == null?null:uamSessionService.getSessionUserById(applyAuditor).getRealName();
@@ -696,11 +697,11 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	cashFlow.setApplyAuditorName(applyAuditorName);
         	cashFlow.setFtPreAuditorName(ftPreAuditorName);
         	cashFlow.setFtPostAuditorName(ftPostAuditorName);
-        	cashFlow.setAmount(cashFlow.getAmount() == null?null:cashFlow.getAmount().divide(new BigDecimal(10000)));
+        	
         	cashFlow.setCreateByName(cashFlow.getCreateBy() == null?null:uamSessionService.getSessionUserById(cashFlow.getCreateBy()).getRealName());
-        	if("in".equals(cashFlow.getUsage()) && SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+        	if("in".equals(apply.getUsage()) && SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
         		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
-        	}else if("out".equals(cashFlow.getUsage())){
+        	}else if("out".equals(apply.getUsage())  && SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
         		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}	
         	
