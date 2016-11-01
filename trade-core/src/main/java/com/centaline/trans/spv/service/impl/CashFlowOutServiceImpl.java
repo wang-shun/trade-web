@@ -275,8 +275,12 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    
 		    SessionUser user = uamSessionService.getSessionUser();
 		    //通过时设置申请复审人
-		    if(chargeOutAppr){
-		    spvChargeInfoVO.getToSpvCashFlowApply().setApplyAuditor(user.getId());
+		    if(!chargeOutAppr){
+		    	Long pkid = spvChargeInfoVO.getToSpvCashFlowApply().getPkid();
+				ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(pkid);
+				apply.setApplyAuditor(null);
+				spvChargeInfoVO.setToSpvCashFlowApply(apply);
+				toSpvCashFlowApplyMapper.updateByPrimaryKey(spvChargeInfoVO.getToSpvCashFlowApply());
 		    }
 		    
 		    //添加审批记录

@@ -334,7 +334,7 @@
                                                 </p> --%>
                                                 <p class="smll_sign">
                                                  	   审核人：<a href="javascript:void(0)">
-                                                    ${ empty cashFlow.applyAuditorName?'':cashFlow.applyAuditorName }
+                                                    ${cashFlow.applyAuditorName }
                                                     
                                                     <c:if test="${cashFlow.usage eq 'out' }">
 	                                                    <c:if test="${cashFlow.status eq 12 }">
@@ -357,7 +357,7 @@
                                                     <c:if test="${cashFlow.usage eq 'in'}" >
                                                     <c:if test="${cashFlow.ftPostAuditorName.length()>0 }">
                                                     &gt;
-                                                    ${ empty cashFlow.ftPostAuditorName?'':cashFlow.ftPostAuditorName }
+                                                    ${cashFlow.ftPostAuditorName }
                                                     </c:if>
                                                     </c:if>
                                                     </a>
@@ -400,7 +400,7 @@
                                             <td id="td_filex">
                                                 <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status">
 	                                                 	<span>
-	                                                 	<img id="image_${status.index }" href="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvCashFlowApplyAttach.attachId}" style="width:0px;height:0px;display: none;" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
+	                                                 	<img id="image_${status.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvCashFlowApplyAttach.attachId}" style="width:0px;height:0px;display: none;" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
 	                                                 	<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].pkid" value = "${toSpvCashFlowApplyAttach.pkid}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].attachId" value = "${toSpvCashFlowApplyAttach.attachId}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].comment" value = "${toSpvCashFlowApplyAttach.comment}" />
@@ -922,19 +922,6 @@ function renderFileUpload(k,a){
         }
     })
 }
-
- function selectChange(i,index){
-	if(i == 0){
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('');
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('');
-	}else if(i == 1){
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('${bankNameList[0].account}');
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('${bankNameList[0].bankName}');
-	}else if(i == 2){
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('${bankNameList[1].account}');
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('${bankNameList[1].bankName}');
-	}
-} 
 
 function rescCallbocak(){
 	 window.opener.location.reload(); //刷新父窗口
