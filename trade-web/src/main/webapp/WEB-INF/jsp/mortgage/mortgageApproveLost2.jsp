@@ -292,7 +292,7 @@
 					<span >
 						<i class="salesman-icon"></i>
 						{{if item.MANAGER_INFO!=null}}
- 						<a class="hint  hint-top2"  data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}"  data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.GRP_NAME}}</a>					 
+ 							<a class="hint  hint-top2"  data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}"  data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.GRP_NAME}}</a>					 
 						{{/if}}	
 					</span>
 			</td>                
