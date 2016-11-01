@@ -335,15 +335,30 @@
                                                 <p class="smll_sign">
                                                  	   审核人：<a href="javascript:void(0)">
                                                     ${ empty cashFlow.applyAuditorName?'':cashFlow.applyAuditorName }
+                                                    
                                                     <c:if test="${cashFlow.usage eq 'out' }">
-                                                    <c:if test="${cashFlow.ftPreAuditorName.length()>0 }">
-                                                    &gt;
+	                                                    <c:if test="${cashFlow.status eq 12 }">
+	                                                    &gt;${financeName }
+	                                                    </c:if>
+	                                                    <c:if test="${cashFlow.status gt 12 }">
+	                                                    &gt;${cashFlow.ftPreAuditorName }
+	                                                    </c:if>
                                                     </c:if>
-                                                    ${ empty cashFlow.ftPreAuditorName?'':cashFlow.ftPreAuditorName }
+                                                    
+                                                    <c:if test="${cashFlow.usage eq 'out'}" >
+	                                                    <c:if test="${cashFlow.status eq 13 }">
+	                                                    &gt;${financeName }
+	                                                    </c:if>
+	                                                    <c:if test="${cashFlow.status gt 13 }">
+	                                                    &gt;${cashFlow.ftPostAuditorName }
+	                                                    </c:if>
                                                     </c:if>
+                                                    
+                                                    <c:if test="${cashFlow.usage eq 'in'}" >
                                                     <c:if test="${cashFlow.ftPostAuditorName.length()>0 }">
                                                     &gt;
                                                     ${ empty cashFlow.ftPostAuditorName?'':cashFlow.ftPostAuditorName }
+                                                    </c:if>
                                                     </c:if>
                                                     </a>
                                                 </p>
