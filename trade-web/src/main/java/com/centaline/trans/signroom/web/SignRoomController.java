@@ -26,6 +26,7 @@ import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
 import com.centaline.trans.signroom.vo.TransactItemVo;
+import com.centaline.trans.workspace.entity.CacheGridParam;
 /**
  * 签约室控制器
  * @author zhoujp7
@@ -86,7 +87,7 @@ public class SignRoomController {
 		String useStatus = requst.getParameter("useStatus");//使用状态
 		String curDate = requst.getParameter("curDate");//预约日期
 		
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		if(!StringUtil.isBlank(curDate)){
 			gp.put("curDate", curDate);
 		}
@@ -118,7 +119,7 @@ public class SignRoomController {
 		String roomStatus = requst.getParameter("roomStatus");//房间状态
 	
 		
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		if(!StringUtil.isBlank(roomType)){
 			gp.put("roomType", roomType);
 		}
