@@ -333,7 +333,7 @@
                                                    ${spvBaseInfoVO.toSpvProperty.prAddr }
                                                 </p> --%>
                                                 <p class="smll_sign">
-                                                 	   审核${financeName }人：<a href="javascript:void(0)">
+                                                 	   审核人：<a href="javascript:void(0)">
                                                     ${ empty cashFlow.applyAuditorName?'':cashFlow.applyAuditorName }
                                                     
                                                     <c:if test="${cashFlow.usage eq 'out' }">
