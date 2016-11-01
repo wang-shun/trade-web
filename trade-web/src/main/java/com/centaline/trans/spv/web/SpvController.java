@@ -877,9 +877,9 @@ public class SpvController {
             case "financeSecondAduit":
             	cashFlowOutService.cashFlowOutFinanceSecondAduitProcess(request, source, instCode, taskId, handle, businessKey);
                 break;
-            case "cashFlowOut":
+/*            case "cashFlowOut":
             	cashFlowOutService.cashFlowOutDealProcess(request, source, instCode, taskId, handle, businessKey);
-                break;
+                break;*/
         	}
     		request.setAttribute("urlType", "myTask");
         }else{
@@ -933,9 +933,9 @@ public class SpvController {
 			    case "financeSecondAduit":
 			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			        break;
-			    case "cashFlowOut":
+/*			    case "cashFlowOut":
 	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, chargeOutAppr);
-	                break;    
+	                break;*/    
 				}	
 			}else{
 				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null);

@@ -352,6 +352,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutFinanceSecondAduitDeal(HttpServletRequest request, String instCode, String taskId,String taskitem,
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey, Boolean chargeOutAppr)
 			throws Exception {
+		
+		    String spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
 		    
 		    multiplyTenThousand(spvChargeInfoVO);
 		    //更新申请状态
@@ -367,6 +369,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 					spvCashFlow.setPayer("上海中原物业顾问有限公司");
 					spvCashFlow.setPayerAcc("76310188000148842");
 					spvCashFlow.setPayerBank("光大银行市北支行");
+					spvCashFlow.setCloseTime(new Date());
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(spvCaseFlowOutInfoVO.getToSpvCashFlow());
 				}
 			}
@@ -393,9 +396,20 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			variables.put("financeSecondAduit",chargeOutAppr);
 			
 			taskService.submitTask(taskId, variables);
+			
+			//当出款总额等于监管金额时发起消息通知资金监管流程 ：SpvProcess
+			Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
+	    	//所有合约下已完成的出账金额总和
+			BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
+	    	//监管总额
+			ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);	
+			BigDecimal toSpvTotalAmount = toSpv.getAmount();
+	    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
+				messageService.sendSpvFinishMsgByIntermi(instCode);	
+	    	}
 	}
 
-	@Override
+/*	@Override
 	public void cashFlowOutDealProcess(HttpServletRequest request, String source, String instCode, String taskId,
 			String handle, String businessKey) {
 		setRequestAttribute(request,businessKey);
@@ -438,7 +452,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
 				messageService.sendSpvFinishMsgByIntermi(instCode);	
 	    	}
-	}	
+	}	*/
 	
 	private String createSpvApplyCode() {
 		return uamBasedataService.nextSeqVal("SPV_CODE", new SimpleDateFormat("yyyyMMdd").format(new Date()));
