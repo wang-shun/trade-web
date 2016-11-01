@@ -76,6 +76,7 @@
 		<pattern>/signroom/signingManage</pattern>
 		<pattern>/report/dealChangeCaseList</pattern>
 		<pattern>/eloan/EloanRelCashList</pattern>
+		<pattern>/signroom/signscheduling</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
