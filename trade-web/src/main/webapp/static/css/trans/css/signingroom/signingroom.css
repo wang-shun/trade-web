@@ -1,0 +1,24 @@
+.scheduling-box {
+  background: #fff;
+  padding: 30px 55px;
+}
+.scheduling-title {
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 24px;
+}
+.scheduling-table {
+  font-size: 14px;
+}
+.table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td,.table-bordered > thead > tr > th {
+    border: 1px solid #f3f3f4;
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: normal;
+}
+.scheduling-bg {
+    background:#828c96;
+    color: #fff;
+    height:30px;
+    line-height: 30px;
+}

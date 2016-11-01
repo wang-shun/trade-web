@@ -228,6 +228,17 @@ public class SignRoomController {
 		return response;
 	}
 	
+	/**
+	 * 签约室排班
+	 * @return
+	 */
+	@RequestMapping("/signscheduling")
+	public String signscheduling(Model model){
+		SessionUser user= uamSessionService.getSessionUser();
+		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters();//获取 交易中心信息
+		model.addAttribute("tradeCenters", tradeCenters);
+		return "/signroom/signscheduling";
+	}
 	
 	
 }
