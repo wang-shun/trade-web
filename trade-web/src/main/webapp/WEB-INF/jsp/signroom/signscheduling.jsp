@@ -26,9 +26,8 @@
 
          <!-- index_css -->
         <link rel="stylesheet" href="${ctx}/css/common/base.css" />
-        <link rel="stylesheet" href="${ctx}/css/common/table.css" />
         <link rel="stylesheet" href="${ctx}/css/common/input.css" />
-        <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
+        <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css">
         
         <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css">
 
@@ -68,11 +67,15 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="scheduling-box">
-                                <div class="scheduling-title">2016-10</div>
+                                <p class="month">
+                                    <button type="button" class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow"></i></button>
+                                    <span>2016/10月</span>
+                                    <button class="btn btn-success btn_small pull-left"><i class="icon iconfont icon_arrow"></i></button>
+                                </p>
                                 <table class="table table-bordered scheduling-table text-center " >
                                     <thead>
                                     <tr>
-                                        <th class="text-center"></th>
+                                        <th class="text-center">早晚班</th>
                                         <th class="text-center">周日</th>
                                         <th class="text-center">周一</th>
                                         <th class="text-center">周二</th>
@@ -82,33 +85,33 @@
                                         <th class="text-center">周六</th>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr class="night_bg">
                                             <td >
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                 25
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                 26
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                 27
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                28
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                 29
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                 30
                                             </td>
                                             <td>
                                                 1
                                             </td>
                                         </tr>
-                                        <tr style="height:30px;">
-                                            <td >
+                                        <tr>
+                                            <td><i class="iconfont icon-day">&#xe601;</i>
                                             </td>
                                             <td>
                                             </td>
@@ -126,8 +129,8 @@
                                                陈辰
                                             </td>
                                         </tr>
-                                        <tr class="scheduling-bg">
-                                            <td >
+                                        <tr>
+                                            <td ><i class="iconfont icon-moon">&#xe6c1;</i>
                                             </td>
                                             <td>
                                             </td>
@@ -145,7 +148,7 @@
                                                张晟洋
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr class="night_bg">
                                             <td >
                                             </td>
                                             <td>
@@ -170,8 +173,8 @@
                                                 8
                                             </td>
                                         </tr>
-                                        <tr style="height:30px;">
-                                            <td >
+                                        <tr>
+                                            <td ><i class="iconfont icon-day">&#xe601;</i>
                                             </td>
                                             <td>徐彦青
                                             </td>
@@ -189,8 +192,8 @@
                                                陈辰
                                             </td>
                                         </tr>
-                                        <tr style="background:#828c96;color: #fff;height:30px;line-height: 30px;">
-                                            <td >
+                                        <tr>
+                                            <td ><i class="iconfont icon-moon">&#xe6c1;</i>
                                             </td>
                                             <td>王鼎元
                                             </td>
@@ -208,7 +211,7 @@
                                                张晟洋
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr class="night_bg">
                                             <td >
                                             </td>
                                             <td>
@@ -233,8 +236,8 @@
                                                 15
                                             </td>
                                         </tr>
-                                        <tr style="height:30px;">
-                                            <td >
+                                        <tr>
+                                            <td ><i class="iconfont icon-day">&#xe601;</i>
                                             </td>
                                             <td>徐彦青
                                             </td>
@@ -252,8 +255,8 @@
                                                陈辰
                                             </td>
                                         </tr>
-                                        <tr style="background:#828c96;color: #fff;height:30px;line-height: 30px;">
-                                            <td >
+                                        <tr>
+                                            <td ><i class="iconfont icon-moon">&#xe6c1;</i>
                                             </td>
                                             <td>张晟洋
                                             </td>
@@ -271,7 +274,7 @@
                                                张晟洋
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr class="night_bg">
                                             <td >
                                             </td>
                                             <td>
@@ -296,8 +299,8 @@
                                                 22
                                             </td>
                                         </tr>
-                                        <tr style="height:30px;">
-                                            <td >
+                                        <tr>
+                                            <td><i class="iconfont icon-day">&#xe601;</i>
                                             </td>
                                             <td>张晟洋
                                             </td>
@@ -315,8 +318,8 @@
                                                陈辰
                                             </td>
                                         </tr>
-                                        <tr style="background:#828c96;color: #fff;height:30px;line-height: 30px;">
-                                            <td >
+                                        <tr>
+                                            <td ><i class="iconfont icon-moon">&#xe6c1;</i>
                                             </td>
                                             <td>赵明
                                             </td>
@@ -334,8 +337,8 @@
                                                张晟洋
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td >
+                                        <tr class="night_bg">
+                                            <td>
                                             </td>
                                             <td>
                                                 23
@@ -346,7 +349,7 @@
                                             <td>
                                                 25
                                             </td>
-                                            <td>
+                                            <td class="currmoth">
                                                26
                                             </td>
                                             <td>
@@ -359,8 +362,8 @@
                                                29
                                             </td>
                                         </tr>
-                                        <tr style="height:30px;">
-                                            <td >
+                                        <tr>
+                                            <td><i class="iconfont icon-day">&#xe601;</i>
                                             </td>
                                             <td>陈辰
                                             </td>
@@ -368,7 +371,7 @@
                                             </td>
                                             <td>张晟洋
                                             </td>
-                                            <td>张晟洋
+                                            <td class="currday">张晟洋
                                             </td>
                                             <td>李志
                                             </td>
@@ -378,26 +381,26 @@
                                                陈辰
                                             </td>
                                         </tr>
-                                        <tr style="background:#828c96;color: #fff;height:30px;line-height: 30px;">
-                                            <td >
+                                        <tr>
+                                            <td ><i class="iconfont icon-moon">&#xe6c1;</i>
                                             </td>
-                                            <td>
+                                            <td>苏爱娣
                                             </td>
-                                            <td>
+                                            <td>陈辰
                                             </td>
-                                            <td>
+                                            <td>苏爱娣
                                             </td>
-                                            <td>
+                                            <td class="currnight">陈辰
                                             </td>
-                                            <td>
+                                            <td >陈辰
                                             </td>
-                                            <td>
+                                            <td>苏爱娣
                                             </td>
                                             <td>
                                                张晟洋
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr class="night_bg">
                                             <td >
                                             </td>
                                             <td>
@@ -406,24 +409,24 @@
                                             <td>
                                                 31
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                 1
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                2
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                3
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                4
                                             </td>
-                                            <td>
+                                            <td class="nouser">
                                                5
                                             </td>
                                         </tr>
-                                        <tr style="height:30px;">
-                                            <td >
+                                        <tr>
+                                            <td ><i class="iconfont icon-day">&#xe601;</i>
                                             </td>
                                             <td>徐彦青
                                             </td>
@@ -442,8 +445,8 @@
                                             <td >
                                             </td>
                                         </tr>
-                                        <tr style="background:#828c96;color: #fff;height:30px;line-height: 30px;">
-                                            <td >
+                                        <tr>
+                                            <td ><i class="iconfont icon-moon">&#xe6c1;</i>
                                             </td>
                                             <td>苏爱娣
                                             </td>
