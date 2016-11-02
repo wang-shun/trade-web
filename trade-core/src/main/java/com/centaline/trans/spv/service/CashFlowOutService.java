@@ -70,5 +70,10 @@ public interface CashFlowOutService {
 	 * @throws Exception 
 	 */
 	void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception;
-	
+	/**
+	 * 获取出入账信息
+	 * @param request
+	 * @param spvCode
+	 */
+	void getCashFlowList(HttpServletRequest request,String spvCode);
 }

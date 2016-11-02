@@ -167,7 +167,7 @@ public class SpvController {
 	 * @return
 	 */
 	@RequestMapping("spvDetail")
-	public String SpvDetail(long pkid ,ServletRequest request){
+	public String SpvDetail(long pkid ,HttpServletRequest request){
 /*		SpvBaseInfoVO baseInfoVO=new SpvBaseInfoVO();
 		//合约基本信息
 
@@ -217,7 +217,8 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
       }
-		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+        cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
+        request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
 	    request.setAttribute("zj",FKZJ);
