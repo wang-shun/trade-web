@@ -64,8 +64,7 @@
 					  INFO.PROPERTY_ADDR,
 					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
 					  loanAgent.EXECUTOR_ID AS EXECUTOR_ID_OLD,
-					  loanAgent.CREATOR_ID AS CREATE_ID_OLD,   --创建人
-					  --loanAgent.executor_team as 'PARENT_ORG_NAME_OLD',
+					  loanAgent.CREATOR_ID AS CREATE_ID_OLD,
 					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
 					  loanAgent.APPLY_TIME,
 					  loanAgent.SIGN_TIME,
@@ -176,7 +175,7 @@ SELECT
 					</ifNotNull>
 					INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
 				    WHERE 
-				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
+				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !='' AND (c.STATUS IS NULL OR c.STATUS='VALID') 
 				    
 				    <ifNotNull applyTimeStart>
 						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#

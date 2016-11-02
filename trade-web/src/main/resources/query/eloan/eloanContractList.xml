@@ -71,7 +71,7 @@
 				LEFT JOIN  sctrans.SYS_USER U 					ON EC.EXCUTOR_ID=U.ID
 			    INNER JOIN sctrans.T_TO_CASE C 					ON C.CASE_CODE=EC.CASE_CODE
 				LEFT JOIN sctrans.T_TO_ELOAN_REL ER				ON EC.ELOAN_CODE=ER.ELOAN_CODE
-			WHERE 1=1 
+			WHERE 1=1 AND (EC.STATUS IS NULL OR EC.STATUS='VALID') 
 <!-- 			 and  EXISTS (select * from sctrans.T_TO_ELOAN_REL ers
 			    <if test="releaseTimeStart !='' || releaseTimeStart !='' || releaseTimeStart !=null ">
 			      where ers.ELOAN_CODE = ec.ELOAN_CODE

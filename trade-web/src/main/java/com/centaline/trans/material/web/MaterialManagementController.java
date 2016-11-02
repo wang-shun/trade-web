@@ -296,6 +296,7 @@ public class MaterialManagementController {
 		}
 		
 		if(materialList.size() > 0){
+			
 			mmIoBatch.setCaseCode(materialList.get(0).getCaseCode());				
 			mmIoBatch.setLogAction(MaterialActionEnum.IN.getCode());//入库操作
 			mmIoBatch.setManager(userId);
@@ -308,7 +309,7 @@ public class MaterialManagementController {
 			//插入操作获取pkid
 			for(int i=0; i<materialList.size() ;i++){
 				//更新主表状态
-				MmMaterialItem mmMaterialItem = materialList.get(i);
+				MmMaterialItem mmMaterialItem = materialList.get(i);				
 				mmMaterialItem.setItemAddrCode(itemAddrCode);
 				mmMaterialItem.setItemManager(userId);
 				mmMaterialItem.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
@@ -452,7 +453,7 @@ public class MaterialManagementController {
     //物品删除
     @RequestMapping(value="materialDelete")
     @ResponseBody
-    public AjaxResponse<String> materialDelete(String  pkids,String actionUser,String actionRemark,String flag){    	
+    public AjaxResponse<String> materialDelete(String  pkids){    	
     	
     	AjaxResponse<String> response = new AjaxResponse<String>();    	
 		MmMaterialItem mmMaterialItem = new MmMaterialItem();//物品主表

@@ -334,16 +334,31 @@
                                                 </p> --%>
                                                 <p class="smll_sign">
                                                  	   审核人：<a href="javascript:void(0)">
-                                                    ${ empty cashFlow.applyAuditorName?'':cashFlow.applyAuditorName }
+                                                    ${cashFlow.applyAuditorName }
+                                                    
                                                     <c:if test="${cashFlow.usage eq 'out' }">
-                                                    <c:if test="${cashFlow.ftPreAuditorName.length()>0 }">
-                                                    &gt;
+	                                                    <c:if test="${cashFlow.status eq 12 }">
+	                                                    &gt;${financeName }
+	                                                    </c:if>
+	                                                    <c:if test="${cashFlow.status gt 12 }">
+	                                                    &gt;${cashFlow.ftPreAuditorName }
+	                                                    </c:if>
                                                     </c:if>
-                                                    ${ empty cashFlow.ftPreAuditorName?'':cashFlow.ftPreAuditorName }
+                                                    
+                                                    <c:if test="${cashFlow.usage eq 'out'}" >
+	                                                    <c:if test="${cashFlow.status eq 13 }">
+	                                                    &gt;${financeName }
+	                                                    </c:if>
+	                                                    <c:if test="${cashFlow.status gt 13 }">
+	                                                    &gt;${cashFlow.ftPostAuditorName }
+	                                                    </c:if>
                                                     </c:if>
+                                                    
+                                                    <c:if test="${cashFlow.usage eq 'in'}" >
                                                     <c:if test="${cashFlow.ftPostAuditorName.length()>0 }">
                                                     &gt;
-                                                    ${ empty cashFlow.ftPostAuditorName?'':cashFlow.ftPostAuditorName }
+                                                    ${cashFlow.ftPostAuditorName }
+                                                    </c:if>
                                                     </c:if>
                                                     </a>
                                                 </p>
@@ -384,12 +399,12 @@
                                             </td>
                                             <td id="td_filex">
                                                 <c:forEach items="${spvChargeInfoVO.toSpvCashFlowApplyAttachList }" var="toSpvCashFlowApplyAttach" varStatus="status">
-	                                                 	<span>
-	                                                 	<img id="image_${status.index }" href="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvCashFlowApplyAttach.attachId}" style="width:0px;height:0px;display: none;" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
+	                                                 	<span  style='margin-bottom: 5px;margin-right:5px;padding: 0 8px;'>
+	                                                 	<img id="image_${status.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvCashFlowApplyAttach.attachId}" style="width:0px;height:0px;display: none;" alt="${toSpvCashFlowApplyAttach.comment}"  class="viewer-toggle" />
 	                                                 	<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].pkid" value = "${toSpvCashFlowApplyAttach.pkid}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].attachId" value = "${toSpvCashFlowApplyAttach.attachId}"/>
 														<input type="hidden" name ="toSpvCashFlowApplyAttachList[${status.index }].comment" value = "${toSpvCashFlowApplyAttach.comment}" />
-															<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:12px;" onClick="showImg('#image_${status.index }')" >${toSpvCashFlowApplyAttach.comment}
+															<button type="button" class="btn btn-sm btn-default" style="margin-bottom: 5px;margin-right:5px;margin-top:10px;padding: 0 8px;" onClick="showImg('#image_${status.index }')" >${toSpvCashFlowApplyAttach.comment}
  															<c:if test="${empty handle or handle eq 'apply' }">
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
@@ -404,7 +419,7 @@
                                               	 <c:if test="${empty handle or handle eq 'apply' }">
                                                 	 <span class="btn_file_x">                                                                                                                                                               
        			                                             <input id="fileupload_x" style="display:none" type="file" name="files[]" multiple="" data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload" data-sequential-uploads="true"> 
-			                                                      <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;cursor:pointer; background-image:url(${ctx}/static/trans/img/bnt-flie.png)" onClick="$('#fileupload_x').trigger('click');"/>;
+			                                                      <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-18px;cursor:pointer; background:url(${ctx}/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$('#fileupload_x').trigger('click');"/>
 		                                             </span>
 		                                         </c:if> 
                                             </td>
@@ -427,9 +442,11 @@
                                         <th>收款人账户</th>
                                         <th style="width: 100px;">出账金额</th>
                                         <th style="width: 120px;">贷记凭证编号</th>
-                                        <th>付款方式</th>
+                                        <th style="width: 90px;">付款方式</th>
                                         <th>凭证附件</th>
-                                        <th>操作</th>
+                                        <c:if test="${empty handle or handle eq 'apply' }">
+                                        <th style="width: 50px;">操作</th>
+                                        </c:if>
                                         </thead>
                                         <tbody id="addTr">
                                         	<c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
@@ -467,7 +484,7 @@
 	                                                 	<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].pkid" value = "${toSpvVoucher.pkid}"/>
 														<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].attachId" value = "${toSpvVoucher.attachId}"/>
 														<input type="hidden" name ="spvCaseFlowOutInfoVOList[${status2.index }].toSpvVoucherList[${status3.index}].comment" value = "${toSpvVoucher.comment}" />
-															<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:12px;" onClick="showImg('#image_${status3.index }')">${toSpvVoucher.comment}
+															<button type="button" class="btn btn-sm btn-default" style="margin-bottom: 5px;margin-right:5px;margin-top:10px;padding: 0 8px;" onClick="showImg('#image_${status3.index }')">${toSpvVoucher.comment}
 															<c:if test="${empty handle or handle eq 'apply' }">
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
@@ -480,9 +497,9 @@
 														</span>	
                                                 	 </c:forEach>  
                                                 	 <c:if test="${empty handle or handle eq 'apply' }">
-                                                	 <span class="btn_file${status2.index}">                                                                                                                                                               
+                                                	 <span class="btn_file${status2.index}"  style='margin-bottom: 5px;margin-right:5px;padding: 0 8px;'>                                                                                                                                                               
        			                                             <input id="fileupload_${status2.index}" style="display:none" type="file" name="files[]" multiple="" data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload" data-sequential-uploads="true">
-			                                                      <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;cursor:pointer; background-image:url(${ctx}/static/trans/img/bnt-flie.png)" onClick="$('#fileupload_${status2.index}').trigger('click');"/>;
+			                                                      <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-18px;cursor:pointer; background-image:url(${ctx}/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$('#fileupload_${status2.index}').trigger('click');"/>
 		                                             </span>
 		                                             </c:if>   
 	                                                </td>
@@ -618,8 +635,6 @@
     <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
     <script src="${ctx}/js/viewer/viewer.min.js"></script>
-    <!-- 必须CSS -->
-	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 <script>
 var sum = parseInt($("#sum").val());
 var attSum_ = parseInt($("#attSum_").val());
@@ -665,33 +680,13 @@ $(function() {
 				var fundName = '${deDetailMixList[3].fundName}';
 			}
 			addselect(deId,obj);
-			 /* if($(this).find("option:selected").val() == deCondCode){
-				if(sellerName == ''){
-					$("select[name$='toSpvCashFlow.payer'] option:nth-child(3)").prop("selected",true);
- 					$("input[name$='toSpvCashFlow.payerAcc']").val('${bankNameList[1].account}');
-					$("input[name$='toSpvCashFlow.payerBank']").val('${bankNameList[1].bankName}'); 
-					accountType = 'seller';
-				}else if(fundName == ''){
-					$("select[name$='toSpvCashFlow.payer'] option:nth-child(2)").prop("selected",true);
-					$("input[name$='toSpvCashFlow.payerAcc']").val('${bankNameList[0].account}');
-					$("input[name$='toSpvCashFlow.payerBank']").val('${bankNameList[0].bankName}');
-					accountType = 'fund';
-				}else{
-					$("select[name$='toSpvCashFlow.payer'] option:nth-child(1)").prop("selected",true);
-					$("input[name$='toSpvCashFlow.payerAcc']").val('');
-					$("input[name$='toSpvCashFlow.payerBank']").val('');
-					accountType = 'all';
-				}
-			} 
-			 */
 		}
 		
 	}); 
 		
 	//图片渲染
 	if($("img[id^='image_']").size()>0){
-		$('.wrapper-content').viewer('destroy');
-		$('.wrapper-content').viewer();
+		renderImg();
 	}
 
     renderFileUpload("x","attach");
@@ -704,16 +699,6 @@ $(function() {
     if((!handle || handle == 'apply') && sum == 0){
     	$("#addTr").append(getTR(0));
     }
-  
-	$('.demo-top').poshytip({
-		className: 'tip-twitter',
-		showTimeout: 1,
-		alignTo: 'target',
-		alignX: 'center',
-		alignY: 'top',
-		offsetX: 8,
-		offsetY: 5,
-	});
 
 });
 function doSearch(this_){
@@ -802,7 +787,7 @@ function getTR(index){
 	$str+='	<td id="td_file'+index+'">';
 	$str+='		<span class="btn_file'+index+'">';
 	$str+='			<input id="fileupload_'+index+'" style="display:none" type="file" name="files[]" multiple="" data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload" data-sequential-uploads="true">';
-	$str+='			<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:34px;width:52px;cursor:pointer; background-image:url('+ctx+'/static/trans/img/bnt-flie.png) " onClick="$(\'#fileupload_'+index+'\').trigger(\'click\');" >;</label>';
+	$str+='			<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-14px;cursor:pointer; background:url('+ctx+'/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$(\'#fileupload_'+index+'\').trigger(\'click\');" ></label>';
 	$str+='		</span>';
 	$str+='	</td>';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+sum+')">添加</a>';
@@ -824,7 +809,7 @@ function getUploadImage(thisIndex,fileUrl,fileId,fileName){
 	var image = '<span><img id="image_'+thisIndex+'" src="'+fileUrl+'" style="width:0px;height:0px;display: none;" title="'+fileName+'" alt="'+fileName+'" class="viewer-toggle" />';
 	image += '<input type="hidden" name ="spvCaseFlowOutInfoVOList['+thisIndex+'].ToSpvCashFlow.attachIdArr" value = "'+fileId+'" fileName="'+fileName+thisIndex+'"/>';
 	image += '<input type="hidden" name ="spvCaseFlowOutInfoVOList['+thisIndex+'].ToSpvCashFlow.commentArr" value="'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:10px;" onClick="showImg(\'#image_'+thisIndex+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
+	image += '<button type="button" class="btn btn-sm btn-default" style="margin-bottom: 5px;margin-right:5px;margin-top:10px;padding: 0 8px;" onClick="showImg(\'#image_'+thisIndex+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
 	return image;
 }
 
@@ -834,7 +819,7 @@ function getUploadImage2(thisIndex,fileUrl,fileId,fileName){
 	var image = '<span><img id="image_'+attSum+'" src="'+fileUrl+'" style="width:0px;height:0px;display: none;" title="'+fileName+'" alt="'+fileName+'" class="viewer-toggle" />';
 	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+attSum+'].attachId" value = "'+fileId+'" fileName="'+fileName+addSum+'"/>';
 	image += '<input type="hidden" name ="toSpvCashFlowApplyAttachList['+attSum+'].comment" value="'+fileName+'" />';
-	image += '<button type="button" class="btn btn-sm btn-default" style="margin-right:5px;margin-top:10px;" onClick="showImg(\'#image_'+attSum+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
+	image += '<button type="button" class="btn btn-sm btn-default" style="margin-bottom: 5px;margin-right:5px;margin-top:10px;padding: 0 8px;" onClick="showImg(\'#image_'+attSum+'\')">'+shortName+'<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;</i></button></span>';
 	attSum_++;
 	return image;
 }
@@ -857,8 +842,7 @@ function showImg(imgId){
 function removeImg(this_,event){
 	event.stopPropagation(); 
 	$(this_).parent().parent().remove();
-	$('.wrapper-content').viewer('destroy');
-	$('.wrapper-content').viewer();
+	renderImg();
 }
 
 //添加上传方法
@@ -890,8 +874,7 @@ function renderFileUpload(k,a){
             	doneSum++;
             	$("#doneSum").val(doneSum);
             	if(addSum==doneSum){
-            		$('.wrapper-content').viewer('destroy');
-            		$('.wrapper-content').viewer();
+            		renderImg();
             	}
         	}
         },
@@ -906,22 +889,15 @@ function renderFileUpload(k,a){
     })
 }
 
- function selectChange(i,index){
-	if(i == 0){
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('');
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('');
-	}else if(i == 1){
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('${bankNameList[0].account}');
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('${bankNameList[0].bankName}');
-	}else if(i == 2){
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").val('${bankNameList[1].account}');
-		$("input[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").val('${bankNameList[1].bankName}');
-	}
-} 
-
 function rescCallbocak(){
 	 window.opener.location.reload(); //刷新父窗口
 	 window.close();  //关闭子窗口.
+}
+
+//渲染图片 
+function renderImg(){
+	$('.wrapper-content').viewer('destroy');
+	$('.wrapper-content').viewer();
 }
 </script>
 </content>

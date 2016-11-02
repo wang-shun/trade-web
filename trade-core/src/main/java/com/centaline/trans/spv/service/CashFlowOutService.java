@@ -58,17 +58,22 @@ public interface CashFlowOutService {
 	/** 
 	 *  财务出款页面
 	 */
-	void cashFlowOutDealProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
+	//void cashFlowOutDealProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
 	 *  财务出款操作
 	 */
-	void cashFlowOutDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception ;
+	//void cashFlowOutDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception ;
 
 	/**
 	 *  保存操作
 	 * @throws Exception 
 	 */
 	void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception;
-	
+	/**
+	 * 获取出入账信息
+	 * @param request
+	 * @param spvCode
+	 */
+	void getCashFlowList(HttpServletRequest request,String spvCode);
 }

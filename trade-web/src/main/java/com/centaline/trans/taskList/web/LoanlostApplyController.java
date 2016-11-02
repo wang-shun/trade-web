@@ -1,5 +1,8 @@
 package com.centaline.trans.taskList.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +17,7 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
@@ -67,6 +71,21 @@ public class LoanlostApplyController {
 		if(dict!=null){			
 			request.setAttribute("loanLostApplyReasons", dict.getChildren());
 		} 
+		
+		//查询附件信息记录表
+		ToAccesoryList toAccesoryList = new ToAccesoryList();
+		toAccesoryList.setPartCode("LoanlostApply");
+		List<ToAccesoryList> list = toAccesoryListService.qureyToAccesoryList(toAccesoryList);
+		if(list != null && list.size() > 0) {
+			int size = list.size();
+			request.setAttribute("accesoryList", list);
+			List<Long> idList = new ArrayList<Long>(size);
+			for(int i=0; i<size; i++) {
+				idList.add(list.get(i).getPkid());
+			}
+			request.setAttribute("idList", idList);
+		}
+		
 		ToApproveRecord r = new ToApproveRecord();
 		r.setCaseCode(caseCode);
 		r.setPartCode("LoanlostApply");

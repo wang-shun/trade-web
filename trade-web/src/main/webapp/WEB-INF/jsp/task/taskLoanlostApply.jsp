@@ -147,7 +147,7 @@
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="loanLostConfirmCode" name="loanLostConfirmCode" value="${mortgage.loanLostConfirmCode}"> 
 						</div>
-						<label class=" col-sm-8 control-label text-left" style="padding-top: 0px;">备注：编号范例：ZY00000001ZB；若开具公司版本客户自办贷款确认函，则必须填写编号并上传附件，反之则无需上传</label>
+						<label class=" col-sm-8 control-label text-left" style="padding-top: 0px;font-weight: normal;font-size: 8px;">备注：编号范例：ZY00000001ZB；若开具公司版本客户自办贷款确认函，则必须填写编号并上传附件，反之则无需上传</label>
 						
 					</div>
 
@@ -342,12 +342,12 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<script src="${ctx}/js/trunk/task/attachment3.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	<!-- bank select -->
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+<%-- 	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script>  --%>
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 

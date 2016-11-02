@@ -146,7 +146,7 @@
                                           <th>付款人账户</th>
                                           <th style="width: 100px;">入账金额</th>
                                           <th style="width: 120px;">贷记凭证编号</th>
-                                          <th>付款方式</th>
+                                          <th style="width: 90px;">付款方式</th>
                                           <th>凭证附件</th>
                                           <th>入账时间</th>
                                       </thead>
@@ -174,7 +174,7 @@
                                                   <c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
 													<img id="image_${status3.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
 													<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
-													<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status3.index }').trigger('click');"><i class="icon iconfont icon_y" >&#xe635;
+													<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status3.index }').trigger('click');" style='margin-bottom: 5px;margin-right:5px;padding: 0 8px;'><i class="icon iconfont icon_y" >&#xe635;
 													${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
 													</button>
                                                	 </c:forEach>

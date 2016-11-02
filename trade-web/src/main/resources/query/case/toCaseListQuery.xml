@@ -507,6 +507,11 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 		<searchSql>
 			<baseSql>
 				<![CDATA[
+				SELECT
+					org_red_count.orgId,
+					org_red_count.orgName,
+					org_red_count.redCount
+					from(
 						SELECT
 					  	 ID as orgId,
 						 ORG_NAME AS orgName,
@@ -516,15 +521,17 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 									left join
 									sctrans.T_TG_SERV_ITEM_AND_PROCESSOR item_and_processor
 									on trans_plan.CASE_CODE = item_and_processor.CASE_CODE where trans_plan.RED_LOCK=1  and item_and_processor.ORG_ID= sys_org.ID
-									 <if test="startDate != null">
-										 AND   trans_plan.CREATE_TIME &gt;= #startDate#
-									 </if>
-									 <if test="endDate != null">
-										  AND  trans_plan.CREATE_TIME  &lt;= #endDate#
-									 </if>
 									) as redCount
 									FROM sctrans.SYS_ORG  sys_org
 									WHERE DEP_HIERARCHY = #depType#
+									) as org_red_count
+									where 1=1
+									 <if test="strNum != null">
+										AND org_red_count.redCount &gt;= #strNum#
+									 </if>
+									 <if test="endNum != null">
+										 AND org_red_count.redCount &lt;= #endNum#
+									  </if>
 								]]>
 			</baseSql>
 		</searchSql>
@@ -533,6 +540,102 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				<column type="both" name="orgId" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="orgName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="redCount" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryCaseReportFormCount">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						select JDS.createTime,
+							JDS.countJDS ,
+							(
+							SELECT QYS.countQYS from
+							(SELECT convert(char(7) ,CREATE_TIME , 120) as  createTime,COUNT(CASE_CODE) as countQYS FROM sctrans.T_TO_CASE WHERE CASE_CODE IN((SELECT CASE_CODE FROM   sctrans.T_TO_SIGN	WHERE  PART_CODE is not  null and  datediff(year,CREATE_TIME,getdate())=0 ) )
+							 AND  CASE_CODE IN (SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE 1=1
+										<if test="orgSearchId != null">
+											AND  ORG_ID = #orgSearchId#
+										</if>
+									)  GROUP BY convert(char(7) ,CREATE_TIME , 120)) as QYS where 1=1 and createTime= JDS.createTime) as countQYS,
+									(
+										select GHS.countGHS from
+											(
+											SELECT
+												convert(char(7) ,CREATE_TIME , 120) as createTime,
+												COUNT(CASE_CODE) as countGHS
+											 FROM sctrans.T_TO_CASE WHERE CASE_CODE
+												 IN((SELECT CASE_CODE  FROM   sctrans.T_TO_HOUSE_TRANSFER	WHERE  datediff(year,CREATE_TIME,getdate())=0))
+												 AND  CASE_CODE IN
+											  (SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+														WHERE 1=1
+													<if test="orgSearchId != null" >
+														AND ORG_ID = #orgSearchId#
+													</if>
+											)
+											GROUP BY convert(char(7) ,CREATE_TIME , 120)
+											) as GHS where GHS.createTime=JDS.createTime
+									) as countGHS,
+									(
+										select JAS.countJAS from (
+											SELECT
+													CONVERT (CHAR(7), CREATE_TIME, 120) AS createTime,
+													COUNT (CASE_CODE) AS countJAS
+												FROM
+													sctrans.T_TO_CASE
+												WHERE
+													datediff(MONTH, Close_Time, getdate()) = 0
+												AND CASE_CODE IN (
+													SELECT
+														CASE_CODE
+													FROM
+														sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+													WHERE
+														1 = 1
+														<if test="orgSearchId != null" >
+														AND ORG_ID = #orgSearchId#
+														</if>
+												)
+												GROUP BY
+													CONVERT (CHAR(7), CREATE_TIME, 120)
+											) as JAS	where JAS.createTime=JDS.createTime
+									)as countJAS
+									from
+									(SELECT
+										a.createTime,
+										SUM (countJDS) AS countJDS
+									FROM
+										(SELECT CONVERT (CHAR(7), CREATE_TIME, 120) AS createTime,COUNT (CASE_CODE) AS countJDS FROM sctrans.T_TO_CASE
+											WHERE datediff(YEAR, CREATE_TIME, getdate()) = 0
+											AND CASE_CODE IN ((
+													SELECT CASE_CODE FROM sctrans.T_TO_CASE
+													WHERE 1 = 1
+												<if test="orgSearchId != null">
+													AND  ORG_ID = #orgSearchId#
+												</if>
+												)
+												UNION(SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE 1 = 1
+													<if test="orgSearchId != null">
+														AND  ORG_ID = #orgSearchId#
+													</if>
+													))
+											GROUP BY CONVERT (CHAR(7), CREATE_TIME, 120)
+											UNION ALL SELECT CONVERT (CHAR(7), CREATE_TIME, 120) AS createTime,COUNT (CASE_CODE) AS countJDS FROM sctrans.T_TO_CASE WHERE datediff(MONTH, Close_Time, getdate()) = 0
+												AND CASE_CODE IN (SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE 1 = 1
+													<if test="orgSearchId != null">
+														and  org_id = #orgSearchId#
+													</if>
+												)GROUP BY CONVERT (CHAR(7), CREATE_TIME, 120)) AS a GROUP BY a.createTime) as JDS
+											]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countJDS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countQYS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countGHS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countJAS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

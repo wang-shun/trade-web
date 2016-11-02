@@ -206,12 +206,14 @@
                                <ul class="dropdown-menu" role="menu" style="left:-95px;">
                                       <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">查看</a></li>
                                       <shiro:hasPermission name="TRADE.ELONE.UPDATE">
+                                     {{if item.STATUS!='ABAN'}}
                                       <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=update">修改</a></li>
+                                      {{/if}}
                                       </shiro:hasPermission>
                                        <shiro:hasPermission name="TRADE.ELONE.DELETE">
                                        {{if item.taskKey =='EloanApply'}}
                                       <li><a id="link_btn" onclick="deleteItem({{item.pkId}},'delete')">删除</a></li>{{/if}}
-                                       {{if item.taskKey !='EloanApply'&& item.applyTime!=undefined}}
+                                       {{if item.taskKey !='EloanApply'&& item.applyTime!=undefined &&item.STATUS!='ABAN'}}
                                         <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=invalid">作废</a></li>{{/if}}
                                       </shiro:hasPermission>
                                       
