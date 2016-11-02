@@ -66,11 +66,16 @@
 	<!-- customKeyGenerator -->
 	<bean id="customKeyGenerator" class="com.aist.common.cache.CustomKeyGenerator" />
     <!-- declare Redis Cache Manager -->
-    <bean
-        id='redisCacheManager'
+    <bean id='redisCacheManager'
         class='org.springframework.data.redis.cache.RedisCacheManager'
         c:template-ref='redisTemplate' >
         <!-- 默认失效时间5分钟 值的单位为秒 -->
         <property name="defaultExpiration" value="300"></property>
      </bean>
+
+	<bean id='shiroSessionRedisManager' class='org.springframework.data.redis.cache.RedisCacheManager'
+		c:template-ref="redisTemplate">
+		<!-- 默认保存时间24小时 -->
+		<property name="defaultExpiration" value="36000"></property>
+	</bean>
 </beans>
