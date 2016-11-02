@@ -53,7 +53,8 @@
 		value="${sessionUser.serviceDepId }">
 	<input type="hidden" id="serviceJobCode"
 		value="${sessionUser.serviceJobCode }">
-
+	<input type="hidden" id="CW"
+		value="">
 	 <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <h2 class="title">
@@ -194,7 +195,7 @@
                                             <p class="smll_sign">
                                                                                                                                         审核人：
                                                 {{item.applyAuditorName}}
-                                                {{if item.USAGE=="in" && item.STATUS=="02" &&item.ftPostAuditorName=="" }}&gt;冯敏 / 张美瑜  / 任雯{{/if}}
+                                                {{if item.USAGE=="in" && item.STATUS=="02" &&item.ftPostAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
                                                 {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
 												{{item.ftPreAuditorName}}
 											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}
@@ -207,10 +208,38 @@
 						
 						//初始化
 						jQuery(document).ready(function() {
-							initFlowListData();
+							initCW()
 							//查询
-							
+							initFlowListData();							
 						});
+						function initCW(){
+							$.ajax({
+								async: false,
+								 url:ctx+"/rapidQuery/findPage",
+								 method:"post",
+								 dataType:"json",
+								 data:{
+									    page : 1,
+										rows : 12,
+										queryId:'getAllYCCW'
+								 },
+								 success:function(data){
+									 var str="";
+									 if(data.records>0){
+										 var len=data.rows.length;
+										 $.each(data.rows,function(i,item){
+											 if(i==(len-1)){
+												 str+=item.name;
+												 return;
+											 }
+											str+=item.name+"/"; 
+											
+										 })
+									 } 
+									 $("#CW").val(str)
+								 }
+							});
+						};
 						$("#btn_searchFrom").click(function() {
 					          params.search_cashFlowApplyCode=$("input[name='cashFlowApplyCode']").val();
 					          params.search_usage=$("select[name='usage']").val();

@@ -89,7 +89,7 @@
                                     </label>
                                     <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
                                         <input name="changeTimeStart" id="changeTimeStart" class="form-control data_style" type="text" value="${curMonthStart }" placeholder="起始时间"> <span class="input-group-addon">到</span>
-                                        <input  name="changeTimeEnd" name="changeTimeEnd" class="form-control data_style" type="text" value="${curMonthEnd }" placeholder="结束日期">
+                                        <input  name="changeTimeEnd" id="changeTimeEnd" class="form-control data_style" type="text" value="${curMonthEnd }" placeholder="结束日期">
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                                     <button type="button" class="btn btn-success" onclick="javascript:exportToExcel()">
                                         导出列表
                                     </button>
-                                    <button type="reset" class="btn btn-grey" id="clearBtn">
+                                    <button type=button class="btn btn-grey" id="clearBtn">
                                         清空
                                     </button>
                                 </div>
@@ -400,7 +400,14 @@
                     <p>
                         <i class="sign_blue">{{ item.PART_CODE }}</i>
                     </p>
-                    <p class="big">{{item.PROPERTY_ADDR}}</p>
+					{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+                      <p class="big demo-top" title="{{item.PROPERTY_ADDR}}">
+                      {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+                    {{else}}
+                      <p class="big">
+                      {{item.PROPERTY_ADDR}}
+                     {{/if}}					 
+						</p>
                 </td>
 				<td>
                     <p class="manager"><span>上家:</span>

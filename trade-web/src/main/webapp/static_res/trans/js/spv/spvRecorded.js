@@ -104,11 +104,17 @@ function checkFormSubmit(){
     var totalCashFlowInAmount = Number($("#totalCashFlowInAmount").val());
     var totalCashFlowOutAmount = Number($("#totalCashFlowOutAmount").val());
     var totalProcessCashFlowOutAmout = Number($("#totalProcessCashFlowOutAmout").val());
-    
-    if(accAdd(accAdd(sumAmount,totalCashFlowOutAmount),totalProcessCashFlowOutAmout) > totalCashFlowInAmount){
-    	alert("已经超过可出账的金额！");
-    	//alert("出账流水总和不能大于(入账流水总和+申请中的出账流水)！");
-    	return false;
+
+    if(!handle){
+    	if(accAdd(Number(sumAmount),accAdd(totalCashFlowOutAmount,totalProcessCashFlowOutAmout)) > totalCashFlowInAmount){
+        	alert("已经超过可出账的金额！");
+        	return false;
+        }
+    }else if(handle == 'apply'){
+	    if(accAdd(totalCashFlowOutAmount,totalProcessCashFlowOutAmout) > totalCashFlowInAmount){
+	    	alert("已经超过可出账的金额！");
+	    	return false;
+	    }
     }
     
 	var voucherNoFlag = true;	
@@ -333,15 +339,18 @@ function submitBtnClick(handle,chargeOutAppr){
 			if(data.ajaxResponse.success){
 				if(!handle){
 					alert("流程开启成功！");
+					window.location.href = ctx+"/spv/spvList";
 				}else{
 					alert("任务提交成功！");
+					window.opener.location.reload(); //刷新父窗口
+		        	window.close(); //关闭子窗口.
 				}
 			}else{
 				alert("数据保存出错:"+data.ajaxResponse.message);
 			}
 			    // if($("#urlType").val() == 'myTask'){    	 
-			    	 window.opener.location.reload(); //刷新父窗口
-		        	 window.close(); //关闭子窗口.
+			    	// window.opener.location.reload(); //刷新父窗口
+		        	// window.close(); //关闭子窗口.
 			    // }else{
 			    //      window.location.href=ctx+"/spv/spvFlowApplyList";
 			    // }
@@ -395,4 +404,20 @@ function accAdd(arg1,arg2){
   try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
   m=Math.pow(10,Math.max(r1,r2));
   return ((arg1*m+arg2*m)/m).toFixed(2);
+}
+
+//给Number类型增加一个add方法，调用起来更加方便。
+//Number.prototype.add = function (arg){
+//  return accAdd(arg,this);
+//}
+//减法函数
+function accSub(arg1,arg2){
+   var r1,r2,m,n;
+   try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+   try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+   m=Math.pow(10,Math.max(r1,r2));
+   //last modify by deeka
+   //动态控制精度长度
+   n=(r1>=r2)?r1:r2;
+   return ((arg2*m-arg1*m)/m).toFixed(2);
 }

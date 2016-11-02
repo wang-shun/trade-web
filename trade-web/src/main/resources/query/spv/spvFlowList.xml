@@ -65,6 +65,9 @@
 			        <if test="serviceJobCode == 'JYFKZJ' ">
 			        and sca.APPLY_AUDITOR = #sessionUserId#
 			        </if>
+			        <if test="serviceJobCode == 'YCCWREVIEW' ">
+			        and (sca.FT_PRE_AUDITOR = #sessionUserId# or FT_POST_AUDITOR = #sessionUserId#) 
+			        </if>
 			        <if test="serviceJobCode != 'consultant' and serviceDepHierarchy == 'yucui_team'">
 			        and sca.FT_PRE_AUDITOR = #sessionUserId# or sca.FT_POST_AUDITOR = #sessionUserId# 
 			        </if>

@@ -3,8 +3,10 @@ var serviceDepId = $("#serviceDepId").val();
 
 var pChartMTypeCases = echarts.init(document.getElementById('pieChartMTypeCases'));
 var pChartMTypeAmount = echarts.init(document.getElementById('pieChartMTypeAmount'));
+//组织报表
 var pChartMOrgCases = echarts.init(document.getElementById('pieChartMOrgCases'));
 var pChartMOrgAmount = echarts.init(document.getElementById('pieChartMOrgAmount'));
+
 var pChartMTmpBankCases = echarts.init(document.getElementById('pieChartMTmpBankCases'));
 var pChartMTmpBankAmount = echarts.init(document.getElementById('pieChartMTmpBankAmount'));
 
@@ -42,12 +44,7 @@ var tmpBankAmountItems = new Array();
 /**
  * 案件统计详情
  */
-$(document).ready(
-		function() {
-
-			var url = "/quickGrid/findPage";
-			var ctx = $("#ctx").val();
-			url = ctx + url;
+$(document).ready(function() {
 
 			var signTimeStart = $("#dtBegin_0").val();
 			var signTimeEnd = '';
@@ -71,28 +68,14 @@ $(document).ready(
 			getParentBank($("select[name='loanLostFinOrgName']"),
 					$("select[name='loanLostFinOrgNameYc']"), "", "", "");
 
-			$("select[name='loanLostFinOrgName']").change(
-					function() {
-						/* $("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy"); */
-						// if(data.content && data.content.isTmpBank=='1'){
-						getBranchBankList(
-								$("select[name='loanLostFinOrgNameYc']"), $(
+			$("select[name='loanLostFinOrgName']").change(function() {
+				getBranchBankList($("select[name='loanLostFinOrgNameYc']"), $(
 										"select[name='loanLostFinOrgName']")
 										.val(), "");
-						// }else{
-						// getBranchBankList($("select[name='loanLostFinOrgNameYc']"),$("select[name='loanLostFinOrgName']").val(),"",'cl');
-						// }
+
 					})
 
 			setPieCharts();
-
-			/*
-			 * $(".charone").hide(); $("#mortTypeAnalysis").click(function() {
-			 * $(".charone").toggle();
-			 * $("#mortTypeAnalysis").addClass('btn-bg');
-			 * if($(".charone").is(":hidden")) {
-			 * $("#mortTypeAnalysis").removeClass('btn-bg'); } });
-			 */
 
 			$(".charone,.chartwo,.chartthree").hide();
 			$("#mortTypeAnalysis").click(function() {
@@ -247,8 +230,7 @@ function getMTypeAnalysis() {
 	data.rows = 10;
 	data.page = 1;
 
-	$
-			.ajax({
+	$.ajax({
 				async : false,
 				url : ctx + "/quickGrid/findPage",
 				method : "post",
@@ -569,11 +551,16 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('LEND_DATE');
 			displayColomn.push('APPR_DATE');
 			displayColomn.push('REAL_HT_TIME');
+			displayColomn.push('CASETRANSFERDATE');
+			displayColomn.push('CREATE_TIME');
 			displayColomn.push('END_TIME_');
 			displayColomn.push('CUST_NAME');
 			displayColomn.push('MORT_TOTAL_AMOUNT');
 			displayColomn.push('COM_AMOUNT');
 			displayColomn.push('PRF_AMOUNT');
+			displayColomn.push('CON_PRICE');
+			displayColomn.push('EVAL_FEE');
+			
 			displayColomn.push('SDSTATUS');
 			displayColomn.push('LOANLOST_APPLY_REASON');// 流失原因
 			displayColomn.push('FIN_ORG_NAME');
@@ -740,14 +727,14 @@ function reloadGrid(data) {
 				'z-index' : '9998'
 			});
 		},
-		success : function(data) {
-			$.unblockUI();
+		success : function(data) {			
 			data.ctx = ctx;
 			var mortgageInfoList = template('template_mortgageInfoList', data);
 			$("#mortgageInfoList").empty();
 			$("#mortgageInfoList").html(mortgageInfoList);
 			// 显示分页
 			initpage(data.total, data.pagesize, data.page, data.records);
+			$.unblockUI();
 		},
 		error : function(e, jqxhr, settings, exception) {
 			$.unblockUI();
@@ -804,16 +791,27 @@ function initpage(totalCount, pageSize, currentPage, records) {
  */
 function getParamsValue() {
 	// 日期类型
+	//签约
 	var signTimeStart = null;
 	var signTimeEnd = null;
+	//放款
 	var lendTimeStart = null;
 	var lendTimeEnd = null;
+	//审批时间
 	var apprTimeStart = null;
 	var apprTimeEnd = null;
+	//过户时间
 	var realhtTimeStart = null;
 	var realhtTimeEnd = null;
+	//流失审批时间
 	var endTimeStart = null;
 	var endTimeEnd = null;
+	//流失申请时间
+	var createTimeStart = null;
+	var createTimeEnd = null;
+	//过户审批通过时间	
+	var transferTimeStart = null;
+	var transferTimeEnd = null;
 
 	var comAmountStart = null;
 	var comAmountEnd = null;
@@ -895,6 +893,16 @@ function getParamsValue() {
 		endTimeEnd = end;
 		params.endTimeStart = endTimeStart;
 		params.endTimeEnd = endTimeEnd;
+	}else if (timeSelect == "CREATE_TIME") {
+		createTimeStart  = start;
+		createTimeEnd  = end;
+		params.createTimeStart = createTimeStart ;
+		params.createTimeEnd = createTimeEnd ;
+	}else if (timeSelect == "CASETRANSFERDATE") {
+		transferTimeStart  = start;
+		transferTimeEnd  = end;
+		params.transferTimeStart  = transferTimeStart ;
+		params.transferTimeEnd  = transferTimeEnd ;
 	}
 	
 	// 获取select 选中时间的值

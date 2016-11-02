@@ -1,7 +1,9 @@
 package com.centaline.trans.signroom.web;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +26,10 @@ import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
+import com.centaline.trans.signroom.vo.DateWeekVo;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
 import com.centaline.trans.signroom.vo.TransactItemVo;
+import com.centaline.trans.workspace.entity.CacheGridParam;
 /**
  * 签约室控制器
  * @author zhoujp7
@@ -86,7 +90,7 @@ public class SignRoomController {
 		String useStatus = requst.getParameter("useStatus");//使用状态
 		String curDate = requst.getParameter("curDate");//预约日期
 		
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		if(!StringUtil.isBlank(curDate)){
 			gp.put("curDate", curDate);
 		}
@@ -118,7 +122,7 @@ public class SignRoomController {
 		String roomStatus = requst.getParameter("roomStatus");//房间状态
 	
 		
-		JQGridParam gp = new JQGridParam();
+		JQGridParam gp = new CacheGridParam();
 		if(!StringUtil.isBlank(roomType)){
 			gp.put("roomType", roomType);
 		}
@@ -227,6 +231,42 @@ public class SignRoomController {
 		return response;
 	}
 	
+	/**
+	 * 签约室排班
+	 * @return
+	 */
+	@RequestMapping("/signscheduling")
+	public String signscheduling(Model model){
+		SessionUser user= uamSessionService.getSessionUser();
+		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters();//获取 交易中心信息
+		model.addAttribute("tradeCenters", tradeCenters);
+		return "/signroom/signscheduling";
+	}
+	/**
+	 * 签约室排班数据
+	 * @return
+	 */
+	@RequestMapping("/showSchedulingData")
+	@ResponseBody
+	public AjaxResponse<List<DateWeekVo>> showSchedulingData(Model model,int centerId,String date){
+		AjaxResponse<List<DateWeekVo>> response = new AjaxResponse<List<DateWeekVo>>();
+		Map map = new HashMap();
+		map.put("centerId", centerId);
+		map.put("date", date);
+		try {
+			List<DateWeekVo> dwvs = rmSignRoomService.showSchedulingData(map);
+			response.setContent(dwvs);
+			response.setCode("400");
+			response.setMessage("查询成功！");
+			response.setSuccess(true);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			response.setCode("500");
+			response.setMessage("查询失败！");
+			response.setSuccess(false);
+		}
+		return response;
+	}
 	
 	
 }

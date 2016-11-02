@@ -45,6 +45,8 @@
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" />
+<link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 </head>
 
 <body>

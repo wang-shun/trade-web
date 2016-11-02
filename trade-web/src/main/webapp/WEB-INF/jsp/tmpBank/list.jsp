@@ -68,7 +68,7 @@
                                     <label class="control-label sign_left_small">
                                         产证地址
                                     </label>
-                                    <input class="teamcode input_type" style="width:435px;" placeholder="" value="" id="propertyAddress"/>
+                                    <input class="input_type" style="width:448px;"  placeholder="" value="" id="propertyAddress"/>
                                 </div>
                             </div>
                             <div class="line">
@@ -190,7 +190,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table_content">
-                                <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
+                                <table class="table table_blue table-striped table-bordered table-hover table-noborder" id="editable" >
                                     <thead>
                                         <tr>
                                             <th style="background-color:#52cdec;">

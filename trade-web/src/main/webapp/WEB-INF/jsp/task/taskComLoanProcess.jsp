@@ -36,7 +36,7 @@
 }
 
 .wizard>.content {
-	min-height: 450px;
+	min-height: 550px;
 }
 
 .wizard>.content>.body label {

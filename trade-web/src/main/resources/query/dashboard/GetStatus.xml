@@ -318,7 +318,7 @@
 						        SUM(tsi.REAL_PRICE) AS REAL_PRICE
 						FROM    sctrans.T_TO_ELOAN_CASE ttc
 						        LEFT JOIN sctrans.t_to_sign tsi ON ttc.CASE_CODE = tsi.CASE_CODE
-						WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' 
+						WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' and (ttc.STATUS IS NULL OR ttc.STATUS='VALID') 
 						 <if test="user_Id != null">
 						 	and ttc.EXCUTOR_ID = #user_Id#
 						 </if>
@@ -337,7 +337,7 @@
 						        NULL AS REAL_PRICE
 						FROM    sctrans.T_TO_ELOAN_REL ttr
 						        LEFT JOIN sctrans.T_TO_ELOAN_CASE ttc ON ttc.ELOAN_CODE = ttr.ELOAN_CODE
-						WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' and ttr.CONFIRM_STATUS=1
+						WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' and ttr.CONFIRM_STATUS=1 AND (ttc.STATUS IS NULL OR ttc.STATUS='VALID') 
 						<if test="user_Id != null">
 						 	and ttc.EXCUTOR_ID = #user_Id#
 						 </if>
@@ -389,7 +389,7 @@
 					          UNION ALL
 					          SELECT    SUM(ISNULL(tec.APPLY_AMOUNT, 0) * 10000) AS APPLY_AMOUNT
 					          FROM      sctrans.T_TO_ELOAN_CASE tec
-					          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null 
+					          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null  AND (tec.STATUS IS NULL OR tec.STATUS='VALID') 
 					          <if test="user_Id != null">
 						 	    and tec.EXCUTOR_ID = #user_Id#
 						     </if>
@@ -440,7 +440,7 @@
 						          UNION ALL
 						          SELECT    SUM(ISNULL(tec.SIGN_AMOUNT,0)*10000) AS SIGN_AMOUNT
 						          FROM      sctrans.T_TO_ELOAN_CASE tec
-						          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null 
+						          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null AND (tec.STATUS IS NULL OR tec.STATUS='VALID') 
 						          <if test="user_Id != null">
 							 			and tec.EXCUTOR_ID = #user_Id#
 							 		</if>
@@ -461,6 +461,22 @@
 		<grid>
 			<table-row>
 				<column name="signAmount" title="E+签约金额" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryOrgIdList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						SELECT ID AS id,ORG_NAME AS orgName FROM sctrans.SYS_ORG  WHERE DEP_HIERARCHY = #depType#
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="id" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="orgName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
@@ -495,10 +511,11 @@
 						          SELECT    SUM(ISNULL(tec.SIGN_AMOUNT, 0) * 10000) AS SIGN_AMOUNT ,
 						                    SUM(tsi.CON_PRICE) AS CON_PRICE
 						          FROM      sctrans.T_TO_ELOAN_CASE tec
-						                    LEFT JOIN sctrans.t_to_sign tsi ON tec.CASE_CODE = tsi.CASE_CODE
+						                    LEFT JOIN sctrans.t_to_sign tsi ON tec.CASE_CODE = tsi.CASE_CODE 
 						          WHERE     tec.CASE_CODE IS NOT NULL
 						                    AND tec.CASE_CODE &lt;&gt; ''
 						                    AND tec.APPLY_TIME IS NOT NULL
+						                    AND (tec.STATUS IS NULL OR tec.STATUS='VALID') 
 						          <if test="user_Id != null">
 								 	and tec.EXCUTOR_ID = #user_Id#
 								 </if>
