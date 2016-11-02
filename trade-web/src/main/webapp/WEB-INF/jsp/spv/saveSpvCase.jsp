@@ -1019,12 +1019,12 @@
         </td>
         <td class="center">
             <p class="big">
-           		<span id="modal_seller{{index}}">{{item.SELLER.substring(0,item.SELLER.indexOf("/") == -1?item.SELLER.length:item.SELLER.indexOf("/"))}}</span>
+           		<span id="modal_seller{{index}}">{{item.SELLER.substring(0,item.SELLER.indexOf("/") == -1?item.SELLER.length:item.SELLER.lastIndexOf("/"))}}</span>
             </p>
         </td>
         <td class="center">
             <p class="big">
-          	   <span id="modal_buyer{{index}}">{{item.BUYER.substring(0,item.BUYER.indexOf("/") == -1?item.BUYER.length:item.BUYER.indexOf("/"))}}</span>
+          	   <span id="modal_buyer{{index}}">{{item.BUYER.substring(0,item.BUYER.indexOf("/") == -1?item.BUYER.length:item.BUYER.lastIndexOf("/"))}}</span>
             </p>
         </td>
         <td class="text-left">
