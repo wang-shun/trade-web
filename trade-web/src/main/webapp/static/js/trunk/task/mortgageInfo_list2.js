@@ -3,8 +3,10 @@ var serviceDepId = $("#serviceDepId").val();
 
 var pChartMTypeCases = echarts.init(document.getElementById('pieChartMTypeCases'));
 var pChartMTypeAmount = echarts.init(document.getElementById('pieChartMTypeAmount'));
+//组织报表
 var pChartMOrgCases = echarts.init(document.getElementById('pieChartMOrgCases'));
 var pChartMOrgAmount = echarts.init(document.getElementById('pieChartMOrgAmount'));
+
 var pChartMTmpBankCases = echarts.init(document.getElementById('pieChartMTmpBankCases'));
 var pChartMTmpBankAmount = echarts.init(document.getElementById('pieChartMTmpBankAmount'));
 
@@ -43,10 +45,6 @@ var tmpBankAmountItems = new Array();
  * 案件统计详情
  */
 $(document).ready(function() {
-
-/*			var url = "/quickGrid/findPage";
-			var ctx = $("#ctx").val();
-			url = ctx + url;*/
 
 			var signTimeStart = $("#dtBegin_0").val();
 			var signTimeEnd = '';
