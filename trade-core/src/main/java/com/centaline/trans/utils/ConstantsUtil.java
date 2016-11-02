@@ -9,4 +9,7 @@ public class ConstantsUtil {
 	
 	// 事件类型
 	public static final String MESSAGE_EVENT = "messageEventReceived";
+	//签约中心排班页面显示42天的排班
+	public static final int SHOW_DAYS = 42;
+	
 }
