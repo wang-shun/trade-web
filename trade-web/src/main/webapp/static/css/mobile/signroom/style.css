@@ -515,3 +515,16 @@ border: 1px solid #dddddd;
     background: #fff url(../image/right.png) no-repeat 0.3rem center!important;
     background-size: 20%!important;
 }
+
+.nodata {
+    padding: 1rem 2rem;
+}
+
+@media screen and (max-width: 320px) {
+    .filter-mark {
+        padding-left: 0.9rem;
+        color: #81d8d0!important;
+        background: #fff url(../image/right.png) no-repeat 0.15rem center!important;
+        background-size: 20%!important;
+    }
+}

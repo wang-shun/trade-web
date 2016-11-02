@@ -1,5 +1,6 @@
 package com.centaline.trans.signroom.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.centaline.trans.signroom.entity.Reservation;
@@ -7,6 +8,8 @@ import com.centaline.trans.signroom.vo.FreeRoomInfo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
 import com.centaline.trans.signroom.vo.ReservationVo;
+import com.centaline.trans.signroom.vo.SignroomCondition;
+import com.centaline.trans.signroom.vo.SignroomInfo;
 import com.centaline.trans.signroom.vo.TransactItemVo;
 
 public interface ReservationService {
@@ -101,5 +104,42 @@ public interface ReservationService {
 	 * @return 返回1,操作成功;返回0,操作失败。
 	 */
 	public int endUse(Long resId);
+
+	/**
+	 * 获取各个时间段签约室房间总数
+	 * 
+	 * @param signroomCondition
+	 *            签约室条件
+	 * @return 各个时间签约室房间总数信息
+	 */
+	public List<SignroomInfo> getSignRoomInfoList(
+			SignroomCondition signroomCondition) throws ParseException;
+
+	/**
+	 * 获取是否有符合条件的签约室房间信息
+	 * 
+	 * @param reservationVo
+	 *            预约信息对象
+	 * @return 闲置的房间信息
+	 */
+	public FreeRoomInfo getMatchFreeRoomByCondition(ReservationVo reservationVo);
+
+	/**
+	 * 获取是否有更小的签约室房间信息
+	 * 
+	 * @param reservationVo
+	 *            预约信息对象
+	 * @return 闲置的房间信息
+	 */
+	public FreeRoomInfo getMinFreeRoomByCondition(ReservationVo reservationVo);
+
+	/**
+	 * 获取当前用户两周内已使用的用户次数(预约中、预约取消、预约过期)
+	 * 
+	 * @param currentUserId
+	 *            当前用户标识
+	 * @return 已使用预约次数
+	 */
+	public int getUsedBespeakNumber(String currentUserId);
 
 }
