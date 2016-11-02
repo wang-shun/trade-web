@@ -367,7 +367,7 @@ text-decoration: underline !important;
         	aist.exportExcel({
     	    	ctx : "${ctx}",
     	    	queryId : 'loanAgentListQuery',
-    	    	colomns : ['CREATE_TIME','CASE_CODE','custName','PROPERTY_ADDR','LOAN_SRV_CODE','finOrgName','LEADING_PROCESS_NAME','ORG_NAME','DISTRICT_NAME','QJDS_NAME','zjName','AgentName','CON_PRICE','APPLY_TIME','SIGN_TIME','RELEASE_TIME','LOAN_AMOUNT','SIGN_AMOUNT','ACTUAL_AMOUNT','CREATE_ID'],
+    	    	colomns : ['CREATE_TIME','CASE_CODE','custName','PROPERTY_ADDR','LOAN_SRV_CODE','finOrgName','LEADING_PROCESS_NAME','ORG_NAME','DISTRICT_NAME','QJDS_NAME','zjName','AgentName','GRP_NAME','CON_PRICE','APPLY_TIME','SIGN_TIME','RELEASE_TIME','LOAN_AMOUNT','SIGN_AMOUNT','ACTUAL_AMOUNT','CREATE_ID'],
     	    	data : params
     	    }) 
         }
