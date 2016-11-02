@@ -447,6 +447,11 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		int centerId= (int) map.get("centerId");
 		String date = (String) map.get("date");
 		List<DateWeekVo> dwvs = getMonthSchedules(date);
+		List<List<DateWeekVo>> lists = new ArrayList<List<DateWeekVo>>();
+		for(int i=0;i<dwvs.size();i++){
+			
+		}
+		
 		return dwvs;
 	}
 	
