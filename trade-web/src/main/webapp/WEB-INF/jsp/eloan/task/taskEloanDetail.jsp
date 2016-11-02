@@ -480,7 +480,7 @@
                                             {{/if}}
                                             </shiro:hasPermission>
 											<shiro:hasPermission name="TRADE.RISKCONTROL.DELETE">
-                                            	<button type="reset" class="btn btn-grey" onclick="deleteRiskControl('{{item.PKID}}','{{item.RISK_TYPE}}','{{wrapperData.pkId}}')">删除</button>
+                                            	<button type="reset" class="btn btn-grey" onclick="deleteRiskControl('{{item.PKID}}','{{item.RISK_TYPE}}','{{wrapperData.pkId}}','{{wrapperData.eloanCode}}')">删除</button>
 											</shiro:hasPermission>
                                          {{/if}}
                                      </td>
@@ -498,7 +498,7 @@
 				    templeteId : 'queryRiskControlList',
 				    gridClass : 'table table-striped',
 				    data : {eloanCode : eloanCode},
-				    wrapperData : {pkId : pkId,userName:userName},
+				    wrapperData : {pkId : pkId,userName:userName,eloanCode:eloanCode},
 				    columns : [{
 				    	           colName :"风控项目"
 				    	      },{
@@ -584,8 +584,8 @@
 				return isExist;
 			}
 		   
-		   function deleteRiskControl(pkid,riskType,eloanPkId){
-			   var url = "${ctx}/riskControl/deleteRiskControl?pkid="+pkid+"&riskType="+riskType+"&eloanPkId="+eloanPkId;
+		   function deleteRiskControl(pkid,riskType,eloanPkId,eloanCode){
+			   var url = "${ctx}/riskControl/deleteRiskControl?pkid="+pkid+"&riskType="+riskType+"&eloanPkId="+eloanPkId+"&eloanCode="+eloanCode;
 				$.ajax({
 					cache : false,
 					async : false,//false同步，true异步
