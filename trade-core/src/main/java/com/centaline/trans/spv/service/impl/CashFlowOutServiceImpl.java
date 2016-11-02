@@ -747,5 +747,10 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	
 		return resultMap;
 	}
+	@Override
+	public void getCashFlowList(HttpServletRequest request,String spvCode) {
+	    Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
+    	request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
+	}
 
 }

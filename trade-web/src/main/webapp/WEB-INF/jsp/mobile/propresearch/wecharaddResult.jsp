@@ -21,5 +21,7 @@ body {
 	<c:forEach items="${userList}" var="item">
 	${item.realName }-<a href="tel:${item.mobile }">${item.mobile }</a> </br>
 	</c:forEach>
+	</br>
+	<a href="${ctx}/weixin/property/myProperty">返回</a>
 </body>
 </html>

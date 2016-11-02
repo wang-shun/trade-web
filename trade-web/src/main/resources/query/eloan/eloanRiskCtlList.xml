@@ -159,7 +159,7 @@
 					LEFT JOIN sctrans.SYS_USER AS SYSU1
 					ON RCDATA.RCEXEID = SYSU1.ID
 					
-					WHERE 1=1
+					WHERE 1=1 AND (ELOAN.STATUS IS NULL OR ELOAN.STATUS='VALID') 
 					
 				    <ifNotNull sEloanCode>
 						AND RCDATA.ELOANCODE LIKE '%'+#sEloanCode#+'%'

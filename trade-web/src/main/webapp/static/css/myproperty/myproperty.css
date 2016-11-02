@@ -35,7 +35,7 @@ a, img {
 }
 
 a {
-  color: #666;
+  color: #fff;
   text-decoration: none;
 }
 
@@ -659,7 +659,7 @@ li {
 
 .uc_return_c {
   float: left;
-  width: 80%;
+  width: 100%;
   color: #fff;
 }
 
