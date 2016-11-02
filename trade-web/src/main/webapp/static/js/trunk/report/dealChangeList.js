@@ -145,8 +145,14 @@ function getParams() {
 	var teamId = $("input[name='teamId']").attr("hVal");
 	var visitRemark = $("#visitRemark").val();
 	var changeId = $("input[name='changeId']").attr("hVal");
-	var changeTimeStart = $("input[name='changeTimeStart']").val()+" 00:00:00";
-	var changeTimeEnd = $("input[name='changeTimeEnd']").val()+' 23:59:59';
+	var changeTimeStart = $.trim($("input[name='changeTimeStart']").val());
+	if(changeTimeStart!=''){
+		changeTimeStart+=" 00:00:00";
+	}
+	var changeTimeEnd = $.trim($("input[name='changeTimeEnd']").val());
+	if(changeTimeEnd!=''){
+		changeTimeEnd+=' 23:59:59';
+	}
 	var partCode = $("#partCode option:selected").val();
 	var propertyAddr = $.trim($("#propertyAddr").val());
 	
@@ -315,9 +321,17 @@ $("#clearBtn").click(function(){
 	$("input[name='changeId']").val("");
 	$("input[name='changeTimeStart']").datepicker('update', '');
 	$("input[name='changeTimeEnd']").datepicker('update', '');
-	$("input[name='changeTimeStart']").val("");
-	$("input[name='changeTimeEnd']").val("");
 	$("#propertyAddr").val("");
+	$("#partCode option").each(function(){
+		if($(this).text()=='请选择'){
+			$(this).prop("selected",true);
+		}
+	});
+	$("#visitRemark option").each(function(){
+		if($(this).text()=='请选择'){
+			$(this).prop("selected",true);
+		}
+	});
 	
 	
 });

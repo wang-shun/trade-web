@@ -32,6 +32,36 @@ public class ReservationVo {
 
 	private String serviceSpecialist; // 服务顾问
 
+	private String startDate; // 预约开始时间
+
+	private String endDate; // 预约结束时间
+
+	private String flag; // 如果normal,就是正常的预约;如果accept,那就是预约小一点的房间
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	public String getServiceSpecialist() {
 		return serviceSpecialist;
 	}
