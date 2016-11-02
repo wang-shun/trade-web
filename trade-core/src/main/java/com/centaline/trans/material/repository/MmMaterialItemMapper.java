@@ -7,6 +7,9 @@ import com.centaline.trans.material.entity.MmMaterialItem;
 @MyBatisRepository
 public interface MmMaterialItemMapper {
     int deleteByPrimaryKey(Long pkid);
+    
+    // 删除待入库
+    int deleteWillStorageMmByProperty(MmMaterialItem mmMaterialItem);
 
     int insert(MmMaterialItem record);
 

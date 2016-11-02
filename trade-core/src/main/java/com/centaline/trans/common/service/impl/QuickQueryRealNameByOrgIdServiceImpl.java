@@ -90,7 +90,7 @@ public class QuickQueryRealNameByOrgIdServiceImpl implements CustomDictService {
 				 
 				 StringBuffer buffer = new StringBuffer();
 				 buffer.append("SELECT ORG_ID AS "+alias);
-				 buffer.append(",REAL_NAME AS val FROM SCTRANS.V_USER_ORG_JOB WHERE ismain = 1 AND JOB_CODE= :prop AND ORG_ID IN (:orgIds)");
+				 buffer.append(",REAL_NAME AS val FROM SCTRANS.V_USER_ORG_JOB WHERE IS_LEADER = 1 AND JOB_CODE= :prop AND ORG_ID IN (:orgIds)");
 					 
 				 List<Map<String,Object>> result1 = jdbcTemplate.queryForList(buffer.toString(), map);
 				 totalList.addAll(result1);

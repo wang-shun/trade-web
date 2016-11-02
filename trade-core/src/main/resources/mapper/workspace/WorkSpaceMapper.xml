@@ -135,7 +135,7 @@ FROM    ( SELECT    SUM(ISNULL(la.loan_amount, 0)) AS APPLY_AMOUNT
           UNION ALL
           SELECT    SUM(ISNULL(tec.APPLY_AMOUNT, 0) * 10000) AS APPLY_AMOUNT
           FROM      sctrans.T_TO_ELOAN_CASE tec with(nolock)
-          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null 
+          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null AND (tec.STATUS IS NULL OR tec.STATUS='VALID') 
           <if test="userId != null">
 	 	    and tec.EXCUTOR_ID=#{userId,jdbcType=DECIMAL}
 	     </if>
@@ -180,7 +180,7 @@ FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT ,
           SELECT    SUM(ISNULL(tec.SIGN_AMOUNT, 0) * 10000) AS SIGN_AMOUNT ,
                     SUM(tsi.CON_PRICE) AS CON_PRICE
           FROM      sctrans.T_TO_ELOAN_CASE tec with(nolock)
-                    LEFT JOIN sctrans.t_to_sign tsi with(nolock) ON tec.CASE_CODE = tsi.CASE_CODE
+                    LEFT JOIN sctrans.t_to_sign tsi with(nolock) ON tec.CASE_CODE = tsi.CASE_CODE AND (tec.STATUS IS NULL OR tec.STATUS='VALID') 
           WHERE     tec.CASE_CODE IS NOT NULL
                     AND tec.CASE_CODE &lt;&gt; ''
                     AND tec.APPLY_TIME IS NOT NULL
@@ -220,7 +220,7 @@ FROM    ( SELECT    SUM(ISNULL(la.SIGN_AMOUNT, 0)) AS SIGN_AMOUNT
           UNION ALL
           SELECT    SUM(ISNULL(tec.SIGN_AMOUNT,0)*10000) AS SIGN_AMOUNT
           FROM      sctrans.T_TO_ELOAN_CASE tec with(nolock)
-          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null 
+          WHERE    tec.CASE_CODE is not null and tec.CASE_CODE &lt;&gt;'' and tec.APPLY_TIME is not null AND (tec.STATUS IS NULL OR tec.STATUS='VALID') 
           <if test="userId != null">
 	 			and tec.EXCUTOR_ID=#{userId,jdbcType=DECIMAL}
 	 		</if>
@@ -265,7 +265,7 @@ SELECT  NULL AS ACTUAL_AMOUNT ,
         SUM(ttc.SIGN_AMOUNT) AS SIGN_AMOUNT ,
         SUM(tsi.REAL_PRICE) AS REAL_PRICE
 FROM    sctrans.T_TO_ELOAN_CASE ttc with(nolock)
-        LEFT JOIN sctrans.t_to_sign tsi with(nolock) ON ttc.CASE_CODE = tsi.CASE_CODE
+        LEFT JOIN sctrans.t_to_sign tsi with(nolock) ON ttc.CASE_CODE = tsi.CASE_CODE AND (ttc.STATUS IS NULL OR ttc.STATUS='VALID') 
 WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' 
 		<if test="userId != null">
 	 	and ttc.EXCUTOR_ID=#{userId,jdbcType=DECIMAL}
@@ -285,7 +285,7 @@ SELECT  SUM(ttr.RELEASE_AMOUNT * 10000) AS ACTUAL_AMOUNT ,
         NULL AS SIGN_AMOUNT ,
         NULL AS REAL_PRICE
 FROM    sctrans.T_TO_ELOAN_REL ttr with(nolock)
-        LEFT JOIN sctrans.T_TO_ELOAN_CASE ttc with(nolock) ON ttc.ELOAN_CODE = ttr.ELOAN_CODE
+        LEFT JOIN sctrans.T_TO_ELOAN_CASE ttc with(nolock) ON ttc.ELOAN_CODE = ttr.ELOAN_CODE AND (ttc.STATUS IS NULL OR ttc.STATUS='VALID') 
 WHERE   ttc.CASE_CODE is not null and ttc.CASE_CODE &lt;&gt;'' 
 		<if test="userId != null">
 	 	and ttc.EXCUTOR_ID=#{userId,jdbcType=DECIMAL}

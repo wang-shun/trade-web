@@ -83,7 +83,7 @@
                                        <label>申请人</label>
                                        <input type="text" value="" class="select_control info_two" name="relevantUser"  id="relevantUser" 
                                         hVal="" readonly="readonly"	onclick="chooseApplyOperator('${serviceDepId}')" />                                       
-                                       <i class="icon iconfont input-group add-icon organize_icon" id="materialApplyUser"></i>
+                                       <i class="icon iconfont input-group add-icon organize_icon" id="materialApplyUser">&#xe627;</i>
                                        <input  type="hidden"  value=""  name="relevantUserId"  id="relevantUserId">
                                    <p>
                                </div>
@@ -213,20 +213,17 @@
                                </label>
                                <input type="hidden" name="materialList[${status.index}].pkid" id="pkid" value="${mmMaterialInfo.pkid}">
                                <input type="hidden" name="materialList[${status.index}].caseCode"  value="${mmMaterialInfo.caseCode}">
-                               <input class="input_type extent-one_material"  name="materialList[${status.index}].itemCategory" id="itemCategory" value="${mmMaterialInfo.itemCategory}" readonly="readonly">
+                               <input class="input_type extent-one_material"   id="itemCategory" value="${mmMaterialInfo.itemCategory}" disabled="disabled">
                            </div>
                            <div class="form_content">
                                <label class="control-label sign_left_small">
                                    	物品名称
                                </label>
-                               <input class="input_type extent-two_material"  value="${mmMaterialInfo.itemName}" name="materialList[${status.index}].itemName" id="itemName" readonly="readonly">
+                               <input class="input_type extent-two_material"  value="${mmMaterialInfo.itemName}"  id="itemName" disabled="disabled">
                            </div>
-<%--                            <div class="form_content">
-                               <label class="control-label sign_left_small">
-                                  	 业务描述
-                               </label>
-                               <input class="input_type extent-three" value="${mmMaterialInfo.itemBusinessRemark}" name="materialList[${status.index}].itemBusinessRemark" id="itemBusinessRemark" readonly="readonly">
-                           </div> --%>
+                           <%--1、name="materialList[${status.index}].itemCategory"；2、name="materialList[${status.index}].itemName"；3、name="materialList[${status.index}].itemBusinessRemark"
+                           readonly="readonly"--%>
+
                        </div>
                        
                        <div class="line">
@@ -234,7 +231,7 @@
                                <label class="control-label sign_left_small">
                                   	 业务描述
                                </label>
-                               <input class="input_type extent-three_material" value="${mmMaterialInfo.itemBusinessRemark}" name="materialList[${status.index}].itemBusinessRemark" id="itemBusinessRemark" readonly="readonly">
+                               <input class="input_type extent-three_material" value="${mmMaterialInfo.itemBusinessRemark}"  id="itemBusinessRemark" disabled="disabled">
                            </div>
                        </div>
                        <div class="line clearfix">
@@ -257,7 +254,7 @@
    </div>
   	<input type="hidden" id="ctx" value="${ctx}" />
   	<input type="hidden" id="caseCode" value="${mmMaterialItemList.get(0).caseCode}" />
-  	
+  	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
   	
 <content tag="local_script"> 
 <!-- Mainly scripts -->
@@ -307,6 +304,7 @@
 <script type="text/javascript">
 var ctx = "${ctx}";
 var pkid = "${pkid}";
+var serviceDepId = $("#serviceDepId").val();
 //关闭按钮
 $("#materialStorageClose").click(function(){	
 	window.location.href = ctx+"/material/materialList";
@@ -351,14 +349,14 @@ function  imgCheckNum(){
 //借用组织图
 function chooseApplyOperator(serviceDepId){		
 		userSelect({
-			startOrgId : serviceDepId,
-			expandNodeId : serviceDepId,
+			startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
+			expandNodeId : 'ff8080814f459a78014f45a73d820006',
 			nameType : 'long|short',
 			orgType : '',
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
-/*			jobCode : 'Manager,Senior_Manager',*/
+			jobCode : '',
 /* 			jobCode : 'consultant', */
 			callBack : selectApplyUserBack
 		});	
@@ -379,8 +377,8 @@ function  selectApplyUserBack(array) {
 	}
 }
 //主办图标选择
-$('#materialApplyUser').click(function() {
-	chooseApplyOperator(serviceDepId);
+$("#materialApplyUser").click(function() {
+		chooseApplyOperator(serviceDepId);
 });
 </script>
 </content>

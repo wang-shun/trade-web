@@ -17,6 +17,8 @@ import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.quickQuery.web.QuickQueryController;
 import com.aist.common.quickQuery.web.vo.DatagridVO;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
@@ -31,7 +33,7 @@ import com.centaline.trans.utils.wechat.OAuth2Util;
 import com.centaline.trans.utils.wechat.ParamesAPI;
 
 @Controller
-@RequestMapping("/mobile/case/box")
+@RequestMapping("/weixin/case/")
 public class CaseListForMobileController {
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
@@ -43,14 +45,12 @@ public class CaseListForMobileController {
 	private TgServItemAndProcessorService tgServItemAndProcessorService;
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
+	@Autowired
+	private UamSessionService uamSessionService;
 
 	@RequestMapping(value = "findPage")
 	@ResponseBody
 	public DatagridVO findPage(JQGridParam gridParam, HttpServletRequest request) {
-		Object user = request.getSession().getAttribute("agentUser");
-		if (user == null) {
-			return null;
-		}
 		return quickQuery.findPage(gridParam, request);
 
 	}
@@ -60,7 +60,7 @@ public class CaseListForMobileController {
 			throws IOException {
 		
 
-		Object user = request.getSession().getAttribute("agentUser");
+		/*Object user = request.getSession().getAttribute("agentUser");
 		if (user != null) {
 			request.setAttribute("userId", ((User) user).getId());
 			return "mobile/case/myCaseList";
@@ -91,16 +91,16 @@ public class CaseListForMobileController {
 		} else {
 			request.setAttribute("msg", "用户取消授权！");
 			return "mobile/propresearch/wecharaddResult";
-		}
+		}*/
+		SessionUser user= uamSessionService.getSessionUser();
+		request.setAttribute("userId", user.getId());
+
+		return "mobile/case/myCaseList";
 	}
 
 	@RequestMapping("progressDetailList")
 	public String caseDetils(HttpServletRequest request, HttpServletResponse response, String code, String state,
 			Long caseId) throws IOException {
-		Object user = request.getSession().getAttribute("agentUser");
-		if (user == null) {
-			return toMyCaseList(request, response, code, state);
-		}
 		ToCase toCase = toCaseService.selectByPrimaryKey(caseId);
 		if(toCase!=null){
 			// 合作顾问

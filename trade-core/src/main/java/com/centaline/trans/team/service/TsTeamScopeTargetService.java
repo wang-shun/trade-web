@@ -14,5 +14,12 @@ public interface TsTeamScopeTargetService {
 	 * @param yuTeamCode
 	 * @return
 	 */
-	String addCaseMapping(String salesId,String yuTeamCode);
+	String addCaseMapping(String salesOrgId,String yuTeamCode);
+	
+	/**
+	 * 检查是否存在映射
+	 * @param salesOrgId
+	 * @return
+	 */
+	Boolean checkCaseMapping(String salesOrgId);
 }

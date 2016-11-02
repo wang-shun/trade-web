@@ -83,7 +83,7 @@
                                     <label>
                                         	监管金额
                                     </label>
-                                    <span class="info_one" id="amount" value="${spvBaseInfoVO.toSpv.amount}" >${spvBaseInfoVO.toSpv.amount}万元人民币</span>
+                                    <span class="info_one demo-top" id="amount" title="${spvBaseInfoVO.toSpv.amount}" value="${spvBaseInfoVO.toSpv.amount}" >${spvBaseInfoVO.toSpv.amount}万元</span>
                                 </p>
 
                                 <p>
@@ -150,10 +150,10 @@
                                         <th>付款人账户</th>
                                         <th style="width: 100px;">入账金额</th>
                                         <th style="width: 120px;">贷记凭证编号</th>
-                                        <th>付款方式</th>
+                                        <th style="width: 90px;">付款方式</th>
                                         <th>凭证附件</th>
                                         <th>入账时间</th>
-                                        <th>操作</th>
+                                        <th style="width: 50px;">操作</th>
                                     </thead>
                                     <tbody id="addTr">
                                     </tbody>

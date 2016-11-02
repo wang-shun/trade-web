@@ -43,11 +43,6 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 
-<%--控件颜色变化 
-<link rel="stylesheet" href="${ctx}/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" /> --%>
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
@@ -107,11 +102,6 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 #searchButton{margin-right:5px;}
-/* #exportExcel{
-	width:84px;
-	float:right;
-} */
-
 
 </style>
 </head>
@@ -202,15 +192,9 @@ text-decoration: underline !important;
 					</label>
 					<div class="sign_right teamcode">
 						<select name="" class="form-control" id="isSubscribeFilter">
-							<option value="" selected="selected">
-								请选择
-							</option>
-							<option value="0">
-								已关注
-							</option>
-							<option value="1">
-								未关注
-							</option>
+							<option value="" selected="selected">请选择</option>
+							<option value="0">已关注</option>
+							<option value="1">未关注</option>
 						</select>
 					</div>
 				</div>
@@ -233,16 +217,13 @@ text-decoration: underline !important;
 						<div class="more_btn">
 							<button id="more" type="button" class="btn  btn-default btn_more"> 更多搜索条件<i class="fa fa-caret-up"></i> </button>
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
+							
 							<!-- <button  onclick="showExcelIn()" class="btn btn-success" >案件导出</button>  -->
 							 <!-- <div id="exportExcel"> -->
                             	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
 								<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>
 								</shiro:hasPermission>
-								
-							<!-- </div>  -->
-							
-							
+								<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
 						</div>
 					</div>
 				</div>
@@ -362,7 +343,6 @@ text-decoration: underline !important;
 <script src="${ctx}/js/trunk/case/mycase_list2.js?v=1.1"></script>
 
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
-
 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 
 <!-- 分页控件  -->
@@ -502,20 +482,14 @@ text-decoration: underline !important;
 				  </tr>
        {{/each}}
 </script> 
-<script>
-	$(function() {
-		
-		$("#productType").hide();
-		$("#more").click(function() {
-			$("#productType").toggle();
-		});
-		
-		
-	})
-</script> 
-<script type="text/javascript">
-
-</script>
+<!-- <script>
+$(function() {		
+	$("#productType").hide();
+	$("#more").click(function() {
+		$("#productType").toggle();
+	});			
+})
+</script>  -->
 </content>
 </body>
 </html>

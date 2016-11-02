@@ -55,6 +55,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="row">
 		<div class="col-md-12">
 			<!--*********************** HTML_main*********************** -->
@@ -136,7 +137,13 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div id="riskCtlList" class="table_content"></div>
+						<div  class="table_content">
+							<table id="riskCtlList" class="table table_blue table-striped table-bordered table-hover">
+							<thead><tr><th>贷款合约编号</th><th>产品类型</th><th>风控措施类型</th><th>借款人</th><th>贷款专员</th><th>风控执行人</th><th>操作</th></tr></thead>
+							<tbody>
+							</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -151,6 +158,7 @@
 	<script	src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<!-- 自定义扩展jQuery库 --> 
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 <!-- 	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script> -->
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 

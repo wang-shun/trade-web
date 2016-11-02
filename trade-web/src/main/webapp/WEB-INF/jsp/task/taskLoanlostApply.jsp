@@ -122,7 +122,7 @@
 								id="custCode">
 							</select>
 						</div>
-						<label class="col-sm-2 control-label">主贷人单位：</label>
+						<label class="col-sm-2 control-label">主贷人单位</label>
 						<div class="col-sm-4">
 							<input type="text" name="custCompany" id="custCompany"
 								class="form-control" value="${custCompany }">
@@ -143,27 +143,16 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">贷款自办确认函编号</label>
-						<div class="col-sm-10">
+						<label class="col-sm-2 control-label">客户自办贷款确认函编号</label>
+						<div class="col-sm-2">
 							<input type="text" class="form-control" id="loanLostConfirmCode" name="loanLostConfirmCode" value="${mortgage.loanLostConfirmCode}"> 
 						</div>
+						<label class=" col-sm-8 control-label text-left" style="padding-top: 0px;font-weight: normal;font-size: 8px;">备注：编号范例：ZY00000001ZB；若开具公司版本客户自办贷款确认函，则必须填写编号并上传附件，反之则无需上传</label>
+						
 					</div>
 
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款流失原因</label>
-						<!--<div class="radio i-checks radio-inline">
-							<label> <input type="radio" checked="checked"
-								value="true" id="optionsRadios1" name="LoanLost_manager"
-								onClick="$('#loanLostApply').hide();">隐藏原因
-							</label>
-						</div>
-						<div class="radio i-checks radio-inline">
-							<label> <input type="radio" value="false"
-								id="optionsRadios2" name="LoanLost_manager"
-								onClick="$('#loanLostApply').show();getNotApproves();">显示原因
-							</label>
-						</div> -->
-
 						<div class="form_sign col-sm-10 clearfix" id="loanLostApply"
 							style="display: block">
 							<c:forEach items="${loanLostApplyReasons}"	var="loanLostApplyReasonForShow">
@@ -184,28 +173,6 @@
 								value="${mortgage.loanLostApplyReason}" readonly="readonly">
 						</div>
 					</div>
-					<%-- <div class="form_sign col-sm-10 clearfix" id="loanLostApply"
-							style="display: block">
-							<c:forEach items="${loanLostApplyReasons}"
-								var="loanLostApplyReason">
-								<div class="col-sm-6 sign">
-									<input type="checkbox" value="${loanLostApplyReason.code}"
-										name="loanLostApplyReasonByCode" class="btn btn-white"
-										onChange="loanLostApplyReasonAppend(this.checked,'${loanLostApplyReason.name}');">
-									<label>${loanLostApplyReason.name}</label>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label class="col-sm-2 control-label">已勾选原因</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="loanLostApplyReason"
-								name="loanLostApplyReason"
-								value="${mortgage.loanLostApplyReason}">
-						</div>
-					</div> --%>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">贷款流失具体原因<span
 							class="star">*</span></label>
@@ -375,12 +342,12 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<script src="${ctx}/js/trunk/task/attachment3.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	<!-- bank select -->
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+<%-- 	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script>  --%>
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
@@ -707,8 +674,46 @@
 					}
 				}
 			}
-		</script> </content>
+			
+			
+			function checkAttachmentForLoanLost(loanLostConfirmCode){			
+				if(loanLostConfirmCode != '' && loanLostConfirmCode != null){
+					$.each(idList, function(index, value){//遍历所传附件的fileId
+						var length = $("#picContainer"+value).find("img").length;
+						if(length == 0) {
+							alert("请上传附件信息！");
+							checkAtt = false;
+							return false;
+						} else {
+							checkAtt = true;
+						}
+					});
+				}else{
+					$.each(idList, function(index, value){
+						var length = $("#picContainer"+value).find("img").length;
+						if($("#fileFlagCode"+value).val() == 'loan_lost_confirmation'){
+							if(length != 0){
+								alert("[客户自办贷款确认函]附件须与[客户自办贷款确认函编号]同步！");
+								checkAtt = false;
+								return false;
+							}else{
+								checkAtt = true;
+							}
+						}else{
+							if(length == 0) {
+								alert("请上传附件信息！");
+								checkAtt = false;
+								return false;
+							} else {
+								checkAtt = true;
+							}
+						}
+						
+					});
+				}
+				return checkAtt;
+			}
+		</script> 
+	</content>
 </body>
-
-
 </html>

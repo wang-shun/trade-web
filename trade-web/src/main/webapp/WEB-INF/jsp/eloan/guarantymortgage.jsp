@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
 
     <!-- index_css  -->
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css">
+    <link rel="stylesheet" href="${ctx}/static/trans/css/common/input2.css">
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css">
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/uplodydome.css">
     <link rel="stylesheet" href="${ctx}/static/trans/css/eloan/eloan_detail.css">
@@ -58,7 +58,7 @@
                         <form method="get" class="form_list" id="mortgageForm">
                          	<input type="hidden" id="riskControlId" name="riskControlId" value="${toRcMortgageVO.toRcMortgage.rcId }">
                             <div class="modal_title title-mark">
-                                押卡信息登记
+                                抵押信息登记
                             </div>
                             <div class="line">
                                 <div class="form_content">
@@ -461,7 +461,7 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
-    <!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+    <!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
     <script>
 	    if ("${idList}" != "") {
 			var idList = eval("(" + "${idList}" + ")");

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
 <head>
@@ -13,14 +12,10 @@
 <link href="${ctx}/css/animate.css" rel="stylesheet" />
 <link href="${ctx}/css/style.css" rel="stylesheet" />
 <!-- Data Tables -->
-<link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css"
-	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css"
-	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css"
-	rel="stylesheet" />
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
 
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
@@ -151,59 +146,6 @@
 		<div class="ibox-content border-bottom clearfix space_box">
 			<h2 class="title">贷款流失筛选</h2>
 			<form method="get" class="form_list">
-				<%-- 			<div class="line">
-				<div class="form_content">
-					<label class="control-label sign_left_small"> 案件编号 </label> <input
-						class="teamcode input_type" style="width: 152px;"
-						placeholder="请输入" value="" id="caseCode" name="caseCode" />
-				</div>
-				<div class="form_content">
-					<label class="control-label sign_left_small"> 主办 </label> 
-<!-- 					<input	class="teamcode input_type" style="width: 152px;"
-						placeholder="请输入" value="" id="caseoperator" name="caseoperator" /> -->
-						
-					<input id="caseoperator"  name="caseoperator" class="teamcode input_type" value="" hVal="" placeholder="请输入"
-					class="teamcode input_type" style="width: 152px;"	onclick="chooseCaseOperator('${serviceDepId}')" />
-					<div class="input-group float_icon organize_icon" id="managerOnclick">
-						<i class="icon iconfont">&#xe61b;</i>
-					</div>
-				</div>
-				<div class="form_content">
-					<label class="control-label sign_left_small"> 案件组织 </label> <input
-						class="teamcode input_type" placeholder="请输入" 	id="orgName"  name="orgName" value=""
-						onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', 
-						orgType:'',departmentType:'',departmentHeriarchy:'',expandNodeId:'${serviceDepId}',						
-						chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"> 
-						<input type="hidden" id="yuCuiOriGrpId" value="">
-					<div class="input-group float_icon organize_icon"  id="organizeOnclick">
-						<i class="icon iconfont">&#xe61b;</i>
-					</div>
-				</div>
-			</div>
-			<div class="line">
-				<div class="form_content">
-					<label class="control-label sign_left_small"> 产证地址 </label> <input
-						class="teamcode input_type" style="width: 435px;"
-						placeholder="请输入" value="" id="propertyAddr" name="propertyAddr" />
-				</div>
-			</div> 
-			
-								<div class="form_content">
-						<label
-							class="control-label sign_left_small select_style mend_select">
-							审批日期 </label>
-						<div class="input-group sign-right dataleft input-daterange"
-							data-date-format="yyyy-mm-dd" id="datepicker_0">
-							<input id="dtBegin_0" name="dtBegin"
-								class="form-control data_style" type="text" value="${startTime}"
-								placeholder="起始日期"> <span class="input-group-addon">到</span>
-							<input id="dtEnd_0" name="dtEnd" class="form-control data_style"
-								type="text" value="${endTime}" placeholder="结束日期">
-						</div>
-					</div>
-			--%>
-
-
 				<div class="line">
 					<div class="form_content">
 						<label class="control-label sign_left_small">案件编号 </label> <input
@@ -349,7 +291,9 @@
 					<p class="big">{{item.PROPERTY_ADDR}}</p>
 					<span >
 						<i class="salesman-icon"></i>
- 						<a class="hint  hint-top2"  data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}"  data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.GRP_NAME}}</a>					 
+						{{if item.MANAGER_INFO!=null}}
+ 							<a class="hint  hint-top2"  data-hint="直管经理: {{item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}}"  data-toggle="tooltip" data-placement="top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.GRP_NAME}}</a>					 
+						{{/if}}	
 					</span>
 			</td>                
              <td>						
@@ -471,8 +415,7 @@
 							data.argu_queryorgs = serviceDepId;
 							aist.wrap(data);
 
-							$
-									.ajax({
+							$.ajax({
 										async : true,
 										url : ctx + "/quickGrid/findPage",
 										method : "post",

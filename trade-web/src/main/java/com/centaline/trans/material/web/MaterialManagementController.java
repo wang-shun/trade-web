@@ -113,6 +113,21 @@ public class MaterialManagementController {
 			String pkid[] = pkids.split(",");			
 			for(int i=0; i<pkid.length;i++){				
 				mmMaterialItem = mmMaterialItemService.queryMmMaterialByPkid(Long.parseLong(pkid[i]));
+				if(mmMaterialItem != null ){
+					if(mmMaterialItem.getItemCategory() !=null && !"".equals(mmMaterialItem.getItemCategory())){
+						if(mmMaterialItem.getItemCategory().equals("carded")){
+							mmMaterialItem.setItemCategory("身份证");
+						}else if(mmMaterialItem.getItemCategory().equals("mortgageContract")){
+							mmMaterialItem.setItemCategory("抵押合同");
+						}else if(mmMaterialItem.getItemCategory().equals("bankCard")){
+							mmMaterialItem.setItemCategory("银行卡");
+						}else if(mmMaterialItem.getItemCategory().equals("propertyCard")){
+							mmMaterialItem.setItemCategory("产权证");
+						}else if(mmMaterialItem.getItemCategory().equals("otherCard")){
+							mmMaterialItem.setItemCategory("他证");
+						}	
+					}
+				}
 				mmMaterialItemList.add(mmMaterialItem);
 			}
 			//保存pkid 主要为了关联查询查询附件信息	,同一批次的pkid 对应的T_MM_IO_BATCH表的pkid相同
@@ -206,8 +221,7 @@ public class MaterialManagementController {
 		return "material/materialDetail";		
 	}
 	
-	//封装查询 出入记录、
-	//todo 根据pkid获取上传的客户确认书需完善
+	//封装查询 出入记录
 	private  List<MmIoBatch>  getMmIoBatchList(HttpServletRequest request,String pkid){
 		//出入记录
 		List<MmIoBatch> mmIoBatchlist = new  ArrayList<MmIoBatch>();
@@ -282,6 +296,7 @@ public class MaterialManagementController {
 		}
 		
 		if(materialList.size() > 0){
+			
 			mmIoBatch.setCaseCode(materialList.get(0).getCaseCode());				
 			mmIoBatch.setLogAction(MaterialActionEnum.IN.getCode());//入库操作
 			mmIoBatch.setManager(userId);
@@ -294,7 +309,7 @@ public class MaterialManagementController {
 			//插入操作获取pkid
 			for(int i=0; i<materialList.size() ;i++){
 				//更新主表状态
-				MmMaterialItem mmMaterialItem = materialList.get(i);
+				MmMaterialItem mmMaterialItem = materialList.get(i);				
 				mmMaterialItem.setItemAddrCode(itemAddrCode);
 				mmMaterialItem.setItemManager(userId);
 				mmMaterialItem.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
@@ -438,7 +453,7 @@ public class MaterialManagementController {
     //物品删除
     @RequestMapping(value="materialDelete")
     @ResponseBody
-    public AjaxResponse<String> materialDelete(String  pkids,String actionUser,String actionRemark,String flag){    	
+    public AjaxResponse<String> materialDelete(String  pkids){    	
     	
     	AjaxResponse<String> response = new AjaxResponse<String>();    	
 		MmMaterialItem mmMaterialItem = new MmMaterialItem();//物品主表

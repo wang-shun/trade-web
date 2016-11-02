@@ -100,6 +100,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			String handle, SpvRecordedsVO spvRecordedsVO, String businessKey, Boolean chargeInAppr) throws Exception {
 
 		SessionUser user = uamSessionService.getSessionUser();
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
 		String spvApplyCode = null;
 		
 		toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO,handle,spvApplyCode);//保存数据  
@@ -118,11 +119,13 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());
 		toSpvCashFlowApply.setUpdateBy(user.getId());
 		toSpvCashFlowApply.setUpdateTime(new Date());
+		toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());
 		toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(toSpvCashFlowApply);//更新状态
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("RiskControlOfficer", user.getUsername());
-		variables.put("RiskControlDirector", "wufeng01"); 
+		
+		variables.put("RiskControlDirector", riskControlDirector.getUsername());
 		taskService.submitTask(taskId, variables);
 		
 	}
@@ -182,11 +185,10 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 			if(chargeInAppr){
 				toSpvAduit.setResult(resultType+"通过");
 				statusType = SpvCashFlowApplyStatusEnum.FINANCEADUIT.getCode();
-				//variables.put("assignee", "wufeng01");	
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
 				statusType = SpvCashFlowApplyStatusEnum.APPLY.getCode();
-				//variables.put("assignee", "wangqiao7");	
+				toSpvCashFlowApply.setApplyAuditor("");	
 			}
 			
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());//内容
@@ -268,11 +270,10 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 				ToWorkFlow workFlow = toWorkFlowService.queryWorkFlowByInstCode(instCode);//更新状态
 				workFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
 				toWorkFlowService.updateByPrimaryKeySelective(workFlow);
-				//variables.put("assignee", "wufeng01");	
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
 				statusType = SpvCashFlowApplyStatusEnum.APPLY.getCode();
-				//variables.put("assignee", "wangqiao7");	
+				toSpvCashFlowApply.setApplyAuditor("");	
 			}
 			
 			toSpvAduit.setContent(spvRecordedsVO.getTurndownContent());//内容

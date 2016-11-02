@@ -3,9 +3,6 @@
  */
 package com.centaline.trans.common.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,16 +24,8 @@ public class QuickQueryFormatDateServiceImpl implements CustomDictService {
 		for (Map<String, Object> key : keys) {
 			String val = "";
 			String str=key.values().toString();
-			   SimpleDateFormat formatter = new SimpleDateFormat(format);
-			   Date date;
-			try {
-				date = formatter.parse(str.substring(str.indexOf("[")+1,str.indexOf("]")));
-				val=formatter.format(date);
+				val=str.substring(str.indexOf("[")+1,str.indexOf(" "));
 				key.put("val", val);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
 		}
 

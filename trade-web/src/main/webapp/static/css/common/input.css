@@ -80,6 +80,20 @@ em,i {
 h2, h3, h4, h5, p, button, table {
   font-family: "Microsoft Yahei";
 }
+.margin5 {
+  margin: 5px!important;
+}
+.clearboth {
+  clear: both;
+}
+.title-mark {
+  padding-left: 6px!important;
+  border-left: 3px solid #00CFEC!important;
+  line-height: 18px!important;
+}
+ .entry {
+    clear: both;
+}
 .no-underline {
   text-decoration: none!important;
 }
@@ -110,6 +124,11 @@ h2, h3, h4, h5, p, button, table {
 .float_icon {
   position: absolute;
   top: 4px;
+    right: 6px;
+}
+.add-icon {
+  position: absolute;
+  top: 0px;
   right: 6px;
 }
 .hr {
@@ -289,7 +308,9 @@ input {
   border-radius: 3px;
   cursor: pointer;
 }
-
+.todaycolor {
+  background:#f8ac59;
+}
 .tommrow {
   background-color: #428fcc;
 }
@@ -508,7 +529,7 @@ input {
 .info_content .line p {
   float: left;
   margin: 7px 28px 7px 0px;
-  font-size: 14px;
+  
 }
 .info_content .line label {
   float: left;
@@ -621,8 +642,51 @@ input {
   font-family: "Microsoft Yahei";
   line-height: 18px!important;
 }
+.entry {
+  display: none;
+}
+.btn-edge {
+    background-color: #fff;
+    border: 1px solid #1a7bb9;
+    font-size: 14px;
+    color: #1a7bb9;
+}
+.btn-edge:hover {
+    background-color: #1a7bb9;
+    border: 1px solid #1a7bb9;
+    color: #fff;
+}
+.btn-edgegro {
+    margin: 5px 0px 20px;
+}
+.btn-transparent {
+    background: transparent!important;
+    border: 1px solid #ccc;
+}
+.btn-transparent {
+    background: transparent!important;
+    border: 1px solid #ccc;
+}
+.btn-lightblue {
+    color: #fff!important;
+    background: #4bccec!important;
+    border: 1px solid #4bccec!important;
+    outline: 0!important;
+}
+.btn-lightyellow {
+    color: #f8af65;
+    background: transparent;
+    border: 1px solid #ccc;
+    outline: 0!important;
+}
+.btn-lightyellow:hover{
+    color: #f8af65;
+}
 .title-mark {
   padding-left: 6px!important;
   border-left: 3px solid #00CFEC!important;
   line-height: 18px!important;
+}
+.flowVisiable {
+	overflow:visible!important;
 }

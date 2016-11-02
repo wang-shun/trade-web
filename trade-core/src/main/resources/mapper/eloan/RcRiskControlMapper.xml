@@ -31,6 +31,9 @@
       <if test="riskType != null" >
         AND RISK_TYPE = #{riskType,jdbcType=VARCHAR}
       </if>
+      <if test="riskType != null" >
+        AND RISK_TYPE = #{riskType,jdbcType=VARCHAR}
+      </if>
 	</where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
