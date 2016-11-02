@@ -103,7 +103,9 @@
 							<option value="APPR_DATE">审批时间</option>
 							<option value="LEND_DATE">放款时间</option>
 							<option value="REAL_HT_TIME">过户时间</option>
+							<option value="CREATE_TIME">流失申请时间</option>
 							<option value="END_TIME_">流失审批时间</option>
+							<option value="CASETRANSFERDATE">过户审批通过时间</option>
 						</select>
 						<div class="input-group sign-right dataleft input-daterange"
 							data-date-format="yyyy-mm-dd" id="datepicker_0">
@@ -282,11 +284,10 @@
 								<th><span class="sort" sortColumn="CASE_CODE" sord="desc"
 									onclick="caseCodeSort();">案件编号</span><i id="caseCodeSorti"
 									class="fa fa-sort-desc fa_down"></i></th>
-								<th>案件地址</th>
-								<th>时间</th>
-								<th>主贷人</th>
-								<th>贷款金额</th>
 								<th>案件类型</th>
+								<th>贷款金额</th>
+								<th>时间</th>
+								<th>主贷人</th>								
 								<th>归属组</th>
 							</tr>
 						</thead>
@@ -350,26 +351,45 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td class="big"> <a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></td>
-						<td class="t-left">
-					
-						{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-							<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
+						<td class="big"> 
+							<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a>
+							{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+								<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
 							{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
-						{{else}}
-							</p>
-						<p>
+							{{else}}
+								</p>
+							<p>
 							{{item.PROPERTY_ADDR}}
-						{{/if}}	
+							{{/if}}	
 						</p> 
+						</td>
+
+						<td class="t-left">
+						{{if  item.LOANTYPE=='1'}}
+                      	 <p>商业贷款委托中原办理</p>
+						{{/if}}
+                        {{if  item.LOANTYPE=='2'}}
+                      	 <p>公积金贷款委托中原办理</p>
+						{{/if}}
+						{{if  item.LOANTYPE=='3'}}
+                      	 <p>自办贷款</p>
+						{{/if}}
                              <p>
                                 <a class="salesman-info" href="#" >
                                     {{item.FENHANG}}/{{item.FIN_ORG_NAME_YC}}                                               
                                 </a>
-                            </p>
+								{{if  item.IS_TMP_BANK == '是'}}<i class="sign_blue">临时银行</i>{{/if}}
+								{{if  item.SDSTATUS=='是'}}<i class="sign_blue">流失</i>{{/if}}
+                          	</p>
                         </td>
 
-					    <td>
+						<td class="center">
+                          	<span class="manager">总额：{{item.MORT_TOTAL_AMOUNT}}万</span>
+                          	<span class="manager">商贷：{{item.COM_AMOUNT}}万</span>
+                          	<span class="manager">公积金：{{item.PRF_AMOUNT}}万</span>
+                       </td>
+
+					   <td>
 						{{if item.SIGN_DATE != null}}
 						   <p>  
                               <i class="sign_normal">签</i>
@@ -404,50 +424,13 @@
                                  {{item.LEND_DATE}}          
                            </p>
 						{{/if}}	
-
-						{{if item.REAL_HT_TIME!=null}}
-						   <p>  
-                              <i class="sign_normal">过</i>
-                                 {{item.REAL_HT_TIME}}          
-                          </p>
-						{{else}}
-                            <p>  
-                              <i class="sign_grey">过</i>
-                                 {{item.REAL_HT_TIME}}          
-                           </p>
-						{{/if}}	
-
                          </td>
+
+
 						<td class="center">   
                                     {{item.CUST_NAME}}
                         </td>
-						<td class="center">
-                          	<span class="manager">总额：{{item.MORT_TOTAL_AMOUNT}}万</span>
-                          	<span class="manager">商贷：{{item.COM_AMOUNT}}万</span>
-                          	<span class="manager">公积金：{{item.PRF_AMOUNT}}万</span>
-                       </td>
 
-						<td class="center">
-
-						{{if  item.IS_TMP_BANK == '是'}}
-                      	 <p> <i class="sign_blue">临时银行</i></p>
-						{{/if}}
-
-						{{if  item.SDSTATUS=='是'}}
-                      	 <p>流失</p>
-						{{/if}}
-						
-						{{if  item.LOANTYPE=='1'}}
-                      	 <p>商业贷款委托中原办理</p>
-						{{/if}}
-                        {{if  item.LOANTYPE=='2'}}
-                      	 <p>公积金贷款委托中原办理</p>
-						{{/if}}
-						{{if  item.LOANTYPE=='3'}}
-                      	 <p>自办贷款</p>
-						{{/if}}
-						
-                       	</td>
                         <td class="center">
                                     {{item.ORG_NAME}}
                            <span class="manager">贷款专员 ：<a href="#">{{item.REAL_NAME}}</a></span>

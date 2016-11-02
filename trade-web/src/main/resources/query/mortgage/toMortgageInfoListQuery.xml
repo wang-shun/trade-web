@@ -134,7 +134,10 @@
 					ISNULL(S.CON_PRICE,0)/10000 CON_PRICE,
 					ISNULL(EFR.EVAL_FEE,0)/10000 EVAL_FEE,
 					M.CREATE_TIME,
-					(select TOP 1 AT.END_TIME_ FROM sctrans.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='GuohuApprove'  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE  FROM sctrans.T_TO_WORKFLOW TW  WHERE TW.CASE_CODE=M.CASE_CODE AND TW.BUSINESS_KEY = 'operation_process' and TW.STATUS in (0, 4) )) CASETRANSFERDATE	
+					(select TOP 1 V.LAST_UPDATED_TIME_ FROM  sctrans.ACT_HI_VARINST V  
+					where PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE 	FROM sctrans.T_TO_WORKFLOW TW  	WHERE TW.CASE_CODE=M.CASE_CODE AND  TW.BUSINESS_KEY = 'operation_process' 	AND TW.STATUS in (0, 4) ) 
+						  AND V.NAME_='GuohuApprove'	
+						  AND V.LONG_=1) CASETRANSFERDATE	
                 from 
 					sctrans.T_TO_MORTGAGE m 
 					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
@@ -183,6 +186,20 @@
 				</ifNotNull>				
 				<ifNotNull endTimeEnd>
 				     and T.END_TIME_ &lt;= #endTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull createTimeStart>
+				     and T.CREATE_TIME >= #createTimeStart#
+				</ifNotNull>				
+				<ifNotNull createTimeEnd>
+				     and T.CREATE_TIME &lt;= #createTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull transferTimeStart>
+				     and T.CASETRANSFERDATE >= #transferTimeStart#
+				</ifNotNull>				
+				<ifNotNull transferTimeEnd>
+				     and T.CASETRANSFERDATE &lt;= #transferTimeEnd#
 				</ifNotNull>
 				
 				<ifNotNull comAmountStart>
@@ -272,7 +289,7 @@
 				<column type="both" name="REAL_HT_TIME" index="" checkbox="" title="过户时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="END_TIME_" index="" checkbox="" title="流失审核时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CREATE_TIME" index="" checkbox="" title="流失申请时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="CASETRANSFERDATE" index="" checkbox="" title="过户审批" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASETRANSFERDATE" index="" checkbox="" title="过户审批通过时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="IS_TMP_BANK" index="" checkbox="" title="临时银行"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="REAL_NAME" index="" checkbox="" title="贷款专员"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ORG_NAME" index="" checkbox="" title="贷款专员所属组"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>

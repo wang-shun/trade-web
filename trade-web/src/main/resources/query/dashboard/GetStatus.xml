@@ -511,10 +511,11 @@
 						          SELECT    SUM(ISNULL(tec.SIGN_AMOUNT, 0) * 10000) AS SIGN_AMOUNT ,
 						                    SUM(tsi.CON_PRICE) AS CON_PRICE
 						          FROM      sctrans.T_TO_ELOAN_CASE tec
-						                    LEFT JOIN sctrans.t_to_sign tsi ON tec.CASE_CODE = tsi.CASE_CODE AND (tec.STATUS IS NULL OR tec.STATUS='VALID') 
+						                    LEFT JOIN sctrans.t_to_sign tsi ON tec.CASE_CODE = tsi.CASE_CODE 
 						          WHERE     tec.CASE_CODE IS NOT NULL
 						                    AND tec.CASE_CODE &lt;&gt; ''
 						                    AND tec.APPLY_TIME IS NOT NULL
+						                    AND (tec.STATUS IS NULL OR tec.STATUS='VALID') 
 						          <if test="user_Id != null">
 								 	and tec.EXCUTOR_ID = #user_Id#
 								 </if>
