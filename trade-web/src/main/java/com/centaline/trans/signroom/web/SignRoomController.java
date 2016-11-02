@@ -248,13 +248,13 @@ public class SignRoomController {
 	 */
 	@RequestMapping("/showSchedulingData")
 	@ResponseBody
-	public AjaxResponse<List<DateWeekVo>> showSchedulingData(Model model,int centerId,String date){
-		AjaxResponse<List<DateWeekVo>> response = new AjaxResponse<List<DateWeekVo>>();
+	public AjaxResponse<List<List<DateWeekVo>>> showSchedulingData(Model model,int centerId,String date){
+		AjaxResponse<List<List<DateWeekVo>>> response = new AjaxResponse<List<List<DateWeekVo>>>();
 		Map map = new HashMap();
 		map.put("centerId", centerId);
 		map.put("date", date);
 		try {
-			List<DateWeekVo> dwvs = rmSignRoomService.showSchedulingData(map);
+			List<List<DateWeekVo>> dwvs = rmSignRoomService.showSchedulingData(map);
 			response.setContent(dwvs);
 			response.setCode("400");
 			response.setMessage("查询成功！");

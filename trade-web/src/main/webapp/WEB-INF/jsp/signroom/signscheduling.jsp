@@ -575,77 +575,44 @@
 		<script	src="${ctx}/static/js/plugins/dateSelect/dateSelect.js"></script>
         <script src="${ctx}/transjs/signing/signSchedule.js"></script>
         <script id="template_tradeCenterScheduleList" type="text/html">
- 			{{each content as item index}}
-  				   {{if index%2 == 0}}
- 				      <tr class="tr-1">
-                  {{else}}
-                       <tr class="tr-2">
-                   {{/if}}
-						<tr class="night_bg">
-                                    <td >
-                                    </td>
-                                    <td class="nouser">
-                                        25
-                                    </td>
-                                    <td class="nouser">
-                                        26
-                                    </td>
-                                    <td class="nouser">
-                                        27
-                                    </td>
-                                    <td class="nouser">
-                                       28
-                                    </td>
-                                    <td class="nouser">
-                                        29
-                                    </td>
-                                    <td class="nouser">
-                                        30
-                                    </td>
-                                    <td>
-                                        1
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><i class="iconfont icon-day">&#xe601;</i>
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">陈辰
-                                    </td>
-                                    <td>
-                                       陈辰
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-moon">&#xe6c1;</i>
-                                    </td>
-                                    <td class="nouser">徐彦青
-                                    </td>
-                                    <td class="nouser">王鼎元
-                                    </td>
-                                    <td class="nouser">王鼎元
-                                    </td>
-                                    <td class="nouser">徐彦青
-                                    </td>
-                                    <td class="nouser">王鼎元
-                                    </td>
-                                    <td class="nouser">陈辰
-                                    </td>
-                                    <td>
-                                       张晟洋
-                                    </td>
-                                </tr>
-            {{/each}}
-		
+ 	{{each content as item index}}
+	  <tr class="night_bg">
+		<td></td>
+       {{each item as subitem twoindex}}
+		   {{if subitem.light == true}}
+               <td class="currmoth">{{subitem.day}}</td>
+           {{else if subitem.edit == true}}
+                 <td>{{subitem.day}}</td>
+           {{else}}
+                 <td class="nouser">{{subitem.day}}</td>
+           {{/if}}
+         {{/each}}
+      </tr>
+	 <tr>
+         <td><i class="iconfont icon-day">&#xe601;</i></td>
+		{{each item as subitem twoindex}}
+		   {{if subitem.light == true}}
+				<td class="currday">张晟洋</td>
+           {{else if subitem.edit == true}}
+                 <td>张晟洋</td>
+           {{else}}
+                 <td class="nouser">张晟洋</td>
+           {{/if}}
+         {{/each}}
+      </tr>
+      <tr>
+         <td ><i class="iconfont icon-moon">&#xe6c1;</i></td>
+         {{each item as subitem twoindex}}
+           {{if subitem.light == true}}
+				<td class="currnight">张晟洋</td>
+           {{else if subitem.edit == true}}
+                 <td>张晟洋</td>
+           {{else}}
+                 <td class="nouser">张晟洋</td>
+           {{/if}}
+         {{/each}}
+      </tr>
+    {{/each}}
 		</script>
         <script>
 	        var ctx = "${ctx}";
