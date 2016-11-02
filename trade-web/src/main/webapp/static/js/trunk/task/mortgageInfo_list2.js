@@ -553,6 +553,7 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('LEND_DATE');
 			displayColomn.push('APPR_DATE');
 			displayColomn.push('REAL_HT_TIME');
+			displayColomn.push('CASETRANSFERDATE');
 			displayColomn.push('CREATE_TIME');
 			displayColomn.push('END_TIME_');
 			displayColomn.push('CUST_NAME');
@@ -792,16 +793,27 @@ function initpage(totalCount, pageSize, currentPage, records) {
  */
 function getParamsValue() {
 	// 日期类型
+	//签约
 	var signTimeStart = null;
 	var signTimeEnd = null;
+	//放款
 	var lendTimeStart = null;
 	var lendTimeEnd = null;
+	//审批时间
 	var apprTimeStart = null;
 	var apprTimeEnd = null;
+	//过户时间
 	var realhtTimeStart = null;
 	var realhtTimeEnd = null;
+	//流失审批时间
 	var endTimeStart = null;
 	var endTimeEnd = null;
+	//流失申请时间
+	var createTimeStart = null;
+	var createTimeEnd = null;
+	//过户审批通过时间	
+	var transferTimeStart = null;
+	var transferTimeEnd = null;
 
 	var comAmountStart = null;
 	var comAmountEnd = null;
@@ -883,6 +895,16 @@ function getParamsValue() {
 		endTimeEnd = end;
 		params.endTimeStart = endTimeStart;
 		params.endTimeEnd = endTimeEnd;
+	}else if (timeSelect == "CREATE_TIME") {
+		createTimeStart  = start;
+		createTimeEnd  = end;
+		params.createTimeStart = createTimeStart ;
+		params.createTimeEnd = createTimeEnd ;
+	}else if (timeSelect == "CASETRANSFERDATE") {
+		transferTimeStart  = start;
+		transferTimeEnd  = end;
+		params.transferTimeStart  = transferTimeStart ;
+		params.transferTimeEnd  = transferTimeEnd ;
 	}
 	
 	// 获取select 选中时间的值
