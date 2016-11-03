@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.signroom.repository.TradeCenterMapper" >
+<mapper namespace="com.centaline.trans.signroom.repository.TradeCenterScheduleMapper" >
   <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.TradeCenterSchedule" >
     <result column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="DUTY_OFFICER" property="dutyOfficer" jdbcType="VARCHAR" />
@@ -11,26 +11,81 @@
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="officerName" property="officerName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    PKID, DUTY_OFFICER,DUTY_DATE,TRADE_CENTER_ID
+    PKID, DUTY_OFFICER,DUTY_DATE,TRADE_CENTER_ID,DUTY_TYPE,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
   </sql>
-  <select id="getTradeCenterList" resultMap="BaseResultMap">
+  <select id="queryTradeCenterSchedules" resultMap="BaseResultMap" parameterType="java.util.Map">
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_RM_TRADE_CENTER
-  </select>
-  
-  <select id="getTradeCenter" resultType="com.centaline.trans.signroom.entity.TradeCenter" parameterType="java.util.Map">
-    select 
-    PKID as pkid, CENTER_NAME as centerName
-    from sctrans.T_RM_TRADE_CENTER
-    <where>
-       <if test="pkid!=null">
-           PKID = #{pkid}
-       </if>
+    from sctrans.T_RM_TRADECENTER_SCHEDULE
+    	<where>
+    	<if test="dutyDateStart != null" >
+          DUTY_DATE &gt;= #{dutyDateStart,jdbcType=VARCHAR}
+        </if>
+        <if test="dutyDateEnd != null" >
+         AND DUTY_DATE &lt;= #{dutyDateEnd,jdbcType=VARCHAR}
+        </if>
     </where>
   </select>
+  
+  <insert id="addTradeCenterSchedule" parameterType="com.centaline.trans.signroom.entity.TradeCenterSchedule" useGeneratedKeys="true" keyProperty="pkid">
+    insert into sctrans.T_RM_TRADECENTER_SCHEDULE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dutyOfficer != null" >
+        DUTY_OFFICER,
+      </if>
+      <if test="dutyDate != null" >
+        DUTY_DATE,
+      </if>
+      <if test="tradeCenterId != null" >
+        TRADE_CENTER_ID,
+      </if>
+      <if test="dutyType != null" >
+        DUTY_TYPE,
+      </if>
+        CREATE_TIME,
+        CREATE_BY,
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dutyOfficer != null" >
+        #{dutyOfficer,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyDate != null" >
+        #{dutyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCenterId != null" >
+        #{tradeCenterId,jdbcType=BIGINT},
+      </if>
+      <if test="dutyType != null" >
+        #{dutyType,jdbcType=VARCHAR},
+      </if>
+      GETDATE(),
+      @{SESSION_USER_ID},
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <delete id="deleteTradeCenterSchedule" parameterType="com.centaline.trans.signroom.entity.TradeCenterSchedule" >
+    delete sctrans.T_RM_TRADECENTER_SCHEDULE 
+    <where>
+    	<if test="pkid != null" >
+        PKID = #{pkid,jdbcType=BIGINT},
+      </if>
+    </where>
+  </delete>
   
 </mapper>

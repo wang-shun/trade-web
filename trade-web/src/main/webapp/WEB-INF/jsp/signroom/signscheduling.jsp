@@ -83,384 +83,6 @@
                                 <th class="text-center">周六</th>
                             </thead>
                             <tbody id="tradeCenterSchedule">
-                                <tr class="night_bg">
-                                    <td >
-                                    </td>
-                                    <td class="nouser">
-                                        25
-                                    </td>
-                                    <td class="nouser">
-                                        26
-                                    </td>
-                                    <td class="nouser">
-                                        27
-                                    </td>
-                                    <td class="nouser">
-                                       28
-                                    </td>
-                                    <td class="nouser">
-                                        29
-                                    </td>
-                                    <td class="nouser">
-                                        30
-                                    </td>
-                                    <td>
-                                        1
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><i class="iconfont icon-day">&#xe601;</i>
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">陈辰
-                                    </td>
-                                    <td>
-                                       陈辰
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-moon">&#xe6c1;</i>
-                                    </td>
-                                    <td class="nouser">徐彦青
-                                    </td>
-                                    <td class="nouser">王鼎元
-                                    </td>
-                                    <td class="nouser">王鼎元
-                                    </td>
-                                    <td class="nouser">徐彦青
-                                    </td>
-                                    <td class="nouser">王鼎元
-                                    </td>
-                                    <td class="nouser">陈辰
-                                    </td>
-                                    <td>
-                                       张晟洋
-                                    </td>
-                                </tr>
-                                <tr class="night_bg">
-                                    <td >
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>
-                                        3
-                                    </td>
-                                    <td>
-                                        4
-                                    </td>
-                                    <td>
-                                       5
-                                    </td>
-                                    <td>
-                                        6
-                                    </td>
-                                    <td>
-                                        7
-                                    </td>
-                                    <td>
-                                        8
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-day">&#xe601;</i>
-                                    </td>
-                                    <td>徐彦青
-                                    </td>
-                                    <td>徐彦青
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>徐彦青
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>徐彦青
-                                    </td>
-                                    <td>
-                                       陈辰
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-moon">&#xe6c1;</i>
-                                    </td>
-                                    <td>王鼎元
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>王鼎元
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>王鼎元
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>
-                                       张晟洋
-                                    </td>
-                                </tr>
-                                <tr class="night_bg">
-                                    <td >
-                                    </td>
-                                    <td>
-                                        9
-                                    </td>
-                                    <td>
-                                        10
-                                    </td>
-                                    <td>
-                                        11
-                                    </td>
-                                    <td>
-                                       12
-                                    </td>
-                                    <td>
-                                        13
-                                    </td>
-                                    <td>
-                                       14
-                                    </td>
-                                    <td>
-                                        15
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-day">&#xe601;</i>
-                                    </td>
-                                    <td>徐彦青
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>徐彦青
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>
-                                       陈辰
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-moon">&#xe6c1;</i>
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>
-                                       张晟洋
-                                    </td>
-                                </tr>
-                                <tr class="night_bg">
-                                    <td >
-                                    </td>
-                                    <td>
-                                        16
-                                    </td>
-                                    <td>
-                                        17
-                                    </td>
-                                    <td>
-                                        18
-                                    </td>
-                                    <td>
-                                       19
-                                    </td>
-                                    <td>
-                                        20
-                                    </td>
-                                    <td>
-                                       21
-                                    </td>
-                                    <td>
-                                        22
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><i class="iconfont icon-day">&#xe601;</i>
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>赵明
-                                    </td>
-                                    <td>赵明
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>
-                                       陈辰
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-moon">&#xe6c1;</i>
-                                    </td>
-                                    <td>赵明
-                                    </td>
-                                    <td>赵明
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td>赵明
-                                    </td>
-                                    <td>赵明
-                                    </td>
-                                    <td>
-                                       张晟洋
-                                    </td>
-                                </tr>
-                                <tr class="night_bg">
-                                    <td>
-                                    </td>
-                                    <td>
-                                        23
-                                    </td>
-                                    <td>
-                                        24
-                                    </td>
-                                    <td>
-                                        25
-                                    </td>
-                                    <td class="currmoth">
-                                       26
-                                    </td>
-                                    <td>
-                                       27
-                                    </td>
-                                    <td>
-                                       28
-                                    </td>
-                                    <td>
-                                       29
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><i class="iconfont icon-day">&#xe601;</i>
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>李志
-                                    </td>
-                                    <td>张晟洋
-                                    </td>
-                                    <td class="currday">张晟洋
-                                    </td>
-                                    <td>李志
-                                    </td>
-                                    <td>李志
-                                    </td>
-                                    <td>
-                                       陈辰
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-moon">&#xe6c1;</i>
-                                    </td>
-                                    <td>苏爱娣
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td>苏爱娣
-                                    </td>
-                                    <td class="currnight">陈辰
-                                    </td>
-                                    <td >陈辰
-                                    </td>
-                                    <td>苏爱娣
-                                    </td>
-                                    <td>
-                                       张晟洋
-                                    </td>
-                                </tr>
-                                <tr class="night_bg">
-                                    <td >
-                                    </td>
-                                    <td>
-                                        30
-                                    </td>
-                                    <td>
-                                        31
-                                    </td>
-                                    <td class="nouser">
-                                        1
-                                    </td>
-                                    <td class="nouser">
-                                       2
-                                    </td>
-                                    <td class="nouser">
-                                       3
-                                    </td>
-                                    <td class="nouser">
-                                       4
-                                    </td>
-                                    <td class="nouser">
-                                       5
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-day">&#xe601;</i>
-                                    </td>
-                                    <td>徐彦青
-                                    </td>
-                                    <td>
-                                    徐彦青
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                    <td class="nouser">张晟洋
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td ><i class="iconfont icon-moon">&#xe6c1;</i>
-                                    </td>
-                                    <td>苏爱娣
-                                    </td>
-                                    <td>陈辰
-                                    </td>
-                                    <td class="nouser">苏爱娣
-                                    </td>
-                                    <td class="nouser">苏爱娣
-                                    </td>
-                                    <td class="nouser">苏爱娣
-                                    </td>
-                                    <td class="nouser">苏爱娣
-                                    </td>
-                                    <td class="nouser">苏爱娣
-                                    </td>
-                                </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -579,37 +201,71 @@
 	  <tr class="night_bg">
 		<td></td>
        {{each item as subitem twoindex}}
-		   {{if subitem.light == true}}
-               <td class="currmoth">{{subitem.day}}</td>
-           {{else if subitem.edit == true}}
-                 <td>{{subitem.day}}</td>
-           {{else}}
-                 <td class="nouser">{{subitem.day}}</td>
-           {{/if}}
+		              {{if subitem.light == true}}
+                         <td class="currmoth">{{subitem.day}}</td>
+                      {{else if subitem.edit == true}}
+                         <td>{{subitem.day}}</td>
+                      {{else}}
+                         <td class="nouser">{{subitem.day}}</td>
+                      {{/if}}
          {{/each}}
       </tr>
 	 <tr>
          <td><i class="iconfont icon-day">&#xe601;</i></td>
 		{{each item as subitem twoindex}}
-		   {{if subitem.light == true}}
-				<td class="currday">张晟洋</td>
-           {{else if subitem.edit == true}}
-                 <td>张晟洋</td>
-           {{else}}
-                 <td class="nouser">张晟洋</td>
+				
+		   {{if subitem.tcs !=null && subitem.tcs.length>0}}
+				{{each subitem.tcs as tcsitem threeindex}}				
+					{{if tcsitem.dutyType=='0'}}
+							{{if subitem.light == true}}
+				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)">{{tcsitem.officerName}}</td>
+              				{{else if subitem.edit == true}}
+                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)">{{tcsitem.officerName}}</td>
+              				{{else}}
+                   				<td class="nouser">{{tcsitem.officerName}}</td>
+              				{{/if}}
+					{{/if}}			
+				{{/each}}
+		   {{else}}
+				{{if subitem.light == true}}
+				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)"></td>
+              	{{else if subitem.edit == true}}
+                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)"></td>
+              	{{else}}
+                   				<td class="nouser"></td>
+              	{{/if}}
+
            {{/if}}
+		      
          {{/each}}
       </tr>
       <tr>
          <td ><i class="iconfont icon-moon">&#xe6c1;</i></td>
          {{each item as subitem twoindex}}
-           {{if subitem.light == true}}
-				<td class="currnight">张晟洋</td>
-           {{else if subitem.edit == true}}
-                 <td>张晟洋</td>
-           {{else}}
-                 <td class="nouser">张晟洋</td>
+				
+				{{if subitem.tcs !=null && subitem.tcs.length>0}}
+				{{each subitem.tcs as tcsitem threeindex}}				
+					{{if tcsitem.dutyType=='1'}}
+							{{if subitem.light == true}}
+				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)">{{tcsitem.officerName}}</td>
+              				{{else if subitem.edit == true}}
+                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)">{{tcsitem.officerName}}</td>
+              				{{else}}
+                   				<td class="nouser">{{tcsitem.officerName}}</td>
+              				{{/if}}
+					{{/if}}			
+				{{/each}}
+		   {{else}}
+				{{if subitem.light == true}}
+				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)"></td>
+              				{{else if subitem.edit == true}}
+                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)"></td>
+              				{{else}}
+                   				<td class="nouser"></td>
+              				{{/if}}
+
            {{/if}}
+
          {{/each}}
       </tr>
     {{/each}}
