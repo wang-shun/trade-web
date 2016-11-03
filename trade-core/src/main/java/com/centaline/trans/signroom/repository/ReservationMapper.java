@@ -10,6 +10,7 @@ import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
 import com.centaline.trans.signroom.vo.ReservationVo;
+import com.centaline.trans.signroom.vo.RoomProp;
 import com.centaline.trans.signroom.vo.SignroomCondition;
 import com.centaline.trans.signroom.vo.TransactItemVo;
 
@@ -166,5 +167,31 @@ public interface ReservationMapper {
 	 * @return 已使用预约次数
 	 */
 	public int getUsedBespeakNumber(String currentUserId);
+
+	/**
+	 * 更换签约室------根据交易中心、预约开始时间、预约结束时间查询可用的房间容纳列表
+	 * 
+	 * @param reservationVo
+	 *            签约室查询条件
+	 * @return 可用房间容纳数列表
+	 */
+	public List<Integer> getRoomAccommodationList(ReservationVo reservationVo);
+
+	/**
+	 * 更换签约室------根据交易中心、预约开始时间、预约结束时间、房间容纳数查询可用的房间信息
+	 * 
+	 * @param reservationVo
+	 *            签约室查询条件
+	 * @return 可用房间信息列表
+	 */
+	public List<RoomProp> getRoomPropList(ReservationVo reservationVo);
+
+	/**
+	 * 变更签约室
+	 * 
+	 * @param reservationVo
+	 *            签约室查询条件
+	 */
+	public void changeRoom(ReservationVo reservationVo);
 
 }

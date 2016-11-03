@@ -176,6 +176,7 @@
                     </div>
                 </div>
                 
+                <!-- 最新更进弹出框 -->
 				<div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="false" >
                     <div class="modal-dialog" style="width: 790px;">
                         <div class="modal-content animated fadeIn popup-box">
@@ -252,6 +253,97 @@
                             </form>
                         </div>
                         <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+                </div>
+                
+               	<!-- 更换签约室弹出框 -->
+                <div class="modal inmodal in" id="changeRoom" tabindex="-1" role="dialog" aria-hidden="false" >
+                    <div class="modal-dialog" style="width: 790px;">
+                        <div class="modal-content animated fadeIn popup-box">
+                            <div class="modal_title">
+                                	更换签约室
+                            </div>
+                            <div class="apply_table">
+                                <table class="table table_blue mt20 table-striped table-bordered table-hover customerinfo" id="signRoom">
+                                	<input type="hidden" id="resId" name="resId" />
+                                    <thead>
+                                        <tr>
+                                            <th style="background-color:#52cdec;">
+                                                	房间类型
+                                            </th>
+                                            <th style="background-color:#52cdec;">
+                                                	剩余房间编号
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    5人间
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-transparent margin5">soi-1</button>
+                                                <button class="btn btn-transparent margin5">soi-2</button>
+                                                <button class="btn btn-transparent margin5">soi-3</button>
+                                                <button class="btn btn-transparent margin5">soi-4</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    9人间
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-transparent margin5">soi-1</button>
+                                                <button class="btn btn-transparent margin5">soi-2</button>
+                                                <button class="btn btn-transparent margin5">soi-3</button>
+                                                <button class="btn btn-transparent margin5 btn-lightyellow">soi-4（机动）</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    12人间
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-transparent margin5">soi-1</button>
+                                                <button class="btn btn-transparent margin5">soi-2</button>
+                                                <button class="btn btn-transparent margin5">soi-3</button>
+                                                <button class="btn btn-transparent margin5">soi-4</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    15人间
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-transparent margin5">soi-1</button>
+                                                <button class="btn btn-transparent margin5">soi-2</button>
+                                                <button class="btn btn-transparent margin5">soi-3</button>
+                                                <button class="btn btn-transparent margin5">soi-4</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="change-btn" style="text-align:center;margin-top:30px">
+                                <button type="button" class="btn btn-success mr5" id="btnChangeRoom">
+                                    	更换签约室
+                                </button>
+                                <button type="submit" class="btn btn-success mr5" id="btnChangeAndEnableRoom">
+                                    	更换签约室及启用
+                                </button>
+                                <button type="reset" class="btn btn-grey mr5" data-dismiss="modal">
+                                    	取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
 <content tag="local_script"> 
@@ -373,6 +465,7 @@
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
 								{{if item.resStatus == '0'}}
 									<li><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
+									<li><a href="#" onClick="changeRoom(this,'{{item.resId}}','{{item.tradeCenterId}}','{{item.resDateTime}} {{item.actStartTime}}','{{item.resDateTime}} {{item.actEndTime}}');" data-toggle="modal" data-target="#changeRoom">变更签约室</a></li>
 								{{/if}}
                                 
 								{{if item.resStatus == '1'}}
@@ -381,7 +474,7 @@
 
                                 <li>
 									<input type="hidden" name="resId" value="{{item.resId}}"/>
-									<input type="hidden" name="roomType" value="{{item.roomType}}"/>
+									<input type="hidden" name="roomT	ype" value="{{item.roomType}}"/>
 									<input type="hidden" name="roomNo" value="{{item.roomNO}}"/>
 									<input type="hidden" name="resDateTime" value="{{item.resDateTime}}"/>
 									
