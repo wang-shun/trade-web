@@ -132,7 +132,7 @@
 												)WK WHERE WK.CASE_CODE =  M.CASE_CODE
 					)END_TIME_,
 					ISNULL(S.CON_PRICE,0)/10000 CON_PRICE,
-					ISNULL(EFR.EVAL_FEE,0)/10000 EVAL_FEE,
+					ISNULL(EFR.EVAL_FEE,0) EVAL_FEE,
 					M.CREATE_TIME,
 					(select TOP 1 V.LAST_UPDATED_TIME_ FROM  sctrans.ACT_HI_VARINST V  
 					where PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE 	FROM sctrans.T_TO_WORKFLOW TW  	WHERE TW.CASE_CODE=M.CASE_CODE AND  TW.BUSINESS_KEY = 'operation_process' 	AND TW.STATUS in (0, 4) ) 
@@ -278,7 +278,7 @@
 				<column type="both" name="LOANTYPE" index="" checkbox="true" title="贷款类型"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>																	
 								
 				<column type="both" name="CON_PRICE" title="合同金额(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
-				<column type="both" name="EVAL_FEE" title="评估费(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
+				<column type="both" name="EVAL_FEE" title="评估费(元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
 					
 				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
