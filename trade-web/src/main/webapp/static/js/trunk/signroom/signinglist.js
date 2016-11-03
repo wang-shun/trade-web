@@ -183,6 +183,8 @@ function showMobile(obj){
 //变更房间
 function changeRoom(obj,resId,tradeCenterId,resStartTime,resEndTime){
 	$("#signRoom #resId").val(resId);
+	$("#signRoom #resStartTime").val(resStartTime);
+	$("#signRoom #resEndTime").val(resEndTime);
 	
 	$.ajax({
 		cache:false,
@@ -218,6 +220,9 @@ function changeRoom(obj,resId,tradeCenterId,resStartTime,resEndTime){
                                                 
 					strHtml += "</td></tr>";     
 				}
+			}
+			else {
+				strHtml = "<tr class='text-center'><td colspan='2'><font color='red'>无可预约房间信息!</font></td></tr>"
 			}
 			
 			$("#changeRoom #signRoom tbody").html(strHtml);
@@ -319,6 +324,26 @@ function startAndEndUse(obj,flag){
 }
 
 function saveChangeRoom(resId,scheduleId,flag){
+	var isPass = false;
+	var length = $("#signRoom tbody tr td button[class='btn btn-transparent margin5 btn-lightblue']").length;
+	
+	if(length == 0){
+		alert("请选择房间编号！");
+		return false;
+	}
+	
+	var resStartTime = $("#signRoom #resStartTime").val();
+	var resEndTime = $("#signRoom #resEndTime").val();
+	
+	var currentDateTime = new Date();
+	var resStartDateTime = new Date(resStartTime);
+	var resEndDateTime = new Date(resEndTime);
+	
+	if(currentDateTime < resStartDateTime || currentDateTime > resEndDateTime){
+		alert("不能开始，不在预约时间内！");
+		return false;
+	}
+	
 	$.ajax({
 		cache:false,
 		async:false,

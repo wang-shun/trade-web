@@ -8,6 +8,41 @@ var defaultTradeCenterId = $("#bespeakForm input[name='defaultTradeCenterId']").
 var agentCode = $("#bespeakForm input[name='agentCode']").val();
 var ctx = $("#bespeakForm #ctx").val();
 
+//转向我的预约列表
+function goToMyReservationList(){
+	location.href = ctx + "/weixin/signroom/myReservationList";
+}
+
+//隐藏提示信息框
+function cancel(){
+	$("#layuiFalse").hide();
+}
+
+//换个时间试试
+function changeTime(){
+	$("#layuiFalse").hide();
+	popSelectResInfo();
+}
+
+//弹出选择预约房间弹出框
+function popSelectResInfo(){
+	var selResDate = $("#bespeakForm #selResDate").val();
+	
+	if(selResDate != ""){
+		var selBespeakTime = $("#bespeakForm #selBespeakTime").val();
+		
+		$("#dayList tr td").removeClass("curr");
+		$("#roomList .date-title").html(selResDate);
+		
+		$("#dayList tr td[date='" + selResDate + "']").addClass("curr");
+		
+		$(".aui-content .aui-list .aui-list-item").css("background-color","#fff");
+		$(".aui-content .aui-list .aui-list-item[lang='" + selBespeakTime + "']").css("background-color","#f9f9f9");
+	}
+	
+    $roomlist.show();
+}
+
 //当前日期点击切换效果
 function dateClickToggle(obj){
 	 //设置日期切换效果
@@ -81,8 +116,9 @@ function getSignRoomList(selTradeCenterId,selDate){
 				strHtml += "</ul></article>";
 			}
 			else {
-				strHtml = "<img src='" + ctx  + "/static/image/nodata.png' width='100%' alt='>"
-							+ "<p class='text-center font16'>对不起，暂无数据！</p>";
+				strHtml = "<div class='nodata'><img src='" + ctx + "/static/image/nodata.png' width='100%' alt=''>"
+						+ "<p class='text-center font16'>对不起，暂无数据！</p>"
+						+ "<p class='text-center'>(请选择你所要的预约时间)</p></div>";
 			}
 			
 			$("#signroomList").html(strHtml);
@@ -126,62 +162,52 @@ function save(flag){
 		data: {flag:flag,startDate:startDate,endDate:endDate,serviceSpecialist:serviceSpecialist,resType:'0',propertyAddress:propertyAddress,numberOfParticipants:numberOfPeople,transactItemCode:transactItem,specialRequirement:specialRequirement,tradeCenterId:selTradeCenterId,selDate:selResDate,bespeakTime:selBespeakTime},
 		success:function(data){
 			var result = data.isSuccess;
+			var operationHtml = "";
 			
 			if(result == "true"){
-				myOpenSuccess(data.resNo,data.numberOfPeople,data.selDate,data.bespeakTime);
+				$("#layuiFalse").hide();
+				$("#layuiSuccess .yellow").html(data.resNo);
+				$("#layuiSuccess #spnResDate").html(data.selDate);
+				$("#layuiSuccess #spnResTime").html(data.bespeakTime);
+				$("#layuiSuccess").show();
 			}
 			else if(result == "hasMinRoom"){
-				$("#layui-m-layer0").show();
+				operationHtml = "<div class='aui-btn aui-btn-info aui-btn-block aui-btn-mt10' onclick=\"save('accept')\">我愿意接受小房间</div>";
+				operationHtml += "<div class='aui-btn aui-btn-grey aui-btn-block aui-btn-mt10' onClick='cancel();'>取消</div>";
+				
+				$("#layuiFalse #operation").html(operationHtml);
+				$("#layuiFalse #message").html("该预约时段内没有符合条件的房间,是否愿意接受小房间？");
+				$("#layuiFalse").show();
 			}
 			else if(result == "noRoom"){
-				$("#layui-m-layer1 .dialog-head").html("未有闲置的房间！");
-				$("#layui-m-layer1").show();
+				operationHtml = "<div class='aui-btn aui-btn-info aui-btn-block aui-btn-mt10' onClick='changeTime();'>换个时间试试</div>";
+				operationHtml += "<div class='aui-btn aui-btn-grey aui-btn-block aui-btn-mt10' onClick='cancel();'>取消</div>";
+				
+				$("#layuiFalse #operation").html(operationHtml);
+				$("#layuiFalse #message").html("该预约时段内没有可预约的房间");
+				$("#layuiFalse").show();
 			}
 			else if(result == "false"){
-				$("#layui-m-layer1 .dialog-head").html("预约失败！");
-				$("#layui-m-layer1").show();
+				operationHtml = "<div class='aui-btn aui-btn-grey aui-btn-block aui-btn-mt10' onClick='cancel();'>取消</div>";
+				
+				$("#layuiFalse #operation").html(operationHtml);
+				$("#layuiFalse").show();
 			}
 			else if(result == "noBespeakNum"){
-				$("#layui-m-layer1 .dialog-head").html("您这两周的预约次数已用完！");
-				$("#layui-m-layer1").show();
+				operationHtml = "<div class='aui-btn aui-btn-grey aui-btn-block aui-btn-mt10' onClick='cancel();'>取消</div>";
+				
+				$("#layuiFalse #operation").html(operationHtml);
+				$("#layuiFalse #message").html("您这两周的预约次数已用完");
+				$("#layuiFalse").show();
 			}
 		}
 	});
 }
 
-//预约成功提示
-function myOpenSuccess(resNo,numberOfPeople,selDate,bespeakTime){
-    layer.open({
-        type: 0,
-        title: '',
-        shadeClose: false,
-        content: '<div class="dialog-user">'+
-                    '<i class="iconfont iconfont70 mt20 cyan">&#xe606;</i>'
-                    + '<h2 class="dialog-head mt20 font18">恭喜你预约成功</h2>'
-                    + '<div class="dialog-info">'
-                    + '<p class="font14 mt20">预约编号<span class="yellow font18">' + resNo + '</span></p>'
-                    + '<p class="mt5 font12">时间：' + selDate + '&nbsp;&nbsp;' + bespeakTime + '</p></div>'
-                    + '<div class="btn-box mt20">'
-                    + '<a href="' + ctx + '/weixin/signroom/myReservationList"><div class="aui-btn aui-btn-primary aui-btn-big">确定</div></a>'
-                    + '</div>'
-    });
-};
-
-
 $(function() {
 	
     //页面初始化
     init();  
-    
-    //拒绝操作隐藏弹出框
-    $("#reject").click(function(){
-    	$("#layui-m-layer0").hide();
-    });
-    
-  //拒绝操作隐藏弹出框
-    $("#cancel").click(function(){
-    	$("#layui-m-layer1").hide();
-    });
     
     //点击领取预约号按钮事件
     $("#btnBespoke").click(function(){
@@ -225,21 +251,7 @@ $(function() {
     //遮罩弹窗层隐藏显示
     $roomlist.hide();
     $("#dateseLect").on("click",function() {
-    	var selResDate = $("#bespeakForm #selResDate").val();
-    	
-    	if(selResDate != ""){
-    		var selBespeakTime = $("#bespeakForm #selBespeakTime").val();
-    		
-    		$("#dayList tr td").removeClass("curr");
-    		$("#roomList .date-title").html(selResDate);
-    		
-    		$("#dayList tr td[date='" + selResDate + "']").addClass("curr");
-    		
-    		$(".aui-content .aui-list .aui-list-item").css("background-color","#fff");
-    		$(".aui-content .aui-list .aui-list-item[lang='" + selBespeakTime + "']").css("background-color","#f9f9f9");
-    	}
-    	
-        $roomlist.show();
+    	popSelectResInfo();
     });
     
     $(".layui-m-layershade").on("click",function() {

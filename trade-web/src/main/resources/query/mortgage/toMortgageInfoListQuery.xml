@@ -240,10 +240,14 @@
 				</ifNotNull>
 				<ifNotNull processorOrgId>
 					and T.REAL_NAME = #processorOrgId#
-				</ifNotNull>	
-				<ifNotNull organizeOrgId>
-					and T.LOAN_AGENT_TEAM = #organizeOrgId#
 				</ifNotNull>
+				
+				<if test="organizeOrgId !=null and orgHierarchy == 'yucui_team' ">
+					and T.LOAN_AGENT_TEAM = #organizeOrgId#
+				</if>
+				<if test="organizeOrgId !=null and orgHierarchy == 'yucui_district' ">
+					and T.LOAN_AGENT_TEAM in (select  id from sctrans.sys_org  where PARENT_ID = #organizeOrgId#)
+				</if>				
 				<ifNotNull loanType>
 					and T.LOANTYPE = #loanType#
 				</ifNotNull>	

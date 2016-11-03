@@ -878,6 +878,7 @@ function getParamsValue() {
 	}
 	// 获取誉萃组织
 	var organizeOrgId = $('#yuCuiOriGrpId').val().trim();
+	var orgHierarchy = $('#orgHierarchy').val().trim();
 
 	/*
 	 * if (org == "ff8080814f459a78014f45a73d820006") { org = null; } else if
@@ -1010,6 +1011,7 @@ function getParamsValue() {
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.custName = custName;
+	params.orgHierarchy=orgHierarchy;
 	// params.finCode = finCode;
 	return params;
 }
@@ -1038,6 +1040,7 @@ $('#MortgageLostListOrganizeOnclick').click(function() {
 function radioYuCuiOrgSelectCallBack(array) {
 	if (array && array.length > 0) {
 		$("#orgName").val(array[0].name);
+		$("#orgHierarchy").val(array[0].extendField);
 		$("#yuCuiOriGrpId").val(array[0].id);
 	} else {
 		$("#orgName").val("");
