@@ -187,7 +187,7 @@
     							<a>
     								<div class="aui-btn aui-btn-primary aui-margin-r-10" onclick="save('accept')">接受</div>
     							</a>
-    							<a href="javascript:void(0);" id="reject">
+    							<a href="#" id="reject">
     								<div class="aui-btn aui-btn-grey aui-margin-l-10">拒绝</div>
     							</a>
     						</div>
@@ -212,7 +212,7 @@
     							<a href="${ctx }/weixin/signroom/myReservationList">
     								<div class="aui-btn aui-btn-primary aui-margin-r-10">我的预约</div>
     							</a>
-    							<a href="javascrpt:void(0);" id="cancel">
+    							<a href="#" id="cancel">
     								<div class="aui-btn aui-btn-grey aui-margin-l-10">取消</div>
     							</a>
     						</div>
