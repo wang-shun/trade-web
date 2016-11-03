@@ -96,7 +96,7 @@
              
              <div class="form-row">
                  <div class="form-group form-margin pull-left">
-                     <label for="" class="lable-one">物业地址</label>
+                     <label for="" class="lable-one">产证地址</label>
                      <input type="text" class="form-control" style="width:355px;" placeholder="" id="propertyAddr" name="propertyAddr">
                  </div>
                  <div class="btn-left btn-left-space ml40">
@@ -121,7 +121,7 @@
                              <th class="">
                                  <input type="checkbox" class="i-checks" name="input"  id="allOrNotChoose" onclick="mycheck(this)">
                              </th>
-                             <th>案件编码</th>
+                             <th>案件编号</th>
                              <th>保管物品</th>
                              <th>提交人</th>
                              <th>保管人</th>
@@ -270,14 +270,6 @@
 <content tag="local_script"> 
 <!-- Mainly scripts -->
 
-<%-- 
-引入jquery导致不能弹出层
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script> 
---%>
-<script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
-<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <!-- Custom and plugin javascript -->
 <script src="${ctx}/static/js/inspinia.js"></script>
 <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
