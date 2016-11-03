@@ -62,6 +62,10 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	@Value("${process.df.key.Spv_CashflowInProcess}")
 	private String spvCashflowInProcess;
 	
+	@Value("${process.df.key.NewLoanLost_Process}")
+	private String processNewLoanLostDfKey;
+	
+	
 	public String getSpvCashflowInProcess() {
 		return spvCashflowInProcess;
 	}
@@ -201,6 +205,10 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 
 	public String getProcessPSFLoanDfKey() {
 		return processPSFLoanDfKey;
+	}
+	
+	public String getProcessNewLoanLostDfKey() {
+		return processNewLoanLostDfKey;
 	}
 
 }

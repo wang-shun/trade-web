@@ -342,7 +342,7 @@ public class TaskController {
     		request.setAttribute("OfflineEva", offlineEvaService.queryOfflineEvaVO(instCode));
     		request.setAttribute("evaReport", toEvaReportService.findByProcessId(instCode));
     	} else if(taskitem.equals("LoanlostApproveManager") || 
-    			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
+    			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager") || taskitem.equals("LoanlostApproveSeniorManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
     		
     		/*贷款流失审批 添加流失原因*/
