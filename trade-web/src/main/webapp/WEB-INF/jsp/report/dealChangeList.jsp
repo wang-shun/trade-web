@@ -352,7 +352,7 @@
                     <p>
                         <i class="sign_blue">{{ item.PART_CODE }}</i>
                     </p>
-					{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+					{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>21}}
                       <p class="big demo-top" title="{{item.PROPERTY_ADDR}}">
                       {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-21,item.PROPERTY_ADDR.length)}}
                     {{else}}
