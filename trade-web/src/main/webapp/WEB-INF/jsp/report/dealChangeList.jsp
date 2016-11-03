@@ -55,7 +55,7 @@
                                         所在组
                                     </label>
                                     <input type="text" readonly="readonly" class="teamcode input_type" id="teamId" name="teamId" hVal="" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
-                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";>
+                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";>
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
@@ -134,7 +134,7 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                <span class="sort" sortColumn="T.CASE_CODE" sord="desc" onclick="changeStyle();">案件编码</span><i id="flag" class="fa fa-sort-desc fa_down"></i>
+                                                <span class="sort" sortColumn="S.CASE_CODE" sord="desc" onclick="changeStyle();">案件编码</span><i id="flag" class="fa fa-sort-desc fa_down"></i>
                                             </th>
 
                                             <th>
@@ -158,54 +158,6 @@
                                         </tr>
                                     </thead>
                                     <tbody id="dealChangeList">
-                                        <tr>
-                                            <td>
-                                                <p class="big">
-                                                    <a href="javascript:;">
-                                                        ZY-AJ-201605-0952
-                                                    </a>
-                                                </p>
-                                                <span class="red_color">异常</span><a href="#"><i class="icon iconfont" style="font-size: 20px;color:#808080"></i></a>
-                                            </td>
-                                            <td>
-                                             <p>
-                                                    <i class="sign_blue">
-                                                        总监审批
-                                                    </i>
-                                                </p>
-                                                <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号060室
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="manager"><span>上家:</span><a href="#" class="mr5">金娇娇</a></p>
-                                                <p class="manager"><span>上家:</span><a href="#" class="mr5">金娇娇</a></p>
-                                            </td>
-                                            <td>
-                                                <p class="smll_sign">
-                                                    <i class="sign_normal">原预计</i>
-                                                    2016-08-21
-                                                </p>
-                                                <p class="smll_sign">
-                                                    <i class="sign_normal">新预计</i>
-                                                    2016-08-22
-                                                </p>
-                                            </td>
-                                            <td>
-
-                                                <p class="manager"><i class="sign_normal">原因</i><span class="demo-top" title="原因有许多，需要哪一条？来看看，原因有许多，需要哪一条？来看看">原因有许多，需要</span></p>
-                                                <p class="smll_sign">
-                                                    2016-08-22
-                                                </p>
-                                            </td>
-                                            <td>
-                                                 <p class="manager"><span>变更人:</span><a href="#" class="mr5">金娇娇</a></p>
-                                                <p>虹口杨浦贵宾服务部A组</p>
-                                            </td>
-                                            <td class="text-center">
-                                                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">处理</button>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                                 <div class="text-center page_box">
@@ -325,7 +277,7 @@
                                         <button type="button" class="btn btn-success" id="submitBtn">
                                             提交
                                         </button>
-                                        <button type="reset" class="btn btn-grey" data-dismiss="modal" id="close">
+                                        <button type="button" class="btn btn-grey" data-dismiss="modal" id="close">
                                             关闭
                                         </button>
                                     </div>
@@ -431,11 +383,11 @@
                 </td>
 				<td>
                     <p class="smll_sign">
-                         <i class="sign_normal">原预计</i>
+                         <i class="sign_normal">原</i>
                          {{item.OLD_EST_PART_TIME}}
                     </p>
                     <p class="smll_sign">
-                         <i class="sign_normal">新预计</i>
+                         <i class="sign_normal">新</i>
                          {{item.NEW_EST_PART_TIME}}
                     </p>
                  </td>
