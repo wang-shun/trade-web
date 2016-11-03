@@ -309,6 +309,8 @@ public class ReservationMobileController {
 		Long defaultTradeCenterId = 0L;
 		if (tradeCenterIdList != null && tradeCenterIdList.size() > 0) {
 			defaultTradeCenterId = tradeCenterIdList.get(0);
+		} else { // 如果默认没有找到交易中心id,就默认给它市区(市区标识id为1)
+			defaultTradeCenterId = 1L;
 		}
 
 		List<TransactItemVo> transactItemVoList = reservationService

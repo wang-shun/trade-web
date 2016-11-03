@@ -209,6 +209,10 @@
 							id="mortTmpBankAnalysis">
 							<i class="iconfont icon">&#xe63d;</i> 临时银行报表
 						</button>
+						<!-- <button type="button" class="btn  btn-icon btn-toggle mr5 "
+							id="mortEvalFeeAnalysis">
+							<i class="iconfont icon">&#xe63d;</i> 评估费报表
+						</button> -->
 						<button type="button" class="btn btn-grey"
 							id="mortgageInfoCleanButton">清空</button>
 						<!-- <button type="button" id="mortTypeAnalysis"
@@ -241,6 +245,16 @@
 						</div>
 						<div class="col-md-6">
 							<div id="pieChartMTmpBankCases" style="width: 100%; height: 440px;"></div>
+						</div>
+					</div>
+					
+					<div class="row chartfour"
+						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4;">
+						<div class="col-md-6">
+							<div id="pieChartMEvalFeeAmount" style="width: 100%; height: 440px;"></div>
+						</div>
+						<div class="col-md-6">
+							<div id="pieChartMEvalFeeCases" style="width: 100%; height: 440px;"></div>
 						</div>
 					</div>
 				</div>
