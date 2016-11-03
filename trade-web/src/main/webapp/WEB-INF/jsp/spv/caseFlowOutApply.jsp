@@ -202,66 +202,7 @@
 											<td>${item.deAmount>0?item.deAmount:0}万元</td>
 											<td>${item.deAddition}</td>
 										</tr>
-										</c:forEach>
-                                        
-                                        
-                                      <%--   
-                                        <c:forEach items="${deDetailMixList }" var="mix" varStatus="status1">
-                                        <c:set var="sumTotalAmt" value="${sumTotalAmt + mix.totalDeAmount}"/>
-                                        <c:set var="sumSellerAmt" value="${sumSellerAmt + mix.sellerDeAmount}"/>
-                                        <c:set var="sumFundAmt" value="${sumFundAmt + mix.fundDeAmount}"/>
-                                        <c:set var="codeArrStr" value="${mix.deCondCode},${codeArrStr }"/> --%>
-                                        <%-- <tr>
-                                            </td>
-                                            <td>
-                                                 <aist:dict id="" name="" clazz="form-control input-one"
-									            display="select"  dictType="SPV_DE_COND"  
-									            ligerui='none' defaultvalue="${mix.deCondCode }" ></aist:dict> 
-									            
-									            <c:choose>  
-												    <c:when test="${mix.deCondCode=='01'}">  
-												        	满足过户收件收据
-												     </c:when>  
-												    <c:when test="${mix.deCondCode=='02'}">  
-												      		  出新产证 
-												    </c:when>  
-												    <c:when test="${mix.deCondCode=='03'}">  
-												                              物业结清
-												    </c:when>  
-												    <c:when test="${mix.deCondCode=='04'}">  
-												        	其他 
-												    </c:when>  
-												</c:choose>  
-                                            </td>
-                                            <td>
-                                                <c:if test="${not empty mix.totalDeAmount}">${mix.totalDeAmount }万</c:if>
-                                            </td>
-                                            <td>
-                                                <c:if test="${not empty mix.sellerDeAmount}">${mix.sellerDeAmount }万</c:if>
-                                            </td>
-                                            <td>
-                                                <c:if test="${not empty mix.fundDeAmount}">${mix.fundDeAmount }万</c:if>
-                                            </td>
-                                        </tr> --%>
-                                       <%--  </c:forEach> --%>
-                                        
-                                        
-                                        <%-- <tr>
-<!--                                             <td>
-                                            </td> -->
-                                            <td>
-                                               	 合计
-                                            </td>
-                                            <td>
-                                                <c:if test="${sumTotalAmt != 0}">${sumTotalAmt }万</c:if>
-                                            </td>
-                                            <td>
-                                                <c:if test="${sumSellerAmt != 0}">${sumSellerAmt }万</c:if>
-                                            </td>
-                                            <td>
-                                                <c:if test="${sumFundAmt != 0}">${sumFundAmt }万</c:if>
-                                            </td>
-                                        </tr>      --%>                                  
+										</c:forEach>              
                                         </tbody>
                                     </table>
                                 </div>
@@ -454,12 +395,12 @@
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.pkid"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid }" />
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.spvCode }" />
 	                                                <td>
-	                                                    <input  class="table_input boderbbt" type="text"  placeholder="请输入收款人姓名" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payer" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" />
+	                                                    <select  class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiver" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" onChange="doSearch(this)" ></select>
 	                                                </td>
 	                                                <td>
-	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverAcc }" placeholder="请输入银行卡号"  name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payerAcc" /></p>
+	                                                    <p><select class="table-select boderbbt" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverAcc }" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiverAcc" ></select></p>
 	                                                    <p>
-	                                                    <p><input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverBank }" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.payerBank"/></p>
+	                                                    <p><select class="table-select boderbbt" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverBank }" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiverBank"></select></p>
 	                                                    <p>
 	                                                </td>
 	
@@ -497,9 +438,9 @@
 														</span>	
                                                 	 </c:forEach>  
                                                 	 <c:if test="${empty handle or handle eq 'apply' }">
-                                                	 <span class="btn_file${status2.index}"  style='margin-bottom: 5px;margin-right:5px;padding: 0 8px;'>                                                                                                                                                               
+                                                	 <span class="btn_file${status2.index}" >                                                                                                                                                               
        			                                             <input id="fileupload_${status2.index}" style="display:none" type="file" name="files[]" multiple="" data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload" data-sequential-uploads="true">
-			                                                      <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-18px;cursor:pointer; background-image:url(${ctx}/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$('#fileupload_${status2.index}').trigger('click');"/>
+			                                                      <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-18px;cursor:pointer; background:url(${ctx}/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$('#fileupload_${status2.index}').trigger('click');"/>
 		                                             </span>
 		                                             </c:if>   
 	                                                </td>
@@ -652,37 +593,25 @@ $(function() {
 			$(e).remove();
 		}
 	});
-		$("#addTr2").find("select").change(function(){
+	
+	$("#addTr2").find("select").change(function(){
 		if($(this).find("option:selected").val() == ''){
-			$("select[name$='toSpvCashFlow.payer'] option:nth-child(1)").prop("selected",true);
-			$("select[name$='toSpvCashFlow.payerAcc']").val('');
-			$("select[name$='toSpvCashFlow.payerBank']").val('');
+			$("select[name$='toSpvCashFlow.receiver']").val('');
+			$("select[name$='toSpvCashFlow.receiverAcc']").val('');
+			$("select[name$='toSpvCashFlow.receiverBank']").val('');
 			return;
 		}
 		 deId=$(this).find("option:selected").val();
-		 var size = ${deDetailMixList.size()};
-		for(var i=0;i<size;i++){		
-			if(i == 0){
-				var deCondCode = '${deDetailMixList[0].deCondCode}';
-				var sellerName = '${deDetailMixList[0].sellerName}';
-				var fundName = '${deDetailMixList[0].fundName}';
-			}else if(i == 1){
-				var deCondCode = '${deDetailMixList[1].deCondCode}';
-				var sellerName = '${deDetailMixList[1].sellerName}';
-				var fundName = '${deDetailMixList[1].fundName}';
-			}else if(i == 2){
-				var deCondCode = '${deDetailMixList[2].deCondCode}';
-				var sellerName = '${deDetailMixList[2].sellerName}';
-				var fundName = '${deDetailMixList[2].fundName}';
-			}else if(i == 3){
-				var deCondCode = '${deDetailMixList[3].deCondCode}';
-				var sellerName = '${deDetailMixList[3].sellerName}';
-				var fundName = '${deDetailMixList[3].fundName}';
+		 addselect(deId,obj);		
+	}).change(); 
+	
+	$("select[name$='toSpvCashFlow.receiver']").each(function(i,e){
+		$(e).find("option").each(function(i_,e_){
+			if($(e).attr('value') == $(e_).val()){
+				$(e_).prop('selected',true);
 			}
-			addselect(deId,obj);
-		}
-		
-	}); 
+		});
+	}).change();
 		
 	//图片渲染
 	if($("img[id^='image_']").size()>0){
@@ -703,28 +632,28 @@ $(function() {
 });
 function doSearch(this_){
 	var index = $(this_).find("option:selected").attr("gl");
-	var i = $(this_).attr("name").replace('spvCaseFlowOutInfoVOList[','').replace('].toSpvCashFlow.payer','');
+	var i = $(this_).attr("name").replace('spvCaseFlowOutInfoVOList[','').replace('].toSpvCashFlow.receiver','');
 
-    $("select[name='spvCaseFlowOutInfoVOList["+i+"].toSpvCashFlow.payerAcc'] option[gl="+index+"]").prop("selected", true);
-    $("select[name='spvCaseFlowOutInfoVOList["+i+"].toSpvCashFlow.payerBank'] option[gl="+index+"]").prop("selected", true);
+    $("select[name='spvCaseFlowOutInfoVOList["+i+"].toSpvCashFlow.receiverAcc'] option[gl="+index+"]").prop("selected", true);
+    $("select[name='spvCaseFlowOutInfoVOList["+i+"].toSpvCashFlow.receiverBank'] option[gl="+index+"]").prop("selected", true);
 }
 
 function addselect(deId,obj,index){
-	$("select[name$='toSpvCashFlow.payer']").empty(); 
-	$("select[name$='toSpvCashFlow.payerAcc']").empty(); 
-	$("select[name$='toSpvCashFlow.payerBank']").empty(); 
+	$("select[name$='toSpvCashFlow.receiver']").empty(); 
+	$("select[name$='toSpvCashFlow.receiverAcc']").empty(); 
+	$("select[name$='toSpvCashFlow.receiverBank']").empty(); 
 	
 	$.each(obj,function(n,data) { 
 		if(deId==data.type){
 			if(index == n){
-				 $("select[name$='toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+data.name+"' selected>"+data.name+"</option>");
-			      $("select[name$='toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+data.account+"' selected>"+data.account+"</option>");
-			      $("select[name$='toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+data.bankName+"' selected>"+data.bankName+"</option>");
+				 $("select[name$='toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"' selected>"+data.name+"</option>");
+			     $("select[name$='toSpvCashFlow.receiverAcc']").append("<option gl='"+n+"' value='"+data.account+"' selected>"+data.account+"</option>");
+			     $("select[name$='toSpvCashFlow.receiverBank']").append("<option gl='"+n+"' value='"+data.bankName+"' selected>"+data.bankName+"</option>");
 			}
 			else {
-				 $("select[name$='toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
-			      $("select[name$='toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
-			      $("select[name$='toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
+				 $("select[name$='toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
+			     $("select[name$='toSpvCashFlow.receiverAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
+			     $("select[name$='toSpvCashFlow.receiverBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
 			}
 		}
   	});  
@@ -733,9 +662,9 @@ function addselect(deId,obj,index){
 function addselectOne(deId,obj,index){	
 	$.each(obj,function(n,data) { 
 		if(deId==data.type){
-				 $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payer']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
-			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
-			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.payerBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
+				 $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
+			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiverAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
+			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiverBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
 		}
   	});  
 }
@@ -743,30 +672,18 @@ function addselectOne(deId,obj,index){
 //添加入账申请信息tr
 function getTR(index){
 	index = sum;
- 	var sellerNameSelect = '';
-	var fundNameSelect = '';
-	
-	if(accountType == 'seller'){
-		fundNameSelect = 'selected="selected"';
-	}else if(accountType == 'fund'){
-		sellerNameSelect = 'selected="selected"';
-	} 
 	
 	var  $str='';
 	$str+='<tr>';
 	$str+='	<td>';
-//	$str+='<input  class="table_input boderbbt" type="text" placeholder="请输入付款人姓名" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" >';
-	$str+='		<select  class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payer" onChange="doSearch(this)" >';
+	$str+='		<select  class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.receiver" onChange="doSearch(this)" >';
 	$str+='		</select>';	
 	$str+='	</td>';
 	$str+='	<td>';
-//	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行卡号"  onKeypress="if (!(event.keyCode > 47 && event.keyCode < 58)) event.returnValue = false;" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc" >';
-	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerAcc"    readonly >';
-	$str+='		</select>';
-	
+	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.receiverAcc"    readonly >';
+	$str+='		</select>';	
 	$str+='</p>';
-//	$str+='		<p><input class="table_input boderbbt" type="text" placeholder="请输入银行名称" name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"';
-	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.payerBank"  readonly>';
+	$str+='		<p><select class="table-select boderbbt"  name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.receiverBank"  readonly>';
 	$str+='		</select>';	
 	$str+=' </p>';
 	$str+='	</td>';
@@ -787,7 +704,7 @@ function getTR(index){
 	$str+='	<td id="td_file'+index+'">';
 	$str+='		<span class="btn_file'+index+'">';
 	$str+='			<input id="fileupload_'+index+'" style="display:none" type="file" name="files[]" multiple="" data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload" data-sequential-uploads="true">';
-	$str+='			<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-14px;cursor:pointer; background:url('+ctx+'/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$(\'#fileupload_'+index+'\').trigger(\'click\');" ></label>';
+	$str+='			<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-18px;cursor:pointer; background:url('+ctx+'/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$(\'#fileupload_'+index+'\').trigger(\'click\');" ></label>';
 	$str+='		</span>';
 	$str+='	</td>';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+sum+')">添加</a>';
@@ -825,7 +742,7 @@ function getUploadImage2(thisIndex,fileUrl,fileId,fileName){
 }
 //删除入账申请信息tr
 function getDel(k){
-	if($("input[name$='payer']").size()==1){
+	if($("input[name$='receiver']").size()==1){
 		alert("入账申请信息不能少于一行数据！");
 		return false;
 	}
@@ -890,8 +807,7 @@ function renderFileUpload(k,a){
 }
 
 function rescCallbocak(){
-	 window.opener.location.reload(); //刷新父窗口
-	 window.close();  //关闭子窗口.
+	window.location.href = ctx+"/spv/spvList";
 }
 
 //渲染图片 
