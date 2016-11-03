@@ -383,11 +383,11 @@
                 </td>
 				<td>
                     <p class="smll_sign">
-                         <i class="sign_normal">原预计</i>
+                         <i class="sign_normal">原</i>
                          {{item.OLD_EST_PART_TIME}}
                     </p>
                     <p class="smll_sign">
-                         <i class="sign_normal">新预计</i>
+                         <i class="sign_normal">新</i>
                          {{item.NEW_EST_PART_TIME}}
                     </p>
                  </td>
