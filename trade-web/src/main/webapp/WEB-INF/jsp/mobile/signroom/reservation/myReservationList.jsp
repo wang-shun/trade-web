@@ -54,7 +54,7 @@
 				<li class="aui-list-header header_grey_bg">
                 	<div class="aui-info pd0">
                     	<div class="aui-info-item">
-                       		<span class="aui-margin-l-5 book">您还剩余<span class="num">3</span>次预约机会</span>
+                       		<span class="aui-margin-l-5 book">您还剩余<span class="num">${remainBespeakNumber}</span>次预约机会</span>
                     	</div>
                     	<div class="aui-info-item color80 font12">{{item.resDate}}<span class="deepgrey ml5">{{item.actStartDate}}-{{item.actEndDate}}</span></div>
                 	</div>
@@ -70,7 +70,7 @@
             <li class="aui-list-item">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-inner">
-                        <div class="aui-list-item-title font15 order-title left mr10">{{item.tradeCenterName}}<span class="newgrey">({{item.numberOfPeople}}人间)</span></div>
+                        <div class="aui-list-item-title font15 order-title left mr10">{{item.tradeCenterName}}</div>
                         <div class="aui-list-item-title font15 order-title left" >
                             预约号：<em class="yellow">{{item.resNo}}</em>
                         </div>

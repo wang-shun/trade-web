@@ -6,6 +6,23 @@ $(function(){
 	//页面初始化
 	init();
 	
+	//点击更换签约室按钮事件
+	$("#btnChangeRoom").click(function(){
+		var resId = $("#signRoom #resId").val();
+		var scheduleId = $("#signRoom tr td button[class='btn btn-transparent margin5 btn-lightblue']").attr("id");
+		
+		saveChangeRoom(resId,scheduleId,"change");
+	});
+	
+	//点击更换签约室及启用按钮事件
+	$("#btnChangeAndEnableRoom").click(function(){
+		var resId = $("#signRoom #resId").val();
+		var scheduleId = $("#signRoom tr td button[class='btn btn-transparent margin5 btn-lightblue']").attr("id");
+		
+		saveChangeRoom(resId,scheduleId,"changeAndSave");
+	});
+	
+	
 	//条件查询
 	$("#searchButton").click(function(){
 		$("#searchForm").submit();
@@ -109,8 +126,8 @@ $(function(){
 	$("#searchForm input[name='resPeopleId']").val("");
 	$("#searchForm input[name='resNo']").val("");
 	$("#searchForm input[name='mobile']").val("");
-	$("#searchForm input[name='startDateTime']").val(getCurrentDate());
-	$("#searchForm input[name='endDateTime']").val(getCurrentDate());
+	$("#searchForm input[name='startDateTime']").val("");
+	$("#searchForm input[name='endDateTime']").val("");
 	$("#searchForm #selResTime").val("");
 	$("#searchForm input[name='resTime']").val("");
 	$("#selResStatus").val("");
@@ -128,6 +145,14 @@ $(function(){
   });
   
 });
+
+//变更签约室点击切换效果
+function toggleClass(obj){
+	$("#signRoom tr td button").removeClass('btn-lightblue');
+    if(!$(obj).hasClass("btn-lightblue")) {
+        $(obj).addClass('btn-lightblue');
+    }
+}
 
 //显示跟进信息
 function showTip(obj){
@@ -152,6 +177,57 @@ function showMobile(obj){
 		alignY: 'top',
 		offsetX: 8,
 		offsetY: 5,
+	});
+}
+
+//变更房间
+function changeRoom(obj,resId,tradeCenterId,resStartTime,resEndTime){
+	$("#signRoom #resId").val(resId);
+	$("#signRoom #resStartTime").val(resStartTime);
+	$("#signRoom #resEndTime").val(resEndTime);
+	
+	$.ajax({
+		cache:false,
+		async:false,
+		type:"POST",
+		dataType:"json",
+		url:ctx+"/reservation/getUseableSignRoomList",
+		data:{tradeCenterId:tradeCenterId,resStartTime:resStartTime,resEndTime:resEndTime},
+		success:function(data){
+			var strHtml = "";
+			
+			if(data.length > 0){
+				for(var i=0;i<data.length;i++){
+					var signroomInfo = data[i];
+					
+					strHtml += "<tr ><td style='padding:0px 8px;'><p>" + signroomInfo.numberOfPeople + "人间</p></td><td style='padding:0px 8px;'>";
+					
+					var roomPropList = signroomInfo.roomPropList;
+					
+					for(var j=0;j<roomPropList.length;j++){
+						var roomProp = roomPropList[j];
+						var roomType = roomProp.roomType;
+						
+						if(roomType == 0){
+							strHtml += "<button id='" + roomProp.scheduleId + "' class='btn btn-transparent margin5' onClick='toggleClass(this)'>" + roomProp.roomNo + "</button>";
+						}
+						else if(roomType == 1){
+							strHtml += "<button id='" + roomProp.scheduleId + "' class='btn btn-transparent margin5 btn-lightyellow' onClick='toggleClass(this)'>" + roomProp.roomNo + "（机动）</button>";
+						}
+						
+					}
+					
+                                                
+					strHtml += "</td></tr>";     
+				}
+			}
+			else {
+				strHtml = "<tr class='text-center'><td colspan='2'><font color='red'>无可预约房间信息!</font></td></tr>"
+			}
+			
+			$("#changeRoom #signRoom tbody").html(strHtml);
+			$("#changeRoom").show();
+		}
 	});
 }
 
@@ -245,6 +321,42 @@ function startAndEndUse(obj,flag){
 			}
 		});
 	}
+}
+
+function saveChangeRoom(resId,scheduleId,flag){
+	var isPass = false;
+	var length = $("#signRoom tbody tr td button[class='btn btn-transparent margin5 btn-lightblue']").length;
+	
+	if(length == 0){
+		alert("请选择房间编号！");
+		return false;
+	}
+	
+	var resStartTime = $("#signRoom #resStartTime").val();
+	var resEndTime = $("#signRoom #resEndTime").val();
+	
+	var currentDateTime = new Date();
+	var resStartDateTime = new Date(resStartTime);
+	var resEndDateTime = new Date(resEndTime);
+	
+	if(currentDateTime < resStartDateTime || currentDateTime > resEndDateTime){
+		alert("不能开始，不在预约时间内！");
+		return false;
+	}
+	
+	$.ajax({
+		cache:false,
+		async:false,
+		type:"POST",
+		dataType:"text",
+		url:ctx+"/reservation/changeRoom",
+		data:{resId:resId,scheduleId:scheduleId,flag:flag},
+		success:function(data){
+			if(data == "true"){
+				$("#searchForm").submit();
+			}
+		}
+	});
 }
 
 //保存跟进信息

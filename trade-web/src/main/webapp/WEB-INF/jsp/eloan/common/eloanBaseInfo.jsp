@@ -24,6 +24,7 @@
 								<dl class="dl-horizontal">
 									<dt>e+编号</dt>
 									<dd>
+										<input type="hidden" id="caseCode" name="caseCode" value="${eloanCase.eloanCode }">
 										<a herf="#">${eloanCase.eloanCode }</a>
 									</dd>
 									<dt>产权地址</dt>

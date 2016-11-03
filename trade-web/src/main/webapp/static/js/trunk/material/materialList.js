@@ -245,7 +245,7 @@ function compareCaseCode(a,b){
 		  if(i != b){
 			  if($(caseCodeArray[i]).attr("kkk") != $(a).attr("kkk")){
 				caseCodeFlag = false;
-				alert("单次操作请选择相同CaseCode对应的物品！");
+				alert("单次操作请选择相同案件编号对应的物品！");
 			  }
 		  }
 		 if(caseCodeFlag==false){				

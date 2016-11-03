@@ -70,9 +70,9 @@
 									<dt>监管金额</dt>
 									<dd>${spvBaseInfoVO.toSpv.amount>0?spvBaseInfoVO.toSpv.amount:0}万元</dd>
 									<dt>已转入金额</dt>
-									<dd>0万元</dd>
+									<dd>${totalCashFlowInAmount }万元</dd>
 									<dt>已转出金额</dt>
-									<dd>0万元</dd>
+									<dd>${totalCashFlowOutAmount }万元</dd>
 								</dl>
 							</div>
 							<div class="col-lg-3">

@@ -175,7 +175,7 @@ SELECT
 					</ifNotNull>
 					INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
 				    WHERE 
-				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !='' AND (c.STATUS IS NULL OR c.STATUS='VALID') 
+				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !='' AND (loanAgent.STATUS IS NULL OR loanAgent.STATUS='VALID') 
 				    
 				    <ifNotNull applyTimeStart>
 						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#

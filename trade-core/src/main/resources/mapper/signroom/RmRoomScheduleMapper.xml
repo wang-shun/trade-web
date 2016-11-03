@@ -82,6 +82,13 @@ ORDER BY t.START_DATE ASC
   <delete id="deleteRmRoomScheduleByRoomId" parameterType="java.lang.Long" >
     update sctrans.T_RM_ROOM_SCHEDULE set IS_DELETE = '1' where ROOM_ID = #{pkid,jdbcType=BIGINT}
   </delete>
- 
+  
+  <update id="updateRoomStatusToFree" parameterType="java.lang.Long">
+  		UPDATE sctrans.T_RM_ROOM_SCHEDULE SET USE_STATUS = 'N',CAN_RES = 1,RES_ID = null , UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} WHERE PKID = #{oldScheduleId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateRoomStatusToUsed" parameterType="com.centaline.trans.signroom.vo.ReservationVo">
+  		UPDATE sctrans.T_RM_ROOM_SCHEDULE SET USE_STATUS = 'Y',CAN_RES = 0,RES_ID = #{resId,jdbcType=VARCHAR},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} WHERE PKID = #{newScheduleId,jdbcType=BIGINT}
+  </update>
 
 </mapper>

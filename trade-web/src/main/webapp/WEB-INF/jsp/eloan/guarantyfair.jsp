@@ -297,7 +297,7 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
-	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
 	
     <script>
 	    if ("${idList}" != "") {

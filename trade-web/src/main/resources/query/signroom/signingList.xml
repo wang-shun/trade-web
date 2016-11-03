@@ -49,7 +49,7 @@
 				<![CDATA[
 					SELECT r.PKID AS resId,r.RES_NO AS resNo,rs.START_DATE AS resDateTime,getdate() as currentDate,sr.ROOM_NO AS roomNO,sr.ROOM_TYPE as roomType,
 					r.NUMBE_OF_ACCOMMODATE_PEOPLE AS numberOfPeople,r.NUMBER_OF_PARTICIPANTS AS numberOfParticipants,rs.START_DATE AS startTime,rs.END_DATE AS endTime,
-					r.CHECK_IN_TIME AS checkInTime,r.CHECKED_OUT_TIME AS checkOutTime,r.RES_STATUS AS resStatus,
+					r.CHECK_IN_TIME AS checkInTime,r.CHECKED_OUT_TIME AS checkOutTime,r.RES_STATUS AS resStatus,r.SIGNING_CENTER_ID as tradeCenterId,
 					r.RES_PERSON_ID AS resPersonId,u.REAL_NAME AS realName,u.MOBILE AS mobile,r.SPECIAL_REQUIREMENT AS specialReq,
 					(SELECT COMMENT FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as latestComment,
 					(SELECT CREATE_TIME FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as followDateTime,
@@ -127,6 +127,7 @@
 				<column type="both" name="transactItemCode" index="" checkbox="" display="办理事项" title="办理事项" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="virtual" name="transactItemCodeList" title="办理事项列表" referencecol="transactItemCode" customDict="getTransactItemCodeList" />
 				<column type="both" name="timeDifference" index="" checkbox="" display="时间差" title="时间差" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="tradeCenterId" index="" checkbox="" display="交易中心id" title="交易中心id" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

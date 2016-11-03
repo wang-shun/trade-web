@@ -6,5 +6,5 @@ import com.centaline.trans.eloan.entity.RcRiskControl;
 public interface RcRiskControlService {
 	List<RcRiskControl> getRcRiskControlByProperty(String riskType, String eloanCode);
 	
-	int deleteReferRiskControlByProperty(String riskType,Long pkId);
+	int deleteReferRiskControlByProperty(String riskType,Long pkId,String eloanCode);
 }

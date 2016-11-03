@@ -59,39 +59,6 @@ public class CaseListForMobileController {
 	public String toMyCaseList(HttpServletRequest request, HttpServletResponse response, String code, String state)
 			throws IOException {
 		
-
-		/*Object user = request.getSession().getAttribute("agentUser");
-		if (user != null) {
-			request.setAttribute("userId", ((User) user).getId());
-			return "mobile/case/myCaseList";
-		}
-		if (code == null) {
-			String url = OAuth2Util.GetCode(ParamesAPI.REDIRECT_URI_MYCASE_LIST);
-			response.sendRedirect(url);
-			return null;
-		}
-		if (!"authdeny".equals(code)) {
-			String access_token = GetExistAccessToken.getInstance().getExistAccessToken();
-			// agentid 跳转链接时所在的企业应用ID
-			// 管理员须拥有agent的使用权限；agentid必须和跳转链接时所在的企业应用ID相同
-			String username = OAuth2Util.GetUserID(access_token, code, ParamesAPI.NEW_AGENCE);
-			if (StringUtils.isBlank(username)) {
-				request.setAttribute("msg", "用户不存在！");
-				return "mobile/propresearch/wecharaddResult";
-			}
-			User u = uamUserOrgService.getUserByUsername(username);
-			if (u == null) {
-				request.setAttribute("msg", "用户不存在！");
-				return "mobile/propresearch/wecharaddResult";
-			}
-			// 设置要传递的参数
-			request.setAttribute("userId", u.getId());
-			request.getSession().setAttribute("agentUser", u);
-			return "mobile/case/myCaseList";
-		} else {
-			request.setAttribute("msg", "用户取消授权！");
-			return "mobile/propresearch/wecharaddResult";
-		}*/
 		SessionUser user= uamSessionService.getSessionUser();
 		request.setAttribute("userId", user.getId());
 

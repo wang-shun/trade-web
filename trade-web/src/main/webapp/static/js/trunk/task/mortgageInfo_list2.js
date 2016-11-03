@@ -3,10 +3,15 @@ var serviceDepId = $("#serviceDepId").val();
 
 var pChartMTypeCases = echarts.init(document.getElementById('pieChartMTypeCases'));
 var pChartMTypeAmount = echarts.init(document.getElementById('pieChartMTypeAmount'));
+//组织报表
 var pChartMOrgCases = echarts.init(document.getElementById('pieChartMOrgCases'));
 var pChartMOrgAmount = echarts.init(document.getElementById('pieChartMOrgAmount'));
+
 var pChartMTmpBankCases = echarts.init(document.getElementById('pieChartMTmpBankCases'));
 var pChartMTmpBankAmount = echarts.init(document.getElementById('pieChartMTmpBankAmount'));
+
+var pChartMEvalFeeCases = echarts.init(document.getElementById('pieChartMEvalFeeCases'));
+var pChartMEvalFeeAmount = echarts.init(document.getElementById('pieChartMEvalFeeAmount'));
 
 var mTypeAllCases = 0;
 var mTypeTotalAmount = 0;
@@ -39,14 +44,21 @@ var tmpBankAmount = new Array(0, 0);
 var tmpBankCaseItems = new Array();
 var tmpBankAmountItems = new Array();
 
+var mEvalFeeAllCases = 0;
+var mEvalFeeTotalAmount = 0;
+var mEvalFeeCasesTitle = "";
+var mEvalFeeAmountTitle = "";
+
+var evalFeeLegends = new Array('评估费1', '评估费2');
+var evalFeeCases = new Array(0, 0);
+var evalFeeAmount = new Array(0, 0);
+var evalFeeCaseItems = new Array();
+var evalFeeAmountItems = new Array();
+
 /**
  * 案件统计详情
  */
 $(document).ready(function() {
-
-/*			var url = "/quickGrid/findPage";
-			var ctx = $("#ctx").val();
-			url = ctx + url;*/
 
 			var signTimeStart = $("#dtBegin_0").val();
 			var signTimeEnd = '';
@@ -79,14 +91,16 @@ $(document).ready(function() {
 
 			setPieCharts();
 
-			$(".charone,.chartwo,.chartthree").hide();
+			$(".charone,.chartwo,.chartthree,.chartfour").hide();
 			$("#mortTypeAnalysis").click(function() {
 				$(".charone").toggle();
 				$(".chartwo").hide();
 				$(".chartthree").hide();
+				$(".chartfour").hide();
 				$("#mortTypeAnalysis").addClass('btn-bg');
 				$("#mortOrgAnalysis").removeClass('btn-bg');
 				$("#mortTmpBankAnalysis").removeClass('btn-bg');
+				$("#mortEvalFeeAnalysis").removeClass('btn-bg');
 				if ($(".charone").is(":hidden")) {
 					$("#mortTypeAnalysis").removeClass('btn-bg');
 				}
@@ -96,9 +110,11 @@ $(document).ready(function() {
 				$(".chartwo").toggle();
 				$(".charone").hide();
 				$(".chartthree").hide();
+				$(".chartfour").hide();
 				$("#mortOrgAnalysis").addClass('btn-bg');
 				$("#mortTypeAnalysis").removeClass('btn-bg');
 				$("#mortTmpBankAnalysis").removeClass('btn-bg');
+				$("#mortEvalFeeAnalysis").removeClass('btn-bg');
 				if ($(".chartwo").is(":hidden")) {
 					$("#mortOrgAnalysis").removeClass('btn-bg');
 				}
@@ -108,11 +124,27 @@ $(document).ready(function() {
 				$(".chartthree").toggle();
 				$(".charone").hide();
 				$(".chartwo").hide();
+				$(".chartfour").hide();
 				$("#mortTmpBankAnalysis").addClass('btn-bg');
 				$("#mortTypeAnalysis").removeClass('btn-bg');
 				$("#mortOrgAnalysis").removeClass('btn-bg');
+				$("#mortEvalFeeAnalysis").removeClass('btn-bg');
 				if ($(".chartthree").is(":hidden")) {
 					$("#mortTmpBankAnalysis").removeClass('btn-bg');
+				}
+			});
+			
+			$("#mortEvalFeeAnalysis").click(function() {
+				$(".chartfour").toggle();
+				$(".charone").hide();
+				$(".chartwo").hide();
+				$(".chartthree").hide();
+				$("#mortEvalFeeAnalysis").addClass('btn-bg');
+				$("#mortTypeAnalysis").removeClass('btn-bg');
+				$("#mortOrgAnalysis").removeClass('btn-bg');
+				$("#mortTmpBankAnalysis").removeClass('btn-bg');
+				if ($(".chartfour").is(":hidden")) {
+					$("#mortEvalFeeAnalysis").removeClass('btn-bg');
 				}
 			});
 
@@ -171,7 +203,6 @@ function setPieCharts() {
 
 	option = setOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", typeLegends, typeAmountItems);
 	pChartMTypeAmount.setOption(option);
-
 	option = setOptions(mTypeCasesTitle, "{b}: {c} 单({d}%)", typeLegends, typeCaseItems);
 	pChartMTypeCases.setOption(option);
 	
@@ -180,7 +211,6 @@ function setPieCharts() {
 
 	option = setOrgOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", orgLegends, orgAmountItems);
 	pChartMOrgAmount.setOption(option);
-
 	option = setOrgOptions(mTypeCasesTitle, "{b}: {c} 单({d}%)", orgLegends, orgCaseItems);
 	pChartMOrgCases.setOption(option);
 	
@@ -189,9 +219,16 @@ function setPieCharts() {
 
 	option = setOptions(mTmpBankAmountTitle, "{b}: {c} 万({d}%)", tmpBankLegends, tmpBankAmountItems);
 	pChartMTmpBankAmount.setOption(option);
-
 	option = setOptions(mTmpBankCasesTitle, "{b}: {c} 单({d}%)", tmpBankLegends, tmpBankCaseItems);
 	pChartMTmpBankCases.setOption(option);
+	
+	mEvalFeeAmountTitle = '商贷(收单)总金额: ' + mTmpBankTotalAmount.toFixed(2) + ' 万';
+	mEvalFeeCasesTitle = '商贷(收单)总单数: ' + mTmpBankAllCases + ' 件'
+	
+	option = setOptions(mEvalFeeAmountTitle, "{b}: {c} 万({d}%)", tmpBankLegends, tmpBankAmountItems);
+	pChartMEvalFeeAmount.setOption(option);
+	option = setOptions(mEvalFeeCasesTitle, "{b}: {c} 单({d}%)", tmpBankLegends, tmpBankCaseItems);
+	pChartMEvalFeeCases.setOption(option);
 }
 
 function setQueryData() {
@@ -412,6 +449,12 @@ function getMOrgAnalysis() {
 				data : data,
 				success : function(data) {
 					var index;
+					
+					for (index in data.rows) {
+						data.rows[index].OONAME = data.rows[index].OONAME.replace('贵宾服务部','');
+						data.rows[index].ONAME = data.rows[index].ONAME.replace('贵宾服务部','');
+					}
+					
 					for (index in data.rows) {
 						var name;
 						if (userJobCode == '0') {
@@ -553,6 +596,7 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('LEND_DATE');
 			displayColomn.push('APPR_DATE');
 			displayColomn.push('REAL_HT_TIME');
+			displayColomn.push('CASETRANSFERDATE');
 			displayColomn.push('CREATE_TIME');
 			displayColomn.push('END_TIME_');
 			displayColomn.push('CUST_NAME');
@@ -792,16 +836,27 @@ function initpage(totalCount, pageSize, currentPage, records) {
  */
 function getParamsValue() {
 	// 日期类型
+	//签约
 	var signTimeStart = null;
 	var signTimeEnd = null;
+	//放款
 	var lendTimeStart = null;
 	var lendTimeEnd = null;
+	//审批时间
 	var apprTimeStart = null;
 	var apprTimeEnd = null;
+	//过户时间
 	var realhtTimeStart = null;
 	var realhtTimeEnd = null;
+	//流失审批时间
 	var endTimeStart = null;
 	var endTimeEnd = null;
+	//流失申请时间
+	var createTimeStart = null;
+	var createTimeEnd = null;
+	//过户审批通过时间	
+	var transferTimeStart = null;
+	var transferTimeEnd = null;
 
 	var comAmountStart = null;
 	var comAmountEnd = null;
@@ -823,6 +878,7 @@ function getParamsValue() {
 	}
 	// 获取誉萃组织
 	var organizeOrgId = $('#yuCuiOriGrpId').val().trim();
+	var orgHierarchy = $('#orgHierarchy').val().trim();
 
 	/*
 	 * if (org == "ff8080814f459a78014f45a73d820006") { org = null; } else if
@@ -883,6 +939,16 @@ function getParamsValue() {
 		endTimeEnd = end;
 		params.endTimeStart = endTimeStart;
 		params.endTimeEnd = endTimeEnd;
+	}else if (timeSelect == "CREATE_TIME") {
+		createTimeStart  = start;
+		createTimeEnd  = end;
+		params.createTimeStart = createTimeStart ;
+		params.createTimeEnd = createTimeEnd ;
+	}else if (timeSelect == "CASETRANSFERDATE") {
+		transferTimeStart  = start;
+		transferTimeEnd  = end;
+		params.transferTimeStart  = transferTimeStart ;
+		params.transferTimeEnd  = transferTimeEnd ;
 	}
 	
 	// 获取select 选中时间的值
@@ -945,6 +1011,7 @@ function getParamsValue() {
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.custName = custName;
+	params.orgHierarchy=orgHierarchy;
 	// params.finCode = finCode;
 	return params;
 }
@@ -973,6 +1040,7 @@ $('#MortgageLostListOrganizeOnclick').click(function() {
 function radioYuCuiOrgSelectCallBack(array) {
 	if (array && array.length > 0) {
 		$("#orgName").val(array[0].name);
+		$("#orgHierarchy").val(array[0].extendField);
 		$("#yuCuiOriGrpId").val(array[0].id);
 	} else {
 		$("#orgName").val("");

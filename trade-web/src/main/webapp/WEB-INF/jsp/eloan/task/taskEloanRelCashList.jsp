@@ -60,7 +60,9 @@
 
 	<input type="hidden" id="orgId"
 		value="${sessionUser.serviceCompanyId }">
-
+	<div class="portlet-body" style="display: block;">
+		<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
+	</div>
 	<!--*********************** HTML_main*********************** -->
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
@@ -71,8 +73,9 @@
 						<label class="control-label sign_left_small"> 产品名称 </label>
 						<aist:dict id="loanSrvCode" name="loanSrvCode"
 							clazz="select_control sign_right_one" display="select"
-							dictType="yu_serv_cat_code_tree" tag="Eloan" ligerui='none'
-							defaultvalue="${eloanCase.loanSrvCode}"></aist:dict>
+							dictType="yu_serv_cat_code_tree"  ligerui='none'>
+							
+							</aist:dict>
 					</div>
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 状态 </label> <select
@@ -218,11 +221,25 @@
          {{each rows as item index}}
 			    <tr class="tr-1">
                                         <td>
+                                           {{if item.type==1}}
                                             <p class="big">
-                                                <a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">
-                                                    {{item.ELOAN_CODE}}
+                                                <a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.PKID}}">
+                                                    {{item.loanCode}}
                                                 </a>
+                                              <i class="sign_blue">
+                                                                                                                                                              贷款类
+                                                </i>
+											    {{/if}}</p>
+
+                                              {{if item.type==2}}
+                                              <p>
+                                                 <a onclick="javascript:openLoan({{item.PKID}})">
+                                                 <i class="sign_blue">          
+                                                                                                                                                              卡类
+                                                </i>
+                                                 </a>
                                             </p>
+											{{/if}}
                                             <p>
                                                 {{item.PROPERTY_ADDR}}
                                             </p>
@@ -244,7 +261,14 @@
                                         </td>
                                         <td>
                                             <p class="smll_sign big">
-                                                                                                                                       金额 ：{{item.RELEASE_AMOUNT}}万
+                                                {{if item.type==1}}
+                                                                                                                                                    金额 ：{{item.releaseAmout}}万
+										        {{/if}}
+
+                                              {{if item.type==2}}
+                                                                                                                                                      金额 ：{{item.releaseAmout>0?item.releaseAmout/10000:0}}万
+											   {{/if}}
+                                                                                                                                     
                                             </p>
                                             <p class="smll_sign">
                                                                                                                                        时间：{{item.RELEASE_TIME}}
@@ -254,10 +278,10 @@
 
                                         <td>
                                             <p class="smll_sign bigt">
-                                               {{item.EXCUTOR_ID}}
+                                               {{item.ecutorId}}
                                             </p>
                                             <p class="smll_sign big">
-                                               {{item.EXCUTOR_TEAM}}
+                                               {{item.ecutorTeam}}
                                             </p>
                                         </td>
                                         <td>
@@ -265,6 +289,7 @@
                                          {{if item.CONFIRM_STATUS==0}}待确认{{/if}}
 										 {{if item.CONFIRM_STATUS==1}}已确认{{/if}}
 									     {{if item.CONFIRM_STATUS==2}}已拒绝{{/if}}
+                                         {{if item.CONFIRM_STATUS==3}}已确认{{/if}}
                                            </p>
                                         </td>
                                     </tr>
@@ -284,7 +309,6 @@
 									reloadStatus2();
 								}
 							});
-
 							$("#TypeBtn2").click(function() {
 								
 								$(".chartwo").toggle();
@@ -306,7 +330,6 @@
 							});
 							getBankList('');
 						});
-
 						//初始化数据
 						var ctx = $("#ctx").val();
 						serviceJobCode = $("#serviceJobCode").val();
@@ -546,6 +569,11 @@
 									/* $("#Cont").addClass("nullData"); */
 								}
 							});
+						}
+						function openLoan(pkid) {
+							$('#alertOper').attr("href",
+									ctx + "/loan/box/details?pkid=" + pkid);
+							$("#alertOper").trigger('click');
 						}
 					</script> </content>
 </body>

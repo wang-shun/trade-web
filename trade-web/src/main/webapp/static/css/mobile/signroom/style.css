@@ -124,7 +124,9 @@ th {
 .linehgl30 {
     line-height: 1.5rem;
 }
-
+.pink {
+    color: #f48ca4;
+}
 
 .clearfix:before,.clearfix:after  {
   display: table;
@@ -165,6 +167,9 @@ th {
 .white {
     background: #fff;
 }
+.white-text {
+    color: #fff!important;
+}
 .relative {
     position:  relative;
 }
@@ -198,6 +203,9 @@ th {
 }
 .font18 {
     font-size: 18px;
+}
+.font22 {
+    font-size: 22px;
 }
 
 .aui-btn-grey {
@@ -293,12 +301,11 @@ th {
     border: 1px solid #ccc;
     border-radius: 3px;
 }
-.choiceoption {
+.choiceoption,.filter {
     position: relative;
     display: inline-block;
     font-size: 0.7rem!important;
 }
-
 .seldate {
     min-height: 1.9rem!important;
     font-size: 0.7rem!important;
@@ -475,6 +482,7 @@ border: 1px solid #dddddd;
 .warn {
     background: url('../image/circle.png')no-repeat center center!important;
     background-size: 80%!important;
+    color: #333!important;
 }
 .curr {
     color: #fff!important;
@@ -490,7 +498,9 @@ border: 1px solid #dddddd;
 .usable-date {
     color: #333333;
 }
-
+.invalid {
+    color: #b0b0b0!important;
+}
 .sign_bg img {
     width: 100%;
     position:fixed; bottom:0;
@@ -515,3 +525,26 @@ border: 1px solid #dddddd;
     background: #fff url(../image/right.png) no-repeat 0.3rem center!important;
     background-size: 20%!important;
 }
+.nodata {
+    padding: 1rem 2rem;
+}
+.layui-padding {
+    padding: 55px 20px 40px!important;
+}
+.aui-btn-super {
+    padding: 0.6rem 6rem;
+    font-size: 0.8rem;
+}
+.aui-btn-mt10 {
+    margin-top: 0.6rem;
+}
+@media screen and (max-width: 320px) {
+    .filter-mark {
+        padding-left: 0.9rem;
+        color: #81d8d0!important;
+        background: #fff url(../image/right.png) no-repeat 0.15rem center!important;
+        background-size: 20%!important;
+    }
+}
+
+

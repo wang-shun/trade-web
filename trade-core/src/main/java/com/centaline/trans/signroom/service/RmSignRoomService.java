@@ -1,5 +1,6 @@
 package com.centaline.trans.signroom.service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.vo.DateWeekVo;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
 
 public interface RmSignRoomService {
@@ -68,5 +70,13 @@ public interface RmSignRoomService {
 	 * @return
 	 */
 	boolean isCanDelSignRoom(RmSignRoom rmSignRoom);
+
+	/**
+	 * 显示排班数据
+	 * @param map
+	 * @return
+	 * @throws ParseException 
+	 */
+	List<DateWeekVo> showSchedulingData(Map map) throws ParseException;
 
 }

@@ -670,7 +670,7 @@
   	<where>
       (STATUS IS NULL OR STATUS='VALID') 
   	  <if test="eloanCode != null" >
-        ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+         AND ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
       </if>
       <if test="caseCode != null" >
         AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
