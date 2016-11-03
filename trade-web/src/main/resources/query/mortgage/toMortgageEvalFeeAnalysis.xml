@@ -28,7 +28,7 @@
 		</formatter>
 	</formatters>	
 	
-	<query id="queryMortgageTypeAnalysis">
+	<query id="queryMortgageEvalFeeAnalysis">
 	    <searchCondition>
 		   <!-- <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
@@ -37,13 +37,11 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[  	
-			SELECT  
-			MTYPEANAL.LOANTYPE AS MTYPE,
-			MTYPEANAL.IS_TMP_BANK AS MISTMP,
-			COUNT(MTYPEANAL.PKID) AS MCASES,
-			SUM(MTYPEANAL.COM_AMOUNT) AS MCOMAMOUNT,
-			SUM(MTYPEANAL.PRF_AMOUNT) AS MPRFAMOUNT,
-			SUM(MTYPEANAL.MORT_TOTAL_AMOUNT) AS MTOTALAMOUNT
+			SELECT
+			MTYPEANAL.IS_EVAL AS MISEVAL,
+			COUNT(MTYPEANAL.CASE_CODE) AS MCASES,
+			SUM(MTYPEANAL.EVAL_FEE) AS EVALFEE,
+			SUM(MTYPEANAL.DUE_EVAL_FEE) AS DEVALFEE
 			FROM		
 			(SELECT
 					T.PKID,
@@ -76,6 +74,8 @@
 					T.END_TIME_,
 					T.CON_PRICE,
 					T.EVAL_FEE,
+					T.IS_EVAL,
+					T.DUE_EVAL_FEE,
 					T.CREATE_TIME,
 					T.CASETRANSFERDATE  --过户申请时间
 			FROM				
@@ -141,6 +141,8 @@
 					)END_TIME_,
 					ISNULL(S.CON_PRICE,0)/10000 CON_PRICE,
 					ISNULL(EFR.EVAL_FEE,0) EVAL_FEE,
+					ISNULL(S.CON_PRICE,0)/1000 DUE_EVAL_FEE,
+					(CASE WHEN EFR.CASE_CODE IS NULL THEN 0 ELSE 1 END) AS IS_EVAL,
 					M.CREATE_TIME,
 					(select TOP 1 V.LAST_UPDATED_TIME_ FROM  sctrans.ACT_HI_VARINST V  
 					where PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE 	FROM sctrans.T_TO_WORKFLOW TW  	WHERE TW.CASE_CODE=M.CASE_CODE AND  TW.BUSINESS_KEY = 'operation_process' 	AND TW.STATUS in (0, 4) ) 
@@ -159,7 +161,7 @@
 					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
 					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>		
 				) T  
-				where  1=1
+				where T.LOANTYPE = '1'
 				
 				<ifNotNull caseCode>
 				    AND T.CASE_CODE LIKE '%'+#caseCode#+'%'
@@ -277,19 +279,17 @@
 				]]>
 			</baseSql>
 			<groupSql>
-				GROUP BY MTYPEANAL.LOANTYPE, MTYPEANAL.IS_TMP_BANK
+				GROUP BY MTYPEANAL.IS_EVAL
 			</groupSql>
 			<orderBySql>
 			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
-			<column type="both" name="MTYPE" index="" checkbox="" display="贷款类型" title="贷款类型" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />			
-			<column type="both" name="MISTMP" index="" checkbox="" display="是否临时银行" title="是否临时银行" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />			
+			<column type="both" name="MISEVAL" index="" checkbox="" display="有无评估费" title="有无评估费" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />			
 			<column type="both" name="MCASES" index="" checkbox="" display="单数" title="单数" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
-			<column type="both" name="MCOMAMOUNT" index="" checkbox="" display="商贷金额" title="商贷金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
-			<column type="both" name="MPRFAMOUNT" index="" checkbox="" display="公积金贷款金额" title="公积金贷款金额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
-			<column type="both" name="MTOTALAMOUNT" index="" checkbox="" display="贷款总额" title="贷款总额" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="EVALFEE" index="" checkbox="" display="实收评估费" title="实收评估费" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="DEVALFEE" index="" checkbox="" display="应收评估费" title="应收评估费" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
