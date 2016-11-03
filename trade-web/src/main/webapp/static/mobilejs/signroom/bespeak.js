@@ -27,10 +27,16 @@ function dateClickToggle(obj){
 //选择某个时间段的签约室
 function selectSignroom(obj){
 	var $li = $(obj);
-	var $selDateObj = $("#dayList tr td[class='usable-date curr']");
+	
+	var selDate;
+	$("#dayList tr td").each(function(){
+		if($(this).hasClass("curr")){
+			selDate = $(this).attr("date");
+			return false;
+		}
+	});
 	
 	var selBespeakTime = $li.find(".time").html();
-	var selDate = $selDateObj.attr("date");
 	
 	$("#bespeakForm #selBespeakTime").val(selBespeakTime);
 	$("#bespeakForm #selResDate").val(selDate);
