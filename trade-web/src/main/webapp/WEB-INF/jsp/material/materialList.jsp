@@ -153,7 +153,7 @@
                            <div class="form_content">
                                <label class="control-label sign_left_small">借用人</label>
                                <input class="teamcode input_type" placeholder="" value="" name="actionUser"  id="actionUser" 
-                                hVal="" readonly="readonly"	onclick="chooseBorrowOperator('${serviceDepId}')" />
+                                hVal="" onclick="chooseBorrowOperator('${serviceDepId}')" />
                                <div class="input-group float_icon organize_icon" id="materialBorrowUser">
                                		<i class="icon iconfont">&#xe627;</i>
                                </div>
@@ -196,7 +196,7 @@
                        <div class="form_content">
                            <label class="control-label sign_left_small">归还人</label>
                            <input class="teamcode input_type" placeholder="" value=""  name="returnActionUser" id="returnActionUser"
-							hVal="" readonly="readonly"	onclick="chooseReturnOperator('${serviceDepId}')" />
+							hVal="" onclick="chooseReturnOperator('${serviceDepId}')" />
 							
 							<div class="input-group float_icon organize_icon" id="materialReturnUser">
                                <i class="icon iconfont">&#xe627;</i>
@@ -230,7 +230,7 @@
                        <div class="form_content">
                            <label class="control-label sign_left_small">退还人</label>
                            <input class="teamcode input_type" placeholder="" value=""  name="refundActionUser" id="refundActionUser"
-							hVal="" readonly="readonly"	onclick="chooseRefundOperator('${serviceDepId}')" />							
+							hVal="" onclick="chooseRefundOperator('${serviceDepId}')" />							
 							<div class="input-group float_icon organize_icon" id="materialRefundUser">
                                <i class="icon iconfont">&#xe627;</i>
                             </div>

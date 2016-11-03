@@ -19,7 +19,7 @@
 		</formatter>
 		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
-				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+				<property name="pattern">yyyy-MM-dd HH:mm</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
@@ -126,7 +126,7 @@ FROM
 				<column type="both" name="NEW_EST_PART_TIME" index="" checkbox="" display="新预计时间" title="新预计时间" customDict="" sysDict="" beanFormatter="dateFormatter"  width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" display="变更人" title="变更人" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="MOBILE" index="" checkbox="" display="变更人号码" title="变更人号码" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="CHANGE_TIME" index="" checkbox="" display="变更时间" title="变更时间" customDict="" sysDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CHANGE_TIME" index="" checkbox="" display="变更时间" title="变更时间" customDict="" sysDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd HH:mm" width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CHANGE_REASON" index="" checkbox="" display="变更原因" title="变更原因" customDict="" sysDict="" format="" width="90"  align="" halign="" order="" resizable="" />
 				<column type="both" name="DISTRICT_NAME" display="所属贵宾服务部" title="所属贵宾服务部" customDict="" hidden=""/>
 				<column type="both" name="TEAM_NAME" display="所属组别" title="所属组别" customDict="" hidden=""/>

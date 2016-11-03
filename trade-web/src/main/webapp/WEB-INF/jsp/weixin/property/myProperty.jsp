@@ -20,7 +20,7 @@
 		<header class="u-header">
 		    <div class="uc_return" style="position:relative;">
 		        <div class="uc_return_c">我的产调</div>
-        		<a href="${ctx}/weixin/property/toApply" ><i class="iconfont icon-jiahao" style="position:absolute;top:16px;right:25px;"></i></a>
+        		<a href="${ctx}/weixin/property/toApply" style="color:#fff;"><i class="iconfont icon-jiahao" style="position:absolute;top:16px;right:25px;"></i></a>
 		    </div>
 		</header>
 		<section class="productul" id="productul">

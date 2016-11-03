@@ -238,8 +238,8 @@
                                                                                                                                                               卡类
                                                 </i>
                                                  </a>
-											    {{/if}}
                                             </p>
+											{{/if}}
                                             <p>
                                                 {{item.PROPERTY_ADDR}}
                                             </p>
@@ -261,7 +261,14 @@
                                         </td>
                                         <td>
                                             <p class="smll_sign big">
-                                                                                                                                       金额 ：{{item.releaseAmout}}万
+                                                {{if item.type==1}}
+                                                                                                                                                    金额 ：{{item.releaseAmout}}万
+										        {{/if}}
+
+                                              {{if item.type==2}}
+                                                                                                                                                      金额 ：{{item.releaseAmout>0?item.releaseAmout/10000:0}}万
+											   {{/if}}
+                                                                                                                                     
                                             </p>
                                             <p class="smll_sign">
                                                                                                                                        时间：{{item.RELEASE_TIME}}
