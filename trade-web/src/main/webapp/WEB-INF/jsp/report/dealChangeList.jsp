@@ -354,7 +354,7 @@
                     </p>
 					{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
                       <p class="big demo-top" title="{{item.PROPERTY_ADDR}}">
-                      {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+                      {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-21,item.PROPERTY_ADDR.length)}}
                     {{else}}
                       <p class="big">
                       {{item.PROPERTY_ADDR}}
