@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.signroom.repository.TradeCenterMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.signroom.entity.TradeCenterSchedule" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="DUTY_OFFICER" property="dutyOfficer" jdbcType="VARCHAR" />
+    <result column="DUTY_DATE" property="dutyDate" jdbcType="VARCHAR" />
+    <result column="TRADE_CENTER_ID" property="tradeCenterId" jdbcType="BIGINT" />
+    <result column="DUTY_TYPE" property="dutyType" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    PKID, DUTY_OFFICER,DUTY_DATE,TRADE_CENTER_ID
+  </sql>
+  <select id="getTradeCenterList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_RM_TRADE_CENTER
+  </select>
+  
+  <select id="getTradeCenter" resultType="com.centaline.trans.signroom.entity.TradeCenter" parameterType="java.util.Map">
+    select 
+    PKID as pkid, CENTER_NAME as centerName
+    from sctrans.T_RM_TRADE_CENTER
+    <where>
+       <if test="pkid!=null">
+           PKID = #{pkid}
+       </if>
+    </where>
+  </select>
+  
+</mapper>

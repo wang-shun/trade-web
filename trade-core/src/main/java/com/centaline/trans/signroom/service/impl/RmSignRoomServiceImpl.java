@@ -27,11 +27,13 @@ import com.centaline.trans.signroom.entity.RmRoomScheStragegy;
 import com.centaline.trans.signroom.entity.RmRoomSchedule;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.repository.ReservationMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheStragegyMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
 import com.centaline.trans.signroom.repository.RmSignRoomMapper;
 import com.centaline.trans.signroom.repository.TradeCenterMapper;
+import com.centaline.trans.signroom.repository.TradeCenterScheduleMapper;
 import com.centaline.trans.signroom.service.RmSignRoomService;
 import com.centaline.trans.signroom.vo.DateWeekVo;
 import com.centaline.trans.signroom.vo.FreeRoomVo;
@@ -66,6 +68,8 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	private QuickGridService quickGridService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Resource
+	TradeCenterScheduleMapper tradeCenterScheduleMapper;
 
 	@Override
 	public AjaxResponse<Map> generatePageDate(JQGridParam gp) {
@@ -522,10 +526,28 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 					dw.setEdit(true);
 				}
 				dw.setDay(Integer.valueOf(sdf1.format(c2.getTime())));
+				if(sdf.format(c2.getTime()).equals(sdf.format(Calendar.getInstance().getTime()))){//当天高亮
+					dw.setLight(true);
+				}
 				dates.add(dw);
 			}
 		}
 		return dates;
+	}
+
+	@Override
+	public int addTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule) {
+		return tradeCenterScheduleMapper.addTradeCenterSchedule(tradeCenterSchedule);
+	}
+
+	@Override
+	public int deleteTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule) {
+		return tradeCenterScheduleMapper.deleteTradeCenterSchedule(tradeCenterSchedule);
+	}
+
+	@Override
+	public List<TradeCenterSchedule> queryTradeCenterSchedules(Map map) {
+		return tradeCenterScheduleMapper.queryTradeCenterSchedules(map);
 	}
 
 }

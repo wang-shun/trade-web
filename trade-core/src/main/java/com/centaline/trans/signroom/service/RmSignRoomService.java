@@ -8,6 +8,7 @@ import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.vo.DateWeekVo;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
 
@@ -78,5 +79,24 @@ public interface RmSignRoomService {
 	 * @throws ParseException 
 	 */
 	List<List<DateWeekVo>> showSchedulingData(Map map) throws ParseException;
+	/**
+	 * 新增一条值班数据
+	 * @param tradeCenterSchedule
+	 * @return
+	 */
+	int addTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule);
+	/**
+	 * 删除一条值班数据
+	 * @param tradeCenterSchedule
+	 * @return
+	 */
+	int deleteTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule);
+	
+	/**
+	 * 按条件查询值班数据
+	 * @param map
+	 * @return
+	 */
+	List<TradeCenterSchedule> queryTradeCenterSchedules(Map map);
 
 }
