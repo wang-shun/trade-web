@@ -134,7 +134,7 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                <span class="sort" sortColumn="T.CASE_CODE" sord="desc" onclick="changeStyle();">案件编码</span><i id="flag" class="fa fa-sort-desc fa_down"></i>
+                                                <span class="sort" sortColumn="S.CASE_CODE" sord="desc" onclick="changeStyle();">案件编码</span><i id="flag" class="fa fa-sort-desc fa_down"></i>
                                             </th>
 
                                             <th>
