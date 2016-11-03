@@ -987,6 +987,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 						}
 					}else{
 						toSpvCashFlowApplyAttach.setIsDeleted("0");
+						toSpvCashFlowApplyAttach.setType(spvChargeInfoVO.getToSpvCashFlowApplyAttachType());
 						toSpvCashFlowApplyAttach.setUpdateBy(user.getId());
 						toSpvCashFlowApplyAttach.setUpdateTime(new Date());
 						toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(toSpvCashFlowApplyAttach);

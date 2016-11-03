@@ -13,7 +13,7 @@
 <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>
-            签约室分配
+            	签约室预约
         </title>
         
         <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet"/>
@@ -51,6 +51,7 @@
                         	<input type="hidden" name="resTime" value="${resTime }"/>
                         	<input type="hidden" name="resStatus" value="${resStatus }"/>
                         	<input type="hidden" name="distinctId" value="${distinctId }" />
+                        	<input type="hidden" name="flag" value="search"/>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -265,6 +266,9 @@
                             <div class="apply_table">
                                 <table class="table table_blue mt20 table-striped table-bordered table-hover customerinfo" id="signRoom">
                                 	<input type="hidden" id="resId" name="resId" />
+                                	<input type="hidden" id="resStartTime" id="resStartTime" />
+                                	<input type="hidden" id="resEndTime" id="resEndTime" />
+                                	
                                     <thead>
                                         <tr>
                                             <th style="background-color:#52cdec;">
@@ -428,7 +432,7 @@
                  </td>
 				 <td>
 					  <span class="manager"><a href="#" title="{{item.mobile}}" class="demo-top" onMouseover="showMobile(this);"><em>预约人:</em>{{item.realName}}</a></span>
-                      <span class="manager"><a href="#"><em>服务专员:</em>{{item.serviceSpecialist}}</a></span>
+                      <span class="manager"><a href="#"><em>交易顾问:</em>{{item.serviceSpecialist}}</a></span>
                  </td>
 				 <td>
 					  <p class="smll_sign">
@@ -439,18 +443,22 @@
 								{{if transactItemCode == 'OpenRegularMeeting'}}<i class="sign_blue">开例会</i>{{/if}}
 						  {{/each}}
                       </p>
-					  {{if item.specialReq != null && item.specialReq!="" && item.specialReq.length > 24}}
-								<p class="smll_sign big" title="{{item.specialReq}}">{{item.specialReq.substring(item.specialReq.length-24,item.specialReq.length)}}</p>
-					  {{else}}
-								<p class="smll_sign big">{{item.specialReq}}</p>
-					  {{/if}}
+					  <p>
+						  <a href="#"  class="demo-right" onMouseover="showTip(this);" title="{{item.specialReq}}">
+					  			{{if item.specialReq != null && item.specialReq!="" && item.specialReq.length > 18}}
+									{{item.specialReq.substring(0,18)}}....
+					  			{{else}}
+									{{item.specialReq}}
+					  			{{/if}}
+						  </a>
+					  </p>
                  </td>
 				 <td>
                       <p class="smll_sign big">{{item.followDateTime}}</p>
                       <p>
                          <a href="#"  class="demo-right" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
-							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 12}}
-								{{item.latestComment.substring(0,12)}}....
+							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 8}}
+								{{item.latestComment.substring(0,8)}}....
 					  		{{else}}
 								{{item.latestComment}}
 					  		{{/if}}

@@ -255,7 +255,7 @@ $("#submitBtn").click(function(){
   			remarkVisit = $(this).prop("value");
   		}
      });
-	if(content && content==''){
+	if(content==''){
 		alert("请输入回访跟进内容！");
 		return;
 	}

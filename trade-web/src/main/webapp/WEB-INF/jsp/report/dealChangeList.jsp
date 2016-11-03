@@ -134,7 +134,7 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                <span class="sort" sortColumn="T.CASE_CODE" sord="desc" onclick="changeStyle();">案件编码</span><i id="flag" class="fa fa-sort-desc fa_down"></i>
+                                                <span class="sort" sortColumn="S.CASE_CODE" sord="desc" onclick="changeStyle();">案件编码</span><i id="flag" class="fa fa-sort-desc fa_down"></i>
                                             </th>
 
                                             <th>
@@ -158,54 +158,6 @@
                                         </tr>
                                     </thead>
                                     <tbody id="dealChangeList">
-                                        <tr>
-                                            <td>
-                                                <p class="big">
-                                                    <a href="javascript:;">
-                                                        ZY-AJ-201605-0952
-                                                    </a>
-                                                </p>
-                                                <span class="red_color">异常</span><a href="#"><i class="icon iconfont" style="font-size: 20px;color:#808080"></i></a>
-                                            </td>
-                                            <td>
-                                             <p>
-                                                    <i class="sign_blue">
-                                                        总监审批
-                                                    </i>
-                                                </p>
-                                                <p class="big">
-                                                    上海杨浦区平路街道（内环）鞍山八村29号060室
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="manager"><span>上家:</span><a href="#" class="mr5">金娇娇</a></p>
-                                                <p class="manager"><span>上家:</span><a href="#" class="mr5">金娇娇</a></p>
-                                            </td>
-                                            <td>
-                                                <p class="smll_sign">
-                                                    <i class="sign_normal">原预计</i>
-                                                    2016-08-21
-                                                </p>
-                                                <p class="smll_sign">
-                                                    <i class="sign_normal">新预计</i>
-                                                    2016-08-22
-                                                </p>
-                                            </td>
-                                            <td>
-
-                                                <p class="manager"><i class="sign_normal">原因</i><span class="demo-top" title="原因有许多，需要哪一条？来看看，原因有许多，需要哪一条？来看看">原因有许多，需要</span></p>
-                                                <p class="smll_sign">
-                                                    2016-08-22
-                                                </p>
-                                            </td>
-                                            <td>
-                                                 <p class="manager"><span>变更人:</span><a href="#" class="mr5">金娇娇</a></p>
-                                                <p>虹口杨浦贵宾服务部A组</p>
-                                            </td>
-                                            <td class="text-center">
-                                                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">处理</button>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                                 <div class="text-center page_box">
@@ -400,9 +352,9 @@
                     <p>
                         <i class="sign_blue">{{ item.PART_CODE }}</i>
                     </p>
-					{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+					{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>21}}
                       <p class="big demo-top" title="{{item.PROPERTY_ADDR}}">
-                      {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+                      {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-21,item.PROPERTY_ADDR.length)}}
                     {{else}}
                       <p class="big">
                       {{item.PROPERTY_ADDR}}
@@ -431,11 +383,11 @@
                 </td>
 				<td>
                     <p class="smll_sign">
-                         <i class="sign_normal">原预计</i>
+                         <i class="sign_normal">原</i>
                          {{item.OLD_EST_PART_TIME}}
                     </p>
                     <p class="smll_sign">
-                         <i class="sign_normal">新预计</i>
+                         <i class="sign_normal">新</i>
                          {{item.NEW_EST_PART_TIME}}
                     </p>
                  </td>
