@@ -55,7 +55,7 @@
                                         所在组
                                     </label>
                                     <input type="text" readonly="readonly" class="teamcode input_type" id="teamId" name="teamId" hVal="" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
-                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";>
+                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";>
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
@@ -325,7 +325,7 @@
                                         <button type="button" class="btn btn-success" id="submitBtn">
                                             提交
                                         </button>
-                                        <button type="reset" class="btn btn-grey" data-dismiss="modal" id="close">
+                                        <button type="button" class="btn btn-grey" data-dismiss="modal" id="close">
                                             关闭
                                         </button>
                                     </div>

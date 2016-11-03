@@ -96,7 +96,7 @@
              
              <div class="form-row">
                  <div class="form-group form-margin pull-left">
-                     <label for="" class="lable-one">物业地址</label>
+                     <label for="" class="lable-one">产证地址</label>
                      <input type="text" class="form-control" style="width:355px;" placeholder="" id="propertyAddr" name="propertyAddr">
                  </div>
                  <div class="btn-left btn-left-space ml40">
@@ -121,7 +121,7 @@
                              <th class="">
                                  <input type="checkbox" class="i-checks" name="input"  id="allOrNotChoose" onclick="mycheck(this)">
                              </th>
-                             <th>案件编码</th>
+                             <th>案件编号</th>
                              <th>保管物品</th>
                              <th>提交人</th>
                              <th>保管人</th>
@@ -153,7 +153,7 @@
                            <div class="form_content">
                                <label class="control-label sign_left_small">借用人</label>
                                <input class="teamcode input_type" placeholder="" value="" name="actionUser"  id="actionUser" 
-                                hVal="" readonly="readonly"	onclick="chooseBorrowOperator('${serviceDepId}')" />
+                                hVal="" onclick="chooseBorrowOperator('${serviceDepId}')" />
                                <div class="input-group float_icon organize_icon" id="materialBorrowUser">
                                		<i class="icon iconfont">&#xe627;</i>
                                </div>
@@ -196,7 +196,7 @@
                        <div class="form_content">
                            <label class="control-label sign_left_small">归还人</label>
                            <input class="teamcode input_type" placeholder="" value=""  name="returnActionUser" id="returnActionUser"
-							hVal="" readonly="readonly"	onclick="chooseReturnOperator('${serviceDepId}')" />
+							hVal="" onclick="chooseReturnOperator('${serviceDepId}')" />
 							
 							<div class="input-group float_icon organize_icon" id="materialReturnUser">
                                <i class="icon iconfont">&#xe627;</i>
@@ -230,7 +230,7 @@
                        <div class="form_content">
                            <label class="control-label sign_left_small">退还人</label>
                            <input class="teamcode input_type" placeholder="" value=""  name="refundActionUser" id="refundActionUser"
-							hVal="" readonly="readonly"	onclick="chooseRefundOperator('${serviceDepId}')" />							
+							hVal="" onclick="chooseRefundOperator('${serviceDepId}')" />							
 							<div class="input-group float_icon organize_icon" id="materialRefundUser">
                                <i class="icon iconfont">&#xe627;</i>
                             </div>
@@ -268,19 +268,6 @@
   		<input type="hidden" id="pkids" name="pkids" value="" />  		
   	</form>
 <content tag="local_script"> 
-<!-- Mainly scripts -->
-
-<%-- 
-引入jquery导致不能弹出层
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script> 
---%>
-<script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
-<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<!-- Custom and plugin javascript -->
-<script src="${ctx}/static/js/inspinia.js"></script>
-<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>

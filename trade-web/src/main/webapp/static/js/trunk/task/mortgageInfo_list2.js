@@ -410,6 +410,12 @@ function getMOrgAnalysis() {
 				data : data,
 				success : function(data) {
 					var index;
+					
+					for (index in data.rows) {
+						data.rows[index].OONAME = data.rows[index].OONAME.replace('贵宾服务部','');
+						data.rows[index].ONAME = data.rows[index].ONAME.replace('贵宾服务部','');
+					}
+					
 					for (index in data.rows) {
 						var name;
 						if (userJobCode == '0') {
