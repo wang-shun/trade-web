@@ -103,7 +103,6 @@ h2, h3, h4, h5, p, button, table {
   font-size: 14px;
   overflow: hidden;
 }
-
 .form_list .form_content {
   position: relative;
   float: left;
@@ -124,7 +123,7 @@ h2, h3, h4, h5, p, button, table {
 .float_icon {
   position: absolute;
   top: 4px;
-    right: 6px;
+  right: 6px;
 }
 .add-icon {
   position: absolute;
@@ -308,9 +307,14 @@ input {
   border-radius: 3px;
   cursor: pointer;
 }
+/* .today {
+  background:#f8ac59;
+} */
+
 .todaycolor {
   background:#f8ac59;
 }
+
 .tommrow {
   background-color: #428fcc;
 }
@@ -529,7 +533,6 @@ input {
 .info_content .line p {
   float: left;
   margin: 7px 28px 7px 0px;
-  
 }
 .info_content .line label {
   float: left;
@@ -681,12 +684,4 @@ input {
 }
 .btn-lightyellow:hover{
     color: #f8af65;
-}
-.title-mark {
-  padding-left: 6px!important;
-  border-left: 3px solid #00CFEC!important;
-  line-height: 18px!important;
-}
-.flowVisiable {
-	overflow:visible!important;
 }

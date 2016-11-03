@@ -89,7 +89,7 @@
 	            <li class="aui-list-item item">
 	                <div class="aui-list-item-inner">
 	                    <div class="aui-list-item-label">
-	                        <i class="iconfont blue mr5">&#xe60c;</i>贷款专员
+	                        <i class="iconfont blue mr5">&#xe60c;</i>交易顾问
 	                    </div>
 	                    <div class="aui-list-item-input">
 	                    	 <input type="text" id="serviceSpecialist" placeholder="请输入名称">

@@ -36,7 +36,17 @@ public class ReservationVo {
 
 	private String endDate; // 预约结束时间
 
-	private String flag; // 如果normal,就是正常的预约;如果accept,那就是预约小一点的房间
+	private Long newScheduleId; // 新房间预约信息id
+
+	private String flag;
+
+	public Long getNewScheduleId() {
+		return newScheduleId;
+	}
+
+	public void setNewScheduleId(Long newScheduleId) {
+		this.newScheduleId = newScheduleId;
+	}
 
 	public String getFlag() {
 		return flag;
