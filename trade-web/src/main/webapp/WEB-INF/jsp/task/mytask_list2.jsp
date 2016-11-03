@@ -160,13 +160,13 @@ text-decoration: underline !important;
 						</select>
 					</div>
 					<div class="form_content space">
-                            <div class="add_btn" align="center">
-                                <button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>
-                                 	   查询
-                                </button>
-                            </div>
-                        </div>
-					
+                         <div class="add_btn" align="center" id="queryFilter">
+                             <button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>
+                              	   查询
+                             </button>
+                         </div>
+                     </div>
+                     
 				</form>
 	  </div>
 	  
@@ -225,7 +225,7 @@ text-decoration: underline !important;
 <script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-	 
+<script data-main="${ctx}/js/trunk/task/mytask_queryFilter.js" src="${ctx}/js/require.js"></script>
 <script id="template_myTaskList" type= "text/html">
          {{each rows as item index}}
                  {{if index%2 == 0}}

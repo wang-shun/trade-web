@@ -181,7 +181,8 @@ function isRedFormatter(cellvalue) {
 	return reStr;
 }
 //search
-function searchMethod(page){
+
+function initData(page){
 	var isSubscribeFilter = $('#isSubscribeFilter option:selected').val();
 	if(isSubscribeFilter==null || isSubscribeFilter=='') {
 		isSubscribeFilter = -1;
@@ -270,7 +271,11 @@ function searchMethod(page){
 			rows : 10,
 			page : page
 		};
-	
+	return params;
+}
+
+function searchMethod(page){
+		var params = initData(page);
 		aist.wrap(params);
 		reloadGrid(params);
 
