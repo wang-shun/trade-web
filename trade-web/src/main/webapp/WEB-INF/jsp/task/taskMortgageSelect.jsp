@@ -211,7 +211,7 @@
 					    txt += "<div class='form-group'  name='isYouXiao'>";
 					    txt += "<label class='col-md-2 control-label'>合作项目</label>";
 					    txt += "<div class='col-md-10'>";
-						txt += "<input type='hidden' name='coworkService' value='"+data.dic.dicCode+"'/>";
+						txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/>";
 						txt += "<p id='' class='form-control-static'>"+data.dic.dictName+"</p>";
 						txt += "</div>";
 						txt += "</div>";

@@ -9,6 +9,9 @@ import com.centaline.trans.signroom.vo.FreeRoomInfo;
 import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
+import com.centaline.trans.signroom.vo.ReservationVo;
+import com.centaline.trans.signroom.vo.RoomProp;
+import com.centaline.trans.signroom.vo.SignroomCondition;
 import com.centaline.trans.signroom.vo.TransactItemVo;
 
 @MyBatisRepository
@@ -122,9 +125,73 @@ public interface ReservationMapper {
 
 	/**
 	 * 查询当前时间点以后的预约情况
+	 * 
 	 * @param rmSignRoom
 	 * @return
 	 */
 	public int getReservationNotCancleCount(RmSignRoom rmSignRoom);
+
+	/**
+	 * 获取某个时间段的签约室房间总数
+	 * 
+	 * @param signroomCondition
+	 *            签约室预约查询条件
+	 * 
+	 * @return 某个时间段的签约室房间总数
+	 */
+	public int getSignRoomInfoListByDate(SignroomCondition signroomCondition);
+
+	/**
+	 * 获取是否有符合条件的签约室房间信息
+	 * 
+	 * @param reservationVo
+	 *            预约信息对象
+	 * @return 闲置的房间信息
+	 */
+	public FreeRoomInfo getMatchFreeRoomByCondition(ReservationVo reservationVo);
+
+	/**
+	 * 获取是否有更小的签约室房间信息
+	 * 
+	 * @param reservationVo
+	 *            预约信息对象
+	 * @return 闲置的房间信息
+	 */
+	public FreeRoomInfo getMinFreeRoomByCondition(ReservationVo reservationVo);
+
+	/**
+	 * 获取当前用户两周内已使用的用户次数(预约中、预约取消、预约过期)
+	 * 
+	 * @param currentUserId
+	 *            当前用户标识
+	 * @return 已使用预约次数
+	 */
+	public int getUsedBespeakNumber(String currentUserId);
+
+	/**
+	 * 更换签约室------根据交易中心、预约开始时间、预约结束时间查询可用的房间容纳列表
+	 * 
+	 * @param reservationVo
+	 *            签约室查询条件
+	 * @return 可用房间容纳数列表
+	 */
+	public List<Integer> getRoomAccommodationList(ReservationVo reservationVo);
+
+	/**
+	 * 更换签约室------根据交易中心、预约开始时间、预约结束时间、房间容纳数查询可用的房间信息
+	 * 
+	 * @param reservationVo
+	 *            签约室查询条件
+	 * @return 可用房间信息列表
+	 */
+	public List<RoomProp> getRoomPropList(ReservationVo reservationVo);
+
+	/**
+	 * 变更签约室
+	 * 
+	 * @param reservationVo
+	 *            签约室查询条件
+	 */
+	public void changeRoom(ReservationVo reservationVo);
 
 }

@@ -521,8 +521,10 @@
 				 }
 			
              	var toRcMortgageInfoList = new Array();
+             	
+             	var validataCard = false;
              	$("#mortgageList .line").each(function(i){
-             		if($(this).is(":hidden")) { 
+             		if($(this).is(":hidden")) {
              			var isWillDeleted = 'Y';
              		} else {
              			var isWillDeleted = 'N';
@@ -533,6 +535,11 @@
              		var mortgageName = $(this).find("#mortgageName").val();
              		var referName = $(this).find(".entry:visible").find("#referName").val();
              		var referCode = $(this).find(".entry:visible").find("#referCode").val();
+             		// 校验身份证
+	 				var reg1 = /^\d{15}$|^\d{17}([0-9]|X|x)$/;
+             		if(isWillDeleted = 'N' && 'carded' == mortgageCategory && !reg1.test(referCode)) {
+             			 validataCard = true;
+             		}
              		
              		var toRcMortgageInfo = {
              			pkid : pkid,
@@ -545,6 +552,11 @@
              		}
              		toRcMortgageInfoList.push(toRcMortgageInfo);
              	})
+             	
+             	if(validataCard) {
+             		alert("请填写正确的身份证号码！");
+					return false;
+             	}
              	
              	var toRcMortgageCard = {
              		cardPerson : $('#cardPerson').val(),

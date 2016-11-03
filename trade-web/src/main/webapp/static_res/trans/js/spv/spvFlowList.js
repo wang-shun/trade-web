@@ -86,7 +86,7 @@
 												templeteId : 'querSpvCaseFlowApplyList',
 												gridClass : 'table table_blue table-striped table-bordered table-hover ',
 												data : params,
-												wrapperData : {job : $("#serviceJobCode").val()},
+												wrapperData : {cw:$("#CW").val()},
 												columns : [
 														{
 																   colName :"<span style='color:#ffffff' onclick='caseCodeSort();' >流水申请编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",

@@ -21,7 +21,8 @@ public enum SC {
 	HOUSE_CARD_NOT_UPLOAD("30013","房产证照片未上传"),
 	ID_CARD_NOT_UPLOAD("30014","身份证件照片未上传"),
 	AREA_NOT_SAME("30015","询价时如果是别墅，建筑面积不等于地上面积与地下面积之和"),
-	ILLEGAL_APPLY("30016","非法报告申请");
+	ILLEGAL_APPLY("30016","非法报告申请"),
+	UNAVAILABLE_BANK("30016","银行不可用");
 
 	private String code;
 	private String value;
