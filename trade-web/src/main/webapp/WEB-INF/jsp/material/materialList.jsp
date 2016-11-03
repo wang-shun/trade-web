@@ -268,11 +268,6 @@
   		<input type="hidden" id="pkids" name="pkids" value="" />  		
   	</form>
 <content tag="local_script"> 
-<!-- Mainly scripts -->
-
-<!-- Custom and plugin javascript -->
-<script src="${ctx}/static/js/inspinia.js"></script>
-<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
