@@ -247,8 +247,7 @@
 				</if>
 				<if test="organizeOrgId !=null and orgHierarchy == 'yucui_district' ">
 					and T.LOAN_AGENT_TEAM in (select  id from sctrans.sys_org  where PARENT_ID = #organizeOrgId#)
-				</if>
-				
+				</if>				
 				<ifNotNull loanType>
 					and T.LOANTYPE = #loanType#
 				</ifNotNull>	
