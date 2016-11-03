@@ -17,7 +17,7 @@
 <body>
     <header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
-            <span class="">取消</span>
+            <span class="">返回</span>
         </a>
         <div class="aui-title">签约室预约</div>
     </header>
