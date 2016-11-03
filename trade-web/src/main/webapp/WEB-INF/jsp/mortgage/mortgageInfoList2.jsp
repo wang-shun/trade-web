@@ -73,6 +73,7 @@
 						orgType:'',departmentType:'',departmentHeriarchy:'',expandNodeId:'${serviceDepId}',						
 						chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})">
 						<input type="hidden" id="yuCuiOriGrpId" value="">
+						<input type="hidden" id="orgHierarchy" value="">
 						<div class="input-group float_icon organize_icon"
 							id="MortgageLostListOrganizeOnclick">
 							<i class="icon iconfont"></i>
