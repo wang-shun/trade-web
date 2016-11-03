@@ -325,7 +325,7 @@
                                         <button type="button" class="btn btn-success" id="submitBtn">
                                             提交
                                         </button>
-                                        <button type="reset" class="btn btn-grey" data-dismiss="modal" id="close">
+                                        <button type="button" class="btn btn-grey" data-dismiss="modal" id="close">
                                             关闭
                                         </button>
                                     </div>
