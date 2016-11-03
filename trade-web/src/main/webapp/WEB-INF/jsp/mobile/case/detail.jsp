@@ -33,7 +33,7 @@ var postData={queryId:"queryTaskHistoryItemListForMobile",argu_casecode:'${toCas
 $(document).ready(function(){
 	$.ajax({
         type: 'POST',
-        url: ctx+'/mobile/case/box/findPage',
+        url: ctx+'/quickGrid/findPage',
         data: postData,
         success: function(data){
      	   var html=template('timeLine', data); 

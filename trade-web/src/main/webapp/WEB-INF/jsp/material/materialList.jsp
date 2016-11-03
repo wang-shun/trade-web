@@ -358,7 +358,7 @@
                                                 <i class="sign_normal">借用</i>{{item.ITEM_OUTPUT_TIME}}
                                             </p>
                                             <p class="smll_sign">
-                                                <i class="sign_normal">归还</i>{{item.ACTION_PRE_DATE}}
+                                                <i class="sign_normal">预还</i>{{item.ACTION_PRE_DATE}}
                                             </p>
 						{{else if item.ITEM_STATUS == "stay"}}
                                             <p class="smll_sign">                                                
