@@ -985,22 +985,22 @@ $(document).ready(function(){
 			return false;
 		}
 
-		$("#addTr tr:visible").each(function(index){
-			var deCondCode = $("select[name='toSpvDeDetailList[" + index  + "].deCondCode'] option:selected").val();
-    		var payeeAccountType = $("select[name='toSpvDeDetailList[" + index + "].payeeAccountType'] option:selected").val();
-    		var deAmount = $("input[name='toSpvDeDetailList[" + index + "].deAmount'").val();
+		$("#addTr tr:visible").each(function(i,e){
+			var deCondCode = $(e).find("select[name$='deCondCode'] option:selected").val();
+    		var payeeAccountType = $(e).find("select[name$='payeeAccountType'] option:selected").val();
+    		var deAmount = $(e).find("input[name$='deAmount']").val();
     		
     		if(deCondCode == "" || payeeAccountType == "" || deAmount == ""){
-    			rowElement1 = $("select[name='toSpvDeDetailList[" + index  + "].deCondCode']");
+    			rowElement1 = $(e).find("select[name$='deCondCode']");
     			isVerify = false;
     			return false;
     		}
     		
-    		$("#addTr tr:visible").each(function(index1){
-    			if(index != index1 && 
-    					deCondCode == $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode'] option:selected").val() &&
-    					payeeAccountType == $("select[name='toSpvDeDetailList[" + index1 + "].payeeAccountType'] option:selected").val()){
-    				rowElement2 = $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode']");
+    		$("#addTr tr:visible").each(function(i_,e_){
+    			if(i != i_ && 
+    					deCondCode == $(e_).find("select[name$='deCondCode'] option:selected").val() &&
+    					payeeAccountType == $(e_).find("select[name$='payeeAccountType'] option:selected").val()){
+    				rowElement2 = $(e_).find("select[name$='deCondCode']");
     				isRepeat = true;
     				return false;
     			}
