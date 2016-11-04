@@ -96,34 +96,9 @@ public class SpvCashFlowInController {
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
 
 		toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApple(request,pkid,caseCode);
-		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/spvRecorded";
-	}
-	/**
-	 * 入账驳回页面
-	 * @param pkid
-	 * @param caseCode
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("spvRecordedApp")
-	public String spvRecordedApp(Long pkid,String caseCode,HttpServletRequest request){
-		SessionUser currentUser = uamSessionService.getSessionUser();
-		String currentDeptId = currentUser.getServiceDepId();
-		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
-		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
-		
-		toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApple(request,pkid,caseCode);
-		
-		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
-		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-		request.setAttribute("imgweb", app.genAbsoluteUrl());
-		
-		request.setAttribute("orgId", parentOrg.getId());
-		request.setAttribute("urlType", "spv");
-		return "spv/spvRecordedApp";
 	}
 
 	/**
@@ -134,24 +109,10 @@ public class SpvCashFlowInController {
 	@RequestMapping(value = "/sumbitDate")
 	@ResponseBody
 	public AjaxResponse<?>  sumbitDate(SpvRecordedsVO spvrevo,HttpServletRequest request){
-		
 		AjaxResponse<?> response = new AjaxResponse<>();
-		String taskId = "";
-		String handle = "";
-		String instCode = "";
-		String cashflowApplyCode = "";
-		
-		if(null != spvrevo){
-			if(null!= spvrevo.getTaskId())
-				taskId = spvrevo.getTaskId();
-			if(null!= spvrevo.getHandle())
-				handle = spvrevo.getHandle();
-			if(null!= spvrevo.getInstCode())
-				instCode = spvrevo.getInstCode();
-		}
 		try{
 			if(StringUtils.equals(spvrevo.getHandle(), "addCashFlow")){
-				cashFlowInService.cashFlowInPageDeal(request, handle, spvrevo, cashflowApplyCode);
+				cashFlowInService.cashFlowInPageDeal(request, "addCashFlow", spvrevo, "");
 			}
 			response.setSuccess(true);
 		} catch (Exception e) {
