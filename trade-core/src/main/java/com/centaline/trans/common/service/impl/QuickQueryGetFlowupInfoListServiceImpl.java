@@ -35,7 +35,6 @@ public class QuickQueryGetFlowupInfoListServiceImpl implements
 				Long resId = Long.parseLong(resIdObj.toString());
 
 				resFlowupList = resFlowupService.getResFlowupListByResId(resId);
-
 			}
 
 			key.put("val", resFlowupList);
@@ -47,6 +46,11 @@ public class QuickQueryGetFlowupInfoListServiceImpl implements
 	@Override
 	public Boolean getIsBatch() {
 		return true;
+	}
+
+	@Override
+	public Boolean isCacheable() {
+		return false;
 	}
 
 }
