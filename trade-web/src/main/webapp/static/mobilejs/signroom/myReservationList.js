@@ -77,10 +77,10 @@ function openDialog(text,resId){
     dialog.alert({
         title:"",
         msg:'您确定要取消本次预约吗?',
-        buttons:['确定','取消']
+        buttons:['取消','确定']
     },function(ret){
         if(ret){
-            if(ret.buttonIndex == 1) {
+            if(ret.buttonIndex == 2) {
             	cancelReservation(resId);
             } else {
                 return false;

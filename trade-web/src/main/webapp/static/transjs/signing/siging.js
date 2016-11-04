@@ -4,12 +4,14 @@ $(function () {
     $(".choices span").click(function() {
         if($(this).hasClass("selected")) {
             $(this).removeClass("selected");
+            $("#propertyAddress").removeAttr("disabled");
         } else {
             $(this).addClass("selected");
         }
-        if($(this).prop("id")=='OpenRegularMeeting'){
+        if($(this).prop("id")=='OpenRegularMeeting' && $(this).hasClass("selected")){
         	$(this).siblings().removeClass("selected");
         	$("#propertyAddress").prop("disabled","disabled");
+        	$("#propertyAddress").val("");
         }else{
         	$("#OpenRegularMeeting").removeClass("selected");
         	$("#propertyAddress").removeAttr("disabled");

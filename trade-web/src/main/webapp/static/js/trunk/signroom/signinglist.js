@@ -114,7 +114,10 @@ $(function(){
     	
     	if(isSuccess){
     		$("button[type='reset']").click();
-    		$("#searchForm").submit();
+    		
+    		setTimeout(function(){ 
+    			$("#searchForm").submit();
+		    }, 1000);
     	}
     	
     });
@@ -316,7 +319,9 @@ function startAndEndUse(obj,flag){
 			data:{resId:resId,flag:flag},
 			success:function(data){
 				if(data == "true"){
-					$("#searchForm").submit();
+					setTimeout(function(){ 
+		    			$("#searchForm").submit();
+				    }, 1000);
 				}
 			}
 		});
@@ -355,7 +360,9 @@ function saveChangeRoom(resId,scheduleId,flag){
 		data:{resId:resId,scheduleId:scheduleId,flag:flag},
 		success:function(data){
 			if(data == "true"){
-				$("#searchForm").submit();
+				setTimeout(function(){ 
+	    			$("#searchForm").submit();
+			    }, 1000);
 			}
 		}
 	});
