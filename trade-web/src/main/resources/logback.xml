@@ -57,6 +57,7 @@
     
     <logger name="org.apache.shiro" level="ERROR">
     </logger>
+    <logger name="net.sf.ehcache" level="warn"></logger>
 
     <logger name="com.github.isrsal.logging" level="DEBUG">
         <appender-ref ref="APILOG_FILE"/>
