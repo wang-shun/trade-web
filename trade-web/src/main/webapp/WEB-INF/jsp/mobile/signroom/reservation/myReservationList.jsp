@@ -18,7 +18,7 @@
 	
 	<header class="aui-bar aui-bar-nav">
         <div class="aui-title">我的预约</div>
-        <a class="aui-pull-right aui-btn " href="${ctx }/weixin/signroom/bespeakUI">
+        <a class="aui-pull-right aui-btn " href="#" id="goToBespeakUI">
 	        <span class="aui-iconfont aui-icon-plus"></span>
 	    </a>
     </header>
