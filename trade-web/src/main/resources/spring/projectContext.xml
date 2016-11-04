@@ -81,6 +81,9 @@
     <bean name="qqcdUserUsernameName" class="com.centaline.trans.common.service.impl.QuickQueryUserByUsernameCustomDictServiceImpl">
     	<property name="prop" value="realName"></property>
     </bean>
+    <bean name="getUserEmpolyeeCodeByUsername" class="com.centaline.trans.common.service.impl.QuickQueryUserByUsernameCustomDictServiceImpl">
+    	<property name="prop" value="employeeCode"></property>
+    </bean>
     <bean name="qqcdUserIdMobile" class="com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl">
     	<property name="prop" value="mobile"></property>
     </bean>

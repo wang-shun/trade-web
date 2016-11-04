@@ -60,9 +60,17 @@ public class PropertyController {
 		if (StringUtils.isBlank(msg)) {
 			msg = "产调信息提交成功！";
 		}
-		request.setAttribute("userList", removeDuplicate(propertyService.getZLList(districtId)));
+		//request.setAttribute("userList", removeDuplicate(propertyService.getZLList(districtId)));
 		request.setAttribute("msg", msg);
 		return "mobile/propresearch/wecharaddResult";
+	}
+	
+	@RequestMapping("test")
+	public String test(HttpServletRequest request, HttpServletResponse response, String msg, String districtId) {
+		if (StringUtils.isBlank(msg)) {
+			msg = "产调信息提交成功！";
+		}
+		return "mobile/propresearch/test";
 	}
 	
 	private List<User> removeDuplicate(List<User> list) { 

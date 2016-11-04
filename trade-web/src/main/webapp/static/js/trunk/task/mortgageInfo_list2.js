@@ -49,7 +49,8 @@ var mEvalFeeTotalAmount = 0;
 var mEvalFeeCasesTitle = "";
 var mEvalFeeAmountTitle = "";
 
-var evalFeeLegends = new Array('评估费1', '评估费2');
+var evalFeeCaseLegends = new Array('有评估费', '无评估费');
+var evalFeeAmountLegends = new Array('实收', '应收未收');
 var evalFeeCases = new Array(0, 0);
 var evalFeeAmount = new Array(0, 0);
 var evalFeeCaseItems = new Array();
@@ -188,6 +189,17 @@ function resetData() {
 	// orgLegends.splice(0, orgLegends.length);
 	tmpBankCaseItems.splice(0, tmpBankCaseItems.length);
 	tmpBankAmountItems.splice(0, tmpBankAmountItems.length);
+	
+	mEvalFeeAllCases = 0;
+	mEvalFeeTotalAmount = 0;
+	
+	for(index in evalFeeCases) {
+		evalFeeCases[index] = 0;
+		evalFeeAmount[index] = 0;
+	}
+	
+	evalFeeCaseItems.splice(0, evalFeeCaseItems.length);
+	evalFeeAmountItems.splice(0, evalFeeAmountItems.length);
 }
 
 function setPieCharts() {
@@ -197,13 +209,14 @@ function setPieCharts() {
 
 	getMTypeAnalysis();
 	getMOrgAnalysis();
+	getMEvalAnalysis();
 
 	mTypeAmountTitle = '总金额: ' + mTypeTotalAmount.toFixed(2) + ' 万';
 	mTypeCasesTitle = '总单数: ' + mTypeAllCases + ' 件'
 
 	option = setOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", typeLegends, typeAmountItems);
 	pChartMTypeAmount.setOption(option);
-	option = setOptions(mTypeCasesTitle, "{b}: {c} 单({d}%)", typeLegends, typeCaseItems);
+	option = setOptions(mTypeCasesTitle, "{b}: {c} 件({d}%)", typeLegends, typeCaseItems);
 	pChartMTypeCases.setOption(option);
 	
 	mOrgAmountTitle = '总金额: ' + mOrgTotalAmount.toFixed(2) + ' 万';
@@ -211,7 +224,7 @@ function setPieCharts() {
 
 	option = setOrgOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", orgLegends, orgAmountItems);
 	pChartMOrgAmount.setOption(option);
-	option = setOrgOptions(mTypeCasesTitle, "{b}: {c} 单({d}%)", orgLegends, orgCaseItems);
+	option = setOrgOptions(mTypeCasesTitle, "{b}: {c} 件({d}%)", orgLegends, orgCaseItems);
 	pChartMOrgCases.setOption(option);
 	
 	mTmpBankAmountTitle = '商贷(收单)总金额: ' + mTmpBankTotalAmount.toFixed(2) + ' 万';
@@ -219,15 +232,15 @@ function setPieCharts() {
 
 	option = setOptions(mTmpBankAmountTitle, "{b}: {c} 万({d}%)", tmpBankLegends, tmpBankAmountItems);
 	pChartMTmpBankAmount.setOption(option);
-	option = setOptions(mTmpBankCasesTitle, "{b}: {c} 单({d}%)", tmpBankLegends, tmpBankCaseItems);
+	option = setOptions(mTmpBankCasesTitle, "{b}: {c} 件({d}%)", tmpBankLegends, tmpBankCaseItems);
 	pChartMTmpBankCases.setOption(option);
 	
-	mEvalFeeAmountTitle = '商贷(收单)总金额: ' + mTmpBankTotalAmount.toFixed(2) + ' 万';
-	mEvalFeeCasesTitle = '商贷(收单)总单数: ' + mTmpBankAllCases + ' 件'
-	
-	option = setOptions(mEvalFeeAmountTitle, "{b}: {c} 万({d}%)", tmpBankLegends, tmpBankAmountItems);
+	mEvalFeeAmountTitle = '应收评估费: ' + mEvalFeeTotalAmount.toFixed(2) + ' 元';
+	option = setOptions(mEvalFeeAmountTitle, "{b}: {c} 元({d}%)", evalFeeAmountLegends, evalFeeAmountItems);
 	pChartMEvalFeeAmount.setOption(option);
-	option = setOptions(mEvalFeeCasesTitle, "{b}: {c} 单({d}%)", tmpBankLegends, tmpBankCaseItems);
+	
+	mEvalFeeCasesTitle = '商贷(收单)总单数: ' + mEvalFeeAllCases + ' 件'
+	option = setOptions(mEvalFeeCasesTitle, "{b}: {c} 件({d}%)", evalFeeCaseLegends, evalFeeCaseItems);
 	pChartMEvalFeeCases.setOption(option);
 }
 
@@ -504,6 +517,97 @@ function getMOrgAnalysis() {
 					}
 					for (index in orgAmountItems) {
 						orgAmountItems[index].value = parseFloat(orgAmountItems[index].value
+								.toFixed(2));
+					}
+				}
+			});
+}
+
+function getMEvalAnalysis() {
+	var data = setQueryData();
+	data.queryId = "queryMortgageEvalFeeAnalysis";
+	data.rows = 10;
+	data.page = 1;
+
+	$.ajax({
+				async : false,
+				url : ctx + "/quickGrid/findPage",
+				method : "post",
+				dataType : "json",
+				data : data,
+				success : function(data) {
+					var index
+					for (index in data.rows) {
+
+						if (data.rows[index].MISEVAL === 0) {
+							evalFeeCases[1] = data.rows[index].MCASES;
+						}
+						
+						if (data.rows[index].MISEVAL === 1) {
+							evalFeeCases[0] = data.rows[index].MCASES;
+							evalFeeAmount[0] = data.rows[index].EVALFEE;
+							evalFeeAmount[1] = data.rows[index].DEVALFEE - data.rows[index].EVALFEE;
+							mEvalFeeTotalAmount = data.rows[index].DEVALFEE;
+						}
+
+						mEvalFeeAllCases += data.rows[index].MCASES;
+					}
+
+					for (index in evalFeeCaseLegends) {
+						var caseItem = {
+							name : evalFeeCaseLegends[index],
+							value : evalFeeCases[index],
+							itemStyle : {
+								normal : {
+									label : {
+										formatter : '{b}\n{c} 件({d}%)',
+										show : function() {
+											if (evalFeeCases[index] === 0) {
+												return false;
+											}
+										}()
+									},
+									labelLine : {
+										show : function() {
+											if (evalFeeCases[index] === 0) {
+												return false;
+											}
+										}()
+									}
+								}
+							}
+						};
+
+						var amountItem = {
+							name : evalFeeAmountLegends[index],
+							value : evalFeeAmount[index],
+							itemStyle : {
+								normal : {
+									label : {
+										formatter : '{b}\n{c} 元({d}%)',
+										show : function() {
+											if (evalFeeAmount[index] === 0.00) {
+												return false;
+											}
+										}()
+									},
+									labelLine : {
+										show : function() {
+											if (evalFeeAmount[index] === 0.00) {
+												return false;
+											}
+										}()
+									}
+								}
+							}
+						};
+
+						evalFeeCaseItems.push(caseItem);
+						evalFeeAmountItems.push(amountItem);
+					}
+
+					for (index in evalFeeAmountItems) {
+						evalFeeAmountItems[index].value = parseFloat(evalFeeAmountItems[index].value
 								.toFixed(2));
 					}
 				}
