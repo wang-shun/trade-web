@@ -220,8 +220,12 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				wf.setBusinessKey(WorkFlowEnum.PSFLOAN_PROCESS.getName());
 				processDfId=propertyUtilsService.getProcessDfId("PSFLoan_Process");
 			} else {
-				wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
-				processDfId=propertyUtilsService.getProcessDfId("LoanLost_Process");
+				
+/*				wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
+				processDfId=propertyUtilsService.getProcessDfId("LoanLost_Process");*/
+				
+				wf.setBusinessKey(WorkFlowEnum.NEWLOANLOST_PROCESS.getName());
+				processDfId=propertyUtilsService.getProcessDfId("NewLoanLost_Process");
 			}
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 			if(wordkFlowDB == null) {

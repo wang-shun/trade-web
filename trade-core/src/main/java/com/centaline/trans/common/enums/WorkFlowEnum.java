@@ -18,7 +18,8 @@ public enum WorkFlowEnum {
 	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),
 	LOANLOST_PROCESS("LoanLost_Process:1:641492","LoanLost_Process"),
 	PSFLOAN_PROCESS("PSFLoan_Process:1:645460","PSFLoan_Process"),
-	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId");
+	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),
+	NEWLOANLOST_PROCESS("LoanLost_Process:5:712769","NewLoanLost_Process");
 	
 	private String name;
 	private String code;

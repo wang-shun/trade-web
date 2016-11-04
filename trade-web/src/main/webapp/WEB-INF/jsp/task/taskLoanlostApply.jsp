@@ -347,7 +347,7 @@
 	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	<!-- bank select -->
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-<%-- 	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script>  --%>
+	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
@@ -482,8 +482,7 @@
 							'z-index' : '9998'
 						});
 					},
-					complete : function() {
-
+/* 					complete : function() {
 						$.unblockUI();
 						if (b) {
 							$.blockUI({
@@ -505,7 +504,7 @@
 								parent.$.fancybox.close();
 							});
 						}
-					},
+					}, */
 					success : function(data) {
 						if (b) {
 							caseTaskCheck();
@@ -516,8 +515,7 @@
 							alert("保存成功。");
 							window.close();
 							window.opener.callback();
-						}
-						$.unblockUI();
+						}						
 					},
 					error : function(errors) {
 						alert("数据保存出错");
