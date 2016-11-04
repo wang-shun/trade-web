@@ -209,10 +209,10 @@
 							id="mortTmpBankAnalysis">
 							<i class="iconfont icon">&#xe63d;</i> 临时银行报表
 						</button>
-						<!-- <button type="button" class="btn  btn-icon btn-toggle mr5 "
+						<button type="button" class="btn  btn-icon btn-toggle mr5 "
 							id="mortEvalFeeAnalysis">
 							<i class="iconfont icon">&#xe63d;</i> 评估费报表
-						</button> -->
+						</button>
 						<button type="button" class="btn btn-grey"
 							id="mortgageInfoCleanButton">清空</button>
 						<!-- <button type="button" id="mortTypeAnalysis"

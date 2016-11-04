@@ -3,7 +3,6 @@
 <%@page import="com.aist.uam.permission.remote.vo.App"%>
 <%@page import="com.aist.uam.permission.remote.vo.Menu"%>
 <%@page import="com.centaline.trans.user.web.MenuConstants"%>
-<%@page import="com.centaline.trans.utils.URLAvailability"%>
 <%@page import="com.centaline.trans.workspace.web.SessionUserConstants"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.HashMap"%>
@@ -16,29 +15,7 @@
 <%
 	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	Menu menu = MenuConstants.getMenu();
-	String headImgUrl = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+SessionUserConstants.getSesstionUser().getEmployeeCode()+".jpg";
-	URLAvailability urlAvailability = new URLAvailability();
-	if(urlAvailability.isConnect(headImgUrl) == null) {
-		headImgUrl=null;
-	}
-	request.setAttribute("headImgUrl", headImgUrl);
-
 	request.setAttribute("menuVO", menu.getChildren());
-
-	if(pageContext.getSession().getAttribute("ctx")==null){
-		UamPermissionService uamPermissionService = SpringUtils.getBean("uamPermissionServiceClient");
-		String appName = pageContext.getServletContext().getInitParameter("appName");
-		App app = uamPermissionService.getAppByAppName(appName);
-		pageContext.getSession().setAttribute("ctx", app.genAbsoluteUrl());
-		
-		List<App> appList = uamPermissionService.getAllApp();
-		pageContext.getSession().setAttribute("appCtxList", appList);
-		Map<String, String> appCtx = new HashMap<String,String>(appList.size());
-		for(App appitem : appList){
-			appCtx.put(appitem.getAppName(), appitem.genAbsoluteUrl());
-		}
-		pageContext.getSession().setAttribute("appCtx", appCtx);
-	}
 %>
 <html>
 
@@ -91,30 +68,14 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                        <c:choose>
-	                    	<c:when test="${headImgUrl == '' or headImgUrl == null }">
-	                    	 <span style="width: 48px;
-							    height: 48px;
-							    display: block;
-							    border-radius: 50%;
-							    background-image: url(${ctx }/img/a5.png);
-							    background-size:48px 62px;">
-                         </span>
-                        </c:when>
-                        	<c:otherwise>
-	                    		<span style="width: 48px;
-						    height: 48px;
-						    display: block;
-						    border-radius: 50%;
-						    background-image: url('${headImgUrl}');
-						    background-size:48px 62px;">
-                         </span>
-	                    	</c:otherwise>
-                            </c:choose>
+	                    	<span>
+							    <img src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${SESSION_USER.employeeCode}.jpg" 
+							    onerror="this.src='${ctx}/img/a5.png'" style="object-fit:cover; width: 48px;height: 48px; display: block;border-radius: 50%;"/>
+                         	</span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">${sessionUser.realName}</strong>
-                             </span> <span class="text-muted text-xs block">${sessionUser.serviceJobName} </span>
-                             	<span class="text-muted text-xs block">${sessionUser.serviceDepName}<b class="caret"></b></span>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">${SESSION_USER.realName}</strong>
+                             </span> <span class="text-muted text-xs block">${SESSION_USER.serviceJobName} </span>
+                             	<span class="text-muted text-xs block">${SESSION_USER.serviceDepName}<b class="caret"></b></span>
                               </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a href="${ctx}/user/userInfo">我的信息</a></li>

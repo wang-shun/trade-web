@@ -3,7 +3,37 @@ var ctx = $("#ctx").val();
 $(function(){
 	
 	reloadGrid();
+	
+	//进入预约取号界面点击事件
+	$("#goToBespeakUI").click(function(){
+		var remainResNum = getRemainResNum();  //判断是否有可用预约次数
+		
+		if(remainResNum == 0){
+			alert("您这两周的预约次数已用完！");
+			return false;
+		}
+		
+		location.href = ctx + "/weixin/signroom/bespeakUI";
+	});
 });
+
+//获取剩余预约次数
+function getRemainResNum(){
+	var remainResNum;
+	
+	$.ajax({
+		cache:false,
+		async:false,
+		type:"POST",
+		dataType:"text",
+		url:ctx+"/weixin/signroom/getRemainBespeakNumber",
+		success:function(data){
+			remainResNum = data;
+		}
+	});
+	
+	return remainResNum;
+}
 
 function reloadGrid(){
 	var data = getParams();

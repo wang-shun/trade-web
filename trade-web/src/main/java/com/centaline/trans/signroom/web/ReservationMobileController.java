@@ -72,6 +72,8 @@ public class ReservationMobileController {
 	 * 
 	 * @return 剩余预约次数
 	 */
+	@RequestMapping(value = "getRemainBespeakNumber")
+	@ResponseBody
 	public int getRemainBespeakNumber() {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
@@ -89,24 +91,22 @@ public class ReservationMobileController {
 	}
 
 	/**
-	 * 预约取号保存
+	 * 判断该用户是否有预约次数、是否有符合条件的房间、是否有小房间、无房间
 	 * 
 	 * @param reservationVo
-	 *            预约取号前台传的参数对象
-	 * @return 返回true,说明保存成功;返回false,保存失败。
-	 * @throws ParseException
+	 *            前台参数
+	 * @return 返回noBespeakNum,则没预约次数;返回hasMinRoom,则有小一点的房间;返回noRoom,则无房间。
 	 */
-	@RequestMapping(value = "saveReservation")
-	@ResponseBody
-	public FreeRoomInfo saveReservation(ReservationVo reservationVo) {
+	public String isValidPass(ReservationVo reservationVo) {
+		String message = "isPass";
+
 		// 判断当前用户是否有可使用的预约次数
 		int remainBespeakNumber = getRemainBespeakNumber();
 
 		if (remainBespeakNumber == 0) {
-			FreeRoomInfo freeRoomInfo = new FreeRoomInfo();
-			freeRoomInfo.setIsSuccess("noBespeakNum");
+			message = "noBespeakNum";
 
-			return freeRoomInfo;
+			return message;
 		}
 
 		// 如果有预约次数,则按照正常预约流程走
@@ -124,20 +124,40 @@ public class ReservationMobileController {
 
 				// 如果小房间还是没有,那就提示用户没有可用房间
 				if (freeRoomInfo == null) {
-					freeRoomInfo = new FreeRoomInfo();
-
-					freeRoomInfo.setIsSuccess("noRoom");
+					message = "noRoom";
 				} else {
-					freeRoomInfo.setIsSuccess("hasMinRoom");
+					message = "hasMinRoom";
 				}
 
-				return freeRoomInfo;
+				return message;
 			}
+		}
 
+		return message;
+	}
+
+	/**
+	 * 预约取号保存
+	 * 
+	 * @param reservationVo
+	 *            预约取号前台传的参数对象
+	 * @return 返回true,说明保存成功;返回false,保存失败。
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "saveReservation")
+	@ResponseBody
+	public FreeRoomInfo saveReservation(ReservationVo reservationVo) {
+		String message = isValidPass(reservationVo);
+
+		FreeRoomInfo freeRoomInfo = null;
+		if (!"isPass".equals(message)) {
+			freeRoomInfo = new FreeRoomInfo();
+			freeRoomInfo.setIsSuccess(message);
+
+			return freeRoomInfo;
 		}
 
 		String isSuccss = "true";
-
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
 		String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
@@ -187,7 +207,6 @@ public class ReservationMobileController {
 		reservation.setUpdateTime(new Date());
 		reservation.setUpdateBy(currentUser.getId());
 
-		FreeRoomInfo freeRoomInfo = null;
 		try {
 			freeRoomInfo = reservationService.saveReservation(reservation,
 					reservationVo);
@@ -224,8 +243,6 @@ public class ReservationMobileController {
 		List<Long> tradeCenterIdList = reservationService
 				.getTradeCenterIdListByGrpCode(currentUser
 						.getServiceCompanyCode());
-		// List<Long> tradeCenterIdList = reservationService
-		// .getTradeCenterIdListByGrpCode("033H054");
 
 		Long defaultTradeCenterId = 0L;
 		if (tradeCenterIdList != null && tradeCenterIdList.size() > 0) {
@@ -279,27 +296,6 @@ public class ReservationMobileController {
 	 */
 	@RequestMapping(value = "bespeakUI")
 	public String bespeakUI(Model model, HttpServletRequest request) {
-		// SessionUser sessionUser = uamSessionService.getSessionUser();
-
-		// Long tradeCenterId = Long.parseLong(request
-		// .getParameter("defaultTradeCenterId"));
-		// String selDate = request.getParameter("inputSelDate");
-		// String bespeakTime = request.getParameter("inputBespeakTime");
-		// Integer numberOfPeople = Integer.parseInt(request
-		// .getParameter("inputNumberOfPeople"));
-
-		// List<TransactItemVo> transactItemVoList = reservationService
-		// .getTransactItemList();
-
-		// request.setAttribute("transactItemVoList", transactItemVoList);
-		// request.setAttribute("tradeCenterId", tradeCenterId);
-		// request.setAttribute("selDate", selDate);
-		// request.setAttribute("bespeakTime", bespeakTime);
-		// request.setAttribute("agentCode", sessionUser.getId());
-		// request.setAttribute("numberOfPeople", numberOfPeople);
-		// request.setAttribute("agentCode",
-		// "E39F5661B6614F968F27E7BD24BA324A");
-
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
 		List<Long> tradeCenterIdList = reservationService

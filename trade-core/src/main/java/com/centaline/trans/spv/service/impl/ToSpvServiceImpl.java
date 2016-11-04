@@ -987,6 +987,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 						}
 					}else{
 						toSpvCashFlowApplyAttach.setIsDeleted("0");
+						toSpvCashFlowApplyAttach.setType(spvChargeInfoVO.getToSpvCashFlowApplyAttachType());
 						toSpvCashFlowApplyAttach.setUpdateBy(user.getId());
 						toSpvCashFlowApplyAttach.setUpdateTime(new Date());
 						toSpvCashFlowApplyAttachMapper.updateByPrimaryKeySelective(toSpvCashFlowApplyAttach);
@@ -1024,9 +1025,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 				if(toSpvCashFlow.getPkid() == null){
 					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
 					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
-					toSpvCashFlow.setReceiver(toSpvCashFlow.getPayer());
-					toSpvCashFlow.setReceiverAcc(toSpvCashFlow.getPayerAcc());
-					toSpvCashFlow.setReceiverBank(toSpvCashFlow.getPayerBank());
 					toSpvCashFlow.setPayer("上海中原物业顾问有限公司");
 					toSpvCashFlow.setPayerAcc("76310188000148842");
 					toSpvCashFlow.setPayerBank("光大银行市北支行");
@@ -1770,9 +1768,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 		caseInfoMap.put("propertySquare", toPropertyInfo.getSquare());
 		caseInfoMap.put("processorName", consultUser == null ? "" : consultUser.getRealName());
 		caseInfoMap.put("agentName", agentUser == null ? "" : agentUser.getRealName());
-		caseInfoMap.put("sellerName", seller.indexOf("/") == -1?seller:seller.substring(0, seller.indexOf("/")));
+		caseInfoMap.put("sellerName", seller);
 		caseInfoMap.put("sellerMobil", sellerMobil.indexOf("/") == -1?sellerMobil:sellerMobil.substring(0, sellerMobil.indexOf("/")));
-		caseInfoMap.put("buyerName", buyer.indexOf("/") == -1?buyer:buyer.substring(0, buyer.indexOf("/")));
+		caseInfoMap.put("buyerName", buyer);
 		caseInfoMap.put("buyerMobil", buyerMobil.indexOf("/") == -1?buyerMobil:buyerMobil.substring(0, buyerMobil.indexOf("/")));
 		
 		return caseInfoMap;

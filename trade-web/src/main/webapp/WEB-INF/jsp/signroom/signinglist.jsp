@@ -51,6 +51,7 @@
                         	<input type="hidden" name="resTime" value="${resTime }"/>
                         	<input type="hidden" name="resStatus" value="${resStatus }"/>
                         	<input type="hidden" name="distinctId" value="${distinctId }" />
+                        	<input type="hidden" name="flag" value="search"/>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">

@@ -140,7 +140,7 @@
 												)WK WHERE WK.CASE_CODE =  M.CASE_CODE
 					)END_TIME_,
 					ISNULL(S.CON_PRICE,0)/10000 CON_PRICE,
-					ISNULL(EFR.EVAL_FEE,0)/10000 EVAL_FEE,
+					ISNULL(EFR.EVAL_FEE,0) EVAL_FEE,
 					M.CREATE_TIME,
 					(select TOP 1 V.LAST_UPDATED_TIME_ FROM  sctrans.ACT_HI_VARINST V  
 					where PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE 	FROM sctrans.T_TO_WORKFLOW TW  	WHERE TW.CASE_CODE=M.CASE_CODE AND  TW.BUSINESS_KEY = 'operation_process' 	AND TW.STATUS in (0, 4) ) 
@@ -158,7 +158,7 @@
 					AND m.is_active = '1'			
 					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
 					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>		
-				) T 
+				) T  
 				where  1=1
 				
 				<ifNotNull caseCode>
@@ -261,9 +261,14 @@
 				<ifNotNull processorOrgId>
 					and T.REAL_NAME = #processorOrgId#
 				</ifNotNull>
-				<ifNotNull organizeOrgId>
+				
+				<if test="organizeOrgId !=null and orgHierarchy == 'yucui_team' ">
 					and T.LOAN_AGENT_TEAM = #organizeOrgId#
-				</ifNotNull>
+				</if>
+				<if test="organizeOrgId !=null and orgHierarchy == 'yucui_district' ">
+					and T.LOAN_AGENT_TEAM in (select  id from sctrans.sys_org  where PARENT_ID = #organizeOrgId#)
+				</if>
+				
 				<ifNotNull loanType>
 					and T.LOANTYPE = #loanType#
 				</ifNotNull>
