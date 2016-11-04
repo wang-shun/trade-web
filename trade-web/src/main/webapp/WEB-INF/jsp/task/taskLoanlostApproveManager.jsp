@@ -246,9 +246,8 @@
 							});
 						}
 					},
-					success : function(data) {
-						alert(2222222222);
-						console.log("Result=============="+JSON.stringify(data));
+					success : function(data) {						
+						//console.log("Result=============="+JSON.stringify(data));
 						window.close();
 						if (window.opener) {
 							window.opener.callback();
