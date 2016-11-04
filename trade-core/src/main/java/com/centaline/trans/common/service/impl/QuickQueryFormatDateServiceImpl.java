@@ -24,8 +24,13 @@ public class QuickQueryFormatDateServiceImpl implements CustomDictService {
 		for (Map<String, Object> key : keys) {
 			String val = "";
 			String str=key.values().toString();
+			if(str==""||str.equals("[null]")){
+				val="";
+			}else{
 				val=str.substring(str.indexOf("[")+1,str.indexOf(" "));
+				}
 				key.put("val", val);
+				
 
 		}
 

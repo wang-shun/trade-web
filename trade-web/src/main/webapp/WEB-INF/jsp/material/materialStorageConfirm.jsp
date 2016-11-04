@@ -257,15 +257,6 @@
   	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
   	
 <content tag="local_script"> 
-<!-- Mainly scripts -->
-<%-- <script src="${ctx}/static/js/jquery-2.1.1.js"></script> --%>
-<script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
-<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<!-- Custom and plugin javascript -->
-<script src="${ctx}/static/js/inspinia.js"></script>
-<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <!-- 上传附件相关 --> 
 <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>

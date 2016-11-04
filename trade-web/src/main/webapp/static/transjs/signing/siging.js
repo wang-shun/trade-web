@@ -4,8 +4,19 @@ $(function () {
     $(".choices span").click(function() {
         if($(this).hasClass("selected")) {
             $(this).removeClass("selected");
+            $("#propertyAddress").removeAttr("disabled");
         } else {
             $(this).addClass("selected");
+        }
+        if($(this).prop("id")=='OpenRegularMeeting' && $(this).hasClass("selected")){
+        	$(this).siblings().removeClass("selected");
+        	$("#propertyAddress").prop("disabled","disabled");
+        	$("#propertyAddress").val("");
+        	$("#tradeAddr").hide();
+        }else{
+        	$("#OpenRegularMeeting").removeClass("selected");
+        	$("#propertyAddress").removeAttr("disabled");
+        	$("#tradeAddr").show();
         }
 
     });
@@ -123,7 +134,8 @@ $(function () {
 				success : function(data) {   
 						if(data.success){
 							alert(data.message);
-							window.location.href = ctx+"/signroom/signRoomAllotList";
+							$("#closeBtn").click();
+							signRommAjaxSubmit(1);
 						}else{
 							alert(data.message);
 						}

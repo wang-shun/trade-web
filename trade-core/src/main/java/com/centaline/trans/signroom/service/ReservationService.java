@@ -142,4 +142,21 @@ public interface ReservationService {
 	 */
 	public int getUsedBespeakNumber(String currentUserId);
 
+	/**
+	 * 变更签约室获取可用房间信息
+	 * 
+	 * @param reservationVo
+	 *            签约室条件
+	 * @return 可用房间xinxi列表
+	 */
+	public List<SignroomInfo> getUseableSignRoomList(ReservationVo reservationVo);
+
+	/**
+	 * 变更签约室
+	 * 
+	 * @param reservationVo
+	 *            签约室条件
+	 */
+	public void changeRoom(ReservationVo reservationVo);
+
 }

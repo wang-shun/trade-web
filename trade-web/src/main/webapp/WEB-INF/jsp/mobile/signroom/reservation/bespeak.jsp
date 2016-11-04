@@ -17,7 +17,7 @@
 <body>
     <header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
-            <span class="">取消</span>
+            <span class="">返回</span>
         </a>
         <div class="aui-title">签约室预约</div>
     </header>
@@ -89,7 +89,7 @@
 	            <li class="aui-list-item item">
 	                <div class="aui-list-item-inner">
 	                    <div class="aui-list-item-label">
-	                        <i class="iconfont blue mr5">&#xe60c;</i>贷款专员
+	                        <i class="iconfont blue mr5">&#xe60c;</i>交易顾问
 	                    </div>
 	                    <div class="aui-list-item-input">
 	                    	 <input type="text" id="serviceSpecialist" placeholder="请输入名称">
@@ -173,54 +173,50 @@
         <img src="${ctx }/image/sigin_bg.png" alt="" />
     </div>
     
-    <!-- 是否接受更小的房间弹出框 -->
-    <div id="layui-m-layer0" class="layui-m-layer layui-m-layer0" index="0" style="display:none;">
-    	<div class="layui-m-layershade"></div>
-    	<div class="layui-m-layermain">
-    		<div class="layui-m-layersection">
-    			<div class="layui-m-layerchild  layui-m-anim-scale">
-    				<div class="layui-m-layercont">
-    					<div class="dialog-user">
-    						<i class="iconfont iconfont70 mt20 falsegrey">&#xe60b;</i>
-    						<h2 class="dialog-head mt20 font18">没有符合条件的房间！<br>是否接受小房间？</h2>
-    						<div class="btn-box mt20">
-    							<a>
-    								<div class="aui-btn aui-btn-primary aui-margin-r-10" onclick="save('accept')">接受</div>
-    							</a>
-    							<a href="javascript:void(0);" id="reject">
-    								<div class="aui-btn aui-btn-grey aui-margin-l-10">拒绝</div>
-    							</a>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
+    <!-- 预约成功提示框 -->
+    <div id="layuiSuccess" class="layui-m-layer layui-m-layer0" style="display:none;">
+        <div class="layui-m-layershade"></div>
+        <div class="layui-m-layermain">
+            <div class="layui-m-layersection">
+                <div class="layui-m-layerchild  layui-m-anim-scale">
+                    <div class="layui-m-layercont layui-padding">
+                        <div class="dialog-user">
+                            <i class="iconfont iconfont70 mt20 cyan">&#xe606;</i>
+                            <h2 class="dialog-head mt30 font22">恭喜你预约成功</h2>
+                            <div class="dialog-info"><p class="font18 mt20">预约编号: <span class="yellow ">A-FJ234s448</span></p><p class="mt5 font12">时间：<span id="spnResDate">2016-08-12</span>&nbsp;&nbsp;<span id="spnResTime">10:00-12:00</span></p></div>
+                            <div class="mt20">
+                                <div class="aui-btn aui-btn-info aui-btn-block aui-btn-mt10" onClick="goToMyReservationList();">确定</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <!-- 无闲置房间或者预约失败弹出框 -->
-    <div id="layui-m-layer1" class="layui-m-layer layui-m-layer0" index="1" style="display:none;">
-    	<div class="layui-m-layershade"></div>
-    	<div class="layui-m-layermain">
-    		<div class="layui-m-layersection">
-    			<div class="layui-m-layerchild  layui-m-anim-scale">
-    				<div class="layui-m-layercont">
-    					<div class="dialog-user">
-    						<i class="iconfont iconfont70 mt20 falsegrey">&#xe60b;</i>
-    						<h2 class="dialog-head mt20 font18"></h2>
-    						<div class="btn-box mt20">
-    							<a href="${ctx }/weixin/signroom/myReservationList">
-    								<div class="aui-btn aui-btn-primary aui-margin-r-10">我的预约</div>
-    							</a>
-    							<a href="javascrpt:void(0);" id="cancel">
-    								<div class="aui-btn aui-btn-grey aui-margin-l-10">取消</div>
-    							</a>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
+    <!-- 预约失败弹出框 -->
+    <div id="layuiFalse" class="layui-m-layer layui-m-layer0" style="display:none;">
+        <div class="layui-m-layershade"></div>
+        <div class="layui-m-layermain">
+            <div class="layui-m-layersection">
+                <div class="layui-m-layerchild  layui-m-anim-scale">
+                    <div class="layui-m-layercont layui-padding">
+                        <div class="dialog-user">
+                            <i class="iconfont iconfont70 mt20 pink">&#xe60b;</i>
+                            <h2 class="dialog-head mt30 font22">预约失败</h2>
+                            <div class="dialog-info">
+                                <p class="font16 mt10" id="message"></p>
+                            </div>
+                            <div class="mt20" id="operation">
+                                <div class="aui-btn aui-btn-info aui-btn-block aui-btn-mt10">换个时间试试</div>
+                                <div class="aui-btn aui-btn-info aui-btn-block aui-btn-mt10">我愿意接受小房间</div>
+                                <div class="aui-btn aui-btn-grey aui-btn-block aui-btn-mt10">取消</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
     

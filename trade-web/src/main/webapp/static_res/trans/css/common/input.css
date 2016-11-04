@@ -664,3 +664,8 @@ input {
 .btn-edgegro {
     margin: 5px 0px 20px;
 }
+
+.input_type[disabled], .input_type[readonly], fieldset[disabled] .input_type {
+    background-color: #eee;
+    opacity: 1;
+}

@@ -66,13 +66,10 @@
     }
 
     window.SUBSCRIBE = window.SUBSCRIBE || {
-            _Server : 'http://trade.centaline.com:8083/trade-web',
             /**
              * 初始化
              */
-            init: function() {
-                SUBSCRIBE._Server = $("#ctx").val()==''? SUBSCRIBE._Server :  $("#ctx").val() ;
-            },
+            init: function() {},
             _subscribe: function(moduleCode, moduleType,subscribeType, remark, isSubscribe,callback,onError) {
                 var data ={
                     "moduleCode": moduleCode,
@@ -82,7 +79,7 @@
                     "isSubscribe": isSubscribe
                 };
                 $.ajax({
-                    url: SUBSCRIBE._Server+"/subscribe/saveOrDeleteCaseSubscribe",
+                    url:ctx+"/subscribe/saveOrDeleteCaseSubscribe",
                     dataType: 'json',
                     type: "POST",
                     data: data,

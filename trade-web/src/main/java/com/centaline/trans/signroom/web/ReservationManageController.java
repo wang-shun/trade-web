@@ -2,6 +2,7 @@ package com.centaline.trans.signroom.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +19,8 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.signroom.entity.ResFlowup;
 import com.centaline.trans.signroom.service.ResFlowupService;
 import com.centaline.trans.signroom.service.ReservationService;
+import com.centaline.trans.signroom.vo.ReservationVo;
+import com.centaline.trans.signroom.vo.SignroomInfo;
 
 /**
  * 预约取号后台controller
@@ -42,6 +45,66 @@ public class ReservationManageController {
 	private UamUserOrgService uamUserOrgService;
 
 	/**
+	 * 变更签约室----更换签约室保存
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "changeRoom")
+	@ResponseBody
+	public String changeRoom(Model model, HttpServletRequest request) {
+		String isSuccess = "true";
+
+		String resId = request.getParameter("resId");
+		String scheduleId = request.getParameter("scheduleId");
+		String flag = request.getParameter("flag");
+
+		ReservationVo reservationVo = new ReservationVo();
+		reservationVo.setResId(resId);
+		reservationVo.setScheduleId(scheduleId);
+		reservationVo.setFlag(flag);
+
+		try {
+			reservationService.changeRoom(reservationVo);
+		} catch (Exception e) {
+			isSuccess = "false";
+			e.printStackTrace();
+		}
+
+		return isSuccess;
+	}
+
+	/**
+	 * 变更签约室----获取可用的房间信息列表
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "getUseableSignRoomList")
+	@ResponseBody
+	public List<SignroomInfo> getUseableSignRoomList(Model model,
+			HttpServletRequest request) {
+
+		Long tradeCenterId = Long.parseLong(request
+				.getParameter("tradeCenterId"));
+		String startDate = request.getParameter("resStartTime");
+		String endDate = request.getParameter("resEndTime");
+
+		ReservationVo reservationVo = new ReservationVo();
+		reservationVo.setStartDate(startDate);
+		reservationVo.setEndDate(endDate);
+		reservationVo.setTradeCenterId(tradeCenterId);
+
+		List<SignroomInfo> signroomInfoList = reservationService
+				.getUseableSignRoomList(reservationVo);
+
+		return signroomInfoList;
+
+	}
+
+	/**
 	 * 签约室列表
 	 * 
 	 * @param model
@@ -53,11 +116,13 @@ public class ReservationManageController {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
 		String distinctId = "";
+		// 如果当前用户属于组级别的
 		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
 			Org org = uamUserOrgService.getOrgById(currentUser
 					.getServiceCompanyId());
 
 			distinctId = org.getParentId();
+			// 如果当前用户属于区级别的
 		} else if ("yucui_district"
 				.equals(currentUser.getServiceDepHierarchy())) {
 			distinctId = currentUser.getServiceCompanyId();
@@ -72,13 +137,16 @@ public class ReservationManageController {
 		String endDateTime = request.getParameter("endDateTime");
 		String resTime = request.getParameter("resTime");
 		String resStatus = request.getParameter("resStatus");
+		String flag = request.getParameter("flag");
 
-		if (startDateTime == null || "".equals(startDateTime)) {
-			startDateTime = sdf.format(new Date());
-		}
+		if (flag == null) {
+			if (startDateTime == null || "".equals(startDateTime)) {
+				startDateTime = sdf.format(new Date());
+			}
 
-		if (endDateTime == null || "".equals(endDateTime)) {
-			endDateTime = sdf.format(new Date());
+			if (endDateTime == null || "".equals(endDateTime)) {
+				endDateTime = sdf.format(new Date());
+			}
 		}
 
 		request.setAttribute("resPersonId", resPersonId);
@@ -94,6 +162,13 @@ public class ReservationManageController {
 		return "signroom/signinglist";
 	}
 
+	/**
+	 * 保存最新跟进信息
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
 	@RequestMapping(value = "saveResFlowup")
 	@ResponseBody
 	public String saveResFlowup(Model model, HttpServletRequest request) {
@@ -113,6 +188,13 @@ public class ReservationManageController {
 		return resFlowupService.saveResFlowup(resFlowup) > 0 ? "true" : "false";
 	}
 
+	/**
+	 * 开始使用及结束使用
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
 	@RequestMapping(value = "startAndEndUse")
 	@ResponseBody
 	public String startAndEndUse(Model model, HttpServletRequest request) {

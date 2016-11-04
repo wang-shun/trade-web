@@ -635,10 +635,10 @@
 									<h5>询价结果查看</h5>
 								</div>
 									<div class="ibox-content">
-										<div class="jqGrid_wrapper">
-											<table id="table_list_1"></table>
-											<div id="pager_list_1" ></div>
-										</div>
+										 <div class="jqGrid_wrapper">
+			                                <table id="table_list_1"></table>
+			                                <div id="pager_list_1"></div>
+			                           </div>
 									</div>
 								</div>
 								<div class="col-lg-4">
@@ -1695,6 +1695,13 @@ function checkInt(obj){
 			caseCode : caseCode,
 			srvCode : taskitem
 		});
+		
+		 $(window).bind('resize', function () {
+             var width = $('.jqGrid_wrapper').width();
+             $('#table_list_1').setGridWidth(width);
+             $('#table_list_2').setGridWidth(width);
+         });
+		
 	});
 	
 	var attachmentList = null;

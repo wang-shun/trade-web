@@ -3,7 +3,37 @@ var ctx = $("#ctx").val();
 $(function(){
 	
 	reloadGrid();
+	
+	//进入预约取号界面点击事件
+	$("#goToBespeakUI").click(function(){
+		var remainResNum = getRemainResNum();  //判断是否有可用预约次数
+		
+		if(remainResNum == 0){
+			alert("您这两周的预约次数已用完！");
+			return false;
+		}
+		
+		location.href = ctx + "/weixin/signroom/bespeakUI";
+	});
 });
+
+//获取剩余预约次数
+function getRemainResNum(){
+	var remainResNum;
+	
+	$.ajax({
+		cache:false,
+		async:false,
+		type:"POST",
+		dataType:"text",
+		url:ctx+"/weixin/signroom/getRemainBespeakNumber",
+		success:function(data){
+			remainResNum = data;
+		}
+	});
+	
+	return remainResNum;
+}
 
 function reloadGrid(){
 	var data = getParams();
@@ -43,7 +73,7 @@ function openConfirm(resId){
 
 //打开取消预约确定弹出框
 var dialog = new auiDialog({})
-function openDialog(text,resId){
+function openDialog(text,resId,obj){
     dialog.alert({
         title:"",
         msg:'您确定要取消本次预约吗?',
@@ -51,7 +81,7 @@ function openDialog(text,resId){
     },function(ret){
         if(ret){
             if(ret.buttonIndex == 2) {
-            	cancelReservation(resId);
+            	cancelReservation(resId,obj);
             } else {
                 return false;
             }
@@ -61,7 +91,9 @@ function openDialog(text,resId){
 
 
 //取消预约
-function cancelReservation(resId){
+function cancelReservation(resId,obj){
+	$li = $(obj).parents(".aui-list-item");
+	
 	$.ajax({
 		cache:false,
 		async:false,
@@ -71,7 +103,7 @@ function cancelReservation(resId){
 		data:{resId:resId},
 		success:function(data){
 			if(data == "true"){
-				window.location.href = ctx + "/weixin/signroom/myReservationList";
+				$li.remove();
 			}
 		}
 	});

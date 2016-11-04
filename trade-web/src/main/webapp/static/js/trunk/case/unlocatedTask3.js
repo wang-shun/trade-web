@@ -10,18 +10,13 @@ function radioYuCuiOrgSelectCallBack(array){
 }
 
 function changeTaskAssignee(page,username){
-
 		 var data = {};
 		 data.rows = 5;
-		     if(!page) {
-		    	 data.page = 1;
-
-		     }else{
-		    	data.page = page;
-
-		     }  
-		  //data.username = parameters.username;   
-		  data.username = username;   
+		 data.page = page;
+	     if(!page) {
+	    	 data.page = 1;
+	     }
+		  data.username = username;
 		$.ajax({
 			cache : false,
 			async : false,//false同步，true异步
@@ -29,38 +24,18 @@ function changeTaskAssignee(page,username){
 			url : ctx+"/manage/listUser",
 			dataType : "json",
 			data : data,
-
-			beforeSend:function(){  				
-				$.blockUI({
-					message : $("#salesLoading"),
-					css : {
-						'border' : 'none',
-						'z-index' : '9999'
-					}
-				});
-				$(".blockOverlay").css({
-					'z-index' : '9998'
-				});
-	         },
+			beforeSend:function(){},
 			success : function(data) {
-				//console.log("数据"+JSON.stringify(data));
 				data.ctx = ctx;
 		    	var tsAwardBaseList= template('template_taskListf' , data);
 		        $("#taskListf").empty();
 		        $("#taskListf").html(tsAwardBaseList);
-		        
 		        initpagef(data.total,data.pagesize,data.page, data.records);
-		        $.unblockUI();
 			},
 			error : function(errors) {				
-				$.unblockUI();
 			}
 		});
-
 }
-
-
-
 
 // 查询
 $('#searchButton').click(function() {

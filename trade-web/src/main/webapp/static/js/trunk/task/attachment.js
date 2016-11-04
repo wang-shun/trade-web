@@ -89,55 +89,6 @@ $(function() {
 
 //
 function getExplPicByhouseCode() {
-	/*$.ajax({
-		type : 'post',
-		cache : false,
-		async : true,//false同步，true异步
-		dataType : 'json',
-		url : ctx+'/attachment/quereyAttachments',
-		data : [{
-			name : 'caseCode',
-			value : caseCode
-		}, {
-			name : 'partCode',
-			value : taskitem
-		}],
-		dataType : "json",
-		success : function(data) {
-//					dataLength=data.attList.length;
-			//将返回的数据进行包装
-			$.each(data.accList, function(indexAcc, accValue){
-				//实勘描述
-				if(!$("#picContainer"+accValue.pkid)[0])return true;
-				var trStr = "";
-				$.each(data.attList,function(index, value) {
-					if(value.preFileCode==accValue.accessoryCode){
-						dataLength++;
-						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
-						trStr+="<div class=\"preview span12\">";
-						trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
-						trStr+="<img src='"+appName+"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' alt='' width='80px' height='80px'>";
-						trStr+="</div>";
-						if($("#handle").val() != 'SpvSign' && $("#handle").val() != 'SpvApprove'){
-							trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
-							trStr+="<button onclick=\"romoveDiv('picContainers',"+value.pkid+");\" class=\"btn red\""; 
-							trStr+="style=\"line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;\">";
-							trStr+="<i class=\"icon-remove\"></i>";
-							trStr+="</button>";
-							trStr+="</div>";
-						}
-						trStr+="</div>";
-						
-					}
-				});
-				$("#picContainer"+accValue.pkid).append(trStr);
-			});
-		},
-		error : function(errors) {
-			alert("产调加载失败");
-			return false;
-		}
-	});*/
 	$.ajax({
 		type : 'post',
 		cache : false,
@@ -153,7 +104,6 @@ function getExplPicByhouseCode() {
 		}],
 		dataType : "json",
 		success : function(data) {
-//					dataLength=data.attList.length;
 			//将返回的数据进行包装
 			$.each(data.accList, function(indexAcc, accValue){
 				//实勘描述				
@@ -165,7 +115,7 @@ function getExplPicByhouseCode() {
 						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
 						trStr+="<div class=\"preview span12\">";
 						trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
-						trStr+="<img src='"+appName+"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' alt='' width='80px' height='80px'>";
+						trStr+="<img src='"+appCtx['shcl-filesvr-web']+"/filesvr/downLoad?id="+value.preFileAdress+"' alt='' width='80px' height='80px'>";
 						trStr+="</div>";
 						if($("#handle").val() != 'SpvSign' && $("#handle").val() != 'SpvApprove'){
 						trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
@@ -336,7 +286,6 @@ function subUpdFrom() {
 			}],
 			success : function(data) {
 					if(data){
-//						alert("附件已修改。");
 					    $(".cancel").hide();
 					    $(".btn-primary").one("click",function(){
 					    	parent.$.fancybox.close();
@@ -413,12 +362,6 @@ function checkAttachment() {
 			checkAtt = true;
 		}
 	});
-	/*var picDiv=$("div[name='allPicDiv1']");
-	var input=$("input[name='pic']");
-	if(picDiv.length == 0 && input.length == 0) {
-		alert("请上传备件！");
-		return false;
-	}*/
 	return checkAtt;
 }
 

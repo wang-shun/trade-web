@@ -181,10 +181,10 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		}
 		if(isNewFlow) {
 			ActRuEventSubScr event = new ActRuEventSubScr();
-			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
-			event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
+			event.setEventType(MessageEnum.START_MORTGAGE_SELECT_MSG.getEventType());
+			event.setEventName(MessageEnum.START_MORTGAGE_SELECT_MSG.getName());
 			event.setProcInstId(vo.getProcessInstanceId());
-			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+			event.setActivityId(EventTypeEnum.TRADEBOUNDARYMSG.getName());
 			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
 			if (CollectionUtils.isEmpty(subScrsList)) {
 				throw new BusinessException("当前流程下不允许变更贷款需求！");

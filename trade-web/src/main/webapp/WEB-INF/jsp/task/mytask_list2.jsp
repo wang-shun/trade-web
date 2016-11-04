@@ -284,18 +284,18 @@ text-decoration: underline !important;
       						 </p>
 						{{/if}}
 				 </td>
-			{{/if}}c
+			{{/if}}
 				
 					<td class="t-left">
 						<p class="big">
                        		<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a>
 							{{if item.SUBSCRIBE_COUNT == 0}}
 							  	   <span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
-                             		    <i class="iconfont_s markstar star_subscribe" status="1"></i>
+                             		    <i class="iconfont_s markstar star_subscribe" status="1">&#xe644;</i>
                          		   </span>
 							{{else}}
 								   <span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="{{item.CASE_CODE}}" isSubscribe="false">
-											<i class="iconfont_s markstar star_subscribe" status="1"></i>
+											<i class="iconfont_s markstar star_subscribe" status="1">&#xe63e;</i>
 								   </span>
 							{{/if}}
 						</p>
