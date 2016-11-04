@@ -13,24 +13,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>申请审批意见</title>
-<%-- <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
-<!-- stickUp fixed css -->
-<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
-<link rel="stylesheet" href="${ctx}/static/trans/static/css/plugins/toastr/toastr.min.css">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " />
-<!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
-<link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" /> --%>
 
  <!-- 上传相关 -->
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
@@ -63,7 +45,12 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+ 	<link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
+ 	<link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
+	<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+	<!-- 必须CSS -->
+	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+ 	 
 
 </head>
 
@@ -76,6 +63,16 @@
                         	  资金入账申请
                       </div>
                       <div class="info_content">
+                    	  <div class="line">
+                                <p>
+                                    <label> 案件编号  </label>
+                                     <span class="info"><span  class="demo-top" title="${spvBaseInfoVO.toSpv.caseCode }" >${spvBaseInfoVO.toSpv.caseCode }</span></span>
+                                </p>
+                                <p>
+                                    <label>合约编号 </label>
+                                   <span  class="info demo-top" title="${spvBaseInfoVO.toSpv.spvCode }">${spvBaseInfoVO.toSpv.spvCode }</span>
+                                </p>
+                            </div>
                           <div class="line">
                               <p>
                                   <label>
@@ -87,14 +84,14 @@
                                   <label>
                                     	  监管金额
                                   </label>
-                                  <span class="info_one">${spvBaseInfoVO.toSpv.amount }万元</span>
+                                  <span class="info_one demo-top" title="${spvBaseInfoVO.toSpv.amount }" >${spvBaseInfoVO.toSpv.amount }万元</span>
                               </p>
 
                               <p>
                                   <label>
                                     	  物业地址
                                   </label>
-                                  <p  class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }">${spvBaseInfoVO.toSpvProperty.prAddr }</p>
+                                  <span class="info" ><span class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }">${spvBaseInfoVO.toSpvProperty.prAddr }</span></span>
                               </p>
 
                           </div>
@@ -103,21 +100,21 @@
                                   <label>
                                    	   收款人名称
                                   </label>
-                                  <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].name }</span>
+                                  <span class="info_one"><span class="demo-top" title="上海中原物业顾问有限公司">上海中原物业顾问有限公司</span></span>
                               </p>
 
                               <p>
                                   <label>
                                       	收款人账户
                                   </label>
-                                  <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].account }</span>
+                                  <span class="info_one"><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].account }">${spvBaseInfoVO.toSpvAccountList[2].account }</span></span>
                               </p>
 
                               <p>
                                   <label>
                                       	收款人开户行
                                   </label>
-                                  <span class="info">${spvBaseInfoVO.toSpvAccountList[1].bank }</span>
+                                  <span class="info"><%-- ${spvBaseInfoVO.toSpvAccountList[2].bank } --%>光大银行市北支行</span>
                               </p>
                           </div>
                       </div>
@@ -129,9 +126,9 @@
                         <input type="hidden" name="prdCode" value="${spvBaseInfoVO.toSpv.prdCode==1?"光大四方资金监管":"" }" />
                         <input type="hidden" name="amount" value="${spvBaseInfoVO.toSpv.amount}" />
                         <input type="hidden" name="prAddr" value="${spvBaseInfoVO.toSpvProperty.prAddr}" />
-                        <input type="hidden" name="spvAccountName" value="${spvBaseInfoVO.toSpvAccountList[2].name}" />
+                        <input type="hidden" name="spvAccountName" value="上海中原物业顾问有限公司" />
                         <input type="hidden" name="spvAccountCode" value="${spvBaseInfoVO.toSpvAccountList[2].account}" />
-                        <input type="hidden" name="spvAccountBank" value="${spvBaseInfoVO.toSpvAccountList[2].bank}" />
+                        <input type="hidden" name="spvAccountBank" value="光大银行市北支行" />
                          <%-- 流程相关 --%>
 						<input type="hidden" id="taskId" name="taskId" value="${taskId }" />
 						<input type="hidden" id="instCode" name="instCode" value="${instCode}" />
@@ -149,8 +146,9 @@
                                           <th>付款人账户</th>
                                           <th style="width: 100px;">入账金额</th>
                                           <th style="width: 120px;">贷记凭证编号</th>
-                                          <th>付款方式</th>
+                                          <th style="width: 90px;">付款方式</th>
                                           <th>凭证附件</th>
+                                          <th>入账时间</th>
                                       </thead>
                                       <tbody id="addTr">
                                       <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
@@ -167,18 +165,24 @@
                                                   <div class="big">${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }万元</div>
                                               </td>
                                               <td>
-                                                  <div class="big">  ${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptNo }  </div>
+                                                  <div class="big">  ${spvCaseFlowOutInfoVO.toSpvCashFlow.voucherNo }  </div>
                                               </td>
                                               <td>
                                                   <div class="big"> ${spvCaseFlowOutInfoVO.toSpvCashFlow.direction } </div>
                                               </td>
                                               <td>
                                                   <c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status3">
-                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" title="${toSpvReceiptList.comment}" alt="${toSpvReceiptList.comment}">
-														<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
-														<button type="button" class="btn btn-sm btn-default" >${toSpvReceiptList.comment}</button>
-													</a>
+													<img id="image_${status3.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none;" class="viewer-toggle">
+													<input type="hidden" name ="items[${status3.index}].fileId" value = "'+fileId+'" fileName="'+fileName+'"/>
+													<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status3.index }').trigger('click');" style='margin-bottom: 5px;margin-right:5px;padding: 0 8px;'><i class="icon iconfont icon_y" >&#xe635;
+													${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
+													</button>
                                                	 </c:forEach>
+                                              </td>
+                                               <td>
+                                                  <div class="big">  
+                                                  <fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptTime }" pattern="yyyy-MM-dd"/>
+                                                  </div>
                                               </td>
                                           </tr>
                                        </c:forEach>
@@ -210,6 +214,9 @@
 	                                </p>
 	                            </div>
                             </c:forEach>
+                            <c:if test="${spvChargeInfoVO.toSpvAduitList.size()<1 }">
+                  				<p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p>
+                  			</c:if> 
                      	 </div>
                       </div>
 
@@ -219,7 +226,7 @@
                       </div>
                       <div class="excuse">
                           <form action="">
-                              <textarea name="turndownContent_" id="turndownContent_" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                              <font color="red">*</font><textarea name="turndownContent_" id="turndownContent_" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                           </form>
                           <div class="form-btn">
                           <div class="text-center">
@@ -236,33 +243,21 @@
 
       </div>
   </div>
-
-<!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script>
+<content tag="local_script">
 <script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
-<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<!-- Custom and plugin javascript -->
 <script src="${ctx}/static/js/inspinia.js"></script>
 <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
-<!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-
 <!-- stickup plugin -->
 <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
-<script>
-$(function() {
-    $('.response').responsivegallery();
-});
-
-
-</script>
 <script type="text/javascript">
 $(function(){
+
 		//left
 		$('.demo-left').poshytip({
 			className: 'tip-twitter',
@@ -307,9 +302,10 @@ $(function(){
 			offsetY: 5,
 		});
 	});
+
+$('.wrapper-content').viewer();
+
 </script>
-
-
-
+</content>
 </body>
 </html>

@@ -2,9 +2,9 @@ package com.centaline.trans.remote.service;
 
 public interface AutoPlanService {
 	/**
-	 *自动生成任务计划
-	 * @param taskDfkey 流程定义
-	 * @param caseCode  案件编号
+	 *鑷姩鐢熸垚浠诲姟璁″垝
+	 * @param taskDfkey 娴佺▼瀹氫箟
+	 * @param caseCode  妗堜欢缂栧彿
 	 */
 	void autoGenerateTaskPlan(String taskDfkey, String caseCode);
 }

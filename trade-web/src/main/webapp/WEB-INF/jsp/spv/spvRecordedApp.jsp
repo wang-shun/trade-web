@@ -13,23 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>审批驳回</title><%-- 
-<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet"> --%>
-<!-- stickUp fixed css --><%-- 
-<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
-<link rel="stylesheet" href="${ctx}/static/trans/static/css/plugins/toastr/toastr.min.css">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " /> --%>
-
+<title>审批驳回</title>
  <!-- 上传相关 -->
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
 		rel="stylesheet">
@@ -56,92 +40,100 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/steps.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/toastr.min.css">
     <!-- index_css  -->
+    <link rel="stylesheet" href="${ctx}/static/css/plugins/datapicker/datepicker3.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/iconfont.css" >
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
-
-
-
+    <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+    <!-- 必须CSS -->
+	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+	<style>
+		.borderClass {border:1px solid red!important;resize: none;}
+		.borderClass:focus {border:1px solid red!important;resize: none;}
+		.bar {height: 18px;background: green;position:fixed;bottom:0;}
+	</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<script type="text/javascript">
-	var ctx = "${ctx}";
-	var source = "${source}";
-	if ("${idList}" != "") {
-		var idList = eval("(" + "${idList}" + ")");
-	} else {
-		var idList = [];
-	}
-</script>
+<input type="hidden" id="sum" value="${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()}" >
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                    
                     <div class="ibox-content space30" >
                         <div class="agree-tile">
-                            资金入账申请
+                           	 资金入账申请
                         </div>
                         <div class="info_content">
+                        	<div class="line">
+                                <p>
+                                    <label> 案件编号  </label>
+                                     <span class="info"><span  class="demo-top" title="${spvBaseInfoVO.toSpv.caseCode }" >${spvBaseInfoVO.toSpv.caseCode }</span></span>
+                                </p>
+                                <p>
+                                    <label>合约编号 </label>
+                                   <span  class="info demo-top" title="${spvBaseInfoVO.toSpv.spvCode }">${spvBaseInfoVO.toSpv.spvCode }</span>
+                                </p>
+                            </div>
                             <div class="line">
                                 <p>
                                     <label>
-                                       产品类型
+                                       	产品类型
                                     </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }</span>
+                                    <span class="info_one" >${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }</span>
                                 </p>
                                 <p>
                                     <label>
-                                        监管金额
+                                        	监管金额
                                     </label>
-                                   <span class="info_one">${spvBaseInfoVO.toSpv.amount }万元</span>
+                                   <span class="info_one demo-top" id="amount" title="${spvBaseInfoVO.toSpv.amount }" value="${spvBaseInfoVO.toSpv.amount }">${spvBaseInfoVO.toSpv.amount }万元</span>
                                 </p>
 
                                 <p>
                                     <label>
-                                        物业地址
+                                        	物业地址
                                     </label>
-                                    <span class="info">${spvBaseInfoVO.toSpvProperty.prAddr }</span>
+                                    <span class="info" ><span class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr }"> ${spvBaseInfoVO.toSpvProperty.prAddr }</span></span>
                                 </p>
 
                             </div>
                             <div class="line">
                                 <p>
                                     <label>
-                                        收款人名称
+                                        	收款人名称
                                     </label>
-                                   <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].name }</span>
+                                   <span class="info_one"><span class="demo-top" title="上海中原物业顾问有限公司">上海中原物业顾问有限公司</span></span>
                                 </p>
 
                                 <p>
                                     <label>
-                                        收款人账户
+                                        	收款人账户
                                     </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpvAccountList[1].account }</span>
+                                    <span class="info_one"><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].account }"> ${spvBaseInfoVO.toSpvAccountList[2].account }</span></span>
                                 </p>
 
                                 <p>
                                     <label>
-                                        收款人开户行
+                                        	收款人开户行
                                     </label>
-                                    <span class="info">${spvBaseInfoVO.toSpvAccountList[1].bank }</span>
+                                    <span class="info"><%-- ${spvBaseInfoVO.toSpvAccountList[2].bank } --%>光大银行市北支行</span>
                                 </p>
                             </div>
                         </div>
                         <div class="mt20">
                             <div class="agree-tile">
-                                入账申请信息
+                                	入账申请信息
                             </div>
 
                             <form class="form-inline table-capital" id="teacForm" >
 		                        <input type="hidden" name="prdCode" value="${spvBaseInfoVO.toSpv.prdCode==1?"光大四方资金监管":"" }" />
 		                        <input type="hidden" name="amount" value="${spvBaseInfoVO.toSpv.amount}" />
 		                        <input type="hidden" name="prAddr" value="${spvBaseInfoVO.toSpvProperty.prAddr}" />
-		                        <input type="hidden" name="spvAccountName" value="${spvBaseInfoVO.toSpvAccountList[2].name}" />
+		                        <input type="hidden" name="spvAccountName" value="上海中原物业顾问有限公司" />
 		                        <input type="hidden" name="spvAccountCode" value="${spvBaseInfoVO.toSpvAccountList[2].account}" />
-		                        <input type="hidden" name="spvAccountBank" value="${spvBaseInfoVO.toSpvAccountList[2].bank}" />
+		                        <input type="hidden" name="spvAccountBank" value="光大银行市北支行" />
 		                         <%-- 流程相关 --%>
 								<input type="hidden" id="taskId" name="taskId" value="${taskId }" />
 								<input type="hidden" id="instCode" name="instCode" value="${instCode}" />
@@ -158,9 +150,10 @@
                                             <th>付款人账户</th>
                                             <th style="width: 100px;">入账金额</th>
                                             <th style="width: 120px;">贷记凭证编号</th>
-                                            <th>付款方式</th>
+                                            <th style="width: 90px;">付款方式</th>
                                             <th>凭证附件</th>
-                                            <th>操作</th>
+                                            <th>入账时间</th>
+                                            <th style="width: 50px;">操作</th>
                                         </thead>
                                         <tbody id="addTr">
 	                                           <c:forEach items="${spvChargeInfoVO.spvCaseFlowOutInfoVOList}" var="spvCaseFlowOutInfoVO" varStatus="status2">
@@ -179,7 +172,7 @@
 	                                                    <input class="boderbbt" style="border:none;width: 50px;" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.amount }" name="items[${status2.index }].payerAmount" />万元
 	                                                </td>
 	                                                <td>
-	                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptNo }" name="items[${status2.index }].receiptNo" />
+	                                                    <input class="table_input boderbbt forvalue" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.voucherNo }" name="items[${status2.index }].receiptNo" />
 	                                                </td>
 	                                                <td>
 	                                                    <select  id="select_direction" class="table-select boderbbt" name="items[${status2.index }].voucherNo"  onChange="this.value" >
@@ -191,36 +184,34 @@
 	                                                </td>
 	                                                <td id="td_file${status2.index }" >
                                                 	<c:forEach items="${spvCaseFlowOutInfoVO.toSpvReceiptList}" var="toSpvReceiptList" varStatus="status6">
-	                                                 	<a class="response" target="_blank" href="http://filesvr.centaline.com.cn/aist-filesvr-web/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" 
-	                                                 	title="${toSpvReceiptList.comment}" 
-	                                                 	alt="${toSpvReceiptList.comment}">
+														<button type="button" class="btn btn-sm btn-default" onClick="$('#image_${status6.index }').trigger('click');" style='margin-bottom: 5px;margin-right:5px;padding: 0 8px;'>
+														<img id="image_${status6.index }" src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${toSpvReceiptList.attachId}" style="width:0px;height:0px;display: none; " class="viewer-toggle">
 														<input type="hidden"  name ="items[${status2.index }].fileId" value = "${toSpvReceiptList.attachId}"/>
 														<input type="hidden" name ="items[${status2.index }].fileName" value = "${toSpvReceiptList.comment}" />
-															<button type="button" class="btn btn-sm btn-default" >
-															${toSpvReceiptList.comment}</button>
-															<i class="icon iconfont icon_x" onClick="$(this).parent().remove();return false;">&#xe60a;</i>
-														</a>
+															${toSpvReceiptList.comment.length()>5?toSpvReceiptList.comment.substring(0,5):toSpvReceiptList.comment}
+															<i class="icon iconfont icon_x">&#xe60a;</i></button>
                                                 	 </c:forEach>   
                                                 		 <span class="btn_file${status2.index }">                                                                                                                                                                
-															<input id="fileupload_${status2.index }" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 
-															<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$('#fileupload_${status2.index }').trigger('click');">                                                                        
+															<input id="fileupload_${status2.index }" style="display:none;" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 
+															<label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-14px;cursor:pointer; background:url(${ctx}/static/trans/img/bnt-flie.png)  no-repeat; background-size: 38%;" onClick="$('#fileupload_${status2.index }').trigger('click');"/>                                                                        
 														</span>  
 	                                                </td>
+	                                                 <td>
+	                                                	 <div id="datepicker_${status2.index }" class="input-medium date-picker input-daterange " data-date-format="yyyy-mm-dd">
+															<input id="inputTime'+thisIndex+'" style="width:106px" name="items[${status2.index }].cashFlowCreateTime"
+															class="form-control input-one" type="text" 
+															value="<fmt:formatDate value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiptTime }" 
+															pattern="yyyy-MM-dd"/>" placeholder="入账日期"/>
+														 </div>                                  
+	                                                 </td>    
 	                                                <td align="center">
-		                                                <a href="javascript:void(0)" onClick="getTR(${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()})">添加</span></a>
-		                                                <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
+		                                               <a href="javascript:void(0)" onClick="getTR(parseInt($('#sum').val()))">添加</span></a>
+		                                               <a href="javascript:void(0)" onClick="getDelHtml(this,${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid })">删除</span></a>
 	                                                </td>
 	                                            </tr>
 	                                       </c:forEach>
                                         </tbody>
                                     </table>
-                                    <div class="form-btn">
-                                <div class="text-center">
-                                    <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button>
-                                    <button type="button" onclick="rescCallbocak()"class="btn btn-default mr15">关闭</button>
-                                    <a onclick="sumbitRe()" class="btn btn-success">提交</a>
-                                </div>
-                                </div>
                                 </div>
                             </form>
                         </div>
@@ -247,25 +238,30 @@
                             </c:forEach>
                             </div>
                         </div>
+                        
+                        <div class="form-btn">
+                              <div class="text-center"><!-- 
+                                  <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button> -->
+                                  <button type="button" onclick="rescCallbocak()"class="btn btn-default mr15">关闭</button>
+                                  <a onclick="sumbitRe()" class="btn btn-success">提交</a>
+                              </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
             <!-- main End -->
-
-
+            <div id="progress">
+                <div class="bar" style="width: 0%;">
+                    <span></span>
+                </div>
+            </div>
         </div>
     </div>
 <content tag="local_script">
-  <!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
-<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <!-- Custom and plugin javascript -->
 <script src="${ctx}/static/js/inspinia.js"></script>
-<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script><%-- 
-<script src="${ctx}/static/trans/js/response/js/jkresponsivegallery.js"></script> --%>
-
+<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <!-- 上传附件相关 --> 
 <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script><%-- 
@@ -281,37 +277,53 @@
 <script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 <!-- 上传附件 结束 -->
-<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachment.js"></script>
 <!-- stickup plugin -->
 <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-<script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 <script src="${ctx}/static/trans/js/spv/spvRecordedApp.js"></script>
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
+<input type="hidden" id="ctx" value="${ctx}" />
 <script>
-
 $(function() {
-    $(".icon_x").click(function() {
-        $(this).parent().parent().remove();
-        return false;
-    });
+	$('.icon_x').click(function(event){
+		$(this).parent().remove();
+		event.stopPropagation();
+	});
+	
     var fileRowSize = ${spvChargeInfoVO.spvCaseFlowOutInfoVOList.size()};
     for(var i=0;i<fileRowSize;i++){
     	render_fileupload(i);
+    	//日期控件
+    	$("#datepicker_"+i).datepicker({
+    		format : 'yyyy-mm-dd',
+    		weekStart : 1,
+    		autoclose : true,
+    		todayBtn : 'linked'
+    	})
     }
-
+    $('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
+    
 });
-$('.response').responsivegallery();
+
 function rescCallbocak(){
-	 /*   if($("#urlType").val() == 'myTask'){    	 
-		   window.opener.location.reload(); //刷新父窗口
+	   window.opener.location.reload(); //刷新父窗口
    	   window.close(); //关闭子窗口.
-	     }else{ */
-	    	 window.location.href = ctx+"/spv/spvList";
-	    // }
-	}
+}
+$('.wrapper-content').viewer();
 
 </script>
 </content>

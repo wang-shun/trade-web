@@ -6,7 +6,9 @@ package com.centaline.trans.spv.web;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +47,7 @@ import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.product.entity.Product;
 import com.centaline.trans.product.entity.ProductCategory;
@@ -52,7 +55,6 @@ import com.centaline.trans.product.service.ProductCategoryService;
 import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
-import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.CashFlowInService;
@@ -142,17 +144,15 @@ public class SpvController {
 	
 	//新增页面
 	@RequestMapping("saveHTML")
-	public String saveHTML(Long pkid,String caseCode,HttpServletRequest request){
+	public String saveHTML(Long pkid,HttpServletRequest request){
 		SessionUser currentUser = uamSessionService.getSessionUser();
 		String currentDeptId = currentUser.getServiceDepId();
 		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
 
-		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid,caseCode);
+		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid);
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
-	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
@@ -166,7 +166,7 @@ public class SpvController {
 	 * @return
 	 */
 	@RequestMapping("spvDetail")
-	public String SpvDetail(long pkid ,ServletRequest request){
+	public String SpvDetail(long pkid ,HttpServletRequest request){
 /*		SpvBaseInfoVO baseInfoVO=new SpvBaseInfoVO();
 		//合约基本信息
 
@@ -202,7 +202,7 @@ public class SpvController {
 		//驳回原因
     if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
-		record.setBusinessKey(WorkFlowEnum.SPV_BUSSKEY.getCode());
+		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		record.setCaseCode(spv.getCaseCode());
 	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
 		 
@@ -216,7 +216,8 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
       }
-		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+        cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
+        request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("jingban", jingban.getRealName());
 	    request.setAttribute("zj",FKZJ);
@@ -251,6 +252,15 @@ public class SpvController {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
     		toSpvService.saveNewSpv(spvBaseInfoVO,user);
+    		ToWorkFlow record=new ToWorkFlow();
+			record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+			record.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+			if(workFlow!=null){
+			workFlow.setStatus("4");
+		    flowService.updateByPrimaryKey(workFlow);
+			processInstanceService.deleteProcess(workFlow.getInstCode());
+			}
     		response.setSuccess(true);
     		response.setMessage("监管合约删除成功！");
     	}catch(Exception e){
@@ -365,10 +375,10 @@ public class SpvController {
     		SessionUser user= uamSessionService.getSessionUser();
     		toSpvService.saveNewSpv(spvBaseInfoVO,user);
     		response.setSuccess(true);
-    		response.setMessage("保存房款监管签约成功！");
+    		response.setContent(spvBaseInfoVO.getToSpv().getPkid().toString());
+    		response.setMessage("保存资金监管签约成功！");
     	}catch(Exception e){
-    		response.setSuccess(false);
-    		response.setMessage(e.getMessage());
+			setExMsgForResp(response,e);
     	}
     	return response;
     }
@@ -387,8 +397,7 @@ public class SpvController {
     		response.setSuccess(true);
     		response.setMessage("开启资金监管流程成功！");
     	}catch(Exception e){
-    		response.setSuccess(false);
-    		response.setMessage(e.getMessage());
+			setExMsgForResp(response,e);
     	}
     	return response;
     }
@@ -534,9 +543,16 @@ public class SpvController {
      */
     @RequestMapping("task/SpvApply/process")
 	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
-    	
-    	
-        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(instCode);	
+    	   	
+        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(instCode);
+		Map<String, Object> caseInfoMap = new HashMap<String, Object>();
+		
+		if (spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null && StringUtils.isNotBlank(spvBaseInfoVO.getToSpv().getCaseCode())) {
+		    caseInfoMap	= toSpvService.queryCaseInfoMapByCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+			request.setAttribute("caseCode", caseInfoMap.get("caseCode"));
+		    request.setAttribute("caseInfoMap", caseInfoMap);
+		}
+		
 		//查询审核结果
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
@@ -565,9 +581,12 @@ public class SpvController {
 		request.setAttribute("source", source);
 		request.setAttribute("handle", "SpvApply");
 		request.setAttribute("urlType", "myTask");
-		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
-			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
+		
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
+			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
 		}
+		
 		return "spv/saveSpvCase";
 	}
     
@@ -612,7 +631,7 @@ public class SpvController {
 	public String toSpvApproveProcess(HttpServletRequest request,String source,String instCode,String taskId){	
 		
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(instCode);
-		
+
 		//查询审核结果
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
@@ -635,6 +654,10 @@ public class SpvController {
 		request.setAttribute("urlType", "myTask");
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
+		}
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
+			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
 		}
 		
 		return "spv/saveSpvCase";
@@ -712,6 +735,11 @@ public class SpvController {
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
 		}
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
+			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
+		}
+		
 		return "spv/saveSpvCase";
 	}
 	
@@ -726,31 +754,34 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId){
+	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId, String spvConCode, Date signTime){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
 		spv.setStatus("2");
+		spv.setSpvConCode(spvConCode);
+		spv.setSignTime(signTime);
 		toSpvService.updateByPrimaryKey(spv);
-		// (签约)发送消息
-		//messageService.sendSpvFinishMsgByIntermi(instCode);
 
 		return AjaxResponse.success();
 	}
 	
 	@RequestMapping("queryByCaseCode")
 	public AjaxResponse<String> queryByCaseCode(String caseCode){
-        
+		
         AjaxResponse<String> response = new AjaxResponse<String>();
     	try{
-    		ToSpv toSpv = toSpvService.queryToSpvByCaseCode(caseCode);
+    		Map<String,Object> infoMap = toSpvService.queryInfoByCaseCode(caseCode);
+    		ToSpv toSpv = (ToSpv) infoMap.get("toSpv");
+    		Map<String,Object> caseInfoMap = (Map<String, Object>) infoMap.get("caseInfoMap");
     		if(toSpv != null){
     			response.setSuccess(true);
     			response.setMessage("该案件已经关联合约，不得重复关联！");
     			response.setContent("1");
     		} else{
+    			response.setContent(JSONObject.toJSONString(caseInfoMap));
     			response.setSuccess(true);
     		}
     	}catch(Exception e){
@@ -816,6 +847,8 @@ public class SpvController {
 			String taskId,String handle,String businessKey,String spvCode) throws Exception {
     	request.setAttribute("spvCode", spvCode);
     	SessionUser user = uamSessionService.getSessionUser();
+    	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
+		businessKey = processInstance.getBusinessKey();
     	if(!StringUtils.isBlank(handle)){ 	
         	switch (handle) {
         	case "apply":
@@ -830,17 +863,15 @@ public class SpvController {
             case "financeSecondAduit":
             	cashFlowOutService.cashFlowOutFinanceSecondAduitProcess(request, source, instCode, taskId, handle, businessKey);
                 break;
-            case "cashFlowOut":
-            	cashFlowOutService.cashFlowOutFinanceSecondAduitProcess(request, source, instCode, taskId, handle, businessKey);
-                break;
+/*            case "cashFlowOut":
+            	cashFlowOutService.cashFlowOutDealProcess(request, source, instCode, taskId, handle, businessKey);
+                break;*/
         	}
     		request.setAttribute("urlType", "myTask");
         }else{
         	cashFlowOutService.cashFlowOutPage(request, source, instCode, taskId, handle, businessKey);
         	request.setAttribute("urlType", "spvApply");
         }
-	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 	    
 	    request.setAttribute("businessKey", businessKey);
     	request.setAttribute("taskId", taskId); 
@@ -888,24 +919,18 @@ public class SpvController {
 			    case "financeSecondAduit":
 			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			        break;
-			    case "cashFlowOut":
+/*			    case "cashFlowOut":
 	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, chargeOutAppr);
-	                break;    
+	                break;*/    
 				}	
 			}else{
 				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null);
 			}
 
 			response.setSuccess(true);
+			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
 		} catch (Exception e) {
-			response.setSuccess(false);
-			String sOut = "";
-	        StackTraceElement[] trace = e.getStackTrace();
-	        for (StackTraceElement s : trace) {
-	            sOut += "\tat " + s + "\r\n";
-	        }
-			response.setMessage(sOut);
-			e.printStackTrace();
+			setExMsgForResp(response,e);
 		}
     	
     	return response;
@@ -926,88 +951,18 @@ public class SpvController {
     		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO); 
 			response.setSuccess(true);
 			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
-		} catch (Exception e) {
-			response.setSuccess(false);
-			String sOut = "";
-	        StackTraceElement[] trace = e.getStackTrace();
-	        for (StackTraceElement s : trace) {
-	            sOut += "\tat " + s + "\r\n";
-	        }
-			response.setMessage(sOut);
-			e.printStackTrace();
+		} catch (Exception e) {	
+			setExMsgForResp(response,e);		
 		}
     	
     	return response;
-	}
-    
-    /**
-     * @Title: quereyCashFolwApplyAttachments 
-     * @Description: 获取出账申请附件
-     * @author: gongjd 
-     * @param cashFolwApplyId
-     * @return attachList
-     * @throws
-     */
-	@RequestMapping(value = "quereyCashFolwApplyAttachments")
-	@ResponseBody
-	public List<ToSpvCashFlowApplyAttach> quereyAttachments(String cashFlowApplyCode) {
-		return cashFlowOutService.quereyAttachmentsByCashFlowApplyCode(cashFlowApplyCode);
-	}
-	
-	/**
-	 * @Title: saveCashFolwApplyAttachment 
-	 * @Description: 修改(添加、删除)出账申请附件
-	 * @author: gongjd 
-	 * @param toSpvCashFlowApplyAttach
-	 * @return response
-	 * @throws
-	 */
-	@RequestMapping(value = "saveCashFolwApplyAttachment")
-	@ResponseBody
-	public AjaxResponse<String> saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyCode) {
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		try{
-			String insertAttachIdArrStr = cashFlowOutService.saveAttachments(fileUploadVO,cashFlowApplyCode);
-			response.setSuccess(true);
-			response.setContent(insertAttachIdArrStr);
-		}catch(Exception e){
-			response.setSuccess(false);
-			response.setMessage("保存失败！");
-			e.printStackTrace();
-		}
-		return response;
-	}
-	
-	/**
-	 * @Title: delAttachment 
-	 * @Description: 刪除出账申请附件
-	 * @author: gongjd 
-	 * @param request
-	 * @param fileUploadVO
-	 * @return 
-	 * @throws
-	 */
-	@RequestMapping(value = "delAttachment")
-	@ResponseBody
-	public AjaxResponse<String> delAttachment(FileUploadVO fileUploadVO) {
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		try{
-			cashFlowOutService.delAttachment(fileUploadVO.getPkIdArr());
-			response.setSuccess(true);
-		}catch(Exception e){
-			response.setSuccess(false);
-			response.setMessage("删除失败！");
-			e.printStackTrace();
-		}
-		
-		return response;
 	}
 
     /**
      * @throws Exception  
      * @Title: cashFlowOutApprProcess 
-     * @Description: 出款申请页面
-     * @author: gongjd 
+     * @Description: 入账页面
+     * @author: hejf 
      * @param request
      * @param source
      * @param instCode
@@ -1020,29 +975,26 @@ public class SpvController {
     @RequestMapping("task/spvCashflowInAppr/process")
    	public String cashFlowInAppprProcess(HttpServletRequest request,String source,String instCode,
    			String taskId,String handle,String businessKey)  {
+    	
        	String url="";
+       	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
+		businessKey = processInstance.getBusinessKey();
        	if(!StringUtils.isBlank(handle)){ 	
 	           	switch (handle) {
-	           	case "apply":
-	       			cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
-	       			url="spv/spvRecordedApp";
-	       		break;
-	           	case "directorAduit":
-	        	   cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-	        	   url="spv/spvRecordShow";
-	       		break;
-	           	case "financeAduit":
-	        	   cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
-	        	   url="spv/spvRecordShow";
-	           	break;
-	               	
+			           	case "apply":
+			       			  cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
+			       			  url="spv/spvRecordedApp";
+			       			  break;
+			           	case "directorAduit":
+			        	      cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+			        	      url="spv/spvRecordShow";
+			        	      break;
+			           	case "financeAduit":
+			           		  cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
+			        	      url="spv/spvRecordShow";
+			           	      break;
 	           	}
-           }else{
-           		cashFlowInService.cashFlowInPage(request, source, instCode, taskId, handle, businessKey);
-           }
-
-   	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-   	    request.setAttribute("imgweb", app.genAbsoluteUrl());
+         }
    	    
        	request.setAttribute("taskId", taskId); 
        	request.setAttribute("instCode", instCode);
@@ -1073,6 +1025,25 @@ public class SpvController {
 			e.printStackTrace();
 		}
 		return response;
+	}
+	
+    /**
+     * @Title: setExMsgForResp 
+     * @Description: 将错误信息封装给response.message
+     * @author: gongjd 
+     * @param response
+     * @param e 
+     * @throws
+     */
+    private void setExMsgForResp(AjaxResponse<?> response,Exception e) {
+    	response.setSuccess(false);
+    	StringBuffer sOut = new StringBuffer();
+        StackTraceElement[] trace = e.getStackTrace();
+        for (StackTraceElement s : trace) {
+            sOut.append("\tat " + s + "\r\n");
+        }
+		response.setMessage(sOut.toString());
+		e.printStackTrace();
 	}
     
 }

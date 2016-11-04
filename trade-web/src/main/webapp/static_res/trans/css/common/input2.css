@@ -1,4 +1,6 @@
-
+em,i {
+  font-style: normal;
+}
 
 .ml10 {
   margin-left: 10px!important;
@@ -21,6 +23,33 @@
 .ml60 {
   margin-left: 60px!important;
 }
+.mt5 {
+  margin-top: 5px!important;
+}
+.mt10 {
+  margin-top: 10px!important;
+}
+.mt15 {
+  margin-top: 15px!important;
+}
+.mt20 {
+  margin-top: 20px!important;
+}
+.mt30 {
+  margin-bottom: 30px!important;
+}
+.mb10 {
+  margin-bottom: 10px!important;
+}
+.mb15 {
+  margin-bottom: 15px!important;
+}
+.mb20 {
+  margin-bottom: 20px!important;
+}
+.mb30 {
+  margin-bottom: 30px!important;
+}
 .mr5 {
   margin-right: 5px!important;
 }
@@ -42,7 +71,26 @@
 .pt15 {
   padding-top: 15px!important;
 }
-
+.pt20 {
+  padding-top: 20px!important;
+}
+.pt30 {
+  padding-top: 30px!important;
+}
+h2, h3, h4, h5, p, button, table {
+  font-family: "Microsoft Yahei";
+}
+.clearboth {
+  clear: both;
+}
+.title-mark {
+  padding-left: 6px!important;
+  border-left: 3px solid #00CFEC!important;
+  line-height: 18px!important;
+}
+ .entry {
+    clear: both;
+}
 .no-underline {
   text-decoration: none!important;
 }
@@ -52,7 +100,6 @@
   font-size: 14px;
   overflow: hidden;
 }
-
 .form_list .form_content {
   position: relative;
   float: left;
@@ -75,7 +122,30 @@
   top: 4px;
   right: 6px;
 }
+.add-icon {
+  position: absolute;
+  top: 0px;
+  right: 6px;
+}
+.hr {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.btn_more, .btn_more:visited, .btn_more:active, .btn_more:focus {
+  background-color: #fff;
+  border: 1px solid #1a7bb9;
+  font-size: 14px;
+  color: #333;
+}
 
+.btn_more:hover {
+  background-color: #1a7bb9;
+  border: 1px solid #1a7bb9;
+  font-size: 14px;
+  color: #fff;
+}
 .week label {
   margin-right: 20px;
   margin-bottom: 5px;
@@ -127,7 +197,12 @@
   margin-top: 0px;
   padding-bottom: 4px;
 }
-
+.input-infoht {
+  line-height: 34px;
+}
+.no-border {
+  border: none!important;
+}
 .form_list .input_type {
   display: inline-block;
   padding: 6px 12px;
@@ -229,9 +304,9 @@ input {
   border-radius: 3px;
   cursor: pointer;
 }
-.today {
+/* .today {
   background:#f8ac59;
-}
+} */
 .tommrow {
   background-color: #428fcc;
 }
@@ -445,11 +520,11 @@ input {
 
 .info_content .line {
   overflow: hidden;
+  font-family: "Microsoft Yahei";
 }
 .info_content .line p {
   float: left;
   margin: 7px 28px 7px 0px;
-  font-size: 14px;
 }
 .info_content .line label {
   float: left;
@@ -471,13 +546,19 @@ input {
 .info_content .line .info_one {
   float: left;
   display: inline-block;
-  width: 120px;
+  width: 150px;
   color: #333;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
+.info_content .line span {
+  color: #333;
+}
+.blue-text {
+  color: #337ab7;
+  cursor: pointer;
+}
 .btn-space {
   margin: 0px 10px;
 }
@@ -530,4 +611,56 @@ input {
 
 .btn-padding {
   padding: 7px 12px;
+}
+.textarea {
+  padding:8px 6px;
+  border: 1px solid #eee;
+  outline: none;
+}
+
+/*
+------extent宽度------*/
+
+.extent-one {
+  width: 96px!important;
+}
+.extent-three {
+  width: 210px!important;
+}
+
+.extent-one_material {
+  width: 148px!important;
+}
+.extent-two_material {
+  width: 467px!important;
+}
+.extent-three_material {
+  width: 748px!important;
+}
+.marginbot-30 {
+    margin-bottom: 30px!important;
+}
+.status_btn {
+  margin: 20px 0px 30px;
+}
+.tip-inner {
+  font-family: "Microsoft Yahei";
+  line-height: 18px!important;
+}
+/* .entry {
+  display: none;
+} */
+.btn-edge {
+    background-color: #fff;
+    border: 1px solid #1a7bb9;
+    font-size: 14px;
+    color: #1a7bb9;
+}
+.btn-edge:hover {
+    background-color: #1a7bb9;
+    border: 1px solid #1a7bb9;
+    color: #fff;
+}
+.btn-edgegro {
+    margin: 5px 0px 20px;
 }

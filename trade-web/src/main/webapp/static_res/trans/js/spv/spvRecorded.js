@@ -23,75 +23,58 @@ $(document).ready(function(){
 
 });
 
-function checkFormSave(){
-	var amountFlag = true;
-	var amountEle;
-	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
-    	if($(e).val() != null && $(e).val() != ''){
-    		if(!isNumber($(e).val())){
-    		 amountFlag = false;
-    		 amountEle = $(e);
-			 return false;
-			 }
-    	} 
-	});
-	
-    if(!amountFlag){
-    	alert("请填写有效的出账金额！");
-	    changeClass(amountEle);
-		return false;
-    }
-    
-    return true;
-}
-
 function checkFormSubmit(){
 	
-	var payerFlag = true;
-	var payerEle;
-	$("input[name$='toSpvCashFlow.payer']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
-			 payerFlag = false;
-			 payerEle = $(e);
-			 return false;
-			 }
-		});
-	
-    if(!payerFlag){
-    	alert("请填写有效的付款人姓名！");
-	    changeClass(payerEle);
-		return false;
+    if($("#toSpvCashFlowApplyAttachType").val() == null || $("#toSpvCashFlowApplyAttachType").val() == ''){
+    	alert("请选择出账条件！");
+    	return false;
     }
     
-	var payerAccFlag = true;	
-	var payerAccEle;
-	$("input[name$='toSpvCashFlow.payerAcc']").each(function(i,e){
+    var receiverFlag = true;
+    var receiverEle;
+    $("input[name$='toSpvCashFlow.receiver']").each(function(i,e){
+    	if($(e).val() == null || $(e).val() == ''){
+    		receiverFlag = false;
+    		receiverEle = $(e);
+    		return false;
+    	}
+    });
+    
+    if(!receiverFlag){
+    	alert("请填写收款人姓名！");
+    	changeClass(receiverEle);
+    	return false;
+    }
+    
+	var receiverAccFlag = true;	
+	var receiverAccEle;
+	$("input[name$='toSpvCashFlow.receiverAcc']").each(function(i,e){
 		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
-			 payerAccFlag = false;
-			 payerAccEle = $(e);
+			 receiverAccFlag = false;
+			 receiverAccEle = $(e);
 			 return false;
 			 }
 		});
 	
-    if(!payerAccFlag){
+    if(!receiverAccFlag){
     	alert("请填写有效的银行卡号！");
-	    changeClass(payerAccEle);
+	    changeClass(receiverAccEle);
 		return false;
     }
     
-	var payerBankFlag = true;
-	var payerBankEle;
-	$("input[name$='toSpvCashFlow.payerBank']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '')){
-			 payerBankFlag = false;
-			 payerBankEle = $(e);
+	var receiverBankFlag = true;
+	var receiverBankEle;
+	$("input[name$='toSpvCashFlow.receiverBank']").each(function(i,e){
+		if($(e).val() == null || $(e).val() == ''){
+			 receiverBankFlag = false;
+			 receiverBankEle = $(e);
 			 return false;
 			 }
 		});
 	
-    if(!payerBankFlag){
+    if(!receiverBankFlag){
     	alert("请填写银行名称！");
-	    changeClass(payerBankEle);
+	    changeClass(receiverBankEle);
 		return false;
     }
 
@@ -99,10 +82,9 @@ function checkFormSubmit(){
 	var amountEle;
 	var sumAmount = 0;
 	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '') && !isNumber($(e).val())){
     		 amountFlag = false;
     		 amountEle = $(e);
-    		 sumAmount = accAdd(sumAmount,$(e).val());
 			 return false;
     	} 
 	});
@@ -113,11 +95,21 @@ function checkFormSubmit(){
 		return false;
     }  
     
-    var totalCashFlowInAmount = $("#totalCashFlowInAmount").val();
-    var totalCashFlowOutAmount = $("#totalCashFlowOutAmount").val();
-    if(accAdd(sumAmount,totalCashFlowOutAmount) > totalCashFlowInAmount){
-    	alert("出账流水总和不能大于入账流水总和！");
-    	return false;
+	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
+		if(($(e).val() != null && $(e).val() != '' && isNumber($(e).val()))){
+			sumAmount = accAdd(sumAmount,Number($(e).val()));
+		}
+	});
+    
+    var totalCashFlowInAmount = Number($("#totalCashFlowInAmount").val());
+    var totalCashFlowOutAmount = Number($("#totalCashFlowOutAmount").val());
+    var totalProcessCashFlowOutAmout = Number($("#totalProcessCashFlowOutAmout").val());
+
+    if(!handle || handle == 'apply'){
+    	if(accAdd(Number(sumAmount),accAdd(totalCashFlowOutAmount,totalProcessCashFlowOutAmout)) > totalCashFlowInAmount){
+        	alert("已经超过可出账的金额！");
+        	return false;
+        }
     }
     
 	var voucherNoFlag = true;	
@@ -136,6 +128,23 @@ function checkFormSubmit(){
 		return false;
     }
     
+	var vouNoRepeatFlag = false;
+	$("input[name$='toSpvCashFlow.voucherNo']").each(function(i,e){
+		var voucherNo = $(e).val();
+		$("input[name$='toSpvCashFlow.voucherNo']").each(function(i_,e_){
+			var voucherNo_ = $(e_).val();
+			if(i != i_ && voucherNo == voucherNo_){
+				vouNoRepeatFlag = true;
+				return false;
+			}
+		});
+		});
+	
+	if(vouNoRepeatFlag){
+		alert("贷记凭证编号不能相同！");
+		return false;
+	}
+    
 	var directionFlag = true;	
 	var directionEle;
 	$("select[name$='toSpvCashFlow.direction']").each(function(i,e){
@@ -150,6 +159,20 @@ function checkFormSubmit(){
     	alert("请选择付款方式！");
 	    changeClass(directionEle);
 		return false;
+    }
+    
+    var imgFlag = true;
+    $("td[id^='td_file']").each(function(i,e){
+    	var length = $(e).find("img").length;
+    	if(length == 0){
+    		imgFlag = false;
+    		return false;
+    	}
+    });
+    
+    if(!imgFlag){
+    	alert("需要上传至少一张附件！");
+    	return false;
     }
     
     return true;
@@ -207,11 +230,9 @@ function saveBtnClick(){
 	 					    alert("数据保存出错:"+data.ajaxResponse.message);
 	 				}
 			    	 if($("#urlType").val() == 'myTask'){    	 
- 				    	 window.opener.location.reload(); //刷新父窗口
- 			        	 window.close(); //关闭子窗口.
+ 				    	 window.location.reload(); //刷新父窗口
  				     }else{
- 				    	 window.location.reload();
-			    	     //window.location.href="${ctx}/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
+			    	     window.location.href=ctx+"/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
 			     }
  					// $.unblockUI();
  				}	 
@@ -313,18 +334,21 @@ function submitBtnClick(handle,chargeOutAppr){
 			if(data.ajaxResponse.success){
 				if(!handle){
 					alert("流程开启成功！");
+					window.location.href = ctx+"/spv/spvList";
 				}else{
 					alert("任务提交成功！");
+					window.opener.location.reload(); //刷新父窗口
+		        	window.close(); //关闭子窗口.
 				}
 			}else{
 				alert("数据保存出错:"+data.ajaxResponse.message);
 			}
-			     if($("#urlType").val() == 'myTask'){    	 
-			    	 window.opener.location.reload(); //刷新父窗口
-		        	 window.close(); //关闭子窗口.
-			     }else{
-			          window.location.reload();
-			     }
+			    // if($("#urlType").val() == 'myTask'){    	 
+			    	// window.opener.location.reload(); //刷新父窗口
+		        	// window.close(); //关闭子窗口.
+			    // }else{
+			    //      window.location.href=ctx+"/spv/spvFlowApplyList";
+			    // }
 				 //$.unblockUI();
 			}
  });
@@ -349,6 +373,7 @@ function isName(name){
 }
 //金额验证(两位小数)
 function isNumber(num){
+	if(Number(num) == 0) return false;
 	var reg=/^([1-9]{1}\d*|0)(\.\d{1,2})?$/;
 	if(!reg.test(num)){
 		return false;
@@ -357,7 +382,7 @@ function isNumber(num){
 }
 //金额验证(整数)
 function isNumber2(num){
-	var reg=/^[1-9]{1}\d*$/;
+	var reg=/^\d*$/;
 	if(!reg.test(num)){
 		return false;
 	}
@@ -375,4 +400,20 @@ function accAdd(arg1,arg2){
   try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
   m=Math.pow(10,Math.max(r1,r2));
   return ((arg1*m+arg2*m)/m).toFixed(2);
+}
+
+//给Number类型增加一个add方法，调用起来更加方便。
+//Number.prototype.add = function (arg){
+//  return accAdd(arg,this);
+//}
+//减法函数
+function accSub(arg1,arg2){
+   var r1,r2,m,n;
+   try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+   try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+   m=Math.pow(10,Math.max(r1,r2));
+   //last modify by deeka
+   //动态控制精度长度
+   n=(r1>=r2)?r1:r2;
+   return ((arg2*m-arg1*m)/m).toFixed(2);
 }

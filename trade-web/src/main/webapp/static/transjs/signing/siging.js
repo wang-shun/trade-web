@@ -4,8 +4,19 @@ $(function () {
     $(".choices span").click(function() {
         if($(this).hasClass("selected")) {
             $(this).removeClass("selected");
+            $("#propertyAddress").removeAttr("disabled");
         } else {
             $(this).addClass("selected");
+        }
+        if($(this).prop("id")=='OpenRegularMeeting' && $(this).hasClass("selected")){
+        	$(this).siblings().removeClass("selected");
+        	$("#propertyAddress").prop("disabled","disabled");
+        	$("#propertyAddress").val("");
+        	$("#tradeAddr").hide();
+        }else{
+        	$("#OpenRegularMeeting").removeClass("selected");
+        	$("#propertyAddress").removeAttr("disabled");
+        	$("#tradeAddr").show();
         }
 
     });
@@ -61,13 +72,23 @@ $(function () {
 	//保存 临时分配数据
 	$("#saveBtn").click(function(){
 		
-  	   //添加时校验
-  	   if(!checkFormSave()){
+		var flag=false;
+		$('.choices span').each(function(){
+			if($(this).hasClass("selected") && $(this).prop("id")=='OpenRegularMeeting') {
+				flag = true;
+	        } 
+	    });
+		//添加时校验
+  	    if(!checkFormSave(flag)){
   		  return;
-  	   }
+  	    }
+		
+		
+  	   
   	   $("#propertyAddress").blur();
 	  	var caseCode = $("#caseCode").val();//案件编号
 	  	var agentCode = $("#jjrName").attr('hVal'); //预约人id
+	  	
     	var numberOfParticipants = $("#numberOfParticipants").val();//参与人数
     	var numberOfPeople = $("#numberOfPeople").val();//容纳人数
     	var propertyAddress = $.trim($("#propertyAddress").val());//产证地址
@@ -113,7 +134,8 @@ $(function () {
 				success : function(data) {   
 						if(data.success){
 							alert(data.message);
-							window.location.href = ctx+"/signroom/signRoomAllotList";
+							$("#closeBtn").click();
+							signRommAjaxSubmit(1);
 						}else{
 							alert(data.message);
 						}
@@ -209,8 +231,13 @@ function signRommAjaxSubmit(obj) {
 		method:"post",
 		dataType:"json",
 		data : params,
+		beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
 		success:function(data){
 			//console.log(data);
+			$.unblockUI();
 			if(data.success){
 				var th='';
 				if(obj==0){
@@ -245,7 +272,10 @@ function signRommAjaxSubmit(obj) {
 		    }else{
 		    	alert(data.message);
 		    }
-		}
+		},
+		error: function (e, jqxhr, settings, exception) {
+        	$.unblockUI();   	 
+        }  
     });
 }
 
@@ -271,17 +301,19 @@ function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterI
 	
 }
 
-function checkFormSave(){
+function checkFormSave(isMeet){
 	
 	if($("#jjrName").val()==''){
 		alert("请选择经纪人！");
 		$("#jjrName").focus();
 		return false;
 	}
-	if($.trim($("#propertyAddress").val())==''){
-		alert("请输入交易地址！");
-		$("#propertyAddress").focus();
-		return false;
+	if(!isMeet){
+		if($.trim($("#propertyAddress").val())==''){
+			alert("请输入交易地址！");
+			$("#propertyAddress").focus();
+			return false;
+		}
 	}
 	if($.trim($("#numberOfParticipants").val())==''){
 		alert("请输入参与人数！");

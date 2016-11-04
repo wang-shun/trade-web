@@ -1,11 +1,7 @@
 package com.centaline.trans.spv.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
-import com.centaline.trans.common.vo.FileUploadVO;
-import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 
 public interface CashFlowOutService {
@@ -62,33 +58,22 @@ public interface CashFlowOutService {
 	/** 
 	 *  财务出款页面
 	 */
-	void cashFlowOutDealProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
+	//void cashFlowOutDealProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
 	 *  财务出款操作
 	 */
-	void cashFlowOutDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception ;
+	//void cashFlowOutDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception ;
 
 	/**
 	 *  保存操作
 	 * @throws Exception 
 	 */
 	void saveSpvChargeInfo(SpvChargeInfoVO spvChargeInfoVO) throws Exception;
-
 	/**
-	 * 通过申请ID查询附件信息
+	 * 获取出入账信息
+	 * @param request
+	 * @param spvCode
 	 */
-	List<ToSpvCashFlowApplyAttach> quereyAttachmentsByCashFlowApplyCode(String cashFlowApplyCode);
-
-	/**
-	 * 修改(添加、删除)出账申请附件
-	 * @return 
-	 */
-	String saveAttachments(FileUploadVO fileUploadVO,String cashFlowApplyId);
-
-	/**
-	 * 删除出账申请附件
-	 */
-	void delAttachment(List<Long> pkIdArr);
-	
+	void getCashFlowList(HttpServletRequest request,String spvCode);
 }

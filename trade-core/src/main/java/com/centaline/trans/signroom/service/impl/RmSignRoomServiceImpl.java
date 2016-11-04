@@ -1,5 +1,7 @@
 package com.centaline.trans.signroom.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,9 +33,11 @@ import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
 import com.centaline.trans.signroom.repository.RmSignRoomMapper;
 import com.centaline.trans.signroom.repository.TradeCenterMapper;
 import com.centaline.trans.signroom.service.RmSignRoomService;
+import com.centaline.trans.signroom.vo.DateWeekVo;
 import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
 import com.centaline.trans.utils.BeanToMapUtils;
+import com.centaline.trans.utils.ConstantsUtil;
 import com.centaline.trans.utils.DateUtil;
 
 /**
@@ -427,6 +431,83 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			return true;
 		}
 		return false;
+	}
+	
+	public static void main(String args[]) throws ParseException{
+		/*List<DateWeekVo> dates = getMonthSchedules("2016-10-02");
+		
+		for(DateWeekVo vo:dates){
+			System.out.println(vo.getDate()+"+======="+vo.getWeek()+"---------"+vo.getDay()+"++++++"+vo.isLight());
+		}*/
+		
+	}
+
+	@Override
+	public List<DateWeekVo> showSchedulingData(Map map) throws ParseException {
+		int centerId= (int) map.get("centerId");
+		String date = (String) map.get("date");
+		List<DateWeekVo> dwvs = getMonthSchedules(date);
+		return dwvs;
+	}
+	
+	public List<DateWeekVo> getMonthSchedules(String date) throws ParseException{
+		List<DateWeekVo> dates = new ArrayList<DateWeekVo>();
+		DateWeekVo dw = null;
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+		c1.set(Calendar.DAY_OF_MONTH,1);//指定日期的月份的第一天
+		int firstDay = c1.get(Calendar.DAY_OF_WEEK);//第一天是星期几
+		c1.set(Calendar.DAY_OF_MONTH, c1.getActualMaximum(Calendar.DAY_OF_MONTH));//指定日期月份的最后一天
+		//int lastDay = c1.get(Calendar.DAY_OF_WEEK);//最后一天是星期几
+		int days = c1.getActualMaximum(Calendar.DATE);//该月份总共多少天
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("dd");
+		Calendar c2 = Calendar.getInstance();
+		if(firstDay>1){//星期日外国定为1  取指定月份前一个月的最后几天
+			int headWeekNum = firstDay-1;
+			for(int i=headWeekNum-1;i>=0;i--){
+				
+				c2.setTime(sdf.parse(date));
+				c2.add(Calendar.MONTH, 0);
+				c2.set(Calendar.DAY_OF_MONTH,-(i));
+				dw = new DateWeekVo();
+				dw.setDate(sdf.format(c2.getTime()));
+				dw.setWeek(c2.get(Calendar.DAY_OF_WEEK));
+				dw.setEdit(false);
+				dw.setDay(Integer.valueOf(sdf1.format(c2.getTime())));
+				dates.add(dw);
+			}
+		}
+		int midWeekNum = days;
+		for(int j=1;j<=midWeekNum;j++){
+			c1.add(Calendar.MONTH, 0);
+			c1.set(Calendar.DAY_OF_MONTH,j);
+			dw = new DateWeekVo();
+			dw.setDate(sdf.format(c1.getTime()));
+			dw.setWeek(c1.get(Calendar.DAY_OF_WEEK));
+			dw.setEdit(true);
+			dw.setDay(Integer.valueOf(sdf1.format(c1.getTime())));
+			if(sdf.format(c1.getTime()).equals(sdf.format(Calendar.getInstance().getTime()))){//当天高亮
+				dw.setLight(true);
+			}
+			dates.add(dw);
+		}
+		if(ConstantsUtil.SHOW_DAYS>dates.size()){//取指定月份下一个月份的前几天数据
+			int lastWeekNum = ConstantsUtil.SHOW_DAYS-dates.size();
+			for(int i=1;i<=lastWeekNum;i++){
+				c2.setTime(sdf.parse(date));
+				c2.add(Calendar.MONTH, 1);
+				c2.set(Calendar.DAY_OF_MONTH, i);
+				dw = new DateWeekVo();
+				dw.setDate(sdf.format(c2.getTime()));
+				dw.setWeek(c2.get(Calendar.DAY_OF_WEEK));
+				dw.setEdit(true);
+				dw.setDay(Integer.valueOf(sdf1.format(c2.getTime())));
+				dates.add(dw);
+			}
+		}
+		return dates;
 	}
 
 }

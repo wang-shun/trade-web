@@ -3,10 +3,15 @@ var serviceDepId = $("#serviceDepId").val();
 
 var pChartMTypeCases = echarts.init(document.getElementById('pieChartMTypeCases'));
 var pChartMTypeAmount = echarts.init(document.getElementById('pieChartMTypeAmount'));
+//组织报表
 var pChartMOrgCases = echarts.init(document.getElementById('pieChartMOrgCases'));
 var pChartMOrgAmount = echarts.init(document.getElementById('pieChartMOrgAmount'));
+
 var pChartMTmpBankCases = echarts.init(document.getElementById('pieChartMTmpBankCases'));
 var pChartMTmpBankAmount = echarts.init(document.getElementById('pieChartMTmpBankAmount'));
+
+var pChartMEvalFeeCases = echarts.init(document.getElementById('pieChartMEvalFeeCases'));
+var pChartMEvalFeeAmount = echarts.init(document.getElementById('pieChartMEvalFeeAmount'));
 
 var mTypeAllCases = 0;
 var mTypeTotalAmount = 0;
@@ -39,15 +44,22 @@ var tmpBankAmount = new Array(0, 0);
 var tmpBankCaseItems = new Array();
 var tmpBankAmountItems = new Array();
 
+var mEvalFeeAllCases = 0;
+var mEvalFeeTotalAmount = 0;
+var mEvalFeeCasesTitle = "";
+var mEvalFeeAmountTitle = "";
+
+var evalFeeCaseLegends = new Array('有评估费', '无评估费');
+var evalFeeAmountLegends = new Array('实收', '应收未收');
+var evalFeeCases = new Array(0, 0);
+var evalFeeAmount = new Array(0, 0);
+var evalFeeCaseItems = new Array();
+var evalFeeAmountItems = new Array();
+
 /**
  * 案件统计详情
  */
-$(document).ready(
-		function() {
-
-			var url = "/quickGrid/findPage";
-			var ctx = $("#ctx").val();
-			url = ctx + url;
+$(document).ready(function() {
 
 			var signTimeStart = $("#dtBegin_0").val();
 			var signTimeEnd = '';
@@ -71,37 +83,25 @@ $(document).ready(
 			getParentBank($("select[name='loanLostFinOrgName']"),
 					$("select[name='loanLostFinOrgNameYc']"), "", "", "");
 
-			$("select[name='loanLostFinOrgName']").change(
-					function() {
-						/* $("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy"); */
-						// if(data.content && data.content.isTmpBank=='1'){
-						getBranchBankList(
-								$("select[name='loanLostFinOrgNameYc']"), $(
+			$("select[name='loanLostFinOrgName']").change(function() {
+				getBranchBankList($("select[name='loanLostFinOrgNameYc']"), $(
 										"select[name='loanLostFinOrgName']")
 										.val(), "");
-						// }else{
-						// getBranchBankList($("select[name='loanLostFinOrgNameYc']"),$("select[name='loanLostFinOrgName']").val(),"",'cl');
-						// }
+
 					})
 
 			setPieCharts();
 
-			/*
-			 * $(".charone").hide(); $("#mortTypeAnalysis").click(function() {
-			 * $(".charone").toggle();
-			 * $("#mortTypeAnalysis").addClass('btn-bg');
-			 * if($(".charone").is(":hidden")) {
-			 * $("#mortTypeAnalysis").removeClass('btn-bg'); } });
-			 */
-
-			$(".charone,.chartwo,.chartthree").hide();
+			$(".charone,.chartwo,.chartthree,.chartfour").hide();
 			$("#mortTypeAnalysis").click(function() {
 				$(".charone").toggle();
 				$(".chartwo").hide();
 				$(".chartthree").hide();
+				$(".chartfour").hide();
 				$("#mortTypeAnalysis").addClass('btn-bg');
 				$("#mortOrgAnalysis").removeClass('btn-bg');
 				$("#mortTmpBankAnalysis").removeClass('btn-bg');
+				$("#mortEvalFeeAnalysis").removeClass('btn-bg');
 				if ($(".charone").is(":hidden")) {
 					$("#mortTypeAnalysis").removeClass('btn-bg');
 				}
@@ -111,9 +111,11 @@ $(document).ready(
 				$(".chartwo").toggle();
 				$(".charone").hide();
 				$(".chartthree").hide();
+				$(".chartfour").hide();
 				$("#mortOrgAnalysis").addClass('btn-bg');
 				$("#mortTypeAnalysis").removeClass('btn-bg');
 				$("#mortTmpBankAnalysis").removeClass('btn-bg');
+				$("#mortEvalFeeAnalysis").removeClass('btn-bg');
 				if ($(".chartwo").is(":hidden")) {
 					$("#mortOrgAnalysis").removeClass('btn-bg');
 				}
@@ -123,11 +125,27 @@ $(document).ready(
 				$(".chartthree").toggle();
 				$(".charone").hide();
 				$(".chartwo").hide();
+				$(".chartfour").hide();
 				$("#mortTmpBankAnalysis").addClass('btn-bg');
 				$("#mortTypeAnalysis").removeClass('btn-bg');
 				$("#mortOrgAnalysis").removeClass('btn-bg');
+				$("#mortEvalFeeAnalysis").removeClass('btn-bg');
 				if ($(".chartthree").is(":hidden")) {
 					$("#mortTmpBankAnalysis").removeClass('btn-bg');
+				}
+			});
+			
+			$("#mortEvalFeeAnalysis").click(function() {
+				$(".chartfour").toggle();
+				$(".charone").hide();
+				$(".chartwo").hide();
+				$(".chartthree").hide();
+				$("#mortEvalFeeAnalysis").addClass('btn-bg');
+				$("#mortTypeAnalysis").removeClass('btn-bg');
+				$("#mortOrgAnalysis").removeClass('btn-bg');
+				$("#mortTmpBankAnalysis").removeClass('btn-bg');
+				if ($(".chartfour").is(":hidden")) {
+					$("#mortEvalFeeAnalysis").removeClass('btn-bg');
 				}
 			});
 
@@ -171,6 +189,17 @@ function resetData() {
 	// orgLegends.splice(0, orgLegends.length);
 	tmpBankCaseItems.splice(0, tmpBankCaseItems.length);
 	tmpBankAmountItems.splice(0, tmpBankAmountItems.length);
+	
+	mEvalFeeAllCases = 0;
+	mEvalFeeTotalAmount = 0;
+	
+	for(index in evalFeeCases) {
+		evalFeeCases[index] = 0;
+		evalFeeAmount[index] = 0;
+	}
+	
+	evalFeeCaseItems.splice(0, evalFeeCaseItems.length);
+	evalFeeAmountItems.splice(0, evalFeeAmountItems.length);
 }
 
 function setPieCharts() {
@@ -180,33 +209,39 @@ function setPieCharts() {
 
 	getMTypeAnalysis();
 	getMOrgAnalysis();
+	getMEvalAnalysis();
 
 	mTypeAmountTitle = '总金额: ' + mTypeTotalAmount.toFixed(2) + ' 万';
 	mTypeCasesTitle = '总单数: ' + mTypeAllCases + ' 件'
 
-	option = setOptions(mTypeAmountTitle, typeLegends, typeAmountItems);
+	option = setOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", typeLegends, typeAmountItems);
 	pChartMTypeAmount.setOption(option);
-
-	option = setOptions(mTypeCasesTitle, typeLegends, typeCaseItems);
+	option = setOptions(mTypeCasesTitle, "{b}: {c} 件({d}%)", typeLegends, typeCaseItems);
 	pChartMTypeCases.setOption(option);
 	
 	mOrgAmountTitle = '总金额: ' + mOrgTotalAmount.toFixed(2) + ' 万';
 	mOrgCasesTitle = '总单数: ' + mOrgAllCases + ' 件'
 
-	option = setOptions(mTypeAmountTitle, orgLegends, orgAmountItems);
+	option = setOrgOptions(mTypeAmountTitle, "{b}: {c} 万({d}%)", orgLegends, orgAmountItems);
 	pChartMOrgAmount.setOption(option);
-
-	option = setOptions(mTypeCasesTitle, orgLegends, orgCaseItems);
+	option = setOrgOptions(mTypeCasesTitle, "{b}: {c} 件({d}%)", orgLegends, orgCaseItems);
 	pChartMOrgCases.setOption(option);
 	
 	mTmpBankAmountTitle = '商贷(收单)总金额: ' + mTmpBankTotalAmount.toFixed(2) + ' 万';
 	mTmpBankCasesTitle = '商贷(收单)总单数: ' + mTmpBankAllCases + ' 件'
 
-	option = setOptions(mTmpBankAmountTitle, tmpBankLegends, tmpBankAmountItems);
+	option = setOptions(mTmpBankAmountTitle, "{b}: {c} 万({d}%)", tmpBankLegends, tmpBankAmountItems);
 	pChartMTmpBankAmount.setOption(option);
-
-	option = setOptions(mTmpBankCasesTitle, tmpBankLegends, tmpBankCaseItems);
+	option = setOptions(mTmpBankCasesTitle, "{b}: {c} 件({d}%)", tmpBankLegends, tmpBankCaseItems);
 	pChartMTmpBankCases.setOption(option);
+	
+	mEvalFeeAmountTitle = '应收评估费: ' + mEvalFeeTotalAmount.toFixed(2) + ' 元';
+	option = setOptions(mEvalFeeAmountTitle, "{b}: {c} 元({d}%)", evalFeeAmountLegends, evalFeeAmountItems);
+	pChartMEvalFeeAmount.setOption(option);
+	
+	mEvalFeeCasesTitle = '商贷(收单)总单数: ' + mEvalFeeAllCases + ' 件'
+	option = setOptions(mEvalFeeCasesTitle, "{b}: {c} 件({d}%)", evalFeeCaseLegends, evalFeeCaseItems);
+	pChartMEvalFeeCases.setOption(option);
 }
 
 function setQueryData() {
@@ -247,8 +282,7 @@ function getMTypeAnalysis() {
 	data.rows = 10;
 	data.page = 1;
 
-	$
-			.ajax({
+	$.ajax({
 				async : false,
 				url : ctx + "/quickGrid/findPage",
 				method : "post",
@@ -284,7 +318,7 @@ function getMTypeAnalysis() {
 						if (data.rows[index].MTYPE === "3") {
 							typeCases[2] += data.rows[index].MCASES;
 							typeAmount[2] += data.rows[index].MCOMAMOUNT;
-							typeAmount[2] += data.rows[index].MPRFAMOUNT;
+							typeAmount[1] += data.rows[index].MPRFAMOUNT;
 						}
 
 						mTypeAllCases += data.rows[index].MCASES;
@@ -298,7 +332,7 @@ function getMTypeAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 件',
+										formatter : '{b}\n{c} 件({d}%)',
 										show : function() {
 											if (typeCases[index] === 0) {
 												return false;
@@ -322,7 +356,7 @@ function getMTypeAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 万',
+										formatter : '{b}\n{c} 万({d}%)',
 										show : function() {
 											if (typeAmount[index] === 0.00) {
 												return false;
@@ -356,7 +390,7 @@ function getMTypeAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 件',
+										formatter : '{b}\n{c} 件({d}%)',
 										show : function() {
 											if (tmpBankCases[index] === 0) {
 												return false;
@@ -380,7 +414,7 @@ function getMTypeAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 万',
+										formatter : '{b}\n{c} 万({d}%)',
 										show : function() {
 											if (tmpBankAmount[index] === 0.00) {
 												return false;
@@ -428,6 +462,12 @@ function getMOrgAnalysis() {
 				data : data,
 				success : function(data) {
 					var index;
+					
+					for (index in data.rows) {
+						data.rows[index].OONAME = data.rows[index].OONAME.replace('贵宾服务部','');
+						data.rows[index].ONAME = data.rows[index].ONAME.replace('贵宾服务部','');
+					}
+					
 					for (index in data.rows) {
 						var name;
 						if (userJobCode == '0') {
@@ -443,7 +483,7 @@ function getMOrgAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 件'
+										formatter : '{b}\n{c} 件({d}%)'
 									}
 								}
 							}
@@ -456,7 +496,7 @@ function getMOrgAnalysis() {
 							itemStyle : {
 								normal : {
 									label : {
-										formatter : '{b}\n{c} 万'
+										formatter : '{b}\n{c} 万({d}%)'
 									}
 								}
 							}
@@ -483,7 +523,98 @@ function getMOrgAnalysis() {
 			});
 }
 
-function setOptions(title, legendName, dataValue) {
+function getMEvalAnalysis() {
+	var data = setQueryData();
+	data.queryId = "queryMortgageEvalFeeAnalysis";
+	data.rows = 10;
+	data.page = 1;
+
+	$.ajax({
+				async : false,
+				url : ctx + "/quickGrid/findPage",
+				method : "post",
+				dataType : "json",
+				data : data,
+				success : function(data) {
+					var index
+					for (index in data.rows) {
+
+						if (data.rows[index].MISEVAL === 0) {
+							evalFeeCases[1] = data.rows[index].MCASES;
+						}
+						
+						if (data.rows[index].MISEVAL === 1) {
+							evalFeeCases[0] = data.rows[index].MCASES;
+							evalFeeAmount[0] = data.rows[index].EVALFEE;
+							evalFeeAmount[1] = data.rows[index].DEVALFEE - data.rows[index].EVALFEE;
+							mEvalFeeTotalAmount = data.rows[index].DEVALFEE;
+						}
+
+						mEvalFeeAllCases += data.rows[index].MCASES;
+					}
+
+					for (index in evalFeeCaseLegends) {
+						var caseItem = {
+							name : evalFeeCaseLegends[index],
+							value : evalFeeCases[index],
+							itemStyle : {
+								normal : {
+									label : {
+										formatter : '{b}\n{c} 件({d}%)',
+										show : function() {
+											if (evalFeeCases[index] === 0) {
+												return false;
+											}
+										}()
+									},
+									labelLine : {
+										show : function() {
+											if (evalFeeCases[index] === 0) {
+												return false;
+											}
+										}()
+									}
+								}
+							}
+						};
+
+						var amountItem = {
+							name : evalFeeAmountLegends[index],
+							value : evalFeeAmount[index],
+							itemStyle : {
+								normal : {
+									label : {
+										formatter : '{b}\n{c} 元({d}%)',
+										show : function() {
+											if (evalFeeAmount[index] === 0.00) {
+												return false;
+											}
+										}()
+									},
+									labelLine : {
+										show : function() {
+											if (evalFeeAmount[index] === 0.00) {
+												return false;
+											}
+										}()
+									}
+								}
+							}
+						};
+
+						evalFeeCaseItems.push(caseItem);
+						evalFeeAmountItems.push(amountItem);
+					}
+
+					for (index in evalFeeAmountItems) {
+						evalFeeAmountItems[index].value = parseFloat(evalFeeAmountItems[index].value
+								.toFixed(2));
+					}
+				}
+			});
+}
+
+function setOrgOptions(title, format, legendName, dataValue) {
 	var option = {
 		title : {
 			text : title,
@@ -499,7 +630,43 @@ function setOptions(title, legendName, dataValue) {
 			/* alwaysShowContent:true, */
 			hideDelay : 1500,
 			enterable : true,
-			formatter : "{b}: {c} ({d}%)"
+			formatter : format
+		},
+
+		legend : {
+			orient : 'horizontal',
+			y : 'bottom',
+			data : legendName
+		},
+		series : [ {
+			name : title,
+			type : 'pie',
+			radius : [ '35%', '55%' ],
+			animation : true,
+			selectedMode : 'multiple',
+			data : dataValue
+		} ]
+	};
+	return option;
+}
+
+function setOptions(title, format, legendName, dataValue) {
+	var option = {
+		title : {
+			text : title,
+			subtext : '',
+			padding : [ 5, 10 ],
+			x : 'center',
+		},
+		color : [ '#52bdbd', '#ffad6b', '#f784a5', '#295aa5', 
+		          '#34b971', '#809eff', '#a8e3f0', '#00a3e0'],
+		tooltip : {
+			trigger : 'item',
+			triggerOn : 'mousemove',
+			/* alwaysShowContent:true, */
+			hideDelay : 1500,
+			enterable : true,
+			formatter : format
 		},
 
 		legend : {
@@ -533,10 +700,16 @@ $('#mortgageInfoToExcel').click(
 			displayColomn.push('LEND_DATE');
 			displayColomn.push('APPR_DATE');
 			displayColomn.push('REAL_HT_TIME');
+			displayColomn.push('CASETRANSFERDATE');
+			displayColomn.push('CREATE_TIME');
+			displayColomn.push('END_TIME_');
 			displayColomn.push('CUST_NAME');
 			displayColomn.push('MORT_TOTAL_AMOUNT');
 			displayColomn.push('COM_AMOUNT');
 			displayColomn.push('PRF_AMOUNT');
+			displayColomn.push('CON_PRICE');
+			displayColomn.push('EVAL_FEE');
+			
 			displayColomn.push('SDSTATUS');
 			displayColomn.push('LOANLOST_APPLY_REASON');// 流失原因
 			displayColomn.push('FIN_ORG_NAME');
@@ -703,14 +876,14 @@ function reloadGrid(data) {
 				'z-index' : '9998'
 			});
 		},
-		success : function(data) {
-			$.unblockUI();
+		success : function(data) {			
 			data.ctx = ctx;
 			var mortgageInfoList = template('template_mortgageInfoList', data);
 			$("#mortgageInfoList").empty();
 			$("#mortgageInfoList").html(mortgageInfoList);
 			// 显示分页
 			initpage(data.total, data.pagesize, data.page, data.records);
+			$.unblockUI();
 		},
 		error : function(e, jqxhr, settings, exception) {
 			$.unblockUI();
@@ -767,14 +940,27 @@ function initpage(totalCount, pageSize, currentPage, records) {
  */
 function getParamsValue() {
 	// 日期类型
+	//签约
 	var signTimeStart = null;
 	var signTimeEnd = null;
+	//放款
 	var lendTimeStart = null;
 	var lendTimeEnd = null;
+	//审批时间
 	var apprTimeStart = null;
 	var apprTimeEnd = null;
+	//过户时间
 	var realhtTimeStart = null;
 	var realhtTimeEnd = null;
+	//流失审批时间
+	var endTimeStart = null;
+	var endTimeEnd = null;
+	//流失申请时间
+	var createTimeStart = null;
+	var createTimeEnd = null;
+	//过户审批通过时间	
+	var transferTimeStart = null;
+	var transferTimeEnd = null;
 
 	var comAmountStart = null;
 	var comAmountEnd = null;
@@ -796,6 +982,7 @@ function getParamsValue() {
 	}
 	// 获取誉萃组织
 	var organizeOrgId = $('#yuCuiOriGrpId').val().trim();
+	var orgHierarchy = $('#orgHierarchy').val().trim();
 
 	/*
 	 * if (org == "ff8080814f459a78014f45a73d820006") { org = null; } else if
@@ -851,7 +1038,23 @@ function getParamsValue() {
 		realhtTimeEnd = end;
 		params.realhtTimeStart = realhtTimeStart;
 		params.realhtTimeEnd = realhtTimeEnd;
+	}else if (timeSelect == "END_TIME_") {
+		endTimeStart = start;
+		endTimeEnd = end;
+		params.endTimeStart = endTimeStart;
+		params.endTimeEnd = endTimeEnd;
+	}else if (timeSelect == "CREATE_TIME") {
+		createTimeStart  = start;
+		createTimeEnd  = end;
+		params.createTimeStart = createTimeStart ;
+		params.createTimeEnd = createTimeEnd ;
+	}else if (timeSelect == "CASETRANSFERDATE") {
+		transferTimeStart  = start;
+		transferTimeEnd  = end;
+		params.transferTimeStart  = transferTimeStart ;
+		params.transferTimeEnd  = transferTimeEnd ;
 	}
+	
 	// 获取select 选中时间的值
 	var amountSelect = $("#loanLostCaseListAmountSelect option:selected").val();
 	if (amountSelect == "COM_AMOUNT") {
@@ -912,6 +1115,7 @@ function getParamsValue() {
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.custName = custName;
+	params.orgHierarchy=orgHierarchy;
 	// params.finCode = finCode;
 	return params;
 }
@@ -940,6 +1144,7 @@ $('#MortgageLostListOrganizeOnclick').click(function() {
 function radioYuCuiOrgSelectCallBack(array) {
 	if (array && array.length > 0) {
 		$("#orgName").val(array[0].name);
+		$("#orgHierarchy").val(array[0].extendField);
 		$("#yuCuiOriGrpId").val(array[0].id);
 	} else {
 		$("#orgName").val("");

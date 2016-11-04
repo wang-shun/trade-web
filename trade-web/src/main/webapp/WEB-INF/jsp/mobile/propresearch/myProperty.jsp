@@ -11,11 +11,20 @@
 		<meta name="format-detection" content="telephone=no">
 		<link href="${ctx}/momedia/css/property/myproperty.css" rel="stylesheet">
 		<link href="${ctx}/momedia/css/scrollpagination.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="${ctx}/momedia/iconfont/iconfont.css" />
+		<style>
+			.uc_return_c {
+			    float: left;
+			    width: 80%;
+			    color: #fff;
+			}
+		</style>
 	</head>
 	<body>
 		<header class="u-header">
-		    <div class="uc_return">
+		    <div class="uc_return" style="position:relative;">
 		        <div class="uc_return_c">我的产调</div>
+        		<a href="${ctx}/weixin/property/toApply" ><i class="iconfont" style="position:absolute;top:0;right:25px;">&#xe607;</i></a>
 		    </div>
 		</header>
 		<section class="productul" id="productul">

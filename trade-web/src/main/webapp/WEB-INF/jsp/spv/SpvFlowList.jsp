@@ -53,7 +53,8 @@
 		value="${sessionUser.serviceDepId }">
 	<input type="hidden" id="serviceJobCode"
 		value="${sessionUser.serviceJobCode }">
-
+	<input type="hidden" id="CW"
+		value="">
 	 <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <h2 class="title">
@@ -151,16 +152,11 @@
                              <tr>
                                         <td>
                                             <p class="big">
-                                                <a href="javascript:;">
+ 
                                                    {{item.CASHFLOW_APPLY_CODE}}
-                                                </a>
                                             </p>
-                                            <p>
-                                                转账
-                                                <a href="javascript:;" class="under font12">
-                                                    凭证编号
-                                                </a>
-                                            </p>
+
+                                               <span >{{item.DIRECTION}} {{item.VOUCHER_NO}}<span >
                                         </td>
                                         <td>
                                              <p class="big">
@@ -177,13 +173,13 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p><span class="pink">付：</span>{{item.PAYER}}&nbsp;&nbsp;{{item.PAYER_ACC}}/{{item.PAYER_BANK}}</p>
-                                            <p><span class="navy">收：</span>{{item.RECEIVER}}&nbsp;&nbsp;{{item.RECEIVER_ACC}}/{{item.RECEIVER_BANK}}</p>
+                                            <span class="">付：</span> <a class="hint hint-top " data-hint="账户/银行： {{item.PAYER_ACC}}/{{item.PAYER_BANK}}">{{item.PAYER}}</a></br>
+                                            <span class="">收：</span><a class="hint hint-top " data-hint="账户/银行：{{item.RECEIVER_ACC}}/{{item.RECEIVER_BANK}}">{{item.RECEIVER}}</a>
                                         </td>
                                         <td>
                                             <p class="smll_sign">
                                                 <i class="sign_normal">录入</i>
-                                                <a href="javascript:void(0)">{{item.applyerName}}&nbsp;</a>{{item.INPUT_TIME}}
+                                                {{item.applyerName}}&nbsp;{{item.CREATE_TIME}}
                                             </p>
                                             {{if item.CLOSE_TIME!=nudefined}}
                                             <p class="smll_sign">
@@ -197,12 +193,15 @@
                                                 {{item.PR_ADDR}}
                                             </p>
                                             <p class="smll_sign">
-                                                                                                                                        审核人：<a href="javascript:void(0)">
+                                                                                                                                        审核人：
                                                 {{item.applyAuditorName}}
+                                                {{if item.USAGE=="in" && item.STATUS=="02" &&item.ftPostAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
+											    {{if item.USAGE=="out" && item.STATUS=="12" &&item.ftPreAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
+												{{if item.USAGE=="out" && item.STATUS=="13" &&item.ftPostAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
                                                 {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
 												{{item.ftPreAuditorName}}
 											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}
-											    {{item.ftPostAuditorName}}</a>
+											    {{item.ftPostAuditorName}}
                                             </p>
                                         </td>
                                     </tr>
@@ -211,10 +210,38 @@
 						
 						//初始化
 						jQuery(document).ready(function() {
-							initFlowListData();
+							initCW()
 							//查询
-							
+							initFlowListData();							
 						});
+						function initCW(){
+							$.ajax({
+								async: false,
+								 url:ctx+"/rapidQuery/findPage",
+								 method:"post",
+								 dataType:"json",
+								 data:{
+									    page : 1,
+										rows : 12,
+										queryId:'getAllYCCW'
+								 },
+								 success:function(data){
+									 var str="";
+									 if(data.records>0){
+										 var len=data.rows.length;
+										 $.each(data.rows,function(i,item){
+											 if(i==(len-1)){
+												 str+=item.name;
+												 return;
+											 }
+											str+=item.name+"/"; 
+											
+										 })
+									 } 
+									 $("#CW").val(str)
+								 }
+							});
+						};
 						$("#btn_searchFrom").click(function() {
 					          params.search_cashFlowApplyCode=$("input[name='cashFlowApplyCode']").val();
 					          params.search_usage=$("select[name='usage']").val();

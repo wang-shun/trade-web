@@ -81,7 +81,7 @@ text-decoration: underline !important;
 
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="taskId">
 	 <div class="wrapper wrapper-content animated fadeInRight">
              <div class="ibox-content border-bottom clearfix space_box">
@@ -339,12 +339,14 @@ function loadUser(){
        		}).trigger('reloadGrid');
 }
 
+
 $(document).ready(function() {
 	 /*加载排序查询组件*/
 	aist.sortWrapper({
 		reloadGrid : reloadGrid
 	});
 	reloadGrid();
+	//
 	changeTaskAssignee(1);
 });
 
@@ -392,6 +394,18 @@ function fetchData(p){
  	          method: "post",
  	          dataType: "json",
  	          data: p,
+			  beforeSend:function(){  				
+					$.blockUI({
+						message : $("#salesLoading"),
+						css : {
+							'border' : 'none',
+							'z-index' : '9999'
+						}
+					});
+					$(".blockOverlay").css({
+						'z-index' : '9998'
+					});
+		       },
  	          success: function(data){
  	        	  //console.log("数据"+JSON.stringify(data));
  	        	  data.ctx = ctx;
@@ -420,6 +434,7 @@ function fetchData(p){
          			offsetX: 8,
          			offsetY: 5,
          		});
+         		 $.unblockUI();
  	          }
  	     });
 } 
@@ -473,9 +488,8 @@ function doGroupClaim(taskId){
 	});
 }			
 function showLocate(taskId){
-	$("#taskId").val(taskId);
-//	$('#modal-form').modal("show");
-	$('#myModal').modal("show");
+		$("#taskId").val(taskId);
+		$('#myModal').modal("show");
 }
 
 </script> 

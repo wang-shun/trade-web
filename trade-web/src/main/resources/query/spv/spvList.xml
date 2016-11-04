@@ -67,7 +67,12 @@
 							a.agent_phone as MOBILE,
 							SYSUSER.ORG_ID,
 							c.pkid as caseId,
-							(select COUNT(cp.PKID) from   sctrans.T_TO_SPV_CASHFLOW_APPLY cp WHERE spv.SPV_CODE=cp.SPV_CODE and cp.STATUS=4 and cp.USAGE='in') as SumRu
+							(select SUM(sc.AMOUNT) from   sctrans.T_TO_SPV_CASHFLOW_APPLY sa 
+							LEFT JOIN sctrans.T_TO_SPV_CASHFLOW sc on sa.PKID=sc.CASHFLOW_APPLY_ID and sc.STATUS='03' and sc.IS_DELETED='0' 
+							WHERE spv.SPV_CODE=sa.SPV_CODE  and sa.USAGE='in') as ru,
+							(select SUM(sc.AMOUNT) from   sctrans.T_TO_SPV_CASHFLOW_APPLY sa 
+							LEFT JOIN sctrans.T_TO_SPV_CASHFLOW sc on sa.PKID=sc.CASHFLOW_APPLY_ID and sc.IS_DELETED='0'  and sc.STATUS!='10'
+							WHERE spv.SPV_CODE=sa.SPV_CODE  and sa.USAGE='out') as chu
 							FROM sctrans.T_TO_SPV spv
 					LEFT JOIN sctrans.T_TO_SPV_PROPERTY sp on spv.SPV_CODE=sp.SPV_CODE
 					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON spv.CASE_CODE=a.CASE_CODE
@@ -111,10 +116,8 @@
 				<column type="both" name="ORG_ID" index="" checkbox="" display="ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				
 				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="" customDict="qqManagerInfo" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-			    <column type="both" name="caseId" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
-			     <column type="both" name="SumRu" index="" checkbox="" display="SumRu" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
-			<!-- <column type="both" name="ru" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
-			<column type="both" name="chu" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/> -->
+			    <column type="both" name="caseId" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>			      <column type="both" name="ru" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+			      <column type="both" name="chu" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/> -->
 			</table-row>
 		</grid>
 	</query>

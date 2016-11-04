@@ -1,6 +1,8 @@
 package com.centaline.trans.spv.repository;
 
 
+import java.util.List;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 @MyBatisRepository
@@ -18,4 +20,6 @@ public interface ToSpvCashFlowApplyMapper {
     int updateByPrimaryKeySelective(ToSpvCashFlowApply record);
 
     int updateByPrimaryKey(ToSpvCashFlowApply record);
+    
+    List<ToSpvCashFlowApply> selectBySpvCode(String spvCode);//根据spvCode查询ToSpvCashFlowApply
 }

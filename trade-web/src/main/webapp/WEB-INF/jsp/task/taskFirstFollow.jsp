@@ -502,6 +502,7 @@
 							txt += "<div class='col-md-8'>";
 							txt += "<select class='form-control m-b' name='unCrossCooperationUser' id='cooperationUser"+index+"'>";
 							txt += "<option value='0'>----未选择----</option>";
+							
 							$.each(data.users, function(j, user){
 									txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
 								

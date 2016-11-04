@@ -1,14 +1,17 @@
 package com.centaline.trans.signroom.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.entity.RmRoomSchedule;
+import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.repository.ResFlowupMapper;
 import com.centaline.trans.signroom.repository.ReservationMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
@@ -19,6 +22,9 @@ import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
 import com.centaline.trans.signroom.vo.ReservationVo;
+import com.centaline.trans.signroom.vo.RoomProp;
+import com.centaline.trans.signroom.vo.SignroomCondition;
+import com.centaline.trans.signroom.vo.SignroomInfo;
 import com.centaline.trans.signroom.vo.TransactItemVo;
 
 @Service
@@ -36,49 +42,30 @@ public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	private ResFlowupMapper resFlowupMapper;
 
-	private Logger logger = LoggerFactory
-			.getLogger(ReservationServiceImpl.class);
-
 	@Override
 	public FreeRoomInfo saveReservation(Reservation reservation,
 			ReservationVo reservationVo) {
-		String isSuccss = "true";
 		FreeRoomInfo freeRoomInfo = null;
 
-		try {
-			reservationMapper.insertSelective(reservation);
+		reservationMapper.insertSelective(reservation);
 
-			logger.debug("预约信息保存成功！");
+		Long resId = reservation.getPkid(); // 预约单id
 
-			Long resId = reservation.getPkid(); // 预约单id
+		freeRoomInfo = getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
+		freeRoomInfo.setResNo(reservation.getResNo());
 
-			freeRoomInfo = getFreeRoomByCondition(reservationVo); // 获取闲置的房间信息
-			freeRoomInfo.setResNo(reservation.getResNo());
+		FreeRoomVo freeRoomVo = new FreeRoomVo();
+		freeRoomVo.setResId(resId);
+		freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
 
-			FreeRoomVo freeRoomVo = new FreeRoomVo();
-			freeRoomVo.setResId(resId);
-			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
+		rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo); // 更新闲置房间的使用状态
 
-			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo); // 更新闲置房间的使用状态
+		freeRoomVo = new FreeRoomVo();
+		freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
+		freeRoomVo.setResId(resId);
+		freeRoomVo.setNumberOfPeople(freeRoomInfo.getNumberOfPeople());
 
-			logger.debug("更新闲置房间的使用状态成功！");
-
-			freeRoomVo = new FreeRoomVo();
-			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
-			freeRoomVo.setResId(resId);
-			freeRoomVo.setNumberOfPeople(freeRoomInfo.getNumberOfPeople());
-
-			reservationMapper.updateReservationInfo(freeRoomVo); // 更新预约单的信息
-
-			logger.debug("更新预约单的信息成功！");
-
-		} catch (Exception e) {
-			isSuccss = "false";
-			logger.error("预约报错信息", e);
-		}
-
-		if (freeRoomInfo != null)
-			freeRoomInfo.setIsSuccess(isSuccss);
+		reservationMapper.updateReservationInfo(freeRoomVo); // 更新预约单的信息
 
 		return freeRoomInfo;
 	}
@@ -133,37 +120,20 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public FreeRoomInfo getFreeRoomByCondition(ReservationVo reservationVo) {
-		Long tradeCenterId = reservationVo.getTradeCenterId();
-		String selDate = reservationVo.getSelDate(); // 预约日期
-		String bespeakTime = reservationVo.getBespeakTime(); // 预约时间段
-		int numberOfParticipants = reservationVo.getNumberOfParticipants(); // 参与人数
-
-		FreeRoomVo freeRoomVo = new FreeRoomVo();
-		freeRoomVo.setTradeCenterId(tradeCenterId);
-		freeRoomVo
-				.setNumberOfParticipants(reservationVo.getActNumberOfPeople());
-
-		String formatStartDate = "";
-		String formatEndDate = "";
-		if (bespeakTime != null && !"".equals(bespeakTime)) {
-			formatStartDate = selDate + " "
-					+ bespeakTime.substring(0, bespeakTime.indexOf("-"));
-
-			formatEndDate = selDate
-					+ " "
-					+ bespeakTime.substring(bespeakTime.indexOf("-") + 1,
-							bespeakTime.length());
+		FreeRoomInfo freeRoomInfo = null;
+		// 如果是正常预约的情况
+		if ("normal".equals(reservationVo.getFlag())) {
+			freeRoomInfo = reservationMapper
+					.getMatchFreeRoomByCondition(reservationVo);
+			// 如果是接受小一点的房间情况
+		} else if ("accept".equals(reservationVo.getFlag())) {
+			freeRoomInfo = reservationMapper
+					.getMinFreeRoomByCondition(reservationVo);
 		}
 
-		freeRoomVo.setStartDate(formatStartDate);
-		freeRoomVo.setEndDate(formatEndDate);
-
-		FreeRoomInfo freeRoomInfo = reservationMapper
-				.getFreeRoomByCondition(freeRoomVo);
-
 		if (freeRoomInfo != null) {
-			freeRoomInfo.setSelDate(selDate);
-			freeRoomInfo.setBespeakTime(bespeakTime);
+			freeRoomInfo.setSelDate(reservationVo.getSelDate());
+			freeRoomInfo.setBespeakTime(reservationVo.getBespeakTime());
 		}
 
 		return freeRoomInfo;
@@ -201,5 +171,116 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public int endUse(Long resId) {
 		return reservationMapper.endUse(resId);
+	}
+
+	@Override
+	public List<SignroomInfo> getSignRoomInfoList(
+			SignroomCondition signroomCondition) throws ParseException {
+		List<String> bespeakTimeList = getBespeakTime();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+		Date currentDateTime = new Date();
+		List<SignroomInfo> signroomInfoList = new ArrayList<SignroomInfo>();
+		if (bespeakTimeList != null && bespeakTimeList.size() > 0) {
+			for (String bespeakTime : bespeakTimeList) {
+
+				String strStartDateTime = signroomCondition.getSelDate() + " "
+						+ bespeakTime.substring(0, bespeakTime.indexOf("-"));
+
+				String strEndDateTime = signroomCondition.getSelDate()
+						+ " "
+						+ bespeakTime.substring(bespeakTime.indexOf("-") + 1,
+								bespeakTime.length());
+
+				Date startDateTime = sdf.parse(strStartDateTime);
+
+				if (currentDateTime.getTime() <= startDateTime.getTime()) {
+					SignroomInfo signroomInfo = new SignroomInfo();
+
+					signroomCondition.setStartDateTime(strStartDateTime);
+					signroomCondition.setEndDateTime(strEndDateTime);
+
+					int signroomNumber = reservationMapper
+							.getSignRoomInfoListByDate(signroomCondition);
+
+					signroomInfo.setBespeakTime(bespeakTime);
+					signroomInfo.setSignroomNumber(signroomNumber);
+
+					signroomInfoList.add(signroomInfo);
+				}
+
+			}
+		}
+
+		return signroomInfoList;
+	}
+
+	@Override
+	public FreeRoomInfo getMatchFreeRoomByCondition(ReservationVo reservationVo) {
+		return reservationMapper.getMatchFreeRoomByCondition(reservationVo);
+	}
+
+	@Override
+	public FreeRoomInfo getMinFreeRoomByCondition(ReservationVo reservationVo) {
+		return reservationMapper.getMinFreeRoomByCondition(reservationVo);
+	}
+
+	@Override
+	public int getUsedBespeakNumber(String currentUserId) {
+		return reservationMapper.getUsedBespeakNumber(currentUserId);
+	}
+
+	@Override
+	public List<SignroomInfo> getUseableSignRoomList(ReservationVo reservationVo) {
+		List<Integer> roomAccommodationList = reservationMapper
+				.getRoomAccommodationList(reservationVo);
+
+		SignroomInfo signroomInfo = null;
+		List<SignroomInfo> signroomInfoList = new ArrayList<SignroomInfo>();
+		if (roomAccommodationList != null && roomAccommodationList.size() > 0) {
+			for (Integer roomAccommodation : roomAccommodationList) {
+				signroomInfo = new SignroomInfo();
+				signroomInfo.setNumberOfPeople(roomAccommodation);
+
+				reservationVo.setNumberOfPeople(roomAccommodation);
+				List<RoomProp> roomPropList = reservationMapper
+						.getRoomPropList(reservationVo);
+
+				signroomInfo.setRoomPropList(roomPropList);
+
+				signroomInfoList.add(signroomInfo);
+			}
+		}
+
+		return signroomInfoList;
+	}
+
+	@Override
+	public void changeRoom(ReservationVo reservationVo) {
+		Long resId = Long.parseLong(reservationVo.getResId());
+		Reservation reservation = reservationMapper.getReservationById(resId);
+
+		Long oldScheduleId = Long.parseLong(reservation.getScheduleId());
+		Long newScheduleId = Long.parseLong(reservationVo.getScheduleId());
+
+		RmRoomSchedule newRmRoomSchedule = rmRoomScheduleMapper
+				.getRmRoomScheduleByPkid(newScheduleId);
+
+		RmSignRoom newRmSignRoom = rmSignRoomMapper
+				.getSignRoomInfoById(newRmRoomSchedule.getRoomId());
+
+		reservationVo.setNumberOfPeople(newRmSignRoom
+				.getNumbeOfAccommodatePeople());
+		reservationVo.setNewScheduleId(newScheduleId);
+
+		reservationMapper.changeRoom(reservationVo); // 将T_RM_RESERVATION表的SCHEDULE_ID进行更改
+		rmRoomScheduleMapper.updateRoomStatusToFree(oldScheduleId); // 将原先的房间状态更改成空闲状态
+		rmRoomScheduleMapper.updateRoomStatusToUsed(reservationVo); // 将新房间状态改成已预约状态
+
+		// 更换签约室并启用
+		if ("changeAndSave".equals(reservationVo.getFlag())) {
+			reservationMapper.startUse(resId);
+		}
 	}
 }

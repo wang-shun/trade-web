@@ -49,7 +49,7 @@ public class TsTaskDelegateServiceImpl implements TsTaskDelegateService {
 			users.addAll(uamuserOrgService.getUserByBelongOrgId(org.getId()));
 		}
 		return users;
-	}
+	}	
 
 	/**
 	 * 查询 获得所有誉萃用户
@@ -57,13 +57,13 @@ public class TsTaskDelegateServiceImpl implements TsTaskDelegateService {
 	 * @return
 	 */
 	private List<Org> getYCOrgs() {
-		Org org = uamuserOrgService.getOrgByCode(YC_ORG_CODE);
-		List<Org> orgs = getSubOrgs(org.getId());
+		Org org = uamuserOrgService.getOrgByCode(YC_ORG_CODE);//誉萃投资ORG_CODE
+		//查询誉萃下  所有组织
+		List<Org> orgs = getSubOrgs(org.getId()); 
 		orgs.add(org);
 		return orgs;
-
 	}
-
+	//递归查询所有组织
 	private List<Org> getSubOrgs(String parentId) {
 		List<Org> orgs = uamuserOrgService.getOrgByParentId(parentId);
 		List<Org> temp = new ArrayList<>();
@@ -79,10 +79,12 @@ public class TsTaskDelegateServiceImpl implements TsTaskDelegateService {
 		return orgs;
 	}
 
+	
 	@Override
 	public DatagridVO listUser(UserPagebleVO page) {
 		List<User> users = listYCUsers();
 		List<User> fusers;
+		//"" 或者  null 为真
 		if (StringUtils.isBlank(page.getUsername())) {
 			fusers = users;
 		} else {
@@ -106,6 +108,7 @@ public class TsTaskDelegateServiceImpl implements TsTaskDelegateService {
 		}
 		return pageble(fusers, page);
 	}
+	
 
 	public DatagridVO pageble(List<User> fusers, UserPagebleVO page) {
 

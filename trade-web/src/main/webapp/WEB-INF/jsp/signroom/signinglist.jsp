@@ -13,7 +13,7 @@
 <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>
-            签约室分配
+            	签约室预约
         </title>
         
         <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet"/>
@@ -51,6 +51,7 @@
                         	<input type="hidden" name="resTime" value="${resTime }"/>
                         	<input type="hidden" name="resStatus" value="${resStatus }"/>
                         	<input type="hidden" name="distinctId" value="${distinctId }" />
+                        	<input type="hidden" name="flag" value="search"/>
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -82,7 +83,7 @@
                                         <input name="endDateTime" class="form-control data_style" type="text" value="${endDateTime }" placeholder="结束日期">
                                     </div>
                                     <div class="seldata">
-                                        <span id="today" class="today date-time">今</span>
+                                        <span id="today" class="todaycolor date-time">今</span>
                                         <span id="tommrow" class="tommrow date-time">明</span>
                                     </div>
                                 </div>
@@ -176,6 +177,7 @@
                     </div>
                 </div>
                 
+                <!-- 最新更进弹出框 -->
 				<div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="false" >
                     <div class="modal-dialog" style="width: 790px;">
                         <div class="modal-content animated fadeIn popup-box">
@@ -252,6 +254,100 @@
                             </form>
                         </div>
                         <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+                </div>
+                
+               	<!-- 更换签约室弹出框 -->
+                <div class="modal inmodal in" id="changeRoom" tabindex="-1" role="dialog" aria-hidden="false" >
+                    <div class="modal-dialog" style="width: 790px;">
+                        <div class="modal-content animated fadeIn popup-box">
+                            <div class="modal_title">
+                                	更换签约室
+                            </div>
+                            <div class="apply_table">
+                                <table class="table table_blue mt20 table-striped table-bordered table-hover customerinfo" id="signRoom">
+                                	<input type="hidden" id="resId" name="resId" />
+                                	<input type="hidden" id="resStartTime" id="resStartTime" />
+                                	<input type="hidden" id="resEndTime" id="resEndTime" />
+                                	
+                                    <thead>
+                                        <tr>
+                                            <th style="background-color:#52cdec;">
+                                                	房间类型
+                                            </th>
+                                            <th style="background-color:#52cdec;">
+                                                	剩余房间编号
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    5人间
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-transparent margin5">soi-1</button>
+                                                <button class="btn btn-transparent margin5">soi-2</button>
+                                                <button class="btn btn-transparent margin5">soi-3</button>
+                                                <button class="btn btn-transparent margin5">soi-4</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    9人间
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-transparent margin5">soi-1</button>
+                                                <button class="btn btn-transparent margin5">soi-2</button>
+                                                <button class="btn btn-transparent margin5">soi-3</button>
+                                                <button class="btn btn-transparent margin5 btn-lightyellow">soi-4（机动）</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    12人间
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-transparent margin5">soi-1</button>
+                                                <button class="btn btn-transparent margin5">soi-2</button>
+                                                <button class="btn btn-transparent margin5">soi-3</button>
+                                                <button class="btn btn-transparent margin5">soi-4</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    15人间
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-transparent margin5">soi-1</button>
+                                                <button class="btn btn-transparent margin5">soi-2</button>
+                                                <button class="btn btn-transparent margin5">soi-3</button>
+                                                <button class="btn btn-transparent margin5">soi-4</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="change-btn" style="text-align:center;margin-top:30px">
+                                <button type="button" class="btn btn-success mr5" id="btnChangeRoom">
+                                    	更换签约室
+                                </button>
+                                <button type="submit" class="btn btn-success mr5" id="btnChangeAndEnableRoom">
+                                    	更换签约室及启用
+                                </button>
+                                <button type="reset" class="btn btn-grey mr5" data-dismiss="modal">
+                                    	取消
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
 <content tag="local_script"> 
@@ -336,7 +432,7 @@
                  </td>
 				 <td>
 					  <span class="manager"><a href="#" title="{{item.mobile}}" class="demo-top" onMouseover="showMobile(this);"><em>预约人:</em>{{item.realName}}</a></span>
-                      <span class="manager"><a href="#"><em>服务专员:</em>{{item.serviceSpecialist}}</a></span>
+                      <span class="manager"><a href="#"><em>交易顾问:</em>{{item.serviceSpecialist}}</a></span>
                  </td>
 				 <td>
 					  <p class="smll_sign">
@@ -344,20 +440,25 @@
 								{{if transactItemCode == 'contract'}}<i class="sign_blue">签合同</i>{{/if}}
 								{{if transactItemCode == 'doLoan'}}<i class="sign_blue">办贷款</i>{{/if}}
 								{{if transactItemCode == 'Eloan'}}<i class="sign_blue">e+贷款</i>{{/if}}
+								{{if transactItemCode == 'OpenRegularMeeting'}}<i class="sign_blue">开例会</i>{{/if}}
 						  {{/each}}
                       </p>
-					  {{if item.specialReq != null && item.specialReq!="" && item.specialReq.length > 24}}
-								<p class="smll_sign big" title="{{item.specialReq}}">{{item.specialReq.substring(item.specialReq.length-24,item.specialReq.length)}}</p>
-					  {{else}}
-								<p class="smll_sign big">{{item.specialReq}}</p>
-					  {{/if}}
+					  <p>
+						  <a href="#"  class="demo-right" onMouseover="showTip(this);" title="{{item.specialReq}}">
+					  			{{if item.specialReq != null && item.specialReq!="" && item.specialReq.length > 18}}
+									{{item.specialReq.substring(0,18)}}....
+					  			{{else}}
+									{{item.specialReq}}
+					  			{{/if}}
+						  </a>
+					  </p>
                  </td>
 				 <td>
                       <p class="smll_sign big">{{item.followDateTime}}</p>
                       <p>
                          <a href="#"  class="demo-right" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
-							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 12}}
-								{{item.latestComment.substring(0,12)}}....
+							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 8}}
+								{{item.latestComment.substring(0,8)}}....
 					  		{{else}}
 								{{item.latestComment}}
 					  		{{/if}}
@@ -372,6 +473,7 @@
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
 								{{if item.resStatus == '0'}}
 									<li><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
+									<li><a href="#" onClick="changeRoom(this,'{{item.resId}}','{{item.tradeCenterId}}','{{item.resDateTime}} {{item.actStartTime}}','{{item.resDateTime}} {{item.actEndTime}}');" data-toggle="modal" data-target="#changeRoom">变更签约室</a></li>
 								{{/if}}
                                 
 								{{if item.resStatus == '1'}}
@@ -380,7 +482,7 @@
 
                                 <li>
 									<input type="hidden" name="resId" value="{{item.resId}}"/>
-									<input type="hidden" name="roomType" value="{{item.roomType}}"/>
+									<input type="hidden" name="roomT	ype" value="{{item.roomType}}"/>
 									<input type="hidden" name="roomNo" value="{{item.roomNO}}"/>
 									<input type="hidden" name="resDateTime" value="{{item.resDateTime}}"/>
 									

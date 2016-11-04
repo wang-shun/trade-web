@@ -150,6 +150,12 @@
   <select id="findBankByFinOrg" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select * from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR}
   </select>
+   <select id="findBankByFinOrgList" resultMap="BaseResultMap">
+  	select * from sctrans.T_TS_FIN_ORG  where FIN_ORG_CODE IN   
+  	       <foreach item="item" index="index" collection="finOrgs" open="(" separator="," close=")"> 
+  	        #{item.value}       
+  	       </foreach>
+  </select>
   
   <select id="findTsFinOrgByFinOrgCode" resultMap="BaseResultMap">
   	select * from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR}

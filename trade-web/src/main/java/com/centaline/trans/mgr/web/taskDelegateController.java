@@ -56,6 +56,9 @@ public class taskDelegateController {
 		}
 		return result;
 	}
+	
+	
+	//todo  3986
 
 	@RequestMapping(value = "listUser")
 	@ResponseBody
@@ -63,6 +66,9 @@ public class taskDelegateController {
 		return tsTaskDelegateService.listUser(page);
 	}
 
+	
+	
+	
 	@RequestMapping(value = "doTaskDelegateClose/{pkid}")
 	@ResponseBody
 	public ResponseVo doTaskDelegateClose(

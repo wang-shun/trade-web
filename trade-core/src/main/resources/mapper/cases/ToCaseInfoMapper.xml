@@ -244,5 +244,14 @@
   		select * from [sctrans].[t_sys_org_hierarchy] where GROUP_ID=#{groupId,jdbcType=VARCHAR} 
   </select>
   
+    <update id="updateByTragertCode" parameterType="java.util.HashMap">
+    	update sctrans.T_TO_CASE_INFO 
+    		set target_code = #{targetCode} 
+    	where ctm_code = #{ctmCode}
+    </update>
+    
+    <update id="exportCTMCase" parameterType="java.lang.String">
+    	exec [sctrans].[P_SYN_NEW_CASE] @ctm_code = #{ctmCode}
+    </update>
   
 </mapper>

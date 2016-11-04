@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>		
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>	
+	
+	<query id="findMaterialInfoList">
+	    <searchCondition>    
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[  	
+				SELECT
+					T.PKID,
+					T.PKIDFORACTION,
+					T.CASE_CODE,
+					T.CREATE_BY,
+					T.ITEM_NAME,
+					T.ITEM_MANAGER,
+					T.CREATE_TIME,
+					T.ITEM_BACK_TIME,
+					T.ITEM_INPUT_TIME,
+					T.ITEM_OUTPUT_TIME,
+					T.ACTION_PRE_DATE,
+					T.ITEM_STATUS,
+					T.ITEM_ADDR_CODE,
+					T.ITEM_CATEGORY,
+					T.IS_DELETED,		
+					T.PROPERTY_ADDR,					
+					T.CREATE_BY_REAL_NAME,
+					T.CREATE_BY_ORG_NAME,
+					T.CREATE_BY_MOBILE,
+					T.ITEM_MANAGER_REAL_NAME,
+					T.ITEM_MANAGER_ORG_NAME,
+					T.ITEM_MANAGER_MOBILE,
+					T.TODAY,
+					T.CATEGORY
+				FROM			
+				(
+					SELECT 
+						C.PKID,
+						M.PKID AS PKIDFORACTION,
+						M.CASE_CODE,	
+						M.CREATE_BY,
+						M.ITEM_NAME,
+						M.ITEM_MANAGER,
+						M.CREATE_TIME,
+						M.ITEM_BACK_TIME,
+						M.ITEM_INPUT_TIME,
+						M.ITEM_OUTPUT_TIME,
+						M.ACTION_PRE_DATE,
+						M.ITEM_STATUS,
+						M.ITEM_ADDR_CODE,
+						M.ITEM_CATEGORY,
+						M.IS_DELETED,						
+						P.PROPERTY_ADDR,
+						(SELECT TOP 1 U.REAL_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.CREATE_BY AND U.ismain=1)CREATE_BY_REAL_NAME,
+						(SELECT TOP 1 U.ORG_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.CREATE_BY AND U.ismain=1)CREATE_BY_ORG_NAME,
+						(SELECT TOP 1 U.MOBILE FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.CREATE_BY AND U.ismain=1)CREATE_BY_MOBILE,
+						(SELECT TOP 1 U.REAL_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.ITEM_MANAGER AND U.ismain=1)ITEM_MANAGER_REAL_NAME,
+						(SELECT TOP 1 U.ORG_NAME FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.ITEM_MANAGER AND U.ismain=1)ITEM_MANAGER_ORG_NAME,
+						(SELECT TOP 1 U.MOBILE FROM SCTRANS.V_USER_ORG_JOB U WHERE U.USER_ID=M.ITEM_MANAGER AND U.ismain=1)ITEM_MANAGER_MOBILE,
+						GETDATE() TODAY,
+						case 
+							when M.ITEM_CATEGORY = 'carded'  then '身份证' 
+							when M.ITEM_CATEGORY = 'bankCard'  then '银行卡' 
+							when M.ITEM_CATEGORY = 'propertyCard'  then '产权证' 
+							when M.ITEM_CATEGORY = 'otherCard'  then '他证' 						 
+						end   CATEGORY
+					FROM  sctrans.T_MM_MATERIAL_ITEM M
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO P ON P.CASE_CODE=M.CASE_CODE
+					LEFT JOIN sctrans.T_TO_CASE  C ON C.CASE_CODE=M.CASE_CODE
+				)T	
+				WHERE T.IS_DELETED='N'		
+				<ifNotNull inputTimeStart>
+				     and T.ITEM_INPUT_TIME >= #inputTimeStart#
+				</ifNotNull>				
+				<ifNotNull inputTimeEnd>
+				     and T.ITEM_INPUT_TIME &lt;= #inputTimeEnd#
+				</ifNotNull>
+				
+				<ifNotNull outputTimeStart>
+				     and T.ITEM_OUTPUT_TIME >= #outputTimeStart#
+				</ifNotNull>				
+				<ifNotNull outputTimeEnd>
+				     and T.ITEM_OUTPUT_TIME &lt;= #outputTimeEnd#
+				</ifNotNull>
+								
+				<ifNotNull backTimeStart>
+				     and T.ITEM_BACK_TIME >= #backTimeStart#
+				</ifNotNull>				
+				<ifNotNull backTimeEnd>
+				     and T.ITEM_BACK_TIME &lt;= #backTimeEnd#
+				</ifNotNull>				
+								
+				<ifNotNull caseCode>
+				    AND T.CASE_CODE LIKE '%'+#caseCode#+'%'
+				</ifNotNull>
+				<ifNotNull propertyAddr>
+				    AND T.PROPERTY_ADDR LIKE '%'+#propertyAddr#+'%'
+				</ifNotNull>
+				<ifNotNull itemCategory>
+				    AND T.ITEM_CATEGORY LIKE '%'+#itemCategory#+'%'
+				</ifNotNull>
+				<ifNotNull itemStatus>
+				    AND T.ITEM_STATUS LIKE '%'+#itemStatus#+'%'
+				</ifNotNull>
+				<ifNotNull itemManager>
+				    AND T.ITEM_MANAGER_REAL_NAME LIKE '%'+#itemManager#+'%'
+				</ifNotNull>
+				<ifNotNull createBy>
+				    AND T.CREATE_BY_REAL_NAME LIKE '%'+#createBy#+'%'
+				</ifNotNull>
+				
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  ORDER BY T.ITEM_INPUT_TIME ASC 
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+			    <column type="both" name="PKIDFORACTION" index="" checkbox="" display="PKIDFORACTION" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+			    <column type="both" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+		
+				<column type="both" name="ITEM_CATEGORY" index="" checkbox=""   title="物品类别" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="ITEM_MANAGER" index="" checkbox=""   title="保管人" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CREATE_BY" index="" checkbox="true" title="提交人"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_NAME" index="" checkbox=""   title="物品名称" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CATEGORY" index="" checkbox=""   title="物品类别中文" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+						
+				<column type="both" name="CREATE_TIME" index="" checkbox="" title="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ITEM_BACK_TIME" index="" checkbox="" title="退还时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ITEM_INPUT_TIME" index="" checkbox="" title="入库时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ITEM_OUTPUT_TIME" index="" checkbox="" title="借出时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ACTION_PRE_DATE" index="" checkbox="" title="预计归还时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="TODAY" index="" checkbox="" title="当前时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				
+				<column type="both" name="ITEM_STATUS" index="" checkbox="" title="物品状态"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_ADDR_CODE" index="" checkbox="" title="物品位置编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY_REAL_NAME" index="" checkbox="" title="提交人姓名"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY_ORG_NAME" index="" checkbox="" title="提交人组别"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY_MOBILE" index="" checkbox="" title="提交人手机号码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_MANAGER_REAL_NAME" index="" checkbox="" title="提交人姓名"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_MANAGER_ORG_NAME" index="" checkbox="" title="提交人组别"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_MANAGER_MOBILE" index="" checkbox="" title="提交人手机号码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+				
+			</table-row>
+		</grid>
+	</query>
+</querys>

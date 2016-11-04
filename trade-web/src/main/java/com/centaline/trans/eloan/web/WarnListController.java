@@ -117,6 +117,20 @@ public class WarnListController {
 		return "/eloan/task/taskEloanList";
 	}
 	
+	
+	//E+放款流水列表
+	@RequestMapping("EloanRelCashList")
+	public String EloanRelCashList(HttpServletRequest request) {
+		SessionUser user = uamSessionService.getSessionUser();
+		//记录产调申请人的组织
+		ToPropertyResearchVo pro = toPropertyInfoService.getPropertyDepInfoByuserDepIdEloan(user.getServiceDepId());
+		if(pro != null)
+			request.setAttribute("orgId", pro.getPrApplyDepId());
+		//本月目标达成报表，数据查询开始时间 在当前月份的基础上推前5个月开始查询
+				String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
+				request.setAttribute("startDate",startDate);
+		return "/eloan/task/taskEloanRelCashList";
+	}
 	//E+申请页面 ，填写信息保存
 	@RequestMapping(value="/task/eloanApply/process")
 	public String eloanApply(HttpServletRequest request, HttpServletResponse response,String businessKey,
@@ -280,7 +294,10 @@ public class WarnListController {
 		
 		if("update".equals(action)){
 			return "/eloan/task/modifyEloanInfo";
-		}else{
+		}else if("invalid".equals(action)){
+			return "/eloan/task/taskEloanInvaild";
+		}
+		else{
 			return "/eloan/task/taskEloanDetail";
 		}
 		
@@ -392,6 +409,7 @@ public class WarnListController {
 		try {
 			if(StringUtils.isBlank(tEloanCase.getTaskId())) {
 				buildFCaseCode(tEloanCase);
+				tEloanCase.setStatus("VALID");
 				toEloanCaseService.saveEloanApply(user, tEloanCase);
 			} else {
 				toEloanCaseService.updateEloanApply(user, tEloanCase);
@@ -800,10 +818,10 @@ public class WarnListController {
 		return caseInfos;
 	}
 	
-	/*根据pkId删除案件*/
+	/*根据pkId删除，作废案件*/
 	@RequestMapping("deteleItem")
 	@ResponseBody
-	public AjaxResponse<ToEloanCase> deteleItem(Long pkid, ServletRequest request){
+	public AjaxResponse<ToEloanCase> deteleItem(Long pkid, String action, String content, ServletRequest request){
 		AjaxResponse<ToEloanCase> result = new AjaxResponse<>();
 		try {
 			ToEloanCase eloanCase=toEloanCaseService.getToEloanCaseByPkId(pkid);
@@ -813,18 +831,28 @@ public class WarnListController {
 				record.setCaseCode(eloanCase.getCaseCode());
 			    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
 				if(workFlow!=null){
-					workFlow.setStatus("4");
+				workFlow.setStatus("4");
 			    flowService.updateByPrimaryKey(workFlow);
-				toEloanCaseService.deleteById(eloanCase.getPkid());
-				 processInstanceService.deleteProcess(workFlow.getInstCode());
+				processInstanceService.deleteProcess(workFlow.getInstCode());
+				}if("aban".equals(action)){
+					eloanCase.setStatus("ABAN");
+					eloanCase.setAbanReason(content);
+					eloanCase.setAbanTime(new Date());
+					toEloanCaseService.abanById(eloanCase);
+				}else{
+					List<ToEloanRel> eloanRels= toEloanRelService.getEloanRelByEloanCode(eloanCase.getEloanCode());
+					toEloanCaseService.deleteById(eloanCase.getPkid());
+					if(eloanRels.size()>0){
+						toEloanRelService.deleteEloanRelByEloanCode(eloanCase.getEloanCode());
+					}
 				}
-			
 			}
 			result.setSuccess(true);
-			result.setMessage("删除成功!");
+			result.setMessage("操作成功!");
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setSuccess(false);
-			result.setMessage("删除失败!");
+			result.setMessage("操作失败!");
 		}
 		return result;
 	}

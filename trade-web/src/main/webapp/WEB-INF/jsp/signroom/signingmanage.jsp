@@ -248,11 +248,11 @@
         
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
  		<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
- 		<script src="${ctx}/js/jquery.blockui.min.js"></script> 
  		<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	    <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	    <script src="${ctx}/js/jquery.blockui.min.js"></script>
 	    <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 		<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
 		<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 分页控件  -->

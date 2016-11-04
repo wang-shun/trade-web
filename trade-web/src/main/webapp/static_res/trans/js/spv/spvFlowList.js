@@ -42,7 +42,7 @@
 											initData();
 											
 						})
-						function show(pkid){
+						function show(pkid,use){
 							var hide=$("#cashFlow"+pkid).css("display");
 							$("#cashFlow"+pkid).slideToggle("fast");
 							$("#caozuo"+pkid).html(hide=="none"?"收起":"展开");
@@ -62,11 +62,13 @@
 									 tbodyhtml.html("");
 									 var htmlText="";
 									$.each(data.rows,function(i,item){
-										htmlText+="<tr><td>"+item.VOUCHER_NO+"</td>";
+										htmlText+="<tr><td><p class='big'>"+item.VOUCHER_NO+"</p></td>";
 										htmlText+="<td> <p class='big'>"+(item.AMOUNT>0?item.AMOUNT/10000:0)+"万元</p></td>";
 										htmlText+="<td> <p class='big'>"+item.DIRECTION+"</p></td>";
 										htmlText+="<td> <p>"+item.PAYER+"&nbsp;&nbsp;"+item.PAYER_ACC+"/"+item.PAYER_BANK+"</p></td>";
-										htmlText+="<td> <p>"+item.RECEIVER+"&nbsp;&nbsp;"+item.RECEIVER_ACC+"/"+item.RECEIVER_BANK+"</p></td></tr>";
+										htmlText+="<td> "+item.RECEIVER+"&nbsp;&nbsp;"+item.RECEIVER_ACC+"/"+item.RECEIVER_BANK+"</td>";
+										if(use=='in')htmlText+="<td> <p>"+item.RECEIPT_TIME+"</p></td></tr>";
+										
 									})
 									 htmlText = htmlText.replace(new RegExp("undefined","g"),"");
 									 tbodyhtml.html(htmlText);	
@@ -84,13 +86,13 @@
 												templeteId : 'querSpvCaseFlowApplyList',
 												gridClass : 'table table_blue table-striped table-bordered table-hover ',
 												data : params,
-												wrapperData : {job : $("#serviceJobCode").val()},
+												wrapperData : {cw:$("#CW").val()},
 												columns : [
 														{
 																   colName :"<span style='color:#ffffff' onclick='caseCodeSort();' >流水申请编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
-	/* 								    		    	           sortColumn : "SPV_CODE",
+								    		    	               sortColumn : "CREATE_TIME",
 									    		    	           sord: "desc",
-									    		    	           sortActive : true */
+									    		    	           sortActive : true 
 														},{
 															colName : "监管合约编号"
 														},{
@@ -100,7 +102,7 @@
 														}, {
 															colName : "物业地址"
 														}, {
-															colName : "创建"
+															colName : "申请"
 														}, {
 															colName : "审批状态"
 														} , {
@@ -119,19 +121,19 @@
 												templeteId : 'querSpvCaseFlowList',
 												gridClass : 'table table_blue table-striped table-bordered table-hover',
 												data : params,
-												wrapperData : {job : $("#serviceJobCode").val()},
+												wrapperData : {cw:$("#CW").val()},
 												columns : [
 														{
 																   colName :"<span style='color:#ffffff' onclick='caseCodeSort();' >流水申请编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
-	/* 								    		    	           sortColumn : "SPV_CODE",
+																   sortColumn : "CREATE_TIME",
 									    		    	           sord: "desc",
-									    		    	           sortActive : true */
+									    		    	           sortActive : true 
 														},{
 															colName : "金额"
 														},{
 															colName : "账户信息"
 														}, {
-															colName : "审批状态"
+															colName : "创建"
 														}, {
 															colName : "物业地址"
 														}  ]

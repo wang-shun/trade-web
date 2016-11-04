@@ -2,7 +2,7 @@ package com.centaline.trans.remote.service;
 
 public interface TaskDelegateService {
 	/**
-	 * 根据授权人查询被授权
+	 * 鏍规嵁鎺堟潈浜烘煡璇㈣鎺堟潈
 	 * 
 	 * @param owner
 	 * @return

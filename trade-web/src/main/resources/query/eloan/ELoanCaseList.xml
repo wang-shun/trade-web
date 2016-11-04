@@ -51,7 +51,7 @@
 			<baseSql>
 				<![CDATA[
 			SELECT
-			    ec.PKID as pkId,ec.CASE_CODE as caseCode,ec.LOAN_SRV_CODE as loanSrvCode,INFO.PROPERTY_ADDR as propertyAddress,
+			    ec.PKID as pkId, ec.STATUS,ec.CASE_CODE as caseCode,ec.LOAN_SRV_CODE as loanSrvCode,INFO.PROPERTY_ADDR as propertyAddress,
 			    ec.EXCUTOR_ID as excutorName,u.MOBILE as phone, ec.CUST_NAME as custName,ec.APPLY_TIME as applyTime,ec.SIGN_TIME as signTime,
 			   (select MAX(RELEASE_TIME) from sctrans.T_TO_ELOAN_REL WHERE ELOAN_CODE = ec.ELOAN_CODE)as releaseTime,ec.APPLY_AMOUNT as Applymoney
 			    ,u.REAL_NAME as REAL_NAME,ec.APPLY_CONF_TIME,art.TASK_DEF_KEY_ as taskKey
@@ -60,7 +60,7 @@
 			LEFT JOIN  sctrans.sys_user u ON ec.EXCUTOR_ID=u.ID
 			LEFT JOIN sctrans.T_TO_WORKFLOW wf on ec.CASE_CODE=wf.CASE_CODE and wf.BUSINESS_KEY='EloanProcess'
             LEFT JOIN sctrans.ACT_RU_TASK art ON wf.INST_CODE=art.proc_inst_id_
-			WHERE 1=1 
+			WHERE 1=1
 			 and  EXISTS (select * from sctrans.T_TO_ELOAN_REL ers
 			    <if test="releaseTimeStart !='' ||releaseTimeStart !=''">
 			      where ers.ELOAN_CODE = ec.ELOAN_CODE and ers.CONFIRM_STATUS=1
@@ -106,7 +106,7 @@
 				<column  name="custName" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="signTime" title="面签时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />
 				<column  name="releaseTime" title="放款时间" index="" checkbox="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable=""/>
-	<!-- 			<column  name="status" title="确认状态"  index="" customDict="qqcdDictApplyStatus" checkbox=""  default="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" /> -->
+	 			<column  name="STATUS" title="确认状态"  index=""  checkbox=""  default="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="Applymoney" title="申请金额"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="REAL_NAME" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 			    <column  name="APPLY_CONF_TIME" title="申请确认时间"  index="" checkbox="" customDict="" sysDict=""   beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />

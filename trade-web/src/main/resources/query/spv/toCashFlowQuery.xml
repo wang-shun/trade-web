@@ -41,6 +41,7 @@
 				<![CDATA[
 					SELECT
 					CF.PKID,
+					CF.VOUCHER_NO
 					CF.CASE_CODE,
 					CF.CASH_FLOW_TYPE AS CASH_FLOW_TYPE_OLD,
 					CF.FLOW_DIRECTION AS FLOW_DIRECTION_OLD,
@@ -58,6 +59,8 @@
 		<grid>
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="VOUCHER_NO" index="" checkbox="" display="凭证" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+		
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="CASH_FLOW_TYPE_OLD" index="" checkbox="" display="类型" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>

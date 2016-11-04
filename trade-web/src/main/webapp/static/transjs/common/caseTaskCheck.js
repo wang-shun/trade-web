@@ -8,6 +8,7 @@ function caseTaskCheck(){
 function initGrid() {
 	var url = "/quickGrid/findPage";
 	url = ctx + url;
+	
 	//jqGrid初始化
 	$("#table_list_case_task").jqGrid(
 			{
@@ -80,6 +81,7 @@ function initGrid() {
 				},
 				loadComplete :function(){
 					var rowNum = $("#table_list_case_task").jqGrid('getGridParam','records');
+					
 					if(rowNum=="0"){
 						returnTaskPage();
 					}else{
@@ -95,7 +97,9 @@ function initGrid() {
 			});
 
 	 
-		$('#table_list_case_task').setGridWidth('650px');
+		 var width = $('.test').width();
+	     $('#table_list_case_task').setGridWidth(width);
+		//$('#table_list_case_task').setGridWidth('650px');
 		$('#case-task-modal-form').on('show.bs.modal', function (m) {
 			$('#case-task-modal-form').on('hide.bs.modal', function (m) {
 				returnTaskPage();});

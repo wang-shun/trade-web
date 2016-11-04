@@ -66,9 +66,9 @@
 							class="form-control select-one" name="status"  id="status">
 							<option value="">请选择</option>
 							<option value="0">起草</option>
-							<option value="2">申请</option>
-							<option value="3">签约</option>
-							<option value="4">完成</option>
+							<option value="1">申请</option>
+							<option value="2">签约</option>
+							<option value="3">完成</option>
 						</select>
 					</div>
 					<div class="form-group form-margin form-space-one ">
@@ -179,10 +179,10 @@
                                                 监管金额<span>{{item.AMOUNT>0?item.AMOUNT/10000:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                入账金额<span>0万</span>
+                                                入账金额<span>{{item.ru>0?item.ru/10000:0}}万</span>
                                             </p>
                                             <p class="managerstyle">
-                                                出账金额<span>0万</span>
+                                                出账金额<span>{{item.chu>0?item.chu/10000:0}}万</span>
                                             </p>
                                         </td>
                                         <td>
@@ -223,7 +223,7 @@
                                         
                                            <div class="btn-group">
                                                 <button type="button" class="btn btn-success dropdown-toggle"    {{if wrapperData.job != 'JYFKZY'}} disabled="true" {{/if}}                                  
-                                                data-toggle="dropdown" >操作{{serviceJobCode}}
+                                                data-toggle="dropdown" >操作
                                                     <span class="caret"></span>
                                                 </button>
                                                
@@ -238,13 +238,13 @@
                                                     	<li><a onclick="deleteSpv({{item.PKID}})" href="#">删除</a></li>
                                                     	{{/if}}
                                                     </shiro:hasPermission>
-                                                    <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">
-                                                      {{if item.STATUS==3&&item.signTime!=undefined}}
+                                                    <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">{{
+                                                      {{if item.STATUS==2&&item.signTime!=undefined}}
                                                         <li><a href="${ctx}/spv/task/cashflowIntApply/spvRecorded?pkid={{item.PKID}}">入账</a></li>
                                                       {{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.OUT">
-													{{if item.SumRu>0}}
+													{{if item.ru>0}}
                                                         <li><a href="${ctx}/spv/task/cashFlowOutAppr/process?spvCode={{item.SPV_CODE}}">出账</a></li>
                                                      {{/if}}
 													</shiro:hasPermission>

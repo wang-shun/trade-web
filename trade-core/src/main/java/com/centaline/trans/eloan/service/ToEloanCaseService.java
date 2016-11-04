@@ -30,4 +30,5 @@ public interface ToEloanCaseService {
     AjaxResponse<Boolean> validateIsFinishRelease(String eloanCode,Double sumAmount);
 
 	void eloanInfoForUpdate(ToEloanCase toEloanCase);
+    void abanById(ToEloanCase eloanCase);
 }

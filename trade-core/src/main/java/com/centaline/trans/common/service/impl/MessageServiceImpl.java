@@ -45,10 +45,10 @@ public class MessageServiceImpl implements MessageService {
 		event.setEventType(MessageEnum.SPV_FINISH_MSG.getEventType());
 		event.setEventName(MessageEnum.SPV_FINISH_MSG.getName());
 		event.setProcInstId(instanceId);
-		event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+		event.setActivityId(EventTypeEnum.SPVFINISHEVENTCATCH.getName());
 		
 		ExecuteAction action = new ExecuteAction();
-		action.setAction(EventTypeEnum.INTERMEDIATECATCHEVENT.getEventType());
+		action.setAction(EventTypeEnum.SPVFINISHEVENTCATCH.getEventType());
 		action.setMessageName(MessageEnum.SPV_FINISH_MSG.getName());
 
 		sendMessage(event,action);

@@ -13,23 +13,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>入账</title>
-<%-- <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
-<!-- stickUp fixed css -->
-<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
-<link rel="stylesheet" href="${ctx}/static/trans/static/css/plugins/toastr/toastr.min.css">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/response/jkresponsivegallery.css " /> --%>
-
- <!-- 上传相关 -->
+	 <!-- 上传相关 -->
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
 		rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
@@ -55,36 +39,41 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/steps.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/toastr.min.css">
     <!-- index_css  -->
+    <link rel="stylesheet" href="${ctx}/static/css/plugins/datapicker/datepicker3.css">
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/iconfont.css" >
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
- 	<style>
-	.borderClass {border:1px solid red!important;resize: none;}
-	.borderClass:focus {border:1px solid red!important;resize: none;}
-   </style>
-
+    
+    <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+    <!-- 必须CSS -->
+	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+	<style>
+		.borderClass {border:1px solid red!important;resize: none;}
+		.borderClass:focus {border:1px solid red!important;resize: none;}
+		.bar {height: 18px;background: green;position:fixed;bottom:0;}
+	</style>
 </head>
 
 <body >
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<script type="text/javascript">
-	var ctx = "${ctx}";
-	var source = "${source}";
-	var handle = "${handle}";
-	if ("${idList}" != "") {
-		var idList = eval("(" + "${idList}" + ")");
-	} else {
-		var idList = [];
-	}
-</script>
+<input type="hidden" id="sum" value="0" >
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
                     <div class="ibox-content space30" >
                         <div class="agree-tile"> 资金入账申请  </div>
                         <div class="info_content">
+                            <div class="line">
+                                <p>
+                                    <label> 案件编号  </label>
+                                     <span class="info"><span  class="demo-top" title="${spvBaseInfoVO.toSpv.caseCode }" >${spvBaseInfoVO.toSpv.caseCode }</span></span>
+                                </p>
+                                <p>
+                                    <label>合约编号 </label>
+                                   <span  class="info demo-top" title="${spvBaseInfoVO.toSpv.spvCode }">${spvBaseInfoVO.toSpv.spvCode }</span>
+                                </p>
+                            </div>
                             <div class="line">
                                 <p>
                                     <label> 产品类型  </label>
@@ -94,14 +83,14 @@
                                     <label>
                                         	监管金额
                                     </label>
-                                    <span class="info_one" id="amount">${spvBaseInfoVO.toSpv.amount}万元人民币</span>
+                                    <span class="info_one demo-top" id="amount" title="${spvBaseInfoVO.toSpv.amount}" value="${spvBaseInfoVO.toSpv.amount}" >${spvBaseInfoVO.toSpv.amount}万元</span>
                                 </p>
 
                                 <p>
                                     <label>
                                      	   物业地址
                                     </label>
-                                    <span id="prAddr" >${spvBaseInfoVO.toSpvProperty.prAddr}</span>
+                                    <span class="info" id="prAddr" ><span class="demo-top" title="${spvBaseInfoVO.toSpvProperty.prAddr}">${spvBaseInfoVO.toSpvProperty.prAddr}</span></span>
                                 </p>
 
                             </div>
@@ -110,21 +99,21 @@
                                     <label>
                                       	  收款人名称
                                     </label>
-                                    <span class="info_one" id="spvAccountName" >${spvBaseInfoVO.toSpvAccountList[2].name}</span>
+                                    <span class="info_one" id="spvAccountName" ><span class="demo-top" title="上海中原物业顾问有限公司">上海中原物业顾问有限公司</span></span>
                                 </p>
 
                                 <p>
                                     <label>
                                         	收款人账户
                                     </label>
-                                    <span class="info_one" id="spvAccountCode">${spvBaseInfoVO.toSpvAccountList[2].account}</span>
+                                    <span class="info_one" id="spvAccountCode"><span class="demo-top" title="${spvBaseInfoVO.toSpvAccountList[2].account}">${spvBaseInfoVO.toSpvAccountList[2].account}</span></span>
                                 </p>
 
                                 <p>
                                     <label>
                                         	收款人开户行
                                     </label>
-                                    <span class="info" id="spvAccountBank" >${spvBaseInfoVO.toSpvAccountList[2].bank}</span>
+                                    <span class="info" id="spvAccountBank" >光大银行市北支行<%-- ${spvBaseInfoVO.toSpvAccountList[2].bank} --%></span>
                                 </p>
                             </div>
                         </div>
@@ -138,9 +127,9 @@
                         <input type="hidden" name="prdCode" value="${spvBaseInfoVO.toSpv.prdCode==1?"光大四方资金监管":"" }" />
                         <input type="hidden" name="amount" value="${spvBaseInfoVO.toSpv.amount}" />
                         <input type="hidden" name="prAddr" value="${spvBaseInfoVO.toSpvProperty.prAddr}" />
-                        <input type="hidden" name="spvAccountName" value="${spvBaseInfoVO.toSpvAccountList[2].name}" />
+                        <input type="hidden" name="spvAccountName" value="上海中原物业顾问有限公司" />
                         <input type="hidden" name="spvAccountCode" value="${spvBaseInfoVO.toSpvAccountList[2].account}" />
-                        <input type="hidden" name="spvAccountBank" value="${spvBaseInfoVO.toSpvAccountList[2].bank}" />
+                        <input type="hidden" name="spvAccountBank" value="光大银行市北支行" />
                         <input type="hidden" name="spvConCode" value="${spvBaseInfoVO.toSpv.spvCode}" />
                         <input type="hidden" name="caseCode" value="${spvBaseInfoVO.toSpv.caseCode}" />
                         
@@ -150,7 +139,7 @@
 						<input type="hidden" id="urlType" name="source" value="" />
 						<input type="hidden" id="handle" name="handle" value="addCashFlow" />
                          <%-- 保存数据返回的pkid --%>
-						<input type="hidden"  id="toSpvCashFlowApplyPkid" name="toSpvCashFlowApplyPkid" value="" />
+						<input type="hidden"  id="toSpvCashFlowApplyPkid" name="toSpvCashFlowApplyPkid" />
 						<input type="hidden"  id="ToSpvCashFlowPkid" name="ToSpvCashFlowPkid" value="" />
 						<input type="hidden"  id="ToSpvReceiptPkid" name="ToSpvReceiptPkid" value="" />
 						
@@ -161,16 +150,16 @@
                                         <th>付款人账户</th>
                                         <th style="width: 100px;">入账金额</th>
                                         <th style="width: 120px;">贷记凭证编号</th>
-                                        <th>付款方式</th>
+                                        <th style="width: 90px;">付款方式</th>
                                         <th>凭证附件</th>
-                                        <th>操作</th>
+                                        <th>入账时间</th>
+                                        <th style="width: 50px;">操作</th>
                                     </thead>
                                     <tbody id="addTr">
                                     </tbody>
                                 </table>
                                 <div class="form-btn">
                             <div class="text-center">
-                                <button type="button" onclick="saveRe()" class="btn btn-success mr15">保存</button>
                                 <button type="button" onclick="rescCallbocak()"  class="btn btn-default mr15">关闭</button>
                                 <a onclick="sumbitRe()" class="btn btn-success">提交</a>
                             </div>
@@ -182,66 +171,62 @@
                 </div>
             </div>
             <!-- main End -->
+            <div id="progress">
+                <div class="bar" style="width: 0%;">
+                    <span></span>
+                </div>
+            </div>
 
         </div>
     </div>
 <content tag="local_script">
-<!-- Mainly scripts -->
-<script src="${ctx}/static/js/jquery-2.1.1.js"></script><%-- 
-<script src="${ctx}/static/js/bootstrap.min.js"></script> --%>
-<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-	  <!-- 上传附件相关 --> 
+<!-- 上传附件相关 --> 
 <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script><%-- 
-<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>  --%>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> 
+
 <script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
 
-<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-<script
-	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 <script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
-	<!-- 上传附件 结束 -->
-	
-	<!-- 附件保存修改相关 --> <script src="${ctx}/static_res/trans/js/spv/attachmentPostIn.js"></script>
+<!-- 上传附件 结束 -->
 
-<!-- Custom and plugin javascript --><%-- 
- <script src="${ctx}/static_res/trans/js/spv/inspinia.js"></script> --%>
- <script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
- <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
- <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
- <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
+<script src="${ctx}/static_res/trans/js/spv/pace.min.js"></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+<script src="${ctx}/js/template.js" type="text/javascript"></script>
 
 <script src="${ctx}/static_res/trans/js/spv/spvReDetails.js"></script>
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
+<!-- 必须JS -->
+<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
+<input type="hidden" id="ctx" value="${ctx}" />
+<input type="hidden" id="appCtx" value="<aist:appCtx appName='shcl-filesvr-web'/>" />
 
-
-<script>
-
-$(function() {
-    $(".icon_x").click(function() {
-        $(this).parent().parent().remove();
-        return false;
-    });
-
-
-});
-/* $('.response').responsivegallery(); */
-
+<script type="text/javascript">
+$(function(){
+		$('.demo-top').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'center',
+			alignY: 'top',
+			offsetX: 8,
+			offsetY: 5,
+		});
+	});
 
 </script>
-<input type="hidden" id="ctx" value="${ctx}" />
 </content>
 </body>
 

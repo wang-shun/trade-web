@@ -7,13 +7,11 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
-
 <html>
 <head>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -29,16 +27,9 @@ hr {
 		  display: inline-block;
 		  border-radius: 50%;
 		  background-size: 250px 333.33px;
-		  vertical-align: middle;
-		  background-image:url(../img/a5.png);
-	
+		  vertical-align: middle;	
 }
 </style>
-<script type="text/javascript">
-  	 function imgLoad(img){
-	   		 img.parentNode.style.backgroundImage="url("+img.src+")";
-	   	 }
-</script>
 </head>
 <body>
 
@@ -51,69 +42,41 @@ hr {
 	            <div class="contact-box">
 	                <div class="col-sm-4">
 	                    <div class="text-center" style="margin-top:90px;">
-	                    
 	                    		<span class="userHead">
-	                    			<img alt="image" class="himg"  style="margin:auto" src="${imgUrl }" onload="javascript:imgLoad(this)">
+	                    			<img alt="image" class="himg"  style="margin:auto" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${SESSION_USER.employeeCode}.jpg" 
+	                    			onerror="this.src='${ctx}/img/a5.png'" >
 	                    		</span>
-
-	                    	
-                        	<%-- <img alt="image" class="img-circle m-t-xs img-responsive"  style="margin:auto" src="${imgUrl }"> --%>
-	                        <!-- <div class="m-t-xs font-bold">Graphics designer</div> -->
 	                    </div>
 	                </div>
 	                <div class="col-sm-8">
 	                    <h6><strong>基础信息</strong></h6>
 	                    <hr>
 	                    <label class="col-sm-3 control-label">姓名：</label>
-	                    <p>${sessionUser.realName == null ? "-":sessionUser.realName}</p>
+	                    <p>${SESSION_USER.realName == null ? "-":SESSION_USER.realName}</p>
 	                    <hr>
-	                   <%--  <label class="col-sm-3 control-label">生日：</label>
-	                    <p>${sessionUser.realName }</p>
-	                    <hr> --%>
-	                    <%-- <label class="col-sm-3 control-label">性别：</label>
-	                    <p>
-	                    	<c:choose>
-	                    		<c:when test="${sessionUser.sex == null or sessionUser.sex == '' or sessionUser.sex == 'null'}">
-	                    		-
-	                    		</c:when>
-	                    		<c:when test="${sessionUser.sex == '1' or sessionUser.sex == '0'}">
-	                    		${sessionUser.sex == 1 ? "男" : "女" }
-	                    		</c:when>
-	                    		<c:otherwise>
-	                    		${sessionUser.sex}
-	                    		</c:otherwise>
-	                    	</c:choose>
-	                    </p>
-	                    <hr> --%>
 	                    <label class="col-sm-3 control-label">Email：</label>
-	                    <p>${sessionUser.email == null or sessionUser.email == ''?"-":sessionUser.email}</p>
+	                    <p>${SESSION_USER.email == null or SESSION_USER.email == ''?"-":SESSION_USER.email}</p>
 	                    <hr>
 	                    <label class="col-sm-3 control-label">手机号：</label>
-	                    <p>${sessionUser.mobile == null or sessionUser.mobile == ''?"-":sessionUser.mobile}</p>
+	                    <p>${SESSION_USER.mobile == null or SESSION_USER.mobile == ''?"-":SESSION_USER.mobile}</p>
 	                    <hr>
 	                    <h6><strong>岗位信息</strong></h6>
 	                    <hr>
 	                    <label class="col-sm-3 control-label">登录名：</label>
-	                    <p>${sessionUser.username == null or sessionUser.username == ''?"-":sessionUser.username}</p>
+	                    <p>${SESSION_USER.username == null or SESSION_USER.username == ''?"-":SESSION_USER.username}</p>
 	                    <hr>
 	                    <label class="col-sm-3 control-label">员工工号：</label>
-	                    <p>${sessionUser.employeeCode == null or sessionUser.employeeCode == ''?"-":sessionUser.employeeCode}</p>
+	                    <p>${SESSION_USER.employeeCode == null or SESSION_USER.employeeCode == ''?"-":SESSION_USER.employeeCode}</p>
 	                    <hr>
 	                    <%-- <label class="col-sm-3 control-label">员工类型：</label>
-	                    <p>${sessionUser.employeeType}</p>
+	                    <p>${SESSION_USER.employeeType}</p>
 	                    <hr> --%>
 	                    <label class="col-sm-3 control-label">用户归属部门：</label>
-	                    <p>${sessionUser.serviceDepName == null or sessionUser.serviceDepName == '' ? "-":sessionUser.serviceDepName}</p>
+	                    <p>${SESSION_USER.serviceDepName == null or SESSION_USER.serviceDepName == '' ? "-":SESSION_USER.serviceDepName}</p>
 	                    <hr>
-	                    <%-- <label class="col-sm-3 control-label">行政归属组织：</label>
-	                    <p>${sessionUser.serviceCompanyName == null or sessionUser.serviceCompanyName == '' ? "-":sessionUser.serviceCompanyName}</p>
-	                    <hr> --%>
 	                    <label class="col-sm-3 control-label">行政职务：</label>
-	                    <p>${sessionUser.serviceJobName == null or sessionUser.serviceJobName == '' ? "-":sessionUser.serviceJobName}</p>
+	                    <p>${SESSION_USER.serviceJobName == null or SESSION_USER.serviceJobName == '' ? "-":SESSION_USER.serviceJobName}</p>
 	                    <hr>
-	                  <%--   <label class="col-sm-3 control-label">备注：</label>
-	                    <p>${sessionUser.sex == null or sessionUser.email == ''?"-":sessionUser.sex}</p>
-	                    <hr> --%>
 	                </div>
 	                <div class="clearfix"></div>
 	            </div>
@@ -121,13 +84,6 @@ hr {
 		</div>
 	</div>
 	<content tag="local_script"> 
-	<script>
-		/* $(document).ready(function() {
-					
-		}); */
-	</script> 
 	</content>
 </body>
-
-
 </html>

@@ -249,7 +249,8 @@
 									<ul class="nav nav-tabs">
 										<li class="active"><a href="#tab-1" data-toggle="tab">交易顾问工作数据显示</a>
 										</li>
-										<!-- <li class=""><a href="#tab-2" data-toggle="tab">贷款详情</a>
+										<!-- <li class=""><a href="#tab-2" data-toggle="tab">贷款详情
+</a>
 										</li> -->
 										<li class=""><a href="#tab-3" data-toggle="tab">e+产品</a>
 										</li>
@@ -382,7 +383,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr id="sta_tr_30004009">
+												<!-- <tr id="sta_tr_30004009">
 													<td>首付贷款</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
@@ -393,9 +394,9 @@
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>30%</strong></span>
 													</td>
-												</tr>
+												</tr> -->
 												<tr id="sta_tr_30004005">
-													<td>税费卡</td>
+													<td>E+产品1号-sfk</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
 													</td>
@@ -407,7 +408,7 @@
 													</td>
 												</tr>
 												<tr id="sta_tr_30004008">
-													<td>消费贷款</td>
+													<td>E+产品4号-xfd</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
 													</td>
@@ -419,7 +420,7 @@
 													</td>
 												</tr>
 												<tr id="sta_tr_30004011">
-													<td>换房贷款</td>
+													<td>E+产品5号-hfd</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
 													</td>
@@ -431,7 +432,7 @@
 													</td>
 												</tr>
 												<tr id="sta_tr_30004012">
-													<td>抵押贷款</td>
+													<td>E+产品6号-dyd</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
 													</td>
@@ -443,7 +444,7 @@
 													</td>
 												</tr>
 												<tr id="sta_tr_30004013">
-													<td>委托贷款</td>
+													<td>E+产品7号-wtd</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
 													</td>
@@ -455,7 +456,7 @@
 													</td>
 												</tr>
 												<tr id="sta_tr_30004007">
-													<td>赎楼贷款</td>
+													<td>E+产品3号-sld</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
 													</td>
@@ -467,7 +468,7 @@
 													</td>
 												</tr>
 												<tr id="sta_tr_30004006">
-													<td>全款贷款</td>
+													<td>E+产品2号-qkd</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
 													</td>
@@ -479,7 +480,7 @@
 													</td>
 												</tr>
 												<tr id="sta_tr_30004014">
-													<td>首付贷（抵押类）</td>
+													<td>E+产品8号-xfd(dy)</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
 													</td>
@@ -491,7 +492,7 @@
 													</td>
 												</tr>
 												<tr id="sta_tr_30004015">
-													<td>佣金卡</td>
+													<td>E+产品9号-yjk</td>
 													<td class="span_sign"><span>金额：<strong>9999万</strong></span>
 														<span>单数：<strong>99</strong></span> <span>转化率：<strong>99.99%</strong></span>
 													</td>

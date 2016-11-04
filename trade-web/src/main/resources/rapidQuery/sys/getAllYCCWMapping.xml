@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys id="tasks">
+	<query id="getAllYCCW">
+		<searchScript>
+           SELECT u.REAL_NAME as name,j.JOB_CODE FROM sctrans.SYS_USER_ORG_JOB uj
+           LEFT JOIN sctrans.sys_job j on uj.JOB_ID=j.ID
+           LEFT JOIN sctrans.sys_user u on uj.user_ID=u.ID
+			<where>
+			    j.JOB_CODE='YCCWREVIEW' AND uj.IS_DELETED='0'
+			</where>
+		</searchScript>
+		<grid>
+			<column name="name"/>
+			<column name="JOB_CODE"/>
+		</grid>
+	</query>
+</querys>

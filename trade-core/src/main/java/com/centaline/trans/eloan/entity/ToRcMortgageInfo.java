@@ -23,6 +23,20 @@ public class ToRcMortgageInfo {
 
 	private String riskType;
 
+	private String referCode;
+
+	private String referName;
+
+	private String referUser;
+
+	private String referAddreass;
+
+	private String isDeleted;
+
+	private String isWillDeleted;
+
+	private String itemManager;
+
 	public Long getPkid() {
 		return pkid;
 	}
@@ -101,6 +115,62 @@ public class ToRcMortgageInfo {
 
 	public void setRiskType(String riskType) {
 		this.riskType = riskType;
+	}
+
+	public String getReferCode() {
+		return referCode;
+	}
+
+	public void setReferCode(String referCode) {
+		this.referCode = referCode;
+	}
+
+	public String getReferName() {
+		return referName;
+	}
+
+	public void setReferName(String referName) {
+		this.referName = referName;
+	}
+
+	public String getReferUser() {
+		return referUser;
+	}
+
+	public void setReferUser(String referUser) {
+		this.referUser = referUser;
+	}
+
+	public String getReferAddreass() {
+		return referAddreass;
+	}
+
+	public void setReferAddreass(String referAddreass) {
+		this.referAddreass = referAddreass;
+	}
+
+	public String getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(String isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getIsWillDeleted() {
+		return isWillDeleted;
+	}
+
+	public void setIsWillDeleted(String isWillDeleted) {
+		this.isWillDeleted = isWillDeleted;
+	}
+
+	public String getItemManager() {
+		return itemManager;
+	}
+
+	public void setItemManager(String itemManager) {
+		this.itemManager = itemManager;
 	}
 
 }

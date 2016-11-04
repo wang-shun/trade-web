@@ -5,6 +5,7 @@ public class CaseDetailProcessorVO {
 	private String processorId;
 	private String processorName;
 	private String processorMobile;
+    private String processorOrgName;
 	private String srvCode;
 	private String srvName;
 	public String getProcessorId() {
@@ -36,5 +37,11 @@ public class CaseDetailProcessorVO {
 	}
 	public void setSrvName(String srvName) {
 		this.srvName = srvName;
+	}
+	public String getProcessorOrgName() {
+		return processorOrgName;
+	}
+	public void setProcessorOrgName(String processorOrgName) {
+		this.processorOrgName = processorOrgName;
 	}
 }

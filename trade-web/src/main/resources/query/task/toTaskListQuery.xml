@@ -32,23 +32,24 @@
 	</formatters>
 	<query id="queryTaskListItemList">
 	    <searchCondition>
-            <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="minDateLamp" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE())" name="maxDateLamp" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-            <condition field="DELEGATION_" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-		    <condition field="A.AGENT_Name" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="O.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="tw.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="A.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="ART.TASK_DEF_KEY_" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="DATELAMP" name="minDateLamp" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="DATELAMP" name="maxDateLamp" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+            <condition field="AB.DELEGATION" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		    <condition field="AB.AGENT_Name" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="AB.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="AB.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="AB.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="AB.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="AB.PART_CODE" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-			        SELECT 
+
+		select * from ( SELECT
 			        	SYSUSER.ORG_ID,
-						ART.ID_ AS ID, 
+						ART.ID_ AS ID,
 						ART.CREATE_TIME_ CREATE_TIME,
             			DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE()) AS DATELAMP,
 						ART.NAME_ AS NAME,
@@ -64,8 +65,9 @@
 						a.agent_phone as MOBILE,
 						A.CTM_CODE as CTM_CODE,
 						b.pkid as PKID,
-						wfe.WFE_NAME as WFE_NAME
-					FROM 
+						wfe.WFE_NAME as WFE_NAME,
+						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
+					FROM
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
 						INNER JOIN sctrans.T_TO_CASE_INFO AS A ON tw.CASE_CODE=A.CASE_CODE
@@ -73,19 +75,27 @@
             			INNER JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
 						LEFT JOIN sctrans.T_TO_TRANS_PLAN AS tp ON A.CASE_CODE = tp.CASE_CODE AND tp.PART_CODE = ART.TASK_DEF_KEY_
 						LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
-						left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE 
+						left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE
 				    WHERE  ART.ASSIGNEE_ = #userLoginName#
 					    AND ART.SUSPENSION_STATE_ = '1'
-     				<ifNotNull allType>	
-   						AND ART.DELEGATION_ IS NULL 
+     				<ifNotNull allType>
+   						AND ART.DELEGATION_ IS NULL
 					</ifNotNull>
 					<ifNotNull guestname>
 						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = A.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
 					</ifNotNull>
-				]]>
+
+					) as AB where 1=1
+						<when test	="isSubscribeFilter==0">
+							and AB.SUBSCRIBE_COUNT>0
+					     </when>
+					     <when test	="isSubscribeFilter==1">
+							and AB.SUBSCRIBE_COUNT=0
+					     </when>
+		]]>
 			</baseSql>
 			<orderBySql>
-			  		ORDER BY  case when EST_PART_TIME IS NULL THEN 1 ELSE 0 END ,EST_PART_TIME,ART.ID_  DESC
+			  		ORDER BY  case when AB.EST_PART_TIME IS NULL THEN 1 ELSE 0 END ,EST_PART_TIME,AB.ID  DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -104,7 +114,8 @@
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MOBILE" index="" checkbox="" display="手机" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ORG_ID" index="" checkbox="" display="ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				
+				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="是否关注" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="" customDict="qqManagerInfo" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />	

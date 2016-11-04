@@ -528,7 +528,7 @@ text-decoration: underline !important;
                                                 </div>
                                                 <div class="ibox-content detail">
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                       <!--  <div class="col-md-6">
                                                             <p class="font-bold">首付贷款</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
@@ -546,9 +546,9 @@ text-decoration: underline !important;
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                        </div>
+                                                        </div> -->
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">税费卡</p>
+                                                            <p class="font-bold">E+产品1号-sfk</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -567,7 +567,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">消费贷款</p>
+                                                            <p class="font-bold">E+产品4号-xfd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -586,7 +586,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">换房贷款</p>
+                                                            <p class="font-bold">E+产品5号-hfd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -605,7 +605,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">抵押贷款</p>
+                                                            <p class="font-bold">E+产品6号-dyd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -624,7 +624,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">委托贷款</p>
+                                                            <p class="font-bold">E+产品7号-wtd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -643,7 +643,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">赎楼贷款</p>
+                                                            <p class="font-bold">E+产品3号-sld</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -662,7 +662,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">全款贷款</p>
+                                                            <p class="font-bold">E+产品2号-qkd</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -681,7 +681,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">首付贷（抵押类）</p>
+                                                            <p class="font-bold">E+产品8号-xfd(dy)</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>
@@ -700,7 +700,7 @@ text-decoration: underline !important;
                                                             </table>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="font-bold">佣金卡</p>
+                                                            <p class="font-bold">E+产品9号-yjk</p>
                                                             <table class="table table-bordered">
                                                                 <thead>
                                                                     <tr>

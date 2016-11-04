@@ -46,7 +46,7 @@
     where CASHFLOW_APPLY_ID = #{cashFlowApplyId,jdbcType=BIGINT}  and IS_DELETED = 0
   </select>
   
-  <select id="selectByCashFlowListBySpvCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectCashFlowListBySpvCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_CASHFLOW
@@ -323,5 +323,8 @@
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_CASHFLOW
     where CASHFLOW_APPLY_ID = #{cashFlowApplyId,jdbcType=BIGINT} and IS_DELETED=0
+  </select>
+   <select id="getUserIdByUserName" parameterType="java.lang.String" resultType="java.lang.String">
+  	select ID from sctrans.SYS_USER u where u.USERNAME=#{userName,jdbcType=VARCHAR};
   </select>
 </mapper>

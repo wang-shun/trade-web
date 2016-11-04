@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import com.aist.uam.auth.remote.vo.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,8 +44,9 @@ public class TaskListController {
 	@RequestMapping(value="myTaskList")
 	public String myTaskList(Model model, ServletRequest request){
 		//TODO
-
+		SessionUser user = uamSessionService.getSessionUser();
 		String[] lamps = LampEnum.getCodes();
+		request.setAttribute("userId", user.getId());
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);

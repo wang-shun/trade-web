@@ -1,6 +1,7 @@
 package com.centaline.trans.eloan.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 			tEloanCase.setExcutorDistrict(districtOrg.getId());
 		}
 		bindServItem(tEloanCase);
-    	toEloanCaseMapper.insertSelective(tEloanCase);    	
+    	int pkid=toEloanCaseMapper.insertSelective(tEloanCase);    	
     	
     	// start
     	User manager=new User();
@@ -104,11 +105,11 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	}else{
     		vars.put("Manager", manager==null?null:manager.getUsername());
     	}	
-    	
+    	ToEloanCase eloanCase=toEloanCaseMapper.selectByPrimaryKey((long) pkid);
     	String demo=propertyUtilsService.getProcessEloanDfKey();
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessEloanDfKey(),tEloanCase.getEloanCode(),vars);
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setCaseCode(tEloanCase.getCaseCode());
+		workFlow.setCaseCode(eloanCase.getEloanCode());
 		workFlow.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());
@@ -175,7 +176,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setStatus("0");
-		workFlow.setCaseCode(tEloanCase.getCaseCode());
+		workFlow.setCaseCode(tEloanCase.getEloanCode());
 		workFlow.setInstCode(tEloanCase.getProcessInstanceId());
 		toWorkFlowService.updateWorkFlowByInstCode(workFlow);
 		
@@ -264,6 +265,13 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		ToEloanCase newObj=new ToEloanCase();
 		unbindServItem(newObj, eloanCase);
 		toEloanCaseMapper.deleteByPrimaryKey(pkid);
+	}
+	
+	@Override
+	public void abanById(ToEloanCase eloanCase) {
+		ToEloanCase newObj=new ToEloanCase();
+		unbindServItem(newObj, eloanCase);
+		eloanInfoForUpdate(eloanCase);
 	}
 
 	@Override

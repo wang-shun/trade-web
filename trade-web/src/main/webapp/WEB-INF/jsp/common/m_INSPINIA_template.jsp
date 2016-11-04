@@ -3,38 +3,22 @@
 <%@page import="com.aist.uam.permission.remote.vo.App"%>
 <%@page import="com.aist.uam.permission.remote.vo.Menu"%>
 <%@page import="com.centaline.trans.user.web.MenuConstants"%>
-<%@page import="com.centaline.trans.utils.URLAvailability"%>
 <%@page import="com.centaline.trans.workspace.web.SessionUserConstants"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map" %>
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <%@ taglib prefix="sitemesh"
            uri="http://www.opensymphony.com/sitemesh/decorator"%>
 <%
 	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
-Menu menu = MenuConstants.getMenu();
+	Menu menu = MenuConstants.getMenu();
+	request.setAttribute("menuVO", menu.getChildren());
 
-request.setAttribute("menuVO", menu.getChildren());
 
-if(pageContext.getSession().getAttribute("ctx")==null){
-	UamPermissionService uamPermissionService = SpringUtils.getBean("uamPermissionServiceClient");
-	String appName = pageContext.getServletContext().getInitParameter("appName");
-	App app = uamPermissionService.getAppByAppName(appName);
-	pageContext.getSession().setAttribute("ctx", app.genAbsoluteUrl());
-	
-	List<App> appList = uamPermissionService.getAllApp();
-	pageContext.getSession().setAttribute("appCtxList", appList);
-	Map<String, String> appCtx = new HashMap<String,String>(appList.size());
-	for(App appitem : appList){
-		appCtx.put(appitem.getAppName(), appitem.genAbsoluteUrl());
-	}
-	pageContext.getSession().setAttribute("appCtx", appCtx);
-}
 %>
 <html>
 

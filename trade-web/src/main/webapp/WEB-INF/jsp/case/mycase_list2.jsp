@@ -43,11 +43,6 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 
-<%--控件颜色变化 
-<link rel="stylesheet" href="${ctx}/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" /> --%>
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
@@ -107,11 +102,6 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 #searchButton{margin-right:5px;}
-/* #exportExcel{
-	width:84px;
-	float:right;
-} */
-
 
 </style>
 </head>
@@ -195,6 +185,19 @@ text-decoration: underline !important;
 							<div id="addLine" class="pull-left m-l"></div>
 						</div>
 					</div>
+
+				<div class="form_content" style="margin-left:94px;">
+					<label class="sign_left_two control-label">
+						是否关注
+					</label>
+					<div class="sign_right teamcode">
+						<select name="" class="form-control" id="isSubscribeFilter">
+							<option value="" selected="selected">请选择</option>
+							<option value="0">已关注</option>
+							<option value="1">未关注</option>
+						</select>
+					</div>
+				</div>
 			</div>
 			<div class="row clearfix">
 			       <div class="form_content">
@@ -214,16 +217,13 @@ text-decoration: underline !important;
 						<div class="more_btn">
 							<button id="more" type="button" class="btn  btn-default btn_more"> 更多搜索条件<i class="fa fa-caret-up"></i> </button>
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
+							
 							<!-- <button  onclick="showExcelIn()" class="btn btn-success" >案件导出</button>  -->
 							 <!-- <div id="exportExcel"> -->
                             	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
 								<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>
 								</shiro:hasPermission>
-								
-							<!-- </div>  -->
-							
-							
+								<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
 						</div>
 					</div>
 				</div>
@@ -241,7 +241,7 @@ text-decoration: underline !important;
 								<th >上家</th>
 								<th >下家</th>
 								<th >经办人</th>
-								<th class="text-center light_icon"> <i class="iconfont icon_light">  &#xe604; </i>  </th>
+								<th class="text-center light_icon"> <i class="icon iconfont clock_icon">  &#xe60b; </i>  </th>
 							</tr>
 						</thead>
 						<tbody id="myCaseList">
@@ -326,6 +326,9 @@ text-decoration: underline !important;
 <input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 <input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 <input type="hidden" id="serviceDepId" value="${serviceDepId}" />
+<input type="hidden" id="userId" value="${userId}" />
+
+
 <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 <content tag="local_script"> 
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
@@ -336,10 +339,10 @@ text-decoration: underline !important;
 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
 <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-<script src="${ctx}/js/trunk/case/mycase_list2.js?v=1.1"></script> 
+<script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
+<script src="${ctx}/js/trunk/case/mycase_list2.js?v=1.1"></script>
 
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
-
 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 
 <!-- 分页控件  -->
@@ -347,7 +350,7 @@ text-decoration: underline !important;
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src="${ctx}/js/plugins/jquery.custom.js"></script>
-<script src="${ctx}/js/workflow/myCaseList.js"></script>
+<%--<script src="${ctx}/js/workflow/myCaseList.js"></script>2016.1021 注释人:caoy 原因:与mycase_list2.js方法冲突--%>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
@@ -363,8 +366,19 @@ text-decoration: underline !important;
 						<td >
  							<p class="big">
 								<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>
+								{{if item.SUBSCRIBE_COUNT == 0}}
+									<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
+										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe644;</i>
+									</span>
+								{{else}}
+									<span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="{{item.CASE_CODE}}" isSubscribe="false">
+										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe63e;</i>
+									</span>
+								{{/if}}
+
+
 							</p>
- 							<p >
+ 							<p>
 								<i class="tag_sign">c</i>{{item.ctmCode}}
 							</p>
 						</td>
@@ -468,20 +482,14 @@ text-decoration: underline !important;
 				  </tr>
        {{/each}}
 </script> 
-<script>
-	$(function() {
-		
-		$("#productType").hide();
-		$("#more").click(function() {
-			$("#productType").toggle();
-		});
-		
-		
-	})
-</script> 
-<script type="text/javascript">
-
-</script>
+<!-- <script>
+$(function() {		
+	$("#productType").hide();
+	$("#more").click(function() {
+		$("#productType").toggle();
+	});			
+})
+</script>  -->
 </content>
 </body>
 </html>

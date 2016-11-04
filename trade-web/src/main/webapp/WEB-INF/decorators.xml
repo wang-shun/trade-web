@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/WEB-INF/jsp/common">
 	<excludes>
-<!-- 		<pattern>/mobile/*</pattern> -->
 		<pattern>/static/*</pattern>
 		<pattern>/cxf/*</pattern>
 		<pattern>/api/*</pattern>
@@ -11,7 +10,7 @@
 		<pattern>/media/*</pattern>
 		<pattern>/login.jsp</pattern>
 		<pattern>/index.jsp</pattern>
-		<pattern>/mobile/case/box/*</pattern>
+		<pattern>/weixin/case/*</pattern>
 		<pattern>/mobile/dashboard/box/*</pattern>
 		<pattern>/weixin/signroom/*</pattern>
 		<pattern>/weixinAuth/*</pattern>
@@ -56,19 +55,10 @@
 		<pattern>/spv/task/cashflowIntApply/spvRecordedApp</pattern>	
 		<pattern>/spv/task/cashflowIntApply/spvRecorded</pattern>
 		<pattern>/spv/task/cashflowIntApply/process</pattern>
-		<!--<pattern>/case/caseDistribute2</pattern>
-		<pattern>/task/unlocatedTask2</pattern>
-		<pattern>/case/unlocatedCase2</pattern> -->
-		
-		<!-- <pattern>/case/myCaseList2</pattern>
-		<pattern>/case/caseDistribute2</pattern>
-		<pattern>/case/unlocatedCase2</pattern> 
-		<pattern>/task/toTaskOfGroupList2</pattern>
-		<pattern>/case/taskTracking2</pattern> 
-		<pattern>/case/tracking2</pattern> 
-		<pattern>/unlocatedTasks</pattern> 
-		<pattern>/unlocatedTasks/a</pattern>  -->
-		
+		<pattern>/material/materialList</pattern>
+		<pattern>/material/materialStorgae</pattern>
+		<pattern>/material/materialDetail</pattern>
+		<pattern>/material/materialStay</pattern>
 	    <pattern>/case/myCaseList</pattern>
 		<pattern>/case/caseDistribute</pattern>
 		<pattern>/case/unlocatedCase</pattern> 
@@ -82,12 +72,15 @@
 		<pattern>/eloan/task/newEloanApply/process</pattern>
 		<pattern>/signroom/signRoomAllotList</pattern>
 		<pattern>/signroom/signingManage</pattern>
+		<pattern>/report/dealChangeCaseList</pattern>
+		<pattern>/eloan/EloanRelCashList</pattern>
+		<pattern>/signroom/signscheduling</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
 	</decorator>
 	<decorator name="mobile"  page="m_INSPINIA_template.jsp" webapp="../mobile/common">
-		<pattern>/*/mobile/*</pattern>
+		<pattern>/weixin/case/*</pattern>
 	</decorator>
 	<decorator name="wechat"  page="w_INSPINIA_template.jsp">
 		<pattern>/mobile/property/box/*</pattern>

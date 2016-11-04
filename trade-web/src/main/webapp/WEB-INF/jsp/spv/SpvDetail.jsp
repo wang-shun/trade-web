@@ -70,9 +70,9 @@
 									<dt>监管金额</dt>
 									<dd>${spvBaseInfoVO.toSpv.amount>0?spvBaseInfoVO.toSpv.amount:0}万元</dd>
 									<dt>已转入金额</dt>
-									<dd>0万元</dd>
+									<dd>${totalCashFlowInAmount }万元</dd>
 									<dt>已转出金额</dt>
-									<dd>0万元</dd>
+									<dd>${totalCashFlowOutAmount }万元</dd>
 								</dl>
 							</div>
 							<div class="col-lg-3">
@@ -210,7 +210,8 @@
 										监管资金 </a></li>
 								<li class=""><a href="#tab-5" data-toggle="tab">资金放款方案</a>
 								</li>
-								
+								<li class=""><a href="#tab-7" data-toggle="tab">出入帐记录</a>
+								</li>
 								<li class=""><a href="#tab-6" data-toggle="tab">审批记录</a>
 								</li>
 							</ul>
@@ -476,22 +477,29 @@
 									    display="onlyLabel"  dictType="SPV_DE_COND"  
 									    ligerui='none' dictCode="${item.deCondCode }"></aist:dict>	
 											</td>
-											<td>
-											
+											<td> 
 											<c:choose>  
 										    <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[0].pkid}">
-										              买方
+										              ${spvBaseInfoVO.toSpvAccountList[0].name} (买方)
 										   </c:when>  
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[1].pkid}">
-										              卖方
+										             ${spvBaseInfoVO.toSpvAccountList[1].name} (卖方)
 										   </c:when> 
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[2].pkid}">
-										            监管账户      
+										            ${spvBaseInfoVO.toSpvAccountList[2].name} (监管账户 )  
 										   </c:when> 
 										   <c:when test="${item.payeeAccountId==spvBaseInfoVO.toSpvAccountList[3].pkid}">
-										           资金方       
+										            ${spvBaseInfoVO.toSpvAccountList[3].name} (资金方)       
 										   </c:when>  
+										    <c:otherwise> 
+										     <c:forEach items="${spvBaseInfoVO.toSpvAccountList}" begin='4' var="toSpvAccount">  
+										    <c:if test="${item.payeeAccountId==toSpvAccount.pkid}">
+										           ${toSpvAccount.name }(自定义)
+										   </c:if>
+										    </c:forEach>
+									       </c:otherwise> 
 										</c:choose>	
+										
 											</td>
 											<td>${item.deAmount>0?item.deAmount:0}万元</td>
 											<td>${item.deAddition}</td>
@@ -500,6 +508,97 @@
 										
 									</tbody>
 								</table>
+							</div>
+							<div class="tab-pane" id="tab-7">
+							<div class="mt20">
+                            <div class="table-capital">
+                             <form>
+                                <div class="table_content">
+                                    <table class="table table-bordered customerinfo">
+                                        <thead>
+                                        <tr>
+                                            <th>凭证编号</th>
+                                            <th>金额</th>
+                                            <th>账户信息</th>
+                                            <th>审批时间</th>
+                                            <th>审核人</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody> 
+                                        <c:forEach items="${cashFlowList}" var="cashFlow" varStatus="status2">
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    <a href="javascript:void(0);">
+                                                        ${cashFlow.voucherNo }
+                                                    </a>
+                                                </p>
+                                                <p>
+                                                    ${cashFlow.direction }
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                <c:if test="${cashFlow.usage eq 'in'}">
+                                                    <span class="sign_normal navy_bg">
+                                                    入账
+                                                    </span>
+                                                </c:if>
+                                                <c:if test="${cashFlow.usage eq 'out'}">
+                                                    <span class="sign_normal pink_bg">
+                                                   出账
+                                                    </span>
+                                                </c:if>    
+                                                </p>
+                                                <p class="big">
+                                                    ${cashFlow.amount }万
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p><span>付：</span>${cashFlow.payer }&nbsp;&nbsp;${cashFlow.payerAcc }/${cashFlow.payerBank }</p>
+                                                <p><span>收：</span>${cashFlow.receiver }&nbsp;&nbsp;${cashFlow.receiverAcc }/${cashFlow.receiverBank }</p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">录入</i>
+                                                    <a href="javascript:void(0)">${cashFlow.createByName }&nbsp;</a><fmt:formatDate value="${cashFlow.createTime }" pattern="yyyy-MM-dd"/>
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">结束</i>             
+                                                    <a href="javascript:void(0)">${cashFlow.ftPostAuditorName }&nbsp;</a><fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <%-- <p>
+                                                   ${spvBaseInfoVO.toSpvProperty.prAddr }
+                                                </p> --%>
+                                                <p class="smll_sign">
+                                                 	   审核人：<a href="javascript:void(0)">
+                                                    ${ empty cashFlow.applyAuditorName?'':cashFlow.applyAuditorName }
+                                                    <c:if test="${cashFlow.usage eq 'out' }">
+                                                    <c:if test="${cashFlow.ftPreAuditorName.length()>0 }">
+                                                    &gt;
+                                                    </c:if>
+                                                    ${ empty cashFlow.ftPreAuditorName?'':cashFlow.ftPreAuditorName }
+                                                    </c:if>
+                                                    <c:if test="${cashFlow.ftPostAuditorName.length()>0 }">
+                                                    &gt;
+                                                    ${ empty cashFlow.ftPostAuditorName?'':cashFlow.ftPostAuditorName }
+                                                    </c:if>
+                                                    </a>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        </c:forEach>
+                                        <c:if test="${empty cashFlowList }">
+                                        <tr><td colspan="5">没有相关信息</td></tr>
+                                        </c:if>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
 							</div>
 							<div class="tab-pane" id="tab-6">
 							<div class="info_box info_box_one col-md-8 ">

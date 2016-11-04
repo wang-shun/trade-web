@@ -44,6 +44,8 @@ public class TsKpiSrvCase {
     private Date updateTime;
 
     private String updateBy;
+    
+    private Boolean checkFlag;
 
     public Long getPkid() {
         return pkid;
@@ -211,5 +213,13 @@ public class TsKpiSrvCase {
 
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
+	}
+
+	public Boolean getCheckFlag() {
+		return checkFlag;
+	}
+
+	public void setCheckFlag(Boolean checkFlag) {
+		this.checkFlag = checkFlag;
 	}
 }

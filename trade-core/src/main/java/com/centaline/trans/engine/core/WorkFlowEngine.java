@@ -146,7 +146,7 @@ public class WorkFlowEngine {
 
 			throw new WorkFlowException("RESTfulWorkFlow:处理失败:statusCode["
 					+ restStatus.getStatusCode() + "]restMsge["
-					+ restStatus.getReturnMsg() + "]");
+					+ restStatus.getReturnMsg() + "]",restStatus.getStatusCode());
 		}
 	}
 

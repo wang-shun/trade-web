@@ -83,15 +83,15 @@
 								<option value="30004002">纯公积金贷款</option>
 								<option value="30004003">资金监管/安心宝</option>
 								<option value="30004004">代收代付</option>
-								<option value="30004005">税费卡</option>
-								<option value="30004006">全款贷</option>
-								<option value="30004007">赎楼贷</option>
-								<option value="30004008">消费贷</option>
-								<option value="30004009">首付贷</option>
+								<option value="30004005">E+产品1号-sfk</option>
+								<option value="30004006">E+产品2号-qkd</option>
+								<option value="30004007">E+产品3号-sld</option>
+								<option value="30004008">E+产品4号-xfd</option>
+								<!-- <option value="30004009">首付贷</option> -->
 								<option value="30004010">交易过户</option>
-								<option value="30004011">换房贷</option>
-								<option value="30004012">抵押贷</option>
-								<option value="30004013">委托贷</option>
+								<option value="30004011">E+产品5号-hfd</option>
+								<option value="30004012">E+产品6号-dyd</option>
+								<option value="30004013">E+产品7号-wtd</option>
 							</select>
 						</div>
 					</div>

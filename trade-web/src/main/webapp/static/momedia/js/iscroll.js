@@ -12,7 +12,7 @@ var items_per_page = 7;
 			// Here you should place your AJAX request to fetch the relevant content (e.g. $.post(...))
 			$.ajax({
 	               type: 'POST',
-	               url: ctx+'/mobile/case/box/findPage',
+	               url: ctx+'/weixin/case/findPage',
 	               data: postData,
 	               success: function(data){
 	            	   var html=template('castListTpl', data); 

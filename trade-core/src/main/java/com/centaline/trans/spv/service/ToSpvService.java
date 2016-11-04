@@ -1,6 +1,7 @@
 package com.centaline.trans.spv.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,6 @@ import com.centaline.trans.spv.entity.ToSpvProperty;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
-import com.centaline.trans.spv.vo.SpvRecordReturnVO;
 import com.centaline.trans.spv.vo.SpvRecordedInfoVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVO;
 import com.centaline.trans.spv.vo.SpvReturnCashflowVO;
@@ -212,9 +212,8 @@ public interface ToSpvService {
 
 	SpvBaseInfoVO findSpvBaseInfoVOByInstCode(String instCode);
 	
-	void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid,String caseCode);
+	void findSpvBaseInfoVOAndSetAttr(HttpServletRequest request,Long pkid);
 
-	void setAttribute(ServletRequest request, String caseCode);
 	/**
 	 * 更新监管合约状态
 	 * @param record
@@ -226,7 +225,7 @@ public interface ToSpvService {
 
 	void saveSpvChargeInfoVO(SpvChargeInfoVO spvChargeInfoVO) throws Exception;
 	
-	void setAttributeSpvCashFlowApple(ServletRequest request, String caseCode);
+	void setAttributeSpvCashFlowApply(ServletRequest request, String caseCode);
 	
 	void findSpvBaseInfoVOAndSetAttrinCaseFlowApple(HttpServletRequest request, Long pkid, String caseCode);
 	
@@ -234,9 +233,11 @@ public interface ToSpvService {
     
     void saveSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String type,String spvApplyCode)throws Exception;
     
-    void sumbitSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String type) throws Exception;
-    
     SpvReturnCashflowVO saveSpvChargeInfoVOFormHtml(SpvRecordedsVO spvRecordedsVO,String type) throws Exception;
 
     SpvChargeInfoVO findSpvChargeInfoVOByCashFlowApplyCodeByIn(String cashFlowApplyCode);
+
+    Map queryInfoByCaseCode(String caseCode);
+
+	Map<String, Object> queryCaseInfoMapByCaseCode(String caseCode);
 }

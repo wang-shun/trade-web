@@ -15,19 +15,17 @@
 <body>
 	<input type="hidden" id="ctx" value="${ctx }"/>
 	<input type="hidden" id="agentCode" value="${agentCode }"/>
-    <header class="aui-bar aui-bar-nav">
+	
+	<header class="aui-bar aui-bar-nav">
         <div class="aui-title">我的预约</div>
-        <a class="aui-pull-right aui-btn " href="${ctx }/weixin/signroom/list">
+        <a class="aui-pull-right aui-btn " href="#" id="goToBespeakUI">
 	        <span class="aui-iconfont aui-icon-plus"></span>
 	    </a>
     </header>
+	
     <article class="aui-content" id="myReservationList">
             
     </article>
-
-
-
-
 </body>
 
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-2.1.1.js"></script>
@@ -50,28 +48,38 @@
 </html>
 <script id="template_myReservationList" type="text/html">
 	{{if rows.length > 0}}
-		<ul class="aui-list aui-media-list white">
-      	{{each rows as item index}}
-  			<li class="aui-list-header header_grey_bg">
-                <i class="iconfont blue mr5">&#xe605;</i>{{item.actStartDate}}-{{item.actEndDate}}&nbsp;<span class="color80">{{item.resDate}}</span>
+		<ul class="aui-list aui-media-list">
+			<li class="aui-list-header">
+                <div class="aui-info pd0">
+                    <div class="aui-info-item">
+                       	<span class="aui-margin-l-5 book">您还剩余<span class="num">${remainBespeakNumber}</span>次预约机会</span>
+                    </div>
+                </div>
             </li>
-            <li class="aui-list-item">
+      	{{each rows as item index}}
+			
+						<input type="hidden" value="{{item.currentDate}}" />
+<input type="hidden" value="{{item.resDate}}" />
+            <li class="aui-list-item" style="margin-bottom:8px">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-inner">
-                        <div class="aui-list-item-title font15 order-title left mr10">{{item.tradeCenterName}}<span class="newgrey">({{item.numberOfPeople}}人间)</span></div>
+                        <div class="aui-list-item-title font15 order-title left mr10">{{item.tradeCenterName}}<span class="newgrey font12">(参与人数:{{item.numberOfParticipants}}人)</span></div>
                         <div class="aui-list-item-title font15 order-title left" >
-                            预约号：<em class="yellow">{{item.resNo}}</em>
+                            	预约号：<em class="yellow">{{item.resNo}}</em>
                         </div>
                         <div class="aui-list-item-text font12 newgrey clear">
-                            房屋地址：{{item.propertyAddr}}
+                            	房屋地址：{{item.propertyAddr}}
                         </div>
                         <div class="aui-list-item-text font12 newgrey">
-                            备注：{{item.specialReq}}
+                            	备注：{{item.specialReq}}
+                        </div>
+						<div class=" font14 newgrey">
+                            <i class="iconfont blue mr5 font14">&#xe605;</i>{{item.resDate}} {{item.actStartDate}}-{{item.actEndDate}}
                         </div>
                     </div>
                     <div class="aui-list-item-media listspace"></div>
 						{{if item.resStatus == '0'}}
-							<div class="aui-btn aui-center text-blue cancel" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
+							<div class="aui-btn aui-center" style="z-index:1" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}',this)">取消预约</div>
 						{{/if}}
 
 						{{if item.resStatus == '1'}}
@@ -89,6 +97,7 @@
 						{{if item.resStatus == '4'}}
 							<div class="aui-btn aui-center trans_bg red">已取消</div>
 						{{/if}}
+
 
 					{{if item.currentDate == item.resDate}}
 						<span class="shuxing"></span>

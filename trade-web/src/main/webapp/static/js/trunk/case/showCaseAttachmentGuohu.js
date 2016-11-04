@@ -57,7 +57,7 @@ function getShowAttachment() {
 				}
 			});
 			$("#imgShow").append(trStr);
-			$('#imgShow').viewer();
+			$('.wrapper-content').viewer();
 		},
 		error : function(errors) {
 		}

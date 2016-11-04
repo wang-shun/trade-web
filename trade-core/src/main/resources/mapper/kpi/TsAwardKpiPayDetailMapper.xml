@@ -218,6 +218,10 @@
         {CALL [sctrans].[P_AWARD_KPI_RATE_STATIC](#{belongMonth,jdbcType=TIMESTAMP},#{createBy},#{createTime,jdbcType=TIMESTAMP})}
   </select>
   
+  <select id="getPersonBonusTotal" resultType="java.lang.Double">
+  	select sum(a.AWARD_KPI_MONEY) from sctrans.T_TS_AWARD_KPI_PAY_DETAIL a where DATEDIFF(mm,a.BELONG_MONTH,#{belongMonth,jdbcType=TIMESTAMP})=0
+  		and a.PARTICIPANT=@{SESSION_USER_ID}
+  </select>
   <parameterMap type="java.util.Map" id="getUserMap">
      <parameter property="belongMonth" mode="IN" jdbcType="TIMESTAMP"/>
      <parameter property="createBy" mode="IN" jdbcType="VARCHAR"/>

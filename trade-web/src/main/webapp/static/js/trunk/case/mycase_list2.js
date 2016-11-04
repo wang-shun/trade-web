@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	
 					$("#productType").hide();
 					$("#more").click(function() {
 						$("#productType").toggle();
@@ -20,6 +19,7 @@ $(document).ready(function() {
 		    	    data.rows = 10;
 		    	    data.page = 1;
 		    	    data.argu_isNotResearchCloseCase = "true";
+					data.argu_sessionUserId = $("#userId").val();
 		    	    aist.wrap(data);
 		    		reloadGrid(data);
 
@@ -28,7 +28,6 @@ $(document).ready(function() {
 						var id = $(this).attr("id");
 						$("span[id='"+id+"']").changeSelect();
 					});
-				
 				});
 
 // select控件
@@ -153,7 +152,7 @@ function searchMethod(page) {
 		// jqGrid reload
 		/*$("#table_list_1").setGridParam({
 			"postData" : params,
-			"page":1 
+			"page":1
 		}).trigger('reloadGrid');*/
 		reloadGrid(params);
 	} else {
@@ -230,6 +229,10 @@ function reloadGrid(data) {
     			offsetX: 8,
     			offsetY: 5,
     		});
+			$("#myCaseList").subscribeToggle({
+				moduleType:"1001",
+				subscribeType:"2001"
+			});
     		
         },
         error: function (e, jqxhr, settings, exception) {
@@ -275,6 +278,10 @@ function mycase_initpage(totalCount,pageSize,currentPage,records)
 
 
 function getParamsValue() {
+	var isSubscribeFilter = $('#isSubscribeFilter option:selected').val();
+	if(isSubscribeFilter==null || isSubscribeFilter=='') {
+		isSubscribeFilter = -1;
+	}
 	// 贷款需求选择
 	var mortageType = $('#mortageService option:selected').val();
 	if(mortageType==null || mortageType=='') {
@@ -331,6 +338,8 @@ function getParamsValue() {
 
 	//设置查询参数
 	var params = {
+		argu_sessionUserId : $("#userId").val(),
+		argu_isSubscribeFilter : isSubscribeFilter,
 		argu_mortageType : mortageType,
 		search_caseCode : caseCode,
 		search_ctmCode : ctmCode,

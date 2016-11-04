@@ -61,7 +61,7 @@
                     <div class="ibox-content ibox-space">
                         <form method="get" class="form_list">
                             <input type="hidden" id="riskControlId" name="riskControlId" value="${toRcForceRegister.rcId }">
-                            <div class="modal_title">
+                            <div class="modal_title title-mark">
                                 强制公正信息登记
                             </div>
                             <div class="line">
@@ -95,38 +95,6 @@
                                 <i class="iconfont icon_rong">&#xe60a;
                                 </i>
                             </button>
-                           <%--  <table class="table table_blue ">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                公证书
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <ul class="filelist">
-                                                    <li id="WU_FILE_0">
-                                                        <p class="imgWrap">
-                                                            <img src="${ctx}/static/trans/img/uplody01.png">
-                                                        </p>
-                                                        <div class="file-panel" >
-                                                            <span class="file-name">公证书1</span>
-                                                            <span class="cancel pull-right">删除</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <p class="imgWrap fileposition">
-                                                            <img src="${ctx}/static/trans/img/uplody02.png">
-                                                            <input type="file" name="file" class="webupload_file" multiple="multiple" accept="image/*">
-                                                        </p>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table> --%>
                                 
            <div class="ibox-title" style="height: auto;">
 			<c:choose>
@@ -329,7 +297,7 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
-	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
 	
     <script>
 	    if ("${idList}" != "") {

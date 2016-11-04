@@ -73,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void submitTask(String taskId) {
-		 submitTask(taskId);
+		 submitTask(taskId,null);
 	}
 
 	@Override

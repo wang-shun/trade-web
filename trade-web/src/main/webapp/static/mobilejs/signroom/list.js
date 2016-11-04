@@ -199,7 +199,7 @@ function getBespeakTime(){
 				for(var i=0;i<data.length;i++){
 					var resTime = data[i];
 					var resStartTime = selDate + " " + resTime.substring(0,resTime.indexOf("-"));
-					var resStartDateTime = new Date(resStartTime);
+					var resStartDateTime = new Date(Date.parse(resStartTime.replace(/-/g,   "/"))); 
 					
 					if(currentDateTime <= resStartDateTime){
 						strHtml += "<option value='"+ data[i] + "'>" + data[i] + "</option>";
@@ -212,9 +212,14 @@ function getBespeakTime(){
 	$("#selBespeakTime").html(strHtml);
 }
 
+
 function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 	var strHtml = "";
 	var isHasBespeakTime = false;
+	
+	if(defaultTradeCenterId == 0){
+		defaultTradeCenterId = 1;
+	}
 	
 	$.ajax({
 		cache:false,
@@ -230,7 +235,7 @@ function getSignRoomList(defaultTradeCenterId,selDate,selBespeakTime){
 					for(var i=0;i<data.length;i++){
 						var resTime = data[i];
 						var resStartTime = selDate + " " + resTime.substring(0,resTime.indexOf("-"));
-						var resStartDateTime = new Date(resStartTime);
+						var resStartDateTime = new Date(Date.parse(resStartTime.replace(/-/g,   "/"))); 
 						
 						if(currentDateTime <= resStartDateTime){
 							isHasBespeakTime = true;
@@ -292,8 +297,8 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 				
 				//用来比较日期相差天数
 				var currentDate = getCurrentDate();
-				var selDateTime = new Date(selDate);
-				var currentTime = new Date(currentDate);
+				var selDateTime = new Date(Date.parse(selDate.replace(/-/g,   "/")));
+				var currentTime = new Date(Date.parse(currentDate.replace(/-/g,   "/")));
 				
 				var days = daysBetween(currentTime,selDateTime);
 				
@@ -331,8 +336,8 @@ function getSignRoomInfo(defaultTradeCenterId,startTime,endTime,selDate,selBespe
 						var strStartDateTime = selDate + " " + selBespeakTime.substring(0,selBespeakTime.indexOf("-"));
 						var strEndDateTime = selDate + " " + selBespeakTime.substring(selBespeakTime.indexOf("-") + 1,selBespeakTime.length);
 						
-						startDateTime = new Date(strStartDateTime);
-						endDateTime = new Date(strEndDateTime);
+						startDateTime = new Date(Date.parse(strStartDateTime.replace(/-/g,   "/")));
+						endDateTime = new Date(Date.parse(strEndDateTime.replace(/-/g,   "/")));
 					}
 					
 					if(currentDateTime > endDateTime){

@@ -50,7 +50,7 @@
                                         <input name="curDate" id="curDate" class="input_type data_style datatime" type="text" value="${curDate }" placeholder="">
                                     </div>
                                     <div class="seldata">
-                                        <span id="today" class="today date-time">今</span>
+                                        <span id="today" class="todaycolor date-time">今</span>
                                         <span id="tommrow" class="tommrow date-time">明</span>
                                     </div>
                                 </div>
@@ -156,8 +156,8 @@
                                     </div>
                                 </div>
                                 
-                                <div class="trade">
-                                    <div class="form_content">
+                                <div class="trade" id="tradeAddr">
+                                    <div class="form_content" >
             							<label class="control-label sign_left_small">
                                           	  交易地址
                                         </label>
@@ -191,7 +191,7 @@
                                         <button type="button" class="btn btn-success" id="saveBtn">
                                            	 分配
                                         </button>
-                                        <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                        <button type="button" class="btn btn-grey" data-dismiss="modal" id="closeBtn">
                                             	关闭
                                         </button>
                                     </div>
