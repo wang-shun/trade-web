@@ -4,10 +4,9 @@ $(function(){
 	
 	reloadGrid();
 	
+	//进入预约取号界面点击事件
 	$("#goToBespeakUI").click(function(){
-		var remainResNum = getRemainResNum();
-		
-		console.log(remainResNum);
+		var remainResNum = getRemainResNum();  //判断是否有可用预约次数
 		
 		if(remainResNum == 0){
 			alert("您这两周的预约次数已用完！");

@@ -20,7 +20,7 @@
     <link href="${ctx}/static/css/mobile-yc-style4.css" rel="stylesheet">
     <link href="${ctx}/static/iconfontmobile/iconfont.css" rel="stylesheet">
 </head>
-<body>
+<body style="background:#F4F4F4;">
     <div id="wrapper">
         <div  class="white-bg">
             <header class="aui-bar aui-bar-nav">

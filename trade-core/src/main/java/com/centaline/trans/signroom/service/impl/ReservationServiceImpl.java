@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,9 +41,6 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	private ResFlowupMapper resFlowupMapper;
-
-	private Logger logger = LoggerFactory
-			.getLogger(ReservationServiceImpl.class);
 
 	@Override
 	public FreeRoomInfo saveReservation(Reservation reservation,
@@ -125,34 +120,12 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public FreeRoomInfo getFreeRoomByCondition(ReservationVo reservationVo) {
-		// Long tradeCenterId = reservationVo.getTradeCenterId();
-		// String selDate = reservationVo.getSelDate(); // 预约日期
-		// String bespeakTime = reservationVo.getBespeakTime(); // 预约时间段
-		// int numberOfParticipants = reservationVo.getNumberOfParticipants();
-		// // 参与人数
-
-		// FreeRoomVo freeRoomVo = new FreeRoomVo();
-		// freeRoomVo.setTradeCenterId(tradeCenterId);
-		// freeRoomVo
-		// .setNumberOfParticipants(reservationVo.getActNumberOfPeople());
-
-		// String formatStartDate = "";
-		// String formatEndDate = "";
-		// if (bespeakTime != null && !"".equals(bespeakTime)) {
-		// formatStartDate = selDate + " " + bespeakTime.substring(0,
-		// bespeakTime.indexOf("-"));
-		// formatEndDate = selDate + " " +
-		// bespeakTime.substring(bespeakTime.indexOf("-") +
-		// 1,bespeakTime.length());
-		// }
-
-		// freeRoomVo.setStartDate(reservationVo.getStartDate());
-		// freeRoomVo.setEndDate(reservationVo.getEndDate());
-
 		FreeRoomInfo freeRoomInfo = null;
+		// 如果是正常预约的情况
 		if ("normal".equals(reservationVo.getFlag())) {
 			freeRoomInfo = reservationMapper
 					.getMatchFreeRoomByCondition(reservationVo);
+			// 如果是接受小一点的房间情况
 		} else if ("accept".equals(reservationVo.getFlag())) {
 			freeRoomInfo = reservationMapper
 					.getMinFreeRoomByCondition(reservationVo);
