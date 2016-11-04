@@ -55,7 +55,7 @@
 	<div class="row wrapper white-bg new-heading">
           <div class="pl10">
               <h2 class="newtitle-big">
-                     	流失审批（主管）
+                     	流失审批（高级主管）
               </h2>
               <div class="mt20">
                  <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
@@ -136,11 +136,11 @@
 	                            <label class="control-label sign_left_small">审批结果</label>
 	                            <div class="controls ">
 	                               <label class="radio inline">
-	                               		<input type="radio" checked="checked" value="true" id="optionsRadios1" name="LoanLost_manager">审批通过 
+	                               		<input type="radio" checked="checked" value="true" id="optionsRadios1" name="LoanLost_SeniorManager">审批通过 
 	                               		<!-- <input type="radio" value="1" name="mortgage" checked="">审批通过 -->
 	                               </label> 
 	                               <label class="radio inline">
-	                               		<input type="radio" value="false" id="optionsRadios2" name="LoanLost_manager">审批不通过
+	                               		<input type="radio" value="false" id="optionsRadios2" name="LoanLost_SeniorManager">审批不通过
 	                               		<!-- <input type="radio" value="0" name="mortgage">审批不通过 -->
 	                               </label>
 	                            </div>
@@ -149,7 +149,7 @@
 	                    <div class="line">
 	                        <div class="form_content">
 	                            <label class="control-label sign_left_small">审批意见</label>
-	                            <input type="text" class="input_type optionwid" id="LoanLost_manager_response" name="LoanLost_manager_response" value="">
+	                            <input type="text" class="input_type optionwid" id="LoanLost_SeniorManager_response" name="LoanLost_SeniorManager_response" value="">
 	                        </div>
 	                    </div>
 	                </div>
@@ -198,11 +198,11 @@
 		
 			function loanLostManagerAppendNotApprove(isAppend, content) {
 				if (isAppend) {
-					var oldVal = $("#LoanLost_manager_response").val();
+					var oldVal = $("#LoanLost_SeniorManager_response").val();
 					if (oldVal != '') {
 						oldVal += '；';
 					}
-					$("#LoanLost_manager_response").val(oldVal + content);
+					$("#LoanLost_SeniorManager_response").val(oldVal + content);
 				}
 			}
 			
@@ -214,8 +214,8 @@
 			//保存数据
 			function save() {
 				var jsonData = $("#lamform").serializeArray();
-				//var url = "${ctx}/task/loanlostApprove/loanlostApproveFirst";
-				var url = "${ctx}/task/loanlostApprove/loanlostApproveFirstNew"; // 启用新流程				
+				var url = "${ctx}/task/loanlostApprove/loanlostApproveBySeniorManager";
+
 				$.ajax({
 					cache : true,
 					async : false,//false同步，true异步
@@ -247,8 +247,6 @@
 						}
 					},
 					success : function(data) {
-						alert(2222222222);
-						console.log("Result=============="+JSON.stringify(data));
 						window.close();
 						if (window.opener) {
 							window.opener.callback();
@@ -257,7 +255,7 @@
 					error : function(errors) {
 						alert("数据保存出错");
 					}
-				});				
+				});
 			}
 
 			//验证控件checkUI();

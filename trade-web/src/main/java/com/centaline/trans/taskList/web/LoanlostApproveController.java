@@ -109,10 +109,7 @@ public class LoanlostApproveController {
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_manager, String LoanLost_manager_response,String loanLostManagerNotApprove) {
 	   	/*保存审核记录*/
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_manager, LoanLost_manager_response,loanLostManagerNotApprove);
-		System.out.println("111111111111111111111111111111111111111111111111111111");		
-		System.out.println("222222222222222222222222222222222222222222222222222222");
-		System.out.println("3333333333333333333333333333333333333333333333333333333");
-	
+
 		/*发送提醒*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
@@ -174,11 +171,13 @@ public class LoanlostApproveController {
 			restVariableSeniorManagerType.setValue(true);
 			variables.add(restVariableSeniorManager);
 			variables.add(restVariableSeniorManagerType);
+		}else{
+			RestVariable restVariable = new RestVariable();
+			restVariable.setName("LoanLost_manager");
+			restVariable.setValue(false);//LoanLost_manager.equals("true")	
+			variables.add(restVariable);
 		}
-		RestVariable restVariable = new RestVariable();
-		restVariable.setName("LoanLost_manager");
-		restVariable.setValue(LoanLost_manager.equals("true"));	
-		variables.add(restVariable);
+
 
 		//非空判断
 		if(!StringUtils.isBlank(LoanLost_manager_response)) {
@@ -227,9 +226,9 @@ public class LoanlostApproveController {
 	@RequestMapping(value="loanlostApprove/loanlostApproveDirector")
 	@ResponseBody
 	public Boolean loanlostApproveDirector(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
-			LoanlostApproveVO loanlostApproveVO, String LoanLost_director, String LoanLost_director_response,String loanLostDirectorNotApprove) {
+			LoanlostApproveVO loanlostApproveVO, String LoanLost_Director, String LoanLost_director_response,String loanLostDirectorNotApprove) {
 		/*保存审核记录*/
-		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_director, LoanLost_director_response,loanLostDirectorNotApprove);
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_Director, LoanLost_director_response,loanLostDirectorNotApprove);
 		/*发送提醒*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
@@ -242,7 +241,7 @@ public class LoanlostApproveController {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 	
 		
-		if(!LoanLost_director.equals("true")){
+		if(!LoanLost_Director.equals("true")){
 			//查询高级主管
 			User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
 			RestVariable restVariableDirector = new RestVariable();
@@ -250,21 +249,21 @@ public class LoanlostApproveController {
 			if(null != seniorManager && !StringUtil.isBlank(seniorManager.getId()) ){
 				restVariableDirector.setName("SeniorManager");
 				restVariableDirector.setValue(seniorManager.getUsername());
-				restVariableDirectorType.setName("LoanLost_director");
+				restVariableDirectorType.setName("LoanLost_Director");
 			}else{
 				restVariableDirector.setName("SeniorManager");
 				restVariableDirector.setValue(null);
-				restVariableDirectorType.setName("LoanLost_director");				
+				restVariableDirectorType.setName("LoanLost_Director");				
 			}
 			restVariableDirectorType.setValue(false);
 			variables.add(restVariableDirector);
 			variables.add(restVariableDirectorType);
-		}
-		RestVariable restVariable = new RestVariable();
-		restVariable.setName("LoanLost_director");
-		restVariable.setValue(LoanLost_director.equals("true"));	
-		variables.add(restVariable);
-		
+		}else{
+			RestVariable restVariable = new RestVariable();
+			restVariable.setName("LoanLost_Director");
+			restVariable.setValue(true);	//LoanLost_director.equals("true")
+			variables.add(restVariable);
+		}	
 		
 		if(!StringUtil.isBlank(LoanLost_director_response)) {
 			RestVariable restVariable1 = new RestVariable();
@@ -275,7 +274,7 @@ public class LoanlostApproveController {
 
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
 		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
-				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());//
 	}
 	
 	

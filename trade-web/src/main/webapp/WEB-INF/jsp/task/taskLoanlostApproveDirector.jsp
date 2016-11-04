@@ -116,9 +116,9 @@
 						<div class="col-sm-3">
 							<div class="radio i-checks radio-inline">
 								<label> <input type="radio" checked="checked"
-									value="true" id="optionsRadios1" name="LoanLost_director">审批通过
+									value="true" id="optionsRadios1" name="LoanLost_Director">审批通过
 								</label> <label> <input type="radio" value="false"
-									id="optionsRadios2" name="LoanLost_director">审批不通过
+									id="optionsRadios2" name="LoanLost_Director">审批不通过
 								</label>
 							</div>
 						</div>
@@ -219,8 +219,7 @@
 
 			/**保存数据*/
 			function save() {
-				var jsonData = $("#lamform").serializeArray();
-				alert(111111111111);
+				var jsonData = $("#lamform").serializeArray();				
 				//var url = "${ctx}/task/loanlostApprove/loanlostApproveSecond";
 				var url = "${ctx}/task/loanlostApprove/loanlostApproveDirector";				
 				
