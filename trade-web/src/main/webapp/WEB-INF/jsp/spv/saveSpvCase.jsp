@@ -63,7 +63,6 @@
 	var ctx = "${ctx}";
 	var taskitem = "SpvApplyApprove";
 	var source = "${source}";
-	var appName = "<aist:appCtx appName='shcl-filesvr-web'/>";
 	if ("${idList}" != "") {
 		var idList = eval("(" + "${idList}" + ")");
 	} else {
@@ -1019,12 +1018,12 @@
         </td>
         <td class="center">
             <p class="big">
-           		<span id="modal_seller{{index}}">{{item.SELLER.substring(0,item.SELLER.indexOf("/") == -1?item.SELLER.length:item.SELLER.lastIndexOf("/"))}}</span>
+           		<span id="modal_seller{{index}}" title="{{item.SELLER}}">{{item.SELLER.substring(0,item.SELLER.length >10?10:item.SELLER.length).concat(item.SELLER.length >10?'...':'')}}</span>
             </p>
         </td>
         <td class="center">
             <p class="big">
-          	   <span id="modal_buyer{{index}}">{{item.BUYER.substring(0,item.BUYER.indexOf("/") == -1?item.BUYER.length:item.BUYER.lastIndexOf("/"))}}</span>
+          	   <span id="modal_buyer{{index}}" title="{{item.BUYER}}">{{item.BUYER.substring(0,item.BUYER.length >10?10:item.BUYER.length).concat(item.BUYER.length >10?'...':'')}}</span>
             </p>
         </td>
         <td class="text-left">
@@ -1212,15 +1211,15 @@
 				    		$("input[name='toSpv.caseCode']").val(caseInfoMap['caseCode']);
 
 				    		if($("input[name='spvCustList[0].name']").val() == '')
-				    			$("input[name='spvCustList[0].name']").val(caseInfoMap['buyerName']);
+				    			$("input[name='spvCustList[0].name']").val(caseInfoMap['buyerName'].substr(0,caseInfoMap['buyerName'].indexOf("/") == -1?caseInfoMap['buyerName'].length:caseInfoMap['buyerName'].indexOf("/")));
 				    		if($("input[name='spvCustList[0].phone']").val() == '')
 				    			$("input[name='spvCustList[0].phone']").val(caseInfoMap['buyerMobil']);
 				    		if($("input[name='spvCustList[1].name']").val() == '')
-				    			$("input[name='spvCustList[1].name']").val(caseInfoMap['sellerName']);
+				    			$("input[name='spvCustList[1].name']").val(caseInfoMap['sellerName'].substr(0,caseInfoMap['sellerName'].indexOf("/") == -1?caseInfoMap['sellerName'].length:caseInfoMap['sellerName'].indexOf("/")));
 				    		if($("input[name='spvCustList[1].phone']").val() == '')
 				    			$("input[name='spvCustList[1].phone']").val(caseInfoMap['sellerMobil']);	    		
 				    		if($("input[name='toSpvProperty.prOwnerName']").val() == '')
-				    			$("input[name='toSpvProperty.prOwnerName']").val(caseInfoMap['sellerName']);
+				    			$("input[name='toSpvProperty.prOwnerName']").val(caseInfoMap['sellerName'].substr(0,caseInfoMap['sellerName'].indexOf("/") == -1?caseInfoMap['sellerName'].length:caseInfoMap['sellerName'].indexOf("/")));
 				    		if($("input[name='toSpvProperty.prSize']").val() == '')
 				    			$("input[name='toSpvProperty.prSize']").val(caseInfoMap['propertySquare']);
 				    		if($("input[name='toSpvProperty.prAddr']").val() == '')
