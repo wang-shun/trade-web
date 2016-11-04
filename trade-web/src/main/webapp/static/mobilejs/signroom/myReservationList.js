@@ -101,7 +101,9 @@ function cancelReservation(resId){
 		data:{resId:resId},
 		success:function(data){
 			if(data == "true"){
-				window.location.href = ctx + "/weixin/signroom/myReservationList";
+				setTimeout(function(){ 
+					window.location.href = ctx + "/weixin/signroom/myReservationList";
+			    }, 1000);
 			}
 		}
 	});
