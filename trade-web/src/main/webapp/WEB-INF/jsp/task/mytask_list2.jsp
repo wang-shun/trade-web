@@ -284,7 +284,7 @@ text-decoration: underline !important;
       						 </p>
 						{{/if}}
 				 </td>
-			{{/if}}
+			{{/if}}c
 				
 					<td class="t-left">
 						<p class="big">
