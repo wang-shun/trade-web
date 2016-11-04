@@ -112,13 +112,13 @@
                                     <label>
                                        	产品类型
                                     </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }</span>
+                                    <span class="info" title="${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }">${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'' }</span>
                                 </p>
                                 <p>
                                     <label>
                                       	  监管金额
                                     </label>
-                                    <span class="info_one">${spvBaseInfoVO.toSpv.amount }万</span>
+                                    <span class="info" title="${spvBaseInfoVO.toSpv.amount }">${spvBaseInfoVO.toSpv.amount }万</span>
                                 </p>
 
                                 <p>
@@ -402,12 +402,16 @@
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.pkid"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.pkid }" />
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.spvCode }" />
 	                                                <td>
-	                                                    <select  class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiver" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" onChange="doSearch(this)" ></select>
+	                                                    <select  class="table-select boderbbt"  
+	                                                    <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit'}">
+	                                                    title="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }"
+	                                                    </c:if> 
+	                                                     name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiver" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" onChange="doSearch(this)" ></select>
 	                                                </td>
 	                                                <td>
-	                                                    <p><select class="table-select boderbbt" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverAcc }" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiverAcc" ></select></p>
+	                                                    <p><select class="table-select boderbbt" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverAcc }" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiverAcc" readonly ></select></p>
 	                                                    <p>
-	                                                    <p><select class="table-select boderbbt" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverBank }" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiverBank"></select></p>
+	                                                    <p><select class="table-select boderbbt" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiverBank }" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiverBank" readonly></select></p>
 	                                                    <p>
 	                                                </td>
 	
@@ -534,11 +538,7 @@
                                 <button id="financeSecondAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
                                 <button id="financeSecondAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
-                            </c:if>
-                            <c:if test="${handle eq 'cashFlowOut' }">
-                                <button id="cashFlowOut_submit_btn" class="btn btn-success mr15">提交</button>
-                                <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
-                            </c:if>    
+                            </c:if>   
                             </div>
                         </div>
                 </div>
@@ -602,12 +602,6 @@ $(function() {
 	});
 	
 	$("#addTr2").find("select").change(function(){
-		if($(this).find("option:selected").val() == ''){
-			$("select[name$='toSpvCashFlow.receiver']").val('');
-			$("select[name$='toSpvCashFlow.receiverAcc']").val('');
-			$("select[name$='toSpvCashFlow.receiverBank']").val('');
-			return;
-		}
 		 deId=$(this).find("option:selected").val();
 		 addselect(deId,obj);		
 	}).change(); 
@@ -638,6 +632,7 @@ $(function() {
 
 });
 function doSearch(this_){
+	//$(this_).attr("title",$(this_).find("option:selected").val());
 	var index = $(this_).find("option:selected").attr("gl");
 	var i = $(this_).attr("name").replace('spvCaseFlowOutInfoVOList[','').replace('].toSpvCashFlow.receiver','');
 
@@ -649,21 +644,16 @@ function addselect(deId,obj,index){
 	$("select[name$='toSpvCashFlow.receiver']").empty(); 
 	$("select[name$='toSpvCashFlow.receiverAcc']").empty(); 
 	$("select[name$='toSpvCashFlow.receiverBank']").empty(); 
-	
+
 	$.each(obj,function(n,data) { 
 		if(deId==data.type){
-			if(index == n){
-				 $("select[name$='toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"' selected>"+data.name+"</option>");
-			     $("select[name$='toSpvCashFlow.receiverAcc']").append("<option gl='"+n+"' value='"+data.account+"' selected>"+data.account+"</option>");
-			     $("select[name$='toSpvCashFlow.receiverBank']").append("<option gl='"+n+"' value='"+data.bankName+"' selected>"+data.bankName+"</option>");
-			}
-			else {
-				 $("select[name$='toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
-			     $("select[name$='toSpvCashFlow.receiverAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
-			     $("select[name$='toSpvCashFlow.receiverBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
-			}
+			 $("select[name$='toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
+		     $("select[name$='toSpvCashFlow.receiverAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
+		     $("select[name$='toSpvCashFlow.receiverBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
 		}
-  	});  
+  	});
+
+	//$("select[name$='toSpvCashFlow.receiver']").attr("title",$("select[name$='toSpvCashFlow.receiver']").val());
 }
 
 function addselectOne(deId,obj,index){	
@@ -673,7 +663,9 @@ function addselectOne(deId,obj,index){
 			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiverAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
 			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiverBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
 		}
-  	});  
+  	}); 
+	
+	//$("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiver']").attr("title",$("select[name$='toSpvCashFlow.receiver']").val());
 }
 
 //添加入账申请信息tr

@@ -70,7 +70,7 @@
                         <div class="dropdown profile-element">
 	                    	<span>
 							    <img src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${SESSION_USER.employeeCode}.jpg" 
-							    onerror="this.src='${ctx}/img/a5.png'" style="width: 48px;height: 48px; display: block;border-radius: 50%;"/>
+							    onerror="this.src='${ctx}/img/a5.png'" style="object-fit:cover; width: 48px;height: 48px; display: block;border-radius: 50%;"/>
                          	</span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">${SESSION_USER.realName}</strong>
