@@ -7,6 +7,13 @@ $(function () {
         } else {
             $(this).addClass("selected");
         }
+        if($(this).prop("id")=='OpenRegularMeeting'){
+        	$(this).siblings().removeClass("selected");
+        	$("#propertyAddress").prop("disabled","disabled");
+        }else{
+        	$("#OpenRegularMeeting").removeClass("selected");
+        	$("#propertyAddress").removeAttr("disabled");
+        }
 
     });
     
