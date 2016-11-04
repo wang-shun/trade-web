@@ -82,7 +82,7 @@ function checkFormSubmit(){
 	var amountEle;
 	var sumAmount = 0;
 	$("input[name$='toSpvCashFlow.amount']").each(function(i,e){
-		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '') && !isNumber($(e).val())){
     		 amountFlag = false;
     		 amountEle = $(e);
 			 return false;
@@ -373,6 +373,7 @@ function isName(name){
 }
 //金额验证(两位小数)
 function isNumber(num){
+	if(Number(num) == 0) return false;
 	var reg=/^([1-9]{1}\d*|0)(\.\d{1,2})?$/;
 	if(!reg.test(num)){
 		return false;

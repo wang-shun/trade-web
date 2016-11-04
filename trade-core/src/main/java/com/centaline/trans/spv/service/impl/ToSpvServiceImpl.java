@@ -1025,9 +1025,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 				if(toSpvCashFlow.getPkid() == null){
 					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
 					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
-					toSpvCashFlow.setReceiver(toSpvCashFlow.getPayer());
-					toSpvCashFlow.setReceiverAcc(toSpvCashFlow.getPayerAcc());
-					toSpvCashFlow.setReceiverBank(toSpvCashFlow.getPayerBank());
 					toSpvCashFlow.setPayer("上海中原物业顾问有限公司");
 					toSpvCashFlow.setPayerAcc("76310188000148842");
 					toSpvCashFlow.setPayerBank("光大银行市北支行");
