@@ -36,10 +36,10 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanLost_Director == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow82" sourceRef="exclusivegateway3" targetRef="LoanlostApproveSeniorManager">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager  != null && LoanLost_Director == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager  != null && LoanLost_Director == false}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow81" sourceRef="exclusivegateway3" targetRef="LoanlostApproveManager">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager == null && LoanLost_Director == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager == null && LoanLost_Director == false}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_LoanLost_Process">
