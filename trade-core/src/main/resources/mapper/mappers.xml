@@ -218,5 +218,7 @@
 		
 		<!-- 回访登记 -->
 		<mapper resource="mapper/cases/ReturnVisitRegistrationMapper.xml" />
+		<!-- 签约室排班 -->
+		<mapper resource="mapper/signroom/TradeCenterScheduleMapper.xml" />
 	</mappers>
 </configuration>

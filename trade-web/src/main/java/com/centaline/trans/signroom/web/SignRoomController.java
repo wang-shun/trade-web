@@ -24,6 +24,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
 import com.centaline.trans.signroom.vo.DateWeekVo;
@@ -263,6 +264,27 @@ public class SignRoomController {
 			e.printStackTrace();
 			response.setCode("500");
 			response.setMessage("查询失败！");
+			response.setSuccess(false);
+		}
+		return response;
+	}
+	
+	/**
+	 * 临时分配签约室
+	 * @return
+	 */
+	@RequestMapping("/addTradeCenterSchedule")
+	@ResponseBody
+	public AjaxResponse<T> addTradeCenterSchedule(Model model,TradeCenterSchedule tradeCenterSchedule){
+		AjaxResponse<T> response = new AjaxResponse<T>();
+		try{
+			rmSignRoomService.addTradeCenterSchedule(tradeCenterSchedule);
+			response.setCode("400");
+			response.setMessage("分配值班经理成功！");
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setCode("500");
+			response.setMessage("分配值班经理失败！");
 			response.setSuccess(false);
 		}
 		return response;

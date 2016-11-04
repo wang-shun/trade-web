@@ -437,20 +437,34 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		return false;
 	}
 	
-	public static void main(String args[]) throws ParseException{
-		/*List<DateWeekVo> dates = getMonthSchedules("2016-10-02");
-		
-		for(DateWeekVo vo:dates){
-			System.out.println(vo.getDate()+"+======="+vo.getWeek()+"---------"+vo.getDay()+"++++++"+vo.isLight());
-		}*/
-		
-	}
-
 	@Override
 	public List<List<DateWeekVo>> showSchedulingData(Map map) throws ParseException {
 		int centerId= (int) map.get("centerId");
 		String date = (String) map.get("date");
 		List<DateWeekVo> dwvs = getMonthSchedules(date);
+		String dutyDateStart=null;
+		String dutyDateEnd = null;
+		Map params = new HashMap();
+		if(dwvs!=null && dwvs.size()>0){
+			dutyDateStart = dwvs.get(0).getDate();
+			dutyDateEnd = dwvs.get(dwvs.size()-1).getDate();
+		}
+		params.put("dutyDateStart", dutyDateStart);
+		params.put("dutyDateEnd", dutyDateEnd);
+		List<TradeCenterSchedule> tcss = tradeCenterScheduleMapper.queryTradeCenterSchedules(params);//日历范围内的所有值班数据
+		if(dwvs!=null && dwvs.size()>0 && tcss!=null && tcss.size()>0){//给每个日期分配值班人员
+			List<TradeCenterSchedule> tcs = null;
+			for(DateWeekVo dv:dwvs){
+				tcs = new ArrayList<TradeCenterSchedule>();
+				for(int i=0;i<tcss.size();i++){
+					if(dv.getDate().equals(tcss.get(i).getDutyDate())){
+						tcs.add(tcss.get(i));
+					}
+				}
+				dv.setTcs(tcs);
+			}
+		}
+		tcss = null;
 		List<List<DateWeekVo>> lists = new ArrayList<List<DateWeekVo>>();
 		List<DateWeekVo> dw = new ArrayList<DateWeekVo>();
 		for(int i=0;i<dwvs.size();i++){
@@ -464,6 +478,12 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		return lists;
 	}
 	
+	/**
+	 * 排班页面日历数据
+	 * @param date
+	 * @return
+	 * @throws ParseException
+	 */
 	public List<DateWeekVo> getMonthSchedules(String date) throws ParseException{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("dd");
