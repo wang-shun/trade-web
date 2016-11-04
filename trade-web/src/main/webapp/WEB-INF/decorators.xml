@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/WEB-INF/jsp/common">
 	<excludes>
-<!-- 		<pattern>/mobile/*</pattern> -->
 		<pattern>/static/*</pattern>
 		<pattern>/cxf/*</pattern>
 		<pattern>/api/*</pattern>
@@ -60,7 +59,6 @@
 		<pattern>/material/materialStorgae</pattern>
 		<pattern>/material/materialDetail</pattern>
 		<pattern>/material/materialStay</pattern>
-
 	    <pattern>/case/myCaseList</pattern>
 		<pattern>/case/caseDistribute</pattern>
 		<pattern>/case/unlocatedCase</pattern> 
