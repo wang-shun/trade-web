@@ -97,8 +97,6 @@ public class SpvCashFlowInController {
 
 		toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApple(request,pkid,caseCode);
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
-	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/spvRecorded";
