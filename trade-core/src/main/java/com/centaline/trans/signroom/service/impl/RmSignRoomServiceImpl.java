@@ -451,6 +451,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		}
 		params.put("dutyDateStart", dutyDateStart);
 		params.put("dutyDateEnd", dutyDateEnd);
+		params.put("centerId", centerId);
 		List<TradeCenterSchedule> tcss = tradeCenterScheduleMapper.queryTradeCenterSchedules(params);//日历范围内的所有值班数据
 		if(dwvs!=null && dwvs.size()>0 && tcss!=null && tcss.size()>0){//给每个日期分配值班人员
 			List<TradeCenterSchedule> tcs = null;
@@ -556,8 +557,13 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	}
 
 	@Override
-	public int addTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule) {
-		return tradeCenterScheduleMapper.addTradeCenterSchedule(tradeCenterSchedule);
+	public int addOrUpdateTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule) {
+		if(tradeCenterSchedule.isChanged()){//更新值班表
+			return tradeCenterScheduleMapper.updateTradeCenterSchedule(tradeCenterSchedule);
+		}else{//新增值班信息
+			return tradeCenterScheduleMapper.addTradeCenterSchedule(tradeCenterSchedule);
+		}
+		
 	}
 
 	@Override
