@@ -347,7 +347,7 @@
 	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	<!-- bank select -->
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-<%-- 	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script>  --%>
+	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
