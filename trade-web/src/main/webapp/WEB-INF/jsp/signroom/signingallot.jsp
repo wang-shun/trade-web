@@ -156,8 +156,8 @@
                                     </div>
                                 </div>
                                 
-                                <div class="trade">
-                                    <div class="form_content">
+                                <div class="trade" id="tradeAddr">
+                                    <div class="form_content" >
             							<label class="control-label sign_left_small">
                                           	  交易地址
                                         </label>

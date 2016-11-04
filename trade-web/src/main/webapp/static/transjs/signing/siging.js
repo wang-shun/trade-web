@@ -12,9 +12,11 @@ $(function () {
         	$(this).siblings().removeClass("selected");
         	$("#propertyAddress").prop("disabled","disabled");
         	$("#propertyAddress").val("");
+        	$("#tradeAddr").hide();
         }else{
         	$("#OpenRegularMeeting").removeClass("selected");
         	$("#propertyAddress").removeAttr("disabled");
+        	$("#tradeAddr").show();
         }
 
     });
