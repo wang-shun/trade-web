@@ -257,9 +257,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
 					spvCashFlow.setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
-					spvCashFlow.setReceiver(spvCashFlow.getPayer());
-					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
-					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
 					spvCashFlow.setPayer("上海中原物业顾问有限公司");
 					spvCashFlow.setPayerAcc("76310188000148842");
 					spvCashFlow.setPayerBank("光大银行市北支行");
@@ -359,9 +356,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 					
 					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
 					spvCaseFlowOutInfoVO.getToSpvCashFlow().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
-					spvCashFlow.setReceiver(spvCashFlow.getPayer());
-					spvCashFlow.setReceiverAcc(spvCashFlow.getPayerAcc());
-					spvCashFlow.setReceiverBank(spvCashFlow.getPayerBank());
 					spvCashFlow.setPayer("上海中原物业顾问有限公司");
 					spvCashFlow.setPayerAcc("76310188000148842");
 					spvCashFlow.setPayerBank("光大银行市北支行");

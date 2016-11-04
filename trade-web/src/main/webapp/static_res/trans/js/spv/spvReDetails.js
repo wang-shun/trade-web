@@ -482,7 +482,7 @@ function isBankName(name){
 }
 //金额验证(两位小数)
 function isNumber(num){
-	var reg=/^([1-9]{1}\d*|0)(\.\d{1,2})?$/;
+	var reg=/^([1-9]{1}\d*)(\.\d{1,2})?$/;
 	if(!reg.test(num)){
 		return false;
 	}

@@ -15,13 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.permission.remote.UamPermissionService;
-import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
-import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.service.MessageService;
-import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.product.service.ProductCategoryService;
@@ -43,8 +39,6 @@ public class SpvCashFlowInController {
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
-	private ToAccesoryListService toAccesoryListService;
-	@Autowired
 	MessageService messageService;
 	@Autowired
 	ProductCategoryService productCategoryService;
@@ -54,8 +48,6 @@ public class SpvCashFlowInController {
 	ToWorkFlowService flowService;
 	@Autowired
 	ProcessInstanceService processInstanceService;
-	@Autowired
-	private UamPermissionService uamPermissionService;
 	@Autowired
 	private CashFlowInService cashFlowInService;
 	/**
@@ -96,36 +88,9 @@ public class SpvCashFlowInController {
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
 
 		toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApple(request,pkid,caseCode);
-		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
-	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/spvRecorded";
-	}
-	/**
-	 * 入账驳回页面
-	 * @param pkid
-	 * @param caseCode
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("spvRecordedApp")
-	public String spvRecordedApp(Long pkid,String caseCode,HttpServletRequest request){
-		SessionUser currentUser = uamSessionService.getSessionUser();
-		String currentDeptId = currentUser.getServiceDepId();
-		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
-		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
-		
-		toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApple(request,pkid,caseCode);
-		
-		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
-		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
-		request.setAttribute("imgweb", app.genAbsoluteUrl());
-		
-		request.setAttribute("orgId", parentOrg.getId());
-		request.setAttribute("urlType", "spv");
-		return "spv/spvRecordedApp";
 	}
 
 	/**
@@ -136,24 +101,10 @@ public class SpvCashFlowInController {
 	@RequestMapping(value = "/sumbitDate")
 	@ResponseBody
 	public AjaxResponse<?>  sumbitDate(SpvRecordedsVO spvrevo,HttpServletRequest request){
-		
 		AjaxResponse<?> response = new AjaxResponse<>();
-		String taskId = "";
-		String handle = "";
-		String instCode = "";
-		String cashflowApplyCode = "";
-		
-		if(null != spvrevo){
-			if(null!= spvrevo.getTaskId())
-				taskId = spvrevo.getTaskId();
-			if(null!= spvrevo.getHandle())
-				handle = spvrevo.getHandle();
-			if(null!= spvrevo.getInstCode())
-				instCode = spvrevo.getInstCode();
-		}
 		try{
 			if(StringUtils.equals(spvrevo.getHandle(), "addCashFlow")){
-				cashFlowInService.cashFlowInPageDeal(request, handle, spvrevo, cashflowApplyCode);
+				cashFlowInService.cashFlowInPageDeal(request, "addCashFlow", spvrevo, "");
 			}
 			response.setSuccess(true);
 		} catch (Exception e) {

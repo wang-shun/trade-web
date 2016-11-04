@@ -404,14 +404,7 @@ $(function() {
 			}
 			
 			if(i >= 0 && i <= 6){
-				if(i == 0){
-					strHtml += "<td date='" + arrayDate[0] + "' onClick='dateClickToggle(this)' class='usable-date warn'>" + arrayDate[1] + "</td>";
-				}
-				else {
-					strHtml += "<td date='" + arrayDate[0] + "' onClick='dateClickToggle(this)' class='usable-date'>" + arrayDate[1] + "</td>";
-				}
-				
-				//strHtml += "<td date='" + arrayDate[0] + "' onClick='dateClickToggle(this)' class='usable-date'>" + arrayDate[1] + "</td>";
+				strHtml += "<td date='" + arrayDate[0] + "' onClick='dateClickToggle(this)' class='usable-date'>" + arrayDate[1] + "</td>";
 			}
 			else {
 				strHtml += "<td date='" + arrayDate[0] + "' onClick='dateClickToggle(this)'>" + arrayDate[1] + "</td>";
