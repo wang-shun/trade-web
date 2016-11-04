@@ -35,8 +35,9 @@ public class RcRiskControlServiceImpl implements RcRiskControlService {
 	}
 
 	@Override
-	public int deleteReferRiskControlByProperty(String riskType, Long pkId) {
+	public int deleteReferRiskControlByProperty(String riskType, Long pkId,String eloanCode) {
 		RcRiskControl rcRiskControl = new RcRiskControl();
+		rcRiskControl.setEloanCode(eloanCode);
 		rcRiskControl.setPkid(pkId);
 		rcRiskControl.setRiskType(riskType);
 		

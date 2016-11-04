@@ -57,10 +57,12 @@
 	<input type="hidden" id="serviceJobCode"
 		value="${sessionUser.serviceJobCode }">
 	<input type="hidden" id="orgId" value="${orgId }">
-
+	<input type="hidden" id="startDate" value="${startDate}">
 	<input type="hidden" id="orgId"
 		value="${sessionUser.serviceCompanyId }">
-
+	<div class="portlet-body" style="display: block;">
+		<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
+	</div>
 	<!--*********************** HTML_main*********************** -->
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
@@ -71,8 +73,9 @@
 						<label class="control-label sign_left_small"> 产品名称 </label>
 						<aist:dict id="loanSrvCode" name="loanSrvCode"
 							clazz="select_control sign_right_one" display="select"
-							dictType="yu_serv_cat_code_tree" tag="Eloan" ligerui='none'
-							defaultvalue="${eloanCase.loanSrvCode}"></aist:dict>
+							dictType="yu_serv_cat_code_tree" ligerui='none'>
+
+						</aist:dict>
 					</div>
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 状态 </label> <select
@@ -154,9 +157,9 @@
 							id="SearchButton">
 							<i class="icon iconfont"></i> 查询
 						</button>
-						<button type="button" id="mortgageInfoToExcel"
-							class="btn btn-success"
-							onclick="javascript:mortgageInfoToExcel()">导出列表</button>
+						
+						<button type="button" id="exportExcel"  onclick="javascript:exportToExcel()" class="btn btn-success">导出列表</button>
+						
 						<button type="button" class="btn  btn-icon btn-toggle"
 							id="TypeBtn">
 							<i class="iconfont icon">&#xe63d;</i> 机构放款金额分析
@@ -168,9 +171,10 @@
 						<input type="reset" class="btn btn-grey" id="CleanButton"
 							value="清空">
 					</div>
+					
 					<!--图表-->
 					<div class="row charone"
-						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4; display:none">
+						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4; display: none">
 						<div class="col-md-6">
 							<div id="TypeOne" style="width: 100%; height: 400px;"></div>
 						</div>
@@ -179,7 +183,7 @@
 						</div>
 					</div>
 					<div class="row chartwo"
-						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4;display:none">
+						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4; display: none">
 						<div class="col-md-12">
 							<div id="Cont" style="width: 100%; height: 300px;"></div>
 						</div>
@@ -193,6 +197,7 @@
 			</div>
 		</div>
 	</div>
+	<form action="#" method="post" id="toexcelForm"></form>
 	<!--*********************** HTML_main*********************** -->
 	<!-- main End -->
 
@@ -219,10 +224,11 @@
 			    <tr class="tr-1">
                                         <td>
                                             <p class="big">
-                                                <a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}">
-                                                    {{item.ELOAN_CODE}}
+                                                <a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.PKID}}">
+                                                    {{item.loanCode}}
                                                 </a>
-                                            </p>
+                                                </p>
+										
                                             <p>
                                                 {{item.PROPERTY_ADDR}}
                                             </p>
@@ -244,7 +250,9 @@
                                         </td>
                                         <td>
                                             <p class="smll_sign big">
-                                                                                                                                       金额 ：{{item.RELEASE_AMOUNT}}万
+                                                {{if item.type==1}}
+                                                                                                                                                    金额 ：{{item.releaseAmout}}万
+										        {{/if}}                                                                                                                                 
                                             </p>
                                             <p class="smll_sign">
                                                                                                                                        时间：{{item.RELEASE_TIME}}
@@ -254,10 +262,10 @@
 
                                         <td>
                                             <p class="smll_sign bigt">
-                                               {{item.EXCUTOR_ID}}
+                                               {{item.ecutorId}}
                                             </p>
                                             <p class="smll_sign big">
-                                               {{item.EXCUTOR_TEAM}}
+                                               {{item.ecutorTeam}}
                                             </p>
                                         </td>
                                         <td>
@@ -265,6 +273,7 @@
                                          {{if item.CONFIRM_STATUS==0}}待确认{{/if}}
 										 {{if item.CONFIRM_STATUS==1}}已确认{{/if}}
 									     {{if item.CONFIRM_STATUS==2}}已拒绝{{/if}}
+                                         {{if item.CONFIRM_STATUS==3}}已确认{{/if}}
                                            </p>
                                         </td>
                                     </tr>
@@ -284,7 +293,6 @@
 									reloadStatus2();
 								}
 							});
-
 							$("#TypeBtn2").click(function() {
 								
 								$(".chartwo").toggle();
@@ -306,7 +314,6 @@
 							});
 							getBankList('');
 						});
-
 						//初始化数据
 						var ctx = $("#ctx").val();
 						serviceJobCode = $("#serviceJobCode").val();
@@ -326,6 +333,7 @@
 							eloanCode : '',
 							loanSrvCode : "",
 							status : 1,
+							startDate:$("#startDate").val(),
 							startTime : "",
 							endTime : "",
 							teamCode : "",
@@ -395,39 +403,62 @@
 							}
 						}
 
+						
+						//gei params 得到值
+						function getParams(){
+							var jsonData = $("#eloanApplyForm")
+							.serializeArray();
+							var startMonth = new Date(params.startDate).getMonth()+1;
+					params.eloanCode = $(
+							"input[name='eloanCode']")
+							.val();
+					params.loanSrvCode = $(
+							"select[name='loanSrvCode']")
+							.val();
+					params.status = $(
+							"select[name='status']")
+							.val();
+					params.startTime = $(
+							"input[name='startTime']")
+							.val();
+					params.endTime = $(
+							"input[name='endTime']")
+							.val();
+					if(params.startTime==""&&params.startTime==""){
+						params.startDate=$("#startDate").val();
+					}else{
+						params.startDate=params.startTime;
+					}
+/* 					else if(params.endTime==""&&params.startTime!=""){
+						var date=new Date(params.startTime);
+						if(date.getMonth()-5>startMonth){
+							date=new Date(date.getFullYear(), date.getMonth() - 1, date.getDate());
+							params.startDate=$("#startDate").val();
+							params.startDate1=params.startTime
+							params.endDate=$("#startDate").val();	
+						}
+
+					}else if(params.endTime==""&&params.startTime!=""){
+						
+					} */
+					params.teamCode = $(
+							"input[name='excutorTeam']")
+							.val();
+					params.excutorId = $(
+							"input[name='excutor']")
+							.val();
+					params.address = $(
+							"input[name='address']")
+							.val();
+					params.finOrgCode = $(
+							"select[name='finOrgCode']")
+							.val();
+						}
 						//查询数据
 						$("#SearchButton")
 								.click(
 										function() {
-											var jsonData = $("#eloanApplyForm")
-													.serializeArray();
-											params.eloanCode = $(
-													"input[name='eloanCode']")
-													.val();
-											params.loanSrvCode = $(
-													"select[name='loanSrvCode']")
-													.val();
-											params.status = $(
-													"select[name='status']")
-													.val();
-											params.startTime = $(
-													"input[name='startTime']")
-													.val();
-											params.endTime = $(
-													"input[name='endTime']")
-													.val();
-											params.teamCode = $(
-													"input[name='excutorTeam']")
-													.val();
-											params.excutorId = $(
-													"input[name='excutor']")
-													.val();
-											params.address = $(
-													"input[name='address']")
-													.val();
-											params.finOrgCode = $(
-													"select[name='finOrgCode']")
-													.val();
+											getParams();
 											initData();
 											if (!$(".chartwo").is(":hidden")) {
 												reloadStatus();
@@ -438,8 +469,10 @@
 											
 											
 										})
+										
 						//加载页面
 						function initData() {
+							params.pagination = true;
 							$(".bonus-table")
 									.aistGrid(
 											{
@@ -470,12 +503,43 @@
 						jQuery(document).ready(function() {
 							initData();
 						});
-						//
+						//导出
+						function exportToExcel (){
+					    		var ctx = $("#ctx").val();
+					    		var url = "/rapidQuery/findPage?xlsx&";
+					    		var displayColomn = new Array;
+					    		displayColomn.push('loanCode');
+					    		displayColomn.push('LOAN_SRV_CODE');
+					    		displayColomn.push('releaseAmout');
+					    		displayColomn.push('RELEASE_TIME');
+					    		displayColomn.push('CONFIRM_STATUS');
+					    		displayColomn.push('PROPERTY_ADDR');
+					    		displayColomn.push('CUST_NAME');
+					    		
+					    		displayColomn.push('FIN_ORG_CODE');
+					    		displayColomn.push('ecutorId');
+					    		displayColomn.push('ecutorTeam');
+					    		getParams();
+					    		params.queryId='queryEloanCashList';
+					    		var queryId = 'queryId=queryEloanCashList';
+					    		var colomns = '&colomns=' + displayColomn;
+					    		url = ctx + url + jQuery.param(params) + queryId + colomns;
+
+					    		$('#toexcelForm').attr('action', url);
+					    		$('#toexcelForm').submit();
+							 
+					/* 		 params.queryId = "queryEloanCashList";
+							aist.exportExcel({
+								ctx : ctx,
+								url : "/rapidQuery/findPage",
+				    	    	colomns : ['loanCode','LOAN_SRV_CODE','releaseAmout','RELEASE_TIME','CONFIRM_STATUS','PROPERTY_ADDR','CUST_NAME','FIN_ORG_CODE','ecutorId','ecutorTeam'],
+				    	    	data : params
+				    	    })  */
+						};
 						function reloadStatus() {
 							params.queryId = "queryLoanSpv";
 							params.pagination = false;
-							params.startDate = new Date();
-							var startMonth = new Date().getMonth() + 1;
+							var startMonth = new Date(params.startDate).getMonth()+1;
 							$.ajax({
 								async : true,//异步请求
 								url : ctx + "/rapidQuery/findPage",
@@ -488,21 +552,48 @@
 									var dais = [];
 									var xAxis = [];
 									$.each(all, function(i, item) {
-										if (item.mm == 0) {
-											xAxis.push(startMonth + "月以前");
-										} else {
-											xAxis.push(item.mm + "月");
+										var ka;
+										var dai;
+										if(i>0){
+											if(all[i-1].mm==item.mm){
+												return;
+											}	
 										}
-										var ka={
-												num:item.ka,
-												value:item.kaAmount
-											};
-											var dai={
-												num:item.dai,
-												value:item.daiAmount
-											};
-										kas.push(ka);
-										dais.push(dai);
+											if(i<all.length-1){
+											if(all[i+1].mm==all[i].mm){
+												if (item.mm == 0) {
+													xAxis.push(startMonth + "月以前");
+												}else{
+											xAxis.push(item.mm + "月");}
+											 ka={
+													num:item.ka+all[i+1].ka,
+													value:item.kaAmount+all[i+1].kaAmount
+												};
+											 dai={
+													num:item.dai+all[i+1].dai,
+													value:item.daiAmount+all[i+1].daiAmount
+												};
+												kas.push(ka);
+												dais.push(dai);
+												return;
+											}}
+											if (item.mm == 0) {
+												xAxis.push(startMonth + "月以前");
+											}else{
+										     xAxis.push(item.mm + "月");
+										     }
+												ka={
+														num:item.ka,
+														value:item.kaAmount
+													};
+												 dai={
+														num:item.dai,
+														value:item.daiAmount
+													};
+													kas.push(ka);
+													dais.push(dai);
+										
+
 									});
 									StatusEchart1(kas,dais,
 											xAxis);
@@ -527,13 +618,36 @@
 									var amounts=[];
 									var finOrgNames=[];
 									$.each(all, function(i, item) {
-										var number={
+										var number;
+										var amount;
+										if(i>0){
+											if(all[i-1].finOrgName==item.finOrgName){
+												return;
+											}	
+										}
+										if(i<all.length-1){
+											if(all[i+1].finOrgName==all[i].finOrgName){
+												number={
+														name:item.finOrgName,
+														value:item.num+all[i+1].num
+													};
+												amount={
+														name:item.finOrgName,
+														value:item.amount+all[i+1].amount
+													};
+													finOrgNames.push(item.finOrgName);
+													numbers.push(number);
+													amounts.push(amount);
+													return;
+											}	
+										}
+										 number={
 											name:item.finOrgName,
 											value:item.num
 										};
-										var amount={
+										 amount={
 											name:item.finOrgName,
-											value:item.RELEASE_AMOUNT
+											value:item.amount
 										};
 										finOrgNames.push(item.finOrgName);
 										numbers.push(number);
@@ -547,6 +661,8 @@
 								}
 							});
 						}
+						
+
 					</script> </content>
 </body>
 </html>

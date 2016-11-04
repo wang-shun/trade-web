@@ -196,6 +196,8 @@
                                                                                                                                         审核人：
                                                 {{item.applyAuditorName}}
                                                 {{if item.USAGE=="in" && item.STATUS=="02" &&item.ftPostAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
+											    {{if item.USAGE=="out" && item.STATUS=="12" &&item.ftPreAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
+												{{if item.USAGE=="out" && item.STATUS=="13" &&item.ftPostAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
                                                 {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
 												{{item.ftPreAuditorName}}
 											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}

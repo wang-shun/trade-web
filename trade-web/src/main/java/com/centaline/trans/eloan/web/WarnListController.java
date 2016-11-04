@@ -126,7 +126,9 @@ public class WarnListController {
 		ToPropertyResearchVo pro = toPropertyInfoService.getPropertyDepInfoByuserDepIdEloan(user.getServiceDepId());
 		if(pro != null)
 			request.setAttribute("orgId", pro.getPrApplyDepId());
-
+		//本月目标达成报表，数据查询开始时间 在当前月份的基础上推前5个月开始查询
+				String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
+				request.setAttribute("startDate",startDate);
 		return "/eloan/task/taskEloanRelCashList";
 	}
 	//E+申请页面 ，填写信息保存

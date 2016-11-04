@@ -16,38 +16,41 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <!-- 上传相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+	rel="stylesheet">
 <!-- 展示相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <!-- 备件相关结束 -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+	rel="stylesheet">
 <!-- jdGrid相关 -->
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"rel="stylesheet" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"
+	rel="stylesheet" />
 <!-- aist列表样式 -->
 <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
 <!-- 备注信息 -->
-<link href="${ctx}/css/transcss/comment/caseComment_new.css" rel="stylesheet">
-<!-- 新调整页面样式 -->
-<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
-<link href="${ctx}/css/common/details.css" rel="stylesheet">
-<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
-<link href="${ctx}/css/common/btn.css" rel="stylesheet">
-<link href="${ctx}/css/common/input.css" rel="stylesheet">
-<link href="${ctx}/css/common/table.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css"
+	rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -61,390 +64,463 @@
 	}
 </script>
 <style type='text/css'>
-.divider {position: relative}
-.divider label {position: absolute;left: 0;top: -17px}
+.divider {
+	position: relative
+}
+
+.divider label {
+	position: absolute;
+	left: 0;
+	top: -17px
+}
 </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+
 	<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
-	
-	<div class="marginbot">
-		  <div class="row wrapper white-bg new-heading">
-	            <div class="pl10">
-	                <h2 class="newtitle-big">
-	                       	签约
-	                   </h2>
-	               <div class="mt20">
-	                   <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
-	                   	<i class="iconfont icon">&#xe640;</i> 在途单列表
-	                   </button>
-	                   <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
-	                       <i class="iconfont icon">&#xe642;</i>案件视图
-	                   </button>
-	               </div>
-	            </div>
-	       </div>
-	
-	       <div class="ibox-content border-bottom clearfix space_box noborder">
-	       <div class="">
-	            <h2 class="newtitle title-mark">完成提醒</h2>
-	            <div class="jqGrid_wrapper">
-	                <table id="reminder_list"></table>
+	<div>
+		<div class="row wrapper border-bottom white-bg page-heading">
+			<div class="col-md-10">
+				<h2>签约</h2>
+				<ol class="breadcrumb">
+					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
+					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
+				</ol>
+			</div>
+		</div>
+		<div class="ibox-title">
+			<h5>完成提醒</h5>
+			<a class="btn btn-primary pull-right" href="#" id="sendSMS">发送短信提醒</a>
+			<div class="ibox-content">
+				<div class="jqGrid_wrapper">
+					<table id="reminder_list"></table>
 					<div id="pager_list_1"></div>
-	                <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS">
-	                    <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
-	                </button>
-	            </div>
-	       </div>
-	
-		   <form method="post" class="form-horizontal" id="transSignForm">
-				<%--环节编码 --%>
-				<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-				<!-- 交易单编号 -->
-				<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-				<!-- 流程引擎需要字段 -->
-				<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-				<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-				<%-- 原有数据对应id --%>
-				<input type="hidden" id="propertyPkid" name="propertyPkid" value="${transSign.propertyPkid}"> 
-				<input type="hidden" id="initPayPkid" name="initPayPkid" value="${transSign.initPayPkid}"> 
-				<input type="hidden" id="secPayPkid" name="secPayPkid" value="${transSign.secPayPkid}">
-				<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${transSign.lastPayPkid}"> 
-				<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${transSign.compensatePayPkid}"> 
-				<input type="hidden" id="signPkid" name="signPkid" value="${transSign.signPkid}"> 
-				<input type="hidden" id="housePkid" name="housePkid" value="${houseTransfer.pkid}">
-				
-	        	<div>
-	            	<h4 class="title-mark">填写任务信息</h4>
-	            	<div class="form_list">
-	                	<div class="marinfo">
-	                    	<div class="line">
-	                        	<div class="form_content mt3">
-		                            <label class="control-label sign_left_small select_style mend_select">
-		                               	 <font color=" red" class="mr5" >*</font>实际签约时间
-		                            </label>
-		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-		                                <input type="text" class="input_type yuanwid datatime" id="realConTime" name="realConTime"
-													value="<fmt:formatDate value='${transSign.realConTime}' type='both' pattern='yyyy-MM-dd'/>"
-													onfocus="this.blur()">
-		                            </div>
-	                        	</div>
-	                        	
-	                        	<div class="form_content">
-	                           		<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>成交价 </label> 
-	                           		<input type="text" placeholder="成交价"
-														value="<fmt:formatNumber value='${ transSign.realPrice/10000}' type='number' pattern='#0.00' />"
-														class="input_type yuanwid" id="realPrice" name="realPrice"
-														onkeyup="checkNum(this)"> 
-							   		<span class="date_icon">万元</span>
-	                        	</div>
-	                        	
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>合同价 </label> 
-		                            
-		                            <input type="text" placeholder="合同价"
-															value="<fmt:formatNumber value='${ transSign.conPrice/10000}' type='number' pattern='#0.00' />"
-															class="input_type yuanwid" id="conPrice" name="conPrice"
-															onkeyup="checkNum(this)"> 
-		                            <span class="date_icon">万元</span>
-		                        </div>
-	                    	</div>
-	
-		                    <div class="line" id="divDiYaAndChaxiangou">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>抵押情况 </label>
-		                            <div class="controls ismortgage " style="width: 180px;margin-left: 0px;">
-		                              	  <select class="select_control data_style" readOnlydata='1' name="isLoanClose" id="diya">
-												<option value="">请选择</option>
-												<option value="true" ${transSign.isLoanClose=="1"?'selected':''}>有抵押</option>
-												<option value="false" ${transSign.isLoanClose=="0"?'selected':''}>无抵押</option>
-								 		  </select>
-		                            </div>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>查限购 </label>
-		                            <div class="controls isnowid" style="margin-left: 0px;">
-		                               <select class="select_control data_style" readOnlydata='1' name="isPerchaseReserachNeed" id="chaxiangou">
-												<option value="">请选择</option>
-												<option value="true" ${transSign.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
-												<option value="false" ${transSign.isPerchaseReserachNeed=="0"?'selected':''}>否</option>
-										</select>
-		                            </div>
-		                        </div>
-		                    </div>
-	                	</div>
-	            	</div>
-	        	</div>
-	        	
-	        	<div>
-	            	<h2 class="newtitle title-mark">付款信息</h2>
-	            	<div class="form_list">
-	                	<div class="marinfo">
-	                    	<div class="line">
-	                        	<div class="form_content">
-	                            	<label class="control-label sign_left_small"> 首付付款 </label>
-	                            	<input type="hidden" value="首付付款" id="initPayName" name="initPayName">
-	                            	<input type="text"
-												value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
-												class="input_type yuanwid" id="initAmount" name="initAmount"
-												onkeyup="checkNum(this)"> 
-	                            	<span class="date_icon">万元</span>
-	                        	</div>
-	                        	
-		                        <div class="form_content mt3">
-		                            <label class="control-label sign_left_small select_style mend_select">
-		                               	 时间
-		                            </label>
-		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-		                            	<input type="text"
-													value="<fmt:formatDate  value='${transSign.initPayTime }' type='both' pattern='yyyy-MM-dd' />"
-													class="input_type yuanwid datatime" id="initPayTime" name="initPayTime"
-													onfocus="this.blur()">
-		                            </div>
-		                        </div>
-		                        
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small">方式 </label>
-		                            	<aist:dict clazz="select_control data_style" id="initPayType"
-													name="initPayType" display="select"
-													defaultvalue="${transSign.initPayType}" dictType="30015" />
-		                        </div>
-	                    	</div>
-	                    	
-		                    <div class="line">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small">二期付款</label> 
-		                            <input type="hidden" value="二期付款" id="secPayName" name="secPayName">
-		                            <input type="text"
-													value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
-													class="input_type yuanwid" id="secAmount" name="secAmount"
-													onkeyup="checkNum(this)"> 
-		                            <span class="date_icon">万元</span>
-		                        </div>
-		                        <div class="form_content mt3">
-		                            <label class="control-label sign_left_small select_style mend_select">
-		                                	时间
-		                            </label>
-		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-		                            	<input type="text"
-													value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
-													class="input_type yuanwid datatime" id="secPayTime" name="secPayTime"
-													onfocus="this.blur()">
-		                            </div>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small">方式 </label>
-		                            <aist:dict clazz="select_control data_style" id="secPayType"
-													name="secPayType" display="select"
-													defaultvalue="${transSign.secPayType}" dictType="30015" />
-		                        </div>
-		                    </div>
-		                    
-		                    <div class="line">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small">尾款付款</label> 
-		                            <input type="hidden" value="尾款付款" id="lastPayName" name="lastPayName">
-		                            <input type="text"
-													value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
-													class="input_type yuanwid" id="lastAmount" name="lastAmount"
-													onkeyup="checkNum(this)"> 
-		                            <span class="date_icon">万元</span>
-		                        </div>
-		                        <div class="form_content mt3">
-		                            <label class="control-label sign_left_small select_style mend_select">
-		                                	时间
-		                            </label>
-		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-		                            	<input type="text"
-													value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
-													class="input_type yuanwid datatime" id="lastPayTime" name="lastPayTime"
-													onfocus="this.blur()">
-		                            </div>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"> 方式 </label>
-		                            <aist:dict clazz="select_control data_style" id="lastPayType"
-													name="lastPayType" display="select"
-													defaultvalue="${transSign.lastPayType}" dictType="30015" />
-		                        </div>
-		                    </div>
-		                    
-		                    <div class="line">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small">装修补偿款</label>
-		                            <input type="hidden" value="装修补偿款" id="compensatePayName" name="compensatePayName">
-		                            <input type="text"
-													value="<fmt:formatNumber value='${transSign.compensateAmount}' type='number' pattern='#0.00' />"
-													class="input_type yuanwid" id="compensateAmount"
-													name="compensateAmount" onkeyup="checkNum(this)"> 
-		                           <span class="date_icon">万元</span>
-		                        </div>
-		                        <div class="form_content mt3">
-		                            <label class="control-label sign_left_small select_style mend_select">
-		                               	 时间
-		                            </label>
-		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-		                            	<input type="text"
-													value="<fmt:formatDate  value='${transSign.compensatePayTime }' type='both' pattern='yyyy-MM-dd' />"
-													class="input_type yuanwid datatime" id="compensatePayTime"
-													name="compensatePayTime" onfocus="this.blur()">
-		                            </div>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"> 方式 </label>
-		                            	<aist:dict clazz="select_control data_style" id="compensatePayType"
-													name="compensatePayType" display="select"
-													defaultvalue="${transSign.compensatePayType}"
-													dictType="30015" />
-		                        </div>
-		                    </div>
-	                	</div>
-	            	</div>
-	        	</div>
-	
-		        <div>
-		            <h2 class="newtitle title-mark">上家信息</h2>
-		            <div class="form_list">
-		                <div class="marinfo" id="topHome">
-		                    <div id="guestUpDiv"></div>
-		                </div>
-		            </div> 
-		            
-		            <div class="clear add-member">
-						<a href="javascript:addDateDivUp();">添加上家</a>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="ibox-title">
+			<h5>填写任务信息</h5>
+			<div class="ibox-content">
+				<form method="post" class="form-horizontal" action=""
+					id="transSignForm">
+					<%--环节编码 --%>
+					<input type="hidden" id="partCode" name="partCode"
+						value="${taskitem}">
+					<!-- 交易单编号 -->
+					<input type="hidden" id="caseCode" name="caseCode"
+						value="${caseCode}">
+					<!-- 流程引擎需要字段 -->
+					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+					<input type="hidden" id="processInstanceId"
+						name="processInstanceId" value="${processInstanceId}">
+					<%-- 原有数据对应id --%>
+					<input type="hidden" id="propertyPkid" name="propertyPkid"
+						value="${transSign.propertyPkid}"> <input type="hidden"
+						id="initPayPkid" name="initPayPkid"
+						value="${transSign.initPayPkid}"> <input type="hidden"
+						id="secPayPkid" name="secPayPkid" value="${transSign.secPayPkid}">
+					<input type="hidden" id="lastPayPkid" name="lastPayPkid"
+						value="${transSign.lastPayPkid}"> <input type="hidden"
+						id="compensatePayPkid" name="compensatePayPkid"
+						value="${transSign.compensatePayPkid}"> <input
+						type="hidden" id="signPkid" name="signPkid"
+						value="${transSign.signPkid}"> <input type="hidden"
+						id="housePkid" name="housePkid" value="${houseTransfer.pkid}">
+
+
+					<div class="row">
+						<div class="col-xs-12 col-md-5">
+							<div class="form-group" name="isYouXiao">
+								<label class="col-md-4 control-label"><font color="red">*</font>抵押情况</label>
+								<div class="col-md-8">
+									<select class="form-control" readOnlydata='1'
+										name="isLoanClose" id="diya">
+										<option value="">请选择</option>
+										<option value="true"
+											${transSign.isLoanClose=="1"?'selected':''}>有抵押</option>
+										<option value="false"
+											${transSign.isLoanClose=="0"?'selected':''}>无抵押</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group" id="data_1" name="isYouXiao">
+								<label class="col-md-2 control-label"><font color="red">*</font>是否需要查限购</label>
+								<div class="col-md-4">
+									<select class="form-control" readOnlydata='1'
+										name="isPerchaseReserachNeed" id="chaxiangou">
+										<option value="">请选择</option>
+										<option value="true"
+											${transSign.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
+										<option value="false"
+											${transSign.isPerchaseReserachNeed=="0"?'selected':''}>否</option>
+									</select>
+								</div>
+							</div>
+						</div>
 					</div>
-		        </div>
-		        
-		        <div>
-		            <h2 class="newtitle title-mark">下家信息</h2>
-		            <div class="form_list">
-		                <div class="marinfo" id="downHome">
-		                	<div id="guestDownDiv"></div>
-		                </div>
-		            </div>
-		            <div class="clear add-member">
-		            	<a href="javascript:addDateDivDown();">添加下家</a>
-		            </div>
-		        </div>
-	
-		        <div>
-		            <h2 class="newtitle title-mark">产证信息</h2>
-		            <div class="form_list">
-		                <div class="marinfo">
-		                    <div class="line">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证面积 </label>
-		                            <input type="text" class="input_type data_style" id="square" name="square"
-										onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${transSign.square}' type='number' pattern='#0.00' />">
-		                           <span class="date_icon">平方米</span>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证地址 </label> 
-		                            <input type="text" class="input_type mendwidth" id="propertyAddr"
-										name="propertyAddr" value="${transSign.propertyAddr}">
-		                        </div>
-		
-		                    </div>
-		                    <div class="line">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>所在楼层 </label> 
-		                            <input type="text" class="input_type data_style" id="locateFloor"
-									name="locateFloor" onkeyup="checkNum2(this)"
-									value="${transSign.locateFloor}">
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>总层高</label> 
-		                            <input type="text" class="input_type data_style" id="totalFloor"
-									name="totalFloor" onkeyup="checkNum2(this)"
-									value="${transSign.totalFloor}">
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>竣工年份 </label>
-		                            <select class="select_control data_style" name="finishYear" id="finishYear"></select>
-		                        </div>
-		                    </div>
-		                    <div class="line">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋类型 </label>
-		                            <aist:dict clazz="select_control data_style" id="propertyType"
-									name="propertyType" display="select"
-									defaultvalue="${transSign.propertyType}" dictType="30014" />
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>合同公证 </label>
-		                            <aist:dict clazz="select_control data_style" id="isHukou" name="isHukou"
-									display="select" defaultvalue="${transSign.isConCert}"
-									dictType="gongzheng_need" />
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋有户口</label>
-		                            	<aist:dict clazz="select_control data_style" id="isConCert" name="isConCert"
-										display="select" defaultvalue="${transSign.isHukou}"
-										dictType="hukou_remain" />
-		                        </div>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-	
-		        <div>
-		            <h2 class="newtitle title-mark">预估税费</h2>
-		            <div class="form_list">
-		                <div class="marinfo">
-		                    <div class="line">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房产税 </label> 
-		                            <input type="text" class="input_type yuanwid" id="houseHodingTax"
-									name="houseHodingTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.houseHodingTax}' type='number' pattern='#0.00' />">
-		                            <span class="date_icon">万元</span>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>个人所得税 </label> 
-		                            <input type="text" class="input_type yuanwid" id="personalIncomeTax"
-									name="personalIncomeTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.personalIncomeTax}' type='number' pattern='#0.00' />">
-		                           <span class="date_icon">万元</span>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>上家营业税 </label>
-		                            <input type="text" class="input_type yuanwid" id="businessTax"
-									name="businessTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.businessTax}' type='number' pattern='#0.00' />"> 
-		                            <span class="date_icon">万元</span>
-		                        </div>
-		                    </div>
-		                    <div class="line">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>下家契税 </label>
-		                            <input type="text" class="input_type yuanwid" id="contractTax"
-									name="contractTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.contractTax}' type='number' pattern='#0.00' />">
-		                           <span class="date_icon">万元</span>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>土地增值税 </label>
-		                            <input type="text" class="input_type yuanwid" id="landIncrementTax"
-									name="landIncrementTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.landIncrementTax}' type='number' pattern='#0.00' />">
-		                           <span class="date_icon">万元</span>
-		                        </div>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-	        </form>
-	        
-			<div id="caseCommentList" class="view-content"></div>
-	
-            <div class="ibox-title" style="height: auto;border:0;padding-left:0;">
+
+					<div class="row">
+						<div class="col-xs-12 col-md-5">
+							<div class="form-group" id="data_1">
+								<label class="col-md-4 control-label"><font color="red">*</font>实际签约时间</label>
+								<div class="col-md-8">
+									<div class="input-group date readOnly_date">
+										<span class="input-group-addon"><i
+											class="fa fa-calendar"></i></span> <input type="text"
+											class="form-control" id="realConTime" name="realConTime"
+											value="<fmt:formatDate  value='${transSign.realConTime}' type='both' pattern='yyyy-MM-dd'/>"
+											onfocus="this.blur()">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-7">
+							<div class="form-group" name="isYouXiao">
+								<label class="col-md-2 control-label"><font color="red">*</font>价格</label>
+								<div class="col-md-10">
+									<div class="row">
+										<div class="col-md-5">
+											<div class="input-group">
+												<span class="input-group-addon">合同价</span> <input
+													type="text" placeholder="合同价"
+													value="<fmt:formatNumber value='${ transSign.conPrice/10000}' type='number' pattern='#0.00' />"
+													class="form-control" id="conPrice" name="conPrice"
+													onkeyup="checkNum(this)"> <span
+													class="input-group-addon">万元</span>
+											</div>
+										</div>
+										<div class="col-md-5">
+											<div class="input-group">
+												<span class="input-group-addon">成交价</span> <input
+													type="text" placeholder="成交价"
+													value="<fmt:formatNumber value='${ transSign.realPrice/10000}' type='number' pattern='#0.00' />"
+													class="form-control" id="realPrice" name="realPrice"
+													onkeyup="checkNum(this)"> <span
+													class="input-group-addon">万元</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="divider">
+						<hr>
+						<label class="btn btn-warning">付款信息</label>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">首付付款</label>
+						<div class="col-sm-10 input-group"
+							style="margin-left: 197px; margin-top: -2px;">
+
+							<div class="row">
+								<input type="hidden" value="首付付款" id="initPayName"
+									name="initPayName">
+								<div class="col-md-3">
+									<div class="input-group ">
+										<input type="text"
+											value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
+											class="form-control" id="initAmount" name="initAmount"
+											onkeyup="checkNum(this)"> <span
+											class="input-group-addon">万</span>
+									</div>
+								</div>
+								<div class="col-md-4" id="data_1">
+									<div class="input-group date">
+										<span class="input-group-addon">时间 &nbsp;&nbsp;&nbsp; <i
+											class="fa fa-calendar"></i>
+										</span> <input type="text"
+											value="<fmt:formatDate  value='${transSign.initPayTime }' type='both' pattern='yyyy-MM-dd' />"
+											class="form-control" id="initPayTime" name="initPayTime"
+											onfocus="this.blur()">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="input-group ">
+										<span class="input-group-addon">方式</span>
+										<aist:dict clazz="form-control m-b" id="initPayType"
+											name="initPayType" display="select"
+											defaultvalue="${transSign.initPayType}" dictType="30015" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">二期付款</label>
+
+						<div class="col-sm-10 input-group"
+							style="margin-left: 197px; margin-top: -2px;">
+							<div class="row">
+								<input type="hidden" value="二期付款" id="secPayName"
+									name="secPayName">
+								<div class="col-md-3">
+									<div class="input-group ">
+										<input type="text"
+											value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
+											class="form-control" id="secAmount" name="secAmount"
+											onkeyup="checkNum(this)"> <span
+											class="input-group-addon">万</span>
+									</div>
+								</div>
+								<div class="col-md-4" id="data_1">
+									<div class="input-group date">
+										<span class="input-group-addon">时间 &nbsp;&nbsp;&nbsp; <i
+											class="fa fa-calendar"></i>
+										</span> <input type="text"
+											value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
+											class="form-control" id="secPayTime" name="secPayTime"
+											onfocus="this.blur()">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="input-group ">
+										<span class="input-group-addon">方式</span>
+										<aist:dict clazz="form-control m-b" id="secPayType"
+											name="secPayType" display="select"
+											defaultvalue="${transSign.secPayType}" dictType="30015" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">尾款付款</label>
+
+						<div class="col-sm-10 input-group"
+							style="margin-left: 197px; margin-top: -2px;">
+							<div class="row">
+								<input type="hidden" value="尾款付款" id="lastPayName"
+									name="lastPayName">
+								<div class="col-md-3">
+									<div class="input-group ">
+										<input type="text"
+											value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
+											class="form-control" id="lastAmount" name="lastAmount"
+											onkeyup="checkNum(this)"> <span
+											class="input-group-addon">万</span>
+									</div>
+								</div>
+								<div class="col-md-4" id="data_1">
+									<div class="input-group date">
+										<span class="input-group-addon">时间 &nbsp;&nbsp;&nbsp; <i
+											class="fa fa-calendar"></i>
+										</span><input type="text"
+											value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
+											class="form-control" id="lastPayTime" name="lastPayTime"
+											onfocus="this.blur()">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="input-group ">
+										<span class="input-group-addon">方式</span>
+										<aist:dict clazz="form-control m-b" id="lastPayType"
+											name="lastPayType" display="select"
+											defaultvalue="${transSign.lastPayType}" dictType="30015" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">装修补偿款</label>
+
+						<div class="col-sm-10 input-group"
+							style="margin-left: 197px; margin-top: -2px;">
+							<div class="row">
+								<input type="hidden" value="装修补偿款" id="compensatePayName"
+									name="compensatePayName">
+								<div class="col-md-3">
+									<div class="input-group ">
+										<input type="text"
+											value="<fmt:formatNumber value='${transSign.compensateAmount}' type='number' pattern='#0.00' />"
+											class="form-control" id="compensateAmount"
+											name="compensateAmount" onkeyup="checkNum(this)"> <span
+											class="input-group-addon">万</span>
+									</div>
+								</div>
+								<div class="col-md-4" id="data_1">
+									<div class="input-group date">
+										<span class="input-group-addon">时间 &nbsp;&nbsp;&nbsp; <i
+											class="fa fa-calendar"></i>
+										</span> <input type="text"
+											value="<fmt:formatDate  value='${transSign.compensatePayTime }' type='both' pattern='yyyy-MM-dd' />"
+											class="form-control" id="compensatePayTime"
+											name="compensatePayTime" onfocus="this.blur()">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="input-group ">
+										<span class="input-group-addon">方式</span>
+										<aist:dict clazz="form-control m-b" id="compensatePayType"
+											name="compensatePayType" display="select"
+											defaultvalue="${transSign.compensatePayType}"
+											dictType="30015" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="divider">
+						<hr>
+						<label class="btn btn-warning">上家信息</label>
+					</div>
+					<div id="guestUpDiv"></div>
+					<div id="addLine" class="col-md-offset-2">
+						<a href="javascript:addDateDivUp();" class="btn"><font>添加上家</font></a>
+					</div>
+					<div class="divider">
+						<hr>
+						<label class="btn btn-warning">下家信息</label>
+					</div>
+					<div id="guestDownDiv"></div>
+					<div id="addLine" class="col-md-offset-2">
+						<a href="javascript:addDateDivDown();" class="btn"><font>添加下家</font></a>
+					</div>
+					<div id="guestDelDiv"></div>
+					<div class="divider">
+						<hr>
+						<label class="btn btn-warning">产证信息</label>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><font color="red">*</font>产证地址</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="propertyAddr"
+								name="propertyAddr" value="${transSign.propertyAddr}">
+						</div>
+						<label class="col-sm-2 control-label"><font color="red">*</font>产证面积</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="square" name="square"
+								onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${transSign.square}' type='number' pattern='#0.00' />">
+						</div>
+					</div>
+
+					<!-- <div class="form-group">
+					</div> -->
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><font color="red">*</font>所在楼层</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="locateFloor"
+								name="locateFloor" onkeyup="checkNum2(this)"
+								value="${transSign.locateFloor}">
+						</div>
+						<label class="col-sm-2 control-label"><font color="red">*</font>总层高</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" id="totalFloor"
+								name="totalFloor" onkeyup="checkNum2(this)"
+								value="${transSign.totalFloor}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><font color="red">*</font>竣工年份</label>
+						<div class="col-sm-4">
+							<select class="form-control" name="finishYear" id="finishYear">
+							</select>
+						</div>
+						<label class="col-sm-2 control-label"><font color="red">*</font>房屋类型</label>
+						<div class="col-sm-4">
+							<aist:dict clazz="form-control" id="propertyType"
+								name="propertyType" display="select"
+								defaultvalue="${transSign.propertyType}" dictType="30014" />
+						</div>
+					</div>
+
+					<!-- <div class="form-group">
+					</div> -->
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><font color="red">*</font>合同公证</label>
+						<div class="col-sm-4">
+							<aist:dict clazz="form-control" id="isHukou" name="isHukou"
+								display="select" defaultvalue="${transSign.isConCert}"
+								dictType="gongzheng_need" />
+						</div>
+						<label class="col-sm-2 control-label"><font color="red">*</font>房屋有户口</label>
+						<div class="col-sm-4">
+							<aist:dict clazz="form-control" id="isConCert" name="isConCert"
+								display="select" defaultvalue="${transSign.isHukou}"
+								dictType="hukou_remain" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">备注</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="comment"
+								name="comment" value="${transSign.comment}">
+						</div>
+					</div>
+					<div class="divider">
+						<hr>
+						<label class="btn btn-warning">预估税费</label>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="col-sm-4 control-label"><font color="red">*</font>房产税</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="houseHodingTax"
+								name="houseHodingTax" onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${ houseTransfer.houseHodingTax}' type='number' pattern='#0.00' />">
+							<span class="input-group-addon">万</span>
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="col-sm-4 control-label"><font color="red">*</font>个人所得税</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="personalIncomeTax"
+								name="personalIncomeTax" onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${ houseTransfer.personalIncomeTax}' type='number' pattern='#0.00' />">
+							<span class="input-group-addon">万</span>
+						</div>
+					</div>
+
+					<div class="form-group col-md-6">
+						<label class="col-sm-4 control-label"><font color="red">*</font>上家营业税</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="businessTax"
+								name="businessTax" onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${ houseTransfer.businessTax}' type='number' pattern='#0.00' />">
+							<span class="input-group-addon">万</span>
+						</div>
+					</div>
+
+					<div class="form-group col-md-6">
+						<label class="col-sm-4 control-label"><font color="red">*</font>下家契税</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="contractTax"
+								name="contractTax" onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${ houseTransfer.contractTax}' type='number' pattern='#0.00' />">
+							<span class="input-group-addon">万</span>
+						</div>
+					</div>
+
+					<div class="form-group col-md-6">
+						<label class="col-sm-4 control-label"><font color="red">*</font>土地增值税</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="landIncrementTax"
+								name="landIncrementTax" onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${ houseTransfer.landIncrementTax}' type='number' pattern='#0.00' />">
+							<span class="input-group-addon">万</span>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</form>
+			</div>
+		</div>
+		<div id="caseCommentList" class="add_form"></div>
+		<div class="ibox-title" style="height: auto;">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
-					<h5 class="title-mark">
-						上传备件</h5><br> <br> <br><h5>${accesoryList[0].accessoryName }</h5>
+					<h5>
+						上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
 					<c:forEach var="accesory" items="${accesoryList}"
 						varStatus="status">
 						<div class="" id="fileupload_div_pic">
@@ -464,7 +540,7 @@
 								<div class="row-fluid fileupload-buttonbar">
 									<div class="" style="height: auto">
 										<div role="presentation" class="table table-striped "
-											style="height: auto;border:none; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+											style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
 											<div id="picContainer${accesory.pkid }" class="files"
 												data-toggle="modal-gallery" data-target="#modal-gallery"></div>
 											<span class=" fileinput-button "
@@ -565,17 +641,55 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div class="form-btn clear pt20">
-	        <div class="text-center">
-	            <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
-	            <button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
-	        </div>
-	    </div>
+		<div class="ibox-title">
+			<a href="#" class="btn btn-primary" onclick="save(false)">保存</a>&nbsp;&nbsp;
+			<a href="#" class="btn btn-primary" readOnlydata='1'
+				onclick="submit()">提交</a>
+		</div>
+		<div id="smsPlatFrom"></div>
 	</div>
- </div>
 
-	<content tag="local_script"> 
-	<script>
+	<content tag="local_script"> <!-- Peity --> <script
+		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
+	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <!-- Data picker -->
+	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> <!-- 校验 --> <script
+		src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> <script
+		src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
+	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
+	<script src="${ctx}/js/trunk/task/taskTransSign.validate.js?v=1.1.0"></script>
+	<!-- 弹出框插件 --> <script src="${ctx}/js/plugins/layer/layer.js"></script>
+	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> <script
+		src="${ctx}/transjs/sms/sms.js"></script> <script
+		src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> <script
+		type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script> <script
+		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
+		src="${ctx}/js/template.js" type="text/javascript"></script> <script
+		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
+		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script>
 			//判断是否有重复字符
 			function isUniqueChar(value){
 				if(!value){
@@ -592,11 +706,19 @@
 				}
 				return (result.length==1);
 			}
-			
 			//验证手机和电话号码
 			function checkContactNumber(ContactNumber) {
+				
 				var mobile = $.trim(ContactNumber);				
-				var number=/^[0-9]*$/;						
+				//var phone=/^(0|17951)?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/;
+				//var telephone=/^[0-9]{5,11}$/;				
+				//var isMobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
+				//var isPhone = /^(?:(?:0\d{2,3})-)?(?:\d{7,8})(-(?:\d{3,}))?$/;
+				
+				var number=/^[0-9]*$/;	//数字			
+				//var repeat8=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{8}$/;	  //8位相同数字		
+				//var repeat11=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{11}$/; //8位相同数字					
+				//var repeat13=/^(?=.*\d+)(?!.*?([\d])\1{5})[\d]{13}$/; //8位相同数字						
 				var isValid = true;
 				
 				if(!number.exec(mobile)){					
@@ -618,24 +740,35 @@
 				return isValid;
 			}
 
-			$("#sendSMS").click(function() {
-				var t = '';
-				var s = '/';
-				
-				$("#reminder_list").find("input:checkbox:checked").closest('td').next().each(function() {
-					t += ($(this).text() + s);
+			$("#sendSMS").click(
+					function() {
+						var t = '';
+						var s = '/';
+						$("#reminder_list").find("input:checkbox:checked")
+								.closest('td').next().each(function() {
+									t += ($(this).text() + s);
+								});
+						if (t != '') {
+							t = t.substring(0, t.length - 1);
+						}
+						$("#smsPlatFrom").smsPlatFrom({
+							ctx : '${ctx}',
+							caseCode : $('#caseCode').val(),
+							serviceItem : t
+						});
+					});
+
+			function readOnlyForm() {
+				$(".readOnly_date").removeClass('date');
+				$(".readOnly_date input").attr('readOnly', true);
+				$("select[readOnlydata=1]").closest('.row').hide();
+				$("[readOnlydata=1]").attr('readonly', true);
+				$("[readOnlydata=1]").each(function() {
+					if ($(this).is('a')) {
+						$(this).hide();
+					}
 				});
-				
-				if (t != '') {
-					t = t.substring(0, t.length - 1);
-				}
-				
-				$("#smsPlatFrom").smsPlatFrom({
-					ctx : '${ctx}',
-					caseCode : $('#caseCode').val(),
-					serviceItem : t
-				});
-			});
+			}
 
 			$(function() {
 				var caseCode = $('#caseCode').val();
@@ -644,19 +777,23 @@
 					caseCode : caseCode,
 					srvCode : srvCode
 				});
-				
 				TaskTransSignValidate.init("transSignForm", "");
+				// Examle data for jqGrid
+				//AistUpload.initHouAddPicUpload();
+				//AistUpload.initHouTapeInfoUpload();
 				if ('caseDetails' == source) {
 					readOnlyForm();
 				}
 
 				$("#reminder_list").jqGrid({
+					//data : reminderdata,
 					url : "${ctx}/quickGrid/findPage",
 					datatype : "json",
 					height : 210,
 					multiselect : true,
 					autowidth : true,
 					shrinkToFit : true,
+					// rowNum:8,
 					viewrecords : true,
 					colNames : [ '提醒事项', '备注' ],
 					colModel : [ {
@@ -670,22 +807,25 @@
 					}
 
 					],
+					// pager : "#pager_list_1",
 					viewrecords : false,
 					pagebuttions : false,
 					hidegrid : false,
+					// recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+					// pgtext : " {0} 共 {1} 页",
 					postData : {
 						queryId : "queryToReminderList",
 						search_partCode : taskitem
 					},
 				});
-				
+				// Add responsive to jqGrid
 				$(window).bind('resize', function() {
 					var width = $('.jqGrid_wrapper').width();
 					$('#reminder_list').setGridWidth(width);
 
 				});
 
-				//日期组件
+				/**日期组件*/
 				$('#data_1 .input-group.date').datepicker({
 					todayBtn : "linked",
 					keyboardNavigation : false,
@@ -694,9 +834,10 @@
 					autoclose : true
 				});
 
-				//年份选择初始化
+				/**年份选择初始化*/
 				initSelectYear("finishYear", finishYear);
 
+				// Add responsive to jqGrid
 				$(window).bind('resize', function() {
 					var width = $('.jqGrid_wrapper').width();
 					$('#table_list_1').setGridWidth(width);
@@ -709,7 +850,7 @@
 
 			});
 
-			//初始化select
+			/**初始化select*/
 			function initSelectYear(id, value) {
 				var d = new Date();
 				var endYear = d.getFullYear();
@@ -733,156 +874,27 @@
 				}
 			}
 
-			//提交数据
+			/**提交数据*/
 			function submit() {
+				/* if(checkAttachment()) {
+					save(true);
+				} */
 				save(true);
 			}
-			
-			//验证控件checkUI();
-			function checkForm() {
-				var checkGuest = true;
-				
-				if ($('input[name=realConTime]').val() == '') {
-					alert("实际签约时间为必填项!");
-					$('input[name=realConTime]').focus();
-					return false;
-				}
-				
-				if ($('input[name=realPrice]').val() == '') {
-					alert("成交价为必填项!");
-					$('input[name=realPrice]').focus();
-					return false;
-				}
-				
-				if (Number($('input[name=realPrice]').val()) <= 0) {
-					alert("成交价必须大于0!");
-					$('input[name=realPrice]').focus();
-					return false;
-				}
-				
-				if ($('input[name=conPrice]').val() == '') {
-					alert("合同价为必填项!");
-					$('input[name=conPrice]').focus();
-					return false;
-				}
-				
-				if (Number($('input[name=conPrice]').val()) <= 0) {
-					alert("合同价必须大于0!");
-					$('input[name=conPrice]').focus();
-					return false;
-				}
 
-				if ($('select[name=isLoanClose]').val() == '') {
-					alert("抵押情况为必选项!");
-					$('select[name=isLoanClose]').focus();
-					return false;
-				}
-				
-				
-				if ($('select[name=isPerchaseReserachNeed]').val() == '') {
-					alert("查限购为必选项!");
-					$('select[name=isPerchaseReserachNeed]').focus();
-					return false;
-				}
-				
-				if (!upAndDownCheck()) {					
-					return false;
-				}
-				
-				if (!phoneUpAndphoneDownCheck()) {					
-					return false;
-				}	
-				
-				if ($('input[name=square]').val() == '') {
-					alert("产证面积为必填项!");
-					$('input[name=square]').focus();
-					return false;
-				}
-				
-				if ($('input[name=propertyAddr]').val() == '') {
-					alert("产证地址为必填项!");
-					$('input[name=propertyAddr]').focus();
-					return false;
-				}
-				
-				if ($('input[name=locateFloor]').val() == '') {
-					alert("所在楼层为必填项!");
-					$('input[name=locateFloor]').focus();
-					return false;
-				}
-				
-				if ($('input[name=totalFloor]').val() == '') {
-					alert("总层高为必填项!");
-					$('input[name=totalFloor]').focus();
-					return false;
-				}
-				
-				if ($('select[name=propertyType]').val() == '') {
-					alert("房屋类型为必选项!");
-					$('select[name=propertyType]').focus();
-					return false;
-				}
-				
-				if ($('select[name=isHukou]').val() == '') {
-					alert("合同公证为必选项!");
-					$('select[name=isHukou]').focus();
-					return false;
-				}
-				
-				if ($('select[name=isConCert]').val() == '') {
-					alert("房屋户口为必选项!");
-					$('select[name=isConCert]').focus();
-					return false;
-				}
-				
-				if ($('input[name=houseHodingTax]').val() == '') {
-					alert("房产税为必填项!");
-					$('input[name=houseHodingTax]').focus();
-					return false;
-				}
-				
-				if ($('input[name=personalIncomeTax]').val() == '') {
-					alert("个人所得税为必填项!");
-					$('input[name=personalIncomeTax]').focus();
-					return false;
-				}
-				
-				if ($('input[name=businessTax]').val() == '') {
-					alert("上家营业税为必填项!");
-					$('input[name=businessTax]').focus();
-					return false;
-				}
-				
-				if ($('input[name=contractTax]').val() == '') {
-					alert("下家契税为必填项!");
-					$('input[name=contractTax]').focus();
-					return false;
-				}
-				
-				if ($('input[name=landIncrementTax]').val() == '') {
-					alert("土地增值税为必填项!");
-					$('input[name=landIncrementTax]').focus();
-					return false;
-				}
-				
-				if ($('input[name=picName]').val() == undefined
-						&& $('input[name=pic]').val() == undefined) {
-					alert("产调为必填项!");
-					return false;
-				}
-				return true;
-			}
-			
-
-			//保存数据
-			function save(b) {	
-				
+			/**保存数据*/
+			function save(b) {			
 				if (!checkForm()) {
-					return false;
-				}	
-				
+					return;
+				}				
+				if (!phoneUpAndphoneDownCheck()) {					
+					return;
+				}				
+				if (!upAndDownCheck()) {					
+					return;
+				}				
 				if (!$("#transSignForm").valid()) {
-					return false;
+					return;
 				}
 				var jsonData = $("#transSignForm").serializeArray();
 
@@ -895,7 +907,7 @@
 
 				$.ajax({
 					cache : true,
-					async : false,
+					async : false,//false同步，true异步
 					type : "POST",
 					url : url,
 					dataType : "json",
@@ -926,9 +938,7 @@
 								'z-index' : '1900'
 							});
 						}
-						
-						//超时,status还有success,error等值的情况
-						if (status == 'timeout') {
+						if (status == 'timeout') {//超时,status还有success,error等值的情况
 							Modal.alert({
 								msg : "抱歉，系统处理超时。"
 							});
@@ -943,6 +953,7 @@
 							if (null != data.message) {
 								alert(data.message);
 							}
+							//window.location.href = "${ctx }/task/myTaskList";
 						} else {
 							alert("保存成功。");
 							window.close();
@@ -954,7 +965,7 @@
 					}
 				});
 			}
-			//double 验证
+			/*double 验证*/
 			function checkNum(obj) {
 				//先把非数字的都替换掉，除了数字和.
 				obj.value = obj.value.replace(/[^\d.]/g, "");
@@ -974,12 +985,125 @@
 				obj.value = obj.value.replace(/^\./g, "");
 			}
 
-			
+			//验证控件checkUI();
+			function checkForm() {
+				var checkGuest = true;
+				if ($('select[name=isPerchaseReserachNeed]').val() == '') {
+					alert("限购查询为必选项!");
+					$('select[name=isPerchaseReserachNeed]').focus();
+					return false;
+				}
+				if ($('select[name=isLoanClose]').val() == '') {
+					alert("抵押情况为必选项!");
+					$('select[name=isLoanClose]').focus();
+					return false;
+				}
+				if ($('input[name=realConTime]').val() == '') {
+					alert("实际签约时间为必填项!");
+					$('input[name=realConTime]').focus();
+					return false;
+
+				}
+				if ($('input[name=conPrice]').val() == '') {
+					alert("合同价为必填项!");
+					$('input[name=conPrice]').focus();
+					return false;
+				}
+				if (Number($('input[name=conPrice]').val()) <= 0) {
+					alert("合同价必须大于0!");
+					$('input[name=conPrice]').focus();
+					return false;
+				}
+
+				if ($('input[name=realPrice]').val() == '') {
+					alert("成交价为必填项!");
+					$('input[name=realPrice]').focus();
+					return false;
+				}
+				if (Number($('input[name=realPrice]').val()) <= 0) {
+					alert("成交价必须大于0!");
+					$('input[name=realPrice]').focus();
+					return false;
+				}
+
+				if ($('input[name=propertyAddr]').val() == '') {
+					alert("产证地址为必填项!");
+					$('input[name=propertyAddr]').focus();
+					return false;
+				}
+				if ($('input[name=square]').val() == '') {
+					alert("产证面积为必填项!");
+					$('input[name=square]').focus();
+					return false;
+				}
+				if ($('input[name=locateFloor]').val() == '') {
+					alert("所在楼层为必填项!");
+					$('input[name=locateFloor]').focus();
+					return false;
+				}
+				if ($('input[name=totalFloor]').val() == '') {
+					alert("总层高为必填项!");
+					$('input[name=totalFloor]').focus();
+					return false;
+				}
+				if ($('select[name=propertyType]').val() == '') {
+					alert("房屋类型为必选项!");
+					$('input[name=propertyType]').focus();
+					return false;
+				}
+				if ($('select[name=isHukou]').val() == '') {
+					alert("合同公证为必选项!");
+					$('input[name=isHukou]').focus();
+					return false;
+				}
+				if ($('select[name=isConCert]').val() == '') {
+					alert("房屋户口为必选项!");
+					$('input[name=isConCert]').focus();
+					return false;
+				}
+				if ($('input[name=houseHodingTax]').val() == '') {
+					alert("房产税为必填项!");
+					$('input[name=houseHodingTax]').focus();
+					return false;
+				}
+				if ($('input[name=personalIncomeTax]').val() == '') {
+					alert("个人所得税为必填项!");
+					$('input[name=personalIncomeTax]').focus();
+					return false;
+				}
+				if ($('input[name=businessTax]').val() == '') {
+					alert("上家营业税为必填项!");
+					$('input[name=businessTax]').focus();
+					return false;
+				}
+				if ($('input[name=contractTax]').val() == '') {
+					alert("下家契税为必填项!");
+					$('input[name=contractTax]').focus();
+					return false;
+				}
+				if ($('input[name=conPrice]').val() == '') {
+					alert("合同价为必填项!");
+					$('input[name=conPrice]').focus();
+					return false;
+				}
+				if ($('input[name=landIncrementTax]').val() == '') {
+					alert("土地增值税为必填项!");
+					$('input[name=landIncrementTax]').focus();
+					return false;
+				}
+				if ($('input[name=picName]').val() == undefined
+						&& $('input[name=pic]').val() == undefined) {
+					alert("产调为必填项!");
+					return false;
+				}
+				return true;
+			}
 			//上下家电话相同验证
 			function phoneUpAndphoneDownCheck() {
 				var checkGuestPhone= true;
 				var selectsPhoneDown = $("input[name='guestPhoneDown']");
 				var selectsPhoneUp = $("input[name='guestPhoneUp']");				
+				
 				
 				$.each(selectsPhoneUp, function(j, item) {
 					if (item.value == '') {
@@ -989,16 +1113,15 @@
 					} else {						
 						checkGuestPhone = checkContactNumber(item.value);						
 						if (!checkGuestPhone) {								
+							//alert("上家电话不符合手机号码或电话号码格式!");
 							selectsPhoneUp[j].focus();
 							return false;
 						}
 					}
 				});
-				
 				if (!checkGuestPhone || selectsPhoneUp == null) {
 					return false;
 				}
-				
 				//验证下家电话号码
 				$.each(selectsPhoneDown, function(j, item) {
 					if (item.value == '') {
@@ -1008,16 +1131,15 @@
 					} else {
 						checkGuestPhone = checkContactNumber(item.value);
 						if (!checkGuestPhone) {
+							//alert("下家电话不符合手机号码或电话号码格式!");
 							selectsPhoneDown[j].focus();
 							return false;
 						}
 					}
 				});
-				
 				if (!checkGuestPhone || selectsPhoneDown == null) {
 					return false;
-				}
-				
+				}				
 				$.each(selectsPhoneUp,function(i, itemPhoneUp) {
 						if (itemPhoneUp.value != '') {
 							$.each(selectsPhoneDown,function(j,	itemPhoneDown) {
@@ -1031,8 +1153,7 @@
 							})							
 					    }
 				if(checkGuestPhone==false) {return  false;}
-				});
-				
+				})				
 				return checkGuestPhone;
 			}
 			
@@ -1102,33 +1223,38 @@
 			
 			var divIndexDown = 1;
 			function addDateDivDown() {
-				var txt = "<div class='line' id=dateDivD_" + divIndexDown + ">";
-				txt += "<div class='form_content'>";
+
+				var txt = '<div id="dateDivD_' + divIndexDown + '" class="form-group">';
 				txt += "<input type='hidden' name='pkidDown' value='0'/>";
-				txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' placeholder='' value='' name='guestNameDown'>";
-				txt += "</div>";
-				txt += "<div class='form_content'>";
-				txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='' name='guestPhoneDown'>";
-				txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivD_" + divIndexDown + "')\">删除</a>";
-				txt += "</div>"
-				
+				txt += "<label class='col-sm-2 control-label'><font color='red'>*</font>下家姓名</label>";
+				txt += "<div class='col-sm-4'>";
+				txt += "<input type=\"text\" class=\"form-control\" name=\"guestNameDown\" value=''></div>";
+				txt += "<label class=\"col-sm-2 control-label\"><font color='red'>*</font>下家电话</label>";
+				txt += "<div class=\"col-sm-4\">";
+				txt += "<div class=\"input-group \">";
+				txt += "<input type=\"text\" class=\"form-control\" name=\"guestPhoneDown\" value=''>";
+				txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv(\'dateDivD_'
+						+ divIndexDown + '\');"><font>删除</font></a></span>';
+				txt += '</div></div></div>';				
 				$("#guestDownDiv").before(txt);
 				divIndexDown++;
 			}
 
 			var divIndexUp = 1;
 			function addDateDivUp() {
-				var txt = "<div class='line' id=dateDivU_" + divIndexUp + ">";
-				txt += "<div class='form_content'>";
-				txt += "<input type='hidden' name='pkidUp' value='0'/>";
-				txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' name='guestNameUp' placeholder='' value=''>";
-				txt += "</div>";
-				txt += "<div class='form_content'>";
-				txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='' name='guestPhoneUp'>";
-				txt += "</div>"; 
-				txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivU_" + divIndexUp + "')\">删除</a>";
-                txt += "</div>";        
 
+				var txt = '<div id="dateDivU_' + divIndexUp + '" class="form-group">';
+				txt += "<input type='hidden' name='pkidUp' value='0'/>";
+				txt += "<label class='col-sm-2 control-label'><font color='red'>*</font>上家姓名</label>";
+				txt += "<div class='col-sm-4'>";
+				txt += "<input type=\"text\" class=\"form-control\" name=\"guestNameUp\" value=''></div>";
+				txt += "<label class=\"col-sm-2 control-label\"><font color='red'>*</font>上家电话</label>";
+				txt += "<div class=\"col-sm-4\">";
+				txt += "<div class=\"input-group \">";
+				txt += "<input type=\"text\" class=\"form-control\" name=\"guestPhoneUp\" value=''>";
+				txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv(\'dateDivU_'
+						+ divIndexUp + '\');"><font>删除</font></a></span>';
+				txt += '</div></div></div>';				
 				$("#guestUpDiv").before(txt);
 				divIndexUp++;
 			}
@@ -1144,9 +1270,10 @@
 			}
 
 			function initGuestInfo(transPosition) {
-				$.ajax({
+				$
+						.ajax({
 							cache : true,
-							async : false,
+							async : false,//false同步，true异步
 							type : "POST",
 							url : "${ctx}/task/sign/queryGuestInfo",
 							dataType : "json",
@@ -1160,58 +1287,82 @@
 							success : function(data) {
 								var length = data.length;
 								if (length > 0) {
-									$.each(data,function(index, value) {
+									$
+											.each(
+													data,
+													function(index, value) {
 														if (transPosition == "30006002") {
-															var txt = "<div class='line' id=dateDivD_" + divIndexDown + ">";
-															txt += "<div class='form_content'>";
+															var txt = '<div id="dateDivD_' + divIndexDown + '" class="form-group">';
 															txt += "<input type='hidden' name='pkidDown' value='"+value.pkid+"'/>";
-															txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' placeholder='' value='" + value.guestName + "' name='guestNameDown'>";
-															txt += "</div>";
-															txt += "<div class='form_content'>";
-															txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
-															txt += "</div>"
-															
-															$("#guestDownDiv").before(txt);
+															txt += "<label class='col-sm-2 control-label'><font color='red'>*</font>下家姓名</label>";
+															txt += "<div class='col-sm-4'>";
+															txt += "<input type=\"text\" class=\"form-control\" name=\"guestNameDown\" value='"+value.guestName+"'></div>";
+															txt += "<label class=\"col-sm-2 control-label\"><font color='red'>*</font>下家电话</label>";
+															txt += "<div class=\"col-sm-4\">";
+															txt += "<div class=\"input-group \">";
+															txt += "<input type=\"text\" class=\"form-control\" name=\"guestPhoneDown\" value='"+value.guestPhone+"'>";
+															txt += '<span class="input-group-addon"><a href="javascript:removeDiv(\'dateDivD_'
+																	+ divIndexDown
+																	+ '\','
+																	+ value.pkid
+																	+ ');"><font>删除</font></a></span>';
+															txt += '</div></div></div>';
+															$("#guestDownDiv")
+																	.before(txt);
 															divIndexDown++;
 														} else if (transPosition == "30006001") {
-															var txt = "<div class='line' id=dateDivU_" + divIndexUp + ">";
-															txt += "<div class='form_content'>";
-															txt += "<input type='hidden' name='pkidUp' value='" + value.pkid +"'/>";
-															txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' name='guestNameUp' placeholder='' value='" + value.guestName + "'>";
-															txt += "</div>";
-															txt += "<div class='form_content'>";
-															txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
-															txt += "</div>";    
-											                txt += "</div>";
-															
-															$("#guestUpDiv").before(txt);
+															var txt = '<div id="dateDivU_' + divIndexUp + '" class="form-group">';
+															txt += "<input type='hidden' name='pkidUp' value='"+value.pkid+"'/>";
+															txt += "<label class='col-sm-2 control-label'><font color='red'>*</font>上家姓名</label>";
+															txt += "<div class='col-sm-4'>";
+															txt += "<input type=\"text\" class=\"form-control\" name=\"guestNameUp\" value='"+value.guestName+"'></div>";
+															txt += "<label class=\"col-sm-2 control-label\"><font color='red'>*</font>上家电话</label>";
+															txt += "<div class=\"col-sm-4\">";
+															txt += "<div class=\"input-group \">";
+															txt += "<input type=\"text\" class=\"form-control\" name=\"guestPhoneUp\" value='"+value.guestPhone+"'>";
+															txt += '<span class="input-group-addon"><a href="javascript:removeDiv(\'dateDivU_'
+																	+ divIndexUp
+																	+ '\','
+																	+ value.pkid
+																	+ ');"><font>删除</font></a></span>';
+															txt += '</div></div></div>';
+															$("#guestUpDiv")
+																	.before(txt);
 															divIndexUp++;
 														}
 													});
 								} else {
 									if (transPosition == "30006002") {
-										var txt = "<div class='line' id=dateDivD_" + divIndexDown + ">";
-										txt += "<div class='form_content'>";
+										var txt = '<div id="dateDivD_' + divIndexDown + '" class="form-group">';
 										txt += "<input type='hidden' name='pkidDown' value='0'/>";
-										txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' placeholder='' value='" + value.guestName + "' name='guestNameDown'>";
-										txt += "</div>";
-										txt += "<div class='form_content'>";
-										txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
-										txt += "</div>"
-										
+										txt += "<label class='col-sm-2 control-label'><font color='red'>*</font>下家姓名</label>";
+										txt += "<div class='col-sm-4'>";
+										txt += "<input type=\"text\" class=\"form-control\" name=\"guestNameDown\" value=''></div>";
+										txt += "<label class=\"col-sm-2 control-label\"><font color='red'>*</font>下家电话</label>";
+										txt += "<div class=\"col-sm-4\">";
+										txt += "<div class=\"input-group \">";
+										txt += "<input type=\"text\" class=\"form-control\" name=\"guestPhoneDown\" value=''>";
+										txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
+												+ divIndexDown
+												+ ');"><font>删除</font></a></span>';
+										txt += '</div></div></div>';
+										// alert(txt);
 										$("#guestDownDiv").before(txt);
 										divIndexDown++;
 									} else if (transPosition == "30006001") {
-										var txt = "<div class='line' id=dateDivU_" + divIndexUp + ">";
-										txt += "<div class='form_content'>";
+										var txt = '<div id="dateDivU_' + divIndexUp + '" class="form-group">';
 										txt += "<input type='hidden' name='pkidUp' value='0'/>";
-										txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' name='guestNameUp' placeholder='' value='" + value.guestName + "'>";
-										txt += "</div>";
-										txt += "<div class='form_content'>";
-										txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
-										txt += "</div>";    
-						                txt += "</div>";
-										
+										txt += "<label class='col-sm-2 control-label'><font color='red'>*</font>上家姓名</label>";
+										txt += "<div class='col-sm-4'>";
+										txt += "<input type=\"text\" class=\"form-control\" name=\"guestNameUp\" value=''></div>";
+										txt += "<label class=\"col-sm-2 control-label\"><font color='red'>*</font>上家电话</label>";
+										txt += "<div class=\"col-sm-4\">";
+										txt += "<div class=\"input-group \">";
+										txt += "<input type=\"text\" class=\"form-control\" name=\"guestPhoneUp\" value=''>";
+										txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
+												+ divIndexUp
+												+ ');"><font>删除</font></a></span>';
+										txt += '</div></div></div>';										
 										$("#guestUpDiv").before(txt);
 										divIndexUp++;
 									}
@@ -1222,57 +1373,7 @@
 							}
 						});
 			}
-			
-			function readOnlyForm() {
-				//设置实际签约时间不可修改
-				$("#realConTime").parent().removeClass("input-daterange");
-				$("#realConTime").removeClass("datatime");
-				$("#realConTime").attr("readonly",true);
-				$("#realConTime").css("background-color","#ccc");
-				
-				//设置提交按钮隐藏
-				$("#btnSubmit").hide();
-			}
-			
-		</script> 
-		<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
-		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-		<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-		<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-		<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-		<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
-		<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
-		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
-		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
-		<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
-		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-		<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-		<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
-		<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-		<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
-		<script src="${ctx}/js/trunk/task/attachment.js"></script>
-		<script src="${ctx}/js/jquery.blockui.min.js"></script> 
-		<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
-		<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
-		<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
-		<script src="${ctx}/js/trunk/task/taskTransSign.validate.js?v=1.1.0"></script>
-		<script src="${ctx}/js/plugins/layer/layer.js"></script>
-		<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> 
-		<script src="${ctx}/transjs/sms/sms.js"></script> 
-		<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
-		<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script> 
-		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-		<script src="${ctx}/js/template.js" type="text/javascript"></script>
-		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-		<!-- 改版引入的新的js文件 --> 
-		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-		<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
-	</content>
+		</script> </content>
 </body>
 
 </html>

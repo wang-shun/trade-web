@@ -181,8 +181,8 @@ public class RiskControlController {
 	}
 	
 	@RequestMapping("deleteRiskControl")
-	public String deleteRiskControl(Long pkid,String riskType,Long eloanPkId, HttpServletRequest request, Model model) {
-		rcRiskControlService.deleteReferRiskControlByProperty(RiskTypeEnum.getCode(riskType),pkid);
+	public String deleteRiskControl(Long pkid,String riskType,Long eloanPkId,String eloanCode, HttpServletRequest request, Model model) {
+		rcRiskControlService.deleteReferRiskControlByProperty(RiskTypeEnum.getCode(riskType),pkid,eloanCode);
 		return "redirect:/eloan/getEloanCaseDetails?pkid="+eloanPkId;
 	}
 

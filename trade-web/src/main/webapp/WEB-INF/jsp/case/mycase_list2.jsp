@@ -241,7 +241,7 @@ text-decoration: underline !important;
 								<th >上家</th>
 								<th >下家</th>
 								<th >经办人</th>
-								<th class="text-center light_icon"> <i class="iconfont icon_light">  &#xe604; </i>  </th>
+								<th class="text-center light_icon"> <i class="icon iconfont clock_icon">  &#xe60b; </i>  </th>
 							</tr>
 						</thead>
 						<tbody id="myCaseList">
