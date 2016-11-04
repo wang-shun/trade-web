@@ -15,7 +15,7 @@
     <sequenceFlow id="flow41" sourceRef="exclusivegateway1" targetRef="LoanlostApply">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${LoanLost_manager == false}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="LoanlostApproveSeniorManager" name="贷款流失审批－高级主管" activiti:assignee="#{commonUserService.getAssignee(execution,'Senior_Manager')}" activiti:formKey="/task/loanlostApproveSeniorManager/process"></userTask>
+    <userTask id="LoanlostApproveSeniorManager" name="贷款流失审批－高级主管" activiti:assignee="${SeniorManager}" activiti:formKey="/task/loanlostApproveSeniorManager/process"></userTask>
     <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="LoanlostApproveSeniorManager">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager != null && LoanLost_manager == true}]]></conditionExpression>
     </sequenceFlow>
@@ -48,7 +48,7 @@
         <omgdc:Bounds height="35.0" width="35.0" x="30.0" y="373.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="1430.0" y="379.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="1430.0" y="373.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="LoanlostApply" id="BPMNShape_LoanlostApply">
         <omgdc:Bounds height="55.0" width="105.0" x="152.0" y="363.0"></omgdc:Bounds>
@@ -88,14 +88,15 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
         <omgdi:waypoint x="1385.0" y="393.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1430.0" y="396.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1430.0" y="390.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow41" id="BPMNEdge_flow41">
-        <omgdi:waypoint x="539.0" y="410.0"></omgdi:waypoint>
-        <omgdi:waypoint x="539.0" y="446.0"></omgdi:waypoint>
-        <omgdi:waypoint x="406.0" y="446.0"></omgdi:waypoint>
-        <omgdi:waypoint x="205.0" y="446.0"></omgdi:waypoint>
-        <omgdi:waypoint x="204.0" y="418.0"></omgdi:waypoint>
+        <omgdi:waypoint x="539.0" y="370.0"></omgdi:waypoint>
+        <omgdi:waypoint x="539.0" y="324.0"></omgdi:waypoint>
+        <omgdi:waypoint x="475.0" y="324.0"></omgdi:waypoint>
+        <omgdi:waypoint x="385.0" y="324.0"></omgdi:waypoint>
+        <omgdi:waypoint x="204.0" y="324.0"></omgdi:waypoint>
+        <omgdi:waypoint x="204.0" y="363.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
         <omgdi:waypoint x="559.0" y="390.0"></omgdi:waypoint>
