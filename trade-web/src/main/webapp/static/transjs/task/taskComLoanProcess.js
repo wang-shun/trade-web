@@ -972,7 +972,7 @@ function getPricingList(tableId,pageId,isMainLoanBank){
 	        mtype:"GET",
 	        width: 860,
 	        height: 400,
-	        autowidth: false,
+	        autowidth: true,
 	        shrinkToFit: true,
 	        rowNum: 8,
 	        colNames: ['询价ID', '评估编号', '询价状态', '询价时间', '询价结果','单价（元）','总价（万元）','目标银行','申请编号','是否确认','确认序号','结果编码','操作'],
