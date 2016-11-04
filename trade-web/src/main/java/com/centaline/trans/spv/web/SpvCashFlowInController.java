@@ -15,13 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.permission.remote.UamPermissionService;
-import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
-import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.service.MessageService;
-import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.product.service.ProductCategoryService;
@@ -43,8 +39,6 @@ public class SpvCashFlowInController {
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
-	private ToAccesoryListService toAccesoryListService;
-	@Autowired
 	MessageService messageService;
 	@Autowired
 	ProductCategoryService productCategoryService;
@@ -54,8 +48,6 @@ public class SpvCashFlowInController {
 	ToWorkFlowService flowService;
 	@Autowired
 	ProcessInstanceService processInstanceService;
-	@Autowired
-	private UamPermissionService uamPermissionService;
 	@Autowired
 	private CashFlowInService cashFlowInService;
 	/**
