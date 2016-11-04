@@ -270,15 +270,15 @@ public class SignRoomController {
 	}
 	
 	/**
-	 * 临时分配签约室
+	 * 签约室排班
 	 * @return
 	 */
-	@RequestMapping("/addTradeCenterSchedule")
+	@RequestMapping("/addOrUpdateTradeCenterSchedule")
 	@ResponseBody
-	public AjaxResponse<T> addTradeCenterSchedule(Model model,TradeCenterSchedule tradeCenterSchedule){
+	public AjaxResponse<T> addOrUpdateTradeCenterSchedule(Model model,TradeCenterSchedule tradeCenterSchedule){
 		AjaxResponse<T> response = new AjaxResponse<T>();
 		try{
-			rmSignRoomService.addTradeCenterSchedule(tradeCenterSchedule);
+			rmSignRoomService.addOrUpdateTradeCenterSchedule(tradeCenterSchedule);
 			response.setCode("400");
 			response.setMessage("分配值班经理成功！");
 			response.setSuccess(true);
@@ -290,5 +290,27 @@ public class SignRoomController {
 		return response;
 	}
 	
+	/**
+	 * 删除指定的签约室排班
+	 * @param model
+	 * @param tradeCenterSchedule
+	 * @return
+	 */
+	@RequestMapping("/deleteTradeCenterSchedule")
+	@ResponseBody
+	public AjaxResponse<T> deleteTradeCenterSchedule(Model model,TradeCenterSchedule tradeCenterSchedule){
+		AjaxResponse<T> response = new AjaxResponse<T>();
+		try{
+			rmSignRoomService.deleteTradeCenterSchedule(tradeCenterSchedule);
+			response.setCode("400");
+			response.setMessage("删除值班经理成功！");
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setCode("500");
+			response.setMessage("删除值班经理失败！");
+			response.setSuccess(false);
+		}
+		return response;
+	}
 	
 }

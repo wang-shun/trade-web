@@ -80,11 +80,11 @@ public interface RmSignRoomService {
 	 */
 	List<List<DateWeekVo>> showSchedulingData(Map map) throws ParseException;
 	/**
-	 * 新增一条值班数据
+	 * 新增或更新一条值班数据
 	 * @param tradeCenterSchedule
 	 * @return
 	 */
-	int addTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule);
+	int addOrUpdateTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule);
 	/**
 	 * 删除一条值班数据
 	 * @param tradeCenterSchedule

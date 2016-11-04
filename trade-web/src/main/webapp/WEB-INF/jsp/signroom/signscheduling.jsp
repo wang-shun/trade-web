@@ -62,7 +62,7 @@
                                     </select>
                                     </div>
                                     <div class="add_btn" style="float:left;margin-left:26px;">
-                                        <button type="button" class="btn btn-success">
+                                        <button type="button" class="btn btn-success" id="searchBtn">
                                             <i class="icon iconfont">&#xe635;</i>
                                             查询
                                         </button>
@@ -215,7 +215,26 @@
 		{{each item as subitem twoindex}}
 				
 		   {{if subitem.tcs !=null && subitem.tcs.length>0}}
-				{{each subitem.tcs as tcsitem threeindex}}				
+				{{if subitem.tcs.length==1}}
+						{{if subitem.tcs[0].dutyType=='0'}}
+							{{if subitem.light == true}}
+				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)">{{subitem.tcs[0].officerName}}</td>
+              				{{else if subitem.edit == true}}
+                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)">{{subitem.tcs[0].officerName}}</td>
+              				{{else}}
+                   				<td class="nouser">{{subitem.tcs[0].officerName}}</td>
+              				{{/if}}
+					    {{else}}
+							{{if subitem.light == true}}
+				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)"></td>
+              				{{else if subitem.edit == true}}
+                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)"></td>
+              				{{else}}
+                   				<td class="nouser"></td>
+              				{{/if}}
+					   {{/if}}	
+                {{else if subitem.tcs.length==2}}
+				  {{each subitem.tcs as tcsitem threeindex}}				
 					{{if tcsitem.dutyType=='0'}}
 							{{if subitem.light == true}}
 				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)">{{tcsitem.officerName}}</td>
@@ -225,7 +244,9 @@
                    				<td class="nouser">{{tcsitem.officerName}}</td>
               				{{/if}}
 					{{/if}}			
-				{{/each}}
+				  {{/each}}
+				{{/if}}
+				
 		   {{else}}
 				{{if subitem.light == true}}
 				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)"></td>
@@ -243,9 +264,28 @@
          <td ><i class="iconfont icon-moon">&#xe6c1;</i></td>
          {{each item as subitem twoindex}}
 				
-				{{if subitem.tcs !=null && subitem.tcs.length>0}}
-				{{each subitem.tcs as tcsitem threeindex}}				
-					{{if tcsitem.dutyType=='1'}}
+		  {{if subitem.tcs !=null && subitem.tcs.length>0}}
+				{{if subitem.tcs.length==1}}
+						{{if subitem.tcs[0].dutyType=='1'}}
+							{{if subitem.light == true}}
+				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)">{{subitem.tcs[0].officerName}}</td>
+              				{{else if subitem.edit == true}}
+                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)">{{subitem.tcs[0].officerName}}</td>
+              				{{else}}
+                   				<td class="nouser">{{subitem.tcs[0].officerName}}</td>
+              				{{/if}}
+					    {{else}}
+							{{if subitem.light == true}}
+				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)"></td>
+              				{{else if subitem.edit == true}}
+                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)"></td>
+              				{{else}}
+                   				<td class="nouser"></td>
+              				{{/if}}
+					   {{/if}}	
+                {{else if subitem.tcs.length==2}}
+				    {{each subitem.tcs as tcsitem threeindex}}				
+					  {{if tcsitem.dutyType=='1'}}
 							{{if subitem.light == true}}
 				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)">{{tcsitem.officerName}}</td>
               				{{else if subitem.edit == true}}
@@ -253,8 +293,9 @@
               				{{else}}
                    				<td class="nouser">{{tcsitem.officerName}}</td>
               				{{/if}}
-					{{/if}}			
-				{{/each}}
+					  {{/if}}			
+				   {{/each}}
+				{{/if}}
 		   {{else}}
 				{{if subitem.light == true}}
 				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)"></td>
@@ -273,7 +314,7 @@
         <script>
 	        var ctx = "${ctx}";
 	  		//初始化日期控件
-	    	var monthSel=new DateSelect($('.month'),{max:new Date(),moveDone:reloadGrid});
+	    	var monthSel=new DateSelect($('.month'),{max:new Date(2999,1,1),moveDone:reloadGrid});
             $(document).ready(function () {
                 $('.input-daterange').datepicker({
                 	startDate:new Date(),

@@ -19,6 +19,7 @@ public class TradeCenterSchedule {
 	private String updateBy;// 更新人
 	
 	private String officerName;//值班人员姓名
+	private boolean changed;//是否变更值班人员
 
 	public Long getPkid() {
 		return pkid;
@@ -99,6 +100,16 @@ public class TradeCenterSchedule {
 	public void setOfficerName(String officerName) {
 		this.officerName = officerName;
 	}
+
+	public boolean isChanged() {
+		return changed;
+	}
+
+	public void setChanged(boolean changed) {
+		this.changed = changed;
+	}
+
+	
 	
 	
 }

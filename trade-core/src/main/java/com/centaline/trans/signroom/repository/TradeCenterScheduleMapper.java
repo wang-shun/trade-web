@@ -17,6 +17,12 @@ public interface TradeCenterScheduleMapper {
 	 */
 	int addTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule);
 	/**
+	 * 新增一条值班数据
+	 * @param tradeCenterSchedule
+	 * @return
+	 */
+	int updateTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule);
+	/**
 	 * 删除一条值班数据
 	 * @param tradeCenterSchedule
 	 * @return

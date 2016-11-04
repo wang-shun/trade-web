@@ -1,5 +1,7 @@
 $(function(){
-	
+	$("#searchBtn").click(function(){
+		reloadGrid();
+	});
 })
 //加载数据
 function reloadGrid(bm) {
@@ -43,9 +45,16 @@ function reloadGrid(bm) {
 //选择值班人
 var dutyDate;
 var dutyType;
+var changed = false;//是否变更值班人员
 function chooseDutyOfficer(date,type) {
 	dutyDate = date;
 	dutyType = type;
+	var tdid = $("#"+dutyDate+dutyType).html();
+	if(tdid==''){
+		changed=false;
+	}else{
+		changed = true;
+	}
 	userSelect({
 		startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
 		expandNodeId : 'ff8080814f459a78014f45a73d820006',
@@ -68,24 +77,25 @@ function dealDutyOfficerBack(array){
 		var officerName = array[0].username;
 		$.ajax({
 			async: true,
-	        url:ctx+ "/signroom/addTradeCenterSchedule" ,
+	        url:ctx+ "/signroom/addOrUpdateTradeCenterSchedule" ,
 	        method: "post",
 	        dataType: "json",
 	        data: {
 	        	dutyOfficer : dutyOfficer,
 	        	dutyDate : dutyDate,
 	        	dutyType : dutyType,
-	        	tradeCenterId : tradeCenterId
+	        	tradeCenterId : tradeCenterId,
+	        	changed : changed
 	        },
 	        beforeSend: function () {  
 	        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});
 	        },  
 	        success: function(data){
-	          console.log(data);
 	          $.unblockUI();   	
 	          if(data.success){
-	        	  
+	        	  alert(data.message);
+	        	  $("#"+dutyDate+dutyType).html(officerName);
 	          }else{
 	        	  alert(data.message);
 	          }
@@ -94,10 +104,39 @@ function dealDutyOfficerBack(array){
 	        	$.unblockUI();   	 
 	        }  
 	  });
-
 	} else {
 		//删除该日期的值班经理
-		
+		if(!isChanged){
+			return;
+		}else{
+			$.ajax({
+				async: true,
+		        url:ctx+ "/signroom/deleteTradeCenterSchedule" ,
+		        method: "post",
+		        dataType: "json",
+		        data: {
+		        	dutyDate : dutyDate,
+		        	dutyType : dutyType,
+		        	tradeCenterId : tradeCenterId
+		        },
+		        beforeSend: function () {  
+		        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+					$(".blockOverlay").css({'z-index':'9998'});
+		        },  
+		        success: function(data){
+		          $.unblockUI();   	
+		          if(data.success){
+		        	  alert(data.message);
+		        	  $("#"+dutyDate+dutyType).html("");
+		          }else{
+		        	  alert(data.message);
+		          }
+		        },
+		        error: function (e, jqxhr, settings, exception) {
+		        	$.unblockUI();   	 
+		        }  
+		  });
+		}
 	}
 }
 
