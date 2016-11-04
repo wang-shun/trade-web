@@ -160,13 +160,13 @@ text-decoration: underline !important;
 						</select>
 					</div>
 					<div class="form_content space">
-                            <div class="add_btn" align="center">
-                                <button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>
-                                 	   查询
-                                </button>
-                            </div>
-                        </div>
-					
+                         <div class="add_btn" align="center" id="queryFilter">
+                             <button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>
+                              	   查询
+                             </button>
+                         </div>
+                     </div>
+                     
 				</form>
 	  </div>
 	  
@@ -225,7 +225,9 @@ text-decoration: underline !important;
 <script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-	 
+<!--  
+<script data-main="${ctx}/js/trunk/task/mytask_queryFilter.js" src="${ctx}/js/require.js"></script>
+-->
 <script id="template_myTaskList" type= "text/html">
          {{each rows as item index}}
                  {{if index%2 == 0}}
@@ -289,11 +291,11 @@ text-decoration: underline !important;
                        		<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a>
 							{{if item.SUBSCRIBE_COUNT == 0}}
 							  	   <span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
-                             		    <i class="iconfont markstar star_subscribe" status="1"></i>
+                             		    <i class="iconfont_s markstar star_subscribe" status="1"></i>
                          		   </span>
 							{{else}}
 								   <span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="{{item.CASE_CODE}}" isSubscribe="false">
-											<i class="iconfont markstar star_subscribe" status="1"></i>
+											<i class="iconfont_s markstar star_subscribe" status="1"></i>
 								   </span>
 							{{/if}}
 						</p>
