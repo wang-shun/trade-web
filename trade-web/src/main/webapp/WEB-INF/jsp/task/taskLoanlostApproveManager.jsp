@@ -214,8 +214,8 @@
 			//保存数据
 			function save() {
 				var jsonData = $("#lamform").serializeArray();
-				var url = "${ctx}/task/loanlostApprove/loanlostApproveFirst";
-				//var url = "${ctx}/task/loanlostApprove/loanlostApproveFirstNew"; // 启动新流程				
+				//var url = "${ctx}/task/loanlostApprove/loanlostApproveFirst";
+				var url = "${ctx}/task/loanlostApprove/loanlostApproveFirstNew"; // 启动新流程				
 				
 				alert(111111111);				
 				alert(url);

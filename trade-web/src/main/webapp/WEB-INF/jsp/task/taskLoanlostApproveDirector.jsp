@@ -221,8 +221,8 @@
 			function save() {
 				var jsonData = $("#lamform").serializeArray();
 				alert(111111111111);
-				var url = "${ctx}/task/loanlostApprove/loanlostApproveSecond";
-				//var url = "${ctx}/task/loanlostApprove/loanlostApproveDirector";				
+				//var url = "${ctx}/task/loanlostApprove/loanlostApproveSecond";
+				var url = "${ctx}/task/loanlostApprove/loanlostApproveDirector";				
 				
 				$.ajax({
 					cache : true,

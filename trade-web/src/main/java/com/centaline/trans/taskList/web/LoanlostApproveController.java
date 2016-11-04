@@ -123,7 +123,7 @@ public class LoanlostApproveController {
 		restVariable.setValue(LoanLost_manager.equals("true"));		
 		variables.add(restVariable);
 		//非空判断
-		if(!StringUtils.isBlank(LoanLost_manager_response)) {
+		if(!StringUtils.isBlank(LoanLost_manager_response)) {//审核意见
 			RestVariable restVariable1 = new RestVariable();
 			restVariable1.setName("LoanLost_manager_response");
 			restVariable1.setValue(LoanLost_manager_response);
@@ -156,12 +156,12 @@ public class LoanlostApproveController {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 	
 		
-		if(LoanLost_manager.equals("true")){
+		if(LoanLost_manager.equals("true")){//主管神经的结果
 			//查询高级主管
 			User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
 			RestVariable restVariableSeniorManager = new RestVariable();
 			RestVariable restVariableSeniorManagerType = new RestVariable();
-			if(null != seniorManager && StringUtil.isBlank(seniorManager.getId()) ){
+			if(null != seniorManager && !StringUtil.isBlank(seniorManager.getId()) ){
 				restVariableSeniorManager.setName("SeniorManager");
 				restVariableSeniorManager.setValue(seniorManager.getUsername());
 				restVariableSeniorManagerType.setName("LoanLost_manager");
@@ -242,12 +242,12 @@ public class LoanlostApproveController {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 	
 		
-		if(LoanLost_director.equals("true")){
+		if(!LoanLost_director.equals("true")){
 			//查询高级主管
 			User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
 			RestVariable restVariableDirector = new RestVariable();
 			RestVariable restVariableDirectorType = new RestVariable();
-			if(null != seniorManager && StringUtil.isBlank(seniorManager.getId()) ){
+			if(null != seniorManager && !StringUtil.isBlank(seniorManager.getId()) ){
 				restVariableDirector.setName("SeniorManager");
 				restVariableDirector.setValue(seniorManager.getUsername());
 				restVariableDirectorType.setName("LoanLost_director");
@@ -256,7 +256,7 @@ public class LoanlostApproveController {
 				restVariableDirector.setValue(null);
 				restVariableDirectorType.setName("LoanLost_director");				
 			}
-			restVariableDirectorType.setValue(true);
+			restVariableDirectorType.setValue(false);
 			variables.add(restVariableDirector);
 			variables.add(restVariableDirectorType);
 		}

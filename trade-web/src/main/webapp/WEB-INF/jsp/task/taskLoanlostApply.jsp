@@ -517,6 +517,7 @@
 							window.close();
 							window.opener.callback();
 						}
+						$.unblockUI();
 					},
 					error : function(errors) {
 						alert("数据保存出错");
