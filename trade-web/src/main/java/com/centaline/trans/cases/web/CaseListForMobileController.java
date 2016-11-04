@@ -1,6 +1,7 @@
 package com.centaline.trans.cases.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,9 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.TransPositionEnum;
@@ -79,7 +82,7 @@ public class CaseListForMobileController {
 		if(toCase!=null){
 			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
 			ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
-			User agentUser = null;
+			/*User agentUser = null;
 			User userManager = null;
 			//经纪人
 			if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
@@ -91,7 +94,7 @@ public class CaseListForMobileController {
 				if (mcList != null && mcList.size() > 0) {
 					userManager = mcList.get(0);
 				}
-			}
+			}*/
 			// 上下家
 			List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
 			StringBuffer seller = new StringBuffer();
@@ -124,12 +127,11 @@ public class CaseListForMobileController {
 				}
 			}
 			// 合作顾问
-			/*List<CaseDetailProcessorVO> proList = new ArrayList<CaseDetailProcessorVO>();
+			List<CaseDetailProcessorVO> proList = new ArrayList<CaseDetailProcessorVO>();
 			TgServItemAndProcessor inProcessor = new TgServItemAndProcessor();
 			inProcessor.setCaseCode(toCase.getCaseCode());
 			inProcessor.setProcessorId(toCase.getLeadingProcessId());
 			List<String> tgproList = tgServItemAndProcessorService.findProcessorsByCaseCode(inProcessor);
-			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
 			for (String sp : tgproList) {
 				if (StringUtils.isEmpty(sp))
 					continue;
@@ -138,11 +140,12 @@ public class CaseListForMobileController {
 				proVo.setProcessorId(processor.getId());
 				proVo.setProcessorName(processor.getRealName());
 				proVo.setProcessorMobile(processor.getMobile());
+				proVo.setProcessorOrgName(processor.getOrgName());
 				proList.add(proVo);
 			}
 			User leading=uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 			request.setAttribute("leading", leading);
-			request.setAttribute("proList", proList);*/
+			request.setAttribute("proList", proList);
 			
 		     /**
 	         * 纪纪人头像
@@ -153,8 +156,6 @@ public class CaseListForMobileController {
 			request.setAttribute("toPropertyInfo", toPropertyInfo);
 			request.setAttribute("seller", seller.toString());
 			request.setAttribute("buyer", buyer.toString());
-			request.setAttribute("user", agentUser);
-			request.setAttribute("userManager", userManager);
 		}
 		return "mobile/case/detail";
 	}

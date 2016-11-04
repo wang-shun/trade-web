@@ -177,6 +177,7 @@
 		location="/static_res/font-awesome/" />
 	<mvc:resources mapping="/static/fonts/**" location="/static_res/fonts/" />
 	<mvc:resources mapping="/static/iconfont/**" location="/static_res/iconfont/" />
+	<mvc:resources mapping="/static/iconfontmobile/**" location="/static_res/iconfontmobile/" />
 	<mvc:resources mapping="/static/img/**" location="/static_res/img/" />
 	<mvc:resources mapping="/static/js/**" location="/static_res/js/" />
 	<mvc:resources mapping="/static/less/**" location="/static_res/less/" />

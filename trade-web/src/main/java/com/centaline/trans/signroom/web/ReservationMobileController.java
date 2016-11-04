@@ -72,6 +72,8 @@ public class ReservationMobileController {
 	 * 
 	 * @return 剩余预约次数
 	 */
+	@RequestMapping(value = "getRemainBespeakNumber")
+	@ResponseBody
 	public int getRemainBespeakNumber() {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 

@@ -966,41 +966,23 @@ $(document).ready(function(){
 		var isVerify = true;
 		var isRepeat = false;
 		var rowElement1,rowElement2;
-		
-		var isNull = true;
-		for(var i=0;i<length;i++){
-			var deCondCode = $("select[name='toSpvDeDetailList["+i+"].deCondCode'] option:selected").val();
-			var payeeAccountType = $("select[name='toSpvDeDetailList["+i+"].payeeAccountType'] option:selected").val();
-		    var deAmount = $("input[name='toSpvDeDetailList["+i+"].deAmount']").val();
-		    var deAddition = $("input[name='toSpvDeDetailList["+i+"].deAddition']").val();
-		    if((deCondCode != null && deCondCode != '') || (payeeAccountType != null && payeeAccountType != '') 
-		    		|| (deAmount != null && deAmount != '') || (deAddition != null && deAddition != '')){
-		    	isNull = false;
-		    	break;
-		    }
-		}
-		
-		if(isNull){
-			alert("请至少添加一条资金出款约定！");
-			return false;
-		}
 
-		$("#addTr tr:visible").each(function(index){
-			var deCondCode = $("select[name='toSpvDeDetailList[" + index  + "].deCondCode'] option:selected").val();
-    		var payeeAccountType = $("select[name='toSpvDeDetailList[" + index + "].payeeAccountType'] option:selected").val();
-    		var deAmount = $("input[name='toSpvDeDetailList[" + index + "].deAmount'").val();
+		$("#addTr tr:visible").each(function(i,e){
+			var deCondCode = $(e).find("select[name$='deCondCode'] option:selected").val();
+    		var payeeAccountType = $(e).find("select[name$='payeeAccountType'] option:selected").val();
+    		var deAmount = $(e).find("input[name$='deAmount']").val();
     		
     		if(deCondCode == "" || payeeAccountType == "" || deAmount == ""){
-    			rowElement1 = $("select[name='toSpvDeDetailList[" + index  + "].deCondCode']");
+    			rowElement1 = $(e).find("select[name$='deCondCode']");
     			isVerify = false;
     			return false;
     		}
     		
-    		$("#addTr tr:visible").each(function(index1){
-    			if(index != index1 && 
-    					deCondCode == $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode'] option:selected").val() &&
-    					payeeAccountType == $("select[name='toSpvDeDetailList[" + index1 + "].payeeAccountType'] option:selected").val()){
-    				rowElement2 = $("select[name='toSpvDeDetailList[" + index1  + "].deCondCode']");
+    		$("#addTr tr:visible").each(function(i_,e_){
+    			if(i != i_ && 
+    					deCondCode == $(e_).find("select[name$='deCondCode'] option:selected").val() &&
+    					payeeAccountType == $(e_).find("select[name$='payeeAccountType'] option:selected").val()){
+    				rowElement2 = $(e_).find("select[name$='deCondCode']");
     				isRepeat = true;
     				return false;
     			}

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 
@@ -9,7 +10,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-	<title>详情</title>
+	<title>誉萃交易进度查询</title>
 	<%-- <link rel="stylesheet" href="${ctx}/momedia/css/caseDetailsStyle.css"> --%>
 	<link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -17,41 +18,55 @@
     <link href="${ctx}/static/css/animate.css" rel="stylesheet">
     <link href="${ctx}/static/css/style.css" rel="stylesheet">
     <link href="${ctx}/static/css/mobile-yc-style4.css" rel="stylesheet">
+    <link href="${ctx}/static/iconfontmobile/iconfont.css" rel="stylesheet">
 </head>
 <body>
     <div id="wrapper">
-        <div id="page-wrapper" class="gray-bg">
-
-            <div class="wrapper wrapper-content">
+        <div  class="white-bg">
+            <header class="aui-bar aui-bar-nav">
+                <a class="aui-pull-left">
+                    <span class="aui-iconfont aui-icon-left"><i class="iconfont font-20">&#xe628;</i></span>
+                </a>
+                <div class="aui-title font-18">进度查看</div>
+            </header>
+            <section class="case-info">
+                <header class="font-16">案件信息</header>
+                <div class="miuu-info">
+                    <div class="mt5"><i class="iconfont wathet mr5">&#xe60f;</i>${toPropertyInfo.propertyAddr }</div>
+                    <div class="clearfix mt5">
+                        <span class="info-minute"><i class="iconfont wathet mr5">&#xe677;</i>${toCase.caseCode }</span>
+                        <span class="info-minute"><i class="iconfont wathet mr5">&#xe60e;</i><fmt:formatDate value='${toCase.createTime }' type='both' pattern='yyyy-MM-dd'/></span>
+                    </div>
+                </div>
+            </section>
+            <section class="miuu-home clearfix">
+                <p>上家：${seller }</p>
+                <p>下家：${buyer }</p>
+            </section>
+            <section class="data-list">
+               <div class="col-sm-12 miu-data">
+                    <p class="clearfix">
+                        <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe670;</i>${leading.realName }(主办)</span>
+                        <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe614;</i>${leading.mobile }</span>
+                    </p>
+                    <p><i class="iconfont lightgrey mr5">&#xe612;</i>${leading.orgName }</p>
+               </div>
+               <c:if test="${!empty proList}">
+                       <c:forEach items="${proList}" var="pro"> 
+                      		<div class="col-sm-12 miu-data">
+			                    <p class="clearfix">
+			                        <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe61a;</i>${pro.processorName}(合作)</span>
+			                        <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe614;</i>${pro.processorMobile}</span>
+			                    </p>
+			                    <p><i class="iconfont lightgrey mr5">&#xe612;</i>${pro.processorOrgName}</p>
+		                	</div>
+                       </c:forEach>
+                </c:if>
+            </section>
+   				<div class="wrapper wrapper-content">
                 <div class="row animated fadeInRight">
                     <div class="col-lg-12">
-
                         <div class="ibox">
-                            <div class="ibox-content case-title-content" >
-                                <div id="case-title" class="row">
-                                    <div class="col-lg-12">
-                                        <dl class="dl-horizontal">
-                                            <dt><strong><h4>案件编号</h4></strong></dt>
-                                            <dd>
-                                                <span class="label label-success">${toCase.caseCode }</span>
-                                            </dd>
-                                            <dt>地址</dt>
-                                            <dd>${toPropertyInfo.propertyAddr }</dd>
-
-                                            <dt>上家</dt>
-                                            <dd>${seller }</dd>
-                                            <dt>下家</dt>
-                                            <dd>${buyer }</dd>
-
-                                            <dt>经纪人</dt>
-                                            <dd>${user.realName } | ${user.orgName }</dd>
-                                            <dt>客户经理</dt>
-                                            <dd>${userManager.realName } | ${userManager.orgName }</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-
                              <div class="ibox-content timeline-content" id="">
                                 <div id="vertical-timeline" class="vertical-container dark-timeline content">
 
@@ -199,8 +214,8 @@
                                         <div class="vertical-timeline-content">
                                             <div class="col-sm-4 user-pic">
                                                 <div class="text-center">
-                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="{{imgApp}}/{{item.EMPLOYEE_CODE}}.jpg"> 
-                                                    <button type="button" class="btn btn-grey" data-toggle="modal" data-target="#myModal2">
+                                                    <img alt="image" class="img-circle m-t-xs img-responsive" src="{{imgApp}}/{{item.EMPLOYEE_CODE}}.jpg" onerror="this.src='{{ctx}}/static/img/touxiang.png'"> 
+                                                    <button type="button" class="btn btn-grey">
                                                         <i class="fa fa-phone-square"></i>{{item.ASSIGNEE}}
                                                     </button>
                                                 </div>
@@ -248,6 +263,7 @@
                 data: postData,
                 success: function(data){
                    data.imgApp = imgApp;
+                   data.ctx = ctx;
              	   var html=template('timeLine', data); 
         				$(".content").append(html);
                 },
