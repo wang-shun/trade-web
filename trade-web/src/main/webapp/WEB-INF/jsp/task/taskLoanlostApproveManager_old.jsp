@@ -223,9 +223,7 @@
 			function save() {
 
 				var jsonData = $("#lamform").serializeArray();
-
-				var url = "${ctx}/task/loanlostApprove/loanlostApproveFirst";
-
+				var url = "${ctx}/task/loanlostApprove/loanlostApproveFirst";	
 				$.ajax({
 					cache : true,
 					async : false,//false同步，true异步

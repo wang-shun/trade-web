@@ -24,6 +24,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
@@ -69,8 +70,11 @@ public class LoanlostApproveController {
 	private ToMortgageService toMortgageService;
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
-
-	@RequestMapping(value={"loanlostApproveManager/process","loanlostApproveDirector/process"})
+	
+	@Autowired(required = true)
+	private UamUserOrgService uamUserOrgService;
+	
+	@RequestMapping(value={"loanlostApproveManager/process","loanlostApproveSeniorManager/process","loanlostApproveDirector/process"})
 	public String toLoanLostApproveManagerProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();
@@ -98,13 +102,17 @@ public class LoanlostApproveController {
 	}
 	
 	
+	
 	@RequestMapping(value="loanlostApprove/loanlostApproveFirst")
 	@ResponseBody
 	public Boolean loanlostApproveFirst(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_manager, String LoanLost_manager_response,String loanLostManagerNotApprove) {
 	   	/*保存审核记录*/
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_manager, LoanLost_manager_response,loanLostManagerNotApprove);
-		
+		System.out.println("111111111111111111111111111111111111111111111111111111");		
+		System.out.println("222222222222222222222222222222222222222222222222222222");
+		System.out.println("3333333333333333333333333333333333333333333333333333333");
+	
 		/*发送提醒*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
@@ -127,6 +135,149 @@ public class LoanlostApproveController {
 		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
 	}
+	
+	@RequestMapping(value="loanlostApprove/loanlostApproveFirstNew")
+	@ResponseBody
+	public Boolean loanlostApproveFirstNew(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
+			LoanlostApproveVO loanlostApproveVO, String LoanLost_manager, String LoanLost_manager_response,String loanLostManagerNotApprove) {
+	   	/*保存审核记录*/
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_manager, LoanLost_manager_response,loanLostManagerNotApprove);
+		
+		/*发送提醒*/
+		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
+		
+		ToCase te = null;
+		if( null != processInstanceVO){
+			te = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
+		}		
+		String orgId = te.getOrgId();
+		
+		/*流程引擎相关*/	
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+	
+		
+		if(LoanLost_manager.equals("true")){
+			//查询高级主管
+			User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
+			RestVariable restVariableSeniorManager = new RestVariable();
+			RestVariable restVariableSeniorManagerType = new RestVariable();
+			if(null != seniorManager && StringUtil.isBlank(seniorManager.getId()) ){
+				restVariableSeniorManager.setName("SeniorManager");
+				restVariableSeniorManager.setValue(seniorManager.getUsername());
+				restVariableSeniorManagerType.setName("LoanLost_manager");
+			}else{
+				restVariableSeniorManager.setName("SeniorManager");
+				restVariableSeniorManager.setValue(null);
+				restVariableSeniorManagerType.setName("LoanLost_manager");
+				
+			}
+			restVariableSeniorManagerType.setValue(true);
+			variables.add(restVariableSeniorManager);
+			variables.add(restVariableSeniorManagerType);
+		}
+		RestVariable restVariable = new RestVariable();
+		restVariable.setName("LoanLost_manager");
+		restVariable.setValue(LoanLost_manager.equals("true"));	
+		variables.add(restVariable);
+
+		//非空判断
+		if(!StringUtils.isBlank(LoanLost_manager_response)) {
+			RestVariable restVariable1 = new RestVariable();
+			restVariable1.setName("LoanLost_manager_response");
+			restVariable1.setValue(LoanLost_manager_response);
+			variables.add(restVariable1);
+		}
+
+		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
+		
+		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
+				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+	}
+	
+	
+	@RequestMapping(value="loanlostApprove/loanlostApproveBySeniorManager")
+	@ResponseBody
+	public Boolean loanlostApproveBySeniorManager(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
+			LoanlostApproveVO loanlostApproveVO, String LoanLost_SeniorManager, String LoanLost_SeniorManager_response,String loanLostDirectorNotApprove) {
+		/*保存审核记录*/
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_SeniorManager, LoanLost_SeniorManager_response,loanLostDirectorNotApprove);
+		/*发送提醒*/
+		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
+		
+		/*流程引擎相关*/
+		RestVariable restVariable = new RestVariable();
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		restVariable.setName("LoanLost_SeniorManager");
+		restVariable.setValue(LoanLost_SeniorManager.equals("true"));
+		variables.add(restVariable);		
+		
+		if(!StringUtil.isBlank(LoanLost_SeniorManager_response)) {
+			RestVariable restVariable1 = new RestVariable();
+			restVariable1.setName("LoanLost_SeniorManager_response");
+			restVariable1.setValue(LoanLost_SeniorManager_response);
+			variables.add(restVariable1);
+		}
+
+		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
+		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
+				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+	}
+	
+	
+	@RequestMapping(value="loanlostApprove/loanlostApproveDirector")
+	@ResponseBody
+	public Boolean loanlostApproveDirector(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
+			LoanlostApproveVO loanlostApproveVO, String LoanLost_director, String LoanLost_director_response,String loanLostDirectorNotApprove) {
+		/*保存审核记录*/
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_director, LoanLost_director_response,loanLostDirectorNotApprove);
+		/*发送提醒*/
+		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
+		
+		ToCase te = null;
+		if( null != processInstanceVO){
+			te = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
+		}		
+		String orgId = te.getOrgId();
+		
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+	
+		
+		if(LoanLost_director.equals("true")){
+			//查询高级主管
+			User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
+			RestVariable restVariableDirector = new RestVariable();
+			RestVariable restVariableDirectorType = new RestVariable();
+			if(null != seniorManager && StringUtil.isBlank(seniorManager.getId()) ){
+				restVariableDirector.setName("SeniorManager");
+				restVariableDirector.setValue(seniorManager.getUsername());
+				restVariableDirectorType.setName("LoanLost_director");
+			}else{
+				restVariableDirector.setName("SeniorManager");
+				restVariableDirector.setValue(null);
+				restVariableDirectorType.setName("LoanLost_director");				
+			}
+			restVariableDirectorType.setValue(true);
+			variables.add(restVariableDirector);
+			variables.add(restVariableDirectorType);
+		}
+		RestVariable restVariable = new RestVariable();
+		restVariable.setName("LoanLost_director");
+		restVariable.setValue(LoanLost_director.equals("true"));	
+		variables.add(restVariable);
+		
+		
+		if(!StringUtil.isBlank(LoanLost_director_response)) {
+			RestVariable restVariable1 = new RestVariable();
+			restVariable1.setName("LoanLost_director_response");
+			restVariable1.setValue(LoanLost_director_response);
+			variables.add(restVariable1);
+		}
+
+		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
+		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
+				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+	}
+	
 	
 	@RequestMapping(value="loanlostApprove/loanlostApproveSecond")
 	@ResponseBody
@@ -154,6 +305,7 @@ public class LoanlostApproveController {
 		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
 	}
+	
 	
 	@RequestMapping(value="loanlostApprove/loanlostApproveThird")
 	@ResponseBody
