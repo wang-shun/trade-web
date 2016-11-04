@@ -48,42 +48,38 @@
 </html>
 <script id="template_myReservationList" type="text/html">
 	{{if rows.length > 0}}
-		<ul class="aui-list aui-media-list white">
+		<ul class="aui-list aui-media-list">
+			<li class="aui-list-header">
+                <div class="aui-info pd0">
+                    <div class="aui-info-item">
+                       	<span class="aui-margin-l-5 book">您还剩余<span class="num">${remainBespeakNumber}</span>次预约机会</span>
+                    </div>
+                </div>
+            </li>
       	{{each rows as item index}}
-			{{if index == 0}}
-				<li class="aui-list-header header_grey_bg">
-                	<div class="aui-info pd0">
-                    	<div class="aui-info-item">
-                       		<span class="aui-margin-l-5 book">您还剩余<span class="num">${remainBespeakNumber}</span>次预约机会</span>
-                    	</div>
-                    	<div class="aui-info-item color80 font12">{{item.resDate}}<span class="deepgrey ml5">{{item.actStartDate}}-{{item.actEndDate}}</span></div>
-                	</div>
-            	</li>
-			{{else}}
-				<li class="aui-list-header header_grey_bg">
-                	<div class="aui-info aui-margin-l-5 pd0">
-                    	<div class="aui-info-item color80 font12">{{item.resDate}}<span class="deepgrey ml5">{{item.actStartDate}}-{{item.actEndDate}}</span></div>
-                	</div>
-            	</li>
-			{{/if}}
-				
-            <li class="aui-list-item">
+			
+						<input type="hidden" value="{{item.currentDate}}" />
+<input type="hidden" value="{{item.resDate}}" />
+            <li class="aui-list-item" style="margin-bottom:8px">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-inner">
-                        <div class="aui-list-item-title font15 order-title left mr10">{{item.tradeCenterName}}</div>
+                        <div class="aui-list-item-title font15 order-title left mr10">{{item.tradeCenterName}}<span class="newgrey font12">(参与人数:{{item.numberOfParticipants}}人)</span></div>
                         <div class="aui-list-item-title font15 order-title left" >
-                            预约号：<em class="yellow">{{item.resNo}}</em>
+                            	预约号：<em class="yellow">{{item.resNo}}</em>
                         </div>
                         <div class="aui-list-item-text font12 newgrey clear">
-                            房屋地址：{{item.propertyAddr}}
+                            	房屋地址：{{item.propertyAddr}}
                         </div>
                         <div class="aui-list-item-text font12 newgrey">
-                            备注：{{item.specialReq}}
+                            	备注：{{item.specialReq}}
+                        </div>
+						<div class=" font14 newgrey">
+                            <i class="iconfont blue mr5 font14">&#xe605;</i>{{item.resDate}} {{item.actStartDate}}-{{item.actEndDate}}
                         </div>
                     </div>
                     <div class="aui-list-item-media listspace"></div>
 						{{if item.resStatus == '0'}}
-							<div class="aui-btn aui-center" style="z-index:100" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
+							<div class="aui-btn aui-center" style="z-index:1" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
 						{{/if}}
 
 						{{if item.resStatus == '1'}}
@@ -101,6 +97,7 @@
 						{{if item.resStatus == '4'}}
 							<div class="aui-btn aui-center trans_bg red">已取消</div>
 						{{/if}}
+
 
 					{{if item.currentDate == item.resDate}}
 						<span class="shuxing"></span>
