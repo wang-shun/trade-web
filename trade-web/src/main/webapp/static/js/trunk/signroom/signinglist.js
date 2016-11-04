@@ -339,9 +339,11 @@ function saveChangeRoom(resId,scheduleId,flag){
 	var resStartDateTime = new Date(resStartTime);
 	var resEndDateTime = new Date(resEndTime);
 	
-	if(currentDateTime < resStartDateTime || currentDateTime > resEndDateTime){
-		alert("不能开始，不在预约时间内！");
-		return false;
+	if(flag == "changeAndSave"){
+		if(currentDateTime < resStartDateTime || currentDateTime > resEndDateTime){
+			alert("不能开始，不在预约时间内！");
+			return false;
+		}
 	}
 	
 	$.ajax({
