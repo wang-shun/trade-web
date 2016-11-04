@@ -73,7 +73,7 @@ function openConfirm(resId){
 
 //打开取消预约确定弹出框
 var dialog = new auiDialog({})
-function openDialog(text,resId){
+function openDialog(text,resId,obj){
     dialog.alert({
         title:"",
         msg:'您确定要取消本次预约吗?',
@@ -81,7 +81,7 @@ function openDialog(text,resId){
     },function(ret){
         if(ret){
             if(ret.buttonIndex == 2) {
-            	cancelReservation(resId);
+            	cancelReservation(resId,obj);
             } else {
                 return false;
             }
@@ -91,7 +91,9 @@ function openDialog(text,resId){
 
 
 //取消预约
-function cancelReservation(resId){
+function cancelReservation(resId,obj){
+	$li = $(obj).parents(".aui-list-item");
+	
 	$.ajax({
 		cache:false,
 		async:false,
@@ -101,9 +103,7 @@ function cancelReservation(resId){
 		data:{resId:resId},
 		success:function(data){
 			if(data == "true"){
-				setTimeout(function(){ 
-					location.href = ctx + "/weixin/signroom/myReservationList";
-			    }, 1500);
+				$li.remove();
 			}
 		}
 	});
