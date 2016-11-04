@@ -319,7 +319,7 @@ function romoveDiv(type,pkid){
 function deletePicBatch(){
 	if(pkIdArr==''){
     	//alert("请选择至少一张图片删除!");
-		return true;
+		return false;
 	}
 	var aa = false;
 		$.ajax({
