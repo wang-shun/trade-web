@@ -134,7 +134,8 @@ $(function () {
 				success : function(data) {   
 						if(data.success){
 							alert(data.message);
-							window.location.href = ctx+"/signroom/signRoomAllotList";
+							$("#closeBtn").click();
+							signRommAjaxSubmit(1);
 						}else{
 							alert(data.message);
 						}

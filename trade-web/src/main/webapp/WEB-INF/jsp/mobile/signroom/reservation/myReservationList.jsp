@@ -79,7 +79,7 @@
                     </div>
                     <div class="aui-list-item-media listspace"></div>
 						{{if item.resStatus == '0'}}
-							<div class="aui-btn aui-center" style="z-index:1" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}')">取消预约</div>
+							<div class="aui-btn aui-center" style="z-index:1" id="{{item.resId}}" onclick="openDialog('text','{{item.resId}}',this)">取消预约</div>
 						{{/if}}
 
 						{{if item.resStatus == '1'}}
