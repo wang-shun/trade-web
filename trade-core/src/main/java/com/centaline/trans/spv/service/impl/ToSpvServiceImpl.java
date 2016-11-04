@@ -1768,9 +1768,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 		caseInfoMap.put("propertySquare", toPropertyInfo.getSquare());
 		caseInfoMap.put("processorName", consultUser == null ? "" : consultUser.getRealName());
 		caseInfoMap.put("agentName", agentUser == null ? "" : agentUser.getRealName());
-		caseInfoMap.put("sellerName", seller.indexOf("/") == -1?seller:seller.substring(0, seller.indexOf("/")));
+		caseInfoMap.put("sellerName", seller);
 		caseInfoMap.put("sellerMobil", sellerMobil.indexOf("/") == -1?sellerMobil:sellerMobil.substring(0, sellerMobil.indexOf("/")));
-		caseInfoMap.put("buyerName", buyer.indexOf("/") == -1?buyer:buyer.substring(0, buyer.indexOf("/")));
+		caseInfoMap.put("buyerName", buyer);
 		caseInfoMap.put("buyerMobil", buyerMobil.indexOf("/") == -1?buyerMobil:buyerMobil.substring(0, buyerMobil.indexOf("/")));
 		
 		return caseInfoMap;

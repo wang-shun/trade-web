@@ -49,7 +49,7 @@ public class ReservationManageController {
 	 * 
 	 * @param model
 	 * @param request
-	 * @return
+	 * @return 返回true,操作成功;返回false,操作失败。
 	 */
 	@RequestMapping(value = "changeRoom")
 	@ResponseBody
@@ -80,7 +80,7 @@ public class ReservationManageController {
 	 * 
 	 * @param model
 	 * @param request
-	 * @return
+	 * @return 返回true,操作成功;返回false,操作失败。
 	 */
 	@RequestMapping(value = "getUseableSignRoomList")
 	@ResponseBody
@@ -116,11 +116,13 @@ public class ReservationManageController {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
 		String distinctId = "";
+		// 如果当前用户属于组级别的
 		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
 			Org org = uamUserOrgService.getOrgById(currentUser
 					.getServiceCompanyId());
 
 			distinctId = org.getParentId();
+			// 如果当前用户属于区级别的
 		} else if ("yucui_district"
 				.equals(currentUser.getServiceDepHierarchy())) {
 			distinctId = currentUser.getServiceCompanyId();
@@ -160,6 +162,13 @@ public class ReservationManageController {
 		return "signroom/signinglist";
 	}
 
+	/**
+	 * 保存最新跟进信息
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
 	@RequestMapping(value = "saveResFlowup")
 	@ResponseBody
 	public String saveResFlowup(Model model, HttpServletRequest request) {
@@ -179,6 +188,13 @@ public class ReservationManageController {
 		return resFlowupService.saveResFlowup(resFlowup) > 0 ? "true" : "false";
 	}
 
+	/**
+	 * 开始使用及结束使用
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
 	@RequestMapping(value = "startAndEndUse")
 	@ResponseBody
 	public String startAndEndUse(Model model, HttpServletRequest request) {
