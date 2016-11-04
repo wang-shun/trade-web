@@ -37,7 +37,6 @@ function reloadGrid(page){
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
-        	console.log(data);
           $.unblockUI();
       	  data.visitRemark = visitRemark;
       	  var dealChangeList = template('template_dealChangeList' , data);
