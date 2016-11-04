@@ -135,6 +135,17 @@ public class ReservationManageController {
 		String endDateTime = request.getParameter("endDateTime");
 		String resTime = request.getParameter("resTime");
 		String resStatus = request.getParameter("resStatus");
+		String flag = request.getParameter("flag");
+
+		if (flag == null) {
+			if (startDateTime == null || "".equals(startDateTime)) {
+				startDateTime = sdf.format(new Date());
+			}
+
+			if (endDateTime == null || "".equals(endDateTime)) {
+				endDateTime = sdf.format(new Date());
+			}
+		}
 
 		request.setAttribute("resPersonId", resPersonId);
 		request.setAttribute("resPeopleId", resPeopleId);

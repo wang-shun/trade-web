@@ -49,4 +49,8 @@ public class QuickQueryGetFlowupInfoListServiceImpl implements
 		return true;
 	}
 
+	@Override
+	public Boolean isCacheable() {
+		return true;
+	}
 }

@@ -30,51 +30,51 @@ function checkFormSubmit(){
     	return false;
     }
     
-    var payerFlag = true;
-    var payerEle;
-    $("input[name$='toSpvCashFlow.payer']").each(function(i,e){
+    var receiverFlag = true;
+    var receiverEle;
+    $("input[name$='toSpvCashFlow.receiver']").each(function(i,e){
     	if($(e).val() == null || $(e).val() == ''){
-    		payerFlag = false;
-    		payerEle = $(e);
+    		receiverFlag = false;
+    		receiverEle = $(e);
     		return false;
     	}
     });
     
-    if(!payerFlag){
+    if(!receiverFlag){
     	alert("请填写收款人姓名！");
-    	changeClass(payerEle);
+    	changeClass(receiverEle);
     	return false;
     }
     
-	var payerAccFlag = true;	
-	var payerAccEle;
-	$("input[name$='toSpvCashFlow.payerAcc']").each(function(i,e){
+	var receiverAccFlag = true;	
+	var receiverAccEle;
+	$("input[name$='toSpvCashFlow.receiverAcc']").each(function(i,e){
 		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber2($(e).val()))){
-			 payerAccFlag = false;
-			 payerAccEle = $(e);
+			 receiverAccFlag = false;
+			 receiverAccEle = $(e);
 			 return false;
 			 }
 		});
 	
-    if(!payerAccFlag){
+    if(!receiverAccFlag){
     	alert("请填写有效的银行卡号！");
-	    changeClass(payerAccEle);
+	    changeClass(receiverAccEle);
 		return false;
     }
     
-	var payerBankFlag = true;
-	var payerBankEle;
-	$("input[name$='toSpvCashFlow.payerBank']").each(function(i,e){
+	var receiverBankFlag = true;
+	var receiverBankEle;
+	$("input[name$='toSpvCashFlow.receiverBank']").each(function(i,e){
 		if($(e).val() == null || $(e).val() == ''){
-			 payerBankFlag = false;
-			 payerBankEle = $(e);
+			 receiverBankFlag = false;
+			 receiverBankEle = $(e);
 			 return false;
 			 }
 		});
 	
-    if(!payerBankFlag){
+    if(!receiverBankFlag){
     	alert("请填写银行名称！");
-	    changeClass(payerBankEle);
+	    changeClass(receiverBankEle);
 		return false;
     }
 
@@ -105,16 +105,11 @@ function checkFormSubmit(){
     var totalCashFlowOutAmount = Number($("#totalCashFlowOutAmount").val());
     var totalProcessCashFlowOutAmout = Number($("#totalProcessCashFlowOutAmout").val());
 
-    if(!handle){
+    if(!handle || handle == 'apply'){
     	if(accAdd(Number(sumAmount),accAdd(totalCashFlowOutAmount,totalProcessCashFlowOutAmout)) > totalCashFlowInAmount){
         	alert("已经超过可出账的金额！");
         	return false;
         }
-    }else if(handle == 'apply'){
-	    if(accAdd(totalCashFlowOutAmount,totalProcessCashFlowOutAmout) > totalCashFlowInAmount){
-	    	alert("已经超过可出账的金额！");
-	    	return false;
-	    }
     }
     
 	var voucherNoFlag = true;	

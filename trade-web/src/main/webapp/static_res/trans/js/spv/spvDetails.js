@@ -126,7 +126,6 @@ $(document).ready(function(){
 
        
        $("#submitBtn").click(function(){
-    	   debugger;
       	  if(!deleteAndModify()){
      		  return false;
      	  }
@@ -1039,8 +1038,8 @@ $(document).ready(function(){
 	function getRowsAmount(){
 		var total = 0;
 	
-		$("#addTr tr:visible").each(function(index){
-    		var deAmount = $("input[name='toSpvDeDetailList[" + index + "].deAmount'").val();		
+		$("#addTr tr:visible").each(function(index,element){
+    		var deAmount = $(element).find("input[name$='deAmount']").val();		
     		if(deAmount == ""){
     			return true;
     		}

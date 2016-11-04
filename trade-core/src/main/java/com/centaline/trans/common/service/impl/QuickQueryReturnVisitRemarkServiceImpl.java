@@ -12,7 +12,6 @@ import com.aist.common.quickQuery.service.CustomDictService;
 public class QuickQueryReturnVisitRemarkServiceImpl implements CustomDictService{
 	
 	@Override
-	@Cacheable(value="QuickQueryReturnVisitRemarkServiceImpl",key="#root.targetClass + #root.methodName")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for(Map<String, Object> key:keys){
 			String val = "未处理";
