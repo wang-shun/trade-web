@@ -636,8 +636,8 @@
 								</div>
 									<div class="ibox-content">
 										<div class="jqGrid_wrapper">
-											<table id="table_list_1"></table>
-											<div id="pager_list_1" ></div>
+											<table id="table_list_1" style="width: 100%;"></table>
+											<div id="pager_list_1" style="height:50px;"></div>
 										</div>
 									</div>
 								</div>
