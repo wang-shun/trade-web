@@ -22,8 +22,6 @@
 			LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO
 			ON INFO.CASE_CODE =
 			ec.CASE_CODE
-			LEFT JOIN sctrans.sys_user u ON
-			ec.EXCUTOR_ID=u.ID
 			<where>
 				(ec.STATUS IS NULL OR ec.STATUS='VALID')
 				<trim prefix="and" prefixOverrides="and|or">
@@ -78,7 +76,7 @@
 			loanAgent.PKID,
 		    '' as loanCode,
 			loanAgent.LOAN_SRV_CODE,
-			loanAgent.ACTUAL_AMOUNT as releaseAmout,
+			loanAgent.ACTUAL_AMOUNT/10000 as releaseAmout,
 			loanAgent.RELEASE_TIME,
 			loanAgent.CONFIRM_STATUS,
 			INFO.PROPERTY_ADDR,
@@ -91,8 +89,8 @@
 			LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO
 			ON INFO.CASE_CODE =
 			loanAgent.CASE_CODE
-			LEFT JOIN sctrans.sys_user u ON
-			loanAgent.EXECUTOR_ID=u.ID
+			LEFT JOIN sctrans.sys_org org ON
+			loanAgent.EXECUTOR_TEAM=org.ID
 			<where>
 			     loanAgent.CONFIRM_STATUS='3'
 				<trim prefix="and" prefixOverrides="and|or">
@@ -109,7 +107,7 @@
 						test="#SYS_BUSIDEPHIERARCHY == 'TeamAssistant' 
 						and #SYS_JOBCODE == 'yucui_team' "> and loanAgent.EXECUTOR_TEAM=#{serviceDepId}
 					</if>
-					<if test="#SYS_BUSIDEPHIERARCHY == 'yucui_district'"> and loanAgent.EXECUTOR_DISTRICT
+					<if test="#SYS_BUSIDEPHIERARCHY == 'yucui_district'"> and org.PARENT_ID
 						=#{serviceDepId}
 					</if>
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
@@ -142,35 +140,33 @@
 		<grid>
 		    <column name="type" title="type" hidden="true" />
 		     <column name="PKID" title="PKID" hidden="true" />
-			<column name="loanCode" title="loanCode" hidden="true" />
-			<column name="LOAN_SRV_CODE" field="LOAN_SRV_CODE" title="LOAN_SRV_CODE"
+			<column name="loanCode" title="e+编号" hidden="true" />
+			<column name="LOAN_SRV_CODE" field="LOAN_SRV_CODE" title="产品名称"
 				hidden="true" customDict="qqcdDictServCode" />
-			<column name="releaseAmout" title="releaseAmout" hidden="true" />
+			<column name="releaseAmout" title="放款金额(万)" hidden="true" />
 			<column name="RELEASE_TIME" title="RELEASE_TIME" field="RELEASE_TIME"
 				hidden="true" customDict="getFormatDate" />
-			<column name="CONFIRM_STATUS" title="CONFIRM_STATUS" hidden="true" />
-			<column name="PROPERTY_ADDR" title="PROPERTY_ADDR" hidden="true" />
-			<column name="CUST_NAME" title="CUST_NAME" hidden="true" />
-			<column name="FIN_ORG_CODE" title="FIN_ORG_CODE" field="FIN_ORG_CODE"
+			<column name="CONFIRM_STATUS" title="审批状态" hidden="true" />
+			<column name="PROPERTY_ADDR" title="物业地址" hidden="true" />
+			<column name="CUST_NAME" title="客户名称" hidden="true" />
+			<column name="FIN_ORG_CODE" title="合作机构" field="FIN_ORG_CODE"
 				customDict="qqfinOrgIdName" hidden="true" />
 			<column name="ecutorId" field="ecutorId" customDict="qqcdUserIdName"
-				title="ecutorId" />
-			<column name="ecutorTeam" title="ecutorTeam" field="ecutorTeam"
+				title="执行人" />
+			<column name="ecutorTeam" title="执行人组别" field="ecutorTeam"
 				customDict="qqcdOrgIdName" />
 		</grid>
 	</query>
 		<query id="queryLoanSpv">
-		<searchScript>
-                SELECT 
-                sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka, 
+		<searchScript>select  * from( SELECT 
+                 sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
+                sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then r.RELEASE_AMOUNT else 0 end) as kaAmount ,
                 sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
-                sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then r.RELEASE_AMOUNT else 0 end) as kaAmount, 
                 sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then r.RELEASE_AMOUNT else 0 end) as daiAmount ,
 		        DatePart(mm, r.RELEASE_TIME) as mm,DatePart(yyyy, r.RELEASE_TIME) as  years
                 from sctrans.T_TO_ELOAN_REL r
                 LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE 
-                LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =c.CASE_CODE
-			<where>
+                		<where>
 				(c.STATUS IS NULL OR c.STATUS='VALID')
 				<trim prefix="and" prefixOverrides="and|or">
 					<if test="#SYS_JOBCODE =='consultant'"> and
@@ -207,8 +203,8 @@
 					<if test="#address !=null and #address != '' ">
 						and INFO.PROPERTY_ADDR=#{address}
 					</if>
-					<if test="#startTime !=null and #startTime != '' ">
-						and r.RELEASE_TIME &gt; =#{startTime}
+					<if test="#startDate !=null and #startDate != '' ">
+						and r.RELEASE_TIME &gt; =#{startDate}
 					</if>
 					<if test="#endTime !=null and #endTime != '' ">
 						and r.RELEASE_TIME &lt; = #{endTime}
@@ -218,7 +214,182 @@
 					</if>
 				</trim>
 			</where>
-			  GROUP BY DatePart(mm, r.RELEASE_TIME),DatePart(yyyy, r.RELEASE_TIME)
+           GROUP BY DatePart(yyyy, r.RELEASE_TIME),DatePart(mm, r.RELEASE_TIME)
+        
+           UNION
+        
+           SELECT
+                sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
+                sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as kaAmount ,
+                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
+                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as daiAmount ,
+               DatePart(mm, loanAgent.RELEASE_TIME) as mm,DatePart(yyyy, loanAgent.RELEASE_TIME) as  years
+            FROM sctrans.T_TO_LOAN_AGENT loanAgent
+            LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
+			<where>
+			     loanAgent.CONFIRM_STATUS='3'
+				<trim prefix="and" prefixOverrides="and|or">
+					<if test="#SYS_JOBCODE =='consultant'"> and
+						loanAgent.EXECUTOR_ID= #{sessionUserId} and loanAgent.EXECUTOR_TEAM
+						=#{serviceDepId}
+					</if>
+					<if
+						test="#SYS_JOBCODE != 'consultant' and #SYS_BUSIDEPHIERARCHY== 
+						'yucui_team' and #SYS_JOBCODE != 'TeamAssistant' "> and (loanAgent.EXECUTOR_TEAM
+						=#{serviceDepId} )
+					</if>
+					<if
+						test="#SYS_BUSIDEPHIERARCHY == 'TeamAssistant' 
+						and #SYS_JOBCODE == 'yucui_team' "> and loanAgent.EXECUTOR_TEAM=#{serviceDepId}
+					</if>
+					<if test="#SYS_BUSIDEPHIERARCHY == 'yucui_district'"> and org.PARENT_ID
+						=#{serviceDepId}
+					</if>
+					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
+						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
+					</if>
+<!-- 					<if test="#status !=null and #status != '' ">
+						and er.CONFIRM_STATUS=#{status}
+					</if> -->
+					<if test="#teamCode!=null and #teamCode != '' ">
+						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
+					</if>
+					<if test="#excutorId !=null and #excutorId != '' ">
+						and loanAgent.EXECUTOR_ID=#{excutorId}
+					</if>
+					<if test="#address !=null and #address != '' ">
+						and INFO.PROPERTY_ADDR=#{address}
+					</if>
+					<if test="#startDate !=null and #startDate != '' ">
+						and loanAgent.RELEASE_TIME &gt; =#{startDate}
+					</if>
+					<if test="#endTime !=null and #endTime != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{endTime}
+					</if>
+					<if test="#finOrgCode !=null and #finOrgCode != '' ">
+						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
+					</if>
+				</trim>
+			</where>
+			 GROUP BY DatePart(yyyy, loanAgent.RELEASE_TIME) , DatePart(mm, loanAgent.RELEASE_TIME)
+			  
+			 
+			 UNION 
+                 SELECT 
+                 sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
+                sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then r.RELEASE_AMOUNT else 0 end) as kaAmount ,
+                sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
+                sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then r.RELEASE_AMOUNT else 0 end) as daiAmount ,
+		        0 as mm,0 as  years
+                from sctrans.T_TO_ELOAN_REL r
+                LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE 
+                		<where>
+				(c.STATUS IS NULL OR c.STATUS='VALID')
+				<trim prefix="and" prefixOverrides="and|or">
+					<if test="#SYS_JOBCODE =='consultant'"> and
+						c.EXCUTOR_ID= #{sessionUserId} and c.EXCUTOR_TEAM
+						=#{serviceDepId}
+					</if>
+					<if
+						test="#SYS_JOBCODE != 'consultant' and #SYS_BUSIDEPHIERARCHY== 
+						'yucui_team' and #SYS_JOBCODE != 'TeamAssistant' "> and (c.EXCUTOR_TEAM
+						=#{serviceDepId} )
+					</if>
+					<if
+						test="#SYS_BUSIDEPHIERARCHY == 'TeamAssistant' 
+						and #SYS_JOBCODE == 'yucui_team' "> and c.EXCUTOR_TEAM=#{serviceDepId}
+					</if>
+					<if test="#SYS_BUSIDEPHIERARCHY == 'yucui_district'"> and c.EXCUTOR_DISTRICT
+						=#{serviceDepId}
+					</if>
+					<if test="#eloanCode !=null and #eloanCode != '' ">
+						and r.ELOAN_CODE=#{eloanCode}
+					</if>
+					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
+						and c.LOAN_SRV_CODE=#{loanSrvCode}
+					</if>
+					<if test="#status !=null and #status != '' ">
+						and r.CONFIRM_STATUS=#{status}
+					</if>
+					<if test="#teamCode!=null and #teamCode != '' ">
+						and  c.EXCUTOR_TEAM=#{teamCode}
+					</if>
+					<if test="#excutorId !=null and #excutorId != '' ">
+						and c.EXCUTOR_ID=#{excutorId}
+					</if>
+					<if test="#address !=null and #address != '' ">
+						and INFO.PROPERTY_ADDR=#{address}
+					</if>
+					<if test="#startDate !=null and #startDate != '' ">
+						and r.RELEASE_TIME &lt; =#{startDate}
+					</if>
+	<!-- 				<if test="#endTime !=null and #endTime != '' ">
+						and r.RELEASE_TIME &lt; = #{endTime}
+					</if> -->
+					<if test="#finOrgCode !=null and #finOrgCode != '' ">
+						and c.FIN_ORG_CODE =#{finOrgCode}
+					</if>
+				</trim>
+			</where>
+        
+           UNION
+        
+           SELECT
+                sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
+                sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as kaAmount ,
+                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
+                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as daiAmount ,
+                 0 as mm,0 as  years
+            FROM sctrans.T_TO_LOAN_AGENT loanAgent
+             LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
+			<where>
+			     loanAgent.CONFIRM_STATUS='3'
+				<trim prefix="and" prefixOverrides="and|or">
+					<if test="#SYS_JOBCODE =='consultant'"> and
+						loanAgent.EXECUTOR_ID= #{sessionUserId} and loanAgent.EXECUTOR_TEAM
+						=#{serviceDepId}
+					</if>
+					<if
+						test="#SYS_JOBCODE != 'consultant' and #SYS_BUSIDEPHIERARCHY== 
+						'yucui_team' and #SYS_JOBCODE != 'TeamAssistant' "> and (loanAgent.EXECUTOR_TEAM
+						=#{serviceDepId} )
+					</if>
+					<if
+						test="#SYS_BUSIDEPHIERARCHY == 'TeamAssistant' 
+						and #SYS_JOBCODE == 'yucui_team' "> and loanAgent.EXECUTOR_TEAM=#{serviceDepId}
+					</if>
+					<if test="#SYS_BUSIDEPHIERARCHY == 'yucui_district'"> and org.PARENT_ID
+						=#{serviceDepId}
+					</if>
+					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
+						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
+					</if>
+<!-- 					<if test="#status !=null and #status != '' ">
+						and er.CONFIRM_STATUS=#{status}
+					</if> -->
+					<if test="#teamCode!=null and #teamCode != '' ">
+						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
+					</if>
+					<if test="#excutorId !=null and #excutorId != '' ">
+						and loanAgent.EXECUTOR_ID=#{excutorId}
+					</if>
+					<if test="#address !=null and #address != '' ">
+						and INFO.PROPERTY_ADDR=#{address}
+					</if>
+					<if test="#startDate !=null and #startDate != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{startDate}
+					</if>
+	<!-- 				<if test="#endTime !=null and #endTime != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{endTime}
+					</if> -->
+					<if test="#finOrgCode !=null and #finOrgCode != '' ">
+						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
+					</if>
+				</trim>
+			</where>
+			 )a
+
+			ORDER by a.mm , a.years   
 		</searchScript>
          <grid>
 			<column name="ka" title="ka" field="ka" hidden="true" />
@@ -231,7 +402,8 @@
 	</query>
 		<query id="queryLoanSpv2">
 		<searchScript>
-                SELECT count(c.FIN_ORG_CODE ) as num, c.FIN_ORG_CODE as finOrgName ,sum(r.RELEASE_AMOUNT) RELEASE_AMOUNT from sctrans.T_TO_ELOAN_REL r
+		select * from(
+                SELECT count(c.FIN_ORG_CODE ) as num, c.FIN_ORG_CODE as finOrgName ,sum(r.RELEASE_AMOUNT) amount from sctrans.T_TO_ELOAN_REL r
                 LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE 
                 LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =c.CASE_CODE
 			<where>
@@ -283,12 +455,65 @@
 				</trim>
 			</where>
 			 GROUP BY c.FIN_ORG_CODE
-			 ORDER BY  c.FIN_ORG_CODE
+			 UNION
+			  SELECT count(loanAgent.FIN_ORG_CODE ) as num,
+			   loanAgent.FIN_ORG_CODE as finOrgName ,
+			   sum(loanAgent.ACTUAL_AMOUNT)/10000  as amount
+			   from  sctrans.T_TO_LOAN_AGENT loanAgent
+			   LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
+			   
+				<where>
+			     loanAgent.CONFIRM_STATUS='3'
+				<trim prefix="and" prefixOverrides="and|or">
+					<if test="#SYS_JOBCODE =='consultant'"> and
+						loanAgent.EXECUTOR_ID= #{sessionUserId} and loanAgent.EXECUTOR_TEAM
+						=#{serviceDepId}
+					</if>
+					<if
+						test="#SYS_JOBCODE != 'consultant' and #SYS_BUSIDEPHIERARCHY== 
+						'yucui_team' and #SYS_JOBCODE != 'TeamAssistant' "> and (loanAgent.EXECUTOR_TEAM
+						=#{serviceDepId} )
+					</if>
+					<if
+						test="#SYS_BUSIDEPHIERARCHY == 'TeamAssistant' 
+						and #SYS_JOBCODE == 'yucui_team' "> and loanAgent.EXECUTOR_TEAM=#{serviceDepId}
+					</if>
+					<if test="#SYS_BUSIDEPHIERARCHY == 'yucui_district'"> and org.PARENT_ID
+						=#{serviceDepId}
+					</if>
+					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
+						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
+					</if>
+<!-- 					<if test="#status !=null and #status != '' ">
+						and er.CONFIRM_STATUS=#{status}
+					</if> -->
+					<if test="#teamCode!=null and #teamCode != '' ">
+						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
+					</if>
+					<if test="#excutorId !=null and #excutorId != '' ">
+						and loanAgent.EXECUTOR_ID=#{excutorId}
+					</if>
+					<if test="#address !=null and #address != '' ">
+						and INFO.PROPERTY_ADDR=#{address}
+					</if>
+					<if test="#startTime !=null and #startTime != '' ">
+						and loanAgent.RELEASE_TIME &gt; =#{startTime}
+					</if>
+					<if test="#endTime !=null and #endTime != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{endTime}
+					</if> 
+					<if test="#finOrgCode !=null and #finOrgCode != '' ">
+						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
+					</if>
+				</trim>
+			</where>
+			 GROUP BY loanAgent.FIN_ORG_CODE ) b
+			 ORDER BY  b.finOrgName
 		</searchScript>
          <grid>
             <column name="num" title="num" field="num" hidden="true" />
 			<column name="finOrgName" title="finOrgName" field="finOrgName" hidden="true" customDict="qqfinOrgIdName" />
-            <column name="RELEASE_AMOUNT" title="RELEASE_AMOUNT" field="RELEASE_AMOUNT" hidden="true" />
+            <column name="amount" title="amount" field="amount" hidden="true" />
 		</grid>
 	</query>
 </querys>

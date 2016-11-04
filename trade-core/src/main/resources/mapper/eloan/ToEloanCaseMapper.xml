@@ -81,6 +81,9 @@
       #{isRelFinish,jdbcType=CHAR}, GETDATE(),@{SESSION_USER_ID},GETDATE(), @{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
+    <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	</selectKey>
     insert into sctrans.T_TO_ELOAN_CASE
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

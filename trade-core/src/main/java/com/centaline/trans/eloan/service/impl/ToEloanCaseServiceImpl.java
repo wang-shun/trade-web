@@ -84,7 +84,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 			tEloanCase.setExcutorDistrict(districtOrg.getId());
 		}
 		bindServItem(tEloanCase);
-    	toEloanCaseMapper.insertSelective(tEloanCase);    	
+    	int pkid=toEloanCaseMapper.insertSelective(tEloanCase);    	
     	
     	// start
     	User manager=new User();
@@ -105,11 +105,11 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	}else{
     		vars.put("Manager", manager==null?null:manager.getUsername());
     	}	
-    	
+    	ToEloanCase eloanCase=toEloanCaseMapper.selectByPrimaryKey((long) pkid);
     	String demo=propertyUtilsService.getProcessEloanDfKey();
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessEloanDfKey(),tEloanCase.getEloanCode(),vars);
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setCaseCode(tEloanCase.getCaseCode());
+		workFlow.setCaseCode(eloanCase.getEloanCode());
 		workFlow.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());
@@ -176,7 +176,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setStatus("0");
-		workFlow.setCaseCode(tEloanCase.getCaseCode());
+		workFlow.setCaseCode(tEloanCase.getEloanCode());
 		workFlow.setInstCode(tEloanCase.getProcessInstanceId());
 		toWorkFlowService.updateWorkFlowByInstCode(workFlow);
 		
