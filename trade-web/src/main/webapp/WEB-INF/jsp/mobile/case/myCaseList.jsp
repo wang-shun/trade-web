@@ -34,7 +34,7 @@
 	</script>
 </head>
 <body onload="">
-	<form action="" class="search-box">
+	<form action="" class="search-box" style="background:#293846;">
 	<input type="hidden" id="userId" value="${userId }">
 	<input type="text" id="propertyAddr" placeholder="输入地址" class="search-txt"><button onclick="" type="button" class="search-btn" id="btn_search"><i class="icon-search"></i>搜 索</button>
 	</form>
