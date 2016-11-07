@@ -159,7 +159,10 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		editRestVariables(variables, vo.getMortageService());
 
 		boolean b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
-		
+		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
+		if(workF!=null){
+			vo.setProcessDefinitionId(workF.getProcessDefinitionId());
+		}
 		loanRequirementChange(vo);
 
 		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
@@ -173,10 +176,10 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 
 	@Override
 	public void loanRequirementChange(MortgageSelecteVo vo) {
-		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
+		
 		// 如果是新流程图
 		boolean isNewFlow = false;
-		if(workF!=null &&"operation_process:40:645454".compareTo(workF.getProcessDefinitionId())<=0){
+		if(vo.getProcessDefinitionId()!=null &&"operation_process:40:645454".compareTo(vo.getProcessDefinitionId())<=0){
 			isNewFlow=true;
 		}
 
