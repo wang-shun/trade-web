@@ -73,7 +73,7 @@
 						<label class="control-label sign_left_small"> 产品名称 </label>
 						<aist:dict id="loanSrvCode" name="loanSrvCode"
 							clazz="select_control sign_right_one" display="select"
-							dictType="yu_serv_cat_code_tree" ligerui='none'>
+							dictType="yu_serv_cat_code_tree" tag="eplus,Eloan" ligerui='none'>
 
 						</aist:dict>
 					</div>
@@ -143,13 +143,14 @@
 						<label
 							class="control-label sign_left_small select_style mend_select">
 							放款时间 </label>
-						<div class="input-group sign-right dataleft input-daterange"
+							<div id="datepicker_0"
+							class="input-group input-medium date-picker input-daterange sign_right_speciale"
 							data-date-format="yyyy-mm-dd">
-							<input name="startTime" class="form-control data_style"
-								type="text" value="" placeholder="起始日期"> <span
-								class="input-group-addon">到</span> <input name="endTime"
+							<input id="startTime" name="startTime"
 								class="form-control data_style" type="text" value=""
-								placeholder="结束日期">
+								placeholder="起始日期"> <span class="input-group-addon">到</span>
+							<input id="endTime" name="endTime" class="form-control data_style"
+								type="text" value="" placeholder="结束日期">
 						</div>
 					</div>
 					<div>
@@ -157,9 +158,10 @@
 							id="SearchButton">
 							<i class="icon iconfont"></i> 查询
 						</button>
-						
-						<button type="button" id="exportExcel"  onclick="javascript:exportToExcel()" class="btn btn-success">导出列表</button>
-						
+
+						<button type="button" id="exportExcel"
+							onclick="javascript:exportToExcel()" class="btn btn-success">导出列表</button>
+
 						<button type="button" class="btn  btn-icon btn-toggle"
 							id="TypeBtn">
 							<i class="iconfont icon">&#xe63d;</i> 机构放款金额分析
@@ -171,7 +173,7 @@
 						<input type="reset" class="btn btn-grey" id="CleanButton"
 							value="清空">
 					</div>
-					
+
 					<!--图表-->
 					<div class="row charone"
 						style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #f4f4f4; display: none">
@@ -302,16 +304,23 @@
 								if ($(".chartwo").is(":hidden")) {
 									$("#TypeBtn2").removeClass('btn-bg');
 								}else{
-									reloadStatus()
+									var RangeDate=getDateRange();
+									params.startDate1=RangeDate.startDate1;
+									params.startDate2=RangeDate.startDate2;
+									params.endDate1=RangeDate.endDate1;
+									params.endDate2=RangeDate.endDate2;
+									reloadStatus();
 								}
 								
 							});
 
-							$('.input-daterange').datepicker({
-								keyboardNavigation : false,
-								forceParse : false,
-								autoclose : true
-							});
+							// 日期控件
+							$('#datepicker_0').datepicker({
+								format : 'yyyy-mm-dd',
+								weekStart : 1,
+								autoclose : true,
+								todayBtn : 'linked'
+							})
 							getBankList('');
 						});
 						//初始化数据
@@ -333,7 +342,7 @@
 							eloanCode : '',
 							loanSrvCode : "",
 							status : 1,
-							startDate:$("#startDate").val(),
+							startDate:"",
 							startTime : "",
 							endTime : "",
 							teamCode : "",
@@ -402,101 +411,121 @@
 								$("#excutor").val();
 							}
 						}
-
 						
+						function getDateRange(){
+							
+							var dateRange = {startDate1:"",endDate1:"",startDate2:"",endDate2:""};
+							var startTime = $("input[name='startTime']").val();
+							var  endTime = $("input[name='endTime']").val();
+					        var initTime=$("#startDate").val();
+							debugger;
+							//都为空
+							if(!startTime && !endTime){
+								dateRange.startDate1 = initTime;//
+								dateRange.endDate2 = initTime;//
+								return dateRange;
+							}	
+							//开始不为空
+							if(startTime !="" && endTime==""){
+								dateRange.startDate1=startTime;
+								dateRange.endDate2=initTime;
+								return dateRange;
+								var date=new Date();
+								if(date.getMonth()+1-5==startMonth){//开始时间小于当前时间5个月								
+									dateRange.startDate1=initTime;
+									dateRange.startDate2=startTime;
+									dateRange.endDate2=initTime;
+									dateRange.endDate1=endTime;
+								}
+								return dateRange;
+							}
+							//结束不为空
+							if(startTime==""&&endTime!=""){
+								var date=new Date(endTime);
+								var dateString= date.getFullYear()+"-"+ (date.getMonth()+1-5)+"-"+ date.getDate();
+								dateRange.startDate1=dateString;
+								dateRange.endDate2=dateRange.startDate1;
+								dateRange.endDate1=endTime;
+								return dateRange;
+							}//都不为空
+							if(startTime!="" &&endTime!=""){
+								debugger;
+								var startMouth=new Date(startTime).getMonth()+1;
+								var date=new Date(endTime);
+								if((date.getMonth()+1)-startMouth>=5){
+									dateRange.startDate1=date.getFullYear()+"-"+ (date.getMonth()+1-5)+"-"+ date.getDate();
+									dateRange.startDate2=startTime;
+									dateRange.endDate1=endTime;
+									dateRange.endDate2=dateRange.startDate1;
+								}else{
+									dateRange.startDate1=startTime
+									dateRange.startDate2=startTime;
+									dateRange.endDate1=endTime;
+									dateRange.endDate2=endTime;
+									
+								}
+								return dateRange;
+							}
+						}
+								
 						//gei params 得到值
 						function getParams(){
-							var jsonData = $("#eloanApplyForm")
-							.serializeArray();
-							var startMonth = new Date(params.startDate).getMonth()+1;
-					params.eloanCode = $(
-							"input[name='eloanCode']")
-							.val();
-					params.loanSrvCode = $(
-							"select[name='loanSrvCode']")
-							.val();
-					params.status = $(
-							"select[name='status']")
-							.val();
-					params.startTime = $(
-							"input[name='startTime']")
-							.val();
-					params.endTime = $(
-							"input[name='endTime']")
-							.val();
-					if(params.startTime==""&&params.startTime==""){
-						params.startDate=$("#startDate").val();
-					}else{
-						params.startDate=params.startTime;
-					}
-/* 					else if(params.endTime==""&&params.startTime!=""){
-						var date=new Date(params.startTime);
-						if(date.getMonth()-5>startMonth){
-							date=new Date(date.getFullYear(), date.getMonth() - 1, date.getDate());
-							params.startDate=$("#startDate").val();
-							params.startDate1=params.startTime
-							params.endDate=$("#startDate").val();	
-						}
-
-					}else if(params.endTime==""&&params.startTime!=""){
-						
-					} */
-					params.teamCode = $(
-							"input[name='excutorTeam']")
-							.val();
-					params.excutorId = $(
-							"input[name='excutor']")
-							.val();
-					params.address = $(
-							"input[name='address']")
-							.val();
-					params.finOrgCode = $(
-							"select[name='finOrgCode']")
-							.val();
+								params.eloanCode = $("input[name='eloanCode']").val();
+								params.loanSrvCode = $("select[name='loanSrvCode']").val();
+								params.status = $("select[name='status']").val();
+								params.startTime = $("input[name='startTime']").val();
+								params.endTime = $("input[name='endTime']").val();
+								params.teamCode = $("input[name='excutorTeam']").val();
+								params.excutorId = $("input[name='excutor']").val();
+								params.address = $("input[name='address']").val();
+								params.finOrgCode = $("select[name='finOrgCode']").val();
 						}
 						//查询数据
-						$("#SearchButton")
-								.click(
-										function() {
-											getParams();
-											initData();
-											if (!$(".chartwo").is(":hidden")) {
-												reloadStatus();
-											}
-											if (!$(".charone").is(":hidden")) {
-												reloadStatus2();
-											}
+						$("#SearchButton").click(function() {
+								getParams();
+								initData();
+								if (!$(".chartwo").is(":hidden")) {
+									var RangeDate=getDateRange();
+									params.startDate1=RangeDate.startDate1;
+									params.startDate2=RangeDate.startDate2;
+									params.endDate1=RangeDate.endDate1;
+									params.endDate2=RangeDate.endDate2;
+									reloadStatus();
+								}
+								if (!$(".charone").is(":hidden")) {
+									reloadStatus2();
+								}
 											
 											
-										})
+						})
 										
 						//加载页面
 						function initData() {
 							params.pagination = true;
 							$(".bonus-table")
-									.aistGrid(
-											{
-												ctx : ctx,
-												url : "/rapidQuery/findPage",
-												queryId : 'queryEloanCashList',
-												templeteId : 'queryEloanCash',
-												gridClass : 'table table_blue table-striped table-bordered table-hover',
-												data : params,
-												columns : [ {
-													colName : "E+编号"
-												}, {
-													colName : "合作机构"
-												}, {
-													colName : "借款人"
-												}, {
-													colName : "放款"
-												}, {
-													colName : "贷款专员"
-												}, {
-													colName : "状态"
-												} ]
+								.aistGrid(
+									{
+										ctx : ctx,
+										url : "/rapidQuery/findPage",
+										queryId : 'queryEloanCashList',
+										templeteId : 'queryEloanCash',
+										gridClass : 'table table_blue table-striped table-bordered table-hover',
+										data : params,
+										columns : [ {
+											colName : "E+编号"
+										}, {
+											colName : "合作机构"
+										}, {
+											colName : "借款人"
+										}, {
+											colName : "放款"
+										}, {
+											colName : "贷款专员"
+										}, {
+											colName : "状态"
+										} ]
 
-											});
+									});
 						}
 
 						//初始化
@@ -528,18 +557,11 @@
 					    		$('#toexcelForm').attr('action', url);
 					    		$('#toexcelForm').submit();
 							 
-					/* 		 params.queryId = "queryEloanCashList";
-							aist.exportExcel({
-								ctx : ctx,
-								url : "/rapidQuery/findPage",
-				    	    	colomns : ['loanCode','LOAN_SRV_CODE','releaseAmout','RELEASE_TIME','CONFIRM_STATUS','PROPERTY_ADDR','CUST_NAME','FIN_ORG_CODE','ecutorId','ecutorTeam'],
-				    	    	data : params
-				    	    })  */
 						};
 						function reloadStatus() {
 							params.queryId = "queryLoanSpv";
 							params.pagination = false;
-							var startMonth = new Date(params.startDate).getMonth()+1;
+							var startMonth = new Date(params.startDate1).getMonth()+1;
 							$.ajax({
 								async : true,//异步请求
 								url : ctx + "/rapidQuery/findPage",
@@ -559,40 +581,40 @@
 												return;
 											}	
 										}
-											if(i<all.length-1){
-											if(all[i+1].mm==all[i].mm){
-												if (item.mm == 0) {
-													xAxis.push(startMonth + "月以前");
-												}else{
-											xAxis.push(item.mm + "月");}
-											 ka={
-													num:item.ka+all[i+1].ka,
-													value:item.kaAmount+all[i+1].kaAmount
-												};
-											 dai={
-													num:item.dai+all[i+1].dai,
-													value:item.daiAmount+all[i+1].daiAmount
-												};
-												kas.push(ka);
-												dais.push(dai);
-												return;
-											}}
-											if (item.mm == 0) {
-												xAxis.push(startMonth + "月以前");
-											}else{
-										     xAxis.push(item.mm + "月");
-										     }
-												ka={
-														num:item.ka,
-														value:item.kaAmount
-													};
-												 dai={
-														num:item.dai,
-														value:item.daiAmount
-													};
-													kas.push(ka);
-													dais.push(dai);
-										
+									if(i<all.length-1){
+									if(all[i+1].mm==all[i].mm){
+										if (item.mm == 0) {
+											xAxis.push(startMonth + "月以前");
+										}else{
+									    xAxis.push(item.mm + "月");}
+									    ka={
+											num:item.ka+all[i+1].ka,
+											value:item.kaAmount+all[i+1].kaAmount
+										  };
+									    dai={
+											num:item.dai+all[i+1].dai,
+											value:item.daiAmount+all[i+1].daiAmount
+										};
+										kas.push(ka);
+										dais.push(dai);
+										return;
+									}}
+									if (item.mm == 0) {
+										xAxis.push(startMonth + "月以前");
+									}else{
+								        xAxis.push(item.mm + "月");
+								        }
+										ka={
+												num:item.ka,
+												value:item.kaAmount
+											};
+									    dai={
+												num:item.dai,
+												value:item.daiAmount
+											};
+											kas.push(ka);
+											dais.push(dai);
+								
 
 									});
 									StatusEchart1(kas,dais,

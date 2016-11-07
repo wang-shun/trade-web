@@ -203,11 +203,11 @@
 					<if test="#address !=null and #address != '' ">
 						and INFO.PROPERTY_ADDR=#{address}
 					</if>
-					<if test="#startDate !=null and #startDate != '' ">
-						and r.RELEASE_TIME &gt; =#{startDate}
+					<if test="#startDate1 !=null and #startDate1 != '' ">
+						and r.RELEASE_TIME &gt; =#{startDate1}
 					</if>
-					<if test="#endTime !=null and #endTime != '' ">
-						and r.RELEASE_TIME &lt; = #{endTime}
+					<if test="#endDate1 !=null and #endDate1 != '' ">
+						and r.RELEASE_TIME &lt; = #{endDate1}
 					</if>
 					<if test="#finOrgCode !=null and #finOrgCode != '' ">
 						and c.FIN_ORG_CODE =#{finOrgCode}
@@ -260,11 +260,11 @@
 					<if test="#address !=null and #address != '' ">
 						and INFO.PROPERTY_ADDR=#{address}
 					</if>
-					<if test="#startDate !=null and #startDate != '' ">
-						and loanAgent.RELEASE_TIME &gt; =#{startDate}
+					<if test="#startDate1 !=null and #startDate1 != '' ">
+						and loanAgent.RELEASE_TIME &gt; =#{startDate1}
 					</if>
-					<if test="#endTime !=null and #endTime != '' ">
-						and loanAgent.RELEASE_TIME &lt; =#{endTime}
+					<if test="#endDate1 !=null and #endDate1 != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{endDate1}
 					</if>
 					<if test="#finOrgCode !=null and #finOrgCode != '' ">
 						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
@@ -320,12 +320,12 @@
 					<if test="#address !=null and #address != '' ">
 						and INFO.PROPERTY_ADDR=#{address}
 					</if>
-					<if test="#startDate !=null and #startDate != '' ">
-						and r.RELEASE_TIME &lt; =#{startDate}
+					<if test="#startDate2 !=null and #startDate2 != '' ">
+						and r.RELEASE_TIME &gt; =#{startDate}
 					</if>
-	<!-- 				<if test="#endTime !=null and #endTime != '' ">
-						and r.RELEASE_TIME &lt; = #{endTime}
-					</if> -->
+					<if test="#endDate2 !=null and #endDate2 != '' ">
+						and r.RELEASE_TIME &lt; = #{endDate2}
+					</if> 
 					<if test="#finOrgCode !=null and #finOrgCode != '' ">
 						and c.FIN_ORG_CODE =#{finOrgCode}
 					</if>
@@ -376,12 +376,12 @@
 					<if test="#address !=null and #address != '' ">
 						and INFO.PROPERTY_ADDR=#{address}
 					</if>
-					<if test="#startDate !=null and #startDate != '' ">
-						and loanAgent.RELEASE_TIME &lt; =#{startDate}
+					<if test="#startDate2 !=null and #startDate2 != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{startDate2}
 					</if>
-	<!-- 				<if test="#endTime !=null and #endTime != '' ">
-						and loanAgent.RELEASE_TIME &lt; =#{endTime}
-					</if> -->
+	 				<if test="#endDate2 !=null and #endDate2 != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{endDate2}
+					</if> 
 					<if test="#finOrgCode !=null and #finOrgCode != '' ">
 						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
 					</if>
