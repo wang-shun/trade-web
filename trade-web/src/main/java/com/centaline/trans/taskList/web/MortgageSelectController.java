@@ -61,16 +61,20 @@ public class MortgageSelectController {
 	@RequestMapping(value = "loanRequirementChange")
 	public AjaxResponse<?> loanRequirementChange(MortgageSelecteVo vo) {	
 		//判断是否完成‘贷款需求选择’待办任务
-		if(vo!=null &&"operation_process:49:695144".compareTo(vo.getProcessInstanceId())<=0){
-			TaskHistoricQuery query =new TaskHistoricQuery();
-			query.setFinished(true);
-			query.setTaskDefinitionKey(ToAttachmentEnum.MORTGAGESELECT.getCode());
-			query.setProcessInstanceId(vo.getProcessInstanceId());
-			PageableVo pageableVo=workFlowManager.listHistTasks(query);
-			if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
-				//请先处理贷款需求选择任务
-				return AjaxResponse.fail("请先处理贷款需求选择任务！");
+		if(vo!=null &&"operation_process:34:620096".compareTo(vo.getProcessInstanceId())<=0){//在这个版本之前的流程是没有贷款需求选择的 要变更贷款只能做流程重启  之后的版本都可以做，但operation_process:40:645454之前的版本是子流程的方式
+			if(!"operation_process:40:645454".equals(vo.getProcessInstanceId())){//该版本没有贷款需求选择的环节，这个版本不做这个校验
+				TaskHistoricQuery query =new TaskHistoricQuery();
+				query.setFinished(true);
+				query.setTaskDefinitionKey(ToAttachmentEnum.MORTGAGESELECT.getCode());
+				query.setProcessInstanceId(vo.getProcessInstanceId());
+				PageableVo pageableVo=workFlowManager.listHistTasks(query);
+				if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
+					//请先处理贷款需求选择任务
+					return AjaxResponse.fail("请先处理贷款需求选择任务！");
+				}
 			}
+		}else{
+			return AjaxResponse.fail("当前流程版本下不允许变更贷款需求！");
 		}
 
 		if (!"2".equals(vo.getMortageService())) {//只有纯公积金才需要选择合作人否则都是取当前用户
