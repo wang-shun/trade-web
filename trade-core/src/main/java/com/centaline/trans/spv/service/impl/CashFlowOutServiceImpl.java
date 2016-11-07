@@ -383,17 +383,17 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				}
 				
 				//更新spv表
-				ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
+/*				ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
 				toSpv.setStatus(SpvStatusEnum.COMPLETE.getCode());
-				toSpvMapper.updateByPrimaryKey(toSpv);
+				toSpvMapper.updateByPrimaryKey(toSpv);*/
 				
 				//当出款总额等于监管金额时发起消息通知资金监管流程 ：SpvProcess
-				Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
+				//Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
 		    	//所有合约下已完成的出账金额总和
-				BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
+				//BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
 		    	//监管总额
-				BigDecimal toSpvTotalAmount = toSpv.getAmount();
-/*		    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
+/*				BigDecimal toSpvTotalAmount = toSpv.getAmount();
+		    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
 					messageService.sendSpvFinishMsgByIntermi(instCode);	
 					//更新t_to_workflow表(资金监管流程)
 					ToWorkFlow record = new ToWorkFlow();

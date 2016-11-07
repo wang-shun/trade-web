@@ -760,7 +760,7 @@ public class SpvController {
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
-		spv.setStatus(SpvStatusEnum.COMPLETE.getCode());
+		spv.setStatus(SpvStatusEnum.SIGNCOMPLETE.getCode());
 		spv.setSpvConCode(spvConCode);
 		spv.setSignTime(signTime);
 		toSpvService.updateByPrimaryKey(spv);
