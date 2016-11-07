@@ -62,7 +62,7 @@ function chooseDutyOfficer(date,type) {
 		departmentType : '',
 		departmentHeriarchy : '',
 		chkStyle : 'radio',
-		jobCode : '',
+		jobCode : 'JYUZBJL',
 		callBack : dealDutyOfficerBack
 	});
 	

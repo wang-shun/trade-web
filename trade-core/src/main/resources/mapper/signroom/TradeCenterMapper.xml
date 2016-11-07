@@ -21,7 +21,8 @@
     <include refid="Base_Column_List" />
     from sctrans.T_RM_TRADE_CENTER
     <if test="districtId!=null">
-           WHERE PKID in (SELECT DISTINCT T.TRADE_CENTER_ID  from   sctrans.T_RM_SIGN_ROOM_ORG_MAPPING T WHERE T.DISTRICT_ID = #{districtId} )
+           WHERE PKID in (SELECT DISTINCT T.TRADE_CENTER_ID  
+           from sctrans.T_RM_SIGN_ROOM_ORG_MAPPING T WHERE T.DISTRICT_ID = #{districtId} OR T.TEAM_ID = #{districtId})
        </if>
   </select>
   
