@@ -239,7 +239,9 @@ public class SignRoomController {
 	@RequestMapping("/signscheduling")
 	public String signscheduling(Model model){
 		SessionUser user= uamSessionService.getSessionUser();
-		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters();//获取 交易中心信息
+		Map map = new HashMap();
+		map.put("districtId", user.getServiceDepId());
+		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters(map);//获取 交易中心信息
 		model.addAttribute("tradeCenters", tradeCenters);
 		return "/signroom/signscheduling";
 	}

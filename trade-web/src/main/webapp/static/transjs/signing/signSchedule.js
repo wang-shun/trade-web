@@ -26,7 +26,6 @@ function reloadGrid(bm) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
-          console.log(data);
           $.unblockUI();   	
           if(data.success){
         	  var tradeCenterSchedule = template('template_tradeCenterScheduleList' , data);
@@ -56,8 +55,8 @@ function chooseDutyOfficer(date,type) {
 		changed = true;
 	}
 	userSelect({
-		startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
-		expandNodeId : 'ff8080814f459a78014f45a73d820006',
+		startOrgId : '',//非营业部
+		expandNodeId : '',
 		nameType : 'long|short',
 		orgType : '',
 		departmentType : '',
@@ -106,7 +105,7 @@ function dealDutyOfficerBack(array){
 	  });
 	} else {
 		//删除该日期的值班经理
-		if(!isChanged){
+		if(!changed){
 			return;
 		}else{
 			$.ajax({

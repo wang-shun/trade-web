@@ -25,6 +25,12 @@ public interface RmSignRoomService {
 	 * @return
 	 */
 	List<TradeCenter> getTradeCenters();
+	
+	/**
+	 * 获取交易中心信息
+	 * @return
+	 */
+	List<TradeCenter> getTradeCenters(Map map);
 
 	/**
 	 * 获取签约室列表及策略值信息

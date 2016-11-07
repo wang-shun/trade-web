@@ -195,6 +195,11 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	public List<TradeCenter> getTradeCenters() {
 		return tradeCenterMapper.getTradeCenterList();
 	}
+	
+	@Override
+	public List<TradeCenter> getTradeCenters(Map map) {
+		return tradeCenterMapper.getTradeCenterListByDistrictId(map);
+	}
 
 	@Override
 	public AjaxResponse<List<RmSignRoom>> signRoomShedualList(JQGridParam gp) {
