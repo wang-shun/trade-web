@@ -270,6 +270,9 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 				ToWorkFlow workFlow = toWorkFlowService.queryWorkFlowByInstCode(instCode);//更新状态
 				workFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
 				toWorkFlowService.updateByPrimaryKeySelective(workFlow);
+				if(!StringUtils.isBlank(toSpvCashFlowMapper.getUserIdByUserName(task.getAssignee()))){
+					toSpvCashFlowApply.setFtPostAuditor(toSpvCashFlowMapper.getUserIdByUserName(task.getAssignee()));//设置处理人
+				}
 			}else{
 				toSpvAduit.setResult(resultType+"驳回");
 				statusType = SpvCashFlowApplyStatusEnum.APPLY.getCode();
@@ -293,9 +296,6 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 					toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
 				}
 			
-			if(!StringUtils.isBlank(toSpvCashFlowMapper.getUserIdByUserName(task.getAssignee()))){
-				toSpvCashFlowApply.setFtPostAuditor(toSpvCashFlowMapper.getUserIdByUserName(task.getAssignee()));//设置处理人
-			}
 			
 			toSpvCashFlowApply.setStatus(statusType);
 			toSpvCashFlowApply.setUpdateBy(user.getId());
