@@ -807,7 +807,12 @@ function renderFileUpload(k,a){
 }
 
 function rescCallbocak(){
-	window.location.href = ctx+"/spv/spvList";
+	if($("#urlType").val() == 'myTask'){    	 
+		   window.opener.location.reload(); //刷新父窗口
+  	   window.close(); //关闭子窗口.
+	     }else{
+	    	 window.location.href = ctx+"/spv/spvList";
+	     }
 }
 
 //渲染图片 
