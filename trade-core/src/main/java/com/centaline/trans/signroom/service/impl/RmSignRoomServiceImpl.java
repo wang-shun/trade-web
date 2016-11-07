@@ -581,4 +581,17 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		return tradeCenterScheduleMapper.queryTradeCenterSchedules(map);
 	}
 
+	@Override
+	public boolean isCurrenDayDuty() {
+		Map map = new HashMap();
+		SessionUser user = uamSessionService.getSessionUser();
+		map.put("dutyOfficer", user.getId());
+		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+		List<TradeCenterSchedule> tcs = tradeCenterScheduleMapper.queryTradeCenterSchedules(map);
+		if(tcs!=null && tcs.size()==1){
+			return true;
+		}
+		return false;
+	}
+
 }

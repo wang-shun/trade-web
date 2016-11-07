@@ -41,6 +41,12 @@ FROM    sctrans.T_RM_TRADECENTER_SCHEDULE T
         <if test="centerId != null" >
           AND TRADE_CENTER_ID = #{centerId,jdbcType=BIGINT}
         </if>
+        <if test="dutyDate != null" >
+         AND DUTY_DATE = #{dutyDate,jdbcType=VARCHAR}
+        </if>
+        <if test="dutyOfficer != null" >
+         AND DUTY_OFFICER = #{dutyOfficer,jdbcType=VARCHAR}
+        </if>
     </where>
   </select>
   

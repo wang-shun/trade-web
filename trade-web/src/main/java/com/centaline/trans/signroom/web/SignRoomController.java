@@ -61,6 +61,8 @@ public class SignRoomController {
 				.getTransactItemList();
 		model.addAttribute("transactItemVoList", transactItemVoList);
 		model.addAttribute("curDate", sdf.format(cd.getTime()));
+		boolean isCurrenDayDuty = rmSignRoomService.isCurrenDayDuty();//是否当日值班 
+		model.addAttribute("isCurrenDayDuty", isCurrenDayDuty);
 		return "/signroom/signingallot";
 	}
 	

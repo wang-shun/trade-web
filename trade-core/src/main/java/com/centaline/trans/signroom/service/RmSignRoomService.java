@@ -104,5 +104,11 @@ public interface RmSignRoomService {
 	 * @return
 	 */
 	List<TradeCenterSchedule> queryTradeCenterSchedules(Map map);
+	
+	/**
+	 * 判断是否当日值班
+	 * @return
+	 */
+	boolean isCurrenDayDuty();
 
 }
