@@ -547,4 +547,14 @@ border: 1px solid #dddddd;
     }
 }
 
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+-webkit-appearance: none;
+}
+
+.num:nth-of-type(1){
+    padding: 0px 3px;
+}
 
