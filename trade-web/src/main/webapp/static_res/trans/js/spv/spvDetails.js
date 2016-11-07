@@ -967,7 +967,7 @@ $(document).ready(function(){
         
         var applyUser = $("input[name='toSpv.applyUser']").val();
         if(applyUser == null || applyUser == ''){
-        	alert("请选择申请人");
+        	alert("请选择申请人！");
         	changeClass($("input[id='realName']"));
 			return false;
         }
