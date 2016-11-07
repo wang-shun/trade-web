@@ -18,6 +18,7 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.signroom.entity.ResFlowup;
 import com.centaline.trans.signroom.service.ResFlowupService;
 import com.centaline.trans.signroom.service.ReservationService;
+import com.centaline.trans.signroom.service.RmSignRoomService;
 
 /**
  * 预约取号后台controller
@@ -41,6 +42,9 @@ public class ReservationManageController {
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 
+	@Autowired
+	private RmSignRoomService rmSignRoomService;
+
 	/**
 	 * 签约室列表
 	 * 
@@ -51,6 +55,7 @@ public class ReservationManageController {
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
 		SessionUser currentUser = uamSessionService.getSessionUser();
+		boolean isCurrenDayDuty = rmSignRoomService.isCurrenDayDuty();// 是否当日值班
 
 		String distinctId = "";
 		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
@@ -90,6 +95,7 @@ public class ReservationManageController {
 		request.setAttribute("resTime", resTime);
 		request.setAttribute("resStatus", resStatus);
 		request.setAttribute("distinctId", distinctId);
+		request.setAttribute("isCurrenDayDuty", isCurrenDayDuty);
 
 		return "signroom/signinglist";
 	}
