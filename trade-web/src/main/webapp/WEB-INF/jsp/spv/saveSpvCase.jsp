@@ -700,7 +700,7 @@
 						
 						<div id="spvAccDiv" class="form-row form-rowbot">
 						    <div class="form-group form-margin form-space-one">
-						        <label for="" class="lable-one">申请人</label>
+						        <label for="" class="lable-one"><i style="color:red;">*</i> 申请人</label>
 						        <input type="hidden" id="userName" name="toSpv.applyUser" value='${spvBaseInfoVO.toSpv.applyUser }'>
 						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${applyUserName }'>
@@ -1041,6 +1041,7 @@
         var accTypeSum;//账户类型 
 		
 		$(document).ready(function(){
+			
 			accTypeSum = parseInt('${fn:length(spvBaseInfoVO.toSpvAccountList)}');
 			if(accTypeSum == 0 || accTypeSum == 4){
 				accTypeSum = 4;
@@ -1426,7 +1427,7 @@
 		}
 		
 		//渲染图片 
-		function renderImg(){			
+		function renderImg(){		
 			$('.wrapper-content').viewer('destroy');
 			$('.wrapper-content').viewer({zIndex:15001});
 		}
