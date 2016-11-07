@@ -255,7 +255,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    multiplyTenThousand(spvChargeInfoVO);
 		    
 		    //更新申请状态
-		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 					ToSpvCashFlow spvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
@@ -272,13 +271,16 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    	Long pkid = spvChargeInfoVO.getToSpvCashFlowApply().getPkid();
 				ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(pkid);
 				apply.setApplyAuditor(null);
+				apply.setStatus(SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 				spvChargeInfoVO.setToSpvCashFlowApply(apply);
 				toSpvCashFlowApplyMapper.updateByPrimaryKey(spvChargeInfoVO.getToSpvCashFlowApply());
+		    }else{
+		    	spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTFINANCEADUIT.getCode());
+		    	toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 		    }
 		    
 		    //添加审批记录
 		    addAduitRecord(instCode, taskId, taskitem, spvChargeInfoVO, chargeOutAppr);
-		    toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 		    toSpvAduitMapper.insertSelective(spvChargeInfoVO.getToSpvAduitList().get(0));
 		
 			Map<String, Object> variables = new HashMap<String, Object>();
@@ -300,7 +302,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		
 		    multiplyTenThousand(spvChargeInfoVO);
 		    //更新申请状态
-		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTFINANCE2ADUIT.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 					
@@ -317,10 +318,12 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    //通过时设置财务初审人，驳回时清空申请复审人
 			if(chargeOutAppr){
 			    spvChargeInfoVO.getToSpvCashFlowApply().setFtPreAuditor(user.getId());
+			    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTFINANCE2ADUIT.getCode());
 			    toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 			}else{
 				Long pkid = spvChargeInfoVO.getToSpvCashFlowApply().getPkid();
 				ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(pkid);
+				apply.setStatus(SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 				apply.setApplyAuditor(null);
 				spvChargeInfoVO.setToSpvCashFlowApply(apply);
 				toSpvCashFlowApplyMapper.updateByPrimaryKey(spvChargeInfoVO.getToSpvCashFlowApply());
@@ -351,7 +354,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    
 		    multiplyTenThousand(spvChargeInfoVO);
 		    //更新申请状态
-		    spvChargeInfoVO.getToSpvCashFlowApply().setStatus(chargeOutAppr?SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode():SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 		    if(spvChargeInfoVO != null && spvChargeInfoVO.getSpvCaseFlowOutInfoVOList() != null){
 				for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO: spvChargeInfoVO.getSpvCaseFlowOutInfoVOList()){
 					
@@ -370,6 +372,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    //通过时设置财务复审人，驳回时清空申请复审人、财务初审人
 			if(chargeOutAppr){
 				spvChargeInfoVO.getToSpvCashFlowApply().setFtPostAuditor(user.getId());
+				spvChargeInfoVO.getToSpvCashFlowApply().setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
 			    toSpvCashFlowApplyMapper.updateByPrimaryKeySelective(spvChargeInfoVO.getToSpvCashFlowApply());
 			    
 		    	//更新t_to_workflow表
@@ -405,6 +408,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			}else{
 				Long pkid = spvChargeInfoVO.getToSpvCashFlowApply().getPkid();
 				ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(pkid);
+				apply.setStatus(SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode());
 				apply.setApplyAuditor(null);
 				apply.setFtPreAuditor(null);
 				spvChargeInfoVO.setToSpvCashFlowApply(apply);
