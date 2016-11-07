@@ -494,7 +494,8 @@
                             </c:forEach>
                             </c:if>
                             <c:if test="${empty spvChargeInfoVO.toSpvAduitList }">
-                                    <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p>
+                                    <%-- <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p> --%>
+                                    <div style="width:100%;height:100px;background:url(../../../static/image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
                             </c:if>
                         </div>
                         </div>
