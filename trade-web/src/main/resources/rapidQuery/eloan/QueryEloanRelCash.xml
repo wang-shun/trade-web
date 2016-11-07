@@ -143,10 +143,10 @@
 			<column name="loanCode" title="e+编号" hidden="true" />
 			<column name="LOAN_SRV_CODE" field="LOAN_SRV_CODE" title="产品名称"
 				hidden="true" customDict="qqcdDictServCode" />
-			<column name="releaseAmout" title="放款金额(万)" hidden="true" />
-			<column name="RELEASE_TIME" title="RELEASE_TIME" field="RELEASE_TIME"
+			<column name="releaseAmout" title="放款金额(万)" expType="Double" hidden="true" />
+			<column name="RELEASE_TIME" title="放款日期" field="RELEASE_TIME"
 				hidden="true" customDict="getFormatDate" />
-			<column name="CONFIRM_STATUS" title="审批状态" hidden="true" />
+			<column name="CONFIRM_STATUS" title="审批状态" hidden="true" field="CONFIRM_STATUS"  customDict="getEloanCashStatus"/>
 			<column name="PROPERTY_ADDR" title="物业地址" hidden="true" />
 			<column name="CUST_NAME" title="客户名称" hidden="true" />
 			<column name="FIN_ORG_CODE" title="合作机构" field="FIN_ORG_CODE"
