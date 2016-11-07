@@ -393,7 +393,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
 		    	//监管总额
 				BigDecimal toSpvTotalAmount = toSpv.getAmount();
-		    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
+/*		    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
 					messageService.sendSpvFinishMsgByIntermi(instCode);	
 					//更新t_to_workflow表(资金监管流程)
 					ToWorkFlow record = new ToWorkFlow();
@@ -404,7 +404,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 						toWorkFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
 						toWorkFlowMapper.updateByPrimaryKey(toWorkFlow);
 					}
-		    	}
+		    	}*/
 			}else{
 				Long pkid = spvChargeInfoVO.getToSpvCashFlowApply().getPkid();
 				ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(pkid);

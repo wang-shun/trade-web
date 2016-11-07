@@ -800,7 +800,7 @@ function renderFileUpload(k,a){
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $('#progress .bar').css('width',progress+'%').find("span").css('color','red').text(progress+'%');
             if(progress == 100){
-                setTimeout($('#progress').fadeOut(2000));
+                $('#progress').fadeOut(4000);
             }
         }
     })
@@ -809,9 +809,9 @@ function renderFileUpload(k,a){
 function rescCallbocak(){
 	if($("#urlType").val() == 'myTask'){    	 
 		   window.opener.location.reload(); //刷新父窗口
-  	   window.close(); //关闭子窗口.
+  	       window.close(); //关闭子窗口.
 	     }else{
-	    	 window.location.href = ctx+"/spv/spvList";
+	       window.location.href = ctx+"/spv/spvList";
 	     }
 }
 
