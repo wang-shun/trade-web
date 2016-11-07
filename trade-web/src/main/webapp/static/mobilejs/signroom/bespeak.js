@@ -55,6 +55,7 @@ $(function() {
     //遮罩弹窗层隐藏显示
     $roomlist.hide();
     $("#dateseLect").on("click",function() {
+    	$(this).blur();
     	popSelectResInfo();
     });
     
