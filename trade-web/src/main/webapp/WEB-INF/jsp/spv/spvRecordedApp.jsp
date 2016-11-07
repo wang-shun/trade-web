@@ -179,7 +179,7 @@
 	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq ''}"> selected="selected" </c:if> value="">请选择</option>
 	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '转账'}"> selected="selected" </c:if> value="转账">转账</option>                                                                                                                                                
 															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option>  
-															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> 
+															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option>  --%>
 	                                                    </select>
 	                                                </td>
 	                                                <td id="td_file${status2.index }" >

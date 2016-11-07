@@ -35,7 +35,6 @@ function getTR(thisIndex){
 	$str+='			<option value="">请选择</option>                                                                                                                                                   ';
 	$str+='			<option value="转账">转账</option>                                                                                                                                                 ';
 	$str+='			<option value="刷卡">刷卡</option>                                                                                                                                                 ';
-	$str+='			<option value="现金">现金</option>                                                                                                                                                 ';
 	$str+='		</select>                                                                                                                                                                              ';
 	$str+='	</td>                                                                                                                                                                                      ';
 	$str+='	<td id="td_file'+thisIndex+'">                                                                                                                                                                                         ';
