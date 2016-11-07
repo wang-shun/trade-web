@@ -47,9 +47,11 @@
     </div>
     <div class="aui-content aui-margin-b-15" id="wrapper">
    		<div id="scroller">
-		   	<li class="aui-list-header newgrey">
+   			<div class="aui-list">
+		   	<p class="aui-list-header newgrey">
 		                     当前共有<span class="mlr5 deepgrey"><em id="e_count">0</em></span>条信息
-		    </li>
+		    </p>
+		    </div>
 	        <ul class="aui-list aui-media-list" id="content">
 	            <!-- <li class="aui-list-item">
 	                <div class="aui-media-list-item-inner">
