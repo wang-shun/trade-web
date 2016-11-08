@@ -255,9 +255,7 @@
                                         </td>
                                         <td>
                                             <p class="smll_sign big">
-                                                {{if item.type==1}}
-                                                                                                                                                    金额 ：{{item.releaseAmout}}万
-										        {{/if}}                                                                                                                                 
+                                                                                                                                                    金额 ：{{item.releaseAmout}}万                                                                                                                                
                                             </p>
                                             <p class="smll_sign">
                                                                                                                                        时间：{{item.RELEASE_TIME}}
