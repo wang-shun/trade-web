@@ -20,6 +20,7 @@ import com.centaline.trans.signroom.entity.ResFlowup;
 import com.centaline.trans.signroom.service.ResFlowupService;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.vo.ReservationVo;
+import com.centaline.trans.signroom.service.RmSignRoomService;
 import com.centaline.trans.signroom.vo.SignroomInfo;
 
 /**
@@ -43,6 +44,9 @@ public class ReservationManageController {
 
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+
+	@Autowired
+	private RmSignRoomService rmSignRoomService;
 
 	/**
 	 * 变更签约室----更换签约室保存
@@ -114,6 +118,7 @@ public class ReservationManageController {
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
 		SessionUser currentUser = uamSessionService.getSessionUser();
+		boolean isCurrenDayDuty = rmSignRoomService.isCurrenDayDuty();// 是否当日值班
 
 		String distinctId = "";
 		// 如果当前用户属于组级别的
@@ -158,6 +163,7 @@ public class ReservationManageController {
 		request.setAttribute("resTime", resTime);
 		request.setAttribute("resStatus", resStatus);
 		request.setAttribute("distinctId", distinctId);
+		request.setAttribute("isCurrenDayDuty", isCurrenDayDuty);
 
 		return "signroom/signinglist";
 	}

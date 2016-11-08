@@ -472,12 +472,26 @@
                           </button>
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
 								{{if item.resStatus == '0'}}
-									<li><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
+									<shiro:hasPermission name="TRADE.SIGNROOM.SIGN">
+                                    	<c:if test="${isCurrenDayDuty == true }">
+                                    	  <li><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
+                                    	</c:if>
+                                    </shiro:hasPermission>
+
+									<shiro:hasPermission name="TRADE.SIGNROOM.CHANGEROOM">
+                                    	<c:if test="${isCurrenDayDuty == true }">
+                                    	  <li><a href="#" onClick="changeRoom(this,'{{item.resId}}','{{item.tradeCenterId}}','{{item.resDateTime}} {{item.actStartTime}}','{{item.resDateTime}} {{item.actEndTime}}');" data-toggle="modal" data-target="#changeRoom">变更签约室</a></li>
+                                    	</c:if>
+                                    </shiro:hasPermission>
 									<li><a href="#" onClick="changeRoom(this,'{{item.resId}}','{{item.tradeCenterId}}','{{item.resDateTime}} {{item.actStartTime}}','{{item.resDateTime}} {{item.actEndTime}}');" data-toggle="modal" data-target="#changeRoom">变更签约室</a></li>
 								{{/if}}
                                 
 								{{if item.resStatus == '1'}}
-                                	<li><a href="javascript:void(0);" onClick="endUse(this)">结束使用</a></li>
+                                	<shiro:hasPermission name="TRADE.SIGNROOM.SIGNOUT">
+                                    	<c:if test="${isCurrenDayDuty == true }">
+                                    	  	<li><a href="javascript:void(0);" onClick="endUse(this)">结束使用</a></li>
+                                    	</c:if>
+                                    </shiro:hasPermission>
 								{{/if}}
 
                                 <li>
