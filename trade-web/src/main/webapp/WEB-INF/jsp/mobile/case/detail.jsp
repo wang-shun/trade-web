@@ -68,7 +68,7 @@
                     <div class="col-lg-12">
                         <div class="ibox">
                              <div class="ibox-content timeline-content" id="">
-                                <div id="vertical-timeline" class="vertical-container dark-timeline content">
+                                <div id="" class="vertical-container dark-timeline content">
 
                                    <!--  <div class="vertical-timeline-block">
                                         <div class="vertical-timeline-icon timeline-qz-icon" >
@@ -108,17 +108,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="footer">
-                <div class="pull-right">
-                   powered by
-                    <strong>AIST</strong>
-                    .
-                </div>
-                <div>
-                    <strong>誉萃投资</strong>
-                    真诚为您服务
                 </div>
             </div>
             <!-- 弹框1 -->
@@ -182,9 +171,21 @@
                 </div>
             </div>
             <!-- 弹框2 -->
-        </div>
+             <div class="footer" style="position:absolute;bottom:0;">
+                <div class="pull-right">
+                   powered by
+                    <strong>AIST</strong>
+                    .
+                </div>
+                <div>
+                    <strong>誉萃投资</strong>
+                    		真诚为您服务
+                </div>
+        	</div>
     </div>
-
+        
+    </div>
+ 
     <!-- Mainly scripts -->
     <script src="${ctx}/momedia/js/template.js"></script>
 	<script type="text/javascript" src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
@@ -236,7 +237,9 @@
                                         </div>
              </div>
 			{{/each}}
-			{{/if}}
+	{{else}}
+              <div class="vertical-timeline-block">暂无跟进信息</div>
+	{{/if}}
 	</script>
 
     <script>
