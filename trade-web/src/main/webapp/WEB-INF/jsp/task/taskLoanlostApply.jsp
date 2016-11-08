@@ -12,37 +12,27 @@
 <html>
 <head>
 <!-- 上传相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
-	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"	rel="stylesheet">
 <!-- 展示相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
-	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <!-- 备件相关结束 -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
 <!-- jdGrid相关 -->
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
