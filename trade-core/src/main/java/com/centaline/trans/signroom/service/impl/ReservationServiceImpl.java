@@ -17,6 +17,7 @@ import com.centaline.trans.signroom.repository.ReservationMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
 import com.centaline.trans.signroom.repository.RmSignRoomMapper;
 import com.centaline.trans.signroom.service.ReservationService;
+import com.centaline.trans.signroom.vo.ChangeRoomResult;
 import com.centaline.trans.signroom.vo.FreeRoomInfo;
 import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
@@ -257,7 +258,10 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public void changeRoom(ReservationVo reservationVo) {
+	public ChangeRoomResult changeRoom(ReservationVo reservationVo) {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		ChangeRoomResult changeRoomResult = new ChangeRoomResult();
+
 		Long resId = Long.parseLong(reservationVo.getResId());
 		Reservation reservation = reservationMapper.getReservationById(resId);
 
@@ -281,6 +285,17 @@ public class ReservationServiceImpl implements ReservationService {
 		// 更换签约室并启用
 		if ("changeAndSave".equals(reservationVo.getFlag())) {
 			reservationMapper.startUse(resId);
+
+			reservation = reservationMapper.getReservationById(resId);
+			changeRoomResult.setOperateTime(sdf.format(reservation
+					.getCheckInTime()));
 		}
+
+		return changeRoomResult;
+	}
+
+	@Override
+	public Reservation getReservationById(Long resId) {
+		return reservationMapper.getReservationById(resId);
 	}
 }

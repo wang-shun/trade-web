@@ -101,13 +101,13 @@ public class ReservationMobileController {
 		String message = "isPass";
 
 		// 判断当前用户是否有可使用的预约次数
-		int remainBespeakNumber = getRemainBespeakNumber();
-
-		if (remainBespeakNumber == 0) {
-			message = "noBespeakNum";
-
-			return message;
-		}
+		/*
+		 * int remainBespeakNumber = getRemainBespeakNumber();
+		 * 
+		 * if (remainBespeakNumber == 0) { message = "noBespeakNum";
+		 * 
+		 * return message; }
+		 */
 
 		// 如果有预约次数,则按照正常预约流程走
 		if ("normal".equals(reservationVo.getFlag())) {
