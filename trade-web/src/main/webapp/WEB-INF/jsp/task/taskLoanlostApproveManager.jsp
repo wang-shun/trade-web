@@ -189,17 +189,20 @@
 			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
 		</div>
 	</div>
-	<content tag="local_script"> <!-- jqGrid --> <script
-		src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> <script
-		src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
-		src="${ctx}/transjs/task/loanlostApprove.js"></script> <%-- <script src="${ctx}/transjs/task/showAttachment.js"></script>  --%>
-	<script src="${ctx}/transjs/task/showAttachmentByLssp.js"></script> <script
-		src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/viewer/viewer.min.js"></script> <script>
+	<content tag="local_script"> <!-- jqGrid --> 
+	<script		src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
+	<script		src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<script		src="${ctx}/transjs/task/loanlostApprove.js"></script> 
+
+	<!-- 图片查看JS -->
+	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
+	<script	src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script	src="${ctx}/js/viewer/viewer.min.js"></script> 
+	<script>
 			function loanLostManagerAppendNotApprove(isAppend, content) {
 				if (isAppend) {
 					var oldVal = $("#LoanLost_manager_response").val();
