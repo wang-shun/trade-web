@@ -94,7 +94,7 @@
 <script id="castListTpl" type="text/html">
 	{{if rows.length>0}}
 		{{ each rows as item }}
- 			<li class="aui-list-item">
+ 			<li class="aui-list-item" onclick='javascript:goDetails("{{item.PKID}}");'>
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-inner">
                         <div class="aui-list-item-text mb10">

@@ -45,9 +45,9 @@
             </section>
             <section class="data-list">
                <div class="col-sm-12 miu-data">
-                    <p class="clearfix">
+                    <p class="clearfix"> 
                         <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe670;</i>${leading.realName }(主办)</span>
-                        <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe614;</i>${leading.mobile }</span>
+                        <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe614;</i><a href="tel://${leading.mobile }"> ${leading.mobile }</a></span>
                     </p>
                     <p><i class="iconfont lightgrey mr5">&#xe612;</i>${leading.orgName }</p>
                </div>
@@ -56,7 +56,7 @@
                       		<div class="col-sm-12 miu-data">
 			                    <p class="clearfix">
 			                        <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe61a;</i>${pro.processorName}(合作)</span>
-			                        <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe614;</i>${pro.processorMobile}</span>
+			                        <span class="info-minute"><i class="iconfont lightgrey mr5">&#xe614;</i><a href="tel://${pro.processorMobile }">${pro.processorMobile}</a></span>
 			                    </p>
 			                    <p><i class="iconfont lightgrey mr5">&#xe612;</i>${pro.processorOrgName}</p>
 		                	</div>
@@ -208,7 +208,7 @@
 	{{if rows.length>0}}
 		{{ each rows as item }}
 				<div class="vertical-timeline-block">
-                                        <div class="vertical-timeline-icon timeline-ej-icon" >
+                                        <div class="vertical-timeline-icon timeline-qz-icon" >
                                         </div>
 
                                         <div class="vertical-timeline-content">
