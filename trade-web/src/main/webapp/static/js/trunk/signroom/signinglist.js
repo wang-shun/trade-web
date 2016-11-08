@@ -291,12 +291,12 @@ function startUse(obj,resDate,startTime,endTime){
 	
 	startAndEndUse($obj,"startUse");
 	
-	/*if(currentDateTime >= startDateTime && currentDateTime <= endDateTime){
+	if(currentDateTime >= startDateTime && currentDateTime <= endDateTime){
 		startAndEndUse($obj,"startUse");
 	}
 	else {
 		alert("不能开始，不在预约时间内！");
-	}*/
+	}
 }
 
 //签约室结束使用
@@ -444,12 +444,12 @@ function saveChangeRoom(resId,scheduleId,flag){
 	var resStartDateTime = new Date(resStartTime);
 	var resEndDateTime = new Date(resEndTime);
 	
-	/*if(flag == "changeAndSave"){
+	if(flag == "changeAndSave"){
 		if(currentDateTime < resStartDateTime || currentDateTime > resEndDateTime){
 			alert("不能开始，不在预约时间内！");
 			return false;
 		}
-	}*/
+	}
 	
 	$.ajax({
 		cache:false,

@@ -609,7 +609,7 @@ public class SpvController {
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
-		spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+		spv.setStatus(SpvStatusEnum.ADUIT.getCode());
 
 		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
@@ -684,9 +684,9 @@ public class SpvController {
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
 		if(!SpvApplyApprove){
-			spv.setStatus(SpvStatusEnum.DEFAULT.getCode());
+			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
 		}else{
-			spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+			spv.setStatus(SpvStatusEnum.SIGN.getCode());
 		}
 		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
@@ -760,7 +760,7 @@ public class SpvController {
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
-		spv.setStatus("2");
+		spv.setStatus(SpvStatusEnum.SIGNCOMPLETE.getCode());
 		spv.setSpvConCode(spvConCode);
 		spv.setSignTime(signTime);
 		toSpvService.updateByPrimaryKey(spv);

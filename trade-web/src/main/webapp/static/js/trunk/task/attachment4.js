@@ -68,7 +68,9 @@ $(function() {
 		
 		/**监听 div 执行自动上传*/
 		$("#picContainer"+value).bind('DOMNodeInserted', function(e) {
-			renderImg();
+			if($("div[id^='picContainers']").find('img').length > 0){
+				renderImg();
+			}
 			var picDiv=$("div[name='allPicDiv1']");
 			var input=$("input[name='picTag']");
 			if(picDiv.length > input.length) {

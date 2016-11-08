@@ -27,11 +27,13 @@ import com.centaline.trans.signroom.entity.RmRoomScheStragegy;
 import com.centaline.trans.signroom.entity.RmRoomSchedule;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.repository.ReservationMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheStragegyMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
 import com.centaline.trans.signroom.repository.RmSignRoomMapper;
 import com.centaline.trans.signroom.repository.TradeCenterMapper;
+import com.centaline.trans.signroom.repository.TradeCenterScheduleMapper;
 import com.centaline.trans.signroom.service.RmSignRoomService;
 import com.centaline.trans.signroom.vo.DateWeekVo;
 import com.centaline.trans.signroom.vo.FreeRoomVo;
@@ -66,6 +68,8 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	private QuickGridService quickGridService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Resource
+	TradeCenterScheduleMapper tradeCenterScheduleMapper;
 
 	@Override
 	public AjaxResponse<Map> generatePageDate(JQGridParam gp) {
@@ -190,6 +194,11 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	@Override
 	public List<TradeCenter> getTradeCenters() {
 		return tradeCenterMapper.getTradeCenterList();
+	}
+	
+	@Override
+	public List<TradeCenter> getTradeCenters(Map map) {
+		return tradeCenterMapper.getTradeCenterListByDistrictId(map);
 	}
 
 	@Override
@@ -433,37 +442,69 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		return false;
 	}
 	
-	public static void main(String args[]) throws ParseException{
-		/*List<DateWeekVo> dates = getMonthSchedules("2016-10-02");
-		
-		for(DateWeekVo vo:dates){
-			System.out.println(vo.getDate()+"+======="+vo.getWeek()+"---------"+vo.getDay()+"++++++"+vo.isLight());
-		}*/
-		
-	}
-
 	@Override
-	public List<DateWeekVo> showSchedulingData(Map map) throws ParseException {
+	public List<List<DateWeekVo>> showSchedulingData(Map map) throws ParseException {
 		int centerId= (int) map.get("centerId");
 		String date = (String) map.get("date");
 		List<DateWeekVo> dwvs = getMonthSchedules(date);
-		return dwvs;
+		String dutyDateStart=null;
+		String dutyDateEnd = null;
+		Map params = new HashMap();
+		if(dwvs!=null && dwvs.size()>0){
+			dutyDateStart = dwvs.get(0).getDate();
+			dutyDateEnd = dwvs.get(dwvs.size()-1).getDate();
+		}
+		params.put("dutyDateStart", dutyDateStart);
+		params.put("dutyDateEnd", dutyDateEnd);
+		params.put("centerId", centerId);
+		List<TradeCenterSchedule> tcss = tradeCenterScheduleMapper.queryTradeCenterSchedules(params);//日历范围内的所有值班数据
+		if(dwvs!=null && dwvs.size()>0 && tcss!=null && tcss.size()>0){//给每个日期分配值班人员
+			List<TradeCenterSchedule> tcs = null;
+			for(DateWeekVo dv:dwvs){
+				tcs = new ArrayList<TradeCenterSchedule>();
+				for(int i=0;i<tcss.size();i++){
+					if(dv.getDate().equals(tcss.get(i).getDutyDate())){
+						tcs.add(tcss.get(i));
+					}
+				}
+				dv.setTcs(tcs);
+			}
+		}
+		tcss = null;
+		List<List<DateWeekVo>> lists = new ArrayList<List<DateWeekVo>>();
+		List<DateWeekVo> dw = new ArrayList<DateWeekVo>();
+		for(int i=0;i<dwvs.size();i++){
+			dw.add(dwvs.get(i));
+			if(dw.size()==7){
+				lists.add(dw);
+				dw = new ArrayList<DateWeekVo>();
+			}
+		}
+		
+		return lists;
 	}
 	
+	/**
+	 * 排班页面日历数据
+	 * @param date
+	 * @return
+	 * @throws ParseException
+	 */
 	public List<DateWeekVo> getMonthSchedules(String date) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("dd");
 		List<DateWeekVo> dates = new ArrayList<DateWeekVo>();
 		DateWeekVo dw = null;
 		Calendar c1 = Calendar.getInstance();
-		c1.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+		c1.setTime(sdf.parse(date));
 		c1.set(Calendar.DAY_OF_MONTH,1);//指定日期的月份的第一天
 		int firstDay = c1.get(Calendar.DAY_OF_WEEK);//第一天是星期几
 		c1.set(Calendar.DAY_OF_MONTH, c1.getActualMaximum(Calendar.DAY_OF_MONTH));//指定日期月份的最后一天
 		//int lastDay = c1.get(Calendar.DAY_OF_WEEK);//最后一天是星期几
 		int days = c1.getActualMaximum(Calendar.DATE);//该月份总共多少天
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat sdf1 = new SimpleDateFormat("dd");
 		Calendar c2 = Calendar.getInstance();
+		String  curDate = sdf.format(Calendar.getInstance().getTime());
 		if(firstDay>1){//星期日外国定为1  取指定月份前一个月的最后几天
 			int headWeekNum = firstDay-1;
 			for(int i=headWeekNum-1;i>=0;i--){
@@ -474,19 +515,24 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 				dw = new DateWeekVo();
 				dw.setDate(sdf.format(c2.getTime()));
 				dw.setWeek(c2.get(Calendar.DAY_OF_WEEK));
-				dw.setEdit(false);
+				if(sdf.parse(sdf.format(c2.getTime())).getTime()>=sdf.parse(curDate).getTime()){//当日之后可编辑
+					dw.setEdit(true);
+				}
 				dw.setDay(Integer.valueOf(sdf1.format(c2.getTime())));
 				dates.add(dw);
 			}
 		}
 		int midWeekNum = days;
+		
 		for(int j=1;j<=midWeekNum;j++){
 			c1.add(Calendar.MONTH, 0);
 			c1.set(Calendar.DAY_OF_MONTH,j);
 			dw = new DateWeekVo();
 			dw.setDate(sdf.format(c1.getTime()));
 			dw.setWeek(c1.get(Calendar.DAY_OF_WEEK));
-			dw.setEdit(true);
+			if(sdf.parse(sdf.format(c1.getTime())).getTime()>=sdf.parse(curDate).getTime()){//当日之后可编辑
+				dw.setEdit(true);
+			}
 			dw.setDay(Integer.valueOf(sdf1.format(c1.getTime())));
 			if(sdf.format(c1.getTime()).equals(sdf.format(Calendar.getInstance().getTime()))){//当天高亮
 				dw.setLight(true);
@@ -502,12 +548,50 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 				dw = new DateWeekVo();
 				dw.setDate(sdf.format(c2.getTime()));
 				dw.setWeek(c2.get(Calendar.DAY_OF_WEEK));
-				dw.setEdit(true);
+				if(sdf.parse(sdf.format(c2.getTime())).getTime()>=sdf.parse(curDate).getTime()){//当日之后可编辑
+					dw.setEdit(true);
+				}
 				dw.setDay(Integer.valueOf(sdf1.format(c2.getTime())));
+				if(sdf.format(c2.getTime()).equals(sdf.format(Calendar.getInstance().getTime()))){//当天高亮
+					dw.setLight(true);
+				}
 				dates.add(dw);
 			}
 		}
 		return dates;
+	}
+
+	@Override
+	public int addOrUpdateTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule) {
+		if(tradeCenterSchedule.isChanged()){//更新值班表
+			return tradeCenterScheduleMapper.updateTradeCenterSchedule(tradeCenterSchedule);
+		}else{//新增值班信息
+			return tradeCenterScheduleMapper.addTradeCenterSchedule(tradeCenterSchedule);
+		}
+		
+	}
+
+	@Override
+	public int deleteTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule) {
+		return tradeCenterScheduleMapper.deleteTradeCenterSchedule(tradeCenterSchedule);
+	}
+
+	@Override
+	public List<TradeCenterSchedule> queryTradeCenterSchedules(Map map) {
+		return tradeCenterScheduleMapper.queryTradeCenterSchedules(map);
+	}
+
+	@Override
+	public boolean isCurrenDayDuty() {
+		Map map = new HashMap();
+		SessionUser user = uamSessionService.getSessionUser();
+		map.put("dutyOfficer", user.getId());
+		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+		List<TradeCenterSchedule> tcs = tradeCenterScheduleMapper.queryTradeCenterSchedules(map);
+		if(tcs!=null && tcs.size()==1){
+			return true;
+		}
+		return false;
 	}
 
 }

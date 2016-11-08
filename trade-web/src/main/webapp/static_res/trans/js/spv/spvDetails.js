@@ -242,18 +242,24 @@ $(document).ready(function(){
 	  		  return false;
 	  	  }
   	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
-	   	   if(!confirm("是否确定通过！")){
-	 		  return false;
-	 	  }
-
+	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
+	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
+	  		   alert("请填写审批意见！");
+	  		   return false;
+	  	    }
+  		  
+	   	    if(!confirm("是否确定通过！")){
+	 		   return false;
+	 	    }
   	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
-    	   var passOrRefuseReason = $("#passOrRefuseReason").val();
-     	   if(passOrRefuseReason=='' || passOrRefuseReason==null){
-     		   alert("请在备注栏填写驳回原因！");
-     		   return false;
-     	   }
+	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
+	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
+	  		   alert("请填写审批意见！");
+	  		   return false;
+	  	    }
+    	   
 	  		if(!confirm("是否确定驳回！")){
-	     		  return false;
+	     		return false;
 	     	  }
   	  }else if(handle == 'SpvSign'){
 	   	   if(!confirm("是否确定签约！")){
@@ -875,6 +881,29 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		/**托管方*/
+		var spvAccountName = $("select[name='toSpvAccountList[2].name'] option:selected").val();
+		if(spvAccountName == null || spvAccountName == ''){
+			alert("请选择托管账户名称！");
+			changeClass($("select[name='toSpvAccountList[2].name']"));
+			return false;
+		}
+		
+		var spvAccount = $("input[name='toSpvAccountList[2].account']").val();
+		if(spvAccount == null || spvAccount == ''){
+			alert("请填写托管账号！");
+			changeClass($("input[name='toSpvAccountList[2].account']"));
+			return false;
+		}	
+		
+		if(spvAccount != null && spvAccount != ''){
+		    if(!isNumber2(spvAccount)){
+		    	alert("请填写有效的托管账号！(首位非0的整数)");
+		    	changeClass($("input[name='toSpvAccountList[2].account']"));
+		    	return false;
+		    }
+		}
+		
 		/**新增*/
 		var customFlag = true;
    $("input[name^='toSpvAccountList'][name$='accountType']").each(function(i,e){
@@ -935,29 +964,13 @@ $(document).ready(function(){
         if(!customFlag){
         	return false;
         }
-	
-		/**托管方*/
-		var spvAccountName = $("select[name='toSpvAccountList[2].name'] option:selected").val();
-		if(spvAccountName == null || spvAccountName == ''){
-			alert("请选择托管账户名称！");
-			changeClass($("select[name='toSpvAccountList[2].name']"));
+        
+        var applyUser = $("input[name='toSpv.applyUser']").val();
+        if(applyUser == null || applyUser == ''){
+        	alert("请选择申请人！");
+        	changeClass($("input[id='realName']"));
 			return false;
-		}
-		
-		var spvAccount = $("input[name='toSpvAccountList[2].account']").val();
-		if(spvAccount == null || spvAccount == ''){
-			alert("请填写托管账号！");
-			changeClass($("input[name='toSpvAccountList[2].account']"));
-			return false;
-		}	
-		
-		if(spvAccount != null && spvAccount != ''){
-		    if(!isNumber2(spvAccount)){
-		    	alert("请填写有效的托管账号！(首位非0的整数)");
-		    	changeClass($("input[name='toSpvAccountList[2].account']"));
-		    	return false;
-		    }
-		}
+        }
 		
 		/** ------资金监管账号信息验证结束--------  **/
 		
