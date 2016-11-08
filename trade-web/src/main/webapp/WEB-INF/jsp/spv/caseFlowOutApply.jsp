@@ -423,10 +423,10 @@
 	                                                </td>
 	                                                <td>
 	                                                    <select  id="select_direction" class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.direction"  onChange="this.value" >
-	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq ''}"> selected="selected" </c:if> value="">请选择</option>
+	                                                        <option value="">请选择</option>
 	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '转账'}"> selected="selected" </c:if> value="转账">转账</option>                                                                                                                                                
 															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option>  
-															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> 
+															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> --%> 
 	                                                    </select>
 	                                                </td>
 	                                                <td id="td_file${status2.index  }">
@@ -494,7 +494,8 @@
                             </c:forEach>
                             </c:if>
                             <c:if test="${empty spvChargeInfoVO.toSpvAduitList }">
-                                    <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p>
+                                    <%-- <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p> --%>
+                                    <div style="width:100%;height:100px;background:url(../../../static/image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
                             </c:if>
                         </div>
                         </div>
@@ -799,14 +800,19 @@ function renderFileUpload(k,a){
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $('#progress .bar').css('width',progress+'%').find("span").css('color','red').text(progress+'%');
             if(progress == 100){
-                setTimeout($('#progress').fadeOut(2000));
+                $('#progress').fadeOut(4000);
             }
         }
     })
 }
 
 function rescCallbocak(){
-	window.location.href = ctx+"/spv/spvList";
+	if($("#urlType").val() == 'myTask'){    	 
+		   window.opener.location.reload(); //刷新父窗口
+  	       window.close(); //关闭子窗口.
+	     }else{
+	       window.location.href = ctx+"/spv/spvList";
+	     }
 }
 
 //渲染图片 

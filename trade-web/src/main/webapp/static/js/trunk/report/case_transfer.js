@@ -270,12 +270,12 @@ function caseTransferExportToExcel() {
 	displayColomn.push('PRF_AMOUNT');
 	displayColomn.push('ACCOUNT');
 	displayColomn.push('COM_DISCOUNT');
-	displayColomn.push('CASE_CODE');
-	//displayColomn.push('LOANER_NAME');
+	displayColomn.push('CASE_CODE');	
 	displayColomn.push('MORT_TYPE_NAME');
 	displayColomn.push('SPONSOR');
 	displayColomn.push('SDSTATUS');
-	//displayColomn.push('IS_LOANER_ARRIVE');
+	displayColomn.push('loanlost_apply_reason');
+	displayColomn.push('SELF_DEL_REASON');
 	displayColomn.push('EVAL_FEE');
 	
 	displayColomn.push('SELLER');

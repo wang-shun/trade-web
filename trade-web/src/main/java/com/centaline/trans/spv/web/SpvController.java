@@ -609,7 +609,7 @@ public class SpvController {
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
-		spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+		spv.setStatus(SpvStatusEnum.ADUIT.getCode());
 
 		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
@@ -684,9 +684,9 @@ public class SpvController {
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
 		if(!SpvApplyApprove){
-			spv.setStatus(SpvStatusEnum.DEFAULT.getCode());
+			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
 		}else{
-			spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+			spv.setStatus(SpvStatusEnum.SIGN.getCode());
 		}
 		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
@@ -760,7 +760,7 @@ public class SpvController {
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
-		spv.setStatus("2");
+		spv.setStatus(SpvStatusEnum.SIGNCOMPLETE.getCode());
 		spv.setSpvConCode(spvConCode);
 		spv.setSignTime(signTime);
 		toSpvService.updateByPrimaryKey(spv);
@@ -863,9 +863,6 @@ public class SpvController {
             case "financeSecondAduit":
             	cashFlowOutService.cashFlowOutFinanceSecondAduitProcess(request, source, instCode, taskId, handle, businessKey);
                 break;
-/*            case "cashFlowOut":
-            	cashFlowOutService.cashFlowOutDealProcess(request, source, instCode, taskId, handle, businessKey);
-                break;*/
         	}
     		request.setAttribute("urlType", "myTask");
         }else{
@@ -918,10 +915,7 @@ public class SpvController {
 			    	break;
 			    case "financeSecondAduit":
 			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
-			        break;
-/*			    case "cashFlowOut":
-	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, chargeOutAppr);
-	                break;*/    
+			        break;   
 				}	
 			}else{
 				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null);

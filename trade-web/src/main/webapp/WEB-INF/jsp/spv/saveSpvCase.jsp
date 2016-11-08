@@ -58,6 +58,7 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 <link href="${ctx}/css/font-awesome.css" rel="stylesheet">
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <!-- stickUp fixed css -->
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -80,7 +81,7 @@
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input id="pkid" type="hidden" value="${spvBaseInfoVO.toSpv.pkid }">
-	<div id="wrapper">
+	<div>
 	    <%-- 流程相关 --%>
 		<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
@@ -699,7 +700,7 @@
 						
 						<div id="spvAccDiv" class="form-row form-rowbot">
 						    <div class="form-group form-margin form-space-one">
-						        <label for="" class="lable-one">申请人</label>
+						        <label for="" class="lable-one"><i style="color:red;">*</i> 申请人</label>
 						        <input type="hidden" id="userName" name="toSpv.applyUser" value='${spvBaseInfoVO.toSpv.applyUser }'>
 						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${applyUserName }'>
@@ -974,7 +975,7 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
-	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment4.js"></script>
 			
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
@@ -982,7 +983,8 @@
 		src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
 		<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>	
+	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>
+	    <script src="${ctx}/js/viewer/viewer.min.js"></script>	
 
 		<script id="queryCastListItemList2" type= "text/html">
         {{each rows as item index}}
@@ -1039,6 +1041,7 @@
         var accTypeSum;//账户类型 
 		
 		$(document).ready(function(){
+			
 			accTypeSum = parseInt('${fn:length(spvBaseInfoVO.toSpvAccountList)}');
 			if(accTypeSum == 0 || accTypeSum == 4){
 				accTypeSum = 4;
@@ -1421,6 +1424,12 @@
 				$(e).change(function(){
 					getBranchBankList($select_,$(e).val());
 				});
+		}
+		
+		//渲染图片 
+		function renderImg(){		
+			$('.wrapper-content').viewer('destroy');
+			$('.wrapper-content').viewer({zIndex:15001});
 		}
 		
 		</script> 

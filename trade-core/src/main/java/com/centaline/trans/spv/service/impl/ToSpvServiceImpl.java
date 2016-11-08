@@ -529,6 +529,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpv.setUpdateTime(new Date());
 				toSpvMapper.updateByPrimaryKeySelective(toSpv);
 			} else {
+				toSpv.setStatus(SpvStatusEnum.DRAFT.getCode());
 				toSpv.setCreateBy(user.getId());
 				toSpv.setCreateTime(new Date());
 				toSpv.setSpvCode(spvCode);
@@ -726,7 +727,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if (spvBaseInfoVO.getToSpv().getApplyTime() == null) {
 			spvBaseInfoVO.getToSpv().setApplyTime(new Date());
 		}
-		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.INPROGRESS.getCode());
+		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.ADUIT.getCode());
 		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
 
 	}

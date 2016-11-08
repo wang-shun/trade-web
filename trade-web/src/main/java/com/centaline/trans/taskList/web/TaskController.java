@@ -6,12 +6,10 @@ package com.centaline.trans.taskList.web;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -342,7 +340,7 @@ public class TaskController {
     		request.setAttribute("OfflineEva", offlineEvaService.queryOfflineEvaVO(instCode));
     		request.setAttribute("evaReport", toEvaReportService.findByProcessId(instCode));
     	} else if(taskitem.equals("LoanlostApproveManager") || 
-    			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
+    			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager") || taskitem.equals("LoanlostApproveSeniorManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
     		
     		/*贷款流失审批 添加流失原因*/
