@@ -188,9 +188,13 @@
                                 </div>
                                 <div class="trade">
                                     <div class="add_btn" style="float:left;margin:15px 126px;">
-                                        <button type="button" class="btn btn-success" id="saveBtn">
+                                    	<shiro:hasPermission name="TRADE.SIGNROOM.ASSIGNMENT">
+                                    	<c:if test="${isCurrenDayDuty == true }">
+                                    	  <button type="button" class="btn btn-success" id="saveBtn">
                                            	 分配
                                         </button>
+                                    	</c:if>
+                                        </shiro:hasPermission>
                                         <button type="reset" class="btn btn-grey" data-dismiss="modal">
                                             	关闭
                                         </button>

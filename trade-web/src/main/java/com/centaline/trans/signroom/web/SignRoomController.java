@@ -61,6 +61,8 @@ public class SignRoomController {
 				.getTransactItemList();
 		model.addAttribute("transactItemVoList", transactItemVoList);
 		model.addAttribute("curDate", sdf.format(cd.getTime()));
+		boolean isCurrenDayDuty = rmSignRoomService.isCurrenDayDuty();//是否当日值班 
+		model.addAttribute("isCurrenDayDuty", isCurrenDayDuty);
 		return "/signroom/signingallot";
 	}
 	
@@ -239,7 +241,9 @@ public class SignRoomController {
 	@RequestMapping("/signscheduling")
 	public String signscheduling(Model model){
 		SessionUser user= uamSessionService.getSessionUser();
-		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters();//获取 交易中心信息
+		Map map = new HashMap();
+		map.put("districtId", user.getServiceDepId());
+		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters(map);//获取 交易中心信息
 		model.addAttribute("tradeCenters", tradeCenters);
 		return "/signroom/signscheduling";
 	}

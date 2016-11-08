@@ -25,6 +25,12 @@ public interface RmSignRoomService {
 	 * @return
 	 */
 	List<TradeCenter> getTradeCenters();
+	
+	/**
+	 * 获取交易中心信息
+	 * @return
+	 */
+	List<TradeCenter> getTradeCenters(Map map);
 
 	/**
 	 * 获取签约室列表及策略值信息
@@ -98,5 +104,11 @@ public interface RmSignRoomService {
 	 * @return
 	 */
 	List<TradeCenterSchedule> queryTradeCenterSchedules(Map map);
+	
+	/**
+	 * 判断是否当日值班
+	 * @return
+	 */
+	boolean isCurrenDayDuty();
 
 }
