@@ -226,11 +226,11 @@
               				{{/if}}
 					    {{else}}
 							{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)"></td>
+				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)">空置</td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)"></td>
+                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)">空置</td>
               				{{else}}
-                   				<td class="nouser"></td>
+                   				<td class="nouser">空置</td>
               				{{/if}}
 					   {{/if}}	
                 {{else if subitem.tcs.length==2}}
@@ -249,11 +249,11 @@
 				
 		   {{else}}
 				{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)"></td>
+				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)">空置</td>
               	{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)"></td>
+                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)">空置</td>
               	{{else}}
-                   				<td class="nouser"></td>
+                   				<td class="nouser">空置</td>
               	{{/if}}
 
            {{/if}}
@@ -276,11 +276,11 @@
               				{{/if}}
 					    {{else}}
 							{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)"></td>
+				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)">空置</td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)"></td>
+                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)">空置</td>
               				{{else}}
-                   				<td class="nouser"></td>
+                   				<td class="nouser">空置</td>
               				{{/if}}
 					   {{/if}}	
                 {{else if subitem.tcs.length==2}}
@@ -298,11 +298,11 @@
 				{{/if}}
 		   {{else}}
 				{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)"></td>
+				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)">空置</td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)"></td>
+                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)">空置</td>
               				{{else}}
-                   				<td class="nouser"></td>
+                   				<td class="nouser">空置</td>
               				{{/if}}
 
            {{/if}}
