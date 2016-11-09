@@ -587,7 +587,7 @@
 						<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">开户行</label>
 									<select id="bank_1" class="form-control input-one"></select>
-									<select name="toSpvAccountList[1].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[1].bank }" onChange="this.value"></select>
+									<input name="toSpvAccountList[1].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[1].bank }" ></input>
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -614,7 +614,7 @@
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label>
 									<select id="bank_0" class="form-control input-one"></select>
-									<select name="toSpvAccountList[0].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[0].bank }" onChange="this.value"></select>
+									<input name="toSpvAccountList[0].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[0].bank }" ></input>
 							</div>	
 						</div>
 						
@@ -668,12 +668,12 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[${status4.index }].pkid" value="${toSpvAccount.pkid }"/>
 								<input type="hidden" name="toSpvAccountList[${status4.index }].accountType" value="CUSTOM_${status4.index }" />
-								<label for="" class="lable-one">账号名称</label> <input name="toSpvAccountList[${status4.index }].name"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 账号名称</label> <input name="toSpvAccountList[${status4.index }].name"
 								    value="${toSpvAccount.name }" onBlur="updateAccTypeOptions()"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
                             <div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">账号</label> <input name="toSpvAccountList[${status4.index }].account"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input name="toSpvAccountList[${status4.index }].account"
 								    value="${toSpvAccount.account }" type="text"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -681,14 +681,14 @@
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">电话</label> <input name="toSpvAccountList[${status4.index }].telephone"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 电话</label> <input name="toSpvAccountList[${status4.index }].telephone"
 								    value="${toSpvAccount.telephone }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>	
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">开户行</label>
+								<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label>
 									<select id="bank_${status4.index }" class="form-control input-one"></select>
-									<select name="toSpvAccountList[${status4.index }].bank" class="form-control input-two" value="${toSpvAccount.bank }" onChange="this.value"></select>
+									<input name="toSpvAccountList[${status4.index }].bank" class="form-control input-two" value="${toSpvAccount.bank }" ></input>
 									<c:if test="${empty handle or handle eq 'apply' }">
 									&nbsp;&nbsp;&nbsp;<a onClick="delAccTr(this)">删除账户</a>
 									</c:if>
@@ -1329,27 +1329,27 @@
 			$str += '<div class="form-group form-margin form-space-one left-extent">';
 			$str +=     '<input type="hidden" name="toSpvAccountList['+accTypeSum+'].pkid"/>';
 			$str += 	'<input type="hidden" name="toSpvAccountList['+accTypeSum+'].accountType" value="CUSTOM_'+accTypeSum+'" />';
-			$str += 	'<label for="" class="lable-one">账号名称</label> <input name="toSpvAccountList['+accTypeSum+'].name" '; 
+			$str += 	'<label for="" class="lable-one"><i style="color:red;">*</i> 账号名称</label> <input name="toSpvAccountList['+accTypeSum+'].name" '; 
 			$str += 		'type="text" class="form-control input-one" placeholder=""  onBlur="updateAccTypeOptions()">';
 			$str += '</div>';
 			$str += '<div class="form-group form-margin form-space-one">';
-			$str += 	'<label for="" class="lable-one">账号</label> <input name="toSpvAccountList['+accTypeSum+'].account" type="text" ';
+			$str += 	'<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input name="toSpvAccountList['+accTypeSum+'].account" type="text" ';
 			$str += 		'class="form-control input-two" placeholder="">';
 			$str += '</div>';			
 			$str += '</div>';
 			$str += '<div class="form-row form-rowbot">';
 			$str += '<div class="form-group form-margin form-space-one">';
-			$str += 	'<label for="" class="lable-one">电话</label> <input name="toSpvAccountList['+accTypeSum+'].telephone" type="text" ';
+			$str += 	'<label for="" class="lable-one"><i style="color:red;">*</i> 电话</label> <input name="toSpvAccountList['+accTypeSum+'].telephone" type="text" ';
 			$str += 		'class="form-control input-one" placeholder="">';
 			$str += '</div>	';
 			$str += '<div class="form-group form-margin form-space-one">';
-			$str += 	'<label for="" class="lable-one">开户行</label>';
-			$str += 		'<select id="bank_'+accTypeSum+'" class="form-control input-one"></select>';
-			$str += 		'<select name="toSpvAccountList['+accTypeSum+'].bank" class="form-control input-two" onChange="this.value"></select>';
+			$str += 	'<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label>';
+			$str += 		'<select id="bank_'+accTypeSum+'" class="form-control input-one"></select> ';
+			$str += 		'<input name="toSpvAccountList['+accTypeSum+'].bank" class="form-control input-two" ></input>&nbsp;&nbsp;';
 			$str +=	'&nbsp;&nbsp;&nbsp;<a onClick="delAccTr(this)">删除账户</a>';
 			$str +='</div>';
 			$str += '</div>';
-			
+
 			$("#spvAccDiv").before($str);				
 			initBankList($("#bank_"+accTypeSum));	
 			updateAccTypeOptions();
@@ -1421,9 +1421,9 @@
 				var index = $(e).attr("id").replace('bank_','');
 				var $select_ = $("select[name='toSpvAccountList["+index+"].bank']"); 
 				getParentBank($(e),$select_,$select_.attr("value"));
-				$(e).change(function(){
+/* 				$(e).change(function(){
 					getBranchBankList($select_,$(e).val());
-				});
+				}); */
 		}
 		
 		//渲染图片 
