@@ -676,9 +676,9 @@
 							});
 						}
 					},
-					success : function(data) {
+					success : function(data) {						
 						if (b) {
-							caseTaskCheck();
+							caseTaskCheck();						
 							if (null != data.message) {
 								alert(data.message);
 							}
