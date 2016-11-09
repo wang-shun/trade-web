@@ -76,23 +76,24 @@
 												'960089538bc54a9a9139ef52ceb45b33',
 												'6114AB949B4445828D4383977C4FAC71',
 												'6a84979158b942b78a8a5921cc30b8c3')
-												and org1.ID=(select top 1 vj.ORG_ID from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_)) GUOHU_ORG_NAME,
-									--(select top 1 vj.ORG_NAME from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_) GUOHU_ORG_NAME,
+												and org1.ID=(select top 1 vj.ORG_ID from SCTRANS.V_USER_ORG_JOB VJ left join SCTRANS.ACT_HI_TASKINST AHT on aht.ASSIGNEE_=VJ.USERNAME where AHT.TASK_DEF_KEY_ ='Guohu' and t.INST_CODE=AHT.PROC_INST_ID_)
+									) GUOHU_ORG_NAME,
+									
 									case 		       	
 										WHEN  T.SQUARE = 0		then  ROUND(CONVERT(float,s.REAL_PRICE)/CONVERT(float,1),2) 	
 										ELSE  ROUND(CONVERT(float,s.REAL_PRICE)/ISNULL(CONVERT(float,T.SQUARE),1),2)
 									END  GUOHUDJ,
-									(select TOP 1 PM.dist_name from SCTRANS.T_TS_PR_RESEARCH_MAP PM WHERE T.DIST_CODE=PM.dist_code)AS dist_name	,
-									
+									(select TOP 1 PM.dist_name from SCTRANS.T_TS_PR_RESEARCH_MAP PM WHERE T.DIST_CODE=PM.dist_code)AS dist_name	,									
 									CTM_CODE,
-									(select TOP 1 M.CUST_NAME  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) CUST_NAME,
-									STUFF((SELECT ','+d.name FROM sctrans.T_TO_MORTGAGE m LEFT JOIN sctrans.SYS_DICT d ON d.code = m.MORT_TYPE AND d.type ='30016' WHERE T.case_code=m.CASE_CODE AND m.IS_ACTIVE = 1 for xml path('')),1,1,'') AS MORT_TYPE_NAME,--贷款类型
-									(SELECT SUM(G.EVAL_FEE) FROM sctrans.T_TO_EVA_FEE_RECORD G where G.CASE_CODE=t.CASE_CODE) EVAL_FEE,
+									M.CUST_NAME,
+									STUFF((SELECT ','+D.NAME FROM  sctrans.SYS_DICT D WHERE D.CODE = M.MORT_TYPE AND D.TYPE ='30016'  for xml path('')),1,1,'') AS MORT_TYPE_NAME,--贷款类型
+									--STUFF((SELECT ','+d.name FROM sctrans.T_TO_MORTGAGE m LEFT JOIN sctrans.SYS_DICT d ON d.code = m.MORT_TYPE AND d.type ='30016' WHERE T.case_code=m.CASE_CODE AND m.IS_ACTIVE = 1 for xml path('')),1,1,'') AS MORT_TYPE_NAME,--贷款类型
+									(SELECT SUM(G.EVAL_FEE) FROM sctrans.T_TO_EVA_FEE_RECORD G where G.CASE_CODE=T.CASE_CODE) EVAL_FEE,
 									(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID IN (SELECT CUST_CODE FROM SCTRANS.T_TO_MORTGAGE M WHERE T.case_code=m.CASE_CODE)) AS GUEST_PHONE, /*主贷人电话*/
 									PROPERTY_ADDR ,
 									 ROUND(CONVERT(float,S.CON_PRICE)/10000,2) AS CON_PRICE, 									
-									(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1 AND M.LAST_LOAN_BANK is not null)) FIN_ORG_NAME,  --银行
-									(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=(select TOP 1 M.FIN_ORG_CODE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1  AND M.LAST_LOAN_BANK is not null)) FIN_ORG_NAME_YC,  --支行
+									(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=M.FIN_ORG_CODE ) FIN_ORG_NAME,  --银行
+									(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=M.FIN_ORG_CODE ) FIN_ORG_NAME_YC,  --支行
 														
 									LOAN_REQ,									
 									AGENT_USERNAME,									
@@ -106,21 +107,23 @@
 									status,								
 									AR_NAME ,  
 									QJDS_NAME AS VREAL_NAME,
-									(select TOP 1 ROUND(CONVERT(float,M.COM_AMOUNT)/10000,2) from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) COM_AMOUNT,
-									(select TOP 1 ROUND(CONVERT(float,M.PRF_AMOUNT)/10000,2) from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) PRF_AMOUNT,
-									(select TOP 1 M.COM_DISCOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) COM_DISCOUNT,
-									(select TOP 1 ROUND(CONVERT(float,(M.COM_AMOUNT+m.PRF_AMOUNT))/10000,2) as ACCOUNT from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) ACCOUNT,
-									(select TOP 1 M.LOANER_NAME from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_NAME,
-									--(select TOP 1 M.LOANER_PHONE from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) LOANER_PHONE,
+									ROUND(CONVERT(float,M.COM_AMOUNT)/10000,2)  COM_AMOUNT,
+									ROUND(CONVERT(float,M.PRF_AMOUNT)/10000,2)  PRF_AMOUNT,
+									M.COM_DISCOUNT COM_DISCOUNT,
+									ROUND(CONVERT(float,(M.MORT_TOTAL_AMOUNT))/10000,2) as ACCOUNT,
+									M.LOANER_NAME LOANER_NAME,								
+									M.loanlost_apply_reason,
+									M.SELF_DEL_REASON,
+									case 
+									when M.IS_LOANER_ARRIVE = 1 then '是' 
+									when M.IS_LOANER_ARRIVE = 0 then '否' 
+									end   IS_LOANER_ARRIVE,
 									
 									case 
-									when (select TOP 1 M.IS_LOANER_ARRIVE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) =1 then '是' 
-									when (select TOP 1 M.IS_LOANER_ARRIVE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) = 0 then '否' end   IS_LOANER_ARRIVE,
-									
-									case 
-									when T.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=1   then '收单' 
-									when T.LOAN_REQ=1 and (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1) in('30016001','30016002') and (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE M where T.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)=0   then '流失' 
+									when T.LOAN_REQ=1 and M.MORT_TYPE  in('30016001','30016002') and M.IS_DELEGATE_YUCUI =1   then '收单' 
+									when T.LOAN_REQ=1 and M.MORT_TYPE  in('30016001','30016002') and M.IS_DELEGATE_YUCUI =0   then '流失' 
 									end   SDSTATUS  ,/*收单状态*/
+
 									(select TOP 1 U.REAL_NAME from SCTRANS.SYS_USER U where U.ID=(select  top 1 OPERATOR from  sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove'  and ar1.case_code=T.CASE_CODE order by  ar1.OPERATOR_TIME)) AS ASSESSOR,
 									(select  top 1 ar2.CONTENT from  sctrans.T_TO_APPROVE_RECORD ar2  where  ar2.PART_CODE='GuohuApprove'  and ar2.case_code=t.CASE_CODE order by  ar2.OPERATOR_TIME  desc) AS CONTENT,
 									(select  top 1 ar3.NOT_APPROVE from  sctrans.T_TO_APPROVE_RECORD ar3  where  ar3.PART_CODE='GuohuApprove'  and ar3.case_code=t.CASE_CODE order by  ar3.OPERATOR_TIME  desc) AS NOT_APPROVE,
@@ -129,22 +132,24 @@
 									(select TOP 1 AT.START_TIME_ FROM sctrans.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='Guohu'  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE  FROM sctrans.T_TO_WORKFLOW TW  WHERE TW.CASE_CODE=T.CASE_CODE AND TW.BUSINESS_KEY = 'operation_process' and TW.STATUS in (0, 4) )) AS START_TIME
 
 							from (
-									select c.pkid,c.case_code,c.LEADING_PROCESS_ID,c.CTM_CODE ,C.LOAN_REQ, p.PROPERTY_ADDR ,p.SQUARE,P.DIST_CODE, zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,i.AGENT_USERNAME,w.INST_CODE,
+									select C.PKID,C.CASE_CODE,C.LEADING_PROCESS_ID,C.CTM_CODE ,C.LOAN_REQ, P.PROPERTY_ADDR ,P.SQUARE,P.DIST_CODE, ZG.REAL_NAME, ZG.ORG_NAME, I.AR_NAME, I.GRP_CODE,I.GRP_NAME, I.AGENT_NAME,I.AGENT_USERNAME,W.INST_CODE,
 									(select TOP 1 AT.END_TIME_ FROM sctrans.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='Guohu'  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE  FROM sctrans.T_TO_WORKFLOW TW  WHERE TW.CASE_CODE=C.CASE_CODE AND TW.BUSINESS_KEY = 'operation_process' and TW.STATUS in (0, 4) )) transferDate,
 									(select TOP 1 AT.END_TIME_ FROM sctrans.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='GuohuApprove'  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE  FROM sctrans.T_TO_WORKFLOW TW  WHERE TW.CASE_CODE=C.CASE_CODE AND TW.BUSINESS_KEY = 'operation_process' and TW.STATUS in (0, 4) )) caseTransferDate,
-									--(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'Guohu' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) transferDate,
-									--(SELECT TOP 1 tar.OPERATOR_TIME FROM sctrans.T_TO_APPROVE_RECORD tar WHERE tar.PART_CODE = 'GuohuApprove' and tar.CASE_CODE = c.CASE_CODE ORDER BY tar.OPERATOR_TIME desc) caseTransferDate, 
 									v.long_ AS  status,
 									i.BA_NAME,
 									I.QJDS_NAME
-									from sctrans.t_to_case c 
-									inner join sctrans.T_TO_PROPERTY_INFO p on c.CASE_CODE = p.CASE_CODE 
-									left join sctrans.V_USER_ORG_JOB zg on c.ORG_ID = zg.ORG_ID and zg.JOB_CODE ='manager'
-									inner join sctrans.T_TO_CASE_info i on c.case_code = i.case_code
-									inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
-									and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
-									inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove') t 
-									INNER JOIN SCTRANS.T_TO_SIGN S ON T.CASE_CODE = S.CASE_CODE
+									
+									from sctrans.T_TO_CASE C 
+									inner join sctrans.T_TO_PROPERTY_INFO P on C.CASE_CODE = P.CASE_CODE 
+									left join sctrans.V_USER_ORG_JOB ZG on C.ORG_ID = ZG.ORG_ID and ZG.JOB_CODE ='manager'
+									inner join sctrans.T_TO_CASE_info I on C.CASE_CODE = I.CASE_CODE
+									inner join sctrans.T_TO_WORKFLOW W on C.CASE_CODE = W.CASE_CODE
+									and  W.BUSINESS_KEY = 'operation_process' and W.STATUS in (0, 4)
+									inner join sctrans.act_hi_varinst V on V.PROC_INST_ID_ = W.INST_CODE AND V.NAME_='GuohuApprove'
+								) T 
+									inner join SCTRANS.T_TO_SIGN S ON T.CASE_CODE = S.CASE_CODE
+									--up is result down is new
+									left join sctrans.T_TO_MORTGAGE M  on T.CASE_CODE = M.CASE_CODE and M.IS_ACTIVE=1 and M.LAST_LOAN_BANK  is not null		
 								where 1=1
 								 <ifNotNull caseTransferDateStart>
 									AND caseTransferDate &gt; #caseTransferDateStart#
@@ -187,111 +192,53 @@
 		<grid>
 			<table-row>
 				<column type="both" name="BA_NAME" title="大区" customDict="" hidden="false" />					
-				<column type="both" name="VREAL_NAME" title="区董" customDict=""
-					hidden="false" />
-				<column type="both" name="AGENT_ORG_NAME" title="分行"
-					customDict="" hidden="false" />
-				<column type="both" name="AGENT_NAME" title="业务员姓名"
-					customDict="" hidden="false" />
-				<column type="both" name="AGENT_MOBILE" title="业务员电话"
-					customDict="" hidden="false" />
-				<column type="both" name="GUOHU_ORG_NAME" title="贵宾服务部"
-					customDict="" hidden="false" />
-				<column type="both" name="GUOHU_REAL_NAME" title="过户交易员"
-					customDict="" hidden="false" />
-				<column type="both" name="GUOHUDJ" title="过户单价" customDict=""
-					hidden="false" />
-				<column type="both" name="dist_name" title="过户区域" customDict=""
-					hidden="false" />
-				<column type="both" name="REAL_HT_TIME" title="实际过户时间"
-					customDict="" beanFormatter="dateFormatterOne" 	hidden="false" />
-				<column type="both" name="START_TIME"   title="过户创建时间" customDict=""
-					beanFormatter="dateFormatter"  hidden="false" />
-				<column type="both" name="CTM_CODE" title="CTM编号" customDict=""
-					hidden="false" />
-				<column type="both" name="CUST_NAME" title="主贷人姓名"
-					customDict="" hidden="false" />
-				<column type="both" name="GUEST_PHONE" title="主贷人电话"
-					customDict="" hidden="false" />
-				<column type="both" name="PROPERTY_ADDR" title="产权地址"
-					customDict="" hidden="false" />
-				<column type="both" name="CON_PRICE" title="合同价(万元)" customDict=""
-					hidden="false" />
-				<column type="both" name="FIN_ORG_NAME" title="银行"
-					customDict="" hidden="false" />
-				<column type="both" name="FIN_ORG_NAME_YC" title="支行"
-					customDict="" hidden="false" />
-				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"
-					customDict="" hidden="false" />
-				<column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"
-					customDict="" hidden="false" />
-				<column type="both" name="ACCOUNT" title="贷款总额(万元)" customDict=""
-					hidden="false" />
-				<column type="both" name="COM_DISCOUNT" title="贷款利率"
-					customDict="" hidden="false" />
-				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""
-					hidden="false" />
-				<column type="both" name="LOANER_NAME" title="货代专员"
-					customDict="" hidden="false" />
-				<column type="both" name="SPONSOR" title="案件主办人"
-					customDict="" hidden="false" />
-				<column type="both" name="SDSTATUS" title="收单状况" customDict=""
-					hidden="false" />
-				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"
-					customDict="" hidden="false" />
-					
-				<column type="virtual" name="LAST_CONTENT" title="审批意见"
-					referencecol="CONTENT,NOT_APPROVE" index="" checkbox="" display="上家"
-					customDict="lastContent" sysDict="" format="" width="60" isSort="true"
-					align="" halign="" order="" resizable="" />
-					
-				<column type="virtual" name="SELLER" title="上家姓名"
-					referencecol="CASE_CODE" index="" checkbox="" display="上家"
-					customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true"
-					align="" halign="" order="" resizable="" />
-				<column type="virtual" name="SELLER_MOBILE" title="上家电话"
-					referencecol="CASE_CODE" index="" checkbox="" display="上家电话"
-					customDict="qqcdSellerPhone" sysDict="" format="" width="60"
-					isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="BUYER" title="下家姓名"
-					referencecol="CASE_CODE" index="" checkbox="" display="下家"
-					customDict="qqcdBuyer" sysDict="" format="" width="60" isSort="true"
-					align="" halign="" order="" resizable="" />
-				<column type="virtual" name="BUYER_MOBILE" title="下家电话"
-					referencecol="CASE_CODE" index="" checkbox="" display="下家电话"
-					customDict="qqcdBuyerPhone" sysDict="" format="" width="60" isSort="true"
-					align="" halign="" order="" resizable="" />
-				<column type="both" name="transferDate" title="过户提交时间"
-					customDict="" beanFormatter="dateFormatter" expType="date"
-					expFmt="yyyy-MM-dd HH:mm:ss" hidden="false" />
-				<column type="both" name="caseTransferDate" title="过户审批时间"
-					customDict="" hidden="false" beanFormatter="dateFormatter" expType="date"
-					expFmt="yyyy-MM-dd HH:mm:ss" />
-				<column type="both" name="ASSESSOR" title="审核人" customDict=""
-					hidden="false" />
-				<column type="both" name="status" title="是否审批通过" customDict=""
-					hidden="false" />
-				<column type="virtual" name="status1" title="是否审批通过"
-					referencecol="status" customDict="convertValue" />
-				<column type="both" name="CONTENT" title="审核结果" customDict=""
-					hidden="false" />
-				<column type="both" name="NOT_APPROVE" title="审核勾选内容" customDict=""
-					hidden="false" />
-				<column type="both" name="PKID" index="" checkbox="" display="案件ID"
-					customDict="" sysDict="" format="" width="90" isSort="" align=""
-					halign="" order="" resizable="" />
-				<column type="both" name="REAL_NAME" title="主管"
-					customDict="" hidden="false" />
-				<column type="both" name="ORG_NAME" title="主管组别"
-					customDict="" hidden="false" />
-				<column type="both" name="AR_NAME" title="片区"
-					customDict="" hidden="false" />
-					
+				<column type="both" name="VREAL_NAME" title="区董" customDict=""		hidden="false" />
+				<column type="both" name="AGENT_ORG_NAME" title="分行"	customDict="" hidden="false" />
+				<column type="both" name="AGENT_NAME" title="业务员姓名"	customDict="" hidden="false" />
+				<column type="both" name="AGENT_MOBILE" title="业务员电话"		customDict="" hidden="false" />
+				<column type="both" name="GUOHU_ORG_NAME" title="贵宾服务部"	customDict="" hidden="false" />
+				<column type="both" name="GUOHU_REAL_NAME" title="过户交易员"	customDict="" hidden="false" />
+				<column type="both" name="GUOHUDJ" title="过户单价" customDict=""	hidden="false" />
+				<column type="both" name="dist_name" title="过户区域" customDict=""	hidden="false" />
+				<column type="both" name="REAL_HT_TIME" title="实际过户时间"	customDict="" beanFormatter="dateFormatterOne" 	hidden="false" />
+				<column type="both" name="START_TIME"   title="过户创建时间" customDict="" 	beanFormatter="dateFormatter"  hidden="false" />
+				<column type="both" name="CTM_CODE" title="CTM编号" customDict="" hidden="false" />
+				<column type="both" name="CUST_NAME" title="主贷人姓名"	customDict="" hidden="false" />
+				<column type="both" name="GUEST_PHONE" title="主贷人电话"		customDict="" hidden="false" />
+				<column type="both" name="PROPERTY_ADDR" title="产权地址"		customDict="" hidden="false" />
+				<column type="both" name="CON_PRICE" title="合同价(万元)" customDict=""	hidden="false" />
+				<column type="both" name="FIN_ORG_NAME" title="银行"		customDict="" hidden="false" />
+				<column type="both" name="FIN_ORG_NAME_YC" title="支行"	customDict="" hidden="false" />
+				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"	customDict="" hidden="false" />
+				<column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"	customDict="" hidden="false" />
+				<column type="both" name="ACCOUNT" title="贷款总额(万元)" customDict=""	hidden="false" />
+				<column type="both" name="COM_DISCOUNT" title="贷款利率"	customDict="" hidden="false" />
+				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />
+				<column type="both" name="LOANER_NAME" title="货代专员"	customDict="" hidden="false" />
+				<column type="both" name="SPONSOR" title="案件主办人"	customDict="" hidden="false" />
+				<column type="both" name="SDSTATUS" title="收单状况" customDict=""	hidden="false" />
+				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"	customDict="" hidden="false" />					
+				<column type="virtual" name="LAST_CONTENT" title="审批意见"	referencecol="CONTENT,NOT_APPROVE" index="" checkbox="" display="上家"	customDict="lastContent" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
+				
+				<column type="virtual" name="SELLER" title="上家姓名"		referencecol="CASE_CODE" index="" checkbox="" display="上家"		customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
+				<column type="virtual" name="SELLER_MOBILE" title="上家电话"		referencecol="CASE_CODE" index="" checkbox="" display="上家电话"	customDict="qqcdSellerPhone" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" title="下家姓名"	referencecol="CASE_CODE" index="" checkbox="" display="下家" 	customDict="qqcdBuyer" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER_MOBILE" title="下家电话"	referencecol="CASE_CODE" index="" checkbox="" display="下家电话"	customDict="qqcdBuyerPhone" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
+				<column type="both" name="transferDate" title="过户提交时间"	customDict="" beanFormatter="dateFormatter" expType="date"		expFmt="yyyy-MM-dd HH:mm:ss" hidden="false" />
+				<column type="both" name="caseTransferDate" title="过户审批时间"	customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
+				<column type="both" name="ASSESSOR" title="审核人" customDict=""		hidden="false" />
+				<column type="both" name="status" title="是否审批通过" customDict=""	hidden="false" />
+				<column type="virtual" name="status1" title="是否审批通过"	referencecol="status" customDict="convertValue" />
+				<column type="both" name="CONTENT" title="审核结果" customDict=""		hidden="false" />
+				<column type="both" name="NOT_APPROVE" title="审核勾选内容" customDict=""		hidden="false" />
+				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align=""	halign="" order="" resizable="" />
+				<column type="both" name="REAL_NAME" title="主管"	customDict="" hidden="false" />
+				<column type="both" name="ORG_NAME" title="主管组别"	customDict="" hidden="false" />
+				<column type="both" name="AR_NAME" title="片区"	customDict="" hidden="false" />					
 				<column type="both" name="EVAL_FEE" title="评估费金额"/>
 				<column type="both" name="MORT_TYPE_NAME" title="贷款类型"/>
-					
-<!-- 				<column type="both" name="VORG_NAME" title="区域" customDict=""
-					hidden="false" /> -->
+				<column type="both" name="SELF_DEL_REASON" title="流失具体原因" customDict=""		hidden="false" />
+				<column type="both" name="loanlost_apply_reason" title="流失原因" customDict=""		hidden="false" />
 			</table-row>
 		</grid>
 	</query>

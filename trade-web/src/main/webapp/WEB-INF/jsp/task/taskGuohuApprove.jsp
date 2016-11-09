@@ -350,51 +350,45 @@
 	</div>
 	
 	
-	<content tag="local_script"> <!-- Peity --> <script
-		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+	<content tag="local_script"> <!-- Peity --> 
+	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
-		src="${ctx}/transjs/task/loanlostApprove.js"></script> <script
-		src="${ctx}/transjs/task/showAttachment.js"></script> <!-- Custom and plugin javascript -->
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script>
+	<script src="${ctx}/transjs/task/showAttachment.js"></script> <!-- Custom and plugin javascript -->
 	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <!-- Data picker -->
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
 	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
-
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
-	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> 
+	<script src="${ctx}/js/trunk/task/attachment.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> <!-- 显示上传的附件 -->
 	
 <%-- 	<script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%>
 
-	<!-- 图片查看JS -->
-	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
-	
-	
-	
-	 <script
-		src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-		<script src="${ctx}/js/viewer/viewer.min.js"></script>
+<!-- 图片查看JS -->
+<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
+
+<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
+<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
+<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
+<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
 		<script>
 			function appendNotApprove(isAppend, content) {
 				if (isAppend) {
