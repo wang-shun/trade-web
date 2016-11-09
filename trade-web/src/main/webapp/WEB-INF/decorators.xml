@@ -12,7 +12,9 @@
 		<pattern>/index.jsp</pattern>
 		<pattern>/weixin/case/*</pattern>
 		<pattern>/mobile/dashboard/box/*</pattern>
+		<pattern>/mobile/property/box/*</pattern>
 		<pattern>/weixin/signroom/*</pattern>
+		<pattern>/weixin/property/toResult</pattern>
 		<pattern>/weixinAuth/*</pattern>
 	</excludes>
 
@@ -82,9 +84,9 @@
 	<decorator name="mobile"  page="m_INSPINIA_template.jsp" webapp="../mobile/common">
 		<pattern>/weixin/case/*</pattern>
 	</decorator>
-	<decorator name="wechat"  page="w_INSPINIA_template.jsp">
+	<!-- <decorator name="wechat"  page="w_INSPINIA_template.jsp">
 		<pattern>/mobile/property/box/*</pattern>
-	</decorator>
+	</decorator> -->
 	<decorator name="weixin"  page="w_INSPINIA_template.jsp">
 		<pattern>/weixin/*</pattern>
 	</decorator>
