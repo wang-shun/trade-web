@@ -179,10 +179,9 @@ function checkFormSubmit(){
 }
 
 function changeClass(object){
-	$(object).focus();
-	$(object).addClass("borderClass").blur(function(){
+	$(object).focus().addClass("borderClass").blur(function(){
 		$(this).removeClass("borderClass");
-	});	;
+	});
 }
 
 //保存按钮方法

@@ -453,13 +453,10 @@ $(document).ready(function(){
 	}
 	
 	function changeClass(object){
-		$(object).focus();
-		$(object).addClass("borderClass");
+		$(object).focus().addClass("borderClass").blur(function(){
+			$(this).removeClass("borderClass");
+		});
 	}
-	
-	$("input[type='text'],select[name='toSpvAccountList[0].bank'],select[name='toSpvAccountList[1].bank'],select[name$='deCondCode']").blur(function(){
-		$(this).removeClass("borderClass");
-	});	
 	
     //提交必填项
 	function checkFormSubmit(){
