@@ -218,17 +218,17 @@
 				{{if subitem.tcs.length==1}}
 						{{if subitem.tcs[0].dutyType=='0'}}
 							{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)">{{subitem.tcs[0].officerName}}</td>
+				   				<td class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)"><a id="{{subitem.date+'0'}}" href='#'  class='underline big'>{{subitem.tcs[0].officerName}}</a></td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)">{{subitem.tcs[0].officerName}}</td>
+                   				<td  onclick="chooseDutyOfficer('{{subitem.date}}',0)"><a href="#" id="{{subitem.date+'0'}}" class="underline big" >{{subitem.tcs[0].officerName}}</a></td>
               				{{else}}
                    				<td class="nouser">{{subitem.tcs[0].officerName}}</td>
               				{{/if}}
 					    {{else}}
 							{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)">空置</td>
+				   				<td  class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)"><a href="#" id="{{subitem.date+'0'}}" class="underline big">空置</a></td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)">空置</td>
+                   				<td  onclick="chooseDutyOfficer('{{subitem.date}}',0)"><a href="#" id="{{subitem.date+'0'}}" class="underline big">空置</a></td>
               				{{else}}
                    				<td class="nouser">空置</td>
               				{{/if}}
@@ -237,9 +237,9 @@
 				  {{each subitem.tcs as tcsitem threeindex}}				
 					{{if tcsitem.dutyType=='0'}}
 							{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)">{{tcsitem.officerName}}</td>
+				   				<td  class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)"><a href="#" id="{{subitem.date+'0'}}" class="underline big">{{tcsitem.officerName}}</a></td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)">{{tcsitem.officerName}}</td>
+                   				<td  onclick="chooseDutyOfficer('{{subitem.date}}',0)"><a href="#" id="{{subitem.date+'0'}}" class="underline big" >{{tcsitem.officerName}}</a></td>
               				{{else}}
                    				<td class="nouser">{{tcsitem.officerName}}</td>
               				{{/if}}
@@ -249,9 +249,9 @@
 				
 		   {{else}}
 				{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'0'}}" class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)">空置</td>
+				   				<td class="currday" onclick="chooseDutyOfficer('{{subitem.date}}',0)"><a href="#" id="{{subitem.date+'0'}}" class="underline big" >空置</a></td>
               	{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'0'}}" onclick="chooseDutyOfficer('{{subitem.date}}',0)">空置</td>
+                   				<td onclick="chooseDutyOfficer('{{subitem.date}}',0)"><a href="#" id="{{subitem.date+'0'}}" class="underline big">空置</a></td>
               	{{else}}
                    				<td class="nouser">空置</td>
               	{{/if}}
@@ -268,17 +268,17 @@
 				{{if subitem.tcs.length==1}}
 						{{if subitem.tcs[0].dutyType=='1'}}
 							{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)">{{subitem.tcs[0].officerName}}</td>
+				   				<td class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)"><a href="#" id="{{subitem.date+'1'}}" class="underline big">{{subitem.tcs[0].officerName}}</a></td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)">{{subitem.tcs[0].officerName}}</td>
+                   				<td  onclick="chooseDutyOfficer('{{subitem.date}}',1)"><a href="#" id="{{subitem.date+'1'}}" class="underline big" >{{subitem.tcs[0].officerName}}</a></td>
               				{{else}}
                    				<td class="nouser">{{subitem.tcs[0].officerName}}</td>
               				{{/if}}
 					    {{else}}
 							{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)">空置</td>
+				   				<td class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)"><a href="#" id="{{subitem.date+'1'}}" class="underline big">空置</a></td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)">空置</td>
+                   				<td onclick="chooseDutyOfficer('{{subitem.date}}',1)"><a href="#" id="{{subitem.date+'1'}}" class="underline big" >空置</a></td>
               				{{else}}
                    				<td class="nouser">空置</td>
               				{{/if}}
@@ -287,9 +287,9 @@
 				    {{each subitem.tcs as tcsitem threeindex}}				
 					  {{if tcsitem.dutyType=='1'}}
 							{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)">{{tcsitem.officerName}}</td>
+				   				<td class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)"><a href="#" id="{{subitem.date+'1'}}" class="underline big" >{{tcsitem.officerName}}</a></td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)">{{tcsitem.officerName}}</td>
+                   				<td  onclick="chooseDutyOfficer('{{subitem.date}}',1)"><a href="#" id="{{subitem.date+'1'}}" class="underline big">{{tcsitem.officerName}}</a></td>
               				{{else}}
                    				<td class="nouser">{{tcsitem.officerName}}</td>
               				{{/if}}
@@ -298,9 +298,9 @@
 				{{/if}}
 		   {{else}}
 				{{if subitem.light == true}}
-				   				<td id="{{subitem.date+'1'}}" class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)">空置</td>
+				   				<td class="currnight" onclick="chooseDutyOfficer('{{subitem.date}}',1)"><a href="#" id="{{subitem.date+'1'}}" class="underline big">空置</a></td>
               				{{else if subitem.edit == true}}
-                   				<td id="{{subitem.date+'1'}}" onclick="chooseDutyOfficer('{{subitem.date}}',1)">空置</td>
+                   				<td  onclick="chooseDutyOfficer('{{subitem.date}}',1)"><a href="#" id="{{subitem.date+'1'}}" class="underline big">空置</a></td>
               				{{else}}
                    				<td class="nouser">空置</td>
               				{{/if}}
