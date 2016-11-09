@@ -51,6 +51,7 @@
 <!-- 备注信息 -->
 <link href="${ctx}/css/transcss/comment/caseComment.css"
 	rel="stylesheet">
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />	
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -607,12 +608,12 @@
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
 							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
                                               {% } else { %}
- 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
+ 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
   											  {% } %}
 							            {% } %}</div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -689,7 +690,9 @@
 		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script>
+		src="${ctx}/js/trunk/comment/caseComment.js"></script>
+		<script src="${ctx}/js/viewer/viewer.min.js"></script>
+		<script>
 			//判断是否有重复字符
 			function isUniqueChar(value){
 				if(!value){
@@ -1372,6 +1375,12 @@
 								alert("上下家加载失败！");
 							}
 						});
+			}
+			
+			//渲染图片 
+			function renderImg(){		
+				$('.wrapper-content').viewer('destroy');
+				$('.wrapper-content').viewer({zIndex:15001});
 			}
 		</script> </content>
 </body>
