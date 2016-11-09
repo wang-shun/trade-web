@@ -1,22 +1,8 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
 <%@page import="com.centaline.trans.workspace.web.SessionUserConstants"%>	
-<%@page import="com.centaline.trans.utils.URLAvailability"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
-<%@ taglib prefix="sitemesh"
-           uri="http://www.opensymphony.com/sitemesh/decorator"%>
-
-<%
-	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
-
-	String headImgUrl = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+SessionUserConstants.getSesstionUser().getEmployeeCode()+".jpg";
-	URLAvailability urlAvailability = new URLAvailability();
-	if(urlAvailability.isConnect(headImgUrl) == null) {
-		headImgUrl=null;
-	}
-	request.setAttribute("headImgUrl", headImgUrl);
-%>
+<%@ taglib prefix="sitemesh" uri="http://www.opensymphony.com/sitemesh/decorator"%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -41,15 +27,10 @@
         <header>
             <h1>欢迎登录誉萃移动平台</h1>
             <section class="profile">
-               <%--  <span><img src="${headImgUrl}" alt="image" class="img-circle"></span><br> --%>
-                <c:choose>
-                <c:when test="${headImgUrl == '' or headImgUrl == null }">
-               		<span  class="img-circle" style="background-image:url(${ctx }/img/a5.png);"></span>
-                </c:when>
-                <c:otherwise>
-                	<span  class="img-circle" style="background-image:url(${headImgUrl});"></span>
-                </c:otherwise>
-                </c:choose>
+                <span  class="img-circle" 
+                	<img class="headiconradio" src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${SESSION_USER.employeeCode}.jpg" 
+                		 style="width: 20px;"   onerror="this.src='${ctx}/static/images/centaline/defaultAvatar.png'">
+				</span>
                 <br>
                 ${sessionUser.realName}<br>${sessionUser.serviceJobName}<br>${sessionUser.serviceDepName}
             </section>
