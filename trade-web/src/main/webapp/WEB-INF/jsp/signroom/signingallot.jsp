@@ -195,7 +195,7 @@
                                         </button>
                                     	</c:if>
                                         </shiro:hasPermission>
-                                        <button type="reset" class="btn btn-grey" data-dismiss="modal">
+                                        <button type="button" class="btn btn-grey" data-dismiss="modal" id="closeBtn">
                                             	关闭
                                         </button>
                                     </div>

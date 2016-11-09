@@ -878,7 +878,7 @@
 							            {% } %}</div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -1430,8 +1430,7 @@
 		function renderImg(){		
 			$('.wrapper-content').viewer('destroy');
 			$('.wrapper-content').viewer({zIndex:15001});
-		}
-		
+		}	
 		</script> 
 		</content>
 

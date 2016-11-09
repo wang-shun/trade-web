@@ -553,6 +553,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	BigDecimal totalCashFlowInAmount = BigDecimal.ZERO;
     	BigDecimal totalCashFlowOutAmount = BigDecimal.ZERO;
     	BigDecimal totalProcessCashFlowOutAmout = BigDecimal.ZERO;
+    	BigDecimal allCashFlowOutAmount = BigDecimal.ZERO;
     	
     	for(ToSpvCashFlow cashFlow: cashFlowList){
     		ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(cashFlow.getCashflowApplyId());
@@ -581,6 +582,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}else if("out".equals(apply.getUsage())  && SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
         		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
+        	}else if("out".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode().equals(cashFlow.getStatus())){
+        		allCashFlowOutAmount = allCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}else if("out".equals(apply.getUsage())  && !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
         		totalProcessCashFlowOutAmout = totalProcessCashFlowOutAmout.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}	
@@ -599,15 +602,15 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	resultMap.put("totalProcessCashFlowOutAmout", totalProcessCashFlowOutAmout);
     	resultMap.put("totalCashFlowInAmount", totalCashFlowInAmount);
     	resultMap.put("totalCashFlowOutAmount", totalCashFlowOutAmount);
-    	
+    	resultMap.put("allCashFlowOutAmount", allCashFlowOutAmount);
 		return resultMap;
 	}
 	@Override
 	public void getCashFlowList(HttpServletRequest request,String spvCode) {
 	    Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
-	    request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
+        request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
 	    request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
-	    request.setAttribute("totalCashFlowOutAmount", completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
+	    request.setAttribute("totalCashFlowOutAmount",  completeCashFlowInfoMap.get("allCashFlowOutAmount"));
 	}
 
 }

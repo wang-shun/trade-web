@@ -39,6 +39,7 @@
 <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
 <!-- 备注信息 -->
 <link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />	
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -584,12 +585,12 @@
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
 							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
                                               {% } else { %}
- 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
+ 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
   											  {% } %}
 							            {% } %}</div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -657,6 +658,7 @@
 	<script	src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
 	<script src="${ctx}/js/trunk/task/taskTransSign.validate.js?v=1.1.0"></script>
+
 	<!-- 弹出框插件 -->
 	<script src="${ctx}/js/plugins/layer/layer.js"></script>
 	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> 
@@ -1349,6 +1351,12 @@
 								alert("上下家加载失败！");
 							}
 						});
+			}
+			
+			//渲染图片 
+			function renderImg(){		
+				$('.wrapper-content').viewer('destroy');
+				$('.wrapper-content').viewer({zIndex:15001});
 			}
 		</script> </content>
 </body>
