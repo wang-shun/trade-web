@@ -42,6 +42,7 @@
 	var taskitem = "${taskitem}";
 	var caseCode = "${caseCode}";
 	var tz="${tz}";
+	var isSelfCom = "${loanRelease.isDelegateYucui}";
 	if("${idList}" != "") {
 		var idList = eval("("+"${idList}"+")");
 	} else {
@@ -91,7 +92,7 @@
 					</div>
 					<c:if test="${tz}">
 					<div class="form-group" id="data_1">
-						<label class="col-sm-2 control-label">他证送抵时间<font color="red">*</font></label>
+						<label class="col-sm-2 control-label">他证送抵时间<c:if test="${loanRelease.isDelegateYucui=='1'}"><font color="red">*</font></c:if></label>
 						<div class="input-group date readOnly_date">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								<input type="text" class="form-control" id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
@@ -387,7 +388,7 @@
                 $('input[name=lendDate]').focus();
                 return false;
            }
-			if(tz && $('input[name=tazhengArrDate]').val()=='') {
+			if(tz && $('input[name=tazhengArrDate]').val()=='' && isSelfCom=='1') {
                 alert("它证送抵时间为必填项!");
                 $('input[name=tazhengArrDate]').focus();
                 return false;

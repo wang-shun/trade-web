@@ -79,7 +79,7 @@
 									<option value="" selected="selected">请选择</option>
 									<option value="card">押卡</option>
 									<option value="mortgage">抵押</option>
-									<option value="forceRegister">强制公正</option>
+									<option value="forceRegister">强制公证</option>
 								</select>
 							</div>
 						</div>
