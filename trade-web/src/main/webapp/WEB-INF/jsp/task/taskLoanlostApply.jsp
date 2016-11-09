@@ -67,25 +67,28 @@
 			<div class="ibox-content">
 				<form method="post" class="form-horizontal" id="loanlostApplyForm">
 					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode"
-						value="${taskitem}"> <input type="hidden" id="custName"
-						name="custName" value=""> <input type="hidden"
-						id="finOrgCode" name="finOrgCode" value="${mortgage.finOrgCode }">
+					<input type="hidden" id="partCode" name="partCode"	value="${taskitem}"> 
+					<input type="hidden" id="custName"	name="custName" value=""> 
+					<input type="hidden" id="finOrgCode" name="finOrgCode" value="${mortgage.finOrgCode }">
 					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode"
-						value="${caseCode}">
+					<input type="hidden" id="caseCode" name="caseCode"		value="${caseCode}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId"
-						name="processInstanceId" value="${processInstanceId}">
+					<input type="hidden" id="processInstanceId" 	name="processInstanceId" value="${processInstanceId}">
 					<%-- 原有数据对应id --%>
-					<input type="hidden" id="pkid" name="pkid" value="${mortgage.pkid}">
+					<input type="hidden" id="pkid" name="pkid" value="${mortgage.pkid}">					
 					<input type="hidden" id="h_custCode" value="${mortgage.custCode}">
+					
+					<input type="hidden" id="comAmount" name="comAmount" value="${mortgage.comAmount}">
+					<input type="hidden" id="comYear" name="comYear" value="${mortgage.comYear}">
+					<input type="hidden" id="comDiscount" name="comDiscount" value="${mortgage.comDiscount}">
+					<input type="hidden" id="prfAmount" name="prfAmount" value="${mortgage.prfAmount}">
+					<input type="hidden" id="prfYear" name="prfYear" value="${mortgage.prfYear}">
+					<input type="hidden" id="houseNum" name="houseNum" value="${mortgage.houseNum}">
 					<%-- 设置审批类型 --%>
-					<input type="hidden" id="approveType" name="approveType"
-						value="${approveType }"> <input type="hidden" id="lapPkid"
-						name="lapPkid" value="${toApproveRecord.pkid }"> <input
-						type="hidden" id="operator" name="operator" value="${operator }">
+					<input type="hidden" id="approveType" name="approveType"	value="${approveType }"> 
+					<input type="hidden" id="lapPkid"	name="lapPkid" value="${toApproveRecord.pkid }"> 
+					<input type="hidden" id="operator" name="operator" value="${operator }">
 
 					<div class="form-group">
 						<label class="col-sm-2 control-label">承办银行</label>
