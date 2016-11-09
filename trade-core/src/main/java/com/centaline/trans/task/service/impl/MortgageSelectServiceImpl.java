@@ -159,7 +159,10 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		editRestVariables(variables, vo.getMortageService());
 
 		boolean b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
-		
+		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
+		if(workF!=null){
+			vo.setProcessDefinitionId(workF.getProcessDefinitionId());
+		}
 		loanRequirementChange(vo);
 
 		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
@@ -173,12 +176,13 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 
 	@Override
 	public void loanRequirementChange(MortgageSelecteVo vo) {
-		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
+		
 		// 如果是新流程图
 		boolean isNewFlow = false;
-		if(workF!=null &&"operation_process:40:645454".compareTo(workF.getProcessDefinitionId())<=0){
+		if(vo.getProcessDefinitionId()!=null &&"operation_process:40:645454".compareTo(vo.getProcessDefinitionId())<=0){
 			isNewFlow=true;
 		}
+
 		if(isNewFlow) {
 			ActRuEventSubScr event = new ActRuEventSubScr();
 			event.setEventType(MessageEnum.START_MORTGAGE_SELECT_MSG.getEventType());
@@ -258,20 +262,12 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			
 			
 		} else {
-			TaskHistoricQuery query =new TaskHistoricQuery();
-			query.setFinished(true);
-			query.setTaskDefinitionKey(ToAttachmentEnum.MORTGAGESELECT.getCode());
-			query.setProcessInstanceId(vo.getProcessInstanceId());
-			PageableVo pageableVo=workFlowManager.listHistTasks(query);
-			if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
-				throw new BusinessException("请先处理贷款需求选择任务！");
-			}
+
 			ActRuEventSubScr subScr = getHightPriorityExecution(vo.getProcessInstanceId());
 			if (subScr == null) {
 				throw new BusinessException("当前流程下不允许变更贷款需求！");
 			}
 			doBusiness(vo);
-
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			editRestVariables(variables, vo.getMortageService());
 			ExecuteAction action = new ExecuteAction();

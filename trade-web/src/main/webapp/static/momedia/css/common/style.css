@@ -516,13 +516,13 @@ border: 1px solid #dddddd;
 .select-mark {
     padding-left: 0.9rem;
     color: #81d8d0!important;
-    background: #fff url(../image/right.png) no-repeat 0.4rem center!important;
+    background: #fff url(../../image/right.png) no-repeat 0.4rem center!important;
     background-size: 20%!important;
 }
 .filter-mark {
     padding-left: 0.9rem;
     color: #81d8d0!important;
-    background: #fff url(../image/right.png) no-repeat 0.3rem center!important;
+    background: #fff url(../../image/right.png) no-repeat 0.3rem center!important;
     background-size: 20%!important;
 }
 .nodata {
@@ -547,14 +547,4 @@ border: 1px solid #dddddd;
     }
 }
 
-input[type="submit"],
-input[type="reset"],
-input[type="button"],
-button {
--webkit-appearance: none;
-}
-
-.num:nth-of-type(1){
-    padding: 0px 3px;
-}
 

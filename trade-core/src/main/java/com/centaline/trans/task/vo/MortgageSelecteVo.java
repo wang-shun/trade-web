@@ -8,6 +8,7 @@ public class MortgageSelecteVo {
 	private String caseCode;
 	private String taskId;
 	private String processInstanceId;
+	private String processDefinitionId;
 	
 	private Long pkid;
 	private Date estPartTime;
@@ -53,5 +54,11 @@ public class MortgageSelecteVo {
 	}
 	public void setEstPartTime(Date estPartTime) {
 		this.estPartTime = estPartTime;
+	}
+	public String getProcessDefinitionId() {
+		return processDefinitionId;
+	}
+	public void setProcessDefinitionId(String processDefinitionId) {
+		this.processDefinitionId = processDefinitionId;
 	}
 }

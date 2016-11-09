@@ -170,12 +170,13 @@ function checkIsExistFile(isSubmit){
 	function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr, 
 			distcode, executorId, executorName) {
 		
-		if (cd == null || cd == "") {
+		/*if (cd == null || cd == "") {
 			$("#caseCode").val(pr);
 		} else {
 			$("#caseCode").val(cd);
-		}
+		}*/
 		$("#caseCode").val(pr);
+
 		caseCode = pr;
 		prCode = pr;
 		pkid = id;

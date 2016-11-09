@@ -133,7 +133,7 @@
                               <th>周四</th>
                               <th>周五</th>
                               <th>周六</th>
-                              <th>周末</th>
+                              <th>周日</th>
                             </tr>
                           </thead>
                           <tbody id="dayList">
