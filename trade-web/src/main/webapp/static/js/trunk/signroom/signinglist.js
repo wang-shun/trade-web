@@ -160,6 +160,10 @@ function setFollowupInfo(createDateTime){
 	
 	var $currentRow = $("#signinglist #" + resId);   //获取到当前行
 	var $a = $currentRow.find(".latestComment");
+	var $pLatestFollupTime = $currentRow.find(".latestFollupDateTime");
+	
+	var formatCreateDatetime = createDateTime.substring(0,createDateTime.lastIndexOf(":"));
+	$pLatestFollupTime.html(formatCreateDatetime);   //更新最新跟进时间
 	
 	var formatComment = "";
 	
