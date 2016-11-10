@@ -214,6 +214,7 @@ text-decoration: underline !important;
 <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
+<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 <script src="${ctx}/js/trunk/case/unlocatedTask3.js?v=1.1"></script><%-- 
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> --%>
 
@@ -322,7 +323,6 @@ text-decoration: underline !important;
 		{{/each}}
 </script> 
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> 
 <script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
@@ -481,9 +481,10 @@ function doGroupClaim(taskId){
 				reloadGrid(1);
 			}else{
 				alert('分配失败！');
+				reloadGrid(1);
 			}
 			//taskDelGrid.trigger('reloadGrid');
-			reloadGrid(1);
+			
 		}
 	});
 }			
