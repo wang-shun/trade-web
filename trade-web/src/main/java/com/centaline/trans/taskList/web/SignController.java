@@ -126,7 +126,7 @@ public class SignController {
 			//获取下家所有下家人员的pkid
 			pkidDownList = transSignVO.getPkidDown();			
 			for(int i=0;i<pkidDownList.size();i++){
-				if(pkidDownList.get(i) != 0){
+				if(pkidDownList.get(i) != 0){//新增下家的情况  getMortgageByCode为空
 					toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
 					ToMortgage getMortgageByCode = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
 					if(null != getMortgageByCode){
