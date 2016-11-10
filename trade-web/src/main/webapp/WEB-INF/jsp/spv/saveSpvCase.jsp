@@ -237,8 +237,9 @@
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 证件有效期</label> 
-								<input name="spvCustList[0].idValiDate" class="form-control input-one date-picker" 
+								<input id="date-picker0" name="spvCustList[0].idValiDate" class="form-control input-one date-picker" 
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/>" placeholder="">
+								<input id="longTerm0" type="radio" >长期有效
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 证件编号</label> <input name="spvCustList[0].idCode"
@@ -329,8 +330,9 @@
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 证件有效期</label> 
-								<input name="spvCustList[1].idValiDate" class="form-control input-one date-picker" 
+								<input id="date-picker1" name="spvCustList[1].idValiDate" class="form-control input-one date-picker" 
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/>" placeholder="">
+								<input id="longTerm1" type="radio" >长期有效
 							</div>
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 证件编号</label> <input type="text" name="spvCustList[1].idCode"
@@ -1041,7 +1043,9 @@
         var accTypeSum;//账户类型 
 		
 		$(document).ready(function(){
-			
+			longTermSuit(0);
+			longTermSuit(1);
+
 			accTypeSum = parseInt('${fn:length(spvBaseInfoVO.toSpvAccountList)}');
 			if(accTypeSum == 0 || accTypeSum == 4){
 				accTypeSum = 4;
@@ -1265,15 +1269,6 @@
     	    })
     	}
         
-        // 日期控件
-        $('.date-picker').datepicker({
-        	format : 'yyyy-mm-dd',
-        	weekStart : 1,
-        	autoclose : true,
-        	todayBtn : 'linked',
-        	language : 'zh-CN'
-        });
-        
         //转大写
         var DX = function (num) {  
 		  var strOutput = "";  
@@ -1431,6 +1426,57 @@
 			$('.wrapper-content').viewer('destroy');
 			$('.wrapper-content').viewer({zIndex:15001});
 		}	
+		
+		//长期有效
+		function longTermSuit(i){	
+			var $jq = $("input[name='spvCustList["+i+"].idValiDate']");
+			if($jq.val() == '3000-01-01'){
+				$jq.val('长期有效');
+				$("#longTerm"+i).attr("checked",true);
+			} 
+			$jq.blur(function(){
+				if($("#longTerm"+i).attr("checked")){
+					$jq.val('长期有效');
+				}else{
+					$("#longTerm"+i).attr("checked",false);
+				}
+            });
+			
+			$("#longTerm"+i).click(function(){
+				if($(this).attr("checked")){
+					$jq.val('');
+					$(this).attr("checked",false);
+				}else{
+					$jq.val('长期有效');
+					$(this).attr("checked",true);
+				}
+			});
+		}
+		
+        // 日期控件
+        $('#date-picker0').datepicker({
+        	format : 'yyyy-mm-dd',
+        	weekStart : 1,
+        	autoclose : true,
+        	todayBtn : 'linked',
+        	language : 'zh-CN'
+        }).on('changeDate',function(ev){
+        	if($("input[name='spvCustList[0].idValiDate']").val() != '长期有效'){
+				$("#longTerm0").attr("checked",false);
+			}
+        });
+        
+        $('#date-picker1').datepicker({
+        	format : 'yyyy-mm-dd',
+        	weekStart : 1,
+        	autoclose : true,
+        	todayBtn : 'linked',
+        	language : 'zh-CN'
+        }).on('changeDate',function(ev){
+        	if($("input[name='spvCustList[1].idValiDate']").val() != '长期有效'){
+				$("#longTerm1").attr("checked",false);
+			}
+        });
 		</script> 
 		</content>
 

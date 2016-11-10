@@ -146,6 +146,9 @@ $(document).ready(function(){
       	  $("form").each(function(){
       		 var obj = $(this).serializeArray();
       		for(var i in obj){
+      			if(obj[i].name.indexOf("idValiDate") != -1 && obj[i].value == '长期有效'){
+      				obj[i].value = '3000-01-01';
+      			}
            		totalArr.push(obj[i]);
       		}
       	  });
@@ -275,10 +278,13 @@ $(document).ready(function(){
 	      	  $("form").each(function(){
 	      		 var obj = $(this).serializeArray();
 	      		for(var i in obj){
+	      			if(obj[i].name.indexOf("idValiDate") != -1 && obj[i].value == '长期有效'){
+	      				obj[i].value = '3000-01-01';
+	      			}
 	           		totalArr.push(obj[i]);
 	      		}
 	      	  }); 
-
+	      	  
 	      	  $.ajax({
 	        		url:ctx+"/spv/saveNewSpv",
 	        		method:"post",
