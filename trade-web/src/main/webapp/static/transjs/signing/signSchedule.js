@@ -49,7 +49,7 @@ function chooseDutyOfficer(date,type) {
 	dutyDate = date;
 	dutyType = type;
 	var tdid = $("#"+dutyDate+dutyType).html();
-	if(tdid==''){
+	if(tdid=='空置'){
 		changed=false;
 	}else{
 		changed = true;
