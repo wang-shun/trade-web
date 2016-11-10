@@ -185,6 +185,7 @@
 	<mvc:resources mapping="/static/email_templates/**"
 		location="/static_res/email_templates/" />
 	<mvc:resources mapping="/static/design_doc/**" location="/static_res/design_doc/" />
+	<mvc:resources mapping="/static/momedia/**" location="/static_res/momedia/" />
 
 	<!-- ========================= VIEW定义 ========================= -->
 	<!-- 内容协商视图解析器；根据客户端的不同的请求决定不同的 view进行响应, 如 /blog/1.json /blog/1.xml -->

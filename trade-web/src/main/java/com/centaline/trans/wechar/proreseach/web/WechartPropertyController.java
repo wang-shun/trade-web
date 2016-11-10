@@ -23,6 +23,7 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.scheduler.execution.remote.Job;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -57,6 +58,8 @@ public class WechartPropertyController {
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private QuickGridService quickGridService;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 	
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;
@@ -134,7 +137,7 @@ public class WechartPropertyController {
 		// 查询区蕫
 		request.setAttribute("prCostOrgMgr", propertyResearch.getPrCostOrgMgr());
 		
-		
+		request.setAttribute("districtName", uamBasedataService.getDictValue("yu_shanghai_district", propertyResearch.getDistCode()));
 		request.setAttribute("propertyResearch", propertyResearch);
 		request.setAttribute("imgHost", imgHost);
 		request.setAttribute("imgHost", imgHost);

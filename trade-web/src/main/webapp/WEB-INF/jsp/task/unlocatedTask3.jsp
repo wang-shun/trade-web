@@ -484,7 +484,6 @@ function doGroupClaim(taskId){
 				reloadGrid(1);
 			}
 			//taskDelGrid.trigger('reloadGrid');
-			
 		}
 	});
 }			
