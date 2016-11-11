@@ -669,6 +669,7 @@
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 			//判断是否有重复字符
 			function isUniqueChar(value){
@@ -1353,7 +1354,7 @@
 						});
 			}
 			
-			//渲染图片 
+			//渲染图片 <viewer.min.js中调用>
 			function renderImg(){		
 				$('.wrapper-content').viewer('destroy');
 				$('.wrapper-content').viewer({zIndex:15001});
