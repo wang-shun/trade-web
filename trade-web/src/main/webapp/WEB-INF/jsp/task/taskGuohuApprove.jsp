@@ -615,6 +615,12 @@
 					}
 				});
 			}
+			
+			//图片查看器控件  
+			function renderImg(){		
+				$('.wrapper-content').viewer('destroy');
+				$('.wrapper-content').viewer({zIndex:15001});
+			}
 		</script> </content>
 </body>
 </html>
