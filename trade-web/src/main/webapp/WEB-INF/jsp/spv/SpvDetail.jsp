@@ -426,7 +426,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank }</dd>
+														<dd id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank }/${spvBaseInfoVO.toSpvAccountList[1].branchBank==null?"":spvBaseInfoVO.toSpvAccountList[1].branchBank}</dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].account }</dd>
 														<dt>电话</dt>
@@ -443,7 +443,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank }</dd>
+														<dd id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank }/${spvBaseInfoVO.toSpvAccountList[0].branchBank==null?"":spvBaseInfoVO.toSpvAccountList[0].branchBank}</dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[0].account }</dd>
 														<dt>电话</dt>
