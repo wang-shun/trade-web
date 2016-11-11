@@ -368,8 +368,7 @@
 				data.endDate = endDate;
 				if("false" == "${sessionUser.serviceDepHierarchy == 'yucui_headquarter'}")
 				{data.serviceDepId = "${sessionUser.serviceDepId}";}
-				data.rows = 200;
-				data.page = 1;
+				data.pagination = false;//不分页
 				if(type) {data.queryId=qId};
 				return data;
 			}
