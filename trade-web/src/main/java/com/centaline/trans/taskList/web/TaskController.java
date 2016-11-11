@@ -277,9 +277,14 @@ public class TaskController {
     		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
 //    		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/*自办*/
 //    		boolean tz =  ((boolean)(psf==null?false:psf.getValue())||(boolean)(self==null?false:self.getValue()));
-    		request.setAttribute("tz", !(boolean)(psf==null?false:psf.getValue()));
+    		boolean tz = !(boolean)(psf==null?false:psf.getValue());
     		getAccesoryList(request, taskitem);
     		ToMortgage mortgage=toMortgageService.findToMortgageByCaseCode2(caseCode);
+    		//公积金的话无他证送抵时间
+    		if("30016003".equals(mortgage.getMortType())&&"1".equals(mortgage.getIsDelegateYucui())) {
+    			tz = false;
+    		}
+    		request.setAttribute("tz", tz);
     		request.setAttribute("loanRelease", mortgage);
     	} else if(taskitem.equals("SelfLoanApprove")) {/*SelfLoanApprove 自办贷款审批*/
     		ToMortgage mortgage =toMortgageService.findToSelfLoanMortgage(caseCode);

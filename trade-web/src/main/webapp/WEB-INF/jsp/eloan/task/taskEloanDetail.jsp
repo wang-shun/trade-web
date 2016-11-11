@@ -311,7 +311,7 @@
                                                         <%-- <a href="${ctx}/riskControl/guarantymortgage?pkid=${pkId}"> --%>
                                                         <button class="btn btn-success btn-space ykqing mortgageButton">抵押</button>
                                                         <%-- <a href="${ctx}/riskControl/guarantyfair?pkid=${pkId}"> --%>
-                                                        <button class="btn btn-success btn-space ykqing forceFairButton">强制公正</button>
+                                                        <button class="btn btn-success btn-space ykqing forceFairButton">强制公证</button>
                                                         </shiro:hasPermission>
                                                         </div>
                                                         <div class="riskControl-table">
