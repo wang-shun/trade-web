@@ -437,8 +437,14 @@ $(document).ready(function(){
 			  }
 			  var spvAccountBank = $("input[name='toSpvAccountList[1].bank']").val();
 			  if(spvAccountBank == null || spvAccountBank == ''){
-				  alert("请填写卖方收款账号开户行！");
+				  alert("请填写卖方收款账号开户行（银行）！");
 				  changeClass($("input[name='toSpvAccountList[1].bank']"));
+				  return false;
+			  }
+			  var spvAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
+			  if(spvAccountBranchBank == null || spvAccountBranchBank == ''){
+				  alert("请填写卖方收款账号开户行（支行）！");
+				  changeClass($("input[name='toSpvAccountList[1].branchBank']"));
 				  return false;
 			  }
 			  var spvConCode = $("input[name='toSpv.spvConCode']").val();
@@ -879,8 +885,15 @@ $(document).ready(function(){
 		
 		var buyerBank = $("input[name='toSpvAccountList[0].bank']").val();
 		if(buyerBank == null || buyerBank == ''){
-			alert("请填写买方开户行！");
+			alert("请填写买方开户行（银行）！");
 			changeClass($("input[name='toSpvAccountList[0].bank']"));
+			return false;
+		}
+		
+		var buyerBranchBank = $("input[name='toSpvAccountList[0].branchBank']").val();
+		if(buyerBranchBank == null || buyerBranchBank == ''){
+			alert("请填写买方开户行（支行）！");
+			changeClass($("input[name='toSpvAccountList[0].branchBank']"));
 			return false;
 		}
 		
@@ -956,8 +969,16 @@ $(document).ready(function(){
 		
 		var customBank = $("input[name='toSpvAccountList["+index+"].bank']").val();
 		if(customBank == null || customBank == ''){
-			alert("请填写新增账户开户行！");
+			alert("请填写新增账户开户行（银行）！");
 			changeClass($("input[name='toSpvAccountList["+index+"].bank']"));
+			customFlag = false;
+			return false;
+		}
+		
+		var customBranchBank = $("input[name='toSpvAccountList["+index+"].branchBank']").val();
+		if(customBranchBank == null || customBranchBank == ''){
+			alert("请填写新增账户开户行（支行）！");
+			changeClass($("input[name='toSpvAccountList["+index+"].branchBank']"));
 			customFlag = false;
 			return false;
 		}
@@ -1110,7 +1131,7 @@ $(document).ready(function(){
     	$("input[id^='picFileupload']").prop("disabled",true);
     }
     
-    function getParentBank(selector,selectorBranch,finOrgCode){
+    function getParentBank(selector,selectorBranch,finOrgCode,bank){
 		var bankHtml = "<option value=''>请选择</option>";
 	    $.ajax({
 	    	cache:true,
@@ -1128,7 +1149,7 @@ $(document).ready(function(){
 				}
 			}
 	     });
-	    selector.find('option').remove();
+	     selector.find('option').remove();
 		 selector.append($(bankHtml));
 		 $.ajax({
 			    url:ctx+"/manage/queryParentBankInfo",
@@ -1137,12 +1158,14 @@ $(document).ready(function(){
 				async:false,
 			    data:{finOrgCode:finOrgCode},
 			    success:function(data){
-		    		if(data != null){
+		    		if(data != null && data.content){
 		    			selector.val(data.content);
+		    		}else if(bank){
+		    			selector.append("<option value='"+bank+"' selected='selected'>"+bank+"</option>");
 		    		}
 		    	}
 			});
-		 //getBranchBankList(selectorBranch,selector.val(),finOrgCode);
+		 getBranchBankList(selectorBranch,selector.val(),finOrgCode);
 		 return bankHtml;
 	}
 	function getBranchBankList(selectorBranch,pcode,finOrgCode){
@@ -1158,14 +1181,19 @@ $(document).ready(function(){
 		    data:{faFinOrgCode:pcode,nowCode:finOrgCode},
 		    	success:function(data){
 		    		if(data != null){
+		    			var flag = false;
 		    			for(var i = 0;i<data.length;i++){
 							var coLevelStr='('+data[i].coLevelStr+')';
-				
 							var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
 							if(data[i].finOrgCode==finOrgCode){
+								flag = true;
 								option.attr("selected",true);
 							}
 							selectorBranch.append(option);
+		    			}
+
+		    			if(!flag && finOrgCode){
+		    				selectorBranch.append("<option value='"+finOrgCode+"' selected='selected'>"+finOrgCode+"</option>");
 		    			}
 		    		}
 		    	}

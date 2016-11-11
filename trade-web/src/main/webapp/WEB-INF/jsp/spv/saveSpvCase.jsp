@@ -59,6 +59,7 @@
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 <link href="${ctx}/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+<link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 <!-- stickUp fixed css -->
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -590,8 +591,8 @@
 						</div>
 						<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">开户行</label>
-									<select id="bank_1" class="form-control input-one"></select>
-									<input name="toSpvAccountList[1].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[1].bank }" ></input>
+									<select id="bank_1" name="toSpvAccountList[1].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[1].bank }" ></select>
+									<select name="toSpvAccountList[1].branchBank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[1].branchBank }" ></select>
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -617,8 +618,8 @@
 							</div>	
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label>
-									<select id="bank_0" class="form-control input-one"></select>
-									<input name="toSpvAccountList[0].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[0].bank }" ></input>
+									<select id="bank_0" name="toSpvAccountList[0].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[0].bank }" ></select>
+									<select name="toSpvAccountList[0].branchBank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[0].branchBank }" ></select>
 							</div>	
 						</div>
 						
@@ -691,8 +692,8 @@
 							</div>	
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label>
-									<select id="bank_${status4.index }" class="form-control input-one"></select>
-									<input name="toSpvAccountList[${status4.index }].bank" class="form-control input-two" value="${toSpvAccount.bank }" ></input>
+									<select id="bank_${status4.index }" name="toSpvAccountList[${status4.index }].bank" class="form-control input-two"  value="${toSpvAccount.bank }" ></select>
+									<select name="toSpvAccountList[${status4.index }].branchBank" class="form-control input-two" value="${toSpvAccount.branchBank }" ></select>
 									<c:if test="${empty handle or handle eq 'apply' }">
 									&nbsp;&nbsp;&nbsp;<a onClick="delAccTr(this)">删除账户</a>
 									</c:if>
@@ -983,10 +984,11 @@
 			
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
-	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> <script
-		src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
-		<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
+	<script src="${ctx}/js/jquery.editable-select.min.js"></script>
+	<script src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>
 	    <script src="${ctx}/js/viewer/viewer.min.js"></script>	
 
@@ -1096,7 +1098,8 @@
   				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("input[name='toSpvAccountList[1].telephone']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("#bank_1").prop("disabled",false);
-  				$("select[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].branchBank']").prop("disabled",false)
   				$("#signDiv").show().find("input").prop("readOnly",false);
 	         }
 			
@@ -1139,8 +1142,6 @@
 			$("input[name='toSpvProperty.leftAmount']").blur(function(){
 				$("#leftAmountDX").val(DX($(this).val()*10000));
 			}).blur();			
-			
-
 	       	
 	       	/* getPrdCategory($("#prd"),$("select[name='toSpv.prdCode']"),'${spvBaseInfoVO.toSpv.prdCode }');
 	       	$("#prd").change(function(){
@@ -1246,11 +1247,6 @@
    	       });
    	     });		   
         });
-		//返回代办任务
-		function back(){
-			window.close();
-			window.opener.callback();
-		}
 
         function reloadGrid() {
         	var data = {};
@@ -1270,20 +1266,6 @@
     		    data : data
     	    })
     	}
-        
-        //转大写
-        var DX = function (num) {  
-		  var strOutput = "";  
-		  var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';  
-		  num += "00";  
-		  var intPos = num.indexOf('.');  
-		  if (intPos >= 0)  
-		    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
-		  strUnit = strUnit.substr(strUnit.length - num.length);  
-		  for (var i=0; i < num.length; i++)  
-		    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
-		    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
-		};
 		
 		
 		var sum = parseInt($("#toSpvDeDetailListSize").val());
@@ -1341,8 +1323,8 @@
 			$str += '</div>	';
 			$str += '<div class="form-group form-margin form-space-one">';
 			$str += 	'<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label>';
-			$str += 		'<select id="bank_'+accTypeSum+'" class="form-control input-one"></select> ';
-			$str += 		'<input name="toSpvAccountList['+accTypeSum+'].bank" class="form-control input-two" ></input>&nbsp;&nbsp;';
+			$str += 		'<select id="bank_'+accTypeSum+'" name="toSpvAccountList['+accTypeSum+'].bank" class="form-control input-two"></select> ';
+			$str += 		'<select name="toSpvAccountList['+accTypeSum+'].branchBank" class="form-control input-two" ></select>&nbsp;&nbsp;';
 			$str +=	'&nbsp;&nbsp;&nbsp;<a onClick="delAccTr(this)">删除账户</a>';
 			$str +='</div>';
 			$str += '</div>';
@@ -1416,18 +1398,30 @@
 		/**初始化银行列表 */
 		function initBankList(e){	
 				var index = $(e).attr("id").replace('bank_','');
-				var $select_ = $("select[name='toSpvAccountList["+index+"].bank']"); 
-				getParentBank($(e),$select_,$select_.attr("value"));
-/* 				$(e).change(function(){
-					getBranchBankList($select_,$(e).val());
-				}); */
+				var $select = $("select[name='toSpvAccountList["+index+"].branchBank']"); 
+				getParentBank($(e),$select,$select.attr("value"),$(e).attr("value"));
+ 				$(e).change(function(){
+					getBranchBankList($select,$(e).val());
+				}); 
+ 				
+ 		        //可变select
+ 		        $(e).editableSelect({
+ 					effects: 'slide',
+ 					filter: false,
+ 					onSelect: function(element){
+ 						editSelectFunc(element , index );
+ 					} 
+ 			    }); 
+ 		       
+ 		       $select.editableSelect({
+ 					effects: 'slide',
+ 					filter: false
+ 			    }); 
+ 		       
+ 		       //未选择时加‘请选择’提示
+ 		       var $input1 = $("#bank_"+index).attr("placeholder","请选择");
+ 		       var $input2 = $("input[name='toSpvAccountList["+index+"].branchBank']").attr("placeholder","请选择");	       
 		}
-		
-		//渲染图片 
-		function renderImg(){		
-			$('.wrapper-content').viewer('destroy');
-			$('.wrapper-content').viewer({zIndex:15001});
-		}	
 		
 		//长期有效
 		function longTermSuit(i){	
@@ -1454,7 +1448,16 @@
 				}
 			});
 		}
-		
+	
+        
+
+  
+/*******************************************************控件相关*********************************************************************/ 
+		//图片查看器控件  
+		function renderImg(){		
+			$('.wrapper-content').viewer('destroy');
+			$('.wrapper-content').viewer({zIndex:15001});
+		}
         // 日期控件
         $('#date-picker0').datepicker({
         	format : 'yyyy-mm-dd',
@@ -1479,6 +1482,51 @@
 				$("#longTerm1").attr("checked",false);
 			}
         });
+        
+        //转大写函数 
+        var DX = function (num) {  
+		  var strOutput = "";  
+		  var strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';  
+		  num += "00";  
+		  var intPos = num.indexOf('.');  
+		  if (intPos >= 0)  
+		    num = num.substring(0, intPos) + num.substr(intPos + 1, 2);  
+		  strUnit = strUnit.substr(strUnit.length - num.length);  
+		  for (var i=0; i < num.length; i++)  
+		    strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i,1),1) + strUnit.substr(i,1);  
+		    return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, "零元");  
+		};
+		
+        //可变下拉选选择li时回调函数 
+       	function editSelectFunc(element , index ) {
+				var $nextUL = $(element).parent().next();
+				var $input = $("input[name='toSpvAccountList["+index+"].branchBank']");
+				$nextUL.empty();
+			    $input.val('');	
+				$.ajax({
+					cache:true,
+				    url:ctx+"/manage/queryBankListByParentCode",
+				    method:"post",
+				    dataType:"json",
+					async:false,
+				    data:{faFinOrgCode:$(element).val()},
+		    	success:function(data){
+			    	for(var i = 0;i<data.length;i++){
+			    		var coLevelStr='('+data[i].coLevelStr+')';
+			    		var $li = $("<li coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</li>");
+			    		$li.mouseover(function(){
+			    			$(this).addClass("selected");
+			    		}).mouseleave(function(){
+			    			$(this).removeClass("selected");
+			    		}).click(function(){
+			    			$input.val($(this).text());
+			    		});
+			    		$nextUL.append($li);
+			    	}	    	
+		    	}
+		    });
+		} 
+
 		</script> 
 		</content>
 
