@@ -724,7 +724,7 @@
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 签约时间</label> 
-								<input name="toSpv.signTime" class="form-control input-one date-picker" 
+								<input id="date-picker2" name="toSpv.signTime" class="form-control input-one date-picker" 
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 						</div>
@@ -1481,6 +1481,14 @@
         	if($("input[name='spvCustList[1].idValiDate']").val() != '长期有效'){
 				$("#longTerm1").attr("checked",false);
 			}
+        });
+        
+        $('#date-picker2').datepicker({
+        	format : 'yyyy-mm-dd',
+        	weekStart : 1,
+        	autoclose : true,
+        	todayBtn : 'linked',
+        	language : 'zh-CN'
         });
         
         //转大写函数 
