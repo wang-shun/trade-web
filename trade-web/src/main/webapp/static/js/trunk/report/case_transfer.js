@@ -292,6 +292,9 @@ function caseTransferExportToExcel() {
 	displayColomn.push('ORG_NAME');
 	displayColomn.push('AR_NAME');
 	displayColomn.push('VORG_NAME');
+	
+	displayColomn.push('ELOAN_PRO_TYPE');
+	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT');
 
 
 	var queryOrgFlag = $("#queryOrgFlag").val();

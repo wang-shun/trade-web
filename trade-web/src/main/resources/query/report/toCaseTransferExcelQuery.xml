@@ -51,7 +51,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[				
-							SELECT					
+						SELECT					
 									distinct(T.CASE_CODE),
 									BA_NAME,
 									AGENT_NAME, 
@@ -86,14 +86,15 @@
 									(select TOP 1 PM.dist_name from SCTRANS.T_TS_PR_RESEARCH_MAP PM WHERE T.DIST_CODE=PM.dist_code)AS dist_name	,									
 									CTM_CODE,
 									M.CUST_NAME,
-									STUFF((SELECT ','+D.NAME FROM  sctrans.SYS_DICT D WHERE D.CODE = M.MORT_TYPE AND D.TYPE ='30016'  for xml path('')),1,1,'') AS MORT_TYPE_NAME,--贷款类型
-									--STUFF((SELECT ','+d.name FROM sctrans.T_TO_MORTGAGE m LEFT JOIN sctrans.SYS_DICT d ON d.code = m.MORT_TYPE AND d.type ='30016' WHERE T.case_code=m.CASE_CODE AND m.IS_ACTIVE = 1 for xml path('')),1,1,'') AS MORT_TYPE_NAME,--贷款类型
+									STUFF((SELECT ','+D.NAME FROM  sctrans.SYS_DICT D WHERE D.CODE = M.MORT_TYPE AND D.TYPE ='30016'  for xml path('')),1,1,'') AS MORT_TYPE_NAME,
+									STUFF((SELECT ','+D.NAME FROM  sctrans.SYS_DICT D WHERE D.CODE in (SELECT EC.LOAN_SRV_CODE FROM sctrans.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE=T.CASE_CODE) AND D.TYPE='yu_serv_cat_code_tree'  for xml path('')),1,1,'') AS ELOAN_PRO_TYPE,
+									(SELECT SUM(EC.APPLY_AMOUNT)  FROM sctrans.T_TO_ELOAN_CASE EC  where EC.CASE_CODE = T.CASE_CODE) ELOAN_APPLYAMOUNT_COUNT,
 									(SELECT SUM(G.EVAL_FEE) FROM sctrans.T_TO_EVA_FEE_RECORD G where G.CASE_CODE=T.CASE_CODE) EVAL_FEE,
-									(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID IN (SELECT CUST_CODE FROM SCTRANS.T_TO_MORTGAGE M WHERE T.case_code=m.CASE_CODE)) AS GUEST_PHONE, /*主贷人电话*/
+									(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID IN (SELECT CUST_CODE FROM SCTRANS.T_TO_MORTGAGE M WHERE T.case_code=m.CASE_CODE)) AS GUEST_PHONE, 
 									PROPERTY_ADDR ,
 									 ROUND(CONVERT(float,S.CON_PRICE)/10000,2) AS CON_PRICE, 									
-									(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=M.FIN_ORG_CODE ) FIN_ORG_NAME,  --银行
-									(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=M.FIN_ORG_CODE ) FIN_ORG_NAME_YC,  --支行
+									(select TOP 1 TF.FIN_ORG_NAME FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=M.FIN_ORG_CODE ) FIN_ORG_NAME,  
+									(select TOP 1 TF.FIN_ORG_NAME_YC FROM SCTRANS.T_TS_FIN_ORG TF WHERE TF.FIN_ORG_CODE=M.FIN_ORG_CODE ) FIN_ORG_NAME_YC,  
 														
 									LOAN_REQ,									
 									AGENT_USERNAME,									
@@ -122,7 +123,7 @@
 									case 
 									when T.LOAN_REQ=1 and M.MORT_TYPE  in('30016001','30016002') and M.IS_DELEGATE_YUCUI =1   then '收单' 
 									when T.LOAN_REQ=1 and M.MORT_TYPE  in('30016001','30016002') and M.IS_DELEGATE_YUCUI =0   then '流失' 
-									end   SDSTATUS  ,/*收单状态*/
+									end   SDSTATUS  ,
 
 									(select TOP 1 U.REAL_NAME from SCTRANS.SYS_USER U where U.ID=(select  top 1 OPERATOR from  sctrans.T_TO_APPROVE_RECORD ar1  where  ar1.PART_CODE='GuohuApprove'  and ar1.case_code=T.CASE_CODE order by  ar1.OPERATOR_TIME)) AS ASSESSOR,
 									(select  top 1 ar2.CONTENT from  sctrans.T_TO_APPROVE_RECORD ar2  where  ar2.PART_CODE='GuohuApprove'  and ar2.case_code=t.CASE_CODE order by  ar2.OPERATOR_TIME  desc) AS CONTENT,
@@ -149,7 +150,7 @@
 								) T 
 									inner join SCTRANS.T_TO_SIGN S ON T.CASE_CODE = S.CASE_CODE
 									--up is result down is new
-									left join sctrans.T_TO_MORTGAGE M  on T.CASE_CODE = M.CASE_CODE and M.IS_ACTIVE=1 and M.LAST_LOAN_BANK  is not null		
+									left join sctrans.T_TO_MORTGAGE M  on T.CASE_CODE = M.CASE_CODE and M.IS_ACTIVE=1 and M.LAST_LOAN_BANK  is not null			
 								where 1=1
 								 <ifNotNull caseTransferDateStart>
 									AND caseTransferDate &gt; #caseTransferDateStart#
@@ -206,12 +207,12 @@
 				<column type="both" name="CUST_NAME" title="主贷人姓名"	customDict="" hidden="false" />
 				<column type="both" name="GUEST_PHONE" title="主贷人电话"		customDict="" hidden="false" />
 				<column type="both" name="PROPERTY_ADDR" title="产权地址"		customDict="" hidden="false" />
-				<column type="both" name="CON_PRICE" title="合同价(万元)" customDict=""	hidden="false" />
+				<column type="both" name="CON_PRICE" title="合同价(万元)" customDict=""	hidden="false"  expType="Double"/>
 				<column type="both" name="FIN_ORG_NAME" title="银行"		customDict="" hidden="false" />
 				<column type="both" name="FIN_ORG_NAME_YC" title="支行"	customDict="" hidden="false" />
-				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"	customDict="" hidden="false" />
-				<column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"	customDict="" hidden="false" />
-				<column type="both" name="ACCOUNT" title="贷款总额(万元)" customDict=""	hidden="false" />
+				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"	customDict="" hidden="false" expType="Double"/>
+				<column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"	customDict="" hidden="false" expType="Double"/>
+				<column type="both" name="ACCOUNT" title="贷款总额(万元)" customDict=""	hidden="false" expType="Double"/>
 				<column type="both" name="COM_DISCOUNT" title="贷款利率"	customDict="" hidden="false" />
 				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />
 				<column type="both" name="LOANER_NAME" title="货代专员"	customDict="" hidden="false" />
@@ -235,10 +236,13 @@
 				<column type="both" name="REAL_NAME" title="主管"	customDict="" hidden="false" />
 				<column type="both" name="ORG_NAME" title="主管组别"	customDict="" hidden="false" />
 				<column type="both" name="AR_NAME" title="片区"	customDict="" hidden="false" />					
-				<column type="both" name="EVAL_FEE" title="评估费金额"/>
+				<column type="both" name="EVAL_FEE" title="评估费金额" expType="Double"/>
 				<column type="both" name="MORT_TYPE_NAME" title="贷款类型"/>
 				<column type="both" name="SELF_DEL_REASON" title="流失具体原因" customDict=""		hidden="false" />
 				<column type="both" name="loanlost_apply_reason" title="流失原因" customDict=""		hidden="false" />
+				
+				<column type="both" name="ELOAN_PRO_TYPE" title="E+产品类别"	customDict="" hidden="false" />
+				<column type="both" name="ELOAN_APPLYAMOUNT_COUNT" title="申请总金额(万元)"	customDict="" hidden="false" expType="Double"/>
 			</table-row>
 		</grid>
 	</query>
