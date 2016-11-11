@@ -688,6 +688,12 @@
 				}
 				return checkAtt;
 			}
+			
+			//渲染图片 <viewer.min.js中调用>
+			function renderImg(){		
+				$('.wrapper-content').viewer('destroy');
+				$('.wrapper-content').viewer({zIndex:15001});
+			}
 		</script> 
 	</content>
 </body>
