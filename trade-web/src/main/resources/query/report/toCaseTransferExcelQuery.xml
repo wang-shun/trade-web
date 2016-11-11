@@ -246,66 +246,97 @@
 			</table-row>
 		</grid>
 	</query>
-	<query id="exportCaseRejectionRateList" cacheCount="true">
+	<query id="exportCaseRejectionRateZbList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[				
-							SELECT org_name as ORGNAME,AMOUNT,NOT_APPROVE,(AMOUNT-NOT_APPROVE) APPROVE,
-							(CASE WHEN AMOUNT>0 THEN CONCAT((AMOUNT-NOT_APPROVE)*100/AMOUNT,'%') ELSE '0%' END) RATE FROM 
-								( 
-								SELECT org.org_name,COUNT(ar.PKID) AMOUNT,COUNT((CASE WHEN CONTENT LIKE '不通过,%' THEN 1 ELSE null end)) NOT_APPROVE 
-								FROM sctrans.T_TO_APPROVE_RECORD ar LEFT JOIN sctrans.T_TO_CASE c ON ar.CASE_CODE = c.CASE_CODE LEFT JOIN sctrans.SYS_ORG org ON org.id = c.ORG_ID 
-								WHERE ar.PART_CODE = 'GuohuApprove' 
-								<ifNotNull startDate>
-									AND ar.OPERATOR_TIME &gt;=#startDate# 
-								</ifNotNull>
-								<ifNotNull endDate>
-									AND ar.OPERATOR_TIME &lt;#endDate# 
-								</ifNotNull> 
-								GROUP BY org.org_name 
-								) t2 ORDER BY t2.org_name 
+					SELECT org_name as ORGNAME,AMOUNT,NOT_APPROVE,(AMOUNT-NOT_APPROVE) APPROVE,
+					(CASE WHEN AMOUNT>0 THEN CONCAT((AMOUNT-NOT_APPROVE)*100/AMOUNT,'%') ELSE '0%' END) RATE FROM 
+						( 
+						SELECT org.org_name,COUNT(ar.PKID) AMOUNT,COUNT((CASE WHEN CONTENT LIKE '不通过,%' THEN 1 ELSE null end)) NOT_APPROVE 
+						FROM sctrans.T_TO_APPROVE_RECORD ar LEFT JOIN sctrans.T_TO_CASE c ON ar.CASE_CODE = c.CASE_CODE LEFT JOIN sctrans.SYS_ORG org ON c.ORG_ID =  org.id 
+						WHERE ar.PART_CODE = 'GuohuApprove' 
+						<ifNotNull serviceDepId>
+							AND c.ORG_ID =#serviceDepId#
+						</ifNotNull>
+						<ifNotNull startDate>
+							AND ar.OPERATOR_TIME &gt;=#startDate# 
+						</ifNotNull>
+						<ifNotNull endDate>
+							AND ar.OPERATOR_TIME &lt;#endDate# 
+						</ifNotNull> 
+						GROUP BY org.org_name 
+						) t2 
 				]]>
 			</baseSql>
+			<orderBySql>
+			ORDER BY t2.org_name 
+			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="ORGNAME" title="贵宾服务部组别" customDict="" hidden="false" />
+				<column type="both" name="ORGNAME" title="组别" customDict="" hidden="false" />
 				<column type="both" name="AMOUNT" title="总计" customDict="" hidden="false" />
 				<column type="both" name="NOT_APPROVE" title="不通过" customDict="" hidden="false" />
 				<column type="both" name="APPROVE" title="通过" customDict="" hidden="false" />
 				<column type="both" name="RATE" title="通过率" customDict="" hidden="false" />
-			</table-row>
+				</table-row>
 		</grid>
 	</query>
-	<query id="exportCaseRejectionRateReasonList" cacheCount="true">
+	<query id="exportCaseRejectionRateGbList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[				
-												
+					SELECT org_name as ORGNAME,AMOUNT,NOT_APPROVE,(AMOUNT-NOT_APPROVE) APPROVE,
+					(CASE WHEN AMOUNT>0 THEN CONCAT((AMOUNT-NOT_APPROVE)*100/AMOUNT,'%') ELSE '0%' END) RATE FROM 
+						( 
+						SELECT org.org_name,COUNT(ar.PKID) AMOUNT,COUNT((CASE WHEN CONTENT LIKE '不通过,%' THEN 1 ELSE null end)) NOT_APPROVE 
+						FROM sctrans.T_TO_APPROVE_RECORD ar LEFT JOIN sctrans.T_TO_CASE c ON ar.CASE_CODE = c.CASE_CODE LEFT JOIN sctrans.SYS_ORG org ON c.DISTRICT_ID =  org.id
+						WHERE ar.PART_CODE = 'GuohuApprove' 
+						<ifNotNull serviceDepId>
+							AND c.DISTRICT_ID  =#serviceDepId#
+						</ifNotNull>
+						<ifNotNull startDate>
+							AND ar.OPERATOR_TIME &gt;=#startDate# 
+						</ifNotNull>
+						<ifNotNull endDate>
+							AND ar.OPERATOR_TIME &lt;#endDate# 
+						</ifNotNull> 
+						GROUP BY org.org_name 
+						) t2 
+						where ORG_NAME is not null
+				]]>
+			</baseSql>
+			<orderBySql>
+			ORDER BY t2.org_name 
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="ORGNAME" title="贵宾服务部" customDict="" hidden="false" />
+				<column type="both" name="AMOUNT" title="总计" customDict="" hidden="false" />
+				<column type="both" name="NOT_APPROVE" title="不通过" customDict="" hidden="false" />
+				<column type="both" name="APPROVE" title="通过" customDict="" hidden="false" />
+				<column type="both" name="RATE" title="通过率" customDict="" hidden="false" />
+				</table-row>
+		</grid>
+	</query>
+	<query id="exportCaseRejectionRateReasonZbList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[				
 					SELECT 
-					reason,
-					case when  reason ='reason1' then '贷款银行有误' 
-					     when  reason ='reason2' then '商贷金额有误' 
-						 when  reason ='reason3' then '公积金金额有误' 
-						 when  reason ='reason4' then '合同价有误' 
-						 when  reason ='reason5' then '核定价格有误' 
-						 when  reason ='reason6' then '商贷利率有误' 
-						 when  reason ='reason7' then '主贷人未填/有误' 
-						 when  reason ='reason8' then '贷款情况有误（有贷款、无贷款）' 
-						 when  reason ='reason9' then '贷款类型未选择/有误（纯商贷、组合贷、纯公积金）' 
-						 when  reason ='reason10' then '附件照片缺少/有误（物业地址不符、模糊不清、缺少重要附件）' 
-						 when  reason ='reason11' then '贷款推荐函未上传' 
-						 when  reason ='reason12' then '贷款确认书未上传' 
-						 when  reason ='reason13' then '其他' 
-						 end as reasonCh,data from 
-					(	
-					SELECT 
+					CASE WHEN GROUPING(j.ORG_NAME) = 1 THEN '合计' ELSE j.ORG_NAME end as orgName,
 					sum((CASE WHEN NOT_APPROVE LIKE 'reason1,%' OR NOT_APPROVE LIKE '%,reason1,%' OR NOT_APPROVE LIKE '%reason1' THEN 1 ELSE 0 END)) reason1 
 					,sum((CASE WHEN NOT_APPROVE LIKE '%reason2%' THEN 1 ELSE 0 END)) reason2 
 					,sum((CASE WHEN NOT_APPROVE LIKE '%reason3%' THEN 1 ELSE 0 END)) reason3 
@@ -319,53 +350,138 @@
 					,sum((CASE WHEN NOT_APPROVE LIKE '%reason11%' THEN 1 ELSE 0 END)) reason11 
 					,sum((CASE WHEN NOT_APPROVE LIKE '%reason12%' THEN 1 ELSE 0 END)) reason12 
 					,sum((CASE WHEN NOT_APPROVE LIKE '%reason13%' OR NOT_APPROVE IS NULL THEN 1 ELSE 0 END)) reason13 
-					FROM sctrans.T_TO_APPROVE_RECORD 
+					FROM sctrans.T_TO_APPROVE_RECORD t left join sctrans.T_TO_CASE c on t.CASE_CODE=c.CASE_CODE
+					left join sctrans.SYS_ORG j on c.ORG_ID=j.ID
 					WHERE CONTENT LIKE '不通过,%' AND PART_CODE = 'GuohuApprove' 
+					<ifNotNull serviceDepId>
+						AND c.ORG_ID =#serviceDepId#
+					</ifNotNull>
 					<ifNotNull startDate>
 						AND OPERATOR_TIME &gt;=#startDate# 
 					</ifNotNull>
 					<ifNotNull endDate>
 						AND OPERATOR_TIME &lt;#endDate# 
 					</ifNotNull> 
-					
-					) t UNPIVOT (data FOR reason IN (reason1, reason2, reason3, reason4,reason5,reason6,reason7,reason8,reason9,reason10,reason11,reason12,reason13)) p
 				]]>
 			</baseSql>
+			<orderBySql>
+			order by grouping(j.ORG_NAME) asc
+			</orderBySql>
 			<groupSql>
+			group by j.ORG_NAME WITH ROLLUP 
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="reason" title="驳回原因" customDict="" hidden="false" />
-				<column type="both" name="reasonCh" title="过户审批回驳原因" customDict="" hidden="false" />
-				<column type="both" name="data" title="记数" customDict="" hidden="false" />
+				<column type="both" name="orgName" title="组别" customDict="" hidden="false" />
+				<column type="both" name="reason1" title="贷款银行有误" customDict="" hidden="false" />
+				<column type="both" name="reason2" title="商贷金额有误" customDict="" hidden="false" />
+				<column type="both" name="reason3" title="公积金金额有误" customDict="" hidden="false" />
+				<column type="both" name="reason4" title="合同价有误" customDict="" hidden="false" />
+				<column type="both" name="reason5" title="核定价格有误" customDict="" hidden="false" />
+				<column type="both" name="reason6" title="商贷利率有误" customDict="" hidden="false" />
+				<column type="both" name="reason7" title="主贷人未填/有误" customDict="" hidden="false" />
+				<column type="both" name="reason8" title="贷款情况有误（有贷款、无贷款）" customDict="" hidden="false" />
+				<column type="both" name="reason9" title="贷款类型未选择/有误（纯商贷、组合贷、纯公积金）" customDict="" hidden="false" />
+				<column type="both" name="reason10" title="附件照片缺少/有误（物业地址不符、模糊不清、缺少重要附件）" customDict="" hidden="false" />
+				<column type="both" name="reason11" title="贷款推荐函未上传" customDict="" hidden="false" />
+				<column type="both" name="reason12" title="贷款确认书未上传" customDict="" hidden="false" />
+				<column type="both" name="reason13" title="其他" customDict="" hidden="false" />
 			</table-row>
 		</grid>
 	</query>
-	<query id="exportcaseLossRateReasonList" cacheCount="true">
+	<query id="exportCaseRejectionRateReasonGbList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[				
-					SELECT reason,data from 
-					(	
 					SELECT 
-					sum((CASE WHEN loanlost_apply_reason LIKE '%收入、流水不足%' THEN 1 ELSE 0 END)) [收入、流水不足] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户资质差、征信有问题%' THEN 1 ELSE 0 END)) [客户资质差、征信有问题] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户亲戚、朋友在银行上班%' THEN 1 ELSE 0 END)) [客户亲戚、朋友在银行上班] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户是银行VIP%' THEN 1 ELSE 0 END)) [客户是银行VIP] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户自己找的银行优惠折扣大%' THEN 1 ELSE 0 END)) [客户自己找的银行优惠折扣大] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户不愿意支付评估费%' THEN 1 ELSE 0 END)) [客户不愿意支付评估费] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%房龄老、面积小等不予受理案件%' THEN 1 ELSE 0 END)) [房龄老、面积小等不予受理案件] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%银行退单，客户自办%' THEN 1 ELSE 0 END)) [银行退单，客户自办] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%中原无法办理案件%' THEN 1 ELSE 0 END)) [中原无法办理案件] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户坚持自己办理%' THEN 1 ELSE 0 END)) [客户坚持自己办理] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%房东坚持客户到他指定银行办理%' THEN 1 ELSE 0 END)) [房东坚持客户到他指定银行办理] 
-					,sum((CASE WHEN loanlost_apply_reason LIKE '%分行原因导致案件流失%' THEN 1 ELSE 0 END)) [分行原因导致案件流失] 
-					,sum((CASE WHEN loanlost_apply_reason IS NULL OR loanlost_apply_reason LIKE '%其他%' THEN 1 ELSE 0 END)) [其他] 
-					FROM sctrans.T_TO_MORTGAGE m 
-					WHERE (m.IS_DELEGATE_YUCUI =0 AND MORT_TYPE = '30016001') AND IS_ACTIVE = 1 AND EXISTS(SELECT a.CASE_CODE FROM sctrans.T_TO_APPROVE_RECORD a WHERE m.CASE_CODE = a.CASE_CODE AND CONTENT LIKE '通过%' AND PART_CODE LIKE 'GuohuApprove' 
+					CASE WHEN GROUPING(j.ORG_NAME) = 1 THEN '合计' ELSE j.ORG_NAME end as orgName,
+					sum((CASE WHEN NOT_APPROVE LIKE 'reason1,%' OR NOT_APPROVE LIKE '%,reason1,%' OR NOT_APPROVE LIKE '%reason1' THEN 1 ELSE 0 END)) reason1 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason2%' THEN 1 ELSE 0 END)) reason2 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason3%' THEN 1 ELSE 0 END)) reason3 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason4%' THEN 1 ELSE 0 END)) reason4 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason5%' THEN 1 ELSE 0 END)) reason5 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason6%' THEN 1 ELSE 0 END)) reason6 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason7%' THEN 1 ELSE 0 END)) reason7 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason8%' THEN 1 ELSE 0 END)) reason8 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason9%' THEN 1 ELSE 0 END)) reason9 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason10%' THEN 1 ELSE 0 END)) reason10 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason11%' THEN 1 ELSE 0 END)) reason11 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason12%' THEN 1 ELSE 0 END)) reason12 
+					,sum((CASE WHEN NOT_APPROVE LIKE '%reason13%' OR NOT_APPROVE IS NULL THEN 1 ELSE 0 END)) reason13 
+					FROM sctrans.T_TO_APPROVE_RECORD t left join sctrans.T_TO_CASE c on t.CASE_CODE=c.CASE_CODE
+					left join sctrans.SYS_ORG j on c.DISTRICT_ID=j.ID
+					WHERE CONTENT LIKE '不通过,%' AND PART_CODE = 'GuohuApprove'
+					<ifNotNull serviceDepId>
+						AND c.DISTRICT_ID =#serviceDepId#
+					</ifNotNull>
+					<ifNotNull startDate>
+						AND OPERATOR_TIME &gt;=#startDate# 
+					</ifNotNull>
+					<ifNotNull endDate>
+						AND OPERATOR_TIME &lt;#endDate# 
+					</ifNotNull> 
+					 and c.DISTRICT_ID is not null
+				]]>
+			</baseSql>
+			<orderBySql>
+			order by grouping(j.ORG_NAME) asc
+			</orderBySql>
+			<groupSql>
+			group by j.ORG_NAME WITH ROLLUP 
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="orgName" title="贵宾服务部" customDict="" hidden="false" />
+				<column type="both" name="reason1" title="贷款银行有误" customDict="" hidden="false" />
+				<column type="both" name="reason2" title="商贷金额有误" customDict="" hidden="false" />
+				<column type="both" name="reason3" title="公积金金额有误" customDict="" hidden="false" />
+				<column type="both" name="reason4" title="合同价有误" customDict="" hidden="false" />
+				<column type="both" name="reason5" title="核定价格有误" customDict="" hidden="false" />
+				<column type="both" name="reason6" title="商贷利率有误" customDict="" hidden="false" />
+				<column type="both" name="reason7" title="主贷人未填/有误" customDict="" hidden="false" />
+				<column type="both" name="reason8" title="贷款情况有误（有贷款、无贷款）" customDict="" hidden="false" />
+				<column type="both" name="reason9" title="贷款类型未选择/有误（纯商贷、组合贷、纯公积金）" customDict="" hidden="false" />
+				<column type="both" name="reason10" title="附件照片缺少/有误（物业地址不符、模糊不清、缺少重要附件）" customDict="" hidden="false" />
+				<column type="both" name="reason11" title="贷款推荐函未上传" customDict="" hidden="false" />
+				<column type="both" name="reason12" title="贷款确认书未上传" customDict="" hidden="false" />
+				<column type="both" name="reason13" title="其他" customDict="" hidden="false" />
+			</table-row>
+		</grid>
+	</query>
+	<query id="exportcaseLossRateReasonGbList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+				SELECT 
+					CASE WHEN GROUPING(j.ORG_NAME) = 1 THEN '合计' ELSE j.ORG_NAME end as orgName,
+					sum((CASE WHEN loanlost_apply_reason LIKE '%收入、流水不足%' THEN 1 ELSE 0 END)) reason1 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户资质差、征信有问题%' THEN 1 ELSE 0 END)) reason2
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户亲戚、朋友在银行上班%' THEN 1 ELSE 0 END)) reason3 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户是银行VIP%' THEN 1 ELSE 0 END)) reason4 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户自己找的银行优惠折扣大%' THEN 1 ELSE 0 END)) reason5
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户不愿意支付评估费%' THEN 1 ELSE 0 END)) reason6
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%房龄老、面积小等不予受理案件%' THEN 1 ELSE 0 END)) reason9 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%银行退单，客户自办%' THEN 1 ELSE 0 END)) reason10 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%中原无法办理案件%' THEN 1 ELSE 0 END)) reason11
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户坚持自己办理%' THEN 1 ELSE 0 END)) reason7
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%房东坚持客户到他指定银行办理%' THEN 1 ELSE 0 END)) reason8
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%分行原因导致案件流失%' THEN 1 ELSE 0 END)) reason12
+					,sum((CASE WHEN loanlost_apply_reason IS NULL OR loanlost_apply_reason LIKE '%其他%' THEN 1 ELSE 0 END)) reason13
+					FROM sctrans.T_TO_MORTGAGE m left join sctrans.T_TO_CASE c on m.CASE_CODE=c.CASE_CODE
+										left join sctrans.SYS_ORG j on c.DISTRICT_ID=j.ID
+					WHERE (m.IS_DELEGATE_YUCUI =0 AND MORT_TYPE = '30016001') 
+					AND IS_ACTIVE = 1 AND EXISTS(SELECT a.CASE_CODE FROM sctrans.T_TO_APPROVE_RECORD a 
+					WHERE m.CASE_CODE = a.CASE_CODE AND CONTENT LIKE '通过%' AND PART_CODE LIKE 'GuohuApprove' 
+					
+					<ifNotNull serviceDepId>
+						AND c.DISTRICT_ID=#serviceDepId#
+					</ifNotNull>
 					<ifNotNull startDate>
 						AND a.OPERATOR_TIME &gt;=#startDate# 
 					</ifNotNull>
@@ -374,31 +490,97 @@
 					</ifNotNull> 
 					
 					) 
-					) t UNPIVOT (data FOR reason IN ( 
-					[收入、流水不足] 
-					,[客户资质差、征信有问题] 
-					,[客户亲戚、朋友在银行上班] 
-					,[客户是银行VIP] 
-					,[客户自己找的银行优惠折扣大] 
-					,[客户不愿意支付评估费] 
-					,[房龄老、面积小等不予受理案件] 
-					,[银行退单，客户自办] 
-					,[中原无法办理案件] 
-					,[客户坚持自己办理] 
-					,[房东坚持客户到他指定银行办理] 
-					,[分行原因导致案件流失] 
-					,[其他] 
-					) 
-					) p
 				]]>
 			</baseSql>
+			<orderBySql>
+				order by grouping(j.ORG_NAME) asc
+			</orderBySql>
 			<groupSql>
+				group by j.ORG_NAME WITH ROLLUP 
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="reason" title="流失原因明细" customDict="" hidden="false" />
-				<column type="both" name="data" title="记数" customDict="" hidden="false" />
+				<column type="both" name="orgName" title="贵宾服务部" customDict="" hidden="false" />
+				<column type="both" name="reason1" title="收入、流水不足" customDict="" hidden="false" />
+				<column type="both" name="reason2" title="客户资质差、征信有问题" customDict="" hidden="false" />
+				<column type="both" name="reason3" title="客户亲戚、朋友在银行上班" customDict="" hidden="false" />
+				<column type="both" name="reason4" title="客户是银行VIP" customDict="" hidden="false" />
+				<column type="both" name="reason5" title="客户自己找的银行优惠折扣大" customDict="" hidden="false" />
+				<column type="both" name="reason6" title="客户不愿意支付评估费" customDict="" hidden="false" />
+				<column type="both" name="reason7" title="客户坚持自己办理" customDict="" hidden="false" />
+				<column type="both" name="reason8" title="房东坚持客户到他指定银行办理" customDict="" hidden="false" />
+				<column type="both" name="reason9" title="房龄老、面积小等不予受理案件" customDict="" hidden="false" />
+				<column type="both" name="reason10" title="银行退单，客户自办" customDict="" hidden="false" />
+				<column type="both" name="reason11" title="中原无法办理案件" customDict="" hidden="false" />
+				<column type="both" name="reason12" title="分行原因导致案件流失" customDict="" hidden="false" />
+				<column type="both" name="reason13" title="其他" customDict="" hidden="false" />
+			</table-row>
+		</grid>
+	</query> 
+	<query id="exportcaseLossRateReasonZbList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+				SELECT 
+					CASE WHEN GROUPING(j.ORG_NAME) = 1 THEN '合计' ELSE j.ORG_NAME end as orgName,
+					sum((CASE WHEN loanlost_apply_reason LIKE '%收入、流水不足%' THEN 1 ELSE 0 END)) reason1 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户资质差、征信有问题%' THEN 1 ELSE 0 END)) reason2
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户亲戚、朋友在银行上班%' THEN 1 ELSE 0 END)) reason3 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户是银行VIP%' THEN 1 ELSE 0 END)) reason4 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户自己找的银行优惠折扣大%' THEN 1 ELSE 0 END)) reason5
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户不愿意支付评估费%' THEN 1 ELSE 0 END)) reason6
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%房龄老、面积小等不予受理案件%' THEN 1 ELSE 0 END)) reason9 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%银行退单，客户自办%' THEN 1 ELSE 0 END)) reason10 
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%中原无法办理案件%' THEN 1 ELSE 0 END)) reason11
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%客户坚持自己办理%' THEN 1 ELSE 0 END)) reason7
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%房东坚持客户到他指定银行办理%' THEN 1 ELSE 0 END)) reason8
+					,sum((CASE WHEN loanlost_apply_reason LIKE '%分行原因导致案件流失%' THEN 1 ELSE 0 END)) reason12
+					,sum((CASE WHEN loanlost_apply_reason IS NULL OR loanlost_apply_reason LIKE '%其他%' THEN 1 ELSE 0 END)) reason13
+					FROM sctrans.T_TO_MORTGAGE m left join sctrans.T_TO_CASE c on m.CASE_CODE=c.CASE_CODE
+										left join sctrans.SYS_ORG j on c.ORG_ID=j.ID
+					WHERE (m.IS_DELEGATE_YUCUI =0 AND MORT_TYPE = '30016001') 
+					AND IS_ACTIVE = 1 AND EXISTS(SELECT a.CASE_CODE FROM sctrans.T_TO_APPROVE_RECORD a 
+					WHERE m.CASE_CODE = a.CASE_CODE AND CONTENT LIKE '通过%' AND PART_CODE LIKE 'GuohuApprove' 
+					
+					<ifNotNull serviceDepId>
+						AND c.ORG_ID=#serviceDepId#
+					</ifNotNull>
+					<ifNotNull startDate>
+						AND a.OPERATOR_TIME &gt;=#startDate# 
+					</ifNotNull>
+					<ifNotNull endDate>
+						AND a.OPERATOR_TIME &lt;#endDate# 
+					</ifNotNull> 
+					
+					) 
+				]]>
+			</baseSql>
+			<orderBySql>
+				order by grouping(j.ORG_NAME) asc
+			</orderBySql>
+			<groupSql>
+				group by j.ORG_NAME WITH ROLLUP 
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="orgName" title="级别" customDict="" hidden="false" />
+				<column type="both" name="reason1" title="收入、流水不足" customDict="" hidden="false" />
+				<column type="both" name="reason2" title="客户资质差、征信有问题" customDict="" hidden="false" />
+				<column type="both" name="reason3" title="客户亲戚、朋友在银行上班" customDict="" hidden="false" />
+				<column type="both" name="reason4" title="客户是银行VIP" customDict="" hidden="false" />
+				<column type="both" name="reason5" title="客户自己找的银行优惠折扣大" customDict="" hidden="false" />
+				<column type="both" name="reason6" title="客户不愿意支付评估费" customDict="" hidden="false" />
+				<column type="both" name="reason7" title="客户坚持自己办理" customDict="" hidden="false" />
+				<column type="both" name="reason8" title="房东坚持客户到他指定银行办理" customDict="" hidden="false" />
+				<column type="both" name="reason9" title="房龄老、面积小等不予受理案件" customDict="" hidden="false" />
+				<column type="both" name="reason10" title="银行退单，客户自办" customDict="" hidden="false" />
+				<column type="both" name="reason11" title="中原无法办理案件" customDict="" hidden="false" />
+				<column type="both" name="reason12" title="分行原因导致案件流失" customDict="" hidden="false" />
+				<column type="both" name="reason13" title="其他" customDict="" hidden="false" />
 			</table-row>
 		</grid>
 	</query> 

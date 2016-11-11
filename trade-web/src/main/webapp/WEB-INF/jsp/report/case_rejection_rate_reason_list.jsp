@@ -2,6 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
+<%@page import="com.centaline.trans.workspace.web.SessionUserConstants"%>
+<%
+	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
+%>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -37,16 +41,14 @@
 		<form method="get" class="form_list">
 			<div class="line">
 				<div class="form_content">
-					<label class="control-label sign_left_small select_style mend_select">审批日期</label>
+					<label class="control-label mr10 select_style mend_select">过户审批通过时间</label>
 					<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" id="datepicker_0">
 						<input id="dtBegin_0" name="dtBegin" class="form-control data_style" type="text" value="${startTime}" placeholder="起始日期"> <span class="input-group-addon">到</span>
 						<input id="dtEnd_0" name="dtEnd" class="form-control data_style" type="text" value="${endTime}" placeholder="结束日期">
 					</div>
 				</div>
-			</div>
-			<div class="form_content space" style="margin-left:122px;">
-				<div class="add_btn">
-					<button id="searchButton" type="button" class="btn btn-success">
+				<div class="add_btn" style="margin-left:440px;">
+                    <button id="searchButton" type="button" class="btn btn-success">
 						<i class="icon iconfont">&#xe635;</i> 查询
 					</button>
 					<button type="button" id="loanLostExportExcelButton"
@@ -54,7 +56,7 @@
 						onclick="javascript:loanLostCaseExportToExcel()" >导出列表</button>
 					<button type="reset" id="loanLostCleanButton"
 						class="btn btn-grey">清&nbsp;&nbsp;空</button>
-				</div>
+                 </div>
 			</div>
 		</form>			
 	</div>
@@ -64,20 +66,25 @@
 			id="editable">
 			<thead>
 				<tr>
-					<th>驳回原因</th>
-					<th>过户审批回驳原因</th>
-					<th>记数</th>
+					<th>贵宾服务部</th>
+					<th>贷款..</th>
+					<th>商贷..</th>
+					 <th>公积..</th>
+					<th>合同..</th>
+					<th>核定..</th>
+					<th>商贷..</th>
+					<th>主贷..</th>
+					<th>贷款..</th>
+					<th>贷款..</th>
+					<th>附件..</th>
+					<th>贷款..</th>
+					<th>贷款..</th>
+					<th>其他..</th>
 				</tr>
 			</thead>
 			<tbody id="myMortgageApproveLostList"></tbody>
 		</table>
-	</div>												
-	<div class="text-center page_box">
-		<span id="currentTotalPage"><strong></strong></span> <span
-			class="ml15">共<strong id="totalP"></strong>条
-		</span>&nbsp;
-		<div id="pageBar" class="pagergoto"></div>
-	</div>
+	</div>		
 </div>
 <content tag="local_script"> 
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -99,17 +106,72 @@
 
 			<td class="t-left">
 				 <p class="big">
-					{{item.reason}}
+					{{item.orgName}}
 				 </p>
 			</td>
 			<td class="t-left">
 				 <p class="big">
-					{{item.reasonCh}}
+					{{item.reason1}}
 				 </p>
 			</td>
 			<td class="t-left">
 				 <p class="big">
-					{{item.data}}
+					{{item.reason2}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason3}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason4}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason5}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason6}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason7}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason8}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason9}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason10}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason11}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason12}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.reason13}}
 				 </p>
 			</td>
  			</tr>
@@ -127,15 +189,38 @@
 			var data = {};
 			data.startDate = startDate;
 			data.endDate = endDate;
-			data.queryId = "exportCaseRejectionRateReasonList";
+			data.queryId = "exportCaseRejectionRateReasonZbList";
 			data.rows = 10;
 			data.page = 1;
+			//data.sortname = "j.ORG_NAME",
+			///data.sortorder = "DESC";
+			data.sortActive = false;
 			/* 加载排序查询组件 */
-			aist.sortWrapper({
+			/* aist.sortWrapper({
 				reloadGrid : loanLostApproveSearchMethod
-			});
+			}); */
 			reloadGrid(data);
 		});
+		//获取参数					
+		function getParams() {
+			var startDate = $("#dtBegin_0").val();
+			var endDate = '';
+			if (!$.isBlank($("#dtEnd_0").val())) {
+				endDate = $("#dtEnd_0").val() + " 23:59:59";
+			}
+
+			var data = {};//getCheckBoxValues2("srvCode");	
+			//todo  查询条件需要补充完善
+			data.startDate = startDate;
+			data.endDate = endDate;
+			//data.serviceDepId = "${sessionUser.serviceDepId}";
+			data.queryId = "exportCaseRejectionRateReasonZbList";
+			data.rows = 10;
+			data.page = 1;
+			data.sortname = "orgName";
+			data.sortorder = "ASC";
+			return data;
+		}
 
 		// 查询
 		$('#searchButton').click(function() {
@@ -148,15 +233,12 @@
 				page = 1;
 			}
 			var params = getParams();
-			params.page = page;
-			params.rows = 10;
-			params.queryId = "exportCaseRejectionRateReasonList";
 			reloadGrid(params);
 		};
 
 		function reloadGrid(data) {
-			aist.wrap(data);
-			$.ajax({
+			//aist.wrap(data);
+			 $.ajax({
 					async : true,
 					url : ctx + "/quickGrid/findPage",
 					method : "post",
@@ -173,57 +255,11 @@
 						$("#myMortgageApproveLostList").empty();
 						$("#myMortgageApproveLostList").html(
 					    myMortgageApproveLostList);
-						// 显示分页
-						initpage(data.total, data.pagesize,data.page, data.records);
 					},
 					error : function(e, jqxhr, settings,exception) {$.unblockUI();}
-				});
+				}); 
 		}
-		//分页
-		function initpage(totalCount, pageSize, currentPage,records) {
-			if (totalCount > 1500) {
-				totalCount = 1500;
-			}
-			var currentTotalstrong = $('#currentTotalPage').find('strong');
-			if (totalCount < 1 || pageSize < 1 || currentPage < 1) {
-				$(currentTotalstrong).empty();
-				$('#totalP').text(0);
-				$("#pageBar").empty();
-				return;
-			}
-			$(currentTotalstrong).empty();
-			$(currentTotalstrong).text(currentPage + '/' + totalCount);
-			$('#totalP').text(records);
-
-			$("#pageBar").twbsPagination({
-				totalPages : totalCount,
-				visiblePages : 9,
-				startPage : currentPage,
-				first : '<i class="fa fa-step-backward"></i>',
-				prev : '<i class="fa fa-chevron-left"></i>',
-				next : '<i class="fa fa-chevron-right"></i>',
-				last : '<i class="fa fa-step-forward"></i>',
-				showGoto : true,
-				onPageClick : function(event, page) {
-					loanLostApproveSearchMethod(page);
-				}
-			});
-		}
-		//获取参数					
-		function getParams() {
-			var startDate = $("#dtBegin_0").val();
-			var endDate = '';
-			if (!$.isBlank($("#dtEnd_0").val())) {
-				endDate = $("#dtEnd_0").val() + " 23:59:59";
-			}
-
-			var data = {};//getCheckBoxValues2("srvCode");	
-			//todo  查询条件需要补充完善
-			data.startDate = startDate;
-			data.endDate = endDate;
-			return data;
-		}
-
+		
 		//日期控件
 		$('#datepicker_0').datepicker({
 			format : 'yyyy-mm-dd',
@@ -238,8 +274,9 @@
 		var data = getParams();
 		aist.exportExcel({
 			ctx : "${ctx}",
-			queryId : 'exportCaseRejectionRateReasonList',
-			colomns : [ 'reason', 'reasonCh','data' ],
+			queryId : 'exportCaseRejectionRateReasonZbList',
+			colomns : [ 'orgName', 'reason1','reason2','reason3','reason4','reason5','reason6','reason7','reason8','reason9','reason10','reason11','reason12',
+			            'reason13'],
 			data : data
 		})
 		} 
