@@ -476,9 +476,29 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    		}else{
 		    			subJsonObj.put("bankName", bankName);
 		    		}
+		    		
+		    		String accountName = "";
+		    		switch (account.getAccountType()) {
+					case "BUYER":
+						accountName = "买方";
+						break;
+                    case "SELLER":
+                    	accountName = "卖方";
+						break;
+                    case "SPV":
+                    	accountName = "监管方";
+						break;
+                    case "FUND":
+                    	accountName = "资金方";
+						break;
+					default:
+						accountName = "自定义";
+						break;
+					}
 	    			subJsonObj.put("type",d.getDeCondCode());
 	    			subJsonObj.put("name", account.getName());
 	    			subJsonObj.put("account", account.getAccount());
+	    			subJsonObj.put("accountName", accountName);
 	    			if(d.getPayeeAccountId().equals(account.getPkid()))
 	    				jsonList.add(subJsonObj);
 		    	}
