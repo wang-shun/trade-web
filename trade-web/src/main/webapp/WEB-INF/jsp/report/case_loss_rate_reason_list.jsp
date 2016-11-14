@@ -35,7 +35,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
-			<h2 class="title">过户驳回率统计报表</h2>
+			<h2 class="title"> <font color="red">过户驳回率统计报表</font></h2>
 			<form method="get" class="form_list">
 				<div class="line">
 					<div class="form_content">
@@ -181,7 +181,7 @@
 										<th>总计</th>
 										<th>不通过</th>
 										<th>通过</th>
-										<th>通过率</th>
+										<th>驳回率</th>
 										</tr>
 										</thead>
 									<tbody id="myMortgageApproveLostZbList"></tbody>
@@ -195,7 +195,7 @@
 										<th>总计</th>
 										<th>不通过</th>
 										<th>通过</th>
-										<th>通过率</th>
+										<th>驳回率</th>
 										</tr>
 										</thead>
 									<tbody id="myMortgageApproveLostGbList"></tbody>
