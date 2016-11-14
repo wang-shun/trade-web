@@ -506,8 +506,7 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
-		if(!myreg.test(buyerMobile)) 
+		if(!isMobile(buyerMobile)) 
 		{ 
 		    alert('请输入有效的买方手机号码！');
 		    changeClass($("input[name='spvCustList[0].phone']"));
@@ -569,9 +568,8 @@ $(document).ready(function(){
 			changeClass($("input[name='spvCustList[1].phone']"));
 			return false;
 		}
-		
-		var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
-		if(!myreg.test(sellerMobile)) 
+		 
+		if(!isMobile(sellerMobile)) 
 		{ 
 		    alert('请输入有效的卖方手机号码！');
 		    changeClass($("input[name='spvCustList[1].phone']"));
@@ -1300,13 +1298,13 @@ $(document).ready(function(){
 		 //7.港澳通行证
 		 var reg7 = /^W\d{8}$/;
 		 //8.其他
-		 //reg8 = /^$/;
-		 var testExp = !reg1.test(cardId) && !reg2.test(cardId) && !reg3.test(cardId) && !reg4.test(cardId) 
-		               && !reg5.test(cardId) && !reg6.test(cardId) && !reg7.test(cardId);
+		 var reg8 = /^[a-zA-Z0-9]+$/;
+		 var testExp = reg1.test(cardId) || reg2.test(cardId) || reg3.test(cardId) || reg4.test(cardId) 
+		               || reg5.test(cardId) || reg6.test(cardId) || reg7.test(cardId) || reg8.test(cardId);
 	     if (testExp) {
-	         return false; 
+	         return true; 
 	     }
-	     return true;
+	     return false;
 	}
 	
 	//姓名验证(汉字和英文大小写)
