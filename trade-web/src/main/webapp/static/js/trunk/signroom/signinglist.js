@@ -178,7 +178,7 @@ function setFollowupInfo(createDateTime,realName){
 	
 	$a.html(formatComment);   //设置最近跟进信息
 	
-	var latestFollowupInfoHtml = createDateTime + "&nbsp;&nbsp;" + oldComment + "&nbsp;&nbsp;" + realName +  "</br>";
+	var latestFollowupInfoHtml = realName + "&nbsp;&nbsp;" + createDateTime + "&nbsp;&nbsp;" + oldComment +  "</br>";
 	var oldFollowupInfoHtml = $a.attr("title");
 	
 	var newFollowupInfoListHtml = latestFollowupInfoHtml + oldFollowupInfoHtml;    //获取所有跟进信息列表信息
@@ -192,7 +192,7 @@ function setFollowupInfo(createDateTime,realName){
 		}
 		else if(i != (length - 1)){
 			var followupInfoHtml = arrayNewFollowupInfoList[i];
-			newTitle += (i + 1) + "." + followupInfoHtml.substring(3,followupInfoHtml.length) + "</br>";
+			newTitle += (i + 1) + "." + followupInfoHtml.substring(2,followupInfoHtml.length) + "</br>";
 		}
 	}
 	
