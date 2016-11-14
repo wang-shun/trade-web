@@ -582,8 +582,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}else if("out".equals(apply.getUsage())  && SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
         		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
-        	}else if("out".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode().equals(cashFlow.getStatus())){
-        		allCashFlowOutAmount = allCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}else if("out".equals(apply.getUsage())  && !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
         		totalProcessCashFlowOutAmout = totalProcessCashFlowOutAmout.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}	
@@ -610,7 +608,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	    Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
         request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
 	    request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
-	    request.setAttribute("totalCashFlowOutAmount",  completeCashFlowInfoMap.get("allCashFlowOutAmount"));
+	    request.setAttribute("totalCashFlowOutAmount",  completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
 	}
 
 }
