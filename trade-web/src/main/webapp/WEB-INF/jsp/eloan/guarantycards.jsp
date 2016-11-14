@@ -155,6 +155,15 @@
                                     </label>
                                     <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="${item.mortgageName}">
                                 </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        <font color="red">*</font>保管人
+                                    </label>
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" />
+	                                <div class="input-group float_icon organize_icon managerOnclick">
+									 	<i class="icon iconfont">&#xe627;</i>
+									</div>
+                                </div>
                                 <a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a>
                                 <c:if test="${status.first==false}"><a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a></c:if>
                                 <c:if test="${item.mortgageCategory=='carded'}">
@@ -192,7 +201,7 @@
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
                                             姓名
-                                        </label>
+                                        </label> 
                                         <input type="text" placeholder="" class="select_control sign_right_one" id="referName" name="referName" value="">
                                     </div>
                                     <div class="form_content">
@@ -234,6 +243,15 @@
                                         物品名称
                                     </label>
                                     <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="">
+                                </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        <font color="red">*</font>保管人
+                                    </label>
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="" hVal="" onclick="chooseItemManager(this)" />
+	                                <div class="input-group float_icon organize_icon managerOnclick">
+									 	<i class="icon iconfont">&#xe627;</i>
+									</div>
                                 </div>
                                 <a href="javascript:void(0)" class="add_space" onclick="getAtr(this)">添加</a>
                                 <div class="entry" style="display:none;">
@@ -458,7 +476,8 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
+ 	<!-- 选择组织控件 --> 
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
@@ -523,6 +542,7 @@
              	var toRcMortgageInfoList = new Array();
              	
              	var validataCard = false;
+             	var validataItemManager = false;
              	$("#mortgageList .line").each(function(i){
              		if($(this).is(":hidden")) {
              			var isWillDeleted = 'Y';
@@ -533,12 +553,17 @@
              		var mortgageCategory = $(this).find("#mortgageCategory").val();
              		var mortgageCode = $(this).find("#mortgageCode").val()==undefined?null:$(this).find("#mortgageCode").val();
              		var mortgageName = $(this).find("#mortgageName").val();
+             		var itemManager = $(this).find("#itemManager").attr('hVal');
              		var referName = $(this).find(".entry:visible").find("#referName").val();
              		var referCode = $(this).find(".entry:visible").find("#referCode").val();
              		// 校验身份证
 	 				var reg1 = /^\d{15}$|^\d{17}([0-9]|X|x)$/;
-             		if(isWillDeleted = 'N' && 'carded' == mortgageCategory && !reg1.test(referCode)) {
+             		if(isWillDeleted == 'N' && 'carded' == mortgageCategory && !reg1.test(referCode)) {
              			 validataCard = true;
+             		}
+             		// 校验保管人必选项
+             		if(itemManager=='') {
+             			validataItemManager = true;
              		}
              		
              		var toRcMortgageInfo = {
@@ -546,6 +571,7 @@
              			mortgageCategory : mortgageCategory,
              			mortgageCode : mortgageCode,
              			mortgageName : mortgageName,
+             			itemManager : itemManager,
              			referName : referName,
              			referCode : referCode,
              			isWillDeleted : isWillDeleted
@@ -555,6 +581,10 @@
              	
              	if(validataCard) {
              		alert("请填写正确的身份证号码！");
+					return false;
+             	}
+            	if(validataItemManager) {
+             		alert("请选择保管人！");
 					return false;
              	}
              	
@@ -617,7 +647,10 @@
              $(".close_btn").click(function(){
  					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
              })
-             
+ 
+            /*  $("#mortgageList").live("click",".managerOnclick",function(){
+            	 chooseItemManager(this);
+             }) */
         });
         /*绑定时获取客户名和客户电话号码并生成下拉框*/
 		function getCustomerNameAndTel(case_code){
@@ -694,6 +727,32 @@
 				result +=key;
 			}
 			return (result.length==1);
+		}
+		//选择组织之后 级联选择主办人信息
+		var o;
+		function chooseItemManager(obj) {
+			o = obj;
+			userSelect({
+				startOrgId : 'ff8080814f459a78014f45a73d820006',
+				expandNodeId : '',
+				nameType : 'long|short',
+				orgType : '',
+				departmentType : '',
+				departmentHeriarchy : '',
+				chkStyle : 'radio',
+				jobCode : 'consultant',
+				callBack : selectUserBack
+			});
+		}
+		//选取人员的回调函数
+		function selectUserBack(array) {
+			if (array && array.length > 0) {
+				$(o).attr('value',array[0].username);
+				$(o).attr('hVal', array[0].userId);
+			} else {
+				$(o).val("");
+				$(o).attr('hVal', "");
+			}
 		}
        </script>
 	</content>

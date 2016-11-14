@@ -37,6 +37,8 @@ public class ToRcMortgageInfo {
 
 	private String itemManager;
 
+	private String itemManagerName;
+
 	public Long getPkid() {
 		return pkid;
 	}
@@ -171,6 +173,14 @@ public class ToRcMortgageInfo {
 
 	public void setItemManager(String itemManager) {
 		this.itemManager = itemManager;
+	}
+
+	public String getItemManagerName() {
+		return itemManagerName;
+	}
+
+	public void setItemManagerName(String itemManagerName) {
+		this.itemManagerName = itemManagerName;
 	}
 
 }
