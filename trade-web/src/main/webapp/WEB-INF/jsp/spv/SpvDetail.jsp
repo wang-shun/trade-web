@@ -425,7 +425,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd ><span id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank }</span>/<span id="branchBank1">${spvBaseInfoVO.toSpvAccountList[1].branchBank==null?"":spvBaseInfoVO.toSpvAccountList[1].branchBank}</span></dd>
+														<dd ><b style="font-weight:normal" id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank }</b>/<b style="font-weight:normal" id="branchBank1">${spvBaseInfoVO.toSpvAccountList[1].branchBank==null?"":spvBaseInfoVO.toSpvAccountList[1].branchBank}</b></dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].account }</dd>
 														<dt>电话</dt>
@@ -442,7 +442,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank }/${spvBaseInfoVO.toSpvAccountList[0].branchBank==null?"":spvBaseInfoVO.toSpvAccountList[0].branchBank}</dd>
+														<dd ><b style="font-weight:normal" id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank }</b>/<b style="font-weight:normal" id="branchBank0">${spvBaseInfoVO.toSpvAccountList[0].branchBank==null?"":spvBaseInfoVO.toSpvAccountList[0].branchBank}</b></dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[0].account }</dd>
 														<dt>电话</dt>
@@ -651,11 +651,12 @@
 						async:false,
 					    data:{finOrgCode:bank.html()},
 					    success:function(data){
-				    		if(data != null){
+				    		if(data.success==true){
 				    			bank.html(data.content)
 				    		}
 				    	},
 					    error:function(){
+					    	alert(2222);
 					    	return ;
 					    }
 					});
