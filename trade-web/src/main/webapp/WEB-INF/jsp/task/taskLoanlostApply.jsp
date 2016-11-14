@@ -92,6 +92,15 @@
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="pkid" name="pkid" value="${mortgage.pkid}">
 					<input type="hidden" id="h_custCode" value="${mortgage.custCode}">
+					
+										
+					<input type="hidden" id="comAmount" name="comAmount" value="${mortgage.comAmount}">
+					<input type="hidden" id="comYear" name="comYear" value="${mortgage.comYear}">
+					<input type="hidden" id="comDiscount" name="comDiscount" value="${mortgage.comDiscount}">
+					<input type="hidden" id="prfAmount" name="prfAmount" value="${mortgage.prfAmount}">
+					<input type="hidden" id="prfYear" name="prfYear" value="${mortgage.prfYear}">
+					<input type="hidden" id="houseNum" name="houseNum" value="${mortgage.houseNum}">
+					
 					<%-- 设置审批类型 --%>
 					<input type="hidden" id="approveType" name="approveType"
 						value="${approveType }"> <input type="hidden" id="lapPkid"
