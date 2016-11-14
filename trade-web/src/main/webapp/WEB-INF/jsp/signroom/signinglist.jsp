@@ -161,6 +161,7 @@
                                         </th>
                                     </tr>
                                     </thead>
+                                    <shiro:hasPermission name="TRADE.SIGNROOM.SIGNOUT">签退</shiro:hasPermission>
                                     <tbody id="signinglist">
                                    
                                     </tbody>
@@ -456,7 +457,7 @@
 				 <td>
                       <p class="smll_sign big latestFollupDateTime">{{item.followDateTime}}</p>
                       <p>
-                         <a href="#"  class="demo-right latestComment" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
+                         <a href="#"  class="demo-right latestComment" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}&nbsp;&nbsp;{{flowupInfo.realName}}</br>{{/each}}">
 							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 8}}
 								{{item.latestComment.substring(0,8)}}....
 					  		{{else}}
@@ -487,7 +488,7 @@
                                 
 								{{if item.resStatus == '1'}}
                                 	<shiro:hasPermission name="TRADE.SIGNROOM.SIGNOUT">
-                                    	<c:if test="${isCurrenDayDuty == true }">
+                                    	<c:if test="${isCurrenDayDuty }">
                                     	  	<li class="liEndUse"><a href="javascript:void(0);" onClick="endUse(this)">结束使用</a></li>
                                     	</c:if>
                                     </shiro:hasPermission>

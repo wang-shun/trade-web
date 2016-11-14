@@ -206,6 +206,7 @@ public class ReservationManageController {
 		saveResFlowupResult
 				.setResult(resFlowupService.saveResFlowup(resFlowup) > 0 ? "true"
 						: "false");
+		saveResFlowupResult.setRealName(currentUser.getRealName());
 
 		return saveResFlowupResult;
 	}
