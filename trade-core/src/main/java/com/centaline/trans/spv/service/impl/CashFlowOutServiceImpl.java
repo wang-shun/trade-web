@@ -597,6 +597,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
       	
         	cashFlowNewList.add(cashFlow);
     	}
+    	resultMap.put("totalCashFlowInDeailAmount", totalCashFlowInAmount);
     	ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
     	if(null != toSpv && null != toSpv.getAmount()){
     		if(null != totalCashFlowInAmount )
@@ -609,14 +610,13 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	resultMap.put("totalProcessCashFlowOutAmout", totalProcessCashFlowOutAmout);
     	resultMap.put("totalCashFlowInAmount", totalCashFlowInAmount);
     	resultMap.put("totalCashFlowOutAmount", totalCashFlowOutAmount);
-    	resultMap.put("allCashFlowOutAmount", allCashFlowOutAmount);
 		return resultMap;
 	}
 	@Override
 	public void getCashFlowList(HttpServletRequest request,String spvCode) {
 	    Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
         request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
-	    request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
+	    request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInDeailAmount"));
 	    request.setAttribute("totalCashFlowOutAmount",  completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
 	}
 

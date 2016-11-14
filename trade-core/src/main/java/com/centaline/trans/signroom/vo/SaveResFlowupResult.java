@@ -12,6 +12,8 @@ public class SaveResFlowupResult {
 
 	private String createDateTime; // 创建时间
 
+	private String realName; // 跟进人姓名
+
 	public String getResult() {
 		return result;
 	}
@@ -26,6 +28,14 @@ public class SaveResFlowupResult {
 
 	public void setCreateDateTime(String createDateTime) {
 		this.createDateTime = createDateTime;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 
 }
