@@ -4,6 +4,7 @@
  */
 package com.centaline.trans.spv.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -216,6 +217,15 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
       }
+        //买卖家身份证有效期
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String bugerDate= dateFormat.format(spvBaseInfoVO.getSpvCustList().get(0).getIdValiDate());
+        String sellerDate=dateFormat.format(spvBaseInfoVO.getSpvCustList().get(1).getIdValiDate());
+        String bugerIdVailDate=bugerDate.equals("3000-01-01")?"长期有效":bugerDate;
+        String sellerIdVailDate=sellerDate.equals("3000-01-01")?"长期有效":sellerDate;	
+        request.setAttribute("bugerIdVailDate", bugerIdVailDate);
+        request.setAttribute("sellerIdVailDate", sellerIdVailDate);
+        //出入账金额
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);

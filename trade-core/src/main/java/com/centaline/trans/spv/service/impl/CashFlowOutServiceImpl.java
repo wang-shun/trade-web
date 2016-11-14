@@ -23,7 +23,6 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
-import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.repository.ToWorkFlowMapper;
@@ -459,13 +458,23 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				for(int i=0;i< spvBaseInfoVO.getToSpvAccountList().size();i++){
 		    		ToSpvAccount account = spvBaseInfoVO.getToSpvAccountList().get(i);
 		    		JSONObject subJsonObj = new JSONObject();
-		    		TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
-		    		if(StringUtils.equals("广发银行股份有限公司北京石景山支行", account.getBank())){
+		    		String branchBank = account.getBranchBank() == null?"":account.getBranchBank();
+		    		boolean result = branchBank.matches("[0-9]+");
+		    		String bankName = "";
+		    		if (result) {
+		    			//纯数字
+		    			TsFinOrg to = tsFinOrgService.findBankByFinOrg(branchBank);
+		    			bankName = to.getFinOrgName();
+		    		}else{
+		    			//手动输入
+		    			bankName = branchBank;
+		    		}
+		    		if(StringUtils.equals("广发银行股份有限公司北京石景山支行", account.getBranchBank())){
 		    			subJsonObj.put("bankName","广发银行股份有限公司北京石景山支行");
-		    		}else if(StringUtils.equals("中行上海南京西路支行", account.getBank())){
+		    		}else if(StringUtils.equals("中行上海南京西路支行", account.getBranchBank())){
 		    			subJsonObj.put("bankName", "中行上海南京西路支行");
 		    		}else{
-		    			subJsonObj.put("bankName", to != null?to.getFinOrgName():"");
+		    			subJsonObj.put("bankName", bankName);
 		    		}
 	    			subJsonObj.put("type",d.getDeCondCode());
 	    			subJsonObj.put("name", account.getName());
@@ -582,8 +591,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}else if("out".equals(apply.getUsage())  && SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
         		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
-        	}else if("out".equals(apply.getUsage()) && !SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode().equals(cashFlow.getStatus())){
-        		allCashFlowOutAmount = allCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}else if("out".equals(apply.getUsage())  && !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
         		totalProcessCashFlowOutAmout = totalProcessCashFlowOutAmout.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}	
@@ -610,7 +617,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	    Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
         request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
 	    request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
-	    request.setAttribute("totalCashFlowOutAmount",  completeCashFlowInfoMap.get("allCashFlowOutAmount"));
+	    request.setAttribute("totalCashFlowOutAmount",  completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
 	}
 
 }

@@ -506,8 +506,7 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
-		if(!myreg.test(buyerMobile)) 
+		if(!isMobile(buyerMobile)) 
 		{ 
 		    alert('请输入有效的买方手机号码！');
 		    changeClass($("input[name='spvCustList[0].phone']"));
@@ -569,9 +568,8 @@ $(document).ready(function(){
 			changeClass($("input[name='spvCustList[1].phone']"));
 			return false;
 		}
-		
-		var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
-		if(!myreg.test(sellerMobile)) 
+		 
+		if(!isMobile(sellerMobile)) 
 		{ 
 		    alert('请输入有效的卖方手机号码！');
 		    changeClass($("input[name='spvCustList[1].phone']"));
