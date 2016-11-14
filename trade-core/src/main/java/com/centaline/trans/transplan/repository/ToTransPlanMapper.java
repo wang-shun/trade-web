@@ -1,10 +1,10 @@
-package com.centaline.trans.task.repository;
+package com.centaline.trans.transplan.repository;
 
 import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
+import com.centaline.trans.transplan.entity.ToTransPlan;
 
 @MyBatisRepository
 public interface ToTransPlanMapper {

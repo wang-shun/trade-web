@@ -1,15 +1,15 @@
-package com.centaline.trans.task.service.impl;
+package com.centaline.trans.transplan.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
-import com.centaline.trans.task.repository.ToTransPlanMapper;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.vo.TransPlanVO;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.repository.ToTransPlanMapper;
+import com.centaline.trans.transplan.service.ToTransPlanService;
 
 @Service
 public class ToTransPlanServiceImpl implements ToTransPlanService {

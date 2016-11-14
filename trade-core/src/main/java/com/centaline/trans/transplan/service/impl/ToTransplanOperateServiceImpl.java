@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.entity.TsTransPlanHistory;
-import com.centaline.trans.task.repository.ToTransPlanMapper;
 import com.centaline.trans.task.repository.TsTransPlanHistoryMapper;
+import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
+import com.centaline.trans.transplan.repository.ToTransPlanMapper;
 import com.centaline.trans.transplan.repository.TtsTransPlanHistoryBatchMapper;
 import com.centaline.trans.transplan.service.ToTransplanOperateService;
 

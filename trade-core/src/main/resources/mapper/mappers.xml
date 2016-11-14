@@ -64,7 +64,7 @@
 		<mapper resource="mapper/task/ToPropertyResearchMapper.xml" />
 		<mapper resource="mapper/task/ToSignMapper.xml" />
 		<mapper resource="mapper/task/ToPaymentMapper.xml" />
-		<mapper resource="mapper/task/ToTransPlanMapper.xml" />
+		<mapper resource="mapper/transplan/ToTransPlanMapper.xml" />
 		<mapper resource="mapper/task/ToPricingMapper.xml" />
 		<mapper resource="mapper/task/ToTaxMapper.xml" />
 		<mapper resource="mapper/task/ToHouseTransferMapper.xml" />

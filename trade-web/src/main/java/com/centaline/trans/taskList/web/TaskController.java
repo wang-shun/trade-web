@@ -69,7 +69,6 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.FirstFollowService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.OfflineEvaService;
@@ -82,8 +81,9 @@ import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.ToPricingService;
 import com.centaline.trans.task.service.ToPurchaseLimitSearchService;
 import com.centaline.trans.task.service.ToTaxService;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.ToTransPlanService;
 
 
 @Controller

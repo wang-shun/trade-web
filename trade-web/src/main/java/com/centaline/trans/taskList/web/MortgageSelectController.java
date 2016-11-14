@@ -21,10 +21,10 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.MortgageSelectService;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.vo.MortgageSelecteVo;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.ToTransPlanService;
 
 @Controller
 @RequestMapping(value = "/task/mortgageSelect")
