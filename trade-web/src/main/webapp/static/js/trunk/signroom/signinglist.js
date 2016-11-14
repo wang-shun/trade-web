@@ -116,10 +116,11 @@ $(function(){
     	
     	var result = data.result;  //保存结果
     	var createDateTime = data.createDateTime;   //保存最新跟进的时间
+    	var realName = data.realName;   //跟进人名称
     	
     	if(result == "true"){
     		//保存跟进信息之后设置页面上的跟进信息
-    		setFollowupInfo(createDateTime);
+    		setFollowupInfo(createDateTime,realName);
     	}
     	
     });
@@ -152,7 +153,7 @@ $(function(){
 });
 
 //保存跟进信息之后设置页面上的跟进信息
-function setFollowupInfo(createDateTime){
+function setFollowupInfo(createDateTime,realName){
 	$("button[type='reset']").click();
 	
 	var resId = $("#flowupForm input[name='resId']").val();
@@ -177,7 +178,7 @@ function setFollowupInfo(createDateTime){
 	
 	$a.html(formatComment);   //设置最近跟进信息
 	
-	var latestFollowupInfoHtml = createDateTime + "&nbsp;&nbsp;" + oldComment + "</br>";
+	var latestFollowupInfoHtml = createDateTime + "&nbsp;&nbsp;" + oldComment + "&nbsp;&nbsp;" + realName +  "</br>";
 	var oldFollowupInfoHtml = $a.attr("title");
 	
 	var newFollowupInfoListHtml = latestFollowupInfoHtml + oldFollowupInfoHtml;    //获取所有跟进信息列表信息
