@@ -457,7 +457,7 @@
 				 <td>
                       <p class="smll_sign big latestFollupDateTime">{{item.followDateTime}}</p>
                       <p>
-                         <a href="#"  class="demo-right latestComment" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}&nbsp;&nbsp;{{flowupInfo.realName}}</br>{{/each}}">
+                         <a href="#"  class="demo-right latestComment" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.realName}}&nbsp;&nbsp;{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
 							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 8}}
 								{{item.latestComment.substring(0,8)}}....
 					  		{{else}}

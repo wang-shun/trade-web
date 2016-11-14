@@ -253,7 +253,7 @@
 			<baseSql>
 				<![CDATA[				
 					SELECT org_name as ORGNAME,AMOUNT,NOT_APPROVE,(AMOUNT-NOT_APPROVE) APPROVE,
-					(CASE WHEN AMOUNT>0 THEN CONCAT((AMOUNT-NOT_APPROVE)*100/AMOUNT,'%') ELSE '0%' END) RATE FROM 
+					(CASE WHEN AMOUNT>0 THEN CONCAT(NOT_APPROVE*100/AMOUNT,'%') ELSE '0%' END) RATE FROM 
 						( 
 						SELECT org.org_name,COUNT(ar.PKID) AMOUNT,COUNT((CASE WHEN CONTENT LIKE '不通过,%' THEN 1 ELSE null end)) NOT_APPROVE 
 						FROM sctrans.T_TO_APPROVE_RECORD ar LEFT JOIN sctrans.T_TO_CASE c ON ar.CASE_CODE = c.CASE_CODE LEFT JOIN sctrans.SYS_ORG org ON c.ORG_ID =  org.id 
@@ -283,7 +283,7 @@
 				<column type="both" name="AMOUNT" title="总计" customDict="" hidden="false" />
 				<column type="both" name="NOT_APPROVE" title="不通过" customDict="" hidden="false" />
 				<column type="both" name="APPROVE" title="通过" customDict="" hidden="false" />
-				<column type="both" name="RATE" title="通过率" customDict="" hidden="false" />
+				<column type="both" name="RATE" title="驳回率" customDict="" hidden="false" />
 				</table-row>
 		</grid>
 	</query>
@@ -294,7 +294,7 @@
 			<baseSql>
 				<![CDATA[				
 					SELECT org_name as ORGNAME,AMOUNT,NOT_APPROVE,(AMOUNT-NOT_APPROVE) APPROVE,
-					(CASE WHEN AMOUNT>0 THEN CONCAT((AMOUNT-NOT_APPROVE)*100/AMOUNT,'%') ELSE '0%' END) RATE FROM 
+					(CASE WHEN AMOUNT>0 THEN CONCAT(NOT_APPROVE*100/AMOUNT,'%') ELSE '0%' END) RATE FROM 
 						( 
 						SELECT org.org_name,COUNT(ar.PKID) AMOUNT,COUNT((CASE WHEN CONTENT LIKE '不通过,%' THEN 1 ELSE null end)) NOT_APPROVE 
 						FROM sctrans.T_TO_APPROVE_RECORD ar LEFT JOIN sctrans.T_TO_CASE c ON ar.CASE_CODE = c.CASE_CODE LEFT JOIN sctrans.SYS_ORG org ON c.DISTRICT_ID =  org.id
@@ -325,7 +325,7 @@
 				<column type="both" name="AMOUNT" title="总计" customDict="" hidden="false" />
 				<column type="both" name="NOT_APPROVE" title="不通过" customDict="" hidden="false" />
 				<column type="both" name="APPROVE" title="通过" customDict="" hidden="false" />
-				<column type="both" name="RATE" title="通过率" customDict="" hidden="false" />
+				<column type="both" name="RATE" title="驳回率" customDict="" hidden="false" />
 				</table-row>
 		</grid>
 	</query>
