@@ -1298,13 +1298,13 @@ $(document).ready(function(){
 		 //7.港澳通行证
 		 var reg7 = /^W\d{8}$/;
 		 //8.其他
-		 //reg8 = /^$/;
-		 var testExp = !reg1.test(cardId) && !reg2.test(cardId) && !reg3.test(cardId) && !reg4.test(cardId) 
-		               && !reg5.test(cardId) && !reg6.test(cardId) && !reg7.test(cardId);
+		 var reg8 = /^[a-zA-Z0-9]+$/;
+		 var testExp = reg1.test(cardId) || reg2.test(cardId) || reg3.test(cardId) || reg4.test(cardId) 
+		               || reg5.test(cardId) || reg6.test(cardId) || reg7.test(cardId) || reg8.test(cardId);
 	     if (testExp) {
-	         return false; 
+	         return true; 
 	     }
-	     return true;
+	     return false;
 	}
 	
 	//姓名验证(汉字和英文大小写)
