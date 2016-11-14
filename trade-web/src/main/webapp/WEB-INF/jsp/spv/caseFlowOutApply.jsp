@@ -506,7 +506,7 @@
                         </div>
                         <div class="excuse">
                             <form action="">
-                                <textarea name="toSpvAduitList[0].content" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                                <i style="color:red;">*</i> <textarea name="toSpvAduitList[0].content" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                             </form>
                         </div>  
                         </c:if>
