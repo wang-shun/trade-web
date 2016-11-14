@@ -8,12 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.aist.common.quickQuery.service.CustomDictService;
-import com.centaline.trans.cases.service.ToTradeChangedCaseService;
-import com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO;
-import com.centaline.trans.signroom.vo.ResFlowupVo;
+import com.centaline.trans.transplan.service.ToTradeChangedCaseService;
+import com.centaline.trans.transplan.vo.CaseReturnVisitRegistrationVO;
 
 /**
  * @author zhoujp

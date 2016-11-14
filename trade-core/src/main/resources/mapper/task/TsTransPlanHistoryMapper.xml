@@ -39,6 +39,9 @@
       <if test="pkid != null" >
         PKID,
       </if>
+      <if test="batchId != null" >
+        BATCH_ID,
+      </if>
       <if test="caseCode != null" >
         CASE_CODE,
       </if>
@@ -65,6 +68,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
         #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="batchId != null" >
+        #{batchId,jdbcType=BIGINT},
       </if>
       <if test="caseCode != null" >
         #{caseCode,jdbcType=VARCHAR},

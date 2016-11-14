@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper
-	namespace="com.centaline.trans.cases.repository.ReturnVisitRegistrationMapper">
+	namespace="com.centaline.trans.transplan.repository.ReturnVisitRegistrationMapper">
 	<resultMap id="BaseResultMap"
-		type="com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO">
+		type="com.centaline.trans.transplan.vo.CaseReturnVisitRegistrationVO">
 		<result column="PLAN_HISTORY_ID" property="planHistoryId"
 			jdbcType="BIGINT" />
 		<result column="VISIT_REMARK" property="visitRemark" jdbcType="CHAR" />
@@ -26,7 +26,7 @@
 		order by CREATE_TIME desc
 	</select>
 	<insert id="insertReturnVisitRegistration"
-		parameterType="com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO">
+		parameterType="com.centaline.trans.transplan.vo.CaseReturnVisitRegistrationVO">
 		insert into sctrans.T_TS_RETURN_VISIT_REGISTRATION (
 		PLAN_HISTORY_ID ,
 		VISIT_REMARK ,

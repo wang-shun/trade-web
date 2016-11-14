@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.transplan.repository.TtsReturnVisitRegistrationMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.transplan.entity.TtsReturnVisitRegistration" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="VISIT_REMARK" property="visitRemark" jdbcType="CHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="BATCH_ID" property="batchId" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="com.centaline.trans.transplan.entity.TtsReturnVisitRegistration" >
+    insert into sctrans.T_TS_RETURN_VISIT_REGISTRATION (PKID, VISIT_REMARK, CONTENT, 
+      CREATE_TIME, CREATE_BY, BATCH_ID
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{visitRemark,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{batchId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.transplan.entity.TtsReturnVisitRegistration" >
+    insert into sctrans.T_TS_RETURN_VISIT_REGISTRATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="visitRemark != null" >
+        VISIT_REMARK,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="batchId != null" >
+        BATCH_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="visitRemark != null" >
+        #{visitRemark,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null" >
+        #{batchId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

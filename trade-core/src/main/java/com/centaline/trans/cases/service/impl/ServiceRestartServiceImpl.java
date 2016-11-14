@@ -40,6 +40,8 @@ import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
+import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
 @Transactional(readOnly = true)
@@ -70,6 +72,8 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private TaskService taskService;
 	@Autowired
 	private BizWarnInfoMapper bizWarnInfoMapper;
+	@Autowired
+	private ToTransplanOperateService toTransplanOperateService;//add by zhoujp
 
 	@Override
 	@Transactional(readOnly = false)
@@ -210,6 +214,10 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toApproveService.insertToApproveRecord(record);
 		if (vo.getIsApproved()) {
 			doApproved(vo);
+		}
+		//如果流程重启申请审批通过的话将交易计划表的数据转移到交易计划历史表并删除交易计划表add by zhoujp
+		if (vo.getIsApproved()) {
+			toTransplanOperateService.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESTART);
 		}
 
 		// 如果流程重启申请审批通过的话，就删除对应的预警信息

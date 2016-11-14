@@ -217,7 +217,8 @@
 		<mapper resource="mapper/material/MmMaterialItemMapper.xml" />
 		
 		<!-- 回访登记 -->
-		<mapper resource="mapper/cases/ReturnVisitRegistrationMapper.xml" />
+		<mapper resource="mapper/transplan/ReturnVisitRegistrationMapper.xml" />
+		<mapper resource="mapper/transplan/TtsTransPlanHistoryBatchMapper.xml" />
 		<!-- 签约室排班 -->
 		<mapper resource="mapper/signroom/TradeCenterScheduleMapper.xml" />
 	</mappers>

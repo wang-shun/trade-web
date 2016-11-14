@@ -1,0 +1,63 @@
+package com.centaline.trans.transplan.service.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.task.entity.ToTransPlan;
+import com.centaline.trans.task.entity.TsTransPlanHistory;
+import com.centaline.trans.task.repository.ToTransPlanMapper;
+import com.centaline.trans.task.repository.TsTransPlanHistoryMapper;
+import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
+import com.centaline.trans.transplan.repository.TtsTransPlanHistoryBatchMapper;
+import com.centaline.trans.transplan.service.ToTransplanOperateService;
+
+@Service
+public class ToTransplanOperateServiceImpl implements ToTransplanOperateService {
+
+	@Autowired
+	private ToTransPlanMapper toTransPlanMapper;
+	@Autowired
+	private TsTransPlanHistoryMapper tsTransPlanHistoryMapper;
+	@Autowired
+	private TtsTransPlanHistoryBatchMapper ttsTransPlanHistoryBatchMapper;
+	@Autowired
+	private UamSessionService uamSessionService;
+	
+	@Override
+	public void processRestartOrResetOperate(String caseCode,String changeReason) {
+		List<ToTransPlan> ttps = toTransPlanMapper.findTransPlanByCaseCode(caseCode);
+		TsTransPlanHistory tsTransPlanHistory = null;
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		TtsTransPlanHistoryBatch ttpb = new TtsTransPlanHistoryBatch();
+		ttpb.setCaseCode(caseCode);
+		ttpb.setOperateFlag("1");//流程
+		ttsTransPlanHistoryBatchMapper.insertSelective(ttpb);
+		if(ttps!=null && ttps.size()>0){
+			//将交易计划表的数据转移到交易计划历史表
+			for(ToTransPlan ttp:ttps){
+				tsTransPlanHistory=new TsTransPlanHistory();
+				tsTransPlanHistory.setCaseCode(caseCode);
+				tsTransPlanHistory.setBatchId(ttpb.getPkid());
+				tsTransPlanHistory.setChangeReason(changeReason);
+				tsTransPlanHistory.setOldEstPartTime(ttp.getEstPartTime());
+				tsTransPlanHistory.setPartCode(ttp.getPartCode());
+				tsTransPlanHistory.setChangerId(sessionUser.getId());
+				tsTransPlanHistory.setChangeTime(new Date());
+				tsTransPlanHistoryMapper.insertSelective(tsTransPlanHistory);
+			}
+		}
+		//删除交易计划表该案件相关信息
+		toTransPlanMapper.deleteTransPlansByCaseCode(caseCode);
+	}
+
+	@Override
+	public long insertTtsTransPlanHistoryBatch(TtsTransPlanHistoryBatch ttsTransPlanHistoryBatch) {
+		return ttsTransPlanHistoryBatchMapper.insertSelective(ttsTransPlanHistoryBatch);
+	}
+
+}

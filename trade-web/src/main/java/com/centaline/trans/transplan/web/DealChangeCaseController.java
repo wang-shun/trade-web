@@ -1,4 +1,4 @@
-package com.centaline.trans.report.web;
+package com.centaline.trans.transplan.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
-import com.centaline.trans.cases.service.ToTradeChangedCaseService;
-import com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO;
+import com.centaline.trans.transplan.service.ToTradeChangedCaseService;
+import com.centaline.trans.transplan.vo.CaseReturnVisitRegistrationVO;
 
 /**
  * 交易计划变更控制器
@@ -21,7 +21,7 @@ import com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO;
  *
  */
 @Controller
-@RequestMapping(value="/report")
+@RequestMapping(value="/transplan")
 public class DealChangeCaseController {
 	
 	@Resource
@@ -47,7 +47,7 @@ public class DealChangeCaseController {
 		
 		model.addAttribute("curMonthStart", sdf.format(c.getTime()));
 		model.addAttribute("curMonthEnd", sdf.format(ca.getTime()));
-		return "report/dealChangeList";
+		return "transplan/dealChangeList";
 	}
 	
 	/**
