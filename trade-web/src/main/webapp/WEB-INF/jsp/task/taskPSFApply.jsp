@@ -93,6 +93,10 @@
 					<input type="hidden" id="pkid" name="pkid" value="${apply.pkid}">
 					<input type="hidden" id="prfAmount" name="prfAmount" value="${apply.prfAmount }"/>
 					<input type="hidden" id="prfYear" name="prfYear" value="${apply.prfYear }"/>
+					<input type="hidden" id="custName" name="custName" value="${apply.custName }"/>
+					<input type="hidden" id="remark" name="remark" value="${apply.remark }"/>
+					<input type="hidden" id="signDate" name="signDate" value="${apply.signDate }"/>
+					<input type="hidden" id="finOrgCode" name="finOrgCode" value="${apply.finOrgCode }"/>
 					
 					<div class="form-group" id="data_1">
 						<label class="col-sm-2 control-label">公积金贷款申请时间<font color="red">*</font></label>
@@ -105,7 +109,7 @@
 
 					<div class="form-group" id="data_1">
 						<label class="col-sm-2 control-label">预计签约时间<font color="red">*</font></label>
-						<div class="input-group date" style="margin-left: 197px;">
+						<div class="input-group date readOnly_date" style="margin-left: 197px;">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								<input type="text" class="form-control" id="estPartTime" name="estPartTime" onfocus="this.blur()" style="width:127px;"
 									value="<fmt:formatDate  value='${toTransPlan.estPartTime}' type='both' pattern='yyyy-MM-dd'/>">
