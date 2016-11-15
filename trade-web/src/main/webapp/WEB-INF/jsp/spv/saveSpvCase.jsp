@@ -1526,8 +1526,7 @@
 				    data:{faFinOrgCode:$(element).val()},
 		    	success:function(data){
 			    	for(var i = 0;i<data.length;i++){
-			    		var coLevelStr='('+data[i].coLevelStr+')';
-			    		var $li = $("<li coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</li>");
+			    		var $li = $("<li coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+"</li>");
 			    		$li.mouseover(function(){
 			    			$(this).addClass("selected");
 			    		}).mouseleave(function(){
