@@ -106,12 +106,12 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	}else{
     		vars.put("Manager", manager==null?null:manager.getUsername());
     	}	
-    	ToEloanCase eloanCase=toEloanCaseMapper.selectByPrimaryKey((long) tEloanCase.getPkid());
+/*    	ToEloanCase eloanCase=toEloanCaseMapper.selectByPrimaryKey((long) pkid);*/
     	String demo=propertyUtilsService.getProcessEloanDfKey();
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessEloanDfKey(),tEloanCase.getEloanCode(),vars);
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setCaseCode(eloanCase.getCaseCode());
-		workFlow.setBizCode(eloanCase.getEloanCode());
+		workFlow.setCaseCode(tEloanCase.getCaseCode());
+		workFlow.setBizCode(tEloanCase.getEloanCode());
 		workFlow.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());

@@ -135,7 +135,8 @@ public class MortgageController {
 
 		// 修改人：zhangxb16 时间：2015-11-12
 		// toTransPlan.setPartCode(taskitem);
-		toTransPlan.setPartCode("PSFSign");
+		toTransPlan.setPartCode("PSFApply");
+		//toTransPlan.setPartCode("PSFSign");
 		if (estPartTime == null) {
 			if (taskitem.equals("LoanRelease")) {
 				estPartTime = estPartTime == null ? toMortgage.getLendDate()
