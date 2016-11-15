@@ -5,13 +5,11 @@ $(document).ready(function(){
 	
 	//流程开启后只读表单
 	if(handle == 'directorAduit' || handle == 'financeAduit' 
-		|| handle == 'financeSecondAduit' || handle == 'cashFlowOut'){
+		|| handle == 'financeSecondAduit'){
 	    readOnlyRiskForm();
 	}
 	
-	$("#none_save_btn").click(function(){saveBtnClick()});
 	$("#none_submit_btn").click(function(){submitBtnClick(handle,null)});
-	$("#apply_save_btn").click(function(){saveBtnClick()});
 	$("#apply_submit_btn").click(function(){submitBtnClick(handle,null)});
 	$("#directorAduit_pass_btn").click(function(){submitBtnClick(handle,true)});
 	$("#directorAduit_reject_btn").click(function(){submitBtnClick(handle,false)});
@@ -356,7 +354,6 @@ function readOnlyRiskForm(){
 	$("input").prop("readOnly",true);
 	$(":radio").prop("disabled",true);
 	$("select").prop("disabled",true);
-	$("a").prop("disabled",true);
 }
 
 /**************************************验证************************************************/
