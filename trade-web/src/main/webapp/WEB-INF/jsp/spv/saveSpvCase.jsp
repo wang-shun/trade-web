@@ -739,7 +739,11 @@
 						<div class="form-group form-margin form-space-one">
 							<label class="lable-one"  style="text-align: right;"><i style="color:red;">*</i> 审批意见</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
-								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">${toApproveRecord.content }</textarea>
+								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">
+								<c:if test="${empty handle or handle eq 'SpvApply' }">
+								${toApproveRecord.content }
+								</c:if>
+								</textarea>
 							</div>
 						</div>
 					</div>
@@ -1476,8 +1480,7 @@
         	language : 'zh-CN'
         }).on('changeDate',function(ev){
         	if($("input[name='spvCustList[0].idValiDate']").val() != '长期有效'){
-				$("#longTerm0").attr({"checkFlag":"false","class":"btn btn-grey"});
-				
+				$("#longTerm0").attr({"checkFlag":"false","class":"btn btn-grey"});	
 			}
         });
         
