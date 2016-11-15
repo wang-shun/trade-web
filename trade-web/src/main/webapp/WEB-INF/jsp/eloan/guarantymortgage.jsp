@@ -662,7 +662,7 @@
 				departmentType : '',
 				departmentHeriarchy : '',
 				chkStyle : 'radio',
-				jobCode : 'consultant',
+				//jobCode : 'consultant',
 				callBack : selectUserBack
 			});
 		}
