@@ -80,7 +80,7 @@
 	LEFT JOIN sctrans.T_TO_PROPERTY_INFO O ON O.CASE_CODE = S.CASE_CODE
 	LEFT JOIN sctrans.SYS_USER Y ON Y.ID = S.CREATE_BY
 	AND Y.IS_DELETED = '0'
-	INNER JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID
+	LEFT JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID
 	WHERE C.CASE_PROPERTY NOT IN ('30003001','30003005')
         <ifNotNull visitRemark>
             <if test=' visitRemark == "0" or visitRemark == "1"'>
