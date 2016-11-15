@@ -21,16 +21,16 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.common.repository.ToWorkFlowMapper;
 import com.centaline.trans.common.service.MessageService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -188,11 +188,12 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		//workFlow.setBusinessKey(cashflowApplyCode);
 		workFlow.setBusinessKey("SPVCashflowOutProcess");
 		workFlow.setCaseCode(toSpv.getCaseCode());
+		workFlow.setBizCode(cashflowApplyCode);
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(propertyUtilsService.getSPVCashflowOutProcessDfKey());
 		workFlow.setProcessOwner(user.getId());
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-		toWorkFlowService.insertSpvCashflowInProcessSelective(workFlow);
+		toWorkFlowService.insertSelective(workFlow);
 		
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);

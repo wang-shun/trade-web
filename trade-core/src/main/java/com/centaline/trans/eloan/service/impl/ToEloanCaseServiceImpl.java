@@ -17,21 +17,21 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.repository.KeyValueMapper;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.KeyValueService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.repository.ToEloanCaseMapper;
 import com.centaline.trans.eloan.repository.ToEloanRelMapper;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.engine.annotation.TaskOperate;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -111,6 +111,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessEloanDfKey(),tEloanCase.getEloanCode(),vars);
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(tEloanCase.getCaseCode());
+		workFlow.setBizCode(tEloanCase.getEloanCode());
 		workFlow.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());
@@ -177,7 +178,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setStatus("0");
-		workFlow.setCaseCode(tEloanCase.getCaseCode());
+		workFlow.setCaseCode(tEloanCase.getEloanCode());
 		workFlow.setInstCode(tEloanCase.getProcessInstanceId());
 		toWorkFlowService.updateWorkFlowByInstCode(workFlow);
 		

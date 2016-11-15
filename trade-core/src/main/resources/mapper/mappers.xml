@@ -37,11 +37,12 @@
 		<mapper resource="mapper/common/ToAttachmentMapper.xml" />
 		<mapper resource="mapper/common/ToAccesoryListMapper.xml" />
 		<mapper resource="mapper/common/ToReminderListMapper.xml" />
-		<mapper resource="mapper/common/ToWorkFlowMapper.xml" />
 		<mapper resource="mapper/common/OrgMapper.xml" />
 		<mapper resource="mapper/common/TsTaskPlanSetMapper.xml" />
 		<mapper resource="mapper/common/LampRuleMapper.xml" />
 		<mapper resource="mapper/common/ToModuleSubscribe.xml" />
+		<!-- 流程 -->
+		<mapper resource="mapper/engine/ToWorkFlowMapper.xml" />
 		<!-- 管理 -->
 		<mapper resource="mapper/mgr/TsFinOrgMapper.xml" />
 		<mapper resource="mapper/mgr/ToSupDocuMapper.xml" />
