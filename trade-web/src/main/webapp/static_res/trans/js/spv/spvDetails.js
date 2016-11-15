@@ -1182,7 +1182,8 @@ $(document).ready(function(){
 		    		if(data != null){
 		    			var flag = false;
 		    			for(var i = 0;i<data.length;i++){
-							var coLevelStr='('+data[i].coLevelStr+')';
+							//var coLevelStr='('+data[i].coLevelStr+')';
+		    				var coLevelStr='';
 							var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
 							if(data[i].finOrgCode==finOrgCode){
 								flag = true;
