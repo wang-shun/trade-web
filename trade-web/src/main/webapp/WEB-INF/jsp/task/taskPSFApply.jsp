@@ -91,6 +91,9 @@
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="pkid" name="pkid" value="${apply.pkid}">
+					<input type="hidden" id="prfAmount" name="prfAmount" value="${apply.prfAmount }"/>
+					<input type="hidden" id="prfYear" name="prfYear" value="${apply.prfYear }"/>
+					
 					<div class="form-group" id="data_1">
 						<label class="col-sm-2 control-label">公积金贷款申请时间<font color="red">*</font></label>
 						<div class="input-group date readOnly_date" style="margin-left: 197px;">
