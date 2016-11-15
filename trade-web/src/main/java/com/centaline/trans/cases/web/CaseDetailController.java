@@ -1921,7 +1921,7 @@ public class CaseDetailController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		SessionUser user = uamSessionService.getSessionUser();
 		TtsTransPlanHistoryBatch ttpb = new TtsTransPlanHistoryBatch();
-		Long batchId = null;
+		boolean isDeal = true;//是否处理
 		for (int i = 0; i < isChanges.length; i++) {
 			if (isChanges[i].equals("true")) {
 				ToTransPlan oldPlan = toTransPlanService.selectByPrimaryKey(Long.parseLong(estIds[i]));
@@ -1931,16 +1931,17 @@ public class CaseDetailController {
 				ToTransPlan record = new ToTransPlan();
 				try {
 					//add by zhoujp添加一条交易计划变更历史批次信息
-					if(i==0){
+					if(isDeal){
 						ttpb.setCaseCode(oldPlan.getCaseCode());
 						ttpb.setOldEstPartTime(oldPlan.getEstPartTime());
-						ttpb.setNewEstPartTime(format.parse(estDates[0]));
+						ttpb.setNewEstPartTime(format.parse(estDates[i]));
+						ttpb.setChangeReason(whyChanges[i]);
 						ttpb.setPartCode(oldPlan.getPartCode());
 						ttpb.setOperateFlag("0");//手工
-						batchId = toTransplanOperateService.insertTtsTransPlanHistoryBatch(ttpb);
-						
+						toTransplanOperateService.insertTtsTransPlanHistoryBatch(ttpb);
+						isDeal = false;
 					}
-					hisRecord.setBatchId(batchId);
+					hisRecord.setBatchId(ttpb.getPkid());
 					// 插入历史记录
 					hisRecord.setCaseCode(oldPlan.getCaseCode());
 					hisRecord.setPartCode(oldPlan.getPartCode());

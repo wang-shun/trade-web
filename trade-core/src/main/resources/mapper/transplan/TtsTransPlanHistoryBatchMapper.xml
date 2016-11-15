@@ -7,6 +7,7 @@
     <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
     <result column="OLD_EST_PART_TIME" property="oldEstPartTime" jdbcType="TIMESTAMP" />
     <result column="NEW_EST_PART_TIME" property="newEstPartTime" jdbcType="TIMESTAMP" />
+    <result column="CHANGE_REASON" property="changeReason" jdbcType="NVARCHAR" />
     <result column="LAST_VISIT_REMARK" property="lastVisitRemark" jdbcType="CHAR" />
     <result column="LAST_CONTENT" property="lastContent" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
@@ -39,6 +40,9 @@
       <if test="newEstPartTime != null" >
         NEW_EST_PART_TIME,
       </if>
+      <if test="changeReason != null" >
+        CHANGE_REASON,
+      </if>
       <if test="lastVisitRemark != null" >
         LAST_VISIT_REMARK,
       </if>
@@ -70,6 +74,9 @@
       <if test="newEstPartTime != null" >
         #{newEstPartTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="changeReason != null" >
+        #{changeReason,jdbcType=NVARCHAR},
+      </if>
       <if test="lastVisitRemark != null" >
         #{lastVisitRemark,jdbcType=CHAR},
       </if>
@@ -88,4 +95,37 @@
       </if>
     </trim>
   </insert>
+  
+  <update id="updateTtsTransPlanHistoryBatchMapper" parameterType="com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch" >
+    update sctrans.T_TS_TRANS_PLAN_HISTORY_BATCH
+    <set >
+     <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="oldEstPartTime != null" >
+        OLD_EST_PART_TIME = #{oldEstPartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newEstPartTime != null" >
+        NEW_EST_PART_TIME = #{newEstPartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastVisitRemark != null" >
+        LAST_VISIT_REMARK = #{lastVisitRemark,jdbcType=CHAR},
+      </if>
+      <if test="lastContent != null" >
+        LAST_CONTENT = #{lastContent,jdbcType=VARCHAR},
+      </if>
+      <if test="operateFlag != null" >
+        OPERATE_FLAG = #{operateFlag,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = GETDATE(),
+      UPDATE_BY = @{SESSION_USER_ID}
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  
+  
 </mapper>

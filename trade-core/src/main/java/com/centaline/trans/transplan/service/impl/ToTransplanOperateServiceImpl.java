@@ -2,6 +2,9 @@ package com.centaline.trans.transplan.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +14,13 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.task.entity.TsTransPlanHistory;
 import com.centaline.trans.task.repository.TsTransPlanHistoryMapper;
 import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
+import com.centaline.trans.transplan.repository.ReturnVisitRegistrationMapper;
 import com.centaline.trans.transplan.repository.ToTransPlanMapper;
 import com.centaline.trans.transplan.repository.TtsTransPlanHistoryBatchMapper;
 import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
 
 @Service
 public class ToTransplanOperateServiceImpl implements ToTransplanOperateService {
@@ -25,6 +31,8 @@ public class ToTransplanOperateServiceImpl implements ToTransplanOperateService 
 	private TsTransPlanHistoryMapper tsTransPlanHistoryMapper;
 	@Autowired
 	private TtsTransPlanHistoryBatchMapper ttsTransPlanHistoryBatchMapper;
+	@Resource 
+	private ReturnVisitRegistrationMapper returnVisitRegistrationMapper;
 	@Autowired
 	private UamSessionService uamSessionService;
 	
@@ -35,7 +43,11 @@ public class ToTransplanOperateServiceImpl implements ToTransplanOperateService 
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 		TtsTransPlanHistoryBatch ttpb = new TtsTransPlanHistoryBatch();
 		ttpb.setCaseCode(caseCode);
+		if(ttps!=null && ttps.size()>0){
+			ttpb.setPartCode(ttps.get(0).getPartCode());
+		}
 		ttpb.setOperateFlag("1");//流程
+		ttpb.setChangeReason(changeReason);
 		ttsTransPlanHistoryBatchMapper.insertSelective(ttpb);
 		if(ttps!=null && ttps.size()>0){
 			//将交易计划表的数据转移到交易计划历史表
@@ -59,5 +71,27 @@ public class ToTransplanOperateServiceImpl implements ToTransplanOperateService 
 	public long insertTtsTransPlanHistoryBatch(TtsTransPlanHistoryBatch ttsTransPlanHistoryBatch) {
 		return ttsTransPlanHistoryBatchMapper.insertSelective(ttsTransPlanHistoryBatch);
 	}
+	
+	@Override
+	public List<TtsReturnVisitRegistration> queryReturnVisitRegistrations(long batchId) {
+		return returnVisitRegistrationMapper.queryReturnVisitRegistrations(batchId);
+	}
+
+	@Override
+	public int addReturnVisit(TtsReturnVisitRegistration ttsReturnVisitRegistration) {
+		//更新历史批次表最新回访跟进信息
+		TtsTransPlanHistoryBatch record = new TtsTransPlanHistoryBatch();
+		record.setPkid(ttsReturnVisitRegistration.getBatchId());
+		record.setLastVisitRemark(ttsReturnVisitRegistration.getVisitRemark());
+		record.setLastContent(ttsReturnVisitRegistration.getContent());
+		ttsTransPlanHistoryBatchMapper.updateTtsTransPlanHistoryBatchMapper(record);
+		return returnVisitRegistrationMapper.insertReturnVisitRegistration(ttsReturnVisitRegistration);
+	}
+
+	@Override
+	public List<TsTransPlanHistoryVO> queryTtsTransPlanHistorys(TsTransPlanHistoryVO tsTransPlanHistoryVO) {
+		return tsTransPlanHistoryMapper.queryTtsTransPlanHistorys(tsTransPlanHistoryVO);
+	}
+
 
 }

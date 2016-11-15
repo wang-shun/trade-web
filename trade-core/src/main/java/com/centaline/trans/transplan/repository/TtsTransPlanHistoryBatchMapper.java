@@ -7,4 +7,6 @@ public interface TtsTransPlanHistoryBatchMapper {
     int insert(TtsTransPlanHistoryBatch record);
 
     int insertSelective(TtsTransPlanHistoryBatch record);
+    
+    int updateTtsTransPlanHistoryBatchMapper(TtsTransPlanHistoryBatch record);
 }

@@ -14,6 +14,7 @@ public class TtsTransPlanHistoryBatch {
 	private String partCode;//环节编码
 	private Date oldEstPartTime;//原预计时间
 	private Date newEstPartTime;//新预计时间
+	private String changeReason;//变更原因
 	private String lastVisitRemark;//最新回访跟进标记
 	private String	lastContent;//最新跟进内容
 	private Date createTime;//创建时间
@@ -93,6 +94,12 @@ public class TtsTransPlanHistoryBatch {
 	}
 	public void setOperateFlag(String operateFlag) {
 		this.operateFlag = operateFlag;
+	}
+	public String getChangeReason() {
+		return changeReason;
+	}
+	public void setChangeReason(String changeReason) {
+		this.changeReason = changeReason;
 	}
 	
 	

@@ -2,6 +2,7 @@ package com.centaline.trans.transplan.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
-import com.centaline.trans.transplan.service.ToTradeChangedCaseService;
-import com.centaline.trans.transplan.vo.CaseReturnVisitRegistrationVO;
+import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
+import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
 
 /**
  * 交易计划变更控制器
@@ -25,7 +27,7 @@ import com.centaline.trans.transplan.vo.CaseReturnVisitRegistrationVO;
 public class DealChangeCaseController {
 	
 	@Resource
-	ToTradeChangedCaseService toTradeChangedCaseService;
+	ToTransplanOperateService toTransplanOperateService;
 	
 	/**
 	 * 交易计划变更案件列表
@@ -52,21 +54,45 @@ public class DealChangeCaseController {
 	
 	/**
 	 * 新增案件回访
-	 * @param caseReturnVisitRegistrationVO
+	 * @param ttsReturnVisitRegistration
 	 * @return
 	 */
 	@RequestMapping(value="addReturnVisit")
 	@ResponseBody
-	public AjaxResponse<T> addReturnVisit(CaseReturnVisitRegistrationVO caseReturnVisitRegistrationVO){
+	public AjaxResponse<T> addReturnVisit(TtsReturnVisitRegistration ttsReturnVisitRegistration){
 		AjaxResponse<T> response = new AjaxResponse<T>();
 		try{
-			toTradeChangedCaseService.addReturnVisit(caseReturnVisitRegistrationVO);
+			toTransplanOperateService.addReturnVisit(ttsReturnVisitRegistration);
 			response.setCode("400");
 			response.setMessage("案件回访处理成功！");
 			response.setSuccess(true);
 		}catch(Exception e){
 			response.setCode("500");
 			response.setMessage("案件回访处理失败！");
+			response.setSuccess(false);
+		}
+		return response;
+	}
+	
+	/**
+	 * 查询交易变更历史信息
+	 * @param ttsReturnVisitRegistration
+	 * @return
+	 */
+	@RequestMapping(value="queryTtsTransPlanHistorys")
+	@ResponseBody
+	public AjaxResponse<List<TsTransPlanHistoryVO>> queryTtsTransPlanHistorys(TsTransPlanHistoryVO tsTransPlanHistoryVO){
+		AjaxResponse<List<TsTransPlanHistoryVO>> response = new AjaxResponse<List<TsTransPlanHistoryVO>>();
+		List<TsTransPlanHistoryVO>  ttp = null;
+		try{
+			ttp =  toTransplanOperateService.queryTtsTransPlanHistorys(tsTransPlanHistoryVO);
+			response.setCode("400");
+			response.setMessage("查询交易变更历史成功！");
+			response.setSuccess(true);
+			response.setContent(ttp);
+		}catch(Exception e){
+			response.setCode("500");
+			response.setMessage("查询交易变更历史失败！");
 			response.setSuccess(false);
 		}
 		return response;

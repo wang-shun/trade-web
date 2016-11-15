@@ -10,6 +10,18 @@
     <result column="CHANGER_ID" property="changerId" jdbcType="VARCHAR" />
     <result column="CHANGE_REASON" property="changeReason" jdbcType="NVARCHAR" />
     <result column="NEW_EST_PART_TIME" property="newEstPartTime" jdbcType="TIMESTAMP" />
+    <result column="BATCH_ID" property="batchId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="queryTtsTransPlanHistorysMap" type="com.centaline.trans.transplan.vo.TsTransPlanHistoryVO" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="oldEstPartTime" property="oldEstPartTime" jdbcType="VARCHAR" />
+    <result column="CHANGE_TIME" property="changeTime" jdbcType="TIMESTAMP" />
+    <result column="CHANGER_ID" property="changerId" jdbcType="VARCHAR" />
+    <result column="CHANGE_REASON" property="changeReason" jdbcType="NVARCHAR" />
+    <result column="newEstPartTime" property="newEstPartTime" jdbcType="VARCHAR" />
+    <result column="BATCH_ID" property="batchId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, PART_CODE, OLD_EST_PART_TIME, CHANGE_TIME, CHANGER_ID, CHANGE_REASON, 
@@ -20,7 +32,19 @@
     <include refid="Base_Column_List" />
     from sctrans.T_TS_TRANS_PLAN_HISTORY
     where PKID = #{pkid,jdbcType=BIGINT}
+    order by NEW_EST_PART_TIME asc
   </select>
+  
+  <select id="queryTtsTransPlanHistorys" resultMap="queryTtsTransPlanHistorysMap" parameterType="com.centaline.trans.transplan.vo.TsTransPlanHistoryVO" >
+    select 
+    PKID, CASE_CODE,S.NAME AS PART_CODE, CONVERT(varchar(10),OLD_EST_PART_TIME,120)　AS oldEstPartTime　, CHANGE_TIME, CHANGER_ID, CHANGE_REASON,BATCH_ID,
+    CONVERT(varchar(10),NEW_EST_PART_TIME,120)　AS newEstPartTime
+    from sctrans.T_TS_TRANS_PLAN_HISTORY T
+    left join sctrans.SYS_DICT S ON S.TYPE='part_code' AND S.CODE=T.PART_CODE
+    where BATCH_ID = #{batchId,jdbcType=BIGINT}
+          AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TS_TRANS_PLAN_HISTORY
     where PKID = #{pkid,jdbcType=BIGINT}

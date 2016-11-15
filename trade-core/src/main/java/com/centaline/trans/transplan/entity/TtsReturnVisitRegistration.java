@@ -2,18 +2,23 @@ package com.centaline.trans.transplan.entity;
 
 import java.util.Date;
 
+/**
+ * T_TS_RETURN_VISIT_REGISTRATION<回访跟进表>
+ * @author zhoujp7
+ *
+ */
 public class TtsReturnVisitRegistration {
     private Long pkid;
 
-    private String visitRemark;
+    private String visitRemark;//回访跟进标记
 
-    private String content;
+    private String content;//跟进内容
 
-    private Date createTime;
+    private String createTime;
 
     private String createBy;
 
-    private Long batchId;
+    private Long batchId;//交易计划变更批次ID
 
     public Long getPkid() {
         return pkid;
@@ -39,15 +44,15 @@ public class TtsReturnVisitRegistration {
         this.content = content == null ? null : content.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+    public String getCreateTime() {
+		return createTime;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
 
-    public String getCreateBy() {
+	public String getCreateBy() {
         return createBy;
     }
 

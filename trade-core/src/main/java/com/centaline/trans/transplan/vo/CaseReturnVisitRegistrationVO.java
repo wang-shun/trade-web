@@ -2,17 +2,12 @@ package com.centaline.trans.transplan.vo;
 
 public class CaseReturnVisitRegistrationVO {
 
-	private Long planHistoryId;//交易计划变更历史表ID
+	private Long batchId;//交易计划变更批次ID
     private String visitRemark;//回访标记
     private String content;//回访跟进
     private String createTime;//创建时间
     private String createBy;//创建者
-	public Long getPlanHistoryId() {
-		return planHistoryId;
-	}
-	public void setPlanHistoryId(Long planHistoryId) {
-		this.planHistoryId = planHistoryId;
-	}
+	
 	public String getVisitRemark() {
 		return visitRemark;
 	}
@@ -38,5 +33,12 @@ public class CaseReturnVisitRegistrationVO {
 	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
 	}
+	public Long getBatchId() {
+		return batchId;
+	}
+	public void setBatchId(Long batchId) {
+		this.batchId = batchId;
+	}
+	
     
 }

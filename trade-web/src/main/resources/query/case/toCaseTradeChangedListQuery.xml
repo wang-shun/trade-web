@@ -8,7 +8,9 @@
 		<customDict id="qqcdSellerAndPhone" beanName="qqcdSellerAndPhone" />
 		<customDict id="qqcdBuyerAndPhone" beanName="qqcdBuyerAndPhone" />
 		<customDict id="partName" beanName="qqcdDictPartName"></customDict>
+		<customDict id="getChangeReason" beanName="getChangeReason"></customDict>	
 		<customDict id="getReturnVisitList" beanName="getReturnVisitList"></customDict>	
+		<customDict id="getTransChangeList" beanName="getTransChangeList"></customDict>
 		<customDict id="getReturnVisitRemark" beanName="getReturnVisitRemark"></customDict>
 </dicts>
 <formatters>
@@ -42,75 +44,59 @@
 		<searchCondition>
 		   <condition field="S.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		   <condition field="O.PROPERTY_ADDR"  name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-		   <condition field="S.PART_CODE" name="partCode" label="环节编码" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>	
-		   <condition field="S.CHANGE_TIME"  name="changeTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="S.CHANGE_TIME"  name="changeTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+		   <condition field="S.CREATE_TIME"  name="changeTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="S.CREATE_TIME"  name="changeTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
 		   <condition field="I.DISTRICT_ID" name="districtId" label="所属贵宾服务部ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		   <condition field="I.TEAM_ID" name="teamId" label="所属组别ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-           <condition field="S.CHANGER_ID" name="changeId" label="变更人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="S.CREATE_BY" name="changeId" label="变更人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-	SELECT  
-					C.PKID,
-					S.CASE_CODE ,
-        O.PROPERTY_ADDR ,
-        S.PART_CODE AS PART_CODE_OLD ,
-        S.OLD_EST_PART_TIME ,
-        S.NEW_EST_PART_TIME ,
-        S.CHANGER_ID ,
-        Y.REAL_NAME ,
-        Y.MOBILE ,
-        S.CHANGE_TIME ,
-        S.CHANGE_REASON ,
-        I.DISTRICT_NAME ,
-        I.TEAM_NAME ,
-        S.PKID AS historyId 
-        <if test='visitRemark == "0" or visitRemark == "1" or visitRemark=="" '>
-        ,A.VISIT_REMARK ,
-        A.CONTENT ,
-        A.CREATE_TIME
-        </if>
-FROM    
-		SCTRANS.T_TS_TRANS_PLAN_HISTORY S
-		INNER JOIN SCTRANS.T_TO_CASE C ON C.CASE_CODE = S.CASE_CODE
-        LEFT JOIN SCTRANS.T_TO_TRANS_PLAN T ON T.CASE_CODE = S.CASE_CODE
-                                                        AND T.PART_CODE = S.PART_CODE
-        LEFT JOIN sctrans.T_TO_PROPERTY_INFO O ON O.CASE_CODE = S.CASE_CODE
-        LEFT JOIN sctrans.SYS_USER Y ON Y.ID = S.CHANGER_ID
-                                        AND Y.IS_DELETED = '0'
-        INNER JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID 
+	SELECT
+		C.PKID,
+		S.CASE_CODE,
+		O.PROPERTY_ADDR,
+		S.CREATE_TIME AS CHANGE_TIME,
+		Y.REAL_NAME,
+		Y.MOBILE,
+		I.DISTRICT_NAME,
+		I.TEAM_NAME,
+		S.PKID AS batchId,
+		S.PART_CODE,
+		S.CHANGE_REASON,
+		S.LAST_VISIT_REMARK,
+		S.LAST_CONTENT,
+	    S.OPERATE_FLAG,
+	    U.REAL_NAME AS FONT_NAME,
+	    U.MOBILE AS FONT_MOBILE,
+	    F.AGENT_NAME,
+	    F.AGENT_PHONE
+	FROM
+		SCTRANS.T_TS_TRANS_PLAN_HISTORY_BATCH S
+	INNER JOIN SCTRANS.T_TO_CASE C ON C.CASE_CODE = S.CASE_CODE
+	LEFT JOIN sctrans.SYS_USER U ON U.ID = C.LEADING_PROCESS_ID
+	LEFT JOIN  SCTRANS.T_TO_CASE_INFO F ON C.CASE_CODE = F.CASE_CODE
+	LEFT JOIN sctrans.T_TO_PROPERTY_INFO O ON O.CASE_CODE = S.CASE_CODE
+	LEFT JOIN sctrans.SYS_USER Y ON Y.ID = S.CREATE_BY
+	AND Y.IS_DELETED = '0'
+	INNER JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID
+	WHERE C.CASE_PROPERTY NOT IN ('30003001','30003005')
         <ifNotNull visitRemark>
             <if test=' visitRemark == "0" or visitRemark == "1"'>
-            	INNER JOIN sctrans.T_TS_RETURN_VISIT_REGISTRATION A ON A.PKID = ( SELECT
-                                                              MAX(E.PKID)
-                                                              FROM
-                                                              sctrans.T_TS_RETURN_VISIT_REGISTRATION E
-                                                              WHERE
-                                                              E.PLAN_HISTORY_ID = S.PKID
-                                                              )
-															  AND A.VISIT_REMARK = #visitRemark#
-				 where C.CASE_PROPERTY NOT IN ('30003001','30003005')
+            	AND S.LAST_VISIT_REMARK = #visitRemark#
             </if>
             <if test='visitRemark == "2"'>
-            	WHERE C.CASE_PROPERTY NOT IN ('30003001','30003005') AND NOT EXISTS (SELECT 1 FROM sctrans.T_TS_RETURN_VISIT_REGISTRATION B WHERE B.PLAN_HISTORY_ID = S.PKID)
+            	AND S.LAST_VISIT_REMARK IS NULL
             </if>
         </ifNotNull>
-        <if test='visitRemark==null || visitRemark=="" '>
-           LEFT JOIN sctrans.T_TS_RETURN_VISIT_REGISTRATION A ON A.PKID = ( SELECT
-                                                              MAX(E.PKID)
-                                                              FROM
-                                                              sctrans.T_TS_RETURN_VISIT_REGISTRATION E
-                                                              WHERE
-                                                              E.PLAN_HISTORY_ID = S.PKID
-                                                              )
-           where C.CASE_PROPERTY NOT IN ('30003001','30003005') 
-        </if>
+        <ifNotNull partCode>
+             AND EXISTS (SELECT 1 FROM sctrans.T_TS_TRANS_PLAN_HISTORY H WHERE H.BATCH_ID=S.PKID AND H.PART_CODE = #partCode#)
+        </ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY S.UPDATE_TIME DESC
+			  ORDER BY S.CREATE_TIME DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -120,14 +106,9 @@ FROM
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" title="案件ID" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PART_CODE_OLD" index="" checkbox="" title="环节编码"  customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
-				<column type="virtual" name="PART_CODE" title="环节名称" display="环节名称" customDict="partName" referencecol="PART_CODE_OLD"  />
-				<column type="both" name="OLD_EST_PART_TIME" index="" checkbox="" display="原预计时间" title="原预计时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="90" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="NEW_EST_PART_TIME" index="" checkbox="" display="新预计时间" title="新预计时间" customDict="" sysDict="" beanFormatter="dateFormatter"  width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" display="变更人" title="变更人" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="MOBILE" index="" checkbox="" display="变更人号码" title="变更人号码" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="CHANGE_TIME" index="" checkbox="" display="变更时间" title="变更时间" customDict="" sysDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd HH:mm" width="90" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="CHANGE_REASON" index="" checkbox="" display="变更原因" title="变更原因" customDict="" sysDict="" format="" width="90"  align="" halign="" order="" resizable="" />
+				<column type="both" name="CHANGE_TIME" index="" checkbox="" display="变更时间" title="变更时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="DISTRICT_NAME" display="所属贵宾服务部" title="所属贵宾服务部" customDict="" hidden=""/>
 				<column type="both" name="TEAM_NAME" display="所属组别" title="所属组别" customDict="" hidden=""/>
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
@@ -136,12 +117,19 @@ FROM
 				<column type="virtual" name="BUYERPHONE" referencecol="CASE_CODE" index="" checkbox="" display="下家电话" customDict="qqcdBuyerPhone" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="SELLERANDPHONE" referencecol="CASE_CODE" display="上家姓名及电话" title="上家姓名及电话" index="" checkbox=""  customDict="qqcdSellerAndPhone" sysDict="" format=""   align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYERANDPHONE" referencecol="CASE_CODE" display="下家姓名及电话" title="下家姓名及电话" index="" checkbox=""  customDict="qqcdBuyerAndPhone" sysDict="" format=""   align="" halign="" order="" resizable="" />
-				<column type="both" name="historyId" index="" checkbox="" display="" title="" customDict="" sysDict="" format="" width="90"  align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="returnVisitList" title="回访登记列表" referencecol="historyId" customDict="getReturnVisitList" />
-				<column type="both" name="VISIT_REMARK" index="" checkbox="" display="回访标记" title="回访标记" customDict="" sysDict="" format="" width="90"  align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="visitRemark" referencecol="VISIT_REMARK" display="回访标记" title="回访标记" index="" checkbox=""  customDict="getReturnVisitRemark" sysDict="" format=""   align="" halign="" order="" resizable="" />
-				<column type="both" name="CONTENT" index="" checkbox="" display="回访跟进内容" title="回访跟进内容" customDict="" sysDict="" format="" width="90"  align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="CREATE_TIME" index="" checkbox="" display="回访时间" title="回访时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter1" width="90"  align="" halign="" order="desc" resizable=""/>	
+				<column type="both" name="batchId" index="" checkbox="" display="" title="" customDict="" sysDict="" format="" width="90"  align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="transChangeList" referencecol="batchId,CASE_CODE" index="" checkbox="" display="变更原因" title="变更原因" customDict="getTransChangeList" sysDict="" format="" width="90"  align="" halign="" order="" resizable="" />
+				<column type="virtual" name="returnVisitList" title="回访登记列表" referencecol="batchId" customDict="getReturnVisitList" />
+				<column type="both" name="PART_CODE" display="环节编码" title="环节编码" customDict="" hidden=""/>
+				<column type="both" name="CHANGE_REASON" display="" title="" customDict="" hidden=""/>
+				<column type="virtual" name="changeReason"  display="变更原因" title="变更原因" referencecol="PART_CODE,CHANGE_REASON" customDict="getChangeReason" sysDict="" format="" width="90"  align="" />
+				<column type="both" name="LAST_VISIT_REMARK"  display="最新回访标记" title="最新回访标记" customDict="" sysDict="" format="" width="90"  align="" />
+				<column type="both" name="FONT_NAME" index="" checkbox="" display="信贷员" title="信贷员" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="FONT_MOBILE" index="" checkbox="" display="信贷员号码" title="信贷员号码" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" title="经纪人" customDict="" sysDict=""  width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="AGENT_PHONE" display="经纪人号码" title="经纪人号码" customDict="" hidden=""/>
+				<column type="virtual" name="visitRemark" referencecol="LAST_VISIT_REMARK" display="回访标记" title="回访标记" index="" checkbox=""  customDict="getReturnVisitRemark" sysDict="" format=""   align="" halign="" order="" resizable="" />
+				<column type="both" name="LAST_CONTENT" index="" checkbox="" display="回访跟进内容" title="回访跟进内容" customDict="" sysDict="" format="" width="90"  align="" halign="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
