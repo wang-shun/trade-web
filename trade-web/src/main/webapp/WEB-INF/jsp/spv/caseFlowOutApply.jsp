@@ -404,7 +404,7 @@
 	                                                <td>
 	                                                    <select  class="table-select boderbbt"  
 	                                                    <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit'}">
-	                                                    title="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }"
+	                                                    title="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" readonly
 	                                                    </c:if> 
 	                                                     name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiver" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" onChange="doSearch(this)" ></select>
 	                                                </td>
@@ -425,7 +425,7 @@
 	                                                    <select  id="select_direction" class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.direction"  onChange="this.value" >
 	                                                        <option value="">请选择</option>
 	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '转账'}"> selected="selected" </c:if> value="转账">转账</option>                                                                                                                                                
-															<option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option>  
+															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option> --%>  
 															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> --%> 
 	                                                    </select>
 	                                                </td>
@@ -648,7 +648,7 @@ function addselect(deId,obj,index){
 
 	$.each(obj,function(n,data) { 
 		if(deId==data.type){
-			 $("select[name$='toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
+			 $("select[name$='toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"("+data.accountName+")</option>");
 		     $("select[name$='toSpvCashFlow.receiverAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
 		     $("select[name$='toSpvCashFlow.receiverBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
 		}
@@ -660,7 +660,7 @@ function addselect(deId,obj,index){
 function addselectOne(deId,obj,index){	
 	$.each(obj,function(n,data) { 
 		if(deId==data.type){
-				 $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"</option>");
+				 $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiver']").append("<option gl='"+n+"' value='"+data.name+"'>"+data.name+"("+data.accountName+")</option>");
 			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiverAcc']").append("<option gl='"+n+"' value='"+data.account+"'>"+data.account+"</option>");
 			     $("select[name='spvCaseFlowOutInfoVOList["+index+"].toSpvCashFlow.receiverBank']").append("<option gl='"+n+"' value='"+data.bankName+"'>"+data.bankName+"</option>");
 		}
@@ -696,7 +696,6 @@ function getTR(index){
 	$str+='	<td>';
 	$str+='		<select name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.direction" class="table-select boderbbt" onChange="this.value">';
 	$str+='			<option value="">请选择</option>';
-	$str+='			<option value="转账">转账</option>';
 	$str+='			<option value="刷卡">刷卡</option>';
 	$str+='		</select>';
 	$str+='	</td>';
