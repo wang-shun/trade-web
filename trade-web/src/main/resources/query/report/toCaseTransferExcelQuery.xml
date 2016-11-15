@@ -2,6 +2,7 @@
 <querys>
 	<dicts>
 		<customDict id="convertValue" beanName="convertValue" />
+		<customDict id="convertValueForLoanlostReason" beanName="convertValueForLoanlostReason" />		
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
 		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName" />
@@ -51,7 +52,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[				
-						SELECT					
+											SELECT					
 									distinct(T.CASE_CODE),
 									BA_NAME,
 									AGENT_NAME, 
@@ -86,9 +87,14 @@
 									(select TOP 1 PM.dist_name from SCTRANS.T_TS_PR_RESEARCH_MAP PM WHERE T.DIST_CODE=PM.dist_code)AS dist_name	,									
 									CTM_CODE,
 									M.CUST_NAME,
-									STUFF((SELECT ','+D.NAME FROM  sctrans.SYS_DICT D WHERE D.CODE = M.MORT_TYPE AND D.TYPE ='30016'  for xml path('')),1,1,'') AS MORT_TYPE_NAME,
-									STUFF((SELECT ','+D.NAME FROM  sctrans.SYS_DICT D WHERE D.CODE in (SELECT EC.LOAN_SRV_CODE FROM sctrans.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE=T.CASE_CODE) AND D.TYPE='yu_serv_cat_code_tree'  for xml path('')),1,1,'') AS ELOAN_PRO_TYPE,
-									(SELECT SUM(EC.APPLY_AMOUNT)  FROM sctrans.T_TO_ELOAN_CASE EC  where EC.CASE_CODE = T.CASE_CODE) ELOAN_APPLYAMOUNT_COUNT,
+									STUFF((SELECT ';'+D.NAME FROM  sctrans.SYS_DICT D WHERE D.CODE = M.MORT_TYPE AND D.TYPE ='30016'  for xml path('')),1,1,'') AS MORT_TYPE_NAME,
+									
+									STUFF((SELECT ';'+D.NAME FROM  sctrans.SYS_DICT D WHERE D.CODE in (SELECT EC.LOAN_SRV_CODE FROM sctrans.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE=T.CASE_CODE AND EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) AND D.TYPE='yu_serv_cat_code_tree' AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') for xml path('')),1,1,'') AS ELOAN_PRO_TYPE,
+									(SELECT SUM(EC.APPLY_AMOUNT)  FROM sctrans.T_TO_ELOAN_CASE EC  where EC.CASE_CODE = T.CASE_CODE  AND  EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) ELOAN_APPLYAMOUNT_COUNT,
+									
+									STUFF((SELECT ';'+D.NAME FROM  sctrans.SYS_DICT D WHERE D.CODE in (SELECT EC.LOAN_SRV_CODE FROM sctrans.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE=T.CASE_CODE AND EC.LOAN_SRV_CODE IN ('30004005','30004015')) AND D.TYPE='yu_serv_cat_code_tree' AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') for xml path('')),1,1,'') AS ELOAN_PRO_TYPE_KA,
+									STUFF((SELECT  ';'+CAST(EC.APPLY_AMOUNT as varchar) FROM sctrans.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE=T.CASE_CODE AND EC.LOAN_SRV_CODE IN ('30004005','30004015')  for xml path('')),1,1,'') AS ELOAN_APPLYAMOUNT_COUNT_STRING,
+
 									(SELECT SUM(G.EVAL_FEE) FROM sctrans.T_TO_EVA_FEE_RECORD G where G.CASE_CODE=T.CASE_CODE) EVAL_FEE,
 									(select TOP 1 GI.GUEST_PHONE from SCTRANS.T_TG_GUEST_INFO GI where GI.PKID IN (SELECT CUST_CODE FROM SCTRANS.T_TO_MORTGAGE M WHERE T.case_code=m.CASE_CODE)) AS GUEST_PHONE, 
 									PROPERTY_ADDR ,
@@ -113,7 +119,7 @@
 									M.COM_DISCOUNT COM_DISCOUNT,
 									ROUND(CONVERT(float,(M.MORT_TOTAL_AMOUNT))/10000,2) as ACCOUNT,
 									M.LOANER_NAME LOANER_NAME,								
-									M.loanlost_apply_reason,
+									M.loanlost_apply_reason as loanlost_apply_reason_old,
 									M.SELF_DEL_REASON,
 									case 
 									when M.IS_LOANER_ARRIVE = 1 then '是' 
@@ -239,10 +245,14 @@
 				<column type="both" name="EVAL_FEE" title="评估费金额" expType="Double"/>
 				<column type="both" name="MORT_TYPE_NAME" title="贷款类型"/>
 				<column type="both" name="SELF_DEL_REASON" title="流失具体原因" customDict=""		hidden="false" />
-				<column type="both" name="loanlost_apply_reason" title="流失原因" customDict=""		hidden="false" />
+				<column type="both" name="loanlost_apply_reason_old" title="loanlost_apply_reason_old"  customDict=""		hidden="false" />
+				<column type="virtual" name="loanlost_apply_reason" title="流失原因"	referencecol="loanlost_apply_reason_old" customDict="convertValueForLoanlostReason" />
 				
-				<column type="both" name="ELOAN_PRO_TYPE" title="E+产品类别"	customDict="" hidden="false" />
-				<column type="both" name="ELOAN_APPLYAMOUNT_COUNT" title="申请总金额(万元)"	customDict="" hidden="false" expType="Double"/>
+				<column type="both" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	customDict="" hidden="false" />
+				<column type="both" name="ELOAN_APPLYAMOUNT_COUNT" title="E+金融产品申请总金额(万元)"	customDict="" hidden="false" expType="Double"/>
+				
+				<column type="both" name="ELOAN_PRO_TYPE_KA" title="E+卡类产品类别"	customDict="" hidden="false" />
+				<column type="both" name="ELOAN_APPLYAMOUNT_COUNT_STRING" title="E+卡类金额"	customDict="" hidden="false"/>
 			</table-row>
 		</grid>
 	</query>

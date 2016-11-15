@@ -295,7 +295,8 @@ function caseTransferExportToExcel() {
 	
 	displayColomn.push('ELOAN_PRO_TYPE');
 	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT');
-
+	displayColomn.push('ELOAN_PRO_TYPE_KA');
+	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT_STRING');
 
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();

@@ -334,6 +334,8 @@
     <bean name="qqcdFin" class="com.centaline.trans.common.service.impl.QuickQueryFinServiceImpl" />
     
     <bean name="convertValue" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueStatusServiceImpl" />
+    <bean name="convertValueForLoanlostReason" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueLostReasonServiceImpl" />
+    
     <bean name="convertColor" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueColorServiceImpl" />
     
     <bean name="qqMainOrgByUserId" class="com.centaline.trans.common.service.impl.QuickQueryMainUOJByUserIdCustomerDictServiceImpl" />
