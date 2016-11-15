@@ -1127,6 +1127,7 @@ $(document).ready(function(){
     	$("select").prop("disabled",true);
     	$("#realName").prop("disabled",true);
     	$("input[id^='picFileupload']").prop("disabled",true);
+    	$("button").prop("disabled",true);
     }
     
     function getParentBank(selector,selectorBranch,finOrgCode,bank){

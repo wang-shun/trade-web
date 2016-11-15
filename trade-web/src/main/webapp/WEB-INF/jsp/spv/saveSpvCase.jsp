@@ -1476,8 +1476,7 @@
         	language : 'zh-CN'
         }).on('changeDate',function(ev){
         	if($("input[name='spvCustList[0].idValiDate']").val() != '长期有效'){
-				$("#longTerm0").attr({"checkFlag":"false","class":"btn btn-grey"});
-				
+				$("#longTerm0").attr({"checkFlag":"false","class":"btn btn-grey"});	
 			}
         });
         
