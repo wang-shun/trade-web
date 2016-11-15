@@ -246,7 +246,7 @@
 				<column type="both" name="MORT_TYPE_NAME" title="贷款类型"/>
 				<column type="both" name="SELF_DEL_REASON" title="流失具体原因" customDict=""		hidden="false" />
 				<column type="both" name="loanlost_apply_reason_old" title="loanlost_apply_reason_old"  customDict=""		hidden="false" />
-				<column type="virtual" name="loanlost_apply_reason" title="流失原因"	referencecol="loanlost_apply_reason_old" customDict="" />
+				<column type="virtual" name="loanlost_apply_reason" title="流失原因"	referencecol="loanlost_apply_reason_old" customDict="convertValueForLoanlostReason" />
 				
 				<column type="both" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	customDict="" hidden="false" />
 				<column type="both" name="ELOAN_APPLYAMOUNT_COUNT" title="E+金融产品申请总金额(万元)"	customDict="" hidden="false" expType="Double"/>
