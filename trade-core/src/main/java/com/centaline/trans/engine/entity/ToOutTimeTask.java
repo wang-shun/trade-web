@@ -1,4 +1,4 @@
-package com.centaline.trans.common.entity;
+package com.centaline.trans.engine.entity;
 
 import java.util.Date;
 
