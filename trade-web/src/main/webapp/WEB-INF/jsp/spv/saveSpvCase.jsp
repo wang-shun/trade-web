@@ -1410,9 +1410,6 @@
 				var index = $(e).attr("id").replace('bank_','');
 				var $select = $("select[name='toSpvAccountList["+index+"].branchBank']"); 
 				getParentBank($(e),$select,$select.attr("value"),$(e).attr("value"));
- 				$(e).change(function(){
-					getBranchBankList($select,$(e).val());
-				}); 
  				
  		        //可变select
  		        $(e).editableSelect({
