@@ -739,11 +739,7 @@
 						<div class="form-group form-margin form-space-one">
 							<label class="lable-one"  style="text-align: right;"><i style="color:red;">*</i> 审批意见</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
-								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">
-								<c:if test="${empty handle or handle eq 'SpvApply' }">
-								${toApproveRecord.content }
-								</c:if>
-								</textarea>
+								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason"><c:if test="${empty handle or handle eq 'SpvApply' }">${toApproveRecord.content }</c:if></textarea>
 							</div>
 						</div>
 					</div>
@@ -1410,9 +1406,6 @@
 				var index = $(e).attr("id").replace('bank_','');
 				var $select = $("select[name='toSpvAccountList["+index+"].branchBank']"); 
 				getParentBank($(e),$select,$select.attr("value"),$(e).attr("value"));
- 				$(e).change(function(){
-					getBranchBankList($select,$(e).val());
-				}); 
  				
  		        //可变select
  		        $(e).editableSelect({
