@@ -285,7 +285,7 @@
                             </div> 
                             </c:if>
                             </div>
-                            
+         </form>                    
          <div class="ibox-title" style="height: auto;">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
@@ -411,7 +411,6 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-                        </form>
                         <div class="status_btn text-center mt15">
                             <button class="btn btn-success btn-space submit_btn">保存</button>
                             <button class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal">关闭</button>
@@ -461,7 +460,7 @@
          <script src="${ctx}/js/jquery.editable-select.min.js"></script>
              <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
              <script src="${ctx}/js/jquery.blockui.min.js"></script>
-              <!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+              	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
@@ -476,12 +475,13 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
- 	<!-- 选择组织控件 --> 
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
+
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
-             <!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
+ 	<!-- 选择组织控件 --> 
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+    <!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
        <script>
        if ("${idList}" != "") {
 			var idList = eval("(" + "${idList}" + ")");

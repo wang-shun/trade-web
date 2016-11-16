@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="ibox-content ibox-space">
-                        <form method="get" class="form_list" id="mortgageForm">
+                        <form class="form_list" id="mortgageForm">
                          	<input type="hidden" id="riskControlId" name="riskControlId" value="${toRcMortgageVO.toRcMortgage.rcId }">
                             <div class="modal_title title-mark">
                                 抵押信息登记
@@ -285,7 +285,7 @@
                             </div>
                             </c:if>
                             </div>
-                            
+        </form>
         <div class="ibox-title" style="height: auto;">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
@@ -411,7 +411,6 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-                        </form>
                         <div class="status_btn text-center mt15">
                             <button class="btn btn-success btn-space submit_btn">保存</button>
                             <button class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal">关闭</button>
