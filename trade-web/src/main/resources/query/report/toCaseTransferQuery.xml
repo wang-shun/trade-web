@@ -57,7 +57,7 @@
 					I.QJDS_NAME
 					from sctrans.t_to_case c 
 					inner join sctrans.T_TO_PROPERTY_INFO p on c.CASE_CODE = p.CASE_CODE 
-					left join sctrans.V_USER_ORG_JOB zg on c.ORG_ID = zg.ORG_ID and zg.JOB_CODE ='manager'
+					left join sctrans.V_USER_ORG_JOB_DELETE zg on c.ORG_ID = zg.ORG_ID and zg.JOB_CODE ='manager'
 					inner join sctrans.T_TO_CASE_info i on c.case_code = i.case_code
 					inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
 					and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
