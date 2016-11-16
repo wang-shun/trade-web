@@ -22,11 +22,6 @@ public class AppInfoController {
 	@ResponseBody
 	public Map<String,Object> getAppInfo( HttpServletRequest request){
 		
-//		Object obj = ExpressionEvaluator.spelEvalute("#{uam.permission.currentAppName}", null);
-//		System.out.println(obj);
-		
-		System.out.println(this.appName);
-		
 		ServletContext  sc = request.getSession().getServletContext();
 		Map<String,Object> appInfo = new HashMap<String,Object>();
 		appInfo.put("ctx", sc.getAttribute("ctx"));
