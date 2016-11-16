@@ -30,7 +30,6 @@ function reloadGrid(page){
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
-        	console.log(data);
           $.unblockUI();
       	  var dealChangeList = template('template_dealChangeList' , data);
 		  $("#dealChangeList").empty();
@@ -55,7 +54,7 @@ function reloadGrid(page){
 		offsetY: 5,
 	});
 }
-
+var goPage=1;
 function initpage(totalCount,pageSize,currentPage,records)
 {
 	if(totalCount>1500){
@@ -128,6 +127,7 @@ function initpage(totalCount,pageSize,currentPage,records)
 		last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
+			goPage = page;
 			reloadGrid(page);
 	    }
 	});
@@ -210,7 +210,6 @@ function doDeal(caseCode,propertyAddr,changeNameAndMobile,teamName,sellerandphon
         dataType: "json",
         data: {batchId : batchId,caseCode : caseCode},
         success: function(data){
-        	console.log(data);
         	if(data.success){
         		var th='';
         		for(var i=0;i<data.content.length;i++){
@@ -292,7 +291,7 @@ $("#submitBtn").click(function(){
 			if(data.success){
 				alert(data.message);
 				$("#close").click();
-				reloadGrid(1);
+				reloadGrid(goPage);
 			}else{
 				alert(data.message);
 			}
