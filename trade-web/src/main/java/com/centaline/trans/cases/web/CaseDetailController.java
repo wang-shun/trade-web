@@ -162,8 +162,6 @@ public class CaseDetailController {
 	@Autowired(required = true)
 	TransplanServiceFacade transplanServiceFacade;
 	@Autowired(required = true)
-	TsTransPlanHistoryService tsTransPlanHistoryService;
-	@Autowired(required = true)
 	ToServChangeHistrotyService toServChangeHistrotyService;
 	@Autowired(required = true)
 	UamTemplateService uamTemplateService;
@@ -1905,7 +1903,7 @@ public class CaseDetailController {
 					return AjaxResponse.fail("数据转换失败！");
 				}
 				
-				int reInt1 = tsTransPlanHistoryService.insertSelective(hisRecord);
+				int reInt1 = transplanServiceFacade.insertTsTransPlanHistorySelective(hisRecord);
 				if (reInt1 == 0)
 					return AjaxResponse.fail("交易计划历史记录更新失败！");
 				int reInt = transplanServiceFacade.updateByPrimaryKeySelective(record);

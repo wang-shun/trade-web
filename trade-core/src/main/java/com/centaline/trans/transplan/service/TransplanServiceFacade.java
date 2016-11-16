@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
 import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
 import com.centaline.trans.transplan.vo.TransPlanVO;
@@ -86,4 +87,15 @@ public interface TransplanServiceFacade {
 	 */
 	public List<ToTransPlanOrToPropertyInfo> getToTransPlanByUserId(String leadingProcessId);
 	public boolean saveToTransPlan(TransPlanVO transPlanVO);
+	
+	/**
+	 * 插入交易计划变更历史信息
+	 * @param record
+	 * @return
+	 */
+    int insertTsTransPlanHistorySelective(TsTransPlanHistory record);
+    List<TransPlanVO> getTransPlanVOList(TransPlanVO transPlanVO);
+    
+	
+	
 }

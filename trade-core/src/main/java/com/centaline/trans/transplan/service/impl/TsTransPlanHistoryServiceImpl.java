@@ -1,4 +1,4 @@
-package com.centaline.trans.task.service.impl;
+package com.centaline.trans.transplan.service.impl;
 
 import java.util.List;
 
@@ -16,43 +16,36 @@ public class TsTransPlanHistoryServiceImpl implements TsTransPlanHistoryService 
 	private TsTransPlanHistoryMapper tsTransPlanHistoryMapper;
 	@Override
 	public int deleteByPrimaryKey(Long pkid) {
-		// TODO Auto-generated method stub
 		return tsTransPlanHistoryMapper.deleteByPrimaryKey(pkid);
 	}
 
 	@Override
 	public int insert(TsTransPlanHistory record) {
-		// TODO Auto-generated method stub
 		return tsTransPlanHistoryMapper.insert(record);
 	}
 
 	@Override
 	public int insertSelective(TsTransPlanHistory record) {
-		// TODO Auto-generated method stub
 		return tsTransPlanHistoryMapper.insertSelective(record);
 	}
 
 	@Override
 	public TsTransPlanHistory selectByPrimaryKey(Long pkid) {
-		// TODO Auto-generated method stub
 		return tsTransPlanHistoryMapper.selectByPrimaryKey(pkid);
 	}
 
 	@Override
 	public int updateByPrimaryKeySelective(TsTransPlanHistory record) {
-		// TODO Auto-generated method stub
 		return tsTransPlanHistoryMapper.updateByPrimaryKeySelective(record);
 	}
 
 	@Override
 	public int updateByPrimaryKey(TsTransPlanHistory record) {
-		// TODO Auto-generated method stub
 		return tsTransPlanHistoryMapper.updateByPrimaryKey(record);
 	}
 
 	@Override
 	public List<TransPlanVO> getTransPlanVOList(TransPlanVO transPlanVO) {
-		// TODO Auto-generated method stub
 		return tsTransPlanHistoryMapper.getTransPlanVOList(transPlanVO);
 	}
 

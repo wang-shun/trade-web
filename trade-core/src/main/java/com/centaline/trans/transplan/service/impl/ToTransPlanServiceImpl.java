@@ -171,7 +171,6 @@ public class ToTransPlanServiceImpl implements ToTransPlanService {
 
 	@Override
 	public int insertSelective(ToTransPlan record) {
-		// TODO Auto-generated method stub
 		return toTransPlanMapper.insertSelective(record);
 	}
 
@@ -184,7 +183,6 @@ public class ToTransPlanServiceImpl implements ToTransPlanService {
 
 	@Override
 	public ToTransPlan selectByPrimaryKey(Long pkid) {
-		// TODO Auto-generated method stub
 		return toTransPlanMapper.selectByPrimaryKey(pkid);
 	}
 

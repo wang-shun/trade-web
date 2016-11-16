@@ -265,5 +265,15 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 		return false;
 	}
 
+	@Override
+	public int insertTsTransPlanHistorySelective(TsTransPlanHistory record) {
+		return tsTransPlanHistoryMapper.insertSelective(record);
+	}
+
+	@Override
+	public List<TransPlanVO> getTransPlanVOList(TransPlanVO transPlanVO) {
+		return tsTransPlanHistoryMapper.getTransPlanVOList(transPlanVO);
+	}
+
 
 }
