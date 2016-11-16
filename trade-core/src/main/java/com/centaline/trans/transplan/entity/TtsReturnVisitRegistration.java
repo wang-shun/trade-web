@@ -1,7 +1,5 @@
 package com.centaline.trans.transplan.entity;
 
-import java.util.Date;
-
 /**
  * T_TS_RETURN_VISIT_REGISTRATION<回访跟进表>
  * @author zhoujp7

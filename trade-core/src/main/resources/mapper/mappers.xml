@@ -78,7 +78,7 @@
 		<mapper resource="mapper/task/TsTaskDelegateMapper.xml" />
 		<mapper resource="mapper/task/ToUnlocatedTaskMapper.xml" />
 		<!-- 任务预计执行时间配置 -->
-		<mapper resource="mapper/task/TaskPlanSetMapper.xml" />
+		<mapper resource="mapper/transplan/TaskPlanSetMapper.xml" />
 		<!-- 评估费-->
 		<mapper resource="mapper/eval/ToEvaFeeRecordMapper.xml" />
 		<!-- 案件 -->
@@ -218,7 +218,7 @@
 		<mapper resource="mapper/material/MmMaterialItemMapper.xml" />
 		
 		<!-- 回访登记 -->
-		<mapper resource="mapper/transplan/ReturnVisitRegistrationMapper.xml" />
+		<mapper resource="mapper/transplan/TtsReturnVisitRegistrationMapper" />
 		<mapper resource="mapper/transplan/TtsTransPlanHistoryBatchMapper.xml" />
 		<!-- 签约室排班 -->
 		<mapper resource="mapper/signroom/TradeCenterScheduleMapper.xml" />

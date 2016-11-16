@@ -20,10 +20,10 @@ import com.centaline.trans.transplan.entity.TsTaskPlanSet;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
-import com.centaline.trans.transplan.repository.ReturnVisitRegistrationMapper;
 import com.centaline.trans.transplan.repository.TaskPlanSetMapper;
 import com.centaline.trans.transplan.repository.ToTransPlanMapper;
 import com.centaline.trans.transplan.repository.TsTransPlanHistoryMapper;
+import com.centaline.trans.transplan.repository.TtsReturnVisitRegistrationMapper;
 import com.centaline.trans.transplan.repository.TtsTransPlanHistoryBatchMapper;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.transplan.vo.TransPlanVO;
@@ -40,7 +40,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 	@Autowired
 	private TtsTransPlanHistoryBatchMapper ttsTransPlanHistoryBatchMapper;
 	@Resource 
-	private ReturnVisitRegistrationMapper returnVisitRegistrationMapper;
+	private TtsReturnVisitRegistrationMapper ttsReturnVisitRegistrationMapper;
 	@Autowired
 	private UamSessionService uamSessionService;
 	@Autowired
@@ -104,7 +104,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 	
 	@Override
 	public List<TtsReturnVisitRegistration> queryReturnVisitRegistrations(long batchId) {
-		return returnVisitRegistrationMapper.queryReturnVisitRegistrations(batchId);
+		return ttsReturnVisitRegistrationMapper.queryReturnVisitRegistrations(batchId);
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 		record.setLastVisitRemark(ttsReturnVisitRegistration.getVisitRemark());
 		record.setLastContent(ttsReturnVisitRegistration.getContent());
 		ttsTransPlanHistoryBatchMapper.updateTtsTransPlanHistoryBatchMapper(record);
-		return returnVisitRegistrationMapper.insertReturnVisitRegistration(ttsReturnVisitRegistration);
+		return ttsReturnVisitRegistrationMapper.insertReturnVisitRegistration(ttsReturnVisitRegistration);
 	}
 
 	@Override

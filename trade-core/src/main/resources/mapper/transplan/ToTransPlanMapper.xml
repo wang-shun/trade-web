@@ -185,17 +185,6 @@
 
   </select>
   <select id="getToTransPlanByDictOrUserId" parameterType="java.lang.String" resultType="com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo">
-	         <!--  SELECT			    
-					A.PART_CODE as partCode,
-					A.CASE_CODE as caseCode,
-					A.EST_PART_TIME as estParTtime,
-					C.PROPERTY_ADDR as  propertyAddr
-				FROM 
-					sctrans.T_TO_TRANS_PLAN AS A
-				INNER JOIN sctrans.T_TO_CASE AS B ON A.CASE_CODE = B.CASE_CODE
-				LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS C ON B.CASE_CODE = C.CASE_CODE
-	      WHERE 
-			B.LEADING_PROCESS_ID= #{leadingProcessId,jdbcType=VARCHAR} AND  A.EST_PART_TIME IS NOT NULL -->
 			SELECT	
 					A.PART_CODE as partCode,
 					A.CASE_CODE as caseCode,

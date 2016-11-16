@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.centaline.trans.task.repository.TaskPlanSetMapper">
-  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.TsTaskPlanSet">
+<mapper namespace="com.centaline.trans.transplan.repository.TaskPlanSetMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.transplan.entity.TsTaskPlanSet">
     <id column="pkid" jdbcType="BIGINT" property="pkid" />
     <result column="part_Code" jdbcType="VARCHAR" property="partCode" />
     <result column="plan_Days" jdbcType="BIGINT" property="planDays" />
