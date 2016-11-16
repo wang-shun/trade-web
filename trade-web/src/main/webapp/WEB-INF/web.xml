@@ -139,7 +139,6 @@
     <filter-mapping>
         <filter-name>loggingFilter</filter-name>
         <url-pattern>/api/*</url-pattern>
-        <url-pattern>/mobile/property/box/apply</url-pattern>
     </filter-mapping>
 
 	<!-- Filter 定义 -->
@@ -167,31 +166,6 @@
 	<filter-mapping>
 		<filter-name>AccessLogFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<filter>
-		<filter-name>DebugLogFilter</filter-name>
-		<filter-class>com.aist.common.web.filter.DebugRequestAndResponseFilter</filter-class>
-		<!-- url分隔符可以是 换行 空格 分号 逗号 白名单和黑名单都是可选 -->
-		<init-param>
-			<param-name>blackListURL</param-name> <!-- 配置黑名单url 表示不走过滤器的url order：1 -->
-			<param-value>
-		      /static/**
-		      /js/**
-		      /media/**
-		      /css/**
-		      /images/**
-		    </param-value>
-		</init-param>
-		<init-param>
-			<param-name>whiteListURL</param-name> <!-- 配置白名单url 表示走过滤器的url order：2 -->
-			<param-value>
-		      /mobile/property/box/apply
-		    </param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>DebugLogFilter</filter-name>
-		<url-pattern>/mobile/property/box/apply</url-pattern>
 	</filter-mapping>
 	
 	<welcome-file-list>
