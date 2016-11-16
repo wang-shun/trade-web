@@ -634,14 +634,14 @@
      				},
      				success : function(data) {
      					alert(data.message);
+     					// 保存附件相关信息
+     		     		deleteAndModify();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
      					alert("数据保存出错");
      				}
      			}); 
-     			// 保存附件相关信息
-     			deleteAndModify();
              })
              
              $(".close_btn").click(function(){
