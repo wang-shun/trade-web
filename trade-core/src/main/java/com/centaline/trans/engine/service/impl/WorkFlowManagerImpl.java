@@ -37,11 +37,11 @@ import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.task.entity.ToUnlocatedTask;
-import com.centaline.trans.task.service.TaskPlanSetService;
 import com.centaline.trans.task.service.TsTaskDelegateService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TsTaskPlanSet;
+import com.centaline.trans.transplan.service.TaskPlanSetService;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.BeanToMapUtils;
 
@@ -59,8 +59,6 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
 	private TransplanServiceFacade transplanServiceFacade;
-	@Autowired
-	private TaskPlanSetService taskPlanSetService;
 	@Autowired
 	private UamSessionService uamSesstionService;
 	@Autowired
@@ -321,7 +319,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 
 	@Override
 	public void doOptTaskPlan(String tsakDfkey, String caseCode) {
-		TsTaskPlanSet planSet = taskPlanSetService
+		TsTaskPlanSet planSet = transplanServiceFacade
 				.getAutoTsTaskPlanSetByPartCode(tsakDfkey);
 		if (planSet == null)
 			return;

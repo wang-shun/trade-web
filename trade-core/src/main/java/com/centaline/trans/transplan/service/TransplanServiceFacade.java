@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
 import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.entity.TsTaskPlanSet;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
@@ -95,6 +96,13 @@ public interface TransplanServiceFacade {
 	 */
     int insertTsTransPlanHistorySelective(TsTransPlanHistory record);
     List<TransPlanVO> getTransPlanVOList(TransPlanVO transPlanVO);
+
+    /**
+     * 根据环节编码查询交易计划延迟天数
+     * @param tsakDfkey
+     * @return
+     */
+	public TsTaskPlanSet getAutoTsTaskPlanSetByPartCode(String tsakDfkey);
     
 	
 	

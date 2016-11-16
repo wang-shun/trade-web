@@ -22,6 +22,12 @@
     from sctrans.T_TS_TASK_PLAN_SET
     where IS_MANUAL_SET='0' and part_code=#{partCode,jdbcType=VARCHAR}
   </select>
+  <select id="getTsTaskPlanSetByPartCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TASK_PLAN_SET
+    where part_code=#{partCode,jdbcType=VARCHAR}
+  </select>
   
   
 </mapper>

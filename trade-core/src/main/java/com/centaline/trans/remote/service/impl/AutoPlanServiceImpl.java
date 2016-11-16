@@ -6,19 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.remote.service.AutoPlanService;
-import com.centaline.trans.task.service.TaskPlanSetService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TsTaskPlanSet;
+import com.centaline.trans.transplan.service.TaskPlanSetService;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
 @Service("autoPlanService")
 public class AutoPlanServiceImpl implements AutoPlanService {
-	@Autowired
-	private TaskPlanSetService taskPlanSetService;
+	
 	@Autowired
 	private TransplanServiceFacade transplanServiceFacade;
 	@Override
 	public void autoGenerateTaskPlan(String taskDfkey, String caseCode) {
-		TsTaskPlanSet planSet = taskPlanSetService.getAutoTsTaskPlanSetByPartCode(taskDfkey);
+		TsTaskPlanSet planSet = transplanServiceFacade.getAutoTsTaskPlanSetByPartCode(taskDfkey);
 		if (planSet == null)
 			return;
 		ToTransPlan plan = new ToTransPlan();

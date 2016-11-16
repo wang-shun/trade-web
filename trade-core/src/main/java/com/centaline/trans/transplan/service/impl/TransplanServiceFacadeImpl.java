@@ -1,5 +1,6 @@
 package com.centaline.trans.transplan.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,10 +16,12 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
 import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.entity.TsTaskPlanSet;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
 import com.centaline.trans.transplan.repository.ReturnVisitRegistrationMapper;
+import com.centaline.trans.transplan.repository.TaskPlanSetMapper;
 import com.centaline.trans.transplan.repository.ToTransPlanMapper;
 import com.centaline.trans.transplan.repository.TsTransPlanHistoryMapper;
 import com.centaline.trans.transplan.repository.TtsTransPlanHistoryBatchMapper;
@@ -40,6 +43,8 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 	private ReturnVisitRegistrationMapper returnVisitRegistrationMapper;
 	@Autowired
 	private UamSessionService uamSessionService;
+	@Autowired
+	private TaskPlanSetMapper taskPlanSetMapper;
 	
 	@Override
 	public void processRestartOrResetOperate(String caseCode,String changeReason) {
@@ -72,8 +77,21 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 		Map map = new HashMap();
 		map.put("caseCode", caseCode);
 		if(ConstantsUtil.PROCESS_RESTART.equals(changeReason)){
-			//流程重启保留首次跟进环节信息
+			//流程重启保留首次跟进环节信息并更新首次跟进原预计时间
 			map.put("partCode", ToAttachmentEnum.FIRSTFOLLOW.getCode());
+			TsTaskPlanSet tps = taskPlanSetMapper.getTsTaskPlanSetByPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
+			if (tps != null){
+				ToTransPlan plan = new ToTransPlan();
+				plan.setCaseCode(caseCode);
+				plan.setPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DAY_OF_MONTH, tps.getPlanDays());
+				plan.setEstPartTime(cal.getTime());
+				if(toTransPlanMapper.findTransPlan(plan) != null) {
+					toTransPlanMapper.updateTransPlanSelective(plan);
+				} 
+			}
+			
 		}
 		toTransPlanMapper.deleteTransPlansByCaseCode(map);
 		
@@ -273,6 +291,11 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 	@Override
 	public List<TransPlanVO> getTransPlanVOList(TransPlanVO transPlanVO) {
 		return tsTransPlanHistoryMapper.getTransPlanVOList(transPlanVO);
+	}
+
+	@Override
+	public TsTaskPlanSet getAutoTsTaskPlanSetByPartCode(String tsakDfkey) {
+		return taskPlanSetMapper.getAutoTsTaskPlanSetByPartCode(tsakDfkey);
 	}
 
 
