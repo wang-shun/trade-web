@@ -1,4 +1,4 @@
-package com.centaline.trans.task.entity;
+package com.centaline.trans.transplan.entity;
 
 import java.util.Date;
 

@@ -40,8 +40,8 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.MortStepMapper;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.task.service.ServiceChangeService;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
+import com.centaline.trans.transplan.service.ToTransPlanService;
 
 @Service
 public class ServiceChangeServiceImpl implements ServiceChangeService {

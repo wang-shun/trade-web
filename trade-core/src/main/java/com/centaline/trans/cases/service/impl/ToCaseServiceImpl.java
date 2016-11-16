@@ -62,10 +62,10 @@ import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
-import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.ToTransPlanService;
 
 @Service
 @Transactional

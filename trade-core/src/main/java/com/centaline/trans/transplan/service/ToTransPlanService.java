@@ -1,10 +1,10 @@
-package com.centaline.trans.task.service;
+package com.centaline.trans.transplan.service;
 
 import java.util.List;
 
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
 import com.centaline.trans.task.vo.TransPlanVO;
+import com.centaline.trans.transplan.entity.ToTransPlan;
 
 public interface ToTransPlanService {
 

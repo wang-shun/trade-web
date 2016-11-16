@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.task.repository.ToTransPlanMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToTransPlan" >
+<mapper namespace="com.centaline.trans.transplan.repository.ToTransPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.transplan.entity.ToTransPlan" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
@@ -27,14 +27,14 @@
     delete from sctrans.T_TO_TRANS_PLAN
     where CASE_CODE = #{caseCode,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToTransPlan" >
+  <insert id="insert" parameterType="com.centaline.trans.transplan.entity.ToTransPlan" >
     insert into sctrans.T_TO_TRANS_PLAN (PKID, CASE_CODE, PART_CODE, 
       EST_PART_TIME,LAMP_STATUS,RED_LOCK,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, 
       #{estPartTime,jdbcType=TIMESTAMP}, #{lampStatus,jdbcType=VARCHAR}, 
       #{redLock,jdbcType=CHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToTransPlan" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.transplan.entity.ToTransPlan" >
     insert into sctrans.T_TO_TRANS_PLAN
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -79,7 +79,7 @@
        GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToTransPlan" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.transplan.entity.ToTransPlan" >
     update sctrans.T_TO_TRANS_PLAN
     <set >
       <if test="caseCode != null" >
@@ -104,7 +104,7 @@
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToTransPlan" >
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.transplan.entity.ToTransPlan" >
     update sctrans.T_TO_TRANS_PLAN
     set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       PART_CODE = #{partCode,jdbcType=VARCHAR},
@@ -117,7 +117,7 @@
        UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  <select id="findTransPlanByCount" parameterType="com.centaline.trans.task.entity.ToTransPlan" resultType="java.lang.Integer">
+  <select id="findTransPlanByCount" parameterType="com.centaline.trans.transplan.entity.ToTransPlan" resultType="java.lang.Integer">
     select 
     count(1)
     from sctrans.T_TO_TRANS_PLAN
@@ -135,7 +135,7 @@
     from sctrans.T_TO_TRANS_PLAN
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
-  <select id="findTransPlan" parameterType="com.centaline.trans.task.entity.ToTransPlan" resultMap="BaseResultMap">
+  <select id="findTransPlan" parameterType="com.centaline.trans.transplan.entity.ToTransPlan" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_TRANS_PLAN
@@ -143,7 +143,7 @@
     and PART_CODE = #{partCode,jdbcType=VARCHAR}
   </select>
   
-  <update id="updateTransPlanSelective" parameterType="com.centaline.trans.task.entity.ToTransPlan" >
+  <update id="updateTransPlanSelective" parameterType="com.centaline.trans.transplan.entity.ToTransPlan" >
     update sctrans.T_TO_TRANS_PLAN
     <set >
       <if test="estPartTime != null" >
