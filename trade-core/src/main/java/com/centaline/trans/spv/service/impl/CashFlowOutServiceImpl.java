@@ -132,13 +132,13 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		SessionUser user = uamSessionService.getSessionUser();
         // 判断流程是否已存在
 		if(StringUtils.isNotBlank(businessKey)){
-			PageableVo pVo = processInstanceService.getByBusinessKey(businessKey);
-			List<TaskVo> tList  = pVo.getData();
-			for(TaskVo tVo : tList){
-				if(tVo.getProcessDefinition().contains(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode())){
-					throw new BusinessException("流程已存在，请勿重复开启！");
-				}
-			}	
+			ToWorkFlow record = new ToWorkFlow();
+			record.setBizCode(businessKey);
+			record.setBusinessKey("SPVCashflowOutProcess");
+			ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+			if(toWorkFlow != null){
+				throw new BusinessException("流程已经存在，请勿重复开启！");
+			}
 		}
 		
 		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");

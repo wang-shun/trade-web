@@ -64,6 +64,8 @@
 		I.TEAM_NAME,
 		S.PKID AS batchId,
 		S.PART_CODE,
+		S.OLD_EST_PART_TIME,
+		S.NEW_EST_PART_TIME,
 		S.CHANGE_REASON,
 		S.LAST_VISIT_REMARK,
 		S.LAST_CONTENT,
@@ -81,7 +83,7 @@
 	LEFT JOIN sctrans.SYS_USER Y ON Y.ID = S.CREATE_BY
 	AND Y.IS_DELETED = '0'
 	LEFT JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID
-	WHERE C.CASE_PROPERTY NOT IN ('30003001','30003005')
+	WHERE C.CASE_PROPERTY NOT IN ('30003001','30003005') AND S.OPERATE_FLAG = '0'
         <ifNotNull visitRemark>
             <if test=' visitRemark == "0" or visitRemark == "1"'>
             	AND S.LAST_VISIT_REMARK = #visitRemark#
@@ -121,6 +123,8 @@
 				<column type="virtual" name="transChangeList" referencecol="batchId,CASE_CODE" index="" checkbox="" display="变更原因" title="变更原因" customDict="getTransChangeList" sysDict="" format="" width="90"  align="" halign="" order="" resizable="" />
 				<column type="virtual" name="returnVisitList" title="回访登记列表" referencecol="batchId" customDict="getReturnVisitList" />
 				<column type="both" name="PART_CODE" display="环节编码" title="环节编码" customDict="" hidden=""/>
+				<column type="both" name="OLD_EST_PART_TIME" index="" checkbox="" display="原预计时间" title="原预计时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="NEW_EST_PART_TIME" index="" checkbox="" display="新预计时间" title="新预计时间" customDict="" sysDict="" beanFormatter="dateFormatter"  width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CHANGE_REASON" display="" title="" customDict="" hidden=""/>
 				<column type="virtual" name="changeReason"  display="变更原因" title="变更原因" referencecol="PART_CODE,CHANGE_REASON" customDict="getChangeReason" sysDict="" format="" width="90"  align="" />
 				<column type="both" name="LAST_VISIT_REMARK"  display="最新回访标记" title="最新回访标记" customDict="" sysDict="" format="" width="90"  align="" />

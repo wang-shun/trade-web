@@ -23,9 +23,17 @@
     delete from sctrans.T_TO_TRANS_PLAN
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteTransPlansByCaseCode" parameterType="java.lang.String" >
+  <delete id="deleteTransPlansByCaseCode" parameterType="java.util.Map" >
     delete from sctrans.T_TO_TRANS_PLAN
-    where CASE_CODE = #{caseCode,jdbcType=BIGINT}
+    <where>
+      <if test="caseCode != null">
+          CASE_CODE = #{caseCode,jdbcType=BIGINT}
+      </if>
+      <if test="partCode != null">
+          AND PART_CODE != #{partCode,jdbcType=BIGINT}
+      </if>
+    </where>
+    
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.transplan.entity.ToTransPlan" >
     insert into sctrans.T_TO_TRANS_PLAN (PKID, CASE_CODE, PART_CODE, 
