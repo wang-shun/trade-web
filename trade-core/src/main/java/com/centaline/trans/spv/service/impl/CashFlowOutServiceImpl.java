@@ -22,7 +22,6 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
@@ -185,7 +184,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 
 		//插入工作流表
 		ToWorkFlow workFlow = new ToWorkFlow();
-		//workFlow.setBusinessKey(cashflowApplyCode);
 		workFlow.setBusinessKey("SPVCashflowOutProcess");
 		workFlow.setCaseCode(toSpv.getCaseCode());
 		workFlow.setBizCode(cashflowApplyCode);
@@ -583,7 +581,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	BigDecimal totalCashFlowInAmount = BigDecimal.ZERO;
     	BigDecimal totalCashFlowOutAmount = BigDecimal.ZERO;
     	BigDecimal totalProcessCashFlowOutAmout = BigDecimal.ZERO;
-    	BigDecimal allCashFlowOutAmount = BigDecimal.ZERO;
     	
     	for(ToSpvCashFlow cashFlow: cashFlowList){
     		ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(cashFlow.getCashflowApplyId());

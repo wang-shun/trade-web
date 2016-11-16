@@ -1444,7 +1444,6 @@
             });
 			
 			$longTerm.click(function(){
-				debugger;
 				if($longTerm.attr("checkFlag") == "true"){
 					$idValiDate.val('');
 					$longTerm.attr({"checkFlag":"false","class":"btn btn-grey"});

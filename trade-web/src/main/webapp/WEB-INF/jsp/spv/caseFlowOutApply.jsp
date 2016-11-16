@@ -138,9 +138,6 @@
                                     <table class="table table-bordered  customerinfo" id="cashFlowRecord">
                                         <thead>
                                         <tr>
-<!--                                             <th>
-                                                次数
-                                            </th> -->
                                             <th>
                                               	  划转条件
                                             </th>
@@ -153,18 +150,6 @@
                                             <th>
                                                 	备注
                                             </th>
-<!--                                             <th>
-                                              	  划转条件
-                                            </th>
-                                            <th>
-                                               	 每次划转金额
-                                            </th>
-                                            <th>
-                                               	 卖方账户
-                                            </th>
-                                            <th>
-                                                	资金方
-                                            </th> -->
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -422,10 +407,7 @@
 	                                                </td>
 	                                                <td>
 	                                                    <select  id="select_direction" class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.direction" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction}" >
-	                                                        <!-- <option value="">请选择</option> -->
 	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '转账'}"> selected="selected" </c:if> value="转账">转账</option>                                                                                                                                                
-															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option> --%>  
-															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> --%> 
 	                                                    </select>
 	                                                </td>
 	                                                <td id="td_file${status2.index  }">
@@ -515,12 +497,10 @@
                     <div class="form-btn">
                             <div class="text-center">
                             <c:if test="${empty handle }">
-                                <!-- <button id="none_save_btn" class="btn btn-success mr15">保存</button> -->
                                 <button id="none_submit_btn" class="btn btn-success mr15">提交</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
                             <c:if test="${handle eq 'apply' }">
-                                <!-- <button id="apply_save_btn" class="btn btn-success mr15">保存</button> -->
                                 <button id="apply_submit_btn" class="btn btn-success mr15">提交</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
