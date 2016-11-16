@@ -263,7 +263,8 @@ public class MaterialManagementController {
 	public String materialStay(HttpServletRequest request,MaterialPackageVo material){
 		
 		SessionUser currentUser = uamSessionService.getSessionUser();
-		String userId = currentUser.getId();
+		String userId = currentUser.getId();		
+		request.setAttribute("itemManagerId", userId);
 		List<MmMaterialItem> materialList = new ArrayList<MmMaterialItem>();
 		String itemAddrCode = "";//物品存放路径
 		String attachPkid = ""; //上传附件的pkid
