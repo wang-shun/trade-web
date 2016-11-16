@@ -68,7 +68,7 @@ public class ToTransplanOperateServiceImpl implements ToTransplanOperateService 
 	}
 
 	@Override
-	public long insertTtsTransPlanHistoryBatch(TtsTransPlanHistoryBatch ttsTransPlanHistoryBatch) {
+	public int insertTtsTransPlanHistoryBatch(TtsTransPlanHistoryBatch ttsTransPlanHistoryBatch) {
 		return ttsTransPlanHistoryBatchMapper.insertSelective(ttsTransPlanHistoryBatch);
 	}
 	

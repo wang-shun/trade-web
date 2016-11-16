@@ -23,7 +23,7 @@ public interface ToTransplanOperateService {
 	 * @param ttsTransPlanHistoryBatch
 	 * @return
 	 */
-	public long insertTtsTransPlanHistoryBatch(TtsTransPlanHistoryBatch ttsTransPlanHistoryBatch);
+	public int insertTtsTransPlanHistoryBatch(TtsTransPlanHistoryBatch ttsTransPlanHistoryBatch);
 	
 	/**
 	 * 查限回访跟进信息
