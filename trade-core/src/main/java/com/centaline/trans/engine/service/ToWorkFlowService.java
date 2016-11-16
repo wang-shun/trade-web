@@ -1,18 +1,13 @@
-package com.centaline.trans.common.repository;
+package com.centaline.trans.engine.service;
 
 import java.util.List;
 
-import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.common.entity.ToOutTimeTask;
-import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.engine.entity.ToOutTimeTask;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 
-@MyBatisRepository
-public interface ToWorkFlowMapper {
-	int deleteByPrimaryKey(Long pkid);
+public interface ToWorkFlowService {
 
 	int insertSelective(ToWorkFlow record);
-	
-	int insertSpvCashflowInProcessSelective(ToWorkFlow record);
 
 	ToWorkFlow selectByPrimaryKey(Long pkid);
 
@@ -35,14 +30,19 @@ public interface ToWorkFlowMapper {
 	ToWorkFlow queryWorkFlowByInstCode(String instCode);
 	
 	ToWorkFlow queryActiveToWorkFlowByCaseCodeBusKey(ToWorkFlow record);
-	List<ToWorkFlow> queryActiveToWorkFlowByCaseCode(ToWorkFlow record);
-	List<ToWorkFlow> getMortToWorkFlowByCaseCode(ToWorkFlow record);
-	void inActiveForm(String caseCode) ;
-	
-	int deleteWorkFlowByProperty(ToWorkFlow record);
+	List<ToWorkFlow>queryActiveToWorkFlowByCaseCode(ToWorkFlow record);
+	/**
+	 * 无效表单数据
+	 * @param caseCode
+	 * @return
+	 */
+	void inActiveForm(String caseCode);
 	
 	int updateWorkFlowByInstCode(ToWorkFlow record);
 	
+	void deleteWorkFlowByProperty(ToWorkFlow record);
+	
 	void deleteWorkFlowByInstCode(String instCode);
 	
+	List<ToWorkFlow> getMortToWorkFlowByCaseCode(ToWorkFlow record);
 }

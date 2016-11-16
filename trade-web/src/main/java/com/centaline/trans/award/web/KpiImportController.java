@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -119,7 +118,7 @@ public class KpiImportController {
 	public String testbonus(HttpServletRequest request) {
 		return "award/testbonus";
 	}
-
+	
 	@RequestMapping(value = "/doImport")
 	public String doKpiImport(HttpServletRequest request, HttpServletResponse response, Boolean currentMonth)
 			throws InstantiationException, IllegalAccessException, InvalidFormatException, IOException {
@@ -178,9 +177,9 @@ public class KpiImportController {
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		// 上月
 		if ("0".equals(belongMonth)) {
-			belongM = DateUtil.plusMonth(new Date(), -1);
+			belongM =DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1));
 		} else {
-			belongM = new Date();
+			belongM = DateUtil.getFirstDayOfTheMonth();
 		}
 		TsKpiPsnMonth record = new TsKpiPsnMonth();
 		record.setBelongMonth(belongM);
@@ -214,7 +213,7 @@ public class KpiImportController {
 
 		return "award/monthKpiImport";
 	}
-
+	
 	// 统计该月份的绩效奖金相关数据
 	private void staticMoneyKpi(Date belongM) {
 

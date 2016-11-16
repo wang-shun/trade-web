@@ -25,6 +25,7 @@ import com.centaline.trans.kpi.entity.TsKpiSrvCase;
 import com.centaline.trans.kpi.repository.TsKpiSrvCaseMapper;
 import com.centaline.trans.kpi.service.KpiSrvCaseService;
 import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
+import com.centaline.trans.utils.DateUtil;
 import com.centaline.trans.utils.NumberUtil;
 
 @Service(value = "kpiSrvCaseService")
@@ -96,14 +97,18 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		errList = filterNoGuoHuCaseCodeSetMsg(listVOs,caseCodes,"该案件数据还未过户");
 		if (errList != null) {
 			return errList;
-		}*/
+		}
 		/* 满意度0-10的整数  上下家电话只能是通过、不通过两种*/
 		errList = filterNoInteger(listVOs);
 		if (errList != null) {
 			return errList;
 		}
+		if(currentMonth){
+			deleteKpiSrvCaseByBelongMonth(DateUtil.getFirstDayOfTheMonth());
+		}else{
+			deleteKpiSrvCaseByBelongMonth(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1)));
+		}
 		
-		deleteKpiSrvCaseByBelongMonth(getFirstDay(currentMonth));
 		removeBlankCaseCode(listVOs);
 		
 		List<TsKpiSrvCase> vos = new ArrayList<>();
@@ -127,7 +132,9 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 					i += (t.size() * pSize);
 				}
 			}
+			if (!vos.isEmpty()) {
 			kpiSrvCaseMapper.batchInsert(vos);
+			}
 			return null;
 		} else {
 			return null;
@@ -423,7 +430,12 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		List<TsKpiSrvCase> listEntity = new ArrayList<>();
 		List<TsKpiSrvCase> emList = new ArrayList<>();
 		TsKpiSrvCase entity = new TsKpiSrvCase();
-		entity.setBelongMonth(getFirstDay(vo.isCurrentMonth()));
+		
+		if(vo.isCurrentMonth()){
+			entity.setBelongMonth(DateUtil.getFirstDayOfTheMonth());
+		}else{
+			entity.setBelongMonth(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1)));
+		}
 		entity.setCreateBy(vo.getCreateBy());
 		entity.setCaseCode(vo.getCaseCode());
 		entity.setSrvPart(DoubleToBigDecimal(1d));
@@ -446,7 +458,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		} else {
 			entity.setSalerCallback("0");
 		}
-		if(!buyerCallBack&&!salesCallBack){//上下家都不通 不导入
+		if (!buyerCallBack || !salesCallBack) {// 上下家有一家不通 不导入
 			return emList;
 		}
 		
@@ -454,48 +466,43 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		entity.setCreateTime(new Date());
 		TsKpiSrvCase tscTemp = new TsKpiSrvCase();
 		tscTemp=generateNewEntity(entity, "TransSign", 
-				salesCallBack && StringUtils.isNotBlank(vo.getSalesSignScore()) ? Double.valueOf(vo.getSalesSignScore()) : null,
-				buyerCallBack && StringUtils.isNotBlank(vo.getSignScore()) ? Double.valueOf(vo.getSignScore()) : null, true,
-						StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback()));
-		if(!tscTemp.getCheckFlag()){
-			return emList;
-		}
+				salesCallBack && StringUtils.isNotBlank(vo.getSalesSignScore()) ? Double.valueOf(vo.getSalesSignScore())
+						: null,
+				buyerCallBack && StringUtils.isNotBlank(vo.getSignScore()) ? Double.valueOf(vo.getSignScore()) : null,
+				true, StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback()));
+
 		listEntity.add(tscTemp);// 签约
 		
 		tscTemp=generateNewEntity(entity, "LoanClose", 
-					salesCallBack && StringUtils.isNotBlank(vo.getAccompanyRepayLoanScore()) ? Double.valueOf(vo.getAccompanyRepayLoanScore()) : null,
+				salesCallBack && StringUtils.isNotBlank(vo.getAccompanyRepayLoanScore())
+						? Double.valueOf(vo.getAccompanyRepayLoanScore()) : null,
 					null, false, StrToBo(entity.getSalerCallback()));
 		
-		if(!tscTemp.getCheckFlag()){
-			return emList;
-		}
 		listEntity.add(tscTemp);// 上家贷款结清
 		
 		tscTemp=generateNewEntity(entity, "Guohu", 
-				salesCallBack && StringUtils.isNotBlank(vo.getSalesTransferScore()) ? Double.valueOf(vo.getSalesTransferScore()) : null,
-				buyerCallBack && StringUtils.isNotBlank(vo.getTransferScore())? Double.valueOf(vo.getTransferScore()) : null, true,
-						StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback()));// 过户
-		if(!tscTemp.getCheckFlag()){
-			return emList;
-		}
+				salesCallBack && StringUtils.isNotBlank(vo.getSalesTransferScore())
+						? Double.valueOf(vo.getSalesTransferScore()) : null,
+				buyerCallBack && StringUtils.isNotBlank(vo.getTransferScore()) ? Double.valueOf(vo.getTransferScore())
+						: null,
+				true, StrToBo(entity.getSalerCallback()) && StrToBo(entity.getBuyerCallback()));// 过户
+
 		listEntity.add(tscTemp);// 过户
 		
 		/* 下家贷款为空的话则不插入数据页面不显示   20160823*/
 		//if(StringUtils.isNotBlank(vo.getComLoanScore())){
 		tscTemp=generateNewEntity(entity, "ComLoanProcess", null, 
-					buyerCallBack && StringUtils.isNotBlank(vo.getComLoanScore())? Double.valueOf(vo.getComLoanScore()) : null,
+				buyerCallBack && StringUtils.isNotBlank(vo.getComLoanScore()) ? Double.valueOf(vo.getComLoanScore())
+						: null,
 					false, StrToBo(entity.getBuyerCallback()));// 下家贷款
-		if(!tscTemp.getCheckFlag()){
-			return emList;
-		}
+
 		listEntity.add(tscTemp);// 下家贷款
 		
 		tscTemp=generateNewEntity(entity, "PSFSign", null, 
-				buyerCallBack && StringUtils.isNotBlank(vo.getAccuFundScore())? Double.valueOf(vo.getAccuFundScore()) : null, false,
-				StrToBo(entity.getBuyerCallback()));// 公积金贷款
-		if(!tscTemp.getCheckFlag()){
-			return emList;
-		}
+				buyerCallBack && StringUtils.isNotBlank(vo.getAccuFundScore()) ? Double.valueOf(vo.getAccuFundScore())
+						: null,
+				false, StrToBo(entity.getBuyerCallback()));// 公积金贷款
+
 		listEntity.add(tscTemp);// 下家贷款
 		return listEntity;
 	}
@@ -527,10 +534,9 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		newEntity.setSalerSatis(DoubleToBigDecimal(ssc));
 		newEntity.setBuyerSatis(DoubleToBigDecimal(bsc));
 		AwardBaseEntity awardBase =null;
-		boolean existsAwardBase=false;
+		// boolean existsAwardBase=false;
 		try {
 			 awardBase = awardBaseEntityMapper.selectByCaseCodeAndSrvCode(entity.getCaseCode(), srvCode);
-			 existsAwardBase=true;
 		} catch (Exception e) {
 			System.err.println(entity.getCaseCode()+"----"+ srvCode);
 			throw e;
@@ -553,12 +559,11 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 				newEntity.setSatisfaction(DoubleToBigDecimal(bsc));
 			}
 		}
-		//没有拿到满意度但又AwardBase又存在返回NULL该案件满意度不导入
-		if(newEntity.getSatisfaction()==null&&existsAwardBase){
-			newEntity.setCheckFlag(false);
-		}else{
-			newEntity.setCheckFlag(true);
-		}
+		/*
+		 * //没有拿到满意度但又AwardBase又存在返回NULL该案件满意度不导入 这个规则又改了
+		 * if(newEntity.getSatisfaction()==null&&existsAwardBase){
+		 * newEntity.setCheckFlag(false); }else{ newEntity.setCheckFlag(true); }
+		 */
 		
 		newEntity.setCanCallback(canCallBack ? "1" : "0");
 		return newEntity;
@@ -579,6 +584,11 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 
 	@Override
 	public void callKpiStastic(Boolean currentMonth) {
-		kpiSrvCaseMapper.callKpiStastic(getFirstDay(currentMonth));
+		if(currentMonth){
+			kpiSrvCaseMapper.callKpiStastic(DateUtil.getFirstDayOfTheMonth());
+		}else{
+			kpiSrvCaseMapper.callKpiStastic(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1)));
+		}
+		
 	}
 }
