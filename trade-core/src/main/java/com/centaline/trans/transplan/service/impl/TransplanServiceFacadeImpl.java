@@ -1,5 +1,6 @@
 package com.centaline.trans.transplan.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.enums.ToAttachmentEnum;
+import com.centaline.trans.task.entity.TsTaskPlanSet;
 import com.centaline.trans.task.entity.TsTransPlanHistory;
+import com.centaline.trans.task.repository.TaskPlanSetMapper;
 import com.centaline.trans.task.repository.TsTransPlanHistoryMapper;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
@@ -38,6 +41,8 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 	private ReturnVisitRegistrationMapper returnVisitRegistrationMapper;
 	@Autowired
 	private UamSessionService uamSessionService;
+	@Autowired
+	private TaskPlanSetMapper taskPlanSetMapper;
 	
 	@Override
 	public void processRestartOrResetOperate(String caseCode,String changeReason) {
@@ -70,8 +75,21 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 		Map map = new HashMap();
 		map.put("caseCode", caseCode);
 		if(ConstantsUtil.PROCESS_RESTART.equals(changeReason)){
-			//流程重启保留首次跟进环节信息
+			//流程重启保留首次跟进环节信息并更新首次跟进原预计时间
 			map.put("partCode", ToAttachmentEnum.FIRSTFOLLOW.getCode());
+			TsTaskPlanSet tps = taskPlanSetMapper.getAutoTsTaskPlanSetByPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
+			if (tps != null){
+				ToTransPlan plan = new ToTransPlan();
+				plan.setCaseCode(caseCode);
+				plan.setPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DAY_OF_MONTH, tps.getPlanDays());
+				plan.setEstPartTime(cal.getTime());
+				if(toTransPlanMapper.findTransPlan(plan) != null) {
+					toTransPlanMapper.updateTransPlanSelective(plan);
+				} 
+			}
+			
 		}
 		toTransPlanMapper.deleteTransPlansByCaseCode(map);
 		
