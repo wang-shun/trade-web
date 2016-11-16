@@ -154,11 +154,11 @@
 		<mapper resource="mapper/task/AwardBaseMapper.xml"/>
 		<mapper resource="mapper/task/ActHiTaskinstMapper.xml"/>
 		<mapper resource="mapper/task/AwardBaseConfigMapper.xml"/>
-		<mapper resource="mapper/kpi/TsKpiPsnMonthMapper.xml"/>
-		<mapper resource="mapper/kpi/TsKpiSrvCaseMapper.xml"/>
-		<mapper resource="mapper/kpi/TsAwardKpiPayDetailMapper.xml"/>
+		<mapper resource="mapper/award/TsKpiPsnMonthMapper.xml"/>
+		<mapper resource="mapper/award/TsKpiSrvCaseMapper.xml"/>
+		<mapper resource="mapper/award/TsAwardKpiPayDetailMapper.xml"/>
 		<mapper resource="mapper/award/AwardBaseEntityMapper.xml"/>
-		<mapper resource="mapper/kpi/TsAwardKpiPayMapper.xml"/>
+		<mapper resource="mapper/award/TsAwardKpiPayMapper.xml"/>
 		<!-- 统计报表 -->
 		<mapper resource="mapper/report/CaseProcessStatisMapper.xml"/>
 		<!-- 产调转组 -->

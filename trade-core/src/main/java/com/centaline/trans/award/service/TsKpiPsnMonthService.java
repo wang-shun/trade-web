@@ -1,9 +1,10 @@
-package com.centaline.trans.kpi.service;
+package com.centaline.trans.award.service;
 
 import java.util.Date;
 import java.util.List;
-import com.centaline.trans.kpi.entity.TsKpiPsnMonth;
-import com.centaline.trans.kpi.vo.KpiMonthVO;
+
+import com.centaline.trans.award.entity.TsKpiPsnMonth;
+import com.centaline.trans.award.vo.KpiMonthVO;
 
 public interface TsKpiPsnMonthService {
 	
