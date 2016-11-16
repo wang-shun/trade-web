@@ -3,8 +3,8 @@ package com.centaline.trans.transplan.service;
 import java.util.List;
 
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
-import com.centaline.trans.task.vo.TransPlanVO;
 import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.vo.TransPlanVO;
 
 public interface ToTransPlanService {
 

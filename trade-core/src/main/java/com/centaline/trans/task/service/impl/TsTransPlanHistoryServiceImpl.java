@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.cases.repository.ToCaseMapper;
-import com.centaline.trans.task.entity.TsTransPlanHistory;
-import com.centaline.trans.task.repository.TsTransPlanHistoryMapper;
-import com.centaline.trans.task.service.TsTransPlanHistoryService;
-import com.centaline.trans.task.vo.TransPlanVO;
+import com.centaline.trans.transplan.entity.TsTransPlanHistory;
+import com.centaline.trans.transplan.repository.TsTransPlanHistoryMapper;
+import com.centaline.trans.transplan.service.TsTransPlanHistoryService;
+import com.centaline.trans.transplan.vo.TransPlanVO;
 @Service
 public class TsTransPlanHistoryServiceImpl implements TsTransPlanHistoryService {
 	@Autowired

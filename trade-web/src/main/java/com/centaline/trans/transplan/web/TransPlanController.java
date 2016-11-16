@@ -17,8 +17,8 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.task.vo.TransPlanVO;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.transplan.vo.TransPlanVO;
 
 @Controller
 @RequestMapping(value="/task/transPlan")
