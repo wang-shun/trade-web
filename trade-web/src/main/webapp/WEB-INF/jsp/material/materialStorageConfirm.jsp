@@ -81,7 +81,7 @@
                                    <p>
                                    <p class="input-infoht"  style="position:relative;">
                                        <label>申请人</label>
-                                       <input type="text"  class="select_control info_two"   name="relevantUser"  id="relevantUser" 
+                                       <input type="text"  class="select_control info_two input_type"   name="relevantUser"  id="relevantUser" 
                                         readonly="readonly"	 value="${mmMaterialItemList.get(0).createBy}"/>
                                        <input  type="hidden"  value="${createByCode}"  name="relevantUserId"  id="relevantUserId">
                                    <p> 

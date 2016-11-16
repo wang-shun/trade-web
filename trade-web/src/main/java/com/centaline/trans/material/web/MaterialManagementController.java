@@ -127,7 +127,7 @@ public class MaterialManagementController {
 							mmMaterialItem.setItemCategory("他证");
 						}	
 					}
-					request.setAttribute("createBy", mmMaterialItem.getCreateBy());
+					request.setAttribute("createByCode", mmMaterialItem.getCreateBy());
 					if(mmMaterialItem.getCreateBy() !=null && !"".equals(mmMaterialItem.getCreateBy())){
 						User user1 = uamUserOrgService.getUserById(mmMaterialItem.getCreateBy());
 						if(null != user1){
