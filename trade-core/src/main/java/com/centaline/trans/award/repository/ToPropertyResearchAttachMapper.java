@@ -1,4 +1,4 @@
-package com.centaline.trans.kpi.repository;
+package com.centaline.trans.award.repository;
 
 import com.centaline.trans.common.repository.ToPropertyResearchAttach;
 

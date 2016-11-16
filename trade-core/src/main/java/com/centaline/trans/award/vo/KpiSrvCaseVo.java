@@ -1,4 +1,4 @@
-package com.centaline.trans.kpi.vo;
+package com.centaline.trans.award.vo;
 
 import com.aist.common.utils.excel.annotation.ExcelField;
 

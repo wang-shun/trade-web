@@ -1,8 +1,9 @@
-package com.centaline.trans.kpi.repository;
+package com.centaline.trans.award.repository;
 
 import java.util.List;
+
+import com.centaline.trans.award.entity.TsAwardKpiPay;
 import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.kpi.entity.TsAwardKpiPay;
 
 @MyBatisRepository
 public interface TsAwardKpiPayMapper {

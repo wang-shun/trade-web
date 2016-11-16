@@ -1,12 +1,12 @@
-package com.centaline.trans.kpi.repository;
+package com.centaline.trans.award.repository;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.centaline.trans.award.entity.TsKpiSrvCase;
+import com.centaline.trans.award.vo.KpiSrvCaseVo;
 import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.kpi.entity.TsKpiSrvCase;
-import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
 
 @MyBatisRepository
 public interface TsKpiSrvCaseMapper {

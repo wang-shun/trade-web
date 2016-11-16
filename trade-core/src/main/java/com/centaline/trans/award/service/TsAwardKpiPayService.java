@@ -1,8 +1,8 @@
-package com.centaline.trans.kpi.service;
+package com.centaline.trans.award.service;
 
 import java.util.List;
 
-import com.centaline.trans.kpi.entity.TsAwardKpiPay;
+import com.centaline.trans.award.entity.TsAwardKpiPay;
 
 public interface TsAwardKpiPayService {
 	
