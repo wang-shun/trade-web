@@ -77,7 +77,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 		if(ConstantsUtil.PROCESS_RESTART.equals(changeReason)){
 			//流程重启保留首次跟进环节信息并更新首次跟进原预计时间
 			map.put("partCode", ToAttachmentEnum.FIRSTFOLLOW.getCode());
-			TsTaskPlanSet tps = taskPlanSetMapper.getAutoTsTaskPlanSetByPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
+			TsTaskPlanSet tps = taskPlanSetMapper.getTsTaskPlanSetByPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
 			if (tps != null){
 				ToTransPlan plan = new ToTransPlan();
 				plan.setCaseCode(caseCode);
