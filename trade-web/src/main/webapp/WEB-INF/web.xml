@@ -91,6 +91,10 @@
 	<listener>
 		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
 	</listener>
+	
+	<listener>
+		<listener-class>com.aist.common.listener.LoadAppInfo</listener-class>
+	</listener>
 
 	<filter>
 		<filter-name>CAS Single Sign Out Filter</filter-name>
