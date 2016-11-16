@@ -1,7 +1,9 @@
 package com.centaline.trans.transplan.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.task.entity.TsTransPlanHistory;
 import com.centaline.trans.task.repository.TsTransPlanHistoryMapper;
 import com.centaline.trans.transplan.entity.ToTransPlan;
@@ -20,6 +23,7 @@ import com.centaline.trans.transplan.repository.ToTransPlanMapper;
 import com.centaline.trans.transplan.repository.TtsTransPlanHistoryBatchMapper;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
+import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
 public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
@@ -63,11 +67,18 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 			}
 		}
 		//删除交易计划表该案件相关信息
-		toTransPlanMapper.deleteTransPlansByCaseCode(caseCode);
+		Map map = new HashMap();
+		map.put("caseCode", caseCode);
+		if(ConstantsUtil.PROCESS_RESTART.equals(changeReason)){
+			//流程重启保留首次跟进环节信息
+			map.put("partCode", ToAttachmentEnum.FIRSTFOLLOW.getCode());
+		}
+		toTransPlanMapper.deleteTransPlansByCaseCode(map);
+		
 	}
 
 	@Override
-	public long insertTtsTransPlanHistoryBatch(TtsTransPlanHistoryBatch ttsTransPlanHistoryBatch) {
+	public int insertTtsTransPlanHistoryBatch(TtsTransPlanHistoryBatch ttsTransPlanHistoryBatch) {
 		return ttsTransPlanHistoryBatchMapper.insertSelective(ttsTransPlanHistoryBatch);
 	}
 	
