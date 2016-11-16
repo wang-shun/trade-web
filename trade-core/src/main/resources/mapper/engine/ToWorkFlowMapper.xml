@@ -369,6 +369,14 @@
     AND BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR}
     and status=0
   </select>
+  <select id="queryToWorkFlowByBizCodeBusKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.engine.entity.ToWorkFlow" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_WORKFLOW
+    where BIZ_CODE = #{bizCode,jdbcType=VARCHAR}
+    AND BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR}
+    and status=0
+  </select>
   <select id="getMortToWorkFlowByCaseCode" resultMap="BaseResultMap" parameterType="com.centaline.trans.engine.entity.ToWorkFlow" >
     select 
     <include refid="Base_Column_List" />
