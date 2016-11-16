@@ -16,12 +16,10 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.aist.uam.userorg.remote.vo.Org;
+
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.enums.DepTypeEnum;
-import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.material.entity.MmIoBatch;
@@ -67,32 +65,8 @@ public class MaterialManagementController {
 	public String materialList(HttpServletRequest request){
 	
 		SessionUser user = uamSessionService.getSessionUser();
-		String userJob=user.getServiceJobCode();
-		boolean queryOrgFlag = false;
-		boolean isAdminFlag = false;
-
-        StringBuffer reBuffer = new StringBuffer();
-		if(!userJob.equals(TransJobs.TJYGW.getCode())){
-			queryOrgFlag=true;
-			String depString = user.getServiceDepHierarchy();
-			String userOrgIdString = user.getServiceDepId();
-			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
-				reBuffer.append(userOrgIdString);
-			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
-				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
-				for(Org org:orgList){
-					reBuffer.append(org.getId());
-					reBuffer.append(",");
-				}
-				reBuffer.deleteCharAt(reBuffer.length()-1);
-				
-			}else{
-				isAdminFlag=true;
-			}
-		}
-		request.setAttribute("queryOrgs", reBuffer.toString());//org_id至jsp、js分割-->数组
-		request.setAttribute("queryOrgFlag", queryOrgFlag);//判断是否是交易顾问 即判断是否有上下级组织
-		request.setAttribute("isAdminFlag", isAdminFlag);		
+		String userId=user.getId();
+		request.setAttribute("itemManagerId", userId);
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		request.setAttribute("serviceDepName", user.getServiceDepName());	
 
