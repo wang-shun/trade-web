@@ -619,7 +619,7 @@ public class SpvController {
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
-		spv.setStatus(SpvStatusEnum.ADUIT.getCode());
+		spv.setStatus(SpvStatusEnum.AUDIT.getCode());
 
 		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
@@ -864,14 +864,14 @@ public class SpvController {
         	case "apply":
         		cashFlowOutService.cashFlowOutApplyProcess(request, source, instCode, taskId, handle, businessKey);
         		break;
-            case "directorAduit":
-            	cashFlowOutService.cashFlowOutDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+            case "directorAudit":
+            	cashFlowOutService.cashFlowOutDirectorAuditProcess(request, source, instCode, taskId, handle, businessKey);
         		break;
-            case "financeAduit":
-            	cashFlowOutService.cashFlowOutFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
+            case "financeAudit":
+            	cashFlowOutService.cashFlowOutFinanceAuditProcess(request, source, instCode, taskId, handle, businessKey);
             	break;
-            case "financeSecondAduit":
-            	cashFlowOutService.cashFlowOutFinanceSecondAduitProcess(request, source, instCode, taskId, handle, businessKey);
+            case "financeSecondAudit":
+            	cashFlowOutService.cashFlowOutFinanceSecondAuditProcess(request, source, instCode, taskId, handle, businessKey);
                 break;
         	}
     		request.setAttribute("urlType", "myTask");
@@ -917,14 +917,14 @@ public class SpvController {
 				case "apply":
 					cashFlowOutService.cashFlowOutApplyDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode, chargeOutAppr);
 					break;
-			    case "directorAduit":
-			    	cashFlowOutService.cashFlowOutDirectorAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
+			    case "directorAudit":
+			    	cashFlowOutService.cashFlowOutDirectorAuditDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 					break;
-			    case "financeAduit":
-			    	cashFlowOutService.cashFlowOutFinanceAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
+			    case "financeAudit":
+			    	cashFlowOutService.cashFlowOutFinanceAuditDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			    	break;
-			    case "financeSecondAduit":
-			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
+			    case "financeSecondAudit":
+			    	cashFlowOutService.cashFlowOutFinanceSecondAuditDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
 			        break;   
 				}	
 			}else{
