@@ -1,12 +1,13 @@
-package com.centaline.trans.kpi.service.impl;
+package com.centaline.trans.award.service.impl;
 
 import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.centaline.trans.kpi.repository.TsAwardKpiPayDetailMapper;
-import com.centaline.trans.kpi.service.TsAwardKpiPayDetailService;
+
+import com.centaline.trans.award.repository.TsAwardKpiPayDetailMapper;
+import com.centaline.trans.award.service.TsAwardKpiPayDetailService;
 
 @Service
 public class TsAwardKpiPayDetailServiceImpl implements TsAwardKpiPayDetailService {

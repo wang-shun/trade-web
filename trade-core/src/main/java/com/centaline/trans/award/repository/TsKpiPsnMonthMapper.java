@@ -1,10 +1,10 @@
-package com.centaline.trans.kpi.repository;
+package com.centaline.trans.award.repository;
 
 import java.util.Date;
 import java.util.List;
 
+import com.centaline.trans.award.entity.TsKpiPsnMonth;
 import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.kpi.entity.TsKpiPsnMonth;
 @MyBatisRepository
 public interface TsKpiPsnMonthMapper {
     int deleteByPrimaryKey(Long pkid);

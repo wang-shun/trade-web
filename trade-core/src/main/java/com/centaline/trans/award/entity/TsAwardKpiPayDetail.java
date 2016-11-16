@@ -1,4 +1,4 @@
-package com.centaline.trans.kpi.entity;
+package com.centaline.trans.award.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;

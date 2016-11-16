@@ -32,7 +32,7 @@ function reloadGrid(page){
         success: function(data){
           $.unblockUI();
       	  var dealChangeList = template('template_dealChangeList' , data);
-		  $("#dealChangeList").empty();
+		  $("#dealChangeList tr").remove();
 		  $("#dealChangeList").html(dealChangeList);
 		  
 		  // 显示分页 

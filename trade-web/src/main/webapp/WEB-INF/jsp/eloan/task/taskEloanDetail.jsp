@@ -306,13 +306,15 @@
                                                     <div class="tab-pane active" id="tab-fk">
                                                        <div class="guaranty_btn">
                                                         <%-- <a href="${ctx}/riskControl/guarantycards?pkid=${pkId}"> --%>
-                                                        <shiro:hasPermission name="TRADE.RISKCONTROL.ADD">
-                                                        <button class="btn btn-success btn-space ykqing cardButton">押卡</button>
-                                                        <%-- <a href="${ctx}/riskControl/guarantymortgage?pkid=${pkId}"> --%>
-                                                        <button class="btn btn-success btn-space ykqing mortgageButton">抵押</button>
-                                                        <%-- <a href="${ctx}/riskControl/guarantyfair?pkid=${pkId}"> --%>
-                                                        <button class="btn btn-success btn-space ykqing forceFairButton">强制公证</button>
-                                                        </shiro:hasPermission>
+	                                                        <c:if test="${eloanCase.status != 'ABAN'}">
+	                                                               <shiro:hasPermission name="TRADE.RISKCONTROL.ADD">
+			                                                        <button class="btn btn-success btn-space ykqing cardButton">押卡</button>
+			                                                        <%-- <a href="${ctx}/riskControl/guarantymortgage?pkid=${pkId}"> --%>
+			                                                        <button class="btn btn-success btn-space ykqing mortgageButton">抵押</button>
+			                                                        <%-- <a href="${ctx}/riskControl/guarantyfair?pkid=${pkId}"> --%>
+			                                                        <button class="btn btn-success btn-space ykqing forceFairButton">强制公证</button>
+			                                                        </shiro:hasPermission>
+											   				</c:if> 
                                                         </div>
                                                         <div class="riskControl-table">
         												</div>
