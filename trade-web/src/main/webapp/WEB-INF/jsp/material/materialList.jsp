@@ -123,7 +123,7 @@
                              </th>
                              <th>案件编号</th>
                              <th>保管物品</th>
-                             <th>提交人</th>
+                             <th>申请人</th>
                              <th>保管人</th>
                              <th>文件位置</th>
                              <th>状态</th>
@@ -291,7 +291,7 @@
                        <tr class="tr-2">
                    {{/if}}
 						<td> 	
-							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}" statusFlag="{{item.ITEM_STATUS}}">						
+							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" caseFlag="{{item.CASE_CODE}}" statusFlag="{{item.ITEM_STATUS}}"  createFlag="{{item.CREATE_BY_REAL_NAME}}">						
 						
 						</td>
 						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank"  class="caseCodeForshow">{{item.CASE_CODE}}</a></p>

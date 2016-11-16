@@ -211,13 +211,14 @@ function getPkidsArray(){
 }
 //物品入库
 $("#materialStorage").click(function(){	
-	var pkids = getCheck();		
-	if(!caseCodeTheSameCheck()){
+		
+	if(!caseCodeAndCreateByTheSameCheck()){
 		return false;
 	}
 	if(!statusFlagCheck()){
 		return false;
-	}		
+	}	
+	var pkids = getCheck();	
 	if(pkids){	
 		//填充表单，请求后端数据
 		$("#pkids").val(pkids);		
@@ -225,6 +226,35 @@ $("#materialStorage").click(function(){
 	}
 })
 
+function caseCodeAndCreateByTheSameCheck(){
+	var flag=true;
+	$("input[type=checkbox][name='materialCheck']:checked").each(function(i,e){	
+		flag = compareCaseCodeAndCreateBy(this,i);
+		if(flag == false){
+			return false;
+		}
+	})
+	return flag;
+}
+
+//入库时验证勾选的复选框的caseCode 和申请人 必须一样
+function compareCaseCodeAndCreateBy(a,b){
+	var caseCodeAndCreateByFlag = true;
+	var caseCodeArray = $("input[type=checkbox][name='materialCheck']:checked");	
+	for(var i=0 ;i < caseCodeArray.length; i++){
+		  if(i != b){
+			  if(($(caseCodeArray[i]).attr("caseFlag") != $(a).attr("caseFlag"))  ||  ($(caseCodeArray[i]).attr("createFlag") != $(a).attr("createFlag")) ){
+				caseCodeAndCreateByFlag = false;
+				alert("单次操作请选择相同案件编号和相同申请人对应的物品！");
+			  }
+		  }
+		  
+		 if(caseCodeAndCreateByFlag==false){				
+			return  false;
+		 }
+	}
+	return caseCodeAndCreateByFlag;
+}
 
 //验证勾选的复选框的caseCode必须一样
 function caseCodeTheSameCheck(){	
@@ -243,7 +273,7 @@ function compareCaseCode(a,b){
 	var caseCodeArray = $("input[type=checkbox][name='materialCheck']:checked");	
 	for(var i=0 ;i < caseCodeArray.length; i++){
 		  if(i != b){
-			  if($(caseCodeArray[i]).attr("kkk") != $(a).attr("kkk")){
+			  if($(caseCodeArray[i]).attr("caseFlag") != $(a).attr("caseFlag")){
 				caseCodeFlag = false;
 				alert("单次操作请选择相同案件编号对应的物品！");
 			  }

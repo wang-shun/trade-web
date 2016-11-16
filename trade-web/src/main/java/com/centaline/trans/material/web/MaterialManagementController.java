@@ -45,7 +45,7 @@ public class MaterialManagementController {
 	
 	@Autowired(required=true)
 	private UamUserOrgService uamUserOrgService;
-	
+
 	@Autowired(required=true)
 	private MmMaterialItemService mmMaterialItemService;
 	
@@ -127,6 +127,13 @@ public class MaterialManagementController {
 							mmMaterialItem.setItemCategory("他证");
 						}	
 					}
+					request.setAttribute("createBy", mmMaterialItem.getCreateBy());
+					if(mmMaterialItem.getCreateBy() !=null && !"".equals(mmMaterialItem.getCreateBy())){
+						User user1 = uamUserOrgService.getUserById(mmMaterialItem.getCreateBy());
+						if(null != user1){
+							mmMaterialItem.setCreateBy(user1.getRealName());
+						}
+					}
 				}
 				mmMaterialItemList.add(mmMaterialItem);
 			}
@@ -134,6 +141,7 @@ public class MaterialManagementController {
 			if(pkid.length>0){
 				request.setAttribute("pkid", pkid[0]);	
 			}
+			
 		}
 		
 		if(mmMaterialItemList.size()>0){
