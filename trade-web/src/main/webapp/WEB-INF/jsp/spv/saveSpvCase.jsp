@@ -739,11 +739,7 @@
 						<div class="form-group form-margin form-space-one">
 							<label class="lable-one"  style="text-align: right;"><i style="color:red;">*</i> 审批意见</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
-								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">
-								<c:if test="${empty handle or handle eq 'SpvApply' }">
-								${toApproveRecord.content }
-								</c:if>
-								</textarea>
+								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason"><c:if test="${empty handle or handle eq 'SpvApply' }">${toApproveRecord.content }</c:if></textarea>
 							</div>
 						</div>
 					</div>
@@ -1410,9 +1406,6 @@
 				var index = $(e).attr("id").replace('bank_','');
 				var $select = $("select[name='toSpvAccountList["+index+"].branchBank']"); 
 				getParentBank($(e),$select,$select.attr("value"),$(e).attr("value"));
- 				$(e).change(function(){
-					getBranchBankList($select,$(e).val());
-				}); 
  				
  		        //可变select
  		        $(e).editableSelect({
@@ -1533,8 +1526,7 @@
 				    data:{faFinOrgCode:$(element).val()},
 		    	success:function(data){
 			    	for(var i = 0;i<data.length;i++){
-			    		var coLevelStr='('+data[i].coLevelStr+')';
-			    		var $li = $("<li coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</li>");
+			    		var $li = $("<li coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+"</li>");
 			    		$li.mouseover(function(){
 			    			$(this).addClass("selected");
 			    		}).mouseleave(function(){

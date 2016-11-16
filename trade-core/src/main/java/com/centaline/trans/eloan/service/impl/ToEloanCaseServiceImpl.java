@@ -178,7 +178,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setStatus("0");
-		workFlow.setCaseCode(tEloanCase.getEloanCode());
+		workFlow.setCaseCode(tEloanCase.getCaseCode());
 		workFlow.setInstCode(tEloanCase.getProcessInstanceId());
 		toWorkFlowService.updateWorkFlowByInstCode(workFlow);
 		

@@ -421,8 +421,8 @@
 	                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.voucherNo }" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.voucherNo" />
 	                                                </td>
 	                                                <td>
-	                                                    <select  id="select_direction" class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.direction"  onChange="this.value" >
-	                                                        <option value="">请选择</option>
+	                                                    <select  id="select_direction" class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.direction" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction}" >
+	                                                        <!-- <option value="">请选择</option> -->
 	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '转账'}"> selected="selected" </c:if> value="转账">转账</option>                                                                                                                                                
 															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option> --%>  
 															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> --%> 
@@ -694,8 +694,7 @@ function getTR(index){
 	$str+='	</td>';
 	$str+='	<td>';
 	$str+='		<select name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.direction" class="table-select boderbbt" onChange="this.value">';
-	$str+='			<option value="">请选择</option>';
-	$str+='			<option value="刷卡">刷卡</option>';
+	$str+='			<option value="转账">转账</option>';
 	$str+='		</select>';
 	$str+='	</td>';
 	$str+='	<td id="td_file'+index+'">';
