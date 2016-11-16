@@ -103,8 +103,12 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		if (errList != null) {
 			return errList;
 		}
+		if(currentMonth){
+			deleteKpiSrvCaseByBelongMonth(DateUtil.getFirstDayOfTheMonth());
+		}else{
+			deleteKpiSrvCaseByBelongMonth(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1)));
+		}
 		
-		deleteKpiSrvCaseByBelongMonth(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -2)));
 		removeBlankCaseCode(listVOs);
 		
 		List<TsKpiSrvCase> vos = new ArrayList<>();
@@ -426,7 +430,12 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		List<TsKpiSrvCase> listEntity = new ArrayList<>();
 		List<TsKpiSrvCase> emList = new ArrayList<>();
 		TsKpiSrvCase entity = new TsKpiSrvCase();
-		entity.setBelongMonth(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -2)));
+		
+		if(vo.isCurrentMonth()){
+			entity.setBelongMonth(DateUtil.getFirstDayOfTheMonth());
+		}else{
+			entity.setBelongMonth(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1)));
+		}
 		entity.setCreateBy(vo.getCreateBy());
 		entity.setCaseCode(vo.getCaseCode());
 		entity.setSrvPart(DoubleToBigDecimal(1d));
@@ -575,6 +584,11 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 
 	@Override
 	public void callKpiStastic(Boolean currentMonth) {
-		kpiSrvCaseMapper.callKpiStastic(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -2)));
+		if(currentMonth){
+			kpiSrvCaseMapper.callKpiStastic(DateUtil.getFirstDayOfTheMonth());
+		}else{
+			kpiSrvCaseMapper.callKpiStastic(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1)));
+		}
+		
 	}
 }
