@@ -43,8 +43,7 @@ public class PropertyController {
 	private UamPermissionService uamPermissionService;
 	@Autowired
 	private ToPropertyInfoService propertyInfoService;
-	@Autowired
-	private ProfitService profitService;
+
 	@Autowired
 	private UamSessionService uamSesstionService;
 	@Autowired

@@ -115,5 +115,11 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	public List<ToWorkFlow> getMortToWorkFlowByCaseCode(ToWorkFlow record) {
 		return toWorkFlowMapper.getMortToWorkFlowByCaseCode(record);
 	}
+
+
+	@Override
+	public ToWorkFlow queryActiveToWorkFlowByBizCodeBusKey(ToWorkFlow record) {
+		return toWorkFlowMapper.queryActiveToWorkFlowByBizCodeBusKey(record);
+	}
 	
 }

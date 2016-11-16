@@ -1,6 +1,7 @@
 package com.centaline.trans.transplan.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
@@ -33,7 +34,7 @@ public interface ToTransPlanMapper {
      * @return
      */
 	List<ToTransPlanOrToPropertyInfo> getToTransPlanByUserId(String leadingProcessId);
-    int deleteTransPlansByCaseCode(String caseCode);
+    int deleteTransPlansByCaseCode(Map map);
 
 	List<ToTransPlanOrToPropertyInfo> getToTransPlanByDictOrUserId(
 			List<String> dictCodeList, String id);

@@ -30,6 +30,9 @@ public interface ToWorkFlowService {
 	ToWorkFlow queryWorkFlowByInstCode(String instCode);
 	
 	ToWorkFlow queryActiveToWorkFlowByCaseCodeBusKey(ToWorkFlow record);
+	
+	ToWorkFlow queryActiveToWorkFlowByBizCodeBusKey(ToWorkFlow record);
+	
 	List<ToWorkFlow>queryActiveToWorkFlowByCaseCode(ToWorkFlow record);
 	/**
 	 * 无效表单数据
