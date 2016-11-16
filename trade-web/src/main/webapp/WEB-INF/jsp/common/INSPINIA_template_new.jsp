@@ -86,7 +86,7 @@
                     </li>
                    <c:forEach items="${menuVO}" var="l1_menu" >
 						<li class="">
-								<c:choose><c:when test='${l1_menu.type=="MEN"}'><a href="${ctx}${l1_menu.url}"><i class="fa ${l1_menu.icon}"></i> <span class="nav-label">${l1_menu.menuName }</span> <span class="fa arrow"></span></a></c:when>
+								<c:choose><c:when test='${l1_menu.type=="MEN"}'><a href="${ctx}${l1_menu.url}" <c:if test='${l1_menu.target=="BLANK"}'> target="_blank"</c:if>><i class="fa ${l1_menu.icon}"></i> <span class="nav-label">${l1_menu.menuName }</span> <span class="fa arrow"></span></a></c:when>
 								<c:otherwise><a href="#"><i class="fa ${l1_menu.icon}"></i> <span class="nav-label">${l1_menu.menuName }</span><span class="fa arrow"></span></a></c:otherwise>
 								</c:choose> 
 								<c:choose>
@@ -94,7 +94,7 @@
 										<ul class="nav nav-second-level">
 											<c:forEach items="${l1_menu.children}" var="l2_menu" >
 											<c:if test='${not empty l2_menu.resource.resourceCode}'>
-													<li><a href="${ctx}${l2_menu.url}?<%=new Date().getTime() %>"><i class="fa ${l2_menu.icon}"></i>
+													<li><a href="${ctx}${l2_menu.url}?<%=new Date().getTime() %>" <c:if test='${l2_menu.target=="BLANK"}'> target="_blank"</c:if>><i class="fa ${l2_menu.icon}"></i>
 													${l2_menu.menuName}</a></li>
 											</c:if>
 											</c:forEach>
