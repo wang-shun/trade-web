@@ -33,8 +33,13 @@ public interface ToWorkFlowMapper {
 	ToWorkFlow queryWorkFlowByInstCode(String instCode);
 	
 	ToWorkFlow queryActiveToWorkFlowByCaseCodeBusKey(ToWorkFlow record);
+	
+	ToWorkFlow queryActiveToWorkFlowByBizCodeBusKey(ToWorkFlow record);
+	
 	List<ToWorkFlow> queryActiveToWorkFlowByCaseCode(ToWorkFlow record);
+	
 	List<ToWorkFlow> getMortToWorkFlowByCaseCode(ToWorkFlow record);
+	
 	void inActiveForm(String caseCode) ;
 	
 	int deleteWorkFlowByProperty(ToWorkFlow record);
