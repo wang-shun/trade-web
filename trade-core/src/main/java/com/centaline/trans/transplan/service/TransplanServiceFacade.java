@@ -2,6 +2,9 @@ package com.centaline.trans.transplan.service;
 
 import java.util.List;
 
+import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
+import com.centaline.trans.task.vo.TransPlanVO;
+import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
 import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
@@ -44,4 +47,43 @@ public interface TransplanServiceFacade {
 	 * @return
 	 */
 	public List<TsTransPlanHistoryVO> queryTtsTransPlanHistorys(TsTransPlanHistoryVO tsTransPlanHistoryVO);
+	/**
+	 * 插入交易计划信息
+	 * @param record
+	 * @return
+	 */
+	int insertSelective(ToTransPlan record);
+	/**
+	 * 根据caseCode查询交易计划信息
+	 * @param caseCode
+	 * @return
+	 */
+	List<ToTransPlan> queryPlansByCaseCode(String caseCode);
+	/**
+	 * 根据pkid查询交易计划信息
+	 * @param pkid
+	 * @return
+	 */
+	ToTransPlan selectByPrimaryKey(Long pkid);
+	/**
+	 * 交易计划更新
+	 * @param record
+	 * @return
+	 */
+	int updateByPrimaryKeySelective(ToTransPlan record);
+	public Boolean updateTransPlan(ToTransPlan toTransPlan);
+	public ToTransPlan findTransPlan(ToTransPlan toTransPlan);
+	/**
+	 * 删除交易计划
+	 * @param caseCode
+	 * @return
+	 */
+	int deleteTransPlansByCaseCode(String caseCode);
+	public TransPlanVO findTransPlanByCaseCode(String caseCode);
+	/**
+	 * 获取到待办事项
+	 * @return
+	 */
+	public List<ToTransPlanOrToPropertyInfo> getToTransPlanByUserId(String leadingProcessId);
+	public boolean saveToTransPlan(TransPlanVO transPlanVO);
 }

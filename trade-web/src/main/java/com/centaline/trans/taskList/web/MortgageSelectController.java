@@ -4,7 +4,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +23,7 @@ import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.vo.MortgageSelecteVo;
 import com.centaline.trans.transplan.entity.ToTransPlan;
-import com.centaline.trans.transplan.service.ToTransPlanService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 @Controller
 @RequestMapping(value = "/task/mortgageSelect")
@@ -34,7 +33,7 @@ public class MortgageSelectController {
 	@Inject
 	private MortgageSelectService mortgageSelectService;
 	@Inject
-	private ToTransPlanService toTransPlanService;
+	private TransplanServiceFacade transplanServiceFacade;
 	@Inject
 	private ToCaseService toCaseService;
 	@Inject
@@ -58,7 +57,7 @@ public class MortgageSelectController {
 	
 		queryPlan.setCaseCode(caseCode);
 		queryPlan.setPartCode("LoanRelease");
-		queryPlan = toTransPlanService.findTransPlan(queryPlan);
+		queryPlan = transplanServiceFacade.findTransPlan(queryPlan);
 		return queryPlan;
 	}
 	@ResponseBody
@@ -110,7 +109,7 @@ public class MortgageSelectController {
 		ToTransPlan plan=new ToTransPlan();
 		plan.setCaseCode(caseCode);
 		plan.setPartCode("LoanRelease");//放款
-		request.setAttribute("loanReleasePlan", toTransPlanService.findTransPlan(plan));
+		request.setAttribute("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
 		return "task/taskMortgageSelect";
 	}
 }

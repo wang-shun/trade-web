@@ -22,7 +22,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
-import com.centaline.trans.transplan.service.ToTransPlanService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.workspace.entity.CacheGridParam;
 
 /**
@@ -39,7 +39,7 @@ public class ToTransPlanContorller {
 	@Autowired(required = true)
 	UamUserOrgService uamUserOrgService;
 	@Autowired(required = true)
-	ToTransPlanService toTransPlanService;
+	TransplanServiceFacade transplanServiceFacade;
 	@Autowired(required = true)
 	ToPropertyInfoService toPropertyInfoService;
 	//快速查询接口
@@ -57,7 +57,7 @@ public class ToTransPlanContorller {
 	public List<ToTransPlanOrToPropertyInfo> getToTransPlan(Model model, ServletRequest request){
 		SessionUser user = uamSessionService.getSessionUser();
 		//获取到待办事项
-		List<ToTransPlanOrToPropertyInfo> toTransPlanList = toTransPlanService.getToTransPlanByUserId(user.getId());
+		List<ToTransPlanOrToPropertyInfo> toTransPlanList = transplanServiceFacade.getToTransPlanByUserId(user.getId());
 		for (ToTransPlanOrToPropertyInfo toTransPlan : toTransPlanList) {
 			toTransPlan.setPartCode(ToAttachmentEnum.getName(toTransPlan.getPartCode()));
 		}
@@ -100,9 +100,6 @@ public class ToTransPlanContorller {
 				}
 			}		
 		}
-/*		for (ToTransPlanOrToPropertyInfo toTransPlan : toTransPlanList) {
-			toTransPlan.setPartCode(ToAttachmentEnum.getName(toTransPlan.getPartCode()));
-		}*/
 		return toTransPlanList;
 	}
 

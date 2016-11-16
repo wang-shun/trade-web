@@ -42,7 +42,7 @@ import com.centaline.trans.task.service.TaskPlanSetService;
 import com.centaline.trans.task.service.TsTaskDelegateService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
-import com.centaline.trans.transplan.service.ToTransPlanService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.BeanToMapUtils;
 
 @Component
@@ -58,7 +58,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
-	private ToTransPlanService toTransPlanService;
+	private TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	private TaskPlanSetService taskPlanSetService;
 	@Autowired
@@ -331,7 +331,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, planSet.getPlanDays());
 		plan.setEstPartTime(cal.getTime());
-		toTransPlanService.updateTransPlan(plan);
+		transplanServiceFacade.updateTransPlan(plan);
 	}
 
 	@Override
@@ -456,11 +456,6 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 			unlocatedTaskService.insert(ut);
 		}
 
-		/*
-		 * private String caseCode; private String instCode; private String
-		 * taskJobCode; private Date crateTime; private String candidateId;
-		 * private String taskId;
-		 */
 	}
 
 	@Override

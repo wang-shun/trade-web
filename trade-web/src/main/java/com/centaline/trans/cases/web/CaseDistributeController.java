@@ -50,7 +50,6 @@ import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.team.service.TsTeamTransferService;
 import com.centaline.trans.team.vo.TeamTransferVO;
-import com.centaline.trans.transplan.service.ToTransPlanService;
 
 @Controller
 @RequestMapping(value="/case")
@@ -76,9 +75,6 @@ public class CaseDistributeController {
 
 	@Autowired(required = true)
 	ToPropertyInfoService toPropertyInfoService;
-	@Autowired(required = true)
-	ToTransPlanService toTransPlanService;
-	
 	@Autowired(required=true)
 	@Qualifier("uamMessageServiceClient")
 	UamMessageService uamMessageService;
@@ -120,24 +116,6 @@ public class CaseDistributeController {
 		request.setAttribute("queryOrgId", queryOrgId);
 		return "case/caseDistribute2";
 	}
-	/*@RequestMapping(value="caseDistribute2")
-	public String caseDistribute2(Model model, ServletRequest request){
-		//TODO
-		SessionUser user = uamSessionService.getSessionUser();
-		String userJob=user.getServiceJobCode();
-		String queryUserId = user.getId();
-		String queryOrgId = user.getServiceDepId();
-		if(userJob.equals(TransJobs.TJYZL.getCode())){
-			List<User> userList = uamUserOrgService.getUserByOrgIdAndJobCode(user.getServiceDepId(), TransJobs.TJYZG.getCode());
-			if(userList!=null && userList.size()>0){
-				queryUserId = userList.get(0).getId();
-			}
-		}
-		request.setAttribute("queryUserId", queryUserId);
-		request.setAttribute("queryOrgId", queryOrgId);
-		return "case/caseDistribute2";
-	}*/
-
 	/**
 	 * 页面初始化
 	 * @return String    返回类型
@@ -161,12 +139,6 @@ public class CaseDistributeController {
 		
 		return "case/unlocatedCase2";
 	}
-	/*@RequestMapping(value="unlocatedCase2")
-	public String unlocatedCase2(Model model, ServletRequest request){
-		Org o= uamUserOrgService.getOrgByCode("033F275");
-		model.addAttribute("nonBusinessOrg", o);
-		return "case/unlocatedCase2";
-	}*/
 
 	/**
 	 * 用户机构交易顾问查询
@@ -425,30 +397,6 @@ public class CaseDistributeController {
     	}
     	return AjaxResponse.success("案件信息绑定成功！");
     }
-    
-   /* @RequestMapping(value="/bindCaseTeam")
-    @ResponseBody
-	public AjaxResponse<?>  bindCaseTeam(String[] caseCodes ,String orgId,HttpServletRequest request) {
-    	
-    	List<User> managerUsers = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZG.getCode());
-    	if(managerUsers.size()==0)return AjaxResponse.fail("未找到交易主管！");
-    	User managerUser= managerUsers.get(0);
-    	for(String caseCode:caseCodes){	    
-    		
-        	//案件信息更新
-    		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-    		toCase.setLeadingProcessId(managerUser.getId());
-    		toCase.setOrgId(orgId);
-    		int reToCase = toCaseService.updateByPrimaryKey(toCase);
-    		if(reToCase == 0)return AjaxResponse.fail("案件基本表更新失败！");
-	    		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-	    		toCaseInfo.setRequireProcessorId(managerUser.getId());
-	    	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
-    		if(reToCaseInfo == 0)return AjaxResponse.fail("案件信息表更新失败！");
-    	}
-    	return AjaxResponse.success("案件信息绑定成功！");
-    }*/
-   
     /**
    	 * 分配组别
    	 * @return
