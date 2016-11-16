@@ -8,12 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.aist.common.quickQuery.service.CustomDictService;
-import com.centaline.trans.cases.service.ToTradeChangedCaseService;
-import com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO;
-import com.centaline.trans.signroom.vo.ResFlowupVo;
+import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 /**
  * @author zhoujp
@@ -23,15 +21,15 @@ public class QuickQueryGetReturnVisitListServiceImpl implements
 		CustomDictService {
 
 	@Autowired
-	private ToTradeChangedCaseService toTradeChangedCaseService;
+	private TransplanServiceFacade toTransplanOperateService;
 
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for (Map<String, Object> key : keys) {
-			List<CaseReturnVisitRegistrationVO> returnVistiRegistrations = new ArrayList<CaseReturnVisitRegistrationVO>();
-			Object historyId = key.get("historyId");
-			if (historyId != null) {
-				returnVistiRegistrations = toTradeChangedCaseService.queryReturnVisitRegistrations(Long.parseLong(historyId.toString()));
+			List<TtsReturnVisitRegistration> returnVistiRegistrations = new ArrayList<TtsReturnVisitRegistration>();
+			Object batchId = key.get("batchId");
+			if (batchId != null) {
+				returnVistiRegistrations = toTransplanOperateService.queryReturnVisitRegistrations(Long.parseLong(batchId.toString()));
 			}
 			key.put("val", returnVistiRegistrations);
 		}
@@ -42,5 +40,9 @@ public class QuickQueryGetReturnVisitListServiceImpl implements
 	public Boolean getIsBatch() {
 		return true;
 	}
+	@Override
+	public Boolean isCacheable(){
+    	return false;
+    }
 
 }

@@ -21,17 +21,15 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
-import com.centaline.trans.common.enums.SpvStatusEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.common.repository.ToWorkFlowMapper;
 import com.centaline.trans.common.service.MessageService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -133,13 +131,13 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		SessionUser user = uamSessionService.getSessionUser();
         // 判断流程是否已存在
 		if(StringUtils.isNotBlank(businessKey)){
-			PageableVo pVo = processInstanceService.getByBusinessKey(businessKey);
-			List<TaskVo> tList  = pVo.getData();
-			for(TaskVo tVo : tList){
-				if(tVo.getProcessDefinition().contains(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode())){
-					throw new BusinessException("流程已存在，请勿重复开启！");
-				}
-			}	
+			ToWorkFlow record = new ToWorkFlow();
+			record.setBizCode(businessKey);
+			record.setBusinessKey("SPVCashflowOutProcess");
+			ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+			if(toWorkFlow != null){
+				throw new BusinessException("流程已经存在，请勿重复开启！");
+			}
 		}
 		
 		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
@@ -186,14 +184,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 
 		//插入工作流表
 		ToWorkFlow workFlow = new ToWorkFlow();
-		//workFlow.setBusinessKey(cashflowApplyCode);
 		workFlow.setBusinessKey("SPVCashflowOutProcess");
 		workFlow.setCaseCode(toSpv.getCaseCode());
+		workFlow.setBizCode(cashflowApplyCode);
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(propertyUtilsService.getSPVCashflowOutProcessDfKey());
 		workFlow.setProcessOwner(user.getId());
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-		toWorkFlowService.insertSpvCashflowInProcessSelective(workFlow);
+		toWorkFlowService.insertSelective(workFlow);
 		
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
@@ -383,16 +381,16 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				}
 				
 				//更新spv表
-				ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
+/*				ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
 				toSpv.setStatus(SpvStatusEnum.COMPLETE.getCode());
-				toSpvMapper.updateByPrimaryKey(toSpv);
+				toSpvMapper.updateByPrimaryKey(toSpv);*/
 				
 				//当出款总额等于监管金额时发起消息通知资金监管流程 ：SpvProcess
-				Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
+				//Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
 		    	//所有合约下已完成的出账金额总和
-				BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
+				//BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
 		    	//监管总额
-				BigDecimal toSpvTotalAmount = toSpv.getAmount();
+/*				BigDecimal toSpvTotalAmount = toSpv.getAmount();
 		    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
 					messageService.sendSpvFinishMsgByIntermi(instCode);	
 					//更新t_to_workflow表(资金监管流程)
@@ -404,7 +402,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 						toWorkFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
 						toWorkFlowMapper.updateByPrimaryKey(toWorkFlow);
 					}
-		    	}
+		    	}*/
 			}else{
 				Long pkid = spvChargeInfoVO.getToSpvCashFlowApply().getPkid();
 				ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(pkid);
@@ -459,17 +457,47 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				for(int i=0;i< spvBaseInfoVO.getToSpvAccountList().size();i++){
 		    		ToSpvAccount account = spvBaseInfoVO.getToSpvAccountList().get(i);
 		    		JSONObject subJsonObj = new JSONObject();
-		    		TsFinOrg to = tsFinOrgService.findBankByFinOrg(account.getBank());
-		    		if(StringUtils.equals("广发银行股份有限公司北京石景山支行", account.getBank())){
+		    		String branchBank = account.getBranchBank() == null?"":account.getBranchBank();
+		    		boolean result = branchBank.matches("[0-9]+");
+		    		String bankName = "";
+		    		if (result) {
+		    			//纯数字
+		    			TsFinOrg to = tsFinOrgService.findBankByFinOrg(branchBank);
+		    			bankName = to.getFinOrgName();
+		    		}else{
+		    			//手动输入
+		    			bankName = branchBank;
+		    		}
+		    		if(StringUtils.equals("广发银行股份有限公司北京石景山支行", account.getBranchBank())){
 		    			subJsonObj.put("bankName","广发银行股份有限公司北京石景山支行");
-		    		}else if(StringUtils.equals("中行上海南京西路支行", account.getBank())){
+		    		}else if(StringUtils.equals("中行上海南京西路支行", account.getBranchBank())){
 		    			subJsonObj.put("bankName", "中行上海南京西路支行");
 		    		}else{
-		    			subJsonObj.put("bankName", to != null?to.getFinOrgName():"");
+		    			subJsonObj.put("bankName", bankName);
 		    		}
+		    		
+		    		String accountName = "";
+		    		switch (account.getAccountType()) {
+					case "BUYER":
+						accountName = "买方";
+						break;
+                    case "SELLER":
+                    	accountName = "卖方";
+						break;
+                    case "SPV":
+                    	accountName = "监管方";
+						break;
+                    case "FUND":
+                    	accountName = "资金方";
+						break;
+					default:
+						accountName = "自定义";
+						break;
+					}
 	    			subJsonObj.put("type",d.getDeCondCode());
 	    			subJsonObj.put("name", account.getName());
 	    			subJsonObj.put("account", account.getAccount());
+	    			subJsonObj.put("accountName", accountName);
 	    			if(d.getPayeeAccountId().equals(account.getPkid()))
 	    				jsonList.add(subJsonObj);
 		    	}
@@ -587,6 +615,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
       	
         	cashFlowNewList.add(cashFlow);
     	}
+    	resultMap.put("totalCashFlowInDeailAmount", totalCashFlowInAmount);
     	ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
     	if(null != toSpv && null != toSpv.getAmount()){
     		if(null != totalCashFlowInAmount )
@@ -599,15 +628,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	resultMap.put("totalProcessCashFlowOutAmout", totalProcessCashFlowOutAmout);
     	resultMap.put("totalCashFlowInAmount", totalCashFlowInAmount);
     	resultMap.put("totalCashFlowOutAmount", totalCashFlowOutAmount);
-    	
 		return resultMap;
 	}
 	@Override
 	public void getCashFlowList(HttpServletRequest request,String spvCode) {
 	    Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
-	    request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
-	    request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInAmount"));
-	    request.setAttribute("totalCashFlowOutAmount", completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
+        request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
+	    request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInDeailAmount"));
+	    request.setAttribute("totalCashFlowOutAmount",  completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
 	}
 
 }

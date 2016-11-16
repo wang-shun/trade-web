@@ -123,7 +123,7 @@
 									</div>
 									<div class="col-lg-5 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status>=2}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status>=3}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
@@ -144,7 +144,7 @@
 									</div>
 									<div class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status==3}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status==4}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
@@ -244,7 +244,7 @@
 														<dt>手机号</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].phone }</dd>
 														<dt>证件有效期</dt>
-														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/></dd>
+														<dd>${bugerIdVailDate}</dd>
 														<dt>委托人</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].agentName}</dd>
 														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
@@ -275,8 +275,7 @@
 														<dt>手机号</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].phone }</dd>
 														<dt>证件有效期</dt>
-														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/></dd>
-													   <dt>委托人</dt>
+													    <dd>${sellerIdVailDate}</dd>													   <dt>委托人</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].agentName}</dd>
 														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
 									                        display="onlyLabel"  dictType="CERT_TYPE"  
@@ -426,7 +425,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank }</dd>
+														<dd ><b style="font-weight:normal" id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank }</b>/<b style="font-weight:normal" id="branchBank1">${spvBaseInfoVO.toSpvAccountList[1].branchBank==null?"":spvBaseInfoVO.toSpvAccountList[1].branchBank}</b></dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].account }</dd>
 														<dt>电话</dt>
@@ -443,7 +442,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank }</dd>
+														<dd ><b style="font-weight:normal" id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank }</b>/<b style="font-weight:normal" id="branchBank0">${spvBaseInfoVO.toSpvAccountList[0].branchBank==null?"":spvBaseInfoVO.toSpvAccountList[0].branchBank}</b></dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[0].account }</dd>
 														<dt>电话</dt>
@@ -652,10 +651,14 @@
 						async:false,
 					    data:{finOrgCode:bank.html()},
 					    success:function(data){
-				    		if(data != null){
+				    		if(data.success==true){
 				    			bank.html(data.content)
 				    		}
-				    	}
+				    	},
+					    error:function(){
+					    	alert(2222);
+					    	return ;
+					    }
 					});
 			}
 			/*获取产品列表*/
@@ -683,10 +686,11 @@
 					$(element).html(DX($(element).html()*10000));
 				});
 				getPcode("pcode");
-				getBank("bank0");
-				getBank("bank1");
-			})
-			queryPrdcCodeByProdCode
+			 	getBank("bank0");
+				getBank("bank1"); 
+				getBank("branchBank0");
+				getBank("branchBank1"); 
+			})			
 					</script> </content>
 </body>
 </html>

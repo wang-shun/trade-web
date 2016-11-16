@@ -4,6 +4,7 @@
  */
 package com.centaline.trans.spv.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,16 +37,16 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.ToAccesoryListService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.Consts;
@@ -216,6 +217,15 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
       }
+        //买卖家身份证有效期
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        String bugerDate= dateFormat.format(spvBaseInfoVO.getSpvCustList().get(0).getIdValiDate());
+        String sellerDate=dateFormat.format(spvBaseInfoVO.getSpvCustList().get(1).getIdValiDate());
+        String bugerIdVailDate=bugerDate.equals("3000-01-01")?"长期有效":bugerDate;
+        String sellerIdVailDate=sellerDate.equals("3000-01-01")?"长期有效":sellerDate;	
+        request.setAttribute("bugerIdVailDate", bugerIdVailDate);
+        request.setAttribute("sellerIdVailDate", sellerIdVailDate);
+        //出入账金额
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
@@ -609,7 +619,7 @@ public class SpvController {
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
-		spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+		spv.setStatus(SpvStatusEnum.ADUIT.getCode());
 
 		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
@@ -684,9 +694,9 @@ public class SpvController {
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
 		if(!SpvApplyApprove){
-			spv.setStatus(SpvStatusEnum.DEFAULT.getCode());
+			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
 		}else{
-			spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+			spv.setStatus(SpvStatusEnum.SIGN.getCode());
 		}
 		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
@@ -760,7 +770,7 @@ public class SpvController {
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
-		spv.setStatus("2");
+		spv.setStatus(SpvStatusEnum.SIGNCOMPLETE.getCode());
 		spv.setSpvConCode(spvConCode);
 		spv.setSignTime(signTime);
 		toSpvService.updateByPrimaryKey(spv);
@@ -863,9 +873,6 @@ public class SpvController {
             case "financeSecondAduit":
             	cashFlowOutService.cashFlowOutFinanceSecondAduitProcess(request, source, instCode, taskId, handle, businessKey);
                 break;
-/*            case "cashFlowOut":
-            	cashFlowOutService.cashFlowOutDealProcess(request, source, instCode, taskId, handle, businessKey);
-                break;*/
         	}
     		request.setAttribute("urlType", "myTask");
         }else{
@@ -918,10 +925,7 @@ public class SpvController {
 			    	break;
 			    case "financeSecondAduit":
 			    	cashFlowOutService.cashFlowOutFinanceSecondAduitDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
-			        break;
-/*			    case "cashFlowOut":
-	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, chargeOutAppr);
-	                break;*/    
+			        break;   
 				}	
 			}else{
 				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null);

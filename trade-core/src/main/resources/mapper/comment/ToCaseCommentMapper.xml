@@ -39,6 +39,7 @@
       #{comment,jdbcType=NVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
   </insert>
+  
   <insert id="insertSelective" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
     insert into sctrans.T_TO_CASE_COMMENT
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -78,6 +79,7 @@
         @{SESSION_USER_ID}
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
     update sctrans.T_TO_CASE_COMMENT
     <set >

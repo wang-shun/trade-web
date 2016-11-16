@@ -291,13 +291,14 @@
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> 
 <!-- stickup plugin -->
-<script src="${ctx}/js/viewer/viewer.min.js"></script>
+
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>	
 <script src="${ctx}/js/trunk/material/attachmentForMaterial.js"></script> 
 
 <!-- 选择组织控件 -->
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 	
 <script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
 <script type="text/javascript">
 var ctx = "${ctx}";
 var pkid = "${pkid}";
@@ -377,6 +378,11 @@ function  selectApplyUserBack(array) {
 $("#materialApplyUser").click(function() {
 		chooseApplyOperator(serviceDepId);
 });
+
+function renderImg(){		
+	$('.wrapper-content').viewer('destroy');
+	$('.wrapper-content').viewer({zIndex:15001});
+}
 </script>
 </content>
 </body>

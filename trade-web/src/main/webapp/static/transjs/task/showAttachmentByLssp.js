@@ -31,7 +31,8 @@ function getExplPicByhouseCode() {
 				trStr += "<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' style='padding-bottom: 5px;padding-top: 5px;'>";
 				trStr += "</a>";
 			});
-			$("#imgShow").append(trStr);
+			$("#imgShow").append(trStr);			
+			$('.wrapper-content').viewer();
 		},
 		error : function(errors) {
 			alert("产调加载失败");

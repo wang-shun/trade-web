@@ -12,18 +12,19 @@ import com.centaline.trans.cases.service.CaseResetService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseResetVo;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
-import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
 public class CaseResetServiceImpl implements CaseResetService {
@@ -36,8 +37,6 @@ public class CaseResetServiceImpl implements CaseResetService {
 	@Autowired
 	private ToCaseInfoService caseInfoservice;
 	@Autowired
-	private ToTransPlanService toTransPlanService;
-	@Autowired
 	private TgServItemAndProcessorService tgServItemAndProcessorService;
 	@Autowired
 	private WorkFlowManager workflowManager;
@@ -47,6 +46,9 @@ public class CaseResetServiceImpl implements CaseResetService {
 
 	@Autowired
 	private ToMortgageService toMortgageService;
+	
+	@Autowired
+	private TransplanServiceFacade toTransplanOperateService;//add by zhoujp 
 
 	@Override
 	public void reset(CaseResetVo vo) {
@@ -74,8 +76,9 @@ public class CaseResetServiceImpl implements CaseResetService {
 
 		caseInfoservice.updateByPrimaryKey(casInfo);
 		caseService.updateByPrimaryKey(cas);
-		// 删除交易计划表
-		// toTransPlanService.deleteTransPlansByCaseCode(vo.getCaseCode());
+		//将交易计划表的数据转移到交易计划历史表并删除交易计划表
+		toTransplanOperateService.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESET);
+
 		// 删除服务表
 		tgServItemAndProcessorService.deleteByPrimaryCaseCode(vo.getCaseCode());
 		// 无效掉表单数据

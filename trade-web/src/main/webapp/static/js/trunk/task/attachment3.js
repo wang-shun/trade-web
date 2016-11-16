@@ -68,6 +68,9 @@ $(function() {
 		
 		/**监听 div 执行自动上传*/
 		$("#picContainer"+value).bind('DOMNodeInserted', function(e) {
+			if($("div[id^='picContainers']").find('img').length > 0){
+				renderImg();
+			}
 			var picDiv=$("div[name='allPicDiv1']");
 			var input=$("input[name='picTag']");
 			if(picDiv.length > input.length) {
@@ -78,6 +81,11 @@ $(function() {
 					$("#startUpload").click();
 				}
 			}
+		});		
+		
+		/**删除图片时重新渲染*/
+		$("#picContainer"+value).bind('DOMNodeRemoved', function(e) {
+			setTimeout(renderImg, 500);
 		});
 	});
 	/**上传备件初始化结束*/	

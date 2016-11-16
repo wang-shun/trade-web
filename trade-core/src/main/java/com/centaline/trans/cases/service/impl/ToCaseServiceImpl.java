@@ -36,7 +36,6 @@ import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
@@ -51,21 +50,22 @@ import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.vo.AgentManagerInfo;
 import com.centaline.trans.common.vo.BuyerSellerInfo;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.TaskOperate;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
-import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.ToTransPlanService;
 
 @Service
 @Transactional
@@ -417,6 +417,7 @@ public class ToCaseServiceImpl implements ToCaseService {
     	toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
     	toWorkFlow.setProcessOwner(userId);
     	toWorkFlow.setCaseCode(toCase.getCaseCode());
+    	toWorkFlow.setBizCode(toCase.getCaseCode());
     	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
     	
     	toWorkFlowService.insertSelective(toWorkFlow);

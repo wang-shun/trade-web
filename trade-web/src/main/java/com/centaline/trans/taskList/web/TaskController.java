@@ -6,12 +6,10 @@ package com.centaline.trans.taskList.web;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +39,6 @@ import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
@@ -51,8 +48,9 @@ import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
@@ -71,7 +69,6 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.FirstFollowService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.OfflineEvaService;
@@ -84,8 +81,9 @@ import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.ToPricingService;
 import com.centaline.trans.task.service.ToPurchaseLimitSearchService;
 import com.centaline.trans.task.service.ToTaxService;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.ToTransPlanService;
 
 
 @Controller
@@ -347,7 +345,7 @@ public class TaskController {
     		request.setAttribute("OfflineEva", offlineEvaService.queryOfflineEvaVO(instCode));
     		request.setAttribute("evaReport", toEvaReportService.findByProcessId(instCode));
     	} else if(taskitem.equals("LoanlostApproveManager") || 
-    			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
+    			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager") || taskitem.equals("LoanlostApproveSeniorManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
     		
     		/*贷款流失审批 添加流失原因*/

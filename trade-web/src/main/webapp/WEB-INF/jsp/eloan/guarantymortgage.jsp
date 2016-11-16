@@ -43,6 +43,7 @@
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
+	<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 </head>
 <body>
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -377,12 +378,12 @@
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
 							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
                                               {% } else { %}
- 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
+ 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
   											  {% } %}
 							            {% } %}</div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -480,6 +481,7 @@
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
     <!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
+    <script src="${ctx}/js/viewer/viewer.min.js"></script>
     <script>
 	    if ("${idList}" != "") {
 			var idList = eval("(" + "${idList}" + ")");
@@ -648,6 +650,13 @@
 		    $(k).parents('.line').remove();
 		    divIndex--;
 		}
+		
+		//渲染图片 
+		function renderImg(){		
+			$('.wrapper-content').viewer('destroy');
+			$('.wrapper-content').viewer({zIndex:15001});
+		}
+
 		//选择组织之后 级联选择主办人信息
 		var o;
 		function chooseItemManager(obj) {

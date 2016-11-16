@@ -22,14 +22,14 @@ import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.common.entity.ToOutTimeTask;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
 import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.common.service.ToWorkFlowService;
-import com.centaline.trans.task.entity.ToTransPlan;
-import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.engine.entity.ToOutTimeTask;
+import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.ToTransPlanService;
 
 public class TaskOutTimeJob implements Job {
 

@@ -112,6 +112,16 @@ function init(){
 	
 	//产证地址初始化
 	getPropertyAddress();
+	
+	//禁止iphone端文字输入
+	disableInput();
+}
+
+//禁止iphone端文字输入
+function disableInput(){
+	$("#dateseLect").focus(function() {  
+        this.style.imeMode = "disabled";  
+    }); 
 }
 
 //获取交易中心信息列表

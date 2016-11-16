@@ -147,11 +147,15 @@
 							</div>
 							<div class="col-lg-4 col-md-4">
 								<button class="btn btn-warning" id="searchIvalidMapingCase" style="height: 35px;padding: 6px 22px;margin-left: 20px;">
-									<span class="bold">修改</span>
+									<span class="bold">查询没有对应关系案件</span>
 								</button>
 							</div>
+							
 						</div>
 					</div>
+					<div class="col-lg-4 col-md-4">
+								<h5 class="col-lg-7 col-md-7">没有对应关系案件列表</h5>
+							</div>
 					<div class="bonus-table "></div>
 				</div>
 			</div>
