@@ -123,7 +123,7 @@
                                     <label class="control-label sign_left_small">
                                         <font color="red">*</font>保管人
                                     </label>
-	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" />
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" readonly="readonly"/>
 	                                <div class="input-group float_icon organize_icon managerOnclick">
 									 	<i class="icon iconfont">&#xe627;</i>
 									</div>
@@ -236,7 +236,7 @@
                                     <label class="control-label sign_left_small">
                                         <font color="red">*</font>保管人
                                     </label>
-	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="" hVal="" onclick="chooseItemManager(this)" />
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="" hVal="" onclick="chooseItemManager(this)" readonly="readonly"/>
 	                                <div class="input-group float_icon organize_icon managerOnclick">
 									 	<i class="icon iconfont">&#xe627;</i>
 									</div>
@@ -253,7 +253,7 @@
                                         <label class="control-label sign_left_small">
                                             产权人姓名
                                         </label>
-                                        <input type="text" placeholder="" class="select_control sign_right_one" id="referName" name="referName" value="">
+                                        <input type="text" placeholder="" class="select_control teamcode" id="referName" name="referName" value="">
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
@@ -273,7 +273,7 @@
                                         <label class="control-label sign_left_small">
                                             他项权利人
                                         </label>
-                                        <input type="text" placeholder="" class="select_control sign_right_one" id="referName" name="referName" value="">
+                                        <input type="text" placeholder="" class="select_control teamcode" id="referName" name="referName" value="">
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">

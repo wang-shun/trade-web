@@ -159,7 +159,7 @@
                                     <label class="control-label sign_left_small">
                                         <font color="red">*</font>保管人
                                     </label>
-	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" />
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" readonly="readonly"/>
 	                                <div class="input-group float_icon organize_icon managerOnclick">
 									 	<i class="icon iconfont">&#xe627;</i>
 									</div>
@@ -248,7 +248,7 @@
                                     <label class="control-label sign_left_small">
                                         <font color="red">*</font>保管人
                                     </label>
-	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="" hVal="" onclick="chooseItemManager(this)" />
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="" hVal="" onclick="chooseItemManager(this)" readonly="readonly"/>
 	                                <div class="input-group float_icon organize_icon managerOnclick">
 									 	<i class="icon iconfont">&#xe627;</i>
 									</div>
