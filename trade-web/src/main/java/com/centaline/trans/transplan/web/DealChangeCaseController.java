@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
-import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
 
 /**
@@ -27,7 +27,7 @@ import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
 public class DealChangeCaseController {
 	
 	@Resource
-	ToTransplanOperateService toTransplanOperateService;
+	TransplanServiceFacade toTransplanOperateService;
 	
 	/**
 	 * 交易计划变更案件列表

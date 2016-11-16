@@ -23,8 +23,7 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
-import com.centaline.trans.transplan.service.ToTransPlanService;
-import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
@@ -38,8 +37,6 @@ public class CaseResetServiceImpl implements CaseResetService {
 	@Autowired
 	private ToCaseInfoService caseInfoservice;
 	@Autowired
-	private ToTransPlanService toTransPlanService;
-	@Autowired
 	private TgServItemAndProcessorService tgServItemAndProcessorService;
 	@Autowired
 	private WorkFlowManager workflowManager;
@@ -51,7 +48,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 	private ToMortgageService toMortgageService;
 	
 	@Autowired
-	private ToTransplanOperateService toTransplanOperateService;//add by zhoujp 
+	private TransplanServiceFacade toTransplanOperateService;//add by zhoujp 
 
 	@Override
 	public void reset(CaseResetVo vo) {
@@ -81,8 +78,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 		caseService.updateByPrimaryKey(cas);
 		//将交易计划表的数据转移到交易计划历史表并删除交易计划表
 		toTransplanOperateService.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESET);
-		// 删除交易计划表
-		// toTransPlanService.deleteTransPlansByCaseCode(vo.getCaseCode());
+
 		// 删除服务表
 		tgServItemAndProcessorService.deleteByPrimaryCaseCode(vo.getCaseCode());
 		// 无效掉表单数据

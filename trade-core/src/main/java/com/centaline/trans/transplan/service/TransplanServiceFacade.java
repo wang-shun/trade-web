@@ -11,7 +11,7 @@ import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
  * @author zhoujp7
  *
  */
-public interface ToTransplanOperateService {
+public interface TransplanServiceFacade {
 
 	/**
 	 * 流程重启或重置操作
@@ -19,7 +19,7 @@ public interface ToTransplanOperateService {
 	public void processRestartOrResetOperate(String caseCode,String changeReason);
 	
 	/**
-	 * 新增交易计划变量历史批次表
+	 * 新增交易计划变更历史批次表
 	 * @param ttsTransPlanHistoryBatch
 	 * @return
 	 */
