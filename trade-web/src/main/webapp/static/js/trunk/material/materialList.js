@@ -129,6 +129,25 @@ function getParams() {
 		params.backTimeEnd = backTimeEnd;
 	}
 	
+	var queryOrgFlag = $("#queryOrgFlag").val();
+	var isAdminFlag = $("#isAdminFlag").val();
+	var queryOrgs = $("#queryOrgs").val();
+	var arguUserId = null;
+	if (queryOrgFlag == 'true') {
+		arguUserId = null;
+		if (isAdminFlag == 'true') {
+			queryOrgs = null;
+		}
+	} else {
+		queryOrgs = null;
+		arguUserId = "yes";
+	}
+
+	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
+	params.argu_idflag = arguUserId;
+	params.argu_queryorgs = orgArray;
+	
+	
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.createBy = createBy;
