@@ -107,7 +107,7 @@ import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
 import com.centaline.trans.transplan.service.ToTransPlanService;
-import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 /**
  * 
@@ -204,7 +204,7 @@ public class CaseDetailController {
 	@Autowired
 	ToModuleSubscribeService toModuleSubscribeService;
 	@Autowired
-	ToTransplanOperateService toTransplanOperateService;
+	TransplanServiceFacade toTransplanOperateService;
 
 	/**
 	 * 页面初始化

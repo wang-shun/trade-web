@@ -40,7 +40,7 @@ import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.transplan.service.ToTransPlanService;
-import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
@@ -71,7 +71,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	@Autowired
 	private BizWarnInfoMapper bizWarnInfoMapper;
 	@Autowired
-	private ToTransplanOperateService toTransplanOperateService;//add by zhoujp
+	private TransplanServiceFacade toTransplanOperateService;//add by zhoujp
 
 	@Override
 	@Transactional(readOnly = false)

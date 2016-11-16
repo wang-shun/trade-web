@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
-import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 /**
  * @author zhoujp
@@ -21,7 +21,7 @@ public class QuickQueryGetReturnVisitListServiceImpl implements
 		CustomDictService {
 
 	@Autowired
-	private ToTransplanOperateService toTransplanOperateService;
+	private TransplanServiceFacade toTransplanOperateService;
 
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {

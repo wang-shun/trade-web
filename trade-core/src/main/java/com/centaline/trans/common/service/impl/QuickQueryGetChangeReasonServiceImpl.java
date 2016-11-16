@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
-import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 /**
  * 组成形如“公积金贷款：原因”

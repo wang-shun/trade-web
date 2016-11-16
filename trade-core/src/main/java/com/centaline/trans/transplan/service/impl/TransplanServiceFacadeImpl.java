@@ -2,7 +2,6 @@ package com.centaline.trans.transplan.service.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -19,11 +18,11 @@ import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
 import com.centaline.trans.transplan.repository.ReturnVisitRegistrationMapper;
 import com.centaline.trans.transplan.repository.ToTransPlanMapper;
 import com.centaline.trans.transplan.repository.TtsTransPlanHistoryBatchMapper;
-import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
 
 @Service
-public class ToTransplanOperateServiceImpl implements ToTransplanOperateService {
+public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 
 	@Autowired
 	private ToTransPlanMapper toTransPlanMapper;

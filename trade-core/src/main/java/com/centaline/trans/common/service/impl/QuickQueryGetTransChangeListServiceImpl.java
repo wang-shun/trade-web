@@ -11,7 +11,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aist.common.quickQuery.service.CustomDictService;
-import com.centaline.trans.transplan.service.ToTransplanOperateService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
 
 /**
@@ -22,7 +22,7 @@ public class QuickQueryGetTransChangeListServiceImpl implements
 		CustomDictService {
 
 	@Autowired
-	private ToTransplanOperateService toTransplanOperateService;
+	private TransplanServiceFacade toTransplanOperateService;
 
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
