@@ -129,8 +129,8 @@
 									 	<i class="icon iconfont">&#xe627;</i>
 									</div>
                                 </div>
-                                <%-- <a href="javascript:void(0)" class="add_space" onclick="getAdd(this)">添加</a>
-                                <c:if test="${status.first==false}"><a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a></c:if> --%>
+                               <!--  <a href="javascript:void(0)" class="add_space" onclick="getAdd(this)">添加</a> -->
+                                <c:if test="${status.first==false}"><!-- <a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a> --></c:if>
                                 <c:if test="${item.mortgageCategory=='propertyCard'}">
                                 <div class="entry">
                                     <div class="form_content">
