@@ -105,9 +105,7 @@ import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
-import com.centaline.trans.transplan.service.ToTransPlanService;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
-import com.centaline.trans.transplan.service.TsTransPlanHistoryService;
 
 /**
  * 

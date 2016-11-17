@@ -20,8 +20,8 @@ import com.centaline.trans.transplan.entity.TsTaskPlanSet;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
-import com.centaline.trans.transplan.repository.TaskPlanSetMapper;
 import com.centaline.trans.transplan.repository.ToTransPlanMapper;
+import com.centaline.trans.transplan.repository.TsTaskPlanSetMapper;
 import com.centaline.trans.transplan.repository.TsTransPlanHistoryMapper;
 import com.centaline.trans.transplan.repository.TtsReturnVisitRegistrationMapper;
 import com.centaline.trans.transplan.repository.TtsTransPlanHistoryBatchMapper;
@@ -44,7 +44,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 	@Autowired
 	private UamSessionService uamSessionService;
 	@Autowired
-	private TaskPlanSetMapper taskPlanSetMapper;
+	private TsTaskPlanSetMapper tsTaskPlanSetMapper;
 	
 	@Override
 	public void processRestartOrResetOperate(String caseCode,String changeReason) {
@@ -79,7 +79,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 		if(ConstantsUtil.PROCESS_RESTART.equals(changeReason)){
 			//流程重启保留首次跟进环节信息并更新首次跟进原预计时间
 			map.put("partCode", ToAttachmentEnum.FIRSTFOLLOW.getCode());
-			TsTaskPlanSet tps = taskPlanSetMapper.getTsTaskPlanSetByPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
+			TsTaskPlanSet tps = tsTaskPlanSetMapper.getTsTaskPlanSetByPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
 			if (tps != null){
 				ToTransPlan plan = new ToTransPlan();
 				plan.setCaseCode(caseCode);
@@ -295,7 +295,27 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 
 	@Override
 	public TsTaskPlanSet getAutoTsTaskPlanSetByPartCode(String tsakDfkey) {
-		return taskPlanSetMapper.getAutoTsTaskPlanSetByPartCode(tsakDfkey);
+		return tsTaskPlanSetMapper.getAutoTsTaskPlanSetByPartCode(tsakDfkey);
+	}
+
+	@Override
+	public int getTsTaskPlanSetCountByProperty(TsTaskPlanSet tsTaskPlanSet) {
+		return tsTaskPlanSetMapper.getTsTaskPlanSetCount(tsTaskPlanSet);
+	}
+
+	@Override
+	public int addTsTaskPlanSet(TsTaskPlanSet tsTaskPlanSet) {
+		return tsTaskPlanSetMapper.insertSelective(tsTaskPlanSet);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(TsTaskPlanSet tsTaskPlanSet) {
+		return tsTaskPlanSetMapper.updateByPrimaryKeySelective(tsTaskPlanSet);
+	}
+
+	@Override
+	public int deleteByPrimaryKey(Long pkid) {
+		return tsTaskPlanSetMapper.deleteByPrimaryKey(pkid);
 	}
 
 

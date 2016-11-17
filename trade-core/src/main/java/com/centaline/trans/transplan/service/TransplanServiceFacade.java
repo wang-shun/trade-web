@@ -96,13 +96,17 @@ public interface TransplanServiceFacade {
 	 */
     int insertTsTransPlanHistorySelective(TsTransPlanHistory record);
     List<TransPlanVO> getTransPlanVOList(TransPlanVO transPlanVO);
-
+    /**TsTaskPlanSet*/
     /**
      * 根据环节编码查询交易计划延迟天数
      * @param tsakDfkey
      * @return
      */
 	public TsTaskPlanSet getAutoTsTaskPlanSetByPartCode(String tsakDfkey);
+	int getTsTaskPlanSetCountByProperty(TsTaskPlanSet tsTaskPlanSet);
+	int addTsTaskPlanSet(TsTaskPlanSet tsTaskPlanSet);
+	int updateByPrimaryKeySelective(TsTaskPlanSet tsTaskPlanSet);
+	int deleteByPrimaryKey(Long pkid);
     
 	
 	

@@ -38,7 +38,8 @@
 		<mapper resource="mapper/common/ToAccesoryListMapper.xml" />
 		<mapper resource="mapper/common/ToReminderListMapper.xml" />
 		<mapper resource="mapper/common/OrgMapper.xml" />
-		<mapper resource="mapper/common/TsTaskPlanSetMapper.xml" />
+		<!-- 任务预计执行时间配置 -->
+		<mapper resource="mapper/transplan/TsTaskPlanSetMapper.xml" />
 		<mapper resource="mapper/common/LampRuleMapper.xml" />
 		<mapper resource="mapper/common/ToModuleSubscribe.xml" />
 		<!-- 流程 -->
@@ -77,8 +78,7 @@
 		<!-- 任务授权 -->
 		<mapper resource="mapper/task/TsTaskDelegateMapper.xml" />
 		<mapper resource="mapper/task/ToUnlocatedTaskMapper.xml" />
-		<!-- 任务预计执行时间配置 -->
-		<mapper resource="mapper/transplan/TaskPlanSetMapper.xml" />
+		
 		<!-- 评估费-->
 		<mapper resource="mapper/eval/ToEvaFeeRecordMapper.xml" />
 		<!-- 案件 -->
