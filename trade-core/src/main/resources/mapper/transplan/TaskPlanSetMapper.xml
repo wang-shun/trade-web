@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.centaline.trans.transplan.repository.TaskPlanSetMapper">
   <resultMap id="BaseResultMap" type="com.centaline.trans.transplan.entity.TsTaskPlanSet">
-    <id column="pkid" jdbcType="BIGINT" property="pkid" />
-    <result column="part_Code" jdbcType="VARCHAR" property="partCode" />
-    <result column="plan_Days" jdbcType="BIGINT" property="planDays" />
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="PART_CODE" jdbcType="VARCHAR" property="partCode" />
+    <result column="PLAN_DAYS" jdbcType="BIGINT" property="planDays" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="is_Manual_Set" jdbcType="VARCHAR" property="isManualSet" />
+    <result column="IS_MANUAL_SET" jdbcType="VARCHAR" property="isManualSet" />
 
   </resultMap>
   <sql id="Base_Column_List">

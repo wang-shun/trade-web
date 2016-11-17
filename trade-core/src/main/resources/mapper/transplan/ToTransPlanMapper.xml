@@ -5,7 +5,6 @@
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
-    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
     <result column="LAMP_STATUS" property="lampStatus" jdbcType="VARCHAR" />
     <result column="RED_LOCK" property="redLock" jdbcType="CHAR" />
     <result column="EST_PART_TIME" property="estPartTime" jdbcType="TIMESTAMP" />

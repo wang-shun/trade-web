@@ -73,7 +73,7 @@
 		<mapper resource="mapper/task/ToGetPropertyBookMapper.xml" />
 		<mapper resource="mapper/task/ToApproveRecordMapper.xml" />
 		<mapper resource="mapper/task/TsPrResearchMapMapper.xml" />
-		<mapper resource="mapper/task/TsTransPlanHistoryMapper.xml" />
+		<mapper resource="mapper/transplan/TsTransPlanHistoryMapper.xml" />
 		<!-- 任务授权 -->
 		<mapper resource="mapper/task/TsTaskDelegateMapper.xml" />
 		<mapper resource="mapper/task/ToUnlocatedTaskMapper.xml" />
@@ -218,7 +218,7 @@
 		<mapper resource="mapper/material/MmMaterialItemMapper.xml" />
 		
 		<!-- 回访登记 -->
-		<mapper resource="mapper/transplan/TtsReturnVisitRegistrationMapper" />
+		<mapper resource="mapper/transplan/TtsReturnVisitRegistrationMapper.xml" />
 		<mapper resource="mapper/transplan/TtsTransPlanHistoryBatchMapper.xml" />
 		<!-- 签约室排班 -->
 		<mapper resource="mapper/signroom/TradeCenterScheduleMapper.xml" />
