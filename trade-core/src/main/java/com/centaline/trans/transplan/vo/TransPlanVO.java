@@ -1,4 +1,4 @@
-package com.centaline.trans.task.vo;
+package com.centaline.trans.transplan.vo;
 
 import java.util.Date;
 

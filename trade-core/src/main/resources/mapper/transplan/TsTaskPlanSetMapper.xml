@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.common.repository.TsTaskPlanSetMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.TsTaskPlanSet" >
+<mapper namespace="com.centaline.trans.transplan.repository.TsTaskPlanSetMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
     <result column="PLAN_DAYS" property="planDays" jdbcType="INTEGER" />
@@ -21,13 +21,13 @@
     delete from sctrans.T_TS_TASK_PLAN_SET
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.centaline.trans.common.entity.TsTaskPlanSet" >
+  <insert id="insert" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
     insert into sctrans.T_TS_TASK_PLAN_SET (PKID, PART_CODE, PLAN_DAYS, 
       IS_MANUAL_SET, CREATE_TIME)
     values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{planDays,jdbcType=INTEGER}, 
       #{isManualSet,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.TsTaskPlanSet" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
     insert into sctrans.T_TS_TASK_PLAN_SET
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.TsTaskPlanSet" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
     update sctrans.T_TS_TASK_PLAN_SET
     <set >
       <if test="partCode != null" >
@@ -82,7 +82,7 @@
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.TsTaskPlanSet" >
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
     update sctrans.T_TS_TASK_PLAN_SET
     set PART_CODE = #{partCode,jdbcType=VARCHAR},
       PLAN_DAYS = #{planDays,jdbcType=INTEGER},
@@ -91,7 +91,7 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
-    <select id="getTsTaskPlanSetCount" resultType="java.lang.Integer" parameterType="com.centaline.trans.common.entity.TsTaskPlanSet" >
+    <select id="getTsTaskPlanSetCount" resultType="java.lang.Integer" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
     select 
       count(1)
     from sctrans.T_TS_TASK_PLAN_SET
@@ -101,4 +101,16 @@
      	</if>
 	</where>
 	</select>
+	<select id="getAutoTsTaskPlanSetByPartCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TASK_PLAN_SET
+    where IS_MANUAL_SET='0' and part_code=#{partCode,jdbcType=VARCHAR}
+  </select>
+  <select id="getTsTaskPlanSetByPartCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TASK_PLAN_SET
+    where part_code=#{partCode,jdbcType=VARCHAR}
+  </select>
 </mapper>

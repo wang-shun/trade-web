@@ -1,7 +1,7 @@
-package com.centaline.trans.common.repository;
+package com.centaline.trans.transplan.repository;
 
 import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.common.entity.TsTaskPlanSet;
+import com.centaline.trans.transplan.entity.TsTaskPlanSet;
 
 @MyBatisRepository
 public interface TsTaskPlanSetMapper {
@@ -18,4 +18,7 @@ public interface TsTaskPlanSetMapper {
     int updateByPrimaryKey(TsTaskPlanSet record);
     
     int getTsTaskPlanSetCount(TsTaskPlanSet record);
+    
+    TsTaskPlanSet getAutoTsTaskPlanSetByPartCode(String partCode);
+	TsTaskPlanSet getTsTaskPlanSetByPartCode(String code);
 }

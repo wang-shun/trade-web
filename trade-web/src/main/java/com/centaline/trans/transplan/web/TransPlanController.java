@@ -17,15 +17,15 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.task.vo.TransPlanVO;
-import com.centaline.trans.transplan.service.ToTransPlanService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.transplan.vo.TransPlanVO;
 
 @Controller
 @RequestMapping(value="/task/transPlan")
 public class TransPlanController {
 
 	@Autowired
-	private ToTransPlanService toTransPlanService;
+	private TransplanServiceFacade transplanServiceFacade;
 
 	@Autowired(required = true)
 	private ToCaseService toCaseService;
@@ -50,20 +50,20 @@ public class TransPlanController {
 		boolean dk =  ((boolean)(psf==null?false:psf.getValue())||(boolean)(self==null?false:self.getValue())||(boolean)(com==null?false:com.getValue()));
 		request.setAttribute("dy", dy==null?false:dy.getValue());
 		request.setAttribute("dk", dk);
-		request.setAttribute("transPlan", toTransPlanService.findTransPlanByCaseCode(caseCode));
-		return "transplan/taskTransPlanFilling";
+		request.setAttribute("transPlan", transplanServiceFacade.findTransPlanByCaseCode(caseCode));
+		return "task/taskTransPlanFilling";
 	}
 	@RequestMapping(value="saveTransPlan")
 	@ResponseBody
 	public Boolean saveTransPlan(HttpServletRequest request, TransPlanVO transPlanVO) {
-		toTransPlanService.saveToTransPlan(transPlanVO);
+		transplanServiceFacade.saveToTransPlan(transPlanVO);
 		return true;
 	}
 	
 	@RequestMapping(value="submitTransPlan")
 	@ResponseBody
 	public boolean submitTransPlan(HttpServletRequest request, TransPlanVO transPlanVO) {
-		toTransPlanService.saveToTransPlan(transPlanVO);
+		transplanServiceFacade.saveToTransPlan(transPlanVO);
 		
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
