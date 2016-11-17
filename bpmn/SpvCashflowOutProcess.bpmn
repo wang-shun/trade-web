@@ -2,45 +2,45 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
   <process id="SPVCashflowOutProcess" name="SPVCashflowOutProcess" isExecutable="true">
     <userTask id="CashFlowOutApply" name="出款申请" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=apply&amp;__decorator=UI_V2"></userTask>
-    <userTask id="CashFlowOutDirectorAduit" name="出款总监审批" activiti:assignee="${RiskControlDirector}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=directorAduit&amp;__decorator=UI_V2"></userTask>
-    <sequenceFlow id="flow1" sourceRef="CashFlowOutApply" targetRef="CashFlowOutDirectorAduit"></sequenceFlow>
-    <userTask id="CashFlowOutFinanceAduit" name="出款财务初审" activiti:assignee="${FinanceFirstAduitor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeAduit&amp;__decorator=UI_V2">
-      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="#{commonUserListService.getAssigneeByOrgId(execution,'ff808081566e099e01566e7701bb003e','YCCWREVIEW')}" activiti:elementVariable="FinanceFirstAduitor">
+    <userTask id="CashFlowOutDirectorAudit" name="出款总监审批" activiti:assignee="${RiskControlDirector}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=directorAudit&amp;__decorator=UI_V2"></userTask>
+    <sequenceFlow id="flow1" sourceRef="CashFlowOutApply" targetRef="CashFlowOutDirectorAudit"></sequenceFlow>
+    <userTask id="CashFlowOutFinanceAudit" name="出款财务初审" activiti:assignee="${FinanceFirstAuditor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeAudit&amp;__decorator=UI_V2">
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="#{commonUserListService.getAssigneeByOrgId(execution,'ff808081566e099e01566e7701bb003e','YCCWREVIEW')}" activiti:elementVariable="FinanceFirstAuditor">
         <completionCondition>${nrOfCompletedInstances == 1}</completionCondition>
       </multiInstanceLoopCharacteristics>
     </userTask>
-    <userTask id="CashFlowOutFinanceSecondAduit" name="出款财务复审" activiti:assignee="${FinanceSecondAduitor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeSecondAduit&amp;__decorator=UI_V2">
-      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="#{commonUserListService.getAssigneeByOrgId(execution,'ff808081566e099e01566e7701bb003e','YCCWREVIEW')}" activiti:elementVariable="FinanceSecondAduitor">
+    <userTask id="CashFlowOutFinanceSecondAudit" name="出款财务复审" activiti:assignee="${FinanceSecondAuditor}" activiti:formKey="/spv/task/cashFlowOutAppr/process?handle=financeSecondAudit&amp;__decorator=UI_V2">
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="#{FinanceSecondAuditorList}" activiti:elementVariable="FinanceSecondAuditor">
         <completionCondition>${nrOfCompletedInstances == 1}</completionCondition>
       </multiInstanceLoopCharacteristics>
     </userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="CashFlowOutFinanceAduit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${directorAduit}]]></conditionExpression>
+    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="CashFlowOutFinanceAudit">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${directorAudit}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="CashFlowOutApply">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${directorAduit == false}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${directorAudit == false}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow7" sourceRef="CashFlowOutFinanceAduit" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="CashFlowOutFinanceAudit" targetRef="exclusivegateway2"></sequenceFlow>
     <sequenceFlow id="flow8" sourceRef="exclusivegateway2" targetRef="CashFlowOutApply">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeAduit == false}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeAudit == false}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="CashFlowOutFinanceSecondAduit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeAduit}]]></conditionExpression>
+    <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="CashFlowOutFinanceSecondAudit">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeAudit}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow10" sourceRef="CashFlowOutDirectorAduit" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow10" sourceRef="CashFlowOutDirectorAudit" targetRef="exclusivegateway1"></sequenceFlow>
     <startEvent id="startevent1" name="Start"></startEvent>
     <sequenceFlow id="flow11" sourceRef="startevent1" targetRef="CashFlowOutApply"></sequenceFlow>
     <endEvent id="endevent2" name="End"></endEvent>
     <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow13" sourceRef="CashFlowOutFinanceSecondAduit" targetRef="exclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow13" sourceRef="CashFlowOutFinanceSecondAudit" targetRef="exclusivegateway3"></sequenceFlow>
     <sequenceFlow id="flow15" sourceRef="exclusivegateway3" targetRef="CashFlowOutApply">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeSecondAduit == false}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeSecondAudit == false}]]></conditionExpression>
     </sequenceFlow>
     <endEvent id="endevent3" name="End"></endEvent>
     <sequenceFlow id="flow19" sourceRef="exclusivegateway3" targetRef="endevent3">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeSecondAduit}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${financeSecondAudit}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_SPVCashflowOutProcess">
@@ -48,13 +48,13 @@
       <bpmndi:BPMNShape bpmnElement="CashFlowOutApply" id="BPMNShape_CashFlowOutApply">
         <omgdc:Bounds height="55.0" width="105.0" x="90.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="CashFlowOutDirectorAduit" id="BPMNShape_CashFlowOutDirectorAduit">
+      <bpmndi:BPMNShape bpmnElement="CashFlowOutDirectorAudit" id="BPMNShape_CashFlowOutDirectorAudit">
         <omgdc:Bounds height="55.0" width="105.0" x="262.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="CashFlowOutFinanceAduit" id="BPMNShape_CashFlowOutFinanceAduit">
+      <bpmndi:BPMNShape bpmnElement="CashFlowOutFinanceAudit" id="BPMNShape_CashFlowOutFinanceAudit">
         <omgdc:Bounds height="55.0" width="105.0" x="530.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="CashFlowOutFinanceSecondAduit" id="BPMNShape_CashFlowOutFinanceSecondAduit">
+      <bpmndi:BPMNShape bpmnElement="CashFlowOutFinanceSecondAudit" id="BPMNShape_CashFlowOutFinanceSecondAudit">
         <omgdc:Bounds height="55.0" width="105.0" x="800.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">

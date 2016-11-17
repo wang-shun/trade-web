@@ -42,8 +42,7 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
-    <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
     <style>
 	.borderClass {border:1px solid red!important;resize: none;}
 	.borderClass:focus {border:1px solid red!important;resize: none;}
@@ -139,9 +138,6 @@
                                     <table class="table table-bordered  customerinfo" id="cashFlowRecord">
                                         <thead>
                                         <tr>
-<!--                                             <th>
-                                                次数
-                                            </th> -->
                                             <th>
                                               	  划转条件
                                             </th>
@@ -154,18 +150,6 @@
                                             <th>
                                                 	备注
                                             </th>
-<!--                                             <th>
-                                              	  划转条件
-                                            </th>
-                                            <th>
-                                               	 每次划转金额
-                                            </th>
-                                            <th>
-                                               	 卖方账户
-                                            </th>
-                                            <th>
-                                                	资金方
-                                            </th> -->
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -295,7 +279,7 @@
                                                     
                                                     <c:if test="${cashFlow.usage eq 'out'}" >
 	                                                    <c:if test="${cashFlow.status eq 13 }">
-	                                                    &gt;${financeName }
+	                                                    &gt;${financeName2 }
 	                                                    </c:if>
 	                                                    <c:if test="${cashFlow.status gt 13 }">
 	                                                    &gt;${cashFlow.ftPostAuditorName }
@@ -357,7 +341,7 @@
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
 															</c:if>
-															<c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }">
+															<c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit'}">
 															    <i class="icon iconfont icon_y" >&#xe635;
 																</i>
 															</c:if> 
@@ -403,8 +387,8 @@
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.spvCode }" />
 	                                                <td>
 	                                                    <select  class="table-select boderbbt"  
-	                                                    <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit'}">
-	                                                    title="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" readonly
+	                                                    <c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit'}">
+	                                                    readonly
 	                                                    </c:if> 
 	                                                     name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiver" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" onChange="doSearch(this)" ></select>
 	                                                </td>
@@ -422,11 +406,8 @@
 	                                                    <input class="table_input boderbbt" type="text" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.voucherNo }" placeholder="请输入编号" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.voucherNo" />
 	                                                </td>
 	                                                <td>
-	                                                    <select  id="select_direction" class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.direction"  onChange="this.value" >
-	                                                        <option value="">请选择</option>
+	                                                    <select  id="select_direction" class="table-select boderbbt" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.direction" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction}" >
 	                                                        <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '转账'}"> selected="selected" </c:if> value="转账">转账</option>                                                                                                                                                
-															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '刷卡'}"> selected="selected" </c:if> value="刷卡">刷卡</option> --%>  
-															<%-- <option <c:if test="${spvCaseFlowOutInfoVO.toSpvCashFlow.direction eq '现金'}"> selected="selected" </c:if> value="现金">现金</option> --%> 
 	                                                    </select>
 	                                                </td>
 	                                                <td id="td_file${status2.index  }">
@@ -441,7 +422,7 @@
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
 															</c:if>
-															<c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }">
+															<c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit'}">
 															    <i class="icon iconfont icon_y" >&#xe635;
 																</i>
 															</c:if>	
@@ -500,7 +481,7 @@
                         </div>
                         </div>
                         
-                        <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' }">
+                        <c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit' }">
                         <div class="submitter">
                             提交人：<span>${user.realName }(${user.serviceJobName })</span>
                         </div>
@@ -516,28 +497,26 @@
                     <div class="form-btn">
                             <div class="text-center">
                             <c:if test="${empty handle }">
-                                <!-- <button id="none_save_btn" class="btn btn-success mr15">保存</button> -->
                                 <button id="none_submit_btn" class="btn btn-success mr15">提交</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
                             <c:if test="${handle eq 'apply' }">
-                                <!-- <button id="apply_save_btn" class="btn btn-success mr15">保存</button> -->
                                 <button id="apply_submit_btn" class="btn btn-success mr15">提交</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
-                            <c:if test="${handle eq 'directorAduit' }">
-                                <button id="directorAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
-                                <button id="directorAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                            <c:if test="${handle eq 'directorAudit' }">
+                                <button id="directorAudit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="directorAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
-                            <c:if test="${handle eq 'financeAduit' }">
-                                <button id="financeAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
-                                <button id="financeAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                            <c:if test="${handle eq 'financeAudit' }">
+                                <button id="financeAudit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="financeAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
-                            <c:if test="${handle eq 'financeSecondAduit' }">
-                                <button id="financeSecondAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
-                                <button id="financeSecondAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                            <c:if test="${handle eq 'financeSecondAudit' }">
+                                <button id="financeSecondAudit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="financeSecondAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>   
                             </div>
@@ -579,7 +558,6 @@
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
     <!-- stickup plugin -->
-    <script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
     <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
     <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
@@ -611,6 +589,7 @@ $(function() {
 		$(e).find("option").each(function(i_,e_){
 			if($(e).attr('value') == $(e_).val()){
 				$(e_).prop('selected',true);
+				$(e).attr("title",$(e_).text());
 			}
 		});
 	}).change();
@@ -695,8 +674,7 @@ function getTR(index){
 	$str+='	</td>';
 	$str+='	<td>';
 	$str+='		<select name="spvCaseFlowOutInfoVOList['+index+'].toSpvCashFlow.direction" class="table-select boderbbt" onChange="this.value">';
-	$str+='			<option value="">请选择</option>';
-	$str+='			<option value="刷卡">刷卡</option>';
+	$str+='			<option value="转账">转账</option>';
 	$str+='		</select>';
 	$str+='	</td>';
 	$str+='	<td id="td_file'+index+'">';

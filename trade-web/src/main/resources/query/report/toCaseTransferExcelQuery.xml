@@ -52,7 +52,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[				
-											SELECT					
+								SELECT					
 									distinct(T.CASE_CODE),
 									BA_NAME,
 									AGENT_NAME, 
@@ -148,7 +148,7 @@
 									
 									from sctrans.T_TO_CASE C 
 									inner join sctrans.T_TO_PROPERTY_INFO P on C.CASE_CODE = P.CASE_CODE 
-									left join sctrans.V_USER_ORG_JOB ZG on C.ORG_ID = ZG.ORG_ID and ZG.JOB_CODE ='manager'
+									left join sctrans.V_USER_ORG_JOB_ACTIVE ZG on C.ORG_ID = ZG.ORG_ID and ZG.JOB_CODE ='manager'
 									inner join sctrans.T_TO_CASE_info I on C.CASE_CODE = I.CASE_CODE
 									inner join sctrans.T_TO_WORKFLOW W on C.CASE_CODE = W.CASE_CODE
 									and  W.BUSINESS_KEY = 'operation_process' and W.STATUS in (0, 4)

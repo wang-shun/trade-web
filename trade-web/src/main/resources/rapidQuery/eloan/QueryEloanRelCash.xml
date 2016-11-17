@@ -70,7 +70,7 @@
 					</if>
 				</trim>
 			</where>
-			UNION
+			<!-- UNION
 			SELECT 
 			2 as type,
 			loanAgent.PKID,
@@ -113,9 +113,9 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-<!-- 					<if test="#status !=null and #status != '' ">
+					<if test="#status !=null and #status != '' ">
 						and er.CONFIRM_STATUS=#{status}
-					</if> -->
+					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -135,7 +135,7 @@
 						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
 					</if>
 				</trim>
-			</where>
+			</where> -->
 		</searchScript>
 		<grid>
 		    <column name="type" title="type" hidden="true" />
@@ -216,7 +216,7 @@
 			</where>
            GROUP BY DatePart(yyyy, r.RELEASE_TIME),DatePart(mm, r.RELEASE_TIME)
         
-           UNION
+          <!--  UNION
         
            SELECT
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
@@ -248,9 +248,9 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-<!-- 					<if test="#status !=null and #status != '' ">
+					<if test="#status !=null and #status != '' ">
 						and er.CONFIRM_STATUS=#{status}
-					</if> -->
+					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -272,7 +272,7 @@
 				</trim>
 			</where>
 			 GROUP BY DatePart(yyyy, loanAgent.RELEASE_TIME) , DatePart(mm, loanAgent.RELEASE_TIME)
-			  
+			   -->
 			 
 			 UNION 
                  SELECT 
@@ -332,9 +332,9 @@
 				</trim>
 			</where>
         
-           UNION
+            <!--     UNION
         
-           SELECT
+      SELECT
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as kaAmount ,
                 sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
@@ -364,9 +364,9 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-<!-- 					<if test="#status !=null and #status != '' ">
+					<if test="#status !=null and #status != '' ">
 						and er.CONFIRM_STATUS=#{status}
-					</if> -->
+					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -386,7 +386,7 @@
 						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
 					</if>
 				</trim>
-			</where>
+			</where> -->
 			 )a
 
 			ORDER by a.mm , a.years   
@@ -455,7 +455,7 @@
 				</trim>
 			</where>
 			 GROUP BY c.FIN_ORG_CODE
-			 UNION
+			  <!--UNION
 			  SELECT count(loanAgent.FIN_ORG_CODE ) as num,
 			   loanAgent.FIN_ORG_CODE as finOrgName ,
 			   sum(loanAgent.ACTUAL_AMOUNT)/10000  as amount
@@ -484,9 +484,9 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-<!-- 					<if test="#status !=null and #status != '' ">
+					<if test="#status !=null and #status != '' ">
 						and er.CONFIRM_STATUS=#{status}
-					</if> -->
+					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -507,7 +507,7 @@
 					</if>
 				</trim>
 			</where>
-			 GROUP BY loanAgent.FIN_ORG_CODE ) b
+			 GROUP BY loanAgent.FIN_ORG_CODE --> ) b
 			 ORDER BY  b.finOrgName
 		</searchScript>
          <grid>

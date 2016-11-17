@@ -225,9 +225,7 @@ text-decoration: underline !important;
 <script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-<!--  
 <script data-main="${ctx}/js/trunk/task/mytask_queryFilter.js" src="${ctx}/js/require.js"></script>
--->
 <script id="template_myTaskList" type= "text/html">
          {{each rows as item index}}
                  {{if index%2 == 0}}

@@ -11,8 +11,8 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.task.entity.ToTransPlan;
-import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 @Controller
 @RequestMapping("task/PSFApply")
@@ -20,7 +20,7 @@ public class PSFApplyController {
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
 	@Autowired
-	private ToTransPlanService toTransPlanService;
+	private TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	private ToMortgageService toMortgageService;
 	@Autowired
@@ -41,7 +41,7 @@ public class PSFApplyController {
 		ToTransPlan toTransPlan = new ToTransPlan();
 		toTransPlan.setPartCode(taskitem);
 		toTransPlan.setCaseCode(caseCode);
-		request.setAttribute("toTransPlan", toTransPlanService.findTransPlan(toTransPlan));
+		request.setAttribute("toTransPlan", transplanServiceFacade.findTransPlan(toTransPlan));
 		request.setAttribute("apply", toMortgageService.findToMortgageByMortTypeAndCaseCode(caseCode, "30016003"));// --
 		return "task/taskPSFApply";
 	}

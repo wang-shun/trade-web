@@ -39,7 +39,6 @@ import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToAccesoryList;
 import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
@@ -49,8 +48,9 @@ import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
@@ -69,7 +69,6 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.service.FirstFollowService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.OfflineEvaService;
@@ -82,8 +81,9 @@ import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.ToPricingService;
 import com.centaline.trans.task.service.ToPurchaseLimitSearchService;
 import com.centaline.trans.task.service.ToTaxService;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 
 @Controller
@@ -96,7 +96,7 @@ public class TaskController {
 	@Autowired
 	private SignService signService;/*签约*/
 	@Autowired
-	private ToTransPlanService toTransPlanService;/*填写交易计划*/
+	private TransplanServiceFacade transplanServiceFacade;/*填写交易计划*/
 	@Autowired
 	private ToPricingService toPricingService;/**核价*/
 	@Autowired
@@ -227,7 +227,7 @@ public class TaskController {
     		boolean dk =  ((boolean)(psf==null?false:psf.getValue())||(boolean)(self==null?false:self.getValue())||(boolean)(com==null?false:com.getValue()));
     		request.setAttribute("dy", dy==null?false:dy.getValue());
     		request.setAttribute("dk", dk);
-    		request.setAttribute("transPlan", toTransPlanService.findTransPlanByCaseCode(caseCode));
+    		request.setAttribute("transPlan", transplanServiceFacade.findTransPlanByCaseCode(caseCode));
     	} else if(taskitem.equals("FirstFollow")) {//首次跟进
     		initApproveRecord(request, caseCode, "0");/*无效审批*/
     		request.setAttribute("ctmCode", ctmCode);
@@ -255,7 +255,7 @@ public class TaskController {
     		ToTransPlan toTransPlan = new ToTransPlan();
     		toTransPlan.setPartCode(taskitem);
     		toTransPlan.setCaseCode(caseCode);
-    		request.setAttribute("toTransPlan", toTransPlanService.findTransPlan(toTransPlan));
+    		request.setAttribute("toTransPlan", transplanServiceFacade.findTransPlan(toTransPlan));
     		request.setAttribute("apply", toMortgageService.findToMortgageByMortTypeAndCaseCode(caseCode,"30016003"));//--
     	} else if(taskitem.equals("PSFSign")) {/*纯公积金贷款签约*/
     		getAccesoryList(request, taskitem);
@@ -270,13 +270,10 @@ public class TaskController {
     		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/*自办*/
     		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/*贷款*/
     		
-//    		request.setAttribute("psf", (boolean)(psf==null?false:psf.getValue()));
     		getAccesoryListLingZheng(request, taskitem, (boolean)(psf==null?false:psf.getValue()), (boolean)(self==null?false:self.getValue()), (boolean)(com==null?false:com.getValue()));
     		request.setAttribute("tgpb", toGetPropertyBookService.queryToGetPropertyBook(caseCode));
     	} else if(taskitem.equals("LoanRelease")) {/*放款*/
     		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
-//    		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/*自办*/
-//    		boolean tz =  ((boolean)(psf==null?false:psf.getValue())||(boolean)(self==null?false:self.getValue()));
     		boolean tz = !(boolean)(psf==null?false:psf.getValue());
     		getAccesoryList(request, taskitem);
     		ToMortgage mortgage=toMortgageService.findToMortgageByCaseCode2(caseCode);
@@ -347,12 +344,6 @@ public class TaskController {
     	} else if(taskitem.equals("LoanlostApproveManager") || 
     			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager") || taskitem.equals("LoanlostApproveSeniorManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
-    		
-    		/*贷款流失审批 添加流失原因*/
-/*    		Dict dict = uamBasedataService.findDictByType("loanlost_not_approve");
-    		if(dict!=null){
-    				request.setAttribute("loanLostNotApproves", dict.getChildren());
-    		}  */
     		
     		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);			
 			if(mortgage!=null && mortgage.getCustCode()!=null){
@@ -439,7 +430,7 @@ public class TaskController {
     		ToTransPlan plan=new ToTransPlan();
     		plan.setCaseCode(caseCode);
     		plan.setPartCode("LoanRelease");//放款
-    		request.setAttribute("loanReleasePlan", toTransPlanService.findTransPlan(plan));
+    		request.setAttribute("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
     	}
         return "task/task"+taskitem;
   
@@ -610,7 +601,7 @@ public class TaskController {
     		ToTransPlan toTransPlan = new ToTransPlan();
     		toTransPlan.setPartCode(taskitem);
     		toTransPlan.setCaseCode(caseCode);
-    		request.setAttribute("toTransPlan", toTransPlanService.findTransPlan(toTransPlan));
+    		request.setAttribute("toTransPlan", transplanServiceFacade.findTransPlan(toTransPlan));
     		request.setAttribute("apply", toMortgageService.findToMortgageByMortTypeAndCaseCode(caseCode,"30016003"));
     	} else if(taskitem.equals("PSFSign")) {/*纯公积金贷款签约*/
     		getAccesoryList(request, taskitem);
@@ -624,7 +615,6 @@ public class TaskController {
     		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/*自办*/
     		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/*贷款*/
     		
-//    		request.setAttribute("psf", (boolean)(psf==null?false:psf.getValue()));
     		getAccesoryListLingZheng(request, taskitem, (boolean)(psf==null?false:psf.getValue()), (boolean)(self==null?false:self.getValue()), (boolean)(com==null?false:com.getValue()));
     		request.setAttribute("tgpb", toGetPropertyBookService.queryToGetPropertyBook(caseCode));
     	} 
@@ -645,7 +635,6 @@ public class TaskController {
 		toApproveRecord.setCaseCode(caseCode);
 		toApproveRecord.setApproveType(approveType);
 		toApproveRecord.setOperator(user.getId());
-//		request.setAttribute("toApproveRecord", toApproveRecordService.queryToApproveRecord(toApproveRecord));
 		request.setAttribute("approveType", approveType);
 		request.setAttribute("operator", user != null ? user.getId():"");
     }

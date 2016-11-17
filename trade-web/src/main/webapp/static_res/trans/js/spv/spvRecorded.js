@@ -4,23 +4,19 @@ $(document).ready(function(){
 	$("#cashFlowRecord").find("select").prop("disabled",true);
 	
 	//流程开启后只读表单
-	if(handle == 'directorAduit' || handle == 'financeAduit' 
-		|| handle == 'financeSecondAduit' || handle == 'cashFlowOut'){
+	if(handle == 'directorAudit' || handle == 'financeAudit' 
+		|| handle == 'financeSecondAudit'){
 	    readOnlyRiskForm();
 	}
 	
-	$("#none_save_btn").click(function(){saveBtnClick()});
 	$("#none_submit_btn").click(function(){submitBtnClick(handle,null)});
-	$("#apply_save_btn").click(function(){saveBtnClick()});
 	$("#apply_submit_btn").click(function(){submitBtnClick(handle,null)});
-	$("#directorAduit_pass_btn").click(function(){submitBtnClick(handle,true)});
-	$("#directorAduit_reject_btn").click(function(){submitBtnClick(handle,false)});
-	$("#financeAduit_pass_btn").click(function(){submitBtnClick(handle,true)});
-	$("#financeAduit_reject_btn").click(function(){submitBtnClick(handle,false)});
-	$("#financeSecondAduit_pass_btn").click(function(){submitBtnClick(handle,true)});
-	$("#financeSecondAduit_reject_btn").click(function(){submitBtnClick(handle,false)});
-	$("#cashFlowOut_submit_btn").click(function(){submitBtnClick(handle)});
-
+	$("#directorAudit_pass_btn").click(function(){submitBtnClick(handle,true)});
+	$("#directorAudit_reject_btn").click(function(){submitBtnClick(handle,false)});
+	$("#financeAudit_pass_btn").click(function(){submitBtnClick(handle,true)});
+	$("#financeAudit_reject_btn").click(function(){submitBtnClick(handle,false)});
+	$("#financeSecondAudit_pass_btn").click(function(){submitBtnClick(handle,true)});
+	$("#financeSecondAudit_reject_btn").click(function(){submitBtnClick(handle,false)});
 });
 
 function checkFormSubmit(){
@@ -251,7 +247,7 @@ function submitBtnClick(handle,chargeOutAppr){
 	  		if(!confirm("是否确定提交申请！")){
 	  		  return false;
 	  	    }
-	  }else if(handle == 'directorAduit'){
+	  }else if(handle == 'directorAudit'){
 		  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 	   	   if(refuseReason=='' || refuseReason==null){
 	   		   alert("请填写审批意见！");
@@ -267,7 +263,7 @@ function submitBtnClick(handle,chargeOutAppr){
 	     		     return false;
 	     	     } 
 		  }
-	  }else if(handle == 'financeAduit'){
+	  }else if(handle == 'financeAudit'){
 		  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 	   	   if(refuseReason=='' || refuseReason==null){
 	   		   alert("请填写审批意见！");
@@ -283,7 +279,7 @@ function submitBtnClick(handle,chargeOutAppr){
 		     		  return false;
 		     	  } 
 		  }
-	  }else if(handle == 'financeSecondAduit'){
+	  }else if(handle == 'financeSecondAudit'){
 		  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 	   	   if(refuseReason=='' || refuseReason==null){
 	   		   alert("请填写审批意见！");
@@ -356,7 +352,6 @@ function readOnlyRiskForm(){
 	$("input").prop("readOnly",true);
 	$(":radio").prop("disabled",true);
 	$("select").prop("disabled",true);
-	$("a").prop("disabled",true);
 }
 
 /**************************************验证************************************************/

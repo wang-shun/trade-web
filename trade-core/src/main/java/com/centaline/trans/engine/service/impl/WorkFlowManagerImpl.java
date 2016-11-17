@@ -36,13 +36,12 @@ import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.entity.ToUnlocatedTask;
-import com.centaline.trans.task.entity.TsTaskPlanSet;
-import com.centaline.trans.task.service.TaskPlanSetService;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsTaskDelegateService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.entity.TsTaskPlanSet;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.BeanToMapUtils;
 
 @Component
@@ -58,9 +57,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
-	private ToTransPlanService toTransPlanService;
-	@Autowired
-	private TaskPlanSetService taskPlanSetService;
+	private TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	private UamSessionService uamSesstionService;
 	@Autowired
@@ -321,7 +318,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 
 	@Override
 	public void doOptTaskPlan(String tsakDfkey, String caseCode) {
-		TsTaskPlanSet planSet = taskPlanSetService
+		TsTaskPlanSet planSet = transplanServiceFacade
 				.getAutoTsTaskPlanSetByPartCode(tsakDfkey);
 		if (planSet == null)
 			return;
@@ -331,7 +328,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, planSet.getPlanDays());
 		plan.setEstPartTime(cal.getTime());
-		toTransPlanService.updateTransPlan(plan);
+		transplanServiceFacade.updateTransPlan(plan);
 	}
 
 	@Override
@@ -456,11 +453,6 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 			unlocatedTaskService.insert(ut);
 		}
 
-		/*
-		 * private String caseCode; private String instCode; private String
-		 * taskJobCode; private Date crateTime; private String candidateId;
-		 * private String taskId;
-		 */
 	}
 
 	@Override

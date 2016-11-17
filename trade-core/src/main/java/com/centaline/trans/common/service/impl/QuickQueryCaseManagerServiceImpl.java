@@ -60,10 +60,15 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 			
 			if(key!=null){
 				
-				String sql = "SELECT uoj.REAL_NAME ,uoj.ORG_NAME,uoj.MOBILE FROM sctrans.T_TO_CASE toCase "
-						   + " inner join sctrans.V_USER_ORG_JOB uoj on uoj.ORG_ID = toCase.ORG_ID"
-						   + " inner join SCTRANS.T_TO_CASE_INFO A on A.CASE_CODE = toCase.CASE_CODE"
-						   + " WHERE A.CASE_CODE= ? and A.IS_RESPONSED = 1 AND  uoj.JOB_CODE = 'Manager'";
+				String sql = "SELECT u.REAL_NAME ,o.ORG_NAME,u.MOBILE "
+							+ "	FROM sctrans.T_TO_CASE toCase "
+						   + " 		inner join sctrans.SYS_USER_ORG_JOB uoj on uoj.ORG_ID = toCase.ORG_ID"
+						   + " 		inner join SCTRANS.T_TO_CASE_INFO A on A.CASE_CODE = toCase.CASE_CODE"
+						   + " 		inner join sctrans.sys_job j on j.ID = uoj.JOB_ID "
+						   + "		inner join sctrans.sys_user u on u.id = uoj.user_id "
+						   + "		inner join sctrans.sys_org o on o.id = uoj.org_id "		
+						   + " 	WHERE A.CASE_CODE= ? and A.IS_RESPONSED = 1 "
+						   + "  	and uoj.is_deleted = 0 AND  j.JOB_CODE = 'Manager'";
 				List<Map<String, Object>> orgIdList = jdbcTemplate.queryForList(sql, key);
 				if(CollectionUtils.isEmpty(orgIdList)) {
 					String sql1 = "select su.REAL_NAME ,so.ORG_NAME,su.MOBILE " + "	from sctrans.T_TS_TEAM_SCOPE_TARGET tst "

@@ -17,6 +17,7 @@ import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.weixin.util.ParamesAPI;
 import com.centaline.trans.common.enums.FeedbackAlertEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.PrChannelEnum;
@@ -27,7 +28,6 @@ import com.centaline.trans.task.entity.ToPropertyResearch;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
 import com.centaline.trans.task.repository.ToPrTransferLogMapper;
 import com.centaline.trans.task.repository.ToPropertyResearchMapper;
-import com.centaline.trans.utils.wechat.ParamesAPI;
 
 /**
  * 产调service

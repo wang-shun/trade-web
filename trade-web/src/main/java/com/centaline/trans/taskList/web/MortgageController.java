@@ -21,14 +21,14 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToAccesoryListService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.MortStep;
 import com.centaline.trans.mortgage.entity.ToEguPricing;
@@ -36,10 +36,10 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
 import com.centaline.trans.mortgage.service.ToEguPricingService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.task.entity.ToTransPlan;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 @Controller
 @RequestMapping(value = "/task")
@@ -48,7 +48,7 @@ public class MortgageController {
 	@Autowired
 	private ToMortgageService toMortgageService;
 	@Autowired
-	private ToTransPlanService toTransPlanService;
+	private TransplanServiceFacade transplanServiceFacade;
 
 	@Autowired(required = true)
 	private ToCaseService toCaseService;
@@ -134,8 +134,7 @@ public class MortgageController {
 		toTransPlan.setCaseCode(toMortgage.getCaseCode());
 
 		// 修改人：zhangxb16 时间：2015-11-12
-		// toTransPlan.setPartCode(taskitem);
-		toTransPlan.setPartCode("PSFSign");
+		toTransPlan.setPartCode("PSFApply");
 		if (estPartTime == null) {
 			if (taskitem.equals("LoanRelease")) {
 				estPartTime = estPartTime == null ? toMortgage.getLendDate()
@@ -147,7 +146,7 @@ public class MortgageController {
 
 		}
 		toTransPlan.setEstPartTime(estPartTime);
-		toTransPlanService.updateTransPlan(toTransPlan);
+		transplanServiceFacade.updateTransPlan(toTransPlan);
 		toMortgage.setIsMainLoanBank("1");
 
 		if (taskitem.equals("PSFApply")) {
@@ -203,11 +202,10 @@ public class MortgageController {
 		toTransPlan.setCaseCode(toMortgage.getCaseCode());
 
 		// 修改人：zhangxb16 时间：2015-11-12
-		// toTransPlan.setPartCode("PSFSign");
 		toTransPlan.setPartCode("PSFApply");
 		toTransPlan.setEstPartTime(estPartTime);
 		toMortgage.setIsDelegateYucui("1");
-		toTransPlanService.updateTransPlan(toTransPlan);
+		transplanServiceFacade.updateTransPlan(toTransPlan);
 		toMortgage
 				.setMortTotalAmount(toMortgage.getMortTotalAmount() != null ? toMortgage
 						.getMortTotalAmount().multiply(new BigDecimal(10000))
@@ -232,17 +230,7 @@ public class MortgageController {
 	public Result submitLoanRelease(HttpServletRequest request,
 			ToMortgage toMortgage, String taskitem, Date estPartTime,
 			String taskId, String processInstanceId, String partCode) {
-		/*
-		 * ToTransPlan toTransPlan = new ToTransPlan();
-		 * toTransPlan.setCaseCode(toMortgage.getCaseCode());
-		 * toTransPlan.setPartCode("LoanRelease");
-		 * toTransPlan.setEstPartTime(estPartTime
-		 * ==null?toMortgage.getLendDate():estPartTime);
-		 * toTransPlanService.updateTransPlan(toTransPlan);
-		 * if(toMortgage.getMortTotalAmount()!=null){
-		 * toMortgage.setMortTotalAmount
-		 * (toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000))); }
-		 */
+		
 		toMortgage.setIsMainLoanBank("1");
 		ToMortgage mortage = toMortgageService.findToMortgageById(toMortgage
 				.getPkid());

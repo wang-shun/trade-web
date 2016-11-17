@@ -240,7 +240,7 @@
 								<label for="" class="lable-one"><i style="color:red;">*</i> 证件有效期</label> 
 								<input id="date-picker0" name="spvCustList[0].idValiDate" class="form-control input-one date-picker" 
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/>" placeholder="">
-								<input id="longTerm0" type="radio" >长期有效
+								<button id="longTerm0" type="button" class="btn btn-grey" checkFlag="false">长期有效</button>
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -334,7 +334,7 @@
 								<label for="" class="lable-one"><i style="color:red;">*</i> 证件有效期</label> 
 								<input id="date-picker1" name="spvCustList[1].idValiDate" class="form-control input-one date-picker" 
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/>" placeholder="">
-								<input id="longTerm1" type="radio" >长期有效
+								<button id="longTerm1" type="button" class="btn btn-grey" checkFlag="false">长期有效</button>
 							</div>
 
 						</div>
@@ -733,13 +733,12 @@
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 						</div>
-						
-						
-					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" style="display:none;">						
+									
+					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" ${handle eq 'SpvApprove'?'':'style="display:none;"'}>						
 						<div class="form-group form-margin form-space-one">
 							<label class="lable-one"  style="text-align: right;"><i style="color:red;">*</i> 审批意见</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
-								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason">${toApproveRecord.content }</textarea>
+								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason"></textarea>
 							</div>
 						</div>
 					</div>
@@ -1075,27 +1074,9 @@
 
 			 //更新账户类型下拉选 
 			 updateAccTypeOptions();
-			 
-			 //驳回原因显示问题
-			 var remark = $("#passOrRefuseReason").val();	
+	
 			 //当前用户标示 前者是风控专员，后者是风控总监
-			 var handle = $("#handle").val();			
-			 if(remark == '' || remark == null){				
-				 if(handle=="SpvApply" || handle=='SpvSign' || handle==''){					
-					 $("#passOrRefuseReasonForShow").hide();					 
-				 }else if(handle=="SpvApprove"){
-					 $("#passOrRefuseReasonForShow").show();
-					 $("#passOrRefuseReason").attr("disabled",false);
-				 }	
-			 }else{				 
-				 if(handle=="SpvApply" || handle=='SpvSign'){
-					 $("#passOrRefuseReasonForShow").show();
-					 $("#passOrRefuseReason").attr("disabled",true);
-				 }else if(handle=="SpvApprove"){
-					 $("#passOrRefuseReasonForShow").show();
-					 $("#passOrRefuseReason").attr("disabled",false);
-				 }					 
-			 }
+			 var handle = $("#handle").val();										 
 			/*签约环节需添加的内容：资金监管协议编号、签约时间
 	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
 			if($("#handle").val() == 'SpvSign'){
@@ -1406,9 +1387,6 @@
 				var index = $(e).attr("id").replace('bank_','');
 				var $select = $("select[name='toSpvAccountList["+index+"].branchBank']"); 
 				getParentBank($(e),$select,$select.attr("value"),$(e).attr("value"));
- 				$(e).change(function(){
-					getBranchBankList($select,$(e).val());
-				}); 
  				
  		        //可变select
  		        $(e).editableSelect({
@@ -1431,26 +1409,28 @@
 		
 		//长期有效
 		function longTermSuit(i){	
-			var $jq = $("input[name='spvCustList["+i+"].idValiDate']");
-			if($jq.val() == '3000-01-01'){
-				$jq.val('长期有效');
-				$("#longTerm"+i).attr("checked",true);
+			var $idValiDate = $("input[name='spvCustList["+i+"].idValiDate']");
+			var $longTerm = $("#longTerm"+i);
+			
+			if($idValiDate.val() == '3000-01-01'){
+				$idValiDate.val('长期有效');
+				$longTerm.attr({"checkFlag":"true","class":"btn btn-success mr5"});
 			} 
-			$jq.blur(function(){
-				if($("#longTerm"+i).attr("checked")){
-					$jq.val('长期有效');
+			$idValiDate.blur(function(){
+				if($longTerm.attr("checkFlag") == "true"){
+					$idValiDate.val('长期有效');
 				}else{
-					$("#longTerm"+i).attr("checked",false);
+					$longTerm.attr({"checkFlag":"false","class":"btn btn-grey"});
 				}
             });
 			
-			$("#longTerm"+i).click(function(){
-				if($(this).attr("checked")){
-					$jq.val('');
-					$(this).attr("checked",false);
+			$longTerm.click(function(){
+				if($longTerm.attr("checkFlag") == "true"){
+					$idValiDate.val('');
+					$longTerm.attr({"checkFlag":"false","class":"btn btn-grey"});
 				}else{
-					$jq.val('长期有效');
-					$(this).attr("checked",true);
+					$idValiDate.val('长期有效');
+					$longTerm.attr({"checkFlag":"true","class":"btn btn-success mr5"});
 				}
 			});
 		}
@@ -1473,7 +1453,7 @@
         	language : 'zh-CN'
         }).on('changeDate',function(ev){
         	if($("input[name='spvCustList[0].idValiDate']").val() != '长期有效'){
-				$("#longTerm0").attr("checked",false);
+				$("#longTerm0").attr({"checkFlag":"false","class":"btn btn-grey"});	
 			}
         });
         
@@ -1485,7 +1465,7 @@
         	language : 'zh-CN'
         }).on('changeDate',function(ev){
         	if($("input[name='spvCustList[1].idValiDate']").val() != '长期有效'){
-				$("#longTerm1").attr("checked",false);
+				$("#longTerm1").attr({"checkFlag":"false","class":"btn btn-grey"});
 			}
         });
         
@@ -1526,8 +1506,7 @@
 				    data:{faFinOrgCode:$(element).val()},
 		    	success:function(data){
 			    	for(var i = 0;i<data.length;i++){
-			    		var coLevelStr='('+data[i].coLevelStr+')';
-			    		var $li = $("<li coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</li>");
+			    		var $li = $("<li coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+"</li>");
 			    		$li.mouseover(function(){
 			    			$(this).addClass("selected");
 			    		}).mouseleave(function(){

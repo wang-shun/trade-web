@@ -88,7 +88,6 @@
 							var startTime = $("input[name='startTime']").val();
 							var  endTime = $("input[name='endTime']").val();
 					        var initTime=$("#startDate").val();
-							debugger;
 							//都为空
 							if(!startTime && !endTime){
 								dateRange.startDate1 = initTime;//
@@ -119,7 +118,6 @@
 								return dateRange;
 							}//都不为空
 							if(startTime!="" &&endTime!=""){
-								debugger;
 								var startMouth=new Date(startTime).getMonth()+1;
 								var date=new Date(endTime);
 								if((date.getMonth()+1)-startMouth>=5){
@@ -225,7 +223,7 @@
 						};
 						function reloadStatus() {
 							params.queryId = "queryLoanSpv";
-							params.pagination = false;
+					
 							var startMonth = new Date(params.startDate1).getMonth()+1;
 							$.ajax({
 								async : true,//异步请求
@@ -292,7 +290,7 @@
 						}
 						function reloadStatus2() {
 							params.queryId = "queryLoanSpv2";
-							params.pagination = false;
+				
 							$.ajax({
 								async : true,//异步请求
 								url : ctx + "/rapidQuery/findPage",

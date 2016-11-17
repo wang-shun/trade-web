@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
@@ -22,14 +21,14 @@ import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.common.entity.ToOutTimeTask;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
 import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.common.service.ToWorkFlowService;
-import com.centaline.trans.task.entity.ToTransPlan;
-import com.centaline.trans.task.service.ToTransPlanService;
+import com.centaline.trans.engine.entity.ToOutTimeTask;
+import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 public class TaskOutTimeJob implements Job {
 
@@ -46,7 +45,7 @@ public class TaskOutTimeJob implements Job {
 	@Autowired(required=true)
 	ToWorkFlowService toWorkFlowService;
 	@Autowired(required=true)
-	ToTransPlanService toTransPlanService;
+	TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	UamPermissionService  uamPermissionService;
 
@@ -100,14 +99,14 @@ public class TaskOutTimeJob implements Job {
 					}
 					//更新交易计划红绿灯属性
 					ToTransPlan toTransPlan = new ToTransPlan();
-					ToTransPlan oldTransPlan = toTransPlanService.selectByPrimaryKey(task.getPlanId());
+					ToTransPlan oldTransPlan = transplanServiceFacade.selectByPrimaryKey(task.getPlanId());
 					
 					toTransPlan.setPkid(task.getPlanId());
 					toTransPlan.setLampStatus(lampStatus);
 					if(StringUtils.isEmpty(oldTransPlan.getRedLock()) || oldTransPlan.getRedLock().equals("0")){
 						toTransPlan.setRedLock(redLock);
 					}
-					toTransPlanService.updateByPrimaryKeySelective(toTransPlan);
+					transplanServiceFacade.updateByPrimaryKeySelective(toTransPlan);
 					
 				}
 			}

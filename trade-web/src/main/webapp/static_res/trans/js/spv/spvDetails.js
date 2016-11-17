@@ -194,7 +194,9 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
-    	   riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
+    	   if(deleteAndModify()){
+        	   riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
+    	   }
        });
        
        //风控总监审批通过
@@ -248,6 +250,7 @@ $(document).ready(function(){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  		   alert("请填写审批意见！");
+	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
   		  
@@ -258,6 +261,7 @@ $(document).ready(function(){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  		   alert("请填写审批意见！");
+	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
     	   
@@ -700,8 +704,8 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		if(!isNumber2(signNo)){
-			alert("请填写有效的网签合同号！(首位非0的整数)");
+		if(!isNumber3(signNo)){
+			alert("请填写有效的网签合同号！(纯数字)");
 			changeClass($("input[name='toSpvProperty.signNo']"));
 			return false;
 		}
@@ -829,7 +833,7 @@ $(document).ready(function(){
 		var sellerAccount = $("input[name='toSpvAccountList[1].account']").val();
 		if(sellerAccount != null && sellerAccount != ''){
 			if(!isNumber2(sellerAccount)){
-				alert("请填写有效的卖方收款账号！(首位非0的整数)");
+				alert("请填写有效的卖方收款账号！(纯数字(首位非0))");
 				changeClass($("input[name='toSpvAccountList[1].account']"));
 				return false;
 			}
@@ -860,7 +864,7 @@ $(document).ready(function(){
 		
 		if(buyerAccount != null && buyerAccount != ''){
 		    if(!isNumber2(buyerAccount)){
-		    	alert("请填写有效的买方退款账号！(首位非0的整数)");
+		    	alert("请填写有效的买方退款账号！(纯数字(首位非0))");
 		    	changeClass($("input[name='toSpvAccountList[0].account']"));
 		    	return false;
 		    }
@@ -912,7 +916,7 @@ $(document).ready(function(){
 		
 		if(spvAccount != null && spvAccount != ''){
 		    if(!isNumber2(spvAccount)){
-		    	alert("请填写有效的托管账号！(首位非0的整数)");
+		    	alert("请填写有效的托管账号！(纯数字(首位非0))");
 		    	changeClass($("input[name='toSpvAccountList[2].account']"));
 		    	return false;
 		    }
@@ -941,7 +945,7 @@ $(document).ready(function(){
 		
 		if(customAccount != null && customAccount != ''){
 		    if(!isNumber2(customAccount)){
-		    	alert("请填写有效的新增账户账号！(首位非0的整数)");
+		    	alert("请填写有效的新增账户账号！(纯数字(首位非0))");
 		    	changeClass($("input[name='toSpvAccountList["+index+"].account']"));
 		    	customFlag = false;
 		    	return false;
@@ -1127,6 +1131,7 @@ $(document).ready(function(){
     	$("select").prop("disabled",true);
     	$("#realName").prop("disabled",true);
     	$("input[id^='picFileupload']").prop("disabled",true);
+    	$("button").prop("disabled",true);
     }
     
     function getParentBank(selector,selectorBranch,finOrgCode,bank){
@@ -1181,7 +1186,8 @@ $(document).ready(function(){
 		    		if(data != null){
 		    			var flag = false;
 		    			for(var i = 0;i<data.length;i++){
-							var coLevelStr='('+data[i].coLevelStr+')';
+							//var coLevelStr='('+data[i].coLevelStr+')';
+		    				var coLevelStr='';
 							var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
 							if(data[i].finOrgCode==finOrgCode){
 								flag = true;
@@ -1327,7 +1333,7 @@ $(document).ready(function(){
 		return true;
 	}
 	
-	//金额验证(整数)
+	//号码验证(首位非0纯数字)
 	function isNumber2(num){
 		var reg=/^[1-9]{1}\d*$/;
 		if(!reg.test(num)){
@@ -1335,7 +1341,15 @@ $(document).ready(function(){
 		}
 		return true;
 	}
-
+	
+	//号码验证(纯数字)
+	function isNumber3(num){
+		var reg=/^\d*$/;
+		if(!reg.test(num)){
+			return false;
+		}
+		return true;
+	}
 /***************************************************************************************************************************/
 //除法函数，用来得到精确的除法结果
 //说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
