@@ -258,7 +258,7 @@
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="signTimeStart" value="${signTimeStart}" />
 	<input type="hidden" id="signTimeEnd" value="${signTimeEnd}" />
-
+	<input type="hidden" id="itemManagerId" value="${itemManagerId}" />
 	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 	<input type="hidden" id="userJobCode" value="${userJobCode}" />
