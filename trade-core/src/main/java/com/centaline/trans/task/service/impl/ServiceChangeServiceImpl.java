@@ -2,11 +2,9 @@ package com.centaline.trans.task.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,20 +26,16 @@ import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.repository.ToServChangeHistrotyMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
-import com.centaline.trans.engine.bean.ProcessInstance;
-import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
-import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.MortStepMapper;
-import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.task.service.ServiceChangeService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
-import com.centaline.trans.transplan.service.ToTransPlanService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 @Service
 public class ServiceChangeServiceImpl implements ServiceChangeService {
@@ -63,7 +57,7 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
-	private ToTransPlanService toTransPlanService;
+	private TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
@@ -144,7 +138,6 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 			 * 功能：删除 交易过户服务(签约)[3000401001], 交易过户服务(除签约)[3000401002], 纯公积金贷[3000400201], 商业贷/组合贷[3000400101]
 			 * 修改人：zhangxb16
 			 */
-			// tgServItemAndProcessorMapper.deleteByPrimaryCaseCode(caseCode);
 			try{
 				int del=tgServItemAndProcessorMapper.deleteByCaseCode(caseCode);
 				if(del>0){
@@ -175,26 +168,11 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
     		if(reUp == 0) {
     			return 2;
     		}
-        	/*ProcessInstance process = new ProcessInstance();
-        	process.setBusinessKey(caseCode);
-        	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));*/
         	/*流程引擎相关*/
         	Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
-    		/*List<RestVariable> variables = new ArrayList<RestVariable>();
-    	    Iterator<String> it = defValsMap.keySet().iterator();  
-    	    while (it.hasNext()) {  
-	            String key = it.next();  
-	    		RestVariable restVariable = new RestVariable();
-	    		restVariable.setName(key); 
-	    		restVariable.setValue(defValsMap.get(key));
-	    		variables.add(restVariable);
-		    }
-        	process.setVariables(variables);*/
-        	
         	User user = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
        		ToWorkFlow toWorkFlow = new ToWorkFlow();
         	try {
-	        	//StartProcessInstanceVo pIVo = workFlowManager.startCaseWorkFlow(process, user.getUsername(),caseCode);
 	        	defValsMap.put("caseOwner", user.getUsername());
 	        	StartProcessInstanceVo pIVo=processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()), caseCode, defValsMap);
 	        	
@@ -212,7 +190,7 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 		    	if(ss <= 0) {
 		    		return 5;
 		    	}
-		    	toTransPlanService.deleteTransPlansByCaseCode(caseCode);
+		    	transplanServiceFacade.deleteTransPlansByCaseCode(caseCode);
         	} catch (WorkFlowException e) {
         		return 6;
 			}

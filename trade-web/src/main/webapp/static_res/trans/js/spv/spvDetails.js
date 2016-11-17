@@ -194,7 +194,9 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
-    	   riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
+    	   if(deleteAndModify()){
+        	   riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
+    	   }
        });
        
        //风控总监审批通过
@@ -248,6 +250,7 @@ $(document).ready(function(){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  		   alert("请填写审批意见！");
+	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
   		  
@@ -258,6 +261,7 @@ $(document).ready(function(){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  		   alert("请填写审批意见！");
+	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
     	   

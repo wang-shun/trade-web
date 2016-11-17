@@ -2,13 +2,10 @@ package com.centaline.trans.report.web;
 
 import javax.servlet.ServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
 
 /**
  * 
@@ -28,10 +25,12 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 @RequestMapping(value = "/report")
 public class CaseRejectionRateController {
 	@RequestMapping(value = "caseLossRateReasonList")
+	@RequiresPermissions("TRADE.REPORT.CASELOSS")
 	public String caseLossRateReasonList(Model model, ServletRequest request) {
 		return "report/case_loss_rate_reason_list";
 	}
 	@RequestMapping(value = "caseLossRateList")
+	@RequiresPermissions("TRADE.REPORT.CASELOSSRATE")
 	public String caseLossrateList(Model model, ServletRequest request) {
 		return "report/case_loss_rate_list";
 	}

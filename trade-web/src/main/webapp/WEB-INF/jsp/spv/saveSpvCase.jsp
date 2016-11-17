@@ -733,13 +733,12 @@
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 						</div>
-						
-						
-					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" style="display:none;">						
+									
+					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" ${handle eq 'SpvApprove'?'':'style="display:none;"'}>						
 						<div class="form-group form-margin form-space-one">
 							<label class="lable-one"  style="text-align: right;"><i style="color:red;">*</i> 审批意见</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
-								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason"><c:if test="${empty handle or handle eq 'SpvApply' }">${toApproveRecord.content }</c:if></textarea>
+								<textarea class="form-control input-five" rows="2"  id="passOrRefuseReason"	name="passOrRefuseReason"></textarea>
 							</div>
 						</div>
 					</div>
@@ -1075,27 +1074,9 @@
 
 			 //更新账户类型下拉选 
 			 updateAccTypeOptions();
-			 
-			 //驳回原因显示问题
-			 var remark = $("#passOrRefuseReason").val();	
+	
 			 //当前用户标示 前者是风控专员，后者是风控总监
-			 var handle = $("#handle").val();			
-			 if(remark == '' || remark == null){				
-				 if(handle=="SpvApply" || handle=='SpvSign' || handle==''){					
-					 $("#passOrRefuseReasonForShow").hide();					 
-				 }else if(handle=="SpvApprove"){
-					 $("#passOrRefuseReasonForShow").show();
-					 $("#passOrRefuseReason").attr("disabled",false);
-				 }	
-			 }else{				 
-				 if(handle=="SpvApply" || handle=='SpvSign'){
-					 $("#passOrRefuseReasonForShow").show();
-					 $("#passOrRefuseReason").attr("disabled",true);
-				 }else if(handle=="SpvApprove"){
-					 $("#passOrRefuseReasonForShow").show();
-					 $("#passOrRefuseReason").attr("disabled",false);
-				 }					 
-			 }
+			 var handle = $("#handle").val();										 
 			/*签约环节需添加的内容：资金监管协议编号、签约时间
 	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
 			if($("#handle").val() == 'SpvSign'){

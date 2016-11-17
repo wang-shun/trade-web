@@ -729,7 +729,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if (spvBaseInfoVO.getToSpv().getApplyTime() == null) {
 			spvBaseInfoVO.getToSpv().setApplyTime(new Date());
 		}
-		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.ADUIT.getCode());
+		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.AUDIT.getCode());
 		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
 
 	}

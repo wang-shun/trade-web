@@ -35,7 +35,6 @@ function getTR(thisIndex){
 	$str+='	<td id="td_file'+thisIndex+'">                                                                                                                                                                                         ';
 	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
 	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
-	//$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
 	$str+='         <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-14px;cursor:pointer; background:url('+$("#ctx").val()+'/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');"/>';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
@@ -199,35 +198,6 @@ function getFormData(){
 	var data = $("#teacForm").serialize();
 }
 
-//保存起草提交
-function saveRe(){
-	
-	alert("保存数据成功！");
-	rescCallbocak();
-	
-	$('#chargeInAppr').val(false);
-	//提交页面的参数
-	var data = $("#teacForm").serialize();
-	//console.log(params);
-	var url = ctx+"/spv/cashflowApply/deal";
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url : url,
-		dataType : "json",
-		data : data,
-		beforeSend:function(){  
-         },
-		success : function(data) {
-			window.location.href = ctx+"/spv/spvList";
-		},complete: function() { 
-		},
-		error : function(errors) {
-		}
-		
-	});
-}
 function rescCallbocak(){
 	   window.opener.location.reload(); //刷新父窗口
 	   window.close(); //关闭子窗口.

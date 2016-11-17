@@ -26,7 +26,6 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
-import com.centaline.trans.cases.entity.ToLoanAgent;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -65,7 +64,7 @@ import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
-import com.centaline.trans.transplan.service.ToTransPlanService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 @Service
 @Transactional
@@ -97,7 +96,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 	@Autowired(required = true)
 	ToPropertyInfoService toPropertyInfoService;
 	@Autowired(required = true)
-	private ToTransPlanService toTransPlanService;
+	private TransplanServiceFacade transplanServiceFacade;
 	@Autowired(required = true)
 	private PropertyUtilsService propertyUtilsService;
 	@Autowired(required=true)
@@ -117,24 +116,20 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private UamSessionService uamSessionService;
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
-		// TODO Auto-generated method stub
 		return toCaseMapper.updateByPrimaryKey(record);
 	}
 
 	@Override
 	public ToCase findToCaseByCaseCode(String caseCode) {
-		// TODO Auto-generated method stub
 		return toCaseMapper.findToCaseByCaseCode(caseCode);
 	}
 	@Override
 	public int findToLoanAgentByCaseCode(String caseCode) {
-		// TODO Auto-generated method stub
 		return toCaseMapper.findToLoanAgentByCaseCode(caseCode);
 	}
 
 	@Override
 	public ToCase selectByPrimaryKey(Long pkid) {
-		// TODO Auto-generated method stub
 		return toCaseMapper.selectByPrimaryKey(pkid);
 	}
 
@@ -160,39 +155,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	@Override
 	public List<ToCaseInfoCountVo> getCaseCount() {
-		// int jds = 0;
-		// int qys = 0;
-		// int ghs = 0;
-		// int jas = 0;
-		// String createTime = "";
+		
 		String orgId = null;
-		// List<ToCaseInfoCountVo> countList = new ArrayList<>();
-		// ToCaseInfoCountVo toCaseInfoCount = new ToCaseInfoCountVo();
-		// List<List<ToCaseInfoCountVo>> toCaseInfoCountVoLists =
-		// getToCaseInfoCountListByOrgId(orgId);
-		// model.addAttribute("toCaseInfoCountVoList", toCaseInfoCountVoLists);
-		// for (List<ToCaseInfoCountVo> list : toCaseInfoCountVoLists) {
-		// for (ToCaseInfoCountVo toCaseInfoCountVo : list) {
-		// if(null != toCaseInfoCountVo.getCountJDS()){
-		// jds = toCaseInfoCountVo.getCountJDS();
-		// createTime = toCaseInfoCountVo.getCreateTime();
-		// }else if(null != toCaseInfoCountVo.getCountQYS()){
-		// qys = toCaseInfoCountVo.getCountQYS();
-		// }else if(null != toCaseInfoCountVo.getCountGHS()){
-		// ghs = toCaseInfoCountVo.getCountGHS();
-		// }else if(null != toCaseInfoCountVo.getCountJAS()){
-		// jas = toCaseInfoCountVo.getCountJAS();
-		// }
-		// }
-		// }
-
-		// toCaseInfoCount.setCountJDS(jds);
-		// toCaseInfoCount.setCountQYS(qys);
-		// toCaseInfoCount.setCountGHS(ghs);
-		// toCaseInfoCount.setCountJAS(jas);
-		// toCaseInfoCount.setCreateTime(createTime);
-		// countList.add(toCaseInfoCount);
-
 		// 接单数
 		List<ToCaseInfoCountVo> toCaseInfoCountList = toCaseInfoService.countToCaseInfoListByOrgId(orgId);
 
@@ -204,7 +168,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 		// ,结案
 		List<ToCaseInfoCountVo> toCloseCountList = toCloseService.countToCloseListByOrgId(orgId);
 
-		// return countList;
 		return null;
 	}
 
@@ -233,7 +196,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	@Override
 	public int insertSelective(ToCase record) {
-		// TODO Auto-generated method stub
 		return toCaseMapper.insertSelective(record);
 	}
 
@@ -255,7 +217,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	@Override
 	public int updateByPrimaryKeySelective(ToCase record) {
-		// TODO Auto-generated method stub
 		return toCaseMapper.updateByPrimaryKeySelective(record);
 	}
 
@@ -398,7 +359,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, 2);
 		record.setEstPartTime(cal.getTime());
-		toTransPlanService.insertSelective(record);
+		transplanServiceFacade.insertSelective(record);
 		
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 
@@ -487,18 +448,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 					tgServItemAndProcessorMapper.updateByPrimaryKey(tsiap);
 				}
 			}
-			/*else{
-				更新纯公积金服务项目和经办人
-				TgServItemAndProcessor tsiap = new TgServItemAndProcessor();
-				tsiap.setCaseCode(caseCode);
-				tsiap.setSrvCode("3000401002");//交易过户（除签约外）
-				tsiap = tgServItemAndProcessorService.findTgServItemAndProcessor(tsiap);
-				if (tsiap != null) {
-					tsiap.setProcessorId(applyUser.getId());
-					tsiap.setOrgId(applyUser.getOrgId());
-					tgServItemAndProcessorMapper.updateByPrimaryKey(tsiap);
-				}
-			}*/
 		}/* end*/
 		
 		String username=uamUserOrgService.getUserById(userId).getUsername();

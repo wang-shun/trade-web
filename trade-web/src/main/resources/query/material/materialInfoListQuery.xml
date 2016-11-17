@@ -95,7 +95,8 @@
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO P ON P.CASE_CODE=M.CASE_CODE
 					LEFT JOIN sctrans.T_TO_CASE  C ON C.CASE_CODE=M.CASE_CODE
 				)T	
-				WHERE T.IS_DELETED='N'		
+				WHERE T.IS_DELETED='N'	
+				<ifNotNull itemManagerId> AND  T.ITEM_MANAGER = #itemManagerId# </ifNotNull>						
 				<ifNotNull inputTimeStart>
 				     and T.ITEM_INPUT_TIME >= #inputTimeStart#
 				</ifNotNull>				
