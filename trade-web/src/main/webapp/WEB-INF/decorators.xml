@@ -15,6 +15,7 @@
 		<pattern>/mobile/property/box/*</pattern>
 		<pattern>/weixin/signroom/*</pattern>
 		<pattern>/weixin/property/toResult</pattern>
+		<pattern>/weixin/taxation/*</pattern>
 		<pattern>/weixinAuth/*</pattern>
 	</excludes>
 
