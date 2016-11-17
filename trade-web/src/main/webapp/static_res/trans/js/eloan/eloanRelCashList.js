@@ -223,7 +223,6 @@
 						};
 						function reloadStatus() {
 							params.queryId = "queryLoanSpv";
-					
 							var startMonth = new Date(params.startDate1).getMonth()+1;
 							$.ajax({
 								async : true,//异步请求
@@ -290,7 +289,6 @@
 						}
 						function reloadStatus2() {
 							params.queryId = "queryLoanSpv2";
-				
 							$.ajax({
 								async : true,//异步请求
 								url : ctx + "/rapidQuery/findPage",

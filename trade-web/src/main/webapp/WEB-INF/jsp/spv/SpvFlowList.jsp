@@ -200,7 +200,7 @@
 											    {{if item.USAGE=="out" && item.STATUS=="12" &&item.ftPreAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
                                                 {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
 												{{item.ftPreAuditorName}}
-                                                {{if item.USAGE=="out" && item.STATUS=="13" &&item.ftPostAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
+                                                {{if item.USAGE=="out" && item.STATUS=="13" &&item.ftPostAuditorName=="" }}&gt;<span name="postAuditor">{{item.ftPreAuditorName}}</span>{{/if}}
 											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}
 											    {{item.ftPostAuditorName}}
                                             </p>
@@ -213,8 +213,35 @@
 						jQuery(document).ready(function() {
 							initCW()
 							//查询
-							initFlowListData();							
+							initFlowListData();		
+							getPostAuditor();
 						});
+						function getPostAuditor(){
+							var postAuditor=$("span[name='postAuditor']");
+							var cw=$("#CW").val().split("/");
+							console.info(cw);
+							$.each(postAuditor,function(i,item){
+								console.info($(item));
+								var itemName=item.innerText;
+								console.info(itemName);
+								debugger;
+								 var len=cw.length;
+								 var str=""
+								for (var i = 0; i < cw.length; i++) {
+									debugger;
+										if(itemName==cw[i]){
+											continue;
+										}
+										if(i==(len-1)){
+											 str+=cw[i];
+											 continue;
+										 }
+										str+=cw[i]+"/"; 
+								}
+								 item.innerText=str;
+							});
+							
+						}
 						function initCW(){
 							$.ajax({
 								async: false,
