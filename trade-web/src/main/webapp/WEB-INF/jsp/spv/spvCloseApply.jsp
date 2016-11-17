@@ -11,6 +11,13 @@
 <meta name="viewpoart" content="width=device-width, initial-scale=1.0">
 
 <title>监管合约</title>
+<!-- 上传相关 -->
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+	rel="stylesheet">
 <!-- 展示相关 -->
 <link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
 	rel="stylesheet">
@@ -72,6 +79,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div>
 	    <%-- 流程相关 --%>
+	    <input type="hidden" id="caseCode" name="caseCode" value="${spvBaseInfoVO.toSpv.caseCode }">
 	    <input type="hidden" id="businessKey" name="businessKey" value="${businessKey }">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 		<input type="hidden" id="taskitem" name="taskitem" value="${taskitem }">
@@ -87,6 +95,7 @@
 				<li class="menuItem"><a href="#spvtwo_info">监管资金及账户信息</a></li>
 				<li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
 				<li class="menuItem"><a href="#spvfour_info">上传备件</a></li>
+				<li class="menuItem"><a href="#spvfive_info">"中止/结束"流程</a></li>
 			</ul>
 		</div>
 		<div class="row">
@@ -365,8 +374,8 @@
 
 					</form>
 				</div>
-				<div class="ibox-content" id="spvtwo_info">
-					<form class="form-inline">
+				<form class="form-inline">
+				<div class="ibox-content" id="spvtwo_info">		
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">
@@ -578,7 +587,7 @@
 							</div>
 						</div>
 					</form>
-				</div>
+				
 				<div class="ibox-content" id="spvthree_info" >
 					<div class="agree-tile">资金出款约定</div>
 					<form class="form-inline table-capital">
@@ -743,22 +752,92 @@
 					</c:otherwise>
 				</c:choose>
 				</div>
-				<div class="ibox-content" id="spvthree_info" >			
-							<div class="form-btn">						
-							<c:if test="${handle eq 'SpvApply' }">
-							    <div>
-									<a id="riskOfficerApply" class="btn btn-success">提交申请</a>
-									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
-								</div>
-							</c:if>		
-							</div>
 				</div>
-				</div>
-			</div>
-		</div>
-		<!-- main End -->
+				
+				<div class="ibox-content" id="spvfive_info">
+                    <div class="stop-content">
+                        <div class="form-inline">
+                            <div class="title">"中止/结束"流程</div>
+                            <div class="form-row form-rowbot clear">
+                                <div class="form-group form-margin margin-host">
+                                    <label for="" class="">申请状态</label> <label class="radio-inline"> <input type="radio" name="mortClear" value="1" checked="checked" readonly="" disabled="">中止
+                                    </label>
+                                    <label class="radio-inline"> <input type="radio" name="mortClear" value="0" readonly="" disabled=""> 结束
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row form-rowbot" id="signDiv" style="">
+                                <div class="form-group form-margin form-space-one">
+                                    <label for="" class="lable-one">原因</label>
+                                    <input type="text" value="由于系统原因，暂无法更新" class="form-control space-host" placeholder="" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-	</div>
+                                     <div class="title">
+                            <strong>审核意见</strong>
+                        </div>
+                        <div class="view-content">
+                            <div class="view-box">
+                            <div class="view clearfix">
+                                <p>
+                                   <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
+                                   <span class="result pink_bg">未通过</span>
+                                   <span class="time">审核日期:<em>2016-9-12</em></span>
+                                </p>
+                                <p>
+                                    <span class="auditing">审核意见</span>
+                                    <em class="view_content">账号与附件不一致，重新填写</em>
+                                </p>
+                            </div>
+                            <div class="view clearfix">
+                                <p>
+                                   <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
+                                   <span class="result pink_bg">未通过</span>
+                                   <span class="time">审核日期:<em>2016-9-12</em></span>
+                                </p>
+                                <p>
+                                    <span class="auditing">审核意见</span>
+                                    <em class="view_content">账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写</em>
+                                </p>
+                            </div>
+
+                            <div class="view clearfix">
+                                <p>
+                                   <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
+                                   <span class="result pink_bg">未通过</span>
+                                   <span class="time">审核日期:<em>2016-9-12</em></span>
+                                </p>
+                                <p>
+                                    <span class="auditing">审核意见</span>
+                                    <em class="view_content">账号与附件不一致，重新填写</em>
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+
+
+                        <div class="submitter">
+                            提交人：<span>张三(业务员)</span>
+                        </div>
+                        <div class="excuse">
+                            <form action="">
+                                <i style="color:red;">*</i> <textarea name="" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                            </form>
+                            <div class="form-btn">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success btn-space">审批通过</button>
+                                <button type="submit" class="btn btn-pink btn-space">审批驳回</button>
+                                <button type="submit" class="btn btn-default btn-space">取消</button>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+                    
+                </div>
+            </div>
+			</div>
 
     
 
@@ -769,10 +848,30 @@
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> <script
 		src="${ctx}/static/js/morris/morris.js"></script> <script
 		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
+	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script
+		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
+		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 -->
     <script src="${ctx}/js/trunk/task/attachment4.js"></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
-	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
+	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>	
 		<script>
@@ -783,8 +882,35 @@
 			$("#amountMortComDX").val(DX($(this).val()*10000));
 			$("#amountMortPsfDX").val(DX($(this).val()*10000));
 			$("#signAmountDX").val(DX($(this).val()*10000));
-			$("#leftAmountDX").val(DX($(this).val()*10000));    			   
-        });
+			$("#leftAmountDX").val(DX($(this).val()*10000));    
+			
+ 	       $('.stickup-nav-bar').stickUp({
+                  parts: {
+                    0:'base_info',
+                    1:'spvone_info',
+                    2:'spvtwo_info',
+                    3:'spvthree_info',
+                    4:'spvfour_info',
+                    5:'spvfive_info'
+                  },
+                  itemClass: 'menuItem',
+                  itemHover: 'active',
+                  marginTop: 'auto'
+          }); 
+		       
+		$(".buyinfo, .sellinfo, .pledgeinfo").hide();
+		
+		if($("#BuyRadio1").is(":checked")){
+			$(".buyinfo").show();
+		}
+		if($("#SellRadio1").is(":checked")){
+			$(".sellinfo").show();
+		}
+		if($("#Pledge2").is(":checked")){
+			$(".pledgeinfo").show();
+		}
+		
+		})
   
 /*******************************************************控件相关*********************************************************************/ 
 		//图片查看器控件  

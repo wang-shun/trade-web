@@ -942,7 +942,7 @@ public class SpvController {
     
     
     /**
-     * spvCloseApplyProcess:合约终止/结束 申请、审批页面. <br/> 
+     * spvCloseApplyProcess:合约中止/结束 申请、审批页面. <br/> 
      * @author gongjd 
      * @param request
      * @param source
@@ -957,7 +957,11 @@ public class SpvController {
      */
     @RequestMapping("task/spvCloseApply/process")
    	public String spvCloseApplyProcess(HttpServletRequest request,String source,String instCode,
-   			String taskId,String handle,String businessKey,String spvCode) throws Exception {	
+   			String taskId,String handle,String businessKey,String spvCode) throws Exception {
+    	
+    	if(StringUtils.isBlank(spvCode))
+    		throw new BusinessException("合约号<SPVCODE>不存在！");
+    	
     	request.setAttribute("spvCode", spvCode);
     	SessionUser user = uamSessionService.getSessionUser();
 /*    	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
@@ -980,6 +984,8 @@ public class SpvController {
         	request.setAttribute("urlType", "spvApply");
         }
 	    
+    	toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
+    	
 	    request.setAttribute("businessKey", businessKey);
     	request.setAttribute("taskId", taskId); 
     	request.setAttribute("instCode", instCode);
@@ -991,7 +997,7 @@ public class SpvController {
     }
     
     /**
-     * spvCloseApplyDeal:合约终止/结束 申请、审批操作. <br/> 
+     * spvCloseApplyDeal:合约中止/结束 申请、审批操作. <br/> 
      * @author gongjd 
      * @param request
      * @param source

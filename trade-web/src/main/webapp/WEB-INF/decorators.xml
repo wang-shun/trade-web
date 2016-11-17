@@ -54,6 +54,7 @@
 		<pattern>/spv/task/SpvSign/process</pattern>	
 		<pattern>/spv/cashflowApply/saveHTML</pattern>	
 		<pattern>/spv/task/cashFlowOutAppr/process</pattern>
+		<pattern>/spv/task/spvCloseApply/process</pattern>
 		<pattern>/spv/task/cashflowIntApply/spvRecordShow</pattern>	
 		<pattern>/spv/task/cashflowIntApply/spvRecordedApp</pattern>	
 		<pattern>/spv/task/cashflowIntApply/spvRecorded</pattern>
