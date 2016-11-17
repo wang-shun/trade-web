@@ -24,9 +24,7 @@ import com.centaline.trans.product.service.ProductCategoryService;
 import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.service.CashFlowInService;
 import com.centaline.trans.spv.service.ToSpvService;
-import com.centaline.trans.spv.vo.SpvChargeInfoVO;
 import com.centaline.trans.spv.vo.SpvRecordedsVO;
-import com.centaline.trans.spv.vo.SpvReturnCashflowVO;
 
 @Controller
 @RequestMapping(value="/spv/task/cashflowIntApply")
@@ -50,28 +48,6 @@ public class SpvCashFlowInController {
 	ProcessInstanceService processInstanceService;
 	@Autowired
 	private CashFlowInService cashFlowInService;
-	/**
-	 * 起草入账页面保存
-	 * @param spvrevo
-	 * @return
-	 * @throws Exception 
-	 */
-	@RequestMapping(value = "/saveDate")
-	@ResponseBody
-	public AjaxResponse<?>  saveDate(SpvRecordedsVO spvrevo,HttpServletRequest request) throws Exception{
-		AjaxResponse<?> response = new AjaxResponse<>();
-		String handle = null;
-		String cashflowApplyCode = null;
-		SpvReturnCashflowVO spvReturnCashflowVO = cashFlowInService.saveCashFlowApply(request, handle, spvrevo, cashflowApplyCode);
-		request.setAttribute("type", "success");
-		//return spvRecordReturnVO.getToSpvCashFlowApplyPkid();
-		response.setMessage("toSpvCashFlowApplyPkid:"+spvReturnCashflowVO.getToSpvCashFlowApplyPkid()+
-				";ToSpvCashFlowPkid:"+spvReturnCashflowVO.getToSpvCashFlowPkid()+
-				";ToSpvReceiptPkid:"+spvReturnCashflowVO.getToSpvReceiptPkid()
-				);
-		response.success("success");
-		return response;
-	}
 	
 	/**
 	 * 新增入账流水页面
@@ -167,30 +143,6 @@ public class SpvCashFlowInController {
     	
     	return response;
 	}
-    
-    /** 
-     * @Title: cashFlowOutApprSave 
-     * @Description:入账
-     * @author: hejf 
-     * @param spvChargeInfoVO
-     * @return response
-     * @throws
-     */
-    @RequestMapping("cashFlowOutAppr/save")
-	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO) {
-    	AjaxResponse<?> response = new AjaxResponse<>();
-    	try {
-    		toSpvService.saveSpvChargeInfoVO(spvChargeInfoVO); 
-			response.setSuccess(true);
-		} catch (Exception e) {
-			response.setSuccess(false);
-			response.setMessage(e.getMessage());
-		}
-    	
-    	return response;
-	}
-    
-
   /**
   * @throws Exception 
   * @Title: cashFlowOutApprDeal 

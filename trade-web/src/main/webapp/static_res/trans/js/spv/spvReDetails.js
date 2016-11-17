@@ -387,68 +387,12 @@ function sumbitRe(){
 function getFormData(){
 	var data = $("#teacForm").serialize();
 }
-
-
-//保存起草提交
-function saveRe(){
-	if(!confirm("保存入账申请信息数据！")){
-	  return false;
-    }
-//提交页面的参数
-	 //保存必填项
-	/*if(!checkFormSave()){
-		  return false;
-	  }*/
-	var data = $("#teacForm").serialize();
-	var url = ctx+"/spv/task/cashflowIntApply/saveDate";
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url : url,
-		dataType : "json",
-		data : data,
-		beforeSend:function(){  
-         },
-		success : function(data) {
-			if(data.success){
-				alert("保存数据成功！");
-				if(data.message){
-					var strs= new Array();
-					strs=data.message.split(";");
-					for (i=0;i<strs.length ;i++ ){ 
-						//alert(strs[i]); //分割后的字符输出 
-						var s = strs[i].split(":");
-						for (j=0;j<s.length ;j++ ){ 
-							if("toSpvCashFlowApplyPkid" == s[j]){
-								alert(s[j+1]=="null"?'':s[j+1]);
-								$("#toSpvCashFlowApplyPkid").val(s[j+1]=="null"?'':s[j+1]);
-							}
-						}
-					}
-				}
-			}else{
-				alert("数据保存出错!");
-			}
-			
-		},complete: function() { 
-		},
-		error : function(errors) {
-			alert("数据保存出错!"+errors);
-		}
-	});
-}
-
 function cleanPkid(){
 	$("#toSpvCashFlowApplyPkid").val("");
 	$("#ToSpvCashFlowPkid").val("");
 	$("#ToSpvReceiptPkid").val("")
 }
 
-//保存必填项
-function checkFormSave(){
-	
-}
 function rescCallbocak(){
 	window.location.href = ctx+"/spv/spvList";
 }
