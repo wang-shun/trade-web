@@ -853,7 +853,7 @@ public class SpvController {
      * @throws
      */
     @RequestMapping("task/cashFlowOutAppr/process")
-	public String cashFlowOutAppprProcess(HttpServletRequest request,String source,String instCode,
+	public String cashFlowOutApprProcess(HttpServletRequest request,String source,String instCode,
 			String taskId,String handle,String businessKey,String spvCode) throws Exception {
     	request.setAttribute("spvCode", spvCode);
     	SessionUser user = uamSessionService.getSessionUser();
@@ -905,7 +905,7 @@ public class SpvController {
      */
     @RequestMapping("cashFlowOutAppr/deal")
 	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,String taskitem,
-			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeOutAppr,String insertAttachIdArrStr) {
+			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeOutAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {	
 			if(!StringUtils.isBlank(handle)){ 
@@ -940,27 +940,99 @@ public class SpvController {
     	return response;
 	}
     
-    /** 
-     * @Title: cashFlowOutApprSave 
-     * @Description: 出款保存操作
-     * @author: gongjd 
-     * @param spvChargeInfoVO
-     * @return response
-     * @throws
+    
+    /**
+     * spvCloseApplyProcess:合约终止/结束 申请、审批页面. <br/> 
+     * @author gongjd 
+     * @param request
+     * @param source
+     * @param instCode
+     * @param taskId
+     * @param handle
+     * @param businessKey
+     * @param spvCode
+     * @return
+     * @throws Exception 
+     * @since JDK 1.8
      */
-    @RequestMapping("cashFlowOutAppr/save")
-	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO) {
+    @RequestMapping("task/spvCloseApply/process")
+   	public String spvCloseApplyProcess(HttpServletRequest request,String source,String instCode,
+   			String taskId,String handle,String businessKey,String spvCode) throws Exception {	
+    	request.setAttribute("spvCode", spvCode);
+    	SessionUser user = uamSessionService.getSessionUser();
+/*    	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
+		businessKey = processInstance.getBusinessKey();*/
+    	if(!StringUtils.isBlank(handle)){ 	
+/*        	switch (handle) {
+        	case "apply":
+        		cashFlowOutService.spvCloseApplyProcess(request, spvCode, businessKey);
+        		break;
+            case "managerAudit":
+            	cashFlowOutService.spvCloseManagerAuditProcess(request, spvCode, businessKey);
+        		break;
+            case "directorAudit":
+            	cashFlowOutService.spvCloseDirectorAuditProcess(request, spvCode, businessKey);
+            	break;
+        	}
+    		request.setAttribute("urlType", "myTask");*/
+        }else{
+        	cashFlowOutService.spvCloseApplyPage(request, spvCode, businessKey);
+        	request.setAttribute("urlType", "spvApply");
+        }
+	    
+	    request.setAttribute("businessKey", businessKey);
+    	request.setAttribute("taskId", taskId); 
+    	request.setAttribute("instCode", instCode);
+		request.setAttribute("source", source);
+		request.setAttribute("handle", handle);
+		request.setAttribute("user", user);
+		
+		return "spv/spvCloseApply";
+    }
+    
+    /**
+     * spvCloseApplyDeal:合约终止/结束 申请、审批操作. <br/> 
+     * @author gongjd 
+     * @param request
+     * @param source
+     * @param instCode
+     * @param taskId
+     * @param handle
+     * @param businessKey
+     * @param spvCode
+     * @return response
+     * @throws Exception 
+     * @since JDK 1.8
+     */
+/*    @RequestMapping("task/spvCloseApply/deal")
+   	public AjaxResponse<?> spvCloseApplyDeal(HttpServletRequest request,String source,String instCode,String taskitem,
+   			String taskId,String handle,String businessKey,String spvCode,Boolean chargeOutAppr) throws Exception {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
-    		cashFlowOutService.saveSpvChargeInfo(spvChargeInfoVO); 
+    		if(!StringUtils.isBlank(handle)){ 
+				
+				switch (handle) {
+				case "apply":
+					cashFlowOutService.spvCloseApplyDeal(request, instCode, taskId, taskitem, handle, spvCloseApplyCode, chargeOutAppr);
+					break;
+			    case "managerAudit":
+			    	cashFlowOutService.spvCloseManagerAuditDeal(request, instCode, taskId, taskitem, handle, spvCloseApplyCode,chargeOutAppr);
+					break;
+			    case "directorAudit":
+			    	cashFlowOutService.spvCloseDirectorAuditDeal(request, instCode, taskId, taskitem, handle, spvCloseApplyCode,chargeOutAppr);
+			    	break; 
+				}	
+			}else{
+				cashFlowOutService.spvCloseApplyPageDeal(request, instCode, taskId, taskitem, handle, null);
+			}
+
 			response.setSuccess(true);
-			response.setCode(spvChargeInfoVO.getToSpvCashFlowApply().getCashflowApplyCode());
-		} catch (Exception e) {	
-			setExMsgForResp(response,e);		
+		} catch (Exception e) {
+			setExMsgForResp(response,e);
 		}
     	
     	return response;
-	}
+    }*/
 
     /**
      * @throws Exception  

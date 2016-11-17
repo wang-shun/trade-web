@@ -269,19 +269,13 @@
                                                     ${cashFlow.applyAuditorName }
                                                     
                                                     <c:if test="${cashFlow.usage eq 'out' }">
-	                                                    <c:if test="${cashFlow.status eq 12 }">
-	                                                    &gt;${financeName }
-	                                                    </c:if>
-	                                                    <c:if test="${cashFlow.status gt 12 }">
+	                                                    <c:if test="${cashFlow.status ge 12 }">
 	                                                    &gt;${cashFlow.ftPreAuditorName }
 	                                                    </c:if>
                                                     </c:if>
                                                     
                                                     <c:if test="${cashFlow.usage eq 'out'}" >
-	                                                    <c:if test="${cashFlow.status eq 13 }">
-	                                                    &gt;${financeName2 }
-	                                                    </c:if>
-	                                                    <c:if test="${cashFlow.status gt 13 }">
+	                                                    <c:if test="${cashFlow.status ge 13 }">
 	                                                    &gt;${cashFlow.ftPostAuditorName }
 	                                                    </c:if>
                                                     </c:if>
