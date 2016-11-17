@@ -106,11 +106,6 @@ $(function () {
 		var roomId = $("#roomId").val(); //房间ID
 		var resPersonOrgId = $("#resPersonOrgId").val();//预约人组织ID
 		var startDate = $("#startDate").val();//排期起始时间
-		/*var slotTime = $("#slotTime").html();
-		var curDate = $("#curDate").val();*/
-		
-		/*var startDate = curDate +' '+slotTime.substring(0,slotTime.indexOf('-'));
-		var endDate = curDate +' '+slotTime.substr(slotTime.indexOf('-')+1);*/
 	   	$.ajax({
 	     		url:ctx+"/signroom/addReservation",
 	     		method:"post",
@@ -129,7 +124,6 @@ $(function () {
 	     			     resStatus : '1',
 	     			     resPersonOrgId : resPersonOrgId,
 	     			     startDate : startDate
-	     			     /*endDate : endDate*/
 	     		},	 
 				success : function(data) {   
 						if(data.success){
@@ -236,7 +230,6 @@ function signRommAjaxSubmit(obj) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
 		success:function(data){
-			//console.log(data);
 			$.unblockUI();
 			if(data.success){
 				var th='';
