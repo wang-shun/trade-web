@@ -236,6 +236,10 @@
 											 str+=cw[i];
 											 continue;
 										 }
+										if(itemName==cw[i+1]){
+											str+=cw[i];
+											continue;
+										}
 										str+=cw[i]+"/"; 
 								}
 								 item.innerText=str;
