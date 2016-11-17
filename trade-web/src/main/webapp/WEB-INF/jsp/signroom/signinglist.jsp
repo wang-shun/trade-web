@@ -161,7 +161,6 @@
                                         </th>
                                     </tr>
                                     </thead>
-                                    <shiro:hasPermission name="TRADE.SIGNROOM.SIGNOUT">签退</shiro:hasPermission>
                                     <tbody id="signinglist">
                                    
                                     </tbody>
@@ -169,7 +168,7 @@
                                 
                                  <div class="text-center">
 									<span id="currentTotalPage"><strong class="bold"></strong></span> <span
-										class="ml15">共<strong class="bold" id="totalP"></strong>
+										class="ml15"><strong class="bold" id="totalP"></strong>
 									</span>&nbsp;
 									<div id="pageBar" class="pagination my-pagination text-center m0"></div>
 								</div>
