@@ -248,6 +248,7 @@ $(document).ready(function(){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  		   alert("请填写审批意见！");
+	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
   		  
@@ -258,6 +259,7 @@ $(document).ready(function(){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  		   alert("请填写审批意见！");
+	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
     	   
