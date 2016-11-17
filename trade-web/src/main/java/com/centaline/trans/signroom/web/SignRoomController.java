@@ -73,7 +73,6 @@ public class SignRoomController {
 	 */
 	@RequestMapping("/signingManage")
 	public String signingManage(Model model){
-		SessionUser user= uamSessionService.getSessionUser();
 		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters();//获取 交易中心信息
 		model.addAttribute("tradeCenters", tradeCenters);
 		return "/signroom/signingmanage";

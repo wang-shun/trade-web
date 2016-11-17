@@ -288,6 +288,12 @@ function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterI
 	$("#caseCode").val("");
 	$("#propertyAddress").val("");
 	$('#propertyAddress').autocompleter('destroy');
+	$("#numberOfParticipants").val("");
+	$('.choices span').each(function(){
+		if($(this).hasClass("selected")) {
+			$(this).click();
+        } 
+    });
 	
 	var curdate = $("#curDate").val();
 	$("#signDate").html(curdate.substring(5,7)+'/'+curdate.substr(8));
