@@ -1,5 +1,7 @@
 package com.centaline.trans.transplan.entity;
 
+import java.util.Date;
+
 /**
  * T_TS_RETURN_VISIT_REGISTRATION<回访跟进表>
  * @author zhoujp7
@@ -13,6 +15,7 @@ public class TtsReturnVisitRegistration {
     private String content;//跟进内容
 
     private String createTime;
+    private Date crtTime;
 
     private String createBy;
 
@@ -65,4 +68,13 @@ public class TtsReturnVisitRegistration {
     public void setBatchId(Long batchId) {
         this.batchId = batchId;
     }
+
+	public Date getCrtTime() {
+		return crtTime;
+	}
+
+	public void setCrtTime(Date crtTime) {
+		this.crtTime = crtTime;
+	}
+    
 }

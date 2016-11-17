@@ -158,7 +158,7 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody id="dealChangeList">
+                                    <tbody>
                                     </tbody>
                                 </table>
                                 <div class="text-center page_box">
@@ -332,6 +332,7 @@
                            {{item.CASE_CODE}}
                        </a>
                     </p>
+					<span id="span{{item.batchId}}">
 					{{if item.LAST_VISIT_REMARK==null || item.LAST_VISIT_REMARK==''}}
 						 <span class="no_color">未处理</span>
 					{{else if item.LAST_VISIT_REMARK=='0'}}
@@ -339,8 +340,9 @@
 					{{else if item.LAST_VISIT_REMARK=='1'}}
 						 <span class="yes_color">正常</span>
 					{{/if}}
+					</span>
                     <a href="#">
-						<i class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;{{returnVisit.content}}&nbsp;{{returnVisit.createTime}}<br/> {{/each}}"></i>
+						<i id="i{{item.batchId}}" class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;{{returnVisit.content}}&nbsp;{{returnVisit.createTime}}<br> {{/each}}"></i>
 					</a>
                 </td>
 				<td>
