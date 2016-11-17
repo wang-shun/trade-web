@@ -51,7 +51,7 @@ public class TransPlanController {
 		request.setAttribute("dy", dy==null?false:dy.getValue());
 		request.setAttribute("dk", dk);
 		request.setAttribute("transPlan", transplanServiceFacade.findTransPlanByCaseCode(caseCode));
-		return "transplan/taskTransPlanFilling";
+		return "task/taskTransPlanFilling";
 	}
 	@RequestMapping(value="saveTransPlan")
 	@ResponseBody
