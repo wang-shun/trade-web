@@ -628,7 +628,7 @@
 				</div>
 				
 				<div class="ibox-content" id="spvfour_info" >
-				<div class="ibox-title" style="height: auto;">
+				<div style="height: auto;"> 
 				<c:choose>
 					<c:when test="${accesoryList!=null}">
 						<h5>上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
@@ -775,7 +775,7 @@
                         </div>
                     </div>
 
-                                     <div class="title">
+                        <div class="title">
                             <strong>审核意见</strong>
                         </div>
                         <div class="view-content">
@@ -838,7 +838,7 @@
                 </div>
             </div>
 			</div>
-
+</div>
     
 
 	<!-- Mainly scripts -->
@@ -884,6 +884,7 @@
 			$("#signAmountDX").val(DX($(this).val()*10000));
 			$("#leftAmountDX").val(DX($(this).val()*10000));    
 			
+		jQuery(function($) {	
  	       $('.stickup-nav-bar').stickUp({
                   parts: {
                     0:'base_info',
@@ -897,6 +898,7 @@
                   itemHover: 'active',
                   marginTop: 'auto'
           }); 
+		});
 		       
 		$(".buyinfo, .sellinfo, .pledgeinfo").hide();
 		
