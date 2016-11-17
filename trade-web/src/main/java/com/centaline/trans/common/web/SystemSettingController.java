@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.common.entity.LampRule;
 import com.centaline.trans.common.entity.ToReminderList;
-import com.centaline.trans.common.entity.TsTaskPlanSet;
-import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.service.LampRuleService;
 import com.centaline.trans.common.service.ToReminderListService;
-import com.centaline.trans.common.service.TsTaskPlanSetService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.transplan.entity.TsTaskPlanSet;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 @Controller
 @RequestMapping(value="/setting")
@@ -30,7 +29,7 @@ public class SystemSettingController {
 	@Autowired
 	TsTeamPropertyService tsTeamPropertyService;
 	@Autowired
-	TsTaskPlanSetService tsTaskPlanSetService;
+	TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	LampRuleService lampRuleService;
 	/**
@@ -162,13 +161,13 @@ public class SystemSettingController {
 			// 新增
 			TsTaskPlanSet researchParam  = new TsTaskPlanSet();
 			researchParam.setPartCode(taskPlanSet.getPartCode());
-			int count = tsTaskPlanSetService.getTsTaskPlanSetCountByProperty(researchParam);
+			int count = transplanServiceFacade.getTsTaskPlanSetCountByProperty(researchParam);
 			
 			if(count > 0) {
 				return AjaxResponse.fail("该任务项已经存在配置,不能再次新增!");
 			} else {
 				taskPlanSet.setCreateTime(new Date());
-				int addCount = tsTaskPlanSetService.addTsTaskPlanSet(taskPlanSet);
+				int addCount = transplanServiceFacade.addTsTaskPlanSet(taskPlanSet);
 				if(addCount == 0) {
 					return AjaxResponse.fail("新增失败，请刷新后重试!");
 				}
@@ -177,7 +176,7 @@ public class SystemSettingController {
 		} else {
 			// 修改
 			taskPlanSet.setCreateTime(new Date());
-			int updateCount = tsTaskPlanSetService.updateByPrimaryKeySelective(taskPlanSet);
+			int updateCount = transplanServiceFacade.updateByPrimaryKeySelective(taskPlanSet);
 			if(updateCount == 0) {
 				return AjaxResponse.fail("修改失败，请刷新后重试!");
 			}
@@ -211,7 +210,7 @@ public class SystemSettingController {
 	@RequestMapping("/delTaskPlanSet")
 	@ResponseBody
 	public AjaxResponse<?> delTaskPlanSet(Model model, HttpServletRequest request,Long pkid) {
-		int count = tsTaskPlanSetService.deleteByPrimaryKey(pkid);
+		int count = transplanServiceFacade.deleteByPrimaryKey(pkid);
 		if(count == 0) {
 			return AjaxResponse.success("删除失败");
 		} else {

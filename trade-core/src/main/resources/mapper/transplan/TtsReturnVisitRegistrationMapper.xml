@@ -60,4 +60,32 @@
       </if>
     </trim>
   </insert>
+  <select id="queryReturnVisitRegistrations" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		PKID,
+		BATCH_ID,
+		VISIT_REMARK ,
+		CONTENT ,
+		CONVERT(varchar(19),CREATE_TIME,120) AS createTime,
+		CREATE_BY
+		from sctrans.T_TS_RETURN_VISIT_REGISTRATION
+		where
+		BATCH_ID = #{batchId,jdbcType=BIGINT}
+		order by CREATE_TIME desc
+	</select>
+	<insert id="insertReturnVisitRegistration"
+		parameterType="com.centaline.trans.transplan.entity.TtsReturnVisitRegistration">
+		insert into sctrans.T_TS_RETURN_VISIT_REGISTRATION (
+		BATCH_ID ,
+		VISIT_REMARK ,
+		CONTENT ,
+		CREATE_TIME ,
+		CREATE_BY
+		) values
+		( #{batchId,jdbcType=BIGINT},
+		#{visitRemark,jdbcType=CHAR},
+		#{content,jdbcType=VARCHAR},GETDATE(),@{SESSION_USER_ID})
+	</insert>
+  
 </mapper>
