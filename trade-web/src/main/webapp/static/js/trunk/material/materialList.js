@@ -347,12 +347,14 @@ function logActionBorrowSubmit(pkids,actionUser,actionPreDate,actionReason,actio
 				if(data != null ){
 					if(data.success){
 						$("#myModal").hide();
-						alert(data.message);						
-						window.location.reload();
+						alert(data.message);	
+						 window.location.href = ctx+"/material/materialList";
+						//window.location.reload();
 					}else{
 						$("#myModal").hide();
 						alert(data.message);
-						window.location.reload();
+						window.location.href = ctx+"/material/materialList";
+						//window.location.reload();
 					}
 				}	
 			},       
