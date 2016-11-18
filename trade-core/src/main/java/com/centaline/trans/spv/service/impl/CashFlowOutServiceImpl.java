@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
@@ -41,10 +40,12 @@ import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
+import com.centaline.trans.spv.entity.ToSpvCloseApply;
 import com.centaline.trans.spv.entity.ToSpvDeDetail;
 import com.centaline.trans.spv.repository.ToSpvAduitMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowMapper;
+import com.centaline.trans.spv.repository.ToSpvCloseApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvMapper;
 import com.centaline.trans.spv.service.CashFlowOutService;
 import com.centaline.trans.spv.service.ToSpvService;
@@ -77,6 +78,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	private ToSpvAduitMapper toSpvAduitMapper;
 	@Autowired
 	private ToWorkFlowMapper toWorkFlowMapper;
+	@Autowired
+	ToSpvCloseApplyMapper toSpvCloseApplyMapper;
 		
 	@Autowired
 	private UamSessionService uamSessionService;	
@@ -513,37 +516,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		    	}
 			}   	
     	}
-
-	    List<User> financeUsers = uamUserOrgService.getUserByOrgIdAndJobCode("ff808081566e099e01566e7701bb003e", "YCCWREVIEW");
-	    StringBuffer financeName = new StringBuffer();
-	    StringBuffer financeName2 = new StringBuffer();
-	    String ftPreAuditorId = null;
-	    User ftPreAuditor = null;
-	    if(spvChargeInfoVO != null){
-	    	ftPreAuditorId = spvChargeInfoVO.getToSpvCashFlowApply().getFtPreAuditor();
-		    if(StringUtils.isNotBlank(ftPreAuditorId)){
-	    		ftPreAuditor = uamUserOrgService.getUserById(ftPreAuditorId);
-	    	}
-	    }
-	    
-	    for(User financeUser : financeUsers){
-	    	String name = financeUser.getRealName();
-	    	if(ftPreAuditor != null){
-		    	financeName.append(name+"/");
-	    		if(!financeUser.getUsername().equals(ftPreAuditor.getUsername())){
-	    			financeName2.append(name+"/");
-	    		}
-	    	}else{
-	    		financeName.append(name+"/");
-	    		financeName2.append(name+"/");
-	    	}
-
-	    }	    
-	    String financeName_ = financeName.substring(0,financeName.length()-1);
-	    String financeName2_ = financeName2.substring(0,financeName2.length()-1);
-	    
-	    request.setAttribute("financeName", financeName_);
-	    request.setAttribute("financeName2", financeName2_);
 	    
     	Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
     	
@@ -612,6 +584,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	BigDecimal totalCashFlowOutAmount = BigDecimal.ZERO;
     	BigDecimal totalProcessCashFlowOutAmout = BigDecimal.ZERO;
     	
+	    List<User> financeUsers = uamUserOrgService.getUserByOrgIdAndJobCode("ff808081566e099e01566e7701bb003e", "YCCWREVIEW");
+    	
     	for(ToSpvCashFlow cashFlow: cashFlowList){
     		ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(cashFlow.getCashflowApplyId());
     		//只选取完成的流水记录
@@ -622,12 +596,13 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     				&& SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode().equals(cashFlow.getStatus())){
     			continue;	
     		}
-    		String applyAuditor = apply.getApplyAuditor();
-    		String applyAuditorName = applyAuditor == null?null:uamSessionService.getSessionUserById(applyAuditor).getRealName();
-    		String ftPreAuditor = apply.getFtPreAuditor();
-        	String ftPreAuditorName = ftPreAuditor == null?null:uamSessionService.getSessionUserById(ftPreAuditor).getRealName();
-    		String ftPostAuditor = apply.getFtPostAuditor();
-        	String ftPostAuditorName = ftPostAuditor == null?null:uamSessionService.getSessionUserById(ftPostAuditor).getRealName();
+    	    
+    		String applyAuditorId = apply.getApplyAuditor();
+    		String applyAuditorName = applyAuditorId == null?null:uamSessionService.getSessionUserById(applyAuditorId).getRealName();
+    		String ftPreAuditorId = apply.getFtPreAuditor();
+        	String ftPreAuditorName = ftPreAuditorId == null?getFtAuditorName(ftPreAuditorId,financeUsers):uamSessionService.getSessionUserById(ftPreAuditorId).getRealName();
+    		String ftPostAuditorId = apply.getFtPostAuditor();
+        	String ftPostAuditorName = ftPostAuditorId == null?getFtAuditorName(ftPreAuditorId,financeUsers):uamSessionService.getSessionUserById(ftPostAuditorId).getRealName();
         	cashFlow.setUsage(apply.getUsage());
         	cashFlow.setApplyAuditorName(applyAuditorName);
         	cashFlow.setFtPreAuditorName(ftPreAuditorName);
@@ -660,12 +635,49 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     	resultMap.put("totalCashFlowOutAmount", totalCashFlowOutAmount);
 		return resultMap;
 	}
+
 	@Override
 	public void getCashFlowList(HttpServletRequest request,String spvCode) {
 	    Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
         request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
 	    request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInDeailAmount"));
 	    request.setAttribute("totalCashFlowOutAmount",  completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
+	}
+
+	@Override
+	public void spvCloseApplyPage(HttpServletRequest request, String spvCode, String businessKey) {
+		setAttribute(request,spvCode,businessKey);
+	}
+	
+	private void setAttribute(HttpServletRequest request, String spvCode, String businessKey){
+		ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
+		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv == null?null:toSpv.getPkid());
+        //ToSpvCloseApply toSpvCloseApply = toSpvCloseApplyMapper.selectBySpvCloseApplyCode(businessKey);;
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		//request.setAttribute("toSpvCloseApply", toSpvCloseApply);
+	}
+
+	private String getFtAuditorName(String ftPreAuditorId, List<User> financeUsers){
+	    StringBuffer financeName = new StringBuffer();
+	    StringBuffer financeName2 = new StringBuffer();
+	    User ftPreAuditor = uamUserOrgService.getUserById(ftPreAuditorId);
+	    
+	    for(User financeUser : financeUsers){
+	    	String name = financeUser.getRealName();
+	    	if(ftPreAuditor != null){
+		    	financeName.append(name+"/");
+	    		if(!financeUser.getUsername().equals(ftPreAuditor.getUsername())){
+	    			financeName2.append(name+"/");
+	    		}
+	    	}else{
+	    		financeName.append(name+"/");
+	    		financeName2.append(name+"/");
+	    	}
+	    }	    
+	    String financeName_ = financeName.substring(0,financeName.length()-1);
+	    String financeName2_ = financeName2.substring(0,financeName2.length()-1);
+	    
+	    return ftPreAuditorId == null?financeName_:financeName2_;
 	}
 
 }

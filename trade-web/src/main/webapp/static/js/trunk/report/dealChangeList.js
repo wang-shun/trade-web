@@ -32,8 +32,8 @@ function reloadGrid(page){
         success: function(data){
           $.unblockUI();
       	  var dealChangeList = template('template_dealChangeList' , data);
-		  $("#dealChangeList tr").remove();
-		  $("#dealChangeList").html(dealChangeList);
+		  $("#editable tbody").empty();
+		  $("#editable tbody").html(dealChangeList);
 		  
 		  // 显示分页 
           initpage(data.total,data.pagesize,data.page, data.records);
@@ -291,7 +291,30 @@ $("#submitBtn").click(function(){
 			if(data.success){
 				alert(data.message);
 				$("#close").click();
-				reloadGrid(goPage);
+				var newTitle = '';
+				if(remarkVisit=='1'){
+					$('#span'+batchId).html('<span class="yes_color">正常</span>');
+					newTitle+= "1. "+"正常 "+data.content.content+" "+data.content.createTime+"<br>";
+				}else if(remarkVisit=='0'){
+					$('#span'+batchId).html('<span class="red_color">异常</span>');
+					newTitle+= "1. "+"异常 "+data.content.content+" "+data.content.createTime+"<br>";
+				}
+				var title = $('#i'+batchId).attr('title');
+				var titles = title.split("<br>");
+				for(var i=0;i<titles.length-1;i++){
+					var cont = titles[i].split(".")[1];
+					newTitle+= (i+2)+"."+cont+"<br>";
+				}
+				$('#i'+batchId).attr("title",newTitle);
+				$('.demo-top').poshytip({
+					className: 'tip-twitter',
+					showTimeout: 1,
+					alignTo: 'target',
+					alignX: 'center',
+					alignY: 'top',
+					offsetX: 8,
+					offsetY: 5,
+				});
 			}else{
 				alert(data.message);
 			}

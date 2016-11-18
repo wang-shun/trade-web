@@ -5,7 +5,7 @@
     <result column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="VISIT_REMARK" property="visitRemark" jdbcType="CHAR" />
     <result column="CONTENT" property="content" jdbcType="VARCHAR" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="BATCH_ID" property="batchId" jdbcType="BIGINT" />
   </resultMap>
@@ -85,7 +85,7 @@
 		) values
 		( #{batchId,jdbcType=BIGINT},
 		#{visitRemark,jdbcType=CHAR},
-		#{content,jdbcType=VARCHAR},GETDATE(),@{SESSION_USER_ID})
+		#{content,jdbcType=VARCHAR},#{crtTime,jdbcType=TIMESTAMP},@{SESSION_USER_ID})
 	</insert>
   
 </mapper>

@@ -29,10 +29,10 @@ th {
     margin-left: 20px;
 }
 .mt5 {
-    margin-top: 5px;
+    margin-top: 5px!important;
 }
 .mt10 {
-    margin-top: 10px;
+    margin-top: 10px!important;
 }
 .mt15 {
     margin-top: 15px;
@@ -111,6 +111,15 @@ th {
     min-height: 1.5rem!important;
     padding-left: 1.2rem!important;
 }
+.pl10 {
+    padding-left: 10px!important;
+}
+.pl15 {
+    padding-left: 15px!important;
+}
+.pl30 {
+    padding-left: 30px;
+}
 .plr10 {
     padding: 0px 10px;
 }
@@ -156,6 +165,12 @@ th {
 }
 .font14 {
     font-size: 0.7rem!important;
+}
+.font15 {
+    font-size: 0.75rem!important;
+}
+.font17 {
+    font-size: 0.85rem!important;
 }
 .radius3 {
     border-radius: 3px!important;
@@ -231,7 +246,7 @@ th {
 /*--COLOR
 ------------------------------*/
 .blue {
-    color: #81d8d0;
+    color: #81d8d0!important;
 }
 .blue_bg {
     background-color: #81d8d0;
@@ -580,4 +595,37 @@ border: 1px solid #dddddd;
     font-size: 5.6rem!important;
     color: #09bb07;
 }
+.aui-media-list li:first-child {
+    min-height: 2.5rem;
+    line-height: 2.5rem;
+    margin-left: 0;
+    padding-left: 2.65rem;
+    border-bottom:1px solid #f5f5f5;
+    background-color: #fff;
+    background-position: 1.05rem center;
+}
+.aui-media-list li {
+    min-height: 2rem;
+    line-height: 2rem;
+    margin-left: 0.85rem;
+    padding-left: 1.75rem;
+    border-bottom:1px solid #f5f5f5;
+    background-color: #fff;
+}
 
+.unchecked {
+    background-image: url('../image/unchecked.png');
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    padding-left: 1.7rem;
+    background-size: 6%!important;
+    color: #808080;
+}
+.checked {
+    background-image: url('../image/right.png');
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    padding-left: 1.7rem;
+    background-size: 6%!important;
+    color: #333;
+}

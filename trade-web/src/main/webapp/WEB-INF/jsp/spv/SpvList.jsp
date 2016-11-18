@@ -251,7 +251,7 @@
 													</shiro:hasPermission>
                                                     	
                                                     <shiro:hasPermission name="TRADE.SPV.CLOSE">
-                                                   		 <li><a href="#">中止/结束</a></li>
+                                                   		 <li><a href="${ctx}/spv/task/spvCloseApply/process?spvCode={{item.SPV_CODE}}">中止/结束</a></li>
                                                     </shiro:hasPermission>
                                               </ul>
                                             </div>

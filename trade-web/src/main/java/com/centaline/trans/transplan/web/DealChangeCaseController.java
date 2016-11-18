@@ -2,6 +2,7 @@ package com.centaline.trans.transplan.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -59,10 +60,15 @@ public class DealChangeCaseController {
 	 */
 	@RequestMapping(value="addReturnVisit")
 	@ResponseBody
-	public AjaxResponse<T> addReturnVisit(TtsReturnVisitRegistration ttsReturnVisitRegistration){
-		AjaxResponse<T> response = new AjaxResponse<T>();
+	public AjaxResponse<TtsReturnVisitRegistration> addReturnVisit(TtsReturnVisitRegistration ttsReturnVisitRegistration){
+		AjaxResponse<TtsReturnVisitRegistration> response = new AjaxResponse<TtsReturnVisitRegistration>();
 		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = Calendar.getInstance().getTime();
+			ttsReturnVisitRegistration.setCreateTime(sdf.format(date));
+			ttsReturnVisitRegistration.setCrtTime(date);
 			toTransplanOperateService.addReturnVisit(ttsReturnVisitRegistration);
+			response.setContent(ttsReturnVisitRegistration);
 			response.setCode("400");
 			response.setMessage("案件回访处理成功！");
 			response.setSuccess(true);
