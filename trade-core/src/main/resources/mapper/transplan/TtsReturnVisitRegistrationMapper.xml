@@ -72,7 +72,7 @@
 		from sctrans.T_TS_RETURN_VISIT_REGISTRATION
 		where
 		BATCH_ID = #{batchId,jdbcType=BIGINT}
-		order by CREATE_TIME desc
+		order by PKID desc
 	</select>
 	<insert id="insertReturnVisitRegistration"
 		parameterType="com.centaline.trans.transplan.entity.TtsReturnVisitRegistration">

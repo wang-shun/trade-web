@@ -84,10 +84,10 @@
 	LEFT JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID
 	WHERE C.CASE_PROPERTY NOT IN ('30003001','30003005') AND S.OPERATE_FLAG = '0'
         <ifNotNull visitRemark>
-            <if test=' visitRemark == "0" or visitRemark == "1"'>
+            <if test=' visitRemark == "0" or visitRemark == "1" or visitRemark == "2"'>
             	AND S.LAST_VISIT_REMARK = #visitRemark#
             </if>
-            <if test='visitRemark == "2"'>
+            <if test='visitRemark == "3"'>
             	AND S.LAST_VISIT_REMARK IS NULL
             </if>
         </ifNotNull>
@@ -127,8 +127,8 @@
 				<column type="both" name="CHANGE_REASON" display="" title="" customDict="" hidden=""/>
 				<column type="virtual" name="changeReason"  display="变更原因" title="变更原因" referencecol="PART_CODE,CHANGE_REASON" customDict="getChangeReason" sysDict="" format="" width="90"  align="" />
 				<column type="both" name="LAST_VISIT_REMARK"  display="最新回访标记" title="最新回访标记" customDict="" sysDict="" format="" width="90"  align="" />
-				<column type="both" name="FONT_NAME" index="" checkbox="" display="信贷员" title="信贷员" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="FONT_MOBILE" index="" checkbox="" display="信贷员号码" title="信贷员号码" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="FONT_NAME" index="" checkbox="" display="交易顾问" title="交易顾问" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="FONT_MOBILE" index="" checkbox="" display="交易顾问号码" title="交易顾问号码" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" title="经纪人" customDict="" sysDict=""  width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="AGENT_PHONE" display="经纪人号码" title="经纪人号码" customDict="" hidden=""/>
 				<column type="virtual" name="visitRemark" referencecol="LAST_VISIT_REMARK" display="回访标记" title="回访标记" index="" checkbox=""  customDict="getReturnVisitRemark" sysDict="" format=""   align="" halign="" order="" resizable="" />

@@ -65,11 +65,12 @@
                                     <label class="control-label sign_left_small">
                                         回访标记
                                     </label>
-                                    <select name="visitRemark" id="visitRemark" class="select_control selwidth ">
+                                    <select name="visitRemark" id="visitRemark" class="selectpicker show-tick select_control selwidth " data-size="5">
                                     	<option value="">请选择</option>
+                                    	<option value="3">未回访</option>
+                                    	<option value="1">正常</option>
                                         <option value="0">异常</option>
-                                        <option value="1">正常</option>
-                                        <option value="2">未处理</option>
+                                        <option value="2">下次处理</option>
                                     </select>
                                 </div>
                             </div>
@@ -219,7 +220,7 @@
                                         <div class="line">
                                             <p>
                                                 <label>
-                                                    信贷员
+                                                    交易顾问
                                                 </label>
                                                 <span class="info_one" style="width: 140px"><span id="fontName"></span><em class="ml5 blue-text" id="fontMobile"></em></span>
                                             </p>
@@ -258,6 +259,19 @@
                                                 <tbody id="transplanHistory">
                                                 </tbody>
                                             </table>
+                           </div>
+                          <div class="mt15" style="padding: 0 45px;">
+                                            <table class="table table_blue customerinfo table-bordered table-hover ">
+                                                <thead>
+                                                    <tr>
+                                                        <th>历史回访时间</th>
+                                                        <th>标记</th>
+                                                        <th>内容</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="returnVisitHistory">
+                                                </tbody>
+                                            </table>
                                         </div>
                             <form method="get" class="form_list">
                                 <div class="line">
@@ -273,6 +287,10 @@
                                         <label>
                                             <input type="radio" value="0" name="remark_visit">
                                                 异常
+                                        </label>
+                                        <label>
+                                            <input type="radio" value="2" name="remark_visit">
+                                                下次处理
                                         </label>
                                     </div>
                                 </div>
@@ -334,11 +352,13 @@
                     </p>
 					<span id="span{{item.batchId}}">
 					{{if item.LAST_VISIT_REMARK==null || item.LAST_VISIT_REMARK==''}}
-						 <span class="no_color">未处理</span>
+						 <span class="no_color">未回访</span>
 					{{else if item.LAST_VISIT_REMARK=='0'}}
 						 <span class="red_color">异常</span>
 					{{else if item.LAST_VISIT_REMARK=='1'}}
 						 <span class="yes_color">正常</span>
+					{{else if item.LAST_VISIT_REMARK=='2'}}
+						 <span class="yes_color">下次处理</span>
 					{{/if}}
 					</span>
                     <a href="#">
@@ -409,7 +429,6 @@
 	</script>  
     <script>
             $(document).ready(function () {
-
                 $('.input-daterange').datepicker({
                     keyboardNavigation: false,
                     forceParse: false,

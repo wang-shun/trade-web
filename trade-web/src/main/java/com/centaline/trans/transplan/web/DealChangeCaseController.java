@@ -103,6 +103,29 @@ public class DealChangeCaseController {
 		}
 		return response;
 	}
+	/**
+	 * 查询回访跟进历史信息
+	 * @param ttsReturnVisitRegistration
+	 * @return
+	 */
+	@RequestMapping(value="queryReturnVisitHistorys")
+	@ResponseBody
+	public AjaxResponse<List<TtsReturnVisitRegistration>> queryReturnVisitHistorys(long batchId){
+		AjaxResponse<List<TtsReturnVisitRegistration>> response = new AjaxResponse<List<TtsReturnVisitRegistration>>();
+		List<TtsReturnVisitRegistration>  ttp = null;
+		try{
+			ttp =  toTransplanOperateService.queryReturnVisitRegistrations(batchId);
+			response.setCode("400");
+			response.setMessage("查询回访跟进历史成功！");
+			response.setSuccess(true);
+			response.setContent(ttp);
+		}catch(Exception e){
+			response.setCode("500");
+			response.setMessage("查询回访跟进历史失败！");
+			response.setSuccess(false);
+		}
+		return response;
+	}
 	
 	
 	

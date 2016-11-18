@@ -224,6 +224,28 @@ function doDeal(caseCode,propertyAddr,changeNameAndMobile,teamName,sellerandphon
         	}
         }
     });
+	$("#returnVisitHistory tr").remove();
+	$.ajax({
+		async: true,
+        url:ctx+ "/transplan/queryReturnVisitHistorys" ,
+        method: "post",
+        dataType: "json",
+        data: {batchId : batchId},
+        success: function(data){
+        	console.log(data);
+        	if(data.success){
+        		var th='';
+        		for(var i=0;i<data.content.length;i++){
+        			var vit = data.content[i].visitRemark;
+        			var visitRemark = vit=='0'?'异常': vit=='1'?'正常': vit=='2'?'下次处理':'';
+        			th+="<tr><td>"+data.content[i].createTime+"</td>" +
+        					"<td>"+ data.content[i].content +"</td>" +
+        					"<td>"+visitRemark+"</td></tr>";
+        		}
+        		$("#returnVisitHistory").append(th);
+        	}
+        }
+    });
 	$("#fontName").html(fontName);
 	$("#fontMobile").html(fontMobile);
 	$("#agentName").html(agentName);
