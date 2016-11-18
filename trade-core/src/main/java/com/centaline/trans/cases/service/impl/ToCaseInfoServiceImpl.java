@@ -27,6 +27,7 @@ import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
+import com.centaline.trans.loan.service.ToCloseLoanService;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mortgage.entity.ToEvaReport;
@@ -56,6 +57,8 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 	private TgGuestInfoService tgGuestInfoService;
 	@Autowired
 	private ToEvaFeeRecordService toEvaFeeRecordService;
+	@Autowired
+	private ToCloseLoanService toCloseLoanService;
 
 	/****
 	 * 查询案件详情
@@ -118,8 +121,8 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 			reVo.setAsMobile(assistUser.getMobile());
 		}
 		// 贷款流失类型
-		String loanLostType = tsFinOrgService.getLoanLostTypeValue(caseCode);
-		if (loanLostType != null) {
+		String loanLostType = toCloseLoanService.getLoanLostTypeValue(caseCode); 
+		if(!StringUtils.isBlank(loanLostType)){
 			reVo.setLoanLostType(loanLostType);
 		} else {
 			reVo.setLoanLostType("");

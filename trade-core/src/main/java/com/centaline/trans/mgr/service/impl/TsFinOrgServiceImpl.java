@@ -168,11 +168,6 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	}
 
 	@Override
-	public String getLoanLostTypeValue(String caseCode) {
-		return tsFinOrgMapper.getLoanLostTypeValue(caseCode);
-	}
-
-	@Override
 	public List<TsFinOrg> getMainBankListInTempBankReport() {
 		return tsFinOrgMapper.queryMainBankListInTempBankReport();
 	}

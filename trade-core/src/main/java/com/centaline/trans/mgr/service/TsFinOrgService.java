@@ -117,11 +117,5 @@ public interface TsFinOrgService {
 	 * @return
 	 */
 	List<TsFinOrg> findFinCompany();
-	/**
-	 * 添加贷款流失类型查询
-	 * @param caseCode
-	 * @return
-	 */
-	String getLoanLostTypeValue(String caseCode);
 
 }

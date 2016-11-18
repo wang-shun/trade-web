@@ -494,8 +494,8 @@ public class TaskController {
 			reVo.setAsMobile(assistUser.getMobile());
 		}
 		//贷款流失类型 
-		String loanLostType = tsFinOrgService.getLoanLostTypeValue(caseCode); 
-		if(loanLostType != null){
+		String loanLostType = toCloseLoanService.getLoanLostTypeValue(caseCode); 
+		if(!StringUtils.isBlank(loanLostType)){
 			reVo.setLoanLostType(loanLostType);
 		}else{
 			reVo.setLoanLostType("");

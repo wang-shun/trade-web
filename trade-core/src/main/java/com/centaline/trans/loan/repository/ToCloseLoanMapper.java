@@ -20,4 +20,6 @@ public interface ToCloseLoanMapper {
     int updateByPrimaryKey(ToCloseLoan record);
     
     ToCloseLoan findToCloseLoanByCaseCode(String caseCode);
+    
+    String getLoanLostTypeValue(String caseCode) ;
 }

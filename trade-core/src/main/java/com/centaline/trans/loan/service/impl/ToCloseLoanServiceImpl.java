@@ -40,5 +40,9 @@ public class ToCloseLoanServiceImpl implements ToCloseLoanService{
 		}
 		return toCloseLoan;
 	}
+	@Override
+	public String getLoanLostTypeValue(String caseCode) {
+		return toCloseLoanMapper.getLoanLostTypeValue(caseCode);
+	}
 
 }

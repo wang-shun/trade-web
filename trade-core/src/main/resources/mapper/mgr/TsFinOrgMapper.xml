@@ -143,10 +143,6 @@
     where fin_org_code=#{finOrgCode,jdbcType=VARCHAR}) 
   </select>
   
-  <select id="getLoanLostTypeValue" parameterType="java.lang.String" resultType="java.lang.String">
-    	select e.LOAN_LOST_TYPE from sctrans.V_CASE_LIST_EXCEL E where e.CASE_CODE=#{caseCode}
-  </select>
-  
   <select id="findBankByFinOrg" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select * from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR}
   </select>
