@@ -124,7 +124,7 @@
                                     <label class="control-label sign_left_small">
                                         <font color="red">*</font>保管人
                                     </label>
-	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" readonly="readonly"/>
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" readonly="readonly" <c:if test="${item.isStorage  == 'Y' }"> disable </c:if>/>
 	                                <div class="input-group float_icon organize_icon managerOnclick">
 									 	<i class="icon iconfont">&#xe627;</i>
 									</div>

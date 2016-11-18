@@ -41,6 +41,20 @@
     from sctrans.T_MM_MATERIAL_ITEM 
   </select>
   
+  <select id="getMmMaterialItemListByProperty"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_MM_MATERIAL_ITEM 
+    <where>
+	      <if test="itemStatus != null" >
+	         ITEM_STATUS = #{itemStatus,jdbcType=VARCHAR}
+	      </if>
+	      <if test="itemCode != null" >
+	         AND ITEM_CODE = #{itemCode,jdbcType=VARCHAR}
+	      </if>
+	</where>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sctrans.T_MM_MATERIAL_ITEM
     where PKID = #{pkid,jdbcType=BIGINT}

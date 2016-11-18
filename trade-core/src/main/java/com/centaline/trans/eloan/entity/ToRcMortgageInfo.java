@@ -39,6 +39,8 @@ public class ToRcMortgageInfo {
 
 	private String itemManagerName;
 
+	private String isStorage;
+
 	public Long getPkid() {
 		return pkid;
 	}
@@ -183,4 +185,11 @@ public class ToRcMortgageInfo {
 		this.itemManagerName = itemManagerName;
 	}
 
+	public String getIsStorage() {
+		return isStorage;
+	}
+
+	public void setIsStorage(String isStorage) {
+		this.isStorage = isStorage;
+	}
 }
