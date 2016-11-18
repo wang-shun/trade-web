@@ -60,11 +60,10 @@
   </insert>
   
   <select id="getResFlowupListByResId" parameterType="java.lang.Long" resultType="com.centaline.trans.signroom.vo.ResFlowupVo">	
-		SELECT CONVERT(varchar(100), rfu.CREATE_TIME, 120) as createDateTime,rfu.COMMENT as comment,u.REAL_NAME as realName
-		FROM sctrans.T_RM_RES_FLOW_UP rfu
-		left join sctrans.SYS_USER u on rfu.CREATE_BY = u.ID 
-		WHERE rfu.RES_ID = #{resId,jdbcType=BIGINT}
-		order by rfu.CREATE_TIME desc;
+		SELECT CONVERT(varchar(100), CREATE_TIME, 120) as createDateTime,COMMENT as comment
+		FROM sctrans.T_RM_RES_FLOW_UP
+		WHERE RES_ID = #{resId,jdbcType=BIGINT}
+		order by CREATE_TIME desc;
   </select>
   
 </mapper>

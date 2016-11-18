@@ -49,7 +49,7 @@
 			<ul class="sub-menu">
 				<c:forEach items="${l1_menu.children}" var="l2_menu" >
 				<shiro:hasPermission name="${l2_menu.resource.resourceCode}">
-					<li><a href="${ctx}${l2_menu.url}" <c:if test='${l2_menu.target=="BLANK"}'> target="_blank"</c:if>><i class="${l2_menu.icon}"></i>  
+					<li><a href="${ctx}${l2_menu.url}"><i class="${l2_menu.icon}"></i>  
 					${l2_menu.menuName}</a></li>
 				</shiro:hasPermission>
 				</c:forEach>

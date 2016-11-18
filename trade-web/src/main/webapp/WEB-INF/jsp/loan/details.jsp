@@ -60,9 +60,7 @@
 						ligerui='none'></aist:dict></option>
 						</c:if>
 						<c:if test="${loanAgent.loanSrvCode!='30004005' }">
-						<option value="${loanAgent.loanSrvCode}"><aist:dict id="loanSrvCode" name="loanSrvCode" 
-						display="onlyLabel"  dictType="yu_serv_cat_code_tree" tag="eplus" dictCode="30004005"
-						ligerui='none'></aist:dict></option>
+						<option value="30004005">税费卡</option>
 						</c:if>
 						</select> 
 						

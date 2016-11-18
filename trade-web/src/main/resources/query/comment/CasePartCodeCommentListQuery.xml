@@ -44,17 +44,17 @@
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						CC.CASE_CODE, 
-						CC.SRV_CODE AS SRV_CODE_OLD, 
-						CC.COMMENT,
-						CC.CREATE_BY AS CREATE_BY_OLD,
-						CC.CREATE_TIME,
-						CC.UPDATE_BY AS UPDATE_BY_OLD,
-						CC.UPDATE_TIME,
-						SJ.JOB_NAME AS jobName
-					FROM sctrans.T_TO_CASE_COMMENT  CC
-					LEFT JOIN sctrans.SYS_USER_ORG_JOB UOJ ON CC.CREATE_BY = UOJ.USER_ID and UOJ.ISMAIN=1
-					left JOIN sctrans.SYS_JOB SJ ON SJ.ID = UOJ.JOB_ID 
+						cc.CASE_CODE, 
+						cc.SRV_CODE AS SRV_CODE_OLD, 
+						cc.COMMENT,
+						cc.CREATE_BY AS CREATE_BY_OLD,
+						cc.CREATE_TIME,
+						cc.UPDATE_BY AS UPDATE_BY_OLD,
+						cc.UPDATE_TIME,
+						sj.JOB_NAME AS jobName
+					FROM sctrans.T_TO_CASE_COMMENT  cc
+					LEFT JOIN sctrans.SYS_USER_ORG_JOB uoj ON cc.CREATE_BY = uoj.USER_ID
+					left JOIN sctrans.SYS_JOB sj ON sj.ID = uoj.JOB_ID
 					where 1=1
 					<choose>
 						<when test="caseCode!=null and caseCode != ''">

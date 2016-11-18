@@ -8,7 +8,6 @@ import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
-import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.vo.DateWeekVo;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
 
@@ -25,12 +24,6 @@ public interface RmSignRoomService {
 	 * @return
 	 */
 	List<TradeCenter> getTradeCenters();
-	
-	/**
-	 * 获取交易中心信息
-	 * @return
-	 */
-	List<TradeCenter> getTradeCenters(Map map);
 
 	/**
 	 * 获取签约室列表及策略值信息
@@ -84,31 +77,6 @@ public interface RmSignRoomService {
 	 * @return
 	 * @throws ParseException 
 	 */
-	List<List<DateWeekVo>> showSchedulingData(Map map) throws ParseException;
-	/**
-	 * 新增或更新一条值班数据
-	 * @param tradeCenterSchedule
-	 * @return
-	 */
-	int addOrUpdateTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule);
-	/**
-	 * 删除一条值班数据
-	 * @param tradeCenterSchedule
-	 * @return
-	 */
-	int deleteTradeCenterSchedule(TradeCenterSchedule tradeCenterSchedule);
-	
-	/**
-	 * 按条件查询值班数据
-	 * @param map
-	 * @return
-	 */
-	List<TradeCenterSchedule> queryTradeCenterSchedules(Map map);
-	
-	/**
-	 * 判断是否当日值班
-	 * @return
-	 */
-	boolean isCurrenDayDuty();
+	List<DateWeekVo> showSchedulingData(Map map) throws ParseException;
 
 }

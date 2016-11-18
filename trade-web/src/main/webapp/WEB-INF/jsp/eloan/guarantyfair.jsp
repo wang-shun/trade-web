@@ -45,7 +45,7 @@
 		rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
 		rel="stylesheet">
-    <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+    
 </head>
 
 <body>
@@ -187,12 +187,12 @@
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
 							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
                                               {% } else { %}
- 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
+ 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
   											  {% } %}
 							            {% } %}</div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -298,7 +298,7 @@
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
-	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+	
     <script>
 	    if ("${idList}" != "") {
 			var idList = eval("(" + "${idList}" + ")");
@@ -390,12 +390,7 @@
 					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
           		})
 	    });
-	    
-		//渲染图片 
-		function renderImg(){		
-			$('.wrapper-content').viewer('destroy');
-			$('.wrapper-content').viewer({zIndex:15001});
-		}
+    
     </script>
 </content>
 </body>

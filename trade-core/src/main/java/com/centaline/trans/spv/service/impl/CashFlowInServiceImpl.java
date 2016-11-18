@@ -18,14 +18,14 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.common.vo.FileUploadVO;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -344,9 +344,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		workFlow.setProcessDefinitionId(propertyUtilsService.getSpvCashflowInProcess());
 		workFlow.setProcessOwner(user.getId());
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-		workFlow.setBizCode(spvApplyCode);
-		workFlow.setCaseCode(spvRecordedsVO.getCaseCode());
-		toWorkFlowService.insertSelective(workFlow);
+		toWorkFlowService.insertSpvCashflowInProcessSelective(workFlow);
 		
 		// 提交申请任务
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);

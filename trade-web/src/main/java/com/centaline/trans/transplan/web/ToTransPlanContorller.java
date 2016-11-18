@@ -22,7 +22,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
-import com.centaline.trans.transplan.service.ToTransPlanService;
+import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.workspace.entity.CacheGridParam;
 
 /**

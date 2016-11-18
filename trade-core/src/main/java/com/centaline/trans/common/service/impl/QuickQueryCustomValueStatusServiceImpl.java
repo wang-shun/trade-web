@@ -11,7 +11,6 @@ import com.aist.common.quickQuery.service.CustomDictService;
 
 public class QuickQueryCustomValueStatusServiceImpl implements CustomDictService{
 	
-	
 	@Override
 	@Cacheable(value="QuickQueryCustomValueStatusServiceImpl",key="#root.targetClass + #root.methodName")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {

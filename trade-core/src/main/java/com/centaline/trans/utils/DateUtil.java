@@ -64,25 +64,7 @@ public class DateUtil {
 		  }
 		  return null;
 	}
-	public static Date getFirstDayOfTheMonth(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);//设置当前日期
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		return cal.getTime();
-	}
-	public static Date getFirstDayOfTheMonth() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.DAY_OF_MONTH, 1);
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		return cal.getTime();
-	}
+	
 	public static void main(String[] args) {
 		System.out.println(DateUtil.plusMonth(new Date(), -1));
 	}

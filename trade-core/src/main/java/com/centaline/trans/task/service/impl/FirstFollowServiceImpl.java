@@ -26,12 +26,12 @@ import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.task.entity.ToFirstFollow;
 import com.centaline.trans.task.entity.ToSign;
+import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.repository.ToFirstFollowMapper;
 import com.centaline.trans.task.repository.ToSignMapper;
+import com.centaline.trans.task.repository.ToTransPlanMapper;
 import com.centaline.trans.task.service.FirstFollowService;
 import com.centaline.trans.task.vo.FirstFollowVO;
-import com.centaline.trans.transplan.entity.ToTransPlan;
-import com.centaline.trans.transplan.repository.ToTransPlanMapper;
 
 @Service
 public class FirstFollowServiceImpl implements FirstFollowService {

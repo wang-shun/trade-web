@@ -270,12 +270,12 @@ function caseTransferExportToExcel() {
 	displayColomn.push('PRF_AMOUNT');
 	displayColomn.push('ACCOUNT');
 	displayColomn.push('COM_DISCOUNT');
-	displayColomn.push('CASE_CODE');	
+	displayColomn.push('CASE_CODE');
+	//displayColomn.push('LOANER_NAME');
 	displayColomn.push('MORT_TYPE_NAME');
 	displayColomn.push('SPONSOR');
 	displayColomn.push('SDSTATUS');
-	displayColomn.push('loanlost_apply_reason');
-	displayColomn.push('SELF_DEL_REASON');
+	//displayColomn.push('IS_LOANER_ARRIVE');
 	displayColomn.push('EVAL_FEE');
 	
 	displayColomn.push('SELLER');
@@ -292,11 +292,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('ORG_NAME');
 	displayColomn.push('AR_NAME');
 	displayColomn.push('VORG_NAME');
-	
-	displayColomn.push('ELOAN_PRO_TYPE');
-	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT');
-	displayColomn.push('ELOAN_PRO_TYPE_KA');
-	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT_STRING');
+
 
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();

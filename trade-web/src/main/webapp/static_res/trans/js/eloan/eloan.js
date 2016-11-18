@@ -29,7 +29,7 @@ function  StatusEchart2(finOrgNames,number,amount){
             /*alwaysShowContent:true,*/
             hideDelay: 1500,
             enterable: true,
-            formatter: "{b}:<br/> {c}万 ({d}%)"
+            formatter: "{b}: {c}万 ({d}%)"
         },
         legend: {
             x : 'center',
@@ -42,18 +42,10 @@ function  StatusEchart2(finOrgNames,number,amount){
         series: [
 
             {
-                name:'贷款类型分析（金额）',
+                name:'总金额: ' + 1 + ' 万',
                 type:'pie',
                 radius: ['25%', '45%'],
                 animation: true,
-                itemStyle: {
-                    normal: {
-                        label: {
-                            show: true,
-                            formatter: "{b}:\n {c}万 ({d}%)"
-        				 }
-                      }
-                    },
                 selectedMode: 'multiple',
                 data:amount
             }
@@ -72,8 +64,9 @@ function  StatusEchart2(finOrgNames,number,amount){
             triggerOn: 'mousemove',
             /*alwaysShowContent:true,*/
             hideDelay: 1500,
-            formatter: "{b}: <br/>{c}个 ({d}%)"
+            formatter: "{b}: {c}个 ({d}%)"
         },
+
         legend: {
             x : 'center',
             y : 'bottom',
@@ -85,19 +78,11 @@ function  StatusEchart2(finOrgNames,number,amount){
         series: [
 
             {
-                name:'贷款类型分析（个数）',
+                name:'贷款类型分析（金额）',
                 type:'pie',
                 radius: ['25%', '45%'],
                 animation: true,
                 selectedMode: 'multiple',
-                itemStyle: {
-                    normal: {
-                        label: {
-                            show: true,
-                            formatter:"{b} \n {c}个 ({d}%)"
-        				 }
-                      }
-                    },
                 data:number
             }
         ]

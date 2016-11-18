@@ -16,12 +16,12 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
@@ -131,7 +131,6 @@ public class ToEvaReportServiceImpl implements ToEvaReportService{
     	//保存流程数据
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 		toWorkFlow.setCaseCode(processInstanceVO.getCaseCode());
-		toWorkFlow.setBizCode(processInstanceVO.getCaseCode());
 		toWorkFlow.setInstCode(pIVo.getId());
 		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 		toWorkFlow.setBusinessKey(WorkFlowEnum.EVA_WBUSSKEY.getCode());

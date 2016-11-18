@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
-import com.aist.uam.weixin.util.ParamesAPI;
+import com.centaline.trans.utils.wechat.ParamesAPI;
 
 
 @Service

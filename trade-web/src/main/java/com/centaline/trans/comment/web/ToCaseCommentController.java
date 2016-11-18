@@ -19,9 +19,9 @@ public class ToCaseCommentController {
 	
 	@RequestMapping(value = "/insertToCaseComment")
 	@ResponseBody
-	public AjaxResponse<?> insertToCaseComment(Model model,ToCaseComment record) {
+	public AjaxResponse insertToCaseComment(Model model,ToCaseComment record) {
 	    int insertCount = toCaseCommentService.insertToCaseComment(record);
-	    if(insertCount <= 0) {
+	    if(insertCount<=0) {
 	    	return AjaxResponse.fail();
 	    } else {
 	    	return AjaxResponse.success();

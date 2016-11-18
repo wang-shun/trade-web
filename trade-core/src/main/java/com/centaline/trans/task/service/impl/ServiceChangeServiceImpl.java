@@ -20,6 +20,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToServChangeHistroty;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
@@ -28,20 +29,19 @@ import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.repository.ToServChangeHistrotyMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.MortStepMapper;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.task.service.ServiceChangeService;
+import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
-import com.centaline.trans.transplan.service.ToTransPlanService;
 
 @Service
 public class ServiceChangeServiceImpl implements ServiceChangeService {
@@ -205,7 +205,6 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 	    		toWorkFlow.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 	    		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 	    		toWorkFlow.setCaseCode(caseCode);
-	    		toWorkFlow.setBizCode(caseCode);
 	        	toWorkFlow.setProcessOwner(toCase.getLeadingProcessId());
 	    		/*插入工作流*/
 		    	int ss = toWorkFlowService.insertSelective(toWorkFlow);

@@ -3,18 +3,15 @@ package com.centaline.trans.cases.web;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import com.aist.uam.permission.remote.UamPermissionService;
+import com.aist.uam.permission.remote.vo.Resource;
+import com.centaline.trans.common.enums.*;
+import com.centaline.trans.common.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +24,6 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
-import com.aist.uam.permission.remote.UamPermissionService;
-import com.aist.uam.permission.remote.vo.Resource;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
@@ -48,39 +43,27 @@ import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.cases.vo.ChangeTaskAssigneeVO;
+import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.cases.vo.ToLoanAgentVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToServChangeHistroty;
-import com.centaline.trans.common.enums.CasePropertyEnum;
-import com.centaline.trans.common.enums.DepTypeEnum;
-import com.centaline.trans.common.enums.LampEnum;
-import com.centaline.trans.common.enums.SubscribeModuleType;
-import com.centaline.trans.common.enums.SubscribeType;
-import com.centaline.trans.common.enums.ToAttachmentEnum;
-import com.centaline.trans.common.enums.TransDictEnum;
-import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.common.enums.TransPositionEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.service.PropertyUtilsService;
-import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.TgServItemAndProcessorService;
-import com.centaline.trans.common.service.ToModuleSubscribeService;
-import com.centaline.trans.common.service.ToPropertyInfoService;
-import com.centaline.trans.common.service.ToServChangeHistrotyService;
+import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.common.vo.AgentManagerInfo;
+import com.centaline.trans.common.vo.BuyerSellerInfo;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
+import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.service.impl.VariableServiceImpl;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -94,20 +77,21 @@ import com.centaline.trans.mortgage.service.ToEvaReportService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.property.service.ToPropertyResearchService;
 import com.centaline.trans.property.service.ToPropertyService;
+import com.centaline.trans.property.service.impl.ToPropertyResarchServiceImpl;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.task.entity.ToPropertyResearch;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
+import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.entity.TsTransPlanHistory;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
+import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsTransPlanHistoryService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
-import com.centaline.trans.transplan.entity.ToTransPlan;
-import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
-import com.centaline.trans.transplan.service.ToTransPlanService;
-import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.team.vo.CaseInfoVO;
 
 /**
  * 
@@ -203,8 +187,6 @@ public class CaseDetailController {
 	//关注
 	@Autowired
 	ToModuleSubscribeService toModuleSubscribeService;
-	@Autowired
-	TransplanServiceFacade toTransplanOperateService;
 
 	/**
 	 * 页面初始化
@@ -1679,7 +1661,6 @@ public class CaseDetailController {
 		    StartProcessInstanceVo pIVo =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SRV_BUSSKEY.getCode()), caseCode, vars);
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
 			toWorkFlow.setCaseCode(caseCode);
-			toWorkFlow.setBizCode(caseCode);
 			toWorkFlow.setInstCode(pIVo.getId());
 			toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 			toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
@@ -1921,8 +1902,6 @@ public class CaseDetailController {
 			HttpServletRequest request) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		SessionUser user = uamSessionService.getSessionUser();
-		TtsTransPlanHistoryBatch ttpb = new TtsTransPlanHistoryBatch();
-		boolean isDeal = true;//是否处理
 		for (int i = 0; i < isChanges.length; i++) {
 			if (isChanges[i].equals("true")) {
 				ToTransPlan oldPlan = toTransPlanService.selectByPrimaryKey(Long.parseLong(estIds[i]));
@@ -1931,18 +1910,6 @@ public class CaseDetailController {
 				TsTransPlanHistory hisRecord = new TsTransPlanHistory();
 				ToTransPlan record = new ToTransPlan();
 				try {
-					//add by zhoujp添加一条交易计划变更历史批次信息
-					if(isDeal){
-						ttpb.setCaseCode(oldPlan.getCaseCode());
-						ttpb.setOldEstPartTime(oldPlan.getEstPartTime());
-						ttpb.setNewEstPartTime(format.parse(estDates[i]));
-						ttpb.setChangeReason(whyChanges[i]);
-						ttpb.setPartCode(oldPlan.getPartCode());
-						ttpb.setOperateFlag("0");//手工
-						toTransplanOperateService.insertTtsTransPlanHistoryBatch(ttpb);
-						isDeal = false;
-					}
-					hisRecord.setBatchId(ttpb.getPkid());
 					// 插入历史记录
 					hisRecord.setCaseCode(oldPlan.getCaseCode());
 					hisRecord.setPartCode(oldPlan.getPartCode());
@@ -1958,7 +1925,6 @@ public class CaseDetailController {
 					// TODO Auto-generated catch block
 					return AjaxResponse.fail("数据转换失败！");
 				}
-				
 				int reInt1 = tsTransPlanHistoryService.insertSelective(hisRecord);
 				if (reInt1 == 0)
 					return AjaxResponse.fail("交易计划历史记录更新失败！");

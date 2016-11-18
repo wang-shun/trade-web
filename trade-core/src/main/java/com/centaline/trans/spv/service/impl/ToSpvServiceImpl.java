@@ -32,6 +32,7 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
 import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
@@ -39,14 +40,13 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskQuery;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -320,7 +320,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		// 保存流程数据
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 		toWorkFlow.setCaseCode(processInstanceVO.getCaseCode());
-		toWorkFlow.setBizCode(processInstanceVO.getCaseCode());
 		toWorkFlow.setInstCode(pIVo.getId());
 		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 		toWorkFlow.setBusinessKey(WorkFlowEnum.SPV_OUT.getCode());
@@ -530,7 +529,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpv.setUpdateTime(new Date());
 				toSpvMapper.updateByPrimaryKeySelective(toSpv);
 			} else {
-				toSpv.setStatus(SpvStatusEnum.DRAFT.getCode());
 				toSpv.setCreateBy(user.getId());
 				toSpv.setCreateTime(new Date());
 				toSpv.setSpvCode(spvCode);
@@ -717,7 +715,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
-		workFlow.setBizCode(spvBaseInfoVO.getToSpv().getSpvCode());
 		workFlow.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());
@@ -729,7 +726,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if (spvBaseInfoVO.getToSpv().getApplyTime() == null) {
 			spvBaseInfoVO.getToSpv().setApplyTime(new Date());
 		}
-		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.ADUIT.getCode());
+		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.INPROGRESS.getCode());
 		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
 
 	}

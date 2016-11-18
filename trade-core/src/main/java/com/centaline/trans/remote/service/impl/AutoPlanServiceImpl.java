@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.remote.service.AutoPlanService;
+import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.entity.TsTaskPlanSet;
 import com.centaline.trans.task.service.TaskPlanSetService;
-import com.centaline.trans.transplan.entity.ToTransPlan;
-import com.centaline.trans.transplan.service.ToTransPlanService;
+import com.centaline.trans.task.service.ToTransPlanService;
 @Service("autoPlanService")
 public class AutoPlanServiceImpl implements AutoPlanService {
 	@Autowired

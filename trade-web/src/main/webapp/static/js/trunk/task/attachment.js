@@ -68,9 +68,6 @@ $(function() {
 		
 		/**监听 div 执行自动上传*/
 		$("#picContainer"+value).bind('DOMNodeInserted', function(e) {
-			if($("div[id^='picContainers']").find('img').length > 0){
-				renderImg();
-			}
 			var picDiv=$("div[name='allPicDiv1']");
 			var input=$("input[name='picTag']");
 			if(picDiv.length > input.length) {
@@ -81,11 +78,6 @@ $(function() {
 					$("#startUpload").click();
 				}
 			}
-		});
-		
-		/**删除图片时重新渲染*/
-		$("#picContainer"+value).bind('DOMNodeRemoved', function(e) {
-			setTimeout(renderImg, 500);
 		});
 	});
 	/**上传备件初始化结束*/	
@@ -125,12 +117,14 @@ function getExplPicByhouseCode() {
 						trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
 						trStr+="<img src='"+appCtx['shcl-filesvr-web']+"/filesvr/downLoad?id="+value.preFileAdress+"' alt='' width='80px' height='80px'>";
 						trStr+="</div>";
+						if($("#handle").val() != 'SpvSign' && $("#handle").val() != 'SpvApprove'){
 						trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
 						trStr+="<button onclick=\"romoveDiv('picContainers',"+value.pkid+");\" class=\"btn red\""; 
 						trStr+="style=\"line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;\">";
 						trStr+="<i class=\"icon-remove\"></i>";
 						trStr+="</button>";
 						trStr+="</div>";
+						}
 						trStr+="</div>";						
 					}				
 				});

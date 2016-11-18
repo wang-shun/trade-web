@@ -1,15 +1,10 @@
 require.config({
+	baseUrl : ctx + '/js',
 	paths : {
-		queryFilterView : '/trade-web/js/queryFilter/aist.queryFilter.view',
-		appInfo : '/trade-web/js/common/appInfo'
+		queryFilterView : ctx + '/js/queryFilter/aist.queryFilter.view'
 	}
 });
 
 require([ 'queryFilterView' ], function(queryFilterView) {
 	queryFilterView.init("queryFilter",reloadGrid,initData);
 });
-
-require(['appInfo'],function(ctx){
-	
-});
-

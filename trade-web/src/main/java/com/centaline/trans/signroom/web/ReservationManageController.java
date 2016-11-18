@@ -17,15 +17,10 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.signroom.entity.ResFlowup;
-import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.service.ResFlowupService;
 import com.centaline.trans.signroom.service.ReservationService;
-import com.centaline.trans.signroom.service.RmSignRoomService;
-import com.centaline.trans.signroom.vo.ChangeRoomResult;
 import com.centaline.trans.signroom.vo.ReservationVo;
-import com.centaline.trans.signroom.vo.SaveResFlowupResult;
 import com.centaline.trans.signroom.vo.SignroomInfo;
-import com.centaline.trans.signroom.vo.StartAndEndUseResult;
 
 /**
  * 预约取号后台controller
@@ -49,9 +44,6 @@ public class ReservationManageController {
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 
-	@Autowired
-	private RmSignRoomService rmSignRoomService;
-
 	/**
 	 * 变更签约室----更换签约室保存
 	 * 
@@ -61,7 +53,7 @@ public class ReservationManageController {
 	 */
 	@RequestMapping(value = "changeRoom")
 	@ResponseBody
-	public ChangeRoomResult changeRoom(Model model, HttpServletRequest request) {
+	public String changeRoom(Model model, HttpServletRequest request) {
 		String isSuccess = "true";
 
 		String resId = request.getParameter("resId");
@@ -73,17 +65,14 @@ public class ReservationManageController {
 		reservationVo.setScheduleId(scheduleId);
 		reservationVo.setFlag(flag);
 
-		ChangeRoomResult changeRoomResult = null;
 		try {
-			changeRoomResult = reservationService.changeRoom(reservationVo);
+			reservationService.changeRoom(reservationVo);
 		} catch (Exception e) {
 			isSuccess = "false";
 			e.printStackTrace();
 		}
 
-		changeRoomResult.setResult(isSuccess);
-
-		return changeRoomResult;
+		return isSuccess;
 	}
 
 	/**
@@ -125,7 +114,6 @@ public class ReservationManageController {
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
 		SessionUser currentUser = uamSessionService.getSessionUser();
-		boolean isCurrenDayDuty = rmSignRoomService.isCurrenDayDuty();// 是否当日值班
 
 		String distinctId = "";
 		// 如果当前用户属于组级别的
@@ -170,7 +158,6 @@ public class ReservationManageController {
 		request.setAttribute("resTime", resTime);
 		request.setAttribute("resStatus", resStatus);
 		request.setAttribute("distinctId", distinctId);
-		request.setAttribute("isCurrenDayDuty", isCurrenDayDuty);
 
 		return "signroom/signinglist";
 	}
@@ -184,31 +171,21 @@ public class ReservationManageController {
 	 */
 	@RequestMapping(value = "saveResFlowup")
 	@ResponseBody
-	public SaveResFlowupResult saveResFlowup(Model model,
-			HttpServletRequest request) {
+	public String saveResFlowup(Model model, HttpServletRequest request) {
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
 		Long resId = Long.parseLong(request.getParameter("resId"));
 		String comment = request.getParameter("comment");
-		Date createDateTime = new Date();
 
 		ResFlowup resFlowup = new ResFlowup();
 		resFlowup.setResId(resId);
 		resFlowup.setComment(comment);
-		resFlowup.setCreateTime(createDateTime);
+		resFlowup.setCreateTime(new Date());
 		resFlowup.setCreateBy(currentUser.getId());
 		resFlowup.setUpdateBy(currentUser.getId());
-		resFlowup.setUpdateTime(createDateTime);
+		resFlowup.setUpdateTime(new Date());
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		SaveResFlowupResult saveResFlowupResult = new SaveResFlowupResult();
-		saveResFlowupResult.setCreateDateTime(sdf.format(createDateTime));
-		saveResFlowupResult
-				.setResult(resFlowupService.saveResFlowup(resFlowup) > 0 ? "true"
-						: "false");
-		saveResFlowupResult.setRealName(currentUser.getRealName());
-
-		return saveResFlowupResult;
+		return resFlowupService.saveResFlowup(resFlowup) > 0 ? "true" : "false";
 	}
 
 	/**
@@ -220,32 +197,17 @@ public class ReservationManageController {
 	 */
 	@RequestMapping(value = "startAndEndUse")
 	@ResponseBody
-	public StartAndEndUseResult startAndEndUse(Model model,
-			HttpServletRequest request) {
+	public String startAndEndUse(Model model, HttpServletRequest request) {
 		String flag = request.getParameter("flag");
 		Long resId = Long.parseLong(request.getParameter("resId"));
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
 		int count = 0;
-		String operateDateTime = "";
 		if ("startUse".equals(flag)) {
 			count = reservationService.startUse(resId); // 开始使用
-
-			Reservation reservation = reservationService
-					.getReservationById(resId);
-			operateDateTime = sdf.format(reservation.getCheckInTime());
 		} else if ("endUse".equals(flag)) {
 			count = reservationService.endUse(resId); // 结束使用
-
-			Reservation reservation = reservationService
-					.getReservationById(resId);
-			operateDateTime = sdf.format(reservation.getCheckedOutTime());
 		}
 
-		StartAndEndUseResult startAndEndUseResult = new StartAndEndUseResult();
-		startAndEndUseResult.setResult(count > 0 ? "true" : "false");
-		startAndEndUseResult.setOperateDateTime(operateDateTime);
-
-		return startAndEndUseResult;
+		return count > 0 ? "true" : "false";
 	}
 }

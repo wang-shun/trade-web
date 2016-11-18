@@ -18,12 +18,16 @@
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
-<link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"
+	rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css"
+	rel="stylesheet">
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -112,13 +116,43 @@
 						<div class="col-sm-3">
 							<div class="radio i-checks radio-inline">
 								<label> <input type="radio" checked="checked"
-									value="true" id="optionsRadios1" name="LoanLost_Director">审批通过
+									value="true" id="optionsRadios1" name="LoanLost_director">审批通过
 								</label> <label> <input type="radio" value="false"
-									id="optionsRadios2" name="LoanLost_Director">审批不通过
+									id="optionsRadios2" name="LoanLost_director">审批不通过
 								</label>
 							</div>
 						</div>
 					</div>
+
+					<%-- 					<!-- 流失案件总监审核 -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">审批结果</label>
+						<div class="radio i-checks radio-inline">
+							<label> <input type="radio" checked="checked"
+								value="true" id="optionsRadios1" name="LoanLost_director"
+								onClick="$('#loanLostDirectorNotApproves').hide();">审批通过
+							</label>
+						</div>
+						<div class="radio i-checks radio-inline">
+							<label> <input type="radio" value="false"
+								id="optionsRadios2" name="LoanLost_director"
+								onClick="$('#loanLostDirectorNotApproves').show();getNotApproves();">审批未通过
+							</label>
+						</div>
+						<div class="form_sign col-sm-12 clearfix" id="loanLostDirectorNotApproves"
+							style="display: none">
+							<c:forEach items="${loanLostNotApproves}"
+								var="loanLostDirectorNotApprove">
+								<div class="col-sm-6 sign">
+									<input type="checkbox"
+										value="${loanLostDirectorNotApprove.code}"
+										name="loanLostNotApprove" class="btn btn-white"
+										onClick="loanLostDirectorAppendNotApprove(this.checked,'${loanLostDirectorNotApprove.name}');">
+									<label>${loanLostDirectorNotApprove.name}</label>
+								</div>
+							</c:forEach>
+						</div>
+					</div> --%>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">备注</label>
 						<div class="col-sm-10">
@@ -154,19 +188,27 @@
 			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
 		</div>
 	</div>
-	<content tag="local_script"> <!-- jqGrid -->
-<script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
-<script	src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-<script	src="${ctx}/transjs/task/loanlostApprove.js"></script> 
-<!-- 图片查看JS -->
-<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
-<script src="${ctx}/js/jquery.blockui.min.js"></script> 
-<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
-<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
-<script	src="${ctx}/js/viewer/viewer.min.js"></script> 
-<script>
+	<content tag="local_script"> <!-- jqGrid --> <script
+		src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> <script
+		src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
+		src="${ctx}/transjs/task/loanlostApprove.js"></script> <script
+		src="${ctx}/transjs/task/showAttachmentByLssp.js"></script> <%-- <script src="${ctx}/transjs/task/showAttachment.js"></script> --%>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> <script
+		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
+		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
+		src="${ctx}/js/template.js" type="text/javascript"></script> <script
+		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script
+		src="${ctx}/js/viewer/viewer.min.js"></script> <script>
+/* 			function loanLostDirectorAppendNotApprove(isAppend, content) {
+				if (isAppend) {
+					var oldVal = $("#LoanLost_director_response").val();
+					if (oldVal != '') {
+						oldVal += '；';
+					}
+					$("#LoanLost_director_response").val(oldVal + content);
+				}
+			} */
+
 			$(function() {
 				getShowAttachment();
 			});
@@ -177,10 +219,10 @@
 
 			/**保存数据*/
 			function save() {
-				var jsonData = $("#lamform").serializeArray();				
-				//var url = "${ctx}/task/loanlostApprove/loanlostApproveSecond";
-				var url = "${ctx}/task/loanlostApprove/loanlostApproveDirector";				
-				
+				var jsonData = $("#lamform").serializeArray();
+
+				var url = "${ctx}/task/loanlostApprove/loanlostApproveSecond";
+
 				$.ajax({
 					cache : true,
 					async : false,//false同步，true异步
@@ -225,7 +267,8 @@
 					}
 				});
 			}
-		</script> 
-	</content>
+		</script> </content>
 </body>
+
+
 </html>

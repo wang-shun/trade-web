@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.ServletRequest;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +52,6 @@ public class CaseTransferController {
 	 * @return
 	 */
 	@RequestMapping(value = "caseTransferList")
-	@RequiresPermissions("TRADE.REPORT.GUOHU")
 	public String caseTransferList(Model model, ServletRequest request) {
 		// TODO
 		SessionUser user = uamSessionService.getSessionUser();

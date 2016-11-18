@@ -12,14 +12,11 @@ public class TradeCenterSchedule {
 	private String dutyOfficer; //值班人员ID
 	private String dutyDate; //值班日期
 	private Long tradeCenterId;//交易中心ID
-	private String dutyType;//值班类型(0:白天 1:夜晚)
+	private String dutyType;//值班类型
 	private Date createTime;// 创建时间
 	private String createBy;// 创建人
 	private Date updateTime;// 更新时间
 	private String updateBy;// 更新人
-	
-	private String officerName;//值班人员姓名
-	private boolean changed;//是否变更值班人员
 
 	public Long getPkid() {
 		return pkid;
@@ -93,23 +90,5 @@ public class TradeCenterSchedule {
 		this.updateBy = updateBy;
 	}
 
-	public String getOfficerName() {
-		return officerName;
-	}
-
-	public void setOfficerName(String officerName) {
-		this.officerName = officerName;
-	}
-
-	public boolean isChanged() {
-		return changed;
-	}
-
-	public void setChanged(boolean changed) {
-		this.changed = changed;
-	}
-
-	
-	
 	
 }
