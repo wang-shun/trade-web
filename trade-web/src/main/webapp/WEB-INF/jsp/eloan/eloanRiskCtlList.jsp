@@ -55,7 +55,7 @@
 </head>
 
 <body>
-<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="row">
 		<div class="col-md-12">
 			<!--*********************** HTML_main*********************** -->
@@ -63,18 +63,18 @@
 				<div class="ibox-content border-bottom clearfix space_box">
 					<!-- 					<h4>已完成产调</h4> -->
 					<h2 class="title">风控措施清单</h2>
-					<input type="hidden" id="ctx" value="${ctx}" />
-					<input type="hidden" id="userId" value="${userId}" />
+					<input type="hidden" id="ctx" value="${ctx}" /> <input
+						type="hidden" id="userId" value="${userId}" />
 					<form method="post" class="form_list" id="sourceForm">
 						<div class="line">
 							<div class="form_content">
-								<label class="control-label sign_left_small"> 贷款合约编号 </label> 
-								<input type="text" id="eloanCode" name="searchEloanCode"
+								<label class="control-label sign_left_small"> 贷款合约编号 </label> <input
+									type="text" id="eloanCode" name="searchEloanCode"
 									class="teamcode input_type" />
 							</div>
 							<div class="form_content">
-								<label class="control-label sign_left_small"> 风控措施 </label>
-								<select name="searchEloanRiskType" id="eloanRiskType"
+								<label class="control-label sign_left_small"> 风控措施 </label> <select
+									name="searchEloanRiskType" id="eloanRiskType"
 									class="select_control sign_right_one">
 									<option value="" selected="selected">请选择</option>
 									<option value="card">押卡</option>
@@ -86,8 +86,8 @@
 						<div class="line">
 							<div class="form_content">
 								<div class="sign_left pull-left" style="width: 105px;">
-									<select name="searchEloanChooseRole" id="eloanChooseRole" 
-									class="form-control">
+									<select name="searchEloanChooseRole" id="eloanChooseRole"
+										class="form-control">
 										<option value="" selected="selected">请选择</option>
 										<option value="0">贷款专员</option>
 										<option value="1">执行人</option>
@@ -95,37 +95,39 @@
 									</select>
 								</div>
 								<div class="teamcode pull-left">
-									<input type="text" id="eloanName" name="searchEloanName" 
-									class="form-control pull-left">
+									<input type="text" id="eloanName" name="searchEloanName"
+										class="form-control pull-left">
 								</div>
 							</div>
 							<div class="form_content">
-								<label class="control-label sign_left_small select_style mend_select">
+								<label
+									class="control-label sign_left_small select_style mend_select">
 									风控执行时间 </label>
 								<div class="input-group sign-right dataleft input-daterange"
 									data-date-format="yyyy-mm-dd">
-									<input name="searchStartTime" id="startTime" 
-									    class="form-control data_style" type="text" value="" placeholder="起始日期">
-										<span class="input-group-addon">到</span>
+									<input name="searchStartTime" id="startTime"
+										class="form-control data_style" type="text" value=""
+										placeholder="起始日期"> <span class="input-group-addon">到</span>
 									<input name="searchEndTime" id="endTime"
-										class="form-control data_style" type="text" value="" placeholder="结束日期">
+										class="form-control data_style" type="text" value=""
+										placeholder="结束日期">
 								</div>
 							</div>
 						</div>
-						
+
 
 						<div class="line">
 							<div class="form_content">
 								<label class="control-label sign_left_small"> 贷款归属组织 </label> <input
 									class="teamcode input_type" type="text" id="exeTeam"
 									name="searchExeTeam" readonly="readonly"
-										   onclick="chooseDist('ff8080814f459a78014f45a73d820006')"
-										   hVal="" placeholder="" value="" />
+									onclick="chooseDist('ff8080814f459a78014f45a73d820006')"
+									hVal="" placeholder="" value="" />
 								<div class="input-group float_icon organize_icon">
 									<i class="icon iconfont">&#xe61b;</i>
 								</div>
 							</div>
-							<div class="add_btn" style="float:left;margin-left:126px;">
+							<div class="add_btn" style="float: left; margin-left: 126px;">
 								<button id="searchBtn" type="button" class="btn btn-success">
 									<i class="icon iconfont">&#xe635;</i> 查询
 								</button>
@@ -137,41 +139,50 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div  class="table_content">
-							<table id="riskCtlList" class="table table_blue table-striped table-bordered table-hover">
-							<thead><tr><th>贷款合约编号</th><th>产品类型</th><th>风控措施类型</th><th>借款人</th><th>贷款专员</th><th>风控执行人</th><th>操作</th></tr></thead>
-							<tbody>
-							</tbody>
+						<div class="table_content">
+							<table id="riskCtlList"
+								class="table table_blue table-striped table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>贷款合约编号</th>
+										<th>产品类型</th>
+										<th>风控措施类型</th>
+										<th>借款人</th>
+										<th>贷款专员</th>
+										<th>风控执行人</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
 							</table>
+						</div>
+						<div class="text-center page_box">
+							<span id="currentTotalPage"><strong></strong></span> <span
+								class="ml15"><strong id="totalP"></strong>
+							</span>&nbsp;
+							<div id="pageBar" class="pagergoto"></div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	<content tag="local_script"> 
-	
-	<!-- js模板引擎 -->
-	<script src="${ctx}/static/js/template.js"></script> 
-	<!-- 分页控件  --> 
-	<script	src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<!-- 自定义扩展jQuery库 --> 
-	<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-<!-- 	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script> -->
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 
-	<!-- datapicker -->
-	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<content tag="local_script"> <!-- js模板引擎 --> <script
+		src="${ctx}/static/js/template.js"></script> <!-- 分页控件  --> <script
+		src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<!-- 自定义扩展jQuery库 --> <script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> <!-- 	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script> -->
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- datapicker -->
+	<script
+		src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-	<!-- 必须JS -->
-	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-	<!-- owner --> 
-	<script src="${ctx}/js/trunk/eloan/eloanRiskCtlList.js"></script> 
-	
+	<!-- 必须JS --> <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<!-- owner --> <script src="${ctx}/js/trunk/eloan/eloanRiskCtlList.js"></script>
+
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	
+
 	<script id="template_eloanRiskCtlList" type="text/html">
 		{{each rows as item index}}
 			<tr>
@@ -273,11 +284,8 @@
                 </td>
 			</tr>
 		{{/each}}
-	</script>
-	    
-	<script>
-		
-		 // 清空搜索内容
+	</script> <script>
+		// 清空搜索内容
 		$('#cleanBtn').click(function() {
 			$("input[name='searchEloanCode']").val('');
 			$("select[name='searchEloanRiskType']").val('');
@@ -287,20 +295,17 @@
 			$("input[name='searchEndTime']").val('');
 			$("input[name='searchExeTeam']").val('');
 		});
-	    
-		$(document).ready(function () {
 
-            $('.input-daterange').datepicker({
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true,
-                todayBtn : 'linked',
-            	language : 'zh-CN'
-            });
-        });
-		
-	</script>
-	    
-    </content>
+		$(document).ready(function() {
+
+			$('.input-daterange').datepicker({
+				keyboardNavigation : false,
+				forceParse : false,
+				autoclose : true,
+				todayBtn : 'linked',
+				language : 'zh-CN'
+			});
+		});
+	</script> </content>
 
 </body>
