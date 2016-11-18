@@ -3,6 +3,7 @@ package com.centaline.trans.task.service.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,19 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.TransDictEnum;
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
+import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.exception.WorkFlowException;
+import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.TaskService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.engine.vo.PageableVo;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.task.entity.ToFirstFollow;
 import com.centaline.trans.task.entity.ToSign;
 import com.centaline.trans.task.repository.ToFirstFollowMapper;
@@ -59,7 +71,14 @@ public class FirstFollowServiceImpl implements FirstFollowService {
 	
 	@Autowired
 	private UamSessionService uamSessionService;
-	
+	@Autowired
+	private ProcessInstanceService processInstanceService;
+	@Autowired
+	private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private TaskService taskService;
 	
 	@Override
 	public boolean saveFirstFollow(FirstFollowVO firstFollowVO) {
@@ -367,6 +386,54 @@ public class FirstFollowServiceImpl implements FirstFollowService {
 	public int isExistCasecode(String caseCode) {
 		int isExist=toFirstFollowMapper.isExistCasecode(caseCode);
 		return isExist;
+	}
+
+	@Override
+	public FirstFollowVO switchWorkFlowWithCurrentVersion(FirstFollowVO firstFollowVO) {
+		//1结束当前流程，启动一个新流程 处理workFlow表，设置vo的taskId为新的TaskID和instCode
+		ToWorkFlow t = new ToWorkFlow();
+		t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+		t.setCaseCode(firstFollowVO.getCaseCode());
+		ToWorkFlow mainflow = toWorkFlowService
+				.queryActiveToWorkFlowByCaseCodeBusKey(t);
+		//流程版本小于当前版本执行
+		if (mainflow != null&& mainflow.getProcessDefinitionId().compareTo(propertyUtilsService
+							.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()))<0) {
+			//更新老流程为删除
+			mainflow.setStatus(WorkFlowStatus.TERMINATE.getCode());
+			toWorkFlowService.updateByPrimaryKeySelective(mainflow);
+			//删除老流程
+			processInstanceService.deleteProcess(firstFollowVO.getProcessInstanceId());
+			
+			//起最新版本的流程
+			Map<String, Object> defValsMap = propertyUtilsService
+					.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
+			
+			defValsMap.put("caseOwner", firstFollowVO.getUserName());
+			StartProcessInstanceVo pIVo = processInstanceService
+					.startWorkFlowByDfId(propertyUtilsService
+							.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()), firstFollowVO
+							.getCaseCode(), defValsMap);
+
+			firstFollowVO.setProcessInstanceId(pIVo.getId());
+			PageableVo tasks = taskService.listTasks(pIVo.getId(),firstFollowVO.getUserName());
+			if(tasks!=null&&tasks.getData()!=null&&!tasks.getData().isEmpty()){
+				TaskVo task= (TaskVo)tasks.getData().get(0);
+				firstFollowVO.setTaskId(task.getId()+"");
+			}
+			
+			ToWorkFlow wf = new ToWorkFlow();
+			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+			wf.setCaseCode(firstFollowVO.getCaseCode());
+			wf.setBizCode(firstFollowVO.getCaseCode());
+			wf.setProcessOwner(firstFollowVO.getUserId());
+			wf.setProcessDefinitionId(propertyUtilsService
+					.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
+			wf.setInstCode(pIVo.getId());
+			wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
+			toWorkFlowService.insertSelective(wf);
+		}
+		return firstFollowVO;
 	}
 
 }

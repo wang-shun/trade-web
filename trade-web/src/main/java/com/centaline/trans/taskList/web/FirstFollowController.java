@@ -491,16 +491,18 @@ public class FirstFollowController {
 
 	@RequestMapping(value = "submit")
 	@ResponseBody
-	public boolean submit(HttpServletRequest request, FirstFollowVO firstFollowVO, String operator,
-			String approveType) {
+	public boolean submit(HttpServletRequest request, FirstFollowVO firstFollowVO) {
 		SessionUser user = uamSessionService.getSessionUser();
 		firstFollowVO.setUserId(user.getId());
 		firstFollowVO.setUserOrgId(getOrgId(user.getId()));
+		firstFollowVO.setUserName(user.getUsername());
 		firstFollowService.saveFirstFollow(firstFollowVO);
 
 		/* 无效案件保存到审批记录表 */
 		if (firstFollowVO.getCaseProperty().equals("30003001")) {
-			saveToApproveRecord(firstFollowVO, operator, approveType);
+			saveToApproveRecord(firstFollowVO, firstFollowVO.getOperator(), firstFollowVO.getApproveType());
+		}else{
+			firstFollowVO=firstFollowService.switchWorkFlowWithCurrentVersion(firstFollowVO);
 		}
 
 		/* 流程引擎相关 */

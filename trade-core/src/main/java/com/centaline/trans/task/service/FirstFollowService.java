@@ -6,6 +6,8 @@ public interface FirstFollowService {
 
 	public boolean saveFirstFollow(FirstFollowVO firstFollowVO);
 	
+	public FirstFollowVO switchWorkFlowWithCurrentVersion(FirstFollowVO firstFollowVO); 
+	
 	public FirstFollowVO queryFirstFollow(String caseCode);
 	
 	int isExistCasecode(String caseCode);
