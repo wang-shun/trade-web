@@ -291,6 +291,7 @@ $("#submitBtn").click(function(){
 			if(data.success){
 				alert(data.message);
 				$("#close").click();
+				reloadGrid(goPage);
 				var newTitle = '';
 				if(remarkVisit=='1'){
 					$('#span'+batchId).html('<span class="yes_color">正常</span>');
