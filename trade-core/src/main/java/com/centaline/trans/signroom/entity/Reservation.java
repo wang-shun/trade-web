@@ -53,6 +53,9 @@ public class Reservation {
 	private Date updateTime; // 更新时间
 
 	private String updateBy; // 更新人
+	
+	private String resPersonMobile;//预约人电话号码
+	
 
 	public String getServiceSpecialist() {
 		return serviceSpecialist;
@@ -234,5 +237,15 @@ public class Reservation {
 	public void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy == null ? null : updateBy.trim();
 	}
+
+	public String getResPersonMobile() {
+		return resPersonMobile;
+	}
+
+	public void setResPersonMobile(String resPersonMobile) {
+		this.resPersonMobile = resPersonMobile;
+	}
+	
+	
 
 }

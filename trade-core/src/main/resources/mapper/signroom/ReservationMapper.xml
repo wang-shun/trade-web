@@ -97,6 +97,9 @@
       <if test="serviceSpecialist != null" >
         SERVICE_SPECIALIST,
       </if>
+      <if test="resPersonMobile != null" >
+        RES_PERSON_MOBILE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="resNo != null" >
@@ -161,6 +164,9 @@
       </if>
       <if test="serviceSpecialist != null" >
         #{serviceSpecialist,jdbcType=VARCHAR},
+      </if>
+      <if test="resPersonMobile != null" >
+        #{resPersonMobile,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
