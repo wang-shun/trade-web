@@ -144,7 +144,7 @@
 		<mapper resource="mapper/common/LabelValMapper.xml" />
 		
 		<!-- 三级市场接口 -->
-		<mapper resource="mapper/api/TsApiLogMapper.xml" />
+		<mapper resource="mapper/apilog/TsApiLogMapper.xml" />
 		<!-- 未分配业务级别提醒 -->
 		<mapper resource="mapper/mgr/UnlocateGRPMapper.xml" />
 		

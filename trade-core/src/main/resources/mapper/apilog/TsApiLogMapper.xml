@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.api.repository.TsApiLogMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.api.entity.TsApiLog" >
+<mapper namespace="com.centaline.trans.apilog.repository.TsApiLogMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.apilog.entity.TsApiLog" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="NODE" property="node" jdbcType="VARCHAR" />
     <result column="MODULE" property="module" jdbcType="VARCHAR" />
@@ -26,7 +26,7 @@
     delete from sctrans.T_TS_API_LOG
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.centaline.trans.api.entity.TsApiLog" >
+  <insert id="insert" parameterType="com.centaline.trans.apilog.entity.TsApiLog" >
     insert into sctrans.T_TS_API_LOG (NODE, MODULE, 
       API_URL, PARAMS, RESULT, 
       STATUS, ERR_MSG, CREATE_DATE, 
@@ -36,7 +36,7 @@
       #{status,jdbcType=CHAR}, #{errMsg,jdbcType=NVARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{createBy,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.api.entity.TsApiLog" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.apilog.entity.TsApiLog" >
     insert into sctrans.T_TS_API_LOG
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -103,7 +103,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.api.entity.TsApiLog" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.apilog.entity.TsApiLog" >
     update sctrans.T_TS_API_LOG
     <set >
       <if test="node != null" >
@@ -136,7 +136,7 @@
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.api.entity.TsApiLog" >
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.apilog.entity.TsApiLog" >
     update sctrans.T_TS_API_LOG
     set NODE = #{node,jdbcType=VARCHAR},
       MODULE = #{module,jdbcType=VARCHAR},
