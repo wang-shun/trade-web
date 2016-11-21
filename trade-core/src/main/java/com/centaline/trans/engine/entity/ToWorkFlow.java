@@ -1,4 +1,4 @@
-package com.centaline.trans.common.entity;
+package com.centaline.trans.engine.entity;
 
 public class ToWorkFlow {
 	private Long pkid;
@@ -10,6 +10,8 @@ public class ToWorkFlow {
 	private String processDefinitionId;
 	private String processOwner;
 	private String status;
+	private String bizCode;
+	
 	public Long getPkid() {
 		return pkid;
 	}
@@ -70,5 +72,13 @@ public class ToWorkFlow {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getBizCode() {
+		return bizCode;
+	}
+
+	public void setBizCode(String bizCode) {
+		this.bizCode = bizCode;
 	}
 }

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.spv.repository.ToSpvCloseApplyMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.spv.entity.ToSpvCloseApply">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="SPV_CODE" jdbcType="VARCHAR" property="spvCode" />
+    <result column="SPV_CLOSE_CODE" jdbcType="VARCHAR" property="spvCloseCode" />
+    <result column="CLOSE_TYPE" jdbcType="VARCHAR" property="closeType" />
+    <result column="APPLY_TIME" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="APPLIER" jdbcType="NVARCHAR" property="applier" />
+    <result column="AUDIT_TIME" jdbcType="TIMESTAMP" property="auditTime" />
+    <result column="AUDITOR" jdbcType="NVARCHAR" property="auditor" />
+    <result column="RE_AUDIT_TIME" jdbcType="TIMESTAMP" property="reAuditTime" />
+    <result column="RE_AUDITOR" jdbcType="NVARCHAR" property="reAuditor" />
+    <result column="COMMENT" jdbcType="NVARCHAR" property="comment" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="IS_DELETED" jdbcType="CHAR" property="isDeleted" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, SPV_CODE, SPV_CLOSE_CODE, CLOSE_TYPE, APPLY_TIME, APPLIER, AUDIT_TIME, AUDITOR, 
+    RE_AUDIT_TIME, RE_AUDITOR, COMMENT, STATUS, IS_DELETED, CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+    UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_CLOSE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.T_TO_SPV_CLOSE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCloseApply">
+    insert into sctrans.T_TO_SPV_CLOSE (PKID, SPV_CODE, SPV_CLOSE_CODE, 
+      CLOSE_TYPE, APPLY_TIME, APPLIER, 
+      AUDIT_TIME, AUDITOR, RE_AUDIT_TIME, 
+      RE_AUDITOR, COMMENT, STATUS, 
+      IS_DELETED, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{spvCode,jdbcType=VARCHAR}, #{spvCloseCode,jdbcType=VARCHAR}, 
+      #{closeType,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{applier,jdbcType=NVARCHAR}, 
+      #{auditTime,jdbcType=TIMESTAMP}, #{auditor,jdbcType=NVARCHAR}, #{reAuditTime,jdbcType=TIMESTAMP}, 
+      #{reAuditor,jdbcType=NVARCHAR}, #{comment,jdbcType=NVARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCloseApply">
+    insert into sctrans.T_TO_SPV_CLOSE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="spvCode != null">
+        SPV_CODE,
+      </if>
+      <if test="spvCloseCode != null">
+        SPV_CLOSE_CODE,
+      </if>
+      <if test="closeType != null">
+        CLOSE_TYPE,
+      </if>
+      <if test="applyTime != null">
+        APPLY_TIME,
+      </if>
+      <if test="applier != null">
+        APPLIER,
+      </if>
+      <if test="auditTime != null">
+        AUDIT_TIME,
+      </if>
+      <if test="auditor != null">
+        AUDITOR,
+      </if>
+      <if test="reAuditTime != null">
+        RE_AUDIT_TIME,
+      </if>
+      <if test="reAuditor != null">
+        RE_AUDITOR,
+      </if>
+      <if test="comment != null">
+        COMMENT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="spvCode != null">
+        #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="spvCloseCode != null">
+        #{spvCloseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="closeType != null">
+        #{closeType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applier != null">
+        #{applier,jdbcType=NVARCHAR},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditor != null">
+        #{auditor,jdbcType=NVARCHAR},
+      </if>
+      <if test="reAuditTime != null">
+        #{reAuditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reAuditor != null">
+        #{reAuditor,jdbcType=NVARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.spv.entity.ToSpvCloseApply">
+    update sctrans.T_TO_SPV_CLOSE
+    <set>
+      <if test="spvCode != null">
+        SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="spvCloseCode != null">
+        SPV_CLOSE_CODE = #{spvCloseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="closeType != null">
+        CLOSE_TYPE = #{closeType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null">
+        APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applier != null">
+        APPLIER = #{applier,jdbcType=NVARCHAR},
+      </if>
+      <if test="auditTime != null">
+        AUDIT_TIME = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditor != null">
+        AUDITOR = #{auditor,jdbcType=NVARCHAR},
+      </if>
+      <if test="reAuditTime != null">
+        RE_AUDIT_TIME = #{reAuditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reAuditor != null">
+        RE_AUDITOR = #{reAuditor,jdbcType=NVARCHAR},
+      </if>
+      <if test="comment != null">
+        COMMENT = #{comment,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.spv.entity.ToSpvCloseApply">
+    update sctrans.T_TO_SPV_CLOSE
+    set SPV_CODE = #{spvCode,jdbcType=VARCHAR},
+      SPV_CLOSE_CODE = #{spvCloseCode,jdbcType=VARCHAR},
+      CLOSE_TYPE = #{closeType,jdbcType=VARCHAR},
+      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      APPLIER = #{applier,jdbcType=NVARCHAR},
+      AUDIT_TIME = #{auditTime,jdbcType=TIMESTAMP},
+      AUDITOR = #{auditor,jdbcType=NVARCHAR},
+      RE_AUDIT_TIME = #{reAuditTime,jdbcType=TIMESTAMP},
+      RE_AUDITOR = #{reAuditor,jdbcType=NVARCHAR},
+      COMMENT = #{comment,jdbcType=NVARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCloseApply">
+    insert into sctrans.T_TO_SPV_CLOSE (PKID, SPV_CODE, SPV_CLOSE_CODE, 
+      CLOSE_TYPE, APPLY_TIME, APPLIER, 
+      AUDIT_TIME, AUDITOR, RE_AUDIT_TIME, 
+      RE_AUDITOR, COMMENT, STATUS, 
+      IS_DELETED, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{spvCode,jdbcType=VARCHAR}, #{spvCloseCode,jdbcType=VARCHAR}, 
+      #{closeType,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{applier,jdbcType=NVARCHAR}, 
+      #{auditTime,jdbcType=TIMESTAMP}, #{auditor,jdbcType=NVARCHAR}, #{reAuditTime,jdbcType=TIMESTAMP}, 
+      #{reAuditor,jdbcType=NVARCHAR}, #{comment,jdbcType=NVARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCloseApply">
+    insert into sctrans.T_TO_SPV_CLOSE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="spvCode != null">
+        SPV_CODE,
+      </if>
+      <if test="spvCloseCode != null">
+        SPV_CLOSE_CODE,
+      </if>
+      <if test="closeType != null">
+        CLOSE_TYPE,
+      </if>
+      <if test="applyTime != null">
+        APPLY_TIME,
+      </if>
+      <if test="applier != null">
+        APPLIER,
+      </if>
+      <if test="auditTime != null">
+        AUDIT_TIME,
+      </if>
+      <if test="auditor != null">
+        AUDITOR,
+      </if>
+      <if test="reAuditTime != null">
+        RE_AUDIT_TIME,
+      </if>
+      <if test="reAuditor != null">
+        RE_AUDITOR,
+      </if>
+      <if test="comment != null">
+        COMMENT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="spvCode != null">
+        #{spvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="spvCloseCode != null">
+        #{spvCloseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="closeType != null">
+        #{closeType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applier != null">
+        #{applier,jdbcType=NVARCHAR},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditor != null">
+        #{auditor,jdbcType=NVARCHAR},
+      </if>
+      <if test="reAuditTime != null">
+        #{reAuditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reAuditor != null">
+        #{reAuditor,jdbcType=NVARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.common.entity.ToOutTimeTask;
-import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 
 @MyBatisRepository
 public interface ToWorkFlowMapper {
