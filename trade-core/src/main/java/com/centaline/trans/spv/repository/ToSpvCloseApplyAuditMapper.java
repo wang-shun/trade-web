@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.repository;
 
+import java.util.List;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.spv.entity.ToSpvCloseApplyAudit;
 
@@ -12,6 +14,8 @@ public interface ToSpvCloseApplyAuditMapper {
     int insertSelective(ToSpvCloseApplyAudit record);
 
     ToSpvCloseApplyAudit selectByPrimaryKey(Long pkid);
+    
+    List<ToSpvCloseApplyAudit> selectBySpvCloseApplyCode(String spvCloseApplyCode);
 
     int updateByPrimaryKeySelective(ToSpvCloseApplyAudit record);
 
