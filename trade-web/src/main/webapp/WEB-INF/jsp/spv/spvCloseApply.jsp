@@ -59,10 +59,20 @@
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 <!-- stickUp fixed css -->
+<style>
+selectro {  
+   background: #eee;  
+   cursor: no-drop;  
+   }  
+optionro {  
+    display: none;  
+}  
+</style>
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "SpvApplyApprove";
 	var source = "${source}";
+	var handle = "${handle}";
 	if ("${idList}" != "") {
 		var idList = eval("(" + "${idList}" + ")");
 	} else {
@@ -628,7 +638,7 @@
 				</div>
 				
 				<div class="ibox-content" id="spvfour_info" >
-				<div style="height: auto;"> 
+				<div class="ibox-title" style="height: auto;">
 				<c:choose>
 					<c:when test="${accesoryList!=null}">
 						<h5>上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
@@ -752,6 +762,8 @@
 					</c:otherwise>
 				</c:choose>
 				</div>
+				<div class="ibox-content">			
+				</div>
 				</div>
 				
 				<div class="ibox-content" id="spvfive_info">
@@ -760,16 +772,19 @@
                             <div class="title">"中止/结束"流程</div>
                             <div class="form-row form-rowbot clear">
                                 <div class="form-group form-margin margin-host">
-                                    <label for="" class="">申请状态</label> <label class="radio-inline"> <input type="radio" name="mortClear" value="1" checked="checked" readonly="" disabled="">中止
+                                    <label for="" class="">申请状态</label> 
+                                    <label class="radio-inline"> 
+                                    <input type="radio" name="toSpvCloseApply.closeType" value="1" ${spvCloseInfoVO.toSpvCloseApply.closeType eq '1'?'checked="checked"':''} >中止
                                     </label>
-                                    <label class="radio-inline"> <input type="radio" name="mortClear" value="0" readonly="" disabled=""> 结束
+                                    <label class="radio-inline"> 
+                                    <input type="radio" name="toSpvCloseApply.closeType" value="0" ${spvCloseInfoVO.toSpvCloseApply.closeType eq '0'?'checked="checked"':''}> 结束
                                     </label>
                                 </div>
                             </div>
                             <div class="form-row form-rowbot" id="signDiv" style="">
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one">原因</label>
-                                    <input type="text" value="由于系统原因，暂无法更新" class="form-control space-host" placeholder="" readonly>
+                                    <input type="text" name="toSpvCloseApply.comment" value="${spvCloseInfoVO.toSpvCloseApply.comment}" class="form-control space-host" placeholder="" >
                                 </div>
                             </div>
                         </div>
@@ -780,56 +795,67 @@
                         </div>
                         <div class="view-content">
                             <div class="view-box">
+                            <c:if test="${not empty SpvCloseInfoVO.toSpvCloseApplyAuditList }">
+                            <c:forEach items="${SpvCloseInfoVO.toSpvCloseApplyAuditList }" var="toSpvCloseAduit" varStatus="status4">
+                            <input type="hidden" name="toSpvAduitList[${status4.index }].pkid" value="${toSpvCloseAduit.pkid }" />
                             <div class="view clearfix">
                                 <p>
-                                   <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
-                                   <span class="result pink_bg">未通过</span>
-                                   <span class="time">审核日期:<em>2016-9-12</em></span>
+                                   <span class="auditor">审核人：<em>${toSpvCloseAduit.operatorName }(${toSpvCloseAduit.operatorJobName })</em></span>
+                                   <span class="result pink_bg">${toSpvCloseAduit.result }</span>
+                                   <span class="time">审核日期:<em><fmt:formatDate value="${toSpvCloseAduit.createTime }" pattern="yyyy-MM-dd"/> </em></span>
                                 </p>
                                 <p>
                                     <span class="auditing">审核意见</span>
-                                    <em class="view_content">账号与附件不一致，重新填写</em>
+                                    <em class="view_content">${toSpvCloseAduit.content }</em>
                                 </p>
                             </div>
-                            <div class="view clearfix">
-                                <p>
-                                   <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
-                                   <span class="result pink_bg">未通过</span>
-                                   <span class="time">审核日期:<em>2016-9-12</em></span>
-                                </p>
-                                <p>
-                                    <span class="auditing">审核意见</span>
-                                    <em class="view_content">账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写账号与附件不一致，重新填写,账号与附件不一致，重新填写账号与附件不一致，重新填写</em>
-                                </p>
-                            </div>
-
-                            <div class="view clearfix">
-                                <p>
-                                   <span class="auditor">审核人：<em>张小核(资金监管专员)</em></span>
-                                   <span class="result pink_bg">未通过</span>
-                                   <span class="time">审核日期:<em>2016-9-12</em></span>
-                                </p>
-                                <p>
-                                    <span class="auditing">审核意见</span>
-                                    <em class="view_content">账号与附件不一致，重新填写</em>
-                                </p>
-                            </div>
+                            </c:forEach>
+                            </c:if>
+                            <c:if test="${empty SpvCloseInfoVO.toSpvCloseApplyAuditList }">
+                                    <%-- <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p> --%>
+                                    <div style="width:100%;height:100px;background:url(../../../static/image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
+                            </c:if>
                         </div>
                         </div>
 
 
                         <div class="submitter">
-                            提交人：<span>张三(业务员)</span>
+                            提交人：<span>${user.realName }(${user.serviceJobName })</span>
                         </div>
                         <div class="excuse">
                             <form action="">
-                                <i style="color:red;">*</i> <textarea name="" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
+                                <i style="color:red;">*</i> <textarea name="toSpvCloseApplyAuditList[0].content" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                             </form>
                             <div class="form-btn">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success btn-space">审批通过</button>
-                                <button type="submit" class="btn btn-pink btn-space">审批驳回</button>
-                                <button type="submit" class="btn btn-default btn-space">取消</button>
+                           
+                            <c:if test="${handle eq 'apply' }">
+							    <div>
+									<a id="spvCloseApply" class="btn btn-success btn-space">提交申请</button>
+									<a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+								</div>
+							</c:if>			
+							<c:if test="${handle eq 'managerAudit' }">
+							    <div>
+                                <a type="spvCloseManagerAuditY" class="btn btn-success btn-space">审批通过</button>
+                                <a type="spvCloseManagerAuditX" class="btn btn-pink btn-space">审批驳回</button>
+                                <a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+								</div>
+							</c:if>											
+							<c:if test="${handle eq 'directorAudit' }">
+							    <div>
+                                <a type="spvCloseDirectorAuditY" class="btn btn-success btn-space">审批通过</button>
+                                <a type="spvCloseDirectorAuditX" class="btn btn-pink btn-space">审批驳回</button>
+                                <a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+								</div>
+							</c:if>							
+							<c:if test="${empty handle}">
+							    <div>
+								<a type="spvClosePageY" class="btn btn-success btn-space">提交申请</button>
+                                <a type="spvClosePageX" class="btn btn-pink btn-space">取消申请</button>
+                                <a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+								</div>
+							</c:if>			
                             </div>
                         </div>
                         </div>
@@ -843,34 +869,34 @@
 
 	<!-- Mainly scripts -->
 	<content tag="local_script"> <!-- Custom and plugin javascript -->
-	<script src="${ctx}/static/js/inspinia.js"></script> <script
-		src="${ctx}/static/js/plugins/pace/pace.min.js"></script> <!-- Toastr script -->
-	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> <script
-		src="${ctx}/static/js/morris/morris.js"></script> <script
-		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
+	<script src="${ctx}/static/js/inspinia.js"></script> 
+	<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script> <!-- Toastr script -->
+	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
+	<script src="${ctx}/static/js/morris/morris.js"></script> 
+	<script src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
 	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
     <script src="${ctx}/js/trunk/task/attachment4.js"></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script src="${ctx}/js/template.js" type="text/javascript"></script>
+	<script src="${ctx}/static/trans_res/js/spv/spvCloseApply.js"></script> <!-- stickup plugin -->
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>	

@@ -67,5 +67,4 @@ public interface CashFlowOutService {
 	 */
 	void getCashFlowList(HttpServletRequest request,String spvCode);
 
-	void spvCloseApplyPage(HttpServletRequest request, String spvCode, String businessKey);
 }

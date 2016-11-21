@@ -13,7 +13,7 @@ public interface ToSpvCloseApplyMapper {
 
     ToSpvCloseApply selectByPrimaryKey(Long pkid);
     
-    //ToSpvCloseApply selectBySpvCloseApplyCode(String spvCloseApplyCode);
+    ToSpvCloseApply selectBySpvCloseApplyCode(String spvCloseApplyCode);
 
     int updateByPrimaryKeySelective(ToSpvCloseApply record);
 

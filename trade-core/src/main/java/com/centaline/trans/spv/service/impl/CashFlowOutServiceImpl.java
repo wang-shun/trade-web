@@ -22,8 +22,6 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
-import com.centaline.trans.common.enums.SpvStatusEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
@@ -644,19 +642,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	    request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
 	    request.setAttribute("totalCashFlowInAmount", completeCashFlowInfoMap.get("totalCashFlowInDeailAmount"));
 	    request.setAttribute("totalCashFlowOutAmount", completeCashFlowInfoMap.get("totalCashFlowOutAmount"));
-	}
-
-	@Override
-	public void spvCloseApplyPage(HttpServletRequest request, String spvCode, String businessKey) {
-		setAttribute(request,spvCode,businessKey);
-	}
-	
-	private void setAttribute(HttpServletRequest request, String spvCode, String businessKey){
-		ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
-		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv == null?null:toSpv.getPkid());
-        //ToSpvCloseApply toSpvCloseApply = toSpvCloseApplyMapper.selectBySpvCloseApplyCode(businessKey);;
-		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
-		//request.setAttribute("toSpvCloseApply", toSpvCloseApply);
 	}
 
 	private String getFtAuditorName(String ftPreAuditorId, List<User> financeUsers){
