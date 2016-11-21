@@ -1,31 +1,26 @@
-package com.centaline.trans.common.service.impl;
+package com.centaline.trans.engine.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.centaline.trans.common.entity.ToOutTimeTask;
-import com.centaline.trans.common.service.ToWorkFlowService;
+import com.centaline.trans.engine.entity.ToOutTimeTask;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.repository.ToWorkFlowMapper;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 
 @Service
 public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 
 	@Autowired
-	ToWorkFlowMapper toWorkFlowMapper;
+	private ToWorkFlowMapper toWorkFlowMapper;
 
 
 	@Override
 	public int insertSelective(ToWorkFlow record) {
 		 toWorkFlowMapper.insertSelective(record);
 		 return 1;
-	}
-	@Override
-	public int insertSpvCashflowInProcessSelective(ToWorkFlow record) {
-		toWorkFlowMapper.insertSpvCashflowInProcessSelective(record);
-		return 1;
 	}
 
 	@Override
@@ -107,4 +102,24 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	public ToWorkFlow queryToWorkFlowByCaseCodeAndStatus(ToWorkFlow record) {
 		return toWorkFlowMapper.queryToWorkFlowByCaseCodeAndStatus(record);
 	}
+	@Override
+	public void deleteWorkFlowByProperty(ToWorkFlow record) {
+		  toWorkFlowMapper.deleteWorkFlowByProperty(record);
+	}
+	@Override
+	public void deleteWorkFlowByInstCode(String instCode) {
+		 toWorkFlowMapper.deleteWorkFlowByInstCode(instCode);
+	}
+	@Override
+	public List<ToWorkFlow> getMortToWorkFlowByCaseCode(ToWorkFlow record) {
+		return toWorkFlowMapper.getMortToWorkFlowByCaseCode(record);
+	}
+
+
+	@Override
+	public ToWorkFlow queryActiveToWorkFlowByBizCodeBusKey(ToWorkFlow record) {
+		return toWorkFlowMapper.queryActiveToWorkFlowByBizCodeBusKey(record);
+	}
+
+	
 }

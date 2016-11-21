@@ -5,6 +5,7 @@
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
     <result column="LAMP_STATUS" property="lampStatus" jdbcType="VARCHAR" />
     <result column="RED_LOCK" property="redLock" jdbcType="CHAR" />
     <result column="EST_PART_TIME" property="estPartTime" jdbcType="TIMESTAMP" />
@@ -22,9 +23,17 @@
     delete from sctrans.T_TO_TRANS_PLAN
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteTransPlansByCaseCode" parameterType="java.lang.String" >
+  <delete id="deleteTransPlansByCaseCode" parameterType="java.util.Map" >
     delete from sctrans.T_TO_TRANS_PLAN
-    where CASE_CODE = #{caseCode,jdbcType=BIGINT}
+    <where>
+      <if test="caseCode != null">
+          CASE_CODE = #{caseCode,jdbcType=BIGINT}
+      </if>
+      <if test="partCode != null">
+          AND PART_CODE != #{partCode,jdbcType=BIGINT}
+      </if>
+    </where>
+    
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.transplan.entity.ToTransPlan" >
     insert into sctrans.T_TO_TRANS_PLAN (PKID, CASE_CODE, PART_CODE, 
@@ -154,7 +163,7 @@
     </set>
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and PART_CODE = #{partCode,jdbcType=VARCHAR}
   </update>
-  <select id="getToTransPlanByUserId" parameterType="java.lang.String" resultType="com.centaline.trans.transplan.entity.ToTransPlanOrToPropertyInfo">
+  <select id="getToTransPlanByUserId" parameterType="java.lang.String" resultType="com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo">
 	    
 	    SELECT 
 			p.PART_CODE as partCode,
@@ -175,7 +184,18 @@
 			AND p.PART_CODE=d.CODE
 
   </select>
-  <select id="getToTransPlanByDictOrUserId" parameterType="java.lang.String" resultType="com.centaline.trans.transplan.entity.ToTransPlanOrToPropertyInfo">
+  <select id="getToTransPlanByDictOrUserId" parameterType="java.lang.String" resultType="com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo">
+	         <!--  SELECT			    
+					A.PART_CODE as partCode,
+					A.CASE_CODE as caseCode,
+					A.EST_PART_TIME as estParTtime,
+					C.PROPERTY_ADDR as  propertyAddr
+				FROM 
+					sctrans.T_TO_TRANS_PLAN AS A
+				INNER JOIN sctrans.T_TO_CASE AS B ON A.CASE_CODE = B.CASE_CODE
+				LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS C ON B.CASE_CODE = C.CASE_CODE
+	      WHERE 
+			B.LEADING_PROCESS_ID= #{leadingProcessId,jdbcType=VARCHAR} AND  A.EST_PART_TIME IS NOT NULL -->
 			SELECT	
 					A.PART_CODE as partCode,
 					A.CASE_CODE as caseCode,
