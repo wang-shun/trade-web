@@ -23,7 +23,7 @@ import com.centaline.trans.transplan.service.TransplanServiceFacade;
  *
  */
 @Controller
-@RequestMapping(value="/report")
+@RequestMapping(value="/transplan")
 public class DealChangeCaseController {
 	
 	@Resource

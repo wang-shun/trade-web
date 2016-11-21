@@ -3,6 +3,7 @@
 	pageEncoding="utf-8"%>
 
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head>
         <meta charset="utf-8"/>
@@ -60,17 +61,22 @@
                                         <i class="icon iconfont"></i>
                                     </div>
                                 </div>
-                                <div class="form_content">
+                            </div>
+                            <div class="line">
+                            	 <div class="form_content choices">
                                     <label class="control-label sign_left_small">
                                         回访标记
                                     </label>
-                                    <select name="visitRemark" id="visitRemark" class="selectpicker show-tick select_control selwidth " data-size="5">
-                                    	<option value="">请选择</option>
-                                    	<option value="3">未回访</option>
-                                    	<option value="1">正常</option>
-                                        <option value="0">异常</option>
-                                        <option value="2">下次处理</option>
-                                    </select>
+                                    <span name="visitRemark" class="text-white "  id="3">未回访</span>
+                                    <span name="visitRemark" class="text-white "  id="1">正常</span>
+                                    <span name="visitRemark" class="text-white "  id="0">异常</span>
+                                    <span name="visitRemark" class="text-white "  id="2">下次处理</span>
+                                </div>
+                            	 <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        环节名称
+                                    </label>
+                                    <aist:dict id="partCode" name="partCode" clazz="select_control selwidth " display="select" dictType="part_code" defaultvalue="" />
                                 </div>
                             </div>
                             <div class="line">
@@ -97,13 +103,6 @@
 
                             </div>
                             <div class="line">
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                        环节名称
-                                    </label>
-                                    <aist:dict id="partCode" name="partCode" clazz="select_control selwidth " display="select" dictType="part_code" defaultvalue="" />
-                                </div>
-
                                  <div class="form_content">
                                     <label class="control-label sign_left_small">
                                         产证地址
@@ -145,13 +144,13 @@
                                                 客户姓名
                                             </th>
                                             <th>
-                                                预计时间
-                                            </th>
-                                            <th>
-                                                变更
+                                                变更时间
                                             </th>
                                             <th>
                                                 所在组
+                                            </th>
+                                             <th>
+                                                变更原因
                                             </th>
                                             <th>
                                                 操作
@@ -210,12 +209,6 @@
                                             </p>
                                             <p>
                                                 <label>
-                                                    环节
-                                                </label>
-                                                <span id="part_code"></span>
-                                            </p>
-                                            <p>
-                                                <label>
                                                     贵宾服务部
                                                 </label>
                                                 <span class="info" id="team_name"></span>
@@ -227,7 +220,13 @@
                                                 <label>
                                                     交易顾问
                                                 </label>
-                                                <span id="change_reason"></span>
+                                                <span class="info_one" style="width: 140px"><span id="fontName"></span><em class="ml5 blue-text" id="fontMobile"></em></span>
+                                            </p>
+                                            <p>
+                                                <label>
+                                                    经纪人
+                                                </label>
+                                                <span class="info"><span id="agentName"></span><em class="ml5 blue-text" id="agentMobile"></em></span>
                                             </p>
                                         </div>
                                         <div class="line">
@@ -319,7 +318,7 @@
                     </div>
                 </div>
                 <input type="hidden" id="ctx" value="${ctx }"> 
-                <input type="hidden" id="historyId" value="" />
+                <input type="hidden" id="batchId" value="" />
                 <!--*********************** HTML_main*********************** -->
         <content tag="local_script">
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -334,7 +333,6 @@
 		<!-- 提示 -->
         <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
         <script src="${ctx}/js/poshytitle/src/jquery.poshytipuser.js"></script>
-        
         <script src="${ctx}/js/trunk/report/dealChangeList.js?v=1.1"></script>
         <script id="template_dealChangeList" type="text/html">
       {{each rows as item index}}
@@ -351,23 +349,32 @@
                     </p>
 					<span id="span{{item.batchId}}">
 					{{if item.LAST_VISIT_REMARK==null || item.LAST_VISIT_REMARK==''}}
-						 <span class="no_color">未回访</span>
+						 <span class="no_color"></span>
 					{{else if item.LAST_VISIT_REMARK=='0'}}
 						 <span class="red_color">异常</span>
 					{{else if item.LAST_VISIT_REMARK=='1'}}
 						 <span class="yes_color">正常</span>
 					{{else if item.LAST_VISIT_REMARK=='2'}}
-						 <span class="yes_color">下次处理</span>
+						 <span class="no_color">下次处理</span>
+					{{else if item.LAST_VISIT_REMARK=='3'}}
+						 <span class="no_color">未回访</span>
 					{{/if}}
 					</span>
                     <a href="#">
-						<i id="i{{item.batchId}}" class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':'正常'}}&nbsp;{{returnVisit.content}}&nbsp;{{returnVisit.createTime}}<br> {{/each}}"></i>
+						<i id="i{{item.batchId}}" class="icon iconfont demo-top" style="font-size: 20px;color:#808080" title="{{each item.returnVisitList as returnVisit index1}}{{index1+1}}. {{ returnVisit.visitRemark=='0' ? '异常 ':returnVisit.visitRemark=='1'?'正常':returnVisit.visitRemark=='2'?'下次处理':returnVisit.visitRemark=='3'?'未回访':''}}&nbsp;{{returnVisit.content}}&nbsp;{{returnVisit.createTime}}<br> {{/each}}"></i>
 					</a>
                 </td>
 				<td>
-                    <p>
-                        <i class="sign_blue">{{ item.PART_CODE }}</i>
-                    </p>
+					<p>
+						{{each item.transChangeList as transList index2}}
+ 						{{if index2<3}}
+							<i class="sign_blue">{{transList.partCode}}</i>
+						{{/if}}
+						{{/each}}
+						{{if item.transChangeList.length>3}}
+							...
+						{{/if}}
+					</p>
 					{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>21}}
                       <p class="big demo-top" title="{{item.PROPERTY_ADDR}}">
                       {{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-21,item.PROPERTY_ADDR.length)}}
@@ -399,25 +406,6 @@
                 </td>
 				<td>
                     <p class="smll_sign">
-                         <i class="sign_normal">原</i>
-                         {{item.OLD_EST_PART_TIME}}
-                    </p>
-                    <p class="smll_sign">
-                         <i class="sign_normal">新</i>
-                         {{item.NEW_EST_PART_TIME}}
-                    </p>
-                 </td>
-                 <td>
-                     <p class="manager"><i class="sign_normal">原因</i>
-						<span class="demo-top" title="{{item.CHANGE_REASON}}">
-							{{if item.CHANGE_REASON !=null && item.CHANGE_REASON.length>10 }}
-									{{item.CHANGE_REASON.substring(1,10)}}...
-							{{else}}
-									{{item.CHANGE_REASON}}
-							{{/if}}
-						</span>
-					 </p>
-                     <p class="smll_sign">
                       {{item.CHANGE_TIME}}
                      </p>
                  </td>
@@ -425,8 +413,15 @@
                      <p class="manager"><span>变更人:</span><a href="#" class="mr5">{{item.REAL_NAME}}</a></p>
                      <p>{{item.TEAM_NAME}}</p>
                 </td>
+                 <td>
+					<span class="demo-top" title="{{each item.transChangeList as transList index2}}{{transList.partCode}}：{{transList.changeReason}}<br>{{/each}}">
+					  {{if item.transChangeList !=null && item.transChangeList.length>0}}
+							{{item.transChangeList[0].partCode}}：{{item.transChangeList[0].changeReason}}
+					  {{/if}}
+					</span>
+                 </td>
                 <td class="text-center">
-                     <button class="btn btn-success" data-toggle="modal" data-target="#myModal" onclick="doDeal('{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.REAL_NAME+','+item.MOBILE}}','{{item.PART_CODE}}','{{item.TEAM_NAME}}','{{item.CHANGE_REASON}}','{{item.SELLERANDPHONE}}','{{item.BUYERANDPHONE}}','{{item.historyId}}')">处理</button>
+                     <button class="btn btn-success" data-toggle="modal" data-target="#myModal" onclick="doDeal('{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.REAL_NAME+','+item.MOBILE}}','{{item.TEAM_NAME}}','{{item.SELLERANDPHONE}}','{{item.BUYERANDPHONE}}','{{item.batchId}}','{{item.FONT_NAME}}','{{item.FONT_MOBILE}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}')">处理</button>
                 </td>
 		   </tr>
        {{/each}}
