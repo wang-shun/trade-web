@@ -217,16 +217,15 @@
 		<mapper resource="mapper/material/MmItemBatchMapper.xml" />
 		<mapper resource="mapper/material/MmMaterialItemMapper.xml" />
 		<!-- 签约室排班 -->
-		<!-- <mapper resource="mapper/signroom/TradeCenterScheduleMapper.xml" /> -->
+		<mapper resource="mapper/signroom/TradeCenterScheduleMapper.xml" />
 		
 		<!-- 回访登记 -->
-		<!-- <mapper resource="mapper/transplan/ToTransPlanMapper.xml" /> -->
-		<!-- <mapper resource="mapper/transplan/TsTaskPlanSetMapper.xml" /> -->
-		<!-- <mapper resource="mapper/transplan/TtsReturnVisitRegistrationMapper.xml" /> -->
-		<!-- <mapper resource="mapper/transplan/TtsTransPlanHistoryBatchMapper.xml" /> -->
+		<mapper resource="mapper/transplan/TsTaskPlanSetMapper.xml" />
+		<mapper resource="mapper/transplan/TtsReturnVisitRegistrationMapper.xml" />
+		<mapper resource="mapper/transplan/TtsTransPlanHistoryBatchMapper.xml" />
 
-		
-		<!-- <mapper resource="mapper/engine/ToWorkFlowMapper.xml" /> -->
+		<!-- <mapper resource="mapper/transplan/ToTransPlanMapper.xml" /> -->
+		<!-- <mapper resource="mapper/engine/ToWorkFlowMapper.xml" />
 		
 	</mappers>
 </configuration>
