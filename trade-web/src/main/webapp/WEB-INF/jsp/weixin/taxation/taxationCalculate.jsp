@@ -27,23 +27,23 @@
         <div class="aui-row  aui-row-padded aui-taxation">
             <div class="aui-col-xs-4">
                 <p class="font15 medium-blue">契税</p>
-                <p class="font12 light-blue tab-tax"><span class="deep-blue">个人</span>/<span>公司</span></p>
-                <p class="money">12,345 元</p>
+                <p class="font12 light-blue tab-tax"><span class="deep-blue choose1" data="0">个人</span>/<span class="choose1" data="1">公司</span></p>
+                <p class="money" id="deedTax">0元</p>
             </div>
             <div class="aui-col-xs-4 text-center">
                 <p class="font15 medium-blue">增值税</p>
-                <p class="font12 light-blue tab-tax"><span class="deep-blue">市区</span>/<span>郊区</span></p>
-                <p class="money">+0 元</p>
+                <p class="font12 light-blue tab-tax"><span class="deep-blue choose2"  data="0">市区</span>/<span  data="1" class="choose2">郊区</span></p>
+                <p class="money" id="addTax">0 元</p>
             </div>
             <div class="aui-col-xs-4 text-right">
                 <p class="font15 medium-blue">个人所得税</p>
                 <p><i class="iconfont font14 popup-one">&#xe615;</i></p>
-                <p class="money">+0 元</p>
+                <p class="money" id="personTax">0 元</p>
             </div>
         </div>
         <div class="sum-tax">
             <p class="font17">税金总额<i class="iconfont font14 popup-two">&#xe615;</i></p>
-            <p class="sum-number">12,345 <span>元</span></p>
+            <p class="sum-number" id="totalTax">0元</p>
         </div>
     </section>
     <section class="aui-content aui-margin-b-15">
@@ -55,7 +55,7 @@
                         建筑面积
                     </div>
                     <div class="aui-list-item-input unit-seat">
-                        <input type="number" class="text-right blue" placeholder="请输入建筑面积">
+                        <input type="number" class="text-right blue" placeholder="请输入建筑面积" onkeyup="sum();" id="squre">
                     </div>
                     <div class="aui-unit">
                         平
@@ -68,7 +68,7 @@
                         房价
                     </div>
                     <div class="aui-list-item-input unit-seat">
-                        <input type="number" class="text-right blue" placeholder="请输入房价">
+                        <input type="number" class="text-right blue" placeholder="请输入房价" onkeyup="sum();" id="housePrice">
                     </div>
                     <div class="aui-unit">
                         万
@@ -81,7 +81,7 @@
                         原价
                     </div>
                     <div class="aui-list-item-input unit-seat">
-                        <input type="number" class="text-right blue" placeholder="请输入原价">
+                        <input type="number" class="text-right blue" placeholder="请输入原价" onkeyup="sum();" id="selfPrice">
                     </div>
                     <div class="aui-unit">
                         万
@@ -95,10 +95,9 @@
                         房屋性质<i class="iconfont font14 popup-three">&#xe615;</i>
                     </div>
                     <div class="aui-list-item-input aui-list-item-arrow mr15">
-                        <select class="rtl">
-                            <option>普通住宅</option>
-                            <option>办公楼</option>
-                            <option>商铺</option>
+                        <select class="rtl" onchange="sum();" id="isNormal">
+                            <option value="0">普通住宅</option>
+                            <option value="1">非普通住宅</option>
                         </select>
                     </div>
                 </div>
@@ -109,10 +108,10 @@
                         房产证年限
                     </div>
                     <div class="aui-list-item-input aui-list-item-arrow mr15">
-                        <select class="rtl">
-                            <option>10年以上</option>
-                            <option>20年以上</option>
-                            <option>30年以上</option>
+                        <select class="rtl" onchange="sum();" id="years">
+                            <option value="0">2年以内</option>
+                            <option value="1">2-5年</option>
+                            <option value="2">5年以上</option>
                         </select>
                     </div>
                 </div>
@@ -123,9 +122,9 @@
                         买方是否首次购房
                     </div>
                     <div class="aui-list-item-input aui-list-item-arrow mr15">
-                        <select class="rtl">
-                            <option>首次</option>
-                            <option>二次</option>
+                        <select class="rtl" onChange="sum();" id="isFirstPurchase">
+                            <option value="0">首次</option>
+                            <option value="1">二次</option>
                         </select>
                     </div>
                 </div>
@@ -136,15 +135,15 @@
                         卖方是否唯一住房
                     </div>
                     <div class="aui-list-item-input aui-list-item-arrow mr15">
-                        <select class="rtl">
-                            <option>唯一</option>
-                            <option>不唯一</option>
+                        <select class="rtl" onchange="sum();" id="isUnique">
+                            <option value="0">唯一</option>
+                            <option value="1">不唯一</option>
                         </select>
                     </div>
                 </div>
             </li>
             <li class="aui-list-header newgrey"></li>
-            <section class="other-box white">
+            <!-- <section class="other-box white">
                 <div class="other-charges">
                     其它购房费用<i class="iconfont ml5">&#xe680;</i>
                 </div>
@@ -203,7 +202,7 @@
                         </div>
                     </li>
                 </ul>
-            </section>
+            </section> -->
         </ul>
         <p class="mt15 text-center">
             以上结果仅供参考，实际费用以审税结果为准
@@ -235,7 +234,7 @@
 <script type="text/javascript" src="${ctx}/static/momedia/js/plugins/mobiscroll/mobiscroll.js"></script>
 
 <script type="text/javascript" src="${ctx}/static/momedia/js/calendar.js"></script>
-
+<script type="text/javascript" src="${ctx}/static/momedia/js/number.js"></script>
 <script>
 $(function () {
     //获取jQuery 对象
@@ -297,9 +296,144 @@ $(function () {
     //点击切换
     $(".tab-tax > span").on("click",function() {
         $(this).addClass('deep-blue').siblings().removeClass('deep-blue');
+        sum();
     });
 
 });
+
+// 增值税(市区)
+function calculateCityAddTax(housePrice,selfPrice,isTwoyears,isNormal) {
+	if(isTwoyears) {
+		return getPositive(housePrice.div(1.05).mul(0.0565));
+	} else {
+		if(isNormal) {
+			return 0;
+		} else {
+			return getPositive((housePrice.sub(selfPrice)).div(1.05).mul(0.0565));
+		}
+	}
+}
+//增值税(郊区)
+function calculateCountryAddTax(housePrice,selfPrice,isTwoyears,isNormal) {
+	if(isTwoyears) {
+		return getPositive(housePrice.div(1.05).mul(0.0555));
+	} else {
+		if(isNormal) {
+			return 0;
+		} else {
+			return getPositive((housePrice.sub(selfPrice)).div(1.05).mul(0.0555));
+		}
+	}
+}
+//契税C
+function calculateDeedTax(housePrice,addTax,isFirstPurchase,squar,isPerson) {
+	var tax = parseFloat(housePrice.sub(addTax));
+	if(!isFirstPurchase||!isPerson) {
+		return getPositive(tax.mul(0.03));
+	} else {
+		if(squar<=90) {
+			return getPositive(tax.mul(0.01));
+		} else {
+			return getPositive(tax.mul(0.015));
+		}
+	}
+}
+//个人所得税
+function calculatePersonTax(housePrice,isFiveyears,isUnique,isNormal) {
+	if(isFiveyears && isUnique) {
+		return 0;
+	} else {
+		if(!isFiveyears||!isUnique) {
+			if(isNormal) {
+				return getPositive(housePrice.mul(0.01));
+			} else {
+				return getPositive(housePrice.mul(0.02));
+			}
+		}
+	}
+}
+function sum(t) {
+	var isPerson ;
+	if($(".choose1").filter(".deep-blue").attr("data")=='0') {
+		isPerson = true;
+	} else {
+		isPerson = false;
+	}
+	
+	var isCity;
+	if($(".choose2").filter(".deep-blue").attr("data")=='0') {
+		isCity = true;
+	} else {
+		isCity = false;
+	}
+	
+	var isTwoYears;
+	if($("#years").val()=='0') {
+		isTwoYears = true;
+	} else {
+		isTwoYears = false;
+	}
+	
+	var isNormal;
+	if($("#isNormal").val()=='0') {
+		isNormal = true;
+	} else {
+		isNormal = false;
+	}
+	
+	var housePrice = 0;
+	var selfPrice = 0;
+	var squre = 0;
+	if($("#housePrice").val()!='') {
+		housePrice = parseFloat($("#housePrice").val());
+	}
+	if($("#selfPrice").val()!='') {
+		selfPrice = parseFloat($("#selfPrice").val());
+	}
+	if($("#squre").val()!='') {
+		squre = parseFloat($("#squre").val());
+	}
+	
+		
+	var calculateAddTax;
+	if(isCity) {
+		calculateAddTax = calculateCityAddTax(housePrice,selfPrice,isTwoYears,isNormal);
+	} else {
+		calculateAddTax = calculateCountryAddTax(housePrice,selfPrice,isTwoYears,isNormal);
+	}
+	
+	//console.log('增值税'+ calculateAddTax);
+	
+	var isFirstPurchase;
+	if($("#isFirstPurchase").val()=='0') {
+		isFirstPurchase = true;
+	} else {
+		isFirstPurchase = false;
+	}
+	
+	var deedTax = calculateDeedTax(housePrice,calculateAddTax,isFirstPurchase,squre,isPerson);
+	
+	var isFiveYears;
+	if($("#years").val()=='2') {
+		isFiveYears = true;
+	} else {
+		isFiveYears = false;
+	}
+	
+	var isUnique;
+	if($("#isUnique").val()=='0') {
+		isUnique = true;
+	} else {
+		isUnique = false;
+	}
+	var personTax = calculatePersonTax(housePrice,isFiveYears,isUnique,isNormal); 
+	
+	$("#deedTax").html(deedTax+"万");
+	$("#addTax").html(calculateAddTax+"万");
+	$("#personTax").html(personTax+"万");
+	$("#totalTax").html((parseFloat(deedTax)+parseFloat(calculateAddTax)+parseFloat(personTax))+"万");
+	//alert('ok!');
+}
 </script>
 
 
