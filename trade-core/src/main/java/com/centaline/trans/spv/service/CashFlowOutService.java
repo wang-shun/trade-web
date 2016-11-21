@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
@@ -66,5 +68,7 @@ public interface CashFlowOutService {
 	 * @param spvCode
 	 */
 	void getCashFlowList(HttpServletRequest request,String spvCode);
+
+	Map<String, Object> getCompleteCashFlowInfoBySpvCode(String spvCode);
 
 }

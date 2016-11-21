@@ -772,6 +772,8 @@ optionro {
                             <div class="title">"中止/结束"流程</div>
                             <div class="form-row form-rowbot clear">
                                 <div class="form-group form-margin margin-host">
+                                    <input type="hidden" name="toSpvCloseApply.pkid" value="${spvCloseInfoVO.toSpvCloseApply.pkid}" >
+                                    <input type="hidden" name="toSpvCloseApply.spvCode" value="${spvCloseInfoVO.toSpvCloseApply.spvCode}" >
                                     <label for="" class="">申请状态</label> 
                                     <label class="radio-inline"> 
                                     <input type="radio" name="toSpvCloseApply.closeType" value="1" ${spvCloseInfoVO.toSpvCloseApply.closeType eq '1'?'checked="checked"':''} >中止

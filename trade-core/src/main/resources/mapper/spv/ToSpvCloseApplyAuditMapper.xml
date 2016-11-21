@@ -29,6 +29,10 @@
     delete from sctrans.T_TO_SPV_CLOSE_AUDIT
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByApplyId" parameterType="java.lang.String">
+    delete from sctrans.T_TO_SPV_CLOSE_AUDIT
+    where APPLY_ID = #{applyId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvCloseApplyAudit">
     insert into sctrans.T_TO_SPV_CLOSE_AUDIT (PKID, APPLY_ID, ACT_PROC_ID, 
       TASK_DEF_KEY, TASK_ID, OPERATOR, 

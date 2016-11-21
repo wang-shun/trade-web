@@ -715,6 +715,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		workFlow.setBizCode(spvBaseInfoVO.getToSpv().getSpvCode());
 		workFlow.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());

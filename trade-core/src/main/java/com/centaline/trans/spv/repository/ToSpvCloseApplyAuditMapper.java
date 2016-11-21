@@ -8,6 +8,8 @@ import com.centaline.trans.spv.entity.ToSpvCloseApplyAudit;
 @MyBatisRepository
 public interface ToSpvCloseApplyAuditMapper {
     int deleteByPrimaryKey(Long pkid);
+    
+    int deleteByApplyId(String applyId);
 
     int insert(ToSpvCloseApplyAudit record);
 

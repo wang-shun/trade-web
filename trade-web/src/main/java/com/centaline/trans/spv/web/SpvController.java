@@ -966,13 +966,13 @@ public class SpvController {
     	if(!StringUtils.isBlank(handle)){ 	
         	switch (handle) {
         	case "apply":
-        		spvCloseApplyService.spvCloseApplyProcess(request, businessKey);
+        		spvCloseApplyService.spvCloseApplyProcess(request, instCode, taskId, businessKey);
         		break;
             case "managerAudit":
-            	spvCloseApplyService.spvCloseManagerAuditProcess(request, businessKey);
+            	spvCloseApplyService.spvCloseManagerAuditProcess(request, instCode, taskId, businessKey);
         		break;
             case "directorAudit":
-            	spvCloseApplyService.spvCloseDirectorAuditProcess(request, businessKey);
+            	spvCloseApplyService.spvCloseDirectorAuditProcess(request, instCode, taskId, businessKey);
             	break;
         	}
     		request.setAttribute("urlType", "myTask");

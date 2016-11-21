@@ -49,7 +49,7 @@
       #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCloseApply">
+  <insert id="insertSelective" parameterType="com.centaline.trans.spv.entity.ToSpvCloseApply"  useGeneratedKeys="true" keyProperty="pkid">
     insert into sctrans.T_TO_SPV_CLOSE
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
