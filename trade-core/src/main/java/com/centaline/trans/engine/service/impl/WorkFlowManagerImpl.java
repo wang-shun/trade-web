@@ -639,7 +639,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 
 	public static void main(String[] args) {
 		System.out
-				.println(isClaimByActivitVersion("operation_process:49:695144"));
+				.println("operation_process:57:712545".compareTo("operation_process:58:712545"));
 	}
 
 	private static boolean isClaimByActivitVersion(String dfId) {

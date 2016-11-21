@@ -48,6 +48,7 @@ public class FirstFollowVO {
     private String zbkServices;	/*自办项目*/
     private String userId;				/*操作人id*/
     private String userOrgId;			/*操作人组别id*/
+    private String userName;			/*操作人登录名*/
     
     private Long firstfollowId;
     private String isPerchaseReserachNeed;  /* 查限购情况 */
@@ -351,6 +352,14 @@ public class FirstFollowVO {
 
 	public void setIsrepeat(boolean isrepeat) {
 		this.isrepeat = isrepeat;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
     
 	
