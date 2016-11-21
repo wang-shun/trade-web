@@ -3,7 +3,7 @@ package com.centaline.trans.common.service;
 import java.util.List;
 
 import com.centaline.trans.common.entity.ToOutTimeTask;
-import com.centaline.trans.common.entity.ToWorkFlow;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 
 public interface ToWorkFlowService {
 

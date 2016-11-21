@@ -18,6 +18,9 @@ public class TsTransPlanHistory {
     private String changeReason;
 
     private Date newEstPartTime;
+    
+    private Long batchId;//交易计划变更批次ID add by zhoujp
+    
 
     public Long getPkid() {
         return pkid;
@@ -82,4 +85,14 @@ public class TsTransPlanHistory {
     public void setNewEstPartTime(Date newEstPartTime) {
         this.newEstPartTime = newEstPartTime;
     }
+
+	public Long getBatchId() {
+		return batchId;
+	}
+
+	public void setBatchId(Long batchId) {
+		this.batchId = batchId;
+	}
+	
+    
 }

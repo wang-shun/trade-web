@@ -42,7 +42,6 @@ import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.TsPrResearchMap;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.TsPrResearchMapService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScopeTarget;

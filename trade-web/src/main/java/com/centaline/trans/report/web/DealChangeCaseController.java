@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.cases.service.ToTradeChangedCaseService;
-import com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO;
+import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 /**
  * 交易计划变更控制器
@@ -29,6 +29,10 @@ public class DealChangeCaseController {
 	@Resource
 	ToTradeChangedCaseService toTradeChangedCaseService;
 	
+	@Resource
+	TransplanServiceFacade transplanServiceFacade;
+	
+
 	/**
 	 * 交易计划变更案件列表
 	 * @param model
@@ -66,7 +70,7 @@ public class DealChangeCaseController {
 			Date date = Calendar.getInstance().getTime();
 			ttsReturnVisitRegistration.setCreateTime(sdf.format(date));
 			ttsReturnVisitRegistration.setCrtTime(date);
-			toTransplanOperateService.addReturnVisit(ttsReturnVisitRegistration);
+			transplanServiceFacade.addReturnVisit(ttsReturnVisitRegistration);
 			response.setContent(ttsReturnVisitRegistration);
 			response.setCode("400");
 			response.setMessage("案件回访处理成功！");
@@ -90,7 +94,7 @@ public class DealChangeCaseController {
 		AjaxResponse<List<TtsReturnVisitRegistration>> response = new AjaxResponse<List<TtsReturnVisitRegistration>>();
 		List<TtsReturnVisitRegistration>  ttp = null;
 		try{
-			ttp =  toTransplanOperateService.queryReturnVisitRegistrations(batchId);
+			ttp =  transplanServiceFacade.queryReturnVisitRegistrations(batchId);
 			response.setCode("400");
 			response.setMessage("查询回访跟进历史成功！");
 			response.setSuccess(true);

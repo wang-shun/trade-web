@@ -1,10 +1,12 @@
 package com.centaline.trans.transplan.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.vo.TransPlanVO;
+import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
 @MyBatisRepository
 public interface TsTransPlanHistoryMapper {
     int deleteByPrimaryKey(Long pkid);
@@ -20,4 +22,6 @@ public interface TsTransPlanHistoryMapper {
     int updateByPrimaryKey(TsTransPlanHistory record);
     
     List<TransPlanVO> getTransPlanVOList(TransPlanVO transPlanVO);
+
+	List<TsTransPlanHistoryVO> queryTtsTransPlanHistorys(TsTransPlanHistoryVO tsTransPlanHistoryVO);
 }

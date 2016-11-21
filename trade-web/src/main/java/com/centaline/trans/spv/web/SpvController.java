@@ -36,7 +36,6 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.ToAccesoryList;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -45,6 +44,7 @@ import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -684,9 +684,9 @@ public class SpvController {
 		
 		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
 		if(!SpvApplyApprove){
-			spv.setStatus(SpvStatusEnum.DEFAULT.getCode());
+			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
 		}else{
-			spv.setStatus(SpvStatusEnum.INPROGRESS.getCode());
+			spv.setStatus(SpvStatusEnum.AUDIT.getCode());
 		}
 		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);

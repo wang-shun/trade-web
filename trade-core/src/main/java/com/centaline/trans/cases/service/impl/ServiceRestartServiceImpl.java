@@ -18,7 +18,6 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ServiceRestartService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -28,6 +27,7 @@ import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
@@ -38,10 +38,7 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
-import com.centaline.trans.transplan.service.TransplanServiceFacade;
-import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
 @Transactional(readOnly = true)
@@ -58,8 +55,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private ToCaseService toCaseService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
-	@Autowired
-	private ToTransPlanService toTransPlanService;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
