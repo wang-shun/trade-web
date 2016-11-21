@@ -124,7 +124,7 @@
                     <div class="aui-list-item-input aui-list-item-arrow mr15">
                         <select class="rtl" onChange="sum();" id="isFirstPurchase">
                             <option value="0">首次</option>
-                            <option value="1">二次</option>
+                            <option value="1">非首次</option>
                         </select>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                 </div>
             </li>
             <li class="aui-list-header newgrey"></li>
-            <!-- <section class="other-box white">
+            <section class="other-box white">
                 <div class="other-charges">
                     其它购房费用<i class="iconfont ml5">&#xe680;</i>
                 </div>
@@ -154,7 +154,7 @@
                                 应税面积<i class="iconfont font14 popup-four">&#xe615;</i>
                             </div>
                             <div class="aui-list-item-input unit-seat">
-                                <input type="number" class="text-right blue" placeholder="请输入建筑面积">
+                                <input type="number" class="text-right blue" placeholder="请输入建筑面积" id="taxableSqure">
                             </div>
                             <div class="aui-unit">
                                 平
@@ -167,7 +167,7 @@
                                 房产税
                             </div>
                             <div class="aui-list-item-input mr15">
-                                <p class="text-right"><span>9000</span>元</p>
+                                <p class="text-right" id="propertyFee">0元</p>
                             </div>
                         </div>
                     </li>
@@ -202,7 +202,7 @@
                         </div>
                     </li>
                 </ul>
-            </section> -->
+            </section>
         </ul>
         <p class="mt15 text-center">
             以上结果仅供参考，实际费用以审税结果为准
@@ -304,7 +304,7 @@ $(function () {
 // 增值税(市区)
 function calculateCityAddTax(housePrice,selfPrice,isTwoyears,isNormal) {
 	if(isTwoyears) {
-		return getPositive(housePrice.div(1.05).mul(0.0565));
+		return getPositive(parseFloat(housePrice.div(1.05)).mul(0.0565));
 	} else {
 		if(isNormal) {
 			return 0;
@@ -351,6 +351,36 @@ function calculatePersonTax(housePrice,isFiveyears,isUnique,isNormal) {
 			}
 		}
 	}
+}
+//房产税
+function calculateTaxable(taxableSqure,housePrice,squre) {
+	var unitPrice = parseFloat(housePrice.div(squre));
+	if(unitPrice<43006) {
+		return getPositive(taxableSqure*unitPrice*0.7*0.004); 
+	} else {
+		return getPositive(taxableSqure*unitPrice*0.7*0.006); 
+	}
+}
+//公证费
+function calculateNotarialFees(housePrice) {
+	if(housePrice<=500) {
+		return getPositive(housePrice*0.0025+250); 
+	} else if(500<housePrice<=1000) {
+		return getPositive(housePrice*0.002+2750); 
+	} else if(1000<housePrice<=2000) {
+		return getPositive(housePrice*0.0015+7750); 
+	} else if(2000<housePrice<=5000) {
+		return getPositive(housePrice*0.001+17750); 
+	} else {
+		return getPositive(housePrice*0.0005+42750); 
+	}
+}
+//其他费用(交易手续费,委托公证费,权证登记费)
+function tradeTax(squre) {
+	return getPositive(2.5*squre); 
+}
+function notarialFees(squre){
+	return getPositive(200*squre); 
 }
 function sum(t) {
 	var isPerson ;

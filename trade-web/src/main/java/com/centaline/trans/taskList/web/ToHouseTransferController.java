@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.api.service.SalesDealApiService;
+import com.centaline.trans.apilog.service.SalesDealApiService;
 import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;

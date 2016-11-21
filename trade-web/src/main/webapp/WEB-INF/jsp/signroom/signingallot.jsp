@@ -149,10 +149,18 @@
                                         <label class="control-label sign_left_small">
                                            	 经纪人用户名
                                         </label>
-                                        <input class="teamcode input_type" id="jjrName" name="jjrName" readonly="readonly" placeholder="" value="" onclick="chooseManager('${serviceDepId}')">
+                                        <input class="teamcode input_type" id="jjrName" name="jjrName" placeholder="" value="" >
                                         <div class="input-group float_icon organize_icon">
-                                            <i class="icon iconfont"></i>
+                                            <i class="icon iconfont" onclick="chooseManager('${serviceDepId}')"></i>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="trade">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                           	 经纪人电话
+                                        </label>
+                                        <input class="teamcode input_type" id="mobile" name="mobile" >
                                     </div>
                                 </div>
                                 

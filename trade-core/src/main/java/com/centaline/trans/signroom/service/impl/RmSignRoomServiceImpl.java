@@ -342,6 +342,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			reservation.setCreateBy(currentUser.getId());
 			reservation.setUpdateTime(Calendar.getInstance().getTime());
 			reservation.setUpdateBy(currentUser.getId());
+			reservation.setResPersonMobile(reservationInfoVo.getResPersonMobile());
 			if(startDate!=null && startDate>(new Date().getTime())){//预约房间
 				reservation.setResStatus("0");
 			}else{//临时分配房间
