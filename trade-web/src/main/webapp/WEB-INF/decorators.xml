@@ -76,7 +76,7 @@
 		<pattern>/eloan/task/newEloanApply/process</pattern>
 		<pattern>/signroom/signRoomAllotList</pattern>
 		<pattern>/signroom/signingManage</pattern>
-		<pattern>/report/dealChangeCaseList</pattern>
+		<pattern>/transplan/dealChangeCaseList</pattern>
 		<pattern>/eloan/EloanRelCashList</pattern>
 		<pattern>/signroom/signscheduling</pattern>
 	</decorator>	 
