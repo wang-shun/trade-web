@@ -61,7 +61,7 @@
                                             <h4>
                                             				<aist:dict id="loanSrvCode" name="loanSrvCode"
 											clazz="select_control sign_right_two" display="onlyLabel"
-											dictType="yu_serv_cat_code_tree" tag="Eloan"
+											dictType="yu_serv_cat_code_tree" tag="eplus,Eloan"
 											dictCode="${eloanCase.loanSrvCode}" ligerui='none'></aist:dict>
                                             </h4>
                                         </div>

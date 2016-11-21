@@ -1,6 +1,6 @@
-package com.centaline.trans.loan.service;
+package com.centaline.trans.eloan.service;
 
-import com.centaline.trans.loan.entity.ToCloseLoan;
+import com.centaline.trans.eloan.entity.ToCloseLoan;
 
 public interface ToCloseLoanService {
 

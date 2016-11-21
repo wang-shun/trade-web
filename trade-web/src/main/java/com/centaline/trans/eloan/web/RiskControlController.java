@@ -48,7 +48,7 @@ import com.centaline.trans.eloan.vo.ToRcMortgageCardVO;
 import com.centaline.trans.eloan.vo.ToRcMortgageVO;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.loan.service.LoanAgentService;
+import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 
 @Controller

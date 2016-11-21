@@ -71,7 +71,7 @@
 				<div class="line">
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 产品名称 </label>
-						<aist:dict id="loanSrvCode" name="loanSrvCode"
+						<aist:dict id="loanSrvCode" name="loanSrvCode" tag="eplus,Eloan"
 							clazz="select_control sign_right_one" display="select"
 							dictType="yu_serv_cat_code_tree" ligerui='none'>
 
@@ -108,7 +108,7 @@
 							placeholder="请选择" readonly="readonly" hVal="" value=""
 							onclick="userSelect({startOrgId:'${sessionUser.serviceDepId}',expandNodeId:'${sessionUser.serviceDepId}',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
 						<input type="hidden" name="excutor" id="excutor">
-						<div class="input-group float_icon organize_icon"
+						<div class="input-group float_icon organize_icon selectUser" 
 							style="cursor: pointer;"
 							onclick="userSelect({startOrgId:'${sessionUser.serviceDepId}',expandNodeId:'${sessionUser.serviceDepId}',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})">
 							<i class="icon iconfont">&#xe627;</i>
@@ -318,7 +318,7 @@
 						var ctx = $("#ctx").val();
 						serviceJobCode = $("#serviceJobCode").val();
 						if (serviceJobCode == 'consultant') {
-
+                           $(".selectUser").hide();
 							$("#selectUser").attr("disabled", true);
 						}
 						var params = {
@@ -538,7 +538,6 @@
 						};
 						function reloadStatus() {
 							params.queryId = "queryLoanSpv";
-							params.pagination = false;
 							var startMonth = new Date(params.startDate).getMonth()+1;
 							$.ajax({
 								async : true,//异步请求
@@ -605,7 +604,6 @@
 						}
 						function reloadStatus2() {
 							params.queryId = "queryLoanSpv2";
-							params.pagination = false;
 							$.ajax({
 								async : true,//异步请求
 								url : ctx + "/rapidQuery/findPage",

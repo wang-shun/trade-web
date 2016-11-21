@@ -1,4 +1,4 @@
-package com.centaline.trans.loan.enums;
+package com.centaline.trans.eloan.enums;
 
 import org.apache.commons.lang3.StringUtils;
 

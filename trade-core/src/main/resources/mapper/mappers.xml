@@ -59,9 +59,9 @@
 		<mapper resource="mapper/mortgage/MortStepMapper.xml" />
 		
 		<!-- 贷款 -->
-		<mapper resource="mapper/loan/ToCloseLoanMapper.xml" />
-		<mapper resource="mapper/loan/LoanStatusChangeMapper.xml" /> 
-		<mapper resource="mapper/loan/LoanAgentMapper.xml" /> 
+		<mapper resource="mapper/eloan/ToCloseLoanMapper.xml" />
+		<mapper resource="mapper/eloan/LoanStatusChangeMapper.xml" /> 
+		<mapper resource="mapper/eloan/LoanAgentMapper.xml" /> 
 		
 		<!-- task相关 -->
 		<mapper resource="mapper/task/ToPropertyResearchMapper.xml" />
@@ -88,7 +88,7 @@
 		<mapper resource="mapper/cases/ToCaseInfoMapper.xml" />
 		<mapper resource="mapper/cases/VCaseTradeInfoMapper.xml" />
 		<mapper resource="mapper/cases/ToCloseMapper.xml" />
-		<mapper resource="mapper/cases/ToLoanAgentMapper.xml" />
+<!-- 		<mapper resource="mapper/cases/ToLoanAgentMapper.xml" /> -->
 		<!-- 组别 -->
 		<mapper resource="mapper/team/TsTeamPropertyMapper.xml" />
 		<mapper resource="mapper/team/TsTeamScopeMapper.xml" />

@@ -38,17 +38,17 @@ import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
-import com.centaline.trans.cases.entity.ToLoanAgent;
+import com.centaline.trans.eloan.entity.LoanAgent;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
-import com.centaline.trans.cases.service.ToLoanAgentService;
+import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.cases.vo.ChangeTaskAssigneeVO;
-import com.centaline.trans.cases.vo.ToLoanAgentVO;
+import com.centaline.trans.eloan.vo.ToLoanAgentVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -71,6 +71,7 @@ import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToServChangeHistrotyService;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
+import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -176,7 +177,7 @@ public class CaseDetailController {
 	private ToCloseService toCloseService;
 
 	@Autowired(required = true)
-	private ToLoanAgentService toLoanAgentService;
+	private LoanAgentService toLoanAgentService;
 	@Autowired
 	private ToPropertyResearchService toPropertyResarchService;
 	@Autowired
@@ -576,10 +577,10 @@ public class CaseDetailController {
 		}
 
 		// 金融服务信息
-		List<ToLoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
+		List<LoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
 		List<ToLoanAgentVO> toLoanAgentVOs = new ArrayList<ToLoanAgentVO>();
 		if (toLoanAgents.size() > 0) {
-			for (ToLoanAgent toLoanAgent : toLoanAgents) {
+			for (LoanAgent toLoanAgent : toLoanAgents) {
 				ToLoanAgentVO toLoanAgentVO = new ToLoanAgentVO();
 				// 贷款服务编码
 				if (!StringUtils.isEmpty(toLoanAgent.getLoanSrvCode())) {
@@ -1092,7 +1093,7 @@ public class CaseDetailController {
 		}
 
 		// 金融服务信息
-		List<ToLoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
+		List<LoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
 		List<ToLoanAgentVO> toLoanAgentVOs = new ArrayList<ToLoanAgentVO>();
 		List<ToLoanAgentVO> toEloanCaseVOs = new ArrayList<ToLoanAgentVO>();
 		// E+金融
@@ -1165,7 +1166,7 @@ public class CaseDetailController {
 
 		}
 		if (toLoanAgents.size() > 0) {
-			for (ToLoanAgent toLoanAgent : toLoanAgents) {
+			for (LoanAgent toLoanAgent : toLoanAgents) {
 				ToLoanAgentVO toLoanAgentVO = new ToLoanAgentVO();
 				// 贷款服务编码
 				if (!StringUtils.isEmpty(toLoanAgent.getLoanSrvCode())) {

@@ -1,4 +1,4 @@
-package com.centaline.trans.loan.service.impl;
+package com.centaline.trans.eloan.service.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -13,13 +13,13 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
-import com.centaline.trans.loan.entity.LoanAgent;
-import com.centaline.trans.loan.entity.LoanStatusChange;
-import com.centaline.trans.loan.enums.LoanCompany;
-import com.centaline.trans.loan.enums.LoanType;
-import com.centaline.trans.loan.repository.LoanAgentMapper;
-import com.centaline.trans.loan.repository.LoanStatusChangeMapper;
-import com.centaline.trans.loan.service.LoanAgentService;
+import com.centaline.trans.eloan.entity.LoanAgent;
+import com.centaline.trans.eloan.entity.LoanStatusChange;
+import com.centaline.trans.eloan.enums.LoanCompany;
+import com.centaline.trans.eloan.enums.LoanType;
+import com.centaline.trans.eloan.repository.LoanAgentMapper;
+import com.centaline.trans.eloan.repository.LoanStatusChangeMapper;
+import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.utils.DateUtil;
 
 @Service
@@ -203,5 +203,11 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 	public int batchUpdateExportTime(String[] array) {
 		// return loanAgentMapper.batchUpdateExportTime(array);
 		return 0;
+	}
+
+	@Override
+	public List<LoanAgent> selectByCaseCode(String caseCode) {
+		
+		return loanAgentMapper.selectByCaseCode(caseCode);
 	}
 }

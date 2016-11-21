@@ -1,4 +1,4 @@
-package com.centaline.trans.cases.vo;
+package com.centaline.trans.eloan.vo;
 
 
 
