@@ -1,4 +1,4 @@
-package com.centaline.trans.common.repository;
+package com.centaline.trans.engine.repository;
 
 import java.util.List;
 
