@@ -40,7 +40,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.api.service.ApiLogService;
+import com.centaline.trans.apilog.service.ApiLogService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.service.TgGuestInfoService;

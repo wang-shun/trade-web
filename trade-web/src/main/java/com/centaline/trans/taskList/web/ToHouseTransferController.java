@@ -12,7 +12,7 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.centaline.trans.api.service.SalesDealApiService;
+import com.centaline.trans.apilog.service.SalesDealApiService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
