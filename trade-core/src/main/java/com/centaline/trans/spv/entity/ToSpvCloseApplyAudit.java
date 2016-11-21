@@ -14,6 +14,12 @@ public class ToSpvCloseApplyAudit {
     private String taskId;
 
     private String operator;
+    
+    //审核人姓名
+    private String operatorName;
+    
+    //审核人职位
+    private String operatorJobName;
 
     private String result;
 
@@ -75,7 +81,23 @@ public class ToSpvCloseApplyAudit {
         this.operator = operator == null ? null : operator.trim();
     }
 
-    public String getResult() {
+    public String getOperatorName() {
+		return operatorName;
+	}
+
+	public void setOperatorName(String operatorName) {
+		this.operatorName = operatorName;
+	}
+
+	public String getOperatorJobName() {
+		return operatorJobName;
+	}
+
+	public void setOperatorJobName(String operatorJobName) {
+		this.operatorJobName = operatorJobName;
+	}
+
+	public String getResult() {
         return result;
     }
 

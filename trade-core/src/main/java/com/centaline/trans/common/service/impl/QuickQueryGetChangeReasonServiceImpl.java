@@ -10,28 +10,34 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aist.common.quickQuery.service.CustomDictService;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 /**
+ * 组成形如“公积金贷款：原因”
  * @author zhoujp
- * @date 2016年10月19日
+ * @date 2016年11月15日
  */
-public class QuickQueryGetReturnVisitListServiceImpl implements
+public class QuickQueryGetChangeReasonServiceImpl implements
 		CustomDictService {
 
 	@Autowired
-	private TransplanServiceFacade transplanServiceFacade;
+	private UamBasedataService uamBasedataService;
 
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for (Map<String, Object> key : keys) {
-			List<TtsReturnVisitRegistration> returnVistiRegistrations = new ArrayList<TtsReturnVisitRegistration>();
-			Object batchId = key.get("batchId");
-			if (batchId != null) {
-				returnVistiRegistrations = transplanServiceFacade.queryReturnVisitRegistrations(Long.parseLong(batchId.toString()));
+			Object partCode = key.get("PART_CODE");
+			Object changeRes = key.get("CHANGE_REASON");
+			StringBuilder  sb = new StringBuilder ("");
+			if(partCode!=null){
+				sb.append(uamBasedataService.getDictValue("part_code", partCode.toString()));
 			}
-			key.put("val", returnVistiRegistrations);
+			if (changeRes != null) {
+				sb.append("："+changeRes);
+			}
+			key.put("val", sb.toString());
 		}
 		return keys;
 	}
@@ -40,9 +46,6 @@ public class QuickQueryGetReturnVisitListServiceImpl implements
 	public Boolean getIsBatch() {
 		return true;
 	}
-	@Override
-	public Boolean isCacheable(){
-    	return false;
-    }
+	
 
 }

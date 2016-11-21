@@ -59,6 +59,7 @@ import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.CashFlowInService;
 import com.centaline.trans.spv.service.CashFlowOutService;
+import com.centaline.trans.spv.service.SpvCloseApplyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
@@ -89,6 +90,8 @@ public class SpvController {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	private CashFlowOutService cashFlowOutService;
+	@Autowired
+	private SpvCloseApplyService spvCloseApplyService;
 	
 	@Autowired
 	MessageService messageService;
@@ -958,30 +961,29 @@ public class SpvController {
     	if(StringUtils.isBlank(spvCode))
     		throw new BusinessException("合约号<SPVCODE>不存在！");
     	
-    	request.setAttribute("spvCode", spvCode);
     	SessionUser user = uamSessionService.getSessionUser();
-/*    	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
-		businessKey = processInstance.getBusinessKey();*/
+
     	if(!StringUtils.isBlank(handle)){ 	
-/*        	switch (handle) {
+        	switch (handle) {
         	case "apply":
-        		cashFlowOutService.spvCloseApplyProcess(request, spvCode, businessKey);
+        		spvCloseApplyService.spvCloseApplyProcess(request, businessKey);
         		break;
             case "managerAudit":
-            	cashFlowOutService.spvCloseManagerAuditProcess(request, spvCode, businessKey);
+            	spvCloseApplyService.spvCloseManagerAuditProcess(request, businessKey);
         		break;
             case "directorAudit":
-            	cashFlowOutService.spvCloseDirectorAuditProcess(request, spvCode, businessKey);
+            	spvCloseApplyService.spvCloseDirectorAuditProcess(request, businessKey);
             	break;
         	}
-    		request.setAttribute("urlType", "myTask");*/
+    		request.setAttribute("urlType", "myTask");
         }else{
-        	cashFlowOutService.spvCloseApplyPage(request, spvCode, businessKey);
+        	spvCloseApplyService.spvCloseApplyPage(request, spvCode, businessKey);
         	request.setAttribute("urlType", "spvApply");
         }
 	    
     	toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
     	
+    	request.setAttribute("spvCode", spvCode);
 	    request.setAttribute("businessKey", businessKey);
     	request.setAttribute("taskId", taskId); 
     	request.setAttribute("instCode", instCode);

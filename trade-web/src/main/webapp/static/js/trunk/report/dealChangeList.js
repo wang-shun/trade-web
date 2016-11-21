@@ -1,5 +1,23 @@
 var ctx = $("#ctx").val();
 $(function(){
+	$("#visitRemark option").each(function() {
+        if($(this).attr("value")=='3' || $(this).attr("value")=='2'){
+        	$(this).prop('selected','true');
+        }
+    });
+	$('.choices span').each(function(){
+		if($(this).prop("id")=='3' || $(this).prop("id")=='2') {
+			$(this).addClass("selected");
+        } 
+    });
+	$(".choices span").click(function() {
+        if($(this).hasClass("selected")) {
+            $(this).removeClass("selected");
+        } else {
+            $(this).addClass("selected");
+        }
+    });
+	
 	//页面初始化
 	reloadGrid(1);
 	
@@ -14,13 +32,6 @@ function reloadGrid(page){
 		page = 1;
 	}
 	var data = getParams();
-	/*$("#dealChangeList").reloadGrid({
-    	ctx : ctx,
-		queryId : "queryTradeChangedCaseList",
-	    templeteId : 'template_dealChangeList',
-	    data : data,
-	    wrapperData : data
-    });*/
 	var visitRemark = $("#visitRemark").val();
 	data.queryId = "queryTradeChangedCaseList";
 	data.rows = 10;
@@ -38,7 +49,6 @@ function reloadGrid(page){
         },  
         success: function(data){
           $.unblockUI();
-      	  data.visitRemark = visitRemark;
       	  var dealChangeList = template('template_dealChangeList' , data);
 		  $("#editable tbody").empty();
 		  $("#editable tbody").html(dealChangeList);
@@ -62,7 +72,7 @@ function reloadGrid(page){
 		offsetY: 5,
 	});
 }
-
+var goPage=1;
 function initpage(totalCount,pageSize,currentPage,records)
 {
 	if(totalCount>1500){
@@ -135,6 +145,7 @@ function initpage(totalCount,pageSize,currentPage,records)
 		last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
+			goPage = page;
 			reloadGrid(page);
 	    }
 	});
@@ -143,7 +154,13 @@ function initpage(totalCount,pageSize,currentPage,records)
 function getParams() {
 	var caseCode = $.trim($("input[name='caseCode']").val());
 	var teamId = $("input[name='teamId']").attr("hVal");
-	var visitRemark = $("#visitRemark").val();
+	var visitRemark = new Array();//回访标记
+	$('.choices span').each(function(){
+		if($(this).hasClass("selected")) {
+			visitRemark.push($(this).prop("id"));
+        } 
+    });
+	
 	var changeId = $("input[name='changeId']").attr("hVal");
 	var changeTimeStart = $.trim($("input[name='changeTimeStart']").val());
 	if(changeTimeStart!=''){
@@ -239,7 +256,6 @@ function doDeal(caseCode,propertyAddr,changeNameAndMobile,teamName,sellerandphon
         dataType: "json",
         data: {batchId : batchId},
         success: function(data){
-        	console.log(data);
         	if(data.success){
         		var th='';
         		for(var i=0;i<data.content.length;i++){
@@ -265,16 +281,14 @@ function doDeal(caseCode,propertyAddr,changeNameAndMobile,teamName,sellerandphon
         }
     });
 	$(".mr10").remove();
-	$("#historyId").val(historyId);
+	$("#batchId").val(batchId);
 	$("#case_code").html(caseCode);
 	$("#property_addr").html(propertyAddr);
 	if(changeNameAndMobile && changeNameAndMobile.length>0){
 		$("#change_name").html(changeNameAndMobile.split(',')[0]);
 		$("#change_mobile").html(changeNameAndMobile.split(',')[1]);
 	}
-	$("#part_code").html(partCode);
 	$("#team_name").html(teamName);
-	$("#change_reason").html(changeReason);
 	var htm='';
 	if(sellerandphone && sellerandphone.length>0){
 		var srps = sellerandphone.split('/');
@@ -296,7 +310,7 @@ function doDeal(caseCode,propertyAddr,changeNameAndMobile,teamName,sellerandphon
 }
 //添加跟进内容
 $("#submitBtn").click(function(){
-	var historyId = $("#historyId").val();
+	var batchId = $("#batchId").val();
 	var content = $.trim($("#content").val());
 	var remarkVisit = 1;
   	$("input[name='remark_visit']").each(function(){
@@ -309,12 +323,12 @@ $("#submitBtn").click(function(){
 		return;
 	}
 	var params = {};
-	params.planHistoryId = historyId;
+	params.batchId = batchId;
 	params.visitRemark = remarkVisit;
 	params.content = content;
 	
 	$.ajax({
-		url:ctx+"/report/addReturnVisit",
+		url:ctx+"/transplan/addReturnVisit",
 		method:"post",
 		dataType:"json",
 		data : params,
@@ -322,9 +336,7 @@ $("#submitBtn").click(function(){
 			if(data.success){
 				alert(data.message);
 				$("#close").click();
-				reloadGrid(1);
-				
-				//window.location.href = ctx+"/report/dealChangeCaseList";
+				reloadGrid(goPage);
 				var newTitle = '';
 				if(remarkVisit=='1'){
 					$('#span'+batchId).html('<span class="yes_color">正常</span>');
@@ -375,11 +387,10 @@ function changeStyle(){
 function exportToExcel() {
 	var queryId = "queryTradeChangedCaseList";
 	var data = getParams();
-	console.log(data);
 	$.exportExcel({
 		ctx : "..",
 		queryId : queryId,
-		colomns : ['CASE_CODE','PROPERTY_ADDR','PART_CODE','OLD_EST_PART_TIME','NEW_EST_PART_TIME','REAL_NAME','CHANGE_TIME','CHANGE_REASON','DISTRICT_NAME','TEAM_NAME','SELLERANDPHONE','BUYERANDPHONE','visitRemark','CONTENT','CREATE_TIME'],
+		colomns : ['CASE_CODE','PROPERTY_ADDR','SELLERANDPHONE','BUYERANDPHONE','FONT_NAME','REAL_NAME','CHANGE_TIME','OLD_EST_PART_TIME','NEW_EST_PART_TIME','DISTRICT_NAME','TEAM_NAME','changeReason','visitRemark','LAST_CONTENT'],
 		data:data
 	});
 }
@@ -400,11 +411,11 @@ $("#clearBtn").click(function(){
 			$(this).prop("selected",true);
 		}
 	});
-	$("#visitRemark option").each(function(){
-		if($(this).text()=='请选择'){
-			$(this).prop("selected",true);
-		}
-	});
+	$('.choices span').each(function(){
+		if($(this).hasClass("selected")) {
+			$(this).removeClass("selected");
+        } 
+    });
 	
 	
 });
