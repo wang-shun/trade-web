@@ -27,6 +27,7 @@ import com.centaline.trans.eloan.vo.ToRcMortgageCardVO;
 import com.centaline.trans.eloan.vo.ToRcMortgageVO;
 import com.centaline.trans.material.entity.MmMaterialItem;
 import com.centaline.trans.material.enums.MaterialStatusEnum;
+import com.centaline.trans.material.repository.MmMaterialItemMapper;
 import com.centaline.trans.material.service.MmMaterialItemService;
 
 @Service
@@ -47,6 +48,8 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 	private MmMaterialItemService mmMaterialItemService;
 	@Autowired
 	private UamSessionService uamSessionService;
+	@Autowired
+	private MmMaterialItemMapper mmMaterialItemMapper;
 	
 	public static final String ITEM_RESOURCE_RC = "riskControl";
 
@@ -181,6 +184,15 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 		}
 		for(ToRcMortgageInfo toRcMortgageInfo : toRcMortgageInfoList) {
 			String itemManager = toRcMortgageInfo.getItemManager();
+			
+			String itemCode = toRcMortgageInfo.getMortgageCode();
+			MmMaterialItem record = new MmMaterialItem();
+			record.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
+			record.setItemCode(itemCode);
+			List<MmMaterialItem> itemList = mmMaterialItemMapper.getMmMaterialItemListByProperty(record);
+			if(CollectionUtils.isNotEmpty(itemList)) {
+				toRcMortgageInfo.setIsStorage("Y");
+			}
 			if(StringUtils.isNotBlank(itemManager)) {
 				SessionUser user = uamSessionService.getSessionUserById(itemManager);
 				toRcMortgageInfo.setItemManagerName(user.getRealName());
@@ -213,6 +225,15 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 			if(StringUtils.isNotBlank(itemManager)) {
 				SessionUser user = uamSessionService.getSessionUserById(itemManager);
 				toRcMortgageInfo.setItemManagerName(user.getRealName());
+			}
+			
+			String itemCode = toRcMortgageInfo.getMortgageCode();
+			MmMaterialItem record = new MmMaterialItem();
+			record.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
+			record.setItemCode(itemCode);
+			List<MmMaterialItem> itemList = mmMaterialItemMapper.getMmMaterialItemListByProperty(record);
+			if(CollectionUtils.isNotEmpty(itemList)) {
+				toRcMortgageInfo.setIsStorage("Y");
 			}
 		}
 		toRcMortgageVO.setToRcMortgageInfoList(toRcMortgageInfoList);

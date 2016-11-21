@@ -288,12 +288,15 @@
 					<table border="1" cellpadding="0" cellspacing="0">
 						<thead>
 							<tr>
-								<th class="t-left pd-l"><span class="sort"	sortColumn="CASE_CODE" sord="desc">案件编号</span></th>
+								<th class="t-left pd-l"><span class="sort"
+									sortColumn="CASE_CODE" sord="desc">案件编号</span></th>
 								<th class="t-left pd-l">产证地址</th>
 								<th class="t-left pd-l">主管</th>
 								<th class="t-left pd-l">组别</th>
-								<th class="text-center"><span class="sort"	sortColumn="transferDate" sord="desc">过户提交时间</span></th>
-								<th class="text-center"><span class="sort"	sortColumn="caseTransferDate" sord="desc">过户审批时间</span></th>
+								<th class="text-center"><span class="sort"
+									sortColumn="transferDate" sord="desc">过户提交时间</span></th>
+								<th class="text-center"><span class="sort"
+									sortColumn="caseTransferDate" sord="desc">过户审批时间</span></th>
 								<th class="text-center">是否审批通过</th>
 								<th class="text-center">店组</th>
 								<th class="text-center">片区</th>
@@ -319,23 +322,22 @@
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
-	<content tag="local_script"> 
-	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script	src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
-	<script	src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script	src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+	<content tag="local_script"> <script
+		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
+		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <script
+		src="${ctx}/js/jquery.blockui.min.js"></script> <script
+		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
-	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
-	<script	src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<script src="${ctx}/js/trunk/report/case_transfer.js?v=1.1"></script>
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-	<!-- 分页控件  -->
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
+		src="${ctx}/js/plugins/jquery.custom.js"></script> <script
+		src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	<script src="${ctx}/js/trunk/report/case_transfer.js?v=1.1"></script> <jsp:include
+		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script
+		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 分页控件  -->
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script	id="template_caseTransferList" type="text/html">
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> <script
+		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
+		id="template_caseTransferList" type="text/html">
       {{each rows as item index}}
   				   {{if index%2 == 0}}
  				      <tr class="tr-1">
@@ -355,7 +357,6 @@
 						<td class="t-left">{{item.VREAL_NAME}}</td>
 				  </tr>
        {{/each}}
-     </script> 
-  </content>
+     </script> <script></script> </content>
 </body>
 </html>

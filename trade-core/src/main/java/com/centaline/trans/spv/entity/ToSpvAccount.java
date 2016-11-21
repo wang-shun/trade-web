@@ -12,8 +12,6 @@ public class ToSpvAccount {
     private String name;
 
     private String bank;
-    
-    private String branchBank;
 
     private String account;
 
@@ -69,15 +67,7 @@ public class ToSpvAccount {
         this.bank = bank == null ? null : bank.trim();
     }
 
-    public String getBranchBank() {
-		return branchBank;
-	}
-
-	public void setBranchBank(String branchBank) {
-		this.branchBank = branchBank;
-	}
-
-	public String getAccount() {
+    public String getAccount() {
         return account;
     }
 

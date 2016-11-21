@@ -76,13 +76,9 @@
 		<pattern>/eloan/task/newEloanApply/process</pattern>
 		<pattern>/signroom/signRoomAllotList</pattern>
 		<pattern>/signroom/signingManage</pattern>
-		<pattern>/transplan/dealChangeCaseList</pattern>
+		<pattern>/report/dealChangeCaseList</pattern>
 		<pattern>/eloan/EloanRelCashList</pattern>
 		<pattern>/signroom/signscheduling</pattern>
-		<pattern>/report/caseRejectionRateList</pattern>
-		<pattern>/report/caseRejectionRateReasonList</pattern>
-		<pattern>/report/caseLossRateList</pattern>
-		<pattern>/report/caseLossRateReasonList</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

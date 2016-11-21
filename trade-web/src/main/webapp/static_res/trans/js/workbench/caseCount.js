@@ -123,8 +123,8 @@ function queryGetRankBank(){
 				$("#signAmountRank").text(data.signAmountRank==null?'':"你的排名："+ data.signAmountRank);//你的排名：${rank.signAmountRank} 
 				$("#actualAmountRank").text(data.actualAmountRank==null?'':"你的排名："+ data.actualAmountRank);//你的排名：${rank.actualAmountRank}
 				//E+金融申请榜
-				var loanAmountRankList1=data.loanAmountRankList==null?'': data.loanAmountRankList[0];
-				if(loanAmountRankList1 != null && loanAmountRankList1 != ''){
+				var loanAmountRankList1=data.loanAmountRankList[0];			
+				if(loanAmountRankList1 != null && loanAmountRankList1 != ''){					
 					var  loanAmountRankListHtml='';
 					var  loanAmountRankListHtmlForShow='';	
 					
@@ -160,7 +160,7 @@ function queryGetRankBank(){
 					$("#loanAmountRankList").html(loanAmountRankListHtmlForShow);
 				}
 					//E+金融签约榜
-				var signAmountRankList1=data.signAmountRankList==null? '' :data.signAmountRankList[0];
+					var signAmountRankList1=data.signAmountRankList[0];			
 					if(signAmountRankList1 != null && signAmountRankList1 != ''){					
 						var  signAmountRankListHtml='';
 						var  signAmountRankListHtmlForShow='';							
@@ -194,7 +194,7 @@ function queryGetRankBank(){
 						$("#signAmountRankList").html(signAmountRankListHtmlForShow);
 					}	
 						//E+金融放款榜
-						var actualAmountRankList1=data.actualAmountRankList==null ? '':data.actualAmountRankList[0];
+						var actualAmountRankList1=data.actualAmountRankList[0];			
 						if(actualAmountRankList1 != null && actualAmountRankList1 != ''){					
 							var  actualAmountRankListHtml='';
 							var  actualAmountRankListHtmlForShow='';							
@@ -288,7 +288,7 @@ function queryConutCaseByDate(){
 			dataType: "json",
 			async : false,
 			success: function(data) {
-				//console.log("==Result=="+JSON.stringify(data));
+				console.log("==Result=="+JSON.stringify(data));
 				$("#sp_loanAmount").text(data.loanAmount);
 				$("#sp_signAmount").text(data.signAmount);
 				$("#sp_convRate").text(data.convRate);

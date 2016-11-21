@@ -21,6 +21,7 @@ import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.common.entity.ToOutTimeTask;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;

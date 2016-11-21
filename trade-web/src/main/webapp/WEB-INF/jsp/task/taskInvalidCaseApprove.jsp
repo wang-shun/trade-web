@@ -23,7 +23,6 @@
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -115,7 +114,6 @@
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
-	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 	$(document).ready(function() {
 
@@ -175,12 +173,6 @@
 				alert("数据保存出错");
 			}
 		});
-	}
-	
-	//图片查看器控件  
-	function renderImg(){		
-		$('.wrapper-content').viewer('destroy');
-		$('.wrapper-content').viewer({zIndex:15001});
 	}
 	</script> 
 	</content>

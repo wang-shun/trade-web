@@ -45,7 +45,7 @@
                         <h2 class="title">
                             签约室
                         </h2>
-                        <form class="form_list" id="searchForm">
+                        <form action="${ctx }/reservation/list" method="post" class="form_list" id="searchForm">
                         	<input type="hidden" id="ctx" value="${ctx}"/>
                         	<input type="hidden" name="resPeopleId" id="resPeopleId" value="${resPeopleId }"/>
                         	<input type="hidden" name="resTime" value="${resTime }"/>
@@ -102,7 +102,7 @@
 
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                       	 状态
+                                        状态
                                     </label>
                                     
                                     <select class="select_control sign_right_one" id="selResStatus">
@@ -371,9 +371,9 @@
 
       {{each rows as item index}}
   		   {{if index%2 == 0}}
- 				<tr class="tr-1" id="{{item.resId}}">
+ 				<tr class="tr-1">
            {{else}}
-                <tr class="tr-2" id="{{item.resId}}">
+                <tr class="tr-2">
            {{/if}}
 				<td>
                    <p class="smll_sign big">
@@ -383,8 +383,8 @@
                         {{if item.currentDate == item.resDateTime}}<i class="sign_normal today">今</i>{{/if}}<span class="big tint_grey">{{item.resDateTime}}</span>
                    </p>
                 </td>
-				<td class="tdRoomInfo">
-					<p class="smll_sign big pRoomInfo">{{item.roomNO}}（<span class="big">{{item.numberOfPeople}}人间</span>） </p>
+				<td>
+					<p class="smll_sign big">{{item.roomNO}}（<span class="big ">{{item.numberOfPeople}}人间</span>） </p>
                     <p class="smll_sign">参加人数：{{item.numberOfParticipants}}人</p>
                 </td>
 				<td>
@@ -403,7 +403,7 @@
                         <i class="sign_normal sign_blue_bg">止</i><span class="big tint_grey checkOutTime">{{item.actCheckOutTime}}</span>
                     </p>
                  </td>
-				 <td class="tdResStatus" lang="{{item.timeDifference}}">
+				 <td>
 							{{if item.resStatus == '0'}}
 								预约中
 							{{/if}}
@@ -454,9 +454,9 @@
 					  </p>
                  </td>
 				 <td>
-                      <p class="smll_sign big latestFollupDateTime">{{item.followDateTime}}</p>
+                      <p class="smll_sign big">{{item.followDateTime}}</p>
                       <p>
-                         <a href="#"  class="demo-right latestComment" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.realName}}&nbsp;&nbsp;{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
+                         <a href="#"  class="demo-right" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
 							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 8}}
 								{{item.latestComment.substring(0,8)}}....
 					  		{{else}}
@@ -472,30 +472,17 @@
                           </button>
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
 								{{if item.resStatus == '0'}}
-									<shiro:hasPermission name="TRADE.SIGNROOM.SIGN">
-                                    	<c:if test="${isCurrenDayDuty == true }">
-                                    	  <li class="liStartUse"><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
-                                    	</c:if>
-                                    </shiro:hasPermission>
-
-									<shiro:hasPermission name="TRADE.SIGNROOM.CHANGEROOM">
-                                    	<c:if test="${isCurrenDayDuty == true }">
-                                    	  <li class="liChangeRoom"><a href="#" onClick="changeRoom(this,'{{item.resId}}','{{item.tradeCenterId}}','{{item.resDateTime}} {{item.actStartTime}}','{{item.resDateTime}} {{item.actEndTime}}');" data-toggle="modal" data-target="#changeRoom">变更签约室</a></li>
-                                    	</c:if>
-                                    </shiro:hasPermission>
+									<li><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}');">开始使用</a></li>
+									<li><a href="#" onClick="changeRoom(this,'{{item.resId}}','{{item.tradeCenterId}}','{{item.resDateTime}} {{item.actStartTime}}','{{item.resDateTime}} {{item.actEndTime}}');" data-toggle="modal" data-target="#changeRoom">变更签约室</a></li>
 								{{/if}}
                                 
 								{{if item.resStatus == '1'}}
-                                	<shiro:hasPermission name="TRADE.SIGNROOM.SIGNOUT">
-                                    	<c:if test="${isCurrenDayDuty }">
-                                    	  	<li class="liEndUse"><a href="javascript:void(0);" onClick="endUse(this)">结束使用</a></li>
-                                    	</c:if>
-                                    </shiro:hasPermission>
+                                	<li><a href="javascript:void(0);" onClick="endUse(this)">结束使用</a></li>
 								{{/if}}
 
                                 <li>
 									<input type="hidden" name="resId" value="{{item.resId}}"/>
-									<input type="hidden" name="roomType" value="{{item.roomType}}"/>
+									<input type="hidden" name="roomT	ype" value="{{item.roomType}}"/>
 									<input type="hidden" name="roomNo" value="{{item.roomNO}}"/>
 									<input type="hidden" name="resDateTime" value="{{item.resDateTime}}"/>
 									

@@ -239,17 +239,16 @@
                                                     	{{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">{{
-                                                      {{if item.STATUS==3&&item.signTime!=undefined}}
+                                                      {{if item.STATUS==2&&item.signTime!=undefined}}
                                                         <li><a href="${ctx}/spv/task/cashflowIntApply/spvRecorded?pkid={{item.PKID}}">入账</a></li>
                                                       {{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.OUT">
 													{{if item.ru>0}}
                                                         <li><a href="${ctx}/spv/task/cashFlowOutAppr/process?spvCode={{item.SPV_CODE}}">出账</a></li>
-                                                        <li class="divider"></li>
-                                                      {{/if}}
+                                                     {{/if}}
 													</shiro:hasPermission>
-                                                    	
+                                                    	<li class="divider"></li>
                                                     <shiro:hasPermission name="TRADE.SPV.CLOSE">
                                                    		 <li><a href="${ctx}/spv/task/spvCloseApply/process?spvCode={{item.SPV_CODE}}">中止/结束</a></li>
                                                     </shiro:hasPermission>

@@ -954,31 +954,29 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[				  
-				SELECT 
-					D.NAME as partCode,
-					P.CASE_CODE as caseCode,
-					P.EST_PART_TIME as estParTtime,
-					PROP.PROPERTY_ADDR as  propertyAddr
-				FROM sctrans.T_TO_TRANS_PLAN P with(nolock)
-
-				INNER JOIN sctrans.T_TO_CASE C with(nolock)							ON C.CASE_CODE=P.CASE_CODE
-				INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR S with(nolock)		ON S.CASE_CODE=P.CASE_CODE
-				INNER JOIN sctrans.SYS_DICT D with(nolock)							ON D.Type=S.SRV_CODE
-				INNER JOIN sctrans.T_TO_PROPERTY_INFO PROP with(nolock)				ON PROP.CASE_CODE=P.CASE_CODE
+			    SELECT 
+					p.PART_CODE as PART_CODE_OLD,
+					p.CASE_CODE as caseCode,
+					p.EST_PART_TIME as estParTtime,
+					prop.PROPERTY_ADDR as  propertyAddr
+				FROM sctrans.T_TO_TRANS_PLAN p with(nolock)
+					 INNER JOIN sctrans.T_TO_CASE c with(nolock)					ON c.CASE_CODE=p.CASE_CODE
+				INNER JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s with(nolock)		ON s.CASE_CODE=p.CASE_CODE
+				INNER JOIN sctrans.SYS_DICT d with(nolock)							ON d.Type=s.srv_code
+				INNER JOIN sctrans.T_TO_PROPERTY_INFO prop with(nolock)				ON prop.CASE_CODE=p.CASE_CODE
 				WHERE
-					C.CASE_PROPERTY='30003003'
-					AND P.PART_CODE = D.CODE
-								
+					c.CASE_PROPERTY='30003003' 
+					AND p.PART_CODE=d.CODE			
 					<ifNotNull leadingProcessId> 
-						AND S.PROCESSOR_ID = #leadingProcessId# 
+					AND s.PROCESSOR_ID = #leadingProcessId#
 					</ifNotNull>
 				]]>
 			</baseSql>
 		</searchSql>
 		<grid>
 			<table-row>
-<!-- 				<column type="both" name="PART_CODE_OLD" index="" checkbox="" title="环节编码" customDict="" sysDict="" format=""  isSort="" align="" halign="" resizable="" /> -->
-				<column type="both" name="partCode" title="partCode" customDict=""  sysDict="" format=""  isSort="" align="" halign="" resizable="" />
+				<column type="both" name="PART_CODE_OLD" index="" checkbox="" title="环节编码" customDict="" sysDict="" format=""  isSort="" align="" halign="" resizable="" />
+				<column type="virtual" name="partCode" title="partCode" customDict="partName" referencecol="PART_CODE_OLD"  />
 				<column name="caseCode" title="caseCode" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
 				<column name="estParTtime" title="estParTtime" index="" default=""	checkbox="" customDict="" sysDict="" format="dateFormatter" width="0" isSort=""	align="" halign="" resizable="" />
 				<column name="propertyAddr" title="propertyAddr" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />

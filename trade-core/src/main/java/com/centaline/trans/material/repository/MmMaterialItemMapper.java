@@ -23,6 +23,8 @@ public interface MmMaterialItemMapper {
     
     //查询物品管理信息列表
 	List<MmMaterialItem> queryMmMaterialItemList();
+	
+	List<MmMaterialItem> getMmMaterialItemListByProperty(MmMaterialItem record);
 
 	void insertMaterialInfoFromSpv(MmMaterialItem mmMaterialItem);
 	

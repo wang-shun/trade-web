@@ -200,7 +200,7 @@
 								</label>
 								<aist:dict id="loanSrvCode" name="loanSrvCode"
 									clazz="select_control sign_right_two" display="select"
-									dictType="yu_serv_cat_code_tree"  tag="eplus,Eloan" ligerui='none'
+									dictType="yu_serv_cat_code_tree" tag="Eloan" ligerui='none'
 									defaultvalue="${eloanCase.loanSrvCode}"></aist:dict>
 							</div>
 							<div class="form_content">

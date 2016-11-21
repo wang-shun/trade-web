@@ -68,8 +68,7 @@ $(document).ready(function() {
 			}
 			// 初始化列表
 			var data = {};
-			//data.queryId = "findToMortgageIsActive";
-			data.queryId = "findToMortgageIsActiveForList";
+			data.queryId = "findToMortgageIsActive";
 			data.rows = 10;
 			data.page = 1;
 			data.signTimeStart = signTimeStart;

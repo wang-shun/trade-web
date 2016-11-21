@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,20 +29,20 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.award.entity.TsAwardKpiPay;
-import com.centaline.trans.award.entity.TsKpiPsnMonth;
-import com.centaline.trans.award.service.KpiSrvCaseService;
-import com.centaline.trans.award.service.TsAwardKpiPayDetailService;
-import com.centaline.trans.award.service.TsAwardKpiPayService;
-import com.centaline.trans.award.service.TsKpiPsnMonthService;
-import com.centaline.trans.award.vo.KpiMonthVO;
-import com.centaline.trans.award.vo.KpiSrvCaseVo;
+import com.centaline.trans.kpi.service.TsKpiPsnMonthService;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.kpi.entity.TsAwardKpiPay;
+import com.centaline.trans.kpi.entity.TsKpiPsnMonth;
+import com.centaline.trans.kpi.service.KpiSrvCaseService;
+import com.centaline.trans.kpi.service.TsAwardKpiPayDetailService;
+import com.centaline.trans.kpi.service.TsAwardKpiPayService;
+import com.centaline.trans.kpi.vo.KpiMonthVO;
 import com.centaline.trans.utils.DateUtil;
 import com.centaline.trans.utils.NumberUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import com.centaline.trans.kpi.vo.KpiSrvCaseVo;
 
 @Controller
 @RequestMapping(value = "/award")
@@ -118,7 +119,7 @@ public class KpiImportController {
 	public String testbonus(HttpServletRequest request) {
 		return "award/testbonus";
 	}
-	
+
 	@RequestMapping(value = "/doImport")
 	public String doKpiImport(HttpServletRequest request, HttpServletResponse response, Boolean currentMonth)
 			throws InstantiationException, IllegalAccessException, InvalidFormatException, IOException {
@@ -177,9 +178,9 @@ public class KpiImportController {
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		// 上月
 		if ("0".equals(belongMonth)) {
-			belongM =DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1));
+			belongM = DateUtil.plusMonth(new Date(), -1);
 		} else {
-			belongM = DateUtil.getFirstDayOfTheMonth();
+			belongM = new Date();
 		}
 		TsKpiPsnMonth record = new TsKpiPsnMonth();
 		record.setBelongMonth(belongM);
@@ -213,7 +214,7 @@ public class KpiImportController {
 
 		return "award/monthKpiImport";
 	}
-	
+
 	// 统计该月份的绩效奖金相关数据
 	private void staticMoneyKpi(Date belongM) {
 

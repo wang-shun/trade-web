@@ -24,7 +24,6 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
-import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
 import com.centaline.trans.signroom.vo.DateWeekVo;
@@ -61,8 +60,6 @@ public class SignRoomController {
 				.getTransactItemList();
 		model.addAttribute("transactItemVoList", transactItemVoList);
 		model.addAttribute("curDate", sdf.format(cd.getTime()));
-		boolean isCurrenDayDuty = rmSignRoomService.isCurrenDayDuty();//是否当日值班 
-		model.addAttribute("isCurrenDayDuty", isCurrenDayDuty);
 		return "/signroom/signingallot";
 	}
 	
@@ -240,9 +237,7 @@ public class SignRoomController {
 	@RequestMapping("/signscheduling")
 	public String signscheduling(Model model){
 		SessionUser user= uamSessionService.getSessionUser();
-		Map map = new HashMap();
-		map.put("districtId", user.getServiceDepId());
-		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters(map);//获取 交易中心信息
+		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters();//获取 交易中心信息
 		model.addAttribute("tradeCenters", tradeCenters);
 		return "/signroom/signscheduling";
 	}
@@ -252,13 +247,13 @@ public class SignRoomController {
 	 */
 	@RequestMapping("/showSchedulingData")
 	@ResponseBody
-	public AjaxResponse<List<List<DateWeekVo>>> showSchedulingData(Model model,int centerId,String date){
-		AjaxResponse<List<List<DateWeekVo>>> response = new AjaxResponse<List<List<DateWeekVo>>>();
+	public AjaxResponse<List<DateWeekVo>> showSchedulingData(Model model,int centerId,String date){
+		AjaxResponse<List<DateWeekVo>> response = new AjaxResponse<List<DateWeekVo>>();
 		Map map = new HashMap();
 		map.put("centerId", centerId);
 		map.put("date", date);
 		try {
-			List<List<DateWeekVo>> dwvs = rmSignRoomService.showSchedulingData(map);
+			List<DateWeekVo> dwvs = rmSignRoomService.showSchedulingData(map);
 			response.setContent(dwvs);
 			response.setCode("400");
 			response.setMessage("查询成功！");
@@ -272,48 +267,5 @@ public class SignRoomController {
 		return response;
 	}
 	
-	/**
-	 * 签约室排班
-	 * @return
-	 */
-	@RequestMapping("/addOrUpdateTradeCenterSchedule")
-	@ResponseBody
-	public AjaxResponse<T> addOrUpdateTradeCenterSchedule(Model model,TradeCenterSchedule tradeCenterSchedule){
-		AjaxResponse<T> response = new AjaxResponse<T>();
-		try{
-			rmSignRoomService.addOrUpdateTradeCenterSchedule(tradeCenterSchedule);
-			response.setCode("400");
-			response.setMessage("分配值班经理成功！");
-			response.setSuccess(true);
-		}catch(Exception e){
-			response.setCode("500");
-			response.setMessage("分配值班经理失败！");
-			response.setSuccess(false);
-		}
-		return response;
-	}
-	
-	/**
-	 * 删除指定的签约室排班
-	 * @param model
-	 * @param tradeCenterSchedule
-	 * @return
-	 */
-	@RequestMapping("/deleteTradeCenterSchedule")
-	@ResponseBody
-	public AjaxResponse<T> deleteTradeCenterSchedule(Model model,TradeCenterSchedule tradeCenterSchedule){
-		AjaxResponse<T> response = new AjaxResponse<T>();
-		try{
-			rmSignRoomService.deleteTradeCenterSchedule(tradeCenterSchedule);
-			response.setCode("400");
-			response.setMessage("删除值班经理成功！");
-			response.setSuccess(true);
-		}catch(Exception e){
-			response.setCode("500");
-			response.setMessage("删除值班经理失败！");
-			response.setSuccess(false);
-		}
-		return response;
-	}
 	
 }

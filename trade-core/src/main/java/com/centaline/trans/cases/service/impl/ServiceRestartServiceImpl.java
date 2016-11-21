@@ -18,18 +18,19 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ServiceRestartService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
+import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.repository.ToWorkFlowMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -37,6 +38,7 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
+import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.ConstantsUtil;
@@ -44,7 +46,8 @@ import com.centaline.trans.utils.ConstantsUtil;
 @Service
 @Transactional(readOnly = true)
 public class ServiceRestartServiceImpl implements ServiceRestartService {
-
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
 	@Autowired(required = true)
@@ -55,11 +58,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private ToCaseService toCaseService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
-
+	@Autowired
+	private ToTransPlanService toTransPlanService;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
-	private ToWorkFlowService toWorkFlowService;
+	private ToWorkFlowMapper toWorkFlowMapper;
 	@Autowired
 	private ToMortgageService toMortgageService;
 	@Autowired
@@ -68,8 +72,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private TaskService taskService;
 	@Autowired
 	private BizWarnInfoMapper bizWarnInfoMapper;
-	@Autowired
-	private TransplanServiceFacade toTransplanOperateService;//add by zhoujp
 
 	@Override
 	@Transactional(readOnly = false)
@@ -79,7 +81,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
-		toWorkFlowService.deleteWorkFlowByProperty(twf);
+		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
 
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
@@ -97,7 +99,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 				vo.getUserName(), vo.getCaseCode());
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
-		wf.setBizCode(vo.getCaseCode());
 		wf.setProcessOwner(vo.getUserId());
 		wf.setProcessDefinitionId(propertyUtilsService
 				.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
@@ -115,7 +116,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
-		toWorkFlowService.deleteWorkFlowByProperty(twf);
+		toWorkFlowMapper.deleteWorkFlowByProperty(twf);
 
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
@@ -150,7 +151,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		}
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
-		wf.setBizCode(vo.getCaseCode());
 		wf.setProcessOwner(vo.getUserId());
 		wf.setProcessDefinitionId(propertyUtilsService
 				.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
@@ -167,12 +167,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(caseCode);
-		List<ToWorkFlow> wordkFlowDBList = toWorkFlowService
+		List<ToWorkFlow> wordkFlowDBList = toWorkFlowMapper
 				.getMortToWorkFlowByCaseCode(workFlow);
 
 		for (ToWorkFlow workFlowDB : wordkFlowDBList) {
 			workFlowManager.deleteProcess(workFlowDB.getInstCode());
-			toWorkFlowService.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
+			toWorkFlowMapper.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
 		}
 	}
 
@@ -212,10 +212,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toApproveService.insertToApproveRecord(record);
 		if (vo.getIsApproved()) {
 			doApproved(vo);
-		}
-		//如果流程重启申请审批通过的话将交易计划表的数据转移到交易计划历史表并删除交易计划表add by zhoujp
-		if (vo.getIsApproved()) {
-			toTransplanOperateService.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESTART);
 		}
 
 		// 如果流程重启申请审批通过的话，就删除对应的预警信息
@@ -306,7 +302,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		wf.setCaseCode(vo.getCaseCode());
-		wf.setBizCode(vo.getCaseCode());
 		wf.setProcessOwner(cas.getLeadingProcessId());
 		wf.setProcessDefinitionId(propertyUtilsService
 				.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));

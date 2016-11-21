@@ -23,7 +23,6 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -123,7 +122,6 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 		/**提交数据*/
 		function submit() {
@@ -176,12 +174,6 @@
 					alert("操作失败。");
 				}
 			});
-		}
-		
-		//图片查看器控件  
-		function renderImg(){		
-			$('.wrapper-content').viewer('destroy');
-			$('.wrapper-content').viewer({zIndex:15001});
 		}
 	</script> 
 	</content>

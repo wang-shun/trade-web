@@ -37,13 +37,12 @@
 		<mapper resource="mapper/common/ToAttachmentMapper.xml" />
 		<mapper resource="mapper/common/ToAccesoryListMapper.xml" />
 		<mapper resource="mapper/common/ToReminderListMapper.xml" />
+		<mapper resource="mapper/common/ToWorkFlowMapper.xml" />
 		<mapper resource="mapper/common/OrgMapper.xml" />
 		<!-- 任务预计执行时间配置 -->
 		<mapper resource="mapper/transplan/TsTaskPlanSetMapper.xml" />
 		<mapper resource="mapper/common/LampRuleMapper.xml" />
 		<mapper resource="mapper/common/ToModuleSubscribe.xml" />
-		<!-- 流程 -->
-		<mapper resource="mapper/engine/ToWorkFlowMapper.xml" />
 		<!-- 管理 -->
 		<mapper resource="mapper/mgr/TsFinOrgMapper.xml" />
 		<mapper resource="mapper/mgr/ToSupDocuMapper.xml" />
@@ -66,7 +65,7 @@
 		<mapper resource="mapper/task/ToPropertyResearchMapper.xml" />
 		<mapper resource="mapper/task/ToSignMapper.xml" />
 		<mapper resource="mapper/task/ToPaymentMapper.xml" />
-		<mapper resource="mapper/transplan/ToTransPlanMapper.xml" />
+		<mapper resource="mapper/task/ToTransPlanMapper.xml" />
 		<mapper resource="mapper/task/ToPricingMapper.xml" />
 		<mapper resource="mapper/task/ToTaxMapper.xml" />
 		<mapper resource="mapper/task/ToHouseTransferMapper.xml" />
@@ -154,11 +153,11 @@
 		<mapper resource="mapper/task/AwardBaseMapper.xml"/>
 		<mapper resource="mapper/task/ActHiTaskinstMapper.xml"/>
 		<mapper resource="mapper/task/AwardBaseConfigMapper.xml"/>
-		<mapper resource="mapper/award/TsKpiPsnMonthMapper.xml"/>
-		<mapper resource="mapper/award/TsKpiSrvCaseMapper.xml"/>
-		<mapper resource="mapper/award/TsAwardKpiPayDetailMapper.xml"/>
+		<mapper resource="mapper/kpi/TsKpiPsnMonthMapper.xml"/>
+		<mapper resource="mapper/kpi/TsKpiSrvCaseMapper.xml"/>
+		<mapper resource="mapper/kpi/TsAwardKpiPayDetailMapper.xml"/>
 		<mapper resource="mapper/award/AwardBaseEntityMapper.xml"/>
-		<mapper resource="mapper/award/TsAwardKpiPayMapper.xml"/>
+		<mapper resource="mapper/kpi/TsAwardKpiPayMapper.xml"/>
 		<!-- 统计报表 -->
 		<mapper resource="mapper/report/CaseProcessStatisMapper.xml"/>
 		<!-- 产调转组 -->

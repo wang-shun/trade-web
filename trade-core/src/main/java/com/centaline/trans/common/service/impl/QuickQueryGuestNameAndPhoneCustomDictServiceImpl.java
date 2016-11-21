@@ -12,8 +12,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.aist.common.quickQuery.service.CustomDictService;
+import com.centaline.trans.cases.vo.CaseReturnVisitRegistrationVO;
 import com.centaline.trans.common.service.KeyValueService;
-import com.centaline.trans.transplan.vo.CaseReturnVisitRegistrationVO;
 
 public class QuickQueryGuestNameAndPhoneCustomDictServiceImpl implements CustomDictService {
 	

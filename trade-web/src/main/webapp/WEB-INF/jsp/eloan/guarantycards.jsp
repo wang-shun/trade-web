@@ -45,7 +45,6 @@
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
-	<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -160,7 +159,7 @@
                                     <label class="control-label sign_left_small">
                                         <font color="red">*</font>保管人
                                     </label>
-	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" readonly="readonly"/>
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" readonly="readonly" <c:if test="${item.isStorage  == 'Y' }"> disabled </c:if> />
 	                                <div class="input-group float_icon organize_icon managerOnclick">
 									 	<i class="icon iconfont">&#xe627;</i>
 									</div>
@@ -378,12 +377,12 @@
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
 							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
                                               {% } else { %}
- 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
+ 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
   											  {% } %}
 							            {% } %}</div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -483,7 +482,6 @@
  	<!-- 选择组织控件 --> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
     <!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
-       <script src="${ctx}/js/viewer/viewer.min.js"></script>
        <script>
        if ("${idList}" != "") {
 			var idList = eval("(" + "${idList}" + ")");
@@ -730,13 +728,6 @@
 			}
 			return (result.length==1);
 		}
-		
-		//渲染图片 
-		function renderImg(){		
-			$('.wrapper-content').viewer('destroy');
-			$('.wrapper-content').viewer({zIndex:15001});
-		}
-
 		//选择组织之后 级联选择主办人信息
 		var o;
 		function chooseItemManager(obj) {
