@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.task.repository.ToTransPlanMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToTransPlan" >
+<mapper namespace="com.centaline.trans.transplan.repository.ToTransPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.transplan.entity.ToTransPlan" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />

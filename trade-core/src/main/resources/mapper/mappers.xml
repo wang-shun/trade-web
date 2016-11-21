@@ -37,10 +37,9 @@
 		<mapper resource="mapper/common/ToAttachmentMapper.xml" />
 		<mapper resource="mapper/common/ToAccesoryListMapper.xml" />
 		<mapper resource="mapper/common/ToReminderListMapper.xml" />
-		<mapper resource="mapper/common/ToWorkFlowMapper.xml" />
 		<mapper resource="mapper/common/OrgMapper.xml" />
 		<!-- 任务预计执行时间配置 -->
-		<mapper resource="mapper/transplan/TsTaskPlanSetMapper.xml" />
+		
 		<mapper resource="mapper/common/LampRuleMapper.xml" />
 		<mapper resource="mapper/common/ToModuleSubscribe.xml" />
 		<!-- 管理 -->
@@ -49,31 +48,32 @@
 		<mapper resource="mapper/mgr/TsBankEvaRelationshipMapper.xml" />
 		<mapper resource="mapper/mgr/TsSupMapper.xml" />
 		<mapper resource="mapper/mgr/TsAttendanceMapper.xml" />
-
 		<!--商贷审批 -->
 		<mapper resource="mapper/mortgage/ToEguPricingMapper.xml" />
 		<mapper resource="mapper/mortgage/ToEvaReportMapper.xml" />
 		<mapper resource="mapper/mortgage/ToMortgageMapper.xml" />
 		<mapper resource="mapper/mortgage/ToEguPropertyInfoMapper.xml" />
 		<mapper resource="mapper/mortgage/MortStepMapper.xml" />
-
+		
 		<!-- 贷款 -->
 		<mapper resource="mapper/loan/ToCloseLoanMapper.xml" />
 		<mapper resource="mapper/loan/LoanStatusChangeMapper.xml" /> 
 		<mapper resource="mapper/loan/LoanAgentMapper.xml" /> 
+		
 		<!-- task相关 -->
 		<mapper resource="mapper/task/ToPropertyResearchMapper.xml" />
 		<mapper resource="mapper/task/ToSignMapper.xml" />
 		<mapper resource="mapper/task/ToPaymentMapper.xml" />
-		<mapper resource="mapper/task/ToTransPlanMapper.xml" />
 		<mapper resource="mapper/task/ToPricingMapper.xml" />
 		<mapper resource="mapper/task/ToTaxMapper.xml" />
+		
 		<mapper resource="mapper/task/ToHouseTransferMapper.xml" />
 		<mapper resource="mapper/task/ToPurchaseLimitSearchMapper.xml" />
 		<mapper resource="mapper/task/ToGetPropertyBookMapper.xml" />
 		<mapper resource="mapper/task/ToApproveRecordMapper.xml" />
 		<mapper resource="mapper/task/TsPrResearchMapMapper.xml" />
 		<mapper resource="mapper/transplan/TsTransPlanHistoryMapper.xml" />
+		
 		<!-- 任务授权 -->
 		<mapper resource="mapper/task/TsTaskDelegateMapper.xml" />
 		<mapper resource="mapper/task/ToUnlocatedTaskMapper.xml" />
@@ -131,8 +131,7 @@
 		
 		<!-- 收入统计 -->
 		<mapper resource="mapper/income/TsOrTemplateMapper.xml" />
-		
-		
+
 		<mapper resource="mapper/income/TsOverridingMapper.xml" />
 		<mapper resource="mapper/workspace/WorkSpaceMapper.xml" />
 		<mapper resource="mapper/perform/EplusMapper.xml" />
@@ -158,6 +157,8 @@
 		<mapper resource="mapper/kpi/TsAwardKpiPayDetailMapper.xml"/>
 		<mapper resource="mapper/award/AwardBaseEntityMapper.xml"/>
 		<mapper resource="mapper/kpi/TsAwardKpiPayMapper.xml"/>
+		
+		
 		<!-- 统计报表 -->
 		<mapper resource="mapper/report/CaseProcessStatisMapper.xml"/>
 		<!-- 产调转组 -->
@@ -185,7 +186,7 @@
 		
 		<!-- 产品信息接口 -->
 		<mapper resource="mapper/product/ProductMapper.xml" />
-
+		
 		<!-- 任务提交日记 -->
 		<mapper resource="mapper/task/TlTaskSubmitLogMapper.xml"/>
 		
@@ -215,11 +216,17 @@
 		<mapper resource="mapper/material/MmIoBatchMapper.xml" />
 		<mapper resource="mapper/material/MmItemBatchMapper.xml" />
 		<mapper resource="mapper/material/MmMaterialItemMapper.xml" />
-		
-		<!-- 回访登记 -->
-		<mapper resource="mapper/transplan/TtsReturnVisitRegistrationMapper.xml" />
-		<mapper resource="mapper/transplan/TtsTransPlanHistoryBatchMapper.xml" />
 		<!-- 签约室排班 -->
 		<mapper resource="mapper/signroom/TradeCenterScheduleMapper.xml" />
+		
+		<!-- 回访登记 -->
+		<!-- <mapper resource="mapper/transplan/ToTransPlanMapper.xml" /> -->
+		<!-- <mapper resource="mapper/transplan/TsTaskPlanSetMapper.xml" /> -->
+		<!-- <mapper resource="mapper/transplan/TtsReturnVisitRegistrationMapper.xml" /> -->
+		<!-- <mapper resource="mapper/transplan/TtsTransPlanHistoryBatchMapper.xml" /> -->
+
+		
+		<!-- <mapper resource="mapper/engine/ToWorkFlowMapper.xml" /> -->
+		
 	</mappers>
 </configuration>
