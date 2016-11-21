@@ -309,19 +309,19 @@ function calculateCityAddTax(housePrice,selfPrice,isTwoyears,isNormal) {
 		if(isNormal) {
 			return 0;
 		} else {
-			return getPositive((housePrice.sub(selfPrice)).div(1.05).mul(0.0565));
+			return getPositive(parseFloat(parseFloat((housePrice.sub(selfPrice))).div(1.05)).mul(0.0565));
 		}
 	}
 }
 //增值税(郊区)
 function calculateCountryAddTax(housePrice,selfPrice,isTwoyears,isNormal) {
 	if(isTwoyears) {
-		return getPositive(housePrice.div(1.05).mul(0.0555));
+		return getPositive(parseFloat(housePrice.div(1.05)).mul(0.0555));
 	} else {
 		if(isNormal) {
 			return 0;
 		} else {
-			return getPositive((housePrice.sub(selfPrice)).div(1.05).mul(0.0555));
+			return getPositive(parseFloat(parseFloat((housePrice.sub(selfPrice))).div(1.05)).mul(0.0555));
 		}
 	}
 }
