@@ -1,8 +1,6 @@
 package com.centaline.trans.remote.service.impl;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,10 +39,10 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.api.service.ApiLogService;
+import com.centaline.trans.attachment.entity.ToAttachment;
+import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
 import com.centaline.trans.mgr.entity.TsBankEvaRelationship;

@@ -16,11 +16,11 @@ import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
+import com.centaline.trans.attachment.entity.ToAttachment;
+import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.common.entity.ToAttachment;
 import com.centaline.trans.common.enums.DepTypeEnum;
-import com.centaline.trans.common.service.ToAttachmentService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 
 

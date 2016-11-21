@@ -16,11 +16,10 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
-
 import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.common.entity.ToAccesoryList;
+import com.centaline.trans.attachment.entity.ToAccesoryList;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.material.entity.MmIoBatch;
 import com.centaline.trans.material.entity.MmItemBatch;

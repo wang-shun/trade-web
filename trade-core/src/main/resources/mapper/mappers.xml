@@ -34,11 +34,14 @@
 		<mapper resource="mapper/common/ToPropertyInfoMapper.xml" />
 		<mapper resource="mapper/common/TgServItemAndProcessorMapper.xml" />
 		<mapper resource="mapper/common/ToServChangeHistrotyMapper.xml" />
-		<mapper resource="mapper/common/ToAttachmentMapper.xml" />
-		<mapper resource="mapper/common/ToAccesoryListMapper.xml" />
 		<mapper resource="mapper/common/ToReminderListMapper.xml" />
 		<mapper resource="mapper/common/OrgMapper.xml" />
 		<!-- 任务预计执行时间配置 -->
+		
+		<!-- 附件 -->
+		<mapper resource="mapper/attachment/ToAccesoryListMapper.xml" />
+		<mapper resource="mapper/attachment/ToAttachmentMapper.xml" />
+		<mapper resource="mapper/attachment/TsAttachmentReadLogMapper.xml" />
 		
 		<mapper resource="mapper/common/LampRuleMapper.xml" />
 		<mapper resource="mapper/common/ToModuleSubscribe.xml" />
@@ -144,9 +147,6 @@
 		<mapper resource="mapper/api/TsApiLogMapper.xml" />
 		<!-- 未分配业务级别提醒 -->
 		<mapper resource="mapper/mgr/UnlocateGRPMapper.xml" />
-		
-		<!-- 查看附件日志 -->
-		<mapper resource="mapper/log/TsAttachmentReadLogMapper.xml" />
 		
 		<!--奖金分配相关  -->
 		<mapper resource="mapper/task/AwardBaseMapper.xml"/>

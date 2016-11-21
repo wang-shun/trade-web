@@ -1,13 +1,9 @@
 package com.centaline.trans.property.web;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,23 +19,9 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
-import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.cases.entity.ToCase;
-import com.centaline.trans.cases.entity.ToCaseInfo;
-import com.centaline.trans.cases.service.ToCaseInfoService;
-import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
-import com.centaline.trans.common.entity.Pic;
-import com.centaline.trans.common.entity.ToAttachment;
-import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.attachment.entity.ToAttachment;
+import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.common.enums.DepTypeEnum;
-import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.common.service.ToAttachmentService;
-import com.centaline.trans.engine.bean.ProcessInstance;
-import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.task.entity.ToPropertyResearch;
 
