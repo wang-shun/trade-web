@@ -1,4 +1,4 @@
-package com.centaline.trans.api.service.impl;
+package com.centaline.trans.apilog.service.impl;
 
 import java.util.Date;
 
@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.api.entity.TsApiLog;
-import com.centaline.trans.api.repository.TsApiLogMapper;
-import com.centaline.trans.api.service.ApiLogService;
+import com.centaline.trans.apilog.entity.TsApiLog;
+import com.centaline.trans.apilog.repository.TsApiLogMapper;
+import com.centaline.trans.apilog.service.ApiLogService;
 
 @Service
 public class ApiLogServiceImpl implements ApiLogService{

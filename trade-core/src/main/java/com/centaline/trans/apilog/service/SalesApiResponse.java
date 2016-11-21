@@ -1,4 +1,4 @@
-package com.centaline.trans.api.service;
+package com.centaline.trans.apilog.service;
 
 public class SalesApiResponse {
 	

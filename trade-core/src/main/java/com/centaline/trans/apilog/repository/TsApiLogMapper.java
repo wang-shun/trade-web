@@ -1,6 +1,6 @@
-package com.centaline.trans.api.repository;
+package com.centaline.trans.apilog.repository;
 
-import com.centaline.trans.api.entity.TsApiLog;
+import com.centaline.trans.apilog.entity.TsApiLog;
 import com.centaline.trans.common.MyBatisRepository;
 
 

@@ -1,4 +1,4 @@
-package com.centaline.trans.api.entity;
+package com.centaline.trans.apilog.entity;
 
 import java.util.Date;
 
