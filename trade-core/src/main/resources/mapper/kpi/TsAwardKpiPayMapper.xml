@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.kpi.repository.TsAwardKpiPayMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+<mapper namespace="com.centaline.trans.award.repository.TsAwardKpiPayMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.award.entity.TsAwardKpiPay" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="BELONG_MONTH" property="belongMonth" jdbcType="TIMESTAMP" />
     <result column="PARTICIPANT" property="participant" jdbcType="VARCHAR" />
@@ -29,7 +29,7 @@
     delete from sctrans.T_TS_AWARD_KPI_PAY
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+  <insert id="insert" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
     insert into sctrans.T_TS_AWARD_KPI_PAY (PKID, BELONG_MONTH, PARTICIPANT, 
       PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS, 
       CREATE_TIME, CREATE_BY, UPDATE_TIME, 
@@ -41,7 +41,7 @@
       #{updateBy,jdbcType=VARCHAR}, #{caseCount,jdbcType=INTEGER}, #{userCount,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
     insert into sctrans.T_TS_AWARD_KPI_PAY
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -120,7 +120,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
     update sctrans.T_TS_AWARD_KPI_PAY
     <set >
       <if test="belongMonth != null" >
@@ -159,7 +159,7 @@
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
     update sctrans.T_TS_AWARD_KPI_PAY
     set BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
       PARTICIPANT = #{participant,jdbcType=VARCHAR},
@@ -175,7 +175,7 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
-   <select id="getTsAwardKpiPayByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+   <select id="getTsAwardKpiPayByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TS_AWARD_KPI_PAY
@@ -189,7 +189,7 @@
 	</where>
   </select>
   
-   <update id="updateTsAwardKpiPayStatus" parameterType="com.centaline.trans.kpi.entity.TsAwardKpiPay" >
+   <update id="updateTsAwardKpiPayStatus" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
     update sctrans.T_TS_AWARD_KPI_PAY
     set
       STATUS = #{status,jdbcType=VARCHAR}
