@@ -1,4 +1,4 @@
-package com.centaline.trans.report.web;
+package com.centaline.trans.transplan.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
-import com.centaline.trans.cases.service.ToTradeChangedCaseService;
 import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
 
 /**
  * 交易计划变更控制器
@@ -27,12 +27,8 @@ import com.centaline.trans.transplan.service.TransplanServiceFacade;
 public class DealChangeCaseController {
 	
 	@Resource
-	ToTradeChangedCaseService toTradeChangedCaseService;
+	TransplanServiceFacade toTransplanOperateService;
 	
-	@Resource
-	TransplanServiceFacade transplanServiceFacade;
-	
-
 	/**
 	 * 交易计划变更案件列表
 	 * @param model
@@ -53,12 +49,12 @@ public class DealChangeCaseController {
 		
 		model.addAttribute("curMonthStart", sdf.format(c.getTime()));
 		model.addAttribute("curMonthEnd", sdf.format(ca.getTime()));
-		return "report/dealChangeList";
+		return "transplan/dealChangeList";
 	}
 	
 	/**
 	 * 新增案件回访
-	 * @param caseReturnVisitRegistrationVO
+	 * @param ttsReturnVisitRegistration
 	 * @return
 	 */
 	@RequestMapping(value="addReturnVisit")
@@ -70,7 +66,7 @@ public class DealChangeCaseController {
 			Date date = Calendar.getInstance().getTime();
 			ttsReturnVisitRegistration.setCreateTime(sdf.format(date));
 			ttsReturnVisitRegistration.setCrtTime(date);
-			transplanServiceFacade.addReturnVisit(ttsReturnVisitRegistration);
+			toTransplanOperateService.addReturnVisit(ttsReturnVisitRegistration);
 			response.setContent(ttsReturnVisitRegistration);
 			response.setCode("400");
 			response.setMessage("案件回访处理成功！");
@@ -84,17 +80,40 @@ public class DealChangeCaseController {
 	}
 	
 	/**
+	 * 查询交易变更历史信息
+	 * @param ttsReturnVisitRegistration
+	 * @return
+	 */
+	@RequestMapping(value="queryTtsTransPlanHistorys")
+	@ResponseBody
+	public AjaxResponse<List<TsTransPlanHistoryVO>> queryTtsTransPlanHistorys(TsTransPlanHistoryVO tsTransPlanHistoryVO){
+		AjaxResponse<List<TsTransPlanHistoryVO>> response = new AjaxResponse<List<TsTransPlanHistoryVO>>();
+		List<TsTransPlanHistoryVO>  ttp = null;
+		try{
+			ttp =  toTransplanOperateService.queryTtsTransPlanHistorys(tsTransPlanHistoryVO);
+			response.setCode("400");
+			response.setMessage("查询交易变更历史成功！");
+			response.setSuccess(true);
+			response.setContent(ttp);
+		}catch(Exception e){
+			response.setCode("500");
+			response.setMessage("查询交易变更历史失败！");
+			response.setSuccess(false);
+		}
+		return response;
+	}
+	/**
 	 * 查询回访跟进历史信息
 	 * @param ttsReturnVisitRegistration
 	 * @return
 	 */
 	@RequestMapping(value="queryReturnVisitHistorys")
 	@ResponseBody
-	public AjaxResponse<List<TtsReturnVisitRegistration>> queryReturnVisitHistorys(long batchId){
+	public AjaxResponse<List<TtsReturnVisitRegistration>> queryReturnVisitHistorys(Long batchId){
 		AjaxResponse<List<TtsReturnVisitRegistration>> response = new AjaxResponse<List<TtsReturnVisitRegistration>>();
 		List<TtsReturnVisitRegistration>  ttp = null;
 		try{
-			ttp =  transplanServiceFacade.queryReturnVisitRegistrations(batchId);
+			ttp =  toTransplanOperateService.queryReturnVisitRegistrations(batchId);
 			response.setCode("400");
 			response.setMessage("查询回访跟进历史成功！");
 			response.setSuccess(true);
@@ -106,6 +125,7 @@ public class DealChangeCaseController {
 		}
 		return response;
 	}
+	
 	
 	
 }

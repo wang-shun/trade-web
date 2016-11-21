@@ -92,7 +92,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY S.CREATE_TIME DESC
+			  ORDER BY S.PKID DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>

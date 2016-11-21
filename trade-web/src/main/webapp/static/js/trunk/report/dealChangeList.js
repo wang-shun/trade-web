@@ -256,7 +256,6 @@ function doDeal(caseCode,propertyAddr,changeNameAndMobile,teamName,sellerandphon
         dataType: "json",
         data: {batchId : batchId},
         success: function(data){
-        	console.log(data);
         	if(data.success){
         		var th='';
         		for(var i=0;i<data.content.length;i++){
