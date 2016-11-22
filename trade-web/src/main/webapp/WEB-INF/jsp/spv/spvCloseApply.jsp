@@ -574,7 +574,7 @@
 						<div id="spvAccDiv" class="form-row form-rowbot">
 						    <div class="form-group form-margin form-space-one">
 						        <label for="" class="lable-one"><i style="color:red;">*</i> 申请人</label>
-						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" value='${applyUserName }'>
+						        <input type="text" id="realName" class="form-control" value='${applyUserName }'>
                                     </div>
 							</div>
 					    </div>
@@ -762,13 +762,14 @@
 				</div>
 				
 				<div class="ibox-content" id="spvfive_info">
+				<form id="spvfive">
                     <div class="stop-content">
                         <div class="form-inline">
                             <div class="title">"中止/结束"流程</div>
                             <div class="form-row form-rowbot clear">
                                 <div class="form-group form-margin margin-host">
                                     <input type="hidden" name="toSpvCloseApply.pkid" value="${spvCloseInfoVO.toSpvCloseApply.pkid}" >
-                                    <input type="hidden" name="toSpvCloseApply.spvCode" value="${spvCloseInfoVO.toSpvCloseApply.spvCode}" >
+                                    <input type="hidden" name="toSpvCloseApply.spvCode" value="${empty spvCloseInfoVO.toSpvCloseApply.spvCode?spvCode:spvCloseInfoVO.toSpvCloseApply.spvCode}" >
                                     <label for="" class="">申请状态</label> 
                                     <label class="radio-inline"> 
                                     <input type="radio" name="toSpvCloseApply.closeType" value="1" ${spvCloseInfoVO.toSpvCloseApply.closeType eq '1'?'checked="checked"':''} >中止
@@ -778,7 +779,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="form-row form-rowbot" id="signDiv" style="">
+                            <div class="form-row form-rowbot" style="margin-left:-80px;">
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one">原因</label>
                                     <input type="text" name="toSpvCloseApply.comment" value="${spvCloseInfoVO.toSpvCloseApply.comment}" class="form-control space-host" placeholder="" >
@@ -786,7 +787,7 @@
                             </div>
                         </div>
                     </div>
-
+                </form>
                         <div class="title">
                             <strong>审核意见</strong>
                         </div>
@@ -815,14 +816,16 @@
                         </div>
                         </div>
 
-
                         <div class="submitter">
                             提交人：<span>${user.realName }(${user.serviceJobName })</span>
                         </div>
-                        <div class="excuse">
-                            <form id="auditContent" action="">
+                        
+                        <div class="excuse">  
+                        <c:if test="${handle eq 'managerAudit' or handle eq 'directorAudit' }">
+                            <form action="">
                                 <i style="color:red;">*</i> <textarea name="toSpvCloseApplyAuditList[0].content" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                             </form>
+                        </c:if>    
                             <div class="form-btn">
                             <div class="text-center">                     
                             <c:if test="${handle eq 'apply' }">
@@ -904,7 +907,16 @@
 			$("#amountMortComDX").val(DX($(this).val()*10000));
 			$("#amountMortPsfDX").val(DX($(this).val()*10000));
 			$("#signAmountDX").val(DX($(this).val()*10000));
-			$("#leftAmountDX").val(DX($(this).val()*10000));    
+			$("#leftAmountDX").val(DX($(this).val()*10000));   
+			
+			var $idValiDate0 = $("input[name='spvCustList[0].idValiDate']");
+			var $idValiDate1 = $("input[name='spvCustList[1].idValiDate']");
+			if($idValiDate0.val() == '3000-01-01'){
+				$idValiDate0.val("长期有效");
+			}
+			if($idValiDate1.val() == '3000-01-01'){
+				$idValiDate1.val("长期有效");
+			}
 			
 		jQuery(function($) {	
  	       $('.stickup-nav-bar').stickUp({
@@ -933,6 +945,9 @@
 		if($("#Pledge2").is(":checked")){
 			$(".pledgeinfo").show();
 		}
+		
+		 //更新账户类型下拉选 
+		 updateAccTypeOptions();
 		
 		})
 		

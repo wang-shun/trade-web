@@ -1,5 +1,10 @@
 $(document).ready(function(){
 	readOnlyForm();
+	
+	if(!handle || handle == 'apply'){
+		$("input[name='toSpvCloseApply.closeType']").prop("disabled",false);
+		$("input[name='toSpvCloseApply.comment']").prop("readonly",false);
+	}
 
 	$("#page_submit_btn").click(function(){submitBtnClick(handle)});
 	$("#apply_submit_btn").click(function(){submitBtnClick(handle,true)});
@@ -11,17 +16,15 @@ $(document).ready(function(){
 })
 
 function submitBtnClick(handle,continueApply,result){
+	  if(!validateForm()){
+		  return false;
+	  }
+
 	  if(!handle){
-		  if(!validateForm()){
-			  return false;
-		  }
 		  if(!confirm("确定提交并开启流程吗！")){
 			  return false;
 		  } 
 	  }else if(handle == 'apply'){
-			if(!validateForm()){
-			  return false;
-			}
 	  		if(!confirm("是否确定提交申请！")){
 	  		  return false;
 	  	    }
@@ -58,14 +61,20 @@ function submitBtnClick(handle,continueApply,result){
 	  }
 	  
 	  var totalArr = [];
-	  totalArr.push({"name":"continueApply","value":continueApply});
-	  totalArr.push({"name":"result","value":result});
-	  $("#spvfive_info,#auditContent").each(function(){
-		 var obj = $(this).serializeArray();
+	  if(continueApply){
+		  totalArr.push({"name":"continueApply","value":continueApply}); 
+	  }
+	  if(result){
+		  totalArr.push({"name":"result","value":result}); 
+	  }
+	  $("#spvfive,#auditContent").each(function(){
+		var obj = $(this).serializeArray();
 		for(var i in obj){
    		totalArr.push(obj[i]);
 		}
 	  });
+	  
+	  alert(JSON.stringify(totalArr));
 
 	  $.ajax({
 		url:ctx+"/spv/spvCloseApply/deal",
@@ -86,7 +95,7 @@ function submitBtnClick(handle,continueApply,result){
 		                } 
 		            } ,   
 		success : function(data) {   
-			if(data.ajaxResponse.success){
+			if(data.success){
 				if(!handle){
 					alert("流程开启成功！");
 					window.location.href = ctx+"/spv/spvList";
@@ -96,13 +105,14 @@ function submitBtnClick(handle,continueApply,result){
 		        	window.close(); //关闭子窗口.
 				}
 			}else{
-				alert("数据保存出错:"+data.ajaxResponse.message);
+				alert("数据保存出错:"+data.message);
+				rescCallback();
 			}
 			}
 });
 };
 
-//
+//验证
 function validateForm(){
 	var $closeType = $("input[name='toSpvCloseApply.closeType']:checked");
 	if($.trim($closeType.val()) == ''){
@@ -117,12 +127,16 @@ function validateForm(){
 		return false;
 	}
 	
-	var $content = $("textarea[name='toSpvCloseApplyAuditList[0].content']");
-	if($.trim($content.val()) == ''){
-		alert("请填写审核意见！");
-		changeClass($cotent);
-		return false;
+	if(handle == 'managerAudit' || handle == 'directorAudit'){
+		var $content = $("textarea[name='toSpvCloseApplyAuditList[0].content']");
+		if($.trim($content.val()) == ''){
+			alert("请填写审核意见！");
+			changeClass($cotent);
+			return false;
+		}
 	}
+	
+	return true;
 }
 
 function changeClass(object){
@@ -137,7 +151,42 @@ function readOnlyForm(){
 	$("input").prop("readOnly",true);
 	$(":radio").prop("disabled",true);
 	$("select").prop("disabled",true);
-	$("#realName").prop("disabled",true);
 	$("input[id^='picFileupload']").prop("disabled",true);
 	$("button").prop("disabled",true);
+}
+
+function updateAccTypeOptions(){
+	var accTypeOptions_ = getAccTypeOptions();
+	$("select[name^='toSpvDeDetailList'][name$='payeeAccountType']").each(function(i,e){
+		var index = $(e).attr("name").replace('toSpvDeDetailList[','').replace('].payeeAccountType','');
+		var eVal = $(e).attr("value");
+		$(e).empty().html(accTypeOptions_);
+		$(e).find("option").each(function(i_,e_){
+			if($(e_).attr("value") == eVal){
+				$(e_).prop("selected",true);
+				return false;
+			}
+		});
+	})
+}
+
+function getAccTypeOptions(){
+	accTypeOptions = '';
+	accTypeOptions += '<option value="">请选择</option>';
+	$("*[name^='toSpvAccountList'][name$='name']").each(function(i,e){
+		if($(e).attr("name").indexOf("[0]") != -1){
+			accTypeOptions += '<option value="BUYER">'+$(e).val()+'(买方账户)</option>';
+		}else if($(e).attr("name").indexOf("[1]") != -1){
+			accTypeOptions += '<option value="SELLER">'+$(e).val()+'(卖方账户)</option>';
+		}else if($(e).attr("name").indexOf("[3]") != -1){
+			accTypeOptions += '<option value="FUND">'+$(e).val()+'(资金方账户)</option>';
+		}else if($(e).attr("name").indexOf("[2]") != -1){
+			//*
+		}else{
+			var index = $(e).attr("name").replace('toSpvAccountList[','').replace('].name','');
+			accTypeOptions += '<option value="CUSTOM_'+index+'">'+$(e).val()+'(新添加)</option>';
+		}
+	});
+    
+	return accTypeOptions;
 }

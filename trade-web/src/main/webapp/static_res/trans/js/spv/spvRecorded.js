@@ -9,9 +9,7 @@ $(document).ready(function(){
 	    readOnlyRiskForm();
 	}
 	
-	$("#none_save_btn").click(function(){saveBtnClick()});
 	$("#none_submit_btn").click(function(){submitBtnClick(handle,null)});
-	$("#apply_save_btn").click(function(){saveBtnClick()});
 	$("#apply_submit_btn").click(function(){submitBtnClick(handle,null)});
 	$("#directorAudit_pass_btn").click(function(){submitBtnClick(handle,true)});
 	$("#directorAudit_reject_btn").click(function(){submitBtnClick(handle,false)});
@@ -177,8 +175,7 @@ function checkFormSubmit(){
 }
 
 function changeClass(object){
-	$(object).focus();
-	$(object).addClass("borderClass").blur(function(){
+	$(object).focus().addClass("borderClass").blur(function(){
 		$(this).removeClass("borderClass");
 	});	;
 }

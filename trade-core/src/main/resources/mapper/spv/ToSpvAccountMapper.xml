@@ -7,6 +7,7 @@
     <result column="ACCOUNT_TYPE" property="accountType" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="NVARCHAR" />
     <result column="BANK" property="bank" jdbcType="NVARCHAR" />
+    <result column="BRANCH_BANK" property="branchBank" jdbcType="NVARCHAR" />
     <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
     <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
     <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
@@ -16,7 +17,7 @@
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, SPV_CODE, ACCOUNT_TYPE, NAME, BANK, ACCOUNT, TELEPHONE, IS_DELETED, CREATE_TIME, 
+    PKID, SPV_CODE, ACCOUNT_TYPE, NAME, BANK, BRANCH_BANK, ACCOUNT, TELEPHONE, IS_DELETED, CREATE_TIME, 
     CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -46,12 +47,12 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.spv.entity.ToSpvAccount" >
     insert into sctrans.T_TO_SPV_ACCOUNT (PKID, SPV_CODE, ACCOUNT_TYPE, 
-      NAME, BANK, ACCOUNT, 
+      NAME, BANK, BRANCH_BANK, ACCOUNT, 
       TELEPHONE, IS_DELETED, CREATE_TIME, 
       CREATE_BY, UPDATE_TIME, UPDATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{spvCode,jdbcType=VARCHAR}, #{accountType,jdbcType=VARCHAR}, 
-      #{name,jdbcType=NVARCHAR}, #{bank,jdbcType=NVARCHAR}, #{account,jdbcType=VARCHAR}, 
+      #{name,jdbcType=NVARCHAR}, #{bank,jdbcType=NVARCHAR}, #{branchBank,jdbcType=NVARCHAR}, #{account,jdbcType=VARCHAR}, 
       #{telephone,jdbcType=VARCHAR}, #{isDeleted,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
       )
@@ -73,6 +74,9 @@
       </if>
       <if test="bank != null" >
         BANK,
+      </if>
+      <if test="branchBank != null">
+        BRANCH_BANK,
       </if>
       <if test="account != null" >
         ACCOUNT,
@@ -112,6 +116,9 @@
       <if test="bank != null" >
         #{bank,jdbcType=NVARCHAR},
       </if>
+      <if test="branchBank != null" >
+        #{branchBank,jdbcType=NVARCHAR},
+      </if>
       <if test="account != null" >
         #{account,jdbcType=VARCHAR},
       </if>
@@ -150,6 +157,9 @@
       <if test="bank != null" >
         BANK = #{bank,jdbcType=NVARCHAR},
       </if>
+      <if test="branchBank != null" >
+        BRANCH_BANK = #{branchBank,jdbcType=NVARCHAR},
+      </if>
       <if test="account != null" >
         ACCOUNT = #{account,jdbcType=VARCHAR},
       </if>
@@ -180,6 +190,7 @@
       ACCOUNT_TYPE = #{accountType,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=NVARCHAR},
       BANK = #{bank,jdbcType=NVARCHAR},
+      BRANCH_BANK = #{branchBank,jdbcType=NVARCHAR},
       ACCOUNT = #{account,jdbcType=VARCHAR},
       TELEPHONE = #{telephone,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted,jdbcType=CHAR},

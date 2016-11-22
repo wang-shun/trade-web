@@ -178,9 +178,10 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		apply.setSpvCode(spvCode);
 		apply.setSpvCloseCode(spvCloseCode);
 		apply.setApplier(user.getId());
+		apply.setIsDeleted("0");
 /*		apply.setAuditor(user.getId());
 		apply.setReAuditor(user.getId());*/
-		apply.setStatus(SpvCloseApplyStatusEnum.DRAFT.getCode());
+		apply.setStatus(SpvCloseApplyStatusEnum.AUDIT.getCode());
 		apply.setApplyTime(new Date());
 		apply.setCreateBy(user.getId());
 		apply.setCreateTime(new Date());
@@ -271,6 +272,11 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		ToSpvCloseApply apply = spvCloseInfoVO.getToSpvCloseApply();
 		apply.setAuditor(user.getId());
 		apply.setAuditTime(new Date());
+		if(result){
+			apply.setStatus(SpvCloseApplyStatusEnum.REAUDIT.getCode());
+		}else{
+			apply.setStatus(SpvCloseApplyStatusEnum.DRAFT.getCode());
+		}
 		
 		ToSpvCloseApplyAudit audit = spvCloseInfoVO.getToSpvCloseApplyAuditList().get(0);
 		audit.setApplyId(spvCloseInfoVO.getToSpvCloseApply().getPkid().toString());
@@ -298,10 +304,17 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 			String taskitem, String taskId, String businessKey, Boolean result) {
 		// 提交流程
 		SessionUser user = uamSessionService.getSessionUser();
-			
+		
+		String spvCode = spvCloseInfoVO.getToSpvCloseApply().getSpvCode();
+		
 		ToSpvCloseApply apply = spvCloseInfoVO.getToSpvCloseApply();
 		apply.setReAuditor(user.getId());
 		apply.setReAuditTime(new Date());
+		if(result){
+			apply.setStatus(SpvCloseApplyStatusEnum.COMPLETE.getCode());
+		}else{
+			apply.setStatus(SpvCloseApplyStatusEnum.DRAFT.getCode());
+		}
 		
 		ToSpvCloseApplyAudit audit = spvCloseInfoVO.getToSpvCloseApplyAuditList().get(0);
 		audit.setApplyId(spvCloseInfoVO.getToSpvCloseApply().getPkid().toString());
@@ -324,6 +337,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		if("1".equals(closeType)){
 			//中止:删除资金监管流程，t_to_workflow更新，删除表单数据
 			//TODO ...
+			processInstanceService.deleteByBusinessKey(spvCode);
 		}else if("0".equals(closeType)){
 			//结束:判断资金监管流程是否在等待消息，是的话发送消息结束资金监管流程，t_to_workflow更新，否则抛出异常
 			//更新spv表
@@ -347,6 +361,15 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	private void setRequestAttribute(HttpServletRequest request, String spvCode_, String businessKey){
 		String spvCode = null;
 		SpvCloseInfoVO spvCloseInfoVO = findSpvCloseInfoVOBySpvCode(businessKey);
+		if(spvCloseInfoVO != null){
+			List<ToSpvCloseApplyAudit> audits = spvCloseInfoVO.getToSpvCloseApplyAuditList();
+			if(audits != null && !audits.isEmpty()){
+				for(ToSpvCloseApplyAudit audit : audits){
+					audit.setOperatorName(uamSessionService.getSessionUserById(audit.getOperator()).getRealName());
+					audit.setOperatorJobName(uamSessionService.getSessionUserById(audit.getOperator()).getServiceJobName());
+				}
+			}
+		}
         if(StringUtils.isBlank(businessKey)){
         	spvCode = spvCode_;
         }else{
@@ -354,6 +377,11 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
         }
 		ToSpv toSpv = toSpvService.findToSpvBySpvCode(spvCode);
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(toSpv == null?null:toSpv.getPkid());
+		
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
+			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
+		}
 
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("spvCloseInfoVO", spvCloseInfoVO);
