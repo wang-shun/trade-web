@@ -61,7 +61,7 @@
                                             <h4>
                                             				<aist:dict id="loanSrvCode" name="loanSrvCode"
 											clazz="select_control sign_right_two" display="onlyLabel"
-											dictType="yu_serv_cat_code_tree" tag="eplus,Eloan"
+											dictType="yu_serv_cat_code_tree" tag="Eloan"
 											dictCode="${eloanCase.loanSrvCode}" ligerui='none'></aist:dict>
                                             </h4>
                                         </div>
@@ -471,13 +471,6 @@
                                     <td>{{item.CREATE_BY}}</td>
                                     <td>{{item.RISK_COMMENT}}</td>
 									<td>
-											{{if item.RISK_TYPE == '押卡'}}
-                                                <a href="${ctx}/riskControl/guarantycardsvonly?pkid={{wrapperData.pkId}}"> <button type="button" class="btn btn-success"> 查看  </button></a>
-                                            {{else if item.RISK_TYPE == '抵押'}}
-                                                <a href="${ctx}/riskControl/guarantymortgagevonly?pkid={{wrapperData.pkId}}"><button type="button" class="btn btn-success"> 查看  </button> </a>
-                                            {{else}}
-                                                <a href="${ctx}/riskControl/guarantyfairvonly?pkid={{wrapperData.pkId}}"><button type="button" class="btn btn-success"> 查看  </button> </a>
-                                            {{/if}}
 	                                    {{if item.CREATE_BY == wrapperData.userName}}
                                             <shiro:hasPermission name="TRADE.RISKCONTROL.ADD">
  											{{if item.RISK_TYPE == '押卡'}}
@@ -594,38 +587,36 @@
 			}
 		   
 		   function deleteRiskControl(pkid,riskType,eloanPkId,eloanCode){
-			   if (confirm('确定删除相关的数据？')) {
-				   var url = "${ctx}/riskControl/deleteRiskControl?pkid="+pkid+"&riskType="+riskType+"&eloanPkId="+eloanPkId+"&eloanCode="+eloanCode;
-					$.ajax({
-						cache : false,
-						async : false,//false同步，true异步
-						type : "POST",
-						url : url,
-						dataType : "json",
-						//contentType:"application/json",  
-						beforeSend : function() {
-							$.blockUI({
-								message : $("#salesLoading"),
-								css : {
-									'border' : 'none',
-									'z-index' : '1900'
-								}
-							});
-							$(".blockOverlay").css({
+			   var url = "${ctx}/riskControl/deleteRiskControl?pkid="+pkid+"&riskType="+riskType+"&eloanPkId="+eloanPkId+"&eloanCode="+eloanCode;
+				$.ajax({
+					cache : false,
+					async : false,//false同步，true异步
+					type : "POST",
+					url : url,
+					dataType : "json",
+					//contentType:"application/json",  
+					beforeSend : function() {
+						$.blockUI({
+							message : $("#salesLoading"),
+							css : {
+								'border' : 'none',
 								'z-index' : '1900'
-							});
-						},
-						complete : function() {
-							$.unblockUI();
-						},
-						success : function(data) {
-							setTimeout('refresh()',1000);
-						},
-						error : function(errors) {
-							alert("数据保存出错");
-						}
-					});
-               }
+							}
+						});
+						$(".blockOverlay").css({
+							'z-index' : '1900'
+						});
+					},
+					complete : function() {
+						$.unblockUI();
+					},
+					success : function(data) {
+						setTimeout('refresh()',1000);
+					},
+					error : function(errors) {
+						alert("数据保存出错");
+					}
+				});
 		   }
 		   
 		   function refresh(){
