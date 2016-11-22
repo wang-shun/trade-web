@@ -119,9 +119,10 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	 * 中止/结束起始提交操作
 	 */
 	@Override
-	public void spvClosePageDeal(HttpServletRequest request, String spvCode, SpvCloseInfoVO spvCloseInfoVO, String instCode) {
+	public void spvClosePageDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode) {
 		//合约主对象
-		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCloseInfoVO.getToSpvCloseApply().getSpvCode());
+		String spvCode = spvCloseInfoVO.getToSpvCloseApply().getSpvCode();
+		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
 		
 		// 资金监管出入账申请无在途申请的时候才可以开启此流程
 		ToWorkFlow record = new ToWorkFlow();
@@ -161,7 +162,6 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	    		throw new BusinessException("出账金额总和与监管总额数值不等，不能开启‘结束’流程！");
 	    	}
 		}
-		
 
 		// 开启流程
 		SessionUser user = uamSessionService.getSessionUser();
@@ -189,7 +189,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		toSpvCloseApplyMapper.insertSelective(apply);
 
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
-				propertyUtilsService.getSPVCashflowOutProcessDfKey(), spvCloseCode, vars);
+				propertyUtilsService.getSpvCloseApplyProcessDfKey(), spvCloseCode, vars);
 		
 		//资金监管流程挂起
 		ToWorkFlow twf = new ToWorkFlow();
@@ -205,11 +205,11 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		
 		//插入工作流表
 		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setBusinessKey("spvCloseApplyProcess");
+		workFlow.setBusinessKey("SpvCloseApplyProcess");
 		workFlow.setCaseCode(toSpv.getCaseCode());
 		workFlow.setBizCode(spvCloseCode);
 		workFlow.setInstCode(processInstance.getId());
-		workFlow.setProcessDefinitionId(propertyUtilsService.getSPVCashflowOutProcessDfKey());
+		workFlow.setProcessDefinitionId(propertyUtilsService.getSpvCloseApplyProcessDfKey());
 		workFlow.setProcessOwner(user.getId());
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(workFlow);

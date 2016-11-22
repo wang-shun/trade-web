@@ -14,7 +14,7 @@ public interface SpvCloseApplyService {
 
 	void spvCloseDirectorAuditProcess(HttpServletRequest request, String instCode, String taskId, String businessKey);
 
-	public void spvClosePageDeal(HttpServletRequest request, String spvCode, SpvCloseInfoVO spvCloseInfoVO, String instCode);
+	public void spvClosePageDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode);
 
 	public void spvCloseApplyDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String taskId, String instCode, String businessKey, Boolean activateOrSuspend);
 

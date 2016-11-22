@@ -73,8 +73,6 @@ function submitBtnClick(handle,continueApply,result){
    		totalArr.push(obj[i]);
 		}
 	  });
-	  
-	  alert(JSON.stringify(totalArr));
 
 	  $.ajax({
 		url:ctx+"/spv/spvCloseApply/deal",
@@ -105,7 +103,7 @@ function submitBtnClick(handle,continueApply,result){
 		        	window.close(); //关闭子窗口.
 				}
 			}else{
-				alert("数据保存出错:"+data.message);
+				alert("数据保存出错:\n"+data.message);
 				rescCallback();
 			}
 			}

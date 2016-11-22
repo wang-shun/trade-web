@@ -62,12 +62,19 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	@Value("${process.df.key.Spv_CashflowInProcess}")
 	private String spvCashflowInProcess;
 	
+	@Value("${process.df.key.SpvCloseApplyProcess}")
+	private String SpvCloseApplyProcessDfKey;
+	
 	public String getSpvCashflowInProcess() {
 		return spvCashflowInProcess;
 	}
 	
 	public String getSPVCashflowOutProcessDfKey() {
 		return SPVCashflowOutProcessDfKey;
+	}
+	
+	public String getSpvCloseApplyProcessDfKey() {
+		return SpvCloseApplyProcessDfKey;
 	}
 	
 	public String getSpvProcessDfKey() {
