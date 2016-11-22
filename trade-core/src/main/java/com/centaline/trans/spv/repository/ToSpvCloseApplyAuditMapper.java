@@ -15,9 +15,9 @@ public interface ToSpvCloseApplyAuditMapper {
 
     int insertSelective(ToSpvCloseApplyAudit record);
 
-    ToSpvCloseApplyAudit selectByPrimaryKey(Long pkid);
-    
-    List<ToSpvCloseApplyAudit> selectBySpvCloseApplyCode(String spvCloseApplyCode);
+    ToSpvCloseApplyAudit selectByPrimaryKey(Long pkid);  
+
+	List<ToSpvCloseApplyAudit> selectByApplyId(String string);
 
     int updateByPrimaryKeySelective(ToSpvCloseApplyAudit record);
 

@@ -178,8 +178,8 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		apply.setSpvCode(spvCode);
 		apply.setSpvCloseCode(spvCloseCode);
 		apply.setApplier(user.getId());
-		apply.setAuditor(user.getId());
-		apply.setReAuditor(user.getId());
+/*		apply.setAuditor(user.getId());
+		apply.setReAuditor(user.getId());*/
 		apply.setStatus(SpvCloseApplyStatusEnum.DRAFT.getCode());
 		apply.setApplyTime(new Date());
 		apply.setCreateBy(user.getId());
@@ -268,6 +268,10 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		// 提交流程
 		SessionUser user = uamSessionService.getSessionUser();
 		
+		ToSpvCloseApply apply = spvCloseInfoVO.getToSpvCloseApply();
+		apply.setAuditor(user.getId());
+		apply.setAuditTime(new Date());
+		
 		ToSpvCloseApplyAudit audit = spvCloseInfoVO.getToSpvCloseApplyAuditList().get(0);
 		audit.setApplyId(spvCloseInfoVO.getToSpvCloseApply().getPkid().toString());
 		audit.setActProcId(instCode);
@@ -277,6 +281,9 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		audit.setResult(result?"通过":"驳回");
 		audit.setCreateBy(user.getId());
 		audit.setCreateTime(new Date());
+		
+		toSpvCloseApplyMapper.updateByPrimaryKeySelective(apply);
+		toSpvCloseApplyAuditMapper.insertSelective(audit);
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("managerAppr", result);
@@ -291,6 +298,10 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 			String taskitem, String taskId, String businessKey, Boolean result) {
 		// 提交流程
 		SessionUser user = uamSessionService.getSessionUser();
+			
+		ToSpvCloseApply apply = spvCloseInfoVO.getToSpvCloseApply();
+		apply.setReAuditor(user.getId());
+		apply.setReAuditTime(new Date());
 		
 		ToSpvCloseApplyAudit audit = spvCloseInfoVO.getToSpvCloseApplyAuditList().get(0);
 		audit.setApplyId(spvCloseInfoVO.getToSpvCloseApply().getPkid().toString());
@@ -301,6 +312,9 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		audit.setResult(result?"通过":"驳回");
 		audit.setCreateBy(user.getId());
 		audit.setCreateTime(new Date());
+		
+		toSpvCloseApplyMapper.updateByPrimaryKeySelective(apply);
+		toSpvCloseApplyAuditMapper.insertSelective(audit);
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("directorAppr", result);
@@ -345,10 +359,12 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		request.setAttribute("spvCloseInfoVO", spvCloseInfoVO);
 	}
 	
-	private SpvCloseInfoVO findSpvCloseInfoVOBySpvCode(String spvCloseApplyCode){
+	private SpvCloseInfoVO findSpvCloseInfoVOBySpvCode(String spvCloseCode){
 		SpvCloseInfoVO spvCloseInfoVO = new SpvCloseInfoVO();
-		ToSpvCloseApply toSpvCloseApply = toSpvCloseApplyMapper.selectBySpvCloseApplyCode(spvCloseApplyCode);
-		List<ToSpvCloseApplyAudit> toSpvCloseApplyAuditList = toSpvCloseApplyAuditMapper.selectBySpvCloseApplyCode(spvCloseApplyCode);
+		ToSpvCloseApply toSpvCloseApply = toSpvCloseApplyMapper.selectBySpvCloseCode(spvCloseCode);
+		if(toSpvCloseApply == null) return null;
+		
+		List<ToSpvCloseApplyAudit> toSpvCloseApplyAuditList = toSpvCloseApplyAuditMapper.selectByApplyId(toSpvCloseApply.getPkid().toString());
 		spvCloseInfoVO.setToSpvCloseApply(toSpvCloseApply);
 		spvCloseInfoVO.setToSpvCloseApplyAuditList(toSpvCloseApplyAuditList);
 		return spvCloseInfoVO;

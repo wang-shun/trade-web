@@ -60,13 +60,8 @@
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 <!-- stickUp fixed css -->
 <style>
-selectro {  
-   background: #eee;  
-   cursor: no-drop;  
-   }  
-optionro {  
-    display: none;  
-}  
+.borderClass {border:1px solid red!important;resize: none;}
+.borderClass:focus {border:1px solid red!important;resize: none;}
 </style>
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -825,37 +820,36 @@ optionro {
                             提交人：<span>${user.realName }(${user.serviceJobName })</span>
                         </div>
                         <div class="excuse">
-                            <form action="">
+                            <form id="auditContent" action="">
                                 <i style="color:red;">*</i> <textarea name="toSpvCloseApplyAuditList[0].content" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                             </form>
                             <div class="form-btn">
-                            <div class="text-center">
-                           
+                            <div class="text-center">                     
                             <c:if test="${handle eq 'apply' }">
 							    <div>
-									<a id="spvCloseApply" class="btn btn-success btn-space">提交申请</button>
-									<a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+									<a id="apply_submit_btn" class="btn btn-success btn-space">提交申请</a>
+									<a id="apply_cancel_btn" class="btn btn-pink btn-space">取消申请</a>
+									<a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>			
 							<c:if test="${handle eq 'managerAudit' }">
 							    <div>
-                                <a type="spvCloseManagerAuditY" class="btn btn-success btn-space">审批通过</button>
-                                <a type="spvCloseManagerAuditX" class="btn btn-pink btn-space">审批驳回</button>
-                                <a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+                                <a id="managerAudit_pass_btn" class="btn btn-success btn-space">审批通过</a>
+                                <a id="managerAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</a>
+                                <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>											
 							<c:if test="${handle eq 'directorAudit' }">
 							    <div>
-                                <a type="spvCloseDirectorAuditY" class="btn btn-success btn-space">审批通过</button>
-                                <a type="spvCloseDirectorAuditX" class="btn btn-pink btn-space">审批驳回</button>
-                                <a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+                                <a id="directorAudit_pass_btn" class="btn btn-success btn-space">审批通过</a>
+                                <a id="directorAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</a>
+                                <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>							
 							<c:if test="${empty handle}">
 							    <div>
-								<a type="spvClosePageY" class="btn btn-success btn-space">提交申请</button>
-                                <a type="spvClosePageX" class="btn btn-pink btn-space">取消申请</button>
-                                <a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+								<a id="page_submit_btn" class="btn btn-success btn-space">提交申请</a>
+                                <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>			
                             </div>
@@ -895,10 +889,10 @@ optionro {
 	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
-    <script src="${ctx}/js/trunk/task/attachment4.js"></script>
+    <script src="${ctx}/js/trunk/task/attachment5.js"></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 	<script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script src="${ctx}/static/trans_res/js/spv/spvCloseApply.js"></script> <!-- stickup plugin -->
+	<script src="${ctx}/static/trans/js/spv/spvCloseApply.js"></script> <!-- stickup plugin -->
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>	
@@ -941,6 +935,15 @@ optionro {
 		}
 		
 		})
+		
+	function rescCallback(){
+	   if($("#urlType").val() == 'myTask'){    	 
+		   window.opener.location.reload(); //刷新父窗口
+  	       window.close(); //关闭子窗口.
+	     }else{
+	    	 window.location.href = ctx+"/spv/spvList";
+	     }
+	}
   
 /*******************************************************控件相关*********************************************************************/ 
 		//图片查看器控件  

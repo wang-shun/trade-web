@@ -63,6 +63,7 @@ import com.centaline.trans.spv.service.SpvCloseApplyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
+import com.centaline.trans.spv.vo.SpvCloseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -1008,26 +1009,29 @@ public class SpvController {
      * @throws Exception 
      * @since JDK 1.8
      */
-/*    @RequestMapping("task/spvCloseApply/deal")
-   	public AjaxResponse<?> spvCloseApplyDeal(HttpServletRequest request,String source,String instCode,String taskitem,
-   			String taskId,String handle,String businessKey,String spvCode,Boolean chargeOutAppr) throws Exception {
+    @RequestMapping("/spvCloseApply/deal")
+    @ResponseBody
+   	public AjaxResponse<?> spvCloseApplyDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO,String source,String instCode,String taskitem,
+   			String taskId,String handle,String businessKey,String spvCode,Boolean continueApply,Boolean result) throws Exception {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		if(!StringUtils.isBlank(handle)){ 
 				
 				switch (handle) {
 				case "apply":
-					cashFlowOutService.spvCloseApplyDeal(request, instCode, taskId, taskitem, handle, spvCloseApplyCode, chargeOutAppr);
+					spvCloseApplyService.spvCloseApplyDeal(request, spvCloseInfoVO, taskId, instCode, businessKey, continueApply);
 					break;
 			    case "managerAudit":
-			    	cashFlowOutService.spvCloseManagerAuditDeal(request, instCode, taskId, taskitem, handle, spvCloseApplyCode,chargeOutAppr);
+			    	spvCloseApplyService.spvCloseManagerAuditDeal(request, spvCloseInfoVO, instCode,
+			    			taskitem, taskId, businessKey, result);
 					break;
 			    case "directorAudit":
-			    	cashFlowOutService.spvCloseDirectorAuditDeal(request, instCode, taskId, taskitem, handle, spvCloseApplyCode,chargeOutAppr);
+			    	spvCloseApplyService.spvCloseDirectorAuditDeal(request, spvCloseInfoVO, instCode,
+			    			taskitem, taskId, businessKey, result);
 			    	break; 
 				}	
 			}else{
-				cashFlowOutService.spvCloseApplyPageDeal(request, instCode, taskId, taskitem, handle, null);
+				spvCloseApplyService.spvClosePageDeal(request, spvCode, spvCloseInfoVO, instCode);
 			}
 
 			response.setSuccess(true);
@@ -1036,7 +1040,7 @@ public class SpvController {
 		}
     	
     	return response;
-    }*/
+    }
 
     /**
      * @throws Exception  
