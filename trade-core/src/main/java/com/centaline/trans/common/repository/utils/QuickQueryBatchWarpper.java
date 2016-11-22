@@ -2,18 +2,19 @@ package com.centaline.trans.common.repository.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-/*** 快速查询字段加工批次转换类 */
-public class BatchWarpper {
+/*** 加工快速查询字段结果，批次处理类 */
+public class QuickQueryBatchWarpper {
 	/*单批次查询实现*/
 	private BatchQuery batchQuery;
 	/*批次查询行数,默认每批次处理5000条*/
 	private int batchSize = 5000;
 	
-	public BatchWarpper(BatchQuery batchQuery){
+	public QuickQueryBatchWarpper(BatchQuery batchQuery){
 		this.batchQuery = batchQuery;
 	}
-	public BatchWarpper(BatchQuery batchQuery,int batchSize){
+	public QuickQueryBatchWarpper(BatchQuery batchQuery,int batchSize){
 		this.batchQuery = batchQuery;
 		this.batchSize  = batchSize;
 	}
@@ -23,10 +24,10 @@ public class BatchWarpper {
 		if(rows==null ||rows.isEmpty()){
 			return rows;
 		}
-		//子列开始下标
+		//子列表开始下标
 		int fromIndex = 0;
-		//子列最大下标
-		int lastIndex   = rows.size()-1;
+		//子列表最大下标
+		int lastIndex = rows.size()-1;
 		
 		//方法返回结果列表
 		List<T> result = new ArrayList<T>();
@@ -49,6 +50,27 @@ public class BatchWarpper {
 			fromIndex = toIndex;
 		}
 		return result;
+	}
+	/***单批次字段处理逻辑接口**/
+	public static interface BatchQuery {
+		public <T> List<T> query(List<T> resultSet);
+	}
+	
+	//新建单批次字段处理逻辑
+	private static QuickQueryBatchWarpper batchWarpper = new QuickQueryBatchWarpper(new BatchQuery(){
+		public <T> List<T> query(List<T> resultSet) {
+			
+			return resultSet;
+		}
+	},1000);
+	
+	public static void main(String[] args) {
+		//customDict传入参数，public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys)
+		List<Map<String, Object>> keys = null;
+
+		//调用批次字段处理逻辑，获取字段处理后结果
+		List<Map<String, Object>> keys2 = batchWarpper.batchWarp(keys);
+		
 	}
 }
 
