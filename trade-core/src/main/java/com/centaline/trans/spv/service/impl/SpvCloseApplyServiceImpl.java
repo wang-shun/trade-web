@@ -198,7 +198,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(twf);
 
 		if (toWorkFlow != null) {
-			processInstanceService.activateOrSuspendProcessInstance(processInstance.getId(), false);
+			processInstanceService.activateOrSuspendProcessInstance(toWorkFlow.getInstCode(), false);
 		}else{
 			throw new BusinessException("找不到合约编号为"+spvCode+"的资金监管合约流程！");
 		}
@@ -247,7 +247,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 			twf.setBizCode(spvCode);
 			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(twf);
 			if (record != null) {
-				processInstanceService.activateOrSuspendProcessInstance(instCode, true);
+				processInstanceService.activateOrSuspendProcessInstance(record.getInstCode(), true);
 			}else{
 				throw new BusinessException("找不到合约编号为"+spvCode+"的资金监管合约流程！");
 			}
