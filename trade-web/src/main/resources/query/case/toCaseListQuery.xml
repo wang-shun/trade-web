@@ -8,6 +8,8 @@
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
 		<customDict id="qqcdBackProcessorName" beanName="qqcdBackProcessorName" />
+		<customDict id="qqcdDict30003" beanName="qqcdDict30003" />
+		
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -98,8 +100,7 @@
 						NB.CASE_PROPERTY,
 						NB.CLOSE_TIME,
 						NB.CREATE_TIME,
-						NB.RES_DATE,
-
+						NB.RES_DATE,						
                         (SELECT U.REAL_NAME FROM   sctrans.SYS_USER U    inner join  sctrans.T_TO_CASE C on U.ID=C.LEADING_PROCESS_ID AND C.CASE_CODE = NB.CASE_CODE)  FONT_NAME,
                         (select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=NB.CASE_CODE ) as SUBSCRIBE_COUNT
 					FROM sctrans.V_CASE_LIST_BASE NB
@@ -307,7 +308,9 @@
 				<column type="both" name="AGENT_CODE" index="" checkbox="" display="经纪人Id" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="是否关注" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-
+				<column type="both" name="CASE_PROPERTY" index="" checkbox="" display="经纪人Id" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CASE_PROPERTY_SHOW" referencecol="CASE_PROPERTY" index="" checkbox="" display="上家" customDict="qqcdDict30003" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdBackProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
