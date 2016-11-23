@@ -35,7 +35,7 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV_CLOSE
-    where SPV_CLOSE_CODE = #{spvCloseCode,jdbcType=BIGINT}
+    where SPV_CLOSE_CODE = #{spvCloseCode,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sctrans.T_TO_SPV_CLOSE

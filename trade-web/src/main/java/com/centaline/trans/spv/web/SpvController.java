@@ -922,10 +922,7 @@ public class SpvController {
 			    	break;
 			    case "financeSecondAudit":
 			    	cashFlowOutService.cashFlowOutFinanceSecondAuditDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, cashflowApplyCode,chargeOutAppr);
-			        break;
-/*			    case "cashFlowOut":
-	            	cashFlowOutService.cashFlowOutDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, chargeOutAppr);
-	                break;*/    
+			        break;  
 				}	
 			}else{
 				cashFlowOutService.cashFlowOutPageDeal(request, instCode, taskId, taskitem, handle, spvChargeInfoVO, null);
@@ -958,9 +955,6 @@ public class SpvController {
     @RequestMapping("task/spvCloseApply/process")
    	public String spvCloseApplyProcess(HttpServletRequest request,String source,String instCode,
    			String taskId,String handle,String businessKey,String spvCode) throws Exception {
-    	
-    	if(StringUtils.isBlank(spvCode))
-    		throw new BusinessException("合约号<SPVCODE>不存在！");
     	
     	SessionUser user = uamSessionService.getSessionUser();
 
@@ -1012,11 +1006,10 @@ public class SpvController {
     @RequestMapping("/spvCloseApply/deal")
     @ResponseBody
    	public AjaxResponse<?> spvCloseApplyDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO,String source,String instCode,String taskitem,
-   			String taskId,String handle,String businessKey,String spvCode,Boolean continueApply,Boolean result) throws Exception {
+   			String taskId,String handle,String businessKey,Boolean continueApply,Boolean result) throws Exception {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
-    		if(!StringUtils.isBlank(handle)){ 
-				
+    		if(!StringUtils.isBlank(handle)){ 			
 				switch (handle) {
 				case "apply":
 					spvCloseApplyService.spvCloseApplyDeal(request, spvCloseInfoVO, taskId, instCode, businessKey, continueApply);

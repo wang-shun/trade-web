@@ -29,11 +29,6 @@ function submitBtnClick(handle,continueApply,result){
 	  		  return false;
 	  	    }
 	  }else if(handle == 'managerAudit'){
-		  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
-	   	   if(refuseReason=='' || refuseReason==null){
-	   		   alert("请在备注栏填写驳回原因！");
-	   		   return false;
-	   	   }
 		  if(result){
 		   	   if(!confirm("是否确定通过！")){
 			 		  return false;
@@ -44,11 +39,6 @@ function submitBtnClick(handle,continueApply,result){
 		     	  } 
 		  }
 	  }else if(handle == 'directorAudit'){
-		   var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
-	   	   if(refuseReason=='' || refuseReason==null){
-	   		   alert("请填写审批意见！");
-	   		   return false;
-	   	   }
 		  if(result){
 		   	   if(!confirm("是否确定通过！")){
 			 		  return false;
@@ -61,13 +51,15 @@ function submitBtnClick(handle,continueApply,result){
 	  }
 	  
 	  var totalArr = [];
-	  if(continueApply){
+	  if(continueApply != null){
 		  totalArr.push({"name":"continueApply","value":continueApply}); 
 	  }
-	  if(result){
+	  if(result != null){
 		  totalArr.push({"name":"result","value":result}); 
 	  }
-	  $("#spvfive,#auditContent").each(function(){
+	  console.log(result);
+	  console.log(JSON.stringify(totalArr));
+	  $("#spvfive,#auditContent,#instForm").each(function(){
 		var obj = $(this).serializeArray();
 		for(var i in obj){
    		totalArr.push(obj[i]);
@@ -80,11 +72,11 @@ function submitBtnClick(handle,continueApply,result){
 		dataType:"json",
 		data:totalArr,   		        				        		    
 		beforeSend:function(){  
-			//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 			$(".blockOverlay").css({'z-index':'9998'});
     },
     complete: function() {
-             //$.unblockUI(); 
+             $.unblockUI(); 
              if(status=='timeout'){ //超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {

@@ -414,6 +414,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 		toWorkFlow.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 		toWorkFlow.setCaseCode(caseCode);
+		toWorkFlow.setBizCode(caseCode);
 		toWorkFlow.setInstCode(vo.getId());
 		toWorkFlow.setProcessDefinitionId(propertyUtilsService.getProcessTmpBankAuditDfKey());
 		toWorkFlow.setProcessOwner(user.getId());
