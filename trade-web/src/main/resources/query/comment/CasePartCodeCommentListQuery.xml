@@ -53,8 +53,8 @@
 						CC.UPDATE_TIME,
 						SJ.JOB_NAME AS jobName
 					FROM sctrans.T_TO_CASE_COMMENT  CC
-					LEFT JOIN sctrans.SYS_USER_ORG_JOB UOJ ON CC.CREATE_BY = UOJ.USER_ID and UOJ.ISMAIN=1
-					left JOIN sctrans.SYS_JOB SJ ON SJ.ID = UOJ.JOB_ID 
+					LEFT JOIN sctrans.SYS_USER_ORG_JOB UOJ ON CC.CREATE_BY = UOJ.USER_ID AND UOJ.ISMAIN=1
+					LEFT JOIN sctrans.SYS_JOB SJ ON SJ.ID = UOJ.JOB_ID 
 					<choose>
 						<when test="caseCode!=null and caseCode != ''">
 							AND CASE_CODE = #caseCode#
