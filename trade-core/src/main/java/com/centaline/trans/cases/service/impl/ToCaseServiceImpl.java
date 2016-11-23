@@ -378,6 +378,7 @@ public class ToCaseServiceImpl implements ToCaseService {
     	toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
     	toWorkFlow.setProcessOwner(userId);
     	toWorkFlow.setCaseCode(toCase.getCaseCode());
+    	toWorkFlow.setBizCode(toCase.getCaseCode());
     	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
     	
     	toWorkFlowService.insertSelective(toWorkFlow);

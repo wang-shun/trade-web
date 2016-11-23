@@ -183,6 +183,7 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 	    		toWorkFlow.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 	    		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 	    		toWorkFlow.setCaseCode(caseCode);
+	    		toWorkFlow.setBizCode(caseCode);
 	        	toWorkFlow.setProcessOwner(toCase.getLeadingProcessId());
 	    		/*插入工作流*/
 		    	int ss = toWorkFlowService.insertSelective(toWorkFlow);
