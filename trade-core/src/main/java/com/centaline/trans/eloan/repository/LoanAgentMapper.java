@@ -1,9 +1,9 @@
-package com.centaline.trans.loan.repository;
+package com.centaline.trans.eloan.repository;
 
 import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.loan.entity.LoanAgent;
+import com.centaline.trans.eloan.entity.LoanAgent;
 
 @MyBatisRepository
 public interface LoanAgentMapper {
@@ -19,4 +19,6 @@ public interface LoanAgentMapper {
 			String srvCode);
 	
 	//int batchUpdateExportTime(String[] array);
+    
+    List<LoanAgent> selectByCaseCode(String caseCode);
 }

@@ -76,16 +76,12 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	@Autowired
 	private ToSpvAduitMapper toSpvAduitMapper;
 	@Autowired
-	private ToWorkFlowMapper toWorkFlowMapper;
-	@Autowired
 	ToSpvCloseApplyMapper toSpvCloseApplyMapper;
 		
 	@Autowired
 	private UamSessionService uamSessionService;	
 	@Autowired
 	private UamBasedataService uamBasedataService;
-	@Autowired
-	private MessageService messageService;
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
 
@@ -391,30 +387,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 					workFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
 					toWorkFlowService.updateByPrimaryKeySelective(workFlow);
 				}
-				
-				//更新spv表
-/*				ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
-				toSpv.setStatus(SpvStatusEnum.COMPLETE.getCode());
-				toSpvMapper.updateByPrimaryKey(toSpv);*/
-				
-				//当出款总额等于监管金额时发起消息通知资金监管流程 ：SpvProcess
-				//Map<String,Object> completeCashFlowInfoMap = getCompleteCashFlowInfoBySpvCode(spvCode);
-		    	//所有合约下已完成的出账金额总和
-				//BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
-		    	//监管总额
-/*				BigDecimal toSpvTotalAmount = toSpv.getAmount();
-		    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) == 0){
-					messageService.sendSpvFinishMsgByIntermi(instCode);	
-					//更新t_to_workflow表(资金监管流程)
-					ToWorkFlow record = new ToWorkFlow();
-					record.setCaseCode(toSpv.getCaseCode());
-					record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
-					ToWorkFlow toWorkFlow = toWorkFlowMapper.queryActiveToWorkFlowByCaseCodeBusKey(record);
-					if(toWorkFlow != null){
-						toWorkFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
-						toWorkFlowMapper.updateByPrimaryKey(toWorkFlow);
-					}
-		    	}*/
 			}else{
 				Long pkid = spvChargeInfoVO.getToSpvCashFlowApply().getPkid();
 				ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(pkid);
@@ -572,7 +544,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	}
 	
 	//查询spvCode对应合约下所有已完成的流水信息
-	private Map<String, Object> getCompleteCashFlowInfoBySpvCode(String spvCode){
+	@Override
+	public Map<String, Object> getCompleteCashFlowInfoBySpvCode(String spvCode){
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		

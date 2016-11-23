@@ -16,10 +16,11 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.attachment.entity.ToAccesoryList;
-import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.material.entity.MmIoBatch;
 import com.centaline.trans.material.entity.MmItemBatch;
@@ -262,7 +263,7 @@ public class MaterialManagementController {
 	public String materialStay(HttpServletRequest request,MaterialPackageVo material){
 		
 		SessionUser currentUser = uamSessionService.getSessionUser();
-		String userId = currentUser.getId();		
+		String userId = currentUser.getId();
 		request.setAttribute("itemManagerId", userId);
 		List<MmMaterialItem> materialList = new ArrayList<MmMaterialItem>();
 		String itemAddrCode = "";//物品存放路径

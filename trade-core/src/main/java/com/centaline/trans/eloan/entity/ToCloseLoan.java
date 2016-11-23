@@ -1,4 +1,4 @@
-package com.centaline.trans.loan.entity;
+package com.centaline.trans.eloan.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;

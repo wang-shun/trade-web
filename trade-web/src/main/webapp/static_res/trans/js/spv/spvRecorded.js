@@ -9,9 +9,7 @@ $(document).ready(function(){
 	    readOnlyRiskForm();
 	}
 	
-	$("#none_save_btn").click(function(){saveBtnClick()});
 	$("#none_submit_btn").click(function(){submitBtnClick(handle,null)});
-	$("#apply_save_btn").click(function(){saveBtnClick()});
 	$("#apply_submit_btn").click(function(){submitBtnClick(handle,null)});
 	$("#directorAudit_pass_btn").click(function(){submitBtnClick(handle,true)});
 	$("#directorAudit_reject_btn").click(function(){submitBtnClick(handle,false)});
@@ -177,8 +175,7 @@ function checkFormSubmit(){
 }
 
 function changeClass(object){
-	$(object).focus();
-	$(object).addClass("borderClass").blur(function(){
+	$(object).focus().addClass("borderClass").blur(function(){
 		$(this).removeClass("borderClass");
 	});	;
 }
@@ -251,49 +248,49 @@ function submitBtnClick(handle,chargeOutAppr){
 	  		  return false;
 	  	    }
 	  }else if(handle == 'directorAudit'){
+		  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
+	   	   if(refuseReason=='' || refuseReason==null){
+	   		   alert("请在备注栏填写驳回原因！");
+	   		   return false;
+	   	   }
 		  if(chargeOutAppr){
 		   	   if(!confirm("是否确定通过！")){
 			 		  return false;
 			 	  } 
 		  }else{
-			  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
-		   	   if(refuseReason=='' || refuseReason==null){
-		   		   alert("请在备注栏填写驳回原因！");
-		   		   return false;
-		   	   }
-			  		if(!confirm("是否确定驳回！")){
-			     		  return false;
-			     	  } 
+		  	   if(!confirm("是否确定驳回！")){
+		     		  return false;
+		     	  } 
 		  }
 	  }else if(handle == 'financeAudit'){
+		   var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
+	   	   if(refuseReason=='' || refuseReason==null){
+	   		   alert("请填写审批意见！");
+	   		   return false;
+	   	   }
 		  if(chargeOutAppr){
 		   	   if(!confirm("是否确定通过！")){
 			 		  return false;
 			 	  } 
 		  }else{
-			  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
-		   	   if(refuseReason=='' || refuseReason==null){
-		   		   alert("请在备注栏填写驳回原因！");
-		   		   return false;
-		   	   }
-			  		if(!confirm("是否确定驳回！")){
-			     		  return false;
-			     	  } 
+		  		if(!confirm("是否确定驳回！")){
+		     		  return false;
+		     	  } 
 		  }
 	  }else if(handle == 'financeSecondAudit'){
+		   var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
+	   	   if(refuseReason=='' || refuseReason==null){
+	   		   alert("请填写审批意见！");
+	   		   return false;
+	   	   }
 		  if(chargeOutAppr){
 		   	   if(!confirm("是否确定通过！")){
 			 		  return false;
 			 	  } 
 		  }else{
-			  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
-		   	   if(refuseReason=='' || refuseReason==null){
-		   		   alert("请在备注栏填写驳回原因！");
-		   		   return false;
-		   	   }
-			  		if(!confirm("是否确定驳回！")){
-			     		  return false;
-			     	  } 
+		  	   if(!confirm("是否确定驳回！")){
+		     		  return false;
+		     	  } 
 		  }
 	  }else if(handle == 'cashFlowOut'){
 		  if(!confirm("是否确定提交申请！")){

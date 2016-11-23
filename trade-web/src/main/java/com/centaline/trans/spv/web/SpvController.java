@@ -63,6 +63,7 @@ import com.centaline.trans.spv.service.SpvCloseApplyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
+import com.centaline.trans.spv.vo.SpvCloseInfoVO;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.spv.vo.SpvVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -966,13 +967,13 @@ public class SpvController {
     	if(!StringUtils.isBlank(handle)){ 	
         	switch (handle) {
         	case "apply":
-        		spvCloseApplyService.spvCloseApplyProcess(request, businessKey);
+        		spvCloseApplyService.spvCloseApplyProcess(request, instCode, taskId, businessKey);
         		break;
             case "managerAudit":
-            	spvCloseApplyService.spvCloseManagerAuditProcess(request, businessKey);
+            	spvCloseApplyService.spvCloseManagerAuditProcess(request, instCode, taskId, businessKey);
         		break;
             case "directorAudit":
-            	spvCloseApplyService.spvCloseDirectorAuditProcess(request, businessKey);
+            	spvCloseApplyService.spvCloseDirectorAuditProcess(request, instCode, taskId, businessKey);
             	break;
         	}
     		request.setAttribute("urlType", "myTask");
@@ -1008,26 +1009,29 @@ public class SpvController {
      * @throws Exception 
      * @since JDK 1.8
      */
-/*    @RequestMapping("task/spvCloseApply/deal")
-   	public AjaxResponse<?> spvCloseApplyDeal(HttpServletRequest request,String source,String instCode,String taskitem,
-   			String taskId,String handle,String businessKey,String spvCode,Boolean chargeOutAppr) throws Exception {
+    @RequestMapping("/spvCloseApply/deal")
+    @ResponseBody
+   	public AjaxResponse<?> spvCloseApplyDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO,String source,String instCode,String taskitem,
+   			String taskId,String handle,String businessKey,String spvCode,Boolean continueApply,Boolean result) throws Exception {
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		if(!StringUtils.isBlank(handle)){ 
 				
 				switch (handle) {
 				case "apply":
-					cashFlowOutService.spvCloseApplyDeal(request, instCode, taskId, taskitem, handle, spvCloseApplyCode, chargeOutAppr);
+					spvCloseApplyService.spvCloseApplyDeal(request, spvCloseInfoVO, taskId, instCode, businessKey, continueApply);
 					break;
 			    case "managerAudit":
-			    	cashFlowOutService.spvCloseManagerAuditDeal(request, instCode, taskId, taskitem, handle, spvCloseApplyCode,chargeOutAppr);
+			    	spvCloseApplyService.spvCloseManagerAuditDeal(request, spvCloseInfoVO, instCode,
+			    			taskitem, taskId, businessKey, result);
 					break;
 			    case "directorAudit":
-			    	cashFlowOutService.spvCloseDirectorAuditDeal(request, instCode, taskId, taskitem, handle, spvCloseApplyCode,chargeOutAppr);
+			    	spvCloseApplyService.spvCloseDirectorAuditDeal(request, spvCloseInfoVO, instCode,
+			    			taskitem, taskId, businessKey, result);
 			    	break; 
 				}	
 			}else{
-				cashFlowOutService.spvCloseApplyPageDeal(request, instCode, taskId, taskitem, handle, null);
+				spvCloseApplyService.spvClosePageDeal(request, spvCloseInfoVO, instCode);
 			}
 
 			response.setSuccess(true);
@@ -1036,7 +1040,7 @@ public class SpvController {
 		}
     	
     	return response;
-    }*/
+    }
 
     /**
      * @throws Exception  
@@ -1118,6 +1122,7 @@ public class SpvController {
     private void setExMsgForResp(AjaxResponse<?> response,Exception e) {
     	response.setSuccess(false);
     	StringBuffer sOut = new StringBuffer();
+    	sOut.append(e.getMessage() + "\r\n");
         StackTraceElement[] trace = e.getStackTrace();
         for (StackTraceElement s : trace) {
             sOut.append("\tat " + s + "\r\n");

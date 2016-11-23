@@ -54,7 +54,7 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
-import com.centaline.trans.loan.service.ToCloseLoanService;
+import com.centaline.trans.eloan.service.ToCloseLoanService;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mortgage.entity.MortStep;
@@ -342,7 +342,7 @@ public class TaskController {
     		request.setAttribute("OfflineEva", offlineEvaService.queryOfflineEvaVO(instCode));
     		request.setAttribute("evaReport", toEvaReportService.findByProcessId(instCode));
     	} else if(taskitem.equals("LoanlostApproveManager") || 
-    			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")) {
+    			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")  || taskitem.equals("LoanlostApproveSeniorManager")) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
     		
     		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);			

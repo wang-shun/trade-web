@@ -1,7 +1,7 @@
-package com.centaline.trans.loan.repository;
+package com.centaline.trans.eloan.repository;
 
 import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.loan.entity.ToCloseLoan;
+import com.centaline.trans.eloan.entity.ToCloseLoan;
 
 @MyBatisRepository
 public interface ToCloseLoanMapper {

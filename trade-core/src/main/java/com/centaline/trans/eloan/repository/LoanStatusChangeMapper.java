@@ -1,9 +1,9 @@
-package com.centaline.trans.loan.repository;
+package com.centaline.trans.eloan.repository;
 
 import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
-import com.centaline.trans.loan.entity.LoanStatusChange;
+import com.centaline.trans.eloan.entity.LoanStatusChange;
 
 @MyBatisRepository
 public interface LoanStatusChangeMapper {

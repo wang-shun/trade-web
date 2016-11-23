@@ -70,7 +70,7 @@
 					</if>
 				</trim>
 			</where>
-			UNION
+			 UNION
 			SELECT 
 			2 as type,
 			loanAgent.PKID,
@@ -92,7 +92,7 @@
 			LEFT JOIN sctrans.sys_org org ON
 			loanAgent.EXECUTOR_TEAM=org.ID
 			<where>
-			     loanAgent.CONFIRM_STATUS='3'
+			     loanAgent.CONFIRM_STATUS='3' and loanAgent.migrate is null
 				<trim prefix="and" prefixOverrides="and|or">
 					<if test="#SYS_JOBCODE =='consultant'"> and
 						loanAgent.EXECUTOR_ID= #{sessionUserId} and loanAgent.EXECUTOR_TEAM
@@ -113,7 +113,7 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-<!-- 					<if test="#status !=null and #status != '' ">
+				<!-- 	<if test="#status !=null and #status != '' ">
 						and er.CONFIRM_STATUS=#{status}
 					</if> -->
 					<if test="#teamCode!=null and #teamCode != '' ">
@@ -135,7 +135,7 @@
 						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
 					</if>
 				</trim>
-			</where>
+			</where> 
 		</searchScript>
 		<grid>
 		    <column name="type" title="type" hidden="true" />
@@ -143,10 +143,10 @@
 			<column name="loanCode" title="e+编号" hidden="true" />
 			<column name="LOAN_SRV_CODE" field="LOAN_SRV_CODE" title="产品名称"
 				hidden="true" customDict="qqcdDictServCode" />
-			<column name="releaseAmout" title="放款金额(万)" hidden="true" />
-			<column name="RELEASE_TIME" title="RELEASE_TIME" field="RELEASE_TIME"
+			<column name="releaseAmout" title="放款金额(万)" expType="Double" hidden="true" />
+			<column name="RELEASE_TIME" title="放款日期" field="RELEASE_TIME"
 				hidden="true" customDict="getFormatDate" />
-			<column name="CONFIRM_STATUS" title="审批状态" hidden="true" />
+			<column name="CONFIRM_STATUS" title="审批状态" hidden="true" field="CONFIRM_STATUS"  customDict="getEloanCashStatus"/>
 			<column name="PROPERTY_ADDR" title="物业地址" hidden="true" />
 			<column name="CUST_NAME" title="客户名称" hidden="true" />
 			<column name="FIN_ORG_CODE" title="合作机构" field="FIN_ORG_CODE"
@@ -203,11 +203,11 @@
 					<if test="#address !=null and #address != '' ">
 						and INFO.PROPERTY_ADDR=#{address}
 					</if>
-					<if test="#startDate !=null and #startDate != '' ">
-						and r.RELEASE_TIME &gt; =#{startDate}
+					<if test="#startDate1 !=null and #startDate1 != '' ">
+						and r.RELEASE_TIME &gt; =#{startDate1}
 					</if>
-					<if test="#endTime !=null and #endTime != '' ">
-						and r.RELEASE_TIME &lt; = #{endTime}
+					<if test="#endDate1 !=null and #endDate1 != '' ">
+						and r.RELEASE_TIME &lt; = #{endDate1}
 					</if>
 					<if test="#finOrgCode !=null and #finOrgCode != '' ">
 						and c.FIN_ORG_CODE =#{finOrgCode}
@@ -227,7 +227,7 @@
             FROM sctrans.T_TO_LOAN_AGENT loanAgent
             LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
 			<where>
-			     loanAgent.CONFIRM_STATUS='3'
+			     loanAgent.CONFIRM_STATUS='3'  and loanAgent.migrate is null
 				<trim prefix="and" prefixOverrides="and|or">
 					<if test="#SYS_JOBCODE =='consultant'"> and
 						loanAgent.EXECUTOR_ID= #{sessionUserId} and loanAgent.EXECUTOR_TEAM
@@ -248,9 +248,9 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-<!-- 					<if test="#status !=null and #status != '' ">
+					<if test="#status !=null and #status != '' ">
 						and er.CONFIRM_STATUS=#{status}
-					</if> -->
+					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -260,11 +260,11 @@
 					<if test="#address !=null and #address != '' ">
 						and INFO.PROPERTY_ADDR=#{address}
 					</if>
-					<if test="#startDate !=null and #startDate != '' ">
-						and loanAgent.RELEASE_TIME &gt; =#{startDate}
+					<if test="#startDate1 !=null and #startDate1 != '' ">
+						and loanAgent.RELEASE_TIME &gt; =#{startDate1}
 					</if>
-					<if test="#endTime !=null and #endTime != '' ">
-						and loanAgent.RELEASE_TIME &lt; =#{endTime}
+					<if test="#endDate1 !=null and #endDate1 != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{endDate1}
 					</if>
 					<if test="#finOrgCode !=null and #finOrgCode != '' ">
 						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
@@ -272,7 +272,7 @@
 				</trim>
 			</where>
 			 GROUP BY DatePart(yyyy, loanAgent.RELEASE_TIME) , DatePart(mm, loanAgent.RELEASE_TIME)
-			  
+			   
 			 
 			 UNION 
                  SELECT 
@@ -320,21 +320,21 @@
 					<if test="#address !=null and #address != '' ">
 						and INFO.PROPERTY_ADDR=#{address}
 					</if>
-					<if test="#startDate !=null and #startDate != '' ">
-						and r.RELEASE_TIME &lt; =#{startDate}
+					<if test="#startDate2 !=null and #startDate2 != '' ">
+						and r.RELEASE_TIME &gt; =#{startDate}
 					</if>
-	<!-- 				<if test="#endTime !=null and #endTime != '' ">
-						and r.RELEASE_TIME &lt; = #{endTime}
-					</if> -->
+					<if test="#endDate2 !=null and #endDate2 != '' ">
+						and r.RELEASE_TIME &lt; = #{endDate2}
+					</if> 
 					<if test="#finOrgCode !=null and #finOrgCode != '' ">
 						and c.FIN_ORG_CODE =#{finOrgCode}
 					</if>
 				</trim>
 			</where>
         
-           UNION
+                UNION
         
-           SELECT
+      SELECT
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as kaAmount ,
                 sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
@@ -343,7 +343,7 @@
             FROM sctrans.T_TO_LOAN_AGENT loanAgent
              LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
 			<where>
-			     loanAgent.CONFIRM_STATUS='3'
+			     loanAgent.CONFIRM_STATUS='3'  and loanAgent.migrate is null
 				<trim prefix="and" prefixOverrides="and|or">
 					<if test="#SYS_JOBCODE =='consultant'"> and
 						loanAgent.EXECUTOR_ID= #{sessionUserId} and loanAgent.EXECUTOR_TEAM
@@ -364,9 +364,9 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-<!-- 					<if test="#status !=null and #status != '' ">
+					<if test="#status !=null and #status != '' ">
 						and er.CONFIRM_STATUS=#{status}
-					</if> -->
+					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -376,17 +376,17 @@
 					<if test="#address !=null and #address != '' ">
 						and INFO.PROPERTY_ADDR=#{address}
 					</if>
-					<if test="#startDate !=null and #startDate != '' ">
-						and loanAgent.RELEASE_TIME &lt; =#{startDate}
+					<if test="#startDate2 !=null and #startDate2 != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{startDate2}
 					</if>
-	<!-- 				<if test="#endTime !=null and #endTime != '' ">
-						and loanAgent.RELEASE_TIME &lt; =#{endTime}
-					</if> -->
+	 				<if test="#endDate2 !=null and #endDate2 != '' ">
+						and loanAgent.RELEASE_TIME &lt; =#{endDate2}
+					</if> 
 					<if test="#finOrgCode !=null and #finOrgCode != '' ">
 						and loanAgent.FIN_ORG_CODE =#{finOrgCode}
 					</if>
 				</trim>
-			</where>
+			</where> 
 			 )a
 
 			ORDER by a.mm , a.years   
@@ -455,7 +455,7 @@
 				</trim>
 			</where>
 			 GROUP BY c.FIN_ORG_CODE
-			 UNION
+			  UNION
 			  SELECT count(loanAgent.FIN_ORG_CODE ) as num,
 			   loanAgent.FIN_ORG_CODE as finOrgName ,
 			   sum(loanAgent.ACTUAL_AMOUNT)/10000  as amount
@@ -463,7 +463,7 @@
 			   LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
 			   
 				<where>
-			     loanAgent.CONFIRM_STATUS='3'
+			     loanAgent.CONFIRM_STATUS='3'  and loanAgent.migrate is null
 				<trim prefix="and" prefixOverrides="and|or">
 					<if test="#SYS_JOBCODE =='consultant'"> and
 						loanAgent.EXECUTOR_ID= #{sessionUserId} and loanAgent.EXECUTOR_TEAM
@@ -484,9 +484,9 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-<!-- 					<if test="#status !=null and #status != '' ">
+					<if test="#status !=null and #status != '' ">
 						and er.CONFIRM_STATUS=#{status}
-					</if> -->
+					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -507,7 +507,7 @@
 					</if>
 				</trim>
 			</where>
-			 GROUP BY loanAgent.FIN_ORG_CODE ) b
+			 GROUP BY loanAgent.FIN_ORG_CODE  ) b
 			 ORDER BY  b.finOrgName
 		</searchScript>
          <grid>

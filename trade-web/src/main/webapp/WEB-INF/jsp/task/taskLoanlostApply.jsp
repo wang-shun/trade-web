@@ -92,15 +92,6 @@
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="pkid" name="pkid" value="${mortgage.pkid}">
 					<input type="hidden" id="h_custCode" value="${mortgage.custCode}">
-					
-										
-					<input type="hidden" id="comAmount" name="comAmount" value="${mortgage.comAmount}">
-					<input type="hidden" id="comYear" name="comYear" value="${mortgage.comYear}">
-					<input type="hidden" id="comDiscount" name="comDiscount" value="${mortgage.comDiscount}">
-					<input type="hidden" id="prfAmount" name="prfAmount" value="${mortgage.prfAmount}">
-					<input type="hidden" id="prfYear" name="prfYear" value="${mortgage.prfYear}">
-					<input type="hidden" id="houseNum" name="houseNum" value="${mortgage.houseNum}">
-					
 					<%-- 设置审批类型 --%>
 					<input type="hidden" id="approveType" name="approveType"
 						value="${approveType }"> <input type="hidden" id="lapPkid"
@@ -356,8 +347,7 @@
 	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	<!-- bank select -->
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-
-	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script>
+	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
@@ -492,8 +482,7 @@
 							'z-index' : '9998'
 						});
 					},
-					complete : function() {
-
+/* 					complete : function() {
 						$.unblockUI();
 						if (b) {
 							$.blockUI({
@@ -515,7 +504,7 @@
 								parent.$.fancybox.close();
 							});
 						}
-					},
+					}, */
 					success : function(data) {
 						if (b) {
 							caseTaskCheck();
@@ -526,7 +515,7 @@
 							alert("保存成功。");
 							window.close();
 							window.opener.callback();
-						}
+						}						
 					},
 					error : function(errors) {
 						alert("数据保存出错");

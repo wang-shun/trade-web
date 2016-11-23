@@ -1,4 +1,4 @@
-package com.centaline.trans.loan.service.impl;
+package com.centaline.trans.eloan.service.impl;
 
 import java.math.BigDecimal;
 
@@ -6,9 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.centaline.trans.loan.entity.ToCloseLoan;
-import com.centaline.trans.loan.repository.ToCloseLoanMapper;
-import com.centaline.trans.loan.service.ToCloseLoanService;
+import com.centaline.trans.eloan.entity.ToCloseLoan;
+import com.centaline.trans.eloan.repository.ToCloseLoanMapper;
+import com.centaline.trans.eloan.service.ToCloseLoanService;
 
 @Service
 public class ToCloseLoanServiceImpl implements ToCloseLoanService{

@@ -60,13 +60,8 @@
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 <!-- stickUp fixed css -->
 <style>
-selectro {  
-   background: #eee;  
-   cursor: no-drop;  
-   }  
-optionro {  
-    display: none;  
-}  
+.borderClass {border:1px solid red!important;resize: none;}
+.borderClass:focus {border:1px solid red!important;resize: none;}
 </style>
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -579,7 +574,7 @@ optionro {
 						<div id="spvAccDiv" class="form-row form-rowbot">
 						    <div class="form-group form-margin form-space-one">
 						        <label for="" class="lable-one"><i style="color:red;">*</i> 申请人</label>
-						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" value='${applyUserName }'>
+						        <input type="text" id="realName" class="form-control" value='${applyUserName }'>
                                     </div>
 							</div>
 					    </div>
@@ -767,11 +762,14 @@ optionro {
 				</div>
 				
 				<div class="ibox-content" id="spvfive_info">
+				<form id="spvfive">
                     <div class="stop-content">
                         <div class="form-inline">
                             <div class="title">"中止/结束"流程</div>
                             <div class="form-row form-rowbot clear">
                                 <div class="form-group form-margin margin-host">
+                                    <input type="hidden" name="toSpvCloseApply.pkid" value="${spvCloseInfoVO.toSpvCloseApply.pkid}" >
+                                    <input type="hidden" name="toSpvCloseApply.spvCode" value="${empty spvCloseInfoVO.toSpvCloseApply.spvCode?spvCode:spvCloseInfoVO.toSpvCloseApply.spvCode}" >
                                     <label for="" class="">申请状态</label> 
                                     <label class="radio-inline"> 
                                     <input type="radio" name="toSpvCloseApply.closeType" value="1" ${spvCloseInfoVO.toSpvCloseApply.closeType eq '1'?'checked="checked"':''} >中止
@@ -781,7 +779,7 @@ optionro {
                                     </label>
                                 </div>
                             </div>
-                            <div class="form-row form-rowbot" id="signDiv" style="">
+                            <div class="form-row form-rowbot" style="margin-left:-80px;">
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one">原因</label>
                                     <input type="text" name="toSpvCloseApply.comment" value="${spvCloseInfoVO.toSpvCloseApply.comment}" class="form-control space-host" placeholder="" >
@@ -789,7 +787,7 @@ optionro {
                             </div>
                         </div>
                     </div>
-
+                </form>
                         <div class="title">
                             <strong>审核意见</strong>
                         </div>
@@ -818,42 +816,43 @@ optionro {
                         </div>
                         </div>
 
-
                         <div class="submitter">
                             提交人：<span>${user.realName }(${user.serviceJobName })</span>
                         </div>
-                        <div class="excuse">
+                        
+                        <div class="excuse">  
+                        <c:if test="${handle eq 'managerAudit' or handle eq 'directorAudit' }">
                             <form action="">
                                 <i style="color:red;">*</i> <textarea name="toSpvCloseApplyAuditList[0].content" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                             </form>
+                        </c:if>    
                             <div class="form-btn">
-                            <div class="text-center">
-                           
+                            <div class="text-center">                     
                             <c:if test="${handle eq 'apply' }">
 							    <div>
-									<a id="spvCloseApply" class="btn btn-success btn-space">提交申请</button>
-									<a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+									<a id="apply_submit_btn" class="btn btn-success btn-space">提交申请</a>
+									<a id="apply_cancel_btn" class="btn btn-pink btn-space">取消申请</a>
+									<a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>			
 							<c:if test="${handle eq 'managerAudit' }">
 							    <div>
-                                <a type="spvCloseManagerAuditY" class="btn btn-success btn-space">审批通过</button>
-                                <a type="spvCloseManagerAuditX" class="btn btn-pink btn-space">审批驳回</button>
-                                <a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+                                <a id="managerAudit_pass_btn" class="btn btn-success btn-space">审批通过</a>
+                                <a id="managerAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</a>
+                                <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>											
 							<c:if test="${handle eq 'directorAudit' }">
 							    <div>
-                                <a type="spvCloseDirectorAuditY" class="btn btn-success btn-space">审批通过</button>
-                                <a type="spvCloseDirectorAuditX" class="btn btn-pink btn-space">审批驳回</button>
-                                <a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+                                <a id="directorAudit_pass_btn" class="btn btn-success btn-space">审批通过</a>
+                                <a id="directorAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</a>
+                                <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>							
 							<c:if test="${empty handle}">
 							    <div>
-								<a type="spvClosePageY" class="btn btn-success btn-space">提交申请</button>
-                                <a type="spvClosePageX" class="btn btn-pink btn-space">取消申请</button>
-                                <a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</button>
+								<a id="page_submit_btn" class="btn btn-success btn-space">提交申请</a>
+                                <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>			
                             </div>
@@ -893,10 +892,10 @@ optionro {
 	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
-    <script src="${ctx}/js/trunk/task/attachment4.js"></script>
+    <script src="${ctx}/js/trunk/task/attachment5.js"></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 	<script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script src="${ctx}/static/trans_res/js/spv/spvCloseApply.js"></script> <!-- stickup plugin -->
+	<script src="${ctx}/static/trans/js/spv/spvCloseApply.js"></script> <!-- stickup plugin -->
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>	
@@ -908,7 +907,16 @@ optionro {
 			$("#amountMortComDX").val(DX($(this).val()*10000));
 			$("#amountMortPsfDX").val(DX($(this).val()*10000));
 			$("#signAmountDX").val(DX($(this).val()*10000));
-			$("#leftAmountDX").val(DX($(this).val()*10000));    
+			$("#leftAmountDX").val(DX($(this).val()*10000));   
+			
+			var $idValiDate0 = $("input[name='spvCustList[0].idValiDate']");
+			var $idValiDate1 = $("input[name='spvCustList[1].idValiDate']");
+			if($idValiDate0.val() == '3000-01-01'){
+				$idValiDate0.val("长期有效");
+			}
+			if($idValiDate1.val() == '3000-01-01'){
+				$idValiDate1.val("长期有效");
+			}
 			
 		jQuery(function($) {	
  	       $('.stickup-nav-bar').stickUp({
@@ -938,7 +946,19 @@ optionro {
 			$(".pledgeinfo").show();
 		}
 		
+		 //更新账户类型下拉选 
+		 updateAccTypeOptions();
+		
 		})
+		
+	function rescCallback(){
+	   if($("#urlType").val() == 'myTask'){    	 
+		   window.opener.location.reload(); //刷新父窗口
+  	       window.close(); //关闭子窗口.
+	     }else{
+	    	 window.location.href = ctx+"/spv/spvList";
+	     }
+	}
   
 /*******************************************************控件相关*********************************************************************/ 
 		//图片查看器控件  

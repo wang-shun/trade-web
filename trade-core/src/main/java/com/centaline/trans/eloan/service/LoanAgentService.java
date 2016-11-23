@@ -1,7 +1,9 @@
-package com.centaline.trans.loan.service;
+package com.centaline.trans.eloan.service;
 
-import com.centaline.trans.loan.entity.LoanAgent;
-import com.centaline.trans.loan.entity.LoanStatusChange;
+import java.util.List;
+
+import com.centaline.trans.eloan.entity.LoanAgent;
+import com.centaline.trans.eloan.entity.LoanStatusChange;
 
 public interface LoanAgentService {
 	LoanAgent view(Long pkid);
@@ -21,5 +23,7 @@ public interface LoanAgentService {
 	void doDelete(LoanAgent loanAgent);
 	
 	int batchUpdateExportTime(String[] array);
+	
+	List<LoanAgent> selectByCaseCode(String caseCode);
 
 }

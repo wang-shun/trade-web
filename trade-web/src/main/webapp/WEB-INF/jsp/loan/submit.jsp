@@ -115,10 +115,10 @@
 					<table id="table_list_2"></table>
 					<div id="pager_list_2"></div>
 				</div>
-				<div class="form-group row">
+<!-- 				<div class="form-group row">
 					<button type="button" class="btn btn-sm btn-primary" id="btn_add">&nbsp;&nbsp;&nbsp;新增&nbsp;&nbsp;&nbsp;</button>
 				</div>
-			</div>
+			</div> -->
 
 		</div>
 	</form>

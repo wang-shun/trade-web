@@ -1,4 +1,4 @@
-package com.centaline.trans.loan.web;
+package com.centaline.trans.eloan.web;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,9 +29,9 @@ import com.centaline.trans.cases.service.MyCaseListService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.loan.entity.LoanAgent;
-import com.centaline.trans.loan.entity.LoanStatusChange;
-import com.centaline.trans.loan.service.LoanAgentService;
+import com.centaline.trans.eloan.entity.LoanAgent;
+import com.centaline.trans.eloan.entity.LoanStatusChange;
+import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.mgr.Consts;
 
 @Controller

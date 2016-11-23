@@ -229,6 +229,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				
 				wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
 				processDfId=propertyUtilsService.getProcessDfId("LoanLost_Process");
+/*				wf.setBusinessKey(WorkFlowEnum.NEWLOANLOST_PROCESS.getName());
+				processDfId=propertyUtilsService.getProcessDfId("NewLoanLost_Process");*/
 			}
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 			if(wordkFlowDB == null) {

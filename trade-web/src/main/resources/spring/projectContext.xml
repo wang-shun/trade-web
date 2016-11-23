@@ -161,6 +161,9 @@
        <!-- 进出账方向 -->
     <bean name="getCashFlowApplyStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetSpvCashFlowStatusServiceImpl">
     </bean>
+        <!-- e+放款状态 -->
+    <bean name="getEloanCashStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetEloanCashFlowStatusServiceImpl">
+    </bean>
       <!-- 格式化日期 -->
     <bean name="getFormatDate" class="com.centaline.trans.common.service.impl.QuickQueryFormatDateServiceImpl">
     <property name="format" value="YYYY-MM-DD"></property>
@@ -381,5 +384,7 @@
     <!-- 回访登记标记 -->
     <bean name="getReturnVisitRemark" class="com.centaline.trans.common.service.impl.QuickQueryReturnVisitRemarkServiceImpl" />
     <bean name="getChangeReason" class="com.centaline.trans.common.service.impl.QuickQueryGetChangeReasonServiceImpl"></bean>
+    
+    <bean name="convertValueForLoanlostReason" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueLostReasonServiceImpl" />
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
