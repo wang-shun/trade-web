@@ -71,7 +71,6 @@ import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToServChangeHistrotyService;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
-import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -1629,6 +1628,7 @@ public class CaseDetailController {
 		    StartProcessInstanceVo pIVo =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SRV_BUSSKEY.getCode()), caseCode, vars);
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
 			toWorkFlow.setCaseCode(caseCode);
+			toWorkFlow.setBizCode(caseCode);
 			toWorkFlow.setInstCode(pIVo.getId());
 			toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 			toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
