@@ -126,7 +126,7 @@ public class MortgageController {
 		ToTransPlan toTransPlan = new ToTransPlan();
 		toTransPlan.setCaseCode(toMortgage.getCaseCode());
 		
-		// 修改人：zhangxb16  时间：2015-11-12 
+		// 修改人：zhangxb16  时间：2015-11-12 	
 		toTransPlan.setPartCode("PSFApply");
 		if (estPartTime == null) {
 			if (taskitem.equals("LoanRelease")) {

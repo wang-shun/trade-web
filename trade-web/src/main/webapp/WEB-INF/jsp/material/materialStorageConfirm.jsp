@@ -81,17 +81,11 @@
                                    <p>
                                    <p class="input-infoht"  style="position:relative;">
                                        <label>申请人</label>
-                                       <input type="text"  class="select_control info_two input_type"   name="relevantUser"  id="relevantUser" 
-                                        readonly="readonly"	 value="${mmMaterialItemList.get(0).createBy}"/>
-                                       <input  type="hidden"  value="${createByCode}"  name="relevantUserId"  id="relevantUserId">
-                                   <p> 
- <%--                                   <p class="input-infoht"  style="position:relative;">
-                                       <label>申请人</label>
                                        <input type="text" value="" class="select_control info_two" name="relevantUser"  id="relevantUser" 
                                         hVal="" readonly="readonly"	onclick="chooseApplyOperator('${serviceDepId}')" />                                       
                                        <i class="icon iconfont input-group add-icon organize_icon" id="materialApplyUser">&#xe627;</i>
                                        <input  type="hidden"  value=""  name="relevantUserId"  id="relevantUserId">
-                                   <p> --%>
+                                   <p>
                                </div>
                            </div>
                        </div>
@@ -291,13 +285,14 @@
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 <script src="${ctx}/js/template.js" type="text/javascript"></script> 
 <!-- stickup plugin -->
-<script src="${ctx}/js/viewer/viewer.min.js"></script>
+
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>	
 <script src="${ctx}/js/trunk/material/attachmentForMaterial.js"></script> 
 
 <!-- 选择组织控件 -->
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 	
 <script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
 <script type="text/javascript">
 var ctx = "${ctx}";
 var pkid = "${pkid}";
@@ -377,6 +372,11 @@ function  selectApplyUserBack(array) {
 $("#materialApplyUser").click(function() {
 		chooseApplyOperator(serviceDepId);
 });
+
+function renderImg(){		
+	$('.wrapper-content').viewer('destroy');
+	$('.wrapper-content').viewer({zIndex:15001});
+}
 </script>
 </content>
 </body>
