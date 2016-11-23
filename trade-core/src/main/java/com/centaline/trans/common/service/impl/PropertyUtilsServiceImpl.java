@@ -24,12 +24,12 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 
 	@Value("${process.df.key.OfflineEva}")
 	private String offlineEvaDfKey;
-	
+
 	@Value("${process.df.key.service_change}")
 	private String serviceChange;
 	@Value("${process.df.key.serviceRestart}")
 	private String serviceRestart;
-	
+
 	@Value("${process.df.key.spv_out}")
 	private String spvOut;
 
@@ -37,52 +37,54 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	private String processOperationDfKey;
 	@Value("${process.def.vals.operation_process}")
 	private String processDefVals;
-	
+
 	@Value("${process.df.key.tempBankAudit}")
 	private String processTmpBankAuditDfKey;
-	
+
 	@Value("${process.df.key.ComLoan_Process}")
 	private String processComLoanDfKey;
-	
+
 	@Value("${process.df.key.LoanLost_Process}")
 	private String processLoanLostDfKey;
-	
+
 	@Value("${process.df.key.PSFLoan_Process}")
 	private String processPSFLoanDfKey;
-	
+
 	@Value("${process.df.key.Eloan_Process}")
 	private String processEloanDfKey;
-	
+
 	@Value("${process.df.key.Spv_Process}")
 	private String spvProcessDfKey;
-	
+
 	@Value("${process.df.key.SPVCashflowOutProcess}")
 	private String SPVCashflowOutProcessDfKey;
 
 	@Value("${process.df.key.Spv_CashflowInProcess}")
 	private String spvCashflowInProcess;
-	
+
 	@Value("${process.df.key.SpvCloseApplyProcess}")
 	private String SpvCloseApplyProcessDfKey;
-	
+
 	public String getSpvCashflowInProcess() {
 		return spvCashflowInProcess;
 	}
-	
+
 	public String getSPVCashflowOutProcessDfKey() {
 		return SPVCashflowOutProcessDfKey;
 	}
-	
+
 	public String getSpvCloseApplyProcessDfKey() {
 		return SpvCloseApplyProcessDfKey;
 	}
-	
+
 	public String getSpvProcessDfKey() {
 		return spvProcessDfKey;
 	}
+
 	public String getProcessTmpBankAuditDfKey() {
 		return processTmpBankAuditDfKey;
 	}
+
 	public String getProcessEloanDfKey() {
 		return processEloanDfKey;
 	}
@@ -181,7 +183,7 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	public void setOfflineEvaDfKey(String offlineEvaDfKey) {
 		this.offlineEvaDfKey = offlineEvaDfKey;
 	}
-	
+
 	public String getServiceChange() {
 		return serviceChange;
 	}

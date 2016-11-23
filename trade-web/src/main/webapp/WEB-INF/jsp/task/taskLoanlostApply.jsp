@@ -12,28 +12,37 @@
 <html>
 <head>
 <!-- 上传相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+	rel="stylesheet">
 <!-- 展示相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <!-- 备件相关结束 -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+	rel="stylesheet">
 <!-- jdGrid相关 -->
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css"
+	rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"
+	rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -50,6 +59,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+
 	<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
@@ -68,30 +78,25 @@
 			<div class="ibox-content">
 				<form method="post" class="form-horizontal" id="loanlostApplyForm">
 					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode"	value="${taskitem}"> 
-					<input type="hidden" id="custName"	name="custName" value=""> 
-					<input type="hidden" id="finOrgCode" name="finOrgCode" value="${mortgage.finOrgCode }">
+					<input type="hidden" id="partCode" name="partCode"
+						value="${taskitem}"> <input type="hidden" id="custName"
+						name="custName" value=""> <input type="hidden"
+						id="finOrgCode" name="finOrgCode" value="${mortgage.finOrgCode }">
 					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode"		value="${caseCode}">
+					<input type="hidden" id="caseCode" name="caseCode"
+						value="${caseCode}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" 	name="processInstanceId" value="${processInstanceId}">
+					<input type="hidden" id="processInstanceId"
+						name="processInstanceId" value="${processInstanceId}">
 					<%-- 原有数据对应id --%>
-					<input type="hidden" id="pkid" name="pkid" value="${mortgage.pkid}">					
+					<input type="hidden" id="pkid" name="pkid" value="${mortgage.pkid}">
 					<input type="hidden" id="h_custCode" value="${mortgage.custCode}">
-					
-										
-					<input type="hidden" id="comAmount" name="comAmount" value="${mortgage.comAmount}">
-					<input type="hidden" id="comYear" name="comYear" value="${mortgage.comYear}">
-					<input type="hidden" id="comDiscount" name="comDiscount" value="${mortgage.comDiscount}">
-					<input type="hidden" id="prfAmount" name="prfAmount" value="${mortgage.prfAmount}">
-					<input type="hidden" id="prfYear" name="prfYear" value="${mortgage.prfYear}">
-					<input type="hidden" id="houseNum" name="houseNum" value="${mortgage.houseNum}">
-					
 					<%-- 设置审批类型 --%>
-					<input type="hidden" id="approveType" name="approveType"	value="${approveType }"> 
-					<input type="hidden" id="lapPkid"	name="lapPkid" value="${toApproveRecord.pkid }"> 
-					<input type="hidden" id="operator" name="operator" value="${operator }">
+					<input type="hidden" id="approveType" name="approveType"
+						value="${approveType }"> <input type="hidden" id="lapPkid"
+						name="lapPkid" value="${toApproveRecord.pkid }"> <input
+						type="hidden" id="operator" name="operator" value="${operator }">
 
 					<div class="form-group">
 						<label class="col-sm-2 control-label">承办银行</label>
@@ -177,6 +182,7 @@
 						</div>
 					</div>
 				</form>
+
 			</div>
 		</div>
 
@@ -263,14 +269,14 @@
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.thumbnail_url) { %}
-							                <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="width:80px;height:80px;">
+							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
 							            {% } %}</div>
 							            <div class="name" style="display: none">
 							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
 							            </div>
 							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -346,7 +352,6 @@
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 			var source = "${source}";
 			function readOnlyForm() {
@@ -456,7 +461,8 @@
 				var url = "${ctx}/task/mortgage/saveLoanlostApply";
 				if (b) {
 					url = "${ctx}/task/mortgage/submitLoanlostApply";
-				}			
+				}
+
 				$.ajax({
 					cache : true,
 					async : false,//false同步，true异步
@@ -464,7 +470,7 @@
 					url : url,
 					dataType : "json",
 					data : jsonData,
-					beforeSend : function() {						
+					beforeSend : function() {
 						$.blockUI({
 							message : $("#salesLoading"),
 							css : {
@@ -476,8 +482,21 @@
 							'z-index' : '9998'
 						});
 					},
-					complete : function() {					
-						if (status == 'timeout') {
+/* 					complete : function() {
+						$.unblockUI();
+						if (b) {
+							$.blockUI({
+								message : $("#salesLoading"),
+								css : {
+									'border' : 'none',
+									'z-index' : '1900'
+								}
+							});
+							$(".blockOverlay").css({
+								'z-index' : '1900'
+							});
+						}
+						if (status == 'timeout') {//超时,status还有success,error等值的情况
 							Modal.alert({
 								msg : "抱歉，系统处理超时。"
 							});
@@ -485,9 +504,8 @@
 								parent.$.fancybox.close();
 							});
 						}
-					},
-					success : function(data) {					
-						$.unblockUI();
+					}, */
+					success : function(data) {
 						if (b) {
 							caseTaskCheck();
 							if (null != data.message) {
@@ -502,7 +520,7 @@
 					error : function(errors) {
 						alert("数据保存出错");
 					}
-				});				
+				});
 			}
 
 			//验证控件checkUI();
@@ -516,7 +534,11 @@
 					alert('请选择主贷人');
 					return false;
 				}
-				$("input[name='custName']").val($("select[name='custCode']").find("option:selected").text());
+
+				$("input[name='custName']").val(
+						$("select[name='custCode']").find("option:selected")
+								.text());
+
 				return true;
 			}
 
@@ -562,11 +584,13 @@
 								if (data.bankList != null) {
 									for (var i = 0; i < data.bankList.length; i++) {
 										if (data.bankCode == data.bankList[i].finOrgCode) {
-											friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"
+											friend
+													.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"
 															+ data.bankList[i].finOrgName
 															+ "</option>");
 										} else {
-											friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"
+											friend
+													.append("<option value='"+data.bankList[i].finOrgCode+"'>"
 															+ data.bankList[i].finOrgName
 															+ "</option>");
 										}
@@ -687,12 +711,6 @@
 					});
 				}
 				return checkAtt;
-			}
-			
-			//渲染图片 <viewer.min.js中调用>
-			function renderImg(){		
-				$('.wrapper-content').viewer('destroy');
-				$('.wrapper-content').viewer({zIndex:15001});
 			}
 		</script> 
 	</content>
