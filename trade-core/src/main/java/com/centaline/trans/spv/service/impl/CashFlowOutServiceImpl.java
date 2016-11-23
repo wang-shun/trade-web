@@ -21,14 +21,12 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
+import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -139,7 +137,7 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         // 判断流程是否已存在
 		ToWorkFlow record = new ToWorkFlow();
 		record.setCaseCode(caseCode);
-		record.setBusinessKey("SpvCloseApplyProcess");
+		record.setBusinessKey(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode());
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
 		if(toWorkFlow != null){
 			throw new BusinessException("存在‘中止/结束’流程，暂不能开启出入账流程！");
