@@ -143,7 +143,7 @@
                 </div>
             </li>
             <li class="aui-list-header newgrey"></li>
-            <section class="other-box white">
+            <!-- <section class="other-box white">
                 <div class="other-charges">
                     其它购房费用<i class="iconfont ml5">&#xe680;</i>
                 </div>
@@ -177,7 +177,7 @@
                                 交易手续费
                             </div>
                             <div class="aui-list-item-input mr15">
-                                <p class="text-right">2.5元/平方米</p>
+                                <p class="text-right" id="tradeFee">0元</p>
                             </div>
                         </div>
                     </li>
@@ -187,7 +187,7 @@
                                 委托公证费
                             </div>
                             <div class="aui-list-item-input mr15">
-                                <p class="text-right">200元/平方米</p>
+                                <p class="text-right" id="notarialFees">0元</p>
                             </div>
                         </div>
                     </li>
@@ -202,7 +202,7 @@
                         </div>
                     </li>
                 </ul>
-            </section>
+            </section> -->
         </ul>
         <p class="mt15 text-center">
             以上结果仅供参考，实际费用以审税结果为准
@@ -461,8 +461,18 @@ function sum(t) {
 	$("#deedTax").html(deedTax+"万");
 	$("#addTax").html(calculateAddTax+"万");
 	$("#personTax").html(personTax+"万");
-	$("#totalTax").html((parseFloat(deedTax)+parseFloat(calculateAddTax)+parseFloat(personTax))+"万");
+	var totalTax = getPositive(parseFloat(deedTax)+parseFloat(calculateAddTax)+parseFloat(personTax));
+	$("#totalTax").html('<span>'+totalTax+'</span>万');
 	//alert('ok!');
+	
+	//calculateTaxable(taxableSqure,housePrice,squre) 
+	//calculateNotarialFees(housePrice)
+	//tradeTax(squre)
+	
+	//$("#taxableSqure").html(deedTax+"万");
+	//$("#propertyFee").html(calculateAddTax+"万");
+	//$("#tradeFee").html(personTax+"万");
+	//$("#notarialFees").html(personTax+"万");
 }
 </script>
 
