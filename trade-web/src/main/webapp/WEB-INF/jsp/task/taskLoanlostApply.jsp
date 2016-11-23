@@ -461,8 +461,7 @@
 				var url = "${ctx}/task/mortgage/saveLoanlostApply";
 				if (b) {
 					url = "${ctx}/task/mortgage/submitLoanlostApply";
-				}
-
+				}			
 				$.ajax({
 					cache : true,
 					async : false,//false同步，true异步
@@ -470,7 +469,7 @@
 					url : url,
 					dataType : "json",
 					data : jsonData,
-					beforeSend : function() {
+					beforeSend : function() {						
 						$.blockUI({
 							message : $("#salesLoading"),
 							css : {
@@ -482,21 +481,8 @@
 							'z-index' : '9998'
 						});
 					},
-/* 					complete : function() {
-						$.unblockUI();
-						if (b) {
-							$.blockUI({
-								message : $("#salesLoading"),
-								css : {
-									'border' : 'none',
-									'z-index' : '1900'
-								}
-							});
-							$(".blockOverlay").css({
-								'z-index' : '1900'
-							});
-						}
-						if (status == 'timeout') {//超时,status还有success,error等值的情况
+					complete : function() {					
+						if (status == 'timeout') {
 							Modal.alert({
 								msg : "抱歉，系统处理超时。"
 							});
@@ -504,8 +490,9 @@
 								parent.$.fancybox.close();
 							});
 						}
-					}, */
-					success : function(data) {
+					},
+					success : function(data) {					
+						$.unblockUI();
 						if (b) {
 							caseTaskCheck();
 							if (null != data.message) {
@@ -520,7 +507,7 @@
 					error : function(errors) {
 						alert("数据保存出错");
 					}
-				});
+				});				
 			}
 
 			//验证控件checkUI();
