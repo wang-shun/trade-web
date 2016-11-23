@@ -7,11 +7,11 @@
 		<customDict id="qqcdBuyerPhone" beanName="qqcdBuyerPhone" />
 		<customDict id="qqcdSellerAndPhone" beanName="qqcdSellerAndPhone" />
 		<customDict id="qqcdBuyerAndPhone" beanName="qqcdBuyerAndPhone" />
-		<customDict id="partName" beanName="qqcdDictPartName"></customDict>
 		<customDict id="getChangeReason" beanName="getChangeReason"></customDict>	
 		<customDict id="getReturnVisitList" beanName="getReturnVisitList"></customDict>	
 		<customDict id="getTransChangeList" beanName="getTransChangeList"></customDict>
 		<customDict id="getReturnVisitRemark" beanName="getReturnVisitRemark"></customDict>
+		<customDict id="getFontAgentInfo" beanName="getFontAgentInfo"></customDict>
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -40,7 +40,7 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="queryTradeChangedCaseList" cacheCount="false">
+	<query id="queryTradeChangedCaseList" cacheCount="true">
 		<searchCondition>
 		   <condition field="S.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		   <condition field="O.PROPERTY_ADDR"  name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
@@ -55,6 +55,7 @@
 				<![CDATA[
 	SELECT
 		C.PKID,
+		C.LEADING_PROCESS_ID,
 		S.CASE_CODE,
 		O.PROPERTY_ADDR,
 		S.CREATE_TIME AS CHANGE_TIME,
@@ -69,16 +70,10 @@
 		S.CHANGE_REASON,
 		S.LAST_VISIT_REMARK,
 		S.LAST_CONTENT,
-	    S.OPERATE_FLAG,
-	    U.REAL_NAME AS FONT_NAME,
-	    U.MOBILE AS FONT_MOBILE,
-	    F.AGENT_NAME,
-	    F.AGENT_PHONE
+	    S.OPERATE_FLAG
 	FROM
 		SCTRANS.T_TS_TRANS_PLAN_HISTORY_BATCH S
 	INNER JOIN SCTRANS.T_TO_CASE C ON C.CASE_CODE = S.CASE_CODE
-	LEFT JOIN sctrans.SYS_USER U ON U.ID = C.LEADING_PROCESS_ID
-	LEFT JOIN  SCTRANS.T_TO_CASE_INFO F ON C.CASE_CODE = F.CASE_CODE
 	LEFT JOIN sctrans.T_TO_PROPERTY_INFO O ON O.CASE_CODE = S.CASE_CODE
 	LEFT JOIN sctrans.SYS_USER Y ON Y.ID = S.CREATE_BY
 	LEFT JOIN sctrans.t_yucui_org_hierarchy I ON I.ORG_ID = Y.ORG_ID
@@ -92,7 +87,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY S.PKID DESC
+			  ORDER BY S.CREATE_TIME DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -100,6 +95,7 @@
 		<grid>
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" title="案件ID" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" display="" title="" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="REAL_NAME" index="" checkbox="" display="变更人" title="变更人" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
@@ -122,12 +118,10 @@
 				<column type="both" name="CHANGE_REASON" display="" title="" customDict="" hidden=""/>
 				<column type="virtual" name="changeReason"  display="变更原因" title="变更原因" referencecol="PART_CODE,CHANGE_REASON" customDict="getChangeReason" sysDict="" format="" width="90"  align="" />
 				<column type="both" name="LAST_VISIT_REMARK"  display="最新回访标记" title="最新回访标记" customDict="" sysDict="" format="" width="90"  align="" />
-				<column type="both" name="FONT_NAME" index="" checkbox="" display="交易顾问" title="交易顾问" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="FONT_MOBILE" index="" checkbox="" display="交易顾问号码" title="交易顾问号码" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" title="经纪人" customDict="" sysDict=""  width="90" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="AGENT_PHONE" display="经纪人号码" title="经纪人号码" customDict="" hidden=""/>
 				<column type="virtual" name="visitRemark" referencecol="LAST_VISIT_REMARK" display="回访标记" title="回访标记" index="" checkbox=""  customDict="getReturnVisitRemark" sysDict="" format=""   align="" halign="" order="" resizable="" />
 				<column type="both" name="LAST_CONTENT" index="" checkbox="" display="回访跟进内容" title="回访跟进内容" customDict="" sysDict="" format="" width="90"  align="" halign="" resizable=""/>
+				<column type="both" name="FONT_NAME,FONT_MOBILE,AGENT_NAME,AGENT_PHONE" display="信贷员,信贷员号码,经纪人,经纪人号码" title="信贷员,信贷员号码,经纪人,经纪人号码" customDict="getFontAgentInfo" referencecol="CASE_CODE,LEADING_PROCESS_ID"/>
+				
 			</table-row>
 		</grid>
 	</query>
