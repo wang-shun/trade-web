@@ -35,18 +35,20 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT PR_CODE,pr.PR_ADDRESS,u.REAL_NAME,PR_APPLY_TIME,PR_ACCPET_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME) as ACCEPTANCE,PR_COMPLETE_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME) as ACOMPLETE_TIME,o.ORG_NAME
-  					FROM [sctrans].[T_TO_PROPERTY_RESEARCH] pr
-  					inner join sctrans.sys_org o
-  					on pr.PR_DISTRICT_ID=o.id
-  					inner join sctrans.sys_user u
-  					on pr.PR_APPLIANT=u.id
-  					where PR_STATUS=2 
+					SELECT pr.PR_CODE,pr.PR_ADDRESS,pr.PR_APPLIANT,PR_APPLY_TIME,PR_ACCPET_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME) as ACCEPTANCE,PR_COMPLETE_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME) as ACOMPLETE_TIME,pr.PR_DISTRICT_ID
+  					FROM [SCTRANS].[T_TO_PROPERTY_RESEARCH] pr
+  					WHERE PR_STATUS=2 
+  					AND EXISTS(SELECT 1 FROM SCTRANS.SYS_ORG o WHERE o.ID = pr.PR_DISTRICT_ID
+  					           <ifNotNull yuCuiOriGrpId>
+  									  AND  o.ID = #yuCuiOriGrpId#   
+  					 			</ifNotNull>
+  					 )
+  					AND EXISTS(SELECT 1 FROM SCTRANS.SYS_USER u WHERE u.ID = pr.PR_APPLIANT)
   					 <ifNotNull prApplyTime>
-  					      and datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0 
+  					      AND DATEDIFF(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
   					 </ifNotNull>
   					 <ifNotNull prApplyTimeEnd>
-  						  and datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0 
+  						  AND DATEDIFF(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0
   					 </ifNotNull>  
   					 <ifNotNull prAccpetTimeStart>
 						  AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
@@ -58,15 +60,12 @@
 						  AND pr.PR_COMPLETE_TIME &gt;= #prCompleteTimeStart#
 					 </ifNotNull>
 					 <ifNotNull prCompleteTimeEnd>
-						  AND pr.PR_COMPLETE_TIME &lt;= #prCompleteTimeEnd# 
+						  AND pr.PR_COMPLETE_TIME &lt;= #prCompleteTimeEnd#
 					 </ifNotNull>
 					 <ifNotNull prAddress>
   					      AND pr.PR_ADDRESS like '%'+#prAddress#+'%'
   					 </ifNotNull>
-  					 <ifNotNull yuCuiOriGrpId>
-  						  AND  o.ID = #yuCuiOriGrpId#   
-  					 </ifNotNull>          
-  					      and PR_CHANNEL=1 
+  					      and PR_CHANNEL=1
   					      order by PR_CODE
 				]]>
 			</baseSql>
@@ -80,13 +79,14 @@
 			
 				<column type="both" name="PR_CODE"  title="产调编号" customDict="" hidden="false"/>
 				<column type="both" name="PR_ADDRESS"  title="产调地址" customDict="" hidden="false"/>
-				<column type="both" name="REAL_NAME"  title="申请人" customDict="" hidden="false"/>
+				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_APPLY_TIME"  title="申请时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
 				<column type="both" name="PR_ACCPET_TIME"  title="接受时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
 				<column type="both" name="ACCEPTANCE" title="受理时间（小时）" customDict="" hidden="false"/>
 				<column type="both" name="PR_COMPLETE_TIME"  title="完成时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
 				<column type="both" name="ACOMPLETE_TIME" title="完成时间（小时）" customDict="" hidden="false"/>
-				<column type="both" name="ORG_NAME" title="贵宾服务部" customDict="" hidden="false"/>
+				<column type="both" name="PR_DISTRICT_ID" index="" checkbox="" display="" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
+				<column type="both" name="REAL_NAME,ORG_NAME" index="" checkbox="" display="申请人,贵宾服务部" referencecol="PR_APPLIANT,PR_DISTRICT_ID" customDict="getRealNameAndOrgName" sysDict="" format=""  align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

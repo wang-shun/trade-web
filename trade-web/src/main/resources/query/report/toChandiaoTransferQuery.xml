@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-		<customDict id="convertValue" beanName="convertValue"></customDict>
+		<customDict id="getRealNameAndOrgName" beanName="getRealNameAndOrgName"></customDict>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref=""
@@ -35,18 +35,17 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT count(*) as singular ,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME))/count(*) as acceptanceTime,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME))/count(*) as completeTime,o.org_name as departName,o.id
- 						 FROM [sctrans].[T_TO_PROPERTY_RESEARCH] pr
-  						 inner join sctrans.sys_org o
-  						 on pr.PR_DISTRICT_ID=o.id
-  						 inner join sctrans.sys_user u
- 						 on pr.PR_APPLIANT=u.id
-  						 where PR_STATUS=2 
+					SELECT count(*) as singular ,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME))/count(*) as acceptanceTime,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME))/count(*) as completeTime,o.ORG_NAME as departName,o.id
+ 						 FROM [SCTRANS].[T_TO_PROPERTY_RESEARCH] pr
+  						 INNER JOIN SCTRANS.SYS_ORG o
+  						 ON pr.PR_DISTRICT_ID=o.ID
+  						 WHERE PR_STATUS=2 
+  						 AND EXISTS(SELECT 1 FROM SCTRANS.SYS_USER u WHERE u.ID = pr.PR_APPLIANT)
   						 <ifNotNull prApplyTime>
-  						       and datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
+  						       and DATEDIFF(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
   						 </ifNotNull> 
   						 <ifNotNull prApplyTimeEnd>
-  						       and datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0 
+  						       and DATEDIFF(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0 
   						 </ifNotNull>  
   						 <ifNotNull prAccpetTimeStart>
 							AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
@@ -64,7 +63,7 @@
   						    AND  o.ID = #yuCuiOriGrpId#   
   						 </ifNotNull>  
   						       and PR_CHANNEL=1
-  						group by o.org_name,o.id
+  						group by o.ORG_NAME,o.ID
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -88,18 +87,20 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT pr.PR_CODE,pr.PR_ADDRESS,u.REAL_NAME,PR_APPLY_TIME,PR_ACCPET_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME) as ACCEPTANCE,PR_COMPLETE_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME) as ACOMPLETE_TIME,o.ORG_NAME
-  					FROM [sctrans].[T_TO_PROPERTY_RESEARCH] pr
-  					inner join sctrans.sys_org o
-  					on pr.PR_DISTRICT_ID=o.id
-  					inner join sctrans.sys_user u
-  					on pr.PR_APPLIANT=u.id
-  					where PR_STATUS=2 
+					SELECT pr.PR_CODE,pr.PR_ADDRESS,pr.PR_APPLIANT,PR_APPLY_TIME,PR_ACCPET_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME) as ACCEPTANCE,PR_COMPLETE_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME) as ACOMPLETE_TIME,pr.PR_DISTRICT_ID
+  					FROM [SCTRANS].[T_TO_PROPERTY_RESEARCH] pr
+  					WHERE PR_STATUS=2 
+  					AND EXISTS(SELECT 1 FROM SCTRANS.SYS_ORG o WHERE o.ID = pr.PR_DISTRICT_ID
+  					           <ifNotNull yuCuiOriGrpId>
+  									  AND  o.ID = #yuCuiOriGrpId#   
+  					 			</ifNotNull>
+  					 )
+  					AND EXISTS(SELECT 1 FROM SCTRANS.SYS_USER u WHERE u.ID = pr.PR_APPLIANT)
   					 <ifNotNull prApplyTime>
-  					      AND datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
+  					      AND DATEDIFF(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
   					 </ifNotNull>
   					 <ifNotNull prApplyTimeEnd>
-  						  AND datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0
+  						  AND DATEDIFF(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0
   					 </ifNotNull>  
   					 <ifNotNull prAccpetTimeStart>
 						  AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
@@ -116,9 +117,6 @@
 					 <ifNotNull prAddress>
   					      AND pr.PR_ADDRESS like '%'+#prAddress#+'%'
   					 </ifNotNull>
-  					 <ifNotNull yuCuiOriGrpId>
-  						  AND  o.ID = #yuCuiOriGrpId#   
-  					 </ifNotNull>     
   					      and PR_CHANNEL=1
 				]]>
 			</baseSql>
@@ -132,13 +130,14 @@
 			
 				<column type="both" name="PR_CODE" index="" checkbox="" display="产调编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable="" />
 				<column type="both" name="PR_ADDRESS" index="" checkbox="" display="产调地址" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable="" />
-				<column type="both" name="REAL_NAME" index="" checkbox="" display="申请人" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_APPLY_TIME" index="" checkbox="" display="申请时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_ACCPET_TIME" index="" checkbox="" display="接受时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="ACCEPTANCE" index="" checkbox="" display="受理时间（小时）" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
 				<column type="both" name="PR_COMPLETE_TIME" index="" checkbox="" display="完成时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"  align="" halign="" order="" resizable="" />
 				<column type="both" name="ACOMPLETE_TIME" index="" checkbox="" display="完成时间（小时）" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
-				<column type="both" name="ORG_NAME" index="" checkbox="" display="贵宾服务部" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_DISTRICT_ID" index="" checkbox="" display="" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
+				<column type="both" name="REAL_NAME,ORG_NAME" index="" checkbox="" display="申请人,贵宾服务部" referencecol="PR_APPLIANT,PR_DISTRICT_ID" customDict="getRealNameAndOrgName" sysDict="" format=""  align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
