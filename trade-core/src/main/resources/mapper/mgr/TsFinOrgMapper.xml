@@ -160,9 +160,13 @@
   	</if>
   </select>
   
-  <select id="findBySupCat" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="findBySupCat" resultMap="BaseResultMap">
   	select * from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE in (select fin_org_code from sctrans.T_TS_SUP 
-  	where SUP_CAT=#{supCat,jdbcType=VARCHAR})
+  	where SUP_CAT=#{supCat,jdbcType=VARCHAR}
+  	<if test="tag != null and tag!='' " >
+     and (TAGS like '%'+#{tag,jdbcType=VARCHAR}+'%')
+  	</if>
+  	)
   </select>
   <select id="findBranchBank" resultMap="BaseResultMap">
   	select * from sctrans.T_TS_FIN_ORG where fin_org_code in 

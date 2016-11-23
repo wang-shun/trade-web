@@ -112,17 +112,17 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	@Override
 	public List<TsFinOrg> findEvaCompany() {
 
-		return tsFinOrgMapper.findBySupCat(SupCatEnum.EVA_SUPPLIER.getCode());
+		return tsFinOrgMapper.findBySupCat(SupCatEnum.EVA_SUPPLIER.getCode(),null);
 	}
 
 	@Override
 	public List<TsFinOrg> findSpvCompany() {
-		return tsFinOrgMapper.findBySupCat(SupCatEnum.MONEY_SUPPLIER.getCode());
+		return tsFinOrgMapper.findBySupCat(SupCatEnum.MONEY_SUPPLIER.getCode(),null);
 	}
 
 	@Override
 	public List<TsFinOrg> findPrfLoanBank() {
-		return tsFinOrgMapper.findBySupCat(SupCatEnum.PRF_SUPPLIER.getCode());
+		return tsFinOrgMapper.findBySupCat(SupCatEnum.PRF_SUPPLIER.getCode(),null);
 	}
 
 	@Override
@@ -159,7 +159,12 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 
 	@Override
 	public List<TsFinOrg> findFinCompany() {
-		return tsFinOrgMapper.findBySupCat(SupCatEnum.FINANCE_LOAN_SUPPLIER.getCode());
+		return tsFinOrgMapper.findBySupCat(SupCatEnum.FINANCE_LOAN_SUPPLIER.getCode(),null);
+	}
+
+	@Override
+	public List<TsFinOrg> findFinCompany(String tag) {
+		return tsFinOrgMapper.findBySupCat(SupCatEnum.FINANCE_LOAN_SUPPLIER.getCode(),tag);
 	}
 
 	@Override
