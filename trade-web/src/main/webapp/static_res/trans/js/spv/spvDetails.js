@@ -172,16 +172,13 @@ $(document).ready(function(){
 			                } 
 			            } ,   
 			success : function(data) {   
-					/*if(data.message){
-						alert(data.message);
-					}*/
-				     if($("#urlType").val() == 'myTask'){    	 
-				    	 window.opener.location.reload(); //刷新父窗口
-			        	 window.close(); //关闭子窗口.
-				     }else{
-				    	 alert("流程开启成功！");
-				    	 window.location.href = ctx+"/spv/spvList";
-				     }
+					if(data.success){
+						alert("流程开启成功！");  	 
+					    window.location.href = ctx+"/spv/spvList";
+					}else{
+						alert("流程开启失败：\n"+data.message);  	 
+					    window.location.href = ctx+"/spv/spvList";
+					}     
 					 $.unblockUI();
 				},		
 			error : function(errors) {

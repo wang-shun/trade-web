@@ -504,19 +504,19 @@
                                 <button id="apply_submit_btn" class="btn btn-success mr15">提交</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
-                            <c:if test="${handle eq 'directorAduit' }">
-                                <button id="directorAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
-                                <button id="directorAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                            <c:if test="${handle eq 'directorAudit' }">
+                                <button id="directorAudit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="directorAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
-                            <c:if test="${handle eq 'financeAduit' }">
-                                <button id="financeAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
-                                <button id="financeAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                            <c:if test="${handle eq 'financeAudit' }">
+                                <button id="financeAudit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="financeAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
-                            <c:if test="${handle eq 'financeSecondAduit' }">
-                                <button id="financeSecondAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
-                                <button id="financeSecondAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                            <c:if test="${handle eq 'financeSecondAudit' }">
+                                <button id="financeSecondAudit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="financeSecondAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>   
                             </div>

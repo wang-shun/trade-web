@@ -18,15 +18,12 @@
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css"
-	rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -114,38 +111,6 @@
 							</div>
 						</div>
 					</div>
-
-					<%-- 					<!-- 流失案件高级主管主管审核 -->
-					<div class="form-group">
-						<label class="col-sm-2 control-label">审批结果</label>
-						<div class="radio i-checks radio-inline">
-							<label> <input type="radio" checked="checked"
-								value="true" id="optionsRadios1" name="LoanLost_director"
-								onClick="$('#loanLostGeneralManagerNotApproves').hide();">审批通过
-							</label>
-						</div>
-						<div class="radio i-checks radio-inline">
-							<label> <input type="radio" value="false"
-								id="optionsRadios2" name="LoanLost_director"
-								onClick="$('#loanLostGeneralManagerNotApproves').show();getNotApproves();">审批未通过
-							</label>
-						</div>
-						<div class="form_sign col-sm-12 clearfix" id="loanLostGeneralManagerNotApproves"
-							style="display: none">
-							<c:forEach items="${loanLostNotApproves}"
-								var="loanLostGeneralManagerNotApprove">
-								<div class="col-sm-6 sign">
-									<input type="checkbox"
-										value="${loanLostGeneralManagerNotApprove.code}"
-										name="loanLostGeneralManagerNotApprove" class="btn btn-white"
-										onClick="loanLostGeneralManagerAppendNotApprove(this.checked,'${loanLostGeneralManagerNotApprove.name}');">
-									<label>${loanLostGeneralManagerNotApprove.name}</label>
-								</div>
-							</c:forEach>
-						</div>
-					</div> --%>
-
-
 					<div class="form-group">
 						<label class="col-sm-2 control-label">审批意见</label>
 						<div class="col-sm-10">
@@ -177,24 +142,23 @@
 			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
 		</div>
 	</div>
-	<content tag="local_script"> <!-- jqGrid --> <script
-		src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> <script
-		src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
-		src="${ctx}/transjs/task/loanlostApprove.js"></script> <script
-		src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script>
-			/**高级主管审核意见 */
+	<content tag="local_script"> <!-- jqGrid --> 
+	<script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
+	<script	src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script> 
+	<script	src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
+	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script>			
 			function loanLostGeneralManagerAppendNotApprove(isAppend, content) {
 				if (isAppend) {
 					var oldVal = $("#LoanLost_GeneralManager_response").val();
 					if (oldVal != '') {
 						oldVal += '；';
 					}
-					$("#LoanLost_GeneralManager_response")
-							.val(oldVal + content);
+					$("#LoanLost_GeneralManager_response").val(oldVal + content);
 				}
 			}
 
@@ -229,7 +193,6 @@
 						});
 					},
 					complete : function() {
-
 						if (status == 'timeout') {//超时,status还有success,error等值的情况
 							Modal.alert({
 								msg : "抱歉，系统处理超时。"
@@ -247,8 +210,7 @@
 					}
 				});
 			}
-		</script> </content>
+		</script>
+   </content>
 </body>
-
-
 </html>

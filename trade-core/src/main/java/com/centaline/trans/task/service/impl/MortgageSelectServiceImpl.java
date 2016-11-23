@@ -252,6 +252,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				
 				ToWorkFlow workFlow = new ToWorkFlow();
 				workFlow.setCaseCode(vo.getCaseCode());
+				workFlow.setBizCode(vo.getCaseCode());
 				workFlow.setBusinessKey(wf.getBusinessKey());
 				workFlow.setInstCode(p.getId());
 				workFlow.setProcessDefinitionId(processDfId);

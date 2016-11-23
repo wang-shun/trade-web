@@ -320,6 +320,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		// 保存流程数据
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 		toWorkFlow.setCaseCode(processInstanceVO.getCaseCode());
+		toWorkFlow.setBizCode(processInstanceVO.getCaseCode());
 		toWorkFlow.setInstCode(pIVo.getId());
 		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 		toWorkFlow.setBusinessKey(WorkFlowEnum.SPV_OUT.getCode());
@@ -529,6 +530,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpv.setUpdateTime(new Date());
 				toSpvMapper.updateByPrimaryKeySelective(toSpv);
 			} else {
+				toSpv.setStatus(SpvStatusEnum.DRAFT.getCode());
 				toSpv.setCreateBy(user.getId());
 				toSpv.setCreateTime(new Date());
 				toSpv.setSpvCode(spvCode);
