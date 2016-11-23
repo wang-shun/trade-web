@@ -203,6 +203,8 @@
 												style="background-color: #FFFFFF" name="managerName"
 												class="form-control tbspuser" readonly="readonly"
 												onclick="chooseManager('${serviceDepId}')" />
+												<input type="hidden" id="managerId"
+												name="managerId" value="">
 										</div>
 									</div>
 								</div>
@@ -346,13 +348,13 @@
 						<td class="t-left">{{item.PROPERTY_ADDR}}</td>
 						<td class="t-left">{{item.REAL_NAME}}</td>
 						<td class="t-left">{{item.ORG_NAME}}</td>
-						<td class="t-left">{{item.transferDate}}</td>
-						<td class="t-left">{{item.caseTransferDate}}</td>
-						<td class="text-center">{{item.status1}}</td>
+						<td class="t-left">{{item.TRANSFERDATE}}</td>
+						<td class="t-left">{{item.CASETRANSFERDATE}}</td>
+						<td class="text-center">{{item.N_STATUS}}</td>
 						<td class="t-left">{{item.GRP_NAME}}</td>
 						<td class="t-left">{{item.AR_NAME}}</td>
 						<td class="t-left">{{item.WZ_NAME}}</td>
-						<td class="t-left">{{item.VREAL_NAME}}</td>
+						<td class="t-left">{{item.QJDS_NAME}}</td>
 				  </tr>
        {{/each}}
      </script> 

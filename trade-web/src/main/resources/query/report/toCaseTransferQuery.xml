@@ -2,12 +2,15 @@
 <querys>
 	<dicts>
 		<customDict id="convertValue" beanName="convertValue"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+		<customDict id="qqManagerByOrgIdAndJobCode" beanName="qqManagerByOrgIdAndJobCode"></customDict>
+		<customDict id="qqProaddrByCaseCode" beanName="qqProaddrByCaseCode"></customDict>				
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref=""
 			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
-				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+				<property name="pattern">yyyy-MM-dd</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref=""
@@ -34,88 +37,105 @@
 		</searchCondition>
 		<searchSql>
 			<baseSql>
-				<![CDATA[
-				select 					
-					distinct(CASE_CODE), 
-					PKID,
-					PROPERTY_ADDR ,
-					T.REAL_NAME , 
-					T.ORG_NAME, 
-					transferDate, 
-					caseTransferDate , 
-					status,
-					GRP_NAME, 
-					AR_NAME ,  
-					WZ_NAME, 
-					QJDS_NAME AS VREAL_NAME  					
-				from (
-					select c.pkid,c.case_code , p.PROPERTY_ADDR , zg.REAL_NAME, zg.ORG_NAME, i.AR_NAME, i.GRP_CODE,I.GRP_NAME, 
-					(select TOP 1 AT.END_TIME_ FROM sctrans.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='Guohu'  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE  FROM sctrans.T_TO_WORKFLOW TW  WHERE TW.CASE_CODE=C.CASE_CODE AND TW.BUSINESS_KEY = 'operation_process' and TW.STATUS in (0, 4) )) transferDate,
-					(select TOP 1 AT.END_TIME_ FROM sctrans.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='GuohuApprove'  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE  FROM sctrans.T_TO_WORKFLOW TW  WHERE TW.CASE_CODE=C.CASE_CODE AND TW.BUSINESS_KEY = 'operation_process' and TW.STATUS in (0, 4) )) caseTransferDate,
-					v.long_ AS  status,
-					i.WZ_NAME,
-					I.QJDS_NAME
-					from sctrans.t_to_case c 
-					inner join sctrans.T_TO_PROPERTY_INFO p on c.CASE_CODE = p.CASE_CODE 
-					left join sctrans.V_USER_ORG_JOB_ACTIVE zg on c.ORG_ID = zg.ORG_ID and zg.JOB_CODE ='manager'
-					inner join sctrans.T_TO_CASE_info i on c.case_code = i.case_code
-					inner join sctrans.T_TO_WORKFLOW w on c.case_code = w.case_code 
-					and  w.BUSINESS_KEY = 'operation_process' and w.STATUS in (0, 4)
-					inner join sctrans.act_hi_varinst v on v.PROC_INST_ID_ = w.INST_CODE AND v.name_='GuohuApprove') t 
+				<![CDATA[					
+					SELECT 
+							C.PKID,
+							C.CASE_CODE , 
+							C.ORG_ID,							
+							I.AR_NAME, 						
+							I.GRP_NAME, 
+							(SELECT TOP 1 AT.END_TIME_ FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE ORDER BY AT.END_TIME_ DESC) TRANSFERDATE,
+							(SELECT TOP 1 AT.END_TIME_ FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='GuohuApprove'  AND AT.PROC_INST_ID_=W.INST_CODE ORDER BY AT.END_TIME_ DESC) CASETRANSFERDATE,
+							V.LONG_ AS status,
+							I.WZ_NAME, 
+							I.QJDS_NAME,
+							W.INST_CODE					
+					FROM SCTRANS.T_TO_CASE C 
+							INNER JOIN SCTRANS.T_TO_CASE_INFO I 			ON C.CASE_CODE = I.CASE_CODE
+							INNER JOIN SCTRANS.T_TO_WORKFLOW W 				ON C.CASE_CODE = W.CASE_CODE 	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4)							
+							INNER JOIN SCTRANS.ACT_HI_VARINST V 			ON V.PROC_INST_ID_ = W.INST_CODE AND V.NAME_='GuohuApprove'
 					where 1=1
-					 <ifNotNull caseTransferDateStart>
-						AND t.caseTransferDate &gt; #caseTransferDateStart#
-					</ifNotNull>
-					<ifNotNull caseTransferDateEnd>
-						AND t.caseTransferDate &lt; #caseTransferDateEnd#
-					</ifNotNull>					
-					<ifNotNull transferDateStart>
-						AND t.transferDate &gt; #transferDateStart#
-					</ifNotNull>
-					<ifNotNull transferDateEnd>
-						AND t.transferDate &lt; #transferDateEnd#
-					</ifNotNull>
-					<ifNotNull orgName>
-						AND T.ORG_NAME like '%' + #orgName# + '%' 
-					</ifNotNull>
-					<ifNotNull TransferStatus>
-						AND status = #TransferStatus#
-					</ifNotNull>
-					<ifNotNull vrealName>
-						AND QJDS_NAME like '%' + #vrealName# + '%' 
-					</ifNotNull>
-					<ifNotNull managerName>
-						AND T.REAL_NAME like '%' + #managerName# + '%' 
-					</ifNotNull>
-					<ifNotNull caseCode>
-						AND CASE_CODE = #caseCode#
-					</ifNotNull>
-					<ifNotNull propertyAddr>
-						AND PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
-					</ifNotNull>
+					<if test="propertyAddr != null and propertyAddr !='' ">
+						AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE C.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
+					</if>
+					<if test="orgName != null and orgName != '' ">					
+						AND C.ORG_ID = #orgName#  
+					</if>
+					<if test="caseCode != null and caseCode != ''">					
+						AND C.CASE_CODE = #caseCode#  
+					</if>
+					<if test="vrealName != null and vrealName != ''">					
+						AND I.QJDS_NAME LIKE '%' + #vrealName# + '%'
+					</if>
+					<if test="managerName != null and managerName != ''">	
+						AND EXISTS( SELECT 1 FROM sctrans.V_USER_ORG_JOB_ACTIVE UA WHERE UA.USER_ID = #managerName# AND JOB_CODE = 'Manager' AND UA.ORG_ID = C.ORG_ID)						
+					</if>
+					<if test="TransferStatus != null and TransferStatus != ''">	
+						AND V.LONG_ = #TransferStatus# 
+					</if>
+					<if test="(transferDateStart != null  and transferDateStart != '')  or  (transferDateEnd != null  and transferDateEnd != '')">	
+						AND EXISTS( 
+						
+							SELECT  1 
+							FROM  SCTRANS.ACT_HI_TASKINST AT 
+							WHERE AT.TASK_DEF_KEY_='Guohu'  AND  AT.PROC_INST_ID_= W.INST_CODE
+								<if test="transferDateStart != null  and transferDateStart != '' "> 							
+									AND AT.END_TIME_ &gt;= #transferDateStart#	
+								</if>	
+								<if test="transferDateEnd != null  and transferDateEnd != '' "> 	
+									AND AT.END_TIME_ &lt;= #transferDateEnd#
+								</if>										
+								AND AT.ID_=(
+									SELECT MAX(ID_) FROM SCTRANS.ACT_HI_TASKINST AT2 
+									WHERE AT2.PROC_INST_ID_ = W.INST_CODE  AND AT2.TASK_DEF_KEY_='Guohu'
+								)							
+														
+						)
+					</if>	
+					<if test="(caseTransferDateStart != null  and caseTransferDateStart != '')  or  (caseTransferDateEnd != null  and caseTransferDateEnd != '')">	
+						AND EXISTS( 						
+							SELECT  1 
+							FROM  SCTRANS.ACT_HI_TASKINST AT 
+							WHERE AT.TASK_DEF_KEY_='GuohuApprove'  AND  AT.PROC_INST_ID_= W.INST_CODE
+								<if test="caseTransferDateStart != null  and caseTransferDateStart != '' "> 							
+									AND AT.END_TIME_ &gt;= #caseTransferDateStart#	
+								</if>	
+								<if test="caseTransferDateEnd != null  and caseTransferDateEnd != '' "> 	
+									AND AT.END_TIME_ &lt;= #caseTransferDateEnd#
+								</if>										
+								AND AT.ID_=(
+									SELECT MAX(ID_) FROM SCTRANS.ACT_HI_TASKINST AT2 
+									WHERE AT2.PROC_INST_ID_ = W.INST_CODE  AND AT2.TASK_DEF_KEY_='GuohuApprove'
+								)					
+							)
+					</if>						
+
 				]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY transferDate DESC,caseTransferDate DESC
+				ORDER BY C.CASE_CODE DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>				
-				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />				
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="REAL_NAME" index="" checkbox="" display="主管" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="ORG_NAME" index="" checkbox="" display="组别" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="transferDate" index="" checkbox="" display="过户时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="caseTransferDate" index="" checkbox="" display="过户审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="qqProaddrByCaseCode"  referencecol="CASE_CODE"/>
+				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
+				
+				<column type="virtual" name="REAL_NAME" index="" checkbox="" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/>
+				<column type="virtual" name="ORG_NAME" index="" checkbox="" display="组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
+				<column type="both" name="TRANSFERDATE" index="" checkbox="" display="过户时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASETRANSFERDATE" index="" checkbox="" display="过户审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="status" index="" checkbox="" display="是否审批通过" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="GRP_NAME" index="" checkbox="" display="店组" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="AR_NAME" index="" checkbox="" display="片区" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="WZ_NAME" index="" checkbox="" display="区域" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="VREAL_NAME" index="" checkbox="" display="所属分行" customDict="" sysDict="" format="" width="120" isSort="" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="status1" display="是否审批通过" referencecol="status"  customDict="convertValue"/>
+				<column type="both" name="QJDS_NAME" index="" checkbox="" display="所属分行" customDict="" sysDict="" format="" width="120" isSort="" align="" halign="" order="" resizable="" />
+				
+				<column type="virtual" name="N_STATUS" display="是否审批通过"  referencecol="status"  customDict="convertValue"/>				
 			</table-row>
 		</grid>
 	</query>

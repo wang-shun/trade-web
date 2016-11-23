@@ -11,7 +11,9 @@ public interface TsPrResearchMapService {
 	void saveTsPrResearchMap(TsPrResearchMap tsPrResearchMap);
 
 	TsPrResearchMap findById(Long pkid);
-
+	
+	TsPrResearchMap findByDistCode(String distCode);
+	
 	void deleteTsPrResearchMap(Long pkid);
 	
 	List<TsPrResearchMap> getTsPrResearchMapByProperty(TsPrResearchMap tsPrResearchMap);

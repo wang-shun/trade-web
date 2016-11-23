@@ -25,6 +25,13 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
  
+    <select id="findByDistCode" parameterType="java.lang.String" resultMap="resultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PR_RESEARCH_MAP
+    where  DIST_CODE=#{distCode,jdbcType=VARCHAR}
+  </select>
+ 
   <select id="selectByDistCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

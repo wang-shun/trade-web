@@ -28,9 +28,11 @@
 	<bean name="qqcdDictPrStatusCode" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="pr_status_code"></property>
     </bean>
-    	<bean name="qqcdDict30001" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+     <!-- 根据编号查询 案件状态（已分单、未分单等） -->
+    <bean name="qqcdDict30001" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="30001"></property>
     </bean>
+    <!-- 根据编号查询 案件性质（在途、爆单等） -->
 	<bean name="qqcdDict30003" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="30003"></property>
     </bean>
@@ -333,7 +335,6 @@
 	<bean name="qqcdSrvPart" class="com.centaline.trans.common.service.impl.QuickQuerySrvPartServiceImpl" />
     <bean name="qqcdFin" class="com.centaline.trans.common.service.impl.QuickQueryFinServiceImpl" />
     
-    <bean name="convertValue" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueStatusServiceImpl" />
     <bean name="convertColor" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueColorServiceImpl" />
     
     <bean name="qqMainOrgByUserId" class="com.centaline.trans.common.service.impl.QuickQueryMainUOJByUserIdCustomerDictServiceImpl" />
@@ -384,7 +385,32 @@
     <!-- 回访登记标记 -->
     <bean name="getReturnVisitRemark" class="com.centaline.trans.common.service.impl.QuickQueryReturnVisitRemarkServiceImpl" />
     <bean name="getChangeReason" class="com.centaline.trans.common.service.impl.QuickQueryGetChangeReasonServiceImpl"></bean>
+   
     
+    
+    <!--MORT_TYPE,IS_DELEGATE_YUCUI,LOAN_REQ判断收单状况-->
+    <bean name="getStatus" class="com.centaline.trans.common.service.impl.QuickQueryGetStatusServiceImpl" />
+    
+    <!--过户审批状态  根据审核 结果 long_来转换-->
+    <bean name="convertValue" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueStatusServiceImpl" />
+    <!--过户审批状态  根据casecode查询-->
+    <bean name="guoHuPrice" class="com.centaline.trans.common.service.impl.QuickQueryGuoHuPriceServiceImpl" />
+    <!-- 贷款流失原因转换 -->
     <bean name="convertValueForLoanlostReason" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueLostReasonServiceImpl" />
+    
+    <!--过户审批状态  根据casecode查询-->
+    <bean name="sumByInstCode" class="com.centaline.trans.common.service.impl.QuickQuerySumByInstCodeServiceImpl" />
+    
+    <!-- 根据Org_id 和 jobCode 查询主管 -->
+    <bean name="qqManagerByOrgIdAndJobCode" class="com.centaline.trans.common.service.impl.QuickQueryGetManagerByOrgIdAndJobCodeServiceImpl" >
+    	<property name="jobCode" value="Manager"></property>
+    </bean>
+    <!-- 根据caseCode 查询 产证地址 -->
+    <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" >    	
+    </bean>
+    <!-- 根据custCode 查询主贷人电话 -->
+    <bean name="custPhoneByCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCustPhoneByCodeServiceImpl" >    	
+    </bean>
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

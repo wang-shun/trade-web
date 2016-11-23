@@ -55,5 +55,11 @@ public class TsPrResearchMapServiceImpl implements TsPrResearchMapService{
 	public List<TsPrResearchMap> getTsPrResearchMapByProperty(TsPrResearchMap tsPrResearchMap) {
 		return tsPrResearchMapMapper.getTsPrResearchMapByProperty(tsPrResearchMap);
 	}
+	
+	@Override
+	public TsPrResearchMap findByDistCode(String distCode) {
+		// TODO Auto-generated method stub
+		return tsPrResearchMapMapper.findByDistCode(distCode);
+	}
 
 }
