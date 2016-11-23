@@ -83,6 +83,7 @@
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div>
+	    <form id="instForm">
 	    <%-- 流程相关 --%>
 	    <input type="hidden" id="caseCode" name="caseCode" value="${spvBaseInfoVO.toSpv.caseCode }">
 	    <input type="hidden" id="businessKey" name="businessKey" value="${businessKey }">
@@ -91,6 +92,7 @@
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
+		</form>
 		<!-- main Start -->
 		<div
 			class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
@@ -108,7 +110,6 @@
 				<!-- <div class="ibox"> -->
 				<div class="ibox-content" id="base_info">
 					<form class="form-inline">
-					    <input type="hidden" id="handle" name="handle" value="${handle }">
 						<div class="title">买方客户信息</div>
 						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">							
@@ -763,6 +764,7 @@
 				
 				<div class="ibox-content" id="spvfive_info">
 				<form id="spvfive">
+				    <input type="hidden" id="handle" name="handle" value="${handle }">
                     <div class="stop-content">
                         <div class="form-inline">
                             <div class="title">"中止/结束"流程</div>
@@ -788,13 +790,15 @@
                         </div>
                     </div>
                 </form>
+                
+                        <c:if test="${handle eq 'managerAudit' or handle eq 'directorAudit' }" >
                         <div class="title">
-                            <strong>审核意见</strong>
+                            <strong>历史审核意见</strong>
                         </div>
                         <div class="view-content">
                             <div class="view-box">
-                            <c:if test="${not empty SpvCloseInfoVO.toSpvCloseApplyAuditList }">
-                            <c:forEach items="${SpvCloseInfoVO.toSpvCloseApplyAuditList }" var="toSpvCloseAduit" varStatus="status4">
+                            <c:if test="${not empty spvCloseInfoVO.toSpvCloseApplyAuditList }">
+                            <c:forEach items="${spvCloseInfoVO.toSpvCloseApplyAuditList }" var="toSpvCloseAduit" varStatus="status4">
                             <input type="hidden" name="toSpvAduitList[${status4.index }].pkid" value="${toSpvCloseAduit.pkid }" />
                             <div class="view clearfix">
                                 <p>
@@ -809,12 +813,13 @@
                             </div>
                             </c:forEach>
                             </c:if>
-                            <c:if test="${empty SpvCloseInfoVO.toSpvCloseApplyAuditList }">
+                            <c:if test="${empty spvCloseInfoVO.toSpvCloseApplyAuditList }">
                                     <%-- <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p> --%>
-                                    <div style="width:100%;height:100px;background:url(../../../static/image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
+                                    <div style="width:100%;height:100px;background:url(../../../image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
                             </c:if>
                         </div>
                         </div>
+                        </c:if>
 
                         <div class="submitter">
                             提交人：<span>${user.realName }(${user.serviceJobName })</span>
@@ -822,7 +827,7 @@
                         
                         <div class="excuse">  
                         <c:if test="${handle eq 'managerAudit' or handle eq 'directorAudit' }">
-                            <form action="">
+                            <form id="auditContent">
                                 <i style="color:red;">*</i> <textarea name="toSpvCloseApplyAuditList[0].content" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                             </form>
                         </c:if>    
@@ -901,13 +906,13 @@
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>	
 		<script>
 		$(document).ready(function(){
-			$("#amountDX").val(DX($(this).val()*10000));
-			$("#amountOwnDX").val(DX($(this).val()*10000));
-			$("#amountMortDX").val(DX($(this).val()*10000));
-			$("#amountMortComDX").val(DX($(this).val()*10000));
-			$("#amountMortPsfDX").val(DX($(this).val()*10000));
-			$("#signAmountDX").val(DX($(this).val()*10000));
-			$("#leftAmountDX").val(DX($(this).val()*10000));   
+			$("#amountDX").val(DX($("input[name='toSpv.amount']").val()*10000));
+			$("#amountOwnDX").val(DX($("input[name='toSpv.amountOwn']").val()*10000));
+			$("#amountMortDX").val(DX($("input[name='toSpv.amountMort']").val()*10000));
+			$("#amountMortComDX").val(DX($("input[name='toSpv.amountMortCom']").val()*10000));
+			$("#amountMortPsfDX").val(DX($("input[name='toSpv.amountMortPsf']").val()*10000));
+			$("#signAmountDX").val(DX($("input[name='toSpvProperty.signAmount']").val()*10000));
+			$("#leftAmountDX").val(DX($("input[name='toSpvProperty.leftAmount']").val()*10000));
 			
 			var $idValiDate0 = $("input[name='spvCustList[0].idValiDate']");
 			var $idValiDate1 = $("input[name='spvCustList[1].idValiDate']");

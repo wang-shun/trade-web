@@ -89,6 +89,10 @@ text-decoration: underline !important;
 #addLine{line-height:35px;}
 .product-type span{margin-right:5px}	
 .product-type .selected,.product-type span:hover{border-color:#f8ac59}
+
+.product-type  .selected , .product-type span:hover{
+	border-color: #1c84c6;
+}
 .date-info .col-md-12 .form-group:not(first-child){margin-bottom:0}
 .text-center{text-align:center;}
 .slash{font-weight:bold !important;}

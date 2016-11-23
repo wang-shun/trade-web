@@ -131,6 +131,7 @@ public class ToEvaReportServiceImpl implements ToEvaReportService{
     	//保存流程数据
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 		toWorkFlow.setCaseCode(processInstanceVO.getCaseCode());
+		toWorkFlow.setBizCode(processInstanceVO.getCaseCode());
 		toWorkFlow.setInstCode(pIVo.getId());
 		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 		toWorkFlow.setBusinessKey(WorkFlowEnum.EVA_WBUSSKEY.getCode());

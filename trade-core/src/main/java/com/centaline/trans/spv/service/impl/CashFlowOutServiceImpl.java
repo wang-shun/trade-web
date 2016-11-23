@@ -21,12 +21,12 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
+import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -66,6 +66,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private TsFinOrgService tsFinOrgService;
+	@Autowired
+	private ToCaseService toCaseService;
 		
 	@Autowired
 	private ToSpvMapper toSpvMapper;
@@ -128,16 +130,18 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 	public void cashFlowOutPageDeal(HttpServletRequest request, String instCode, String taskId,String taskitem,
 			String handle, SpvChargeInfoVO spvChargeInfoVO, String businessKey) throws Exception {
 		SessionUser user = uamSessionService.getSessionUser();
+		//获取合约
+		String spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
+		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
+		String caseCode = toSpv.getCaseCode();
         // 判断流程是否已存在
-		if(StringUtils.isNotBlank(businessKey)){
-			ToWorkFlow record = new ToWorkFlow();
-			record.setBizCode(businessKey);
-			record.setBusinessKey("SPVCashflowOutProcess");
-			ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
-			if(toWorkFlow != null){
-				throw new BusinessException("流程已经存在，请勿重复开启！");
-				}
-			}	
+		ToWorkFlow record = new ToWorkFlow();
+		record.setCaseCode(caseCode);
+		record.setBusinessKey(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode());
+		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+		if(toWorkFlow != null){
+			throw new BusinessException("存在‘中止/结束’流程，暂不能开启出入账流程！");
+			}
 		
 		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
 		
@@ -161,8 +165,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 			spvChargeInfoVO.getToSpvCashFlowApply().setCashflowApplyCode(spvApplyCode);
 		}
 	
-		//获取合约
-		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode());
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("RiskControlOfficer", user.getUsername());
 		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");

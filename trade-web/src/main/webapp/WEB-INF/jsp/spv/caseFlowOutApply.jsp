@@ -269,19 +269,13 @@
                                                     ${cashFlow.applyAuditorName }
                                                     
                                                     <c:if test="${cashFlow.usage eq 'out' }">
-	                                                    <c:if test="${cashFlow.status eq 12 }">
-	                                                    &gt;${financeName }
-	                                                    </c:if>
-	                                                    <c:if test="${cashFlow.status gt 12 }">
+	                                                    <c:if test="${cashFlow.status ge 12 }">
 	                                                    &gt;${cashFlow.ftPreAuditorName }
 	                                                    </c:if>
                                                     </c:if>
                                                     
                                                     <c:if test="${cashFlow.usage eq 'out'}" >
-	                                                    <c:if test="${cashFlow.status eq 13 }">
-	                                                    &gt;${financeName }
-	                                                    </c:if>
-	                                                    <c:if test="${cashFlow.status gt 13 }">
+	                                                    <c:if test="${cashFlow.status ge 13 }">
 	                                                    &gt;${cashFlow.ftPostAuditorName }
 	                                                    </c:if>
                                                     </c:if>
@@ -341,7 +335,7 @@
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
 															</c:if>
-															<c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }">
+															<c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit'}">
 															    <i class="icon iconfont icon_y" >&#xe635;
 																</i>
 															</c:if> 
@@ -387,7 +381,7 @@
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.spvCode }" />
 	                                                <td>
 	                                                    <select  class="table-select boderbbt"  
-	                                                    <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit'}">
+	                                                    <c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit'}">
 	                                                    readonly
 	                                                    </c:if> 
 	                                                     name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiver" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" onChange="doSearch(this)" ></select>
@@ -422,7 +416,7 @@
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
 															</c:if>
-															<c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }">
+															<c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit'}">
 															    <i class="icon iconfont icon_y" >&#xe635;
 																</i>
 															</c:if>	
@@ -476,7 +470,7 @@
                             </c:if>
                             <c:if test="${empty spvChargeInfoVO.toSpvAduitList }">
                                     <%-- <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p> --%>
-                                    <div style="width:100%;height:100px;background:url(../../../static/image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
+                                    <div style="width:100%;height:100px;background:url(../../../image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
                             </c:if>
                         </div>
                         </div>
@@ -504,19 +498,19 @@
                                 <button id="apply_submit_btn" class="btn btn-success mr15">提交</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
-                            <c:if test="${handle eq 'directorAduit' }">
-                                <button id="directorAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
-                                <button id="directorAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                            <c:if test="${handle eq 'directorAudit' }">
+                                <button id="directorAudit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="directorAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
-                            <c:if test="${handle eq 'financeAduit' }">
-                                <button id="financeAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
-                                <button id="financeAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                            <c:if test="${handle eq 'financeAudit' }">
+                                <button id="financeAudit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="financeAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
-                            <c:if test="${handle eq 'financeSecondAduit' }">
-                                <button id="financeSecondAduit_pass_btn" class="btn btn-success btn-space">审批通过</button>
-                                <button id="financeSecondAduit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
+                            <c:if test="${handle eq 'financeSecondAudit' }">
+                                <button id="financeSecondAudit_pass_btn" class="btn btn-success btn-space">审批通过</button>
+                                <button id="financeSecondAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</button>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>   
                             </div>

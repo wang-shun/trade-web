@@ -154,7 +154,7 @@
 		
 				<column type="both" name="ITEM_CATEGORY" index="" checkbox=""   title="物品类别" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="ITEM_MANAGER" index="" checkbox=""   title="保管人" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="CREATE_BY" index="" checkbox="true" title="提交人"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY" index="" checkbox="true" title="申请人"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ITEM_NAME" index="" checkbox=""   title="物品名称" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="CATEGORY" index="" checkbox=""   title="物品类别中文" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 						
@@ -167,12 +167,12 @@
 				
 				<column type="both" name="ITEM_STATUS" index="" checkbox="" title="物品状态"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ITEM_ADDR_CODE" index="" checkbox="" title="物品位置编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CREATE_BY_REAL_NAME" index="" checkbox="" title="提交人姓名"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CREATE_BY_ORG_NAME" index="" checkbox="" title="提交人组别"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CREATE_BY_MOBILE" index="" checkbox="" title="提交人手机号码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ITEM_MANAGER_REAL_NAME" index="" checkbox="" title="提交人姓名"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ITEM_MANAGER_ORG_NAME" index="" checkbox="" title="提交人组别"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ITEM_MANAGER_MOBILE" index="" checkbox="" title="提交人手机号码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY_REAL_NAME" index="" checkbox="" title="申请人姓名"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY_ORG_NAME" index="" checkbox="" title="申请人组别"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CREATE_BY_MOBILE" index="" checkbox="" title="申请人手机号码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_MANAGER_REAL_NAME" index="" checkbox="" title="保管人人姓名"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_MANAGER_ORG_NAME" index="" checkbox="" title="保管人组别"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ITEM_MANAGER_MOBILE" index="" checkbox="" title="保管人手机号码"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				
 				
 			</table-row>
