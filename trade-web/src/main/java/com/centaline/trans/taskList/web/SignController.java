@@ -76,33 +76,59 @@ public class SignController {
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
 		return "task/taskTransSign";
 	}
+	
 	@RequestMapping(value="/saveSign")
 	public String saveSign(HttpServletRequest request, TransSignVO transSignVO) {
 		signService.insertGuestInfo(transSignVO);
 		
+		boolean flag = true;
 		//同时需要修改贷款表里面的 主贷人信息	
 		ToMortgage toMortgage=new ToMortgage();		
 		List<Long>  pkidDownList=new ArrayList<Long>();
-		if(null!=transSignVO){
+		List<ToMortgage>  toMortgageList=new ArrayList<ToMortgage>();
+		if(null!=transSignVO){			
 			toMortgage.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
 			pkidDownList = transSignVO.getPkidDown();
+			
 			for(int i=0;i<pkidDownList.size();i++){
-				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
-				ToMortgage getMortgageByCode = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
-				if(null != getMortgageByCode){
-					//不为空 说明更新了主贷人信息
-					ToMortgage toMortgageForUpdate=new ToMortgage();
-					toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
-					toMortgageForUpdate.setCustCode(String.valueOf(pkidDownList.get(i)));
-					TgGuestInfo tgGuestInfo=tgGuestInfoService.findTgGuestInfoById(pkidDownList.get(i));
-					if(tgGuestInfo!=null){
-						toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName()==null?"":tgGuestInfo.getGuestName());
+				if(pkidDownList.get(i) != 0){
+					toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
+					ToMortgage getMortgageByCode = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
+					toMortgageList.add(getMortgageByCode);
+				}				
+			}
+			
+			if(toMortgageList.size() > 0){
+				for(int i=0 ;i< toMortgageList.size(); i++){
+					if(toMortgageList.get(i) != null){
+						if(toMortgageList.get(i).getCustCode() !=null){					
+							for(int k=0;k<pkidDownList.size();k++){
+								 if(toMortgageList.get(i).getCustCode().equals(pkidDownList.get(k).toString())){
+										//不为空 说明更新了主贷人信息
+										ToMortgage toMortgageForUpdate=new ToMortgage();
+										toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
+										toMortgageForUpdate.setCustCode(String.valueOf(pkidDownList.get(i)));
+										TgGuestInfo tgGuestInfo=tgGuestInfoService.findTgGuestInfoById(pkidDownList.get(i));
+										if(tgGuestInfo!=null){
+											toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName()==null?"":tgGuestInfo.getGuestName());
+										}					
+										toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
+								 }
+							}
+						}						
 					}					
-					toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
-				}else{
-					//为空 说明已选的主贷人已被删除、清空主贷表对应casecode的主贷人信息
-					toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
 				}
+			}
+			if(toMortgageList.size() > 0){
+				for(int m = 0;m < toMortgageList.size(); m++){
+					if(toMortgageList.get(m) != null){
+						flag = false;
+						break;						
+					}
+				}
+			}
+			if(flag){
+				toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
 			}
 			
 		}
@@ -115,31 +141,57 @@ public class SignController {
 	@ResponseBody
 	public Result submitSign(HttpServletRequest request, TransSignVO transSignVO) {
 		//签约保存信息先更新 客户信息表 
-		signService.insertGuestInfo(transSignVO);
+signService.insertGuestInfo(transSignVO);
 		
+		boolean flag = true;
 		//同时需要修改贷款表里面的 主贷人信息	
 		ToMortgage toMortgage=new ToMortgage();		
 		List<Long>  pkidDownList=new ArrayList<Long>();
+		List<ToMortgage>  toMortgageList=new ArrayList<ToMortgage>();
 		if(null!=transSignVO){
 			toMortgage.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
 			pkidDownList = transSignVO.getPkidDown();
+			
 			for(int i=0;i<pkidDownList.size();i++){
-				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
-				ToMortgage getMortgageByCode = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
-				if(null != getMortgageByCode){
-					//不为空 说明更新了主贷人信息
-					ToMortgage toMortgageForUpdate=new ToMortgage();
-					toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
-					toMortgageForUpdate.setCustCode(String.valueOf(pkidDownList.get(i)));
-					TgGuestInfo tgGuestInfo=tgGuestInfoService.findTgGuestInfoById(pkidDownList.get(i));
-					if(tgGuestInfo!=null){
-						toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName()==null?"":tgGuestInfo.getGuestName());
+				if(pkidDownList.get(i) != 0){
+					toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
+					ToMortgage getMortgageByCode = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
+					toMortgageList.add(getMortgageByCode);
+				}				
+			}
+			
+			if(toMortgageList.size() > 0){
+				for(int i=0 ;i< toMortgageList.size(); i++){
+					if(toMortgageList.get(i) != null){
+						if(toMortgageList.get(i).getCustCode() !=null){					
+							for(int k=0;k<pkidDownList.size();k++){
+								 if(toMortgageList.get(i).getCustCode().equals(pkidDownList.get(k).toString())){
+										//签约修改下家信息时，更新主贷人
+										ToMortgage toMortgageForUpdate=new ToMortgage();
+										toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
+										toMortgageForUpdate.setCustCode(String.valueOf(pkidDownList.get(i)));
+										TgGuestInfo tgGuestInfo=tgGuestInfoService.findTgGuestInfoById(pkidDownList.get(i));
+										if(tgGuestInfo!=null){
+											toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName()==null?"":tgGuestInfo.getGuestName());
+										}					
+										toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
+								 }
+							}
+						}						
 					}					
-					toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
-				}else{
-					//为空 说明已选的主贷人已被删除、清空主贷表对应casecode的主贷人信息
-					toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
 				}
+			}
+			//主贷人信息在签约环境被删除时，贷款表中没有任何记录，list中的对象全部为空； 则情况贷款表的主贷人信息
+			if(toMortgageList.size() > 0){ 
+				for(int m = 0;m < toMortgageList.size(); m++){
+					if(toMortgageList.get(m) != null){
+						flag = false;
+						break;						
+					}
+				}
+			}
+			if(flag){
+				toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode()==null?"":transSignVO.getCaseCode());
 			}
 			
 		}

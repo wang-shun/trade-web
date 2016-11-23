@@ -12,37 +12,27 @@
 <html>
 <head>
 <!-- 上传相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
-	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"	rel="stylesheet">
 <!-- 展示相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
-	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <!-- 备件相关结束 -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
 <!-- jdGrid相关 -->
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -77,26 +67,29 @@
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form method="post" class="form-horizontal" id="loanlostApplyForm">
-					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode"
-						value="${taskitem}"> <input type="hidden" id="custName"
-						name="custName" value=""> <input type="hidden"
-						id="finOrgCode" name="finOrgCode" value="${mortgage.finOrgCode }">
+			<%--环节编码 --%>
+					<input type="hidden" id="partCode" name="partCode"	value="${taskitem}"> 
+					<input type="hidden" id="custName"	name="custName" value=""> 
+					<input type="hidden" id="finOrgCode" name="finOrgCode" value="${mortgage.finOrgCode }">
 					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode"
-						value="${caseCode}">
+					<input type="hidden" id="caseCode" name="caseCode"		value="${caseCode}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId"
-						name="processInstanceId" value="${processInstanceId}">
+					<input type="hidden" id="processInstanceId" 	name="processInstanceId" value="${processInstanceId}">
 					<%-- 原有数据对应id --%>
-					<input type="hidden" id="pkid" name="pkid" value="${mortgage.pkid}">
+					<input type="hidden" id="pkid" name="pkid" value="${mortgage.pkid}">					
 					<input type="hidden" id="h_custCode" value="${mortgage.custCode}">
+					
+					<input type="hidden" id="comAmount" name="comAmount" value="${mortgage.comAmount}">
+					<input type="hidden" id="comYear" name="comYear" value="${mortgage.comYear}">
+					<input type="hidden" id="comDiscount" name="comDiscount" value="${mortgage.comDiscount}">
+					<input type="hidden" id="prfAmount" name="prfAmount" value="${mortgage.prfAmount}">
+					<input type="hidden" id="prfYear" name="prfYear" value="${mortgage.prfYear}">
+					<input type="hidden" id="houseNum" name="houseNum" value="${mortgage.houseNum}">
 					<%-- 设置审批类型 --%>
-					<input type="hidden" id="approveType" name="approveType"
-						value="${approveType }"> <input type="hidden" id="lapPkid"
-						name="lapPkid" value="${toApproveRecord.pkid }"> <input
-						type="hidden" id="operator" name="operator" value="${operator }">
+					<input type="hidden" id="approveType" name="approveType"	value="${approveType }"> 
+					<input type="hidden" id="lapPkid"	name="lapPkid" value="${toApproveRecord.pkid }"> 
+					<input type="hidden" id="operator" name="operator" value="${operator }">
 
 					<div class="form-group">
 						<label class="col-sm-2 control-label">承办银行</label>
@@ -352,6 +345,7 @@
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 			var source = "${source}";
 			function readOnlyForm() {
@@ -521,11 +515,7 @@
 					alert('请选择主贷人');
 					return false;
 				}
-
-				$("input[name='custName']").val(
-						$("select[name='custCode']").find("option:selected")
-								.text());
-
+				$("input[name='custName']").val($("select[name='custCode']").find("option:selected").text());
 				return true;
 			}
 
@@ -571,13 +561,11 @@
 								if (data.bankList != null) {
 									for (var i = 0; i < data.bankList.length; i++) {
 										if (data.bankCode == data.bankList[i].finOrgCode) {
-											friend
-													.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"
+											friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"
 															+ data.bankList[i].finOrgName
 															+ "</option>");
 										} else {
-											friend
-													.append("<option value='"+data.bankList[i].finOrgCode+"'>"
+											friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"
 															+ data.bankList[i].finOrgName
 															+ "</option>");
 										}
@@ -698,6 +686,12 @@
 					});
 				}
 				return checkAtt;
+			}
+			
+			//渲染图片 <viewer.min.js中调用>
+			function renderImg(){		
+				$('.wrapper-content').viewer('destroy');
+				$('.wrapper-content').viewer({zIndex:15001});
 			}
 		</script> 
 	</content>
