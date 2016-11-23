@@ -35,18 +35,17 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT count(*) as singular ,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME))/count(*) as acceptanceTime,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME))/count(*) as completeTime,o.org_name as departName,o.id
- 						 FROM [sctrans].[T_TO_PROPERTY_RESEARCH] pr
-  						 inner join sctrans.sys_org o
-  						 on pr.PR_DISTRICT_ID=o.id
-  						 inner join sctrans.sys_user u
- 						 on pr.PR_APPLIANT=u.id
-  						 where PR_STATUS=2 
+					SELECT count(*) as singular ,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME))/count(*) as acceptanceTime,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME))/count(*) as completeTime,o.ORG_NAME as departName,o.id
+ 						 FROM [SCTRANS].[T_TO_PROPERTY_RESEARCH] pr
+  						 INNER JOIN SCTRANS.SYS_ORG o
+  						 ON pr.PR_DISTRICT_ID=o.ID
+  						 WHERE PR_STATUS=2 
+  						 AND EXISTS(SELECT 1 FROM SCTRANS.SYS_USER u WHERE u.ID = pr.PR_APPLIANT)
   						 <ifNotNull prApplyTime>
-  						       and datediff(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
+  						       and DATEDIFF(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
   						 </ifNotNull> 
   						 <ifNotNull prApplyTimeEnd>
-  						       and datediff(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0 
+  						       and DATEDIFF(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0 
   						 </ifNotNull>  
   						 <ifNotNull prAccpetTimeStart>
 							AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
@@ -64,7 +63,7 @@
   						    AND  o.ID = #yuCuiOriGrpId#   
   						 </ifNotNull>  
   						       and PR_CHANNEL=1
-  						group by o.org_name,o.id
+  						group by o.ORG_NAME,o.ID
 				]]>
 			</baseSql>
 			<orderBySql>
