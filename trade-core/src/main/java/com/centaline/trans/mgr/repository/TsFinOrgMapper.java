@@ -65,7 +65,7 @@ public interface TsFinOrgMapper {
      * @param supType
      * @return
      */
-    List<TsFinOrg> findBySupCat(String supType);
+    List<TsFinOrg> findBySupCat(@Param("supCat")String supType,@Param("tag")String tag);
     
     /**
      * 根据支行编码查询分行

@@ -53,32 +53,12 @@
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        所在组
-                                    </label>
-                                    <input type="text" readonly="readonly" class="teamcode input_type" id="teamId" name="teamId" hVal="" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
-                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";>
-                                    <div class="input-group float_icon organize_icon">
-                                        <i class="icon iconfont"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="line">
-                            	 <div class="form_content choices">
-                                    <label class="control-label sign_left_small">
-                                        回访标记
-                                    </label>
-                                    <span name="visitRemark" class="text-white "  id="3">未回访</span>
-                                    <span name="visitRemark" class="text-white "  id="1">正常</span>
-                                    <span name="visitRemark" class="text-white "  id="0">异常</span>
-                                    <span name="visitRemark" class="text-white "  id="2">下次处理</span>
-                                </div>
-                            	 <div class="form_content">
-                                    <label class="control-label sign_left_small">
                                         环节名称
                                     </label>
                                     <aist:dict id="partCode" name="partCode" clazz="select_control selwidth " display="select" dictType="part_code" defaultvalue="" />
-                                </div>
+                                 </div>
                             </div>
+                            
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
@@ -102,6 +82,30 @@
                             </div>
 
                             </div>
+                            
+                            <div class="line">
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        所在组
+                                    </label>
+                                    <input type="text" readonly="readonly" class="teamcode input_type" id="teamId" name="teamId" hVal="" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
+                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";>
+                                    <div class="input-group float_icon organize_icon">
+                                        <i class="icon iconfont"></i>
+                                    </div>
+                                </div>
+                            	 <div class="form_content choices">
+                                    <label class="control-label sign_left_small">
+                                        回访标记
+                                    </label>
+                                    <span name="visitRemark" class="text-white "  id="3">未回访</span>
+                                    <span name="visitRemark" class="text-white "  id="1">正常</span>
+                                    <span name="visitRemark" class="text-white "  id="0">异常</span>
+                                    <span name="visitRemark" class="text-white "  id="2">下次处理</span>
+                                </div>
+                            	 
+                            </div>
+                            
                             <div class="line">
                                  <div class="form_content">
                                     <label class="control-label sign_left_small">

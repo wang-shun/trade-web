@@ -117,5 +117,10 @@ public interface TsFinOrgService {
 	 * @return
 	 */
 	List<TsFinOrg> findFinCompany();
-
+	/**
+	 * 查询金融贷款机构
+	 * 
+	 * @return
+	 */
+	List<TsFinOrg> findFinCompany(String tag);
 }

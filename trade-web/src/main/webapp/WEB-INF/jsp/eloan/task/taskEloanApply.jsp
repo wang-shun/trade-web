@@ -445,6 +445,7 @@
     <td class="center">
         <p class="big">
       	   <span id="modal_buyer{{index}}"> {{item.BUYER}}</span>
+
         </p>
     </td>
     <td class="text-left">
@@ -480,12 +481,17 @@
 								}
 							}
 							//产品类型 选择
-							$("#loanSrvCode").click(function() {
+							$("#loanSrvCode").change(function() {
 										var value = this.value;
 										var finOrgCode = $(
 												"#finOrgCode option:selected").val();
-										var month = $("#month").val();
-
+										var month = $("#month").val();									
+										if(value=="30004005" ||value=="30004015"){
+											getBankList("sfk");
+										}else{
+											getBankList("loan");
+										}
+										
 										showAndHide(value, finOrgCode, month);
 									});
 
@@ -534,7 +540,7 @@
 							});
 
 							// 初始化银行列表
-							getBankList('');
+							getBankList(null);
 
 							$('.submit_From').click(
 									function() {
@@ -804,7 +810,7 @@
 		}
 
 		/*获取银行列表*/
-		function getBankList(pcode) {
+		function getBankList(tag) {
 			var fiCode = $("#finOrgCode").attr("value");
 			var friend = $("#finOrgCode");
 			friend.empty();
@@ -814,7 +820,7 @@
 						method : "post",
 						dataType : "json",
 						data : {
-							"pcode" : pcode
+							"tag" : tag
 						},
 						success : function(data) {
 							if (data.bankList != null) {
