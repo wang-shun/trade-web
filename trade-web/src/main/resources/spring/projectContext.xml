@@ -383,7 +383,12 @@
     <bean name="getTransChangeList" class="com.centaline.trans.common.service.impl.QuickQueryGetTransChangeListServiceImpl"></bean>
     <!-- 回访登记标记 -->
     <bean name="getReturnVisitRemark" class="com.centaline.trans.common.service.impl.QuickQueryReturnVisitRemarkServiceImpl" />
+    <!-- 获取变更原因 -->
     <bean name="getChangeReason" class="com.centaline.trans.common.service.impl.QuickQueryGetChangeReasonServiceImpl"></bean>
+    <!-- 获取信贷员 -->
+    <bean name="getFontAgentInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetFontAgentInfoServiceImpl"></bean>
+    <!-- 获取真是姓名及机构名称 -->
+    <bean name="getRealNameAndOrgName" class="com.centaline.trans.common.service.impl.QuickQueryGetRealNameAndOrgNameServiceImpl"></bean>
     
     <bean name="convertValueForLoanlostReason" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueLostReasonServiceImpl" />
     <aop:aspectj-autoproxy expose-proxy="true"/>
