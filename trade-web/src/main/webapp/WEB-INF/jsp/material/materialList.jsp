@@ -256,13 +256,7 @@
          
     </div>
 	<input type="hidden" id="ctx" value="${ctx}" />
-	<input type="hidden" id="signTimeStart" value="${signTimeStart}" />
-	<input type="hidden" id="signTimeEnd" value="${signTimeEnd}" />
 	<input type="hidden" id="itemManagerId" value="${itemManagerId}" />
-	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
-	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
-	<input type="hidden" id="userJobCode" value="${userJobCode}" />
-	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
   	<form action="${ctx}/material/materialStorgae" accept-charset="utf-8" method="post" id="materialStorgaeForm">
   		<input type="hidden" id="pkids" name="pkids" value="" />  		
