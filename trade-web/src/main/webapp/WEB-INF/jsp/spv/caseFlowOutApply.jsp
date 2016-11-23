@@ -269,19 +269,13 @@
                                                     ${cashFlow.applyAuditorName }
                                                     
                                                     <c:if test="${cashFlow.usage eq 'out' }">
-	                                                    <c:if test="${cashFlow.status eq 12 }">
-	                                                    &gt;${financeName }
-	                                                    </c:if>
-	                                                    <c:if test="${cashFlow.status gt 12 }">
+	                                                    <c:if test="${cashFlow.status ge 12 }">
 	                                                    &gt;${cashFlow.ftPreAuditorName }
 	                                                    </c:if>
                                                     </c:if>
                                                     
                                                     <c:if test="${cashFlow.usage eq 'out'}" >
-	                                                    <c:if test="${cashFlow.status eq 13 }">
-	                                                    &gt;${financeName }
-	                                                    </c:if>
-	                                                    <c:if test="${cashFlow.status gt 13 }">
+	                                                    <c:if test="${cashFlow.status ge 13 }">
 	                                                    &gt;${cashFlow.ftPostAuditorName }
 	                                                    </c:if>
                                                     </c:if>
@@ -341,7 +335,7 @@
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
 															</c:if>
-															<c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }">
+															<c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit'}">
 															    <i class="icon iconfont icon_y" >&#xe635;
 																</i>
 															</c:if> 
@@ -387,7 +381,7 @@
 	                                           	    <input type="hidden" name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.spvCode"   value="${spvCaseFlowOutInfoVO.toSpvCashFlow.spvCode }" />
 	                                                <td>
 	                                                    <select  class="table-select boderbbt"  
-	                                                    <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit'}">
+	                                                    <c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit'}">
 	                                                    readonly
 	                                                    </c:if> 
 	                                                     name="spvCaseFlowOutInfoVOList[${status2.index }].toSpvCashFlow.receiver" value="${spvCaseFlowOutInfoVO.toSpvCashFlow.receiver }" onChange="doSearch(this)" ></select>
@@ -422,7 +416,7 @@
 																<i class="icon iconfont icon_x" onClick="removeImg(this,event);">&#xe60a;
 																</i>
 															</c:if>
-															<c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' or handle eq 'cashFlowOut' }">
+															<c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit'}">
 															    <i class="icon iconfont icon_y" >&#xe635;
 																</i>
 															</c:if>	
@@ -476,7 +470,7 @@
                             </c:if>
                             <c:if test="${empty spvChargeInfoVO.toSpvAduitList }">
                                     <%-- <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p> --%>
-                                    <div style="width:100%;height:100px;background:url(../../../static/image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
+                                    <div style="width:100%;height:100px;background:url(../../../image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
                             </c:if>
                         </div>
                         </div>

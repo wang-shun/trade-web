@@ -135,11 +135,12 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		record.setCaseCode(caseCode);
 		List<ToWorkFlow> toWorkFlows = toWorkFlowService.queryActiveToWorkFlowByCaseCode(record);
 		for(ToWorkFlow toWorkFlow : toWorkFlows){
-			if(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
+			/**由列表页面限定*/
+/*			if(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
 				throw new BusinessException("尚有‘入款’流程进行中，不能开启‘中止/结束’流程！");
 			}else if(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
 				throw new BusinessException("尚有‘出款’流程进行中，不能开启‘中止/结束’流程！");
-			}else if(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
+			}else */if(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
 				throw new BusinessException("‘中止/结束’流程已经存在，不能重复开启！");
 			}
 		}
@@ -159,14 +160,15 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 				throw new BusinessException("资金监管流程没有找到需要发送的消息，不能开启‘结束’流程！");
 			}
 			
-			Map<String,Object> completeCashFlowInfoMap = cashFlowOutService.getCompleteCashFlowInfoBySpvCode(spvCode);
+			/**金额由用户自己判断*/
+/*			Map<String,Object> completeCashFlowInfoMap = cashFlowOutService.getCompleteCashFlowInfoBySpvCode(spvCode);
 	    	//所有合约下已完成的出账金额总和
 			BigDecimal totalCashFlowOutAmount = (BigDecimal) completeCashFlowInfoMap.get("totalCashFlowOutAmount");
 	    	//监管总额
 			BigDecimal toSpvTotalAmount = toSpv.getAmount();
 	    	if(totalCashFlowOutAmount.compareTo(toSpvTotalAmount) != 0){
 	    		throw new BusinessException("出账金额总和与监管总额数值不等，不能开启‘结束’流程！");
-	    	}
+	    	}*/
 		}
 
 		// 开启流程
@@ -198,6 +200,9 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
 				propertyUtilsService.getSpvCloseApplyProcessDfKey(), spvCloseCode, vars);
 		
+		//更新合约状态
+		toSpv.setStatus(SpvStatusEnum.INPROCESS.getCode());
+		toSpvMapper.updateByPrimaryKeySelective(toSpv);
 		//资金监管流程挂起
 		if (toWorkFlow != null) {
 			processInstanceService.activateOrSuspendProcessInstance(toWorkFlow.getInstCode(), false);

@@ -144,7 +144,7 @@
 									</div>
 									<div class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status==3}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status>4}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
