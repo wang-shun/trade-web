@@ -387,7 +387,7 @@ text-decoration: underline !important;
 								  <i class="sign_blue">{{item.STATUS}}</i>
 							</p>
  							<p >
-								  {{item.CASE_PROPERTY_SHOW}}</i>
+								  <i class="sign_blue">{{item.CASE_PROPERTY_SHOW}}</i>
 							</p>
 						</td>
 						<td >
