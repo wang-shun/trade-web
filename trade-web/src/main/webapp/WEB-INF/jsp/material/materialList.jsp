@@ -51,7 +51,7 @@
                      <input type="text" class="form-control" placeholder="" id="caseCode" name="caseCode" style="width:180px;">
                  </div>
                  <div class="form-group form-margin form-space-one">
-                     <label for="" class="lable-one">提交人</label>
+                     <label for="" class="lable-one">申请人</label>
                      <input type="text" class="form-control input-one" placeholder="" id="createBy" name="createBy">
                  </div>
                  <div class="form-group form-margin form-space-one">

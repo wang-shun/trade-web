@@ -277,7 +277,7 @@
 	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 	<script	src="${ctx}/js/viewer/viewer.min.js"></script> 
 		 
-<%-- 		 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
+<%-- 	 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
 		 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 		 <script src="${ctx}/transjs/task/loanlostApprove.js"></script> 
 		 <script src="${ctx}/transjs/task/showAttachmentByLssp.js"></script>
