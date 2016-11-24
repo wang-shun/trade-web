@@ -56,66 +56,66 @@
 					FROM  sctrans.T_MM_MATERIAL_ITEM M				
 					LEFT JOIN sctrans.T_TO_CASE  C ON C.CASE_CODE=M.CASE_CODE
 				
-				WHERE M.IS_DELETED='N'	
-				<if test="itemManagerId != null and itemManagerId !='' ">
-					 AND  M.ITEM_MANAGER = #itemManagerId# 
-				</if>
-				<if test="inputTimeStart != null and inputTimeStart !='' ">
-					  and M.ITEM_INPUT_TIME &gt;= #inputTimeStart#
-				</if>				
-				<if test="inputTimeEnd != null and inputTimeEnd !='' ">
-					   and M.ITEM_INPUT_TIME &lt;= #inputTimeEnd#
-				</if>
+					WHERE M.IS_DELETED='N'	
+					<if test="itemManagerId != null and itemManagerId !='' ">
+						 AND  M.ITEM_MANAGER = #itemManagerId# 
+					</if>
+					<if test="inputTimeStart != null and inputTimeStart !='' ">
+						  and M.ITEM_INPUT_TIME &gt;= #inputTimeStart#
+					</if>				
+					<if test="inputTimeEnd != null and inputTimeEnd !='' ">
+						   and M.ITEM_INPUT_TIME &lt;= #inputTimeEnd#
+					</if>
+					
+					<if test="outputTimeStart != null and outputTimeStart !='' ">
+						  and M.ITEM_OUTPUT_TIME &gt;= #outputTimeStart#
+					</if>				
+					<if test="outputTimeEnd != null and outputTimeEnd !='' ">
+						  and M.ITEM_OUTPUT_TIME &lt;= #outputTimeEnd#
+					</if>
+					
+					<if test="backTimeStart != null and backTimeStart !='' ">
+						   and M.ITEM_BACK_TIME >= #backTimeStart#
+					</if>				
+					<if test="backTimeEnd != null and backTimeEnd !='' ">
+						   and M.ITEM_BACK_TIME &lt;= #backTimeEnd#
+					</if>
 				
-				<if test="outputTimeStart != null and outputTimeStart !='' ">
-					  and M.ITEM_OUTPUT_TIME &gt;= #outputTimeStart#
-				</if>				
-				<if test="outputTimeEnd != null and outputTimeEnd !='' ">
-					  and M.ITEM_OUTPUT_TIME &lt;= #outputTimeEnd#
-				</if>
-				
-				<if test="backTimeStart != null and backTimeStart !='' ">
-					   and M.ITEM_BACK_TIME >= #backTimeStart#
-				</if>				
-				<if test="backTimeEnd != null and backTimeEnd !='' ">
-					   and M.ITEM_BACK_TIME &lt;= #backTimeEnd#
-				</if>
-			
-				<if test="caseCode != null and caseCode !='' ">
-				 AND M.CASE_CODE = #caseCode#
-				</if>
-				
-				<if test="propertyAddr != null and propertyAddr !='' ">
-					AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE M.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
-				</if>								
-								
-				<if test="itemCategory != null and itemCategory !='' ">
-				 	  AND M.ITEM_CATEGORY = #itemCategory# 
-				</if>
-				<if test="itemStatus != null and itemStatus !='' ">
-				 	  AND M.ITEM_STATUS  = #itemStatus# 
-				</if>			
-				
-				<if test="itemManager != null and itemManager !='' ">
-					AND EXISTS( 
-						SELECT 1 
-						FROM  SCTRANS.V_USER_ORG_JOB_ACTIVE UA
-					 	WHERE UA.ISMAIN=1  AND UA.REAL_NAME LIKE '%'+#itemManager#+'%'
-					 ) 
-				</if>	
-				<if test="createBy != null and createBy !='' ">
-					AND EXISTS( 
-						SELECT 1 
-						FROM  SCTRANS.V_USER_ORG_JOB_ACTIVE UA
-					 	WHERE UA.ISMAIN=1  AND UA.REAL_NAME LIKE '%'+#createBy#+'%'
-					 ) 
-				</if>				
+					<if test="caseCode != null and caseCode !='' ">
+					 AND M.CASE_CODE = #caseCode#
+					</if>
+					
+					<if test="propertyAddr != null and propertyAddr !='' ">
+						AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE M.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
+					</if>								
+									
+					<if test="itemCategory != null and itemCategory !='' ">
+					 	  AND M.ITEM_CATEGORY = #itemCategory# 
+					</if>
+					<if test="itemStatus != null and itemStatus !='' ">
+					 	  AND M.ITEM_STATUS  = #itemStatus# 
+					</if>			
+					
+					<if test="itemManager != null and itemManager !='' ">
+						AND EXISTS( 
+							SELECT 1 
+							FROM  SCTRANS.V_USER_ORG_JOB_ACTIVE UA
+						 	WHERE UA.ISMAIN=1  AND UA.REAL_NAME LIKE '%'+#itemManager#+'%'
+						 ) 
+					</if>	
+					<if test="createBy != null and createBy !='' ">
+						AND EXISTS( 
+							SELECT 1 
+							FROM  SCTRANS.V_USER_ORG_JOB_ACTIVE UA
+						 	WHERE UA.ISMAIN=1  AND UA.REAL_NAME LIKE '%'+#createBy#+'%'
+						 ) 
+					</if>				
 				]]>
 			</baseSql>
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  ORDER BY M.ITEM_INPUT_TIME ASC 
+			  		ORDER BY M.ITEM_INPUT_TIME ASC 
 			</orderBySql>
 		</searchSql>
 		<grid>
