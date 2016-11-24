@@ -278,19 +278,6 @@
 	<!-- 改版引入的新的js文件 -->
 	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>	 
-<%-- 	 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
-		 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-		 <script src="${ctx}/transjs/task/loanlostApprove.js"></script> 
-		 <script src="${ctx}/transjs/task/showAttachmentByLssp.js"></script>
-		 <script src="${ctx}/js/jquery.blockui.min.js"></script> 
-		 <script src="${ctx}/js/trunk/comment/caseComment.js"></script> 
-		 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-		 <script src="${ctx}/js/template.js" type="text/javascript"></script> 
-		 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-		 <script src="${ctx}/js/viewer/viewer.min.js"></script>
-		 <!-- 改版引入的新的js文件 -->
-		 <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-		 <script src="${ctx}/js/common/common.js?v=1.0.1"></script> --%>
-	</content>
+</content>
 </body>
 </html>
