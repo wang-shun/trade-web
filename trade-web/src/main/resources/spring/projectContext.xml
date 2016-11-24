@@ -67,6 +67,7 @@
     <bean name="qqcdTaskStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_task_status "></property>
     </bean>
+    <!-- 根据userId查询姓名、电话、手机号码等等   qqCreateByInfo全部返回-->
     <bean name="qqcdUserEmployeeCode" class="com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl">
     	<property name="prop" value="employeeCode"></property>
     </bean>
@@ -417,11 +418,22 @@
     <!-- 根据custCode 查询主贷人电话 -->
     <bean name="custPhoneByCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCustPhoneByCodeServiceImpl" >    	
     </bean>
+    <!-- 根据code查询支行信息 -->
     <bean name="qqFinOrgNameYC" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
         <property name="dictType" value="mortgageFinOrg"></property>
     </bean>
+    <!-- 根据code查询分行信息 -->
     <bean name="qqFenHang" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
         <property name="dictType" value="fenHang"></property>
+    </bean>
+    <!-- 卡证类别 中英文转换 -->
+    <bean name="qqItemCategory" class="com.centaline.trans.common.service.impl.QuickQueryItemCategoryServiceImpl">
+    </bean>
+    <!-- 根据userId查询姓名、电话、手机号码等等   全部返回-->
+    <bean name="qqCreateByInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetUserInfoByIdServiceImpl">    	
+    </bean>
+    <!-- 根据userId查询姓名、电话、手机号码等等   全部返回-->
+    <bean name="qqItemManagerInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetManagerInfoByIdServiceImpl">    	
     </bean>
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
