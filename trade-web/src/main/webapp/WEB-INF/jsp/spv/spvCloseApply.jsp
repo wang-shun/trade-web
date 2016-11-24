@@ -785,7 +785,7 @@
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one"><i style="color:red;">*</i> 原因</label>
                                     <%-- <input type="text" name="toSpvCloseApply.comment" value="${spvCloseInfoVO.toSpvCloseApply.comment}" class="form-control space-host input-five" placeholder="" > --%>
-                                    <textarea name="toSpvCloseApply.comment" id="" class="form-control space-host" placeholder="请填写中止/结束原因" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;margin-left:150px;margin-top:-25px;"></textarea>
+                                    <textarea name="toSpvCloseApply.comment" value="${spvCloseInfoVO.toSpvCloseApply.comment}" class="form-control space-host" placeholder="请填写中止/结束原因" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;margin-left:150px;margin-top:-25px;"></textarea>
                                 </div>
                             </div>
                         </div>

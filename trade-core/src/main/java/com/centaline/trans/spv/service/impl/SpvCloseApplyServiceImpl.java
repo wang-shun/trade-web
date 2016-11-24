@@ -31,6 +31,7 @@ import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -45,7 +46,6 @@ import com.centaline.trans.spv.service.SpvCloseApplyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvCloseInfoVO;
-import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 
 @Service
@@ -63,6 +63,8 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	private MessageService messageService;
 	@Autowired
 	private ToWorkFlowMapper toWorkFlowMapper;
+	@Autowired
+	private WorkFlowManager workFlowManager;
 	@Autowired
 	private ActRuEventSubScrMapper actRuEventSubScrMapper;
 	@Autowired
@@ -145,14 +147,14 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(twf);
 		
 		if("0".equals(spvCloseInfoVO.getToSpvCloseApply().getCloseType())){
-			ActRuEventSubScr condition=new ActRuEventSubScr();
+/*			ActRuEventSubScr condition=new ActRuEventSubScr();
 			condition.setEventType("message");
 			condition.setEventName("SpvFinishMsg");
 			condition.setProcInstId(toWorkFlow.getInstCode());
 			List<ActRuEventSubScr> subScrs = actRuEventSubScrMapper.listBySelective(condition);
 			if(subScrs == null || subScrs.isEmpty()){
 				throw new BusinessException("资金监管流程没有找到需要发送的消息，不能开启‘结束’流程！");
-			}
+			}*/
 			
 			/**金额由用户自己判断*/
 /*			Map<String,Object> completeCashFlowInfoMap = cashFlowOutService.getCompleteCashFlowInfoBySpvCode(spvCode);
@@ -174,6 +176,8 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		vars.put("host", host.getUsername());
 		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
 		vars.put("director", director.getUsername());
+		String oldStatus = toSpv.getStatus();
+		vars.put("oldStatus", oldStatus);
 		
 		String spvCloseCode = createSpvCloseCode();
 		
@@ -235,14 +239,19 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 
 		if(!continueApply){
 			//取消申请
-			//1.删除当前流程
+			//1.更新回之前状态状态
+			ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
+			String oldStatus = (String)workFlowManager.getVar(instCode, "oldStatus").getValue();
+			toSpv.setStatus(oldStatus);
+			toSpvMapper.updateByPrimaryKeySelective(toSpv);
+			//2.删除当前流程
 			processInstanceService.deleteProcess(instCode);
-			//2.删除t_to_workflow表对应记录
+			//3.删除t_to_workflow表对应记录
 			toWorkFlowService.deleteWorkFlowByInstCode(instCode);
-			//3.删除‘中止/结束’申请表和审批表中数据
+			//4.删除‘中止/结束’申请表和审批表中数据
 			toSpvCloseApplyMapper.deleteByPrimaryKey(spvCloseInfoVO.getToSpvCloseApply().getPkid());
 			toSpvCloseApplyAuditMapper.deleteByApplyId(spvCloseInfoVO.getToSpvCloseApply().getPkid().toString());
-			//4.资金监管流程激活
+			//5.资金监管流程激活
 			ToWorkFlow twf = new ToWorkFlow();
 			twf.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 			twf.setBizCode(spvCode);

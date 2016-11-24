@@ -141,6 +141,7 @@ function readOnlyForm(){
 	$("select").prop("disabled",true);
 	$("input[id^='picFileupload']").prop("disabled",true);
 	$("button").prop("disabled",true);
+	$("textarea[name='toSpvCloseApply.comment']").prop("readOnly",true);
 }
 
 function updateAccTypeOptions(){
