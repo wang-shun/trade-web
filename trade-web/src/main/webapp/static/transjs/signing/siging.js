@@ -66,7 +66,6 @@ $(function () {
     //清空条件
     $("#clearBtn").click(function(){
     	$('#roomTypeSlot').val("");
-    	$('#useStatus').val("");
     });
 	
 	//保存 临时分配数据
