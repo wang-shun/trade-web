@@ -135,10 +135,16 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		// 资金监管出入账申请无在途申请的时候才可以开启此流程
 		ToWorkFlow record = new ToWorkFlow();
 		record.setCaseCode(caseCode);
-		record.setBusinessKey(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode());
-		ToWorkFlow closeTWF = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
-		if(closeTWF != null){
-			throw new BusinessException("‘中止/结束’流程已经存在，不能重复开启！");
+		List<ToWorkFlow> toWorkFlows = toWorkFlowService.queryActiveToWorkFlowByCaseCode(record);
+		for(ToWorkFlow toWorkFlow : toWorkFlows){
+			/**由列表页面限定*/
+			if(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
+				throw new BusinessException("尚有‘入款’流程进行中，不能开启‘中止/结束’流程！");
+			}else if(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
+				throw new BusinessException("尚有‘出款’流程进行中，不能开启‘中止/结束’流程！");
+			}else if(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
+				throw new BusinessException("‘中止/结束’流程已经存在，不能重复开启！");
+			}
 		}
 		
 		ToWorkFlow twf = new ToWorkFlow();
@@ -428,6 +434,9 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
 		}
 
+		Map<String,Object> completeCashFlowInfoMap = cashFlowOutService.getCompleteCashFlowInfoBySpvCode(spvCode);
+		
+		request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("spvCloseInfoVO", spvCloseInfoVO);
 	}
