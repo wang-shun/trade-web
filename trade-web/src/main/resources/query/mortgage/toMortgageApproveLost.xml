@@ -60,12 +60,12 @@
 					  base.AGENT_PHONE,
 					  base.GRP_NAME,
 					  base.LEADING_PROCESS_ID AS LEADING_PROCESS_ID_OLD,
-					  base.ORG_ID AS ORG_ID_OLD, --交易顾问id	
+					  base.ORG_ID AS ORG_ID_OLD, 
 					  mortgage.MORT_TYPE AS MORT_TYPE_OLD,
 					  mortgage.SIGN_DATE,
-					  ISNULL(mortgage.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,--总金额
-					  ISNULL(mortgage.COM_AMOUNT,0)/10000 COM_AMOUNT,--shangdai
-					  ISNULL(mortgage.PRF_AMOUNT,0)/10000 PRF_AMOUNT,--gongjij
+					  ISNULL(mortgage.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,
+					  ISNULL(mortgage.COM_AMOUNT,0)/10000 COM_AMOUNT,
+					  ISNULL(mortgage.PRF_AMOUNT,0)/10000 PRF_AMOUNT,
 					  FO.FIN_ORG_NAME FIN_ORG_NAME,
 					  FO.FIN_ORG_NAME_YC FIN_ORG_NAME_YC,
 					  FO.FA_FIN_ORG_CODE FA_FIN_ORG_CODE,
@@ -107,7 +107,6 @@
 						W.CASE_CODE, 
 						taskInst.TASK_DEF_KEY_,
 						(SELECT TOP 1 aht.END_TIME_ FROM sctrans.ACT_HI_TASKINST aht WHERE  aht.task_def_key_='LoanlostApproveDirector' AND  aht.PROC_INST_ID_=taskInst.PROC_INST_ID_ ORDER BY aht.id_ desc) END_TIME_,
-						--taskInst.END_TIME_,
 						taskInst.START_TIME_,
 					  	guser.real_name
 						FROM sctrans.T_HI_WORKFLOW w 
@@ -118,8 +117,7 @@
 						INNER JOIN sctrans.sys_user guser 
 						ON guser.username = taskInst.ASSIGNEE_ 
 						AND guser.available = '1'
-						AND guser.is_deleted = '0'
-						--AND w.BUSINESS_KEY in ( 'LoanLost_Process','operation_process')
+						AND guser.is_deleted = '0'						
 						AND w.STATUS IN ('0', '4')
 						AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE  AND STATUS IN ('0', '4'))
 					) AS WK ON WK.CASE_CODE = base.CASE_CODE
