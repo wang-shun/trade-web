@@ -3,7 +3,7 @@ $(document).ready(function(){
 	
 	if(!handle || handle == 'apply'){
 		$("input[name='toSpvCloseApply.closeType']").prop("disabled",false);
-		$("input[name='toSpvCloseApply.comment']").prop("readonly",false);
+		$("textarea[name='toSpvCloseApply.comment']").prop("readonly",false);
 	}
 
 	$("#page_submit_btn").click(function(){submitBtnClick(handle)});
@@ -110,7 +110,7 @@ function validateForm(){
 		return false;
 	}
 	
-	var $comment = $("input[name='toSpvCloseApply.comment']");
+	var $comment = $("textarea[name='toSpvCloseApply.comment']");
 	if($.trim($comment.val()) == ''){
 		alert("请填写原因！");
 		changeClass($comment);
@@ -130,8 +130,7 @@ function validateForm(){
 }
 
 function changeClass(object){
-	$(object).focus();
-	$(object).addClass("borderClass").blur(function(){
+	$(object).focus().addClass("borderClass").blur(function(){
 		$(this).removeClass("borderClass");
 	});	;
 }

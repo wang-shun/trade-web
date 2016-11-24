@@ -18,6 +18,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.enums.SpvCloseApplyStatusEnum;
@@ -128,7 +129,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		String spvCode = spvCloseInfoVO.getToSpvCloseApply().getSpvCode();
 		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
 		String caseCode = toSpv.getCaseCode();
-		//ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		
 		// 资金监管出入账申请无在途申请的时候才可以开启此流程
 		ToWorkFlow record = new ToWorkFlow();
@@ -176,10 +177,10 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("applier", user.getUsername());
-		//SessionUser host = uamSessionService.getSessionUserById(toCase.getLeadingProcessId());
-		vars.put("manager", user.getUsername());
-		//User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
-		vars.put("director", user.getUsername());
+		SessionUser host = uamSessionService.getSessionUserById(toCase.getLeadingProcessId());
+		vars.put("manager", host.getUsername());
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		vars.put("director", riskControlDirector.getUsername());
 		
 		String spvCloseCode = createSpvCloseCode();
 		
@@ -188,8 +189,8 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		apply.setSpvCloseCode(spvCloseCode);
 		apply.setApplier(user.getId());
 		apply.setIsDeleted("0");
-		apply.setAuditor(user.getId());
-		apply.setReAuditor(user.getId());
+		apply.setAuditor(host.getId());
+		apply.setReAuditor(riskControlDirector.getId());
 		apply.setStatus(SpvCloseApplyStatusEnum.AUDIT.getCode());
 		apply.setApplyTime(new Date());
 		apply.setCreateBy(user.getId());

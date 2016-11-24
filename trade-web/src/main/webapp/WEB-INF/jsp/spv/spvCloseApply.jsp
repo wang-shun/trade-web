@@ -772,7 +772,7 @@
                                 <div class="form-group form-margin margin-host">
                                     <input type="hidden" name="toSpvCloseApply.pkid" value="${spvCloseInfoVO.toSpvCloseApply.pkid}" >
                                     <input type="hidden" name="toSpvCloseApply.spvCode" value="${empty spvCloseInfoVO.toSpvCloseApply.spvCode?spvCode:spvCloseInfoVO.toSpvCloseApply.spvCode}" >
-                                    <label for="" class="">申请状态</label> 
+                                    <label for="" class=""><i style="color:red;">*</i> 申请状态</label> 
                                     <label class="radio-inline"> 
                                     <input type="radio" name="toSpvCloseApply.closeType" value="1" ${spvCloseInfoVO.toSpvCloseApply.closeType eq '1'?'checked="checked"':''} >中止
                                     </label>
@@ -783,8 +783,9 @@
                             </div>
                             <div class="form-row form-rowbot" style="margin-left:-80px;">
                                 <div class="form-group form-margin form-space-one">
-                                    <label for="" class="lable-one">原因</label>
-                                    <input type="text" name="toSpvCloseApply.comment" value="${spvCloseInfoVO.toSpvCloseApply.comment}" class="form-control space-host" placeholder="" >
+                                    <label for="" class="lable-one"><i style="color:red;">*</i> 原因</label>
+                                    <%-- <input type="text" name="toSpvCloseApply.comment" value="${spvCloseInfoVO.toSpvCloseApply.comment}" class="form-control space-host input-five" placeholder="" > --%>
+                                    <textarea name="toSpvCloseApply.comment" id="" class="form-control space-host" placeholder="请填写中止/结束原因" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;margin-left:150px;margin-top:-25px;"></textarea>
                                 </div>
                             </div>
                         </div>
