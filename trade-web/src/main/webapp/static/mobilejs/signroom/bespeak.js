@@ -35,7 +35,7 @@ $(function() {
     	$("#bespeakForm #selResDate").val("");
     	$("#dayList tr td").removeClass("curr");
     	
-    	var strHtml = "<div class='nodata'><img src='" + ctx + "/static/image/nodata.png' width='100%' alt=''>"
+    	var strHtml = "<div class='nodata'><img src='" + ctx + "/image/nodata.png' width='100%' alt=''>"
     					+ "<p class='text-center font16'>对不起，暂无数据！</p>"
     					+ "<p class='text-center'>(请选择你所要的预约时间)</p></div>";
     	
@@ -270,7 +270,7 @@ function getSignRoomList(selTradeCenterId,selDate){
 				strHtml += "</ul></article>";
 			}
 			else {
-				strHtml = "<div class='nodata'><img src='" + ctx + "/static/image/nodata.png' width='100%' alt=''>"
+				strHtml = "<div class='nodata'><img src='" + ctx + "/image/nodata.png' width='100%' alt=''>"
 						+ "<p class='text-center font16'>对不起，暂无数据！</p>"
 						+ "<p class='text-center'>(请选择你所要的预约时间)</p></div>";
 			}

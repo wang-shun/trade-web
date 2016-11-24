@@ -25,7 +25,7 @@ $(function(){
 	
 	//条件查询
 	$("#searchButton").click(function(){
-		$("#searchForm").submit();
+		reloadGrid();
 	});
 	
 	 //全选
@@ -100,24 +100,27 @@ $(function(){
 
     $("#today").click(function(){
         $(".data_style").val(getDateWeek(0));
-        $("#searchForm").submit();
+        reloadGrid();
+        //$("#searchForm").submit();
     });
     
     $("#tommrow").click(function(){
         $(".data_style").val(getDateWeek(1));
-        $("#searchForm").submit();
+        reloadGrid();
+        //$("#searchForm").submit();
     });
     
     //添加跟进信息
     $("#btnAddFlowUpInfo").click(function(){
-    	var isSuccess = saveFlowUpInfo();
+    	var data = saveFlowUpInfo();
     	
-    	if(isSuccess){
-    		$("button[type='reset']").click();
-    		
-    		setTimeout(function(){ 
-    			$("#searchForm").submit();
-		    }, 1000);
+    	var result = data.result;  //保存结果
+    	var createDateTime = data.createDateTime;   //保存最新跟进的时间
+    	var realName = data.realName;   //跟进人名称
+    	
+    	if(result == "true"){
+    		//保存跟进信息之后设置页面上的跟进信息
+    		setFollowupInfo(createDateTime,realName);
     	}
     	
     });
@@ -148,6 +151,53 @@ $(function(){
   });
   
 });
+
+//保存跟进信息之后设置页面上的跟进信息
+function setFollowupInfo(createDateTime,realName){
+	$("button[type='reset']").click();
+	
+	var resId = $("#flowupForm input[name='resId']").val();
+	var oldComment = $("#flowupForm textarea[name='comment']").val();
+	
+	var $currentRow = $("#signinglist #" + resId);   //获取到当前行
+	var $a = $currentRow.find(".latestComment");
+	var $pLatestFollupTime = $currentRow.find(".latestFollupDateTime");
+	
+	var formatCreateDatetime = createDateTime.substring(0,createDateTime.lastIndexOf(":"));
+	$pLatestFollupTime.html(formatCreateDatetime);   //更新最新跟进时间
+	
+	var formatComment = "";
+	
+	//如果跟进信息长度大于8,则截取
+	if(oldComment.length > 8){
+		formatComment = oldComment.substring(0,8) + "....";
+	}
+	else {
+		formatComment = oldComment;
+	}
+	
+	$a.html(formatComment);   //设置最近跟进信息
+	
+	var latestFollowupInfoHtml = realName + "&nbsp;&nbsp;" + createDateTime + "&nbsp;&nbsp;" + oldComment +  "</br>";
+	var oldFollowupInfoHtml = $a.attr("title");
+	
+	var newFollowupInfoListHtml = latestFollowupInfoHtml + oldFollowupInfoHtml;    //获取所有跟进信息列表信息
+	var arrayNewFollowupInfoList = newFollowupInfoListHtml.split("</br>");
+	
+	var newTitle = "";
+	var length = arrayNewFollowupInfoList.length;
+	for(var i=0;i<length;i++){
+		if(i == 0){
+			newTitle += (i + 1) + "." + arrayNewFollowupInfoList[0] + "</br>";
+		}
+		else if(i != (length - 1)){
+			var followupInfoHtml = arrayNewFollowupInfoList[i];
+			newTitle += (i + 1) + "." + followupInfoHtml.substring(2,followupInfoHtml.length) + "</br>";
+		}
+	}
+	
+	$a.attr("title",newTitle);
+}
 
 //变更签约室点击切换效果
 function toggleClass(obj){
@@ -212,15 +262,14 @@ function changeRoom(obj,resId,tradeCenterId,resStartTime,resEndTime){
 						var roomType = roomProp.roomType;
 						
 						if(roomType == 0){
-							strHtml += "<button id='" + roomProp.scheduleId + "' class='btn btn-transparent margin5' onClick='toggleClass(this)'>" + roomProp.roomNo + "</button>";
+							strHtml += "<button id='" + roomProp.scheduleId + "' class='btn btn-transparent margin5' onClick='toggleClass(this)' accesskey='" + signroomInfo.numberOfPeople + "' lang='" +  roomProp.roomNo + "'>" + roomProp.roomNo + "</button>";
 						}
 						else if(roomType == 1){
-							strHtml += "<button id='" + roomProp.scheduleId + "' class='btn btn-transparent margin5 btn-lightyellow' onClick='toggleClass(this)'>" + roomProp.roomNo + "（机动）</button>";
+							strHtml += "<button id='" + roomProp.scheduleId + "' class='btn btn-transparent margin5 btn-lightyellow' onClick='toggleClass(this)' accesskey='" + signroomInfo.numberOfPeople + "' lang='" +  roomProp.roomNo + "'>" + roomProp.roomNo + "（机动）</button>";
 						}
 						
 					}
 					
-                                                
 					strHtml += "</td></tr>";     
 				}
 			}
@@ -244,6 +293,8 @@ function startUse(obj,resDate,startTime,endTime){
 	var startDateTime = new Date(strStartTime);
 	var endDateTime = new Date(strEndTime);
 	var currentDateTime = new Date();
+	
+	startAndEndUse($obj,"startUse");
 	
 	if(currentDateTime >= startDateTime && currentDateTime <= endDateTime){
 		startAndEndUse($obj,"startUse");
@@ -284,6 +335,7 @@ function followup(obj){
 	$("#realname").html(realName);
 	$("#mobile").html(mobile);
 	$("#followUpDate").html(getCurrentTime());
+	$("textarea[name='comment']").val("");
 }
 
 
@@ -314,28 +366,81 @@ function startAndEndUse(obj,flag){
 			cache:false,
 			async:false,
 			type:"POST",
-			dataType:"text",
+			dataType:"json",
 			url:ctx+"/reservation/startAndEndUse",
 			data:{resId:resId,flag:flag},
 			success:function(data){
-				if(data == "true"){
-					setTimeout(function(){ 
-		    			$("#searchForm").submit();
-				    }, 1000);
+				var result = data.result;  //返回结果
+				var operateTime = data.operateDateTime;  //操作时间
+				
+				if(result == "true"){
+					//设置操作时间及预约状态
+					setOperateTimeAndStatus(resId,operateTime,flag);
 				}
 			}
 		});
 	}
 }
 
+//设置操作时间及预约状态
+function setOperateTimeAndStatus(resId,operateTime,flag){
+	var $currentRow = $("#signinglist #" + resId);   //获取到当前行
+	var $tdResStatus = $currentRow.find(".tdResStatus");
+	var $menu = $currentRow.find(".tdOperation .dropdown-menu");
+	var resStatus = $("#searchForm #selResStatus option:selected").val();
+	
+	//设置开始使用时间及结束使用时间
+	if(flag == "startUse"){
+		if(resStatus == ""){
+			$currentRow.find(".checkInTime").html(operateTime);
+			
+			var timeDifference = $tdResStatus.attr("lang");
+			
+			if(timeDifference <= 0){
+				$tdResStatus.html("<span class='big orange-hint text-center'>使用中</span>");
+			}
+			else if(timeDifference > 0){
+				$tdResStatus.html("<span class='big red-hint text-center'>使用中</span>");
+			}
+			else {
+				$tdResStatus.html("<span class='big text-center'>使用中</span>");
+			}
+			
+			$("<li class='liEndUse'><a href='javascript:void(0);' onClick='endUse(this)'>结束使用</a></li>").insertBefore($menu.find(".liStartUse"));
+			$menu.find(".liStartUse").remove();
+			$menu.find(".liChangeRoom").remove();
+		}
+		else if(resStatus == "0"){
+			$currentRow.remove();
+		}
+		
+	}
+	else if(flag == "endUse"){
+		$currentRow.find(".checkOutTime").html(operateTime);
+		
+		if(resStatus == ""){
+			$tdResStatus.html("已使用");
+			
+			$menu.find(".liEndUse").remove();
+		}
+		else if(resStatus == "1"){
+			$currentRow.remove();
+		}
+	}
+}
+
 function saveChangeRoom(resId,scheduleId,flag){
 	var isPass = false;
-	var length = $("#signRoom tbody tr td button[class='btn btn-transparent margin5 btn-lightblue']").length;
+	var $selButton = $("#signRoom tbody tr td button[class='btn btn-transparent margin5 btn-lightblue']");
+	var length = $selButton.length;
 	
 	if(length == 0){
 		alert("请选择房间编号！");
 		return false;
 	}
+	
+	var numberOfPeople = $selButton.attr("accesskey");
+	var roomNo = $selButton.attr("lang");
 	
 	var resStartTime = $("#signRoom #resStartTime").val();
 	var resEndTime = $("#signRoom #resEndTime").val();
@@ -355,17 +460,60 @@ function saveChangeRoom(resId,scheduleId,flag){
 		cache:false,
 		async:false,
 		type:"POST",
-		dataType:"text",
+		dataType:"json",
 		url:ctx+"/reservation/changeRoom",
 		data:{resId:resId,scheduleId:scheduleId,flag:flag},
 		success:function(data){
-			if(data == "true"){
-				setTimeout(function(){ 
-	    			$("#searchForm").submit();
-			    }, 1000);
+			var result = data.result;
+			var operateTime = data.operateTime;
+			
+			if(result == "true"){
+				//设置房间号和容纳人数
+				setRoomNoAndNumberOfPeople(resId,flag,numberOfPeople,roomNo,operateTime);
 			}
 		}
 	});
+}
+
+//设置房间号和容纳人数
+function setRoomNoAndNumberOfPeople(resId,flag,numberOfPeople,roomNo,operateTime){
+	$("#changeRoom button[type='reset']").click();
+	
+	var resStatus = $("#searchForm #selResStatus option:selected").val();
+	
+	var $currentRow = $("#signinglist #" + resId);   //获取到当前行
+	var $menu = $currentRow.find(".tdOperation .dropdown-menu");
+	var $tdResStatus = $currentRow.find(".tdResStatus");
+	var $pRoomInfo = $currentRow.find(".tdRoomInfo .pRoomInfo");
+	$pRoomInfo.html(roomNo + "（<span class='big'>" + numberOfPeople + "人间</span>） ");  //更改房间号及房间容纳数
+	
+	if(flag == "changeAndSave"){
+		if(resStatus == "0"){
+			$currentRow.remove();	
+		}
+		else if(resStatus == ""){
+			$currentRow.find(".checkInTime").html(operateTime); //设置开始使用时间
+			
+			var timeDifference = $tdResStatus.attr("lang");
+			
+			//设置预约状态
+			if(timeDifference <= 0){
+				$tdResStatus.html("<span class='big orange-hint text-center'>使用中</span>");
+			}
+			else if(timeDifference > 0){
+				$tdResStatus.html("<span class='big red-hint text-center'>使用中</span>");
+			}
+			else {
+				$tdResStatus.html("<span class='big text-center'>使用中</span>");
+			}
+			
+			$("<li class='liEndUse'><a href='javascript:void(0);' onClick='endUse(this)'>结束使用</a></li>").insertBefore($menu.find(".liStartUse"));  //添加结束使用操作
+			$menu.find(".liStartUse").remove();  //清除开始使用操作
+			$menu.find(".liChangeRoom").remove();  //清除变更签约室操作
+		}
+	}
+	
+	
 }
 
 //保存跟进信息
@@ -373,22 +521,21 @@ function saveFlowUpInfo(){
 	var isSuccess = false;
 	var resId = $("#flowupForm input[name='resId']").val();
 	var comment = $("#flowupForm textarea[name='comment']").val();
+	var result = [];
 	
 	$.ajax({
 		cache:false,
 		async:false,
 		type:"POST",
-		dataType:"text",
+		dataType:"json",
 		url:ctx+"/reservation/saveResFlowup",
 		data:{resId:resId,comment:comment},
 		success:function(data){
-			if(data == "true"){
-				isSuccess = true;
-			}
+			result = data;
 		}
 	});
 	
-	return isSuccess;
+	return result;
 }
 
 function reloadGrid(){
