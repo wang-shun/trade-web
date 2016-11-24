@@ -167,6 +167,8 @@ public class ReservationMobileController {
 		reservation.setResNo(resNo);
 		reservation.setResType(reservationVo.getResType());
 		reservation.setResPersonId(currentUser.getId());
+		reservation.setResPersonName(currentUser.getRealName());
+		reservation.setResPersonMobile(currentUser.getMobile());
 
 		Map<String, Object> map = new HashedMap<String, Object>();
 		map.put("pkid", reservationVo.getTradeCenterId());
