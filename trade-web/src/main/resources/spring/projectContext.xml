@@ -411,6 +411,44 @@
      <!-- 根据案件编号集合查询案件编号、产证地址、申请人姓名、申请人所在组、申请人所在服务部 -->
     <bean name="quickQueryGetUserAndOrgInfoService" class="com.centaline.trans.common.service.impl.QuickQueryGetUserAndOrgInfoByCaseCodeListServiceImpl"></bean>
     
+	<!-- 贷款列表 -->
+	<bean name="qqPropertyAddr" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="mortgageAddr"></property>
+    </bean>
+  
+    <bean name="qqFinOrgName" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="finOrgName"></property>
+    </bean>
+    <bean name="qqRealName" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="getRealName"></property>
+    </bean>
+    <bean name="qqLostPassTime" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="lostPassTime"></property>
+    </bean>
+    <bean name="qqHtTime" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="htTime"></property>
+    </bean>
+    <bean name="qqSignPrice" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="signPrice"></property>
+    </bean>
+    <bean name="qqEvalFee" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="evalFee"></property>
+    </bean>
+
+    <bean name="qqCaseProperty" class="com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl">
+        <property name="dictType" value="caseProperty"></property>
+    </bean>
+
+    <bean name="qqIsLost" class="com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl">
+        <property name="dictType" value="isLost"></property>
+    </bean>
+
+    <bean name="qqMortgageAmount" class="com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl">
+        <property name="dictType" value="mortgageAmount"></property>
+    </bean>
+	
+	
+	
     <!-- 根据案件编号集合查询贷款银行、贷款支行信息 -->
     <bean name="quickQueryGetMainAndBranchBankService" class="com.centaline.trans.common.service.impl.QuickQueryGetMainAndBranchBankByCaseCodeListServiceImpl"></bean>
 
