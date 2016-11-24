@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-		<customDict id="getShowResStatusStatus" beanName="getShowResStatusStatus"></customDict> 
+		<customDict id="getMyResInfo" beanName="getMyResInfo"></customDict>
+		<!-- <customDict id="getShowResStatusStatus" beanName="getShowResStatusStatus"></customDict> 
 		<customDict id="getShowResStartTime" beanName="getShowResStartTime"></customDict>
-		<customDict id="getShowResEndTime" beanName="getShowResEndTime"></customDict> 
+		<customDict id="getShowResEndTime" beanName="getShowResEndTime"></customDict>  -->
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref=""
@@ -63,15 +64,23 @@
 				<column type="both" name="propertyAddr" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="tradeCenterName" index="" checkbox="" display="交易中心名" title="交易中心名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="startDate" index="" checkbox="" display="开始预约时间" title="开始预约时间" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="actStartDate" title="实际预约开始时间" referencecol="startDate" customDict="getShowResStartTime" />
 				<column type="both" name="endDate" index="" checkbox="" display="结束预约时间" title="结束预约时间" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="actEndDate" title="实际预约结束时间" referencecol="endDate" customDict="getShowResEndTime" />
 				<column type="both" name="resStatus" display="预约状态" title="预约状态" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="virtual" name="actStatus" title="实际状态" referencecol="resStatus" customDict="getShowResStatusStatus" />
 				<column type="both" name="currentDate" index="" checkbox="" display="当前日期" title="当前日期" beanFormatter="dateFormatter1" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="resDate"  index="" checkbox="" display="预约时间" title="预约时间" beanFormatter="dateFormatter1" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="specialReq" display="特殊要求" title="特殊要求" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="numberOfParticipants" display="参与人数" title="参与人数" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				
+				<!-- <column type="virtual" name="actStartDate" title="实际预约开始时间" referencecol="startDate" customDict="getShowResStartTime" />
+				<column type="virtual" name="actEndDate" title="实际预约结束时间" referencecol="endDate" customDict="getShowResEndTime" />
+				<column type="virtual" name="actStatus" title="实际状态" referencecol="resStatus" customDict="getShowResStatusStatus" /> -->
+				
+				<column type="virtual" isDynamicDict="true"
+					name="actStartDate,actEndDate,actStatus"
+					referencecol="startDate,endDate,resStatus" 
+					title="实际预约开始时间,实际预约结束时间,实际状态"
+					display="实际预约开始时间,实际预约结束时间,实际状态"
+					customDict="getMyResInfo" />
 			</table-row>
 		</grid>
 	</query>
