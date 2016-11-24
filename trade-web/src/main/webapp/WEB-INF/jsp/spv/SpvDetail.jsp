@@ -123,7 +123,7 @@
 									</div>
 									<div class="col-lg-5 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status>=2}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status>=2 && spvBaseInfoVO.toSpv.signTime!=undefined}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
