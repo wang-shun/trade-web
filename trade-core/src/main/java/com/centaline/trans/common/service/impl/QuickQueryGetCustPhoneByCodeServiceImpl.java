@@ -20,7 +20,7 @@ public class QuickQueryGetCustPhoneByCodeServiceImpl implements CustomDictServic
 	   
     
 	@Override
-	@Cacheable(value="QuickQueryGetCustPhoneByCodeServiceImpl",key="#root.target+'/'+#keys")
+	@Cacheable(value="QuickQueryGetCustPhoneByCodeServiceImpl",key="#root.targetClass+'/'+#keys")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {			   
 	
 		for (Map<String, Object> key : keys) {			

@@ -13,7 +13,7 @@ public class QuickQueryCustomValueLostReasonServiceImpl implements CustomDictSer
 	
 	
 	@Override
-	@Cacheable(value="QuickQueryCustomValueLostReasonServiceImpl",key="#root.target+'/'+#keys")
+	@Cacheable(value="QuickQueryCustomValueLostReasonServiceImpl",key="#root.targetClass+'/'+#keys")
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for(Map<String, Object> key:keys){
 			String val = "";
