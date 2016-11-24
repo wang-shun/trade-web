@@ -57,8 +57,7 @@ function submitBtnClick(handle,continueApply,result){
 	  if(result != null){
 		  totalArr.push({"name":"result","value":result}); 
 	  }
-	  console.log(result);
-	  console.log(JSON.stringify(totalArr));
+
 	  $("#spvfive,#auditContent,#instForm").each(function(){
 		var obj = $(this).serializeArray();
 		for(var i in obj){
@@ -132,7 +131,7 @@ function validateForm(){
 function changeClass(object){
 	$(object).focus().addClass("borderClass").blur(function(){
 		$(this).removeClass("borderClass");
-	});	;
+	});
 }
 
 /**只读表单*/
