@@ -133,15 +133,6 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 		//获取合约
 		String spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
 		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
-		String caseCode = toSpv.getCaseCode();
-        // 判断流程是否已存在
-		ToWorkFlow record = new ToWorkFlow();
-		record.setCaseCode(caseCode);
-		record.setBusinessKey(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode());
-		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
-		if(toWorkFlow != null){
-			throw new BusinessException("存在‘中止/结束’流程，暂不能开启出入账流程！");
-			}
 		
 		if(spvChargeInfoVO == null || spvChargeInfoVO.getToSpvCashFlowApply() == null) throw new BusinessException("申请信息不存在！");
 		
