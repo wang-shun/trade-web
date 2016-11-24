@@ -87,6 +87,7 @@
 					  WK.END_TIME_,
 					  WK.START_TIME_,
 					  WK.real_name,	 
+					  (SELECT SU.ORG_ID FROM sctrans.SYS_USER SU WHERE SU.ID=base.AGENT_CODE AND SU.IS_DELETED=0) ORG_ID
 					FROM 
 					SCTRANS.T_TO_MORTGAGE  mortgage					
 					INNER JOIN sctrans.T_TO_CASE C ON C.CASE_CODE=mortgage.CASE_CODE 
@@ -180,6 +181,7 @@
 				<column type="virtual" name="ORG_NAME" index="" checkbox="" title="主办人所属组"  customDict="qqcdOrgIdName" referencecol="LOAN_AGENT_TEAM"/>
 				
 				<column type="both" name="ORG_ORG_NAME" index="" checkbox="" title="主办人所属贵宾服务部"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ORG_ID" index="" checkbox="" title="经纪人组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID"	index="" checkbox="" display="" customDict="qqManagerInfo" sysDict=""	format="" width="" isSort="true" align="" halign="" order=""	resizable="" />
 					
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
