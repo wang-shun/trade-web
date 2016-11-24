@@ -161,8 +161,8 @@
 		<searchScript>select  * from( SELECT 
                  sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
                 sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then r.RELEASE_AMOUNT else 0 end) as kaAmount ,
-                sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
-                sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then r.RELEASE_AMOUNT else 0 end) as daiAmount ,
+                sum(case when c.LOAN_SRV_CODE!='30004015' and  c.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
+                sum(case when c.LOAN_SRV_CODE!='30004015' and  c.LOAN_SRV_CODE!='30004005' then r.RELEASE_AMOUNT else 0 end) as daiAmount ,
 		        DatePart(mm, r.RELEASE_TIME) as mm,DatePart(yyyy, r.RELEASE_TIME) as  years
                 from sctrans.T_TO_ELOAN_REL r
                 LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE 
@@ -222,8 +222,8 @@
            SELECT
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as kaAmount ,
-                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
-                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as daiAmount ,
+                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' and  loanAgent.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
+                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' and  loanAgent.LOAN_SRV_CODE!='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as daiAmount ,
                DatePart(mm, loanAgent.RELEASE_TIME) as mm,DatePart(yyyy, loanAgent.RELEASE_TIME) as  years
             FROM sctrans.T_TO_LOAN_AGENT loanAgent
             LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
@@ -277,8 +277,8 @@
                  SELECT 
                  sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
                 sum(case when c.LOAN_SRV_CODE='30004015' or  c.LOAN_SRV_CODE='30004005' then r.RELEASE_AMOUNT else 0 end) as kaAmount ,
-                sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
-                sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then r.RELEASE_AMOUNT else 0 end) as daiAmount ,
+                sum(case when c.LOAN_SRV_CODE!='30004015' and  c.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
+                sum(case when c.LOAN_SRV_CODE!='30004015' and  c.LOAN_SRV_CODE!='30004005' then r.RELEASE_AMOUNT else 0 end) as daiAmount ,
 		        0 as mm,0 as  years
                 from sctrans.T_TO_ELOAN_REL r
                 LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE
@@ -337,8 +337,8 @@
            SELECT
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as kaAmount ,
-                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
-                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as daiAmount ,
+                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' and  loanAgent.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
+                sum(case when loanAgent.LOAN_SRV_CODE!='30004015' and  loanAgent.LOAN_SRV_CODE!='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as daiAmount ,
                  0 as mm,0 as  years
             FROM sctrans.T_TO_LOAN_AGENT loanAgent
              LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
