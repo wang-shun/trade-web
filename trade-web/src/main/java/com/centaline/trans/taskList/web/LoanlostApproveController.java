@@ -223,9 +223,9 @@ public class LoanlostApproveController {
 	@RequestMapping(value="loanlostApprove/loanlostApproveDirector")
 	@ResponseBody
 	public Boolean loanlostApproveDirector(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
-			LoanlostApproveVO loanlostApproveVO, String LoanLost_Director, String LoanLost_director_response,String loanLostDirectorNotApprove) {
+			LoanlostApproveVO loanlostApproveVO, String LoanLost_director, String LoanLost_director_response,String loanLostDirectorNotApprove) {
 		/*保存审核记录*/
-		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_Director, LoanLost_director_response,loanLostDirectorNotApprove);
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, LoanLost_director, LoanLost_director_response,loanLostDirectorNotApprove);
 		/*发送提醒*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
@@ -238,7 +238,7 @@ public class LoanlostApproveController {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 	
 		
-		if(!LoanLost_Director.equals("true")){
+		if(!LoanLost_director.equals("true")){
 			//查询高级主管
 			User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
 			RestVariable restVariableDirector = new RestVariable();
