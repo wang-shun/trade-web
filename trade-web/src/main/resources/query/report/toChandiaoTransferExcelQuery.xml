@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-		<customDict id="convertValue" beanName="convertValue"></customDict>
+		<customDict id="getRealNameAndOrgName" beanName="getRealNameAndOrgName"></customDict>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref=""
@@ -86,7 +86,7 @@
 				<column type="both" name="PR_COMPLETE_TIME"  title="完成时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
 				<column type="both" name="ACOMPLETE_TIME" title="完成时间（小时）" customDict="" hidden="false"/>
 				<column type="both" name="PR_DISTRICT_ID" index="" checkbox="" display="" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
-				<column type="both" name="REAL_NAME,ORG_NAME" index="" checkbox="" display="申请人,贵宾服务部" referencecol="PR_APPLIANT,PR_DISTRICT_ID" customDict="getRealNameAndOrgName" sysDict="" format=""  align="" halign="" order="" resizable="" />
+				<column type="both" name="REAL_NAME,ORG_NAME" index="" checkbox="" title="申请人,贵宾服务部" referencecol="PR_APPLIANT,PR_DISTRICT_ID" customDict="getRealNameAndOrgName" sysDict="" format=""  align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

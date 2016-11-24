@@ -16,7 +16,7 @@ import com.centaline.trans.common.repository.utils.QuickQueryBatchWarpper;
 import com.centaline.trans.common.repository.utils.QuickQueryBatchWarpper.BatchQuery;
 
 /**
- * 组成形如“公积金贷款：原因”
+ * 
  * @author zhoujp
  * @date 2016年11月15日
  */

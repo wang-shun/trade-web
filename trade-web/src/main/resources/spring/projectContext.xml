@@ -405,6 +405,21 @@
     <!-- 贷款流失原因转换 -->
     <bean name="convertValueForLoanlostReason" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueLostReasonServiceImpl" />
     
+    <!-- 获取临时银行信息 -->
+    <bean name="getTempBankInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetTempBankInfoServiceImpl"></bean>
+    
+     <!-- 根据案件编号集合查询案件编号、产证地址、申请人姓名、申请人所在组、申请人所在服务部 -->
+    <bean name="quickQueryGetUserAndOrgInfoService" class="com.centaline.trans.common.service.impl.QuickQueryGetUserAndOrgInfoByCaseCodeListServiceImpl"></bean>
+    
+    <!-- 根据案件编号集合查询贷款银行、贷款支行信息 -->
+    <bean name="quickQueryGetMainAndBranchBankService" class="com.centaline.trans.common.service.impl.QuickQueryGetMainAndBranchBankByCaseCodeListServiceImpl"></bean>
+
+	<!-- 获取我的预约信息 -->
+    <bean name="getMyResInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetShowMyResInfoServiceImpl"></bean>
+    
+    <!-- 获取预约信息 -->
+    <bean name="getResInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetResInfoServiceImpl"></bean>
+    
     <!--过户审批状态  根据casecode查询-->
     <bean name="sumByInstCode" class="com.centaline.trans.common.service.impl.QuickQuerySumByInstCodeServiceImpl" />
     
