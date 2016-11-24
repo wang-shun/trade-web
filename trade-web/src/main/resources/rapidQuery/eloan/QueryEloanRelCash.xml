@@ -70,6 +70,7 @@
 					</if>
 				</trim>
 			</where>
+			<if test="#status ==1 ">
 			 UNION
 			SELECT 
 			2 as type,
@@ -113,9 +114,6 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-				<!-- 	<if test="#status !=null and #status != '' ">
-						and er.CONFIRM_STATUS=#{status}
-					</if> -->
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -136,7 +134,9 @@
 					</if>
 				</trim>
 			</where> 
+		</if> 
 		</searchScript>
+		
 		<grid>
 		    <column name="type" title="type" hidden="true" />
 		     <column name="PKID" title="PKID" hidden="true" />
@@ -147,7 +147,7 @@
 			<column name="RELEASE_TIME" title="放款日期" field="RELEASE_TIME"
 				hidden="true" customDict="getFormatDate" />
 			<column name="CONFIRM_STATUS" title="审批状态" hidden="true" field="CONFIRM_STATUS"  customDict="getEloanCashStatus"/>
-			<column name="PROPERTY_ADDR" title="物业地址" hidden="true" />
+			<column name="PROPERTY_ADDR" title="产证地址" hidden="true" />
 			<column name="CUST_NAME" title="客户名称" hidden="true" />
 			<column name="FIN_ORG_CODE" title="合作机构" field="FIN_ORG_CODE"
 				customDict="qqfinOrgIdName" hidden="true" />
@@ -166,6 +166,7 @@
 		        DatePart(mm, r.RELEASE_TIME) as mm,DatePart(yyyy, r.RELEASE_TIME) as  years
                 from sctrans.T_TO_ELOAN_REL r
                 LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE 
+                LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =c.CASE_CODE
                 		<where>
 				(c.STATUS IS NULL OR c.STATUS='VALID')
 				<trim prefix="and" prefixOverrides="and|or">
@@ -215,7 +216,7 @@
 				</trim>
 			</where>
            GROUP BY DatePart(yyyy, r.RELEASE_TIME),DatePart(mm, r.RELEASE_TIME)
-        
+        <if test="#status ==1 ">
            UNION
         
            SELECT
@@ -226,6 +227,7 @@
                DatePart(mm, loanAgent.RELEASE_TIME) as mm,DatePart(yyyy, loanAgent.RELEASE_TIME) as  years
             FROM sctrans.T_TO_LOAN_AGENT loanAgent
             LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
+            LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =loanAgent.CASE_CODE
 			<where>
 			     loanAgent.CONFIRM_STATUS='3'  and loanAgent.migrate is null
 				<trim prefix="and" prefixOverrides="and|or">
@@ -248,9 +250,6 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-					<if test="#status !=null and #status != '' ">
-						and er.CONFIRM_STATUS=#{status}
-					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -272,7 +271,7 @@
 				</trim>
 			</where>
 			 GROUP BY DatePart(yyyy, loanAgent.RELEASE_TIME) , DatePart(mm, loanAgent.RELEASE_TIME)
-			   
+			   </if>
 			 
 			 UNION 
                  SELECT 
@@ -282,7 +281,8 @@
                 sum(case when c.LOAN_SRV_CODE!='30004015' or  c.LOAN_SRV_CODE!='30004005' then r.RELEASE_AMOUNT else 0 end) as daiAmount ,
 		        0 as mm,0 as  years
                 from sctrans.T_TO_ELOAN_REL r
-                LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE 
+                LEFT JOIN sctrans.T_TO_ELOAN_CASE c ON r.ELOAN_CODE=c.ELOAN_CODE
+                LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =c.CASE_CODE 
                 		<where>
 				(c.STATUS IS NULL OR c.STATUS='VALID')
 				<trim prefix="and" prefixOverrides="and|or">
@@ -331,10 +331,10 @@
 					</if>
 				</trim>
 			</where>
-        
+        <if test="#status ==1 ">
                 UNION
         
-      SELECT
+           SELECT
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then 1 else 0 end) as ka ,
                 sum(case when loanAgent.LOAN_SRV_CODE='30004015' or  loanAgent.LOAN_SRV_CODE='30004005' then loanAgent.ACTUAL_AMOUNT else 0 end)/10000 as kaAmount ,
                 sum(case when loanAgent.LOAN_SRV_CODE!='30004015' or  loanAgent.LOAN_SRV_CODE!='30004005' then 1 else 0 end) as dai ,
@@ -342,6 +342,7 @@
                  0 as mm,0 as  years
             FROM sctrans.T_TO_LOAN_AGENT loanAgent
              LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
+             LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =loanAgent.CASE_CODE
 			<where>
 			     loanAgent.CONFIRM_STATUS='3'  and loanAgent.migrate is null
 				<trim prefix="and" prefixOverrides="and|or">
@@ -364,9 +365,6 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-					<if test="#status !=null and #status != '' ">
-						and er.CONFIRM_STATUS=#{status}
-					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -387,6 +385,7 @@
 					</if>
 				</trim>
 			</where> 
+			</if>
 			 )a
 
 			ORDER by a.mm , a.years   
@@ -455,13 +454,14 @@
 				</trim>
 			</where>
 			 GROUP BY c.FIN_ORG_CODE
+			 <if test="#status ==1 ">
 			  UNION
 			  SELECT count(loanAgent.FIN_ORG_CODE ) as num,
 			   loanAgent.FIN_ORG_CODE as finOrgName ,
 			   sum(loanAgent.ACTUAL_AMOUNT)/10000  as amount
 			   from  sctrans.T_TO_LOAN_AGENT loanAgent
 			   LEFT JOIN sctrans.sys_org org ON loanAgent.EXECUTOR_TEAM=org.ID
-			   
+			   LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =loanAgent.CASE_CODE
 				<where>
 			     loanAgent.CONFIRM_STATUS='3'  and loanAgent.migrate is null
 				<trim prefix="and" prefixOverrides="and|or">
@@ -484,9 +484,6 @@
 					<if test="#loanSrvCode !=null and #loanSrvCode != '' ">
 						and loanAgent.LOAN_SRV_CODE=#{loanSrvCode}
 					</if>
-					<if test="#status !=null and #status != '' ">
-						and er.CONFIRM_STATUS=#{status}
-					</if>
 					<if test="#teamCode!=null and #teamCode != '' ">
 						and  loanAgent.EXECUTOR_TEAM=#{teamCode}
 					</if>
@@ -507,7 +504,9 @@
 					</if>
 				</trim>
 			</where>
-			 GROUP BY loanAgent.FIN_ORG_CODE  ) b
+			 GROUP BY loanAgent.FIN_ORG_CODE 
+			 </if>
+			  ) b
 			 ORDER BY  b.finOrgName
 		</searchScript>
          <grid>
