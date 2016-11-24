@@ -232,13 +232,11 @@ text-decoration: underline !important;
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script id="template_redgreenTaskListGb" type= "text/html">
       {{each rows as item index}}
-  				   {{if index%2 == 0}}
+  				   			{{if index%2 == 0}}
  				      <tr class="tr-1">
-                  {{else}}
+                 			 {{else}}
                        <tr class="tr-2">
-                   {{/if}}
-				
-    	
+                  			 {{/if}}
 						<td class="t-left pd-l">{{item.orgName1}}</td>
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','');" target="_blank">{{item.redall}}</a></td>

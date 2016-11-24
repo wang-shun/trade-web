@@ -1,10 +1,8 @@
 $(document).ready(function() {
 	document.getElementById("zb").style.display="none";
 	document.getElementById("zg").style.display="none";
-	cleanForm();
 	readyReload(1,"queryRedGreenTaskCountList",true);
 	readyReload(1,"queryRedGreenTaskCountGbList",false);
-
 });
 function readyReload(page,queryId,type){
 	if(!page) { page = 1; }
@@ -44,47 +42,13 @@ $('#setZb').click(function() {// 查询组别
 	 document.getElementById("setZbList").style.display="block";
 });
 function searchMethod(page) {
-	readyReload(1,"queryRedGreenTaskCountList",true);
+	readyReload(page,"queryRedGreenTaskCountList",true);
 };
 function searchMethodGb(page) {
-	readyReload(1,"queryRedGreenTaskCountGbList",false);
+	readyReload(page,"queryRedGreenTaskCountGbList",false);
 };
-var jobNames = "";
 function reloadGrid(data) {
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var proOrggbName = $("#txt_proOrgId_gb").val();
-	var proOrgName =   $("#txt_proOrgId").val();
-	var TextValName = $("#inTextVal").val();
-	var arguUserId=null;
-	if(queryOrgFlag == 'true'){
-		arguUserId=null;
-		if(isAdminFlag == 'true'){
-			queryOrgs=null;
-		}
-	}else{
-		queryOrgs= null;
-		arguUserId="yes";
-	}
-
-	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-	data.argu_idflag = arguUserId;
-    data.argu_queryorgs = orgArray;
-    data.proOrggbName = proOrggbName;
-    data.proOrgName = proOrgName;
-    data.jobName = jobNames;
-    if(""!=jobNames)
-    	jobNames = jobNames.substring(jobNames.length-2)
-    if(jobNames == '总监'){
-    	data.TextValNameZj = TextValName;
-    	data.TextValName = null;
-    }
-    if(jobNames == '主管'){
-    	data.TextValName = TextValName;
-    	data.TextValNameZj = null;
-    }
-	
+    getDatabase(data,true);
 	$.ajax({
 		async: true,
         url:ctx+ "/quickGrid/findPage" ,
@@ -101,50 +65,13 @@ function reloadGrid(data) {
       	  	var redgreenTaskList = template('template_redgreenTaskList' , data);
 			$("#redgreenTaskList").empty();
 			$("#redgreenTaskList").html(redgreenTaskList);
-            initpage(data.total,data.pagesize,data.page, data.records);// 显示分页
+            initpage(data.total,data.pagesize,data.page, true,data.records);// 显示分页
         },
         error: function (e, jqxhr, settings, exception) { $.unblockUI();  }  
   });
 }
-
-function getDatabase(data){
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var proOrggbName = $("#txt_proOrgId_gb").val();
-	var proOrgName =   $("#txt_proOrgId").val();
-	var TextValName = $("#inTextVal").val();
-	var arguUserId=null;
-	if(queryOrgFlag == 'true'){
-		arguUserId=null;
-		if(isAdminFlag == 'true'){
-			queryOrgs=null;
-		}
-	}else{
-		queryOrgs= null;
-		arguUserId="yes";
-	}
-	
-	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-	data.argu_idflag = arguUserId;
-	data.argu_queryorgs = orgArray;
-	data.proOrggbName = proOrggbName;
-	data.proOrgName = proOrgName;
-	data.jobName = jobNames;
-	if(""!=jobNames)
-		jobNames = jobNames.substring(jobNames.length-2)
-		if(jobNames == '总监'){
-			data.TextValNameZj = TextValName;
-			data.TextValName = null;
-		}
-	if(jobNames == '主管'){
-		data.TextValName = TextValName;
-		data.TextValNameZj = null;
-	}
-}
-
 function reloadGridGb(data) {
-	getDatabase(data);
+	getDatabase(data,false);
 	$.ajax({
 		async: true,
 		url:ctx+ "/quickGrid/findPage" ,
@@ -161,28 +88,61 @@ function reloadGridGb(data) {
 			var redgreenTaskListGb = template('template_redgreenTaskListGb' , data);
 			$("#redgreenTaskListGb").empty();
 			$("#redgreenTaskListGb").html(redgreenTaskListGb);	  
-			initpageGb(data.total,data.pagesize,data.page, data.records);
+			initpage(data.total,data.pagesize,data.page, false,data.records);
 		},
 		error: function (e, jqxhr, settings, exception) { $.unblockUI();    }  
 	});
 }
-function initpage(totalCount,pageSize,currentPage,records)
+
+function getDatabase(data,type){
+	var proOrggbName = $("#txt_proOrgId_gb").val();
+	var proOrgName =   $("#txt_proOrgId").val();
+	var TextValName = $("#inTextVal").val();
+	if(type){
+	    data.proOrggbName = proOrggbName;
+	    data.TextValName = TextValName;
+	    data.proOrgName = proOrgName;
+	}else{
+		data.proOrggbName = proOrggbName;
+	}
+}
+
+function initpage(totalCount,pageSize,currentPage,type,records)
 {
 	if(totalCount>1500){
 		totalCount = 1500;
 	}
-	var currentTotalstrong=$('#currentTotalPage').find('strong');
+	var currentTotalstrong="";
+	if(type){
+		currentTotalstrong=$('#currentTotalPage').find('strong');
+	}else{
+		currentTotalstrong=$('#currentTotalPageGb').find('strong')
+	}
 	if (totalCount<1 || pageSize<1 || currentPage<1)
 	{
 		$(currentTotalstrong).empty();
-		$('#totalP').text(0);
-		$("#pageBar").empty();
+		if(type){
+			$('#totalP').text(0);
+			$("#pageBar").empty();
+		}else{
+			$('#totalPGb').text(0);
+			$("#pageBarGb").empty();
+			$('#totalPGb').text(records);
+		}
 		return;
 	}
 	$(currentTotalstrong).empty();
 	$(currentTotalstrong).text(currentPage+'/'+totalCount);
-	$('#totalP').text(records);
-	$("#pageBar").twbsPagination({
+	var pageString = "";
+	if(type){
+		$('#totalP').text(records);
+		pageString = "pageBar";
+	}else{
+		$('#totalPGb').text(records);
+		pageString = "pageBarGb";
+	}
+	
+	$("#"+pageString).twbsPagination({
 		totalPages:totalCount,
 		visiblePages:9,
 		startPage:currentPage,
@@ -192,43 +152,13 @@ function initpage(totalCount,pageSize,currentPage,records)
 		last:'<i class="icon-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
-			searchMethod(page);
+			if(type)
+				searchMethod(page);
+			else
+				searchMethodGb(page);
 	    }
 	});
 }
-
-function initpageGb(totalCount,pageSize,currentPage,records)
-{
-	if(totalCount>1500){
-		totalCount = 1500;
-	}
-	var currentTotalstrong=$('#currentTotalPageGb').find('strong');
-	if (totalCount<1 || pageSize<1 || currentPage<1)
-	{
-		$(currentTotalstrong).empty();
-		$('#totalPGb').text(0);
-		$("#pageBarGb").empty();
-		$('#totalPGb').text(records);
-		return;
-	}
-	$(currentTotalstrong).empty();
-	$(currentTotalstrong).text(currentPage+'/'+totalCount);
-	$('#totalPGb').text(records);
-	$("#pageBarGb").twbsPagination({
-		totalPages:totalCount,
-		visiblePages:9,
-		startPage:currentPage,
-		first:'<i class="icon-step-backward"></i>',
-		prev:'<i class="icon-chevron-left"></i>',
-		next:'<i class="icon-chevron-right"></i>',
-		last:'<i class="icon-step-forward"></i>',
-		showGoto:true,
-		onPageClick: function (event, page) {
-			searchMethodGb(page);
-		}
-	});
-}
-
 
 function exportTExcel(){
 	if(document.getElementById("setGbList").style.display == 'none'){
@@ -241,8 +171,8 @@ function exportTExcel(){
 function exportTExcelZb() {
 	var url = "/quickGrid/findPage?xlsx&";
 	var ctx = $("#ctx").val();
-	//excel导出列
-	var displayColomn = new Array;
+	var params = {};
+	var displayColomn = new Array;//excel导出列
 	displayColomn.push('orgName1');
 	displayColomn.push('realName1');
 	displayColomn.push('orgName2');
@@ -251,7 +181,6 @@ function exportTExcelZb() {
 	displayColomn.push('yellow');
 	displayColomn.push('allcolor');
 	displayColomn.push('importtime');
-	
 	displayColomn.push('EVAL_FEE');
 	displayColomn.push('RECORD_TIME');
 
@@ -270,24 +199,15 @@ function exportTExcelZb() {
 	}
 
 	var orgArray = queryOrgs==null?'':queryOrgs.split(",");
-
 	var argu_idflag = '&argu_idflag='+arguUserId;
-	
 	if(arguUserId==null)argu_idflag='&argu_idflag=';
 	var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 	if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
-	var params = {};
-	
-	
-	getDatabase(params);
-	
 	var queryId = '&queryId=queryRedGreenTaskCountList';
 	var colomns = '&colomns=' + displayColomn;
-	
+	getDatabase(params,true);
 	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
-	
 	$('#excelForm').attr('action', url);
-	
 	$('#excelForm').method="post" ;
 	$('#excelForm').submit();
 
@@ -306,7 +226,6 @@ function exportToExcel(organId,orgName1,orgName2) {
 	displayColomn.push('TASKNAME');
 	displayColomn.push('PROPERTY_ADDR');
 	displayColomn.push('REAL_NAME');
-	
 	displayColomn.push('EST_PART_TIME');
 	displayColomn.push('RPROPERTY_ADDR');
 	displayColomn.push('IMPORTTIME');
@@ -326,119 +245,35 @@ function exportToExcel(organId,orgName1,orgName2) {
 	}
 
 	var orgArray = queryOrgs==null?'':queryOrgs.split(",");
-
 	var argu_idflag = '&argu_idflag='+arguUserId;
-	
 	if(arguUserId==null)argu_idflag='&argu_idflag=';
 	var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 	if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 	var params = {};
-	
 	var start = $('#dtBegin_0').val();
+	var queryId = '&queryId=queryRedGreenTaskDetailList';
+	var colomns = '&colomns=' + displayColomn;
 	params.organId = organId;
 	params.proOrggbName = orgName1;
 	params.gbName = orgName1;
 	params.proOrgName = orgName2;
-	var queryId = '&queryId=queryRedGreenTaskDetailList';
-	var colomns = '&colomns=' + displayColomn;
-	
 	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
-	
 	$('#excelForm').attr('action', url);
-	
 	$('#excelForm').method="post" ;
 	$('#excelForm').submit();
-
 }
 
-function exportToExcelGbinfo(organId,orgName1) {
-	var url = "/quickGrid/findPage?xlsx&";
-	var ctx = $("#ctx").val();
-	//excel导出列
-	var displayColomn = new Array;
-	displayColomn.push('orgName1');
-	displayColomn.push('realName1');
-	displayColomn.push('orgName2');
-	displayColomn.push('realName2');
-	displayColomn.push('color1');
-	displayColomn.push('CASE_CODE');
-	displayColomn.push('TASKNAME');
-	displayColomn.push('PROPERTY_ADDR');
-	displayColomn.push('REAL_NAME');
-	
-	
-	displayColomn.push('EST_PART_TIME');
-	displayColomn.push('RPROPERTY_ADDR');
-	displayColomn.push('IMPORTTIME');
-	
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var arguUserId=null;
-	if(queryOrgFlag == 'true'){
-		arguUserId=null;
-		if(isAdminFlag == 'true'){
-			queryOrgs=null;
-		}
-	}else{
-		queryOrgs= null;
-		arguUserId="yes";
-	}
-	
-	var orgArray = queryOrgs==null?'':queryOrgs.split(",");
-	
-	var argu_idflag = '&argu_idflag='+arguUserId;
-	
-	if(arguUserId==null)argu_idflag='&argu_idflag=';
-	var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
-	if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
-	var params = {};
-	
-	/*var start = $('#dtBegin_0').val();
-	if(start&&start!=''){
-		prApplyTime = start;
-	}*/
-	params.organId = organId;
-	params.orgName1 = orgName1;
-	/*params.prApplyTime = prApplyTime;*/
-	
-	
-	var queryId = '&queryId=queryRedGreenTaskExcelItemList';
-	var colomns = '&colomns=' + displayColomn;
-	
-	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
-	
-	$('#excelForm').attr('action', url);
-	
-	$('#excelForm').method="post" ;
-	$('#excelForm').submit();
-	
-}
 
 function exportToExcelGb(organId) {
 	var url = "/quickGrid/findPage?xlsx&";
 	var ctx = $("#ctx").val();
-	//excel导出列
-	var displayColomn = new Array;
+	var displayColomn = new Array;//excel导出列
 	displayColomn.push('orgName1');
 	displayColomn.push('realName1');
-	/*displayColomn.push('orgName2');
-	displayColomn.push('realName2');
-	displayColomn.push('color1');
-	displayColomn.push('CASE_CODE');
-	displayColomn.push('TASKNAME');
-	displayColomn.push('PROPERTY_ADDR');
-	displayColomn.push('REAL_NAME');*/
-	
 	displayColomn.push('redall');
 	displayColomn.push('yellowall');
 	displayColomn.push('allcolor');
 	displayColomn.push('importtime');
-	
-	/*	displayColomn.push('EST_PART_TIME');
-	displayColomn.push('RPROPERTY_ADDR');
-	displayColomn.push('IMPORTTIME');*/
-	
 	var queryOrgFlag = $("#queryOrgFlag").val();
 	var isAdminFlag = $("#isAdminFlag").val();
 	var queryOrgs = $("#queryOrgs").val();
@@ -454,58 +289,32 @@ function exportToExcelGb(organId) {
 	}
 	
 	var orgArray = queryOrgs==null?'':queryOrgs.split(",");
-	
 	var argu_idflag = '&argu_idflag='+arguUserId;
-	
 	if(arguUserId==null)argu_idflag='&argu_idflag=';
 	var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 	if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 	var params = {};
 	params.orgName1 = organId;
-	getDatabase(params);
-	
+	getDatabase(params,false);
 	var queryId = '&queryId=queryRedGreenTaskCountGbList';
 	var colomns = '&colomns=' + displayColomn;
-	
 	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
-	
 	$('#excelForm').attr('action', url);
-	
 	$('#excelForm').method="post" ;
 	$('#excelForm').submit();
-	
 }
-
-
-function queryRedGreenTaskDetail(id){
-	//var start = $('#dtBegin_0').val();
-	window.open(ctx+"/report/redgreenTaskDetail?organId="+id+"&colourId="+1);
-	
-}
-//添加颜色参数
 function queryRedGreenTaskDetailColour(id,colourId,orgName1,orgName2){
-	//var start = $('#dtBegin_0').val();
 	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId+"&orgName1="+orgName1+"&orgName2="+orgName2);
-	
 }
 
-// 清空表单
-function cleanForm() {
-	$("input[name='dtBegin']").val("");
-}
-
-//清空
-$('#cleanButton').click(function() {
+$('#cleanButton').click(function() {//清空
 	$("input[name='dtBegin']").val('');
 	$("select").val("");
-	
 	$("input[name='dtBegin']").datepicker('update', '');
 	$("input[name='dtEnd']").datepicker('update', '');
-
 	$("#txt_proOrgId_gb").val('');
 	$("#txt_proOrgId").val('');
 	$("#inTextVal").val("");
-	
 	$("#h_proOrgId_gb").val('');
 	$("#h_proOrgId").val('');
 	$("#txt_proOrgId").val('');
@@ -513,40 +322,29 @@ $('#cleanButton').click(function() {
 	$("#txt_proOrgId_gb").val('');
 	$("#txt_proOrgId").attr("serviceDepIdOld",'');
 	$("#txt_proOrgId").attr("serviceDepId",'');
-	
-	jobNames = "";
-	
 });
 
-
-
-//贵宾服务部
-function radioYuCuiOrgSelectCallBackgb(array){
-	$("#h_proOrgId").val('');
-	
-  if(array && array.length >0){
+function radioYuCuiOrgSelectCallBackgb(array){//贵宾服务部
+    $("#h_proOrgId").val('');
+    if(array && array.length >0){
         $("#txt_proOrgId_gb").val(array[0].name);
 		$("#h_proOrgId_gb").val(array[0].id);
 		$("#inTextVal").val("");
-		
 		var serviceDepId = array[0].id;
 		$("#txt_proOrgId").val('');
-		
 		$("#txt_proOrgId").attr("serviceDepId",serviceDepId);
-		
 	}else{
 		$("#txt_proOrgId").val("");
 		$("#h_proOrgId").val("");
 		$("#txt_proOrgId").attr("serviceDepId",$("#txt_proOrgId").attr('serviceDepIdOld'));
 	}
 }
-//选业务组织的回调函数
-function radioYuCuiOrgSelectCallBack(array){
+
+function radioYuCuiOrgSelectCallBack(array){//选业务组织的回调函数
 	$("#h_proOrgId_gb").val("");
-if(array && array.length >0){
+	if(array && array.length >0){
 	    $("#txt_proOrgId").val(array[0].name);
 		$("#h_proOrgId").val(array[0].id);
-		
 		$("#inTextVal").val("");
 	}else{
 		 $("#txt_proOrgId").val(array[0].name);
@@ -554,34 +352,27 @@ if(array && array.length >0){
 	}
 }
 
-
 function userSelect_back(){
-	
 	serviceDepId = $("#h_proOrgId").val();
-	
 	if(serviceDepId != null || serviceDepId != ""){
-		
 		if(($("#h_proOrgId_gb").val() != "" || $("#h_proOrgId_gb").val() !=null)&&(!(serviceDepId != null) || serviceDepId == "")){
 			serviceDepIda = $("#h_proOrgId_gb").val();
 			userSelect({startOrgId:serviceDepIda,expandNodeId:serviceDepIda,jobCode:'Manager,Senior_Manager,director',
-				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
+						nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 		}else{
 			userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
-				nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
+						nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 		}
-		
 	}else{
-		userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
-			nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
+			userSelect({startOrgId:serviceDepId,expandNodeId:serviceDepId,jobCode:'Manager,Senior_Manager,director',
+						nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack});
 	}
 }
 
 function selectUserBack(array){
 	if(array && array.length >0){
-      $("#inTextVal").val(array[0].username);
+		$("#inTextVal").val(array[0].username);
 		$("#inTextVal").attr('hVal',array[0].userId);
-		jobNames = array[0].jobName;
-				
 	}else{
 		$("#inTextVal").val("");
 		$("#inTextVal").attr('hVal',"");
@@ -592,9 +383,6 @@ function searchGbcleanForm(){
 	$("#txt_proOrgId").val('');
 	$("#txt_proOrgId").attr("serviceDepIdOld",'');
 	$("#txt_proOrgId").attr("serviceDepId",'');
-	
 	$("#inTextVal").val("");
 	$("#inTextVal").attr('hVal',"");
 }
-
-
