@@ -32,59 +32,56 @@ public class QuickQueryGetFontAgentInfoServiceImpl implements
 		if(keys==null || keys.isEmpty()){
 			return null;
 		}
-		QuickQueryBatchWarpper batchWarpper = new QuickQueryBatchWarpper(new BatchQuery(){
-			public <T> List<T> query(List<T> resultSet) {
-				List<String> caseCode = new ArrayList<String>();
-				List<String> userId = new ArrayList<String>();
-				List<Map<String, Object>> rs = null;
-				if(resultSet!=null && !resultSet.isEmpty()){
-					rs = (List<Map<String, Object>>) resultSet;
-					for (Map<String, Object> key : rs) {
-						Object case_code   = key.get("CASE_CODE");
-						Object id     = key.get("LEADING_PROCESS_ID");
-						if(case_code!=null){
-							caseCode.add(case_code.toString());
-						}
-						if(id!=null){
-							userId.add(id.toString());
-						}
-					}
-					Map<String,Object> paramMap = new HashMap<String,Object>();
-					List<Map<String, Object>>  agents = new ArrayList<Map<String, Object>>();
-					List<Map<String, Object>>  fonts = new ArrayList<Map<String, Object>>();
-					paramMap.put("caseCode", caseCode);
-					agents = jdbcTemplate.queryForList(AGENT_SQL, paramMap);
-					paramMap.clear();
-					paramMap.put("userId", userId);
-					fonts = jdbcTemplate.queryForList(FONT_SQL, paramMap);
-					for (Map<String, Object> key : rs) {
-						Object case_code   = key.get("CASE_CODE");
-						Object id     = key.get("LEADING_PROCESS_ID");
-						for(Map<String, Object> agent:agents){
-							if(case_code.equals(agent.get("CASE_CODE"))){
-								key.put("AGENT_NAME", agent.get("AGENT_NAME"));
-								key.put("AGENT_PHONE", agent.get("AGENT_PHONE"));
-								continue;
-							}
-						}
-						for(Map<String, Object> font:fonts){
-							if(id.equals(font.get("ID"))){
-								key.put("FONT_NAME", font.get("FONT_NAME"));
-								key.put("FONT_MOBILE", font.get("FONT_MOBILE"));
-								continue;
-							}
-						}
-						
-					}
-				}
-				
-				return (List<T>) rs;
-			}
-		},1000);
-		
 		return batchWarpper.batchWarp(keys);
 	}
 
+	private QuickQueryBatchWarpper batchWarpper = new QuickQueryBatchWarpper(new BatchQuery<Map<String, Object>>(){
+		public List<Map<String, Object>> query(List<Map<String, Object>> rs) {
+			List<String> caseCode = new ArrayList<String>();
+			List<String> userId = new ArrayList<String>();
+			if(rs!=null && !rs.isEmpty()){
+				for (Map<String, Object> key : rs) {
+					Object case_code   = key.get("CASE_CODE");
+					Object id     = key.get("LEADING_PROCESS_ID");
+					if(case_code!=null){
+						caseCode.add(case_code.toString());
+					}
+					if(id!=null){
+						userId.add(id.toString());
+					}
+				}
+				Map<String,Object> paramMap = new HashMap<String,Object>();
+				List<Map<String, Object>>  agents = new ArrayList<Map<String, Object>>();
+				List<Map<String, Object>>  fonts = new ArrayList<Map<String, Object>>();
+				paramMap.put("caseCode", caseCode);
+				agents = jdbcTemplate.queryForList(AGENT_SQL, paramMap);
+				paramMap.clear();
+				paramMap.put("userId", userId);
+				fonts = jdbcTemplate.queryForList(FONT_SQL, paramMap);
+				for (Map<String, Object> key : rs) {
+					Object case_code   = key.get("CASE_CODE");
+					Object id     = key.get("LEADING_PROCESS_ID");
+					for(Map<String, Object> agent:agents){
+						if(case_code.equals(agent.get("CASE_CODE"))){
+							key.put("AGENT_NAME", agent.get("AGENT_NAME"));
+							key.put("AGENT_PHONE", agent.get("AGENT_PHONE"));
+							continue;
+						}
+					}
+					for(Map<String, Object> font:fonts){
+						if(id.equals(font.get("ID"))){
+							key.put("FONT_NAME", font.get("FONT_NAME"));
+							key.put("FONT_MOBILE", font.get("FONT_MOBILE"));
+							continue;
+						}
+					}
+					
+				}
+			}
+			
+			return rs;
+		}
+	},1000);
 	
 	@Override
 	public Boolean getIsBatch() {
