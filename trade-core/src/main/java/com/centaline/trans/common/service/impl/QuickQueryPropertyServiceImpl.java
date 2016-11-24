@@ -28,6 +28,8 @@ public class QuickQueryPropertyServiceImpl implements CustomDictService {
 		StringBuilder sql = new StringBuilder();
 		if("mortgageAddr".equals(dictType)){
 			sql.append("select PROPERTY_ADDR as v from sctrans.T_TO_PROPERTY_INFO  where CASE_CODE=:code");
+		}else if("mortgageFinOrg".equals(dictType)){
+			sql.append("Select FIN_ORG_NAME_YC as v from sctrans.T_TS_FIN_ORG  where FIN_ORG_CODE=:code");
 		}else if("fenHang".equals(dictType)){
 			sql.append("select TOP 1 FIN_ORG_NAME_YC as v from SCTRANS.T_TS_FIN_ORG where FIN_ORG_CODE in (select distinct FA_FIN_ORG_CODE  from SCTRANS.T_TS_FIN_ORG where FIN_ORG_CODE in(select FIN_ORG_CODE from SCTRANS.T_TS_SUP ts where ts.SUP_CAT='0' and ts.FIN_ORG_CODE=:code))");
 		}else if("getRealName".equals(dictType)){

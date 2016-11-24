@@ -5,7 +5,6 @@
 		<customDict id="convertValueForLoanlostReason" beanName="convertValueForLoanlostReason" />		
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
-		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName" />
 		<customDict id="qqcdSellerPhone" beanName="qqcdSellerPhone" />
 		<customDict id="qqcdBuyerPhone" beanName="qqcdBuyerPhone" />
 		<customDict id="lastContent" beanName="lastContent" />
@@ -81,8 +80,7 @@
 							I.AR_NAME, 
 							I.GRP_CODE,
 							I.AR_NAME,		
-							W.INST_CODE,									
-							V.LONG_ AS  STATUS, 
+							W.INST_CODE,
 							M.CUST_NAME,
 							M.FIN_ORG_CODE,
 							ROUND(CONVERT(FLOAT,M.COM_AMOUNT)/10000,2)  COM_AMOUNT, 
