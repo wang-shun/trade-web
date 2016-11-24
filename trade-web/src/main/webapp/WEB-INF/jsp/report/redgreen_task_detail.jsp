@@ -239,7 +239,6 @@ text-decoration: underline !important;
 			<table border="1" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
-					   <!--  <th class="text-center">案件编号</th> -->
 					    <th class="text-center"><span class='sort' sortColumn='CASE_CODE' sord='desc'>案件编号</span></th>
 						<th class="t-left pd-l">贵宾服务部</th>
 						<th class="t-left pd-l">总监</th>
@@ -249,9 +248,7 @@ text-decoration: underline !important;
 						<th class="text-center">任务名</th>
 						<th class="text-center">产证地址</th>
 						<th class="text-center">经办人</th>
-						<!-- <th class="text-center">预计完成时间</th> -->
 						<th class="text-center"><span class='sort' sortColumn='EST_PART_TIME' sord='desc'>预计完成时间</span></th>
-						
 					</tr>
 				</thead>
 				<tbody id="redgreenTaskDetailList">
