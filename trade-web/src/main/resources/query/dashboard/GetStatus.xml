@@ -780,7 +780,7 @@
 										   left join sctrans.act_ru_task ta 			 on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
 										   left join sctrans.LAMP_RULE l				 on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
 										   left join sctrans.SYS_USER as u 				 on ta.ASSIGNEE_=u.USERNAME
-										   left join sctrans.v_user_org_job as uoj   	 on uoj.[USER_ID]=u.ID
+										   left join sctrans.V_USER_ORG_JOB_ACTIVE as uoj   	 on uoj.[USER_ID]=u.ID
 									 	   left join sctrans.t_to_case as tc	    	 on tc.case_code =t.case_code
 									 where u.id is not null
 								  	 <if test="user_Id != null">
