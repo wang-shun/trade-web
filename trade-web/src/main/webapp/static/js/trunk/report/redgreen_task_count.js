@@ -242,7 +242,7 @@ function getDatabase(data){
 	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
 	data.argu_idflag = arguUserId;
 	data.argu_queryorgs = orgArray;
-	
+	// $("#h_proOrgId_gb").val();
 	data.proOrggbName = proOrggbName;
 	data.proOrgName = proOrgName;
 	data.jobName = jobNames;
@@ -422,7 +422,7 @@ function exportTExcelZb() {
 	
 	getDatabase(params);
 	
-	var queryId = '&queryId=queryRedGreenTaskCountExcelList';
+	var queryId = '&queryId=queryRedGreenTaskCountList';
 	var colomns = '&colomns=' + displayColomn;
 	
 	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
@@ -476,18 +476,11 @@ function exportToExcel(organId,orgName1,orgName2) {
 	var params = getParamsValue();
 	
 	var start = $('#dtBegin_0').val();
-	/*if(start&&start!=''){
-		prApplyTime = start;
-	}*/
 	params.organId = organId;
-	params.orgName1 = orgName1;
+	params.proOrggbName = orgName1;
 	params.gbName = orgName1;
-	params.orgName2 = orgName2;//orgName1,orgName2
-	//params.prApplyTime = prApplyTime;
-	
-	
-	
-	var queryId = '&queryId=queryRedGreenTaskExcelItemList';
+	params.proOrgName = orgName2;
+	var queryId = '&queryId=queryRedGreenTaskDetailList';
 	var colomns = '&colomns=' + displayColomn;
 	
 	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
@@ -619,7 +612,7 @@ function exportToExcelGb(organId) {
 	
 	getDatabase(params);
 	
-	var queryId = '&queryId=queryRedGreenTaskCountExcelGbList';
+	var queryId = '&queryId=queryRedGreenTaskCountGbList';
 	var colomns = '&colomns=' + displayColomn;
 	
 	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;

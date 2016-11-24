@@ -240,7 +240,7 @@ text-decoration: underline !important;
 				<thead>
 					<tr>
 					   <!--  <th class="text-center">案件编号</th> -->
-					    <th class="text-center"><span class='sort' sortColumn='t2.CASE_CODE' sord='desc'>案件编号</span></th>
+					    <th class="text-center"><span class='sort' sortColumn='CASE_CODE' sord='desc'>案件编号</span></th>
 						<th class="t-left pd-l">贵宾服务部</th>
 						<th class="t-left pd-l">总监</th>
 						<th class="t-left pd-l">组别</th>

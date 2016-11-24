@@ -269,8 +269,8 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l">{{item.orgName2}}</td>
 						<td class="t-left pd-l">{{item.realName2}}</td>
-						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.yellow}}</a></td>
-						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.red}}</a></td>
+						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.red}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.yellow}}</a></td>
 						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{(item.yellow)+(item.red)}}</a></td>
 						<td class="t-left pd-l">
                             <a href="javascript:exportToExcel('{{item.id}}','{{item.orgName1}}','{{item.orgName2}}');" target="_blank">导出</a>

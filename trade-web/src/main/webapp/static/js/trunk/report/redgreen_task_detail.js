@@ -108,7 +108,8 @@ function getDatebase(data){
 	var lampRadios = $('input[name="lampRadios"]:checked').val();
 	var proOrggbName = $("#txt_proOrgId_gb").val();
 	var proOrgName =   $("#txt_proOrgId").val();
-	if(lampRadios == 2){lampRadios=null;}
+	if(lampRadios == 0){data.red=1;}
+	if(lampRadios == 1){data.yellow=1;}
 	var taskDfKey=$("#taskDfKeyid").val();
 	var arguUserId=null;
 	if(queryOrgFlag == 'true'){
@@ -131,7 +132,6 @@ function getDatebase(data){
     data.propertyAddr = propertyAddr;
     data.taskName = taskName;
     data.caseCode = caseCodes;
-    data.lampRadios = lampRadios;
     data.taskDfKey = taskDfKey;
     data.proOrggbName = proOrggbName;
     data.proOrgName = proOrgName;
@@ -229,7 +229,7 @@ function exportToExcel() {
 	var organId = $("#organId").val();
 	params.organId = organId;
 	getDatebase(params);
-	var queryId = '&queryId=queryRedGreenTaskExcelItemList';
+	var queryId = '&queryId=queryRedGreenTaskDetailList';
 	var colomns = '&colomns=' + displayColomn;
 	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
 	$('#excelForm').attr('action', url);

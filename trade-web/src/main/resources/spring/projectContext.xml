@@ -489,6 +489,8 @@
     <bean name="qqItemManagerInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetManagerInfoByIdServiceImpl">    	
     </bean>
     <!-- 根据case_code获取店组和片区信息-->
-    <bean name="getArAndGrpInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetArAndGrpNameInfoByCaseCodeServiceImpl"></bean>    	
+    <bean name="getArAndGrpInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetArAndGrpNameInfoByCaseCodeServiceImpl"></bean> 
+    <!-- 查询黄红灯-->
+    <bean name="getColorChines" class="com.centaline.trans.common.service.impl.QuickQueryGetColorChinesServiceImpl" />   	   	
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
