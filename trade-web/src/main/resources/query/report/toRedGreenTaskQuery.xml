@@ -101,10 +101,6 @@
 								   and realName2 =#TextValName#
 					  </ifNotNull>
 					  
-					  <ifNotNull TextValNameZj>
-								   and f.realName1 =#TextValNameZj#
-					  </ifNotNull>
-					  
 					  <ifNotNull proOrgName>
 								   and orgName2 =#proOrgName#
 					  </ifNotNull>
