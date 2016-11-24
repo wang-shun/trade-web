@@ -540,7 +540,15 @@
 							});
 
 							// 初始化银行列表
-							getBankList(null);
+							var getTag=$("#loanSrvCode").val();
+							if(getTag=="30004005" ||getTag=="30004015"){
+								getBankList("sfk");
+							}else if(getTag!=""){
+								getBankList("loan");
+							}else{
+								getBankList(null);
+							}
+
 
 							$('.submit_From').click(
 									function() {
