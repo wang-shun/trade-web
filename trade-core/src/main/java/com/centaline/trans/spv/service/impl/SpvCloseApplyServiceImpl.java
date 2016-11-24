@@ -107,7 +107,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	 * 中止/结束主办审批页面
 	 */
 	@Override
-	public void spvCloseManagerAuditProcess(HttpServletRequest request, String instCode, String taskId, String businessKey) {
+	public void spvCloseHostAuditProcess(HttpServletRequest request, String instCode, String taskId, String businessKey) {
 		setRequestAttribute(request,null,businessKey);
 	}
 
@@ -171,9 +171,9 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("applier", user.getUsername());
 		User host = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
-		vars.put("manager", host.getUsername());
-		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
-		vars.put("director", riskControlDirector.getUsername());
+		vars.put("host", host.getUsername());
+		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		vars.put("director", director.getUsername());
 		
 		String spvCloseCode = createSpvCloseCode();
 		
@@ -183,7 +183,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		apply.setApplier(user.getId());
 		apply.setIsDeleted("0");
 		apply.setAuditor(host.getId());
-		apply.setReAuditor(riskControlDirector.getId());
+		apply.setReAuditor(director.getId());
 		apply.setStatus(SpvCloseApplyStatusEnum.AUDIT.getCode());
 		apply.setApplyTime(new Date());
 		apply.setCreateBy(user.getId());
@@ -263,7 +263,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	 * 中止/结束主办审批操作
 	 */
 	@Override
-	public void spvCloseManagerAuditDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode,
+	public void spvCloseHostAuditDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode,
 			String taskitem, String taskId, String businessKey,Boolean result) {
 		// 提交流程
 		SessionUser user = uamSessionService.getSessionUser();
@@ -290,7 +290,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		toSpvCloseApplyAuditMapper.insertSelective(audit);
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("managerAppr", result);
+		variables.put("hostAppr", result);
 		taskService.submitTask(taskId, variables);
 	}
 

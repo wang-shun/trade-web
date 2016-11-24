@@ -9,8 +9,8 @@ $(document).ready(function(){
 	$("#page_submit_btn").click(function(){submitBtnClick(handle)});
 	$("#apply_submit_btn").click(function(){submitBtnClick(handle,true)});
 	$("#apply_cancel_btn").click(function(){submitBtnClick(handle,false)});
-	$("#managerAudit_pass_btn").click(function(){submitBtnClick(handle,null,true)});
-	$("#managerAudit_reject_btn").click(function(){submitBtnClick(handle,null,false)});
+	$("#hostAudit_pass_btn").click(function(){submitBtnClick(handle,null,true)});
+	$("#hostAudit_reject_btn").click(function(){submitBtnClick(handle,null,false)});
 	$("#directorAudit_pass_btn").click(function(){submitBtnClick(handle,null,true)});
 	$("#directorAudit_reject_btn").click(function(){submitBtnClick(handle,null,false)});
 })
@@ -28,7 +28,7 @@ function submitBtnClick(handle,continueApply,result){
 	  		if(!confirm("是否确定提交申请！")){
 	  		  return false;
 	  	    }
-	  }else if(handle == 'managerAudit'){
+	  }else if(handle == 'hostAudit'){
 		  if(result){
 		   	   if(!confirm("是否确定通过！")){
 			 		  return false;
@@ -116,7 +116,7 @@ function validateForm(){
 		return false;
 	}
 	
-	if(handle == 'managerAudit' || handle == 'directorAudit'){
+	if(handle == 'hostAudit' || handle == 'directorAudit'){
 		var $content = $("textarea[name='toSpvCloseApplyAuditList[0].content']");
 		if($.trim($content.val()) == ''){
 			alert("请填写审核意见！");

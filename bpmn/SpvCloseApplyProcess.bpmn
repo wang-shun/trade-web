@@ -4,17 +4,17 @@
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="SpvCloseDirectorAudit" name="中止/结束总监审核" activiti:assignee="${director}" activiti:formKey="/spv/task/spvCloseApply/process?handle=directorAudit&amp;__decorator=UI_V2"></userTask>
     <userTask id="SpvCloseApply" name="终止/结束申请" activiti:assignee="${applier}" activiti:formKey="/spv/task/spvCloseApply/process?handle=apply&amp;__decorator=UI_V2"></userTask>
-    <userTask id="SpvCloseManagerAudit" name="中止/结束主办审核" activiti:assignee="${manager}" activiti:formKey="/spv/task/spvCloseApply/process?handle=managerAudit&amp;__decorator=UI_V2"></userTask>
+    <userTask id="SpvCloseHostAudit" name="中止/结束主办审核" activiti:assignee="${host}" activiti:formKey="/spv/task/spvCloseApply/process?handle=hostAudit&amp;__decorator=UI_V2"></userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="SpvCloseApply"></sequenceFlow>
-    <sequenceFlow id="flow2" sourceRef="SpvCloseApply" targetRef="SpvCloseManagerAudit"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="SpvCloseApply" targetRef="SpvCloseHostAudit"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow6" sourceRef="SpvCloseManagerAudit" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow6" sourceRef="SpvCloseHostAudit" targetRef="exclusivegateway1"></sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="exclusivegateway1" targetRef="SpvCloseDirectorAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${managerAppr}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hostAppr}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow8" sourceRef="exclusivegateway1" targetRef="SpvCloseApply">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${managerAppr == false}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hostAppr == false}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow9" sourceRef="SpvCloseDirectorAudit" targetRef="exclusivegateway2"></sequenceFlow>
@@ -36,7 +36,7 @@
       <bpmndi:BPMNShape bpmnElement="SpvCloseApply" id="BPMNShape_SpvCloseApply">
         <omgdc:Bounds height="55.0" width="105.0" x="280.0" y="240.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="SpvCloseManagerAudit" id="BPMNShape_SpvCloseManagerAudit">
+      <bpmndi:BPMNShape bpmnElement="SpvCloseHostAudit" id="BPMNShape_SpvCloseHostAudit">
         <omgdc:Bounds height="55.0" width="105.0" x="460.0" y="240.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">

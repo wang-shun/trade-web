@@ -792,7 +792,7 @@
                     </div>
                 </form>
                 
-                        <c:if test="${handle eq 'managerAudit' or handle eq 'directorAudit' }" >
+                        <c:if test="${handle eq 'hostAudit' or handle eq 'directorAudit' }" >
                         <div class="title">
                             <strong>历史审核意见</strong>
                         </div>
@@ -827,7 +827,7 @@
                         </div>
                         
                         <div class="excuse">  
-                        <c:if test="${handle eq 'managerAudit' or handle eq 'directorAudit' }">
+                        <c:if test="${handle eq 'hostAudit' or handle eq 'directorAudit' }">
                             <form id="auditContent">
                                 <i style="color:red;">*</i> <textarea name="toSpvCloseApplyAuditList[0].content" id="" placeholder="请填写审核意见" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;"></textarea>
                             </form>
@@ -841,10 +841,10 @@
 									<a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>			
-							<c:if test="${handle eq 'managerAudit' }">
+							<c:if test="${handle eq 'hostAudit' }">
 							    <div>
-                                <a id="managerAudit_pass_btn" class="btn btn-success btn-space">审批通过</a>
-                                <a id="managerAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</a>
+                                <a id="hostAudit_pass_btn" class="btn btn-success btn-space">审批通过</a>
+                                <a id="hostAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</a>
                                 <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
 								</div>
 							</c:if>											

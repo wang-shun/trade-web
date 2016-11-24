@@ -960,8 +960,8 @@ public class SpvController {
         	case "apply":
         		spvCloseApplyService.spvCloseApplyProcess(request, instCode, taskId, businessKey);
         		break;
-            case "managerAudit":
-            	spvCloseApplyService.spvCloseManagerAuditProcess(request, instCode, taskId, businessKey);
+            case "hostAudit":
+            	spvCloseApplyService.spvCloseHostAuditProcess(request, instCode, taskId, businessKey);
         		break;
             case "directorAudit":
             	spvCloseApplyService.spvCloseDirectorAuditProcess(request, instCode, taskId, businessKey);
@@ -1011,8 +1011,8 @@ public class SpvController {
 				case "apply":
 					spvCloseApplyService.spvCloseApplyDeal(request, spvCloseInfoVO, taskId, instCode, businessKey, continueApply);
 					break;
-			    case "managerAudit":
-			    	spvCloseApplyService.spvCloseManagerAuditDeal(request, spvCloseInfoVO, instCode,
+			    case "hostAudit":
+			    	spvCloseApplyService.spvCloseHostAuditDeal(request, spvCloseInfoVO, instCode,
 			    			taskitem, taskId, businessKey, result);
 					break;
 			    case "directorAudit":
