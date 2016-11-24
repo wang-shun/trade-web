@@ -256,8 +256,10 @@
                                                     <a href="javascript:void(0)">${cashFlow.createByName }&nbsp;</a><fmt:formatDate value="${cashFlow.createTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">结束</i>             
+                                                    <i class="sign_normal">结束</i>       
+                                                    <c:if test="${not empty cashFlow.closeTime }">      
                                                     <a href="javascript:void(0)">${cashFlow.ftPostAuditorName }&nbsp;</a><fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                    </c:if>
                                                 </p>
                                             </td>
                                             <td>
@@ -475,7 +477,7 @@
                         </div>
                         </div>
                         
-                        <c:if test="${handle eq 'directorAduit' or handle eq 'financeAduit' or handle eq 'financeSecondAduit' }">
+                        <c:if test="${handle eq 'directorAudit' or handle eq 'financeAudit' or handle eq 'financeSecondAudit' }">
                         <div class="submitter">
                             提交人：<span>${user.realName }(${user.serviceJobName })</span>
                         </div>
