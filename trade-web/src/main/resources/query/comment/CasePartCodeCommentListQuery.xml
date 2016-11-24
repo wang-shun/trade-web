@@ -57,10 +57,10 @@
 					LEFT JOIN sctrans.SYS_JOB SJ ON SJ.ID = UOJ.JOB_ID 
 					<choose>
 						<when test="caseCode!=null and caseCode != ''">
-							AND CASE_CODE = #caseCode#
+							WHERE CASE_CODE = #caseCode#
 						</when>
 						<otherwise>
-						    AND CASE_CODE IS NULL
+						    WHERE CASE_CODE IS NULL
 						</otherwise>
 					</choose>
 				]]>
