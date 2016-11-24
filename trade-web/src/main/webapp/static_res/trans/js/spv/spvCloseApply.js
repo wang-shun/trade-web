@@ -25,9 +25,15 @@ function submitBtnClick(handle,continueApply,result){
 			  return false;
 		  } 
 	  }else if(handle == 'apply'){
-	  		if(!confirm("是否确定提交申请！")){
-	  		  return false;
-	  	    }
+	  		if(result){
+			   	   if(!confirm("是否确定提交申请！")){
+				 		  return false;
+				 	  } 
+			  }else{
+			  	   if(!confirm("是否确定取消申请！")){
+			     		  return false;
+			     	  } 
+			  }
 	  }else if(handle == 'hostAudit'){
 		  if(result){
 		   	   if(!confirm("是否确定通过！")){

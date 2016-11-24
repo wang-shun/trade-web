@@ -284,11 +284,13 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		// 提交流程
 		SessionUser user = uamSessionService.getSessionUser();
 		
-		ToSpvCloseApply apply = spvCloseInfoVO.getToSpvCloseApply();
+		ToSpvCloseApply apply = toSpvCloseApplyMapper.selectByPrimaryKey(spvCloseInfoVO.getToSpvCloseApply().getPkid());
 		apply.setAuditTime(new Date());
 		if(result){
 			apply.setStatus(SpvCloseApplyStatusEnum.REAUDIT.getCode());
 		}else{
+			apply.setCloseType(null);
+			apply.setComment(null);
 			apply.setStatus(SpvCloseApplyStatusEnum.DRAFT.getCode());
 		}
 		
@@ -302,7 +304,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		audit.setCreateBy(user.getId());
 		audit.setCreateTime(new Date());
 		
-		toSpvCloseApplyMapper.updateByPrimaryKeySelective(apply);
+		toSpvCloseApplyMapper.updateByPrimaryKey(apply);
 		toSpvCloseApplyAuditMapper.insertSelective(audit);
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
@@ -321,11 +323,13 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		
 		String spvCode = spvCloseInfoVO.getToSpvCloseApply().getSpvCode();
 		
-		ToSpvCloseApply apply = spvCloseInfoVO.getToSpvCloseApply();
+		ToSpvCloseApply apply = toSpvCloseApplyMapper.selectByPrimaryKey(spvCloseInfoVO.getToSpvCloseApply().getPkid());
 		apply.setReAuditTime(new Date());
 		if(result){
 			apply.setStatus(SpvCloseApplyStatusEnum.COMPLETE.getCode());
 		}else{
+			apply.setCloseType(null);
+			apply.setComment(null);
 			apply.setStatus(SpvCloseApplyStatusEnum.DRAFT.getCode());
 		}
 		
@@ -339,7 +343,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		audit.setCreateBy(user.getId());
 		audit.setCreateTime(new Date());
 		
-		toSpvCloseApplyMapper.updateByPrimaryKeySelective(apply);
+		toSpvCloseApplyMapper.updateByPrimaryKey(apply);
 		toSpvCloseApplyAuditMapper.insertSelective(audit);
 		
 		ToSpvCloseApply tempApply = toSpvCloseApplyMapper.selectByPrimaryKey(apply.getPkid());
@@ -412,7 +416,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	
 	private void setRequestAttribute(HttpServletRequest request, String spvCode_, String businessKey){
 		String spvCode = null;
-		SpvCloseInfoVO spvCloseInfoVO = findSpvCloseInfoVOBySpvCode(businessKey);
+		SpvCloseInfoVO spvCloseInfoVO = findSpvCloseInfoVOBySpvCloseCode(businessKey);
 		if(spvCloseInfoVO != null){
 			List<ToSpvCloseApplyAudit> audits = spvCloseInfoVO.getToSpvCloseApplyAuditList();
 			if(audits != null && !audits.isEmpty()){
@@ -442,7 +446,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		request.setAttribute("spvCloseInfoVO", spvCloseInfoVO);
 	}
 	
-	private SpvCloseInfoVO findSpvCloseInfoVOBySpvCode(String spvCloseCode){
+	private SpvCloseInfoVO findSpvCloseInfoVOBySpvCloseCode(String spvCloseCode){
 		SpvCloseInfoVO spvCloseInfoVO = new SpvCloseInfoVO();
 		ToSpvCloseApply toSpvCloseApply = toSpvCloseApplyMapper.selectBySpvCloseCode(spvCloseCode);
 		if(toSpvCloseApply == null) return null;

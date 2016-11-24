@@ -899,7 +899,7 @@
                     </div>
                 </form>
                 
-                        <c:if test="${handle eq 'hostAudit' or handle eq 'directorAudit' }" >
+                        <c:if test="${handle eq 'hostAudit' or handle eq 'directorAudit' or handle eq 'apply'}" >
                         <div class="title">
                             <strong>历史审核意见</strong>
                         </div>
