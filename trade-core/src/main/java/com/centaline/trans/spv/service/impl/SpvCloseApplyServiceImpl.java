@@ -137,12 +137,14 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		record.setCaseCode(caseCode);
 		List<ToWorkFlow> toWorkFlows = toWorkFlowService.queryActiveToWorkFlowByCaseCode(record);
 		for(ToWorkFlow toWorkFlow : toWorkFlows){
-			if(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
-				throw new BusinessException("尚有‘入款’流程进行中，不能开启‘中止/结束’流程！");
-			}else if(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
-				throw new BusinessException("尚有‘出款’流程进行中，不能开启‘中止/结束’流程！");
-			}else if(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
-				throw new BusinessException("‘中止/结束’流程已经存在，不能重复开启！");
+			if(spvCode.equals(toWorkFlow.getBizCode())){
+				if(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
+					throw new BusinessException("尚有‘入款’流程进行中，不能开启‘中止/结束’流程！");
+				}else if(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
+					throw new BusinessException("尚有‘出款’流程进行中，不能开启‘中止/结束’流程！");
+				}else if(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
+					throw new BusinessException("‘中止/结束’流程已经存在，不能重复开启！");
+				}
 			}
 		}
 		
