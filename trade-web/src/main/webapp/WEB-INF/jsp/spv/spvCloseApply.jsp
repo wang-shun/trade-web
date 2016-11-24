@@ -627,11 +627,118 @@
 										<td align="center">
 									</tr>
 								   </c:forEach>
+								   <c:if test="${empty spvBaseInfoVO.toSpvDeDetailList  }">
+                                        <tr><td colspan="5">没有相关信息</td></tr>
+                                   </c:if>
 								</tbody>					
 							</table>							
 						</div>
 					</form>
 				</div>
+				
+				<div class="ibox-content">
+                            <div class="agree-tile">
+                                出入账记录
+                            </div>
+                            <div class="table-capital">
+                             <form>
+                                <div class="table_content">
+                                    <table class="table table-bordered customerinfo">
+                                        <thead>
+                                        <tr>
+                                            <th>凭证编号</th>
+                                            <th>金额</th>
+                                            <th>账户信息</th>
+                                            <th>审批时间</th>
+                                            <th>审核人</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody> 
+                                        <c:forEach items="${cashFlowList}" var="cashFlow" varStatus="status2">
+                                        <tr>
+                                            <td>
+                                                <p class="big">
+                                                    <a href="javascript:void(0);">
+                                                        ${cashFlow.voucherNo }
+                                                    </a>
+                                                </p>
+                                                <p>
+                                                    ${cashFlow.direction }
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="big">
+                                                <c:if test="${cashFlow.usage eq 'in'}">
+                                                    <span class="sign_normal navy_bg">
+                                                    入账
+                                                    </span>
+                                                </c:if>
+                                                <c:if test="${cashFlow.usage eq 'out'}">
+                                                    <span class="sign_normal pink_bg">
+                                                   出账
+                                                    </span>
+                                                </c:if>    
+                                                </p>
+                                                <p class="big">
+                                                    ${cashFlow.amount }万
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p><span>付：</span>${cashFlow.payer }&nbsp;&nbsp;${cashFlow.payerAcc }/${cashFlow.payerBank }</p>
+                                                <p><span>收：</span>${cashFlow.receiver }&nbsp;&nbsp;${cashFlow.receiverAcc }/${cashFlow.receiverBank }</p>
+                                            </td>
+                                            <td>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">录入</i>
+                                                    <a href="javascript:void(0)">${cashFlow.createByName }&nbsp;</a><fmt:formatDate value="${cashFlow.createTime }" pattern="yyyy-MM-dd"/>
+                                                </p>
+                                                <p class="smll_sign">
+                                                    <i class="sign_normal">结束</i>       
+                                                    <c:if test="${not empty cashFlow.closeTime }">      
+                                                    <a href="javascript:void(0)">${cashFlow.ftPostAuditorName }&nbsp;</a><fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                    </c:if>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <%-- <p>
+                                                   ${spvBaseInfoVO.toSpvProperty.prAddr }
+                                                </p> --%>
+                                                <p class="smll_sign">
+                                                 	   审核人：<a href="javascript:void(0)">
+                                                    ${cashFlow.applyAuditorName }
+                                                    
+                                                    <c:if test="${cashFlow.usage eq 'out' }">
+	                                                    <c:if test="${cashFlow.status ge 12 }">
+	                                                    &gt;${cashFlow.ftPreAuditorName }
+	                                                    </c:if>
+                                                    </c:if>
+                                                    
+                                                    <c:if test="${cashFlow.usage eq 'out'}" >
+	                                                    <c:if test="${cashFlow.status ge 13 }">
+	                                                    &gt;${cashFlow.ftPostAuditorName }
+	                                                    </c:if>
+                                                    </c:if>
+                                                    
+                                                    <c:if test="${cashFlow.usage eq 'in'}" >
+                                                    <c:if test="${cashFlow.ftPostAuditorName.length()>0 }">
+                                                    &gt;
+                                                    ${cashFlow.ftPostAuditorName }
+                                                    </c:if>
+                                                    </c:if>
+                                                    </a>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        </c:forEach>
+                                        <c:if test="${empty cashFlowList }">
+                                        <tr><td colspan="5">没有相关信息</td></tr>
+                                        </c:if>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
 				
 				<div class="ibox-content" id="spvfour_info" >
 				<div class="ibox-title" style="height: auto;">
@@ -785,7 +892,7 @@
                                 <div class="form-group form-margin form-space-one">
                                     <label for="" class="lable-one"><i style="color:red;">*</i> 原因</label>
                                     <%-- <input type="text" name="toSpvCloseApply.comment" value="${spvCloseInfoVO.toSpvCloseApply.comment}" class="form-control space-host input-five" placeholder="" > --%>
-                                    <textarea name="toSpvCloseApply.comment" id="" class="form-control space-host" placeholder="请填写中止/结束原因" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;margin-left:150px;margin-top:-25px;"></textarea>
+                                    <textarea name="toSpvCloseApply.comment"  class="form-control space-host" placeholder="请填写中止/结束原因" style="width:100%; resize: none;height:140px;border-radius: 3px;border: 1px solid #d8d8d8;padding:10px;margin-left:150px;margin-top:-25px;">${spvCloseInfoVO.toSpvCloseApply.comment}</textarea>
                                 </div>
                             </div>
                         </div>

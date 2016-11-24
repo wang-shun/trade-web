@@ -242,13 +242,16 @@
 											if(all[i-1].mm==item.mm){
 												return;
 											}	
-										}
+										} 
+										
 									if(i<all.length-1){
 									if(all[i+1].mm==all[i].mm){
 										if (item.mm == 0) {
 											xAxis.push(startMonth + "月以前");
 										}else{
-									    xAxis.push(item.mm + "月");}
+									    xAxis.push(item.mm + "月");
+									    }
+										
 									    ka={
 											num:item.ka+all[i+1].ka,
 											value:item.kaAmount+all[i+1].kaAmount
@@ -267,12 +270,12 @@
 								        xAxis.push(item.mm + "月");
 								        }
 										ka={
-												num:item.ka,
-												value:item.kaAmount
+												num:item.ka==null?0:item.ka,
+												value:item.kaAmount==null?0:item.kaAmount
 											};
 									    dai={
-												num:item.dai,
-												value:item.daiAmount
+												num:item.dai==null?0:item.dai,
+												value:item.daiAmount==null?0:item.daiAmount
 											};
 											kas.push(ka);
 											dais.push(dai);

@@ -564,8 +564,10 @@
                                                     <a href="javascript:void(0)">${cashFlow.createByName }&nbsp;</a><fmt:formatDate value="${cashFlow.createTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">结束</i>             
-                                                    <a href="javascript:void(0)">${cashFlow.ftPostAuditorName }&nbsp;</a><fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                    <i class="sign_normal">结束</i>  
+                                                    <c:if test="${cashFlow.closeTime!=undefined}">          
+                                                     <a href="javascript:void(0)">${cashFlow.ftPostAuditorName }&nbsp;</a><fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                    </c:if> 
                                                 </p>
                                             </td>
                                             <td>

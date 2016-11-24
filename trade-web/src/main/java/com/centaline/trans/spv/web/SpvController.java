@@ -605,14 +605,14 @@ public class SpvController {
      * @return
      */
     @RequestMapping("spvApply/deal")
-	public AjaxResponse<?> spvApply(String caseCode,String source,String instCode,String taskId){
+	public AjaxResponse<?> spvApply(String spvCode,String caseCode,String source,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
-		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
 		spv.setStatus(SpvStatusEnum.AUDIT.getCode());
 
 		//spv.setRemark(remark);
@@ -678,7 +678,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvApprove/deal")
-	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId,String remark){
+	public AjaxResponse<?> spvApprove(String spvCode,Boolean SpvApplyApprove,String caseCode,String instCode,String taskId,String remark){
 		
 		SessionUser user = uamSessionService.getSessionUser();
 		
@@ -686,7 +686,7 @@ public class SpvController {
 		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
-		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
 		if(!SpvApplyApprove){
 			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
 		}else{
@@ -758,12 +758,12 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId, String spvConCode, Date signTime){
+	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String spvCode,String caseCode,String instCode,String taskId, String spvConCode, Date signTime){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
-		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
 		spv.setStatus("2");
 		spv.setSpvConCode(spvConCode);
 		spv.setSignTime(signTime);
@@ -773,6 +773,7 @@ public class SpvController {
 	}
 	
 	@RequestMapping("queryByCaseCode")
+	@ResponseBody
 	public AjaxResponse<String> queryByCaseCode(String caseCode){
 		
         AjaxResponse<String> response = new AjaxResponse<String>();
@@ -780,14 +781,8 @@ public class SpvController {
     		Map<String,Object> infoMap = toSpvService.queryInfoByCaseCode(caseCode);
     		ToSpv toSpv = (ToSpv) infoMap.get("toSpv");
     		Map<String,Object> caseInfoMap = (Map<String, Object>) infoMap.get("caseInfoMap");
-    		if(toSpv != null){
-    			response.setSuccess(true);
-    			response.setMessage("该案件已经关联合约，不得重复关联！");
-    			response.setContent("1");
-    		} else{
-    			response.setContent(JSONObject.toJSONString(caseInfoMap));
-    			response.setSuccess(true);
-    		}
+    		response.setContent(JSONObject.toJSONString(caseInfoMap));
+    		response.setSuccess(true);
     	}catch(Exception e){
     		response.setSuccess(false);
     		response.setMessage(e.getMessage());	
