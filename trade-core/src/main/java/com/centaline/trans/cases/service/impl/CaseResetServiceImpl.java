@@ -23,6 +23,8 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
 public class CaseResetServiceImpl implements CaseResetService {
@@ -44,6 +46,9 @@ public class CaseResetServiceImpl implements CaseResetService {
 
 	@Autowired
 	private ToMortgageService toMortgageService;
+	
+	@Autowired
+	private TransplanServiceFacade transplanServiceFacade;
 
 	@Override
 	public void reset(CaseResetVo vo) {
@@ -71,8 +76,8 @@ public class CaseResetServiceImpl implements CaseResetService {
 
 		caseInfoservice.updateByPrimaryKey(casInfo);
 		caseService.updateByPrimaryKey(cas);
-		// 删除交易计划表
-		// toTransPlanService.deleteTransPlansByCaseCode(vo.getCaseCode());
+		//将交易计划表的数据转移到交易计划历史表并删除交易计划表
+		transplanServiceFacade.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESET);
 		// 删除服务表
 		tgServItemAndProcessorService.deleteByPrimaryCaseCode(vo.getCaseCode());
 		// 无效掉表单数据
