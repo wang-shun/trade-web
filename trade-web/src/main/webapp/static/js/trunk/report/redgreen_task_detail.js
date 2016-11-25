@@ -1,33 +1,33 @@
 $(document).ready(function() {
-					cleanForm();
-					initradio('lampRadios',$("#colourId").val());
-					$("#txt_proOrgId_gb").val($("#orgName1").val());
-					$("#txt_proOrgId").val($("#orgName2").val());
-					$("#h_proOrgId_gb").val($("#organId").val());
-					var url = "/quickGrid/findPage";
-					var ctx = $("#ctx").val();
-					url = ctx + url;
-					var queryOrgFlag = $("#queryOrgFlag").val();
-					var isAdminFlag = $("#isAdminFlag").val();
-					var queryOrgs = $("#queryOrgs").val();
-					var arguUserId=null;
-					if(queryOrgFlag == 'true'){
-						arguUserId=null;
-						if(isAdminFlag == 'true'){ queryOrgs=null; }
-					}else{
-						queryOrgs= null;
-						arguUserId="yes";
-					}
-					var orgArray = queryOrgs==null?null:queryOrgs.split(",");
-					var data = {};// 初始化列表
-		    	    data.queryId = "queryRedGreenTaskDetailList";
-		    	    data.rows = 12;
-		    	    data.page = 1;
-		    		aist.sortWrapper({/*加载排序查询组件*/
-		    			reloadGrid : searchMethod
-		    		});//添加排序------------
-		    		reloadGrid(data);
-				});
+	cleanForm();
+	initradio('lampRadios',$("#colourId").val());
+	$("#txt_proOrgId_gb").val($("#orgName1").val());
+	$("#txt_proOrgId").val($("#orgName2").val());
+	$("#h_proOrgId_gb").val($("#organId").val());
+	var url = "/quickGrid/findPage";
+	var ctx = $("#ctx").val();
+	url = ctx + url;
+	var queryOrgFlag = $("#queryOrgFlag").val();
+	var isAdminFlag = $("#isAdminFlag").val();
+	var queryOrgs = $("#queryOrgs").val();
+	var arguUserId=null;
+	if(queryOrgFlag == 'true'){
+		arguUserId=null;
+		if(isAdminFlag == 'true'){ queryOrgs=null; }
+	}else{
+		queryOrgs= null;
+		arguUserId="yes";
+	}
+	var orgArray = queryOrgs==null?null:queryOrgs.split(",");
+	var data = {};// 初始化列表
+    data.queryId = "queryRedGreenTaskDetailList";
+    data.rows = 12;
+    data.page = 1;
+	aist.sortWrapper({/*加载排序查询组件*/
+		reloadGrid : searchMethod
+	});
+	reloadGrid(data);
+});
 
 function initradio(rName,rValue){
     var rObj = document.getElementsByName(rName);
@@ -267,9 +267,7 @@ $('#cleanButton').click(function() {
 	jobNames = "";
 	$("#organId").val('');
 });
-
-//贵宾服务部
-function radioYuCuiOrgSelectCallBackgb(array){
+function radioYuCuiOrgSelectCallBackgb(array){//贵宾服务部
 	$("#h_proOrgId").val('');
     if(array && array.length >0){
         $("#txt_proOrgId_gb").val(array[0].name);
@@ -284,8 +282,7 @@ function radioYuCuiOrgSelectCallBackgb(array){
 		$("#txt_proOrgId").attr("serviceDepId",$("#txt_proOrgId").attr('serviceDepIdOld'));
 	}
 }
-//选业务组织的回调函数
-function radioYuCuiOrgSelectCallBack(array){
+function radioYuCuiOrgSelectCallBack(array){//选业务组织的回调函数
   if(array && array.length >0){
 	    $("#txt_proOrgId").val(array[0].name);
 		$("#h_proOrgId").val(array[0].id);
@@ -322,4 +319,3 @@ function selectUserBack(array){
 		$("#inTextVal").attr('hVal',"");
 	}
 }
-//#==========================================================================
