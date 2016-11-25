@@ -63,7 +63,7 @@ function submitBtnClick(handle,continueApply,result){
 		     	  } 
 		  }
 	  }
-	  
+
 	  var totalArr = [];
 	  if(continueApply != null){
 		  totalArr.push({"name":"continueApply","value":continueApply}); 
@@ -89,13 +89,13 @@ function submitBtnClick(handle,continueApply,result){
 			$(".blockOverlay").css({'z-index':'9998'});
     },
     complete: function() {
-             $.unblockUI(); 
              if(status=='timeout'){ //超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {
 				    msg:"抱歉，系统处理超时。"
 				  }); 
-		                } 
+		                }
+             $.unblockUI(); 
 		            } ,   
 	success : function(data) {   
 		if(data.success){
@@ -196,18 +196,19 @@ function getAccTypeOptions(){
 
 //检查是否存在出入账流程
 function checkInOutWorkFlowProcess(spvCode){
-	
+var result = true;
 $.ajax({
 	url:ctx+"/spv/checkInOutWorkFlowProcess",
+	async : false,//false同步，true异步
 	method:"post",
 	dataType:"json",
 	data:{spvCode:spvCode},   		        				        		      
-	success : function(data) {   
+	success : function(data) {	
 		if(!data.success){
 			alert(data.message);
-			return false;
+			result = false;
 		}
 		}
 });
-	return true;
+	return result;
 }
