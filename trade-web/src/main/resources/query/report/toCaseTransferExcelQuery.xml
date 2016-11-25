@@ -19,7 +19,10 @@
 		<customDict id="getStatus" beanName="getStatus" />
 		<customDict id="qqcdMortName" beanName="qqcdMortName" />
 		<customDict id="custPhoneByCode" beanName="custPhoneByCode" />	
-		<customDict id="sumByInstCode" beanName="sumByInstCode" />				
+		<customDict id="sumByInstCode" beanName="sumByInstCode" />	
+		<customDict id="eloanKaAmount" beanName="eloanKaAmount" />	
+		<customDict id="eloanKa" beanName="eloanKa" />	
+		<customDict id="eloanProduct" beanName="eloanProduct" />	
 	</dicts>
 	<formatters>
 		<!-- 通过id确定时间格式化的样式 -->
@@ -99,11 +102,8 @@
 														
 							(SELECT  TOP 1 ar2.CONTENT FROM  SCTRANS.T_TO_APPROVE_RECORD ar2  WHERE  ar2.PART_CODE='GuohuApprove'  AND ar2.CASE_CODE=C.CASE_CODE ORDER BY  ar2.OPERATOR_TIME  DESC) AS CONTENT,
 							(SELECT  TOP 1 ar3.NOT_APPROVE FROM  SCTRANS.T_TO_APPROVE_RECORD ar3  WHERE  ar3.PART_CODE='GuohuApprove'  AND ar3.CASE_CODE=C.CASE_CODE ORDER BY  ar3.OPERATOR_TIME  DESC) AS NOT_APPROVE,
+							(SELECT SUM(EC.APPLY_AMOUNT)  FROM sctrans.T_TO_ELOAN_CASE EC  WHERE EC.CASE_CODE = C.CASE_CODE  AND  EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) ELOAN_APPLYAMOUNT_COUNT
 							
-							STUFF((SELECT ';'+D.NAME FROM  SCTRANS.SYS_DICT D WHERE D.CODE IN (SELECT EC.LOAN_SRV_CODE FROM SCTRANS.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE=C.CASE_CODE AND EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) AND D.TYPE='yu_serv_cat_code_tree' AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') for xml path('')),1,1,'') AS ELOAN_PRO_TYPE,
-							(SELECT SUM(EC.APPLY_AMOUNT)  FROM sctrans.T_TO_ELOAN_CASE EC  WHERE EC.CASE_CODE = C.CASE_CODE  AND  EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) ELOAN_APPLYAMOUNT_COUNT,
-							STUFF((SELECT ';'+D.NAME FROM  SCTRANS.SYS_DICT D WHERE D.CODE IN (SELECT EC.LOAN_SRV_CODE FROM SCTRANS.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE=C.CASE_CODE AND EC.LOAN_SRV_CODE IN ('30004005','30004015')) AND D.TYPE='yu_serv_cat_code_tree' AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') for xml path('')),1,1,'') AS ELOAN_PRO_TYPE_KA,
-							STUFF((SELECT  ';'+CAST(EC.APPLY_AMOUNT as varchar) FROM SCTRANS.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE=C.CASE_CODE AND EC.LOAN_SRV_CODE IN ('30004005','30004015')  for xml path('')),1,1,'') AS ELOAN_APPLYAMOUNT_COUNT_STRING
 						FROM
 							SCTRANS.T_TO_CASE C 
 							INNER JOIN SCTRANS.T_TO_CASE_INFO I ON C.CASE_CODE = I.CASE_CODE
@@ -240,12 +240,12 @@
 				<column type="both" name="SELF_DEL_REASON" title="流失具体原因" customDict=""		hidden="false" />
 				<column type="both" name="loanlost_apply_reason_old" title="loanlost_apply_reason_old"  customDict=""		hidden="false" />
 				<column type="virtual" name="loanlost_apply_reason" title="流失原因"	referencecol="loanlost_apply_reason_old" customDict="convertValueForLoanlostReason" />
-				
-				<column type="both" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	customDict="" hidden="false" />
+								
+				<column type="virtual" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	referencecol="CASE_CODE"  customDict="eloanProduct" />
+				<column type="virtual" name="ELOAN_PRO_TYPE_KA" title="E+卡类产品类别"	referencecol="CASE_CODE"  customDict="eloanKa" />
+				<column type="virtual" name="ELOAN_APPLYAMOUNT_COUNT_STRING" title="E+卡类金额"	referencecol="CASE_CODE"  customDict="eloanKaAmount" />			
 				<column type="both" name="ELOAN_APPLYAMOUNT_COUNT" title="E+金融产品申请总金额(万元)"	customDict="" hidden="false" expType="Double"/>
-				
-				<column type="both" name="ELOAN_PRO_TYPE_KA" title="E+卡类产品类别"	customDict="" hidden="false" />
-				<column type="both" name="ELOAN_APPLYAMOUNT_COUNT_STRING" title="E+卡类金额"	customDict="" hidden="false"/>
+
 			</table-row>
 		</grid>
 	</query>

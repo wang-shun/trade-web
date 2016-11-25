@@ -491,6 +491,18 @@
     <!-- 根据case_code获取店组和片区信息-->
     <bean name="getArAndGrpInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetArAndGrpNameInfoByCaseCodeServiceImpl"></bean> 
     <!-- 查询黄红灯-->
-    <bean name="getColorChines" class="com.centaline.trans.common.service.impl.QuickQueryGetColorChinesServiceImpl" />   	   	
+    <bean name="getColorChines" class="com.centaline.trans.common.service.impl.QuickQueryGetColorChinesServiceImpl" />
+    <!-- E+产品-->
+    <bean name="eloanProduct" class="com.centaline.trans.common.service.impl.QuickQueryGetEloanProductServiceImpl" >  
+   		 <property name="code" value="eloanProduct"></property>   		 
+    </bean>
+    <!-- E+卡类-->
+    <bean name="eloanKa" class="com.centaline.trans.common.service.impl.QuickQueryGetEloanProductServiceImpl" >
+       	 <property name="code" value="eloanKa"></property>
+    </bean> 
+    <!-- E+卡类金额-->
+    <bean name="eloanKaAmount" class="com.centaline.trans.common.service.impl.QuickQueryGetEloanProductServiceImpl"> 
+       	<property name="code" value="eloanKaAoumt"></property>
+    </bean>	   	
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

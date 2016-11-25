@@ -20,8 +20,8 @@ import com.centaline.trans.common.repository.utils.QuickQueryBatchWarpper.BatchQ
  * @author zhoujp
  * @date 2016年11月15日
  */
-public class QuickQueryGetFontAgentInfoServiceImpl implements
-		CustomDictService {
+public class QuickQueryGetFontAgentInfoServiceImpl implements	CustomDictService {
+	
 	private static String AGENT_SQL = "SELECT CASE_CODE,AGENT_NAME,AGENT_PHONE FROM SCTRANS.T_TO_CASE_INFO WHERE CASE_CODE in (:caseCode)";
 	private static String FONT_SQL = "SELECT ID,REAL_NAME AS FONT_NAME,MOBILE AS FONT_MOBILE FROM SCTRANS.SYS_USER WHERE ID in (:userId) AND IS_DELETED='0'";
 	
