@@ -401,97 +401,191 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 			</table-row>
 		</grid>
 	</query>
-	<query id="queryOrgIdListForReportCount">
+	<query id="queryOrgIdListForReportCount" cacheResult="true">
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-						SELECT
-					  	 ID as orgId,
-						 ORG_NAME AS orgName,
-						 (SELECT COUNT(CASE_CODE) AS countJDS
-							FROM sctrans.T_TO_CASE
-								WHERE datediff(year,CREATE_TIME,getdate())=0  AND  CASE_CODE IN((select CASE_CODE from sctrans.T_TO_CASE WHERE ORG_ID = sys_org.ID
-								 <if test="startDate != null">
-									 AND   CREATE_TIME &gt;= #startDate#
-								 </if>
-								 <if test="endDate != null">
-									  AND  CREATE_TIME  &lt;= #endDate#
-								 </if>
-								)UNION(
-									SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE  ORG_ID =sys_org.ID
-								 <if test="startDate != null">
-									 AND   CREATE_TIME &gt;= #startDate#
-								 </if>
-								 <if test="endDate != null">
-									  AND  CREATE_TIME  &lt;= #endDate#
-								 </if>))
-								) as countJDS,
-								(SELECT COUNT(CASE_CODE) as countQYS FROM sctrans.T_TO_CASE WHERE CASE_CODE IN((SELECT CASE_CODE FROM   sctrans.T_TO_SIGN	WHERE  PART_CODE is not  null and  datediff(year,CREATE_TIME,getdate())=0 ) )
-									AND  CASE_CODE IN((
-										select CASE_CODE from sctrans.T_TO_CASE
-										WHERE ORG_ID=sys_org.ID
-										 <if test="startDate != null">
-											 AND   CREATE_TIME &gt;= #startDate#
-										 </if>
-										 <if test="endDate != null">
-											  AND  CREATE_TIME  &lt;= #endDate#
-										 </if>
-											)UNION(SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE  ORG_ID =sys_org.ID
-										 <if test="startDate != null">
-											 AND   CREATE_TIME &gt;= #startDate#
-										 </if>
-										 <if test="endDate != null">
-											  AND  CREATE_TIME  &lt;= #endDate#
-										 </if>))) as countQYS,
-										 (SELECT
-												COUNT(CASE_CODE) as countGHS
-											 FROM sctrans.T_TO_CASE WHERE CASE_CODE
-											 IN((SELECT CASE_CODE  FROM   sctrans.T_TO_HOUSE_TRANSFER	WHERE  datediff(year,CREATE_TIME,getdate())=0))
-											 AND  CASE_CODE IN((select CASE_CODE from sctrans.T_TO_CASE WHERE  ORG_ID =sys_org.ID
-												 <if test="startDate != null">
-													 AND   CREATE_TIME &gt;= #startDate#
+					SELECT
+						ID as orgId,
+						ORG_NAME AS orgName,
+						(
+							SELECT COUNT(CASE_CODE) AS countJDS
+								FROM sctrans.T_TO_CASE as t_to_case
+									WHERE datediff(year,CREATE_TIME,getdate())=0  and t_to_case.ORG_ID=sys_org.ID
+									 <if test="startDate != null">
+										 AND   CREATE_TIME &gt;= #startDate#
+									 </if>
+									 <if test="endDate != null">
+										  AND  CREATE_TIME  &lt;= #endDate#
+									 </if>
+						) as countJDS,
+						(
+							SELECT COUNT(CASE_CODE) as countQYS
+								FROM sctrans.T_TO_CASE as t_to_case
+									WHERE  ORG_ID=sys_org.ID and  exists(
+										(
+											SELECT CASE_CODE FROM sctrans.T_TO_SIGN as t_to_sign
+												WHERE PART_CODE is not null
+												and t_to_case.CASE_CODE=t_to_sign.CASE_CODE
+												and  datediff(year,REAL_CON_TIME,getdate())=0
+												<if test="startDate != null">
+												 AND t_to_sign.REAL_CON_TIME &gt;= #startDate#
 												 </if>
 												 <if test="endDate != null">
-													  AND  CREATE_TIME  &lt;= #endDate#
+													  AND t_to_sign.REAL_CON_TIME  &lt;= #endDate#
 												 </if>
-													)UNION(
-													SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
-													WHERE  ORG_ID=sys_org.ID
-													<if test="startDate != null">
-														 AND   CREATE_TIME &gt;= #startDate#
-													 </if>
-													 <if test="endDate != null">
-														  AND  CREATE_TIME  &lt;= #endDate#
-													 </if>))) as countGHS,
-													 ( SELECT
-														COUNT(CASE_CODE) AS countJAS
-													FROM sctrans.T_TO_CASE
-													where  datediff(month,Close_Time,getdate())=0
-													AND  CASE_CODE  IN((
-														select CASE_CODE from sctrans.T_TO_CASE WHERE
-														 ORG_ID=sys_org.ID
-														 <if test="startDate != null">
-															 AND   CREATE_TIME &gt;= #startDate#
-														 </if>
-														 <if test="endDate != null">
-															  AND  CREATE_TIME  &lt;= #endDate#
-														 </if>
-															)UNION(
-															SELECT CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
-															WHERE ORG_ID =sys_org.ID
-
-													 <if test="startDate != null">
-															 AND   CREATE_TIME &gt;= #startDate#
-														 </if>
-														 <if test="endDate != null">
-															  AND  CREATE_TIME  &lt;= #endDate#
-														 </if>
-														)
-													)) as countJAS
-											FROM sctrans.SYS_ORG  sys_org
-											WHERE DEP_HIERARCHY = #depType#
-
-										]]>
+										)
+									)
+						) as countQYS,
+						(
+							SELECT COUNT(CASE_CODE) as countGHS
+								FROM sctrans.T_TO_CASE as t_to_case
+									WHERE  ORG_ID=sys_org.ID and  exists(
+										(
+											SELECT CASE_CODE FROM sctrans.T_TO_HOUSE_TRANSFER as t_to_house_transfer
+												WHERE
+											PART_CODE is not null
+											and t_to_case.CASE_CODE=t_to_house_transfer.CASE_CODE
+											and  datediff(year,REAL_HT_TIME,getdate())=0
+											<if test="startDate != null">
+												 AND t_to_house_transfer.REAL_HT_TIME &gt;= #startDate#
+											</if>
+											<if test="endDate != null">
+												  AND t_to_house_transfer.REAL_HT_TIME  &lt;= #endDate#
+											</if>
+										)
+									)
+						) as countGHS,
+						 (
+							SELECT COUNT(CASE_CODE) AS countJAS
+							FROM sctrans.T_TO_CASE as t_to_case
+							where  datediff(month,Close_Time,getdate())=0
+							and t_to_case.ORG_ID=sys_org.ID
+							 <if test="startDate != null">
+								 AND   CREATE_TIME &gt;= #startDate#
+							 </if>
+							 <if test="endDate != null">
+								  AND  CREATE_TIME  &lt;= #endDate#
+							 </if>
+						) as countJAS
+						FROM sctrans.SYS_ORG  sys_org
+						WHERE DEP_HIERARCHY = #depType#
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="orgId" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="orgName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countJDS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countQYS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countGHS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countJAS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryDataCountForDistrict" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				select tn.orgId,tn.orgName,sum(tn.countJDS) as countJDS,sum(tn.countQYS) as countQYS,sum(tn.countGHS) as countGHS,sum(tn.countJAS) as countJAS from(
+					SELECT
+						parent_id as orgId,
+						org_name as orgName,
+						(
+							SELECT COUNT(CASE_CODE) AS countJDS
+								FROM sctrans.T_TO_CASE as t_to_case
+									WHERE datediff(year,CREATE_TIME,getdate())=0  and t_to_case.ORG_ID=t1.org_id
+									and t_to_case.DISTRICT_ID is not null
+										<if test="startDate != null">
+											AND   CREATE_TIME &gt;= #startDate#
+										</if>
+										<if test="endDate != null">
+											AND  CREATE_TIME  &lt;= #endDate#
+										</if>
+						) as countJDS,
+						(
+							SELECT COUNT(CASE_CODE) as countQYS
+								FROM sctrans.T_TO_CASE as t_to_case
+									WHERE  ORG_ID=t1.org_id and  exists(
+										(
+											SELECT CASE_CODE FROM sctrans.T_TO_SIGN as t_to_sign
+												WHERE PART_CODE is not null
+												and t_to_case.CASE_CODE=t_to_sign.CASE_CODE
+												and  datediff(year,REAL_CON_TIME,getdate())=0
+												and t_to_case.DISTRICT_ID is not null
+												<if test="startDate != null">
+													AND t_to_sign.REAL_CON_TIME &gt;= #startDate#
+													</if>
+													<if test="endDate != null">
+														AND t_to_sign.REAL_CON_TIME  &lt;= #endDate#
+													</if>
+										)
+									)
+						) as countQYS,
+						(
+							SELECT COUNT(CASE_CODE) as countGHS
+								FROM sctrans.T_TO_CASE as t_to_case
+									WHERE  ORG_ID=t1.org_id and  exists(
+										(
+											SELECT CASE_CODE FROM sctrans.T_TO_HOUSE_TRANSFER as t_to_house_transfer
+												WHERE
+											PART_CODE is not null
+											and t_to_case.CASE_CODE=t_to_house_transfer.CASE_CODE
+											and  datediff(year,REAL_HT_TIME,getdate())=0
+											and t_to_case.DISTRICT_ID is not null
+											<if test="startDate != null">
+													AND t_to_house_transfer.REAL_HT_TIME &gt;= #startDate#
+											</if>
+											<if test="endDate != null">
+													AND t_to_house_transfer.REAL_HT_TIME  &lt;= #endDate#
+											</if>
+										)
+									)
+						) as countGHS,
+							(
+							SELECT COUNT(CASE_CODE) AS countJAS
+							FROM sctrans.T_TO_CASE as t_to_case
+							where  datediff(month,Close_Time,getdate())=0
+							and t_to_case.ORG_ID=t1.org_id
+							and t_to_case.DISTRICT_ID is not null
+								<if test="startDate != null">
+									AND   CREATE_TIME &gt;= #startDate#
+								</if>
+								<if test="endDate != null">
+									AND  CREATE_TIME  &lt;= #endDate#
+								</if>
+						) as countJAS
+					FROM
+						(
+							SELECT
+								ID AS org_id,
+								PARENT_ID AS parent_id
+							FROM
+								sctrans.SYS_ORG org_t1
+							WHERE
+								org_t1.PARENT_ID IN (
+									SELECT
+										ID AS id
+									FROM
+										sctrans.SYS_ORG
+									WHERE
+										DEP_HIERARCHY =  #depType#
+									AND IS_DELETED = 0
+								)
+							AND IS_DELETED = 0
+						) t1
+					LEFT JOIN (
+						SELECT
+							ID AS id,
+							ORG_NAME AS org_name
+						FROM
+							sctrans.SYS_ORG
+						WHERE
+							DEP_HIERARCHY =  #depType#
+						AND IS_DELETED = 0) t2 ON t1.PARENT_ID = t2.id
+					) as tn group by tn.orgId,tn.orgName
+				]]>
 			</baseSql>
 		</searchSql>
 		<grid>
@@ -506,7 +600,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 		</grid>
 	</query>
 
-	<query id="queryOrgIdListFortRedcountList">
+	<query id="queryOrgIdListFortRedcountList" cacheResult="true">
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -522,8 +616,8 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 									from
 									sctrans.T_TO_TRANS_PLAN trans_plan
 									left join
-									sctrans.T_TG_SERV_ITEM_AND_PROCESSOR item_and_processor
-									on trans_plan.CASE_CODE = item_and_processor.CASE_CODE where trans_plan.RED_LOCK=1  and item_and_processor.ORG_ID= sys_org.ID
+									sctrans.T_TO_CASE t_case
+									on trans_plan.CASE_CODE = t_case.CASE_CODE where trans_plan.RED_LOCK=1  and t_case.ORG_ID= sys_org.ID
 									) as redCount
 									FROM sctrans.SYS_ORG  sys_org
 									WHERE DEP_HIERARCHY = #depType#
@@ -547,7 +641,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 		</grid>
 	</query>
 
-	<query id="queryCaseReportFormCount">
+	<query id="queryCaseReportFormCount" cacheResult="true">
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -629,7 +723,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 														and  org_id = #orgSearchId#
 													</if>
 												)GROUP BY CONVERT (CHAR(7), CREATE_TIME, 120)) AS a GROUP BY a.createTime) as JDS
-											]]>
+						]]>
 			</baseSql>
 		</searchSql>
 		<grid>
@@ -642,4 +736,328 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 			</table-row>
 		</grid>
 	</query>
+
+	<query id="queryRedcountListForPeople" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				select redCount.processorId,redCount.redLightCount from
+					(select t_to_case.LEADING_PROCESS_ID as processorId,count(trans_plan.CASE_CODE) as redLightCount
+						from
+						sctrans.T_TO_TRANS_PLAN trans_plan
+						left join
+						sctrans.T_TO_CASE t_to_case
+						on trans_plan.CASE_CODE = t_to_case.CASE_CODE where trans_plan.RED_LOCK=1  and t_to_case.LEADING_PROCESS_ID IN
+						(#teamUserIds#) group by t_to_case.LEADING_PROCESS_ID ) redCount where 1=1
+						 <if test="strNum != null">
+							AND redCount.redLightCount &gt;= #strNum#
+						 </if>
+						 <if test="endNum != null">
+							 AND redCount.redLightCount &lt;= #endNum#
+						  </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="processorId" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="redLightCount" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryJdsCountDataForTradeDirector" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						select COUNT(dateCount.CASE_CODE)  as dateCount,dateCount.processor from (
+							select CASE_CODE,LEADING_PROCESS_ID as processor
+								 from sctrans.T_TO_CASE
+									WHERE 1=1
+									AND LEADING_PROCESS_ID IN
+									(#teamUserIds#)
+									 <if test="startDate != null">
+										 AND   CREATE_TIME &gt;= #startDate#
+									 </if>
+									 <if test="endDate != null">
+										  AND  CREATE_TIME  &lt;= #endDate#
+									 </if>
+									Union
+									SELECT CASE_CODE,PROCESSOR_ID as p1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as t_tg_serv_item_and_processor
+										WHERE 1=1
+										AND  t_tg_serv_item_and_processor.PROCESSOR_ID IN
+										(#teamUserIds#)
+										 <if test="startDate != null">
+											 AND   CREATE_TIME &gt;= #startDate#
+										 </if>
+										 <if test="endDate != null">
+											  AND  CREATE_TIME  &lt;= #endDate#
+										 </if>
+							) as dateCount group by processor
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="dateCount" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="processor" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryCountDataForCountForm" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				(select
+						count(CASE_CODE) as DATA_COUNT ,
+						'JDS' as TYPE,
+						LEADING_PROCESS_ID as PROCESSOR
+							 from
+					    sctrans.T_TO_CASE t_to_case
+					 		 where
+					 	t_to_case.ORG_ID=#paraOrgId#
+ 						<if test="startDate != null">
+							 AND t_to_case.CREATE_TIME &gt;= #startDate#
+						 </if>
+						 <if test="endDate != null">
+							  AND t_to_case.CREATE_TIME  &lt;= #endDate#
+						 </if>
+
+					     group by t_to_case.LEADING_PROCESS_ID
+					 )
+					  union all
+					(
+					select
+					 	count(CASE_CODE) as DATA_COUNT ,
+					 	'QYS' as TYPE,
+					 	PROCESSOR_ID as PROCESSOR
+					 		from
+					 	sctrans.T_TG_SERV_ITEM_AND_PROCESSOR as t_tg_serv_item_and_processor
+					 		where
+					 	t_tg_serv_item_and_processor.ORG_ID=#paraOrgId#
+					 		AND
+					 	exists(
+					 		select
+					 		 t_to_sign.CASE_CODE
+					 		 	from
+					 		 sctrans.T_TO_SIGN t_to_sign
+					 			 where
+					 		 IS_ACTIVE = 1
+					 		 and t_tg_serv_item_and_processor.CASE_CODE = t_to_sign.CASE_CODE
+					 		  <if test="startDate != null">
+								 AND t_to_sign.REAL_CON_TIME &gt;= #startDate#
+							 </if>
+							 <if test="endDate != null">
+								  AND t_to_sign.REAL_CON_TIME  &lt;= #endDate#
+							 </if>
+					 		 ) group by t_tg_serv_item_and_processor.PROCESSOR_ID)
+					 		  union all
+					(
+				    select
+						count(CASE_CODE) as DATA_COUNT ,
+						'GHS' as TYPE,
+						PROCESSOR_ID as PROCESSOR
+							from
+						sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t_tg_serv_item_and_processor
+							where
+							t_tg_serv_item_and_processor.ORG_ID=#paraOrgId#
+						AND exists(
+						select
+							t_to_house_transfer.CASE_CODE
+						from
+						sctrans.T_TO_HOUSE_TRANSFER t_to_house_transfer
+						where
+						t_to_house_transfer.IS_ACTIVE = 1
+						and  t_tg_serv_item_and_processor.CASE_CODE = t_to_house_transfer.CASE_CODE
+						 <if test="startDate != null">
+							 AND t_to_house_transfer.REAL_HT_TIME &gt;= #startDate#
+						 </if>
+						 <if test="endDate != null">
+							  AND t_to_house_transfer.REAL_HT_TIME  &lt;= #endDate#
+						 </if>
+						)
+						group by t_tg_serv_item_and_processor.PROCESSOR_ID
+						)
+					 union all
+					(
+						select
+						count(CASE_CODE) as DATA_COUNT,
+						'JAS' as TYPE,
+						LEADING_PROCESS_ID as PROCESSOR
+							from
+						sctrans.T_TO_CASE t_to_case
+							where
+						t_to_case.ORG_ID=#paraOrgId#
+						 <if test="startDate != null">
+							 AND ClOSE_TIME &gt;= #startDate#
+						 </if>
+						 <if test="endDate != null">
+							  AND ClOSE_TIME  &lt;= #endDate#
+						 </if>
+						group by t_to_case.LEADING_PROCESS_ID
+					)
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="DATA_COUNT" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="TYPE" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PROCESSOR" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryFormJds" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT CONVERT (CHAR(7), CREATE_TIME, 120) AS createTime,
+						COUNT (CASE_CODE) AS countJDS FROM sctrans.T_TO_CASE as t_to_case
+						WHERE datediff(YEAR, CREATE_TIME, getdate()) = 0
+						<if test="orgSearchId != null">
+							AND  t_to_case.ORG_ID = #orgSearchId#
+						</if>
+						<if test="districtSearchId != null">
+							AND  t_to_case.DISTRICT_ID = #districtSearchId#
+						</if>
+					GROUP BY CONVERT (CHAR(7), t_to_case.CREATE_TIME, 120)
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countJDS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+
+	<query id="queryFormJas" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT CONVERT (CHAR(7), CLOSE_TIME, 120) AS createTime,
+						COUNT (CASE_CODE) AS countJAS FROM sctrans.T_TO_CASE as t_to_case
+						WHERE datediff(YEAR, CLOSE_TIME, getdate()) = 0
+						<if test="orgSearchId != null">
+							AND  t_to_case.ORG_ID = #orgSearchId#
+						</if>
+							<if test="districtSearchId != null">
+							AND  t_to_case.DISTRICT_ID = #districtSearchId#
+						</if>
+					GROUP BY CONVERT (CHAR(7), t_to_case.CLOSE_TIME, 120)
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countJAS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryFormQys" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select
+						CONVERT (CHAR(7), t_to_sign.REAL_CON_TIME, 120) AS createTime,
+						COUNT (t_to_sign.CASE_CODE) AS countQYS
+						from
+					 sctrans.T_TO_SIGN as t_to_sign left join sctrans.T_TO_CASE as t_to_case on t_to_sign.CASE_CODE=t_to_case.CASE_CODE
+						where
+						datediff(YEAR, t_to_sign.REAL_CON_TIME, getdate()) = 0
+						<if test="orgSearchId != null">
+							AND  t_to_case.ORG_ID = #orgSearchId#
+						</if>
+							<if test="districtSearchId != null">
+							AND  t_to_case.DISTRICT_ID = #districtSearchId#
+						</if>
+
+					GROUP BY CONVERT (CHAR(7), t_to_sign.REAL_CON_TIME, 120)
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countQys" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryFormGhs" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					  select
+						CONVERT (CHAR(7), t_to_house_transfer.REAL_HT_TIME, 120) AS createTime,
+						COUNT (t_to_house_transfer.CASE_CODE) AS countGHS
+						from
+							 sctrans.T_TO_HOUSE_TRANSFER as t_to_house_transfer left join sctrans.T_TO_CASE as t_to_case on t_to_house_transfer.CASE_CODE=t_to_case.CASE_CODE
+						where
+						datediff(YEAR, t_to_house_transfer.REAL_HT_TIME, getdate()) = 0
+						<if test="orgSearchId != null">
+							AND  t_to_case.ORG_ID = #orgSearchId#
+						</if>
+						<if test="districtSearchId != null">
+							AND  t_to_case.DISTRICT_ID = #districtSearchId#
+						</if>
+
+
+					GROUP BY CONVERT (CHAR(7), t_to_house_transfer.REAL_HT_TIME, 120)
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="countGHS" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryCountForAllRedLock" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						org.org_name,
+						ISNULL(district_case.ROW_COUNT,0) redCount
+					FROM
+						(
+							SELECT
+								DISTRICT_ID,
+								count(DISTRICT_ID) ROW_COUNT
+							FROM
+								sctrans.T_TO_CASE case1 left join sctrans.T_TO_TRANS_PLAN trans_plan on case1.CASE_CODE=trans_plan.CASE_CODE
+							WHERE
+								DISTRICT_ID IS NOT NULL and trans_plan.RED_LOCK=1
+							GROUP BY
+								DISTRICT_ID
+						) AS district_case
+					right JOIN sctrans.sys_org org ON district_case.DISTRICT_ID = org.id where org.DEP_HIERARCHY = 'yucui_district' and org.IS_DELETED=0
+						 <if test="strNum != null">
+							AND district_case.ROW_COUNT &gt;= #strNum#
+						 </if>
+						 <if test="endNum != null">
+							 AND district_case.ROW_COUNT &lt;= #endNum#
+						  </if>
+					ORDER BY
+						district_case.ROW_COUNT DESC
+
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="org_name" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="redCount" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
 </querys>

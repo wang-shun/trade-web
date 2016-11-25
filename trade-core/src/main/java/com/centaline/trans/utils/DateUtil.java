@@ -83,6 +83,10 @@ public class DateUtil {
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
 	}
+	public static String getYearForString() {
+		Calendar calendar=Calendar.getInstance();
+		return String.valueOf(calendar.get(Calendar.YEAR));
+	}
 	public static void main(String[] args) {
 		System.out.println(DateUtil.plusMonth(new Date(), -1));
 	}

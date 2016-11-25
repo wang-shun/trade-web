@@ -472,7 +472,7 @@
     <bean name="custPhoneByCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCustPhoneByCodeServiceImpl" >    	
     </bean>
     <!-- 根据code查询支行信息 -->
-    <bean name="qqFinOrgNameYC" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+    <bean name="qqFinOrgNameYC" class="com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl">
         <property name="dictType" value="mortgageFinOrg"></property>
     </bean>
     <!-- 根据code查询分行信息 -->

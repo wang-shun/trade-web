@@ -1066,4 +1066,38 @@
 			</table-row>
 		</grid>
 	</query>
+
+	<query id="personalWorkGetAllRankQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			  	select
+			  		rank_no,RANK_CAT as rankCat
+			  	from
+			  		sctrans.T_TS_DAYLY_RANK with(nolock)
+			  	where
+			  		DATEDIFF(day, RANK_DAY, GETDATE())=0
+			  		AND 	RANK_DURATION='MONTH'
+			  		<if test="rankCat != null">
+				  			AND RANK_CAT = #rankCat#
+				  	</if>
+				  	<if test="rankType != null">
+				  			AND RANK_TYPE = #rankType#
+				  	</if>
+			  		<if test="user_Id != null">
+				  			AND RANK_ID = #user_Id#
+				  	</if>
+			  		<if test="org_Id != null">
+			  				AND belong_org_id = #org_Id#
+			  		</if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="rank_no" title="rank_no" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="rankCat" title="rankCat" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
 </querys>
