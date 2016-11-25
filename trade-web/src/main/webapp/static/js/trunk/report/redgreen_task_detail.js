@@ -23,6 +23,8 @@ $(document).ready(function() {
     data.queryId = "queryRedGreenTaskDetailList";
     data.rows = 12;
     data.page = 1;
+    data.redDelaytime = $("#redDelaytime").val();
+    data.yellowDelaytime = $("#yellowDelaytime").val();
 	aist.sortWrapper({/*加载排序查询组件*/
 		reloadGrid : searchMethod
 	});
@@ -81,6 +83,8 @@ function searchMethod(page) {
 	var params = getParamsValue();
 	params.page = page;
 	params.rows = 12;
+	params.redDelaytime = $("#redDelaytime").val();
+	params.yellowDelaytime = $("#yellowDelaytime").val();
 	params.queryId = "queryRedGreenTaskDetailList";
 	reloadGrid(params);
 };
@@ -228,6 +232,8 @@ function exportToExcel() {
 	var params = getParamsValue();
 	var organId = $("#organId").val();
 	params.organId = organId;
+	params.redDelaytime = $("#redDelaytime").val();
+	params.yellowDelaytime = $("#yellowDelaytime").val();
 	getDatebase(params);
 	var queryId = '&queryId=queryRedGreenTaskDetailList';
 	var colomns = '&colomns=' + displayColomn;

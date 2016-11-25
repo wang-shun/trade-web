@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +15,10 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
+import com.centaline.trans.common.entity.LampRule;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.common.service.LampRuleService;
 
 /**
  * 
@@ -34,6 +37,8 @@ public class RedGreenTaskController {
 	UamUserOrgService uamUserOrgService;
 	@Autowired(required = true)
 	UamBasedataService uamBasedataService;
+	@Autowired(required = true)
+	LampRuleService	lampRuleService;
 	
 	
 	/**
@@ -49,7 +54,14 @@ public class RedGreenTaskController {
 		String userJob=user.getServiceJobCode();
 		boolean queryOrgFlag = false;
 		boolean isAdminFlag = false;
-
+		List<LampRule> LampRuleList = lampRuleService.queryLampRuleList();
+		if(null != LampRuleList){
+			for(LampRule lampRule:LampRuleList){
+				if(StringUtils.equals(lampRule.getColor(), "0")){request.setAttribute("redDelaytime", lampRule.getDelaytime());}
+				if(StringUtils.equals(lampRule.getColor(), "1")){request.setAttribute("yellowDelaytime", lampRule.getDelaytime());}
+			}
+		}
+		
         StringBuffer reBuffer = new StringBuffer();
 		if(!userJob.equals(TransJobs.TJYGW.getCode())){
 			queryOrgFlag=true;
@@ -87,11 +99,17 @@ public class RedGreenTaskController {
 		
 		String organId = request.getParameter("organId");
 		String redId = request.getParameter("redID");
-		
 		SessionUser user = uamSessionService.getSessionUser();
 		String userJob=user.getServiceJobCode();
 		boolean queryOrgFlag = false;
 		boolean isAdminFlag = false;
+		List<LampRule> LampRuleList = lampRuleService.queryLampRuleList();
+		if(null != LampRuleList){
+			for(LampRule lampRule:LampRuleList){
+				if(StringUtils.equals(lampRule.getColor(), "0")){request.setAttribute("redDelaytime", lampRule.getDelaytime());}
+				if(StringUtils.equals(lampRule.getColor(), "1")){request.setAttribute("yellowDelaytime", lampRule.getDelaytime());}
+			}
+		}
 
         StringBuffer reBuffer = new StringBuffer();
 		if(!userJob.equals(TransJobs.TJYGW.getCode())){
