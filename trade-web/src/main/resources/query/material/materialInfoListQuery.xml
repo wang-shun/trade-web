@@ -54,7 +54,7 @@
 						M.IS_DELETED,
 						GETDATE() TODAY
 					FROM  sctrans.T_MM_MATERIAL_ITEM M				
-					LEFT JOIN sctrans.T_TO_CASE  C ON C.CASE_CODE=M.CASE_CODE
+						  LEFT JOIN sctrans.T_TO_CASE  C ON C.CASE_CODE = M.CASE_CODE
 				
 					WHERE M.IS_DELETED='N'	
 					<if test="itemManagerId != null and itemManagerId !='' ">
@@ -100,14 +100,14 @@
 						AND EXISTS( 
 							SELECT 1 
 							FROM  SCTRANS.V_USER_ORG_JOB_ACTIVE UA
-						 	WHERE UA.ISMAIN=1  AND UA.REAL_NAME LIKE '%'+#itemManager#+'%'
+						 	WHERE UA.ISMAIN=1  AND UA.USER_ID= M.ITEM_MANAGER  AND UA.REAL_NAME LIKE '%'+#itemManager#+'%'
 						 ) 
 					</if>	
 					<if test="createBy != null and createBy !='' ">
 						AND EXISTS( 
 							SELECT 1 
 							FROM  SCTRANS.V_USER_ORG_JOB_ACTIVE UA
-						 	WHERE UA.ISMAIN=1  AND UA.REAL_NAME LIKE '%'+#createBy#+'%'
+						 	WHERE UA.ISMAIN=1  AND  UA.USER_ID= M.CREATE_BY  AND UA.REAL_NAME LIKE '%'+#createBy#+'%'
 						 ) 
 					</if>				
 				]]>
