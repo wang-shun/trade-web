@@ -216,7 +216,15 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 				propertyUtilsService.getSpvCloseApplyProcessDfKey(), spvCloseCode, vars);
 		
 		//更新合约状态
-		toSpv.setStatus(SpvStatusEnum.INPROCESS.getCode());
+		String closeType = apply.getCloseType();
+		if("1".equals(closeType)){
+			//中止
+			toSpv.setStatus(SpvStatusEnum.INTERMINATE.getCode());
+		}else if("0".equals(closeType)){
+		    //结束
+			toSpv.setStatus(SpvStatusEnum.INCOMPLETE.getCode());
+		}
+		
 		toSpvMapper.updateByPrimaryKeySelective(toSpv);
 		//资金监管流程挂起
 		if (toWorkFlow != null) {
