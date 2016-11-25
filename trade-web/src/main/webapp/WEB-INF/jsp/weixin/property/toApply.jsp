@@ -158,7 +158,7 @@
 				var prCat = '';
 				$("#m_form").find("input[name='_prCat']:checked")
 						.each(function(e) {
-									prCat += ($(this).val()+ "/");
+									prCat += ($(this).parent().text()+ "/");
 								});
 				if (prCat != '') {
 					prCat = prCat.substring(0, prCat.length - 1);
