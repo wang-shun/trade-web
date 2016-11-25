@@ -11,6 +11,8 @@ function readyReload(page,queryId,type){
     data.queryId = queryId;
     data.rows = 12;
     data.page = page;
+    data.redDelaytime = parseInt($("#redDelaytime").val());
+    data.yellowDelaytime = parseInt($("#yellowDelaytime").val());
 	if(type){
 		reloadGrid(data);
 	}else{

@@ -55,8 +55,8 @@
 						SELECT
 							distinct   uoj.USERNAME,t.case_code, t.EST_PART_TIME eTime,ta.name_,org.PARENT_ID parentId,org.id orId,
 							(select org_name from sctrans.sys_org where id = org.PARENT_ID) orgName1,
-							(case when  (GETDATE() -1)&gt;=t.EST_PART_TIME and (GETDATE() -3) &lt; t.EST_PART_TIME then 1 else 0 end)  yellow,
-							(case when  (GETDATE() -3)&gt;=t.EST_PART_TIME then 1 else 0 end)  red
+							(case when  (GETDATE() - convert(int,#yellowDelaytime#))&gt;=t.EST_PART_TIME and (GETDATE() - convert(int,#redDelaytime#)) &lt; t.EST_PART_TIME then 1 else 0 end)  yellow,
+							(case when  (GETDATE() - convert(int,#redDelaytime#))&gt;=t.EST_PART_TIME then 1 else 0 end)  red
 						FROM [sctrans].[T_TO_TRANS_PLAN] AS t left join sctrans.t_to_workflow AS w on w.CASE_CODE = t.CASE_CODE
 							LEFT JOIN sctrans.act_ru_task ta ON  ta.TASK_DEF_KEY_=t.PART_CODE and w.INST_CODE = ta.PROC_INST_ID_ and  ta.suspension_state_ = '1'
 							LEFT JOIN sctrans.V_USER_ORG_JOB_ACTIVE AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
@@ -146,8 +146,8 @@
 							SELECT
 								 distinct   uoj.USERNAME,t.case_code, t.EST_PART_TIME eTime,ta.name_,org.PARENT_ID parentId,
 								(select org_name from sctrans.sys_org where id = org.PARENT_ID) orgName1,
-								(case when  (GETDATE() -1)&gt;=t.EST_PART_TIME and (GETDATE() -3) &lt; t.EST_PART_TIME then 1 else 0 end)  yellow,
-								(case when  (GETDATE() -3)&gt;=t.EST_PART_TIME then 1 else 0 end)  red
+								(case when  (GETDATE() - convert(int,#yellowDelaytime#))&gt;=t.EST_PART_TIME and (GETDATE() - convert(int,#redDelaytime#)) &lt; t.EST_PART_TIME then 1 else 0 end)  yellow,
+								(case when  (GETDATE() - convert(int,#redDelaytime#))&gt;=t.EST_PART_TIME then 1 else 0 end)  red
 							FROM [sctrans].[T_TO_TRANS_PLAN] AS t left join sctrans.t_to_workflow AS w on w.CASE_CODE = t.CASE_CODE
 								LEFT JOIN sctrans.act_ru_task ta ON  ta.TASK_DEF_KEY_=t.PART_CODE and w.INST_CODE = ta.PROC_INST_ID_ and  ta.suspension_state_ = '1'
 								LEFT JOIN sctrans.V_USER_ORG_JOB_ACTIVE AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
@@ -464,8 +464,8 @@ on org2.ID=uoj1.ORG_ID
 							(select org_name from sctrans.sys_org where id = org.PARENT_ID) orgName1,ci.PROPERTY_ADDR,ta.TASK_DEF_KEY_ ,
 							(select REAL_NAME from sctrans.SYS_USER u where USERNAME = ta.ASSIGNEE_ ) REAL_NAME,
 							tcc.PKID,
-							(case when  (GETDATE() -1) &gt;=t.EST_PART_TIME and (GETDATE() -3) &lt; t.EST_PART_TIME then 1 else 0 end)  yellow,
-							(case when  (GETDATE() -3) &gt;=t.EST_PART_TIME then 1 else 0 end)  red
+							(case when  (GETDATE() - convert(int,#yellowDelaytime#)) &gt;=t.EST_PART_TIME and (GETDATE() - convert(int,#redDelaytime#)) &lt; t.EST_PART_TIME then 1 else 0 end)  yellow,
+							(case when  (GETDATE() - convert(int,#redDelaytime#)) &gt;=t.EST_PART_TIME then 1 else 0 end)  red
 						FROM [sctrans].[T_TO_TRANS_PLAN] AS t left join sctrans.t_to_workflow AS w on w.CASE_CODE = t.CASE_CODE
 							LEFT JOIN sctrans.act_ru_task ta ON  ta.TASK_DEF_KEY_=t.PART_CODE and w.INST_CODE = ta.PROC_INST_ID_ and  ta.suspension_state_ = '1'
 							LEFT JOIN sctrans.V_USER_ORG_JOB_ACTIVE AS uoj ON uoj.USERNAME = ta.ASSIGNEE_

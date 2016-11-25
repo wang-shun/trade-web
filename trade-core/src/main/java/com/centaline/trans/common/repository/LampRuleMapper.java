@@ -1,5 +1,7 @@
 package com.centaline.trans.common.repository;
 
+import java.util.List;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.common.entity.LampRule;
 
@@ -18,4 +20,6 @@ public interface LampRuleMapper {
     int updateByPrimaryKey(LampRule record);
     
     int deleteLampRuleByProperty(LampRule lampRule);
+    
+    List<LampRule> queryLampRuleList();
 }
