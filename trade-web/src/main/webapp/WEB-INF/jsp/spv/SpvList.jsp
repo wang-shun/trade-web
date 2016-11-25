@@ -165,7 +165,10 @@
                                                 <span class="yes_color">起草</span>
 												  {{/if}}
                                                   {{if item.STATUS==4}}
-                                                <span class="yes_color">中止中</span>
+                                                <span class="yes_color">中止结束中</span>
+												  {{/if}}
+                                                 {{if item.STATUS==5}}
+                                                <span class="yes_color">终止</span>
 												  {{/if}}
                                                  {{if item.STATUS==6}}
                                                 <span class="yes_color">中止</span>
@@ -245,17 +248,17 @@
                                                     	{{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">{{
-                                                      {{if item.STATUS>=2&&item.STATUS<4&&item.signTime!=undefined}}
+                                                      {{if item.STATUS==2&&item.signTime!=undefined}}
                                                         <li><a href="${ctx}/spv/task/cashflowIntApply/spvRecorded?pkid={{item.PKID}}">入账</a></li>
                                                       {{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.OUT">
-													{{if item.ru>0&&item.STATUS<4}}
+													{{if item.ru>0&&item.STATUS==2}}
                                                         <li><a href="${ctx}/spv/task/cashFlowOutAppr/process?spvCode={{item.SPV_CODE}}">出账</a></li>
                                                      {{/if}}
 													</shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.CLOSE">
-                                                          {{if item.STATUS>0&&item.STATUS<4}}
+                                                          {{if item.STATUS>0&&item.STATUS<3}}
                                                    		 <li><a href="${ctx}/spv/task/spvCloseApply/process?spvCode={{item.SPV_CODE}}">中止/结束</a></li>
                                                           {{/if}}
                                                     </shiro:hasPermission>

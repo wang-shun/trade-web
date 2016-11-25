@@ -1,8 +1,6 @@
 	//初始化数据
 						var ctx = $("#ctx").val();
 						var params = {
-							rows : 10,
-							page : 1,
 							sessionUserId : $("#userId").val(),
 							serviceDepId : $("#serviceDepId").val(),
 							serviceOrgId : $("#orgId").val(),
@@ -169,7 +167,6 @@
 										
 						//加载页面
 						function initData() {
-							params.pagination = true;
 							$(".bonus-table")
 								.aistGrid(
 									{
@@ -223,6 +220,7 @@
 						};
 						function reloadStatus() {
 							params.queryId = "queryLoanSpv";
+							params.page=1;
 							var startMonth = new Date(params.startDate1).getMonth()+1;
 							$.ajax({
 								async : true,//异步请求
@@ -292,6 +290,7 @@
 						}
 						function reloadStatus2() {
 							params.queryId = "queryLoanSpv2";
+							params.page=1;
 							$.ajax({
 								async : true,//异步请求
 								url : ctx + "/rapidQuery/findPage",

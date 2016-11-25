@@ -120,7 +120,7 @@
 											</dl>
 										</div>
 									</div>
-									<div class="col-lg-5 bs-wizard-step 
+									<div class="col-lg-4 bs-wizard-step 
 										<c:choose>  
 										    <c:when test="${spvBaseInfoVO.toSpv.status>=2 && spvBaseInfoVO.toSpv.signTime!=undefined}"> complete
 										   </c:when>    
@@ -141,9 +141,9 @@
 											</dl>
 										</div>
 									</div>
-									<div class="col-lg-2 bs-wizard-step 
+									<div class="col-lg-4 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status>4}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status>=3 && spvBaseInfoVO.toSpv.closeTime!=undefined}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
