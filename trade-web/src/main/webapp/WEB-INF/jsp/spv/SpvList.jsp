@@ -165,13 +165,16 @@
                                                 <span class="yes_color">起草</span>
 												  {{/if}}
                                                   {{if item.STATUS==4}}
-                                                <span class="yes_color">中止结束中</span>
+                                                <span class="yes_color">中止审批中</span>
 												  {{/if}}
-                                                 {{if item.STATUS==5}}
-                                                <span class="yes_color">终止</span>
+                                                  {{if item.STATUS==5}}
+                                                <span class="yes_color">结束审批中</span>
 												  {{/if}}
                                                  {{if item.STATUS==6}}
-                                                <span class="yes_color">中止</span>
+                                                <span class="yes_color">合约完成</span>
+												  {{/if}}
+                                                 {{if item.STATUS==7}}
+                                                <span class="yes_color">合约中止</span>
 												  {{/if}}
                                         </td>
                                         <td>
@@ -258,7 +261,7 @@
                                                      {{/if}}
 													</shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.CLOSE">
-                                                          {{if item.STATUS>0&&item.STATUS<3}}
+                                                          {{if item.STATUS>0&&item.STATUS<=3}}
                                                    		 <li><a href="${ctx}/spv/task/spvCloseApply/process?spvCode={{item.SPV_CODE}}">中止/结束</a></li>
                                                           {{/if}}
                                                     </shiro:hasPermission>

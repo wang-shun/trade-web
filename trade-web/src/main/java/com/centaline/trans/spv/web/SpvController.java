@@ -1029,6 +1029,44 @@ public class SpvController {
     	
     	return response;
     }
+    
+    /**
+     * 
+     * checkInOutWorkFlowProcess:(这里用一句话描述这个方法的作用). <br/> 
+     * 
+     * @author gongjd 
+     * @param request
+     * @param spvCloseInfoVO
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @param taskId
+     * @param handle
+     * @param businessKey
+     * @param continueApply
+     * @param result
+     * @return
+     * @throws Exception 
+     * @since JDK 1.8
+     */
+    @RequestMapping("/checkInOutWorkFlowProcess")
+    @ResponseBody
+   	public AjaxResponse<?> checkInOutWorkFlowProcess(String spvCode) throws Exception {
+    	AjaxResponse<?> response = new AjaxResponse<>();
+    	String inOutProcessTag = spvCloseApplyService.findInOutWorkFlowProcessBySpvCode(spvCode);
+    	response.setSuccess(false);
+    	if("in".equals(inOutProcessTag)){
+    		response.setMessage("尚有‘入账’流程进行中，不能开启‘中止/结束’流程！");
+    	}else if("out".equals(inOutProcessTag)){
+    		response.setMessage("尚有‘出账’流程进行中，不能开启‘中止/结束’流程！");
+    	}else if("inout".equals(inOutProcessTag)){
+    		response.setMessage("尚有‘出/入账’流程进行中，不能开启‘中止/结束’流程！");
+    	}else if("".equals(inOutProcessTag)){
+    		response.setSuccess(true);
+    	}
+
+    	return response;
+    } 
 
     /**
      * @throws Exception  
