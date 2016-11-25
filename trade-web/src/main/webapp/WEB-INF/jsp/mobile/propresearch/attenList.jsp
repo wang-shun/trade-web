@@ -19,7 +19,7 @@
 <body style="background-color: #eee;">
     <div id="wrapper">
         <div  class="white-bg">
-            <header class="aui-bar aui-bar-nav">
+            <header class="aui-bar aui-bar-nav" onClick="javascript :history.back(-1);">
                 <a class="aui-pull-left">
                     <span class="aui-iconfont aui-icon-left"><i class="iconfont font-20">&#xe628;</i></span>
                 </a>
