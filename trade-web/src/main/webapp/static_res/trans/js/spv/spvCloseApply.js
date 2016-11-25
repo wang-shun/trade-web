@@ -16,9 +16,7 @@ $(document).ready(function(){
 })
 
 function submitBtnClick(handle,continueApply,result){
-	  if(handle == 'apply' && !result){
-		  //*
-	  }else{
+	  if(!(handle == 'apply' && !result)){
 		  if(!validateForm()){
 			  return false;
 		  }

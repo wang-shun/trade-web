@@ -372,6 +372,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 				//中止:删除资金监管流程，t_to_workflow更新，更新合约状态
 				//更新spv表
 				ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
+				toSpv.setCloseTime(new Date());
 				toSpv.setStatus(SpvStatusEnum.TERMINATE.getCode());
 				toSpvMapper.updateByPrimaryKeySelective(toSpv);
 				//更新t_to_workflow表(资金监管流程)
