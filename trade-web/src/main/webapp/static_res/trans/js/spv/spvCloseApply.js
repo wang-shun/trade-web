@@ -16,7 +16,7 @@ $(document).ready(function(){
 })
 
 function submitBtnClick(handle,continueApply,result){
-	  if(!(handle == 'apply' && !result)){
+	  if(!(handle == 'apply' && !continueApply)){
 		  if(!validateForm()){
 			  return false;
 		  }
@@ -30,7 +30,7 @@ function submitBtnClick(handle,continueApply,result){
 	   		   return false;
 	   	   }
 	  }else if(handle == 'apply'){
-	  		if(result){
+	  		if(continueApply){
 			   	   if(!confirm("是否确定提交申请！")){
 				 		  return false;
 				 	  }
@@ -196,7 +196,7 @@ function getAccTypeOptions(){
 
 //检查是否存在出入账流程
 function checkInOutWorkFlowProcess(spvCode){
-var result = true;
+var res = true;
 $.ajax({
 	url:ctx+"/spv/checkInOutWorkFlowProcess",
 	async : false,//false同步，true异步
@@ -206,9 +206,9 @@ $.ajax({
 	success : function(data) {	
 		if(!data.success){
 			alert(data.message);
-			result = false;
+			res = false;
 		}
 		}
 });
-	return result;
+	return res;
 }
