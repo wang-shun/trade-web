@@ -16,8 +16,12 @@ $(document).ready(function(){
 })
 
 function submitBtnClick(handle,continueApply,result){
-	  if(!validateForm()){
-		  return false;
+	  if(handle == 'apply' && !result){
+		  //*
+	  }else{
+		  if(!validateForm()){
+			  return false;
+		  }
 	  }
 
 	  if(!handle){
