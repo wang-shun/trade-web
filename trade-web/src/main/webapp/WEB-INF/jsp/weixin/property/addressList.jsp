@@ -19,7 +19,7 @@
     <header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
         </a>
-        <div class="aui-title">通讯录dd</div>
+        <div class="aui-title">通讯录</div>
     </header>
     <div class="aui-searchbar aui-clearfix  search-grey-bg" id="search" style="position:relative;">
         <div class="aui-searchbar-input aui-border-radius" tapmode>
