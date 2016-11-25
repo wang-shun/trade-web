@@ -218,6 +218,7 @@
 						});
 						function getPostAuditor(){
 							var postAuditor=$("span[name='postAuditor']");
+							console.info("=======")
 							var cw=$("#CW").val().split("/");
 							$.each(postAuditor,function(i,item){
 								var itemName=item.innerText;

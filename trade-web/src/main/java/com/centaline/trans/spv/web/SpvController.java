@@ -207,10 +207,11 @@ public class SpvController {
     if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
 		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
-		record.setCaseCode(spv.getCaseCode());
-	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+		record.setBizCode(spv.getSpvCode());
+	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByBizCodeBusKey(record);
 		 
 		//查询审核结果
+	    if(workFlow !=null){
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
@@ -220,6 +221,7 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
       }
+     }
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
@@ -228,6 +230,7 @@ public class SpvController {
 	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
 	}
+   
 	/**
 	 * 删除
 	 * @param pkid
