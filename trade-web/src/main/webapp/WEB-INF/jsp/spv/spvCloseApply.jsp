@@ -901,7 +901,7 @@
                 
                         <c:if test="${handle eq 'hostAudit' or handle eq 'directorAudit' or handle eq 'apply'}" >
                         <div class="title">
-                            <strong>历史审核意见</strong>
+                            <strong>审核记录</strong>
                         </div>
                         <div class="view-content">
                             <div class="view-box">
