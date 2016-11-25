@@ -570,7 +570,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="orgName" title="级别" customDict="" hidden="false" />
+				<column type="both" name="orgName" title="组别" customDict="" hidden="false" />
 				<column type="both" name="reason1" title="收入、流水不足" customDict="" hidden="false" />
 				<column type="both" name="reason2" title="客户资质差、征信有问题" customDict="" hidden="false" />
 				<column type="both" name="reason3" title="客户亲戚、朋友在银行上班" customDict="" hidden="false" />
