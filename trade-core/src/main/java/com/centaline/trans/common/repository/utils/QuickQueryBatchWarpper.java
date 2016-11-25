@@ -29,12 +29,12 @@ public class QuickQueryBatchWarpper {
 		//子列表开始下标
 		int fromIndex = 0;
 		//子列表最大下标
-		int lastIndex = rows.size()-1;
+		int lastIndex = rows.size();
 		
 		//方法返回结果列表
 		List<T> result = new ArrayList<T>();
 		
-		while(fromIndex<lastIndex){
+		while(fromIndex < lastIndex){
 			//获取子列表结束下标
 			int toIndex = fromIndex + batchSize;
 			if(toIndex > lastIndex){
