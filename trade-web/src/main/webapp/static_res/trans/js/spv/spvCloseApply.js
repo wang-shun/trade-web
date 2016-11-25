@@ -26,11 +26,17 @@ function submitBtnClick(handle,continueApply,result){
 		  if(!confirm("确定提交并开启流程吗！")){
 			  return false;
 		  } 
+		  if(!checkInOutWorkFlowProcess($("input[name='toSpvCloseApply.spvCode']").val())){
+	   		   return false;
+	   	   }
 	  }else if(handle == 'apply'){
 	  		if(result){
 			   	   if(!confirm("是否确定提交申请！")){
 				 		  return false;
-				 	  } 
+				 	  }
+			   	   if(!checkInOutWorkFlowProcess($("input[name='toSpvCloseApply.spvCode']").val())){
+			   		   return false;
+			   	   }
 			  }else{
 			  	   if(!confirm("是否确定取消申请！")){
 			     		  return false;
@@ -91,21 +97,21 @@ function submitBtnClick(handle,continueApply,result){
 				  }); 
 		                } 
 		            } ,   
-		success : function(data) {   
-			if(data.success){
-				if(!handle){
-					alert("流程开启成功！");
-					window.location.href = ctx+"/spv/spvList";
-				}else{
-					alert("任务提交成功！");
-					window.opener.location.reload(); //刷新父窗口
-		        	window.close(); //关闭子窗口.
-				}
+	success : function(data) {   
+		if(data.success){
+			if(!handle){
+				alert("流程开启成功！");
+				window.location.href = ctx+"/spv/spvList";
 			}else{
-				alert("数据保存出错:\n"+data.message);
-				rescCallback();
+				alert("任务提交成功！");
+				window.opener.location.reload(); //刷新父窗口
+	        	window.close(); //关闭子窗口.
 			}
-			}
+		}else{
+			alert("数据保存出错:\n"+data.message);
+			rescCallback();
+		}
+		}
 });
 };
 
@@ -186,4 +192,22 @@ function getAccTypeOptions(){
 	});
     
 	return accTypeOptions;
+}
+
+//检查是否存在出入账流程
+function checkInOutWorkFlowProcess(spvCode){
+	
+$.ajax({
+	url:ctx+"/spv/checkInOutWorkFlowProcess",
+	method:"post",
+	dataType:"json",
+	data:{spvCode:spvCode},   		        				        		      
+	success : function(data) {   
+		if(!data.success){
+			alert(data.message);
+			return false;
+		}
+		}
+});
+	return true;
 }
