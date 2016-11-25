@@ -1,7 +1,8 @@
+var readyType = 0;
 $(document).ready(function() {
 	document.getElementById("zb").style.display="none";
 	document.getElementById("zg").style.display="none";
-	readyReload(1,"queryRedGreenTaskCountList",true);
+	readyType = 1;
 	readyReload(1,"queryRedGreenTaskCountGbList",false);
 });
 function readyReload(page,queryId,type){
@@ -37,6 +38,10 @@ $('#zbli').click(function() {//查询组别
 	 $("#guibinPager").hide();
 	 $("#ZbList").show();
 	 $("#setGbList").hide();
+	 if(readyType==1){
+		 readyReload(1,"queryRedGreenTaskCountList",true);
+		 readyType = 0;
+	 }
 });
 $('#setZb').click(function() {// 查询组别
 	 document.getElementById("setZbList").style.display="block";

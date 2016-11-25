@@ -466,196 +466,201 @@
  			</tr>
 		{{/each}}
 </script>  
-	    <script>
-						var ctx = "${ctx}";
-						jQuery(document).ready(function() {
-							if(document.getElementById("tab-1").style.display == 'block'){
-								putParams("exportCaseRejectionRateReasonZbList","template_myMortgageApproveLostReasonZbList","myMortgageApproveLostReasonZbList",false);
- 							}
- 							if(document.getElementById("tab-2").style.display == 'block'){
- 								putParams("exportCaseRejectionRateReasonGbList","template_myMortgageApproveLostReasonGbList","myMortgageApproveLostReasonGbList",false);
- 							}
- 							if(document.getElementById("tab-3").style.display == 'block'){
- 								putParams("exportCaseRejectionRateZbList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",true);
- 							}
- 							if(document.getElementById("tab-4").style.display == 'block'){
- 								putParams("exportCaseRejectionRateGbList","template_myMortgageApproveLostGbList","myMortgageApproveLostGbList",true);
- 							}
-						});
-						function putParams(qId,temp,tempValue,type){
-							var data = getParams(qId,true); 
-							reloadGrid(data,temp,tempValue,type);
-						}
-						function getParams(qId,type) {
-							var startDate = $("#dtBegin_0").val();
-							var endDate = '';
-							if (!$.isBlank($("#dtEnd_0").val())) {
-								endDate = $("#dtEnd_0").val() + " 23:59:59";
-							}
-							var data = {};
-							data.startDate = startDate;
-							data.endDate = endDate;
-							if("false" == "${sessionUser.serviceDepHierarchy == 'yucui_headquarter'}")
-							{data.serviceDepId = "${sessionUser.serviceDepId}";}
-							data.pagination = false;//不分页
-							if(type) data.queryId=qId;
-							return data;
-						}
-						$('#searchButton').click(function() {// 查询
-							if(document.getElementById("tab-1").style.display == 'block'){
-								putParams("exportCaseRejectionRateReasonZbList","template_myMortgageApproveLostReasonZbList","myMortgageApproveLostReasonZbList",false);
- 							}
- 							if(document.getElementById("tab-2").style.display == 'block'){
- 								putParams("exportCaseRejectionRateReasonGbList","template_myMortgageApproveLostReasonGbList","myMortgageApproveLostReasonGbList",false);
- 							}
- 							if(document.getElementById("tab-3").style.display == 'block'){
- 								putParams("exportCaseRejectionRateZbList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",true);
- 							}
- 							if(document.getElementById("tab-4").style.display == 'block'){
- 								putParams("exportCaseRejectionRateGbList","template_myMortgageApproveLostGbList","myMortgageApproveLostGbList",true);
- 							}
-						});
- 						function loanLostCaseExportToExcel(){//案件excel导出
-							var qId ;
-							var colom;
-							var colom1 =['orgName','reason1','reason2','reason3','reason4','reason5','reason6',
-								         'reason7','reason8','reason9','reason10','reason11','reason12','reason13'];
-							var colom2 =[ 'ORGNAME', 'AMOUNT','NOT_APPROVE','APPROVE','RATE' ];
-							debugger;
- 							if(document.getElementById("tab-1").style.display == 'block'){
- 								qId = 'exportCaseRejectionRateReasonZbList';
- 								colom = colom1;
- 							}
- 							if(document.getElementById("tab-2").style.display == 'block'){
- 								qId = 'exportCaseRejectionRateReasonGbList';
- 								colom = colom1;
- 							}
- 							if(document.getElementById("tab-3").style.display == 'block'){
- 								qId = 'exportCaseRejectionRateZbList';
- 								colom = colom2;
- 							}
- 							if(document.getElementById("tab-4").style.display == 'block'){
- 								qId = 'exportCaseRejectionRateGbList';
- 								colom = colom2;
- 							}
- 							var data =getParams(qId,false);
-							aist.exportExcel({
-								ctx : "${ctx}",
-								queryId : qId,
-								colomns : colom,
-								data : data
-							})
-						} 
-						
-						$('#atab-1').click(function() {
-							document.getElementById("tab-1").style.display="block";
-							document.getElementById("tab-2").style.display="none";
-							document.getElementById("tab-3").style.display="none";
-							document.getElementById("tab-4").style.display="none";
-							putParams("exportCaseRejectionRateReasonZbList","template_myMortgageApproveLostReasonZbList","myMortgageApproveLostReasonZbList",false);
-						});
-						$('#atab-2').click(function() {
-							document.getElementById("tab-1").style.display="none";
-							document.getElementById("tab-2").style.display="block";
-							document.getElementById("tab-3").style.display="none";
-							document.getElementById("tab-4").style.display="none";
-							putParams("exportCaseRejectionRateReasonGbList","template_myMortgageApproveLostReasonGbList","myMortgageApproveLostReasonGbList",false);
-						});
-						$('#atab-3').click(function() {
-							document.getElementById("tab-1").style.display="none";
-							document.getElementById("tab-2").style.display="none";
-							document.getElementById("tab-3").style.display="block";
-							document.getElementById("tab-4").style.display="none";
-							putParams("exportCaseRejectionRateZbList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",true);
-						});
-						$('#atab-4').click(function() {
-							document.getElementById("tab-1").style.display="none";
-							document.getElementById("tab-2").style.display="none";
-							document.getElementById("tab-3").style.display="none";
-							document.getElementById("tab-4").style.display="block";
-							putParams("exportCaseRejectionRateGbList","template_myMortgageApproveLostGbList","myMortgageApproveLostGbList",true);
-						});
-						
+<script>
+var ctx = "${ctx}";
+var readyType2 = 0;
+var readyType3 = 0;
+var readyType4 = 0;
+jQuery(document).ready(function() {
+	if(document.getElementById("tab-1").style.display == 'block'){
+		putParams("exportCaseRejectionRateReasonZbList","template_myMortgageApproveLostReasonZbList","myMortgageApproveLostReasonZbList",false);
+		}
+		if(document.getElementById("tab-2").style.display == 'block'){
+			putParams("exportCaseRejectionRateReasonGbList","template_myMortgageApproveLostReasonGbList","myMortgageApproveLostReasonGbList",false);
+		}
+		if(document.getElementById("tab-3").style.display == 'block'){
+			putParams("exportCaseRejectionRateZbList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",true);
+		}
+		if(document.getElementById("tab-4").style.display == 'block'){
+			putParams("exportCaseRejectionRateGbList","template_myMortgageApproveLostGbList","myMortgageApproveLostGbList",true);
+		}
+		readyType2 = 1;
+		readyType3 = 1;
+		readyType4 = 1;
+});
+function putParams(qId,temp,tempValue,type){
+	var data = getParams(qId,true); 
+	reloadGrid(data,temp,tempValue,type);
+}
+function getParams(qId,type) {
+	var startDate = $("#dtBegin_0").val();
+	var endDate = '';
+	if (!$.isBlank($("#dtEnd_0").val())) {
+		endDate = $("#dtEnd_0").val() + " 23:59:59";
+	}
+	var data = {};
+	data.startDate = startDate;
+	data.endDate = endDate;
+	if("false" == "${sessionUser.serviceDepHierarchy == 'yucui_headquarter'}")
+	{data.serviceDepId = "${sessionUser.serviceDepId}";}
+	data.pagination = false;//不分页
+	if(type) data.queryId=qId;
+	return data;
+}
+$('#searchButton').click(function() {// 查询
+	putParams("exportCaseRejectionRateReasonZbList","template_myMortgageApproveLostReasonZbList","myMortgageApproveLostReasonZbList",false);
+	putParams("exportCaseRejectionRateReasonGbList","template_myMortgageApproveLostReasonGbList","myMortgageApproveLostReasonGbList",false);
+	putParams("exportCaseRejectionRateZbList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",true);
+	putParams("exportCaseRejectionRateGbList","template_myMortgageApproveLostGbList","myMortgageApproveLostGbList",true);
+});
+function loanLostCaseExportToExcel(){//案件excel导出
+	var qId ;
+	var colom;
+	var colom1 =['orgName','reason1','reason2','reason3','reason4','reason5','reason6',
+		         'reason7','reason8','reason9','reason10','reason11','reason12','reason13'];
+	var colom2 =[ 'ORGNAME', 'AMOUNT','NOT_APPROVE','APPROVE','RATE' ];
+		if(document.getElementById("tab-1").style.display == 'block'){
+			qId = 'exportCaseRejectionRateReasonZbList';
+			colom = colom1;
+		}
+		if(document.getElementById("tab-2").style.display == 'block'){
+			qId = 'exportCaseRejectionRateReasonGbList';
+			colom = colom1;
+		}
+		if(document.getElementById("tab-3").style.display == 'block'){
+			qId = 'exportCaseRejectionRateZbList';
+			colom = colom2;
+		}
+		if(document.getElementById("tab-4").style.display == 'block'){
+			qId = 'exportCaseRejectionRateGbList';
+			colom = colom2;
+		}
+		var data =getParams(qId,false);
+	aist.exportExcel({
+		ctx : "${ctx}",
+		queryId : qId,
+		colomns : colom,
+		data : data
+	})
+} 
 
-						function reloadGrid(data,temp,templateValue,type) {
-							aist.wrap(data);
-							$.ajax({
-									async : true,
-									url : ctx + "/quickGrid/findPage",
-									method : "post",
-									dataType : "json",
-									data : data,
-									beforeSend : function() {
-										$.blockUI({ message : $("#salesLoading"), css : { 'border' : 'none', 'z-index' : '9999' } });
-										$(".blockOverlay").css({ 'z-index' : '9998' });
-									},
-									success : function(data) {
-										$.unblockUI();
-										data.ctx = ctx;
-										var myMortgageApproveLostList = template( temp, data);
-										$("#"+templateValue).empty();
-										$("#"+templateValue).html( myMortgageApproveLostList);
-										//if(type) initpage(data.total, data.pagesize,data.page, data.records);
-									},
-									error : function(e, jqxhr, settings,exception) {$.unblockUI();}
-								});
-						}
-						//分页
-						function initpage(totalCount, pageSize, currentPage,
-								records) {
-							if (totalCount > 1500) {
-								totalCount = 1500;
-							}
-							var currentTotalstrong = $('#currentTotalPage')
-									.find('strong');
-							if (totalCount < 1 || pageSize < 1
-									|| currentPage < 1) {
-								$(currentTotalstrong).empty();
-								$('#totalP').text(0);
-								$("#pageBar").empty();
-								return;
-							}
-							$(currentTotalstrong).empty();
-							$(currentTotalstrong).text(
-									currentPage + '/' + totalCount);
-							$('#totalP').text(records);
+$('#atab-1').click(function() {
+	document.getElementById("tab-1").style.display="block";
+	document.getElementById("tab-2").style.display="none";
+	document.getElementById("tab-3").style.display="none";
+	document.getElementById("tab-4").style.display="none";
+});
+$('#atab-2').click(function() {
+	document.getElementById("tab-1").style.display="none";
+	document.getElementById("tab-2").style.display="block";
+	document.getElementById("tab-3").style.display="none";
+	document.getElementById("tab-4").style.display="none";
+	if(readyType2 == 1){
+		putParams("exportCaseRejectionRateReasonGbList","template_myMortgageApproveLostReasonGbList","myMortgageApproveLostReasonGbList",false);
+		readyType2 = 0;
+	}
+});
+$('#atab-3').click(function() {
+	document.getElementById("tab-1").style.display="none";
+	document.getElementById("tab-2").style.display="none";
+	document.getElementById("tab-3").style.display="block";
+	document.getElementById("tab-4").style.display="none";
+	if(readyType3 == 1){
+		putParams("exportCaseRejectionRateZbList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",true);
+		readyType3 = 0;
+	}
+});
+$('#atab-4').click(function() {
+	document.getElementById("tab-1").style.display="none";
+	document.getElementById("tab-2").style.display="none";
+	document.getElementById("tab-3").style.display="none";
+	document.getElementById("tab-4").style.display="block";
+	if(readyType4 == 1){
+		putParams("exportCaseRejectionRateGbList","template_myMortgageApproveLostGbList","myMortgageApproveLostGbList",true);
+		readyType4 = 0;
+	}
+});
 
-							$("#pageBar").twbsPagination({
-								totalPages : totalCount,
-								visiblePages : 9,
-								startPage : currentPage,
-								first : '<i class="fa fa-step-backward"></i>',
-								prev : '<i class="fa fa-chevron-left"></i>',
-								next : '<i class="fa fa-chevron-right"></i>',
-								last : '<i class="fa fa-step-forward"></i>',
-								showGoto : true,
-								onPageClick : function(event, page) {
-									loanLostApproveSearchMethod(page);
-								}
-							});
-						}
-					
 
-						//日期控件
-						$('#datepicker_0').datepicker({
-							format : 'yyyy-mm-dd',
-							weekStart : 1,
-							autoclose : true,
-							todayBtn : 'linked',
-							language : 'zh-CN'
-						});
-						$('.demo-top').poshytip({
-							className: 'tip-twitter',
-							showTimeout: 1,
-							alignTo: 'target',
-							alignX: 'center',
-							alignY: 'top',
-							offsetX: 8,
-							offsetY: 5,
-						});
-						
-					</script>
-					</content>
-	<input type="hidden" id="ctx" value="${ctx}" />
+function reloadGrid(data,temp,templateValue,type) {
+	aist.wrap(data);
+	$.ajax({
+			async : true,
+			url : ctx + "/quickGrid/findPage",
+			method : "post",
+			dataType : "json",
+			data : data,
+			beforeSend : function() {
+				$.blockUI({ message : $("#salesLoading"), css : { 'border' : 'none', 'z-index' : '9999' } });
+				$(".blockOverlay").css({ 'z-index' : '9998' });
+			},
+			success : function(data) {
+				$.unblockUI();
+				data.ctx = ctx;
+				var myMortgageApproveLostList = template( temp, data);
+				$("#"+templateValue).empty();
+				$("#"+templateValue).html( myMortgageApproveLostList);
+				//if(type) initpage(data.total, data.pagesize,data.page, data.records);
+			},
+			error : function(e, jqxhr, settings,exception) {$.unblockUI();}
+		});
+}
+//分页
+function initpage(totalCount, pageSize, currentPage,
+		records) {
+	if (totalCount > 1500) {
+		totalCount = 1500;
+	}
+	var currentTotalstrong = $('#currentTotalPage')
+			.find('strong');
+	if (totalCount < 1 || pageSize < 1
+			|| currentPage < 1) {
+		$(currentTotalstrong).empty();
+		$('#totalP').text(0);
+		$("#pageBar").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(
+			currentPage + '/' + totalCount);
+	$('#totalP').text(records);
+
+	$("#pageBar").twbsPagination({
+		totalPages : totalCount,
+		visiblePages : 9,
+		startPage : currentPage,
+		first : '<i class="fa fa-step-backward"></i>',
+		prev : '<i class="fa fa-chevron-left"></i>',
+		next : '<i class="fa fa-chevron-right"></i>',
+		last : '<i class="fa fa-step-forward"></i>',
+		showGoto : true,
+		onPageClick : function(event, page) {
+			loanLostApproveSearchMethod(page);
+		}
+	});
+}
+
+
+//日期控件
+$('#datepicker_0').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
+$('.demo-top').poshytip({
+	className: 'tip-twitter',
+	showTimeout: 1,
+	alignTo: 'target',
+	alignX: 'center',
+	alignY: 'top',
+	offsetX: 8,
+	offsetY: 5,
+});
+
+</script>
+</content>
+<input type="hidden" id="ctx" value="${ctx}" />
 </body>
 </html>
