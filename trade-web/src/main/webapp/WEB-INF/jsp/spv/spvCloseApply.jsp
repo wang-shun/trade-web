@@ -741,7 +741,7 @@
                         </div>
 				
 				<div class="ibox-content" id="spvfour_info" >
-				<div class="ibox-title" style="height: auto;">
+				<div style="height: auto;">
 				<c:choose>
 					<c:when test="${accesoryList!=null}">
 						<h5>上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
@@ -899,7 +899,7 @@
                     </div>
                 </form>
                 
-                        <c:if test="${handle eq 'hostAudit' or handle eq 'directorAudit' }" >
+                        <c:if test="${handle eq 'hostAudit' or handle eq 'directorAudit' or handle eq 'apply'}" >
                         <div class="title">
                             <strong>历史审核意见</strong>
                         </div>
