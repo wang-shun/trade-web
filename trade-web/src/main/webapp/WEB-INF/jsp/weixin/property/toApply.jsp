@@ -32,7 +32,6 @@
 		<input type="hidden" name="prCostOrgId" id="prCostOrgId">
 		<input type="hidden" name="prCostOrgName" id="prCostOrgName">
 		<input type="hidden" name="prCostOrgMgr" id="prCostOrgMgr">
-		<input type="hidden" id="orgName">
 		<header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
             <span class="aui-iconfont aui-icon-left"></span>
@@ -52,7 +51,7 @@
                     <div class="aui-list-item-input aui-list-item-arrow">
                        <c:choose>
 							<c:when test="${not empty orgId}">
-								<select class="form-control" id="zhanqu" disabled="disabled">
+								<select class="form-control" id="zhanqu" disabled="disabled" onchange="changeOrgName(this);">
 									<option value="${orgId}">${orgName}</option>
 								</select>
 							</c:when>
@@ -72,6 +71,13 @@
 				 				</select>
 							</c:otherwise>
 						</c:choose>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item mt10">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-input" style="padding-left: 0">
+                       <input class="form-control" type="text" style="padding-left: 15px;" placeholder="区蕫" readonly="readonly" id="orgName" value="${realname }">
                     </div>
                 </div>
             </li>
@@ -252,7 +258,7 @@
 		            console.log(str);
 		        }
 			
-			/* function changeOrgName(th){
+		  function changeOrgName(th){
 				$.ajax({
 					url : ctx + "/mobile/property/box/getOrgName",
 					method : "post",
@@ -268,7 +274,7 @@
 						}
 					}
 				});
-			} */
+			}
 			
 		</script> 
     </content>

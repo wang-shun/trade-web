@@ -60,7 +60,7 @@ public class PropertyController {
 		if (StringUtils.isBlank(msg)) {
 			msg = "产调信息提交成功！";
 		}
-		//request.setAttribute("userList", removeDuplicate(propertyService.getZLList(districtId)));
+		request.setAttribute("userList", removeDuplicate(propertyService.getZLList(districtId)));
 		request.setAttribute("msg", msg);
 		return "mobile/propresearch/wecharaddResult";
 	}
