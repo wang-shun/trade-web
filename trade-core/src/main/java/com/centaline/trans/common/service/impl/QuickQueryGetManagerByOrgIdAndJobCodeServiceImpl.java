@@ -19,7 +19,7 @@ public class QuickQueryGetManagerByOrgIdAndJobCodeServiceImpl implements CustomD
    
 	private  String  jobCode;
     
-    private static String sql = "select REAL_NAME FROM sctrans.V_USER_ORG_JOB_ACTIVE WHERE ORG_ID = ? AND JOB_CODE = ?";
+    private static String sql = "SELECT REAL_NAME FROM sctrans.V_USER_ORG_JOB_ACTIVE WHERE ORG_ID = ? AND JOB_CODE = ?";
 	   
     
 	@Override
