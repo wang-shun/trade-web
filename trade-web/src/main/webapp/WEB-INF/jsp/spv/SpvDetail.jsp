@@ -157,7 +157,14 @@
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
-													<span>结束（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
+											<c:choose>  
+										    <c:when test="${spvBaseInfoVO.toSpv.status==7 && spvBaseInfoVO.toSpv.closeTime!=undefined}"> 
+										     <span>中止（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
+										    </c:when>    
+										    <c:otherwise> 
+										     <span>结束（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
+										    </c:otherwise>  
+										    </c:choose>	
 												</dd>
 											</dl>
 										</div>
