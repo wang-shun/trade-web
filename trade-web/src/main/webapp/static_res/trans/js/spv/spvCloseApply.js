@@ -34,9 +34,6 @@ function submitBtnClick(handle,continueApply,result){
 			   	   if(!confirm("是否确定提交申请！")){
 				 		  return false;
 				 	  }
-			   	   if(!checkInOutWorkFlowProcess($("input[name='toSpvCloseApply.spvCode']").val())){
-			   		   return false;
-			   	   }
 			  }else{
 			  	   if(!confirm("是否确定取消申请！")){
 			     		  return false;
