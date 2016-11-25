@@ -7,39 +7,17 @@
 <html>
 
 <head>
-
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<style type="text/css">
-body {
-	background-color: #f3f3f4;
-}
-
-.span_margin {
-	margin-bottom: 12px;
-}
-
-.checker {
-	float: none;
-	Margin-right: 14px;
-	margin-left: 13px;
-	margin-top: 12px;
-	display: inline-block;
-}.checker1{
-float: none;
-	Margin-right: 14px;
-	margin-left: 13px;
-	margin-top: 12px;
-	display: inline-block;}
-
-.chkblock>div {
-	display: block;
-	float: none !important;
-}
-
-.row {
-	margin-top: 10px;
-}
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/aui.2.0.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/style.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/iconfont/iconfont.css" />
+    <!--date css-->
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll_date.css" />
+    
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/property/manualtransfer.css" />
 </head>
 
 <body>
@@ -54,101 +32,106 @@ float: none;
 		<input type="hidden" name="prCostOrgId" id="prCostOrgId">
 		<input type="hidden" name="prCostOrgName" id="prCostOrgName">
 		<input type="hidden" name="prCostOrgMgr" id="prCostOrgMgr">
-		<div class="row" style="margin-top: 0px; text-align: center;">
-			<span style="font-size: 38px; display: block; margin-top: 12px;">人工产调</span>
-		</div>
-<%-- 		<c:if test="${not empty realname}"> --%>
-<!-- 			<div style="margin-top: 20px;"> -->
-<%-- 				<h2>区蕫：${realname }</h2> --%>
-<!-- 			</div> -->
-<%-- 		</c:if> --%>
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-lg-10">
-				<c:choose>
-					<c:when test="${not empty orgId}">
-						<select class="form-control" id="zhanqu" disabled="disabled">
-							<option value="${orgId}">${orgName}</option>
-						</select>
-					</c:when>
-					<c:otherwise>
-						<select class="form-control" onchange="changeOrgName(this);" id="zhanqu">
-		  					<option value="">请选择</option>
-		  					<c:forEach items="${orgs}" var="org">
-		  						<c:choose>
-								   <c:when test="${org.id == orgId}">
-				  						<option value="${org.id}" selected="selected">${org.orgName}</option>
-								   </c:when>
-								   <c:otherwise>
-				  						<option value="${org.id}">${org.orgName}</option>
-								   </c:otherwise>
-								</c:choose>
-		  					</c:forEach>
-		 				</select>
-					</c:otherwise>
-				</c:choose>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-12">
-				<input class="form-control" type="text" style="padding-left: 15px;" placeholder="区蕫" readonly="readonly" id="orgName" value="${realname }">
-			</div>
-		</div>
-		<div class="row" style="margin-top: 16px;">
-			<div class="col-lg-12">
-				<aist:dict id="sel_district" name="district" clazz="form-control"
-					display="select" hasEmpty="false" dictType="yu_shanghai_district"
-					ligerui='none'></aist:dict>
+		<input type="hidden" id="orgName">
+		<header class="aui-bar aui-bar-nav">
+        <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">人工产调</div>
+        <a class="aui-pull-right aui-btn ">
+            <span class="" id="btn_submit">提交</span>
+        </a>
+    </header>
+    <section class="aui-content aui-margin-b-15">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                       <i class="iconfont blue mr5">&#xe683;</i>行政区
+                    </div>
+                    <div class="aui-list-item-input aui-list-item-arrow">
+                       <c:choose>
+							<c:when test="${not empty orgId}">
+								<select class="form-control" id="zhanqu" disabled="disabled">
+									<option value="${orgId}">${orgName}</option>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<select class="form-control" id="zhanqu">
+				  					<option value="">请选择</option>
+				  					<c:forEach items="${orgs}" var="org">
+				  						<c:choose>
+										   <c:when test="${org.id == orgId}">
+						  						<option value="${org.id}" selected="selected">${org.orgName}</option>
+										   </c:when>
+										   <c:otherwise>
+						  						<option value="${org.id}">${org.orgName}</option>
+										   </c:otherwise>
+										</c:choose>
+				  					</c:forEach>
+				 				</select>
+							</c:otherwise>
+						</c:choose>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item mt10">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-input" style="padding-left: 0">
+                        <input class="form-control" type="text" name="propertyAddr"
+					    id="propertyAddr" placeholder="产调地址" style="padding-left: 15px;"
+					    onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)||(event.keyCode > 122 && event.keyCode < 127)) event.returnValue = false;">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item mt10">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                       <i class="iconfont blue mr5">&#xe662;</i>区域归属
+                    </div>
+                    <div class="aui-list-item-input aui-list-item-arrow">
+                       <aist:dict id="sel_district" name="district" clazz="form-control"
+						display="select" hasEmpty="false" dictType="yu_shanghai_district"
+						ligerui='none'></aist:dict>
+                    </div>
+                </div>
+            </li>
 
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-12">
-				<input class="form-control" type="text" name="propertyAddr"
-					id="propertyAddr" placeholder="产调地址" style="padding-left: 15px;"
-					onKeypress="if ((event.keyCode > 32 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97)||(event.keyCode > 122 && event.keyCode < 127)) event.returnValue = false;"
-					>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-12 chkblock">
-				<div style="">
-					<div class="checker1">
-						<input id="select_all" type="checkbox" class="" validate="">&nbsp;&nbsp;&nbsp;&nbsp;全选
-					</div>
-				</div>
-					<aist:dict id="sel_prCat" name="_prCat" display="checkbox"
-						hasEmpty="false" dictType="30009" ligerui='none'></aist:dict>
-
-			
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-12" style="text-align: center;">
-				<input type="button" class="btn btn-warning"
-					style="width: 98%; background-image: none;" id="btn_submit"
-					value="提交">
-
-			</div>
-		</div>
-
+            <li class="aui-item mt10">
+                <div class="aui-content aui-margin-b-15">
+                    <ul class="aui-list aui-media-list white" id="manua-list" >
+                        <li class="aui-list-item" >
+                            <div class="aui-list-item-inner">
+                                <label><input class="aui-radio" type="checkbox" id="CheckedAll"> 全选</label>
+                                <!--   <input id="select_all" type="checkbox" class="" validate="">&nbsp;&nbsp;&nbsp;&nbsp;全选 -->
+                            </div>
+                        </li>
+                        <aist:dict id="sel_prCat" name="_prCat" display="checkboxcustom3"
+						  hasEmpty="false" dictType="30009" ligerui='none' clazz="aui-radio" aroundClazz="aui-list-item-inner"></aist:dict>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+   	</section>
 	</form>
-	<content tag="local_script"> <script
-		src="${ctx}/momedia/js/jquery.blockui.min.js"></script> <script>
+	<content tag="local_script"> 
+	<script type="text/javascript" src="${ctx}/static/momedia/js/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="${ctx}/static/momedia/js/api.js"></script>
+	<script type="text/javascript" src="${ctx}/static/momedia/js/aui-dialog.js"></script>
+	<script type="text/javascript" src="${ctx}/static/momedia/js/aui-main.js"></script>
+	<script type="text/javascript" src="${ctx}/static/momedia/js/layer.js"></script>
+	
+	<!--date-->
+	<script type="text/javascript" src="${ctx}/static/momedia/js/plugins/mobiscroll/mobiscroll_date.js"></script>
+	<script type="text/javascript" src="${ctx}/static/momedia/js/plugins/mobiscroll/mobiscroll.js"></script>
+	
+	<script type="text/javascript" src="${ctx}/static/momedia/js/calendar.js"></script>
+	<script src="${ctx}/momedia/js/jquery.blockui.min.js"></script> 
+	<script>
 			var ctx = '${ctx}';
 			$(document)
 					.ready(
 							function() {
-								$('.checker')
-										.parent()
-										.click(
-												function(event) {
-													var _thisInput=$(this).is('div')?$(this).find("input[type='checkbox']"):$(this);
-													if($(this).is('div')){
-														_thisInput.prop('checked',!_thisInput.prop('checked'));
-													}
-													event.stopPropagation();
-												});
-							
 								$("#btn_submit").click(function() {
 									$.blockUI({
 										message : $("#salesLoading"),
@@ -168,10 +151,8 @@ float: none;
 
 				var prCat = '';
 				$("#m_form").find("input[name='_prCat']:checked")
-						.each(
-								function(e) {
-									prCat += ($(this).closest('div').parent()
-											.text() + "/");
+						.each(function(e) {
+									prCat += ($(this).val()+ "/");
 								});
 				if (prCat != '') {
 					prCat = prCat.substring(0, prCat.length - 1);
@@ -257,17 +238,21 @@ float: none;
 					}
 				});
 			}
-			function selectAll (event){
-				var _thisInput=$(this).is('div')?$(this).find("input[type='checkbox']"):$(this);
-				if($(this).is('div')){
-					_thisInput.prop('checked',!_thisInput.prop('checked'));
-				}
-				$("input[name='_prCat']").prop("checked",
-						_thisInput.prop('checked'));
-				event.stopPropagation();
-			}
+			 $("#CheckedAll").click(function() {
+		            $('[name=_prCat]:checkbox').prop("checked", this.checked );
+		            str();
+		     });
+			 
+			  var str = function() {
+		            //测试选中数据
+		            var str="你选中的是：\r\n";
+		            $('[name=_prCat]:checkbox:checked').each(function(){
+		                str+=$(this).val()+"\r\n";
+		            })
+		            console.log(str);
+		        }
 			
-			function changeOrgName(th){
+			/* function changeOrgName(th){
 				$.ajax({
 					url : ctx + "/mobile/property/box/getOrgName",
 					method : "post",
@@ -283,15 +268,9 @@ float: none;
 						}
 					}
 				});
-			}
+			} */
 			
-			$(".checker").find("input[type='checkbox']").click(function(event){
-				event.stopPropagation();
-			});
-			$('#select_all').click(selectAll);
-			$("#select_all").parent().click(selectAll);
-			
-			
-		</script> </content>
+		</script> 
+    </content>
 </body>
 </html>
