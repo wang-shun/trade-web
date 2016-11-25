@@ -503,6 +503,8 @@
     <!-- E+卡类金额-->
     <bean name="eloanKaAmount" class="com.centaline.trans.common.service.impl.QuickQueryGetEloanProductServiceImpl"> 
        	<property name="code" value="eloanKaAoumt"></property>
-    </bean>	   	
+    </bean>	
+    <!-- 根据org_id查询贵宾服务部-->
+    <bean name="getGbdepartmentByOrgId" class="com.centaline.trans.common.service.impl.QuickQueryGetGbdepartmentServiceImpl"></bean>	    	
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

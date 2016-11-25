@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.service.ToPropertyInfoService;
@@ -38,8 +37,7 @@ public class QuickQueryGuoHuPriceServiceImpl implements CustomDictService{
 	@Autowired
 	private ToEvaFeeRecordService toEvaFeeRecordService;
 
-	@Override
-	@Cacheable(value="QuickQueryGuoHuPriceServiceImpl",key="#root.target+'/'+#keys")
+	@Override	
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {		   
 		DecimalFormat de = new DecimalFormat("0.00");	
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
