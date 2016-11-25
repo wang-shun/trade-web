@@ -27,14 +27,8 @@ public class QuickQueryGetTempBankInfoServiceImpl implements CustomDictService {
 	@Autowired
 	private QuickQueryGetMainAndBranchBankByCaseCodeListServiceImpl quickQueryGetMainAndBranchBankService;
 
-	@Override
-	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
-
-		return batchWarpper.batchWarp(keys);
-	}
-
 	/**
-	 * 批量查询临时银行信息(一批次1000条)
+	 * 新建批量查询-1批次1000条
 	 */
 	private QuickQueryBatchWarpper batchWarpper = new QuickQueryBatchWarpper(
 			new BatchQuery<Map<String, Object>>() {
@@ -42,6 +36,7 @@ public class QuickQueryGetTempBankInfoServiceImpl implements CustomDictService {
 				@Override
 				public List<Map<String, Object>> query(
 						List<Map<String, Object>> keys) {
+
 					for (Map<String, Object> keyer : keys) {
 						String currentProcess = "";
 						String tmpBankStatus = "";
@@ -97,6 +92,11 @@ public class QuickQueryGetTempBankInfoServiceImpl implements CustomDictService {
 				}
 
 			}, 1000);
+
+	@Override
+	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
+		return batchWarpper.batchWarp(keys);
+	}
 
 	@Override
 	public Boolean getIsBatch() {
