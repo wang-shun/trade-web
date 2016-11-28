@@ -126,7 +126,7 @@ function dealDutyOfficerBack(array){
 		          $.unblockUI();   	
 		          if(data.success){
 		        	  alert(data.message);
-		        	  $("#"+dutyDate+dutyType).html("");
+		        	  $("#"+dutyDate+dutyType).html("空置");
 		          }else{
 		        	  alert(data.message);
 		          }
