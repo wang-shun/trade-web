@@ -12,7 +12,6 @@
     <!--date css-->
     <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll.css" />
     <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll_date.css" />
-    
     <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/autocompleter.css" />
 </head>
 <body>
