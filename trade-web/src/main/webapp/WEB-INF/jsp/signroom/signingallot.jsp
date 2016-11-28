@@ -113,6 +113,13 @@
                         <div class="modal-content animated fadeIn popup-box">
                             <div class="modal_title">
                                 	临时分配
+                                	<h3><span style="color: red">今日值班经理：</span>&nbsp;
+                            		<c:if test="${!empty tcs}">
+                            		<c:forEach items="${tcs }" var="tc">
+                            		   ${tc.officerName }&nbsp;&nbsp;&nbsp;&nbsp;
+                            		</c:forEach>
+                            		</c:if>
+                            		</h3>
                             </div>
                             <form action="" class="form_list clearfix">
                             	<input type="hidden" id="caseCode" value=""/>
