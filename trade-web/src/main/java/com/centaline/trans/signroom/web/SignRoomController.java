@@ -53,7 +53,6 @@ public class SignRoomController {
 	 */
 	@RequestMapping("/signRoomAllotList")
 	public String signRoomAllotList(Model model){
-		SessionUser user= uamSessionService.getSessionUser();
 		Calendar cd = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -63,6 +62,10 @@ public class SignRoomController {
 		model.addAttribute("curDate", sdf.format(cd.getTime()));
 		boolean isCurrenDayDuty = rmSignRoomService.isCurrenDayDuty();//是否当日值班 
 		model.addAttribute("isCurrenDayDuty", isCurrenDayDuty);
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+		List<TradeCenterSchedule> tcs = rmSignRoomService.queryTradeCenterSchedules(map);//查询当日值班人员
+		model.addAttribute("tcs",tcs);
 		return "/signroom/signingallot";
 	}
 	

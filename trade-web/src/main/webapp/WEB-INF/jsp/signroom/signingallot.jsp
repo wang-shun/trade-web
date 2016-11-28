@@ -79,6 +79,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table_content">
+                            	<c:if test="${!empty tcs}">
+                            		<h3><span style="color: red">今日值班经理：</span>&nbsp;
+                            		<c:forEach items="${tcs }" var="tc">
+                            		   ${tc.officerName }&nbsp;&nbsp;&nbsp;&nbsp;
+                            		</c:forEach>
+                            		</h3>
+                            	</c:if>
                                 <table class="table table_blue table-striped table-bordered table-hover " id="signRoomTable" >
                                     <thead>
                                         <tr>
