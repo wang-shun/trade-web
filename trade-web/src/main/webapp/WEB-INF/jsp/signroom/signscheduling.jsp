@@ -237,6 +237,7 @@
 		</script>
         <script>
 	        var ctx = "${ctx}";
+	        var serviceDepId = "${serviceDepId}";
 	  		//初始化日期控件
 	    	var monthSel=new DateSelect($('.month'),{max:new Date(2999,1,1),moveDone:reloadGrid});
             $(document).ready(function () {
