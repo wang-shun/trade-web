@@ -24,7 +24,7 @@ public class loanCountController {
 		SessionUser user = uamSesstionService.getSessionUser();
 		request.setAttribute("user", user);
 
-		return "weixin/loan/loanCount";
+		return "mobile/loan/loanCount";
 	}
 
 }

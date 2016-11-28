@@ -24,7 +24,7 @@ public class workPlaceController {
 		SessionUser user = uamSesstionService.getSessionUser();
 		request.setAttribute("user", user);
 
-		return "weixin/searchWorkPlace/workPlace";
+		return "mobile/searchWorkPlace/workPlace";
 	}
 
 }

@@ -24,7 +24,7 @@ public class TaxationController {
 		SessionUser user = uamSesstionService.getSessionUser();
 		request.setAttribute("user", user);
 
-		return "weixin/taxation/taxationCalculate";
+		return "mobile/taxation/taxationCalculate";
 	}
 
 }

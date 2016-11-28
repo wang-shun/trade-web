@@ -71,7 +71,7 @@ public class WechartPropertyController {
 		SessionUser user = uamSesstionService.getSessionUser();
 		request.setAttribute("user", user);
 
-		return "weixin/property/addressList";
+		return "mobile/property/addressList";
 	}
 
 	@RequestMapping("toApply")
@@ -85,7 +85,7 @@ public class WechartPropertyController {
 			// 查询战区和区蕫相关信息
 			getOrgAndUserInfo(request, u.getServiceDepId());
 			
-			return "weixin/property/toApply";
+			return "mobile/property/toApply";
 	}
 
 	private void getOrgAndUserInfo(HttpServletRequest request, String userServiceDepId) {
@@ -206,7 +206,7 @@ public class WechartPropertyController {
 	public String myProperty(HttpServletRequest request, HttpServletResponse response, Model model, String code, String state) throws IOException {
 		SessionUser user = uamSessionService.getSessionUser();
 		model.addAttribute("prAppliantId", user.getId());
-		return "weixin/property/myProperty";
+		return "mobile/property/myProperty";
 	}
 	
 	@RequestMapping("findMyPropertyList")
