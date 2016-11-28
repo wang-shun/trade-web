@@ -1,8 +1,11 @@
 package com.centaline.trans.signroom.web;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +21,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.signroom.entity.ResFlowup;
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.service.ResFlowupService;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
@@ -171,7 +175,10 @@ public class ReservationManageController {
 		request.setAttribute("resStatus", resStatus);
 		request.setAttribute("distinctId", distinctId);
 		request.setAttribute("isCurrenDayDuty", isCurrenDayDuty);
-
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+		List<TradeCenterSchedule> tcs = rmSignRoomService.queryTradeCenterSchedules(map);//查询当日值班人员
+		model.addAttribute("tcs",tcs);
 		return "signroom/signinglist";
 	}
 
