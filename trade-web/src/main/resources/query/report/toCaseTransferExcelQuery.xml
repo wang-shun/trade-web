@@ -241,9 +241,9 @@
 				<column type="both" name="loanlost_apply_reason_old" title="loanlost_apply_reason_old"  customDict=""		hidden="false" />
 				<column type="virtual" name="loanlost_apply_reason" title="流失原因"	referencecol="loanlost_apply_reason_old" customDict="convertValueForLoanlostReason" />
 								
-				<column type="virtual" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	referencecol="CASE_CODE"  customDict="eloanProduct" />
-				<column type="virtual" name="ELOAN_PRO_TYPE_KA" title="E+卡类产品类别"	referencecol="CASE_CODE"  customDict="eloanKa" />
-				<column type="virtual" name="ELOAN_APPLYAMOUNT_COUNT_STRING" title="E+卡类金额"	referencecol="CASE_CODE"  customDict="eloanKaAmount" />			
+				<column type="virtual" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	referencecol="CASE_CODE"  customDict="eloanProduct" isDynamicDict="true"/>
+				<column type="virtual" name="ELOAN_PRO_TYPE_KA" title="E+卡类产品类别"	referencecol="CASE_CODE"  customDict="eloanKa"  isDynamicDict="true"/>
+				<column type="virtual" name="ELOAN_APPLYAMOUNT_COUNT_STRING" title="E+卡类金额"	referencecol="CASE_CODE"  customDict="eloanKaAmount"  isDynamicDict="true"/>			
 				<column type="both" name="ELOAN_APPLYAMOUNT_COUNT" title="E+金融产品申请总金额(万元)"	customDict="" hidden="false" expType="Double"/>
 
 			</table-row>

@@ -36,14 +36,78 @@ public class QuickQueryGuoHuPriceServiceImpl implements CustomDictService{
 	
 	@Autowired
 	private ToEvaFeeRecordService toEvaFeeRecordService;
-
-	@Override	
+	
+/*	private static String toPropertyInfoSQL = "SELECT * FROM SCTRANS.T_TO_PROPERTY_INFO  WHERE CASE_CODE in (:caseCode)";
+	private static String toSignSQL = "SELECT * FROM SCTRANS.T_TO_SIGN  WHERE CASE_CODE in (:caseCode)";
+	private static String toHouseTransferSQL = "SELECT * FROM SCTRANS.T_TO_HOUSE_TRANSFER  WHERE CASE_CODE in (:caseCode)";
+	private static String toEvaFeeRecordSQL = "SELECT * FROM SCTRANS.T_TO_EVA_FEE_RECORD  WHERE CASE_CODE in (:caseCode)";
+	private static String tsPrResearchMapSQL = "SELECT * FROM SCTRANS.T_TS_PR_RESEARCH_MAP  WHERE CASE_CODE in (:caseCode)";
+		*/
+	
+	
+/*	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
+		if(keys==null || keys.isEmpty()){
+			return null;
+		}
+		return batchWarpper.batchWarp(keys);
+	}
+	
+	
+	private QuickQueryBatchWarpper batchWarpper = new QuickQueryBatchWarpper(new BatchQuery<Map<String, Object>>(){*/
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {		   
+					
+			
 		DecimalFormat de = new DecimalFormat("0.00");	
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		for (Map<String, Object> key : keys) {			
 		
+/*		
+		List<String> caseCode = new ArrayList<String>();
+		if(keys!=null && !keys.isEmpty()){
+			//获取传入的参数  casecode
+			for (Map<String, Object> key : keys) {
+				Object case_code   = key.get("CASE_CODE");				
+				if(case_code!=null){
+					caseCode.add(case_code.toString());
+				}				
+			}
 			
+			List<Map<String, Object>>  toPropertyInfoList = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>>  toSignList  = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>>  toHouseTransferList  = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>>  tsPrResearchList  = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>>  toEvaFeeRecordList  = new ArrayList<Map<String, Object>>();
+			
+			Map<String,Object> paramMap = new HashMap<String,Object>();			
+			paramMap.put("caseCode", caseCode);
+			toPropertyInfoList = jdbcTemplate.queryForList(toPropertyInfoSQL, paramMap);
+			toSignList = jdbcTemplate.queryForList(toSignSQL, paramMap);
+			toHouseTransferList = jdbcTemplate.queryForList(toHouseTransferSQL, paramMap);
+			tsPrResearchList = jdbcTemplate.queryForList(toEvaFeeRecordSQL, paramMap);
+			toEvaFeeRecordList = jdbcTemplate.queryForList(tsPrResearchMapSQL, paramMap);
+			
+			for (Map<String, Object> key : rs) {
+				Object case_code   = key.get("CASE_CODE");
+				if(toPropertyInfoList.size() > 0 && toSignList.size() > 0){					
+					for(Map<String, Object> toPropertyInfo : toPropertyInfoList ){						
+						if(case_code.equals(toPropertyInfo.get("CASE_CODE"))  &&  case_code.equals(obj)){							
+							double square = toPropertyInfo.getSquare() == null ? 0:toPropertyInfo.getSquare();
+							double realPrice = toSign.getRealPrice() == null ? 0: toSign.getRealPrice().doubleValue();					
+							double conPrice = toSign.getConPrice() == null ? 0: toSign.getConPrice().doubleValue();	
+							if( square > 0 ){
+								key.put("GUOHUDJ",  de.format((realPrice/square)*10000));
+							}else{
+								key.put("GUOHUDJ", 0.00);
+							}
+							continue;
+						}
+					}
+				}			
+			
+			}
+				
+		}*/
+		
+		for (Map<String, Object> key : keys) {			
 			Object caseCode = key.get("CASE_CODE");
 			if(caseCode != null){
 				ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode.toString());
