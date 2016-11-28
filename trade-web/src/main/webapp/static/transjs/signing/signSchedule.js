@@ -2,6 +2,10 @@ $(function(){
 	$("#searchBtn").click(function(){
 		reloadGrid();
 	});
+	
+	$("#centerId").change(function(){
+		reloadGrid();
+	});
 })
 //加载数据
 function reloadGrid(bm) {

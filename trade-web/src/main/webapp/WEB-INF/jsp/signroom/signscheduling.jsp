@@ -61,12 +61,12 @@
                                     </c:forEach>
                                     </select>
                                     </div>
-                                    <div class="add_btn" style="float:left;margin-left:26px;">
+                                    <!-- <div class="add_btn" style="float:left;margin-left:26px;">
                                         <button type="button" class="btn btn-success" id="searchBtn">
                                             <i class="icon iconfont">&#xe635;</i>
                                             查询
                                         </button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </form>
                         </div>
