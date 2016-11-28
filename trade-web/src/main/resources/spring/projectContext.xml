@@ -450,8 +450,8 @@
     <bean name="qqMortgageAmount" class="com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl">
         <property name="dictType" value="mortgageAmount"></property>
     </bean>
-	
-	
+
+
 	
     <!-- 根据案件编号集合查询贷款银行、贷款支行信息 -->
     <bean name="quickQueryGetMainAndBranchBankService" class="com.centaline.trans.common.service.impl.QuickQueryGetMainAndBranchBankByCaseCodeListServiceImpl"></bean>
@@ -469,9 +469,23 @@
     <bean name="qqManagerByOrgIdAndJobCode" class="com.centaline.trans.common.service.impl.QuickQueryGetManagerByOrgIdAndJobCodeServiceImpl" >
     	<property name="jobCode" value="Manager"></property>
     </bean>
-    <!-- 根据caseCode 查询 产证地址 -->
-    <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" >    	
+    <!-- 根据case_code查询case信息 -->
+    <bean name="qqFindCaseInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="caseInfo"></property>
     </bean>
+    <bean name="qqGetCaseId" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="getCaseId"></property>
+    </bean>
+    <bean name="qqGetCasePropertyInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="getCasePropertyInfo"></property>
+    </bean>
+    <bean name="qqFindTranPlan" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="findTranPlan"></property>
+    </bean>
+    <bean name="qqWorkflow" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="wf"></property>
+    </bean>
+
     <!-- 根据custCode 查询主贷人电话 -->
     <bean name="custPhoneByCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCustPhoneByCodeServiceImpl" >    	
     </bean>
