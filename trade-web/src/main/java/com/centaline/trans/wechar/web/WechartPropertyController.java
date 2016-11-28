@@ -63,6 +63,16 @@ public class WechartPropertyController {
 	
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;
+	
+	@RequestMapping("addressList")
+	public String toApply(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		SessionUser user = uamSesstionService.getSessionUser();
+		request.setAttribute("user", user);
+
+		return "weixin/property/addressList";
+	}
 
 	@RequestMapping("toApply")
 	public String toApply(HttpServletRequest request, HttpServletResponse response, String code, String state)
