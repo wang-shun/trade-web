@@ -15,7 +15,7 @@
 		<customDict id="qqManagerByOrgIdAndJobCode" beanName="qqManagerByOrgIdAndJobCode"></customDict>
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
 		<customDict id="qqFenHang" beanName="qqFenHang" />
-		<customDict id="qqFinOrgNameYC" beanName="qqFinOrgNameYC" />
+		<customDict id="qqFinOrgNameYC" beanName="qqFinOrgNameYCForExcel" />
 		<customDict id="getStatus" beanName="getStatus" />
 		<customDict id="qqcdMortName" beanName="qqcdMortName" />
 		<customDict id="custPhoneByCode" beanName="custPhoneByCode" />	
@@ -102,7 +102,7 @@
 														
 							(SELECT  TOP 1 ar2.CONTENT FROM  SCTRANS.T_TO_APPROVE_RECORD ar2  WHERE  ar2.PART_CODE='GuohuApprove'  AND ar2.CASE_CODE=C.CASE_CODE ORDER BY  ar2.OPERATOR_TIME  DESC) AS CONTENT,
 							(SELECT  TOP 1 ar3.NOT_APPROVE FROM  SCTRANS.T_TO_APPROVE_RECORD ar3  WHERE  ar3.PART_CODE='GuohuApprove'  AND ar3.CASE_CODE=C.CASE_CODE ORDER BY  ar3.OPERATOR_TIME  DESC) AS NOT_APPROVE,
-							(SELECT SUM(EC.APPLY_AMOUNT)  FROM sctrans.T_TO_ELOAN_CASE EC  WHERE EC.CASE_CODE = C.CASE_CODE  AND  EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) ELOAN_APPLYAMOUNT_COUNT
+							(SELECT SUM(EC.APPLY_AMOUNT)  FROM SCTRANS.T_TO_ELOAN_CASE EC  WHERE EC.CASE_CODE = C.CASE_CODE  AND  EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) ELOAN_APPLYAMOUNT_COUNT
 							
 						FROM
 							SCTRANS.T_TO_CASE C 

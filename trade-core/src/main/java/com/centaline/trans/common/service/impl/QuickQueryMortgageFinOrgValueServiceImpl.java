@@ -27,6 +27,7 @@ public class QuickQueryMortgageFinOrgValueServiceImpl implements CustomDictServi
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		StringBuilder sql = new StringBuilder();
 		if("mortgageFinOrg".equals(dictType)){
+			
 			sql.append("Select FIN_ORG_NAME_YC as v,FA_FIN_ORG_CODE as v2 from sctrans.T_TS_FIN_ORG  where FIN_ORG_CODE=:code");
 		}else if("caseProperty".equals(dictType)){
 			sql.append("select PKID as v,(select ORG_NAME from sctrans.SYS_ORG where id=toCase.DISTRICT_ID) as v2 from (select case_code,PKID,DISTRICT_ID from sctrans.T_TO_CASE where CASE_CODE=:code) toCase");

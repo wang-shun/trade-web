@@ -19,11 +19,11 @@ public class QuickQueryGetEloanProductServiceImpl implements CustomDictService{
    
 	private  String  code;  
 	
-    private static String sqlEloanProduct = "SELECT D.NAME 	FROM  SCTRANS.SYS_DICT D WHERE  D.TYPE='yu_serv_cat_code_tree' 	AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') 	AND D.CODE IN (SELECT EC.LOAN_SRV_CODE FROM SCTRANS.T_TO_ELOAN_CASE EC 	WHERE  EC.CASE_CODE = ?  AND EC.LOAN_SRV_CODE NOT IN ('30004005','30004015'))";
+    private static String sqlEloanProduct = "SELECT D.NAME 	FROM  SCTRANS.SYS_DICT D WHERE  D.TYPE='yu_serv_cat_code_tree' 	AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') 	AND D.CODE IN (SELECT EC.LOAN_SRV_CODE FROM SCTRANS.T_TO_ELOAN_CASE EC 	WHERE  EC.CASE_CODE = ?  AND EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')  AND EC.STATUS !='ABAN') ";
     
-    private static String sqlEloanKa = "SELECT D.NAME 	FROM  SCTRANS.SYS_DICT D WHERE  D.TYPE='yu_serv_cat_code_tree' 	AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') 	AND D.CODE IN (SELECT EC.LOAN_SRV_CODE FROM SCTRANS.T_TO_ELOAN_CASE EC 	WHERE  EC.CASE_CODE = ?  AND EC.LOAN_SRV_CODE IN ('30004005','30004015'))";
+    private static String sqlEloanKa = "SELECT D.NAME 	FROM  SCTRANS.SYS_DICT D WHERE  D.TYPE='yu_serv_cat_code_tree' 	AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') 	AND D.CODE IN (SELECT EC.LOAN_SRV_CODE FROM SCTRANS.T_TO_ELOAN_CASE EC 	WHERE  EC.CASE_CODE = ?  AND EC.LOAN_SRV_CODE IN ('30004005','30004015')  AND EC.STATUS !='ABAN') ";
     
-    private static String sqlEloanKaAmountCount = "SELECT  EC.APPLY_AMOUNT  FROM SCTRANS.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE = ? AND EC.LOAN_SRV_CODE IN ('30004005','30004015')";
+    private static String sqlEloanKaAmountCount = "SELECT  EC.APPLY_AMOUNT  FROM SCTRANS.T_TO_ELOAN_CASE EC WHERE  EC.CASE_CODE = ? AND EC.LOAN_SRV_CODE IN ('30004005','30004015') AND EC.STATUS !='ABAN' ";
     
     @Override
 	@Cacheable(value="QuickQueryGetEloanProductServiceImpl",key="#root.target+'/'+#keys")
