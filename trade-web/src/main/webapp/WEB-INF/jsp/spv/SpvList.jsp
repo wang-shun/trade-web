@@ -67,8 +67,11 @@
 							<option value="">请选择</option>
 							<option value="0">起草</option>
 							<option value="1">申请</option>
-							<option value="2">签约</option>
-							<option value="3">完成</option>
+							<option value="3">签约</option>
+							<option value="4">中止中</option>
+							<option value="5">结束中</option>
+							<option value="7">中止</option>
+							<option value="6">完成</option>
 						</select>
 					</div>
 					<div class="form-group form-margin form-space-one ">
@@ -164,6 +167,18 @@
                                               	  {{if item.STATUS==0}}
                                                 <span class="yes_color">起草</span>
 												  {{/if}}
+                                                  {{if item.STATUS==4}}
+                                                <span class="yes_color">中止审批中</span>
+												  {{/if}}
+                                                  {{if item.STATUS==5}}
+                                                <span class="yes_color">结束审批中</span>
+												  {{/if}}
+                                                 {{if item.STATUS==6}}
+                                                <span class="yes_color">合约完成</span>
+												  {{/if}}
+                                                 {{if item.STATUS==7}}
+                                                <span class="yes_color">合约中止</span>
+												  {{/if}}
                                         </td>
                                         <td>
                                                 <p class="big">
@@ -244,13 +259,14 @@
                                                       {{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.OUT">
-													{{if item.ru>0}}
+													{{if item.ru>0&&item.STATUS==2}}
                                                         <li><a href="${ctx}/spv/task/cashFlowOutAppr/process?spvCode={{item.SPV_CODE}}">出账</a></li>
                                                      {{/if}}
 													</shiro:hasPermission>
-                                                    	<li class="divider"></li>
                                                     <shiro:hasPermission name="TRADE.SPV.CLOSE">
-                                                   		 <li><a href="#">中止/结束</a></li>
+                                                          {{if item.STATUS>0&&item.STATUS<=3}}
+                                                   		 <li><a href="${ctx}/spv/task/spvCloseApply/process?spvCode={{item.SPV_CODE}}">中止/结束</a></li>
+                                                          {{/if}}
                                                     </shiro:hasPermission>
                                               </ul>
                                             </div>

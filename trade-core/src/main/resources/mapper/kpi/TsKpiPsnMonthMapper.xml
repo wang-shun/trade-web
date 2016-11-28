@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.centaline.trans.kpi.repository.TsKpiPsnMonthMapper" >
-  <resultMap id="BaseResultMap" type="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+<mapper namespace="com.centaline.trans.award.repository.TsKpiPsnMonthMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.award.entity.TsKpiPsnMonth" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="BELONG_MONTH" property="belongMonth" jdbcType="TIMESTAMP" />
     <result column="TYPE" property="type" jdbcType="VARCHAR" />
@@ -36,7 +36,7 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   
-  <insert id="insert" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+  <insert id="insert" parameterType="com.centaline.trans.award.entity.TsKpiPsnMonth" >
     insert into sctrans.T_TS_KPI_PSN_MONTH (PKID, BELONG_MONTH, TYPE, 
       PARTICIPANT, TEAM_ID, DISTRICT_ID, 
       FIN_ORDER, FIN_ORDER_ROLL, FIN_ORDER_RATE, 
@@ -50,7 +50,7 @@
       #{updateBy,jdbcType=VARCHAR}, #{orgOrder,jdbcType=INTEGER}, #{totalCase,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.award.entity.TsKpiPsnMonth" >
     insert into sctrans.T_TS_KPI_PSN_MONTH
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -159,7 +159,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.award.entity.TsKpiPsnMonth" >
     update sctrans.T_TS_KPI_PSN_MONTH
     <set >
       <if test="belongMonth != null" >
@@ -213,7 +213,7 @@
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.award.entity.TsKpiPsnMonth" >
     update sctrans.T_TS_KPI_PSN_MONTH
     set BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
       TYPE = #{type,jdbcType=VARCHAR},
@@ -234,7 +234,7 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
-  <select id="getTsKpiPsnMonthListByPro" resultMap="BaseResultMap" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+  <select id="getTsKpiPsnMonthListByPro" resultMap="BaseResultMap" parameterType="com.centaline.trans.award.entity.TsKpiPsnMonth" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TS_KPI_PSN_MONTH
@@ -270,7 +270,7 @@
         {CALL [sctrans].[P_MONTH_KPI_STASTIC](#{belongMonth,jdbcType=TIMESTAMP},@{SESSION_USER_ID}) }
    </select>
    
-   <delete id="deleteTsKpiPsnMonthByProperty" parameterType="com.centaline.trans.kpi.entity.TsKpiPsnMonth" >
+   <delete id="deleteTsKpiPsnMonthByProperty" parameterType="com.centaline.trans.award.entity.TsKpiPsnMonth" >
     delete from sctrans.T_TS_KPI_PSN_MONTH
    <where>
 		<if test="participant != null">

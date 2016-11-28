@@ -58,7 +58,7 @@
 			FROM sctrans.T_TO_ELOAN_CASE ec
 			LEFT JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE =  ec.CASE_CODE
 			LEFT JOIN  sctrans.sys_user u ON ec.EXCUTOR_ID=u.ID
-			LEFT JOIN sctrans.T_TO_WORKFLOW wf on ec.CASE_CODE=wf.CASE_CODE and wf.BUSINESS_KEY='EloanProcess'
+			LEFT JOIN sctrans.T_TO_WORKFLOW wf on ec.ELOAN_CODE=wf.BIZ_CODE and wf.BUSINESS_KEY='EloanProcess'
             LEFT JOIN sctrans.ACT_RU_TASK art ON wf.INST_CODE=art.proc_inst_id_
 			WHERE 1=1
 			 and  EXISTS (select * from sctrans.T_TO_ELOAN_REL ers

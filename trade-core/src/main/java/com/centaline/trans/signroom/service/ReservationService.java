@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.vo.ChangeRoomResult;
 import com.centaline.trans.signroom.vo.FreeRoomInfo;
 import com.centaline.trans.signroom.vo.ReservationInfo;
 import com.centaline.trans.signroom.vo.ReservationSearchVo;
@@ -157,6 +158,15 @@ public interface ReservationService {
 	 * @param reservationVo
 	 *            签约室条件
 	 */
-	public void changeRoom(ReservationVo reservationVo);
+	public ChangeRoomResult changeRoom(ReservationVo reservationVo);
+
+	/**
+	 * 根据预约单标识获取对应的预约单信息
+	 * 
+	 * @param resId
+	 *            预约单标识
+	 * @return 预约单信息
+	 */
+	public Reservation getReservationById(Long resId);
 
 }

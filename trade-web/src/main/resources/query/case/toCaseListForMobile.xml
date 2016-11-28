@@ -34,6 +34,7 @@
 		<searchCondition>
            <condition field="B.AGENT_CODE"     name="agentId" label="经纪人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
            <condition field="B.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.CASE_PROPERTY"  name="caseProperty" label="案件状态" searchType="IN" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>

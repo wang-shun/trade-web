@@ -36,7 +36,6 @@ function getTR(thisIndex){
 	$str+='	<td id="td_file'+thisIndex+'">                                                                                                                                                                                         ';
 	$str+='		<span class="btn_file'+thisIndex+'">                                                                                                                                                                ';
 	$str+='			<input id="fileupload_'+thisIndex+'" style="display:none" type="file" name="files[]" multiple="" data-url="http://a.sh.centanet.com/aist-filesvr-web/servlet/jqueryFileUpload" data-sequential-uploads="true">                                                                                                                                                 ';
-	//$str+='			<img class="bnt-flie" src="http://trade.centaline.com:8083/trade-web/static/trans/img/bnt-flie.png" alt="点击上传" style="cursor:pointer;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');">                                                                        ';
 	$str+='         <label class="bnt-flie" alt="点击上传" style="positon:relative;display:inline-block;height:32px;width:100px;margin-bottom:-14px;cursor:pointer; background:url('+$("#ctx").val()+'/static/trans/img/bnt-flie.png) no-repeat; background-size: 38%;" onClick="$(\'#fileupload_'+thisIndex+'\').trigger(\'click\');"/>';
 	$str+='		</span>                                                                                                                                                                                ';
 	$str+='	</td>                                                                                                                                                                                      ';
@@ -44,9 +43,7 @@ function getTR(thisIndex){
 	$str+=' <input id="inputTime'+thisIndex+'" style="width:106px" name="items['+thisIndex+'].cashFlowCreateTime"class="form-control input-one" type="text" placeholder="入账日期"></div>' ;                                                                                                                                                                                     
 	$str+='	</td> ';
 	$str+='	<td align="center"><a href="javascript:void(0)" onclick="getTR('+sum+')">添加</a>';
-	//if(thisIndex > 0){
-		$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
-	//}
+	$str+=' &nbsp;<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a></td>                                                                                                           ';
 	$str+='</tr>                                                                                                                                                                                          ';
 	
 	$("#addTr").append($str);
@@ -85,7 +82,6 @@ function render_fileupload(thisIndex){
             	var $image = $(image);
             	$('#td_file'+thisIndex).prepend($image);
             	imageSumb++;////记录完成上传附件的个数
-            	//$image.responsivegallery();
         	}
         },
         progressall: function (e, data) {
@@ -200,35 +196,6 @@ function getFormData(){
 	var data = $("#teacForm").serialize();
 }
 
-//保存起草提交
-function saveRe(){
-	
-	alert("保存数据成功！");
-	rescCallbocak();
-	
-	$('#chargeInAppr').val(false);
-	//提交页面的参数
-	var data = $("#teacForm").serialize();
-	//console.log(params);
-	var url = ctx+"/spv/cashflowApply/deal";
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url : url,
-		dataType : "json",
-		data : data,
-		beforeSend:function(){  
-         },
-		success : function(data) {
-			window.location.href = ctx+"/spv/spvList";
-		},complete: function() { 
-		},
-		error : function(errors) {
-		}
-		
-	});
-}
 function rescCallbocak(){
 	   window.opener.location.reload(); //刷新父窗口
 	   window.close(); //关闭子窗口.
@@ -333,12 +300,10 @@ function checkReceiptNo(){
 						alert("贷记凭证编号不能重复！");
 					}
 					if(theSameFlag==false){
-						//break;
 						return  false;
 					}
 				}
 			if(theSameFlag==false){
-				//break;
 				return  false;
 			}
 		}
@@ -386,15 +351,12 @@ function checkReceiptNo(){
 		changeClass(cashFlowCreateTimeEle);
 		return false;
 	}
-	 
-	 
 	return theSameFlag;
 }
 
 function checkBankNoAndPayerAmount(){
 	var regForBankNo = /^[0-9]*$/;
 	var regForPayerAmount = /^\d+(\.\d+)?$/;
-	//var r = new RegExp("^\\d+(\\.\\d+)?$");
 	var bankNoArray = $(".forBankNo");
 	var PayerAmountArray = $(".forPayerAmount");
 	var flag = true;
@@ -413,7 +375,6 @@ function checkBankNoAndPayerAmount(){
 	 
 	 $.each(PayerAmountArray,function(i, item) {
 			if (item.value != '') {
-				//if(!reg.exec(item.value.trim())){
 				if(!regForPayerAmount.test(item.value.trim())){
 					alert("入职金额只能由数字和小数点组成！");
 					flag = false;
@@ -487,7 +448,6 @@ function isNumber2(num){
 //凭证验证 数据字母
 function isNumber3(num){
 	var reg=/^[A-Za-z0-9]+$/;
-	//var reg=/^[A-Za-z0-9]{1}\d*$/;
 	if(!reg.test(num)){
 		return false;
 	}

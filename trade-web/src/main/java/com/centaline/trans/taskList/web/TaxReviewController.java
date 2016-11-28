@@ -1,7 +1,6 @@
 package com.centaline.trans.taskList.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,25 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
-import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.basedata.remote.UamBasedataService;
-import com.aist.uam.basedata.remote.vo.Dict;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.web.Result;
-import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.ToAccesoryListService;
-import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToTax;
-import com.centaline.trans.task.entity.TsMsgSendHistory;
 import com.centaline.trans.task.service.ToTaxService;
-import com.centaline.trans.task.service.TsMsgSendHistoryService;
 
 @Controller
 @RequestMapping(value="/task/taxReview")

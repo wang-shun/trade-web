@@ -48,10 +48,10 @@ import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.report.service.OrgReportFormService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.ToHouseTransferService;
-import com.centaline.trans.task.service.TsTransPlanHistoryService;
-import com.centaline.trans.task.vo.TransPlanVO;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.transplan.vo.TransPlanVO;
 import com.centaline.trans.utils.CheckMobileUtils;
 import com.centaline.trans.utils.DateUtil;
 import com.centaline.trans.workspace.entity.CacheGridParam;
@@ -75,7 +75,6 @@ public class WorkSpaceController {
 	UamSessionService uamSessionService;
 	
 	//快速查询接口
-	//@Resource(name = "quickGridService")
 	@Autowired
 	private WorkSpaceService quickGridService;
 
@@ -101,7 +100,7 @@ public class WorkSpaceController {
 	private ToCloseService toCloseService;
 
 	@Autowired(required = true)
-	private TsTransPlanHistoryService tsTransPlanHistoryService;
+	private TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	private TsTeamPropertyService teamPropertyService;
 	
@@ -136,7 +135,6 @@ public class WorkSpaceController {
 	@RequestMapping(value = "/dashboard")
 	public String showWorkSpace2(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		SessionUser user = uamSessionService.getSessionUser();
-		//SessionUser currentUser = uamSessionService.getSessionUser();		
 		/*判断是否为移动端登录*/
 		boolean isMobile = checkMobile(request);
 		if (isMobile) {
@@ -147,22 +145,6 @@ public class WorkSpaceController {
 		String startDate = DateUtil.getFormatDate(DateUtil.plusMonth(new Date(),-5),"yyyy-MM-01");
 		model.addAttribute("startDate",startDate);
 		
-		//红 黄 商贷流失预警案件数灯
-		/*WorkSpace wk= buildWorkSpaceBean(null, null);
-		wk.setColor(0);
-		int redLight = workSpaceService.countLight(wk);
-		wk.setColor(1);
-		int yeLight = workSpaceService.countLight(wk);
-		int bizwarnCaseCount = 0;
-		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
-			bizwarnCaseCount = bizWarnInfoService
-					.getAllBizwarnCountByTeam(currentUser.getUsername()); // 获取本组所有的状态为生效的商贷预警数
-		} else {
-			bizwarnCaseCount = bizWarnInfoService
-					.getAllBizwarnCountByDistinct(currentUser
-							.getServiceCompanyId()); // 获取本区所有的状态为生效的商贷预警数
-		}*/
-		//int bizwarnCaseCount = bizWarnInfoService.getAllBizwarnCount(currentUser.getUsername());   //获取所有的状态为生效的商贷预警数
 		Map map=new HashMap();
 		String jobCode = user.getServiceJobCode();
 		//设置当前系统用户的登录名
@@ -173,13 +155,6 @@ public class WorkSpaceController {
 		} else {
 			map.put("orgId", user.getServiceDepId());
 		}
-		/*int unLocatedCase =  workSpaceService.getUnlocatedCaseCount();
-		int unLocatedTask = workSpaceService.getUnlocatedTaskCount(map);*/
-		
-/*		model.addAttribute("bizwarnCaseCount", bizwarnCaseCount);
-		model.addAttribute("redLight", redLight);
-		model.addAttribute("yeLight", yeLight);*/
-		
 		
 		model.addAttribute("userId", user.getId());
 		
@@ -211,13 +186,6 @@ public class WorkSpaceController {
 				model.addAttribute("uList", uList);
 			}
 			
-			/*交易顾问工作数据显示,贷款详情,E+贷款*/
-/*			Map sta = doSta(null, (now.getMonth() + 1) + "");
-			model.addAttribute("sta", sta);*/
-			
-			/*龙虎榜*/
-			//model.addAttribute("rank", doGetRank(user));
-			
 			return "workbench/dashboard_generalManager";
 		} else if (TransJobs.TZJ.getCode().equals(jobCode)) { // 总监
 			/*各个组织*/
@@ -232,22 +200,8 @@ public class WorkSpaceController {
 				model.addAttribute("uList", uList);
 			}
 			
-			/*交易顾问工作数据显示,贷款详情,E+贷款*/
-/*			Map sta = doSta(null, (now.getMonth() + 1) + "");
-			model.addAttribute("sta", sta);*/
-			
-			/*龙虎榜*/
-			//model.addAttribute("rank", doGetRank(user));
-			
 			return "workbench/dashboard_director";
 		} else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)) {// 交易主管
-			/*龙虎榜*/
-			//model.addAttribute("rank", doGetRank(user));
-			
-			/*高级交易主管添加待办事项*/
-/*			if (SecurityUtils.getSubject().isPermitted("TRADE.WORKSPACE.CALENDAR")) {
-				model.addAttribute("rank", doGetRank(user));
-			}*/
 			
 			if (isBackTeam) { //后台(高级)交易主管
 				/*工作数据显示*/
@@ -270,10 +224,6 @@ public class WorkSpaceController {
 					model.addAttribute("uList", uList);
 				}
 				
-				/*交易顾问工作数据显示,贷款详情,E+贷款*/
-/*				Map sta = doSta(null, (now.getMonth() + 1) + "");
-				model.addAttribute("sta", sta);*/
-				
 				return "workbench/dashboard_manager_fornt";
 			}
 
@@ -283,7 +233,7 @@ public class WorkSpaceController {
 			TransPlanVO transPlanVO = new TransPlanVO();
 			transPlanVO.setUserId(user.getId());
 			transPlanVO.setUserName(user.getUsername());
-			List<TransPlanVO> transPlanVOList = tsTransPlanHistoryService.getTransPlanVOList(transPlanVO);
+			List<TransPlanVO> transPlanVOList = transplanServiceFacade.getTransPlanVOList(transPlanVO);
 			for (TransPlanVO transPlanVOOld : transPlanVOList) {
 				if (!StringUtils.isBlank(transPlanVOOld.getPartCode())) {
 					String partCodeStr = uamBasedataService.getDictValue("part_code", transPlanVOOld.getPartCode());
@@ -296,12 +246,6 @@ public class WorkSpaceController {
 			model.addAttribute("transPlanVOList", transPlanVOList);
 			model.addAttribute("isJygw", isJygw);
 			
-			/*龙虎榜*/
-			//model.addAttribute("rank", doGetRank(user));
-			
-			/*待办事项*/
-			//model.addAttribute("rank", doGetRank(user));
-			
 			if (isBackTeam) { //后台交易顾问
 				/*工作数据显示*/
 				WorkSpace work = new WorkSpace();
@@ -310,10 +254,7 @@ public class WorkSpaceController {
 				model.addAttribute("workLoadConsultant", workSpaceService.workloadConsultantBackoffice(work));
 				
 				return "workbench/dashboard_consultant_back";
-			} else { //前台交易顾问
-				/*交易顾问工作数据显示,贷款详情,E+贷款*/
-/*				Map sta = doSta(null, (now.getMonth() + 1) + "");
-				model.addAttribute("sta", sta);*/
+			} else { 
 				
 				return "workbench/dashboard_consultant_fornt";
 			}
@@ -1073,7 +1014,6 @@ public class WorkSpaceController {
 				}
 			}
 		}
-		// List<Org> toCaseOrgList = MenuConstants.getOrg();
 		model.addAttribute("toCaseOrgNameList", toCaseOrgNameList);
 
 		return "workspace/report/headquarter";
@@ -1167,10 +1107,8 @@ public class WorkSpaceController {
 		int bizwarnCaseCount = 0;
 		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
 			bizwarnCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername());
-			//bizWarnInfoService.getAllBizwarnCountByTeam(currentUser.getUsername()); // 获取本组所有的状态为生效的商贷预警数
 		} else {
 			bizwarnCaseCount = benchBizwarnCaseCountQueryByDistinct(currentUser.getServiceCompanyId());
-			//bizWarnInfoService.getAllBizwarnCountByDistinct(currentUser.getServiceCompanyId()); // 获取本区所有的状态为生效的商贷预警数
 		}		
 		map.put("bizwarnCaseCount", bizwarnCaseCount);
 		map.put("redLight", redLight);
@@ -1178,7 +1116,6 @@ public class WorkSpaceController {
 		
 		map.put("unLocatedCaseCount", unLocatedCase);
 		map.put("unLocatedTaskCount", unLocatedTask);
-		//map.put("caseDistributeCount", caseDistributeCount);
 		
 		return map;
 	}

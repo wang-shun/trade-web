@@ -171,9 +171,9 @@ public class TsFinOrgController {
 
 	@RequestMapping(value = "queryFin")
 	@ResponseBody
-	public Map<String, Object> queryFin() {
+	public Map<String, Object> queryFin(String tag) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<TsFinOrg> bankList = tsFinOrgService.findFinCompany();
+		List<TsFinOrg> bankList = tsFinOrgService.findFinCompany(tag);
 		map.put("bankList", bankList);
 		map.put("bankCode", "");
 		return map;

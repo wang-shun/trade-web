@@ -13,7 +13,10 @@
 .classpath
 .settings
 .springBeans
-
+.metadata
+.recommenders
+Servers
+	
 # External tool builders
 .externalToolBuilers/
 

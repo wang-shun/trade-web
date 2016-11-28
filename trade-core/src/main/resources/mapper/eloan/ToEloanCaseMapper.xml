@@ -685,14 +685,23 @@
     select 
    		CASE_CODE
     from sctrans.T_TO_ELOAN_CASE
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND (STATUS IS NULL OR STATUS='VALID') 
-    AND LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR} AND ELOAN_CODE != #{eloanCode,jdbcType=VARCHAR}
+    where 
+    (STATUS IS NULL OR STATUS='VALID') 
+     AND LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR}
+     AND CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+     AND ELOAN_CODE != #{eloanCode,jdbcType=VARCHAR}
+      <if test="loanSrvCode == '30004005'" >
+        AND FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR}
+      </if>
         union
     select 
    		CASE_CODE
     from sctrans.T_TO_LOAN_AGENT
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
     AND LOAN_SRV_CODE = #{loanSrvCode,jdbcType=VARCHAR} AND FIN_CASE_CODE != #{eloanCode,jdbcType=VARCHAR}
+      <if test="loanSrvCode == '30004005'" >
+        AND FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR}
+      </if>
   </select>
   
 </mapper>

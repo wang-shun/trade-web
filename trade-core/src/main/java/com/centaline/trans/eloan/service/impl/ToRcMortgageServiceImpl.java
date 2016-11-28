@@ -3,9 +3,12 @@ package com.centaline.trans.eloan.service.impl;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.service.GenerateBusinessCodeService;
 import com.centaline.trans.eloan.entity.RcRiskControl;
 import com.centaline.trans.eloan.entity.ToRcForceRegister;
@@ -24,6 +27,7 @@ import com.centaline.trans.eloan.vo.ToRcMortgageCardVO;
 import com.centaline.trans.eloan.vo.ToRcMortgageVO;
 import com.centaline.trans.material.entity.MmMaterialItem;
 import com.centaline.trans.material.enums.MaterialStatusEnum;
+import com.centaline.trans.material.repository.MmMaterialItemMapper;
 import com.centaline.trans.material.service.MmMaterialItemService;
 
 @Service
@@ -42,6 +46,10 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 	private GenerateBusinessCodeService generateBusinessCodeService;
 	@Autowired
 	private MmMaterialItemService mmMaterialItemService;
+	@Autowired
+	private UamSessionService uamSessionService;
+	@Autowired
+	private MmMaterialItemMapper mmMaterialItemMapper;
 	
 	public static final String ITEM_RESOURCE_RC = "riskControl";
 
@@ -174,6 +182,22 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 		if(CollectionUtils.isNotEmpty(rcRiskControlList)){
 			toRcMortgageCardVO.setRcRiskControl(rcRiskControlList.get(0));
 		}
+		for(ToRcMortgageInfo toRcMortgageInfo : toRcMortgageInfoList) {
+			String itemManager = toRcMortgageInfo.getItemManager();
+			
+			String itemCode = toRcMortgageInfo.getMortgageCode();
+			MmMaterialItem record = new MmMaterialItem();
+			record.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
+			record.setItemCode(itemCode);
+			List<MmMaterialItem> itemList = mmMaterialItemMapper.getMmMaterialItemListByProperty(record);
+			if(CollectionUtils.isNotEmpty(itemList)) {
+				toRcMortgageInfo.setIsStorage("Y");
+			}
+			if(StringUtils.isNotBlank(itemManager)) {
+				SessionUser user = uamSessionService.getSessionUserById(itemManager);
+				toRcMortgageInfo.setItemManagerName(user.getRealName());
+			}
+		}
 		toRcMortgageCardVO.setToRcMortgageInfoList(toRcMortgageInfoList);
 		
 		return toRcMortgageCardVO;
@@ -195,6 +219,22 @@ public class ToRcMortgageServiceImpl implements ToRcMortgageService {
 		}
 		if(CollectionUtils.isNotEmpty(rcRiskControlList)){
 			toRcMortgageVO.setRcRiskControl(rcRiskControlList.get(0));
+		}
+		for(ToRcMortgageInfo toRcMortgageInfo : toRcMortgageInfoList) {
+			String itemManager = toRcMortgageInfo.getItemManager();
+			if(StringUtils.isNotBlank(itemManager)) {
+				SessionUser user = uamSessionService.getSessionUserById(itemManager);
+				toRcMortgageInfo.setItemManagerName(user.getRealName());
+			}
+			
+			String itemCode = toRcMortgageInfo.getMortgageCode();
+			MmMaterialItem record = new MmMaterialItem();
+			record.setItemStatus(MaterialStatusEnum.INSTOCK.getCode());
+			record.setItemCode(itemCode);
+			List<MmMaterialItem> itemList = mmMaterialItemMapper.getMmMaterialItemListByProperty(record);
+			if(CollectionUtils.isNotEmpty(itemList)) {
+				toRcMortgageInfo.setIsStorage("Y");
+			}
 		}
 		toRcMortgageVO.setToRcMortgageInfoList(toRcMortgageInfoList);
 		

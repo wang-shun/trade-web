@@ -20,34 +20,30 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.EventTypeEnum;
 import com.centaline.trans.common.enums.MessageEnum;
-import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
-import com.centaline.trans.common.repository.ToWorkFlowMapper;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.engine.bean.ExecuteAction;
 import com.centaline.trans.engine.bean.ExecuteGet;
-import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.bean.TaskHistoricQuery;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
-import com.centaline.trans.task.entity.ToTransPlan;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.task.service.MortgageSelectService;
-import com.centaline.trans.task.service.ToTransPlanService;
 import com.centaline.trans.task.vo.MortgageSelecteVo;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
@@ -65,7 +61,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	@Autowired
 	private WorkFlowManager workFlowManager;
 	@Autowired
-	private ToTransPlanService toTransPlanService;
+	private TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	private ActRuEventSubScrMapper actRuEventSubScrMapper;
 	@Autowired
@@ -113,11 +109,11 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			plan.setEstPartTime(vo.getEstPartTime());
 			if (vo.getPkid() != null) {
 				plan.setPkid(vo.getPkid());
-				toTransPlanService.updateByPrimaryKeySelective(plan);
+				transplanServiceFacade.updateByPrimaryKeySelective(plan);
 			} else {
 				plan.setCaseCode(vo.getCaseCode());
 				plan.setPartCode("LoanRelease");
-				toTransPlanService.insertSelective(plan);
+				transplanServiceFacade.insertSelective(plan);
 			}
 		}
 
@@ -159,7 +155,10 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		editRestVariables(variables, vo.getMortageService());
 
 		boolean b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
-		
+		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
+		if(workF!=null){
+			vo.setProcessDefinitionId(workF.getProcessDefinitionId());
+		}
 		loanRequirementChange(vo);
 
 		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
@@ -173,12 +172,13 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 
 	@Override
 	public void loanRequirementChange(MortgageSelecteVo vo) {
-		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
+		
 		// 如果是新流程图
 		boolean isNewFlow = false;
-		if(workF!=null &&"operation_process:40:645454".compareTo(workF.getProcessDefinitionId())<=0){
+		if(vo.getProcessDefinitionId()!=null &&"operation_process:40:645454".compareTo(vo.getProcessDefinitionId())<=0){
 			isNewFlow=true;
 		}
+
 		if(isNewFlow) {
 			ActRuEventSubScr event = new ActRuEventSubScr();
 			event.setEventType(MessageEnum.START_MORTGAGE_SELECT_MSG.getEventType());
@@ -186,7 +186,13 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			event.setProcInstId(vo.getProcessInstanceId());
 			event.setActivityId(EventTypeEnum.TRADEBOUNDARYMSG.getName());
 			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
-			if (CollectionUtils.isEmpty(subScrsList)) {
+			
+			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
+			event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
+			event.setProcInstId(vo.getProcessInstanceId());
+			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+			List<ActRuEventSubScr> mortSubScrsList= actRuEventSubScrMapper.listBySelective(event);
+			if (CollectionUtils.isEmpty(subScrsList)&&CollectionUtils.isEmpty(mortSubScrsList)) {
 				throw new BusinessException("当前流程下不允许变更贷款需求！");
 			}
 			String mortType = vo.getMortageService();
@@ -220,8 +226,11 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				wf.setBusinessKey(WorkFlowEnum.PSFLOAN_PROCESS.getName());
 				processDfId=propertyUtilsService.getProcessDfId("PSFLoan_Process");
 			} else {
+				
 				wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
 				processDfId=propertyUtilsService.getProcessDfId("LoanLost_Process");
+/*				wf.setBusinessKey(WorkFlowEnum.NEWLOANLOST_PROCESS.getName());
+				processDfId=propertyUtilsService.getProcessDfId("NewLoanLost_Process");*/
 			}
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 			if(wordkFlowDB == null) {
@@ -243,6 +252,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				
 				ToWorkFlow workFlow = new ToWorkFlow();
 				workFlow.setCaseCode(vo.getCaseCode());
+				workFlow.setBizCode(vo.getCaseCode());
 				workFlow.setBusinessKey(wf.getBusinessKey());
 				workFlow.setInstCode(p.getId());
 				workFlow.setProcessDefinitionId(processDfId);
@@ -252,20 +262,12 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			
 			
 		} else {
-			TaskHistoricQuery query =new TaskHistoricQuery();
-			query.setFinished(true);
-			query.setTaskDefinitionKey(ToAttachmentEnum.MORTGAGESELECT.getCode());
-			query.setProcessInstanceId(vo.getProcessInstanceId());
-			PageableVo pageableVo=workFlowManager.listHistTasks(query);
-			if(pageableVo.getData()==null||pageableVo.getData().isEmpty()){
-				throw new BusinessException("请先处理贷款需求选择任务！");
-			}
+
 			ActRuEventSubScr subScr = getHightPriorityExecution(vo.getProcessInstanceId());
 			if (subScr == null) {
 				throw new BusinessException("当前流程下不允许变更贷款需求！");
 			}
 			doBusiness(vo);
-
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			editRestVariables(variables, vo.getMortageService());
 			ExecuteAction action = new ExecuteAction();
@@ -317,16 +319,16 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			ToTransPlan queryPlan = new ToTransPlan();
 			queryPlan.setCaseCode(vo.getCaseCode());
 			queryPlan.setPartCode("LoanRelease");
-			queryPlan = toTransPlanService.findTransPlan(queryPlan);
+			queryPlan = transplanServiceFacade.findTransPlan(queryPlan);
 			ToTransPlan plan = new ToTransPlan();
 			plan.setEstPartTime(vo.getEstPartTime());
 			if (queryPlan != null) {
 				plan.setPkid(queryPlan.getPkid());
-				toTransPlanService.updateByPrimaryKeySelective(plan);
+				transplanServiceFacade.updateByPrimaryKeySelective(plan);
 			} else {
 				plan.setCaseCode(vo.getCaseCode());
 				plan.setPartCode("LoanRelease");
-				toTransPlanService.insertSelective(plan);
+				transplanServiceFacade.insertSelective(plan);
 			}
 		}
 

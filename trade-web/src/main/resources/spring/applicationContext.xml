@@ -19,7 +19,7 @@
 	<import resource="integrationContext.xml"/>
 	<import resource="applicationService.xml"/>
 	<import resource="applicationCache.xml"/>
-	
+	<import resource="spring-mvc.xml"/>
 
 	<!-- BEGIN 配置_Druid和Spring关联监控配置 -->
 	<bean id="druidStatInterceptor"
@@ -35,7 +35,6 @@
             <list>
                 <!-- 在web环境中一定要定位到classpath 否则默认到当前web应用下找 --> 
                 <value>classpath:properties/exception</value>
-                <!-- <value>classpath:ValidationMessages</value> -->
             </list>
         </property>
         <property name="useCodeAsDefaultMessage" value="false"/>

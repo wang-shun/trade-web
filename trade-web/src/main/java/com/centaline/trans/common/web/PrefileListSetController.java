@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.centaline.trans.common.entity.ToAccesoryList;
-import com.centaline.trans.common.service.ToAccesoryListService;
+import com.centaline.trans.attachment.entity.ToAccesoryList;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.common.vo.AccsoryListVO;
 
 @Controller

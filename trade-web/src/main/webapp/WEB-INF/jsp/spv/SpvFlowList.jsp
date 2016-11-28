@@ -103,7 +103,8 @@
 						<button type="button" id="btn_searchFrom" class="btn btn-success mr15">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
-						<button type="button" onclick="clearForm()" class="btn btn-default mr15 btn-padding">清空</button>
+						<input type="reset" class="btn btn-default mr15 btn-padding" id="CleanButton"
+							value="清空">
 					</div>
                         </div>
 
@@ -197,9 +198,9 @@
                                                 {{item.applyAuditorName}}
                                                 {{if item.USAGE=="in" && item.STATUS=="02" &&item.ftPostAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
 											    {{if item.USAGE=="out" && item.STATUS=="12" &&item.ftPreAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
-												{{if item.USAGE=="out" && item.STATUS=="13" &&item.ftPostAuditorName=="" }}&gt;{{wrapperData.cw}}{{/if}}
                                                 {{if item.ftPreAuditorName!=""}}&gt;{{/if}}
 												{{item.ftPreAuditorName}}
+                                                {{if item.USAGE=="out" && item.STATUS=="13" &&item.ftPostAuditorName=="" }}&gt;<span name="postAuditor">{{item.ftPreAuditorName}}</span>{{/if}}
 											    {{if item.ftPostAuditorName!=""}}&gt;{{/if}}
 											    {{item.ftPostAuditorName}}
                                             </p>
@@ -212,8 +213,35 @@
 						jQuery(document).ready(function() {
 							initCW()
 							//查询
-							initFlowListData();							
+							initFlowListData();		
+							getPostAuditor();
 						});
+						function getPostAuditor(){
+							var postAuditor=$("span[name='postAuditor']");
+							console.info("=======")
+							var cw=$("#CW").val().split("/");
+							$.each(postAuditor,function(i,item){
+								var itemName=item.innerText;
+								 var len=cw.length;
+								 var str=""
+								for (var i = 0; i < cw.length; i++) {
+										if(itemName==cw[i]){
+											continue;
+										}
+										if(i==(len-1)){
+											 str+=cw[i];
+											 continue;
+										 }
+										if(itemName==cw[i+1]){
+											str+=cw[i];
+											continue;
+										}
+										str+=cw[i]+"/"; 
+								}
+								 item.innerText=str;
+							});
+							
+						}
 						function initCW(){
 							$.ajax({
 								async: false,

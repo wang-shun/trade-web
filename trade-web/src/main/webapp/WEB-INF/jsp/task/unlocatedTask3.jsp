@@ -481,9 +481,9 @@ function doGroupClaim(taskId){
 				reloadGrid(1);
 			}else{
 				alert('分配失败！');
+				reloadGrid(1);
 			}
 			//taskDelGrid.trigger('reloadGrid');
-			reloadGrid(1);
 		}
 	});
 }			

@@ -49,10 +49,10 @@
 					T.PROPERTY_ADDR,
 					T.MORT_TYPE_OLD,
 					T.FIN_ORG_NAME,
-					T.FIN_ORG_NAME_YC,--支行名称
-					T.FA_FIN_ORG_CODE,--分行code
-					T.FIN_ORG_CODE,--支行code
-					T.FENHANG,--分行名称
+					T.FIN_ORG_NAME_YC,
+					T.FA_FIN_ORG_CODE,
+					T.FIN_ORG_CODE,
+					T.FENHANG,
 					T.CUST_NAME,
 					T.MORT_TOTAL_AMOUNT,
 					T.COM_AMOUNT,
@@ -77,7 +77,7 @@
 					T.IS_EVAL,
 					T.DUE_EVAL_FEE,
 					T.CREATE_TIME,
-					T.CASETRANSFERDATE  --过户申请时间
+					T.CASETRANSFERDATE
 			FROM				
 				(select 
 					c.pkid,
@@ -90,15 +90,15 @@
 					(select TOP 1 FIN_ORG_NAME_YC from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in (	select distinct FA_FIN_ORG_CODE  from sctrans.T_TS_FIN_ORG 	where FIN_ORG_CODE in(select FIN_ORG_CODE 	from sctrans.T_TS_SUP ts where ts.SUP_CAT='0' and ts.FIN_ORG_CODE=m.FIN_ORG_CODE)))  FENHANG,
 					m.FIN_ORG_CODE,					
 					m.cust_name,
-					ISNULL(m.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,--总金额
+					ISNULL(m.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,
 					ISNULL(m.COM_AMOUNT,0)/10000 COM_AMOUNT,
 					ISNULL(m.PRF_AMOUNT,0)/10000 PRF_AMOUNT,
 					m.IS_DELEGATE_YUCUI,
 					m.SIGN_DATE,
 					m.LEND_DATE,
-					m.APPR_DATE,--批贷时间	
-					m.LOAN_AGENT,--贷款专员id
-					m.LOAN_AGENT_TEAM,----贷款专员组织id			
+					m.APPR_DATE,	
+					m.LOAN_AGENT,
+					m.LOAN_AGENT_TEAM,		
 					(SELECT top 1 uj.real_name from SCTRANS.V_USER_ORG_JOB uj   where  uj.USER_ID=M.LOAN_AGENT)	REAL_NAME,
 					(SELECT top 1 uu.org_name from SCTRANS.V_USER_ORG_JOB  uu  where  uu.ORG_ID=M.LOAN_AGENT_TEAM)	ORG_NAME,
 					(select top 1 org2.ORG_NAME orgName1	

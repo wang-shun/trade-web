@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.transplan.repository.TsTaskPlanSetMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="PLAN_DAYS" property="planDays" jdbcType="INTEGER" />
+    <result column="IS_MANUAL_SET" property="isManualSet" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PART_CODE, PLAN_DAYS, IS_MANUAL_SET, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TASK_PLAN_SET
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_TASK_PLAN_SET
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
+    insert into sctrans.T_TS_TASK_PLAN_SET (PKID, PART_CODE, PLAN_DAYS, 
+      IS_MANUAL_SET, CREATE_TIME)
+    values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{planDays,jdbcType=INTEGER}, 
+      #{isManualSet,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
+    insert into sctrans.T_TS_TASK_PLAN_SET
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="partCode != null" >
+        PART_CODE,
+      </if>
+      <if test="planDays != null" >
+        PLAN_DAYS,
+      </if>
+      <if test="isManualSet != null" >
+        IS_MANUAL_SET,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="partCode != null" >
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="planDays != null" >
+        #{planDays,jdbcType=INTEGER},
+      </if>
+      <if test="isManualSet != null" >
+        #{isManualSet,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
+    update sctrans.T_TS_TASK_PLAN_SET
+    <set >
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="planDays != null" >
+        PLAN_DAYS = #{planDays,jdbcType=INTEGER},
+      </if>
+      <if test="isManualSet != null" >
+        IS_MANUAL_SET = #{isManualSet,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
+    update sctrans.T_TS_TASK_PLAN_SET
+    set PART_CODE = #{partCode,jdbcType=VARCHAR},
+      PLAN_DAYS = #{planDays,jdbcType=INTEGER},
+      IS_MANUAL_SET = #{isManualSet,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+    <select id="getTsTaskPlanSetCount" resultType="java.lang.Integer" parameterType="com.centaline.trans.transplan.entity.TsTaskPlanSet" >
+    select 
+      count(1)
+    from sctrans.T_TS_TASK_PLAN_SET
+    <where>
+	    <if test="partCode != null" >
+        	PART_CODE = #{partCode,jdbcType=VARCHAR}
+     	</if>
+	</where>
+	</select>
+	<select id="getAutoTsTaskPlanSetByPartCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TASK_PLAN_SET
+    where IS_MANUAL_SET='0' and part_code=#{partCode,jdbcType=VARCHAR}
+  </select>
+  <select id="getTsTaskPlanSetByPartCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TASK_PLAN_SET
+    where part_code=#{partCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

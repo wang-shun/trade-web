@@ -12,7 +12,12 @@
 		<pattern>/index.jsp</pattern>
 		<pattern>/weixin/case/*</pattern>
 		<pattern>/mobile/dashboard/box/*</pattern>
+		<pattern>/mobile/property/box/*</pattern>
 		<pattern>/weixin/signroom/*</pattern>
+		<pattern>/weixin/property/toApply</pattern>
+		<pattern>/weixin/property/addressList</pattern>
+		<pattern>/weixin/property/toResult</pattern>
+		<pattern>/weixin/taxation/*</pattern>
 		<pattern>/weixinAuth/*</pattern>
 	</excludes>
 
@@ -51,6 +56,7 @@
 		<pattern>/spv/task/SpvSign/process</pattern>	
 		<pattern>/spv/cashflowApply/saveHTML</pattern>	
 		<pattern>/spv/task/cashFlowOutAppr/process</pattern>
+		<pattern>/spv/task/spvCloseApply/process</pattern>
 		<pattern>/spv/task/cashflowIntApply/spvRecordShow</pattern>	
 		<pattern>/spv/task/cashflowIntApply/spvRecordedApp</pattern>	
 		<pattern>/spv/task/cashflowIntApply/spvRecorded</pattern>
@@ -72,9 +78,11 @@
 		<pattern>/eloan/task/newEloanApply/process</pattern>
 		<pattern>/signroom/signRoomAllotList</pattern>
 		<pattern>/signroom/signingManage</pattern>
-		<pattern>/report/dealChangeCaseList</pattern>
+		<pattern>/transplan/dealChangeCaseList</pattern>
 		<pattern>/eloan/EloanRelCashList</pattern>
 		<pattern>/signroom/signscheduling</pattern>
+		<pattern>/report/caseLossRateList</pattern>
+		<pattern>/report/caseLossRateReasonList</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
@@ -82,9 +90,9 @@
 	<decorator name="mobile"  page="m_INSPINIA_template.jsp" webapp="../mobile/common">
 		<pattern>/weixin/case/*</pattern>
 	</decorator>
-	<decorator name="wechat"  page="w_INSPINIA_template.jsp">
+	<!-- <decorator name="wechat"  page="w_INSPINIA_template.jsp">
 		<pattern>/mobile/property/box/*</pattern>
-	</decorator>
+	</decorator> -->
 	<decorator name="weixin"  page="w_INSPINIA_template.jsp">
 		<pattern>/weixin/*</pattern>
 	</decorator>

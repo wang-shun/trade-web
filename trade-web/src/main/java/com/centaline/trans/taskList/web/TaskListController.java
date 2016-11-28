@@ -1,22 +1,14 @@
 package com.centaline.trans.taskList.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 
-import com.aist.uam.auth.remote.vo.SessionUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
-import com.centaline.trans.common.entity.ToAccesoryList;
-import com.centaline.trans.common.entity.ToAttachment;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.engine.service.WorkFlowManager;
 

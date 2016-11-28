@@ -66,7 +66,6 @@ $(function () {
     //清空条件
     $("#clearBtn").click(function(){
     	$('#roomTypeSlot').val("");
-    	$('#useStatus').val("");
     });
 	
 	//保存 临时分配数据
@@ -106,11 +105,8 @@ $(function () {
 		var roomId = $("#roomId").val(); //房间ID
 		var resPersonOrgId = $("#resPersonOrgId").val();//预约人组织ID
 		var startDate = $("#startDate").val();//排期起始时间
-		/*var slotTime = $("#slotTime").html();
-		var curDate = $("#curDate").val();*/
-		
-		/*var startDate = curDate +' '+slotTime.substring(0,slotTime.indexOf('-'));
-		var endDate = curDate +' '+slotTime.substr(slotTime.indexOf('-')+1);*/
+		var resPersonMobile = $.trim($("#mobile").val());//预约人电话
+		var resPersonName = $.trim($("#jjrName").val());//预约人姓名
 	   	$.ajax({
 	     		url:ctx+"/signroom/addReservation",
 	     		method:"post",
@@ -128,8 +124,9 @@ $(function () {
 	     			     roomId : roomId,
 	     			     resStatus : '1',
 	     			     resPersonOrgId : resPersonOrgId,
-	     			     startDate : startDate
-	     			     /*endDate : endDate*/
+	     			     startDate : startDate,
+	     			     resPersonMobile : resPersonMobile,
+	     			     resPersonName : resPersonName
 	     		},	 
 				success : function(data) {   
 						if(data.success){
@@ -191,15 +188,17 @@ function chooseManager(id) {
 
 //选取人员的回调函数
 function signRoomSelectUserBack(array) {
+	console.log(array);
 	if (array && array.length > 0) {
 		$("#jjrName").val(array[0].username);
 		$("#jjrName").attr('hVal', array[0].userId);
 		$("#resPersonOrgId").val(array[0].orgId);//预约人组织ID
-
+		$("#mobile").val(array[0].mobile);
 	} else {
 		$("#jjrName").val("");
 		$("#jjrName").attr('hVal', "");
 		$("#resPersonOrgId").val("");
+		$("#mobile").val("");
 	}
 	
 	var agentCode = $("#jjrName").attr('hVal');
@@ -236,7 +235,6 @@ function signRommAjaxSubmit(obj) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
 		success:function(data){
-			//console.log(data);
 			$.unblockUI();
 			if(data.success){
 				var th='';
@@ -291,10 +289,17 @@ function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterI
 	$("#startDate").val(startDate);
 	$("#jjrName").val("");
 	$("#jjrName").attr('hVal', "");
+	$("#mobile").val("");
 	$("#resPersonOrgId").val("");
 	$("#caseCode").val("");
 	$("#propertyAddress").val("");
 	$('#propertyAddress').autocompleter('destroy');
+	$("#numberOfParticipants").val("");
+	$('.choices span').each(function(){
+		if($(this).hasClass("selected")) {
+			$(this).click();
+        } 
+    });
 	
 	var curdate = $("#curDate").val();
 	$("#signDate").html(curdate.substring(5,7)+'/'+curdate.substr(8));
@@ -303,9 +308,20 @@ function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterI
 
 function checkFormSave(isMeet){
 	
-	if($("#jjrName").val()==''){
+	if($.trim($("#jjrName").val())==''){
 		alert("请选择经纪人！");
 		$("#jjrName").focus();
+		return false;
+	}
+	var mobile = $.trim($("#mobile").val());
+	if(mobile==''){
+		alert("请输入经纪人电话！");
+		$("#mobile").focus();
+		return false;
+	}
+	if(!isMobile(mobile)){
+		alert("请输入正确格式的经纪人电话！");
+		$("#mobile").focus();
 		return false;
 	}
 	if(!isMeet){
@@ -366,6 +382,14 @@ function getPropertyAddress(agentCode){
 			}
 		}
 	});
+}
+//手机号码校验
+function isMobile(number){
+    reg = /^1[3|4|5|7|8]\d{9}$/;
+    if (!reg.test(number)) {
+        return false; 
+    }
+    return true;
 }
 
 

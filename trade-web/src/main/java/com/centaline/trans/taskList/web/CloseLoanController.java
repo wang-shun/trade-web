@@ -27,8 +27,8 @@ import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.loan.entity.ToCloseLoan;
-import com.centaline.trans.loan.service.ToCloseLoanService;
+import com.centaline.trans.eloan.entity.ToCloseLoan;
+import com.centaline.trans.eloan.service.ToCloseLoanService;
 import com.centaline.trans.task.entity.TsMsgSendHistory;
 import com.centaline.trans.task.service.TsMsgSendHistoryService;
 

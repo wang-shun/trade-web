@@ -23,4 +23,11 @@ public interface TradeCenterMapper {
 	 * @return
 	 */
 	TradeCenter getTradeCenter(Map map);
+	
+	/**
+	 * 获取交易中心信息列表集合
+	 * 
+	 * @return 交易中心信息列表
+	 */
+	public List<TradeCenter> getTradeCenterListByDistrictId(Map map);
 }

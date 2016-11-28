@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="ibox-content ibox-space">
-                        <form method="get" class="form_list" id="mortgageForm">
+                        <form class="form_list" id="mortgageForm">
                          	<input type="hidden" id="riskControlId" name="riskControlId" value="${toRcMortgageVO.toRcMortgage.rcId }">
                             <div class="modal_title title-mark">
                                 抵押信息登记
@@ -119,6 +119,15 @@
                                     </label>
                                     <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="${item.mortgageName}">
                                 </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        <font color="red">*</font>保管人
+                                    </label>
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="${item.itemManagerName}" hVal="${item.itemManager}" onclick="chooseItemManager(this)" readonly="readonly" <c:if test="${item.isStorage  == 'Y' }"> disable </c:if>/>
+	                                <div class="input-group float_icon organize_icon managerOnclick">
+									 	<i class="icon iconfont">&#xe627;</i>
+									</div>
+                                </div>
                                 <a href="javascript:void(0)" class="add_space" onclick="getAdd(this)">添加</a>
                                 <c:if test="${status.first==false}"><a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a></c:if>
                                 <c:if test="${item.mortgageCategory=='propertyCard'}">
@@ -133,7 +142,7 @@
                                         <label class="control-label sign_left_small">
                                             产权人姓名
                                         </label>
-                                        <input type="text" placeholder="" class="select_control sign_right_one" id="referName" name="referName" value="${item.referName}">
+                                        <input type="text" placeholder="" class="select_control teamcode" id="referName" name="referName" value="${item.referName}">
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
@@ -153,7 +162,7 @@
                                         <label class="control-label sign_left_small">
                                             他项权利人
                                         </label>
-                                        <input type="text" placeholder="" class="select_control sign_right_one" id="referName" name="referName" value="">
+                                        <input type="text" placeholder="" class="select_control teamcode" id="referName" name="referName" value="">
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
@@ -175,7 +184,7 @@
                                         <label class="control-label sign_left_small">
                                             产权人姓名
                                         </label>
-                                        <input type="text" placeholder="" class="select_control sign_right_one" id="referName" name="referName" value="">
+                                        <input type="text" placeholder="" class="select_control teamcode" id="referName" name="referName" value="">
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
@@ -195,7 +204,7 @@
                                         <label class="control-label sign_left_small">
                                             他项权利人
                                         </label>
-                                        <input type="text" placeholder="" class="select_control sign_right_one" id="referName" name="referName" value="${item.referName}">
+                                        <input type="text" placeholder="" class="select_control teamcode" id="referName" name="referName" value="${item.referName}">
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
@@ -223,6 +232,15 @@
                                     </label>
                                     <input type="text" placeholder="" class="select_control teamcode" id="mortgageName" name="mortgageName" value="">
                                 </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        <font color="red">*</font>保管人
+                                    </label>
+	                                <input id="itemManager" name="itemManager" class="teamcode input_type" value="" hVal="" onclick="chooseItemManager(this)" readonly="readonly"/>
+	                                <div class="input-group float_icon organize_icon managerOnclick">
+									 	<i class="icon iconfont">&#xe627;</i>
+									</div>
+                                </div>
                                 <a href="javascript:void(0)" class="add_space" onclick="getAdd(this)">添加</a>
                                 <div class="entry" style="display:none;">
                                     <div class="form_content">
@@ -235,7 +253,7 @@
                                         <label class="control-label sign_left_small">
                                             产权人姓名
                                         </label>
-                                        <input type="text" placeholder="" class="select_control sign_right_one" id="referName" name="referName" value="">
+                                        <input type="text" placeholder="" class="select_control teamcode" id="referName" name="referName" value="">
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
@@ -255,7 +273,7 @@
                                         <label class="control-label sign_left_small">
                                             他项权利人
                                         </label>
-                                        <input type="text" placeholder="" class="select_control sign_right_one" id="referName" name="referName" value="">
+                                        <input type="text" placeholder="" class="select_control teamcode" id="referName" name="referName" value="">
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">
@@ -267,7 +285,7 @@
                             </div>
                             </c:if>
                             </div>
-                            
+        </form>
         <div class="ibox-title" style="height: auto;">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
@@ -393,7 +411,6 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-                        </form>
                         <div class="status_btn text-center mt15">
                             <button class="btn btn-success btn-space submit_btn">保存</button>
                             <button class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#myModal">关闭</button>
@@ -457,7 +474,8 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
+	<!-- 选择组织控件 --> 
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
@@ -514,6 +532,7 @@
 					 alert("请填写他证编号！");
 					 return false;
 				}
+				var validataItemManager = false;
 				var toRcMortgageInfoList = new Array();
              	$("#mortgageList .line").each(function(i){
              		if($(this).is(":hidden")) { 
@@ -525,15 +544,22 @@
              		var mortgageCategory = $(this).find("#mortgageCategory").val();
              		var mortgageCode = $(this).find("#mortgageCode").val()==undefined?null:$(this).find("#mortgageCode").val();
              		var mortgageName = $(this).find("#mortgageName").val();
+             		var itemManager = $(this).find("#itemManager").attr('hVal');
              		var referName = $(this).find(".entry:visible").find("#referName").val();
              		var referCode = $(this).find(".entry:visible").find("#referCode").val();
              		var referAddreass = $(this).find(".entry:visible").find("#referAddreass").val();
+             		
+             		// 校验保管人必选项
+             		if(itemManager=='') {
+             			validataItemManager = true;
+             		}
              		
              		var toRcMortgageInfo = {
              			pkid : pkid,
              			mortgageCategory : mortgageCategory,
              			mortgageCode : mortgageCode,
              			mortgageName : mortgageName,
+             			itemManager : itemManager,
              			referName : referName,
              			referCode : referCode,
              			referAddreass : referAddreass,
@@ -541,6 +567,12 @@
              		}
              		toRcMortgageInfoList.push(toRcMortgageInfo);
              	})
+             	
+            	if(validataItemManager) {
+             		alert("请选择保管人！");
+					return false;
+             	}
+             	
              	
              	var toRcMortgage = {
              		mortgageContractCode : $('#mortgageContractCode').val(),
@@ -589,15 +621,14 @@
      				},
      				success : function(data) {
      					alert(data.message);
+     	     			// 保存附件相关信息
+     	     			deleteAndModify();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
      					alert("数据保存出错");
      				}
      			});
-             	
-     			// 保存附件相关信息
-     			deleteAndModify();
              });
              
              $(".close_btn").click(function(){
@@ -616,6 +647,32 @@
 		function getDel(k){
 		    $(k).parents('.line').remove();
 		    divIndex--;
+		}
+		//选择组织之后 级联选择主办人信息
+		var o;
+		function chooseItemManager(obj) {
+			o = obj;
+			userSelect({
+				startOrgId : 'ff8080814f459a78014f45a73d820006',
+				expandNodeId : '',
+				nameType : 'long|short',
+				orgType : '',
+				departmentType : '',
+				departmentHeriarchy : '',
+				chkStyle : 'radio',
+				//jobCode : 'consultant',
+				callBack : selectUserBack
+			});
+		}
+		//选取人员的回调函数
+		function selectUserBack(array) {
+			if (array && array.length > 0) {
+				$(o).attr('value',array[0].username);
+				$(o).attr('hVal', array[0].userId);
+			} else {
+				$(o).val("");
+				$(o).attr('hVal', "");
+			}
 		}
     </script>
 </content>

@@ -3,9 +3,7 @@
  */
 
 $(document).ready(function() {
-					// Examle data for jqGrid
-					// Configuration for jqGrid Example 1
-					// /$("#case_date").addClass('btn btn-white chosen-select');
+					
 					var url = "/quickGrid/findPage";
 					var ctx = $("#ctx").val();
 					url = ctx + url;

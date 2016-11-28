@@ -145,4 +145,7 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 
   </select>
+  <select id="getLoanLostTypeValue" parameterType="java.lang.String" resultType="java.lang.String">
+    	select top 1 e.LOAN_LOST_TYPE from sctrans.V_CASE_LIST_EXCEL E where e.CASE_CODE=#{caseCode}
+  </select>
 </mapper>

@@ -11,7 +11,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>强制公正</title>
+<title>强制公证</title>
 
 <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -73,7 +73,7 @@
 					<form method="get" class="form_list">
 						<input type="hidden" id="riskControlId" name="riskControlId"
 							value="${toRcForceRegister.rcId }">
-						<div class="modal_title">强制公正信息登记</div>
+						<div class="modal_title">强制公证信息登记</div>
 						<div class="line">
 							<div class="form_content">
 								<label class="control-label sign_left_small"> <font

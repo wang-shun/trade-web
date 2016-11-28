@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.transplan.repository.TtsTransPlanHistoryBatchMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
+    <result column="OLD_EST_PART_TIME" property="oldEstPartTime" jdbcType="TIMESTAMP" />
+    <result column="NEW_EST_PART_TIME" property="newEstPartTime" jdbcType="TIMESTAMP" />
+    <result column="CHANGE_REASON" property="changeReason" jdbcType="NVARCHAR" />
+    <result column="LAST_VISIT_REMARK" property="lastVisitRemark" jdbcType="CHAR" />
+    <result column="LAST_CONTENT" property="lastContent" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch" >
+    insert into sctrans.T_TS_TRANS_PLAN_HISTORY_BATCH (PKID, CASE_CODE, PART_CODE, 
+      OLD_EST_PART_TIME, NEW_EST_PART_TIME, LAST_VISIT_REMARK, 
+      LAST_CONTENT, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, 
+      #{oldEstPartTime,jdbcType=TIMESTAMP}, #{newEstPartTime,jdbcType=TIMESTAMP}, #{lastVisitRemark,jdbcType=CHAR}, 
+      #{lastContent,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch" useGeneratedKeys="true" keyProperty="pkid">
+    insert into sctrans.T_TS_TRANS_PLAN_HISTORY_BATCH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="partCode != null" >
+        PART_CODE,
+      </if>
+      <if test="oldEstPartTime != null" >
+        OLD_EST_PART_TIME,
+      </if>
+      <if test="newEstPartTime != null" >
+        NEW_EST_PART_TIME,
+      </if>
+      <if test="changeReason != null" >
+        CHANGE_REASON,
+      </if>
+      <if test="lastVisitRemark != null" >
+        LAST_VISIT_REMARK,
+      </if>
+      <if test="lastContent != null" >
+        LAST_CONTENT,
+      </if>
+      <if test="operateFlag != null" >
+        OPERATE_FLAG,
+      </if>
+        CREATE_TIME,
+        CREATE_BY,
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null" >
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="oldEstPartTime != null" >
+        #{oldEstPartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newEstPartTime != null" >
+        #{newEstPartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeReason != null" >
+        #{changeReason,jdbcType=NVARCHAR},
+      </if>
+      <if test="lastVisitRemark != null" >
+        #{lastVisitRemark,jdbcType=CHAR},
+      </if>
+      <if test="lastContent != null" >
+        #{lastContent,jdbcType=VARCHAR},
+      </if>
+      <if test="operateFlag != null" >
+        #{operateFlag,jdbcType=VARCHAR},
+      </if>
+      GETDATE(),@{SESSION_USER_ID},
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateTtsTransPlanHistoryBatchMapper" parameterType="com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch" >
+    update sctrans.T_TS_TRANS_PLAN_HISTORY_BATCH
+    <set >
+     <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="oldEstPartTime != null" >
+        OLD_EST_PART_TIME = #{oldEstPartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newEstPartTime != null" >
+        NEW_EST_PART_TIME = #{newEstPartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastVisitRemark != null" >
+        LAST_VISIT_REMARK = #{lastVisitRemark,jdbcType=CHAR},
+      </if>
+      <if test="lastContent != null" >
+        LAST_CONTENT = #{lastContent,jdbcType=VARCHAR},
+      </if>
+      <if test="operateFlag != null" >
+        OPERATE_FLAG = #{operateFlag,jdbcType=VARCHAR},
+      </if>
+      UPDATE_TIME = GETDATE(),
+      UPDATE_BY = @{SESSION_USER_ID}
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+</mapper>

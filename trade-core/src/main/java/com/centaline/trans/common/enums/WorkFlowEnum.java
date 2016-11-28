@@ -12,6 +12,8 @@ public enum WorkFlowEnum {
 	ELOAN_BUSSKEY("EloanProcess", "businessKey"), 
 	SPV_DEFKEY("SpvProcess", "processDefinitionKey"), 
 	SPV_CASHFLOW_OUT_DEFKEY("SPVCashflowOutProcess","processDefinitionKey"),
+	SPV_CASHFLOW_IN_DEFKEY("SpvCashflowInProcess","processDefinitionKey"),
+	SPV_CLOSE_DEFKEY("SpvCloseApplyProcess","processDefinitionKey"),
 	TMP_BANK_DEFKEY("TempBankAudit_Process","processDefinitionKey"),
 	SPV_OUT("spv_out","businessKey"),
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),

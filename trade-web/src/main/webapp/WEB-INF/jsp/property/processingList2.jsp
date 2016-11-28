@@ -61,6 +61,7 @@
 			<input type="hidden" name="search_prStatus" value="1"/>
 			<input type="hidden" id="prDistrictId" value="${prDistrictId}"/>
 			<input type="hidden" id="prStatus" value="1"/>
+			<input type="hidden" id="caseCode" value=""/>
 			<input type="hidden" name="colomns" value="DIST_CODE,PROPERTY_ADDR,PR_CAT,orgName,applyOrgName,orgMgr,PR_APPLIANT,PR_APPLY_TIME,PR_ACCPET_TIME,PR_STATUS,IS_SUCCESS,UNSUCCESS_REASON">            
             <div class="line">
                 <div class="form_content">

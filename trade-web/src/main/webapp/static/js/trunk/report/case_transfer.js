@@ -4,22 +4,7 @@ $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var arguUserId = null;
-	if (queryOrgFlag == 'true') {
-		arguUserId = null;
-		if (isAdminFlag == 'true') {
-			queryOrgs = null;
-		}
-	} else {
-		queryOrgs = null;
-		arguUserId = "yes";
-	}
-
-	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
-
+	
 	// 过户日期
 	var transferDateBegin = $('#dtBegin_0').val();
 	var transferDateOver = $('#dtEnd_0').val();
@@ -42,27 +27,6 @@ $(document).ready(function() {
 	});
 	reloadGrid(data);
 });
-
-// select控件
-var config = {
-	'.chosen-select' : {},
-	'.chosen-select-deselect' : {
-		allow_single_deselect : true
-	},
-	'.chosen-select-no-single' : {
-		disable_search_threshold : 10
-	},
-	'.chosen-select-no-results' : {
-		no_results_text : 'Oops, nothing found!'
-	},
-	'.chosen-select-width' : {
-		width : "95%"
-	}
-};
-
-for ( var selector in config) {
-	$(selector).chosen(config[selector]);
-};
 
 // 日期控件
 $('#datepicker_0').datepicker({
@@ -101,30 +65,12 @@ function searchMethod(page) {
 
 function reloadGrid(data) {
 
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var arguUserId = null;
-	if (queryOrgFlag == 'true') {
-		arguUserId = null;
-		if (isAdminFlag == 'true') {
-			queryOrgs = null;
-		}
-	} else {
-		queryOrgs = null;
-		arguUserId = "yes";
-	}
-
 	aist.wrap(data);
 
 	var sortcolumn = $('span.active').attr("sortColumn");
 	var sortgz = $('span.active').attr("sord");
 	data.sidx = sortcolumn;
 	data.sord = sortgz;
-
-	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
-	data.argu_idflag = arguUserId;
-	data.argu_queryorgs = orgArray;
 
 	$.ajax({
 		async : true,
@@ -270,12 +216,12 @@ function caseTransferExportToExcel() {
 	displayColomn.push('PRF_AMOUNT');
 	displayColomn.push('ACCOUNT');
 	displayColomn.push('COM_DISCOUNT');
-	displayColomn.push('CASE_CODE');
-	//displayColomn.push('LOANER_NAME');
+	displayColomn.push('CASE_CODE');	
 	displayColomn.push('MORT_TYPE_NAME');
 	displayColomn.push('SPONSOR');
 	displayColomn.push('SDSTATUS');
-	//displayColomn.push('IS_LOANER_ARRIVE');
+	displayColomn.push('loanlost_apply_reason');
+	displayColomn.push('SELF_DEL_REASON');
 	displayColomn.push('EVAL_FEE');
 	
 	displayColomn.push('SELLER');
@@ -292,39 +238,18 @@ function caseTransferExportToExcel() {
 	displayColomn.push('ORG_NAME');
 	displayColomn.push('AR_NAME');
 	displayColomn.push('VORG_NAME');
+	
+	displayColomn.push('ELOAN_PRO_TYPE');
+	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT');
+	displayColomn.push('ELOAN_PRO_TYPE_KA');
+	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT_STRING');
 
-
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var arguUserId = null;
-	if (queryOrgFlag == 'true') {
-		arguUserId = null;
-		if (isAdminFlag == 'true') {
-			queryOrgs = null;
-		}
-	} else {
-		queryOrgs = null;
-		arguUserId = "yes";
-	}
-
-	var orgArray = queryOrgs == null ? '' : queryOrgs.split(",");
-
-	var argu_idflag = '&argu_idflag=' + arguUserId;
-
-	if (arguUserId == null)
-		argu_idflag = '&argu_idflag=';
-	var argu_queryorgs = "&" + jQuery.param({
-		argu_queryorgs : orgArray
-	});
-	if (argu_queryorgs == null)
-		argu_queryorgs = '&argu_queryorgs=';
 	var params = getParamsValue();	
 	var queryId = '&queryId=newQueryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
 
-	url = ctx + url + jQuery.param(params) + queryId + argu_idflag
-			+ argu_queryorgs + colomns;
+	url = ctx + url + jQuery.param(params) + queryId + ""
+			+ "" + colomns;
 
 	$('#excelForm').attr('action', url);
 

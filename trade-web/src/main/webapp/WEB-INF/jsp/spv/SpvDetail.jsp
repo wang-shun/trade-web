@@ -30,7 +30,6 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
 
-
 </head>
 <body>
 
@@ -121,9 +120,9 @@
 											</dl>
 										</div>
 									</div>
-									<div class="col-lg-5 bs-wizard-step 
+									<div class="col-lg-4 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status>=2}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status>=2 && spvBaseInfoVO.toSpv.signTime!=undefined}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
@@ -142,9 +141,9 @@
 											</dl>
 										</div>
 									</div>
-									<div class="col-lg-2 bs-wizard-step 
+									<div class="col-lg-4 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status==3}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status>=3 && spvBaseInfoVO.toSpv.closeTime!=undefined}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
@@ -158,7 +157,14 @@
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
-													<span>结束（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
+											<c:choose>  
+										    <c:when test="${spvBaseInfoVO.toSpv.status==7 && spvBaseInfoVO.toSpv.closeTime!=undefined}"> 
+										     <span>中止（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
+										    </c:when>    
+										    <c:otherwise> 
+										     <span>结束（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
+										    </c:otherwise>  
+										    </c:choose>	
 												</dd>
 											</dl>
 										</div>
@@ -244,7 +250,7 @@
 														<dt>手机号</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].phone }</dd>
 														<dt>证件有效期</dt>
-														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[0].idValiDate }" pattern="yyyy-MM-dd"/></dd>
+														<dd id="idValiDate0"></dd>
 														<dt>委托人</dt>
 														<dd>${spvBaseInfoVO.spvCustList[0].agentName}</dd>
 														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
@@ -275,7 +281,7 @@
 														<dt>手机号</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].phone }</dd>
 														<dt>证件有效期</dt>
-														<dd><fmt:formatDate value="${spvBaseInfoVO.spvCustList[1].idValiDate }" pattern="yyyy-MM-dd"/></dd>
+														<dd id="idValiDate1"></dd>
 													   <dt>委托人</dt>
 														<dd>${spvBaseInfoVO.spvCustList[1].agentName}</dd>
 														<dt><aist:dict id="idType0" name="idType0" clazz="form-control input-one"
@@ -426,7 +432,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank }</dd>
+														<dd id="bank1">${spvBaseInfoVO.toSpvAccountList[1].bank } ${spvBaseInfoVO.toSpvAccountList[1].branchBank }</dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].account }</dd>
 														<dt>电话</dt>
@@ -443,7 +449,7 @@
 														<%-- <dt>归属地</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[1].bank }</dd> --%>
 														<dt>开户行</dt>
-														<dd id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank }</dd>
+														<dd id="bank0">${spvBaseInfoVO.toSpvAccountList[0].bank } ${spvBaseInfoVO.toSpvAccountList[0].branchBank }</dd>
 														<dt>账号</dt>
 														<dd>${spvBaseInfoVO.toSpvAccountList[0].account }</dd>
 														<dt>电话</dt>
@@ -564,8 +570,10 @@
                                                     <a href="javascript:void(0)">${cashFlow.createByName }&nbsp;</a><fmt:formatDate value="${cashFlow.createTime }" pattern="yyyy-MM-dd"/>
                                                 </p>
                                                 <p class="smll_sign">
-                                                    <i class="sign_normal">结束</i>             
-                                                    <a href="javascript:void(0)">${cashFlow.ftPostAuditorName }&nbsp;</a><fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                    <i class="sign_normal">结束</i>  
+                                                    <c:if test="${cashFlow.closeTime!=undefined}">          
+                                                     <a href="javascript:void(0)">${cashFlow.ftPostAuditorName }&nbsp;</a><fmt:formatDate value="${cashFlow.closeTime }" pattern="yyyy-MM-dd"/>
+                                                    </c:if> 
                                                 </p>
                                             </td>
                                             <td>
@@ -574,16 +582,24 @@
                                                 </p> --%>
                                                 <p class="smll_sign">
                                                  	   审核人：<a href="javascript:void(0)">
-                                                    ${ empty cashFlow.applyAuditorName?'':cashFlow.applyAuditorName }
+                                                    ${cashFlow.applyAuditorName }
                                                     <c:if test="${cashFlow.usage eq 'out' }">
-                                                    <c:if test="${cashFlow.ftPreAuditorName.length()>0 }">
-                                                    &gt;
+	                                                    <c:if test="${cashFlow.status ge 12 }">
+	                                                    &gt;${cashFlow.ftPreAuditorName }
+	                                                    </c:if>
                                                     </c:if>
-                                                    ${ empty cashFlow.ftPreAuditorName?'':cashFlow.ftPreAuditorName }
+                                                    
+                                                    <c:if test="${cashFlow.usage eq 'out'}" >
+	                                                    <c:if test="${cashFlow.status ge 13 }">
+	                                                    &gt;${cashFlow.ftPostAuditorName }
+	                                                    </c:if>
                                                     </c:if>
+                                                    
+                                                    <c:if test="${cashFlow.usage eq 'in'}" >
                                                     <c:if test="${cashFlow.ftPostAuditorName.length()>0 }">
                                                     &gt;
-                                                    ${ empty cashFlow.ftPostAuditorName?'':cashFlow.ftPostAuditorName }
+                                                    ${cashFlow.ftPostAuditorName }
+                                                    </c:if>
                                                     </c:if>
                                                     </a>
                                                 </p>
@@ -622,6 +638,10 @@
 	<content tag="local_script"> <script
 		src="${ctx}/js/inspinia.js"></script> <script
 		src="${ctx}/js/plugins/pace/pace.min.js"></script> <script>
+		var idValiDate0 = "<fmt:formatDate value='${spvBaseInfoVO.spvCustList[0].idValiDate }' pattern='yyyy-MM-dd'/>";
+		$("#idValiDate0").text(idValiDate0 == "3000-01-01"?"长期有效":idValiDate0);
+		var idValiDate1 = "<fmt:formatDate value='${spvBaseInfoVO.spvCustList[1].idValiDate }' pattern='yyyy-MM-dd'/>";
+		$("#idValiDate1").text(idValiDate1 == "3000-01-01"?"长期有效":idValiDate1);
 			//点击浏览器任何位置隐藏提示信息
 			$("body").bind("click", function(evt) {
 				if ($(evt.target).attr("data-toggle") != 'popover') {

@@ -32,6 +32,7 @@ function getExplPicByhouseCode() {
 				trStr += "</a>";
 			});
 			$("#imgShow").append(trStr);
+			$('.wrapper-content').viewer();
 		},
 		error : function(errors) {
 			alert("产调加载失败");

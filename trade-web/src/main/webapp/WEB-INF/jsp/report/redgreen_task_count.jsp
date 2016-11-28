@@ -1,22 +1,12 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
-
-
 <html>
-
 <head>
-
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
-<!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet"> 
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
@@ -121,9 +111,7 @@ text-decoration: underline !important;
                                      <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
                                       <div class="col-lg-9 col-md-9">
                                           <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
-                                          
                                           onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";
-                                          
                                           >
                                           <input type="hidden" id="h_proOrgId" >
                                       </div>
@@ -138,14 +126,10 @@ text-decoration: underline !important;
                                    </div>
                                </div>
                         </div>
-						
-						
-						
 						<div class="row m-t-sm">
 							<div class="col-md-6"  style="text-align:right;">
 							</div>
 						</div>
-						
 						 <div class="row">
 						<div class="col-md-6"></div>
 						  <div class="col-md-3">
@@ -160,11 +144,9 @@ text-decoration: underline !important;
 						</div>
 					</form>
 				</div>
-				
 			</div>
 		</div>
 			<div class="data-wrap">
-		
 			<div class="panel " id="serviceFlow">
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
@@ -172,15 +154,10 @@ text-decoration: underline !important;
 							</li>
 						    <li class="" id="zbli"><a id="setZb"  href="#setZbList" data-toggle="tab">组别汇总</a>
 							</li>
-							
 						</ul>
-							
 							<div class="tab-pane active fade in" id="setGbList">
 								<div class="jqGrid_wrapper row">
-
-									
 									<!-- 按贵宾服务部汇总 st    -->
-									
 									<div class="data-wrap-in">
 										<table border="1" cellpadding="0" cellspacing="0">
 											<thead>
@@ -194,9 +171,7 @@ text-decoration: underline !important;
 												</tr>
 											</thead>
 											<tbody id="redgreenTaskListGb">
-												
 											</tbody>
-											
 										</table>
 									</div>
 									 <div class="text-center" id="guibinPager">
@@ -206,16 +181,9 @@ text-decoration: underline !important;
 								    </div>
 								</div>
 							</div>
-							
-							<!-- 
-   					   </div> -->
-			  
-							
 							<div class="tab-pane active fade in" id="setZbList" style="display: none" >
 								<div class="jqGrid_wrapper row">
-
 									<!-- 按组别汇总 st    -->
-									
 									<div class="data-wrap-in" style="display: block" id="ZbList">
 										<table border="1" cellpadding="0" cellspacing="0" >
 											<thead>
@@ -232,7 +200,6 @@ text-decoration: underline !important;
 											</thead>
 											<tbody id="redgreenTaskList">
 											</tbody>
-											
 										</table>
 									<!-- 按贵宾服务部汇总 end    -->
 									</div>
@@ -249,32 +216,27 @@ text-decoration: underline !important;
 	</div>
 		</div>
 	</div>
-	<input type="hidden" id="ctx" value="${ctx}" />
-	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
-	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
-	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
-	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
-	<content tag="local_script"> 
-    <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
-    <script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
-	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
-	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	 <script src="${ctx}/js/trunk/report/redgreen_task_count.js?v=1.1"></script>
-	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
-	  <!-- 分页控件  -->
-     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	 
-     
-    
-	
-	<script id="template_redgreenTaskListGb" type= "text/html">
+<input type="hidden" id="ctx" value="${ctx}" />
+<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
+<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
+<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
+<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
+<content tag="local_script"> 
+<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
+<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+<script src="${ctx}/js/jquery.blockui.min.js"></script>
+<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+<script src="${ctx}/js/trunk/report/redgreen_task_count.js?v=1.1"></script>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+<script id="template_redgreenTaskListGb" type= "text/html">
       {{each rows as item index}}
   				   {{if index%2 == 0}}
  				      <tr class="tr-1">
@@ -295,8 +257,8 @@ text-decoration: underline !important;
 
 				  </tr>
        {{/each}}
-     </script>
-	<script id="template_redgreenTaskList" type= "text/html">
+</script>
+<script id="template_redgreenTaskList" type= "text/html">
       {{each rows as item index}}
   				   {{if index%2 == 0}}
  				      <tr class="tr-1">
@@ -316,9 +278,7 @@ text-decoration: underline !important;
 						
 				  </tr>
        {{/each}}
-     </script>
-								
-
-	 </content>
+</script>
+</content>
 </body>
 </html>

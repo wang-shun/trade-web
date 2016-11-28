@@ -24,6 +24,9 @@
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
     <result column="SERVICE_SPECIALIST" property="serviceSpecialist" jdbcType="VARCHAR" />
+    <result column="RES_PERSON_MOBILE" property="resPersonMobile" jdbcType="VARCHAR" />
+    <result column="RES_PERSON_NAME" property="resPersonName" jdbcType="VARCHAR" />
+    
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -97,6 +100,12 @@
       <if test="serviceSpecialist != null" >
         SERVICE_SPECIALIST,
       </if>
+      <if test="resPersonMobile != null" >
+        RES_PERSON_MOBILE,
+      </if>
+      <if test="resPersonName != null" >
+        RES_PERSON_NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="resNo != null" >
@@ -161,6 +170,12 @@
       </if>
       <if test="serviceSpecialist != null" >
         #{serviceSpecialist,jdbcType=VARCHAR},
+      </if>
+      <if test="resPersonMobile != null" >
+        #{resPersonMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="resPersonName != null" >
+        #{resPersonName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

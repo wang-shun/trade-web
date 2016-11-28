@@ -39,7 +39,6 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.entity.ToWorkFlow;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.TransPositionEnum;
@@ -47,15 +46,16 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.OrgService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
-import com.centaline.trans.common.service.ToWorkFlowService;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
 import com.centaline.trans.eloan.vo.ToEloanRelListVO;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
-import com.centaline.trans.loan.entity.LoanAgent;
-import com.centaline.trans.loan.service.LoanAgentService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.eloan.entity.LoanAgent;
+import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -828,8 +828,9 @@ public class WarnListController {
 			if(eloanCase!=null){
 				ToWorkFlow record=new ToWorkFlow();
 				record.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
-				record.setCaseCode(eloanCase.getCaseCode());
-			    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+/*				record.setCaseCode(eloanCase.getCaseCode());*/
+				record.setBizCode(eloanCase.getEloanCode());
+			    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByBizCodeBusKey(record);
 				if(workFlow!=null){
 				workFlow.setStatus("4");
 			    flowService.updateByPrimaryKey(workFlow);

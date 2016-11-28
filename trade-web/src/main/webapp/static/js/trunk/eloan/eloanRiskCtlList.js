@@ -10,7 +10,8 @@ var userId = $("#userId").val();
 $(document).ready(function() {
 	
     $('#searchBtn').click(function(){
-		reloadGrid();
+    	var sPage = 1;
+		reloadGrid(sPage);
 	});
     
     $('#exportBtn').click(function(){
@@ -32,14 +33,17 @@ $(document).ready(function() {
     });
 	
 	$('#riskCtlList table').addClass("table table_blue table-striped table-bordered table-hover");
-	
-	reloadGrid();
+
+	var sPage = 1;
+	reloadGrid(sPage);
 
 });
 
-function reloadGrid(){
-	
+function reloadGrid(page){
+
 	var data = getParams();
+	data.page = page;
+	data.rows = 12;
 	
 	$("#riskCtlList").reloadGrid({
     	ctx : ctx,
@@ -48,6 +52,8 @@ function reloadGrid(){
 	    data : data,
 	    wrapperData : data
     });
+	
+	// initpage(data.total, data.pagesize, data.page, data.records);
 	
 	//setStyle();
 }
@@ -73,6 +79,40 @@ function getParams() {
 	
 	return data;
 } 
+
+//分页
+function initpage(totalCount, pageSize, currentPage,records) {
+	if (totalCount > 1500) {
+		totalCount = 1500;
+	}
+	var currentTotalstrong = $('#currentTotalPage')
+			.find('strong');
+	if (totalCount < 1 || pageSize < 1
+			|| currentPage < 1) {
+		$(currentTotalstrong).empty();
+		$('#totalP').text(0);
+		$("#pageBar").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(
+			currentPage + '/' + totalCount);
+	$('#totalP').text(records);
+
+	$("#pageBar").twbsPagination({
+		totalPages : totalCount,
+		visiblePages : 9,
+		startPage : currentPage,
+		first : '<i class="fa fa-step-backward"></i>',
+		prev : '<i class="fa fa-chevron-left"></i>',
+		next : '<i class="fa fa-chevron-right"></i>',
+		last : '<i class="fa fa-step-forward"></i>',
+		showGoto : true,
+		onPageClick : function(event, page) {
+			reloadGrid(page);
+		}
+	});
+}
 
 function chooseDist(id) {
 	

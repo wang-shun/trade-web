@@ -1,5 +1,7 @@
 package com.centaline.trans.spv.service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.centaline.trans.spv.vo.SpvChargeInfoVO;
@@ -28,42 +30,32 @@ public interface CashFlowOutService {
 	/** 
 	 *  出款总监审批页面
 	 */
-	void cashFlowOutDirectorAduitProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
+	void cashFlowOutDirectorAuditProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/** 
 	 *  出款总监审批操作
 	 */
-	void cashFlowOutDirectorAduitDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutDirectorAuditDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
 	
 	/** 
 	 *  出款财务初审页面
 	 */
-	void cashFlowOutFinanceAduitProcess(HttpServletRequest request,String source,String instCode,String taskId, String handle,String businessKey) ;
+	void cashFlowOutFinanceAuditProcess(HttpServletRequest request,String source,String instCode,String taskId, String handle,String businessKey) ;
 	
 	/**
 	 *  出款财务初审操作
 	 */
-	void cashFlowOutFinanceAduitDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutFinanceAuditDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
 	
 	/** 
 	 *  出款财务复审页面
 	 */
-	void cashFlowOutFinanceSecondAduitProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
+	void cashFlowOutFinanceSecondAuditProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
 	
 	/**
 	 *  出款财务复审操作
 	 */
-	void cashFlowOutFinanceSecondAduitDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
-
-	/** 
-	 *  财务出款页面
-	 */
-	//void cashFlowOutDealProcess(HttpServletRequest request,String source,String instCode,String taskId,String handle,String businessKey) ;
-	
-	/**
-	 *  财务出款操作
-	 */
-	//void cashFlowOutDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO, Boolean chargeOutAppr) throws Exception ;
+	void cashFlowOutFinanceSecondAuditDeal(HttpServletRequest request,String instCode,String taskId,String taskitem,String handle,SpvChargeInfoVO spvChargeInfoVO,String businessKey, Boolean chargeOutAppr) throws Exception ;
 
 	/**
 	 *  保存操作
@@ -76,4 +68,7 @@ public interface CashFlowOutService {
 	 * @param spvCode
 	 */
 	void getCashFlowList(HttpServletRequest request,String spvCode);
+
+	Map<String, Object> getCompleteCashFlowInfoBySpvCode(String spvCode);
+
 }

@@ -51,7 +51,7 @@
                      <input type="text" class="form-control" placeholder="" id="caseCode" name="caseCode" style="width:180px;">
                  </div>
                  <div class="form-group form-margin form-space-one">
-                     <label for="" class="lable-one">提交人</label>
+                     <label for="" class="lable-one">申请人</label>
                      <input type="text" class="form-control input-one" placeholder="" id="createBy" name="createBy">
                  </div>
                  <div class="form-group form-margin form-space-one">
@@ -123,7 +123,7 @@
                              </th>
                              <th>案件编号</th>
                              <th>保管物品</th>
-                             <th>提交人</th>
+                             <th>申请人</th>
                              <th>保管人</th>
                              <th>文件位置</th>
                              <th>状态</th>
@@ -256,13 +256,7 @@
          
     </div>
 	<input type="hidden" id="ctx" value="${ctx}" />
-	<input type="hidden" id="signTimeStart" value="${signTimeStart}" />
-	<input type="hidden" id="signTimeEnd" value="${signTimeEnd}" />
-
-	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
-	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
-	<input type="hidden" id="userJobCode" value="${userJobCode}" />
-	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
+	<input type="hidden" id="itemManagerId" value="${itemManagerId}" />
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
   	<form action="${ctx}/material/materialStorgae" accept-charset="utf-8" method="post" id="materialStorgaeForm">
   		<input type="hidden" id="pkids" name="pkids" value="" />  		
@@ -291,7 +285,7 @@
                        <tr class="tr-2">
                    {{/if}}
 						<td> 	
-							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" kkk="{{item.CASE_CODE}}" statusFlag="{{item.ITEM_STATUS}}">						
+							<input type="checkbox" class="i-checks" name="materialCheck" value="{{item.PKIDFORACTION}}" caseFlag="{{item.CASE_CODE}}" statusFlag="{{item.ITEM_STATUS}}"  createFlag="{{item.CREATE_BY_REAL_NAME}}">						
 						
 						</td>
 						<td><p class="big"><a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" target="_blank"  class="caseCodeForshow">{{item.CASE_CODE}}</a></p>

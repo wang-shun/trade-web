@@ -30,6 +30,14 @@ $(document).ready(function() {
 					});
 				});
 
+jQuery.fn.changeSelect = function(params){							 	
+	if(this.hasClass("selected")) {
+		this.removeClass("selected");
+	} else {
+		this.addClass("selected");
+	}
+};
+
 // select控件
 var config = {
 	'.chosen-select' : {},
@@ -67,7 +75,7 @@ $('#searchButton').click(function() {
 // 添加日期查询条件
 var divIndex = 1;
 var count = $('#case_date_0 option:last').index();
-function addDateDiv() {
+function addDateDivTwo() {
 
 	var txt = '<div class="row clearfix add_group"><div id="dateDiv_' + divIndex + '" class="input-group">';
 	txt += '<div class="input-group-btn">';
@@ -86,6 +94,49 @@ function addDateDiv() {
 	txt += '    <input id="dtEnd_'
 			+ divIndex
 			+ '" name="dtEnd" class="form-control" style="font-size: 13px;border-radius: 0px;" type="text" value="" placeholder="结束日期"/>';
+	txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
+			+ divIndex + ');"><font>删除</font></a></span>';
+	txt += '</div></div></div>';
+	// alert(txt);
+	$(".date-info").after(txt);
+	// 日期控件
+	$('#datepicker_' + divIndex).datepicker({
+		format : 'yyyy-mm-dd',
+		weekStart : 1,
+		autoclose : true,
+		todayBtn : 'linked',
+		language : 'zh-CN'
+	});
+	// 设置初始选中
+	var selIndex = findFirstNoCheckVal();
+	$("#case_date_" + divIndex).get(0).selectedIndex = selIndex;
+	for ( var selector in config) {
+		$(selector).chosen(config[selector]);
+	}
+	;
+
+	divIndex++;
+}
+
+function addDateDiv() {
+
+	var txt = '<div class="row clearfix add_group"><div id="dateDiv_' + divIndex + '" class="input-group">';
+	txt += '<div class="input-group-btn">';
+	txt += '    <select id="case_date_'
+			+ divIndex
+			+ '" class="btn btn-white chosen-select chosen_space" name="case_date" type="select" >';
+	txt += $("#case_date_0").html()
+	txt += '</select></div>';
+	txt += '<div id="datepicker_'
+			+ divIndex
+			+ '" class="input-group input-medium date-picker input-daterange" data-date-format="yyyy-mm-dd">';
+	txt += '    <input id="dtBegin_'
+			+ divIndex
+			+ '" name="dtBegin" class="form-control" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> ';
+	txt += '    <span class="input-group-addon">到</span>';
+	txt += '    <input id="dtEnd_'
+			+ divIndex
+			+ '" name="dtEnd" class="form-control" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期"/>';
 	txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
 			+ divIndex + ');"><font>删除</font></a></span>';
 	txt += '</div></div></div>';

@@ -12,45 +12,34 @@
 
 <html>
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <!-- 上传相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
-	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"	rel="stylesheet">
 <!-- 展示相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
-	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
-	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"	rel="stylesheet">
+<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <!-- 备件相关结束 -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
 <!-- jdGrid相关 -->
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"	rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
 <!-- aist列表样式 -->
 <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
 <!-- 备注信息 -->
-<link href="${ctx}/css/transcss/comment/caseComment.css"
-	rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />	
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -78,7 +67,6 @@
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-
 	<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<div>
 		<div class="row wrapper border-bottom white-bg page-heading">
@@ -105,32 +93,22 @@
 		<div class="ibox-title">
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
-				<form method="post" class="form-horizontal" action=""
-					id="transSignForm">
+				<form method="post" class="form-horizontal" action=""	id="transSignForm">
 					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode"
-						value="${taskitem}">
+					<input type="hidden" id="partCode" name="partCode"	value="${taskitem}">
 					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode"
-						value="${caseCode}">
+					<input type="hidden" id="caseCode" name="caseCode"	value="${caseCode}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId"
-						name="processInstanceId" value="${processInstanceId}">
+					<input type="hidden" id="processInstanceId"		name="processInstanceId" value="${processInstanceId}">
 					<%-- 原有数据对应id --%>
-					<input type="hidden" id="propertyPkid" name="propertyPkid"
-						value="${transSign.propertyPkid}"> <input type="hidden"
-						id="initPayPkid" name="initPayPkid"
-						value="${transSign.initPayPkid}"> <input type="hidden"
-						id="secPayPkid" name="secPayPkid" value="${transSign.secPayPkid}">
-					<input type="hidden" id="lastPayPkid" name="lastPayPkid"
-						value="${transSign.lastPayPkid}"> <input type="hidden"
-						id="compensatePayPkid" name="compensatePayPkid"
-						value="${transSign.compensatePayPkid}"> <input
-						type="hidden" id="signPkid" name="signPkid"
-						value="${transSign.signPkid}"> <input type="hidden"
-						id="housePkid" name="housePkid" value="${houseTransfer.pkid}">
-
+					<input type="hidden" id="propertyPkid" name="propertyPkid"	value="${transSign.propertyPkid}"> 
+					<input type="hidden" id="initPayPkid" name="initPayPkid"	value="${transSign.initPayPkid}"> 
+					<input type="hidden" id="secPayPkid" name="secPayPkid" value="${transSign.secPayPkid}">
+					<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${transSign.lastPayPkid}"> 
+					<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${transSign.compensatePayPkid}"> 
+					<input type="hidden" id="signPkid" name="signPkid"	value="${transSign.signPkid}"> 
+					<input type="hidden" id="housePkid" name="housePkid" value="${houseTransfer.pkid}">
 
 					<div class="row">
 						<div class="col-xs-12 col-md-5">
@@ -607,12 +585,12 @@
                                               {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
 							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
                                               {% } else { %}
- 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
+ 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
   											  {% } %}
 							            {% } %}</div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -649,8 +627,8 @@
 		<div id="smsPlatFrom"></div>
 	</div>
 
-	<content tag="local_script"> <!-- Peity --> <script
-		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+	<content tag="local_script"> <!-- Peity --> 
+	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
 	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <!-- Data picker -->
@@ -658,38 +636,41 @@
 
 	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
-
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
-	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> <!-- 校验 --> <script
-		src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> <script
-		src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+	<!-- 上传附件 结束 -->
+	<!-- 附件保存修改相关 --> 
+	<script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<!-- 校验 --> 
+	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+	<script	src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
 	<script src="${ctx}/js/trunk/task/taskTransSign.validate.js?v=1.1.0"></script>
-	<!-- 弹出框插件 --> <script src="${ctx}/js/plugins/layer/layer.js"></script>
-	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> <script
-		src="${ctx}/transjs/sms/sms.js"></script> <script
-		src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> <script
-		type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script>
+
+	<!-- 弹出框插件 -->
+	<script src="${ctx}/js/plugins/layer/layer.js"></script>
+	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> 
+	<script	src="${ctx}/transjs/sms/sms.js"></script> 
+	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+	<script	type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script> 
+	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+	<script>
 			//判断是否有重复字符
 			function isUniqueChar(value){
 				if(!value){
@@ -974,8 +955,7 @@
 				//保证只有出现一个.而没有多个.
 				obj.value = obj.value.replace(/\.{2,}/g, ".");
 				//保证.只出现一次，而不能出现两次以上
-				obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
-						.replace("$#$", ".");
+				obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
 			}
 
 			function checkNum2(obj) {
@@ -1372,6 +1352,12 @@
 								alert("上下家加载失败！");
 							}
 						});
+			}
+			
+			//渲染图片 <viewer.min.js中调用>
+			function renderImg(){		
+				$('.wrapper-content').viewer('destroy');
+				$('.wrapper-content').viewer({zIndex:15001});
 			}
 		</script> </content>
 </body>

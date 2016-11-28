@@ -15,16 +15,17 @@
     <result column="REFER_NAME" property="referName" jdbcType="VARCHAR" />
     <result column="REFER_USER" property="referUser" jdbcType="VARCHAR" />
     <result column="REFER_ADDREASS" property="referAddreass" jdbcType="VARCHAR" />
+    <result column="ITEM_MANAGER" property="itemManager" jdbcType="VARCHAR" />
     <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, RISK_CONTROL_ID, MORTGAGE_CATEGORY, MORTGAGE_CODE, MORTGAGE_NAME, CREATE_BY, 
-    CREATE_TIME, UPDATE_TIME, UPDATE_BY, REFER_CODE, REFER_NAME, REFER_USER, REFER_ADDREASS, 
+    CREATE_TIME, UPDATE_TIME, UPDATE_BY, REFER_CODE, REFER_NAME, REFER_USER, REFER_ADDREASS, ITEM_MANAGER,
     IS_DELETED
   </sql>
    <sql id="Base_Mortgage_Column_List" >
     mortgageInfo.PKID, mortgageInfo.RISK_CONTROL_ID, mortgageInfo.MORTGAGE_CATEGORY, mortgageInfo.MORTGAGE_CODE, mortgageInfo.MORTGAGE_NAME, mortgageInfo.CREATE_BY, 
-    mortgageInfo.CREATE_TIME, mortgageInfo.UPDATE_TIME, mortgageInfo.UPDATE_BY, mortgageInfo.REFER_CODE, mortgageInfo.REFER_NAME, mortgageInfo.REFER_USER, mortgageInfo.REFER_ADDREASS, 
+    mortgageInfo.CREATE_TIME, mortgageInfo.UPDATE_TIME, mortgageInfo.UPDATE_BY, mortgageInfo.REFER_CODE, mortgageInfo.REFER_NAME, mortgageInfo.REFER_USER, mortgageInfo.REFER_ADDREASS,mortgageInfo.ITEM_MANAGER, 
     mortgageInfo.IS_DELETED
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -68,12 +69,12 @@
       MORTGAGE_CODE, MORTGAGE_NAME, CREATE_BY, 
       CREATE_TIME, UPDATE_TIME, UPDATE_BY, 
       REFER_CODE, REFER_NAME, REFER_USER, 
-      REFER_ADDREASS, IS_DELETED)
+      REFER_ADDREASS, ITEM_MANAGER,IS_DELETED)
     values (#{pkid,jdbcType=BIGINT}, #{riskControlId,jdbcType=BIGINT}, #{mortgageCategory,jdbcType=VARCHAR}, 
       #{mortgageCode,jdbcType=VARCHAR}, #{mortgageName,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
       #{referCode,jdbcType=VARCHAR}, #{referName,jdbcType=VARCHAR}, #{referUser,jdbcType=VARCHAR}, 
-      #{referAddreass,jdbcType=VARCHAR}, #{isDeleted,jdbcType=CHAR})
+      #{referAddreass,jdbcType=VARCHAR},#{itemManager,jdbcType=VARCHAR}, #{isDeleted,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eloan.entity.ToRcMortgageInfo" >
     insert into sctrans.T_TO_RC_MORTGAGE_INFO
@@ -104,6 +105,9 @@
       </if>
       <if test="referAddreass != null" >
         REFER_ADDREASS,
+      </if>
+      <if test="itemManager != null" >
+        ITEM_MANAGER,
       </if>
       <if test="isDeleted != null" >
         IS_DELETED,
@@ -140,6 +144,9 @@
       </if>
       <if test="referAddreass != null" >
         #{referAddreass,jdbcType=VARCHAR},
+      </if>
+       <if test="itemManager != null" >
+        #{itemManager,jdbcType=VARCHAR},
       </if>
       <if test="isDeleted != null" >
         #{isDeleted,jdbcType=CHAR},
@@ -189,6 +196,9 @@
       <if test="referAddreass != null" >
         REFER_ADDREASS = #{referAddreass,jdbcType=VARCHAR},
       </if>
+      <if test="itemManager != null" >
+        ITEM_MANAGER = #{itemManager,jdbcType=VARCHAR},
+      </if>
       <if test="isDeleted != null" >
         IS_DELETED = #{isDeleted,jdbcType=CHAR},
       </if>
@@ -209,6 +219,7 @@
       REFER_NAME = #{referName,jdbcType=VARCHAR},
       REFER_USER = #{referUser,jdbcType=VARCHAR},
       REFER_ADDREASS = #{referAddreass,jdbcType=VARCHAR},
+      ITEM_MANAGER = #{itemManager,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted,jdbcType=CHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>

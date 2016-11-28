@@ -102,7 +102,8 @@
 						<button type="button" id="btn_search" class="btn btn-success mr15">
 							<i class="icon iconfont">&#xe635;</i> 查询
 						</button>
-						<button type="button" onclick="clearForm()" class="btn btn-default mr15 btn-padding">清空</button>
+						<input type="reset" class="btn btn-default mr15 btn-padding" id="CleanButton"
+							value="清空">
 					</div>
                         </div>
 
