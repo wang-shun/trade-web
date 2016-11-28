@@ -116,7 +116,7 @@
                                 	<h3><span style="color: red">今日值班经理：</span>&nbsp;
                             		<c:if test="${!empty tcs}">
                             		<c:forEach items="${tcs }" var="tc">
-                            		   ${tc.officerName }&nbsp;&nbsp;&nbsp;&nbsp;
+                            		   ${tc.officerName }&nbsp;${tc.dutyType==0?'夜班':'白班'}&nbsp;&nbsp;&nbsp;
                             		</c:forEach>
                             		</c:if>
                             		</h3>

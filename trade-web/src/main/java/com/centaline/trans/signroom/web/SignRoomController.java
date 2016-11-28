@@ -2,6 +2,7 @@ package com.centaline.trans.signroom.web;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -62,9 +63,18 @@ public class SignRoomController {
 		model.addAttribute("curDate", sdf.format(cd.getTime()));
 		boolean isCurrenDayDuty = rmSignRoomService.isCurrenDayDuty();//是否当日值班 
 		model.addAttribute("isCurrenDayDuty", isCurrenDayDuty);
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
-		List<TradeCenterSchedule> tcs = rmSignRoomService.queryTradeCenterSchedules(map);//查询当日值班人员
+		
+		SessionUser user= uamSessionService.getSessionUser();
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("districtId", user.getServiceDepId());
+		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters(param);//获取 交易中心信息
+		List<TradeCenterSchedule> tcs = new ArrayList<TradeCenterSchedule>();
+		for(TradeCenter tc:tradeCenters){//查询该贵宾服务部当日值班人员
+			map.put("centerId", tc.getPkid());
+			tcs.addAll(rmSignRoomService.queryTradeCenterSchedules(map));
+		}
 		model.addAttribute("tcs",tcs);
 		return "/signroom/signingallot";
 	}
