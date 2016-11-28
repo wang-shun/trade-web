@@ -1,21 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <link rel="stylesheet" type="text/css" href="css/aui.2.0.css" />
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="iconfont/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/aui.2.0.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/style.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/iconfont/iconfont.css" />
     <!--date css-->
-    <link rel="stylesheet" type="text/css" href="css/mobiscroll.css" />
-    <link rel="stylesheet" type="text/css" href="css/mobiscroll_date.css" />
-    <link rel="stylesheet" type="text/css" href="css/autocompleter.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll_date.css" />
+    
+    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/autocompleter.css" />
 </head>
 <body>
     <header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
-            <span class="aui-iconfont aui-icon-left"></span>
         </a>
         <div class="aui-title">贷款计算</div>
     </header>
@@ -74,7 +76,7 @@
                         公积金贷款
                     </div>
                     <div class="aui-list-item-input unit-seat">
-                        <input type="number" id="accumulationMoney" value="" class="text-right blue" placeholder="请输入金额">
+                        <input type="number" id="accumulationMoney" value="" class="text-right blue" placeholder="请输入金额" onfocus="this.placeholder=''" onblur="this.placeholder='请输入金额'">
                     </div>
                     <div class="aui-unit">
                         万
@@ -143,7 +145,7 @@
                         商业贷款
                     </div>
                     <div class="aui-list-item-input unit-seat">
-                        <input type="number" id="loanMoney" value="" class="text-right blue" placeholder="请输入金额">
+                        <input type="number" id="loanMoney" value="" class="text-right blue" placeholder="请输入金额" onfocus="this.placeholder=''" onblur="this.placeholder='请输入金额'">
                     </div>
                     <div class="aui-unit">
                         万
@@ -214,9 +216,12 @@
         <div class="layui-loanshade">
         <header class="aui-bar aui-bar-nav">
             <a class="aui-pull-left aui-btn close-loan-popup">
-                <span class="aui-iconfont aui-icon-left"></span>
+                <span style="font-size:0.7rem; margin-top:15px;color:#81d8d0">后退</span>
             </a>
             <div class="aui-title">商贷利率</div>
+			<a class="aui-pull-right aui-btn" id="ok">
+            <span style="font-size:0.7rem ;margin-top:15px;color:#81d8d0">确定</span>
+            </a>
         </header>
         <section class="aui-content aui-margin-b-15">
         <ul class="aui-list aui-form-list">
@@ -277,18 +282,18 @@
     </div>
 </body>
 
-<script type="text/javascript" src="script/jquery-2.1.1.js"></script>
-<script type="text/javascript" src="script/api.js"></script>
-<script type="text/javascript" src="script/aui-dialog.js"></script>
-<script type="text/javascript" src="script/aui-main.js"></script>
-<script type="text/javascript" src="script/layer.js"></script>
+<script type="text/javascript" src="${ctx}/static/momedia/js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="${ctx}/static/momedia/js/api.js"></script>
+<script type="text/javascript" src="${ctx}/static/momedia/js/aui-dialog.js"></script>
+<script type="text/javascript" src="${ctx}/static/momedia/js/aui-main.js"></script>
+<script type="text/javascript" src="${ctx}/static/momedia/js/layer.js"></script>
 
 <!--date-->
-<script type="text/javascript" src="script/mobiscroll_date.js"></script>
-<script type="text/javascript" src="script/mobiscroll.js"></script>
+<script type="text/javascript" src="${ctx}/static/momedia/js/plugins/mobiscroll/mobiscroll_date.js"></script>
+<script type="text/javascript" src="${ctx}/static/momedia/js/plugins/mobiscroll/mobiscroll.js"></script>
 
-<script type="text/javascript" src="script/jquery.autocompleter.js"></script>
-<script type="text/javascript" src="script/count-loan.js"></script>
+<script type="text/javascript" src="${ctx}/static/momedia/js/jquery.autocompleter.js"></script>
+<script type="text/javascript" src="${ctx}/static/momedia/js/calculation/count-loan.js"></script>
 
 <script>
 $(function () {
@@ -317,12 +322,12 @@ $(function () {
         $layer.hide();
     })
    computationOf();
-   $("#accumulationMoney").bind("input propertychange", function() { 
+   $("#accumulationMoney").bind("input propertychange", function() {
      computationOf();
-  }); 
-     $("#loanMoney").bind("input propertychange", function() { 
+  });
+     $("#loanMoney").bind("input propertychange", function() {
 	 computationOf();
-   }); 
+   });
 });
 //计算利率
 	function computationRate(zhekou,id){
@@ -346,7 +351,7 @@ $(function () {
 	$(this).removeClass("loan-checked");
 	}
    });
-	 
+
 	}
     	//选择利率
 	function selectMoneyRate(id){
@@ -356,14 +361,21 @@ $(function () {
 	 $(".MoneyRate").val(MoneyRate);
 	 $(".layui-m-layer").show();
 	 $(".MoneyRate").unbind("keyup").keyup(function(event){
-	 var e=event;	
-	 if(e && e.keyCode==13||e.keyCode==66){ 
+	 var e=(event) ? event : ((window.event) ? window.event : "");
+	 var key = e.keyCode?e.keyCode:e.which;
+	 if(e && key==13){
 	    var MoneyRate2=$(".MoneyRate").val();
 		$("#"+id).text(MoneyRate2);
-        $(".layui-m-layer").hide(); 
-		computationOf();
+        $(".layui-m-layer").hide();
+	    computationOf();
       }
 	 });
+	 $("#ok").unbind("click").click(function() {
+	   var MoneyRate2=$(".MoneyRate").val();
+		$("#"+id).text(MoneyRate2);
+        $(".layui-m-layer").hide();
+		computationOf();
+    });
 	$(".manuali").unbind("click").click(function() {
 	$(this).toggleClass('loan-checked').siblings().removeClass('loan-checked');
 		var MoneyRate=$(".loan-checked").text();
@@ -414,12 +426,12 @@ if (!$(".principal").is(":hidden")) {
 	if(isNaN(totalMoney)){
 	totalMoney=0;
 	}
-	$(".payments").text(parseInt(payments));
+	$(".payments").text(payments.toFixed(0));
 	$(".totalMoney").text(totalMoney.toFixed(2));
 	$(".interest").text(Interest.toFixed(2));
 	}else{
 	//首月月供
-	var firstPayments=A*10000/H+A*10000*G+D*10000/J+D*10000*I;  
+	var firstPayments=A*10000/H+A*10000*G+D*10000/J+D*10000*I;
 	//每月递减
 	var monthlyDecline=A*10000*G/H+D*10000*I/J;
 	//总利息
@@ -438,8 +450,8 @@ if (!$(".principal").is(":hidden")) {
 	if(isNaN(totalMoney)){
 	totalMoney=0;
 	}
-	$(".firstPayments").text(parseInt(firstPayments));
-	$(".monthlyDecline").text(parseInt(monthlyDecline));
+	$(".firstPayments").text(firstPayments.toFixed(0));
+	$(".monthlyDecline").text(monthlyDecline.toFixed(0));
 	$(".totalMoney2").text(totalMoney.toFixed(2));
 	$(".interest2").text(Interest.toFixed(2));
   }
