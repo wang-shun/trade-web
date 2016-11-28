@@ -32,6 +32,10 @@
     <bean name="qqcdDict30001" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="30001"></property>
     </bean>
+    <!-- 根据案件状态、IS_RESPONSED、查询 案件状态（已分单、未分单等） -->
+    <bean name="getStatusName" class="com.centaline.trans.common.service.impl.QuickQueryDictGetStatusNameServiceImpl">
+    	<property name="dictType" value="30001"></property>
+    </bean>
     <!-- 根据编号查询 案件性质（在途、爆单等） -->
 	<bean name="qqcdDict30003" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="30003"></property>
