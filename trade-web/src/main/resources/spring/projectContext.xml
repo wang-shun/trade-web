@@ -528,21 +528,19 @@
        	<property name="code" value="eloanKaAoumt"></property>
     </bean>	
     <!-- 根据org_id查询贵宾服务部-->
-
     <bean name="getGbdepartmentByOrgId" class="com.centaline.trans.common.service.impl.QuickQueryGetGbdepartmentServiceImpl"></bean>
     
     <!-- 获取案件总览部分信息 -->
     <bean name="getCaseOverviewInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseOverviewInfoServiceImpl">
     	<property name="dictType_caseProperty" value="30003"></property>
     	<property name="dictType_caseStatus" value="30001"></property>
-    </bean>	  
+    </bean>	 
     
     <!-- 根据案件编号获取上家、下家、经办人信息 -->
     <bean name="quickQuerySellerAndBuyerAndProcessorInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetSellerAndBuyerAndProcessorInfoServiceImpl">
     	<property name="sellerTransPosition" value="30006001"></property>
     	<property name="buyerTransPosition" value="30006002"></property>
-    </bean>
-      	
+    </bean>      	
     
     <!-- 根据caseCode 查询 产证地址 -->
     <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" ></bean>   	
