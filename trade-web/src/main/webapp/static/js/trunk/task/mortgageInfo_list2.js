@@ -91,10 +91,9 @@ $(document).ready(function() {
 
 					})
 
-			setPieCharts();
-
 			$(".charone,.chartwo,.chartthree,.chartfour").hide();
 			$("#mortTypeAnalysis").click(function() {
+				setPieCharts();
 				$(".charone").toggle();
 				$(".chartwo").hide();
 				$(".chartthree").hide();
@@ -109,6 +108,7 @@ $(document).ready(function() {
 			});
 
 			$("#mortOrgAnalysis").click(function() {
+				setPieCharts();
 				$(".chartwo").toggle();
 				$(".charone").hide();
 				$(".chartthree").hide();
@@ -123,6 +123,7 @@ $(document).ready(function() {
 			});
 			
 			$("#mortTmpBankAnalysis").click(function() {
+				setPieCharts();
 				$(".chartthree").toggle();
 				$(".charone").hide();
 				$(".chartwo").hide();
@@ -137,6 +138,7 @@ $(document).ready(function() {
 			});
 			
 			$("#mortEvalFeeAnalysis").click(function() {
+				setPieCharts();
 				$(".chartfour").toggle();
 				$(".charone").hide();
 				$(".chartwo").hide();
@@ -282,7 +284,7 @@ function getMTypeAnalysis() {
 	data.queryId = "queryMortgageTypeAnalysis";
 	data.rows = 10;
 	data.page = 1;
-
+	data.pagination = false;
 	$.ajax({
 				async : false,
 				url : ctx + "/quickGrid/findPage",
@@ -529,7 +531,7 @@ function getMEvalAnalysis() {
 	data.queryId = "queryMortgageEvalFeeAnalysis";
 	data.rows = 10;
 	data.page = 1;
-
+	data.pagination = false;
 	$.ajax({
 				async : false,
 				url : ctx + "/quickGrid/findPage",

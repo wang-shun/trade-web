@@ -28,7 +28,7 @@
 		</formatter>
 	</formatters>	
 	
-	<query id="queryMortgageEvalFeeAnalysis">
+	<query id="queryMortgageEvalFeeAnalysis" cacheResult="true">
 	    <searchCondition>
 		   <!-- <condition field="T.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
            <condition field="T.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
