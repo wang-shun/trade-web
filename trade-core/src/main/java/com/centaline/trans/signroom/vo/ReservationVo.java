@@ -44,6 +44,16 @@ public class ReservationVo {
 
 	private String endResTime; // 预约结束时间
 
+	private Long roomId; // 房间id
+
+	public Long getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(Long roomId) {
+		this.roomId = roomId;
+	}
+
 	public String getRoomNo() {
 		return roomNo;
 	}

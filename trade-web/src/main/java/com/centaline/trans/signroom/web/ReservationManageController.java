@@ -69,11 +69,11 @@ public class ReservationManageController {
 	@ResponseBody
 	public String startUseInAdvance(Model model, HttpServletRequest request) {
 		String resId = request.getParameter("resId");
-		String roomNo = request.getParameter("roomNo");
+		Long roomId = Long.parseLong(request.getParameter("roomId"));
 
 		ReservationVo reservationVo = new ReservationVo();
 		reservationVo.setResId(resId);
-		reservationVo.setRoomNo(roomNo);
+		reservationVo.setRoomId(roomId);
 
 		String result = reservationService.startUseInAdvance(reservationVo);
 
@@ -91,10 +91,10 @@ public class ReservationManageController {
 	@ResponseBody
 	public String isHasFreeRoomByCurrentTimeAndRoomNo(Model model,
 			HttpServletRequest request) {
-		String roomNo = request.getParameter("roomNo");
+		Long roomId = Long.parseLong(request.getParameter("roomId"));
 
 		String result = reservationService
-				.isHasFreeRoomByCurrentTimeAndRoomNo(roomNo);
+				.isHasFreeRoomByCurrentTimeAndRoomNo(roomId);
 
 		return result;
 	}

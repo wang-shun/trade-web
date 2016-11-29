@@ -27,11 +27,11 @@ public interface ReservationService {
 	/**
 	 * 开始使用之前判断当前时间点是否有这个房号的房间
 	 * 
-	 * @param roomNo
-	 *            房间号
+	 * @param roomId
+	 *            房间id
 	 * @return 如果返回true,有空闲房间;返回false,无空闲。
 	 */
-	public String isHasFreeRoomByCurrentTimeAndRoomNo(String roomNo);
+	public String isHasFreeRoomByCurrentTimeAndRoomNo(Long roomId);
 
 	/**
 	 * 保存预约取号信息

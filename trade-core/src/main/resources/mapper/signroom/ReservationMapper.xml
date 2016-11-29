@@ -338,7 +338,7 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
 			(
 			SELECT count(*) FROM sctrans.T_RM_SIGN_ROOM sr1
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON rs1.ROOM_ID = sr1.PKID
-			WHERE sr1.IS_DELETE = 0 and rs1.IS_DELETE = 0 AND rs1.USE_STATUS = 'N' AND sr1.ROOM_TYPE = 0  and sr1.NUMBE_OF_ACCOMMODATE_PEOPLE = sr.NUMBE_OF_ACCOMMODATE_PEOPLE AND rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr1.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+			WHERE sr1.IS_DELETE = 0 and rs1.IS_DELETE = 0 AND rs1.USE_STATUS = 'N' AND sr1.NUMBE_OF_ACCOMMODATE_PEOPLE = sr.NUMBE_OF_ACCOMMODATE_PEOPLE AND rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr1.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
 				and sr1.PKID not in (
 				SELECT DISTINCT rs2.ROOM_ID FROM sctrans.T_RM_RESERVATION r2
 				LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs2 ON r2.SCHEDULE_ID = rs2.PKID
@@ -347,15 +347,10 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
 			) as residualNumber
 			FROM sctrans.T_RM_SIGN_ROOM sr
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
-			WHERE sr.IS_DELETE = 0 AND rs.IS_DELETE = 0 AND sr.ROOM_TYPE = 0 and rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+			WHERE sr.IS_DELETE = 0 AND rs.IS_DELETE = 0 and rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
 	) t
 	WHERE t.residualNumber > 0
   	
-  	
-  	SELECT DISTINCT sr.NUMBE_OF_ACCOMMODATE_PEOPLE as numberOfPeople
-	FROM sctrans.T_RM_SIGN_ROOM sr
-	LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
-	WHERE sr.IS_DELETE = 0 AND rs.IS_DELETE = 0 AND sr.ROOM_TYPE = 0 and rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT};
   </select>
   
   <select id="getRoomPropList" parameterType="com.centaline.trans.signroom.vo.ReservationVo" resultType="com.centaline.trans.signroom.vo.RoomProp">
@@ -375,16 +370,20 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
   
   
   <select id="getSignRoomByRoomAndCurtime" parameterType="com.centaline.trans.signroom.vo.ReservationVo" resultType="com.centaline.trans.signroom.vo.FreeRoomInfo">
-  		SELECT 
-				r.PKID AS roomId,
-				r.ROOM_NO AS roomNo,
-				rs.PKID as scheduleId,
-				rs.START_DATE AS startDate,
-				rs.END_DATE AS endDate
-		FROM sctrans.T_RM_SIGN_ROOM r
-		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON r.PKID = rs.ROOM_ID
-		WHERE r.IS_DELETE = 0 AND rs.IS_DELETE = 0 AND rs.USE_STATUS = 'N' 
-		AND rs.START_DATE = #{beginResTime,jdbcType=VARCHAR} AND rs.END_DATE = #{endResTime,jdbcType=VARCHAR} AND r.ROOM_NO = #{roomNo,jdbcType=VARCHAR}
+  		SELECT  	T.PKID AS scheduleId ,
+			        T.ROOM_ID AS roomId ,
+					T.START_DATE AS startDate,
+					T.END_DATE AS endDate,
+			        T.USE_STATUS  AS useStatus,
+			        R.RES_STATUS AS resStatus,
+					R.CHECK_IN_TIME AS checkInTime,
+					R.CHECKED_OUT_TIME AS checkOutTime,
+					R.CREATE_TIME AS createTime
+			FROM    sctrans.T_RM_ROOM_SCHEDULE T
+			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
+			WHERE   T.IS_DELETE = '0'
+			  AND T.START_DATE = #{beginResTime,jdbcType=VARCHAR} AND T.END_DATE = #{endResTime,jdbcType=VARCHAR}
+			  AND ROOM_ID = #{roomId,jdbcType=BIGINT}
   </select>
   
 </mapper>

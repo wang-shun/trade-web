@@ -481,7 +481,7 @@
 								{{if item.resStatus == '0'}}
 									<shiro:hasPermission name="TRADE.SIGNROOM.SIGN">
                                     	<c:if test="${isCurrenDayDuty == true }">
-                                    	  <li class="liStartUse"><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}','{{item.roomNO}}','{{item.resId}}');">开始使用</a></li>
+                                    	  <li class="liStartUse"><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}','{{item.roomId}}','{{item.resId}}');">开始使用</a></li>
                                     	</c:if>
                                     </shiro:hasPermission>
 

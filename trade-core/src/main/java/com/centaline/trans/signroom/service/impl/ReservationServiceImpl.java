@@ -312,7 +312,7 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationMapper.getReservationById(resId);
 	}
 
-	public FreeRoomInfo getFreeRoomByRoomNoAndCurTime(String roomNo) {
+	public FreeRoomInfo getFreeRoomByRoomNoAndCurTime(Long roomId) {
 		FreeRoomInfo freeRoomInfo = null;
 
 		// 获取当前时间
@@ -330,7 +330,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 			// 设置查询条件
 			ReservationVo reservationVo = new ReservationVo();
-			reservationVo.setRoomNo(roomNo);
+			reservationVo.setRoomId(roomId);
 			reservationVo.setBeginResTime(beginResTime);
 			reservationVo.setEndResTime(endResTime);
 
@@ -343,18 +343,72 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public String isHasFreeRoomByCurrentTimeAndRoomNo(String roomNo) {
+	public String isHasFreeRoomByCurrentTimeAndRoomNo(Long roomId) {
 		String result = "true";
 
 		// 获取当前时间、同一房间号是否有空闲的房间
-		FreeRoomInfo freeRoomInfo = getFreeRoomByRoomNoAndCurTime(roomNo);
+		FreeRoomInfo freeRoomInfo = getFreeRoomByRoomNoAndCurTime(roomId);
+
+		// 判断房间状态是否空置
+		freeRoomInfo = judgeUseStatus(freeRoomInfo);
 
 		// 如果没有房间,则设置result为false,代表无房间
 		if (freeRoomInfo == null) {
 			result = "false";
+		} else {
+			String useStatus = freeRoomInfo.getUseStatus();
+
+			if (!"N".equals(useStatus)) {
+				result = "false";
+			}
 		}
 
 		return result;
+	}
+
+	private FreeRoomInfo judgeUseStatus(FreeRoomInfo freeRoomInfo) {
+		Long startTime = freeRoomInfo.getStartDate().getTime();// 该时间段的开始时间
+		Long createTime = null;
+		if (freeRoomInfo.getCreateTime() != null) {
+			createTime = freeRoomInfo.getCreateTime().getTime();// 真实预约时间
+		}
+		Long curTime = new Date().getTime();// 当前时间
+
+		if (freeRoomInfo.getResStatus() == null) {
+			freeRoomInfo.setUseStatus("N");
+		} else if (freeRoomInfo.getResStatus() != null
+				&& "4".equals(freeRoomInfo.getResStatus().trim())) {// 预约已取消状态为空置
+			freeRoomInfo.setUseStatus("N");
+		} else {
+			if (freeRoomInfo.getCheckInTime() != null) {// 是否已签到
+				if (freeRoomInfo.getCheckOutTime() != null) {// 是否已签退
+					freeRoomInfo.setUseStatus("N");
+
+				} else {
+					freeRoomInfo.setUseStatus("1");// 使用中
+				}
+			} else {// 未签到的话就判断是否已超出时间段开始时间半个小时
+				Long second = null;
+				if (createTime != null && (createTime > startTime)) {
+					second = (curTime - createTime) / 1000 / 60;// 取得两者时间查转成分钟
+					if (second > 30) {// 超过三十分钟的话状态就为空置
+						freeRoomInfo.setUseStatus("N");
+					} else {
+						freeRoomInfo.setUseStatus("0");
+					}
+				} else {
+					second = (curTime - startTime) / 1000 / 60;// 取得两者时间查转成分钟
+					if (second > 30) {// 超过三十分钟的话状态就为空置
+						freeRoomInfo.setUseStatus("N");
+					} else {
+						freeRoomInfo.setUseStatus("0");
+					}
+				}
+
+			}
+		}
+
+		return freeRoomInfo;
 	}
 
 	@Override
@@ -363,14 +417,20 @@ public class ReservationServiceImpl implements ReservationService {
 
 		// 获取当前时间、同一房间号是否有空闲的房间
 		FreeRoomInfo freeRoomInfo = getFreeRoomByRoomNoAndCurTime(reservationVo
-				.getRoomNo());
+				.getRoomId());
+
+		// 判断使用状态
+		freeRoomInfo = judgeUseStatus(freeRoomInfo);
 
 		if (freeRoomInfo != null) {
-			// 根据预约id获取预约信息
-			Reservation oldReservation = reservationMapper
-					.getReservationById(Long.parseLong(reservationVo.getResId()));
+			if ("N".equals(freeRoomInfo.getUseStatus())) {
+				// 根据预约id获取预约信息
+				Reservation oldReservation = reservationMapper
+						.getReservationById(Long.parseLong(reservationVo
+								.getResId()));
 
-			result = temporaryAssignment(freeRoomInfo, oldReservation);
+				result = temporaryAssignment(freeRoomInfo, oldReservation);
+			}
 		}
 
 		return result;
