@@ -56,8 +56,8 @@ ul, li {
 	list-style: none;
 }
 p {
-	font-size: 0.7rem;
-	color: #757575;
+	font-size: 0.7rem!important;
+	color: #808080!important;
 }
 a {
 	color: #0062cc;
@@ -1932,9 +1932,9 @@ input[type="search"]::-webkit-search-cancel-button {
     width: 100%;
     padding: 0;
     margin: 0;
-    height: 1.3rem;
-    min-height: 1.3rem;
-    line-height: 1.3rem;
+    height: 1.4rem;
+    min-height: 1.4rem;
+    line-height: 1.4rem;
     border: 0;
     -webkit-appearance: none;
     font-size: 0.7rem;

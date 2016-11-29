@@ -1,8 +1,12 @@
 package com.centaline.trans.signroom.web;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +22,8 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.signroom.entity.ResFlowup;
 import com.centaline.trans.signroom.entity.Reservation;
+import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.service.ResFlowupService;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
@@ -171,7 +177,18 @@ public class ReservationManageController {
 		request.setAttribute("resStatus", resStatus);
 		request.setAttribute("distinctId", distinctId);
 		request.setAttribute("isCurrenDayDuty", isCurrenDayDuty);
-
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+		SessionUser user= uamSessionService.getSessionUser();
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("districtId", user.getServiceDepId());
+		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters(param);//获取 交易中心信息
+		List<TradeCenterSchedule> tcs = new ArrayList<TradeCenterSchedule>();
+		for(TradeCenter tc:tradeCenters){//查询该贵宾服务部当日值班人员
+			map.put("centerId", tc.getPkid());
+			tcs.addAll(rmSignRoomService.queryTradeCenterSchedules(map));
+		}
+		model.addAttribute("tcs",tcs);
 		return "signroom/signinglist";
 	}
 

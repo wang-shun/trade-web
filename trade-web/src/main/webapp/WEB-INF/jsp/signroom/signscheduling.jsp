@@ -64,12 +64,12 @@
                                     </c:forEach>
                                     </select>
                                     </div>
-                                    <div class="add_btn" style="float:left;margin-left:26px;">
+                                    <!-- <div class="add_btn" style="float:left;margin-left:26px;">
                                         <button type="button" class="btn btn-success" id="searchBtn">
                                             <i class="icon iconfont">&#xe635;</i>
                                             查询
                                         </button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </form>
                         </div>
@@ -240,6 +240,7 @@
 		</script>
         <script>
 	        var ctx = "${ctx}";
+	        var serviceDepId = "${serviceDepId}";
 	  		//初始化日期控件
 	    	var monthSel=new DateSelect($('.month'),{max:new Date(2999,1,1),moveDone:reloadGrid});
             $(document).ready(function () {

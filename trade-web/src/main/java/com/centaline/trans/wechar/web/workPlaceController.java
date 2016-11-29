@@ -11,20 +11,20 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 
 @Controller
-@RequestMapping("/weixin/taxation")
-public class TaxationController {
+@RequestMapping("/weixin/work")
+public class workPlaceController {
 
 	@Autowired
 	private UamSessionService uamSesstionService;
 
-	@RequestMapping("taxationCalculate")
+	@RequestMapping("workPlace")
 	public String toApply(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		SessionUser user = uamSesstionService.getSessionUser();
 		request.setAttribute("user", user);
 
-		return "mobile/taxation/taxationCalculate";
+		return "mobile/searchWorkPlace/workPlace";
 	}
 
 }

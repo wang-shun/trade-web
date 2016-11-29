@@ -2,6 +2,10 @@ $(function(){
 	$("#searchBtn").click(function(){
 		reloadGrid();
 	});
+	
+	$("#centerId").change(function(){
+		reloadGrid();
+	});
 })
 //加载数据
 function reloadGrid(bm) {
@@ -55,6 +59,7 @@ function chooseDutyOfficer(date,type,startOrgId) {
 		changed = true;
 	}
 	userSelect({
+
 		startOrgId : startOrgId,//非营业部
 		expandNodeId : '',
 		nameType : 'long|short',
@@ -126,7 +131,7 @@ function dealDutyOfficerBack(array){
 		          $.unblockUI();   	
 		          if(data.success){
 		        	  alert(data.message);
-		        	  $("#"+dutyDate+dutyType).html("");
+		        	  $("#"+dutyDate+dutyType).html("空置");
 		          }else{
 		        	  alert(data.message);
 		          }
