@@ -528,6 +528,9 @@
        	<property name="code" value="eloanKaAoumt"></property>
     </bean>	
     <!-- 根据org_id查询贵宾服务部-->
-    <bean name="getGbdepartmentByOrgId" class="com.centaline.trans.common.service.impl.QuickQueryGetGbdepartmentServiceImpl"></bean>	    	
+    <bean name="getGbdepartmentByOrgId" class="com.centaline.trans.common.service.impl.QuickQueryGetGbdepartmentServiceImpl"></bean>	 
+    
+    <!-- 根据caseCode 查询 产证地址 -->
+    <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" ></bean>   	
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

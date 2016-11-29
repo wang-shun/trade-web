@@ -24,6 +24,7 @@ $(document).ready(function() {
 		reloadGrid : searchMethod
 	});
 	reloadGrid(data);
+	
 });
 
 // 日期控件
