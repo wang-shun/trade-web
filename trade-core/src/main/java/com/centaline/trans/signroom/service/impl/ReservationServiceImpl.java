@@ -349,18 +349,18 @@ public class ReservationServiceImpl implements ReservationService {
 		// 获取当前时间、同一房间号是否有空闲的房间
 		FreeRoomInfo freeRoomInfo = getFreeRoomByRoomNoAndCurTime(roomId);
 
-		// 判断房间状态是否空置
-		freeRoomInfo = judgeUseStatus(freeRoomInfo);
+		if (freeRoomInfo != null) {
+			// 判断房间状态是否空置
+			freeRoomInfo = judgeUseStatus(freeRoomInfo);
 
-		// 如果没有房间,则设置result为false,代表无房间
-		if (freeRoomInfo == null) {
-			result = "false";
-		} else {
 			String useStatus = freeRoomInfo.getUseStatus();
 
 			if (!"N".equals(useStatus)) {
 				result = "false";
 			}
+		} else {
+			// 如果没有房间,则设置result为false,代表无房间
+			result = "false";
 		}
 
 		return result;
@@ -419,10 +419,10 @@ public class ReservationServiceImpl implements ReservationService {
 		FreeRoomInfo freeRoomInfo = getFreeRoomByRoomNoAndCurTime(reservationVo
 				.getRoomId());
 
-		// 判断使用状态
-		freeRoomInfo = judgeUseStatus(freeRoomInfo);
-
 		if (freeRoomInfo != null) {
+			// 判断使用状态
+			freeRoomInfo = judgeUseStatus(freeRoomInfo);
+
 			if ("N".equals(freeRoomInfo.getUseStatus())) {
 				// 根据预约id获取预约信息
 				Reservation oldReservation = reservationMapper
@@ -431,6 +431,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 				result = temporaryAssignment(freeRoomInfo, oldReservation);
 			}
+
 		}
 
 		return result;
