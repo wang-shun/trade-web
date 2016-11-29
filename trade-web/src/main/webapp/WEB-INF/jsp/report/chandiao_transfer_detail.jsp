@@ -192,9 +192,9 @@ text-decoration: underline !important;
 						<th class="t-left pd-l">申请人</th>
 						<th class="t-left pd-l"><span class="sort" sortColumn="PR_APPLY_TIME" sord="desc">申请时间</span></th>
 						<th class="text-center"><span class="sort" sortColumn="PR_ACCPET_TIME" sord="desc">接受时间</span></th>
-						<th class="text-center">受理时间（小时）</th>
+						<th class="text-center"><span class="sort" sortColumn="ACCEPTANCE" sord="desc">受理时间（小时）</span></th>
 						<th class="text-center"><span class="sort" sortColumn="PR_COMPLETE_TIME" sord="desc">完成时间</span></th>
-						<th class="text-center">完成时间（小时）</th>
+						<th class="text-center"><span class="sort" sortColumn="ACOMPLETE_TIME" sord="desc">完成时间（小时）</span></th>
 						<th class="text-center">贵宾服务部</th>
 					</tr>
 				</thead>
