@@ -34,8 +34,8 @@
 	<link rel="stylesheet" href="${ctx}/static/trans/css/property/processingList.css" />
 	
 	<!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
-	
+    <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+	<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 	<script type="text/javascript">
 		var optTransferRole=false;
 		<shiro:hasPermission name="TRADE.PRSEARCH.TRANSFER">
@@ -366,7 +366,7 @@
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>    
     <!-- owner -->
     <script src="${ctx}/static/trans/js/property/successList.js"></script>
-
+    <script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script id="template_successList" type="text/html">
 		{{each rows as item index}}
 			<tr>
@@ -450,6 +450,12 @@
 $(function(){
 	setStyle();
 });
+
+//渲染图片 
+function renderImg(){
+	$('.wrapper-content').viewer('destroy');
+	$('.wrapper-content').viewer();
+}
 </script>
 </content>    
 </body>
