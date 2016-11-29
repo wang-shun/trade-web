@@ -450,7 +450,7 @@ function getMOrgAnalysis() {
 	data.queryId = "queryMortgageOrgAnalysis";
 	data.rows = 100;
 	data.page = 1;
-
+	data.pagination=false;
 	// check user job
 	var userJobCode = $("#userJobCode").val();
 
