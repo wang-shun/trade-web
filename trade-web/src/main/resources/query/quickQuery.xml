@@ -185,4 +185,6 @@
 	<import resource="query/material/materialInfoListQuery.xml" />
 	<!-- 交易变更列表 -->
 	<import resource="query/case/toCaseTradeChangedListQuery.xml" />
+	
+	<import resource="query/case/toCaseListQuery_old.xml" />
 </queryConfig>

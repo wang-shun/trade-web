@@ -241,6 +241,7 @@ function reloadGrid(data) {
 	data.argu_idflag = arguUserId;
     data.argu_queryorgs = orgArray;
     data.rows = 10;
+    
 	$.ajax({
 		async: true,
         url:ctx+ "/quickGrid/findPage" ,
@@ -333,6 +334,7 @@ function getParamsValue() {
 	if(isSubscribeFilter==null || isSubscribeFilter=='') {
 		isSubscribeFilter = -1;
 	}
+	
 	// 贷款需求选择
 	var mortageType = $('#mortageService option:selected').val();
 	if(mortageType==null || mortageType=='') {
@@ -401,6 +403,7 @@ function getParamsValue() {
 		argu_proName : proName,
 		argu_agentOrgName : agentOrgName,
 		search_propertyAddr : propertyAddr,
+		argu_srvCode : srvCode,
 		argu_srvCode1 : srvCode1,
 		argu_srvCode2 : srvCode2,
 		argu_srvCode3 : srvCode3,
@@ -534,6 +537,7 @@ function getSearchDateValues() {
 }
 
 // 产品类型
+var srvCode;
 var srvCode1;
 var srvCode2;
 var srvCode3;
@@ -549,6 +553,7 @@ var srvCode13;
 var srvCode14;
 var srvCode15;
 function getCheckBoxValues(name) {
+	srvCode = "";
 	srvCode1 = "";
 	srvCode2 = "";
 	srvCode3 = "";
@@ -566,6 +571,8 @@ function getCheckBoxValues(name) {
 	//$("input[name=" + name + "].selected").each(function() {
 	$("span[name='srvCode'].selected").each(function() {
 		var val = $(this).attr('value');
+		srvCode += val + ",";
+		
 		if (val == '30004001') {
 			srvCode1 = val;
 		} else if (val == '30004002') {
@@ -807,10 +814,3 @@ function caseCodeSort(){
 		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 	}
 }
-
-
-
-
-
-
-
