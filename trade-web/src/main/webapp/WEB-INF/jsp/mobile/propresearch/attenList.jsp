@@ -20,7 +20,7 @@
     <div id="wrapper">
         <div  class="white-bg">
             <header class="aui-bar aui-bar-nav">
-                <a class="aui-pull-left">
+                <a class="aui-pull-left" onClick="javascript :history.back(-1);">
                     <span class="aui-iconfont aui-icon-left"><i class="iconfont font-20">&#xe628;</i></span>
                 </a>
                 <div class="aui-title font-18">产调结果</div>

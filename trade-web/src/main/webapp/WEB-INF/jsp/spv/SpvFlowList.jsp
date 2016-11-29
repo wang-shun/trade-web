@@ -218,17 +218,13 @@
 						});
 						function getPostAuditor(){
 							var postAuditor=$("span[name='postAuditor']");
+							console.info("=======")
 							var cw=$("#CW").val().split("/");
-							console.info(cw);
 							$.each(postAuditor,function(i,item){
-								console.info($(item));
 								var itemName=item.innerText;
-								console.info(itemName);
-								debugger;
 								 var len=cw.length;
 								 var str=""
 								for (var i = 0; i < cw.length; i++) {
-									debugger;
 										if(itemName==cw[i]){
 											continue;
 										}

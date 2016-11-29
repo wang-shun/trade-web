@@ -34,6 +34,7 @@
 	<!-- owner -->
     <link rel="stylesheet" href="${ctx}/static/trans/css/property/processingList.css" />
     <link href="${ctx}/static/trans/css/property/popmac.css" rel="stylesheet" />
+	<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 	
 	<script type="text/javascript">
 		var optTransferRole=false;
@@ -302,6 +303,7 @@
    
     <!-- owner -->
     <script src="${ctx}/static/trans/js/property/processingList.js"></script>
+    <script src="${ctx}/js/viewer/viewer.min.js"></script> 
     <script id="template_processingList" type="text/html">
 		{{each rows as item index}}
 		<tr>
@@ -354,6 +356,12 @@
 $(function(){
 	setStyle();
 });
+
+//渲染图片 
+function renderImg(){
+	$('.wrapper-content').viewer('destroy');
+	$('.wrapper-content').viewer();
+}
 </script>	    
 </content>
 </html>

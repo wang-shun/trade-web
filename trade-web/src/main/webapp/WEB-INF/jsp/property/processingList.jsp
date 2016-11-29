@@ -40,6 +40,7 @@
 	<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
 	
 	<link href="${ctx}/css/processinglist/popmac.css" rel="stylesheet" />
+	<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 	
 	<script>
 		var optTransferRole=false;
@@ -421,6 +422,7 @@
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	
 <!-- 	<span><i class="invalid-label">完</i></span> -->
 	<script id="template_processingList" type="text/html">
@@ -483,6 +485,12 @@
 		  template.helper("rep", function(a){  
 	          return a.replace(/[\r\n]/g,"");  
 	      });
+		  
+		//渲染图片 
+		  function renderImg(){
+		  	$('.wrapper-content').viewer('destroy');
+		  	$('.wrapper-content').viewer();
+		  }
 	 </script>
 </content>
 </body>

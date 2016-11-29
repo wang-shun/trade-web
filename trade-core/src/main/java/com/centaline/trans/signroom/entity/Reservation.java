@@ -55,6 +55,7 @@ public class Reservation {
 	private String updateBy; // 更新人
 	
 	private String resPersonMobile;//预约人电话号码
+	private String resPersonName;//预约人姓名
 	
 
 	public String getServiceSpecialist() {
@@ -244,6 +245,14 @@ public class Reservation {
 
 	public void setResPersonMobile(String resPersonMobile) {
 		this.resPersonMobile = resPersonMobile;
+	}
+
+	public String getResPersonName() {
+		return resPersonName;
+	}
+
+	public void setResPersonName(String resPersonName) {
+		this.resPersonName = resPersonName;
 	}
 	
 	

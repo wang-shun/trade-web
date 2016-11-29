@@ -1,8 +1,6 @@
 	//初始化数据
 						var ctx = $("#ctx").val();
 						var params = {
-							rows : 10,
-							page : 1,
 							sessionUserId : $("#userId").val(),
 							serviceDepId : $("#serviceDepId").val(),
 							serviceOrgId : $("#orgId").val(),
@@ -169,7 +167,6 @@
 										
 						//加载页面
 						function initData() {
-							params.pagination = true;
 							$(".bonus-table")
 								.aistGrid(
 									{
@@ -223,6 +220,7 @@
 						};
 						function reloadStatus() {
 							params.queryId = "queryLoanSpv";
+							params.page=1;
 							var startMonth = new Date(params.startDate1).getMonth()+1;
 							$.ajax({
 								async : true,//异步请求
@@ -242,13 +240,16 @@
 											if(all[i-1].mm==item.mm){
 												return;
 											}	
-										}
+										} 
+										
 									if(i<all.length-1){
 									if(all[i+1].mm==all[i].mm){
 										if (item.mm == 0) {
 											xAxis.push(startMonth + "月以前");
 										}else{
-									    xAxis.push(item.mm + "月");}
+									    xAxis.push(item.mm + "月");
+									    }
+										
 									    ka={
 											num:item.ka+all[i+1].ka,
 											value:item.kaAmount+all[i+1].kaAmount
@@ -267,12 +268,12 @@
 								        xAxis.push(item.mm + "月");
 								        }
 										ka={
-												num:item.ka,
-												value:item.kaAmount
+												num:item.ka==null?0:item.ka,
+												value:item.kaAmount==null?0:item.kaAmount
 											};
 									    dai={
-												num:item.dai,
-												value:item.daiAmount
+												num:item.dai==null?0:item.dai,
+												value:item.daiAmount==null?0:item.daiAmount
 											};
 											kas.push(ka);
 											dais.push(dai);
@@ -289,6 +290,7 @@
 						}
 						function reloadStatus2() {
 							params.queryId = "queryLoanSpv2";
+							params.page=1;
 							$.ajax({
 								async : true,//异步请求
 								url : ctx + "/rapidQuery/findPage",

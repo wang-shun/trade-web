@@ -160,7 +160,7 @@
                     </section>
                     <section id="signroomList" style="min-height: 300px;">
                     	<div class="nodata">
-	                    	<img src="${ctx}/static/image/nodata.png" width="100%" alt="" >
+	                    	<img src="${ctx}/image/nodata.png" width="100%" alt="" >
 	                        <p class="text-center font16">对不起，暂无数据！</p>
 	                        <p class="text-center">(请选择你所要的预约时间)</p>
                         </div>

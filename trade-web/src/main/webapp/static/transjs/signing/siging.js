@@ -66,7 +66,6 @@ $(function () {
     //清空条件
     $("#clearBtn").click(function(){
     	$('#roomTypeSlot').val("");
-    	$('#useStatus').val("");
     });
 	
 	//保存 临时分配数据
@@ -107,6 +106,7 @@ $(function () {
 		var resPersonOrgId = $("#resPersonOrgId").val();//预约人组织ID
 		var startDate = $("#startDate").val();//排期起始时间
 		var resPersonMobile = $.trim($("#mobile").val());//预约人电话
+		var resPersonName = $.trim($("#jjrName").val());//预约人姓名
 	   	$.ajax({
 	     		url:ctx+"/signroom/addReservation",
 	     		method:"post",
@@ -125,7 +125,8 @@ $(function () {
 	     			     resStatus : '1',
 	     			     resPersonOrgId : resPersonOrgId,
 	     			     startDate : startDate,
-	     			    resPersonMobile : resPersonMobile
+	     			     resPersonMobile : resPersonMobile,
+	     			     resPersonName : resPersonName
 	     		},	 
 				success : function(data) {   
 						if(data.success){

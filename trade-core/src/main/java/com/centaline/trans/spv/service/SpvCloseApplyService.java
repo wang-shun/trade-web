@@ -10,7 +10,7 @@ public interface SpvCloseApplyService {
 
 	void spvCloseApplyProcess(HttpServletRequest request, String instCode, String taskId, String businessKey);
 
-	void spvCloseManagerAuditProcess(HttpServletRequest request, String instCode, String taskId, String businessKey);
+	void spvCloseHostAuditProcess(HttpServletRequest request, String instCode, String taskId, String businessKey);
 
 	void spvCloseDirectorAuditProcess(HttpServletRequest request, String instCode, String taskId, String businessKey);
 
@@ -18,8 +18,10 @@ public interface SpvCloseApplyService {
 
 	public void spvCloseApplyDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String taskId, String instCode, String businessKey, Boolean activateOrSuspend);
 
-	public void spvCloseManagerAuditDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode, String taskitem, String taskId, String businessKey, Boolean result);
+	public void spvCloseHostAuditDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode, String taskitem, String taskId, String businessKey, Boolean result);
 
 	public void spvCloseDirectorAuditDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode, String taskitem, String taskId, String businessKey, Boolean result);
+
+	public String  findInOutWorkFlowProcessBySpvCode(String spvCode);
 
 }

@@ -78,8 +78,7 @@ function saveCaseComment() {
         success: function(data){
             //console.log(data);
         	$("#caseComment").val('');
-        	reloadGrid();
-        	$('#caseCommentList').scrollTop(0);
+        	setTimeout(reloadGrid, 1000);
         }
     });
 };
@@ -107,4 +106,5 @@ function reloadGrid() {
 		templeteSource : templeteSource,
 		    data : {caseCode:caseCode}
     })
+    $('#caseCommentList').scrollTop(0);
 };

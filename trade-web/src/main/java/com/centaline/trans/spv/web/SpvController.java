@@ -207,10 +207,11 @@ public class SpvController {
     if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
 		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
-		record.setCaseCode(spv.getCaseCode());
-	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+		record.setBizCode(spv.getSpvCode());
+	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByBizCodeBusKey(record);
 		 
 		//查询审核结果
+	    if(workFlow !=null){
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
@@ -220,6 +221,7 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
       }
+     }
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
@@ -228,6 +230,7 @@ public class SpvController {
 	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
 	}
+   
 	/**
 	 * 删除
 	 * @param pkid
@@ -605,14 +608,14 @@ public class SpvController {
      * @return
      */
     @RequestMapping("spvApply/deal")
-	public AjaxResponse<?> spvApply(String caseCode,String source,String instCode,String taskId){
+	public AjaxResponse<?> spvApply(String spvCode,String caseCode,String source,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
-		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
 		spv.setStatus(SpvStatusEnum.AUDIT.getCode());
 
 		//spv.setRemark(remark);
@@ -678,7 +681,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvApprove/deal")
-	public AjaxResponse<?> spvApprove(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId,String remark){
+	public AjaxResponse<?> spvApprove(String spvCode,Boolean SpvApplyApprove,String caseCode,String instCode,String taskId,String remark){
 		
 		SessionUser user = uamSessionService.getSessionUser();
 		
@@ -686,7 +689,7 @@ public class SpvController {
 		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
-		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
 		if(!SpvApplyApprove){
 			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
 		}else{
@@ -758,12 +761,12 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String caseCode,String instCode,String taskId, String spvConCode, Date signTime){
+	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String spvCode,String caseCode,String instCode,String taskId, String spvConCode, Date signTime){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
 		
-		ToSpv spv = toSpvService.queryToSpvByCaseCode(caseCode);
+		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
 		spv.setStatus("2");
 		spv.setSpvConCode(spvConCode);
 		spv.setSignTime(signTime);
@@ -773,6 +776,7 @@ public class SpvController {
 	}
 	
 	@RequestMapping("queryByCaseCode")
+	@ResponseBody
 	public AjaxResponse<String> queryByCaseCode(String caseCode){
 		
         AjaxResponse<String> response = new AjaxResponse<String>();
@@ -780,14 +784,8 @@ public class SpvController {
     		Map<String,Object> infoMap = toSpvService.queryInfoByCaseCode(caseCode);
     		ToSpv toSpv = (ToSpv) infoMap.get("toSpv");
     		Map<String,Object> caseInfoMap = (Map<String, Object>) infoMap.get("caseInfoMap");
-    		if(toSpv != null){
-    			response.setSuccess(true);
-    			response.setMessage("该案件已经关联合约，不得重复关联！");
-    			response.setContent("1");
-    		} else{
-    			response.setContent(JSONObject.toJSONString(caseInfoMap));
-    			response.setSuccess(true);
-    		}
+    		response.setContent(JSONObject.toJSONString(caseInfoMap));
+    		response.setSuccess(true);
     	}catch(Exception e){
     		response.setSuccess(false);
     		response.setMessage(e.getMessage());	
@@ -867,9 +865,6 @@ public class SpvController {
             case "financeSecondAudit":
             	cashFlowOutService.cashFlowOutFinanceSecondAuditProcess(request, source, instCode, taskId, handle, businessKey);
                 break;
-/*            case "cashFlowOut":
-            	cashFlowOutService.cashFlowOutDealProcess(request, source, instCode, taskId, handle, businessKey);
-                break;*/
         	}
     		request.setAttribute("urlType", "myTask");
         }else{
@@ -963,8 +958,8 @@ public class SpvController {
         	case "apply":
         		spvCloseApplyService.spvCloseApplyProcess(request, instCode, taskId, businessKey);
         		break;
-            case "managerAudit":
-            	spvCloseApplyService.spvCloseManagerAuditProcess(request, instCode, taskId, businessKey);
+            case "hostAudit":
+            	spvCloseApplyService.spvCloseHostAuditProcess(request, instCode, taskId, businessKey);
         		break;
             case "directorAudit":
             	spvCloseApplyService.spvCloseDirectorAuditProcess(request, instCode, taskId, businessKey);
@@ -1014,8 +1009,8 @@ public class SpvController {
 				case "apply":
 					spvCloseApplyService.spvCloseApplyDeal(request, spvCloseInfoVO, taskId, instCode, businessKey, continueApply);
 					break;
-			    case "managerAudit":
-			    	spvCloseApplyService.spvCloseManagerAuditDeal(request, spvCloseInfoVO, instCode,
+			    case "hostAudit":
+			    	spvCloseApplyService.spvCloseHostAuditDeal(request, spvCloseInfoVO, instCode,
 			    			taskitem, taskId, businessKey, result);
 					break;
 			    case "directorAudit":
@@ -1034,6 +1029,44 @@ public class SpvController {
     	
     	return response;
     }
+    
+    /**
+     * 
+     * checkInOutWorkFlowProcess:(这里用一句话描述这个方法的作用). <br/> 
+     * 
+     * @author gongjd 
+     * @param request
+     * @param spvCloseInfoVO
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @param taskId
+     * @param handle
+     * @param businessKey
+     * @param continueApply
+     * @param result
+     * @return
+     * @throws Exception 
+     * @since JDK 1.8
+     */
+    @RequestMapping("/checkInOutWorkFlowProcess")
+    @ResponseBody
+   	public AjaxResponse<?> checkInOutWorkFlowProcess(String spvCode) throws Exception {
+    	AjaxResponse<?> response = new AjaxResponse<>();
+    	String inOutProcessTag = spvCloseApplyService.findInOutWorkFlowProcessBySpvCode(spvCode);
+    	response.setSuccess(false);
+    	if("in".equals(inOutProcessTag)){
+    		response.setMessage("尚有‘入账’流程进行中，不能开启‘中止/结束’流程！");
+    	}else if("out".equals(inOutProcessTag)){
+    		response.setMessage("尚有‘出账’流程进行中，不能开启‘中止/结束’流程！");
+    	}else if("inout".equals(inOutProcessTag)){
+    		response.setMessage("尚有‘出/入账’流程进行中，不能开启‘中止/结束’流程！");
+    	}else if("".equals(inOutProcessTag)){
+    		response.setSuccess(true);
+    	}
+
+    	return response;
+    } 
 
     /**
      * @throws Exception  
