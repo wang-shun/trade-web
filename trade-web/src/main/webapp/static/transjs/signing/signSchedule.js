@@ -45,7 +45,7 @@ function reloadGrid(bm) {
 var dutyDate;
 var dutyType;
 var changed = false;//是否变更值班人员
-function chooseDutyOfficer(date,type) {
+function chooseDutyOfficer(date,type,startOrgId) {
 	dutyDate = date;
 	dutyType = type;
 	var tdid = $("#"+dutyDate+dutyType).html();
@@ -55,7 +55,7 @@ function chooseDutyOfficer(date,type) {
 		changed = true;
 	}
 	userSelect({
-		startOrgId : '',//非营业部
+		startOrgId : startOrgId,//非营业部
 		expandNodeId : '',
 		nameType : 'long|short',
 		orgType : '',

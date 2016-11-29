@@ -207,10 +207,11 @@ public class SpvController {
     if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
 		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
-		record.setCaseCode(spv.getCaseCode());
-	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+		record.setBizCode(spv.getSpvCode());
+	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByBizCodeBusKey(record);
 		 
 		//查询审核结果
+	    if(workFlow !=null){
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
@@ -220,6 +221,7 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
       }
+     }
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
@@ -228,6 +230,7 @@ public class SpvController {
 	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
 	}
+   
 	/**
 	 * 删除
 	 * @param pkid
@@ -1026,6 +1029,44 @@ public class SpvController {
     	
     	return response;
     }
+    
+    /**
+     * 
+     * checkInOutWorkFlowProcess:(这里用一句话描述这个方法的作用). <br/> 
+     * 
+     * @author gongjd 
+     * @param request
+     * @param spvCloseInfoVO
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @param taskId
+     * @param handle
+     * @param businessKey
+     * @param continueApply
+     * @param result
+     * @return
+     * @throws Exception 
+     * @since JDK 1.8
+     */
+    @RequestMapping("/checkInOutWorkFlowProcess")
+    @ResponseBody
+   	public AjaxResponse<?> checkInOutWorkFlowProcess(String spvCode) throws Exception {
+    	AjaxResponse<?> response = new AjaxResponse<>();
+    	String inOutProcessTag = spvCloseApplyService.findInOutWorkFlowProcessBySpvCode(spvCode);
+    	response.setSuccess(false);
+    	if("in".equals(inOutProcessTag)){
+    		response.setMessage("尚有‘入账’流程进行中，不能开启‘中止/结束’流程！");
+    	}else if("out".equals(inOutProcessTag)){
+    		response.setMessage("尚有‘出账’流程进行中，不能开启‘中止/结束’流程！");
+    	}else if("inout".equals(inOutProcessTag)){
+    		response.setMessage("尚有‘出/入账’流程进行中，不能开启‘中止/结束’流程！");
+    	}else if("".equals(inOutProcessTag)){
+    		response.setSuccess(true);
+    	}
+
+    	return response;
+    } 
 
     /**
      * @throws Exception  

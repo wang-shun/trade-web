@@ -32,6 +32,7 @@
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 <style type="text/css" >
 
 </style>
@@ -382,7 +383,14 @@
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="${ctx}/transjs/spv/saveSpv.js"></script>
-    
+    <script src="${ctx}/js/viewer/viewer.min.js"></script>
+    <script>
+  //渲染图片 
+    function renderImg(){
+    	$('.wrapper-content').viewer('destroy');
+    	$('.wrapper-content').viewer();
+    }
+    </script>
 	</content>
 </body>
 
