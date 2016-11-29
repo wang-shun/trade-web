@@ -3,12 +3,18 @@ package com.centaline.trans.signroom.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.entity.RmRoomSchedule;
 import com.centaline.trans.signroom.entity.RmSignRoom;
@@ -27,6 +33,7 @@ import com.centaline.trans.signroom.vo.RoomProp;
 import com.centaline.trans.signroom.vo.SignroomCondition;
 import com.centaline.trans.signroom.vo.SignroomInfo;
 import com.centaline.trans.signroom.vo.TransactItemVo;
+import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -42,6 +49,12 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	private ResFlowupMapper resFlowupMapper;
+
+	@Autowired
+	private UamBasedataService uamBasedataService;
+
+	@Autowired
+	private UamSessionService uamSessionService;
 
 	@Override
 	public FreeRoomInfo saveReservation(Reservation reservation,
@@ -297,5 +310,252 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public Reservation getReservationById(Long resId) {
 		return reservationMapper.getReservationById(resId);
+	}
+
+	public FreeRoomInfo getFreeRoomByRoomNoAndCurTime(String roomNo) {
+		FreeRoomInfo freeRoomInfo = null;
+
+		// 获取当前时间
+		Date currentTime = getCurrentTime();
+
+		// 根据当前时间获取当前预约时间段
+		Map<String, String> resTimeMap = getResTime(currentTime);
+
+		if (resTimeMap != null && resTimeMap.size() > 0) {
+			// 获取预约开始时间(格式:yyyy-MM-mm HH:mm)
+			String beginResTime = resTimeMap.get("resBeginDateTime");
+
+			// 获取预约结束时间(格式:yyyy-MM-mm HH:mm)
+			String endResTime = resTimeMap.get("resEndDateTime");
+
+			// 设置查询条件
+			ReservationVo reservationVo = new ReservationVo();
+			reservationVo.setRoomNo(roomNo);
+			reservationVo.setBeginResTime(beginResTime);
+			reservationVo.setEndResTime(endResTime);
+
+			// 获取当前时间、同一房间号是否有空闲的房间
+			freeRoomInfo = reservationMapper
+					.getSignRoomByRoomAndCurtime(reservationVo);
+		}
+
+		return freeRoomInfo;
+	}
+
+	@Override
+	public String isHasFreeRoomByCurrentTimeAndRoomNo(String roomNo) {
+		String result = "true";
+
+		// 获取当前时间、同一房间号是否有空闲的房间
+		FreeRoomInfo freeRoomInfo = getFreeRoomByRoomNoAndCurTime(roomNo);
+
+		// 如果没有房间,则设置result为false,代表无房间
+		if (freeRoomInfo == null) {
+			result = "false";
+		}
+
+		return result;
+	}
+
+	@Override
+	public String startUseInAdvance(ReservationVo reservationVo) {
+		String result = "true";
+
+		// 获取当前时间、同一房间号是否有空闲的房间
+		FreeRoomInfo freeRoomInfo = getFreeRoomByRoomNoAndCurTime(reservationVo
+				.getRoomNo());
+
+		if (freeRoomInfo != null) {
+			// 根据预约id获取预约信息
+			Reservation oldReservation = reservationMapper
+					.getReservationById(Long.parseLong(reservationVo.getResId()));
+
+			result = temporaryAssignment(freeRoomInfo, oldReservation);
+		}
+
+		return result;
+	}
+
+	/**
+	 * 提前使用---临时分配房间信息
+	 * 
+	 * @param freeRoomInfo
+	 *            闲置房间信息
+	 * @param oldReservation
+	 *            旧预约信息
+	 */
+	public String temporaryAssignment(FreeRoomInfo freeRoomInfo,
+			Reservation oldReservation) {
+		String result = "true";
+		SessionUser currentUser = uamSessionService.getSessionUser();
+
+		try {
+			String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
+			String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
+
+			Reservation reservation = new Reservation();
+			reservation.setResNo(resNo);
+			reservation.setResType("1");
+			reservation.setResPersonId(oldReservation.getResPersonId());
+			reservation.setResPersonName(oldReservation.getResPersonName());
+			reservation.setResPersonMobile(oldReservation.getResPersonMobile());
+			reservation.setResPersonOrgId(oldReservation.getResPersonOrgId());
+			reservation.setSigningCenterId(oldReservation.getSigningCenterId());
+			reservation.setSigningCenter(oldReservation.getSigningCenter());
+			reservation.setResStatus("1");
+			reservation.setScheduleId(freeRoomInfo.getScheduleId());
+			reservation.setCaseCode(oldReservation.getCaseCode());
+			reservation.setServiceSpecialist(oldReservation
+					.getServiceSpecialist());
+			reservation.setPropertyAddress(oldReservation.getPropertyAddress());
+			reservation.setNumberOfPeople(oldReservation.getNumberOfPeople());
+			reservation.setScheduleId(freeRoomInfo.getScheduleId());
+			reservation.setNumberOfParticipants(oldReservation
+					.getNumberOfParticipants());
+			reservation.setTransactItemCode(oldReservation
+					.getTransactItemCode());
+			reservation.setSpecialRequirement(oldReservation
+					.getSpecialRequirement());
+			reservation.setCheckInTime(new Date());
+
+			reservation.setCreateTime(new Date());
+			reservation.setCreateBy(currentUser.getId());
+			reservation.setUpdateTime(new Date());
+			reservation.setUpdateBy(currentUser.getId());
+
+			// 保存预约信息
+			reservationMapper.insertSelective(reservation);
+
+			// 获取预约单id
+			Long resId = reservation.getPkid();
+
+			FreeRoomVo freeRoomVo = new FreeRoomVo();
+			freeRoomVo.setResId(resId);
+			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
+
+			// 更新闲置房间的使用状态
+			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo);
+		} catch (Exception e) {
+			result = "false";
+			e.printStackTrace();
+		}
+
+		return result;
+
+	}
+
+	/**
+	 * 获取当前时间处于哪个预约时间段
+	 * 
+	 * @param currentDateTime
+	 *            当前时间
+	 * @return 预约时间段信息
+	 */
+	private Map<String, String> getResTime(Date currentDateTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String currentDate = sdf.format(currentDateTime);
+
+		String strResDateTime1 = currentDate + " 09:00";
+		String strResDateTime2 = currentDate + " 11:00";
+		String strResDateTime3 = currentDate + " 13:00";
+		String strResDateTime4 = currentDate + " 15:00";
+		String strResDateTime5 = currentDate + " 17:00";
+		String strResDateTime6 = currentDate + " 19:00";
+		String strResDateTime7 = currentDate + " 21:00";
+
+		Map<String, String> resTimeMap = new HashMap<String, String>();
+
+		try {
+			Date resDateTime1 = sdf1.parse(strResDateTime1);
+			Date resDateTime2 = sdf1.parse(strResDateTime2);
+			Date resDateTime3 = sdf1.parse(strResDateTime3);
+			Date resDateTime4 = sdf1.parse(strResDateTime4);
+			Date resDateTime5 = sdf1.parse(strResDateTime5);
+			Date resDateTime6 = sdf1.parse(strResDateTime6);
+			Date resDateTime7 = sdf1.parse(strResDateTime7);
+
+			long resTime1 = resDateTime1.getTime();
+			long resTime2 = resDateTime2.getTime();
+			long resTime3 = resDateTime3.getTime();
+			long resTime4 = resDateTime4.getTime();
+			long resTime5 = resDateTime5.getTime();
+			long resTime6 = resDateTime6.getTime();
+			long resTime7 = resDateTime7.getTime();
+			long currentTime = currentDateTime.getTime();
+
+			// 当前日期 09:00 <= 当前时间 <= 当前日期 11:00
+			if (currentTime >= resTime1 && currentTime < resTime2) {
+				resTimeMap.put("resBeginDateTime", currentDate + " 09:00");
+				resTimeMap.put("resEndDateTime", currentDate + " 11:00");
+			}
+
+			// 当前日期 11:00 <= 当前时间 <= 当前日期 13:00
+			if (currentTime >= resTime2 && currentTime < resTime3) {
+				resTimeMap.put("resBeginDateTime", currentDate + " 11:00");
+				resTimeMap.put("resEndDateTime", currentDate + " 13:00");
+			}
+
+			// 当前日期 13:00 <= 当前时间 <= 当前日期 15:00
+			if (currentTime >= resTime3 && currentTime < resTime4) {
+				resTimeMap.put("resBeginDateTime", currentDate + " 13:00");
+				resTimeMap.put("resEndDateTime", currentDate + " 15:00");
+			}
+
+			// 当前日期 15:00 <= 当前时间 <= 当前日期 17:00
+			if (currentTime >= resTime4 && currentTime < resTime5) {
+				resTimeMap.put("resBeginDateTime", currentDate + " 15:00");
+				resTimeMap.put("resEndDateTime", currentDate + " 17:00");
+			}
+
+			// 当前日期 17:00 <= 当前时间 <= 当前日期 19:00
+			if (currentTime >= resTime5 && currentTime < resTime6) {
+				resTimeMap.put("resBeginDateTime", currentDate + " 17:00");
+				resTimeMap.put("resEndDateTime", currentDate + " 19:00");
+			}
+
+			// 当前日期 19:00 <= 当前时间 <= 当前日期 21:00
+			if (currentTime >= resTime6 && currentTime <= resTime7) {
+				resTimeMap.put("resBeginDateTime", currentDate + " 19:00");
+				resTimeMap.put("resEndDateTime", currentDate + " 21:00");
+			}
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return resTimeMap;
+	}
+
+	/**
+	 * 获取当前时间
+	 * 
+	 * @return 当前时间
+	 */
+	private Date getCurrentTime() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Calendar calCurrent = Calendar.getInstance();
+		int year = calCurrent.get(Calendar.YEAR);
+		int month = calCurrent.get(Calendar.MONTH) + 1;
+		int date = calCurrent.get(Calendar.DATE);
+		int hour = calCurrent.get(Calendar.HOUR_OF_DAY);
+		int minute = calCurrent.get(Calendar.MINUTE);
+
+		String strMonth = month > 10 ? String.valueOf(month) : "0" + month;
+		String strDate = date > 10 ? String.valueOf(date) : "0" + date;
+		String strHour = hour > 10 ? String.valueOf(hour) : "0" + hour;
+		String strMinute = minute > 10 ? String.valueOf(minute) : "0" + minute;
+
+		String strCurrentTime = year + "-" + strMonth + "-" + strDate + " "
+				+ strHour + ":" + strMinute;
+
+		Date currentTime = null;
+		try {
+			currentTime = sdf.parse(strCurrentTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return currentTime;
 	}
 }

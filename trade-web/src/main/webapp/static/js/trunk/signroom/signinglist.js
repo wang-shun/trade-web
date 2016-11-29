@@ -283,8 +283,29 @@ function changeRoom(obj,resId,tradeCenterId,resStartTime,resEndTime){
 	});
 }
 
+//当前时间点是否有空闲的同一房型的房间
+function isHasFreeRoomByCurrentTimeAndRoomNo(roomNo){
+	var isExist = true;
+	
+	$.ajax({
+		cache:false,
+		async:false,
+		type:"POST",
+		dataType:"text",
+		url:ctx+"/reservation/isHasFreeRoomByCurrentTimeAndRoomNo",
+		data:{roomNo:roomNo},
+		success:function(data){
+			if(data == "false"){
+				isExist = false;
+			}
+		}
+	});
+	
+	return isExist;
+}
+
 //签约室开始使用
-function startUse(obj,resDate,startTime,endTime){
+function startUse(obj,resDate,startTime,endTime,roomNo,resId){
 	var $obj = $(obj);
 	
 	var strStartTime = resDate + " " + startTime;
@@ -294,14 +315,53 @@ function startUse(obj,resDate,startTime,endTime){
 	var endDateTime = new Date(strEndTime);
 	var currentDateTime = new Date();
 	
-	startAndEndUse($obj,"startUse");
-	
+	//如果在正常预约时间段内,走正常的签到流程
 	if(currentDateTime >= startDateTime && currentDateTime <= endDateTime){
 		startAndEndUse($obj,"startUse");
 	}
-	else {
-		alert("不能开始，不在预约时间内！");
+	
+	//如果是提前签到,临时分配一个房间,判断在该时间内是否有同一房型的闲置房间
+	if(currentDateTime < startDateTime){
+		//当前时间点是否有空闲的同一房间号房间
+		var isExist = isHasFreeRoomByCurrentTimeAndRoomNo(roomNo);
+		
+		if(isExist){
+			//提前签到
+			startUseInAdvance(resId,roomNo);
+		}
+		else {
+			alert("当前时间没有可闲置房间信息,请联系值班经理进行临时分配！")
+		}
 	}
+	
+	//如果当前时间超过预约结束时间
+	if(currentDateTime > endDateTime){
+		alert("当前时间已经超过预约结束时间,不能签到！");
+	}
+}
+
+//提前签到
+function startUseInAdvance(resId,roomNo){
+	
+	if(confirm("请确定是否开始使用？")){
+		$.ajax({
+			cache:false,
+			async:false,
+			type:"POST",
+			dataType:"text",
+			url:ctx+"/reservation/startUseInAdvance",
+			data:{roomNo:roomNo,resId:resId},
+			success:function(data){
+				if(data == "true"){
+					reloadGrid();
+				}
+				else if(data == "false"){
+					alert("操作失败！");
+				}
+			}
+		});
+	}
+	
 }
 
 //签约室结束使用

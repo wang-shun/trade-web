@@ -12,6 +12,8 @@ public class FreeRoomInfo {
 
 	private String isSuccess; // 是否预约成功标志(预约成功:true,预约失败:false,无闲置房间:noRoom)
 
+	private String result; // 返回的结果信息
+
 	private String scheduleId; // 签约室安排id
 
 	private Long roomId; // 房间id
@@ -31,6 +33,14 @@ public class FreeRoomInfo {
 	private String selDate; // 预约日期
 
 	private String bespeakTime; // 预约时间段
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
 
 	public String getResNo() {
 		return resNo;

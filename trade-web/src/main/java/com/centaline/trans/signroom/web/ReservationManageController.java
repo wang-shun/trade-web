@@ -59,6 +59,47 @@ public class ReservationManageController {
 	private RmSignRoomService rmSignRoomService;
 
 	/**
+	 * 提前使用
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "startUseInAdvance")
+	@ResponseBody
+	public String startUseInAdvance(Model model, HttpServletRequest request) {
+		String resId = request.getParameter("resId");
+		String roomNo = request.getParameter("roomNo");
+
+		ReservationVo reservationVo = new ReservationVo();
+		reservationVo.setResId(resId);
+		reservationVo.setRoomNo(roomNo);
+
+		String result = reservationService.startUseInAdvance(reservationVo);
+
+		return result;
+	}
+
+	/**
+	 * 开始使用之前判断当前时间点是否有这个房号的房间
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "isHasFreeRoomByCurrentTimeAndRoomNo")
+	@ResponseBody
+	public String isHasFreeRoomByCurrentTimeAndRoomNo(Model model,
+			HttpServletRequest request) {
+		String roomNo = request.getParameter("roomNo");
+
+		String result = reservationService
+				.isHasFreeRoomByCurrentTimeAndRoomNo(roomNo);
+
+		return result;
+	}
+
+	/**
 	 * 变更签约室----更换签约室保存
 	 * 
 	 * @param model
@@ -177,18 +218,20 @@ public class ReservationManageController {
 		request.setAttribute("resStatus", resStatus);
 		request.setAttribute("distinctId", distinctId);
 		request.setAttribute("isCurrenDayDuty", isCurrenDayDuty);
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
-		SessionUser user= uamSessionService.getSessionUser();
-		Map<String,Object> param = new HashMap<String,Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar
+				.getInstance().getTime()));
+		SessionUser user = uamSessionService.getSessionUser();
+		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("districtId", user.getServiceDepId());
-		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters(param);//获取 交易中心信息
+		List<TradeCenter> tradeCenters = rmSignRoomService
+				.getTradeCenters(param);// 获取 交易中心信息
 		List<TradeCenterSchedule> tcs = new ArrayList<TradeCenterSchedule>();
-		for(TradeCenter tc:tradeCenters){//查询该贵宾服务部当日值班人员
+		for (TradeCenter tc : tradeCenters) {// 查询该贵宾服务部当日值班人员
 			map.put("centerId", tc.getPkid());
 			tcs.addAll(rmSignRoomService.queryTradeCenterSchedules(map));
 		}
-		model.addAttribute("tcs",tcs);
+		model.addAttribute("tcs", tcs);
 		return "signroom/signinglist";
 	}
 

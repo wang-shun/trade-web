@@ -194,4 +194,13 @@ public interface ReservationMapper {
 	 */
 	public void changeRoom(ReservationVo reservationVo);
 
+	/**
+	 * 获取当前时间点是否有该房间号空闲的房间
+	 * 
+	 * @param reservationVo
+	 *            条件
+	 * @return 闲置房间信息
+	 */
+	public FreeRoomInfo getSignRoomByRoomAndCurtime(ReservationVo reservationVo);
+
 }

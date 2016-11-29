@@ -38,6 +38,36 @@ public class ReservationVo {
 
 	private Long newScheduleId; // 新房间预约信息id
 
+	private String roomNo; // 房间号
+
+	private String beginResTime; // 预约开始时间
+
+	private String endResTime; // 预约结束时间
+
+	public String getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(String roomNo) {
+		this.roomNo = roomNo;
+	}
+
+	public String getBeginResTime() {
+		return beginResTime;
+	}
+
+	public void setBeginResTime(String beginResTime) {
+		this.beginResTime = beginResTime;
+	}
+
+	public String getEndResTime() {
+		return endResTime;
+	}
+
+	public void setEndResTime(String endResTime) {
+		this.endResTime = endResTime;
+	}
+
 	private String flag;
 
 	public Long getNewScheduleId() {
