@@ -3,32 +3,43 @@ $(document).ready(function(){
 	
 	if(!handle || handle == 'apply'){
 		$("input[name='toSpvCloseApply.closeType']").prop("disabled",false);
-		$("input[name='toSpvCloseApply.comment']").prop("readonly",false);
+		$("textarea[name='toSpvCloseApply.comment']").prop("readonly",false);
 	}
 
 	$("#page_submit_btn").click(function(){submitBtnClick(handle)});
 	$("#apply_submit_btn").click(function(){submitBtnClick(handle,true)});
 	$("#apply_cancel_btn").click(function(){submitBtnClick(handle,false)});
-	$("#managerAudit_pass_btn").click(function(){submitBtnClick(handle,null,true)});
-	$("#managerAudit_reject_btn").click(function(){submitBtnClick(handle,null,false)});
+	$("#hostAudit_pass_btn").click(function(){submitBtnClick(handle,null,true)});
+	$("#hostAudit_reject_btn").click(function(){submitBtnClick(handle,null,false)});
 	$("#directorAudit_pass_btn").click(function(){submitBtnClick(handle,null,true)});
 	$("#directorAudit_reject_btn").click(function(){submitBtnClick(handle,null,false)});
 })
 
 function submitBtnClick(handle,continueApply,result){
-	  if(!validateForm()){
-		  return false;
+	  if(!(handle == 'apply' && !continueApply)){
+		  if(!validateForm()){
+			  return false;
+		  }
 	  }
 
 	  if(!handle){
 		  if(!confirm("确定提交并开启流程吗！")){
 			  return false;
 		  } 
+		  if(!checkInOutWorkFlowProcess($("input[name='toSpvCloseApply.spvCode']").val())){
+	   		   return false;
+	   	   }
 	  }else if(handle == 'apply'){
-	  		if(!confirm("是否确定提交申请！")){
-	  		  return false;
-	  	    }
-	  }else if(handle == 'managerAudit'){
+	  		if(continueApply){
+			   	   if(!confirm("是否确定提交申请！")){
+				 		  return false;
+				 	  }
+			  }else{
+			  	   if(!confirm("是否确定取消申请！")){
+			     		  return false;
+			     	  } 
+			  }
+	  }else if(handle == 'hostAudit'){
 		  if(result){
 		   	   if(!confirm("是否确定通过！")){
 			 		  return false;
@@ -49,7 +60,7 @@ function submitBtnClick(handle,continueApply,result){
 		     	  } 
 		  }
 	  }
-	  
+
 	  var totalArr = [];
 	  if(continueApply != null){
 		  totalArr.push({"name":"continueApply","value":continueApply}); 
@@ -57,8 +68,7 @@ function submitBtnClick(handle,continueApply,result){
 	  if(result != null){
 		  totalArr.push({"name":"result","value":result}); 
 	  }
-	  console.log(result);
-	  console.log(JSON.stringify(totalArr));
+
 	  $("#spvfive,#auditContent,#instForm").each(function(){
 		var obj = $(this).serializeArray();
 		for(var i in obj){
@@ -76,29 +86,29 @@ function submitBtnClick(handle,continueApply,result){
 			$(".blockOverlay").css({'z-index':'9998'});
     },
     complete: function() {
-             $.unblockUI(); 
              if(status=='timeout'){ //超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {
 				    msg:"抱歉，系统处理超时。"
 				  }); 
-		                } 
+		                }
+             $.unblockUI(); 
 		            } ,   
-		success : function(data) {   
-			if(data.success){
-				if(!handle){
-					alert("流程开启成功！");
-					window.location.href = ctx+"/spv/spvList";
-				}else{
-					alert("任务提交成功！");
-					window.opener.location.reload(); //刷新父窗口
-		        	window.close(); //关闭子窗口.
-				}
+	success : function(data) {   
+		if(data.success){
+			if(!handle){
+				alert("流程开启成功！");
+				window.location.href = ctx+"/spv/spvList";
 			}else{
-				alert("数据保存出错:\n"+data.message);
-				rescCallback();
+				alert("任务提交成功！");
+				window.opener.location.reload(); //刷新父窗口
+	        	window.close(); //关闭子窗口.
 			}
-			}
+		}else{
+			alert("数据保存出错:\n"+data.message);
+			rescCallback();
+		}
+		}
 });
 };
 
@@ -110,14 +120,14 @@ function validateForm(){
 		return false;
 	}
 	
-	var $comment = $("input[name='toSpvCloseApply.comment']");
+	var $comment = $("textarea[name='toSpvCloseApply.comment']");
 	if($.trim($comment.val()) == ''){
 		alert("请填写原因！");
 		changeClass($comment);
 		return false;
 	}
 	
-	if(handle == 'managerAudit' || handle == 'directorAudit'){
+	if(handle == 'hostAudit' || handle == 'directorAudit'){
 		var $content = $("textarea[name='toSpvCloseApplyAuditList[0].content']");
 		if($.trim($content.val()) == ''){
 			alert("请填写审核意见！");
@@ -130,10 +140,9 @@ function validateForm(){
 }
 
 function changeClass(object){
-	$(object).focus();
-	$(object).addClass("borderClass").blur(function(){
+	$(object).focus().addClass("borderClass").blur(function(){
 		$(this).removeClass("borderClass");
-	});	;
+	});
 }
 
 /**只读表单*/
@@ -143,6 +152,7 @@ function readOnlyForm(){
 	$("select").prop("disabled",true);
 	$("input[id^='picFileupload']").prop("disabled",true);
 	$("button").prop("disabled",true);
+	$("textarea[name='toSpvCloseApply.comment']").prop("readOnly",true);
 }
 
 function updateAccTypeOptions(){
@@ -179,4 +189,23 @@ function getAccTypeOptions(){
 	});
     
 	return accTypeOptions;
+}
+
+//检查是否存在出入账流程
+function checkInOutWorkFlowProcess(spvCode){
+var res = true;
+$.ajax({
+	url:ctx+"/spv/checkInOutWorkFlowProcess",
+	async : false,//false同步，true异步
+	method:"post",
+	dataType:"json",
+	data:{spvCode:spvCode},   		        				        		      
+	success : function(data) {	
+		if(!data.success){
+			alert(data.message);
+			res = false;
+		}
+		}
+});
+	return res;
 }

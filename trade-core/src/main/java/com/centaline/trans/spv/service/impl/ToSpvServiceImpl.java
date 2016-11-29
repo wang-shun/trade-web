@@ -486,16 +486,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user) {
-
-		if (spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getPkid() == null) {
-			String caseCode_ = spvBaseInfoVO.getToSpv().getCaseCode();
-			ToSpv toSpv = toSpvMapper.queryToSpvByCaseCode(caseCode_);
-			if(toSpv != null){
-				throw new BusinessException("保存失败：已存在该案件的资金监管信息！");
-			}
-		}
-		
+	public void saveNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user) {		
 		// 生成spvCode
 		String spvCode = createSpvCode();
 		ToSpv toSpv = spvBaseInfoVO.getToSpv();
@@ -1719,7 +1710,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		infoMap.put("caseInfoMap", caseInfoMap);
 		return infoMap;
 	}
-	
+
 	@Override
 	public Map<String,Object> queryCaseInfoMapByCaseCode(String caseCode) {
         Map<String,Object> caseInfoMap = new HashMap<String,Object>();

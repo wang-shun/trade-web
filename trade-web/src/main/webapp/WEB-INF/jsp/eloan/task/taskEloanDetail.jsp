@@ -471,6 +471,13 @@
                                     <td>{{item.CREATE_BY}}</td>
                                     <td>{{item.RISK_COMMENT}}</td>
 									<td>
+											{{if item.RISK_TYPE == '押卡'}}
+                                                <a href="${ctx}/riskControl/guarantycardsvonly?pkid={{wrapperData.pkId}}"> <button type="button" class="btn btn-success"> 查看  </button></a>
+                                            {{else if item.RISK_TYPE == '抵押'}}
+                                                <a href="${ctx}/riskControl/guarantymortgagevonly?pkid={{wrapperData.pkId}}"><button type="button" class="btn btn-success"> 查看  </button> </a>
+                                            {{else}}
+                                                <a href="${ctx}/riskControl/guarantyfairvonly?pkid={{wrapperData.pkId}}"><button type="button" class="btn btn-success"> 查看  </button> </a>
+                                            {{/if}}
 	                                    {{if item.CREATE_BY == wrapperData.userName}}
                                             <shiro:hasPermission name="TRADE.RISKCONTROL.ADD">
  											{{if item.RISK_TYPE == '押卡'}}

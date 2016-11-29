@@ -351,6 +351,8 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			reservation.setCreateBy(currentUser.getId());
 			reservation.setUpdateTime(Calendar.getInstance().getTime());
 			reservation.setUpdateBy(currentUser.getId());
+			reservation.setResPersonMobile(reservationInfoVo.getResPersonMobile());
+			reservation.setResPersonName(reservationInfoVo.getResPersonName());
 			if(startDate!=null && startDate>(new Date().getTime())){//预约房间
 				reservation.setResStatus("0");
 			}else{//临时分配房间
@@ -588,7 +590,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		map.put("dutyOfficer", user.getId());
 		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 		List<TradeCenterSchedule> tcs = tradeCenterScheduleMapper.queryTradeCenterSchedules(map);
-		if(tcs!=null && tcs.size()==1){
+		if(tcs!=null && tcs.size()>0){
 			return true;
 		}
 		return false;

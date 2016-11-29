@@ -52,6 +52,7 @@ public class ReservationInfoVo {
 	private Date endDate;//房间排期结束时间
 	
 	private String resPersonMobile;//预约人电话号码
+	private String resPersonName;//预约人姓名
 
 	public String getResNo() {
 		return resNo;
@@ -228,6 +229,14 @@ public class ReservationInfoVo {
 
 	public void setResPersonMobile(String resPersonMobile) {
 		this.resPersonMobile = resPersonMobile;
+	}
+
+	public String getResPersonName() {
+		return resPersonName;
+	}
+
+	public void setResPersonName(String resPersonName) {
+		this.resPersonName = resPersonName;
 	}
 	
 	

@@ -828,8 +828,9 @@ public class WarnListController {
 			if(eloanCase!=null){
 				ToWorkFlow record=new ToWorkFlow();
 				record.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
-				record.setCaseCode(eloanCase.getCaseCode());
-			    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+/*				record.setCaseCode(eloanCase.getCaseCode());*/
+				record.setBizCode(eloanCase.getEloanCode());
+			    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByBizCodeBusKey(record);
 				if(workFlow!=null){
 				workFlow.setStatus("4");
 			    flowService.updateByPrimaryKey(workFlow);

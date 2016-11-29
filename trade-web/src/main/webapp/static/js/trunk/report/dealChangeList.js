@@ -344,6 +344,9 @@ $("#submitBtn").click(function(){
 				}else if(remarkVisit=='0'){
 					$('#span'+batchId).html('<span class="red_color">异常</span>');
 					newTitle+= "1. "+"异常 "+data.content.content+" "+data.content.createTime+"<br>";
+				}else if(remarkVisit=='2'){
+					$('#span'+batchId).html('<span class="no_color">下次处理</span>');
+					newTitle+= "1. "+"下次处理 "+data.content.content+" "+data.content.createTime+"<br>";
 				}
 				var title = $('#i'+batchId).attr('title');
 				var titles = title.split("<br>");

@@ -1,6 +1,5 @@
 package com.centaline.trans.spv.service.impl;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,6 +17,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.enums.SpvCloseApplyStatusEnum;
@@ -31,12 +31,15 @@ import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 import com.centaline.trans.spv.entity.ToSpvCloseApply;
 import com.centaline.trans.spv.entity.ToSpvCloseApplyAudit;
+import com.centaline.trans.spv.repository.ToSpvCashFlowApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvCloseApplyAuditMapper;
 import com.centaline.trans.spv.repository.ToSpvCloseApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvMapper;
@@ -45,7 +48,6 @@ import com.centaline.trans.spv.service.SpvCloseApplyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvCloseInfoVO;
-import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 
 @Service
@@ -64,6 +66,8 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	@Autowired
 	private ToWorkFlowMapper toWorkFlowMapper;
 	@Autowired
+	private WorkFlowManager workFlowManager;
+	@Autowired
 	private ActRuEventSubScrMapper actRuEventSubScrMapper;
 	@Autowired
 	private ToCaseService toCaseService;
@@ -72,6 +76,8 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	private ToSpvService toSpvService;
 	@Autowired
 	private CashFlowOutService cashFlowOutService;
+	@Autowired
+	private ToSpvCashFlowApplyMapper toSpvCashFlowApplyMapper;
 	
 	@Autowired
 	private ToSpvCloseApplyMapper toSpvCloseApplyMapper;
@@ -107,7 +113,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	 * 中止/结束主办审批页面
 	 */
 	@Override
-	public void spvCloseManagerAuditProcess(HttpServletRequest request, String instCode, String taskId, String businessKey) {
+	public void spvCloseHostAuditProcess(HttpServletRequest request, String instCode, String taskId, String businessKey) {
 		setRequestAttribute(request,null,businessKey);
 	}
 
@@ -126,39 +132,25 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	public void spvClosePageDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode) {
 		//合约主对象
 		String spvCode = spvCloseInfoVO.getToSpvCloseApply().getSpvCode();
+
 		ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
 		String caseCode = toSpv.getCaseCode();
-		//ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-		
-		// 资金监管出入账申请无在途申请的时候才可以开启此流程
-		ToWorkFlow record = new ToWorkFlow();
-		record.setCaseCode(caseCode);
-		List<ToWorkFlow> toWorkFlows = toWorkFlowService.queryActiveToWorkFlowByCaseCode(record);
-		for(ToWorkFlow toWorkFlow : toWorkFlows){
-			/**由列表页面限定*/
-/*			if(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
-				throw new BusinessException("尚有‘入款’流程进行中，不能开启‘中止/结束’流程！");
-			}else if(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
-				throw new BusinessException("尚有‘出款’流程进行中，不能开启‘中止/结束’流程！");
-			}else */if(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode().equals(toWorkFlow.getBusinessKey())){
-				throw new BusinessException("‘中止/结束’流程已经存在，不能重复开启！");
-			}
-		}
-		
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+
 		ToWorkFlow twf = new ToWorkFlow();
 		twf.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		twf.setBizCode(spvCode);
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(twf);
 		
 		if("0".equals(spvCloseInfoVO.getToSpvCloseApply().getCloseType())){
-			ActRuEventSubScr condition=new ActRuEventSubScr();
+/*			ActRuEventSubScr condition=new ActRuEventSubScr();
 			condition.setEventType("message");
 			condition.setEventName("SpvFinishMsg");
 			condition.setProcInstId(toWorkFlow.getInstCode());
 			List<ActRuEventSubScr> subScrs = actRuEventSubScrMapper.listBySelective(condition);
 			if(subScrs == null || subScrs.isEmpty()){
 				throw new BusinessException("资金监管流程没有找到需要发送的消息，不能开启‘结束’流程！");
-			}
+			}*/
 			
 			/**金额由用户自己判断*/
 /*			Map<String,Object> completeCashFlowInfoMap = cashFlowOutService.getCompleteCashFlowInfoBySpvCode(spvCode);
@@ -176,10 +168,12 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("applier", user.getUsername());
-		//SessionUser host = uamSessionService.getSessionUserById(toCase.getLeadingProcessId());
-		vars.put("manager", user.getUsername());
-		//User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
-		vars.put("director", user.getUsername());
+		User host = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		vars.put("host", host.getUsername());
+		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		vars.put("director", director.getUsername());
+		String oldStatus = toSpv.getStatus();
+		vars.put("oldStatus", oldStatus);
 		
 		String spvCloseCode = createSpvCloseCode();
 		
@@ -188,8 +182,8 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		apply.setSpvCloseCode(spvCloseCode);
 		apply.setApplier(user.getId());
 		apply.setIsDeleted("0");
-		apply.setAuditor(user.getId());
-		apply.setReAuditor(user.getId());
+		apply.setAuditor(host.getId());
+		apply.setReAuditor(director.getId());
 		apply.setStatus(SpvCloseApplyStatusEnum.AUDIT.getCode());
 		apply.setApplyTime(new Date());
 		apply.setCreateBy(user.getId());
@@ -201,7 +195,15 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 				propertyUtilsService.getSpvCloseApplyProcessDfKey(), spvCloseCode, vars);
 		
 		//更新合约状态
-		toSpv.setStatus(SpvStatusEnum.INPROCESS.getCode());
+		String closeType = apply.getCloseType();
+		if("1".equals(closeType)){
+			//中止
+			toSpv.setStatus(SpvStatusEnum.INTERMINATE.getCode());
+		}else if("0".equals(closeType)){
+		    //结束
+			toSpv.setStatus(SpvStatusEnum.INCOMPLETE.getCode());
+		}
+		
 		toSpvMapper.updateByPrimaryKeySelective(toSpv);
 		//资金监管流程挂起
 		if (toWorkFlow != null) {
@@ -241,14 +243,19 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 
 		if(!continueApply){
 			//取消申请
-			//1.删除当前流程
+			//1.更新回之前状态状态
+			ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
+			String oldStatus = (String)workFlowManager.getVar(instCode, "oldStatus").getValue();
+			toSpv.setStatus(oldStatus);
+			toSpvMapper.updateByPrimaryKeySelective(toSpv);
+			//2.删除当前流程
 			processInstanceService.deleteProcess(instCode);
-			//2.删除t_to_workflow表对应记录
+			//3.删除t_to_workflow表对应记录
 			toWorkFlowService.deleteWorkFlowByInstCode(instCode);
-			//3.删除‘中止/结束’申请表和审批表中数据
+			//4.删除‘中止/结束’申请表和审批表中数据
 			toSpvCloseApplyMapper.deleteByPrimaryKey(spvCloseInfoVO.getToSpvCloseApply().getPkid());
 			toSpvCloseApplyAuditMapper.deleteByApplyId(spvCloseInfoVO.getToSpvCloseApply().getPkid().toString());
-			//4.资金监管流程激活
+			//5.资金监管流程激活
 			ToWorkFlow twf = new ToWorkFlow();
 			twf.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 			twf.setBizCode(spvCode);
@@ -269,16 +276,18 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	 * 中止/结束主办审批操作
 	 */
 	@Override
-	public void spvCloseManagerAuditDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode,
+	public void spvCloseHostAuditDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode,
 			String taskitem, String taskId, String businessKey,Boolean result) {
 		// 提交流程
 		SessionUser user = uamSessionService.getSessionUser();
 		
-		ToSpvCloseApply apply = spvCloseInfoVO.getToSpvCloseApply();
+		ToSpvCloseApply apply = toSpvCloseApplyMapper.selectByPrimaryKey(spvCloseInfoVO.getToSpvCloseApply().getPkid());
 		apply.setAuditTime(new Date());
 		if(result){
 			apply.setStatus(SpvCloseApplyStatusEnum.REAUDIT.getCode());
 		}else{
+			apply.setCloseType(null);
+			apply.setComment(null);
 			apply.setStatus(SpvCloseApplyStatusEnum.DRAFT.getCode());
 		}
 		
@@ -292,11 +301,11 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		audit.setCreateBy(user.getId());
 		audit.setCreateTime(new Date());
 		
-		toSpvCloseApplyMapper.updateByPrimaryKeySelective(apply);
+		toSpvCloseApplyMapper.updateByPrimaryKey(apply);
 		toSpvCloseApplyAuditMapper.insertSelective(audit);
 		
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("managerAppr", result);
+		variables.put("hostAppr", result);
 		taskService.submitTask(taskId, variables);
 	}
 
@@ -311,11 +320,13 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		
 		String spvCode = spvCloseInfoVO.getToSpvCloseApply().getSpvCode();
 		
-		ToSpvCloseApply apply = spvCloseInfoVO.getToSpvCloseApply();
+		ToSpvCloseApply apply = toSpvCloseApplyMapper.selectByPrimaryKey(spvCloseInfoVO.getToSpvCloseApply().getPkid());
 		apply.setReAuditTime(new Date());
 		if(result){
 			apply.setStatus(SpvCloseApplyStatusEnum.COMPLETE.getCode());
 		}else{
+			apply.setCloseType(null);
+			apply.setComment(null);
 			apply.setStatus(SpvCloseApplyStatusEnum.DRAFT.getCode());
 		}
 		
@@ -329,7 +340,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		audit.setCreateBy(user.getId());
 		audit.setCreateTime(new Date());
 		
-		toSpvCloseApplyMapper.updateByPrimaryKeySelective(apply);
+		toSpvCloseApplyMapper.updateByPrimaryKey(apply);
 		toSpvCloseApplyAuditMapper.insertSelective(audit);
 		
 		ToSpvCloseApply tempApply = toSpvCloseApplyMapper.selectByPrimaryKey(apply.getPkid());
@@ -340,6 +351,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 				//中止:删除资金监管流程，t_to_workflow更新，更新合约状态
 				//更新spv表
 				ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);
+				toSpv.setCloseTime(new Date());
 				toSpv.setStatus(SpvStatusEnum.TERMINATE.getCode());
 				toSpvMapper.updateByPrimaryKeySelective(toSpv);
 				//更新t_to_workflow表(资金监管流程)
@@ -400,9 +412,37 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 
 	}
 	
+	@Override
+	public String findInOutWorkFlowProcessBySpvCode(String spvCode){
+		List<ToSpvCashFlowApply> cashFlowApplyList = toSpvCashFlowApplyMapper.selectBySpvCode(spvCode);
+		String inProcessTag = "";
+		String outProcessTag = "";
+		// 资金监管出入账申请无在途申请的时候才可以开启此流程
+		for(ToSpvCashFlowApply tscfa : cashFlowApplyList){
+			String applyCode = tscfa.getCashflowApplyCode();
+			ToWorkFlow record = new ToWorkFlow();
+			record.setBizCode(applyCode);
+			if("in".equals(tscfa.getUsage())){
+				record.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode());
+				ToWorkFlow toWorkFlow1 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+				if(toWorkFlow1 != null){
+					inProcessTag = "in"; 
+				}
+			}else if("out".equals(tscfa.getUsage())){				
+				record.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode());
+				ToWorkFlow toWorkFlow2 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+				if(toWorkFlow2 != null){
+					outProcessTag = "out"; 
+				}
+			}
+		}
+		
+		return inProcessTag+outProcessTag;
+	}
+	
 	private void setRequestAttribute(HttpServletRequest request, String spvCode_, String businessKey){
 		String spvCode = null;
-		SpvCloseInfoVO spvCloseInfoVO = findSpvCloseInfoVOBySpvCode(businessKey);
+		SpvCloseInfoVO spvCloseInfoVO = findSpvCloseInfoVOBySpvCloseCode(businessKey);
 		if(spvCloseInfoVO != null){
 			List<ToSpvCloseApplyAudit> audits = spvCloseInfoVO.getToSpvCloseApplyAuditList();
 			if(audits != null && !audits.isEmpty()){
@@ -425,11 +465,14 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
 		}
 
+		Map<String,Object> completeCashFlowInfoMap = cashFlowOutService.getCompleteCashFlowInfoBySpvCode(spvCode);
+		
+		request.setAttribute("cashFlowList", completeCashFlowInfoMap.get("cashFlowList"));
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("spvCloseInfoVO", spvCloseInfoVO);
 	}
 	
-	private SpvCloseInfoVO findSpvCloseInfoVOBySpvCode(String spvCloseCode){
+	private SpvCloseInfoVO findSpvCloseInfoVOBySpvCloseCode(String spvCloseCode){
 		SpvCloseInfoVO spvCloseInfoVO = new SpvCloseInfoVO();
 		ToSpvCloseApply toSpvCloseApply = toSpvCloseApplyMapper.selectBySpvCloseCode(spvCloseCode);
 		if(toSpvCloseApply == null) return null;

@@ -191,7 +191,9 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
-    	   riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
+    	   if(deleteAndModify()){
+        	   riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
+    	   }
        });
        
        //风控总监审批通过
@@ -245,6 +247,7 @@ $(document).ready(function(){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  		   alert("请填写审批意见！");
+	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
   		  
@@ -255,6 +258,7 @@ $(document).ready(function(){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  		   alert("请填写审批意见！");
+	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
     	   
@@ -524,10 +528,18 @@ $(document).ready(function(){
 		    return false; 
 		}
 		
-		if(!isIdCard(buyerIdCode)){
-			alert("请填写有效的买方证件编号！");
-			changeClass($("input[name='spvCustList[0].idCode']"));
-			return false;
+		if($("select[name='spvCustList[0].idType']").val() == 'SFZ'){
+			if(!isIdCard(buyerIdCode)){
+				alert("请填写有效的买方证件编号！");
+				changeClass($("input[name='spvCustList[0].idCode']"));
+				return false;
+			}
+		}else{
+			if(!/^[a-zA-Z0-9]+$/.test(buyerIdCode)){
+				alert("请填写有效的买方证件编号！");
+				changeClass($("input[name='spvCustList[0].idCode']"));
+				return false;
+			}
 		}
 		
 		var buyAddress = $("input[name='spvCustList[0].homeAddr']").val();
@@ -535,6 +547,43 @@ $(document).ready(function(){
 			alert("请填写买房家庭地址！");
 			changeClass($("input[name='spvCustList[0].homeAddr']"));
 			return false;
+		}
+		
+		var buyerHasDele = $("input[name='spvCustList[0].hasDele'][value='1']").is(":checked");
+		
+		var buyerAgentName = $("input[name='spvCustList[0].agentName']").val();
+		if(buyerHasDele && (buyerAgentName == null || buyerAgentName == '')){
+			alert("请填写买方委托人姓名！");
+			changeClass($("input[name='spvCustList[0].agentName']"));
+			return false;
+		}
+		
+		if(buyerHasDele && (buyerAgentName != null && buyerAgentName != '')){
+			if(!isName(buyerAgentName)){
+				alert("请填写有效的买方委托人姓名！(1-5个汉字或者多个英文)");
+				changeClass($("input[name='spvCustList[0].agentName']"));
+				return false;
+			}
+		}
+		
+		var buyerAgentIdCode = $("input[name='spvCustList[0].agentIdCode']").val();
+		if(buyerHasDele && (buyerAgentIdCode == null || buyerAgentIdCode == '')){
+			alert("请填写买方委托人证件编号！");
+			changeClass($("input[name='spvCustList[0].agentIdCode']"));
+			return false;
+		}
+		if(buyerHasDele && $("select[name='spvCustList[0].agentIdType']").val() == 'SFZ'){
+			if(!isIdCard(buyerAgentIdCode)){
+				alert("请填写有效的买方委托人证件编号！");
+				changeClass($("input[name='spvCustList[0].agentIdCode']"));
+				return false;
+			}
+		}else if(buyerHasDele &&  $("select[name='spvCustList[0].agentIdType']").val() != 'SFZ'){
+			if(!/^[a-zA-Z0-9]+$/.test(buyerAgentIdCode)){
+				alert("请填写有效的买方委托人证件编号！");
+				changeClass($("input[name='spvCustList[0].agentIdCode']"));
+				return false;
+			}
 		}
 		
 		/** ------买方信息验证结束--------  **/
@@ -587,10 +636,18 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		if(!isIdCard(sellerIdCode)){
-			alert("请填写有效的卖方证件编号！");
-			changeClass($("input[name='spvCustList[1].idCode']"));
-			return false;
+		if($("select[name='spvCustList[1].idType']").val() == 'SFZ'){
+			if(!isIdCard(sellerIdCode)){
+				alert("请填写有效的卖方证件编号！");
+				changeClass($("input[name='spvCustList[1].idCode']"));
+				return false;
+			}
+		}else{
+			if(!/^[a-zA-Z0-9]+$/.test(sellerIdCode)){
+				alert("请填写有效的卖方证件编号！");
+				changeClass($("input[name='spvCustList[1].idCode']"));
+				return false;
+			}
 		}
 		
 		var sellerAddress = $("input[name='spvCustList[1].homeAddr']").val();
@@ -623,8 +680,14 @@ $(document).ready(function(){
 			changeClass($("input[name='spvCustList[1].agentIdCode']"));
 			return false;
 		}
-		if(sellerHasDele && sellerAgentIdCode != null && sellerAgentIdCode != ''){
+		if(sellerHasDele && $("select[name='spvCustList[1].agentIdType']").val() == 'SFZ'){
 			if(!isIdCard(sellerAgentIdCode)){
+				alert("请填写有效的卖方委托人证件编号！");
+				changeClass($("input[name='spvCustList[1].agentIdCode']"));
+				return false;
+			}
+		}else if(sellerHasDele &&  $("select[name='spvCustList[1].agentIdType']").val() != 'SFZ'){
+			if(!/^[a-zA-Z0-9]+$/.test(sellerAgentIdCode)){
 				alert("请填写有效的卖方委托人证件编号！");
 				changeClass($("input[name='spvCustList[1].agentIdCode']"));
 				return false;
@@ -1095,7 +1158,7 @@ $(document).ready(function(){
 	
 	//风控总监审批公共方法   
     function riskAjaxRequest(SpvApplyApprove,handle,url){
-	    var data = {caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),remark:$("#passOrRefuseReason").val(),source:$("#source").val()};
+	    var data = {spvCode:$("input[name='toSpv.spvCode']").val(),caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),remark:$("#passOrRefuseReason").val(),source:$("#source").val()};
 	    if(SpvApplyApprove != null){
 	    	data.SpvApplyApprove = SpvApplyApprove;
 	    }
@@ -1285,21 +1348,21 @@ $(document).ready(function(){
 		 //1.身份证
 		 var reg1 = /^\d{15}$|^\d{17}([0-9]|X|x)$/;
 		 //2.军官证
-		 var reg2 = /^\d{15}$/;
+		 //var reg2 = /^\d{15}$/;
 		 //3.外国护照
-		 var reg3 = /^\d{9}$|^\d{2}[a-zA-Z]{2}\d{5}$|^[a-zA-Z]{2}\d{6,7}$|^[a-zA-Z]{3}\d{6}$|^[a-zA-Z][a-zA-Z0-9]{6,8}[a-zA-Z]$/;
+		 //var reg3 = /^\d{9}$|^\d{2}[a-zA-Z]{2}\d{5}$|^[a-zA-Z]{2}\d{6,7}$|^[a-zA-Z]{3}\d{6}$|^[a-zA-Z][a-zA-Z0-9]{6,8}[a-zA-Z]$/;
 		 //4.香港身份证
-		 var reg4 = /^[a-zA-Z]{1}\d{6}\(\d{1}\)$/;
+		 //var reg4 = /^[a-zA-Z]{1}\d{6}\(\d{1}\)$/;
 		 //5.台胞证
-		 var reg5 = /^\d{8}$/;
+		 //var reg5 = /^\d{8}$/;
 		 //6.中国护照
-		 var reg6 = /^1(4|5)\d{7}$|^(G|S|D)\d{8}$|^(S|P)\.\d{7}$/;
+		 //var reg6 = /^1(4|5)\d{7}$|^(G|S|D)\d{8}$|^(S|P)\.\d{7}$/;
 		 //7.港澳通行证
-		 var reg7 = /^W\d{8}$/;
+		 //var reg7 = /^W\d{8}$/;
 		 //8.其他
-		 var reg8 = /^[a-zA-Z0-9]+$/;
-		 var testExp = reg1.test(cardId) || reg2.test(cardId) || reg3.test(cardId) || reg4.test(cardId) 
-		               || reg5.test(cardId) || reg6.test(cardId) || reg7.test(cardId) || reg8.test(cardId);
+		 //var reg8 = /^[a-zA-Z0-9]+$/;
+		 var testExp = reg1.test(cardId)/* || reg2.test(cardId) || reg3.test(cardId) || reg4.test(cardId) 
+		               || reg5.test(cardId) || reg6.test(cardId) || reg7.test(cardId) || reg8.test(cardId)*/;
 	     if (testExp) {
 	         return true; 
 	     }

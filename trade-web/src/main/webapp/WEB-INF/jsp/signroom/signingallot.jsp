@@ -79,6 +79,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table_content">
+                            		<h3><span style="color: red">今日值班经理：</span>&nbsp;
+                            		<c:if test="${!empty tcs}">
+                            		<c:forEach items="${tcs }" var="tc">
+                            		   ${tc.officerName }&nbsp;(${tc.dutyType==0?'白班':'夜班'})&nbsp;&nbsp;&nbsp;
+                            		</c:forEach>
+                            		</c:if>
+                            		</h3>
                                 <table class="table table_blue table-striped table-bordered table-hover " id="signRoomTable" >
                                     <thead>
                                         <tr>
@@ -106,6 +113,13 @@
                         <div class="modal-content animated fadeIn popup-box">
                             <div class="modal_title">
                                 	临时分配
+                                	<h3><span style="color: red">今日值班经理：</span>&nbsp;
+                            		<c:if test="${!empty tcs}">
+                            		<c:forEach items="${tcs }" var="tc">
+                            		   ${tc.officerName }&nbsp;(${tc.dutyType==0?'白班':'夜班'})&nbsp;&nbsp;&nbsp;
+                            		</c:forEach>
+                            		</c:if>
+                            		</h3>
                             </div>
                             <form action="" class="form_list clearfix">
                             	<input type="hidden" id="caseCode" value=""/>

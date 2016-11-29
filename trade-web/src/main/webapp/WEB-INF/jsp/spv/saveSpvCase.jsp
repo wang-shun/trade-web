@@ -792,7 +792,7 @@
 				</div>
 				
 				<div class="ibox-content" id="spvfour_info" >
-				<div class="ibox-title" style="height: auto;">
+				<div style="height: auto;">
 				<c:choose>
 					<c:when test="${accesoryList!=null}">
 						<h5>上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
@@ -1189,44 +1189,40 @@
    						  }); 
    				                } 
    				            } ,   
-   				success : function(data) {   
-   						/*if(data.message){
-   							alert(data.message);
-   						}*/
-   					     if(data.ajaxResponse.content == '1'){
-   					    	 alert(data.ajaxResponse.message);
-   					    	 //window.location.reload();
-   					    	 //window.location.href = "${ctx}/spv/saveHTML";
-   					     }else{
-				    		var caseInfoMap = eval('('+data.ajaxResponse.content+')');
-				    		$("#caseCode").val(caseInfoMap['caseCode']);
-				    		$("#content_caseCode").html(caseInfoMap['caseCode']);
-				    		$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
-				    		$("#content_processorId").html(caseInfoMap['processorName']);
-				    		$("#content_seller").html(caseInfoMap['sellerName']);
-				    		$("#content_agentName").html(caseInfoMap['agentName']);
-				    		$("#content_buyer").html(caseInfoMap['buyerName']);
-				    		$("input[name='toSpv.caseCode']").val(caseInfoMap['caseCode']);
+   				success : function(data) {  
+   					        if(data.success){
+   					        	var caseInfoMap = eval('('+data.content+')');
+   					    		$("#caseCode").val(caseInfoMap['caseCode']);
+   					    		$("#content_caseCode").html(caseInfoMap['caseCode']);
+   					    		$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
+   					    		$("#content_processorId").html(caseInfoMap['processorName']);
+   					    		$("#content_seller").html(caseInfoMap['sellerName']);
+   					    		$("#content_agentName").html(caseInfoMap['agentName']);
+   					    		$("#content_buyer").html(caseInfoMap['buyerName']);
+   					    		$("input[name='toSpv.caseCode']").val(caseInfoMap['caseCode']);
 
-				    		if($("input[name='spvCustList[0].name']").val() == '')
-				    			$("input[name='spvCustList[0].name']").val(caseInfoMap['buyerName'].substr(0,caseInfoMap['buyerName'].indexOf("/") == -1?caseInfoMap['buyerName'].length:caseInfoMap['buyerName'].indexOf("/")));
-				    		if($("input[name='spvCustList[0].phone']").val() == '')
-				    			$("input[name='spvCustList[0].phone']").val(caseInfoMap['buyerMobil']);
-				    		if($("input[name='spvCustList[1].name']").val() == '')
-				    			$("input[name='spvCustList[1].name']").val(caseInfoMap['sellerName'].substr(0,caseInfoMap['sellerName'].indexOf("/") == -1?caseInfoMap['sellerName'].length:caseInfoMap['sellerName'].indexOf("/")));
-				    		if($("input[name='spvCustList[1].phone']").val() == '')
-				    			$("input[name='spvCustList[1].phone']").val(caseInfoMap['sellerMobil']);	    		
-				    		if($("input[name='toSpvProperty.prOwnerName']").val() == '')
-				    			$("input[name='toSpvProperty.prOwnerName']").val(caseInfoMap['sellerName'].substr(0,caseInfoMap['sellerName'].indexOf("/") == -1?caseInfoMap['sellerName'].length:caseInfoMap['sellerName'].indexOf("/")));
-				    		if($("input[name='toSpvProperty.prSize']").val() == '')
-				    			$("input[name='toSpvProperty.prSize']").val(caseInfoMap['propertySquare']);
-				    		if($("input[name='toSpvProperty.prAddr']").val() == '')
-				    			$("input[name='toSpvProperty.prAddr']").val(caseInfoMap['propertyAddr']);
-				    		
-							$('.case_content').show();
-							$('#myModal').modal('hide');
-   					     }
-   						 $.unblockUI();
+   					    		if($("input[name='spvCustList[0].name']").val() == '')
+   					    			$("input[name='spvCustList[0].name']").val(caseInfoMap['buyerName'].substr(0,caseInfoMap['buyerName'].indexOf("/") == -1?caseInfoMap['buyerName'].length:caseInfoMap['buyerName'].indexOf("/")));
+   					    		if($("input[name='spvCustList[0].phone']").val() == '')
+   					    			$("input[name='spvCustList[0].phone']").val(caseInfoMap['buyerMobil']);
+   					    		if($("input[name='spvCustList[1].name']").val() == '')
+   					    			$("input[name='spvCustList[1].name']").val(caseInfoMap['sellerName'].substr(0,caseInfoMap['sellerName'].indexOf("/") == -1?caseInfoMap['sellerName'].length:caseInfoMap['sellerName'].indexOf("/")));
+   					    		if($("input[name='spvCustList[1].phone']").val() == '')
+   					    			$("input[name='spvCustList[1].phone']").val(caseInfoMap['sellerMobil']);	    		
+   					    		if($("input[name='toSpvProperty.prOwnerName']").val() == '')
+   					    			$("input[name='toSpvProperty.prOwnerName']").val(caseInfoMap['sellerName'].substr(0,caseInfoMap['sellerName'].indexOf("/") == -1?caseInfoMap['sellerName'].length:caseInfoMap['sellerName'].indexOf("/")));
+   					    		if($("input[name='toSpvProperty.prSize']").val() == '')
+   					    			$("input[name='toSpvProperty.prSize']").val(caseInfoMap['propertySquare']);
+   					    		if($("input[name='toSpvProperty.prAddr']").val() == '')
+   					    			$("input[name='toSpvProperty.prAddr']").val(caseInfoMap['propertyAddr']);
+   					    		
+   								$('.case_content').show();
+   								$('#myModal').modal('hide');
+   					        }else{
+   					        	alert(data.message);
+   					        }		    		
+   						    
+							$.unblockUI();
    					},		
    				error : function(errors) {
    						$.unblockUI();   

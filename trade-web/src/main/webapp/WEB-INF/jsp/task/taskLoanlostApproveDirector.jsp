@@ -18,15 +18,21 @@
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
 
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -114,9 +120,9 @@
 						<div class="col-sm-3">
 							<div class="radio i-checks radio-inline">
 								<label> <input type="radio" checked="checked"
-									value="true" id="optionsRadios1" name="LoanLost_Director">审批通过
+									value="true" id="optionsRadios1" name="LoanLost_director">审批通过
 								</label> <label> <input type="radio" value="false"
-									id="optionsRadios2" name="LoanLost_Director">审批不通过
+									id="optionsRadios2" name="LoanLost_director">审批不通过
 								</label>
 							</div>
 						</div>
@@ -168,6 +174,10 @@
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
 	<script	src="${ctx}/js/viewer/viewer.min.js"></script> 
+	
+	<!-- 改版引入的新的js文件 -->
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>	 
 	<script>
 			$(function() {
 				getShowAttachment();
