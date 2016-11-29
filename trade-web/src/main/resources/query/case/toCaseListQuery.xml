@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 <dicts>
-		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<!-- <customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
 		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName"></customDict>
 		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
 		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
 		<customDict id="qqcdBackProcessorName" beanName="qqcdBackProcessorName" />
-		<customDict id="qqcdDict30003" beanName="qqcdDict30003" />
+		<customDict id="qqcdDict30003" beanName="qqcdDict30003" /> -->
 		
+		<customDict id="getCaseOverviewInfo" beanName="getCaseOverviewInfo" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -80,6 +81,9 @@
            <condition field="J.LEND_DATE"   name="lendDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
            <condition field="J.LEND_DATE"   name="lendDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/> -->
 
+			<!-- 
+				(SELECT U.REAL_NAME FROM   sctrans.SYS_USER U    inner join  sctrans.T_TO_CASE C on U.ID=C.LEADING_PROCESS_ID AND C.CASE_CODE = NB.CASE_CODE)  FONT_NAME,
+			 -->
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -101,27 +105,12 @@
 						NB.CLOSE_TIME,
 						NB.CREATE_TIME,
 						NB.RES_DATE,						
-                        (SELECT U.REAL_NAME FROM   sctrans.SYS_USER U    inner join  sctrans.T_TO_CASE C on U.ID=C.LEADING_PROCESS_ID AND C.CASE_CODE = NB.CASE_CODE)  FONT_NAME,
                         (select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=NB.CASE_CODE ) as SUBSCRIBE_COUNT
-					FROM sctrans.V_CASE_LIST_BASE NB
-					<ifNotNull realConTime>
-						INNER JOIN sctrans.T_TO_SIGN AS G ON NB.CASE_CODE = G.CASE_CODE
-					</ifNotNull>
-					<ifNotNull realConTimeStart>
-						AND G.REAL_CON_TIME >= #realConTimeStart#
-					</ifNotNull>
-					<ifNotNull realConTimeEnd>
-						AND G.REAL_CON_TIME &lt;= #realConTimeEnd#
-					</ifNotNull>
-
-					<ifNotNull guohuApproveTime>
-						LEFT JOIN sctrans.T_HI_WORKFLOW w ON NB.CASE_CODE = w.CASE_CODE
-						AND w.BUSINESS_KEY = 'operation_process'
-						AND w.STATUS IN ('0', '4')
-						AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
-						LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE
-						AND v.name_ = 'GuohuApprove'
-						AND v.long_ = 1
+					FROM sctrans.V_CASE_LIST_BASE NB 
+			    	  
+			    	<ifNotNull guohuApproveTime>
+						LEFT JOIN sctrans.T_HI_WORKFLOW w ON NB.CASE_CODE = w.CASE_CODE AND w.BUSINESS_KEY = 'operation_process' AND w.STATUS IN ('0', '4') AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
+						LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE AND v.name_ = 'GuohuApprove' AND v.long_ = 1
 						LEFT JOIN (
 							select * from (
 							 select proc_inst_id_,assignee_,end_time_,row_number() over(partition by proc_inst_id_ order by end_time_ desc) rn
@@ -129,54 +118,61 @@
 							) taskInst where taskInst.rn &lt;= 1
 						) t ON t.proc_inst_id_ = w.inst_code
 					</ifNotNull>
-					<ifNotNull realHtTime>
-					INNER JOIN sctrans.T_TO_HOUSE_TRANSFER AS H ON NB.CASE_CODE = H.CASE_CODE
-					</ifNotNull>
-					<ifNotNull realHtTimeStart>
-						AND H.REAL_HT_TIME >= #realHtTimeStart#
-					</ifNotNull>
-					<ifNotNull realHtTimeEnd>
-						AND H.REAL_HT_TIME &lt;= #realHtTimeEnd#
-					</ifNotNull>
-
-					<ifNotNull realPropertyGetTime>
-					INNER JOIN sctrans.T_TO_GET_PROPERTY_BOOK AS I ON NB.CASE_CODE = I.CASE_CODE
-					</ifNotNull>
-					<ifNotNull realPropertyGetTimeStart>
-						AND I.REAL_PROPERTY_GET_TIME >= #realPropertyGetTimeStart#
-					</ifNotNull>
-					<ifNotNull realPropertyGetTimeEnd>
-						AND I.REAL_PROPERTY_GET_TIME &lt;= #realPropertyGetTimeEnd#
-					</ifNotNull>
-
-					where
-					  (  EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = NB.CASE_CODE
+					
+					
+					where 1=1 
+					and (EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = NB.CASE_CODE
 					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
 					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
 			    	  OR EXISTS ( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = NB.CASE_CODE
 			    	  		<ifNotNull idflag> and C.PROCESSOR_ID = #userId# 	</ifNotNull>
 			    	  		<ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)    </ifNotNull>)
-			    	  OR EXISTS ( SELECT    1
-                      FROM      SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR A
-                                INNER JOIN ( SELECT T.*,S.id
-                                             FROM   SCTRANS.T_TL_TASK_REASSIGNT_LOG T
-                                                    LEFT JOIN sctrans.SYS_USER S ON t.ORI_ASSIGNEE = S.username
+			    	  OR EXISTS (SELECT 1
+                      			 FROM  SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR A
+                                 INNER JOIN ( SELECT T.*,S.id
+                                              FROM SCTRANS.T_TL_TASK_REASSIGNT_LOG T
+                                              LEFT JOIN sctrans.SYS_USER S ON t.ORI_ASSIGNEE = S.username
                                            ) L ON L.id = A.PROCESSOR_ID and L.case_code = A.case_code
                                              <ifNotNull userLoginName> AND L.NEW_ASSIGNEE = #userLoginName#</ifNotNull>
                       WHERE     NB.CASE_CODE = A.CASE_CODE
                                 AND A.SRV_CODE IN ( '3000400201', '3000401002' ) )
 			    	  )
+					
+					<ifNotNull realConTimeStart>
+						and EXISTS(select 1 from sctrans.T_TO_SIGN G where NB.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME >= #realConTimeStart#)
+					</ifNotNull>
+					<ifNotNull realConTimeEnd>
+						and EXISTS(select 1 from sctrans.T_TO_SIGN G where NB.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME &lt;= #realConTimeEnd#)
+					</ifNotNull>
+
+					<ifNotNull realHtTimeStart>
+						AND EXISTS(select 1 from sctrans.T_TO_HOUSE_TRANSFER H where NB.CASE_CODE = H.CASE_CODE and H.REAL_HT_TIME >= #realHtTimeStart#)
+					</ifNotNull>
+					<ifNotNull realHtTimeEnd>
+						AND EXISTS(select 1 from sctrans.T_TO_HOUSE_TRANSFER H where NB.CASE_CODE = H.CASE_CODE AND H.REAL_HT_TIME &lt;= #realHtTimeEnd#)
+					</ifNotNull>
+
+					<ifNotNull realPropertyGetTimeStart>
+						AND EXISTS(select 1 from sctrans.T_TO_GET_PROPERTY_BOOK I where NB.CASE_CODE = I.CASE_CODE AND I.REAL_PROPERTY_GET_TIME >= #realPropertyGetTimeStart#)
+					</ifNotNull>
+					<ifNotNull realPropertyGetTimeEnd>
+						AND EXISTS(select 1 from sctrans.T_TO_GET_PROPERTY_BOOK I where NB.CASE_CODE = I.CASE_CODE AND I.REAL_PROPERTY_GET_TIME &lt;= #realPropertyGetTimeEnd#)
+					</ifNotNull>
+
      				<ifNotNull guestname>
 						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = NB.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
 					</ifNotNull>
+					
 					<ifNotNull proName>
-						AND ( EXISTS (SELECT 1 FROM sctrans.T_TO_CASE c where c.LEADING_PROCESS_ID = #proName# and  CASE_CODE = NB.CASE_CODE)
+						AND (EXISTS (SELECT 1 FROM sctrans.T_TO_CASE c where c.CASE_CODE = NB.CASE_CODE and c.LEADING_PROCESS_ID = #proName#)
 						    OR
-						      EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p where p.PROCESSOR_ID = #proName# and CASE_CODE = NB.CASE_CODE) )
+						    EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p where p.CASE_CODE = NB.CASE_CODE and p.PROCESSOR_ID = #proName#))
 					</ifNotNull>
+					
 					<ifNotNull agentOrgName>
-						AND  EXISTS ( SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = NB.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
+						AND  EXISTS(SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = NB.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
 					</ifNotNull>
+					
 					<ifNotNull srvCode1>
 						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = NB.CASE_CODE AND SRV_CAT = #srvCode1#)
 					</ifNotNull>
@@ -222,6 +218,7 @@
 					<ifNotNull srvCode15>
 						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = NB.CASE_CODE AND SRV_CAT = #srvCode15#)
 					</ifNotNull>
+					
 					<ifNotNull signlendDate>
 					  and exists ( select 1 from sctrans.T_TO_MORTGAGE J where NB.CASE_CODE = J.CASE_CODE and is_active='1'
 					</ifNotNull>
@@ -306,20 +303,27 @@
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_CODE" index="" checkbox="" display="经纪人Id" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="是否关注" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_PROPERTY" index="" checkbox="" display="经纪人Id" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="CASE_PROPERTY_SHOW" referencecol="CASE_PROPERTY" index="" checkbox="" display="上家" customDict="qqcdDict30003" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				
-				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdBackProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="RED_COUNT" index="" checkbox="" display="是否红灯" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="ctmCode"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="电话" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				
+				<column type="virtual" isDynamicDict="true"
+					name="FONT_NAME,SELLER,BUYER,PROCESSOR_ID,CASE_PROPERTY_SHOW,STATUS"
+					referencecol="CASE_CODE,CASE_PROPERTY,STATUS_OLD" 
+					title="前台组人员,上家,下家,经办人,上家,案件状态"
+					display="前台组人员,上家,下家,经办人,上家,案件状态"
+					customDict="getCaseOverviewInfo" />
+			
+				<!-- <column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdBackProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="CASE_PROPERTY_SHOW" referencecol="CASE_PROPERTY" index="" checkbox="" display="上家" customDict="qqcdDict30003" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" /> -->
 			</table-row>
 		</grid>
 	</query>

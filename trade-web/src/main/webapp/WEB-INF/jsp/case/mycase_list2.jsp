@@ -344,7 +344,7 @@ text-decoration: underline !important;
 <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
 <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 <script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
-<script src="${ctx}/js/trunk/case/mycase_list2.js?v=1.1"></script>
+<script src="${ctx}/js/trunk/case/mycase_list2.js?v=1.1"></script>  
 
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
@@ -354,7 +354,7 @@ text-decoration: underline !important;
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src="${ctx}/js/plugins/jquery.custom.js"></script>
-<%--<script src="${ctx}/js/workflow/myCaseList.js"></script>2016.1021 注释人:caoy 原因:与mycase_list2.js方法冲突--%>
+<!--<script src="${ctx}/js/workflow/myCaseList.js"></script>2016.1021 注释人:caoy 原因:与mycase_list2.js方法冲突--%>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
