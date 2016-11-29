@@ -6,7 +6,7 @@
 		<artifactId>trade-parent</artifactId>
 
 
-		<version>1.1.26</version>	</parent>
+		<version>1.2.0-SNAPSHOT</version>	</parent>
 
 
 	<artifactId>trade-web</artifactId>
@@ -19,22 +19,46 @@
 			<groupId>com.aist</groupId>
 			<artifactId>aist-uam-client</artifactId>
 			<version>${aist.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jedis</artifactId>
+					<groupId>redis.clients</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>com.aist</groupId>
 			<artifactId>aist-filesvr-service</artifactId>
 			<version>${aist.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jedis</artifactId>
+					<groupId>redis.clients</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.aist</groupId>
 			<artifactId>aist-scheduler-service</artifactId>
 			<version>${aist.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jedis</artifactId>
+					<groupId>redis.clients</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-core</artifactId>
 			<version>${version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jedis</artifactId>
+					<groupId>redis.clients</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- dependency>
 			<groupId>com.centaline</groupId>
@@ -46,6 +70,12 @@
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-frontend</artifactId>
 			<version>${version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jedis</artifactId>
+					<groupId>redis.clients</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Spring basic -->
