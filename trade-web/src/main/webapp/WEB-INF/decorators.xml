@@ -17,6 +17,7 @@
 		<pattern>/weixin/property/toApply</pattern>
 		<pattern>/weixin/property/addressList</pattern>
 		<pattern>/weixin/property/toResult</pattern>
+		<pattern>/weixin/property/myProperty</pattern>
 		<pattern>/weixin/taxation/*</pattern>
 		<pattern>/weixin/loan/*</pattern>
 		<pattern>/weixin/work/*</pattern>
