@@ -51,7 +51,7 @@ FROM    sctrans.T_RM_SIGN_ROOM R
 WHERE   T.IS_DELETE = '0'
         AND (R.IS_DELETE = '0' OR R.IS_DELETE IS NULL)
             <if test="depId != null">
-				 AND O.TEAM_ID = #depId#
+				 AND (O.TEAM_ID = #depId# OR O.DISTRICT_ID = #depId# )
 			</if>
 			<if test="curDate != null">
 				 AND DATEDIFF(DAY, T.START_DATE, #curDate#) = 0
