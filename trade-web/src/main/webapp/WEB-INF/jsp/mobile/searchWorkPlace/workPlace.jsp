@@ -41,7 +41,7 @@
                 <tr>
                   <td>婚姻登记</td>
                   <td>公证委托</td>
-                  <td>e+签约</td>
+                  <td></td>
                   <td></td>
                 </tr>
               </tbody>
@@ -195,7 +195,7 @@ function showPhones(e){
 }
 
 function placeInfo(obj,index,name) {
-        if(index==7){
+        if(index==7||index==6){
            return;
            }
         $('#Org').empty();
