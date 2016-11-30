@@ -674,15 +674,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user) {
-	
-		ToWorkFlow twf = new ToWorkFlow();
-		twf.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
-		twf.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
-		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-
-		if (record != null) {
-			throw new BusinessException("流程启动失败：该案件的流程已开启！");
-		}
 		
 		saveNewSpv(spvBaseInfoVO, user);
 
