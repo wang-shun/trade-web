@@ -1086,7 +1086,7 @@
   				$("input[name='toSpvAccountList[1].telephone']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("#bank_1").prop("disabled",false);
   				$("input[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-  				$("input[name='toSpvAccountList[1].branchBank']").prop("disabled",false)
+  				$("input[name='toSpvAccountList[1].branchBank']").prop("disabled",false);
   				$("#signDiv").show().find("input").prop("readOnly",false);
 	         }
 			
