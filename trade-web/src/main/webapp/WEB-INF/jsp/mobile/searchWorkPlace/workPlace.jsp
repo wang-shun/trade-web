@@ -51,73 +51,9 @@
 
     <section>
         <ul class="aui-list aui-media-list" id="Org"></ul>
-       <!--  <ul class="aui-list aui-media-list" id="Org">
-           <li class="aui-list-item place-list-item">
-               <div class="aui-media-list-item-inner relative">
-                   <div class="aui-list-item-inner">
-                       <div class="work-list-title" >
-                           浦东房地产交易中心
-                       </div>
-                       <div class="site">
-                           <a href="baidumap://map/geocoder?address=上海浦东新区房地产交易中心&src=yourCompanyName|yourAppName"><i class="iconfont mr5 font14">&#xe682;</i>张杨路2899号2号楼</a>
-                       </div>
-                   </div>
-                   <div class="tel-center"><a href="tel:13000000000"><i class="iconfont tel-icon ">&#xe681;</i></a></div>
-               </div>
-               <div class="aui-row  aui-row-padded aui-place">
-                   <div class="aui-col-xs-4">
-                       <p class="title">工作时间</p>
-                       <p>周一到周四</p>
-                       <p>周五</p>
-                       <p>周六</p>
-                   </div>
-                   <div class="aui-col-xs-4 text-center">
-                       <p class="title">上午</p>
-
-                       <p>9:00-10:00</p>
-                       <p>10:00-11:00</p>
-                       <p>11:00-12:00</p>
-                   </div>
-                    <div class="aui-col-xs-4 text-center">
-                       <p class="title">下午</p>
-
-                       <p>13:00-14:00</p>
-                       <p>休息</p>
-                       <p>16:00-17:00</p>
-                   </div>
-               </div>
-           </li>
-
-       </ul> -->
+       
     </section>
-    <!-- <div class="layui-m-layer layui-m-layer0 tel-box" >
-        <div class="layui-m-layershade"></div>
-        <div class="layui-m-layermain">
-            <div class="layui-m-layersection">
-                <div class="layui-m-layerchild  layui-m-anim-scale noradius">
-                    <div class="tel-title">杨浦区贵宾服务部
-                    <span>点击电话图标，拨打相关工作人员联系电话</span></div>
-                    <article class="aui-content tel-text">
-                        <ul class="aui-list aui-date-list">
-                            <a href="tel:139021532541">
-                                <li class="aui-list-item aui-padded-lr20 boder-bottom-style">
-                                    <div class="aui-info-item">
-                                        <span class="time">139021532541</span>
-                                    </div>
-                                    <div class="aui-info-item aui-text-grey">
-                                       <i class="iconfont tel-icon font26">&#xe681;</i>
-                                    </div>
-                                </li>
-                            </a>
-                        </ul>
-                    </article>
-                    <p class="tel-cancel">取消</p>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-</body>
+   </body>
 
 <script type="text/javascript" src="${ctx}/static/momedia/js/jquery-2.1.1.js"></script>
 <script type="text/javascript" src="${ctx}/static/momedia/js/api.js"></script>
