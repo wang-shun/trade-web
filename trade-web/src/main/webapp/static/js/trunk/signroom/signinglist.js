@@ -353,6 +353,7 @@ function startUseInAdvance(resId,roomId){
 			data:{roomId:roomId,resId:resId},
 			success:function(data){
 				if(data == "true"){
+					alert("已为您临时分配一个房间，请置顶查看！");
 					reloadGrid();
 				}
 				else if(data == "false"){

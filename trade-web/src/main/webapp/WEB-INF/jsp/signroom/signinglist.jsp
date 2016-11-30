@@ -439,7 +439,7 @@
                  </td>
 				 <td>
 					  <span class="manager"><a href="#" title="{{item.mobile}}" class="demo-top" onMouseover="showMobile(this);"><em>预约人:</em>{{item.realName}}</a></span>
-                      <span class="manager"><a href="#"><em>交易顾问:</em>{{item.serviceSpecialist}}</a></span>
+                      <span class="manager"><em>交易顾问:</em>{{item.serviceSpecialist}}</span>
                  </td>
 				 <td>
 					  <p class="smll_sign">
@@ -498,6 +498,14 @@
                                     	  	<li class="liEndUse"><a href="javascript:void(0);" onClick="endUse(this)">结束使用</a></li>
                                     	</c:if>
                                     </shiro:hasPermission>
+								{{/if}}
+
+								{{if item.resStatus == '3' && item.timeDifference <= 0}}
+									<shiro:hasPermission name="TRADE.SIGNROOM.SIGN">
+										<c:if test="${isCurrenDayDuty == true }">
+                                    	  <li class="liStartUse"><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}','{{item.roomId}}','{{item.resId}}');">开始使用</a></li>
+                                    	</c:if>
+									</shiro:hasPermission>
 								{{/if}}
 
                                 <li>
