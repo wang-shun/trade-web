@@ -47,52 +47,56 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT r.PKID AS resId,r.RES_NO AS resNo,rs.START_DATE AS resDateTime,getdate() as currentDate,sr.PKID as roomId,sr.ROOM_NO AS roomNO,sr.ROOM_TYPE as roomType,
-					r.NUMBE_OF_ACCOMMODATE_PEOPLE AS numberOfPeople,r.NUMBER_OF_PARTICIPANTS AS numberOfParticipants,rs.START_DATE AS startTime,rs.END_DATE AS endTime,
-					r.CHECK_IN_TIME AS checkInTime,r.CHECKED_OUT_TIME AS checkOutTime,r.RES_STATUS AS resStatus,r.SIGNING_CENTER_ID as tradeCenterId,
-					r.RES_PERSON_ID AS resPersonId,r.RES_PERSON_NAME AS realName,r.RES_PERSON_MOBILE AS mobile,r.SPECIAL_REQUIREMENT AS specialReq,
-					(SELECT COMMENT FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as latestComment,
-					(SELECT CREATE_TIME FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as followDateTime,
-					r.SERVICE_SPECIALIST as serviceSpecialist,r.TRANSACT_ITEM_CODE as transactItemCode,DATEDIFF(minute, rs.END_DATE,GETDATE()) AS timeDifference
-					FROM sctrans.T_RM_RESERVATION r
-					LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON r.SCHEDULE_ID = rs.PKID
-					LEFT JOIN sctrans.T_RM_SIGN_ROOM sr ON rs.ROOM_ID = sr.PKID
-					where r.SIGNING_CENTER_ID in (SELECT DISTINCT TRADE_CENTER_ID FROM sctrans.T_RM_SIGN_ROOM_ORG_MAPPING WHERE DISTRICT_ID = #distinctId#)
-					<ifNotNull resPersonId>	
-   						and r.RES_PERSON_ID = #resPersonId# 
-				    </ifNotNull>
-				    
-				    <ifNotNull resNo>	
-   						and r.RES_NO like '%' + #resNo# + '%'
-				    </ifNotNull>
-				    
-				    <ifNotNull mobile>	
-   						and r.RES_PERSON_MOBILE like '%' + #mobile# + '%'
-				    </ifNotNull>
-				    
-				    <ifNotNull startDateTime>
-				    	and CONVERT(varchar(100),rs.START_DATE, 23) >= #startDateTime#
-				    </ifNotNull>
-				    
-				    <ifNotNull endDateTime>
-				    	and CONVERT(varchar(100),rs.START_DATE, 23) &lt;= #endDateTime#
-				    </ifNotNull>
-				    
-				    <ifNotNull startResTime>
-				    	and CONVERT(varchar(100), rs.START_DATE, 8) = #startResTime#
-				    </ifNotNull>
-				    
-				    <ifNotNull endResTime>
-				    	and CONVERT(varchar(100), rs.END_DATE, 8) = #endResTime#
-				    </ifNotNull>
-				    
-				    <if test="resStatus != null and resStatus != ''">
-				    	and r.RES_STATUS = #resStatus#
-				    </if>
+					SELECT t.* FROM
+					(
+						SELECT CONVERT(varchar(100), rs.START_DATE, 23) as resDate,r.PKID AS resId,r.RES_NO AS resNo,rs.START_DATE AS resDateTime,getdate() as currentDate,sr.PKID as roomId,sr.ROOM_NO AS roomNO,sr.ROOM_TYPE as roomType,
+						r.NUMBE_OF_ACCOMMODATE_PEOPLE AS numberOfPeople,r.NUMBER_OF_PARTICIPANTS AS numberOfParticipants,rs.START_DATE AS startTime,rs.END_DATE AS endTime,
+						r.CHECK_IN_TIME AS checkInTime,r.CHECKED_OUT_TIME AS checkOutTime,r.RES_STATUS AS resStatus,r.SIGNING_CENTER_ID as tradeCenterId,
+						r.RES_PERSON_ID AS resPersonId,r.RES_PERSON_NAME AS realName,r.RES_PERSON_MOBILE AS mobile,r.SPECIAL_REQUIREMENT AS specialReq,
+						(SELECT COMMENT FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as latestComment,
+						(SELECT CREATE_TIME FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as followDateTime,
+						r.SERVICE_SPECIALIST as serviceSpecialist,r.TRANSACT_ITEM_CODE as transactItemCode,DATEDIFF(minute, rs.END_DATE,GETDATE()) AS timeDifference
+						FROM sctrans.T_RM_RESERVATION r
+						LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON r.SCHEDULE_ID = rs.PKID
+						LEFT JOIN sctrans.T_RM_SIGN_ROOM sr ON rs.ROOM_ID = sr.PKID
+						where r.SIGNING_CENTER_ID in (SELECT DISTINCT TRADE_CENTER_ID FROM sctrans.T_RM_SIGN_ROOM_ORG_MAPPING WHERE DISTRICT_ID = #distinctId#)
+						
+						<ifNotNull resPersonId>	
+	   						and r.RES_PERSON_ID = #resPersonId# 
+					    </ifNotNull>
+					    
+					    <ifNotNull resNo>	
+	   						and r.RES_NO like '%' + #resNo# + '%'
+					    </ifNotNull>
+					    
+					    <ifNotNull mobile>	
+	   						and r.RES_PERSON_MOBILE like '%' + #mobile# + '%'
+					    </ifNotNull>
+					    
+					    <ifNotNull startDateTime>
+					    	and CONVERT(varchar(100),rs.START_DATE, 23) >= #startDateTime#
+					    </ifNotNull>
+					    
+					    <ifNotNull endDateTime>
+					    	and CONVERT(varchar(100),rs.START_DATE, 23) &lt;= #endDateTime#
+					    </ifNotNull>
+					    
+					    <ifNotNull startResTime>
+					    	and CONVERT(varchar(100), rs.START_DATE, 8) = #startResTime#
+					    </ifNotNull>
+					    
+					    <ifNotNull endResTime>
+					    	and CONVERT(varchar(100), rs.END_DATE, 8) = #endResTime#
+					    </ifNotNull>
+					    
+					    <if test="resStatus != null and resStatus != ''">
+					    	and r.RES_STATUS = #resStatus#
+					    </if>
+					) t
 				]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY r.CREATE_TIME DESC
+				ORDER BY t.resDate DESC,t.resDateTime ASC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
