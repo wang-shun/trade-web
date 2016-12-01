@@ -2,11 +2,9 @@ package com.centaline.trans.mortgage.web;
 
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import javax.servlet.ServletRequest;
 
@@ -20,25 +18,21 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.mgr.entity.TsFinOrg;
-import com.centaline.trans.mgr.service.TsFinOrgService;
-import com.centaline.trans.mortgage.service.ToMortgageService;
 
 @Controller
 @RequestMapping(value="mortgageInfo")
 public class MortgageInfoListController {
 
-	@Autowired
-	ToMortgageService toMortgageService;
+
 	
 	@Autowired(required = true)
-	UamSessionService uamSessionService;	
+	private UamSessionService uamSessionService;	
 	
 	@Autowired(required = true)
-	UamUserOrgService uamUserOrgService;
+	private UamUserOrgService uamUserOrgService;
 	
-	@Autowired(required = true)
-	TsFinOrgService tsFinOrgService;
+
+	
 
 	
 	
@@ -74,6 +68,24 @@ public class MortgageInfoListController {
 		} else {
 			userJobCode = 3;
 		}
+		//贷款信息列表 判断登录的用户是前台组还是后台组，前台组看见所有信息，后台组只看后台组的信息
+/*		String orgId[] = reBuffer.toString().split(",");
+		if(orgId.length > 0){
+			for(int i=0; i<orgId.length; i++){
+				Org org = uamUserOrgService.getOrgById(orgId[i]);
+				if(org!=null){
+					TsTeamProperty TsTeamProperty =tsTeamPropertyService.findTeamPropertyByTeamCode(org.getOrgCode());
+					if(TsTeamProperty != null){
+						if("yu_back".equals(TsTeamProperty.getTeamProperty())){
+							request.setAttribute("queryOrgs", reBuffer.toString());
+						}else{
+							
+							request.setAttribute("queryOrgs", "notBack");
+						}
+					}
+				}
+			}
+		}*/
 		request.setAttribute("queryOrgs", reBuffer.toString());
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);	
