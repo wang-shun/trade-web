@@ -37,6 +37,16 @@
 	  </listener-class>
 	</listener>
 	
+	<filter>
+		<filter-name>resourceUrlEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.servlet.resource.ResourceUrlEncodingFilter</filter-class>
+	</filter>
+	 
+	<filter-mapping>
+		<filter-name>resourceUrlEncodingFilter</filter-name>
+		<servlet-name>spring</servlet-name>
+	</filter-mapping>
+	
 	<!--Spring ApplicationContext 载入 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

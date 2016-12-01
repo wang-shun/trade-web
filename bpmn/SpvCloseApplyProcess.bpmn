@@ -3,7 +3,7 @@
   <process id="SpvCloseApplyProcess" name="SpvCloseApplyProcess" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="SpvCloseDirectorAudit" name="中止/结束总监审核" activiti:assignee="${director}" activiti:formKey="/spv/task/spvCloseApply/process?handle=directorAudit&amp;__decorator=UI_V2"></userTask>
-    <userTask id="SpvCloseApply" name="终止/结束申请" activiti:assignee="${applier}" activiti:formKey="/spv/task/spvCloseApply/process?handle=apply&amp;__decorator=UI_V2"></userTask>
+    <userTask id="SpvCloseApply" name="中止/结束申请" activiti:assignee="${applier}" activiti:formKey="/spv/task/spvCloseApply/process?handle=apply&amp;__decorator=UI_V2"></userTask>
     <userTask id="SpvCloseHostAudit" name="中止/结束主办审核" activiti:assignee="${host}" activiti:formKey="/spv/task/spvCloseApply/process?handle=hostAudit&amp;__decorator=UI_V2"></userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="SpvCloseApply"></sequenceFlow>

@@ -16,19 +16,24 @@ $(document).ready(function(){
 })
 
 function submitBtnClick(handle,continueApply,result){
-	  if(!validateForm()){
-		  return false;
+	  if(!(handle == 'apply' && !continueApply)){
+		  if(!validateForm()){
+			  return false;
+		  }
 	  }
 
 	  if(!handle){
 		  if(!confirm("确定提交并开启流程吗！")){
 			  return false;
 		  } 
+		  if(!checkInOutWorkFlowProcess($("input[name='toSpvCloseApply.spvCode']").val())){
+	   		   return false;
+	   	   }
 	  }else if(handle == 'apply'){
-	  		if(result){
+	  		if(continueApply){
 			   	   if(!confirm("是否确定提交申请！")){
 				 		  return false;
-				 	  } 
+				 	  }
 			  }else{
 			  	   if(!confirm("是否确定取消申请！")){
 			     		  return false;
@@ -55,7 +60,7 @@ function submitBtnClick(handle,continueApply,result){
 		     	  } 
 		  }
 	  }
-	  
+
 	  var totalArr = [];
 	  if(continueApply != null){
 		  totalArr.push({"name":"continueApply","value":continueApply}); 
@@ -81,29 +86,29 @@ function submitBtnClick(handle,continueApply,result){
 			$(".blockOverlay").css({'z-index':'9998'});
     },
     complete: function() {
-             $.unblockUI(); 
              if(status=='timeout'){ //超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {
 				    msg:"抱歉，系统处理超时。"
 				  }); 
-		                } 
+		                }
+             $.unblockUI(); 
 		            } ,   
-		success : function(data) {   
-			if(data.success){
-				if(!handle){
-					alert("流程开启成功！");
-					window.location.href = ctx+"/spv/spvList";
-				}else{
-					alert("任务提交成功！");
-					window.opener.location.reload(); //刷新父窗口
-		        	window.close(); //关闭子窗口.
-				}
+	success : function(data) {   
+		if(data.success){
+			if(!handle){
+				alert("流程开启成功！");
+				window.location.href = ctx+"/spv/spvList";
 			}else{
-				alert("数据保存出错:\n"+data.message);
-				rescCallback();
+				alert("任务提交成功！");
+				window.opener.location.reload(); //刷新父窗口
+	        	window.close(); //关闭子窗口.
 			}
-			}
+		}else{
+			alert("数据保存出错:\n"+data.message);
+			rescCallback();
+		}
+		}
 });
 };
 
@@ -184,4 +189,23 @@ function getAccTypeOptions(){
 	});
     
 	return accTypeOptions;
+}
+
+//检查是否存在出入账流程
+function checkInOutWorkFlowProcess(spvCode){
+var res = true;
+$.ajax({
+	url:ctx+"/spv/checkInOutWorkFlowProcess",
+	async : false,//false同步，true异步
+	method:"post",
+	dataType:"json",
+	data:{spvCode:spvCode},   		        				        		      
+	success : function(data) {	
+		if(!data.success){
+			alert(data.message);
+			res = false;
+		}
+		}
+});
+	return res;
 }

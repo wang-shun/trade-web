@@ -34,6 +34,7 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -300,6 +301,7 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -455,6 +457,11 @@
 			return true;
 		}
 		
+		//渲染图片 
+		function renderImg(){
+			$('.wrapper-content').viewer('destroy');
+			$('.wrapper-content').viewer();
+		}
 	</script> 
 	</content>
 </body>

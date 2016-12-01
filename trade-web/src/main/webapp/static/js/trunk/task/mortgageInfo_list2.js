@@ -454,8 +454,7 @@ function getMOrgAnalysis() {
 	// check user job
 	var userJobCode = $("#userJobCode").val();
 
-	$
-			.ajax({
+	$.ajax({
 				async : false,
 				url : ctx + "/quickGrid/findPage",
 				method : "post",
@@ -878,13 +877,14 @@ function reloadGrid(data) {
 			});
 		},
 		success : function(data) {			
+			$.unblockUI();
 			data.ctx = ctx;
 			var mortgageInfoList = template('template_mortgageInfoList', data);
 			$("#mortgageInfoList").empty();
 			$("#mortgageInfoList").html(mortgageInfoList);
 			// 显示分页
 			initpage(data.total, data.pagesize, data.page, data.records);
-			$.unblockUI();
+			
 		},
 		error : function(e, jqxhr, settings, exception) {
 			$.unblockUI();
@@ -894,7 +894,6 @@ function reloadGrid(data) {
 
 // 分页
 function initpage(totalCount, pageSize, currentPage, records) {
-
 	if (totalCount > 1500) {
 		totalCount = 1500;
 	}

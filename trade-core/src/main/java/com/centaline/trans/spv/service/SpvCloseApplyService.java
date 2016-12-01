@@ -22,4 +22,6 @@ public interface SpvCloseApplyService {
 
 	public void spvCloseDirectorAuditDeal(HttpServletRequest request, SpvCloseInfoVO spvCloseInfoVO, String instCode, String taskitem, String taskId, String businessKey, Boolean result);
 
+	public String  findInOutWorkFlowProcessBySpvCode(String spvCode);
+
 }

@@ -45,6 +45,7 @@
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
+	<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 </head>
 
 <body>
@@ -482,6 +483,7 @@
  	<!-- 选择组织控件 --> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
     <!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
+    <script src="${ctx}/js/viewer/viewer.min.js"></script>
        <script>
        if ("${idList}" != "") {
 			var idList = eval("(" + "${idList}" + ")");
@@ -753,6 +755,12 @@
 				$(o).val("");
 				$(o).attr('hVal', "");
 			}
+		}
+		
+		//图片查看器控件  
+		function renderImg(){		
+			$('.wrapper-content').viewer('destroy');
+			$('.wrapper-content').viewer({zIndex:15001});
 		}
        </script>
 	</content>

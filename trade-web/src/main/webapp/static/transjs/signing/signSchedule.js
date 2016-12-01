@@ -2,6 +2,10 @@ $(function(){
 	$("#searchBtn").click(function(){
 		reloadGrid();
 	});
+	
+	$("#centerId").change(function(){
+		reloadGrid();
+	});
 })
 //加载数据
 function reloadGrid(bm) {
@@ -45,7 +49,7 @@ function reloadGrid(bm) {
 var dutyDate;
 var dutyType;
 var changed = false;//是否变更值班人员
-function chooseDutyOfficer(date,type) {
+function chooseDutyOfficer(date,type,startOrgId) {
 	dutyDate = date;
 	dutyType = type;
 	var tdid = $("#"+dutyDate+dutyType).html();
@@ -55,7 +59,8 @@ function chooseDutyOfficer(date,type) {
 		changed = true;
 	}
 	userSelect({
-		startOrgId : '',//非营业部
+
+		startOrgId : startOrgId,//非营业部
 		expandNodeId : '',
 		nameType : 'long|short',
 		orgType : '',
@@ -126,7 +131,7 @@ function dealDutyOfficerBack(array){
 		          $.unblockUI();   	
 		          if(data.success){
 		        	  alert(data.message);
-		        	  $("#"+dutyDate+dutyType).html("");
+		        	  $("#"+dutyDate+dutyType).html("空置");
 		          }else{
 		        	  alert(data.message);
 		          }

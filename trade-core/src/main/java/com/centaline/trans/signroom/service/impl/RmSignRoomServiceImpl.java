@@ -590,7 +590,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		map.put("dutyOfficer", user.getId());
 		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 		List<TradeCenterSchedule> tcs = tradeCenterScheduleMapper.queryTradeCenterSchedules(map);
-		if(tcs!=null && tcs.size()==1){
+		if(tcs!=null && tcs.size()>0){
 			return true;
 		}
 		return false;

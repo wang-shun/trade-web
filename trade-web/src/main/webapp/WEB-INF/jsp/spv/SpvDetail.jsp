@@ -120,7 +120,7 @@
 											</dl>
 										</div>
 									</div>
-									<div class="col-lg-5 bs-wizard-step 
+									<div class="col-lg-4 bs-wizard-step 
 										<c:choose>  
 										    <c:when test="${spvBaseInfoVO.toSpv.status>=2 && spvBaseInfoVO.toSpv.signTime!=undefined}"> complete
 										   </c:when>    
@@ -141,9 +141,9 @@
 											</dl>
 										</div>
 									</div>
-									<div class="col-lg-2 bs-wizard-step 
+									<div class="col-lg-4 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status>4}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status>=3 && spvBaseInfoVO.toSpv.closeTime!=undefined}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
@@ -157,7 +157,14 @@
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
-													<span>结束（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
+											<c:choose>  
+										    <c:when test="${spvBaseInfoVO.toSpv.status==7 && spvBaseInfoVO.toSpv.closeTime!=undefined}"> 
+										     <span>中止（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
+										    </c:when>    
+										    <c:otherwise> 
+										     <span>结束（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
+										    </c:otherwise>  
+										    </c:choose>	
 												</dd>
 											</dl>
 										</div>

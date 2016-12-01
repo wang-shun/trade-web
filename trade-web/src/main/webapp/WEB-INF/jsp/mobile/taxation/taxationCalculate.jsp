@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!doctype html>
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -17,9 +17,8 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/taxation/taxationCalculate.css" />
 </head>
 <body>
-    <header class="aui-bar aui-bar-nav">
+   <header class="aui-bar aui-bar-nav">
         <a class="aui-pull-left aui-btn" onClick="javascript :history.back(-1);">
-            <span class="aui-iconfont aui-icon-left"></span>
         </a>
         <div class="aui-title">税费计算</div>
     </header>
@@ -41,9 +40,9 @@
                 <p class="money" id="personTax">0 元</p>
             </div>
         </div>
-        <div class="sum-tax">
+        <div class="sum-tax" style="text-align:center;">
             <p class="font17">税金总额<i class="iconfont font14 popup-two">&#xe615;</i></p>
-            <p class="sum-number" id="totalTax">0元</p>
+            <p class="sum-number" id="totalTax"><span>0</span> 元</p>
         </div>
     </section>
     <section class="aui-content aui-margin-b-15">
@@ -55,7 +54,7 @@
                         建筑面积
                     </div>
                     <div class="aui-list-item-input unit-seat">
-                        <input type="number" class="text-right blue" placeholder="请输入建筑面积" onkeyup="sum();" id="squre">
+                        <input type="number" class="text-right blue input-search" placeholder="请输入建筑面积" onkeyup="sum();" id="squre" onfocus="this.placeholder=''" onblur="this.placeholder='请输入建筑面积'">
                     </div>
                     <div class="aui-unit">
                         平
@@ -68,7 +67,7 @@
                         房价
                     </div>
                     <div class="aui-list-item-input unit-seat">
-                        <input type="number" class="text-right blue" placeholder="请输入房价" onkeyup="sum();" id="housePrice">
+                        <input type="number" class="text-right blue" placeholder="请输入房价" onkeyup="sum();" id="housePrice" onfocus="this.placeholder=''" onblur="this.placeholder='请输入房价'">
                     </div>
                     <div class="aui-unit">
                         万
@@ -81,7 +80,7 @@
                         原价
                     </div>
                     <div class="aui-list-item-input unit-seat">
-                        <input type="number" class="text-right blue" placeholder="请输入原价" onkeyup="sum();" id="selfPrice">
+                        <input type="number" class="text-right blue" placeholder="请输入原价" onkeyup="sum();" id="selfPrice" onfocus="this.placeholder=''" onblur="this.placeholder='请输入原价'">
                     </div>
                     <div class="aui-unit">
                         万
@@ -143,7 +142,7 @@
                 </div>
             </li>
             <li class="aui-list-header newgrey"></li>
-            <!-- <section class="other-box white">
+            <section class="other-box white">
                 <div class="other-charges">
                     其它购房费用<i class="iconfont ml5">&#xe680;</i>
                 </div>
@@ -154,7 +153,7 @@
                                 应税面积<i class="iconfont font14 popup-four">&#xe615;</i>
                             </div>
                             <div class="aui-list-item-input unit-seat">
-                                <input type="number" class="text-right blue" placeholder="请输入建筑面积" id="taxableSqure">
+                                <input type="number" class="text-right blue" placeholder="请输入应税面积" id="taxableSqure" onkeyup="sum();">
                             </div>
                             <div class="aui-unit">
                                 平
@@ -167,14 +166,24 @@
                                 房产税
                             </div>
                             <div class="aui-list-item-input mr15">
-                                <p class="text-right" id="propertyFee">0元</p>
+                                <p class="text-right" id="propertyTax">0元</p>
                             </div>
                         </div>
                     </li>
                     <li class="othernape">
                         <div class="aui-list-item-inner  ">
                             <div class="aui-list-item-label">
-                                交易手续费
+                                公证费
+                            </div>
+                            <div class="aui-list-item-input mr15">
+                                <p class="text-right" id="notarialFees">0元</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="othernape">
+                        <div class="aui-list-item-inner  ">
+                            <div class="aui-list-item-label" style="overflow:visible;">
+                                交易手续费(每交易方)
                             </div>
                             <div class="aui-list-item-input mr15">
                                 <p class="text-right" id="tradeFee">0元</p>
@@ -183,11 +192,11 @@
                     </li>
                     <li class="othernape">
                         <div class="aui-list-item-inner  ">
-                            <div class="aui-list-item-label">
-                                委托公证费
+                            <div class="aui-list-item-label" style="overflow:visible;">
+                                委托公证费(每交易方)
                             </div>
                             <div class="aui-list-item-input mr15">
-                                <p class="text-right" id="notarialFees">0元</p>
+                                <p class="text-right">200元</p>
                             </div>
                         </div>
                     </li>
@@ -202,13 +211,13 @@
                         </div>
                     </li>
                 </ul>
-            </section> -->
+            </section>
         </ul>
         <p class="mt15 text-center">
-            以上结果仅供参考，实际费用以审税结果为准
+                              最终税费以交易中心和审税结果为准
         </p>
     </section>
-    <div id="Popup" class="layui-m-layer layui-m-layer0" >
+    <div id="Popup" class="layui-m-layer layui-m-layer0" style="display:none;">
         <div class="layui-m-layershade"></div>
         <div class="layui-m-layermain">
             <div class="layui-m-layersection">
@@ -253,7 +262,7 @@ $(function () {
                 + "如购房者为上海户籍且首套房可免征。</p>";
 
     //遮罩弹窗层隐藏显示
-    $popup.hide();
+    //$popup.hide();
     $(".popup-one").on("click",function() {
         $popup.show();
         $(".date-title").html("个人所得税说明");
@@ -298,6 +307,19 @@ $(function () {
         $(this).addClass('deep-blue').siblings().removeClass('deep-blue');
         sum();
     });
+
+    //foucu value
+    /*$(".input-search").focus(function(){
+          $(this).addClass("focus");
+          if($(this).placeholder() ==this.defaultValue){
+              $(this).placeholder("");
+          }
+    }).blur(function(){
+         $(this).removeClass("focus");
+         if ($(this).val() == '') {
+            $(this).val(this.defaultValue);
+         }
+    })*/
 
 });
 
@@ -354,7 +376,10 @@ function calculatePersonTax(housePrice,isFiveyears,isUnique,isNormal) {
 }
 //房产税
 function calculateTaxable(taxableSqure,housePrice,squre) {
-	var unitPrice = parseFloat(housePrice.div(squre));
+	var unitPrice = parseFloat((housePrice*10000).div(squre));
+	if(squre==0){
+		 return 0;
+	}
 	if(unitPrice<43006) {
 		return getPositive(taxableSqure*unitPrice*0.7*0.004); 
 	} else {
@@ -364,24 +389,22 @@ function calculateTaxable(taxableSqure,housePrice,squre) {
 //公证费
 function calculateNotarialFees(housePrice) {
 	if(housePrice<=500) {
-		return getPositive(housePrice*0.0025+250); 
-	} else if(500<housePrice<=1000) {
-		return getPositive(housePrice*0.002+2750); 
-	} else if(1000<housePrice<=2000) {
-		return getPositive(housePrice*0.0015+7750); 
-	} else if(2000<housePrice<=5000) {
-		return getPositive(housePrice*0.001+17750); 
+		return getPositive(housePrice*0.0025*10000+250); 
+	} else if(housePrice>500 && housePrice<=1000) {
+		return getPositive(housePrice*0.002*10000+2750); 
+	} else if(housePrice>1000 && housePrice<=2000) {
+		return getPositive(housePrice*0.0015*10000+7750); 
+	} else if(housePrice>2000 && housePrice<=5000) {
+		return getPositive(housePrice*0.001*10000+17750); 
 	} else {
-		return getPositive(housePrice*0.0005+42750); 
+		return getPositive(housePrice*0.0005*10000+42750); 
 	}
 }
 //其他费用(交易手续费,委托公证费,权证登记费)
-function tradeTax(squre) {
-	return getPositive(2.5*squre); 
+function tradeTaxFee(squre) {
+	return getPositive(2*squre); 
 }
-function notarialFees(squre){
-	return getPositive(200*squre); 
-}
+
 function sum(t) {
 	var isPerson ;
 	if($(".choose1").filter(".deep-blue").attr("data")=='0') {
@@ -465,14 +488,21 @@ function sum(t) {
 	$("#totalTax").html('<span>'+totalTax+'</span>万');
 	//alert('ok!');
 	
-	//calculateTaxable(taxableSqure,housePrice,squre) 
-	//calculateNotarialFees(housePrice)
-	//tradeTax(squre)
+	//交易手续费
+	var tradeTax = tradeTaxFee(squre);
+	$("#tradeFee").html(tradeTax+"元");
 	
-	//$("#taxableSqure").html(deedTax+"万");
-	//$("#propertyFee").html(calculateAddTax+"万");
-	//$("#tradeFee").html(personTax+"万");
-	//$("#notarialFees").html(personTax+"万");
+	// 房产费
+	var taxableSqure = 0;
+	if($("#taxableSqure").val()!='') {
+		taxableSqure = parseFloat($("#taxableSqure").val());
+	}
+	var propertyTax = calculateTaxable(taxableSqure,housePrice,squre); 
+	$("#propertyTax").html('<span>'+propertyTax+'</span>元');
+	
+	//公证费
+	var notarialFees = calculateNotarialFees(housePrice);
+	$("#notarialFees").html('<span>'+notarialFees+'</span>元');
 }
 </script>
 

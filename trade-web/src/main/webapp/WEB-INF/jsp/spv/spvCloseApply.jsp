@@ -901,7 +901,7 @@
                 
                         <c:if test="${handle eq 'hostAudit' or handle eq 'directorAudit' or handle eq 'apply'}" >
                         <div class="title">
-                            <strong>历史审核意见</strong>
+                            <strong>审核记录</strong>
                         </div>
                         <div class="view-content">
                             <div class="view-box">
@@ -945,27 +945,27 @@
 							    <div>
 									<a id="apply_submit_btn" class="btn btn-success btn-space">提交申请</a>
 									<a id="apply_cancel_btn" class="btn btn-pink btn-space">取消申请</a>
-									<a onclick="rescCallbocak()" class="btn btn-default btn-space">取消</a>
+									<a onclick="rescCallback()" class="btn btn-default btn-space">关闭</a>
 								</div>
 							</c:if>			
 							<c:if test="${handle eq 'hostAudit' }">
 							    <div>
                                 <a id="hostAudit_pass_btn" class="btn btn-success btn-space">审批通过</a>
                                 <a id="hostAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</a>
-                                <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
+                                <a onclick="rescCallback()" class="btn btn-default btn-space">关闭</a>
 								</div>
 							</c:if>											
 							<c:if test="${handle eq 'directorAudit' }">
 							    <div>
                                 <a id="directorAudit_pass_btn" class="btn btn-success btn-space">审批通过</a>
                                 <a id="directorAudit_reject_btn" class="btn btn-pink btn-space">审批驳回</a>
-                                <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
+                                <a onclick="rescCallback()" class="btn btn-default btn-space">关闭</a>
 								</div>
 							</c:if>							
 							<c:if test="${empty handle}">
 							    <div>
 								<a id="page_submit_btn" class="btn btn-success btn-space">提交申请</a>
-                                <a onclick="rescCallback()" class="btn btn-default btn-space">取消</a>
+                                <a onclick="rescCallback()" class="btn btn-default btn-space">关闭</a>
 								</div>
 							</c:if>			
                             </div>

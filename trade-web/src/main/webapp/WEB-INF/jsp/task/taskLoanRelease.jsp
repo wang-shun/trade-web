@@ -35,6 +35,7 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -82,14 +83,7 @@
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="pkid" name="pkid" value="${loanRelease.pkid}">
-					<div class="form-group" id="data_1">
-						<label class="col-sm-2 control-label">放款时间<font color="red">*</font></label>
-						<div class="input-group date readOnly_date">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="text" class="form-control" id="lendDate" name="lendDate" onfocus="this.blur()"
-								value="<fmt:formatDate  value='${loanRelease.lendDate}' type='both' pattern='yyyy-MM-dd'/>" >
-						</div>
-					</div>
+					
 					<c:if test="${tz}">
 					<div class="form-group" id="data_1">
 						<label class="col-sm-2 control-label">他证送抵时间<c:if test="${loanRelease.isDelegateYucui=='1'}"><font color="red">*</font></c:if></label>
@@ -100,6 +94,15 @@
 						</div>
 					</div>
 					</c:if>
+					
+					<div class="form-group" id="data_1_forBank">
+						<label class="col-sm-2 control-label">银行真实放款时间<font color="red">*</font></label>
+						<div class="input-group date readOnly_date">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								<input type="text" class="form-control" id="lendDate" name="lendDate" onfocus="this.blur()"
+								value="<fmt:formatDate  value='${loanRelease.lendDate}' type='both' pattern='yyyy-MM-dd'/>" >
+						</div>
+					</div>
 
 					<div class="form-group">
 						<label class="col-sm-2 control-label">备注</label>
@@ -280,7 +283,8 @@
 	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>	
+    <script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -304,11 +308,18 @@
 		$('#data_1 .input-group.date').datepicker({
 			todayBtn : "linked",
 			keyboardNavigation : false,
-			forceParse : false,
-			calendarWeeks : true,
-			autoclose : true
+			forceParse : false,		
+			autoclose : true			
 		});
 
+		$('#data_1_forBank .input-group.date').datepicker({
+			todayBtn : "linked",
+			keyboardNavigation : false,
+			forceParse : false,		
+			autoclose : true,
+			endDate : new Date()  //限制选取的结束时间
+		});		
+		
 		$("#caseCommentList").caseCommentGrid({
 			caseCode : caseCode,
 			srvCode : taskitem
@@ -321,64 +332,67 @@
 				save(true);
 			}
 		}
-
+		
 		/**保存数据*/
 		function save(b) {
-			if(!checkForm()) {
-				return;
-			}
-			var jsonData = $("#loanReleaseForm").serializeArray();
-			deleteAndModify();
-			
-			var url = "${ctx}/task/mortgage/saveMortgage";
-			if(b) {
-				url = "${ctx}/task/mortgage/submitLoanRelease";
-			}
-			
-			$.ajax({
-				cache : true,
-				async : false,//false同步，true异步
-				type : "POST",
-				url : url,
-				dataType : "json",
-				data : jsonData,
-	   		    beforeSend:function(){  
-    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-    				$(".blockOverlay").css({'z-index':'9998'});
-                },
-                complete: function() {  
-
-                	$.unblockUI();  
-                	if(b){ 
-                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
-    				    $(".blockOverlay").css({'z-index':'1900'});
-                	}   
-                     if(status=='timeout'){//超时,status还有success,error等值的情况
-    	          	  Modal.alert(
-    				  {
-    				    msg:"抱歉，系统处理超时。"
-    				  });
-    		  		 $(".btn-primary").one("click",function(){
-    		  				parent.$.fancybox.close();
-    		  			});	 
-    		                } 
-    		            } ,  				
-				success : function(data) {
-					if(b) {
-						caseTaskCheck();
-						if(null!=data.message){
-							alert(data.message);
-						}
-					} else {
-						alert("保存成功。");
-						 window.close();
-						 window.opener.callback();
+			if(confirm("请确认银行是否已真实放款")){
+					if(!checkForm()) {
+						return;
 					}
-				},
-				error : function(errors) {
-					alert("数据保存出错");
-				}
-			});
+					var jsonData = $("#loanReleaseForm").serializeArray();
+					deleteAndModify();
+					
+					var url = "${ctx}/task/mortgage/saveMortgage";
+					if(b) {
+						url = "${ctx}/task/mortgage/submitLoanRelease";
+					}
+					
+					$.ajax({
+						cache : true,
+						async : false,//false同步，true异步
+						type : "POST",
+						url : url,
+						dataType : "json",
+						data : jsonData,
+			   		    beforeSend:function(){  
+		    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		    				$(".blockOverlay").css({'z-index':'9998'});
+		                },
+		                complete: function() {  
+	
+		                	$.unblockUI();  
+		                	if(b){ 
+		                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
+		    				    $(".blockOverlay").css({'z-index':'1900'});
+		                	}   
+		                     if(status=='timeout'){//超时,status还有success,error等值的情况
+		    	          	  Modal.alert(
+		    				  {
+		    				    msg:"抱歉，系统处理超时。"
+		    				  });
+		    		  		 $(".btn-primary").one("click",function(){
+		    		  				parent.$.fancybox.close();
+		    		  			});	 
+		    		                } 
+		    		            } ,  				
+						success : function(data) {
+							if(b) {
+								caseTaskCheck();
+								if(null!=data.message){
+									alert(data.message);
+								}
+							} else {
+								alert("保存成功。");
+								 window.close();
+								 window.opener.callback();
+							}
+						},
+						error : function(errors) {
+							alert("数据保存出错");
+						}
+					});
+			}		
+
 		}
 		
 		//验证控件checkUI();
@@ -401,6 +415,11 @@
 			return true;
 		}
 		
+		//渲染图片 
+		function renderImg(){
+			$('.wrapper-content').viewer('destroy');
+			$('.wrapper-content').viewer();
+		}
 	</script> 
 	</content>
 </body>

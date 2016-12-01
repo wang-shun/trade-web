@@ -629,8 +629,8 @@ function showExcelIn() {
 
 //Excel显示列
 var colNames = {
-	30010001 : [ 'AGENT_NAME', 'AGENT_ORG', 'AGENT_FHJL', 'AGENT_QYJL',
-		 			'AGENT_QYZJ','AGENT_QYDS','AGENT_QDORG' ],
+	30010001 : [ 'AGENT_NAME', 'AGENT_EMP_CODE','AGENT_ORG', 'AGENT_FHJL', 'JFHJL_MGR_CODE','AGENT_QYJL','JQYJL_MGR_CODE',
+		 			'AGENT_QYZJ','JQYZJ_MGR_CODE','AGENT_QYDS','JQYDS_MGR_CODE','AGENT_QDORG' ],
 	30010002 : [ 'OP_NAME', 'OP_CODE', 'OP_ORG', 'OP_MANAGER','OP_AS',
 	             'OP_PARENT_ORG','SRV_STR','PROCESSOR_ID'],
 	30010003 : [ 'PROPERTY_ADDR', 'SELLER', 'SELLER_PHONE', 'BUYER',
@@ -667,6 +667,7 @@ function exportToExcel() {
 		var displayColomn = new Array;
 		displayColomn.push('CASE_CODE');
 		displayColomn.push('CTM_CODE');
+		displayColomn.push('AGENT_FHJL_CODE');
 		$("input[name='basic_info_item']:checked").each(function() {
 			var val = this.value;
 			displayColomn.push(colNames[val]);

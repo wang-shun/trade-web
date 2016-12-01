@@ -21,7 +21,7 @@ function getQueryParams(page){
 	if(ctmNo==""){
 		ctmNo=null;
 	}
-	var caseNo = $('#caseNo').val();
+	var caseNo = $('#caseNo').val().replace(/(^\s*)|(\s*$)/g, "");
 	if(caseNo==""){
 		caseNo=null;
 	}
