@@ -392,7 +392,7 @@ public class WorkSpaceController {
 		int jas = 0;
 
 		// 判断登录用户
-		String userOrgId = user.getServiceOrgId();
+		String userOrgId = user.getServiceDepId();
 		List<User> userList = null;
 		List<User> userList2 = null;
 		ToCaseInfoCountVo toCaseInfoCount = null;
