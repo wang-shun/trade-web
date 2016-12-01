@@ -218,7 +218,6 @@ public class WorkSpaceServiceImpl implements WorkSpaceService {
 	}
 	
 	@Override
-	@Cacheable(value="WorkSpaceServiceImpl.findPageForSqlServer", key="#gp.toString()")
 	public Page<Map<String, Object>> findPageForSqlServer(JQGridParam gp){
         return quickGridService.findPageForSqlServer(gp, null);
     }
