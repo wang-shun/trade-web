@@ -22,8 +22,6 @@ public class OrgReportFormServiceImpl implements OrgReportFormService {
     @Autowired
     private QuickGridService quickGridService;
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.findPageForReportOrgForm", key="#gp.toString()")
     public List<ToCaseInfoCountVo> findPageForReportOrgForm(JQGridParam gp) {
         gp.setQueryId("queryOrgIdListForReportCount");
         Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, null);
@@ -31,20 +29,14 @@ public class OrgReportFormServiceImpl implements OrgReportFormService {
         return  getFormCount(list);
     }
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.findPageForReportFormPage", key="#chcheKey")
     public Page<Map<String, Object>> findPageForReportFormPage(JQGridParam gp, String chcheKey) {
         return quickGridService.findPageForSqlServer(gp, null);
     }
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.findPageForReportRedcountList", key="#gp.toString()")
     public Page<Map<String, Object>> findPageForReportRedCountList(JQGridParam gp) {
         return quickGridService.findPageForSqlServer(gp, null);
     }
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.findPageForCaseReportFormCount", key="222")
     public List<ToCaseInfoCountVo>  findPageForCaseReportFormCount(JQGridParam gp) {
 
         List<ToCaseInfoCountVo> voList = new LinkedList<ToCaseInfoCountVo>();
@@ -103,26 +95,19 @@ public class OrgReportFormServiceImpl implements OrgReportFormService {
      return voList;
     }
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.queryRedcountListForPeople", key="#gp.toString()")
     public Page<Map<String, Object>> queryRedcountListForPeople(JQGridParam gp) {
         return quickGridService.findPageForSqlServer(gp, null);
     }
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.queryCountForAllRedLock", key="#gp.toString()")
     public Page<Map<String, Object>> queryCountForAllRedLock(JQGridParam gp) {
         return quickGridService.findPageForSqlServer(gp, null);
     }
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl", key="#gp.toString()")
     public List<ToCaseInfoCountVo> findDataCountForDistrict(JQGridParam gp) {
         Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, null);
         List<Map<String,Object>> list = pages.getContent();
         return  getFormCount(list);
     }
-
 
     private  List<ToCaseInfoCountVo> getFormCount(List<Map<String,Object>> list){
         List<ToCaseInfoCountVo> voList = new LinkedList<ToCaseInfoCountVo>();
