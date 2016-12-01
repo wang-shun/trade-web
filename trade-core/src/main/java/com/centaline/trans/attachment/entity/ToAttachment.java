@@ -1,5 +1,6 @@
 package com.centaline.trans.attachment.entity;
 
+import java.util.Date;
 import java.util.List;
 
 public class ToAttachment {
@@ -22,6 +23,14 @@ public class ToAttachment {
     private List<Pic> pic;
     /*产调编号*/
     private String prCode;
+    
+    private String createBy;
+    
+    private Date createTime;
+    
+    private String updateBy;
+    
+    private Date updateTime;
    
     
     
@@ -103,6 +112,38 @@ public class ToAttachment {
 
 	public void setPreFileName(String preFileName) {
 		this.preFileName = preFileName;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }
