@@ -386,5 +386,6 @@
     <bean name="getChangeReason" class="com.centaline.trans.common.service.impl.QuickQueryGetChangeReasonServiceImpl"></bean>
     
     <bean name="convertValueForLoanlostReason" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueLostReasonServiceImpl" />
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
