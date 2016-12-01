@@ -113,7 +113,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY C.CASE_CODE DESC
+				ORDER BY TRANSFERDATE DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>

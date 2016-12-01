@@ -194,7 +194,7 @@ text-decoration: underline !important;
 					<label class="sign_left_two control-label">
 						是否关注
 					</label>
-					<div class="sign_right teamcode">
+					<div class="sign_right teamcode"> 
 						<select name="" class="form-control" id="isSubscribeFilter">
 							<option value="" selected="selected">请选择</option>
 							<option value="0">已关注</option>
