@@ -109,7 +109,7 @@
 	{{else}}
 		<section class="aui-content  reminder-login">
         	<img src="${ctx}/image/reminder.png" width="100%" alt="" />
-        	<h3 style="text-align:center">对不起，<br/>当天无签约室预约信息！</h3>
+        	<h3 style="text-align:center">对不起，<br/>当前无签约室预约信息！</h3>
     	</section>
 	{{/if}}
 </script> 
