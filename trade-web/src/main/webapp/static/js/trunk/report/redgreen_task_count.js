@@ -212,6 +212,8 @@ function exportTExcelZb() {
 	if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 	var queryId = '&queryId=queryRedGreenTaskCountList';
 	var colomns = '&colomns=' + displayColomn;
+	params.redDelaytime = $("#redDelaytime").val();
+	params.yellowDelaytime = $("#yellowDelaytime").val();
 	getDatabase(params,true);
 	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
 	$('#excelForm').attr('action', url);
@@ -302,6 +304,8 @@ function exportToExcelGb(organId) {
 	if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 	var params = {};
 	params.orgName1 = organId;
+	params.redDelaytime = $("#redDelaytime").val();
+	params.yellowDelaytime = $("#yellowDelaytime").val();
 	getDatabase(params,false);
 	var queryId = '&queryId=queryRedGreenTaskCountGbList';
 	var colomns = '&colomns=' + displayColomn;
