@@ -19,7 +19,7 @@
 		class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
 		<property name="master">
 			<bean class="org.springframework.data.redis.connection.RedisNode">
-				<property name="name" value="master1">
+				<property name="name" value="${redis.master.name}">
 				</property>
 			</bean>
 		</property>
