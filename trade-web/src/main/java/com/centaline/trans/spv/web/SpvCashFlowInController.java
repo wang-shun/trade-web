@@ -63,7 +63,7 @@ public class SpvCashFlowInController {
 		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
 
-		toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApple(request,pkid,caseCode);
+		toSpvService.findSpvBaseInfoVOAndSetAttrinCaseFlowApply(request,pkid,caseCode);
 		request.setAttribute("orgId", parentOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/spvRecorded";

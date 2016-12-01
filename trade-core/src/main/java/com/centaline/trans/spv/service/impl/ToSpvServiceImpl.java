@@ -754,7 +754,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		SpvBaseInfoVO spvBaseInfoVO = new SpvBaseInfoVO();
 
-		if (StringUtils.isBlank(String.valueOf(pkid)) || "null".equals(String.valueOf(pkid))) {
+		if (pkid == null) {
 			return spvBaseInfoVO;
 		}
 
@@ -1153,7 +1153,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	
 	
 	@Override
-	public void findSpvBaseInfoVOAndSetAttrinCaseFlowApple(HttpServletRequest request, Long pkid, String caseCode) {
+	public void findSpvBaseInfoVOAndSetAttrinCaseFlowApply(HttpServletRequest request, Long pkid, String caseCode) {
 		
 		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkidinCaseFlowApple(request, pkid);//监管合约信息
 		
