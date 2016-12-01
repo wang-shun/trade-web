@@ -262,6 +262,10 @@ function signRommAjaxSubmit(obj) {
 						  th+="<td><span class='grey_no big'>预约中</span></td>";
 					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='1'){
 						  th+="<td><span class='big'>使用中</span></td>";
+					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='2'){
+						  th+="<td><span class='big'>提前使用</span></td>";
+					  }else if($.trim(data.content.signRooms[i].rmRoomSchedules[j].useStatus)=='3'){
+						  th+="<td><span class='big'>超期使用中</span></td>";
 					  }
 				  }
 				  th+="</tr>";

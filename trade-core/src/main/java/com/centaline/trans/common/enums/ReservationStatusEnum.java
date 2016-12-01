@@ -10,8 +10,8 @@ public enum ReservationStatusEnum {
 	QYSSYZ("1","使用中"),
 	QYSYSY("2","已使用"),
 	QYSYGQ("3","已过期"),
-	QYSYQX("4","已取消");
-
+	QYSYQX("4","已取消"),
+	QYSTQSY("5","提前使用");
 	private String name;
 
 	private String code;
