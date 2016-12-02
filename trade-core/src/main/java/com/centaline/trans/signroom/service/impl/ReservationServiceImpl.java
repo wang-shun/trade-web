@@ -191,6 +191,7 @@ public class ReservationServiceImpl implements ReservationService {
 		try {
 			Reservation reservation = reservationMapper
 					.getReservationById(resId);
+			reservation.setResStatus("2");
 			reservation.setCheckedOutTime(checkedOutTime);
 
 			// 更新提前使用的预约记录的签退时间
