@@ -28,7 +28,7 @@
 		</formatter>
 	</formatters>	
 	
-	<query id="queryMortgageTypeAnalysis" cacheResult="true">
+	<query id="queryMortgageTypeAnalysis">
 	    <searchCondition>
 
         </searchCondition> 

@@ -56,6 +56,7 @@ var evalFeeAmount = new Array(0, 0);
 var evalFeeCaseItems = new Array();
 var evalFeeAmountItems = new Array();
 
+var reportTurnOnOffFlag = true;
 /**
  * 案件统计详情
  */
@@ -93,7 +94,7 @@ $(document).ready(function() {
 
 			$(".charone,.chartwo,.chartthree,.chartfour").hide();
 			$("#mortTypeAnalysis").click(function() {
-				setPieCharts();
+				dataSwitch()
 				$(".charone").toggle();
 				$(".chartwo").hide();
 				$(".chartthree").hide();
@@ -108,7 +109,7 @@ $(document).ready(function() {
 			});
 
 			$("#mortOrgAnalysis").click(function() {
-				setPieCharts();
+				dataSwitch()
 				$(".chartwo").toggle();
 				$(".charone").hide();
 				$(".chartthree").hide();
@@ -123,7 +124,7 @@ $(document).ready(function() {
 			});
 			
 			$("#mortTmpBankAnalysis").click(function() {
-				setPieCharts();
+				dataSwitch()
 				$(".chartthree").toggle();
 				$(".charone").hide();
 				$(".chartwo").hide();
@@ -138,7 +139,7 @@ $(document).ready(function() {
 			});
 			
 			$("#mortEvalFeeAnalysis").click(function() {
-				setPieCharts();
+				dataSwitch()
 				$(".chartfour").toggle();
 				$(".charone").hide();
 				$(".chartwo").hide();
@@ -158,7 +159,12 @@ $(document).ready(function() {
 			 * });
 			 */
 		});
-
+function dataSwitch(){
+	if(reportTurnOnOffFlag){
+		setPieCharts();
+		reportTurnOnOffFlag=false;
+	}
+}
 function resetData() {
 	
 	var index;
@@ -774,6 +780,12 @@ $('#datepicker_0').datepicker({
 $('#mortgageInfoSearchButton').click(function() {
 	loanLostApproveSearchMethod();
 	setPieCharts();
+	reportTurnOnOffFlag = true;
+	$(".charone").hide();
+	$(".chartwo").hide();
+	$(".chartthree").hide();
+	$(".chartfour").hide();
+	$(".add_btn .btn-toggle").removeClass("btn-bg");
 });
 
 // 查询
@@ -1159,7 +1171,7 @@ function radioYuCuiOrgSelectCallBack(array) {
 function chooseCaseOperator(id) {
 	var serviceDepId = id;
 	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
-
+	console.log("serviceDepId:"+serviceDepId+"expandNodeId:"+serviceDepId+"");
 	if (yuCuiOriGrpId != "") {
 		userSelect({
 			startOrgId : yuCuiOriGrpId,
