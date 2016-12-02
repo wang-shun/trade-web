@@ -193,35 +193,36 @@ public class ReservationServiceImpl implements ReservationService {
 					.getReservationById(resId);
 			reservation.setCheckedOutTime(checkedOutTime);
 
-			// 如果提前预约签退,则要同步原先预约信息的签退时间
-			if ("5".equals(reservation.getResStatus())) {
-				Long scheduleId = Long.parseLong(reservation.getScheduleId());
-				RmRoomSchedule rmRoomSchedule = rmRoomScheduleMapper
-						.getRmRoomScheduleByPkid(scheduleId);
-
-				ReservationVo reservationVo = new ReservationVo();
-
-				// 设置条件
-				reservationVo.setResPersonId(reservation.getResPersonId());
-				reservationVo.setCheckInTime(reservation.getCheckInTime());
-				reservationVo.setRoomId(rmRoomSchedule.getRoomId());
-
-				// 根据房间号相同、签到时间相同、预约人id相同获取原先的预约记录
-				Reservation oldReservation = reservationMapper
-						.getOldReservation(reservationVo);
-
-				// 如果存在原先预约记录
-				if (oldReservation != null) {
-					// 设置签退时间
-					oldReservation.setCheckedOutTime(checkedOutTime);
-
-					// 同步原先预约记录的签退时间
-					reservationMapper.endUse(oldReservation);
-				}
-			}
-
 			// 更新提前使用的预约记录的签退时间
 			reservationMapper.endUse(reservation);
+
+			// 如果提前预约签退,则要同步原先预约信息的签退时间
+			Long scheduleId = Long.parseLong(reservation.getScheduleId());
+			RmRoomSchedule rmRoomSchedule = rmRoomScheduleMapper
+					.getRmRoomScheduleByPkid(scheduleId);
+
+			ReservationVo reservationVo = new ReservationVo();
+
+			// 设置条件
+			reservationVo.setResPersonId(reservation.getResPersonId());
+			reservationVo.setCheckInTime(reservation.getCheckInTime());
+			reservationVo.setRoomId(rmRoomSchedule.getRoomId());
+
+			// 根据房间号相同、签到时间相同、预约人id相同获取原先的预约记录
+			Reservation oldReservation = reservationMapper
+					.getOldReservation(reservationVo);
+
+			// 如果存在原先预约记录
+			if (oldReservation != null) {
+				// 将状态设置为提前使用
+				oldReservation.setResStatus("5");
+
+				// 设置签退时间
+				oldReservation.setCheckedOutTime(checkedOutTime);
+
+				// 同步原先预约记录的签退时间
+				reservationMapper.endUse(oldReservation);
+			}
 		} catch (Exception e) {
 			result = 0;
 			e.printStackTrace();
@@ -422,6 +423,16 @@ public class ReservationServiceImpl implements ReservationService {
 		} else if (freeRoomInfo.getResStatus() != null
 				&& "4".equals(freeRoomInfo.getResStatus().trim())) {// 预约已取消状态为空置
 			freeRoomInfo.setUseStatus("N");
+		} else if (freeRoomInfo.getResStatus() != null
+				&& "5".equals(freeRoomInfo.getResStatus().trim())) {// 提前使用中
+			freeRoomInfo.setUseStatus("2");// 提前使用
+			if (startTime != null && curTime > startTime) {// 当当前时间在该时间段
+				if (freeRoomInfo.getCheckOutTime() != null) {// 已签退
+					freeRoomInfo.setUseStatus("N");// 空置
+				} else {
+					freeRoomInfo.setUseStatus("3");// 超期使用中
+				}
+			}
 		} else {
 			if (freeRoomInfo.getCheckInTime() != null) {// 是否已签到
 				if (freeRoomInfo.getCheckOutTime() != null) {// 是否已签退
@@ -455,9 +466,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public String startUseInAdvance(ReservationVo reservationVo) {
-		String result = "true";
-
+	public void startUseInAdvance(ReservationVo reservationVo) {
 		// 获取当前时间、同一房间号是否有空闲的房间
 		FreeRoomInfo freeRoomInfo = getFreeRoomByRoomNoAndCurTime(reservationVo
 				.getRoomId());
@@ -472,12 +481,11 @@ public class ReservationServiceImpl implements ReservationService {
 						.getReservationById(Long.parseLong(reservationVo
 								.getResId()));
 
-				result = temporaryAssignment(freeRoomInfo, oldReservation);
+				temporaryAssignment(freeRoomInfo, oldReservation);
 			}
 
 		}
 
-		return result;
 	}
 
 	/**
@@ -488,86 +496,73 @@ public class ReservationServiceImpl implements ReservationService {
 	 * @param oldReservation
 	 *            旧预约信息
 	 */
-	public String temporaryAssignment(FreeRoomInfo freeRoomInfo,
+	public void temporaryAssignment(FreeRoomInfo freeRoomInfo,
 			Reservation oldReservation) {
-		String result = "true";
 		SessionUser currentUser = uamSessionService.getSessionUser();
 
-		try {
-			String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
-			String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
+		String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
+		String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
 
-			Date currentTime = new Date();
+		Date currentTime = new Date();
 
-			Reservation reservation = new Reservation();
-			reservation.setResNo(resNo);
-			reservation.setResType("1");
-			reservation.setResPersonId(oldReservation.getResPersonId());
-			reservation.setResPersonName(oldReservation.getResPersonName());
-			reservation.setResPersonMobile(oldReservation.getResPersonMobile());
-			reservation.setResPersonOrgId(oldReservation.getResPersonOrgId());
-			reservation.setSigningCenterId(oldReservation.getSigningCenterId());
-			reservation.setSigningCenter(oldReservation.getSigningCenter());
-			reservation.setResStatus("1");
-			reservation.setScheduleId(freeRoomInfo.getScheduleId());
-			reservation.setCaseCode(oldReservation.getCaseCode());
-			reservation.setServiceSpecialist(oldReservation
-					.getServiceSpecialist());
-			reservation.setPropertyAddress(oldReservation.getPropertyAddress());
-			reservation.setNumberOfPeople(oldReservation.getNumberOfPeople());
-			reservation.setScheduleId(freeRoomInfo.getScheduleId());
-			reservation.setNumberOfParticipants(oldReservation
-					.getNumberOfParticipants());
-			reservation.setTransactItemCode(oldReservation
-					.getTransactItemCode());
-			reservation.setSpecialRequirement(oldReservation
-					.getSpecialRequirement());
-			reservation.setCheckInTime(currentTime);
+		Reservation reservation = new Reservation();
+		reservation.setResNo(resNo);
+		reservation.setResType("1");
+		reservation.setResPersonId(oldReservation.getResPersonId());
+		reservation.setResPersonName(oldReservation.getResPersonName());
+		reservation.setResPersonMobile(oldReservation.getResPersonMobile());
+		reservation.setResPersonOrgId(oldReservation.getResPersonOrgId());
+		reservation.setSigningCenterId(oldReservation.getSigningCenterId());
+		reservation.setSigningCenter(oldReservation.getSigningCenter());
+		reservation.setResStatus("1");
+		reservation.setScheduleId(freeRoomInfo.getScheduleId());
+		reservation.setCaseCode(oldReservation.getCaseCode());
+		reservation.setServiceSpecialist(oldReservation.getServiceSpecialist());
+		reservation.setPropertyAddress(oldReservation.getPropertyAddress());
+		reservation.setNumberOfPeople(oldReservation.getNumberOfPeople());
+		reservation.setScheduleId(freeRoomInfo.getScheduleId());
+		reservation.setNumberOfParticipants(oldReservation
+				.getNumberOfParticipants());
+		reservation.setTransactItemCode(oldReservation.getTransactItemCode());
+		reservation.setSpecialRequirement(oldReservation
+				.getSpecialRequirement());
+		reservation.setCheckInTime(currentTime);
 
-			reservation.setCreateTime(currentTime);
-			reservation.setCreateBy(currentUser.getId());
-			reservation.setUpdateTime(currentTime);
-			reservation.setUpdateBy(currentUser.getId());
-			reservation.setIsDelete(0);
+		reservation.setCreateTime(currentTime);
+		reservation.setCreateBy(currentUser.getId());
+		reservation.setUpdateTime(currentTime);
+		reservation.setUpdateBy(currentUser.getId());
+		reservation.setIsDelete(0);
 
-			// 保存预约信息
-			reservationMapper.insertSelective(reservation);
+		// 保存预约信息
+		reservationMapper.insertSelective(reservation);
 
-			// 获取预约单id
-			Long resId = reservation.getPkid();
+		// 获取预约单id
+		Long resId = reservation.getPkid();
 
-			FreeRoomVo freeRoomVo = new FreeRoomVo();
-			freeRoomVo.setResId(resId);
-			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
+		FreeRoomVo freeRoomVo = new FreeRoomVo();
+		freeRoomVo.setResId(resId);
+		freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
 
-			// 更新临时分配房间的使用状态
-			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo);
+		// 更新临时分配房间的使用状态
+		rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo);
 
-			// 判断是否提前预约的时间段跟正常预约的时间段是否是相邻时间段
-			if (isAdjacentTime(Long.parseLong(oldReservation.getScheduleId()),
-					Long.parseLong(freeRoomInfo.getScheduleId()))) {
-				// 更新之前预约房间的预约状态改为提前使用
-				oldReservation.setResStatus("5"); // 设置之前预约的记录状态为提前使用状态
-				oldReservation.setCheckInTime(currentTime);
+		// 判断是否提前预约的时间段跟正常预约的时间段是否是相邻时间段
+		if (isAdjacentTime(Long.parseLong(oldReservation.getScheduleId()),
+				Long.parseLong(freeRoomInfo.getScheduleId()))) {
+			// 更新之前预约房间的预约状态改为提前使用
+			oldReservation.setResStatus("5"); // 设置之前预约的记录状态为提前使用状态
+			oldReservation.setCheckInTime(currentTime);
 
-				reservationMapper.updateStatusToUseInAdvance(oldReservation);
-			} else {
-				// 在删除原预约信息之前,将房间状态改为空置状态
-				rmRoomScheduleMapper.updateRoomStatusToFree(Long
-						.parseLong(oldReservation.getScheduleId()));
+			reservationMapper.updateStatusToUseInAdvance(oldReservation);
+		} else {
+			// 在删除原预约信息之前,将房间状态改为空置状态
+			rmRoomScheduleMapper.updateRoomStatusToFree(Long
+					.parseLong(oldReservation.getScheduleId()));
 
-				// 删除原预约信息
-				reservationMapper.deleteReservationById(oldReservation
-						.getPkid());
-			}
-
-		} catch (Exception e) {
-			result = "false";
-			e.printStackTrace();
-
+			// 删除原预约信息
+			reservationMapper.deleteReservationById(oldReservation.getPkid());
 		}
-
-		return result;
 
 	}
 
@@ -713,5 +708,42 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 
 		return currentTime;
+	}
+
+	@Override
+	public String isOvertimeUse(ReservationVo reservationVo) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+		// 获得该预约签约室安排信息
+		RmRoomSchedule rmRoomSchedule = rmRoomScheduleMapper
+				.getRmRoomScheduleByPkid(Long.parseLong(reservationVo
+						.getScheduleId()));
+
+		// 获取该预约信息时间段
+		Date resStartTime = rmRoomSchedule.getStartDate();
+		Date resEndTime = rmRoomSchedule.getEndDate();
+
+		// 获取该预约上一个时间段
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(resStartTime);
+		calendar.add(Calendar.HOUR_OF_DAY, -2);
+
+		// 获取该预约上一个时间段的开始预约时间
+		Date lastResStartTime = calendar.getTime();
+
+		calendar.setTime(resEndTime);
+		calendar.add(Calendar.HOUR_OF_DAY, -2);
+
+		// 获取该预约上一个时间段的预约结束时间
+		Date lastResEndTime = calendar.getTime();
+
+		// 设置条件
+		reservationVo.setStartDate(sdf.format(lastResStartTime));
+		reservationVo.setEndDate(sdf.format(lastResEndTime));
+
+		// 判断是否签退
+		int count = reservationMapper.isOvertimeUse(reservationVo);
+
+		return count > 0 ? "false" : "true";
 	}
 }

@@ -16,13 +16,21 @@ import com.centaline.trans.signroom.vo.TransactItemVo;
 public interface ReservationService {
 
 	/**
+	 * 判断上一个时间段该房间是否签退
+	 * 
+	 * @param reservationVo
+	 *            条件
+	 * @return 返回true,说明上一个时间段该房间已经签退;返回false,说明上一个时间段该房间还没签退。
+	 */
+	public String isOvertimeUse(ReservationVo reservationVo);
+
+	/**
 	 * 提前使用
 	 * 
 	 * @param reservationVo
 	 *            条件
-	 * @return 如果返回true,操作成功;返回false,操作失败。
 	 */
-	public String startUseInAdvance(ReservationVo reservationVo);
+	public void startUseInAdvance(ReservationVo reservationVo);
 
 	/**
 	 * 开始使用之前判断当前时间点是否有这个房号的房间

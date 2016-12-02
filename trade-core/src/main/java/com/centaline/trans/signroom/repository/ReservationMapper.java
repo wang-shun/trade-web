@@ -18,6 +18,15 @@ import com.centaline.trans.signroom.vo.TransactItemVo;
 public interface ReservationMapper {
 
 	/**
+	 * 判断上一个时间段该房间是否签退
+	 * 
+	 * @param reservationVo
+	 *            条件
+	 * @return 返回0,说明上一段预约时间段该房间已签退;返回1,说明上一段预约时间段该房间未签退。
+	 */
+	public int isOvertimeUse(ReservationVo reservationVo);
+
+	/**
 	 * 根据提前预约信息获取对应的原先的预约信息
 	 * 
 	 * @param reservationVo

@@ -21,7 +21,6 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.signroom.entity.ResFlowup;
-import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.service.ResFlowupService;
@@ -59,6 +58,28 @@ public class ReservationManageController {
 	private RmSignRoomService rmSignRoomService;
 
 	/**
+	 * 判断上一个时间段该房间是否签退
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,说明上一个时间段该房间已经签退;返回false,说明上一个时间段该房间还没签退。
+	 */
+	@RequestMapping(value = "isOvertimeUse")
+	@ResponseBody
+	public String isOvertimeUse(Model model, HttpServletRequest request) {
+		String scheduleId = request.getParameter("scheduleId");
+		Long roomId = Long.parseLong(request.getParameter("roomId"));
+
+		ReservationVo reservationVo = new ReservationVo();
+		reservationVo.setScheduleId(scheduleId);
+		reservationVo.setRoomId(roomId);
+
+		String result = reservationService.isOvertimeUse(reservationVo);
+
+		return result;
+	}
+
+	/**
 	 * 提前使用
 	 * 
 	 * @param model
@@ -68,6 +89,7 @@ public class ReservationManageController {
 	@RequestMapping(value = "startUseInAdvance")
 	@ResponseBody
 	public String startUseInAdvance(Model model, HttpServletRequest request) {
+		String result = "true";
 		String resId = request.getParameter("resId");
 		Long roomId = Long.parseLong(request.getParameter("roomId"));
 
@@ -75,7 +97,12 @@ public class ReservationManageController {
 		reservationVo.setResId(resId);
 		reservationVo.setRoomId(roomId);
 
-		String result = reservationService.startUseInAdvance(reservationVo);
+		try {
+			reservationService.startUseInAdvance(reservationVo);
+		} catch (Exception e) {
+			result = "false";
+			e.printStackTrace();
+		}
 
 		return result;
 	}
@@ -284,27 +311,17 @@ public class ReservationManageController {
 			HttpServletRequest request) {
 		String flag = request.getParameter("flag");
 		Long resId = Long.parseLong(request.getParameter("resId"));
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
 		int count = 0;
-		String operateDateTime = "";
 		if ("startUse".equals(flag)) {
 			count = reservationService.startUse(resId); // 开始使用
-
-			Reservation reservation = reservationService
-					.getReservationById(resId);
-			operateDateTime = sdf.format(reservation.getCheckInTime());
 		} else if ("endUse".equals(flag)) {
 			count = reservationService.endUse(resId); // 结束使用
-
-			Reservation reservation = reservationService
-					.getReservationById(resId);
-			operateDateTime = sdf.format(reservation.getCheckedOutTime());
 		}
 
 		StartAndEndUseResult startAndEndUseResult = new StartAndEndUseResult();
 		startAndEndUseResult.setResult(count > 0 ? "true" : "false");
-		startAndEndUseResult.setOperateDateTime(operateDateTime);
+		// startAndEndUseResult.setOperateDateTime(operateDateTime);
 
 		return startAndEndUseResult;
 	}

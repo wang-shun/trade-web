@@ -305,7 +305,7 @@ function isHasFreeRoomByCurrentTimeAndRoomNo(roomId){
 }
 
 //签约室开始使用
-function startUse(obj,resDate,startTime,endTime,roomId,resId){
+function startUse(obj,resDate,startTime,endTime,roomId,resId,scheduleId){
 	var $obj = $(obj);
 	
 	var strStartTime = resDate + " " + startTime;
@@ -317,7 +317,14 @@ function startUse(obj,resDate,startTime,endTime,roomId,resId){
 	
 	//如果在正常预约时间段内,走正常的签到流程
 	if(currentDateTime >= startDateTime && currentDateTime <= endDateTime){
-		startAndEndUse($obj,"startUse");
+		
+		//判断该预约上一个时间段是否签退
+		var isPass = isOvertimeUse(scheduleId,roomId);
+		
+		//如果有签退,就开始签到
+		if(isPass){
+			startAndEndUse($obj,"startUse");
+		}
 	}
 	
 	//如果是提前签到,临时分配一个房间,判断在该时间内是否有同一房型的闲置房间
@@ -338,6 +345,27 @@ function startUse(obj,resDate,startTime,endTime,roomId,resId){
 	if(currentDateTime > endDateTime){
 		alert("当前时间已经超过预约结束时间,不能签到！");
 	}
+}
+
+//判断上一个时间段该房间是否签退
+function isOvertimeUse(scheduleId,roomId){
+	var isPass = false;
+	
+	$.ajax({
+		cache:false,
+		async:false,
+		type:"POST",
+		dataType:"text",
+		url:ctx+"/reservation/isOvertimeUse",
+		data:{roomId:roomId,scheduleId:scheduleId},
+		success:function(data){
+			if(data == "true"){
+				isPass = true;
+			}
+		}
+	});
+	
+	return isPass;
 }
 
 //提前签到
@@ -433,7 +461,7 @@ function startAndEndUse(obj,flag){
 			data:{resId:resId,flag:flag},
 			success:function(data){
 				var result = data.result;  //返回结果
-				var operateTime = data.operateDateTime;  //操作时间
+				//var operateTime = data.operateDateTime;  //操作时间
 				
 				if(result == "true"){
 					reloadGrid();
