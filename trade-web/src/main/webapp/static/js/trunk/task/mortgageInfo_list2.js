@@ -285,7 +285,6 @@ function setQueryData() {
 }
 
 function getMTypeAnalysis() {
-
 	var data = setQueryData();
 	data.queryId = "queryMortgageTypeAnalysis";
 	data.rows = 10;
@@ -1103,6 +1102,7 @@ function getParamsValue() {
 	// 产品类型
 	// var finCode = getCheckBoxValues("finCode");
 	var isTempBank = $("input[name='isTempBank']:checked").val();
+
 	// alert("isTempBank==="+isTempBank);
 	if (isTempBank == 2) {
 		isTempBank = null;// 为2 设置为null则不添加该查询条件

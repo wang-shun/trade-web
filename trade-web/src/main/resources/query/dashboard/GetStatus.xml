@@ -996,7 +996,7 @@
 				  	from 
 				  		sctrans.T_TS_DAYLY_RANK with(nolock)
 				  	where 
-				  		DATEDIFF(day, RANK_DAY, GETDATE()) = 0
+				  		DATEDIFF(m, RANK_DAY, GETDATE()) = 0
 				  		<if test="rankCat != null">
 				  			AND RANK_CAT = #rankCat#  
 				  		</if>
@@ -1043,7 +1043,7 @@
 			  	from 
 			  		sctrans.T_TS_DAYLY_RANK with(nolock)
 			  	where 
-			  		DATEDIFF(day, RANK_DAY, GETDATE())=0 
+			  		DATEDIFF(m, RANK_DAY, GETDATE())=0
 			  		AND 	RANK_DURATION='MONTH'
 			  		<if test="rankCat != null">
 				  			AND RANK_CAT = #rankCat#  
@@ -1076,7 +1076,7 @@
 			  	from
 			  		sctrans.T_TS_DAYLY_RANK with(nolock)
 			  	where
-			  		DATEDIFF(day, RANK_DAY, GETDATE())=0
+			  		DATEDIFF(m, RANK_DAY, GETDATE())=0
 			  		AND 	RANK_DURATION='MONTH'
 			  		<if test="rankCat != null">
 				  			AND RANK_CAT = #rankCat#

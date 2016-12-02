@@ -89,7 +89,6 @@
 				where
 					exists (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE=M.CASE_CODE and c.LOAN_REQ=1)
 					AND M.is_active = '1'
-
 		    <ifNotNull idflag> AND 	M.LOAN_AGENT = #userId# </ifNotNull>
 			<ifNotNull queryorgs> AND  M.LOAN_AGENT_TEAM in (#queryorgs#) </ifNotNull>
 			<ifNotNull signTimeStart>
@@ -168,9 +167,13 @@
 			AND M.PRF_AMOUNT &lt;= #prfAmountEnd#
 			</ifNotNull>
 
-			<ifNotNull isTempBank>
-				and M.IS_TMP_BANK = #isTempBank#
-			</ifNotNull>
+			<if test=' isTempBank=="是" '>
+				and M.IS_TMP_BANK = '1'
+			</if>
+
+			<if test=' isTempBank=="否" '>
+				and M.IS_TMP_BANK = '0'
+			</if>
 
 			<ifNotNull loanLostFinOrgNameCode>
 			and exists (select 1 from sctrans.T_TS_FIN_ORG FOCODE  where FOCODE.FIN_ORG_CODE=m.fin_org_code and FOCODE.FA_FIN_ORG_CODE=#loanLostFinOrgNameCode#)

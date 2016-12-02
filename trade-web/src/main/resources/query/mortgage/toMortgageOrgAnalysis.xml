@@ -242,11 +242,10 @@
 				<ifNotNull prfAmountEnd>
 				     and T.PRF_AMOUNT &lt;= #prfAmountEnd#
 				</ifNotNull>
-				
 				<ifNotNull isTempBank>
-				     and T.IS_TMP_BANK = #isTempBank#
+					and T.IS_TMP_BANK = #isTempBank#
 				</ifNotNull>
-				
+
 				<ifNotNull loanLostFinOrgNameCode>
 				     and T.FA_FIN_ORG_CODE = #loanLostFinOrgNameCode#
 				</ifNotNull>

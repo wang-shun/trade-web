@@ -92,8 +92,8 @@
 
 		    <ifNotNull idflag> AND 	M.LOAN_AGENT = #userId# </ifNotNull>
 			<ifNotNull queryorgs>
-			AND  M.LOAN_AGENT_TEAM in (#queryorgs#)
-			OR EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = M.CASE_CODE    AND C.ORG_ID in (#queryorgs#))
+			AND (M.LOAN_AGENT_TEAM in (#queryorgs#)
+			OR EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = M.CASE_CODE    AND C.ORG_ID in (#queryorgs#)))
 			</ifNotNull>
 			<ifNotNull signTimeStart>
 			AND M.SIGN_DATE >= #signTimeStart#
@@ -299,8 +299,9 @@
 					AND m.is_active = '1'	
 					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
 					<ifNotNull queryorgs>
-					AND   M.LOAN_AGENT_TEAM in (#queryorgs#)
-					OR EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = M.CASE_CODE    AND C.ORG_ID in (#queryorgs#))
+					AND
+					(M.LOAN_AGENT_TEAM in (#queryorgs#)
+					OR EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = M.CASE_CODE    AND C.ORG_ID in (#queryorgs#)))
 					</ifNotNull>
 					<ifNotNull signTimeStart>
 					     and m.SIGN_DATE >= #signTimeStart#
