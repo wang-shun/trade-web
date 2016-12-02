@@ -18,26 +18,18 @@ public class OrgReportFormServiceImpl implements OrgReportFormService {
     @Autowired
     private QuickGridService quickGridService;
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.findPageForReportOrgForm", key="#chcheKey")
     public Page<Map<String, Object>> findPageForReportOrgForm(JQGridParam gp, String chcheKey) {
             return quickGridService.findPageForSqlServer(gp, null);
     }
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.findPageForReportFormPage", key="#chcheKey")
     public Page<Map<String, Object>> findPageForReportFormPage(JQGridParam gp, String chcheKey) {
         return quickGridService.findPageForSqlServer(gp, null);
     }
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.findPageForReportRedcountList", key="#chcheKey")
     public Page<Map<String, Object>> findPageForReportRedCountList(JQGridParam gp, String chcheKey) {
         return quickGridService.findPageForSqlServer(gp, null);
     }
 
-    @Override
-    @Cacheable(value="OrgReportFormServiceImpl.findPageForCaseReportFormCount", key="#cacheKey")
     public Page<Map<String, Object>> findPageForCaseReportFormCount(JQGridParam gp, String cacheKey) {
         return quickGridService.findPageForSqlServer(gp, null);
     }
