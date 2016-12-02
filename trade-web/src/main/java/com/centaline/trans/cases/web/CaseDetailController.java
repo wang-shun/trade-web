@@ -1475,6 +1475,76 @@ public class CaseDetailController {
 		return AjaxResponse.success("变更成功！");
 	}
 
+	
+	/**
+	 * 变更责任人  For allUser
+	 * @author zhuody
+	 * @Date 2016-12-02
+	 * 
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/changeLeadingPro")
+	@ResponseBody
+	public AjaxResponse<?> changeLeadingPro(String caseCode, String userId,HttpServletRequest request) {
+		ToCase toCase = new ToCase();
+		ToWorkFlow toWorkFlow =  new ToWorkFlow();
+		// 案件信息更新
+		if(caseCode != null  && !"".equals(caseCode)){
+			toCase = toCaseService.findToCaseByCaseCode(caseCode);
+			
+			// 工作流
+			ToWorkFlow inWorkFlow = new ToWorkFlow();
+			inWorkFlow.setBusinessKey("operation_process");
+			inWorkFlow.setCaseCode(caseCode);
+			toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
+		}
+		
+		String origUserId = toCase.getLeadingProcessId();
+		User u = uamUserOrgService.getUserById(origUserId);
+
+		TgServItemAndProcessor record = new TgServItemAndProcessor();
+		record.setPreProcessorId(toCase.getLeadingProcessId());
+		toCase.setLeadingProcessId(userId);
+		int reToCase = toCaseService.updateByPrimaryKey(toCase);
+		
+		User u1 = uamUserOrgService.getUserById(userId);
+		record.setProcessorId(userId);
+		record.setCaseCode(caseCode);
+		
+		tgServItemAndProcessorService.updateByCaseCode(record);
+
+		
+
+		
+		// 更新流程引擎
+		if (!StringUtils.isBlank(toWorkFlow.getInstCode())) {
+			String variableName = "caseOwner";
+			RestVariable restVariable = new RestVariable();
+			restVariable.setType("string");
+			restVariable.setValue(u1.getUsername());
+			try{
+				workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+			}catch(WorkFlowException e){
+				if(404!=e.getStatusCode()){
+					throw e;
+				}
+			}
+			
+			TaskQuery tq = new TaskQuery();
+			tq.setProcessInstanceId(toWorkFlow.getInstCode());
+			tq.setFinished(false);
+			tq.setAssignee(u.getUsername());
+			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+			updateWorkflow(userId, tasks, caseCode);
+		}
+		if (reToCase == 0)
+			return AjaxResponse.fail("案件基本表更新失败！");
+
+		return AjaxResponse.success("变更成功！");
+	}
+	
+	
 	public void updateWorkflow(String userId, List<TaskVo> tasks,String caseCode) {
 		if (tasks != null && !tasks.isEmpty()) {
 			for (TaskVo taskVo : tasks) {

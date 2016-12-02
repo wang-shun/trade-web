@@ -105,8 +105,7 @@ public class CaseChangeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, TsTeamProperty> pMap = new HashMap<>();
 		// 1 查询案件服务项目
-		List<TgServItemAndProcessor> servitemList = tgservItemAndProcessorService
-				.selectBycasecodeandProcessorid(caseCode);
+		List<TgServItemAndProcessor> servitemList = tgservItemAndProcessorService.selectBycasecodeandProcessorid(caseCode);
 		SessionUser user = uamSessionService.getSessionUser();
 
 		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(),

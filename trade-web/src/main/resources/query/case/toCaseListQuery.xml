@@ -642,4 +642,63 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 			</table-row>
 		</grid>
 	</query>
+	
+	
+	
+		<query id="queryCastForChangeList" cacheCount="true">
+		<searchCondition>
+
+		   <condition field="NB.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="NB.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					    NB.PKID,
+					    NB.STATUS AS STATUS_OLD,					  
+                        NB.PROPERTY_ADDR,
+                        NB.CASE_CODE,
+                        NB.AGENT_NAME,
+                        NB.AGENT_CODE,
+                        NB.GRP_NAME AGENT_ORG_NAME,
+                        NB.CTM_CODE,
+						NB.AGENT_PHONE,
+						NB.CASE_PROPERTY,
+						NB.CLOSE_TIME,
+						NB.CREATE_TIME,											
+                        (SELECT U.REAL_NAME FROM   sctrans.SYS_USER U    inner join  sctrans.T_TO_CASE C on U.ID=C.LEADING_PROCESS_ID AND C.CASE_CODE = NB.CASE_CODE)  FONT_NAME
+                     FROM 
+                     	SCTRANS.V_CASE_LIST_BASE NB
+                     WHERE
+                     	1=1
+				]]>
+			</baseSql>
+			<orderBySql>			  
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_CODE" index="" checkbox="" display="经纪人Id" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_PROPERTY" index="" checkbox="" display="经纪人Id" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CASE_PROPERTY_SHOW" referencecol="CASE_PROPERTY" index="" checkbox="" display="上家" customDict="qqcdDict30003" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdBackProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="电话" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
 </querys>

@@ -51,7 +51,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
+<input type="hidden" id="ctx" value="${ctx}" />
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox-content border-bottom clearfix space_box">
         <h2 class="title">
@@ -61,7 +61,7 @@
 			<div class="row clearfix">
                   <div class="form_content">
 						<label class="sign_left control-label">案件编号</label>
-						<input type="text" class="form-control" placeholder="" id="caseCode" name="caseCode" style="width:180px;">
+						<input type="text" class="form-control" placeholder="" id="caseCodeForSelect" name="caseCodeForSelect" style="width:180px;">
 					</div>
 					<div class="form_content">
 						<label class="sign_left control-label">产证地址</label>
@@ -72,7 +72,7 @@
 				<div class="form_content">
 					<div class="more_btn">						
 						<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-						<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
+						<button id="caseForChangeCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
 					</div>
 				</div>
 			</div>
@@ -107,6 +107,66 @@
 				</div>  
 		    </div> 	
 	</div>
+	
+	
+	<div class="modal inmodal in" id="leadingProForChang" tabindex="-1" role="dialog" aria-hidden="true">
+       <div class="modal-dialog" style="width: 800px;">
+           <div class="modal-content animated fadeIn popup-box">
+               <div class="modal_title">变更责任人</div>
+               <form method="get" class="form_list">
+                   <div class="line">
+                       <div class="form_content">
+                           <label class="control-label sign_left_small">案件编号</label>
+                           <input type="text" class="teamcode input_type" placeholder="" id="caseCodeForChange" name="caseCodeForChange"  value=""  readonly>
+                       </div>
+                   </div>
+                   <div class="line">
+                       <div class="form_content">
+                           <label class="control-label sign_left_small">责任人</label>
+                           <input class="teamcode input_type" placeholder="" value=""  name="leadingProName" id="leadingProName"
+							hVal="" onclick="leadingProForChangeClick()" />							
+							<div class="input-group float_icon organize_icon" id="materialRefundUser">
+                               <i class="icon iconfont">&#xe627;</i>
+                            </div>
+                             <input type="hidden"   name="leadingProId" id="leadingProId"  value=""/>
+                       </div>
+                   </div>
+
+                   <div class="line">
+                       <div class="add_btn text-center" style="margin:15px 126px;">
+                           <button type="button" class="btn btn-success" id="leadingProSubmit" >确定</button>
+                           <button type="reset" class="btn btn-grey" id="leadingProClose">关闭</button>
+                       </div>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+   
+   
+   
+   	<div class="modal inmodal in" id="cooperForChang" tabindex="-1" role="dialog" aria-hidden="true">
+       <div class="modal-dialog" style="width: 800px;">
+           <div class="modal-content animated fadeIn popup-box">
+               <div class="modal_title">变更合作人</div>
+               <form method="get" 	class="form_list">
+                   <div class="line">
+                       <div class="form_content">
+                           <label class="control-label sign_left_small">案件编号</label>
+                           <input type="text" class="teamcode input_type" placeholder="" id="cooperCaseCode" name="caseCode"  value=""  readonly>
+                       </div>
+                   </div>                   
+                   <div class="line" id="change-modal-data-show"></div>						
+                   <div class="line">
+                       <div class="add_btn text-center" style="margin:15px 126px;">
+                           <span id="cooperForShow"><button type="button" class="btn btn-success" id="cooperSubmit" >确定</button></span>
+                           <button type="reset" class="btn btn-grey" id="cooperClose">关闭</button>
+                       </div>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
 </div>
 
 <content tag="local_script"> 
@@ -143,10 +203,10 @@
 						
 						<td >
  							<p class="big">
-								<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>
+								<a href="${ctx}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>
 							</p>
  							<p>
-								<i class="tag_sign">c</i>{{item.ctmCode}}
+								<i class="tag_sign">c</i>{{item.CTM_CODE}}
 							</p>
 						</td>
 						<td class="center">
@@ -157,18 +217,15 @@
 								{{item.CASE_PROPERTY_SHOW}}
 							</p>
 						</td>
-						<td >
-						
-{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
-{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
-{{else}}
-<p>
-{{item.PROPERTY_ADDR}}
-{{/if}}					 
-						</p>
- 							<p >
-								 <i class="salesman-icon"> </i>
+						<td >						
+							{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+								<p class="demo-top" title="{{item.PROPERTY_ADDR}}">	{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+							{{else}}
+								<p>	{{item.PROPERTY_ADDR}}
+							{{/if}}					 
+								</p>
+ 							<p> 
+ <i class="salesman-icon"> </i>
 								 
 {{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11 }}		
 <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
@@ -186,11 +243,8 @@
 						</td>
 						
 						<td class="center">
-                          <p  >
-						
-{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
-{{if item.SELLER.split("/").length-1 >1}}
-<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
+                          <p>{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
+							{{if item.SELLER.split("/").length-1 >1}}<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
 {{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
 {{
 (item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
@@ -244,11 +298,17 @@
 							
 						</td>
 						
-						<td> 
-							{{if item.RED_COUNT!=null}}
-                                <span class="red-num">{{item.RED_COUNT}}</span>
-							 {{/if}}
-						</td>
+				<td class="text-center">					
+                      <div class="btn-group">
+                         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">操作
+                             <span class="caret"></span>
+                         </button>
+                               <ul class="dropdown-menu" role="menu" style="left:-95px;">
+                                      <li><a href="javascript:changeProfessor('{{item.CASE_CODE}}')">变更责任人</a></li>
+									  <li><a href="javascript:changeCooper('{{item.CASE_CODE}}')">变更合作人</a></li>                                                                          
+                               </ul>
+                      </div>
+                </td>
 				  </tr>
        {{/each}}
 </script> 
