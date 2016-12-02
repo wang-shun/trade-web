@@ -241,15 +241,14 @@ $('#materialRefundUser').click(function() {
 });
 
 //变更合作人弹框
-function changeCooper(caseCode){		
+function changeCooper(caseCode){
 	if(caseCode){
-		$("#cooperCaseCode").val(caseCode);
-		
+		$("#cooperCaseCode").val(caseCode);		
 		//查询机构交易顾问
-		var url = "/case/changeCoope";
+		var url = "/case/changeCoopeForNew";
 		var ctx = $("#ctx").val();	
 		url = ctx + url;
-
+		
 		$.ajax({
 			cache : false,
 			async : true,
@@ -258,7 +257,7 @@ function changeCooper(caseCode){
 			dataType : "json",
 			timeout : 10000,
 			data :[{
-				name:'caseCode',
+				name:'cooperCaseCode',
 				value:caseCode
 			}],
 			success : function(data) {					
@@ -285,6 +284,7 @@ function changeCooperForShow(data) {
 		$("#cooperForShow").show();		
 		$.each(data.servitemList, function(index, value){
 			addHtml += '<div class="form_content">';
+			addHtml += "<input type='hidden' name='caseCode' value='"+$('#cooperCaseCode').val()+"' />";
 			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
 			addHtml += "<input type='hidden' name='srvCode'  id='srvCode"+index+"' value='"+value.srvCode+"'/>";			
 			addHtml += '<label class="control-label sign_left_small">合作项目</label>';			
@@ -292,7 +292,7 @@ function changeCooperForShow(data) {
 			addHtml += "<label class='control-label sign_left_small'>合作人</label>";			
 			addHtml += "<input class='teamcode input_type' placeholder='' value=''  name='cooperName' id='cooperName"+index+"' hVal='' onclick='cooperForChangeClick("+index+")' />";
 			addHtml += "<div class='input-group float_icon organize_icon' id='cooperUser'><i class='icon iconfont'>&#xe627;</i></div>";
-			addHtml += "<input type='hidden'   name='cooperId' id='cooperId"+index+"'  value='' />";
+			addHtml += "<input type='hidden'   name='processorId' id='processorId"+index+"'  value='' />";
 			addHtml += "</div>";		
 		})		
 	}	
@@ -304,15 +304,15 @@ function changeCooperForShow(data) {
 
 
 //变更合作人提交
-$("#cooperSubmit").click(function(){
-	
-	 var caseCode = $("#caseCodeForChange").val(); // 案件的caseCode
-	 var leadingProId = $("#leadingProId").val();//新的责任人userId		
-	 if (confirm("您确定要进行责任人变更？")) {
-			var url = "/case/changeLeadingPro";
-			var ctx = $("#ctx").val();
-			url = ctx + url;
-			var params = '&userId=' + leadingProId + '&caseCode=' + caseCode;
+$("#cooperSubmit").click(function(){	
+	 
+	 var  data = getParamForCooper();
+	 var url = "/case/updateCoopeSubmit";
+	 var ctx = $("#ctx").val();
+	 url = ctx + url;			
+		
+	 alert(JSON.stringify(data));
+	 if (confirm("您确定要进行责任人变更？")) {		 	
 
 			$.ajax({
 				cache : false,
@@ -321,13 +321,13 @@ $("#cooperSubmit").click(function(){
 				url : url,
 				dataType : "json",
 				timeout : 10000,
-				data : params,
+				data : data,
 				
 				success : function(data) {
 					if(data.success){
-						$("#leadingProForChang").hide();
+						//$("#leadingProForChang").hide();
 						alert("恭喜，责任人变更成功！");
-						reloadGrid(getParams(1));						
+						//reloadGrid(getParams(1));						
 					}else{
 						alert(data.message);
 					}
@@ -339,6 +339,47 @@ $("#cooperSubmit").click(function(){
 		} 
 	 
 })
+
+function getParamForCooper(){
+ 	 var caseCode = [];
+ 	 var orgId = [];
+ 	 var srvCode = [];
+ 	 var processorId = [];
+	 var caseCodeArray = $("input[name='caseCode']"); 
+	 var orgIdArray = $("input[name='orgId']");
+	 var srvCodeArray = $("input[name='srvCode']");
+	 var processorIdArray = $("input[name='processorId']");
+	 $.each(caseCodeArray, function(j, item) {
+		 if(item.value != '' && item.value != null){
+			 caseCode.push(item.value);
+		 }	 
+	 });
+	 $.each(orgIdArray, function(i, item) {
+		 if(item.value != '' && item.value != null){
+			 orgId.push(item.value);
+		 }	 
+	 });
+	 $.each(srvCodeArray, function(i, item) {
+		 if(item.value != '' && item.value != null){
+			 srvCode.push(item.value);
+		 }	 
+	 });
+	 $.each(processorIdArray, function(i, item) {
+		 if(item.value != '' && item.value != null){
+			 processorId.push(item.value);
+		 }	 
+	 });
+
+	 var tgServItemAndProcessorVo = {
+			 caseCode : caseCode,
+			 orgId : orgId,
+			 srvCode : srvCode,
+			 processorId : processorId,
+	 };
+
+	 
+	 return tgServItemAndProcessorVo;
+}
 
 
 //变更合作人取消
@@ -363,8 +404,9 @@ $("#cooperClose").click(function(){
 			});
 	
  }
-function cooperForChangeClick(index){	
-	var i =123;
+
+function cooperForChangeClick(index){
+	
 	userSelect({
 		startOrgId : 'ff8080814f459a78014f45a73d820006',
 		expandNodeId : 'ff8080814f459a78014f45a73d820006',
@@ -372,26 +414,21 @@ function cooperForChangeClick(index){
 		orgType : '',
 		departmentType : '',
 		departmentHeriarchy : '',
-		chkStyle : 'radio',
-		//	jobCode : 'Manager,Senior_Manager',
+		chkStyle : 'radio',		
 		jobCode : '',
-		callBack : function(){
-			alert(index);
+		callBack : function(array){
+			if (array && array.length > 0) {
+				$("#cooperName"+index).val(array[0].username);
+				$("#cooperName"+index).attr('hVal', array[0].userId);
+				$("#processorId"+index).val(array[0].userId);
+				
+			} else {
+				$("#cooperName"+index).val("");
+				$("#cooperName"+index).attr('hVal', "");
+			}
 		}
 	});
 
-}
-//选取合作人的回调函数
-function selectCooper(array) {	
-	if (array && array.length > 0) {
-		$("#cooperName").val(array[0].username);
-		$("#cooperName").attr('hVal', array[0].userId);
-		$("#cooperId").val(array[0].userId);
-		
-	} else {
-		$("#cooperName").val("");
-		$("#cooperName").attr('hVal', "");
-	}
 }
 
 //案件合作人

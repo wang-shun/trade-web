@@ -153,7 +153,7 @@
                    <div class="line">
                        <div class="form_content">
                            <label class="control-label sign_left_small">案件编号</label>
-                           <input type="text" class="teamcode input_type" placeholder="" id="cooperCaseCode" name="caseCode"  value=""  readonly>
+                           <input type="text" class="teamcode input_type" placeholder="" id="cooperCaseCode" name="cooperCaseCode"  value=""  readonly>
                        </div>
                    </div>                   
                    <div class="line" id="change-modal-data-show"></div>						
