@@ -2,6 +2,7 @@ package com.centaline.trans.cases.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +25,12 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.cases.entity.ToChangeRecord;
+import com.centaline.trans.cases.repository.ToCaseMapper;
+import com.centaline.trans.cases.repository.ToChangeRecordMapper;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
+import com.centaline.trans.common.enums.ChangeRecordTypeEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.OrgNameEnum;
 import com.centaline.trans.common.enums.TransJobs;
@@ -65,6 +71,10 @@ public class CaseChangeController {
 	private TlTaskReassigntLogService taskReassingtLogService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private ToCaseMapper toCaseMapper;
+	@Autowired
+	private ToChangeRecordMapper toChangeRecordMapper;
 
 	/**
 	 * 根据字典类型，获得相应字典数据
@@ -211,8 +221,9 @@ public class CaseChangeController {
 	 */
 	@RequestMapping(value = "updateCoope")
 	public String updateCoope(HttpServletRequest request, Model model, HttpServletResponse response,
-			TgServItemAndProcessorVo tgServItemAndProcessorVo, String instCode, String caseId) throws IOException {
+			TgServItemAndProcessorVo tgServItemAndProcessorVo, String instCode, String caseId,String myProcessorId,String project,String oldProcessorId) throws IOException {
 
+		SessionUser user = uamSessionService.getSessionUser();
 		List<String> caseCodeList = tgServItemAndProcessorVo.getCaseCode();
 		List<String> orgIdList = tgServItemAndProcessorVo.getOrgId();
 		List<String> processorIdList = tgServItemAndProcessorVo.getProcessorId();
@@ -221,12 +232,13 @@ public class CaseChangeController {
 		int updatecoope = 0;
 		TgServItemAndProcessor pro = null;
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
-		/*
-		 * if(processorIdList!=null&&!processorIdList.isEmpty()){ TaskQuery
-		 * tq=new TaskQuery(); tq.setProcessInstanceId(instCode);
-		 * tq.setFinished(false); tasks=workFlowManager.listTasks(tq).getData();
-		 * }
-		 */
+		
+		if(processorIdList!=null&&!processorIdList.isEmpty()){ 	  
+		  TaskQuery tq=new TaskQuery(); tq.setProcessInstanceId(instCode);
+		  tq.setFinished(false); 
+		  tasks=workFlowManager.listTasks(tq).getData();
+		}
+		 
 
 		for (int i = 0; i < processorIdList.size(); i++) {
 			String caseCode = caseCodeList.get(i);
@@ -255,6 +267,27 @@ public class CaseChangeController {
 			}
 			updateWorkflow(srvCode, processorId, tasks, proDb.getProcessorId(), caseCode);
 		}
+		
+		//添加变更记录
+		String[] myProcessorIdArr = myProcessorId.split(",");
+		String[] projectArr = project.split(",");
+		String[] oldProcessorIdArr = oldProcessorId.split(",");
+		for(int i = 0; i < myProcessorIdArr.length; i++){
+			//没有变化就跳过
+			if(oldProcessorIdArr[i].equals(myProcessorIdArr[i])) continue;
+			
+			ToChangeRecord toChangeRecord = new ToChangeRecord();
+			toChangeRecord.setCaseCode(toCaseMapper.selectByPrimaryKey(Long.parseLong(caseId)).getCaseCode());
+			toChangeRecord.setPartName(projectArr[i]);
+			toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
+			toChangeRecord.setChangeBeforePerson(oldProcessorIdArr[i]);
+			toChangeRecord.setChangeAfterPerson(myProcessorIdArr[i]);
+			toChangeRecord.setOperator(user.getId());
+			toChangeRecord.setOperateTime(new Date());
+			toChangeRecord.setCreateBy(user.getId());
+			toChangeRecord.setCreateTime(new Date());	
+			toChangeRecordMapper.insertSelective(toChangeRecord);
+		}		
 
 		if (updatecoope > 0) {
 			String msg = "操作成功!";
