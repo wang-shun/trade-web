@@ -45,7 +45,7 @@
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnFactory" />
 		<property name="defaultSerializer" >
-			<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
 		</property>
 	</bean>
 	
@@ -63,6 +63,7 @@
 		<!-- 默认保存时间10小时 -->
 		<constructor-arg name="redisOperations" ref="shiroSessionRedisTemplate"></constructor-arg>
 		<property name="defaultExpiration" value="36000"/>
+		<property name="usePrefix" value="true"/>
 	</bean>
 	
 </beans>  

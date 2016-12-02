@@ -38,8 +38,10 @@ import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
+import com.centaline.trans.cases.entity.ToChangeRecord;
 import com.centaline.trans.eloan.entity.LoanAgent;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
+import com.centaline.trans.cases.repository.ToChangeRecordMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
@@ -54,6 +56,7 @@ import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToServChangeHistroty;
 import com.centaline.trans.common.enums.CasePropertyEnum;
+import com.centaline.trans.common.enums.ChangeRecordTypeEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.SubscribeModuleType;
@@ -199,6 +202,10 @@ public class CaseDetailController {
 	//关注
 	@Autowired
 	ToModuleSubscribeService toModuleSubscribeService;
+	
+	//变更记录
+	@Autowired
+	private ToChangeRecordMapper toChangeRecordMapper;
 
 	/**
 	 * 页面初始化
@@ -1432,6 +1439,7 @@ public class CaseDetailController {
 	public AjaxResponse<?> changeLeadingUser(String instCode, String caseCode, String userId,
 			HttpServletRequest request) {
 
+		SessionUser user = uamSessionService.getSessionUser();
 		// 案件信息更新
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		String origUserId = toCase.getLeadingProcessId();
@@ -1472,6 +1480,21 @@ public class CaseDetailController {
 		if (reToCase == 0)
 			return AjaxResponse.fail("案件基本表更新失败！");
 
+		//添加变更记录
+		if(!origUserId.equals(userId)){
+			ToChangeRecord toChangeRecord = new ToChangeRecord();
+			toChangeRecord.setCaseCode(caseCode);
+			toChangeRecord.setPartName("");
+			toChangeRecord.setChangeType(ChangeRecordTypeEnum.OWNER.getCode());
+			toChangeRecord.setChangeBeforePerson(origUserId);
+			toChangeRecord.setChangeAfterPerson(userId);
+			toChangeRecord.setOperator(user.getId());
+			toChangeRecord.setOperateTime(new Date());
+			toChangeRecord.setCreateBy(user.getId());
+			toChangeRecord.setCreateTime(new Date());	
+			toChangeRecordMapper.insertSelective(toChangeRecord);
+		}
+		
 		return AjaxResponse.success("变更成功！");
 	}
 
