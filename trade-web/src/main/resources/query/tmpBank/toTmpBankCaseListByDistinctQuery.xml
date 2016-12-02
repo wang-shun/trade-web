@@ -62,7 +62,7 @@
 						WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = m.CASE_CODE AND BUSINESS_KEY = 'TempBankAudit_Process') and END_TIME_ IS NULL) AS currentProcess
 					from sctrans.T_TO_MORTGAGE m 
 					where m.is_active = '1'	and m.IS_TMP_BANK = '1'
-					AND EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE CASE_CODE = m.case_code AND SRV_CODE = '3000400101' and ORG_ID IN (SELECT ORG_ID FROM sctrans.t_yucui_org_hierarchy orgHierarchy
+					AND EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR WHERE CASE_CODE = m.case_code AND SRV_CODE = '3000400101' and ORG_ID IN (SELECT ORG_ID FROM sctrans.v_yucui_org_hierarchy orgHierarchy
 											WHERE (orgHierarchy.TEAM_ID = #currentOrgId# or orgHierarchy.DISTRICT_ID = #currentOrgId# or orgHierarchy.hq_id = #currentOrgId#)))
 					AND EXISTS (SELECT 1 FROM sctrans.MORT_STEP WHERE CASE_CODE = m.CASE_CODE AND STEP >= 2)
 					
