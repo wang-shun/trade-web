@@ -79,13 +79,10 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			gp.setCountOnly(false);
 			gp.setPagination(false);
 			gp.setQueryId("querySignRoomAllotList");
-			/*
-			 * List<RmSignRoom> signRooms =
-			 * rmSignRoomMapper.getSignRoomInfos(map); List<RmRoomSchedule>
-			 * rmRoomSchedules = rmRoomScheduleMapper.getRmRoomSchedules(map);
-			 */
+
 			Page<Map<String, Object>> room = quickGridService
 					.findPageForSqlServer(gp);
+
 			List<Map<String, Object>> rooms = room.getContent();// 签约室信息
 			gp.setQueryId("queryRmRoomSchedualList");
 			Page<Map<String, Object>> schedual = quickGridService
@@ -110,73 +107,8 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			}
 
 			List<RmRoomSchedule> rrs = null;
-			if (signRooms != null && !signRooms.isEmpty()
-					&& rmRoomSchedules != null && !rmRoomSchedules.isEmpty()) {
-				for (RmSignRoom signRoom : signRooms) {
-					rrs = new ArrayList<RmRoomSchedule>();
-					for (RmRoomSchedule rmRoomSchedule : rmRoomSchedules) {
-						Long startTime = rmRoomSchedule.getStartDate()
-								.getTime();// 该时间段的开始时间
-						Long createTime = null;
-						if (rmRoomSchedule.getCreateTime() != null) {
-							createTime = rmRoomSchedule.getCreateTime()
-									.getTime();// 真实预约时间
-						}
-						Long curTime = new Date().getTime();// 当前时间
-						Long endTime = rmRoomSchedule.getEndDate().getTime();// 该时间段的结束时间
-						if (signRoom.getPkid().equals(
-								rmRoomSchedule.getRoomId())) {
-							if (rmRoomSchedule.getResStatus() == null) {
-								rmRoomSchedule.setUseStatus("N");
-							} else if (rmRoomSchedule.getResStatus() != null
-									&& "4".equals(rmRoomSchedule.getResStatus()
-											.trim())) {// 预约已取消状态为空置
-								rmRoomSchedule.setUseStatus("N");
-							} else {
-								if (rmRoomSchedule.getCheckInTime() != null) {// 是否已签到
-									if (rmRoomSchedule.getCheckOutTime() != null) {// 是否已签退
-										rmRoomSchedule.setUseStatus("N");
 
-									} else {
-										rmRoomSchedule.setUseStatus("1");// 使用中
-									}
-								} else {// 未签到的话就判断是否已超出时间段开始时间半个小时
-									Long second = null;
-									if (createTime != null
-											&& (createTime > startTime)) {
-										second = (curTime - createTime) / 1000 / 60;// 取得两者时间查转成分钟
-										if (second > 30) {// 超过三十分钟的话状态就为空置
-											rmRoomSchedule.setUseStatus("N");
-										} else {
-											rmRoomSchedule.setUseStatus("0");
-										}
-									} else {
-										second = (curTime - startTime) / 1000 / 60;// 取得两者时间查转成分钟
-										if (second > 30) {// 超过三十分钟的话状态就为空置
-											rmRoomSchedule.setUseStatus("N");
-										} else {
-											rmRoomSchedule.setUseStatus("0");
-										}
-									}
-
-								}
-							}
-							if ("N".equals(rmRoomSchedule.getUseStatus())) {// 当空置状态在判断当前时间与结束时间段比较小于结束时间页面不置灰，大于结束页面置灰，其他情况页面都置灰
-								if (curTime < endTime) {
-									rmRoomSchedule.setZhiHui(false);
-								} else if (curTime >= endTime) {
-									rmRoomSchedule.setZhiHui(true);
-								}
-							} else {
-								rmRoomSchedule.setZhiHui(true);
-							}
-							rrs.add(rmRoomSchedule);
-						}
-					}
-					signRoom.setRmRoomSchedules(rrs);
-				}
-
-			}
+			generateSignRooms(signRooms, rmRoomSchedules, rrs);
 
 			String timeslot = rmSignRoomMapper.getTimeSlots();// 获取时间段
 			String[] timeslots = null;
@@ -214,10 +146,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	@Override
 	public AjaxResponse<List<RmSignRoom>> signRoomShedualList(JQGridParam gp) {
 		AjaxResponse<List<RmSignRoom>> response = new AjaxResponse<List<RmSignRoom>>();
-		/*
-		 * List<RmSignRoom> rmSignRooms =
-		 * rmSignRoomMapper.getRmSignRoomAndStragegy(map);
-		 */
+
 		gp.setCountOnly(false);
 		gp.setPagination(false);
 		gp.setQueryId("queryRmSignRoomAndStragegy");
@@ -433,6 +362,16 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		} else if (rmRoomSchedule.getResStatus() != null
 				&& "4".equals(rmRoomSchedule.getResStatus().trim())) {// 预约已取消状态为空置
 			return true;
+		} else if (rmRoomSchedule.getResStatus() != null
+				&& "5".equals(rmRoomSchedule.getResStatus().trim())) {// 提前使用中
+			if (startTime != null && curTime > startTime) {// 当当前时间在该时间段
+				if (rmRoomSchedule.getCheckOutTime() != null) {// 已签退
+					return true;
+				} else {
+					return false;
+				}
+			}
+			return false;
 		} else {
 			if (rmRoomSchedule.getCheckInTime() != null) {// 是否已签到
 				if (rmRoomSchedule.getCheckOutTime() != null) {// 是否已签退
@@ -637,6 +576,98 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			return true;
 		}
 		return false;
+	}
+
+	public void generateSignRooms(List<RmSignRoom> signRooms,
+			List<RmRoomSchedule> rmRoomSchedules, List<RmRoomSchedule> rrs) {
+		if (signRooms != null && !signRooms.isEmpty()
+				&& rmRoomSchedules != null && !rmRoomSchedules.isEmpty()) {
+			for (RmSignRoom signRoom : signRooms) {
+				rrs = new ArrayList<RmRoomSchedule>();
+				for (RmRoomSchedule rmRoomSchedule : rmRoomSchedules) {
+					Long startTime = rmRoomSchedule.getStartDate().getTime();// 该时间段的开始时间
+					Long createTime = null;
+					if (rmRoomSchedule.getCreateTime() != null) {
+						createTime = rmRoomSchedule.getCreateTime().getTime();// 真实预约时间
+					}
+					Long curTime = new Date().getTime();// 当前时间
+					Long endTime = rmRoomSchedule.getEndDate().getTime();// 该时间段的结束时间
+					if (signRoom.getPkid().equals(rmRoomSchedule.getRoomId())) {
+						if (rmRoomSchedule.getResStatus() == null) {
+							rmRoomSchedule.setUseStatus("N");
+						} else if (rmRoomSchedule.getResStatus() != null
+								&& "4".equals(rmRoomSchedule.getResStatus()
+										.trim())) {// 预约已取消状态为空置
+							rmRoomSchedule.setUseStatus("N");
+						} else if (rmRoomSchedule.getResStatus() != null
+								&& "5".equals(rmRoomSchedule.getResStatus()
+										.trim())) {// 提前使用中
+							rmRoomSchedule.setUseStatus("2");// 提前使用
+							if (startTime != null && curTime > startTime) {// 当当前时间在该时间段
+								if (rmRoomSchedule.getCheckOutTime() != null) {// 已签退
+									rmRoomSchedule.setUseStatus("N");// 空置
+								} else {
+									rmRoomSchedule.setUseStatus("3");// 超期使用中
+								}
+							}
+						} else {
+							if (rmRoomSchedule.getCheckInTime() != null) {// 是否已签到
+								if (rmRoomSchedule.getCheckOutTime() != null) {// 是否已签退
+									rmRoomSchedule.setUseStatus("N");
+
+								} else {
+									rmRoomSchedule.setUseStatus("1");// 使用中
+								}
+							} else {// 未签到的话就判断是否已超出时间段开始时间半个小时
+								Long second = null;
+								if (createTime != null
+										&& (createTime > startTime)) {
+									second = (curTime - createTime) / 1000 / 60;// 取得两者时间查转成分钟
+									if (second > 30) {// 超过三十分钟的话状态就为空置
+										rmRoomSchedule.setUseStatus("N");
+									} else {
+										rmRoomSchedule.setUseStatus("0");// 预约中
+									}
+								} else {
+									second = (curTime - startTime) / 1000 / 60;// 取得两者时间查转成分钟
+									if (second > 30) {// 超过三十分钟的话状态就为空置
+										rmRoomSchedule.setUseStatus("N");
+									} else {
+										rmRoomSchedule.setUseStatus("0");
+									}
+								}
+
+							}
+						}
+						if ("N".equals(rmRoomSchedule.getUseStatus())) {// 当空置状态在判断当前时间与结束时间段比较小于结束时间页面不置灰，大于结束页面置灰，其他情况页面都置灰
+							if (curTime < endTime) {
+								rmRoomSchedule.setZhiHui(false);
+							} else if (curTime >= endTime) {
+								rmRoomSchedule.setZhiHui(true);
+							}
+						} else {
+							rmRoomSchedule.setZhiHui(true);
+						}
+						rrs.add(rmRoomSchedule);
+					}
+				}
+				if (!rrs.isEmpty()) {
+					for (int i = 0; i < rrs.size() - 1; i++) {
+						Long curTime = new Date().getTime();// 当前时间
+						RmRoomSchedule rcprev = rrs.get(i);
+						RmRoomSchedule rcnext = rrs.get(i + 1);
+						Long endTime = rcprev.getEndDate().getTime();// 该时间段的结束时间
+						if ("1".equals(rcprev.getUseStatus())
+								&& curTime > endTime) {// 当状态为使用中时并且当前时间大于结束时间时
+							if ("N".equals(rcnext.getUseStatus())) {// 当下个时间段为空置状态时显示超期使用中，否则状态不变
+								rrs.get(i + 1).setUseStatus("3");
+							}
+						}
+					}
+				}
+				signRoom.setRmRoomSchedules(rrs);
+			}
+		}
 	}
 
 }
