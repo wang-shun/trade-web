@@ -5,13 +5,18 @@ import java.util.Arrays;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.core.Ordered;
 import org.springframework.web.filter.DelegatingFilterProxy;
+
+import com.opensymphony.sitemesh.webapp.SiteMeshFilter;
 
 
 @SpringBootApplication
@@ -30,6 +35,7 @@ public class AgentPortalApplication {
 		filterRegistrationBean.setFilter(new SingleSignOutFilter());
 		filterRegistrationBean.setName("CAS Single Sign Out Filter");
 		filterRegistrationBean.setUrlPatterns(Arrays.asList("/*"));
+
 		return filterRegistrationBean;
 	}
 
@@ -52,4 +58,5 @@ public class AgentPortalApplication {
 		registrationBean.setListener(new SingleSignOutHttpSessionListener());
 		return registrationBean;
 	}
+	
 }
