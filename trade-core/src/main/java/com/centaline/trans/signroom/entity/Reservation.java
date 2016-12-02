@@ -24,7 +24,7 @@ public class Reservation {
 
 	private String resPersonId; // 预约人id
 
-	private String resStatus; // 预约状态(预约中:0,使用中:1,使用完:2,已过期:3,已取消:4)
+	private String resStatus; // 预约状态(预约中:0,使用中:1,使用完:2,已过期:3,已取消:4,提前使用:5)
 
 	private String scheduleId; // 签约室安排id
 
@@ -53,10 +53,20 @@ public class Reservation {
 	private Date updateTime; // 更新时间
 
 	private String updateBy; // 更新人
-	
-	private String resPersonMobile;//预约人电话号码
-	private String resPersonName;//预约人姓名
-	
+
+	private String resPersonMobile;// 预约人电话号码
+
+	private String resPersonName;// 预约人姓名
+
+	private int isDelete; // 是否删除(0:未删除,1:已删除)
+
+	public int getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(int isDelete) {
+		this.isDelete = isDelete;
+	}
 
 	public String getServiceSpecialist() {
 		return serviceSpecialist;
@@ -254,7 +264,5 @@ public class Reservation {
 	public void setResPersonName(String resPersonName) {
 		this.resPersonName = resPersonName;
 	}
-	
-	
 
 }

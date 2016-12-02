@@ -48,7 +48,7 @@
 					R.CREATE_TIME AS createTime
 			FROM    sctrans.T_RM_ROOM_SCHEDULE T
 			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
-			WHERE   T.IS_DELETE = '0'
+			WHERE   T.IS_DELETE = '0' and R.IS_DELETE = 0
 		<if test="curDate != null">
 				 AND DATEDIFF(DAY, T.START_DATE, #curDate#) = 0
 		</if>

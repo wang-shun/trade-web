@@ -184,7 +184,50 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public int endUse(Long resId) {
-		return reservationMapper.endUse(resId);
+		int result = 1;
+
+		Date checkedOutTime = new Date();
+
+		try {
+			Reservation reservation = reservationMapper
+					.getReservationById(resId);
+			reservation.setCheckedOutTime(checkedOutTime);
+
+			// 如果提前预约签退,则要同步原先预约信息的签退时间
+			if ("5".equals(reservation.getResStatus())) {
+				Long scheduleId = Long.parseLong(reservation.getScheduleId());
+				RmRoomSchedule rmRoomSchedule = rmRoomScheduleMapper
+						.getRmRoomScheduleByPkid(scheduleId);
+
+				ReservationVo reservationVo = new ReservationVo();
+
+				// 设置条件
+				reservationVo.setResPersonId(reservation.getResPersonId());
+				reservationVo.setCheckInTime(reservation.getCheckInTime());
+				reservationVo.setRoomId(rmRoomSchedule.getRoomId());
+
+				// 根据房间号相同、签到时间相同、预约人id相同获取原先的预约记录
+				Reservation oldReservation = reservationMapper
+						.getOldReservation(reservationVo);
+
+				// 如果存在原先预约记录
+				if (oldReservation != null) {
+					// 设置签退时间
+					oldReservation.setCheckedOutTime(checkedOutTime);
+
+					// 同步原先预约记录的签退时间
+					reservationMapper.endUse(oldReservation);
+				}
+			}
+
+			// 更新提前使用的预约记录的签退时间
+			reservationMapper.endUse(reservation);
+		} catch (Exception e) {
+			result = 0;
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 
 	@Override
@@ -454,6 +497,8 @@ public class ReservationServiceImpl implements ReservationService {
 			String dateStr = DateUtil.getFormatDate(new Date(), "yyMMdd");
 			String resNo = uamBasedataService.nextSeqVal("QYSYY_CODE", dateStr);
 
+			Date currentTime = new Date();
+
 			Reservation reservation = new Reservation();
 			reservation.setResNo(resNo);
 			reservation.setResType("1");
@@ -477,12 +522,13 @@ public class ReservationServiceImpl implements ReservationService {
 					.getTransactItemCode());
 			reservation.setSpecialRequirement(oldReservation
 					.getSpecialRequirement());
-			reservation.setCheckInTime(new Date());
+			reservation.setCheckInTime(currentTime);
 
-			reservation.setCreateTime(new Date());
+			reservation.setCreateTime(currentTime);
 			reservation.setCreateBy(currentUser.getId());
-			reservation.setUpdateTime(new Date());
+			reservation.setUpdateTime(currentTime);
 			reservation.setUpdateBy(currentUser.getId());
+			reservation.setIsDelete(0);
 
 			// 保存预约信息
 			reservationMapper.insertSelective(reservation);
@@ -494,15 +540,64 @@ public class ReservationServiceImpl implements ReservationService {
 			freeRoomVo.setResId(resId);
 			freeRoomVo.setScheduleId(freeRoomInfo.getScheduleId());
 
-			// 更新闲置房间的使用状态
+			// 更新临时分配房间的使用状态
 			rmRoomScheduleMapper.updateFreeRoomStatus(freeRoomVo);
+
+			// 判断是否提前预约的时间段跟正常预约的时间段是否是相邻时间段
+			if (isAdjacentTime(Long.parseLong(oldReservation.getScheduleId()),
+					Long.parseLong(freeRoomInfo.getScheduleId()))) {
+				// 更新之前预约房间的预约状态改为提前使用
+				oldReservation.setResStatus("5"); // 设置之前预约的记录状态为提前使用状态
+				oldReservation.setCheckInTime(currentTime);
+
+				reservationMapper.updateStatusToUseInAdvance(oldReservation);
+			} else {
+				// 在删除原预约信息之前,将房间状态改为空置状态
+				rmRoomScheduleMapper.updateRoomStatusToFree(Long
+						.parseLong(oldReservation.getScheduleId()));
+
+				// 删除原预约信息
+				reservationMapper.deleteReservationById(oldReservation
+						.getPkid());
+			}
+
 		} catch (Exception e) {
 			result = "false";
 			e.printStackTrace();
+
 		}
 
 		return result;
 
+	}
+
+	/**
+	 * 
+	 * @param oldScheduleId
+	 *            原先签约安排id
+	 * @param newScheduleId
+	 *            旧原先签约安排id
+	 * @return 返回true,是相邻时间段;返回false,不是相邻时间段。
+	 */
+	private boolean isAdjacentTime(Long oldScheduleId, Long newScheduleId) {
+		// 获取原先的签约室安排信息
+		RmRoomSchedule oldRoomSchedule = rmRoomScheduleMapper
+				.getRmRoomScheduleByPkid(oldScheduleId);
+
+		// 获取提前使用的签约室安排信息
+		RmRoomSchedule newRoomSchedule = rmRoomScheduleMapper
+				.getRmRoomScheduleByPkid(newScheduleId);
+
+		// 获取原先的签约室安排的预约开始时间
+		long oldStartResTime = (oldRoomSchedule.getStartDate()).getTime();
+
+		// 获取提前使用的签约室安排的预约开始时间
+		long newStartResTime = (newRoomSchedule.getStartDate()).getTime();
+
+		// 两时间相减,得到小时数
+		long hour = (oldStartResTime - newStartResTime) / 3600000;
+
+		return hour > 2 ? false : true;
 	}
 
 	/**

@@ -370,6 +370,7 @@ function endUse(obj){
 	var $obj = $(obj);
 	
 	startAndEndUse($obj,"endUse");
+	
 }
 
 //打开跟进信息界面
@@ -435,8 +436,9 @@ function startAndEndUse(obj,flag){
 				var operateTime = data.operateDateTime;  //操作时间
 				
 				if(result == "true"){
+					reloadGrid();
 					//设置操作时间及预约状态
-					setOperateTimeAndStatus(resId,operateTime,flag);
+					//setOperateTimeAndStatus(resId,operateTime,flag);
 				}
 			}
 		});

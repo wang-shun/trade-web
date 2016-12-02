@@ -49,7 +49,7 @@ FROM    sctrans.T_RM_SIGN_ROOM R
         LEFT JOIN sctrans.T_RM_TRADE_CENTER M ON R.TRADE_CENTER_ID = M.PKID
         INNER JOIN sctrans.T_RM_SIGN_ROOM_ORG_MAPPING O ON M.PKID = O.TRADE_CENTER_ID
 WHERE   T.IS_DELETE = '0'
-        AND (R.IS_DELETE = '0' OR R.IS_DELETE IS NULL)
+        AND (R.IS_DELETE = '0' OR R.IS_DELETE IS NULL) and S.IS_DELETE = 0
             <if test="depId != null">
 				 AND (O.TEAM_ID = #depId# OR O.DISTRICT_ID = #depId# )
 			</if>

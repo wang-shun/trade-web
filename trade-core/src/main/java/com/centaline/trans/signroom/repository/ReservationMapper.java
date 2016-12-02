@@ -18,6 +18,33 @@ import com.centaline.trans.signroom.vo.TransactItemVo;
 public interface ReservationMapper {
 
 	/**
+	 * 根据提前预约信息获取对应的原先的预约信息
+	 * 
+	 * @param reservationVo
+	 *            条件
+	 * @return 原先的预约记录
+	 */
+	public Reservation getOldReservation(ReservationVo reservationVo);
+
+	/**
+	 * 根据预约id删除预约信息
+	 * 
+	 * @param resId
+	 *            预约标识
+	 * @return 如果返回1,则说明删除成功;如果返回0,则说明删除失败。
+	 */
+	public int deleteReservationById(Long resId);
+
+	/**
+	 * 将原先的预约记录状态更新为提前使用状态并且更新签到时间
+	 * 
+	 * @param reservation
+	 *            预约信息
+	 * @return 如果返回1,则说明更新成功;如果返回0,则说明更新失败。
+	 */
+	public int updateStatusToUseInAdvance(Reservation reservation);
+
+	/**
 	 * 保存预约取号信息
 	 * 
 	 * @param reservation
@@ -117,11 +144,11 @@ public interface ReservationMapper {
 	/**
 	 * 签约室结束使用
 	 * 
-	 * @param resId
-	 *            预约单标识
+	 * @param reservation
+	 *            预约信息
 	 * @return 如果返回1,结束使用成功;返回0,结束使用失败。
 	 */
-	public int endUse(Long resId);
+	public int endUse(Reservation reservation);
 
 	/**
 	 * 查询当前时间点以后的预约情况

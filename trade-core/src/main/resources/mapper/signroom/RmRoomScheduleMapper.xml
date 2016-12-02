@@ -30,9 +30,9 @@
              ELSE R.RES_STATUS
         END USE_STATUS
 FROM    sctrans.T_RM_ROOM_SCHEDULE T
-        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
+        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID 
 WHERE   
-		T.IS_DELETE = '0'
+		T.IS_DELETE = '0' and R.IS_DELETE = 0
 		<if test="curDate != null">
 				 AND DATEDIFF(DAY, T.START_DATE, #{curDate}) = 0
 		</if>
@@ -73,7 +73,7 @@ ORDER BY t.START_DATE ASC
 					R.CREATE_TIME AS CREATE_TIME
 			FROM    sctrans.T_RM_ROOM_SCHEDULE T
 			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
-			WHERE   T.IS_DELETE = '0'
+			WHERE   T.IS_DELETE = '0' and R.IS_DELETE = 0
 		<if test="_parameter != null">
 			AND	 T.PKID = #{_parameter}
 		</if>

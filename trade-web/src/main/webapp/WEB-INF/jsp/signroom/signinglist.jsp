@@ -436,6 +436,10 @@
 							{{if item.resStatus == '4'}}
 								已取消
 							{{/if}}
+
+							{{if item.resStatus == '5'}}
+								提前使用
+							{{/if}}
                  </td>
 				 <td>
 					  <span class="manager"><a href="#" title="{{item.mobile}}" class="demo-top" onMouseover="showMobile(this);"><em>预约人:</em>{{item.realName}}</a></span>
@@ -474,9 +478,11 @@
                  </td>
 				 <td class="tdOperation">
                       <div class="btn-group">
+						  {{if item.resStatus != '5'}}
                           <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">操作
                                 <span class="caret"></span>
                           </button>
+						  {{/if}}
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
 								{{if item.resStatus == '0'}}
 									<shiro:hasPermission name="TRADE.SIGNROOM.SIGN">
