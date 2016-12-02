@@ -325,6 +325,9 @@ function startUse(obj,resDate,startTime,endTime,roomId,resId,scheduleId){
 		if(isPass){
 			startAndEndUse($obj,"startUse");
 		}
+		else {
+			alert("该房间上个预约时间段未签退,不能开始使用！");
+		}
 	}
 	
 	//如果是提前签到,临时分配一个房间,判断在该时间内是否有同一房型的闲置房间

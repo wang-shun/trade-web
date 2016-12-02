@@ -312,7 +312,7 @@
   </update>
   
    <update id="endUse" parameterType="com.centaline.trans.signroom.entity.Reservation">
-  		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = '2',CHECKED_OUT_TIME = #{checkedOutTime,jdbcType=TIMESTAMP},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{pkid,jdbcType=BIGINT};
+  		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = #{resStatus,jdbcType=VARCHAR},CHECKED_OUT_TIME = #{checkedOutTime,jdbcType=TIMESTAMP},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{pkid,jdbcType=BIGINT};
   </update>
   
   <select id="getReservationNotCancleCount"  resultType="java.lang.Integer" parameterType="com.centaline.trans.signroom.entity.RmSignRoom">
