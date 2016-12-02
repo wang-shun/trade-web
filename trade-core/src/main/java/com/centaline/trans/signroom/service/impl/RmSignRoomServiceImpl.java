@@ -655,12 +655,15 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 					for (int i = 0; i < rrs.size() - 1; i++) {
 						Long curTime = new Date().getTime();// 当前时间
 						RmRoomSchedule rcprev = rrs.get(i);
-						RmRoomSchedule rcnext = rrs.get(i + 1);
 						Long endTime = rcprev.getEndDate().getTime();// 该时间段的结束时间
-						if ("1".equals(rcprev.getUseStatus())
-								&& curTime > endTime) {// 当状态为使用中时并且当前时间大于结束时间时
-							if ("N".equals(rcnext.getUseStatus())) {// 当下个时间段为空置状态时显示超期使用中，否则状态不变
-								rrs.get(i + 1).setUseStatus("3");
+						for(int j=i+1;j<rrs.size();j++){
+							RmRoomSchedule rcnext = rrs.get(j);
+							Long startTime = rcnext.getStartDate().getTime();//该时间段的开始时间
+							if ("1".equals(rcprev.getUseStatus())
+									&& curTime > endTime) {// 当状态为使用中时并且当前时间大于结束时间时
+								if ("N".equals(rcnext.getUseStatus()) && curTime>startTime) {// 当下个时间段为空置状态时显示超期使用中，否则状态不变
+									rrs.get(j).setUseStatus("3");
+								}
 							}
 						}
 					}
