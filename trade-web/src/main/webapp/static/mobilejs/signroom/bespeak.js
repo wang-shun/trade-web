@@ -151,14 +151,21 @@ function initDate(){
 	
 	var strHtml = "<tr>";
 	
-	var start = 1 - week;
+	var start = week;
 	var end = start + 13;
-	var count = 1;
+	var count = 0;
 	
+	if(week<6){
+		var emptySize = 7-(week+1)
+		for(var i=0;i<emptySize;i++){
+			strHtml += "<td date=''>&nbsp;</td>";
+			count++;
+		}
+	}
 	for(var i=start;i<=end;i++){
 		var arrayDate = getDateStr(i);
 		
-		if(count == 8){
+		if((count % 7)==0){
 			strHtml += "</tr><tr>";
 		}
 		
@@ -171,7 +178,12 @@ function initDate(){
 		
 		count++;
 	}
-	
+	if(week<6){
+		var emptySize = (week+1)
+		for(var i=0;i<emptySize;i++){
+			strHtml += "<td date=''>&nbsp;</td>";
+		}
+	}
 	strHtml += "</tr>"
 	
 	$("#dayList").html(strHtml);

@@ -230,7 +230,7 @@
 
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-ui.min.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery.autocompleter.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/bespeak.js"></script>
+<script type="text/javascript" src="${ctx}/mobilejs/signroom/bespeak.js?v=1"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-mvalidate.js"></script>
 
 </html>
