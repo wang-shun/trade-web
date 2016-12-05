@@ -333,25 +333,43 @@ function startUse(obj,resDate,startTime,endTime,roomId,resId,scheduleId){
 	//如果是提前签到,临时分配一个房间,判断在该时间内是否有同一房型的闲置房间
 	if(currentDateTime < startDateTime){
 		
+		//获取当前日期
+		var currentDate = getCurrentDate();
+		
+		//获取当天的预约9点时间
+		var currentStartResTime = currentDate + " 09:00";
+		
+		//获取开始预约时间
+		var resStartTime = resDate + " " + startTime;
+		
+		//提前使用的当天日期要与预约日期是同一天才能提前使用
+		if(currentDate != resDate){
+			alert("提前使用只限当天的预约！");
+			return false;
+		}
+		
+		//如果提前使用预约时间在9点到11点的预约信息,不需要临时分配房间,直接将该预约信息状态置为使用中
+		if(currentStartResTime == resStartTime){
+			startAndEndUse($obj,"startUse");
+			return false;
+		}
+		
 		//判断该预约上一个时间段是否签退
 		var isPass = isOvertimeUse(scheduleId,roomId);
-		
-		//如果该房间上一段预约时间段里边签退
-		if(isPass){
-			//当前时间点是否有空闲的同一房间号房间
-			var isExist = isHasFreeRoomByCurrentTimeAndRoomNo(roomId);
-			
-			if(isExist){
-				//提前签到
-				startUseInAdvance(resId,roomId);
-			}
-			else {
-				alert("当前时间没有可闲置房间信息,请联系值班经理进行临时分配！")
-			}
-		}
-		else {
+		if(!isPass){
 			alert("该房间上个预约时间段未签退,不能开始使用！");
+			return false;
 		}
+		
+		//当前时间点是否有空闲的同一房间号房间
+		var isExist = isHasFreeRoomByCurrentTimeAndRoomNo(roomId);
+		if(!isExist){
+			alert("当前时间没有可闲置房间信息,请联系值班经理进行临时分配！")
+			return false;
+		}
+			
+		//提前签到
+		startUseInAdvance(resId,roomId);	
 	}
 	
 	//如果当前时间超过预约结束时间
