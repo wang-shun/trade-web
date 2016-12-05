@@ -387,7 +387,7 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
 					R.CHECKED_OUT_TIME AS checkOutTime,
 					R.CREATE_TIME AS createTime
 			FROM    sctrans.T_RM_ROOM_SCHEDULE T
-			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID and R.IS_DELETE = 0
+			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID AND R.IS_DELETE = 0
 			WHERE   T.IS_DELETE = '0'
 			  AND T.START_DATE = #{beginResTime,jdbcType=VARCHAR} AND T.END_DATE = #{endResTime,jdbcType=VARCHAR}
 			  AND ROOM_ID = #{roomId,jdbcType=BIGINT}
