@@ -129,24 +129,16 @@
                         <table class="table table-date">
                           <thead>
                             <tr>
-                              <th>周日</th>
                               <th>周一</th>
                               <th>周二</th>
                               <th>周三</th>
                               <th>周四</th>
                               <th>周五</th>
                               <th>周六</th>
+                              <th>周日</th>
                             </tr>
                           </thead>
                           <tbody id="dayList">
-                          <c:if test="${listCalendar!= null && fn:length(listCalendar) >0}">
-	                          <tr>
-		                      <c:forEach items="${listCalendar}" var="calendar" varStatus="status">
-		                      		<td date="${calendar.date}" class="${calendar.clazz}" onClick='dateClickToggle(this)'>${calendar.show}</td>
-	                          		<c:if test="${(status.index>0 && fn:length(listCalendar)!=status.count) && (status.count%7)==0}"></tr><tr></c:if>
-		                      </c:forEach>
-	                          </tr>
-                          </c:if>
                           </tbody>
                         </table>
                     </section>
