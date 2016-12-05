@@ -30,6 +30,7 @@
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;
@@ -1466,6 +1467,7 @@
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
 <script>
 	var source = "${source}";
 	var afterTimeFlag=${afterTimeFlag};
@@ -1765,6 +1767,11 @@ function checkInt(obj){
 
 	}
 	
+	//渲染图片 
+	function renderImg(){
+		$('.wrapper-content').viewer('destroy');
+		$('.wrapper-content').viewer();
+	}	
  	</script> 
  </content>
 </body>

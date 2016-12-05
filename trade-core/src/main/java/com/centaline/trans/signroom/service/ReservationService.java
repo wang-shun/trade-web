@@ -94,7 +94,7 @@ public interface ReservationService {
 	 * @param tradeCenterId 签约中心ID
 	 * @return 字符串日期列表
 	 */
-	public List<Map<String,String>> getBespeakCalendar(Long tradeCenterId);
+	public List<Map<String,String>> getBespeakCalendar();
 	
 	/**
 	 * 获取达到特定条件的闲置房间信息

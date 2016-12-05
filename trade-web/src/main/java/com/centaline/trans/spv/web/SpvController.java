@@ -698,7 +698,7 @@ public class SpvController {
 		//spv.setRemark(remark);
 		toSpvService.updateByPrimaryKey(spv);
 		
-		//条件审核记录到ToApproveRecord
+		//添加审核记录到ToApproveRecord
 		ToApproveRecord toApproveRecord=new ToApproveRecord();
 		toApproveRecord.setCaseCode(caseCode);
 		toApproveRecord.setContent(remark);

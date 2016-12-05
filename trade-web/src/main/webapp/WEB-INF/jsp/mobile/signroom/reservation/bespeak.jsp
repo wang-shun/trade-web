@@ -124,7 +124,7 @@
         <div class="layui-m-layermain">
             <div class="layui-m-layersection">
                 <div class="layui-m-layerchild  layui-m-anim-scale noradius">
-                    <div class="date-title">2016-10-02</div>
+                    <div class="date-title"></div>
                     <section class="aui-grid">
                         <table class="table table-date">
                           <thead>

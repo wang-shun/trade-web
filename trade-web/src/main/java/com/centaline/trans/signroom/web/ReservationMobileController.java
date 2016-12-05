@@ -323,7 +323,7 @@ public class ReservationMobileController {
 		request.setAttribute("remainBespeakNumber", remainBespeakNumber);
 
 		/* 获取日历数据*/
-		List<Map<String,String>> listCalendar = reservationService.getBespeakCalendar(defaultTradeCenterId);
+		List<Map<String,String>> listCalendar = reservationService.getBespeakCalendar();
 		request.setAttribute("listCalendar", listCalendar);
 		
 		return "mobile/signroom/reservation/bespeak";

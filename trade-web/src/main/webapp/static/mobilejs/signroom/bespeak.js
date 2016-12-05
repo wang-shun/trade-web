@@ -109,7 +109,7 @@ function init(){
 	
 	//日期初始化
 	initDate();
-	
+
 	//产证地址初始化
 	getPropertyAddress();
 }
