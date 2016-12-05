@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -130,6 +131,52 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public List<TransactItemVo> getTransactItemList() {
 		return reservationMapper.getTransactItemList();
+	}
+
+
+	@Override
+	public List<Map<String,String>> getBespeakCalendar() {
+		List<Map<String,String>> listCalendar = new ArrayList<Map<String,String>>();
+		SimpleDateFormat sdf_date = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf_show = new SimpleDateFormat("d");
+		
+		Date date = new Date();
+		//不可预约日期
+		Calendar unableCalendar1 = Calendar.getInstance();
+		unableCalendar1.setTime(date);
+		List<Map<String,String>> listUnableCalendar = new ArrayList<Map<String,String>>();
+		int dayOfWeek = unableCalendar1.get(Calendar.DAY_OF_WEEK);
+		for(int i=dayOfWeek-1;i>=1;i--){
+			Map<String,String> dateMap = new HashMap<String,String>();
+			unableCalendar1.add(Calendar.DATE,-1);
+			dateMap.put("date",sdf_date.format(unableCalendar1.getTime()));
+			dateMap.put("show",sdf_show.format(unableCalendar1.getTime()));
+			dateMap.put("clazz","");
+			listUnableCalendar.add(dateMap);
+		}
+		Collections.reverse(listUnableCalendar);
+		listCalendar.addAll(listUnableCalendar);
+		
+		//可预约日期
+		Calendar enableCalendar = Calendar.getInstance();
+		enableCalendar.setTime(date);
+		//可预约一个星期
+		int usable = 7;
+		while(listCalendar.size()<14){
+			Map<String,String> dateMap = new HashMap<String,String>();
+			dateMap.put("date",sdf_date.format(date));
+			dateMap.put("show",sdf_show.format(date));
+			dateMap.put("clazz","");
+			if((usable-->0)){
+				dateMap.put("clazz","usable-date");
+			}
+			listCalendar.add(dateMap);
+			
+			enableCalendar.add(Calendar.DATE,1);
+			date = enableCalendar.getTime();
+		}
+		
+		return listCalendar;
 	}
 
 	@Override

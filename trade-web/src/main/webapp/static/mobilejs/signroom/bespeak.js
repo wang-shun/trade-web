@@ -108,8 +108,11 @@ function init(){
 	getTradeCenterList();
 	
 	//日期初始化
-	initDate();
-	
+	//initDate();
+	var $usables = $(".usable-date","#dayList");
+	if($usables.size()>0){
+		dateClickToggle($usables.eq(0));
+	}
 	//产证地址初始化
 	getPropertyAddress();
 }

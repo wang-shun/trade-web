@@ -417,5 +417,4 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
 		WHERE rs.ROOM_ID = #{roomId,jdbcType=BIGINT} AND rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR}
 		AND r.CHECKED_OUT_TIME IS NULL;
   </select>
-  
 </mapper>
