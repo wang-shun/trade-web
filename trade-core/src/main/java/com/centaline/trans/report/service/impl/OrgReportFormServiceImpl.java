@@ -40,19 +40,19 @@ public class OrgReportFormServiceImpl implements OrgReportFormService {
     public List<ToCaseInfoCountVo>  findPageForCaseReportFormCount(JQGridParam gp) {
 
         List<ToCaseInfoCountVo> voList = new LinkedList<ToCaseInfoCountVo>();
-        gp.setQueryId("queryFormJds");//接单数
+        gp.setQueryId("queryFormJds");//锟接碉拷锟斤拷
         Page<Map<String, Object>> queryFormJds =  quickGridService.findPageForSqlServer(gp, null);
         List<Map<String,Object>> listJds = queryFormJds.getContent();
 
-        gp.setQueryId("queryFormJas");//结案数
+        gp.setQueryId("queryFormJas");//锟结案锟斤拷
         Page<Map<String, Object>> queryFormJas =  quickGridService.findPageForSqlServer(gp, null);
         List<Map<String,Object>> listJas = queryFormJas.getContent();
 
-        gp.setQueryId("queryFormQys");//签约数
+        gp.setQueryId("queryFormQys");//签约锟斤拷
         Page<Map<String, Object>> queryFormQys =  quickGridService.findPageForSqlServer(gp, null);
         List<Map<String,Object>> listQys = queryFormQys.getContent();
 
-        gp.setQueryId("queryFormGhs");//签约数
+        gp.setQueryId("queryFormGhs");//签约锟斤拷
         Page<Map<String, Object>> queryFormGhs =  quickGridService.findPageForSqlServer(gp, null);
         List<Map<String,Object>> listGhs = queryFormGhs.getContent();
 
@@ -114,13 +114,9 @@ public class OrgReportFormServiceImpl implements OrgReportFormService {
         for(Map<String,Object> map : list){
             if(map!=null){
                 if(map.get("orgId")!=null&&map.get("orgName")!=null){
-                    //接单数
                     int toCaseInfoJDS = (int)map.get("countJDS");
-                    //签约数
                     int toSignQYS =  (int)map.get("countQYS");
-                    //过户数
                     int toHouseTransferGHS =  (int)map.get("countGHS");
-                    //结案数
                     int toCloseJAS =  (int)map.get("countJAS");
                     ToCaseInfoCountVo toCaseInfoVo = new ToCaseInfoCountVo();
                     toCaseInfoVo.setCountJDS(toCaseInfoJDS);
