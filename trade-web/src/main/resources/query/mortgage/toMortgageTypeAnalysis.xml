@@ -203,9 +203,7 @@
 			<if test="organizeOrgId !=null and orgHierarchy == 'yucui_district' ">
 			AND M.LOAN_AGENT_TEAM in (select  id from sctrans.sys_org  where PARENT_ID = #organizeOrgId#)
 			</if>
-			<ifNotNull loanType>
-				and M.LOANTYPE = #loanType#
-			</ifNotNull>
+
 
 			<ifNotNull caseCode>
 				and M.case_code like '%'+#caseCode#+'%'
@@ -216,6 +214,9 @@
 			</ifNotNull>
 				) as TotalForm where 1=1
 
+			<ifNotNull loanType>
+				and TotalForm.LOANTYPE = #loanType#
+			</ifNotNull>
 			]]>
 			</baseSql>
 			<groupSql>
