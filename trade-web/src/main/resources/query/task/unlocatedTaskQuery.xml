@@ -62,6 +62,8 @@
 						ON tca.ORG_ID=org.id
 					left join sctrans.SYS_WFE_TEMPLATE as wfe on pro.BUSINESS_KEY_=wfe.WFE_CODE
 					where task.ASSIGNEE_ is null and ilink.TYPE_='participant'
+
+				 <if test="userServiceJobCode != 'COXXGLY' ">
 					<ifNotNull mOrgId>
 						and (ilink.user_id_=#candidateId# or (ilink.user_id_ is null and tca.org_id=#mOrgId#))
 			 		</ifNotNull>
@@ -71,7 +73,7 @@
 			 		 <ifNotNull groupParentID>
 					 	and org.parent_id=#groupParentID#
 					 </ifNotNull>
-			 		
+			 		</if>
 					union
 					SELECT t.groupName,t.groupParentID,t.groupParentName,t.name,t.pkid,
 					t.caseCode,t.instCode,t.createTime,t.candidateId,t.taskId,
@@ -89,7 +91,7 @@
 						left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
 						left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE) t
 					 where t.IS_DELETE='0'
-					 
+					 <if test="userServiceJobCode != 'COXXGLY' ">
 					 <ifNotNull groupParentID>
 					 	and t.groupParentID=#groupParentID#
 					 </ifNotNull>
@@ -100,6 +102,7 @@
 			 		<ifNotNull managerFlag>
 			 			and t.candidateId=#candidateId#
 			 		</ifNotNull>
+			 		</if>
 				) as tt where 1=1 
 				]]>
 			</baseSql>
