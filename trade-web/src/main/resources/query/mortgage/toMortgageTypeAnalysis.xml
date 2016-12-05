@@ -204,6 +204,19 @@
 			AND M.LOAN_AGENT_TEAM in (select  id from sctrans.sys_org  where PARENT_ID = #organizeOrgId#)
 			</if>
 
+			<if test=' loanType=="1" '>
+			and exists (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1 and M.MORT_TYPE in('30016001','30016002'))
+			and exists (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)
+			</if>
+			<if test=' loanType=="2" '>
+			and exists (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1 and M.MORT_TYPE in('30016003'))
+			and exists (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)
+			</if>
+			<if test=' loanType=="3" '>
+			and exists (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1 and M.MORT_TYPE in('30016001','30016002'))
+			and not exists (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)
+			</if>
+
 
 			<ifNotNull caseCode>
 				and M.case_code like '%'+#caseCode#+'%'
@@ -214,9 +227,7 @@
 			</ifNotNull>
 				) as TotalForm where 1=1
 
-			<ifNotNull loanType>
-				and TotalForm.LOANTYPE = #loanType#
-			</ifNotNull>
+
 			]]>
 			</baseSql>
 			<groupSql>
