@@ -21,7 +21,7 @@ shiroConfig.shiroFilter:
     /userorg/org/findOrgZTreeListByAdminOrg.json: anon
     /anon/**: anon
     /login: authc
-#    /logout: logout
+    /logout: logout
     /api/**: anon
     /rest/**: anon
     /authenticated: authc
@@ -29,6 +29,10 @@ shiroConfig.shiroFilter:
     /tweixin/**: weiXinUser
     /weixinAuth: weixinAuth
     /**: user
+  filters:
+    weiXinUser:
+      corpId: wx7b47806a86fe27db
+      corpsecret: du8lu_E-kC1zyvofc4CPw53tNFdtF4AnbBXRJ9l9Z3d316FzsLRl1WB2Yqw4VVzB
 shiroConfig.logouFilter:
   redirectUrl: http://sso.centaline.com:8080/aist-sso-web/logout?service=http://agent.centaline.com:8080/agent/cas
 casRealm:

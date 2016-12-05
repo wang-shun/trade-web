@@ -8,8 +8,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DemoServiceImpl implements DemoService{
+	
     @Override
     public String helloworld() {
         return "hello world";
     }
+
+	@Override
+	public String sayHi(String realName) {
+		return "Hi"+realName;
+	}
 }

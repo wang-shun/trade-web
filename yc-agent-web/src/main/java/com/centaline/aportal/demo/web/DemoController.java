@@ -7,6 +7,8 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.conf.ShiroConfig;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.centaline.aportal.demo.service.DemoService;
+
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +23,10 @@ public class DemoController {
 	private UamSessionService uamsessionService;
     @Autowired
     private DemoService demoService;
-    @Autowired
-    private UamPermissionService uamPermissionServiceClient;
+
 
     @RequestMapping("/test")
     public @ResponseBody String demoTest(String code){
-    	uamPermissionServiceClient.findMenuByCode(code);
-    	System.out.println(uamsessionService.getSessionUser());
-        return demoService.helloworld();
+        return demoService.sayHi(uamsessionService.getSessionUser().getRealName());
     }
 }

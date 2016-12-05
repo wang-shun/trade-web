@@ -15,7 +15,7 @@ import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -66,7 +66,7 @@ public class CacheConfiguration {
 	public RedisTemplate<Object, Object> redisTemplate(JedisConnectionFactory jedisConnFactory){
 		RedisTemplate<Object, Object> template=new RedisTemplate<>();
 		template.setConnectionFactory(jedisConnFactory);
-		template.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
+		template.setDefaultSerializer(new JdkSerializationRedisSerializer());
 		return template;
 	} 
 	@Bean
