@@ -40,7 +40,7 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="queryTradeChangedCaseList" cacheCount="true">
+	<query id="queryTradeChangedCaseList" cacheCount="fasle">
 		<searchCondition>
 		   <condition field="S.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		   <condition field="O.PROPERTY_ADDR"  name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
