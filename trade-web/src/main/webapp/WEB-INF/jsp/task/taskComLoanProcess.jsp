@@ -31,6 +31,7 @@
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;
@@ -94,6 +95,7 @@
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 
 	<%--环节编码 --%>
 	<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
@@ -753,9 +755,19 @@
 
 									<div class="form-group">
 										<label class="col-sm-2 control-label">信贷员姓名<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<input type="text" name="loanerName" id="loanerName"
-												placeholder="姓名" class="form-control">
+										<div class="col-md-2" style="position: relative;" >
+											<input type="text" name="loanerName" id="loanerName" placeholder="姓名" class="form-control" >
+											<i style=" position: absolute; top: 5px; right: 20px; " class="icon iconfont"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
+											</input>
+											
+											<input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+											<input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+											<input type="hidden"  id="loanerId" name="loanerId" />
+											<div class="input-group float_icon organize_icon" 
+											   >
+			                               		
+			                               </div>	
 										</div>
 										<label class="col-sm-2 control-label" style="width:15%">信贷员电话<span class="star">*</span>：</label>
 										<div class="col-md-2" style="width:18%">
@@ -1767,6 +1779,29 @@ function checkInt(obj){
 	    	}
 	 	});
 
+	}
+	function selectLoanerUser(array) {
+		if (array && array.length > 0) {
+			$("#loanerName").val(array[0].username);
+			$.ajax({
+				url : ctx + "/eloan/LoanerCode",
+				method : "post",
+				dataType : "json",
+				data : {
+					"userId" : array[0].userId
+				},
+				success : function(data) {
+					$("#loanerPhone").val(data.user.mobile);
+					$("#loanerId").val(data.user.id);
+					$("#loanerOrgCode").val(data.user.orgName);
+					$("#loanerOrgId").val(data.user.orgId);
+				}
+			})
+		} else {
+			$("#loanerName").val("");
+			$("#loanerOrgCode").val("");
+			$("#loanerOrgId").val("");
+		}
 	}
 	
 	//渲染图片 

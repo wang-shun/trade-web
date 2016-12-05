@@ -56,6 +56,12 @@ public class ToMortgage {
 	private String loanerName;
 
 	private String loanerPhone;
+	
+	private String loanerId;
+	
+	private String loanerOrgCode;
+	
+	private String loanerOrgId;
 
 	private String remark;
 
@@ -490,6 +496,29 @@ public class ToMortgage {
 
 	public void setLoanLostConfirmCode(String loanLostConfirmCode) {
 		this.loanLostConfirmCode = loanLostConfirmCode;
+	}
+	public String getLoanerId() {
+		return loanerId;
+	}
+
+	public void setLoanerId(String loanerId) {
+		this.loanerId = loanerId;
+	}
+
+	public String getLoanerOrgCode() {
+		return loanerOrgCode;
+	}
+
+	public void setLoanerOrgCode(String loanerOrgCode) {
+		this.loanerOrgCode = loanerOrgCode;
+	}
+
+	public String getLoanerOrgId() {
+		return loanerOrgId;
+	}
+
+	public void setLoanerOrgId(String loanerOrgId) {
+		this.loanerOrgId = loanerOrgId;
 	}
 
 }

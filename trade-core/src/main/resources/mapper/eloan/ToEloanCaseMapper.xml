@@ -176,6 +176,18 @@
       <if test="remark != null" >
         REMARK,
       </if>
+      <if test="loanerId != null" >
+        LOANER_ID,
+      </if>
+      <if test="loanerName != null" >
+        LOANER_NAME,
+      </if>
+      <if test="loanerOrgCode != null" >
+        LOANER_ORG_CODE,
+      </if>
+      <if test="loanerOrgId != null" >
+        LOANER_ORG_ID,
+      </if>
       <if test="status != null" >
         STATUS,
       </if>
@@ -274,6 +286,18 @@
       </if>
        <if test="remark != null" >
         #{remark,jdbcType=NVARCHAR},
+      </if>
+       <if test="loanerId != null" >
+        #{loanerId,jdbcType=NVARCHAR},
+      </if>
+       <if test="loanerName != null" >
+        #{loanerName,jdbcType=NVARCHAR},
+      </if>
+       <if test="loanerOrgCode != null" >
+        #{loanerOrgCode,jdbcType=NVARCHAR},
+      </if>
+       <if test="loanerOrgId != null" >
+        #{loanerOrgId,jdbcType=NVARCHAR},
       </if>
        <if test="status != null" >
         #{status,jdbcType=VARCHAR},
