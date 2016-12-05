@@ -11,9 +11,13 @@
     <result column="FILE_CAT" property="fileCat" jdbcType="NVARCHAR" />
     <result column="FILE_NAME" property="fileName" jdbcType="NVARCHAR" />
     <result column="AVAILABLE" property="available" jdbcType="NVARCHAR" />
+	<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE,BIZ_CODE, PRE_FILE_ADRESS, PRE_FILE_CODE, PART_CODE, FILE_CAT, FILE_NAME,AVAILABLE
+    PKID, CASE_CODE,BIZ_CODE, PRE_FILE_ADRESS, PRE_FILE_CODE, PART_CODE, FILE_CAT, FILE_NAME,AVAILABLE,CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     select 
@@ -55,10 +59,12 @@
   <insert id="insert" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     insert into sctrans.T_TO_ATTACHMENT (CASE_CODE,BIZ_CODE,PRE_FILE_ADRESS, 
       PRE_FILE_CODE, PART_CODE, FILE_CAT, 
-      FILE_NAME,AVAILABLE)
+      FILE_NAME,AVAILABLE,CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
     values (#{caseCode,jdbcType=VARCHAR}, #{bizCode,jdbcType=VARCHAR},#{preFileAdress,jdbcType=VARCHAR}, 
       #{preFileCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, #{fileCat,jdbcType=NVARCHAR}, 
-      #{fileName,jdbcType=NVARCHAR},#{available,jdbcType=VARCHAR})
+      #{fileName,jdbcType=NVARCHAR},#{available,jdbcType=VARCHAR},GETDATE(), @{SESSION_USER_ID}, 
+      GETDATE(), @{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.attachment.entity.ToAttachment" useGeneratedKeys="true" keyProperty="pkid">
     insert into sctrans.T_TO_ATTACHMENT
@@ -90,6 +96,10 @@
       <if test="available != null" >
         AVAILABLE,
       </if>
+	    CREATE_TIME,
+        CREATE_BY,
+        UPDATE_TIME,
+        UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -119,6 +129,10 @@
        <if test="available != null" >
         #{available,jdbcType=NVARCHAR},
       </if>
+		GETDATE(),
+        @{SESSION_USER_ID},
+        GETDATE(),
+        @{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
@@ -148,6 +162,10 @@
       <if test="available != null" >
         AVAILABLE = #{available,jdbcType=NVARCHAR},
       </if>
+	    CREATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID},
+        UPDATE_TIME = GETDATE(),
+        UPDATE_BY = @{SESSION_USER_ID},
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -160,7 +178,11 @@
       PART_CODE = #{partCode,jdbcType=VARCHAR},
       FILE_CAT = #{fileCat,jdbcType=NVARCHAR},
       FILE_NAME = #{fileName,jdbcType=NVARCHAR},
-      AVAILABLE = #{available,jdbcType=VARCHAR}
+      AVAILABLE = #{available,jdbcType=VARCHAR},
+	  CREATE_TIME = GETDATE(),
+      CREATE_BY = @{SESSION_USER_ID},
+      UPDATE_TIME = GETDATE(),
+      UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   

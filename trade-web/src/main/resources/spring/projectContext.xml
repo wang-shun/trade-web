@@ -408,8 +408,12 @@
     <bean name="guoHuPrice" class="com.centaline.trans.common.service.impl.QuickQueryGuoHuPriceServiceImpl" />
     <!-- 贷款流失原因转换 -->
     <bean name="convertValueForLoanlostReason" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueLostReasonServiceImpl" />
+ 
+    <!-- 签约室管理(获取预约部分信息) -->
+    <bean name="getResInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetResInfoServiceImpl" />
     
-    <!-- 获取临时银行信息 -->
+    <!-- 根据签约室安排id集合获取安排信息和房间信息 -->
+    <bean name="quickQueryGetScheduleAndRoomInfoByScheduleId" class="com.centaline.trans.common.service.impl.QuickQueryGetScheduleAndRoomInfoByScheduleIdServiceImpl" /> <!-- 获取临时银行信息 -->
     <bean name="getTempBankInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetTempBankInfoServiceImpl"></bean>
     
      <!-- 根据案件编号集合查询案件编号、产证地址、申请人姓名、申请人所在组、申请人所在服务部 -->
@@ -545,4 +549,277 @@
     <!-- 根据caseCode 查询 产证地址 -->
     <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" ></bean>   	
 <aop:aspectj-autoproxy expose-proxy="true"/>
+</beans><<<<<<< .mine
+    <bean name="getTempBankInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetTempBankInfoServiceImpl"></bean>
+    
+     <!-- 根据案件编号集合查询案件编号、产证地址、申请人姓名、申请人所在组、申请人所在服务部 -->
+    <bean name="quickQueryGetUserAndOrgInfoService" class="com.centaline.trans.common.service.impl.QuickQueryGetUserAndOrgInfoByCaseCodeListServiceImpl"></bean>
+    
+	<!-- 贷款列表 -->
+	<bean name="qqPropertyAddr" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="mortgageAddr"></property>
+    </bean>
+  
+    <bean name="qqFinOrgName" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="finOrgName"></property>
+    </bean>
+    <bean name="qqRealName" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="getRealName"></property>
+    </bean>
+    <bean name="qqLostPassTime" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="lostPassTime"></property>
+    </bean>
+    <bean name="qqHtTime" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="htTime"></property>
+    </bean>
+    <bean name="qqSignPrice" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="signPrice"></property>
+    </bean>
+    <bean name="qqEvalFee" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="evalFee"></property>
+    </bean>
+
+    <bean name="qqCaseProperty" class="com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl">
+        <property name="dictType" value="caseProperty"></property>
+    </bean>
+
+    <bean name="qqIsLost" class="com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl">
+        <property name="dictType" value="isLost"></property>
+    </bean>
+
+    <bean name="qqMortgageAmount" class="com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl">
+        <property name="dictType" value="mortgageAmount"></property>
+    </bean>
+
+
+	
+    <!-- 根据案件编号集合查询贷款银行、贷款支行信息 -->
+    <bean name="quickQueryGetMainAndBranchBankService" class="com.centaline.trans.common.service.impl.QuickQueryGetMainAndBranchBankByCaseCodeListServiceImpl"></bean>
+
+	<!-- 获取我的预约信息 -->
+    <bean name="getMyResInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetShowMyResInfoServiceImpl"></bean>
+    
+    <!-- 获取预约信息 -->
+    <bean name="getResInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetResInfoServiceImpl"></bean>
+    
+    <!--过户审批状态  根据casecode查询-->
+    <bean name="sumByInstCode" class="com.centaline.trans.common.service.impl.QuickQuerySumByInstCodeServiceImpl" />
+    
+    <!-- 根据Org_id 和 jobCode 查询主管 -->
+    <bean name="qqManagerByOrgIdAndJobCode" class="com.centaline.trans.common.service.impl.QuickQueryGetManagerByOrgIdAndJobCodeServiceImpl" >
+    	<property name="jobCode" value="Manager"></property>
+    </bean>
+    <!-- 根据case_code查询case信息 -->
+    <bean name="qqFindCaseInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="caseInfo"></property>
+    </bean>
+    <bean name="qqGetCaseId" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="getCaseId"></property>
+    </bean>
+    <bean name="qqGetCasePropertyInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="getCasePropertyInfo"></property>
+    </bean>
+    <bean name="qqFindTranPlan" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="findTranPlan"></property>
+    </bean>
+    <bean name="qqWorkflow" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
+        <property name="dictType" value="wf"></property>
+    </bean>
+
+    <!-- 根据custCode 查询主贷人电话 -->
+    <bean name="custPhoneByCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCustPhoneByCodeServiceImpl" >    	
+    </bean>
+    <!-- 根据code查询支行信息 -->
+    <bean name="qqFinOrgNameYC" class="com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl">
+        <property name="dictType" value="mortgageFinOrg"></property>
+    </bean>
+    
+        <!-- 根据code查询支行信息 -->
+    <bean name="qqFinOrgNameYCForExcel" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="mortgageFinOrg"></property>
+    </bean>
+    <!-- 根据code查询分行信息 -->
+    <bean name="qqFenHang" class="com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl">
+        <property name="dictType" value="fenHang"></property>
+    </bean>
+    <!-- 卡证类别 中英文转换 -->
+    <bean name="qqItemCategory" class="com.centaline.trans.common.service.impl.QuickQueryItemCategoryServiceImpl">
+    </bean>
+    <!-- 根据userId查询姓名、电话、手机号码等等   全部返回-->
+    <bean name="qqCreateByInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetUserInfoByIdServiceImpl">    	
+    </bean>
+    <!-- 根据userId查询姓名、电话、手机号码等等   全部返回-->
+    <bean name="qqItemManagerInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetManagerInfoByIdServiceImpl">    	
+    </bean>
+    <!-- 根据case_code获取店组和片区信息-->
+    <bean name="getArAndGrpInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetArAndGrpNameInfoByCaseCodeServiceImpl"></bean> 
+    <!-- 查询黄红灯-->
+    <bean name="getColorChines" class="com.centaline.trans.common.service.impl.QuickQueryGetColorChinesServiceImpl" />
+    <!-- E+产品-->
+    <bean name="eloanProduct" class="com.centaline.trans.common.service.impl.QuickQueryGetEloanProductServiceImpl" >  
+   		 <property name="code" value="eloanProduct"></property>   		 
+    </bean>
+    <!-- E+卡类-->
+    <bean name="eloanKa" class="com.centaline.trans.common.service.impl.QuickQueryGetEloanProductServiceImpl" >
+       	 <property name="code" value="eloanKa"></property>
+    </bean> 
+    <!-- E+卡类金额-->
+    <bean name="eloanKaAmount" class="com.centaline.trans.common.service.impl.QuickQueryGetEloanProductServiceImpl"> 
+       	<property name="code" value="eloanKaAoumt"></property>
+    </bean>	
+    <!-- 根据org_id查询贵宾服务部-->
+    <bean name="getGbdepartmentByOrgId" class="com.centaline.trans.common.service.impl.QuickQueryGetGbdepartmentServiceImpl"></bean>
+    
+    <!-- 获取案件总览部分信息 -->
+    <bean name="getCaseOverviewInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseOverviewInfoServiceImpl">
+    	<property name="dictType_caseProperty" value="30003"></property>
+    	<property name="dictType_caseStatus" value="30001"></property>
+    </bean>	 
+    
+    <!-- 根据案件编号获取上家、下家、经办人信息 -->
+    <bean name="quickQuerySellerAndBuyerAndProcessorInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetSellerAndBuyerAndProcessorInfoServiceImpl">
+    	<property name="sellerTransPosition" value="30006001"></property>
+    	<property name="buyerTransPosition" value="30006002"></property>
+    </bean>      	
+    
+    <!-- 根据caseCode 查询 产证地址 -->
+    <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" ></bean>   	
+<aop:aspectj-autoproxy expose-proxy="true"/>
+=======
+    <bean name="getResInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetResInfoServiceImpl" />
+    
+    <!-- 根据签约室安排id集合获取安排信息和房间信息 -->
+    <bean name="quickQueryGetScheduleAndRoomInfoByScheduleId" class="com.centaline.trans.common.service.impl.QuickQueryGetScheduleAndRoomInfoByScheduleIdServiceImpl" />
+    
+    <aop:aspectj-autoproxy expose-proxy="true"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> .theirs
 </beans>

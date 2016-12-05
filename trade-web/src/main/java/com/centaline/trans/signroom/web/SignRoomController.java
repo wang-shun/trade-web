@@ -257,7 +257,6 @@ public class SignRoomController {
 		map.put("districtId", user.getServiceDepId());
 		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters(map);//获取 交易中心信息
 		model.addAttribute("tradeCenters", tradeCenters);
-		model.addAttribute("serviceDepId", user.getServiceDepId());
 		return "/signroom/signscheduling";
 	}
 	/**

@@ -229,7 +229,7 @@
 		LEFT JOIN sctrans.T_RM_RESERVATION S ON T.RES_ID = S.PKID        
 		WHERE   
 			T.IS_DELETE = '0'
-			AND R.IS_DELETE = '0'
+			AND R.IS_DELETE = '0' and S.IS_DELETE = 0
 			<if test="curDate != null">
 				 AND DATEDIFF(DAY, T.START_DATE, #{curDate}) = 0
 			</if>

@@ -21,7 +21,6 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.signroom.entity.ResFlowup;
-import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.service.ResFlowupService;
@@ -57,6 +56,75 @@ public class ReservationManageController {
 
 	@Autowired
 	private RmSignRoomService rmSignRoomService;
+
+	/**
+	 * 判断上一个时间段该房间是否签退
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,说明上一个时间段该房间已经签退;返回false,说明上一个时间段该房间还没签退。
+	 */
+	@RequestMapping(value = "isOvertimeUse")
+	@ResponseBody
+	public String isOvertimeUse(Model model, HttpServletRequest request) {
+		String scheduleId = request.getParameter("scheduleId");
+		Long roomId = Long.parseLong(request.getParameter("roomId"));
+
+		ReservationVo reservationVo = new ReservationVo();
+		reservationVo.setScheduleId(scheduleId);
+		reservationVo.setRoomId(roomId);
+
+		String result = reservationService.isOvertimeUse(reservationVo);
+
+		return result;
+	}
+
+	/**
+	 * 提前使用
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "startUseInAdvance")
+	@ResponseBody
+	public String startUseInAdvance(Model model, HttpServletRequest request) {
+		String result = "true";
+		String resId = request.getParameter("resId");
+		Long roomId = Long.parseLong(request.getParameter("roomId"));
+
+		ReservationVo reservationVo = new ReservationVo();
+		reservationVo.setResId(resId);
+		reservationVo.setRoomId(roomId);
+
+		try {
+			reservationService.startUseInAdvance(reservationVo);
+		} catch (Exception e) {
+			result = "false";
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	/**
+	 * 开始使用之前判断当前时间点是否有这个房号的房间
+	 * 
+	 * @param model
+	 * @param request
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "isHasFreeRoomByCurrentTimeAndRoomNo")
+	@ResponseBody
+	public String isHasFreeRoomByCurrentTimeAndRoomNo(Model model,
+			HttpServletRequest request) {
+		Long roomId = Long.parseLong(request.getParameter("roomId"));
+
+		String result = reservationService
+				.isHasFreeRoomByCurrentTimeAndRoomNo(roomId);
+
+		return result;
+	}
 
 	/**
 	 * 变更签约室----更换签约室保存
@@ -177,18 +245,20 @@ public class ReservationManageController {
 		request.setAttribute("resStatus", resStatus);
 		request.setAttribute("distinctId", distinctId);
 		request.setAttribute("isCurrenDayDuty", isCurrenDayDuty);
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
-		SessionUser user= uamSessionService.getSessionUser();
-		Map<String,Object> param = new HashMap<String,Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar
+				.getInstance().getTime()));
+		SessionUser user = uamSessionService.getSessionUser();
+		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("districtId", user.getServiceDepId());
-		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters(param);//获取 交易中心信息
+		List<TradeCenter> tradeCenters = rmSignRoomService
+				.getTradeCenters(param);// 获取 交易中心信息
 		List<TradeCenterSchedule> tcs = new ArrayList<TradeCenterSchedule>();
-		for(TradeCenter tc:tradeCenters){//查询该贵宾服务部当日值班人员
+		for (TradeCenter tc : tradeCenters) {// 查询该贵宾服务部当日值班人员
 			map.put("centerId", tc.getPkid());
 			tcs.addAll(rmSignRoomService.queryTradeCenterSchedules(map));
 		}
-		model.addAttribute("tcs",tcs);
+		model.addAttribute("tcs", tcs);
 		return "signroom/signinglist";
 	}
 
@@ -241,27 +311,17 @@ public class ReservationManageController {
 			HttpServletRequest request) {
 		String flag = request.getParameter("flag");
 		Long resId = Long.parseLong(request.getParameter("resId"));
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
 		int count = 0;
-		String operateDateTime = "";
 		if ("startUse".equals(flag)) {
 			count = reservationService.startUse(resId); // 开始使用
-
-			Reservation reservation = reservationService
-					.getReservationById(resId);
-			operateDateTime = sdf.format(reservation.getCheckInTime());
 		} else if ("endUse".equals(flag)) {
 			count = reservationService.endUse(resId); // 结束使用
-
-			Reservation reservation = reservationService
-					.getReservationById(resId);
-			operateDateTime = sdf.format(reservation.getCheckedOutTime());
 		}
 
 		StartAndEndUseResult startAndEndUseResult = new StartAndEndUseResult();
 		startAndEndUseResult.setResult(count > 0 ? "true" : "false");
-		startAndEndUseResult.setOperateDateTime(operateDateTime);
+		// startAndEndUseResult.setOperateDateTime(operateDateTime);
 
 		return startAndEndUseResult;
 	}

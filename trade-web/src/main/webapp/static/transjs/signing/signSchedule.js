@@ -59,7 +59,6 @@ function chooseDutyOfficer(date,type,startOrgId) {
 		changed = true;
 	}
 	userSelect({
-
 		startOrgId : startOrgId,//非营业部
 		expandNodeId : '',
 		nameType : 'long|short',

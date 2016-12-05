@@ -26,12 +26,13 @@
     <result column="SERVICE_SPECIALIST" property="serviceSpecialist" jdbcType="VARCHAR" />
     <result column="RES_PERSON_MOBILE" property="resPersonMobile" jdbcType="VARCHAR" />
     <result column="RES_PERSON_NAME" property="resPersonName" jdbcType="VARCHAR" />
+    <result column="IS_DELETE" property="isDelete" jdbcType="INTEGER" />
     
   </resultMap>
   
   <sql id="Base_Column_List" >
     PKID, RES_NO,RES_TYPE,CHECK_IN_TIME,CHECKED_OUT_TIME,RES_PERSON_ORG_ID,RES_PERSON_ID,RES_STATUS,SCHEDULE_ID,NUMBE_OF_ACCOMMODATE_PEOPLE,CASE_CODE,PROPERTY_ADDRESS,
-    SIGNING_CENTER,SIGNING_CENTER_ID,NUMBER_OF_PARTICIPANTS,NUMBER_OF_PARTICIPANTS,TRANSACT_ITEM_CODE,SPECIAL_REQUIREMENT,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,SERVICE_SPECIALIST
+    SIGNING_CENTER,SIGNING_CENTER_ID,NUMBER_OF_PARTICIPANTS,NUMBER_OF_PARTICIPANTS,TRANSACT_ITEM_CODE,SPECIAL_REQUIREMENT,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,SERVICE_SPECIALIST,RES_PERSON_NAME,RES_PERSON_MOBILE,IS_DELETE
   </sql>
   
   <insert id="insertSelective" parameterType="com.centaline.trans.signroom.entity.Reservation" useGeneratedKeys="true" keyProperty="pkid">
@@ -106,6 +107,9 @@
       <if test="resPersonName != null" >
         RES_PERSON_NAME,
       </if>
+      <if test="isDelete != null" >
+        IS_DELETE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="resNo != null" >
@@ -177,6 +181,9 @@
       <if test="resPersonName != null" >
         #{resPersonName,jdbcType=VARCHAR},
       </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   
@@ -200,7 +207,7 @@
 			and sr1.PKID not in (
 			SELECT DISTINCT rs2.ROOM_ID FROM sctrans.T_RM_RESERVATION r2
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs2 ON r2.SCHEDULE_ID = rs2.PKID
-			WHERE (r2.RES_STATUS = '1' OR r2.RES_STATUS = '0') AND rs2.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs2.END_DATE = #{endTime,jdbcType=VARCHAR} and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+			WHERE r2.IS_DELETE = 0 AND (r2.RES_STATUS = '1' OR r2.RES_STATUS = '0') AND rs2.START_DATE = #{startTime,jdbcType=VARCHAR} AND rs2.END_DATE = #{endTime,jdbcType=VARCHAR} and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
 		)
 		) as residualNumber
 		FROM sctrans.T_RM_SIGN_ROOM sr
@@ -219,7 +226,7 @@
 			and sr1.PKID not in (
 			SELECT DISTINCT rs2.ROOM_ID FROM sctrans.T_RM_RESERVATION r2
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs2 ON r2.SCHEDULE_ID = rs2.PKID
-			WHERE (r2.RES_STATUS = '1' OR r2.RES_STATUS = '0') AND rs2.START_DATE = #{startDateTime,jdbcType=VARCHAR} AND rs2.END_DATE = #{endDateTime,jdbcType=VARCHAR} and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+			WHERE r2.IS_DELETE = 0 AND (r2.RES_STATUS = '1' OR r2.RES_STATUS = '0') AND rs2.START_DATE = #{startDateTime,jdbcType=VARCHAR} AND rs2.END_DATE = #{endDateTime,jdbcType=VARCHAR} and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
 		)
 		) as residualNumber
 		FROM sctrans.T_RM_SIGN_ROOM sr
@@ -243,7 +250,7 @@
 		and sr.PKID not in (
 			SELECT DISTINCT rs1.ROOM_ID FROM sctrans.T_RM_RESERVATION r1
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON r1.SCHEDULE_ID = rs1.PKID
-			WHERE (r1.RES_STATUS = '1' OR (r1.RES_STATUS = '0' AND GETDATE() &lt; rs1.END_DATE)) AND r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT} and rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} 
+			WHERE r1.IS_DELETE = 0 and (r1.RES_STATUS = '1' OR (r1.RES_STATUS = '0' AND GETDATE() &lt; rs1.END_DATE)) AND r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT} and rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} 
 		) 
 		AND rs.CAN_RES = 1 AND rs.USE_STATUS = 'N' AND rs.IS_DELETE = 0
 		ORDER BY sr.NUMBE_OF_ACCOMMODATE_PEOPLE ASC
@@ -259,7 +266,7 @@
 		and sr.PKID not in (
 			SELECT DISTINCT rs1.ROOM_ID FROM sctrans.T_RM_RESERVATION r1
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON r1.SCHEDULE_ID = rs1.PKID
-			WHERE (r1.RES_STATUS = '1' OR (r1.RES_STATUS = '0' AND GETDATE() &lt; rs1.END_DATE)) AND r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT} and rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} 
+			WHERE r1.IS_DELETE = 0 and (r1.RES_STATUS = '1' OR (r1.RES_STATUS = '0' AND GETDATE() &lt; rs1.END_DATE)) AND r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT} and rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} 
 		) 
 		AND rs.CAN_RES = 1 AND rs.USE_STATUS = 'N' AND rs.IS_DELETE = 0
 		ORDER BY sr.NUMBE_OF_ACCOMMODATE_PEOPLE ASC
@@ -275,7 +282,7 @@
 		and sr.PKID not in (
 			SELECT DISTINCT rs1.ROOM_ID FROM sctrans.T_RM_RESERVATION r1
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON r1.SCHEDULE_ID = rs1.PKID
-			WHERE (r1.RES_STATUS = '1' OR (r1.RES_STATUS = '0' AND GETDATE() &lt; rs1.END_DATE)) AND r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT} and rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} 
+			WHERE r1.IS_DELETE = 0 and (r1.RES_STATUS = '1' OR (r1.RES_STATUS = '0' AND GETDATE() &lt; rs1.END_DATE)) AND r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT} and rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} 
 		) 
 		AND rs.CAN_RES = 1 AND rs.USE_STATUS = 'N' AND rs.IS_DELETE = 0
 		ORDER BY sr.NUMBE_OF_ACCOMMODATE_PEOPLE desc
@@ -289,7 +296,7 @@
   <select id="getReservationById" parameterType="java.lang.Long" resultMap="BaseResultMap">	
 		SELECT <include refid="Base_Column_List" />
 		FROM sctrans.T_RM_RESERVATION
-		WHERE PKID = #{resId,jdbcType=BIGINT};
+		WHERE PKID = #{resId,jdbcType=BIGINT} and IS_DELETE = 0;
   </select>
   
   <update id="cancelReservation" parameterType="java.lang.Long">
@@ -304,8 +311,8 @@
   		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = '1',CHECK_IN_TIME = GETDATE() , UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=BIGINT};
   </update>
   
-   <update id="endUse" parameterType="java.lang.Long">
-  		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = '2',CHECKED_OUT_TIME = GETDATE(),UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=BIGINT};
+   <update id="endUse" parameterType="com.centaline.trans.signroom.entity.Reservation">
+  		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = #{resStatus,jdbcType=VARCHAR},CHECKED_OUT_TIME = #{checkedOutTime,jdbcType=TIMESTAMP},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{pkid,jdbcType=BIGINT};
   </update>
   
   <select id="getReservationNotCancleCount"  resultType="java.lang.Integer" parameterType="com.centaline.trans.signroom.entity.RmSignRoom">
@@ -315,7 +322,7 @@ FROM    sctrans.T_RM_RESERVATION T
         INNER JOIN sctrans.T_RM_SIGN_ROOM S ON S.PKID = R.ROOM_ID
 WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE >= GETDATE() AND DATEDIFF(mi,t.CREATE_TIME,GETDATE()) &lt; 30 ))   
 		AND S.IS_DELETE = 0
-		AND T.RES_STATUS IN ('0','1')
+		AND T.RES_STATUS IN ('0','1') and T.IS_DELETE = 0
 		<if test="pkid != null" >
 			AND s.PKID = #{pkid}
 		</if>
@@ -324,7 +331,7 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
   <select id="getUsedBespeakNumber" parameterType="java.lang.String" resultType="java.lang.Integer">	
 		SELECT count(*) FROM sctrans.T_RM_RESERVATION r
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON r.SCHEDULE_ID = rs.PKID
-		WHERE (r.RES_STATUS = 0 OR r.RES_STATUS = 3 OR r.RES_STATUS = 4)
+		WHERE (r.RES_STATUS = 0 OR r.RES_STATUS = 3 OR r.RES_STATUS = 4) and r.IS_DELETE = 0
 		AND CONVERT(varchar(100), rs.START_DATE, 23) >= CONVERT(varchar(100),DateAdd(dd,-7,getdate()),23) 
 		AND CONVERT(varchar(100), rs.START_DATE, 23) &lt;= CONVERT(varchar(100),DateAdd(dd,6,getdate()),23)
 		AND r.RES_PERSON_ID = #{currentUserId,jdbcType=VARCHAR};
@@ -338,24 +345,19 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
 			(
 			SELECT count(*) FROM sctrans.T_RM_SIGN_ROOM sr1
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON rs1.ROOM_ID = sr1.PKID
-			WHERE sr1.IS_DELETE = 0 and rs1.IS_DELETE = 0 AND rs1.USE_STATUS = 'N' AND sr1.ROOM_TYPE = 0  and sr1.NUMBE_OF_ACCOMMODATE_PEOPLE = sr.NUMBE_OF_ACCOMMODATE_PEOPLE AND rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr1.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+			WHERE sr1.IS_DELETE = 0 and rs1.IS_DELETE = 0 AND rs1.USE_STATUS = 'N' AND sr1.NUMBE_OF_ACCOMMODATE_PEOPLE = sr.NUMBE_OF_ACCOMMODATE_PEOPLE AND rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr1.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
 				and sr1.PKID not in (
 				SELECT DISTINCT rs2.ROOM_ID FROM sctrans.T_RM_RESERVATION r2
 				LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs2 ON r2.SCHEDULE_ID = rs2.PKID
-				WHERE (r2.RES_STATUS = '1' OR r2.RES_STATUS = '0') AND rs2.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs2.END_DATE = #{endDate,jdbcType=VARCHAR} and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+				WHERE r2.IS_DELETE = 0 and (r2.RES_STATUS = '1' OR r2.RES_STATUS = '0') AND rs2.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs2.END_DATE = #{endDate,jdbcType=VARCHAR} and r2.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
 			)
 			) as residualNumber
 			FROM sctrans.T_RM_SIGN_ROOM sr
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
-			WHERE sr.IS_DELETE = 0 AND rs.IS_DELETE = 0 AND sr.ROOM_TYPE = 0 and rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+			WHERE sr.IS_DELETE = 0 AND rs.IS_DELETE = 0 and rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
 	) t
 	WHERE t.residualNumber > 0
   	
-  	
-  	SELECT DISTINCT sr.NUMBE_OF_ACCOMMODATE_PEOPLE as numberOfPeople
-	FROM sctrans.T_RM_SIGN_ROOM sr
-	LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.ROOM_ID = sr.PKID
-	WHERE sr.IS_DELETE = 0 AND rs.IS_DELETE = 0 AND sr.ROOM_TYPE = 0 and rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR} AND sr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT};
   </select>
   
   <select id="getRoomPropList" parameterType="com.centaline.trans.signroom.vo.ReservationVo" resultType="com.centaline.trans.signroom.vo.RoomProp">
@@ -365,12 +367,55 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
 	and sr.PKID not in (
 			SELECT DISTINCT rs1.ROOM_ID FROM sctrans.T_RM_RESERVATION r1
 			LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs1 ON r1.SCHEDULE_ID = rs1.PKID
-			WHERE (r1.RES_STATUS = '1' OR r1.RES_STATUS = '0') AND rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} and r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT})
+			WHERE r1.IS_DELETE = 0 and (r1.RES_STATUS = '1' OR r1.RES_STATUS = '0') AND rs1.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs1.END_DATE = #{endDate,jdbcType=VARCHAR} and r1.SIGNING_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT})
 	AND sr.NUMBE_OF_ACCOMMODATE_PEOPLE = #{numberOfPeople,jdbcType=INTEGER};
   </select>
   
    <update id="changeRoom" parameterType="com.centaline.trans.signroom.vo.ReservationVo">
   		UPDATE sctrans.T_RM_RESERVATION SET SCHEDULE_ID = #{scheduleId,jdbcType=VARCHAR},NUMBE_OF_ACCOMMODATE_PEOPLE = #{numberOfPeople,jdbcType=INTEGER},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=VARCHAR};
   </update>
+  
+  
+  <select id="getSignRoomByRoomAndCurtime" parameterType="com.centaline.trans.signroom.vo.ReservationVo" resultType="com.centaline.trans.signroom.vo.FreeRoomInfo">
+  		SELECT  	T.PKID AS scheduleId ,
+			        T.ROOM_ID AS roomId ,
+					T.START_DATE AS startDate,
+					T.END_DATE AS endDate,
+			        T.USE_STATUS  AS useStatus,
+			        R.RES_STATUS AS resStatus,
+					R.CHECK_IN_TIME AS checkInTime,
+					R.CHECKED_OUT_TIME AS checkOutTime,
+					R.CREATE_TIME AS createTime
+			FROM    sctrans.T_RM_ROOM_SCHEDULE T
+			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID and R.IS_DELETE = 0
+			WHERE   T.IS_DELETE = '0'
+			  AND T.START_DATE = #{beginResTime,jdbcType=VARCHAR} AND T.END_DATE = #{endResTime,jdbcType=VARCHAR}
+			  AND ROOM_ID = #{roomId,jdbcType=BIGINT}
+  </select>
+  
+  
+  <update id="updateStatusToUseInAdvance" parameterType="com.centaline.trans.signroom.entity.Reservation">
+  		UPDATE sctrans.T_RM_RESERVATION SET RES_STATUS = #{resStatus,jdbcType=VARCHAR},CHECK_IN_TIME = #{checkInTime,jdbcType=TIMESTAMP},UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{pkid,jdbcType=BIGINT};
+  </update>
+  
+  <update id="deleteReservationById" parameterType="java.lang.Long">
+  		UPDATE sctrans.T_RM_RESERVATION SET IS_DELETE = 1,UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}  WHERE PKID = #{resId,jdbcType=BIGINT};
+  </update>
+  
+  <select id="getOldReservation" parameterType="com.centaline.trans.signroom.entity.Reservation" resultMap="BaseResultMap">	
+		SELECT <include refid="Base_Column_List" />
+		FROM sctrans.T_RM_RESERVATION
+		WHERE IS_DELETE = 0  AND RES_STATUS = 5 and CHECK_IN_TIME = #{checkInTime,jdbcType=TIMESTAMP} and RES_PERSON_ID = #{resPersonId,jdbcType=CHAR}
+		and EXISTS (select 1 from sctrans.T_RM_ROOM_SCHEDULE rs where SCHEDULE_ID = rs.PKID and rs.ROOM_ID = #{roomId,jdbcType=BIGINT});
+  </select>
+  
+  
+  <select id="isOvertimeUse" parameterType="com.centaline.trans.signroom.vo.ReservationVo" resultType="java.lang.Integer">	
+		SELECT count(1) 
+		FROM sctrans.T_RM_RESERVATION r
+		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.PKID = r.SCHEDULE_ID
+		WHERE rs.ROOM_ID = #{roomId,jdbcType=BIGINT} AND rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR}
+		AND r.CHECKED_OUT_TIME IS NULL;
+  </select>
   
 </mapper>
