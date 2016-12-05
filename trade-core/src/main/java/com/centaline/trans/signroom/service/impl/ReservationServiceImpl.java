@@ -135,29 +135,15 @@ public class ReservationServiceImpl implements ReservationService {
 
 
 	@Override
-	public List<Map<String,String>> getBespeakCalendar(Long tradeCenterId) {
+	public List<Map<String,String>> getBespeakCalendar() {
 		List<Map<String,String>> listCalendar = new ArrayList<Map<String,String>>();
-		List<String> reservationDates = reservationMapper.getReservationDates(tradeCenterId);
-		if(reservationDates ==null || reservationDates.isEmpty()){
-			 return listCalendar;
-		}
-		
 		SimpleDateFormat sdf_date = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat sdf_show = new SimpleDateFormat("d");
 		
-		Date dateStart = null;
-		Date dateEnd  = null;
-		try { dateStart = sdf_date.parse(reservationDates.get(0)); } catch (ParseException e) {
-			e.printStackTrace();
-			 return listCalendar;
-		}
-		try { dateEnd = sdf_date.parse(reservationDates.get(reservationDates.size()-1)); } catch (ParseException e) {
-			e.printStackTrace();
-			 return listCalendar;
-		}
+		Date date = new Date();
 		//不可预约日期
 		Calendar unableCalendar1 = Calendar.getInstance();
-		unableCalendar1.setTime(dateStart);
+		unableCalendar1.setTime(date);
 		List<Map<String,String>> listUnableCalendar = new ArrayList<Map<String,String>>();
 		int dayOfWeek = unableCalendar1.get(Calendar.DAY_OF_WEEK);
 		for(int i=dayOfWeek-1;i>=1;i--){
@@ -172,24 +158,16 @@ public class ReservationServiceImpl implements ReservationService {
 		listCalendar.addAll(listUnableCalendar);
 		
 		//可预约日期
-		Date date = dateStart;
 		Calendar enableCalendar = Calendar.getInstance();
 		enableCalendar.setTime(date);
 		//可预约一个星期
 		int usable = 7;
-		while(date.getTime()<=dateEnd.getTime()){
-			
-			//只显示两个星期日历
-			if(listCalendar.size()>=14){
-				break;
-			}
-			
-			String dateValue = sdf_date.format(date);
+		while(listCalendar.size()<14){
 			Map<String,String> dateMap = new HashMap<String,String>();
-			dateMap.put("date",dateValue);
+			dateMap.put("date",sdf_date.format(date));
 			dateMap.put("show",sdf_show.format(date));
 			dateMap.put("clazz","");
-			if((usable-->0) && reservationDates.contains(dateValue)){
+			if((usable-->0)){
 				dateMap.put("clazz","usable-date");
 			}
 			listCalendar.add(dateMap);
@@ -198,22 +176,6 @@ public class ReservationServiceImpl implements ReservationService {
 			date = enableCalendar.getTime();
 		}
 		
-		//不可预约日期
-		Calendar unableCalendar2 = Calendar.getInstance();
-		unableCalendar2.setTime(dateEnd);
-		int dayOfWeek2 = unableCalendar2.get(Calendar.DAY_OF_WEEK);
-		for(int i=dayOfWeek2+1;i<=7;i++){
-			//只显示两个星期日历
-			if(listCalendar.size()>=14){
-				break;
-			}
-			Map<String,String> dateMap = new HashMap<String,String>();
-			unableCalendar2.add(Calendar.DATE,1);
-			dateMap.put("date",sdf_date.format(unableCalendar2.getTime()));
-			dateMap.put("show",sdf_show.format(unableCalendar2.getTime()));
-			dateMap.put("clazz","");
-			listCalendar.add(dateMap);
-		}
 		return listCalendar;
 	}
 
