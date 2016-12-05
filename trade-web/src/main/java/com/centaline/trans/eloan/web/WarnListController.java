@@ -176,11 +176,24 @@ public class WarnListController {
 	}
 	
 	//得到人的员工编号
-		@RequestMapping(value="/EmployeeCode")
-		public User getEmployeeCode(HttpServletRequest request,String userId){
-			User u=uamUserOrgService.getUserById(userId);
-	        return u;
+	@RequestMapping(value="/EmployeeCode")
+	public User getEmployeeCode(HttpServletRequest request,String userId){
+		User u=uamUserOrgService.getUserById(userId);
+        return u;
+	}
+	//得到人的员工编号
+	@RequestMapping(value="/LoanerCode")
+	public User getLoanerCode(HttpServletRequest request,String userId){
+		User u=uamUserOrgService.getUserById(userId);
+		if(!StringUtils.isBlank(u.getOrgId())){
+			Org o = uamUserOrgService.getComapnyByOrgId(u.getOrgId());
+			if(!StringUtils.isBlank(o.getOrgCode()))
+				u.setOrgName(o.getOrgCode());
+			else
+				u.setOrgName("");
 		}
+		return u;
+	}
 		
 	
 	//获取E+详细信息

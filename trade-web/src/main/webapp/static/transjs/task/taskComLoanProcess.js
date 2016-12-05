@@ -102,7 +102,17 @@ function checkMortgageForm(formId){
 		formId.find("select[name='finOrgCode']").css("border-color","red");
 		return false;
     }
-	
+	if($("#finOrgCode").find('option:selected').attr('coLevel') == "0"){
+		if(formId.find("input[name='loanerId']").val() == ""){
+			alert("入围银行的信贷员请从合作银行中选择！");
+			formId.find("input[name='loanerName']").css("border-color","red");
+			return false;
+		}
+	}else{
+		formId.find("input[name='loanerId']").val("");
+		formId.find("input[name='loanerOrgCode']").val("");
+		formId.find("input[name='loanerOrgId']").val("");
+	}
 	if(!formId.find("input[name='isTmpBank']").prop('checked')){
 		if(afterTimeFlag){
 			if (formId.find("input[name='recLetterNo']").val()==""){

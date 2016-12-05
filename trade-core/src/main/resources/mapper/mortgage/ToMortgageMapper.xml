@@ -140,6 +140,15 @@
       <if test="loanerPhone != null" >
         LOANER_PHONE,
       </if>
+      <if test="loanerId != null" >
+        LOANER_ID,
+      </if>
+      <if test="loanerOrgCode != null" >
+        LOANER_ORG_CODE,
+      </if>
+      <if test="loanerOrgId != null" >
+        LOANER_ORG_ID,
+      </if>
       <if test="remark != null" >
         REMARK,
       </if>
@@ -256,6 +265,15 @@
       </if>
       <if test="loanerPhone != null" >
         #{loanerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerId != null" >
+        #{loanerId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgCode != null" >
+        #{loanerOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgId != null" >
+        #{loanerOrgId,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=LONGVARCHAR},
@@ -379,6 +397,15 @@
       </if>
       <if test="loanerPhone != null" >
         LOANER_PHONE = #{loanerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerId != null" >
+        LOANER_ID = #{loanerId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgCode != null" >
+        LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgId != null" >
+        LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         REMARK = #{remark,jdbcType=LONGVARCHAR},
