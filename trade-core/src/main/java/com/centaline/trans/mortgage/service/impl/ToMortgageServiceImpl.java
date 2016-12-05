@@ -438,7 +438,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		response.setMessage("已成功开启临时银行审批流程！");
 	}catch(Exception e){
 		response.setSuccess(false);
-		response.setMessage(e.getMessage());
+		response.setMessage("开启临时银行审批流程失败！");
 	}
 	return response;
 
