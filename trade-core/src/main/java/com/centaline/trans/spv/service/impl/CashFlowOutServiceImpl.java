@@ -23,7 +23,6 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.enums.SpvCashFlowApplyStatusEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -33,7 +32,6 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
-import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvAccount;
@@ -434,23 +432,13 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
 				for(int i=0;i< spvBaseInfoVO.getToSpvAccountList().size();i++){
 		    		ToSpvAccount account = spvBaseInfoVO.getToSpvAccountList().get(i);
 		    		JSONObject subJsonObj = new JSONObject();
-		    		String branchBank = account.getBranchBank() == null?"":account.getBranchBank();
-		    		boolean result = branchBank.matches("[0-9]+");
-		    		String bankName = "";
-		    		if (result) {
-		    			//纯数字
-		    			TsFinOrg to = tsFinOrgService.findBankByFinOrg(branchBank);
-		    			bankName = to.getFinOrgName();
-		    		}else{
-		    			//手动输入
-		    			bankName = branchBank;
-		    		}
+		    		String branchBank = account.getBranchBank();
 		    		if(StringUtils.equals("广发银行股份有限公司北京石景山支行", account.getBranchBank())){
 		    			subJsonObj.put("bankName","广发银行股份有限公司北京石景山支行");
 		    		}else if(StringUtils.equals("中行上海南京西路支行", account.getBranchBank())){
 		    			subJsonObj.put("bankName", "中行上海南京西路支行");
 		    		}else{
-		    			subJsonObj.put("bankName", bankName);
+		    			subJsonObj.put("bankName", branchBank);
 		    		}
 		    		
 		    		String accountName = "";

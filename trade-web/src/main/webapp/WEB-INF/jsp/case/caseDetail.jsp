@@ -546,20 +546,16 @@
 								</div>
 
 								<!-- start 变更合作对象  -->
-								<div id="change-modal-form" class="modal fade" role="dialog"
-									aria-labelledby="leading-modal-title" aria-hidden="true">
+								<div id="change-modal-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
 									<form id="changeCooprations" action="${ctx}/case/updateCoope"
 										method="post" class="form-horizontal">
-										<input type="hidden" name="instCode"
-											value="${toWorkFlow.instCode}" /> <input type="hidden"
-											name="caseId" value="${toCase.pkid}" />
+										<input type="hidden" name="instCode" value="${toWorkFlow.instCode}" /> 
+										<input type="hidden" name="caseId" value="${toCase.pkid}" />
 										<div class="modal-dialog" style="width: 800px">
 											<div class="modal-content">
 												<div class="modal-header">
-													<button type="button" class="close" data-dismiss="modal"
-														aria-hidden="true">×</button>
-													<h4 class="modal-title" id="leading-modal-title">
-														请选择服务项目</h4>
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+													<h4 class="modal-title" id="leading-modal-title">请选择服务项目</h4>
 												</div>
 												<div class="modal-body">
 													<div class="row"

@@ -185,5 +185,10 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 		return toAttachmentMapper.deleteByPrimaryKey(pkid);
 	}
 
+	@Override
+	public int setMainFlowVailable(String caseCode) {
+		return toAttachmentMapper.setMainFlowVailable(caseCode);
+	}
+
 
 }

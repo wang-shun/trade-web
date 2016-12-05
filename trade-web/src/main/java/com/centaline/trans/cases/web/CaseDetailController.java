@@ -38,8 +38,10 @@ import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
+import com.centaline.trans.cases.entity.ToChangeRecord;
 import com.centaline.trans.eloan.entity.LoanAgent;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
+import com.centaline.trans.cases.repository.ToChangeRecordMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
@@ -54,6 +56,7 @@ import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToServChangeHistroty;
 import com.centaline.trans.common.enums.CasePropertyEnum;
+import com.centaline.trans.common.enums.ChangeRecordTypeEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.SubscribeModuleType;
@@ -199,6 +202,10 @@ public class CaseDetailController {
 	//关注
 	@Autowired
 	ToModuleSubscribeService toModuleSubscribeService;
+	
+	//变更记录
+	@Autowired
+	private ToChangeRecordMapper toChangeRecordMapper;
 
 	/**
 	 * 页面初始化
@@ -1432,6 +1439,7 @@ public class CaseDetailController {
 	public AjaxResponse<?> changeLeadingUser(String instCode, String caseCode, String userId,
 			HttpServletRequest request) {
 
+		SessionUser user = uamSessionService.getSessionUser();
 		// 案件信息更新
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		String origUserId = toCase.getLeadingProcessId();
@@ -1472,9 +1480,94 @@ public class CaseDetailController {
 		if (reToCase == 0)
 			return AjaxResponse.fail("案件基本表更新失败！");
 
+		//添加变更记录
+		if(!origUserId.equals(userId)){
+			ToChangeRecord toChangeRecord = new ToChangeRecord();
+			toChangeRecord.setCaseCode(caseCode);
+			toChangeRecord.setPartName("");
+			toChangeRecord.setChangeType(ChangeRecordTypeEnum.OWNER.getCode());
+			toChangeRecord.setChangeBeforePerson(origUserId);
+			toChangeRecord.setChangeAfterPerson(userId);
+			toChangeRecord.setOperator(user.getId());
+			toChangeRecord.setOperateTime(new Date());
+			toChangeRecord.setCreateBy(user.getId());
+			toChangeRecord.setCreateTime(new Date());	
+			toChangeRecordMapper.insertSelective(toChangeRecord);
+		}
+		
 		return AjaxResponse.success("变更成功！");
 	}
 
+	
+	/**
+	 * 变更责任人  For allUser
+	 * @author zhuody
+	 * @Date 2016-12-02
+	 * 
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/changeLeadingPro")
+	@ResponseBody
+	public AjaxResponse<?> changeLeadingPro(String caseCode, String userId,HttpServletRequest request) {
+		ToCase toCase = new ToCase();
+		ToWorkFlow toWorkFlow =  new ToWorkFlow();
+		// 案件信息更新
+		if(caseCode != null  && !"".equals(caseCode)){
+			toCase = toCaseService.findToCaseByCaseCode(caseCode);
+			
+			// 工作流
+			ToWorkFlow inWorkFlow = new ToWorkFlow();
+			inWorkFlow.setBusinessKey("operation_process");
+			inWorkFlow.setCaseCode(caseCode);
+			toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
+		}
+		
+		String origUserId = toCase.getLeadingProcessId();
+		User u = uamUserOrgService.getUserById(origUserId);
+
+		TgServItemAndProcessor record = new TgServItemAndProcessor();
+		record.setPreProcessorId(toCase.getLeadingProcessId());
+		toCase.setLeadingProcessId(userId);
+		int reToCase = toCaseService.updateByPrimaryKey(toCase);
+		
+		User u1 = uamUserOrgService.getUserById(userId);
+		record.setProcessorId(userId);
+		record.setCaseCode(caseCode);
+		
+		tgServItemAndProcessorService.updateByCaseCode(record);
+
+		
+
+		
+		// 更新流程引擎
+		if (!StringUtils.isBlank(toWorkFlow.getInstCode())) {
+			String variableName = "caseOwner";
+			RestVariable restVariable = new RestVariable();
+			restVariable.setType("string");
+			restVariable.setValue(u1.getUsername());
+			try{
+				workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+			}catch(WorkFlowException e){
+				if(404!=e.getStatusCode()){
+					throw e;
+				}
+			}
+			
+			TaskQuery tq = new TaskQuery();
+			tq.setProcessInstanceId(toWorkFlow.getInstCode());
+			tq.setFinished(false);
+			tq.setAssignee(u.getUsername());
+			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+			updateWorkflow(userId, tasks, caseCode);
+		}
+		if (reToCase == 0)
+			return AjaxResponse.fail("案件基本表更新失败！");
+
+		return AjaxResponse.success("变更成功！");
+	}
+	
+	
 	public void updateWorkflow(String userId, List<TaskVo> tasks,String caseCode) {
 		if (tasks != null && !tasks.isEmpty()) {
 			for (TaskVo taskVo : tasks) {

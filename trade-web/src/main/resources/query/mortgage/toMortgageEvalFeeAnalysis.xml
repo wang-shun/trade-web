@@ -160,7 +160,20 @@
 					c.LOAN_REQ=1
 					AND m.is_active = '1'			
 					<ifNotNull idflag> AND 		M.LOAN_AGENT = #userId# 	</ifNotNull>
-					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>		
+					<ifNotNull queryorgs> AND   M.LOAN_AGENT_TEAM in (#queryorgs#)     </ifNotNull>
+
+					<if test=' loanType=="1" '>
+					and exists (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1 and M.MORT_TYPE in('30016001','30016002'))
+					and exists (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)
+					</if>
+					<if test=' loanType=="2" '>
+					and exists (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1 and M.MORT_TYPE in('30016003'))
+					and exists (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)
+					</if>
+					<if test=' loanType=="3" '>
+					and exists (select TOP 1 M.MORT_TYPE  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1 and M.MORT_TYPE in('30016001','30016002'))
+					and not exists (select TOP 1 M.IS_DELEGATE_YUCUI  from SCTRANS.T_TO_MORTGAGE MS where MS.case_code=m.CASE_CODE AND  M.IS_ACTIVE=1)
+					</if>
 				) T  
 				where T.LOANTYPE = '1'
 				
@@ -272,9 +285,6 @@
 					and T.LOAN_AGENT_TEAM in (select  id from sctrans.sys_org  where PARENT_ID = #organizeOrgId#)
 				</if>
 				
-				<ifNotNull loanType>
-					and T.LOANTYPE = #loanType#
-				</ifNotNull>
 				) AS MTYPEANAL
 
 				]]>

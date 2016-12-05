@@ -38,5 +38,13 @@ public interface ToAttachmentService {
 	 * @return
 	 */
 	public int delFilesByPkid(Long pkid);
+	
+	/**
+	 * 设置主流程附件无效
+	 * 
+	 * @param caseCode
+	 * @return
+	 */
+	public int setMainFlowVailable(String caseCode);
 
 }

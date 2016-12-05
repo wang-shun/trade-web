@@ -31,4 +31,6 @@ public interface ToAttachmentMapper {
      * @return
      */
 	List<ToAttachment> findToAttachmentByCaseCode(String caseCode);
+	
+	int setMainFlowVailable(String caseCode);
 }

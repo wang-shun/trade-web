@@ -674,15 +674,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void submitNewSpv(SpvBaseInfoVO spvBaseInfoVO, SessionUser user) {
-	
-		ToWorkFlow twf = new ToWorkFlow();
-		twf.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
-		twf.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
-		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-
-		if (record != null) {
-			throw new BusinessException("流程启动失败：该案件的流程已开启！");
-		}
 		
 		saveNewSpv(spvBaseInfoVO, user);
 
@@ -763,7 +754,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		SpvBaseInfoVO spvBaseInfoVO = new SpvBaseInfoVO();
 
-		if (StringUtils.isBlank(String.valueOf(pkid)) || "null".equals(String.valueOf(pkid))) {
+		if (pkid == null) {
 			return spvBaseInfoVO;
 		}
 
@@ -1162,7 +1153,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	
 	
 	@Override
-	public void findSpvBaseInfoVOAndSetAttrinCaseFlowApple(HttpServletRequest request, Long pkid, String caseCode) {
+	public void findSpvBaseInfoVOAndSetAttrinCaseFlowApply(HttpServletRequest request, Long pkid, String caseCode) {
 		
 		SpvBaseInfoVO spvBaseInfoVO = findSpvBaseInfoVOByPkidinCaseFlowApple(request, pkid);//监管合约信息
 		

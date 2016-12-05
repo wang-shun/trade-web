@@ -673,7 +673,10 @@ function ChangeModal(data) {
 				addHtml += "<input type='hidden' name='srvCode' value='"+value.srvCode+"'/>";
 			}
 			addHtml += "<label class='col-md-3 control-label wd87'>合作项目</label>";
-			addHtml += "<div class='col-md-9 wd-64'><p class='form-control-static'>"+value.srvName+"</p></div>"
+			if(value.users !=""&&value.users.length!=0){
+			addHtml += "<input type='hidden' name='project' value='"+value.srvName+"' />";
+			}
+			addHtml += "<div class='col-md-9 wd-64'><p class='form-control-static' >"+value.srvName+"</p></div>"
 		addHtml += '</div></div>';
 		
 		addHtml += '<div class="col-md-6 wd-50">';
@@ -685,9 +688,11 @@ function ChangeModal(data) {
 			addHtml += "<select class='form-control m-b' id='userChange"+index+"' name='myProcessorId'>";
 			aa=index;
 			var oldOrgId='';
+			var oldProcessorId = '';
 			$.each(value.users, function(j, value){
 				// 让修改后的复选框默认被选中
 				if(data.servitemList[aa].processorId==value.id){
+					oldProcessorId = value.id;
 					addHtml += "<option value='"+value.id+"' selected='selected'>"+value.realName+"("+value.orgName+")"+"</option>";
 				}else{
 					addHtml += "<option value='"+value.id+"'>"+value.realName+"("+value.orgName+")"+"</option>";
@@ -703,7 +708,7 @@ function ChangeModal(data) {
 			addHtml += "<input type='hidden' name='oldOrgId' id='oldOrg"+index+"' value='"+oldOrgId+"'/>";
 			addHtml += "<input type='hidden' name='otherProcessorId' id='otherProcessorId"+index+"' value='"+data.servitemList[index].processorId+"'/>";
 			addHtml += "<input type='hidden' name='otherOrgId' id='otherOrgId"+index+"' value=''/>";
-			
+			addHtml += "<input type='hidden' name='oldProcessorId' value='"+oldProcessorId+"' />";
 		}else{
 			
 		}

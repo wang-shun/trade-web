@@ -38,16 +38,9 @@
 	</formatters>
 	<query id="queryTaskListItemList">
 		<searchCondition>
-			<condition field="DATELAMP" name="minDateLamp" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-			<condition field="DATELAMP" name="maxDateLamp" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-			<condition field="AB.DELEGATION" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-			<condition field="AB.AGENT_Name" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-			<condition field="AB.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-			<condition field="AB.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-			<condition field="AB.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-			<condition field="AB.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-			<condition field="AB.PART_CODE" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 
+			<condition field="AB.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="AB.PART_CODE" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -81,6 +74,26 @@
 					     <when test	="isSubscribeFilter==1">
 							and AB.SUBSCRIBE_COUNT=0
 					     </when>
+
+						<ifNotNull propertyAddr>
+							AND exists (select 1 from sctrans.T_TO_PROPERTY_INFO TP  where TP.CASE_CODE=AB.CASE_CODE AND TP.PROPERTY_ADDR like '%'+#propertyAddr#+'%')
+						</ifNotNull>
+
+						<ifNotNull agentName>
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and AGENT_NAME like '%'+#agentName#+'%')
+						</ifNotNull>
+
+						<ifNotNull agentName>
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and AGENT_NAME like '%'+#agentName#+'%')
+						</ifNotNull>
+
+						<ifNotNull agentOrgName>
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and GRP_NAME like '%'+#agentOrgName#+'%')
+						</ifNotNull>
+
+						<ifNotNull ctmCode>
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and CTM_CODE like '%'+#ctmCode#+'%')
+						</ifNotNull>
 
 		]]>
 			</baseSql>

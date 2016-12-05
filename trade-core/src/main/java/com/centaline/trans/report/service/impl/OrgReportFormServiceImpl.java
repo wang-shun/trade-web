@@ -40,19 +40,19 @@ public class OrgReportFormServiceImpl implements OrgReportFormService {
     public List<ToCaseInfoCountVo>  findPageForCaseReportFormCount(JQGridParam gp) {
 
         List<ToCaseInfoCountVo> voList = new LinkedList<ToCaseInfoCountVo>();
-        gp.setQueryId("queryFormJds");//Êé•ÂçïÊï∞
+        gp.setQueryId("queryFormJds");//Ω”µ• ˝
         Page<Map<String, Object>> queryFormJds =  quickGridService.findPageForSqlServer(gp, null);
         List<Map<String,Object>> listJds = queryFormJds.getContent();
 
-        gp.setQueryId("queryFormJas");//ÁªìÊ°àÊï∞
+        gp.setQueryId("queryFormJas");//Ω·∞∏ ˝
         Page<Map<String, Object>> queryFormJas =  quickGridService.findPageForSqlServer(gp, null);
         List<Map<String,Object>> listJas = queryFormJas.getContent();
 
-        gp.setQueryId("queryFormQys");//Á≠æÁ∫¶Êï∞
+        gp.setQueryId("queryFormQys");//«©‘º ˝
         Page<Map<String, Object>> queryFormQys =  quickGridService.findPageForSqlServer(gp, null);
         List<Map<String,Object>> listQys = queryFormQys.getContent();
 
-        gp.setQueryId("queryFormGhs");//Á≠æÁ∫¶Êï∞
+        gp.setQueryId("queryFormGhs");//«©‘º ˝
         Page<Map<String, Object>> queryFormGhs =  quickGridService.findPageForSqlServer(gp, null);
         List<Map<String,Object>> listGhs = queryFormGhs.getContent();
 
@@ -114,13 +114,13 @@ public class OrgReportFormServiceImpl implements OrgReportFormService {
         for(Map<String,Object> map : list){
             if(map!=null){
                 if(map.get("orgId")!=null&&map.get("orgName")!=null){
-                    //Êé•ÂçïÊï∞
+                    //Ω”µ• ˝
                     int toCaseInfoJDS = (int)map.get("countJDS");
-                    //Á≠æÁ∫¶Êï∞
+                    //«©‘º ˝
                     int toSignQYS =  (int)map.get("countQYS");
-                    //ËøáÊà∑Êï∞
+                    //π˝ªß ˝
                     int toHouseTransferGHS =  (int)map.get("countGHS");
-                    //ÁªìÊ°àÊï∞
+                    //Ω·∞∏ ˝
                     int toCloseJAS =  (int)map.get("countJAS");
                     ToCaseInfoCountVo toCaseInfoVo = new ToCaseInfoCountVo();
                     toCaseInfoVo.setCountJDS(toCaseInfoJDS);
