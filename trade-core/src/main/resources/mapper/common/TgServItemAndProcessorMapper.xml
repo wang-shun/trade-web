@@ -228,7 +228,7 @@
   <!-- 修改变更合作对象 -->
   <update id="updateCoope" parameterType="com.centaline.trans.common.entity.TgServItemAndProcessor">
   	 update sctrans.T_TG_SERV_ITEM_AND_PROCESSOR set 
-  	 	PROCESSOR_ID=#{processorId,jdbcType=VARCHAR}, ORG_ID=#{orgId,jdbcType=VARCHAR} ,  UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
+  	 	 PROCESSOR_ID=#{processorId,jdbcType=VARCHAR}, ORG_ID=#{orgId,jdbcType=VARCHAR} ,  UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
 	     where SRV_CODE=#{srvCode,jdbcType=VARCHAR} and CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
   </update>
   

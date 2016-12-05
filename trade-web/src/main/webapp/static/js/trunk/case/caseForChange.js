@@ -286,12 +286,14 @@ function changeCooperForShow(data) {
 			addHtml += '<div class="form_content">';
 			addHtml += "<input type='hidden' name='caseCode' value='"+$('#cooperCaseCode').val()+"' />";
 			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
-			addHtml += "<input type='hidden' name='srvCode'  id='srvCode"+index+"' value='"+value.srvCode+"'/>";			
+			addHtml += "<input type='hidden' name='srvCode'  id='srvCode"+index+"' value='"+value.srvCode+"'/>";
+			
 			addHtml += '<label class="control-label sign_left_small">合作项目</label>';			
 			addHtml += "<input type='text' class='teamcode input_type' placeholder='' id='srvName"+index+"' name='srvName'  readonly value='"+value.srvName+"'/>";
 			addHtml += "<label class='control-label sign_left_small'>合作人</label>";			
 			addHtml += "<input class='teamcode input_type' placeholder='' value=''  name='cooperName' id='cooperName"+index+"' hVal='' onclick='cooperForChangeClick("+index+")' />";
 			addHtml += "<div class='input-group float_icon organize_icon' id='cooperUser'><i class='icon iconfont'>&#xe627;</i></div>";
+			addHtml += "<input type='hidden' name='oldProcessorId' value='"+value.processorId+"' />";
 			addHtml += "<input type='hidden'   name='processorId' id='processorId"+index+"'  value='' />";
 			addHtml += "</div>";		
 		})		
@@ -311,8 +313,9 @@ $("#cooperSubmit").click(function(){
 	 var ctx = $("#ctx").val();
 	 url = ctx + url;			
 		
-	 alert(JSON.stringify(data));
-	 if (confirm("您确定要进行责任人变更？")) {		 	
+/*	 alert(JSON.stringify(data));
+	 alert("url==="+url);*/
+	 if (confirm("您确定要进行案件合作对象变更？")) {		 	
 
 			$.ajax({
 				cache : false,
@@ -321,13 +324,14 @@ $("#cooperSubmit").click(function(){
 				url : url,
 				dataType : "json",
 				timeout : 10000,
-				data : data,
+				contentType : 'application/json;charset=utf-8',
+				data : JSON.stringify(data),
 				
 				success : function(data) {
 					if(data.success){
-						//$("#leadingProForChang").hide();
-						alert("恭喜，责任人变更成功！");
-						//reloadGrid(getParams(1));						
+						$("#cooperForChang").hide();
+						alert("恭喜，合作对象变更成功！");
+						setTimeout(searchMethod,1000); 												
 					}else{
 						alert(data.message);
 					}
@@ -345,10 +349,13 @@ function getParamForCooper(){
  	 var orgId = [];
  	 var srvCode = [];
  	 var processorId = [];
+ 	 var srvName = [];
+ 	 var oldProcessorId = [];
 	 var caseCodeArray = $("input[name='caseCode']"); 
 	 var orgIdArray = $("input[name='orgId']");
 	 var srvCodeArray = $("input[name='srvCode']");
 	 var processorIdArray = $("input[name='processorId']");
+	 
 	 $.each(caseCodeArray, function(j, item) {
 		 if(item.value != '' && item.value != null){
 			 caseCode.push(item.value);
@@ -369,13 +376,26 @@ function getParamForCooper(){
 			 processorId.push(item.value);
 		 }	 
 	 });
+	 
+	 $.each($("input[name='srvName']"), function(i, item) {
+		 if(item.value != '' && item.value != null){
+			 srvName.push(item.value);
+		 }	 
+	 });
+	 $.each($("input[name='oldProcessorId']"), function(i, item) {
+		 if(item.value != '' && item.value != null){
+			 oldProcessorId.push(item.value);
+		 }	 
+	 });
+	 
 
-	 var tgServItemAndProcessorVo = {
-			 caseCode : caseCode,
-			 orgId : orgId,
-			 srvCode : srvCode,
-			 processorId : processorId,
-	 };
+	 var tgServItemAndProcessorVo = {};
+	 tgServItemAndProcessorVo.caseCode = caseCode;
+	 tgServItemAndProcessorVo.srvCode = srvCode;
+	 tgServItemAndProcessorVo.processorId = processorId;
+	 tgServItemAndProcessorVo.orgId = orgId;
+	 tgServItemAndProcessorVo.srvName = srvName;
+	 tgServItemAndProcessorVo.oldProcessorId = oldProcessorId;
 
 	 
 	 return tgServItemAndProcessorVo;
