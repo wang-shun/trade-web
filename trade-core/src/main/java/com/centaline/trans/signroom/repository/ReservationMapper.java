@@ -95,7 +95,6 @@ public interface ReservationMapper {
 	 * @return 办理事项列表信息
 	 */
 	public List<TransactItemVo> getTransactItemList();
-
 	/**
 	 * 获取达到特定条件的闲置房间信息
 	 * 

@@ -105,7 +105,7 @@ public class TmpBankAduitController {
 		return "task/taskManagerAduit";
 	}
 	
-	@RequestMapping("aduit")
+	@RequestMapping("audit")
 	public AjaxResponse<?> toTmpBankAduitProcess(ToMortgage mortage,String prAddress,
 			String tmpBankName,String tmpBankCheck,String taskId,String bankCode,String temBankRejectReason,
 			String processInstanceId,String caseCode,String post) {

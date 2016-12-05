@@ -120,9 +120,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">拒绝原因</label>
+						<label class="col-sm-2 control-label">审批意见</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="temBankRejectReason" name="temBankRejectReason" value="" disabled="disabled" >
+							<input type="text" class="form-control" id="temBankRejectReason" name="temBankRejectReason" value="">
 						</div>
 					</div>
 				</form>
@@ -170,13 +170,6 @@
 			$("#bank_type").change(function(){
 		    	getBranchBankList($("#finOrgCode"),$("#bank_type").val());
 		    });
-			$("input[name='tmpBankCheck']").click(function(){
-				if($(this).val() == 'false'){
-					 $("#temBankRejectReason").prop("disabled",false);
-				}else if($(this).val() == 'true'){
-					 $("#temBankRejectReason").prop("disabled",true);
-				}
-			});
 			})
 		
 		/**提交数据*/
@@ -196,7 +189,7 @@
 			}
 
 			$.ajax({
-				url:ctx+'/mortgage/tmpBankAudit/aduit',
+				url:ctx+'/mortgage/tmpBankAudit/audit',
 				method:"post",
 				dataType:"json",
 				data:jsonData,
@@ -300,9 +293,9 @@
 				alert('请选择贷款支行！');
 				return false;
 			}
-			//驳回时驳回原因必填 
-			if($("#optionsRadios2").prop("checked") && !$("#temBankRejectReason").val()){
-				alert("请填写驳回原因！");
+			//审批意见必填 
+			if(!$("#temBankRejectReason").val()){
+				alert("请填写审批意见！");
 				return false;
 			}
 

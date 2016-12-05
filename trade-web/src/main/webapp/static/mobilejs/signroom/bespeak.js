@@ -109,7 +109,7 @@ function init(){
 	
 	//日期初始化
 	initDate();
-	
+
 	//产证地址初始化
 	getPropertyAddress();
 }
@@ -150,6 +150,10 @@ function initDate(){
 	var week = currentArrayDate[2];
 	
 	var strHtml = "<tr>";
+	
+	if(week == 0){
+		week = 7;
+	}
 	
 	var start = 1 - week;
 	var end = start + 13;
