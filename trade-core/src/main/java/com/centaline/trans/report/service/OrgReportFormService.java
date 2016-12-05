@@ -1,8 +1,10 @@
 package com.centaline.trans.report.service;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
+import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,11 +12,17 @@ import java.util.Map;
  */
 public interface OrgReportFormService {
 
-    Page<Map<String,Object>> findPageForReportOrgForm(JQGridParam gp, String chcheKey);
+    List<ToCaseInfoCountVo>  findPageForReportOrgForm(JQGridParam gp);
 
     Page<Map<String,Object>> findPageForReportFormPage(JQGridParam gp, String chcheKey);
 
-    Page<Map<String,Object>> findPageForReportRedCountList(JQGridParam gp, String chcheKey);
+    Page<Map<String,Object>> findPageForReportRedCountList(JQGridParam gp);
 
-    Page<Map<String,Object>> findPageForCaseReportFormCount(JQGridParam gp, String cacheKey);
+    List<ToCaseInfoCountVo>  findPageForCaseReportFormCount(JQGridParam gp);
+
+    Page<Map<String, Object>> queryRedcountListForPeople(JQGridParam gp);
+
+    Page<Map<String,Object>> queryCountForAllRedLock(JQGridParam gp);
+
+    List<ToCaseInfoCountVo> findDataCountForDistrict(JQGridParam gp);
 }

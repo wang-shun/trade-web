@@ -780,7 +780,7 @@
 										   left join sctrans.act_ru_task ta 			 on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
 										   left join sctrans.LAMP_RULE l				 on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
 										   left join sctrans.SYS_USER as u 				 on ta.ASSIGNEE_=u.USERNAME
-										   left join sctrans.v_user_org_job as uoj   	 on uoj.[USER_ID]=u.ID
+										   left join sctrans.V_USER_ORG_JOB_ACTIVE as uoj   	 on uoj.[USER_ID]=u.ID
 									 	   left join sctrans.t_to_case as tc	    	 on tc.case_code =t.case_code
 									 where u.id is not null
 								  	 <if test="user_Id != null">
@@ -996,7 +996,7 @@
 				  	from 
 				  		sctrans.T_TS_DAYLY_RANK with(nolock)
 				  	where 
-				  		DATEDIFF(day, RANK_DAY, GETDATE()) = 0
+				  		DATEDIFF(d, RANK_DAY, GETDATE()) = 0
 				  		<if test="rankCat != null">
 				  			AND RANK_CAT = #rankCat#  
 				  		</if>
@@ -1043,7 +1043,7 @@
 			  	from 
 			  		sctrans.T_TS_DAYLY_RANK with(nolock)
 			  	where 
-			  		DATEDIFF(day, RANK_DAY, GETDATE())=0 
+			  		DATEDIFF(d, RANK_DAY, GETDATE())=0
 			  		AND 	RANK_DURATION='MONTH'
 			  		<if test="rankCat != null">
 				  			AND RANK_CAT = #rankCat#  
@@ -1063,6 +1063,40 @@
 		<grid>
 			<table-row>
 				<column name="rank_no" title="rank_no" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="personalWorkGetAllRankQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			  	select
+			  		rank_no,RANK_CAT as rankCat
+			  	from
+			  		sctrans.T_TS_DAYLY_RANK with(nolock)
+			  	where
+			  		DATEDIFF(d, RANK_DAY, GETDATE())=0
+			  		AND 	RANK_DURATION='MONTH'
+			  		<if test="rankCat != null">
+				  			AND RANK_CAT = #rankCat#
+				  	</if>
+				  	<if test="rankType != null">
+				  			AND RANK_TYPE = #rankType#
+				  	</if>
+			  		<if test="user_Id != null">
+				  			AND RANK_ID = #user_Id#
+				  	</if>
+			  		<if test="org_Id != null">
+			  				AND belong_org_id = #org_Id#
+			  		</if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="rank_no" title="rank_no" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
+				<column name="rankCat" title="rankCat" index="" default="" checkbox="" customDict="" sysDict="" format="" width="0" isSort=""	align="" halign="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

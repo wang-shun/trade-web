@@ -370,19 +370,19 @@
 									class="sign_right_two input_type" id="txt_proOrgId_gb"
 									onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})"
-									value='${eloanCase.loanerName}'>
+									value='${eloanCase.loanerName}' />
 								<div class="input-group float_icon organize_icon">
 									<i class="icon iconfont">&#xe627;</i>
 								</div>
+								 <input value="${eloanCase.loanerOrgCode}" type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+								 <input value="${eloanCase.loanerOrgId}" type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+								 <input value="${eloanCase.loanerId}" type="hidden"  id="loanerId" name="loanerId" />
 							</div>
-							<div class="form_content">
+							<%-- <div class="form_content">
 								<label class="control-label sign_left_two"> 信贷员电话 </label> <input
 									class="input_type  sign_right_two" value="${eloanCase.loanerMobile}"
 									readonly="readonly" name="loanerMobile" id="loanerMobile">
-									 <input   value="${eloanCase.loanerOrgCode}" type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
-									 <input   value="${eloanCase.loanerOrgId}" type="hidden" id="loanerOrgId" name ="loanerOrgId" />
-									 <input   value="${eloanCase.loanerId}" type="hidden"  id="loanerId" name="loanerId" />
-							</div>
+							</div> --%>
 						</li>
 
 
@@ -1097,7 +1097,7 @@
 						"userId" : array[0].userId
 					},
 					success : function(data) {
-						$("#loanerMobile").val(data.user.mobile);
+						//$("#loanerMobile").val(data.user.mobile);
 						$("#loanerId").val(data.user.id);
 						$("#loanerOrgCode").val(data.user.orgName);
 						$("#loanerOrgId").val(data.user.orgId);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.formula.functions.T;
+
 /*** 加工快速查询字段结果，批次处理类 */
 public class QuickQueryBatchWarpper {
 	/*单批次查询实现*/
@@ -27,12 +29,12 @@ public class QuickQueryBatchWarpper {
 		//子列表开始下标
 		int fromIndex = 0;
 		//子列表最大下标
-		int lastIndex = rows.size()-1;
+		int lastIndex = rows.size();
 		
 		//方法返回结果列表
 		List<T> result = new ArrayList<T>();
 		
-		while(fromIndex<lastIndex){
+		while(fromIndex < lastIndex){
 			//获取子列表结束下标
 			int toIndex = fromIndex + batchSize;
 			if(toIndex > lastIndex){
@@ -52,13 +54,14 @@ public class QuickQueryBatchWarpper {
 		return result;
 	}
 	/***单批次字段处理逻辑接口**/
-	public static interface BatchQuery {
-		public <T> List<T> query(List<T> resultSet);
+	@SuppressWarnings("hiding")
+	public static interface BatchQuery<T> {
+		public List<T> query(List<T> resultSet);
 	}
 	
 	//新建单批次字段处理逻辑
-	private static QuickQueryBatchWarpper batchWarpper = new QuickQueryBatchWarpper(new BatchQuery(){
-		public <T> List<T> query(List<T> resultSet) {
+	private static QuickQueryBatchWarpper batchWarpper = new QuickQueryBatchWarpper(new BatchQuery<String>(){
+		public List<String> query(List<String> resultSet) {
 			
 			return resultSet;
 		}

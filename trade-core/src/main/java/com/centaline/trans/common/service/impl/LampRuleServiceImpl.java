@@ -1,5 +1,7 @@
 package com.centaline.trans.common.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.centaline.trans.common.entity.LampRule;
@@ -19,6 +21,10 @@ public class LampRuleServiceImpl implements LampRuleService {
 	@Override
 	public int deleteLampRuleByProperty(LampRule lampRule) {
 		return lampRuleMapper.deleteLampRuleByProperty(lampRule);
+	}
+	@Override
+	public List<LampRule> queryLampRuleList() {
+		return lampRuleMapper.queryLampRuleList();
 	}
 
 }

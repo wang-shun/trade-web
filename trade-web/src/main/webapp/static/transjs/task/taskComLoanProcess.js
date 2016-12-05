@@ -108,6 +108,10 @@ function checkMortgageForm(formId){
 			formId.find("input[name='loanerName']").css("border-color","red");
 			return false;
 		}
+	}else{
+		formId.find("input[name='loanerId']").val("");
+		formId.find("input[name='loanerOrgCode']").val("");
+		formId.find("input[name='loanerOrgId']").val("");
 	}
 	if(!formId.find("input[name='isTmpBank']").prop('checked')){
 		if(afterTimeFlag){

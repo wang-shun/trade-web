@@ -189,6 +189,8 @@ public class WarnListController {
 			Org o = uamUserOrgService.getComapnyByOrgId(u.getOrgId());
 			if(!StringUtils.isBlank(o.getOrgCode()))
 				u.setOrgName(o.getOrgCode());
+			else
+				u.setOrgName("");
 		}
 		return u;
 	}

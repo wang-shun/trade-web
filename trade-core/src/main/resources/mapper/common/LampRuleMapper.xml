@@ -15,6 +15,11 @@
     from sctrans.LAMP_RULE
     where PK_ID = #{pkId,jdbcType=BIGINT}
   </select>
+  <select id="queryLampRuleList" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.LAMP_RULE
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.LAMP_RULE
     where PK_ID = #{pkId,jdbcType=BIGINT}

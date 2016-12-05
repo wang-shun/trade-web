@@ -3,6 +3,8 @@
 	<dicts>
 		<customDict id="convertValue" beanName="convertValue"></customDict>
 		<customDict id="convertColor" beanName="convertColor"></customDict>
+		<customDict id="getDirector" beanName="getDirector"></customDict>
+		<customDict id="getColorChines" beanName="getColorChines"></customDict>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref=""
@@ -38,135 +40,72 @@
 	</formatters>
 	<query id="queryRedGreenTaskCountList" cacheCount="true">
 		<searchCondition>
-		
-		    
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT
-	t1.orgName1,
-	t1.realName1,
-	t1.orgName2,
-	t1.realName2,
-	ISNULL(t2.count1, 0) AS yellow,
-	ISNULL(t3.count1, 0) AS red,
-	GETDATE() AS importtime,
-	t1.id
-FROM
-	(
-		SELECT
-			org1.id id,
-			uoj1.ORG_NAME orgName1,
-			uoj1.REAL_NAME realName1,
-			uoj.ORG_NAME orgName2,
-			uoj.REAL_NAME AS realName2
-		FROM
-			
-				sctrans.sys_org org1
-		RIGHT JOIN sctrans.V_USER_ORG_JOB uoj ON org1.ID = uoj.ORG_ID AND uoj.JOB_CODE = 'Manager'
-		--RIGHT JOIN sctrans.SYS_JOB j ON j.ID = uoj.JOB_ID AND j.JOB_CODE = 'Manager'
-		--LEFT JOIN sctrans.SYS_USER u1 ON u1.id = uoj.USER_ID
-		left JOIN sctrans.V_USER_ORG_JOB uoj1 ON org1.PARENT_ID = uoj1.ORG_ID AND uoj1.JOB_CODE = 'director'
-		--RIGHT JOIN sctrans.SYS_JOB j1 ON j1.id = uoj1.JOB_ID AND j1.JOB_CODE = 'director'
-		--LEFT JOIN sctrans.SYS_USER u2 ON u2.id = uoj1.USER_ID
-		--LEFT JOIN sctrans.SYS_ORG org2 ON org2.ID = uoj1.ORG_ID
-		WHERE
-			org1.PARENT_ID IN (
-				'FF5BC56E0E4B45289DAA5721A494C7C5',
-				'8a8493d453141f3301532c9568011af9',
-				'd5878adf8b0c4032aeae895c701ed693',
-				'de81a98a8ec341caa8e9bc77c46cd370',
-				'54b3233fdf994d9987e7c8febc223588',
-				'960089538bc54a9a9139ef52ceb45b33',
-				'6114AB949B4445828D4383977C4FAC71',
-				'6a84979158b942b78a8a5921cc30b8c3'
-			)
-	) t1
-  LEFT join(select id as orgId,color,count(*) as count1 from (
-					  SELECT
-				MIN (l.color) AS color,
-				t.CASE_CODE AS caseCode,
-				t.PART_CODE AS taskName,
-				tp.PROPERTY_ADDR AS propertyAddress,
-				uoj.REAL_NAME AS realName,
-				t.EST_PART_TIME AS estPartTime,
-				ta.ID_,
-				ta.PROC_INST_ID_,
-				uoj.org_id id
-			FROM
-				[sctrans].[T_TO_TRANS_PLAN] AS t
-			LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS tp ON t.case_code = tp.case_code
-			LEFT JOIN sctrans.t_to_workflow AS w ON w.case_code = t.CASE_CODE
-			LEFT JOIN sctrans.act_ru_task ta ON ta.[TASK_DEF_KEY_] = t.PART_CODE AND w.INST_CODE = ta.[PROC_INST_ID_] AND ta.suspension_state_ = '1'
-			LEFT JOIN sctrans.LAMP_RULE l ON GETDATE() - t.EST_PART_TIME >= l.DELAYTIME
-			--LEFT JOIN sctrans.SYS_USER AS u ON ta.ASSIGNEE_ = u.USERNAME
-			LEFT JOIN sctrans.V_USER_ORG_JOB AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
-			--LEFT JOIN sctrans.SYS_ORG AS sysOrg ON sysOrg.ID = uoj.org_id
-			WHERE
-				uoj.org_id IS NOT NULL
-			GROUP BY
-				t.CASE_CODE,
-				t.PART_CODE,
-				tp.PROPERTY_ADDR,
-				uoj.REAL_NAME,
-				t.EST_PART_TIME,
-				ta.ID_,
-				ta.PROC_INST_ID_,
-				uoj.org_id
-		) AS a where color &lt;&gt; '2' group by id,color)  t2 on t1.id=t2.orgId and t2.color=0
-							  
- left join(select id as orgId,color,count(*) as count1 from (
-					  SELECT
-				MIN (l.color) AS color,
-				t.CASE_CODE AS caseCode,
-				t.PART_CODE AS taskName,
-				tp.PROPERTY_ADDR AS propertyAddress,
-				uoj.REAL_NAME AS realName,
-				t.EST_PART_TIME AS estPartTime,
-				ta.ID_,
-				ta.PROC_INST_ID_,
-				uoj.org_id id
-			FROM
-				[sctrans].[T_TO_TRANS_PLAN] AS t
-			LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS tp ON t.case_code = tp.case_code
-			LEFT JOIN sctrans.t_to_workflow AS w ON w.case_code = t.CASE_CODE
-			LEFT JOIN sctrans.act_ru_task ta ON ta.[TASK_DEF_KEY_] = t.PART_CODE
-			AND w.INST_CODE = ta.[PROC_INST_ID_]
-			AND ta.suspension_state_ = '1'
-			LEFT JOIN sctrans.LAMP_RULE l ON GETDATE() - t.EST_PART_TIME >= l.DELAYTIME
-			--LEFT JOIN sctrans.SYS_USER AS u ON ta.ASSIGNEE_ = u.USERNAME
-			LEFT JOIN sctrans.V_USER_ORG_JOB AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
-			--LEFT JOIN sctrans.SYS_ORG AS sysOrg ON sysOrg.ID = uoj.org_id
-			WHERE
-				uoj.org_id IS NOT NULL
-			GROUP BY
-				t.CASE_CODE,
-				t.PART_CODE,
-				tp.PROPERTY_ADDR,
-				uoj.REAL_NAME,
-				t.EST_PART_TIME,
-				ta.ID_,
-				ta.PROC_INST_ID_,
-				uoj.org_id
-		) AS a where color &lt;&gt; '2' group by id,color)
-							  t3 on t1.id=t3.orgId and t3.color=1
-							  where 1=1 
-							   <ifNotNull proOrggbName>
-										   and t1.orgName1 =#proOrggbName#
-							  </ifNotNull>
-							  
-							  <ifNotNull TextValName>
-										   and t1.realName2 =#TextValName#
-							  </ifNotNull>
-							  
-							  <ifNotNull TextValNameZj>
-										   and t1.realName1 =#TextValNameZj#
-							  </ifNotNull>
-							  
-							  <ifNotNull proOrgName>
-										   and t1.orgName2 =#proOrgName#
-							  </ifNotNull>
+					select 
+						(select org_name from sctrans.sys_org where id = orId ) orgName2,
+						orgName1,
+						parentId,realName2,orId,GETDATE()  as importtime,
+						sum(yellow) yellow,
+						sum(red) red,
+						sum(yellow+red) toller
+					from ( 
+						SELECT
+							distinct   uoj.USERNAME,t.case_code, t.EST_PART_TIME eTime,ta.name_,org.PARENT_ID parentId,org.id orId,
+							(select org_name from sctrans.sys_org where id = org.PARENT_ID) orgName1,
+							(case when  (GETDATE() - convert(int,#yellowDelaytime#))&gt;=t.EST_PART_TIME and (GETDATE() - convert(int,#redDelaytime#)) &lt; t.EST_PART_TIME then 1 else 0 end)  yellow,
+							(case when  (GETDATE() - convert(int,#redDelaytime#))&gt;=t.EST_PART_TIME then 1 else 0 end)  red
+						FROM [sctrans].[T_TO_TRANS_PLAN] AS t left join sctrans.t_to_workflow AS w on w.CASE_CODE = t.CASE_CODE
+							LEFT JOIN sctrans.act_ru_task ta ON  ta.TASK_DEF_KEY_=t.PART_CODE and w.INST_CODE = ta.PROC_INST_ID_ and  ta.suspension_state_ = '1'
+							LEFT JOIN sctrans.V_USER_ORG_JOB_ACTIVE AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
+							left join sctrans.sys_org org on org.id = uoj.org_id 
+						where uoj.org_id is not null
+								and org.PARENT_ID IN (
+									'FF5BC56E0E4B45289DAA5721A494C7C5',
+									'8a8493d453141f3301532c9568011af9',
+									'd5878adf8b0c4032aeae895c701ed693',
+									'de81a98a8ec341caa8e9bc77c46cd370',
+									'54b3233fdf994d9987e7c8febc223588',
+									'960089538bc54a9a9139ef52ceb45b33',
+									'6114AB949B4445828D4383977C4FAC71',
+									'6a84979158b942b78a8a5921cc30b8c3'
+								)
+					) f left join (
+							SELECT
+								org1.id id,
+								uoj.ORG_NAME orgName2,
+								uoj.REAL_NAME AS realName2
+							FROM sctrans.sys_org org1
+								 RIGHT JOIN sctrans.V_USER_ORG_JOB_ACTIVE uoj ON org1.ID = uoj.ORG_ID AND uoj.JOB_CODE = 'Manager'
+							WHERE
+								org1.PARENT_ID IN (
+									'FF5BC56E0E4B45289DAA5721A494C7C5',
+									'8a8493d453141f3301532c9568011af9',
+									'd5878adf8b0c4032aeae895c701ed693',
+									'de81a98a8ec341caa8e9bc77c46cd370',
+									'54b3233fdf994d9987e7c8febc223588',
+									'960089538bc54a9a9139ef52ceb45b33',
+									'6114AB949B4445828D4383977C4FAC71',
+									'6a84979158b942b78a8a5921cc30b8c3'
+								)
+						) pb on f.orId = pb.id
+					
+					  where 1=1 
+					   <ifNotNull proOrggbName>
+								   and f.orgName1 =#proOrggbName#
+					  </ifNotNull>
+					  
+					  <ifNotNull TextValName>
+								   and realName2 =#TextValName#
+					  </ifNotNull>
+					  
+					  <ifNotNull proOrgName>
+								   and orgName2 =#proOrgName#
+					  </ifNotNull>
+					  group by orId,orgName1,parentId,realName2
+					  order by parentId asc
 							  
 				]]>
 			</baseSql>
@@ -177,13 +116,15 @@ FROM
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="orgName1" index="" checkbox="" display="贵宾服务部" customDict=""  />
-				<column type="both" name="realName1" index="" checkbox="" display="总监" customDict=""  />
-				<column type="both" name="orgName2" index="" checkbox="" display="组别" customDict="" />
-				<column type="both" name="realName2" index="" checkbox="" display="主管" customDict=""  />
-				<column type="both" name="yellow" index="" checkbox="" display="黄灯" customDict=""  />
-				<column type="both" name="red" index="" checkbox="" display="红灯" customDict=""  />
-				<column type="both" name="importtime" index="" checkbox="" display="导出时间" customDict=""   beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
+				<column type="both" name="orgName1" index="" checkbox="" title="贵宾服务部" display="贵宾服务部" customDict=""  />
+				<column type="both" name="parentId" index="" checkbox="" title="" display="贵宾服务部id" customDict=""  />
+				<column type="virtual" name="realName1" title="总监" display="总监" referencecol="parentId" customDict="getDirector" />
+				<column type="both" name="orgName2" index="" checkbox="" title="组别" display="组别" customDict="" />
+				<column type="both" name="realName2" index="" checkbox="" title="主管" display="主管" customDict=""  />
+				<column type="both" name="yellow" index="" checkbox="" title="黄灯" display="黄灯" customDict=""  />
+				<column type="both" name="red" index="" checkbox="" title="红灯" display="红灯" customDict=""  />
+				<column type="both" name="toller" index="" checkbox="" title="合计" display="合计" customDict=""  />
+				<column type="both" name="importtime" index="" checkbox="" title="导出时间" display="导出时间" customDict=""   beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
 				<column type="both" name="id" index="" checkbox="" display="" customDict=""  />
 			</table-row>
 		</grid>
@@ -191,158 +132,62 @@ FROM
 	<!-- 红绿灯任务统计 贵宾服务部汇总 -->
 	<query id="queryRedGreenTaskCountGbList" cacheCount="true">
 		<searchCondition>
-		
-		    
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				
-
-select case when grouping(k.orgName1)=1 then '合计' else k.orgName1 end as orgName1,
-
-   case when grouping(k.realName1)=1 and grouping(k.orgName1)=0 then '小计' else k.realName1 end realName1,
-
-
-sum(k.red) yellowall,sum(k.yellow) as redall from (
-
-					select t1.orgName1,t1.realName1,t1.orgName2,t1.realName2,ISNULL(t2.count1,0) as yellow, ISNULL(t3.count1,0) as red ,GETDATE()  as importtime,t1.id from (
-SELECT
-					org1.id id,
-					uoj1.ORG_NAME orgName1,
-					uoj1.REAL_NAME realName1,
-					org1.ORG_NAME orgName2,
-					uoj.REAL_NAME AS realName2
-				FROM
-					sctrans.sys_org org1
-				RIGHT JOIN sctrans.V_USER_ORG_JOB uoj ON org1.ID = uoj.ORG_ID  AND uoj.JOB_CODE = 'Manager'
-				--RIGHT JOIN sctrans.SYS_JOB j ON j.ID = uoj.JOB_ID
-				--AND j.JOB_CODE = 'Manager'
-				--LEFT JOIN sctrans.SYS_USER u1 ON u1.id = uoj.USER_ID
-				LEFT JOIN sctrans.V_USER_ORG_JOB uoj1 ON org1.PARENT_ID = uoj1.ORG_ID AND uoj1.JOB_CODE = 'director'
-				--RIGHT JOIN sctrans.SYS_JOB j1 ON j1.id = uoj1.JOB_ID
-				--AND j1.JOB_CODE = 'director'
-				--LEFT JOIN sctrans.SYS_USER u2 ON u2.id = uoj1.USER_ID
-				--LEFT JOIN sctrans.SYS_ORG org2 ON org2.ID = uoj1.ORG_ID
-				WHERE
-					org1.PARENT_ID IN (
-						'FF5BC56E0E4B45289DAA5721A494C7C5',
-						'8a8493d453141f3301532c9568011af9',
-						'd5878adf8b0c4032aeae895c701ed693',
-						'de81a98a8ec341caa8e9bc77c46cd370',
-						'54b3233fdf994d9987e7c8febc223588',
-						'960089538bc54a9a9139ef52ceb45b33',
-						'6114AB949B4445828D4383977C4FAC71',
-						'6a84979158b942b78a8a5921cc30b8c3'
-					) ) t1 
-  LEFT join(select id as orgId,color,count(*) as count1 from (
-					  SELECT
-						MIN (l.color) AS color,
-						t.CASE_CODE AS caseCode,
-						t.PART_CODE AS taskName,
-						tp.PROPERTY_ADDR AS propertyAddress,
-						uoj.REAL_NAME AS realName,
-						t.EST_PART_TIME AS estPartTime,
-						ta.ID_,
-						ta.PROC_INST_ID_,
-						uoj.org_id id
-					FROM
-						[sctrans].[T_TO_TRANS_PLAN] AS t
-					LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS tp ON t.case_code = tp.case_code
-					LEFT JOIN sctrans.t_to_workflow AS w ON w.case_code = t.CASE_CODE
-					LEFT JOIN sctrans.act_ru_task ta ON ta.[TASK_DEF_KEY_] = t.PART_CODE
-					AND w.INST_CODE = ta.[PROC_INST_ID_]
-					AND ta.suspension_state_ = '1'
-					LEFT JOIN sctrans.LAMP_RULE l ON GETDATE() - t.EST_PART_TIME >= l.DELAYTIME
-					--LEFT JOIN sctrans.SYS_USER AS u ON ta.ASSIGNEE_ = u.USERNAME
-					LEFT JOIN sctrans.V_USER_ORG_JOB AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
-					--LEFT JOIN sctrans.SYS_ORG AS sysOrg ON sysOrg.ID = uoj.org_id
-					WHERE
-						uoj.org_id IS NOT NULL
-					GROUP BY
-						t.CASE_CODE,
-						t.PART_CODE,
-						tp.PROPERTY_ADDR,
-						uoj.REAL_NAME,
-						t.EST_PART_TIME,
-						ta.ID_,
-						ta.PROC_INST_ID_,
-						uoj.org_id
-							  )as a where color &lt;&gt; '2' group by id,color)  t2 on t1.id=t2.orgId and t2.color=0
-							  
- left join(select id as orgId,color,count(*) as count1 from (
-					  SELECT
-						MIN (l.color) AS color,
-						t.CASE_CODE AS caseCode,
-						t.PART_CODE AS taskName,
-						tp.PROPERTY_ADDR AS propertyAddress,
-						uoj.REAL_NAME AS realName,
-						t.EST_PART_TIME AS estPartTime,
-						ta.ID_,
-						ta.PROC_INST_ID_,
-						uoj.org_id id
-					FROM
-						[sctrans].[T_TO_TRANS_PLAN] AS t
-					LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS tp ON t.case_code = tp.case_code
-					LEFT JOIN sctrans.t_to_workflow AS w ON w.case_code = t.CASE_CODE
-					LEFT JOIN sctrans.act_ru_task ta ON ta.[TASK_DEF_KEY_] = t.PART_CODE
-					AND w.INST_CODE = ta.[PROC_INST_ID_]
-					AND ta.suspension_state_ = '1'
-					LEFT JOIN sctrans.LAMP_RULE l ON GETDATE() - t.EST_PART_TIME >= l.DELAYTIME
-					--LEFT JOIN sctrans.SYS_USER AS u ON ta.ASSIGNEE_ = u.USERNAME
-					LEFT JOIN sctrans.V_USER_ORG_JOB AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
-					--LEFT JOIN sctrans.SYS_ORG AS sysOrg ON sysOrg.ID = uoj.org_id
-					WHERE
-						uoj.org_id IS NOT NULL
-					GROUP BY
-						t.CASE_CODE,
-						t.PART_CODE,
-						tp.PROPERTY_ADDR,
-						uoj.REAL_NAME,
-						t.EST_PART_TIME,
-						ta.ID_,
-						ta.PROC_INST_ID_,
-						uoj.org_id
-							  )as a where color &lt;&gt; '2' group by id,color)
-							  t3 on t1.id=t3.orgId and t3.color=1
-							  where 1=1 
-							   <ifNotNull proOrggbName>
-										   and t1.orgName1 =#proOrggbName#
-							  </ifNotNull>
-							  
-							  <ifNotNull TextValName>
-										   and t1.realName2 =#TextValName#
-							  </ifNotNull>
-							  
-							  <ifNotNull TextValNameZj>
-										   and t1.realName1 =#TextValNameZj#
-							  </ifNotNull>
-							  
-							  <ifNotNull proOrgName>
-										   and t1.orgName2 =#proOrgName#
-							  </ifNotNull>
-							  
-							  
-							   ) k group by k.orgName1,k.realName1 
-							  
+					select 
+						 orgName1,parentId,
+						 GETDATE()  as importtime,
+						 sum(f.yellow) yellowall,
+						 sum(f.red) redall,
+						 sum(f.yellow+f.red) toller
+					from (
+							SELECT
+								 distinct   uoj.USERNAME,t.case_code, t.EST_PART_TIME eTime,ta.name_,org.PARENT_ID parentId,
+								(select org_name from sctrans.sys_org where id = org.PARENT_ID) orgName1,
+								(case when  (GETDATE() - convert(int,#yellowDelaytime#))&gt;=t.EST_PART_TIME and (GETDATE() - convert(int,#redDelaytime#)) &lt; t.EST_PART_TIME then 1 else 0 end)  yellow,
+								(case when  (GETDATE() - convert(int,#redDelaytime#))&gt;=t.EST_PART_TIME then 1 else 0 end)  red
+							FROM [sctrans].[T_TO_TRANS_PLAN] AS t left join sctrans.t_to_workflow AS w on w.CASE_CODE = t.CASE_CODE
+								LEFT JOIN sctrans.act_ru_task ta ON  ta.TASK_DEF_KEY_=t.PART_CODE and w.INST_CODE = ta.PROC_INST_ID_ and  ta.suspension_state_ = '1'
+								LEFT JOIN sctrans.V_USER_ORG_JOB_ACTIVE AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
+								left join sctrans.sys_org org on org.id = uoj.org_id 
+							where uoj.org_id is not null
+								  and org.PARENT_ID IN (
+										'FF5BC56E0E4B45289DAA5721A494C7C5',
+										'8a8493d453141f3301532c9568011af9',
+										'd5878adf8b0c4032aeae895c701ed693',
+										'de81a98a8ec341caa8e9bc77c46cd370',
+										'54b3233fdf994d9987e7c8febc223588',
+										'960089538bc54a9a9139ef52ceb45b33',
+										'6114AB949B4445828D4383977C4FAC71',
+										'6a84979158b942b78a8a5921cc30b8c3'
+									)
+					) f where 1=1
+				  <ifNotNull proOrggbName>
+							   and f.orgName1 =#proOrggbName#
+				  </ifNotNull>
+				  group by  orgName1,parentId
 				]]>
 			</baseSql>
 			
 			<groupSql>
+				
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="orgName1" index="" checkbox="" display="贵宾服务部" customDict=""  />
-				<column type="both" name="realName1" index="" checkbox="" display="总监" customDict=""  />
-				<column type="both" name="yellowall" index="" checkbox="" display="黄灯" customDict=""  />
-				<column type="both" name="redall" index="" checkbox="" display="红灯" customDict=""  />
-				<column type="both" name="importtime" index="" checkbox="" display="导出时间" customDict=""   beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
+				<column type="both" name="orgName1" index="" checkbox="" display="贵宾服务部" title="贵宾服务部" customDict=""  />
+				<column type="both" name="parentId" index="" checkbox="" display="贵宾服务部Id" customDict=""  />
+				<column type="virtual" name="realName1" title="总监" display="总监" referencecol="parentId" customDict="getDirector" />
+				<column type="both" name="yellowall" index="" checkbox="" display="黄灯" title="黄灯" customDict=""  />
+				<column type="both" name="redall" index="" checkbox="" display="红灯"  title="红灯" customDict=""  />
+				<column type="both" name="toller" index="" checkbox="" display="合计" title="合计" customDict=""  />
+				<column type="both" name="importtime" index="" checkbox="" display="导出时间" title="导出时间"  customDict=""   beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
 				<column type="both" name="id" index="" checkbox="" display="" customDict=""  />
 			</table-row>
 		</grid>
 	</query>
-	
 	<query id="queryRedGreenTaskCountExcelList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
@@ -590,144 +435,123 @@ on org2.ID=uoj1.ORG_ID
 	
 	<query id="queryRedGreenTaskDetailList" cacheCount="true">
 		<searchCondition>
-            <condition field="t2.PROPERTY_ADDR" name="propertyAddr" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="t2.REAL_NAME" name="realName" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="t2.CASE_CODE" name="caseCode" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="t2.PART_CODE" name="taskDfKey" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="PROPERTY_ADDR" name="propertyAddr" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="REAL_NAME" name="realName" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="CASE_CODE" name="caseCode" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="TASK_DEF_KEY_" name="taskDfKey" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT t1.orgName1,t1.realName1,t1.orgName2,t1.realName2,t2.*,GETDATE()  as IMPORTTIME from (
-        SELECT
-			org1.id id,
-			uoj1.ORG_NAME orgName1,
-			uoj1.REAL_NAME realName1,
-			org1.ORG_NAME orgName2,
-			uoj.REAL_NAME AS realName2
-		FROM
-			sctrans.sys_org org1
-		RIGHT JOIN sctrans.V_USER_ORG_JOB uoj ON org1.ID = uoj.ORG_ID AND uoj.JOB_CODE = 'Manager'
-		--RIGHT JOIN sctrans.SYS_JOB j ON j.ID = uoj.JOB_ID
-		--AND j.JOB_CODE = 'Manager'
-		--LEFT JOIN sctrans.SYS_USER u1 ON u1.id = uoj.USER_ID
-		LEFT JOIN sctrans.V_USER_ORG_JOB uoj1 ON org1.PARENT_ID = uoj1.ORG_ID AND uoj1.JOB_CODE = 'director'
-		--RIGHT JOIN sctrans.SYS_JOB j1 ON j1.id = uoj1.JOB_ID
-		--AND j1.JOB_CODE = 'director'
-		--LEFT JOIN sctrans.SYS_USER u2 ON u2.id = uoj1.USER_ID
-		--LEFT JOIN sctrans.SYS_ORG org2 ON org2.ID = uoj1.ORG_ID
-		WHERE
-			org1.PARENT_ID IN (
-				'FF5BC56E0E4B45289DAA5721A494C7C5',
-				'8a8493d453141f3301532c9568011af9',
-				'd5878adf8b0c4032aeae895c701ed693',
-				'de81a98a8ec341caa8e9bc77c46cd370',
-				'54b3233fdf994d9987e7c8febc223588',
-				'960089538bc54a9a9139ef52ceb45b33',
-				'6114AB949B4445828D4383977C4FAC71',
-				'6a84979158b942b78a8a5921cc30b8c3'
-			) )
-t1 inner join(select * from (
-        SELECT
-				MIN (l.color) AS color,
-				t.CASE_CODE,
-				k.PKID,
-				(
-					SELECT
-						name
-					FROM
-						sctrans.sys_dict
-					WHERE
-						type = 'part_code'
-					AND code = t.PART_CODE
-				) TASKNAME,
-				tp.PROPERTY_ADDR,
-				uoj.REAL_NAME,
-				t.EST_PART_TIME,
-				uoj.org_id orgid,
-				T.PART_CODE
-			FROM
-				[sctrans].[T_TO_TRANS_PLAN] AS t
-			LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS tp ON t.case_code = tp.case_code
-			LEFT JOIN sctrans.t_to_case AS k ON t.CASE_CODE = k.CASE_CODE
-			LEFT JOIN sctrans.t_to_workflow AS w ON w.case_code = t.CASE_CODE
-			LEFT JOIN sctrans.act_ru_task ta ON ta.[TASK_DEF_KEY_] = t.PART_CODE
-			AND w.INST_CODE = ta.[PROC_INST_ID_]
-			AND ta.suspension_state_ = '1'
-			LEFT JOIN sctrans.LAMP_RULE l ON GETDATE() - t.EST_PART_TIME >= l.DELAYTIME
-			--LEFT JOIN sctrans.SYS_USER AS u ON ta.ASSIGNEE_ = u.USERNAME
-			LEFT JOIN sctrans.V_USER_ORG_JOB AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
-			--LEFT JOIN sctrans.SYS_ORG AS sysOrg ON sysOrg.ID = uoj.org_id
-			WHERE
-				uoj.org_id IS NOT NULL
-			AND l.color != '2'
-			GROUP BY
-				t.CASE_CODE,
-				k.PKID,
-				t.PART_CODE,
-				tp.PROPERTY_ADDR,
-				uoj.REAL_NAME,
-				t.EST_PART_TIME,
-				ta.ID_,
-				ta.PROC_INST_ID_,
-				uoj.org_id
-                  )as a ) t2 on t1.id=t2.orgId 
+					select 
+					    case_code as CASE_CODE,
+						orgName1,
+						parentId,
+						(select org_name from sctrans.sys_org where id = orId ) orgName2,
+						realName2,
+						yellow,
+						red,
+						TASKNAME,
+						PROPERTY_ADDR,
+						REAL_NAME,
+						orId,
+						PKID,
+						EST_PART_TIME,TASK_DEF_KEY_,
+						GETDATE()  as IMPORTTIME
+					from ( 
+						SELECT
+							distinct   uoj.USERNAME,t.case_code, t.EST_PART_TIME ,ta.name_ as TASKNAME,org.PARENT_ID parentId,org.id orId,
+							(select org_name from sctrans.sys_org where id = org.PARENT_ID) orgName1,ci.PROPERTY_ADDR,ta.TASK_DEF_KEY_ ,
+							(select REAL_NAME from sctrans.SYS_USER u where USERNAME = ta.ASSIGNEE_ ) REAL_NAME,
+							tcc.PKID,
+							(case when  (GETDATE() - convert(int,#yellowDelaytime#)) &gt;=t.EST_PART_TIME and (GETDATE() - convert(int,#redDelaytime#)) &lt; t.EST_PART_TIME then 1 else 0 end)  yellow,
+							(case when  (GETDATE() - convert(int,#redDelaytime#)) &gt;=t.EST_PART_TIME then 1 else 0 end)  red
+						FROM [sctrans].[T_TO_TRANS_PLAN] AS t left join sctrans.t_to_workflow AS w on w.CASE_CODE = t.CASE_CODE
+							LEFT JOIN sctrans.act_ru_task ta ON  ta.TASK_DEF_KEY_=t.PART_CODE and w.INST_CODE = ta.PROC_INST_ID_ and  ta.suspension_state_ = '1'
+							LEFT JOIN sctrans.V_USER_ORG_JOB_ACTIVE AS uoj ON uoj.USERNAME = ta.ASSIGNEE_
+							left join sctrans.sys_org org on org.id = uoj.org_id 
+							left join sctrans.T_TO_PROPERTY_INFO ci on t.CASE_CODE=ci.CASE_CODE
+							left join sctrans.T_TO_CASE tcc on t.CASE_CODE = tcc.CASE_CODE
+						where uoj.org_id is not null
+								and org.PARENT_ID IN (
+									'FF5BC56E0E4B45289DAA5721A494C7C5',
+									'8a8493d453141f3301532c9568011af9',
+									'd5878adf8b0c4032aeae895c701ed693',
+									'de81a98a8ec341caa8e9bc77c46cd370',
+									'54b3233fdf994d9987e7c8febc223588',
+									'960089538bc54a9a9139ef52ceb45b33',
+									'6114AB949B4445828D4383977C4FAC71',
+									'6a84979158b942b78a8a5921cc30b8c3'
+								)
+								and  t.EST_PART_TIME is not null
+					) f left join (
+							SELECT
+								org1.id id,
+								uoj.ORG_NAME orgName2,
+								uoj.REAL_NAME AS realName2
+							FROM sctrans.sys_org org1
+								 RIGHT JOIN sctrans.V_USER_ORG_JOB_ACTIVE uoj ON org1.ID = uoj.ORG_ID AND uoj.JOB_CODE = 'Manager'
+							WHERE
+								org1.PARENT_ID IN (
+									'FF5BC56E0E4B45289DAA5721A494C7C5',
+									'8a8493d453141f3301532c9568011af9',
+									'd5878adf8b0c4032aeae895c701ed693',
+									'de81a98a8ec341caa8e9bc77c46cd370',
+									'54b3233fdf994d9987e7c8febc223588',
+									'960089538bc54a9a9139ef52ceb45b33',
+									'6114AB949B4445828D4383977C4FAC71',
+									'6a84979158b942b78a8a5921cc30b8c3'
+								) 
+								
+						) pb on f.orId = pb.id 
+					where (red =1 or yellow = 1 ) 
                   
-                  <ifNotNull organId>
-							   where t1.id = #organId#
-				  </ifNotNull>
-				  <ifNotNull colourId>
-							   and t2.color =#colourId#
-				  </ifNotNull>
 				  <ifNotNull dtBegin>
-							   and t2.EST_PART_TIME >=#dtBegin#
+							   and EST_PART_TIME >=#dtBegin#
 				  </ifNotNull>
 				  <ifNotNull dtEnd>
-							   and t2.EST_PART_TIME &lt;=#dtEnd#
-				  </ifNotNull>
-				  <ifNotNull lampRadios>
-							   and t2.color =#lampRadios#
+							   and EST_PART_TIME &lt;=#dtEnd#
 				  </ifNotNull>
 				  
 				  <ifNotNull proOrggbName>
-							   and t1.orgName1 =#proOrggbName#
+							   and orgName1 =#proOrggbName#
 				  </ifNotNull>
 				  
 				  <ifNotNull proOrgName>
-							   and t1.orgName2 =#proOrgName#
+							   and orgName2 =#proOrgName#
 				  </ifNotNull>
-				  
-    
-				  
-				 
+				  <ifNotNull yellow>
+							   and yellow = 1
+				  </ifNotNull>
+				  <ifNotNull red>
+							   and red = 1
+				  </ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
-					order by t2.EST_PART_TIME desc
+			 	order by EST_PART_TIME desc
 			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-			
-				<column type="both" name="orgName1"  display="贵宾服务部" customDict=""  />
-				<column type="both" name="realName1"  display="总监" customDict="" />
-				<column type="both" name="orgName2"  display="组别" customDict=""  />
-				<column type="both" name="realName2" display="主管" customDict=""  />
-				
-				<column type="both" name="color" display="红黄灯" customDict="" />
-				<column type="virtual" name="color1" display="红黄灯" referencecol="color"  customDict="convertColor"/>
-				<column type="both" name="CASE_CODE"  display="案件编号" customDict="" isSort="true" />
-				<column type="both" name="PKID"  display="案件ID" customDict=""  />
-				<column type="both" name="TASKNAME"  display="任务名" customDict=""  />
-				<column type="both" name="PROPERTY_ADDR"  display="产证地址" customDict="" />
-				<column type="both" name="REAL_NAME"  display="经办人" customDict="" />
-				<column type="both" name="EST_PART_TIME"  display="预计完成时间" customDict="" beanFormatter="dateFormattertoDate" expType="date" expFmt="yyyy-MM-dd" isSort="true" />
-				
-				
-				<column type="both" name="PROPERTY_ADDR"  display="产证地址" customDict=""  />
-				<column type="both" name="IMPORTTIME" display="导出时间" customDict=""  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
+				<column type="both" name="orgName1"  title="贵宾服务部"  display="贵宾服务部" customDict=""  />
+				<column type="both" name="parentId" title="贵宾服务部id"  display="贵宾服务部id" customDict=""  />
+				<column type="virtual" name="realName1"  title="总监" referencecol="parentId" customDict="getDirector" />
+				<column type="both" name="orgName2"  title="组别" display="组别" customDict=""  />
+				<column type="both" name="realName2" title="主管" display="主管" customDict=""  />
+				<column type="both" name="yellow" title="黄灯" display="黄灯" customDict="" />
+				<column type="both" name="red" title="红灯" display="红灯" customDict="" />
+				<column type="virtual" isDynamicDict="true" name="color1" title="红黄灯"  referencecol="yellow,red" customDict="getColorChines" />
+				<column type="both" name="CASE_CODE"  title="案件编号" display="案件编号" customDict="" isSort="true" />
+				<column type="both" name="PKID"  title="案件ID" display="案件ID" customDict=""  />
+				<column type="both" name="TASKNAME"  title="任务名" display="任务名" customDict=""  />
+				<column type="both" name="PROPERTY_ADDR"  title="产证地址" display="产证地址" customDict="" />
+				<column type="both" name="REAL_NAME"  title="经办人" display="经办人" customDict="" />
+				<column type="both" name="EST_PART_TIME"  title="预计完成时间" display="预计完成时间" customDict="" beanFormatter="dateFormattertoDate" expType="date" expFmt="yyyy-MM-dd" isSort="true" />
+				<column type="both" name="PROPERTY_ADDR"  title="产证地址" display="产证地址" customDict=""  />
+				<column type="both" name="IMPORTTIME" title="导出时间" display="导出时间" customDict=""  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
 			</table-row>
 		</grid>
 	</query>

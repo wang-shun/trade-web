@@ -47,7 +47,7 @@
 							  on ta.[TASK_DEF_KEY_]=t.PART_CODE and w.INST_CODE=ta.[PROC_INST_ID_] and ta.suspension_state_='1'
 							  left join sctrans.LAMP_RULE l
 							  on GETDATE()-t.EST_PART_TIME>=l.DELAYTIME
-							  left join sctrans.v_USER_ORG_JOB as uoj
+							  left join sctrans.V_USER_ORG_JOB_ACTIVE as uoj
 							  on ta.ASSIGNEE_=uoj.USERNAME
 							  left join sctrans.SYS_ORG as sysOrg
 							  on sysOrg.ID=uoj.org_id

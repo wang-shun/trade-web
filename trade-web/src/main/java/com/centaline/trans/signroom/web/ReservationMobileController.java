@@ -208,6 +208,7 @@ public class ReservationMobileController {
 		reservation.setCreateBy(currentUser.getId());
 		reservation.setUpdateTime(new Date());
 		reservation.setUpdateBy(currentUser.getId());
+		reservation.setIsDelete(0);
 
 		try {
 			freeRoomInfo = reservationService.saveReservation(reservation,

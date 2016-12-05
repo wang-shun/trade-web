@@ -1148,34 +1148,39 @@
 		</div>
 	</div>
 	
-	<content tag="local_script"> <!-- Peity --> <script
-		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+	<content tag="local_script"> <!-- Peity --> 
+	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+	<!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
-		src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> <script
-		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <script
-		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
-		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+	<script	src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
+	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script	src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jasny/jasny-bootstrap.min.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> <%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
-		<script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
-		<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
+	<script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
+	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script>
 	<%-- <script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%> 
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachmentByJagd.js"></script>
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
-	<script src="${ctx}/js/stickUp.js"></script> <script
-		src="${ctx}/toastr.min.js"></script> <!-- 放款监管信息  --> <script
-		src="${ctx}/transjs/task/caseflowlist.js"></script> <script
-		type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <!-- 各个环节的备注信息  -->
-	<script src="${ctx}/js/trunk/case/caseRemark.js"></script> <jsp:include
-		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script>
+	<script src="${ctx}/js/stickUp.js"></script>
+	<script	src="${ctx}/toastr.min.js"></script> 
+	<!-- 放款监管信息  -->
+	<script	src="${ctx}/transjs/task/caseflowlist.js"></script>
+	<script	type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script	src="${ctx}/js/template.js" type="text/javascript"></script>
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
+	<!-- 各个环节的备注信息  -->
+	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
+	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script>
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();
 		var url = "/quickGrid/findPage";

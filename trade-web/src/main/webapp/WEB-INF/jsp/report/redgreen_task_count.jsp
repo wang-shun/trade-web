@@ -82,71 +82,71 @@ text-decoration: underline !important;
 </head>
 
 <body>
-<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>	 
-	 <div class="row">
-		
-
-		<div class="wrapper wrapper-content  animated fadeInRight">
-		 <div class="col-md-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>红绿灯任务统计</h5>
-				</div>
-				<div class="ibox-content">
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<input type="hidden" id="redDelaytime" value="${redDelaytime}" />	 
+<input type="hidden" id="yellowDelaytime" value="${yellowDelaytime}" />	 
+ <div class="row"> 
+	<div class="wrapper wrapper-content  animated fadeInRight">
+	 <div class="col-md-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>红绿灯任务统计</h5>
+			</div>
+			<div class="ibox-content">
 					<form method="get" class="form-horizontal">
-						<!-- 增加贵宾服务部、组别、人员（只包含总监和主管）查询条件 -->
-						<div class="col-lg-5 col-md-5">    
-                          		 <div class="form-group">
-                                      <label class="col-lg-3 col-md-3 control-label font_w">贵宾服务部</label>
-                                      <div class="col-lg-9 col-md-9">
-                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-								   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
-								   chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBackgb})" value='${serOrgName }'>
-                                          <input type="hidden" id="h_proOrgId_gb" value="${serOrgId==null?serviceDepId:serOrgId}">
-                                      </div>
-                                  </div>
-                         </div>
-						 <div class="col-lg-5 col-md-5" id="zb"   >    
-                          		 <div class="form-group">
-                                     <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
-                                      <div class="col-lg-9 col-md-9">
-                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
-                                          onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";
-                                          >
-                                          <input type="hidden" id="h_proOrgId" >
-                                      </div>
-                                  </div>
-                         </div> 
-                         <div class="col-lg-5 col-md-5 " id="zg"  >    
-                       			<div class="form-group">
-                                   <label class="col-lg-3 col-md-3 control-label font_w">主管</label>
-                                   <div class="col-lg-9 col-md-9">
-                                   	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" 
-								 readonly="readonly" onclick="userSelect_back()" />
-                                   </div>
-                               </div>
+					<!-- 增加贵宾服务部、组别、人员（只包含总监和主管）查询条件 -->
+					<div class="col-lg-5 col-md-5">    
+                         		 <div class="form-group">
+                                     <label class="col-lg-3 col-md-3 control-label font_w">贵宾服务部</label>
+                                     <div class="col-lg-9 col-md-9">
+                                         <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
+							   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
+							   chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBackgb})" value='${serOrgName }'>
+                                         <input type="hidden" id="h_proOrgId_gb" value="${serOrgId==null?serviceDepId:serOrgId}">
+                                     </div>
+                                 </div>
                         </div>
-						<div class="row m-t-sm">
-							<div class="col-md-6"  style="text-align:right;">
-							</div>
+					 <div class="col-lg-5 col-md-5" id="zb"   >    
+                         		 <div class="form-group">
+                                    <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
+                                     <div class="col-lg-9 col-md-9">
+                                         <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
+                                         onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";
+                                         >
+                                         <input type="hidden" id="h_proOrgId" >
+                                     </div>
+                                 </div>
+                        </div> 
+                        <div class="col-lg-5 col-md-5 " id="zg"  >    
+                      			<div class="form-group">
+                                  <label class="col-lg-3 col-md-3 control-label font_w">主管</label>
+                                  <div class="col-lg-9 col-md-9">
+                                  	<input type="text" id="inTextVal" style="background-color:#FFFFFF" name="radioOrgName" class="form-control tbspuser" 
+							 readonly="readonly" onclick="userSelect_back()" />
+                               	   </div>
+                              </div>
+                       </div>
+					<div class="row m-t-sm">
+						<div class="col-md-6"  style="text-align:right;">
 						</div>
-						 <div class="row">
-						<div class="col-md-6"></div>
-						  <div class="col-md-3">
-							<div class="form-group">
-								<div>
-								   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
-								   <button id="cleanButton" type="button" class="btn btn-primary">清空</button>
-								   <a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportTExcel()">导出</a>
-									</div>
+					</div>
+					 <div class="row">
+					<div class="col-md-6"></div>
+					  <div class="col-md-3">
+						<div class="form-group">
+							<div>
+							   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
+							   <button id="cleanButton" type="button" class="btn btn-primary">清空</button>
+							   <a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportTExcel()">导出</a>
 								</div>
 							</div>
 						</div>
-					</form>
-				</div>
+					</div>
+				</form>
 			</div>
 		</div>
-			<div class="data-wrap">
+	</div>
+		<div class="data-wrap">
 			<div class="panel " id="serviceFlow">
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
@@ -157,7 +157,6 @@ text-decoration: underline !important;
 						</ul>
 							<div class="tab-pane active fade in" id="setGbList">
 								<div class="jqGrid_wrapper row">
-									<!-- 按贵宾服务部汇总 st    -->
 									<div class="data-wrap-in">
 										<table border="1" cellpadding="0" cellspacing="0">
 											<thead>
@@ -183,7 +182,6 @@ text-decoration: underline !important;
 							</div>
 							<div class="tab-pane active fade in" id="setZbList" style="display: none" >
 								<div class="jqGrid_wrapper row">
-									<!-- 按组别汇总 st    -->
 									<div class="data-wrap-in" style="display: block" id="ZbList">
 										<table border="1" cellpadding="0" cellspacing="0" >
 											<thead>
@@ -201,21 +199,19 @@ text-decoration: underline !important;
 											<tbody id="redgreenTaskList">
 											</tbody>
 										</table>
-									<!-- 按贵宾服务部汇总 end    -->
 									</div>
 									<div class="text-center" id='zubiePager'>
 										<span id="currentTotalPage"><strong class="bold"></strong></span>
 										<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
 										<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
 								    </div>
-									<!-- 按组别汇总 end    -->
 								</div>
 							</div>
 					</div>		
-			   </div>
-	</div>
+			  </div>
 		</div>
 	</div>
+</div>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
 <input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
@@ -238,13 +234,11 @@ text-decoration: underline !important;
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script id="template_redgreenTaskListGb" type= "text/html">
       {{each rows as item index}}
-  				   {{if index%2 == 0}}
+  				   			{{if index%2 == 0}}
  				      <tr class="tr-1">
-                  {{else}}
+                 			 {{else}}
                        <tr class="tr-2">
-                   {{/if}}
-				
-    	
+                  			 {{/if}}
 						<td class="t-left pd-l">{{item.orgName1}}</td>
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','');" target="_blank">{{item.redall}}</a></td>
@@ -269,8 +263,8 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">{{item.realName1}}</td>
 						<td class="t-left pd-l">{{item.orgName2}}</td>
 						<td class="t-left pd-l">{{item.realName2}}</td>
-						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.yellow}}</a></td>
-						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.red}}</a></td>
+						<td class="t-left pd-l"><a  href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{0}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.red}}</a></td>
+						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','{{1}}','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{item.yellow}}</a></td>
 						<td class="t-left pd-l"><a href="javascript:queryRedGreenTaskDetailColour('{{item.id}}','','{{item.orgName1}}','{{item.orgName2}}')" target="_blank">{{(item.yellow)+(item.red)}}</a></td>
 						<td class="t-left pd-l">
                             <a href="javascript:exportToExcel('{{item.id}}','{{item.orgName1}}','{{item.orgName2}}');" target="_blank">导出</a>

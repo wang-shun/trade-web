@@ -27,7 +27,7 @@ public interface RmSignRoomMapper {
 	/**
 	 * 删除一个签约室
 	 * 
-	 * @param rmSignRoom
+	 * @param pkid
 	 */
 	int deleteRmSignRoomById(Long pkid);
 
@@ -66,13 +66,12 @@ public interface RmSignRoomMapper {
 	 * @return
 	 */
 	List<RmSignRoom> getRmSignRoomAndStragegy(Map map);
-	
+
 	/**
 	 * 查询签约室数目
 	 * @param rmSignRoom
 	 * @return
 	 */
 	int getRmSignRoomCount(RmSignRoom rmSignRoom);
-
 
 }
