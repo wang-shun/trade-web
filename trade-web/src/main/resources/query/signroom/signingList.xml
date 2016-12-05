@@ -136,7 +136,6 @@
 				<column type="both" name="latestComment" index="" checkbox="" display="最新跟进信息" title="最新跟进信息" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="numberOfParticipants" index="" checkbox="" display="参加人数" title="参加人数" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="serviceSpecialist" index="" checkbox="" display="服务顾问" title="服务顾问" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="timeDifference" index="" checkbox="" display="时间差" title="时间差" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="tradeCenterId" index="" checkbox="" display="交易中心id" title="交易中心id" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="scheduleId" index="" checkbox="" display="签约室安排id" title="签约室安排id" customDict="" sysDict="" format="" width="90" isSort="true"/>
 				<column type="both" name="resDateTime"  index="" checkbox="" display="预约日期" title="预约日期" beanFormatter="dateFormatter1" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
@@ -161,11 +160,11 @@
 				
 				<column type="virtual"
 						isDynamic="true"
-						name="startTime,endTime,actStartTime,actEndTime,actCheckInTime,actCheckOutTime,roomId,roomNO,roomType,transactItemCodeList,flowupInfoList" 
+						name="startTime,endTime,actStartTime,actEndTime,actCheckInTime,actCheckOutTime,roomId,roomNO,roomType,transactItemCodeList,flowupInfoList,timeDifference" 
 						title="预约开始时间,预约结束时间,实际预约开始时间,实际预约结束时间,签到时间,签到时间,
-									房间id,房间号,房间类型,办理事项列表,跟进信息列表"
+									房间id,房间号,房间类型,办理事项列表,跟进信息列表,时间差"
 						display="预约开始时间,预约结束时间,实际预约开始时间,实际预约结束时间,签到时间,签到时间,
-									房间id,房间号,房间类型,办理事项列表,跟进信息列表" 
+									房间id,房间号,房间类型,办理事项列表,跟进信息列表,时间差" 
 						referencecol="resId" 
 						customDict="getResInfo" />
 				
