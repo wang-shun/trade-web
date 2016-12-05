@@ -443,24 +443,29 @@ public class CaseChangeController {
 					updateWorkflow(srvCode, processorId, tasks, proDb.getProcessorId(), caseCode);
 				}
 				
-				//添加变更记录			
-				for(int i = 0; i < oldProcessorIdList.size(); i++){
-					//没有变化就跳过
-					if(oldProcessorIdList.get(i).equals(processorIdList.get(i)) ||  "".equals(processorIdList.get(i))) continue;
+				//添加变更记录		
+				if(oldProcessorIdList.size() == processorIdList.size()){
+					for(int i = 0; i < oldProcessorIdList.size(); i++){
+						//没有变化就跳过					
+						if(oldProcessorIdList.get(i).equals(processorIdList.get(i)) ||  "".equals(processorIdList.get(i))) continue;
+						
+						ToChangeRecord toChangeRecord = new ToChangeRecord();
+						toChangeRecord.setCaseCode(caseCodeForInstCode);
+						toChangeRecord.setPartName(srvNameList.get(i));
+						toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
+						toChangeRecord.setChangeBeforePerson(oldProcessorIdList.get(i));
+						toChangeRecord.setChangeAfterPerson(processorIdList.get(i));
+						
+						toChangeRecord.setOperator(user.getId());
+						toChangeRecord.setOperateTime(new Date());
+						toChangeRecord.setCreateBy(user.getId());
+						toChangeRecord.setCreateTime(new Date());	
+						toChangeRecordMapper.insertSelective(toChangeRecord);
+					}
+				}if(processorIdList.size() < oldProcessorIdList.size()){
 					
-					ToChangeRecord toChangeRecord = new ToChangeRecord();
-					toChangeRecord.setCaseCode(caseCodeForInstCode);
-					toChangeRecord.setPartName(srvNameList.get(i));
-					toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
-					toChangeRecord.setChangeBeforePerson(oldProcessorIdList.get(i));
-					toChangeRecord.setChangeAfterPerson(processorIdList.get(i));
-					
-					toChangeRecord.setOperator(user.getId());
-					toChangeRecord.setOperateTime(new Date());
-					toChangeRecord.setCreateBy(user.getId());
-					toChangeRecord.setCreateTime(new Date());	
-					toChangeRecordMapper.insertSelective(toChangeRecord);
 				}
+
 			}else{
 				updatecoope = 0;
 			}

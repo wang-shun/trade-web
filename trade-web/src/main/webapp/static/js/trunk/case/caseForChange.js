@@ -341,7 +341,7 @@ $("#cooperSubmit").click(function(){
 					if(data.success){
 						$("#cooperForChang").hide();												
 						alert(data.message);						
-						setTimeout(searchMethod(1),1000); 												
+						setTimeout(function(){searchMethod(1);},1000); 												
 					}else{
 						alert(data.message);
 					}					
