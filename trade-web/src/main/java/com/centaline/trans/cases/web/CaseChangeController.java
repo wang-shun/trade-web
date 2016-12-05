@@ -353,13 +353,7 @@ public class CaseChangeController {
 		}
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
+		
 	
 	/**
 	 * 变更合作人  For allUser
@@ -372,9 +366,9 @@ public class CaseChangeController {
 	@RequestMapping(value = "/updateCoopeSubmit")
 	@ResponseBody
 	public AjaxResponse<?> updateCoopeSubmit(@RequestBody CooperUpdateVo cooperUpdateVo) {
-		
+		AjaxResponse<?> response = new AjaxResponse<>();
 		SessionUser user = uamSessionService.getSessionUser();
-		int updatecoope = 0;
+		int updatecoope = -1;
 /*		Map<?, ?> map =   request.getParameterMap();
 		Map<?, ?> map2 =  model.asMap();
 		TgServItemAndProcessorVo tgServItemAndProcessorVo2  =  (TgServItemAndProcessorVo) map2.get("tgServItemAndProcessorVo");*/
@@ -416,60 +410,74 @@ public class CaseChangeController {
 			  tasks = workFlowManager.listTasks(tq).getData();
 			}
 			
-	
-			for (int i = 0; i < processorIdList.size(); i++) {
-				String caseCode = caseCodeList.get(i);
-				String srvCode = srvCodeList.get(i);
-				String processorId = processorIdList.get(i);//新的案件合作人
-				String orgId = orgIdList.get(i);
-	
-				pro = new TgServItemAndProcessor();
-				pro.setProcessorId(processorId);
-				pro.setCaseCode(caseCode);
-				pro.setSrvCode(srvCode);	
-				pro.setOrgId(orgId);
-				
-				TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
-				updatecoope = tgservItemAndProcessorService.updateCoope(pro);
-	
-				// 查询该案件下的所有任务
-				List<String> insCodeList = toWorkFlowService.queryInstCodesByCaseCode(caseCode);
-				for (String insCode : insCodeList) {
-					TaskQuery tq = new TaskQuery();
-					tq.setProcessInstanceId(insCode);
-					tq.setFinished(false);
-	
-					List<TaskVo> taskList1 = workFlowManager.listTasks(tq).getData();
-					tasks.addAll(taskList1);
+			//重新选取了 合作人的情况下 才更新
+			if(processorIdList.size() > 0){
+				for (int i = 0; i < processorIdList.size(); i++) {
+					String caseCode = caseCodeList.get(i);
+					String srvCode = srvCodeList.get(i);
+					String processorId = processorIdList.get(i);//新的案件合作人
+					String orgId = orgIdList.get(i);
+		
+					pro = new TgServItemAndProcessor();
+					pro.setProcessorId(processorId);
+					pro.setCaseCode(caseCode);
+					pro.setSrvCode(srvCode);	
+					pro.setOrgId(orgId);
+					
+					TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
+					if(processorId != null && !"".equals(processorId)){
+						updatecoope = tgservItemAndProcessorService.updateCoope(pro);
+					}
+					
+		
+					// 查询该案件下的所有任务
+					List<String> insCodeList = toWorkFlowService.queryInstCodesByCaseCode(caseCode);
+					for (String insCode : insCodeList) {
+						TaskQuery tq = new TaskQuery();
+						tq.setProcessInstanceId(insCode);
+						tq.setFinished(false);
+		
+						List<TaskVo> taskList1 = workFlowManager.listTasks(tq).getData();
+						tasks.addAll(taskList1);
+					}
+					updateWorkflow(srvCode, processorId, tasks, proDb.getProcessorId(), caseCode);
 				}
-				updateWorkflow(srvCode, processorId, tasks, proDb.getProcessorId(), caseCode);
-			}
-			
-			//添加变更记录			
-			for(int i = 0; i < oldProcessorIdList.size(); i++){
-				//没有变化就跳过
-				if(oldProcessorIdList.get(i).equals(processorIdList.get(i))) continue;
 				
-				ToChangeRecord toChangeRecord = new ToChangeRecord();
-				toChangeRecord.setCaseCode(caseCodeForInstCode);
-				toChangeRecord.setPartName(srvNameList.get(i));
-				toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
-				toChangeRecord.setChangeBeforePerson(oldProcessorIdList.get(i));
-				toChangeRecord.setChangeAfterPerson(processorIdList.get(i));
-				
-				toChangeRecord.setOperator(user.getId());
-				toChangeRecord.setOperateTime(new Date());
-				toChangeRecord.setCreateBy(user.getId());
-				toChangeRecord.setCreateTime(new Date());	
-				toChangeRecordMapper.insertSelective(toChangeRecord);
+				//添加变更记录			
+				for(int i = 0; i < oldProcessorIdList.size(); i++){
+					//没有变化就跳过
+					if(oldProcessorIdList.get(i).equals(processorIdList.get(i)) ||  "".equals(processorIdList.get(i))) continue;
+					
+					ToChangeRecord toChangeRecord = new ToChangeRecord();
+					toChangeRecord.setCaseCode(caseCodeForInstCode);
+					toChangeRecord.setPartName(srvNameList.get(i));
+					toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
+					toChangeRecord.setChangeBeforePerson(oldProcessorIdList.get(i));
+					toChangeRecord.setChangeAfterPerson(processorIdList.get(i));
+					
+					toChangeRecord.setOperator(user.getId());
+					toChangeRecord.setOperateTime(new Date());
+					toChangeRecord.setCreateBy(user.getId());
+					toChangeRecord.setCreateTime(new Date());	
+					toChangeRecordMapper.insertSelective(toChangeRecord);
+				}
+			}else{
+				updatecoope = 0;
 			}
+
 		}
 		
 		if (updatecoope > 0){
-			return AjaxResponse.success("变更成功！");
+			response.setSuccess(true);
+			response.setMessage("项目合作人变更成功！");
+		}else if(updatecoope == 0){
+			response.setSuccess(true);
+			response.setMessage("未选取项目合作人，不进行变更！");
 		}else{
-			return AjaxResponse.fail("案件基本表更新失败！");
+			response.setSuccess(false);
+			response.setMessage("案件基本表更新失败！");
 		}
 	
+		return response;
 	}
 }
