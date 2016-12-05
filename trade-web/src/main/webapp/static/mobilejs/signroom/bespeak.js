@@ -108,7 +108,7 @@ function init(){
 	getTradeCenterList();
 	
 	//日期初始化
-	initDate();
+	//initDate();
 	
 	//产证地址初始化
 	getPropertyAddress();

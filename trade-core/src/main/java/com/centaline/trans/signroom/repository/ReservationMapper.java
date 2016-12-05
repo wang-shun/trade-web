@@ -95,7 +95,14 @@ public interface ReservationMapper {
 	 * @return 办理事项列表信息
 	 */
 	public List<TransactItemVo> getTransactItemList();
-
+	/**
+	 * 
+	 * 获取可预约字符串日期列表,日期格式：YYYY-MM-DD
+	 * @param tradeCenterId 签约中心ID
+	 * @return 字符串日期列表
+	 */
+	public List<String> getReservationDates(Long tradeCenterId);
+	
 	/**
 	 * 获取达到特定条件的闲置房间信息
 	 * 

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
@@ -127,34 +129,24 @@
                         <table class="table table-date">
                           <thead>
                             <tr>
+                              <th>周日</th>
                               <th>周一</th>
                               <th>周二</th>
                               <th>周三</th>
                               <th>周四</th>
                               <th>周五</th>
                               <th>周六</th>
-                              <th>周日</th>
                             </tr>
                           </thead>
                           <tbody id="dayList">
-                            <!-- <tr>
-                              <td date="2016-10-24">24</td>
-                              <td date="2016-10-25">25</td>
-                              <td date="2016-10-26">26</td>
-                              <td date="2016-10-27">27</td>
-                              <td date="2016-10-28" class="warn">28</td>
-                              <td date="2016-10-29" class="usable-date">29</td>
-                              <td date="2016-10-30" class="usable-date">30</td>
-                            </tr>
-                            <tr>
-                              <td date="2016-10-31" class="usable-date">31</td>
-                              <td date="2016-11-01" class="usable-date">1</td>
-                              <td date="2016-11-02" class="usable-date">2</td>
-                              <td date="2016-11-03">3</td>
-                              <td date="2016-11-04">4</td>
-                              <td date="2016-11-05">5</td>
-                              <td date="2016-11-06">6</td>
-                            </tr> -->
+                          <c:if test="${listCalendar!= null && fn:length(listCalendar) >0}">
+	                          <tr>
+		                      <c:forEach items="${listCalendar}" var="calendar" varStatus="status">
+		                      		<td date="${calendar.date}" class="${calendar.clazz}" onClick='dateClickToggle(this)'>${calendar.show}</td>
+	                          		<c:if test="${(status.index>0 && fn:length(listCalendar)!=status.count) && (status.count%7)==0}"></tr><tr></c:if>
+		                      </c:forEach>
+	                          </tr>
+                          </c:if>
                           </tbody>
                         </table>
                     </section>

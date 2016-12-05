@@ -417,5 +417,11 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
 		WHERE rs.ROOM_ID = #{roomId,jdbcType=BIGINT} AND rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR}
 		AND r.CHECKED_OUT_TIME IS NULL;
   </select>
+    
+  <select id="getReservationDates" parameterType="Long" resultType="String">	
+		SELECT DISTINCT CONVERT(VARCHAR(20),rrs.START_DATE,23 ) 
+		FROM sctrans.T_RM_ROOM_SCHEDULE rrs LEFT JOIN sctrans.T_RM_SIGN_ROOM rsr ON rrs.ROOM_ID = rsr.PKID 
+		WHERE CONVERT(VARCHAR(20),rrs.START_DATE,23 ) >=CONVERT(VARCHAR(20), getdate(),23 ) AND rsr.TRADE_CENTER_ID = #{tradeCenterId,jdbcType=BIGINT}
+  </select>
   
 </mapper>

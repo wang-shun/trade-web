@@ -2,6 +2,7 @@ package com.centaline.trans.signroom.service;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.vo.ChangeRoomResult;
@@ -86,7 +87,15 @@ public interface ReservationService {
 	 * @return 办理事项列表信息
 	 */
 	public List<TransactItemVo> getTransactItemList();
-
+	
+	/**
+	 * 
+	 * 获取可预约字符串日期列表,日期格式：YYYY-MM-DD
+	 * @param tradeCenterId 签约中心ID
+	 * @return 字符串日期列表
+	 */
+	public List<Map<String,String>> getBespeakCalendar(Long tradeCenterId);
+	
 	/**
 	 * 获取达到特定条件的闲置房间信息
 	 * 
