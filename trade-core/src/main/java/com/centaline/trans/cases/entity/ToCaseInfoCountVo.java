@@ -9,13 +9,13 @@ public class ToCaseInfoCountVo {
 	/*用户id*/
 	private String userId;
 	/*接单数*/
-	private Integer countJDS;
+	private Integer countJDS=0;
 	/*签约数*/
-	private Integer countQYS;
+	private Integer countQYS=0;
 	/*过户数*/
-	private Integer countGHS;
+	private Integer countGHS=0;
 	/*结案数*/
-	private Integer countJAS;
+	private Integer countJAS=0;
 	/*组织名称*/
 	private String orgName;
 	
