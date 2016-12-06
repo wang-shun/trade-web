@@ -155,9 +155,33 @@ function caseCodeSort(){
 
  //变更责任人弹框
 function changeProfessor(caseCode){	
+	cleanForm();
 	$("#leadingProForChang").show();
 	if(caseCode){
 		$("#caseCodeForChange").val(caseCode);
+		
+		var url = "/case/selectLeandingPro";
+		var ctx = $("#ctx").val();	
+		url = ctx + url;
+		
+		$.ajax({
+			cache : false,
+			async : true,
+			type : "POST",
+			url : url,
+			dataType : "json",
+			timeout : 10000,
+			data :[{
+				name:'caseCode',
+				value:caseCode
+			}],
+			success : function(data) {	
+				$("#leadingProName").val(data.leadingProcessName);
+				$("#leadingProId").val(data.leadingProcessId);				
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			}
+		});
 	}	
 }
 //变更责任人取消
@@ -171,7 +195,7 @@ $("#leadingProSubmit").click(function(){
 	 var caseCode = $("#caseCodeForChange").val(); // 案件的caseCode
 	 var leadingProId = $("#leadingProId").val();//新的责任人userId	
 	 if(leadingProId == "" || leadingProId ==  null || leadingProId == undefined){
-		 alert("若要变更项目责任人，请先选择责任人！");
+		 alert("若要变更项目责任人，请先选择新的案件责任人！");
 		 return;
 	 }
 	 
@@ -246,8 +270,10 @@ $('#materialRefundUser').click(function() {
 });
 
 //变更合作人弹框
-function changeCooper(caseCode){
+function changeCooper(caseCode,tdId){
+	cleanForm();
 	if(caseCode){
+		$("#cooperSubmit").attr("tdId",tdId);
 		$("#cooperCaseCode").val(caseCode);		
 		//查询机构交易顾问
 		var url = "/case/changeCoopeForNew";
@@ -285,7 +311,7 @@ function changeCooperForShow(data) {
 		addHtml += '<div class="form_content">';
 		addHtml += '<label class="control-label"><span style="margin-left: 45px">抱歉，对应案件编号没有可以变更的合作项目！</span></label> ' ;
 		addHtml +='<div>'		
-	}else{
+	}else{		
 		$("#cooperForShow").show();		
 		$.each(data.servitemList, function(index, value){
 			addHtml += '<div class="form_content">';
@@ -296,10 +322,10 @@ function changeCooperForShow(data) {
 			addHtml += '<label class="control-label sign_left_small">合作项目</label>';			
 			addHtml += "<input type='text' class='teamcode input_type' placeholder='' id='srvName"+index+"' name='srvName'  readonly value='"+value.srvName+"'/>";
 			addHtml += "<label class='control-label sign_left_small'>合作人</label>";			
-			addHtml += "<input class='teamcode input_type' placeholder='' value=''  name='cooperName' id='cooperName"+index+"' hVal='' onclick='cooperForChangeClick("+index+")' />";
+			addHtml += "<input class='teamcode input_type' placeholder='' value='"+value.oldProcessorName+"'  name='cooperName' id='cooperName"+index+"' hVal='' onclick='cooperForChangeClick("+index+")' />";
 			addHtml += "<div class='input-group float_icon organize_icon' id='cooperUser'><i class='icon iconfont'>&#xe627;</i></div>";
-			addHtml += "<input type='hidden' name='oldProcessorId' value='"+value.processorId+"' />";
-			addHtml += "<input type='hidden'   name='processorId' id='processorId"+index+"'  value='' />";
+			addHtml += "<input type='hidden' name='oldProcessorId' value='"+value.oldProcessorId+"' />";
+			addHtml += "<input type='hidden'   name='processorId' id='processorId"+index+"'  value='"+value.oldProcessorId+"' />";
 			addHtml += "</div>";		
 		})		
 	}	
@@ -308,7 +334,13 @@ function changeCooperForShow(data) {
 	$('#cooperForChang').show();
 }
 
-
+function cleanForm(){	
+	$("input[name='leadingProName']").val();
+	$("input[name='leadingProId']").val();
+	$("input[name='cooperName']").val();
+	$("input[name='oldProcessorId']").val();
+	$("input[name='processorId']").val();
+}
 
 //变更合作人提交
 $("#cooperSubmit").click(function(){	
@@ -322,7 +354,7 @@ $("#cooperSubmit").click(function(){
 	 var ctx = $("#ctx").val();
 	 url = ctx + url;			
 	 
-	 
+	 var tdId = $(this).attr("tdId");
 /*	 alert(JSON.stringify(data));
 	 alert("url==="+url);*/
 	 if (confirm("您确定要进行案件合作对象变更？")) {		 	
@@ -339,12 +371,27 @@ $("#cooperSubmit").click(function(){
 				
 				success : function(data) {
 					if(data.success){
+						
+						var $tdId = $("#PROCESSOR_NAME","#"+tdId);
+						var hiddes = $("input[name='cooperName']","#change-modal-data-show");
+						var names = "";
+						for(var i=0;i<hiddes.size();i++){
+							var name = hiddes.eq(i).val();
+							if(names!=""){
+								names+="/";
+							}
+							names+=name;
+						}
+						$tdId.html("合作顾问："+names);
+						
+						
 						$("#cooperForChang").hide();												
-						alert(data.message);						
-						setTimeout(function(){searchMethod(1);},1000); 												
+						alert(data.message);			
+																	
 					}else{
 						alert(data.message);
-					}					
+					}	
+
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}

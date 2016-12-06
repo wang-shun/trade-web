@@ -16,12 +16,9 @@ public class TgServItemAndProcessor {
     
     private String orgId;
     
-    private String preProcessorId;
-    
+    private String preProcessorId;    
     
     private List<User>users;
-    
-    
     /**
      * 冗余字段
      */

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
+import com.centaline.trans.common.vo.TgCooperVo;
 
 public interface TgServItemAndProcessorService {
 	List<TgServItemAndProcessor> findTgServItemAndProcessorByUserIdAndCaseCode(String processorId,String caseCode);
@@ -25,6 +26,8 @@ public interface TgServItemAndProcessorService {
     // 变更合作对象
     List<TgServItemAndProcessor> selectBycasecodeandProcessorid(String caseCode);
     
+    // 变更合作对象
+    List<TgCooperVo> selectBycasecodeandProcessorIdForSunxw(String caseCode);   
     // 
     List<Dict> selectOwnService(String caseCode);
     

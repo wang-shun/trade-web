@@ -41,6 +41,7 @@ import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.OrgNameEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
+import com.centaline.trans.common.vo.TgCooperVo;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
@@ -229,7 +230,7 @@ public class CaseChangeController {
 
 		Map<String, Object> map = new HashMap<String, Object>();		
 		// 1 查询案件服务项目
-		List<TgServItemAndProcessor> servitemList = tgservItemAndProcessorService.selectBycasecodeandProcessorid(cooperCaseCode);	
+		List<TgCooperVo> servitemList = tgservItemAndProcessorService.selectBycasecodeandProcessorIdForSunxw(cooperCaseCode);	
 		map.put("servitemList", servitemList); 
 	
 		return map;
@@ -417,7 +418,8 @@ public class CaseChangeController {
 					String srvCode = srvCodeList.get(i);
 					String processorId = processorIdList.get(i);//新的案件合作人
 					String orgId = orgIdList.get(i);
-		
+					String oldProcessorId = oldProcessorIdList.get(i);
+					
 					pro = new TgServItemAndProcessor();
 					pro.setProcessorId(processorId);
 					pro.setCaseCode(caseCode);
@@ -425,7 +427,7 @@ public class CaseChangeController {
 					pro.setOrgId(orgId);
 					
 					TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
-					if(processorId != null && !"".equals(processorId)){
+					if(processorId != null &&  !(oldProcessorId.equals(processorId))){
 						updatecoope = tgservItemAndProcessorService.updateCoope(pro);
 					}
 					
@@ -444,27 +446,25 @@ public class CaseChangeController {
 				}
 				
 				//添加变更记录		
-				if(oldProcessorIdList.size() == processorIdList.size()){
-					for(int i = 0; i < oldProcessorIdList.size(); i++){
-						//没有变化就跳过					
-						if(oldProcessorIdList.get(i).equals(processorIdList.get(i)) ||  "".equals(processorIdList.get(i))) continue;
-						
-						ToChangeRecord toChangeRecord = new ToChangeRecord();
-						toChangeRecord.setCaseCode(caseCodeForInstCode);
-						toChangeRecord.setPartName(srvNameList.get(i));
-						toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
-						toChangeRecord.setChangeBeforePerson(oldProcessorIdList.get(i));
-						toChangeRecord.setChangeAfterPerson(processorIdList.get(i));
-						
-						toChangeRecord.setOperator(user.getId());
-						toChangeRecord.setOperateTime(new Date());
-						toChangeRecord.setCreateBy(user.getId());
-						toChangeRecord.setCreateTime(new Date());	
-						toChangeRecordMapper.insertSelective(toChangeRecord);
-					}
-				}if(processorIdList.size() < oldProcessorIdList.size()){
+				
+				for(int i = 0; i < oldProcessorIdList.size(); i++){
+					//没有变化就跳过					
+					if(oldProcessorIdList.get(i).equals(processorIdList.get(i)) ||  "".equals(processorIdList.get(i))) continue;
 					
-				}
+					ToChangeRecord toChangeRecord = new ToChangeRecord();
+					toChangeRecord.setCaseCode(caseCodeForInstCode);
+					toChangeRecord.setPartName(srvNameList.get(i));
+					toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
+					toChangeRecord.setChangeBeforePerson(oldProcessorIdList.get(i));
+					toChangeRecord.setChangeAfterPerson(processorIdList.get(i));
+					
+					toChangeRecord.setOperator(user.getId());
+					toChangeRecord.setOperateTime(new Date());
+					toChangeRecord.setCreateBy(user.getId());
+					toChangeRecord.setCreateTime(new Date());	
+					toChangeRecordMapper.insertSelective(toChangeRecord);
+				}			
+				
 
 			}else{
 				updatecoope = 0;
@@ -474,7 +474,7 @@ public class CaseChangeController {
 		
 		if (updatecoope > 0){
 			response.setSuccess(true);
-			response.setMessage("项目合作人变更成功！");
+			response.setMessage("恭喜，项目合作人变更成功！");
 		}else if(updatecoope == 0){
 			response.setSuccess(true);
 			response.setMessage("未选取项目合作人，不进行变更！");

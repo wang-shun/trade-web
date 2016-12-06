@@ -14,6 +14,7 @@ import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1498,6 +1499,32 @@ public class CaseDetailController {
 		return AjaxResponse.success("变更成功！");
 	}
 
+	
+	
+	
+	/**
+	 * 变更责任人  默认责任人显示
+	 * @author zhuody
+	 * @Date 2016-12-02
+	 * 
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/selectLeandingPro")
+	@ResponseBody
+	public Map<String, Object> selectLeandingPro(HttpServletRequest request, HttpServletResponse response, String caseCode) {
+
+		Map<String, Object> map = new HashMap<String, Object>();	
+		
+		if(caseCode !=null && !"".equals(caseCode)){
+			ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+			User user = uamUserOrgService.getUserById(toCase.getLeadingProcessId()==null ? "":toCase.getLeadingProcessId());
+			map.put("leadingProcessId", toCase.getLeadingProcessId()==null ? "":toCase.getLeadingProcessId());
+			map.put("leadingProcessName", user.getRealName()==null ? "":user.getRealName());
+		}		
+		return map;
+	}
+	
 	
 	/**
 	 * 变更责任人  For allUser
