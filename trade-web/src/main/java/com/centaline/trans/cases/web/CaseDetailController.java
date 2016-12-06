@@ -1145,7 +1145,12 @@ public class CaseDetailController {
 				} else {
 					toEloanCaseVO.setApplyStatusName("待确认");
 				}
-
+				if(!StringUtils.isBlank(toEloanCase.getLoanerName())){
+					toEloanCaseVO.setLoanerName(toEloanCase.getLoanerName());
+				}
+				if(!StringUtils.isBlank(toEloanCase.getLoanerPhone())){
+					toEloanCaseVO.setLoanerName(toEloanCase.getLoanerPhone());
+				}
 				// 放款时间
 				List<ToEloanRel> eloanRels = toEloanRelService.getEloanRelByEloanCode(toEloanCase.getEloanCode());
 				// 确认状态
