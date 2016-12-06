@@ -66,19 +66,17 @@ public class ChangeRecordController {
 		String start = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
 		String end = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
 		
-		String signTimeStart = request.getParameter("signTimeStart");
-		String signTimeEnd = request.getParameter("signTimeEnd");
+		String operateTimeStart = request.getParameter("operateTimeStart");
+		String operateTimeEnd = request.getParameter("operateTimeEnd");
 
-		if(StringUtils.isEmpty(signTimeStart) && StringUtils.isEmpty(signTimeEnd)){
-			signTimeStart = start;
-			signTimeEnd = end;
+		if(StringUtils.isEmpty(operateTimeStart) && StringUtils.isEmpty(operateTimeEnd)){
+			operateTimeStart = start;
+			operateTimeEnd = end;
 		}
 
-		request.setAttribute("signTimeStart", signTimeStart);
-		request.setAttribute("signTimeEnd", signTimeEnd);
+		request.setAttribute("operateTimeStart", operateTimeStart);
+		request.setAttribute("operateTimeEnd", operateTimeEnd);
 
-		request.setAttribute("queryOrgFlag", queryOrgFlag);
-		request.setAttribute("isAdminFlag", isAdminFlag);
 		return "case/changeRecordList";
 		
 	}

@@ -6,16 +6,8 @@ $(document).ready(function() {
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
-	var signTimeStart = $("#signTimeStart").val();
-	var signTimeEnd = $("#signTimeEnd").val();
-	var org = $("#org").val();
-	if (org=="ff8080814f459a78014f45a73d820006") {
-		org = null;
-	}
-	var userId =$("#userId").val();
-	if(userId==""||userId==null){
-		userId=null;
-	}
+	var operateTimeStart = $("#operateTimeStart").val();
+	var operateTimeEnd = $("#operateTimeEnd").val();
 	var tempUser = $("#tempUser").val();
 	if(tempUser==""||tempUser==null){
 		tempUser=null;
@@ -25,13 +17,11 @@ $(document).ready(function() {
 	// 初始化列表
 	var data = {};
 	data.argu_org = org;
-	data.argu_processorId = userId;
-	data.argu_tempUser = tempUser;
-	data.queryId = "querySignCaseList";
+	data.queryId = "queryChangeRecordList";
 	data.rows = 12;
 	data.page = 1;
-	data.signTimeStart=signTimeStart;
-	data.signTimeEnd=signTimeEnd;
+	data.operateTimeStart=operateTimeStart;
+	data.operateTimeEnd=operateTimeEnd;
 	
 	/*加载排序查询组件*/
 	aist.sortWrapper({
@@ -77,8 +67,8 @@ $('#searchButton').click(function() {
 });
 
 //日期类型
-var signTimeStart;
-var signTimeEnd;
+var operateTimeStart;
+var operateTimeEnd;
 
  //查询方法
 function searchMethod(page) {
@@ -90,7 +80,7 @@ function searchMethod(page) {
 		var params = getParamsValue();
 		params.page = page;
 		params.rows = 12;
-		params.queryId = "querySignCaseList";
+		params.queryId = "queryChangeRecordList";
 		reloadGrid(params);
 	} else {
 		alert("请不要选择同样的日期类型！");
@@ -133,10 +123,10 @@ function reloadGrid(data) {
           $.unblockUI();   	 
       	  data.ctx = ctx;
       	  var changeRecordList = template('template_changeRecordList' , data);
-			  $("#changeRecordList").empty();
-			  $("#changeRecordList").html(signCaseList);
+		  $("#changeRecordList").empty();
+		  $("#changeRecordList").html(changeRecordList);
 			  // 显示分页 
-            initpage(data.total,data.pagesize,data.page, data.records);
+          initpage(data.total,data.pagesize,data.page, data.records);
         },
         error: function (e, jqxhr, settings, exception) {
         	$.unblockUI();   	 
@@ -181,8 +171,8 @@ function initpage(totalCount,pageSize,currentPage,records) {
 // 日期控件取值
 function getSearchDateValues() {
 
-	signTimeStart = null;
-	signTimeEnd = null;
+	operateTimeStart = null;
+	operateTimeEnd = null;
 
 	var start = $('#dtBegin').val();
 	var end = $('#dtEnd').val();
@@ -191,16 +181,16 @@ function getSearchDateValues() {
 	}
 
 	if (start != "") {
-		signTimeStart = start;
+		operateTimeStart = start;
 	}
 	if (start == "") {
-		signTimeStart = "";
+		operateTimeStart = "";
 	}
 	if (end != "") {
-		signTimeEnd = end;
+		operateTimeEnd = end;
 	}
 	if (end == "") {
-		signTimeEnd = "";
+		operateTimeEnd = "";
 	}
 		
 	return true;
@@ -211,56 +201,18 @@ function getSearchDateValues() {
  */
 function getParamsValue() {
 	
-	//获取誉萃组织
-	var org =  $('#yuCuiOriGrpId').val();
-	if(org=="ff8080814f459a78014f45a73d820006"){
-		org=null;
-	}else if(org==""||org==null){
-		org = $("#org").val();
-	}
-	
 	//案件编号
 	var caseCode = $("#caseCode").val().trim();
 	if(""==caseCode || null==caseCode){
 		caseCode=null;
 	}
 	
-	//产证地址
-	var propertyAddr = $("#propertyAddr").val().trim();
-	if(""==propertyAddr || null==propertyAddr){
-		propertyAddr=null;
-	}
-	
-	//组别
-	var orgName =$("#orgName").val().trim();
-	if(orgName==""||orgName==null){
-		orgName=null;
-	}
-	
-	//区董
-	var orgManName =$("#orgManName").val().trim();
-	if(orgManName==""||orgManName==null){
-		orgManName=null;
-	}	
-	
-	//人员ID
-	var queryPersonId= $("#inTextVal").attr("hVal");
-	if(queryPersonId==$("#personalId")||queryPersonId==""){
-		queryPersonId=null;
-	}
-	
 	//设置查询参数
 	var params = {};
 	
-	params.signTimeStart = signTimeStart;
-	params.signTimeEnd = signTimeEnd;
-	params.org = org;
-	//params.argu_processorId = userId;
-	params.queryPersonId = queryPersonId;
+	params.operateTimeEnd = operateTimeStart;
+	params.operateTimeEnd = operateTimeEnd;
 	params.caseCode = caseCode;
-	params.propertyAddr = propertyAddr;
-	params.orgName = orgName;
-	params.orgManName = orgManName;
 
 	return params;
 }
@@ -291,82 +243,6 @@ function selectUserBack(array){
 	}
 }
 
-//添加日期查询条件
-var divIndex = 1;
-var count = $('#case_date_0 option:last').index();
-function addDateDiv() {
-
-	var txt = '<div class="col-md-12 form-group"><label class="col-md-1  col-sm-2 control-label"></label><div id="dateDiv_' + divIndex + '" class="input-group m-b-xs m-t-xs">';
-	txt += '<div class="input-group-btn">';
-	txt += '    <select id="case_date_'
-			+ divIndex
-			+ '" class="btn btn-white chosen-select" name="case_date" ltype="select" >';
-	txt += $("#case_date_0").html()
-	txt += '</select></div>';
-	txt += '<div id="datepicker_'
-			+ divIndex
-			+ '" class="input-group input-medium date-picker input-daterange" data-date-format="yyyy-mm-dd">';
-	txt += '    <input id="dtBegin_'
-			+ divIndex
-			+ '" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="起始日期"> ';
-	txt += '    <span class="input-group-addon">到</span>';
-	txt += '    <input id="dtEnd_'
-			+ divIndex
-			+ '" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="" placeholder="结束日期"/>';
-	txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
-			+ divIndex + ');"><font>删除</font></a></span>';
-	txt += '</div></div></div>';
-	// alert(txt);
-	$("#addLine").before(txt);
-	// 日期控件
-	$('#datepicker_' + divIndex).datepicker({
-		format : 'yyyy-mm-dd',
-		weekStart : 1,
-		autoclose : true,
-		todayBtn : 'linked',
-		language : 'zh-CN'
-	});
-	// 设置初始选中
-	var selIndex = findFirstNoCheckVal();
-	$("#case_date_" + divIndex).get(0).selectedIndex = selIndex;
-	for ( var selector in config) {
-		$(selector).chosen(config[selector]);
-	}
-	;
-
-	divIndex++;
-}
-
-//查看未被选择的日期类型
-function findFirstNoCheckVal() {
-
-	var onUseArray = new Array();
-	if (divIndex > count)
-		return 0;
-	for (var r = 0; r < divIndex; r++) {
-		var onUse = $('#case_date_' + r + ' option:selected').index();
-		onUseArray.push(onUse);
-
-	}
-	for (var s = 0; s < count; s++) {
-		var onUseFlag = false;
-		for (var m = 0; m < onUseArray.length; m++) {
-			if (s == onUseArray[m]) {
-				onUseFlag = true;
-				break;
-			}
-		}
-		if (!onUseFlag)
-			return s;
-	}
-	return 0;
-}
-
- //删除日期控件
-function removeDateDiv(index) {
-	$("#dateDiv_" + index).remove();
-}
-
 //导出excel方法
 function exportToExcel() {
 	if (getSearchDateValues()) {
@@ -376,13 +252,12 @@ function exportToExcel() {
 		var displayColomn = new Array;
 		displayColomn.push('CASE_CODE');
 		displayColomn.push('PROPERTY_ADDR');
-		displayColomn.push('REAL_NAME');
-		displayColomn.push('ORG_NAME');
-		displayColomn.push('GRP_NAME');
-		displayColomn.push('AR_NAME');
-		displayColomn.push('ZONE');
-		displayColomn.push('ORG_MAN_NAME');
-		displayColomn.push('SIGN_TIME');
+		displayColomn.push('PART_NAME');
+		displayColomn.push('CHANGE_TYPE');
+		displayColomn.push('CHANGE_BEFORE_PERSON');
+		displayColomn.push('CHANGE_AFTER_PERSON');
+		displayColomn.push('OPERATOR');
+		displayColomn.push('OPERATE_TIME');
 
 		var queryOrgFlag = $("#queryOrgFlag").val();
 		var isAdminFlag = $("#isAdminFlag").val();

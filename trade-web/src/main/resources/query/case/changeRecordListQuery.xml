@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 <dicts>
-		<customDict id="getUserNameById" beanName="getUserNameById" />
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -13,21 +13,26 @@
 </formatters>
 	<query id="queryChangeRecordList" cacheCount="true">
 	    <searchCondition>
-<!-- 	        <condition field="l.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="pr.property_addr" name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="u.REAL_NAME" name="realName" label="经办人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="u.ORG_NAME" name="orgName" label="组别ID" searchType="EQ" showType="" showCallback="" defaultValue=""/> -->               
+ 	        <condition field="l.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 				select 
-				PKID,CASE_CODE,PART_NAME,CHANGE_TYPE,CHANGE_BEFORE_PERSON,CHANGE_AFTER_PERSON,OPERATOR,OPERATE_TIME
-				from sctrans.T_TO_APPROVE_RECORD R 
+				R.PKID,R.CASE_CODE,R.PART_NAME,R.CHANGE_TYPE,R.CHANGE_BEFORE_PERSON CHANGE_BEFORE_PERSON_OLD,R.CHANGE_AFTER_PERSON CHANGE_AFTER_PERSON_OLD,R.OPERATOR OPERATOR_OLD,R.OPERATE_TIME
+				from sctrans.T_TO_CHANGE_RECORD R
+				WHERE   1 = 1  
+				<ifNotNull signTimeStart>
+				     and R.OPERATE_TIME >= #operateTimeStart#
+				</ifNotNull>
+				
+				<ifNotNull signTimeEnd>
+				     and R.OPERATE_TIME &lt;= #operateTimeEnd#
+				</ifNotNull>
 	     ]]>
 			</baseSql>
 			<orderBySql>
-
+                ORDER BY R.OPERATE_TIME DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -38,9 +43,12 @@
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PART_NAME" index="" checkbox="" title="环节名称" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CHANGE_TYPE" index="" checkbox="" title="变更类型" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="CHANGE_BEFORE_PERSON" referencecol="CHANGE_BEFORE_PERSON" customDict="getUserNameById" index="" checkbox="" title="变更前" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="CHANGE_AFTER_PERSON" referencecol="CHANGE_AFTER_PERSON" customDict="getUserNameById" index="" checkbox="" title="变更后" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="OPERATOR"  referencecol="OPERATOR" customDict="getUserNameById" index="" checkbox="" title="操作人"  customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="CHANGE_BEFORE_PERSON_OLD" index="" checkbox="" title="变更前" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="CHANGE_BEFORE_PERSON" referencecol="CHANGE_BEFORE_PERSON_OLD" customDict="qqcdUserIdName" index="" checkbox="" title="变更前" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="CHANGE_AFTER_PERSON_OLD" index="" checkbox="" title="变更后" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="CHANGE_AFTER_PERSON" referencecol="CHANGE_AFTER_PERSON_OLD" customDict="qqcdUserIdName" index="" checkbox="" title="变更后" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="OPERATOR_OLD" index="" checkbox="" title="操作人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="OPERATOR"  referencecol="OPERATOR_OLD" customDict="qqcdUserIdName" index="" checkbox="" title="操作人" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="OPERATE_TIME" index="" checkbox="" title="操作时间" sysDict="" beanFormatter="dateFormatter1" format=""  width="60" align="" isSort="true" halign="" order="" resizable="" />	
 			</table-row>
 		</grid>
