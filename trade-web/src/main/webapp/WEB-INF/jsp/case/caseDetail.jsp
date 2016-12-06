@@ -317,10 +317,10 @@
 											class="btn btn-primary btn-xm btn-activity"
 											href="#pr-modal-form">产调发起 </a>
 									</shiro:hasPermission>
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPSTART">
+				<%-- 					<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPSTART">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="${ctx }/spv/toSaveSpv?caseCode=${toCase.caseCode}">房款监管</a>
-									</shiro:hasPermission>
+									</shiro:hasPermission> --%>
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPEND">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:startSpvOutApplyProcess('${toCase.caseCode}')">监管解除</a>
@@ -732,8 +732,8 @@
 							</li>
 							<li class=""><a href="#profile_info" data-toggle="tab">贷款相关信息</a>
 							</li>
-							<li class=""><a href="#messages_info" data-toggle="tab">房款监管信息</a>
-							</li>
+<!-- 							<li class=""><a href="#messages_info" data-toggle="tab">房款监管信息</a>
+							</li> -->
 							<li class=""><a href="#settings_info" data-toggle="tab">e+服务信息</a>
 							</li>
 							<li class=""><a href="#fujian_info" data-toggle="tab">附件信息</a>

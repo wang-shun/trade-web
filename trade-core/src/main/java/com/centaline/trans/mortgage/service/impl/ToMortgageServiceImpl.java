@@ -44,8 +44,6 @@ import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
@@ -80,8 +78,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Qualifier("uamMessageServiceClient")
     @Autowired
     private UamMessageService uamMessageService;
-	@Autowired
-	private ToApproveRecordService toApproveRecordService;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -166,6 +162,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		toMortgageMapper.update(toMortgage);
 
 	}
+
 
 	@Override
 	public ToMortgage findToMortgageByCaseCode(String caseCode) {
@@ -438,8 +435,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		response.setMessage("已成功开启临时银行审批流程！");
 	}catch(Exception e){
 		response.setSuccess(false);
-		response.setMessage("开启临时银行审批流程失败！");
-		e.printStackTrace();
+		response.setMessage(e.getMessage());
 	}
 	return response;
 
@@ -486,19 +482,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			variables.add(new RestVariable("isManagerApprove",isManagerApprove));
 			
 			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
-			
-			//添加审核记录到ToApproveRecord
-			ToApproveRecord toApproveRecord=new ToApproveRecord();
-			toApproveRecord.setCaseCode(caseCode);
-			toApproveRecord.setContent(isManagerApprove?"审批通过，审批意见为："+temBankRejectReason:"审批驳回，审批意见为："+temBankRejectReason);
-			toApproveRecord.setApproveType("8");//todo
-			toApproveRecord.setOperator(user.getId());
-			toApproveRecord.setTaskId(taskId);
-			toApproveRecord.setOperatorTime(new Date());
-			toApproveRecord.setPartCode("ManagerAduit");//todo
-			toApproveRecord.setProcessInstance(processInstanceId);
-			
-			toApproveRecordService.insertToApproveRecord(toApproveRecord);
+
 		}else if("seniorManager".equals(post)){
 			boolean isSeniorManagerApprove = false;
 			if("true".equals(tmpBankCheck)){
@@ -530,19 +514,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			variables.add(new RestVariable("isSeniorManagerApprove",isSeniorManagerApprove ));
 			
 			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
-			
-			//添加审核记录到ToApproveRecord
-			ToApproveRecord toApproveRecord=new ToApproveRecord();
-			toApproveRecord.setCaseCode(caseCode);
-			toApproveRecord.setContent(isSeniorManagerApprove?"审批通过，审批意见为："+temBankRejectReason:"审批驳回，审批意见为："+temBankRejectReason);
-			toApproveRecord.setApproveType("8");//todo
-			toApproveRecord.setOperator(user.getId());
-			toApproveRecord.setTaskId(taskId);
-			toApproveRecord.setOperatorTime(new Date());
-			toApproveRecord.setPartCode("SuperManagerAudit");//todo
-			toApproveRecord.setProcessInstance(processInstanceId);		
-			
-			toApproveRecordService.insertToApproveRecord(toApproveRecord);
 		}else if("director".equals(post)){	
 			
 			ToMortgage mortageDb= findToMortgageById(mortage.getPkid());
@@ -594,19 +565,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
-			
-			//添加审核记录到ToApproveRecord
-			ToApproveRecord toApproveRecord=new ToApproveRecord();
-			toApproveRecord.setCaseCode(caseCode);
-			toApproveRecord.setContent("true".equals(tmpBankCheck)?"审批通过，审批意见为："+temBankRejectReason:"审批驳回，审批意见为："+temBankRejectReason);
-			toApproveRecord.setApproveType("8");//todo
-			toApproveRecord.setOperator(user.getId());
-			toApproveRecord.setTaskId(taskId);
-			toApproveRecord.setOperatorTime(new Date());
-			toApproveRecord.setPartCode("DirectorAudit");//todo
-			toApproveRecord.setProcessInstance(processInstanceId);		
-			
-			toApproveRecordService.insertToApproveRecord(toApproveRecord);
 			}
 		
 		return AjaxResponse.success();
@@ -639,6 +597,12 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	public void updateToMortgageBySign(ToMortgage toMortgage) {
 		// TODO Auto-generated method stub
 		toMortgageMapper.updateBySign(toMortgage);
+	}
+
+	@Override
+	public int updateByTest(ToMortgage record) {
+
+		return toMortgageMapper.updateByTest(record);
 	}
 
 }
