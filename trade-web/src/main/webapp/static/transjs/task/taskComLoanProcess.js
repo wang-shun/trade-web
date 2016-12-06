@@ -1593,7 +1593,7 @@ $(document).ready(function () {
  });
 function onkeyuploanerName(){
 	$("#loanerNameImage").css("color","#676A6C");
-	$("#loanerId").val(data.user.id);
+	$("#loanerId").val("");
 	$("#loanerOrgCode").val("");
 	$("#loanerOrgId").val("");
 }
