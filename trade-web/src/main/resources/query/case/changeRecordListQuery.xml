@@ -2,6 +2,7 @@
 <querys>
 <dicts>
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
+		<customDict id="qqGetCaseId" beanName="qqGetCaseId" />	
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -41,6 +42,7 @@
 			<table-row>
 			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CASE_ID" referencecol="CASE_CODE" customDict="qqGetCaseId" index="" checkbox="" title="案件ID" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
 				<column type="both" name="PART_NAME" index="" checkbox="" title="环节名称" customDict="" sysDict="" format="" width="180" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CHANGE_TYPE" index="" checkbox="" title="变更类型" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CHANGE_BEFORE_PERSON_OLD" index="" checkbox="" title="变更前" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
