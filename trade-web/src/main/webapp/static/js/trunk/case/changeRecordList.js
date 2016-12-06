@@ -16,7 +16,6 @@ $(document).ready(function() {
 
 	// 初始化列表
 	var data = {};
-	data.argu_org = org;
 	data.queryId = "queryChangeRecordList";
 	data.rows = 12;
 	data.page = 1;

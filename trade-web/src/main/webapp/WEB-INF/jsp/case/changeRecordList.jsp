@@ -217,9 +217,9 @@ text-decoration: underline !important;
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseCode={{item.CASE_CODE}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
+						<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.CASE_ID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 						<td class="t-left pd-l">{{item.PART_NAME}}</td>
-                        <td class="t-left pd-l">{{item.CHANGE_TYPE}}</td>
+                        <td class="t-left pd-l">{{item.CHANGE_TYPE == '1'?'责任人':'合作对象'}}</td>
 						<td class="t-left pd-l">{{item.CHANGE_BEFORE_PERSON}}</td>
                         <td class="t-left pd-l">{{item.CHANGE_AFTER_PERSON}}</td>
                         <td class="t-left pd-l">{{item.OPERATOR}}</td>
