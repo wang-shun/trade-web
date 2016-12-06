@@ -12,6 +12,7 @@
 		<customDict id="getTransChangeList" beanName="getTransChangeList"></customDict>
 		<customDict id="getReturnVisitRemark" beanName="getReturnVisitRemark"></customDict>
 		<customDict id="getFontAgentInfo" beanName="getFontAgentInfo"></customDict>
+		<customDict id="partName" beanName="qqcdDictPartName"></customDict>
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
