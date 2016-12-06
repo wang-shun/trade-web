@@ -294,7 +294,7 @@
 				return false;
 			}
 			//审批意见必填 
-			if(!$("#temBankRejectReason").val()){
+			if(!$("#temBankRejectReason").val() && $("#optionsRadios2").prop("checked")){
 				alert("请填写审批意见！");
 				return false;
 			}
