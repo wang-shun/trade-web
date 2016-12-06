@@ -41,7 +41,7 @@ public class QuickQueryGetCaseInfoServiceImpl implements CustomDictService {
         }else if("getCasePropertyInfo".equals(dictType)){
             sql.append("select PROPERTY_ADDR as v from sctrans.T_TO_PROPERTY_INFO where CASE_CODE=:code");
         }else if("findTranPlan".equals(dictType)){
-            sql.append("select RED_LOCK as v1,EST_PART_TIME as v2,DATEDIFF(DAY, EST_PART_TIME, GETDATE()) AS v3 from sctrans.T_TO_TRANS_PLAN  where CASE_CODE =:code and PART_CODE = :code2");
+            sql.append("select RED_LOCK as v1,CONVERT(varchar(12) ,EST_PART_TIME, 111 ) as v2,DATEDIFF(DAY, EST_PART_TIME, GETDATE()) AS v3 from sctrans.T_TO_TRANS_PLAN  where CASE_CODE =:code and PART_CODE = :code2");
         }else if("wf".equals(dictType)){
             sql.append("select WFE_NAME as v from sctrans.SYS_WFE_TEMPLATE where WFE_CODE=:code");
         }
