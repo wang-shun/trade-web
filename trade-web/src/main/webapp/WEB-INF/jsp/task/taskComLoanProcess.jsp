@@ -756,8 +756,8 @@
 									<div class="form-group">
 										<label class="col-sm-2 control-label">信贷员姓名<span class="star">*</span>：</label>
 										<div class="col-md-2" style="position: relative;" >
-											<input type="text" name="loanerName" id="loanerName" placeholder="姓名" class="form-control" >
-											<i style=" position: absolute; top: 5px; right: 20px; " class="icon iconfont"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+											<input type="text" name="loanerName" id="loanerName" placeholder="姓名" class="form-control" onkeyup="onkeyuploanerName()">
+											<i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
 											</input>
 											
@@ -1791,6 +1791,7 @@ function checkInt(obj){
 					"userId" : array[0].userId
 				},
 				success : function(data) {
+					$("#loanerNameImage").css("color","#52cdec");
 					$("#loanerPhone").val(data.user.mobile);
 					$("#loanerId").val(data.user.id);
 					$("#loanerOrgCode").val(data.user.orgName);
