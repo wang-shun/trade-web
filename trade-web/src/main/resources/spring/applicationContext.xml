@@ -51,7 +51,7 @@
 
 	<bean name="queryServiceFactoryBean"
 		class="com.aist.common.rapidQuery.factory.QueryServiceFactoryBean">
-		<property name="cacheManager" ref="redisCacheManager" />
+		<property name="cacheManager" ref="quickQueryRedisManager" />
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 </beans>
