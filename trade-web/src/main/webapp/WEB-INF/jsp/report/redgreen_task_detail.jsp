@@ -83,9 +83,7 @@ text-decoration: underline !important;
 </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>	 
-<input type="hidden" id="redDelaytime" value="${redDelaytime}" />	 
-<input type="hidden" id="yellowDelaytime" value="${yellowDelaytime}" />	
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>	 	
 	 <div class="row">
 		<div class="wrapper wrapper-content  animated fadeInRight">
 			<div class="col-md-12">
@@ -251,6 +249,8 @@ text-decoration: underline !important;
 <input type="hidden" id="orgName1" value="${orgName1}" />
 <input type="hidden" id="colourId" value="${colourId}" />
 <input type="hidden" id="orgName2" value="${orgName2}" />
+<input type="hidden" id="redDelaytime" value="${redDelaytime}" />	 
+<input type="hidden" id="yellowDelaytime"  value="${yellowDelaytime}" />
 <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 <content tag="local_script"> 
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
