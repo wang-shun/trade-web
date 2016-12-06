@@ -92,6 +92,16 @@ public class ToEloanCase {
 	
 	private String loanerOrgId; 
 	
+	private String loanerPhone; 
+	
+	public String getLoanerPhone() {
+		return loanerPhone;
+	}
+
+	public void setLoanerPhone(String loanerPhone) {
+		this.loanerPhone = loanerPhone;
+	}
+
 	public String getLoanerId() {
 		return loanerId;
 	}

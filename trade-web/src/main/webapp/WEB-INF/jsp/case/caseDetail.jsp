@@ -1038,6 +1038,11 @@
 											<label class="col-sm-3 control-label">面签时间：${toEloanCaseVO.signTime}</label>
 											<label class="col-sm-3 control-label">放款时间：${toEloanCaseVO.releaseTime}</label>
 										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">信贷员：${toEloanCase.loanerName}</label>
+											<label class="col-sm-3 control-label">信贷员电话：${toEloanCase.loanerPhone}</label>
+										</div>
+																				
 									<%-- 	<div class="row ">
 											<label class="col-sm-3 control-label">对账时间：${toEloanCaseVO.incomeConfirmTime}</label>
 											<label class="col-sm-3 control-label">结账时间：${toLoanAgentVO.incomeArriveTime}</label>
