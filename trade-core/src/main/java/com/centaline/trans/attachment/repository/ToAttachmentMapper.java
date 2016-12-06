@@ -23,6 +23,8 @@ public interface ToAttachmentMapper {
     
     List<ToAttachment> quereyAttachmentForMaterial(ToAttachment record);
     
+    List<ToAttachment> quereyAttachmentForDetails(ToAttachment record); 
+    
     Integer findAttachmentByCount(ToAttachment record);
 
     /**
@@ -33,4 +35,8 @@ public interface ToAttachmentMapper {
 	List<ToAttachment> findToAttachmentByCaseCode(String caseCode);
 	
 	int setMainFlowVailable(String caseCode);
+	
+	int updateToAttachmentByCaseCode(String caseCode);
+	
+	
 }

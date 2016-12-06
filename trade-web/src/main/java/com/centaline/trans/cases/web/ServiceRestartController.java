@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.cases.service.ServiceRestartService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
@@ -28,6 +29,9 @@ public class ServiceRestartController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private ToCaseService toCaseService;
+	
+	@Autowired
+	private ToAttachmentService toAttachmentService;
 	/**
 	 * 
 	 * @return
@@ -57,6 +61,7 @@ public class ServiceRestartController {
 		request.setAttribute("operator", user != null ? user.getId() : "");
 		return "task/taskserviceRestartApply";
 	}
+	
 	@RequestMapping("approve/process")
 	public String toApproveProcess(HttpServletRequest request, HttpServletResponse response,
 			String caseCode, String source, String taskitem, String processInstanceId) {
@@ -98,6 +103,12 @@ public class ServiceRestartController {
 	@RequestMapping(value = "/approve")
 	@ResponseBody
 	public AjaxResponse approve(Model model, ServiceRestartVo vo) {
+		//新增判断 如果审批通过 则将对应casecode附件表 可用字段置为N
+		if(vo != null){
+			if(vo.getIsApproved()){
+				 toAttachmentService.updateToAttachmentByCaseCode(vo.getCaseCode() == null ? "":vo.getCaseCode());
+			}
+		}		
 		SessionUser u= uamSessionService.getSessionUser();
 		vo.setUserId(u.getId());
 		vo.setUserName(u.getUsername());

@@ -16,29 +16,20 @@
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
 
-<link href="${ctx}/css/plugins/jasny/jasny-bootstrap.min.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
-	rel="stylesheet">
-<link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
-	rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/jasny/jasny-bootstrap.min.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"	rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
 
 <link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
 <link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
