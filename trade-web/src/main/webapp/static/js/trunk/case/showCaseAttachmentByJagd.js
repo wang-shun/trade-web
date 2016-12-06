@@ -23,7 +23,7 @@ function getShowAttachment() {
 		cache : false,
 		async : true,//false同步，true异步
 		dataType : 'json',
-		url : ctx+'/attachment/quereyAttachment',
+		url : ctx+'/attachment/quereyAttachmentForDetails',
 		data : [{
 			name : 'caseCode',
 			value : caseCode
