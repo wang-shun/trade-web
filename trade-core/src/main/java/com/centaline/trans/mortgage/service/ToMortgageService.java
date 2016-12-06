@@ -124,5 +124,11 @@ public interface ToMortgageService {
 			String tmpBankName,String tmpBankCheck,String taskId,
 			String bankCode,String temBankRejectReason,
 			String processInstanceId,String caseCode,String post);
+	/**
+	 * test 
+	 * @param record
+	 * @return
+	 */
+    int updateByTest(ToMortgage record);
 
 }

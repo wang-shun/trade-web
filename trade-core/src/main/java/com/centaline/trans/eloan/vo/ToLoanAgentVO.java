@@ -29,9 +29,29 @@ public class ToLoanAgentVO {
     private String incomeArriveTime;
 
     private String releaseAmount;
-
     
-    public String getReleaseAmount() {
+    private String loanerPhone;
+
+	private String loanerName;
+    
+    public String getLoanerPhone() {
+		return loanerPhone;
+	}
+
+	public void setLoanerPhone(String loanerPhone) {
+		this.loanerPhone = loanerPhone;
+	}
+
+	public String getLoanerName() {
+		return loanerName;
+	}
+
+	public void setLoanerName(String loanerName) {
+		this.loanerName = loanerName;
+	}
+
+
+	public String getReleaseAmount() {
 		return releaseAmount;
 	}
 
