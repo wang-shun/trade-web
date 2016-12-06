@@ -8,10 +8,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.repository.ToCaseInfoMapper;
@@ -19,6 +19,7 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
+import com.centaline.trans.common.vo.TgCooperVo;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScope;
 import com.centaline.trans.team.repository.TsTeamPropertyMapper;
@@ -33,10 +34,7 @@ public class TgServItemAndProcessorServiceImpl implements
 	TgServItemAndProcessorMapper tgServItemAndProcessorMapper;
 	
 	@Autowired
-	private ToCaseMapper tocaseMapper;
-	
-	@Autowired
-	private UamSessionService sessionService;
+	private ToCaseMapper tocaseMapper;	
 	
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
@@ -149,6 +147,42 @@ public class TgServItemAndProcessorServiceImpl implements
 			serps.setProcessorId(servitemList.get(k).getProcessorId());  // processorId
 			serps.setOrgId(servitemList.get(k).getOrgId());  // orgId
 			serps.setSrvName(dt.getName());  // srvName
+			serList.add(serps);
+		}
+		
+		return serList;
+	}
+	
+	
+	@Override
+	public List<TgCooperVo> selectBycasecodeandProcessorIdForSunxw(String caseCode) {
+		
+		// 1 根据 caseCode 到 T_TO_CASE 表中查询出 LEADING_PROCESS_ID
+		ToCase tocase=tocaseMapper.findToCaseByCaseCode(caseCode);
+		String leadingProcessId=tocase.getLeadingProcessId();
+		
+		// 2 根据 caseCode 和 leadingProcessId 到 T_TG_SERV_ITEM_AND_PROCESSOR 表中去查询
+		TgServItemAndProcessor itemprocess=new TgServItemAndProcessor();
+		itemprocess.setCaseCode(caseCode);
+		itemprocess.setProcessorId(leadingProcessId);
+		List<TgServItemAndProcessor> servitemList = tgServItemAndProcessorMapper.selectBycasecodeandProcessorid(itemprocess);
+		
+		
+		// 3 将 SrvCode 变为 SrvName
+		TgCooperVo serps=null;
+		List<TgCooperVo> serList=new ArrayList<TgCooperVo>();
+		
+		for(int k=0; k<servitemList.size(); k++){
+			serps=new TgCooperVo();
+			Dict dt = uamBasedataService.findDictByTypeAndCode("yu_serv_cat_code_tree", servitemList.get(k).getSrvCode());			
+			serps.setSrvCode(servitemList.get(k).getSrvCode());  // srvCode			
+			serps.setOldProcessorId(servitemList.get(k).getProcessorId());  // processorId 更新以前的
+			
+			User user = uamUserOrgService.getUserById(servitemList.get(k).getProcessorId()==null ? "":servitemList.get(k).getProcessorId());
+			serps.setOldProcessorName(user.getRealName() == null ? "":user.getRealName());
+			serps.setOrgId(servitemList.get(k).getOrgId());  // orgId
+			serps.setSrvName(dt.getName());  // srvName
+			
 			serList.add(serps);
 		}
 		

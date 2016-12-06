@@ -293,9 +293,9 @@
                           </p>
                           
                         </td>
-						<td class="center">
-							<p >交易顾问：{{item.FONT_NAME}}</p>
-							<p >合作顾问：{{item.PROCESSOR_ID}}</p>
+						<td class="center" id="tdId{{item.PKID}}">
+							<p id='FONT_NAME'>交易顾问：{{item.FONT_NAME}}</p>
+							<p id='PROCESSOR_NAME'>合作顾问：{{item.PROCESSOR_ID}}</p>
 							
 						</td>
 						
@@ -306,7 +306,7 @@
                          </button>
                                <ul class="dropdown-menu" role="menu" style="left:-95px;">
                                       <li><a href="javascript:changeProfessor('{{item.CASE_CODE}}')">变更责任人</a></li>
-									  <li><a href="javascript:changeCooper('{{item.CASE_CODE}}')">变更合作人</a></li>                                                                          
+									  <li><a href="javascript:changeCooper('{{item.CASE_CODE}}','tdId{{item.PKID}}')">变更合作人</a></li>                                                                          
                                </ul>
                       </div>
                 </td>
