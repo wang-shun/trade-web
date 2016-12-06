@@ -14,7 +14,7 @@ create table sctrans.T_TS_TRANS_PLAN_HISTORY_BATCH (
    PART_CODE            varchar(32)          null,
    OLD_EST_PART_TIME    datetime             null,
    NEW_EST_PART_TIME    datetime             null,
-   LAST_VISIT_REMARK    char(1)              null,
+   LAST_VISIT_REMARK    char(1)              default 3,
    CHANGE_REASON        nvarchar(128)        null,
    LAST_CONTENT         varchar(255)         null,
    OPERATE_FLAG         char(1)              default 0,
