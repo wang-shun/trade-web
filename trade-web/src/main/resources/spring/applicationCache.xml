@@ -57,7 +57,11 @@
 	</bean>
 	
 	<bean id="shiroSessionRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
-		  p:connection-factory-ref="jedisConnFactory" />
+		  p:connection-factory-ref="jedisConnFactory" >
+		  <property name="defaultSerializer" >
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+		  </property>
+    </bean>
     
     <bean id="shiroSessionRedisManager" class="org.springframework.data.redis.cache.RedisCacheManager">
 		<!-- 默认保存时间10小时 -->
