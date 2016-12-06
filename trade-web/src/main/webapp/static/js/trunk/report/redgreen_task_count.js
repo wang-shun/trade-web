@@ -266,6 +266,8 @@ function exportToExcel(organId,orgName1,orgName2) {
 	params.proOrggbName = orgName1;
 	params.gbName = orgName1;
 	params.proOrgName = orgName2;
+	params.redDelaytime = $("#redDelaytime").val();
+	params.yellowDelaytime = $("#yellowDelaytime").val();
 	url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
 	$('#excelForm').attr('action', url);
 	$('#excelForm').method="post" ;
@@ -314,8 +316,9 @@ function exportToExcelGb(organId) {
 	$('#excelForm').method="post" ;
 	$('#excelForm').submit();
 }
-function queryRedGreenTaskDetailColour(id,colourId,orgName1,orgName2){
-	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId+"&orgName1="+orgName1+"&orgName2="+orgName2);
+function queryRedGreenTaskDetailColour(id,colourId,orgName1,orgName2,yellowDelaytime,redDelaytime){
+	window.open(ctx+"/report/redgreenTaskDetailColour?organId="+id+"&colourId="+colourId+"&orgName1="+orgName1+"&orgName2="+orgName2
+			+"&yellowDelaytime="+yellowDelaytime+"&redDelaytime="+redDelaytime);
 }
 
 $('#cleanButton').click(function() {//清空

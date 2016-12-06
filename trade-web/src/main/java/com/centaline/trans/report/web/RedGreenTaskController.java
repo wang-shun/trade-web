@@ -156,6 +156,13 @@ public class RedGreenTaskController {
 		String userJob=user.getServiceJobCode();
 		boolean queryOrgFlag = false;
 		boolean isAdminFlag = false;
+		List<LampRule> LampRuleList = lampRuleService.queryLampRuleList();
+		if(null != LampRuleList){
+			for(LampRule lampRule:LampRuleList){
+				if(StringUtils.equals(lampRule.getColor(), "0")){request.setAttribute("redDelaytime", lampRule.getDelaytime());}
+				if(StringUtils.equals(lampRule.getColor(), "1")){request.setAttribute("yellowDelaytime", lampRule.getDelaytime());}
+			}
+		}
 		
 		StringBuffer reBuffer = new StringBuffer();
 		if(!userJob.equals(TransJobs.TJYGW.getCode())){

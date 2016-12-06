@@ -32,7 +32,7 @@ public class UnlocatedTaskContorller {
 		SessionUser user = uamSesstionService.getSessionUser();
 		String jobCode = user.getServiceJobCode();
 		request.setAttribute("candidateId", user.getUsername());
-		
+		request.setAttribute("userServiceJobCode", user.getServiceJobCode());
 		if ("yucui_team".equals(user.getServiceDepHierarchy())) {
 			Org currentOrg = uamUserOrgService.getOrgById(user.getServiceCompanyId());
 			Org parentOrg = uamUserOrgService.getOrgById(currentOrg.getParentId());

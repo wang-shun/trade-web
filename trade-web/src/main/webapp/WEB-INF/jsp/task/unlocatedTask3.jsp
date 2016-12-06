@@ -289,11 +289,17 @@ text-decoration: underline !important;
                                 
                         </td>
 						<td class="center">
-								{{if item.candidateId&&item.candidateId!=''}}
-						 			<button type="button" class="btn btn-success" onclick="doGroupClaim({{item.taskId}})">分配给自己</button>
+
+								{{if '${userServiceJobCode}'=='COXXGLY'}}
+							<button type="button" class="btn btn-success" onclick="showLocate({{item.taskId}})">分配任务</button>
 								{{else}}
-						 			<button type="button" class="btn btn-success" onclick="showLocate({{item.taskId}})">分配任务</button>
-						 		{{/if}}
+									{{if item.candidateId&&item.candidateId!=''}}
+									<button type="button" class="btn btn-success" onclick="doGroupClaim({{item.taskId}})">分配给自己</button>
+									{{else}}
+									<button type="button" class="btn btn-success" onclick="showLocate({{item.taskId}})">分配任务</button>
+									{{/if}}
+								{{/if}}
+
                         </td>
 					</tr>
 		{{/each}}
@@ -359,6 +365,7 @@ function reloadGrid(page) {
 	var sortgz=$('span.active').attr("sord");
 	data1.sidx=sortcolumn;
 	data1.sord=sortgz;
+	data1.userServiceJobCode="${userServiceJobCode}";
 	
     fetchData(data1);
   	}
