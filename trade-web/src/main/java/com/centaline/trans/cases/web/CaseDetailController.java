@@ -1406,6 +1406,68 @@ public class CaseDetailController {
 	}
 
 	/**
+	 * 信息管理员服务变更
+	 * @param caseCode
+	 * @param prItems
+	 * @param request
+	 * @param srvs
+	 * @author caoy
+	 * @return
+	 */
+	@RequestMapping(value = "/saveSrvItemsForManager")
+	@ResponseBody
+	public AjaxResponse<?> saveSrvItemsForManager(String caseCode, String[] prItems,HttpServletRequest request,String[] srvs) {
+		Boolean flag = true;
+		List<String> srvsd = tgServItemAndProcessorService.findSrvCatsByCaseCode(caseCode);
+		if (isChanged(srvsd, srvs)) {
+			return AjaxResponse.fail("服务变更失败，请刷新页面后重试！");
+		}
+		List<String> oldSrvs = new ArrayList<String>();
+		oldSrvs.addAll(srvsd);
+		first:for(String strCode : oldSrvs){
+			for (String s : prItems) {
+				if(strCode.equals(s)){
+					continue first;
+				}
+			}
+			if(strCode.indexOf("30004010")!=-1||strCode.indexOf("30004001")!=-1){
+				return AjaxResponse.fail("交易过户与商业贷款不允许在此取消");
+			}
+		}
+		for (String s : prItems) {
+
+			if (oldSrvs.contains(s)) {
+				continue;
+			}
+			TgServItemAndProcessor record = new TgServItemAndProcessor();
+			record.setCaseCode(caseCode);
+			record.setSrvCat(s);
+			Dict dict = uamBasedataService.findDictByTypeAndCode(TransDictEnum.TFWBM.getCode(), record.getSrvCat());
+			if (dict == null) {
+				tgServItemAndProcessorService.insertSelective(record);
+				continue;
+			}
+			List<Dict> listD = dict.getChildren();
+			if (listD == null || listD.size() == 0) {
+				record.setSrvCode(s);
+				tgServItemAndProcessorService.insertSelective(record);
+				continue;
+			}
+			for (Dict dictSon : listD) {
+				record.setSrvCode(dictSon.getCode());
+				if (tgServItemAndProcessorService.findTgServItemAndProcessor(record) == null) {
+					int reInsert = tgServItemAndProcessorService.insertSelective(record);
+					if (reInsert == 0)
+						return AjaxResponse.fail("服务与经办人表更新失败！");
+				}
+			}
+		}
+		return AjaxResponse.success("变更成功！");
+	}
+
+
+
+	/**
 	 * 交易计划变更 页面初始化
 	 * 
 	 * @param caseCode
