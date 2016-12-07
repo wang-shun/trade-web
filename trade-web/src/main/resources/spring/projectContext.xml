@@ -175,6 +175,9 @@
     <bean name="getFormatDate" class="com.centaline.trans.common.service.impl.QuickQueryFormatDateServiceImpl">
     <property name="format" value="YYYY-MM-DD"></property>
     </bean>  
+        <bean name="getFormatDate2" class="com.centaline.trans.common.service.impl.QuickQueryFormatDate2ServiceImpl">
+    <property name="format" value="YYYY-MM-DD HH:mm:ss"></property>
+    </bean>  
     <!-- 根据组织id查询组织名称 -->
 	<bean name="qqcdOrgIdName" class="com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl">
     	<property name="prop" value="orgName"></property>

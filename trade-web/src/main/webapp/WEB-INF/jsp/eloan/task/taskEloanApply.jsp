@@ -362,27 +362,25 @@
 							</div>
 						</li>
 						<li>
-							<div class="form_content">
+							<div class="form_content" style="position: relative;">
 								<label class="control-label sign_left_two"> <i
 									class="red">* </i> 信贷员
 								</label> <input type="text" name="loanerName" id="loanerName"
-									style="background-color: #FFFFFF;" readonly="readonly"
+									style="background-color: #FFFFFF;" 
 									class="sign_right_two input_type" id="txt_proOrgId_gb"
-									onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})"
-									value='${eloanCase.loanerName}' />
-								<div class="input-group float_icon organize_icon">
-									<i class="icon iconfont">&#xe627;</i>
-								</div>
+									value='${eloanCase.loanerName}' onkeyup="onkeyuploanerName()" >
+									<i style=" position: absolute; top: 5px; right: 5px; color:#52cdec; " id="loanerNameImage" name ="loanerNameImage" class="icon iconfont" onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
+								 </input>
 								 <input value="${eloanCase.loanerOrgCode}" type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
 								 <input value="${eloanCase.loanerOrgId}" type="hidden" id="loanerOrgId" name ="loanerOrgId" />
 								 <input value="${eloanCase.loanerId}" type="hidden"  id="loanerId" name="loanerId" />
 							</div>
-							<%-- <div class="form_content">
+							 <div class="form_content">
 								<label class="control-label sign_left_two"> 信贷员电话 </label> <input
-									class="input_type  sign_right_two" value="${eloanCase.loanerMobile}"
-									readonly="readonly" name="loanerMobile" id="loanerMobile">
-							</div> --%>
+									class="input_type  sign_right_two" value="${eloanCase.loanerPhone}"
+									 name="loanerPhone" id="loanerPhone"></input>
+							</div> 
 						</li>
 
 
@@ -824,6 +822,16 @@
 				alert("请填写转介人");
 				return false;
 			}
+			var loanerName = $('#loanerName').val();
+			if (loanerName == null || loanerName == '') {
+				alert("请填写信贷员");
+				return false;
+			}
+			var loanerPhone = $('#loanerPhone').val();
+			if (loanerPhone == null || loanerPhone == '') {
+				alert("请填写信贷员电话");
+				return false;
+			}
 			var loanSrvCode = $("#loanSrvCode option:selected").val();
 			var finOrgCode = $("#finOrgCode option:selected").val();
 
@@ -1097,7 +1105,8 @@
 						"userId" : array[0].userId
 					},
 					success : function(data) {
-						//$("#loanerMobile").val(data.user.mobile);
+						$("#loanerPhone").val(data.user.mobile);
+						$("#loanerNameImage").css("color","#52cdec");
 						$("#loanerId").val(data.user.id);
 						$("#loanerOrgCode").val(data.user.orgName);
 						$("#loanerOrgId").val(data.user.orgId);
@@ -1133,6 +1142,13 @@
 		function returnEmployeeCode(userId) {
 
 		}
+		function onkeyuploanerName(){
+			$("#loanerNameImage").css("color","#676A6C");
+			$("#loanerId").val("");
+			$("#loanerOrgCode").val("");
+			$("#loanerOrgId").val("");
+		}
+
 	</script> </content>
 
 

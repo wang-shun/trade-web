@@ -4,4 +4,5 @@
 	<import resource="rapidQuery/eloan/QueryEloanRelCash.xml" />
 	<import resource="rapidQuery/sys/noMappingCase.xml" />
 		<import resource="rapidQuery/sys/getAllYCCWMapping.xml" />
+	<import resource="rapidQuery/testAction/testAction.xml" />	
 </queryConfig>

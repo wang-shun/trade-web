@@ -536,7 +536,7 @@ public class CaseDetailController {
 			reVo.setPayType4(payType4);
 		}
 
-		// 房款监管信息
+	/*	// 房款监管信息
 		ToSpv toSpv = toSpvService.queryToSpvByCaseCode(toCase.getCaseCode());
 		// 房款进出账
 		List<ToCashFlow> cashFlows = toSpvService.queryCashFlowsByCaseCode(toCase.getCaseCode());
@@ -581,7 +581,7 @@ public class CaseDetailController {
 					}
 				}
 			}
-		}
+		}*/
 
 		// 金融服务信息
 		List<LoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
@@ -708,8 +708,8 @@ public class CaseDetailController {
 		request.setAttribute("toMortgage", toMortgage);
 		request.setAttribute("caseDetailVO", reVo);
 		request.setAttribute("caseInfo", caseInfo);
-		request.setAttribute("toSpv", toSpv);
-		request.setAttribute("cashFlows", cashFlows);
+/*		request.setAttribute("toSpv", toSpv);
+		request.setAttribute("cashFlows", cashFlows);*/
 		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
 		request.setAttribute("toLoanAgents", toLoanAgents);
 		return "case/caseDetail";
@@ -1145,7 +1145,12 @@ public class CaseDetailController {
 				} else {
 					toEloanCaseVO.setApplyStatusName("待确认");
 				}
-
+				if(!StringUtils.isBlank(toEloanCase.getLoanerName())){
+					toEloanCaseVO.setLoanerName(toEloanCase.getLoanerName());
+				}
+				if(!StringUtils.isBlank(toEloanCase.getLoanerPhone())){
+					toEloanCaseVO.setLoanerName(toEloanCase.getLoanerPhone());
+				}
 				// 放款时间
 				List<ToEloanRel> eloanRels = toEloanRelService.getEloanRelByEloanCode(toEloanCase.getEloanCode());
 				// 确认状态
@@ -1483,17 +1488,24 @@ public class CaseDetailController {
 
 		//添加变更记录
 		if(!origUserId.equals(userId)){
-			ToChangeRecord toChangeRecord = new ToChangeRecord();
-			toChangeRecord.setCaseCode(caseCode);
-			toChangeRecord.setPartName("");
-			toChangeRecord.setChangeType(ChangeRecordTypeEnum.OWNER.getCode());
-			toChangeRecord.setChangeBeforePerson(origUserId);
-			toChangeRecord.setChangeAfterPerson(userId);
-			toChangeRecord.setOperator(user.getId());
-			toChangeRecord.setOperateTime(new Date());
-			toChangeRecord.setCreateBy(user.getId());
-			toChangeRecord.setCreateTime(new Date());	
-			toChangeRecordMapper.insertSelective(toChangeRecord);
+			TaskQuery tq = new TaskQuery();
+			tq.setProcessInstanceId(instCode);
+			tq.setFinished(false);
+			tq.setAssignee(u.getUsername());
+			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+			for(TaskVo taskVo : tasks){
+				ToChangeRecord toChangeRecord = new ToChangeRecord();
+				toChangeRecord.setCaseCode(caseCode);
+				toChangeRecord.setPartName(taskVo.getName());
+				toChangeRecord.setChangeType(ChangeRecordTypeEnum.OWNER.getCode());
+				toChangeRecord.setChangeBeforePerson(origUserId);
+				toChangeRecord.setChangeAfterPerson(userId);
+				toChangeRecord.setOperator(user.getRealName());
+				toChangeRecord.setOperateTime(new Date());
+				toChangeRecord.setCreateBy(user.getId());
+				toChangeRecord.setCreateTime(new Date());	
+				toChangeRecordMapper.insertSelective(toChangeRecord);
+			}
 		}
 		
 		return AjaxResponse.success("变更成功！");

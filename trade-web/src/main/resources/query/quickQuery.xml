@@ -187,5 +187,5 @@
 	<import resource="query/case/toCaseTradeChangedListQuery.xml" />
 	
 	<!-- 变更记录列表 -->
-	<!-- <import resource="query/case/changeRecordListQuery.xml"/> -->
+	<import resource="query/case/changeRecordListQuery.xml"/>
 </queryConfig>

@@ -191,7 +191,35 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_ATTACHMENT
-    where 1=1 
+    where 1=1
+     
+    <if test="caseCode != null" >
+      	and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="preFileAdress != null" >
+     	and PRE_FILE_ADRESS = #{preFileAdress,jdbcType=VARCHAR}
+    </if>
+    <if test="preFileCode != null" >
+     	and PRE_FILE_CODE = #{preFileCode,jdbcType=VARCHAR}
+    </if>
+    <if test="partCode != null" >
+     	and PART_CODE = #{partCode,jdbcType=VARCHAR}
+    </if>
+    <if test="fileCat != null" >
+     	and FILE_CAT = #{fileCat,jdbcType=VARCHAR}
+    </if>
+    <if test="fileName != null" >
+     	and FILE_NAME = #{fileName,jdbcType=VARCHAR}
+    </if>
+    order by PRE_FILE_CODE
+  </select>
+  
+    <select id="quereyAttachmentForDetails" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_ATTACHMENT
+    where AVAILABLE = 'Y'
+     
     <if test="caseCode != null" >
       	and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     </if>
@@ -272,15 +300,21 @@
   <update id="setMainFlowVailable" parameterType="java.lang.String" >
     update sctrans.T_TO_ATTACHMENT
     set AVAILABLE = 'N'
-     WHERE CASE_CODE = BIZ_CODE
+    WHERE CASE_CODE = BIZ_CODE
       <choose>
             <when test="caseCode != null">
                 AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
             </when>
             <otherwise>
-                where CASE_CODE IS NULL
+                AND CASE_CODE IS NULL
             </otherwise>
      </choose>
-  </update>
+  </update>  
+  
+  <update id="updateToAttachmentByCaseCode" parameterType="java.lang.String" >
+    update sctrans.T_TO_ATTACHMENT
+    set AVAILABLE = 'N'
+	where case_code=#{caseCode,jdbcType=VARCHAR}
+  </update> 
   
 </mapper>

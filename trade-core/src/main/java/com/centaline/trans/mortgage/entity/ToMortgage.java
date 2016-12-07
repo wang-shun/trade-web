@@ -104,8 +104,13 @@ public class ToMortgage {
 	private String tmpBankUpdateByStr;
 	private String tmpBankUpdateBy;
 	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	private Date createTime;
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	private Date updateTime;
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
 	private Date tmpBankUpdateTime;
-
+	private String createBy;
+	private String updateBy;
 	private String bankName;
 
 	private String parentBankName;
@@ -519,6 +524,38 @@ public class ToMortgage {
 
 	public void setLoanerOrgId(String loanerOrgId) {
 		this.loanerOrgId = loanerOrgId;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 	}
 
 }

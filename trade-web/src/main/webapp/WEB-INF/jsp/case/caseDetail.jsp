@@ -16,29 +16,20 @@
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
 
-<link href="${ctx}/css/plugins/jasny/jasny-bootstrap.min.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
-	rel="stylesheet">
-<link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
-	rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/jasny/jasny-bootstrap.min.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"	rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
 
 <link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
 <link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
@@ -326,10 +317,10 @@
 											class="btn btn-primary btn-xm btn-activity"
 											href="#pr-modal-form">产调发起 </a>
 									</shiro:hasPermission>
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPSTART">
+				<%-- 					<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPSTART">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="${ctx }/spv/toSaveSpv?caseCode=${toCase.caseCode}">房款监管</a>
-									</shiro:hasPermission>
+									</shiro:hasPermission> --%>
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPEND">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:startSpvOutApplyProcess('${toCase.caseCode}')">监管解除</a>
@@ -741,8 +732,8 @@
 							</li>
 							<li class=""><a href="#profile_info" data-toggle="tab">贷款相关信息</a>
 							</li>
-							<li class=""><a href="#messages_info" data-toggle="tab">房款监管信息</a>
-							</li>
+<!-- 							<li class=""><a href="#messages_info" data-toggle="tab">房款监管信息</a>
+							</li> -->
 							<li class=""><a href="#settings_info" data-toggle="tab">e+服务信息</a>
 							</li>
 							<li class=""><a href="#fujian_info" data-toggle="tab">附件信息</a>
@@ -1047,6 +1038,11 @@
 											<label class="col-sm-3 control-label">面签时间：${toEloanCaseVO.signTime}</label>
 											<label class="col-sm-3 control-label">放款时间：${toEloanCaseVO.releaseTime}</label>
 										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">信贷员：${toEloanCase.loanerName}</label>
+											<label class="col-sm-3 control-label">信贷员电话：${toEloanCase.loanerPhone}</label>
+										</div>
+																				
 									<%-- 	<div class="row ">
 											<label class="col-sm-3 control-label">对账时间：${toEloanCaseVO.incomeConfirmTime}</label>
 											<label class="col-sm-3 control-label">结账时间：${toLoanAgentVO.incomeArriveTime}</label>
