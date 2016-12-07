@@ -33,6 +33,14 @@
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
+
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -53,20 +61,27 @@
 	<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
-		<div class="row wrapper border-bottom white-bg page-heading">
-			<div class="col-lg-10">
-				<h2>贷款流失申请</h2>
-				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
-			</div>
-			<div class="col-lg-2"></div>
-		</div>
-		<div class="ibox-title">
-			<h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form method="post" class="form-horizontal" id="loanlostApplyForm">
+		<div class="row wrapper white-bg new-heading ">
+             <div class="pl10">
+                 <h2 class="newtitle-big">
+                        贷款流失申请
+                    </h2>
+                <div class="mt20">
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+                            <i class="iconfont icon">&#xe600;</i> 在途单列表
+                        </button>
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+                            <i class="iconfont icon">&#xe63f;</i> 案件视图
+                        </button>
+                    </div>
+             </div>
+        </div>
+		<div class="ibox-content border-bottom clearfix space_box noborder">
+
+            <div>
+                <h2 class="newtitle title-mark">填写任务信息</h2>
+                <div class="form_list">
+                <form method="post" class="form-horizontal" id="loanlostApplyForm">
 			<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode"	value="${taskitem}"> 
 					<input type="hidden" id="custName"	name="custName" value=""> 
@@ -90,220 +105,137 @@
 					<input type="hidden" id="approveType" name="approveType"	value="${approveType }"> 
 					<input type="hidden" id="lapPkid"	name="lapPkid" value="${toApproveRecord.pkid }"> 
 					<input type="hidden" id="operator" name="operator" value="${operator }">
+                    <div class="marinfo">
+                        <div class="line">
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">承办银行</label>
+                                <select class=" select_control  " name="bank" id="bank">
+								</select>
+                            </div>
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">支行名称</label>
+                                <select class=" select_control  " name="lastLoanBank" id="lastLoanBank">
+								</select>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">主贷人<font color=" red" class="mr5" >*</font></label>
+                                <select class="yuanwid select_control " name="custCode" id="custCode">
+								</select>
+                            </div>
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">贷款流失金额<font color=" red" class="mr5" >*</font></label> 
+                                <input type="text" class=" input_type yuanwid" id="mortTotalAmount" name="mortTotalAmount" value="${mortgage.mortTotalAmount/10000}">
+                                <span class="date_icon">万元</span>
+                            </div>
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">主贷人单位</label> 
+                                <input type="text" name="custCompany" id="custCompany" class=" input_type" value="${custCompany }">
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 control-label">承办银行</label>
-						<div class="col-sm-4">
-							<select class="form-control m-b chosen-select" name="bank"
-								id="bank">
-							</select>
-						</div>
 
-						<label class="col-sm-2 control-label">支行名称</label>
-						<div class="col-sm-4">
-							<select class="form-control m-b chosen-select"
-								name="lastLoanBank" id="lastLoanBank">
-							</select>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">主贷人<span
-							class="star">*</span></label>
-						<div class="col-sm-4">
-							<select class="form-control m-b chosen-select" name="custCode"
-								id="custCode">
-							</select>
-						</div>
-						<label class="col-sm-2 control-label">主贷人单位</label>
-						<div class="col-sm-4">
-							<input type="text" name="custCompany" id="custCompany"
-								class="form-control" value="${custCompany }">
-						</div>
-
-
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">贷款流失金额<span
-							class="star">*</span></label>
-						<div class="col-sm-2">
-							<div class="input-group">
-								<input type="text" class="form-control" id="mortTotalAmount"
-									name="mortTotalAmount"
-									value="${mortgage.mortTotalAmount/10000}"> <span
-									class="input-group-addon">万</span>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">客户自办贷款确认函编号</label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" id="loanLostConfirmCode" name="loanLostConfirmCode" value="${mortgage.loanLostConfirmCode}"> 
-						</div>
-						<label class=" col-sm-8 control-label text-left" style="padding-top: 0px;font-weight: normal;font-size: 8px;">备注：编号范例：ZY00000001ZB；若开具公司版本客户自办贷款确认函，则必须填写编号并上传附件，反之则无需上传</label>
-						
-					</div>
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">贷款流失原因</label>
-						<div class="form_sign col-sm-10 clearfix" id="loanLostApply"
-							style="display: block">
+                        <div class="line">
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">客户自办贷款确认函编号</label>
+                                <input type="text" class=" input_type yuanwid" id="loanLostConfirmCode" name="loanLostConfirmCode" value="${mortgage.loanLostConfirmCode}">
+                                <span class="font12">备注：编号范例：ZY0000001ZB;若开具公司版本客户自办贷款确认函,则必须填写编号并上传附件,反之则无需上传</span>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <label class="control-label sign_left_small" style="vertical-align: top;">贷款流失原因</label>
+                            <div class="inline" style="width: 750px;" id="loanLostApply" style="display: block">
+                             <div class="row">
 							<c:forEach items="${loanLostApplyReasons}"	var="loanLostApplyReasonForShow">
-								<div class="col-sm-6 ">
+								<div class="col-md-6 no-padding">
 									<input type="checkbox"	   value="${loanLostApplyReasonForShow.name}"	id="loanLostApplyReasonShow" name="loanLostApplyReasonShow"
-										class="btn btn-white"	onChange="loanLostApplyReasonAppend(this.checked,'${loanLostApplyReasonForShow.name}');">
+										class="input_type "	onChange="loanLostApplyReasonAppend(this.checked,'${loanLostApplyReasonForShow.name}');">
 									<label>${loanLostApplyReasonForShow.name}</label>
 								</div>
 							</c:forEach>
-						</div>
-					</div>
-					<!--存code的话 设置为hidden-->
-					<div class="form-group">
-						<label class="col-sm-2 control-label">已勾选原因</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="loanLostApplyReason"
-								name="loanLostApplyReason"
-								value="${mortgage.loanLostApplyReason}" readonly="readonly">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">贷款流失具体原因<span
-							class="star">*</span></label>
-						<div class="col-sm-10">
-							<textarea rows="3" class="form-control" id="selfDelReason"
-								name="selfDelReason">${mortgage.selfDelReason }</textarea>
-						</div>
-					</div>
-				</form>
-
-			</div>
-		</div>
-
-		<div id="caseCommentList" class="add_form"></div>
-
-		<div class="ibox-title">
-			<c:choose>
-				<c:when test="${accesoryList!=null}">
-					<h5>上传备件</h5>
-					<div class="ibox-content"
-						style="height: 280px; overflow-y: scroll;">
-						<h5>${accesoryList[0].accessoryName }</h5>
-						<c:forEach var="accesory" items="${accesoryList}"	varStatus="status">
-							<div class="" id="fileupload_div_pic">							
-								<form id="fileupload"	action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	method="POST" enctype="multipart/form-data">
-									<noscript>
-										<input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-										<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">
-									</noscript>
-									<c:if test="${status.index != 0}">
-										<h5 align="left"><br>${accesory.accessoryName }</h5>
-									</c:if>
-									
-									<div class="row-fluid fileupload-buttonbar">
-										<div class="" style="height: auto">
-											<div role="presentation" class="table table-striped "	style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-												<div id="picContainer${accesory.pkid }" class="files"	data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-												<!-- 用于'客户确认书'验证 -->
-												<input type="hidden" id="fileFlagCode${accesory.pkid }"   value="${accesory.accessoryCode }">
-												
-												<span class=" fileinput-button "	style="margin-left: 10px !important; width: 80px;">
-													<div id="chandiaotuBtn" class="" style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-														<i class="fa fa-plus"></i>
-													</div> 													
-													<input id="picFileupload${accesory.pkid }" type="file"	name="files[]" multiple 	data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	data-sequential-uploads="true">
-												</span>
-											</div>
-										</div>
-									</div>									
-								</form>
 							</div>
-
-							<div class="row-fluid">
-								<div class="">
-									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-									<!--图片缩图  -->
-							        <div class="preview"><span class="fade"></span></div>
-									<!--  错误信息 -->
-							        {% if (file.error) { %}
-							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else if (o.files.valid && !i) { %}
-									<!-- 单个对应的按钮  -->
-							            <div class="start span1" style="display: none">
-										{% if (!o.options.autoUpload) { %}
-							                <button class="btn">
-							                    <i class="icon-upload icon-white"></i>
-							                    <span>上传</span>
-							                </button>
-							            {% } %}
-										</div>
-							        {% } else { %}
-							            <div class="span1" colspan="2"></div>
-							        {% } %}
-							        <div class="cancel" style="margin-top:-172px;margin-left:85%;">
-									{% if (!i) { %}
-							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        {% } %}
-									</div>
-							    </div>
-							{% } %}
-						</script>
-						<script id="templateDownload${accesory.pkid }"	type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-							        {% if (file.error) { %}
-							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else { %}
-							            <div class="preview span12">
-										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
-										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.thumbnail_url) { %}
-							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
-							            {% } %}</div>
-							            <div class="name" style="display: none">
-							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-							            </div>
-							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        </div>
-							    </div>
-							{% } %}
-						</script>
-								</div>
 							</div>
-						</c:forEach>
+                        </div>
+                        <div class="line">
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">已选择原因</label>
+                                <input class="input_type yuanwid" style="width:820px;"  value="" >
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="form_content">
+                                <label class="control-label sign_left_small" style="vertical-align: top;">贷款流失具体原因</label>
+                                <textarea class="input_type yuanwid" style="width:820px;height:75px;resize:none;"  value="" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
 
-						<div class="row-fluid" style="display: none;">
-							<div class="span4">
-								<div class="control-group">
-									<a class="btn blue start" id="startUpload"
-										style="height: 30px; width: 50px"> <i
-										class="icon-upload icon-white"></i> <span>上传</span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</c:when>
-				<c:otherwise>
-					<h5>
-						上传备件<br>无需上传备件
-					</h5>
-				</c:otherwise>
-			</c:choose>
-		</div>
+            <div class="title title-mark">
+                <strong>案件跟进</strong>
+            </div>
+        <div class="view-content">
+            <div class="view-box">
+                <p class="text-center">
+                    <img src="../static/trans/img/false.png" height="100" alt="" />
+                </p>
+            </div>
+            <div class="form_list clearfix">
+               <input class="input_type pull-left" placeholder="" value="" style="width:93%;">
+               <button class="btn btn_more pull-right" style="width:60px;">跟进</button>
+            </div>
+        </div>
 
-		<div class="ibox-title">
-			<a href="#" class="btn" onclick="save(false)">保存</a> <a href="#"
-				class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
-		</div>
+        <div class="mt30">
+            <h2 class="newtitle title-mark">上传附件</h2>
+            <div class="file-list">
+                <div class="file-content">
+                    <h4>过户确认书</h4>
+                    <div class="file-item">
+                        <img src="../static/trans/img/uplody01.png" alt="" />
+                    </div>
+                    <div class="file-item" id="addImg">
+                        <input type="file" id="file" />
+                        <div class="file-sign"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="file-list">
+                <div class="file-content">
+                    <h4>收件收据</h4>
+                    <div class="file-item">
+                        <img src="../static/trans/img/uplody01.png" alt="" />
+                    </div>
+                    <div class="file-item" id="addImg">
+                        <input type="file" id="file" />
+                        <div class="file-sign"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="file-list">
+                <div class="file-content">
+                    <h4>核价单/契税单</h4>
+                    <div class="file-item">
+                        <img src="../static/trans/img/uplody01.png" alt="" />
+                    </div>
+                    <div class="file-item" id="addImg">
+                        <input type="file" id="file" />
+                        <div class="file-sign"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                     <div class="form-btn">
+                            <div class="text-center">
+                                <button  class="btn btn-success btn-space">保存</button>
+                                 <button class="btn btn-success btn-space">提交</button>
+                            </div>
+                        </div>
+                    </div>
 	</div>
 	<content tag="local_script"> <!-- Peity --> 
 	<script	 src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
@@ -345,6 +277,10 @@
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	
+	<!-- 改版引入的新的js文件 -->
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script>
 			var source = "${source}";
