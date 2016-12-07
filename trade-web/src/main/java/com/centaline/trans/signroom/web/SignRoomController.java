@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.poi.ss.formula.functions.T;
 import org.jsoup.helper.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +49,8 @@ public class SignRoomController {
 	private RmSignRoomService rmSignRoomService;
 	@Resource
 	ReservationService reservationService;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass()); 
 
 	/**
 	 * 签约室分配列表
@@ -180,6 +184,7 @@ public class SignRoomController {
 			response.setMessage("保存成功！");
 			response.setSuccess(true);
 		}catch(Exception e){
+			logger.error("签约室保存失败:", e);
 			response.setCode("500");
 			response.setMessage("保存失败！");
 			response.setSuccess(false);
@@ -209,6 +214,7 @@ public class SignRoomController {
 				response.setSuccess(true);
 			}
 		}catch(Exception e){
+			logger.error("签约室删除失败:", e);
 			response.setCode("500");
 			response.setMessage("删除失败！");
 			response.setSuccess(false);
@@ -239,6 +245,7 @@ public class SignRoomController {
 			}
 			
 		}catch(Exception e){
+			logger.error("签约室分配失败:", e);
 			response.setCode("500");
 			response.setMessage("分配失败！");
 			response.setSuccess(false);
@@ -277,7 +284,7 @@ public class SignRoomController {
 			response.setMessage("查询成功！");
 			response.setSuccess(true);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error("签约室排班数据查询失败:", e);
 			response.setCode("500");
 			response.setMessage("查询失败！");
 			response.setSuccess(false);
@@ -299,6 +306,7 @@ public class SignRoomController {
 			response.setMessage("分配值班经理成功！");
 			response.setSuccess(true);
 		}catch(Exception e){
+			logger.error("分配值班经理失败:", e);
 			response.setCode("500");
 			response.setMessage("分配值班经理失败！");
 			response.setSuccess(false);
@@ -322,6 +330,7 @@ public class SignRoomController {
 			response.setMessage("删除值班经理成功！");
 			response.setSuccess(true);
 		}catch(Exception e){
+			logger.error("删除值班经理失败:", e);
 			response.setCode("500");
 			response.setMessage("删除值班经理失败！");
 			response.setSuccess(false);
