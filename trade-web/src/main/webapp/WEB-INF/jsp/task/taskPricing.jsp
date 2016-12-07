@@ -64,88 +64,87 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
-	<div class="row">
-		<div class="ibox-title">
-		<div class="row wrapper border-bottom white-bg page-heading">
-			         <div class="row wrapper white-bg new-heading ">
-             <div class="pl10">
-                 <h2 class="newtitle-big">
-                        	核价
-                    </h2>
-                <div class="mt20">
-                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
-                            <i class="iconfont icon">&#xe600;</i> 在途单列表
-                        </button>
-                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
-                            <i class="iconfont icon">&#xe63f;</i> 案件视图
-                        </button>
-                    </div>
-             </div>
-        </div>
+	<div class="row marginbot">
+		<div class="row  border-bottom white-bg ">
+			 <div class="row wrapper white-bg new-heading">
+	             <div class="pl10">
+	                <h2 class="newtitle-big">
+	                       	核价
+	                </h2>
+	                <div class="mt20">
+	                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+	                            <i class="iconfont icon">&#xe600;</i> 在途单列表
+	                        </button>
+	                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+	                            <i class="iconfont icon">&#xe63f;</i> 案件视图
+	                        </button>
+	                </div>
+	             </div>
+	        </div>
 
-        <div class="ibox-content border-bottom clearfix space_box noborder">
-            <div class="">
-                <h2 class="newtitle title-mark">完成提醒</h2>
-                <div class="jqGrid_wrapper">
-                    <table id="reminder_list"></table>
-					<div id="pager_list_1"></div>	
-                    <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS">
-                        <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
-                    </button>
-                </div>
-            </div>
-        	<div>
-            	<h2 class="newtitle title-mark">填写任务信息</h2>
-            	<form method="get" class="form-horizontal" id="pricingForm">
-	           		<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-					<!-- 流程引擎需要字段 -->
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					
-					<input type="hidden" id="pkid" name="pkid" value="${pricing.pkid}">
-		            <div class="form_list">
-		                <div class="marinfo">
-		                    <div class="line">
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small select_style mend_select">
-		                               	 <font color=" red" class="mr5" >*</font>核价时间
-		                            </label>
-		                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-		                            	<input type="text" class="input_type yuanwid datatime" name="pricingTime" id="pricingTime"
-									 		onfocus="this.blur()" value="<fmt:formatDate  value='${pricing.pricingTime}' type='both' pattern='yyyy-MM-dd'/>">
-		                            </div>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>税务核定价</label> 
-		                            <input type="text" class="input_type yuanwid" id="taxPricing" name="taxPricing" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${ pricing.taxPricing}' type='number' pattern='#0.00'/>">
-									<span class="date_icon">万元</span>
-		                        </div>
-		                        <div class="form_content">
-		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋性质</label>
-		                            <aist:dict clazz="select_control data_style" id="houseProperty" name="houseProperty" display="select" defaultvalue="${pricing.houseProperty}" dictType="house_property" />
-		                        </div>
-		                    </div>
-		                </div>
-		            </div>
-            	</form>
-        	</div>
-
-        	<div class="view-content" id="caseCommentList"></div>
-
-	         <div class="form-btn">
-                <div class="text-center">
-                    <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
-                    <button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1" id="btnSubmit">提交</button>
-                </div>
-                <!-- <div id="smsPlatFrom"></div> -->
-            </div>
-	      </div>
+	        <div class="ibox-content clearfix space_box noborder">
+	            <div class="">
+	                <h2 class="newtitle title-mark">完成提醒</h2>
+	                <div class="jqGrid_wrapper">
+	                    <table id="reminder_list"></table>
+						<div id="pager_list_1"></div>	
+	                    <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS">
+	                        <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
+	                    </button>
+	                </div>
+	            </div>
+	        	<div>
+	            	<h2 class="newtitle title-mark">填写任务信息</h2>
+	            	<form method="get" class="form-horizontal" id="pricingForm">
+		           		<%--环节编码 --%>
+						<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+						<!-- 交易单编号 -->
+						<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+						<!-- 流程引擎需要字段 -->
+						<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+						<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+						
+						<input type="hidden" id="pkid" name="pkid" value="${pricing.pkid}">
+			            <div class="form_list">
+			                <div class="marinfo">
+			                    <div class="line">
+			                        <div class="form_content">
+			                            <label class="control-label sign_left_small select_style mend_select">
+			                               	 <font color=" red" class="mr5" >*</font>核价时间
+			                            </label>
+			                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+			                            	<input type="text" class="input_type yuanwid datatime" name="pricingTime" id="pricingTime"
+										 		onfocus="this.blur()" value="<fmt:formatDate  value='${pricing.pricingTime}' type='both' pattern='yyyy-MM-dd'/>">
+			                            </div>
+			                        </div>
+			                        <div class="form_content">
+			                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>税务核定价</label> 
+			                            <input type="text" class="input_type yuanwid" id="taxPricing" name="taxPricing" onkeyup="checkNum(this)"
+											value="<fmt:formatNumber value='${ pricing.taxPricing}' type='number' pattern='#0.00'/>">
+										<span class="date_icon">万元</span>
+			                        </div>
+			                        <div class="form_content">
+			                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋性质</label>
+			                            <aist:dict clazz="select_control data_style" id="houseProperty" name="houseProperty" display="select" defaultvalue="${pricing.houseProperty}" dictType="house_property" />
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+	            	</form>
+	        	</div>
+	
+	        	<div class="view-content" id="caseCommentList"></div>
+	
+		         <div class="form-btn">
+	                <div class="text-center">
+	                    <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
+	                    <button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1" id="btnSubmit">提交</button>
+	                </div>
+	                <!-- <div id="smsPlatFrom"></div> -->
+	            </div>
+		    </div>
+		    </div>
 		</div>
-	</div>
 	<content tag="local_script"> 
 	<script type="text/javascript">
 		var source = "${source}";
