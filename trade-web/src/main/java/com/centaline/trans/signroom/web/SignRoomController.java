@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.poi.ss.formula.functions.T;
 import org.jsoup.helper.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +49,8 @@ public class SignRoomController {
 	private RmSignRoomService rmSignRoomService;
 	@Resource
 	ReservationService reservationService;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * 签约室分配列表
@@ -242,6 +246,7 @@ public class SignRoomController {
 			response.setCode("500");
 			response.setMessage("分配失败！");
 			response.setSuccess(false);
+			logger.error("分配失败！", e);
 		}
 		return response;
 	}
