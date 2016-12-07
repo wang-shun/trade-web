@@ -304,7 +304,7 @@ public class CaseChangeController {
 			toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
 			toChangeRecord.setChangeBeforePerson(oldProcessorIdArr[i]);
 			toChangeRecord.setChangeAfterPerson(myProcessorIdArr[i]);
-			toChangeRecord.setOperator(user.getId());
+			toChangeRecord.setOperator(user.getRealName());
 			toChangeRecord.setOperateTime(new Date());
 			toChangeRecord.setCreateBy(user.getId());
 			toChangeRecord.setCreateTime(new Date());	
@@ -445,8 +445,7 @@ public class CaseChangeController {
 					updateWorkflow(srvCode, processorId, tasks, proDb.getProcessorId(), caseCode);
 				}
 				
-				//添加变更记录		
-				
+				//添加变更记录					
 				for(int i = 0; i < oldProcessorIdList.size(); i++){
 					//没有变化就跳过					
 					if(oldProcessorIdList.get(i).equals(processorIdList.get(i)) ||  "".equals(processorIdList.get(i))) continue;
@@ -457,8 +456,7 @@ public class CaseChangeController {
 					toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
 					toChangeRecord.setChangeBeforePerson(oldProcessorIdList.get(i));
 					toChangeRecord.setChangeAfterPerson(processorIdList.get(i));
-					
-					toChangeRecord.setOperator(user.getId());
+					toChangeRecord.setOperator(user.getRealName());
 					toChangeRecord.setOperateTime(new Date());
 					toChangeRecord.setCreateBy(user.getId());
 					toChangeRecord.setCreateTime(new Date());	

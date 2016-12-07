@@ -88,15 +88,12 @@ function searchMethod(page) {
 
 //清空
 $('#cleanButton').click(function() {
-	$("input[name='caseCode']").val('');
-	$("input[name='propertyAddr']").val('');
-	$("input[name='orgManName']").val('');
+	$("#caseCode").val('');
+	$("#partName").val('');
+	$("#operator").val('');
 	$("input[name='dtBegin']").datepicker('update', '');
 	$("input[name='dtEnd']").datepicker('update', '');
-	$("input[id='inTextVal']").val('');
-	$("input[name='orgName']").val('');
-	
-	$("select").val("");
+	$("select").val('');
 });
 
 function reloadGrid(data) {
@@ -202,44 +199,39 @@ function getParamsValue() {
 	
 	//案件编号
 	var caseCode = $("#caseCode").val().trim();
-	if(""==caseCode || null==caseCode){
-		caseCode=null;
+	if(caseCode == ''){
+		caseCode = null;
 	}
+	
+	//环节名称
+	var partName = $("#partName").val().trim();
+	if(partName == ''){
+		partName = null;
+	}
+	
+	//变更类型
+	var changeType = $("#changeType").val().trim();
+	if(changeType == ''){
+		changeType = null;
+	}
+	
+	//操作人
+    var operator = $("#operator").val().trim();
+    if(operator == ''){
+    	operator = null;
+    }
 	
 	//设置查询参数
 	var params = {};
 	
+	params.caseCode = caseCode;
+	params.partName = partName;
+	params.changeType = changeType;
+	params.operator = operator;
 	params.operateTimeEnd = operateTimeStart;
 	params.operateTimeEnd = operateTimeEnd;
-	params.caseCode = caseCode;
 
 	return params;
-}
-
-//选业务组织的回调函数
-function radioYuCuiOrgSelectCallBack(array){
-    if(array && array.length >0){
-        $("#orgName").val(array[0].name);
-		$("#yuCuiOriGrpId").val(array[0].id);
-		
-		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
-		$("#oldactiveName").attr("onclick",userSelect);
-	}else{
-		$("#orgName").val("");
-		$("#yuCuiOriGrpId").val("");
-	}
-}
-
-//选取人员的回调函数
-function selectUserBack(array){
-	if(array && array.length >0){
-        $("#inTextVal").val(array[0].username);
-		$("#inTextVal").attr('hVal',array[0].userId);
-
-	}else{
-		$("#inTextVal").val("");
-		$("#inTextVal").attr('hVal',"");
-	}
 }
 
 //导出excel方法
@@ -250,7 +242,6 @@ function exportToExcel() {
 		//excel导出列
 		var displayColomn = new Array;
 		displayColomn.push('CASE_CODE');
-		displayColomn.push('PROPERTY_ADDR');
 		displayColomn.push('PART_NAME');
 		displayColomn.push('CHANGE_TYPE');
 		displayColomn.push('CHANGE_BEFORE_PERSON');

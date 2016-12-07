@@ -1488,17 +1488,24 @@ public class CaseDetailController {
 
 		//添加变更记录
 		if(!origUserId.equals(userId)){
-			ToChangeRecord toChangeRecord = new ToChangeRecord();
-			toChangeRecord.setCaseCode(caseCode);
-			toChangeRecord.setPartName("");
-			toChangeRecord.setChangeType(ChangeRecordTypeEnum.OWNER.getCode());
-			toChangeRecord.setChangeBeforePerson(origUserId);
-			toChangeRecord.setChangeAfterPerson(userId);
-			toChangeRecord.setOperator(user.getId());
-			toChangeRecord.setOperateTime(new Date());
-			toChangeRecord.setCreateBy(user.getId());
-			toChangeRecord.setCreateTime(new Date());	
-			toChangeRecordMapper.insertSelective(toChangeRecord);
+			TaskQuery tq = new TaskQuery();
+			tq.setProcessInstanceId(instCode);
+			tq.setFinished(false);
+			tq.setAssignee(u.getUsername());
+			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+			for(TaskVo taskVo : tasks){
+				ToChangeRecord toChangeRecord = new ToChangeRecord();
+				toChangeRecord.setCaseCode(caseCode);
+				toChangeRecord.setPartName(taskVo.getName());
+				toChangeRecord.setChangeType(ChangeRecordTypeEnum.OWNER.getCode());
+				toChangeRecord.setChangeBeforePerson(origUserId);
+				toChangeRecord.setChangeAfterPerson(userId);
+				toChangeRecord.setOperator(user.getRealName());
+				toChangeRecord.setOperateTime(new Date());
+				toChangeRecord.setCreateBy(user.getId());
+				toChangeRecord.setCreateTime(new Date());	
+				toChangeRecordMapper.insertSelective(toChangeRecord);
+			}
 		}
 		
 		return AjaxResponse.success("变更成功！");

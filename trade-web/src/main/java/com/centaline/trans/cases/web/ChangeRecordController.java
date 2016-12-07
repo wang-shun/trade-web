@@ -31,32 +31,6 @@ public class ChangeRecordController {
 	@RequestMapping(value = "list")
 	public String querySignCase(Model model, ServletRequest request){
 		
-		SessionUser user = uamSessionService.getSessionUser();
-		String userJob=user.getServiceJobCode();
-		boolean queryOrgFlag = false;
-		boolean isAdminFlag = false;
-
-        StringBuffer reBuffer = new StringBuffer();
-		if(!userJob.equals(TransJobs.TJYGW.getCode())){
-			queryOrgFlag=true;
-			String depString = user.getServiceDepHierarchy();
-			String userOrgIdString = user.getServiceDepId();
-			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
-				reBuffer.append(userOrgIdString);
-			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
-				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
-				for(Org org:orgList){
-					reBuffer.append(org.getId());
-					reBuffer.append(",");
-				}
-				reBuffer.deleteCharAt(reBuffer.length()-1);
-				
-			}else{
-				isAdminFlag=true;
-			}
-		}
-		request.setAttribute("queryOrgs", reBuffer.toString());
-		
 		//默认显示上周数据
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();

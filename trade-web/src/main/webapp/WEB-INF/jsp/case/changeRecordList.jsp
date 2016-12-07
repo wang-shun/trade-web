@@ -114,15 +114,54 @@ text-decoration: underline !important;
 							</div>
 						</div>
 					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group ">
+								<label class="col-md-1 control-label m-l">环节名称</label>
+								<div class="col-md-10 dizhi">
+									<input type="text" class="form-control" id="partName"
+										name="partName" />
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group ">
+								<label class="col-md-1 control-label m-l">变更类型</label>
+								<div class="col-md-8 dizhi">
+									<select id="changeType" name="changeType" class="form-control">
+									    <option value="">请选择</option>
+									    <option value="1">责任人</option>
+									    <option value="2">合作对象</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group ">
+								<label class="col-md-1 control-label m-l">操作人</label>
+								<div class="col-md-10 dizhi">
+									<input type="text" class="form-control" id="operator"
+										name="operator" />
+								</div>
+							</div>
+						</div>
+					</div>
 
 					<div class="row date-info">
 						<div class="col-md-12">
 							<div class="form-group">
-							<label class="col-md-1 control-label m-l">签约时间</label>
+							<label class="col-md-1 control-label m-l">操作时间</label>
 							<div id="dateDiv_0">
 							<div id="datepicker_0"
 								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd">
+								data-date-format="yyyy-mm-dd"  style="margin-left:13px;">
 								<input id="dtBegin" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${operateTimeStart}" placeholder="起始日期">
 								<span class="input-group-addon">到</span>
 								<input id="dtEnd" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${operateTimeEnd}" placeholder="结束日期" />
@@ -147,7 +186,7 @@ text-decoration: underline !important;
 						</div>
 							
 						<div class="col-md-6"  style="text-align:right;"> 
-							<a class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportToExcel()">案件导出</a>
+							<a class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportToExcel()">列表导出</a>
 						</div>
 						
 					</form>
