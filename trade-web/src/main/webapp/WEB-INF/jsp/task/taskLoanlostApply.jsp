@@ -106,15 +106,15 @@
 					<input type="hidden" id="lapPkid"	name="lapPkid" value="${toApproveRecord.pkid }"> 
 					<input type="hidden" id="operator" name="operator" value="${operator }">
                     <div class="marinfo">
-                        <div class="line">
+                        <div class="line clearfix" style="overflow:visible">
                             <div class="form_content">
                                 <label class="control-label sign_left_small">承办银行</label>
-                                <select class=" select_control  " name="bank" id="bank">
+                                <select class="form-control m-b chosen-select" name="bank" id="bank">
 								</select>
                             </div>
                             <div class="form_content">
                                 <label class="control-label sign_left_small">支行名称</label>
-                                <select class=" select_control  " name="lastLoanBank" id="lastLoanBank">
+                                <select class="form-control m-b chosen-select" name="lastLoanBank" id="lastLoanBank">
 								</select>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                                 <select class="yuanwid select_control " name="custCode" id="custCode">
 								</select>
                             </div>
-                            <div class="form_content">
+                            <div class="form_content ml20">
                                 <label class="control-label sign_left_small">贷款流失金额<font color=" red" class="mr5" >*</font></label> 
                                 <input type="text" class=" input_type yuanwid" id="mortTotalAmount" name="mortTotalAmount" value="${mortgage.mortTotalAmount/10000}">
                                 <span class="date_icon">万元</span>
@@ -176,7 +176,7 @@
             </div>
 			<!-- 案件跟进 -->
             <div class="view-content" id="caseCommentList"> </div>
-        	<div class="mt30">
+        	<div class="mt30 clearfix">
         		<c:choose>
 				<c:when test="${accesoryList!=null}">
 					<h2 class="newtitle title-mark">上传备件</h2>
@@ -294,13 +294,14 @@
 				</c:otherwise>
 			</c:choose>
         </div>
-		</div>
-       <div class="form-btn">
+        <div class="form-btn">
               <div class="text-center">
                   <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
                    <button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</button>
               </div>
        </div>
+		</div>
+       
 	</div>
 	<content tag="local_script"> <!-- Peity --> 
 	<script	 src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
@@ -574,7 +575,7 @@
 									}
 									friend.chosen({
 										no_results_text : "未找到该选项",
-										width : "98%",
+										
 										search_contains : true,
 										disable_search_threshold : 10
 									});
@@ -621,7 +622,6 @@
 									}
 									friend.chosen({
 										no_results_text : "未找到该选项",
-										width : "98%",
 										search_contains : true,
 										disable_search_threshold : 10
 									});

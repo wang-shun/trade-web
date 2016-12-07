@@ -41,6 +41,7 @@ import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
+import com.centaline.trans.utils.UiImproveUtil;
 
 
 @Controller
@@ -94,7 +95,7 @@ public class LoanlostApproveController {
 				request.setAttribute("custName",guest.getGuestName());
 			}
 		};
-		return "task/task"+taskitem;
+		return "task"+UiImproveUtil.getPageType(request)+"/task"+taskitem;
 	}
 	
 	
