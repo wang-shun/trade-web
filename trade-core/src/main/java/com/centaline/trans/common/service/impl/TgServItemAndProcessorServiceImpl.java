@@ -180,7 +180,8 @@ public class TgServItemAndProcessorServiceImpl implements
 			
 			User user = uamUserOrgService.getUserById(servitemList.get(k).getProcessorId()==null ? "":servitemList.get(k).getProcessorId());
 			serps.setOldProcessorName(user.getRealName() == null ? "":user.getRealName());
-			serps.setOrgId(servitemList.get(k).getOrgId());  // orgId
+			
+			serps.setOrgId(user.getOrgId());  // orgId	
 			serps.setSrvName(dt.getName());  // srvName
 			
 			serList.add(serps);

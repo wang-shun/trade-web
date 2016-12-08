@@ -346,6 +346,7 @@ public class CaseChangeController {
 			List<String> processorIdList = tgServItemAndProcessorVo.getProcessorId();		
 			List<String> srvCodeList = tgServItemAndProcessorVo.getSrvCode();
 			List<String> preProcessorIdList = tgServItemAndProcessorVo.getPreProcessorId();
+			List<String> preOrgIdList = tgServItemAndProcessorVo.getPreOrgId();
 						
 			String caseCodeForInstCode = "";
 			ToWorkFlow toWorkFlow =  new ToWorkFlow();
@@ -383,21 +384,18 @@ public class CaseChangeController {
 					String processorId = processorIdList.get(i);//新的案件合作人
 					String orgId = orgIdList.get(i);
 					String oldProcessorId = preProcessorIdList.get(i);
+					String preOrgId = preOrgIdList.get(i);
 					
 					pro = new TgServItemAndProcessor();
 					pro.setProcessorId(processorId);
 					pro.setCaseCode(caseCode);
 					pro.setSrvCode(srvCode);	
 					pro.setOrgId(orgId);
-					
+					pro.setPreOrgId(preOrgId);
+					pro.setPreProcessorId(oldProcessorId);		
 					
 					TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
 					if(processorId != null &&  !(oldProcessorId.equals(processorId))){
-						
-						ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
-						User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
-						pro.setPreProcessorId(oldUser.getId());
-						pro.setOrgId(oldUser.getOrgId());
 						updatecoope = tgservItemAndProcessorService.updateCoope(pro);
 					}
 					
