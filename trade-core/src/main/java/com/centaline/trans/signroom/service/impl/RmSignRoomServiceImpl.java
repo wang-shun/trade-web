@@ -12,6 +12,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -71,6 +73,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	@Resource
 	TradeCenterScheduleMapper tradeCenterScheduleMapper;
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass()); 
 	@Override
 	public AjaxResponse<Map> generatePageDate(JQGridParam gp) {
 		AjaxResponse<Map> response = new AjaxResponse<Map>();
@@ -125,6 +128,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			response.setSuccess(true);
 
 		} catch (Exception e) {
+			logger.error("签约室页面数据失败:", e);
 			response.setCode("500");
 			response.setMessage("查询失败！");
 			response.setSuccess(false);
@@ -174,6 +178,7 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 			response.setContent(rmSignRooms);
 			response.setSuccess(true);
 		} catch (Exception e) {
+			logger.error("签约室配置管理列表查询失败:", e);
 			response.setCode("500");
 			response.setMessage("签约室配置管理列表查询失败！");
 			response.setSuccess(false);

@@ -8,16 +8,10 @@ public class TgCooperVo {
     private String srvCode;
     private String srvCat;
     private String srvName;
-
-    private String oldProcessorId;
-    
-    private String orgId;
-    
-    private String newProcessorId;
-    
-    private String newProcessorName;
-    
-    
+    private String oldProcessorId;    
+    private String orgId;    
+    private String newProcessorId;    
+    private String newProcessorName;     
     private String oldProcessorName;
 
 

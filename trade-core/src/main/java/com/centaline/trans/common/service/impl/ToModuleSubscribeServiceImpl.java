@@ -3,7 +3,6 @@ package com.centaline.trans.common.service.impl;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.centaline.trans.common.entity.ToModuleSubscribe;
-import com.centaline.trans.cases.exception.CaseException;
 import com.centaline.trans.common.enums.SubscribeModuleType;
 import com.centaline.trans.common.enums.SubscribeType;
 import com.centaline.trans.common.repository.ToModuleSubscribeMapper;
@@ -82,7 +81,7 @@ public class ToModuleSubscribeServiceImpl implements ToModuleSubscribeService {
      * @param toModuleSubscribeVo
      * @param toModuleSubscribe
      * @return
-     * @throws CaseException
+     * @throws BusinessException
      */
     private ToModuleSubscribe ValidateSubscribeParameter(ToModuleSubscribeVo toModuleSubscribeVo, ToModuleSubscribe toModuleSubscribe) throws BusinessException{
         if(StringUtil.isBlank(toModuleSubscribeVo.getModuleCode())){

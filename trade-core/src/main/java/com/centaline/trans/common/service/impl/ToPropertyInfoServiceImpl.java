@@ -133,8 +133,13 @@ public class ToPropertyInfoServiceImpl implements ToPropertyInfoService {
 	@Override
 	public String getServiceSpecialistByPropertyAddr(
 			PropertyAddrSearchVo propertyAddrSearchVo) {
-		return toPropertyInfoMapper
-				.getServiceSpecialistByPropertyAddr(propertyAddrSearchVo);
+		return toPropertyInfoMapper.getServiceSpecialistByPropertyAddr(propertyAddrSearchVo);
+	}
+
+	@Override
+	public List<ToPropertyInfo> getPropertyInfoByPropertyCode(String propertyCode) {
+		// TODO Auto-generated method stub
+		return toPropertyInfoMapper.getPropertyInfoByPropertyCode(propertyCode);
 	}
 
 }
