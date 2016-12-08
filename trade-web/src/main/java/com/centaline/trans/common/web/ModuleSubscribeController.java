@@ -1,7 +1,7 @@
 package com.centaline.trans.common.web;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
-import com.centaline.trans.cases.exception.CaseException;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.vo.ToModuleSubscribeVo;
 import org.apache.log4j.Logger;
@@ -35,8 +35,8 @@ public class ModuleSubscribeController {
        try{
            toModuleSubscribeService.saveOrDeleteCaseSubscribe(toModuleSubscribeVo);
            return AjaxResponse.success();
-       }catch (CaseException e){
-           logger.error(e.getMessage());
+       }catch (BusinessException e){
+           logger.error(e.getMessage(),e);
            return AjaxResponse.fail(e.getMessage());
        }
     }

@@ -1,6 +1,6 @@
 package com.centaline.trans.common.service;
 
-import com.centaline.trans.cases.exception.CaseException;
+import com.aist.common.exception.BusinessException;
 import com.centaline.trans.common.vo.ToModuleSubscribeVo;
 
 /**
@@ -14,7 +14,7 @@ public interface ToModuleSubscribeService {
      * @param toModuleSubscribeVo
      * @return
      */
-    void saveOrDeleteCaseSubscribe(ToModuleSubscribeVo toModuleSubscribeVo) throws CaseException;
+    void saveOrDeleteCaseSubscribe(ToModuleSubscribeVo toModuleSubscribeVo) throws BusinessException;
 
     /**
      * 用户是否订阅此案件

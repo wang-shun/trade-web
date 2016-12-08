@@ -1019,6 +1019,11 @@ function managerShowSrvModal(){
 	resetSrvModal();
 	$('#srv-modal-form').modal("show");
 }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
 
 //初始化服务项
 function showSrvModal(){
