@@ -213,8 +213,6 @@ public class CaseMergeController {
 					//封装类 里面上下家信息如何显示；
 				}		
 			}
-		}else{
-			return "case/caseList";
 		}		
 
 		CaseDetailShowVO reVo = new CaseDetailShowVO();
