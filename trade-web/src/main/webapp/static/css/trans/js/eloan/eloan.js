@@ -17,6 +17,7 @@
 
 
 $(document).ready(function() {
+	
 	var divIndex = 1;
 	// 添加放款金额
 	var html = '';
@@ -51,8 +52,6 @@ $(document).ready(function() {
 
 		divIndex++;
 	});
-
-});
 
 
 
