@@ -3,7 +3,6 @@ package com.centaline.trans.cases.web;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +26,9 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.cases.entity.ToChangeRecord;
 import com.centaline.trans.cases.repository.ToCaseMapper;
-import com.centaline.trans.cases.repository.ToChangeRecordMapper;
-import com.centaline.trans.cases.vo.CooperUpdateVo;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
-import com.centaline.trans.common.enums.ChangeRecordTypeEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.OrgNameEnum;
 import com.centaline.trans.common.enums.TransJobs;
@@ -77,8 +72,6 @@ public class CaseChangeController {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private ToCaseMapper toCaseMapper;
-	@Autowired
-	private ToChangeRecordMapper toChangeRecordMapper;
 
 	/**
 	 * 根据字典类型，获得相应字典数据
@@ -237,14 +230,13 @@ public class CaseChangeController {
 	 */
 	@RequestMapping(value = "updateCoope")
 	public String updateCoope(HttpServletRequest request, Model model, HttpServletResponse response,
-			TgServItemAndProcessorVo tgServItemAndProcessorVo, String instCode, String caseId,String myProcessorId,String project,String oldProcessorId) throws IOException {
-
-		SessionUser user = uamSessionService.getSessionUser();
+			TgServItemAndProcessorVo tgServItemAndProcessorVo, String instCode, String caseId) throws IOException {
+		
 		List<String> caseCodeList = tgServItemAndProcessorVo.getCaseCode();
-		List<String> orgIdList = tgServItemAndProcessorVo.getOrgId();
 		List<String> processorIdList = tgServItemAndProcessorVo.getProcessorId();
 		List<String> srvCodeList = tgServItemAndProcessorVo.getSrvCode();
-
+		List<String> preProcessorIdList = tgServItemAndProcessorVo.getPreProcessorId();
+		
 		int updatecoope = 0;
 		TgServItemAndProcessor pro = null;
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
@@ -260,14 +252,18 @@ public class CaseChangeController {
 			String caseCode = caseCodeList.get(i);
 			String srvCode = srvCodeList.get(i);
 			String processorId = processorIdList.get(i);
-			String orgId = orgIdList.get(i);
+			User processor = uamUserOrgService.getUserById(processorId);
+			String preProcessorId = preProcessorIdList.get(i);
+			User preProcessor = uamUserOrgService.getUserById(preProcessorId);
 
 			pro = new TgServItemAndProcessor();
+			pro.setPreProcessorId(preProcessorId);
+			pro.setPreOrgId(preProcessor.getOrgId());
 			pro.setProcessorId(processorId);
+			pro.setOrgId(processor.getOrgId());
 			pro.setCaseCode(caseCode);
 			pro.setSrvCode(srvCode);
 
-			pro.setOrgId(orgId);
 			TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
 			updatecoope = tgservItemAndProcessorService.updateCoope(pro);
 
@@ -283,27 +279,6 @@ public class CaseChangeController {
 			}
 			updateWorkflow(srvCode, processorId, tasks, proDb.getProcessorId(), caseCode);
 		}
-		
-		//添加变更记录
-		String[] myProcessorIdArr = myProcessorId.split(",");
-		String[] projectArr = project.split(",");
-		String[] oldProcessorIdArr = oldProcessorId.split(",");
-		for(int i = 0; i < myProcessorIdArr.length; i++){
-			//没有变化就跳过
-			if(oldProcessorIdArr[i].equals(myProcessorIdArr[i])) continue;
-			
-			ToChangeRecord toChangeRecord = new ToChangeRecord();
-			toChangeRecord.setCaseCode(toCaseMapper.selectByPrimaryKey(Long.parseLong(caseId)).getCaseCode());
-			toChangeRecord.setPartName(projectArr[i]);
-			toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
-			toChangeRecord.setChangeBeforePerson(oldProcessorIdArr[i]);
-			toChangeRecord.setChangeAfterPerson(myProcessorIdArr[i]);
-			toChangeRecord.setOperator(user.getRealName());
-			toChangeRecord.setOperateTime(new Date());
-			toChangeRecord.setCreateBy(user.getId());
-			toChangeRecord.setCreateTime(new Date());	
-			toChangeRecordMapper.insertSelective(toChangeRecord);
-		}		
 
 		if (updatecoope > 0) {
 			String msg = "操作成功!";
@@ -360,22 +335,16 @@ public class CaseChangeController {
 	 */
 	@RequestMapping(value = "/updateCoopeSubmit")
 	@ResponseBody
-	public AjaxResponse<?> updateCoopeSubmit(@RequestBody CooperUpdateVo cooperUpdateVo) {
+	public AjaxResponse<?> updateCoopeSubmit(@RequestBody TgServItemAndProcessorVo tgServItemAndProcessorVo) {
 		AjaxResponse<?> response = new AjaxResponse<>();
-		SessionUser user = uamSessionService.getSessionUser();
 		int updatecoope = -1;
-/*		Map<?, ?> map =   request.getParameterMap();
-		Map<?, ?> map2 =  model.asMap();
-		TgServItemAndProcessorVo tgServItemAndProcessorVo2  =  (TgServItemAndProcessorVo) map2.get("tgServItemAndProcessorVo");*/
 		//获取所有参数	
-		
-		if(cooperUpdateVo != null){			
-			List<String> caseCodeList = cooperUpdateVo.getCaseCode();
-			List<String> orgIdList = cooperUpdateVo.getOrgId();		
-			List<String> processorIdList = cooperUpdateVo.getProcessorId();		
-			List<String> srvCodeList = cooperUpdateVo.getSrvCode();
-			List<String> srvNameList = cooperUpdateVo.getSrvName();
-			List<String> oldProcessorIdList = cooperUpdateVo.getOldProcessorId();
+		if(tgServItemAndProcessorVo != null){			
+			List<String> caseCodeList = tgServItemAndProcessorVo.getCaseCode();
+			List<String> orgIdList = tgServItemAndProcessorVo.getOrgId();		
+			List<String> processorIdList = tgServItemAndProcessorVo.getProcessorId();		
+			List<String> srvCodeList = tgServItemAndProcessorVo.getSrvCode();
+			List<String> preProcessorIdList = tgServItemAndProcessorVo.getPreProcessorId();
 						
 			String caseCodeForInstCode = "";
 			ToWorkFlow toWorkFlow =  new ToWorkFlow();
@@ -412,7 +381,7 @@ public class CaseChangeController {
 					String srvCode = srvCodeList.get(i);
 					String processorId = processorIdList.get(i);//新的案件合作人
 					String orgId = orgIdList.get(i);
-					String oldProcessorId = oldProcessorIdList.get(i);
+					String oldProcessorId = preProcessorIdList.get(i);
 					
 					pro = new TgServItemAndProcessor();
 					pro.setProcessorId(processorId);
@@ -420,8 +389,13 @@ public class CaseChangeController {
 					pro.setSrvCode(srvCode);	
 					pro.setOrgId(orgId);
 					
+					
 					TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
 					if(processorId != null &&  !(oldProcessorId.equals(processorId))){
+						ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
+						User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+						pro.setPreProcessorId(oldUser.getId());
+						pro.setOrgId(oldUser.getOrgId());
 						updatecoope = tgservItemAndProcessorService.updateCoope(pro);
 					}
 					
@@ -437,27 +411,7 @@ public class CaseChangeController {
 						tasks.addAll(taskList1);
 					}
 					updateWorkflow(srvCode, processorId, tasks, proDb.getProcessorId(), caseCode);
-				}
-				
-				//添加变更记录					
-				for(int i = 0; i < oldProcessorIdList.size(); i++){
-					//没有变化就跳过					
-					if(oldProcessorIdList.get(i).equals(processorIdList.get(i)) ||  "".equals(processorIdList.get(i))) continue;
-					
-					ToChangeRecord toChangeRecord = new ToChangeRecord();
-					toChangeRecord.setCaseCode(caseCodeForInstCode);
-					toChangeRecord.setPartName(srvNameList.get(i));
-					toChangeRecord.setChangeType(ChangeRecordTypeEnum.PARTNER.getCode());
-					toChangeRecord.setChangeBeforePerson(oldProcessorIdList.get(i));
-					toChangeRecord.setChangeAfterPerson(processorIdList.get(i));
-					toChangeRecord.setOperator(user.getRealName());
-					toChangeRecord.setOperateTime(new Date());
-					toChangeRecord.setCreateBy(user.getId());
-					toChangeRecord.setCreateTime(new Date());	
-					toChangeRecordMapper.insertSelective(toChangeRecord);
-				}			
-				
-
+				}		
 			}else{
 				updatecoope = 0;
 			}
