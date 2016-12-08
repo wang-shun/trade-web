@@ -1,7 +1,6 @@
 package com.centaline.trans.eloan.service.impl;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +15,12 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.repository.KeyValueMapper;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
-import com.centaline.trans.common.service.KeyValueService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.repository.ToEloanCaseMapper;
@@ -55,6 +54,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private TgServItemAndProcessorMapper servItemMapper;
+	@Autowired
+	private ToCaseMapper toCaseMapper;
 	
 	@Override
 	public void saveEloanApply(SessionUser user, ToEloanCase tEloanCase) {
@@ -138,8 +139,15 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 				ts=p;
 				isNew=true;
 			}
+			
+			String caseCode = tEloanCase.getCaseCode();
+			ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
+			User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+
 			ts.setSrvCat(tEloanCase.getLoanSrvCode());
 			ts.setSrvCode(tEloanCase.getLoanSrvCode()+"01");
+			ts.setPreProcessorId(oldUser.getId());
+			ts.setPreOrgId(oldUser.getOrgId());
 			ts.setProcessorId(tEloanCase.getExcutorId());
 			ts.setOrgId(tEloanCase.getExcutorTeam());
 			if(isNew){

@@ -673,10 +673,7 @@ function ChangeModal(data) {
 				addHtml += "<input type='hidden' name='srvCode' value='"+value.srvCode+"'/>";
 			}
 			addHtml += "<label class='col-md-3 control-label wd87'>合作项目</label>";
-			if(value.users !=""&&value.users.length!=0){
-			addHtml += "<input type='hidden' name='project' value='"+value.srvName+"' />";
-			}
-			addHtml += "<div class='col-md-9 wd-64'><p class='form-control-static' >"+value.srvName+"</p></div>"
+			addHtml += "<div class='col-md-9 wd-64'><p class='form-control-static'>"+value.srvName+"</p></div>"
 		addHtml += '</div></div>';
 		
 		addHtml += '<div class="col-md-6 wd-50">';
@@ -688,15 +685,15 @@ function ChangeModal(data) {
 			addHtml += "<select class='form-control m-b' id='userChange"+index+"' name='myProcessorId'>";
 			aa=index;
 			var oldOrgId='';
-			var oldProcessorId = '';
+			var preProcessorId = '';
 			$.each(value.users, function(j, value){
 				// 让修改后的复选框默认被选中
 				if(data.servitemList[aa].processorId==value.id){
-					oldProcessorId = value.id;
 					addHtml += "<option value='"+value.id+"' selected='selected'>"+value.realName+"("+value.orgName+")"+"</option>";
 				}else{
 					addHtml += "<option value='"+value.id+"'>"+value.realName+"("+value.orgName+")"+"</option>";
 				}
+				preProcessorId = value.id;
 				oldOrgId=value.orgId;
 			});
 			if(data.orgcode!='033F045'){/*浦东合作顾问选中台*/
@@ -708,7 +705,7 @@ function ChangeModal(data) {
 			addHtml += "<input type='hidden' name='oldOrgId' id='oldOrg"+index+"' value='"+oldOrgId+"'/>";
 			addHtml += "<input type='hidden' name='otherProcessorId' id='otherProcessorId"+index+"' value='"+data.servitemList[index].processorId+"'/>";
 			addHtml += "<input type='hidden' name='otherOrgId' id='otherOrgId"+index+"' value=''/>";
-			addHtml += "<input type='hidden' name='oldProcessorId' value='"+oldProcessorId+"' />";
+			addHtml += "<input type='hidden' name='preProcessorId' value='"+data.servitemList[index].processorId+"' />";
 		}else{
 			
 		}
@@ -1018,6 +1015,10 @@ function startCasePrairses() {
 		});
 	}
 }
+function managerShowSrvModal(){
+	resetSrvModal();
+	$('#srv-modal-form').modal("show");
+}
 
 //初始化服务项
 function showSrvModal(){
@@ -1148,6 +1149,65 @@ function saveSrvItems(){
 		}
 	}
 }
+function saveSrvItemsForManager(){
+		var resSrvCheck1 = $("input[name='srvCode'][value="+resSrvs[0]+"]").prop('checked');
+		var resSrvCheck2 = $("input[name='srvCode'][value="+resSrvs[1]+"]").prop('checked');
+		if(resSrvCheck1 && resSrvCheck2) {
+			alert("商贷/组合贷和纯公积金贷只允许存在一种！");
+			return;
+		}
+
+		var url = "/case/saveSrvItemsForManager";
+		var ctx = $("#ctx").val();
+		url = ctx + url;
+		var caseCode = $("#caseCode").val();
+		var prItems = new Array;
+		$("input[name='srvCode']:checked").each(function() {
+			prItems.push(this.value);
+		});
+		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems+"&srvs="+srvs;
+		var confirmStr = "您目前在更新服务状态,，是否继续？";
+		if (confirm(confirmStr)){
+			$.ajax({
+				async : true,
+				type : "POST",
+				url : url,
+				dataType : "json",
+				timeout : 10000,
+				data : params,
+				beforeSend:function(){
+					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+					$(".blockOverlay").css({'z-index':'9998'});
+				},
+				complete: function() {
+					$.unblockUI();
+					if(status=='timeout'){//超时,status还有success,error等值的情况
+						Modal.alert(
+							{
+								msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
+							});
+						$(".btn-primary").one("click",function(){
+							parent.$.fancybox.close();
+						});
+					}
+				} ,
+				success : function(data) {
+					if(data.success){
+						alert(data.message);
+						window.location.reload();
+					}else{
+						alert(data.message);
+					}
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+				}
+			});
+		}
+	}
+
+
+
+
 function changeSrvsHidden(){
 	var url = "/case/getSrvsByCaseCode";
 	var ctx = $("#ctx").val();

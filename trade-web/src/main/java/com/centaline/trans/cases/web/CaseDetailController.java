@@ -39,25 +39,19 @@ import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
-import com.centaline.trans.cases.entity.ToChangeRecord;
-import com.centaline.trans.eloan.entity.LoanAgent;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
-import com.centaline.trans.cases.repository.ToChangeRecordMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
-import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.cases.vo.ChangeTaskAssigneeVO;
-import com.centaline.trans.eloan.vo.ToLoanAgentVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToServChangeHistroty;
 import com.centaline.trans.common.enums.CasePropertyEnum;
-import com.centaline.trans.common.enums.ChangeRecordTypeEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.SubscribeModuleType;
@@ -73,10 +67,13 @@ import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToServChangeHistrotyService;
+import com.centaline.trans.eloan.entity.LoanAgent;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
+import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
+import com.centaline.trans.eloan.vo.ToLoanAgentVO;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
@@ -203,10 +200,6 @@ public class CaseDetailController {
 	//关注
 	@Autowired
 	ToModuleSubscribeService toModuleSubscribeService;
-	
-	//变更记录
-	@Autowired
-	private ToChangeRecordMapper toChangeRecordMapper;
 
 	/**
 	 * 页面初始化
@@ -1406,6 +1399,68 @@ public class CaseDetailController {
 	}
 
 	/**
+	 * 信息管理员服务变更
+	 * @param caseCode
+	 * @param prItems
+	 * @param request
+	 * @param srvs
+	 * @author caoy
+	 * @return
+	 */
+	@RequestMapping(value = "/saveSrvItemsForManager")
+	@ResponseBody
+	public AjaxResponse<?> saveSrvItemsForManager(String caseCode, String[] prItems,HttpServletRequest request,String[] srvs) {
+		Boolean flag = true;
+		List<String> srvsd = tgServItemAndProcessorService.findSrvCatsByCaseCode(caseCode);
+		if (isChanged(srvsd, srvs)) {
+			return AjaxResponse.fail("服务变更失败，请刷新页面后重试！");
+		}
+		List<String> oldSrvs = new ArrayList<String>();
+		oldSrvs.addAll(srvsd);
+		first:for(String strCode : oldSrvs){
+			for (String s : prItems) {
+				if(strCode.equals(s)){
+					continue first;
+				}
+			}
+			if(strCode.indexOf("30004010")!=-1||strCode.indexOf("30004001")!=-1){
+				return AjaxResponse.fail("交易过户与商业贷款不允许在此取消");
+			}
+		}
+		for (String s : prItems) {
+
+			if (oldSrvs.contains(s)) {
+				continue;
+			}
+			TgServItemAndProcessor record = new TgServItemAndProcessor();
+			record.setCaseCode(caseCode);
+			record.setSrvCat(s);
+			Dict dict = uamBasedataService.findDictByTypeAndCode(TransDictEnum.TFWBM.getCode(), record.getSrvCat());
+			if (dict == null) {
+				tgServItemAndProcessorService.insertSelective(record);
+				continue;
+			}
+			List<Dict> listD = dict.getChildren();
+			if (listD == null || listD.size() == 0) {
+				record.setSrvCode(s);
+				tgServItemAndProcessorService.insertSelective(record);
+				continue;
+			}
+			for (Dict dictSon : listD) {
+				record.setSrvCode(dictSon.getCode());
+				if (tgServItemAndProcessorService.findTgServItemAndProcessor(record) == null) {
+					int reInsert = tgServItemAndProcessorService.insertSelective(record);
+					if (reInsert == 0)
+						return AjaxResponse.fail("服务与经办人表更新失败！");
+				}
+			}
+		}
+		return AjaxResponse.success("变更成功！");
+	}
+
+
+
+	/**
 	 * 交易计划变更 页面初始化
 	 * 
 	 * @param caseCode
@@ -1444,12 +1499,11 @@ public class CaseDetailController {
 	@ResponseBody
 	public AjaxResponse<?> changeLeadingUser(String instCode, String caseCode, String userId,
 			HttpServletRequest request) {
-
-		SessionUser user = uamSessionService.getSessionUser();
 		// 案件信息更新
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		String origUserId = toCase.getLeadingProcessId();
 		User u = uamUserOrgService.getUserById(origUserId);
+		User u_ = uamUserOrgService.getUserById(userId);
 
 		TgServItemAndProcessor record = new TgServItemAndProcessor();
 		record.setPreProcessorId(toCase.getLeadingProcessId());
@@ -1458,7 +1512,10 @@ public class CaseDetailController {
 		
 		User u1 = uamUserOrgService.getUserById(userId);
 		record.setProcessorId(userId);
+		record.setOrgId(u_.getOrgId());
 		record.setCaseCode(caseCode);
+		record.setPreProcessorId(origUserId);
+		record.setPreOrgId(u.getOrgId());
 		
 		tgServItemAndProcessorService.updateByCaseCode(record);
 
@@ -1485,28 +1542,6 @@ public class CaseDetailController {
 		}
 		if (reToCase == 0)
 			return AjaxResponse.fail("案件基本表更新失败！");
-
-		//添加变更记录
-		if(!origUserId.equals(userId)){
-			TaskQuery tq = new TaskQuery();
-			tq.setProcessInstanceId(instCode);
-			tq.setFinished(false);
-			tq.setAssignee(u.getUsername());
-			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
-			for(TaskVo taskVo : tasks){
-				ToChangeRecord toChangeRecord = new ToChangeRecord();
-				toChangeRecord.setCaseCode(caseCode);
-				toChangeRecord.setPartName(taskVo.getName());
-				toChangeRecord.setChangeType(ChangeRecordTypeEnum.OWNER.getCode());
-				toChangeRecord.setChangeBeforePerson(origUserId);
-				toChangeRecord.setChangeAfterPerson(userId);
-				toChangeRecord.setOperator(user.getRealName());
-				toChangeRecord.setOperateTime(new Date());
-				toChangeRecord.setCreateBy(user.getId());
-				toChangeRecord.setCreateTime(new Date());	
-				toChangeRecordMapper.insertSelective(toChangeRecord);
-			}
-		}
 		
 		return AjaxResponse.success("变更成功！");
 	}
@@ -1564,9 +1599,13 @@ public class CaseDetailController {
 		
 		String origUserId = toCase.getLeadingProcessId();
 		User u = uamUserOrgService.getUserById(origUserId);
+		User u_ = uamUserOrgService.getUserById(userId);
 
 		TgServItemAndProcessor record = new TgServItemAndProcessor();
-		record.setPreProcessorId(toCase.getLeadingProcessId());
+		record.setPreProcessorId(origUserId);
+		record.setPreOrgId(u.getOrgId());
+		record.setProcessorId(userId);
+		record.setOrgId(u_.getOrgId());
 		toCase.setLeadingProcessId(userId);
 		int reToCase = toCaseService.updateByPrimaryKey(toCase);
 		
@@ -1576,9 +1615,6 @@ public class CaseDetailController {
 		
 		tgServItemAndProcessorService.updateByCaseCode(record);
 
-		
-
-		
 		// 更新流程引擎
 		if (!StringUtils.isBlank(toWorkFlow.getInstCode())) {
 			String variableName = "caseOwner";
