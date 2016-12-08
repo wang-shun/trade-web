@@ -264,7 +264,7 @@
 	    <include refid="Base_Column_List" />
 	    FROM sctrans.T_TO_PROPERTY_INFO
 	    WHERE 
-	    DATEDIFF(mm,CREATE_TIME,GETDATE()) < 6
+	    DATEDIFF(mm,CREATE_TIME,GETDATE()) &lt; 6
 	    AND PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR}
   </select>
   
