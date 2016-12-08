@@ -23,6 +23,13 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -45,23 +52,31 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-	<div class="">
-		<div class=" wrapper border-bottom white-bg page-heading">
-			<div class="row">
-			<div class="col-lg-10">
-				<h2>归档确认和结案审核</h2>
-				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
-			</div>
-			<div class="col-lg-2"></div>
-			</div>
-		</div>
-		<div class="ibox-title">
-			<h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form method="get" class="form-horizontal" id="lamform">
+	<div class="wrapper wrapper-content">
+        <div class="row animated fadeInDown">
+            <div class="scroll_box fadeInDown animated marginbot">
+            <div class="row wrapper white-bg new-heading ">
+             <div class="pl10">
+                 <h2 class="newtitle-big">
+                                                       归档确认和结案审核
+                    </h2>
+                <div class="mt20">
+                    <button type="button" class="btn btn-icon btn-blue mr5">
+                        <i class="iconfont icon">&#xe600;</i> <a href="${ctx }/case/myCaseList">在途单列表</a>
+                    </button>
+                    <button type="button" class="btn btn-icon btn-blue mr5">
+                        <i class="iconfont icon">&#xe63f;</i><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a>
+                    </button>
+                </div>
+             </div>
+        </div>
+
+        <div class="ibox-content border-bottom clearfix space_box noborder">           
+        <div>
+            <h2 class="newtitle">填写任务信息</h2>
+            <div class="form_list">
+                <div class="marinfo">
+                <form method="get" class="form-horizontal" id="lamform">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 交易单编号 -->
@@ -73,49 +88,44 @@
 					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
 					<input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }">
 					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<div class="form-group">
-						<label class="col-sm-2 control-label">审批结果</label>
-						<div class="col-sm-3">
-							<div class="radio i-checks radio-inline">
-								<label> 
-									<input type="radio" checked="checked" value="true" id="optionsRadios1" name="CaseCloseFirstCheck">审批通过
-								</label>
-								<label> 
-									<input type="radio" value="false" id="optionsRadios2" name="CaseCloseFirstCheck">审批不通过
-								</label>
-							</div>
+                    <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">审批结果</label>
+                            <div class="controls ">
+                               <label class="radio inline"> <input type="radio"value="true" id="optionsRadios1" name="CaseCloseFirstCheck">审批通过
+                                </label> <label class="radio inline"> <input type="radio"  value="false" id="optionsRadios2" name="CaseCloseFirstCheck">审批不通过
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">备注</label>
+                            <input class="input_type optionwid" id="CaseCloseFirstCheck_response" name="CaseCloseFirstCheck_response" value="" >
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+            <div class="clearfix">
+						<h2 class="newtitle title-mark">审批记录</h2>
+						<div class="jqGrid_wrapper">
+							<table id="reminder_list"></table>
+							<div id="pager_list_1"></div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">备注</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="CaseCloseFirstCheck_response" name="CaseCloseFirstCheck_response" value="">
-						</div>
-					</div>
-				</form>
-
-			</div>
-		</div>
-		
-		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
-		</div>
-		
-		<div class="ibox-title">
-			<h5>审批记录</h5>
-			<div class="ibox-content">
-				<div class="jqGrid_wrapper">
-					<table id="reminder_list"></table>
-					<div id="pager_list_1"></div>	
-				</div>
-			</div>
-		</div>
-		<div class="ibox-title">
-			<!-- <a href="#" class="btn" onclick="save()">保存</a> -->
-			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
-		</div>
-	</div>
-
+					<!-- 案件备注信息 -->
+				  <div id="caseCommentList" class="view-content"></div>
+			      <div class="form-btn">
+                  <div class="text-center">
+                   <!--  <button  class="btn btn-success btn-space" onclick="save(false)">保存</button> -->
+                     <button class="btn btn-success btn-space" onclick="save()">提交</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
 	<content tag="local_script"> 
 	<!-- Peity --> 
 	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
@@ -130,6 +140,9 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+		<!-- 改版引入的新的js文件 -->
+    <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	<script>
 		/**提交数据*/
 		function submit() {

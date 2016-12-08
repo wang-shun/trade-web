@@ -383,10 +383,10 @@ input {
 .input-group-addon {
   float: left;
   display: inline-block;
-  width: 32px !important;
+  width: 35px !important;
   margin-left: -5px;
   margin-right: -5px;
-  padding: 6px 5px !important;
+  padding: 9px 5px !important;
   line-height: 1.428571429;
   text-align: center;
   text-shadow: 0 1px 0 #fff;
