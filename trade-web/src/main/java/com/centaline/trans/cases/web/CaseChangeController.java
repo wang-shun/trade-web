@@ -393,6 +393,7 @@ public class CaseChangeController {
 					
 					TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
 					if(processorId != null &&  !(oldProcessorId.equals(processorId))){
+						
 						ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
 						User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 						pro.setPreProcessorId(oldUser.getId());

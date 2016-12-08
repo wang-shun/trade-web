@@ -18,6 +18,8 @@ public interface ToPropertyInfoService {
 	 * @return
 	 */
 	List<ToPropertyInfo> getPropertyInfoByUserId(String userId);
+	
+	List<ToPropertyInfo> getPropertyInfoByPropertyCode(String propertyCode);
 
 	int insertSelective(ToPropertyInfo record);
 
