@@ -26,6 +26,7 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
@@ -392,6 +393,7 @@ public class CaseChangeController {
 					
 					TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
 					if(processorId != null &&  !(oldProcessorId.equals(processorId))){
+						
 						ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
 						User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 						pro.setPreProcessorId(oldUser.getId());
