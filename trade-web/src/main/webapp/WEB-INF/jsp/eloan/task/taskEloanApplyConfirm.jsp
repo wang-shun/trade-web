@@ -247,6 +247,18 @@
 							</li>
 							<li>
 								<div class="form_content">
+									<label class="control-label sign_left_two"> 信贷员 </label> <input
+										class="input_type sign_right_two" name="loanerName" id="loanerName"
+										value="${eloanCase.loanerName}">
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 信贷员电话 </label> <input
+										class="input_type sign_right_two" name="loanerPhone" id="loanerPhone"
+										value="${eloanCase.loanerPhone}">
+								</div>
+							</li>
+							<li>
+								<div class="form_content">
 									<label class="control-label sign_left_two"> 审批 </label> <select
 										name="approved" id="approved"
 										class="select_control sign_right_two">

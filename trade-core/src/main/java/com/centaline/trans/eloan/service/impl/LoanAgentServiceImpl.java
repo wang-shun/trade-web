@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.eloan.entity.LoanAgent;
@@ -34,6 +36,8 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Autowired
+	private ToCaseMapper toCaseMapper;
 
 	@Override
 	public LoanAgent view(Long pkid) {
@@ -95,8 +99,14 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 				ts=p;
 				isNew=true;
 			}
+			
+			String caseCode = loanAgent.getCaseCode();
+			ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
+			User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 			ts.setSrvCat(loanAgent.getLoanSrvCode());
 			ts.setSrvCode(loanAgent.getLoanSrvCode()+"01");
+			ts.setPreProcessorId(oldUser.getId());
+			ts.setPreOrgId(oldUser.getOrgId());
 			ts.setProcessorId(loanAgent.getExecutorId());
 			ts.setOrgId(loanAgent.getExecutorTeam());
 			if(isNew){
@@ -179,6 +189,12 @@ public class LoanAgentServiceImpl implements LoanAgentService {
 			p.setSrvCat(obj.getLoanSrvCode());
 			TgServItemAndProcessor ts = servItemMapper.findTgServItemAndProcessor(p);
 			if (ts != null) {
+				String caseCode = loanAgent.getCaseCode();
+				ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
+				User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+				
+				ts.setPreProcessorId(oldUser.getId());
+				ts.setPreOrgId(oldUser.getOrgId());
 				ts.setProcessorId(null);
 				ts.setOrgId(null);
 				servItemMapper.updateByPrimaryKeySelective(ts);
