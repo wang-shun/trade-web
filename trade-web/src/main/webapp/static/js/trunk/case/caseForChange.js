@@ -316,7 +316,7 @@ function changeCooperForShow(data) {
 		$.each(data.servitemList, function(index, value){
 			addHtml += '<div class="form_content">';
 			addHtml += "<input type='hidden' name='caseCode' value='"+$('#cooperCaseCode').val()+"' />";
-			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
+			addHtml += "<input type='hidden' name='preOrgId' id='preOrg"+index+"' value='"+value.orgId+"'/>";
 			addHtml += "<input type='hidden' name='srvCode'  id='srvCode"+index+"' value='"+value.srvCode+"'/>";
 			
 			addHtml += '<label class="control-label sign_left_small">合作项目</label>';			
@@ -324,8 +324,9 @@ function changeCooperForShow(data) {
 			addHtml += "<label class='control-label sign_left_small'>合作人</label>";			
 			addHtml += "<input class='teamcode input_type' placeholder='' value='"+value.oldProcessorName+"'  name='cooperName' id='cooperName"+index+"' hVal='' onclick='cooperForChangeClick("+index+")' />";
 			addHtml += "<div class='input-group float_icon organize_icon' id='cooperUser'><i class='icon iconfont'>&#xe627;</i></div>";
-			addHtml += "<input type='hidden' name='oldProcessorId' value='"+value.oldProcessorId+"' />";
-			addHtml += "<input type='hidden'   name='processorId' id='processorId"+index+"'  value='"+value.oldProcessorId+"' />";
+			addHtml += "<input type='hidden' name='preProcessorId' value='"+value.oldProcessorId+"' />";
+			addHtml += "<input type='hidden' name='processorId' id='processorId"+index+"'  value='"+value.oldProcessorId+"' />";
+			addHtml += "<input type='hidden' name='orgId' id='orgId"+index+"'  value='"+value.orgId+"' />";
 			addHtml += "</div>";		
 		})		
 	}	
@@ -338,7 +339,7 @@ function cleanForm(){
 	$("input[name='leadingProName']").val();
 	$("input[name='leadingProId']").val();
 	$("input[name='cooperName']").val();
-	$("input[name='oldProcessorId']").val();
+	$("input[name='preProcessorId']").val();
 	$("input[name='processorId']").val();
 }
 
@@ -358,7 +359,6 @@ $("#cooperSubmit").click(function(){
 /*	 alert(JSON.stringify(data));
 	 alert("url==="+url);*/
 	 if (confirm("您确定要进行案件合作对象变更？")) {		 	
-
 			$.ajax({
 				cache : false,
 				async : true,
@@ -367,11 +367,9 @@ $("#cooperSubmit").click(function(){
 				dataType : "json",
 				timeout : 10000,
 				contentType : 'application/json;charset=utf-8',
-				data : JSON.stringify(data),
-				
+				data : JSON.stringify(data),			
 				success : function(data) {
-					if(data.success){
-						
+					if(data.success){		
 						var $tdId = $("#PROCESSOR_NAME","#"+tdId);
 						var hiddes = $("input[name='cooperName']","#change-modal-data-show");
 						var names = "";
@@ -382,33 +380,30 @@ $("#cooperSubmit").click(function(){
 							}
 							names+=name;
 						}
-						$tdId.html("合作顾问："+names);
-						
-						
+						$tdId.html("合作顾问："+names);					
 						$("#cooperForChang").hide();												
-						alert(data.message);			
-																	
+						alert(data.message);																		
 					}else{
 						alert(data.message);
 					}	
-
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}
 			});
 		} 
-	 
 })
 
 function getParamForCooper(){
  	 var caseCode = [];
+ 	 //修改之后的组织id
  	 var orgId = [];
+ 	 var preOrgId = [];//修改之前的组织id
  	 var srvCode = [];
- 	 var processorId = [];
- 	 var srvName = [];
- 	 var oldProcessorId = [];
+ 	 var processorId = [];//修改之后的userId
+ 	 var preProcessorId = [];
 	 var caseCodeArray = $("input[name='caseCode']"); 
-	 var orgIdArray = $("input[name='orgId']");
+	 
+	 var orgIdArray = $("input[name='preOrgId']");
 	 var srvCodeArray = $("input[name='srvCode']");
 	 var processorIdArray = $("input[name='processorId']");
 	 
@@ -419,7 +414,7 @@ function getParamForCooper(){
 	 });
 	 $.each(orgIdArray, function(i, item) {
 		 if(item.value != '' && item.value != null){
-			 orgId.push(item.value);
+			 preOrgId.push(item.value);
 		 }	 
 	 });
 	 $.each(srvCodeArray, function(i, item) {
@@ -432,15 +427,15 @@ function getParamForCooper(){
 			 processorId.push(item.value);
 		 }	 
 	 });
-	 
-	 $.each($("input[name='srvName']"), function(i, item) {
+
+	 $.each($("input[name='preProcessorId']"), function(i, item) {
 		 if(item.value != '' && item.value != null){
-			 srvName.push(item.value);
+			 preProcessorId.push(item.value);
 		 }	 
 	 });
-	 $.each($("input[name='oldProcessorId']"), function(i, item) {
+	 $.each($("input[name='orgId']"), function(i, item) {
 		 if(item.value != '' && item.value != null){
-			 oldProcessorId.push(item.value);
+			 orgId.push(item.value);
 		 }	 
 	 });
 	 
@@ -450,9 +445,8 @@ function getParamForCooper(){
 	 tgServItemAndProcessorVo.srvCode = srvCode;
 	 tgServItemAndProcessorVo.processorId = processorId;
 	 tgServItemAndProcessorVo.orgId = orgId;
-	 tgServItemAndProcessorVo.srvName = srvName;
-	 tgServItemAndProcessorVo.oldProcessorId = oldProcessorId;
-
+	 tgServItemAndProcessorVo.preProcessorId = preProcessorId;
+	 tgServItemAndProcessorVo.preOrgId = preOrgId;
 	 
 	 return tgServItemAndProcessorVo;
 }
@@ -480,23 +474,6 @@ $("#cooperClose").click(function(){
 })
 
 
-//案件合作人
- function cooperForChangeClick2(){	
-			userSelect({
-				startOrgId : 'ff8080814f459a78014f45a73d820006',
-				expandNodeId : 'ff8080814f459a78014f45a73d820006',
-				nameType : 'long|short',
-				orgType : '',
-				departmentType : '',
-				departmentHeriarchy : '',
-				chkStyle : 'radio',
-				//	jobCode : 'Manager,Senior_Manager',
-				jobCode : '',
-				callBack : selectCooper
-			});
-	
- }
-
 function cooperForChangeClick(index){
 	
 	userSelect({
@@ -513,6 +490,7 @@ function cooperForChangeClick(index){
 				$("#cooperName"+index).val(array[0].username);
 				$("#cooperName"+index).attr('hVal', array[0].userId);
 				$("#processorId"+index).val(array[0].userId);
+				$("#orgId"+index).val(array[0].orgId);
 				
 			} else {
 				$("#cooperName"+index).val("");

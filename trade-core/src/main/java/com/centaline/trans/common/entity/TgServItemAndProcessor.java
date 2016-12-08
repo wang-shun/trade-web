@@ -16,7 +16,9 @@ public class TgServItemAndProcessor {
     
     private String orgId;
     
-    private String preProcessorId;    
+    private String preProcessorId;
+    
+    private String preOrgId;
     
     private List<User>users;
     /**
@@ -86,6 +88,14 @@ public class TgServItemAndProcessor {
 
 	public void setPreProcessorId(String preProcessorId) {
 		this.preProcessorId = preProcessorId;
+	}
+
+	public String getPreOrgId() {
+		return preOrgId;
+	}
+
+	public void setPreOrgId(String preOrgId) {
+		this.preOrgId = preOrgId;
 	}
 
 	public List<User> getUsers() {

@@ -118,11 +118,11 @@ text-decoration: underline !important;
 					<div class="row date-info">
 						<div class="col-md-12">
 							<div class="form-group">
-							<label class="col-md-1 control-label m-l">签约时间</label>
+							<label class="col-md-1 control-label m-l">变更时间</label>
 							<div id="dateDiv_0">
 							<div id="datepicker_0"
 								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd">
+								data-date-format="yyyy-mm-dd"  style="margin-left:13px;">
 								<input id="dtBegin" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${operateTimeStart}" placeholder="起始日期">
 								<span class="input-group-addon">到</span>
 								<input id="dtEnd" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${operateTimeEnd}" placeholder="结束日期" />
@@ -147,7 +147,7 @@ text-decoration: underline !important;
 						</div>
 							
 						<div class="col-md-6"  style="text-align:right;"> 
-							<a class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportToExcel()">案件导出</a>
+							<a class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportToExcel()">列表导出</a>
 						</div>
 						
 					</form>
@@ -161,12 +161,12 @@ text-decoration: underline !important;
 				<thead>
 					<tr>
 						<th class="t-left pd-l"><span class='sort' sortColumn='t.CASE_CODE' sord='desc'>案件编号</span></th>
-						<th class="t-left pd-l"><span>环节名称</span></th>
-						<th class="t-left pd-l"><span>变更类型</span></th>
-						<th class="t-left pd-l"><span>变更前</span></th>
-						<th class="t-left pd-l"><span>变更后</span></th>
-						<th class="t-left pd-l"><span>操作人</span></th>
-						<th class="t-left pd-l"><span>操作时间</span></th>
+						<th class="t-left pd-l"><span>服务名称</span></th>
+						<th class="t-left pd-l"><span>变更前人员</span></th>
+						<th class="t-left pd-l"><span>变更前组织</span></th>
+						<th class="t-left pd-l"><span>变更后人员</span></th>
+						<th class="t-left pd-l"><span>变更后组织</span></th>
+						<th class="t-left pd-l"><span class='sort' sortColumn='HS.CREATE_TIME' sord='desc'>变更时间</span></th>
 					</tr>
 				</thead>
 				<tbody id="changeRecordList">
@@ -217,13 +217,13 @@ text-decoration: underline !important;
                   {{else}}
                        <tr class="tr-2">
                    {{/if}}
-						<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseCode={{item.CASE_CODE}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
-						<td class="t-left pd-l">{{item.PART_NAME}}</td>
-                        <td class="t-left pd-l">{{item.CHANGE_TYPE}}</td>
-						<td class="t-left pd-l">{{item.CHANGE_BEFORE_PERSON}}</td>
-                        <td class="t-left pd-l">{{item.CHANGE_AFTER_PERSON}}</td>
-                        <td class="t-left pd-l">{{item.OPERATOR}}</td>
-                        <td class="t-left pd-l">{{item.OPERATE_TIME}}</td>
+						<td class="t-left"><a href="{{ctx}}/case/caseDetail?caseId={{item.CASE_ID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
+						<td class="t-left pd-l">{{item.SRV_NAME}}</td>
+                        <td class="t-left pd-l">{{item.PRE_PROCESSOR_NAME}}</td>
+						<td class="t-left pd-l">{{item.PRE_ORG_NAME}}</td>
+                        <td class="t-left pd-l">{{item.PROCESSOR_NAME}}</td>
+                        <td class="t-left pd-l">{{item.ORG_NAME}}</td>
+                        <td class="t-left pd-l">{{item.CREATE_TIME}}</td>
 				  </tr>
        {{/each}}
      </script>

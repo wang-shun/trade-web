@@ -230,8 +230,5 @@
 		<!-- 中止/结束 -->
  		<mapper resource="mapper/spv/ToSpvCloseApplyMapper.xml" /> 
 		<mapper resource="mapper/spv/ToSpvCloseApplyAuditMapper.xml" /> 
-		
-		<!-- 变更记录 -->
-		<mapper resource="mapper/cases/ToChangeRecordMapper.xml" /> 
 	</mappers>
 </configuration>

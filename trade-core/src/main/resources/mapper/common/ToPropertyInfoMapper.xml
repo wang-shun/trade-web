@@ -230,11 +230,8 @@
    <select id="findToPropertyInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
 
     select 
-
     <include refid="Base_Column_List" />
-
     from sctrans.T_TO_PROPERTY_INFO
-
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 
   </select>
@@ -260,6 +257,15 @@
 		WHERE LEADING_PROCESS_ID= #{leadingProcessId,jdbcType=VARCHAR}
 	)
 
+  </select>
+  
+  <select id="getPropertyInfoByPropertyCode" parameterType="java.lang.String" resultMap="BaseResultMap">  
+	    SELECT 
+	    <include refid="Base_Column_List" />
+	    FROM sctrans.T_TO_PROPERTY_INFO
+	    WHERE 
+	    DATEDIFF(mm,CREATE_TIME,GETDATE()) &lt; 6
+	    AND PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR}
   </select>
   
   

@@ -160,6 +160,14 @@
                                    </div>
                                 </div>
                                 <div class="case_row">
+                                   <div class="case_lump">
+                                       <p><em>信贷员</em><span class="span_one">${eloanCase.loanerName}</span></p>
+                                   </div>
+                                   <div class="case_lump">
+                                       <p><em>信贷员电话</em><span class="span_one">${eloanCase.loanerPhone}</span></p>
+                                   </div>
+                                </div>
+                                <div class="case_row">
                                 <div class="case_lump">
                                        <p><em>面签金额</em><span class="span_one">${eloanCase.signAmount}万</span></p>
                                    </div>
