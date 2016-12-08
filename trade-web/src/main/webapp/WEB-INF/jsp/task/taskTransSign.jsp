@@ -48,6 +48,7 @@
 <link href="${ctx}/css/common/input.css" rel="stylesheet">
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -1224,14 +1225,19 @@
 			}
 			
 			function readOnlyForm() {
-				//设置实际签约时间不可修改
+				//设置实际签约时间不可修改 
 				$("#realConTime").parent().removeClass("input-daterange");
 				$("#realConTime").removeClass("datatime");
 				$("#realConTime").attr("readonly",true);
-				$("#realConTime").css("background-color","#ccc");
-				
+				$("#realConTime").css("background-color","#ccc");		
 				//设置提交按钮隐藏
 				$("#btnSubmit").hide();
+			}
+			
+			//渲染图片 
+			function renderImg(){
+				$('.wrapper-content').viewer('destroy');
+				$('.wrapper-content').viewer();
 			}
 			
 		</script> 
@@ -1269,6 +1275,7 @@
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src="${ctx}/js/template.js" type="text/javascript"></script>
 		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+		<script src="${ctx}/js/viewer/viewer.min.js"></script>
 		<!-- 改版引入的新的js文件 --> 
 		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 		<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
