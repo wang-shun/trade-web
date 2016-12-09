@@ -44,9 +44,8 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
-	<div class="row">
-		<div class="row wrapper white-bg new-heading ">
+	<div class=" animated fadeInDown" style="height: 1050px;">
+		<div class="white-bg new-heading pt5">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         	贷款服务项变更审批

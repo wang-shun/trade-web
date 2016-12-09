@@ -23,6 +23,7 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToGetPropertyBook;
 import com.centaline.trans.task.service.ToGetPropertyBookService;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value = "/task/houseBookGet")
@@ -75,7 +76,8 @@ public class ToGetPropertyBookController {
 				(boolean) (com == null ? false : com.getValue()));
 		request.setAttribute("tgpb",
 				toGetPropertyBookService.queryToGetPropertyBook(caseCode));
-		return "task/taskHouseBookGet";
+		return "task" + UiImproveUtil.getPageType(request)
+				+ "/taskHouseBookGet";
 	}
 
 	@RequestMapping(value = "saveToGetPropertyBook")
