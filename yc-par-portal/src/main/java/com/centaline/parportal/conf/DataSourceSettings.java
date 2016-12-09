@@ -1,13 +1,9 @@
 package com.centaline.parportal.conf;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by linjiarong on 2016/10/12.
  */
-@Component
-@ConfigurationProperties(prefix = "dataSource")
 public class DataSourceSettings {
     private String driverClassName;
     private String url;
