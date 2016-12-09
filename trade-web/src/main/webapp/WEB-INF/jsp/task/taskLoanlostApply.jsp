@@ -33,6 +33,8 @@
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
+<!-- 图片查看CSS -->
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 
 <!-- 新调整页面样式 -->
 <link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
@@ -109,12 +111,12 @@
                         <div class="line clearfix" style="overflow:visible">
                             <div class="form_content">
                                 <label class="control-label sign_left_small">承办银行</label>
-                                <select class="form-control m-b chosen-select" name="bank" id="bank">
+                                <select class=" select_control  " name="bank" id="bank">
 								</select>
                             </div>
                             <div class="form_content">
                                 <label class="control-label sign_left_small">支行名称</label>
-                                <select class="form-control m-b chosen-select" name="lastLoanBank" id="lastLoanBank">
+                                <select class=" select_control  " name="lastLoanBank" id="lastLoanBank">
 								</select>
                             </div>
                         </div>
@@ -257,7 +259,7 @@
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.thumbnail_url) { %}
-							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
+							                <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="width:80px;height:80px;">
 							            {% } %}</div>
 							            <div class="name" style="display: none">
 							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
