@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getShowResStatusStatus" beanName="getShowResStatusStatus"></customDict> 
+		<customDict id="getShowResStartTime" beanName="getShowResStartTime"></customDict>
+		<customDict id="getShowResEndTime" beanName="getShowResEndTime"></customDict> 
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy/MM/dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+	</formatters>
+	<query id="queryRmRoomSchedualList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				SELECT  T.PKID AS pkid ,
+			        T.ROOM_ID AS roomId ,
+					T.START_DATE AS startDate,
+					T.END_DATE AS endDate,
+			        SUBSTRING(CONVERT(VARCHAR(100), T.START_DATE, 24), 1, 5) + '-'
+			        + SUBSTRING(CONVERT(VARCHAR(100), T.END_DATE, 24), 1, 5) AS timeSlot ,
+			        T.USE_STATUS  AS useStatus,
+			        R.RES_STATUS AS resStatus,
+					R.CHECK_IN_TIME AS checkInTime,
+					R.CHECKED_OUT_TIME AS checkOutTime,
+					R.CREATE_TIME AS createTime
+			FROM    sctrans.T_RM_ROOM_SCHEDULE T
+			        LEFT JOIN sctrans.T_RM_RESERVATION R ON T.RES_ID = R.PKID
+			WHERE   T.IS_DELETE = '0'
+		<if test="curDate != null">
+				 AND DATEDIFF(DAY, T.START_DATE, #curDate#) = 0
+		</if>
+		<if test="useStatus != null ">
+			    <choose>
+			      <when test='useStatus=="N"'>
+			      	 AND RTrim(T.USE_STATUS) = 'N'
+			      </when>
+			      <otherwise>
+			         AND R.RES_STATUS = #useStatus#
+			      </otherwise>
+			    </choose>
+		</if>
+				]]>
+			</baseSql>
+			<orderBySql>
+				ORDER BY t.START_DATE ASC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" index="" checkbox="" display="pkid" />
+				<column type="both" name="roomId" index="" checkbox="" display="roomId" title="roomId" />
+				<column type="both" name="startDate" index="" checkbox="" display="startDate" title="startDate" />
+				<column type="both" name="endDate" index="" checkbox="" display="endDate" title="endDate" />
+				<column type="both" name="timeSlot" index="" checkbox="" display="timeSlot" title="timeSlot" customDict="" />
+				<column type="both" name="useStatus" index="" checkbox="" display="useStatus" title="useStatus" />
+				<column type="both" name="resStatus" index="" checkbox="" display="resStatus" title="resStatus" />
+				<column type="both" name="checkInTime" index="" checkbox="" display="checkInTime" title="checkInTime" />
+				<column type="both" name="checkOutTime" index="" checkbox="" display="checkOutTime" title="checkOutTime" />
+				<column type="both" name="createTime" index="" checkbox="" display="createTime" title="createTime" />
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryRmSignRoomAndStragegy">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT  T.PKID AS pkid,
+        T.ROOM_TYPE AS roomType,
+        T.ROOM_NO AS roomNo,
+        T.TRADE_CENTER AS tradeCenter,
+        T.TRADE_CENTER_ID AS tradeCenterId,
+        T.NUMBE_OF_ACCOMMODATE_PEOPLE AS numbeOfAccommodatePeople,
+        T.REMARK AS remark,
+        T.CLOSE_TIME AS closeTime,
+        T.ROOM_STATUS AS roomStatus,
+        T.IS_DELETE AS isDelete,
+        T.CREATE_TIME AS createTime,
+        T.CREATE_BY AS createBy,
+        T.UPDATE_TIME AS updateTime,
+        T.UPDATE_BY AS updateBy,
+        R.PKID AS stragegyPkid,
+        R.STRAGEGY_WEEK_VAL AS stragegyWeekVal
+FROM    [sctrans].[T_RM_SIGN_ROOM] T
+        INNER JOIN [sctrans].T_RM_ROOM_SCHE_STRAGEGY R ON T.PKID = R.ROOM_ID
+        where T.IS_DELETE = 0
+          <if test="centerId!=null">
+          	AND T.TRADE_CENTER_ID = #centerId#
+          </if>
+          <if test="roomType!=null">
+          	AND T.ROOM_TYPE = #roomType#
+          </if>
+          <if test="roomStatus!=null">
+          	AND T.ROOM_STATUS = #roomStatus#
+          </if>
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" index="" checkbox="" display="pkid" />
+				<column type="both" name="roomType" index="" checkbox="" display="roomType" title="roomType" />
+				<column type="both" name="roomNo" index="" checkbox="" display="roomNo" title="roomNo" customDict="" />
+				<column type="both" name="tradeCenter" index="" checkbox="" display="tradeCenter" title="tradeCenter" />
+				<column type="both" name="tradeCenterId" index="" checkbox="" display="tradeCenterId" />
+				<column type="both" name="numbeOfAccommodatePeople" index="" checkbox="" display="numbeOfAccommodatePeople" title="numbeOfAccommodatePeople" />
+				<column type="both" name="remark" index="" checkbox="" display="remark" />
+				<column type="both" name="closeTime" index="" checkbox="" display="closeTime" title="closeTime" />
+				<column type="both" name="roomStatus" index="" checkbox="" display="roomStatus" title="roomStatus" customDict="" />
+				<column type="both" name="isDelete" index="" checkbox="" display="isDelete" title="isDelete" />
+				<column type="both" name="createTime" index="" checkbox="" display="createTime" />
+				<column type="both" name="createBy" index="" checkbox="" display="createBy" title="createBy" />
+				<column type="both" name="updateTime" index="" checkbox="" display="updateTime" title="updateTime" customDict="" />
+				<column type="both" name="updateBy" index="" checkbox="" display="updateBy" title="updateBy" />
+				<column type="both" name="stragegyPkid" index="" checkbox="" display="stragegyPkid" />
+				<column type="both" name="stragegyWeekVal" index="" checkbox="" display="stragegyWeekVal" title="stragegyWeekVal" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

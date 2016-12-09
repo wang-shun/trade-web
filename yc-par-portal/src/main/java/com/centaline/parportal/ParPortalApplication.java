@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
+//@ComponentScan(basePackages = { "com.centaline.parportal", "com.aist" })
 @SpringBootApplication
 public class ParPortalApplication extends SpringBootServletInitializer {
 

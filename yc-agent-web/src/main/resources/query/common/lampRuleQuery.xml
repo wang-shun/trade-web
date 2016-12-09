@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getPartNameByCode" beanName="qqcdDictPartName"></customDict>
+	</dicts>	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryLampRuleList">
+		<searchCondition>
+            <condition field="PART_CODE" name="partCode" label="环节编码" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				    SELECT 
+				        PK_ID,
+				        COLOR,
+				        DELAYTIME
+				    FROM 
+				       sctrans.LAMP_RULE
+					where 1 = 1
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PK_ID" index="" checkbox="" display="PK_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="COLOR" index="" checkbox="" display="提醒灯" customDict="" sysDict="" format="" width="0" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="DELAYTIME" index="" checkbox="" display="延迟天数" customDict="" beanFormatter="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

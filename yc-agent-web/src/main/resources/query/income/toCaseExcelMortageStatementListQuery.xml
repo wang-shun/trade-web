@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getSrvNameByCode" beanName="qqcdDict30004"></customDict>
+
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryCaseMortageStatementList">
+		<searchCondition>
+            <condition field="B.AGENT_NAME" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="U1.PROCESSOR_NAME" name="proName" label="经办人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="E.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="A.CLOSE_TIME" name="approveTimeStart" label="" searchType="GT" showType="" showCallback="" defaultValue=""/>
+            <condition field="A.CLOSE_TIME" name="approveTimeEnd" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
+            <condition field="O.ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT  U1.CASE_CODE,
+							U1.OUT_MORT_TYPE,
+							U1.OUT_SRV_NAME,
+							U1.REAL_PROCESSOR_NAME,
+							U1.PROCESSOR_NAME,
+							U1.BANK_ORG_NAME,
+							U1.FA_ORG_NAME,
+							U1.MORT_AMOUNT,
+							U1.EVA_ORG_NAME,
+							U1.WT_ORG_NAME,
+							A.ClOSE_TIME,
+							B.AGENT_NAME,
+							E.PROPERTY_ADDR,
+							O.org_name,
+							C.SELLER,
+							F.BUYER
+							FROM
+							((SELECT
+							M.CASE_CODE,
+							 '中原' AS OUT_MORT_TYPE,
+							'商业贷款' AS OUT_SRV_NAME,
+							U1.reaL_NAME AS REAL_PROCESSOR_NAME,
+							D1.PROCESSOR_NAME,
+							FO2.FIN_ORG_NAME AS BANK_ORG_NAME,
+							FO3.FIN_ORG_NAME AS FA_ORG_NAME,
+							M.COM_AMOUNT AS MORT_AMOUNT,
+							FO1.FIN_ORG_NAME AS EVA_ORG_NAME,
+							'' AS WT_ORG_NAME
+							FROM sctrans.T_TO_MORTGAGE M
+							LEFT JOIN sctrans.T_TG_SERV_ITEM_AND_PROCESSOR P ON P.CASE_CODE = M.CASE_CODE AND P.SRV_CODE='3000400101'
+							LEFT JOIN sctrans.sys_user U1 ON U1.ID = p.PROCESSOR_ID
+							FULL OUTER JOIN (
+								SELECT 
+									tb.CASE_CODE,
+									PROCESSOR_ID = stuff(
+										(
+											SELECT
+												'/' + PROCESSOR_ID
+											FROM
+												sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
+											WHERE
+												tb.CASE_CODE = CASE_CODE
+											ORDER BY
+												PROCESSOR_ID FOR xml path ('')
+										),
+										1,
+										1,
+										''
+									),
+							PROCESSOR_NAME = stuff(
+										(
+											SELECT
+												'/' + US.REAL_NAME
+											FROM
+												sctrans.T_TG_SERV_ITEM_AND_PROCESSOR PR
+							        LEFT JOIN sctrans.sys_user US ON US.ID = PR.PROCESSOR_ID
+											WHERE
+												tb.CASE_CODE = PR.CASE_CODE
+											ORDER BY
+												PR.PROCESSOR_ID FOR xml path ('')
+										),
+										1,
+										1,
+										''
+									)
+								FROM
+									sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tb
+								GROUP BY
+									tb.CASE_CODE
+							) AS D1 ON M.CASE_CODE = D1.CASE_CODE
+							LEFT JOIN sctrans.T_TO_EVA_REPORT R ON R.CASE_CODE = M.CASE_CODE
+							LEFT JOIN sctrans.T_TS_FIN_ORG FO1 ON FO1.FIN_ORG_CODE = R.FIN_ORG_CODE
+							LEFT JOIN sctrans.T_TS_FIN_ORG FO2 ON FO2.FIN_ORG_CODE = M.LAST_LOAN_BANK
+							LEFT JOIN sctrans.T_TS_FIN_ORG FO3 ON FO3.FIN_ORG_CODE = FO2.FA_FIN_ORG_CODE
+							) UNION(
+							SELECT
+							LA.CASE_CODE,
+							 '外拓' AS OUT_MORT_TYPE,
+							D1.NAME AS OUT_SRV_NAME,
+							U1.reaL_NAME AS REAL_PROCESSOR_NAME,
+							U1.reaL_NAME AS PROCESSOR_NAME,
+							'' AS BANK_ORG_NAME,
+							'' AS FA_ORG_NAME,
+							LA.ACTUAL_AMOUNT AS MORT_AMOUNT,
+							'' AS EVA_ORG_NAME,
+							FO.FIN_ORG_NAME AS WT_ORG_NAME
+							FROM sctrans.T_TO_LOAN_AGENT LA
+							LEFT JOIN sctrans.sys_user U1 ON U1.ID = LA.EXECUTOR_ID
+							LEFT JOIN sctrans.T_TS_FIN_ORG FO ON FO.FIN_ORG_CODE = LA.FIN_ORG_CODE
+							LEFT JOIN sctrans.SYS_DICT D1 ON D1.CODE = LA.LOAN_SRV_CODE
+							)) U1
+							INNER JOIN 	sctrans.T_TO_CASE AS A ON A.CASE_CODE = U1.CASE_CODE
+							INNER JOIN sctrans.T_TO_CASE_INFO AS B ON A.CASE_CODE = B.CASE_CODE
+							LEFT JOIN sctrans.V_USER_ORG_JOB AS O ON O.user_id = B.AGENT_CODE
+							LEFT JOIN (
+						   SELECT 
+						       TG1.CASE_CODE, 
+						       SELLER = stuff(
+									(
+										SELECT 
+											'/' + GUEST_NAME
+										FROM
+											sctrans.T_TG_GUEST_INFO
+										WHERE
+											TG1.CASE_CODE = CASE_CODE
+						         AND TRANS_POSITION = '30006001'
+						
+										ORDER BY
+											GUEST_NAME FOR xml path ('')
+									),
+									1,
+									1,
+									''
+								)
+						  FROM sctrans.T_TG_GUEST_INFO TG1
+						  WHERE 1=1
+						    GROUP BY
+								TG1.CASE_CODE
+						          )  C ON A.CASE_CODE = C.CASE_CODE
+						LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
+						LEFT JOIN (
+						   SELECT 
+						       TG1.CASE_CODE, 
+						       BUYER = stuff(
+									(
+										SELECT 
+											'/' + GUEST_NAME
+										FROM
+											sctrans.T_TG_GUEST_INFO
+										WHERE
+											TG1.CASE_CODE = CASE_CODE
+						         AND TRANS_POSITION = '30006002'
+						
+										ORDER BY
+											GUEST_NAME FOR xml path ('')
+									),
+									1,
+									1,
+									''
+								)
+						
+						   FROM sctrans.T_TG_GUEST_INFO TG1
+						   WHERE 1=1
+						   GROUP BY
+								TG1.CASE_CODE
+						          ) F ON A.CASE_CODE = F.CASE_CODE
+				    WHERE 1=1
+     				<ifNotNull guestname>
+							AND (C.SELLER  LIKE '%'+#guestname#+'%' OR F.BUYER LIKE '%'+#guestname#+'%') 
+					</ifNotNull>
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY B.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+			
+			
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="案件地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="OUT_MORT_TYPE"  index="" checkbox="" title="贷款类型" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
+				<column type="both" name="OUT_SRV_NAME" index="" checkbox="" title="贷款名称" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="REAL_PROCESSOR_NAME" index="" checkbox="" title="贷款顾问" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="FA_ORG_NAME" index="" checkbox="" title="银行（分行）" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="BANK_ORG_NAME" index="" checkbox="" title="银行（支行）" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="MORT_AMOUNT" index="" checkbox="" title="贷款金额" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="EVA_ORG_NAME" index="" checkbox="" title="评估公司" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="WT_ORG_NAME" index="" checkbox="" title="外拓贷款合作机构" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

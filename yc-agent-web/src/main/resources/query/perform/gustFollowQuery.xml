@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdAreaIdManager" beanName="qqcdAreaIdManager"></customDict>
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+	</formatters>
+	<query id="gustFollowQuery">
+		<searchCondition>
+			<condition field="ttp.PROPERTY_ADDR" name="caseAddress" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="u.REAL_NAME" name="userName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select tbv.pkid as pkid
+,tbv.CASE_CODE as caseCode,u.REAL_NAME as userName,
+tbv.SATISFY_DEGREE as satisfyDegree,tbv.PHONE_ACCURACY as phoneAccuracy,u.EMPLOYEE_CODE as employeeCode
+,jb.JOB_NAME as jobName,orj.ORG_NAME as orgName,ttp.PROPERTY_ADDR as caseAddress
+  from sctrans.T_TS_BACK_VISIT  tbv
+left join sctrans.SYS_USER u on u.ID=tbv.PARTICIPANT_ID
+left join sctrans.T_TO_PROPERTY_INFO as ttp
+on tbv.CASE_CODE=ttp.CASE_CODE
+left join sctrans.SYS_JOB jb on jb.id = tbv.job_id
+left join sctrans.SYS_ORG orj on orj.ID= tbv.ORG_ID
+where 1=1
+
+   
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" index="" checkbox="" display=""
+					customDict="" sysDict="" format="" width="0" isSort="" align=""
+					halign="" order="" resizable="" hide="true" />
+				<column type="both" name="userName" index="" checkbox=""
+					display="" customDict="" sysDict="" format="" width="90"
+					isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="jobName" index="" checkbox=""
+					display="" customDict="" sysDict="" format=""
+					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="orgName" index="" checkbox=""
+					display="" customDict="" sysDict="" format=""
+					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="caseAddress" index="" checkbox=""
+					display="" customDict="" sysDict="" format=""
+					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+					<column type="both" name="caseCode" index="" checkbox=""
+					display="" customDict="" sysDict="" format=""
+					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="phoneAccuracy" index="" checkbox=""
+					display="" customDict="" sysDict="" format=""
+					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="satisfyDegree" index="" checkbox=""
+					display="" customDict="" sysDict="" format=""
+					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="employeeCode" index="" checkbox=""
+					display="" customDict="" sysDict="" format=""
+					width="90" isSort="true" align="" halign="" order="desc" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>
