@@ -353,6 +353,13 @@
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:showSrvModal()">服务项变更</a>
 									</shiro:hasPermission>
+									<shiro:hasPermission name="TRADE.CASE.DETAIL.SERVE.CHANGE">
+										<a role="button" class="btn btn-primary btn-xm btn-activity"
+										   href="javascript:managerShowSrvModal()">信息管理员服务项变更</a>
+									</shiro:hasPermission>
+
+
+
 									<shiro:hasPermission name="TRADE.CASE.COWORKCHANGE">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:showChangeModal()">变更合作对象</a>
@@ -515,9 +522,16 @@
 														<div class="form-group">
 															<div class="col-lg-3 control-label">服务项：</div>
 															<div class="col-lg-9 checkbox i-checks checkbox-inline">
-																<aist:dict id="srvCode" name="srvCode"
-																	display="checkbox" defaultvalue=""
-																	dictType="yu_serv_cat_code_tree" level='2' />
+																<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SERVCHANGE">
+																	<aist:dict id="srvCode" name="srvCode"
+																			   display="checkbox" defaultvalue=""
+																			   dictType="yu_serv_cat_code_tree"/>
+																</shiro:hasPermission>
+
+																<shiro:hasPermission name="TRADE.CASE.DETAIL.SERVE.CHANGE">
+																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_0" type="checkbox" value="30004010" name="srvCode" class="" validate=""></span></div>交易过户</div>
+																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_3" type="checkbox" value="30004001" name="srvCode" class="" validate=""></span></div>商业贷款</div>
+																</shiro:hasPermission>
 															</div>
 														</div>
 													</form>
@@ -529,8 +543,13 @@
 													onclick="javascript:resetSrvModal()">重置</button>
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">关闭</button>
-												<button type="button" class="btn btn-primary"
-													onclick="javascript:saveSrvItems()">提交</button>
+											  	<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SERVCHANGE">
+													<button type="button" class="btn btn-primary" onclick="javascript:saveSrvItems()">提交</button>
+												</shiro:hasPermission>
+												<shiro:hasPermission name="TRADE.CASE.DETAIL.SERVE.CHANGE">
+													<button type="button" class="btn btn-primary" onclick="javascript:saveSrvItemsForManager()">提交</button>
+												</shiro:hasPermission>
+
 											</div>
 										</div>
 									</div>

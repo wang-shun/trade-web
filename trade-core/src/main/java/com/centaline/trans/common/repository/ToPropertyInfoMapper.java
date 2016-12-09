@@ -33,6 +33,8 @@ public interface ToPropertyInfoMapper {
 	 * 根据userid查询物业信息
 	 */
 	List<ToPropertyInfo> getPropertyInfoByUserId(String userId);
+	
+	List<ToPropertyInfo> getPropertyInfoByPropertyCode(String propertyCode);
 
 	// 根据房屋id 去查询同义词
 	ViHouseDelBaseVo selectByHoudelCode(String property_agent_id);

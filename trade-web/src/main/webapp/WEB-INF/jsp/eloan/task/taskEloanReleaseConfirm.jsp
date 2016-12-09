@@ -162,6 +162,14 @@
                                 </div>
                                 <div class="case_row">
                                    <div class="case_lump">
+                                       <p><em>信贷员</em><span class="span_one">${eloanCase.loanerName}</span></p>
+                                   </div>
+                                   <div class="case_lump">
+                                       <p><em>信贷员电话</em><span class="span_one">${eloanCase.loanerPhone}</span></p>
+                                   </div>
+                                </div>
+                                <div class="case_row">
+                                   <div class="case_lump">
                                        <p><em>面签金额</em><span class="span_one">${eloanCase.signAmount}万</span></p>
                                    </div>
                                    <div class="case_lump">
@@ -177,12 +185,22 @@
 		                           <div class="case_content">
 		                           		      <c:forEach items="${eloanRelList}" var="item">
 													    <div class="case_row">
+							                               <c:if test="${eloanCase.loanSrvCode!='30004005' && eloanCase.loanSrvCode!='30004015'}">
 							                               <div class="case_lump">
 							                                   <p><em>放款金额</em><span class="span_one" id="content_caseCode">${item.releaseAmount}万</span></p>
 							                               </div>
 							                               <div class="case_lump">
 							                                   <p><em>放款时间</em><span class="span_one" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
 							                               </div>
+							                               </c:if>
+							                               <c:if test="${eloanCase.loanSrvCode=='30004005' ||eloanCase.loanSrvCode=='30004015'}">
+							                                  <div class="case_lump">
+							                                    <p><em>刷卡金额</em><span class="span_one" id="content_caseCode">${item.releaseAmount}万</span></p>
+							                               </div>
+							                               <div class="case_lump">
+							                                   <p><em>刷卡时间</em><span class="span_one" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
+							                               </div>
+							                               </c:if>
 							                             <div class="case_lump">
 							                                   <p><em>放款状态</em><span class="span_one" id="content_caseCode">
 							                                   	   <c:if test="${item.confirmStatus==1}">

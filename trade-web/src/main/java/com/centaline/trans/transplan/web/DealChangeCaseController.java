@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,7 @@ public class DealChangeCaseController {
 	
 	@Resource
 	TransplanServiceFacade toTransplanOperateService;
+	private Logger logger = LoggerFactory.getLogger(this.getClass()); 
 	
 	/**
 	 * 交易计划变更案件列表
@@ -72,6 +75,7 @@ public class DealChangeCaseController {
 			response.setMessage("案件回访处理成功！");
 			response.setSuccess(true);
 		}catch(Exception e){
+			logger.error("案件回访处理失败:", e);
 			response.setCode("500");
 			response.setMessage("案件回访处理失败！");
 			response.setSuccess(false);
@@ -96,6 +100,7 @@ public class DealChangeCaseController {
 			response.setSuccess(true);
 			response.setContent(ttp);
 		}catch(Exception e){
+			logger.error("查询交易变更历史失败:", e);
 			response.setCode("500");
 			response.setMessage("查询交易变更历史失败！");
 			response.setSuccess(false);
@@ -119,6 +124,7 @@ public class DealChangeCaseController {
 			response.setSuccess(true);
 			response.setContent(ttp);
 		}catch(Exception e){
+			logger.error("查询回访跟进历史失败:", e);
 			response.setCode("500");
 			response.setMessage("查询回访跟进历史失败！");
 			response.setSuccess(false);
