@@ -661,6 +661,16 @@
 									alert("请填写转介人");
 									return false;
 								}
+								var loanerName = $('#loanerName').val();
+								if (loanerName == null || loanerName == '') {
+									alert("请填写信贷员");
+									return false;
+								}
+								var loanerPhone = $('#loanerPhone').val();
+								if (loanerPhone == null || loanerPhone == '') {
+									alert("请填写信贷员电话");
+									return false;
+								}
 								var loanSrvCode = $(
 										"#loanSrvCode option:selected").val();
 								var finOrgCode = $(

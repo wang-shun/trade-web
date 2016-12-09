@@ -1,4 +1,4 @@
-package com.centaline.aportal.conf;
+package com.centaline.parportal.conf;
 
 import java.util.ArrayList;
 import java.util.List;

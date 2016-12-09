@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryPrResearchMapPage">
+		<searchCondition>
+            <condition field="PRM.DIST_NAME" name="orgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="PRM.DIST_CODE" name="orgCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="PRM.YU_DIST_NAME" name="yuOrgName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					PRM.PKID,
+					PRM.DIST_NAME,
+					PRM.DIST_CODE,
+					PRM.YU_DIST_NAME,
+					PRM.YU_DIST_CODE
+					FROM sctrans.T_TS_PR_RESEARCH_MAP PRM
+					where 1 = 1
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" display="ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="DIST_CODE" index="" checkbox="" display="行政区域编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="DIST_NAME" index="" checkbox="" display="行政区域名称" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="YU_DIST_CODE" index="" checkbox="" display="誉萃部门编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="YU_DIST_NAME" index="" checkbox="" display="誉萃部门名称" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

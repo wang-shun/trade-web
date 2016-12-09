@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getDictPartName" beanName="qqcdDictPartName"></customDict>
+</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryUnlocatedTask">
+		<searchCondition>
+            <condition field="tt.owner" name="owner" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="tt.caseCode"  name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="tt.propertyAddr"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="tt.CTM_CODE"  name="ctmCODE" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select tt.groupName,tt.groupParentID,tt.groupParentName,tt.name,tt.pkid,
+					tt.caseCode,tt.instCode,tt.createTime,tt.candidateId,tt.taskId,
+					tt.taskDfKey_OLD,tt.caseId,tt.propertyAddr,tt.CTM_CODE,tt.WFE_NAME,tt.AGENT_NAME,tt.AGENT_PHONE,tt.GRP_NAME
+					 from (
+						SELECT org.org_name groupName,org.parent_id as groupParentID,
+						(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName,
+						task.NAME_ as name
+						,null as pkid,pro.BUSINESS_KEY_ as caseCode,
+						pro.PROC_INST_ID_ as instCode,
+						 task.CREATE_TIME_ as createTime, ilink.user_id_ as candidateId,
+						  task.ID_ as taskId,task.TASK_DEF_KEY_ as taskDfKey_OLD,tca.pkid as caseId,b.PROPERTY_ADDR as propertyAddr
+						  ,tca.CTM_CODE as CTM_CODE,wfe.WFE_NAME,b.AGENT_NAME,b.AGENT_PHONE,b.GRP_NAME
+							from sctrans.ACT_RU_TASK task left join sctrans.ACT_RU_IDENTITYLINK ilink
+						on task.ID_=ilink.TASK_ID_
+					left join sctrans.ACT_HI_PROCINST pro
+						on task.PROC_INST_ID_=pro.PROC_INST_ID_
+					left join sctrans.t_to_case as tca
+						on pro.BUSINESS_KEY_ =tca.case_code
+					left join sctrans.v_case_list_base b
+						on b.case_code = pro.BUSINESS_KEY_
+					left join sctrans.SYS_ORG org
+						ON tca.ORG_ID=org.id
+					left join sctrans.SYS_WFE_TEMPLATE as wfe on pro.BUSINESS_KEY_=wfe.WFE_CODE
+					where task.ASSIGNEE_ is null and ilink.TYPE_='participant'
+
+				 <if test="userServiceJobCode != 'COXXGLY' ">
+					<ifNotNull mOrgId>
+						and (ilink.user_id_=#candidateId# or (ilink.user_id_ is null and tca.org_id=#mOrgId#))
+			 		</ifNotNull>
+			 		<ifNotNull managerFlag>
+			 			and ilink.user_id_=#candidateId#
+			 		</ifNotNull>
+			 		 <ifNotNull groupParentID>
+					 	and org.parent_id=#groupParentID#
+					 </ifNotNull>
+			 		</if>
+					union
+					SELECT t.groupName,t.groupParentID,t.groupParentName,t.name,t.pkid,
+					t.caseCode,t.instCode,t.createTime,t.candidateId,t.taskId,
+					t.taskDfKey_OLD,t.caseId,t.propertyAddr,t.CTM_CODE,t.WFE_NAME,t.AGENT_NAME,t.AGENT_PHONE,t.GRP_NAME
+					FROM
+					(SELECT org.org_name groupName,(SELECT org_parent.ID FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentID,(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName, 
+					ut.name as name,ut.pkid,ut.case_Code as caseCode, ut.inst_Code as instCode, ut.CREATE_TIME as createTime, ut.candidate_Id as candidateId, ut.task_Id as taskId
+					,ut.TASK_DEFINATION_KEY as taskDfKey_OLD,tca.pkid as caseId,b.PROPERTY_ADDR as propertyAddr
+					,tca.CTM_CODE as CTM_CODE,wfe.WFE_NAME,b.AGENT_NAME,b.AGENT_PHONE,b.GRP_NAME,ut.IS_DELETE,tca.org_id
+					from sctrans.T_TO_UNLOCATED_TASK as ut left join sctrans.t_to_case as tca
+						on ut.case_code =tca.case_code
+						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ut.INST_CODE  = tw.INST_CODE
+						left join sctrans.sys_job j on ut.task_Job_Code = j.job_code
+						left join sctrans.v_case_list_base b on b.case_code = ut.case_code
+						left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
+						left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE) t
+					 where t.IS_DELETE='0'
+					 <if test="userServiceJobCode != 'COXXGLY' ">
+					 <ifNotNull groupParentID>
+					 	and t.groupParentID=#groupParentID#
+					 </ifNotNull>
+					 
+					 <ifNotNull mOrgId>
+						and (t.candidateId=#candidateId# or (t.candidateId is null and t.org_id=#mOrgId#))
+			 		</ifNotNull>
+			 		<ifNotNull managerFlag>
+			 			and t.candidateId=#candidateId#
+			 		</ifNotNull>
+			 		</if>
+				) as tt where 1=1 
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="name" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="caseCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="instCode" index="" checkbox="" display="" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<!-- <column type="both" name="taskJobCode" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/> -->
+				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="candidateId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="taskId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="taskDfKey_OLD" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="taskDfKey" display="" referencecol="taskDfKey_OLD"  customDict="getDictPartName" hidden="false"/>
+				<column type="both" name="caseId" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="propertyAddr" index="" checkbox="true" display="" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				
+				<!--2016.6.23 add columns:groupName,groupParentName  begin -->
+				<column type="both" name="groupParentName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="groupName" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<!--2016.6.23 add columns:groupName,groupParentName  end -->	
+				<column type="both" name="WFE_NAME" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="GRP_NAME" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				
+							
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>
