@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.parportal.mobile.login.repository.TSmMobileTokenMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.parportal.mobile.login.entity.TSmMobileToken">
+    <result column="TOKEN" jdbcType="CHAR" property="token" />
+    <result column="USERID" jdbcType="CHAR" property="userid" />
+    <result column="EXPDATE" jdbcType="TIMESTAMP" property="expdate" />
+    <result column="ISEXP" jdbcType="INTEGER" property="isexp" />
+    <result column="EXPACCESS" jdbcType="INTEGER" property="expaccess" />
+    <result column="PRETOKEN" jdbcType="CHAR" property="pretoken" />
+    <result column="SESSION_ID" jdbcType="VARCHAR" property="sessionId" />
+  </resultMap>
+
+    <sql id="Base_Column_List" >
+     TOKEN, USERID, EXPDATE, ISEXP, EXPACCESS, PRETOKEN,SESSION_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SCTRANS.T_TM_MOBILE_TOKEN
+    where TOKEN = #{token,jdbcType=CHAR}
+  </select>
+    <insert id="insert" parameterType="com.centaline.parportal.mobile.login.vo.TokenVo" >
+    insert into SCTRANS.T_TM_MOBILE_TOKEN (<include refid="Base_Column_List" />
+      )
+    values (#{token,jdbcType=CHAR}, #{userId,jdbcType=CHAR}, #{expDate,jdbcType=TIMESTAMP}, 
+      #{isExp,jdbcType=BIT}, #{expAccess,jdbcType=INTEGER}, #{preToken,jdbcType=CHAR},#{sessionId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <delete id="delete" parameterType="java.lang.String">
+   delete from SCTRANS.T_TM_MOBILE_TOKEN
+    where TOKEN = #{token,jdbcType=CHAR}
+  </delete>
+  
+  <update id="update" parameterType="com.centaline.parportal.mobile.login.vo.TokenVo">
+  	 update SCTRANS.T_TM_MOBILE_TOKEN
+    <set >
+      <if test="expDate != null" >
+        expDate=#{expDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expAccess != null" >
+        expAccess=#{expAccess,jdbcType=VARCHAR},
+      </if>
+      <if test="preToken != null" >
+        preToken=#{preToken,jdbcType=CHAR},
+      </if>
+      <if test="isExp != null" >
+        isExp=#{isExp,jdbcType=BIT},
+      </if>
+      <if test="sessionId != null" >
+        SESSION_ID=#{sessionId,jdbcType=BIT}
+      </if>
+    </set>
+    <where>
+        TOKEN = #{token,jdbcType=CHAR}
+    </where>
+  </update>
+  
+  <update id="updateOldToken" parameterType="java.lang.String">
+  	 update SCTRANS.T_TM_MOBILE_TOKEN
+  	 set
+        ISEXP=1
+	 where
+	 	ISEXP = 0
+        and TOKEN = #{token,jdbcType=CHAR}
+  </update>
+  
+  
+  
+</mapper>

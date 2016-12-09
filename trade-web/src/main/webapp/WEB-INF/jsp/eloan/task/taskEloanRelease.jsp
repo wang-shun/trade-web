@@ -46,6 +46,7 @@
             </div>
             <div class="row">
                 <div class="wrapper wrapper-content animated fadeInUp">
+                <input type="hidden" id="loanSrv" value="${eloanCase.loanSrvCode}"/>
                     <!-- <div class="ibox"> -->
                     <div class="ibox-content" id="base_info">
                         <div class="main_titile" style="position: relative;">
@@ -160,6 +161,14 @@
                                    </div>
                                 </div>
                                 <div class="case_row">
+                                   <div class="case_lump">
+                                       <p><em>信贷员</em><span class="span_one">${eloanCase.loanerName}</span></p>
+                                   </div>
+                                   <div class="case_lump">
+                                       <p><em>信贷员电话</em><span class="span_one">${eloanCase.loanerPhone}</span></p>
+                                   </div>
+                                </div>
+                                <div class="case_row">
                                 <div class="case_lump">
                                        <p><em>面签金额</em><span class="span_one">${eloanCase.signAmount}万</span></p>
                                    </div>
@@ -177,12 +186,22 @@
 		                           <div class="case_content">
 		                           		      <c:forEach items="${eloanRelList}" var="item">
 													    <div class="case_row">
+													    <c:if test="${eloanCase.loanSrvCode!='30004005' && eloanCase.loanSrvCode!='30004015'}">
 							                               <div class="case_lump">
 							                                   <p><em>放款金额</em><span class="span_one" id="content_caseCode">${item.releaseAmount}万</span></p>
 							                               </div>
 							                               <div class="case_lump">
 							                                   <p><em>放款时间</em><span class="span_one" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
 							                               </div>
+							                               </c:if>
+							                               <c:if test="${eloanCase.loanSrvCode=='30004005' ||eloanCase.loanSrvCode=='30004015'}">
+							                                 <div class="case_lump">
+							                                   <p><em>刷卡金额</em><span class="span_one" id="content_caseCode">${item.releaseAmount}万</span></p>
+							                               </div>
+							                               <div class="case_lump">
+							                                   <p><em>刷卡时间</em><span class="span_one" id="content_propertyAddr"><fmt:formatDate value="${item.releaseTime}" pattern="yyyy-MM-dd" /></span></p>
+							                               </div>
+							                               </c:if>
 							                             <div class="case_lump">
 							                                   <p><em>放款状态</em><span class="span_one" id="content_caseCode">
 							                                   	   <c:if test="${item.confirmStatus==1}">
@@ -208,51 +227,6 @@
                             <h5>贷款放款任务</h5>
                         </div>
                         <form method="get" class="form_list">
-               <%--          		<ul class="form_lump">
-                        		<li>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        	客户姓名
-                                    </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.custName}" name="custName" id="custName">
-                                </div>
-                                <div class="input-group">
-                                    <label class="control-label sign_left_two">
-                                        	客户电话
-                                    </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.custPhone}"  name="custPhone" id="custPhone"/>
-                                </div>
-                            </li>
-                            
-                            <li>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_two">
-                                        	申请金额
-                                    </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.applyAmount}" name="applyAmount" id="applyAmount">
-                                    <div class="input-group date_icon">
-                                        <span class="danwei">万</span>
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <label class="control-label sign_left_two">
-                                        	申请期数
-                                    </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.month}"  name="month" id="month"/>
-<!--                                     <div class="input-group date_icon">
-                                        <span class="danwei">月</span>
-                                    </div> -->
-                                   
-                                   <label class="control-label sign_left_two">
-                                        	面签金额
-                                    </label>
-                                    <input class="input_type sign_right_two" value="${eloanCase.signAmount}" name="signAmount" id="signAmount">
-                                    <div class="input-group date_icon">
-                                        <span class="danwei">万</span>
-                                    </div>
-                                </div>
-                            </li>
-                        		</ul> --%>
                         		<ul class="form_lump">
                         		<li>
                         	         <div class="form_content" id="eLoanApplyPassOrRefuseReasonForShow">
@@ -264,23 +238,6 @@
                         		</ul> 
 		                       <ul class="form_lump loan_ul">
 		                		
-		                           <!-- <li>
-		                                <div class="form_content">
-		                                    <label class="control-label sign_left_two">放款金额</label>
-		                                    <input class="input_type sign_right_two" value="" >
-		                                    <div class="input-group date_icon">
-		                                        <span class="danwei">万</span>
-		                                    </div>
-		                                </div>
-		                                <div class="form_content form_nomargin input-daterange" data-date-format="yyyy-mm-dd">
-		                                    <label class="control-label sign_left_two">放款时间</label>
-		                                    <input class="input_type sign_right_two" value="" />
-		                                    <div class="input-group date_icon">
-		                                        <i class="fa fa-calendar"></i>
-		                                    </div>
-		                                </div>
-		                                <button type="button" class="btn btn-success margin_tagl15">删除</button>
-		                            </li> -->
 		                        </ul>
 		                             
 		                        <p class="add_money"><a href="javascript:add_money();" id="add_money">添加放款金额</a> (可支持多条放款记录登记)</p>
@@ -328,14 +285,24 @@
    	<script id="addMoneyRelease" type= "text/html">
                            <li id="releaseDiv{{divIndex}}">
                                 <div class="form_content">
-                                    <label class="control-label sign_left_two">放款金额</label>
+                                    {{if loanSrvCode!='30004005'&&loanSrvCode!='30004015'}}
+                                    <label class="control-label sign_left_two">放款金额{{loanSrvCode}}</label>
+                                    {{/if}}
+                                    {{if loanSrvCode=='30004005' ||loanSrvCode=='30004015'}}
+                                    <label class="control-label sign_left_two">刷卡金额</label>
+                                    {{/if}}
                                     <input class="input_type sign_right_two" value="" id="releaseAmount" name="releaseAmount"/>
                                     <div class="input-group date_icon">
                                         <span class="danwei">万</span>
                                     </div>
                                 </div>
                                 <div class="form_content form_nomargin input-daterange" data-date-format="yyyy-mm-dd">
+                                    {{if loanSrvCode!='30004005'&&loanSrvCode!='30004015'}}
                                     <label class="control-label sign_left_two">放款时间</label>
+                                    {{/if}}
+                                    {{if loanSrvCode=='30004005' ||loanSrvCode=='30004015'}}
+                                    <label class="control-label sign_left_two">刷卡时间</label>
+                                    {{/if}}
                                     <input class="input_type sign_right_two" value="" id="releaseTime" name="releaseTime"/>
                                     <div class="input-group date_icon">
                                         <i class="fa fa-calendar"></i>
@@ -534,8 +501,9 @@
         // 添加日期查询条件
         var divIndex = 1;
         var clickCount = 0;//判断是否添加了放款金额
+        var loanSrvCode=$("#loanSrv").val();
         function add_money() {
-        	var addMoneyReleaseHtml = template('addMoneyRelease' , {divIndex:divIndex});
+        	var addMoneyReleaseHtml = template('addMoneyRelease' , {divIndex:divIndex,loanSrvCode:loanSrvCode});
         	$(".loan_ul").append(addMoneyReleaseHtml);
         	// 日期控件
         	$("input[name='releaseTime']").datepicker({

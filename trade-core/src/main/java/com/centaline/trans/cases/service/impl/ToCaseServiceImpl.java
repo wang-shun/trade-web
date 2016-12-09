@@ -433,6 +433,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 		SessionUser user = uamSessionService.getSessionUser();
 		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); //获取执行任务变更的人所在的贵宾服务部
 		User applyUser = uamUserOrgService.getUserById(userId);//下个纯公积金申请人信息
+		ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
+		User oldUser =  uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		
 		/* 浦东合作顾问选中台纯公积金贷款流程除第一个环节外其他环节不需要重新派单  start */
 		String taskDefinitionKey = task.getTaskDefinitionKey();
@@ -444,6 +446,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 				tsiap.setSrvCode("3000400201");
 				tsiap = tgServItemAndProcessorService.findTgServItemAndProcessor(tsiap);
 				if (tsiap != null) {
+					tsiap.setPreProcessorId(oldUser.getId());
+					tsiap.setPreOrgId(oldUser.getOrgId());
 					tsiap.setProcessorId(applyUser.getId());
 					tsiap.setOrgId(applyUser.getOrgId());
 					tgServItemAndProcessorMapper.updateByPrimaryKey(tsiap);

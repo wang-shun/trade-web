@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getRealNameAndOrgName" beanName="getRealNameAndOrgName"></customDict>
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter"> 
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+	</formatters>
+	<query id="queryChandiaoTransferExcelItemList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT pr.PR_CODE,pr.PR_ADDRESS,pr.PR_APPLIANT,PR_APPLY_TIME,PR_ACCPET_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME) as ACCEPTANCE,PR_COMPLETE_TIME,DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME) as ACOMPLETE_TIME,pr.PR_DISTRICT_ID
+  					FROM [SCTRANS].[T_TO_PROPERTY_RESEARCH] pr
+  					WHERE PR_STATUS=2 
+  					AND EXISTS(SELECT 1 FROM SCTRANS.SYS_ORG o WHERE o.ID = pr.PR_DISTRICT_ID
+  					           <ifNotNull yuCuiOriGrpId>
+  									  AND  o.ID = #yuCuiOriGrpId#   
+  					 			</ifNotNull>
+  					 )
+  					AND EXISTS(SELECT 1 FROM SCTRANS.SYS_USER u WHERE u.ID = pr.PR_APPLIANT)
+  					 <ifNotNull prApplyTime>
+  					      AND DATEDIFF(dd,#prApplyTime#,PR_APPLY_TIME)&gt;=0
+  					 </ifNotNull>
+  					 <ifNotNull prApplyTimeEnd>
+  						  AND DATEDIFF(dd,#prApplyTimeEnd#,PR_APPLY_TIME)&lt;=0
+  					 </ifNotNull>  
+  					 <ifNotNull prAccpetTimeStart>
+						  AND pr.PR_ACCPET_TIME &gt;= #prAccpetTimeStart#
+					 </ifNotNull>
+					 <ifNotNull prAccpetTimeEnd>
+						  AND pr.PR_ACCPET_TIME &lt;= #prAccpetTimeEnd#
+					 </ifNotNull>
+					 <ifNotNull prCompleteTimeStart>
+						  AND pr.PR_COMPLETE_TIME &gt;= #prCompleteTimeStart#
+					 </ifNotNull>
+					 <ifNotNull prCompleteTimeEnd>
+						  AND pr.PR_COMPLETE_TIME &lt;= #prCompleteTimeEnd#
+					 </ifNotNull>
+					 <ifNotNull prAddress>
+  					      AND pr.PR_ADDRESS like '%'+#prAddress#+'%'
+  					 </ifNotNull>
+  					      and PR_CHANNEL=1
+  					      order by PR_CODE
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+			
+				<column type="both" name="PR_CODE"  title="产调编号" customDict="" hidden="false"/>
+				<column type="both" name="PR_ADDRESS"  title="产调地址" customDict="" hidden="false"/>
+				<column type="both" name="PR_APPLIANT" index="" checkbox="" display="" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="PR_APPLY_TIME"  title="申请时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
+				<column type="both" name="PR_ACCPET_TIME"  title="接受时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
+				<column type="both" name="ACCEPTANCE" title="受理时间（小时）" customDict="" hidden="false"/>
+				<column type="both" name="PR_COMPLETE_TIME"  title="完成时间" customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss"/>
+				<column type="both" name="ACOMPLETE_TIME" title="完成时间（小时）" customDict="" hidden="false"/>
+				<column type="both" name="PR_DISTRICT_ID" index="" checkbox="" display="" customDict="" sysDict="" format=""  align="" halign="" order="" resizable="" />
+				<column type="both" name="REAL_NAME,ORG_NAME" index="" checkbox="" title="申请人,贵宾服务部" referencecol="PR_APPLIANT,PR_DISTRICT_ID" customDict="getRealNameAndOrgName" sysDict="" format=""  align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	
+</querys>

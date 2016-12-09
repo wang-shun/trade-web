@@ -2,7 +2,6 @@
  * 案件统计详情
  */
 $(document).ready(function() {
-	
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
@@ -88,19 +87,15 @@ function searchMethod(page) {
 
 //清空
 $('#cleanButton').click(function() {
-	$("input[name='caseCode']").val('');
-	$("input[name='propertyAddr']").val('');
-	$("input[name='orgManName']").val('');
+	$("#caseCode").val('');
+	$("#partName").val('');
+	$("#operator").val('');
 	$("input[name='dtBegin']").datepicker('update', '');
 	$("input[name='dtEnd']").datepicker('update', '');
-	$("input[id='inTextVal']").val('');
-	$("input[name='orgName']").val('');
-	
-	$("select").val("");
+	$("select").val('');
 });
 
 function reloadGrid(data) {
-
 	aist.wrap(data);
 	
 	var sortcolumn=$('span.active').attr("sortColumn");
@@ -134,8 +129,7 @@ function reloadGrid(data) {
 
 }
 
-function initpage(totalCount,pageSize,currentPage,records) {
-	
+function initpage(totalCount,pageSize,currentPage,records) {	
 	if(totalCount>1500){
 		totalCount = 1500;
 	}
@@ -149,8 +143,7 @@ function initpage(totalCount,pageSize,currentPage,records) {
 	}
 	$(currentTotalstrong).empty();
 	$(currentTotalstrong).text(currentPage+'/'+totalCount);
-	$('#totalP').text(records);
-	
+	$('#totalP').text(records);	
 	
 	$("#pageBar").twbsPagination({
 		totalPages:totalCount,
@@ -169,7 +162,6 @@ function initpage(totalCount,pageSize,currentPage,records) {
 
 // 日期控件取值
 function getSearchDateValues() {
-
 	operateTimeStart = null;
 	operateTimeEnd = null;
 
@@ -178,7 +170,6 @@ function getSearchDateValues() {
 	if (end && end != '') {
 		end = end + ' 23:59:59';
 	}
-
 	if (start != "") {
 		operateTimeStart = start;
 	}
@@ -190,8 +181,7 @@ function getSearchDateValues() {
 	}
 	if (end == "") {
 		operateTimeEnd = "";
-	}
-		
+	}		
 	return true;
 }
 
@@ -199,47 +189,19 @@ function getSearchDateValues() {
  * 查询参数取得
  */
 function getParamsValue() {
-	
 	//案件编号
 	var caseCode = $("#caseCode").val().trim();
-	if(""==caseCode || null==caseCode){
-		caseCode=null;
+	if(caseCode == ''){
+		caseCode = null;
 	}
-	
 	//设置查询参数
 	var params = {};
 	
-	params.operateTimeEnd = operateTimeStart;
-	params.operateTimeEnd = operateTimeEnd;
 	params.caseCode = caseCode;
+	params.operateTimeStart = operateTimeStart;
+	params.operateTimeEnd = operateTimeEnd;
 
 	return params;
-}
-
-//选业务组织的回调函数
-function radioYuCuiOrgSelectCallBack(array){
-    if(array && array.length >0){
-        $("#orgName").val(array[0].name);
-		$("#yuCuiOriGrpId").val(array[0].id);
-		
-		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
-		$("#oldactiveName").attr("onclick",userSelect);
-	}else{
-		$("#orgName").val("");
-		$("#yuCuiOriGrpId").val("");
-	}
-}
-
-//选取人员的回调函数
-function selectUserBack(array){
-	if(array && array.length >0){
-        $("#inTextVal").val(array[0].username);
-		$("#inTextVal").attr('hVal',array[0].userId);
-
-	}else{
-		$("#inTextVal").val("");
-		$("#inTextVal").attr('hVal',"");
-	}
 }
 
 //导出excel方法
@@ -250,13 +212,12 @@ function exportToExcel() {
 		//excel导出列
 		var displayColomn = new Array;
 		displayColomn.push('CASE_CODE');
-		displayColomn.push('PROPERTY_ADDR');
-		displayColomn.push('PART_NAME');
-		displayColomn.push('CHANGE_TYPE');
-		displayColomn.push('CHANGE_BEFORE_PERSON');
-		displayColomn.push('CHANGE_AFTER_PERSON');
-		displayColomn.push('OPERATOR');
-		displayColomn.push('OPERATE_TIME');
+		displayColomn.push('SRV_NAME');
+		displayColomn.push('PRE_PROCESSOR_NAME');
+		displayColomn.push('PRE_ORG_NAME');
+		displayColomn.push('PROCESSOR_NAME');
+		displayColomn.push('ORG_NAME');
+		displayColomn.push('CREATE_TIME');
 
 		var queryOrgFlag = $("#queryOrgFlag").val();
 		var isAdminFlag = $("#isAdminFlag").val();
@@ -273,17 +234,14 @@ function exportToExcel() {
 		}
 
 		var orgArray = queryOrgs==null?'':queryOrgs.split(",");
-
-		var argu_idflag = '&argu_idflag='+arguUserId;
-		
+		var argu_idflag = '&argu_idflag='+arguUserId;	
 		if(arguUserId==null)argu_idflag='&argu_idflag=';
 		var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 		if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 		var params = getParamsValue();
 		var queryId = '&queryId=queryChangeRecordList';
 		var colomns = '&colomns=' + displayColomn;
-		
-		
+				
 		url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
 		//url+= "&_s(earch=true";
 		//url= decodeURI(url);
