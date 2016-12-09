@@ -38,7 +38,6 @@ function getShowAttachment() {
 			
 			var oldType = "";
 			$.each(data, function(indexAcc, value){
-				console.log(value);
 				if(value.partCode !='property_research'){
 					if(value.preFileName!=oldType){
 						if(oldType!=""){
