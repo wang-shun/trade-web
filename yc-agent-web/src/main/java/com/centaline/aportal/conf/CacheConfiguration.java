@@ -3,16 +3,13 @@ package com.centaline.aportal.conf;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
-import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
@@ -20,27 +17,13 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
-@AutoConfigureAfter(value=RedisSetting.class)
 public class CacheConfiguration {
-	@Autowired
-	private RedisSetting redisSetting;
-	@Bean
-	public RedisSentinelConfiguration redisSentinelConfiguration(){
-		RedisSentinelConfiguration redisSentinelConfiguration =new RedisSentinelConfiguration();
-		redisSentinelConfiguration.setMaster(redisSetting.getMaster());
-		redisSentinelConfiguration.setSentinels(redisSetting.getSpringSentinels());
-		return redisSentinelConfiguration;
-	}
+
 	/**jedis连接池*/
 	@Bean
 	@ConfigurationProperties(prefix="redisPoolConfig")
 	public JedisPoolConfig poolConfig(){
 		JedisPoolConfig jConfig=new JedisPoolConfig();
-		/*jConfig.setMaxIdle(redisPoolConfigSetting.getMaxIdle());
-		jConfig.setMaxTotal(redisPoolConfigSetting.getMaxTotal());
-		jConfig.setMinIdle(redisPoolConfigSetting.getMinIdle());
-		jConfig.setMaxWaitMillis(redisPoolConfigSetting.getMaxWaitMillis());
-		jConfig.setTestOnBorrow(redisPoolConfigSetting.getTestOnBorrow());*/
 		return jConfig;
 	}
 	@Bean

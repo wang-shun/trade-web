@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getShowWarnType" beanName="getShowWarnType"></customDict>
+		<customDict id="getShowStatus" beanName="getShowStatus"></customDict>
+</dicts>
+
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="bizwarnListQueryByTeam">
+		<!-- <searchCondition>
+		   <condition field="bw.WARN_TYPE" name="warnType" label="预警类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="bw.STATUS" name="status" label="预警状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="bw.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="ttpi.PROPERTY_ADDR"  name="propertyAddr" label="产证地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+           <condition field="bw.WARN_TIME"  name="warnTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="bw.WARN_TIME"  name="warnTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition> -->
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT t.CASE_CODE AS caseCode,t.PROPERTY_ADDR AS propertyAddress,t.WARN_TYPE as warnType,t.WARN_TIME as warnDatetime,
+					t.STATUS as status,t.RELIEVE_TIME as relieveDatetime,t.pkid as PKID FROM
+					(SELECT distinct bw.CASE_CODE 
+				      ,ttpi.PROPERTY_ADDR 
+				      ,bw.WARN_TYPE
+				      ,bw.WARN_TIME
+				      ,bw.STATUS
+				      ,bw.RELIEVE_TIME 
+				      ,c.pkid,ART.ASSIGNEE_
+		              ,ART.SUSPENSION_STATE_
+		              ,bw.CREATE_TIME
+					  ,c.ORG_ID
+				  FROM sctrans.T_TO_BIZ_WARN bw
+				  LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
+				  LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
+				  LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
+				  LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE) t
+				  where t.SUSPENSION_STATE_ = '1' and t.ASSIGNEE_ = #userLoginName#
+				  <ifNotNull warnType>	
+   						and t.WARN_TYPE=#warnType# 
+				  </ifNotNull>
+				  
+				  <ifNotNull status>	
+   						and t.STATUS=#status# 
+				  </ifNotNull>
+				  
+				  <ifNotNull caseCode>	
+   						and t.CASE_CODE=#caseCode# 
+				  </ifNotNull>
+				  
+				  <ifNotNull propertyAddr>
+					AND t.PROPERTY_ADDR like '%' + #propertyAddr# + '%' 
+				  </ifNotNull>
+				  
+				  <ifNotNull warnTimeStart>
+						AND t.WARN_TIME >= #warnTimeStart#
+				  </ifNotNull>
+				  
+				  <ifNotNull warnTimeEnd>
+						AND t.WARN_TIME &lt;= #warnTimeEnd#
+				  </ifNotNull>
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY t.CREATE_TIME DESC
+		    </orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+				<column type="both" name="caseCode" index="" checkbox="" display="交易单编号" title="交易单编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="propertyAddress" index="" checkbox="" display="产证地址" title="产证地址" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="status" display="状态" title="状态" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="status1" title="状态" referencecol="status" customDict="getShowStatus" />
+				<column type="both" name="warnType" index="" checkbox="" display="预警类型" title="预警类型" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="warnType1" title="预警类型" referencecol="warnType" customDict="getShowWarnType" /> 
+				<column type="both" name="warnDatetime" index="" checkbox="" display="预警时间" title="预警时间" beanFormatter="dateFormatter" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="relieveDatetime" index="" checkbox="" display="解除时间" title="解除时间" beanFormatter="dateFormatter" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>
