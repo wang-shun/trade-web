@@ -76,7 +76,7 @@
                                 <div class="line">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">临时银行原因</label>
-                                        <span>不想反动势力</span>
+                                        <span>${mortage.tmpBankReason }</span>
                                     </div>
                                 </div>
                                 <div class="line">
@@ -309,7 +309,7 @@
 				return false;
 			}
 			//审批意见必填 
-			if(!$("#temBankRejectReason").val()){
+			if(!$("#temBankRejectReason").val() && $("#optionsRadios2").prop("checked")){
 				alert("请填写审批意见！");
 				return false;
 			}
