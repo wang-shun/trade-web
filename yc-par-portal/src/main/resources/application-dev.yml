@@ -42,7 +42,7 @@ casRealm:
 # Server settings (ServerProperties)
 server:
   port: 8090
-  address: 127.0.0.1
+  #address: 127.0.0.1
   sessionTimeout: 30
   contextPath: /partner
 #数据源
