@@ -19,7 +19,7 @@
 			+ '</div>'
 	        + '{{/each}}'
 	        + '{{else}}'
-	        + '<p class="text-center"><img src="'+ ctx + '/image/false.png" height="100" alt="" /></p>'
+	        + '<p class="text-center"><div style="width:100%;height:100px;background:url(../../../image/false2.png) no-repeat center;background-size:100% 100%;" ></div></p>'
 	        + '{{/if}}</div>';
 		
 		
@@ -96,7 +96,7 @@ function reloadGrid() {
 		+ '</div>'
         +' {{/each}}'
         + '{{else}}'
-        + '<p class="text-center"><img src="'+ ctx + '/image/false.png" height="100" alt="" /></p>'
+        + '<p class="text-center"><div style="width:100%;height:100px;background:url(../../../image/false2.png) no-repeat center;background-size:100% 100%;" ></div></p>'
         +' {{/if}}</div>';
 	
 	var caseCode = $('#caseComment_caseCode').val();
