@@ -81,26 +81,5 @@ redisPoolConfig:
 weiXin.number:
   corpId: wx7b47806a86fe27db
   corpsecret: du8lu_E-kC1zyvofc4CPw53tNFdtF4AnbBXRJ9l9Z3d316FzsLRl1WB2Yqw4VVzB
-#mybatis
-txProperties:
-  - add*:REQUIRED
-  - new*:REQUIRED
-  - save*:REQUIRED
-  - remove*:REQUIRED
-  - delete*:REQUIRED
-  - update*:REQUIRED
-  - modify*:REQUIRED
-  - submit*:REQUIRED
-  - auth*:REQUIRED
-  - apiLog*:REQUIRES_NEW,
-  - list*:REQUIRED,readOnly
-  - query*:REQUIRED,readOnly
-  - search*:REQUIRED,readOnly
-  - load*:REQUIRED,readOnly
-  - find*:REQUIRED,readOnly
-  - get*:REQUIRED,readOnly
-  - check*:REQUIRED,readOnly
-  - count*:REQUIRED,readOnly
-  - exist*:REQUIRED,readOnly
-  - \*:REQUIRED
+
      
