@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -17,6 +18,7 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
+@ComponentScan(basePackages="com.aist.common.redisson")
 public class CacheConfiguration {
 
 	/**jedis连接池*/
@@ -24,6 +26,7 @@ public class CacheConfiguration {
 	@ConfigurationProperties(prefix="redisPoolConfig")
 	public JedisPoolConfig poolConfig(){
 		JedisPoolConfig jConfig=new JedisPoolConfig();
+	
 		return jConfig;
 	}
 	@Bean
