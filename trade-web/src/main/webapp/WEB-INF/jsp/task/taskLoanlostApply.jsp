@@ -33,6 +33,7 @@
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
+<<<<<<< HEAD
 <!-- 图片查看CSS -->
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 
@@ -43,6 +44,7 @@
 <link href="${ctx}/css/common/btn.css" rel="stylesheet">
 <link href="${ctx}/css/common/input.css" rel="stylesheet">
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -269,8 +271,8 @@
 							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
 							            </div>
 							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
