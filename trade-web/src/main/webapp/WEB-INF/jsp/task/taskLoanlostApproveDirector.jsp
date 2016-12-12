@@ -70,6 +70,8 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
+		<!-- 服务流程 -->
+		<div class="panel" id="serviceFlow">
 		<div class="row wrapper white-bg new-heading ">
              <div class="pl10">
                  <h2 class="newtitle-big">
@@ -168,6 +170,9 @@
 			<div id="imgShow" class="lightBoxGallery"></div>
 		</div>
         </div>
+        </div>
+        <!-- 相关信息 -->
+		<div class="panel " id="aboutInfo">
         <div class="view-content" id="caseCommentList"> </div>
         <div>
             <h2 class="newtitle">审批记录</h2>
@@ -183,6 +188,7 @@
                 </div>
             </div>
         </div>
+        </div>
 	</div>
 	<content tag="local_script"> <!-- jqGrid --> 
 	<script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
@@ -196,6 +202,7 @@
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
 	<script	src="${ctx}/js/viewer/viewer.min.js"></script> 
+	<script src="${ctx}/js/stickUp.js"></script>
 	
 	<!-- 改版引入的新的js文件 -->
 	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>

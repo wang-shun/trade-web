@@ -64,6 +64,8 @@
 	<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
+	<!-- 服务流程 -->
+		<div class="panel " id="serviceFlow">
 		<div class="row wrapper white-bg new-heading ">
              <div class="pl10">
                  <h2 class="newtitle-big">
@@ -222,7 +224,10 @@
             		</form>
 	            </div>
         </div>
+        </div>
 
+		<!-- 相关信息 -->
+		<div class="panel " id="aboutInfo">
         <div class="view-content" id="caseCommentList"> </div>
         <div class="ibox-title">
 			<c:choose>
@@ -369,7 +374,7 @@
             </div>
         </div>
       </div>
-
+	</div>
 		
 		
 	</div>
@@ -402,6 +407,7 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+	<script src="${ctx}/js/stickUp.js"></script>
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
 	<script src="${ctx}/js/trunk/task/attachment.js?v=1.1.0"></script> 

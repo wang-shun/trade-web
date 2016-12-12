@@ -108,6 +108,8 @@
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+	<!-- 服务流程 -->
+	<div class="panel" id="serviceFlow">
 	<div class="ibox-title">
 		<div class="row wrapper white-bg new-heading ">
              <div class="pl10">
@@ -379,6 +381,10 @@
                 </form>
             </div>
         </div>
+     </div>
+     </div>
+        <!-- 相关信息 -->
+	 <div class="panel" id="aboutInfo">
         <!-- 案件备注信息 -->
 		<div class="view-content" id="caseCommentList"> </div>
 
@@ -396,7 +402,6 @@
                 </div>
          </div>
     </div>
-	
 	<content tag="local_script"> 
 	<!-- Peity --> 
 	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
@@ -427,7 +432,8 @@
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script> 
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
 	<script src="${ctx}/js/trunk/task/attachment.js"></script>
