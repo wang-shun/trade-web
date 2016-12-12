@@ -10,24 +10,22 @@ import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 public class ApplicationContextConfiguration {
-    @Autowired
+	@Autowired
     public Environment env;
-
-    @Bean
-    @Profile("dev")
-    static public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurerDev() {
-        ClassPathResource resource = new ClassPathResource("application-dev.properties");
-        PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
-        propertyPlaceholderConfigurer.setLocation(resource);
-        return propertyPlaceholderConfigurer;
-    }
-
-    @Bean
-    @Profile("prod")
-    static public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurerPrd() {
-        ClassPathResource resource = new ClassPathResource("application-prod.properties");
-        PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
-        propertyPlaceholderConfigurer.setLocation(resource);
-        return propertyPlaceholderConfigurer;
-    }
+	@Bean
+	@Profile("dev")
+	public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurerDev() {
+		ClassPathResource resource = new ClassPathResource("application-dev.properties");
+		PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+		propertyPlaceholderConfigurer.setLocation(resource);
+		return propertyPlaceholderConfigurer;
+	}
+	@Bean
+	@Profile("prod")
+	public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurerPrd() {
+		ClassPathResource resource = new ClassPathResource("application-prod.properties");
+		PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+		propertyPlaceholderConfigurer.setLocation(resource);
+		return propertyPlaceholderConfigurer;
+	}
 }

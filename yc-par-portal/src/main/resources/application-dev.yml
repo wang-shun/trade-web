@@ -41,8 +41,8 @@ casRealm:
   casServerUrlPrefix: http://sso.centaline.com:8080/aist-sso-web
 # Server settings (ServerProperties)
 server:
-  port: 8080
-  address: 127.0.0.1
+  port: 8090
+  #address: 127.0.0.1
   sessionTimeout: 30
   contextPath: /partner
 #数据源
@@ -53,6 +53,15 @@ dataSource:
   password: dev.good
   maxActive: 10
   initialSize: 5
+  filters: stat
+#数据源
+readOnlyDataSource:
+  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  url: jdbc:sqlserver://10.4.19.22:1433;databaseName=sctrans_dev
+  username: dev
+  password: dev.good
+  maxActive: 11
+  initialSize: 6
   filters: stat
 #redis缓存
 redisSetting:
@@ -77,4 +86,25 @@ weiXin.number:
 mybatis: 
   mapperLocations: classpath:mapper/**/*.xml
   typeAliasesPackage: com.centaline.parportal.**.repository
+  txProperties:
+  - add*:REQUIRED
+  - new*:REQUIRED
+  - save*:REQUIRED
+  - remove*:REQUIRED
+  - delete*:REQUIRED
+  - update*:REQUIRED
+  - modify*:REQUIRED
+  - submit*:REQUIRED
+  - auth*:REQUIRED
+  - apiLog*:REQUIRES_NEW,
+  - list*:REQUIRED,readOnly
+  - query*:REQUIRED,readOnly
+  - search*:REQUIRED,readOnly
+  - load*:REQUIRED,readOnly
+  - find*:REQUIRED,readOnly
+  - get*:REQUIRED,readOnly
+  - check*:REQUIRED,readOnly
+  - count*:REQUIRED,readOnly
+  - exist*:REQUIRED,readOnly
+  - \*:REQUIRED
     

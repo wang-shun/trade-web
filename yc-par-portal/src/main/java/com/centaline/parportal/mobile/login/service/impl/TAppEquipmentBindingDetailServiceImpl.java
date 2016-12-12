@@ -1,9 +1,12 @@
 package com.centaline.parportal.mobile.login.service.impl;
 
+import javax.annotation.Resource;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.quickQuery.service.QuickGridService;
 import com.centaline.parportal.mobile.login.entity.TAppEquipmentBindingDetail;
 import com.centaline.parportal.mobile.login.repository.TAppEquipmentBindingDetailMapper;
 import com.centaline.parportal.mobile.login.service.TAppEquipmentBindingDetailService;
@@ -17,8 +20,8 @@ public class TAppEquipmentBindingDetailServiceImpl implements TAppEquipmentBindi
     //    @Autowired
     //    private QuerysParseService               querysParseService;
 
-    //    @Resource(name = "quickGridService")
-    //    private QuickGridService                 quickGridService;
+    @Resource(name = "quickGridService")
+    private QuickGridService                 quickGridService;
 
     @Autowired
     private SqlSessionTemplate               session;

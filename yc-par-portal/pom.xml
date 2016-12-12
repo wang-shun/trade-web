@@ -22,6 +22,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<aist.version>1.5.1-SNAPSHOT</aist.version>
+		<trade.version>1.2.0-SNAPSHOT</trade.version>
+		<mybatis.version>3.4.1</mybatis.version>
+		<mybatis-spring.version>1.2.3</mybatis-spring.version>
 	</properties>
 
 	<dependencies>
@@ -33,6 +37,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+	                <exclusion>
+	                    <groupId>org.springframework.boot</groupId>
+	                    <artifactId>spring-boot-starter-tomcat</artifactId>
+	                </exclusion>
+	            </exclusions>
 		</dependency>
 		
 		<dependency>
@@ -77,11 +87,18 @@
 			<artifactId>curator-framework</artifactId>
 			<version>3.2.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.aist</groupId>
 			<artifactId>aist-uam-client</artifactId>
-			<version>1.5.1-SNAPSHOT</version>
+			<version>${aist.version}</version>
 		</dependency>
+	 	<dependency>
+			<groupId>com.centaline</groupId>
+			<artifactId>trade-core</artifactId>
+			<version>${trade.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
