@@ -74,8 +74,8 @@
 			class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
 			<ul class="nav navbar-nav scroll_content">
 				<li class="menuItem active"><a href="#basicInfo"> 基本信息 </a></li>
-				<li class="menuItem"> <a href="#basicInfo"> 服务流程  </a></li>
-				<li class="menuItem"> <a href="#basicInfo"> 相关信息 </a> </li>
+				<li class="menuItem"> <a href="#serviceFlow"> 服务流程  </a></li>
+				<li class="menuItem"> <a href="#aboutInfo"> 相关信息 </a> </li>
 
 			</ul>
 		</div>

@@ -165,6 +165,22 @@ function reloadGrid() {
 	    });
 	}
 
+	jQuery(function($) {
+        $(document).ready( function() {
+           $('.stickup-nav-bar').stickUp({
+            // $('.col-lg-9').stickUp({
+                                parts: {
+                                  0:'basicInfo',
+                                  1:'serviceFlow',
+                                  2:'aboutInfo'
+                                },
+                                itemClass: 'menuItem',
+                                itemHover: 'active',
+                                marginTop: 'auto'
+                              });
+        });
+    });
+
 	
 	
 
