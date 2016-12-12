@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<customDict id="qqcdJlOrZjOrNameByOrgCode" beanName="qqcdJlOrZjOrNameByOrgCode" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>		
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryUnlocatedCase">
+	<searchCondition>
+			
+            <condition field="pi.PROPERTY_ADDR" name="proAddr"  searchType="LIKE" />
+            <condition field="tci.IMPORT_TIME" name="dtBegin"  searchType="GTE" />
+            <condition field="tci.IMPORT_TIME" name="dtEnd"  searchType="LTE" />
+            <condition field="pi.DIST_CODE" name="distCode"  searchType="eq" />
+            </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						TCI.PKID,
+						TCI.CASE_CODE,
+						TCI.CTM_CODE,
+						TCI.AGENT_CODE,
+						TCI.AGENT_NAME,
+						TCI.IMPORT_TIME,
+						TCI.GRP_NAME as ORG_NAME,
+						TCI.GRP_CODE as AGENT_ORG_CODE,
+						PI.PROPERTY_ADDR,TCI.AGENT_PHONE,TCI.QYZJ_NAME as qyzjNAME,
+						iif(TCI.QYJL_NAME is null or TCI.QYJL_NAME = '',TCI.QYZJ_NAME,TCI.QYJL_NAME ) LEADER						
+					FROM
+						sctrans.T_TO_CASE_INFO AS TCI
+						LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS PI ON TCI.CASE_CODE = PI.CASE_CODE
+					WHERE (TCI.TARGET_CODE is null or ltrim(TCI.TARGET_CODE) = '')
+							and TCI.IS_RESPONSED != '1'
+ 				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY tci.CASE_CODE DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" display="CASEID"  hide="true"/>
+				<column type="both" name="CASE_CODE" display="案件编号" />
+				<column type="both" name="CTM_CODE" display="案件编号" />
+				<column type="both" name="PROPERTY_ADDR" display="产证地址"/>
+				<column type="both" name="AGENT_NAME"  display="经纪人" />
+				<column type="both" name="ORG_NAME" display="组别"  />
+				<column type="both" name="IMPORT_TIME"  display="导入时间"  beanFormatter="dateFormatter1"   />			
+				<column type="both" name="LEADER"  	title="区经/区总" />	
+				<column type="both" name="AGENT_PHONE"  	title="电话" />	
+				<column type="both" name="qyzjNAME"  	title="区董" />	
+			</table-row>
+		</grid>
+	</query>
+</querys>
