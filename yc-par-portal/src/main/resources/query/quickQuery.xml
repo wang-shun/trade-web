@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<queryConfig  debug="false">
+	<description></description>
+	<import resource="query/mortgage/toMortgageList4Par.xml" />
+	<import resource="query/mortgage/toEguPricingQuery.xml" />
+	<import resource="query/mortgage/toEvaReportQuery.xml" />
+
+	<import resource="query/case/toCaseListQuery.xml" />
+	
+	
+
+	
+	<!-- E贷款 -->
+	<import resource="query/eloan/warnListQuery.xml" />
+	<import resource="query/eloan/changeListQuery.xml" />
+	<import resource="query/eloan/eloanRiskCtlList.xml" />
+	
+
+	
+	
+	<import resource="query/eloan/ELoanCaseList.xml" />
+	<import resource="query/eloan/eloanContractList.xml" />
+	
+
+</queryConfig>

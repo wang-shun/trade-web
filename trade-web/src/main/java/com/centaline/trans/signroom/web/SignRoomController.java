@@ -50,7 +50,7 @@ public class SignRoomController {
 	@Resource
 	ReservationService reservationService;
 	
-	private Logger logger = LoggerFactory.getLogger(this.getClass()); 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * 签约室分配列表
@@ -249,6 +249,7 @@ public class SignRoomController {
 			response.setCode("500");
 			response.setMessage("分配失败！");
 			response.setSuccess(false);
+			logger.error("分配失败！", e);
 		}
 		return response;
 	}

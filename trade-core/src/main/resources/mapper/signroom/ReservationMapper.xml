@@ -415,6 +415,6 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
 		FROM sctrans.T_RM_RESERVATION r
 		LEFT JOIN sctrans.T_RM_ROOM_SCHEDULE rs ON rs.PKID = r.SCHEDULE_ID
 		WHERE rs.ROOM_ID = #{roomId,jdbcType=BIGINT} AND rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR}
-		AND r.CHECKED_OUT_TIME IS NULL;
+		AND r.RES_STATUS = '1' and r.CHECKED_OUT_TIME IS NULL;
   </select>
 </mapper>

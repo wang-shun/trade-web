@@ -44,6 +44,8 @@ import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
@@ -66,6 +68,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
+	@Autowired
+	private ToApproveRecordService toApproveRecordService;
 	
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
@@ -387,8 +391,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public AjaxResponse<String> startTmpBankWorkFlow(String caseCode) {
 		
+		User manager = null,seniorManager = null,director = null;
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		
+
     	try{
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -396,13 +401,13 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		String orgId = te.getOrgId();
 		SessionUser user = uamSessionService.getSessionUser();
 		//查询主管
-		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Manager");
+		manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Manager");
 		String parsentId = uamUserOrgService.getOrgById(orgId).getParentId();
 		//查询高级主管
-		User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
+		seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
 		//查询总监
-		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
-		
+		director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
+
 		variables.add(new RestVariable("Manager",manager.getUsername()));
 		variables.add(new RestVariable("SeniorManager",seniorManager == null?null:seniorManager.getUsername()));
 		variables.add(new RestVariable("director",director.getUsername()));
@@ -435,10 +440,23 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		response.setMessage("已成功开启临时银行审批流程！");
 	}catch(Exception e){
 		response.setSuccess(false);
-		response.setMessage(e.getMessage());
+		if(manager == null){
+			response.setMessage("开启临时银行审批流程失败:找不到案件所属组织的主管！");
+		}else if(director == null){
+			response.setMessage("开启临时银行审批流程失败:找不到案件所属组织上级组织的总监！");
+		}else{
+			StringBuffer sOut = new StringBuffer();
+	    	sOut.append(e.getMessage() + "\r\n");
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut.append("\tat " + s + "\r\n");
+	        }
+			response.setMessage("开启临时银行审批流程报错，请联系管理员！\r\n"+sOut);
+		}
+
+		e.printStackTrace();
 	}
 	return response;
-
 	}
 
 	@Override
@@ -482,7 +500,19 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			variables.add(new RestVariable("isManagerApprove",isManagerApprove));
 			
 			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
-
+			
+			//添加审核记录到ToApproveRecord
+			ToApproveRecord toApproveRecord=new ToApproveRecord();
+			toApproveRecord.setCaseCode(caseCode);
+			toApproveRecord.setContent(isManagerApprove?"审批通过，审批意见为："+temBankRejectReason:"审批驳回，审批意见为："+temBankRejectReason);
+			toApproveRecord.setApproveType("8");//todo
+			toApproveRecord.setOperator(user.getId());
+			toApproveRecord.setTaskId(taskId);
+			toApproveRecord.setOperatorTime(new Date());
+			toApproveRecord.setPartCode("ManagerAduit");//todo
+			toApproveRecord.setProcessInstance(processInstanceId);
+			
+			toApproveRecordService.insertToApproveRecord(toApproveRecord);
 		}else if("seniorManager".equals(post)){
 			boolean isSeniorManagerApprove = false;
 			if("true".equals(tmpBankCheck)){
@@ -514,6 +544,19 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			variables.add(new RestVariable("isSeniorManagerApprove",isSeniorManagerApprove ));
 			
 			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
+			
+			//添加审核记录到ToApproveRecord
+			ToApproveRecord toApproveRecord=new ToApproveRecord();
+			toApproveRecord.setCaseCode(caseCode);
+			toApproveRecord.setContent(isSeniorManagerApprove?"审批通过，审批意见为："+temBankRejectReason:"审批驳回，审批意见为："+temBankRejectReason);
+			toApproveRecord.setApproveType("8");//todo
+			toApproveRecord.setOperator(user.getId());
+			toApproveRecord.setTaskId(taskId);
+			toApproveRecord.setOperatorTime(new Date());
+			toApproveRecord.setPartCode("SuperManagerAudit");//todo
+			toApproveRecord.setProcessInstance(processInstanceId);		
+			
+			toApproveRecordService.insertToApproveRecord(toApproveRecord);
 		}else if("director".equals(post)){	
 			
 			ToMortgage mortageDb= findToMortgageById(mortage.getPkid());
@@ -565,6 +608,19 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
+			
+			//添加审核记录到ToApproveRecord
+			ToApproveRecord toApproveRecord=new ToApproveRecord();
+			toApproveRecord.setCaseCode(caseCode);
+			toApproveRecord.setContent("true".equals(tmpBankCheck)?"审批通过，审批意见为："+temBankRejectReason:"审批驳回，审批意见为："+temBankRejectReason);
+			toApproveRecord.setApproveType("8");//todo
+			toApproveRecord.setOperator(user.getId());
+			toApproveRecord.setTaskId(taskId);
+			toApproveRecord.setOperatorTime(new Date());
+			toApproveRecord.setPartCode("DirectorAudit");//todo
+			toApproveRecord.setProcessInstance(processInstanceId);		
+			
+			toApproveRecordService.insertToApproveRecord(toApproveRecord);
 			}
 		
 		return AjaxResponse.success();
