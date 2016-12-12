@@ -45,13 +45,13 @@
         O.DISTRICT_NAME as districtName
 FROM    sctrans.T_RM_SIGN_ROOM R
         INNER JOIN sctrans.T_RM_ROOM_SCHEDULE T ON R.PKID = T.ROOM_ID
-        LEFT JOIN sctrans.T_RM_RESERVATION S ON T.RES_ID = S.PKID
+        LEFT JOIN sctrans.T_RM_RESERVATION S ON T.RES_ID = S.PKID AND S.IS_DELETE = 0
         LEFT JOIN sctrans.T_RM_TRADE_CENTER M ON R.TRADE_CENTER_ID = M.PKID
         INNER JOIN sctrans.T_RM_SIGN_ROOM_ORG_MAPPING O ON M.PKID = O.TRADE_CENTER_ID
 WHERE   T.IS_DELETE = '0'
-        AND (R.IS_DELETE = '0' OR R.IS_DELETE IS NULL)
+        AND (R.IS_DELETE = '0' OR R.IS_DELETE IS NULL) 
             <if test="depId != null">
-				 AND O.TEAM_ID = #depId#
+				 AND (O.TEAM_ID = #depId# OR O.DISTRICT_ID = #depId# )
 			</if>
 			<if test="curDate != null">
 				 AND DATEDIFF(DAY, T.START_DATE, #curDate#) = 0

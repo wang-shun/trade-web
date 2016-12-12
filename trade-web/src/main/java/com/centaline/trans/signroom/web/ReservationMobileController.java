@@ -208,6 +208,7 @@ public class ReservationMobileController {
 		reservation.setCreateBy(currentUser.getId());
 		reservation.setUpdateTime(new Date());
 		reservation.setUpdateBy(currentUser.getId());
+		reservation.setIsDelete(0);
 
 		try {
 			freeRoomInfo = reservationService.saveReservation(reservation,
@@ -321,9 +322,13 @@ public class ReservationMobileController {
 		request.setAttribute("agentCode", currentUser.getId());
 		request.setAttribute("remainBespeakNumber", remainBespeakNumber);
 
+		/* 获取日历数据*/
+		List<Map<String,String>> listCalendar = reservationService.getBespeakCalendar();
+		request.setAttribute("listCalendar", listCalendar);
+		
 		return "mobile/signroom/reservation/bespeak";
 	}
-
+	
 	/**
 	 * 预约取号保存
 	 * 

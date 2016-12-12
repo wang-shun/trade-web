@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -213,10 +214,10 @@
             </section>
         </ul>
         <p class="mt15 text-center">
-            以上结果仅供参考，实际费用以审税结果为准
+           	 最终税费以交易中心和审税结果为准
         </p>
     </section>
-    <div id="Popup" class="layui-m-layer layui-m-layer0" >
+    <div id="Popup" class="layui-m-layer layui-m-layer0" style="display:none;">
         <div class="layui-m-layershade"></div>
         <div class="layui-m-layermain">
             <div class="layui-m-layersection">
@@ -260,8 +261,6 @@ $(function () {
     var $text4 = "<p>应税面积是对本市居民家庭给予人均60平方米的免税住房面积扣除后的应缴纳房产税的面积。<br>"
                 + "如购房者为上海户籍且首套房可免征。</p>";
 
-    //遮罩弹窗层隐藏显示
-    $popup.hide();
     $(".popup-one").on("click",function() {
         $popup.show();
         $(".date-title").html("个人所得税说明");
@@ -401,7 +400,7 @@ function calculateNotarialFees(housePrice) {
 }
 //其他费用(交易手续费,委托公证费,权证登记费)
 function tradeTaxFee(squre) {
-	return getPositive(2.5*squre); 
+	return getPositive(2*squre); 
 }
 
 function sum(t) {

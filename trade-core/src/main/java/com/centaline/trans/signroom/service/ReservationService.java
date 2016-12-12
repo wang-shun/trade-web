@@ -2,6 +2,7 @@ package com.centaline.trans.signroom.service;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.vo.ChangeRoomResult;
@@ -14,6 +15,32 @@ import com.centaline.trans.signroom.vo.SignroomInfo;
 import com.centaline.trans.signroom.vo.TransactItemVo;
 
 public interface ReservationService {
+
+	/**
+	 * 判断上一个时间段该房间是否签退
+	 * 
+	 * @param reservationVo
+	 *            条件
+	 * @return 返回true,说明上一个时间段该房间已经签退;返回false,说明上一个时间段该房间还没签退。
+	 */
+	public String isOvertimeUse(ReservationVo reservationVo);
+
+	/**
+	 * 提前使用
+	 * 
+	 * @param reservationVo
+	 *            条件
+	 */
+	public void startUseInAdvance(ReservationVo reservationVo);
+
+	/**
+	 * 开始使用之前判断当前时间点是否有这个房号的房间
+	 * 
+	 * @param roomId
+	 *            房间id
+	 * @return 如果返回true,有空闲房间;返回false,无空闲。
+	 */
+	public String isHasFreeRoomByCurrentTimeAndRoomNo(Long roomId);
 
 	/**
 	 * 保存预约取号信息
@@ -60,7 +87,15 @@ public interface ReservationService {
 	 * @return 办理事项列表信息
 	 */
 	public List<TransactItemVo> getTransactItemList();
-
+	
+	/**
+	 * 
+	 * 获取可预约字符串日期列表,日期格式：YYYY-MM-DD
+	 * @param tradeCenterId 签约中心ID
+	 * @return 字符串日期列表
+	 */
+	public List<Map<String,String>> getBespeakCalendar();
+	
 	/**
 	 * 获取达到特定条件的闲置房间信息
 	 * 

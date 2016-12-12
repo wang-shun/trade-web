@@ -1,5 +1,7 @@
 package com.centaline.trans.signroom.vo;
 
+import java.util.Date;
+
 public class ReservationVo {
 
 	private String resType; // 预约类型 0:经纪人预约,1:管理员临时预约
@@ -37,6 +39,56 @@ public class ReservationVo {
 	private String endDate; // 预约结束时间
 
 	private Long newScheduleId; // 新房间预约信息id
+
+	private String roomNo; // 房间号
+
+	private String beginResTime; // 预约开始时间
+
+	private String endResTime; // 预约结束时间
+
+	private Long roomId; // 房间id
+
+	private Date checkInTime; // 签到时间
+
+	public Date getCheckInTime() {
+		return checkInTime;
+	}
+
+	public void setCheckInTime(Date checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+
+	public Long getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(Long roomId) {
+		this.roomId = roomId;
+	}
+
+	public String getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(String roomNo) {
+		this.roomNo = roomNo;
+	}
+
+	public String getBeginResTime() {
+		return beginResTime;
+	}
+
+	public void setBeginResTime(String beginResTime) {
+		this.beginResTime = beginResTime;
+	}
+
+	public String getEndResTime() {
+		return endResTime;
+	}
+
+	public void setEndResTime(String endResTime) {
+		this.endResTime = endResTime;
+	}
 
 	private String flag;
 

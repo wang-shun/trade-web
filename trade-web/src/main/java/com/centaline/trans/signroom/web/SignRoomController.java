@@ -2,6 +2,7 @@ package com.centaline.trans.signroom.web;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.poi.ss.formula.functions.T;
 import org.jsoup.helper.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +49,8 @@ public class SignRoomController {
 	private RmSignRoomService rmSignRoomService;
 	@Resource
 	ReservationService reservationService;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * 签约室分配列表
@@ -53,7 +58,6 @@ public class SignRoomController {
 	 */
 	@RequestMapping("/signRoomAllotList")
 	public String signRoomAllotList(Model model){
-		SessionUser user= uamSessionService.getSessionUser();
 		Calendar cd = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -63,6 +67,19 @@ public class SignRoomController {
 		model.addAttribute("curDate", sdf.format(cd.getTime()));
 		boolean isCurrenDayDuty = rmSignRoomService.isCurrenDayDuty();//是否当日值班 
 		model.addAttribute("isCurrenDayDuty", isCurrenDayDuty);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("dutyDate", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+		
+		SessionUser user= uamSessionService.getSessionUser();
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("districtId", user.getServiceDepId());
+		List<TradeCenter> tradeCenters = rmSignRoomService.getTradeCenters(param);//获取 交易中心信息
+		List<TradeCenterSchedule> tcs = new ArrayList<TradeCenterSchedule>();
+		for(TradeCenter tc:tradeCenters){//查询该贵宾服务部当日值班人员
+			map.put("centerId", tc.getPkid());
+			tcs.addAll(rmSignRoomService.queryTradeCenterSchedules(map));
+		}
+		model.addAttribute("tcs",tcs);
 		return "/signroom/signingallot";
 	}
 	
@@ -229,6 +246,7 @@ public class SignRoomController {
 			response.setCode("500");
 			response.setMessage("分配失败！");
 			response.setSuccess(false);
+			logger.error("分配失败！", e);
 		}
 		return response;
 	}

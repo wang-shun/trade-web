@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
@@ -122,7 +124,7 @@
         <div class="layui-m-layermain">
             <div class="layui-m-layersection">
                 <div class="layui-m-layerchild  layui-m-anim-scale noradius">
-                    <div class="date-title">2016-10-02</div>
+                    <div class="date-title"></div>
                     <section class="aui-grid">
                         <table class="table table-date">
                           <thead>
@@ -137,24 +139,6 @@
                             </tr>
                           </thead>
                           <tbody id="dayList">
-                            <!-- <tr>
-                              <td date="2016-10-24">24</td>
-                              <td date="2016-10-25">25</td>
-                              <td date="2016-10-26">26</td>
-                              <td date="2016-10-27">27</td>
-                              <td date="2016-10-28" class="warn">28</td>
-                              <td date="2016-10-29" class="usable-date">29</td>
-                              <td date="2016-10-30" class="usable-date">30</td>
-                            </tr>
-                            <tr>
-                              <td date="2016-10-31" class="usable-date">31</td>
-                              <td date="2016-11-01" class="usable-date">1</td>
-                              <td date="2016-11-02" class="usable-date">2</td>
-                              <td date="2016-11-03">3</td>
-                              <td date="2016-11-04">4</td>
-                              <td date="2016-11-05">5</td>
-                              <td date="2016-11-06">6</td>
-                            </tr> -->
                           </tbody>
                         </table>
                     </section>
@@ -230,7 +214,7 @@
 
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-ui.min.js"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery.autocompleter.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/bespeak.js"></script>
+<script type="text/javascript" src="${ctx}/mobilejs/signroom/bespeak.js?v=1"></script>
 <script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-mvalidate.js"></script>
 
 </html>

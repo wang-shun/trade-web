@@ -386,5 +386,12 @@
     <bean name="getChangeReason" class="com.centaline.trans.common.service.impl.QuickQueryGetChangeReasonServiceImpl"></bean>
     
     <bean name="convertValueForLoanlostReason" class="com.centaline.trans.common.service.impl.QuickQueryCustomValueLostReasonServiceImpl" />
+    
+    <!-- 签约室管理(获取预约部分信息) -->
+    <bean name="getResInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetResInfoServiceImpl" />
+    
+    <!-- 根据签约室安排id集合获取安排信息和房间信息 -->
+    <bean name="quickQueryGetScheduleAndRoomInfoByScheduleId" class="com.centaline.trans.common.service.impl.QuickQueryGetScheduleAndRoomInfoByScheduleIdServiceImpl" />
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
