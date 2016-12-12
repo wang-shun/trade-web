@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.cases.repository.ToCaseMergeMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.cases.entity.ToCaseMerge" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="C_CASE_CODE" property="cCaseCode" jdbcType="VARCHAR" />
+    <result column="CTM_CODE" property="ctmCode" jdbcType="VARCHAR" />
+    <result column="PROPERTY_CODE" property="propertyCode" jdbcType="VARCHAR" />
+    <result column="PROPERTY_ADDR" property="propertyAddr" jdbcType="NVARCHAR" />
+    <result column="C_AGENT_CODE" property="cAgentCode" jdbcType="VARCHAR" />
+    <result column="C_AGENT_NAME" property="cAgentName" jdbcType="VARCHAR" />
+    <result column="C_AGENT_PHONE" property="cAgentPhone" jdbcType="VARCHAR" />
+    <result column="C_AGENT_USERNAME" property="cAgentUsername" jdbcType="VARCHAR" />
+    <result column="C_AGENT_GRP_CODE" property="cAgentGrpCode" jdbcType="VARCHAR" />
+    <result column="C_AGENT_GRP_NAME" property="cAgentGrpName" jdbcType="NVARCHAR" />
+    <result column="C_AGENT_QYJL_NAME" property="cAgentQyjlName" jdbcType="VARCHAR" />
+    <result column="C_AGENT_QYZJ_NAME" property="cAgentQyzjName" jdbcType="VARCHAR" />
+    <result column="C_AGENT_QYDS_NAME" property="cAgentQydsName" jdbcType="VARCHAR" />
+    <result column="C_AGENT_AR_CODE" property="cAgentArCode" jdbcType="VARCHAR" />
+    <result column="C_AGENT_AR_NAME" property="cAgentArName" jdbcType="NVARCHAR" />
+    <result column="C_AGENT_SWZ_CODE" property="cAgentSwzCode" jdbcType="VARCHAR" />
+    <result column="C_AGENT_SWZ_NAME" property="cAgentSwzName" jdbcType="NVARCHAR" />
+    <result column="C_AGENT_WZ_CODE" property="cAgentWzCode" jdbcType="VARCHAR" />
+    <result column="C_AGENT_WZ_NAME" property="cAgentWzName" jdbcType="NVARCHAR" />
+    <result column="C_AGENT_BA_CODE" property="cAgentBaCode" jdbcType="VARCHAR" />
+    <result column="C_AGENT_BA_NAME" property="cAgentBaName" jdbcType="NVARCHAR" />
+    <result column="AGENT_CODE" property="agentCode" jdbcType="VARCHAR" />
+    <result column="AGENT_NAME" property="agentName" jdbcType="VARCHAR" />
+    <result column="AGENT_USERNAME" property="agentUsername" jdbcType="VARCHAR" />
+    <result column="AGENT_PHONE" property="agentPhone" jdbcType="VARCHAR" />
+    <result column="AGENT_GRP_CODE" property="agentGrpCode" jdbcType="VARCHAR" />
+    <result column="AGENT_GRP_NAME" property="agentGrpName" jdbcType="VARCHAR" />
+    <result column="AGENT_QYJL_NAME" property="agentQyjlName" jdbcType="VARCHAR" />
+    <result column="AGENT_QYZJ_NAME" property="agentQyzjName" jdbcType="VARCHAR" />
+    <result column="AGENT_QYDS_NAME" property="agentQydsName" jdbcType="VARCHAR" />
+    <result column="AGENT_AR_CODE" property="agentArCode" jdbcType="VARCHAR" />
+    <result column="AGENT_AR_NAME" property="agentArName" jdbcType="NVARCHAR" />
+    <result column="AGENT_SWZ_CODE" property="agentSwzCode" jdbcType="VARCHAR" />
+    <result column="AGENT_SWZ_NAME" property="agentSwzName" jdbcType="NVARCHAR" />
+    <result column="AGENT_WZ_CODE" property="agentWzCode" jdbcType="VARCHAR" />
+    <result column="AGENT_WZ_NAME" property="agentWzName" jdbcType="NVARCHAR" />
+    <result column="AGENT_BA_CODE" property="agentBaCode" jdbcType="VARCHAR" />
+    <result column="AGENT_BA_NAME" property="agentBaName" jdbcType="NVARCHAR" />
+    <result column="APPLIER_ID" property="applierId" jdbcType="VARCHAR" />
+    <result column="APPLIER_ORG_ID" property="applierOrgId" jdbcType="VARCHAR" />
+    <result column="OPERATOR_TIME" property="operatorTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="APPLY_STATUS" property="applyStatus" jdbcType="VARCHAR" />
+    <result column="CONFIRMOR_ID" property="confirmorId" jdbcType="VARCHAR" />
+    <result column="CONFIRMOR_ORG_ID" property="confirmorOrgId" jdbcType="VARCHAR" />
+    <result column="CONFIRMOR_TIME" property="confirmorTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_DIRECTION" property="applyDirection" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, C_CASE_CODE, CTM_CODE, PROPERTY_CODE, PROPERTY_ADDR, C_AGENT_CODE, 
+    C_AGENT_NAME, C_AGENT_PHONE, C_AGENT_USERNAME, C_AGENT_GRP_CODE, C_AGENT_GRP_NAME, 
+    C_AGENT_QYJL_NAME, C_AGENT_QYZJ_NAME, C_AGENT_QYDS_NAME, C_AGENT_AR_CODE, C_AGENT_AR_NAME, 
+    C_AGENT_SWZ_CODE, C_AGENT_SWZ_NAME, C_AGENT_WZ_CODE, C_AGENT_WZ_NAME, C_AGENT_BA_CODE, 
+    C_AGENT_BA_NAME, AGENT_CODE, AGENT_NAME, AGENT_USERNAME, AGENT_PHONE, AGENT_GRP_CODE, 
+    AGENT_GRP_NAME, AGENT_QYJL_NAME, AGENT_QYZJ_NAME, AGENT_QYDS_NAME, AGENT_AR_CODE, 
+    AGENT_AR_NAME, AGENT_SWZ_CODE, AGENT_SWZ_NAME, AGENT_WZ_CODE, AGENT_WZ_NAME, AGENT_BA_CODE, 
+    AGENT_BA_NAME, APPLIER_ID, APPLIER_ORG_ID, OPERATOR_TIME, OPERATOR, APPLY_STATUS, 
+    CONFIRMOR_ID, CONFIRMOR_ORG_ID, CONFIRMOR_TIME, APPLY_DIRECTION, CREATE_TIME, CREATE_BY, 
+    UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_MERGE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_CASE_MERGE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToCaseMerge" >
+    insert into sctrans.T_TO_CASE_MERGE (PKID, CASE_CODE, C_CASE_CODE, 
+      CTM_CODE, PROPERTY_CODE, PROPERTY_ADDR, 
+      C_AGENT_CODE, C_AGENT_NAME, C_AGENT_PHONE, 
+      C_AGENT_USERNAME, C_AGENT_GRP_CODE, C_AGENT_GRP_NAME, 
+      C_AGENT_QYJL_NAME, C_AGENT_QYZJ_NAME, C_AGENT_QYDS_NAME, 
+      C_AGENT_AR_CODE, C_AGENT_AR_NAME, C_AGENT_SWZ_CODE, 
+      C_AGENT_SWZ_NAME, C_AGENT_WZ_CODE, C_AGENT_WZ_NAME, 
+      C_AGENT_BA_CODE, C_AGENT_BA_NAME, AGENT_CODE, 
+      AGENT_NAME, AGENT_USERNAME, AGENT_PHONE, 
+      AGENT_GRP_CODE, AGENT_GRP_NAME, AGENT_QYJL_NAME, 
+      AGENT_QYZJ_NAME, AGENT_QYDS_NAME, AGENT_AR_CODE, 
+      AGENT_AR_NAME, AGENT_SWZ_CODE, AGENT_SWZ_NAME, 
+      AGENT_WZ_CODE, AGENT_WZ_NAME, AGENT_BA_CODE, 
+      AGENT_BA_NAME, APPLIER_ID, APPLIER_ORG_ID, 
+      OPERATOR_TIME, OPERATOR, APPLY_STATUS, 
+      CONFIRMOR_ID, CONFIRMOR_ORG_ID, CONFIRMOR_TIME, 
+      APPLY_DIRECTION, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{cCaseCode,jdbcType=VARCHAR}, 
+      #{ctmCode,jdbcType=VARCHAR}, #{propertyCode,jdbcType=VARCHAR}, #{propertyAddr,jdbcType=NVARCHAR}, 
+      #{cAgentCode,jdbcType=VARCHAR}, #{cAgentName,jdbcType=VARCHAR}, #{cAgentPhone,jdbcType=VARCHAR}, 
+      #{cAgentUsername,jdbcType=VARCHAR}, #{cAgentGrpCode,jdbcType=VARCHAR}, #{cAgentGrpName,jdbcType=NVARCHAR}, 
+      #{cAgentQyjlName,jdbcType=VARCHAR}, #{cAgentQyzjName,jdbcType=VARCHAR}, #{cAgentQydsName,jdbcType=VARCHAR}, 
+      #{cAgentArCode,jdbcType=VARCHAR}, #{cAgentArName,jdbcType=NVARCHAR}, #{cAgentSwzCode,jdbcType=VARCHAR}, 
+      #{cAgentSwzName,jdbcType=NVARCHAR}, #{cAgentWzCode,jdbcType=VARCHAR}, #{cAgentWzName,jdbcType=NVARCHAR}, 
+      #{cAgentBaCode,jdbcType=VARCHAR}, #{cAgentBaName,jdbcType=NVARCHAR}, #{agentCode,jdbcType=VARCHAR}, 
+      #{agentName,jdbcType=VARCHAR}, #{agentUsername,jdbcType=VARCHAR}, #{agentPhone,jdbcType=VARCHAR}, 
+      #{agentGrpCode,jdbcType=VARCHAR}, #{agentGrpName,jdbcType=VARCHAR}, #{agentQyjlName,jdbcType=VARCHAR}, 
+      #{agentQyzjName,jdbcType=VARCHAR}, #{agentQydsName,jdbcType=VARCHAR}, #{agentArCode,jdbcType=VARCHAR}, 
+      #{agentArName,jdbcType=NVARCHAR}, #{agentSwzCode,jdbcType=VARCHAR}, #{agentSwzName,jdbcType=NVARCHAR}, 
+      #{agentWzCode,jdbcType=VARCHAR}, #{agentWzName,jdbcType=NVARCHAR}, #{agentBaCode,jdbcType=VARCHAR}, 
+      #{agentBaName,jdbcType=NVARCHAR}, #{applierId,jdbcType=VARCHAR}, #{applierOrgId,jdbcType=VARCHAR}, 
+      #{operatorTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}, #{applyStatus,jdbcType=VARCHAR}, 
+      #{confirmorId,jdbcType=VARCHAR}, #{confirmorOrgId,jdbcType=VARCHAR}, #{confirmorTime,jdbcType=TIMESTAMP}, 
+      #{applyDirection,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseMerge" >
+    insert into sctrans.T_TO_CASE_MERGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="cCaseCode != null" >
+        C_CASE_CODE,
+      </if>
+      <if test="ctmCode != null" >
+        CTM_CODE,
+      </if>
+      <if test="propertyCode != null" >
+        PROPERTY_CODE,
+      </if>
+      <if test="propertyAddr != null" >
+        PROPERTY_ADDR,
+      </if>
+      <if test="cAgentCode != null" >
+        C_AGENT_CODE,
+      </if>
+      <if test="cAgentName != null" >
+        C_AGENT_NAME,
+      </if>
+      <if test="cAgentPhone != null" >
+        C_AGENT_PHONE,
+      </if>
+      <if test="cAgentUsername != null" >
+        C_AGENT_USERNAME,
+      </if>
+      <if test="cAgentGrpCode != null" >
+        C_AGENT_GRP_CODE,
+      </if>
+      <if test="cAgentGrpName != null" >
+        C_AGENT_GRP_NAME,
+      </if>
+      <if test="cAgentQyjlName != null" >
+        C_AGENT_QYJL_NAME,
+      </if>
+      <if test="cAgentQyzjName != null" >
+        C_AGENT_QYZJ_NAME,
+      </if>
+      <if test="cAgentQydsName != null" >
+        C_AGENT_QYDS_NAME,
+      </if>
+      <if test="cAgentArCode != null" >
+        C_AGENT_AR_CODE,
+      </if>
+      <if test="cAgentArName != null" >
+        C_AGENT_AR_NAME,
+      </if>
+      <if test="cAgentSwzCode != null" >
+        C_AGENT_SWZ_CODE,
+      </if>
+      <if test="cAgentSwzName != null" >
+        C_AGENT_SWZ_NAME,
+      </if>
+      <if test="cAgentWzCode != null" >
+        C_AGENT_WZ_CODE,
+      </if>
+      <if test="cAgentWzName != null" >
+        C_AGENT_WZ_NAME,
+      </if>
+      <if test="cAgentBaCode != null" >
+        C_AGENT_BA_CODE,
+      </if>
+      <if test="cAgentBaName != null" >
+        C_AGENT_BA_NAME,
+      </if>
+      <if test="agentCode != null" >
+        AGENT_CODE,
+      </if>
+      <if test="agentName != null" >
+        AGENT_NAME,
+      </if>
+      <if test="agentUsername != null" >
+        AGENT_USERNAME,
+      </if>
+      <if test="agentPhone != null" >
+        AGENT_PHONE,
+      </if>
+      <if test="agentGrpCode != null" >
+        AGENT_GRP_CODE,
+      </if>
+      <if test="agentGrpName != null" >
+        AGENT_GRP_NAME,
+      </if>
+      <if test="agentQyjlName != null" >
+        AGENT_QYJL_NAME,
+      </if>
+      <if test="agentQyzjName != null" >
+        AGENT_QYZJ_NAME,
+      </if>
+      <if test="agentQydsName != null" >
+        AGENT_QYDS_NAME,
+      </if>
+      <if test="agentArCode != null" >
+        AGENT_AR_CODE,
+      </if>
+      <if test="agentArName != null" >
+        AGENT_AR_NAME,
+      </if>
+      <if test="agentSwzCode != null" >
+        AGENT_SWZ_CODE,
+      </if>
+      <if test="agentSwzName != null" >
+        AGENT_SWZ_NAME,
+      </if>
+      <if test="agentWzCode != null" >
+        AGENT_WZ_CODE,
+      </if>
+      <if test="agentWzName != null" >
+        AGENT_WZ_NAME,
+      </if>
+      <if test="agentBaCode != null" >
+        AGENT_BA_CODE,
+      </if>
+      <if test="agentBaName != null" >
+        AGENT_BA_NAME,
+      </if>
+      <if test="applierId != null" >
+        APPLIER_ID,
+      </if>
+      <if test="applierOrgId != null" >
+        APPLIER_ORG_ID,
+      </if>
+      <if test="operatorTime != null" >
+        OPERATOR_TIME,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="applyStatus != null" >
+        APPLY_STATUS,
+      </if>
+      <if test="confirmorId != null" >
+        CONFIRMOR_ID,
+      </if>
+      <if test="confirmorOrgId != null" >
+        CONFIRMOR_ORG_ID,
+      </if>
+      <if test="confirmorTime != null" >
+        CONFIRMOR_TIME,
+      </if>
+      <if test="applyDirection != null" >
+        APPLY_DIRECTION,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cCaseCode != null" >
+        #{cCaseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmCode != null" >
+        #{ctmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyCode != null" >
+        #{propertyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyAddr != null" >
+        #{propertyAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentCode != null" >
+        #{cAgentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentName != null" >
+        #{cAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentPhone != null" >
+        #{cAgentPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentUsername != null" >
+        #{cAgentUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentGrpCode != null" >
+        #{cAgentGrpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentGrpName != null" >
+        #{cAgentGrpName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentQyjlName != null" >
+        #{cAgentQyjlName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentQyzjName != null" >
+        #{cAgentQyzjName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentQydsName != null" >
+        #{cAgentQydsName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentArCode != null" >
+        #{cAgentArCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentArName != null" >
+        #{cAgentArName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentSwzCode != null" >
+        #{cAgentSwzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentSwzName != null" >
+        #{cAgentSwzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentWzCode != null" >
+        #{cAgentWzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentWzName != null" >
+        #{cAgentWzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentBaCode != null" >
+        #{cAgentBaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentBaName != null" >
+        #{cAgentBaName,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentCode != null" >
+        #{agentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null" >
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUsername != null" >
+        #{agentUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPhone != null" >
+        #{agentPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="agentGrpCode != null" >
+        #{agentGrpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentGrpName != null" >
+        #{agentGrpName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentQyjlName != null" >
+        #{agentQyjlName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentQyzjName != null" >
+        #{agentQyzjName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentQydsName != null" >
+        #{agentQydsName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentArCode != null" >
+        #{agentArCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentArName != null" >
+        #{agentArName,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentSwzCode != null" >
+        #{agentSwzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentSwzName != null" >
+        #{agentSwzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentWzCode != null" >
+        #{agentWzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentWzName != null" >
+        #{agentWzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentBaCode != null" >
+        #{agentBaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentBaName != null" >
+        #{agentBaName,jdbcType=NVARCHAR},
+      </if>
+      <if test="applierId != null" >
+        #{applierId,jdbcType=VARCHAR},
+      </if>
+      <if test="applierOrgId != null" >
+        #{applierOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        #{operatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="applyStatus != null" >
+        #{applyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmorId != null" >
+        #{confirmorId,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmorOrgId != null" >
+        #{confirmorOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmorTime != null" >
+        #{confirmorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyDirection != null" >
+        #{applyDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToCaseMerge" >
+    update sctrans.T_TO_CASE_MERGE
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cCaseCode != null" >
+        C_CASE_CODE = #{cCaseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmCode != null" >
+        CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyCode != null" >
+        PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyAddr != null" >
+        PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentCode != null" >
+        C_AGENT_CODE = #{cAgentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentName != null" >
+        C_AGENT_NAME = #{cAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentPhone != null" >
+        C_AGENT_PHONE = #{cAgentPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentUsername != null" >
+        C_AGENT_USERNAME = #{cAgentUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentGrpCode != null" >
+        C_AGENT_GRP_CODE = #{cAgentGrpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentGrpName != null" >
+        C_AGENT_GRP_NAME = #{cAgentGrpName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentQyjlName != null" >
+        C_AGENT_QYJL_NAME = #{cAgentQyjlName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentQyzjName != null" >
+        C_AGENT_QYZJ_NAME = #{cAgentQyzjName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentQydsName != null" >
+        C_AGENT_QYDS_NAME = #{cAgentQydsName,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentArCode != null" >
+        C_AGENT_AR_CODE = #{cAgentArCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentArName != null" >
+        C_AGENT_AR_NAME = #{cAgentArName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentSwzCode != null" >
+        C_AGENT_SWZ_CODE = #{cAgentSwzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentSwzName != null" >
+        C_AGENT_SWZ_NAME = #{cAgentSwzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentWzCode != null" >
+        C_AGENT_WZ_CODE = #{cAgentWzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentWzName != null" >
+        C_AGENT_WZ_NAME = #{cAgentWzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="cAgentBaCode != null" >
+        C_AGENT_BA_CODE = #{cAgentBaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cAgentBaName != null" >
+        C_AGENT_BA_NAME = #{cAgentBaName,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentCode != null" >
+        AGENT_CODE = #{agentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null" >
+        AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUsername != null" >
+        AGENT_USERNAME = #{agentUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPhone != null" >
+        AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="agentGrpCode != null" >
+        AGENT_GRP_CODE = #{agentGrpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentGrpName != null" >
+        AGENT_GRP_NAME = #{agentGrpName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentQyjlName != null" >
+        AGENT_QYJL_NAME = #{agentQyjlName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentQyzjName != null" >
+        AGENT_QYZJ_NAME = #{agentQyzjName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentQydsName != null" >
+        AGENT_QYDS_NAME = #{agentQydsName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentArCode != null" >
+        AGENT_AR_CODE = #{agentArCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentArName != null" >
+        AGENT_AR_NAME = #{agentArName,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentSwzCode != null" >
+        AGENT_SWZ_CODE = #{agentSwzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentSwzName != null" >
+        AGENT_SWZ_NAME = #{agentSwzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentWzCode != null" >
+        AGENT_WZ_CODE = #{agentWzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentWzName != null" >
+        AGENT_WZ_NAME = #{agentWzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentBaCode != null" >
+        AGENT_BA_CODE = #{agentBaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentBaName != null" >
+        AGENT_BA_NAME = #{agentBaName,jdbcType=NVARCHAR},
+      </if>
+      <if test="applierId != null" >
+        APPLIER_ID = #{applierId,jdbcType=VARCHAR},
+      </if>
+      <if test="applierOrgId != null" >
+        APPLIER_ORG_ID = #{applierOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="applyStatus != null" >
+        APPLY_STATUS = #{applyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmorId != null" >
+        CONFIRMOR_ID = #{confirmorId,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmorOrgId != null" >
+        CONFIRMOR_ORG_ID = #{confirmorOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmorTime != null" >
+        CONFIRMOR_TIME = #{confirmorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyDirection != null" >
+        APPLY_DIRECTION = #{applyDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToCaseMerge" >
+    update sctrans.T_TO_CASE_MERGE
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      C_CASE_CODE = #{cCaseCode,jdbcType=VARCHAR},
+      CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
+      PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
+      PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
+      C_AGENT_CODE = #{cAgentCode,jdbcType=VARCHAR},
+      C_AGENT_NAME = #{cAgentName,jdbcType=VARCHAR},
+      C_AGENT_PHONE = #{cAgentPhone,jdbcType=VARCHAR},
+      C_AGENT_USERNAME = #{cAgentUsername,jdbcType=VARCHAR},
+      C_AGENT_GRP_CODE = #{cAgentGrpCode,jdbcType=VARCHAR},
+      C_AGENT_GRP_NAME = #{cAgentGrpName,jdbcType=NVARCHAR},
+      C_AGENT_QYJL_NAME = #{cAgentQyjlName,jdbcType=VARCHAR},
+      C_AGENT_QYZJ_NAME = #{cAgentQyzjName,jdbcType=VARCHAR},
+      C_AGENT_QYDS_NAME = #{cAgentQydsName,jdbcType=VARCHAR},
+      C_AGENT_AR_CODE = #{cAgentArCode,jdbcType=VARCHAR},
+      C_AGENT_AR_NAME = #{cAgentArName,jdbcType=NVARCHAR},
+      C_AGENT_SWZ_CODE = #{cAgentSwzCode,jdbcType=VARCHAR},
+      C_AGENT_SWZ_NAME = #{cAgentSwzName,jdbcType=NVARCHAR},
+      C_AGENT_WZ_CODE = #{cAgentWzCode,jdbcType=VARCHAR},
+      C_AGENT_WZ_NAME = #{cAgentWzName,jdbcType=NVARCHAR},
+      C_AGENT_BA_CODE = #{cAgentBaCode,jdbcType=VARCHAR},
+      C_AGENT_BA_NAME = #{cAgentBaName,jdbcType=NVARCHAR},
+      AGENT_CODE = #{agentCode,jdbcType=VARCHAR},
+      AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+      AGENT_USERNAME = #{agentUsername,jdbcType=VARCHAR},
+      AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR},
+      AGENT_GRP_CODE = #{agentGrpCode,jdbcType=VARCHAR},
+      AGENT_GRP_NAME = #{agentGrpName,jdbcType=VARCHAR},
+      AGENT_QYJL_NAME = #{agentQyjlName,jdbcType=VARCHAR},
+      AGENT_QYZJ_NAME = #{agentQyzjName,jdbcType=VARCHAR},
+      AGENT_QYDS_NAME = #{agentQydsName,jdbcType=VARCHAR},
+      AGENT_AR_CODE = #{agentArCode,jdbcType=VARCHAR},
+      AGENT_AR_NAME = #{agentArName,jdbcType=NVARCHAR},
+      AGENT_SWZ_CODE = #{agentSwzCode,jdbcType=VARCHAR},
+      AGENT_SWZ_NAME = #{agentSwzName,jdbcType=NVARCHAR},
+      AGENT_WZ_CODE = #{agentWzCode,jdbcType=VARCHAR},
+      AGENT_WZ_NAME = #{agentWzName,jdbcType=NVARCHAR},
+      AGENT_BA_CODE = #{agentBaCode,jdbcType=VARCHAR},
+      AGENT_BA_NAME = #{agentBaName,jdbcType=NVARCHAR},
+      APPLIER_ID = #{applierId,jdbcType=VARCHAR},
+      APPLIER_ORG_ID = #{applierOrgId,jdbcType=VARCHAR},
+      OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      APPLY_STATUS = #{applyStatus,jdbcType=VARCHAR},
+      CONFIRMOR_ID = #{confirmorId,jdbcType=VARCHAR},
+      CONFIRMOR_ORG_ID = #{confirmorOrgId,jdbcType=VARCHAR},
+      CONFIRMOR_TIME = #{confirmorTime,jdbcType=TIMESTAMP},
+      APPLY_DIRECTION = #{applyDirection,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

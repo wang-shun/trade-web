@@ -1,11 +1,9 @@
 package com.centaline.trans.cases.web;
 
 
-
 import java.util.List;
 
 import javax.servlet.ServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -103,7 +101,7 @@ public class CaseMergeController {
 					ToCase toCase = toCaseService.findToCaseByCaseCode(toPropertyInfoList.get(i).getCaseCode() == null ? "" : toPropertyInfoList.get(i).getCaseCode());
 					ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toPropertyInfoList.get(i).getCaseCode() == null ? "" : toPropertyInfoList.get(i).getCaseCode());
 					
-					//封装类 里面上下家信息如何显示；
+					//封装类 里面上下家信息如何显示;
 				}		
 			}
 		}		
