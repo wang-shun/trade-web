@@ -77,6 +77,7 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
  <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+
 	<div class="">
 		<div class="row wrapper white-bg new-heading ">
 			<div class="pl10">
@@ -96,7 +97,16 @@
 
 		<div class="ibox-content border-bottom clearfix space_box noborder">
 
+			<form method="get" class="form-horizontal" id="firstFollowform">
+			<%--环节编码 --%>
+			<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+			<!-- 交易单编号 -->
+			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+			<!-- 流程引擎需要字段 -->
+			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 
+			<input type="hidden" id="pkid" name="pkid" value="${loanReleasePlan.pkid}">
 			<h2 class="newtitle title-mark">填写任务信息</h2>
 			<div class="form_list">
 				<div class="marinfo">
@@ -125,7 +135,7 @@
 					</div>
 				</div>
 			</div>
-
+			</form>
 
 			<div class="view-content" id="caseCommentList"> </div>
 
@@ -136,9 +146,9 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
-	
+
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<content tag="local_script"> 
 	<!-- jqGrid -->
