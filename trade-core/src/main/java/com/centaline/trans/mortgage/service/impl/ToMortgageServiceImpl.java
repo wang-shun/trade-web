@@ -387,8 +387,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public AjaxResponse<String> startTmpBankWorkFlow(String caseCode) {
 		
+		User manager = null,seniorManager = null,director = null;
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		
+
     	try{
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -396,13 +397,13 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		String orgId = te.getOrgId();
 		SessionUser user = uamSessionService.getSessionUser();
 		//查询主管
-		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Manager");
+		manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Manager");
 		String parsentId = uamUserOrgService.getOrgById(orgId).getParentId();
 		//查询高级主管
-		User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
+		seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
 		//查询总监
-		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
-		
+		director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
+
 		variables.add(new RestVariable("Manager",manager.getUsername()));
 		variables.add(new RestVariable("SeniorManager",seniorManager == null?null:seniorManager.getUsername()));
 		variables.add(new RestVariable("director",director.getUsername()));
@@ -435,10 +436,23 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		response.setMessage("已成功开启临时银行审批流程！");
 	}catch(Exception e){
 		response.setSuccess(false);
-		response.setMessage(e.getMessage());
+		if(manager == null){
+			response.setMessage("开启临时银行审批流程失败:找不到案件所属组织的主管！");
+		}else if(director == null){
+			response.setMessage("开启临时银行审批流程失败:找不到案件所属组织上级组织的总监！");
+		}else{
+			StringBuffer sOut = new StringBuffer();
+	    	sOut.append(e.getMessage() + "\r\n");
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {
+	            sOut.append("\tat " + s + "\r\n");
+	        }
+			response.setMessage("开启临时银行审批流程报错，请联系管理员！\r\n"+sOut);
+		}
+
+		e.printStackTrace();
 	}
 	return response;
-
 	}
 
 	@Override
