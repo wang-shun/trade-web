@@ -2,6 +2,7 @@ package com.centaline.parportal.mobile.interceptor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
@@ -13,6 +14,7 @@ import org.apache.shiro.util.AntPathMatcher;
 import org.apache.shiro.util.PatternMatcher;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -23,18 +25,20 @@ import com.centaline.parportal.mobile.login.vo.MobileHolder;
 import com.centaline.parportal.mobile.login.vo.MobileReturnVo;
 import com.centaline.parportal.mobile.login.vo.TokenVo;
 
+@Component
 public class MobileSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private MobileSecurityHandler mobileSecurityHandler;
     @Autowired
     private TokenService          tokenService;
-    private List<String>          excludedUrls;
+    private List<String>          excludedUrls = new ArrayList<String>();
     //借用shiro的路径解析
     protected PatternMatcher      pathMatcher;
 
     public MobileSecurityInterceptor() {
         pathMatcher = new AntPathMatcher();
+        excludedUrls.add("/mobile/login");
     }
 
     public void setExcludedUrls(List<String> excludedUrls) {
