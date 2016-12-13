@@ -26,6 +26,9 @@ $(function(){
 	//条件查询
 	$("#searchButton").click(function(){
 		reloadGrid();
+		
+		//初始化标题效果
+		initTitle();
 	});
 	
 	 //全选
@@ -205,32 +208,6 @@ function toggleClass(obj){
     if(!$(obj).hasClass("btn-lightblue")) {
         $(obj).addClass('btn-lightblue');
     }
-}
-
-//显示跟进信息
-function showTip(obj){
-	$(obj).poshytip({
-		className: 'tip-twitter',
-		showTimeout: 1,
-		alignTo: 'target',
-		alignX: 'right',
-		alignY: 'center',
-		offsetX: 8,
-		offsetY: 5,
-		});
-}
-
-//显示手机号信息
-function showMobile(obj){
-	$('.demo-top').poshytip({
-		className: 'tip-twitter',
-		showTimeout: 1,
-		alignTo: 'target',
-		alignX: 'center',
-		alignY: 'top',
-		offsetX: 8,
-		offsetY: 5,
-	});
 }
 
 //变更房间
@@ -670,6 +647,9 @@ function reloadGrid(){
 	    data : data,
 	    wrapperData : data
     });
+	
+	//重新初始化标题效果
+	initTitle();
 }
 
 function getParams() {
@@ -816,4 +796,27 @@ function getCurrentDate(){
 	var currentDate = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
 	
 	return currentDate;
+}
+
+//初始化标题效果
+function initTitle(){
+	$('.demo-right').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'right',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+		});
+	
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
 }
