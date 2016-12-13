@@ -24,6 +24,9 @@
     <result column="IF_REPORT_BEFORE_LEND" property="ifReportBeforeLend" jdbcType="CHAR" />
     <result column="LOANER_NAME" property="loanerName" jdbcType="VARCHAR" />
     <result column="LOANER_PHONE" property="loanerPhone" jdbcType="VARCHAR" />
+    <result column="LOANER_ID" property="loanerId" jdbcType="VARCHAR" />
+    <result column="LOANER_ORG_CODE" property="loanerOrgCode" jdbcType="VARCHAR" />
+    <result column="LOANER_ORG_ID" property="loanerOrgId" jdbcType="VARCHAR" />
     <result column="LAST_LOAN_BANK" property="lastLoanBank" jdbcType="VARCHAR" />
     <result column="PRF_APPLY_DATE" property="prfApplyDate" jdbcType="TIMESTAMP" />
     <result column="IF_REQUIRE_RECONSIDER" property="ifRequireReconsider" jdbcType="VARCHAR" />

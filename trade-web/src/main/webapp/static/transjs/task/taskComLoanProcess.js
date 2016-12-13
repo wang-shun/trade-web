@@ -597,6 +597,9 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='custCompany']").val(data.content.custCompany);
 		    			f.find("select[name='lendWay']").val(data.content.lendWay);
 		    			f.find("input[name='loanerName']").val(data.content.loanerName);
+		    			f.find("input[name='loanerId']").val(data.content.loanerId);
+		    			f.find("input[name='loanerOrgId']").val(data.content.loanerOrgId);
+		    			f.find("input[name='loanerOrgCode']").val(data.content.loanerOrgCode);
 		    			f.find("input[name='loanerPhone']").val(data.content.loanerPhone);
 		    			if(data.content.isLoanerArrive == 1){
 		    				f.find("input[name='isLoanerArrive']").prop("checked",true);
