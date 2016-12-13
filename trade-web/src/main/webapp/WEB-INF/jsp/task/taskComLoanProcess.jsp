@@ -760,14 +760,9 @@
 											<i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
 											</input>
-											
 											<input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
 											<input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
 											<input type="hidden"  id="loanerId" name="loanerId" />
-											<div class="input-group float_icon organize_icon" 
-											   >
-			                               		
-			                               </div>	
 										</div>
 										<label class="col-sm-2 control-label" style="width:15%">信贷员电话<span class="star">*</span>：</label>
 										<div class="col-md-2" style="width:18%">
