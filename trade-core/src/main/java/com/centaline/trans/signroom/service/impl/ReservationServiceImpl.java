@@ -133,49 +133,48 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationMapper.getTransactItemList();
 	}
 
-
 	@Override
-	public List<Map<String,String>> getBespeakCalendar() {
-		List<Map<String,String>> listCalendar = new ArrayList<Map<String,String>>();
+	public List<Map<String, String>> getBespeakCalendar() {
+		List<Map<String, String>> listCalendar = new ArrayList<Map<String, String>>();
 		SimpleDateFormat sdf_date = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat sdf_show = new SimpleDateFormat("d");
-		
+
 		Date date = new Date();
-		//不可预约日期
+		// 不可预约日期
 		Calendar unableCalendar1 = Calendar.getInstance();
 		unableCalendar1.setTime(date);
-		List<Map<String,String>> listUnableCalendar = new ArrayList<Map<String,String>>();
+		List<Map<String, String>> listUnableCalendar = new ArrayList<Map<String, String>>();
 		int dayOfWeek = unableCalendar1.get(Calendar.DAY_OF_WEEK);
-		for(int i=dayOfWeek-1;i>=1;i--){
-			Map<String,String> dateMap = new HashMap<String,String>();
-			unableCalendar1.add(Calendar.DATE,-1);
-			dateMap.put("date",sdf_date.format(unableCalendar1.getTime()));
-			dateMap.put("show",sdf_show.format(unableCalendar1.getTime()));
-			dateMap.put("clazz","");
+		for (int i = dayOfWeek - 1; i >= 1; i--) {
+			Map<String, String> dateMap = new HashMap<String, String>();
+			unableCalendar1.add(Calendar.DATE, -1);
+			dateMap.put("date", sdf_date.format(unableCalendar1.getTime()));
+			dateMap.put("show", sdf_show.format(unableCalendar1.getTime()));
+			dateMap.put("clazz", "");
 			listUnableCalendar.add(dateMap);
 		}
 		Collections.reverse(listUnableCalendar);
 		listCalendar.addAll(listUnableCalendar);
-		
-		//可预约日期
+
+		// 可预约日期
 		Calendar enableCalendar = Calendar.getInstance();
 		enableCalendar.setTime(date);
-		//可预约一个星期
+		// 可预约一个星期
 		int usable = 7;
-		while(listCalendar.size()<14){
-			Map<String,String> dateMap = new HashMap<String,String>();
-			dateMap.put("date",sdf_date.format(date));
-			dateMap.put("show",sdf_show.format(date));
-			dateMap.put("clazz","");
-			if((usable-->0)){
-				dateMap.put("clazz","usable-date");
+		while (listCalendar.size() < 14) {
+			Map<String, String> dateMap = new HashMap<String, String>();
+			dateMap.put("date", sdf_date.format(date));
+			dateMap.put("show", sdf_show.format(date));
+			dateMap.put("clazz", "");
+			if ((usable-- > 0)) {
+				dateMap.put("clazz", "usable-date");
 			}
 			listCalendar.add(dateMap);
-			
-			enableCalendar.add(Calendar.DATE,1);
+
+			enableCalendar.add(Calendar.DATE, 1);
 			date = enableCalendar.getTime();
 		}
-		
+
 		return listCalendar;
 	}
 
@@ -474,10 +473,11 @@ public class ReservationServiceImpl implements ReservationService {
 		} else if (freeRoomInfo.getResStatus() != null
 				&& "5".equals(freeRoomInfo.getResStatus().trim())) {// 提前使用中
 			freeRoomInfo.setUseStatus("2");// 提前使用
-			if (startTime != null && curTime > startTime) {// 当当前时间在该时间段
-				if (freeRoomInfo.getCheckOutTime() != null) {// 已签退
-					freeRoomInfo.setUseStatus("N");// 空置
-				} else {
+			if (freeRoomInfo.getCheckOutTime() != null) {// 已签退
+
+				freeRoomInfo.setUseStatus("N");// 空置
+			} else {
+				if (startTime != null && curTime > startTime) {// 当当前时间在该时间段
 					freeRoomInfo.setUseStatus("3");// 超期使用中
 				}
 			}
