@@ -145,8 +145,8 @@
 		<div class="ibox-content">
 			<div id="imgShow" class="lightBoxGallery"></div>
 		</div> -->
-		<div class="ibox-title">
-			<h5>附件信息</h5>
+		<div>
+			<h2 class="newtitle title-mark">附件信息</h2>		
 			<div class="">
 				<div id="imgShow" class="lightBoxGallery"></div>
 			</div>
