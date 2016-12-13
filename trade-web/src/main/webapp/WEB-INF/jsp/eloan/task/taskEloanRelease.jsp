@@ -286,7 +286,7 @@
                            <li id="releaseDiv{{divIndex}}">
                                 <div class="form_content">
                                     {{if loanSrvCode!='30004005'&&loanSrvCode!='30004015'}}
-                                    <label class="control-label sign_left_two">放款金额{{loanSrvCode}}</label>
+                                    <label class="control-label sign_left_two">放款金额</label>
                                     {{/if}}
                                     {{if loanSrvCode=='30004005' ||loanSrvCode=='30004015'}}
                                     <label class="control-label sign_left_two">刷卡金额</label>
