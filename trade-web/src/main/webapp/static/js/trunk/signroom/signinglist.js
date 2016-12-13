@@ -26,9 +26,6 @@ $(function(){
 	//条件查询
 	$("#searchButton").click(function(){
 		reloadGrid();
-		
-		//初始化标题效果
-		initTitle();
 	});
 	
 	 //全选
@@ -122,6 +119,12 @@ $(function(){
     	var realName = data.realName;   //跟进人名称
     	
     	if(result == "true"){
+    		//关闭最新跟进弹出框
+    		//$("button[type='reset']").click();
+    		
+    		//重新加载页面
+    		//reloadGrid();
+    		
     		//保存跟进信息之后设置页面上的跟进信息
     		setFollowupInfo(createDateTime,realName);
     	}
@@ -200,6 +203,9 @@ function setFollowupInfo(createDateTime,realName){
 	}
 	
 	$a.attr("title",newTitle);
+	
+	//重新初始化标题效果
+	initTitle();
 }
 
 //变更签约室点击切换效果
