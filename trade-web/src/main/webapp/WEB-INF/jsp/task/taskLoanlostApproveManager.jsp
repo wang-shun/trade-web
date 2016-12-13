@@ -157,12 +157,19 @@
             </div>
         </div>
         
-        <div class="clearfix">
+<!--         <div class="clearfix">
             <h2 class="newtitle title-mark">附件浏览：贷款自办确认函、贷款流失申请书</h2>
             <div class="ibox-content" style="margin-top:10px;border:0;">
 				<div id="imgShow" class="lightBoxGallery"></div>
 			</div>
-        </div>
+        </div> -->
+        
+        <div class="ibox-title">
+			<h5>附件信息</h5>
+			<div class="">
+				<div id="imgShow" class="lightBoxGallery"></div>
+			</div>
+		</div>
         
         <!-- 案件备注信息 -->
 		<div id="caseCommentList" class="view-content"></div>
