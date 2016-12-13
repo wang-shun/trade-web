@@ -7,11 +7,10 @@ import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfig
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.cache.annotation.EnableCaching;
 
 //@ComponentScan(basePackages = { "com.centaline.parportal", "com.aist" })
 @SpringBootApplication
-
+//@EnableCaching
 @EnableAutoConfiguration(exclude = { HibernateJpaAutoConfiguration.class,
                                      JpaRepositoriesAutoConfiguration.class })
 public class ParPortalApplication extends SpringBootServletInitializer {

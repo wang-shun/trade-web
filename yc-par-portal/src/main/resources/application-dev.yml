@@ -63,21 +63,6 @@ readOnlyDataSource:
   maxActive: 11
   initialSize: 6
   filters: stat
-#redis缓存
-redisSetting:
-  master:
-    master1
-  sentinels:
-  - host: 10.4.19.212
-    port: 26379
-  - host: 10.4.19.212
-    port: 26380
-redisPoolConfig:
-  minIdle:200
-  maxIdle:20
-  maxTotal:5
-  maxWaitMillis:3000
-  testOnBorrow:true
 #微信相关
 weiXin.number:
   corpId: wx7b47806a86fe27db
@@ -86,25 +71,4 @@ weiXin.number:
 mybatis: 
   mapperLocations: classpath:mapper/**/*.xml
   typeAliasesPackage: com.centaline.parportal.**.repository
-  txProperties:
-  - add*:REQUIRED
-  - new*:REQUIRED
-  - save*:REQUIRED
-  - remove*:REQUIRED
-  - delete*:REQUIRED
-  - update*:REQUIRED
-  - modify*:REQUIRED
-  - submit*:REQUIRED
-  - auth*:REQUIRED
-  - apiLog*:REQUIRES_NEW,
-  - list*:REQUIRED,readOnly
-  - query*:REQUIRED,readOnly
-  - search*:REQUIRED,readOnly
-  - load*:REQUIRED,readOnly
-  - find*:REQUIRED,readOnly
-  - get*:REQUIRED,readOnly
-  - check*:REQUIRED,readOnly
-  - count*:REQUIRED,readOnly
-  - exist*:REQUIRED,readOnly
-  - \*:REQUIRED
     
