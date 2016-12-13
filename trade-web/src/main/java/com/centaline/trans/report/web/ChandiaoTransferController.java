@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import com.centaline.trans.utils.UiImproveUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,7 @@ public class ChandiaoTransferController {
 	 * @return
 	 */
 	@RequestMapping(value="chandiaoTransferList")
-	public String chandiaoTransferList(Model model, ServletRequest request){
+	public String chandiaoTransferList(Model model, HttpServletRequest request){
 		//TODO
 		SessionUser user = uamSessionService.getSessionUser();
 		String userJob=user.getServiceJobCode();
@@ -91,12 +92,11 @@ public class ChandiaoTransferController {
 
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);
-		return "report/chandiao_transfer_count";
+		return "report"+ UiImproveUtil.getPageType(request)+"/chandiao_transfer_count";
 	}
 	
 	/**
 	 * 跳转到产调详情页面
-	 * @param model
 	 * @param request
 	 * @return
 	 */
