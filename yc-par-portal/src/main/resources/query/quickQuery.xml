@@ -2,8 +2,10 @@
 <queryConfig  debug="false">
 	<description></description>
 	<import resource="query/mortgage/toMortgageList4Par.xml" />
-	<import resource="query/mortgage/toEguPricingQuery.xml" />
-	<import resource="query/mortgage/toEvaReportQuery.xml" />
+	<import resource="query/mortgage/toMortgageDetail4Par.xml" />
+	<import resource="query/mortgage/toMortProcess4Par.xml" />
+	<import resource="query/mortgage/toTradeProcess4Par.xml" />
+	
 
 	<import resource="query/case/toCaseListQuery.xml" />
 	
