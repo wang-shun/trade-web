@@ -3,8 +3,8 @@ package com.centaline.parportal.conf;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component
-@ConfigurationProperties(prefix = "redisPoolConfig")
+/*@Component
+@ConfigurationProperties(prefix = "redisPoolConfig")*/
 public class RedisPoolConfigSetting {
 
 	private int minIdle;
