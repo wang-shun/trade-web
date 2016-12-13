@@ -101,9 +101,9 @@
 							</label>
 							<input type="text" class="teamcode input_type" id="teamCode" name="teamCode" readonly="readonly" style="background-color:#FFFFFF"
 								   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
+										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio', callBack:radioYuCuiOrgSelectCallBack,
-										   expandNodeId:'',chkLast:'true'})" />
+										   expandNodeId:'',chkLast:'true'})" value="${serviceDepName}" />
 							<input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
 							<div class="input-group float_icon organize_icon">
 								<i class="icon iconfont">&#xe61b;</i>

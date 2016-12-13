@@ -86,8 +86,8 @@ public class ChandiaoTransferController {
 				
 		request.setAttribute("prCompleteTimeStart", prCompleteTimeStart);
 		request.setAttribute("prCompleteTimeEnd", prCompleteTimeEnd);
-
-		
+		request.setAttribute("serviceDepName", user.getServiceDepName());
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		request.setAttribute("queryOrgs", reBuffer.toString());
 
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
@@ -121,7 +121,7 @@ public class ChandiaoTransferController {
 				prCompleteTimeEnd = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
 			}
 		}
-		
+
 		String  organId = request.getParameter("organId");
 		String  prApplyTime = request.getParameter("dtBegin");
 		String  prApplyTimeEnd = request.getParameter("dtEnd");
@@ -156,6 +156,8 @@ public class ChandiaoTransferController {
 				isAdminFlag=true;
 			}
 		}
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+		request.setAttribute("serviceDepName", user.getServiceDepName());
 		request.setAttribute("queryOrgs", reBuffer.toString());
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);
