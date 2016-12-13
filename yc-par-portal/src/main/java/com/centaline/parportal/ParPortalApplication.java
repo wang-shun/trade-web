@@ -11,7 +11,7 @@ import org.springframework.cache.annotation.EnableCaching;
 
 //@ComponentScan(basePackages = { "com.centaline.parportal", "com.aist" })
 @SpringBootApplication
-@EnableCaching
+
 @EnableAutoConfiguration(exclude = { HibernateJpaAutoConfiguration.class,
                                      JpaRepositoriesAutoConfiguration.class })
 public class ParPortalApplication extends SpringBootServletInitializer {
