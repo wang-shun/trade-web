@@ -20,12 +20,12 @@ clusterServersConfig:
   masterConnectionPoolSize: 250
   readMode: "SLAVE"
   nodeAddresses:
-  - "//redis.centaline.com:7000"
-  - "//redis.centaline.com:7001"
-  - "//redis.centaline.com:7002"
-  - "//redis.centaline.com:7003"
-  - "//redis.centaline.com:7004"
-  - "//redis.centaline.com:7005"
+  - "//redis.centaline.com:9000"
+  - "//redis.centaline.com:9001"
+  - "//redis.centaline.com:9002"
+  - "//redis.centaline.com:9003"
+  - "//redis.centaline.com:9004"
+  - "//redis.centaline.com:9005"
   scanInterval: 1000
 threads: 0
 nettyThreads: 0
