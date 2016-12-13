@@ -269,7 +269,7 @@
 	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script> 
 
 	<!-- 图片查看JS -->
-	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
+	<script src="${ctx}/transjs/task/showAttachmentByLssp.js"></script>
 	<script	src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
