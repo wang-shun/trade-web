@@ -13,6 +13,7 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
@@ -30,6 +31,8 @@ public class TestActionController {
 	UamSessionService uamSessionService;
 	@Autowired(required = true)
 	ToMortgageService ToMortgageService;
+	@Autowired(required = true)
+	 UamUserOrgService uamUserOrgService;
 	//caseLog
 	@RequestMapping("caseLog")
 	public String caseLog(HttpServletRequest request) {
@@ -55,6 +58,18 @@ public class TestActionController {
 	public String updateMortgage(HttpServletRequest request,Long pkid) {
 		SessionUser user = uamSessionService.getSessionUser();
 		ToMortgage mortgage= ToMortgageService.findToMortgageById(pkid);
+		User createBy  =uamUserOrgService.getUserById(mortgage.getCreateBy());
+		User updateBy  =uamUserOrgService.getUserById(mortgage.getUpdateBy());
+		if(createBy!=null){
+		request.setAttribute("createBy", createBy.getRealName());
+		}else{
+			request.setAttribute("createBy", "");	
+		}
+		if(updateBy!=null){
+		request.setAttribute("updateBy", updateBy.getRealName());
+		}else{
+			request.setAttribute("updateBy", "");				
+		}
 		request.setAttribute("user", user);
 		request.setAttribute("mortgage", mortgage);
 		return "/testAction/updateMortgage";

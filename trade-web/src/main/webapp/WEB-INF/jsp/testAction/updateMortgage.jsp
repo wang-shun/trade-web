@@ -73,19 +73,19 @@
 								<label class="control-label sign_left_two"> <i
 									class="red"> </i> PKID
 								</label>
-							 <input class="input_type sign_right_two" value="${mortgage.pkid}"
+							 <input class="input_type sign_right_two" readonly="readonly" value="${mortgage.pkid}"
 									name="pkid" id="pkid">
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"> </i>案件编号
-								</label>  <input class="input_type sign_right_two" value="${mortgage.caseCode}"
+								</label>  <input class="input_type sign_right_two" readonly="readonly"  value="${mortgage.caseCode}"
 									name="caseCode" id="caseCode">
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"> </i>按揭贷款类型
-								</label>  <input class="input_type sign_right_two" value="${mortgage.mortType}"
+								</label>  <input class="input_type sign_right_two" readonly="readonly"   value="${mortgage.mortType}"
 									name="mortType" id="mortType">
 							</div>
 
@@ -314,7 +314,7 @@
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>创建时间
 								</label>
-								<input class="input_type sign_right_two" value="<fmt:formatDate value="${mortgage.createTime}" pattern="yyyy-MM-dd" />"
+								<input class="input_type sign_right_two" disabled="disabled"  value="<fmt:formatDate value="${mortgage.createTime}" pattern="yyyy-MM-dd" />"
 									name="createTime" id="createTime" />
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
@@ -325,8 +325,8 @@
 									class="red"></i>创建人
 								</label>
 						        <input type="hidden" id="createBy" name="createBy" value='${mortgage.createBy}'>
-						        <input type="text" id="realName"  class="input_type sign_right_two" style="background-color:#FFFFFF;" readonly="readonly"   onclick="userSelect({startOrgId:'ff8080814f459a78014f45a73d820006',expandNodeId:'ff8080814f459a78014f45a73d820006',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectCreateBack})" value='${mortgage.createBy}'>
+						        <input type="text" id="realName"  disabled="disabled" class="input_type sign_right_two" style="background-color:#FFFFFF;" readonly="readonly"   onclick="userSelect({startOrgId:'ff8080814f459a78014f45a73d820006',expandNodeId:'ff8080814f459a78014f45a73d820006',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectCreateBack})" value='${createBy}'>
                                  <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont">&#xe627;</i>
                                     </div>
@@ -335,7 +335,7 @@
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>更新时间
 								</label>
-								<input class="input_type sign_right_two" value="<fmt:formatDate value="${mortgage.updateTime}" pattern="yyyy-MM-dd" />"
+								<input class="input_type sign_right_two"  disabled="disabled" value="<fmt:formatDate value="${mortgage.updateTime}" pattern="yyyy-MM-dd" />"
 									name="updateTime" id="updateTime" />
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
@@ -348,8 +348,8 @@
 									class="red"></i>更新人
 								</label>
 								<input type="hidden" id="updateBy" name="updateBy" value='${mortgage.updateBy}'>
-						        <input type="text" id="realName2"  class="input_type sign_right_two" style="background-color:#FFFFFF;" readonly="readonly"   onclick="userSelect({startOrgId:'ff8080814f459a78014f45a73d820006',expandNodeId:'ff8080814f459a78014f45a73d820006',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUpdateBack})" value='${mortgage.updateBy}'>
+						        <input type="text" id="realName2"  disabled="disabled" class="input_type sign_right_two" style="background-color:#FFFFFF;" readonly="readonly"   onclick="userSelect({startOrgId:'ff8080814f459a78014f45a73d820006',expandNodeId:'ff8080814f459a78014f45a73d820006',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUpdateBack})" value='${updateBy}'>
                                  <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont">&#xe627;</i>
                                     </div>
