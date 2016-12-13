@@ -25,201 +25,589 @@
 <link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"	rel="stylesheet" />
 <!-- index_css -->
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" /> 
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+<style>
+
+	
+</style>
 </head>
 <body class="pace-done">
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	
 	<div class="wrapper wrapper-content animated fadeInRight">
-		<div class="ibox-content border-bottom clearfix space_box">
-			<h2 class="title"> 过户驳回率统计报表</h2>
-			<form method="get" class="form_list">
-				<div class="line">
-					<div class="form_content">
-						<label class="control-label mr10 select_style mend_select">过户审批通过时间</label>
-						<div class="input-group sign-right dataleft input-daterange" 
-							data-date-format="yyyy-mm-dd" id="datepicker_0">
-							<input id="dtBegin_0" name="dtBegin"
-								class="form-control data_style" type="text" 
-								placeholder="起始日期"> <span class="input-group-addon">到</span>
-							<input id="dtEnd_0" name="dtEnd" class="form-control data_style"
-								type="text"  placeholder="结束日期">
-						</div>
-				</div>
-				<div class="add_btn" style="margin-left:440px;">
-					<button id="searchButton" type="button" class="btn btn-success">
-						<i class="icon iconfont">&#xe635;</i> 查询
-					</button>
-					<button type="button" id="loanLostExportExcelButton"
-						class="btn btn-success"
-						onclick="javascript:loanLostCaseExportToExcel()" >导出列表</button>
-					<button type="reset" id="loanLostCleanButton"
-						class="btn btn-grey">清&nbsp;&nbsp;空</button>
-				</div>
-				</div>
-			</form>			
-	</div>
-	<div class="ibox-content" id="zj_info">
-           <div class="row m-t-sm" id="">
-               <div class="col-lg-12">
-                   <div class="panel blank-panel">
-                       <div class="panel-heading">
-                           <div class="panel-options">
-                               <ul class="nav nav-tabs">
-                              		<c:choose>   
-									   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_team'}">
-									       <li class="active">
-                                               <a href="#tab-1" data-toggle="tab" id="atab-1" >驳回原因统计-组别</a>
-                                           </li>
-                                           <li class="">
-                                               <a href="#tab-3" data-toggle="tab" id="atab-3" >过户驳回率统计-组别</a>
-                                           </li>
-									   </c:when> 
-									   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_district'}">
-									       <li class="active">
-                                               <a href="#tab-2" data-toggle="tab" id="atab-2" >驳回原因统计-贵宾服务部</a>
-                                           </li>
-                                           <li class="">
-                                               <a href="#tab-4" data-toggle="tab" id="atab-4" >过户驳回率统计-贵宾服务部</a>
-                                           </li>
-									   </c:when> 
-									   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter'}">
-									      <li class="active">
-                                               <a href="#tab-1" data-toggle="tab" id="atab-1" >驳回原因统计-组别</a>
-                                           </li>
-                                           <li class="">
-                                               <a href="#tab-2" data-toggle="tab" id="atab-2" >驳回原因统计-贵宾服务部</a>
-                                           </li>
-                                           <li class="">
-                                               <a href="#tab-3" data-toggle="tab" id="atab-3" >过户驳回率统计-组别</a>
-                                           </li>
-                                           <li class="">
-                                               <a href="#tab-4" data-toggle="tab" id="atab-4" >过户驳回率统计-贵宾服务部</a>
-                                           </li>
-									   </c:when> 
-									</c:choose>	
-                               </ul>
-                           </div>
-                       </div>
+                    <div class="ibox-content border-bottom clearfix space_box clearfix">
+                        <h2 class="title">
+                            流失案件统计报表
+                        </h2>
+                        <form method="get" class="form_list">
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label mr10 select_style mend_select">
+                                            过户审批通过时间
+                                        </label>
+                                        <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
+                                            <input name="" class="form-control data_style" type="text" value="" placeholder="起始时间"> <span class="input-group-addon">到</span>
+                                            <input  name="" class="form-control data_style" type="text" value="" placeholder="结束日期">
+                                        </div>
+                                    </div>
+                                    <div class="add_btn" style="margin-left:440px;">
+                                        <button type="button" class="btn btn-success">
+                                            <i class="icon iconfont">&#xe635;</i>
+                                            查询
+                                        </button>
+                                        <button type="button" class="btn btn-success">
+                                            导出列表
+                                        </button>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
+                    <div class="ibox-content" id="zj_info">
+                            <div class="row m-t-sm" id="">
+                                <div class="col-lg-12">
+                                    <div class="panel blank-panel">
+                                        <div class="panel-heading">
+                                            <div class="panel-options">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active">
+                                                        <a href="#tab-1" data-toggle="tab">流失原因统计-组别</a>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href="#tab-2" data-toggle="tab">流失原因统计-贵宾服务部</a>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href="#tab-3" data-toggle="tab">贷款流失率统计-组别</a>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href="#tab-4" data-toggle="tab">贷款流失率统计-贵宾服务部</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
 
-                       <div class="panel-body">
-                           <div class="tab-content">
-                           <c:choose>   
-							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_team'}">
-							       <div class="tab-pane active" id="tab-1" style="display: block">
-							   </c:when> 
-							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_district'}">
-							      <div class="tab-pane active" id="tab-1" style="display: none">
-							   </c:when> 
-							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter'}">
-							      <div class="tab-pane active" id="tab-1" style="display: block">
-							   </c:when> 
-							</c:choose>
-                                   <table class="table table_blue table-striped table-bordered table-hover "  >
-                                       <thead>
-                                       <tr>
-										<th>组别</th>
-										<th class="demo-top" title="贷款银行有误">贷款</th>
-										<th	class="demo-top" title="商贷金额有误">商贷</th>
-										<th class="demo-top" title="公积金金额有误">公积</th>
-										<th class="demo-top" title="合同价有误">合同</th>
-										<th class="demo-top" title="核定价格有误">核定</th>
-										<th class="demo-top" title="商贷利率有误">商贷</th>
-										<th class="demo-top" title="主贷人未填/有误">主贷</th>
-										<th class="demo-top" title="贷款情况有误（有贷款、无贷款）">贷款</th>
-										<th class="demo-top" title="贷款类型未选择/有误（纯商贷、组合贷、纯公积金）">贷款</th>
-										<th class="demo-top" title="附件照片缺少/有误（物业地址不符、模糊不清、缺少重要附件）">附件</th>
-										<th class="demo-top" title="贷款推荐函未上传">贷款</th>
-										<th class="demo-top" title="贷款确认书未上传">贷款</th>
-										<th class="demo-top" title="其他">其他</th>
-										</tr>
-										</thead>
-									<tbody id="myMortgageApproveLostReasonZbList"></tbody>
-								</table>
-							</div>
-							<c:choose>   
-							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_team'}">
-							       <div class="tab-pane active" id="tab-2" style="display: none" >
-							   </c:when> 
-							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_district'}">
-							      <div class="tab-pane active" id="tab-2" style="display: block" >
-							   </c:when> 
-							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter'}">
-							      <div class="tab-pane active" id="tab-2" style="display: none" >
-							   </c:when> 
-							</c:choose>
-                                   <table class="table table_blue table-striped table-bordered table-hover "  >
-                                       <thead>
-                                       <tr>
-										<th>贵宾服务部</th>
-										<th class="demo-top" title="贷款银行有误">贷款</th>
-										<th	class="demo-top" title="商贷金额有误">商贷</th>
-										<th class="demo-top" title="公积金金额有误">公积</th>
-										<th class="demo-top" title="合同价有误">合同</th>
-										<th class="demo-top" title="核定价格有误">核定</th>
-										<th class="demo-top" title="商贷利率有误">商贷</th>
-										<th class="demo-top" title="主贷人未填/有误">主贷</th>
-										<th class="demo-top" title="贷款情况有误（有贷款、无贷款）">贷款</th>
-										<th class="demo-top" title="贷款类型未选择/有误（纯商贷、组合贷、纯公积金）">贷款</th>
-										<th class="demo-top" title="附件照片缺少/有误（物业地址不符、模糊不清、缺少重要附件）">附件</th>
-										<th class="demo-top" title="贷款推荐函未上传">贷款</th>
-										<th class="demo-top" title="贷款确认书未上传">贷款</th>
-										<th class="demo-top" title="其他">其他</th>
-										</tr>
-										</thead>
-									<tbody id="myMortgageApproveLostReasonGbList"></tbody>
-								</table>
-							</div>
-                             <div class="tab-pane active" id="tab-3" style="display: none" >
-                                   <table class="table table_blue table-striped table-bordered table-hover " >
-                                       <thead>
-                                       <tr>
-										<th>组别</th>
-										<th>总计</th>
-										<th>不通过</th>
-										<th>通过</th>
-										<th>驳回率</th>
-										</tr>
-										</thead>
-									<tbody id="myMortgageApproveLostZbList"></tbody>
-								</table>
-							</div>
-                             <div class="tab-pane active" id="tab-4" style="display: none" >
-                                   <table class="table table_blue table-striped table-bordered table-hover "  >
-                                       <thead>
-                                       <tr>
-										<th>贵宾服务部</th>
-										<th>总计</th>
-										<th>不通过</th>
-										<th>通过</th>
-										<th>驳回率</th>
-										</tr>
-										</thead>
-									<tbody id="myMortgageApproveLostGbList"></tbody>
-								</table>
-							</div>
-							<div class="text-center page_box"  style="display: none" >
-								<span id="currentTotalPage3"><strong></strong></span> <span
-									class="ml15">共<strong id="totalP3"></strong>条
-								</span>&nbsp;
-								<div id="pageBar3" class="pagergoto"></div>
-							</div>
-							<div class="text-center page_box"  style="display: none" >
-								<span id="currentTotalPage4"><strong></strong></span> <span
-									class="ml15">共<strong id="totalP4"></strong>条
-								</span>&nbsp;
-								<div id="pageBar4" class="pagergoto"></div>
-							</div>
-						  </div>	
-						</div>	
-					</div>	
-				</div>	
-			</div>	
-		</div>	
-	</div>
+                                        <div class="panel-body">
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tab-1">
+                                                    <table class="table table-small table-striped table-bordered table-hover " id="editable" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    贵宾服务部组别
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    贵宾服务部A组
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    贵宾服务部B组
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    虹口杨浦贵宾服务部A组
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    虹口杨浦贵宾服务部B组
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    总计
+                                                                </td>
+                                                                <td>90
+                                                                </td>
+                                                                <td>22
+                                                                </td>
+                                                                <td>20
+                                                                </td>
+                                                                <td>18
+                                                                </td>
+                                                                <td>16
+                                                                </td>
+                                                                <td>13
+                                                                </td>
+                                                                <td>12
+                                                                </td>
+                                                                <td>15
+                                                                </td>
+                                                                <td>11
+                                                                </td>
+                                                                <td>23
+                                                                </td>
+                                                                <td>53
+                                                                </td>
+                                                                <td>45
+                                                                </td>
+                                                                <td>21
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="tab-pane" id="tab-2">
+                                                   <table class="table table-small table-striped table-bordered table-hover " id="editable" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    贵宾服务部组别
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th>
+                                                                    收单单数
+                                                                </th>
+                                                                <th>
+                                                                    总单数
+                                                                </th>
+                                                                <th>
+                                                                    流失率
+                                                                </th>
+                                                                <th>
+                                                                    流失金额
+                                                                </th>
+                                                                <th>
+                                                                    收单金额
+                                                                </th>
+                                                                <th>
+                                                                    总金额
+                                                                </th>
+                                                                <th>
+                                                                    通过率
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                   虹口杨浦贵宾服务部A组
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                   贵宾服务部组别
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="tab-pane" id="tab-3">
+                                                   <table class="table table-small table-striped table-bordered table-hover " id="editable" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    贵宾服务部组别
+                                                                </th>
+                                                                <th>
+                                                                    流失单数
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th>
+                                                                    总单数
+                                                                </th>
+                                                                <th>
+                                                                    流失率
+                                                                </th>
+                                                                <th>
+                                                                    流失金额
+                                                                </th>
+                                                                <th>
+                                                                    收单金额
+                                                                </th>
+                                                                <th>
+                                                                    总金额
+                                                                </th>
+                                                                <th>
+                                                                    通过率
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                   虹口杨浦贵宾服务部A组
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                  102
+                                                                </td>
+                                                                <td>
+                                                                   1%
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                   贵宾服务部组别
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                  212
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                   贵宾服务部组别
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                  212
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="tab-pane" id="tab-4">
+                                                   <table class="table table-small table-striped table-bordered table-hover " id="editable" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    贵宾服务部组别
+                                                                </th>
+                                                                <th>
+                                                                    流失单数
+                                                                </th>
+                                                                <th>
+                                                                    收单单数
+                                                                </th>
+                                                                <th class="demo-top" title="测试模版限制字数6个字，多的字hover显示,记得更新table.css文件">
+                                                                    测试模版限制
+                                                                </th>
+                                                                <th>
+                                                                    流失率
+                                                                </th>
+                                                                <th>
+                                                                    流失金额
+                                                                </th>
+                                                                <th>
+                                                                    收单金额
+                                                                </th>
+                                                                <th>
+                                                                    总金额
+                                                                </th>
+                                                                <th>
+                                                                    通过率
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                   虹口杨浦贵宾服务部A组
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                   贵宾服务部组别
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   2
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                  172
+                                                                </td>
+                                                                <td>
+                                                                   0%
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+	
+		
 	<content tag="local_script"> 
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
