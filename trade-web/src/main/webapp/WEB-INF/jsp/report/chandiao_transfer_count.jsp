@@ -59,7 +59,7 @@
 		<div class="wrapper wrapper-content animated fadeInRight">
 			<div class="ibox-content border-bottom clearfix space_box">
 				<h2 class="title">
-					产调详细筛选
+					产调导出汇总筛选
 				</h2>
 				<form method="post" class="form_list form-horizontal" id="chandiaoDetail" target="_blank">
 					<div class="line">

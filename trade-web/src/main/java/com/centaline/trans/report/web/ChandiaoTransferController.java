@@ -170,7 +170,7 @@ public class ChandiaoTransferController {
 		request.setAttribute("teamCode", teamCode);
 		request.setAttribute("yuCuiOriGrpId", yuCuiOriGrpId);
 		
-		return "report/chandiao_transfer_detail";
+		return "report"+ UiImproveUtil.getPageType(request)+"/chandiao_transfer_detail";
 	}
 	
 	
