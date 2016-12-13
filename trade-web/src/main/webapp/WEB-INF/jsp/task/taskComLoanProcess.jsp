@@ -31,13 +31,12 @@
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 <!-- 新调整页面样式 -->
 <link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
 <link href="${ctx}/css/common/details.css" rel="stylesheet">
 <link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
 <link href="${ctx}/css/common/btn.css" rel="stylesheet">
-<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<%-- <link href="${ctx}/css/common/input.css" rel="stylesheet"> --%>
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
 <style type="text/css">
 .wizard-big.wizard>.content {
@@ -102,7 +101,6 @@
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 
 <%--环节编码 --%>
 <input type="hidden" id="partCode" name="partCode" value="${taskitem}">
@@ -116,7 +114,8 @@
 <input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="1"/>
 <!-- 临时银行审批 -->
 <input type="hidden" id="tmpBankStatus" name="tmpBankStatus"/>
-
+	<!-- 服务流程 -->
+		<div class="panel " id="serviceFlow">
         <div class="row wrapper white-bg new-heading ">
              <div class="pl10">
                  <h2 class="newtitle-big">
@@ -135,7 +134,6 @@
 
         <div class="ibox-content border-bottom clearfix space_box noborder">
             <div class="">
-
                     <div class="panel blank-panel">
                         <div class="panel-heading" style="padding:0;">
                             <div class="panel-options">
@@ -313,14 +311,12 @@
 										<div class="col-md-2">
 											<input type="text" name="houseNum" id="houseNum"
 												class="form-control" onkeyup="checkInt(this)">
-										</div>
-										
+										</div>				
 										<label class="col-sm-2 control-label" style="width:15%">签约时间<span class="star" >*</span>：</label>
 										<div class="col-md-2" style="width:18%">
 										<div class="input-group date readOnly_date" id="date_4">
 											<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="signDate" id="signDate" readonly>
-										</div>
-											
+										</div>		
 										</div>
 										<label class="col-sm-2 control-label">需要放款前报告：</label>
 										<div class="col-md-2">
@@ -563,7 +559,7 @@
                                     <div class="ibox float-e-margins">
                                         <div>
                                         
-                                        <div id="wizard1">
+                           <div id="wizard1">
 							<h1>询价</h1>
 						   <div style="width:100%">
 							<div class="step-content" style="margin-top: -25px;">
@@ -896,8 +892,8 @@
 	    </c:otherwise>  
 		</c:choose> 
 		</div>
-								  </div>
-							</div>
+	</div>
+</div>
 
 							<h1>有收费评估报告发起</h1>
 							<div style="width:100%">							
@@ -946,21 +942,20 @@
 								</div>
 							</div>
 						</div>
-                                        
+                                     
                                         </div>
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
+                </div>
             </div>
             
-        <div class="view-content" id="caseCommentList"> </div>
-
-       </div>
+            <div id="aboutInfo">   
+               <div class="view-content" id="caseCommentList"> </div>
+            </div>
+          </div>  
 
     <div class="modal inmodal fade in file-popup" id="myFile" tabindex="-1" role="dialog" aria-hidden="false" >
         <div class="modal-dialog modal-lg">
@@ -1166,9 +1161,8 @@
 
 <content tag="local_script"> 
 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-
 <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
- 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 <script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 <script src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> 
@@ -1181,35 +1175,31 @@
 <script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
-
 <script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 <script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-
 <script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
 <script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
-
+<!-- 上传附件结束 -->
 <script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4.9"></script> 
 <script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
-
 <script src="${ctx}/transjs/sms/sms.js"></script>	
 <script src="${ctx}/js/jquery.blockui.min.js"></script>
-
 <script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
-
 <script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-<script src="${ctx}/js/viewer/viewer.min.js"></script>
+<script src="${ctx}/js/stickUp.js"></script>
 <!-- 改版引入的新的js文件 --> 
 <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 <script src="${ctx}/js/common/common.js?v=1.0.1"></script>
+<script src="${ctx}/js/viewer/viewer.min.js"></script>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <script>
 	var source = "${source}";
 	var afterTimeFlag=${afterTimeFlag};
@@ -1254,7 +1244,6 @@ function autoCompleteComDiscount(obj){
 function checkInt(obj){
 	obj.value = obj.value.replace(/[^\d]/g,"");  
 }
-
 
  	var ctx = "${ctx}";
 	var step = ${step1};

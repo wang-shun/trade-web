@@ -53,6 +53,7 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
+	<div class="panel " id="serviceFlow">
             <div class="row wrapper white-bg new-heading ">
              <div class="pl10">
                  <h2 class="newtitle-big">
@@ -137,13 +138,13 @@
                 </form>
             </div> 
             </div>
-		
+
 		<!-- 案件备注信息 -->
 		<div class="ibox-title">
 		<div class="view-content" id="caseCommentList"> </div>
 		</div>
 		
-		<div class="ibox-title">
+		<div id="aboutInfo" class="ibox-title">
 			<h5 class="newtitle title-mark">审批记录</h5>
 			<div class="ibox-content">
 				<div class="jqGrid_wrapper">
@@ -175,6 +176,7 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script>
 	<!-- 改版引入的新的js文件 --> 
 	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
