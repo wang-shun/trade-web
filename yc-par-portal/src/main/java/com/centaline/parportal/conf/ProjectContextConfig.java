@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Configuration;
 
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl;
-import com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl;
-import com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl;
-import com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl;
-import com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl;
-import com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl;
-import com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl;
+
+import src.main.java.com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl;
+import src.main.java.com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl;
+import src.main.java.com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl;
+import src.main.java.com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl;
+import src.main.java.com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl;
 
 /**
  * 

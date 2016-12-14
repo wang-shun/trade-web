@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.centaline.parportal.mobile.login.vo.MobileHolder;
-import com.centaline.trans.workspace.entity.CacheGridParam;
 
 @Controller
 @RequestMapping({ "/mobile/case", "/case" })
@@ -55,7 +54,7 @@ public class MortgageController {
     private List<Map<String, Object>> mortgageCaseInfoQuery(String queryId, String caseCode,
                                                             Integer page, Integer rows) {
         try {
-            JQGridParam gp = new CacheGridParam();
+            JQGridParam gp = new JQGridParam();
             gp.put("caseCode", caseCode);
             gp.setPage(page);
             gp.setRows(rows);
