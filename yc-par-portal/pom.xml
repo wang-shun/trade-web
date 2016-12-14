@@ -221,6 +221,7 @@
                 <version>2.1</version>
                 <configuration>
                     <url>${tomcat.url}</url>
+                    <path>/${tomcat.warFile}</path>
                     <server>tomcat7</server>
                     <username>${tomcat.username}</username>
                     <password>${tomcat.password}</password>
