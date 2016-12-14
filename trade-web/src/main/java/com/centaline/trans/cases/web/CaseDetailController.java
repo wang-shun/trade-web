@@ -98,8 +98,10 @@ import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
@@ -200,6 +202,9 @@ public class CaseDetailController {
 	//关注
 	@Autowired
 	ToModuleSubscribeService toModuleSubscribeService;
+	//审批记录
+	@Autowired
+	ToApproveRecordService toApproveRecordService;
 
 	/**
 	 * 页面初始化
@@ -853,7 +858,32 @@ public class CaseDetailController {
 		inWorkFlow.setBusinessKey("operation_process");
 		inWorkFlow.setCaseCode(toCase.getCaseCode());
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
-
+        //爆单和无效原因
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
+        if(toCase.getCaseProperty().equals("30003001") || toCase.getCaseProperty().equals("30003005") ){
+        	ToWorkFlow workFlow = new ToWorkFlow();
+        	workFlow.setCaseCode(toCase.getCaseCode());
+        	workFlow.setBusinessKey("operation_process");
+        	workFlow.setStatus("4");
+        	ToWorkFlow toWorkFlow1= toWorkFlowService.queryToWorkFlowByCaseCodeAndBusinessKey(workFlow);				
+    		if(toWorkFlow1!=null){
+        	toApproveRecordForItem.setProcessInstance(toWorkFlow1.getInstCode());
+    		toApproveRecordForItem.setCaseCode(toCase.getCaseCode());
+			ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);
+				if(toApproveRecord2 != null){
+					request.setAttribute("toApproveRecord", toApproveRecord2.getContent());
+				}else{
+					request.setAttribute("toApproveRecord","");
+				}
+    	}else{
+    		request.setAttribute("toApproveRecord","");
+    	}
+        }else{
+        	request.setAttribute("toApproveRecord","");
+        	
+        }
+		
+		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		// 贷款信息
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(toCase.getCaseCode());
@@ -1045,7 +1075,7 @@ public class CaseDetailController {
 			reVo.setPayType4(payType4);
 		}
 
-		// 房款监管信息
+		/*// 房款监管信息
 		ToSpv toSpv = toSpvService.queryToSpvByCaseCode(toCase.getCaseCode());
 		// 房款进出账
 		List<ToCashFlow> cashFlows = toSpvService.queryCashFlowsByCaseCode(toCase.getCaseCode());
@@ -1090,7 +1120,7 @@ public class CaseDetailController {
 					}
 				}
 			}
-		}
+		}*/
 
 		// 金融服务信息
 		List<LoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
@@ -1324,8 +1354,8 @@ public class CaseDetailController {
 		request.setAttribute("toMortgage", toMortgage);
 		request.setAttribute("caseDetailVO", reVo);
 		request.setAttribute("caseInfo", caseInfo);
-		request.setAttribute("toSpv", toSpv);
-		request.setAttribute("cashFlows", cashFlows);
+/*		request.setAttribute("toSpv", toSpv);
+		request.setAttribute("cashFlows", cashFlows);*/
 		request.setAttribute("toLoanAgents", toLoanAgents);
 		request.setAttribute("toEloanCases", toEloanCases);
 		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
