@@ -23,8 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import com.aist.common.quickQuery.utils.QuickQueryJdbcTemplate;
-
-import src.main.java.com.centaline.trans.common.MyBatisRepository;
+import com.centaline.trans.common.MyBatisRepository;
 
 @Configuration
 @Aspect
