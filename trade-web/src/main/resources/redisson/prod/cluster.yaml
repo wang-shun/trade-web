@@ -29,5 +29,5 @@ clusterServersConfig:
   scanInterval: 1000
 threads: 0
 nettyThreads: 0
-codec: !<org.redisson.codec.SerializationCodec> {}
+codec: !<org.redisson.codec.FstCodec> {}
 useLinuxNativeEpoll: false

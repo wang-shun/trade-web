@@ -14,7 +14,8 @@
 
 <!-- Toastr style -->
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
+<!-- stickUp fixed css -->
+<link href="${ctx}/static/trans/css/common/hint.css" rel="stylesheet" />
 <!-- Gritter -->
 <link href="${ctx}/js/plugins/gritter/jquery.gritter.css"	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
@@ -85,13 +86,23 @@
 			<div class="scroll_box fadeInDown animated">
 				<div class="top12 panel" id="basicInfo">
                  	<c:if test="${toCase.caseProperty=='30003001'}">
-                   		<div class="sign sign-red">无效</div>
+                   		<div class="sign sign-red" ><span
+                   		<c:if test="${toApproveRecord!=''}">
+                  		class="hint hint-top" data-hint="${toApproveRecord}"
+                  		</c:if> >无效</span></div>
+
                   	</c:if>
                    	<c:if test="${toCase.caseProperty=='30003002'}">
                    			<div class="sign sign-red">结案</div>
                     </c:if>
                  	<c:if test="${toCase.caseProperty=='30003005'}">
-                  		<div class="sign sign-red">爆单</div>
+                  		<div class="sign sign-red ">
+                  		<span
+                   		<c:if test="${toApproveRecord!=''}">
+                  		class="hint hint-top" data-hint="${toApproveRecord}"
+                  		</c:if> >爆单</span>
+                  		
+                  		</div>
                   	</c:if>                    
                    	<c:if test="${toCase.caseProperty=='30003003'}">
                    		<div class="sign sign-red">在途</div>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>
+
+	<query id="queryMortProcess">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[  	
+			    SELECT
+                    TC.CASE_CODE,
+                    TC.SRV_CODE,
+                    SYSD.NAME AS SRVNAME,
+                    TC.CREATE_TIME,
+                    TC.CREATE_BY,
+                    SYSU.REAL_NAME,
+                    TC.COMMENT
+                FROM SCTRANS.T_TO_CASE_COMMENT AS TC
+        
+        	        LEFT JOIN SCTRANS.SYS_USER AS SYSU
+        	        ON TC.CREATE_BY = SYSU.ID
+        	        LEFT JOIN SCTRANS.SYS_DICT AS SYSD
+                    ON TC.SRV_CODE = SYSD.CODE AND SYSD.TYPE = 'part_code'
+        			
+        			WHERE 1=1
+        			
+        			<if test="caseCode != null">
+						AND TC.CASE_CODE = #caseCode#
+			    	</if>
+			    	
+			    	<choose>
+					    <when test="USER_JOBCODE=='consultant' ">
+							AND TC.CREATE_BY = #userId#
+					    </when>
+					    <otherwise>
+					    	AND 1=0
+					    </otherwise>
+					</choose>
+			    	
+			    	ORDER BY TC.CREATE_TIME DESC
+
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+			<column type="both" name="SRVNAME" index="" checkbox="" display="status" title="status" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="CREATE_TIME" index="" checkbox="" display="createTime" title="createTime" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			<column type="both" name="REAL_NAME" index="" checkbox="" display="createBy" title="createBy" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="COMMENT" index="" checkbox="" display="comments" title="comments" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>
