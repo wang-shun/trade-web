@@ -108,7 +108,7 @@
 					</c:forEach>
            
                 </ul>
-
+				<input type="hidden" id="ctx" value="${ctx}"/>
             </div>
         </nav>
 
@@ -160,6 +160,9 @@
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    
+    <script src="${ctx}/js/plugins/required/require.js"></script>
+    <script src="${ctx}/js/plugins/required/config.js"></script>
     
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog.jsp"%> 
     <script type="text/javascript" src="${ctx}/transjs/common/INSPINIA_template.js"></script>
