@@ -32,11 +32,11 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.loan.entity.ToCloseLoan" >
     insert into sctrans.T_TO_CLOSE_LOAN (PKID, CASE_CODE, LOAN_CLOSE_CODE, 
-      CLOSE_TYPE, UNCLOSE_MONEY, COMMENT, MORTGAGE_BANK
+      CLOSE_TYPE, UNCLOSE_MONEY, COMMENT, MORTGAGE_BANK,CREATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{loanCloseCode,jdbcType=TIMESTAMP}, 
       #{closeType,jdbcType=VARCHAR}, #{uncloseMoney,jdbcType=DECIMAL}, #{comment,jdbcType=LONGVARCHAR},
-      #{mortgageBank,jdbcType=VARCHAR})
+      #{mortgageBank,jdbcType=VARCHAR},@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.loan.entity.ToCloseLoan" >
     insert into sctrans.T_TO_CLOSE_LOAN
@@ -60,8 +60,9 @@
         COMMENT,
       </if>
       <if test="mortgageBank != null">
-      	MORTGAGE_BANK
+      	MORTGAGE_BANK,
       </if>
+        CREATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -85,6 +86,7 @@
       <if test="mortgageBank != null">
       	#{mortgageBank,jdbcType=VARCHAR},
       </if>
+        @{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.loan.entity.ToCloseLoan" >

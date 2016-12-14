@@ -31,10 +31,10 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToTax" >
     insert into sctrans.T_TO_TAX (PKID, CASE_CODE, TAX_TIME, 
-      IS_UNIQUE_HOME, HOLD_YEAR, COMMENT
+      IS_UNIQUE_HOME, HOLD_YEAR, COMMENT,CREATE_BY
       )
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{taxTime,jdbcType=TIMESTAMP}, 
-      #{isUniqueHome,jdbcType=CHAR}, #{holdYear,jdbcType=NVARCHAR}, #{comment,jdbcType=LONGVARCHAR}
+      #{isUniqueHome,jdbcType=CHAR}, #{holdYear,jdbcType=NVARCHAR}, #{comment,jdbcType=LONGVARCHAR},@{SESSION_USER_ID}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToTax" >
@@ -58,6 +58,7 @@
       <if test="comment != null" >
         COMMENT,
       </if>
+        CREATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -78,6 +79,7 @@
       <if test="comment != null" >
         #{comment,jdbcType=LONGVARCHAR},
       </if>
+        @{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToTax" >
