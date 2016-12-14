@@ -31,7 +31,7 @@
 		<tomcat.warFile>partner</tomcat.warFile>
 		<skipTests>true</skipTests>
 	</properties>
-<profiles>		
+	<profiles>		
 		<profile>
 			<id>dev</id>
 			<activation>
