@@ -95,19 +95,16 @@
 				<td class="text-center">
 				    <p>
                       {{item.CASE_CODE}}
+
                     </p>
+                    <p>{{item.BIZ_CODE}}</p>
 				</td>
                 <td class="text-center">
 				    <p>{{item.INST_CODE}}</p>
 				</td>
                 <td class="text-center">
-				    <p>{{item.BIZ_CODE}}</p>
-				</td>
-                <td class="text-center">
 				    <p>{{item.BUSINESS_KEY}}</p>
-				</td>
-                <td class="text-center">
-				    <p>{{item.PROCESS_DEFINITION_ID}}</p>
+                    <p>{{item.PROCESS_DEFINITION_ID}}</p>
 				</td>
                 <td class="text-center">
 				    <p>{{item.PROCESS_OWNER}}</p>
@@ -115,17 +112,9 @@
                 <td class="text-center">
 				    <p>{{item.STATUS}}</p>
 				</td>
-                <td class="text-center">
-				    <p>{{item.CREATE_TIME}}</p>
-				</td>
-                <td class="text-center">
-				    <p>{{item.CREATE_BY}}</p>
-				</td>
-                <td class="text-center">
-				    <p>{{item.UPDATE_TIME}}</p>
-				</td>
-                <td class="text-center">
-				    <p>{{item.UPDATE_BY}}</p>
+                <td class="text-left">
+				    <p><i class="sign_normal">申</i>{{item.CREATE_BY}}{{item.CREATE_TIME}} </p>
+                    <p><i class="sign_normal">更</i>{{item.UPDATE_BY}}{{item.UPDATE_TIME}}</p>
 				</td>
 			</tr>
 			{{/each}}          
@@ -156,17 +145,9 @@
                 <td class="text-center">
 				    <p>{{item.NEW_ASSIGNEE}}</p>
 				</td>
-                <td class="text-center">
-				    <p>{{item.CREATE_TIME}}</p>
-				</td>
-                <td class="text-center">
-				    <p>{{item.CREATE_BY}}</p>
-				</td>
-                <td class="text-center">
-				    <p>{{item.UPDATE_TIME}}</p>
-				</td>
-                <td class="text-center">
-				    <p>{{item.UPDATE_BY}}</p>
+                <td class="text-left">
+				    <p><i class="sign_normal">申</i>{{item.CREATE_BY}}{{item.CREATE_TIME}}</p>
+                    <p><i class="sign_normal">更</i>{{item.UPDATE_BY}}{{item.UPDATE_TIME}}</p>
 				</td>
 			</tr>
 			{{/each}}          
@@ -193,25 +174,15 @@
 													colName : "案件编号"
 												}, {
 													colName : "机构编号"
-												}, {
-													colName : "业务编号"
 												} , {
 													colName : "业务键"
-												}, {
-													colName : "流程定义ID"
 												}, {
 													colName : "流程拥有人"
 												} , {
 													colName : "状态"
 												} , {
-													colName : "创建时间"
-												} , {
-													colName : "创建人"
-												} , {
-													colName : "更新时间"
-												}, {
-													colName : "更新人"
-												}  ]
+													colName : "时间"
+												} ]
 
 											});
 							$(".bonus-table2")
@@ -240,14 +211,8 @@
 										}, {
 											colName : "新的执行人"
 										} , {
-											colName : "创建时间"
-										} , {
-											colName : "创建人"
-										} , {
-											colName : "更新时间"
-										}, {
-											colName : "更新人"
-										}  ]
+											colName : "时间"
+										} ]
 
 									});
 						}

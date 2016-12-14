@@ -139,11 +139,17 @@
 
 			</div>
 		</div>
-		<h5>
+<!-- 		<h5>
 			附件浏览：贷款自办确认函、贷款流失申请书<br>
 		</h5>
 		<div class="ibox-content">
 			<div id="imgShow" class="lightBoxGallery"></div>
+		</div> -->
+		<div>
+			<h2 class="newtitle title-mark">附件信息</h2>		
+			<div class="">
+				<div id="imgShow" class="lightBoxGallery"></div>
+			</div>
 		</div>
 
 		<div id="caseCommentList" class="add_form"></div>

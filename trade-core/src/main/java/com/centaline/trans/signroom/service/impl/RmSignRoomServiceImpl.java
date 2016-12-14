@@ -608,13 +608,14 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 								&& "5".equals(rmRoomSchedule.getResStatus()
 										.trim())) {// 提前使用中
 							rmRoomSchedule.setUseStatus("2");// 提前使用
-							if (startTime != null && curTime > startTime) {// 当当前时间在该时间段
-								if (rmRoomSchedule.getCheckOutTime() != null) {// 已签退
-									rmRoomSchedule.setUseStatus("N");// 空置
-								} else {
+							if (rmRoomSchedule.getCheckOutTime() != null) {// 已签退
+								rmRoomSchedule.setUseStatus("N");// 空置
+							}else{
+								if (startTime != null && curTime > startTime) {// 当当前时间在该时间段
 									rmRoomSchedule.setUseStatus("3");// 超期使用中
 								}
 							}
+							
 						} else {
 							if (rmRoomSchedule.getCheckInTime() != null) {// 是否已签到
 								if (rmRoomSchedule.getCheckOutTime() != null) {// 是否已签退

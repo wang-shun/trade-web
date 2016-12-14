@@ -442,7 +442,7 @@
 							{{/if}}
                  </td>
 				 <td>
-					  <span class="manager"><a href="#" title="{{item.mobile}}" class="demo-top" onMouseover="showMobile(this);"><em>预约人:</em>{{item.realName}}</a></span>
+					  <span class="manager"><a href="#" title="{{item.mobile}}" class="demo-top"><em>预约人:</em>{{item.realName}}</a></span>
                       <span class="manager"><em>交易顾问:</em>{{item.serviceSpecialist}}</span>
                  </td>
 				 <td>
@@ -455,7 +455,7 @@
 						  {{/each}}
                       </p>
 					  <p>
-						  <a href="#"  class="demo-right" onMouseover="showTip(this);" title="{{item.specialReq}}">
+						  <a href="#"  class="demo-right" title="{{item.specialReq}}">
 					  			{{if item.specialReq != null && item.specialReq!="" && item.specialReq.length > 18}}
 									{{item.specialReq.substring(0,18)}}....
 					  			{{else}}
@@ -467,7 +467,7 @@
 				 <td>
                       <p class="smll_sign big latestFollupDateTime">{{item.followDateTime}}</p>
                       <p>
-                         <a href="#"  class="demo-right latestComment" onMouseover="showTip(this);" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.realName}}&nbsp;&nbsp;{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
+                         <a href="#"  class="demo-right latestComment" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.realName}}&nbsp;&nbsp;{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
 							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 8}}
 								{{item.latestComment.substring(0,8)}}....
 					  		{{else}}
