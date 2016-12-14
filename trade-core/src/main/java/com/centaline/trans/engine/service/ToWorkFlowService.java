@@ -24,7 +24,9 @@ public interface ToWorkFlowService {
 	ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record);
 	
 	ToWorkFlow queryToWorkFlowByCaseCodeAndStatus(ToWorkFlow record);
-
+	
+	ToWorkFlow queryToWorkFlowByCaseCodeAndBusinessKey(ToWorkFlow record);
+	
 	List<ToOutTimeTask> queryOutTimeTaskList();
 
 	ToWorkFlow queryWorkFlowByInstCode(String instCode);
@@ -48,4 +50,5 @@ public interface ToWorkFlowService {
 	void deleteWorkFlowByInstCode(String instCode);
 	
 	List<ToWorkFlow> getMortToWorkFlowByCaseCode(ToWorkFlow record);
+	
 }
