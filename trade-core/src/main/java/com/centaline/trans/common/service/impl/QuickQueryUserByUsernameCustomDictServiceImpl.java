@@ -21,7 +21,7 @@ public class QuickQueryUserByUsernameCustomDictServiceImpl implements CustomDict
 	@Override
 	@Cacheable(value="QuickQueryUserByUsernameCustomDictServiceImpl",key="#root.target.getProp()+'/'+#key")
 	public String getValue(String key) {
-		User u = uamUserOrgService.getUserByUsername(key);
+		User u = uamUserOrgService.getHisUserByUsername(key);
 		String value = null;
 		try {
 			value = BeanUtils.getProperty(u, prop);
