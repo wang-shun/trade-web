@@ -1,4 +1,5 @@
 ---
 defaultMap:
-  ttl: 1440000
-  maxIdleTime: 7200
+  #2h
+  ttl: 7200000
+  maxIdleTime: 7200000
