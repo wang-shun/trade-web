@@ -17,6 +17,44 @@
 		<version>1.4.1.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+	
+	<repositories>
+        <repository>
+            <id>nexus</id>
+            <url>http://10.4.19.211/nexus/content/repositories/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>interval:1</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <url>http://10.4.19.211/nexus/content/repositories/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+    <distributionManagement>
+        <repository>
+            <id>centaline.release</id>
+            <name>Nexus Releases Repository</name>
+            <url>http://10.4.19.211/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>centaline.snapshots</id>
+            <name>Nexus Snapshots Repository</name>
+            <url>http://10.4.19.211/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
