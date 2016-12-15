@@ -1502,7 +1502,7 @@ public class CaseDetailController {
 		// 案件信息更新
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		String origUserId = toCase.getLeadingProcessId();
-		User u = uamUserOrgService.getUserById(origUserId);
+		User u = uamUserOrgService.getHisUserByUsername(origUserId);
 		User u_ = uamUserOrgService.getUserById(userId);
 
 		TgServItemAndProcessor record = new TgServItemAndProcessor();
@@ -1510,7 +1510,7 @@ public class CaseDetailController {
 		toCase.setLeadingProcessId(userId);
 		int reToCase = toCaseService.updateByPrimaryKey(toCase);
 		
-		User u1 = uamUserOrgService.getUserById(userId);
+		
 		record.setProcessorId(userId);
 		record.setOrgId(u_.getOrgId());
 		record.setCaseCode(caseCode);
@@ -1524,7 +1524,7 @@ public class CaseDetailController {
 			String variableName = "caseOwner";
 			RestVariable restVariable = new RestVariable();
 			restVariable.setType("string");
-			restVariable.setValue(u1.getUsername());
+			restVariable.setValue(u_.getUsername());
 			try{
 				workFlowManager.setVariableByProcessInsId(instCode, variableName, restVariable);
 			}catch(WorkFlowException e){
