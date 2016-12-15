@@ -1502,7 +1502,7 @@ public class CaseDetailController {
 		// 案件信息更新
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		String origUserId = toCase.getLeadingProcessId();
-		User u = uamUserOrgService.getHisUserByUsername(origUserId);
+		User u = uamUserOrgService.getUserById(origUserId);
 		User u_ = uamUserOrgService.getUserById(userId);
 
 		TgServItemAndProcessor record = new TgServItemAndProcessor();
