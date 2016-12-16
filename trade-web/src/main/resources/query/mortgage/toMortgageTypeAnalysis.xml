@@ -142,7 +142,7 @@
 					AND V.NAME_='GuohuApprove'
 					AND V.LONG_=1
 					AND V.LAST_UPDATED_TIME_ >= #transferTimeStart#
-					AND V.LAST_UPDATED_TIME_ &lt;= #transferTimeStart#
+					AND V.LAST_UPDATED_TIME_ &lt;= #transferTimeEnd#
 				)
 			</ifNotNull>
 
