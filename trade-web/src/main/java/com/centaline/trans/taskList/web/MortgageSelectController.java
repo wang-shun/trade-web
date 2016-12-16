@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.utils.UiImproveUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -110,6 +111,7 @@ public class MortgageSelectController {
 		plan.setCaseCode(caseCode);
 		plan.setPartCode("LoanRelease");//放款
 		request.setAttribute("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
-		return "task/taskMortgageSelect";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskMortgageSelect";
+
 	}
 }

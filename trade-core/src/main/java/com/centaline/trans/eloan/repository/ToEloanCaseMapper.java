@@ -13,6 +13,8 @@ public interface ToEloanCaseMapper {
     int insertSelective(ToEloanCase record);
 
     ToEloanCase selectByPrimaryKey(Long pkid);
+    
+    ToEloanCase selectByEloanCode(String eloanCode);
 
     int updateByPrimaryKeySelective(ToEloanCase record);
 

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.utils.UiImproveUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +48,7 @@ public class TaxReviewController {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		toAccesoryListService.getAccesoryList(request, taskitem);
 		request.setAttribute("taxReview", toTaxService.findToTaxByCaseCode(caseCode));
-		return "task/taskTaxReview";
+		return "task"+ UiImproveUtil.getPageType(request) + "/taskTaxReview";
 	}
 	
 	@RequestMapping(value="saveTaxReview")

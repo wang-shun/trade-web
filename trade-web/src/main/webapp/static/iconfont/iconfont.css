@@ -6,11 +6,69 @@
   url('iconfont.ttf?t=1476942523') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
   url('iconfont.svg?t=1476942523#iconfont') format('svg'); /* iOS 4.1- */
 }
-
+.iconfont_s {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+}
 .iconfont {
   font-family:"iconfont" !important;
   font-size:16px;
   font-style:normal;
+}
+.starmack.active .star_subscribe {
+    color: #f8cd59;
+}
+.subscribe .star_subscribe {
+    overflow: hidden;
+    width: 17px;
+    display: inline-table;
+}
+.starmack .star_subscribe {
+    color: #ccc;
+}
+.star-yellow {
+  color:#f8cd59;
+}
+.star-grey {
+  color: #ccc;
+}
+.starmack .star_subscribe{
+  color: #ccc;
+}
+.starmack .star_text_2{
+  display: none;
+}
+.starmack .star_text_1{
+  display: inline;
+}
+.starmack.active .star_subscribe{
+  color:#f8cd59;
+}
+.starmack.active .star_text_1{
+  display: none;
+}
+.starmack.active .star_text_2{
+  display: inline;
+}
+.subscribe_detail{
+  margin-left: 10px;
+  background: #f4f4f4;
+  color: #ccc;
+  outline: none;
+  padding: 4px 10px 4px 7px;
+  border-radius: 3px;
+}
+#subscribe .subscribe_detail.active{
+  background: #f8cd59;
+  color: #fff;
+  outline: none;
+}
+#subscribe .subscribe_detail.active .star_subscribe{
+  color: #fff;
+}
+.big .subscribe i{
+  font-size: 16px;
 }
 .icon-edit:before { content: "\e600"; }
 .icon-favorfill:before { content: "\e601"; }

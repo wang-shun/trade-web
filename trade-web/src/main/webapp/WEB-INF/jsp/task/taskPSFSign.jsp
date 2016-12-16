@@ -37,6 +37,13 @@
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -56,136 +63,89 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-	<div class="">
-		<div class="row wrapper border-bottom white-bg page-heading">
-			<div class="col-lg-10">
-				<h2>纯公积金贷款签约</h2>
-				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
-			</div>
-			<div class="col-lg-2"></div>
-		</div>
-		<div class="ibox-title">
-			<h5>完成提醒</h5>
-			<a class="btn btn-primary pull-right" href="#" id="sendSMS">发送短信提醒</a>
-			<div class="ibox-content">
-				<div class="jqGrid_wrapper">
-					<table id="reminder_list"></table>
-					<div id="pager_list_1"></div>	
-				</div>
-			</div>
-			<div id="modal-form" class="modal fade" aria-hidden="true">
-               <div class="modal-dialog">
-                   <div class="modal-content">
-                       <div class="modal-body">
-                           <div class="row">
-                               <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Sign in</h3>
-                                  <p>Sign in today for more expirience.</p>
-                                  <form role="form">
-                                      <div class="form-group"><label>Email</label> <input type="email" placeholder="Enter email" class="form-control"></div>
-                                      <div class="form-group"><label>Password</label> <input type="password" placeholder="Password" class="form-control"></div>
-                                      <div class="form-group pull-right">
-                                          <button class="btn btn-sm btn-primary m-t-n-xs" type="submit"><strong>发送</strong></button>
-                                          <button class="btn btn-sm btn-primary m-t-n-xs" type="reset"><strong>取消</strong></button>
-                                          <!-- <label> <input type="checkbox" class="i-checks"> Remember me </label> -->
-                                      </div>
-                                  </form>
-                               </div>
-                       </div>
-                   </div>
-                   </div>
-               </div>
-       		</div>
-		</div>
-		<div class="ibox-title">
-			<h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form method="get" class="form-horizontal" id="psfSignForm">
-					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-					<!-- 流程引擎需要字段 -->
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="pkid" name="pkid" value="${PSFSign.pkid}">
-					<div class="form-group" id="data_1">
-						<label class="col-sm-2 control-label">实际签约时间<font color="red">*</font></label>
-						<div class="input-group date readOnly_date" style="margin-left: 197px;">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-							<input type="text" class="form-control" id="signDate" style="width:127px;"
-								name="signDate" value="<fmt:formatDate  value='${PSFSign.signDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
-						</div>
-					</div>
+	    <div class="row wrapper white-bg new-heading ">
+             <div class="pl10">
+                 <h2 class="newtitle-big">
+                        纯公积金贷款签约
+                    </h2>
+                <div class="mt20">
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+                            <i class="iconfont icon">&#xe600;</i> 在途单列表
+                        </button>
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+                            <i class="iconfont icon">&#xe63f;</i> 案件视图
+                        </button>
+                    </div>
+             </div>
+        </div>
 
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">贷款金额<font color="red">*</font></label>
-						<div class="col-sm-2">
-							<div class="input-group">
-							<input type="text" class="form-control" id="mortTotalAmount" name="mortTotalAmount" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${ PSFSign.mortTotalAmount}' type='number' pattern='#0.00' />">
-								<span class="input-group-addon">万</span>
-								</div>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">承办银行<font color="red">*</font></label>
-						<div class="col-sm-4">
-							<select class="form-control m-b chosen-select" name="finOrgCode" id="finOrgCode">
+        <div class="ibox-content border-bottom clearfix space_box noborder">
+            <div class="">
+                <h2 class="newtitle title-mark">完成提醒</h2>
+                <div class="jqGrid_wrapper">
+				       <div class="jqGrid_wrapper">
+					     <table id="reminder_list"></table>
+					     <div id="pager_list_1"></div>	
+	                    <button type="button" class="btn btn-primary mt20" id="sendSMS">
+	                        <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
+	                    </button>
+                  </div>
+                </div>
+            </div>
+        <div>
+            <h2 class="newtitle title-mark">填写任务信息</h2>
+            <form method="get" class="form-horizontal" id="psfSignForm">
+			<%--环节编码 --%>
+			<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+			<!-- 交易单编号 -->
+			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+			<!-- 流程引擎需要字段 -->
+			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+			<%-- 原有数据对应id --%>
+			<input type="hidden" id="pkid" name="pkid" value="${PSFSign.pkid}">
+            <div class="form_list">
+                <div class="marinfo">
+                    <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small select_style mend_select">
+                                实际签约时间<font color="red">*</font>
+                            </label>
+                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                                <input id="signDate" name="signDate" class="input_type yuanwid datatime" type="text" value="<fmt:formatDate  value='${PSFSign.signDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">贷款金额<font color="red">*</font></label> <input class=" input_type yuanwid" id="mortTotalAmount" name="mortTotalAmount" onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${ PSFSign.mortTotalAmount}' type='number' pattern='#0.00' />" >
+                           <span class="date_icon">万元</span>
+                        </div>
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">贷款年限</label> <input class=" input_type yuanwid" placeholder="" id="prfYear" name="prfYear" value="${PSFSign.prfYear}" >
+                        </div>
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">主贷人<font color="red">*</font></label>
+                            <select class=" select_control yuanwid " name="custCode" id="custCode">
 							</select>
-						</div>
-						
-						<!-- <label class="col-sm-2 control-label">支行名称<font color="red">*</font></label>
-						<div class="col-sm-4">
-							<select class="form-control m-b chosen-select" name="finOrgCode" id="finOrgCode">
+                        </div>
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">承办银行<font color="red">*</font></label>
+                            <select class="select_control" name="finOrgCode" id="finOrgCode">
 							</select>
-						</div> -->
-					</div>
+                        </div>
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">备注</label>
+							<input class=" input_type yuanwid" id="remark" name="remark" value="${PSFSign.remark}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
 
-					<!-- <div class="form-group">
-					</div> -->
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">贷款年限<font color="red">*</font></label>
-						<div class="col-sm-2">
-							<input type="text" class="form-control" id="prfYear" name="prfYear" value="${PSFSign.prfYear}">
-						</div>
-						<label class="col-sm-2 control-label">主贷人<font color="red">*</font></label><!-- （下拉列表－下家中去取值） -->
-						<div class="col-sm-3">
-							<select class="form-control m-b" name="custCode" id="custCode">
-							</select>
-						</div>
-					</div>
-					
-					<!-- 修改人：zhangxb16    时间：2015-11-12   功能: 去掉主贷人单位这个字段   -->
-					<%-- <div class="form-group">
-						<label class="col-sm-2 control-label">主贷人单位<font color="red">*</font></label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" id="workUnit" name="workUnit" value="${PSFSign.workUnit}">
-						</div>
-					</div> --%>
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">备注</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="remark" name="remark" value="${PSFSign.remark}">
-						</div>
-					</div>
-				</form>
-
-			</div>
-		</div>
-
-		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
-		</div>
-
-		<div class="ibox-title" style="height: auto">
+        <div class="view-content" id="caseCommentList"> </div>
+        
+        <div class="ibox-title" style="height: auto;">
 		<c:choose>  
 	    <c:when test="${accesoryList!=null}">  
 		<h5>上传备件<br>${accesoryList[0].accessoryName }</h5>
@@ -266,14 +226,14 @@
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.thumbnail_url) { %}
-							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
+							                <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="width:80px;height:80px;">
 							            {% } %}</div>
 							            <div class="name" style="display: none">
 							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
 							            </div>
 							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -299,12 +259,14 @@
 	    </c:otherwise>  
 		</c:choose> 
 		</div>
-		<div class="ibox-title">
-			<a href="#" class="btn" onclick="save(false)">保存</a>
-			<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
-		</div>
-		<div id="smsPlatFrom"></div>
-	</div>
+
+       <div class="form-btn">
+              <div class="text-center">
+                  <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
+                  <button  class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</button>
+              </div>
+       </div>
+        </div>
 	<content tag="local_script"> 
 	<!-- Peity --> 
 	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
@@ -352,6 +314,9 @@
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+	<!-- 改版引入的新的js文件 --> 
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){

@@ -21,8 +21,8 @@ public enum WorkFlowEnum {
 	LOANLOST_PROCESS("LoanLost_Process:7:712784","LoanLost_Process"),
 	//LOANLOST_PROCESS("LoanLost_Process:1:641492","LoanLost_Process"),
 	PSFLOAN_PROCESS("PSFLoan_Process:1:645460","PSFLoan_Process"),
-	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId");
-	
+	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),
+	REQ_STUFF("reqStuffProcess","reqStuffProcess");
 	private String name;
 	private String code;
 

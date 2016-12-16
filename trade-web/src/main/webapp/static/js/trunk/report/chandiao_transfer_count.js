@@ -25,7 +25,14 @@ $(document).ready(function() {
 		    	    data.rows = 12;
 		    	    data.page = 1;
 		    		reloadGrid(data);
-				
+
+
+					$('.input-daterange').datepicker({
+						keyboardNavigation: false,
+						forceParse: false,
+						autoclose: true
+					});
+
 				});
 
 // select控件
@@ -49,28 +56,7 @@ for ( var selector in config) {
 	$(selector).chosen(config[selector]);
 };
 
-// 日期控件
-$('#datepicker_0').datepicker({
-	format : 'yyyy-mm-dd',
-	weekStart : 1,
-	autoclose : true,
-	todayBtn : 'linked',
-	language : 'zh-CN'
-});
-$('#datepicker_1').datepicker({
-	format : 'yyyy-mm-dd',
-	weekStart : 1,
-	autoclose : true,
-	todayBtn : 'linked',
-	language : 'zh-CN'
-});
-$('#datepicker_2').datepicker({
-	format : 'yyyy-mm-dd',
-	weekStart : 1,
-	autoclose : true,
-	todayBtn : 'linked',
-	language : 'zh-CN'
-});
+
 
 // 查询
 $('#searchButton').click(function() {

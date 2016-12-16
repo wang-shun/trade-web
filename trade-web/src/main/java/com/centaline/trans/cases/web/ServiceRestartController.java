@@ -18,7 +18,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
-
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value = "/service")
@@ -29,58 +29,64 @@ public class ServiceRestartController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private ToCaseService toCaseService;
-	
+
 	@Autowired
 	private ToAttachmentService toAttachmentService;
+
 	/**
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/restart")
 	@ResponseBody
-	public AjaxResponse<StartProcessInstanceVo> restart(Model model, ServiceRestartVo vo) {
-		SessionUser u= uamSessionService.getSessionUser();
+	public AjaxResponse<StartProcessInstanceVo> restart(Model model,
+			ServiceRestartVo vo) {
+		SessionUser u = uamSessionService.getSessionUser();
 		vo.setUserId(u.getId());
 		vo.setUserName(u.getUsername());
 		vo.setOrgId(u.getServiceDepId());
 		// 删除相关
-		StartProcessInstanceVo piv = serviceRestart.restartAndDeleteSubProcess(vo);
+		StartProcessInstanceVo piv = serviceRestart
+				.restartAndDeleteSubProcess(vo);
 		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();
 		resp.setContent(piv);
 		return resp;
 	}
+
 	@RequestMapping("apply/process")
-	public String toApplyProcess(HttpServletRequest request, HttpServletResponse response,
-			String caseCode, String source, String taskitem, String processInstanceId) {
-		SessionUser user= uamSessionService.getSessionUser();
+	public String toApplyProcess(HttpServletRequest request,
+			HttpServletResponse response, String caseCode, String source,
+			String taskitem, String processInstanceId) {
+		SessionUser user = uamSessionService.getSessionUser();
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		
+
 		request.setAttribute("approveType", "7");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task/taskserviceRestartApply";
+		return "task" + UiImproveUtil.getPageType(request)
+				+ "/taskserviceRestartApply";
 	}
-	
+
 	@RequestMapping("approve/process")
-	public String toApproveProcess(HttpServletRequest request, HttpServletResponse response,
-			String caseCode, String source, String taskitem, String processInstanceId) {
-		SessionUser user= uamSessionService.getSessionUser();
+	public String toApproveProcess(HttpServletRequest request,
+			HttpServletResponse response, String caseCode, String source,
+			String taskitem, String processInstanceId) {
+		SessionUser user = uamSessionService.getSessionUser();
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		//税费卡
+		// 税费卡
 		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if ( cou >0) {
+		if (cou > 0) {
 			caseBaseVO.setLoanType("30004005");
 		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		
+
 		request.setAttribute("approveType", "7");
 		request.setAttribute("operator", user != null ? user.getId() : "");
 		return "task/taskserviceRestartApprove";
 	}
-	
-	
+
 	/**
 	 * 
 	 * @return
@@ -88,14 +94,14 @@ public class ServiceRestartController {
 	@RequestMapping(value = "/apply")
 	@ResponseBody
 	public AjaxResponse apply(Model model, ServiceRestartVo vo) {
-		SessionUser u= uamSessionService.getSessionUser();
+		SessionUser u = uamSessionService.getSessionUser();
 		vo.setUserId(u.getId());
 		vo.setUserName(u.getUsername());
 		boolean piv = serviceRestart.apply(vo);
 		AjaxResponse resp = new AjaxResponse(piv);
 		return resp;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -103,13 +109,15 @@ public class ServiceRestartController {
 	@RequestMapping(value = "/approve")
 	@ResponseBody
 	public AjaxResponse approve(Model model, ServiceRestartVo vo) {
-		//新增判断 如果审批通过 则将对应casecode附件表 可用字段置为N
-		if(vo != null){
-			if(vo.getIsApproved()){
-				 toAttachmentService.updateToAttachmentByCaseCode(vo.getCaseCode() == null ? "":vo.getCaseCode());
+		SessionUser u = uamSessionService.getSessionUser();
+		// 新增判断 如果审批通过 则将对应casecode附件表 可用字段置为N
+		if (vo != null) {
+			if (vo.getIsApproved()) {
+				toAttachmentService.updateToAttachmentByCaseCode(vo
+						.getCaseCode() == null ? "" : vo.getCaseCode());
 			}
-		}		
-		SessionUser u= uamSessionService.getSessionUser();
+		}
+
 		vo.setUserId(u.getId());
 		vo.setUserName(u.getUsername());
 		boolean piv = serviceRestart.approve(vo);

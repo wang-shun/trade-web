@@ -75,6 +75,10 @@ text-decoration: underline !important;
 }
 .slash{font-weight:bold !important;}
 
+.table_content .big a{
+	min-width: 140px;
+	display: inline-block;
+}
 </style> 
 
 

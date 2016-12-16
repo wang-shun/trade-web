@@ -22,9 +22,10 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToPricing;
 import com.centaline.trans.task.service.ToPricingService;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
-@RequestMapping(value="/task/pricing")
+@RequestMapping(value = "/task/pricing")
 public class PricingController {
 
 	@Autowired
@@ -34,64 +35,64 @@ public class PricingController {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	
+
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
-	
-	
+
 	@RequestMapping(value = "process")
-	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if ( cou >0) {
+		if (cou > 0) {
 			caseBaseVO.setLoanType("30004005");
 		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		
+
 		toAccesoryListService.getAccesoryList(request, taskitem);
 		request.setAttribute("pricing", toPricingService.qureyPricing(caseCode));
-		return "task/taskPricing";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskPricing";
 	}
-	
-	@RequestMapping(value="savePricing")
+
+	@RequestMapping(value = "savePricing")
 	public String savePricing(HttpServletRequest request, ToPricing toPricing) {
 		toPricingService.saveToPricing(toPricing);
-		return "task/task"+toPricing.getPartCode();
+		return "task/task" + toPricing.getPartCode();
 	}
-	
-	
-	@RequestMapping(value="submitPricing")
+
+	@RequestMapping(value = "submitPricing")
 	@ResponseBody
-	public Result submitPricing(HttpServletRequest request, ToPricing toPricing,
-			String taskId, String processInstanceId) {
+	public Result submitPricing(HttpServletRequest request,
+			ToPricing toPricing, String taskId, String processInstanceId) {
 		toPricingService.saveToPricing(toPricing);
-		
-		/*流程引擎相关*/
+
+		/* 流程引擎相关 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-		ToCase toCase = toCaseService.findToCaseByCaseCode(toPricing.getCaseCode());	
-		workFlowManager.submitTask(variables, taskId, processInstanceId, 
+		ToCase toCase = toCaseService.findToCaseByCaseCode(toPricing
+				.getCaseCode());
+		workFlowManager.submitTask(variables, taskId, processInstanceId,
 				toCase.getLeadingProcessId(), toPricing.getCaseCode());
-		
+
 		/**
-		 * 功能: 给客户发送短信
-		 * 作者：zhangxb16
+		 * 功能: 给客户发送短信 作者：zhangxb16
 		 */
-		Result rs=new Result();
-		try{
-			int result=tgGuestInfoService.sendMsgHistory(toPricing.getCaseCode(), toPricing.getPartCode());
-			if(result>0){
-			}else{
+		Result rs = new Result();
+		try {
+			int result = tgGuestInfoService.sendMsgHistory(
+					toPricing.getCaseCode(), toPricing.getPartCode());
+			if (result > 0) {
+			} else {
 				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
 			}
-		}catch(BusinessException ex){
+		} catch (BusinessException ex) {
 			ex.getMessage();
 		}
-		
+
 		return rs;
 	}
-	
+
 }

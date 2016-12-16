@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.utils.UiImproveUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,9 +43,12 @@ public class ToEvaReportController {
 	@RequestMapping("evaReportArise/process")
 	public String toProcess(HttpServletRequest request,
 			HttpServletResponse response,String caseCode,String source){
+
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		request.setAttribute("caseBaseVO", caseBaseVO);
 		toAccesoryListService.getAccesoryList(request, "evaReportArise");
 		request.setAttribute("toEguPricing", toEguPricingService.findIsFinalEguPricing(caseCode));	
-		return "task/taskEvaReportArise";
+		return "task"+ UiImproveUtil.getPageType(request) +"/taskEvaReportArise";
 	}
 	/**
 	 * 非egu的报告走线下流程
