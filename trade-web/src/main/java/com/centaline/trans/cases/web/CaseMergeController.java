@@ -33,6 +33,7 @@ import com.centaline.trans.common.entity.CaseMergerParameter;
 import com.centaline.trans.cases.vo.CaseMergeVo;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.CaseOriginEnum;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
@@ -186,8 +187,7 @@ public class CaseMergeController {
 			toCase.setCaseCode(caseCode);
 			toCase.setCaseProperty("30003008");//自建案件
 			toCase.setStatus("30001001");//未分单
-			//toCase.setCaseOrigin(CaseOriginEnum.INPUT.getCode());
-			toCase.setCaseOrigin("INPUT");			
+			toCase.setCaseOrigin(CaseOriginEnum.INPUT.getCode());					
 			toCaseService.insertSelective(toCase);
 			
 			//TODO

@@ -71,6 +71,9 @@
       <if test="closeTime != null">
         CLOSE_TIME,
       </if>    
+      <if test="caseOrigin != null">
+        CASE_ORIGIN,
+      </if>   
  
         UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
@@ -104,6 +107,9 @@
       </if>
       <if test="closeTime != null">
         #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="caseOrigin != null">
+        #{caseOrigin,jdbcType=VARCHAR},
       </if>
         GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
