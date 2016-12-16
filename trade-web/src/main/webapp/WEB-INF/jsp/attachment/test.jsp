@@ -43,7 +43,7 @@
     <div class="mt30">
         <h2 class="newtitle title-mark">上传附件</h2>
         
-        <div class="table-box" id="fileUploadcontainer">
+        <div class="table-box" id="fileUploadContainer">
             
         </div>
     </div>
