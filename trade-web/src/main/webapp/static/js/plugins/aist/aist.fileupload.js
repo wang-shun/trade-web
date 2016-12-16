@@ -15,7 +15,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 				  
 				  var settings = $.extend({
 						ctx  :  window.ctx,
-						fileUploadcontainer : "fileUploadcontainer",
+						fileUploadContainer : "fileUploadContainer",
 						auto: false,
 						duplicate: true,
 						accept: {
@@ -94,10 +94,10 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					webUploader = uploader;
 					
 					//初始化事件
-					initDeleteImgEvent(settings.fileUploadcontainer);
+					initDeleteImgEvent(settings.fileUploadContainer);
 					initImgViewer();
 					
-					$("#"+settings.fileUploadcontainer).on("click",".webuploader-element-invisible", function() {
+					$("#"+settings.fileUploadContainer).on("click",".webuploader-element-invisible", function() {
 						var $this = $(this).parent().parent() ;
 						// 去掉其他被选择的
 						$("."+settings.pick).removeClass("checked");
@@ -163,19 +163,19 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					});
 			  };
 			  
-			  initDeleteImgEvent = function (fileUploadcontainer) {
-				    var $li = $("#"+fileUploadcontainer).find("li");
-				    var $btns = $("#"+fileUploadcontainer).find("div.file-panel");
+			  initDeleteImgEvent = function (fileUploadContainer) {
+				    var $li = $("#"+fileUploadContainer).find("li");
+				    var $btns = $("#"+fileUploadContainer).find("div.file-panel");
 				    
-				    $("#"+fileUploadcontainer).on('mouseenter', 'li', function() {
+				    $("#"+fileUploadContainer).on('mouseenter', 'li', function() {
 				    	$(this).find("div.file-panel").stop().animate({height: 30});
 				    });
 				    
-				    $("#"+fileUploadcontainer).on('mouseleave', 'li', function() {
+				    $("#"+fileUploadContainer).on('mouseleave', 'li', function() {
 				    	$(this).find("div.file-panel").stop().animate({height: 0});
 				    });
 				    
-				    $("#"+fileUploadcontainer).on('click', 'div.file-panel>span:nth-child(1)', function() {
+				    $("#"+fileUploadContainer).on('click', 'div.file-panel>span:nth-child(1)', function() {
 			            var index = $(this).index(),
 			                deg;
 
@@ -231,8 +231,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						success : function(data) {
 						  
 							var fileuploadHtml = createTempleteHtml(settings,data);
-							$("#"+settings.fileUploadcontainer).empty();
-							$("#"+settings.fileUploadcontainer).html(fileuploadHtml);
+							$("#"+settings.fileUploadContainer).empty();
+							$("#"+settings.fileUploadContainer).html(fileuploadHtml);
 			                
 			                if(webUploader!=null && webUploader!=''){
 			                	webUploader.destroy();
