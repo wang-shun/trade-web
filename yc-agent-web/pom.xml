@@ -17,7 +17,7 @@
 		<version>1.4.1.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -27,7 +27,45 @@
 		<mybatis.version>3.4.1</mybatis.version>
 		<mybatis-spring.version>1.2.3</mybatis-spring.version>
 	</properties>
-
+	
+	<repositories>
+        <repository>
+            <id>nexus</id>
+            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>interval:1</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+    <distributionManagement>
+        <repository>
+            <id>releases.nexus.aist.io</id>
+            <name>AIST Nexus Releases Repository</name>
+            <url>http://nexus.aist.io/nexus/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots.nexus.aist.io</id>
+            <name>AIST Nexus Releases Repository</name>
+            <url>http://nexus.aist.io/nexus/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -18,44 +18,6 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	
-	<repositories>
-        <repository>
-            <id>nexus</id>
-            <url>http://10.4.19.211/nexus/content/repositories/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>interval:1</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus</id>
-            <url>http://10.4.19.211/nexus/content/repositories/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-    <distributionManagement>
-        <repository>
-            <id>centaline.release</id>
-            <name>Nexus Releases Repository</name>
-            <url>http://10.4.19.211/nexus/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>centaline.snapshots</id>
-            <name>Nexus Snapshots Repository</name>
-            <url>http://10.4.19.211/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -69,6 +31,45 @@
 		<tomcat.warFile>partner</tomcat.warFile>
 		<skipTests>true</skipTests>
 	</properties>
+	
+	<repositories>
+        <repository>
+            <id>nexus</id>
+            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>interval:1</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+    <distributionManagement>
+        <repository>
+            <id>releases.nexus.aist.io</id>
+            <name>AIST Nexus Releases Repository</name>
+            <url>http://nexus.aist.io/nexus/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots.nexus.aist.io</id>
+            <name>AIST Nexus Releases Repository</name>
+            <url>http://nexus.aist.io/nexus/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 	<profiles>		
 		<profile>
 			<id>dev</id>

@@ -15,6 +15,6 @@ public interface StuffService {
 	 *      2. 调用流程引擎启动相关的补丁流程。
 	 * @param stuffComment
 	 */
-	public void reqStuff(ToCaseComment stuffComment);
+	public void reqStuff(ToCaseComment stuffComment, Boolean isNotifyCustoemr);
 
 }
