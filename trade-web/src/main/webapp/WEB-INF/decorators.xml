@@ -89,6 +89,7 @@
 		<pattern>/report/caseLossRateList</pattern>
 		<pattern>/report/caseLossRateReasonList</pattern>
 		<pattern>/test/*</pattern>
+		<pattern>/caseMerge/caseRecord</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

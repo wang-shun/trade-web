@@ -13,6 +13,7 @@
 		<module>trade-web</module>
 		<module>trade-frontend</module>
 		<module>trade-service</module>
+		<module>yc-par-portal</module>
 	</modules>
 	
 	<scm>
@@ -22,7 +23,7 @@
     <repositories>
         <repository>
             <id>nexus</id>
-            <url>http://10.4.19.211/nexus/content/repositories/public/</url>
+            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -35,7 +36,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>nexus</id>
-            <url>http://10.4.19.211/nexus/content/repositories/public/</url>
+            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -46,14 +47,14 @@
     </pluginRepositories>
     <distributionManagement>
         <repository>
-            <id>centaline.release</id>
-            <name>Nexus Releases Repository</name>
-            <url>http://10.4.19.211/nexus/content/repositories/releases</url>
+            <id>releases.nexus.aist.io</id>
+            <name>AIST Nexus Releases Repository</name>
+            <url>http://nexus.aist.io/nexus/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>centaline.snapshots</id>
-            <name>Nexus Snapshots Repository</name>
-            <url>http://10.4.19.211/nexus/content/repositories/snapshots</url>
+            <id>snapshots.nexus.aist.io</id>
+            <name>AIST Nexus Releases Repository</name>
+            <url>http://nexus.aist.io/nexus/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <build>

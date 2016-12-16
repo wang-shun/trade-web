@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -27,6 +29,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.common.entity.CaseMergerParameter;
 import com.centaline.trans.cases.vo.CaseMergeVo;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -277,4 +280,54 @@ public class CaseMergeController {
 		return toCase;
 	}
 	
+
+	/**
+	 * 案件记录
+	 * @author hejf10
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "caseRecord")
+	public String caseRecord(ServletRequest request) {
+		SessionUser user = uamSessionService.getSessionUser();
+		request.setAttribute("orgid", user.getServiceDepId());
+		return "case/caseRecord";
+	}
+	@RequestMapping(value="mergeCase")
+	@ResponseBody
+	public AjaxResponse<?> mergeCase(CaseMergerParameter caseInfo, HttpServletRequest request){
+		AjaxResponse<?> response = new AjaxResponse<>();
+		try{
+			toCaseService.mergeCase(caseInfo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			String sOut = "";
+	        StackTraceElement[] trace = e.getStackTrace();
+	        for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
+			response.setMessage(e.getMessage()+"异常："+sOut);
+			e.printStackTrace();
+		}
+		return response;
+	}	
+	
+	@RequestMapping(value="updateMergeCase")
+	@ResponseBody
+	public AjaxResponse<?> updateMergeCase(CaseMergerParameter caseInfo, HttpServletRequest request){
+		AjaxResponse<Boolean> response = new AjaxResponse<>();
+		try{
+			toCaseService.updateMergeCase(caseInfo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			String sOut = "";
+			StackTraceElement[] trace = e.getStackTrace();
+			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
+			response.setMessage(e.getMessage()+"异常："+sOut);
+			e.printStackTrace();
+		}
+		if(StringUtils.equals(caseInfo.getType(), "1")){response.setContent(true);}
+		if(StringUtils.equals(caseInfo.getType(), "0")){response.setContent(false);}
+		return response;
+	}	
 }

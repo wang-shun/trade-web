@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.login.vo.MobileHolder;
 
 @Controller
@@ -34,7 +35,7 @@ public class MortgageController {
 
     @RequestMapping(value = "/{mortCode}")
     @ResponseBody
-    public Map<String, Object> mortgageCaseDetail(@PathVariable String mortCode) {
+    public String mortgageCaseDetail(@PathVariable String mortCode) {
 
         List<Map<String, Object>> respDetail = mortgageCaseInfoQuery(queryDetail, mortCode, 1, 10);
 
@@ -48,7 +49,9 @@ public class MortgageController {
         result.put("mortProcess", respMortProc);
         result.put("tradeProcess", respTradeProc);
 
-        return result;
+        String str = JSONObject.toJSONString(result);
+
+        return str;
     }
 
     private List<Map<String, Object>> mortgageCaseInfoQuery(String queryId, String caseCode,

@@ -13,6 +13,9 @@
     <result column="CLOSE_TIME" jdbcType="VARCHAR" property="closeTime" />
     <result column="loan_Req" jdbcType="VARCHAR" property="loanReq" />  
  
+    <result column="CASE_ORIGIN" jdbcType="VARCHAR" property="caseOrigin" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
     PKID, CASE_CODE, CTM_CODE, CREATE_TIME, STATUS, CASE_PROPERTY, LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME,loan_Req
@@ -140,6 +143,9 @@
       </if>
         UPDATE_TIME = GETDATE(),
         UPDATE_BY = @{SESSION_USER_ID},
+        <if test="caseOrigin != null">
+        CASE_ORIGIN  = #{caseOrigin,jdbcType=VARCHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
