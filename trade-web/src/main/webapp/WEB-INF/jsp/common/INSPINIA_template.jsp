@@ -36,6 +36,11 @@
     <link href="${ctx}/css/font-awesome.min.css" rel="stylesheet">
     
     <link href="${ctx}/css/plugins/jqGrid/aist-jqgird-ui.custom.css" rel="stylesheet">
+    <script type="text/javascript">
+	    var ctx = '${ctx}';
+	    window.ctx=ctx;
+    </script>
+    <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/config.js"></script>
 	<script type="text/javascript">
 		try{
 			var ctx="${ctx}";
@@ -155,7 +160,7 @@
     <script src="${ctx}/js/bootstrap.js"></script>
     <!-- Custom and plugin javascript -->
     <script src="${ctx}/js/inspinia.js"></script>
-    <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+    <%-- <script src="${ctx}/js/plugins/pace/pace.min.js"></script> --%>
     <!-- jQuery UI -->
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>

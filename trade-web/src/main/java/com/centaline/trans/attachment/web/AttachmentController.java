@@ -74,11 +74,11 @@ public class AttachmentController {
 
 	private static String url = null;
 	
-	@RequestMapping(value = "test")
+	@RequestMapping(value = "test1")
 	public String test(HttpServletRequest request) {
 		request.setAttribute("caseCode", "ZY-SH-201611-0071");
 		toAccesoryListService.getAccesoryList(request, "Guohu");
-		return "attachment/test";
+		return "attachment/test1";
 	}
 
 	@RequestMapping(value = "saveAttachment")

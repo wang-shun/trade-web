@@ -104,7 +104,7 @@ table.dataTable thead .sorting:after {
   background-color: #dcdcdc;
 }
 .table thead tr th {
-  background-color: #4bccec;
+  background-color: #4bccec!important;
   font-size: 14px;
   font-weight: normal;
   color: #fff;

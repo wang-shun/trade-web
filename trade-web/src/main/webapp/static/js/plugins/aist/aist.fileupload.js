@@ -6,7 +6,7 @@
  * 
  */
 
-define(["jquery","template","viewer","webuploader"],function($, template,viewer,WebUploader) {
+define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template,viewer,WebUploader) {
 
 
 			  webUploader = '';

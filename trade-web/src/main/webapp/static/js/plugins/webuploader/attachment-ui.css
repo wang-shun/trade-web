@@ -394,3 +394,10 @@
 
     -webkit-transform: translateZ(0);
 }
+
+.table thead tr th {
+	background-color: #4bccec!important;
+    font-size: 14px;
+    font-weight: normal;
+    color: #fff;
+}
