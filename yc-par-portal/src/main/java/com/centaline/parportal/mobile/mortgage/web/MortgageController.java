@@ -1,4 +1,4 @@
-package com.centaline.parportal.mobile.mortgage.controller;
+package com.centaline.parportal.mobile.mortgage.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
