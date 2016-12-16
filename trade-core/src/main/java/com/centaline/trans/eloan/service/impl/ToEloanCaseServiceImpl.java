@@ -290,5 +290,10 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		toEloanCaseMapper.eloanInfoForUpdate(toEloanCase);
 	}
 
+	@Override
+	public ToEloanCase selectByEloanCode(String eloanCode) {
+		return toEloanCaseMapper.selectByEloanCode(eloanCode);
+	}
+
 
 }
