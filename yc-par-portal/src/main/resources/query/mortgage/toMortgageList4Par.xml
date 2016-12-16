@@ -53,6 +53,7 @@
 					m.CREATE_TIME 			as applyTime,
 					'AJDK'	 				as prdType,
 					M.case_code 		as caseCode,
+					CAST(M.PKID as varchar)			as bizCode,
 					''							as status
 				from
 					sctrans.T_TO_MORTGAGE M
@@ -91,6 +92,7 @@
 				<column type="both" name="applyTime" index=""  beanFormatter="dateFormatter" expFmt="yyyy/MM/dd" expType="date" />
 				<column type="both" name="prdType" index="" />
 				<column type="both" name="caseCode" index="" />
+				<column type="both" name="bizCode" index="" />
 				<column type="both" name="status" index="" />
 			</table-row>
 		</grid>

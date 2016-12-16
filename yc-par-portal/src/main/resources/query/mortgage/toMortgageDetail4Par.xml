@@ -44,7 +44,8 @@
 			<baseSql>
 				<![CDATA[  	
 			   SELECT
-						    M.PKID           ,
+			   				M.PKID,
+						    CAST(M.PKID as varchar)	AS bizCode,
 						    'AJDK'              			AS prdType,
 						    M.CASE_CODE         AS mortInfo_mortCode,
 						    M.MORT_TYPE         AS mortInfo_mortType,
@@ -53,9 +54,9 @@
 						    M.MORT_TOTAL_AMOUNT 	AS mortInfo_totalAmount,
 						    M.COM_AMOUNT       			AS mortInfo_comAmount,
 						    CAST(M.COM_YEAR as varchar) + '年'          	AS mortInfo_comYear,
-						    M.COM_DISCOUNT      		AS mortInfo_comDiscount,
-						    M.PRF_AMOUNT        			AS mortInfo_prfAmount,
-						    CAST(M.PRF_YEAR as varchar) + '年'          	AS mortInfo_prfYear,
+						    M.COM_DISCOUNT      			AS mortInfo_comDiscount,
+						    ISNULL(M.PRF_AMOUNT,0) 	AS mortInfo_prfAmount                   ,
+            					ISNULL(CAST(M.PRF_YEAR AS VARCHAR) + '年','') 	AS mortInfo_prfYear,
 						    M.LOAN_AGENT        			AS yuOperator_userId,
 						    M.LOAN_AGENT_TEAM   		AS yuOperator_teamId,
 						    
@@ -92,11 +93,13 @@
 			<groupSql>
 			</groupSql>
 			<orderBySql>
+						 ORDER BY M.PKID DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
 			<column type="both" name="prdType" display="prdType"  />
+			<column type="both" name="bizCode" display="bizCode"  />
 			<column type="both" name="mortInfo_mortCode" display="abc"  />
 			<column type="both" name="mortInfo_mortType" display="mortInfo.mortType"  customDict="qqcdMortType" />
 			<column type="both" name="mortInfo_refundType" display="mortInfo_refundType"  />
