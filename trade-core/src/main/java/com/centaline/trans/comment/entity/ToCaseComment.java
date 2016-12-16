@@ -18,6 +18,16 @@ public class ToCaseComment {
     private Date updateTime;
 
     private String updateBy;
+    
+    private String creatorOrgId;
+    
+    private String source;
+    
+    private String type;
+    
+    private String parentId;
+    
+    private String bizCode;
 
     public Long getPkid() {
         return pkid;
@@ -82,4 +92,44 @@ public class ToCaseComment {
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
+
+	public String getCreatorOrgId() {
+		return creatorOrgId;
+	}
+
+	public void setCreatorOrgId(String creatorOrgId) {
+		this.creatorOrgId = creatorOrgId;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getBizCode() {
+		return bizCode;
+	}
+
+	public void setBizCode(String bizCode) {
+		this.bizCode = bizCode;
+	}
 }
