@@ -69,7 +69,10 @@
 		<pattern>/material/materialDetail</pattern>
 		<pattern>/material/materialStay</pattern>
 	    <pattern>/case/myCaseList</pattern>
-	    <pattern>/caseMerge/addCase</pattern>
+	    <pattern>/caseMerge/addCase/case</pattern>
+	    <pattern>/caseMerge/addCase/eloan</pattern>
+	   	<pattern>/caseMerge/addCase/spv</pattern>
+	    <pattern>/caseMerge/saveCaseInfo</pattern>	    
 	    <pattern>/case/caseForChange</pattern>
 		<pattern>/case/caseDistribute</pattern>
 		<pattern>/case/unlocatedCase</pattern> 

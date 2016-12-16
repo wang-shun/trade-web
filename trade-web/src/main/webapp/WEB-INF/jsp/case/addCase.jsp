@@ -41,7 +41,7 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox-content" id="reportFive">
-       <form  action="${ctx}/caseMerge/saveCaseInfo"  method="post"  id="saveCaseInfo">
+       <form  action="${ctx}/caseMerge/saveCaseInfo/${flag}"  method="post"  id="saveCaseInfo">
 	       <div  class="form_list">
 	          <div class="title"> 新建自录单</div>
 	          <div class="line">

@@ -105,10 +105,10 @@ $("#blocksSelect").select2({
 			    "Cache-Control":"no-cache","Connection":"keep-alive","Content-Length":"71","Content-Type":"application/json;charset=UTF-8","X-Requested-With":"XMLHttpRequest",
 			    "Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"GET,POST"
 			},*/
-			   beforeSend : function(request){
-			    	request.setRequestHeader("Accept","application/json,text/javascript,*/*;q=0.01");				    	    
-			    	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");			    	    	
-			    },
+		   beforeSend : function(request){
+		    	request.setRequestHeader("Accept","application/json,text/javascript,*/*;q=0.01");				    	    
+		    	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");			    	    	
+		    },
 
 		    data: function (params) {		    	
 		    	var data={

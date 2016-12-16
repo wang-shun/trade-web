@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,15 +30,16 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.common.entity.CaseMergerParameter;
 import com.centaline.trans.cases.vo.CaseMergeVo;
+import com.centaline.trans.common.entity.CaseMergerParameter;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CaseOriginEnum;
+import com.centaline.trans.common.enums.CasePropertyEnum;
+import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
-
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -94,8 +96,10 @@ public class CaseMergeController {
 	 * @return
 	 */
 
-	@RequestMapping(value="addCase")
-	public String caseForChange(Model model, ServletRequest request){
+	@RequestMapping(value="addCase/{keyFlag}")
+	public String caseForChange(Model model, ServletRequest request,@PathVariable String keyFlag){
+		
+		model.addAttribute("flag",keyFlag);
 		
 		return "case/addCase";
 	}	
@@ -164,8 +168,9 @@ public class CaseMergeController {
 
 	
 	//自录案件信息保存
-	@RequestMapping("saveCaseInfo")
-	public String saveCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo){
+	@RequestMapping("saveCaseInfo/{keyFlag}")
+	public String saveCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo,@PathVariable String keyFlag){
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		ToCase toCase = new ToCase();
 		ToCaseInfo toCaseInfo = new ToCaseInfo();
@@ -191,8 +196,8 @@ public class CaseMergeController {
 			
 			//TODO
 			toCase.setCaseCode(caseCode);
-			toCase.setCaseProperty("30003008");//自建案件
-			toCase.setStatus("30001001");//未分单
+			toCase.setCaseProperty(CasePropertyEnum.TPZJ.getCode());//自建案件
+			toCase.setStatus(CaseStatusEnum.WFD.getCode());//未分单
 			toCase.setCaseOrigin(CaseOriginEnum.INPUT.getCode());					
 			toCaseService.insertSelective(toCase);
 			
@@ -213,7 +218,17 @@ public class CaseMergeController {
 			}
 		}		
 		
-		return "case/mycase_list2";
+		if(!"".equals(keyFlag) && null != keyFlag){
+			if("case".equals(keyFlag)){
+				return  "case/mycase_list2";				
+			}else if("eloan".equals(keyFlag)){
+				return  "eloan/task/taskEloanList";							
+			}else if("spv".equals(keyFlag)){
+				return  "spv/saveSpvCase";						
+			}
+		}
+	   
+		return  "case/mycase_list2";
 	}
 	
 	private int insertIntoGuestInfo(List<String> nameList, List<String> phoneList,String caseCode,int flag) {
