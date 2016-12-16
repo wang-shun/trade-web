@@ -165,6 +165,22 @@
 	                           <span class="date_icon">万元</span>
 	                        </div>
 	                    </div>
+	                    	                     <div class="line">
+	                        <div class="form_content">
+	                            <label class="control-label sign_left_small">是否刷卡<font color=" red" class="mr5" >*</font></label> 
+	                           <select  class="select_control yuanwid" name="useCardPay" id="useCardPay" onchange="showcardPayAmount()">
+	                           <option value="0" ${houseTransfer.useCardPay eq '0'?'selected="selected"':'' }" >否</option>
+	                           <option value="1" ${houseTransfer.useCardPay eq '1'?'selected="selected"':'' }">是</option>
+	                           </select>
+	                        </div>
+	                        <div class="form_content" id="showcardPayAmount" style="display:${houseTransfer.useCardPay eq '1'?'block':'none' }">
+	                            <label class="control-label sign_left_small">刷卡金额<font color=" red" class="mr5" >*</font></label> 
+	                            <input type="text" class=" input_type yuanwid" id="cardPayAmount"
+								name=cardPayAmount onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${ houseTransfer.cardPayAmount}' type='number' pattern='#0.00' />">
+	                           <span class="date_icon">万元</span>
+	                        </div>
+	                    </div>
 	                    <c:if test="${toMortgage != null }">
 	                    <div class="line">
 	                        <div class="form_content">
@@ -438,7 +454,15 @@
 				}
 			});
 		}
-
+        function showcardPayAmount(){
+        	var  isCardPay=$("#useCardPay").val();
+        	if(isCardPay==1){
+               $("#showcardPayAmount").show();
+        	}else{
+        		$("#showcardPayAmount").hide();
+        	}
+        	
+        }
 		$(document).ready(
 				function() {
 					var isDelegateYucui = '${toMortgage.isDelegateYucui}';
@@ -734,7 +758,11 @@
 				$('input[name=landIncrementTax]').focus();
 				return false;
 			}
-
+			if ($('select[name=useCardPay]').val() ==1&& $('input[name=cardPayAmount]').val() == '') {
+				alert("刷卡总金额为必填项!");
+				$('input[name=cardPayAmount]').focus();
+				return false;
+			}
 			var _mortType = $('#mortType').find(':selected').val();
 			var _comDiscount = $('input[name=comDiscount]').val();
 			if ((_mortType == '30016001' && _comDiscount == '')

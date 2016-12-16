@@ -249,7 +249,8 @@ function caseTransferExportToExcel() {
 	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT');
 	displayColomn.push('ELOAN_PRO_TYPE_KA');
 	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT_STRING');
-
+	displayColomn.push('USE_CARD_PAY');
+	displayColomn.push('CARD_PAY_AMOUNT');
 	var params = getParamsValue();	
 	var queryId = '&queryId=newQueryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;

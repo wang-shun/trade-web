@@ -11,13 +11,15 @@
     <result column="BUSINESS_TAX" property="businessTax" jdbcType="DECIMAL" />
     <result column="CONTRACT_TAX" property="contractTax" jdbcType="DECIMAL" />
     <result column="LAND_INCREMENT_TAX" property="landIncrementTax" jdbcType="DECIMAL" />
+    <result column="USE_CARD_PAY" property="useCardPay" jdbcType="CHAR" />
+    <result column="CARD_PAY_AMOUNT" property="cardPayAmount" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToHouseTransfer" extends="BaseResultMap" >
     <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, PART_CODE, CASE_CODE, REAL_HT_TIME, HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, 
-    BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX
+    BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,USE_CARD_PAY,CARD_PAY_AMOUNT
   </sql>
   <sql id="Blob_Column_List" >
     COMMENT
@@ -77,6 +79,12 @@
       <if test="comment != null" >
         COMMENT,
       </if>
+       <if test="useCardPay != null" >
+        USE_CARD_PAY,
+      </if>
+        <if test="cardPayAmount != null" >
+        CARD_PAY_AMOUNT,
+      </if>
         CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -110,6 +118,12 @@
       <if test="comment != null" >
         #{comment,jdbcType=LONGVARCHAR},
       </if>
+       <if test="useCardPay != null" >
+        #{useCardPay,jdbcType=CHAR},
+      </if>
+        <if test="cardPayAmount != null" >
+        #{cardPayAmount,jdbcType=DECIMAL},
+      </if>
         GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
@@ -142,6 +156,12 @@
       </if>
       <if test="comment != null" >
         COMMENT = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+       <if test="useCardPay != null" >
+       USE_CARD_PAY= #{useCardPay,jdbcType=CHAR},
+      </if>
+        <if test="cardPayAmount != null" >
+        CARD_PAY_AMOUNT=#{cardPayAmount,jdbcType=DECIMAL},
       </if>
         UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},
     </set>
