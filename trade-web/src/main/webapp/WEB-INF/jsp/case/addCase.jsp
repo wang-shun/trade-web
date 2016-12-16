@@ -61,8 +61,8 @@
 	                  </select>                  
 	              </div>
 	          </div>	          
-	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="7786503">
-	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="上海虹口区临平路片区天宝路466弄15号1802室"> <!-- 产证地址待定 -->
+	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="140603093859B9126A9A39DD0B831A23">
+	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="上海虹口区外滩88888888号"> <!-- 产证地址待定 -->
         </div>
        
        <div class="form_list table-capital"  id="isRepeatCase" style="display:none">

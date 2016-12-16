@@ -169,6 +169,7 @@ public class CaseMergeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ToCase toCase = new ToCase();
 		ToCaseInfo toCaseInfo = new ToCaseInfo();
+		ToPropertyInfo toPropertyInfo = new ToPropertyInfo();
 		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
 		String month = dateStr.substring(0, 6);
 		String caseCode = uamBasedataService.nextSeqVal("CASE_ZL_CODE", month);
@@ -182,6 +183,11 @@ public class CaseMergeController {
 			insertIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
 			insertIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
 			
+			toPropertyInfo.setCaseCode(caseCode);
+			toPropertyInfo.setPropertyCode(caseMergeVo.getPropertyCode() == null? "":caseMergeVo.getPropertyCode());
+			toPropertyInfo.setPropertyCode(caseMergeVo.getPropertyAddr() == null? "":caseMergeVo.getPropertyAddr());
+		    toPropertyInfoService.insertSelective(toPropertyInfo);
+
 			
 			//TODO
 			toCase.setCaseCode(caseCode);
