@@ -23,6 +23,13 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -46,50 +53,49 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
-		<div class=" wrapper border-bottom white-bg page-heading">
-			<div class="row">
-			<div class="col-lg-10">
-				<h2>临时银行审批</h2>
-				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
-			</div>
-			<div class="col-lg-2"></div>
-			</div>
-		</div>
-		
-		
-		
-			<div class="ibox-content">
-			<div class="row form-group">
-				<label class="col-sm-2 control-label">临时银行原因:</label>
-				<div class="col-xs-3">${mortage.tmpBankReason }</div>
-			</div>
-			<div class="row form-group">
-				<label class="col-sm-2 control-label">贷款银行：</label>
-				<div class="col-md-4" style="height: 38px">
-
-				<select name="bank_type" class="form-control" id="bank_type"  ${post ne 'manager'?'disabled="true"':''} >
-				</select>
-				</div>
-
-				<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：
-				</label>
-				<div class="col-md-4" style="height: 38px">
-
-					<select name="finOrgCode" class="form-control" id="finOrgCode" ${post ne 'manager'?'disabled="true"':''} >
-					</select>
-				</div>
-			</div>
-			
-		</div>
-		
-		
-		<div class="ibox-title">
-			<h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form method="get" class="form-horizontal" id="lamform">
+	<div class="panel " id="serviceFlow">
+            <div class="row wrapper white-bg new-heading ">
+             <div class="pl10">
+                 <h2 class="newtitle-big">
+                        临时银行处理
+                    </h2>
+                <div class="mt20">
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+                            <i class="iconfont icon">&#xe600;</i> 在途单列表
+                        </button>
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+                            <i class="iconfont icon">&#xe63f;</i> 案件视图
+                        </button>
+                    </div>
+             </div>
+        </div>
+				
+        <div class="ibox-content border-bottom clearfix space_box noborder">
+                    <div>
+                        <div class="form_list">
+                            <div class="marinfo">
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">临时银行原因</label>
+                                        <span>${mortage.tmpBankReason }</span>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">贷款银行</label>
+                                        <select name="bank_type" class="select_control" id="bank_type"  ${post ne 'manager'?'disabled="true"':''} ></select>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">贷款支行</label>
+                                        <select name="finOrgCode" class="select_control" id="finOrgCode" ${post ne 'manager'?'disabled="true"':''} ></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div>
+                <h2 class="newtitle title-mark">填写任务信息</h2>
+                <form method="get" class="form-horizontal" id="lamform">
 				    <input type="hidden" name="post" value="${post}">
 				    <input type="hidden" name="bankCode" id="bankCode">
 				    <input type="hidden" name="prAddress" value="${caseBaseVO.toPropertyInfo.propertyAddr }">
@@ -106,36 +112,40 @@
 					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
 					<input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }">
 					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<div class="form-group">
-						<label class="col-sm-2 control-label">审批结果</label>
-						<div class="col-sm-3">
-							<div class="radio i-checks radio-inline">
-								<label> 
-									<input type="radio" checked="checked" value="true" id="optionsRadios1" name="tmpBankCheck">审批通过
-								</label>
-								<label> 
-									<input type="radio" value="false" id="optionsRadios2" name="tmpBankCheck">审批不通过
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">审批意见</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="temBankRejectReason" name="temBankRejectReason" value="">
-						</div>
-					</div>
-				</form>
+                <div class="form_list">
+                    <div class="marinfo">
+                        <div class="line">
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">审批结果</label>
+                                <div class="controls ">
+                                   <label class="radio inline"> 
+                                   <input type="radio" checked="checked" value="true" id="optionsRadios1" name="tmpBankCheck">审批通过
+                                   </label> 
+                                   <label class="radio inline"> 
+                                   <input type="radio" value="false" id="optionsRadios2" name="tmpBankCheck">审批不通过
+                                   </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">备注</label>
+                                <input class="input_type optionwid" id="temBankRejectReason" name="temBankRejectReason">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div> 
+            </div>
 
-			</div>
-		</div>
-		
 		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
+		<div class="ibox-title">
+		<div class="view-content" id="caseCommentList"> </div>
 		</div>
 		
-		<div class="ibox-title">
-			<h5>审批记录</h5>
+		<div id="aboutInfo" class="ibox-title">
+			<h5 class="newtitle title-mark">审批记录</h5>
 			<div class="ibox-content">
 				<div class="jqGrid_wrapper">
 					<table id="reminder_list"></table>
@@ -144,8 +154,11 @@
 			</div>
 		</div>
 		<div class="ibox-title">
-			<!-- <a href="#" class="btn" onclick="save()">保存</a> -->
-			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+			<div class="form-btn">
+                <div class="text-center">
+                     <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+                </div>
+            </div>
 		</div>
 	</div>
 
@@ -163,6 +176,10 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script>
+	<!-- 改版引入的新的js文件 --> 
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	<script>   
 		$(document).ready(function(){
 			//添加银行和支行 
@@ -304,6 +321,4 @@
 	</script> 
 	</content>
 </body>
-
-
 </html>

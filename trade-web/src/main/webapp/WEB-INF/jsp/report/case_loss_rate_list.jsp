@@ -106,7 +106,7 @@
 								      <div class="tab-pane active" id="tabZb" style="display: block" >
 								   </c:when> 
 								</c:choose>	
-                                   <table class="table table_blue table-striped table-bordered table-hover " >
+                                   <table class="table table-small table-striped table-bordered table-hover " >
                                        <thead>
                                        <tr>
 											<th >组别</th>
@@ -139,7 +139,7 @@
 							      <div class="tab-pane active" id="tabGb" style="display: none" >
 							   </c:when> 
 							</c:choose>	
-                                   <table class="table table_blue table-striped table-bordered table-hover " >
+                                   <table class="table table-small table-striped table-bordered table-hover " >
                                        <thead>
                                        <tr>
 											<th>贵宾服务部</th>

@@ -30,7 +30,15 @@
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<!-- 新调整页面样式 -->
 <link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
+
+
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var coworkService = "${firstFollow.coworkService }";
@@ -61,7 +69,7 @@
 .product-type span{margin:0 5px 5px 0}
 .product-type .selected,.product-type span:hover{border-color:#f8ac59}
 
-#corss_area{padding:0;margin-top:-15px;}
+#corss_area{padding:0;}
 #corss_area select{float:right;height:34px;border-radius:2px;margin-left:20px;}
 .pb10{padding-bottom:15px;}
 </style>
@@ -69,76 +77,78 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
  <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+
 	<div class="">
-		<div class="row wrapper border-bottom white-bg page-heading">
-	         <div class="col-md-10">
-	             <h2>贷款需求选择</h2>            
-	             <ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-	             </ol>
-	         </div>
- 		</div>	
-		<div class="ibox-title pb15">
-			<h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form method="get" class="form-horizontal" id="firstFollowform">
-					
-					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-					<!-- 流程引擎需要字段 -->
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					
-					<input type="hidden" id="pkid" name="pkid" value="${loanReleasePlan.pkid}">
-					<div class="row">
-						<div class="col-xs-12 col-md-5">
-							<div class="form-group" id="data_1" name="isYouXiao">
-									<label class="col-md-4 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>请选择客户贷款需求</label>
-									<div class="col-md-8">
-										<aist:dict clazz="form-control" id="mortageService" name="mortageService" 
-								display="select" defaultvalue="0" dictType="mortage_service" />
-									</div>
-								</div>
+		<div class="row wrapper white-bg new-heading ">
+			<div class="pl10">
+				<h2 class="newtitle-big">
+					贷款需求选择
+				</h2>
+				<div class="mt20">
+					<button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+						<i class="iconfont icon">&#xe600;</i> 在途单列表
+					</button>
+					<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+						<i class="iconfont icon">&#xe63f;</i> 案件视图
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="ibox-content border-bottom clearfix space_box noborder">
+
+			<form method="get" class="form-horizontal" id="firstFollowform">
+			<%--环节编码 --%>
+			<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+			<!-- 交易单编号 -->
+			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+			<!-- 流程引擎需要字段 -->
+			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+
+			<input type="hidden" id="pkid" name="pkid" value="${loanReleasePlan.pkid}">
+			<h2 class="newtitle title-mark">填写任务信息</h2>
+			<div class="form_list">
+				<div class="marinfo">
+					<div class="line">
+						<div class="form_content">
+							<label class="control-label sign_left_small">客户贷款需求</label>
+							<aist:dict clazz="select_control" id="mortageService" name="mortageService"
+									   display="select" defaultvalue="0" dictType="mortage_service" />
 						</div>
-					</div>
-					<div class="row" id='div_releasePlan'>
-						<div class="col-xs-12 col-md-5">
-							<div class="form-group">
-								<label class="col-md-4 control-label" style='padding-left: 0px;text-align:left;'><font color="red">*</font>预计放款时间</label>
-								<div class="col-md-8">
-									<div class=" input-group date">
-									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-									<input type="text" class="form-control" name="estPartTime" id="estPartTime" disabled="disabled"
-								 value="<fmt:formatDate  value='${loanReleasePlan.estPartTime}' type='both' pattern='yyyy-MM-dd'/>">
-								 </div>
-						</div>
+						<div class="form_content" id="div_releasePlan">
+							<label class="control-label sign_left_small select_style mend_select">
+								预计放款时间
+							</label>
+							<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+								<input class="input_type yuanwid datatime" type="text" name="estPartTime" id="estPartTime" disabled="disabled"
+									   value="<fmt:formatDate  value='${loanReleasePlan.estPartTime}' type='both' pattern='yyyy-MM-dd'/>">
 							</div>
 						</div>
 					</div>
+					<div class="line" id="hzxm">
 
-					<div class="row">
-					*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。
 					</div>
-					<div class="divider"><hr></div>
-					<div id="hzxm">
+
+					<div class="line">
+						<p class="ml20">请注意：当您选择纯公积金贷款人，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。</p>
 					</div>
-				</form>
+				</div>
+			</div>
+			</form>
+
+			<div class="view-content" id="caseCommentList"> </div>
+
+			<div class="form-btn">
+				<div class="text-center">
+					<%--<button  class="btn btn-success btn-space">保存</button>--%>
+					<button class="btn btn-success btn-space" onclick="submit()">提交</button>
+				</div>
 			</div>
 		</div>
-		
-		<!-- 备注信息 -->
-		<div id="caseCommentList" class="add_form">
-		</div>
-		
-		<div class="ibox-title">
-			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
-		</div>
-		
+
 	</div>
-	
+
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<content tag="local_script"> 
 	<!-- jqGrid -->
@@ -167,6 +177,9 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<!-- 改版引入的新的js文件 -->
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	<script>
 		$(document).ready(function(){
 			/*根据贷款服务项，设置默认合作项目*/
@@ -207,18 +220,15 @@
 					data : {"serviceCode":'3000400201'},
 					success : function(data) {
 						txt = "<div class='row'>";
-					    txt += "<div class='col-xs-12 col-md-8'>";
-					    txt += "<div class='form-group'  name='isYouXiao'>";
-					    txt += "<label class='col-md-2 control-label'>合作项目</label>";
-					    txt += "<div class='col-md-10'>";
+					    txt += "<div class='col-xs-2 col-md-3'>";
+					    txt += "<div class=''  name='isYouXiao'>";
 						txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/>";
-						txt += "<p id='' class='form-control-static'>"+data.dic.dictName+"</p>";
 						txt += "</div>";
 						txt += "</div>";
 						txt += "</div>";
 						txt += "<div class='col-xs-12 col-md-4'>";
 						txt += "<div class='form-group' id='data_1' name='isYouXiao'>";
-						txt += "<label class='col-md-4 control-label'><font color='red'>*</font>合作顾问</label>";
+						txt += "<label class='col-md-3 control-label sign_left_small' style='margin-right: 0px;padding-left: 0px;'><font color='red'>*</font>合作顾问</label>";
 						txt += "<div class='col-md-8'>";
 						txt += "<select class='form-control m-b' name='unCrossPartner' id='cooperationUser"+index+"'>";
 						txt += "<option value='0'>----未选择----</option>";
@@ -272,7 +282,7 @@
 			
 			var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
 			var corsstxt = "";
-			corsstxt += "<div class='col-md-12' id='corss_area'>";
+			corsstxt += "<div class='col-md-4' id='corss_area'>";
 			corsstxt += "<select name='crossPartner' id='crossConsult"+index+"'>";
 			corsstxt += "<option value='0'>----人员----</option>";
 			corsstxt += '</select>';

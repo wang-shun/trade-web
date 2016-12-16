@@ -531,39 +531,22 @@ public class ToCaseServiceImpl implements ToCaseService {
 		ToCase toCase = toCaseMapper.findToCaseByCaseCode(toCaseMerge.getCaseCode());
 		ToCase ctmToCase = toCaseMapper.findToCaseByCaseCode(toCaseMerge.getcCaseCode());
 		if(StringUtils.equals(toCase.getCaseCode(),ctmToCase.getCaseCode())){throw new BusinessException("同一案件不能进行合并!"); }
+		if(StringUtils.equals(ctmToCase.getCaseProperty(),CasePropertyEnum.TPWX.getCode())){throw new BusinessException("无效案件不能进行合并!"); }
 		
-		List<TgGuestInfo> toCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(toCase.getCaseCode());
-		List<TgGuestInfo> ctmToCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(ctmToCase.getCaseCode());
+		//List<TgGuestInfo> toCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(toCase.getCaseCode());
+		//List<TgGuestInfo> ctmToCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(ctmToCase.getCaseCode());
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
 		
-		//1.更新表t_to_case
-		toCase.setCaseOrigin(CaseMergeStatusEnum.MERGE.getCode());
-		toCase.setCtmCode(toCaseMerge.getCtmCode());
-		toCase.setCaseProperty("30003007");
-		toCase.setLeadingProcessId(ctmToCase.getLeadingProcessId());
-		toCase.setOrgId(ctmToCase.getOrgId());
-		toCase.setUpdateBy(user.getId());
-		toCase.setUpdateTime(new Date());
-		toCaseMapper.updateByPrimaryKeySelective(toCase);
-		//2.更新表T_TG_GUEST_INFO
-		/*for(TgGuestInfo toCaseTg:ctmToCaseTgList){
-			toCaseTg.set
-			tgGuestInfoMapper.updateByPrimaryKeySelective(toCaseTg);
-		}*/
-		//3.更新表T_TO_CASE_INFO
-		ToCaseInfo caseInfo = copyToCaseInfo(user,toCaseInfo,ctmtoCaseInfo);
-		toCaseInfoMapper.updateByPrimaryKey(caseInfo);
-		//4.更新T_TO_CASE_MERGE
-		toCaseMerge.setApplyStatus("1");
-		toCaseMerge.setUpdateBy(user.getId());
-		toCaseMerge.setUpdateTime(new Date());
-		toCaseMerge.setConfirmorId(user.getId());
-		toCaseMerge.setConfirmorOrgId(user.getServiceDepId());
-		toCaseMerge.setConfirmorTime(new Date());
-		toCaseMerge.setApplyDirection("0");
-		toCaseMergeMapper.updateByPrimaryKeySelective(toCaseMerge);
+		/**1.更新表t_to_case**/
+		toCaseMapper.updateByPrimaryKeySelective(setUpdateToCase(user,toCase,ctmToCase,toCaseMerge));
+		toCaseMapper.updateByPrimaryKeySelective(setUpdateCTMToCase(user,ctmToCase));
+		/**2.更新表T_TO_CASE_INFO**/
+		toCaseInfoMapper.updateByPrimaryKey(copyToCaseInfo(user,toCaseInfo,ctmtoCaseInfo));
+		/**3.更新T_TO_CASE_MERGE**/
+		toCaseMergeMapper.updateByPrimaryKeySelective(setUpdateToCaseMerges(user,toCaseMerge));
 	}
+	
 	/**
 	 * 驳回合流申请
 	 * @author hejf10
@@ -598,9 +581,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 		ToCase toCase = toCaseMapper.selectByPrimaryKey(Long.valueOf(pkId));
 		ToCase ctmToCase = toCaseMapper.selectByPrimaryKey(Long.valueOf(ctmPkId));
 		
-		if(null != toCase.getCreateTime()){throw new BusinessException("自建案件创建时间为空，不支持合流!"); }
-		if(null != ctmToCase.getCreateTime()){throw new BusinessException("导入案件创建时间为空，不支持合流!"); }
-		if(ctmToCase.getCreateTime().before(toCase.getCreateTime())){throw new BusinessException("导入案件创建时间为空必须在自建案件之后!"); }
+//		if(null != toCase.getCreateTime()){throw new BusinessException("自建案件创建时间为空，不支持合流!"); }
+//		if(null != ctmToCase.getCreateTime()){throw new BusinessException("导入案件创建时间为空，不支持合流!"); }
+//		if(ctmToCase.getCreateTime().before(toCase.getCreateTime())){throw new BusinessException("导入案件创建时间为空必须在自建案件之后!"); }
 		if(StringUtils.isBlank(ctmToCase.getCaseCode())){throw new BusinessException("ctm案件CaseCode为空!"); }
 		if(StringUtils.isBlank(toCase.getCaseCode())){throw new BusinessException("自建案件CaseCode为空!"); }
 		if(StringUtils.equals(toCase.getCaseCode(),ctmToCase.getCaseCode())){throw new BusinessException("同一案件不能进行合并!"); }
@@ -619,12 +602,16 @@ public class ToCaseServiceImpl implements ToCaseService {
 		if(StringUtils.isBlank(ctmToCase.getCtmCode())){throw new BusinessException("ctm案件CtmCode为空!"); }
 		if(StringUtils.isBlank(ctmtoPropertyInfo.getPropertyCode())){throw new BusinessException("ctm案件PropertyCode为空!"); }
 		if(StringUtils.isBlank(ctmtoPropertyInfo.getPropertyAddr())){throw new BusinessException("ctm案件PropertyAddr为空!"); }
-		//2.更新t_to_case
+		/**2.更新t_to_case**/
 		toCase.setCaseOrigin(CaseMergeStatusEnum.PROCESS.getCode());
 		toCaseMapper.updateByPrimaryKeySelective(toCase);
-		//3.更新表T_TO_CASE_INFO
-		ToCaseMerge toCaseMerge = setToCaseMerges( user,toCase, ctmToCase, toCaseInfo, ctmtoCaseInfo, toPropertyInfo, ctmtoPropertyInfo);
+		/**3.更新表T_TO_CASE_INFO**/
+		ToCaseMerge toCaseMerge = setToCaseMerges(user,toCase,ctmToCase,toCaseInfo,ctmtoCaseInfo,toPropertyInfo,ctmtoPropertyInfo);
 		toCaseMergeMapper.insertSelective(toCaseMerge);
+		if(StringUtils.equals(ctmToCase.getStatus(),CaseStatusEnum.WFD.getCode())){
+			caseMergerParameter.setId(toCaseMerge.getPkid().toString());
+			agreeMergeCase(user,caseMergerParameter);
+		}
 		
 	}
 	/**
@@ -656,6 +643,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseInfo.setUpdateTime(new Date());
 		return toCaseInfo;
 	}
+	
 	/**
 	 * 设置ToCaseMerge表值
 	 * @author hejf10
@@ -727,14 +715,46 @@ public class ToCaseServiceImpl implements ToCaseService {
 		return toCaseMerge;
 	}
 	/**
-	 * 功能：生成caseCode 编号, 规则为 SDyyyyMMddHHmmss
-	 * 描述：当调用 apiCaseCode() 方法失败时, 就调用此方法[generateCode()]
+	 * 设置ToCase表值
+	 * @author hejf10
+	 * @return
 	 */
-	public String generateCode(){
-		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
-		String month = dateStr.substring(0, 6);
-		String caseCodeGenerate = uamBasedataService.nextSeqVal("CASE_CODE", month);
-		return caseCodeGenerate;
+	public ToCase setUpdateToCase(SessionUser user,ToCase toCase,ToCase ctmToCase,ToCaseMerge toCaseMerge){
+		toCase.setCaseOrigin(CaseMergeStatusEnum.MERGE.getCode());
+		toCase.setCtmCode(toCaseMerge.getCtmCode());
+		toCase.setCaseProperty("30003007");
+		toCase.setLeadingProcessId(ctmToCase.getLeadingProcessId());
+		toCase.setOrgId(ctmToCase.getOrgId());
+		toCase.setUpdateBy(user.getId());
+		toCase.setUpdateTime(new Date());
+		return toCase;
+	}
+	/**
+	 * 设置ToCase表值
+	 * @author hejf10
+	 * @return
+	 */
+	public ToCase setUpdateCTMToCase(SessionUser user,ToCase ctmToCase){
+		ctmToCase.setCaseOrigin(CaseMergeStatusEnum.MERGE.getCode());
+		ctmToCase.setCaseProperty(CasePropertyEnum.TPWX.getCode());
+		ctmToCase.setUpdateBy(user.getId());
+		ctmToCase.setUpdateTime(new Date());
+		return ctmToCase;
+	}
+	/**
+	 * 设置ToCaseMerge表值
+	 * @author hejf10
+	 * @return
+	 */
+	public ToCaseMerge setUpdateToCaseMerges(SessionUser user,ToCaseMerge toCaseMerge){
+		toCaseMerge.setApplyStatus("1");
+		toCaseMerge.setUpdateBy(user.getId());
+		toCaseMerge.setUpdateTime(new Date());
+		toCaseMerge.setConfirmorId(user.getId());
+		toCaseMerge.setConfirmorOrgId(user.getServiceDepId());
+		toCaseMerge.setConfirmorTime(new Date());
+		toCaseMerge.setApplyDirection("0");
+		return toCaseMerge;
 	}
 	
 }

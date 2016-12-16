@@ -397,19 +397,19 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		RestVariable restVariable5 = new RestVariable();
 		restVariable5.setName("SelfLoanNeed");
 
-		if (loanTyby.equals("1")) {/* 中原 组合贷 */
+		if ("1".equals(loanTyby)) {/* 中原 组合贷 */
 			restVariable1.setValue(true);
 			restVariable2.setValue(false);
 			restVariable5.setValue(false);
-		} else if (loanTyby.equals("2")) {/* 中原 公积金 */
+		} else if ("2".equals(loanTyby)) {/* 中原 公积金 */
 			restVariable1.setValue(false);
 			restVariable2.setValue(true);
 			restVariable5.setValue(false);
-		} else if (loanTyby.equals("3")) {/* 自办 组合贷 */
+		} else if ("3".equals(loanTyby)) {/* 自办 组合贷 */
 			restVariable1.setValue(false);
 			restVariable2.setValue(false);
 			restVariable5.setValue(true);
-		} else if (loanTyby.equals("4")) {/* 自办 公积金 */
+		} else if ("4".equals(loanTyby)) {/* 自办 公积金 */
 			restVariable1.setValue(false);
 			restVariable2.setValue(false);
 			restVariable5.setValue(true);

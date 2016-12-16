@@ -71,7 +71,7 @@
 	<tr>
     <td>
         <p class="big">
-            <input type="radio" value="{{item.pkId}}" id="mergePkid" name="mergePkid" />
+            <input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" />
         </p>
     </td>
     <td>

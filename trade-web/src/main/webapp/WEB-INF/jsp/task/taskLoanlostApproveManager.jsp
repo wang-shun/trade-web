@@ -221,8 +221,8 @@
 			//保存数据
 			function save() {
 				var jsonData = $("#lamform").serializeArray();
-				//var url = "${ctx}/task/loanlostApprove/loanlostApproveFirst";
-				var url = "${ctx}/task/loanlostApprove/loanlostApproveFirstNew"; // 启用新流程				
+				var url = "${ctx}/task/loanlostApprove/loanlostApproveFirst";
+
 				$.ajax({
 					cache : true,
 					async : false,//false同步，true异步
@@ -253,8 +253,7 @@
 							});
 						}
 					},
-					success : function(data) {						
-						//console.log("Result=============="+JSON.stringify(data));
+					success : function(data) {
 						window.close();
 						if (window.opener) {
 							window.opener.callback();
@@ -263,7 +262,7 @@
 					error : function(errors) {
 						alert("数据保存出错");
 					}
-				});				
+				});
 			}
 
 			//验证控件checkUI();
@@ -278,6 +277,7 @@
 	<!-- 图片查看JS -->
 	<script src="${ctx}/transjs/task/showAttachmentByLssp.js"></script>
 	<script	src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 

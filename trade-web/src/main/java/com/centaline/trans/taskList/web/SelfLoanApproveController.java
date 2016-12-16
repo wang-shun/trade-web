@@ -16,6 +16,7 @@ import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.service.LoanlostApproveService;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping("/task/selfLoanApprove")
@@ -32,31 +33,35 @@ public class SelfLoanApproveController {
 	private TgGuestInfoService tgGuestInfoService;
 
 	@RequestMapping(value = "process")
-	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		//税费卡
+		// 税费卡
 		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if ( cou >0) {
+		if (cou > 0) {
 			caseBaseVO.setLoanType("30004005");
 		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("approveType", "1");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		request.setAttribute("caseDetail",
-				loanlostApproveService.queryCaseInfo(caseCode, "LoanlostApply", processInstanceId));
-		ToMortgage mortgage = toMortgageService.findToSelfLoanMortgage(caseCode);
+		request.setAttribute("caseDetail", loanlostApproveService
+				.queryCaseInfo(caseCode, "LoanlostApply", processInstanceId));
+		ToMortgage mortgage = toMortgageService
+				.findToSelfLoanMortgage(caseCode);
 		request.setAttribute("SelfLoan", mortgage);
 		if (mortgage != null && mortgage.getCustCode() != null) {
-			TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long.parseLong(mortgage.getCustCode()));
+			TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long
+					.parseLong(mortgage.getCustCode()));
 			if (null != guest) {
 				request.setAttribute("custCompany", guest.getWorkUnit());
 				request.setAttribute("custName", guest.getGuestName());
 			}
 		}
 		;
-		return "task/taskSelfLoanApprove";
+		return "task" + UiImproveUtil.getPageType(request)
+				+ "/taskSelfLoanApprove";
 	}
 }

@@ -19,9 +19,10 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.transplan.vo.TransPlanVO;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
-@RequestMapping(value="/task/transPlan")
+@RequestMapping(value = "/task/transPlan")
 public class TransPlanController {
 
 	@Autowired
@@ -31,56 +32,69 @@ public class TransPlanController {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+
 	@RequestMapping("process")
-	public String toProcess(HttpServletRequest request, HttpServletResponse response,
-			String caseCode, String source, String taskitem, String instCode) {
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response, String caseCode, String source,
+			String taskitem, String instCode) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if ( cou >0) {
+		if (cou > 0) {
 			caseBaseVO.setLoanType("30004005");
 		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 
-		RestVariable dy = workFlowManager.getVar(instCode, "LoanCloseNeed");/*抵押*/
-		
-		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
-		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/*自办*/
-		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/*贷款*/
-		boolean dk =  ((boolean)(psf==null?false:psf.getValue())||(boolean)(self==null?false:self.getValue())||(boolean)(com==null?false:com.getValue()));
-		request.setAttribute("dy", dy==null?false:dy.getValue());
+		RestVariable dy = workFlowManager.getVar(instCode, "LoanCloseNeed");/* 抵押 */
+
+		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/* 公积金 */
+		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/* 自办 */
+		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/* 贷款 */
+		boolean dk = ((boolean) (psf == null ? false : psf.getValue())
+				|| (boolean) (self == null ? false : self.getValue()) || (boolean) (com == null ? false
+				: com.getValue()));
+		request.setAttribute("dy", dy == null ? false : dy.getValue());
 		request.setAttribute("dk", dk);
-		request.setAttribute("transPlan", transplanServiceFacade.findTransPlanByCaseCode(caseCode));
-		return "task/taskTransPlanFilling";
+		request.setAttribute("transPlan",
+				transplanServiceFacade.findTransPlanByCaseCode(caseCode));
+		return "task" + UiImproveUtil.getPageType(request)
+				+ "/taskTransPlanFilling";
 	}
-	@RequestMapping(value="saveTransPlan")
+
+	@RequestMapping(value = "saveTransPlan")
 	@ResponseBody
-	public Boolean saveTransPlan(HttpServletRequest request, TransPlanVO transPlanVO) {
+	public Boolean saveTransPlan(HttpServletRequest request,
+			TransPlanVO transPlanVO) {
 		transplanServiceFacade.saveToTransPlan(transPlanVO);
 		return true;
 	}
-	
-	@RequestMapping(value="submitTransPlan")
+
+	@RequestMapping(value = "submitTransPlan")
 	@ResponseBody
-	public boolean submitTransPlan(HttpServletRequest request, TransPlanVO transPlanVO) {
+	public boolean submitTransPlan(HttpServletRequest request,
+			TransPlanVO transPlanVO) {
 		transplanServiceFacade.saveToTransPlan(transPlanVO);
-		
-		/*流程引擎相关*/
+
+		/* 流程引擎相关 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
-		ToCase toCase = toCaseService.findToCaseByCaseCode(transPlanVO.getCaseCode());	
-		
-		return workFlowManager.submitTask(variables, transPlanVO.getTaskId(), transPlanVO.getProcessInstanceId(), 
+		ToCase toCase = toCaseService.findToCaseByCaseCode(transPlanVO
+				.getCaseCode());
+
+		return workFlowManager.submitTask(variables, transPlanVO.getTaskId(),
+				transPlanVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), transPlanVO.getCaseCode());
 	}
+
 	/**
 	 * 页面初始化
+	 * 
 	 * @param model
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="showTransPlanHistory")
-	public String showTransPlanHistory(String caseCode, ServletRequest request){
+	@RequestMapping(value = "showTransPlanHistory")
+	public String showTransPlanHistory(String caseCode, ServletRequest request) {
 		request.setAttribute("caseCode", caseCode);
 		return "trans/trans_history_list";
 	}

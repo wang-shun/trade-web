@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.print.DocPrintJob;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,7 +39,6 @@ import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.OrgNameEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.FirstFollowService;
@@ -51,15 +49,13 @@ import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScope;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.team.service.TsTeamScopeService;
-import com.centaline.trans.team.vo.CooperativeOrganizationVO;
-import com.google.gson.JsonObject;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value = "/task/firstFollow")
 public class FirstFollowController {
 
 	@Autowired(required = true)
-
 	private UamSessionService uamSessionService;/* 用户信息 */
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;/* 用户组织信息 */
@@ -88,23 +84,27 @@ public class FirstFollowController {
 	private BizWarnInfoService bizWarnInfoService;
 
 	@RequestMapping("process")
-	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source) {
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response, String caseCode, String source) {
 		SessionUser user = uamSessionService.getSessionUser();
 		request.setAttribute("source", source);
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("ctmCode", caseBaseVO.getToCase().getCtmCode());
-		request.setAttribute("firstFollow", firstFollowService.queryFirstFollow(caseCode));
+		request.setAttribute("firstFollow",
+				firstFollowService.queryFirstFollow(caseCode));
 		request.setAttribute("approveType", "0");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
+		BizWarnInfo bizWarnInfo = bizWarnInfoService
+				.getBizWarnInfoByCaseCode(caseCode);
 		request.setAttribute("bizWarnInfo", bizWarnInfo);
 		request.setAttribute("caseCode", caseCode);
-		return "task/taskFirstFollow";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskFirstFollow";
 	}
 
 	@RequestMapping(value = "saveFirstFollow")
-	public String saveFirstFollow(HttpServletRequest request, FirstFollowVO firstFollowVO) {
+	public String saveFirstFollow(HttpServletRequest request,
+			FirstFollowVO firstFollowVO) {
 		SessionUser user = uamSessionService.getSessionUser();
 
 		firstFollowVO.setUserId(user.getId());
@@ -115,7 +115,8 @@ public class FirstFollowController {
 
 	@RequestMapping(value = "queryMortageService")
 	@ResponseBody
-	public Map<String, Object> queryMortageService(HttpServletRequest request, String value, String caseCode) {
+	public Map<String, Object> queryMortageService(HttpServletRequest request,
+			String value, String caseCode) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		/* 获得基础服务项 */
 		String zbkServices = "";
@@ -123,10 +124,12 @@ public class FirstFollowController {
 		// 获取当前用户
 		SessionUser user = uamSessionService.getSessionUser();
 		String depCode = user.getServiceDepCode();
-		TsTeamProperty tsTeamProperty = tsTeamPropertyService.findTeamPropertyByTeamCode(depCode);
+		TsTeamProperty tsTeamProperty = tsTeamPropertyService
+				.findTeamPropertyByTeamCode(depCode);
 		Set<String> myService = new HashSet<String>();//
 		if (tsTeamProperty != null && tsTeamProperty.getTeamProperty() != null) {
-			Dict dict = uamBasedataService.findDictByType(tsTeamProperty.getTeamProperty());
+			Dict dict = uamBasedataService.findDictByType(tsTeamProperty
+					.getTeamProperty());
 			if (dict != null) {
 				List<Dict> list = dict.getChildren();
 				if (list != null && list.size() != 0) {
@@ -151,10 +154,12 @@ public class FirstFollowController {
 						}
 					}
 					if (zbkServices.length() > 0) {
-						zbkServices = zbkServices.substring(0, zbkServices.length() - 1);
+						zbkServices = zbkServices.substring(0,
+								zbkServices.length() - 1);
 					}
 					if (serviceView.length() > 0) {
-						serviceView = serviceView.substring(0, serviceView.length() - 1);
+						serviceView = serviceView.substring(0,
+								serviceView.length() - 1);
 					}
 				}
 			}
@@ -208,7 +213,8 @@ public class FirstFollowController {
 		 */
 
 		// 4 根据orgCode 到 T_TS_TEAM_SCOPE 表中去查询合作组的 orgCode
-		List<TsTeamScope> tsTeamScopes = tsTeamScopeService.selectByOrgCode(orgCode);
+		List<TsTeamScope> tsTeamScopes = tsTeamScopeService
+				.selectByOrgCode(orgCode);
 
 		// --------------------------- end
 		// --------------------------------------
@@ -223,7 +229,8 @@ public class FirstFollowController {
 			TsTeamProperty tp = new TsTeamProperty();
 			tp.setYuTeamCode(ts.getYuTeamCode());
 			tp.setIsResponseTeam("0"); /* 合作组必须为非主办组 */
-			TsTeamProperty ttps = tsTeamPropertyService.findTeamPropertyCooperation(tp);
+			TsTeamProperty ttps = tsTeamPropertyService
+					.findTeamPropertyCooperation(tp);
 			if (ttps != null) {/* 有符合条件的合作组 */
 
 				List<Dict> dictList = getDictList(ttps.getTeamProperty());
@@ -238,7 +245,7 @@ public class FirstFollowController {
 								continue;
 							}
 						}
-						if(myService.contains(d.getCode())){
+						if (myService.contains(d.getCode())) {
 							continue;
 						}
 						List<String> tList = serviceOrgMap.get(d.getCode());
@@ -260,11 +267,13 @@ public class FirstFollowController {
 			for (String orgStr : orgs) {
 				if (orgUserMap.get(orgStr) == null) {
 					Org org = uamUserOrgService.getOrgByCode(orgStr);
-					List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-							TransJobs.TJYGW.getCode());
+					List<User> list = uamUserOrgService
+							.getUserByOrgIdAndJobCode(org.getId(),
+									TransJobs.TJYGW.getCode());
 					List<JSONObject> jsonList = new ArrayList<>();
 					for (User user3 : list) {
-						int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user3.getId());
+						int userCaseUnTransCount = toCaseInfoService
+								.queryCountUnTransCasesByUserId(user3.getId());
 						JSONObject jsonObject = new JSONObject();
 						jsonObject.put("count", userCaseUnTransCount);
 						jsonObject.put("realName", user3.getRealName());
@@ -291,7 +300,7 @@ public class FirstFollowController {
 					it.remove();
 				}
 			}
-			if(myService.contains(d.getCode())){
+			if (myService.contains(d.getCode())) {
 				it.remove();
 			}
 		}
@@ -319,21 +328,24 @@ public class FirstFollowController {
 
 	@RequestMapping(value = "queryMortageServiceByServiceCode")
 	@ResponseBody
-	public Map<String, Object> queryMortageServiceByServiceCode(HttpServletRequest request, String serviceCode) {
+	public Map<String, Object> queryMortageServiceByServiceCode(
+			HttpServletRequest request, String serviceCode) {
 		String orgCode = null;
 		Map<String, Object> result = new HashMap<>();
 
-		Dict dict = uamBasedataService.findDictByTypeAndCode("yu_all", serviceCode);
+		Dict dict = uamBasedataService.findDictByTypeAndCode("yu_all",
+				serviceCode);
 		SessionUser us = uamSessionService.getSessionUser();
 		if (null != us) {
 			orgCode = us.getServiceDepCode(); // 得到 orgCode
 		}
 
-		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(us.getServiceDepId(),
-				DepTypeEnum.TYCQY.getCode()); // 获取用户的所在的贵宾服务部
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(
+				us.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); // 获取用户的所在的贵宾服务部
 
 		List<JSONObject> jsonList = new ArrayList<>();
-		List<TsTeamScope> tsTeamScopes = tsTeamScopeService.selectByOrgCode(orgCode);
+		List<TsTeamScope> tsTeamScopes = tsTeamScopeService
+				.selectByOrgCode(orgCode);
 		Set<String> orgs = new HashSet<String>();
 		/* 遍历合作组列表 封装ServiceOrgMap */
 		for (int i = 0; i < tsTeamScopes.size(); i++) {
@@ -347,7 +359,8 @@ public class FirstFollowController {
 			/* 浦东合作顾问选中台 */
 			if ("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())) {
 				tp.setYuTeamCode(orgCode);
-				List<TsTeamProperty> ttpps = tsTeamPropertyService.findTeamPropertyCooperations(tp);
+				List<TsTeamProperty> ttpps = tsTeamPropertyService
+						.findTeamPropertyCooperations(tp);
 				if (ttpps != null) {/* 有符合条件的合作组 */
 					for (TsTeamProperty ttp : ttpps) {
 						if (ttp.getYuTeamCode() != null) {
@@ -356,7 +369,8 @@ public class FirstFollowController {
 					}
 				}
 			} else {// 非浦东服务部按原来的逻辑
-				TsTeamProperty ttps = tsTeamPropertyService.findTeamPropertyCooperation(tp);
+				TsTeamProperty ttps = tsTeamPropertyService
+						.findTeamPropertyCooperation(tp);
 				if (ttps != null) {/* 有符合条件的合作组 */
 					List<Dict> dictList = getDictList(ttps.getTeamProperty());
 					if (dictList != null && dictList.size() > 0) {
@@ -378,17 +392,22 @@ public class FirstFollowController {
 			/* 浦东合作顾问选中台 且只选浦东交易1组的中台 */
 			List<User> list = null;
 			if ("FF5BC56E0E4B45289DAA5721A494C7C5".equals(myDistrict.getId())) {
-				if (OrgNameEnum.T_PUDONGTRADEONE_ORG.getCode().equals(org.getOrgCode())) {
-					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.JYUZTGW.getCode());
+				if (OrgNameEnum.T_PUDONGTRADEONE_ORG.getCode().equals(
+						org.getOrgCode())) {
+					list = uamUserOrgService.getUserByOrgIdAndJobCode(
+							org.getId(), TransJobs.JYUZTGW.getCode());
 				} else {
-					list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYGW.getCode());
+					list = uamUserOrgService.getUserByOrgIdAndJobCode(
+							org.getId(), TransJobs.TJYGW.getCode());
 				}
 			} else {
-				list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJYGW.getCode());
+				list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
+						TransJobs.TJYGW.getCode());
 			}
 			if (list != null) {
 				for (User user3 : list) {
-					int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user3.getId());
+					int userCaseUnTransCount = toCaseInfoService
+							.queryCountUnTransCasesByUserId(user3.getId());
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("count", userCaseUnTransCount);
 					jsonObject.put("realName", user3.getRealName());
@@ -405,6 +424,7 @@ public class FirstFollowController {
 
 		return result;
 	}
+
 	/**
 	 * 根据字典类型，获得相应字典数据
 	 * 
@@ -423,14 +443,16 @@ public class FirstFollowController {
 	/* 获取跨区合作的选项 */
 	@RequestMapping("getCrossAeraCooperationItems")
 	@ResponseBody
-	public Map<String, Object> getCrossAeraCooperationItems(HttpServletRequest request) {
+	public Map<String, Object> getCrossAeraCooperationItems(
+			HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		SessionUser us = uamSessionService.getSessionUser();
 
 		// 获取所有的贵宾服务部
-		List<ToOrgVo> orgIdList = toCaseService.getOrgIdAllByDep(DepTypeEnum.TYCQY.getCode());
-		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(us.getServiceDepId(),
-				DepTypeEnum.TYCQY.getCode()); // 获取用户的所在的贵宾服务部
+		List<ToOrgVo> orgIdList = toCaseService
+				.getOrgIdAllByDep(DepTypeEnum.TYCQY.getCode());
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(
+				us.getServiceDepId(), DepTypeEnum.TYCQY.getCode()); // 获取用户的所在的贵宾服务部
 
 		// 获取下拉的贵宾服务组
 		List<JSONObject> jsonList1 = new ArrayList<JSONObject>();
@@ -438,40 +460,51 @@ public class FirstFollowController {
 			for (ToOrgVo toOrgVo : orgIdList) {
 				Org district = uamUserOrgService.getOrgById(toOrgVo.getId());
 				if (!myDistrict.getId().equals(district.getId())
-						&& !"b4c490edc38c431a8dfd7dba98c73fe5".equals(district.getId())
-						&& !"8a8493d4538a517a01539d47b51c1b02".equals(district.getId())) {
+						&& !"b4c490edc38c431a8dfd7dba98c73fe5".equals(district
+								.getId())
+						&& !"8a8493d4538a517a01539d47b51c1b02".equals(district
+								.getId())) {
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("districtId", district.getId());
 					jsonObject.put("districtName", district.getOrgName());
 					jsonList1.add(jsonObject);
 
 					// 获取该贵宾服务部下的后台组
-					List<Org> orgList = uamUserOrgService.getOrgByParentId(district.getId());
+					List<Org> orgList = uamUserOrgService
+							.getOrgByParentId(district.getId());
 					List<JSONObject> jsonList2 = new ArrayList<JSONObject>();
 					if (orgList != null && orgList.size() > 0) {
 						for (Org org : orgList) {
 							TsTeamProperty tsTeamProperty = tsTeamPropertyService
-									.findTeamPropertyByTeamCode(org.getOrgCode());
+									.findTeamPropertyByTeamCode(org
+											.getOrgCode());
 							if (tsTeamProperty != null) {
-								if ("yu_all".equals(tsTeamProperty.getTeamProperty())
-										|| "yu_back".equals(tsTeamProperty.getTeamProperty())) {
+								if ("yu_all".equals(tsTeamProperty
+										.getTeamProperty())
+										|| "yu_back".equals(tsTeamProperty
+												.getTeamProperty())) {
 									JSONObject subJsonObj = new JSONObject();
 									subJsonObj.put("orgId", org.getId());
 									subJsonObj.put("orgName", org.getOrgName());
 									jsonList2.add(subJsonObj);
 
 									// 获取交易顾问
-									List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),
-											TransJobs.TJYGW.getCode());
+									List<User> list = uamUserOrgService
+											.getUserByOrgIdAndJobCode(
+													org.getId(),
+													TransJobs.TJYGW.getCode());
 									List<JSONObject> jsonList3 = new ArrayList<JSONObject>();
 									if (list != null && list.size() > 0) {
 										for (User user : list) {
 											JSONObject userJsonObj = new JSONObject();
 											int userCaseUnTransCount = toCaseInfoService
-													.queryCountUnTransCasesByUserId(user.getId());
+													.queryCountUnTransCasesByUserId(user
+															.getId());
 											userJsonObj.put("id", user.getId());
-											userJsonObj.put("realName", user.getRealName());
-											userJsonObj.put("count", userCaseUnTransCount);
+											userJsonObj.put("realName",
+													user.getRealName());
+											userJsonObj.put("count",
+													userCaseUnTransCount);
 											jsonList3.add(userJsonObj);
 										}
 									}
@@ -491,7 +524,8 @@ public class FirstFollowController {
 
 	@RequestMapping(value = "submit")
 	@ResponseBody
-	public boolean submit(HttpServletRequest request, FirstFollowVO firstFollowVO) {
+	public boolean submit(HttpServletRequest request,
+			FirstFollowVO firstFollowVO) {
 		SessionUser user = uamSessionService.getSessionUser();
 		firstFollowVO.setUserId(user.getId());
 		firstFollowVO.setUserOrgId(getOrgId(user.getId()));
@@ -500,16 +534,19 @@ public class FirstFollowController {
 
 		/* 无效案件保存到审批记录表 */
 		if (firstFollowVO.getCaseProperty().equals("30003001")) {
-			saveToApproveRecord(firstFollowVO, firstFollowVO.getOperator(), firstFollowVO.getApproveType());
-		}else{
-			firstFollowVO=firstFollowService.switchWorkFlowWithCurrentVersion(firstFollowVO);
+			saveToApproveRecord(firstFollowVO, firstFollowVO.getOperator(),
+					firstFollowVO.getApproveType());
+		} else {
+			firstFollowVO = firstFollowService
+					.switchWorkFlowWithCurrentVersion(firstFollowVO);
 		}
 
 		/* 流程引擎相关 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		RestVariable restVariable = new RestVariable();
 		restVariable.setName("isvalid");
-		restVariable.setValue(firstFollowVO.getCaseProperty().equals("30003001"));
+		restVariable.setValue(firstFollowVO.getCaseProperty()
+				.equals("30003001"));
 		variables.add(restVariable);
 		if (firstFollowVO.getCaseProperty().equals("30003001")) {
 			if (!StringUtils.isBlank(firstFollowVO.getInvalid_reason())) {
@@ -524,20 +561,24 @@ public class FirstFollowController {
 			RestVariable restVariable4 = new RestVariable();/* 抵押 */
 			restVariable4.setName("LoanCloseNeed");
 
-			restVariable3.setValue(firstFollowVO.getChaxiangou().equals("true"));
+			restVariable3
+					.setValue(firstFollowVO.getChaxiangou().equals("true"));
 			restVariable4.setValue(firstFollowVO.getDiya().equals("true"));
 
 			variables.add(restVariable3);
 			variables.add(restVariable4);
 
-//			variables = editRestVariables(variables, firstFollowVO.getMortageService());
+			// variables = editRestVariables(variables,
+			// firstFollowVO.getMortageService());
 		}
-		RestVariable signAssignee	 = new RestVariable();
+		RestVariable signAssignee = new RestVariable();
 		signAssignee.setName("signAssignee");
 		signAssignee.setValue(user.getUsername());
 		variables.add(signAssignee);
-		ToCase toCase = toCaseService.findToCaseByCaseCode(firstFollowVO.getCaseCode());
-		return workFlowManager.submitTask(variables, firstFollowVO.getTaskId(), firstFollowVO.getProcessInstanceId(),
+		ToCase toCase = toCaseService.findToCaseByCaseCode(firstFollowVO
+				.getCaseCode());
+		return workFlowManager.submitTask(variables, firstFollowVO.getTaskId(),
+				firstFollowVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), firstFollowVO.getCaseCode());
 		// return false;
 	}
@@ -549,7 +590,8 @@ public class FirstFollowController {
 	 * @param loanTyby
 	 * @return
 	 */
-	private List<RestVariable> editRestVariables(List<RestVariable> variables, String loanTyby) {
+	private List<RestVariable> editRestVariables(List<RestVariable> variables,
+			String loanTyby) {
 
 		RestVariable restVariable1 = new RestVariable();
 		restVariable1.setName("ComLoanNeed");
@@ -611,10 +653,12 @@ public class FirstFollowController {
 	 * @param loanLost
 	 * @param loanLost_response
 	 */
-	private ToApproveRecord saveToApproveRecord(FirstFollowVO firstFollowVO, String operator, String approveType) {
+	private ToApproveRecord saveToApproveRecord(FirstFollowVO firstFollowVO,
+			String operator, String approveType) {
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 		// toApproveRecord.setPkid(loanlostApproveVO.getLapPkid());
-		toApproveRecord.setProcessInstance(firstFollowVO.getProcessInstanceId());
+		toApproveRecord
+				.setProcessInstance(firstFollowVO.getProcessInstanceId());
 		toApproveRecord.setPartCode(firstFollowVO.getPartCode());
 		toApproveRecord.setOperatorTime(new Date());
 		toApproveRecord.setApproveType(approveType);

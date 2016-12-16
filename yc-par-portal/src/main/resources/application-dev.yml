@@ -69,6 +69,7 @@ weiXin.number:
   corpsecret: du8lu_E-kC1zyvofc4CPw53tNFdtF4AnbBXRJ9l9Z3d316FzsLRl1WB2Yqw4VVzB
 #Mybatis
 mybatis: 
-  mapperLocations: classpath:mapper/**/*.xml
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
   typeAliasesPackage: com.centaline.parportal.**.repository
+  configLocation: classpath:/mapper/mappers.xml
     

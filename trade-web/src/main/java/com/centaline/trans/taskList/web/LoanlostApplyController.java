@@ -24,6 +24,7 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping("/task/loanlostApply")
@@ -91,6 +92,6 @@ public class LoanlostApplyController {
 		r.setPartCode("LoanlostApply");
 		r.setProcessInstance(processInstanceId);
 		request.setAttribute("toApproveRecord", toApproveRecordService.queryToApproveRecord(r));
-		return "task/taskLoanlostApply";
+		return "task"+UiImproveUtil.getPageType(request)+"/taskLoanlostApply";
 	}
 }

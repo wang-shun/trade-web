@@ -1148,7 +1148,8 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				from sctrans.T_TO_CASE_INFO i 
 				left join sctrans.T_TO_PROPERTY_INFO t on i.CASE_CODE=t.CASE_CODE
 				left join sctrans.T_TO_CASE c on i.CASE_CODE=c.CASE_CODE 
-				where c.CASE_ORIGIN != 'INPUT'
+				where c.CASE_ORIGIN = 'CTM'
+					  and c.CASE_PROPERTY != '30003001'
 					  and c.CREATE_TIME >DATEADD(mm,-6,GETDATE())
 				 <if test="propertyCode != null">
 					and t.PROPERTY_CODE = #propertyCode#
