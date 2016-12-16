@@ -107,7 +107,10 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 #searchButton{margin-right:5px;}
-
+.table_content .big a{
+	min-width: 140px;
+	display: inline-block;
+}
 </style>
 </head>
 <body>

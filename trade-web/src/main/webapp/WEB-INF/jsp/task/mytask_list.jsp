@@ -141,6 +141,10 @@ text-decoration: underline !important;
 	white-space: normal!important;
 	word-break:break-all!important;
 }
+.table_content .big a{
+	min-width: 140px;
+	display: inline-block;
+}
 </style>
 </head>
 
