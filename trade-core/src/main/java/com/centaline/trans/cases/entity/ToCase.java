@@ -172,14 +172,5 @@ public class ToCase {
 	public void setLoanReq(String loanReq) {
 		this.loanReq = loanReq;
 	}
-
-	public String getCaseOrigin() {
-		return caseOrigin;
-	}
-
-	public void setCaseOrigin(String caseOrigin) {
-		this.caseOrigin = caseOrigin;
-	}
-    
     
 }
