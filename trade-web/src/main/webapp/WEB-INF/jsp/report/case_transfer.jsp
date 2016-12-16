@@ -181,6 +181,7 @@
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:'',chkLast:'true'})"
 												value=''> <input type="hidden" id="yuCuiOriGrpId"
 												name="yuCuiOriGrpId" value="">
+											<input type="hidden" value="${serviceDepId}" id="serviceDepId">
 										</div>
 									</div>
 								</div>

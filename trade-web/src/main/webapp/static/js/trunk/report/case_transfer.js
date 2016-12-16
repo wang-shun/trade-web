@@ -172,7 +172,8 @@ function getParamsValue() {
 		TransferStatus : TransferStatus,
 		managerName : managerName,
 		caseCode : caseCode,
-		propertyAddr : propertyAddr
+		propertyAddr : propertyAddr,
+		serviceDepId :$("#serviceDepId").val()
 	};	
 	return params;
 }
