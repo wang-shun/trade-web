@@ -30,12 +30,124 @@ public class ToCaseInfo {
     private String agentUserName;
     
     private String agentPhone;
+    
     private String arCode;
+    
     private String arName;
     
     private String targetCode;
     
-    public String getTargetCode() {
+    private String qjdsName;
+    
+    private String qyjlName;
+    
+    private String qyzjName;
+    
+    private String swzCode;
+    
+    private String swzName;
+    
+    private String wzCode;
+    
+    private String wzName;
+    
+    private String baCode;
+    
+    private String baName;
+    
+    private String updateby;
+
+	private Date updateTime;
+	
+    public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getUpdateby() {
+		return updateby;
+	}
+
+	public void setUpdateby(String updateby) {
+		this.updateby = updateby;
+	}
+    
+    public String getBaCode() {
+		return baCode;
+	}
+
+	public void setBaCode(String baCode) {
+		this.baCode = baCode;
+	}
+
+	public String getBaName() {
+		return baName;
+	}
+
+	public void setBaName(String baName) {
+		this.baName = baName;
+	}
+
+	public String getSwzCode() {
+		return swzCode;
+	}
+
+	public void setSwzCode(String swzCode) {
+		this.swzCode = swzCode;
+	}
+
+	public String getSwzName() {
+		return swzName;
+	}
+
+	public void setSwzName(String swzName) {
+		this.swzName = swzName;
+	}
+
+	public String getWzCode() {
+		return wzCode;
+	}
+
+	public void setWzCode(String wzCode) {
+		this.wzCode = wzCode;
+	}
+
+	public String getWzName() {
+		return wzName;
+	}
+
+	public void setWzName(String wzName) {
+		this.wzName = wzName;
+	}
+
+	public String getQjdsName() {
+		return qjdsName;
+	}
+
+	public void setQjdsName(String qjdsName) {
+		this.qjdsName = qjdsName;
+	}
+
+	public String getQyjlName() {
+		return qyjlName;
+	}
+
+	public void setQyjlName(String qyjlName) {
+		this.qyjlName = qyjlName;
+	}
+
+	public String getQyzjName() {
+		return qyzjName;
+	}
+
+	public void setQyzjName(String qyzjName) {
+		this.qyzjName = qyzjName;
+	}
+
+	public String getTargetCode() {
 		return targetCode;
 	}
 

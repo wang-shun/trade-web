@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
+import org.redisson.liveobject.resolver.LongGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,7 @@ import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
@@ -26,15 +27,21 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
+import com.centaline.trans.cases.entity.ToCaseMerge;
 import com.centaline.trans.cases.entity.ToOrgVo;
+import com.centaline.trans.cases.repository.ToCaseInfoMapper;
 import com.centaline.trans.cases.repository.ToCaseMapper;
+import com.centaline.trans.cases.repository.ToCaseMergeMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
+import com.centaline.trans.common.entity.CaseMergerParameter;
+import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.CaseMergeStatusEnum;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
@@ -44,7 +51,9 @@ import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
+import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
@@ -59,12 +68,16 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.utils.DateUtil;
+
+import net.sf.jsqlparser.expression.LongValue;
 
 @Service
 @Transactional
@@ -114,6 +127,16 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private TgServItemAndProcessorMapper tgServItemAndProcessorMapper;
 	@Autowired
 	private UamSessionService uamSessionService;
+	@Autowired
+	private TgGuestInfoMapper tgGuestInfoMapper;
+	@Autowired
+	private ToCaseMergeMapper toCaseMergeMapper;
+	@Autowired
+	private UamBasedataService uamBasedataService;
+	@Autowired
+	private ToPropertyInfoMapper toPropertyInfoMapper;
+	@Autowired
+	private ToCaseInfoMapper toCaseInfoMapper;
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
 		return toCaseMapper.updateByPrimaryKey(record);
@@ -467,4 +490,259 @@ public class ToCaseServiceImpl implements ToCaseService {
 			workflowManager.updateTask(task);
 		}
 	}
+	/**
+	 * 合流
+	 * @author hejf10
+	 * @param caseMergerParameter
+	 * @return
+	 */
+	@Override
+	public void updateMergeCase(CaseMergerParameter caseMergerParameter) throws Exception{
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		if(null != caseMergerParameter){
+		if(StringUtils.isBlank(caseMergerParameter.getId())){throw new BusinessException("合流记录id为空!"); }
+		if(StringUtils.isBlank(caseMergerParameter.getType())){ throw new BusinessException("操作状态为空!"); }
+		}else{new BusinessException("合流案件记录为空!");}
+		
+		if(StringUtils.equals(caseMergerParameter.getType(),"1")){
+			agreeMergeCase(user,caseMergerParameter);
+		}
+		if(StringUtils.equals(caseMergerParameter.getType(),"0")){
+			turnMergeCase(user,caseMergerParameter);
+		}
+	}
+	
+	/**
+	 * 合流
+	 * @author hejf10
+	 * @param caseMergerParameter
+	 * @return
+	 */
+	public void agreeMergeCase(SessionUser user,CaseMergerParameter caseMergerParameter) throws Exception{
+
+		ToCaseMerge toCaseMerge = toCaseMergeMapper.selectByPrimaryKey(Long.valueOf(caseMergerParameter.getId()));
+		if(null != toCaseMerge){
+		if(StringUtils.isBlank(toCaseMerge.getCaseCode())){throw new BusinessException("自建案件CaseCode为空!"); }
+		if(StringUtils.isBlank(toCaseMerge.getcCaseCode())){throw new BusinessException("ctm案件CaseCode为空!"); }
+		}else{new BusinessException("合流案件记录为空!");}
+		
+		ToCase toCase = toCaseMapper.findToCaseByCaseCode(toCaseMerge.getCaseCode());
+		ToCase ctmToCase = toCaseMapper.findToCaseByCaseCode(toCaseMerge.getcCaseCode());
+		if(StringUtils.equals(toCase.getCaseCode(),ctmToCase.getCaseCode())){throw new BusinessException("同一案件不能进行合并!"); }
+		
+		List<TgGuestInfo> toCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(toCase.getCaseCode());
+		List<TgGuestInfo> ctmToCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(ctmToCase.getCaseCode());
+		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
+		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
+		
+		//1.更新表t_to_case
+		toCase.setCaseOrigin(CaseMergeStatusEnum.MERGE.getCode());
+		toCase.setCtmCode(toCaseMerge.getCtmCode());
+		toCase.setCaseProperty("30003007");
+		toCase.setLeadingProcessId(ctmToCase.getLeadingProcessId());
+		toCase.setOrgId(ctmToCase.getOrgId());
+		toCase.setUpdateBy(user.getId());
+		toCase.setUpdateTime(new Date());
+		toCaseMapper.updateByPrimaryKeySelective(toCase);
+		//2.更新表T_TG_GUEST_INFO
+		/*for(TgGuestInfo toCaseTg:ctmToCaseTgList){
+			toCaseTg.set
+			tgGuestInfoMapper.updateByPrimaryKeySelective(toCaseTg);
+		}*/
+		//3.更新表T_TO_CASE_INFO
+		ToCaseInfo caseInfo = copyToCaseInfo(user,toCaseInfo,ctmtoCaseInfo);
+		toCaseInfoMapper.updateByPrimaryKey(caseInfo);
+		//4.更新T_TO_CASE_MERGE
+		toCaseMerge.setApplyStatus("1");
+		toCaseMerge.setUpdateBy(user.getId());
+		toCaseMerge.setUpdateTime(new Date());
+		toCaseMerge.setConfirmorId(user.getId());
+		toCaseMerge.setConfirmorOrgId(user.getServiceDepId());
+		toCaseMerge.setConfirmorTime(new Date());
+		toCaseMerge.setApplyDirection("0");
+		toCaseMergeMapper.updateByPrimaryKeySelective(toCaseMerge);
+	}
+	/**
+	 * 驳回合流申请
+	 * @author hejf10
+	 * @param caseMergerParameter
+	 * @return
+	 */
+	public void turnMergeCase(SessionUser user,CaseMergerParameter caseMergerParameter) throws Exception{
+		
+		ToCaseMerge toCaseMerge = toCaseMergeMapper.selectByPrimaryKey(Long.valueOf(caseMergerParameter.getId()));
+		toCaseMerge.setApplyStatus("2");
+		toCaseMerge.setUpdateBy(user.getId());
+		toCaseMerge.setUpdateTime(new Date());
+		toCaseMergeMapper.updateByPrimaryKeySelective(toCaseMerge);
+	}
+	
+	/**
+	 * 设置合流申请
+	 * @author hejf10
+	 * @param caseMergerParameter
+	 * @return
+	 */
+	public void mergeCase(CaseMergerParameter caseMergerParameter) throws Exception{
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		if(null != caseMergerParameter){
+		if(StringUtils.isBlank(caseMergerParameter.getPkId())){throw new BusinessException("自建案件Pkid为空!"); }
+		if(StringUtils.isBlank(caseMergerParameter.getMergePkid())){throw new BusinessException("ctm案件PkId为空!"); }
+		}else{new BusinessException("合流案件为空!");}
+		
+		String pkId =caseMergerParameter.getPkId();
+		String ctmPkId =caseMergerParameter.getMergePkid();
+		ToCase toCase = toCaseMapper.selectByPrimaryKey(Long.valueOf(pkId));
+		ToCase ctmToCase = toCaseMapper.selectByPrimaryKey(Long.valueOf(ctmPkId));
+		
+		if(null != toCase.getCreateTime()){throw new BusinessException("自建案件创建时间为空，不支持合流!"); }
+		if(null != ctmToCase.getCreateTime()){throw new BusinessException("导入案件创建时间为空，不支持合流!"); }
+		if(ctmToCase.getCreateTime().before(toCase.getCreateTime())){throw new BusinessException("导入案件创建时间为空必须在自建案件之后!"); }
+		if(StringUtils.isBlank(ctmToCase.getCaseCode())){throw new BusinessException("ctm案件CaseCode为空!"); }
+		if(StringUtils.isBlank(toCase.getCaseCode())){throw new BusinessException("自建案件CaseCode为空!"); }
+		if(StringUtils.equals(toCase.getCaseCode(),ctmToCase.getCaseCode())){throw new BusinessException("同一案件不能进行合并!"); }
+		
+		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		ToPropertyInfo ctmtoPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(ctmToCase.getCaseCode());
+		
+		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
+		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
+		
+		if(!StringUtils.equals(ctmtoPropertyInfo.getPropertyCode(),toPropertyInfo.getPropertyCode())){throw new BusinessException("PropertyCode不相同的案件不能合流！"); }
+		if(!StringUtils.equals(ctmtoPropertyInfo.getPropertyCode(),toPropertyInfo.getPropertyCode())){throw new BusinessException("PropertyCode不相同的案件不能合流！"); }
+		if(StringUtils.equals(toCase.getCaseOrigin(), CaseMergeStatusEnum.PROCESS.getCode())){throw new BusinessException("已经在申请中的自建案件不能再次申请！"); }
+		if(StringUtils.equals(ctmToCase.getCaseOrigin(), CaseMergeStatusEnum.PROCESS.getCode())){throw new BusinessException("已经在申请中的ctm案件不能再次申请！"); }
+		if(StringUtils.isBlank(toCase.getCaseCode())){throw new BusinessException("自建案件CaseCode为空!"); }
+		if(StringUtils.isBlank(ctmToCase.getCtmCode())){throw new BusinessException("ctm案件CtmCode为空!"); }
+		if(StringUtils.isBlank(ctmtoPropertyInfo.getPropertyCode())){throw new BusinessException("ctm案件PropertyCode为空!"); }
+		if(StringUtils.isBlank(ctmtoPropertyInfo.getPropertyAddr())){throw new BusinessException("ctm案件PropertyAddr为空!"); }
+		//2.更新t_to_case
+		toCase.setCaseOrigin(CaseMergeStatusEnum.PROCESS.getCode());
+		toCaseMapper.updateByPrimaryKeySelective(toCase);
+		//3.更新表T_TO_CASE_INFO
+		ToCaseMerge toCaseMerge = setToCaseMerges( user,toCase, ctmToCase, toCaseInfo, ctmtoCaseInfo, toPropertyInfo, ctmtoPropertyInfo);
+		toCaseMergeMapper.insertSelective(toCaseMerge);
+		
+	}
+	/**
+	 * 拷贝ToCaseInfo
+	 * @param toCaseInfo
+	 * @param ctmtoCaseInfo
+	 * @return
+	 */
+	public ToCaseInfo copyToCaseInfo(SessionUser user,ToCaseInfo toCaseInfo,ToCaseInfo ctmtoCaseInfo){
+		toCaseInfo.setCtmCode(ctmtoCaseInfo.getCtmCode());
+		toCaseInfo.setAgentCode(ctmtoCaseInfo.getAgentCode());
+		toCaseInfo.setAgentName(ctmtoCaseInfo.getAgentName());
+		toCaseInfo.setAgentPhone(ctmtoCaseInfo.getAgentPhone());
+		toCaseInfo.setAgentUserName(ctmtoCaseInfo.getAgentUserName());
+		toCaseInfo.setGrpCode(ctmtoCaseInfo.getGrpCode());
+		toCaseInfo.setGrpName(ctmtoCaseInfo.getGrpName());
+		toCaseInfo.setArCode(ctmtoCaseInfo.getArCode());
+		toCaseInfo.setArName(ctmtoCaseInfo.getArName());
+		toCaseInfo.setQjdsName(ctmtoCaseInfo.getQjdsName());
+		toCaseInfo.setQyjlName(ctmtoCaseInfo.getQyjlName());
+		toCaseInfo.setQyzjName(ctmtoCaseInfo.getQyzjName());
+		toCaseInfo.setSwzCode(ctmtoCaseInfo.getSwzCode());
+		toCaseInfo.setSwzName(ctmtoCaseInfo.getSwzName());
+		toCaseInfo.setWzCode(ctmtoCaseInfo.getWzCode());
+		toCaseInfo.setWzName(ctmtoCaseInfo.getWzName());
+		toCaseInfo.setBaCode(ctmtoCaseInfo.getBaCode());
+		toCaseInfo.setBaName(ctmtoCaseInfo.getBaName());
+		toCaseInfo.setUpdateby(user.getId());
+		toCaseInfo.setUpdateTime(new Date());
+		return toCaseInfo;
+	}
+	/**
+	 * 设置ToCaseMerge表值
+	 * @author hejf10
+	 * @param user
+	 * @param toCase
+	 * @param ctmToCase
+	 * @param toCaseInfo
+	 * @param ctmtoCaseInfo
+	 * @param toPropertyInfo
+	 * @param ctmtoPropertyInfo
+	 * @return
+	 */
+	public ToCaseMerge setToCaseMerges(SessionUser user,ToCase toCase,ToCase ctmToCase,ToCaseInfo toCaseInfo,ToCaseInfo ctmtoCaseInfo,ToPropertyInfo toPropertyInfo,ToPropertyInfo ctmtoPropertyInfo){
+		
+		ToCaseMerge toCaseMerge = new ToCaseMerge();
+		
+		toCaseMerge.setCaseCode(toCase.getCaseCode());
+		toCaseMerge.setcCaseCode(ctmToCase.getCaseCode());//ctmcasecode
+	    toCaseMerge.setCtmCode(ctmToCase.getCtmCode());
+		toCaseMerge.setPropertyCode(ctmtoPropertyInfo.getPropertyCode());
+		toCaseMerge.setPropertyAddr(ctmtoPropertyInfo.getPropertyAddr());
+		toCaseMerge.setcAgentCode(ctmtoCaseInfo.getAgentCode());//ctm
+		toCaseMerge.setcAgentName(ctmtoCaseInfo.getAgentName());
+		toCaseMerge.setcAgentPhone(ctmtoCaseInfo.getAgentPhone());
+		toCaseMerge.setcAgentUsername(ctmtoCaseInfo.getAgentUserName());
+		toCaseMerge.setcAgentGrpCode(ctmtoCaseInfo.getGrpCode());
+		toCaseMerge.setcAgentGrpName(ctmtoCaseInfo.getGrpName());
+		toCaseMerge.setcAgentQyjlName(ctmtoCaseInfo.getQyjlName());
+		toCaseMerge.setcAgentQydsName(ctmtoCaseInfo.getQjdsName());
+		toCaseMerge.setcAgentQyzjName(ctmtoCaseInfo.getQyzjName());
+		toCaseMerge.setcAgentArCode(ctmtoCaseInfo.getArCode());
+		toCaseMerge.setcAgentArName(ctmtoCaseInfo.getAgentName());
+		toCaseMerge.setcAgentSwzCode(ctmtoCaseInfo.getSwzCode());
+		toCaseMerge.setcAgentSwzName(ctmtoCaseInfo.getSwzName());
+		toCaseMerge.setcAgentWzCode(ctmtoCaseInfo.getWzCode());
+		toCaseMerge.setcAgentWzName(ctmtoCaseInfo.getWzName());
+		toCaseMerge.setcAgentBaCode(ctmtoCaseInfo.getBaCode());
+		toCaseMerge.setcAgentBaName(ctmtoCaseInfo.getBaName());
+		toCaseMerge.setAgentCode(toCaseInfo.getAgentCode());//自建
+		toCaseMerge.setAgentName(toCaseInfo.getAgentName());
+		toCaseMerge.setAgentPhone(toCaseInfo.getAgentPhone());
+		toCaseMerge.setAgentUsername(toCaseInfo.getAgentUserName());
+		toCaseMerge.setAgentGrpCode(toCaseInfo.getGrpCode());
+		toCaseMerge.setAgentGrpName(toCaseInfo.getGrpName());
+		toCaseMerge.setAgentQyjlName(toCaseInfo.getQyjlName());
+		toCaseMerge.setAgentQydsName(toCaseInfo.getQjdsName());
+		toCaseMerge.setAgentQyzjName(toCaseInfo.getQyzjName());
+		toCaseMerge.setAgentArCode(toCaseInfo.getArCode());
+		toCaseMerge.setAgentArName(toCaseInfo.getAgentName());
+		toCaseMerge.setAgentSwzCode(toCaseInfo.getSwzCode());
+		toCaseMerge.setAgentSwzName(toCaseInfo.getSwzName());
+		toCaseMerge.setAgentWzCode(toCaseInfo.getWzCode());
+		toCaseMerge.setAgentWzName(toCaseInfo.getWzName());
+		toCaseMerge.setAgentBaCode(toCaseInfo.getBaCode());
+		toCaseMerge.setAgentBaName(toCaseInfo.getBaName());
+		toCaseMerge.setApplierId(user.getId());
+		toCaseMerge.setApplierOrgId(user.getServiceDepId());;
+		toCaseMerge.setOperatorTime(new Date());
+		toCaseMerge.setOperator("1");
+		toCaseMerge.setApplyStatus("0");
+		//toCaseMerge.setConfirmorId("");
+		//toCaseMerge.setConfirmorOrgId("");
+		//toCaseMerge.setConfirmorTime(new Date);
+		toCaseMerge.setApplyDirection("0");
+		toCaseMerge.setCreateBy(user.getId());
+		toCaseMerge.setCreateTime(new Date());
+		//toCaseMerge.setUpdateBy("");
+		//toCaseMerge.setUpdateTime("");
+		return toCaseMerge;
+	}
+	/**
+	 * 功能：生成caseCode 编号, 规则为 SDyyyyMMddHHmmss
+	 * 描述：当调用 apiCaseCode() 方法失败时, 就调用此方法[generateCode()]
+	 */
+	public String generateCode(){
+		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+		String month = dateStr.substring(0, 6);
+		String caseCodeGenerate = uamBasedataService.nextSeqVal("CASE_CODE", month);
+		return caseCodeGenerate;
+	}
+	
 }
+
+
+
+
+
+
+
+

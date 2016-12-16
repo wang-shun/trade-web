@@ -19,6 +19,16 @@
 	<result column="AR_NAME" jdbcType="VARCHAR" property="arName" />
 	<result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone" />
 	<result column="TARGET_CODE" jdbcType="VARCHAR" property="targetCode" />
+	<result column="QJDS_NAME" jdbcType="VARCHAR" property="qjdsName" />
+	<result column="QYJL_NAME" jdbcType="VARCHAR" property="qyjlName" />
+	<result column="QYZJ_NAME" jdbcType="VARCHAR" property="qyzjName" />
+	<result column="SWZ_CODE" jdbcType="VARCHAR" property="swzCode" />
+	<result column="SWZ_NAME" jdbcType="VARCHAR" property="swzName" />
+	<result column="WZ_CODE" jdbcType="VARCHAR" property="wzCode" />
+	<result column="WZ_NAME" jdbcType="VARCHAR" property="wzName" />
+	<result column="BA_CODE" jdbcType="VARCHAR" property="baCode" />
+	<result column="BA_NAME" jdbcType="VARCHAR" property="baName" />
+	
   </resultMap>
   <sql id="Base_Column_List">
     PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
