@@ -108,7 +108,11 @@
 									WHERE AT2.PROC_INST_ID_ = W.INST_CODE  AND AT2.TASK_DEF_KEY_='GuohuApprove'
 								)					
 							)
-					</if>						
+					</if>
+
+					<if test="serviceDepId != null and serviceDepId != ''">
+						AND C.DISTRICT_ID=#serviceDepId#
+					</if>
 
 				]]>
 			</baseSql>

@@ -38,7 +38,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.aop.RefreshTokenAutoAop;
 import com.centaline.parportal.mobile.login.entity.TAppEquipmentBindingDetail;
 import com.centaline.parportal.mobile.login.service.MobileUserService;
-import com.centaline.parportal.mobile.login.service.PropertiesGetService;
 import com.centaline.parportal.mobile.login.service.TAppEquipmentBindingDetailService;
 import com.centaline.parportal.mobile.login.service.TokenService;
 import com.centaline.parportal.mobile.login.vo.MobileHolder;
@@ -61,8 +60,8 @@ public class LoginController {
     private MobileUserService                 mobileUserService;
     @Autowired
     private UamUserOrgService                 uamUserOrgService;
-    @Autowired
-    private PropertiesGetService              propertiesGetService;
+    //    @Autowired
+    //    private PropertiesGetService              propertiesGetService;
 
     @Autowired
     private UamBasedataService                uamBasedataService;

@@ -19,6 +19,16 @@
 	<result column="AR_NAME" jdbcType="VARCHAR" property="arName" />
 	<result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone" />
 	<result column="TARGET_CODE" jdbcType="VARCHAR" property="targetCode" />
+	<result column="QJDS_NAME" jdbcType="VARCHAR" property="qjdsName" />
+	<result column="QYJL_NAME" jdbcType="VARCHAR" property="qyjlName" />
+	<result column="QYZJ_NAME" jdbcType="VARCHAR" property="qyzjName" />
+	<result column="SWZ_CODE" jdbcType="VARCHAR" property="swzCode" />
+	<result column="SWZ_NAME" jdbcType="VARCHAR" property="swzName" />
+	<result column="WZ_CODE" jdbcType="VARCHAR" property="wzCode" />
+	<result column="WZ_NAME" jdbcType="VARCHAR" property="wzName" />
+	<result column="BA_CODE" jdbcType="VARCHAR" property="baCode" />
+	<result column="BA_NAME" jdbcType="VARCHAR" property="baName" />
+	
   </resultMap>
   <sql id="Base_Column_List">
     PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
@@ -95,6 +105,9 @@
       <if test="agentPhone != null" >
         AGENT_PHONE,
       </if>
+      <if test="targetCode != null" >
+        TARGET_CODE,
+      </if>
        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -146,6 +159,9 @@
       <if test="agentPhone != null" >
         #{agentPhone,jdbcType=VARCHAR},
       </if>
+      <if test="targetCode != null" >
+        #{targetCode,jdbcType=VARCHAR},
+      </if>
        GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
@@ -175,6 +191,38 @@
        AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  
+  
+   <update id="updateCaseInfoByOrgId" parameterType="java.lang.String">
+	UPDATE  TC	
+	SET 
+		TC.GRP_CODE = SOH.GROUP_CODE,
+		TC.GRP_NAME = SOH.GROUP_NAME,
+		TC.AR_CODE = SOH.BUSIAR_CODE,
+		TC.AR_NAME = SOH.BUSIAR_NAME,
+		TC.QYJL_NAME = SOH.JQYJL_MGR,
+		TC.QYZJ_NAME = SOH.JQYZJ_MGR,
+		TC.SWZ_CODE = SOH.BUSISWZ_CODE,
+		TC.SWZ_NAME = SOH.BUSISWZ_NAME,
+		TC.WZ_CODE= SOH.BUSIWZ_CODE,
+		TC.WZ_NAME = SOH.BUSIWZ_NAME,
+		TC.QJDS_NAME =  SOH.JQYDS_MGR,
+		TC.BA_CODE = SOH.BUSIAR_CODE,
+		TC.BA_NAME = SOH.BUSIAR_NAME,
+		TC.AGENT_USERNAME = U.USERNAME,	
+		TC.CREATE_TIME = GETDATE(),
+		TC.UPDATE_TIME = GETDATE(),
+		TC.CREATE_BY = @{SESSION_USER_ID},
+		TC.UPDATE_BY = @{SESSION_USER_ID}
+
+	FROM  sctrans.T_TO_CASE_INFO TC  
+	LEFT JOIN sctrans.SYS_USER U ON TC.AGENT_CODE = U.ID 
+	LEFT JOIN sctrans.V_SYS_ORG_HIERARCHY SOH ON U.ORG_ID = SOH.ORG_ID 	
+
+	WHERE  SOH.ORG_ID = #{orgId}
+	AND    TC.CASE_CODE = #{caseCode}
+  </update>
+  
  
 <select id="findToCaseInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 

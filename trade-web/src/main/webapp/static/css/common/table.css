@@ -71,6 +71,10 @@ table.dataTable thead .sorting:after {
 .mr45 {
   margin-right: 45px;
 }
+
+.pink {
+    color: #f784a5;
+}
 .font24 {
   font-size: 24px!important;
 }

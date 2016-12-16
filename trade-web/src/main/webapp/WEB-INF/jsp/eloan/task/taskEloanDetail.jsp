@@ -78,6 +78,12 @@
 									<dd>${info.propertyAddr}</dd>
 									<dt>合作机构</dt>
 									<dd>${info.finOrgName}</dd>
+									<dt>信贷员</dt>
+									<dd>
+									<a data-container="body" data-toggle="popover"
+											data-placement="right"
+											data-content="手机：${eloanCase.loanerPhone}">${eloanCase.loanerName}</a>
+									</dd>
 									
 									<c:if test="${eloanCase.finOrgCode == 'W0003' && eloanCase.month <= 12}">
 										<dt>手续费</dt>
@@ -92,6 +98,10 @@
 							</div>
 							<div class="col-lg-4" id="cluster_info">
 								<dl class="dl-horizontal">
+									<dt>借款人</dt>
+									<dd><a data-container="body" data-toggle="popover"
+											data-placement="right"
+											data-content="手机：${eloanCase.custPhone}">${eloanCase.custName}</a></dd>
 									<dt>申请时间</dt>
 									<dd>${info.applyTime}</dd>
 									<dt>申请期数</dt>
@@ -100,12 +110,12 @@
 							</div>
 							<div class="col-lg-3">
 								<dl class="dl-horizontal">
-									<dt>借款人</dt>
+									<%-- <dt>借款人</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
 											data-placement="right"
 											data-content="手机：${eloanCase.custPhone}">${eloanCase.custName}</a>
-									</dd>
+									</dd> --%>
 									<dt>贷款专员</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
@@ -116,11 +126,12 @@
 										<span data-container="body" data-toggle="popover"
 											data-placement="right"<%-- data-content="手机：${eloanCase.zjPhone}" --%>>${eloanCase.zjName}</span>
 									</dd>
-									<dt>合作信贷员</dt>
+									
+								     <dt>合作人</dt>
 									<dd>
-										<span data-container="body" data-toggle="popover"
-											data-placement="right"<%-- data-content="手机：${eloanCase.coPhone}" --%>>${eloanCase.coName}</span>
-									</dd>
+										<span data-container="body" data-toggle="popover" 
+										data-placement="right"  >${eloanCase.coName}</span>
+									</dd> 
 									<dt>产品部合作人</dt>
 									<dd>
 										<span data-container="body" data-toggle="popover"

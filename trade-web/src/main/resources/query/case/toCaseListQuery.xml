@@ -9,8 +9,13 @@
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
 		<customDict id="qqcdBackProcessorName" beanName="qqcdBackProcessorName" />
 		<customDict id="qqcdDict30003" beanName="qqcdDict30003" />
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+		<customDict id="getCaseOriginByCaseCode" beanName="getCaseOriginByCaseCode" />
 		
 		<customDict id="getCaseOverviewInfo" beanName="getCaseOverviewInfo" />
+		<customDict id="getPropertyCodeByCaseCode" beanName="getPropertyCodeByCaseCode" />
+		<customDict id="getRealNameByUserId" beanName="getRealNameByUserId" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -311,7 +316,8 @@
 				<column type="both" name="ctmCode"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="电话" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				
+				<column type="virtual" isDynamicDict="true" name="caseOrigin" referencecol="CASE_CODE"  customDict="getCaseOriginByCaseCode" />
+				<column type="virtual" isDynamicDict="true" name="propertyCode" referencecol="CASE_CODE"  customDict="getPropertyCodeByCaseCode" />
 				<column type="virtual" isDynamicDict="true"
 					name="FONT_NAME,SELLER,BUYER,PROCESSOR_ID,CASE_PROPERTY_SHOW,STATUS"
 					referencecol="CASE_CODE,CASE_PROPERTY,STATUS_OLD" 
@@ -1116,6 +1122,200 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="电话" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryGlCastListListdiv" cacheCount="true">
+		<searchCondition>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+
+				select   
+				    c.PKID pkId,
+				    c.CASE_ORIGIN caseOrigin,
+					t.CASE_CODE CASE_CODE,
+					t.PROPERTY_ADDR propertyAddr,
+					( select NAME from sctrans.SYS_DICT  where CODE =c.STATUS  and DESCR='YC1011') status,
+					( select NAME from sctrans.SYS_DICT  where CODE =c.CASE_PROPERTY and TAG='myCaseList') caseProperty,
+					i.AGENT_NAME agentName,
+					i.AGENT_PHONE agentPhone,
+					i.GRP_NAME grpName,
+					(select REAL_NAME FROM sctrans.SYS_USER u where u.ID = c.LEADING_PROCESS_ID )realName,
+					(select ORG_NAME FROM sctrans.SYS_ORG  where ID = c.ORG_ID )realOrgName
+				from sctrans.T_TO_CASE_INFO i 
+				left join sctrans.T_TO_PROPERTY_INFO t on i.CASE_CODE=t.CASE_CODE
+				left join sctrans.T_TO_CASE c on i.CASE_CODE=c.CASE_CODE 
+				where c.CASE_ORIGIN != 'INPUT'
+					  and c.CREATE_TIME >DATEADD(mm,-6,GETDATE())
+				 <if test="propertyCode != null">
+					and t.PROPERTY_CODE = #propertyCode#
+				 </if>	
+
+				]]>
+			</baseSql>
+			<orderBySql>
+			  order by i.CASE_CODE
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkId" index="" checkbox="" display="pkId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="caseOrigin" index="" checkbox="" display="caseOrigin" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASE_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="propertyAddr" index="" checkbox="" display="propertyAddr" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="status" index="" checkbox="" display="status" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="caseProperty" index="" checkbox="" display="caseProperty" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="agentName" index="" checkbox="" display="agentName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="agentPhone" index="" checkbox="" display="agentPhone" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="grpName" index="" checkbox="" display="grpName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="realName" index="" checkbox="" display="realName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="realOrgName" index="" checkbox="" display="realOrgName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryCaseRecordList" cacheCount="true">
+		<searchCondition>
+			<condition field="propertyAddr"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				select * from (
+					select 
+						   t.pkid id,
+						   t.APPLY_STATUS status,
+						   t.OPERATOR operato,
+					       t.CASE_CODE caseCode,
+					       t.C_CASE_CODE cCaseCode,
+					       t.PROPERTY_ADDR propertyAddr,
+					       t.AGENT_NAME agentName,
+					       t.C_AGENT_NAME cAgentName,
+					       (select PKID
+					          from sctrans.T_TO_CASE c
+					         where c.CASE_CODE = t.CASE_CODE) pkid ,
+						   (select PKID
+					          from sctrans.T_TO_CASE c
+					         where c.CASE_CODE = t.C_CASE_CODE) ctmpkid,
+					       (select LEADING_PROCESS_ID
+					          from sctrans.T_TO_CASE c
+					         where c.CASE_CODE = t.CASE_CODE) leadingProcess,
+					       (select LEADING_PROCESS_ID
+					          from sctrans.T_TO_CASE c
+					         where c.CASE_CODE = t.C_CASE_CODE) ctmleadingProcess,
+					       t.APPLIER_ID applierId,
+					       t.OPERATOR_TIME operatorTime
+					  from sctrans.T_TO_CASE_MERGE t
+					  )f 
+					  where 1=1
+					  <if test="orgid != null">
+					  	and f.leadingProcess =#orgid#
+					  </if>
+					  <if test="agentName != null">
+					  	and (f.agentName like '%'+ #agentName# +'%' or f.cAgentName like '%'+#agentName#+'%')
+					  </if>
+					  <if test=" operatorTime != null">
+					  	and f.operatorTime &lt;= #operatorTime#
+					  </if>
+					  <if test=" operato != null">
+					  	and f.operato = #operato#
+					  </if>
+
+				]]>
+			</baseSql>
+			<orderBySql>
+			 order by f.operatorTime desc
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="status" index="" checkbox="" display="status" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="id" index="" checkbox="" display="id" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="pkid" index="" checkbox="" display="pkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ctmpkid" index="" checkbox="" display="ctmpkid" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="operato" index="" checkbox="" display="operato" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="caseCode" index="" checkbox="" display="caseCode" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="cCaseCode" index="" checkbox="" display="cCaseCode" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="propertyAddr" index="" checkbox="" display="propertyAddr" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="agentName" index="" checkbox="" display="agentName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="cAgentName" index="" checkbox="" display="cAgentName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="leadingProcess" index="" checkbox="" display="leadingProcess" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ctmleadingProcess" index="" checkbox="" display="ctmleadingProcess" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="applierId" index="" checkbox="" display="applierId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="operatorTime" index="" checkbox="" display="operatorTime" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="virtual" name="leadingProcessName" referencecol="leadingProcess" index="" checkbox="" display="合作顾问" customDict="getRealNameByUserId" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="ctmleadingProcessName" referencecol="ctmleadingProcess" index="" checkbox="" display="ctm合作顾问" customDict="getRealNameByUserId" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="applierName" referencecol="applierId" index="" checkbox="" display="ctm合作顾问" customDict="getRealNameByUserId" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+
+<query id="isRepeatCaseList"  cacheCount="true">
+	    <searchCondition>      
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[  				
+					SELECT 
+						C.PKID,
+						C.CASE_CODE,
+						C.CASE_PROPERTY,
+						C.STATUS,
+						C.LEADING_PROCESS_ID,
+						C.ORG_ID,
+						PRO.PROPERTY_ADDR,
+						PRO.CREATE_TIME,
+						CI.AGENT_NAME,
+						CI.AGENT_PHONE,
+						CI.GRP_NAME
+
+					FROM sctrans.T_TO_PROPERTY_INFO  PRO 
+						 LEFT JOIN  sctrans.T_TO_CASE C ON  PRO.CASE_CODE = C.CASE_CODE
+						 LEFT JOIN  sctrans.T_TO_CASE_INFO CI ON  PRO.CASE_CODE = CI.CASE_CODE
+					
+					WHERE  DATEDIFF(mm,PRO.CREATE_TIME,GETDATE()) &lt; 6  
+						<ifNotNull propertyCode>
+						     AND  PRO.PROPERTY_CODE = #propertyCode#
+						</ifNotNull>
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  ORDER BY PRO.CREATE_TIME DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" title="案件ID"  customDict="" sysDict="" format="" width="0" isSort="" />
+				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" />
+				<column type="both" name="CASE_PROPERTY" index="" checkbox="true" title="案件性质"  customDict="" sysDict="" format="" width="0" isSort="" />
+				<column type="both" name="STATUS" index="" checkbox="true" title="案件状态"  customDict="" sysDict="" format="" width="0" isSort=""  />
+				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="true" title="交易顾问ID"  customDict="" sysDict="" format="" width="0" isSort=""  />				
+				<column type="both" name="ORG_ID" index="" checkbox="true" title="交易顾问组织ID"  customDict="" sysDict="" format="" width="0" isSort=""  />
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort=""  />				
+				<column type="both" name="CREATE_TIME" index="" checkbox="true" title="案件创建时间"  customDict="" sysDict="" format="" width="0" isSort=""  />
+				<column type="both" name="AGENT_NAME" index="" checkbox="true" title="经纪人姓名"  customDict="" sysDict="" format="" width="0" isSort=""  />	
+				<column type="both" name="AGENT_PHONE" index="" checkbox="true" title="经纪人电话"  customDict="" sysDict="" format="" width="0" isSort=""  />	
+				<column type="both" name="GRP_NAME" index="" checkbox="true" title="经纪人组织"  customDict="" sysDict="" format="" width="0" isSort=""  />					
+				
+				<column type="virtual" name="CASE_PROPERTY_ESC" referencecol="CASE_PROPERTY" index="" checkbox="" display="" customDict="qqcdDict30003" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="STATUS_ESC" referencecol="STATUS" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="LEADING_PROCESS_ID_ESC" title="交易顾问姓名"	display="主办" referencecol="LEADING_PROCESS_ID" customDict="qqcdUserIdName"	isSort="true" order="desc" />
+				<column type="virtual" name="ORG_NAME" index="" checkbox="" title="交易顾问所属组"  customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
+				
 			</table-row>
 		</grid>
 	</query>

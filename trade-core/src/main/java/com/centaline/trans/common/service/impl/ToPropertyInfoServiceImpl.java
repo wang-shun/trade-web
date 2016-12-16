@@ -35,7 +35,11 @@ public class ToPropertyInfoServiceImpl implements ToPropertyInfoService {
 
 	@Override
 	public int insertSelective(ToPropertyInfo record) {
-		return toPropertyInfoMapper.insertSelective(record);
+		if(null != record){
+			
+			return toPropertyInfoMapper.insertSelective(record);
+		}
+		return 0;
 	}
 
 	@Override

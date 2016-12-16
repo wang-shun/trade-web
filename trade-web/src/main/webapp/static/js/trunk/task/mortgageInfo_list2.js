@@ -82,15 +82,12 @@ $(document).ready(function() {
 
 			reloadGrid(data);
 
-			getParentBank($("select[name='loanLostFinOrgName']"),
-					$("select[name='loanLostFinOrgNameYc']"), "", "", "");
+			getParentBank($("select[name='loanLostFinOrgName']"),$("select[name='loanLostFinOrgNameYc']"), "", "", "");
 
 			$("select[name='loanLostFinOrgName']").change(function() {
-				getBranchBankList($("select[name='loanLostFinOrgNameYc']"), $(
-										"select[name='loanLostFinOrgName']")
-										.val(), "");
+				getBranchBankList($("select[name='loanLostFinOrgNameYc']"), $("select[name='loanLostFinOrgName']").val(), "");
 
-					})
+			})
 
 			$(".charone,.chartwo,.chartthree,.chartfour").hide();
 			$("#mortTypeAnalysis").click(function() {

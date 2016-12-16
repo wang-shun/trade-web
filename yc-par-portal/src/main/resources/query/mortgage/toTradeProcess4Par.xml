@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>
+
+	<query id="queryTradeProcess">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[  	
+			    SELECT 
+                    VTP.CASE_CODE,
+      				VTP.PART_CODE,
+      				SYSD.NAME,
+      				VTP.REAL_TIME,
+      				VTP.CREATE_BY,
+      				SYSU.REAL_NAME,
+      				VTP.COMMENT
+				FROM sctrans.V_TRADE_PROCESS_QUERY_VIEW AS VTP
+					LEFT JOIN sctrans.SYS_DICT AS SYSD
+					ON SYSD.CODE = VTP.PART_CODE AND SYSD.TYPE = 'part_code'
+					LEFT JOIN sctrans.SYS_USER AS SYSU
+					ON SYSU.ID = VTP.CREATE_BY
+        			
+        			WHERE 1=1
+        			
+        			<if test="caseCode != null">
+						AND VTP.CASE_CODE = #caseCode#
+			    	</if>
+			    	
+			    	ORDER BY VTP.REAL_TIME DESC
+
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+			<column type="both" name="NAME" index="" checkbox="" display="status" title="status" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="REAL_TIME" index="" checkbox="" display="createTime" title="createTime" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			<column type="both" name="REAL_NAME" index="" checkbox="" display="createBy" title="createBy" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="COMMENT" index="" checkbox="" display="comments" title="comments" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

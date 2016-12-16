@@ -44,6 +44,7 @@
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
+<link rel="stylesheet" href="${ctx}/css/workflow/newRecordpop.css" />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
@@ -111,7 +112,7 @@ text-decoration: underline !important;
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
+<jsp:include page="/WEB-INF/jsp/case/glCaseDiv.jsp"></jsp:include>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox-content border-bottom clearfix space_box">
         <h2 class="title">
@@ -239,6 +240,7 @@ text-decoration: underline !important;
 					<table class="table table_blue table-striped table-bordered table-hover " >
 						<thead>
 							<tr>
+								<th></th>
 								<th ><span class="sort" sortColumn="B.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 								<th >案件状态</th>
 								<th >产证地址</th>
@@ -367,6 +369,38 @@ text-decoration: underline !important;
                        <tr class="tr-2">
                    {{/if}}
 						
+						<td >
+{{if item.caseOrigin == 'MERGE'}}
+                                <p class="tip">
+                                 <i class="sign_blue">
+                                                                                        合流
+                                  </i>
+                                 </p>
+{{/if}}
+{{if item.caseOrigin == 'INPUT'}}
+ 							<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}')">
+                                <p class="tip">
+                                 <i class="sign_brown">
+                                                                                        自录
+                                  </i>
+                                 </p>
+                             </a>
+{{/if}}
+{{if item.caseOrigin == 'CTM'}}
+                                <p class="tip">
+                                 <i class="sign_blue">
+                                    	导入
+                                  </i>
+                                 </p>
+{{/if}}
+{{if item.caseOrigin == 'PROCESS'}}
+                                <p class="tip">
+                                 <i class="sign_blue">
+                                    	合流申请中
+                                  </i>
+                                 </p>
+{{/if}}
+						</td >
 						<td >
  							<p class="big">
 								<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>

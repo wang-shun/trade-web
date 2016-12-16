@@ -19,6 +19,8 @@ public interface ToCaseInfoMapper {
 	ToCaseInfo selectByPrimaryKey(Long pkid);
 
 	int updateByPrimaryKey(ToCaseInfo record);
+	
+	int updateCaseInfoByOrgId(Map<String, Object> param);	
 
 	ToCaseInfo findToCaseInfoByCaseCode(String caseCode);
 

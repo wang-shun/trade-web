@@ -6,6 +6,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
+import com.centaline.trans.common.entity.CaseMergerParameter;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 
 public interface ToCaseService {
@@ -83,5 +84,14 @@ public interface ToCaseService {
 	
 	void changeTaskAssignee(String caseCode,String taskId,String userId);
 	CaseBaseVO getCaseBaseVO(String caseCode);
-	
+	/**
+	 * 合流案件
+	 * @throws Exception
+	 */
+	void updateMergeCase(CaseMergerParameter caseMergerParameter) throws Exception;
+	/**
+	 * 申请合流
+	 * @throws Exception
+	 */
+	void mergeCase(CaseMergerParameter caseMergerParameter) throws Exception;
 }

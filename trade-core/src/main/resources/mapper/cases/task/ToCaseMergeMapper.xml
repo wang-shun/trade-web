@@ -116,7 +116,7 @@
       #{applyDirection,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseMerge" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseMerge" useGeneratedKeys="true" keyProperty="pkid" >
     insert into sctrans.T_TO_CASE_MERGE
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

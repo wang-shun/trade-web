@@ -21,7 +21,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @ComponentScan(basePackages="com.aist.common.redisson")
 public class CacheConfiguration {
 
-	/**jedis连接池*/
+	/**jedis连接池*//*
 	@Bean
 	@ConfigurationProperties(prefix="redisPoolConfig")
 	public JedisPoolConfig poolConfig(){
@@ -61,7 +61,7 @@ public class CacheConfiguration {
 		cacheManager.setDefaultExpiration(300L);
 		cacheManager.setUsePrefix(false);
 		return cacheManager;
-	}
+	}*/
 	
 	
 }
