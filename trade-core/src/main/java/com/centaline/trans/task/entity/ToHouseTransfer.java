@@ -23,6 +23,10 @@ public class ToHouseTransfer {
     private BigDecimal landIncrementTax;
 
     private String comment;
+    
+    private String  useCardPay;
+    
+    private BigDecimal  cardPayAmount;
 
     public Long getPkid() {
         return pkid;
@@ -103,4 +107,23 @@ public class ToHouseTransfer {
     public void setComment(String comment) {
         this.comment = comment == null ? null : comment.trim();
     }
+
+	public String getUseCardPay() {
+		return useCardPay;
+	}
+
+	public void setUseCardPay(String useCardPay) {
+		this.useCardPay = useCardPay;
+	}
+
+	public BigDecimal getCardPayAmount() {
+		return cardPayAmount;
+	}
+
+	public void setCardPayAmount(BigDecimal cardPayAmount) {
+		this.cardPayAmount = cardPayAmount;
+	}
+    
+    
+    
 }
