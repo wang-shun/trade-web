@@ -1125,11 +1125,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 			</table-row>
 		</grid>
 	</query>
-<<<<<<< .mine
 	
-=======
-	
->>>>>>> .theirs
 	<query id="queryGlCastListListdiv" cacheCount="true">
 		<searchCondition>
           </searchCondition>
