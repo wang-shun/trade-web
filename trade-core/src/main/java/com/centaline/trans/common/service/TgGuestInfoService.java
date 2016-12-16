@@ -30,6 +30,7 @@ public interface TgGuestInfoService {
 	TgGuestInfo selectByPrimaryKey(Long pkid);
 	int updateByPrimaryKeySelective(TgGuestInfo tgGuestInfo);
 	
+	int insertSelective(TgGuestInfo tgGuestInfo);
 	
 	BuyerSellerInfo getBuerSellerInfoByCaseCode(String caseCode);
 	

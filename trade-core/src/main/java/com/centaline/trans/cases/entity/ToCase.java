@@ -28,9 +28,10 @@ public class ToCase {
     private Date closeTime;
     
     private String startDate;
+    
     private String endDate;
     
-  
+    private String caseOrigin;
 
 	public String getStartDate() {
 		return startDate;
@@ -141,6 +142,14 @@ public class ToCase {
 
 	public void setLoanReq(String loanReq) {
 		this.loanReq = loanReq;
+	}
+
+	public String getCaseOrigin() {
+		return caseOrigin;
+	}
+
+	public void setCaseOrigin(String caseOrigin) {
+		this.caseOrigin = caseOrigin;
 	}
     
     

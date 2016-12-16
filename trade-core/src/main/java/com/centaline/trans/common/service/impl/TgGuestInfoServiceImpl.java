@@ -336,6 +336,12 @@ public class TgGuestInfoServiceImpl implements TgGuestInfoService {
 		
 		return buyerSellerInfo;
 	}
+
+	@Override
+	public int insertSelective(TgGuestInfo tgGuestInfo) {
+		// TODO Auto-generated method stub
+		 return tgGuestInfoMapper.insertSelective(tgGuestInfo);
+	}
 	
 	
 }
