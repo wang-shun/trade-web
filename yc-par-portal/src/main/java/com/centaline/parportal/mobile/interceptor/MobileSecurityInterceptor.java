@@ -39,6 +39,8 @@ public class MobileSecurityInterceptor extends HandlerInterceptorAdapter {
     public MobileSecurityInterceptor() {
         pathMatcher = new AntPathMatcher();
         excludedUrls.add("/mobile/login");
+        //        excludedUrls.add("/mobile/track/**");
+
     }
 
     public void setExcludedUrls(List<String> excludedUrls) {

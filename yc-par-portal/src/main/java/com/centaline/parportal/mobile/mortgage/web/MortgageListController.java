@@ -2,7 +2,7 @@
  * AISThink.com Inc.
  * Copyright (c) 2015-2016 All Rights Reserved.
  */
-package com.centaline.parportal.mobile.mortgage.controller;
+package com.centaline.parportal.mobile.mortgage.web;
 
 import java.util.HashMap;
 import java.util.List;
