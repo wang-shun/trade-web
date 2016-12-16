@@ -299,6 +299,12 @@ public class CaseMergeController {
 		request.setAttribute("orgid", user.getServiceDepId());
 		return "case/caseRecord";
 	}
+	/**
+	 * 案件合流申请如果是未分单直接合流，其他状态只是在meger表中添加一行申请数据
+	 * @author hejf10
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="mergeCase")
 	@ResponseBody
 	public AjaxResponse<?> mergeCase(CaseMergerParameter caseInfo, HttpServletRequest request){
@@ -316,7 +322,12 @@ public class CaseMergeController {
 		}
 		return response;
 	}	
-	
+	/**
+	 * 案件合流
+	 * @author hejf10
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="updateMergeCase")
 	@ResponseBody
 	public AjaxResponse<?> updateMergeCase(CaseMergerParameter caseInfo, HttpServletRequest request){

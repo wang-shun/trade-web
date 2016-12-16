@@ -204,11 +204,11 @@
 				 </p>
 			</td>
 			<td class="t-left">
-				 <p class="big">
-					{{item.leadingProcessName}}
+				 <p >
+					{{item.leadingProcessName}}&nbsp;
 				 </p>
-				 <p class="big">
-					{{item.ctmleadingProcessName}}
+				 <p >
+					{{item.ctmleadingProcessName}}&nbsp;
 				 </p>
 			</td>
 			<td class="t-left">
