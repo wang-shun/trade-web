@@ -46,7 +46,7 @@
 			   SELECT
 			   				M.PKID,
 						    CAST(M.PKID as varchar)	AS bizCode,
-						    'AJDK'              			AS prdType,
+						    'MORT'              			AS prdType,
 						    M.PKID         AS mortInfo_mortCode,
 						    M.MORT_TYPE         AS mortInfo_mortType,
 						    ''                  				AS mortInfo_refundType,
