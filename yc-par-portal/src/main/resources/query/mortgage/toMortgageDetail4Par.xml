@@ -73,7 +73,7 @@
 						    SCTRANS.T_TO_CASE AS TCASE
 						ON
 						    M.CASE_CODE = TCASE.CASE_CODE
-						AND m.CASE_CODE = #caseCode#
+						AND m.PKID = #caseCode#
 						AND (
 						        m.MORT_TYPE = '30016001'
 						    OR  m.MORT_TYPE = '30016002')
