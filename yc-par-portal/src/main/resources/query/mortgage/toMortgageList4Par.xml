@@ -51,7 +51,7 @@
 					CAST(m.COM_YEAR as varchar)+'年'		as loanTime,
 					pi.PROPERTY_ADDR 	as addr,
 					m.CREATE_TIME 			as applyTime,
-					'AJDK'	 				as prdType,
+					'MORT'	 				as prdType,
 					M.case_code 		as caseCode,
 					CAST(M.PKID as varchar)			as bizCode,
 					''							as status
