@@ -47,7 +47,7 @@
 			   				M.PKID,
 						    CAST(M.PKID as varchar)	AS bizCode,
 						    'AJDK'              			AS prdType,
-						    M.CASE_CODE         AS mortInfo_mortCode,
+						    M.PKID         AS mortInfo_mortCode,
 						    M.MORT_TYPE         AS mortInfo_mortType,
 						    ''                  				AS mortInfo_refundType,
 						    M.LEND_WAY         	AS mortInfo_lendWay,
