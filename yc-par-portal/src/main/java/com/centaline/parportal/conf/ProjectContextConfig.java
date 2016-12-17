@@ -66,6 +66,13 @@ public class ProjectContextConfig {
         dict.setDictType("30001");
         return dict;
     };
+    
+    @Bean(name = "qqcdMortServName")
+    public CustomDictService qqcdMortServName() {
+        QuickQuerySrvsDictCustomDictServiceImpl dict = new QuickQuerySrvsDictCustomDictServiceImpl();
+        dict.setDictType("part_code");
+        return dict;
+    };
 
     @Bean(name = "qqcdFinOrgNameDict")
     public CustomDictService qqcdFinOrgNameDict() {
