@@ -61,7 +61,7 @@ public class MortgageController {
                                                             Integer page, Integer rows) {
         try {
             JQGridParam gp = new JQGridParam();
-            gp.put("caseCode", bizCode);
+            gp.put("bizCode", bizCode);
             gp.setPage(page);
             gp.setRows(rows);
             gp.setQueryId(queryId);
