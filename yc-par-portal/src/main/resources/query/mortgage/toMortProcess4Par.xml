@@ -45,8 +45,8 @@
 			        CMT.BIZ_CODE,
                     CMT.SRV_CODE AS 'KEY',
                     CMT.CREATE_TIME AS REAL_TIME,
-                    CMT.CREATE_BY,
-                    CMT.COMMENT
+                    ISNULL(CMT.CREATE_BY,''),
+                    ISNULL(CMT.COMMENT,'')
 			        FROM SCTRANS.T_TO_CASE_COMMENT CMT 
 			        WHERE BIZ_CODE = #bizCode#
  					AND CMT.SOURCE = 'MORT'
