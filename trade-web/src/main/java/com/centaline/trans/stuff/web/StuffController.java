@@ -9,13 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
-import com.aist.uam.auth.remote.UamSessionService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.comment.entity.ToCaseComment;
-import com.centaline.trans.comment.service.ToCaseCommentService;
-import com.centaline.trans.stuff.enums.CommentSource;
-import com.centaline.trans.stuff.enums.CommentType;
+
 import com.centaline.trans.stuff.service.StuffService;
 
 @Controller
@@ -23,15 +20,13 @@ import com.centaline.trans.stuff.service.StuffService;
 public class StuffController {
 	@Autowired
 	private StuffService stuffService;
-	@Autowired
-	private UamSessionService uamSessionService;
+
 	@Autowired
 	private ToCaseService toCaseService;
-	@Autowired
-	private ToCaseCommentService caseCommentService;
 
-	@RequestMapping("startReqStuff")
-	public String startReqStuff(String caseCode) {
+
+	
+	/*public String startReqStuff(String caseCode) {
 		ToCaseComment comment = new ToCaseComment();
 		comment.setBizCode(caseCode);
 		comment.setCaseCode(caseCode);
@@ -43,7 +38,7 @@ public class StuffController {
 		caseCommentService.insertToCaseComment(comment);
 		stuffService.reqStuff(comment, false);
 		return "scuess";
-	}
+	}*/
 
 	@RequestMapping("process")
 	public String process(HttpServletRequest request, HttpServletResponse response, String businessKey, String source,
