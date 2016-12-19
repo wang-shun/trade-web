@@ -47,9 +47,13 @@
 	          <div class="line">
 	              <div class="form_content">
 	                  <label class="control-label sign_left_small">房屋地址</label>
-	      			  <!--   <input type="text" placeholder="房屋搜索"  class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" value="">  -->
+<!-- 	      			  <input type="text" placeholder="房屋搜索"  class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" value="">  --> 
 	                  
-	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" ></select> 	                  
+	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" > </select> 	
+	                  
+            
+					  
+					  
 	                  <select id="buildingsSelect" class="select_control sign_right_one  select2  span3"><!-- ml20 -->
 	                      <option value="">--请选择楼栋--</option>
 	                  </select>
@@ -60,14 +64,15 @@
 	                      <option value="">--请选择房屋--</option>
 	                  </select>                  
 	              </div>
-	          </div>	          
+	          </div>
+	          	        
 	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="140603093859B9126A9A39DD0B831A23">
-	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="上海虹口区外滩88888888号"> <!-- 产证地址待定 -->
+	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="上海虹口区外滩6666666号"> <!-- 产证地址待定 -->
         </div>
        
        <div class="form_list table-capital"  id="isRepeatCase" style="display:none">
            <div class="table-box">
-               <p class="pink"><i class="iconfont">&#xe653;</i> 该房屋地址已经有如下案件进行，是否确认要新建？</p>
+               <p class="pink"><i class="iconfont">&#xe653;</i> 该房屋地址已经有如下案件进行，请确认是否要新建？</p>
                <table class="table table-bordered customerinfo">
                    <thead>
                        <tr>
