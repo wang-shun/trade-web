@@ -33,18 +33,21 @@ public class MortgageController {
     private final static String queryMortProcess  = "queryMortProcess";
     private final static String queryTradeProcess = "queryTradeProcess";
 
-    @RequestMapping(value = "/{mortCode}")
+    @RequestMapping(value = "/{bizCode}")
     @ResponseBody
-    public String mortgageCaseDetail(@PathVariable String mortCode) {
+    public String mortgageCaseDetail(@PathVariable String bizCode) {
 
-        List<Map<String, Object>> respDetail = mortgageCaseInfoQuery(queryDetail, mortCode, 1, 10);
+        List<Map<String, Object>> respDetail = mortgageCaseInfoQuery(queryDetail, bizCode, 1, 10);
 
-        List<Map<String, Object>> respMortProc = mortgageCaseInfoQuery(queryMortProcess, mortCode,
+        List<Map<String, Object>> respMortProc = mortgageCaseInfoQuery(queryMortProcess, bizCode, 1,
+            10);
+
+        String caseCode = (String) respDetail.get(0).get("tradeInfo_caseCode");
+
+        List<Map<String, Object>> respTradeProc = mortgageCaseInfoQuery(queryTradeProcess, caseCode,
             1, 10);
-        List<Map<String, Object>> respTradeProc = mortgageCaseInfoQuery(queryTradeProcess, mortCode,
-            1, 10);
 
-        Map<String, Object> result = new HashMap();
+        Map<String, Object> result = new HashMap<String, Object>();
         this.parseMortDetail(result, respDetail.get(0));
         result.put("mortProcess", respMortProc);
         result.put("tradeProcess", respTradeProc);
@@ -54,11 +57,11 @@ public class MortgageController {
         return str;
     }
 
-    private List<Map<String, Object>> mortgageCaseInfoQuery(String queryId, String caseCode,
+    private List<Map<String, Object>> mortgageCaseInfoQuery(String queryId, String bizCode,
                                                             Integer page, Integer rows) {
         try {
             JQGridParam gp = new JQGridParam();
-            gp.put("caseCode", caseCode);
+            gp.put("bizCode", bizCode);
             gp.setPage(page);
             gp.setRows(rows);
             gp.setQueryId(queryId);
@@ -70,7 +73,7 @@ public class MortgageController {
 
         } catch (Exception e) {
             logger.info("quick query for mobile mortgate detail failed, queryID: #" + queryId
-                        + "#, caseCode: #" + caseCode + "#");
+                        + "#, caseCode: #" + bizCode + "#");
         }
         return new ArrayList();
     }

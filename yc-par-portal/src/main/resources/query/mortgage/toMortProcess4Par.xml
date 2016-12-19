@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqcdMortServName" beanName="qqcdMortServName"></customDict>
 		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>
+		<customDict id="qqRealName" beanName="qqRealName"></customDict>
+		<customDict id="qqcdCaseStatus" beanName="qqcdCaseStatus"></customDict>
 	</dicts>
 
 	<formatters>
@@ -37,39 +39,19 @@
 		</searchCondition>
 		<searchSql>
 			<baseSql>
-				<![CDATA[  	
-			    SELECT
-                    TC.CASE_CODE,
-                    TC.SRV_CODE,
-                    SYSD.NAME AS SRVNAME,
-                    TC.CREATE_TIME,
-                    TC.CREATE_BY,
-                    SYSU.REAL_NAME,
-                    TC.COMMENT
-                FROM SCTRANS.T_TO_CASE_COMMENT AS TC
-        
-        	        LEFT JOIN SCTRANS.SYS_USER AS SYSU
-        	        ON TC.CREATE_BY = SYSU.ID
-        	        LEFT JOIN SCTRANS.SYS_DICT AS SYSD
-                    ON TC.SRV_CODE = SYSD.CODE AND SYSD.TYPE = 'part_code'
-        			
-        			WHERE 1=1
-        			
-        			<if test="caseCode != null">
-						AND TC.CASE_CODE = #caseCode#
-			    	</if>
-			    	
-			    	<choose>
-					    <when test="USER_JOBCODE=='consultant' ">
-							AND TC.CREATE_BY = #userId#
-					    </when>
-					    <otherwise>
-					    	AND 1=0
-					    </otherwise>
-					</choose>
-			    	
-			    	ORDER BY TC.CREATE_TIME DESC
-
+				<![CDATA[
+ 				SELECT 
+			        CMT.CASE_CODE,
+			        CMT.BIZ_CODE,
+                    CMT.SRV_CODE AS 'KEY',
+                    CMT.CREATE_TIME AS REAL_TIME,
+                    ISNULL(CMT.CREATE_BY,'') AS CREATE_BY,
+                    ISNULL(CMT.COMMENT,'') AS COMMENT
+			        FROM SCTRANS.T_TO_CASE_COMMENT CMT 
+			        WHERE BIZ_CODE = #bizCode#
+ 					AND CMT.SOURCE = 'MORT'
+					
+ 					ORDER BY CMT.CREATE_TIME DESC
 				]]>
 			</baseSql>
 			<groupSql>
@@ -79,10 +61,12 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			<column type="both" name="SRVNAME" index="" checkbox="" display="status" title="status" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
-			<column type="both" name="CREATE_TIME" index="" checkbox="" display="createTime" title="createTime" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-			<column type="both" name="REAL_NAME" index="" checkbox="" display="createBy" title="createBy" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
-			<column type="both" name="COMMENT" index="" checkbox="" display="comments" title="comments" customDict="" sysDict="" format="" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="KEY" display="status" />
+			<column type="virtual" name="NAME" referencecol="KEY" customDict="qqcdMortServName"  />
+			<column type="both" name="REAL_TIME" display="createTime" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" />
+			<column type="both" name="CREATE_BY" display="createBy" />
+			<column type="virtual" name="REAL_NAME" display="yuOperator_name" referencecol="CREATE_BY" customDict="qqRealName"  />
+			<column type="both" name="COMMENT" display="comments" />
 			</table-row>
 		</grid>
 	</query>

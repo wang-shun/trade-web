@@ -119,6 +119,9 @@ public class ToMortgage {
 
 	private String tmpBankRejectReason;
 
+	/*贷款在银行内部的状态--由信贷员填写*/
+	private String stateInBank;
+
 	public Long getPkid() {
 		return pkid;
 	}

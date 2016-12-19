@@ -118,6 +118,10 @@
 							<if test="propertyAddr != null and propertyAddr !='' ">
 								AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE C.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
 							</if>
+
+							<if test="serviceDepId != null and serviceDepId != ''">
+								AND C.DISTRICT_ID=#serviceDepId#
+							</if>
 							<if test="orgName != null and orgName != '' ">					
 								AND C.ORG_ID = #orgName#  
 							</if>

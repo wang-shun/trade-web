@@ -9,7 +9,7 @@
 	</settings>
 	
    <plugins>
-	    <plugin interceptor="com.aist.common.mybatis.interceptor.CtxPropertyInterceptor">
+	    <plugin interceptor="com.centaline.parportal.mobile.interceptor.MobileCtxPropertyInterceptor">
 	    </plugin>
 	</plugins>
  

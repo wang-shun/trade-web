@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.centaline.parportal.mobile.mortgage.web.MortgageListController;
@@ -33,6 +34,7 @@ public class TrackController {
     private ToCaseCommentService toCaseCommentService;
 
     @RequestMapping(value = "/add")
+    @ResponseBody
     public String addTrack(Model model, @RequestBody ToCaseComment track) throws IOException {
         int insertCount = toCaseCommentService.insertToCaseComment(track);
 

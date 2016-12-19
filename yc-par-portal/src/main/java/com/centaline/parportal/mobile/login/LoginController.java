@@ -185,8 +185,8 @@ public class LoginController {
         int avatarJob = 1;
         if (loginResult && sessionUser != null) {
             token = tokenService.generateToken(sessionUser);
-            avatarUrl = uamBasedataService.getParam("APP_MOBILE", "LOGINPERSON_IMG_URL")
-                        + sessionUser.getEmployeeCode() + ".jpg";
+            //            avatarUrl = uamBasedataService.getParam("APP_MOBILE", "LOGINPERSON_IMG_URL")
+            //                        + sessionUser.getEmployeeCode() + ".jpg";
 
             //多岗  
             List<UserOrgJob> userOrgJOb = uamUserOrgService

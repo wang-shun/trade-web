@@ -83,21 +83,21 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
-        #{pkid,jdbcType=BIGINT},
+        #{pkid, jdbcType=BIGINT},
       </if>
       <if test="caseCode != null" >
-        #{caseCode,jdbcType=VARCHAR},
+        #{caseCode, jdbcType=VARCHAR},
       </if>
       <if test="srvCode != null" >
-        #{srvCode,jdbcType=VARCHAR},
+        #{srvCode, jdbcType=VARCHAR},
       </if>
       <if test="comment != null" >
-        #{comment,jdbcType=NVARCHAR},
+        #{comment, jdbcType=NVARCHAR},
       </if>
         GETDATE(),
         @{SESSION_USER_ID},
         GETDATE(),
-        @{SESSION_USER_ID}
+        @{SESSION_USER_ID},
       <if test="creatorOrgId != null" >
          #{creatorOrgId,jdbcType=VARCHAR},
       </if>
