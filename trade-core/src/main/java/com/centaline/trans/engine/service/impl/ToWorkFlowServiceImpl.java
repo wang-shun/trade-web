@@ -52,14 +52,6 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 		// TODO Auto-generated method stub
 		return toWorkFlowMapper.queryInstCodesByCaseCode(caseCode);
 	}
-	
-	
-
-	@Override
-	public ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record) {
-		// TODO Auto-generated method stub
-		return toWorkFlowMapper.queryToWorkFlowByCaseCodeBusKey(record);
-	}
 
 	@Override
 	public List<ToOutTimeTask> queryOutTimeTaskList() {
@@ -119,6 +111,17 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	@Override
 	public ToWorkFlow queryActiveToWorkFlowByBizCodeBusKey(ToWorkFlow record) {
 		return toWorkFlowMapper.queryActiveToWorkFlowByBizCodeBusKey(record);
+	}
+
+
+	@Override
+	public ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record) {
+		return toWorkFlowMapper.queryToWorkFlowByCaseCodeBusKey(record);
+	}
+
+	@Override
+	public List<ToWorkFlow> queryToWorkFlowByCaseCodeBusKeys(ToWorkFlow record) {
+		return toWorkFlowMapper.queryToWorkFlowByCaseCodeBusKeys(record);
 	}
 
 	

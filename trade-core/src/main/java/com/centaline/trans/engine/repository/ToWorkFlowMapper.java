@@ -26,6 +26,8 @@ public interface ToWorkFlowMapper {
 
 	ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record);
 	
+	List<ToWorkFlow> queryToWorkFlowByCaseCodeBusKeys(ToWorkFlow record);
+	
 	ToWorkFlow queryToWorkFlowByCaseCodeAndStatus(ToWorkFlow record);
 
 	List<ToOutTimeTask> queryOutTimeTaskList();
