@@ -26,6 +26,8 @@ import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.parportal.mobile.login.service.MobileUserService;
 import com.centaline.parportal.mobile.login.vo.MobileUserVo;
 
+import jodd.util.StringUtil;
+
 @Service
 public class MobileUserServiceImpl implements MobileUserService {
     @Autowired
@@ -86,6 +88,7 @@ public class MobileUserServiceImpl implements MobileUserService {
         sessionUser.setMobile(user.getMobile());
         sessionUser.setRealName(user.getRealName());
         sessionUser.setSex(user.getSex());
+        sessionUser.setAvatar(StringUtil.isEmpty(user.getAvatar()) ? "" : user.getAvatar());
 
         List<UserOrgJob> userOrgJobList = uamUserOrgServiceClient
             .getUserOrgJobByUserId(user.getId());
