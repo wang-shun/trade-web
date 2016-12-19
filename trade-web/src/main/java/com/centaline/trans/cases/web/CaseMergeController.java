@@ -179,14 +179,15 @@ public class CaseMergeController {
 		String month = dateStr.substring(0, 6);
 		String caseCode = uamBasedataService.nextSeqVal("CASE_ZL_CODE", month);
 		
+		int insertUp=0,insertDown=0,insertCase=0,insertCaseInfo=0;
 		if(caseMergeVo != null){
 			List<String>  nameUpList = caseMergeVo.getGuestNameUp();
 			List<String>  namePhoneList = caseMergeVo.getGuestPhoneUp();
 			List<String>  nameDownList = caseMergeVo.getGuestNameDown();
 			List<String>  phoneDownList = caseMergeVo.getGuestPhoneDown();
 			//插入上下家信息
-			insertIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
-			insertIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
+			insertUp = insertIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
+			insertDown = insertIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
 			
 			toPropertyInfo.setCaseCode(caseCode);
 			toPropertyInfo.setPropertyCode(caseMergeVo.getPropertyCode() == null? "":caseMergeVo.getPropertyCode());
@@ -199,7 +200,7 @@ public class CaseMergeController {
 			toCase.setCaseProperty(CasePropertyEnum.TPZJ.getCode());//自建案件
 			toCase.setStatus(CaseStatusEnum.WFD.getCode());//未分单
 			toCase.setCaseOrigin(CaseOriginEnum.INPUT.getCode());					
-			toCaseService.insertSelective(toCase);
+			insertCase = toCaseService.insertSelective(toCase);
 			
 			//TODO
 			toCaseInfo.setCaseCode(caseCode);
@@ -209,7 +210,7 @@ public class CaseMergeController {
 			toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName());
 			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode());
 			toCaseInfo.setImportTime(new Date());
-			toCaseInfoService.insertSelective(toCaseInfo);
+			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			
 			if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){
 				
@@ -218,6 +219,10 @@ public class CaseMergeController {
 				toCaseInfoService.updateCaseInfoByOrgId(map);
 			}
 		}		
+		
+		if(insertUp > 0 && insertDown > 0 && insertCase>0 && insertCaseInfo > 0){
+			request.setAttribute("busFlag", "success");
+		}
 		
 		if(!"".equals(keyFlag) && null != keyFlag){
 			if("case".equals(keyFlag)){

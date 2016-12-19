@@ -75,7 +75,9 @@
 		<pattern>/caseMerge/addCase/case</pattern>
 	    <pattern>/caseMerge/addCase/eloan</pattern>
 	   	<pattern>/caseMerge/addCase/spv</pattern>
-	    <pattern>/caseMerge/saveCaseInfo</pattern>	
+	    <pattern>/caseMerge/saveCaseInfo/case</pattern>	
+	    <pattern>/caseMerge/saveCaseInfo/eloan</pattern>
+	    <pattern>/caseMerge/saveCaseInfo/spv</pattern>
 		<pattern>/task/toTaskOfGroupList</pattern>
 		<pattern>/case/taskTracking</pattern> 
 		<pattern>/case/tracking</pattern> 

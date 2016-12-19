@@ -241,6 +241,11 @@
 
 <script>
 jQuery(document).ready(function() {
+	var busFlag = "${busFlag}";
+	if(busFlag !="" && busFlag != null && busFlag != undefined){
+		alert("恭喜,新建案件成功,请等待主管分配！");
+	}
+	
 	reloadGrid(getParams("queryCaseRecordList",1));
 });
 function getParams(qId,page,orgid) {
