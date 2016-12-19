@@ -33,10 +33,19 @@ public class ToCase {
     
 	private String caseOrigin;
 	
+	private String createBy;
+
 	private String updateBy;
 	
 	private Date updateTime;
 	
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
 	
     public String getUpdateBy() {
 		return updateBy;

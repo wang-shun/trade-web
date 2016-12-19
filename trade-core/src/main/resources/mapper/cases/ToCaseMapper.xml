@@ -12,13 +12,13 @@
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
     <result column="CLOSE_TIME" jdbcType="VARCHAR" property="closeTime" />
     <result column="loan_Req" jdbcType="VARCHAR" property="loanReq" />  
- 
+ 	<result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
     <result column="CASE_ORIGIN" jdbcType="VARCHAR" property="caseOrigin" />
     <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    PKID, CASE_CODE, CTM_CODE, CREATE_TIME, STATUS, CASE_PROPERTY, LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME,loan_Req
+    PKID, CASE_CODE, CTM_CODE, CREATE_TIME, STATUS, CASE_PROPERTY, LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME,loan_Req,CREATE_BY,CASE_ORIGIN,UPDATE_BY,UPDATE_TIME
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -623,6 +623,10 @@ FROM
 		WHERE  PROCESSOR_ID IN
 		 <foreach collection="param1" item="item1" index="index1" open="(" separator="," close=")">#{item1}</foreach>
 	 )
+ </select>
+ <select id="getUserIsMain" parameterType="java.lang.String" resultType="java.util.HashMap">
+  	select top 1 user_id,REAL_NAME,MOBILE,JOB_NAME,EMPLOYEE_CODE,ORG_NAME from sctrans.V_USER_ORG_JOB_ACTIVE u where  ISMAIN = 1 
+ 		and IS_DELETED=0 and USER_ID= #{userId,jdbcType=VARCHAR}
  </select>
  
 

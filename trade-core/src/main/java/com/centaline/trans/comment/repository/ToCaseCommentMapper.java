@@ -6,7 +6,7 @@ import com.centaline.trans.common.MyBatisRepository;
 @MyBatisRepository
 public interface ToCaseCommentMapper {
     int deleteByPrimaryKey(Long pkid);
-
+    
     int insert(ToCaseComment record);
 
     int insertSelective(ToCaseComment record);
@@ -18,4 +18,8 @@ public interface ToCaseCommentMapper {
     int updateByPrimaryKey(ToCaseComment record);
     
     List<ToCaseComment> getToCaseCommentList(ToCaseComment record);
+    
+    ToCaseComment getCommentParentByBizCode(String bizCode);
+     
+    ToCaseComment getCommentById(Long pkid);
 }

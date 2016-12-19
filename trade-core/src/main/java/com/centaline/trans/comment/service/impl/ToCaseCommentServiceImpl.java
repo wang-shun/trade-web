@@ -2,6 +2,10 @@ package com.centaline.trans.comment.service.impl;
 
 import java.util.List;
 
+<<<<<<< HEAD
+=======
+import org.apache.commons.lang3.StringUtils;
+>>>>>>> 203ab94d663aa2dbf561af53bc2778adf2ff70d5
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,4 +39,22 @@ public class ToCaseCommentServiceImpl implements ToCaseCommentService {
         return toCaseCommentMapper.insertSelective(record);
     }
 
+//
+//	@Override
+//	public int insertToCaseComment(ToCaseComment record) {
+//		if (StringUtils.isNotBlank(record.getParentId())) {
+//			ToCaseComment pComment = toCaseCommentMapper.getCommentById(Long.valueOf(record.getParentId()));
+//			if (pComment != null) {
+//				pComment.setPkid(null);
+//				BeanUtils.copyProperties(record, pComment);
+//				return toCaseCommentMapper.insertSelective(pComment);
+//			}
+//		}
+//		return toCaseCommentMapper.insertSelective(record);
+//	}
+
+	@Override
+	public ToCaseComment getCommentParentByBizCode(String bizCode) {
+		return toCaseCommentMapper.getCommentParentByBizCode(bizCode);
+	}
 }

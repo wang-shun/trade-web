@@ -7,8 +7,6 @@ import com.centaline.trans.comment.entity.ToCaseComment;
 public interface ToCaseCommentService {
     List<ToCaseComment> getToCaseCommentList(ToCaseComment record);
 
-    int insertToCaseComment(ToCaseComment record);
-
     /**
      * 合作机构增加备注信息
      * 
@@ -32,4 +30,6 @@ public interface ToCaseCommentService {
      * @return
      */
     //    boolean rejectCase4Par(ToCaseComment record);
+
+    ToCaseComment getCommentParentByBizCode(String bizCode);
 }

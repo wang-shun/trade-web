@@ -91,24 +91,31 @@ var ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
 //页面初始化
 $(document).ready(function() {
-	select2DivClick(1);
-	
+	//select2DivClick(1);	
 });
 
 $("#blocksSelect").select2({
 	  ajax: {
+		    //params:{"Accept":"application/json,text/javascript,*/*;q=0.01","Content-Type":"application/json;charset=UTF-8"},
+		    placeholder: "请选择楼盘",
 		    url: ctx+'/api/house/bizblocksListAjax',
 		    dataType: 'JSON',
-		    delay: 400,
+		    delay: 300,
+/*		    headers : {
+		        "Accept":"application/json,text/javascript,* /*;q=0.01",
+		        "Content-type":"application/json;charset=UTF-8"
+		    },*/
+		     
 		    type: "POST",
+		    params:{"Content-Type":"application/json;charset=UTF-8"},
 		    /*params:{"Accept":"application/json, text/javascript, ; q=0.01","Accept-Encoding":"gzip, deflate","Accept-Language":"zh-CN,zh;q=0.8",
 			    "Cache-Control":"no-cache","Connection":"keep-alive","Content-Length":"71","Content-Type":"application/json;charset=UTF-8","X-Requested-With":"XMLHttpRequest",
 			    "Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"GET,POST"
 			},*/
-		   beforeSend : function(request){
-		    	request.setRequestHeader("Accept","application/json,text/javascript,*/*;q=0.01");				    	    
+/*		   beforeSend : function(request){
+		    	request.setRequestHeader("Accept","application/json,text/javascript,* /*;q=0.01");				    	    
 		    	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");			    	    	
-		    },
+		    }, */
 
 		    data: function (params) {		    	
 		    	var data={
@@ -128,17 +135,13 @@ $("#blocksSelect").select2({
 		    	    "pageSize": 10
 		    	};*/
 		    },
-		    processResults: function (data, params) {
-		      params.page = params.page || 1;
-		      alert(JSON.stringify(params));
-		      return {
-		        results: data.items,
-		        pagination: {
-		          more: (params.page * 30) < data.total_count
-		        }
-		      };
-		    },
-		    cache: true
+		  processResults: function (data, page) {
+		    	 
+				 return {
+						 results: data.items
+						};
+				 },
+		  cache: true
 		  },
 		  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
 		  minimumInputLength: 2,
