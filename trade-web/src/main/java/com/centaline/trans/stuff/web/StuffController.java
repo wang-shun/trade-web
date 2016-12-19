@@ -13,6 +13,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.comment.entity.ToCaseComment;
+import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.stuff.enums.CommentSource;
 import com.centaline.trans.stuff.enums.CommentType;
 import com.centaline.trans.stuff.service.StuffService;
@@ -26,17 +27,20 @@ public class StuffController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private ToCaseService toCaseService;
+	@Autowired
+	private ToCaseCommentService caseCommentService;
 
 	@RequestMapping("startReqStuff")
-	public String startReqStuff() {
+	public String startReqStuff(String caseCode) {
 		ToCaseComment comment = new ToCaseComment();
-		comment.setBizCode("ZY-SH-201612-0007");
-		comment.setCaseCode("ZY-SH-201612-0007");
+		comment.setBizCode(caseCode);
+		comment.setCaseCode(caseCode);
 		comment.setComment("my test");
 		comment.setCreatorOrgId(uamSessionService.getSessionUser().getServiceDepId());
 		comment.setSource(CommentSource.MORT.getCode());
 		comment.setSrvCode("reqStuff");
 		comment.setType(CommentType.BUJIAN.getCode());
+		caseCommentService.insertToCaseComment(comment);
 		stuffService.reqStuff(comment, false);
 		return "scuess";
 	}
@@ -44,10 +48,11 @@ public class StuffController {
 	@RequestMapping("process")
 	public String process(HttpServletRequest request, HttpServletResponse response, String businessKey, String source,
 			String taskitem, String processInstanceId) {
-		ToCaseComment pComment = stuffService.getCommentParentByBizCode(businessKey);
+		ToCaseComment pComment = stuffService.findCommentById(businessKey);
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(pComment.getCaseCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("pComment", pComment);
+		request.setAttribute("caseCode", pComment.getCaseCode());
 		return "/stuff/stuffProcess";
 	}
 	@RequestMapping("submit")

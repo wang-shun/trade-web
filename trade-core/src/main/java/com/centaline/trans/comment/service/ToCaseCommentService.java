@@ -32,6 +32,10 @@ public interface ToCaseCommentService {
     //    boolean rejectCase4Par(ToCaseComment record);
 
     ToCaseComment getCommentParentByBizCode(String bizCode);
+    /*
+     * 
+     */
+    ToCaseComment findCommentById(Long pkid);
 
     /**
      * 

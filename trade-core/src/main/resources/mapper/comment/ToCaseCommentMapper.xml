@@ -49,6 +49,9 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
+  <selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="pkid">
+select @@identity
+</selectKey>
     insert into sctrans.T_TO_CASE_COMMENT (PKID, CASE_CODE, SRV_CODE, 
       COMMENT, CREATE_TIME, CREATE_BY, 
       UPDATE_TIME, UPDATE_BY, CREATOR_ORG_ID, BIZ_CODE, SOURCE, TYPE, PARENT_ID)
@@ -57,6 +60,9 @@
       #{creatorOrgId,jdbcType=VARCHAR}, #{bizCode,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT},)
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
+    <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="pkid">
+select @@identity
+</selectKey>
     insert into sctrans.T_TO_CASE_COMMENT
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

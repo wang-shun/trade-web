@@ -53,4 +53,9 @@ public class ToCaseCommentServiceImpl implements ToCaseCommentService {
     public ToCaseComment getCommentParentByBizCode(String bizCode) {
         return toCaseCommentMapper.getCommentParentByBizCode(bizCode);
     }
+
+	@Override
+	public ToCaseComment findCommentById(Long pkid) {
+		return toCaseCommentMapper.getCommentById(pkid);
+	}
 }

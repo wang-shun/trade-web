@@ -42,18 +42,18 @@ public class StuffServiceImpl implements StuffService {
 
 	@Override
 	public void reqStuff(ToCaseComment stuffComment, Boolean isNotifyCustoemr) {
-		toCaseCommentService.insertToCaseComment(stuffComment);
+		/// toCaseCommentService.insertToCaseComment(stuffComment);这里只处理流程相关
 		if (CommentType.BUJIAN.getCode().equals(stuffComment.getType())) {
 			Map<String, Object> vars = new HashMap<>();
 			User assigneeUser = stuffAssigneeGetService.getAssignee(stuffComment);
 			vars.put("assignee", assigneeUser.getUsername());
 			StartProcessInstanceVo vo = processService.startWorkFlowByDfId(
-					propertyUtilsService.getProcessDfId(WorkFlowEnum.REQ_STUFF.getName()), stuffComment.getBizCode(),
+					propertyUtilsService.getProcessDfId(WorkFlowEnum.REQ_STUFF.getName()), stuffComment.getPkid() + "",
 					vars);
 			ToWorkFlow wf = new ToWorkFlow();
 			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 			wf.setCaseCode(stuffComment.getCaseCode());
-			wf.setBizCode(stuffComment.getBizCode());
+			wf.setBizCode(stuffComment.getPkid() + "");
 			wf.setProcessOwner(assigneeUser.getId());
 			wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
 			wf.setInstCode(vo.getId());
@@ -76,12 +76,26 @@ public class StuffServiceImpl implements StuffService {
 		if (org != null) {
 			comment.setCreatorOrgIdShow(org.getOrgName());
 		}
-		return toCaseCommentService.getCommentParentByBizCode(bizCode);
+		return comment;
 	}
 
 	@TaskOperate
 	@Override
 	public void submit(ToCaseComment stuffComment, String taskId) {
-		//每有业务要处理
+		// 每有业务要处理
+	}
+
+	@Override
+	public ToCaseComment findCommentById(String pkid) {
+		ToCaseComment comment = toCaseCommentService.findCommentById(Long.valueOf(pkid));
+		User user = uamUserOrgService.getUserById(comment.getCreateBy());
+		Org org = uamUserOrgService.getOrgById(comment.getCreatorOrgId());
+		if (user != null) {
+			comment.setCreateByShow(user.getRealName());
+		}
+		if (org != null) {
+			comment.setCreatorOrgIdShow(org.getOrgName());
+		}
+		return comment;
 	}
 }
