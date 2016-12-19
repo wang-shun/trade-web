@@ -208,6 +208,7 @@ public class CaseMergeController {
 			toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone());			
 			toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName());
 			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode());
+			toCaseInfo.setImportTime(new Date());
 			toCaseInfoService.insertSelective(toCaseInfo);
 			
 			if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){
@@ -220,7 +221,7 @@ public class CaseMergeController {
 		
 		if(!"".equals(keyFlag) && null != keyFlag){
 			if("case".equals(keyFlag)){
-				return  "case/mycase_list2";				
+				return  "case/caseRecord";				
 			}else if("eloan".equals(keyFlag)){
 				return  "eloan/task/taskEloanList";							
 			}else if("spv".equals(keyFlag)){

@@ -101,13 +101,13 @@ $("#blocksSelect").select2({
 		    url: ctx+'/api/house/bizblocksListAjax',
 		    dataType: 'JSON',
 		    delay: 300,
-		    headers : {
-		        "Accept":"application/json,text/javascript,*/*;q=0.01",
+/*		    headers : {
+		        "Accept":"application/json,text/javascript,* /*;q=0.01",
 		        "Content-type":"application/json;charset=UTF-8"
-		    },
+		    },*/
 		     
 		    type: "POST",
-		   // params:{"Accept":"application/json,text/javascript,*/*;q=0.01","Content-Type":"application/json;charset=UTF-8"},
+		    params:{"Accept":"application/json,text/javascript,*/*;q=0.01","Content-Type":"application/json;charset=UTF-8"},
 		    /*params:{"Accept":"application/json, text/javascript, ; q=0.01","Accept-Encoding":"gzip, deflate","Accept-Language":"zh-CN,zh;q=0.8",
 			    "Cache-Control":"no-cache","Connection":"keep-alive","Content-Length":"71","Content-Type":"application/json;charset=UTF-8","X-Requested-With":"XMLHttpRequest",
 			    "Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"GET,POST"
