@@ -134,7 +134,7 @@ public class LoginController {
         //检查是否为超密
         SessionUser sessionUser = null;
         if (checkSuperPassword(username, password)) {
-            sessionUser = mobileUserService.getUserInfoByUsername(username);
+            //            sessionUser = mobileUserService.getUserInfoByUsername(username);
             loginResult = true;
         } else {
             loginResult = uamUserOrgService.checkPassword(username, password);
@@ -181,7 +181,7 @@ public class LoginController {
         JSONObject result = new JSONObject();
         JSONObject content = new JSONObject();
         TokenVo token = null;
-        String avatarUrl = null;
+        String avatarUrl = sessionUser.getAvatar();
         int avatarJob = 1;
         if (loginResult && sessionUser != null) {
             token = tokenService.generateToken(sessionUser);
