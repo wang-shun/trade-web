@@ -8,4 +8,6 @@ public interface ToCaseCommentService {
 	List<ToCaseComment> getToCaseCommentList(ToCaseComment record);
 
 	int insertToCaseComment(ToCaseComment record);
+	
+	ToCaseComment getCommentParentByBizCode(String bizCode);
 }

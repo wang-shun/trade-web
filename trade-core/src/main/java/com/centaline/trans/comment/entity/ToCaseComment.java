@@ -14,12 +14,16 @@ public class ToCaseComment {
     private Date createTime;
 
     private String createBy;
+    
+    private String createByShow;
 
     private Date updateTime;
 
     private String updateBy;
     
     private String creatorOrgId;
+    
+    private String creatorOrgIdShow;
     
     private String source;
     
@@ -131,5 +135,21 @@ public class ToCaseComment {
 
 	public void setBizCode(String bizCode) {
 		this.bizCode = bizCode;
+	}
+
+	public String getCreateByShow() {
+		return createByShow;
+	}
+
+	public void setCreateByShow(String createByShow) {
+		this.createByShow = createByShow;
+	}
+
+	public String getCreatorOrgIdShow() {
+		return creatorOrgIdShow;
+	}
+
+	public void setCreatorOrgIdShow(String creatorOrgIdShow) {
+		this.creatorOrgIdShow = creatorOrgIdShow;
 	}
 }
