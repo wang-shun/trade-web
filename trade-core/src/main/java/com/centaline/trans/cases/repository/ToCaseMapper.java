@@ -1,7 +1,9 @@
 package com.centaline.trans.cases.repository;
 
 import java.util.List;
+import java.util.Map;
 
+import com.aist.uam.ice.userorg.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
@@ -128,6 +130,15 @@ public interface ToCaseMapper {
 	 * @return
 	 */
 	int getRedcountByIdList(List<String> idList, String strNum, String endNum);
+	
+	/**
+	 * 获取主岗
+	 * @param idList
+	 * @param strNum
+	 * @param endNum
+	 * @return
+	 */
+	Map getUserIsMain(String userId);
 	
 	
 }

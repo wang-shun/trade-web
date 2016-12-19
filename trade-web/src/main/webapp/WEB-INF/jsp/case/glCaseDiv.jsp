@@ -154,11 +154,12 @@ function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,selle
 	$("#buyer").html(buyer);
 }
 function merge(){
+	
 	if(undefined == $('input[name="mergePkid"]:checked').val()){alert("请选择一条案件！");return;}
     if(!confirm("确定申请合流案件吗！")){ return false; }
-	var mergePkid = $("#mergePkid").val();
+	var mergePkid = $('input[name="mergePkid"]:checked').val();
 	var pkId = $("#pkId").val();
-	var data = {};debugger;
+	var data = {};
 	data.mergePkid= mergePkid;
 	data.pkId= pkId;
 	$.ajax({

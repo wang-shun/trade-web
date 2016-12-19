@@ -37,6 +37,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
+import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
 import com.centaline.trans.common.entity.CaseMergerParameter;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
@@ -498,20 +499,15 @@ public class ToCaseServiceImpl implements ToCaseService {
 	 */
 	@Override
 	public void updateMergeCase(CaseMergerParameter caseMergerParameter) throws Exception{
-		
 		SessionUser user = uamSessionService.getSessionUser();
 		
 		if(null != caseMergerParameter){
 		if(StringUtils.isBlank(caseMergerParameter.getId())){throw new BusinessException("合流记录id为空!"); }
 		if(StringUtils.isBlank(caseMergerParameter.getType())){ throw new BusinessException("操作状态为空!"); }
 		}else{new BusinessException("合流案件记录为空!");}
-		
-		if(StringUtils.equals(caseMergerParameter.getType(),"1")){
-			agreeMergeCase(user,caseMergerParameter);
-		}
-		if(StringUtils.equals(caseMergerParameter.getType(),"0")){
-			turnMergeCase(user,caseMergerParameter);
-		}
+		/**1确认0驳回**/
+		if(StringUtils.equals(caseMergerParameter.getType(),"1")){ agreeMergeCase(user,caseMergerParameter); }
+		if(StringUtils.equals(caseMergerParameter.getType(),"0")){ turnMergeCase(user,caseMergerParameter); }
 	}
 	
 	/**
@@ -755,6 +751,72 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setConfirmorTime(new Date());
 		toCaseMerge.setApplyDirection("0");
 		return toCaseMerge;
+	}
+	/**
+	 * 查询GetToCase vCaseDistributeUserVO中Type为all在页面中用来显示全部交易顾问 INPUT创建人和CTM意向顾问
+	 * @author hejf10
+	 * @return
+	 */
+	@Override
+	public VCaseDistributeUserVO getVCaseDistributeUserVO(String caseCode) {
+		VCaseDistributeUserVO vCaseDistributeUserVO = new VCaseDistributeUserVO();
+		ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
+		
+		if(StringUtils.equals(toCase.getCaseOrigin(), "INPUT")){
+			if(StringUtils.isBlank(toCase.getCreateBy())){return null;}
+			Map user = toCaseMapper.getUserIsMain(toCase.getCreateBy());
+			if(null != user){
+				getVCaseDistributeUserVO(user,null,"map",vCaseDistributeUserVO,"INPUT");/**INPUT创建人**/
+			}else{
+				User user1 = uamUserOrgService.getUserById(toCase.getCreateBy()); 
+				getVCaseDistributeUserVO(user,user1,"user",vCaseDistributeUserVO,"CTM");/**INPUT创建人**/
+			}
+		}    
+		if(StringUtils.equals(toCase.getCaseOrigin(), "CTM")){
+			ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
+			if(StringUtils.isBlank(toCaseInfo.getRequireProcessorId())){return null;}
+			
+			Map user = toCaseMapper.getUserIsMain(toCaseInfo.getRequireProcessorId());
+			if(null != user){
+				getVCaseDistributeUserVO(user,null,"map",vCaseDistributeUserVO,"CTM");/**CTM意向顾问**/
+			}else{
+				User user1 = uamUserOrgService.getUserById(toCaseInfo.getRequireProcessorId()); 
+				getVCaseDistributeUserVO(user,user1,"user",vCaseDistributeUserVO,"CTM");/**CTM意向顾问**/
+			}
+		}
+		return vCaseDistributeUserVO;
+	}
+	/**
+	 * 返回VCaseDistributeUserVO dataType为user时设置VCaseDistributeUserVO的值根据查询出来的用户信息进行设置，
+	 * 如果datatype为map时设置VCaseDistributeUserVO的信息用Map设置
+	 * @author hejf10
+	 * @return
+	 */
+	public VCaseDistributeUserVO getVCaseDistributeUserVO(Map user,User user1,String dataType,VCaseDistributeUserVO vCaseDistributeUserVO,String type) {
+		vCaseDistributeUserVO.setType(type);
+		
+		if(StringUtils.equals(dataType,"user")){
+			if(null != user1){
+				if(!StringUtils.isBlank(user1.getMobile()))
+					vCaseDistributeUserVO.setMobile(user1.getMobile());
+				if(!StringUtils.isBlank(user1.getRealName()))
+					vCaseDistributeUserVO.setRealName(user1.getRealName());
+				if(!StringUtils.isBlank(user1.getEmployeeCode())){
+					String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+user1.getEmployeeCode()+".jpg";
+					vCaseDistributeUserVO.setImgUrl(url);
+				}
+				vCaseDistributeUserVO.setJobName("");
+				vCaseDistributeUserVO.setOrgName("");
+			}
+		}else{
+			vCaseDistributeUserVO.setOrgName(user.get("ORG_NAME").toString());
+			vCaseDistributeUserVO.setJobName(user.get("JOB_NAME").toString());
+			vCaseDistributeUserVO.setMobile(user.get("MOBILE").toString());
+			vCaseDistributeUserVO.setRealName(user.get("REAL_NAME").toString());
+			String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+user.get("EMPLOYEE_CODE").toString()+".jpg";
+			vCaseDistributeUserVO.setImgUrl(url);
+		}
+		return vCaseDistributeUserVO;
 	}
 	
 }

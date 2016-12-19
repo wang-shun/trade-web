@@ -8,6 +8,7 @@ import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.common.entity.CaseMergerParameter;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
 
 public interface ToCaseService {
 	
@@ -94,4 +95,9 @@ public interface ToCaseService {
 	 * @throws Exception
 	 */
 	void mergeCase(CaseMergerParameter caseMergerParameter) throws Exception;
+	/**
+	 * 返回ToCase
+	 * @author hejf10
+	 */
+	VCaseDistributeUserVO getVCaseDistributeUserVO(String caseCode);
 }
