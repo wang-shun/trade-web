@@ -18,5 +18,7 @@ public interface StuffService {
 	public void reqStuff(ToCaseComment stuffComment, Boolean isNotifyCustoemr);
 	
 	public ToCaseComment getCommentParentByBizCode(String bizCode);
+	
+	void submit(ToCaseComment caseComment,String taskId);
 
 }

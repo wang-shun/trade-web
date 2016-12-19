@@ -15,6 +15,7 @@ import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.engine.annotation.TaskOperate;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -66,15 +67,21 @@ public class StuffServiceImpl implements StuffService {
 
 	@Override
 	public ToCaseComment getCommentParentByBizCode(String bizCode) {
-		ToCaseComment comment= toCaseCommentService.getCommentParentByBizCode(bizCode);
-		User user=uamUserOrgService.getUserById(comment.getCreateBy());
-		Org org=uamUserOrgService.getOrgById(comment.getCreatorOrgId());
-		if(user!=null){
+		ToCaseComment comment = toCaseCommentService.getCommentParentByBizCode(bizCode);
+		User user = uamUserOrgService.getUserById(comment.getCreateBy());
+		Org org = uamUserOrgService.getOrgById(comment.getCreatorOrgId());
+		if (user != null) {
 			comment.setCreateByShow(user.getRealName());
 		}
-		if(org!=null){
+		if (org != null) {
 			comment.setCreatorOrgIdShow(org.getOrgName());
 		}
 		return toCaseCommentService.getCommentParentByBizCode(bizCode);
+	}
+
+	@TaskOperate
+	@Override
+	public void submit(ToCaseComment stuffComment, String taskId) {
+		//每有业务要处理
 	}
 }
