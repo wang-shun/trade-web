@@ -60,7 +60,7 @@
 		<div class=" wrapper border-bottom white-bg page-heading">
 			<div class="row">
 			<div class="col-lg-10">
-				<h2>放款</h2>
+				<h2>补件</h2>
 				<ol class="breadcrumb">
 					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
 					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
@@ -71,45 +71,31 @@
 		</div>
 		<div class="ibox-title">
 			<h5>填写任务信息</h5>
-			<div class="ibox-content">
+			<div class="ibox-content form_content">
 				<form method="get" class="form-horizontal" id="loanReleaseForm">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<input type="hidden" id="taskitem" name="taskitem" value="${taskitem}">
 					<!-- 交易单编号 -->
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+					<input type="hidden" id="caseComment_parentId" name="caseComment_parentId" value="${pComment.pkid }">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="pkid" name="pkid" value="${loanRelease.pkid}">
-					
-					<c:if test="${tz}">
-					<div class="form-group" id="data_1">
-						<label class="col-sm-2 control-label">他证送抵时间<c:if test="${loanRelease.isDelegateYucui=='1'}"><font color="red">*</font></c:if></label>
-						<div class="input-group date readOnly_date">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="text" class="form-control" id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
-									value="<fmt:formatDate  value='${loanRelease.tazhengArrDate}' type='both' pattern='yyyy-MM-dd'/>">
+				
+					<div class="row">
+						<div class="control-label sign_left_small" >
+							<label class="col-md-2">申请人 </label>
+							<div class="col-md-10 text-left ">${pComment.createByShow}</div>
 						</div>
 					</div>
-					</c:if>
-					
-					<div class="form-group" id="data_1_forBank">
-						<label class="col-sm-2 control-label">银行真实放款时间<font color="red">*</font></label>
-						<div class="input-group date readOnly_date">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="text" class="form-control" id="lendDate" name="lendDate" onfocus="this.blur()"
-								value="<fmt:formatDate  value='${loanRelease.lendDate}' type='both' pattern='yyyy-MM-dd'/>" >
+					<div class="row">
+						<div class="control-label sign_left_small" >
+							<label class="col-md-2">申请组别 </label>
+							<div class="col-md-10 text-left ">${pComment.creatorOrgIdShow}</div>
 						</div>
 					</div>
 
-					<div class="form-group">
-						<label class="col-sm-2 control-label">备注</label>
-						<div class="col-sm-10 input-group">
-							<input type="text" class="form-control" id="remark" name="remark" value="${loanRelease.remark}">
-						</div>
-					</div>
 				</form>
 
 			</div>
@@ -280,7 +266,7 @@
 
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
 	
-	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/trunk/comment/caseComment.js?v=1.0.1"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>	
@@ -301,24 +287,6 @@
 
 	
 	$(document).ready(function() {
-		if('caseDetails'==source){
-			readOnlyForm();
-		}
-		
-		$('#data_1 .input-group.date').datepicker({
-			todayBtn : "linked",
-			keyboardNavigation : false,
-			forceParse : false,		
-			autoclose : true			
-		});
-
-		$('#data_1_forBank .input-group.date').datepicker({
-			todayBtn : "linked",
-			keyboardNavigation : false,
-			forceParse : false,		
-			autoclose : true,
-			endDate : new Date()  //限制选取的结束时间
-		});		
 		
 		$("#caseCommentList").caseCommentGrid({
 			caseCode : caseCode,

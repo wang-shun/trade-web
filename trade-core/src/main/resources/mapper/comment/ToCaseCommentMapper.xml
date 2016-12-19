@@ -11,16 +11,27 @@
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
     <result column="CREATOR_ORG_ID" property="creatorOrgId" jdbcType="VARCHAR" />
-    <result column="BIZ_CODDE" property="bizCode" jdbcType="VARCHAR" />
+    <result column="BIZ_CODE" property="bizCode" jdbcType="VARCHAR" />
     <result column="SOURCE" property="source" jdbcType="VARCHAR" />
     <result column="TYPE" property="type" jdbcType="VARCHAR" />
     <result column="PARENT_ID" property="parentId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, SRV_CODE, COMMENT, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, 
-    CREATOR_ORG_ID, BIZ_CODDE, SOURCE, TYPE, PARENT_ID
+    CREATOR_ORG_ID, BIZ_CODE, SOURCE, TYPE, PARENT_ID
   </sql>
-  
+      <select id="getCommentById" resultMap="BaseResultMap" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_COMMENT
+    where pkid =#{pkid,jdbcType=BIGINT}
+  </select>
+    <select id="getCommentParentByBizCode" resultMap="BaseResultMap" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_COMMENT
+    where biz_code =#{bizCode,jdbcType=VARCHAR} and parent_id is null
+  </select>
   <select id="getToCaseCommentList" resultMap="BaseResultMap" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
     select 
     <include refid="Base_Column_List" />
@@ -40,7 +51,7 @@
   <insert id="insert" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
     insert into sctrans.T_TO_CASE_COMMENT (PKID, CASE_CODE, SRV_CODE, 
       COMMENT, CREATE_TIME, CREATE_BY, 
-      UPDATE_TIME, UPDATE_BY, CREATOR_ORG_ID, BIZ_CODDE, SOURCE, TYPE, PARENT_ID)
+      UPDATE_TIME, UPDATE_BY, CREATOR_ORG_ID, BIZ_CODE, SOURCE, TYPE, PARENT_ID)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{srvCode,jdbcType=VARCHAR}, 
       #{comment,jdbcType=NVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 

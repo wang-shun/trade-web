@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
@@ -34,6 +36,8 @@ public class StuffServiceImpl implements StuffService {
 	private StuffAssigneeGetService stuffAssigneeGetService;
 	@Autowired
 	private ToWorkFlowService workFlowService;
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 
 	@Override
 	public void reqStuff(ToCaseComment stuffComment, Boolean isNotifyCustoemr) {
@@ -62,7 +66,15 @@ public class StuffServiceImpl implements StuffService {
 
 	@Override
 	public ToCaseComment getCommentParentByBizCode(String bizCode) {
-		// TODO Auto-generated method stub
-		return null;
+		ToCaseComment comment= toCaseCommentService.getCommentParentByBizCode(bizCode);
+		User user=uamUserOrgService.getUserById(comment.getCreateBy());
+		Org org=uamUserOrgService.getOrgById(comment.getCreatorOrgId());
+		if(user!=null){
+			comment.setCreateByShow(user.getRealName());
+		}
+		if(org!=null){
+			comment.setCreatorOrgIdShow(org.getOrgName());
+		}
+		return toCaseCommentService.getCommentParentByBizCode(bizCode);
 	}
 }
