@@ -32,4 +32,11 @@ public interface ToCaseCommentService {
     //    boolean rejectCase4Par(ToCaseComment record);
 
     ToCaseComment getCommentParentByBizCode(String bizCode);
+
+    /**
+     * 
+     * @param record
+     * @return
+     */
+    int insertToCaseComment(ToCaseComment record);
 }
