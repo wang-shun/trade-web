@@ -49,19 +49,19 @@
 	                  <label class="control-label sign_left_small">房屋地址</label>
 <!-- 	      			  <input type="text" placeholder="房屋搜索"  class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" value="">  --> 
 	                  
-	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" > </select> 	
+	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect"  style="height:33px;"> </select> 	
 	                  
             
 					  
 					  
 	                  <select id="buildingsSelect" class="select_control sign_right_one  select2  span3"><!-- ml20 -->
-	                      <option value="">--请选择楼栋--</option>
+	                      <option value="">请选择楼栋</option>
 	                  </select>
 	                  <select id="floorSelect"  class="select_control sign_right_one  select2  span3">
-	                      <option value="">--请选择楼层--</option>
+	                      <option value="">请选择楼层</option>
 	                  </select>
 	                  <select id="roomSelect"  class="select_control sign_right_one  select2 span3">
-	                      <option value="">--请选择房屋--</option>
+	                      <option value="">请选择房屋</option>
 	                  </select>                  
 	              </div>
 	          </div>
@@ -93,7 +93,7 @@
 				</div>  
 		    </div> 	
        </div>
-       <div class="form_list mt20" >
+       <div class="form_list" >
            <div class="line">
                <div class="form_content">
                    <label class="control-label sign_left_small">经纪人</label>

@@ -13,6 +13,7 @@
 		<customDict id="qqEvalFee" beanName="qqEvalFee"></customDict>
 		<customDict id="qqCaseProperty" beanName="qqCaseProperty"></customDict>
 		<customDict id="qqMortgageAmount" beanName="qqMortgageAmount"></customDict>
+		<customDict id="qqcdMortServName" beanName="qqcdMortServName"></customDict>
 
 
 	</dicts>
@@ -47,6 +48,7 @@
 					uoj.real_name 		as consultantName,
 					m.loan_agent 		as consultantID,
 					m.cust_name 		as custName,
+					ISNULL(M.STATE_IN_BANK,'') 	AS statusCode,
 					M.MORT_TOTAL_AMOUNT as loanAmount,
 					CAST(m.COM_YEAR as varchar)+'年'		as loanTime,
 					pi.PROPERTY_ADDR 	as addr,
@@ -94,6 +96,8 @@
 				<column type="both" name="caseCode" index="" />
 				<column type="both" name="bizCode" index="" />
 				<column type="both" name="status" index="" />
+				<column type="both" name="statusCode" display="mortInfo_statusCode"  />
+				<column type="virtual" name="status"  referencecol="statusCode" customDict="qqcdMortServName" />
 			</table-row>
 		</grid>
 	</query>

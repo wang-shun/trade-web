@@ -180,7 +180,7 @@ function select2DivClick( data ){
 				 option="<option value=''>无栋座</option>";
 				 $('#buildingsSelect').append(option);
 			}else{
-				 option="<option value=''>请选择</option>";
+				 option="<option value=''>请选择楼栋</option>";
 				 $('#buildingsSelect').append(option);
 				 $.each(data, function(i) {
 			         	 option="<option value='"+data[i].pkid+"'>";
@@ -189,11 +189,11 @@ function select2DivClick( data ){
 			     });
 				 
 				 $('#floorSelect').empty();
-				 option="<option value=''>请选择</option>";
+				 option="<option value=''>请选择楼层</option>";
 			     $('#floorSelect').append(option);
 			     
 			     $('#roomSelect').empty();
-			     option="<option value=''>请选择</option>";
+			     option="<option value=''>请选择房屋</option>";
 			     $('#roomSelect').append(option);			   
 			}	
 			//栋座改变
@@ -220,11 +220,11 @@ function buildingChange(){
 	var building_id = 27527 ; //$("#buildingsSelect").val();      //TODO
 	
 	if(building_id==""){
-		 option="<option value=''>请选择</option>";
+		 option="<option value=''>请选择楼层</option>";
 	     $('#floorSelect').append(option);
 	     
 	     $('#roomSelect').empty();
-	     option="<option value=''>请选择</option>";
+	     option="<option value=''>请选择房屋</option>";
 	     $('#roomSelect').append(option);
 	     
 	     pageflag = false;
@@ -253,7 +253,7 @@ function buildingChange(){
 				//总层数
 				var floorTotal=data;
 				if(floorTotal){
-					option="<option value=''>请选择</option>";
+					option="<option value=''>请选择房屋</option>";
 					floorSelect.append(option);
 					for (var i = 1; i <= floorTotal; i++) {
 						option="<option value='"+i+"'>"+i+"层</option>";

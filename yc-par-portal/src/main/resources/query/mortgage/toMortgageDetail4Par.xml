@@ -113,7 +113,7 @@
 			<column type="both" name="mortInfo_prfAmount" display="mortInfo_prfAmount"  />
 			<column type="both" name="mortInfo_prfYear" display="mortInfo_prfYear"  />
 			<column type="both" name="mortInfo_statusCode" display="mortInfo_statusCode"  />
-			<column type="virtual" name="mortInfo_status" display="mortInfo_status"  ref="mortInfo_statusCode" customDict="qqcdMortServName" />
+			<column type="virtual" name="mortInfo_status"  referencecol="mortInfo_statusCode" customDict="qqcdMortServName" />
 			<column type="both" name="yuOperator_userId" display="yuOperator_userId"  />
 			<column type="both" name="yuOperator_teamId" display="yuOperator_teamId"  />
 			<column type="virtual" name="yuOperator_name" display="yuOperator_name" referencecol="yuOperator_userId" customDict="qqRealName"  />
