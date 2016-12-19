@@ -18,6 +18,7 @@ $(document).ready(function() {
 	data.queryId = "queryCastTransferItemList";
 	data.rows = 10;
 	data.page = 1;
+	data.serviceDepId =$("#serviceDepId").val();
 
 	/* 加载排序查询组件 */
 	aist.sortWrapper({
@@ -172,7 +173,8 @@ function getParamsValue() {
 		TransferStatus : TransferStatus,
 		managerName : managerName,
 		caseCode : caseCode,
-		propertyAddr : propertyAddr
+		propertyAddr : propertyAddr,
+		serviceDepId :$("#serviceDepId").val()
 	};	
 	return params;
 }
