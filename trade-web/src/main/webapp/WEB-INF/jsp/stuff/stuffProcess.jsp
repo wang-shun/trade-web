@@ -79,6 +79,9 @@
 					<!-- 交易单编号 -->
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 					<input type="hidden" id="caseComment_parentId" name="caseComment_parentId" value="${pComment.pkid }">
+					<input type="hidden" id="caseComment_commentSource" name="caseComment_commentSource" value="INTER">
+					<input type="hidden" id="caseComment_commentType" name="caseComment_commentType" value="TRACK">
+					<input type="hidden" id="caseComment_bizCode" name="caseComment_bizCode" value="${pComment.bizCode }">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
@@ -221,7 +224,6 @@
 		</div>
 	
 		<div class="ibox-title">
-			<a href="#" class="btn" onclick="save(false)">保存</a>
 			<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
 		</div>
 	</div>
@@ -266,7 +268,7 @@
 
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
 	
-	<script src="${ctx}/js/trunk/comment/caseComment.js?v=1.0.1"></script>
+	<script src="${ctx}/js/trunk/comment/caseComment.js?v=1.0.3"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>	
@@ -296,24 +298,16 @@
 		
 		/**提交数据*/
 		function submit() {
-			if(checkAttachment()) {
 				save(true);
-			}
 		}
 		
 		/**保存数据*/
 		function save(b) {
-			if(confirm("请确认银行是否已真实放款")){
-					if(!checkForm()) {
-						return;
-					}
+
 					var jsonData = $("#loanReleaseForm").serializeArray();
-					deleteAndModify();
+
 					
-					var url = "${ctx}/task/mortgage/saveMortgage";
-					if(b) {
-						url = "${ctx}/task/mortgage/submitLoanRelease";
-					}
+					var url = "${ctx}/stuff/submit";
 					
 					$.ajax({
 						cache : true,
@@ -357,10 +351,9 @@
 						},
 						error : function(errors) {
 							alert("数据保存出错");
+							$.unblockUI();  
 						}
 					});
-			}		
-
 		}
 		
 		//验证控件checkUI();
