@@ -200,6 +200,8 @@ function _checkbox(){
  * 案件分配初始化
  */
 function caseDistribute(){
+	var data = {};
+	if($('input[name="my_checkbox"]:checked').length==1){data.caseCode=$('input[name="my_checkbox"]:checked').val();};
 	var url = "/case/getUserOrgCpUserList";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
@@ -211,7 +213,7 @@ function caseDistribute(){
 		url : url,
 		dataType : "json",
 		timeout: 10000,
-	    data : "", 
+	    data : data, 
 		success : function(data) {
 			showModal(data);
 		},
@@ -256,27 +258,73 @@ function showModal(data){
 	var addHtml = '';
 	var ctx = $("#ctx").val();
 	$.each(data,function(i, n){
-		addHtml += '<div class="col-lg-4"><div class="contact-box">';
-		addHtml += '<a href="javascript:distributeCase('+i+')">';
-		addHtml += '<div class="col-sm-4"><div class="text-center">';
-		
-		addHtml+='<span class="userHead">';
-		if(n.imgUrl!=null){
-			addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
+		if(n.type == "INPUT"){
+			addHtml += '<div class="feed-activity-list row" style="margin-top: 0;  padding-top: 0; ">                                                       ';
+			addHtml += '	<div class="col-md-4">                                                                 ';
+			addHtml += '		<p class="title">交易单创建人</p>                                                  ';
+			addHtml += '		<div class="feed-element  feed-element-grey">                                      ';
+			addHtml += '			<span class="pull-left">                                                       ';
+			addHtml += '				<img alt="image" class="img-circle" src="'+n.imgUrl+'"> ';
+			addHtml += '				<div class="m-t-xs font-bold">'+n.jobName+'</div>';
+			addHtml += '			</span>                                                                        ';
+			addHtml += '			<div class="media-body ">                                                      ';
+			addHtml += '				<strong>'+n.realName+'</strong>                                     ';
+			addHtml += '				<br>                                                                       ';
+			addHtml += '				<small class="text-muted">'+'联系电话：'+n.mobile+'</small>                            ';
+			addHtml += '				<br>                                                                       ';
+			addHtml += '				<small class="text-muted">'+n.orgName+'</small>                            ';
+			addHtml += '				<p class="small"></p>                                            ';
+			addHtml += '			</div>                                                                         ';
+			addHtml += '		</div>                                                                             ';
+			addHtml += '	</div>                                                                                 ';
+			addHtml += '</div>                                                                                     ';
 		}
-		addHtml+='</span>';
-		
-		addHtml += '<div class="m-t-xs font-bold">交易顾问</div></div></div>';
-		addHtml += '<div class="col-sm-8">';
-		addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
-		addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
-		addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
-		addHtml += '<input id="mobile_'+i+'" type="hidden" value="联系电话：'+n.mobile+'">'+'联系电话：'+n.mobile;
-		addHtml += '<p>当前单数：'+n.userCaseCount+'</p>';
-		addHtml += '<p>本月接单：'+n.userCaseMonthCount+'</p>';
-		addHtml += '<p>未过户单：'+n.userCaseUnTransCount+'</p>';
-		addHtml += '</div><div class="clearfix"></div></a>';
-		addHtml += '</div></div>';
+		if(n.type == "CTM"){
+			addHtml += '<div class="feed-activity-list row" style="margin-top: 0;  padding-top: 0; ">                                                       ';
+			addHtml += '	<div class="col-md-4">                                                                 ';
+			addHtml += '		<p class="title">经纪人意向顾问</p>                                                ';
+			addHtml += '		<div class="feed-element  feed-element-grey">                                      ';
+			addHtml += '			<span class="pull-left">                                                       ';
+			addHtml += '				<img alt="image" class="img-circle" src="'+n.imgUrl+'"> ';
+			addHtml += '				<div class="m-t-xs font-bold">'+n.jobName+'</div>';
+			addHtml += '			</span>                                                                        ';
+			addHtml += '			<div class="media-body ">                                                      ';
+			addHtml += '				<strong>'+n.realName+'</strong>                                       ';
+			addHtml += '				<br>                                                                       ';
+			addHtml += '				<small class="text-muted">'+'联系电话：'+n.mobile+'</small>                            ';
+			addHtml += '				<br>                                                                       ';
+			addHtml += '				<small class="text-muted">'+n.orgName+'</small>                            ';
+			addHtml += '				<p class="small"></p>                                     ';
+			addHtml += '			</div>                                                                         ';
+			addHtml += '		</div>                                                                             ';
+			addHtml += '	</div>                                                                                 ';
+			addHtml += '</div>                                                                                     ';
+			
+		}
+		if(n.type == "ALL"){
+			addHtml += '<div class="mt30" >';
+			addHtml += '<div class="col-lg-4"><div class="contact-box">';
+			addHtml += '<a href="javascript:distributeCase('+i+')">';
+			addHtml += '<div class="col-sm-4"><div class="text-center">';
+			
+			addHtml+='<span class="userHead">';
+			if(n.imgUrl!=null){
+				addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
+			}
+			addHtml+='</span>';
+			
+			addHtml += '<div class="m-t-xs font-bold">交易顾问</div></div></div>';
+			addHtml += '<div class="col-sm-8">';
+			addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
+			addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
+			addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
+			addHtml += '<input id="mobile_'+i+'" type="hidden" value="联系电话：'+n.mobile+'">'+'联系电话：'+n.mobile;
+			addHtml += '<p>当前单数：'+n.userCaseCount+'</p>';
+			addHtml += '<p>本月接单：'+n.userCaseMonthCount+'</p>';
+			addHtml += '<p>未过户单：'+n.userCaseUnTransCount+'</p>';
+			addHtml += '</div><div class="clearfix"></div></a>';
+			addHtml += '</div></div></div>';
+		}
 	})
 	$("#modal-data-show").html(addHtml);
 

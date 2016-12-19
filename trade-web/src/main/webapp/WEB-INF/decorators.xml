@@ -68,14 +68,14 @@
 		<pattern>/material/materialStorgae</pattern>
 		<pattern>/material/materialDetail</pattern>
 		<pattern>/material/materialStay</pattern>
-	    <pattern>/case/myCaseList</pattern>
-	    <pattern>/caseMerge/addCase/case</pattern>
-	    <pattern>/caseMerge/addCase/eloan</pattern>
-	   	<pattern>/caseMerge/addCase/spv</pattern>
-	    <pattern>/caseMerge/saveCaseInfo</pattern>	    
+	    <pattern>/case/myCaseList</pattern>    
 	    <pattern>/case/caseForChange</pattern>
 		<pattern>/case/caseDistribute</pattern>
 		<pattern>/case/unlocatedCase</pattern> 
+		<pattern>/caseMerge/addCase/case</pattern>
+	    <pattern>/caseMerge/addCase/eloan</pattern>
+	   	<pattern>/caseMerge/addCase/spv</pattern>
+	    <pattern>/caseMerge/saveCaseInfo</pattern>	
 		<pattern>/task/toTaskOfGroupList</pattern>
 		<pattern>/case/taskTracking</pattern> 
 		<pattern>/case/tracking</pattern> 

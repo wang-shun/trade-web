@@ -45,8 +45,9 @@
     margin-right: 10px;
 }
 .media-body .text-muted {
-    font-size: 18px;
-    color: #333;
+	font-family: "Microsoft Yahei";
+    font-size: 14px;
+    color: #808080;
     line-height: 30px;
 }
 .media-body .small {
@@ -82,6 +83,7 @@
 .feed-element img.img-circle {
     width: 68px;
     height: 68px;
+    object-fit: cover;
 }
 
 .feed-element-grey {
@@ -92,5 +94,11 @@
     cursor: pointer;
 }
 .feed-element-border:hover {
+    background-color: #d2f3ff;
+}
+.contact-box {
+	font-family: "Microsoft Yahei";
+}
+.contact-box:hover {
     background-color: #d2f3ff;
 }
