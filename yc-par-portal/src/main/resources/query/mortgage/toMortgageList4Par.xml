@@ -97,7 +97,7 @@
 				<column type="both" name="bizCode" index="" />
 				<column type="both" name="status" index="" />
 				<column type="both" name="statusCode" display="mortInfo_statusCode"  />
-				<column type="virtual" name="status"  referencecol="mortInfo_statusCode" customDict="qqcdMortServName" />
+				<column type="virtual" name="status"  referencecol="statusCode" customDict="qqcdMortServName" />
 			</table-row>
 		</grid>
 	</query>
