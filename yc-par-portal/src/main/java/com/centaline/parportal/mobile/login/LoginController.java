@@ -81,6 +81,9 @@ public class LoginController {
     @Value("${app.superPassword:n1need}")
     private String                            superPassword;
 
+    @Value("${img.sh.centaline.url}")
+    private String                            avatarUrlPrix;
+
     @Autowired
     private UamSessionService                 uamSessionService;
 
@@ -181,7 +184,7 @@ public class LoginController {
         JSONObject result = new JSONObject();
         JSONObject content = new JSONObject();
         TokenVo token = null;
-        String avatarUrl = sessionUser.getAvatar();
+        String avatar = sessionUser.getAvatar();
         int avatarJob = 1;
         if (loginResult && sessionUser != null) {
             token = tokenService.generateToken(sessionUser);
@@ -197,7 +200,12 @@ public class LoginController {
                 avatarJob = 1;
             }
         }
-        content.put("avatarUrl", loginResult ? avatarUrl : "");
+
+        //登录成功，且avatar不为空时，补充头像路径
+        if (loginResult && !StringUtils.isEmpty(avatar))
+            content.put("avatarUrl", avatarUrlPrix + avatar);
+        else
+            content.put("avatarUrl", "");
         content.put("ismultiJob", loginResult ? avatarJob : "");
         if (loginResult) {
             content.put("sessionUser", sessionUser);
