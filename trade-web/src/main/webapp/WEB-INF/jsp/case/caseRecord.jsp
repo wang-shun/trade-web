@@ -231,16 +231,16 @@
 {{if index_ == "1" || index_ == "2"}}
 			<td class="t-left yiban"  id="operato" name="operato">
 				 <p class="big">
-	{{if item.operato == "2" || item.status == "1" || item.status == "2"}}
+	{{if item.operato == "2" || item.status == "1" || item.status == "2" || userId != item.ctmleadingProcess}}
 		<button class="btn btn-success mr5" disabled="disabled" >确认</button>
 	{{/if}}
-	{{if item.operato == "1" && item.status == "0"}}
+	{{if item.operato == "1" && item.status == "0" && userId == item.ctmleadingProcess }}
 		<button class="btn btn-success mr5"  onclick="merge({{item.id}},'1')" >确认 </button>
 	{{/if}}
-	{{if item.status != "0"}}
+	{{if item.status != "0" || userId != item.ctmleadingProcess}}
                     <button class="btn btn-grey" disabled="disabled">驳回</button>
 	{{/if}}
-	{{if item.status == "0"}}
+	{{if item.status == "0" && userId == item.ctmleadingProcess}}
                     <button class="btn btn-grey" onclick="merge({{item.id}},'0')">驳回</button>
 	{{/if}}
 				 </p>
@@ -344,7 +344,8 @@ function reloadGrid(data) {
 			},
 			success : function(data) {
 				$.unblockUI();
-				data.index_=index;debugger;
+				data.index_=index;
+				data.userId=$("#userid").val();
 				var tsAwardBaseList= template('queryCastListItemList' , data);
 		        $("#taskListf").empty();
 		        $("#taskListf").html(tsAwardBaseList);
