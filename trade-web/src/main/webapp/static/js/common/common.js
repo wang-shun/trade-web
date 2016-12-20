@@ -4,7 +4,6 @@
 //渲染跟进备注控件
 ; !function($, window) {
 	 "use strict";
-
 	var ctx = window.ctx;
 	var self = '';
 	var tempSource = '';
@@ -19,7 +18,7 @@
 			+ '</div>'
 	        + '{{/each}}'
 	        + '{{else}}'
-	        + '<div style="width: 100%;height: 81px;background:url(../../../image/false.png) no-repeat center -7px;;background-size:45%;" ></div>'
+	        + '<div style="width:100%;height:100px;background:url('+ctx+'/image/false.png) no-repeat center;background-size:100% 100%;" ></div>'
 	        + '{{/if}}</div>';
 		
 		
@@ -96,7 +95,7 @@ function reloadGrid() {
 		+ '</div>'
         +' {{/each}}'
         + '{{else}}'
-        + '<p class="text-center"><div style="width:100%;height:100px;background:url(../../../image/false.png) no-repeat center;background-size:100% 100%;" ></div></p>'
+        + '<p class="text-center"><div style="width:100%;height:100px;background:url('+ctx+'/image/false.png) no-repeat center;background-size:100% 100%;" ></div></p>'
         +' {{/if}}</div>';
 	
 	var caseCode = $('#caseComment_caseCode').val();
