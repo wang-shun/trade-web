@@ -54,10 +54,10 @@
                                            </option>
                                            <option value="2">
                                                	经纪人姓名
-                                           </option>
+                                           </option><!-- 
                                            <option value="4">
                                                	交易顾问
-                                           </option>
+                                           </option> -->
                                        </select>
                                    </div>
                                    <div class="sign_right intextval">
