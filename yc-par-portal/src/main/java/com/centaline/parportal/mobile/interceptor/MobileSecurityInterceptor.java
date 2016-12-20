@@ -21,9 +21,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.login.service.MobileSecurityHandler;
 import com.centaline.parportal.mobile.login.service.TokenService;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
 import com.centaline.parportal.mobile.login.vo.MobileReturnVo;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.MobileHolder;
+import com.centaline.trans.common.vo.TokenVo;
 
 @Component
 public class MobileSecurityInterceptor extends HandlerInterceptorAdapter {

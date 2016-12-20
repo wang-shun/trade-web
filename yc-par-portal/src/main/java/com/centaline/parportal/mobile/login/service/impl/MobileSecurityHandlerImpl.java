@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.centaline.parportal.mobile.login.service.MobileSecurityHandler;
 import com.centaline.parportal.mobile.login.service.TokenService;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.TokenVo;
 
 @Service
 public class MobileSecurityHandlerImpl implements MobileSecurityHandler {

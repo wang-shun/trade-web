@@ -27,7 +27,7 @@ import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
+import com.centaline.trans.common.vo.MobileHolder;
 
 /**
  * 

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
 <head>
@@ -29,21 +28,20 @@
 
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
 <link rel="stylesheet" href="${ctx}/css/workflow/newRecordpop.css" />
+<link rel="stylesheet" href="${ctx}/css/workflow/caseRecord.css" />
 </head>
 <body class="pace-done">
-<input type="hidden" id="orgid" name="orgid" value="${orgid}" />
+<input type="hidden" id="userid" name="userid" value="${userid}" />
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
-			 <h2 class="title">
-                        <span>案件记录</span>
-                        <button type="button" class="btn btn-success mr5 btn-icon ml15" id="allCaseButton" >
-                          	  全部案件
-                        </button>
-                        <button  type="button" class="btn btn-success" id="searchMyButton" >
-                           	 我的案件
-                        </button>
-                    </h2>
+                    <div class="tab_menu">
+                        <ul>
+                            <li class="tab-selected">我的申请</li>
+                            <li>我的审批</li>
+                            <li>全部案件</li>
+                        </ul>
+                    </div>
 					<form method="get" class="form-horizontal form_box">
                            <div class="row clearfix">
                                <div id="select_div_1" class="form_content">
@@ -79,16 +77,13 @@
                                <div class="form_content" style="margin-left: 186px;">
                                    <div class="checkbox i-checks radio-inline sign sign_right">
                                        <label class="mr10">
-                                           <input type="radio" value="0"  name="radio" checked="checked">
-                                           	全部
+                                           <input type="radio" value="0"  name="radio" checked="checked"> 全部
                                        </label>
                                        <label class="mr10">
-                                           <input type="radio" value="1"  name="radio">
-                                               	合并
+                                           <input type="radio" value="1"  name="radio"> 合并
                                        </label>
                                        <label class="mr10">
-                                           <input type="radio" value="2" name="radio">
-                                               	拆分
+                                           <input type="radio" value="2" name="radio"> 拆分
                                        </label>
                                    </div>
                                </div>
@@ -115,7 +110,7 @@
 		                              <th>经纪人 </th>
 		                              <th>交易顾问 </th>
 		                              <th>操作人  </th>
-		                              <th class="text-center">操作 </th>
+		                              <th class="text-center yiban" >操作 </th>
 		                          </tr>
 		                      </thead>
 		                      <tbody>
@@ -154,29 +149,28 @@
 
 			<td class="t-left">
 				 <p class="big">
-{{if item.operato != null}}
-	{{if item.operato == "1"}}
- 		<i class="sign_yellow">合流 </i>
-	{{/if}}
-	{{if item.operato == "2"}}
-		<i class="sign_yellow">拆分 </i>
-	{{/if}}
-{{/if}}
-</br>
- 		
-{{if item.status == "0"}}
-<i class="sign_blue">
-申请
-{{/if}}
-{{if item.status == "1"}}
-<i class="sign_blue">
-确认
-{{/if}}
-{{if item.status == "2"}}
-<i class="sign_brown">
-拒绝
-{{/if}}
-		</i>
+			{{if item.operato != null}}
+				{{if item.operato == "1"}}
+					<i class="sign_yellow">合流 </i>
+				{{/if}}
+				{{if item.operato == "2"}}
+					<i class="sign_yellow">拆分 </i>
+				{{/if}}
+			{{/if}}
+			</br>
+				{{if item.status == "0"}}
+				<i class="sign_blue">
+				申请
+				{{/if}}
+				{{if item.status == "1"}}
+				<i class="sign_blue">
+				确认
+				{{/if}}
+				{{if item.status == "2"}}
+				<i class="sign_brown">
+				拒绝
+				{{/if}}
+				</i>
 				 </p>
 			</td>
 			<td class="t-left">
@@ -219,70 +213,84 @@
 					{{item.operatorTime}}
 				 </p>
 			</td>
-			<td class="t-left">
+			{{if index_ != null}}
+				{{if index_ == "1" || index_ == "2"}}
+			<td class="t-left yiban"  id="operato" name="operato">
 				 <p class="big">
-	{{if item.operato == "2" || item.status == "1" || item.status == "2"}}
-		<button class="btn btn-success mr5" disabled="disabled" >确认</button>
-	{{/if}}
-	{{if item.operato == "1" && item.status == "0"}}
-		<button class="btn btn-success mr5"  onclick="merge({{item.id}},'1')" >确认 </button>
-	{{/if}}
-	{{if item.status != "0"}}
-                    <button class="btn btn-grey" disabled="disabled">驳回</button>
-	{{/if}}
-	{{if item.status == "0"}}
-                    <button class="btn btn-grey" onclick="merge({{item.id}},'0')">驳回</button>
-	{{/if}}
+					{{if item.operato == "2" || item.status == "1" || item.status == "2" || userId != item.ctmleadingProcess}}
+						<button class="btn btn-success mr5" disabled="disabled" >确认</button>
+					{{/if}}
+					{{if item.operato == "1" && item.status == "0" && userId == item.ctmleadingProcess }}
+						<button class="btn btn-success mr5"  onclick="merge({{item.id}},'1')" >确认 </button>
+					{{/if}}
+					{{if item.status != "0" || userId != item.ctmleadingProcess}}
+                    	<button class="btn btn-grey" disabled="disabled">驳回</button>
+					{{/if}}
+					{{if item.status == "0" && userId == item.ctmleadingProcess}}
+                    	<button class="btn btn-grey" onclick="merge({{item.id}},'0')">驳回</button>
+					{{/if}}
 				 </p>
 			</td>
+				{{/if}}
+			{{/if}}
  			</tr>
 		{{/each}}
 </script> 
 
 <script>
+var index = 0;
+$(function(){
+    var $div_li =$("div.tab_menu ul li");
+    $div_li.click(function(){
+        $(this).addClass("tab-selected") .siblings().removeClass("tab-selected");
+        var indexf =  $div_li.index(this);
+        $("div.tab_box > div").eq(indexf).show().siblings().hide();
+        index = indexf;
+        liClick(index);
+    })
+})
+
+function liClick(index){
+    if(index == 0 ||index == 1 ){ reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),index)); }
+    if(index == 2){ reloadGrid(getParams("queryCaseRecordList",1,null,index)); }
+	if(index == 0) { $("th.yiban").hide(); }else{ $("th.yiban").show(); }
+}
+
 jQuery(document).ready(function() {
-	var busFlag = "${busFlag}";
-	if(busFlag !="" && busFlag != null && busFlag != undefined){
-		alert("恭喜,新建案件成功,请等待主管分配！");
-	}
-	
-	reloadGrid(getParams("queryCaseRecordList",1));
+	reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),0));
+	$("th.yiban").hide();
 });
-function getParams(qId,page,orgid) {
+/*qId,page,orgid--快速查询ID,分页参数,部门id*/
+function getParams(qId,page,orgid,index) {
 	var data = {};
 	if(!page) { data.page = 1; } else { data.page = page; } 
 	var textType = $('#inTextType').val();
-	if(textType == "1"){
-		data.propertyAddr = $.trim($('#seachValue').val());
-	}
-	if(textType == "2"){
-		data.agentName = $.trim($('#seachValue').val());
-	}
-	if(textType == "0"){
-		
-	}
-	if(textType == "4"){
-		
-	}
+	if(textType == "1"){ data.propertyAddr = $.trim($('#seachValue').val()); }
+	if(textType == "2"){ data.agentName = $.trim($('#seachValue').val()); }
+	if(textType == "0"){  }
+	if(textType == "4"){ }
 	if (!$.isBlank($("#dtBegin").val())) {
 		data.operatorTime= $("#dtBegin").val() + " 23:59:59";
 	} 
 	if($('input[name="radio"]:checked').val()=="0"){}else{data.operato=$('input[name="radio"]:checked').val();}
 	data.queryId=qId;
-	if(null ==orgid ){}else{data.orgid=orgid;}
+	if(orgid == "pageBarf"){
+		if(index == 0){data.sqid=$("#userid").val();}
+		if(index == 1){data.orgid=$("#userid").val();data.sqid=$("#userid").val();}
+		if(index == 2){}
+	}else{
+		if(null == index){}else{
+			if(index == 0){if(null ==orgid ){}else{data.sqid=orgid;}}
+			if(index == 1){if(null ==orgid ){}else{data.orgid=orgid;data.sqid=orgid;}}
+			if(index == 2){}
+		}
+	}
 	data.rows = 10;
 	return data;
 }
 $("#searchButton").click(function() {
-	reloadGrid(getParams("queryCaseRecordList",1,null));
+	reloadGrid(getParams("queryCaseRecordList",1,null,null));
 });
-$("#allCaseButton").click(function() {
-	reloadGrid(getParams("queryCaseRecordList",1,null));
-});
-$("#searchMyButton").click(function() {
-	reloadGrid(getParams("queryCaseRecordList",1,$("#orgid").val()));
-});
-
 
 function reloadGrid(data) {
 	aist.wrap(data);
@@ -298,6 +306,8 @@ function reloadGrid(data) {
 			},
 			success : function(data) {
 				$.unblockUI();
+				data.index_=index;
+				data.userId=$("#userid").val();
 				var tsAwardBaseList= template('queryCastListItemList' , data);
 		        $("#taskListf").empty();
 		        $("#taskListf").html(tsAwardBaseList);
@@ -305,6 +315,7 @@ function reloadGrid(data) {
 			},
 			error : function(e, jqxhr, settings,exception) {$.unblockUI();}
 		});
+	
 }
 /**
  * 确认
@@ -362,7 +373,7 @@ function initpagef(totalCount,pageSize,currentPage,records)
 		last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
-			reloadGrid(getParams("queryCaseRecordList",page,null));
+			reloadGrid(getParams("queryCaseRecordList",page,"pageBarf",index));
 	    }
 	});
 }

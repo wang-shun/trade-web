@@ -20,7 +20,7 @@
     from SCTRANS.T_TM_MOBILE_TOKEN
     where TOKEN = #{token,jdbcType=CHAR}
   </select>
-    <insert id="insert" parameterType="com.centaline.parportal.mobile.login.vo.TokenVo" >
+    <insert id="insert" parameterType="com.centaline.trans.common.vo.TokenVo" >
     insert into SCTRANS.T_TM_MOBILE_TOKEN (<include refid="Base_Column_List" />
       )
     values (#{token,jdbcType=CHAR}, #{userId,jdbcType=CHAR}, #{expDate,jdbcType=TIMESTAMP}, 
@@ -32,7 +32,7 @@
     where TOKEN = #{token,jdbcType=CHAR}
   </delete>
   
-  <update id="update" parameterType="com.centaline.parportal.mobile.login.vo.TokenVo">
+  <update id="update" parameterType="com.centaline.trans.common.vo.TokenVo">
   	 update SCTRANS.T_TM_MOBILE_TOKEN
     <set >
       <if test="expDate != null" >

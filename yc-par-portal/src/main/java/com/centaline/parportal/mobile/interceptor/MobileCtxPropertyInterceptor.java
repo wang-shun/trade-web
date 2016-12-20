@@ -14,7 +14,7 @@ import org.apache.ibatis.plugin.Signature;
 
 import com.aist.common.mybatis.interceptor.ReflectHelper;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
+import com.centaline.trans.common.vo.MobileHolder;
 
 @Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class,
                                                                                      Integer.class }) })

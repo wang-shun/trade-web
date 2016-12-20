@@ -1,4 +1,4 @@
-package com.centaline.parportal.mobile.login.vo;
+package com.centaline.trans.common.vo;
 
 import com.aist.uam.auth.remote.vo.SessionUser;
 

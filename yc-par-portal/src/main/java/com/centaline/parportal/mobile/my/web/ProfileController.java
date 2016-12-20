@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aist.common.utils.PasswordHelper;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
+import com.centaline.trans.common.vo.MobileHolder;
 
 /**
  * 

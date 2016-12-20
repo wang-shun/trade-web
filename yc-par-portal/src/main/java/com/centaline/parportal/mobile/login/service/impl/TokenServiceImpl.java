@@ -21,9 +21,9 @@ import com.centaline.parportal.mobile.login.repository.TokenRepositoryCustom;
 import com.centaline.parportal.mobile.login.service.MobileSecurityHandler;
 import com.centaline.parportal.mobile.login.service.MobileUserService;
 import com.centaline.parportal.mobile.login.service.TokenService;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
 import com.centaline.parportal.mobile.login.vo.MobileUserVo;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.MobileHolder;
+import com.centaline.trans.common.vo.TokenVo;
 
 @Transactional(readOnly = true)
 @Service

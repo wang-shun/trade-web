@@ -1212,12 +1212,13 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 					          from sctrans.T_TO_CASE c
 					         where c.CASE_CODE = t.C_CASE_CODE) ctmleadingProcess,
 					       t.APPLIER_ID applierId,
-					       t.OPERATOR_TIME operatorTime
+					       t.OPERATOR_TIME operatorTime,
+					       t.CONFIRMOR_ID
 					  from sctrans.T_TO_CASE_MERGE t
 					  )f 
 					  where 1=1
 					  <if test="orgid != null">
-					  	and f.leadingProcess =#orgid#
+					  	and f.CONFIRMOR_ID =#orgid#
 					  </if>
 					  <if test="agentName != null">
 					  	and (f.agentName like '%'+ #agentName# +'%' or f.cAgentName like '%'+#agentName#+'%')
@@ -1227,6 +1228,9 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 					  </if>
 					  <if test=" operato != null">
 					  	and f.operato = #operato#
+					  </if>
+					  <if test=" sqid != null">
+					  	and f.applierId = #sqid#
 					  </if>
 
 				]]>
