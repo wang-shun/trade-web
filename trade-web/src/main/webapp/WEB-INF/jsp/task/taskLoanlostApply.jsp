@@ -33,9 +33,6 @@
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
-<<<<<<< HEAD
-<!-- 图片查看CSS -->
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 
 <!-- 新调整页面样式 -->
 <link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
@@ -264,7 +261,7 @@
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.thumbnail_url) { %}
+							            {% if (file.id) { %}
 							                <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="width:80px;height:80px;">
 							            {% } %}</div>
 							            <div class="name" style="display: none">

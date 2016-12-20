@@ -258,43 +258,40 @@
 								<form id="fileupload"
 									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
 									method="POST" enctype="multipart/form-data">
-									<noscript>
-										<input type="hidden" name="redirect"
+								<input type="hidden" name="redirect"
 											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-										<input type="hidden" id="preFileCode" name="preFileCode"
+								<input type="hidden" id="preFileCode" name="preFileCode"
 											value="${accesory.accessoryCode }">
-									</noscript>
 									<c:if test="${status.index != 0}">
 										<h5 align="left">
 											<br>${accesory.accessoryName }</h5>
 									</c:if>
 									<div class="row-fluid fileupload-buttonbar">
-										<div class="" style="height: auto">
-											<div role="presentation" class="table table-striped "
-												style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-												<div id="picContainer${accesory.pkid }" class="files"
-													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-												<span class=" fileinput-button "
-													style="margin-left: 10px !important; width: 80px;">
-													<div id="chandiaotuBtn" class=""
-														style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-														<i class="fa fa-plus"></i>
-													</div> <input id="picFileupload${accesory.pkid }" type="file"
-													name="files[]" multiple
-													data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-													data-sequential-uploads="true">
-												</span>
-											</div>
-										</div>
-									</div>
+						<div class="" style="height: auto">
+							<div role="presentation" class="table table-striped "
+								style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+								<div id="picContainer${accesory.pkid }" class="files" data-toggle="modal-gallery"
+									data-target="#modal-gallery"></div>
+									<span class=" fileinput-button " style="margin-left:10px!important;width:80px;">
+									<div id="chandiaotuBtn" class=""
+										style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+										<i class="fa fa-plus"></i>
+									</div> 
+									<input id="picFileupload${accesory.pkid }" type="file" name="files[]" multiple
+									data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+									data-sequential-uploads="true">
+								</span>
+							</div>
+						</div>
+					</div>
 								</form>
 							</div>
 
 							<div class="row-fluid">
 								<div class="">
 									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+									{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    	<div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 									<!--图片缩图  -->
 							        <div class="preview"><span class="fade"></span></div>
 									<!--  错误信息 -->
@@ -322,11 +319,9 @@
 									</div>
 							    </div>
 							{% } %}
-						</script>
-									<script id="templateDownload${accesory.pkid }"
-										type="text/x-tmpl">
+							</script>
+							<script id="templateDownload${accesory.pkid }" type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
-								<input type="hidden" value="{%=file.thumbnail_url%}" />
 							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 							        {% if (file.error) { %}
 							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
@@ -335,11 +330,13 @@
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.thumbnail_url) { %}
-							                <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="width:80px;height:80px;">
-							            {% } %}</div>
-							            <div class="name" style="display: none">
-							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+							            {% if (file.id) { %}
+                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
+							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
+                                              {% } else { %}
+ 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
+  											  {% } %}
+							            {% } %}
 							            </div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
@@ -349,11 +346,9 @@
 							        </div>
 							    </div>
 							{% } %}
-
-							
 						</script>
-								</div>
-							</div>
+							</div> 
+						</div>
 						</c:forEach>
 
 						<div class="row-fluid" style="display: none;">
