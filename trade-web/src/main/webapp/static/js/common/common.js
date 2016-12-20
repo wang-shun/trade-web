@@ -8,7 +8,7 @@
 	var self = '';
 	var tempSource = '';
 	jQuery.fn.caseCommentGrid = function(options) {
-		
+
 		var templeteSource = '<div class="view-box" style="height:100px;">{{if rows.length>0}}'  
 			+'{{each rows as item index}}'
 			+ '<div class="view clearfix">'
@@ -18,7 +18,7 @@
 			+ '</div>'
 	        + '{{/each}}'
 	        + '{{else}}'
-	        + '<div style="width:100%;height:100px;background:url('+ctx+'/image/false.png) no-repeat center;background-size:100% 100%;" ></div>'
+	        + '<div style="width: 100%;height: 81px;background:url('+ctx+'/image/false.png) no-repeat center -7px;;background-size:45%;" ></div>'
 	        + '{{/if}}</div>';
 		
 		
