@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aist.common.exception.BusinessException;
 import com.centaline.parportal.mobile.login.vo.MobileHolder;
 import com.centaline.parportal.mobile.mortgage.web.MortgageListController;
+import com.centaline.parportal.mobile.track.vo.CommentVo;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.stuff.enums.CommentType;
+import com.centaline.trans.stuff.service.StuffService;
+import com.centaline.trans.utils.BeanUtils;
 
 /**
  * 
@@ -38,9 +41,16 @@ public class TrackController {
     @Autowired
     private ToMortgageService    toMortgageService;
 
+    @Autowired
+    private StuffService         stuffService;
+
     @RequestMapping(value = "/add")
     @ResponseBody
-    public String addTrack(Model model, @RequestBody ToCaseComment track) {
+    public String addTrack(Model model, @RequestBody CommentVo cmtVo) {
+
+        ToCaseComment track = new ToCaseComment();
+        //        boolean isNofigyCustomer = cmt.isNotifyCustomer();
+        BeanUtils.copyProperties(cmtVo, track);
 
         //检查track的完整性。不完整时抛出业务异常
         this.checkTrackIntegrity(track);
@@ -51,7 +61,12 @@ public class TrackController {
             case CMT:
                 resultCount = toCaseCommentService.addComment4Par(track);
             case BUJIAN:
-                break;
+                Boolean isNotifyCustomer = cmtVo.getIsNotifyCustomer() != null
+                    ? cmtVo.getIsNotifyCustomer() : false;
+                //启动补件流程
+                stuffService.reqStuff(track, isNotifyCustomer);
+                //插入补件comment
+                resultCount = toCaseCommentService.addComment4Par(track);
             case REJECT:
                 break;
             case TRACK:
