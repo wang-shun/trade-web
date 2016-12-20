@@ -1,4 +1,3 @@
-//添加删除上下家  需要配置name 和id 
 function getAtr(obj){
     var str='';
     str +=  '<div class="line">'
@@ -91,64 +90,79 @@ var ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
 //页面初始化
 $(document).ready(function() {
-//	select2DivClick(1);	
+	cleanall();
+
 });
 
-$("#blocksSelect").select2({	
-	
-	  ajax: {		    
-		    placeholder: "请选择楼盘",
+
+
+
+$("#blocksSelect").select2({
+		formatNoMatches:function() {
+			return "没有找到";
+		},
+		formatSearching: function() {
+			return "查询中...";
+		},
+	  placeholder: "请选择楼盘",
+	  allowClear: true,
+	  id : function(data){ 
+	    	return data.pkid; 
+	  },//select2  点选需要设置id
+	  ajax: {			    
+
 		    url: ctx+'/api/house/bizblocksListAjax',
 		    dataType: 'json',
 		    delay: 300,
 		    type: "POST",
 		    params:{"contentType": "application/json;charset=utf-8"},
-
-		    data: function (params) {		    	
+		    data: function (params) {	
+		    	//alert(JSON.stringify(params));
 		    	var data={
 			    	    "estateName": $.trim(params.term),
 			    	    "cityCode": "",
 			    	    "district": "",
 			    	    "page": 1,
-			    	    "pageSize": 10
+			    	    "pageSize": 100
 	            };
 		    	return    data;
 		    },
-		    results:function(bond,page){  
-		    	alert(JSON.stringify(bond));
-	        	return {results: bond, more: (bond && bond.length == 10 ? true: false)};
-	        },	    
-	
-		  },
-		  processResults: function (data, page) {		    	 
-			 return {
-					 results: data.items
-					};
-		  },
+		   
+		   //processResults 函数的results的接收返回的值，具体以json为主
+		   processResults: function (data, page) {		    	 
+			   		//results: data.items;results: data.res以后端返回的json为主
+			        return {results: data};
+			  },
 		  cache: true,
-		  escapeMarkup: function (markup) { return markup; }, 
-		  minimumInputLength: 2,
-		  templateResult: formatRepo, 
-		  templateSelection: formatRepoSelection
+		  },
+		  
+		  escapeMarkup: function (markup) { return markup; }, //字符转义处理
+		  minimumInputLength: 1,	
+		 
+		  templateSelection: formatRepoSelection,  //获取输入框选择的值		  
+		  templateResult: formatRepo  //查询返回值渲染
 });
+//楼盘更新，清空所有
+function cleanall(){
+	$("#blocksSelect").val(null).trigger("change");
+}
 
-
-function formatRepoSelection (bond) {	
+//显示 选取的值
+function formatRepoSelection(results) {	
 	
-	//alert(JSON.stringify(bond));
-	select2DivClick(bond); 
-	//alert(JSON.stringify(bond));
-	return bond.name;
+	console.log("111111"+JSON.stringify(results));
+	//select2DivClick(bond); 
+	
+	return  results.name;
 };
 
 //函数用来渲染结果
-function formatRepo(data) {	
-	// alert(JSON.stringify(data));
-	var option = '<option value='+ data.pkid +'> '+ data.name +'</option>';
-	
-	$("#blocksSelect").append(option); 
-	
-    //return    '<option value='+ data.pkid +'> '+ data.name +'</option>';
+function formatRepo(results) {	
+	  //console.log("111111"+JSON.stringify(results));
+	 
+	 //alert(JSON.stringify(results));
+	 return '<div class="select2-user-result">' + results.name + '</div>';
+	//return  results.name;  //搜索结束后在页面 直接显示结果
 };
 
 
@@ -156,7 +170,10 @@ function formatRepo(data) {
 function select2DivClick( data ){
 	$('#buildingsSelect').empty();
   	//var v = 5121;//data.pkid;	
-	var v = data.pkid;	
+	var v = data.pkid;
+	
+	$('#distCode').val(data.districtCode);
+	$('#square').val("")//TODO;
 	$.ajax({
 		type: "GET",
 		url: ctx+'/api/house/buildingsListAjax',

@@ -49,8 +49,8 @@
 	                  <label class="control-label sign_left_small">房屋地址</label>
 <!-- 	      		  <input type="text" placeholder="房屋搜索"  class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" value="">  --> 
 	                  
-	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect"  style="height:33px;"> </select> 	
-	                     
+	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect"  style="height:33px;"></select>
+	                  		                
 	                  <select id="buildingsSelect" class="select_control sign_right_one  select2  span3"><!-- ml20 -->
 	                      <option value="">请选择楼栋</option>
 	                  </select>
@@ -65,6 +65,8 @@
 	          	        
 	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="140603093859B9126A9A39DD0B831A23">
 	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="上海虹口区外滩6666666号"> <!-- 产证地址待定 -->
+	          <input type="hidden"  name="distCode"  id="distCode"  value=""> <!-- 产证区域 -->
+	          <input type="hidden"  name="square"  id="square"  value=""> <!-- 面积 -->
         </div>
        
        <div class="form_list table-capital"  id="isRepeatCase" style="display:none">
@@ -174,7 +176,6 @@
 <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
 
 <script src="${ctx}/js/plugins/autocomplete/select2.min.js"></script> 
-<%-- <script src="${ctx}/js/plugins/autocomplete/select2.full.min.js"></script>  --%>
 <script src="${ctx}/js/trunk/case/addCase.js"></script>
 <script src="${ctx}/js/jquery.json.min.js"></script>
 
