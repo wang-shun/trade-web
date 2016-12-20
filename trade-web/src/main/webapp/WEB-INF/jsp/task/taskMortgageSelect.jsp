@@ -72,6 +72,9 @@
 #corss_area{padding:0;}
 #corss_area select{float:right;height:34px;border-radius:2px;margin-left:20px;}
 .pb10{padding-bottom:15px;}
+.select_control{
+	color: inherit;
+}
 </style>
 </head>
 <body>
@@ -228,8 +231,8 @@
 						txt += "</div>";
 						txt += "<div class='col-xs-12 col-md-4'>";
 						txt += "<div class='form-group' id='data_1' name='isYouXiao'>";
-						txt += "<label class='col-md-3 control-label sign_left_small' style='margin-right: 0px;padding-left: 0px;'><font color='red'>*</font>合作顾问</label>";
-						txt += "<div class='col-md-8'>";
+						txt += "<label class='col-md-3 control-label sign_left_small' style='margin-right: 0px;padding-left: 0px; padding-right: 0px;'><font color='red'>*</font>合作顾问</label>";
+						txt += "<div class='col-md-8' style='padding-left: 24px;'>";
 						txt += "<select class='form-control m-b' name='unCrossPartner' id='cooperationUser"+index+"'>";
 						txt += "<option value='0'>----未选择----</option>";
 						$.each(data.users, function(j, user){
