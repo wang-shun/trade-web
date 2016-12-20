@@ -1,4 +1,4 @@
-package com.centaline.parportal.mobile.login.vo;
+package com.centaline.trans.common.vo;
 
 import java.io.Serializable;
 import java.util.Date;

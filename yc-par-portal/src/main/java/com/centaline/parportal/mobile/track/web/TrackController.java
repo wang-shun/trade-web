@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aist.common.exception.BusinessException;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
 import com.centaline.parportal.mobile.mortgage.web.MortgageListController;
 import com.centaline.parportal.mobile.track.vo.CommentVo;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
+import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.stuff.enums.CommentType;
 import com.centaline.trans.stuff.service.StuffService;

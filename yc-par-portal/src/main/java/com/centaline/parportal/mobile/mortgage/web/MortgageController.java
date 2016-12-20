@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
+import com.centaline.trans.common.vo.MobileHolder;
 
 @Controller
 @RequestMapping({ "/mobile/case", "/case" })

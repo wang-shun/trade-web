@@ -21,8 +21,8 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.login.service.TokenService;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.MobileHolder;
+import com.centaline.trans.common.vo.TokenVo;
 
 @Component
 @Aspect

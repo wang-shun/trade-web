@@ -40,8 +40,8 @@ import com.centaline.parportal.mobile.login.entity.TAppEquipmentBindingDetail;
 import com.centaline.parportal.mobile.login.service.MobileUserService;
 import com.centaline.parportal.mobile.login.service.TAppEquipmentBindingDetailService;
 import com.centaline.parportal.mobile.login.service.TokenService;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.MobileHolder;
+import com.centaline.trans.common.vo.TokenVo;
 
 /**
  * 
