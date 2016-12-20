@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.utils.PasswordHelper;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
@@ -29,15 +30,17 @@ public class ProfileController {
     private UamUserOrgService uamUserOrgService;
 
     @RequestMapping(value = "/changePasswd", method = RequestMethod.POST)
-    public @ResponseBody boolean changePasswd(@RequestBody User userVo) {
+    @ResponseBody
+    public String changePasswd(@RequestBody User userVo) {
         User user = uamUserOrgService.getUserById(MobileHolder.getMobileUser().getId());
         String oldPass = new PasswordHelper().encryptPassword(user.getSalt(),
             userVo.getOldPassword(), user.getUsername());
         if (!oldPass.equals(user.getPassword()))
-            return false;
+            throw new BusinessException("旧密码输入错误，请检查您的密码");
+
         userVo.setId(user.getId());
         userVo.setUsername(user.getUsername());
         uamUserOrgService.changePassword(userVo);
-        return true;
+        return "{\"msg\":\"密码修改成功!\"}";
     }
 }
