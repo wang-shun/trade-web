@@ -52,7 +52,7 @@
 					M.MORT_TOTAL_AMOUNT as loanAmount,
 					CAST(m.COM_YEAR as varchar)+'年'		as loanTime,
 					pi.PROPERTY_ADDR 	as addr,
-					m.CREATE_TIME 			as applyTime,
+					m.SIGN_DATE 			as applyTime,
 					'MORT'	 				as prdType,
 					M.case_code 		as caseCode,
 					CAST(M.PKID as varchar)			as bizCode

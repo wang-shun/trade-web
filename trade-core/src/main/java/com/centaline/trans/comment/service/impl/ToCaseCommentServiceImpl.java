@@ -9,16 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.repository.ToCaseCommentMapper;
 import com.centaline.trans.comment.service.ToCaseCommentService;
-import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class ToCaseCommentServiceImpl implements ToCaseCommentService {
 
     @Autowired
     private ToCaseCommentMapper toCaseCommentMapper;
-
-    private ToMortgageMapper    toMortgageMapper;
 
     @Override
     public List<ToCaseComment> getToCaseCommentList(ToCaseComment record) {
@@ -54,8 +51,8 @@ public class ToCaseCommentServiceImpl implements ToCaseCommentService {
         return toCaseCommentMapper.getCommentParentByBizCode(bizCode);
     }
 
-	@Override
-	public ToCaseComment findCommentById(Long pkid) {
-		return toCaseCommentMapper.getCommentById(pkid);
-	}
+    @Override
+    public ToCaseComment findCommentById(Long pkid) {
+        return toCaseCommentMapper.getCommentById(pkid);
+    }
 }

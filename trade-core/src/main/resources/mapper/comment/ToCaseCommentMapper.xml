@@ -65,9 +65,7 @@ select @@identity
 </selectKey>
     insert into sctrans.T_TO_CASE_COMMENT
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        PKID,
-      </if>
+      
       <if test="caseCode != null" >
         CASE_CODE,
       </if>
@@ -98,9 +96,7 @@ select @@identity
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        #{pkid, jdbcType=BIGINT},
-      </if>
+      
       <if test="caseCode != null" >
         #{caseCode, jdbcType=VARCHAR},
       </if>

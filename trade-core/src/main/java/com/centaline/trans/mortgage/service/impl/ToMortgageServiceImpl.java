@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
@@ -51,6 +52,7 @@ import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
+@Transactional
 public class ToMortgageServiceImpl implements ToMortgageService {
 
     @Autowired
