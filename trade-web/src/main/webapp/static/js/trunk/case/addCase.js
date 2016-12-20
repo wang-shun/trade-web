@@ -91,31 +91,18 @@ var ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
 //页面初始化
 $(document).ready(function() {
-	select2DivClick(1);	
+//	select2DivClick(1);	
 });
 
-$("#blocksSelect").select2({
-	  ajax: {
-		    //params:{"Accept":"application/json,text/javascript,*/*;q=0.01","Content-Type":"application/json;charset=UTF-8"},
+$("#blocksSelect").select2({	
+	
+	  ajax: {		    
 		    placeholder: "请选择楼盘",
 		    url: ctx+'/api/house/bizblocksListAjax',
-		    dataType: 'JSON',
+		    dataType: 'json',
 		    delay: 300,
-/*		    headers : {
-		        "Accept":"application/json,text/javascript,* /*;q=0.01",
-		        "Content-type":"application/json;charset=UTF-8"
-		    },*/
-		     
 		    type: "POST",
-		    params:{"Accept":"application/json,text/javascript,*/*;q=0.01","Content-Type":"application/json;charset=UTF-8"},
-		    /*params:{"Accept":"application/json, text/javascript, ; q=0.01","Accept-Encoding":"gzip, deflate","Accept-Language":"zh-CN,zh;q=0.8",
-			    "Cache-Control":"no-cache","Connection":"keep-alive","Content-Length":"71","Content-Type":"application/json;charset=UTF-8","X-Requested-With":"XMLHttpRequest",
-			    "Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"GET,POST"
-			},*/
-/*		   beforeSend : function(request){
-		    	request.setRequestHeader("Accept","application/json,text/javascript,* /*;q=0.01");				    	    
-		    	request.setRequestHeader("Content-Type","application/json;charset=UTF-8");			    	    	
-		    }, */
+		    params:{"contentType": "application/json;charset=utf-8"},
 
 		    data: function (params) {		    	
 		    	var data={
@@ -125,34 +112,31 @@ $("#blocksSelect").select2({
 			    	    "page": 1,
 			    	    "pageSize": 10
 	            };
-		    	
-		    	return $.toJSON(data);
-/*		      return {
-		    	    "estateName": $.trim(params.term),
-		    	    "cityCode": "",
-		    	    "district": "",
-		    	    "page": params.page,
-		    	    "pageSize": 10
-		    	};*/
+		    	return    data;
 		    },
-		  processResults: function (data, page) {
-		    	 
-				 return {
-						 results: data.items
-						};
-				 },
-		  cache: true
+		    results:function(bond,page){  
+		    	alert(JSON.stringify(bond));
+	        	return {results: bond, more: (bond && bond.length == 10 ? true: false)};
+	        },	    
+	
 		  },
-		  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+		  processResults: function (data, page) {		    	 
+			 return {
+					 results: data.items
+					};
+		  },
+		  cache: true,
+		  escapeMarkup: function (markup) { return markup; }, 
 		  minimumInputLength: 2,
-		  templateResult: formatRepo, // omitted for brevity, see the source of this page
-		  templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+		  templateResult: formatRepo, 
+		  templateSelection: formatRepoSelection
 });
 
 
-function formatRepoSelection (bond) {			
+function formatRepoSelection (bond) {	
+	
 	//alert(JSON.stringify(bond));
-	//select2DivClick(bond); 
+	select2DivClick(bond); 
 	//alert(JSON.stringify(bond));
 	return bond.name;
 };
@@ -160,14 +144,19 @@ function formatRepoSelection (bond) {
 //函数用来渲染结果
 function formatRepo(data) {	
 	// alert(JSON.stringify(data));
-    return    '<option value='+ data.pkid +'> '+ data.name +'</option>';
+	var option = '<option value='+ data.pkid +'> '+ data.name +'</option>';
+	
+	$("#blocksSelect").append(option); 
+	
+    //return    '<option value='+ data.pkid +'> '+ data.name +'</option>';
 };
 
 
 //房屋搜索结果 houseAddrSearchResult 为条件查询房屋栋数并填充
 function select2DivClick( data ){
 	$('#buildingsSelect').empty();
-  	var v = 5121;//data.pkid;	
+  	//var v = 5121;//data.pkid;	
+	var v = data.pkid;	
 	$.ajax({
 		type: "GET",
 		url: ctx+'/api/house/buildingsListAjax',

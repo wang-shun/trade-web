@@ -72,6 +72,12 @@ $('#datepicker_0').datepicker({
 $('#searchButton').click(function() {
 	searchMethod();
 });
+
+//查询
+$('#addNewCase').click(function() {
+	alert(111);
+	window.location.href = ctx+"/caseMerge/addCase/case";
+});
 // 添加日期查询条件
 var divIndex = 1;
 var count = $('#case_date_0 option:last').index();
