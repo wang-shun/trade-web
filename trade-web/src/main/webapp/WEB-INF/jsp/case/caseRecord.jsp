@@ -221,7 +221,7 @@
 			</td>
 			<td class="t-left">
 				 <p class="big">
-					{{item.applierName}}{{index_}}
+					{{item.applierName}}
 				 </p>
 				 <p class="big">
 					{{item.operatorTime}}
