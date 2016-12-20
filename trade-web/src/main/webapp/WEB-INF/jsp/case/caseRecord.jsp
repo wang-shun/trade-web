@@ -29,13 +29,14 @@
 
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
 <link rel="stylesheet" href="${ctx}/css/workflow/newRecordpop.css" />
+<link rel="stylesheet" href="${ctx}/css/workflow/caseRecord.css" />
 </head>
 <body class="pace-done">
-<input type="hidden" id="orgid" name="orgid" value="${orgid}" />
+<input type="hidden" id="userid" name="userid" value="${userid}" />
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
-			 <h2 class="title">
+			<!--  <h2 class="title">
                         <span>案件记录</span>
                         <button type="button" class="btn btn-success mr5 btn-icon ml15" id="allCaseButton" >
                           	  全部案件
@@ -43,7 +44,14 @@
                         <button  type="button" class="btn btn-success" id="searchMyButton" >
                            	 我的案件
                         </button>
-                    </h2>
+                    </h2> -->
+                    <div class="tab_menu">
+                        <ul>
+                            <li class="tab-selected">我的申请</li>
+                            <li>我的审批</li>
+                            <li>全部案件</li>
+                        </ul>
+                    </div>
 					<form method="get" class="form-horizontal form_box">
                            <div class="row clearfix">
                                <div id="select_div_1" class="form_content">
@@ -240,15 +248,40 @@
 </script> 
 
 <script>
+var index = 
+$(function(){
+    var $div_li =$("div.tab_menu ul li");
+    $div_li.click(function(){
+        $(this).addClass("tab-selected") .siblings().removeClass("tab-selected");
+        var indexf =  $div_li.index(this);
+        $("div.tab_box > div").eq(indexf).show().siblings().hide();
+        index = indexf;
+        liClick(index);
+    })
+})
+function reloadStat(){
+	var $div_li =$("div.tab_menu ul li");
+    $div_li.click(function(){
+        $(this).addClass("tab-selected") .siblings().removeClass("tab-selected");
+        var index =  $div_li.index(this);
+        $("div.tab_box > div").eq(index).show().siblings().hide();
+        liClick(index);
+    })
+}
+function liClick(index){
+    if(index == 0 ||index == 1 ){
+    	 reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),index));
+    }
+    if(index == 2){
+    	 reloadGrid(getParams("queryCaseRecordList",1,null,index));
+    }
+}
+
 jQuery(document).ready(function() {
-	var busFlag = "${busFlag}";
-	if(busFlag !="" && busFlag != null && busFlag != undefined){
-		alert("恭喜,新建案件成功,请等待主管分配！");
-	}
-	
-	reloadGrid(getParams("queryCaseRecordList",1));
+	reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),0));
 });
-function getParams(qId,page,orgid) {
+/*qId,page,orgid--快速查询ID,分页参数,部门id*/
+function getParams(qId,page,orgid,index) {
 	var data = {};
 	if(!page) { data.page = 1; } else { data.page = page; } 
 	var textType = $('#inTextType').val();
@@ -269,18 +302,28 @@ function getParams(qId,page,orgid) {
 	} 
 	if($('input[name="radio"]:checked').val()=="0"){}else{data.operato=$('input[name="radio"]:checked').val();}
 	data.queryId=qId;
-	if(null ==orgid ){}else{data.orgid=orgid;}
+	if(orgid == "pageBarf"){
+		if(index == 0){data.sqid=$("#userid").val();}
+		if(index == 1){data.orgid=$("#userid").val();}
+		if(index == 2){}
+	}else{
+		if(null == index){}else{
+			if(index == 0){if(null ==orgid ){}else{data.sqid=orgid;}}
+			if(index == 1){if(null ==orgid ){}else{data.orgid=orgid;}}
+			if(index == 2){}
+		}
+	}
 	data.rows = 10;
 	return data;
 }
 $("#searchButton").click(function() {
-	reloadGrid(getParams("queryCaseRecordList",1,null));
+	reloadGrid(getParams("queryCaseRecordList",1,null,null));
 });
 $("#allCaseButton").click(function() {
-	reloadGrid(getParams("queryCaseRecordList",1,null));
+	reloadGrid(getParams("queryCaseRecordList",1,null,null));
 });
 $("#searchMyButton").click(function() {
-	reloadGrid(getParams("queryCaseRecordList",1,$("#orgid").val()));
+	reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),null));
 });
 
 
@@ -362,7 +405,7 @@ function initpagef(totalCount,pageSize,currentPage,records)
 		last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
-			reloadGrid(getParams("queryCaseRecordList",page,null));
+			reloadGrid(getParams("queryCaseRecordList",page,"pageBarf",index));
 	    }
 	});
 }

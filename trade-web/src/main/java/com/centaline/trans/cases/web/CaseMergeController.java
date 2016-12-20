@@ -317,7 +317,7 @@ public class CaseMergeController {
 	@RequestMapping(value = "caseRecord")
 	public String caseRecord(ServletRequest request) {
 		SessionUser user = uamSessionService.getSessionUser();
-		request.setAttribute("orgid", user.getServiceDepId());
+		request.setAttribute("userid", user.getId());
 		return "case/caseRecord";
 	}
 	/**
