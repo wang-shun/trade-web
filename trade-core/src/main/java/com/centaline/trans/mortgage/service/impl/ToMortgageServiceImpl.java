@@ -630,8 +630,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
             //添加审核记录到ToApproveRecord
             ToApproveRecord toApproveRecord = new ToApproveRecord();
             toApproveRecord.setCaseCode(caseCode);
-            toApproveRecord.setContent("true".equals(tmpBankCheck)
-                ? "审批通过，审批意见为：" + temBankRejectReason : "审批驳回，审批意见为：" + temBankRejectReason);
+            toApproveRecord.setContent("审批"+("true".equals(tmpBankCheck)?"通过":"驳回")+"，审批意见为：" + temBankRejectReason);
             toApproveRecord.setApproveType("8");//todo
             toApproveRecord.setOperator(user.getId());
             toApproveRecord.setTaskId(taskId);
