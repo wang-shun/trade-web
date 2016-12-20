@@ -123,7 +123,7 @@
 		                              <th>经纪人 </th>
 		                              <th>交易顾问 </th>
 		                              <th>操作人  </th>
-		                              <th class="text-center">操作 </th>
+		                              <th class="text-center yiban" name = 'th'>操作 </th>
 		                          </tr>
 		                      </thead>
 		                      <tbody>
@@ -221,13 +221,15 @@
 			</td>
 			<td class="t-left">
 				 <p class="big">
-					{{item.applierName}}
+					{{item.applierName}}{{index_}}
 				 </p>
 				 <p class="big">
 					{{item.operatorTime}}
 				 </p>
 			</td>
-			<td class="t-left">
+{{if index_ != null}}
+{{if index_ == "1" || index_ == "2"}}
+			<td class="t-left yiban"  id="operato" name="operato">
 				 <p class="big">
 	{{if item.operato == "2" || item.status == "1" || item.status == "2"}}
 		<button class="btn btn-success mr5" disabled="disabled" >确认</button>
@@ -243,12 +245,14 @@
 	{{/if}}
 				 </p>
 			</td>
+{{/if}}
+{{/if}}
  			</tr>
 		{{/each}}
 </script> 
 
 <script>
-var index = 
+var index = 0;
 $(function(){
     var $div_li =$("div.tab_menu ul li");
     $div_li.click(function(){
@@ -259,15 +263,7 @@ $(function(){
         liClick(index);
     })
 })
-function reloadStat(){
-	var $div_li =$("div.tab_menu ul li");
-    $div_li.click(function(){
-        $(this).addClass("tab-selected") .siblings().removeClass("tab-selected");
-        var index =  $div_li.index(this);
-        $("div.tab_box > div").eq(index).show().siblings().hide();
-        liClick(index);
-    })
-}
+
 function liClick(index){
     if(index == 0 ||index == 1 ){
     	 reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),index));
@@ -275,10 +271,17 @@ function liClick(index){
     if(index == 2){
     	 reloadGrid(getParams("queryCaseRecordList",1,null,index));
     }
+	if(index == 0)
+	{
+		$("th.yiban").hide();
+	}else{
+		$("th.yiban").show();
+	}
 }
 
 jQuery(document).ready(function() {
 	reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),0));
+	$("th.yiban").hide();
 });
 /*qId,page,orgid--快速查询ID,分页参数,部门id*/
 function getParams(qId,page,orgid,index) {
@@ -304,12 +307,12 @@ function getParams(qId,page,orgid,index) {
 	data.queryId=qId;
 	if(orgid == "pageBarf"){
 		if(index == 0){data.sqid=$("#userid").val();}
-		if(index == 1){data.orgid=$("#userid").val();}
+		if(index == 1){data.orgid=$("#userid").val();data.sqid=$("#userid").val();}
 		if(index == 2){}
 	}else{
 		if(null == index){}else{
 			if(index == 0){if(null ==orgid ){}else{data.sqid=orgid;}}
-			if(index == 1){if(null ==orgid ){}else{data.orgid=orgid;}}
+			if(index == 1){if(null ==orgid ){}else{data.orgid=orgid;data.sqid=orgid;}}
 			if(index == 2){}
 		}
 	}
@@ -341,6 +344,7 @@ function reloadGrid(data) {
 			},
 			success : function(data) {
 				$.unblockUI();
+				data.index_=index;debugger;
 				var tsAwardBaseList= template('queryCastListItemList' , data);
 		        $("#taskListf").empty();
 		        $("#taskListf").html(tsAwardBaseList);
@@ -348,6 +352,7 @@ function reloadGrid(data) {
 			},
 			error : function(e, jqxhr, settings,exception) {$.unblockUI();}
 		});
+	
 }
 /**
  * 确认
