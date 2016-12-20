@@ -90,32 +90,38 @@ var ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
 //页面初始化
 $(document).ready(function() {
-	cleanall();
+	//cleanall();
 
 });
+//楼盘更新，清空所有
+function cleanall(){
+	//$("#blocksSelect").val(null).trigger("change");
+}
+var i=0;
 
-
-
-
+//select2 控件自动补全
 $("#blocksSelect").select2({
 	
-	   inputTooShort: function (args) {
-	        var remainingChars = args.minimum - args.input.length;
-	        var message = '请至少输入 ' + remainingChars + ' 个字符。';
-	        return message;
-       },
-       noResults: function () {
-    	      return '抱歉，没有找到符合条件的信息';
-       },
-       searching: function () {
-    	      return '查询中…';
-       },
-
-      normalizePlaceholder: "请选择楼盘",
+		"language": {
+			  "inputTooShort": function (args) {
+			        var remainingChars = args.minimum - args.input.length;
+			        var message = '请至少输入 ' + remainingChars + ' 个字符。';
+			        return message;
+		      },
+			  "noResults": function () {
+				      return '抱歉，没有找到符合条件的信息';
+			  },
+			  "searching": function () {
+				      return '信息查询中…';
+			  },
+			  "normalizePlaceholder": "请选择楼盘",
+	  },
 	  allowClear: true,
+	  minimumInputLength: 1,	
+	  //select2   4.0以上的版本  点选需要设置id
 	  id : function(data){ 
 	    	return data.id; 
-	  },//select2  点选需要设置id
+	  },
 	  ajax: {			    
 
 		    url: ctx+'/api/house/bizblocksListAjax',
@@ -123,8 +129,7 @@ $("#blocksSelect").select2({
 		    delay: 300,
 		    type: "POST",
 		    params:{"contentType": "application/json;charset=utf-8"},
-		    data: function (params) {	
-		    	//alert(JSON.stringify(params));
+		    data: function (params) {
 		    	var data={
 			    	    "estateName": $.trim(params.term),
 			    	    "cityCode": "",
@@ -142,7 +147,8 @@ $("#blocksSelect").select2({
                $.each(data, function (i, v) {
                    var o = {};
                    o.id = v.pkid;
-                   o.name = v.name;    
+                   o.name = v.name;  
+                   o.districtCode = v.districtCode;
                    converResults.push(o);
                })
 			    //results: data.items;results: data.res以后端返回的json为主
@@ -152,48 +158,45 @@ $("#blocksSelect").select2({
 		  },
 		  
 		  escapeMarkup: function (markup) { return markup; }, //字符转义处理
-		  minimumInputLength: 1,	
-		 
 		  templateSelection: formatRepoSelection,  //获取输入框选择的值		  
 		  templateResult: formatRepo  //查询返回值渲染
 });
-//楼盘更新，清空所有
-function cleanall(){
-	$("#blocksSelect").val(null).trigger("change");
-}
+
 
 //显示 选取的值
-function formatRepoSelection(results) {
-	
-	//select2DivClick(bond); 
-	
-	return  results.name;
+function formatRepoSelection(results) {	
+    if (results != null && results != undefined) {
+    	//拼接产证地址
+    	$("#blockId").val(results.id);
+    	$("#blockName").val(results.name);	
+    	$('#distCode').val(results.districtCode);  //设置区域
+    	
+        select2DivClick(results);   
+        return results.name;
+    }
 };
 
-//函数用来渲染结果
+//搜索结束后在页面 直接显示结果
 function formatRepo(results) {	
-	  //console.log("111111"+JSON.stringify(results));
-	 
-	 //alert(JSON.stringify(results));
+	 loadedTimes = 0;
 	 return '<div class="select2-user-result">' + results.name + '</div>';
-	//return  results.name;  //搜索结束后在页面 直接显示结果
+	 //return  results.name; 
 };
 
-
+var loadedTimes = 0;
 //房屋搜索结果 houseAddrSearchResult 为条件查询房屋栋数并填充
-function select2DivClick( data ){
-	$('#buildingsSelect').empty();
-  	//var v = 5121;//data.pkid;	
-	var v = data.pkid;
-	
-	$('#distCode').val(data.districtCode);
-	$('#square').val("")//TODO;
+function select2DivClick( data ){	
+	if(loadedTimes++>0){
+		return ;
+	}
+	$('#buildingsSelect').empty();  
+	var v = data.id;		
 	$.ajax({
 		type: "GET",
 		url: ctx+'/api/house/buildingsListAjax',
 		dataType:"json",    
 		data:"resblockId="+v,
-		success: function(data) {
+		success: function(data) {			
 			//console.log(data);
 			var option="";
 			if(data.length===0){
@@ -233,11 +236,9 @@ $("#buildingsSelect").change(function(){
  * 栋座改变事件
  */
 function buildingChange(){
-/*	var authData=$("#authData");
-	authData.html("");*/
 	$("#floorSelect").empty();
-	var resblock_id =  $("#blocksSelect").val();
-	var building_id = 27527 ; //$("#buildingsSelect").val();      //TODO
+	var resblock_id =  $("#blockId").val();
+	var building_id =  $("#buildingsSelect").val();     
 	
 	if(building_id==""){
 		 option="<option value=''>请选择楼层</option>";
@@ -246,11 +247,6 @@ function buildingChange(){
 	     $('#roomSelect').empty();
 	     option="<option value=''>请选择房屋</option>";
 	     $('#roomSelect').append(option);
-	     
-	     pageflag = false;
-	     $('#pageOneSAlert').hide();
-		 $("#pageOneEAlert").html("请至少填写楼盘地址.选择栋座,楼层,房号,和委托类型。")
-		 $('#pageOneEAlert').show();
 	     
 	     return;	     
 	}
@@ -304,9 +300,10 @@ $("#floorSelect").change(function(){
  * 楼层改变
  */
 function floorChange(){
-	 $('#roomSelect').empty();
+	$('#roomSelect').empty();
 	var roomChanged = false;  //todo
-	var estate_id=  $("#blocksSelect").val();//楼房地址
+	
+	var estate_id=  $("#blockId").val();//楼房地址
 	var building_id=$("#buildingsSelect").val();//楼栋	
 	var floor=$("#floorSelect").val();//楼层
 	if(floor==""){
@@ -316,9 +313,9 @@ function floorChange(){
 	}
 	//TODO
 	var params={
-		estateId: 5121, //estate_id,
-		buildingId:27527,//building_id,
-		floor:4//floor
+		estateId: estate_id,
+		buildingId:building_id,
+		floor:floor
 	};
 	$.ajax({
 		type: "GET",
@@ -342,7 +339,7 @@ function floorChange(){
 			             $('#roomSelect').append(option);
 			     	});
 				}
-				roomChanged = true;
+				roomChanged = true;//说明房屋号 变更了
 						     
 		},
 	error: function(errors) {
@@ -354,14 +351,24 @@ function floorChange(){
 	}
 }  
 
+$(".select2-selection__clear").click(function(){
+	$("#blockId").val("");
+	$("#blockName").val("");	
+	$('#distCode').val("");  //设置区域
+	
+	$("#select2-blocksSelect-container").select2("val", ""); 
+
+})
+
+
 //房屋层数改变
 $("#roomSelect").change(function (){
 		roomSelectChange();
 });
 
 function roomSelectChange(){		
-	//var houseId = $('#roomSelect').val(); //房屋编号      TODO
-	var houseId = 7781504;
+	var houseId = $('#roomSelect').val(); //房屋编号      TODO
+	
 	var addHtml = "";	
 	//选定具体的房屋号之后 确定houseId，到后端请求数据是否有CTM推送的案件
 	if(houseId !="" && houseId !=null && houseId != undefined){	
@@ -395,8 +402,8 @@ function reloadGrid(data){
 			});
 		},*/
 		success : function(data) {
-			$.unblockUI();		
-			if(data != null){	
+			$.unblockUI();			
+			if(data != null && data.pageSize > 0){	
 				$("#isRepeatCase").show();
 				data.ctx = ctx;
 				var addCaseList = template('template_addCaseList', data);
