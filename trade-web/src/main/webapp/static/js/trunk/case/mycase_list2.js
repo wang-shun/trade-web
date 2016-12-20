@@ -74,8 +74,7 @@ $('#searchButton').click(function() {
 });
 
 //查询
-$('#addNewCase').click(function() {
-	alert(111);
+$('#addNewCase').click(function() {	
 	window.location.href = ctx+"/caseMerge/addCase/case";
 });
 // 添加日期查询条件
