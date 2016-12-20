@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
 <head>
@@ -36,15 +35,6 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
-			<!--  <h2 class="title">
-                        <span>案件记录</span>
-                        <button type="button" class="btn btn-success mr5 btn-icon ml15" id="allCaseButton" >
-                          	  全部案件
-                        </button>
-                        <button  type="button" class="btn btn-success" id="searchMyButton" >
-                           	 我的案件
-                        </button>
-                    </h2> -->
                     <div class="tab_menu">
                         <ul>
                             <li class="tab-selected">我的申请</li>
@@ -87,16 +77,13 @@
                                <div class="form_content" style="margin-left: 186px;">
                                    <div class="checkbox i-checks radio-inline sign sign_right">
                                        <label class="mr10">
-                                           <input type="radio" value="0"  name="radio" checked="checked">
-                                           	全部
+                                           <input type="radio" value="0"  name="radio" checked="checked"> 全部
                                        </label>
                                        <label class="mr10">
-                                           <input type="radio" value="1"  name="radio">
-                                               	合并
+                                           <input type="radio" value="1"  name="radio"> 合并
                                        </label>
                                        <label class="mr10">
-                                           <input type="radio" value="2" name="radio">
-                                               	拆分
+                                           <input type="radio" value="2" name="radio"> 拆分
                                        </label>
                                    </div>
                                </div>
@@ -123,7 +110,7 @@
 		                              <th>经纪人 </th>
 		                              <th>交易顾问 </th>
 		                              <th>操作人  </th>
-		                              <th class="text-center yiban" name = 'th'>操作 </th>
+		                              <th class="text-center yiban" >操作 </th>
 		                          </tr>
 		                      </thead>
 		                      <tbody>
@@ -162,29 +149,28 @@
 
 			<td class="t-left">
 				 <p class="big">
-{{if item.operato != null}}
-	{{if item.operato == "1"}}
- 		<i class="sign_yellow">合流 </i>
-	{{/if}}
-	{{if item.operato == "2"}}
-		<i class="sign_yellow">拆分 </i>
-	{{/if}}
-{{/if}}
-</br>
- 		
-{{if item.status == "0"}}
-<i class="sign_blue">
-申请
-{{/if}}
-{{if item.status == "1"}}
-<i class="sign_blue">
-确认
-{{/if}}
-{{if item.status == "2"}}
-<i class="sign_brown">
-拒绝
-{{/if}}
-		</i>
+			{{if item.operato != null}}
+				{{if item.operato == "1"}}
+					<i class="sign_yellow">合流 </i>
+				{{/if}}
+				{{if item.operato == "2"}}
+					<i class="sign_yellow">拆分 </i>
+				{{/if}}
+			{{/if}}
+			</br>
+				{{if item.status == "0"}}
+				<i class="sign_blue">
+				申请
+				{{/if}}
+				{{if item.status == "1"}}
+				<i class="sign_blue">
+				确认
+				{{/if}}
+				{{if item.status == "2"}}
+				<i class="sign_brown">
+				拒绝
+				{{/if}}
+				</i>
 				 </p>
 			</td>
 			<td class="t-left">
@@ -227,26 +213,26 @@
 					{{item.operatorTime}}
 				 </p>
 			</td>
-{{if index_ != null}}
-{{if index_ == "1" || index_ == "2"}}
+			{{if index_ != null}}
+				{{if index_ == "1" || index_ == "2"}}
 			<td class="t-left yiban"  id="operato" name="operato">
 				 <p class="big">
-	{{if item.operato == "2" || item.status == "1" || item.status == "2" || userId != item.ctmleadingProcess}}
-		<button class="btn btn-success mr5" disabled="disabled" >确认</button>
-	{{/if}}
-	{{if item.operato == "1" && item.status == "0" && userId == item.ctmleadingProcess }}
-		<button class="btn btn-success mr5"  onclick="merge({{item.id}},'1')" >确认 </button>
-	{{/if}}
-	{{if item.status != "0" || userId != item.ctmleadingProcess}}
-                    <button class="btn btn-grey" disabled="disabled">驳回</button>
-	{{/if}}
-	{{if item.status == "0" && userId == item.ctmleadingProcess}}
-                    <button class="btn btn-grey" onclick="merge({{item.id}},'0')">驳回</button>
-	{{/if}}
+					{{if item.operato == "2" || item.status == "1" || item.status == "2" || userId != item.ctmleadingProcess}}
+						<button class="btn btn-success mr5" disabled="disabled" >确认</button>
+					{{/if}}
+					{{if item.operato == "1" && item.status == "0" && userId == item.ctmleadingProcess }}
+						<button class="btn btn-success mr5"  onclick="merge({{item.id}},'1')" >确认 </button>
+					{{/if}}
+					{{if item.status != "0" || userId != item.ctmleadingProcess}}
+                    	<button class="btn btn-grey" disabled="disabled">驳回</button>
+					{{/if}}
+					{{if item.status == "0" && userId == item.ctmleadingProcess}}
+                    	<button class="btn btn-grey" onclick="merge({{item.id}},'0')">驳回</button>
+					{{/if}}
 				 </p>
 			</td>
-{{/if}}
-{{/if}}
+				{{/if}}
+			{{/if}}
  			</tr>
 		{{/each}}
 </script> 
@@ -265,18 +251,9 @@ $(function(){
 })
 
 function liClick(index){
-    if(index == 0 ||index == 1 ){
-    	 reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),index));
-    }
-    if(index == 2){
-    	 reloadGrid(getParams("queryCaseRecordList",1,null,index));
-    }
-	if(index == 0)
-	{
-		$("th.yiban").hide();
-	}else{
-		$("th.yiban").show();
-	}
+    if(index == 0 ||index == 1 ){ reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),index)); }
+    if(index == 2){ reloadGrid(getParams("queryCaseRecordList",1,null,index)); }
+	if(index == 0) { $("th.yiban").hide(); }else{ $("th.yiban").show(); }
 }
 
 jQuery(document).ready(function() {
@@ -288,18 +265,10 @@ function getParams(qId,page,orgid,index) {
 	var data = {};
 	if(!page) { data.page = 1; } else { data.page = page; } 
 	var textType = $('#inTextType').val();
-	if(textType == "1"){
-		data.propertyAddr = $.trim($('#seachValue').val());
-	}
-	if(textType == "2"){
-		data.agentName = $.trim($('#seachValue').val());
-	}
-	if(textType == "0"){
-		
-	}
-	if(textType == "4"){
-		
-	}
+	if(textType == "1"){ data.propertyAddr = $.trim($('#seachValue').val()); }
+	if(textType == "2"){ data.agentName = $.trim($('#seachValue').val()); }
+	if(textType == "0"){  }
+	if(textType == "4"){ }
 	if (!$.isBlank($("#dtBegin").val())) {
 		data.operatorTime= $("#dtBegin").val() + " 23:59:59";
 	} 
@@ -322,13 +291,6 @@ function getParams(qId,page,orgid,index) {
 $("#searchButton").click(function() {
 	reloadGrid(getParams("queryCaseRecordList",1,null,null));
 });
-$("#allCaseButton").click(function() {
-	reloadGrid(getParams("queryCaseRecordList",1,null,null));
-});
-$("#searchMyButton").click(function() {
-	reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),null));
-});
-
 
 function reloadGrid(data) {
 	aist.wrap(data);
