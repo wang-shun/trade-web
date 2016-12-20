@@ -192,6 +192,7 @@ public class CaseMergeController {
 			toPropertyInfo.setCaseCode(caseCode);
 			toPropertyInfo.setPropertyCode(caseMergeVo.getPropertyCode() == null? "":caseMergeVo.getPropertyCode());
 			toPropertyInfo.setPropertyAddr(caseMergeVo.getPropertyAddr() == null? "":caseMergeVo.getPropertyAddr());
+			toPropertyInfo.setDistCode(caseMergeVo.getDistCode() == null? "":caseMergeVo.getDistCode());
 		    toPropertyInfoService.insertSelective(toPropertyInfo);
 
 			

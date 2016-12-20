@@ -105,12 +105,21 @@
 									<input type="hidden" id="pkid" name="pkid" value="${taxReview.pkid}">
 
 								<div class="form_content">
+
 									<label class="control-label sign_left_small select_style mend_select">
+										<font color="red" class="mr5">*</font>
 										实际审税时间
 									</label>
 									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-										<input class="input_type yuanwid datatime" type="text"  id="taxTime" name="taxTime" value="<fmt:formatDate  value='${taxReview.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
-									</div>
+										<c:if test="${!empty taxReview.taxTime}">
+											<input class="input_type yuanwid datatime" disabled="disabled" type="text"  id="taxTime" name="taxTime" value="<fmt:formatDate  value='${taxReview.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+										</c:if>
+
+										<c:if test="${empty taxReview.taxTime}">
+											<input class="input_type yuanwid datatime" type="text"  id="taxTime" name="taxTime" value="<fmt:formatDate  value='${taxReview.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+										</c:if>
+
+										</div>
 								</div>
 								<div class="form_content">
 									<label class="control-label sign_left_small">是否唯一住房</label>
@@ -244,7 +253,9 @@
 				<div class="form-btn">
 					<div class="text-center">
 						<button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
-						<button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</button>
+						<c:if test="${empty taxReview.taxTime}">
+							<button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</button>
+						</c:if>
 					</div>
 				</div>
 			</div>

@@ -5,7 +5,7 @@ import java.util.List;
 public class CaseMergeVo {
 	
 	private String propertyCode;
-	
+	private String distCode;
 	private String propertyAddr;
 	
 	private String agentName;
@@ -115,6 +115,12 @@ public class CaseMergeVo {
 	}
 	public void setAgentOrgCode(String agentOrgCode) {
 		this.agentOrgCode = agentOrgCode;
-	} 	
-	
+	}
+	public String getDistCode() {
+		return distCode;
+	}
+	public void setDistCode(String distCode) {
+		this.distCode = distCode;
+	}
+		
 }

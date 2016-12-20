@@ -62,7 +62,8 @@
 	                  </select>                  
 	              </div>
 	          </div>
-	          	        
+	          <input type="hidden"  name="blockId"  id="blockId"  value=""> <!-- 产证区域 -->
+	          <input type="hidden"  name="blockName"  id="blockName"  value=""> <!-- 产证区域 -->	 	        
 	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="140603093859B9126A9A39DD0B831A23">
 	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="上海虹口区外滩6666666号"> <!-- 产证地址待定 -->
 	          <input type="hidden"  name="distCode"  id="distCode"  value=""> <!-- 产证区域 -->
