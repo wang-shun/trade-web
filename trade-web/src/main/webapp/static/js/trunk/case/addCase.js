@@ -98,16 +98,23 @@ $(document).ready(function() {
 
 
 $("#blocksSelect").select2({
-		formatNoMatches:function() {
-			return "没有找到";
-		},
-		formatSearching: function() {
-			return "查询中...";
-		},
-	  placeholder: "请选择楼盘",
+	
+	   inputTooShort: function (args) {
+	        var remainingChars = args.minimum - args.input.length;
+	        var message = '请至少输入 ' + remainingChars + ' 个字符。';
+	        return message;
+       },
+       noResults: function () {
+    	      return '抱歉，没有找到符合条件的信息';
+       },
+       searching: function () {
+    	      return '查询中…';
+       },
+
+      normalizePlaceholder: "请选择楼盘",
 	  allowClear: true,
 	  id : function(data){ 
-	    	return data.pkid; 
+	    	return data.id; 
 	  },//select2  点选需要设置id
 	  ajax: {			    
 
@@ -123,15 +130,23 @@ $("#blocksSelect").select2({
 			    	    "cityCode": "",
 			    	    "district": "",
 			    	    "page": 1,
-			    	    "pageSize": 100
+			    	    "pageSize": 10
 	            };
 		    	return    data;
 		    },
 		   
 		   //processResults 函数的results的接收返回的值，具体以json为主
-		   processResults: function (data, page) {		    	 
-			   		//results: data.items;results: data.res以后端返回的json为主
-			        return {results: data};
+		   processResults: function (data, page) {	
+			   var converResults = [];
+
+               $.each(data, function (i, v) {
+                   var o = {};
+                   o.id = v.pkid;
+                   o.name = v.name;    
+                   converResults.push(o);
+               })
+			    //results: data.items;results: data.res以后端返回的json为主
+			    return {results: converResults};
 			  },
 		  cache: true,
 		  },
@@ -148,9 +163,8 @@ function cleanall(){
 }
 
 //显示 选取的值
-function formatRepoSelection(results) {	
+function formatRepoSelection(results) {
 	
-	console.log("111111"+JSON.stringify(results));
 	//select2DivClick(bond); 
 	
 	return  results.name;
