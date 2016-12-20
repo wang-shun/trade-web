@@ -143,7 +143,7 @@
          {{each rows as item index}}
  					{{if index%2 == 0}}
  				     	 <tr class="tr-1">
-                  {{else}}
+                  	{{else}}
                        <tr class="tr-2">
                     {{/if}}
 
@@ -273,7 +273,7 @@ function getParams(qId,page,orgid,index) {
 		data.operatorTime= $("#dtBegin").val() + " 23:59:59";
 	} 
 	if($('input[name="radio"]:checked').val()=="0"){}else{data.operato=$('input[name="radio"]:checked').val();}
-	data.queryId=qId;
+	data.queryId=qId;/*pageBarf类型为第一次进入页面时候的设置**/
 	if(orgid == "pageBarf"){
 		if(index == 0){data.sqid=$("#userid").val();}
 		if(index == 1){data.orgid=$("#userid").val();data.sqid=$("#userid").val();}

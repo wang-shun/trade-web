@@ -36,7 +36,7 @@
 <link href="${ctx}/css/common/details.css" rel="stylesheet">
 <link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
 <link href="${ctx}/css/common/btn.css" rel="stylesheet">
-<%-- <link href="${ctx}/css/common/input.css" rel="stylesheet"> --%>
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
 <style type="text/css">
 .wizard-big.wizard>.content {
@@ -206,7 +206,7 @@
 							<div class="step-content" style="margin-top: -15px;">
 								<div class="row">
 								<form id="mortgageForm">
-									<input type="hidden" name="pkid" id="pkid"/>
+								    <input type="hidden" name="pkid" id="pkid"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
 									<input type="hidden" name="isMainLoanBank" value="1"/>
 									
@@ -677,9 +677,14 @@
 	
 										<div class="form-group">
 											<label class="col-sm-2 control-label">信贷员姓名<span class="star">*</span>：</label>
-											<div class="col-md-2">
-												<input type="text" name="loanerName" id="loanerName"
-													placeholder="姓名" class="form-control">
+											<div class="col-md-2" style="position: relative;" >
+												<input type="text" name="loanerName" id="loanerName" placeholder="姓名" class="form-control" onkeyup="onkeyuploanerName()">
+												<i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+													nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser_})" >&#xe627;</i>
+												</input>
+												<input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+												<input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+												<input type="hidden"  id="loanerId" name="loanerId" />
 											</div>
 											<label class="col-sm-2 control-label" style="width:15%">信贷员电话<span class="star">*</span>：</label>
 											<div class="col-md-2" style="width:18%">
@@ -853,11 +858,13 @@
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.thumbnail_url) { %}
-							                <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="width:80px;height:80px;margin-left:10px;">
-							            {% } %}</div>
-							            <div class="name" style="display: none">
-							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+							            {% if (file.id) { %}
+                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
+							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
+                                              {% } else { %}
+ 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
+  											  {% } %}
+							            {% } %}
 							            </div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
@@ -1494,7 +1501,7 @@ function checkInt(obj){
 	}
 	function selectLoanerUser(array) {
 		if (array && array.length > 0) {
-			$("#loanerName").val(array[0].username);
+			$("#mortgageForm").find("#loanerName").val(array[0].username);
 			$.ajax({
 				url : ctx + "/eloan/LoanerCode",
 				method : "post",
@@ -1503,17 +1510,42 @@ function checkInt(obj){
 					"userId" : array[0].userId
 				},
 				success : function(data) {
-					$("#loanerNameImage").css("color","#52cdec");
-					$("#loanerPhone").val(data.user.mobile);
-					$("#loanerId").val(data.user.id);
-					$("#loanerOrgCode").val(data.user.orgName);
-					$("#loanerOrgId").val(data.user.orgId);
+					$("#mortgageForm").find("#loanerNameImage").css("color","#52cdec");
+					$("#mortgageForm").find("#loanerPhone").val(data.user.mobile);
+					$("#mortgageForm").find("#loanerId").val(data.user.id);
+					$("#mortgageForm").find("#loanerOrgCode").val(data.user.orgName);
+					$("#mortgageForm").find("#loanerOrgId").val(data.user.orgId);
 				}
 			})
 		} else {
-			$("#loanerName").val("");
-			$("#loanerOrgCode").val("");
-			$("#loanerOrgId").val("");
+			$("#mortgageForm").find("#loanerName").val("");
+			$("#mortgageForm").find("#loanerOrgCode").val("");
+			$("#mortgageForm").find("#loanerOrgId").val("");
+		}
+	}
+	
+	function selectLoanerUser_(array) {
+		if (array && array.length > 0) {
+			$("#mortgageForm1").find("#loanerName").val(array[0].username);
+			$.ajax({
+				url : ctx + "/eloan/LoanerCode",
+				method : "post",
+				dataType : "json",
+				data : {
+					"userId" : array[0].userId
+				},
+				success : function(data) {
+					$("#mortgageForm1").find("#loanerNameImage").css("color","#52cdec");
+					$("#mortgageForm1").find("#loanerPhone").val(data.user.mobile);
+					$("#mortgageForm1").find("#loanerId").val(data.user.id);
+					$("#mortgageForm1").find("#loanerOrgCode").val(data.user.orgName);
+					$("#mortgageForm1").find("#loanerOrgId").val(data.user.orgId);
+				}
+			})
+		} else {
+			$("#mortgageForm1").find("#loanerName").val("");
+			$("#mortgageForm1").find("#loanerOrgCode").val("");
+			$("#mortgageForm1").find("#loanerOrgId").val("");
 		}
 	}
 	

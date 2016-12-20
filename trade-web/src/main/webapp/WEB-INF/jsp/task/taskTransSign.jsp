@@ -70,8 +70,9 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
-	
 	<div class="marginbot">
+		<!-- 服务流程 -->
+		<div class="panel " id="serviceFlow">
 		  <div class="row wrapper white-bg new-heading">
 	            <div class="pl10">
 	                <h2 class="newtitle-big">
@@ -438,7 +439,10 @@
 		            </div>
 		        </div>
 	        </form>
-	        
+	        </div>
+	        </div>
+	        <!-- 相关信息 -->
+		    <div class="panel " id="aboutInfo">
 			<div id="caseCommentList" class="view-content"></div>
 	
             <div class="ibox-title" style="height: auto;border:0;padding-left:0;">
@@ -571,6 +575,7 @@
 	            <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
 	            <button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
 	        </div>
+	    </div>
 	    </div>
 	</div>
  </div>
@@ -1261,6 +1266,7 @@
 		<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 		<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 		<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+		<script src="${ctx}/js/stickUp.js"></script>
 		<script src="${ctx}/js/trunk/task/attachment.js"></script>
 		<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 		<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
