@@ -60,6 +60,7 @@ public class TrackController {
         switch (CommentType.valueOf(track.getType())) {
             case CMT:
                 resultCount = toCaseCommentService.insertToCaseComment(track);
+                break;
             case BUJIAN:
                 Boolean isNotifyCustomer = cmtVo.getIsNotifyCustomer() != null
                     ? cmtVo.getIsNotifyCustomer() : false;
@@ -67,10 +68,12 @@ public class TrackController {
                 stuffService.reqStuff(track, isNotifyCustomer);
                 //插入补件comment
                 resultCount = toCaseCommentService.insertToCaseComment(track);
+                break;
             case REJECT:
                 break;
             case TRACK:
                 resultCount = toMortgageService.addMortgageTrack4Par(track);
+                break;
             default:
                 break;
         }
