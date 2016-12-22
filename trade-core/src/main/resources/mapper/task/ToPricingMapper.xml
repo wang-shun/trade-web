@@ -33,10 +33,10 @@
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToPricing" >
     insert into sctrans.T_TO_PRICING (PKID, PART_CODE, CASE_CODE, 
       PRICING_TIME, TAX_PRICING, HOUSE_PROPERTY, 
-      COMMET)
+      COMMET,CREATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
       #{pricingTime,jdbcType=TIMESTAMP}, #{taxPricing,jdbcType=DECIMAL}, #{houseProperty,jdbcType=NVARCHAR}, 
-      #{commet,jdbcType=LONGVARCHAR})
+      #{commet,jdbcType=LONGVARCHAR}, @{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToPricing" >
     insert into sctrans.T_TO_PRICING
@@ -62,6 +62,7 @@
       <if test="commet != null" >
         COMMET,
       </if>
+        CREATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -85,6 +86,7 @@
       <if test="commet != null" >
         #{commet,jdbcType=LONGVARCHAR},
       </if>
+        @{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToPricing" >

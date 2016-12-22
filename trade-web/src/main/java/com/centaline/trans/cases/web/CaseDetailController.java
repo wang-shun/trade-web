@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1540,7 +1541,7 @@ public class CaseDetailController {
 		toCase.setLeadingProcessId(userId);
 		int reToCase = toCaseService.updateByPrimaryKey(toCase);
 		
-		User u1 = uamUserOrgService.getUserById(userId);
+		
 		record.setProcessorId(userId);
 		record.setOrgId(u_.getOrgId());
 		record.setCaseCode(caseCode);
@@ -1554,7 +1555,7 @@ public class CaseDetailController {
 			String variableName = "caseOwner";
 			RestVariable restVariable = new RestVariable();
 			restVariable.setType("string");
-			restVariable.setValue(u1.getUsername());
+			restVariable.setValue(u_.getUsername());
 			try{
 				workFlowManager.setVariableByProcessInsId(instCode, variableName, restVariable);
 			}catch(WorkFlowException e){
@@ -1562,12 +1563,12 @@ public class CaseDetailController {
 					throw e;
 				}
 			}
-			
 			TaskQuery tq = new TaskQuery();
 			tq.setProcessInstanceId(instCode);
 			tq.setFinished(false);
 			tq.setAssignee(u.getUsername());
 			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+			tasks.addAll(getNonMainWorkflowByAssignee(caseCode,u.getUsername()));//商贷、流失、公积金
 			updateWorkflow(userId, tasks, caseCode);
 		}
 		if (reToCase == 0)
@@ -1575,9 +1576,30 @@ public class CaseDetailController {
 		
 		return AjaxResponse.success("变更成功！");
 	}
-
-	
-	
+	/**
+	 * 查询指定Assignee的非主流程的任务项
+	 * @param caseCode
+	 * @param assignee
+	 * @return
+	 */
+	private List<TaskVo> getNonMainWorkflowByAssignee(String caseCode,String assignee){
+		List<TaskVo> result=new ArrayList<>(1);
+		ToWorkFlow wfQueryBean=new ToWorkFlow();
+		wfQueryBean.setCaseCode(caseCode);
+		wfQueryBean.setBizCodes(Arrays.asList("ComLoan_Process","LoanLost_Process","PSFLoan_Process"));
+		List<ToWorkFlow>subWF= toWorkFlowService.queryToWorkFlowByCaseCodeBusKeys(wfQueryBean);
+		for (ToWorkFlow wf : subWF) {
+			TaskQuery tq = new TaskQuery();
+			tq.setProcessInstanceId(wf.getInstCode());
+			tq.setFinished(false);
+			tq.setAssignee(assignee);
+			List<TaskVo> tks = workFlowManager.listTasks(tq).getData();
+			if(tks!=null &&!tks.isEmpty()){
+				result.addAll(tks);
+			}
+		}
+		return result;
+	}
 	
 	/**
 	 * 变更责任人  默认责任人显示

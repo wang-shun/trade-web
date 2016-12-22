@@ -21,7 +21,7 @@ public class QuickQueryUserByUsernameCustomDictServiceImpl implements CustomDict
 	@Override
 	@Cacheable(value="QuickQueryUserByUsernameCustomDictServiceImpl",key="#root.target.getProp()+'/'+#key")
 	public String getValue(String key) {
-		User u = uamUserOrgService.getUserByUsername(key);
+		User u = uamUserOrgService.getHisUserByUsername(key);
 		String value = null;
 		try {
 			value = BeanUtils.getProperty(u, prop);
@@ -39,7 +39,7 @@ public class QuickQueryUserByUsernameCustomDictServiceImpl implements CustomDict
 			try {
 				Object key = keyer.values().iterator().next();
 				if(key!=null){
-					User u = uamUserOrgService.getUserByUsername(key.toString());
+					User u = uamUserOrgService.getHisUserByUsername(key.toString());
 					val = BeanUtils.getProperty(u, prop);
 				}
 			} catch (Exception e) {
