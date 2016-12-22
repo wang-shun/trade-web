@@ -791,6 +791,16 @@
 					return false;
 				}
 				
+				if($("#topHome").children().length == 1){
+					alert("上家信息为必填项!");
+					return false;
+				}
+				
+				if($("#downHome").children().length == 1){
+					alert("下家信息为必填项!");
+					return false;
+				}
+				
 				if (!upAndDownCheck()) {					
 					return false;
 				}
@@ -1175,7 +1185,9 @@
 															txt += "</div>";
 															txt += "<div class='form_content'>";
 															txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
-															txt += "</div>"
+															txt += "</div>";
+															txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivD_" + divIndexDown + "')\">删除</a>";
+															txt += "</div>";
 															
 															$("#guestDownDiv").before(txt);
 															divIndexDown++;
@@ -1188,7 +1200,8 @@
 															txt += "<div class='form_content'>";
 															txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
 															txt += "</div>";    
-											                txt += "</div>";
+															txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivU_" + divIndexUp + "')\">删除</a>";
+															txt += "</div>";
 															
 															$("#guestUpDiv").before(txt);
 															divIndexUp++;
@@ -1203,7 +1216,9 @@
 										txt += "</div>";
 										txt += "<div class='form_content'>";
 										txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
-										txt += "</div>"
+										txt += "</div>";
+										txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivD_" + divIndexDown + "')\">删除</a>";
+										txt += "</div>";
 										
 										$("#guestDownDiv").before(txt);
 										divIndexDown++;
@@ -1216,7 +1231,8 @@
 										txt += "<div class='form_content'>";
 										txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
 										txt += "</div>";    
-						                txt += "</div>";
+										txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivU_" + divIndexUp + "')\">删除</a>";
+										txt += "</div>";
 										
 										$("#guestUpDiv").before(txt);
 										divIndexUp++;
