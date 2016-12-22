@@ -552,7 +552,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public void turnMergeCase(SessionUser user,CaseMergerParameter caseMergerParameter) throws Exception{
 		
 		ToCaseMerge toCaseMerge = toCaseMergeMapper.selectByPrimaryKey(Long.valueOf(caseMergerParameter.getId()));
-		toCaseMerge.setApplyStatus("2");
+		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS2.getCode());
 		toCaseMerge.setUpdateBy(user.getId());
 		toCaseMerge.setUpdateTime(new Date());
 		toCaseMergeMapper.updateByPrimaryKeySelective(toCaseMerge);
@@ -698,7 +698,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setApplierOrgId(user.getServiceDepId());;
 		toCaseMerge.setOperatorTime(new Date());
 		toCaseMerge.setOperator("1");
-		toCaseMerge.setApplyStatus("0");
+		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS0.getCode());
 		//toCaseMerge.setConfirmorId("");
 		//toCaseMerge.setConfirmorOrgId("");
 		//toCaseMerge.setConfirmorTime(new Date);
@@ -742,7 +742,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 	 * @return
 	 */
 	public ToCaseMerge setUpdateToCaseMerges(SessionUser user,ToCaseMerge toCaseMerge){
-		toCaseMerge.setApplyStatus("1");
+		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS1.getCode());
 		toCaseMerge.setUpdateBy(user.getId());
 		toCaseMerge.setUpdateTime(new Date());
 		toCaseMerge.setConfirmorId(user.getId());
