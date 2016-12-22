@@ -49,7 +49,9 @@
 	                  <label class="control-label sign_left_small">房屋地址</label>
 <!-- 	      		  <input type="text" placeholder="房屋搜索"  class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" value="">  --> 
 	                  
-	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect"  style="height:33px;"></select>
+	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect"  style="height:33px;">
+						
+	                  </select>
 	                  		                
 	                  <select id="buildingsSelect" class="select_control sign_right_one  select2  span3"><!-- ml20 -->
 	                      <option value="">请选择楼栋</option>
@@ -181,6 +183,7 @@
 <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
 
 <script src="${ctx}/js/plugins/autocomplete/select2.min.js"></script> 
+<script src="${ctx}/js/plugins/autocomplete/i18n/zh-CN.js"></script> 
 <script src="${ctx}/js/trunk/case/addCase.js"></script>
 <script src="${ctx}/js/jquery.json.min.js"></script>
 

@@ -89,36 +89,50 @@ function addCaseAgent(array) {
 var ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
 //页面初始化
-$(document).ready(function() {
-	cleanall();
-
+$(document).ready(function() {	
+	//$('#blocksSelect').prepend('<option></option>').select2({placeholder: "请输入地址"});
 });
-//楼盘更新，清空所有
-function cleanall(){
 
+
+//楼盘更新，清空所有
+$("#blocksSelect").click(function(){	
 	$("#blocksSelect").val(null).trigger("change");
-}
+})
+
+
+$("#blocksSelect2222").click(function(){
+	$("#blockId").val("");
+	$("#blockName").val("");	
+	$('#distCode').val("");  //设置区域
+	
+	//清空
+    $select2.val(null).trigger("change");
+   
+})
+
 
 //select2 控件自动补全
 $("#blocksSelect").select2({
-	  
-		"language": {
-			  "inputTooShort": function (args) {
-			        var remainingChars = args.minimum - args.input.length;
-			        var message = '请至少输入 ' + remainingChars + ' 个字符。';
-			        return message;
-		      },
 
-			  "searching": function () {
-				  var mes = "信息查询中…";
-				  return mes;
-			  },
-			  "noResults": function () {
-			      return '未找到符合条件的信息';
-			  },
-			  
-	  },
-	  placeholder:'请选择',
+	/*		"language": {
+				  "inputTooShort": function (args) {
+				        var remainingChars = args.minimum - args.input.length;
+				        var message = '请至少输入 ' + remainingChars + ' 个字符。';
+				        return message;
+			      },
+
+				  "searching": function () {
+					  var mes = "信息查询中…";
+					  return mes;
+				  },
+				  "noResults": function () {
+				      return '未找到符合条件的信息';
+				  },
+				  
+		  },*/
+	  language: "zh-CN",
+	  placeholders: "请输入地址...",	
+
 	  allowClear: true,
 	  minimumInputLength: 1,	
 	  //select2   4.0以上的版本  点选需要设置id
@@ -175,7 +189,7 @@ function formatRepoSelection(results) {
     	$('#distCode').val(results.districtCode);  //设置区域
     	$('#distName').val(getDictName(results.districtCode));  //设置区域
     	
-        select2DivClick(results);   
+       // select2DivClick(results);   
         return results.name;
     }
 };
@@ -204,7 +218,7 @@ function select2DivClick( data ){
 			//console.log(data);
 			var option="";
 			if(data.length===0){
-				 option="<option value=''>无栋座</option>";
+				 option="<option value=''>无可选栋座</option>";
 				 $('#buildingsSelect').append(option);
 			}else{
 				 option="<option value=''>请选择楼栋</option>";
@@ -266,7 +280,7 @@ function buildingChange(){
 		    var option="";
 		    var floorSelect =$('#floorSelect');
 			if(data===null){
-				 option="<option value=''>无层</option>";
+				 option="<option value=''>无可选楼层</option>";
 							floorSelect.append(option);
 
 			}else{
@@ -313,7 +327,7 @@ function floorChange(){
 	var building_id=$("#buildingsSelect").val();//楼栋	
 	var floor=$("#floorSelect").val();//楼层
 	if(floor==""){
-		 option="<option value=''>请选择</option>";
+		 option="<option value=''>请选择房屋</option>";
 	     $('#roomSelect').append(option);
 	     return; 
 	}
@@ -334,10 +348,10 @@ function floorChange(){
 				var data=data.data;
 				var option="";
 				if(data==null||data.length===0){
-					 option="<option value=''>无房屋</option>";
+					 option="<option value=''>无可选房屋</option>";
 				     $('#roomSelect').append(option);
 				}else{
-					 option="<option value=''>请选择</option>";
+					 option="<option value=''>请选择房屋</option>";
 				     $('#roomSelect').append(option);
 					 $.each(data, function(i) {
 			         	 option="<option value='"+data[i].pkid+"'>";
@@ -356,17 +370,6 @@ function floorChange(){
 		roomSelectChange();
 	}
 }  
-
-$(".select2-selection__clear").click(function(){
-	alert(111111111111111111);
-	$("#blockId").val("");
-	$("#blockName").val("");	
-	$('#distCode').val("");  //设置区域
-	
-	/*$("#blocksSelect").select2("val", "");*/
-	
-	$("#select2-blocksSelect-container").select2("val", ""); 
-})
 
 
 //房屋层数改变
@@ -736,10 +739,8 @@ function getDictName(dictCode){
 		}else if(dictCode == "310109"){
 			dictName = "虹口区";
 		}
-		
-		return dictName;
-	}
-	
+	}	
+	return dictName;	
 }
 /*		
  * 
