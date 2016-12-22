@@ -14,8 +14,13 @@ public enum CaseMergeStatusEnum {
 	/** APPLY_STATUS 0：申请   1：已确认   2：拒绝**/
 	APPLYSTATUS0("0","申请"),
 	APPLYSTATUS1("1","已确认"),
-	APPLYSTATUS2("2","拒绝");
-	
+	APPLYSTATUS2("2","拒绝"),
+	/** OPERATOR 1：合并  2 ：拆解**/
+	OPERATOR1("1","合并"),
+	OPERATOR2("2","拆解"),
+	/** APPLY_DIRECTION 0 : 自录发起 合CTM      1：CTM发起 合自录**/
+	APPLY_DIRECTION0("0","自录发起 合CTM"),
+	APPLY_DIRECTION1("1","CTM发起 合自录");
     
     private String name;
 

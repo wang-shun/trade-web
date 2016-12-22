@@ -697,12 +697,12 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setApplierId(user.getId());
 		toCaseMerge.setApplierOrgId(user.getServiceDepId());;
 		toCaseMerge.setOperatorTime(new Date());
-		toCaseMerge.setOperator("1");
+		toCaseMerge.setOperator(CaseMergeStatusEnum.OPERATOR1.getCode());
 		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS0.getCode());
 		//toCaseMerge.setConfirmorId("");
 		//toCaseMerge.setConfirmorOrgId("");
 		//toCaseMerge.setConfirmorTime(new Date);
-		toCaseMerge.setApplyDirection("0");
+		toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION0.getCode());
 		toCaseMerge.setCreateBy(user.getId());
 		toCaseMerge.setCreateTime(new Date());
 		//toCaseMerge.setUpdateBy("");
@@ -748,7 +748,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setConfirmorId(user.getId());
 		toCaseMerge.setConfirmorOrgId(user.getServiceDepId());
 		toCaseMerge.setConfirmorTime(new Date());
-		toCaseMerge.setApplyDirection("0");
+		toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION0.getCode());
 		return toCaseMerge;
 	}
 	/**
