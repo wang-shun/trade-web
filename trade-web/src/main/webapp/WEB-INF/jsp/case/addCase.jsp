@@ -49,9 +49,7 @@
 	                  <label class="control-label sign_left_small">房屋地址</label>
 <!-- 	      		  <input type="text" placeholder="房屋搜索"  class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" value="">  --> 
 	                  
-	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect"  style="height:33px;">
-	                  
-	                  </select>
+	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect"  style="height:33px;"></select>
 	                  		                
 	                  <select id="buildingsSelect" class="select_control sign_right_one  select2  span3"><!-- ml20 -->
 	                      <option value="">请选择楼栋</option>

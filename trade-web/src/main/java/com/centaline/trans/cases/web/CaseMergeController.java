@@ -222,12 +222,14 @@ public class CaseMergeController {
 		}		
 		
 		if(insertUp > 0 && insertDown > 0 && insertCase>0 && insertCaseInfo > 0){
+			
+			request.setAttribute("caseCode", caseCode);
 			request.setAttribute("busFlag", "success");
 		}
 		
 		if(!"".equals(keyFlag) && null != keyFlag){
 			if("case".equals(keyFlag)){
-				return  "case/caseRecord";				
+				return  "/case/taskTracking2";				
 			}else if("eloan".equals(keyFlag)){
 				return  "eloan/task/taskEloanList";							
 			}else if("spv".equals(keyFlag)){

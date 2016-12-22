@@ -164,15 +164,34 @@ $(document).ready(function() {
 		
 });
 
+
 //显示 选取的值
 function formatRepoSelection(results) {	
     if (results != null && results != undefined) {
+	 var districts = {
+		 		"310104":"徐汇区"
+		 		,"310105":"长宁区"
+		 		,"310117":"松江区"
+		 		,"310116":"金山区"
+		 		,"310115":"浦东新区"
+		 		,"310114":"嘉定区"
+		 		,"310113":"宝山区"
+		 		,"310112":"闵行区"
+		 		,"310110":"杨浦区"
+		 		,"310108":"闸北区"
+		 		,"310107":"普陀区"
+		 		,"310106":"静安区"
+		 		,"310101":"黄浦区"
+		 		,"310118":"青浦区"
+		 		,"310109":"虹口区"
+		 	};
     	//拼接产证地址
     	$("#blockId").val(results.id);
     	$("#blockName").val(results.name);	
-    	$('#distCode').val(results.districtCode);  //设置区域
-    	$('#distName').val(getDictName(results.districtCode));  //设置区域
-    	
+    	if(results.districtCode){
+	    	$('#distCode').val(results.districtCode);  //设置区域
+	    	$('#distName').val(districts[results.districtCode]);  //设置区域
+    	}
         select2DivClick(results);   
         return results.name;
     }
@@ -194,7 +213,6 @@ function select2DivClick( data ){
 	if(loadedTimes++ > 0){
 		return ;
 	}
-	$('#buildingsSelect').empty();  
 	var v = data.id;		
 	if(v !="" && v != null){
 		$.ajax({
@@ -203,8 +221,7 @@ function select2DivClick( data ){
 			dataType:"json",    
 			data:"resblockId="+v,
 			success: function(data) {	
-				//alert(JSON.stringify(data));
-				//console.log(data);
+				$('#buildingsSelect').empty();  
 				var option="";
 				if(data.length==0){
 					 option="<option value=''>无可选栋座</option>";
@@ -249,6 +266,8 @@ function buildingChange(){
 	var resblock_id =  $("#blockId").val();
 	var building_id =  $("#buildingsSelect").val();     
 	$("#buildingName").val( $("#buildingsSelect option:selected").text());     
+	
+	
 	
 	if(building_id==""){
 		 option="<option value=''>请选择楼层</option>";
@@ -680,7 +699,7 @@ function checkContactNumber(ContactNumber) {
 		isValid = false;
 		return isValid;
 	}
-	if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13)){				
+	if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){				
 		alert("电话号码只能由是8位、11位或者13位的数字组成！");
 		isValid = false;
 		return isValid;
@@ -693,7 +712,6 @@ function checkContactNumber(ContactNumber) {
 	}
 	return isValid;
 }
-
 
 function getDictName(dictCode){
 	var dictName = "";
@@ -731,6 +749,33 @@ function getDictName(dictCode){
 		}
 	}	
 	return dictName;	
+}
+
+//拼接地址
+function setPropertyAddr(){
+	$("#propertyAddr").val("");
+	var addr = "上海市" + $('#distName').val();
+	
+	if($("#blockName").val() != "" && $("#blockName").val() != null){
+		addr += $("#blockName").val();
+	}
+	if($("#buildingName").val() != "" && $("#buildingName").val() != null){
+		if($("#buildingName").val().indexOf("栋") > 0 ){
+			addr += $("#buildingName").val();
+		}else{
+			addr += $("#buildingName").val();
+			addr += "栋";
+		}
+	}
+	if($("#floorName").val() != "" && $("#floorName").val() != null){
+		addr += $("#floorName").val();
+	}
+	if($("#roomName").val() != "" && $("#roomName").val() != null){
+		addr += $("#roomName").val();
+		addr += "室";
+	}
+	
+	$("#propertyAddr").val(addr);  
 }
 /*		
  * 

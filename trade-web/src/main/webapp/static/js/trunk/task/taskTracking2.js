@@ -1,6 +1,15 @@
 var startList=0;//判断是不是应该显示列表
 $(document).ready(function() {
 	
+	var caseCode = "${caseCode}";
+	if(caseCode){
+		$("#caseCode").val(caseCode);
+	}
+	var busFlag = "${busFlag}";
+	if(busFlag !="" && busFlag != null && busFlag != undefined){
+		alert("恭喜,新建案件成功,请等待主管分配！");
+	}
+		
 	var data = getParams(1);
     aist.wrap(data);
     startList=0;
