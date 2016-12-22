@@ -178,9 +178,9 @@ public class KpiImportController {
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		// 上月
 		if ("0".equals(belongMonth)) {
-			belongM = DateUtil.plusMonth(new Date(), -1);
+			belongM = DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1));
 		} else {
-			belongM = new Date();
+			belongM = DateUtil.getFirstDayOfTheMonth();
 		}
 		TsKpiPsnMonth record = new TsKpiPsnMonth();
 		record.setBelongMonth(belongM);

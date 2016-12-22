@@ -36,6 +36,7 @@ public interface ToWorkFlowService {
 	ToWorkFlow queryActiveToWorkFlowByBizCodeBusKey(ToWorkFlow record);
 	
 	List<ToWorkFlow>queryActiveToWorkFlowByCaseCode(ToWorkFlow record);
+	List<ToWorkFlow> queryToWorkFlowByCaseCodeBusKeys(ToWorkFlow record);
 	/**
 	 * 无效表单数据
 	 * @param caseCode

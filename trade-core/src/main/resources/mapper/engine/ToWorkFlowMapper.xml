@@ -361,6 +361,15 @@
     AND BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR}
     and status=0
   </select>
+    <select id="queryToWorkFlowByCaseCodeBusKeys" resultMap="BaseResultMap" parameterType="com.centaline.trans.engine.entity.ToWorkFlow" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_WORKFLOW
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND BUSINESS_KEY IN <foreach collection="bizCodes" item="item" index="index" open="(" separator="," close=")">#{item}</foreach> 
+    
+    and status=0
+  </select>
   <select id="queryActiveToWorkFlowByCaseCodeBusKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.engine.entity.ToWorkFlow" >
     select 
     <include refid="Base_Column_List" />

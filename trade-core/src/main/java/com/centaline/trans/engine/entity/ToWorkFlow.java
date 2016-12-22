@@ -1,5 +1,7 @@
 package com.centaline.trans.engine.entity;
 
+import java.util.List;
+
 public class ToWorkFlow {
 	private Long pkid;
 
@@ -11,6 +13,7 @@ public class ToWorkFlow {
 	private String processOwner;
 	private String status;
 	private String bizCode;
+	private List<String> bizCodes;
 	
 	public Long getPkid() {
 		return pkid;
@@ -80,5 +83,13 @@ public class ToWorkFlow {
 
 	public void setBizCode(String bizCode) {
 		this.bizCode = bizCode;
+	}
+
+	public List<String> getBizCodes() {
+		return bizCodes;
+	}
+
+	public void setBizCodes(List<String> bizCodes) {
+		this.bizCodes = bizCodes;
 	}
 }

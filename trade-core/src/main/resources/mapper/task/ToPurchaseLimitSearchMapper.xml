@@ -30,9 +30,9 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToPurchaseLimitSearch" >
     insert into sctrans.T_TO_PURCHASE_LIMIT_SEARCH (PKID, PART_ID, CASE_CODE, 
-      REAL_PLS_TIME, COMMENT)
+      REAL_PLS_TIME, COMMENT,CREATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{partId,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
-      #{realPlsTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=LONGVARCHAR})
+      #{realPlsTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=LONGVARCHAR},@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToPurchaseLimitSearch" >
     insert into sctrans.T_TO_PURCHASE_LIMIT_SEARCH
@@ -52,6 +52,7 @@
       <if test="comment != null" >
         COMMENT,
       </if>
+        CREATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -69,6 +70,7 @@
       <if test="comment != null" >
         #{comment,jdbcType=LONGVARCHAR},
       </if>
+        @{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToPurchaseLimitSearch" >

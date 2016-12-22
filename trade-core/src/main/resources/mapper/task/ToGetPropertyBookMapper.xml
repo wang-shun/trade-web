@@ -30,9 +30,9 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToGetPropertyBook" >
     insert into sctrans.T_TO_GET_PROPERTY_BOOK (PKID, PART_CODE, CASE_CODE, 
-      REAL_PROPERTY_GET_TIME, COMMET)
+      REAL_PROPERTY_GET_TIME, COMMET,CREATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
-      #{realPropertyGetTime,jdbcType=TIMESTAMP}, #{commet,jdbcType=LONGVARCHAR})
+      #{realPropertyGetTime,jdbcType=TIMESTAMP}, #{commet,jdbcType=LONGVARCHAR},@{SESSION_USER_ID})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToGetPropertyBook" >
     insert into sctrans.T_TO_GET_PROPERTY_BOOK
@@ -52,6 +52,7 @@
       <if test="commet != null" >
         COMMET,
       </if>
+        CREATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -69,6 +70,7 @@
       <if test="commet != null" >
         #{commet,jdbcType=LONGVARCHAR},
       </if>
+        @{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToGetPropertyBook" >
