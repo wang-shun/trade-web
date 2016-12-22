@@ -322,6 +322,15 @@
             });
             
             $('.submit_From').click(function(){
+            	debugger;
+            	if($("#signAmount").val()=="" ||$("#signAmount").val()==null){
+            		alert("签约金额为必填信息")
+            		return;
+            	}
+            	if($("#signTime").val()=="" ||$("#signTim").val()==null){
+            		alert("签约时间为必填信息")
+            		return;
+            	}
             	saveEloanSign();
             })
         });
@@ -353,15 +362,6 @@
 			  });
 		}
         function saveEloanSign() {
-        	
-        	if($("#signAmount").val=="" ||$("#signAmount").val==null){
-        		alert("签约金额为必填信息")
-        		return;
-        	}
-        	if($("#signTime").val=="" ||$("#signTim").val==null){
-        		alert("签约时间为必填信息")
-        		return;
-        	}
 			var jsonData = $("#eloanSignForm").serializeArray();
 			var url = "${ctx}/eloan/saveEloanSign";
 			$.ajax({
