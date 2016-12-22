@@ -90,32 +90,35 @@ var ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
 //页面初始化
 $(document).ready(function() {
-	//cleanall();
+	cleanall();
 
 });
 //楼盘更新，清空所有
 function cleanall(){
-	//$("#blocksSelect").val(null).trigger("change");
+
+	$("#blocksSelect").val(null).trigger("change");
 }
-var i=0;
 
 //select2 控件自动补全
 $("#blocksSelect").select2({
-	
+	  
 		"language": {
 			  "inputTooShort": function (args) {
 			        var remainingChars = args.minimum - args.input.length;
 			        var message = '请至少输入 ' + remainingChars + ' 个字符。';
 			        return message;
 		      },
-			  "noResults": function () {
-				      return '抱歉，没有找到符合条件的信息';
-			  },
+
 			  "searching": function () {
-				      return '信息查询中…';
+				  var mes = "信息查询中…";
+				  return mes;
 			  },
-			  "normalizePlaceholder": "请选择楼盘",
+			  "noResults": function () {
+			      return '未找到符合条件的信息';
+			  },
+			  
 	  },
+	  placeholder:'请选择',
 	  allowClear: true,
 	  minimumInputLength: 1,	
 	  //select2   4.0以上的版本  点选需要设置id
@@ -170,6 +173,7 @@ function formatRepoSelection(results) {
     	$("#blockId").val(results.id);
     	$("#blockName").val(results.name);	
     	$('#distCode').val(results.districtCode);  //设置区域
+    	$('#distName').val(getDictName(results.districtCode));  //设置区域
     	
         select2DivClick(results);   
         return results.name;
@@ -239,6 +243,7 @@ function buildingChange(){
 	$("#floorSelect").empty();
 	var resblock_id =  $("#blockId").val();
 	var building_id =  $("#buildingsSelect").val();     
+	$("#buildingName").val($("#buildingsSelect").html());     
 	
 	if(building_id==""){
 		 option="<option value=''>请选择楼层</option>";
@@ -302,6 +307,7 @@ $("#floorSelect").change(function(){
 function floorChange(){
 	$('#roomSelect').empty();
 	var roomChanged = false;  //todo
+	$("#floorName").val($("#floorSelect").html());    
 	
 	var estate_id=  $("#blockId").val();//楼房地址
 	var building_id=$("#buildingsSelect").val();//楼栋	
@@ -352,12 +358,14 @@ function floorChange(){
 }  
 
 $(".select2-selection__clear").click(function(){
+	alert(111111111111111111);
 	$("#blockId").val("");
 	$("#blockName").val("");	
 	$('#distCode').val("");  //设置区域
 	
+	/*$("#blocksSelect").select2("val", "");*/
+	
 	$("#select2-blocksSelect-container").select2("val", ""); 
-
 })
 
 
@@ -368,10 +376,13 @@ $("#roomSelect").change(function (){
 
 function roomSelectChange(){		
 	var houseId = $('#roomSelect').val(); //房屋编号      TODO
+	$("#roomName").val($("#roomSelect").html());   
 	
 	var addHtml = "";	
 	//选定具体的房屋号之后 确定houseId，到后端请求数据是否有CTM推送的案件
 	if(houseId !="" && houseId !=null && houseId != undefined){	
+	var addr = "上海市"+ $('#distName').val() + $('#blockName').val() + $('#buildingName').val() + $('#floorName').val() + $('#roomName').val();
+	$("#propertyAddr").val(addr);  
 			var data = {
 					propertyCode: houseId,						
 					queryId : "isRepeatCaseList",
@@ -402,8 +413,11 @@ function reloadGrid(data){
 			});
 		},*/
 		success : function(data) {
+			//alert(JSON.stringify(data));
+		
+			
 			$.unblockUI();			
-			if(data != null && data.pageSize > 0){	
+			if(data != null && data.page > 0){	
 				$("#isRepeatCase").show();
 				data.ctx = ctx;
 				var addCaseList = template('template_addCaseList', data);
@@ -685,6 +699,47 @@ function checkContactNumber(ContactNumber) {
 		return isValid;
 	}
 	return isValid;
+}
+
+
+function getDictName(dictCode){
+	var dictName = "";
+	if(dictCode !="" && dictCode != null){
+		if(dictCode == "310101"){
+			dictName = "黄浦区";
+		}else if(dictCode == "310102"){
+			dictName = "徐汇区";
+		}else if(dictCode == "310105"){
+			dictName = "长宁区";
+		}else if(dictCode == "310117"){
+			dictName = "松江区";
+		}else if(dictCode == "310116"){
+			dictName = "金山区";
+		}else if(dictCode == "310115"){
+			dictName = "浦东新区";
+		}else if(dictCode == "310114"){
+			dictName = "嘉定区";
+		}else if(dictCode == "310113"){
+			dictName = "宝山区";
+		}else if(dictCode == "310112"){
+			dictName = "闵行区";
+		}else if(dictCode == "310110"){
+			dictName = "杨浦区";
+		}else if(dictCode == "310108"){
+			dictName = "闸北区";
+		}else if(dictCode == "310107"){
+			dictName = "普陀区";
+		}else if(dictCode == "310106"){
+			dictName = "静安区";
+		}else if(dictCode == "310118"){
+			dictName = "青浦区";
+		}else if(dictCode == "310109"){
+			dictName = "虹口区";
+		}
+		
+		return dictName;
+	}
+	
 }
 /*		
  * 
