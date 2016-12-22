@@ -119,5 +119,10 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	}	@Override
 	public List<ToWorkFlow> queryToWorkFlowByCaseCodeBusKeys(ToWorkFlow record) {
 		return toWorkFlowMapper.queryToWorkFlowByCaseCodeBusKeys(record);
+	}
+
+	@Override
+	public ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record) {
+		return toWorkFlowMapper.queryToWorkFlowByCaseCodeBusKey(record);
 	}	
 }
