@@ -10,7 +10,12 @@ public enum CaseMergeStatusEnum {
 	CTM("CTM", "导入"),
 	INPUT("INPUT", "自录"),
 	MERGE("MERGE", "合流"),
-	PROCESS("PROCESS", "合流申请中");
+	PROCESS("PROCESS", "合流申请中"),
+	/** APPLY_STATUS 0：申请   1：已确认   2：拒绝**/
+	APPLYSTATUS0("0","申请"),
+	APPLYSTATUS1("1","已确认"),
+	APPLYSTATUS2("2","拒绝");
+	
     
     private String name;
 
