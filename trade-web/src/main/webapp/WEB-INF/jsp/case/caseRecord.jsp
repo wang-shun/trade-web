@@ -238,8 +238,8 @@
 </script> 
 
 <script>
-var index = 0;
-$(function(){
+var index = 0;/*用来记录页面class 为tab-selected的 li的状态 **/
+$(function(){/* 点击li时候设置调用方法 **/
     var $div_li =$("div.tab_menu ul li");
     $div_li.click(function(){
         $(this).addClass("tab-selected") .siblings().removeClass("tab-selected");
@@ -249,7 +249,7 @@ $(function(){
         liClick(index);
     })
 })
-
+/*判断li的值来设置调用方法 **/
 function liClick(index){
     if(index == 0 ||index == 1 ){ reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),index)); }
     if(index == 2){ reloadGrid(getParams("queryCaseRecordList",1,null,index)); }
@@ -260,7 +260,7 @@ jQuery(document).ready(function() {
 	reloadGrid(getParams("queryCaseRecordList",1,$("#userid").val(),0));
 	$("th.yiban").hide();
 });
-/*qId,page,orgid--快速查询ID,分页参数,部门id*/
+/*qId,page,orgid，index--快速查询ID,分页参数,部门id，页面li*/
 function getParams(qId,page,orgid,index) {
 	var data = {};
 	if(!page) { data.page = 1; } else { data.page = page; } 
@@ -269,9 +269,7 @@ function getParams(qId,page,orgid,index) {
 	if(textType == "2"){ data.agentName = $.trim($('#seachValue').val()); }
 	if(textType == "0"){  }
 	if(textType == "4"){ }
-	if (!$.isBlank($("#dtBegin").val())) {
-		data.operatorTime= $("#dtBegin").val() + " 23:59:59";
-	} 
+	if (!$.isBlank($("#dtBegin").val())) { data.operatorTime= $("#dtBegin").val() + " 23:59:59"; } 
 	if($('input[name="radio"]:checked').val()=="0"){}else{data.operato=$('input[name="radio"]:checked').val();}
 	data.queryId=qId;/*pageBarf类型为第一次进入页面时候的设置**/
 	if(orgid == "pageBarf"){
@@ -288,10 +286,9 @@ function getParams(qId,page,orgid,index) {
 	data.rows = 10;
 	return data;
 }
-$("#searchButton").click(function() {
-	reloadGrid(getParams("queryCaseRecordList",1,null,null));
-});
-
+/* 调用查询方法 **/
+$("#searchButton").click(function() { reloadGrid(getParams("queryCaseRecordList",1,null,null)); });
+/* 调用查询方法 **/
 function reloadGrid(data) {
 	aist.wrap(data);
 	$.ajax({
@@ -315,11 +312,8 @@ function reloadGrid(data) {
 			},
 			error : function(e, jqxhr, settings,exception) {$.unblockUI();}
 		});
-	
 }
-/**
- * 确认
- */
+/** * 确认  */
 function merge(pkId,type){
 	if(type == "1"){if(!confirm("确定合流案件吗！")){ return false; }}
 	if(type == "0"){if(!confirm("确定驳回合流案件吗！")){ return false; }}
@@ -335,22 +329,18 @@ function merge(pkId,type){
 		data : data,
 		beforeSend:function(){},
 		success : function(data) {
-			if(data.success){
-				if(data.content){ alert("合流成功！");} else{ alert("驳回成功！");}
-			}else{
-				if(data.content){ alert("合流失败！"+data.message);}
-				else{ alert("驳回失败！"+data.message);}
+			if(data.success){ if(data.content){ alert("合流成功！");} else{ alert("驳回成功！");} }else{
+				if(data.content){ alert("合流失败！"+data.message);} else{ alert("驳回失败！"+data.message);}
 			}
 			window.location.reload();
 		},complete: function() {  },
 		error : function(errors) { }
 	});
 }
+/* 分页 **/
 function initpagef(totalCount,pageSize,currentPage,records)
 {
-	if(totalCount>1500){
-		totalCount = 1500;
-	}
+	if(totalCount>1500){ totalCount = 1500; }
 	var currentTotalstrong=$('#currentTotalPagef').find('strong');
 	if (totalCount<1 || pageSize<1 || currentPage<1)
 	{
@@ -378,7 +368,7 @@ function initpagef(totalCount,pageSize,currentPage,records)
 	});
 }
 
-//日期控件
+/* 日期控件 **/
 $('#datepicker_0').datepicker({
 	format : 'yyyy-mm-dd',
 	weekStart : 1,
@@ -386,6 +376,7 @@ $('#datepicker_0').datepicker({
 	todayBtn : 'linked',
 	language : 'zh-CN'
 });
+/* 页面title提示**/
 $('.demo-top').poshytip({
 	className: 'tip-twitter',
 	showTimeout: 1,
