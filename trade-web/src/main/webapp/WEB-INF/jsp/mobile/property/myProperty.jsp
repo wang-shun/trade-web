@@ -10,29 +10,72 @@
 		<meta name="apple-touch-fullscreen" content="yes"  />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 		<meta name="format-detection" content="telephone=no">
-		<link href="${ctx}/momedia/css/property/myproperty.css" rel="stylesheet">
-		<link href="${ctx}/momedia/css/scrollpagination.css" rel="stylesheet" />
-		<link rel="stylesheet" type="text/css" href="${ctx}/momedia/iconfont/iconfont.css" />
-		<style>
-			
-		</style>
+	    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/aui.css" />
+	    <link href="${ctx}/momedia/css/scrollpagination.css" rel="stylesheet" />
+    	<link rel="stylesheet" href="${ctx}/static/momedia/iconfontmobile/iconfont.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/property/miuustyle.css" />
 	</head>
 	<body>
-		<header class="u-header">
-		    <div class="uc_return" style="position:relative;">
-		        <div class="uc_return_c">我的产调</div>
-        		<a href="${ctx}/weixin/property/toApply" style="color:#fff;"><i class="iconfont icon-jiahao" style="position:absolute;top:16px;right:25px;"></i></a>
-		    </div>
-		</header>
-		<section class="productul" id="productul">
-	    	<div class="search">
-	    		<input type="text" id="propertyAddr" class="search_input" placeholder="产证地址"/>
-		        <div class="search_btn"></div>
-		    </div>
-		    <a href="javascript:;" class="top"><i class="pic-top"></i></a>
-		    <article>
-		    <ul id="content"></ul>
-		    <div style="display: block; height: 45px;">
+ 	<header class="aui-bar aui-bar-nav">
+ 	   <!-- 
+       <a class="aui-pull-left aui-btn head-mend">
+            <span><i class="iconfont font-20">&#xe628;</i></span>
+        </a>
+         -->
+        <div class="aui-title">我的产调</div>
+    </header>
+
+    <article class="aui-content">
+        <div class="aui-searchbar" id="search">
+        <div class="aui-searchbar-input aui-border-radius" tapmode="">
+            <i class="aui-iconfont aui-icon-search"></i>
+            <form action="javascript:search();">
+                <input type="search" placeholder="产证地址" id="propertyAddr" onkeyup="initScrollPaggination();">
+            </form>
+        </div>
+    </div>
+        <ul class="aui-list aui-media-list" id="content">
+            <!-- <li class="aui-list-item aui-mt-5">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-title font16 order-title left mr10">浦东新区</div>
+                        <div class="aui-list-item-text font14 newgrey clear">
+                            上海杨浦区平路街道（内环）鞍山八村29号
+                        </div>
+                        <div class="font12 newgrey mt5 sign">
+                            <span><i class="sigin-label">申</i><time>2016-7-6</time></span>
+                            <span><i class="sigin-label">受</i><time>2016-7-6</time></span>
+                            <span><i class="sigin-label">完</i><time>2016-7-6</time></span>
+                        </div>
+                    </div>
+                     <div class="aui-list-item-media listspace">
+                    </div>
+                    <div class="aui-btn aui-btn-info aui-center">查看</div>
+                    <span  class="user-mark"></span>
+                </div>
+            </li>
+            <li class="aui-list-item aui-mt-5">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-title font16 order-title left mr10">浦东新区</div>
+                        <div class="aui-list-item-text font14 newgrey clear">
+                            上海杨浦区平路街道（内环）鞍山八村29号
+                        </div>
+                        <div class="font12 newgrey mt5 sign">
+                            <span><i class="sigin-label">申</i><time>2016-7-6</time></span>
+                            <span><i class="sigin-label">受</i><time>2016-7-6</time></span>
+                            <span><i class="sigin-label">完</i><time>2016-7-6</time></span>
+                        </div>
+                    </div>
+                     <div class="aui-list-item-media listspace">
+                    </div>
+                    <div class="aui-btn aui-btn-info aui-center">查看</div>
+                    <span class="nouser-mark"></span>
+                </div>
+            </li> -->
+
+        </ul>
+          <div style="display: block; height: 45px;">
 				<div class="loading" id="loading">
 					<div class="spinner" style="float: left;">
 						<div class="spinner-container container1">
@@ -58,57 +101,58 @@
 				</div>
 				<div class="loading" id="nomoreresults">没有更多数据</div>
 			</div>
-			</article>
-		</section>
+    </article>
 		<content tag="local_script">
+		<script type="text/javascript" src="${ctx}/static/momedia/js/jquery-2.1.1.js"></script>
 		<script src="${ctx}/momedia/js/template.js" type="text/javascript"></script>
 		<script src="${ctx}/momedia/js/scrollpagination.js?v=1.1.1"></script>
 		<script id="myPropertyList" type="text/html">
 			{{if content.length>0}}
 				{{each content as item}}
-					<li>
-						<div class="productcontent">
-		                	<a href="#"><p class="pdes pl10"><strong>{{item.DIST_CODE}}</strong><a href="#" onclick="doProcess('{{item.prCode}}');">{{item.PROPERTY_ADDR}}</p></a>
-		                	<p class="pdes pl10">
-		                    	<span class="sign">
+			<li class="aui-list-item aui-mt-5">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-title font16 order-title left mr10">{{item.DIST_CODE}}</div>
+                        <div class="aui-list-item-text font14 newgrey clear">
+                            {{item.PROPERTY_ADDR}}
+                        </div>
+                        <div class="font12 newgrey mt5 sign">
+                            <span>
 									{{if item.PR_APPLY_TIME == null}}
 										<i class="invalid-label">申</i>
 									{{else}}
-										<i class="sq-label">申</i><time>{{item.PR_APPLY_TIME}}</time>
+										<i class="sigin-label">申</i><time>{{item.PR_APPLY_TIME}}</time>
 									{{/if}}	
-								</span>
-		                    	<span class="sign">
+                            </span>
+                            <span>
 									{{if item.PR_ACCPET_TIME == null}}
 										<i class="invalid-label">受</i>
 									{{else}}
-										<i class="sl-label">受</i><time>{{item.PR_ACCPET_TIME}}</time>
+										<i class="sigin-label">受</i><time>{{item.PR_ACCPET_TIME}}</time>
 									{{/if}}	
-								</span>
-		                    	<span class="sign">
-									{{if item.PR_COMPLETE_TIME == null}}
+                            </span>
+                            <span>
+                                    {{if item.PR_COMPLETE_TIME == null}}
 										<i class="invalid-label">完</i>
 									{{else}}
-										<i class="sl-label">完</i><time>{{item.PR_COMPLETE_TIME}}</time>
+										<i class="sigin-label">完</i><time>{{item.PR_COMPLETE_TIME}}</time>
 									{{/if}}	
-								</span>
-		                	</p>							 
-		                	<p class="pprice pl10 pr10">
-		                    	<span class="useno">
-									{{if item.IS_SUCCESS == '是'}}
-										<i class="sq-label">有效</i>
-									{{else if item.IS_SUCCESS == '否'}}
-										<i class="invalid-label">无效</i>
-									{{else}}
-									{{/if}}
-								</span>
-								{{if item.PR_COMPLETE_TIME != null}}
-		                    		<span class="look">
-										<a href="#" onclick="doProcess('{{item.prCode}}');">查看</a
-									</span>
-								{{/if}}	
-		                	</p>
-		            	</div>
-                    </li>
+                            </span>
+                        </div>
+                    </div>
+                     <div class="aui-list-item-media listspace">
+                    </div>
+					{{if item.PR_COMPLETE_TIME != null}}
+                         <a href="#" class="aui-btn aui-btn-info aui-center" onclick="doProcess('{{item.prCode}}');">查看</a>
+					{{/if}}	   
+					{{if item.IS_SUCCESS == '是'}}
+						 <span  class="user-mark"></span>
+					{{else if item.IS_SUCCESS == '否'}}
+						 <span  class="nouser-mark"></span>
+					{{else}}
+					{{/if}}
+                </div>
+            </li>
 				{{/each}}
 			{{/if}}
 		</script>

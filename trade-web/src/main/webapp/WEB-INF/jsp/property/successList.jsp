@@ -33,6 +33,7 @@
 	<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
 	
 	<link href="${ctx}/css/processinglist/popmac.css" rel="stylesheet" />
+	<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 	
 	<style>
 		.mr5{margin:0 5px 0 30px;}
@@ -404,7 +405,8 @@
 	    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-		<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+		<script src="${ctx}/js/plugins/jquery.custom.js"></script>		
+        <script src="${ctx}/js/viewer/viewer.min.js"></script>
 		
 		<script id="template_successList" type="text/html">
          	{{each rows as item index}}
@@ -501,6 +503,11 @@
 				$("input[id='completeTimeEnd']").val('');
 			});
 			
+			//渲染图片 
+			function renderImg(){
+				$('.wrapper-content').viewer('destroy');
+				$('.wrapper-content').viewer();
+			}
 		</script>
 	
 	</content>

@@ -5,7 +5,7 @@
     <groupId>com.centaline</groupId>
     <artifactId>trade-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.26</version>    <name>trade-parent</name>
+    <version>1.2.0</version>    <name>trade-parent</name>
 	<modules>
 		<!-- module>trade-ice-gen</module>
 		<module>trade-ice</module -->
@@ -18,11 +18,10 @@
 	<scm>
 	<developerConnection>git@git.centaline.com:trade-group/trade-web.git</developerConnection>
 	</scm>
-    
     <repositories>
         <repository>
             <id>nexus</id>
-            <url>http://10.4.19.211/nexus/content/repositories/public/</url>
+            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -35,7 +34,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>nexus</id>
-            <url>http://10.4.19.211/nexus/content/repositories/public/</url>
+            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -46,14 +45,14 @@
     </pluginRepositories>
     <distributionManagement>
         <repository>
-            <id>centaline.release</id>
-            <name>Nexus Releases Repository</name>
-            <url>http://10.4.19.211/nexus/content/repositories/releases</url>
+            <id>releases.nexus.aist.io</id>
+            <name>AIST Nexus Releases Repository</name>
+            <url>http://nexus.aist.io/nexus/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>centaline.snapshots</id>
-            <name>Nexus Snapshots Repository</name>
-            <url>http://10.4.19.211/nexus/content/repositories/snapshots</url>
+            <id>snapshots.nexus.aist.io</id>
+            <name>AIST Nexus Releases Repository</name>
+            <url>http://nexus.aist.io/nexus/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <build>
@@ -938,15 +937,23 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
-            <version>1.5.2.RELEASE</version>
+            <version>1.7.5.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>2.7.3</version>
+            <version>2.9.0</version>
         </dependency>
         <!-- redis end -->
+		
+		<!--fst -->
+		<dependency>
+			<groupId>de.ruedigermoeller</groupId>
+			<artifactId>fst</artifactId>
+			<version>2.48</version>
+		</dependency>
+		
     </dependencies>
 
     <properties>
@@ -976,7 +983,7 @@
         <standard.version>1.1.2</standard.version>
 
         <aspectj.version>1.7.4</aspectj.version>
-        <spring.version>4.2.6.RELEASE</spring.version>
+        <spring.version>4.3.4.RELEASE</spring.version>
         <spring.data.jpa.version>1.4.1.RELEASE</spring.data.jpa.version>
         <hibernate.core.version>4.2.21.Final</hibernate.core.version>
         <hibernate.ehcache.version>4.2.21.Final</hibernate.ehcache.version>
@@ -987,8 +994,8 @@
 
         <ehcache.core.version>2.6.6</ehcache.core.version>
 
-        <mybatis.version>3.2.8</mybatis.version>
-        <mybatis-spring.version>1.2.2</mybatis-spring.version>
+        <mybatis.version>3.4.1</mybatis.version>
+        <mybatis-spring.version>1.3.0</mybatis-spring.version>
 
         <shiro.version>1.2.3</shiro.version>
         <quartz.version>2.2.1</quartz.version>
@@ -1009,13 +1016,13 @@
         <jcaptcha.version>2.0-alpha-1</jcaptcha.version>
 
         <jsoup.version>1.7.3</jsoup.version>
-        <jackson.version>2.3.3</jackson.version>
+        <jackson.version>2.8.5</jackson.version>
         <org.springside.version>4.2.2.GA</org.springside.version>
 
         <cxf.version>3.0.3</cxf.version>
         <poi.version>3.11</poi.version>
         <com.ibm.mq.version>7.5.0.2</com.ibm.mq.version>
-        <aist.version>1.4.1</aist.version>
+        <aist.version>1.5.2</aist.version>
         <!-- ` 服务器配置 Begin -->
         <sonar.jdbc.url>jdbc:mysql://10.4.19.211:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true</sonar.jdbc.url>
         <sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>

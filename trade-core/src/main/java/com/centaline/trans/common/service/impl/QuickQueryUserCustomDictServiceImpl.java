@@ -12,12 +12,13 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 
 public class QuickQueryUserCustomDictServiceImpl implements CustomDictService{
+
 	
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 
 	private String prop;
-	
+		
 	@Override
 	@Cacheable(value="QuickQueryUserCustomDictServiceImpl",key="#root.target.getProp()+'/'+#key")
 	public String getValue(String key) {

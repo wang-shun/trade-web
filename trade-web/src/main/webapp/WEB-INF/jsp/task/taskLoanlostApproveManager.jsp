@@ -157,12 +157,19 @@
             </div>
         </div>
         
-        <div class="clearfix">
+<!--         <div class="clearfix">
             <h2 class="newtitle title-mark">附件浏览：贷款自办确认函、贷款流失申请书</h2>
             <div class="ibox-content" style="margin-top:10px;border:0;">
 				<div id="imgShow" class="lightBoxGallery"></div>
 			</div>
-        </div>
+        </div> -->
+        
+        <div>
+            <h2 class="newtitle title-mark">附件信息</h2>			
+			<div class="">
+				<div id="imgShow" class="lightBoxGallery"></div>
+			</div>
+		</div>
         
         <!-- 案件备注信息 -->
 		<div id="caseCommentList" class="view-content"></div>
@@ -269,7 +276,7 @@
 	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script> 
 
 	<!-- 图片查看JS -->
-	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
+	<script src="${ctx}/transjs/task/showAttachmentByLssp.js"></script>
 	<script	src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 

@@ -138,6 +138,10 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 		return toAttachmentMapper.quereyAttachments(toAttachment);
 	}
 	
+	@Override
+	public List<ToAttachment> quereyAttachmentForDetails(ToAttachment toAttachment) {
+		return toAttachmentMapper.quereyAttachmentForDetails(toAttachment);
+	}
 	
 	@Override
 	public List<ToAttachment> quereyAttachmentForMaterial(ToAttachment toAttachment) {
@@ -185,5 +189,14 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 		return toAttachmentMapper.deleteByPrimaryKey(pkid);
 	}
 
+	@Override
+	public int setMainFlowVailable(String caseCode) {
+		return toAttachmentMapper.setMainFlowVailable(caseCode);
+	}
+
+	@Override
+	public int updateToAttachmentByCaseCode(String caseCode) {
+		return toAttachmentMapper.updateToAttachmentByCaseCode(caseCode);
+	}
 
 }

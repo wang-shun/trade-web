@@ -43,7 +43,6 @@ public interface TgServItemAndProcessorMapper {
     // 变更合作对象
     List<TgServItemAndProcessor> selectBycasecodeandProcessorid(TgServItemAndProcessor itemprocess);
     
-    
     int updateCoope(TgServItemAndProcessor pro);
     
     /**

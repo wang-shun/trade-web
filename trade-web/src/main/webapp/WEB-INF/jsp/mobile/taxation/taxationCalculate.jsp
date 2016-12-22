@@ -261,6 +261,13 @@ $(function () {
     var $text4 = "<p>应税面积是对本市居民家庭给予人均60平方米的免税住房面积扣除后的应缴纳房产税的面积。<br>"
                 + "如购房者为上海户籍且首套房可免征。</p>";
 
+<<<<<<< .mine
+    //遮罩弹窗层隐藏显示
+    //$popup.hide();
+=======
+
+
+>>>>>>> .theirs
     $(".popup-one").on("click",function() {
         $popup.show();
         $(".date-title").html("个人所得税说明");

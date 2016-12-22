@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys id="abc">
+	<query id="caseLogList">
+		<searchScript>
+			SELECT
+			id,start_time,end_time,case_count,is_manual
+			FROM [sctrans].[T_TL_SYN_CASE_LOG]
+			<where>
+				start_time>=dateadd(month,-1,getdate())
+				<trim prefix="and" prefixOverrides="and|or">
+
+				</trim>
+			</where>
+
+		</searchScript>
+
+		<grid>
+			<column name="id" title="id" hidden="true" />
+			<column name="start_time" title="start_time" field="start_time"
+				customDict="getFormatDate2" hidden="true" />
+			<column name="end_time" title="end_time" field="end_time"
+				customDict="getFormatDate2" hidden="true" />
+			<column name="case_count" field="case_count" hidden="true" />
+			<column name="is_manual" title="is_manual" />
+		</grid>
+	</query>
+	<query id="hiWorkFlow">
+		<searchScript>
+			SELECT
+			PKID,CASE_CODE,INST_CODE,BIZ_CODE,BUSINESS_KEY,PROCESS_DEFINITION_ID
+			,PROCESS_OWNER,STATUS,CREATE_TIME,CREATE_BY
+			,UPDATE_TIME,UPDATE_BY
+			FROM sctrans.T_HI_WORKFLOW
+			<where>
+				CASE_CODE=#{caseCode}
+				<trim prefix="and" prefixOverrides="and|or">
+
+				</trim>
+			</where>
+
+		</searchScript>
+
+		<grid>
+			<column name="PKID" title="PKID" hidden="true" />
+			<column name="CASE_CODE" title="CASE_CODE" field="CASE_CODE"
+				hidden="true" />
+			<column name="INST_CODE" title="INST_CODE" field="PROC_INST_ID"
+				hidden="true" />
+			<column name="BIZ_CODE" field="BIZ_CODE" hidden="true" />
+			<column name="BUSINESS_KEY" title="BUSINESS_KEY" />
+			<column name="PROCESS_DEFINITION_ID" title="PROCESS_DEFINITION_ID"
+				hidden="true" />
+			<column name="PROCESS_OWNER" field="PROCESS_OWNER" customDict="qqcdUserIdName"
+				title="PROCESS_OWNER" hidden="true" />
+			<column name="STATUS" title="STATUS" hidden="true" />
+			<column name="CREATE_TIME" title="CREATE_TIME" field="CREATE_TIME"
+				customDict="getFormatDate2" hidden="true" />
+			<column name="CREATE_BY" field="CREATE_BY" hidden="true"
+				customDict="qqcdUserIdName" />
+			<column name="UPDATE_TIME" title="UPDATE_TIME" field="UPDATE_TIME"
+				customDict="getFormatDate2" hidden="true" />
+			<column name="UPDATE_BY" field="UPDATE_BY" hidden="true"
+				customDict="qqcdUserIdName" />
+		</grid>
+	</query>
+	<query id="taskPeassigntLog">
+		<searchScript>
+			SELECT
+			PKID,CASE_CODE,PROC_INST_ID,TASK_ID,TASK_DEF_KEY,ORI_ASSIGNEE
+			,NEW_ASSIGNEE,REMARK,CREATE_TIME,CREATE_BY
+			,UPDATE_TIME,UPDATE_BY
+			FROM sctrans.T_TL_TASK_REASSIGNT_LOG
+			<where>
+				CASE_CODE=#{caseCode}
+				<trim prefix="and" prefixOverrides="and|or">
+
+				</trim>
+			</where>
+
+		</searchScript>
+		<grid>
+			<column name="PKID" title="PKID" hidden="true" />
+			<column name="CASE_CODE" title="CASE_CODE" field="CASE_CODE"
+				hidden="true" />
+			<column name="PROC_INST_ID" title="PROC_INST_ID" field="PROC_INST_ID"
+				hidden="true" />
+			<column name="TASK_ID" field="TASK_ID" hidden="true" />
+			<column name="TASK_DEF_KEY" title="TASK_DEF_KEY" />
+			<column name="ORI_ASSIGNEE" title="ORI_ASSIGNEE" hidden="true" />
+			<column name="NEW_ASSIGNEE" title="NEW_ASSIGNEE" hidden="true" />
+			<column name="CREATE_TIME" title="CREATE_TIME" field="CREATE_TIME"
+				customDict="getFormatDate2" hidden="true" />
+			<column name="CREATE_BY" field="CREATE_BY" hidden="true"
+				customDict="qqcdUserIdName" />
+			<column name="UPDATE_TIME" title="UPDATE_TIME" field="UPDATE_TIME"
+				customDict="getFormatDate2" hidden="true" />
+			<column name="UPDATE_BY" field="UPDATE_BY" hidden="true"
+				customDict="qqcdUserIdName" />
+		</grid>
+	</query>
+
+	<query id="mortgageList">
+		<searchScript>
+			select PKID, CASE_CODE, MORT_TYPE,
+			FIN_ORG_CODE,CUST_NAME,LOANER_NAME,IS_ACTIVE,loanlost_apply_reason
+			from sctrans.T_TO_MORTGAGE
+			<where>
+				CASE_CODE=#{caseCode}
+				<trim prefix="and" prefixOverrides="and|or">
+
+				</trim>
+			</where>
+
+		</searchScript>
+		<grid>
+			<column name="PKID" title="PKID" hidden="true" />
+			<column name="CASE_CODE" title="CASE_CODE" field="CASE_CODE"
+				hidden="true" />
+			<column name="MORT_TYPE" title="MORT_TYPE" field="MORT_TYPE" 
+				hidden="true" />
+			<column name="FIN_ORG_CODE" title="合作机构" field="FIN_ORG_CODE"
+				customDict="qqfinOrgIdName" hidden="true" />
+			<column name="CUST_NAME" title="CUST_NAME" field="CUST_NAME" hidden="true" />
+			<column name="LOANER_NAME" title="LOANER_NAME" field="LOANER_NAME" hidden="true" />
+			<column name="IS_ACTIVE" title="IS_ACTIVE" field="IS_ACTIVE"
+				 hidden="true" />
+			<column name="loanlost_apply_reason" field="loanlost_apply_reason" hidden="true"
+				/>
+		</grid>
+	</query>
+
+</querys>

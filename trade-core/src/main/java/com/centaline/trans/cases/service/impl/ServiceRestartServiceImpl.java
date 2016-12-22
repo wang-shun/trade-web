@@ -109,14 +109,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	@Override
 	public StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo) {
 
-		/* 删除临时银行流程相关 */
-		ToWorkFlow twf = new ToWorkFlow();
-
-		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-		twf.setCaseCode(vo.getCaseCode());
-		toMortgageService.deleteTmpBankProcess(twf);
-		toWorkFlowService.deleteWorkFlowByProperty(twf);
-
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
@@ -125,7 +117,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		if (sameOne != null) {
 			throw new BusinessException("当前重启流程尚未结束！");
 		}
-		deleteMortFlowByCaseCode(vo.getCaseCode());
 		/*
 		 * ProcessInstance pi=new
 		 * ProcessInstance(propertyUtilsService.getProcessDfId
@@ -210,6 +201,23 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		record.setPartCode(vo.getPartCode());
 		record.setProcessInstance(vo.getInstCode());
 		toApproveService.insertToApproveRecord(record);
+		//add by zhoujp
+		if(vo.getIsApproved()){
+			/* 删除临时银行流程相关 */
+			ToWorkFlow twf = new ToWorkFlow();
+
+			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
+			twf.setCaseCode(vo.getCaseCode());
+			toMortgageService.deleteTmpBankProcess(twf);
+			toWorkFlowService.deleteWorkFlowByProperty(twf);
+
+			ToWorkFlow wf = new ToWorkFlow();
+			wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+			wf.setCaseCode(vo.getCaseCode());
+			deleteMortFlowByCaseCode(vo.getCaseCode());
+		}
+		//end
+		
 		if (vo.getIsApproved()) {
 			doApproved(vo);
 		}

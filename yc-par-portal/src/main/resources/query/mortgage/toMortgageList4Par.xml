@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><querys>
+	<dicts>
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqPropertyAddr" beanName="qqPropertyAddr"></customDict>
+		<customDict id="qqFinOrgNameYC" beanName="qqFinOrgNameYC"></customDict>
+		<customDict id="qqFenHang" beanName="qqFenHang"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+		<customDict id="qqFenHang" beanName="qqFenHang"></customDict>
+		<customDict id="qqRealName" beanName="qqRealName"></customDict>
+		<customDict id="qqIsLost" beanName="qqIsLost"></customDict>
+	
+		<customDict id="qqSignPrice" beanName="qqSignPrice"></customDict>
+		<customDict id="qqEvalFee" beanName="qqEvalFee"></customDict>
+		<customDict id="qqCaseProperty" beanName="qqCaseProperty"></customDict>
+		<customDict id="qqMortgageAmount" beanName="qqMortgageAmount"></customDict>
+
+
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>
+	
+	<query id="findToMortgage4Par">
+	    <searchCondition>      
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[  				
+					select
+					M.case_code,
+					M.FIN_ORG_CODE,
+					M.IS_DELEGATE_YUCUI,
+					M.MORT_TOTAL_AMOUNT as mortTotalAmount,
+					M.COM_AMOUNT as comAmount,
+					M.PRF_AMOUNT as prfAmount,
+					M.SIGN_DATE,
+					M.LEND_DATE,
+					M.APPR_DATE,
+					M.CUST_NAME,
+					M.mort_type as MORT_TYPE_OLD,
+					M.LOAN_AGENT,
+					M.LOAN_AGENT_TEAM,
+					M.IS_TMP_BANK as isTempBank,
+					uoj.real_name
+				from
+					sctrans.T_TO_MORTGAGE M
+					INNER JOIN 	sctrans.T_TO_PROPERTY_INFO pi 
+								ON		m.CASE_CODE = pi.CASE_CODE
+								AND		M.LOANER_ID = #userId# 
+								AND		m.is_active = '1'	
+					INNER JOIN		sctrans.V_USER_ORG_JOB uoj
+								ON 		m.loan_agent = uoj.user_id
+								AND		uoj.ismain = 1
+								AND		uoj.JOB_CODE = 'consultant'
+					WHERE EXISTS
+								(select 1 from sctrans.T_TO_CASE c where c.CASE_CODE=M.CASE_CODE and c.LOAN_REQ=1)
+					<ifNotNull q_text>
+					     		AND		(	  m.cust_name 		LIKE		#q_text#
+					     					OR pi.property_addr	LIKE		#q_text#
+					     					OR uoj.real_name		LIKE		#q_text#)
+					</ifNotNull>				
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  ORDER BY m.SIGN_DATE DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="true"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_TOTAL_AMOUNT" index="" checkbox="" title="贷款总额(万元)"  expType="Double" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="MORT_TYPE"  title="贷款类型"  referencecol="MORT_TYPE_OLD"  customDict="qqcdMortName"  isSort="true" order="desc"/>
+				<column type="virtual" name="FIN_ORG_NAME_YC,FA_FIN_ORG_CODE" isDynamicDict="true" index="" checkbox="true" title="贷款银行分行全称,贷款银行分行代码"  referencecol="FIN_ORG_CODE"  customDict="qqFinOrgNameYC" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="MORT_TOTAL_AMOUNT,COM_AMOUNT,PRF_AMOUNT,IS_TMP_BANK" isDynamicDict="true" referencecol="mortTotalAmount,comAmount,prfAmount,isTempBank"  customDict="qqMortgageAmount"  index="" checkbox="" title="贷款总额(万元),商贷金额(万元),公积金金额(万元),临时银行"  expType="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="FENHANG" index="" checkbox="true" title="贷款银行分行"   referencecol="FIN_ORG_CODE"  customDict="qqFenHang"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="ORG_NAME" index="" checkbox="" title="贷款专员所属组"  referencecol="LOAN_AGENT_TEAM"  customDict="qqcdOrgIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  referencecol="CASE_CODE"  customDict="qqPropertyAddr"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="SDSTATUS,LOANTYPE" index="" checkbox="" title="是否流失,贷款类型"  referencecol="CASE_CODE"  customDict="qqIsLost" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="REAL_NAME" index="" checkbox="" title="贷款专员"  referencecol="LOAN_AGENT"  customDict="qqRealName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PKID,ORG_ORG_NAME" isDynamicDict="true" index="" checkbox="" title="案件主键,贷款专员所属贵宾服务部" referencecol="CASE_CODE"  customDict="qqCaseProperty" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOAN_AGENT" index="" checkbox="" title="贷款专员" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FIN_ORG_CODE" index="" checkbox=""   title="贷款银行代码" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="LOAN_AGENT_TEAM" index="" checkbox="true" title=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="mortTotalAmount" title="贷款总额(万元)" isSort="true" order="desc"/>
+				<column type="both" name="comAmount" title="商贷金额(万元)" isSort="true" order="desc" />
+				<column type="both" name="prfAmount" title="公积金金额(万元)" isSort="true" order="desc"/>
+				<column type="virtual" name="MORT_TOTAL_AMOUNT,COM_AMOUNT,PRF_AMOUNT,IS_TMP_BANK" isDynamicDict="true" referencecol="mortTotalAmount,comAmount,prfAmount,isTempBank"  customDict="qqMortgageAmount"  index="" checkbox="" title="贷款总额(万元),商贷金额(万元),公积金金额(万元),临时银行"  expType="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="isTempBank" title="临时银行"/>
+				<column type="both" name="LOANTYPE" index="" checkbox="true" title="贷款类型"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
+                <column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"  expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
+				<column type="both" name="SIGN_DATE" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="APPR_DATE" index="" checkbox="" title="贷款审批时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="LEND_DATE" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="REAL_NAME" index="" checkbox="" title="贷款专员"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

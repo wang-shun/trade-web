@@ -56,6 +56,7 @@ var evalFeeAmount = new Array(0, 0);
 var evalFeeCaseItems = new Array();
 var evalFeeAmountItems = new Array();
 
+var reportTurnOnOffFlag = true;
 /**
  * 案件统计详情
  */
@@ -81,20 +82,16 @@ $(document).ready(function() {
 
 			reloadGrid(data);
 
-			getParentBank($("select[name='loanLostFinOrgName']"),
-					$("select[name='loanLostFinOrgNameYc']"), "", "", "");
+			getParentBank($("select[name='loanLostFinOrgName']"),$("select[name='loanLostFinOrgNameYc']"), "", "", "");
 
 			$("select[name='loanLostFinOrgName']").change(function() {
-				getBranchBankList($("select[name='loanLostFinOrgNameYc']"), $(
-										"select[name='loanLostFinOrgName']")
-										.val(), "");
+				getBranchBankList($("select[name='loanLostFinOrgNameYc']"), $("select[name='loanLostFinOrgName']").val(), "");
 
-					})
-
-			setPieCharts();
+			})
 
 			$(".charone,.chartwo,.chartthree,.chartfour").hide();
 			$("#mortTypeAnalysis").click(function() {
+				dataSwitch()
 				$(".charone").toggle();
 				$(".chartwo").hide();
 				$(".chartthree").hide();
@@ -109,6 +106,7 @@ $(document).ready(function() {
 			});
 
 			$("#mortOrgAnalysis").click(function() {
+				dataSwitch()
 				$(".chartwo").toggle();
 				$(".charone").hide();
 				$(".chartthree").hide();
@@ -123,6 +121,7 @@ $(document).ready(function() {
 			});
 			
 			$("#mortTmpBankAnalysis").click(function() {
+				dataSwitch()
 				$(".chartthree").toggle();
 				$(".charone").hide();
 				$(".chartwo").hide();
@@ -137,6 +136,7 @@ $(document).ready(function() {
 			});
 			
 			$("#mortEvalFeeAnalysis").click(function() {
+				dataSwitch()
 				$(".chartfour").toggle();
 				$(".charone").hide();
 				$(".chartwo").hide();
@@ -156,7 +156,12 @@ $(document).ready(function() {
 			 * });
 			 */
 		});
-
+function dataSwitch(){
+	if(reportTurnOnOffFlag){
+		setPieCharts();
+		reportTurnOnOffFlag=false;
+	}
+}
 function resetData() {
 	
 	var index;
@@ -277,12 +282,11 @@ function setQueryData() {
 }
 
 function getMTypeAnalysis() {
-
 	var data = setQueryData();
 	data.queryId = "queryMortgageTypeAnalysis";
 	data.rows = 10;
 	data.page = 1;
-
+	data.pagination = false;
 	$.ajax({
 				async : false,
 				url : ctx + "/quickGrid/findPage",
@@ -450,12 +454,11 @@ function getMOrgAnalysis() {
 	data.queryId = "queryMortgageOrgAnalysis";
 	data.rows = 100;
 	data.page = 1;
-
+	data.pagination=false;
 	// check user job
 	var userJobCode = $("#userJobCode").val();
 
-	$
-			.ajax({
+	$.ajax({
 				async : false,
 				url : ctx + "/quickGrid/findPage",
 				method : "post",
@@ -529,7 +532,7 @@ function getMEvalAnalysis() {
 	data.queryId = "queryMortgageEvalFeeAnalysis";
 	data.rows = 10;
 	data.page = 1;
-
+	data.pagination = false;
 	$.ajax({
 				async : false,
 				url : ctx + "/quickGrid/findPage",
@@ -772,6 +775,12 @@ $('#datepicker_0').datepicker({
 $('#mortgageInfoSearchButton').click(function() {
 	loanLostApproveSearchMethod();
 	setPieCharts();
+	reportTurnOnOffFlag = true;
+	$(".charone").hide();
+	$(".chartwo").hide();
+	$(".chartthree").hide();
+	$(".chartfour").hide();
+	$(".add_btn .btn-toggle").removeClass("btn-bg");
 });
 
 // 查询
@@ -878,13 +887,14 @@ function reloadGrid(data) {
 			});
 		},
 		success : function(data) {			
+			$.unblockUI();
 			data.ctx = ctx;
 			var mortgageInfoList = template('template_mortgageInfoList', data);
 			$("#mortgageInfoList").empty();
 			$("#mortgageInfoList").html(mortgageInfoList);
 			// 显示分页
 			initpage(data.total, data.pagesize, data.page, data.records);
-			$.unblockUI();
+			
 		},
 		error : function(e, jqxhr, settings, exception) {
 			$.unblockUI();
@@ -894,7 +904,6 @@ function reloadGrid(data) {
 
 // 分页
 function initpage(totalCount, pageSize, currentPage, records) {
-
 	if (totalCount > 1500) {
 		totalCount = 1500;
 	}
@@ -1089,6 +1098,7 @@ function getParamsValue() {
 	// 产品类型
 	// var finCode = getCheckBoxValues("finCode");
 	var isTempBank = $("input[name='isTempBank']:checked").val();
+
 	// alert("isTempBank==="+isTempBank);
 	if (isTempBank == 2) {
 		isTempBank = null;// 为2 设置为null则不添加该查询条件
@@ -1157,7 +1167,7 @@ function radioYuCuiOrgSelectCallBack(array) {
 function chooseCaseOperator(id) {
 	var serviceDepId = id;
 	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
-
+	console.log("serviceDepId:"+serviceDepId+"expandNodeId:"+serviceDepId+"");
 	if (yuCuiOriGrpId != "") {
 		userSelect({
 			startOrgId : yuCuiOriGrpId,

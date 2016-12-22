@@ -18,9 +18,9 @@ public interface TsTeamPropertyService {
 
 	    int updateByPrimaryKey(TsTeamProperty record);
 	    
-	public TsTeamProperty findTeamPropertyByTeamCode(String yuTeamCode);
+	    public TsTeamProperty findTeamPropertyByTeamCode(String yuTeamCode);
 	
-    public TsTeamProperty findTeamPropertyCooperation(TsTeamProperty record);
+	    public TsTeamProperty findTeamPropertyCooperation(TsTeamProperty record);
     
        List<TsTeamProperty> getTsTeamPropertyListByProperty(TsTeamProperty teamProperty);
        

@@ -227,7 +227,7 @@ public interface ToSpvService {
 	
 	void setAttributeSpvCashFlowApply(ServletRequest request, String caseCode);
 	
-	void findSpvBaseInfoVOAndSetAttrinCaseFlowApple(HttpServletRequest request, Long pkid, String caseCode);
+	void findSpvBaseInfoVOAndSetAttrinCaseFlowApply(HttpServletRequest request, Long pkid, String caseCode);
 	
     SpvRecordedInfoVO findSpvRecordedInfoVOByCashFlowApplyCode(String cashFlowApplyCode);
     

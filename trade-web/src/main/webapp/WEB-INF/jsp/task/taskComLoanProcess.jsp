@@ -30,7 +30,8 @@
 <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;
@@ -94,6 +95,7 @@
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 
 	<%--环节编码 --%>
 	<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
@@ -753,9 +755,14 @@
 
 									<div class="form-group">
 										<label class="col-sm-2 control-label">信贷员姓名<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<input type="text" name="loanerName" id="loanerName"
-												placeholder="姓名" class="form-control">
+										<div class="col-md-2" style="position: relative;" >
+											<input type="text" name="loanerName" id="loanerName" placeholder="姓名" class="form-control" onkeyup="onkeyuploanerName()">
+											<i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
+											</input>
+											<input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+											<input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+											<input type="hidden"  id="loanerId" name="loanerId" />
 										</div>
 										<label class="col-sm-2 control-label" style="width:15%">信贷员电话<span class="star">*</span>：</label>
 										<div class="col-md-2" style="width:18%">
@@ -944,15 +951,17 @@
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.thumbnail_url) { %}
-							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
-							            {% } %}</div>
-							            <div class="name" style="display: none">
-							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+							            {% if (file.id) { %}
+                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
+							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
+                                              {% } else { %}
+ 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
+  											  {% } %}
+							            {% } %}
 							            </div>
 							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -1766,12 +1775,36 @@ function checkInt(obj){
 	 	});
 
 	}
+	function selectLoanerUser(array) {
+		if (array && array.length > 0) {
+			$("#loanerName").val(array[0].username);
+			$.ajax({
+				url : ctx + "/eloan/LoanerCode",
+				method : "post",
+				dataType : "json",
+				data : {
+					"userId" : array[0].userId
+				},
+				success : function(data) {
+					$("#loanerNameImage").css("color","#52cdec");
+					$("#loanerPhone").val(data.user.mobile);
+					$("#loanerId").val(data.user.id);
+					$("#loanerOrgCode").val(data.user.orgName);
+					$("#loanerOrgId").val(data.user.orgId);
+				}
+			})
+		} else {
+			$("#loanerName").val("");
+			$("#loanerOrgCode").val("");
+			$("#loanerOrgId").val("");
+		}
+	}
 	
 	//渲染图片 
 	function renderImg(){
 		$('.wrapper-content').viewer('destroy');
 		$('.wrapper-content').viewer();
-	}	
+	}
  	</script> 
  </content>
 </body>

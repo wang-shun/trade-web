@@ -126,7 +126,12 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				tsiap = new TgServItemAndProcessor();
 			}
 			User user = uamUserOrgService.getUserById(vo.getPartner());
+			ToCase toCase = caseMapper.findToCaseByCaseCode(vo.getCaseCode());
+			User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+
 			tsiap.setCaseCode(vo.getCaseCode());
+			tsiap.setPreProcessorId(oldUser.getId());
+			tsiap.setPreOrgId(oldUser.getOrgId());
 			tsiap.setProcessorId(vo.getPartner());
 			tsiap.setSrvCode(serivceCode);
 			tsiap.setSrvCat(getSrcCat(serivceCode));
@@ -341,7 +346,12 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				tsiap = new TgServItemAndProcessor();
 			}
 			User user = uamUserOrgService.getUserById(vo.getPartner());
+			ToCase toCase = caseMapper.findToCaseByCaseCode(vo.getCaseCode());
+			User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+			
 			tsiap.setCaseCode(vo.getCaseCode());
+			tsiap.setPreProcessorId(oldUser.getId());
+			tsiap.setPreOrgId(oldUser.getOrgId());
 			tsiap.setProcessorId(vo.getPartner());
 			tsiap.setSrvCode(serivceCode);
 			tsiap.setSrvCat(getSrcCat(serivceCode));

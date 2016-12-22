@@ -16,29 +16,20 @@
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
-	rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
 
-<link href="${ctx}/css/plugins/jasny/jasny-bootstrap.min.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
-	rel="stylesheet">
-<link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
-	rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css"
-	rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/jasny/jasny-bootstrap.min.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"	rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
 
 <link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
 <link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
@@ -326,10 +317,10 @@
 											class="btn btn-primary btn-xm btn-activity"
 											href="#pr-modal-form">产调发起 </a>
 									</shiro:hasPermission>
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPSTART">
+				<%-- 					<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPSTART">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="${ctx }/spv/toSaveSpv?caseCode=${toCase.caseCode}">房款监管</a>
-									</shiro:hasPermission>
+									</shiro:hasPermission> --%>
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPEND">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:startSpvOutApplyProcess('${toCase.caseCode}')">监管解除</a>
@@ -362,6 +353,13 @@
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:showSrvModal()">服务项变更</a>
 									</shiro:hasPermission>
+									<shiro:hasPermission name="TRADE.CASE.DETAIL.SERVE.CHANGE">
+										<a role="button" class="btn btn-primary btn-xm btn-activity"
+										   href="javascript:managerShowSrvModal()">信息管理员服务项变更</a>
+									</shiro:hasPermission>
+
+
+
 									<shiro:hasPermission name="TRADE.CASE.COWORKCHANGE">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:showChangeModal()">变更合作对象</a>
@@ -524,9 +522,16 @@
 														<div class="form-group">
 															<div class="col-lg-3 control-label">服务项：</div>
 															<div class="col-lg-9 checkbox i-checks checkbox-inline">
-																<aist:dict id="srvCode" name="srvCode"
-																	display="checkbox" defaultvalue=""
-																	dictType="yu_serv_cat_code_tree" level='2' />
+																<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SERVCHANGE">
+																	<aist:dict id="srvCode" name="srvCode"
+																			   display="checkbox" defaultvalue=""
+																			   dictType="yu_serv_cat_code_tree"/>
+																</shiro:hasPermission>
+
+																<shiro:hasPermission name="TRADE.CASE.DETAIL.SERVE.CHANGE">
+																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_0" type="checkbox" value="30004010" name="srvCode" class="" validate=""></span></div>交易过户</div>
+																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_3" type="checkbox" value="30004001" name="srvCode" class="" validate=""></span></div>商业贷款</div>
+																</shiro:hasPermission>
 															</div>
 														</div>
 													</form>
@@ -538,28 +543,29 @@
 													onclick="javascript:resetSrvModal()">重置</button>
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">关闭</button>
-												<button type="button" class="btn btn-primary"
-													onclick="javascript:saveSrvItems()">提交</button>
+											  	<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SERVCHANGE">
+													<button type="button" class="btn btn-primary" onclick="javascript:saveSrvItems()">提交</button>
+												</shiro:hasPermission>
+												<shiro:hasPermission name="TRADE.CASE.DETAIL.SERVE.CHANGE">
+													<button type="button" class="btn btn-primary" onclick="javascript:saveSrvItemsForManager()">提交</button>
+												</shiro:hasPermission>
+
 											</div>
 										</div>
 									</div>
 								</div>
 
 								<!-- start 变更合作对象  -->
-								<div id="change-modal-form" class="modal fade" role="dialog"
-									aria-labelledby="leading-modal-title" aria-hidden="true">
+								<div id="change-modal-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
 									<form id="changeCooprations" action="${ctx}/case/updateCoope"
 										method="post" class="form-horizontal">
-										<input type="hidden" name="instCode"
-											value="${toWorkFlow.instCode}" /> <input type="hidden"
-											name="caseId" value="${toCase.pkid}" />
+										<input type="hidden" name="instCode" value="${toWorkFlow.instCode}" /> 
+										<input type="hidden" name="caseId" value="${toCase.pkid}" />
 										<div class="modal-dialog" style="width: 800px">
 											<div class="modal-content">
 												<div class="modal-header">
-													<button type="button" class="close" data-dismiss="modal"
-														aria-hidden="true">×</button>
-													<h4 class="modal-title" id="leading-modal-title">
-														请选择服务项目</h4>
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+													<h4 class="modal-title" id="leading-modal-title">请选择服务项目</h4>
 												</div>
 												<div class="modal-body">
 													<div class="row"
@@ -745,8 +751,8 @@
 							</li>
 							<li class=""><a href="#profile_info" data-toggle="tab">贷款相关信息</a>
 							</li>
-							<li class=""><a href="#messages_info" data-toggle="tab">房款监管信息</a>
-							</li>
+<!-- 							<li class=""><a href="#messages_info" data-toggle="tab">房款监管信息</a>
+							</li> -->
 							<li class=""><a href="#settings_info" data-toggle="tab">e+服务信息</a>
 							</li>
 							<li class=""><a href="#fujian_info" data-toggle="tab">附件信息</a>
@@ -1051,6 +1057,11 @@
 											<label class="col-sm-3 control-label">面签时间：${toEloanCaseVO.signTime}</label>
 											<label class="col-sm-3 control-label">放款时间：${toEloanCaseVO.releaseTime}</label>
 										</div>
+										<div class="row ">
+											<label class="col-sm-3 control-label">信贷员：${toEloanCase.loanerName}</label>
+											<label class="col-sm-3 control-label">信贷员电话：${toEloanCase.loanerPhone}</label>
+										</div>
+																				
 									<%-- 	<div class="row ">
 											<label class="col-sm-3 control-label">对账时间：${toEloanCaseVO.incomeConfirmTime}</label>
 											<label class="col-sm-3 control-label">结账时间：${toLoanAgentVO.incomeArriveTime}</label>
@@ -1152,34 +1163,39 @@
 		</div>
 	</div>
 	
-	<content tag="local_script"> <!-- Peity --> <script
-		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+	<content tag="local_script"> <!-- Peity --> 
+	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+	<!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <script
-		src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> <script
-		src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <script
-		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
-		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+	<script	src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
+	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script	src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jasny/jasny-bootstrap.min.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> <%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
-		<script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
-		<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
+	<script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
+	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script>
 	<%-- <script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%> 
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachmentByJagd.js"></script>
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
-	<script src="${ctx}/js/stickUp.js"></script> <script
-		src="${ctx}/toastr.min.js"></script> <!-- 放款监管信息  --> <script
-		src="${ctx}/transjs/task/caseflowlist.js"></script> <script
-		type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <!-- 各个环节的备注信息  -->
-	<script src="${ctx}/js/trunk/case/caseRemark.js"></script> <jsp:include
-		page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> <script>
+	<script src="${ctx}/js/stickUp.js"></script>
+	<script	src="${ctx}/toastr.min.js"></script> 
+	<!-- 放款监管信息  -->
+	<script	src="${ctx}/transjs/task/caseflowlist.js"></script>
+	<script	type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script	src="${ctx}/js/template.js" type="text/javascript"></script>
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
+	<!-- 各个环节的备注信息  -->
+	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
+	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script>
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();
 		var url = "/quickGrid/findPage";

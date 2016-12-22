@@ -16,6 +16,8 @@ public interface TsPrResearchMapMapper {
     int insertSelective(TsPrResearchMap record);
 
     TsPrResearchMap selectByPrimaryKey(Long pkid);
+    
+    TsPrResearchMap findByDistCode(String distCode);    
 
     int updateByPrimaryKeySelective(TsPrResearchMap record);
     

@@ -68,6 +68,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
+	@Autowired
+	private ToApproveRecordService toApproveRecordService;
 	
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
@@ -80,8 +82,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Qualifier("uamMessageServiceClient")
     @Autowired
     private UamMessageService uamMessageService;
-	@Autowired
-	private ToApproveRecordService toApproveRecordService;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -166,6 +166,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		toMortgageMapper.update(toMortgage);
 
 	}
+
 
 	@Override
 	public ToMortgage findToMortgageByCaseCode(String caseCode) {
@@ -652,6 +653,12 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	public void updateToMortgageBySign(ToMortgage toMortgage) {
 		// TODO Auto-generated method stub
 		toMortgageMapper.updateBySign(toMortgage);
+	}
+
+	@Override
+	public int updateByTest(ToMortgage record) {
+
+		return toMortgageMapper.updateByTest(record);
 	}
 
 }

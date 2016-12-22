@@ -102,7 +102,17 @@ function checkMortgageForm(formId){
 		formId.find("select[name='finOrgCode']").css("border-color","red");
 		return false;
     }
-	
+	if($("#finOrgCode").find('option:selected').attr('coLevel') == "0"){
+		if(formId.find("input[name='loanerId']").val() == ""){
+			alert("入围银行的信贷员请从合作银行中选择！");
+			formId.find("input[name='loanerName']").css("border-color","red");
+			return false;
+		}
+	}else{
+		formId.find("input[name='loanerId']").val("");
+		formId.find("input[name='loanerOrgCode']").val("");
+		formId.find("input[name='loanerOrgId']").val("");
+	}
 	if(!formId.find("input[name='isTmpBank']").prop('checked')){
 		if(afterTimeFlag){
 			if (formId.find("input[name='recLetterNo']").val()==""){
@@ -587,6 +597,9 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='custCompany']").val(data.content.custCompany);
 		    			f.find("select[name='lendWay']").val(data.content.lendWay);
 		    			f.find("input[name='loanerName']").val(data.content.loanerName);
+		    			f.find("input[name='loanerId']").val(data.content.loanerId);
+		    			f.find("input[name='loanerOrgId']").val(data.content.loanerOrgId);
+		    			f.find("input[name='loanerOrgCode']").val(data.content.loanerOrgCode);
 		    			f.find("input[name='loanerPhone']").val(data.content.loanerPhone);
 		    			if(data.content.isLoanerArrive == 1){
 		    				f.find("input[name='isLoanerArrive']").prop("checked",true);
@@ -1581,3 +1594,13 @@ $(document).ready(function () {
    // getPricingList("table_list_1","pager_list_1");
  
  });
+function onkeyuploanerName(){
+	$("#loanerNameImage").css("color","#676A6C");
+	$("#loanerId").val("");
+	$("#loanerOrgCode").val("");
+	$("#loanerOrgId").val("");
+}
+
+
+
+

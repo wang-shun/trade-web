@@ -1,6 +1,7 @@
 package com.centaline.trans.cases.web;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +14,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
@@ -23,14 +26,17 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.OrgNameEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
-import com.centaline.trans.engine.bean.TaskHistoricQuery;
+import com.centaline.trans.common.vo.TgCooperVo;
 import com.centaline.trans.engine.bean.TaskQuery;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -65,6 +71,8 @@ public class CaseChangeController {
 	private TlTaskReassigntLogService taskReassingtLogService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private ToCaseMapper toCaseMapper;
 
 	/**
 	 * 根据字典类型，获得相应字典数据
@@ -105,8 +113,7 @@ public class CaseChangeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, TsTeamProperty> pMap = new HashMap<>();
 		// 1 查询案件服务项目
-		List<TgServItemAndProcessor> servitemList = tgservItemAndProcessorService
-				.selectBycasecodeandProcessorid(caseCode);
+		List<TgServItemAndProcessor> servitemList = tgservItemAndProcessorService.selectBycasecodeandProcessorid(caseCode);
 		SessionUser user = uamSessionService.getSessionUser();
 
 		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(),
@@ -203,7 +210,20 @@ public class CaseChangeController {
 		map.put("orgcode", myDistrict.getOrgCode());/* 浦东合作顾问选中台 */
 		return map;
 	}
+	
+	
+	@RequestMapping(value = "changeCoopeForNew")
+	@ResponseBody
+	public Map<String, Object> changeCoopeForNew(HttpServletRequest request, HttpServletResponse response, String cooperCaseCode) {
 
+		Map<String, Object> map = new HashMap<String, Object>();		
+		// 1 查询案件服务项目
+		List<TgCooperVo> servitemList = tgservItemAndProcessorService.selectBycasecodeandProcessorIdForSunxw(cooperCaseCode);	
+		map.put("servitemList", servitemList); 
+	
+		return map;
+	}
+	
 	/**
 	 * 功能：变更合作对象[修改变更合作对象] 描述：根据 srvCode 去修改 processorId 和 orgId
 	 * 
@@ -212,34 +232,39 @@ public class CaseChangeController {
 	@RequestMapping(value = "updateCoope")
 	public String updateCoope(HttpServletRequest request, Model model, HttpServletResponse response,
 			TgServItemAndProcessorVo tgServItemAndProcessorVo, String instCode, String caseId) throws IOException {
-
+		
 		List<String> caseCodeList = tgServItemAndProcessorVo.getCaseCode();
-		List<String> orgIdList = tgServItemAndProcessorVo.getOrgId();
 		List<String> processorIdList = tgServItemAndProcessorVo.getProcessorId();
 		List<String> srvCodeList = tgServItemAndProcessorVo.getSrvCode();
-
+		List<String> preProcessorIdList = tgServItemAndProcessorVo.getPreProcessorId();
+		
 		int updatecoope = 0;
 		TgServItemAndProcessor pro = null;
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
-		/*
-		 * if(processorIdList!=null&&!processorIdList.isEmpty()){ TaskQuery
-		 * tq=new TaskQuery(); tq.setProcessInstanceId(instCode);
-		 * tq.setFinished(false); tasks=workFlowManager.listTasks(tq).getData();
-		 * }
-		 */
+		
+		if(processorIdList!=null&&!processorIdList.isEmpty()){ 	  
+		  TaskQuery tq=new TaskQuery(); tq.setProcessInstanceId(instCode);
+		  tq.setFinished(false); 
+		  tasks=workFlowManager.listTasks(tq).getData();
+		}
+		 
 
 		for (int i = 0; i < processorIdList.size(); i++) {
 			String caseCode = caseCodeList.get(i);
 			String srvCode = srvCodeList.get(i);
 			String processorId = processorIdList.get(i);
-			String orgId = orgIdList.get(i);
+			User processor = uamUserOrgService.getUserById(processorId);
+			String preProcessorId = preProcessorIdList.get(i);
+			User preProcessor = uamUserOrgService.getUserById(preProcessorId);
 
 			pro = new TgServItemAndProcessor();
+			pro.setPreProcessorId(preProcessorId);
+			pro.setPreOrgId(preProcessor.getOrgId());
 			pro.setProcessorId(processorId);
+			pro.setOrgId(processor.getOrgId());
 			pro.setCaseCode(caseCode);
 			pro.setSrvCode(srvCode);
 
-			pro.setOrgId(orgId);
 			TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
 			updatecoope = tgservItemAndProcessorService.updateCoope(pro);
 
@@ -298,5 +323,112 @@ public class CaseChangeController {
 			}
 		}
 		return false;
+	}
+		
+	
+	/**
+	 * 变更合作人  For allUser
+	 * @author zhuody
+	 * @Date 2016-12-02
+	 * 
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/updateCoopeSubmit")
+	@ResponseBody
+	public AjaxResponse<?> updateCoopeSubmit(@RequestBody TgServItemAndProcessorVo tgServItemAndProcessorVo) {
+		AjaxResponse<?> response = new AjaxResponse<>();
+		int updatecoope = -1;
+		//获取所有参数	
+		if(tgServItemAndProcessorVo != null){			
+			List<String> caseCodeList = tgServItemAndProcessorVo.getCaseCode();
+			List<String> orgIdList = tgServItemAndProcessorVo.getOrgId();		
+			List<String> processorIdList = tgServItemAndProcessorVo.getProcessorId();		
+			List<String> srvCodeList = tgServItemAndProcessorVo.getSrvCode();
+			List<String> preProcessorIdList = tgServItemAndProcessorVo.getPreProcessorId();
+			List<String> preOrgIdList = tgServItemAndProcessorVo.getPreOrgId();
+						
+			String caseCodeForInstCode = "";
+			ToWorkFlow toWorkFlow =  new ToWorkFlow();
+			String instCode = "";
+			if(caseCodeList.size() > 0){
+				caseCodeForInstCode = caseCodeList.get(0);
+				if(caseCodeForInstCode != null  && !"".equals(caseCodeForInstCode)){	
+					// 工作流  是否需要判断结案案件没有变更的权限
+					ToWorkFlow inWorkFlow = new ToWorkFlow();
+					inWorkFlow.setBusinessKey("operation_process");
+					inWorkFlow.setCaseCode(caseCodeForInstCode);
+					toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
+					if(toWorkFlow != null){
+						instCode = toWorkFlow.getInstCode();  //查询获取 instCode
+					}
+			    }
+			}
+			
+			
+			TgServItemAndProcessor pro = null;
+			List<TaskVo> tasks = new ArrayList<TaskVo>();
+			
+			if(processorIdList != null && !processorIdList.isEmpty()){ 	  
+			  TaskQuery tq = new TaskQuery(); 
+			  tq.setProcessInstanceId(instCode);
+			  tq.setFinished(false); 
+			  tasks = workFlowManager.listTasks(tq).getData();
+			}
+			
+			//重新选取了 合作人的情况下 才更新
+			if(processorIdList.size() > 0){
+				for (int i = 0; i < processorIdList.size(); i++) {
+					String caseCode = caseCodeList.get(i);
+					String srvCode = srvCodeList.get(i);
+					String processorId = processorIdList.get(i);//新的案件合作人
+					String orgId = orgIdList.get(i);
+					String oldProcessorId = preProcessorIdList.get(i);
+					String preOrgId = preOrgIdList.get(i);
+					
+					pro = new TgServItemAndProcessor();
+					pro.setProcessorId(processorId);
+					pro.setCaseCode(caseCode);
+					pro.setSrvCode(srvCode);	
+					pro.setOrgId(orgId);
+					pro.setPreOrgId(preOrgId);
+					pro.setPreProcessorId(oldProcessorId);		
+					
+					TgServItemAndProcessor proDb = tgservItemAndProcessorService.findTgServItemAndProcessor(pro);
+					if(processorId != null &&  !(oldProcessorId.equals(processorId))){
+						updatecoope = tgservItemAndProcessorService.updateCoope(pro);
+					}
+					
+		
+					// 查询该案件下的所有任务
+					List<String> insCodeList = toWorkFlowService.queryInstCodesByCaseCode(caseCode);
+					for (String insCode : insCodeList) {
+						TaskQuery tq = new TaskQuery();
+						tq.setProcessInstanceId(insCode);
+						tq.setFinished(false);
+		
+						List<TaskVo> taskList1 = workFlowManager.listTasks(tq).getData();
+						tasks.addAll(taskList1);
+					}
+					updateWorkflow(srvCode, processorId, tasks, proDb.getProcessorId(), caseCode);
+				}		
+			}else{
+				updatecoope = 0;
+			}
+
+		}
+		
+		if (updatecoope > 0){
+			response.setSuccess(true);
+			response.setMessage("恭喜，项目合作人变更成功！");
+		}else if(updatecoope == 0){
+			response.setSuccess(true);
+			response.setMessage("未选取项目合作人，不进行变更！");
+		}else{
+			response.setSuccess(false);
+			response.setMessage("案件基本表更新失败！");
+		}
+	
+		return response;
 	}
 }

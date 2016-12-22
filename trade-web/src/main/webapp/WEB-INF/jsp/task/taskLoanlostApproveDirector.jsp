@@ -120,9 +120,9 @@
 						<div class="col-sm-3">
 							<div class="radio i-checks radio-inline">
 								<label> <input type="radio" checked="checked"
-									value="true" id="optionsRadios1" name="LoanLost_Director">审批通过
+									value="true" id="optionsRadios1" name="LoanLost_director">审批通过
 								</label> <label> <input type="radio" value="false"
-									id="optionsRadios2" name="LoanLost_Director">审批不通过
+									id="optionsRadios2" name="LoanLost_director">审批不通过
 								</label>
 							</div>
 						</div>
@@ -139,11 +139,17 @@
 
 			</div>
 		</div>
-		<h5>
+<!-- 		<h5>
 			附件浏览：贷款自办确认函、贷款流失申请书<br>
 		</h5>
 		<div class="ibox-content">
 			<div id="imgShow" class="lightBoxGallery"></div>
+		</div> -->
+		<div>
+			<h2 class="newtitle title-mark">附件信息</h2>		
+			<div class="">
+				<div id="imgShow" class="lightBoxGallery"></div>
+			</div>
 		</div>
 
 		<div id="caseCommentList" class="add_form"></div>
@@ -167,7 +173,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script> 
 	<!-- 图片查看JS -->
-	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
+	<script src="${ctx}/transjs/task/showAttachmentByLssp.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 

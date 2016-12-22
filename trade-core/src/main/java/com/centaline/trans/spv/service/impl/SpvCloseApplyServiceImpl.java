@@ -473,10 +473,10 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	}
 	
 	private SpvCloseInfoVO findSpvCloseInfoVOBySpvCloseCode(String spvCloseCode){
-		SpvCloseInfoVO spvCloseInfoVO = new SpvCloseInfoVO();
 		ToSpvCloseApply toSpvCloseApply = toSpvCloseApplyMapper.selectBySpvCloseCode(spvCloseCode);
 		if(toSpvCloseApply == null) return null;
-		
+			
+		SpvCloseInfoVO spvCloseInfoVO = new SpvCloseInfoVO();
 		List<ToSpvCloseApplyAudit> toSpvCloseApplyAuditList = toSpvCloseApplyAuditMapper.selectByApplyId(toSpvCloseApply.getPkid().toString());
 		spvCloseInfoVO.setToSpvCloseApply(toSpvCloseApply);
 		spvCloseInfoVO.setToSpvCloseApplyAuditList(toSpvCloseApplyAuditList);

@@ -15,6 +15,8 @@ public interface ToMortgageMapper {
 
     int update(ToMortgage record);
     
+    int updateByTest(ToMortgage record);
+    
     int updateBySign(ToMortgage record);
     
     int updateCustNameByCasecode(String caseCode);

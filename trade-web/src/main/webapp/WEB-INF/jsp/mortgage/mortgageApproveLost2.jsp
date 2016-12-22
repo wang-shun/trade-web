@@ -166,6 +166,7 @@
 							id="caseoperator" name="caseoperator" class="teamcode input_type"
 							value="" hVal="" placeholder="请输入" class="teamcode input_type"							
 							onclick="chooseCaseOperator('${serviceDepId}')" />
+							<input  type="hidden" name="zhuban"  id="zhuban" value="">
 						<div class="input-group float_icon organize_icon"
 							id="managerOnclick">
 							 <i class="icon iconfont">&#xe627;</i>
@@ -303,7 +304,7 @@
 			</td> 
 			
 			<td class="center">
-              	 <span class="manager"><a href="#"><em>主办人：</em>{{item.CASEOPERATOR}}</a></span>
+              	 <span class="manager"><a href="#"><em>主办人：</em>{{item.LEADING_PROCESS_ID}}</a></span>
                  <span class="manager"><a href="#"><em>经纪人：</em>{{item.AGENT_NAME}}</a></span>
                  <span class="manager"><a href="#"><em>审批人：</em>{{item.real_name}}</a></span>
             </td> 
@@ -502,7 +503,8 @@
 							data.endDate = endDate;
 							data.caseCode = $("#caseCode").val().trim();;							
 							data.propertyAddr = $("#propertyAddr").val();
-							data.caseoperator = $("#caseoperator").val();
+							data.caseoperator = $("#zhuban").val();
+							//data.caseoperator = $("#caseoperator").val();
 							// 获取组织或者人员
 							var queryOrgFlag = $("#queryOrgFlag").val();
 							var isAdminFlag = $("#isAdminFlag").val();
@@ -584,8 +586,9 @@
 						function loanLostCaseSelectUserBack(array) {
 							if (array && array.length > 0) {
 								$("#caseoperator").val(array[0].username);
-								$("#caseoperator")
-										.attr('hVal', array[0].userId);
+								$("#caseoperator").attr('hVal', array[0].userId);
+								$("#zhuban").val(array[0].userId);
+								
 
 							} else {
 								$("#caseoperator").val("");

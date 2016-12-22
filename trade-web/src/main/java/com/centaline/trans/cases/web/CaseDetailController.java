@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +40,14 @@ import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
-import com.centaline.trans.eloan.entity.LoanAgent;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
-import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.cases.vo.ChangeTaskAssigneeVO;
-import com.centaline.trans.eloan.vo.ToLoanAgentVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -69,10 +68,13 @@ import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToServChangeHistrotyService;
+import com.centaline.trans.eloan.entity.LoanAgent;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
+import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
+import com.centaline.trans.eloan.vo.ToLoanAgentVO;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
@@ -528,7 +530,7 @@ public class CaseDetailController {
 			reVo.setPayType4(payType4);
 		}
 
-		// 房款监管信息
+	/*	// 房款监管信息
 		ToSpv toSpv = toSpvService.queryToSpvByCaseCode(toCase.getCaseCode());
 		// 房款进出账
 		List<ToCashFlow> cashFlows = toSpvService.queryCashFlowsByCaseCode(toCase.getCaseCode());
@@ -573,7 +575,7 @@ public class CaseDetailController {
 					}
 				}
 			}
-		}
+		}*/
 
 		// 金融服务信息
 		List<LoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
@@ -700,8 +702,8 @@ public class CaseDetailController {
 		request.setAttribute("toMortgage", toMortgage);
 		request.setAttribute("caseDetailVO", reVo);
 		request.setAttribute("caseInfo", caseInfo);
-		request.setAttribute("toSpv", toSpv);
-		request.setAttribute("cashFlows", cashFlows);
+/*		request.setAttribute("toSpv", toSpv);
+		request.setAttribute("cashFlows", cashFlows);*/
 		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
 		request.setAttribute("toLoanAgents", toLoanAgents);
 		return "case/caseDetail";
@@ -1137,7 +1139,12 @@ public class CaseDetailController {
 				} else {
 					toEloanCaseVO.setApplyStatusName("待确认");
 				}
-
+				if(!StringUtils.isBlank(toEloanCase.getLoanerName())){
+					toEloanCaseVO.setLoanerName(toEloanCase.getLoanerName());
+				}
+				if(!StringUtils.isBlank(toEloanCase.getLoanerPhone())){
+					toEloanCaseVO.setLoanerName(toEloanCase.getLoanerPhone());
+				}
 				// 放款时间
 				List<ToEloanRel> eloanRels = toEloanRelService.getEloanRelByEloanCode(toEloanCase.getEloanCode());
 				// 确认状态
@@ -1393,6 +1400,68 @@ public class CaseDetailController {
 	}
 
 	/**
+	 * 信息管理员服务变更
+	 * @param caseCode
+	 * @param prItems
+	 * @param request
+	 * @param srvs
+	 * @author caoy
+	 * @return
+	 */
+	@RequestMapping(value = "/saveSrvItemsForManager")
+	@ResponseBody
+	public AjaxResponse<?> saveSrvItemsForManager(String caseCode, String[] prItems,HttpServletRequest request,String[] srvs) {
+		Boolean flag = true;
+		List<String> srvsd = tgServItemAndProcessorService.findSrvCatsByCaseCode(caseCode);
+		if (isChanged(srvsd, srvs)) {
+			return AjaxResponse.fail("服务变更失败，请刷新页面后重试！");
+		}
+		List<String> oldSrvs = new ArrayList<String>();
+		oldSrvs.addAll(srvsd);
+		first:for(String strCode : oldSrvs){
+			for (String s : prItems) {
+				if(strCode.equals(s)){
+					continue first;
+				}
+			}
+			if(strCode.indexOf("30004010")!=-1||strCode.indexOf("30004001")!=-1){
+				return AjaxResponse.fail("交易过户与商业贷款不允许在此取消");
+			}
+		}
+		for (String s : prItems) {
+
+			if (oldSrvs.contains(s)) {
+				continue;
+			}
+			TgServItemAndProcessor record = new TgServItemAndProcessor();
+			record.setCaseCode(caseCode);
+			record.setSrvCat(s);
+			Dict dict = uamBasedataService.findDictByTypeAndCode(TransDictEnum.TFWBM.getCode(), record.getSrvCat());
+			if (dict == null) {
+				tgServItemAndProcessorService.insertSelective(record);
+				continue;
+			}
+			List<Dict> listD = dict.getChildren();
+			if (listD == null || listD.size() == 0) {
+				record.setSrvCode(s);
+				tgServItemAndProcessorService.insertSelective(record);
+				continue;
+			}
+			for (Dict dictSon : listD) {
+				record.setSrvCode(dictSon.getCode());
+				if (tgServItemAndProcessorService.findTgServItemAndProcessor(record) == null) {
+					int reInsert = tgServItemAndProcessorService.insertSelective(record);
+					if (reInsert == 0)
+						return AjaxResponse.fail("服务与经办人表更新失败！");
+				}
+			}
+		}
+		return AjaxResponse.success("变更成功！");
+	}
+
+
+
+	/**
 	 * 交易计划变更 页面初始化
 	 * 
 	 * @param caseCode
@@ -1431,14 +1500,134 @@ public class CaseDetailController {
 	@ResponseBody
 	public AjaxResponse<?> changeLeadingUser(String instCode, String caseCode, String userId,
 			HttpServletRequest request) {
-
 		// 案件信息更新
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		String origUserId = toCase.getLeadingProcessId();
 		User u = uamUserOrgService.getUserById(origUserId);
+		User u_ = uamUserOrgService.getUserById(userId);
 
 		TgServItemAndProcessor record = new TgServItemAndProcessor();
 		record.setPreProcessorId(toCase.getLeadingProcessId());
+		toCase.setLeadingProcessId(userId);
+		int reToCase = toCaseService.updateByPrimaryKey(toCase);
+		
+		
+		record.setProcessorId(userId);
+		record.setOrgId(u_.getOrgId());
+		record.setCaseCode(caseCode);
+		record.setPreProcessorId(origUserId);
+		record.setPreOrgId(u.getOrgId());
+		
+		tgServItemAndProcessorService.updateByCaseCode(record);
+
+		// 更新流程引擎
+		if (!StringUtils.isBlank(instCode)) {
+			String variableName = "caseOwner";
+			RestVariable restVariable = new RestVariable();
+			restVariable.setType("string");
+			restVariable.setValue(u_.getUsername());
+			try{
+				workFlowManager.setVariableByProcessInsId(instCode, variableName, restVariable);
+			}catch(WorkFlowException e){
+				if(404!=e.getStatusCode()){
+					throw e;
+				}
+			}
+			TaskQuery tq = new TaskQuery();
+			tq.setProcessInstanceId(instCode);
+			tq.setFinished(false);
+			tq.setAssignee(u.getUsername());
+			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+			tasks.addAll(getNonMainWorkflowByAssignee(caseCode,u.getUsername()));//商贷、流失、公积金
+			updateWorkflow(userId, tasks, caseCode);
+		}
+		if (reToCase == 0)
+			return AjaxResponse.fail("案件基本表更新失败！");
+		
+		return AjaxResponse.success("变更成功！");
+	}
+	/**
+	 * 查询指定Assignee的非主流程的任务项
+	 * @param caseCode
+	 * @param assignee
+	 * @return
+	 */
+	private List<TaskVo> getNonMainWorkflowByAssignee(String caseCode,String assignee){
+		List<TaskVo> result=new ArrayList<>(1);
+		ToWorkFlow wfQueryBean=new ToWorkFlow();
+		wfQueryBean.setCaseCode(caseCode);
+		wfQueryBean.setBizCodes(Arrays.asList("ComLoan_Process","LoanLost_Process","PSFLoan_Process"));
+		List<ToWorkFlow>subWF= toWorkFlowService.queryToWorkFlowByCaseCodeBusKeys(wfQueryBean);
+		for (ToWorkFlow wf : subWF) {
+			TaskQuery tq = new TaskQuery();
+			tq.setProcessInstanceId(wf.getInstCode());
+			tq.setFinished(false);
+			tq.setAssignee(assignee);
+			List<TaskVo> tks = workFlowManager.listTasks(tq).getData();
+			if(tks!=null &&!tks.isEmpty()){
+				result.addAll(tks);
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 变更责任人  默认责任人显示
+	 * @author zhuody
+	 * @Date 2016-12-02
+	 * 
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/selectLeandingPro")
+	@ResponseBody
+	public Map<String, Object> selectLeandingPro(HttpServletRequest request, HttpServletResponse response, String caseCode) {
+
+		Map<String, Object> map = new HashMap<String, Object>();	
+		
+		if(caseCode !=null && !"".equals(caseCode)){
+			ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+			User user = uamUserOrgService.getUserById(toCase.getLeadingProcessId()==null ? "":toCase.getLeadingProcessId());
+			map.put("leadingProcessId", toCase.getLeadingProcessId()==null ? "":toCase.getLeadingProcessId());
+			map.put("leadingProcessName", user.getRealName()==null ? "":user.getRealName());
+		}		
+		return map;
+	}
+	
+	
+	/**
+	 * 变更责任人  For allUser
+	 * @author zhuody
+	 * @Date 2016-12-02
+	 * 
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/changeLeadingPro")
+	@ResponseBody
+	public AjaxResponse<?> changeLeadingPro(String caseCode, String userId,HttpServletRequest request) {
+		ToCase toCase = new ToCase();
+		ToWorkFlow toWorkFlow =  new ToWorkFlow();
+		// 案件信息更新
+		if(caseCode != null  && !"".equals(caseCode)){
+			toCase = toCaseService.findToCaseByCaseCode(caseCode);
+			
+			// 工作流
+			ToWorkFlow inWorkFlow = new ToWorkFlow();
+			inWorkFlow.setBusinessKey("operation_process");
+			inWorkFlow.setCaseCode(caseCode);
+			toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
+		}
+		
+		String origUserId = toCase.getLeadingProcessId();
+		User u = uamUserOrgService.getUserById(origUserId);
+		User u_ = uamUserOrgService.getUserById(userId);
+
+		TgServItemAndProcessor record = new TgServItemAndProcessor();
+		record.setPreProcessorId(origUserId);
+		record.setPreOrgId(u.getOrgId());
+		record.setProcessorId(userId);
+		record.setOrgId(u_.getOrgId());
 		toCase.setLeadingProcessId(userId);
 		int reToCase = toCaseService.updateByPrimaryKey(toCase);
 		
@@ -1449,13 +1638,13 @@ public class CaseDetailController {
 		tgServItemAndProcessorService.updateByCaseCode(record);
 
 		// 更新流程引擎
-		if (!StringUtils.isBlank(instCode)) {
+		if (!StringUtils.isBlank(toWorkFlow.getInstCode())) {
 			String variableName = "caseOwner";
 			RestVariable restVariable = new RestVariable();
 			restVariable.setType("string");
 			restVariable.setValue(u1.getUsername());
 			try{
-				workFlowManager.setVariableByProcessInsId(instCode, variableName, restVariable);
+				workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
 			}catch(WorkFlowException e){
 				if(404!=e.getStatusCode()){
 					throw e;
@@ -1463,7 +1652,7 @@ public class CaseDetailController {
 			}
 			
 			TaskQuery tq = new TaskQuery();
-			tq.setProcessInstanceId(instCode);
+			tq.setProcessInstanceId(toWorkFlow.getInstCode());
 			tq.setFinished(false);
 			tq.setAssignee(u.getUsername());
 			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
@@ -1474,7 +1663,8 @@ public class CaseDetailController {
 
 		return AjaxResponse.success("变更成功！");
 	}
-
+	
+	
 	public void updateWorkflow(String userId, List<TaskVo> tasks,String caseCode) {
 		if (tasks != null && !tasks.isEmpty()) {
 			for (TaskVo taskVo : tasks) {

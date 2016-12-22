@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
-<dicts>
+	<dicts>
 		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqManagerInfo" beanName="qqManagerInfo" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
-</dicts>
-<formatters>
+		<customDict id="qqFindCaseInfo" beanName="qqFindCaseInfo" />
+		<customDict id="qqGetCaseId" beanName="qqGetCaseId" />
+		<customDict id="qqGetCasePropertyInfo" beanName="qqGetCasePropertyInfo" />
+		<customDict id="qqFindTranPlan" beanName="qqFindTranPlan" />
+		<customDict id="qqWorkflow" beanName="qqWorkflow" />
+
+	</dicts>
+	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
 			</properties>
 		</formatter>
-		
+
 		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
 		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
@@ -31,60 +37,36 @@
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
 	<query id="queryTaskListItemList">
-	    <searchCondition>
-            <condition field="DATELAMP" name="minDateLamp" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="DATELAMP" name="maxDateLamp" label="" searchType="LT" showType="" showCallback="" defaultValue=""/>
-            <condition field="AB.DELEGATION" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-		    <condition field="AB.AGENT_Name" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="AB.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="AB.AGENT_ORG_NAME" name="agentOrgName" label="经纪人机构" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="AB.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="AB.CTM_CODE" name="ctmCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="AB.PART_CODE" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            
-        </searchCondition>
+		<searchCondition>
+			<condition field="AB.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="AB.PART_CODE" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="AB.DELEGATION" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-
-		select * from ( SELECT
-			        	SYSUSER.ORG_ID,
+					select * from ( SELECT
 						ART.ID_ AS ID,
 						ART.CREATE_TIME_ CREATE_TIME,
-            			DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE()) AS DATELAMP,
 						ART.NAME_ AS NAME,
 						ART.TASK_DEF_KEY_ AS PART_CODE,
 						ART.PROC_INST_ID_ AS INST_CODE,
 						ART.DELEGATION_ AS DELEGATION,
 						tw.CASE_CODE,
-						A.GRP_NAME AS AGENT_ORG_NAME,
-						A.AGENT_NAME,
-						E.PROPERTY_ADDR,
-						tp.RED_LOCK,
-						tp.EST_PART_TIME,
-						a.agent_phone as MOBILE,
-						A.CTM_CODE as CTM_CODE,
-						b.pkid as PKID,
-						wfe.WFE_NAME as WFE_NAME,
+						tw.BUSINESS_KEY,
 						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
 					FROM
 						sctrans.ACT_RU_TASK ART
-						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
-						INNER JOIN sctrans.T_TO_CASE_INFO AS A ON tw.CASE_CODE=A.CASE_CODE
-						LEFT JOIN sctrans.T_TO_CASE as b on b.case_code=a.case_code
-            			INNER JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
-						LEFT JOIN sctrans.T_TO_TRANS_PLAN AS tp ON A.CASE_CODE = tp.CASE_CODE AND tp.PART_CODE = ART.TASK_DEF_KEY_
-						LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
-						left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE
-				    WHERE  ART.ASSIGNEE_ = #userLoginName#
+						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
+						  WHERE  ART.ASSIGNEE_ = #userLoginName#
 					    AND ART.SUSPENSION_STATE_ = '1'
-     				<ifNotNull allType>
+					    and exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=tw.CASE_CODE and CTM_CODE is not null)
+						<ifNotNull allType>
    						AND ART.DELEGATION_ IS NULL
-					</ifNotNull>
-					<ifNotNull guestname>
-						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = A.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
-					</ifNotNull>
-
+						</ifNotNull>
+						<ifNotNull guestname>
+						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = tw.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
+						</ifNotNull>
 					) as AB where 1=1
 						<when test	="isSubscribeFilter==0">
 							and AB.SUBSCRIBE_COUNT>0
@@ -92,10 +74,47 @@
 					     <when test	="isSubscribeFilter==1">
 							and AB.SUBSCRIBE_COUNT=0
 					     </when>
+						<ifNotNull propertyAddr>
+							AND exists (select 1 from sctrans.T_TO_PROPERTY_INFO TP  where TP.CASE_CODE=AB.CASE_CODE AND TP.PROPERTY_ADDR like '%'+#propertyAddr#+'%')
+						</ifNotNull>
+
+						<ifNotNull agentName>
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and AGENT_NAME like '%'+#agentName#+'%')
+						</ifNotNull>
+
+						<ifNotNull agentName>
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and AGENT_NAME like '%'+#agentName#+'%')
+						</ifNotNull>
+
+						<ifNotNull agentOrgName>
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and GRP_NAME like '%'+#agentOrgName#+'%')
+						</ifNotNull>
+
+						<ifNotNull ctmCode>
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and CTM_CODE like '%'+#ctmCode#+'%')
+						</ifNotNull>
+						<if test="minDateLamp!=null or maxDateLamp!=null " >
+							<if test="minDateLamp!='' or maxDateLamp!='' " >
+								AND exists (
+									select 1
+									from sctrans.T_TO_TRANS_PLAN t_to_trans_plan
+									where t_to_trans_plan.CASE_CODE =AB.CASE_CODE
+									and t_to_trans_plan.PART_CODE=AB.PART_CODE
+									<ifNotNull minDateLamp>
+									and DATEDIFF(DAY, t_to_trans_plan.EST_PART_TIME, GETDATE())> #minDateLamp#
+									</ifNotNull>
+									<ifNotNull maxDateLamp>
+									and DATEDIFF(DAY, t_to_trans_plan.EST_PART_TIME, GETDATE()) &lt; #maxDateLamp#
+									</ifNotNull>
+
+								)
+							</if>
+						</if>
+
 		]]>
 			</baseSql>
 			<orderBySql>
-			  		ORDER BY  case when AB.EST_PART_TIME IS NULL THEN 1 ELSE 0 END ,EST_PART_TIME,AB.ID  DESC
+				ORDER BY AB.CREATE_TIME  DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -103,27 +122,20 @@
 		<grid>
 			<table-row>
 				<column type="both" name="ID" index="" checkbox="" display="TASKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
-				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="PART_CODE" index="" checkbox="" display="PARTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="INST_CODE" index="" checkbox="" display="INSTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="DATELAMP" index="" checkbox="" display="红绿灯" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="NAME" index="" checkbox="" display="任务名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="MOBILE" index="" checkbox="" display="手机" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ORG_ID" index="" checkbox="" display="ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="是否关注" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-
+				<column type="both" name="BUSINESS_KEY" index="" checkbox="" display="" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PROPERTY_ADDR" referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCasePropertyInfo" index="" checkbox="" display="产证地址" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PKID" index="" referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCaseId"  title="caseId"   checkbox="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="" customDict="qqManagerInfo" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />	
-				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />					
-				<column type="both" name="EST_PART_TIME" index="" checkbox="" display="预计执行时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="RED_LOCK" index="" checkbox="" display="红灯记录" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="AGENT_ORG_NAME"  index="" checkbox="" display="所属分行" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="WFE_NAME"  index="" checkbox="" display="流程环节" customDict="" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="AGENT_ORG_NAME,AGENT_NAME,CTM_CODE,MOBILE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE" index="" checkbox="" customDict="qqFindCaseInfo" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" isDynamicDict="true" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,PART_CODE" index="" checkbox="" customDict="qqFindTranPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="WFE_NAME" isDynamicDict="true" display="流程环节" referencecol="BUSINESS_KEY" index="" checkbox="" customDict="qqWorkflow" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

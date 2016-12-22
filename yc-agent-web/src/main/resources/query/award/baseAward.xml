@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdSrvCode" beanName="qqcdSrvCode"></customDict>
+	</dicts>
+	<formatters>
+			<formatter id="dateFormatter" ref=""
+				class="com.aist.common.quickQuery.formatter.DateFormatter">
+				<properties>
+					<property name="pattern">yyyy-MM-dd</property>
+				</properties>
+			</formatter>
+	</formatters>
+	<query id="baseAwardQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+						pi.PKID,sab.case_code,pi.property_addr,tab.guohu_time,sab.sum_base_amount,tab.paid_time
+			        from 
+			                (select case_code,sum(base_amount) sum_base_amount from sctrans.t_ts_award_base 
+			                	where PARTICIPANT = #userId#
+			                group by case_code) sab
+			         inner join
+			                (
+			                    select * from (
+			                     	select *, ROW_NUMBER() over(partition by case_code order by guohu_time desc) num 
+			                			from sctrans.t_ts_award_base
+			                		where PARTICIPANT = #userId#
+			                    ) t where t.num = 1	
+			                ) tab
+			        on sab.case_code = tab.case_code
+			        left join sctrans.t_to_property_info pi on tab.case_code = pi.case_code
+			        where 1 = 1
+			        <if test="caseCode != null and caseCode != '' ">
+			        	and sab.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,tab.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and tab.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and tab.guohu_time &lt; DATEADD(day,1,#dtEnd#)
+			        </if>
+			        order by guohu_time desc
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="PKID"   />
+				<column name="CASE_CODE"   />
+				<column name="PROPERTY_ADDR"   />
+				<column name="GUOHU_TIME"   beanFormatter="dateFormatter"/>
+				<column name="SUM_BASE_AMOUNT"   />
+				<column name="PAID_TIME"   beanFormatter="dateFormatter"/>
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="awardInfoList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+					        ab.SRV_CODE AS SRV_CODE_OLD,
+					        ab.BASE_AMOUNT,
+					        ab.SRV_PART_IN,
+					        ab.SRV_PART_TOTAL,
+					        sc.SATISFACTION,
+					        pd.AWARD_KPI_MONEY,
+					        pm.FIN_ORDER,
+					        pm.FIN_ORDER_ROLL
+					from sctrans.t_ts_award_base ab 
+					 left join sctrans.T_TS_KPI_SRV_CASE sc 
+					        on ab.SRV_CODE = sc.SRV_CODE and ab.case_code =sc.case_code
+					 left join sctrans.T_TS_AWARD_KPI_PAY_DETAIL pd 
+					        on ab.SRV_CODE = pd.SRV_CODE and ab.case_code =pd.case_code 
+					 left join sctrans.T_TS_KPI_PSN_MONTH pm 
+					        on CONVERT(varchar(7),ab.paid_time,112) = CONVERT(varchar(7),pm.BELONG_MONTH,112) 
+					        	and ab.PARTICIPANT = pm.PARTICIPANT
+					where ab.case_Code = #caseCode# 
+					   	and ab.PARTICIPANT = #userId#
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="SRV_CODE_OLD"   customDict="" />
+				<column type="virtual" name="SRV_CODE" customDict="qqcdSrvCode" referencecol="SRV_CODE_OLD"  />
+				<column name="BASE_AMOUNT"   />
+				<column name="SRV_PART_IN"   />
+				<column name="SRV_PART_TOTAL"   />
+				
+				<column name="SATISFACTION"   />
+				<column name="AWARD_KPI_MONEY"   />
+				<column name="FIN_ORDER"   />
+				<column name="FIN_ORDER_ROLL"   />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="generalManagerCount">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+					   	count(distinct ba.case_code) case_code_count
+					from sctrans.t_ts_award_base ba
+						left join sctrans.t_to_property_info pi on ba.case_code = pi.case_code
+					where PARTICIPANT = #userId#
+					<if test="caseCode != null and caseCode != '' ">
+			        	and ba.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,ba.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and ba.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and ba.guohu_time &lt; DATEADD(day,1,#dtEnd#)
+			        </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="CASE_CODE_COUNT"   />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="directorCount">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+					        sum(srv_part_in) SRV_PART_IN_COUNT,
+					        sum(srv_part_in/srv_part_total) SRV_PART_RATIO_COUNT,
+					        count(distinct ba.case_code) CASE_CODE_COUNT
+						from sctrans.t_ts_award_base ba
+						left join sctrans.t_to_property_info pi on ba.case_code = pi.case_code
+					where PARTICIPANT = #userId# and srv_part_total > 0
+					<if test="caseCode != null and caseCode != '' ">
+			        	and ba.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,ba.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and ba.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and ba.guohu_time &lt; DATEADD(day,1,#dtEnd#)
+			        </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="SRV_PART_IN_COUNT"   />
+				<column name="SRV_PART_RATIO_COUNT"   />
+				<column name="CASE_CODE_COUNT"   />
+			</table-row>
+		</grid>
+	</query>
+	
+	
+	<query id="otherRoleCount">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+					        sum(srv_part_in) SRV_PART_IN_COUNT,
+					        count(distinct ba.case_code) CASE_CODE_COUNT
+					from sctrans.t_ts_award_base ba
+						left join sctrans.t_to_property_info pi on ba.case_code = pi.case_code
+					where PARTICIPANT = #userId# and srv_part_total > 0
+					<if test="caseCode != null and caseCode != '' ">
+			        	and ba.case_code = #caseCode#
+			        </if>
+			        <if test="propertyAddr != null and propertyAddr != '' ">
+			        	and pi.property_addr like '%' + #propertyAddr# + '%'
+			        </if>
+			        <if test="paidTime != null and paidTime != '' " >
+			        	and DATEDIFF(mm,ba.paid_time,#paidTime#) = 0
+			        </if>
+			        <if test="dtBegin != null and dtBegin != '' " >
+			        	and ba.guohu_time >= #dtBegin#
+			        </if>
+			        <if test="dtEnd != null and dtEnd != '' " >
+			        	and ba.guohu_time &lt; DATEADD(day,1,#dtEnd#)
+			        </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column name="SRV_PART_IN_COUNT"   />
+				<column name="CASE_CODE_COUNT"   />
+			</table-row>
+		</grid>
+	</query>
+</querys>

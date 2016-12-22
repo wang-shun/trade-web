@@ -45,7 +45,7 @@
 		rel="stylesheet">
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
 		rel="stylesheet">
-    
+    <link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 </head>
 
 <body>
@@ -298,7 +298,7 @@
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> <script src="${ctx}/js/trunk/task/attachment2.js"></script>
-	
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>
     <script>
 	    if ("${idList}" != "") {
 			var idList = eval("(" + "${idList}" + ")");
@@ -390,7 +390,12 @@
 					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
           		})
 	    });
-    
+	    
+		//图片查看器控件  
+		function renderImg(){		
+			$('.wrapper-content').viewer('destroy');
+			$('.wrapper-content').viewer({zIndex:15001});
+		} 
     </script>
 </content>
 </body>

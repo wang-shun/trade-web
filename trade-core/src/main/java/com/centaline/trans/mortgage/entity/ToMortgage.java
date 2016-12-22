@@ -56,6 +56,12 @@ public class ToMortgage {
 	private String loanerName;
 
 	private String loanerPhone;
+	
+	private String loanerId;
+	
+	private String loanerOrgCode;
+	
+	private String loanerOrgId;
 
 	private String remark;
 
@@ -98,8 +104,13 @@ public class ToMortgage {
 	private String tmpBankUpdateByStr;
 	private String tmpBankUpdateBy;
 	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	private Date createTime;
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	private Date updateTime;
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
 	private Date tmpBankUpdateTime;
-
+	private String createBy;
+	private String updateBy;
 	private String bankName;
 
 	private String parentBankName;
@@ -490,6 +501,61 @@ public class ToMortgage {
 
 	public void setLoanLostConfirmCode(String loanLostConfirmCode) {
 		this.loanLostConfirmCode = loanLostConfirmCode;
+	}
+	public String getLoanerId() {
+		return loanerId;
+	}
+
+	public void setLoanerId(String loanerId) {
+		this.loanerId = loanerId;
+	}
+
+	public String getLoanerOrgCode() {
+		return loanerOrgCode;
+	}
+
+	public void setLoanerOrgCode(String loanerOrgCode) {
+		this.loanerOrgCode = loanerOrgCode;
+	}
+
+	public String getLoanerOrgId() {
+		return loanerOrgId;
+	}
+
+	public void setLoanerOrgId(String loanerOrgId) {
+		this.loanerOrgId = loanerOrgId;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 	}
 
 }

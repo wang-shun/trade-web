@@ -621,6 +621,12 @@
 					}
 				});
 			}
+			
+			//渲染图片 
+			function renderImg(){
+				$('.wrapper-content').viewer('destroy');
+				$('.wrapper-content').viewer();
+			}
 		</script> </content>
 </body>
 </html>

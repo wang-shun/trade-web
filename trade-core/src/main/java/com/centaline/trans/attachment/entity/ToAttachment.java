@@ -31,8 +31,11 @@ public class ToAttachment {
     private String updateBy;
     
     private Date updateTime;
-   
-    
+
+	private String available;
+
+	/* 业务单编号 */
+	private String bizCode;
     
 	public String getPrCode() {
 		return prCode;
@@ -146,4 +149,19 @@ public class ToAttachment {
 		this.updateTime = updateTime;
 	}
 
+	public String getBizCode() {
+		return bizCode;
+	}
+
+	public void setBizCode(String bizCode) {
+		this.bizCode = bizCode;
+	}
+
+	public String getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(String available) {
+		this.available = available;
+	}
 }

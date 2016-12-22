@@ -17,6 +17,7 @@
 		<pattern>/weixin/property/toApply</pattern>
 		<pattern>/weixin/property/addressList</pattern>
 		<pattern>/weixin/property/toResult</pattern>
+		<pattern>/weixin/property/myProperty</pattern>
 		<pattern>/weixin/taxation/*</pattern>
 		<pattern>/weixin/loan/*</pattern>
 		<pattern>/weixin/work/*</pattern>
@@ -68,6 +69,7 @@
 		<pattern>/material/materialDetail</pattern>
 		<pattern>/material/materialStay</pattern>
 	    <pattern>/case/myCaseList</pattern>
+	    <pattern>/case/caseForChange</pattern>
 		<pattern>/case/caseDistribute</pattern>
 		<pattern>/case/unlocatedCase</pattern> 
 		<pattern>/task/toTaskOfGroupList</pattern>
@@ -85,6 +87,7 @@
 		<pattern>/signroom/signscheduling</pattern>
 		<pattern>/report/caseLossRateList</pattern>
 		<pattern>/report/caseLossRateReasonList</pattern>
+		<pattern>/test/*</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

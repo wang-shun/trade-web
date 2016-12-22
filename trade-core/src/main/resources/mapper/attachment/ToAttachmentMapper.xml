@@ -4,18 +4,20 @@
   <resultMap id="BaseResultMap" type="com.centaline.trans.attachment.entity.ToAttachment" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="BIZ_CODE" property="bizCode" jdbcType="VARCHAR" />
     <result column="PRE_FILE_ADRESS" property="preFileAdress" jdbcType="VARCHAR" />
     <result column="PRE_FILE_CODE" property="preFileCode" jdbcType="VARCHAR" />
     <result column="PART_CODE" property="partCode" jdbcType="VARCHAR" />
     <result column="FILE_CAT" property="fileCat" jdbcType="NVARCHAR" />
     <result column="FILE_NAME" property="fileName" jdbcType="NVARCHAR" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="AVAILABLE" property="available" jdbcType="NVARCHAR" />
+	<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, PRE_FILE_ADRESS, PRE_FILE_CODE, PART_CODE, FILE_CAT, FILE_NAME,CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    PKID, CASE_CODE,BIZ_CODE, PRE_FILE_ADRESS, PRE_FILE_CODE, PART_CODE, FILE_CAT, FILE_NAME,AVAILABLE,CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     select 
@@ -25,6 +27,172 @@
     <if test="pkid != null" >
     	and PKID = #{pkid,jdbcType=BIGINT}
     </if>
+    <if test="caseCode != null" >
+      	and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="bizCode != null" >
+      	and BIZ_CODE = #{bizCode,jdbcType=VARCHAR}
+    </if>
+    <if test="preFileAdress != null" >
+     	and PRE_FILE_ADRESS = #{preFileAdress,jdbcType=VARCHAR}
+    </if>
+    <if test="preFileCode != null" >
+     	and PRE_FILE_CODE = #{preFileCode,jdbcType=VARCHAR}
+    </if>
+    <if test="partCode != null" >
+     	and PART_CODE = #{partCode,jdbcType=VARCHAR}
+    </if>
+    <if test="fileCat != null" >
+     	and FILE_CAT = #{fileCat,jdbcType=VARCHAR}
+    </if>
+    <if test="fileName != null" >
+     	and FILE_NAME = #{fileName,jdbcType=VARCHAR}
+    </if>
+     <if test="available != null" >
+     	and AVAILABLE = #{available,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_ATTACHMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
+    insert into sctrans.T_TO_ATTACHMENT (CASE_CODE,BIZ_CODE,PRE_FILE_ADRESS, 
+      PRE_FILE_CODE, PART_CODE, FILE_CAT, 
+      FILE_NAME,AVAILABLE,CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{caseCode,jdbcType=VARCHAR}, #{bizCode,jdbcType=VARCHAR},#{preFileAdress,jdbcType=VARCHAR}, 
+      #{preFileCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, #{fileCat,jdbcType=NVARCHAR}, 
+      #{fileName,jdbcType=NVARCHAR},#{available,jdbcType=VARCHAR},GETDATE(), @{SESSION_USER_ID}, 
+      GETDATE(), @{SESSION_USER_ID})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.attachment.entity.ToAttachment" useGeneratedKeys="true" keyProperty="pkid">
+    insert into sctrans.T_TO_ATTACHMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+       <if test="bizCode != null" >
+        BIZ_CODE,
+      </if>
+      <if test="preFileAdress != null" >
+        PRE_FILE_ADRESS,
+      </if>
+      <if test="preFileCode != null" >
+        PRE_FILE_CODE,
+      </if>
+      <if test="partCode != null" >
+        PART_CODE,
+      </if>
+      <if test="fileCat != null" >
+        FILE_CAT,
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME,
+      </if>
+      <if test="available != null" >
+        AVAILABLE,
+      </if>
+	    CREATE_TIME,
+        CREATE_BY,
+        UPDATE_TIME,
+        UPDATE_BY,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+        <if test="bizCode != null" >
+        #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="preFileAdress != null" >
+        #{preFileAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="preFileCode != null" >
+        #{preFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null" >
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileCat != null" >
+        #{fileCat,jdbcType=NVARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=NVARCHAR},
+      </if>
+       <if test="available != null" >
+        #{available,jdbcType=NVARCHAR},
+      </if>
+		GETDATE(),
+        @{SESSION_USER_ID},
+        GETDATE(),
+        @{SESSION_USER_ID},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
+    update sctrans.T_TO_ATTACHMENT
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+       <if test="bizCode != null" >
+        BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="preFileAdress != null" >
+        PRE_FILE_ADRESS = #{preFileAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="preFileCode != null" >
+        PRE_FILE_CODE = #{preFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="partCode != null" >
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileCat != null" >
+        FILE_CAT = #{fileCat,jdbcType=NVARCHAR},
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME = #{fileName,jdbcType=NVARCHAR},
+      </if>
+      <if test="available != null" >
+        AVAILABLE = #{available,jdbcType=NVARCHAR},
+      </if>
+	    CREATE_TIME = GETDATE(),
+        CREATE_BY = @{SESSION_USER_ID},
+        UPDATE_TIME = GETDATE(),
+        UPDATE_BY = @{SESSION_USER_ID},
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
+    update sctrans.T_TO_ATTACHMENT
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+      PRE_FILE_ADRESS = #{preFileAdress,jdbcType=VARCHAR},
+      PRE_FILE_CODE = #{preFileCode,jdbcType=VARCHAR},
+      PART_CODE = #{partCode,jdbcType=VARCHAR},
+      FILE_CAT = #{fileCat,jdbcType=NVARCHAR},
+      FILE_NAME = #{fileName,jdbcType=NVARCHAR},
+      AVAILABLE = #{available,jdbcType=VARCHAR},
+	  CREATE_TIME = GETDATE(),
+      CREATE_BY = @{SESSION_USER_ID},
+      UPDATE_TIME = GETDATE(),
+      UPDATE_BY = @{SESSION_USER_ID}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="quereyAttachments" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_ATTACHMENT
+    where 1=1
+     
     <if test="caseCode != null" >
       	and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     </if>
@@ -43,127 +211,15 @@
     <if test="fileName != null" >
      	and FILE_NAME = #{fileName,jdbcType=VARCHAR}
     </if>
+    order by PRE_FILE_CODE
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from sctrans.T_TO_ATTACHMENT
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
-    insert into sctrans.T_TO_ATTACHMENT (CASE_CODE, PRE_FILE_ADRESS, 
-      PRE_FILE_CODE, PART_CODE, FILE_CAT, 
-      FILE_NAME,CREATE_TIME, CREATE_BY, 
-      UPDATE_TIME, UPDATE_BY)
-    values (#{caseCode,jdbcType=VARCHAR}, #{preFileAdress,jdbcType=VARCHAR}, 
-      #{preFileCode,jdbcType=VARCHAR}, #{partCode,jdbcType=VARCHAR}, #{fileCat,jdbcType=NVARCHAR}, 
-      #{fileName,jdbcType=NVARCHAR},GETDATE(), @{SESSION_USER_ID}, 
-      GETDATE(), @{SESSION_USER_ID})
-  </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.attachment.entity.ToAttachment" useGeneratedKeys="true" keyProperty="pkid">
-    insert into sctrans.T_TO_ATTACHMENT
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        PKID,
-      </if>
-      <if test="caseCode != null" >
-        CASE_CODE,
-      </if>
-      <if test="preFileAdress != null" >
-        PRE_FILE_ADRESS,
-      </if>
-      <if test="preFileCode != null" >
-        PRE_FILE_CODE,
-      </if>
-      <if test="partCode != null" >
-        PART_CODE,
-      </if>
-      <if test="fileCat != null" >
-        FILE_CAT,
-      </if>
-      <if test="fileName != null" >
-        FILE_NAME,
-      </if>
-        CREATE_TIME,
-        CREATE_BY,
-        UPDATE_TIME,
-        UPDATE_BY,
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        #{pkid,jdbcType=BIGINT},
-      </if>
-      <if test="caseCode != null" >
-        #{caseCode,jdbcType=VARCHAR},
-      </if>
-      <if test="preFileAdress != null" >
-        #{preFileAdress,jdbcType=VARCHAR},
-      </if>
-      <if test="preFileCode != null" >
-        #{preFileCode,jdbcType=VARCHAR},
-      </if>
-      <if test="partCode != null" >
-        #{partCode,jdbcType=VARCHAR},
-      </if>
-      <if test="fileCat != null" >
-        #{fileCat,jdbcType=NVARCHAR},
-      </if>
-      <if test="fileName != null" >
-        #{fileName,jdbcType=NVARCHAR},
-      </if>
-        GETDATE(),
-        @{SESSION_USER_ID},
-        GETDATE(),
-        @{SESSION_USER_ID}
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
-    update sctrans.T_TO_ATTACHMENT
-    <set >
-      <if test="caseCode != null" >
-        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      </if>
-      <if test="preFileAdress != null" >
-        PRE_FILE_ADRESS = #{preFileAdress,jdbcType=VARCHAR},
-      </if>
-      <if test="preFileCode != null" >
-        PRE_FILE_CODE = #{preFileCode,jdbcType=VARCHAR},
-      </if>
-      <if test="partCode != null" >
-        PART_CODE = #{partCode,jdbcType=VARCHAR},
-      </if>
-      <if test="fileCat != null" >
-        FILE_CAT = #{fileCat,jdbcType=NVARCHAR},
-      </if>
-      <if test="fileName != null" >
-        FILE_NAME = #{fileName,jdbcType=NVARCHAR},
-      </if>
-        CREATE_TIME = GETDATE(),
-        CREATE_BY = @{SESSION_USER_ID},
-        UPDATE_TIME = GETDATE(),
-        UPDATE_BY = @{SESSION_USER_ID},
-    </set>
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
-    update sctrans.T_TO_ATTACHMENT
-    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      PRE_FILE_ADRESS = #{preFileAdress,jdbcType=VARCHAR},
-      PRE_FILE_CODE = #{preFileCode,jdbcType=VARCHAR},
-      PART_CODE = #{partCode,jdbcType=VARCHAR},
-      FILE_CAT = #{fileCat,jdbcType=NVARCHAR},
-      FILE_NAME = #{fileName,jdbcType=NVARCHAR},
-      CREATE_TIME = GETDATE(),
-      CREATE_BY = @{SESSION_USER_ID},
-      UPDATE_TIME = GETDATE(),
-      UPDATE_BY = @{SESSION_USER_ID}
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </update>
   
-  
-  <select id="quereyAttachments" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
+    <select id="quereyAttachmentForDetails" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_ATTACHMENT
-    where 1=1 
+    where AVAILABLE = 'Y'
+     
     <if test="caseCode != null" >
       	and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     </if>
@@ -240,4 +296,25 @@
     where CASE_CODE = #{prCode,jdbcType=VARCHAR}
     ORDER BY PKID DESC
   </select>
+  
+  <update id="setMainFlowVailable" parameterType="java.lang.String" >
+    update sctrans.T_TO_ATTACHMENT
+    set AVAILABLE = 'N'
+    WHERE CASE_CODE = BIZ_CODE
+      <choose>
+            <when test="caseCode != null">
+                AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                AND CASE_CODE IS NULL
+            </otherwise>
+     </choose>
+  </update>  
+  
+  <update id="updateToAttachmentByCaseCode" parameterType="java.lang.String" >
+    update sctrans.T_TO_ATTACHMENT
+    set AVAILABLE = 'N'
+	where case_code=#{caseCode,jdbcType=VARCHAR}
+  </update> 
+  
 </mapper>

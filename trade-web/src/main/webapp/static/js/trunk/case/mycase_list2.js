@@ -241,6 +241,7 @@ function reloadGrid(data) {
 	data.argu_idflag = arguUserId;
     data.argu_queryorgs = orgArray;
     data.rows = 10;
+    
 	$.ajax({
 		async: true,
         url:ctx+ "/quickGrid/findPage" ,
@@ -333,6 +334,7 @@ function getParamsValue() {
 	if(isSubscribeFilter==null || isSubscribeFilter=='') {
 		isSubscribeFilter = -1;
 	}
+	
 	// 贷款需求选择
 	var mortageType = $('#mortageService option:selected').val();
 	if(mortageType==null || mortageType=='') {
@@ -401,6 +403,7 @@ function getParamsValue() {
 		argu_proName : proName,
 		argu_agentOrgName : agentOrgName,
 		search_propertyAddr : propertyAddr,
+		argu_srvCode : srvCode,
 		argu_srvCode1 : srvCode1,
 		argu_srvCode2 : srvCode2,
 		argu_srvCode3 : srvCode3,
@@ -534,6 +537,7 @@ function getSearchDateValues() {
 }
 
 // 产品类型
+var srvCode;
 var srvCode1;
 var srvCode2;
 var srvCode3;
@@ -549,6 +553,7 @@ var srvCode13;
 var srvCode14;
 var srvCode15;
 function getCheckBoxValues(name) {
+	srvCode = "";
 	srvCode1 = "";
 	srvCode2 = "";
 	srvCode3 = "";
@@ -566,6 +571,8 @@ function getCheckBoxValues(name) {
 	//$("input[name=" + name + "].selected").each(function() {
 	$("span[name='srvCode'].selected").each(function() {
 		var val = $(this).attr('value');
+		srvCode += val + ",";
+		
 		if (val == '30004001') {
 			srvCode1 = val;
 		} else if (val == '30004002') {
@@ -629,8 +636,8 @@ function showExcelIn() {
 
 //Excel显示列
 var colNames = {
-	30010001 : [ 'AGENT_NAME', 'AGENT_ORG', 'AGENT_FHJL', 'AGENT_QYJL',
-		 			'AGENT_QYZJ','AGENT_QYDS','AGENT_QDORG' ],
+	30010001 : [ 'AGENT_NAME', 'AGENT_EMP_CODE','AGENT_ORG', 'AGENT_FHJL', 'JFHJL_MGR_CODE','AGENT_QYJL','JQYJL_MGR_CODE',
+		 			'AGENT_QYZJ','JQYZJ_MGR_CODE','AGENT_QYDS','JQYDS_MGR_CODE','AGENT_QDORG' ],
 	30010002 : [ 'OP_NAME', 'OP_CODE', 'OP_ORG', 'OP_MANAGER','OP_AS',
 	             'OP_PARENT_ORG','SRV_STR','PROCESSOR_ID'],
 	30010003 : [ 'PROPERTY_ADDR', 'SELLER', 'SELLER_PHONE', 'BUYER',
@@ -667,6 +674,7 @@ function exportToExcel() {
 		var displayColomn = new Array;
 		displayColomn.push('CASE_CODE');
 		displayColomn.push('CTM_CODE');
+		displayColomn.push('AGENT_FHJL_CODE');
 		$("input[name='basic_info_item']:checked").each(function() {
 			var val = this.value;
 			displayColomn.push(colNames[val]);
@@ -807,10 +815,3 @@ function caseCodeSort(){
 		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 	}
 }
-
-
-
-
-
-
-

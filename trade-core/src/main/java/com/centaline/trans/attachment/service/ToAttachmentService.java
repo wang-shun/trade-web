@@ -8,9 +8,12 @@ import com.centaline.trans.common.vo.FileUploadVO;
 public interface ToAttachmentService {
 
 	public void saveAttachment(FileUploadVO fileUploadVO);
+	
 	public String saveAttachmentForMaterial(FileUploadVO fileUploadVO);
 	
 	public List<ToAttachment> quereyAttachments(ToAttachment toAttachment);
+	
+	public List<ToAttachment> quereyAttachmentForDetails(ToAttachment toAttachment);
 	
 	public List<ToAttachment> quereyAttachmentForMaterial(ToAttachment toAttachment);
 	
@@ -38,5 +41,15 @@ public interface ToAttachmentService {
 	 * @return
 	 */
 	public int delFilesByPkid(Long pkid);
+	
+	/**
+	 * 设置主流程附件无效
+	 * 
+	 * @param caseCode
+	 * @return
+	 */
+	public int setMainFlowVailable(String caseCode);
+	
+	public int updateToAttachmentByCaseCode(String caseCode);	
 
 }

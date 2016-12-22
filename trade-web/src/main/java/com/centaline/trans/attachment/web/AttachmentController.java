@@ -170,8 +170,7 @@ public class AttachmentController {
 		if (attachments != null && attachments.size() > 0) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
-					attachment
-							.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
 				}
 			}
 		}
@@ -179,6 +178,21 @@ public class AttachmentController {
 		return attachments;
 	}
 
+	@RequestMapping(value = "quereyAttachmentForDetails")
+	@ResponseBody
+	public List<ToAttachment> quereyAttachmentForDetails(HttpServletRequest request, ToAttachment toAttachment) {
+		List<ToAttachment> attachments = toAttachmentService.quereyAttachmentForDetails(toAttachment);
+		if (attachments != null && attachments.size() > 0) {
+			for (ToAttachment attachment : attachments) {
+				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+				}
+			}
+		}
+		/** 读取上传附件备件表 */
+		return attachments;
+	}
+	
 	@RequestMapping(value = "quereyAttachmentForMaterial")
 	@ResponseBody
 	public List<ToAttachment> quereyAttachmentForMaterial(HttpServletRequest request, ToAttachment toAttachment) {

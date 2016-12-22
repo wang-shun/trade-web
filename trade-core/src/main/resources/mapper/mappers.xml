@@ -229,6 +229,6 @@
 		
 		<!-- 中止/结束 -->
  		<mapper resource="mapper/spv/ToSpvCloseApplyMapper.xml" /> 
-		<mapper resource="mapper/spv/ToSpvCloseApplyAuditMapper.xml" />   
+		<mapper resource="mapper/spv/ToSpvCloseApplyAuditMapper.xml" /> 
 	</mappers>
 </configuration>

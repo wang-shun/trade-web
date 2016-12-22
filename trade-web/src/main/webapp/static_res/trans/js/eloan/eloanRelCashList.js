@@ -136,7 +136,7 @@
 								
 						//gei params 得到值
 						function getParams(){
-								params.eloanCode = $("input[name='eloanCode']").val();
+								params.eloanCode = $("input[name='eloanCode']").val().replace(/(^\s*)|(\s*$)/g, "");
 								params.loanSrvCode = $("select[name='loanSrvCode']").val();
 								params.status = $("select[name='status']").val();
 								params.startTime = $("input[name='startTime']").val();

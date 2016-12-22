@@ -388,12 +388,12 @@ function changeStyle(){
 }
 //导出数据
 function exportToExcel() {
-	var queryId = "queryTradeChangedCaseList";
+	var queryId = "queryTradeChangedCaseListExport";
 	var data = getParams();
 	$.exportExcel({
 		ctx : "..",
 		queryId : queryId,
-		colomns : ['CASE_CODE','PROPERTY_ADDR','SELLERANDPHONE','BUYERANDPHONE','FONT_NAME','REAL_NAME','CHANGE_TIME','OLD_EST_PART_TIME','NEW_EST_PART_TIME','DISTRICT_NAME','TEAM_NAME','changeReason','visitRemark','LAST_CONTENT'],
+		colomns : ['CASE_CODE','PROPERTY_ADDR','PART_CODE','batchId','SELLERANDPHONE','BUYERANDPHONE','FONT_NAME','REAL_NAME','CHANGE_TIME','CHANGE_REASON','OLD_EST_PART_TIME','NEW_EST_PART_TIME','DISTRICT_NAME','TEAM_NAME','changeReason','visitRemark','LAST_CONTENT'],
 		data:data
 	});
 }

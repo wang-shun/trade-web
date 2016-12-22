@@ -82,6 +82,67 @@ public class ToEloanCase {
 	
 	private Date abanTime;  
 	
+	private String loanerId; 
+	
+	private String loanerName; 
+	
+	private String loanerMobile; 
+	
+	private String loanerOrgCode; 
+	
+	private String loanerOrgId; 
+	
+	private String loanerPhone; 
+	
+	public String getLoanerPhone() {
+		return loanerPhone;
+	}
+
+	public void setLoanerPhone(String loanerPhone) {
+		this.loanerPhone = loanerPhone;
+	}
+
+	public String getLoanerId() {
+		return loanerId;
+	}
+
+	public void setLoanerId(String loanerId) {
+		this.loanerId = loanerId;
+	}
+
+	public String getLoanerName() {
+		return loanerName;
+	}
+
+	public void setLoanerName(String loanerName) {
+		this.loanerName = loanerName;
+	}
+
+	public String getLoanerMobile() {
+		return loanerMobile;
+	}
+
+	public void setLoanerMobile(String loanerMobile) {
+		this.loanerMobile = loanerMobile;
+	}
+
+	public String getLoanerOrgCode() {
+		return loanerOrgCode;
+	}
+
+	public void setLoanerOrgCode(String loanerOrgCode) {
+		this.loanerOrgCode = loanerOrgCode;
+	}
+
+	public String getLoanerOrgId() {
+		return loanerOrgId;
+	}
+
+	public void setLoanerOrgId(String loanerOrgId) {
+		this.loanerOrgId = loanerOrgId;
+	}
+
+	
 	public BigDecimal getChargeAmount() {
 		return chargeAmount;
 	}

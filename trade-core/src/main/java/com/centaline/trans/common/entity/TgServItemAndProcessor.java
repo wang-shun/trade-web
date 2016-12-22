@@ -18,10 +18,9 @@ public class TgServItemAndProcessor {
     
     private String preProcessorId;
     
+    private String preOrgId;
     
     private List<User>users;
-    
-    
     /**
      * 冗余字段
      */
@@ -89,6 +88,14 @@ public class TgServItemAndProcessor {
 
 	public void setPreProcessorId(String preProcessorId) {
 		this.preProcessorId = preProcessorId;
+	}
+
+	public String getPreOrgId() {
+		return preOrgId;
+	}
+
+	public void setPreOrgId(String preOrgId) {
+		this.preOrgId = preOrgId;
 	}
 
 	public List<User> getUsers() {
