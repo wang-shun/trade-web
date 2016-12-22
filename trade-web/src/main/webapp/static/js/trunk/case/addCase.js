@@ -88,53 +88,18 @@ function addCaseAgent(array) {
 //定义全局变量
 var ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
+
 //页面初始化
 $(document).ready(function() {	
 	//$('#blocksSelect').prepend('<option></option>').select2({placeholder: "请输入地址"});
-	clear();
+
 });
 
 
-//楼盘更新，清空所有
-function clear(){
-	$("#blocksSelect").val(null).trigger("change");
-}
-
-/*$("#select2-subject-container").empty();
-$("#blocksSelect").val(null).trigger("change");*/
-
-$("#blocksSelect2222").click(function(){
-	$("#blockId").val("");
-	$("#blockName").val("");	
-	$('#distCode').val("");  //设置区域
-	
-	//清空
-    $select2.val(null).trigger("change");
-   
-})
-
-
-//select2 控件自动补全
-$("#blocksSelect").select2({
-
-	/*		"language": {
-				  "inputTooShort": function (args) {
-				        var remainingChars = args.minimum - args.input.length;
-				        var message = '请至少输入 ' + remainingChars + ' 个字符。';
-				        return message;
-			      },
-
-				  "searching": function () {
-					  var mes = "信息查询中…";
-					  return mes;
-				  },
-				  "noResults": function () {
-				      return '未找到符合条件的信息';
-				  },
-				  
-		  },*/
+//select2 自动补全控件
+ $("#blocksSelect").select2({
 	  language: "zh-CN",
-	  placeholders: '请输入地址...',	
+	  placeholder: {id:'',placeholder:'请输入地址'},	
 	  allowClear: true,
 	  "language": {
 		      "errorLoading" : function () {
@@ -145,16 +110,16 @@ $("#blocksSelect").select2({
 			        var message = '请至少输入 ' + remainingChars + ' 个字符。';
 			        return message;
 		      },
-
 			 "searching": function () {				 
 				  return '信息查询中…';
 			 },
 			 "noResults": function () {
 			    return '未找到符合条件的信息';
-			 },
+			 }
+
 	  },
 	  minimumInputLength: 1,	
-	  //select2   4.0以上的版本  点选需要设置id
+	  //select2   4.0以上的版本  点选需要设置id(源码中通过id 来判断)
 	  id : function(data){ 
 	    	return data.id; 
 	  },
@@ -172,22 +137,21 @@ $("#blocksSelect").select2({
 			    	    "cityCode": "",
 			    	    "district": "",
 			    	    "page": 1,
-			    	    "pageSize": 10
+			    	    "pageSize": 30
 	            };
 		    	return    data;
 		    },
 		   
 		   //processResults 函数的results的接收返回的值，具体以json为主
 		   processResults: function (data, page) {	
-			   var converResults = [];
-
+			   var converResults = [];			   
                $.each(data, function (i, v) {
                    var o = {};
                    o.id = v.pkid;
                    o.name = v.name;  
                    o.districtCode = v.districtCode;
                    converResults.push(o);
-               })
+               })      	 
 			    //results: data.items;results: data.res以后端返回的json为主
 			    return {results: converResults};
 			  },
@@ -214,6 +178,8 @@ function formatRepoSelection(results) {
     }
 };
 
+
+
 //搜索结束后在页面 直接显示结果
 function formatRepo(results) {	
 	 loadedTimes = 0;
@@ -222,9 +188,10 @@ function formatRepo(results) {
 };
 
 var loadedTimes = 0;
+
 //房屋搜索结果 houseAddrSearchResult 为条件查询房屋栋数并填充
 function select2DivClick( data ){	
-	if(loadedTimes++>0){
+	if(loadedTimes++ > 0){
 		return ;
 	}
 	$('#buildingsSelect').empty();  
@@ -235,10 +202,11 @@ function select2DivClick( data ){
 			url: ctx+'/api/house/buildingsListAjax',
 			dataType:"json",    
 			data:"resblockId="+v,
-			success: function(data) {			
+			success: function(data) {	
+				//alert(JSON.stringify(data));
 				//console.log(data);
 				var option="";
-				if(data.length===0){
+				if(data.length==0){
 					 option="<option value=''>无可选栋座</option>";
 					 $('#buildingsSelect').append(option);
 				}else{

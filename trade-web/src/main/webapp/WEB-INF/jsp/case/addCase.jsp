@@ -66,14 +66,14 @@
 	          </div>
 	          <input type="hidden"  name="blockId"  id="blockId"  value=""> <!-- 产证区域 -->
 	          <input type="hidden"  name="blockName"  id="blockName"  value=""> <!-- 产证区域 -->	 	        
-	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="140603093859B9126A9A39DD0B831A23">
-	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="上海虹口区外滩6666666号"> <!-- 产证地址待定 -->
+	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
+	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value=""> <!-- 产证地址待定 -->
 	          <input type="hidden"  name="distCode"  id="distCode"  value=""> <!-- 产证区域 -->
 	          <input type="hidden"  name="distName"  id="distName"  value=""> <!-- 产证区域 -->
-	          <input type="hidden"  name="buildingName"  id="buildingName"  value=""> <!-- 产证区域 -->
-	          <input type="hidden"  name="floorName"  id="floorName"  value=""> <!-- 产证区域 -->
-	          <input type="hidden"  name="roomName"  id="roomName"  value=""> <!-- 产证区域 -->
-	          <input type="hidden"  name="square"  id="square"  value=""> <!-- 面积 -->
+	          <input type="hidden"  name="buildingName"  id="buildingName"  value=""> 
+	          <input type="hidden"  name="floorName"  id="floorName"  value=""> 
+	          <input type="hidden"  name="roomName"  id="roomName"  value=""> 
+	          <input type="hidden"  name="square"  id="square"  value=""> 
         </div>
        
        <div class="form_list table-capital"  id="isRepeatCase" style="display:none">
