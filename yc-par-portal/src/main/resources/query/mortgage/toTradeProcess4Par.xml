@@ -42,7 +42,7 @@
 				<![CDATA[  	
 			    SELECT 
                     VTP.CASE_CODE,
-      				VTP.PART_CODE AS 'KEY',
+      				VTP.PART_CODE AS SRV_CODE,
       				VTP.REAL_TIME,
       				ISNULL(VTP.CREATE_BY,'') AS CREATE_BY,
       				ISNULL(VTP.COMMENT,'') AS COMMENT
@@ -60,8 +60,8 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			<column type="both" name="KEY" display="status" />
-			<column type="virtual" name="NAME" referencecol="KEY" customDict="qqcdMortServName"  />
+			<column type="both" name="SRV_CODE" />
+			<column type="virtual" name="SRV_NAME" referencecol="SRV_CODE" customDict="qqcdMortServName"  />
 			<column type="both" name="REAL_TIME" display="createTime" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" />
 			<column type="both" name="CREATE_BY" display="createBy" />
 			<column type="virtual" name="REAL_NAME" display="yuOperator_name" referencecol="CREATE_BY" customDict="qqRealName"  />

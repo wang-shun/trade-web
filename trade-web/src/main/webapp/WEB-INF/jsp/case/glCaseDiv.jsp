@@ -66,82 +66,82 @@
    </div>
 
 <script id="queryCastListItemList" type= "text/html">
- 
-   {{each rows as item index}}
+ {{each rows as item index}}
 	<tr>
-    <td>
-        <p class="big">
-            <input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" />
-        </p>
-    </td>
-    <td>
-        <p class="big">
-           <a href="{{ctx}}/case/caseDetail?caseId={{item.pkId}}"  target="_blank">{{item.CASE_CODE}}</a>
-{{if item.caseOrigin == 'INPUT'}}
- <i class="sign_blue ml10">
-自录单
-</i>
-{{/if}}
-{{if item.caseOrigin == 'CTM'}}
- <i class="sign_blue ml10">
-导入单
-</i>
-{{/if}}
-{{if item.caseOrigin == 'MERGE'}}
- <i class="sign_blue ml10">
-合流单
-</i>
-{{/if}}
-        </p>
-        <p>
-             {{item.propertyAddr}}
-        </p>
-    </td>
-       realOrgName
-    <td>
-        <p class="big">
-{{if item.status != null}}
-			<span class="yes_color">
-           {{item.status}}
-			</span>
-{{/if}}
-        </p>
-        <p>
-{{if item.caseProperty != null}}
- 			<span class="no_color">
-             {{item.caseProperty}}
-			</span>
-{{/if}}
-        </p>
-    </td>
-    <td>
-        <p class="big">
-           {{item.SELLER}}
-        </p>
-        <p>
-              {{item.BUYER}}
-        </p>
-    </td>
-    <td>
-        <p class="big">
-           {{item.agentName}}:{{item.agentPhone}}
-        </p>
-        <p>
-             {{item.grpName}}
-        </p>
-    </td>
-    <td>
-        <p class="big">
-           {{item.realName}}
-        </p>
-        <p>
-             {{item.realOrgName}}
-        </p>
-    </td>
-</tr>
+		<td>
+			<p class="big">
+				<input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" />
+			</p>
+		</td>
+		<td>
+			<p class="big">
+			   <a href="{{ctx}}/case/caseDetail?caseId={{item.pkId}}"  target="_blank">{{item.CASE_CODE}}</a>
+			{{if item.caseOrigin == 'INPUT'}}
+			 <i class="sign_blue ml10">
+			自录单
+			</i>
+			{{/if}}
+			{{if item.caseOrigin == 'CTM'}}
+			 <i class="sign_blue ml10">
+			导入单
+			</i>
+			{{/if}}
+			{{if item.caseOrigin == 'MERGE'}}
+			 <i class="sign_blue ml10">
+			合流单
+			</i>
+			{{/if}}
+			</p>
+			<p>
+				 {{item.propertyAddr}}
+			</p>
+		</td>
+		   realOrgName
+		<td>
+			<p class="big">
+				{{if item.status != null}}
+				<span class="yes_color">
+			   {{item.status}}
+				</span>
+				{{/if}}
+			</p>
+			<p>
+			{{if item.caseProperty != null}}
+				<span class="no_color">
+				 {{item.caseProperty}}
+				</span>
+			{{/if}}
+			</p>
+		</td>
+		<td>
+			<p class="big">
+			   {{item.SELLER}}
+			</p>
+			<p>
+				  {{item.BUYER}}
+			</p>
+		</td>
+		<td>
+			<p class="big">
+			   {{item.agentName}}:{{item.agentPhone}}
+			</p>
+			<p>
+				 {{item.grpName}}
+			</p>
+		</td>
+		<td>
+			<p class="big">
+			   {{item.realName}}
+			</p>
+			<p>
+				 {{item.realOrgName}}
+			</p>
+		</td>
+	</tr>
 {{/each}}
-	</script>
+</script>
 <script>
+/* 第一次进入关联页面对页面上的表头值进行设置  **/
 function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer){
 	$("#pkId").val("");
 	$("#pkId").val(pkId);
@@ -153,8 +153,8 @@ function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,selle
 	$("#seller").html(seller);
 	$("#buyer").html(buyer);
 }
+/* 调用关联案件方法  **/
 function merge(){
-	
 	if(undefined == $('input[name="mergePkid"]:checked').val()){alert("请选择一条案件！");return;}
     if(!confirm("确定申请合流案件吗！")){ return false; }
 	var mergePkid = $('input[name="mergePkid"]:checked').val();
@@ -179,24 +179,17 @@ function merge(){
 		}
 	});
 }
-function closef(){
-	$("#myModalsa").modal("hide");
-}
-function caseDetail(){
-	window.location.href="${ctx}/case/caseDetail?caseId="+$("#pkId").val();
-}
+/* 取消关联案件页面  **/
+function closef(){ $("#myModalsa").modal("hide"); }
+/* 查询案件基本信息   **/
+function caseDetail(){ window.open("${ctx}/case/caseDetail?caseId="+$("#pkId").val()); }
+/* 查询可关联案件列表   **/
 function changeTaskAssignee(page,propertyCode){
 	var data = {};
-	data.rows = 5;
-     if(!page) {
-    	 data.page = 1;
-    } else {
-    	data.page = page;
-    }  
-   	
+    if(!page) {data.page = 1;} else {data.page = page;}  
     data.propertyCode=propertyCode;
    	data.queryId="queryGlCastListListdiv";
-   	
+   	data.rows = 5;
 	$.ajax({
 		cache : false,
 		async : false,//false同步，true异步
@@ -204,33 +197,24 @@ function changeTaskAssignee(page,propertyCode){
 		url:ctx+ "/quickGrid/findPage" ,
 		dataType : "json",
 		data : data,
-		beforeSend:function(){  
-			var a=1;
-         },
+		beforeSend:function(){},
 		success : function(data) {
 			data.ctx = ctx;
 	    	var tsAwardBaseList= template('queryCastListItemList' , data);
 	        $("#taskListf").empty();
 	        $("#taskListf").html(tsAwardBaseList);
-	        
 	        initpagef(data.total,data.pagesize,data.page, data.records);
 		},complete: function() { },
 		error : function(errors) { }
 	});
 }
-
-function searchButtonClick(){
-	changeTaskAssignee(1);
-}
-
-function initpagef(totalCount,pageSize,currentPage,records)
-{
-	if(totalCount>1500){
-		totalCount = 1500;
-	}
+/* 查询按钮方法  **/
+function searchButtonClick(){changeTaskAssignee(1);}
+/* 分页   **/
+function initpagef(totalCount,pageSize,currentPage,records) {
 	var currentTotalstrong=$('#currentTotalPagef').find('strong');
-	if (totalCount<1 || pageSize<1 || currentPage<1)
-	{
+	if(totalCount>1500){ totalCount = 1500; }
+	if (totalCount<1 || pageSize<1 || currentPage<1) {
 		$(currentTotalstrong).empty();
 		$('#totalPf').text(0);
 		$("#pageBarf").empty();
@@ -239,7 +223,6 @@ function initpagef(totalCount,pageSize,currentPage,records)
 	$(currentTotalstrong).empty();
 	$(currentTotalstrong).text(currentPage+'/'+totalCount);
 	$('#totalPf').text(records);
-	
 	$("#pageBarf").twbsPagination({
 		totalPages:totalCount,
 		visiblePages:9,

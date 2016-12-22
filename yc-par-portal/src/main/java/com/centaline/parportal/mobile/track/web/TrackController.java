@@ -59,18 +59,21 @@ public class TrackController {
         //TODO: 避免switch-case写法，有空的时候修改
         switch (CommentType.valueOf(track.getType())) {
             case CMT:
-                resultCount = toCaseCommentService.addComment4Par(track);
+                resultCount = toCaseCommentService.insertToCaseComment(track);
+                break;
             case BUJIAN:
                 Boolean isNotifyCustomer = cmtVo.getIsNotifyCustomer() != null
                     ? cmtVo.getIsNotifyCustomer() : false;
                 //启动补件流程
                 stuffService.reqStuff(track, isNotifyCustomer);
                 //插入补件comment
-                resultCount = toCaseCommentService.addComment4Par(track);
+                resultCount = toCaseCommentService.insertToCaseComment(track);
+                break;
             case REJECT:
                 break;
             case TRACK:
                 resultCount = toMortgageService.addMortgageTrack4Par(track);
+                break;
             default:
                 break;
         }

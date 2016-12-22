@@ -14,6 +14,7 @@ shiroConfig.shiroFilter:
   filterChainDefinitionMap:
     /casFailure.jsp: anon
     /cas: cas
+    /html/**: anon
     /remote/**: anon
     /mobile/**: anon
     /test/**: anon
