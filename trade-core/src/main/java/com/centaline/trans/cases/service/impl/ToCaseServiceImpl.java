@@ -569,8 +569,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		
 		if(null != caseMergerParameter){
 		if(StringUtils.isBlank(caseMergerParameter.getPkId())){throw new BusinessException("自建案件Pkid为空!"); }
-		if(StringUtils.isBlank(caseMergerParameter.getMergePkid())){throw new BusinessException("ctm案件PkId为空!"); }
-		}else{new BusinessException("合流案件为空!");}
+		if(StringUtils.isBlank(caseMergerParameter.getMergePkid())){throw new BusinessException("ctm案件PkId为空!"); } }else{new BusinessException("合流案件为空!");}
 		
 		String pkId =caseMergerParameter.getPkId();
 		String ctmPkId =caseMergerParameter.getMergePkid();
@@ -579,7 +578,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		
 		if(null != toCase.getCreateTime()){throw new BusinessException("自建案件创建时间为空，不支持合流!"); }
 		if(null != ctmToCase.getCreateTime()){throw new BusinessException("导入案件创建时间为空，不支持合流!"); }
-		if(ctmToCase.getCreateTime().before(toCase.getCreateTime())){throw new BusinessException("导入案件创建时间为空必须在自建案件之后!"); }
+		if(ctmToCase.getCreateTime().before(toCase.getCreateTime())){throw new BusinessException("导入案件创建时间必须在自建案件之后!"); }
 		if(StringUtils.isBlank(ctmToCase.getCaseCode())){throw new BusinessException("ctm案件CaseCode为空!"); }
 		if(StringUtils.isBlank(toCase.getCaseCode())){throw new BusinessException("自建案件CaseCode为空!"); }
 		if(StringUtils.equals(toCase.getCaseCode(),ctmToCase.getCaseCode())){throw new BusinessException("同一案件不能进行合并!"); }
