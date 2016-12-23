@@ -227,13 +227,17 @@ public class CaseMergeController {
 			request.setAttribute("busFlag", "success");
 		}
 		
+		//重新定向 防止submit重复提交数据
 		if(!"".equals(keyFlag) && null != keyFlag){
-			if("case".equals(keyFlag)){
-				return  "/case/taskTracking2";				
-			}else if("eloan".equals(keyFlag)){
-				return  "eloan/task/taskEloanList";							
+			if("case".equals(keyFlag)){				
+				return "redirect:/case/tracking?caseCode="+caseCode;
+				//return  "/case/taskTracking2";				
+			}else if("eloan".equals(keyFlag)){				
+				return "redirect:/eloan/task/eloanApply/process";
+				//return  "eloan/task/taskEloanList";							
 			}else if("spv".equals(keyFlag)){
-				return  "spv/saveSpvCase";						
+				return "redirect:/spv/saveHTML";
+				//return  "spv/saveSpvCase";						
 			}
 		}
 	   

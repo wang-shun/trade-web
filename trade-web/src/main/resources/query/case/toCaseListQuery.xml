@@ -1189,33 +1189,26 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				select * from (
-					select 
-						   t.pkid id,
-						   t.APPLY_STATUS status,
-						   t.OPERATOR operato,
-					       t.CASE_CODE caseCode,
-					       t.C_CASE_CODE cCaseCode,
-					       t.PROPERTY_ADDR propertyAddr,
-					       t.AGENT_NAME agentName,
-					       t.C_AGENT_NAME cAgentName,
-					       (select PKID
-					          from sctrans.T_TO_CASE c
-					         where c.CASE_CODE = t.CASE_CODE) pkid ,
-						   (select PKID
-					          from sctrans.T_TO_CASE c
-					         where c.CASE_CODE = t.C_CASE_CODE) ctmpkid,
-					       (select LEADING_PROCESS_ID
-					          from sctrans.T_TO_CASE c
-					         where c.CASE_CODE = t.CASE_CODE) leadingProcess,
-					       (select LEADING_PROCESS_ID
-					          from sctrans.T_TO_CASE c
-					         where c.CASE_CODE = t.C_CASE_CODE) ctmleadingProcess,
-					       t.APPLIER_ID applierId,
-					       t.OPERATOR_TIME operatorTime,
-					       t.CONFIRMOR_ID
-					  from sctrans.T_TO_CASE_MERGE t
-					  )f 
+					select * from (
+						select 
+							t.pkid id,
+							t.APPLY_STATUS status,
+							t.OPERATOR operato,
+							t.CASE_CODE caseCode,
+							t.C_CASE_CODE cCaseCode,
+							t.PROPERTY_ADDR cpropertyAddr,
+							(select PROPERTY_ADDR from sctrans.T_TO_PROPERTY_INFO where CASE_CODE=t.CASE_CODE) propertyAddr,
+							t.AGENT_NAME agentName,
+							t.C_AGENT_NAME cAgentName,
+							(select PKID from sctrans.T_TO_CASE c where c.CASE_CODE = t.CASE_CODE) pkid ,
+							(select PKID from sctrans.T_TO_CASE c where c.CASE_CODE = t.C_CASE_CODE) ctmpkid,
+							(select LEADING_PROCESS_ID from sctrans.T_TO_CASE c where c.CASE_CODE = t.CASE_CODE) leadingProcess,
+							(select LEADING_PROCESS_ID from sctrans.T_TO_CASE c where c.CASE_CODE = t.C_CASE_CODE) ctmleadingProcess,
+							t.APPLIER_ID applierId,
+							t.OPERATOR_TIME operatorTime,
+							t.CONFIRMOR_ID
+						from sctrans.T_TO_CASE_MERGE t
+					)f 
 					  where 1=1
 					  <if test="orgid != null">
 					  	and f.CONFIRMOR_ID =#orgid#
@@ -1251,6 +1244,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				<column type="both" name="caseCode" index="" checkbox="" display="caseCode" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="cCaseCode" index="" checkbox="" display="cCaseCode" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="propertyAddr" index="" checkbox="" display="propertyAddr" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="cpropertyAddr" index="" checkbox="" display="cpropertyAddr" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="agentName" index="" checkbox="" display="agentName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="cAgentName" index="" checkbox="" display="cAgentName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="leadingProcess" index="" checkbox="" display="leadingProcess" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>

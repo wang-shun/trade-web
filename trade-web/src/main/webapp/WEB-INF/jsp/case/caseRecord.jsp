@@ -186,7 +186,7 @@
 					{{item.propertyAddr}}
 				 </p>
 				 <p class="big">
-					{{item.propertyAddr}}
+					{{item.cpropertyAddr}}
 				 </p>
 			</td>
 			<td class="t-left">
