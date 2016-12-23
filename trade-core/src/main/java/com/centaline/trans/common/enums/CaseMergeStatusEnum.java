@@ -6,21 +6,34 @@ package com.centaline.trans.common.enums;
  * @author hejf10
  */
 public enum CaseMergeStatusEnum {
-	/**CTM   INPUT    MERGE   PROCESS**/
+	/** CTM 导入  INPUT 自录   MERGE 合流  PROCESS 合流申请中**/
 	CTM("CTM", "导入"),
+	/** CTM 导入  INPUT 自录   MERGE 合流  PROCESS 合流申请中**/
 	INPUT("INPUT", "自录"),
+	/** CTM 导入  INPUT 自录   MERGE 合流  PROCESS 合流申请中**/
 	MERGE("MERGE", "合流"),
+	/** CTM 导入  INPUT 自录   MERGE 合流  PROCESS 合流申请中**/
 	PROCESS("PROCESS", "合流申请中"),
 	/** APPLY_STATUS 0：申请   1：已确认   2：拒绝**/
 	APPLYSTATUS0("0","申请"),
+	/** APPLY_STATUS 0：申请   1：已确认   2：拒绝**/
 	APPLYSTATUS1("1","已确认"),
+	/** APPLY_STATUS 0：申请   1：已确认   2：拒绝**/
 	APPLYSTATUS2("2","拒绝"),
 	/** OPERATOR 1：合并  2 ：拆解**/
 	OPERATOR1("1","合并"),
+	/** OPERATOR 1：合并  2 ：拆解**/
 	OPERATOR2("2","拆解"),
 	/** APPLY_DIRECTION 0 : 自录发起 合CTM      1：CTM发起 合自录**/
 	APPLY_DIRECTION0("0","自录发起 合CTM"),
-	APPLY_DIRECTION1("1","CTM发起 合自录");
+	/** APPLY_DIRECTION 0 : 自录发起 合CTM      1：CTM发起 合自录**/
+	APPLY_DIRECTION1("1","CTM发起 合自录"),
+	/** 30003007 合流案件 **/
+	CASE_PROPERTY3("30003007","合流案件"),
+	/** 1确认 0驳回 **/
+	TYPE1("1","确认"),
+	/** 1确认 0驳回 **/
+	TYPE0("0","驳回");
     
     private String name;
 
