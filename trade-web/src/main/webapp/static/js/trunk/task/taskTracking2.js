@@ -1,4 +1,5 @@
 var startList=0;//判断是不是应该显示列表
+
 $(document).ready(function() {
 	
 	var caseCode = getParameter("caseCode");	
@@ -15,14 +16,23 @@ $(document).ready(function() {
 			};
 	    aist.wrap(data);	   
 		reloadGrid(data);
+
+/*		if(reload > 0){			
+		    window.onbeforeunload = function() {		    	
+		             var n = window.event.screenX - window.screenLeft;
+		             var b = n > document.documentElement.scrollWidth - 20;
+		             if (!(b && window.event.clientY < 0 || window.event.altKey)) { 		            	
+			        		window.location.href=ctx+"/case/tracking";
+			        	}
+		     }  
+		}*/
 	}
 	
 	
 /*	if(busFlag !="" && busFlag != null && busFlag != undefined){
 		alert("恭喜,新建案件成功,请等待主管分配！");
 	}
-		*/
-/*	var data = getParams(1);
+	var data = getParams(1);
     aist.wrap(data);
     startList=0;
 	reloadGrid(data);*/
