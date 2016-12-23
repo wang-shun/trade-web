@@ -1,5 +1,6 @@
 var startList=0;//判断是不是应该显示列表
 
+var reload=0;
 $(document).ready(function() {
 	
 	var caseCode = getParameter("caseCode");	
@@ -16,17 +17,18 @@ $(document).ready(function() {
 			};
 	    aist.wrap(data);	   
 		reloadGrid(data);
-
-/*		if(reload > 0){			
-		    window.onbeforeunload = function() {		    	
-		             var n = window.event.screenX - window.screenLeft;
-		             var b = n > document.documentElement.scrollWidth - 20;
-		             if (!(b && window.event.clientY < 0 || window.event.altKey)) { 		            	
-			        		window.location.href=ctx+"/case/tracking";
-			        	}
-		     }  
-		}*/
 	}
+	
+/*	reload ++;	
+	if(reload > 0){			
+	    window.onbeforeunload = function() {		    	
+             var n = window.event.screenX - window.screenLeft;
+             var b = n > document.documentElement.scrollWidth - 20;
+             if (!(b && window.event.clientY < 0 || window.event.altKey)) {             	
+	        		window.location.href=ctx+"/case/tracking";
+	        	}
+	     }  
+	}*/
 	
 	
 /*	if(busFlag !="" && busFlag != null && busFlag != undefined){
