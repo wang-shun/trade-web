@@ -44,6 +44,11 @@
 <link href="${ctx}/css/common/btn.css" rel="stylesheet">
 <link href="${ctx}/css/common/input.css" rel="stylesheet">
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
+<style type="text/css">
+.select_control{
+    color:#676a6c;
+}
+</style>
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -127,7 +132,7 @@
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">主贷人<font color="red">*</font></label>
-                            <select class=" select_control yuanwid " name="custCode" id="custCode">
+                            <select class="select_control yuanwid " name="custCode" id="custCode">
 							</select>
                         </div>
                         <div class="form_content">
@@ -513,15 +518,10 @@
 		}
 		
 		function readOnlyForm(){
-			$("#prfApplyDate").parent().removeClass("input-daterange");
-			$("#prfApplyDate").removeClass("datatime");
-			$("#prfApplyDate").attr("readonly",true);
-			$("#prfApplyDate").css("background-color","#ccc");
-			
-			$("#estPartTime").parent().removeClass("input-daterange");
-			$("#estPartTime").removeClass("datatime");
-			$("#estPartTime").attr("readonly",true);
-			$("#estPartTime").css("background-color","#ccc");
+			$("#signDate").parent().removeClass("input-daterange");
+			$("#signDate").removeClass("datatime");
+			$("#signDate").attr("readonly",true);
+			$("#signDate").css("background-color","#ccc");
 			
 			$("select[readOnlydata=1]").closest('.row').hide();
 			$("[readOnlydata=1]").attr('readonly',true);
