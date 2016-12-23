@@ -399,7 +399,7 @@ function completeMortgage(form){
 }
 
 
-//查询分行信息1111
+//查询分行信息
 function getParentBank(selector,selectorBranch,finOrgCode,tag,flag){
 	var bankHtml = "<option value=''>请选择</option>";
 	var param = {nowCode:finOrgCode};
@@ -487,7 +487,7 @@ function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
 	return true;
 }
 
-//给贷款银行赋值222
+//给贷款银行赋值
 function getParentBankInfo(finOrgCode,formId){
 	 $.ajax({
 	    url:ctx+"/manage/queryParentBankInfo",

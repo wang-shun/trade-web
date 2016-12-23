@@ -500,11 +500,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 	@Override
 	public void updateMergeCase(CaseMergerParameter caseMergerParameter) throws Exception{
 		SessionUser user = uamSessionService.getSessionUser();
-		
-		if(null != caseMergerParameter){
+		if(null != caseMergerParameter){}else{new BusinessException("合流案件记录为空!");}
 		if(StringUtils.isBlank(caseMergerParameter.getId())){throw new BusinessException("合流记录id为空!"); }
 		if(StringUtils.isBlank(caseMergerParameter.getType())){ throw new BusinessException("操作状态为空!"); }
-		}else{new BusinessException("合流案件记录为空!");}
 		/**1确认0驳回**/
 		if(StringUtils.equals(caseMergerParameter.getType(),CaseMergeStatusEnum.TYPE1.getCode())){ agreeMergeCase(user,caseMergerParameter); }
 		if(StringUtils.equals(caseMergerParameter.getType(),CaseMergeStatusEnum.TYPE0.getCode())){ turnMergeCase(user,caseMergerParameter); }
@@ -519,13 +517,14 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public void agreeMergeCase(SessionUser user,CaseMergerParameter caseMergerParameter) throws Exception{
 
 		ToCaseMerge toCaseMerge = toCaseMergeMapper.selectByPrimaryKey(Long.valueOf(caseMergerParameter.getId()));
-		if(null != toCaseMerge){
+		if(null != toCaseMerge){}else{new BusinessException("合流案件记录为空!");}
 		if(StringUtils.isBlank(toCaseMerge.getCaseCode())){throw new BusinessException("自建案件CaseCode为空!"); }
 		if(StringUtils.isBlank(toCaseMerge.getcCaseCode())){throw new BusinessException("ctm案件CaseCode为空!"); }
-		}else{new BusinessException("合流案件记录为空!");}
 		
 		ToCase toCase = toCaseMapper.findToCaseByCaseCode(toCaseMerge.getCaseCode());
 		ToCase ctmToCase = toCaseMapper.findToCaseByCaseCode(toCaseMerge.getcCaseCode());
+		if(null != toCase){}else{throw new BusinessException("没有查询到自建案件信息!"); }
+		if(null != ctmToCase){}else{throw new BusinessException("没有查询到导入案件信息!"); }
 		if(StringUtils.equals(toCase.getCaseCode(),ctmToCase.getCaseCode())){throw new BusinessException("同一案件不能进行合并!"); }
 		if(StringUtils.equals(ctmToCase.getCaseProperty(),CasePropertyEnum.TPWX.getCode())){throw new BusinessException("无效案件不能进行合并!"); }
 		
@@ -533,7 +532,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 		//List<TgGuestInfo> ctmToCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(ctmToCase.getCaseCode());
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
-		
+		if(null != toCaseInfo){}else{throw new BusinessException("没有查询到自建案件详细信息!"); }
+		if(null != ctmtoCaseInfo){}else{throw new BusinessException("没有查询到导入案件详细信息!"); }
 		/**1.更新表t_to_case**/
 		toCaseMapper.updateByPrimaryKeySelective(setUpdateToCase(user,toCase,ctmToCase,toCaseMerge));
 		toCaseMapper.updateByPrimaryKeySelective(setUpdateCTMToCase(user,ctmToCase));
@@ -552,6 +552,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public void turnMergeCase(SessionUser user,CaseMergerParameter caseMergerParameter) throws Exception{
 		
 		ToCaseMerge toCaseMerge = toCaseMergeMapper.selectByPrimaryKey(Long.valueOf(caseMergerParameter.getId()));
+		if(null != toCaseMerge){}else{throw new BusinessException("没有查询到合流申请信息!"); }
 		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS2.getCode());
 		toCaseMerge.setUpdateBy(user.getId());
 		toCaseMerge.setUpdateTime(new Date());
@@ -566,7 +567,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 	 */
 	public void mergeCase(CaseMergerParameter caseMergerParameter) throws Exception{
 		SessionUser user = uamSessionService.getSessionUser();
-		
+		if(null != user){}else{throw new BusinessException("没能获得当前用户信息!");}
 		if(null != caseMergerParameter){
 		if(StringUtils.isBlank(caseMergerParameter.getPkId())){throw new BusinessException("自建案件Pkid为空!"); }
 		if(StringUtils.isBlank(caseMergerParameter.getMergePkid())){throw new BusinessException("ctm案件PkId为空!"); } }else{new BusinessException("合流案件为空!");}
@@ -576,6 +577,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 		ToCase toCase = toCaseMapper.selectByPrimaryKey(Long.valueOf(pkId));
 		ToCase ctmToCase = toCaseMapper.selectByPrimaryKey(Long.valueOf(ctmPkId));
 		
+		if(null != toCase){}else{throw new BusinessException("没有查询到自建案件信息!"); }
+		if(null != ctmToCase){}else{throw new BusinessException("没有查询到导入案件信息!"); }
 		if(null != toCase.getCreateTime()){}else{throw new BusinessException("自建案件创建时间为空，不支持合流!"); }
 		if(null != ctmToCase.getCreateTime()){}else{throw new BusinessException("导入案件创建时间为空，不支持合流!"); }
 		if(ctmToCase.getCreateTime().before(toCase.getCreateTime())){throw new BusinessException("导入案件创建时间必须在自建案件之后!"); }
@@ -585,10 +588,13 @@ public class ToCaseServiceImpl implements ToCaseService {
 		
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(toCase.getCaseCode());
 		ToPropertyInfo ctmtoPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(ctmToCase.getCaseCode());
-		
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
 		
+		if(null != toPropertyInfo){}else{throw new BusinessException("没有查询到自建案件地址信息!"); }
+		if(null != ctmtoPropertyInfo){}else{throw new BusinessException("没有查询到导入案件地址信息!"); }
+		if(null != toCaseInfo){}else{throw new BusinessException("没有查询到自建案件详细信息!"); }
+		if(null != ctmtoCaseInfo){}else{throw new BusinessException("没有查询到导入案件详细信息!"); }
 		if(!StringUtils.equals(ctmtoPropertyInfo.getPropertyCode(),toPropertyInfo.getPropertyCode())){throw new BusinessException("PropertyCode不相同的案件不能合流！"); }
 		if(StringUtils.equals(toCase.getCaseOrigin(), CaseMergeStatusEnum.PROCESS.getCode())){throw new BusinessException("已经在申请中的自建案件不能再次申请！"); }
 		if(StringUtils.equals(ctmToCase.getCaseOrigin(), CaseMergeStatusEnum.PROCESS.getCode())){throw new BusinessException("已经在申请中的ctm案件不能再次申请！"); }
@@ -601,7 +607,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMapper.updateByPrimaryKeySelective(toCase);
 		/**3.更新表T_TO_CASE_INFO**/
 		ToCaseMerge toCaseMerge = setToCaseMerges(user,toCase,ctmToCase,toCaseInfo,ctmtoCaseInfo,toPropertyInfo,ctmtoPropertyInfo);
-		toCaseMergeMapper.insertSelective(toCaseMerge);
+		if(null != toCaseMerge){toCaseMergeMapper.insertSelective(toCaseMerge);}
 		if(StringUtils.equals(ctmToCase.getStatus(),CaseStatusEnum.WFD.getCode())){
 			caseMergerParameter.setId(toCaseMerge.getPkid().toString());
 			agreeMergeCase(user,caseMergerParameter);
@@ -757,14 +763,13 @@ public class ToCaseServiceImpl implements ToCaseService {
 	 */
 	@Override
 	public VCaseDistributeUserVO getVCaseDistributeUserVO(String caseCode) {
-		VCaseDistributeUserVO vCaseDistributeUserVO = new VCaseDistributeUserVO();
 		ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
-		
+		VCaseDistributeUserVO vCaseDistributeUserVO = new VCaseDistributeUserVO();
+		if(null != toCase){}else{return null;}
 		if(StringUtils.equals(toCase.getCaseOrigin(), "INPUT")){
 			if(StringUtils.isBlank(toCase.getCreateBy())){return null;}
 			Map user = toCaseMapper.getUserIsMain(toCase.getCreateBy());
-			if(null != user){
-				getVCaseDistributeUserVO(user,null,"map",vCaseDistributeUserVO,"INPUT");/**INPUT创建人**/
+			if(null != user){ getVCaseDistributeUserVO(user,null,"map",vCaseDistributeUserVO,"INPUT");/**INPUT创建人**/
 			}else{
 				User user1 = uamUserOrgService.getUserById(toCase.getCreateBy()); 
 				getVCaseDistributeUserVO(user,user1,"user",vCaseDistributeUserVO,"CTM");/**INPUT创建人**/
@@ -775,8 +780,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 			if(StringUtils.isBlank(toCaseInfo.getRequireProcessorId())){return null;}
 			
 			Map user = toCaseMapper.getUserIsMain(toCaseInfo.getRequireProcessorId());
-			if(null != user){
-				getVCaseDistributeUserVO(user,null,"map",vCaseDistributeUserVO,"CTM");/**CTM意向顾问**/
+			if(null != user){ getVCaseDistributeUserVO(user,null,"map",vCaseDistributeUserVO,"CTM");/**CTM意向顾问**/
 			}else{
 				User user1 = uamUserOrgService.getUserById(toCaseInfo.getRequireProcessorId()); 
 				getVCaseDistributeUserVO(user,user1,"user",vCaseDistributeUserVO,"CTM");/**CTM意向顾问**/
@@ -795,10 +799,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 		
 		if(StringUtils.equals(dataType,"user")){
 			if(null != user1){
-				if(!StringUtils.isBlank(user1.getMobile()))
-					vCaseDistributeUserVO.setMobile(user1.getMobile());
-				if(!StringUtils.isBlank(user1.getRealName()))
-					vCaseDistributeUserVO.setRealName(user1.getRealName());
+				if(!StringUtils.isBlank(user1.getMobile())) vCaseDistributeUserVO.setMobile(user1.getMobile());
+				if(!StringUtils.isBlank(user1.getRealName())) vCaseDistributeUserVO.setRealName(user1.getRealName());
 				if(!StringUtils.isBlank(user1.getEmployeeCode())){
 					String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+user1.getEmployeeCode()+".jpg";
 					vCaseDistributeUserVO.setImgUrl(url);
