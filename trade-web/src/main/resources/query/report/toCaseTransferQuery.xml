@@ -4,17 +4,17 @@
 		<customDict id="convertValue" beanName="convertValue"></customDict>
 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
 		<customDict id="qqManagerByOrgIdAndJobCode" beanName="qqManagerByOrgIdAndJobCode"></customDict>
-		<customDict id="qqProaddrByCaseCode" beanName="qqProaddrByCaseCode"></customDict>				
+		<customDict id="qqProaddrByCaseCode" beanName="qqProaddrByCaseCode"></customDict>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref=""
-			class="com.aist.common.quickQuery.formatter.DateFormatter">
+				   class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref=""
-			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+				   class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="groupingUsed">true</property>
 				<property name="maximumFractionDigits">3</property>
@@ -24,13 +24,13 @@
 			</properties>
 		</formatter>
 		<formatter id="integerFormater" ref=""
-			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+				   class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="maximumFractionDigits">0</property>
 			</properties>
 		</formatter>
 		<formatter id="emailFormater" ref=""
-			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+				   class="com.aist.common.quickQuery.formatter.EmailFormatter" />
 	</formatters>
 	<query id="queryCastTransferItemList" cacheCount="true">
 		<searchCondition>
@@ -110,9 +110,12 @@
 							)
 					</if>
 
-					<if test="serviceDepId != null and serviceDepId != ''">
-						AND C.DISTRICT_ID=#serviceDepId#
+					<if test="jobCode != 'consultant'">
+						 and exists(select 1 from SCTRANS.V_YUCUI_ORG_HIERARCHY VYOH where VYOH.ORG_ID =c.ORG_ID and VYOH.TEAM_ID=#orgId# or VYOH.DISTRICT_ID=#orgId# or VYOH.hq_id=#orgId#)
 					</if>
+			    <if test="jobCode == 'consultant'">
+					C.LEADING_PROCESS_ID=#userId#
+				</if>
 
 				]]>
 			</baseSql>
@@ -123,12 +126,12 @@
 			</groupSql>
 		</searchSql>
 		<grid>
-			<table-row>				
-				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />				
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="qqProaddrByCaseCode"  referencecol="CASE_CODE"/>
 				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
-				
+
 				<column type="virtual" name="REAL_NAME" index="" checkbox="" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/>
 				<column type="virtual" name="ORG_NAME" index="" checkbox="" display="组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
 				<column type="both" name="TRANSFERDATE" index="" checkbox="" display="过户时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable="" />
@@ -138,8 +141,8 @@
 				<column type="both" name="AR_NAME" index="" checkbox="" display="片区" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="WZ_NAME" index="" checkbox="" display="区域" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="QJDS_NAME" index="" checkbox="" display="所属分行" customDict="" sysDict="" format="" width="120" isSort="" align="" halign="" order="" resizable="" />
-				
-				<column type="virtual" name="N_STATUS" display="是否审批通过"  referencecol="status"  customDict="convertValue"/>				
+
+				<column type="virtual" name="N_STATUS" display="是否审批通过"  referencecol="status"  customDict="convertValue"/>
 			</table-row>
 		</grid>
 	</query>
