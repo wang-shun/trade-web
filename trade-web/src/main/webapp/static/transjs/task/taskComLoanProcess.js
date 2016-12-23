@@ -813,6 +813,8 @@ function getReportList(tableId,pageId,isMainLoanBank){
         	search_isMainLoanBank:isMainLoanBank
         },
         gridComplete : function() { 
+        	$(".ui-corner-bottom").height("60");
+        	$("#"+tableId).width($(".ibox-title").width()-20);
         	var ids = jQuery("#"+tableId).jqGrid('getDataIDs'); 
         						
         	for (var i=0; i<ids.length; i++) { 
@@ -969,7 +971,11 @@ function getReminderList(tableId,pageId){
         postData:{
         	queryId:"queryToReminderList",
         	search_partCode:$("#partCode").val()
-        }   
+        },
+        gridComplete:function(){
+    		$(".ui-corner-bottom").height("60");
+    		$("#"+tableId).width($(".ibox-title").width()-20);
+        }
     });
 }
 var grid = null;
@@ -983,7 +989,6 @@ function getPricingList(tableId,pageId,isMainLoanBank){
 	    	url:ctx+"/quickGrid/findPage",
 	        datatype: "json",
 	        mtype:"GET",
-	        width: 860,
 	        height: 400,
 	        autowidth: true,
 	        shrinkToFit: true,
@@ -1044,6 +1049,10 @@ function getPricingList(tableId,pageId,isMainLoanBank){
 	        		jQuery("#"+tableId).jqGrid('setRowData', accPricingIds[i], {act : sub}); 
 	        			
 	        	}
+	        	$(".ui-corner-bottom").height("60");
+	        	$(".content").height("600");
+	        	$("#"+tableId).width($(".ibox-title").width()-20);
+	        	 
 	        },		
 	        onSelectRow : function(rowid,status) {
 //				var rowData = $("#"+tableId).jqGrid('getRowData', rowid);
@@ -1600,7 +1609,4 @@ function onkeyuploanerName(){
 	$("#loanerOrgCode").val("");
 	$("#loanerOrgId").val("");
 }
-
-
-
 
