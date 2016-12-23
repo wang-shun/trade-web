@@ -113,16 +113,14 @@
 							INNER JOIN SCTRANS.ACT_HI_VARINST V ON V.PROC_INST_ID_ = W.INST_CODE AND V.NAME_='GuohuApprove'															
 							LEFT JOIN  SCTRANS.T_TO_MORTGAGE M  ON C.CASE_CODE = M.CASE_CODE AND M.IS_ACTIVE=1 AND M.LAST_LOAN_BANK  IS NOT NULL	
 						    INNER JOIN sctrans.T_TO_HOUSE_TRANSFER HT ON W.CASE_CODE=HT.CASE_CODE
-					
+							LEFT JOIN SCTRANS.V_YUCUI_ORG_HIERARCHY VYOH ON VYOH.ORG_ID =c.ORG_ID
+
 					    where 1=1
 							<if test="propertyAddr != null and propertyAddr !='' ">
 								AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE C.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
 							</if>
 
-							<if test="serviceDepId != null and serviceDepId != ''">
-								AND C.DISTRICT_ID=#serviceDepId#
-							</if>
-							<if test="orgName != null and orgName != '' ">					
+							<if test="orgName != null and orgName != '' ">
 								AND C.ORG_ID = #orgName#  
 							</if>
 							<if test="caseCode != null and caseCode != ''">					
@@ -173,7 +171,12 @@
 									)					
 								)
 						</if>	
-					
+					<if test="jobCode != 'consultant'">
+						and (VYOH.TEAM_ID=#orgId# or VYOH.DISTRICT_ID=#orgId# or VYOH.hq_id=#orgId#)
+					</if>
+					<if test="jobCode == 'consultant'">
+						C.LEADING_PROCESS_ID=#userId#
+					</if>
 				]]>
 			</baseSql>
 			<orderBySql>
