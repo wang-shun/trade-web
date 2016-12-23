@@ -54,7 +54,6 @@
 							INNER JOIN SCTRANS.T_TO_CASE_INFO I 			ON C.CASE_CODE = I.CASE_CODE
 							INNER JOIN SCTRANS.T_TO_WORKFLOW W 				ON C.CASE_CODE = W.CASE_CODE 	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4)							
 							INNER JOIN SCTRANS.ACT_HI_VARINST V 			ON V.PROC_INST_ID_ = W.INST_CODE AND V.NAME_='GuohuApprove'
-							LEFT JOIN SCTRANS.V_YUCUI_ORG_HIERARCHY VYOH ON VYOH.ORG_ID =c.ORG_ID
 					where 1=1
 					<if test="propertyAddr != null and propertyAddr !='' ">
 						AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE C.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
@@ -111,9 +110,9 @@
 							)
 					</if>
 
-				<if test="jobCode != 'consultant'">
-					and (VYOH.TEAM_ID=#orgId# or VYOH.DISTRICT_ID=#orgId# or VYOH.hq_id=#orgId#)
-				</if>
+					<if test="jobCode != 'consultant'">
+						 and exists(select 1 from SCTRANS.V_YUCUI_ORG_HIERARCHY VYOH where VYOH.ORG_ID =c.ORG_ID and VYOH.TEAM_ID=#orgId# or VYOH.DISTRICT_ID=#orgId# or VYOH.hq_id=#orgId#)
+					</if>
 			    <if test="jobCode == 'consultant'">
 					C.LEADING_PROCESS_ID=#userId#
 				</if>
