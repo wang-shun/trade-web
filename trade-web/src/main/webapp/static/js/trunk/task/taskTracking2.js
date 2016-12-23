@@ -1,20 +1,42 @@
 var startList=0;//判断是不是应该显示列表
 $(document).ready(function() {
 	
-	var caseCode = "${caseCode}";
-	if(caseCode){
+	var caseCode = getParameter("caseCode");	
+	if(caseCode != "" && caseCode != null){
 		$("#caseCode").val(caseCode);
+		alert("恭喜,新建案件成功,请等待主管分配！");
+	
+		startList=1;
+		var data = {				
+				search_caseCode:$.trim(caseCode),			
+				queryId : "queryCastTrackingListItemList",
+				rows : 10,
+				page : 1
+			};
+	    aist.wrap(data);	   
+		reloadGrid(data);
 	}
-	var busFlag = "${busFlag}";
-	if(busFlag !="" && busFlag != null && busFlag != undefined){
+	
+	
+/*	if(busFlag !="" && busFlag != null && busFlag != undefined){
 		alert("恭喜,新建案件成功,请等待主管分配！");
 	}
-		
-	var data = getParams(1);
+		*/
+/*	var data = getParams(1);
     aist.wrap(data);
     startList=0;
-	reloadGrid(data);
+	reloadGrid(data);*/
 });
+
+
+//获取 url后参数
+function getParameter(name){
+
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+
+}
 
 function reloadGrid(data) {
 	$.ajax({

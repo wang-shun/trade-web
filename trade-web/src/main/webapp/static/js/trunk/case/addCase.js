@@ -99,7 +99,7 @@ $(document).ready(function() {
 //select2 自动补全控件
  $("#blocksSelect").select2({
 	  language: "zh-CN",
-	  placeholder: {id:'',placeholder:'请输入地址'},	
+	  placeholder: {id:'',text:'请输入地址'},	
 	  allowClear: true,
 	  "language": {
 		      "errorLoading" : function () {
@@ -227,6 +227,8 @@ function select2DivClick( data ){
 					 option="<option value=''>无可选栋座</option>";
 					 $('#buildingsSelect').append(option);
 				}else{
+					
+					 
 					 option="<option value=''>请选择楼栋</option>";
 					 $('#buildingsSelect').append(option);
 					 $.each(data, function(i) {
@@ -264,9 +266,12 @@ $("#buildingsSelect").change(function(){
 function buildingChange(){
 	$("#floorSelect").empty();
 	var resblock_id =  $("#blockId").val();
-	var building_id =  $("#buildingsSelect").val();     
-	$("#buildingName").val( $("#buildingsSelect option:selected").text());     
+	var building_id =  $("#buildingsSelect").val();   
+	if($("#buildingsSelect option:selected").val() !="" && $("#buildingsSelect option:selected").val() != null){
+		$("#buildingName").val( $("#buildingsSelect option:selected").text());     
+	}
 	
+	$("#propertyAddr").val(setPropertyAddr());  
 	
 	
 	if(building_id==""){
@@ -331,8 +336,12 @@ $("#floorSelect").change(function(){
 function floorChange(){
 	$('#roomSelect').empty();
 	var roomChanged = false;  //todo
-	$("#floorName").val($("#floorSelect option:selected").text());    
 	
+	if($("#floorSelect option:selected").val() !="" && $("#floorSelect option:selected").val() != null){
+		$("#floorName").val($("#floorSelect option:selected").text()); 
+	}
+	    
+	$("#propertyAddr").val(setPropertyAddr());  
 	var estate_id=  $("#blockId").val();//楼房地址
 	var building_id=$("#buildingsSelect").val();//楼栋	
 	var floor=$("#floorSelect").val();//楼层
@@ -388,15 +397,18 @@ $("#roomSelect").change(function (){
 });
 
 function roomSelectChange(){		
-	var houseId = $('#roomSelect').val(); //房屋编号      TODO
-	$("#roomName").val($("#roomSelect option:selected").text());   
+	var houseId = $('#roomSelect').val(); //房屋编号      
+	
+	if($("#roomSelect option:selected").val() !="" && $("#roomSelect option:selected").val() != null){
+		$("#roomName").val($("#roomSelect option:selected").text());   
+	}
 	$("#propertyCode").val(houseId); //房屋code
 	
 	var addHtml = "";	
 	//选定具体的房屋号之后 确定houseId，到后端请求数据是否有CTM推送的案件
 	if(houseId !="" && houseId !=null && houseId != undefined){	
-	var addr = "上海市"+ $('#distName').val() + $('#blockName').val() + $('#buildingName').val()+"栋" + $('#floorName').val() + $('#roomName').val()+"室";
-	$("#propertyAddr").val(addr);  
+	
+	$("#propertyAddr").val(setPropertyAddr());  
 			var data = {
 					propertyCode: houseId,						
 					queryId : "isRepeatCaseList",
@@ -555,22 +567,22 @@ $("#newCaseInfoSave,#newCaseInfoSubmit").click(function(){
 function checkForm(){
 	var formSubmitFlag = true;	
 
-	if ($("#blocksSelect").val("") == '') {	
+	if ($("#blocksSelect").val() == '') {	
 		alert("楼盘信息不能为空！");
 		$("#blocksSelect").focus();		
 		return false;
 	}	
-	if ($("#buildingsSelect").val("") == '') {
+	if ($("#buildingsSelect option:selected").val() == '') {
 		alert("楼栋信息不能为空！");
 		$("#buildingsSelect").focus();		
 		return false;
 	}	
-	if ($("#floorSelect").val("") == '') {
+	if ($("#floorSelect option:selected").val() == '') {
 		alert("楼层信息不能为空！");
 		$("#floorSelect").focus();		
 		return false;
 	}	
-	if ($("#roomSelect").val("") == '') {
+	if ($("#roomSelect option:selected").val() == '') {
 		alert("房屋号信息不能为空！");
 		$("#roomSelect").focus();	
 		return false;
@@ -775,7 +787,9 @@ function setPropertyAddr(){
 		addr += "室";
 	}
 	
-	$("#propertyAddr").val(addr);  
+	return addr;
+	//$("#propertyAddr").val(addr);  
+	
 }
 /*		
  * 
