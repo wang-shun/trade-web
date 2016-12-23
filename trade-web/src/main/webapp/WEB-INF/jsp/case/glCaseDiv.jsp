@@ -171,9 +171,9 @@ function merge(){
 		data : data,
 		beforeSend:function(){ },
 		success : function(data) {
-			if(data.success){ alert("合流申请成功！"); }else{ alert("合流申请失败！"+data.message);  }
+			if(data.success){ alert("合流申请成功！"); 
 			$("#myModalsa").modal("hide");
-			window.location.reload();
+			window.location.reload();}else{ alert("合流申请失败！"+data.message);  }
 		},complete: function() {  },
 		error : function(errors) {
 		}
@@ -247,13 +247,13 @@ function clickCallback(data){
 		}
 	}
 }
-//关联案件响应事件
+/** 关联案件响应事件 **/
 function showGlDiv(callback,pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode){
 	init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer);
-	//查询方法
+	/**查询方法**/
 	changeTaskAssignee(1,propertyCode); 
 	$("#myModalsa").attr("callback",callback);
 	$("#propertyCode").val(propertyCode);  
-	$("#myModalsa").modal("show");//显示 div
+	$("#myModalsa").modal("show");/**显示 div**/
 }
 </script>
