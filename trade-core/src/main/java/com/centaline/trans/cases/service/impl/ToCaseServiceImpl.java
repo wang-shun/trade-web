@@ -656,11 +656,11 @@ public class ToCaseServiceImpl implements ToCaseService {
 		ToCaseMerge toCaseMerge = new ToCaseMerge();
 		
 		toCaseMerge.setCaseCode(toCase.getCaseCode());
-		toCaseMerge.setcCaseCode(ctmToCase.getCaseCode());//ctmcasecode
+		toCaseMerge.setcCaseCode(ctmToCase.getCaseCode());/**ctmcasecode**/
 	    toCaseMerge.setCtmCode(ctmToCase.getCtmCode());
 		toCaseMerge.setPropertyCode(ctmtoPropertyInfo.getPropertyCode());
 		toCaseMerge.setPropertyAddr(ctmtoPropertyInfo.getPropertyAddr());
-		toCaseMerge.setcAgentCode(ctmtoCaseInfo.getAgentCode());//ctm
+		toCaseMerge.setcAgentCode(ctmtoCaseInfo.getAgentCode());/**ctm**/
 		toCaseMerge.setcAgentName(ctmtoCaseInfo.getAgentName());
 		toCaseMerge.setcAgentPhone(ctmtoCaseInfo.getAgentPhone());
 		toCaseMerge.setcAgentUsername(ctmtoCaseInfo.getAgentUserName());
@@ -699,14 +699,14 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setOperatorTime(new Date());
 		toCaseMerge.setOperator(CaseMergeStatusEnum.OPERATOR1.getCode());
 		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS0.getCode());
-		//toCaseMerge.setConfirmorId("");
-		//toCaseMerge.setConfirmorOrgId("");
-		//toCaseMerge.setConfirmorTime(new Date);
+		/**toCaseMerge.setConfirmorId("");**/
+		/**toCaseMerge.setConfirmorOrgId("");**/
+		/**toCaseMerge.setConfirmorTime(new Date);**/
 		toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION0.getCode());
 		toCaseMerge.setCreateBy(user.getId());
 		toCaseMerge.setCreateTime(new Date());
-		//toCaseMerge.setUpdateBy("");
-		//toCaseMerge.setUpdateTime("");
+		/**toCaseMerge.setUpdateBy("");**/
+		/**toCaseMerge.setUpdateTime("");**/
 		return toCaseMerge;
 	}
 	/**

@@ -6,7 +6,7 @@ package com.centaline.trans.common.enums;
  * @author hejf10
  */
 public enum CaseMergeStatusEnum {
-	//CTM   INPUT    MERGE   PROCESS(
+	/**CTM   INPUT    MERGE   PROCESS**/
 	CTM("CTM", "导入"),
 	INPUT("INPUT", "自录"),
 	MERGE("MERGE", "合流"),
