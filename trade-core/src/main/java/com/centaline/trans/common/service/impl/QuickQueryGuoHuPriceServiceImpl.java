@@ -124,7 +124,12 @@ public class QuickQueryGuoHuPriceServiceImpl implements CustomDictService{
 					}					
 					if(toPropertyInfo.getDistCode() != null){
 						TsPrResearchMap tsPrResearchMap = tsPrResearchMapService.findByDistCode(toPropertyInfo.getDistCode());
-						key.put("DISTNAME", tsPrResearchMap.getDistName() == null ? "":tsPrResearchMap.getDistName());
+						if(tsPrResearchMap!=null && tsPrResearchMap.getDistName() != null){
+							key.put("DISTNAME", tsPrResearchMap.getDistName());
+						}else{
+							key.put("DISTNAME","");
+						}
+						
 						
 					}
 					
