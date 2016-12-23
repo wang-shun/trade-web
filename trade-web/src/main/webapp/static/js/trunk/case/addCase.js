@@ -1,3 +1,4 @@
+/*上下家信息  动态添加*/
 function getAtr(obj){
     var str='';
     str +=  '<div class="line">'
@@ -39,7 +40,7 @@ function getNext(obj){
         +   '</div>';
     $("#downHome").after(str);
 }
-
+/*上下家信息 删除*/
 function getDel(k){
     $(k).parents('.line').remove();
 }
@@ -48,7 +49,7 @@ function getDel(k){
 $('#newCaseAgent').click(function() {	
 	addCaseFindAgent();
 });
-//案件经纪人
+//案件经纪人函数
 function addCaseFindAgent(){	
 	userSelect({
 		startOrgId : '1D29BB468F504774ACE653B946A393EE',
@@ -90,8 +91,7 @@ var ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
 
 //页面初始化
-$(document).ready(function() {	
-	//$('#blocksSelect').prepend('<option></option>').select2({placeholder: "请输入地址"});
+$(document).ready(function() {		
 
 });
 
@@ -124,36 +124,45 @@ $(document).ready(function() {
 	    	return data.id; 
 	  },
 	  ajax: {	    
-
-		    url: ctx+'/api/house/bizblocksListAjax',
+		    // url: ctx+'/api/house/bizblocksSearch',
+		    url: ctx+'/api/house/bizblocksSearchForYUCUI',
 		    dataType: 'json',
 		    delay: 300,
 		    type: "POST",
 		    params:{"contentType": "application/json;charset=utf-8"},
 		    data: function (params) {
-		    	//alert(JSON.stringify(params));		    	
+		    	//alert(JSON.stringify(params)); 	
+		    	
+                params.page = params.page || 1;		    	
 		    	var data={
 			    	    "estateName": $.trim(params.term),
 			    	    "cityCode": "",
 			    	    "district": "",
-			    	    "page": 1,
-			    	    "pageSize": 30
+			    	    "page": params.page,
+			    	    "pageSize": 10
 	            };
 		    	return    data;
 		    },
 		   
 		   //processResults 函数的results的接收返回的值，具体以json为主
-		   processResults: function (data, page) {	
+		   processResults: function (data) {	
+			   //alert(JSON.stringify(data));
 			   var converResults = [];			   
-               $.each(data, function (i, v) {
+               $.each(data.content, function (i, v) {
                    var o = {};
-                   o.id = v.pkid;
+  /*                 o.id = v.pkid;
                    o.name = v.name;  
-                   o.districtCode = v.districtCode;
+                   o.districtCode = v.districtCode;*/                   
+                   o.id = v.PKID,
+                   o.name = v.NAME,
+                   o.districtCode = v.DISTRICT_CODE,
+                   o.addr = v.ESTATE_ADDR;
                    converResults.push(o);
                })      	 
 			    //results: data.items;results: data.res以后端返回的json为主
-			    return {results: converResults};
+			    return {results: converResults,
+            	   pagination: {more: (data.number * 10) < data.totalElements}   //根据后台返回的数据才能动态加载数据
+                  };
 			  },
 		  cache: true,
 		  },
@@ -168,6 +177,7 @@ $(document).ready(function() {
 //显示 选取的值
 function formatRepoSelection(results) {	
     if (results != null && results != undefined) {
+    //TODO 不需要手动拼产证地址
 	 var districts = {
 		 		"310104":"徐汇区"
 		 		,"310105":"长宁区"
@@ -185,13 +195,24 @@ function formatRepoSelection(results) {
 		 		,"310118":"青浦区"
 		 		,"310109":"虹口区"
 		 	};
-    	//拼接产证地址
+    	//为拼接产证地址准备
     	$("#blockId").val(results.id);
     	$("#blockName").val(results.name);	
     	if(results.districtCode){
 	    	$('#distCode').val(results.districtCode);  //设置区域
 	    	$('#distName').val(districts[results.districtCode]);  //设置区域
     	}
+    	
+    	
+    	results.selected = true; 
+    	results.id = results.id
+    	results.name = results.text
+        if(results.id == null || results.id == ""){
+        	results.text = '请输入地址'
+        	results.name = results.text
+        }
+        $("#blocksSelect").val(results.name);
+       
         select2DivClick(results);   
         return results.name;
     }
@@ -201,8 +222,16 @@ function formatRepoSelection(results) {
 
 //搜索结束后在页面 直接显示结果
 function formatRepo(results) {	
-	 loadedTimes = 0;
-	 return '<div class="select2-user-result">' + results.name + '</div>';
+	loadedTimes = 0;
+	 
+    if (results.loading) return results.name;
+    results.text = results.name
+    results.id = results.id
+    var markup = '<div class="select2-user-result"><B>' +results.name+ '</B><br><i>['+results.addr+']</i></div>';
+
+	return markup;
+
+	// return '<div class="select2-user-result">' + results.name + '<br><i class="sign_grey">'+results.addr+'</i></div>';
 	 //return  results.name; 
 };
 
@@ -512,8 +541,7 @@ function searchMethod(page){
 }
 
 function getParams() {
-	//var houseId = $('#roomSelect').val(); //房屋编号      TODO
-	var houseId = 7781504;
+	var houseId = $('#roomSelect').val(); //房屋编号     	
 	var params = {};
 	params.propertyCode = houseId;
 	
@@ -712,7 +740,7 @@ function checkContactNumber(ContactNumber) {
 		return isValid;
 	}
 	if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){				
-		alert("电话号码只能由是8位、11位或者13位的数字组成！");
+		alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
 		isValid = false;
 		return isValid;
 	}
@@ -787,62 +815,5 @@ function setPropertyAddr(){
 		addr += "室";
 	}
 	
-	return addr;
-	//$("#propertyAddr").val(addr);  
-	
+	return addr;	
 }
-/*		
- * 
- * //选定具体的房屋号之后 确定houseId，到后端请求数据是否有CTM推送的案件   mybatis方法
- $.ajax({
-		url:trade_ctx+"/caseMerge/inputCaseJudge",
-		method:"post",
-		dataType:"json",
-		data:{"propertyCode" : houseId},//"mmIoBatch" : mmIoBatch,
-		success:function(data){ 
-		alert("Result=====" +JSON.stringify(data));
-		console.log("Result=====" +JSON.stringify(data));
-			if(data != null ){
-				if(data.success){
-					 var  resultList = data.content;
-					 //alert("Result=====" +JSON.stringify(data));
-					 
-					 $.each(resultList, function(index, value) {
-						 addHtml += "<tr>"; 
-						 addHtml += "<td>"; 
-						 addHtml += "<p class='big'>"; 							
-						 addHtml += "<a href=trade_ctx/case/caseDetail?caseId=' "+ value.toCase.pkid+"'>"+value.toCase.caseCode+"</a>"; 
-						 addHtml += "</p>" ;							 
-						 addHtml +=	"<p>"+value.toPropertyInfo.propertyAddr+"</p></td>";
-						 addHtml += "<td><p>";
-						 addHtml += "<span class='yes_color'>"+value.toCase.caseProperty +"</span></p>";							 
-						 addHtml += "<p><span class='no_color'>"+value.toCase.status+"</span></p></td>";
-						 addHtml += "<td>";							 
-						 addHtml += "<span class='manager'>上家："+value.upName+"</span>";
-						 addHtml += "<span class='manager'>下家："+value.downName+"</span>";							 
-						 addHtml += "</td>";
-						 
-						 addHtml += "<td>";							 
-						 addHtml += "<span class='manager'><a href='#'><em>"+value.toCaseInfo.agentName+"</em>"+value.toCaseInfo.agentPhone+"</a></span>";
-						 addHtml += "<span class='manager'>下家："+value.toCaseInfo.grpName+"</span>";							 
-						 addHtml += "</td>";
-		
-						 addHtml += "<td>";							 
-						 addHtml += "<p class='big'>"+value.toCase.leadingProcessId+"</p>";
-						 addHtml += "<p class='big tint_grey'>"+value.toCaseInfo.orgId+"</p>";						 
-						 addHtml += "</td>";
-						 
-						 addHtml += "</tr>";
-						 $("#addCaseList").html(str);
-					 })
-					 $("#isRepeatCase").show();
-				
-				}else{
-					alert("请求数据错误！");
-				}
-			}	
-		},       
-		error:function(e){
-	    	 alert(e);
-	   }
-	});*/
