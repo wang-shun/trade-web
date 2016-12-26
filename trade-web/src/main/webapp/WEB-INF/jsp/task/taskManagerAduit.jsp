@@ -46,7 +46,13 @@
 	margin-left:25px;}
 .checkbox.checkbox-inline > input{
 	margin-left:20px;}
-
+select[readonly] {  
+   background: #eee;  
+   cursor: no-drop;  
+   }  
+select[readonly] option {  
+    display: none;  
+}
 </style>
 </head>
 <body>
@@ -83,11 +89,11 @@
                                 <div class="line">
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">贷款银行</label>
-                                        <select name="bank_type" class="select_control" id="bank_type"  ${post ne 'manager'?'disabled="true"':''} ></select>
+                                        <select name="bank_type" class="select_control" id="bank_type"  ${post ne 'manager'?'disabled="true" readonly':''} ></select>
                                     </div>
                                     <div class="form_content">
                                         <label class="control-label sign_left_small">贷款支行</label>
-                                        <select name="finOrgCode" class="select_control" id="finOrgCode" ${post ne 'manager'?'disabled="true"':''} ></select>
+                                        <select name="finOrgCode" class="select_control" id="finOrgCode" ${post ne 'manager'?'disabled="true" readonly':''} ></select>
                                     </div>
                                 </div>
                             </div>
