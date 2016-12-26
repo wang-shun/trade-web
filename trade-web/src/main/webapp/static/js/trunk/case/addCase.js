@@ -550,11 +550,15 @@ function getHouseInfo(houseId){
 		cache:false,
 		success: function(data) {
 			$("#houseInfo").show();
-			$("#propertyAddr").val(data.HOUSE_ADDRESS);
-			$("#square").val(data.BUILD_SIZE);
+			var result = data[0];
+			$("#propertyCode").val(houseId)
+			$("#propertyAddr").val(result.HOUSE_ADDRESS);
+			$("#square").val(result.BUILD_SIZE);
 			
+			$("#floor").val(result.FLOOR);
+			$("#totalFloor").val(result.TOTAL_FLOOR);
 			
-			alert("房屋基本信息=="+JSON.stringify(data));	
+			alert("房屋基本信息=="+JSON.stringify(result));	
 						     
 		},
 		error: function(errors) {
