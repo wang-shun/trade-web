@@ -2,6 +2,8 @@ package com.centaline.trans.cases.web;
 
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -175,6 +177,8 @@ public class CaseMergeController {
 		ToCase toCase = new ToCase();
 		ToCaseInfo toCaseInfo = new ToCaseInfo();
 		ToPropertyInfo toPropertyInfo = new ToPropertyInfo();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");  
 		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
 		String month = dateStr.substring(0, 6);
 		String caseCode = uamBasedataService.nextSeqVal("CASE_ZL_CODE", month);
@@ -188,14 +192,21 @@ public class CaseMergeController {
 			//插入上下家信息
 			insertUp = insertIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
 			insertDown = insertIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
-			
+			try {
 			toPropertyInfo.setCaseCode(caseCode);
 			toPropertyInfo.setPropertyCode(caseMergeVo.getPropertyCode() == null? "":caseMergeVo.getPropertyCode());
 			toPropertyInfo.setPropertyAddr(caseMergeVo.getPropertyAddr() == null? "":caseMergeVo.getPropertyAddr());
-			toPropertyInfo.setDistCode(caseMergeVo.getDistCode() == null? "":caseMergeVo.getDistCode());
-		    toPropertyInfoService.insertSelective(toPropertyInfo);
-
-			
+			toPropertyInfo.setDistCode(caseMergeVo.getDistCode() == null? "":caseMergeVo.getDistCode());	
+			toPropertyInfo.setPropertyType(caseMergeVo.getPropertyType() == null? "":caseMergeVo.getPropertyType());
+			toPropertyInfo.setSquare(caseMergeVo.getSquare() == null ? 0.0: Double.valueOf(caseMergeVo.getSquare()));
+			toPropertyInfo.setLocateFloor(caseMergeVo.getFloor() == null ? 0: caseMergeVo.getFloor());
+			toPropertyInfo.setTotalFloor(caseMergeVo.getTotalFloor() == null ? 0:caseMergeVo.getTotalFloor());		
+			toPropertyInfo.setFinishYear(sdf.parse(caseMergeVo.getFinishYear()+"-01-01 00:00"));//TODO  SHIJIAN格式
+			toPropertyInfoService.insertSelective(toPropertyInfo);
+			} catch (ParseException e) {				
+				e.printStackTrace();
+			}
+						
 			//TODO
 			toCase.setCaseCode(caseCode);
 			toCase.setCaseProperty(CasePropertyEnum.TPZJ.getCode());//自建案件

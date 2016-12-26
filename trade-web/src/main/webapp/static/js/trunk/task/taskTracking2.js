@@ -4,7 +4,7 @@ var reload=0;
 $(document).ready(function() {
 	
 	var caseCode = getParameter("caseCode");	
-	if(caseCode != "" && caseCode != null){
+	if(caseCode != "" && caseCode != null && reload==0){
 		$("#caseCode").val(caseCode);
 		alert("恭喜,新建案件成功,请等待主管分配！");
 	
@@ -19,6 +19,12 @@ $(document).ready(function() {
 		reloadGrid(data);
 	}
 	
+	reload++;
+/*	if(reload > 0){	
+		reload = 0;
+		window.location.href=ctx+"/case/tracking";
+		break;
+	}*/
 /*	reload ++;	
 	if(reload > 0){			
 	    window.onbeforeunload = function() {		    	

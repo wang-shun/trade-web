@@ -63,19 +63,7 @@
 	                  </select>                  
 	              </div>
 	          </div>
-	          <input type="hidden"  name="blockId"  id="blockId"  value=""> <!-- 产证区域 --> 
-<!-- 	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
-	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value=""> 产证地址待定	          
-	          <input type="hidden"  name="distCode"  id="distCode"  value=""> 产证区域
-	          
-	          
-	          可删除区域
-	          <input type="hidden"  name="blockName"  id="blockName"  value=""> 产证区域
-	          <input type="hidden"  name="distName"  id="distName"  value=""> 产证区域
-	          <input type="hidden"  name="buildingName"  id="buildingName"  value=""> 
-	          <input type="hidden"  name="floorName"  id="floorName"  value=""> 
-	          <input type="hidden"  name="roomName"  id="roomName"  value="">  -->
-	         
+	          <input type="hidden"  name="blockId"  id="blockId"  value=""> <!-- 产证区域 --> 	         
         </div>
         
         
@@ -109,13 +97,8 @@
        <div  class="form_list mt20"  style="display: none"  id="houseInfo">
           <div class="line">
 	              <div class="form_content">
-	                  <label class="control-label sign_left_small">房屋类型</label>
-	                  
+	                  <label class="control-label sign_left_small">房屋类型</label>	                  
 	                  <aist:dict clazz="select_control sign_right_one" id="propertyType"	name="propertyType" display="select"  defaultvalue="" dictType="30014" />
-<!-- 	                  <select class="select_control sign_right_one">
-	                      <option value="">请选择</option>
-	                      <option value="">这里为文字内容测试</option>
-	                  </select> -->
 	              </div>
               	<div class="form_content">
                   <label class="control-label sign_left_small">产证地址</label>
@@ -143,18 +126,10 @@
                      <div class="form_content">
                          <label class="control-label sign_left_small">所在区域</label>
                          <aist:dict clazz="select_control sign_right_one" id="distCode" name="distCode" display="select" defaultvalue="" dictType="yu_shanghai_district" />
-   <!--                       <select class="select_control sign_right_one"  name="distCode" id="distCode">
-                             <option value="">请选择</option>
-                             <option value="">这里为文字内容测试</option>
-                         </select> -->
                      </div>
                      <div class="form_content">
                          <label class="control-label sign_left_small">竣工年份</label>
                           <select class="select_control sign_right_one" name="finishYear" id="finishYear"></select>
-<!--                          <select class="select_control sign_right_one" name="buildYear" id="buildYear">
-                         	<option value="">请选择</option>
-                            <option value="">这里为文字内容测试</option>
-                         </select> -->
                      </div>
                  </div>
 			</div>
