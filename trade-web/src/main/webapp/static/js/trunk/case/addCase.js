@@ -161,7 +161,7 @@ $(document).ready(function() {
                })      	 
 			    //results: data.items;results: data.res以后端返回的json为主
 			    return {results: converResults,
-            	   pagination: {more: (data.number * 10) < data.totalElements}   //根据后台返回的数据才能动态加载数据
+            	        pagination: {more: (data.number * 10) < data.totalElements}   //根据后台返回的数据才能动态加载数据(当前页和数据总数)
                   };
 			  },
 		  cache: true,
@@ -197,18 +197,19 @@ function formatRepoSelection(results) {
 		 	};
     	//为拼接产证地址准备
     	$("#blockId").val(results.id);
-    	$("#blockName").val(results.name);	
+    	
+/*    	$("#blockName").val(results.name);	
     	if(results.districtCode){
 	    	$('#distCode').val(results.districtCode);  //设置区域
 	    	$('#distName').val(districts[results.districtCode]);  //设置区域
-    	}
+    	}*/
     	
     	
     	results.selected = true; 
     	results.id = results.id
     	results.name = results.text
         if(results.id == null || results.id == ""){
-        	results.text = '请输入地址'
+        	results.text = '请输入房屋地址'
         	results.name = results.text
         }
         $("#blocksSelect").val(results.name);
@@ -294,13 +295,14 @@ $("#buildingsSelect").change(function(){
  */
 function buildingChange(){
 	$("#floorSelect").empty();
+	
 	var resblock_id =  $("#blockId").val();
 	var building_id =  $("#buildingsSelect").val();   
-	if($("#buildingsSelect option:selected").val() !="" && $("#buildingsSelect option:selected").val() != null){
+	//TODO  不需要拼接产证地址
+/*	if($("#buildingsSelect option:selected").val() !="" && $("#buildingsSelect option:selected").val() != null){
 		$("#buildingName").val( $("#buildingsSelect option:selected").text());     
-	}
-	
-	$("#propertyAddr").val(setPropertyAddr());  
+	}	
+	$("#propertyAddr").val(setPropertyAddr());  */
 	
 	
 	if(building_id==""){
@@ -365,12 +367,12 @@ $("#floorSelect").change(function(){
 function floorChange(){
 	$('#roomSelect').empty();
 	var roomChanged = false;  //todo
-	
-	if($("#floorSelect option:selected").val() !="" && $("#floorSelect option:selected").val() != null){
+	//TODO  不需要拼接产证地址
+/*	if($("#floorSelect option:selected").val() !="" && $("#floorSelect option:selected").val() != null){
 		$("#floorName").val($("#floorSelect option:selected").text()); 
 	}
 	    
-	$("#propertyAddr").val(setPropertyAddr());  
+	$("#propertyAddr").val(setPropertyAddr()); */ 
 	var estate_id=  $("#blockId").val();//楼房地址
 	var building_id=$("#buildingsSelect").val();//楼栋	
 	var floor=$("#floorSelect").val();//楼层
@@ -428,16 +430,18 @@ $("#roomSelect").change(function (){
 function roomSelectChange(){		
 	var houseId = $('#roomSelect').val(); //房屋编号      
 	
-	if($("#roomSelect option:selected").val() !="" && $("#roomSelect option:selected").val() != null){
+/*	if($("#roomSelect option:selected").val() !="" && $("#roomSelect option:selected").val() != null){
 		$("#roomName").val($("#roomSelect option:selected").text());   
 	}
 	$("#propertyCode").val(houseId); //房屋code
-	
-	var addHtml = "";	
+*/	
+
 	//选定具体的房屋号之后 确定houseId，到后端请求数据是否有CTM推送的案件
 	if(houseId !="" && houseId !=null && houseId != undefined){	
 	
-	$("#propertyAddr").val(setPropertyAddr());  
+	//TODO  不需要拼接产证地址
+/*	$("#propertyAddr").val(setPropertyAddr()); */
+	//TODO 添加请求信息 查询物业地址信息
 			var data = {
 					propertyCode: houseId,						
 					queryId : "isRepeatCaseList",
@@ -445,7 +449,12 @@ function roomSelectChange(){
 					page : 1
 			};
 			reloadGrid(data);
+			
+			getHouseInfo(houseId);
 	}
+	
+	
+	
 }
 
 function reloadGrid(data){
@@ -529,6 +538,31 @@ function initpage(totalCount, pageSize, currentPage, records) {
 	});
 }
 
+
+//获取房屋基本信息
+function getHouseInfo(houseId){
+	$.ajax({
+		type: "GET",  
+		url: ctx+'/api/house/houseId',
+		dataType:"json",    
+		data:"",
+		async: false,
+		cache:false,
+		success: function(data) {
+			$("#houseInfo").show();
+			$("#propertyAddr").val(data.HOUSE_ADDRESS);
+			$("#square").val(data.BUILD_SIZE);
+			
+			
+			alert("房屋基本信息=="+JSON.stringify(data));	
+						     
+		},
+		error: function(errors) {
+			 alert("房屋基本信息出错！");	   
+			}
+		});
+	
+}
 function searchMethod(page){
 	if (!page) {
 		page = 1;
@@ -753,44 +787,6 @@ function checkContactNumber(ContactNumber) {
 	return isValid;
 }
 
-function getDictName(dictCode){
-	var dictName = "";
-	if(dictCode !="" && dictCode != null){
-		if(dictCode == "310101"){
-			dictName = "黄浦区";
-		}else if(dictCode == "310102"){
-			dictName = "徐汇区";
-		}else if(dictCode == "310105"){
-			dictName = "长宁区";
-		}else if(dictCode == "310117"){
-			dictName = "松江区";
-		}else if(dictCode == "310116"){
-			dictName = "金山区";
-		}else if(dictCode == "310115"){
-			dictName = "浦东新区";
-		}else if(dictCode == "310114"){
-			dictName = "嘉定区";
-		}else if(dictCode == "310113"){
-			dictName = "宝山区";
-		}else if(dictCode == "310112"){
-			dictName = "闵行区";
-		}else if(dictCode == "310110"){
-			dictName = "杨浦区";
-		}else if(dictCode == "310108"){
-			dictName = "闸北区";
-		}else if(dictCode == "310107"){
-			dictName = "普陀区";
-		}else if(dictCode == "310106"){
-			dictName = "静安区";
-		}else if(dictCode == "310118"){
-			dictName = "青浦区";
-		}else if(dictCode == "310109"){
-			dictName = "虹口区";
-		}
-	}	
-	return dictName;	
-}
-
 //拼接地址
 function setPropertyAddr(){
 	$("#propertyAddr").val("");
@@ -799,6 +795,7 @@ function setPropertyAddr(){
 	if($("#blockName").val() != "" && $("#blockName").val() != null){
 		addr += $("#blockName").val();
 	}
+	
 	if($("#buildingName").val() != "" && $("#buildingName").val() != null){
 		if($("#buildingName").val().indexOf("栋") > 0 ){
 			addr += $("#buildingName").val();

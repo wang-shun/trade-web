@@ -46,12 +46,8 @@
 	          <div class="title"> 新建自录单</div>
 	          <div class="line">
 	              <div class="form_content">
-	                  <label class="control-label sign_left_small">房屋地址</label>
-<!-- 	      		  <input type="text" placeholder="房屋搜索"  class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" value="">  --> 
-	                  
-	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect"  style="height:33px;">
-	                
-	                  </select>
+	                  <label class="control-label sign_left_small">房屋地址</label>	                  
+	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect"  id="blocksSelect"  style="height:33px;width:250px;"></select>
 	                  		                
 	                  <select id="buildingsSelect" class="select_control sign_right_one  select2  span3"><!-- ml20 -->
 	                      <option value="">请选择楼栋</option>
@@ -64,17 +60,22 @@
 	                  </select>                  
 	              </div>
 	          </div>
-	          <input type="hidden"  name="blockId"  id="blockId"  value=""> <!-- 产证区域 -->
-	          <input type="hidden"  name="blockName"  id="blockName"  value=""> <!-- 产证区域 -->	 	        
+	          <input type="hidden"  name="blockId"  id="blockId"  value=""> <!-- 产证区域 --> 
 	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
-	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value=""> <!-- 产证地址待定 -->
+	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value=""> <!-- 产证地址待定 -->	          
 	          <input type="hidden"  name="distCode"  id="distCode"  value=""> <!-- 产证区域 -->
+	          
+	          
+	          <!-- 可删除区域 -->
+	          <input type="hidden"  name="blockName"  id="blockName"  value=""> <!-- 产证区域 -->
 	          <input type="hidden"  name="distName"  id="distName"  value=""> <!-- 产证区域 -->
 	          <input type="hidden"  name="buildingName"  id="buildingName"  value=""> 
 	          <input type="hidden"  name="floorName"  id="floorName"  value=""> 
 	          <input type="hidden"  name="roomName"  id="roomName"  value=""> 
-	          <input type="hidden"  name="square"  id="square"  value=""> 
+	         
         </div>
+        
+        
        
        <div class="form_list table-capital"  id="isRepeatCase" style="display:none">
            <div class="table-box">
@@ -99,6 +100,60 @@
 				</div>  
 		    </div> 	
        </div>
+       
+       
+       
+       <div  class="form_list mt20"  style="display: none"  id="houseInfo">
+          <div class="line">
+	              <div class="form_content">
+	                  <label class="control-label sign_left_small">房屋类型</label>
+	                  <select class="select_control sign_right_one">
+	                      <option value="">请选择</option>
+	                      <option value="">这里为文字内容测试</option>
+	                  </select>
+	              </div>
+              	<div class="form_content">
+                  <label class="control-label sign_left_small">产证地址</label>
+                  
+<!--                   <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
+	          	  <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="">  -->
+                  <input class="input_type"  style="width:460px;" placeholder="请输入" value="" name="propertyAddr"  id="propertyAddr">
+                </div>
+              </div>
+                 <div class="line">
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">产证面积</label> 
+                         <input class="select_control sign_right_one" placeholder=""  name="square"  id="square" value="">
+                         <span class="date_icon">平米</span>
+                     </div>
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">所在楼层</label>
+                         <input type="text" class="select_control sign_right_one" value="">
+                     </div>
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">总层高</label>
+                         <input type="text" class="select_control sign_right_one" value="">
+                     </div>
+                 </div>
+                 <div class="line">
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">所在区域</label>
+                         <select class="select_control sign_right_one">
+                             <option value="">请选择</option>
+                             <option value="">这里为文字内容测试</option>
+                         </select>
+                     </div>
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">竣工年份</label>
+                         <select class="select_control sign_right_one">
+                         	<option value="">请选择</option>
+                             <option value="">这里为文字内容测试</option>
+                         </select>
+                     </div>
+                 </div>
+			</div>
+       
+       
        <div class="form_list" >
            <div class="line">
                <div class="form_content">
