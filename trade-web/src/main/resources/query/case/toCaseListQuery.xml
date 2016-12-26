@@ -1212,6 +1212,9 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 					  where 1=1
 					  <if test="orgid != null">
 					  	and f.CONFIRMOR_ID =#orgid#
+					  	or exists(
+						select top 1 * from sctrans.T_TO_CASE c where c.CASE_CODE = f.cCaseCode and c.LEADING_PROCESS_ID=#orgid#
+						)
 					  </if>
 					  <if test="agentName != null">
 					  	and (f.agentName like '%'+ #agentName# +'%' or f.cAgentName like '%'+#agentName#+'%')
