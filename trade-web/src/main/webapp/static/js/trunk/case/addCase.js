@@ -543,7 +543,7 @@ function initpage(totalCount, pageSize, currentPage, records) {
 function getHouseInfo(houseId){
 	$.ajax({
 		type: "GET",  
-		url: ctx+'/api/house/houseId',
+		url: ctx+'/api/house/'+houseId,
 		dataType:"json",    
 		data:"",
 		async: false,
