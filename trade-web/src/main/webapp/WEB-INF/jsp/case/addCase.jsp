@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="${ctx}/static/css/select2.min.css">
 <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
 
+<!-- aist列表样式 -->
+<link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
+
 <link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
 <link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
 
@@ -107,16 +110,17 @@
           <div class="line">
 	              <div class="form_content">
 	                  <label class="control-label sign_left_small">房屋类型</label>
-	                  <select class="select_control sign_right_one">
+	                  
+	                  <aist:dict clazz="select_control sign_right_one" id="propertyType"	name="propertyType" display="select"  defaultvalue="" dictType="30014" />
+<!-- 	                  <select class="select_control sign_right_one">
 	                      <option value="">请选择</option>
 	                      <option value="">这里为文字内容测试</option>
-	                  </select>
+	                  </select> -->
 	              </div>
               	<div class="form_content">
                   <label class="control-label sign_left_small">产证地址</label>
                   
-                  <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
-	          <!--   	  <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="">  -->
+                  <input type="hidden"  name="propertyCode"  id="propertyCode" value="">	        
                   <input class="input_type"  style="width:460px;" placeholder="请输入" value="" name="propertyAddr"  id="propertyAddr">
                 </div>
               </div>
@@ -138,17 +142,19 @@
                  <div class="line">
                      <div class="form_content">
                          <label class="control-label sign_left_small">所在区域</label>
-                         <select class="select_control sign_right_one"  name="distCode" id="distCode">
+                         <aist:dict clazz="select_control sign_right_one" id="distCode" name="distCode" display="select" defaultvalue="" dictType="yu_shanghai_district" />
+   <!--                       <select class="select_control sign_right_one"  name="distCode" id="distCode">
                              <option value="">请选择</option>
                              <option value="">这里为文字内容测试</option>
-                         </select>
+                         </select> -->
                      </div>
                      <div class="form_content">
                          <label class="control-label sign_left_small">竣工年份</label>
-                         <select class="select_control sign_right_one" name="buildYear" id="buildYear">
+                          <select class="select_control sign_right_one" name="finishYear" id="finishYear"></select>
+<!--                          <select class="select_control sign_right_one" name="buildYear" id="buildYear">
                          	<option value="">请选择</option>
                             <option value="">这里为文字内容测试</option>
-                         </select>
+                         </select> -->
                      </div>
                  </div>
 			</div>
@@ -237,6 +243,8 @@
 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
 
+
+		
 <script src="${ctx}/js/plugins/autocomplete/select2.min.js"></script> 
 <script src="${ctx}/js/plugins/autocomplete/i18n/zh-CN.js"></script> 
 <script src="${ctx}/js/trunk/case/addCase.js"></script>
