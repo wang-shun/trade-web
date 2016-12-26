@@ -75,7 +75,7 @@
         CASE_ORIGIN,
       </if>   
  
-        UPDATE_TIME,CREATE_BY,UPDATE_BY,
+         CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
@@ -111,7 +111,7 @@
       <if test="caseOrigin != null">
         #{caseOrigin,jdbcType=VARCHAR},
       </if>
-        GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
+         GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToCase">
