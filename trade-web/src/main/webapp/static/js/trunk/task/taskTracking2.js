@@ -20,24 +20,8 @@ $(document).ready(function() {
 		reload = 1;
 		reloadChangUrl(reload);
 	}
-
-
-/*	if(reload == 1){		
-		window.location.href=ctx+"/case/tracking";
-		reload = 0;
-		return;
-	}*/
-/*	reload ++;	
-	if(reload > 0){			
-	    window.onbeforeunload = function() {		    	
-             var n = window.event.screenX - window.screenLeft;
-             var b = n > document.documentElement.scrollWidth - 20;
-             if (!(b && window.event.clientY < 0 || window.event.altKey)) {             	
-	        		window.location.href=ctx+"/case/tracking";
-	        	}
-	     }  
-	}*/
 });
+
 function reloadChangUrl(reload){
 	
 	if(reload == 1){

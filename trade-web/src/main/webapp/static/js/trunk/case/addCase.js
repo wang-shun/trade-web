@@ -521,8 +521,7 @@ function getHouseInfo(houseId){
 			
 			finishYear = result.BUILD_END_YEAR;					
 			$("#propertyType").attr("defaultvalue",result.BUILDING_TYPE);
-			$("#propertyType").find("option[value="+ result.BUILDING_TYPE +"]").attr("selected",true);
-			
+			$("#propertyType").find("option[value="+ result.BUILDING_TYPE +"]").attr("selected",true);			
 			
 			$("#distCode").attr("defaultvalue",result.DISTRICT_CODE);
 			$("#distCode").find("option[value="+ result.DISTRICT_CODE +"]").attr("selected",true);
