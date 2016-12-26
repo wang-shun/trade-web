@@ -1,7 +1,7 @@
 var startList=0;//判断是不是应该显示列表
 
 $(document).ready(function() {
-	var reload=0;
+
 	var caseCode = getParameter("caseCode");	
 	if(caseCode != "" && caseCode != null && caseCode != undefined){
 		$("#caseCode").val(caseCode);
@@ -16,18 +16,16 @@ $(document).ready(function() {
 			};
 	    aist.wrap(data);	   
 		reloadGrid(data);
-
-		reload = 1;
-		reloadChangUrl(reload);
 	}
+
 });
 
-function reloadChangUrl(reload){
+function reloadChangUrl(){ 
 	
-	if(reload == 1){
+/*	if(reload == 0){
 		window.location.replace(ctx+"/case/tracking");
 	}	
-	reload = 0;
+	reload = 1;*/
 	
 }
 
@@ -57,7 +55,7 @@ function reloadGrid(data) {
       	      
    			  $("#myTaskList").html(myTaskList);
    			  // 显示分页 
-   			initpage(data.total,data.pagesize,data.page, data.records);
+   			  initpage(data.total,data.pagesize,data.page, data.records);
                  $('.demo-left').poshytip({
            			className: 'tip-twitter',
            			showTimeout: 1,
