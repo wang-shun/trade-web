@@ -3,7 +3,7 @@ var startList=0;//判断是不是应该显示列表
 $(document).ready(function() {
 	var reload=0;
 	var caseCode = getParameter("caseCode");	
-	if(caseCode != "" && caseCode != null){
+	if(caseCode != "" && caseCode != null && caseCode != undefined){
 		$("#caseCode").val(caseCode);
 		alert("恭喜,新建案件成功,请等待主管分配！");
 	
@@ -16,9 +16,11 @@ $(document).ready(function() {
 			};
 	    aist.wrap(data);	   
 		reloadGrid(data);
+
 		reload = 1;
+		reloadChangUrl(reload);
 	}
-	
+
 
 /*	if(reload == 1){		
 		window.location.href=ctx+"/case/tracking";
@@ -36,6 +38,14 @@ $(document).ready(function() {
 	     }  
 	}*/
 });
+function reloadChangUrl(reload){
+	alert(reload);
+	if(reload == 1){
+		window.location.replace(ctx+"/case/tracking");
+	}	
+	reload = 0;
+	alert("reload=="+reload);
+}
 
 
 //获取 url后参数
