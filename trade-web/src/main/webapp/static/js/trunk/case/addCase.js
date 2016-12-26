@@ -358,7 +358,7 @@ $("#floorSelect").change(function(){
  */
 function floorChange(){
 	$('#roomSelect').empty();
-	var roomChanged = false;  //TODO
+	var roomChanged = false;  
 
 	var estate_id=  $("#blockId").val();//楼房地址
 	var building_id=$("#buildingsSelect").val();//楼栋	
@@ -368,7 +368,6 @@ function floorChange(){
 	     $('#roomSelect').append(option);
 	     return; 
 	}
-	//TODO
 	var params={
 		estateId: estate_id,
 		buildingId:building_id,
@@ -560,14 +559,22 @@ $("#newCaseInfoCancel").click(function(){
 	$("#myModal").hide();	
 });
 $("#newCaseInfoDelete").click(function(){
-	$("#blockId").val("");
-	$("#blocksSelect").val("");
+	$("#blockId").val("");	
 	$("#buildingsSelect").val("");
 	$("#floorSelect").val("");
-	$("#roomSelect").val("");
+	$("#roomSelect").val("");	
+	$("#blocksSelect").val("请输入房屋地址").trigger("change");//或者	
+	
 	$("#propertyType").val("");
 	$("#distCode").val("");
 	$("#finishYear").val("");
+	$("input[name='propertyAddr']").val("");
+	$("input[name='propertyCode']").val("");
+	$("input[name='square']").val("");
+	$("input[name='floor']").val("");	
+	$("input[name='totalFloor']").val("");
+	$("input[name='propertyAddr']").val("");
+	$("#houseInfo").hide();
 	
 	$("input[name='agentPhone']").val("");
 	$("input[name='agentOrgName']").val("");
@@ -581,8 +588,7 @@ $("#newCaseInfoDelete").click(function(){
 	$("input[name='guestPhoneDown']").val("");	
 	$("#myModal").hide();	
 	
-	$("#isRepeatCase").hide();
-	
+	$("#isRepeatCase").hide();	
 });
 
 
