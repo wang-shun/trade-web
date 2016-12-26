@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
@@ -56,6 +57,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	private TgServItemAndProcessorMapper servItemMapper;
 	@Autowired
 	private ToCaseMapper toCaseMapper;
+	@Autowired(required = true)
+	UamSessionService uamSessionService;
 	
 	@Override
 	public void saveEloanApply(SessionUser user, ToEloanCase tEloanCase) {
@@ -142,12 +145,12 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 			
 			String caseCode = tEloanCase.getCaseCode();
 			ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
-			User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
-
+			//User oldUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+			SessionUser user = uamSessionService.getSessionUser();
 			ts.setSrvCat(tEloanCase.getLoanSrvCode());
 			ts.setSrvCode(tEloanCase.getLoanSrvCode()+"01");
-			ts.setPreProcessorId(oldUser.getId());
-			ts.setPreOrgId(oldUser.getOrgId());
+			ts.setPreProcessorId(user.getId());
+			ts.setPreOrgId(user.getServiceDepId());
 			ts.setProcessorId(tEloanCase.getExcutorId());
 			ts.setOrgId(tEloanCase.getExcutorTeam());
 			if(isNew){
