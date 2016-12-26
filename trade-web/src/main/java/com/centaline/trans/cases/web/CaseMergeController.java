@@ -216,11 +216,11 @@ public class CaseMergeController {
 			
 			//TODO
 			toCaseInfo.setCaseCode(caseCode);
-			toCaseInfo.setAgentCode(caseMergeVo.getAgentCode());
-			toCaseInfo.setAgentName(caseMergeVo.getAgentName());
-			toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone());			
-			toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName());
-			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode());
+			toCaseInfo.setAgentCode(caseMergeVo.getAgentCode() == null?"":caseMergeVo.getAgentCode());
+			toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentCode());
+			toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentCode());			
+			toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName()== null?"":caseMergeVo.getAgentCode());
+			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentCode());
 			toCaseInfo.setImportTime(new Date());
 			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			

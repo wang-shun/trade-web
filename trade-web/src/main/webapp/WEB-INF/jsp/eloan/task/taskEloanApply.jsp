@@ -156,6 +156,10 @@
 													id="searchButton">
 													<i class="icon iconfont"></i> 查询
 												</button>
+												
+												<button type="button" class="btn btn-success"
+													id="addNewCase">新增案件
+												</button>
 											</div>
 										</div>
 									</div>
@@ -725,6 +729,13 @@
 							$('#searchButton').click(function() {
 								reloadGrid();
 							});
+							
+							// 查询
+							$('#addNewCase').click(function() {
+								window.location.href = ctx+"/caseMerge/addCase/eloan";
+							});
+							
+							
 
 							// 关联案件
 							$('.eloanApply-table').on("click",'.linkCase',function() {
