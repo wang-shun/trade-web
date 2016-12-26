@@ -39,12 +39,12 @@ $(document).ready(function() {
 	}*/
 });
 function reloadChangUrl(reload){
-	alert(reload);
+	
 	if(reload == 1){
 		window.location.replace(ctx+"/case/tracking");
 	}	
 	reload = 0;
-	alert("reload=="+reload);
+	
 }
 
 
