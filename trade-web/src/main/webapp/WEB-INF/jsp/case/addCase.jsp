@@ -61,17 +61,17 @@
 	              </div>
 	          </div>
 	          <input type="hidden"  name="blockId"  id="blockId"  value=""> <!-- 产证区域 --> 
-	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
-	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value=""> <!-- 产证地址待定 -->	          
-	          <input type="hidden"  name="distCode"  id="distCode"  value=""> <!-- 产证区域 -->
+<!-- 	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
+	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value=""> 产证地址待定	          
+	          <input type="hidden"  name="distCode"  id="distCode"  value=""> 产证区域
 	          
 	          
-	          <!-- 可删除区域 -->
-	          <input type="hidden"  name="blockName"  id="blockName"  value=""> <!-- 产证区域 -->
-	          <input type="hidden"  name="distName"  id="distName"  value=""> <!-- 产证区域 -->
+	          可删除区域
+	          <input type="hidden"  name="blockName"  id="blockName"  value=""> 产证区域
+	          <input type="hidden"  name="distName"  id="distName"  value=""> 产证区域
 	          <input type="hidden"  name="buildingName"  id="buildingName"  value=""> 
 	          <input type="hidden"  name="floorName"  id="floorName"  value=""> 
-	          <input type="hidden"  name="roomName"  id="roomName"  value=""> 
+	          <input type="hidden"  name="roomName"  id="roomName"  value="">  -->
 	         
         </div>
         
@@ -115,8 +115,8 @@
               	<div class="form_content">
                   <label class="control-label sign_left_small">产证地址</label>
                   
-<!--                   <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
-	          	  <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="">  -->
+                  <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
+	          <!--   	  <input type="hidden"  name="propertyAddr"  id="propertyAddr" value="">  -->
                   <input class="input_type"  style="width:460px;" placeholder="请输入" value="" name="propertyAddr"  id="propertyAddr">
                 </div>
               </div>
@@ -128,26 +128,26 @@
                      </div>
                      <div class="form_content">
                          <label class="control-label sign_left_small">所在楼层</label>
-                         <input type="text" class="select_control sign_right_one" value="">
+                         <input type="text" class="select_control sign_right_one" name="floor"  id="floor" value="">
                      </div>
                      <div class="form_content">
                          <label class="control-label sign_left_small">总层高</label>
-                         <input type="text" class="select_control sign_right_one" value="">
+                         <input type="text" class="select_control sign_right_one" name="totalFloor"  id="totalFloor"  value="">
                      </div>
                  </div>
                  <div class="line">
                      <div class="form_content">
                          <label class="control-label sign_left_small">所在区域</label>
-                         <select class="select_control sign_right_one">
+                         <select class="select_control sign_right_one"  name="distCode" id="distCode">
                              <option value="">请选择</option>
                              <option value="">这里为文字内容测试</option>
                          </select>
                      </div>
                      <div class="form_content">
                          <label class="control-label sign_left_small">竣工年份</label>
-                         <select class="select_control sign_right_one">
+                         <select class="select_control sign_right_one" name="buildYear" id="buildYear">
                          	<option value="">请选择</option>
-                             <option value="">这里为文字内容测试</option>
+                            <option value="">这里为文字内容测试</option>
                          </select>
                      </div>
                  </div>
