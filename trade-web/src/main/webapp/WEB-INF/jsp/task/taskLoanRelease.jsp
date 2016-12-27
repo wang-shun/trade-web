@@ -139,7 +139,7 @@
         <div class="form-btn">
             <div class="text-center">
                 <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
-                <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+                <button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
             </div>
         </div>
         </div>
@@ -194,12 +194,21 @@
     
     <!-- 改版引入的新的js文件 -->
 	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
-		$(".readOnly_date").removeClass('date');
-		$(".readOnly_date input").attr('readOnly',true);
+		
+		//设置银行真实放款时间不可修改 
+		$("#lendDate").parent().removeClass("input-daterange");
+		$("#lendDate").removeClass("datatime");
+		$("#lendDate").attr("readonly",true);
+		$("#lendDate").css("background-color","#ccc");	
+		//设置他证送抵时间不可修改 
+		$("#tazhengArrDate").parent().removeClass("input-daterange");
+		$("#tazhengArrDate").removeClass("datatime");
+		$("#tazhengArrDate").attr("readonly",true);
+		$("#tazhengArrDate").css("background-color","#ccc");	
+		
 		$("select[readOnlydata=1]").closest('.row').hide();
 		$("[readOnlydata=1]").attr('readonly',true);
 		$("[readOnlydata=1]").each(function(){
@@ -207,6 +216,9 @@
 				$(this).hide();
 			}
 		});
+		
+		//设置提交按钮隐藏
+		$("#btnSubmit").hide();
 	}
 
 	
@@ -331,6 +343,7 @@
 			$('.wrapper-content').viewer();
 		}
 	</script> 
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	</content>
 </body>
 
