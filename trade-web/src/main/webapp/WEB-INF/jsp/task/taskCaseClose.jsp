@@ -654,7 +654,7 @@
 													<div class="mb20 mt20">
 			                                            <p>${accesory.preFileName}</p>
 			                                            <ul  style="padding: 0;">
-			                                                <li class="no-padding"><img data-original="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/_f.jpg" src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/_f.jpg" alt="图片1"></li>
+			                                                <li class="no-padding"><img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${accesory.preFileAdress}" alt="图片1"></li>
 			                                            </ul>
 			                                        </div>
 											</c:forEach>
