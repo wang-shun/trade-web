@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <input type="hidden" name="pkId" id="pkId" />
+<input type="hidden" name="divCaseName" id="divCaseName" />
 <input type="hidden" name="propertyCode" id="propertyCode" />
 <div id="myModalsa" class="modal inmodal in" id="malPopup">
        <div class="modal-dialog" style="width: 1070px;">
            <div class="modal-content animated fadeIn apply_box info_box">
                <div  class="form_list clearfix">
-                   <div class="modal_title">
-                       	自录案件
+                   <div class="modal_title" >
+                       	<span class="stanwidth" name="divCaseName_" id="divCaseName_"></span>
                    </div>
                    <div class="pop-list">
                        <div class="line">
@@ -142,7 +143,7 @@
 </script>
 <script>
 /* 第一次进入关联页面对页面上的表头值进行设置  **/
-function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer){
+function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType){
 	$("#pkId").val("");
 	$("#pkId").val(pkId);
 	$("#caseCode").html(caseCode);
@@ -152,16 +153,33 @@ function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,selle
 	$("#agentOrgName").html(agentOrgName);
 	$("#seller").html(seller);
 	$("#buyer").html(buyer);
+	$("#divCaseName").val(inputType);
+	if(inputType=="CTM"){
+		$("#divCaseName_").html("导入案件");
+	}
+	if(inputType=="INPUT"){
+		$("#divCaseName_").html("自建案件");
+	}
 }
 /* 调用关联案件方法  **/
 function merge(){
 	if(undefined == $('input[name="mergePkid"]:checked').val()){alert("请选择一条案件！");return;}
     if(!confirm("确定申请合流案件吗！")){ return false; }
-	var mergePkid = $('input[name="mergePkid"]:checked').val();
-	var pkId = $("#pkId").val();
+    var inputType = $("#divCaseName").val();
+    var mergePkid;
+    var pkId;
+    if("CTM" == inputType){
+    	mergePkid = $("#pkId").val();
+        pkId = $('input[name="mergePkid"]:checked').val();
+    }
+    if("INPUT" == inputType){
+    	mergePkid = $('input[name="mergePkid"]:checked').val();
+        pkId = $("#pkId").val();
+    }
 	var data = {};
 	data.mergePkid= mergePkid;
 	data.pkId= pkId;
+	data.inputType= inputType;
 	$.ajax({
 		cache : false,
 		async : false,//false同步，true异步
@@ -188,7 +206,8 @@ function changeTaskAssignee(page,propertyCode){
 	var data = {};
     if(!page) {data.page = 1;} else {data.page = page;}  
     data.propertyCode=propertyCode;
-   	data.queryId="queryGlCastListListdiv";
+    data.inputType=$("#divCaseName").val();
+	data.queryId="queryGlCastListListdiv";
    	data.rows = 5;
 	$.ajax({
 		cache : false,
@@ -248,8 +267,8 @@ function clickCallback(data){
 	}
 }
 /** 关联案件响应事件 **/
-function showGlDiv(callback,pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode){
-	init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer);
+function showGlDiv(callback,pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType){
+	init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType);
 	/**查询方法**/
 	changeTaskAssignee(1,propertyCode); 
 	$("#myModalsa").attr("callback",callback);

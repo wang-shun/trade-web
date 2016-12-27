@@ -345,11 +345,11 @@
 			});
 
 			$('#data_1 .input-group.date').datepicker({
-				todayBtn : "linked",
-				keyboardNavigation : false,
-				forceParse : false,
-				calendarWeeks : false,
-				autoclose : true
+	        	format : 'yyyy-mm-dd',
+	        	weekStart : 1,
+	        	autoclose : true,
+	        	todayBtn : 'linked',
+	        	language : 'zh-CN'
 			});
 			
 		$("#caseCommentList").caseCommentGrid({

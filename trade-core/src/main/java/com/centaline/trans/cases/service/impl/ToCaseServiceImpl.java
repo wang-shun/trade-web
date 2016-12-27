@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.redisson.liveobject.resolver.LongGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,11 @@ import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -37,9 +36,9 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
+import com.centaline.trans.cases.vo.CaseResetVo;
 import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
 import com.centaline.trans.common.entity.CaseMergerParameter;
-import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CaseMergeStatusEnum;
@@ -52,7 +51,6 @@ import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
@@ -64,21 +62,22 @@ import com.centaline.trans.common.vo.BuyerSellerInfo;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
-import com.centaline.trans.mortgage.repository.ToMortgageMapper;
+import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
+import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
-import com.centaline.trans.utils.DateUtil;
-
-import net.sf.jsqlparser.expression.LongValue;
+import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
 @Transactional
@@ -86,13 +85,10 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	@Autowired
 	private ToCaseMapper toCaseMapper;
-
 	@Autowired
 	private ToSpvService toSpvService;
-
 	@Autowired
 	private ToCaseInfoService toCaseInfoService;
-
 	@Autowired
 	private ToHouseTransferService toHouseTransferService;
 	@Autowired
@@ -129,15 +125,24 @@ public class ToCaseServiceImpl implements ToCaseService {
 	@Autowired
 	private UamSessionService uamSessionService;
 	@Autowired
-	private TgGuestInfoMapper tgGuestInfoMapper;
-	@Autowired
 	private ToCaseMergeMapper toCaseMergeMapper;
-	@Autowired
-	private UamBasedataService uamBasedataService;
 	@Autowired
 	private ToPropertyInfoMapper toPropertyInfoMapper;
 	@Autowired
 	private ToCaseInfoMapper toCaseInfoMapper;
+	@Autowired
+	private ToWorkFlowService workflowService;
+	@Autowired
+	private UnlocatedTaskService unlocatedTaskService;
+	@Autowired
+	private ToCaseService caseService;
+	@Autowired
+	private ToCaseInfoService caseInfoservice;
+	@Autowired
+	private BizWarnInfoService bizWarnInfoService;
+	@Autowired
+	private ToMortgageService toMortgageService;
+	
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
 		return toCaseMapper.updateByPrimaryKey(record);
@@ -541,6 +546,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseInfoMapper.updateByPrimaryKey(copyToCaseInfo(user,toCaseInfo,ctmtoCaseInfo));
 		/**3.更新T_TO_CASE_MERGE**/
 		toCaseMergeMapper.updateByPrimaryKeySelective(setUpdateToCaseMerges(user,toCaseMerge));
+		/**4.删除流程数据**/
+		CaseResetVo vo = new CaseResetVo();vo.setCaseCode(toCase.getCaseCode());
+		reset(vo);
 	}
 	
 	/**
@@ -606,9 +614,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCase.setCaseOrigin(CaseMergeStatusEnum.PROCESS.getCode());
 		toCaseMapper.updateByPrimaryKeySelective(toCase);
 		/**3.更新表T_TO_CASE_INFO**/
-		ToCaseMerge toCaseMerge = setToCaseMerges(user,toCase,ctmToCase,toCaseInfo,ctmtoCaseInfo,toPropertyInfo,ctmtoPropertyInfo);
+		ToCaseMerge toCaseMerge = setToCaseMerges(user,toCase,ctmToCase,toCaseInfo,ctmtoCaseInfo,toPropertyInfo,ctmtoPropertyInfo,caseMergerParameter.getInputType());
 		if(null != toCaseMerge){toCaseMergeMapper.insertSelective(toCaseMerge);}
-		if(StringUtils.equals(ctmToCase.getStatus(),CaseStatusEnum.WFD.getCode())){
+		if(StringUtils.equals(ctmToCase.getStatus(),CaseStatusEnum.WFD.getCode())||StringUtils.equals(caseMergerParameter.getInputType(), "CTM")){
 			caseMergerParameter.setId(toCaseMerge.getPkid().toString());
 			agreeMergeCase(user,caseMergerParameter);
 		}
@@ -656,7 +664,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 	 * @param ctmtoPropertyInfo
 	 * @return
 	 */
-	public ToCaseMerge setToCaseMerges(SessionUser user,ToCase toCase,ToCase ctmToCase,ToCaseInfo toCaseInfo,ToCaseInfo ctmtoCaseInfo,ToPropertyInfo toPropertyInfo,ToPropertyInfo ctmtoPropertyInfo){
+	public ToCaseMerge setToCaseMerges(SessionUser user,ToCase toCase,ToCase ctmToCase,ToCaseInfo toCaseInfo,ToCaseInfo ctmtoCaseInfo,ToPropertyInfo toPropertyInfo,ToPropertyInfo ctmtoPropertyInfo,String inputType){
 		
 		ToCaseMerge toCaseMerge = new ToCaseMerge();
 		
@@ -707,7 +715,10 @@ public class ToCaseServiceImpl implements ToCaseService {
 		/**toCaseMerge.setConfirmorId("");**/
 		/**toCaseMerge.setConfirmorOrgId("");**/
 		/**toCaseMerge.setConfirmorTime(new Date);**/
-		toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION0.getCode());
+		if(StringUtils.equals(inputType, "CTM"))
+			toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION1.getCode());
+		if(StringUtils.equals(inputType, "INPUT"))
+			toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION0.getCode());
 		toCaseMerge.setCreateBy(user.getId());
 		toCaseMerge.setCreateTime(new Date());
 		/**toCaseMerge.setUpdateBy("");**/
@@ -723,8 +734,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCase.setCaseOrigin(CaseMergeStatusEnum.MERGE.getCode());
 		toCase.setCtmCode(toCaseMerge.getCtmCode());
 		toCase.setCaseProperty(CaseMergeStatusEnum.CASE_PROPERTY3.getCode());
-		toCase.setLeadingProcessId(ctmToCase.getLeadingProcessId());
-		toCase.setOrgId(ctmToCase.getOrgId());
+		/**toCase.setLeadingProcessId(ctmToCase.getLeadingProcessId());
+		toCase.setOrgId(ctmToCase.getOrgId());**/
 		toCase.setUpdateBy(user.getId());
 		toCase.setUpdateTime(new Date());
 		return toCase;
@@ -737,10 +748,12 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public ToCase setUpdateCTMToCase(SessionUser user,ToCase ctmToCase){
 		ctmToCase.setCaseOrigin(CaseMergeStatusEnum.MERGE.getCode());
 		ctmToCase.setCaseProperty(CasePropertyEnum.TPWX.getCode());
+		ctmToCase.setStatus(CaseStatusEnum.YZZ.getCode());
 		ctmToCase.setUpdateBy(user.getId());
 		ctmToCase.setUpdateTime(new Date());
 		return ctmToCase;
 	}
+	
 	/**
 	 * 设置ToCaseMerge表值
 	 * @author hejf10
@@ -819,8 +832,69 @@ public class ToCaseServiceImpl implements ToCaseService {
 		return vCaseDistributeUserVO;
 	}
 	
+	/**
+	 * 查询是否有可以合流的案件
+	 * @author hejf10 2016-12-26 11:10:54
+	 * @param propertyCodeList地址codeList
+	 * @return
+	 */
+	@Override
+	public String getMergeInfoList(List<ToPropertyInfo> toPropertyInfos) {
+		String mergeInfoList = null;
+		if(null != toPropertyInfos)
+		for(ToPropertyInfo toPropertyInfo:toPropertyInfos){
+			if(!StringUtils.isBlank(toPropertyInfo.getPropertyCode())){
+				 Map cu = toCaseMergeMapper.getMergeInfoList(toPropertyInfo.getPropertyCode());/** 案件propertyCode **/
+				 /*if(cu.get("cu")>1){
+					 mergeInfoList ="true";
+				 }*/
+				 mergeInfoList ="true";
+			}
+		}
+		return mergeInfoList;
+	}
+	/**
+	 * 终止案件
+	 * @author hejf10 2016-12-26 19:40:54
+	 * @param caseResetVo 终止案件caseCode
+	 * @param vo
+	 */
+	public void reset(CaseResetVo vo) {
+		/**更新Workflow表为终止状态**/
+		ToWorkFlow tf = new ToWorkFlow();
+		tf.setCaseCode(vo.getCaseCode());
+		List<ToWorkFlow> tfs = workflowService.queryActiveToWorkFlowByCaseCode(tf);
+		if (null != tfs) {
+			for (ToWorkFlow toWorkFlow : tfs) {
+				toWorkFlow.setStatus(WorkFlowStatus.TERMINATE.getCode());/**流程终止状态(非正常结束)**/
+				workflowService.updateByPrimaryKeySelective(toWorkFlow);
+			}
+		}
+		/**将交易计划表的数据转移到交易计划历史表并删除交易计划表**/
+		transplanServiceFacade.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESET);
+		/**删除服务表**/
+		tgServItemAndProcessorService.deleteByPrimaryCaseCode(vo.getCaseCode());
+		/**无效掉表单数据**/
+		workflowService.inActiveForm(vo.getCaseCode());
+		/**删除流程引擎**/
+		if(null != tfs){
+			for (ToWorkFlow toWorkFlow : tfs) {
+				try {
+					unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
+					workflowManager.deleteProcess(toWorkFlow.getInstCode());
+				} catch (WorkFlowException e) {
+					if (!e.getMessage().contains("statusCode[404]")) throw e;
+				}
+			}
+		}
+		/**删除商贷流失预警信息**/
+		/**bizWarnInfoService.deleteByCaseCode(vo.getCaseCode());**/ 
+		/**流程重启更改掉案件临时银行的状态**/
+		/**ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo.getCaseCode());
+		if (toMortgage != null) { toMortgageService.updateTmpBankStatus(vo.getCaseCode()); }**/
+	}
+	
 }
-
 
 
 

@@ -190,7 +190,7 @@
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.thumbnail_url) { %}
-							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
+							                <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="width:80px;height:80px;margin-left:10px;">
 							            {% } %}</div>
 							            <div class="name" style="display: none">
 							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
@@ -279,11 +279,11 @@
 		});
 
 		$('#data_1 .input-group.date').datepicker({
-			todayBtn : "linked",
-			keyboardNavigation : false,
-			forceParse : false,
-			calendarWeeks : false,
-			autoclose : true
+        	format : 'yyyy-mm-dd',
+        	weekStart : 1,
+        	autoclose : true,
+        	todayBtn : 'linked',
+        	language : 'zh-CN'
 		});
 		
 		/*案件备注信息*/
