@@ -197,9 +197,83 @@ function _checkbox(){
 }
 
 /**
+ * 案件是否有可合流
+ */
+function getMergeCount(){
+	var str ="";
+	var type = false;
+	var cuNus = $('input[name="my_checkbox"]:checked');
+	var cuNusLength = cuNus.length;
+	var pkId;
+	var caseCode;
+	var propertyAddr;
+	var agentName;
+	var agentPhone;
+	var agentOrgName;
+	var seller;
+	var buyer;
+	var propertyCode;
+	var inputType;
+	if(null != cuNus )
+	for ( var i = 0; i < cuNus.length; i++) {
+		var cu=$(cuNus[i]).attr("cuNu");
+		var caseCode_=$(cuNus[i]).attr("caseCode");
+		if(parseInt(cu)>1){ str += "\n"+caseCode_+"\n"; type=true;}
+		if(cuNusLength == 1){
+			pkId 		= $(cuNus[i]).attr("pkId");
+			caseCode	= $(cuNus[i]).attr("caseCode");
+			propertyAddr= $(cuNus[i]).attr("propertyAddr");
+			agentName   = $(cuNus[i]).attr("agentName");
+			agentPhone  = $(cuNus[i]).attr("agentPhone");
+			agentOrgName= $(cuNus[i]).attr("agentOrgName");
+			seller      = $(cuNus[i]).attr("seller");
+			buyer       = $(cuNus[i]).attr("buyer");
+			propertyCode= $(cuNus[i]).attr("propertyCode");
+			inputType	= $(cuNus[i]).attr("caseOrigin");
+		}
+	}
+	if(cuNusLength==1 && type){
+		showGlDiv('backCase1',pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType);
+		return true;
+	}
+	if(cuNus.length==1 && !type){
+		caseDistributeType();
+		return true;
+	}
+	if(cuNus.length>1 && "" != str){
+		alert("批量分配案件中有如下案件可以合流(请先合流案件)："+str+"");
+		return true;
+	}else{
+		caseDistributeType();
+	}
+	
+	return true;
+	
+}
+/**
+ * 案件是否有可合流
+ */
+function glCaseList(){
+	caseDistribute();
+}
+/**
+ * 案件是否有可合流
+ */
+function getMergeInfoList(){
+	getMergeCount();
+}
+/**
  * 案件分配初始化
  */
 function caseDistribute(){
+	getMergeCount();
+
+}
+/**
+ * 案件分配初始化
+ */
+function caseDistributeType(){
+	
 	var data = {};
 	if($('input[name="my_checkbox"]:checked').length==1){data.caseCode=$('input[name="my_checkbox"]:checked').val();};
 	var url = "/case/getUserOrgCpUserList";

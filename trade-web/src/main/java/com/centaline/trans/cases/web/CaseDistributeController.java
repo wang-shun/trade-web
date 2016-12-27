@@ -428,9 +428,32 @@ public class CaseDistributeController {
        		return AjaxResponse.fail("请选择一个片区！");
        	}
     }
+
+	/**
+	 * 查询是否有可以合流的案件
+	 * @author hejf10	2016-12-26 11:08:00
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value="/getMergeInfoList")
+	@ResponseBody
+	public AjaxResponse<?>  getMergeInfoList(HttpServletRequest request,List<ToPropertyInfo> toPropertyInfos) throws ParseException{
+		AjaxResponse<String> response = new AjaxResponse<>();
+		try{
+			toCaseService.getMergeInfoList(toPropertyInfos);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			String sOut = "";
+			StackTraceElement[] trace = e.getStackTrace();
+			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
+			response.setMessage(e.getMessage()+"异常："+sOut);
+			e.printStackTrace();
+		}
+		return response;
+	}
+
 }
-
-
 
 
 

@@ -6,6 +6,8 @@
 		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
 		<customDict id="qqcdJlOrZjOrNameByOrgCode" beanName="qqcdJlOrZjOrNameByOrgCode" />
 		<customDict id="qqMainOrgByUserId" beanName="qqMainOrgByUserId" />
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -52,6 +54,13 @@
 						,tst.YU_TEAM_CODE YU_TEAM_CODE
 						,ctd.AGENT_CODE AS USER_ID,ctd.AGENT_PHONE,ctd.QYZJ_NAME as qyzjNAME
 						,iif(ctd.QYJL_NAME is null or ctd.QYJL_NAME = '',ctd.qyzj_name,ctd.QYJL_NAME ) LEADER
+						,pi.PROPERTY_CODE propertyCode,
+						(
+						select count(*) from sctrans.T_TO_PROPERTY_INFO where tc.CREATE_TIME>DATEADD(mm,-6,GETDATE()) and 
+						PROPERTY_CODE=pi.PROPERTY_CODE and tc.CASE_ORIGIN != 'MERGE' and  tc.CASE_ORIGIN !='PROCESS'
+						) cuNu,
+						tc.CASE_ORIGIN,
+						tc.pkid cpkid 
 					FROM sctrans.T_TO_CASE_INFO ctd
 					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE and tst.IS_RESPONSE_TEAM = 1
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ctd.CASE_CODE
@@ -68,14 +77,14 @@
 		<grid>
 			<table-row>
 				<column type="both" name="PKID"   display="CASEID" hide="true"/>
+				<column type="both" name="cpkid"   display="cpkid" />
 				<column type="both" name="CASE_CODE"   display="案件编号"   />
 				<column type="both" name="PROPERTY_ADDR"   display="产证地址" />
 				<column type="both" name="STATUS"   display="案件状态" customDict="getStatusNameByCode" />
 				<column type="both" name="CREATE_TIME"   display="派单时间"   beanFormatter="dateFormatter1"  />
-				
 				<column type="both" name="AGENT_ORG_CODE"  />
 				<column type="both" name="LEADER"  	title="区经/区总" />	
-				
+				<column type="both" name="propertyCode"  	title="propertyCode" />	
 				<column type="both" name="YU_TEAM_CODE" display="YU_TEAM_CODE"/>
 				<column type="both" name="AGENT_NAME" display="经纪人" />
 				<column type="both" name="USER_ID" />
@@ -83,7 +92,10 @@
 				<column type="both" name="CTM_CODE" display="ctmCode" />
 				<column type="both" name="AGENT_PHONE" display="ctmCode" />
 				<column type="both" name="qyzjNAME" display="qyzjNAME" />
-				
+				<column type="both" name="cuNu" display="cuNu" />
+				<column type="both" name="CASE_ORIGIN" display="CASE_ORIGIN" />
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
