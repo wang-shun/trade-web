@@ -357,7 +357,8 @@ public class CaseMergeController {
 			String sOut = "";
 	        StackTraceElement[] trace = e.getStackTrace();
 	        for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
-			response.setMessage(e.getMessage()+"异常："+sOut);
+			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
+			response.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		return response;
@@ -380,7 +381,8 @@ public class CaseMergeController {
 			String sOut = "";
 			StackTraceElement[] trace = e.getStackTrace();
 			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
-			response.setMessage(e.getMessage()+"异常："+sOut);
+			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
+			response.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		if(StringUtils.equals(caseInfo.getType(), "1")){response.setContent(true);}

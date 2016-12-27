@@ -83,9 +83,6 @@ function addCaseAgent(array) {
 }
 
 
-
-
-
 //定义全局变量
 var sale_ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
@@ -233,7 +230,7 @@ function formatRepo(results) {
 
 var loadedTimes = 0;
 
-//房屋搜索结果 houseAddrSearchResult 为条件查询房屋栋数并填充
+//房屋搜索结果 data 为条件查询房屋栋数并填充
 function select2DivClick( data ){	
 	if(loadedTimes++ > 0){
 		return ;
@@ -251,8 +248,7 @@ function select2DivClick( data ){
 				if(data.length==0){
 					 option="<option value=''>无可选栋座</option>";
 					 $('#buildingsSelect').append(option);
-				}else{
-					
+				}else{					
 					 
 					 option="<option value=''>请选择楼栋</option>";
 					 $('#buildingsSelect').append(option);
@@ -506,7 +502,7 @@ function getHouseInfo(houseId){
 		cache:false,
 		success: function(data) {
 			$("#houseInfo").show();
-			var result = data[0];
+			var result = data[0];			
 			$("#propertyCode").val(houseId)
 			$("#propertyAddr").val(result.HOUSE_ADDRESS);
 			$("#square").val(result.BUILD_SIZE);
