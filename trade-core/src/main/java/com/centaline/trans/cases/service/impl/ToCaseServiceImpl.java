@@ -790,12 +790,12 @@ public class ToCaseServiceImpl implements ToCaseService {
 		}    
 		if(StringUtils.equals(toCase.getCaseOrigin(), "CTM")){
 			ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
-			if(StringUtils.isBlank(toCaseInfo.getRequireProcessorId())){return null;}
+			if(StringUtils.isBlank(toCaseInfo.getReferConsultantId())){return null;}
 			
-			Map user = toCaseMapper.getUserIsMain(toCaseInfo.getRequireProcessorId());
+			Map user = toCaseMapper.getUserIsMain(toCaseInfo.getReferConsultantId());
 			if(null != user){ getVCaseDistributeUserVO(user,null,"map",vCaseDistributeUserVO,"CTM");/**CTM意向顾问**/
 			}else{
-				User user1 = uamUserOrgService.getUserById(toCaseInfo.getRequireProcessorId()); 
+				User user1 = uamUserOrgService.getUserById(toCaseInfo.getReferConsultantId()); 
 				getVCaseDistributeUserVO(user,user1,"user",vCaseDistributeUserVO,"CTM");/**CTM意向顾问**/
 			}
 		}

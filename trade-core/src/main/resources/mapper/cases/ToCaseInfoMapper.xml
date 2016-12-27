@@ -28,11 +28,12 @@
 	<result column="WZ_NAME" jdbcType="VARCHAR" property="wzName" />
 	<result column="BA_CODE" jdbcType="VARCHAR" property="baCode" />
 	<result column="BA_NAME" jdbcType="VARCHAR" property="baName" />
-	
+	<result column="refer_consultant_id" jdbcType="VARCHAR" property="referConsultantId" />
+	<result column="refer_consultant_realname" jdbcType="VARCHAR" property="referConsultantRealname" />
   </resultMap>
   <sql id="Base_Column_List">
     PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
-    AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE,TARGET_CODE 
+    AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE,TARGET_CODE, refer_consultant_id,refer_consultant_realname
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
