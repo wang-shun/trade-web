@@ -43,6 +43,7 @@ import com.centaline.trans.task.service.AwardBaseService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
+import com.centaline.trans.utils.UiImproveUtil;
 
 
 @Controller
@@ -85,7 +86,7 @@ public class CaseCloseApproveController {
 		request.setAttribute("approveType", "3");
 		request.setAttribute("operator", user != null ? user.getId():"");
 		
-		return "task/taskCaseCloseFirstApprove";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskCaseCloseFirstApprove";
 	}
 	@RequestMapping("second/process")
 	public String toSecondProcess(HttpServletRequest request,
@@ -96,7 +97,7 @@ public class CaseCloseApproveController {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("approveType", "3");
 		request.setAttribute("operator", user != null ? user.getId():"");
-		return "task/taskCaseCloseSecondApprove";
+		return "task" + UiImproveUtil.getPageType(request) + "taskCaseCloseSecondApprove";
 	}
 	
 	

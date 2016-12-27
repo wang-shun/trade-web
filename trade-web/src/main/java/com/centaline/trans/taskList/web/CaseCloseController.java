@@ -78,7 +78,7 @@ public class CaseCloseController {
 		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
 		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
 		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
-		return "task/"+ UiImproveUtil.getPageType(request) +"/taskCaseClose";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskCaseClose";
 	}
 
 	

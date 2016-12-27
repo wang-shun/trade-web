@@ -145,7 +145,7 @@
 															<div
 																class="input-group sign-right dataleft input-daterange pull-left"
 																data-date-format="yyyy-mm-dd">
-																<input class="input_type yuanwid datatime"id="createTime" name="realConTime" readonly="readonly"
+																<input class="input_type yuanwid datatime"id="createTime" name="realConTime" disabled="disabled" readonly="readonly"
 											                        value="<fmt:formatDate  value='${editCaseDetailVO.createTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 															</div>
 														</div>
@@ -156,7 +156,7 @@
 															<div
 																class="input-group sign-right dataleft input-daterange pull-left"
 																data-date-format="yyyy-mm-dd">
-																<input class="input_type yuanwid datatime" id="resDate" name="resDate" readonly="readonly"
+																<input class="input_type yuanwid datatime" id="resDate" name="resDate" disabled="disbled" readonly="readonly"
 											                    value="<fmt:formatDate  value='${editCaseDetailVO.resDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 															</div>
 														</div>
@@ -313,7 +313,7 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input  class="input_type yuanwid datatime"
-																id="realConTime" readonly="readonly"
+																id="realConTime" readonly="readonly" disabled="disabled"
 												               name="realConTime" value="<fmt:formatDate  value='${editCaseDetailVO.realConTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
@@ -349,7 +349,7 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input class="input_type yuanwid datatime"
-																 id="loanCloseCode" name="loanCloseCode" readonly="readonly"
+																 id="loanCloseCode" name="loanCloseCode" readonly="readonly" disabled="disabled"
 												                 value="<fmt:formatDate  value='${editCaseDetailVO.loanCloseCode}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
@@ -374,7 +374,7 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input  class="input_type yuanwid datatime"
-																id="realHtTime" readonly="readonly"
+																id="realHtTime" readonly="readonly" disabled="disabled"
 												                name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.realHtTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
@@ -416,7 +416,7 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input  class="input_type yuanwid datatime"
-																id="taxTime" readonly="readonly"
+																id="taxTime" readonly="readonly" disabled="disabled"
 												                name="taxTime" value="<fmt:formatDate  value='${editCaseDetailVO.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
@@ -438,7 +438,7 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input class="input_type yuanwid datatime"
-																id="realPlsTime" readonly="readonly"
+																id="realPlsTime" readonly="readonly" disabled="disabled"
 												name="realPlsTime" value="<fmt:formatDate  value='${editCaseDetailVO.realPlsTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
@@ -449,7 +449,7 @@
 														<div
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
-															<input class="input_type yuanwid datatime"
+															<input class="input_type yuanwid datatime" disabled="disabled"
 																id="realPropertyGetTime" name="realPropertyGetTime" readonly="readonly"
 												               value="<fmt:formatDate  value='${editCaseDetailVO.realPropertyGetTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
@@ -462,7 +462,7 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input class="input_type yuanwid datatime"
-																id="approveTime" readonly="readonly"
+																id="approveTime" readonly="readonly" disabled="disabled"
 												name="approveTime" value="<fmt:formatDate  value='${editCaseDetailVO.approveTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
@@ -482,7 +482,7 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input class="input_type yuanwid datatime"
-																id="signDate" name="signDate" readonly="readonly"
+																id="signDate" name="signDate" readonly="readonly"  disabled="disabled"
 											                    value="<fmt:formatDate  value='${editCaseDetailVO.signDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
@@ -494,7 +494,7 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input  class="input_type yuanwid datatime"
-																id="apprDate" name="apprDate" readonly="readonly"
+																id="apprDate" name="apprDate" readonly="readonly"  disabled="disabled"
 											                    value="<fmt:formatDate  value='${editCaseDetailVO.apprDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
@@ -506,7 +506,7 @@
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">贷款金额</label>
-														<input class=" input_type yuanwid" id="mortTotalAmount" name="mortTotalAmount" onkeyup="checkNum(this)"
+														<input class=" input_type yuanwid" id="mortTotalAmount"  name="mortTotalAmount" onkeyup="checkNum(this)"
 												value="<fmt:formatNumber value='${ editCaseDetailVO.mortTotalAmount}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 													<div class="form_content">
@@ -549,13 +549,13 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input  class="input_type yuanwid datatime"
-																readonly="readonly" id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
+																readonly="readonly" disabled="disabled" id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
 												value="<fmt:formatDate  value='${editCaseDetailVO.tazhengArrDate}' type='both' pattern='yyyy-MM-dd'/>">
 														</div>
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">是否自办</label>
-														<select class="select_control data_style" id="isDelegateYucui" name="isDelegateYucui"> 
+														<select class="select_control data_style" id="isDelegateYucui" disabled="disabled" name="isDelegateYucui"> 
 														<c:choose>
 															<c:when test="${editCaseDetailVO.isDelegateYucui == '1'}">
 																<option value="0" >是</option>
@@ -572,7 +572,7 @@
 												</div>
 												<div class="line">
 													<div class="form_content">
-														<label class="control-label sign_left_small">主贷人</label> <select
+														<label class="control-label sign_left_small">主贷人</label> <select disabled="disabled"
 														 class="select_control yuanwid"
 															name="custCode" id="custCode" >
 											        </select>
@@ -590,7 +590,7 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input  class="input_type yuanwid datatime"
-																id="prfApplyDate" name="prfApplyDate" readonly="readonly" onfocus="this.blur()"
+																id="prfApplyDate" name="prfApplyDate" readonly="readonly" disabled="disabled" onfocus="this.blur()"
 												value="<fmt:formatDate  value='${editCaseDetailVO.prfApplyDate}' type='both' pattern='yyyy-MM-dd'/>">
 														</div>
 													</div>
@@ -603,8 +603,8 @@
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input  class="input_type yuanwid datatime"
-																value="<fmt:formatDate  value='${editCaseDetailVO.lendDate }' type='both' pattern='yyyy-MM-dd' />" 
-													          id="lendDate" name="lendDate" readonly="readonly" onfocus="this.blur()">
+																value="<fmt:formatDate  value='${editCaseDetailVO.lendDate }'  type='both' pattern='yyyy-MM-dd' />" 
+													          id="lendDate" name="lendDate" readonly="readonly" disabled="disabled" onfocus="this.blur()">
 														</div>
 													</div>
 													<div class="form_content">
@@ -616,17 +616,17 @@
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">信贷员</label> <input
-															class=" input_type yuanwid" id="loanerName" readonly="readonly" name="loanerName" value="${ editCaseDetailVO.loanerName}">
+															class=" input_type yuanwid" id="loanerName" readonly="readonly" disabled="disabled" name="loanerName" value="${ editCaseDetailVO.loanerName}">
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">信贷员电话</label>
-														<input class=" input_type yuanwid" readonly="readonly" id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
+														<input class=" input_type yuanwid" readonly="readonly" disabled="disabled" id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
 													</div>
 												</div>
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">评估公司</label>
-														<input class=" input_type yuanwid" readonly="readonly" id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
+														<input class=" input_type yuanwid" readonly="readonly" disabled="disabled" id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
 													</div>
 												</div>
 												<div class="line">
@@ -648,19 +648,19 @@
 										</div>
 									</div>
 									<div id="tab-3" class="tab-pane">
-										<div class="clearfix" id="dowebok">
-											<div id="imgShow" class="lightBoxGallery">
+									<div id="imgShow" >
 											<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
-													<div class="mb20 mt20">
-			                                            <p>${accesory.preFileName}</p>
-			                                            <ul  style="padding: 0;">
-			                                                <li class="no-padding"><img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${accesory.preFileAdress}" alt="图片1"></li>
-			                                            </ul>
-			                                        </div>
+												<div class="row">
+													 <p>${accesory.preFileName}</p></br>
+													<div class="mb20 mt20" style="text-align:left">
+														<a href="#" title="Hydrangeas.jpg" data-gallery="">
+															<img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/_f.jpg" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle">
+														</a>
+													</div>
+												</div>
 											</c:forEach>
-											</div>
-											</div>
 										</div>
+									  </div>
 									</div>
 								</div>
 
@@ -685,6 +685,7 @@
 				</form>
 			</div>
 		</div>
+	</div>
 	</div>
 	<content tag="local_script"> <!-- Steps --> <script
 		src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> <!-- jqGrid -->
@@ -731,7 +732,7 @@
 		initView();
 		
 		function initView(){
-			$('#imgShow').viewer();
+			$('#basicInfo').viewer();
 		}
 		
 		function readOnlyF(){
