@@ -547,7 +547,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		/**3.更新T_TO_CASE_MERGE**/
 		toCaseMergeMapper.updateByPrimaryKeySelective(setUpdateToCaseMerges(user,toCaseMerge));
 		/**4.删除流程数据**/
-		CaseResetVo vo = new CaseResetVo();vo.setCaseCode(toCase.getCaseCode());
+		CaseResetVo vo = new CaseResetVo();vo.setCaseCode(ctmToCase.getCaseCode());
 		reset(vo);
 	}
 	
