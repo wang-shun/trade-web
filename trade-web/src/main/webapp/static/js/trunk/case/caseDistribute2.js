@@ -233,7 +233,7 @@ function getMergeCount(){
 		}
 	}
 	if(cuNusLength==1 && type){
-		showGlDiv('backCase1',pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType);
+		showGlDiv('backCase1',pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType,'aseDistributeType()',true);
 		return true;
 	}
 	if(cuNus.length==1 && !type){

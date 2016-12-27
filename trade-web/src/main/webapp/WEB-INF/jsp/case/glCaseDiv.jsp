@@ -26,7 +26,7 @@
                        </div>
                    </div>
                </div>
-               <button type="button" class="close close_blue" data-dismiss="modal">
+               <button type="button" class="close close_blue" data-dismiss="modal" onclick="closef()" >
                    <i class="iconfont icon_rong">
                        &#xe60a;
                    </i>
@@ -142,6 +142,8 @@
 {{/each}}
 </script>
 <script>
+var urlType='';
+var distriType = false;
 /* 第一次进入关联页面对页面上的表头值进行设置  **/
 function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType){
 	$("#pkId").val("");
@@ -198,7 +200,15 @@ function merge(){
 	});
 }
 /* 取消关联案件页面  **/
-function closef(){ $("#myModalsa").modal("hide"); }
+function closef(){ 
+	$("#myModalsa").modal("hide");
+	if(distriType && undefined != urlType && '' != urlType){
+		caseDistributeType();
+	}else{
+		if(undefined != urlType && '' != urlType ){ window.open(urlType);}
+	}
+}
+	
 /* 查询案件基本信息   **/
 function caseDetail(){ window.open("${ctx}/case/caseDetail?caseId="+$("#pkId").val()); }
 /* 查询可关联案件列表   **/
@@ -266,8 +276,10 @@ function clickCallback(data){
 		}
 	}
 }
-/** 关联案件响应事件 **/
-function showGlDiv(callback,pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType){
+/** 关联案件响应事件 distriType为true是从分配页面过来的 **/
+function showGlDiv(callback,pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType,urlType_,distriType_){
+	urlType = urlType_;
+	distriType = distriType_;
 	init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType);
 	/**查询方法**/
 	changeTaskAssignee(1,propertyCode); 

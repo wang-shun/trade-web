@@ -554,5 +554,7 @@
     <bean name="getPropertyCodeByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetPropertyCodeServiceImpl"></bean>	 	
     <!-- 根据用户Id查询用户名-->
     <bean name="getRealNameByUserId" class="com.centaline.trans.common.service.impl.QuickQueryGetRealNameServiceImpl"></bean>	 	
+    <!-- 根据用户Id查询用户名-->
+    <bean name="getMegerCuntByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetMegerCuntServiceImpl"></bean>	 	
 <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
