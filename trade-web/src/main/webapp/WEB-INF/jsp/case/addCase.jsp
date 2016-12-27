@@ -49,7 +49,7 @@
 	          <div class="title"> 新建自录单</div>
 	          <div class="line">
 	              <div class="form_content">
-	                  <label class="control-label sign_left_small">房屋地址</label>	                  
+	                  <label class="control-label sign_left_small">房屋地址</label>              
 	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect"  id="blocksSelect"  style="height:33px;width:250px;"></select>
 	                  		                
 	                  <select id="buildingsSelect" class="select_control sign_right_one  select2  span3"><!-- ml20 -->

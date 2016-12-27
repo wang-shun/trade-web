@@ -203,7 +203,8 @@ public class CaseMergeController {
 			toPropertyInfo.setTotalFloor(caseMergeVo.getTotalFloor() == null ? 0:caseMergeVo.getTotalFloor());		
 			toPropertyInfo.setFinishYear(sdf.parse(caseMergeVo.getFinishYear()+"-01-01 00:00"));//TODO  SHIJIAN格式
 			toPropertyInfoService.insertSelective(toPropertyInfo);
-			} catch (ParseException e) {				
+			} catch (ParseException e) {
+				
 				e.printStackTrace();
 			}
 						
@@ -217,10 +218,10 @@ public class CaseMergeController {
 			//TODO
 			toCaseInfo.setCaseCode(caseCode);
 			toCaseInfo.setAgentCode(caseMergeVo.getAgentCode() == null?"":caseMergeVo.getAgentCode());
-			toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentCode());
-			toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentCode());			
-			toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName()== null?"":caseMergeVo.getAgentCode());
-			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentCode());
+			toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentName());
+			toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentPhone());			
+			toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName()== null?"":caseMergeVo.getAgentOrgName());
+			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
 			toCaseInfo.setImportTime(new Date());
 			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			

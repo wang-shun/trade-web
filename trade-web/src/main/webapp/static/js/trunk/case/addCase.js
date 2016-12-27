@@ -87,7 +87,7 @@ function addCaseAgent(array) {
 
 
 //定义全局变量
-var ctx = $("#appCtx").val();
+var sale_ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
 var finishYear = "2000";
 //页面初始化
@@ -123,7 +123,7 @@ function initSelectYear(id, value) {
 //select2 自动补全控件
  $("#blocksSelect").select2({
 	  language: "zh-CN",
-	  placeholder: {id:'',text:'请输入地址'},	
+	  placeholder: {id:'',text:'请输入房屋地址'},	
 	  allowClear: true,
 	  "language": {
 		      "errorLoading" : function () {
@@ -149,7 +149,7 @@ function initSelectYear(id, value) {
 	  },
 	  ajax: {	    
 		    // url: ctx+'/api/house/bizblocksSearch',
-		    url: ctx+'/api/house/bizblocksSearchForYUCUI',
+		    url: sale_ctx+'/api/house/bizblocksSearchForYUCUI',
 		    dataType: 'json',
 		    delay: 300,
 		    type: "POST",
@@ -173,10 +173,7 @@ function initSelectYear(id, value) {
 			   //alert(JSON.stringify(data));
 			   var converResults = [];			   
                $.each(data.content, function (i, v) {
-                   var o = {};
-  /*                 o.id = v.pkid;
-                   o.name = v.name;  
-                   o.districtCode = v.districtCode;*/                   
+                   var o = {};                
                    o.id = v.PKID,
                    o.name = v.NAME,
                    o.districtCode = v.DISTRICT_CODE,
@@ -245,7 +242,7 @@ function select2DivClick( data ){
 	if(v !="" && v != null){
 		$.ajax({
 			type: "GET",
-			url: ctx+'/api/house/buildingsListAjax',
+			url: sale_ctx+'/api/house/buildingsListAjax',
 			dataType:"json",    
 			data:"resblockId="+v,
 			success: function(data) {	
@@ -311,7 +308,7 @@ function buildingChange(){
 	var params="id="+building_id;
 	$.ajax({
 		type: "GET",
-		url: ctx+'/api/house/getFloorTotal',
+		url: sale_ctx+'/api/house/getFloorTotal',
 		dataType:"json",    
 		data:params,
 		success: function(data) {
@@ -375,7 +372,7 @@ function floorChange(){
 	};
 	$.ajax({
 		type: "GET",
-		url: ctx+'/api/house/getRoomNos',
+		url: sale_ctx+'/api/house/getRoomNos',
 		dataType:"json",    
 		data:params,
 		async: false,
@@ -441,7 +438,7 @@ function reloadGrid(data){
 			$.unblockUI();			
 			if(data != null && data.rows.length > 0){	//&& data.page > 0
 				$("#isRepeatCase").show();
-				data.ctx = ctx;
+				//data.ctx = ctx;
 				var addCaseList = template('template_addCaseList', data);
 				$("#addCaseList").empty();
 				$("#addCaseList").html(addCaseList);
@@ -503,7 +500,7 @@ function initpage(totalCount, pageSize, currentPage, records) {
 function getHouseInfo(houseId){
 	$.ajax({
 		type: "GET",  
-		url: ctx+'/api/house/'+houseId,
+		url: sale_ctx+'/api/house/'+houseId,
 		dataType:"json",    
 		data:"",
 		async: false,
