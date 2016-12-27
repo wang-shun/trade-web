@@ -205,7 +205,7 @@ function closef(){
 	if(distriType && undefined != urlType && '' != urlType){
 		caseDistributeType();
 	}else{
-		if(undefined != urlType && '' != urlType ){ window.open(urlType);}
+		if(undefined != urlType && '' != urlType ){ window.location.href(urlType);}
 	}
 }
 	
