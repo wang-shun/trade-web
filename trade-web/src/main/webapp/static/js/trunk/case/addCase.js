@@ -438,7 +438,6 @@ function reloadGrid(data){
 			$.unblockUI();			
 			if(data != null && data.rows.length > 0){	//&& data.page > 0
 				$("#isRepeatCase").show();
-				//data.ctx = ctx;
 				var addCaseList = template('template_addCaseList', data);
 				$("#addCaseList").empty();
 				$("#addCaseList").html(addCaseList);
