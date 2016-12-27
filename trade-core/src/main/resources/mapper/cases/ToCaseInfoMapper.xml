@@ -189,6 +189,12 @@
       <if test="targetCode != null" >
         TARGET_CODE = #{targetCode,jdbcType=VARCHAR},
       </if>
+      <if test="referConsultantId != null" >
+        refer_consultant_id = #{referConsultantId,jdbcType=VARCHAR},
+      </if>
+      <if test="referConsultantRealname != null" >
+        refer_consultant_realname = #{referConsultantRealname,jdbcType=VARCHAR},
+      </if>
        AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>

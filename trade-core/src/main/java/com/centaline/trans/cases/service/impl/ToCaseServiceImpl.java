@@ -656,6 +656,10 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseInfo.setWzName(ctmtoCaseInfo.getWzName());
 		toCaseInfo.setBaCode(ctmtoCaseInfo.getBaCode());
 		toCaseInfo.setBaName(ctmtoCaseInfo.getBaName());
+		if(!StringUtils.isBlank(ctmtoCaseInfo.getReferConsultantId()))
+		toCaseInfo.setReferConsultantId(ctmtoCaseInfo.getReferConsultantId());
+		if(!StringUtils.isBlank(ctmtoCaseInfo.getReferConsultantRealname()))
+		toCaseInfo.setReferConsultantRealname(ctmtoCaseInfo.getReferConsultantRealname());
 		toCaseInfo.setUpdateby(user.getId());
 		toCaseInfo.setUpdateTime(new Date());
 		return toCaseInfo;
