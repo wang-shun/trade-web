@@ -352,6 +352,7 @@ public class ToCaseServiceImpl implements ToCaseService {
     	toCaseInfo.setRequireProcessorId(sessionUser.getId());
     	toCaseInfo.setResDate(new Date());
     	toCaseInfo.setTargetCode(org.getOrgCode());
+    	toCaseInfo.setDispatchTime(new Date());
     	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
     	if(reToCaseInfo == 0)throw new BusinessException( "案件信息表更新失败！");
 
@@ -656,6 +657,10 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseInfo.setWzName(ctmtoCaseInfo.getWzName());
 		toCaseInfo.setBaCode(ctmtoCaseInfo.getBaCode());
 		toCaseInfo.setBaName(ctmtoCaseInfo.getBaName());
+		if(!StringUtils.isBlank(ctmtoCaseInfo.getReferConsultantId()))
+		toCaseInfo.setReferConsultantId(ctmtoCaseInfo.getReferConsultantId());
+		if(!StringUtils.isBlank(ctmtoCaseInfo.getReferConsultantRealname()))
+		toCaseInfo.setReferConsultantRealname(ctmtoCaseInfo.getReferConsultantRealname());
 		toCaseInfo.setUpdateby(user.getId());
 		toCaseInfo.setUpdateTime(new Date());
 		return toCaseInfo;
