@@ -560,11 +560,20 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public void turnMergeCase(SessionUser user,CaseMergerParameter caseMergerParameter) throws Exception{
 		
 		ToCaseMerge toCaseMerge = toCaseMergeMapper.selectByPrimaryKey(Long.valueOf(caseMergerParameter.getId()));
+		
+		ToCase toCase = toCaseMapper.findToCaseByCaseCode(toCaseMerge.getCaseCode());
+		ToCase ctmToCase = toCaseMapper.findToCaseByCaseCode(toCaseMerge.getcCaseCode());
+		if(null != toCase){}else{throw new BusinessException("没有查询到自建案件信息!"); }
+		if(null != ctmToCase){}else{throw new BusinessException("没有查询到导入案件信息!"); }
 		if(null != toCaseMerge){}else{throw new BusinessException("没有查询到合流申请信息!"); }
+		/** 1.更新合流表 **/
 		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS2.getCode());
 		toCaseMerge.setUpdateBy(user.getId());
 		toCaseMerge.setUpdateTime(new Date());
 		toCaseMergeMapper.updateByPrimaryKeySelective(toCaseMerge);
+		/** 2.更新案件表 **/
+		toCaseMapper.updateByPrimaryKeySelective(setToCaseturn(user,toCase,CaseMergeStatusEnum.INPUT.getCode()));
+		toCaseMapper.updateByPrimaryKeySelective(setToCaseturn(user,ctmToCase,CaseMergeStatusEnum.CTM.getCode()));
 	}
 	
 	/**
@@ -611,8 +620,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 		if(StringUtils.isBlank(ctmtoPropertyInfo.getPropertyCode())){throw new BusinessException("ctm案件PropertyCode为空!"); }
 		if(StringUtils.isBlank(ctmtoPropertyInfo.getPropertyAddr())){throw new BusinessException("ctm案件PropertyAddr为空!"); }
 		/**2.更新t_to_case**/
-		toCase.setCaseOrigin(CaseMergeStatusEnum.PROCESS.getCode());
-		toCaseMapper.updateByPrimaryKeySelective(toCase);
+		toCaseMapper.updateByPrimaryKeySelective(setToCases(user,toCase));
+		toCaseMapper.updateByPrimaryKeySelective(setToCases(user,ctmToCase));
 		/**3.更新表T_TO_CASE_INFO**/
 		ToCaseMerge toCaseMerge = setToCaseMerges(user,toCase,ctmToCase,toCaseInfo,ctmtoCaseInfo,toPropertyInfo,ctmtoPropertyInfo,caseMergerParameter.getInputType());
 		if(null != toCaseMerge){toCaseMergeMapper.insertSelective(toCaseMerge);}
@@ -892,6 +901,33 @@ public class ToCaseServiceImpl implements ToCaseService {
 		/**流程重启更改掉案件临时银行的状态**/
 		/**ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo.getCaseCode());
 		if (toMortgage != null) { toMortgageService.updateTmpBankStatus(vo.getCaseCode()); }**/
+	}
+	
+	/**
+	 * 更新ToCase表值
+	 * @author hejf10 2016-12-27 15:59:42
+	 * @param user
+	 * @param toCase
+	 * @return
+	 */
+	public ToCase setToCases(SessionUser user,ToCase toCase){
+		toCase.setCaseOrigin(CaseMergeStatusEnum.PROCESS.getCode());
+		toCase.setUpdateBy(user.getId());
+		toCase.setUpdateTime(new Date());
+		return toCase;
+	}
+	/**
+	 * 更新ToCase表值
+	 * @author hejf10 2016-12-27 15:59:42
+	 * @param user
+	 * @param toCase
+	 * @return
+	 */
+	public ToCase setToCaseturn(SessionUser user,ToCase toCase,String caseOriginType){
+		toCase.setCaseOrigin(caseOriginType);
+		toCase.setUpdateBy(user.getId());
+		toCase.setUpdateTime(new Date());
+		return toCase;
 	}
 	
 }
