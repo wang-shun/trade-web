@@ -352,6 +352,7 @@ public class ToCaseServiceImpl implements ToCaseService {
     	toCaseInfo.setRequireProcessorId(sessionUser.getId());
     	toCaseInfo.setResDate(new Date());
     	toCaseInfo.setTargetCode(org.getOrgCode());
+    	toCaseInfo.setDispatchTime(new Date());
     	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
     	if(reToCaseInfo == 0)throw new BusinessException( "案件信息表更新失败！");
 
