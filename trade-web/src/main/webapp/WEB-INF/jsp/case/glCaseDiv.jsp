@@ -210,7 +210,7 @@ function closef(){
 }
 	
 /* 查询案件基本信息   **/
-function caseDetail(){ window.open("${ctx}/case/caseDetail?caseId="+$("#pkId").val()); }
+function caseDetail(){ window.location.href("${ctx}/case/caseDetail?caseId="+$("#pkId").val()); }
 /* 查询可关联案件列表   **/
 function changeTaskAssignee(page,propertyCode){
 	var data = {};
