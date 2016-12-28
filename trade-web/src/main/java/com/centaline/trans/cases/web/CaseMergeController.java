@@ -222,6 +222,7 @@ public class CaseMergeController {
 			toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentPhone());			
 			toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName()== null?"":caseMergeVo.getAgentOrgName());
 			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
+			toCaseInfo.setIsResponsed("0");
 			toCaseInfo.setImportTime(new Date());
 			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			
@@ -326,7 +327,38 @@ public class CaseMergeController {
 		return toCase;
 	}
 	
-
+	/**
+	 * 过户之前判断是否合流
+	 * @author zhuody 
+	 * 
+	 */	
+    @RequestMapping(value="mergeSearch")
+    @ResponseBody
+    public AjaxResponse<String> materialBorrowSave(String  caseCode){
+    	
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	ToCase toCase = new ToCase();
+     	try{
+        	if(null != caseCode && !"".equals(caseCode)){
+        		toCase = toCaseService.findToCaseByCaseCode(caseCode);
+        		if(null != toCase){
+        			response.setSuccess(true);
+        			response.setContent(toCase.getCtmCode() == null ? "":toCase.getCtmCode());
+        			response.setMessage(toCase.getCaseOrigin() == null ?"":toCase.getCaseOrigin());
+        			
+        		}else{
+         			response.setSuccess(false);
+         			response.setContent(null); 
+        		}
+        	}
+     	}catch(Exception e){
+     		response.setSuccess(false);
+     		response.setMessage(e.getMessage());	
+     	}
+     	return response;
+    }
+	
+	
 	/**
 	 * 案件记录
 	 * @author hejf10
@@ -357,7 +389,8 @@ public class CaseMergeController {
 			String sOut = "";
 	        StackTraceElement[] trace = e.getStackTrace();
 	        for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
-			response.setMessage(e.getMessage()+"异常："+sOut);
+			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
+			response.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		return response;
@@ -380,7 +413,8 @@ public class CaseMergeController {
 			String sOut = "";
 			StackTraceElement[] trace = e.getStackTrace();
 			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
-			response.setMessage(e.getMessage()+"异常："+sOut);
+			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
+			response.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		if(StringUtils.equals(caseInfo.getType(), "1")){response.setContent(true);}

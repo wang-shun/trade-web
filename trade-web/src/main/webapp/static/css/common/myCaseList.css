@@ -93,6 +93,9 @@ label {
   border-radius: 2px;
 }
 
+.wid{
+	width:130px;
+}
 .intextval {
   width: 422px;
 }

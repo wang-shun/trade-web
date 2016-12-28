@@ -653,7 +653,7 @@
 												<div class="row">
 													 <p>${accesory.preFileName}</p></br>
 													<div class="mb20 mt20" style="text-align:left">
-														<a href="#" title="Hydrangeas.jpg" data-gallery="">
+														<a href="#"  data-gallery="">
 															<img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/_f.jpg" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle">
 														</a>
 													</div>
@@ -678,7 +678,7 @@
 					<div class="form-btn">
 						<div class="text-center">
 							<button class="btn btn-success btn-space" onclick="save(false)">保存</button>
-							<button class="btn btn-success btn-space" onclick="submit()">提交</button>
+							<button class="btn btn-success btn-space" onclick="submitFrom()">提交</button>
 						</div>
 					</div>
 				</div>
@@ -952,7 +952,7 @@
 		}
 		
 		/**提交数据*/
-		function submit() {
+		function submitFrom() {
 			/*if(checkAttachment()) {
 				save(true);
 			}*/
@@ -962,7 +962,6 @@
 		/**保存数据*/
 		function save(b) {
 			var jsonData = $("#caseCloseform").serializeArray();
-
 			deleteAndModify();
 			
 			var flag= true;
@@ -994,13 +993,11 @@
 		    	}
 			} 
 			
-			
 			if(flag){
 				var url = ctx+"/task/CaseClose/saveCaseClose";
 				if(b) {
 					url = ctx+"/task/CaseClose/submitCaseClose";
 				}
-				debugger;
 				$.ajax({
 					cache : true,
 					async : false,//false同步，true异步

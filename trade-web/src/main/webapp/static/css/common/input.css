@@ -685,3 +685,16 @@ input {
 .btn-lightyellow:hover{
     color: #f8af65;
 }
+
+.sign_left_one {
+    width: 130px;
+    text-align: right;
+    margin-right: 20px;
+}
+.info-text {
+  display: inline-block;
+  width: 330px;
+}
+.ver-top{
+  vertical-align: top;
+}

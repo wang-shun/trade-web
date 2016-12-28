@@ -330,6 +330,8 @@
 		            	<a href="javascript:addDateDivDown();">添加下家</a>
 		            </div>
 		        </div>
+		        
+		        <div id="guestDelDiv"></div>
 	
 		        <div>
 		            <h2 class="newtitle title-mark">产证信息</h2>
@@ -610,8 +612,8 @@
 					isValid = false;
 					return isValid;
 				}
-				if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13)){				
-					alert("电话号码只能由是8位、11位或者13位的数字组成！");
+				if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){				
+					alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
 					isValid = false;
 					return isValid;
 				}
@@ -1186,7 +1188,7 @@
 															txt += "<div class='form_content'>";
 															txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
 															txt += "</div>";
-															txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivD_" + divIndexDown + "')\">删除</a>";
+															txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivD_" + divIndexDown + "','" + value.pkid + "')\">删除</a>";
 															txt += "</div>";
 															
 															$("#guestDownDiv").before(txt);
@@ -1200,7 +1202,7 @@
 															txt += "<div class='form_content'>";
 															txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
 															txt += "</div>";    
-															txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivU_" + divIndexUp + "')\">删除</a>";
+															txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivU_" + divIndexUp + "','" + value.pkid + "')\">删除</a>";
 															txt += "</div>";
 															
 															$("#guestUpDiv").before(txt);
@@ -1217,7 +1219,7 @@
 										txt += "<div class='form_content'>";
 										txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
 										txt += "</div>";
-										txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivD_" + divIndexDown + "')\">删除</a>";
+										txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivD_" + divIndexDown + "','" + value.pkid + "')\">删除</a>";
 										txt += "</div>";
 										
 										$("#guestDownDiv").before(txt);
@@ -1231,7 +1233,7 @@
 										txt += "<div class='form_content'>";
 										txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
 										txt += "</div>";    
-										txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivU_" + divIndexUp + "')\">删除</a>";
+										txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivU_" + divIndexUp + "','" + value.pkid + "')\">删除</a>";
 										txt += "</div>";
 										
 										$("#guestUpDiv").before(txt);

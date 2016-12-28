@@ -627,6 +627,46 @@
 
 		/**保存数据*/
 		function save(b) {
+			var caseCode = $("#caseCode").val();
+			if(caseCode != "" && caseCode != null  && caseCode != undefined){
+
+				$.ajax({					
+					url: ctx+"/caseMerge/mergeSearch",
+					method:"post",
+					dataType:"json",
+					data:{"caseCode" : caseCode},		
+					success: function(data) {	
+						//alert("Result=====" +JSON.stringify(data));
+						console.log("Result=====" +JSON.stringify(data));
+						if(data != null ){
+							if(data.success){
+								var ctmCode  = data.context;
+								var caseOrigin  = data.message;													
+								if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
+										if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
+											goProcess(b);
+										}else{											
+											alert("自建案件必须完成案件合流才能提交过户申请");
+											return;
+										}
+								}else{
+								/* 	alert("caseOrigin=="+caseOrigin);
+									return; */
+									goProcess(b);
+								}							
+							}
+						}
+					},
+					error: function(errors) {
+					   	alert("获取案件合流信息出错！");   //弹出失败提示框
+					}
+				}); 
+				
+			}
+			
+		}
+		
+		function  goProcess(b){
 			if (!checkForm() || !deleteAndModify()) {
 				return;
 			}
@@ -702,7 +742,6 @@
 				}
 			});
 		}
-
 		/*double 验证*/
 		function checkNum(obj) {
 			//先把非数字的都替换掉，除了数字和.
