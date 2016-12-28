@@ -540,14 +540,22 @@ public class ToCaseServiceImpl implements ToCaseService {
 		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
 		if(null != toCaseInfo){}else{throw new BusinessException("没有查询到自建案件详细信息!"); }
 		if(null != ctmtoCaseInfo){}else{throw new BusinessException("没有查询到导入案件详细信息!"); }
+		
+		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		ToPropertyInfo ctmtoPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(ctmToCase.getCaseCode());
+		if(null != toPropertyInfo){}else{throw new BusinessException("没有查询到自建案件地址详细信息!"); }
+		if(null != ctmtoPropertyInfo){}else{throw new BusinessException("没有查询到导入案件地址详细信息!"); }
+		
 		/**1.更新表t_to_case**/
 		toCaseMapper.updateByPrimaryKeySelective(setUpdateToCase(user,toCase,ctmToCase,toCaseMerge));
 		toCaseMapper.updateByPrimaryKeySelective(setUpdateCTMToCase(user,ctmToCase));
 		/**2.更新表T_TO_CASE_INFO**/
 		toCaseInfoMapper.updateByPrimaryKey(copyToCaseInfo(user,toCaseInfo,ctmtoCaseInfo));
-		/**3.更新T_TO_CASE_MERGE**/
+		/**3.更新表T_TO_PROPERTY_INFO**/
+		toPropertyInfoMapper.updateByPrimaryKeySelective(copyToPropertyInfo(user,toPropertyInfo,ctmtoPropertyInfo));
+		/**4.更新T_TO_CASE_MERGE**/
 		toCaseMergeMapper.updateByPrimaryKeySelective(setUpdateToCaseMerges(user,toCaseMerge));
-		/**4.删除流程数据**/
+		/**5.删除流程数据**/
 		CaseResetVo vo = new CaseResetVo();vo.setCaseCode(ctmToCase.getCaseCode());
 		reset(vo);
 	}
@@ -631,6 +639,20 @@ public class ToCaseServiceImpl implements ToCaseService {
 			agreeMergeCase(user,caseMergerParameter);
 		}
 		
+	}
+	/**
+	 * 拷贝T_TO_PROPERTY_INFO
+	 * @param toPropertyInfo
+	 * @param ctmtoPropertyInfo
+	 * @return
+	 */
+	public ToPropertyInfo copyToPropertyInfo(SessionUser user,ToPropertyInfo toPropertyInfo,ToPropertyInfo ctmtoPropertyInfo){
+		toPropertyInfo.setCtmCode(ctmtoPropertyInfo.getCtmCode());
+		toPropertyInfo.setCtmAddr(ctmtoPropertyInfo.getCtmAddr());
+		toPropertyInfo.setPropertyAgentId(ctmtoPropertyInfo.getPropertyAgentId());
+		toPropertyInfo.setUpdateBy(user.getId());
+		toPropertyInfo.setUpdateTime(new Date());
+		return toPropertyInfo;
 	}
 	/**
 	 * 拷贝ToCaseInfo
