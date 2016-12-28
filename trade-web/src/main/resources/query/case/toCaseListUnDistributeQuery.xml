@@ -60,7 +60,8 @@
 						PROPERTY_CODE=pi.PROPERTY_CODE and tc.CASE_ORIGIN != 'MERGE' and  tc.CASE_ORIGIN !='PROCESS'
 						) cuNu,
 						tc.CASE_ORIGIN,
-						tc.pkid cpkid 
+						tc.pkid cpkid ,
+						ctd.GRP_NAME as ORG_NAME
 					FROM sctrans.T_TO_CASE_INFO ctd
 					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE and tst.IS_RESPONSE_TEAM = 1
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ctd.CASE_CODE
@@ -88,7 +89,8 @@
 				<column type="both" name="YU_TEAM_CODE" display="YU_TEAM_CODE"/>
 				<column type="both" name="AGENT_NAME" display="经纪人" />
 				<column type="both" name="USER_ID" />
-				<column type="virtual" name="ORG_NAME"  referencecol="USER_ID" title="组别"  customDict="qqMainOrgByUserId"/>			
+				<!-- <column type="virtual" name="ORG_NAME"  referencecol="USER_ID" title="组别"  customDict="qqMainOrgByUserId"/>		 -->	
+				<column type="both" name="ORG_NAME"   title="ORG_NAME" display="ORG_NAME" />			
 				<column type="both" name="CTM_CODE" display="ctmCode" />
 				<column type="both" name="AGENT_PHONE" display="ctmCode" />
 				<column type="both" name="qyzjNAME" display="qyzjNAME" />
