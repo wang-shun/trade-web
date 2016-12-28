@@ -1151,6 +1151,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				where 
 					  c.CASE_PROPERTY != '30003001'
 					  and c.CREATE_TIME >DATEADD(mm,-6,GETDATE())
+					  and (c.STATUS !='30001005' and c.STATUS != '30001007' and c.STATUS='30001004') 
 				 <if test="inputType != null">
 					and c.CASE_ORIGIN != #inputType# and c.CASE_ORIGIN != 'MERGE' and c.CASE_ORIGIN !='PROCESS'
 				 </if>	
