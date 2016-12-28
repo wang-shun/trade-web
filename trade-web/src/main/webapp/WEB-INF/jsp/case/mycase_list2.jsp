@@ -175,7 +175,7 @@ text-decoration: underline !important;
                     <div class="form_content">
                     		 <label class="sign_left_two control-label">贷款需求选择</label>
 							 <div class="sign_right">
-									<aist:dict clazz="select_control sign_right_one" id="mortageService" name="mortageService" display="select" defaultvalue="" dictType="mortage_service" />
+									<aist:dict clazz="teamcode form-control" id="mortageService" name="mortageService" display="select" defaultvalue="" dictType="mortage_service" />
 							 </div>
                     </div>            
 			</div>
