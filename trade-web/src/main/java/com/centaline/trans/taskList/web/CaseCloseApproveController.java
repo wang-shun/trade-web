@@ -97,7 +97,7 @@ public class CaseCloseApproveController {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("approveType", "3");
 		request.setAttribute("operator", user != null ? user.getId():"");
-		return "task" + UiImproveUtil.getPageType(request) + "taskCaseCloseSecondApprove";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskCaseCloseSecondApprove";
 	}
 	
 	
