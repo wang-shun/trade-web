@@ -222,6 +222,7 @@ public class CaseMergeController {
 			toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentPhone());			
 			toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName()== null?"":caseMergeVo.getAgentOrgName());
 			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
+			toCaseInfo.setIsResponsed("0");
 			toCaseInfo.setImportTime(new Date());
 			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			

@@ -111,6 +111,10 @@ text-decoration: underline !important;
 	min-width: 140px;
 	display: inline-block;
 }
+
+.sign_right_one_case{
+	width:130px;
+}
 </style>
 </head>
 <body>
@@ -126,7 +130,7 @@ text-decoration: underline !important;
                   <div class="form_content">
 						<label class="sign_left control-label">案件类型</label>
 						<div class="sign_right big_pad">
-							<aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one"  />
+							<aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/>
 						</div>
 					</div>
 					<div class="form_content">
@@ -134,7 +138,7 @@ text-decoration: underline !important;
                                                                              案件状态
                         </label>
                         <div class="sign_right big_pad">
-                                <aist:dict id="status" name="case_status" display="select" dictType="30001" clazz="select_control sign_right_one"  />
+                                <aist:dict id="status" name="case_status" display="select" dictType="30001" clazz="select_control sign_right_one_case"/>
                          </div>
                     </div>
                     <div class="form_content">
