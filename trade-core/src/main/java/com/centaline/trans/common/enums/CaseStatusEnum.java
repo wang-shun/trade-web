@@ -14,7 +14,7 @@ public enum CaseStatusEnum {
 	YGH("30001004", "已过户"),
 	YLZ("30001005", "已领证"),
 	/** 已终止 **/
-	YZZ("30001006", "已终止");
+	YZZ("30001007", "已终止");
     
     private String name;
 

@@ -610,8 +610,8 @@
 					isValid = false;
 					return isValid;
 				}
-				if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13)){				
-					alert("电话号码只能由是8位、11位或者13位的数字组成！");
+				if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){				
+					alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
 					isValid = false;
 					return isValid;
 				}
