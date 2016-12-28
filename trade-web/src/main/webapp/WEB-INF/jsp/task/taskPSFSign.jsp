@@ -128,7 +128,7 @@
                            <span class="date_icon">万元</span>
                         </div>
                         <div class="form_content">
-                            <label class="control-label sign_left_small">贷款年限</label> <input class=" input_type yuanwid" placeholder="" id="prfYear" name="prfYear" value="${PSFSign.prfYear}" >
+                            <label class="control-label sign_left_small">贷款年限<font color="red">*</font></label> <input class=" input_type yuanwid" placeholder="" id="prfYear" name="prfYear" value="${PSFSign.prfYear}" >
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">主贷人<font color="red">*</font></label>
@@ -532,7 +532,7 @@
 			});
 		}
 	</script> 
-	<!-- Peity --> 
+		<!-- Peity --> 
 	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
 	<!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
@@ -558,7 +558,6 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
@@ -566,18 +565,23 @@
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	
     <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
-    
-    <script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<!-- bank select -->
+	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+	<script src="${ctx}/transjs/sms/sms.js"></script> 
+	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
+	
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script src="${ctx}/js/stickUp.js"></script>
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<!-- 改版引入的新的js文件 --> 
 	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
+
 	</content>
 </body>
 
