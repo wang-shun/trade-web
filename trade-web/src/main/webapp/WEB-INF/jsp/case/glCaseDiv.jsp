@@ -191,9 +191,18 @@ function merge(){
 		data : data,
 		beforeSend:function(){ },
 		success : function(data) {
-			if(data.success){ alert("合流申请成功！"); 
-			$("#myModalsa").modal("hide");
-			window.location.reload();}else{ alert("合流申请失败！"+data.message);  }
+			if(data.success){ 
+				if(distriType && undefined != urlType && '' != urlType){
+					alert("合流申请成功！"); 
+					$("#myModalsa").modal("hide");
+					caseDistributeType();
+					window.location.reload();
+				}else{
+					alert("合流申请成功！"); 
+					$("#myModalsa").modal("hide");
+					window.location.reload();
+				}
+			}else{ alert("合流申请失败！"+data.message);  }
 		},complete: function() {  },
 		error : function(errors) {
 		}
