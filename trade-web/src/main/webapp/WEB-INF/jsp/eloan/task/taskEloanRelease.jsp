@@ -240,7 +240,8 @@
 		                		
 		                        </ul>
 		                             
-		                        <p class="add_money"><a href="javascript:add_money();" id="add_money">添加放款金额</a> (可支持多条放款记录登记)</p>
+		                        <p class="add_money"><a href="javascript:add_money();" id="add_money">添加放款金额</a> 
+		                        (可支持多条放款记录登记<c:if test="${eloanCase.loanSrvCode=='30004005' ||eloanCase.loanSrvCode=='30004015'}">，刷卡金额是实际刷的佣金和税费金额，如果没有请填写0元送结束</c:if>)</p>
 		                           <div class="form_content">
 		                                    <label class="control-label sign_left_two">
 		                                                                                               是否放款完成

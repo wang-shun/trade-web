@@ -381,7 +381,7 @@ text-decoration: underline !important;
                                  </p>
 {{/if}}
 {{if item.caseOrigin == 'INPUT'}}
- 							<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}')">
+ 							<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}','{{item.caseOrigin}}')">
                                 <p class="tip">
                                  <i class="sign_brown">
                                                                                         自录
@@ -390,11 +390,13 @@ text-decoration: underline !important;
                              </a>
 {{/if}}
 {{if item.caseOrigin == 'CTM'}}
+<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}','{{item.caseOrigin}}')">
                                 <p class="tip">
                                  <i class="sign_blue">
                                     	导入
                                   </i>
                                  </p>
+</a>
 {{/if}}
 {{if item.caseOrigin == 'PROCESS'}}
                                 <p class="tip">

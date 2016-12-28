@@ -6,10 +6,15 @@ public class CaseMergeVo {
 	
 	private String propertyCode;
 	private String distCode;
-	private String propertyAddr;
+	private String propertyAddr;		
+	private String propertyType;
+	private Double square;
+	private Integer floor;
+	private Integer totalFloor;
+	private String finishYear;
 	
-	private String agentName;
 	
+	private String agentName;	
 	private String agentCode;
 	private String agentOrgName;
 	private String agentOrgId;
@@ -122,5 +127,37 @@ public class CaseMergeVo {
 	public void setDistCode(String distCode) {
 		this.distCode = distCode;
 	}
+	public String getPropertyType() {
+		return propertyType;
+	}
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
+	}
+	
+	public Double getSquare() {
+		return square;
+	}
+	public void setSquare(Double square) {
+		this.square = square;
+	}
+	public Integer getFloor() {
+		return floor;
+	}
+	public void setFloor(Integer floor) {
+		this.floor = floor;
+	}
+	public Integer getTotalFloor() {
+		return totalFloor;
+	}
+	public void setTotalFloor(Integer totalFloor) {
+		this.totalFloor = totalFloor;
+	}
+	public String getFinishYear() {
+		return finishYear;
+	}
+	public void setFinishYear(String finishYear) {
+		this.finishYear = finishYear;
+	}
+	
 		
 }

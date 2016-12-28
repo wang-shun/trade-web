@@ -36,7 +36,7 @@
 <link href="${ctx}/css/common/details.css" rel="stylesheet">
 <link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
 <link href="${ctx}/css/common/btn.css" rel="stylesheet">
-<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<%-- <link href="${ctx}/css/common/input.css" rel="stylesheet"> --%>
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
 <style type="text/css">
 .wizard-big.wizard>.content {
@@ -82,6 +82,18 @@
     overflow-y: scroll;
 } */
 
+.form_list .input_type {
+  display: inline-block;
+  padding: 6px 12px;
+  color: inherit;
+  font-size: 14px;
+  font-family: 'Microsoft Yahei';
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #e5e6e7;
+  border-radius: 0px;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
 </style>
 <script language="javascript">
 	var taskitem = "${taskitem}";
@@ -131,6 +143,502 @@
                     </div>
              </div>
         </div>
+        
+        	<div id="modal-form" class="modal fade" aria-hidden="true" >
+		<div class="modal-dialog" style="width: 1000px;height:98%;overflow-y:scroll">
+			<div class="modal-content">
+				<div class="modal-body" >
+					<div class="col-lg-12">
+						<div class="ibox " style="min-height:500px;">
+							<div class="ibox-title">
+							     <button type="button" class="close" data-dismiss="modal" id="pricingClose"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<h5>询价发起</h5>
+							</div>
+							<form id="addToEguPricingForm">
+								<input type="hidden" name="caseCode" value="${caseCode}">
+								<input type="hidden" name="isMainLoanBank" value="1"/>
+								
+								<div class="ibox-content" >
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">方式选择：</label>
+										<div class="col-sm-10">
+										<div class="row">
+											<div class="col-md-10">
+												<div class="radio">
+													<input type="radio" checked="" value="1"
+														id="optionsRadios1" name="optionsRadios">直接发起
+												</div>
+											</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+											<label class="col-sm-2 control-label"></label>
+											
+											<div class="col-sm-10" style="height:30px">
+											<div class="row">
+											<div class="col-md-3">
+												<div class="radio">
+													<input type="radio" value="0" id="optionsRadios2"
+														name="optionsRadios">评估编号绑定<span>
+												</div>
+											</div>
+											<div class="col-md-5" style="margin-top:-15px">
+												<input type="text" id="code" name="code" data-mask ="999999-999999-999" placeholder="填写手机端收到的评估编号"
+													class="form-control"></span>
+											</div>
+											</div>
+										</div>
+									</div>
+								<div id="direct_launch_div">
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">小区：</label>
+										<div class="col-sm-10">
+											<div class="row">
+												<div class="col-md-2">
+													<input type="text" name="residence_id"
+														id="residence_id" placeholder="小区编号"
+														class="form-control" onkeyup="checkInt(this)">
+												</div>
+												<div class="col-md-7">
+													<input type="text" name="residence_name"
+														id="residence_name" placeholder="小区地址（名称）"
+														class="form-control">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">贷款银行：</label>
+										<div class="col-sm-10">
+										
+											<select  name="bank_type" class="form-control"
+												id="bank_type" >
+											</select>
+											
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">支行<span class="star">*</span>：</label>
+										<div class="col-sm-10">
+											<select  name="bank_branch_id" class="form-control"
+												id="bank_branch_id">
+
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">楼栋室号<span class="star">*</span>：</label>
+										<div class="col-sm-10">
+											<div class="row">
+												<div class="col-md-2">
+													<input type="text" name="building_no" id="building_no"
+														placeholder="楼栋号" class="form-control" >
+												</div>
+												<div class="col-md-3">
+													<input type="text" name="room_no" id="room_no"
+														placeholder="室号" class="form-control" >
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">建筑面积<span class="star">*</span>：</label>
+										<div class="col-sm-10">
+											<div class="row">
+												<div class="col-md-3">
+													<input type="text" name="area" id="area"
+														placeholder="建筑面积" class="form-control" onkeyup="checknum(this)">
+												</div>
+												<div class="col-md-3">
+													<input type="text" name="area_ground" id="area_ground"
+														placeholder="建筑地上面积" class="form-control" onkeyup="checknum(this)">
+												</div>
+												<div class="col-md-3">
+													<input type="text" name="area_basement"
+														id="area_basement" placeholder="建筑地下面积"
+														class="form-control" onkeyup="checknum(this)">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">期望价格<span class="star">*</span>：</label>
+										<div class="col-sm-10">
+										<div class="row">
+										<div class="col-md-5">
+											<input type="text" name="deal_price" id="deal_price"
+												class="form-control" placeholder="万元" onkeyup="checknum(this)">
+												
+										</div>
+										</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">房屋结构：</label>
+										<div class="col-sm-10">
+											<div class="row">
+												<div class="col-md-2">
+													<input type="text" name="room" id="room"
+														placeholder="室" class="form-control" onkeyup="checkInt(this)">
+												</div>
+												<div class="col-md-3">
+													<input type="text" name="hall" id="hall"
+														placeholder="厅" class="form-control" onkeyup="checkInt(this)">
+												</div>
+												<div class="col-md-3">
+													<input type="text" name="toilet" id="toilet"
+														placeholder="卫" class="form-control" onkeyup="checkInt(this)">
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">楼层<span class="star">*</span>：</label>
+										<div class="col-sm-10">
+											<div class="row">
+												<div class="col-md-2">
+													<input type="text" name="floor" id="floor"
+														placeholder="所在楼层" class="form-control" onkeyup="checkInt(this)">
+												</div>
+												<div class="col-md-3">
+													<input type="text" name="total_floor" id="total_floor"
+														placeholder="总楼层" class="form-control" onkeyup="checkInt(this)">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">房屋类型<span class="star">*</span>：</label>
+										<div class="col-sm-4">
+										<div class="row">
+										<div class="col-md-10">
+											<aist:dict id="prop_type" name="prop_type"
+												clazz="form-control" display="select"
+												dictType="prop_type" defaultvalue="" />
+										</div>
+										</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">平面类型：</label>
+										<div class="col-sm-4">
+										<div class="row">	
+											<div class="col-md-10">														
+											<aist:dict id="plane_type" name="plane_type"
+												display="select" clazz="form-control"
+												dictType="flat_type" defaultvalue="" />
+											</div>
+										</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">朝向：</label>
+										<div class="col-sm-10">
+										<div class="row">
+											<div class="col-md-10">																																												
+											<aist:dict id="towards" name="towards" display="select"
+												clazz="form-control m-b" dictType="towards"
+												defaultvalue="" />
+											</div>
+										</div>
+										</div>
+									</div>
+									<div style="clear: both"></div>
+
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">景观类型：</label>
+										<div class="col-sm-10">
+										<div class="row">	
+											<div class="col-md-5">																																											
+											<aist:dict id="scape" name="scape" display="radio"
+												dictType="scape" defaultvalue="" />
+											</div>
+										</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">临街类型：</label>
+										<div class="col-sm-10">
+										<div class="row">	
+											<div class="col-md-5">																												
+											<aist:dict id="near_street" name="near_street"
+												display="radio" dictType="near_street" defaultvalue="" />
+											</div>
+										</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-sm-2 control-label">备注：</label>
+										<div class="col-sm-10">
+										<div class="row">	
+											<div class="col-md-10">																												
+											<input type="text" class="form-control" name="remark"
+												id="remark">
+											</div>
+										</div>
+										</div>
+									</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<input type="button" class="btn btn-success" id="toEguPricingSubmitBtn" value="提交">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modal-applyForm" class="modal fade" aria-hidden="true">
+		<div class="modal-dialog" style="width: 700px">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="col-lg-12">
+						<div class="ibox ">
+							<div class="ibox-title">
+							    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<h5>询价价格异议申请</h5>
+							</div>
+
+							<form id="applyForm">
+								<input type="hidden" name="eva_code" id="eva_code" />
+								<input type="hidden" name="case_id" value="${caseCode}">
+								
+								<div class="ibox-content">
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label">期望价格<span class="star">*</span>：</label>
+										<div class="col-sm-8 input-group">
+											<input type="text" name="expected_price"
+												id="expected_price" placeholder="期望价格"
+												class="form-control" onkeyup="checknum(this)">
+											<span class="input-group-addon">万元</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">备注<span class="star">*</span>：</label>
+										<div class="col-sm-8 input-group">
+											<input type="text" name="remark" id="remark"
+												placeholder="备注" class="form-control">
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<input type="button" class="btn btn-success" id="subApplyBtn" value="提交">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="modal-select" class="modal fade" aria-hidden="true">
+		<div class="modal-dialog" style="width: 600px;">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="col-lg-12">
+						<div class="ibox " style="min-height:150px;">
+							<div class="ibox-title">
+							    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<h5>该物业地址对应多个小区，请点击选择一个小区</h5>
+							</div>
+								
+								<div class="ibox-content">
+
+									<div class="form-group">
+										<div class="col-sm-12" id="residenceList" style="line-height:26px">
+
+										</div>
+									</div>
+									
+								</div>
+						</div>
+					</div>
+					<div>&nbsp;</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modal-form-report" class="modal fade" aria-hidden="true">
+		<div class="modal-dialog" style="width: 1000px; height:100%;overflow-y:scroll">
+			<div class="modal-content" >
+				<div class="modal-body" style="height: 800px">
+				<div class="col-lg-12">
+					<div class="ibox " style="min-height: 700px">
+					<div class="ibox-title">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h5>评估报告发起</h5>
+					</div>
+					<form id="reportForm" >
+						<div class="ibox-content">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">选择评估公司<span class="star">*</span>：</label>
+							<div class="col-sm-10">
+								<select class="form-control m-b" name="orgPricing" id="orgPricing">
+									
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">选择需要的报告<span class="star">*</span>：</label>
+							<div class="col-sm-10">
+								<aist:dict id="reportType" name="reportType"
+								clazz="form-control m-b" display="select"
+								dictType="report_type" defaultvalue="" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">备注：</label>
+							<div class="col-sm-10">
+								<input type="text" name="comment" id="comment"
+												placeholder="备注" class="form-control" >
+							</div>
+						</div>
+						</div>
+						</form>
+					
+					<div class="form-group">
+						<%for(int j=1;j<4;j++) {%>
+						<div class="ibox-content">
+							<%if(j==1){ %>
+							<h5>身份证</h5>
+							<%}else if(j==2) {%>
+							<h5>房产证</h5>
+							<%}else{ %>
+							<h5>购房合同</h5>
+							<%} %>
+							<div class="" id="fileupload_div_pic<%=j%>">
+								<form id="fileupload"
+									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+									method="POST" enctype="multipart/form-data">
+									<noscript>
+										<input type="hidden" name="redirect"
+											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+										<input type="hidden" id="preFileCode" name="preFileCode"
+											value="<%=j%>">
+									</noscript>
+									<h5 align="left"></h5>
+									<div class="row-fluid fileupload-buttonbar">
+										<div class="" style="height: auto">
+											<div role="presentation" class="table table-striped "
+												style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+												<div id="picContainer<%=j %>" class="files"
+													data-toggle="modal-gallery"
+													data-target="#modal-gallery"></div>
+												<span class=" fileinput-button "
+													style="margin-left: 0 !important; width: 80px;">
+													<div id="chandiaotuBtn" class=""
+														style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+														<i class="fa fa-plus"></i>
+													</div> <input id="picFileupload<%=j %>" type="file"
+													name="files[]" multiple
+													data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
+													data-sequential-uploads="true">
+												</span>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<div class="row-fluid">
+								<div class="">
+									<script id="templateUpload<%=j %>" type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv2" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+								
+							        <div class="preview"><span class="fade"></span></div>
+								
+							        {% if (file.error) { %}
+							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else if (o.files.valid && !i) { %}
+									
+							            <div class="start span1" style="display: none">
+										{% if (!o.options.autoUpload) { %}
+							                <button class="btn">
+							                    <i class="icon-upload icon-white"></i>
+							                    <span>上传</span>
+							                </button>
+							            {% } %}
+										</div>
+							        {% } else { %}
+							            <div class="span1" colspan="2"></div>
+							        {% } %}
+							        <div class="cancel" style="margin-top:-172px;margin-left:85%;">
+									{% if (!i) { %}
+							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        {% } %}
+									</div>
+							    </div>
+							{% } %}
+						</script>
+	<script id="templateDownload<%=j %>" type="text/x-tmpl">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv2" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+							        {% if (file.error) { %}
+							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
+							        {% } else { %}
+							            <div class="preview span12" name="reportPic">
+										<input type="hidden" name="preFileAdress1" value="{%=file.id%}"></input>
+										<input type="hidden" name="picTag1" value="<%=j%>"></input>
+										<input type="hidden" name="picName1" value="{%=file.name%}"></input>
+							            {% if (file.thumbnail_url) { %}
+							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="height:80px;width:80px">
+							            {% } %}</div>
+							            <div class="name" style="display: none">
+							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+							            </div>
+							        {% } %}
+							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							                <i class="icon-remove"></i>
+							            </button>
+							        </div>
+							    </div>
+							{% } %}
+						</script>
+								</div>
+							</div>
+
+							<div class="row-fluid" style="display: none;">
+								<div class="span4">
+									<div class="control-group">
+										<a class="btn blue start" id="startUpload"
+											style="height: 30px; width: 50px"> <i
+											class="icon-upload icon-white"></i> <span>上传</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<%} %>
+					</div>
+
+					<input type="button" class="btn btn-success" id="reportSubBtn" value="提交">
+
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
 
         <div class="ibox-content border-bottom clearfix space_box noborder">
             <div class="">
@@ -167,7 +675,7 @@
 								</div>
 								<div class="col-lg-4">
 									<div class="text-center">
-										<div style="margin-top: 20px">
+										<div>
 											<i class="fa fa-sign-in"
 												style="font-size: 12px; color: #e5e5e5"></i>
 										</div>
@@ -177,30 +685,30 @@
 							</div>
 							
 							<h1>提醒清单</h1>
-							
 						    <div style="width:100%">
-							<div class="step-content">
-
-								<div class="ibox-title">
-									<h5>备件列表</h5>
-									<a class="btn btn-primary pull-right" href="#" id="sendSMS">发送短信提醒</a>
-									
-								</div>
-
-								<table id="table_list_2"></table>
-								<div id="pager_list_2"></div>
-
-								<div class="col-lg-4">
-									<div class="text-center">
-										<div style="margin-top: 20px">
-											<i class="fa fa-sign-in"
-												style="font-size: 12px; color: #e5e5e5"></i>
-										</div>
+								<div class="step-content" style="margin-top: -25px;">
+									<div class="ibox">
+									<div class="ibox-title">
+										<h5>备件列表</h5>
+										<a class="btn btn-primary pull-right" href="#" id="sendSMS" style="clear:both;margin-top:-31px">发送短信提醒</a>
 									</div>
+									<div class="ibox-content">
+										 <div class="jqGrid_wrapper">
+											<table id="table_list_2"></table>
+											<div id="pager_list_2"></div>
+												<div class="col-lg-4">
+													<div class="text-center">
+														<div style="margin-top: 20px">
+															<i class="fa fa-sign-in"
+																style="font-size: 12px; color: #e5e5e5"></i>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									  </div>
 								</div>
-								  </div>
 							</div>
-							
 							<h1>贷款签约</h1>
 							<!--  <fieldset>-->
 							<div class="step-content" style="margin-top: -15px;">
@@ -255,6 +763,7 @@
 										</div>
 									</div>
 
+                                    <div style="clear: both"></div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">主贷人<span class="star">*</span>：</label>
 										<div class="col-md-2">
@@ -308,13 +817,13 @@
 												class="form-control" onkeyup="checkInt(this)">
 										</div>				
 										<label class="col-sm-2 control-label" style="width:15%">签约时间<span class="star" >*</span>：</label>
-										<div class="col-md-2" style="width:18%">
+										<div class="col-md-3" >
 										<div class="input-group date readOnly_date" id="date_4">
 											<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="signDate" id="signDate" readonly>
 										</div>		
 										</div>
 										<label class="col-sm-2 control-label">需要放款前报告：</label>
-										<div class="col-md-2">
+										<div class="col-md-1">
 										<label class="checkbox-inline">
 											<input type="checkbox" value="1" name="ifReportBeforeLend"
 												id="ifReportBeforeLend"> 是
@@ -337,7 +846,7 @@
 									</div>
 									<div style="clear: both"></div>
 									<div class="tmpBankReasonDiv">
-										<label class="col-sm-2 control-label">临时银行原因<span class="star">*</span> </label>
+										<label class="col-sm-2 control-label">临时银行原因<span class="star">*</span>：</label>
 										<div class="col-sm-10">
 											<input type="text" name="tmpBankReason" class="form-control">
 										</div>

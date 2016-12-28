@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="${ctx}/static/css/select2.min.css">
 <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
 
+<!-- aist列表样式 -->
+<link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
+
 <link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
 <link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
 
@@ -46,10 +49,8 @@
 	          <div class="title"> 新建自录单</div>
 	          <div class="line">
 	              <div class="form_content">
-	                  <label class="control-label sign_left_small">房屋地址</label>
-<!-- 	      		  <input type="text" placeholder="房屋搜索"  class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect" value="">  --> 
-	                  
-	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect" id="blocksSelect"  style="height:33px;"></select>
+	                  <label class="control-label sign_left_small">房屋地址</label>              
+	                  <select class="select_control sign_right_one select2 span3" name="blocksSelect"  id="blocksSelect"  style="height:33px;width:250px;"></select>
 	                  		                
 	                  <select id="buildingsSelect" class="select_control sign_right_one  select2  span3"><!-- ml20 -->
 	                      <option value="">请选择楼栋</option>
@@ -62,17 +63,10 @@
 	                  </select>                  
 	              </div>
 	          </div>
-	          <input type="hidden"  name="blockId"  id="blockId"  value=""> <!-- 产证区域 -->
-	          <input type="hidden"  name="blockName"  id="blockName"  value=""> <!-- 产证区域 -->	 	        
-	          <input type="hidden"  name="propertyCode"  id="propertyCode" value="">
-	          <input type="hidden"  name="propertyAddr"  id="propertyAddr" value=""> <!-- 产证地址待定 -->
-	          <input type="hidden"  name="distCode"  id="distCode"  value=""> <!-- 产证区域 -->
-	          <input type="hidden"  name="distName"  id="distName"  value=""> <!-- 产证区域 -->
-	          <input type="hidden"  name="buildingName"  id="buildingName"  value=""> 
-	          <input type="hidden"  name="floorName"  id="floorName"  value=""> 
-	          <input type="hidden"  name="roomName"  id="roomName"  value=""> 
-	          <input type="hidden"  name="square"  id="square"  value=""> 
+	          <input type="hidden"  name="blockId"  id="blockId"  value=""> <!-- 产证区域 --> 	         
         </div>
+        
+        
        
        <div class="form_list table-capital"  id="isRepeatCase" style="display:none">
            <div class="table-box">
@@ -97,6 +91,50 @@
 				</div>  
 		    </div> 	
        </div>
+       
+       
+       
+       <div  class="form_list mt20"  style="display: none"  id="houseInfo">
+          <div class="line">
+	              <div class="form_content">
+	                  <label class="control-label sign_left_small">房屋类型</label>	                  
+	                  <aist:dict clazz="select_control sign_right_one" id="propertyType"	name="propertyType" display="select"  defaultvalue="" dictType="30014" />
+	              </div>
+              	<div class="form_content">
+                  <label class="control-label sign_left_small">产证地址</label>
+                  
+                  <input type="hidden"  name="propertyCode"  id="propertyCode" value="">	        
+                  <input class="input_type"  style="width:460px;" placeholder="请输入" value="" name="propertyAddr"  id="propertyAddr">
+                </div>
+              </div>
+                 <div class="line">
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">产证面积</label> 
+                         <input class="select_control sign_right_one" placeholder=""  name="square"  id="square" value="">
+                         <span class="date_icon">平米</span>
+                     </div>
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">所在楼层</label>
+                         <input type="text" class="select_control sign_right_one" name="floor"  id="floor" value="">
+                     </div>
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">总层高</label>
+                         <input type="text" class="select_control sign_right_one" name="totalFloor"  id="totalFloor"  value="">
+                     </div>
+                 </div>
+                 <div class="line">
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">所在区域</label>
+                         <aist:dict clazz="select_control sign_right_one" id="distCode" name="distCode" display="select" defaultvalue="" dictType="yu_shanghai_district" />
+                     </div>
+                     <div class="form_content">
+                         <label class="control-label sign_left_small">竣工年份</label>
+                          <select class="select_control sign_right_one" name="finishYear" id="finishYear"></select>
+                     </div>
+                 </div>
+			</div>
+       
+       
        <div class="form_list" >
            <div class="line">
                <div class="form_content">
@@ -180,6 +218,8 @@
 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
 
+
+		
 <script src="${ctx}/js/plugins/autocomplete/select2.min.js"></script> 
 <script src="${ctx}/js/plugins/autocomplete/i18n/zh-CN.js"></script> 
 <script src="${ctx}/js/trunk/case/addCase.js"></script>

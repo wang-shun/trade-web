@@ -63,8 +63,12 @@
         <appender-ref ref="APILOG_FILE"/>
     </logger>
     
-    <logger name="org.redisson.cluster" level="INFO">
+    <logger name="org.redisson" level="INFO">
     </logger>
+    
+    <logger name="org.apache.zookeeper" level="INFO">
+    </logger>
+    
 	<!-- <logger name="com.centaline.trans.utils.wechat" level="DEBUG">
         <appender-ref ref="APILOG_FILE"/>
     </logger> -->

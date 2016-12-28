@@ -24,6 +24,16 @@ public class CaseMergerParameter {
 	
 	private String type;
 	
+	private String inputType;
+	
+	public String getInputType() {
+		return inputType;
+	}
+
+	public void setInputType(String inputType) {
+		this.inputType = inputType;
+	}
+
 	public String getId() {
 		return id;
 	}

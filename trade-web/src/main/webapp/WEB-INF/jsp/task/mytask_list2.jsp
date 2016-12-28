@@ -40,6 +40,7 @@
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
+<link rel="stylesheet" href="${ctx}/css/workflow/newRecordpop.css" />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
@@ -85,12 +86,13 @@ text-decoration: underline !important;
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/case/glCaseDiv.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="userId" value="${userId}" />
 <input type="hidden" id="Lamp1" value="${Lamp1}" />
 <input type="hidden" id="Lamp2" value="${Lamp2}" />
 <input type="hidden" id="Lamp3" value="${Lamp3}" />
-		
+	
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
 			 <h2 class="title">
@@ -308,7 +310,19 @@ text-decoration: underline !important;
 					<td>
 							<p>
                               <i class="sign_blue">
-									<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>
+{{if item.CASE_ORIGIN =='CTM' || item.CASE_ORIGIN == 'INPUT'}}
+{{if item.cu >1}}
+<a  href="javascript:processfu('{{item.PKID}}',
+'{{item.propertyCode==null?null:item.propertyCode}}','{{item.CASE_CODE}}',
+'{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.MOBILE}}','{{item.AGENT_ORG_NAME}}',
+'{{item.SELLER}}','{{item.BUYER}}',
+'{{item.CASE_ORIGIN==null?null:item.CASE_ORIGIN}}','{{item.ID}}')" target="_blank" >{{item.NAME}}</a>
+{{else}}
+		<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>							
+{{/if}}
+{{else}}
+	<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>							
+{{/if}}
                               </i>
                             </p>
 							<p>
@@ -415,7 +429,19 @@ text-decoration: underline !important;
 					
                     <td class="text-center">
                            <i class="iconfont icon_revise">
-                             <a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >&#xe603;</a>
+{{if item.CASE_ORIGIN =='CTM' || item.CASE_ORIGIN == 'INPUT'}}
+ {{if item.cu >1}}
+<a  href="javascript:processfu('{{item.pkid}}',
+'{{item.propertyCode==null?null:item.propertyCode}}','{{item.CASE_CODE}}',
+'{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.MOBILE}}','{{item.AGENT_ORG_NAME}}',
+'{{item.SELLER}}','{{item.BUYER}}',
+'{{item.CASE_ORIGIN==null?null:item.CASE_ORIGIN}}','{{item.ID}}')" target="_blank" >&#xe603;</a>
+{{else}}
+<a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >&#xe603;</a>						
+{{/if}}
+{{else}}
+<a href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >&#xe603;</a>						
+{{/if}}
                          </i>
                      </td>
 

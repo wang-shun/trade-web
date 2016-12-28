@@ -58,8 +58,28 @@ public class ToCaseInfo {
     private String updateby;
 
 	private Date updateTime;
+	/** refer_consultant_id 意向顾问 refer_consultant_realname **/
+	private String referConsultantId;
+	/** refer_consultant_id 意向顾问 refer_consultant_realname **/
+	private String referConsultantRealname;
 	
-    public Date getUpdateTime() {
+    public String getReferConsultantId() {
+		return referConsultantId;
+	}
+
+	public void setReferConsultantId(String referConsultantId) {
+		this.referConsultantId = referConsultantId;
+	}
+
+	public String getReferConsultantRealname() {
+		return referConsultantRealname;
+	}
+
+	public void setReferConsultantRealname(String referConsultantRealname) {
+		this.referConsultantRealname = referConsultantRealname;
+	}
+
+	public Date getUpdateTime() {
 		return updateTime;
 	}
 

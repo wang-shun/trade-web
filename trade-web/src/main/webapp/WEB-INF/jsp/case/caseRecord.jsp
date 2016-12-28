@@ -186,7 +186,7 @@
 					{{item.propertyAddr}}
 				 </p>
 				 <p class="big">
-					{{item.propertyAddr}}
+					{{item.cpropertyAddr}}
 				 </p>
 			</td>
 			<td class="t-left">
@@ -217,16 +217,16 @@
 				{{if index_ == "1" || index_ == "2"}}
 			<td class="t-left yiban"  id="operato" name="operato">
 				 <p class="big">
-					{{if item.operato == "2" || item.status == "1" || item.status == "2" || userId != item.ctmleadingProcess}}
+					{{if item.operato == "2" || item.status == "1" || item.status == "2" || userId != item.ctmleadingProcess ||index_ == "2"}}
 						<button class="btn btn-success mr5" disabled="disabled" >确认</button>
 					{{/if}}
-					{{if item.operato == "1" && item.status == "0" && userId == item.ctmleadingProcess }}
+					{{if item.operato == "1" && item.status == "0" && userId == item.ctmleadingProcess && index_ != "2" }}
 						<button class="btn btn-success mr5"  onclick="merge({{item.id}},'1')" >确认 </button>
 					{{/if}}
-					{{if item.status != "0" || userId != item.ctmleadingProcess}}
+					{{if item.status != "0" || userId != item.ctmleadingProcess ||  index_ == "2"}}
                     	<button class="btn btn-grey" disabled="disabled">驳回</button>
 					{{/if}}
-					{{if item.status == "0" && userId == item.ctmleadingProcess}}
+					{{if item.status == "0" && userId == item.ctmleadingProcess && index_ != "2"}}
                     	<button class="btn btn-grey" onclick="merge({{item.id}},'0')">驳回</button>
 					{{/if}}
 				 </p>
@@ -274,12 +274,12 @@ function getParams(qId,page,orgid,index) {
 	data.queryId=qId;/*pageBarf类型为第一次进入页面时候的设置**/
 	if(orgid == "pageBarf"){
 		if(index == 0){data.sqid=$("#userid").val();}
-		if(index == 1){data.orgid=$("#userid").val();data.sqid=$("#userid").val();}
+		if(index == 1){data.orgid=$("#userid").val();data.type=index;}
 		if(index == 2){}
 	}else{
 		if(null == index){}else{
 			if(index == 0){if(null ==orgid ){}else{data.sqid=orgid;}}
-			if(index == 1){if(null ==orgid ){}else{data.orgid=orgid;data.sqid=orgid;}}
+			if(index == 1){if(null ==orgid ){}else{data.orgid=orgid;}}
 			if(index == 2){}
 		}
 	}

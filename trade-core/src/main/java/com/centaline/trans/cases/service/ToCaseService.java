@@ -7,6 +7,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.common.entity.CaseMergerParameter;
+import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
 
@@ -100,4 +101,10 @@ public interface ToCaseService {
 	 * @author hejf10
 	 */
 	VCaseDistributeUserVO getVCaseDistributeUserVO(String caseCode);
+	/**
+	 * 查询是否有可以合流的案件
+	 * @author hejf10 2016-12-26 11:10:54
+	 * @return
+	 */
+	String getMergeInfoList(List<ToPropertyInfo> toPropertyInfos);
 }

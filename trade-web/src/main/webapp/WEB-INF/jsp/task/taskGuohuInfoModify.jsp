@@ -23,6 +23,13 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -47,18 +54,23 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
-		<div class=" wrapper border-bottom white-bg page-heading">
-			<div class="row">
-			<div class="col-lg-10">
-				<h2>过户信息修改</h2>
-				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
-			</div>
-			<div class="col-lg-2"></div>
-			</div>
-		</div>		
+		<!-- 服务流程 -->
+		<div class="panel " id="serviceFlow">
+		<div class="row wrapper white-bg new-heading ">
+             <div class="pl10">
+                 <h2 class="newtitle-big">
+                        过户信息修改
+                    </h2>
+                <div class="mt20">
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+                            <i class="iconfont icon">&#xe600;</i> 在途单列表
+                        </button>
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+                            <i class="iconfont icon">&#xe63f;</i> 案件视图
+                        </button>
+                </div>
+             </div>
+        </div>	
 		
 		<!-- 修改表单数据-->
 		<div id="changeForm-modal-form" class="modal fade" role="dialog"
@@ -133,29 +145,35 @@
 					<input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }">
 					<input type="hidden" id="operator" name="operator" value="${operator }">
                     		
-		            <a style="float: left;margin-left: -20px; margin-top: -10px;" class="btn btn-primary"
+		            <a style="float: left;margin-left: -20px; margin-top: -10px;" class="btn btn-icon btn-blue mr5"
 						href="javascript:showChangeFormModal();">我要修改</a>
 				</form>
 
 			</div>
 		</div>
-
-		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
 		</div>
+		<!-- 相关信息 -->
+		<div class="panel " id="aboutInfo">
+		<!-- 案件跟进 -->
+        <div class="view-content" id="caseCommentList"> </div>
 		
-		<div class="ibox-title">
-			<h5>审批记录</h5>
-			<div class="ibox-content">
-				<div class="jqGrid_wrapper">
-					<table id="reminder_list"></table>
-					<div id="pager_list_1"></div>	
-				</div>
+		<div class="">
+            <h2 class="newtitle title-mark">审批记录</h2>
+            <div class="jqGrid_wrapper">
+				<table id="reminder_list"></table>
+				<div id="pager_list_1"></div>
 			</div>
-		</div>
-		<div class="ibox-title">
-			<!-- <a href="#" class="btn" onclick="save()">保存</a> -->
-			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+        </div>
+		<!-- <div class="ibox-title">
+			<a href="#" class="btn" onclick="save()">保存</a>
+			<a href="#" class="btn btn-success btn-space" onclick="submit()">提交</a>
+			<button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
+		</div> -->
+		<div class="form-btn">
+            <div class="text-center">
+                <button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
+            </div>
+        </div>
 		</div>
 	</div>
 
@@ -172,6 +190,10 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script>
+	<!-- 改版引入的新的js文件 -->
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	<script>   
 	/**
 	 * 案件详情

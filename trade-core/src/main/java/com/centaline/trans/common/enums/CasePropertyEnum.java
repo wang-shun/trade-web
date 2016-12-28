@@ -7,6 +7,7 @@ package com.centaline.trans.common.enums;
  * @author <a href="zhaoqianjava@foxmail.com">LionCredo</a>
  */
 public enum CasePropertyEnum {
+	/** 无效案件**/
 	TPWX("30003001", "无效案件"),
 	TPJA("30003002", "结案案件"),
 	TPZT("30003003", "在途案件"),

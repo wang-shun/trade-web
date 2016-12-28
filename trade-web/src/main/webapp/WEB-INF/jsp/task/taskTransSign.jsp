@@ -379,13 +379,13 @@
 		                        </div>
 		                        <div class="form_content">
 		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>合同公证 </label>
-		                            <aist:dict clazz="select_control data_style" id="isHukou" name="isHukou"
+		                            <aist:dict clazz="select_control data_style" id="isConCert" name="isConCert"
 									display="select" defaultvalue="${transSign.isConCert}"
 									dictType="gongzheng_need" />
 		                        </div>
 		                        <div class="form_content">
 		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋有户口</label>
-		                            	<aist:dict clazz="select_control data_style" id="isConCert" name="isConCert"
+		                            	<aist:dict clazz="select_control data_style" id="isHukou" name="isHukou"
 										display="select" defaultvalue="${transSign.isHukou}"
 										dictType="hukou_remain" />
 		                        </div>
@@ -612,8 +612,8 @@
 					isValid = false;
 					return isValid;
 				}
-				if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13)){				
-					alert("电话号码只能由是8位、11位或者13位的数字组成！");
+				if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){				
+					alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
 					isValid = false;
 					return isValid;
 				}

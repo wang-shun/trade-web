@@ -74,10 +74,6 @@
 		var idList = [];
 	}
 </script>
-<style>
-	.borderClass {border:1px solid red!important;resize: none;}
-	.borderClass:focus {border:1px solid red!important;resize: none;}
-</style>
 </head>
 
 <body>
