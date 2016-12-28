@@ -3,6 +3,7 @@ package com.centaline.trans.common.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -35,7 +36,8 @@ public class QuickQueryDictGetStatusNameServiceImpl implements CustomDictService
 				if("1".equals(isResponsed)){
 					key = statusOld;
 				}else{
-					key = "A";
+					if("30001007".equals(statusOld)){key = statusOld;}else{
+					key = "A";}
 				}
 				if(key!=null){
 					if(!key.equals("A")){
