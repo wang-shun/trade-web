@@ -33,6 +33,26 @@ public class ToPropertyInfo {
 	private String comment;
 
 	private String propertyAgentId;
+	/**  UPDATE_BY,UPDATE_TIME**/
+	private Date updateTime;
+	/**  UPDATE_BY,UPDATE_TIME**/
+	private String updateBy;
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
 
 	public Long getPkid() {
 		return pkid;
