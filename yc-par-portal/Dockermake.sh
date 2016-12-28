@@ -1,6 +1,6 @@
 #!/bin/bash
 pomver=`mvn help:evaluate -Dexpression=project.version | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }'`
-version=$pomver-${BUILD_NUMBER}
+version=$pomver
 
 docker build -t docker.aist.io/yc-par-web:$version .
 
