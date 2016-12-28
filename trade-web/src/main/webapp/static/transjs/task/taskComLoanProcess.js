@@ -113,7 +113,7 @@ function checkMortgageForm(formId){
 		formId.find("input[name='loanerOrgCode']").val("");
 		formId.find("input[name='loanerOrgId']").val("");
 	}
-	if(!formId.find("input[name='isTmpBank']").prop('checked')){
+	if(!formId.find("input[name='isTmpBank'][value='1']").prop('checked')){
 		if(afterTimeFlag){
 			if (formId.find("input[name='recLetterNo']").val()==""){
 				formId.find("input[name='recLetterNo']").css("border-color","red");
@@ -399,7 +399,7 @@ function completeMortgage(form){
 }
 
 
-//查询分行信息
+//查询分行信息1111
 function getParentBank(selector,selectorBranch,finOrgCode,tag,flag){
 	var bankHtml = "<option value=''>请选择</option>";
 	var param = {nowCode:finOrgCode};
@@ -487,7 +487,7 @@ function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
 	return true;
 }
 
-//给贷款银行赋值
+//给贷款银行赋值222
 function getParentBankInfo(finOrgCode,formId){
 	 $.ajax({
 	    url:ctx+"/manage/queryParentBankInfo",
@@ -582,11 +582,11 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='prfAmount']").val(data.content.prfAmount);
 		    			f.find("input[name='prfYear']").val(data.content.prfYear);
 		    			if(data.content.mortType=='30016001'){
-		    				f.find("input[name='prfAmount']").val('').prop('disabled',true);
-			    			f.find("input[name='prfYear']").val('').prop('disabled',true);
+		    				f.find("input[name='prfAmount']").val('').prop('disabled',true).css("background-color","#DDDDDD");
+			    			f.find("input[name='prfYear']").val('').prop('disabled',true).css("background-color","#DDDDDD");
 		    			}else{
-		    				f.find("input[name='prfAmount']").prop('disabled',false);
-			    			f.find("input[name='prfYear']").prop('disabled',false);
+		    				f.find("input[name='prfAmount']").prop('disabled',false).css("background-color","");
+			    			f.find("input[name='prfYear']").prop('disabled',false).css("background-color","");
 		    			}
 		    			f.find("input[name='mortTotalAmount']").val(data.content.mortTotalAmount);
 		    			f.find("input[name='comAmount']").val(data.content.comAmount);
@@ -602,12 +602,16 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='loanerOrgCode']").val(data.content.loanerOrgCode);
 		    			f.find("input[name='loanerPhone']").val(data.content.loanerPhone);
 		    			if(data.content.isLoanerArrive == 1){
-		    				f.find("input[name='isLoanerArrive']").prop("checked",true);
+		    				f.find("input[name='isLoanerArrive'][value='1']").prop("checked",true);
+		    			}else if(data.content.isLoanerArrive == 0){
+		    				f.find("input[name='isLoanerArrive'][value='0']").prop("checked",true);
 		    			}
 		    			f.find("input[name='houseNum']").val(data.content.houseNum);
 		    			f.find("input[name='signDate']").val(data.content.signDate);
 		    			if(data.content.ifReportBeforeLend == 1){
-		    				f.find("input[name='ifReportBeforeLend']").prop("checked",true);
+		    				f.find("input[name='ifReportBeforeLend'][value='1']").prop("checked",true);
+		    			}else if(data.content.ifReportBeforeLend ==0){
+		    				f.find("input[name='ifReportBeforeLend'][value='0']").prop("checked",true);
 		    			}
 
 		    			f.find("select[name='finOrgCode']").val(data.content.finOrgCode);
@@ -622,10 +626,10 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
 		    			f.find("input[name='tmpBankReason']").val(data.content.tmpBankReason);
 		    			if(data.content.isTmpBank=='1'){
-		    				f.find("input[name='recLetterNo']").prop('disabled',true);
+		    				f.find("input[name='recLetterNo']").prop('disabled',true).css("background-color","#DDDDDD");
 		    				f.find(".tmpBankReasonDiv").show();
 		    			}else{
-		    				f.find("input[name='recLetterNo']").prop('disabled',false);
+		    				f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
 		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
 		    			
@@ -655,14 +659,14 @@ function isTmpBankChange(){
 		f.find("select[name='bank_type']").change(function(){
 		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
     }); 
-		f.find("input[name='recLetterNo']").prop('disabled',true);
+		f.find("input[name='recLetterNo']").prop('disabled',true).css("background-color","#DDDDDD");
 		f.find(".tmpBankReasonDiv").show();
 	}else{
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'','cl');
 		f.find("select[name='bank_type']").change(function(){
 		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
     }); 
-		f.find("input[name='recLetterNo']").prop('disabled',false);
+		f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
 		f.find(".tmpBankReasonDiv").hide();
 	}
 	
@@ -813,8 +817,6 @@ function getReportList(tableId,pageId,isMainLoanBank){
         	search_isMainLoanBank:isMainLoanBank
         },
         gridComplete : function() { 
-        	$(".ui-corner-bottom").height("60");
-        	$("#"+tableId).width($(".ibox-title").width()-20);
         	var ids = jQuery("#"+tableId).jqGrid('getDataIDs'); 
         						
         	for (var i=0; i<ids.length; i++) { 
@@ -971,11 +973,7 @@ function getReminderList(tableId,pageId){
         postData:{
         	queryId:"queryToReminderList",
         	search_partCode:$("#partCode").val()
-        },
-        gridComplete:function(){
-    		$(".ui-corner-bottom").height("60");
-    		$("#"+tableId).width($(".ibox-title").width()-20);
-        }
+        }   
     });
 }
 var grid = null;
@@ -989,6 +987,7 @@ function getPricingList(tableId,pageId,isMainLoanBank){
 	    	url:ctx+"/quickGrid/findPage",
 	        datatype: "json",
 	        mtype:"GET",
+	        width: 860,
 	        height: 400,
 	        autowidth: true,
 	        shrinkToFit: true,
@@ -1049,10 +1048,6 @@ function getPricingList(tableId,pageId,isMainLoanBank){
 	        		jQuery("#"+tableId).jqGrid('setRowData', accPricingIds[i], {act : sub}); 
 	        			
 	        	}
-	        	$(".ui-corner-bottom").height("60");
-	        	$(".content").height("600");
-	        	$("#"+tableId).width($(".ibox-title").width()-20);
-	        	 
 	        },		
 	        onSelectRow : function(rowid,status) {
 //				var rowData = $("#"+tableId).jqGrid('getRowData', rowid);
@@ -1190,7 +1185,7 @@ function checkAttUp(attDiv,f){
 		var preFCode=$(this).find("input[name='preFileCode']").val();
 		preFCode=preFCode||'';
 		//临时银行或者2016年7月1日之前的案件可以不用上传推荐函
-		if(preFCode.indexOf('rec_letter_')!=-1 && (!!f.find("input[name='isTmpBank']").prop('checked') ||!afterTimeFlag)){
+		if(preFCode.indexOf('rec_letter_')!=-1 && (!!f.find("input[name='isTmpBank'][value='1']").prop('checked') ||!afterTimeFlag)){
 			flag=true;
 			return true;
 		}
@@ -1609,4 +1604,7 @@ function onkeyuploanerName(){
 	$("#loanerOrgCode").val("");
 	$("#loanerOrgId").val("");
 }
+
+
+
 
