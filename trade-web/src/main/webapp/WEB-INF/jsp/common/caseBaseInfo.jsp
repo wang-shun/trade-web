@@ -65,6 +65,38 @@
 .hint-top:hover:after {
 	margin-bottom: 2px;
 }
+#basicInfo .sign {
+	position: absolute;
+	width: 55px;
+	height: 40px;
+	padding-top: 5px;
+	color: #fff;
+	text-align: center;
+	font-family: "Microsoft Yahei";
+	font-size: 14px;
+}
+#basicInfo .top12 .sign-red {
+	background: url(${ctx}/static/trans/img/qizi-01-d998d141a485f8229a079346aa6e472c.png) no-repeat;
+	top: 0px;
+	left: 130px;
+	width: 36px;
+	height: 35px;
+}
+#basicInfo .top12 .sign-blue {
+	background: url(${ctx}/static/trans/img/qizi-02-99c539708b71e1eeadc726209f6838ea.png) no-repeat;
+	top: 0px;
+	left: 190px;
+	width: 52px;
+	height: 35px;
+}
+
+#basicInfo .top12 .sign-yellow {
+	background: url(${ctx}/static/trans/img/qizi-03-9576a537898fbd4e7491406d35c6482a.png) no-repeat;
+	top: 0px;
+	left: 265px;
+	width: 52px;
+	height: 35px;
+}
 </style>
 
 
