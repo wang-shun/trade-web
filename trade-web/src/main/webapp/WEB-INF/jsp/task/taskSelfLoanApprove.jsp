@@ -25,6 +25,8 @@
 <link href="${ctx}/css/common/btn.css" rel="stylesheet">
 <link href="${ctx}/css/common/input.css" rel="stylesheet">
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
+
+<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -61,7 +63,7 @@
 
         <div class="ibox-content border-bottom clearfix space_box noborder">
             <h2 class="newtitle">填写任务信息</h2>
-            <form method="get" class="form_list flowVisiable" id="selfLoanForm">
+            <form method="get" class="form_list flowVisiable"  style="overflow: visible;" id="selfLoanForm">
 				<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 				<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 				<input type="hidden" id="taskId" name="taskId" value="${taskId }">
@@ -128,16 +130,16 @@
 	                    </div>
 	
 	                </div>
-	                <div class="line flowVisiable clearfix">
+	                <div class="line  clearfix"  style="overflow:visible">
 	                    <div class="form_content">
 	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>承办银行 </label> 
-	                        <select class="select_control data_style" name="bank" id="bank"></select>
+	                        <select class="select_control " name="bank" id="bank"></select>
 	                    </div>
 	                </div>
-	                <div class="line flowVisiable clearfix">
+	                <div class="line  clearfix" style="overflow:visible">
 	                    <div class="form_content">
 	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>支行名称 </label> 
-	                        <select class="select_control data_style" name="finOrgCode" id="finOrgCode">
+	                        <select class="select_control " name="finOrgCode" id="finOrgCode">
 							</select>
 	                    </div>
 	                </div>
@@ -160,7 +162,7 @@
 		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 		<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
 		<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-		<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+		<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>  
 		<script src="${ctx}/js/jquery.blockui.min.js"></script>
 		<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
