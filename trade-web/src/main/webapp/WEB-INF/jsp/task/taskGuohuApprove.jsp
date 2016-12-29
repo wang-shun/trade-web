@@ -380,9 +380,9 @@
         </div>
          <!-- 相关信息 -->
         <!-- 案件备注信息 -->
-		<div class="view-content" id="caseCommentList" id="aboutInfo"> </div>
+		<div class="view-content" id="caseCommentList" > </div>
 
-         <div class="mt20">
+         <div class="mt20" id="aboutInfo">
              <h2 class="newtitle title-mark">审批记录</h2>
              <div class="jqGrid_wrapper">
 				<table id="reminder_list"></table>

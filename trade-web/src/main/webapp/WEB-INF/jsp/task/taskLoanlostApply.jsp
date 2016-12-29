@@ -63,8 +63,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
 	   <!-- 服务流程 -->
-	   <div class="panel " id="serviceFlow">
-		<div class="row wrapper white-bg new-heading ">
+		<div class="row wrapper white-bg new-heading " id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         贷款流失申请
@@ -177,11 +176,10 @@
                     </form>
                 </div>
             </div>
-            </div>
-            <div class="panel " id="aboutInfo"
-			<!-- 案件跟进 -->
+            
+            <!-- 案件跟进 -->
             <div class="view-content" id="caseCommentList"> </div>
-        	<div class="mt30 clearfix">
+        	<div class="mt30 clearfix" id="aboutInfo">
         		<c:choose>
 				<c:when test="${accesoryList!=null}">
 					<h2 class="newtitle title-mark">上传备件</h2>
@@ -305,9 +303,8 @@
                    <button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</button>
               </div>
        </div>
-		</div>
-		</div>
-       
+            
+            </div>
 	</div>
 	<content tag="local_script"> <!-- Peity --> 
 	<script	 src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
