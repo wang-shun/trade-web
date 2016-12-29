@@ -379,7 +379,7 @@
 			$("#apprDate").parent().removeClass("input-daterange");
 			$("#apprDate").removeClass("datatime");
 			$("#apprDate").attr("readonly",true);
-			$("#apprDate").css("background-color","#ccc");
+			$("#apprDate").css("background-color","#eee");
 
 			$("select[readOnlydata=1]").closest('.row').hide();
 			$("[readOnlydata=1]").attr('readonly',true);
