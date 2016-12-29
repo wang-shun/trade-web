@@ -71,6 +71,21 @@
 		</where>
 	</select>
 
+
+	<select id="getTeamScopeTargetInfo" parameterType="java.util.HashMap"  resultType="com.centaline.trans.team.entity.TsTeamScopeTarget">	
+		select
+		*
+		from sctrans.T_TS_TEAM_SCOPE_TARGET targetScope	
+		<where>		
+			<if test="grpCode != null">
+				AND targetScope.GRP_CODE = #{grpCode}
+			</if>
+			<if test="isResponseTeam != null">
+				AND targetScope.IS_RESPONSE_TEAM = #{isResponseTeam}
+			</if>
+		</where>
+	</select>
+	
 	<update id="updateGrpMap">
 		exec [sctrans].[P_MK_YC_GRP_MAP_TABLE]
 	</update>

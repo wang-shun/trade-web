@@ -2,6 +2,7 @@ package com.centaline.trans.team.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,6 +120,12 @@ public class TsTeamScopeTargetServiceImpl implements TsTeamScopeTargetService {
 			return list != null && !list.isEmpty(); 
 		}
 		return false;
+	}
+
+	@Override
+	public TsTeamScopeTarget getTeamScopeTargetInfo(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return tsTeamScopeTargetMapper.getTeamScopeTargetInfo(param);
 	}
 
 }
