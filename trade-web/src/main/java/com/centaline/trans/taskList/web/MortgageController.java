@@ -100,8 +100,8 @@ public class MortgageController {
 		MortStep mortStep = new MortStep();
 		mortStep.setCaseCode(caseCode);
 		Integer[] step = mortStepService.getMortStep(caseCode);
-		request.setAttribute("step", step[0]);
-		request.setAttribute("step1", step[1]);
+		request.setAttribute("step1", step[0]);
+		request.setAttribute("step", step[1]);
 
 		request.setAttribute("afterTimeFlag", false);
 		if(caseBaseVO.getToCase()!=null&&caseBaseVO.getToCase().getCreateTime()!=null){

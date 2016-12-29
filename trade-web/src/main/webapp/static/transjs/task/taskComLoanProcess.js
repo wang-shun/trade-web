@@ -654,7 +654,8 @@ function isTmpBankChange(){
 		return false;
 	}
 	var f=$(this).closest('form');
-	if($(this).prop('checked')){
+	var checkBtnVal = $("input[name='isTmpBank']:checked").val();
+	if(checkBtnVal == '1'){
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'');
 		f.find("select[name='bank_type']").change(function(){
 		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
@@ -1202,12 +1203,12 @@ function checkAttUp(attDiv,f){
 	return flag;
 }
 //保存操作步骤
-function saveStep(){
+function saveStep(f,stepIndex){
 	$.ajax({
 		url:ctx+"/task/saveMortStep",
 		method:"post",
 		dataType:"json",
-		data:{caseCode:$("#caseCode").val(),isMainLoanBank:$("#isMainLoanBank").val(),step:stepIndex},
+		data:{caseCode:$("#caseCode").val(),isMainLoanBank:f.find("#isMainLoanBank").val(),step:stepIndex},
 		success:function(data){
 			if(!data.success){
 				alert(data.message);
@@ -1349,7 +1350,7 @@ $(document).ready(function () {
 	 	onStepChanged: function (event, currentIndex, priorIndex){
 	 		stepIndex = currentIndex;
 	 		if(currentIndex > step){
-		 		saveStep();
+		 		saveStep($("#mortgageForm"),stepIndex);
 	 		}
 	 		if(currentIndex == 1){
 	 			getReminderList("table_list_2","pager_list_2");
@@ -1417,8 +1418,8 @@ $(document).ready(function () {
  	},
  	onStepChanged: function (event, currentIndex, priorIndex){
  		stepIndex = currentIndex;
- 		if(currentIndex > step){
-	 		saveStep();
+ 		if(currentIndex > step1){
+	 		saveStep($("#mortgageForm1"),stepIndex);
  		}
  		if(currentIndex == 1){
  			getReminderList("table_list_5","pager_list_5");

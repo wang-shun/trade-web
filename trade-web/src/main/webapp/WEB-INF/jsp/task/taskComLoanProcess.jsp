@@ -1072,10 +1072,10 @@
                                                      <div class="line" style="width:988px;">
                                                          <div class="form_content mt5">
                                                              <label class="control-label sign_left_one">作为最终贷款银行</label>
-                                                             <label class="info-text"><input type="checkbox" value="1" id="lastBankSub" name="lastBankSub" /> 是</label>
+                                                             <label ><input type="checkbox" value="1" id="lastBankSub" name="lastBankSub" /> 是</label>
                                                          </div>
                                                          <div class="form_content">
-                                                             <label class="control-label sign_left_one" style="float: left;margin-top: 6px;">审批时间</label>
+                                                             <label class="control-label sign_left_one" style="float: left;margin-top: 6px;margin-left:300px;">审批时间</label>
                                                              <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
                                                                  <input name="apprDate" id="apprDate" class="input_type yuanwid datatime" type="text" readonly >
                                                              </div>
@@ -1150,7 +1150,7 @@
 								<form id="mortgageForm1" class="form_list">
 								    <input type="hidden" name="pkid" id="pkid"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
-									<input type="hidden" name="isMainLoanBank" value="1"/>
+									<input type="hidden" name="isMainLoanBank" value="0"/>
 		                            <div class="marinfo">
 		                                     <div class="line">
 		                                         <div class="form_content">
@@ -1519,10 +1519,10 @@
                                                      <div class="line" style="width:988px;">
                                                          <div class="form_content mt5">
                                                              <label class="control-label sign_left_one">作为最终贷款银行</label>
-                                                             <label class="info-text"><input type="checkbox" value="1" id="lastBankSub" name="lastBankSub" /> 是</label>
+                                                             <label ><input type="checkbox" value="1" id="lastBankSub" name="lastBankSub" /> 是</label>
                                                          </div>
                                                          <div class="form_content">
-                                                             <label class="control-label sign_left_one" style="float: left;margin-top: 6px;">审批时间</label>
+                                                             <label class="control-label sign_left_one" style="float: left;margin-top: 6px;margin-left:300px;">审批时间</label>
                                                              <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
                                                                  <input name="apprDate" id="apprDate" class="input_type yuanwid datatime" type="text" readonly >
                                                              </div>
@@ -1837,8 +1837,8 @@ function checkInt(obj){
 }
 
  	var ctx = "${ctx}";
-	var step = ${step1};
-	var step1 = ${step};
+	var step = ${step};
+	var step1 = ${step1};
 
 	var evaCode = "${evaCode}";
 	if(evaCode != ""){
