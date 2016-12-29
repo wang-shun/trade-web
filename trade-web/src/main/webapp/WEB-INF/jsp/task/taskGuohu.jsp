@@ -65,8 +65,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
 	<!-- 服务流程 -->
-		<div class="panel " id="serviceFlow">
-		<div class="row wrapper white-bg new-heading ">
+		<div class="row wrapper white-bg new-heading " id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         过户
@@ -240,15 +239,13 @@
             		</form>
 	            </div>
         </div>
-        </div>
-
-		<!-- 相关信息 -->
-		<div class="panel " id="aboutInfo">
-        <div class="view-content" id="caseCommentList"> </div>
-        <div class="ibox-title">
+        
+        <!-- 相关信息 -->
+        <div class="view-content" id="caseCommentList" id="aboutInfo"> </div>
+        <div class="">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
-					<h5>上传备件</h5>
+					<h2 class="newtitle title-mark">上传备件</h2>
 					<div class="ibox-content"
 						style="height: 410px; overflow-y: scroll;">
 						<h5>${accesoryList[0].accessoryName }</h5>
@@ -384,10 +381,8 @@
                  <button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</button>
             </div>
         </div>
-      </div>
-	</div>
-		
-		
+        
+        </div>
 	</div>
 
 	<content tag="local_script"> 
