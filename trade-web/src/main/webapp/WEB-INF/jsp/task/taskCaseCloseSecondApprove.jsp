@@ -111,7 +111,7 @@
 											<div class="controls ">
 												<label class="radio inline"> <input type="radio"
 													value="true" id="optionsRadios1"
-													name="CaseCloseSecondCheck" checked="">审批通过
+													name="CaseCloseSecondCheck" checked="checked">审批通过
 												</label> <label class="radio inline"> <input type="radio"
 													value="false" id="optionsRadios2"
 													name="CaseCloseSecondCheck">审批不通过

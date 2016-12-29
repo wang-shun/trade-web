@@ -798,8 +798,8 @@
 		                                             <label class="control-label sign_left_small select_style mend_select">
 		                                                 签约时间<span class="star" >*</span>
 		                                             </label>
-		                                             <div class="input-group sign-right dataleft input-daterange pull-left date readOnly_date" id="date_4">
-                                                            <input class="input_type yuanwid datatime" type="text" placeholder="" name="signDate" id="signDate" readonly>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
                                                      </div>										
 		                                         </div>
 		                                         <div class="form_content radio-seat" style="margin-top:7px;">
@@ -1207,8 +1207,8 @@
 		                                             <label class="control-label sign_left_small select_style mend_select">
 		                                                 签约时间<span class="star" >*</span>
 		                                             </label>
-		                                             <div class="input-group sign-right dataleft input-daterange pull-left date readOnly_date" id="date_4">
-                                                            <input class="input_type yuanwid datatime" type="text" placeholder="" name="signDate" id="signDate" readonly>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
                                                      </div>										
 		                                         </div>
 		                                         <div class="form_content radio-seat" style="margin-top:7px;">
@@ -1682,6 +1682,19 @@
     </div>
 
 <content tag="local_script"> 
+<script>
+var source = "${source}";
+
+//‘我要修改’时不可修改签约时间和审批时间
+if('caseDetails'==source){
+	readOnlyForm();
+}
+
+function readOnlyForm(){
+	$("input[name='signDate']").attr('readOnly',true).css("background-color","#eee").parent().removeClass("input-daterange");
+	$("input[name='apprDate']").attr('readOnly',true).css("background-color","#eee").parent().removeClass("input-daterange");
+}
+</script>
 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
@@ -1723,22 +1736,8 @@
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <script>
-	var source = "${source}";
-	var afterTimeFlag=${afterTimeFlag};
-	function readOnlyForm(){
-		$(".readOnly_date").removeClass('date');
-		$(".readOnly_date input").attr('readOnly',true);
-		$("select[readOnlydata=1]").closest('.row').hide();
-		$("[readOnlydata=1]").attr('readonly',true);
-		$("[readOnlydata=1]").each(function(){
-			if($(this).is('a')){
-				$(this).hide();
-			}
-		});
-	}
-	if('caseDetails'==source){
-		readOnlyForm();
-	}
+var afterTimeFlag=${afterTimeFlag};
+
 function checknum(obj){
 	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
 	obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 

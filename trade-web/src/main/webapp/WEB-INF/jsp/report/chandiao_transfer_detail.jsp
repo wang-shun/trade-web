@@ -15,8 +15,7 @@
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
-	rel="stylesheet">
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/css/animate.css" rel="stylesheet">
@@ -36,7 +35,7 @@
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link href="http://10.4.19.211/trade-demo/static/trans/css/common/table.css" rel="stylesheet">
+<link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet">
 <style>
 	.input-daterange .input-group-addon{
 		line-height: 14px;
@@ -89,8 +88,9 @@
 							产调完成时间
 						</label>
 						<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-							<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control data_style" type="text" value="" placeholder="起始时间"> <span class="input-group-addon">到</span>
-							<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control data_style" type="text" value="" placeholder="结束日期">
+							<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control data_style" type="text" value="${prCompleteTimeStart}" placeholder="起始时间"> <span class="input-group-addon">到</span>
+							<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control data_style" type="text" value="${prCompleteTimeEnd}" placeholder="结束日期">
+						<input type="hidden" value="${prCompleteTimeStart}" />
 						</div>
 					</div>
 					<div class="form_content">

@@ -124,16 +124,16 @@
 										<th>组别</th>
 										<th class="demo-top" title="贷款银行有误">贷款银行有误</th>
 										<th	class="demo-top" title="商贷金额有误">商贷金额有误</th>
-										<th class="demo-top" title="公积金金额有误">公积金金额有误</th>
-										<th class="demo-top" title="合同价有误">合同价有误</th>
+										<th class="demo-top" title="公积金金额有误">公积金金额...</th>
+										<th class="demo-top" title="合同价有误">合同价...</th>
 										<th class="demo-top" title="核定价格有误">核定价格有误</th>
 										<th class="demo-top" title="商贷利率有误">商贷利率有误</th>
-										<th class="demo-top" title="主贷人未填/有误">主贷人未填/有误</th>
+										<th class="demo-top" title="主贷人未填/有误">主贷人未填...</th>
 										<th class="demo-top" title="贷款情况有误（有贷款、无贷款）">贷款情况有误</th>
-										<th class="demo-top" title="贷款类型未选择/有误（纯商贷、组合贷、纯公积金）">贷款类型未选择</th>
+										<th class="demo-top" title="贷款类型未选择/有误（纯商贷、组合贷、纯公积金）">贷款类型未...</th>
 										<th class="demo-top" title="附件照片缺少/有误（物业地址不符、模糊不清、缺少重要附件）">附件照片缺少</th>
-										<th class="demo-top" title="贷款推荐函未上传">贷款推荐函未上传</th>
-										<th class="demo-top" title="贷款确认书未上传">贷款确认书未上传</th>
+										<th class="demo-top" title="贷款推荐函未上传">贷款推荐函...</th>
+										<th class="demo-top" title="贷款确认书未上传">贷款确认书...</th>
 										<th class="demo-top" title="其他">其他</th>
 										</tr>
 										</thead>
@@ -157,16 +157,16 @@
 										<th>贵宾服务部</th>
 										<th class="demo-top" title="贷款银行有误">贷款银行有误</th>
 										<th	class="demo-top" title="商贷金额有误">商贷金额有误</th>
-										<th class="demo-top" title="公积金金额有误">公积金金额有误</th>
-										<th class="demo-top" title="合同价有误">合同价有误</th>
+										<th class="demo-top" title="公积金金额有误">公积金金额...</th>
+										<th class="demo-top" title="合同价有误">合同价...</th>
 										<th class="demo-top" title="核定价格有误">核定价格有误</th>
 										<th class="demo-top" title="商贷利率有误">商贷利率有误</th>
-										<th class="demo-top" title="主贷人未填/有误">主贷人未填</th>
+										<th class="demo-top" title="主贷人未填/有误">主贷人未填...</th>
 										<th class="demo-top" title="贷款情况有误（有贷款、无贷款）">贷款情况有误</th>
-										<th class="demo-top" title="贷款类型未选择/有误（纯商贷、组合贷、纯公积金）">贷款类型未选择</th>
+										<th class="demo-top" title="贷款类型未选择/有误（纯商贷、组合贷、纯公积金）">贷款类型未...</th>
 										<th class="demo-top" title="附件照片缺少/有误（物业地址不符、模糊不清、缺少重要附件）">附件照片缺少</th>
-										<th class="demo-top" title="贷款推荐函未上传">贷款推荐函未上传</th>
-										<th class="demo-top" title="贷款确认书未上传">贷款确认书未上传</th>
+										<th class="demo-top" title="贷款推荐函未上传">贷款推荐函...</th>
+										<th class="demo-top" title="贷款确认书未上传">贷款确认书...</th>
 										<th class="demo-top" title="其他">其他</th>
 										</tr>
 										</thead>

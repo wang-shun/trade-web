@@ -353,7 +353,7 @@ function showModal(data){
 			addHtml += '	</div>                                                                                 ';
 			addHtml += '</div>                                                                                     ';
 		}
-		if(n.type == "CTM"){
+		if(n.type == "CTM" || n.type == "MERGE"){
 			addHtml += '<div class="feed-activity-list row" style="margin-top: 0;  padding-top: 0; ">                                                       ';
 			addHtml += '	<div class="col-md-4">                                                                 ';
 			addHtml += '		<p class="title">经纪人意向顾问</p>                                                ';

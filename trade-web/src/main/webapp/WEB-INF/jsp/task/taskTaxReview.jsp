@@ -111,13 +111,11 @@
 										实际审税时间
 									</label>
 									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-										<c:if test="${!empty taxReview.taxTime}">
-											<input class="input_type yuanwid datatime" disabled="disabled" type="text"  id="taxTime" name="taxTime" value="<fmt:formatDate  value='${taxReview.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()" style="background: #cdcdcd;">
-										</c:if>
 
-										<c:if test="${empty taxReview.taxTime}">
-											<input class="input_type yuanwid datatime" type="text"  id="taxTime" name="taxTime" value="<fmt:formatDate  value='${taxReview.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
-										</c:if>
+									<input class="input_type yuanwid datatime"  type="text"  id="taxTime" name="taxTime" value="<fmt:formatDate  value='${taxReview.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()" >
+
+
+
 
 										</div>
 								</div>
@@ -252,10 +250,8 @@
 				</div>
 				<div class="form-btn">
 					<div class="text-center">
-						<button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
-						<c:if test="${empty taxReview.taxTime}">
-							<button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</button>
-						</c:if>
+						<a href="#" class="btn btn-success btn-space" onclick="save(false)">保存</a>
+						<a href="#" class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</a>
 					</div>
 				</div>
 			</div>
@@ -315,9 +311,11 @@
 	var source = "${source}";
 	function readOnlyForm(){
 		$(".readOnly_date").removeClass('date');
+		$("#taxTime").attr("disabled",true).css("background","#CDCDCD");
 		$(".readOnly_date input").attr('readOnly',true);
 		$("select[readOnlydata=1]").closest('.row').hide();
 		$("[readOnlydata=1]").attr('readonly',true);
+
 		$("[readOnlydata=1]").each(function(){
 			if($(this).is('a')){
 				$(this).hide();

@@ -126,6 +126,13 @@
 	
 				//保存数据
 				function save() {
+					
+					if($("#content").val().trim() == ''){
+						alert("请填写重启原因！");
+						$("#content").focus();
+						return false;						
+					}
+					
 					var jsonData = $("#lamform").serializeArray();
 					var url = "${ctx}/service/apply";
 					

@@ -56,7 +56,7 @@
             <div class="scroll_box fadeInDown animated">
             	<div class="row wrapper white-bg new-heading">
              		<div class="pl10">
-                 		<h2 class="newtitle-big">贷款服务项变更审批</h2>
+                 		<h2 class="newtitle-big">流程重启审批</h2>
                 		<div class="mt20">
 		                     <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
 		                    	<i class="iconfont icon">&#xe640;</i> 在途单列表
@@ -149,6 +149,13 @@
 	
 			//保存数据
 			function save() {
+				
+				if($("#optionsRadios2").prop("checked") && $("#content").val().trim() == ''){
+					alert("驳回时需填写审批意见！");
+					$("#content").focus();
+					return false;
+				}
+				
 				var jsonData = $("#lamform").serializeArray();
 				
 				var url = "${ctx}/service/approve";

@@ -229,6 +229,13 @@
 
 			/**保存数据*/
 			function save() {
+				
+				if($("#optionsRadios2").prop("checked") && $("#LoanLost_director_response").val().trim() == ''){
+					alert("驳回时需填写审批意见！");
+					$("#LoanLost_director_response").focus();
+					return false;
+				}
+				
 				var jsonData = $("#lamform").serializeArray();				
 				//var url = "${ctx}/task/loanlostApprove/loanlostApproveSecond";
 				var url = "${ctx}/task/loanlostApprove/loanlostApproveDirector";				

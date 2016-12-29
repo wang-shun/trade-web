@@ -14,6 +14,8 @@ public interface ToCaseMergeMapper {
     int insertSelective(ToCaseMerge record);
 
     ToCaseMerge selectByPrimaryKey(Long pkid);
+    
+    List<ToCaseMerge> selectByPrimaryPropertyCode(String propertyCode);
 
     int updateByPrimaryKeySelective(ToCaseMerge record);
 
