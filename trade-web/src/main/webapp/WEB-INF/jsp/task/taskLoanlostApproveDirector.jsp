@@ -90,34 +90,49 @@
 		<div class="ibox-content border-bottom clearfix space_box noborder">
         <div class="clearfix">
             <h2 class="newtitle">业务单信息</h2>
-            <div class="text_list">
-                <ul class="textinfo">
-                    <li>
-                        <em>业务单编号</em><span class="yuanwid">${caseDetail.caseCode}</span>
-                    </li>
-                    <li>
-                        <em>物业地址</em><span>${caseDetail.propertyAddr}</span>
-                    </li>
-                    <li>
-                        <em>主贷人</em><span class="yuanwid">${custName}</span>
-                    </li>
-                    <li>
-                        <em>主贷人单位</em><span class="yuanwid">${custCompany}</span>
-                    </li>
-                    <li>
-                        <em>承办银行</em><span class="yuanwid">${caseDetail.lastLoanBank}</span>
-                    </li>
-                    <li>
-                        <em>贷款流失金额</em><span class="yuanwid">${caseDetail.mortTotalAmount/10000}万</span>
-                    </li>
-                    <li>
-                        <em>流失原因</em><span class="yuanwid">${caseDetail.loanLostApplyReason}</span>
-                    </li>
-                    <li>
-                        <em class="pull-left">流失说明</em><span class="infolong pull-left">${caseDetail.content}</span>
-                    </li>
-                </ul>
-            </div>
+            <div class="form_list">
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 业务单编号 </label> 
+						<span class="teamcode inline">${caseDetail.caseCode}</span>
+					</div>
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 主贷人 </label> 
+						<span class="inline" style="width:80px;">${custName}</span>
+					</div>
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 贷款流失金额</label> 
+						<span class="inline" style="width:80px;">${caseDetail.mortTotalAmount/10000}万</span>
+					</div>
+					
+				</div>
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 物业地址</label> 
+						<span class="inline" style="width: 440px;">${caseDetail.propertyAddr}</span>
+					</div>
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 主贷人单位 </label> 
+						<span class="teamcode inline">${custCompany}</span>
+					</div>
+				</div>
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small">承办银行</label><span style="width:760px;">${caseDetail.lastLoanBank}</span>
+					</div>
+				</div>
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 流失原因 </label> 
+						<span class="teamcode inline">${caseDetail.loanLostApplyReason}</span>
+					</div>
+				</div>
+				<div class="line">
+					<div class="form_content">
+					<label class="control-label sign_left_small"> 流失说明</label> <span class="inline">${caseDetail.content}</span>
+					</div>
+				</div>
+			</div>
         </div>
         <div>
             <h2 class="newtitle">填写任务信息</h2>
