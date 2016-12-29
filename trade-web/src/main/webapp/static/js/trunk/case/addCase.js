@@ -84,7 +84,8 @@ function addCaseAgent(array) {
 
 
 //定义全局变量
-var sale_ctx = $("#appCtx").val();
+var sale_ctx = "http://10.4.19.87:8081/sales-web";
+	//$("#appCtx").val();
 var trade_ctx = $("#ctx").val();
 //页面初始化
 $(document).ready(function() {		
