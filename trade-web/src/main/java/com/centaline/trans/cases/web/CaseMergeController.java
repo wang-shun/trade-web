@@ -27,6 +27,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -279,10 +280,10 @@ public class CaseMergeController {
 			TsTeamScopeTarget tsTeamScopeTarget = tsTeamScopeTargetService.getTeamScopeTargetInfo(map);
 			if( null != tsTeamScopeTarget ){
 				String yuTeamCode = tsTeamScopeTarget.getYuTeamCode();
-				if(null !=yuTeamCode && !"".equals(yuTeamCode)){					
-					String orgId = toCaseInfoService.getCaseInfoByAngetId(yuTeamCode);
-					if(null != orgId && !"".equals(orgId)){
-						User user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId,"Manager");
+				if(null !=yuTeamCode && !"".equals(yuTeamCode)){
+					Org org=uamUserOrgService.getOrgByCode(yuTeamCode);					
+					if(null != org.getId() && !"".equals(org.getId())){
+						User user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(),"Manager");
 						if(null !=user){
 							userId = user.getId()==null ? "":user.getId();
 						}

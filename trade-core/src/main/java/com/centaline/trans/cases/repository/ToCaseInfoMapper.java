@@ -25,8 +25,6 @@ public interface ToCaseInfoMapper {
 	int updateCaseInfoByAngetId(Map<String, Object> param);		
 
 	ToCaseInfo findToCaseInfoByCaseCode(String caseCode);
-	
-	String getCaseInfoByAngetId(String yuTeamCode);
 
 	Integer queryCountCasesByUserId(String userId);
 

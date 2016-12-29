@@ -351,9 +351,4 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 		return toCaseInfoMapper.updateCaseInfoByAngetId(param);
 	}
 
-	@Override
-	public String getCaseInfoByAngetId(String yuTeamCode) {
-		// TODO Auto-generated method stub
-		return     toCaseInfoMapper.getCaseInfoByAngetId(yuTeamCode); 
-	}
 }

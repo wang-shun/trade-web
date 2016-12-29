@@ -12,7 +12,7 @@ public interface ToCaseInfoService {
 
     ToCaseInfo findToCaseInfoByCaseCode(String caseCode);
     
-    String getCaseInfoByAngetId(String yuTeamCode);
+
     int updateByPrimaryKey(ToCaseInfo record);
     
     int updateCaseInfoByOrgId(Map<String, Object> param);
