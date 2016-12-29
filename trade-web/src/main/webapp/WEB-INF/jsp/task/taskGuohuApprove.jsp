@@ -109,9 +109,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<!-- 服务流程 -->
-	<div class="panel" id="serviceFlow">
-	<div class="ibox-title">
-		<div class="row wrapper white-bg new-heading ">
+	<div class="row wrapper white-bg new-heading " id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                        过户审批
@@ -125,8 +123,7 @@
                         </button>
                     </div>
             </div>
-        </div>
-	</div>
+    </div>
 	
 	<div class="ibox-content border-bottom clearfix space_box noborder">
             <div class="clearfix">
@@ -381,12 +378,9 @@
                 </form>
             </div>
         </div>
-     </div>
-     </div>
-        <!-- 相关信息 -->
-	 <div class="panel" id="aboutInfo">
+         <!-- 相关信息 -->
         <!-- 案件备注信息 -->
-		<div class="view-content" id="caseCommentList"> </div>
+		<div class="view-content" id="caseCommentList" id="aboutInfo"> </div>
 
          <div class="mt20">
              <h2 class="newtitle title-mark">审批记录</h2>
@@ -401,7 +395,8 @@
                      <!-- <button class="btn btn-grey btn-space">关闭</button> -->
                 </div>
          </div>
-    </div>
+     </div>
+       
 	<content tag="local_script"> 
 	<!-- Peity --> 
 	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
