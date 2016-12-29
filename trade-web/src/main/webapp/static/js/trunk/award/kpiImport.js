@@ -2,6 +2,7 @@
  * 满意度列表
  * zhoujp
  */
+var argu_belongM;
 $(document).ready(function() {
 			var url = "/quickGrid/findPage";
 			var ctx = $("#ctx").val();
@@ -65,16 +66,13 @@ function searchMethod(page){
 
 	var search_caseCode = $('#caseCode').val();
 	var search_srvCode = $('#srvCode').val();
-	var argu_belongMonth = new Date().format('yyyy-MM-dd');
 	var yuCuiOriGrpDeptId = $('#yuCuiOriGrpDeptId').val();
 	var yuCuiOriGrpId = $('#yuCuiOriGrpId').val();
-	
-	
 	if(!page) {
 		page = 1;
 	}
 	var params = {
-			argu_belongMonth : argu_belongMonth,
+			argu_belongMonth : argu_belongM,
 			search_caseCode : search_caseCode,
 			search_srvCode : search_srvCode,
 			yuCuiOriGrpDeptId : yuCuiOriGrpDeptId,
@@ -105,6 +103,7 @@ function reloadGrid(data) {
         }
   });
 }
+
 function reloadGrid1(data) {
 	if (!data) {
 		data = monthSel.getDate().format('yyyy-MM-dd');
@@ -113,7 +112,7 @@ function reloadGrid1(data) {
 	}
 	var search_caseCode = $('#caseCode').val();
 	var search_srvCode = $('#srvCode').val();
-	var argu_belongMonth = new Date().format('yyyy-MM-dd');
+	argu_belongM = data;
 	// 初始化列表
 	var params = {
 			argu_belongMonth : data,
