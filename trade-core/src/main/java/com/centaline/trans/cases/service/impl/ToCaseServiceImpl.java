@@ -355,7 +355,25 @@ public class ToCaseServiceImpl implements ToCaseService {
     	toCaseInfo.setDispatchTime(new Date());
     	int reToCaseInfo = toCaseInfoService.updateByPrimaryKey(toCaseInfo);
     	if(reToCaseInfo == 0)throw new BusinessException( "案件信息表更新失败！");
-
+    	
+    	ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
+    	
+    	List<ToCaseMerge>  toCaseMergeList = null;
+    	if(null != toPropertyInfo && !StringUtils.isBlank(toPropertyInfo.getPropertyCode())){
+    		toCaseMergeList = toCaseMergeMapper.selectByPrimaryPropertyCode(toPropertyInfo.getPropertyCode());
+    	}
+    	String caseCode_=null;
+    	if(null != toCaseMergeList)
+    	for(ToCaseMerge toCaseMerge:toCaseMergeList){
+    		if(null != toCase){
+    			if(StringUtils.equals(toCaseMerge.getApplyStatus(),"1") ){
+    				caseCode_ = toCaseMerge.getcCaseCode();
+    				break;
+    			}
+    		}
+    	}
+    	
+    	
 		// 如果是无主案件分配,需要维护案件负责人
 		if(toCase == null) {
 			toCase = new ToCase();
@@ -383,7 +401,20 @@ public class ToCaseServiceImpl implements ToCaseService {
     		toCase.setStatus(CaseStatusEnum.YFD.getCode());
     		int reToCase = updateByPrimaryKey(toCase);
     		if(reToCase == 0)throw new BusinessException( "案件基本表更新失败！");
+    		if(null !=caseCode_){}else{
+    			ToCase toCase_ = findToCaseByCaseCode(caseCode_);
+    			if(null != toCase_){
+	    			toCase_.setLeadingProcessId(userId);
+	    			toCase_.setOrgId(orgId);
+	    			int reToCase_ = updateByPrimaryKey(toCase_);
+	        		if(reToCase_ == 0)throw new BusinessException( "案件基本表更新失败！");
+    			}
+    		}
+    		
+    		
 		}
+		
+		
 		ToTransPlan record = new ToTransPlan();
 		record.setCaseCode(caseCode);
 		record.setPartCode(ToAttachmentEnum.FIRSTFOLLOW.getCode());
