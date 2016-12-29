@@ -521,10 +521,10 @@ function getHouseInfo(houseId){
 				buildType = "30014002";
 			}			
 			$("#propertyType").attr("defaultvalue",buildType);
-			$("#propertyType").find("option[value="+ buildType +"]").attr("selected",true);			
-			
-			$("#distCode").attr("defaultvalue",result.DISTRICT_CODE);
-			$("#distCode").find("option[value="+ result.DISTRICT_CODE +"]").attr("selected",true);
+			$("#propertyType").find("option[value="+ buildType +"]").attr("selected",true);		
+
+			$("#distCode").attr("defaultvalue",(result.DISTRICT_CODE).trim());
+			$("#distCode").find("option[value="+ (result.DISTRICT_CODE).trim() +"]").attr("selected",true);
 							     
 		},
 		error: function(errors) {
