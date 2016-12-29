@@ -230,7 +230,7 @@ public class CaseMergeController {
 			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
 			toCaseInfo.setIsResponsed("0");
 			toCaseInfo.setImportTime(new Date());
-			//toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
+			toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
 			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			
 			if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){
@@ -281,8 +281,8 @@ public class CaseMergeController {
 			if( null != tsTeamScopeTarget ){
 				String yuTeamCode = tsTeamScopeTarget.getYuTeamCode();
 				if(null !=yuTeamCode && !"".equals(yuTeamCode)){
-					Org org=uamUserOrgService.getOrgByCode(yuTeamCode);					
-					if(null != org.getId() && !"".equals(org.getId())){
+					Org org = uamUserOrgService.getOrgByCode(yuTeamCode);					
+					if(null != org && null != org.getId() && !"".equals(org.getId())){
 						User user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(),"Manager");
 						if(null !=user){
 							userId = user.getId()==null ? "":user.getId();
