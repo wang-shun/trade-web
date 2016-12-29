@@ -99,11 +99,11 @@
 					<c:if test="${tz}">
 					<div class="marinfo">
                     <div class="line">
-                        <div class="form_content">
+                        <div class="form_content" id="data_1">
                             <label class="control-label sign_left select_style mend_select">
 									他证送抵时间<c:if test="${loanRelease.isDelegateYucui=='1'}"><font color=" red" class="mr5" >*</font></c:if>
                             </label>
-                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                            <div class="input-group sign-right dataleft input-daterange pull-left date" data-date-format="yyyy-mm-dd">
                                 <input type="text" class="input_type yuanwid datatime" id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
 									value="<fmt:formatDate  value='${loanRelease.tazhengArrDate}' type='both' pattern='yyyy-MM-dd'/>">
                             </div>
@@ -114,11 +114,11 @@
 					
                 <div class="marinfo">
                     <div class="line">
-                        <div class="form_content">
+                        <div class="form_content" id="data_1_forBank">
                             <label class="control-label sign_left select_style mend_select">
                                 	银行真实放款时间<font color=" red" class="mr5" >*</font>
                             </label>
-                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                            <div class="input-group sign-right dataleft input-daterange pull-left date" data-date-format="yyyy-mm-dd">
                                 <input type="text" class="input_type yuanwid datatime" id="lendDate" name="lendDate" onfocus="this.blur()"
 								value="<fmt:formatDate  value='${loanRelease.lendDate}' type='both' pattern='yyyy-MM-dd'/>" >
                             </div>
