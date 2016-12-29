@@ -401,7 +401,7 @@ public class ToCaseServiceImpl implements ToCaseService {
     		toCase.setStatus(CaseStatusEnum.YFD.getCode());
     		int reToCase = updateByPrimaryKey(toCase);
     		if(reToCase == 0)throw new BusinessException( "案件基本表更新失败！");
-    		if(null !=caseCode_){}else{
+    		if(null !=caseCode_){
     			ToCase toCase_ = findToCaseByCaseCode(caseCode_);
     			if(null != toCase_){
 	    			toCase_.setLeadingProcessId(userId);
