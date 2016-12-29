@@ -149,7 +149,7 @@
 		    <div class="form-btn">
 	        	<div class="text-center">
 	                <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
-	                <button class="btn btn-success btn-space" onclick="submit()" readOnlydata='1'>提交</button>
+	                <button class="btn btn-success btn-space" onclick="submit()" readOnlydata='1' id="submitButton">提交</button>
 	            </div>
 		    </div>
 	</div>
@@ -173,8 +173,9 @@
 		<script>
 			var source = "${source}";
 			
-			$(document).ready(function() {
-				if('caseDetails'==source){
+			$(document).ready(function() {	
+		
+				if('caseDetails'==source){					
 					readOnlyForm();
 				}
 				
@@ -315,16 +316,18 @@
 				});
 			}
 			
-			function readOnlyForm(){
-				$(".readOnly_date").removeClass('date');
-				$(".readOnly_date input").attr('readOnly',true);
+			function readOnlyForm(){	
+				$("#submitButton").hide();
+/* 				$(".readOnly_date").removeClass('date');
+				$(".readOnly_date input").attr('readOnly',true);				
+
 				$("select[readOnlydata=1]").closest('.row').hide();
 				$("[readOnlydata=1]").attr('readonly',true);
 				$("[readOnlydata=1]").each(function(){
 					if($(this).is('a')){
 						$(this).hide();
 					}
-				});
+				}); */
 			}
 	
 			//贷款折扣自动补全
