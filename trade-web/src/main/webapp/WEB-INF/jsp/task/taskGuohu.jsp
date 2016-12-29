@@ -241,8 +241,8 @@
         </div>
         
         <!-- 相关信息 -->
-        <div class="view-content" id="caseCommentList" id="aboutInfo"> </div>
-        <div class="">
+        <div class="view-content" id="caseCommentList" > </div>
+        <div class="" id="aboutInfo">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
 					<h2 class="newtitle title-mark">上传备件</h2>

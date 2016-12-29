@@ -178,8 +178,8 @@
             </div>
             
             <!-- 案件跟进 -->
-            <div class="view-content" id="caseCommentList" id="aboutInfo"> </div>
-        	<div class="mt30 clearfix">
+            <div class="view-content" id="caseCommentList"> </div>
+        	<div class="mt30 clearfix" id="aboutInfo">
         		<c:choose>
 				<c:when test="${accesoryList!=null}">
 					<h2 class="newtitle title-mark">上传备件</h2>
