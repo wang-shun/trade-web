@@ -169,7 +169,7 @@
 	                            <label class="control-label sign_left_small">是否刷卡<font color=" red" class="mr5" >*</font></label> 
 	                           <select  class="select_control yuanwid" name="useCardPay" id="useCardPay" onchange="showcardPayAmount()">
 	                           <option value="0" ${houseTransfer.useCardPay eq '0'?'selected="selected"':'' }" >否</option>
-	                           <option value="1" ${houseTransfer.useCardPay eq '1'?'selected="selected"':'' }">是</option>
+	                           <option value="1" ${houseTransfer.useCardPay eq '1'?'selected="selected"':'' }">是（佣金卡/税费卡）</option>
 	                           </select>
 	                        </div>
 	                        <div class="form_content" id="showcardPayAmount" style="display:${houseTransfer.useCardPay eq '1'?'block':'none' }">
@@ -177,7 +177,7 @@
 	                            <input type="text" class=" input_type yuanwid" id="cardPayAmount"
 								name=cardPayAmount onkeyup="checkNum(this)"
 								value="<fmt:formatNumber value='${ houseTransfer.cardPayAmount}' type='number' pattern='#0.00' />">
-	                           <span class="date_icon">万元</span>
+	                           <span class="date_icon">元</span>
 	                        </div>
 	                    </div>
 	                    <c:if test="${toMortgage != null }">
