@@ -871,6 +871,17 @@ public class ToCaseServiceImpl implements ToCaseService {
 				getVCaseDistributeUserVO(user,user1,"user",vCaseDistributeUserVO,"CTM");/**CTM意向顾问**/
 			}
 		}
+		if(StringUtils.equals(toCase.getCaseOrigin(), "MERGE")){
+			ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
+			if(StringUtils.isBlank(toCaseInfo.getReferConsultantId())){return null;}
+			
+			Map user = toCaseMapper.getUserIsMain(toCaseInfo.getReferConsultantId());
+			if(null != user){ getVCaseDistributeUserVO(user,null,"map",vCaseDistributeUserVO,"MERGE");/**MERGE意向顾问**/
+			}else{
+				User user1 = uamUserOrgService.getUserById(toCaseInfo.getReferConsultantId()); 
+				getVCaseDistributeUserVO(user,user1,"user",vCaseDistributeUserVO,"MERGE");/**MERGE意向顾问**/
+			}
+		}
 		return vCaseDistributeUserVO;
 	}
 	/**
