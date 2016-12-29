@@ -500,7 +500,7 @@ function getHouseInfo(houseId){
 		async: false,
 		cache:false,
 		success: function(data) {
-			alert(JSON.stringify(data));
+			
 			$("#houseInfo").show();
 			var result = data[0];			
 			$("#propertyCode").val(houseId)
