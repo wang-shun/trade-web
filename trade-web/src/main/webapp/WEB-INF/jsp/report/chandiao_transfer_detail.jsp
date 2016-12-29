@@ -89,8 +89,8 @@
 							产调完成时间
 						</label>
 						<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-							<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control data_style" type="text" value="" placeholder="起始时间"> <span class="input-group-addon">到</span>
-							<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control data_style" type="text" value="" placeholder="结束日期">
+							<input id="prCompleteTimeStart" name="prCompleteTimeStart" class="form-control data_style" type="text" value="${prCompleteTimeStart}" placeholder="起始时间"> <span class="input-group-addon">到</span>
+							<input id="prCompleteTimeEnd" name="prCompleteTimeEnd" class="form-control data_style" type="text" value="${prCompleteTimeEnd}" placeholder="结束日期">
 						</div>
 					</div>
 					<div class="form_content">
