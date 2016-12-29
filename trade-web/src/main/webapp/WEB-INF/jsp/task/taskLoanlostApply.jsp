@@ -299,8 +299,8 @@
         </div>
         <div class="form-btn">
               <div class="text-center">
-                  <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
-                   <button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</button>
+                  <a href="#" class="btn btn-success btn-space" onclick="save(false)">保存</a>
+                   <a href="#" class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</a>
               </div>
        </div>
             
