@@ -22,6 +22,13 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -42,139 +49,152 @@
 </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-		<div class="row wrapper border-bottom white-bg page-heading">
-			<div class="col-lg-10">
-				<h2>贷款服务项变更审批</h2>
-				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
-			</div>
-			<div class="col-lg-2"></div>
-		</div>
-		<div class="ibox-title">
-			<h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form method="get" class="form-horizontal" id="lamform">
-					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="instCode" value="${processInstanceId}">
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+	<div class="row wrapper border-bottom white-bg page-heading marginbot">
+		<div class="row animated fadeInDown">
+            <div class="scroll_box fadeInDown animated">
+            	<div class="row wrapper white-bg new-heading">
+             		<div class="pl10">
+                 		<h2 class="newtitle-big">贷款服务项变更审批</h2>
+                		<div class="mt20">
+		                     <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+		                    	<i class="iconfont icon">&#xe640;</i> 在途单列表
+		                    </button>
+		                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+		                        <i class="iconfont icon">&#xe642;</i>案件视图
+		                    </button>
+                		</div>
+             		</div>
+        		</div>
 
-					<div class="form-group">
-						<label class="col-sm-2 control-label">审批结果</label>
-						<div class="radio i-checks radio-inline">
-							<label> 
-								<input type="radio" checked="checked" value="true" id="optionsRadios1" name="isApproved">审批通过
-							</label>
-						</div>
-						<div class="radio i-checks radio-inline">
-							<label> 
-								<input type="radio" value="false" id="optionsRadios2" name="isApproved">审批未通过
-							</label>
+        		<div class="ibox-content clearfix space_box noborder">           
+        			<div>
+            			<h2 class="newtitle title-mark">填写任务信息</h2>
+            			<div class="form_list">
+                			<div class="marinfo">
+                				<form method="get" class="form-horizontal" id="lamform">
+									<%--环节编码 --%>
+									<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+									<!-- 交易单编号 -->
+									<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+									<%-- 原有数据对应id --%>
+									<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+									<input type="hidden" id="processInstanceId" name="instCode" value="${processInstanceId}">
+									
+				                    <div class="line">
+				                        <div class="form_content">
+				                            <label class="control-label sign_left_small">审批结果</label>
+				                            <div class="controls ">
+				                               	<label class="radio inline"> 
+				                               		<input type="radio" checked="checked" value="true" id="optionsRadios1" name="isApproved">审批通过
+				                               </label> 
+				                               <label class="radio inline"> 
+				                               		<input type="radio" value="false" id="optionsRadios2" name="isApproved">审批未通过
+				                               </label>
+				                            </div>
+				                        </div>
+				                    </div>
+				                    <div class="line">
+				                        <div class="form_content">
+				                            <label class="control-label sign_left_small">审批意见</label>
+				                            <input class="input_type optionwid" id="content" name="content" value="" >
+				                        </div>
+				                    </div>
+		                    	</form>
+                			</div>
+            			</div>
+        			</div>
+        			
+					<!-- 案件备注信息 -->
+				  	<div id="caseCommentList" class="view-content"></div>
+				  	
+				  	<div class="clearfix">
+						<h2 class="newtitle title-mark">审批记录</h2>
+						<div class="jqGrid_wrapper">
+							<table id="reminder_list"></table>
+							<div id="pager_list_1"></div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">审批意见</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control" id="content" name="content" value="">
-						</div>
-					</div>
-				</form>
-
-			</div>
-		</div>
-		
-		<div id="caseCommentList" class="add_form">
-		</div>
-		
-		<div class="ibox-title">
-			<h5>审批记录</h5>
-			<div class="ibox-content">
-				<div class="jqGrid_wrapper">
-					<table id="reminder_list"></table>
-					<div id="pager_list_1"></div>	
-				</div>
-			</div>
-		</div>
-		<div class="ibox-title">
-			<!-- <a href="#" class="btn" onclick="save()">保存</a> -->
-			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
-		</div>
+				  
+			      	<div class="form-btn">
+		                <div class="text-center">
+		                     <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+		                </div>
+                   </div>
+            </div>
+        </div>
+    </div>
 
 	<content tag="local_script"> 
-	<!-- Peity --> 
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
-	<!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
-	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-
-	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script>
-		/**提交数据*/
-		function submit() {			
-			save();
-		}
+		<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+		<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
+		<script src="${ctx}/transjs/task/showAttachment.js"></script> 
+		<script src="${ctx}/js/jquery.blockui.min.js"></script>
+		<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+		<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+		<!-- 改版引入的新的js文件 -->
+	    <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+		<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
+		
+		<script>
+			//提交数据
+			function submit() {			
+				save();
+			}
 	
-		/**保存数据*/
-		function save() {
-			var jsonData = $("#lamform").serializeArray();
-			
-			var url = "${ctx}/service/approve";
-			
-			$.ajax({
-				cache : true,
-				async : true,//false同步，true异步
-				type : "POST",
-				url : url,
-				dataType : "json",
-				data : jsonData,
-    		    beforeSend:function(){  
-    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-    				$(".blockOverlay").css({'z-index':'9998'});
-                },
-                complete: function() {  
-                     if(status=='timeout'){//超时,status还有success,error等值的情况
-    	          	  Modal.alert(
-    				  {
-    				    msg:"抱歉，系统处理超时。"
-    				  });
-    		  		 $(".btn-primary").one("click",function(){
-    		  				parent.$.fancybox.close();
-    		  			});	 
-    		                }
-    		            } , 
-				success : function(data) {
-					if(data.success) {
-						alert(data.message);
-						 if(window.opener)
-					     {
-							 window.close();
-							 window.opener.callback();
-					     } else {
-					    	 window.location.href = "${ctx }/task/myTaskList";
-					     }
-					} else {
+			//保存数据
+			function save() {
+				var jsonData = $("#lamform").serializeArray();
+				
+				var url = "${ctx}/service/approve";
+				
+				$.ajax({
+					cache : true,
+					async : true,
+					type : "POST",
+					url : url,
+					dataType : "json",
+					data : jsonData,
+	    		    beforeSend:function(){  
+	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	    				$(".blockOverlay").css({'z-index':'9998'});
+	                },
+	                complete: function() {  
+	                     if(status=='timeout'){
+	    	          	  Modal.alert(
+	    				  {
+	    				    msg:"抱歉，系统处理超时。"
+	    				  });
+	    		  		 $(".btn-primary").one("click",function(){
+	    		  				parent.$.fancybox.close();
+	    		  			});	 
+	    		                }
+	    		            } , 
+					success : function(data) {
+						if(data.success) {
+							alert(data.message);
+							 if(window.opener)
+						     {
+								 window.close();
+								 window.opener.callback();
+						     } else {
+						    	 window.location.href = "${ctx }/task/myTaskList";
+						     }
+						} else {
+							alert("操作失败。");
+						}
+					},
+					error : function(errors) {
 						alert("操作失败。");
 					}
-				},
-				error : function(errors) {
-					alert("操作失败。");
-				}
-			});
-		}
-	</script> 
+				});
+			}
+		</script> 
 	</content>
 </body>
 </html>
