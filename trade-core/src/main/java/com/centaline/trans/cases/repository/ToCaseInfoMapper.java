@@ -20,9 +20,13 @@ public interface ToCaseInfoMapper {
 
 	int updateByPrimaryKey(ToCaseInfo record);
 	
-	int updateCaseInfoByOrgId(Map<String, Object> param);	
+	int updateCaseInfoByOrgId(Map<String, Object> param);
+	
+	int updateCaseInfoByAngetId(Map<String, Object> param);		
 
 	ToCaseInfo findToCaseInfoByCaseCode(String caseCode);
+	
+	String getCaseInfoByAngetId(String yuTeamCode);
 
 	Integer queryCountCasesByUserId(String userId);
 

@@ -344,4 +344,16 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 		// TODO Auto-generated method stub
 		return toCaseInfoMapper.insertSelective(record);
 	}
+
+	@Override
+	public int updateCaseInfoByAngetId(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return toCaseInfoMapper.updateCaseInfoByAngetId(param);
+	}
+
+	@Override
+	public String getCaseInfoByAngetId(String yuTeamCode) {
+		// TODO Auto-generated method stub
+		return     toCaseInfoMapper.getCaseInfoByAngetId(yuTeamCode); 
+	}
 }

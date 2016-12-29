@@ -47,6 +47,8 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.team.entity.TsTeamScopeTarget;
+import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
 
 
@@ -77,6 +79,9 @@ public class CaseMergeController {
 	ToWorkFlowService toWorkFlowService;
 	@Autowired(required = true)
 	WorkFlowManager workFlowManager;
+	
+	@Autowired(required = true)
+	TsTeamScopeTargetService tsTeamScopeTargetService;
 
 	@Autowired(required = true)
 	ToSpvService toSpvService;
@@ -224,6 +229,7 @@ public class CaseMergeController {
 			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
 			toCaseInfo.setIsResponsed("0");
 			toCaseInfo.setImportTime(new Date());
+			toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
 			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			
 			if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){
@@ -232,6 +238,12 @@ public class CaseMergeController {
 				map.put("orgId", caseMergeVo.getAgentOrgId());
 				toCaseInfoService.updateCaseInfoByOrgId(map);
 			}
+			
+/*			if(caseMergeVo.getAgentCode() != null && !"".equals(caseMergeVo.getAgentCode())){
+				
+				map.put("angetId", caseMergeVo.getAgentCode());				
+				toCaseInfoService.updateCaseInfoByAngetId(map);
+			}*/
 		}		
 		
 		if(insertUp > 0 && insertDown > 0 && insertCase>0 && insertCaseInfo > 0){
@@ -255,6 +267,32 @@ public class CaseMergeController {
 		}
 	   
 		return  "case/mycase_list2";
+	}
+	
+	private String getManagerUserId(String grpCode) {
+		
+		String userId ="";
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(null != grpCode && !"".equals(grpCode)){
+			map.put("grpCode", grpCode);
+			map.put("isResponseTeam", 1);
+			TsTeamScopeTarget tsTeamScopeTarget = tsTeamScopeTargetService.getTeamScopeTargetInfo(map);
+			if( null != tsTeamScopeTarget ){
+				String yuTeamCode = tsTeamScopeTarget.getYuTeamCode();
+				if(null !=yuTeamCode && !"".equals(yuTeamCode)){					
+					String orgId = toCaseInfoService.getCaseInfoByAngetId(yuTeamCode);
+					if(null != orgId && !"".equals(orgId)){
+						User user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId,"Manager");
+						if(null !=user){
+							userId = user.getId();
+						}
+					}
+					
+				}				
+			}
+		}
+	
+		return userId;
 	}
 	
 	private int insertIntoGuestInfo(List<String> nameList, List<String> phoneList,String caseCode,int flag) {

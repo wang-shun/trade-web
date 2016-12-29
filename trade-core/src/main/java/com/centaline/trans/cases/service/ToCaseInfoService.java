@@ -11,9 +11,13 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 public interface ToCaseInfoService {
 
     ToCaseInfo findToCaseInfoByCaseCode(String caseCode);
+    
+    String getCaseInfoByAngetId(String yuTeamCode);
     int updateByPrimaryKey(ToCaseInfo record);
     
     int updateCaseInfoByOrgId(Map<String, Object> param);
+    
+    int updateCaseInfoByAngetId(Map<String, Object> param);
     
 	public int queryCountCasesByUserId(String userId);
 	public int queryCountMonthCasesByUserId(String userId);

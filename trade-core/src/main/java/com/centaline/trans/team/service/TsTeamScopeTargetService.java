@@ -1,6 +1,7 @@
 package com.centaline.trans.team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.team.entity.TsTeamScopeTarget;
 
@@ -22,4 +23,7 @@ public interface TsTeamScopeTargetService {
 	 * @return
 	 */
 	Boolean checkCaseMapping(String salesOrgId);
+	
+	
+	TsTeamScopeTarget getTeamScopeTargetInfo(Map<String, Object> param);
 }

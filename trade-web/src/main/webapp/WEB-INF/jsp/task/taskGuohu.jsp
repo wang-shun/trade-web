@@ -628,7 +628,7 @@
 		/**保存数据*/
 		function save(b) {
 			var caseCode = $("#caseCode").val();
-			if(caseCode != "" && caseCode != null  && caseCode != undefined){
+			if(caseCode != "" && caseCode != null  && caseCode != undefined ){
 
 				$.ajax({					
 					url: ctx+"/caseMerge/mergeSearch",
@@ -650,8 +650,7 @@
 											return;
 										}
 								}else{
-								/* 	alert("caseOrigin=="+caseOrigin);
-									return; */
+									//非自录案件走正常流程
 									goProcess(b);
 								}							
 							}

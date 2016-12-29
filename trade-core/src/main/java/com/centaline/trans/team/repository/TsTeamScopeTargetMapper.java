@@ -1,6 +1,7 @@
 package com.centaline.trans.team.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.team.entity.TsTeamScopeTarget;
@@ -18,4 +19,6 @@ public interface TsTeamScopeTargetMapper {
      * @return
      */
     Integer updateGrpMap();
+    
+    TsTeamScopeTarget getTeamScopeTargetInfo(Map<String, Object> param);   
 }
