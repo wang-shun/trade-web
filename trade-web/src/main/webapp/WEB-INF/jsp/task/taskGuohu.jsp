@@ -622,42 +622,44 @@
 
 		/**保存数据*/
 		function save(b) {
-			var caseCode = $("#caseCode").val();
-			if(caseCode != "" && caseCode != null  && caseCode != undefined ){
+			if(b){
+				var caseCode = $("#caseCode").val();
+				if(caseCode != "" && caseCode != null  && caseCode != undefined ){
 
-				$.ajax({					
-					url: ctx+"/caseMerge/mergeSearch",
-					method:"post",
-					dataType:"json",
-					data:{"caseCode" : caseCode},		
-					success: function(data) {	
-						//alert("Result=====" +JSON.stringify(data));
-						console.log("Result=====" +JSON.stringify(data));
-						if(data != null ){
-							if(data.success){
-								var ctmCode  = data.context;
-								var caseOrigin  = data.message;													
-								if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
-										if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
-											goProcess(b);
-										}else{											
-											alert("自建案件必须完成案件合流才能提交过户申请");
-											return;
-										}
-								}else{
-									//非自录案件走正常流程
-									goProcess(b);
-								}							
+					$.ajax({					
+						url: ctx+"/caseMerge/mergeSearch",
+						method:"post",
+						dataType:"json",
+						data:{"caseCode" : caseCode},		
+						success: function(data) {	
+							//alert("Result=====" +JSON.stringify(data));
+							console.log("Result=====" +JSON.stringify(data));
+							if(data != null ){
+								if(data.success){
+									var ctmCode  = data.context;
+									var caseOrigin  = data.message;													
+									if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
+											if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
+												goProcess(b);
+											}else{											
+												alert("自建案件必须完成案件合流才能提交过户申请");
+												return;
+											}
+									}else{
+										//非自录案件走正常流程
+										goProcess(b);
+									}							
+								}
 							}
+						},
+						error: function(errors) {
+						   	alert("获取案件合流信息出错！");   //弹出失败提示框
 						}
-					},
-					error: function(errors) {
-					   	alert("获取案件合流信息出错！");   //弹出失败提示框
-					}
-				}); 
-				
-			}
-			
+					}); 				
+				}
+			}else{
+				goProcess(false);
+			}			
 		}
 		
 		function  goProcess(b){
