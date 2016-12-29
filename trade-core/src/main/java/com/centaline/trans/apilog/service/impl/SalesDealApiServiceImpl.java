@@ -51,6 +51,8 @@ public class SalesDealApiServiceImpl implements SalesDealApiService{
 					//throw new BusinessException("调用接口异常");
 				}
 			}catch(Exception e){
+				String errMsg = ExceptionUtils.getRootCauseMessage(e);
+				errMsg = errMsg!=null && errMsg.length() > 1000 ? errMsg.substring(0, 1000):errMsg;
 				apiLogservice.apiLog("SALES", centalineDealUrl, ctmCode, e.getMessage(), "0", ExceptionUtils.getRootCauseMessage(e).substring(0, 1000));
 			}
 		}else{
