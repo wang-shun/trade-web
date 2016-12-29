@@ -135,7 +135,14 @@ public class ToMortgageController {
 			response.setContent(mortgage);
 		}catch(Exception e){
 			response.setSuccess(false);
-			response.setMessage("查询出错！"+e.getMessage());
+			StringBuffer sOut = new StringBuffer();
+            sOut.append(e.getMessage() + "\r\n");
+            StackTraceElement[] trace = e.getStackTrace();
+            for (StackTraceElement s : trace) {
+                sOut.append("\tat " + s + "\r\n");
+            }
+			response.setMessage("查询出错！"+sOut);
+			e.printStackTrace();
 		}
 		
         return response;

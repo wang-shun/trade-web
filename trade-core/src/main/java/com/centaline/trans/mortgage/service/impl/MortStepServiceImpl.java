@@ -55,9 +55,9 @@ public class MortStepServiceImpl implements MortStepService {
 		if(mortSteps!=null&&!mortSteps.isEmpty()){
 			for (MortStep mortStep : mortSteps) {
 				if("1".equals(mortStep.getIsMainLoanBank())){
-					result[1]=mortStep.getStep();
-				}else{
 					result[0]=mortStep.getStep();
+				}else{
+					result[1]=mortStep.getStep();
 				}
 			}
 		}

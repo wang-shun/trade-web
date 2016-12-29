@@ -38,6 +38,8 @@
 <link href="${ctx}/css/common/btn.css" rel="stylesheet">
 <link href="${ctx}/css/common/input.css" rel="stylesheet">
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
+
+<link rel="stylesheet" href="${ctx}/css/common/step-mend.css" >
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;
@@ -646,67 +648,49 @@
                             </div>
                         </div>
 
-                        <div class="panel-body">
+                        <div class="panel-body no-padding">
                             <div class="tab-content">
                                 <div id="tab-1" class="tab-pane active">
                                    <div class="ibox float-e-margins">
                                         <div>
                                         
                           <div id="wizard">
-							<h1>询价</h1>
-						    <div style="width:100%">
-							<div class="step-content" style="margin-top: -25px;">
-								<div class="ibox">
-								<div class="ibox-title">
-									<h5>询价结果查看</h5>
-								</div>
-									<div class="ibox-content">
-										 <div class="jqGrid_wrapper">
-			                                <table id="table_list_1"></table>
-			                                <div id="pager_list_1"></div>
-			                           </div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="text-center">
-										<div>
-											<i class="fa fa-sign-in"
-												style="font-size: 12px; color: #e5e5e5"></i>
-										</div>
-									</div>
-								</div>
-								  </div>
-							</div>
+							<h3>询价</h3>
+							<section>
+							<h4>询价结果查看</h4>
+								 <div class="jqGrid_wrapper">
+	                                <table id="table_list_1"></table>
+	                                <div id="pager_list_1"></div>
+	                             </div>
+							</section>
 							
-							<h1>提醒清单</h1>
+							<h3>提醒清单</h3>
+							<section>
 						    <div style="width:100%">
 								<div class="step-content" style="margin-top: -25px;">
 									<div class="ibox">
 									<div class="ibox-title">
-										<h5>备件列表</h5>
+										<h4>备件列表</h4>
 										<a class="btn btn-primary pull-right" href="#" id="sendSMS" style="clear:both;margin-top:-31px">发送短信提醒</a>
 									</div>
 									<div class="ibox-content">
 										 <div class="jqGrid_wrapper">
 											<table id="table_list_2"></table>
 											<div id="pager_list_2"></div>
-												<div class="col-lg-4">
-													<div class="text-center">
-														<div style="margin-top: 20px">
-															<i class="fa fa-sign-in"
-																style="font-size: 12px; color: #e5e5e5"></i>
-														</div>
-													</div>
-												</div>
 											</div>
 										</div>
 									  </div>
 								</div>
 							</div>
-							<h1>贷款签约</h1>
+							</section>
+							
+							
+							<h3>贷款签约</h3>
 							<!--  <fieldset>-->
+							<section>
 							<div class="step-content" style="margin-top: -30px;">
-								<div class="row" style="width:988px;">
+								<div class="ibox" style="width:988px;">
+								<div class="ibox-content">
 								<form id="mortgageForm" class="form_list">
 								    <input type="hidden" name="pkid" id="pkid"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
@@ -842,7 +826,7 @@
 		                                     </div>
 		                                     
 		                                     <div class="line">
-		                                         <div class="form_content">
+		                                         <div class="form_content tmpBankReasonDiv">
 		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
 													 <input type="text" name="tmpBankReason" class="input_type optionwid">
 		                                         </div>
@@ -854,7 +838,7 @@
 													 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
 		                                         </div>
 		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">贷款支行<span class="star">*</span></label>
+		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
 													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
 		                                         </div>
 		                                     </div>
@@ -864,7 +848,7 @@
 		                                             <label class="control-label sign_left_small">补件名称</label>
 											         <input type="text" class="input_type yuanwid" name="supContent" id="supContent">										
 		                                         </div>
-		                                         <div class="form_content">
+		                                         <div class="form_content" style="margin-left:-28px;">
 		                                             <label class="control-label sign_left select_style mend_select" style="width: 204px;">
 		                                                 补件时间
 		                                             </label>										             
@@ -883,19 +867,18 @@
 		                                     
 		                               </div>
 									</form>
+									</div>
 								</div>
 							</div>
+							</section>
 							
-							<h1>上传备件</h1>
 							
-						    <div style="width:100%">
-							<div class="step-content">
-
-							<div class="ibox-title" style="height:615px;">
+							<h3>上传备件</h3>
+							<section>
 							<input type="hidden" name = "accesoryCount" id="accesoryCount" value="${fn:length(accesoryList)} "/>
 							<c:choose>  
 						    <c:when test="${accesoryList!=null}">  
-							<h5>上传备件<br><br><br>${accesoryList[0].accessoryName }</h5>
+							<h4>上传备件<br><br><br>${accesoryList[0].accessoryName }</h4>
 							<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
 					            <div class="att_first" id="fileupload_div_pic"> 
 					               <form id="fileupload"
@@ -996,95 +979,82 @@
 					<h5>上传备件<br>无需上传备件</h5>
 				    </c:otherwise>  
 					</c:choose> 
-					</div>
-								  </div>
-							</div>
-							<h1>有收费评估报告发起</h1>
-							<div style="width:100%">							
-							<div class="step-content" style="margin-top: -25px;">
-								<div class="col-lg-12">
-									<div class="ibox">
-										<div class="ibox-title">
-											<h5>报告查看</h5>
-										</div>
-										<div class="ibox-content">
-											<div class="jqGrid_wrapper">
-												<table id="table_list_4"></table>
-												<div id="pager_list_4"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							</div>
+					</section>
+							
+					<h3>有收费评估报告发起</h3>
+					<section>							
+						<h4>报告查看</h4>
+						<div class="jqGrid_wrapper">
+							<table id="table_list_4"></table>
+							<div id="pager_list_4"></div>
+						</div>
+					</section>
 
-							<h1>完成</h1>
-							<div class="step-content" >
-							<div class="ibox-content"> 
+					<h3>完成</h3>
+					<section>
                          <form id="completeForm" class="form_list">
                          	<input type="hidden" name="pkid" />
 							<input type="hidden" name="finOrgCode" />
 							<input type="hidden" id="fl_is_tmp_bank"/>
-                                                 <div class="marinfo">
-                                                     <div class="line">
-                                                         <div class="form_content">
-                                                             <label class="control-label sign_left_one ver-top">贷款银行</label>
-                                                             <span id="sp_bank">&nbsp;</span>
-                                                         </div>
-
-                                                     </div>
-                                                     <div class="line">
-                                                         <div class="form_content">
-                                                             <label class="control-label sign_left_one ver-top">支行</label>
-                                                             <span id="sp_sub_bank">&nbsp;</span>
-                                                         </div>
-                                                     </div>
-                                                     <div class="line" style="width:988px;">
-                                                         <div class="form_content">
-                                                             <label class="control-label sign_left_one">商贷金额</label>
-                                                             <span id="comAmount" class="info-text">&nbsp;</span>
-                                                         </div>
-                                                         <div class="form_content">
-                                                             <label class="control-label sign_left_one">商业贷款利率</label>
-                                                             <span id="comDiscount" class="info-text">&nbsp;</span>
-                                                         </div>
-                                                     </div>
-                                                     <div class="line" style="width:988px;">
-                                                         <div class="form_content">
-                                                             <label class="control-label sign_left_one">是否临时银行</label>
-                                                             <span id="sp_is_tmp_bank" class="info-text">&nbsp;</span>
-                                                         </div>
-                                                         <div class="form_content">
-                                                             <label class="control-label sign_left_one">临时银行审批结果</label>
-                                                             <span id="tmpBankRejectReason" class="info-text"></span>
-                                                         </div>
-                                                     </div>
-                                                     <div class="line" style="width:988px;">
-                                                         <div class="form_content">
-                                                             <label class="control-label sign_left_one">临时银行处理人</label>
-                                                             <span id="sp_tmp_bank_u" class="info-text">&nbsp;</span>
-                                                         </div>
-                                                         <div class="form_content">
-                                                             <label class="control-label sign_left_one">临时银行处理时间</label>
-                                                             <span id="sp_tmp_bank_t" class="info-text">&nbsp;</span>
-                                                         </div>
-                                                     </div>
-                                                     <div class="line" style="width:988px;">
-                                                         <div class="form_content mt5">
-                                                             <label class="control-label sign_left_one">作为最终贷款银行</label>
-                                                             <label ><input type="checkbox" value="1" id="lastBankSub" name="lastBankSub" /> 是</label>
-                                                         </div>
-                                                         <div class="form_content">
-                                                             <label class="control-label sign_left_one" style="float: left;margin-top: 6px;margin-left:300px;">审批时间</label>
-                                                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                                                                 <input name="apprDate" id="apprDate" class="input_type yuanwid datatime" type="text" readonly >
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </form>		
-							     </div>
-							</div>
+	                         <div class="marinfo">
+	                             <div class="line">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one ver-top">贷款银行</label>
+	                                     <span id="sp_bank">&nbsp;</span>
+	                                 </div>
+	
+	                             </div>
+	                             <div class="line">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one ver-top">支行</label>
+	                                     <span id="sp_sub_bank">&nbsp;</span>
+	                                 </div>
+	                             </div>
+	                             <div class="line" style="width:988px;">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">商贷金额</label>
+	                                     <span id="comAmount" class="info-text">&nbsp;</span>
+	                                 </div>
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">商业贷款利率</label>
+	                                     <span id="comDiscount" class="info-text">&nbsp;</span>
+	                                 </div>
+	                             </div>
+	                             <div class="line" style="width:988px;">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">是否临时银行</label>
+	                                     <span id="sp_is_tmp_bank" class="info-text">&nbsp;</span>
+	                                 </div>
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">临时银行审批结果</label>
+	                                     <span id="tmpBankRejectReason" class="info-text"></span>
+	                                 </div>
+	                             </div>
+	                             <div class="line" style="width:988px;">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">临时银行处理人</label>
+	                                     <span id="sp_tmp_bank_u" class="info-text">&nbsp;</span>
+	                                 </div>
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">临时银行处理时间</label>
+	                                     <span id="sp_tmp_bank_t" class="info-text">&nbsp;</span>
+	                                 </div>
+	                             </div>
+	                             <div class="line" style="width:988px;">
+	                                 <div class="form_content mt5">
+	                                     <label class="control-label sign_left_one">作为最终贷款银行</label>
+	                                     <label ><input type="checkbox" value="1" id="lastBankSub" name="lastBankSub" /> 是</label>
+	                                 </div>
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one" style="float: left;margin-top: 6px;margin-left:300px;">审批时间</label>
+	                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+	                                         <input name="apprDate" id="apprDate" class="input_type yuanwid datatime" type="text" readonly >
+	                                     </div>
+	                                 </div>
+	                             </div>
+	                         </div>
+                           </form>		
+						</section>
 						</div>
                                         </div>
                                     </div>
@@ -1094,59 +1064,42 @@
                                     <div class="ibox float-e-margins">
                                         <div>
                                         
-                           <div id="wizard1">
-							<h1>询价</h1>
-						   <div style="width:100%">
-							<div class="step-content" style="margin-top: -25px;">
-								<div class="ibox">
-									<div class="ibox-title">
-										<h5>询价结果查看</h5>
+                            <div id="wizard1">
+							<h3>询价</h3>
+							<section>
+								<h4>询价结果查看</h4>
+									<div class="jqGrid_wrapper">
+										<table id="table_list_3"></table>
+										<div id="pager_list_3"></div>
 									</div>
-									<div class="ibox-content" >
-										<div class="jqGrid_wrapper">
-											<table id="table_list_3"></table>
-											<div id="pager_list_3"></div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="text-center">
-										<div style="margin-top: 20px">
-											<i class="fa fa-sign-in"
-												style="font-size: 12px; color: #e5e5e5"></i>
-										</div>
-									</div>
-								</div>
-								  </div>
-							</div>
+							</section>
 
-							<h1>提醒清单</h1>							
+							<h3>提醒清单</h3>	
+							<section>						
 						    <div style="width:100%">
-							<div class="step-content">
-
+							<div class="step-content" style="margin-top: -25px;">
+							<div class="ibox">
 								<div class="ibox-title">
-									<h5>备件列表</h5>
-									<a class="btn btn-primary pull-right" href="#" id="sendSMS1">发送短信提醒</a>									
+									<h4>备件列表</h4>
+									<a class="btn btn-primary pull-right" href="#" id="sendSMS1" style="clear:both;margin-top:-31px">发送短信提醒</a>									
 								</div>
-
-								<table id="table_list_5"></table>
-								<div id="pager_list_5"></div>
-
-								<div class="col-lg-4">
-									<div class="text-center">
-										<div style="margin-top: 20px">
-											<i class="fa fa-sign-in"
-												style="font-size: 12px; color: #e5e5e5"></i>
+								<div class="ibox-content">
+									<div class="jqGrid_wrapper">
+										<table id="table_list_5"></table>
+										<div id="pager_list_5"></div>
 										</div>
 									</div>
-								</div>
-								  </div>
+							    </div>
 							</div>
+							</div>
+							</section>
 
-							<h1>贷款签约</h1>
+							<h3>贷款签约</h3>
 							<!--  <fieldset>-->
+							<section>
 							<div class="step-content" style="margin-top: -30px;">
-								<div class="row" style="width:988px;">
+								<div class="ibox" style="width:988px;">
+								<div class="ibox-content">
 								<form id="mortgageForm1" class="form_list">
 								    <input type="hidden" name="pkid" id="pkid"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
@@ -1272,21 +1225,14 @@
 		                                             <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
                                                         <label class="radio inline"> <input type="radio" value="1" name="isTmpBank" disabled="true">是</label>
-                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" disabled="true">否</label>
+                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" disabled="true" checked="checked">否</label>
                                                      </div>
 		                                         </div>
 		                                         <div class="form_content" style="margin-left:-40px;">
 		                                             <label class="control-label sign_left_small" style="width: 170px;">推荐函编号<span class="star">*</span></label>
 													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type yuanwid">
 		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
-													 <input type="text" name="tmpBankReason" class="input_type optionwid">
-		                                         </div>
-		                                     </div>
+		                                     </div>              
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
@@ -1304,7 +1250,7 @@
 		                                             <label class="control-label sign_left_small">补件名称</label>
 											         <input type="text" class="input_type yuanwid" name="supContent" id="supContent">										
 		                                         </div>
-		                                         <div class="form_content">
+		                                         <div class="form_content" style="margin-left:-28px;">
 		                                             <label class="control-label sign_left select_style mend_select" style="width: 204px;">
 		                                                 补件时间
 		                                             </label>										             
@@ -1323,18 +1269,17 @@
 		                                     
 		                               </div>
 									</form>
+								  </div>
 								</div>
 							</div>
+							</section>
 
-							<h1>上传备件</h1>
-							
-						    <div style="width:100%">
-							<div class="step-content">
-
-		<div class="ibox-title" style="height:615px;">
+		<h3>上传备件</h3>
+		<section>
+		<input type="hidden" name = "accesoryCount" id="accesoryCount" value="${fn:length(accesoryList)} "/>
 		<c:choose>  
 	    <c:when test="${accesoryList1!=null}">  
-		<h5>上传备件<br><br><br>${accesoryList1[0].accessoryName }</h5>
+		<h4>上传备件<br><br><br>${accesoryList1[0].accessoryName }</h4>
 		<c:forEach var="accesory" items="${accesoryList1}" varStatus="status">
                <div class="att_second" id="fileupload_div_pic"> 
                <form id="fileupload"	action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	method="POST" enctype="multipart/form-data">				
@@ -1442,32 +1387,19 @@
 		<h5>上传备件<br>无需上传备件</h5>
 	    </c:otherwise>  
 		</c:choose> 
-		</div>
-	</div>
-</div>
+</section>
 
-							<h1>有收费评估报告发起</h1>
-							<div style="width:100%">							
-								<div class="step-content" style="margin-top: -25px;">
-									<div class="col-lg-12">
-										<div class="ibox">
-											<div class="ibox-title">
-												<h5>报告查看</h5>
-											</div>
-											<div class="ibox-content" >
-												<div class="jqGrid_wrapper">
-													<table id="table_list_6"></table>
-													<div id="pager_list_6"></div>
-												</div>
-											</div>
-										</div>
-									</div>
+							<h3>有收费评估报告发起</h3>
+							<section>
+								<h4>报告查看</h4>
+								<div class="jqGrid_wrapper">
+									<table id="table_list_6"></table>
+									<div id="pager_list_6"></div>
 								</div>
-							</div>
+							</section>
 
-							<h1>完成</h1>
-							<div class="step-content" >
-								<div class="ibox-content" style="height:300px;">
+							<h3>完成</h3>
+							<section>
 									<form id="completeForm1" class="form_list">
 				                         	<input type="hidden" name="pkid" />
 											<input type="hidden" name="finOrgCode" />
@@ -1530,8 +1462,7 @@
                                                      </div>
                                                  </div>
                                              </form>		
-											</div>
-										</div>
+										</section>
 									</div>
                                      
                                         </div>
@@ -1951,12 +1882,20 @@ function checkInt(obj){
 		//设置初始操作步骤
 		getPricingList("table_list_3","pager_list_3",0);
 		getPricingList("table_list_1","pager_list_1",1);
-		if(mainLoanBank == "0"){
+		if(step1 == 1){
+ 			getReminderList("table_list_5","pager_list_5");
+		}else if(step1 == 2||step1==3){
+	 		getMortgageInfo($("#caseCode").val(),0);
+		}else if(step1 == 4){
+			getReportList("table_list_6","pager_list_6",0);
+		}else if(step1 == 5){
+			getCompleteMortInfo(0);
+		}
+/* 		if(mainLoanBank == "0"){
 			$("#isMainLoanBank").val("0");
 			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(0);
-			/* $("#first").css("display","none");
-			$("#second").css("display","block"); */
-			
+		    $("#first").css("display","none");
+			$("#second").css("display","block");
 			if(step1 == 1){
 	 			getReminderList("table_list_5","pager_list_5");
 			}else if(step1 == 2||step1==3){
@@ -1967,7 +1906,7 @@ function checkInt(obj){
 				getCompleteMortInfo(mainLoanBank);
 			}
 
-		}else{
+		}else{ */
 			$("#isMainLoanBank").val("1");
 			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
 			/* $("#first").css("display","block");
@@ -1976,13 +1915,13 @@ function checkInt(obj){
 			if(step == 1){
 	 			getReminderList("table_list_2","pager_list_2");
 			}else if(step == 2||step==3){
-		 		getMortgageInfo($("#caseCode").val(),mainLoanBank);
+		 		getMortgageInfo($("#caseCode").val(),1);
 			}else if(step == 4){
-				getReportList("table_list_4","pager_list_4",mainLoanBank);
+				getReportList("table_list_4","pager_list_4",1);
 			}else if(step == 5){
-				getCompleteMortInfo(mainLoanBank);
+				getCompleteMortInfo(1);
 			}
-		}
+/* 		} */
 
 	 	$(".myDataToggle").click(function(){
 	 		$("#isMainLoanBank").val($(this).attr('data-m'));
@@ -2070,12 +2009,7 @@ function checkInt(obj){
 		if(!$("#isTmpBank").is(':checked')){
 			return;
 		}
-		
-		var f=$("#mortgageForm");
-		if(isMainLoanBank != 1){
-			f=$('#mortgageForm1');
-		}
-		
+
 	 	$.ajax({
 		    url:ctx+"/mortgage/tmpBankAudit/start",
 		    async:false,
@@ -2089,33 +2023,16 @@ function checkInt(obj){
 
 	}
 	function selectLoanerUser(array) {
-		if (array && array.length > 0) {
-			$("#mortgageForm").find("#loanerName").val(array[0].username);
-			$.ajax({
-				url : ctx + "/eloan/LoanerCode",
-				method : "post",
-				dataType : "json",
-				data : {
-					"userId" : array[0].userId
-				},
-				success : function(data) {
-					$("#mortgageForm").find("#loanerNameImage").css("color","#52cdec");
-					$("#mortgageForm").find("#loanerPhone").val(data.user.mobile);
-					$("#mortgageForm").find("#loanerId").val(data.user.id);
-					$("#mortgageForm").find("#loanerOrgCode").val(data.user.orgName);
-					$("#mortgageForm").find("#loanerOrgId").val(data.user.orgId);
-				}
-			})
-		} else {
-			$("#mortgageForm").find("#loanerName").val("");
-			$("#mortgageForm").find("#loanerOrgCode").val("");
-			$("#mortgageForm").find("#loanerOrgId").val("");
-		}
+		selectLoanerUserCom(array,$("#mortgageForm"));
 	}
 	
 	function selectLoanerUser_(array) {
+		selectLoanerUserCom(array,$("#mortgageForm1"));
+	}
+	
+	function selectLoanerUserCom(array,$form){
 		if (array && array.length > 0) {
-			$("#mortgageForm1").find("#loanerName").val(array[0].username);
+			$form.find("#loanerName").val(array[0].username);
 			$.ajax({
 				url : ctx + "/eloan/LoanerCode",
 				method : "post",
@@ -2124,17 +2041,17 @@ function checkInt(obj){
 					"userId" : array[0].userId
 				},
 				success : function(data) {
-					$("#mortgageForm1").find("#loanerNameImage").css("color","#52cdec");
-					$("#mortgageForm1").find("#loanerPhone").val(data.user.mobile);
-					$("#mortgageForm1").find("#loanerId").val(data.user.id);
-					$("#mortgageForm1").find("#loanerOrgCode").val(data.user.orgName);
-					$("#mortgageForm1").find("#loanerOrgId").val(data.user.orgId);
+					$form.find("#loanerNameImage").css("color","#52cdec");
+					$form.find("#loanerPhone").val(data.user.mobile);
+					$form.find("#loanerId").val(data.user.id);
+					$form.find("#loanerOrgCode").val(data.user.orgName);
+					$form.find("#loanerOrgId").val(data.user.orgId);
 				}
 			})
 		} else {
-			$("#mortgageForm1").find("#loanerName").val("");
-			$("#mortgageForm1").find("#loanerOrgCode").val("");
-			$("#mortgageForm1").find("#loanerOrgId").val("");
+			$form.find("#loanerName").val("");
+			$form.find("#loanerOrgCode").val("");
+			$form.find("#loanerOrgId").val("");
 		}
 	}
 	
