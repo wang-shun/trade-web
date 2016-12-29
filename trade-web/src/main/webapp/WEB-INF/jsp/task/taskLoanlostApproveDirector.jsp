@@ -123,7 +123,7 @@
 				<div class="line">
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 流失原因 </label> 
-						<span class="teamcode inline">${caseDetail.loanLostApplyReason}</span>
+						<span class="inline">${caseDetail.loanLostApplyReason}</span>
 					</div>
 				</div>
 				<div class="line">
