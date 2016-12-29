@@ -367,8 +367,13 @@ public class ToCaseServiceImpl implements ToCaseService {
     	for(ToCaseMerge toCaseMerge:toCaseMergeList){
     		if(null != toCase){
     			if(StringUtils.equals(toCaseMerge.getApplyStatus(),"1") ){
-    				caseCode_ = toCaseMerge.getcCaseCode();
-    				break;
+    				if(StringUtils.equals(toCaseMerge.getCaseCode(),caseCode)){
+	    				caseCode_ = toCaseMerge.getcCaseCode();
+	    				break;
+    				}else{
+    					caseCode_ = toCaseMerge.getCaseCode();
+    					break;
+    				}
     			}
     		}
     	}
