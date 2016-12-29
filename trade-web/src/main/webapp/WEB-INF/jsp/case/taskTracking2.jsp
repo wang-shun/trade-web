@@ -233,7 +233,11 @@
                           </p>
 					</td>
 					<td >
-					   <p >经办人：{{item.PROCESSOR_ID}}</p>
+						{{if "" != item.PROCESSOR_ID  && null != item.PROCESSOR_ID}}
+					   			<p>经办人： {{item.PROCESSOR_ID}}</p> 	
+						{{else}}
+								<p>经办人： {{item.REQUIRE}}</p>
+						{{/if}}
 					   <p>主&nbsp;&nbsp;&nbsp;&nbsp;管：{{item.MANAGER}}</p>
 					</td>
 
