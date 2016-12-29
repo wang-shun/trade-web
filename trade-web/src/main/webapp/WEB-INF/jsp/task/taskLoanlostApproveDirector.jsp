@@ -123,12 +123,13 @@
 				<div class="line">
 					<div class="form_content">
 						<label class="control-label sign_left_small"> 流失原因 </label> 
-						<span class="teamcode inline">${caseDetail.loanLostApplyReason}</span>
+						<div class="inline" style="width: 600px;word-break: break-all;">${caseDetail.loanLostApplyReason}</div>
 					</div>
 				</div>
 				<div class="line">
 					<div class="form_content">
-					<label class="control-label sign_left_small"> 流失说明</label> <span class="inline">${caseDetail.content}</span>
+					<label class="control-label sign_left_small"> 流失说明</label> 
+					<div class="inline" style="width: 600px;word-break: break-all;">${caseDetail.content}</div>
 					</div>
 				</div>
 			</div>
