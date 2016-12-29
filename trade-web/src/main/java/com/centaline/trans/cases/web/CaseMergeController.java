@@ -230,7 +230,7 @@ public class CaseMergeController {
 			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
 			toCaseInfo.setIsResponsed("0");
 			toCaseInfo.setImportTime(new Date());
-			toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
+			toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));//未分单之前 案件归到主管
 			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			
 			if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){
@@ -239,12 +239,6 @@ public class CaseMergeController {
 				map.put("orgId", caseMergeVo.getAgentOrgId());
 				toCaseInfoService.updateCaseInfoByOrgId(map);
 			}
-			
-/*			if(caseMergeVo.getAgentCode() != null && !"".equals(caseMergeVo.getAgentCode())){
-				
-				map.put("angetId", caseMergeVo.getAgentCode());				
-				toCaseInfoService.updateCaseInfoByAngetId(map);
-			}*/
 		}		
 		
 		if(insertUp > 0 && insertDown > 0 && insertCase>0 && insertCaseInfo > 0){
@@ -270,8 +264,7 @@ public class CaseMergeController {
 		return  "case/mycase_list2";
 	}
 	
-	private String getManagerUserId(String grpCode) {
-		
+	private String getManagerUserId(String grpCode) {		
 		String userId ="";
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(null != grpCode && !"".equals(grpCode)){
