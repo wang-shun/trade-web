@@ -247,7 +247,7 @@
 
 				<column type="both" name="SELF_DEL_REASON" title="流失具体原因" customDict=""		hidden="false" />
 				<column type="virtual" name="USE_CARD_PAY" title="是否刷卡（税费卡/佣金卡）" referencecol="status"  customDict="convertValue"  	hidden="false" />
-				<column type="both" name="CARD_PAY_AMOUNT" title="刷卡总金额" customDict=""		hidden="false" />
+				<column type="both" name="CARD_PAY_AMOUNT" title="刷卡总金额（元）" customDict=""		hidden="false" />
 				<column type="both" name="loanlost_apply_reason_old" title="loanlost_apply_reason_old"  customDict=""		hidden="false" />
 				<column type="virtual" name="loanlost_apply_reason" title="流失原因"	referencecol="loanlost_apply_reason_old" customDict="convertValueForLoanlostReason" />
 				<column type="virtual" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	referencecol="CASE_CODE"  customDict="eloanProduct" isDynamicDict="true"/>

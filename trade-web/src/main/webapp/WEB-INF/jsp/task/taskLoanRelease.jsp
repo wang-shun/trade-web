@@ -64,10 +64,8 @@
 
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-	<div class="">
 	   <!-- 服务流程 -->
-		<div class="panel " id="serviceFlow">
-		<div class="row wrapper white-bg new-heading ">
+		<div class="row wrapper white-bg new-heading " id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         放款
@@ -130,9 +128,9 @@
                 </form>
             </div>
         </div>
-        </div>
+        
         <!-- 相关信息 -->
-		<div class="panel " id="aboutInfo">
+		<div id="aboutInfo">
 		<!-- 案件跟进 -->
         <div class="view-content" id="caseCommentList"> </div>
 
@@ -143,7 +141,9 @@
             </div>
         </div>
         </div>
-    </div>
+        
+        </div>
+        
 
 	<content tag="local_script"> 
 	<!-- Peity --> 

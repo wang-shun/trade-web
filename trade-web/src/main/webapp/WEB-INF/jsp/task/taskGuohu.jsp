@@ -65,8 +65,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
 	<!-- 服务流程 -->
-		<div class="panel " id="serviceFlow">
-		<div class="row wrapper white-bg new-heading ">
+		<div class="row wrapper white-bg new-heading " id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         过户
@@ -170,7 +169,7 @@
 	                            <label class="control-label sign_left_small">是否刷卡<font color=" red" class="mr5" >*</font></label> 
 	                           <select  class="select_control yuanwid" name="useCardPay" id="useCardPay" onchange="showcardPayAmount()">
 	                           <option value="0" ${houseTransfer.useCardPay eq '0'?'selected="selected"':'' }" >否</option>
-	                           <option value="1" ${houseTransfer.useCardPay eq '1'?'selected="selected"':'' }">是</option>
+	                           <option value="1" ${houseTransfer.useCardPay eq '1'?'selected="selected"':'' }">是（佣金卡/税费卡）</option>
 	                           </select>
 	                        </div>
 	                        <div class="form_content" id="showcardPayAmount" style="display:${houseTransfer.useCardPay eq '1'?'block':'none' }">
@@ -178,7 +177,7 @@
 	                            <input type="text" class=" input_type yuanwid" id="cardPayAmount"
 								name=cardPayAmount onkeyup="checkNum(this)"
 								value="<fmt:formatNumber value='${ houseTransfer.cardPayAmount}' type='number' pattern='#0.00' />">
-	                           <span class="date_icon">万元</span>
+	                           <span class="date_icon">元</span>
 	                        </div>
 	                    </div>
 	                    <c:if test="${toMortgage != null }">
@@ -240,15 +239,13 @@
             		</form>
 	            </div>
         </div>
-        </div>
-
-		<!-- 相关信息 -->
-		<div class="panel " id="aboutInfo">
-        <div class="view-content" id="caseCommentList"> </div>
-        <div class="ibox-title">
+        
+        <!-- 相关信息 -->
+        <div class="view-content" id="caseCommentList" > </div>
+        <div class="" id="aboutInfo">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
-					<h5>上传备件</h5>
+					<h2 class="newtitle title-mark">上传备件</h2>
 					<div class="ibox-content"
 						style="height: 410px; overflow-y: scroll;">
 						<h5>${accesoryList[0].accessoryName }</h5>
@@ -384,10 +381,8 @@
                  <button class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</button>
             </div>
         </div>
-      </div>
-	</div>
-		
-		
+        
+        </div>
 	</div>
 
 	<content tag="local_script"> 
@@ -627,42 +622,44 @@
 
 		/**保存数据*/
 		function save(b) {
-			var caseCode = $("#caseCode").val();
-			if(caseCode != "" && caseCode != null  && caseCode != undefined ){
+			if(b){
+				var caseCode = $("#caseCode").val();
+				if(caseCode != "" && caseCode != null  && caseCode != undefined ){
 
-				$.ajax({					
-					url: ctx+"/caseMerge/mergeSearch",
-					method:"post",
-					dataType:"json",
-					data:{"caseCode" : caseCode},		
-					success: function(data) {	
-						//alert("Result=====" +JSON.stringify(data));
-						console.log("Result=====" +JSON.stringify(data));
-						if(data != null ){
-							if(data.success){
-								var ctmCode  = data.context;
-								var caseOrigin  = data.message;													
-								if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
-										if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
-											goProcess(b);
-										}else{											
-											alert("自建案件必须完成案件合流才能提交过户申请");
-											return;
-										}
-								}else{
-									//非自录案件走正常流程
-									goProcess(b);
-								}							
+					$.ajax({					
+						url: ctx+"/caseMerge/mergeSearch",
+						method:"post",
+						dataType:"json",
+						data:{"caseCode" : caseCode},		
+						success: function(data) {	
+							//alert("Result=====" +JSON.stringify(data));
+							console.log("Result=====" +JSON.stringify(data));
+							if(data != null ){
+								if(data.success){
+									var ctmCode  = data.context;
+									var caseOrigin  = data.message;													
+									if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
+											if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
+												goProcess(b);
+											}else{											
+												alert("自建案件必须完成案件合流才能提交过户申请");
+												return;
+											}
+									}else{
+										//非自录案件走正常流程
+										goProcess(b);
+									}							
+								}
 							}
+						},
+						error: function(errors) {
+						   	alert("获取案件合流信息出错！");   //弹出失败提示框
 						}
-					},
-					error: function(errors) {
-					   	alert("获取案件合流信息出错！");   //弹出失败提示框
-					}
-				}); 
-				
-			}
-			
+					}); 				
+				}
+			}else{
+				goProcess(false);
+			}			
 		}
 		
 		function  goProcess(b){

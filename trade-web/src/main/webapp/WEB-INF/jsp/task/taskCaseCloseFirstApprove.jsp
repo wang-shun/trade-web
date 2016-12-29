@@ -92,7 +92,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">审批结果</label>
                             <div class="controls ">
-                               <label class="radio inline"> <input type="radio"value="true" id="optionsRadios1" name="CaseCloseFirstCheck">审批通过
+                               <label class="radio inline"> <input type="radio"value="true" checked="checked" id="optionsRadios1"  name="CaseCloseFirstCheck">审批通过
                                 </label> <label class="radio inline"> <input type="radio"  value="false" id="optionsRadios2" name="CaseCloseFirstCheck">审批不通过
                                 </label>
                             </div>

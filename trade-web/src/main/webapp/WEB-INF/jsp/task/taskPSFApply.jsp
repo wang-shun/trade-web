@@ -458,12 +458,12 @@
 			$("#prfApplyDate").parent().removeClass("input-daterange");
 			$("#prfApplyDate").removeClass("datatime");
 			$("#prfApplyDate").attr("readonly",true);
-			$("#prfApplyDate").css("background-color","#ccc");
+			$("#prfApplyDate").css("background-color","#eee");
 			
 			$("#estPartTime").parent().removeClass("input-daterange");
 			$("#estPartTime").removeClass("datatime");
 			$("#estPartTime").attr("readonly",true);
-			$("#estPartTime").css("background-color","#ccc");
+			$("#estPartTime").css("background-color","#eee");
 			
 			$("select[readOnlydata=1]").closest('.row').hide();
 			$("[readOnlydata=1]").attr('readonly',true);

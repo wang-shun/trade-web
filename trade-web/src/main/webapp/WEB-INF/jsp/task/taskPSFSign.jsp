@@ -521,7 +521,7 @@
 			$("#signDate").parent().removeClass("input-daterange");
 			$("#signDate").removeClass("datatime");
 			$("#signDate").attr("readonly",true);
-			$("#signDate").css("background-color","#ccc");
+			$("#signDate").css("background-color","#eee");
 			
 			$("select[readOnlydata=1]").closest('.row').hide();
 			$("[readOnlydata=1]").attr('readonly',true);

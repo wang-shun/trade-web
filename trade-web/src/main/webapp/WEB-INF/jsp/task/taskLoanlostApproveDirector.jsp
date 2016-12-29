@@ -71,8 +71,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
 		<!-- 服务流程 -->
-		<div class="panel" id="serviceFlow">
-		<div class="row wrapper white-bg new-heading ">
+		<div class="row wrapper white-bg new-heading " id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         	流失审批（总监）
@@ -89,7 +88,7 @@
         </div>
 		<div class="ibox-content border-bottom clearfix space_box noborder">
         <div class="clearfix">
-            <h2 class="newtitle">业务单信息</h2>
+            <h2 class="newtitle title-mark">业务单信息</h2>
             <div class="form_list">
 				<div class="line">
 					<div class="form_content">
@@ -135,7 +134,7 @@
 			</div>
         </div>
         <div>
-            <h2 class="newtitle">填写任务信息</h2>
+            <h2 class="newtitle title-mark">填写任务信息</h2>
             <div class="form_list">
               <form method="get" class="form-horizontal" id="lamform">
               <%--环节编码 --%>
@@ -180,17 +179,15 @@
             </div>
         </div>
         <div class="clearfix">
-            <h2 class="newtitle">附件浏览：贷款自办确认函、贷款流失申请书</h2>
+            <h2 class="newtitle title-mark">附件浏览：贷款自办确认函、贷款流失申请书</h2>
             <div class="ibox-content">
 			<div id="imgShow" class="lightBoxGallery"></div>
 		</div>
         </div>
-        </div>
         <!-- 相关信息 -->
-		<div class="panel " id="aboutInfo">
-        <div class="view-content" id="caseCommentList"> </div>
-        <div>
-            <h2 class="newtitle">审批记录</h2>
+        <div class="view-content" id="caseCommentList" > </div>
+        <div id="aboutInfo">
+            <h2 class="newtitle  title-mark">审批记录</h2>
             <div class="jqGrid_wrapper">
 				<table id="reminder_list"></table>
 				<div id="pager_list_1"></div>
@@ -201,8 +198,7 @@
                      <button class="btn btn-success btn-space" onclick="submit()">提交</button>
                      <!-- <button class="btn btn-grey btn-space">关闭</button> -->
                 </div>
-            </div>
-        </div>
+         </div>
         </div>
 	</div>
 	<content tag="local_script"> <!-- jqGrid --> 
