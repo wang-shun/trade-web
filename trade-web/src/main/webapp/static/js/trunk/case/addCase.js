@@ -86,7 +86,6 @@ function addCaseAgent(array) {
 //定义全局变量
 var sale_ctx = $("#appCtx").val();
 var trade_ctx = $("#ctx").val();
-var finishYear = "2000";
 //页面初始化
 $(document).ready(function() {		
 	
@@ -501,6 +500,7 @@ function getHouseInfo(houseId){
 		async: false,
 		cache:false,
 		success: function(data) {
+			
 			$("#houseInfo").show();
 			var result = data[0];			
 			$("#propertyCode").val(houseId)
@@ -510,13 +510,22 @@ function getHouseInfo(houseId){
 			$("#floor").val(result.FLOOR);
 			$("#totalFloor").val(result.TOTAL_FLOOR);
 			
-			finishYear = result.BUILD_END_YEAR;					
-			$("#propertyType").attr("defaultvalue",result.BUILDING_TYPE);
-			$("#propertyType").find("option[value="+ result.BUILDING_TYPE +"]").attr("selected",true);			
+			var finishYear = (result.BUILD_END_YEAR).trim();
+			if(finishYear =="" || finishYear == null || finishYear == undefined){
+				finishYear = 2000;
+			}
+			initSelectYear("finishYear", finishYear);	
 			
-			$("#distCode").attr("defaultvalue",result.DISTRICT_CODE);
-			$("#distCode").find("option[value="+ result.DISTRICT_CODE +"]").attr("selected",true);
-			initSelectYear("finishYear", finishYear);		     
+			var buildType = (result.BUILDING_TYPE).trim();
+			if(buildType =="" || buildType == null || buildType == undefined){
+				buildType = "30014002";
+			}			
+			$("#propertyType").attr("defaultvalue",buildType);
+			$("#propertyType").find("option[value="+ buildType +"]").attr("selected",true);		
+
+			$("#distCode").attr("defaultvalue",(result.DISTRICT_CODE).trim());
+			$("#distCode").find("option[value="+ (result.DISTRICT_CODE).trim() +"]").attr("selected",true);
+							     
 		},
 		error: function(errors) {
 			 alert("获取房屋基本信息出错！");	   
