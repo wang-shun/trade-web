@@ -36,7 +36,7 @@
 <link rel="stylesheet" href="${ctx}/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link href="http://10.4.19.211/trade-demo/static/trans/css/common/table.css" rel="stylesheet">
+<link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet">
 <style>
 	.input-daterange .input-group-addon{
 		line-height: 14px;
