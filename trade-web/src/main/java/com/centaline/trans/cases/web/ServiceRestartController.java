@@ -84,7 +84,8 @@ public class ServiceRestartController {
 
 		request.setAttribute("approveType", "7");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task/taskserviceRestartApprove";
+		return "task" + UiImproveUtil.getPageType(request)
+				+ "/taskserviceRestartApprove";
 	}
 
 	/**

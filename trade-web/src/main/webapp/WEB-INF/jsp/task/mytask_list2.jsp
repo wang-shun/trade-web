@@ -431,7 +431,7 @@ text-decoration: underline !important;
                            <i class="iconfont icon_revise">
 {{if item.CASE_ORIGIN =='CTM' || item.CASE_ORIGIN == 'INPUT'}}
  {{if item.cu >1}}
-<a  href="javascript:processfu('{{item.pkid}}',
+<a  href="javascript:processfu('{{item.PKID}}',
 '{{item.propertyCode==null?null:item.propertyCode}}','{{item.CASE_CODE}}',
 '{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.MOBILE}}','{{item.AGENT_ORG_NAME}}',
 '{{item.SELLER}}','{{item.BUYER}}',

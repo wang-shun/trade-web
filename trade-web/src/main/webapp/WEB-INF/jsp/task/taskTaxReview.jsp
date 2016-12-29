@@ -112,7 +112,7 @@
 									</label>
 									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
 										<c:if test="${!empty taxReview.taxTime}">
-											<input class="input_type yuanwid datatime" disabled="disabled" type="text"  id="taxTime" name="taxTime" value="<fmt:formatDate  value='${taxReview.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+											<input class="input_type yuanwid datatime" disabled="disabled" type="text"  id="taxTime" name="taxTime" value="<fmt:formatDate  value='${taxReview.taxTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()" style="background: #cdcdcd;">
 										</c:if>
 
 										<c:if test="${empty taxReview.taxTime}">

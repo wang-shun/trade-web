@@ -71,8 +71,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
 		<!-- 服务流程 -->
-		<div class="panel" id="serviceFlow">
-		<div class="row wrapper white-bg new-heading ">
+		<div class="row wrapper white-bg new-heading " id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         	流失审批（总监）
@@ -89,38 +88,53 @@
         </div>
 		<div class="ibox-content border-bottom clearfix space_box noborder">
         <div class="clearfix">
-            <h2 class="newtitle">业务单信息</h2>
-            <div class="text_list">
-                <ul class="textinfo">
-                    <li>
-                        <em>业务单编号</em><span class="yuanwid">${caseDetail.caseCode}</span>
-                    </li>
-                    <li>
-                        <em>物业地址</em><span>${caseDetail.propertyAddr}</span>
-                    </li>
-                    <li>
-                        <em>主贷人</em><span class="yuanwid">${custName}</span>
-                    </li>
-                    <li>
-                        <em>主贷人单位</em><span class="yuanwid">${custCompany}</span>
-                    </li>
-                    <li>
-                        <em>承办银行</em><span class="yuanwid">${caseDetail.lastLoanBank}</span>
-                    </li>
-                    <li>
-                        <em>贷款流失金额</em><span class="yuanwid">${caseDetail.mortTotalAmount/10000}万</span>
-                    </li>
-                    <li>
-                        <em>流失原因</em><span class="yuanwid">${caseDetail.loanLostApplyReason}</span>
-                    </li>
-                    <li>
-                        <em class="pull-left">流失说明</em><span class="infolong pull-left">${caseDetail.content}</span>
-                    </li>
-                </ul>
-            </div>
+            <h2 class="newtitle title-mark">业务单信息</h2>
+            <div class="form_list">
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 业务单编号 </label> 
+						<span class="teamcode inline">${caseDetail.caseCode}</span>
+					</div>
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 主贷人 </label> 
+						<span class="inline" style="width:80px;">${custName}</span>
+					</div>
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 贷款流失金额</label> 
+						<span class="inline" style="width:80px;">${caseDetail.mortTotalAmount/10000}万</span>
+					</div>
+					
+				</div>
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 物业地址</label> 
+						<span class="inline" style="width: 440px;">${caseDetail.propertyAddr}</span>
+					</div>
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 主贷人单位 </label> 
+						<span class="teamcode inline">${custCompany}</span>
+					</div>
+				</div>
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small">承办银行</label><span style="width:760px;">${caseDetail.lastLoanBank}</span>
+					</div>
+				</div>
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 流失原因 </label> 
+						<span class="teamcode inline">${caseDetail.loanLostApplyReason}</span>
+					</div>
+				</div>
+				<div class="line">
+					<div class="form_content">
+					<label class="control-label sign_left_small"> 流失说明</label> <span class="inline">${caseDetail.content}</span>
+					</div>
+				</div>
+			</div>
         </div>
         <div>
-            <h2 class="newtitle">填写任务信息</h2>
+            <h2 class="newtitle title-mark">填写任务信息</h2>
             <div class="form_list">
               <form method="get" class="form-horizontal" id="lamform">
               <%--环节编码 --%>
@@ -165,17 +179,15 @@
             </div>
         </div>
         <div class="clearfix">
-            <h2 class="newtitle">附件浏览：贷款自办确认函、贷款流失申请书</h2>
+            <h2 class="newtitle title-mark">附件浏览：贷款自办确认函、贷款流失申请书</h2>
             <div class="ibox-content">
 			<div id="imgShow" class="lightBoxGallery"></div>
 		</div>
         </div>
-        </div>
         <!-- 相关信息 -->
-		<div class="panel " id="aboutInfo">
-        <div class="view-content" id="caseCommentList"> </div>
-        <div>
-            <h2 class="newtitle">审批记录</h2>
+        <div class="view-content" id="caseCommentList" > </div>
+        <div id="aboutInfo">
+            <h2 class="newtitle  title-mark">审批记录</h2>
             <div class="jqGrid_wrapper">
 				<table id="reminder_list"></table>
 				<div id="pager_list_1"></div>
@@ -186,8 +198,7 @@
                      <button class="btn btn-success btn-space" onclick="submit()">提交</button>
                      <!-- <button class="btn btn-grey btn-space">关闭</button> -->
                 </div>
-            </div>
-        </div>
+         </div>
         </div>
 	</div>
 	<content tag="local_script"> <!-- jqGrid --> 

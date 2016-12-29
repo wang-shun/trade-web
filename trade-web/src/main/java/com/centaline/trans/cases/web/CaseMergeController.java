@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -115,7 +116,7 @@ public class CaseMergeController {
 	/**
 	 * 自录案件 重复性判断
 	 * 
-	 * @param caseId
+	 * @param propertyCode
 	 * @param request
 	 * @return
 	 */
@@ -165,17 +166,19 @@ public class CaseMergeController {
 		}catch(Exception e){
      		response.setSuccess(false);
      		response.setMessage(e.getMessage());	
-     	}
-		//request.setAttribute("list", listForShow);
-		
+     	}		
 		response.setSuccess(true);
 		response.setContent(listForShow);
 		
 		return response;
 	}
 
+	/**
+	 * @author zhuody
+	 * @date 2016-12-29
+	 * 新建自录案件信息保存 及跳转
+	 * */
 	
-	//自录案件信息保存
 	@RequestMapping("saveCaseInfo/{keyFlag}")
 	public String saveCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo,@PathVariable String keyFlag){
 		
@@ -188,6 +191,9 @@ public class CaseMergeController {
 		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
 		String month = dateStr.substring(0, 6);
 		String caseCode = uamBasedataService.nextSeqVal("CASE_ZL_CODE", month);
+		if(null == caseCode){
+			throw new BusinessException("生成自录案件编号出现异常！");
+		}
 		
 		int insertUp=0,insertDown=0,insertCase=0,insertCaseInfo=0;
 		if(caseMergeVo != null){
@@ -199,29 +205,26 @@ public class CaseMergeController {
 			insertUp = insertIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
 			insertDown = insertIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
 			try {
-			toPropertyInfo.setCaseCode(caseCode);
-			toPropertyInfo.setPropertyCode(caseMergeVo.getPropertyCode() == null? "":caseMergeVo.getPropertyCode());
-			toPropertyInfo.setPropertyAddr(caseMergeVo.getPropertyAddr() == null? "":caseMergeVo.getPropertyAddr());
-			toPropertyInfo.setDistCode(caseMergeVo.getDistCode() == null? "":caseMergeVo.getDistCode());	
-			toPropertyInfo.setPropertyType(caseMergeVo.getPropertyType() == null? "":caseMergeVo.getPropertyType());
-			toPropertyInfo.setSquare(caseMergeVo.getSquare() == null ? 0.0: Double.valueOf(caseMergeVo.getSquare()));
-			toPropertyInfo.setLocateFloor(caseMergeVo.getFloor() == null ? 0: caseMergeVo.getFloor());
-			toPropertyInfo.setTotalFloor(caseMergeVo.getTotalFloor() == null ? 0:caseMergeVo.getTotalFloor());		
-			toPropertyInfo.setFinishYear(sdf.parse(caseMergeVo.getFinishYear()+"-01-01 00:00"));
-			toPropertyInfoService.insertSelective(toPropertyInfo);
-			} catch (ParseException e) {
-				
+				toPropertyInfo.setCaseCode(caseCode);
+				toPropertyInfo.setPropertyCode(caseMergeVo.getPropertyCode() == null? "":caseMergeVo.getPropertyCode());
+				toPropertyInfo.setPropertyAddr(caseMergeVo.getPropertyAddr() == null? "":caseMergeVo.getPropertyAddr());
+				toPropertyInfo.setDistCode(caseMergeVo.getDistCode() == null? "":caseMergeVo.getDistCode());	
+				toPropertyInfo.setPropertyType(caseMergeVo.getPropertyType() == null? "":caseMergeVo.getPropertyType());
+				toPropertyInfo.setSquare(caseMergeVo.getSquare() == null ? 0.0: Double.valueOf(caseMergeVo.getSquare()));
+				toPropertyInfo.setLocateFloor(caseMergeVo.getFloor() == null ? 0: caseMergeVo.getFloor());
+				toPropertyInfo.setTotalFloor(caseMergeVo.getTotalFloor() == null ? 0:caseMergeVo.getTotalFloor());		
+				toPropertyInfo.setFinishYear(sdf.parse(caseMergeVo.getFinishYear()+"-01-01 00:00"));
+				toPropertyInfoService.insertSelective(toPropertyInfo);
+			} catch (ParseException e) {				
 				e.printStackTrace();
-			}
-						
-			//TODO
+			}			
+		
 			toCase.setCaseCode(caseCode);
 			toCase.setCaseProperty(CasePropertyEnum.TPZJ.getCode());//自建案件
 			toCase.setStatus(CaseStatusEnum.WFD.getCode());//未分单
 			toCase.setCaseOrigin(CaseOriginEnum.INPUT.getCode());					
 			insertCase = toCaseService.insertSelective(toCase);
 			
-			//TODO
 			toCaseInfo.setCaseCode(caseCode);
 			toCaseInfo.setAgentCode(caseMergeVo.getAgentCode() == null?"":caseMergeVo.getAgentCode());
 			toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentName());
@@ -230,21 +233,14 @@ public class CaseMergeController {
 			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
 			toCaseInfo.setIsResponsed("0");
 			toCaseInfo.setImportTime(new Date());
-			//toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
+			toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));//未分单之前 案件归到主管
 			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			
-			if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){
-				
+			if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){				
 				map.put("caseCode", caseCode);
 				map.put("orgId", caseMergeVo.getAgentOrgId());
 				toCaseInfoService.updateCaseInfoByOrgId(map);
 			}
-			
-/*			if(caseMergeVo.getAgentCode() != null && !"".equals(caseMergeVo.getAgentCode())){
-				
-				map.put("angetId", caseMergeVo.getAgentCode());				
-				toCaseInfoService.updateCaseInfoByAngetId(map);
-			}*/
 		}		
 		
 		if(insertUp > 0 && insertDown > 0 && insertCase>0 && insertCaseInfo > 0){
@@ -270,19 +266,23 @@ public class CaseMergeController {
 		return  "case/mycase_list2";
 	}
 	
-	private String getManagerUserId(String grpCode) {
-		
+	/**
+	 * @author zhuody
+	 * @date 2016-12-29
+	 * 新建自录案件 响应人默认设置为三级市场组织对应的主管
+	 * */
+	private String getManagerUserId(String grpCode) {		
 		String userId ="";
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(null != grpCode && !"".equals(grpCode)){
 			map.put("grpCode", grpCode);
-			map.put("isResponseTeam", 1);
+			map.put("isResponseTeam", 1);			
 			TsTeamScopeTarget tsTeamScopeTarget = tsTeamScopeTargetService.getTeamScopeTargetInfo(map);
 			if( null != tsTeamScopeTarget ){
 				String yuTeamCode = tsTeamScopeTarget.getYuTeamCode();
 				if(null !=yuTeamCode && !"".equals(yuTeamCode)){
-					Org org=uamUserOrgService.getOrgByCode(yuTeamCode);					
-					if(null != org.getId() && !"".equals(org.getId())){
+					Org org = uamUserOrgService.getOrgByCode(yuTeamCode);					
+					if(null != org && null != org.getId() && !"".equals(org.getId())){
 						User user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getId(),"Manager");
 						if(null !=user){
 							userId = user.getId()==null ? "":user.getId();
@@ -295,6 +295,11 @@ public class CaseMergeController {
 		return userId;
 	}
 	
+	/**
+	 * @author zhuody
+	 * @date 2016-12-26
+	 * 新建自录案件 插入上下家信息
+	 * */
 	private int insertIntoGuestInfo(List<String> nameList, List<String> phoneList,String caseCode,int flag) {
 		int k = 0;
 		TgGuestInfo tgGuestInfo = new TgGuestInfo();
@@ -321,6 +326,11 @@ public class CaseMergeController {
 		return k;
 	}
 	
+	/**
+	 * @author zhuody
+	 * @date 2016-12-26
+	 * 新建自录案件 案件信息中英文转换
+	 * */
 	private ToCase caseInfoChange(ToCase toCase) {
 		if(toCase.getStatus() != null){
 			if("30003001".equals(toCase.getStatus())){
@@ -366,8 +376,9 @@ public class CaseMergeController {
 	}
 	
 	/**
-	 * 过户之前判断是否合流
+	 * 自录案件过户之前判断是否合流
 	 * @author zhuody 
+	 * @date 2016-12-26
 	 * 
 	 */	
     @RequestMapping(value="mergeSearch")
