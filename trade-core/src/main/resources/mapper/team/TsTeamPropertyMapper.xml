@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.centaline.trans.team.repository.TsTeamPropertyMapper" >
   <resultMap id="BaseResultMap" type="com.centaline.trans.team.entity.TsTeamProperty" >
+  
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="YU_TEAM_NAME" property="yuTeamName" jdbcType="NVARCHAR" />
     <result column="YU_TEAM_CODE" property="yuTeamCode" jdbcType="NVARCHAR" />

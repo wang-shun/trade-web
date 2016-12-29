@@ -206,7 +206,7 @@ public class CaseMergeController {
 			toPropertyInfo.setSquare(caseMergeVo.getSquare() == null ? 0.0: Double.valueOf(caseMergeVo.getSquare()));
 			toPropertyInfo.setLocateFloor(caseMergeVo.getFloor() == null ? 0: caseMergeVo.getFloor());
 			toPropertyInfo.setTotalFloor(caseMergeVo.getTotalFloor() == null ? 0:caseMergeVo.getTotalFloor());		
-			toPropertyInfo.setFinishYear(sdf.parse(caseMergeVo.getFinishYear()+"-01-01 00:00"));//TODO  SHIJIAN格式
+			toPropertyInfo.setFinishYear(sdf.parse(caseMergeVo.getFinishYear()+"-01-01 00:00"));
 			toPropertyInfoService.insertSelective(toPropertyInfo);
 			} catch (ParseException e) {
 				
@@ -229,7 +229,7 @@ public class CaseMergeController {
 			toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
 			toCaseInfo.setIsResponsed("0");
 			toCaseInfo.setImportTime(new Date());
-			toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
+			//toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
 			insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
 			
 			if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){
@@ -284,10 +284,9 @@ public class CaseMergeController {
 					if(null != orgId && !"".equals(orgId)){
 						User user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId,"Manager");
 						if(null !=user){
-							userId = user.getId();
+							userId = user.getId()==null ? "":user.getId();
 						}
-					}
-					
+					}					
 				}				
 			}
 		}

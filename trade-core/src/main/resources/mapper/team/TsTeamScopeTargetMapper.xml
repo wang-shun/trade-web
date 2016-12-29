@@ -84,7 +84,7 @@
 				AND targetScope.IS_RESPONSE_TEAM = #{isResponseTeam}
 			</if>
 		</where>
-	</select>
+	</select> 
 	
 	<update id="updateGrpMap">
 		exec [sctrans].[P_MK_YC_GRP_MAP_TABLE]

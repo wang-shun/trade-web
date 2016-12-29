@@ -232,13 +232,10 @@
 	AND    TC.CASE_CODE = #{caseCode}
   </update>
   
-  <select id="getCaseInfoByAngetId" parameterType="java.lang.String" resultMap="java.lang.String">
+<!--   <select id="getCaseInfoByAngetId" parameterType="java.lang.String" resultMap="java.lang.String">
       SELECT TOP 1 ID FROM sctrans.SYS_ORG       
       WHERE ORG_CODE = #{yuTeamCode,jdbcType=VARCHAR}   
-  </select>
-  
-
-
+  </select> -->
   
  
 <select id="findToCaseInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
