@@ -386,7 +386,7 @@
 										</shiro:hasPermission>
 										</c:if>
 									</c:if>
-									<c:if test="${toCase.status != '30001007'}">
+									<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007'}">
 									<shiro:hasPermission name="TRADE.CASE.RESET">
 										<a role="button" id="caseResetes"
 											class="btn btn-primary btn-xm btn-activity"
