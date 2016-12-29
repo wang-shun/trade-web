@@ -815,7 +815,7 @@
 		                                         <div class="form_content radio-seat" style="margin-top:5px;">
 		                                             <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
-                                                        <label class="radio inline"> <input type="radio" value="1" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
+                                                        <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
                                                         <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' }>否</label>
                                                      </div>
 		                                         </div>
