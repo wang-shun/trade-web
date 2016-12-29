@@ -3,7 +3,7 @@
 <input type="hidden" name="pkId" id="pkId" />
 <input type="hidden" name="divCaseName" id="divCaseName" />
 <input type="hidden" name="propertyCode" id="propertyCode" />
-<div id="myModalsa" class="modal inmodal in" id="malPopup">
+<div id="myModalsa" class="modal inmodal in" >
        <div class="modal-dialog" style="width: 1070px;">
            <div class="modal-content animated fadeIn apply_box info_box">
                <div  class="form_list clearfix">
@@ -239,11 +239,16 @@ function changeTaskAssignee(page,propertyCode){
 		data : data,
 		beforeSend:function(){},
 		success : function(data) {
-			data.ctx = ctx;
-	    	var tsAwardBaseList= template('queryCastListItemList' , data);
-	        $("#taskListf").empty();
-	        $("#taskListf").html(tsAwardBaseList);
-	        initpagef(data.total,data.pagesize,data.page, data.records);
+			if(data.page>0){
+				data.ctx = ctx;
+		    	var tsAwardBaseList= template('queryCastListItemList' , data);
+		        $("#taskListf").empty();
+		        $("#taskListf").html(tsAwardBaseList);
+		        initpagef(data.total,data.pagesize,data.page, data.records);
+		        $("#myModalsa").modal("show");
+			}else{
+				closef();
+			}
 		},complete: function() { },
 		error : function(errors) { }
 	});
@@ -296,6 +301,7 @@ function showGlDiv(callback,pkId,caseCode,propertyAddr,agentName,agentPhone,agen
 	changeTaskAssignee(1,propertyCode); 
 	$("#myModalsa").attr("callback",callback);
 	$("#propertyCode").val(propertyCode);  
-	$("#myModalsa").modal("show");/**显示 div**/
+	//if(distriType_){}else{
+	//$("#myModalsa").modal("show");/**显示 div**/}
 }
 </script>
