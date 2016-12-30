@@ -38,7 +38,7 @@
 	    var ctx = '${ctx}';
 	    window.ctx=ctx;
     </script>
-    <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/config.js"></script>
+    <%-- <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/config.js"></script> --%>
 	<script type="text/javascript">
 		try{
 			var ctx="${ctx}";

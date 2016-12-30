@@ -1,4 +1,4 @@
-require.config({
+/*require.config({
     	baseUrl: ctx+"/",
     	shim: {
     		'blockUI': ['jquery']
@@ -16,7 +16,7 @@ require.config({
     });
 
 
-/*require(['aistFileUpload'], function (aistFileUpload){
+require(['aistFileUpload'], function (aistFileUpload){
 	  aistFileUpload.initFileUpload({
   		caseCode : "ZY-SH-201609-0035",
   		partCode : "SpvApplyApprove",
@@ -31,7 +31,7 @@ require.config({
 
 require(['aistMath'], function (aistMath){
 	alert(aistMath.add(1,1));
-}); */
+}); 
 
 require(['aistFileUpload'], function (aistFileUpload){
 	  aistFileUpload.initFileUpload({
@@ -49,3 +49,4 @@ require(['aistFileUpload'], function (aistFileUpload){
 
 
 
+*/
