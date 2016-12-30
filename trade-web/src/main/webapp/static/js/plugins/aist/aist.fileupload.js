@@ -31,7 +31,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 				  },options||{});
 				  
 				  if (typeof window.WebUploader == 'undefined') {
-					  use(["/js/viewer/viewer.min.css","/js/viewer/viewer.min.js","/js/template.js","/js/plugins/webuploader/attachment-ui.css","/js/plugins/webuploader/webuploader.css","/js/plugins/webuploader/webuploader.min.js"],settings);
+					  use(["/js/viewer/viewer.min.css","/js/viewer/viewer.min.js","/js/template.js","/js/plugins/webuploader/attachment-ui.css","/js/plugins/webuploader/webuploader.css"],settings);
 			      }
 			      else {
 			    	  queryAttachments(settings);
