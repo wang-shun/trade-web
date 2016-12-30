@@ -41,6 +41,7 @@ import com.centaline.trans.attachment.entity.ToAccesoryList;
 import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.attachment.service.ToAttachmentService;
+import com.centaline.trans.attachment.vo.ToAttachmentVO;
 import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.material.entity.MmIoBatch;
 import com.centaline.trans.material.entity.MmItemBatch;
@@ -72,6 +73,13 @@ public class AttachmentController {
 	private MmIoBatchService mmIoBatchService;
 
 	private static String url = null;
+	
+	@RequestMapping(value = "test1")
+	public String test(HttpServletRequest request) {
+		request.setAttribute("caseCode", "ZY-SH-201611-0071");
+		toAccesoryListService.getAccesoryList(request, "Guohu");
+		return "attachment/test1";
+	}
 
 	@RequestMapping(value = "saveAttachment")
 	@ResponseBody
@@ -176,6 +184,28 @@ public class AttachmentController {
 		}
 		/** 读取上传附件备件表 */
 		return attachments;
+	}
+	
+	@RequestMapping(value = "queryNewAttachment")
+	@ResponseBody
+	public ToAttachmentVO queryNewAttachment(HttpServletRequest request, ToAttachment toAttachment) {
+		ToAttachmentVO toAttachmentVO = new ToAttachmentVO();
+		List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
+		if (CollectionUtils.isNotEmpty(attachments)) {
+			for (ToAttachment attachment : attachments) {
+				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+				}
+			}
+		}
+		toAttachmentVO.setAttachmentList(attachments);
+		
+		ToAccesoryList property = new ToAccesoryList();
+		property.setPartCode(toAttachment.getPartCode());
+		List<ToAccesoryList> toAccesoryList = toAccesoryListService.qureyToAccesoryList(property);
+		toAttachmentVO.setToAccesoryList(toAccesoryList);
+		/** 读取上传附件备件表 */
+		return toAttachmentVO;
 	}
 
 	@RequestMapping(value = "quereyAttachmentForDetails")

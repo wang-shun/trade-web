@@ -608,13 +608,13 @@
 		}
 
 	}
-
+	setup(jQuery);
 
 	/*global define:true */
-	if (typeof define === 'function' && define.amd && define.amd.jQuery) {
+	/*if (typeof define === 'function' && define.amd && define.amd.jQuery) {
 		define(['jquery'], setup);
 	} else {
 		setup(jQuery);
-	}
+	}*/
 
 })();

@@ -35,6 +35,12 @@ em,i {
 .mt20 {
   margin-top: 20px!important;
 }
+.mt40 {
+  margin-top: 40px!important;
+}
+.mt50 {
+  margin-top: 50px!important;
+}
 .mt30 {
   margin-bottom: 30px!important;
 }
@@ -49,6 +55,9 @@ em,i {
 }
 .mb30 {
   margin-bottom: 30px!important;
+}
+.mb35 {
+  margin-bottom: 35px!important;
 }
 .mr5 {
   margin-right: 5px!important;
@@ -79,6 +88,9 @@ em,i {
 }
 h2, h3, h4, h5, p, button, table {
   font-family: "Microsoft Yahei";
+}
+.margin5 {
+  margin: 5px!important;
 }
 .clearboth {
   clear: both;
@@ -304,9 +316,9 @@ input {
   border-radius: 3px;
   cursor: pointer;
 }
-/* .today {
+.today {
   background:#f8ac59;
-} */
+}
 .tommrow {
   background-color: #428fcc;
 }
@@ -546,7 +558,7 @@ input {
 .info_content .line .info_one {
   float: left;
   display: inline-block;
-  width: 150px;
+  width: 125px;
   color: #333;
   overflow: hidden;
   white-space: nowrap;
@@ -569,6 +581,9 @@ input {
 
 .marspace {
   margin: 4px 0;
+}
+.line22 {
+  line-height: 22px;
 }
 
 .btn-pink {
@@ -627,16 +642,6 @@ input {
 .extent-three {
   width: 210px!important;
 }
-
-.extent-one_material {
-  width: 148px!important;
-}
-.extent-two_material {
-  width: 467px!important;
-}
-.extent-three_material {
-  width: 748px!important;
-}
 .marginbot-30 {
     margin-bottom: 30px!important;
 }
@@ -664,8 +669,38 @@ input {
 .btn-edgegro {
     margin: 5px 0px 20px;
 }
-
-.input_type[disabled], .input_type[readonly], fieldset[disabled] .input_type {
-    background-color: #eee;
-    opacity: 1;
+.btn-transparent {
+    background: transparent!important;
+    border: 1px solid #ccc;
+}
+.btn-transparent {
+    background: transparent!important;
+    border: 1px solid #ccc;
+}
+.btn-lightblue {
+    color: #fff!important;
+    background: #4bccec!important;
+    border: 1px solid #4bccec!important;
+    outline: 0!important;
+}
+.btn-lightyellow {
+    color: #f8af65;
+    background: transparent;
+    border: 1px solid #ccc;
+    outline: 0!important;
+}
+.btn-lightyellow:hover{
+    color: #f8af65;
+}
+.btn-time-blue {
+  border: 1px solid #1a7bb9;
+  border-radius: 2px;
+  padding: 2px 5px;
+  color: #1a7bb9!important;
+}
+.btn-time-yellow {
+  border: 1px solid #f8af65;
+  border-radius: 2px;
+  padding: 2px 5px;
+  color: #f8af65!important;
 }
