@@ -464,6 +464,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
             }
 
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return response;
     }
