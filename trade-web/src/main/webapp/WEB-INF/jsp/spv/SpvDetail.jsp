@@ -703,8 +703,8 @@
 					$(element).html(DX($(element).html()*10000));
 				});
 				getPcode("pcode");
-				getBank("bank0");
-				getBank("bank1");
+/* 				getBank("bank0");
+				getBank("bank1"); */
 			})
 			queryPrdcCodeByProdCode
 					</script> </content>
