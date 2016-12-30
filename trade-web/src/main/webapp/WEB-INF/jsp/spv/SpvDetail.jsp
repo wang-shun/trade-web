@@ -635,9 +635,8 @@
 	<!-- main End -->
 
 
-	<content tag="local_script"> <script
-		src="${ctx}/js/inspinia.js"></script> <script
-		src="${ctx}/js/plugins/pace/pace.min.js"></script> <script>
+	<content tag="local_script">  
+	<script>
 		var idValiDate0 = "<fmt:formatDate value='${spvBaseInfoVO.spvCustList[0].idValiDate }' pattern='yyyy-MM-dd'/>";
 		$("#idValiDate0").text(idValiDate0 == "3000-01-01"?"长期有效":idValiDate0);
 		var idValiDate1 = "<fmt:formatDate value='${spvBaseInfoVO.spvCustList[1].idValiDate }' pattern='yyyy-MM-dd'/>";
@@ -706,7 +705,7 @@
 /* 				getBank("bank0");
 				getBank("bank1"); */
 			})
-			queryPrdcCodeByProdCode
+			
 					</script> </content>
 </body>
 </html>
