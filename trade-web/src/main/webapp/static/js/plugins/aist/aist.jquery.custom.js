@@ -2,7 +2,7 @@
  *  
  *    排序自定义插件
  *    
- *    @author  : xin.hu
+ *    @author  : Astar
  *    @date : 2016-6-2
  * 
  */

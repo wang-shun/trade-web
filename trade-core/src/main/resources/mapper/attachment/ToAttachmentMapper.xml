@@ -211,6 +211,12 @@
     <if test="fileName != null" >
      	and FILE_NAME = #{fileName,jdbcType=VARCHAR}
     </if>
+    <if test="fileName != null" >
+     	and FILE_NAME = #{fileName,jdbcType=VARCHAR}
+    </if>
+    <if test="available != null" >
+     	and AVAILABLE = #{available,jdbcType=VARCHAR}
+    </if>
     order by PRE_FILE_CODE
   </select>
   

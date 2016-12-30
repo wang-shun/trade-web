@@ -2,7 +2,7 @@
  *  
  *    上传组件
  *    
- *    @author : notes
+ *    @author : Astar
  * 
  */
 
@@ -26,7 +26,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						thumbnailWidth : 64,
 						thumbnailHeight : 64,
 						pick : 'filePicker',
-						server : 'http://filesvr.centaline.com:8081/aist-filesvr-web/webUploader/uploadPicture'
+						server : 'http://filesvr.centaline.com:8081/aist-filesvr-web/webUploader/uploadPicture',
+						available : 'Y'
 				  },options||{});
 				  
 				  if (typeof window.WebUploader == 'undefined') {
@@ -213,6 +214,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    	  var ctx = settings.ctx;
 		    	  var caseCode = settings.caseCode;
 		    	  var partCode = settings.partCode;
+		    	  var available = settings.available;
 		    	  var templeteId = settings.templeteId;
 		    	  $.ajax({
 						type : 'post',
@@ -223,9 +225,12 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						data : [{
 							name : 'caseCode',
 							value : caseCode
-						}, {
+						},{
 							name : 'partCode',
 							value : partCode
+						},{
+							name : 'available',
+							value : available
 						}],
 						dataType : "json",
 						success : function(data) {
