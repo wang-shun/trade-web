@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
-//@ComponentScan(basePackages = { "com.centaline.parportal", "com.aist" })
+//@ComponentScan(basePackages = { "com.centaline.parportal", "com.aist.common",
+//                                "com.centaline.trans" })
 @SpringBootApplication
 //@EnableCaching
 @EnableAutoConfiguration(exclude = { HibernateJpaAutoConfiguration.class,

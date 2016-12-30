@@ -22,12 +22,12 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToPurchaseLimitSearch;
 import com.centaline.trans.task.service.ToPurchaseLimitSearchService;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
-@RequestMapping(value="/task/purchaseLimit")
+@RequestMapping(value = "/task/purchaseLimit")
 public class ToPurchaseLimitSearchController {
-	
-	
+
 	@Autowired
 	private ToPurchaseLimitSearchService toPurchaseLimitSearchService;
 
@@ -35,59 +35,69 @@ public class ToPurchaseLimitSearchController {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	
+
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
-	
+
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
+
 	@RequestMapping("process")
-	public String toProcess(HttpServletRequest request, HttpServletResponse response,
-			String caseCode, String source, String taskitem, String processInstanceId) {
+	public String toProcess(HttpServletRequest request,
+			HttpServletResponse response, String caseCode, String source,
+			String taskitem, String processInstanceId) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 
 		toAccesoryListService.getAccesoryList(request, taskitem);
-		request.setAttribute("purchaseLimit", toPurchaseLimitSearchService.findToPlsByCaseCode(caseCode));
-		return "task/taskPurchaseLimit";
-	}
-	
-	@RequestMapping(value="savePls")
-	public String savePls(HttpServletRequest request, ToPurchaseLimitSearch toPurchaseLimitSearch) {
-		toPurchaseLimitSearchService.saveToPurchaseLimitSearch(toPurchaseLimitSearch);
-		return "task/task"+toPurchaseLimitSearch.getPartId();
+		request.setAttribute("purchaseLimit",
+				toPurchaseLimitSearchService.findToPlsByCaseCode(caseCode));
+		return "task" + UiImproveUtil.getPageType(request)
+				+ "/taskPurchaseLimit";
 	}
 
-	
-	@RequestMapping(value="submitPls")
+	@RequestMapping(value = "savePls")
+	public String savePls(HttpServletRequest request,
+			ToPurchaseLimitSearch toPurchaseLimitSearch) {
+		toPurchaseLimitSearchService
+				.saveToPurchaseLimitSearch(toPurchaseLimitSearch);
+		return "task/task" + toPurchaseLimitSearch.getPartId();
+	}
+
+	@RequestMapping(value = "submitPls")
 	@ResponseBody
-	public Result submitPls(HttpServletRequest request, ToPurchaseLimitSearch toPurchaseLimitSearch,
-			String taskId, String processInstanceId) {
-		toPurchaseLimitSearchService.saveToPurchaseLimitSearch(toPurchaseLimitSearch);
-		
-		/*流程引擎相关*/
+	public Result submitPls(HttpServletRequest request,
+			ToPurchaseLimitSearch toPurchaseLimitSearch, String taskId,
+			String processInstanceId) {
+		toPurchaseLimitSearchService
+				.saveToPurchaseLimitSearch(toPurchaseLimitSearch);
+
+		/* 流程引擎相关 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
-		ToCase toCase = toCaseService.findToCaseByCaseCode(toPurchaseLimitSearch.getCaseCode());
-		workFlowManager.submitTask(variables, taskId, processInstanceId, 
-				toCase.getLeadingProcessId(), toPurchaseLimitSearch.getCaseCode());
-		
+		ToCase toCase = toCaseService
+				.findToCaseByCaseCode(toPurchaseLimitSearch.getCaseCode());
+		workFlowManager.submitTask(variables, taskId, processInstanceId,
+				toCase.getLeadingProcessId(),
+				toPurchaseLimitSearch.getCaseCode());
+
 		/**
-		 * 功能: 给客户发送短信
-		 * 作者：zhangxb16
+		 * 功能: 给客户发送短信 作者：zhangxb16
 		 */
-		Result rs=new Result();
-		try{
-			int result=tgGuestInfoService.sendMsgHistory(toPurchaseLimitSearch.getCaseCode(), toPurchaseLimitSearch.getPartId());
-			if(result>0){
-			}else{
+		Result rs = new Result();
+		try {
+			int result = tgGuestInfoService.sendMsgHistory(
+					toPurchaseLimitSearch.getCaseCode(),
+					toPurchaseLimitSearch.getPartId());
+			if (result > 0) {
+			} else {
 				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
 			}
-		}catch(BusinessException ex){
+		} catch (BusinessException ex) {
 			ex.getMessage();
 		}
-		
+
 		return rs;
 	}
 }

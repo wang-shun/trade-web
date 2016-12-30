@@ -12,7 +12,7 @@
 	role="dialog" aria-labelledby="case-task-modal-title"
 	aria-hidden="true">
 	<div class="modal-dialog" style="width:800px">
-		<div class="modal-content" style="margin:0 auto;">
+		<div class="modal-content" style="margin:0 auto;width: 500px;">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">×</button>

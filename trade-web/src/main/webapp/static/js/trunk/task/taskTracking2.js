@@ -1,11 +1,43 @@
 var startList=0;//判断是不是应该显示列表
+
 $(document).ready(function() {
+
+	var caseCode = getParameter("caseCode");	
+	if(caseCode != "" && caseCode != null && caseCode != undefined){
+		$("#caseCode").val(caseCode);
+		alert("恭喜,新建案件成功,请等待主管分配！");
 	
-	var data = getParams(1);
-    aist.wrap(data);
-    startList=0;
-	reloadGrid(data);
+		startList=1;
+		var data = {				
+				search_caseCode:$.trim(caseCode),			
+				queryId : "queryCastTrackingListItemList",
+				rows : 10,
+				page : 1
+			};
+	    aist.wrap(data);	   
+		reloadGrid(data);
+	}
+
 });
+
+function reloadChangUrl(){ 
+	
+/*	if(reload == 0){
+		window.location.replace(ctx+"/case/tracking");
+	}	
+	reload = 1;*/
+	
+}
+
+
+//获取 url后参数
+function getParameter(name){
+
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+
+}
 
 function reloadGrid(data) {
 	$.ajax({
@@ -23,7 +55,7 @@ function reloadGrid(data) {
       	      
    			  $("#myTaskList").html(myTaskList);
    			  // 显示分页 
-   			initpage(data.total,data.pagesize,data.page, data.records);
+   			  initpage(data.total,data.pagesize,data.page, data.records);
                  $('.demo-left').poshytip({
            			className: 'tip-twitter',
            			showTimeout: 1,
@@ -142,36 +174,3 @@ function caseCodeSort(){
 		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -79,6 +79,9 @@ table.dataTable thead .sorting:after {
   background-color: #52cdec;
 }
 
+.pink {
+    color: #f784a5;
+}
 .manager {
   display: block;
   margin: 3px 0;

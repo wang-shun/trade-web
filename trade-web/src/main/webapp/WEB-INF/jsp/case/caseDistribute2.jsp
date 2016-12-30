@@ -39,6 +39,8 @@
 <link rel="stylesheet" href="../static/trans/css/workflow/myCaseList.css" />
 <link rel="stylesheet" href="../static/iconfont/iconfont.css" ">
 
+<link rel="stylesheet" href="${ctx}/css/workflow/newRecordpop.css" />
+
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 	
@@ -60,15 +62,12 @@ width: 80px;
 .bianhao{width:221px;padding-left:0;}
 .dizhi{width:542px}
 
-
 </style>
-   
-
 </head>
 
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
+<jsp:include page="/WEB-INF/jsp/case/glCaseDiv.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}"/>
 <input type="hidden" id="queryUserId" value="${queryUserId}"/>
 <input type="hidden" id="queryOrgId" value="${queryOrgId}"/>
@@ -160,10 +159,9 @@ width: 80px;
 						<h4 class="modal-title" id="modal-title">请选择交易顾问</h4>
 					</div>
 					<div class="modal-body">
-						<div class="row" style="height: 450px;overflow:auto; ">
+						<div class="row" style="height: 450px;overflow-y: auto; overflow-x: hidden;">
 							<div class="col-lg-12 ">
-								<h3 class="m-t-none m-b"></h3>
-								<div class="wrapper wrapper-content animated fadeInRight">
+								<div class="wrapper wrapper-content animated fadeInRight" style="padding-top: 0;">
 									<div id="modal-data-show" class="row"></div>
 								</div>
 							</div>
@@ -242,8 +240,20 @@ width: 80px;
             	<tr class="tr-2">
             {{/if}}
 				<td class="center">
-					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" /> 
+					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.CASE_CODE}}" 
+					 cuNu="{{item.cuNu}}"
+					 pkId="{{item.cpkid}}"
+					 propertyAddr="{{item.PROPERTY_ADDR}}"
+					 agentName="{{item.AGENT_NAME}}"
+					 agentPhone="{{item.AGENT_PHONE}}"
+					 agentOrgName="{{item.ORG_NAME}}"
+					 seller="{{item.SELLER}}"
+					 buyer="{{item.BUYER}}"
+					 propertyCode="{{item.propertyCode}}" 
+					 caseOrigin="{{item.CASE_ORIGIN}}" 
+					 caseCode="{{item.CASE_CODE}}" /> 
 					<input type="hidden" name="case_code" value="{{item.CASE_CODE}}"/>
+					<input type="hidden" name="cuNu" value="{{item.cuNu}}" propertyCode="{{item.propertyCode}}" caseCode="{{item.CASE_CODE}}"/>
 					<input type="hidden" name="yu_team_code" value="{{item.YU_TEAM_CODE}}"/>
 					<input type="hidden" name="leading_process_id" value="{{item.LEADING_PROCESS_ID}}"/>
 

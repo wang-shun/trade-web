@@ -236,7 +236,7 @@ text-decoration: underline !important;
 					</td>
 					<td class="t-left"><a href="{{wrapperData.ctx}}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">{{item.CASE_CODE}}</a></td>
 					<td class="t-left">
-						<a href="{{ctx}}/task/{{item.PART_CODE}}?taskId={{item.ID}}&caseCode={{item.CASE_CODE}}&instCode={{item.INST_CODE}}" class="case-task" target="_blank">{{item.NAME}}</a>
+						<a href="{{ctx}}/trade-web/engine/task/{{item.ID}}/process" class="case-task" target="_blank">{{item.NAME}}</a>
                     </td>
 					<td class="t-left">{{item.assignee}}</td>
 					<td class="t-left">{{item.CREATE_TIME}}</td>

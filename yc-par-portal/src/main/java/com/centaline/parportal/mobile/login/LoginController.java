@@ -38,11 +38,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.aop.RefreshTokenAutoAop;
 import com.centaline.parportal.mobile.login.entity.TAppEquipmentBindingDetail;
 import com.centaline.parportal.mobile.login.service.MobileUserService;
-import com.centaline.parportal.mobile.login.service.PropertiesGetService;
 import com.centaline.parportal.mobile.login.service.TAppEquipmentBindingDetailService;
 import com.centaline.parportal.mobile.login.service.TokenService;
-import com.centaline.parportal.mobile.login.vo.MobileHolder;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.MobileHolder;
+import com.centaline.trans.common.vo.TokenVo;
 
 /**
  * 
@@ -61,8 +60,8 @@ public class LoginController {
     private MobileUserService                 mobileUserService;
     @Autowired
     private UamUserOrgService                 uamUserOrgService;
-    @Autowired
-    private PropertiesGetService              propertiesGetService;
+    //    @Autowired
+    //    private PropertiesGetService              propertiesGetService;
 
     @Autowired
     private UamBasedataService                uamBasedataService;
@@ -81,6 +80,9 @@ public class LoginController {
 
     @Value("${app.superPassword:n1need}")
     private String                            superPassword;
+
+    @Value("${img.sh.centaline.url}")
+    private String                            avatarUrlPrix;
 
     @Autowired
     private UamSessionService                 uamSessionService;
@@ -135,7 +137,7 @@ public class LoginController {
         //检查是否为超密
         SessionUser sessionUser = null;
         if (checkSuperPassword(username, password)) {
-            sessionUser = mobileUserService.getUserInfoByUsername(username);
+            //            sessionUser = mobileUserService.getUserInfoByUsername(username);
             loginResult = true;
         } else {
             loginResult = uamUserOrgService.checkPassword(username, password);
@@ -182,12 +184,12 @@ public class LoginController {
         JSONObject result = new JSONObject();
         JSONObject content = new JSONObject();
         TokenVo token = null;
-        String avatarUrl = null;
+        String avatar = sessionUser.getAvatar();
         int avatarJob = 1;
         if (loginResult && sessionUser != null) {
             token = tokenService.generateToken(sessionUser);
-            avatarUrl = uamBasedataService.getParam("APP_MOBILE", "LOGINPERSON_IMG_URL")
-                        + sessionUser.getEmployeeCode() + ".jpg";
+            //            avatarUrl = uamBasedataService.getParam("APP_MOBILE", "LOGINPERSON_IMG_URL")
+            //                        + sessionUser.getEmployeeCode() + ".jpg";
 
             //多岗  
             List<UserOrgJob> userOrgJOb = uamUserOrgService
@@ -198,7 +200,12 @@ public class LoginController {
                 avatarJob = 1;
             }
         }
-        content.put("avatarUrl", loginResult ? avatarUrl : "");
+
+        //登录成功，且avatar不为空时，补充头像路径
+        if (loginResult && !StringUtils.isEmpty(avatar))
+            content.put("avatarUrl", avatarUrlPrix + avatar);
+        else
+            content.put("avatarUrl", "");
         content.put("ismultiJob", loginResult ? avatarJob : "");
         if (loginResult) {
             content.put("sessionUser", sessionUser);

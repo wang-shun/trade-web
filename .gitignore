@@ -51,4 +51,3 @@ target/
 catalina.base_IS_UNDEFINED
 ## Activiti
 .bpmn
-.xml

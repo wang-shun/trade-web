@@ -197,9 +197,85 @@ function _checkbox(){
 }
 
 /**
+ * 案件是否有可合流
+ */
+function getMergeCount(){
+	var str ="";
+	var type = false;
+	var cuNus = $('input[name="my_checkbox"]:checked');
+	var cuNusLength = cuNus.length;
+	var pkId;
+	var caseCode;
+	var propertyAddr;
+	var agentName;
+	var agentPhone;
+	var agentOrgName;
+	var seller;
+	var buyer;
+	var propertyCode;
+	var inputType;
+	if(null != cuNus )
+	for ( var i = 0; i < cuNus.length; i++) {
+		var cu=$(cuNus[i]).attr("cuNu");
+		var caseCode_=$(cuNus[i]).attr("caseCode");
+		if(parseInt(cu)>1){ str += "\n"+caseCode_+"\n"; type=true;}
+		if(cuNusLength == 1){
+			pkId 		= $(cuNus[i]).attr("pkId");
+			caseCode	= $(cuNus[i]).attr("caseCode");
+			propertyAddr= $(cuNus[i]).attr("propertyAddr");
+			agentName   = $(cuNus[i]).attr("agentName");
+			agentPhone  = $(cuNus[i]).attr("agentPhone");
+			agentOrgName= $(cuNus[i]).attr("agentOrgName");
+			seller      = $(cuNus[i]).attr("seller");
+			buyer       = $(cuNus[i]).attr("buyer");
+			propertyCode= $(cuNus[i]).attr("propertyCode");
+			inputType	= $(cuNus[i]).attr("caseOrigin");
+		}
+	}
+	if(cuNusLength==1 && type){
+		showGlDiv('backCase1',pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType,'aseDistributeType()',true);
+		return true;
+	}
+	if(cuNus.length==1 && !type){
+		caseDistributeType();
+		return true;
+	}
+	if(cuNus.length>1 && "" != str){
+		alert("批量分配案件中有如下案件可以合流(请先合流案件)："+str+"");
+		return true;
+	}else{
+		caseDistributeType();
+	}
+	
+	return true;
+	
+}
+/**
+ * 案件是否有可合流
+ */
+function glCaseList(){
+	caseDistribute();
+}
+/**
+ * 案件是否有可合流
+ */
+function getMergeInfoList(){
+	getMergeCount();
+}
+/**
  * 案件分配初始化
  */
 function caseDistribute(){
+	getMergeCount();
+
+}
+/**
+ * 案件分配初始化
+ */
+function caseDistributeType(){
+	
+	var data = {};
+	if($('input[name="my_checkbox"]:checked').length==1){data.caseCode=$('input[name="my_checkbox"]:checked').val();};
 	var url = "/case/getUserOrgCpUserList";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
@@ -211,7 +287,7 @@ function caseDistribute(){
 		url : url,
 		dataType : "json",
 		timeout: 10000,
-	    data : "", 
+	    data : data, 
 		success : function(data) {
 			showModal(data);
 		},
@@ -256,27 +332,73 @@ function showModal(data){
 	var addHtml = '';
 	var ctx = $("#ctx").val();
 	$.each(data,function(i, n){
-		addHtml += '<div class="col-lg-4"><div class="contact-box">';
-		addHtml += '<a href="javascript:distributeCase('+i+')">';
-		addHtml += '<div class="col-sm-4"><div class="text-center">';
-		
-		addHtml+='<span class="userHead">';
-		if(n.imgUrl!=null){
-			addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
+		if(n.type == "INPUT"){
+			addHtml += '<div class="feed-activity-list row" style="margin-top: 0;  padding-top: 0; ">                                                       ';
+			addHtml += '	<div class="col-md-4">                                                                 ';
+			addHtml += '		<p class="title">交易单创建人</p>                                                  ';
+			addHtml += '		<div class="feed-element  feed-element-grey">                                      ';
+			addHtml += '			<span class="pull-left">                                                       ';
+			addHtml += '				<img alt="image" class="img-circle" src="'+n.imgUrl+'"> ';
+			addHtml += '				<div class="m-t-xs font-bold">'+n.jobName+'</div>';
+			addHtml += '			</span>                                                                        ';
+			addHtml += '			<div class="media-body ">                                                      ';
+			addHtml += '				<strong>'+n.realName+'</strong>                                     ';
+			addHtml += '				<br>                                                                       ';
+			addHtml += '				<small class="text-muted">'+'联系电话：'+n.mobile+'</small>                            ';
+			addHtml += '				<br>                                                                       ';
+			addHtml += '				<small class="text-muted">'+n.orgName+'</small>                            ';
+			addHtml += '				<p class="small"></p>                                            ';
+			addHtml += '			</div>                                                                         ';
+			addHtml += '		</div>                                                                             ';
+			addHtml += '	</div>                                                                                 ';
+			addHtml += '</div>                                                                                     ';
 		}
-		addHtml+='</span>';
-		
-		addHtml += '<div class="m-t-xs font-bold">交易顾问</div></div></div>';
-		addHtml += '<div class="col-sm-8">';
-		addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
-		addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
-		addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
-		addHtml += '<input id="mobile_'+i+'" type="hidden" value="联系电话：'+n.mobile+'">'+'联系电话：'+n.mobile;
-		addHtml += '<p>当前单数：'+n.userCaseCount+'</p>';
-		addHtml += '<p>本月接单：'+n.userCaseMonthCount+'</p>';
-		addHtml += '<p>未过户单：'+n.userCaseUnTransCount+'</p>';
-		addHtml += '</div><div class="clearfix"></div></a>';
-		addHtml += '</div></div>';
+		if(n.type == "CTM" || n.type == "MERGE"){
+			addHtml += '<div class="feed-activity-list row" style="margin-top: 0;  padding-top: 0; ">                                                       ';
+			addHtml += '	<div class="col-md-4">                                                                 ';
+			addHtml += '		<p class="title">经纪人意向顾问</p>                                                ';
+			addHtml += '		<div class="feed-element  feed-element-grey">                                      ';
+			addHtml += '			<span class="pull-left">                                                       ';
+			addHtml += '				<img alt="image" class="img-circle" src="'+n.imgUrl+'"> ';
+			addHtml += '				<div class="m-t-xs font-bold">'+n.jobName+'</div>';
+			addHtml += '			</span>                                                                        ';
+			addHtml += '			<div class="media-body ">                                                      ';
+			addHtml += '				<strong>'+n.realName+'</strong>                                       ';
+			addHtml += '				<br>                                                                       ';
+			addHtml += '				<small class="text-muted">'+'联系电话：'+n.mobile+'</small>                            ';
+			addHtml += '				<br>                                                                       ';
+			addHtml += '				<small class="text-muted">'+n.orgName+'</small>                            ';
+			addHtml += '				<p class="small"></p>                                     ';
+			addHtml += '			</div>                                                                         ';
+			addHtml += '		</div>                                                                             ';
+			addHtml += '	</div>                                                                                 ';
+			addHtml += '</div>                                                                                     ';
+			
+		}
+		if(n.type == "ALL"){
+			addHtml += '<div class="mt30" >';
+			addHtml += '<div class="col-lg-4"><div class="contact-box">';
+			addHtml += '<a href="javascript:distributeCase('+i+')">';
+			addHtml += '<div class="col-sm-4"><div class="text-center">';
+			
+			addHtml+='<span class="userHead">';
+			if(n.imgUrl!=null){
+				addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
+			}
+			addHtml+='</span>';
+			
+			addHtml += '<div class="m-t-xs font-bold">交易顾问</div></div></div>';
+			addHtml += '<div class="col-sm-8">';
+			addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
+			addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
+			addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
+			addHtml += '<input id="mobile_'+i+'" type="hidden" value="联系电话：'+n.mobile+'">'+'联系电话：'+n.mobile;
+			addHtml += '<p>当前单数：'+n.userCaseCount+'</p>';
+			addHtml += '<p>本月接单：'+n.userCaseMonthCount+'</p>';
+			addHtml += '<p>未过户单：'+n.userCaseUnTransCount+'</p>';
+			addHtml += '</div><div class="clearfix"></div></a>';
+			addHtml += '</div></div></div>';
+		}
 	})
 	$("#modal-data-show").html(addHtml);
 

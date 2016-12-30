@@ -4,11 +4,9 @@
 	<parent>
 		<groupId>com.centaline</groupId>
 		<artifactId>trade-parent</artifactId>
-
-
-		<version>1.2.0</version>	</parent>
-
-
+		<version>1.2.2</version>	
+	</parent>
+	
 	<artifactId>trade-web</artifactId>
 	<packaging>war</packaging>
 	<name>trade-web</name>
@@ -52,7 +50,7 @@
 		<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-core</artifactId>
-			<version>${version}</version>
+			<version>1.2.2</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jedis</artifactId>
@@ -69,7 +67,7 @@
 		<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-frontend</artifactId>
-			<version>${version}</version>
+			<version>1.2.2</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jedis</artifactId>
@@ -314,6 +312,17 @@
 		</dependency>
 
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+        </plugins>
+    </build>
 
 	<profiles>
 		<profile>

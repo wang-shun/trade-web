@@ -44,6 +44,7 @@
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
+<link rel="stylesheet" href="${ctx}/css/workflow/newRecordpop.css" />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
@@ -106,12 +107,19 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 #searchButton{margin-right:5px;}
+.table_content .big a{
+	min-width: 140px;
+	display: inline-block;
+}
 
+.sign_right_one_case{
+	width:130px;
+}
 </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
+<jsp:include page="/WEB-INF/jsp/case/glCaseDiv.jsp"></jsp:include>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox-content border-bottom clearfix space_box">
         <h2 class="title">
@@ -122,7 +130,7 @@ text-decoration: underline !important;
                   <div class="form_content">
 						<label class="sign_left control-label">案件类型</label>
 						<div class="sign_right big_pad">
-							<aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one"  />
+							<aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/>
 						</div>
 					</div>
 					<div class="form_content">
@@ -130,7 +138,7 @@ text-decoration: underline !important;
                                                                              案件状态
                         </label>
                         <div class="sign_right big_pad">
-                                <aist:dict id="status" name="case_status" display="select" dictType="30001" clazz="select_control sign_right_one"  />
+                                <aist:dict id="status" name="case_status" display="select" dictType="30001" clazz="select_control sign_right_one_case"/>
                          </div>
                     </div>
                     <div class="form_content">
@@ -171,7 +179,7 @@ text-decoration: underline !important;
                     <div class="form_content">
                     		 <label class="sign_left_two control-label">贷款需求选择</label>
 							 <div class="sign_right">
-									<aist:dict clazz="select_control sign_right_one" id="mortageService" name="mortageService" display="select" defaultvalue="" dictType="mortage_service" />
+									<aist:dict clazz="teamcode form-control" id="mortageService" name="mortageService" display="select" defaultvalue="" dictType="mortage_service" />
 							 </div>
                     </div>            
 			</div>
@@ -221,7 +229,7 @@ text-decoration: underline !important;
 						<div class="more_btn">
 							<button id="more" type="button" class="btn  btn-default btn_more"> 更多搜索条件<i class="fa fa-caret-up"></i> </button>
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-							
+							<button id="addNewCase"  type="button" class="btn btn-success">新增案件</button>
 							<!-- <button  onclick="showExcelIn()" class="btn btn-success" >案件导出</button>  -->
 							 <!-- <div id="exportExcel"> -->
                             	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
@@ -239,6 +247,7 @@ text-decoration: underline !important;
 					<table class="table table_blue table-striped table-bordered table-hover " >
 						<thead>
 							<tr>
+								<th></th>
 								<th ><span class="sort" sortColumn="B.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 								<th >案件状态</th>
 								<th >产证地址</th>
@@ -367,6 +376,40 @@ text-decoration: underline !important;
                        <tr class="tr-2">
                    {{/if}}
 						
+						<td >
+{{if item.caseOrigin == 'MERGE'}}
+                                <p class="tip">
+                                 <i class="sign_blue">
+                                                                                        合流
+                                  </i>
+                                 </p>
+{{/if}}
+{{if item.caseOrigin == 'INPUT'}}
+ 							<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}','{{item.caseOrigin}}')">
+                                <p class="tip">
+                                 <i class="sign_brown">
+                                                                                        自录
+                                  </i>
+                                 </p>
+                             </a>
+{{/if}}
+{{if item.caseOrigin == 'CTM'}}
+<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}','{{item.caseOrigin}}')">
+                                <p class="tip">
+                                 <i class="sign_blue">
+                                    	导入
+                                  </i>
+                                 </p>
+</a>
+{{/if}}
+{{if item.caseOrigin == 'PROCESS'}}
+                                <p class="tip">
+                                 <i class="sign_blue">
+                                    	合流申请中
+                                  </i>
+                                 </p>
+{{/if}}
+						</td >
 						<td >
  							<p class="big">
 								<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>

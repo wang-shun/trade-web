@@ -2,7 +2,7 @@ package com.centaline.parportal.mobile.login.service;
 
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.parportal.mobile.login.vo.MobileUserVo;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.TokenVo;
 
 public interface TokenService {
     /**

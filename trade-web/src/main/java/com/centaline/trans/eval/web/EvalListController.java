@@ -5,16 +5,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import com.centaline.trans.utils.UiImproveUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
@@ -22,13 +20,10 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
-import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.MyCaseListService;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
-import com.centaline.trans.workspace.entity.WorkSpace;
-import com.ctc.wstx.util.StringUtil;
 
 /**
  * 
@@ -67,14 +62,13 @@ public class EvalListController {
 	 * @return
 	 */
 	@RequestMapping(value = "evalFeeDesign")
-	public String evalFeeDesign(ServletRequest request) {
+	public String evalFeeDesign(HttpServletRequest request) {
 		// TODO
 		SessionUser user = uamSessionService.getSessionUser();
 		String userOrgId = user.getServiceDepId();
 
 		request.setAttribute("queryOrg", userOrgId);
-
-		return "eval/evalFeeDesign";
+		return "eval"+ UiImproveUtil.getPageType(request) +"/evalFeeDesign";
 	}
 
 	/**

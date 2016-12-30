@@ -14,6 +14,7 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping("/task/loanRelease")
@@ -45,6 +46,6 @@ public class LoanReleaseController {
 		}
 		request.setAttribute("tz", tz);
 		request.setAttribute("loanRelease", mortgage);
-		return "task/taskLoanRelease";
+		return "task"+UiImproveUtil.getPageType(request)+"/taskLoanRelease";
 	}
 }

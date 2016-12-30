@@ -58,6 +58,10 @@
 function saveCaseComment() {
 	var caseCode = $('#caseComment_caseCode').val();
 	var comment = $("#caseComment").val();
+	var parentId=$("#caseComment_parentId").val();
+	var commentSource=$("#caseComment_commentSource").val();
+	var commentType=$("#caseComment_commentType").val();
+	var bizCode=$("#caseComment_bizCode").val();
 	if(comment==''){
 		alert('添加案件备注不能为空');
 		return false;
@@ -66,7 +70,12 @@ function saveCaseComment() {
 	var toCaseComment = {
 		caseCode : 	caseCode,
 		srvCode : srvCode,
-		comment : comment
+		comment : comment,
+		parentId :parentId,
+		source:commentSource,
+		type:commentType,
+		bizCode:bizCode
+		
 	};
 	//toCaseComment = $.toJSON(toCaseComment);
 	$.ajax({

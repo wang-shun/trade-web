@@ -65,6 +65,38 @@
 .hint-top:hover:after {
 	margin-bottom: 2px;
 }
+#basicInfo .sign {
+	position: absolute;
+	width: 55px;
+	height: 40px;
+	padding-top: 5px;
+	color: #fff;
+	text-align: center;
+	font-family: "Microsoft Yahei";
+	font-size: 14px;
+}
+#basicInfo .top12 .sign-red {
+	background: url(${ctx}/static/trans/img/qizi-01-d998d141a485f8229a079346aa6e472c.png) no-repeat;
+	top: 0px;
+	left: 130px;
+	width: 36px;
+	height: 35px;
+}
+#basicInfo .top12 .sign-blue {
+	background: url(${ctx}/static/trans/img/qizi-02-99c539708b71e1eeadc726209f6838ea.png) no-repeat;
+	top: 0px;
+	left: 190px;
+	width: 52px;
+	height: 35px;
+}
+
+#basicInfo .top12 .sign-yellow {
+	background: url(${ctx}/static/trans/img/qizi-03-9576a537898fbd4e7491406d35c6482a.png) no-repeat;
+	top: 0px;
+	left: 265px;
+	width: 52px;
+	height: 35px;
+}
 </style>
 
 
@@ -74,8 +106,8 @@
 			class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
 			<ul class="nav navbar-nav scroll_content">
 				<li class="menuItem active"><a href="#basicInfo"> 基本信息 </a></li>
-				<li class="menuItem"> <a href="#basicInfo"> 服务流程  </a></li>
-				<li class="menuItem"> <a href="#basicInfo"> 相关信息 </a> </li>
+				<li class="menuItem"> <a href="#serviceFlow"> 服务流程  </a></li>
+				<li class="menuItem"> <a href="#aboutInfo"> 相关信息 </a> </li>
 
 			</ul>
 		</div>
@@ -84,10 +116,98 @@
  <div class="wrapper wrapper-content" id="basicInfo">
 		<div class="row animated fadeInDown">
 			<div class="scroll_box fadeInDown animated">
-				<div class="top12 panel" id="basicInfo">
+				<div class="top12 panel">
 			       	<c:if test="${caseBaseVO.loanType=='30004005'}">
 			          	<div class="sign sign-yellow">税费卡</div>
 			        </c:if>
+					<c:if test="${caseBaseVO.toCase.caseProperty=='30003001'}">
+						<div class="sign sign-red" ><span
+								<c:if test="${toApproveRecord!=''}">
+									class="hint hint-top" data-hint="${toApproveRecord}"
+								</c:if> >无效</span></div>
+					</c:if>
+					<c:if test="${caseBaseVO.toCase.caseProperty=='30003002'}">
+						<div class="sign sign-red">结案</div>
+					</c:if>
+					<c:if test="${caseBaseVO.toCase.caseProperty=='30003005'}">
+						<div class="sign sign-red ">
+                  		<span
+								<c:if test="${toApproveRecord!=''}">
+									class="hint hint-top" data-hint="${toApproveRecord}"
+								</c:if> >爆单</span>
+
+						</div>
+					</c:if>
+					<c:if test="${caseBaseVO.toCase.caseProperty=='30003004'}">
+						<div class="sign sign-red">挂起</div>
+						<div class="sign sign-blue">
+							<c:if test="${caseBaseVO.toCase.status=='30001001'}">
+								未分单
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001002'}">
+								已分单
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001003'}">
+								已签约
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001004'}">
+								已过户
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001005'}">
+								已领证
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001006'}">
+								未指定
+							</c:if>
+						</div>
+					</c:if>
+					<c:if test="${toCase.caseProperty=='30003006'}">
+						<div class="sign sign-red">全部</div>
+						<div class="sign sign-blue">
+							<c:if test="${caseBaseVO.toCase.status=='30001001'}">
+								未分单
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001002'}">
+								已分单
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001003'}">
+								已签约
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001004'}">
+								已过户
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001005'}">
+								已领证
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001006'}">
+								未指定
+							</c:if>
+						</div>
+					</c:if>
+					<c:if test="${caseBaseVO.toCase.caseProperty=='30003003'}">
+						<div class="sign sign-red">在途</div>
+						<div class="sign sign-blue">
+							<c:if test="${caseBaseVO.toCase.status=='30001001'}">
+								未分单
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001002'}">
+								已分单
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001003'}">
+								已签约
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001004'}">
+								已过户
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001005'}">
+								已领证
+							</c:if>
+							<c:if test="${caseBaseVO.toCase.status=='30001006'}">
+								未指定
+							</c:if>
+						</div>
+					</c:if>
+
 			       <div class="panel-body">
 						<div class="ibox-content-head">
 							<h5>案件基本信息</h5>
@@ -197,21 +317,7 @@
 							</div>
 							</div>
                        
-		   <c:if test="${caseBaseVO.toCase.caseProperty == 30003001}">
-           	<div class="mark-wuxiao"></div>
-           </c:if>
-           <c:if test="${caseBaseVO.toCase.caseProperty == 30003002}">
-           	<div class="mark-jiean"></div>
-           </c:if>
-           <c:if test="${caseBaseVO.toCase.caseProperty == 30003003}">
-           	<div class="mark-zaitu"></div>
-           </c:if>
-           <c:if test="${caseBaseVO.toCase.caseProperty == 30003004}">
-           	<div class="mark-guaqi"></div>
-           </c:if>
-           <c:if test="${caseBaseVO.toCase.caseProperty == 30003005}">
-           	<div class="mark-baodan"></div>
-           </c:if>
+
         </div>
     </div>
 </div>

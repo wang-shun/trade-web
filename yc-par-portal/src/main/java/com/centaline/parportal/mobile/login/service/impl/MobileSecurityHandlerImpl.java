@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.centaline.parportal.mobile.login.service.MobileSecurityHandler;
 import com.centaline.parportal.mobile.login.service.TokenService;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.TokenVo;
 
 @Service
 public class MobileSecurityHandlerImpl implements MobileSecurityHandler {
@@ -30,13 +30,6 @@ public class MobileSecurityHandlerImpl implements MobileSecurityHandler {
             return false;
         }
         if (Integer.valueOf(1).equals(tokenVo.getIsExp())) {
-            /*int expAccess = tokenVo.getExpAccess() == null ? 0 : tokenVo.getExpAccess().intValue();
-            if (expAccess > 3) {
-                throw new AuthorizationException("授权已过期，请重新登录");
-            } else {
-                tokenService.tokenExpAccessCount(tokenVo.getToken());
-                return true;
-            }*/
 
             throw new AuthorizationException("授权已过期，请重新登录");
         }

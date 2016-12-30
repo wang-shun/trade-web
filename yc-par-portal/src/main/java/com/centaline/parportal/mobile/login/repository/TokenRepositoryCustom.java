@@ -1,7 +1,7 @@
 package com.centaline.parportal.mobile.login.repository;
 
 import com.centaline.parportal.mobile.login.entity.TSmMobileToken;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.TokenVo;
 
 public interface TokenRepositoryCustom {
     void deleteToken(String token);

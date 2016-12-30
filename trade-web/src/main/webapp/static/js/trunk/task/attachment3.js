@@ -121,7 +121,7 @@ function getExplPicByhouseCode() {
 						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
 						trStr+="<div class=\"preview span12\">";
 						trStr+="<input type=\"hidden\" name=\"pic\" id=\"pic\" value=\""+value.pkid+"\" />";
-						trStr+="<img src='"+appCtx['shcl-image-web'] +"/image/"+value.preFileAdress+"/80_80_f.jpg' alt=''>";
+						trStr+="<img src='"+appCtx['shcl-filesvr-web'] +"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' style='padding-bottom: 5px;padding-top: 5px;width:100px;'>";
 						trStr+="</div>";
 						trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
 						trStr+="<button onclick=\"romoveDiv('picContainers',"+value.pkid+");\" class=\"btn red\""; 
@@ -134,6 +134,7 @@ function getExplPicByhouseCode() {
 					}
 				});
 				$("#picContainer"+accValue.pkid).append(trStr);
+				$('.wrapper-content').viewer();
 			});
 		},
 		error : function(errors) {

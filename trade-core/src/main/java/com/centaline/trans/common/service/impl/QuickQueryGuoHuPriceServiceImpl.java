@@ -110,10 +110,11 @@ public class QuickQueryGuoHuPriceServiceImpl implements CustomDictService{
 		for (Map<String, Object> key : keys) {			
 			Object caseCode = key.get("CASE_CODE");
 			if(caseCode != null){
+				
 				ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode.toString());
 				ToSign  toSign = signService.findToSignByCaseCode(caseCode.toString());
 				ToHouseTransfer toHouseTransfer = toHouseTransferService.findToGuoHuByCaseCode(caseCode.toString());
-				if(toPropertyInfo != null && toSign != null && toHouseTransfer != null){
+				if(toPropertyInfo != null && toSign != null){
 					double square = toPropertyInfo.getSquare() == null ? 0:toPropertyInfo.getSquare();
 					double realPrice = toSign.getRealPrice() == null ? 0: toSign.getRealPrice().doubleValue();					
 					double conPrice = toSign.getConPrice() == null ? 0: toSign.getConPrice().doubleValue();					
@@ -121,15 +122,23 @@ public class QuickQueryGuoHuPriceServiceImpl implements CustomDictService{
 						key.put("GUOHUDJ",  de.format((realPrice/square)*10000));
 					}else{
 						key.put("GUOHUDJ", 0.00);
-					}					
+					}	
+					
 					if(toPropertyInfo.getDistCode() != null){
 						TsPrResearchMap tsPrResearchMap = tsPrResearchMapService.findByDistCode(toPropertyInfo.getDistCode());
-						key.put("DISTNAME", tsPrResearchMap.getDistName() == null ? "":tsPrResearchMap.getDistName());
-						
+						if(tsPrResearchMap!=null && tsPrResearchMap.getDistName() != null){
+							key.put("DISTNAME", tsPrResearchMap.getDistName());
+						}else{
+							key.put("DISTNAME","");
+						}
 					}
 					
 					key.put("PROPERTY_ADDR", toPropertyInfo.getPropertyAddr() == null ? "":toPropertyInfo.getPropertyAddr());
 					key.put("CON_PRICE", de.format(conPrice));
+					
+				}
+				
+				if(null != toHouseTransfer){
 					key.put("REAL_HT_TIME", toHouseTransfer.getRealHtTime() == null ? "":formatter.format(toHouseTransfer.getRealHtTime()));
 				}
 				

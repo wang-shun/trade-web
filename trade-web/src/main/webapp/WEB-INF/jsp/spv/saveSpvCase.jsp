@@ -184,6 +184,10 @@
 					                                <i class="icon iconfont"></i>
 					                                   	 查询
 					                                </button>
+					                                
+					                                <button type="button" class="btn btn-success" id="addNewCase"  >					                                
+					                                   	 新增案件
+					                                </button>
 					                            </div>
 					                        </div>
 				                    	</div>
@@ -1166,6 +1170,11 @@
     	 	// 查询
  			$('#searchButton').click(function() {
  				reloadGrid();
+ 			});
+    	 	
+    	 	// 查询
+ 			$('#addNewCase').click(function() {
+ 				window.location.href = ctx+"/caseMerge/addCase/spv";
  			});
     	 	
     	 	// 关联案件

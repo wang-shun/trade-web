@@ -547,6 +547,14 @@
     </bean>      	
     
     <!-- 根据caseCode 查询 产证地址 -->
-    <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" ></bean>   	
+    <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" ></bean>  
+    <!-- 根据CaseCode查询案件的渠道属性-->
+    <bean name="getCaseOriginByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseOriginServiceImpl"></bean>	 	
+    <!-- 根据CaseCode查询案件的地址Code-->
+    <bean name="getPropertyCodeByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetPropertyCodeServiceImpl"></bean>	 	
+    <!-- 根据用户Id查询用户名-->
+    <bean name="getRealNameByUserId" class="com.centaline.trans.common.service.impl.QuickQueryGetRealNameServiceImpl"></bean>	 	
+    <!-- 根据用户Id查询用户名-->
+    <bean name="getMegerCuntByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetMegerCuntServiceImpl"></bean>	 	
 <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

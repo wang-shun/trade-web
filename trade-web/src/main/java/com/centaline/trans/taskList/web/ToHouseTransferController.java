@@ -24,6 +24,7 @@ import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value="/task/ToHouseTransfer")
@@ -74,7 +75,7 @@ public class ToHouseTransferController {
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 		request.setAttribute("toMortgage", toMortgage);
 		
-		return "task/taskGuohu";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohu";
 	}
 	@RequestMapping(value="saveToHouseTransfer")
 	@ResponseBody

@@ -20,6 +20,36 @@ public class VCaseDistributeUserVO {
 	/**头像url**/
 	private String imgUrl;
 	
+	private String type;
+	
+	private String orgName;
+	
+	private String jobName;
+	
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+
+	public String getJobName() {
+		return jobName;
+	}
+
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getId() {
 		return id;
 	}

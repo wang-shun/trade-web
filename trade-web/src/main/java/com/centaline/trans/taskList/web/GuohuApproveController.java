@@ -60,6 +60,7 @@ import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value="/task/guohuApprove")
@@ -154,7 +155,7 @@ public class GuohuApproveController {
 		}
 
 		
-		return "task/taskGuohuApprove";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohuApprove";
 	}
 	
 	@RequestMapping("showPic")

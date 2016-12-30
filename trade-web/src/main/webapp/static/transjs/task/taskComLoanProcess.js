@@ -43,23 +43,19 @@ function checkDisagree(){
 }
 
 function checkMortgageForm(formId){
-	if(formId.find("select[name='mortType']").val() == ""){
-		formId.find("select[name='mortType']").css("border-color","red");
+	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
+		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
 	}else if(formId.find("input[name='mortTotalAmount']").val() == ""){
 		formId.find("input[name='mortTotalAmount']").css("border-color","red");
 		return false;
+	}else if(formId.find("select[name='mortType']").val() == ""){
+		formId.find("select[name='mortType']").css("border-color","red");
+		return false;
 	}else if(formId.find("input[name='comAmount']").val() == ""){
 		formId.find("input[name='comAmount']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='comYear']").val() == ""){
-		formId.find("input[name='comYear']").css("border-color","red");
-		return false;
 	}else if(formId.find("input[name='comDiscount']").val() == ""){
-		formId.find("input[name='comDiscount']").css("border-color","red");
-		return false;
-	}else if(isNaN(formId.find("input[name='comDiscount']").val())){
-		alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 		formId.find("input[name='comDiscount']").css("border-color","red");
 		return false;
 	}else if(formId.find("input[name='comDiscount']").val()<0.5||formId.find("input[name='comDiscount']").val()>1.5){
@@ -71,8 +67,12 @@ function checkMortgageForm(formId){
 		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		formId.find("input[name='comDiscount']").css("border-color","red");
 		return false;
-	}else if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
-		formId.find("select[name='custCode']").css("border-color","red");
+	}else if(isNaN(formId.find("input[name='comDiscount']").val())){
+		alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
+		formId.find("input[name='comDiscount']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comYear']").val() == ""){
+		formId.find("input[name='comYear']").css("border-color","red");
 		return false;
 	}else if(formId.find("select[name='lendWay']").val() == "" || formId.find("select[name='lendWay']").val() == null){
 		formId.find("select[name='lendWay']").css("border-color","red");
@@ -87,33 +87,36 @@ function checkMortgageForm(formId){
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		alert("信贷员手机号码输入错误！");
 		return false;
-	}else if(formId.find("input[name='supContent']").val() != "" && formId.find("input[name='remindTime']").val()==""){
-		alert("请输入补件时间！");
+	}else if(formId.find("input[name='signDate']").val() == "" ){
+		formId.find("input[name='signDate']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='isTmpBank'][value='0']").is(":checked") && formId.find("input[name='recLetterNo']") == ""){
+		formId.find("input[name='recLetterNo']").css("border-color","red");
 		return false;
 	}else if(formId.find("input[name='remindTime']").val() != "" && formId.find("input[name='supContent']").val()==""){
 		alert("请输入补件名称！");
 		return false;
-	}else if(formId.find("input[name='signDate']").val() == "" ){
-		formId.find("input[name='signDate']").css("border-color","red");
+	}else if(formId.find("input[name='supContent']").val() != "" && formId.find("input[name='remindTime']").val()==""){
+		alert("请输入补件时间！");
 		return false;
-	} 
+	}
 	
 	if(formId.find("select[name='finOrgCode']").val() == ""){
 		formId.find("select[name='finOrgCode']").css("border-color","red");
 		return false;
     }
 	if($("#finOrgCode").find('option:selected').attr('coLevel') == "0"){
-		if(formId.find("input[name='loanerId']").val() == ""){
+		/*if(formId.find("input[name='loanerId']").val() == ""){
 			alert("入围银行的信贷员请从合作银行中选择！");
 			formId.find("input[name='loanerName']").css("border-color","red");
 			return false;
-		}
+		}*/
 	}else{
 		formId.find("input[name='loanerId']").val("");
 		formId.find("input[name='loanerOrgCode']").val("");
 		formId.find("input[name='loanerOrgId']").val("");
 	}
-	if(!formId.find("input[name='isTmpBank']").prop('checked')){
+	if(!formId.find("input[name='isTmpBank'][value='1']").prop('checked')){
 		if(afterTimeFlag){
 			if (formId.find("input[name='recLetterNo']").val()==""){
 				formId.find("input[name='recLetterNo']").css("border-color","red");
@@ -399,7 +402,7 @@ function completeMortgage(form){
 }
 
 
-//查询分行信息1111
+//查询分行信息
 function getParentBank(selector,selectorBranch,finOrgCode,tag,flag){
 	var bankHtml = "<option value=''>请选择</option>";
 	var param = {nowCode:finOrgCode};
@@ -582,11 +585,11 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='prfAmount']").val(data.content.prfAmount);
 		    			f.find("input[name='prfYear']").val(data.content.prfYear);
 		    			if(data.content.mortType=='30016001'){
-		    				f.find("input[name='prfAmount']").val('').prop('disabled',true);
-			    			f.find("input[name='prfYear']").val('').prop('disabled',true);
+		    				f.find("input[name='prfAmount']").val('').prop('disabled',true).css("background-color","#eee");
+			    			f.find("input[name='prfYear']").val('').prop('disabled',true).css("background-color","#eee");
 		    			}else{
-		    				f.find("input[name='prfAmount']").prop('disabled',false);
-			    			f.find("input[name='prfYear']").prop('disabled',false);
+		    				f.find("input[name='prfAmount']").prop('disabled',false).css("background-color","");
+			    			f.find("input[name='prfYear']").prop('disabled',false).css("background-color","");
 		    			}
 		    			f.find("input[name='mortTotalAmount']").val(data.content.mortTotalAmount);
 		    			f.find("input[name='comAmount']").val(data.content.comAmount);
@@ -602,12 +605,16 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='loanerOrgCode']").val(data.content.loanerOrgCode);
 		    			f.find("input[name='loanerPhone']").val(data.content.loanerPhone);
 		    			if(data.content.isLoanerArrive == 1){
-		    				f.find("input[name='isLoanerArrive']").prop("checked",true);
+		    				f.find("input[name='isLoanerArrive'][value='1']").prop("checked",true);
+		    			}else if(data.content.isLoanerArrive == 0){
+		    				f.find("input[name='isLoanerArrive'][value='0']").prop("checked",true);
 		    			}
 		    			f.find("input[name='houseNum']").val(data.content.houseNum);
 		    			f.find("input[name='signDate']").val(data.content.signDate);
 		    			if(data.content.ifReportBeforeLend == 1){
-		    				f.find("input[name='ifReportBeforeLend']").prop("checked",true);
+		    				f.find("input[name='ifReportBeforeLend'][value='1']").prop("checked",true);
+		    			}else if(data.content.ifReportBeforeLend ==0){
+		    				f.find("input[name='ifReportBeforeLend'][value='0']").prop("checked",true);
 		    			}
 
 		    			f.find("select[name='finOrgCode']").val(data.content.finOrgCode);
@@ -622,10 +629,10 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
 		    			f.find("input[name='tmpBankReason']").val(data.content.tmpBankReason);
 		    			if(data.content.isTmpBank=='1'){
-		    				f.find("input[name='recLetterNo']").prop('disabled',true);
+		    				f.find("input[name='recLetterNo']").prop('disabled',true).css("background-color","#eee");
 		    				f.find(".tmpBankReasonDiv").show();
 		    			}else{
-		    				f.find("input[name='recLetterNo']").prop('disabled',false);
+		    				f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
 		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
 		    			
@@ -650,19 +657,20 @@ function isTmpBankChange(){
 		return false;
 	}
 	var f=$(this).closest('form');
-	if($(this).prop('checked')){
+	var checkBtnVal = $("input[name='isTmpBank']:checked").val();
+	if(checkBtnVal == '1'){
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'');
 		f.find("select[name='bank_type']").change(function(){
 		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
     }); 
-		f.find("input[name='recLetterNo']").prop('disabled',true);
+		f.find("input[name='recLetterNo']").prop('disabled',true).val("").css("background-color","#DDDDDD");
 		f.find(".tmpBankReasonDiv").show();
 	}else{
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'','cl');
 		f.find("select[name='bank_type']").change(function(){
 		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
     }); 
-		f.find("input[name='recLetterNo']").prop('disabled',false);
+		f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
 		f.find(".tmpBankReasonDiv").hide();
 	}
 	
@@ -885,60 +893,67 @@ function getCompleteMortInfo(isMainLoanBank){
 	    method:"post",
 	    dataType:"json",
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
-	    	success:function(data){
-	    		$("#tmpBankStatus").val(data.content.tmpBankStatus);    		
-	    		if(data.content != null){
-	    			if(data.content.tmpBankStatus == '0'){
-		    			var reason = data.content.tmpBankRejectReason == null?"":data.content.tmpBankRejectReason;
-			    		$("#tmpBankRejectReason").text("已拒绝:("+reason+")");
-		    		}else if(data.content.tmpBankStatus == '1'){
-		    			$("#tmpBankRejectReason").text("已通过！");
-		    		}else if(data.content.tmpBankStatus == '2'){
-		    			$("#tmpBankRejectReason").text("审批中！");
-		    		}
-	    		}
-	    		
-	    		var f=$("#completeForm1");
-	    		if(isMainLoanBank == 1)
-                f=$("#completeForm");
-	    		if(data != null && data.content != null){
-    				f.find("[id='sp_bank']").text(data.content.parentBankName);
-	    			f.find("[id='sp_sub_bank']").text(data.content.bankName);
+    	success:function(data){	
+    	if(!data.success){
+    		alert(data.message);
+    	}else{
+    		if(data.content != null){
+    			if(data.content.tmpBankStatus != null){
+	    			$("#tmpBankStatus").val(data.content.tmpBankStatus);
+    			}
 
-	    			if(!!~~data.content.isTmpBank){
-	    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
-	    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
-	    				f.find('#sp_is_tmp_bank').text("是");
-	    				f.find('#fl_is_tmp_bank').val("1");
-	    				f.find(".tmpBankDiv").show();
-	    			}else{
-	    				f.find(".tmpBankDiv").hide();
-	    				f.find('#sp_is_tmp_bank').text("否");
-	    				f.find('#fl_is_tmp_bank').val("0");
-	    			}
-	    			
-	    			if(isMainLoanBank == 1){
-		    			$("#completeForm").find("input[name='pkid']").val(data.content.pkid);
-		    			$("#completeForm").find("#comAmount").html(data.content.comAmount+"万元");
-		    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount+"折");
-		    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
-		    			$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
-		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
-			    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
-		    			}
-
-	    			}else{
-	    				$("#completeForm1").find("input[name='pkid']").val(data.content.pkid);
-		    			$("#completeForm1").find("#comAmount").html(data.content.comAmount+"万元");
-		    			$("#completeForm1").find("#comDiscount").html(data.content.comDiscount+"折");
-		    			$("#completeForm1").find("input[name='finOrgCode']").val(data.content.finOrgCode);
-		    			$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
-		    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
-			    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
-		    			}
-	    			}
+    			if(data.content.tmpBankStatus == '0'){
+	    			var reason = data.content.tmpBankRejectReason == null?"":data.content.tmpBankRejectReason;
+		    		$("#tmpBankRejectReason").text("已拒绝:("+reason+")");
+	    		}else if(data.content.tmpBankStatus == '1'){
+	    			$("#tmpBankRejectReason").text("已通过！");
+	    		}else if(data.content.tmpBankStatus == '2'){
+	    			$("#tmpBankRejectReason").text("审批中！");
 	    		}
-	    	}
+    		}
+    		
+    		var f=$("#completeForm1");
+    		if(isMainLoanBank == 1)
+            f=$("#completeForm");
+    		if(data != null && data.content != null){
+				f.find("[id='sp_bank']").text(data.content.parentBankName);
+    			f.find("[id='sp_sub_bank']").text(data.content.bankName);
+
+    			if(!!~~data.content.isTmpBank){
+    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
+    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
+    				f.find('#sp_is_tmp_bank').text("是");
+    				f.find('#fl_is_tmp_bank').val("1");
+    				f.find(".tmpBankDiv").show();
+    			}else{
+    				f.find(".tmpBankDiv").hide();
+    				f.find('#sp_is_tmp_bank').text("否");
+    				f.find('#fl_is_tmp_bank').val("0");
+    			}
+    			
+    			if(isMainLoanBank == 1){
+	    			$("#completeForm").find("input[name='pkid']").val(data.content.pkid);
+	    			$("#completeForm").find("#comAmount").html(data.content.comAmount+"万元");
+	    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount+"折");
+	    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
+	    			$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
+	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
+		    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
+	    			}
+
+    			}else{
+    				$("#completeForm1").find("input[name='pkid']").val(data.content.pkid);
+	    			$("#completeForm1").find("#comAmount").html(data.content.comAmount+"万元");
+	    			$("#completeForm1").find("#comDiscount").html(data.content.comDiscount+"折");
+	    			$("#completeForm1").find("input[name='finOrgCode']").val(data.content.finOrgCode);
+	    			$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
+	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
+		    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
+	    			}
+    			}
+    		}
+    	}
+    }
 	  });
 }
 //提醒清单
@@ -1181,7 +1196,7 @@ function checkAttUp(attDiv,f){
 		var preFCode=$(this).find("input[name='preFileCode']").val();
 		preFCode=preFCode||'';
 		//临时银行或者2016年7月1日之前的案件可以不用上传推荐函
-		if(preFCode.indexOf('rec_letter_')!=-1 && (!!f.find("input[name='isTmpBank']").prop('checked') ||!afterTimeFlag)){
+		if(preFCode.indexOf('rec_letter_')!=-1 && (!!f.find("input[name='isTmpBank'][value='1']").prop('checked') ||!afterTimeFlag)){
 			flag=true;
 			return true;
 		}
@@ -1198,12 +1213,12 @@ function checkAttUp(attDiv,f){
 	return flag;
 }
 //保存操作步骤
-function saveStep(){
+function saveStep(f,stepIndex){
 	$.ajax({
 		url:ctx+"/task/saveMortStep",
 		method:"post",
 		dataType:"json",
-		data:{caseCode:$("#caseCode").val(),isMainLoanBank:$("#isMainLoanBank").val(),step:stepIndex},
+		data:{caseCode:$("#caseCode").val(),isMainLoanBank:f,step:stepIndex},
 		success:function(data){
 			if(!data.success){
 				alert(data.message);
@@ -1308,11 +1323,14 @@ $(document).ready(function () {
 	$("#wizard").steps({labels:{
 			next:"下一步",
 			previous:"上一步",
-			finish:"提交"
+			finish:"提交",		
 	 	},
 	 	onInit:function(event, currentIndex){
 	 		$("#winzard").find("li").css("width","16%");
 	 	},
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slide",
 		startIndex:step,
 		showFinishButtonAlways:false,
 	 	enableCancelButton:false,
@@ -1343,9 +1361,9 @@ $(document).ready(function () {
 	 		return true;
 	 	},
 	 	onStepChanged: function (event, currentIndex, priorIndex){
-	 		stepIndex = currentIndex;
+	 		stepIndex = currentIndex;		
 	 		if(currentIndex > step){
-		 		saveStep();
+		 		saveStep(1,stepIndex);
 	 		}
 	 		if(currentIndex == 1){
 	 			getReminderList("table_list_2","pager_list_2");
@@ -1373,6 +1391,9 @@ $(document).ready(function () {
 		previous:"上一步",
 		finish:"提交"
  	},
+ 	headerTag: "h3",
+    bodyTag: "section",
+    transitionEffect: "slide",
  	showFinishButtonAlways:false,
  	enableCancelButton:false,
  	startIndex:step1,
@@ -1413,8 +1434,8 @@ $(document).ready(function () {
  	},
  	onStepChanged: function (event, currentIndex, priorIndex){
  		stepIndex = currentIndex;
- 		if(currentIndex > step){
-	 		saveStep();
+ 		if(currentIndex > step1){
+	 		saveStep(0,stepIndex);
  		}
  		if(currentIndex == 1){
  			getReminderList("table_list_5","pager_list_5");

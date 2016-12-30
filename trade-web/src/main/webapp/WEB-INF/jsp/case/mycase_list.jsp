@@ -101,6 +101,10 @@ text-decoration: underline !important;
 	width:84px;
 	float:right;
 }
+.table_content .big a{
+	min-width: 140px;
+	display: inline-block;
+}
 </style>
 
 </head>
