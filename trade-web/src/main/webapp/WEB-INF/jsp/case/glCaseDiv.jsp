@@ -247,6 +247,7 @@ function changeTaskAssignee(page,propertyCode){
 		        initpagef(data.total,data.pagesize,data.page, data.records);
 		        $("#myModalsa").modal("show");
 			}else{
+				alert("没有查询到可以合流的案件！");
 				closef();
 			}
 		},complete: function() { },

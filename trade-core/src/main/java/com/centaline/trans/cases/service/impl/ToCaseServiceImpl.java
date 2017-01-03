@@ -38,6 +38,8 @@ import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseResetVo;
 import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
+import com.centaline.trans.comment.entity.ToCaseComment;
+import com.centaline.trans.comment.repository.ToCaseCommentMapper;
 import com.centaline.trans.common.entity.CaseMergerParameter;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -142,6 +144,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private BizWarnInfoService bizWarnInfoService;
 	@Autowired
 	private ToMortgageService toMortgageService;
+	@Autowired
+	private ToCaseCommentMapper toCaseCommentMapper;
 	
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
@@ -594,6 +598,11 @@ public class ToCaseServiceImpl implements ToCaseService {
 		/**5.删除流程数据**/
 		CaseResetVo vo = new CaseResetVo();vo.setCaseCode(ctmToCase.getCaseCode());
 		reset(vo);
+		/**6.ctm合流案件添加无效备注  T_TO_CASE_COMMENT **/
+		if(StringUtils.equals(caseMergerParameter.getInputType(), "CTM")){
+			toCaseCommentMapper.insertSelective(setToCaseComment(user,ctmToCase.getCaseCode()));
+		}
+		
 	}
 	
 	/**
@@ -1002,6 +1011,23 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCase.setUpdateBy(user.getId());
 		toCase.setUpdateTime(new Date());
 		return toCase;
+	}
+	
+	/**
+	 * 设置ToCaseComment表值
+	 * @author hejf10 2017-1-3 15:59:42
+	 * @param user
+	 * @param caseCode
+	 * @return
+	 */
+	public ToCaseComment setToCaseComment(SessionUser user,String caseCode){
+		ToCaseComment toCaseComment = new ToCaseComment();
+		toCaseComment.setCaseCode(caseCode);
+		toCaseComment.setComment("合流案件");
+		toCaseComment.setCreateTime(new Date());
+		toCaseComment.setCreateBy(user.getId());
+		toCaseComment.setCreatorOrgId(user.getServiceDepId());
+		return toCaseComment;
 	}
 	
 }
