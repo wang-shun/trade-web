@@ -40,7 +40,7 @@ public class QuickQueryGetMegerCuntServiceImpl implements CustomDictService{
 			Map paramMap = new HashMap();
 			paramMap.put("propertyCode", propertyCode);
 			String realName1 = "";
-			if(null != propertyCode){
+			if(null != propertyCode && !StringUtils.isBlank((String)propertyCode)){
 				realName1 = jdbcTemplate.queryForObject(sql, paramMap, String.class);
 			}
 			key.put("val", realName1);
