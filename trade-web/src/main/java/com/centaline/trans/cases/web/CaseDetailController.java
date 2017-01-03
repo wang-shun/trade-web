@@ -1335,6 +1335,12 @@ public class CaseDetailController {
 
 		//是否关注
 		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
+		
+		/** 案件重启中对信息管理员开放 ff80808158af2e600158b98c82340049 ***/
+		if(null != sessionUser)
+		if(StringUtils.equals(sessionUser.getServiceJobId(), "ff80808158af2e600158b98c82340049")){
+			request.setAttribute("serviceJobType", "Y");
+		}else{request.setAttribute("serviceJobType", "N");}
 		request.setAttribute("isMortgageSelect", isMortgageSelect);
 		request.setAttribute("bizWarnInfo", bizWarnInfo);
 		request.setAttribute("isCaseManager", isCaseManager);
