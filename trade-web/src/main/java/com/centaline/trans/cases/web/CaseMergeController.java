@@ -447,6 +447,30 @@ public class CaseMergeController {
 		return response;
 	}	
 	/**
+	 * 案件拆分
+	 * @author hejf10
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="qfMergeCase")
+	@ResponseBody
+	public AjaxResponse<?> qfMergeCase(CaseMergerParameter caseInfo, HttpServletRequest request){
+		AjaxResponse<?> response = new AjaxResponse<>();
+		try{
+			toCaseService.qfMergeCase(caseInfo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			String sOut = "";
+			StackTraceElement[] trace = e.getStackTrace();
+			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
+			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return response;
+	}	
+	/**
 	 * 案件合流
 	 * @author hejf10
 	 * @param request

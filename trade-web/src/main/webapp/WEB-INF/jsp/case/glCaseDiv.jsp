@@ -3,6 +3,7 @@
 <input type="hidden" name="pkId" id="pkId" />
 <input type="hidden" name="divCaseName" id="divCaseName" />
 <input type="hidden" name="propertyCode" id="propertyCode" />
+<input type="hidden" name="caseCode_" id="caseCode_" />
 <div id="myModalsa" class="modal inmodal in" >
        <div class="modal-dialog" style="width: 1070px;">
            <div class="modal-content animated fadeIn apply_box info_box">
@@ -34,7 +35,7 @@
                <div class="apply_table">
                    <div class="form_list table-capital">
                            <div class="table-box">
-                               <p class="pink"><i class="iconfont">&#xe653;</i> 系统检测到可能重复案件，请选择案件合并!</p>
+                               <p class="pink"><i class="iconfont">&#xe653;</i> 系统检测到可能重复案件!</p>
                                <table class="table table_blue mt20 table-striped table-bordered table-hover customerinfo" id="editable" name="editable">
 		                       <thead>
 		                           <tr>
@@ -58,9 +59,7 @@
 					  </div>
 		            </div>
 		        </div>
-                <div class="text-center mt10 mb30">
-                    <button type="button" class="btn btn-success mr5" onclick="merge()">合流</button>
-                    <button type="button" class="btn btn-grey"  onclick="closef()">取消</button>
+                <div class="text-center mt10 mb30" name="buttonDiv" id="buttonDiv" >
                 </div>
            </div>
        </div>
@@ -71,7 +70,11 @@
 	<tr>
 		<td>
 			<p class="big">
-				<input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" />
+				{{ if item.status == "被合流" }}
+<input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" disabled="disabled" />
+{{else}}
+<input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" />
+{{/if}}
 			</p>
 		</td>
 		<td>
@@ -162,6 +165,7 @@ function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,selle
 	if(inputType=="INPUT"){
 		$("#divCaseName_").html("自建案件");
 	}
+	
 }
 /* 调用关联案件方法  **/
 function merge(){
@@ -208,6 +212,44 @@ function merge(){
 		}
 	});
 }
+/* 调用拆分案件方法  **/
+function qfMerge(){
+    if(!confirm("确定拆分合流案件吗！")){ return false; }
+    var inputType = $("#divCaseName").val();
+    var mergePkid;
+    var pkId;
+    mergePkid = $('input[name="mergePkid"]:checked').val();
+    pkId = $("#pkId").val();
+	var data = {};
+	data.mergePkid= mergePkid;
+	data.pkId= pkId;
+	data.inputType= inputType;
+	$.ajax({
+		cache : false,
+		async : false,//false同步，true异步
+		type : "POST",
+		url:ctx+ "/caseMerge/qfMergeCase",
+		dataType : "json",
+		data : data,
+		beforeSend:function(){ },
+		success : function(data) {
+			if(data.success){ 
+				if(distriType && undefined != urlType && '' != urlType){
+					alert("拆分成功！"); 
+					$("#myModalsa").modal("hide");
+					caseDistributeType();
+					window.location.reload();
+				}else{
+					alert("拆分成功！"); 
+					$("#myModalsa").modal("hide");
+					window.location.reload();
+				}
+			}else{ alert("拆分失败！"+data.message);  }
+		},complete: function() {  },
+		error : function(errors) {
+		}
+	});
+}
 /* 取消关联案件页面  **/
 function closef(){ 
 	$("#myModalsa").modal("hide");
@@ -228,7 +270,13 @@ function changeTaskAssignee(page,propertyCode){
     if(!page) {data.page = 1;} else {data.page = page;}  
     data.propertyCode=propertyCode;
     data.inputType=$("#divCaseName").val();
-	data.queryId="queryGlCastListListdiv";
+    
+    var callback = $("#myModalsa").attr("callback");
+	if("backCaseMERGE"==callback){ data.queryId="queryQfCastListListdiv";
+								   data.caseCode=$("#caseCode_").val(); 
+							}else{ data.queryId="queryGlCastListListdiv";}
+    
+	
    	data.rows = 5;
 	$.ajax({
 		cache : false,
@@ -247,6 +295,11 @@ function changeTaskAssignee(page,propertyCode){
 		        initpagef(data.total,data.pagesize,data.page, data.records);
 		        $("#myModalsa").modal("show");
 			}else{
+				
+				var callback = $("#myModalsa").attr("callback");
+				if("backCaseMERGE"==callback){
+					alert("没有找到可以拆分的案件！");
+				}else{alert("没有找到可以合流的案件！");}
 				closef();
 			}
 		},complete: function() { },
@@ -296,12 +349,27 @@ function clickCallback(data){
 function showGlDiv(callback,pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType,urlType_,distriType_){
 	urlType = urlType_;
 	distriType = distriType_;
-	init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType);
-	/**查询方法**/
-	changeTaskAssignee(1,propertyCode); 
 	$("#myModalsa").attr("callback",callback);
 	$("#propertyCode").val(propertyCode);  
+	$("#caseCode_").val(caseCode); 
+	init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType);
 	//if(distriType_){}else{
 	//$("#myModalsa").modal("show");/**显示 div**/}
+	/**查询方法**/
+	changeTaskAssignee(1,propertyCode); 
+	showButton();
 }
+function showButton(){
+	$("#mergeId").remove();
+	$("#qfId").remove();
+	$("#closeId").remove();
+	$("#closeId_").remove();
+	var str = '<button type="button" name ="mergeId" id ="mergeId" class="btn btn-success mr5" onclick="merge()">合流</button> <button type="button" name ="closeId" id ="closeId" class="btn btn-grey"  onclick="closef()">取消</button> ';
+	var str1 = '<button type="button"  name ="qfId" id ="qfId"  class="btn btn-success mr5" onclick="qfMerge()">拆分 </button> <button type="button" name ="closeId_" id ="closeId_" class="btn btn-grey"  onclick="closef()">取消</button> ';
+	var callback = $("#myModalsa").attr("callback");
+	if("backCaseMERGE"==callback){
+		$("#buttonDiv").append(str1);
+	}else{$("#buttonDiv").append(str);}
+}
+
 </script>

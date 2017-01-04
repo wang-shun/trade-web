@@ -16,7 +16,7 @@ public interface ToCaseMergeMapper {
     ToCaseMerge selectByPrimaryKey(Long pkid);
     
     List<ToCaseMerge> selectByPrimaryPropertyCode(String propertyCode);
-
+    
     int updateByPrimaryKeySelective(ToCaseMerge record);
 
     int updateByPrimaryKey(ToCaseMerge record);
@@ -26,4 +26,11 @@ public interface ToCaseMergeMapper {
      * @return 返回相同案件list
      */
     Map getMergeInfoList(String proCode );
+    /**
+     * 查询合流案件信息
+     * @author hejf10
+     * @param caseCode
+     * @return
+     */
+    List<ToCaseMerge> selectByPrimaryCaseCode(String caseCode);
 }
