@@ -10,6 +10,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 
 
 			  webUploader = '';
+			  container = '';
 			  
 			  init = function(options) {
 				  
@@ -35,6 +36,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						available : null,
 						bizCode : null
 				  },options||{});
+				  
+				  container = settings.fileUploadContainer;
 				  
 				  updateAttachmentStatus(settings);
 				  
@@ -215,6 +218,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 
 					// 完成上传完了，成功或者失败，先删除进度条。
 					uploader.on( 'uploadComplete', function(file) {
+						//isCompletedUpload();
 					});
 			  };
 			  
@@ -420,10 +424,13 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      };
 		      
 		      isCompletedUpload = function() {
-		    	  
-		    	  
-		    	  
-		    	  return true;
+		    	  var $container = $( '#'+container);
+			      var $error = $container.find('div.error');
+		    	  if (!$error.length) {
+				     return true;
+				  } else {
+					 return false;
+				  }
 		      };
 		      
 		      return  {
