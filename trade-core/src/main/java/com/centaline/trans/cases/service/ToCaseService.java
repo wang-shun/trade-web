@@ -97,6 +97,11 @@ public interface ToCaseService {
 	 */
 	void mergeCase(CaseMergerParameter caseMergerParameter) throws Exception;
 	/**
+	 * 申请合流
+	 * @throws Exception
+	 */
+	void qfMergeCase(CaseMergerParameter caseMergerParameter) throws Exception;
+	/**
 	 * 返回ToCase
 	 * @author hejf10
 	 */
