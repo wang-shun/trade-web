@@ -413,10 +413,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
             director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
 
             variables.add(new RestVariable("Manager", manager.getUsername()));
-            variables.add(new RestVariable("SeniorManager",
+            /*variables.add(new RestVariable("SeniorManager",
                 seniorManager == null ? null : seniorManager.getUsername()));
-            variables.add(new RestVariable("director", director.getUsername()));
-
+            variables.add(new RestVariable("director", director.getUsername()));*/
             //启动 
             ProcessInstance process = new ProcessInstance(
                 propertyUtilsService.getProcessTmpBankAuditDfKey(), caseCode, variables);
@@ -475,6 +474,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
                                               String taskId, String bankCode,
                                               String temBankRejectReason, String processInstanceId,
                                               String caseCode, String post) {
+    	 ToCase te = toCaseService.findToCaseByCaseCode(caseCode);
+         String orgId = te.getOrgId();
         SessionUser user = uamSessionService.getSessionUser();
 
         if ("manager".equals(post)) {
@@ -510,14 +511,18 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
             List<RestVariable> variables = new ArrayList<RestVariable>();
             variables.add(new RestVariable("isManagerApprove", isManagerApprove));
+            //查询高级主管(实时)
+            User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId,
+                "Senior_Manager");
+            variables.add(new RestVariable("SeniorManager",
+                    seniorManager == null ? null : seniorManager.getUsername()));
 
             workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
 
             //添加审核记录到ToApproveRecord
             ToApproveRecord toApproveRecord = new ToApproveRecord();
             toApproveRecord.setCaseCode(caseCode);
-            toApproveRecord.setContent(isManagerApprove ? "审批通过，审批意见为：" + temBankRejectReason
-                : "审批驳回，审批意见为：" + temBankRejectReason);
+            toApproveRecord.setContent("审批"+(isManagerApprove?"通过":"驳回")+"，审批意见为：" + temBankRejectReason);
             toApproveRecord.setApproveType("8");//todo
             toApproveRecord.setOperator(user.getId());
             toApproveRecord.setTaskId(taskId);
@@ -554,14 +559,17 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
             List<RestVariable> variables = new ArrayList<RestVariable>();
             variables.add(new RestVariable("isSeniorManagerApprove", isSeniorManagerApprove));
+            //查询总监(实时)
+            String parsentId = uamUserOrgService.getOrgById(orgId).getParentId();
+            User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
+            variables.add(new RestVariable("director", director.getUsername()));
 
             workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
 
             //添加审核记录到ToApproveRecord
             ToApproveRecord toApproveRecord = new ToApproveRecord();
             toApproveRecord.setCaseCode(caseCode);
-            toApproveRecord.setContent(isSeniorManagerApprove ? "审批通过，审批意见为：" + temBankRejectReason
-                : "审批驳回，审批意见为：" + temBankRejectReason);
+            toApproveRecord.setContent("审批"+(isSeniorManagerApprove?"通过":"驳回")+"，审批意见为：" + temBankRejectReason);
             toApproveRecord.setApproveType("8");//todo
             toApproveRecord.setOperator(user.getId());
             toApproveRecord.setTaskId(taskId);
@@ -625,8 +633,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
             //添加审核记录到ToApproveRecord
             ToApproveRecord toApproveRecord = new ToApproveRecord();
             toApproveRecord.setCaseCode(caseCode);
-            toApproveRecord.setContent("true".equals(tmpBankCheck)
-                ? "审批通过，审批意见为：" + temBankRejectReason : "审批驳回，审批意见为：" + temBankRejectReason);
+            toApproveRecord.setContent("审批"+("true".equals(tmpBankCheck)?"通过":"驳回")+"，审批意见为：" + temBankRejectReason);
             toApproveRecord.setApproveType("8");//todo
             toApproveRecord.setOperator(user.getId());
             toApproveRecord.setTaskId(taskId);

@@ -450,6 +450,9 @@ function createTimeSort(){
 function processfu(pkId,propertyCode,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType,id){
 	showGlDiv('backCase1',pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType,ctx +"/engine/task/"+id+"/process",false);
 }
+function ts(status){
+	alert(status+"案件不能拆分案件！");
+}
 /*
 function processfu(pkId,propertyCode,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType){
 	if(null !=propertyCode && ""!=propertyCode){}else{window.open(ctx +'/engine/task/'+pkId+'/process');}

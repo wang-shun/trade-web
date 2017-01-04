@@ -37,7 +37,7 @@ public class QuickQueryGetPropertyCodeServiceImpl implements CustomDictService{
 			Map paramMap = new HashMap();
 			paramMap.put("caseCode", caseCode);
 			String realName1 = "";
-			if(null != caseCode){
+			if(null != caseCode && !StringUtils.isBlank((String)caseCode) ){
 				realName1 = jdbcTemplate.queryForObject(sql, paramMap, String.class);
 			}
 			key.put("val", realName1);

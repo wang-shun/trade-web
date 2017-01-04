@@ -8,6 +8,8 @@ import com.centaline.trans.common.MyBatisRepository;
 @MyBatisRepository
 public interface ToAttachmentMapper {
     int deleteByPrimaryKey(Long pkid);
+    
+    int deleteByFileAdress(String preFileAdress);
 
     int insert(ToAttachment record);
 
@@ -37,6 +39,8 @@ public interface ToAttachmentMapper {
 	int setMainFlowVailable(String caseCode);
 	
 	int updateToAttachmentByCaseCode(String caseCode);
+	
+	int updateAvaliableAttachmentByProperty(ToAttachment record);
 	
 	
 }

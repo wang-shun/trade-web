@@ -398,7 +398,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 					toWorkFlowMapper.updateByPrimaryKeySelective(wf4);
 				}
 				//当出款总额等于监管金额时发起消息通知资金监管流程 ：SpvProcess
-				messageService.sendSpvFinishMsgByIntermi(instCode);
+				messageService.sendSpvFinishMsgByIntermi(wf2.getInstCode());
 				//更新spv表
 				toSpv.setCloseTime(new Date());
 				toSpv.setStatus(SpvStatusEnum.COMPLETE.getCode());

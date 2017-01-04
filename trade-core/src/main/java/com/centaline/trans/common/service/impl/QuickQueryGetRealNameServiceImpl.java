@@ -40,7 +40,7 @@ public class QuickQueryGetRealNameServiceImpl implements CustomDictService{
 			Map paramMap = new HashMap();
 			paramMap.put("userId", userId);
 			String realName1 = "";
-			if(null != userId){
+			if(null != userId && !StringUtils.isBlank((String)userId)){
 				realName1 = jdbcTemplate.queryForObject(sql, paramMap, String.class);
 			}
 			key.put("val", realName1);

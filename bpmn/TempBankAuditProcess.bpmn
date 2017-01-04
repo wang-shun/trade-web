@@ -2,9 +2,9 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
   <process id="TempBankAudit_Process" name="TempBankAudit_Process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="ManagerAduit" name="主管审批" activiti:assignee="${Manager}" activiti:formKey="/mortgage/tmpBankAudit/process?post=manager"></userTask>
-    <userTask id="SuperManagerAudit" name="高级主管审批" activiti:assignee="${SeniorManager}" activiti:formKey="/mortgage/tmpBankAudit/process?post=seniorManager"></userTask>
-    <userTask id="DirectorAudit" name="总监审批" activiti:assignee="${director}" activiti:formKey="/mortgage/tmpBankAudit/process?post=director"></userTask>
+    <userTask id="ManagerAduit" name="主管审批" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'Manager')}" activiti:formKey="/mortgage/tmpBankAudit/process?post=manager"></userTask>
+    <userTask id="SuperManagerAudit" name="高级主管审批" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'SeniorManager')}" activiti:formKey="/mortgage/tmpBankAudit/process?post=seniorManager"></userTask>
+    <userTask id="DirectorAudit" name="总监审批" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'director')}" activiti:formKey="/mortgage/tmpBankAudit/process?post=director"></userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="ManagerAduit"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="ManagerAduit" targetRef="exclusivegateway1"></sequenceFlow>
@@ -12,10 +12,10 @@
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow5" sourceRef="exclusivegateway2" targetRef="DirectorAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isSeniorManagerApprove == true && SeniorManager!=director}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{commonUserService.findAnyAssigneeByCaseOwner(execution,'DirectorAudit','director') && isSeniorManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="exclusivegateway1" targetRef="SuperManagerAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager != null && isManagerApprove == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{commonUserService.findAnyAssigneeByCaseOwner(execution,'SuperManagerAudit','SeniorManager') && isManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow10" sourceRef="exclusivegateway1" targetRef="DirectorAudit">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isManagerApprove == true && (SeniorManager == null || SeniorManager == Manager)}]]></conditionExpression>

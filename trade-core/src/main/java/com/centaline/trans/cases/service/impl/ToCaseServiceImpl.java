@@ -1004,6 +1004,198 @@ public class ToCaseServiceImpl implements ToCaseService {
 		return toCase;
 	}
 	
+	/**
+	 * 拆分合流案件
+	 * @author hejf10
+	 * @param caseMergerParameter
+	 * @return
+	 */
+	public void qfMergeCase(CaseMergerParameter caseMergerParameter) throws Exception{
+		SessionUser user = uamSessionService.getSessionUser();
+		if(null != user){}else{throw new BusinessException("没能获得当前用户信息!");}
+		if(null != caseMergerParameter){
+		if(StringUtils.isBlank(caseMergerParameter.getPkId())){throw new BusinessException("自建案件Pkid为空!"); }}
+		
+		String pkId =caseMergerParameter.getPkId();
+		ToCase toCase = toCaseMapper.selectByPrimaryKey(Long.valueOf(pkId));
+		
+		if(null != toCase){}else{throw new BusinessException("没有查询到自建案件信息!"); }
+		List<ToCaseMerge> toCaseMerges = toCaseMergeMapper.selectByPrimaryCaseCode(toCase.getCaseCode());
+		
+		if(null == toCaseMerges){throw new BusinessException("没有查询到合流案件信息!");}
+		ToCaseMerge oldtoCaseMerge = toCaseMerges.get(0);
+		if(StringUtils.isBlank(oldtoCaseMerge.getcCaseCode())){throw new BusinessException("ctm案件信息为空!");}
+		ToCase ctmToCase = toCaseMapper.findToCaseByCaseCode(oldtoCaseMerge.getcCaseCode());
+		
+		if(null != ctmToCase){}else{throw new BusinessException("没有查询到导入案件信息!"); }
+		
+		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		//ToPropertyInfo ctmtoPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(ctmToCase.getCaseCode());
+		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
+		//ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
+		
+		if(null != toPropertyInfo){}else{throw new BusinessException("没有查询到案件地址信息!"); }
+		
+		/** 1.更新t_to_case_merge **/
+		ToCaseMerge toCaseMerge = setToCaseMergesToQf(user,oldtoCaseMerge);
+		if(null != toCaseMerge){toCaseMergeMapper.insertSelective(toCaseMerge);}
+		
+		/**2.更新t_to_case**/
+		toCaseMapper.updateByPrimaryKeySelective(setToCasestoQf(user,toCase));
+		toCaseMapper.updateByPrimaryKeySelective(setCToCasestoQf(user,ctmToCase));
+		/**3.更新表T_TO_CASE_INFO**/
+		toCaseInfoMapper.updateByPrimaryKey(copyToCaseInfotoQf(user,toCaseInfo,oldtoCaseMerge));
+		/**4.更新表T_TO_PROPERTY_INFO**/
+		toPropertyInfoMapper.updateByPrimaryKeySelective(copyToPropertyInfotoQf(user,toPropertyInfo));
+		
+	}
+	
+	
+	/**
+	 * 设置ToCaseMerge表值(拆分)
+	 * @author hejf10
+	 * @param user
+	 * @param toCase
+	 * @param ctmToCase
+	 * @param toCaseInfo
+	 * @param ctmtoCaseInfo
+	 * @param toPropertyInfo
+	 * @param ctmtoPropertyInfo
+	 * @return
+	 */
+	public ToCaseMerge setToCaseMergesToQf(SessionUser user,ToCaseMerge oldToCaseMerge){
+		
+		ToCaseMerge toCaseMerge = new ToCaseMerge();
+		
+		toCaseMerge.setCaseCode(oldToCaseMerge.getCaseCode());
+		toCaseMerge.setcCaseCode(oldToCaseMerge.getcCaseCode());
+	    toCaseMerge.setCtmCode(oldToCaseMerge.getCtmCode());
+		toCaseMerge.setPropertyCode(oldToCaseMerge.getPropertyCode());
+		toCaseMerge.setPropertyAddr(oldToCaseMerge.getPropertyAddr());
+		toCaseMerge.setcAgentCode(oldToCaseMerge.getcAgentCode());
+		toCaseMerge.setcAgentName(oldToCaseMerge.getcAgentName());
+		toCaseMerge.setcAgentPhone(oldToCaseMerge.getcAgentPhone());
+		toCaseMerge.setcAgentUsername(oldToCaseMerge.getcAgentUsername());
+		toCaseMerge.setcAgentGrpCode(oldToCaseMerge.getcAgentGrpCode());
+		toCaseMerge.setcAgentGrpName(oldToCaseMerge.getcAgentGrpName());
+		toCaseMerge.setcAgentQyjlName(oldToCaseMerge.getcAgentQyjlName());
+		toCaseMerge.setcAgentQydsName(oldToCaseMerge.getcAgentQydsName());
+		toCaseMerge.setcAgentQyzjName(oldToCaseMerge.getcAgentQyzjName());
+		toCaseMerge.setcAgentArCode(oldToCaseMerge.getcAgentArCode());
+		toCaseMerge.setcAgentArName(oldToCaseMerge.getcAgentArName());
+		toCaseMerge.setcAgentSwzCode(oldToCaseMerge.getcAgentSwzCode());
+		toCaseMerge.setcAgentSwzName(oldToCaseMerge.getcAgentSwzName());
+		toCaseMerge.setcAgentWzCode(oldToCaseMerge.getcAgentWzCode());
+		toCaseMerge.setcAgentWzName(oldToCaseMerge.getcAgentWzName());
+		toCaseMerge.setcAgentBaCode(oldToCaseMerge.getcAgentBaCode());
+		toCaseMerge.setcAgentBaName(oldToCaseMerge.getcAgentBaName());
+		toCaseMerge.setAgentCode(oldToCaseMerge.getAgentCode());//自建
+		toCaseMerge.setAgentName(oldToCaseMerge.getAgentName());
+		toCaseMerge.setAgentPhone(oldToCaseMerge.getAgentPhone());
+		toCaseMerge.setAgentUsername(oldToCaseMerge.getAgentUsername());
+		toCaseMerge.setAgentGrpCode(oldToCaseMerge.getAgentGrpCode());
+		toCaseMerge.setAgentGrpName(oldToCaseMerge.getAgentGrpName());
+		toCaseMerge.setAgentQyjlName(oldToCaseMerge.getAgentQyjlName());
+		toCaseMerge.setAgentQydsName(oldToCaseMerge.getAgentQydsName());
+		toCaseMerge.setAgentQyzjName(oldToCaseMerge.getAgentQyzjName());
+		toCaseMerge.setAgentArCode(oldToCaseMerge.getAgentArCode());
+		toCaseMerge.setAgentArName(oldToCaseMerge.getAgentArName());
+		toCaseMerge.setAgentSwzCode(oldToCaseMerge.getAgentSwzCode());
+		toCaseMerge.setAgentSwzName(oldToCaseMerge.getAgentSwzName());
+		toCaseMerge.setAgentWzCode(oldToCaseMerge.getAgentWzCode());
+		toCaseMerge.setAgentWzName(oldToCaseMerge.getAgentWzName());
+		toCaseMerge.setAgentBaCode(oldToCaseMerge.getAgentBaCode());
+		toCaseMerge.setAgentBaName(oldToCaseMerge.getAgentBaName());
+		toCaseMerge.setApplierId(user.getId());
+		toCaseMerge.setApplierOrgId(user.getServiceDepId());;
+		toCaseMerge.setOperatorTime(new Date());
+		toCaseMerge.setOperator(CaseMergeStatusEnum.OPERATOR2.getCode());
+		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS1.getCode());
+		/**toCaseMerge.setConfirmorId("");**/
+		/**toCaseMerge.setConfirmorOrgId("");**/
+		/**toCaseMerge.setConfirmorTime(new Date);**/
+		toCaseMerge.setCreateBy(user.getId());
+		toCaseMerge.setCreateTime(new Date());
+		/**toCaseMerge.setUpdateBy("");**/
+		/**toCaseMerge.setUpdateTime("");**/
+		return toCaseMerge;
+	}
+	
+	
+	/**
+	 * 更新ToCase表值(拆分)
+	 * @author hejf10 2016-12-27 15:59:42
+	 * @param user
+	 * @param toCase
+	 * @return
+	 */
+	public ToCase setToCasestoQf(SessionUser user,ToCase toCase){
+		toCase.setCaseOrigin(CaseMergeStatusEnum.INPUT.getCode());
+		toCase.setCtmCode("");
+		toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode()); 
+		toCase.setUpdateBy(user.getId());
+		toCase.setUpdateTime(new Date());
+		return toCase;
+	}
+	/**
+	 * 更新ToCase表值(拆分)
+	 * @author hejf10 2016-12-27 15:59:42
+	 * @param user
+	 * @param toCase
+	 * @return
+	 */
+	public ToCase setCToCasestoQf(SessionUser user,ToCase ctmtoCase){
+		ctmtoCase.setCaseOrigin(CaseMergeStatusEnum.CTM.getCode());
+		ctmtoCase.setStatus(CaseStatusEnum.WFD.getCode());
+		ctmtoCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+		ctmtoCase.setUpdateBy(user.getId());
+		ctmtoCase.setUpdateTime(new Date());
+		return ctmtoCase;
+	}
+	/**
+	 * 拷贝ToCaseInfo(拆分)
+	 * @param toCaseInfo
+	 * @param ctmtoCaseInfo
+	 * @return
+	 */
+	public ToCaseInfo copyToCaseInfotoQf(SessionUser user,ToCaseInfo toCaseInfo,ToCaseMerge toCaseMerge){
+		toCaseInfo.setCtmCode("");
+		toCaseInfo.setAgentCode(toCaseMerge.getAgentCode());
+		toCaseInfo.setAgentName(toCaseMerge.getAgentName());
+		toCaseInfo.setAgentPhone(toCaseMerge.getAgentPhone());
+		toCaseInfo.setAgentUserName(toCaseMerge.getAgentUsername());
+		toCaseInfo.setGrpCode(toCaseMerge.getAgentGrpCode());
+		toCaseInfo.setGrpName(toCaseMerge.getAgentGrpName());
+		toCaseInfo.setArCode(toCaseMerge.getAgentArCode());
+		toCaseInfo.setArName(toCaseMerge.getAgentArName());
+		toCaseInfo.setQjdsName(toCaseMerge.getAgentQydsName());
+		toCaseInfo.setQyjlName(toCaseMerge.getAgentQyjlName());
+		toCaseInfo.setQyzjName(toCaseMerge.getAgentQyzjName());
+		toCaseInfo.setSwzCode(toCaseMerge.getAgentSwzCode());
+		toCaseInfo.setSwzName(toCaseMerge.getAgentSwzName());
+		toCaseInfo.setWzCode(toCaseMerge.getcAgentWzCode());
+		toCaseInfo.setWzName(toCaseMerge.getAgentWzName());
+		toCaseInfo.setBaCode(toCaseMerge.getAgentBaCode());
+		toCaseInfo.setBaName(toCaseMerge.getAgentBaName());
+		toCaseInfo.setUpdateby(user.getId());
+		toCaseInfo.setUpdateTime(new Date());
+		return toCaseInfo;
+	}
+	/**
+	 * 拷贝T_TO_PROPERTY_INFO(拆分)
+	 * @param toPropertyInfo
+	 * @param ctmtoPropertyInfo
+	 * @return
+	 */
+	public ToPropertyInfo copyToPropertyInfotoQf(SessionUser user,ToPropertyInfo toPropertyInfo){
+		toPropertyInfo.setCtmCode("");
+		toPropertyInfo.setCtmAddr("");
+		toPropertyInfo.setPropertyAgentId("");
+		toPropertyInfo.setUpdateBy(user.getId());
+		toPropertyInfo.setUpdateTime(new Date());
+		return toPropertyInfo;
+	}
+	
 }
 
 

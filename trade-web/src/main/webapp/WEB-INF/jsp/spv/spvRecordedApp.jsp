@@ -258,9 +258,6 @@
         </div>
     </div>
 <content tag="local_script">
-<!-- Custom and plugin javascript -->
-<script src="${ctx}/static/js/inspinia.js"></script>
-<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
 <!-- 上传附件相关 --> 
 <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script><%-- 

@@ -56,6 +56,10 @@
     delete from sctrans.T_TO_ATTACHMENT
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByFileAdress" parameterType="java.lang.String" >
+    delete from sctrans.T_TO_ATTACHMENT
+    where PRE_FILE_ADRESS = #{preFileAdress,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     insert into sctrans.T_TO_ATTACHMENT (CASE_CODE,BIZ_CODE,PRE_FILE_ADRESS, 
       PRE_FILE_CODE, PART_CODE, FILE_CAT, 
@@ -211,6 +215,12 @@
     <if test="fileName != null" >
      	and FILE_NAME = #{fileName,jdbcType=VARCHAR}
     </if>
+    <if test="fileName != null" >
+     	and FILE_NAME = #{fileName,jdbcType=VARCHAR}
+    </if>
+    <if test="available != null" >
+     	and AVAILABLE = #{available,jdbcType=VARCHAR}
+    </if>
     order by PRE_FILE_CODE
   </select>
   
@@ -237,6 +247,9 @@
     </if>
     <if test="fileName != null" >
      	and FILE_NAME = #{fileName,jdbcType=VARCHAR}
+    </if>
+    <if test="available != null" >
+     	and AVAILABLE = #{available,jdbcType=VARCHAR}
     </if>
     order by PRE_FILE_CODE
   </select>
@@ -315,6 +328,23 @@
     update sctrans.T_TO_ATTACHMENT
     set AVAILABLE = 'N'
 	where case_code=#{caseCode,jdbcType=VARCHAR}
+  </update> 
+  
+   <update id="updateAvaliableAttachmentByProperty" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
+    update sctrans.T_TO_ATTACHMENT
+    set AVAILABLE = 'Y'
+    WHERE AVAILABLE = 'N'
+		<choose>
+            <when test="caseCode != null">
+                AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                AND CASE_CODE IS NULL
+            </otherwise>
+       </choose>
+       <if test="partCode != null" >
+     		and PART_CODE = #{partCode,jdbcType=VARCHAR}
+       </if>
   </update> 
   
 </mapper>

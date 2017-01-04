@@ -118,7 +118,7 @@ function getExplPicByhouseCode() {
 				var trStr = "";
 				$.each(data.attList,function(index, value) {
 				
-					if(value.preFileCode==accValue.accessoryCode){						
+					if(value.preFileCode==accValue.accessoryCode){				
 						dataLength++;
 						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
 						trStr+="<div class=\"preview span12\">";

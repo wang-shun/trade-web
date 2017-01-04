@@ -315,7 +315,7 @@ function reloadGrid(data) {
 }
 /** * 确认  */
 function merge(pkId,type){
-	if(type == "1"){if(!confirm("确定合流案件吗！")){ return false; }}
+	if(type == "1"){if(!confirm("确定合流案件吗,合流后案件流程信息会被删除，请谨慎操作！")){ return false; }}
 	if(type == "0"){if(!confirm("确定驳回合流案件吗！")){ return false; }}
 	var data = {};
 	data.id = pkId;
