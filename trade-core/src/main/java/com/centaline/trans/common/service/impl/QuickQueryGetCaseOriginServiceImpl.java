@@ -28,7 +28,7 @@ public class QuickQueryGetCaseOriginServiceImpl implements CustomDictService{
 		
 		for (Map<String, Object> key : keys) {			
 			Object loanAgentTeam = key.get("CASE_CODE");
-			if (loanAgentTeam != null) {				
+			if (null != loanAgentTeam  && !StringUtils.isBlank((String)loanAgentTeam)) {				
 				List<String> departmentNameList = jdbcTemplate.queryForList(sql, String.class, loanAgentTeam.toString());					
 				key.put("val", StringUtils.join(departmentNameList, ""));	
 			}
