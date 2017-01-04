@@ -18,16 +18,21 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						fileUploadContainer : "fileUploadContainer",
 						auto: false,
 						duplicate: true,
-						accept: {
+						/*accept: {
 						        title: 'Images',
 						        extensions: 'gif,jpg,jpeg,bmp,png',
 						        mimeTypes: 'image/*'
-						},
+						},*/
+						accept: {
+					        title: 'Images',
+					        extensions: 'jpg',
+					        mimeTypes: '.jpg'
+					    },
 						thumbnailWidth : 64,
 						thumbnailHeight : 64,
 						pick : 'filePicker',
-						server : 'http://filesvr.centaline.com:8081/aist-filesvr-web/webUploader/uploadPicture',
-						available : 'Y'
+						server : appCtx['aist-filesvr-web']+'/webUploader/uploadPicture',
+						available : null
 				  },options||{});
 				  
 				  if (typeof window.WebUploader == 'undefined') {
@@ -41,6 +46,25 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 				        alert( 'Web Uploader 不支持您的浏览器！如果你使用的是IE浏览器，请尝试升级 flash 播放器');
 				        throw new Error( 'WebUploader does not support the browser you are using.' );
 				  }*/
+			  };
+			  
+			  updateAttachmentStatus = function(options) {
+				  $.ajax({
+		    			cache : true,
+		    			async : false,//false同步，true异步
+		    			type : "POST",
+		    			url : ctx+'/attachment/updateAvaliableAttachmentByProperty',
+		    			dataType : "json",
+		    			data : [{
+		    				name : 'caseCode',
+		    				value :  options.caseCode
+		    			}],
+		    			success : function(data) {
+		    			},
+		    			error : function(errors) {
+		    				alert("更新状态失败");
+		    			}
+		    		});
 			  };
 			  use = function(urls,settings) {
 				  var ctx = settings.ctx;
@@ -136,12 +160,21 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					});
 					
 					uploader.on('uploadSuccess', function(file,res) {
-						$.each(res.files, function(index, item){ 
+						$.each(res.files, function(index, item){
 							var id = item.id;
+							var fileCat = item.fileCat;
+							var fileName = item.fileName;
+							
+							//preFileCode
+							var checkedBtn = $("."+settings.pick+".checked");
+							var preFileCode = checkedBtn.attr("id");
+							
+							addAttachment(settings.caseCode,settings.partCode,id,preFileCode,fileName);
 							
 							var img = $('#'+file.id).find("img");
-							img.attr("data","http://a.sh.centanet.com/aist-filesvr-web/JQeryUpload/getfile?fileId="+id);
+							img.attr("data",appCtx['aist-filesvr-web']+"/JQeryUpload/getfile?fileId="+id);
 							$('#'+file.id).attr("id",id);
+							
 						});
 					    initImgViewer();
 					});
@@ -184,7 +217,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			                case 0:
 			                	var $li = $(this).parent().parent();
 			                    removeFile($li);
-			                    return;
+			                    return ;
 
 			                case 1:
 			                    //file.rotation += 90;
@@ -215,6 +248,10 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    	  var caseCode = settings.caseCode;
 		    	  var partCode = settings.partCode;
 		    	  var available = settings.available;
+		    	  if(available=='') {
+		    		  available = null;
+		    	  }
+		    	
 		    	  var templeteId = settings.templeteId;
 		    	  $.ajax({
 						type : 'post',
@@ -253,10 +290,11 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      };
 		      
 		      createTempleteHtml = function(settings,data) {
+		    	  settings.imgCentanet = appCtx['img-centanet'];
 		    	  var fileuploadHtml ='';
 		          if(typeof(settings.templeteId) == "undefined") {
 		        	  var templeteSource = '<table class="table table-bordered customerinfo">'
-	                    +'<thead>'
+	                  +'<thead>'
 		        	  +'<tr>'
 		        	  +'<th style="width: 100px;">类型</th>'
 		        	  +'<th>附件</th>'
@@ -274,10 +312,10 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
                       +'{{if item.accessoryCode==item2.preFileCode}}'
 	                      +'<li id="{{item2.preFileAdress}}">'
 			        	  +'<p class="title">'
-			        	  +'product2.png'
+			        	  +'{{item2.fileName}}'
 			        	  +'</p>'
 			        	  +'<p class="imgWrap">'
-			        	  +"<img src=\"http://aimg.sh.centanet.com/salesweb/image/{{item2.preFileAdress}}/80_80_f.jpg\" data=\"http://a.sh.centanet.com/aist-filesvr-web/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width='"+settings.thumbnailWidth+"' height='"+settings.thumbnailHeight+"'/>"
+			        	  +'<img src=\"'+appCtx['img-centanet'] +'/salesweb/image/{{item2.preFileAdress}}/80_80_f.jpg\" data=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'+settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight+'\"/>'
 			        	  +'</p>'
 			        	  +'<div class="file-panel" style="height: 0px;">'
 			        	  +'<span class="cancel">'
@@ -305,18 +343,71 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      
 		      removeFile = function(li) {
 		    	  var $li = li;
-
-		          $li.off().find('.file-panel').off().end().remove();
+		    	  
+		    	  var id = $li.attr("id");
+		    	  //li.off().end().find('.file-panel').off().end().remove();
+		    	  deleteAttachment(id, $li);
+		      };
+		      
+		      deleteAttachment = function (preFileAdress,li) {
+		    	  $.ajax({
+		  			type : 'post',
+		  			cache : false,
+		  			async : false,//false同步，true异步
+		  			dataType : 'json',
+		  			url : ctx+'/attachment/delAttachmentByFileAddress',
+		  			data : {preFileAdress:preFileAdress},
+		  			success : function(data) {
+		  				if(data.success){
+		  					li.off().find('.file-panel').off().end().remove();
+		  				} else if(!data) {
+		  					alert(data.message);
+		  				}
+		  			}
+		  		});
+		      };
+		      
+		      addAttachment = function(caseCode,partCode,id,preFileCode,fileName) {
+		    	  $.ajax({
+		    			cache : true,
+		    			async : false,//false同步，true异步
+		    			type : "POST",
+		    			url : ctx+'/attachment/saveAttachment',
+		    			dataType : "json",
+		    			data : [ {
+		    				name : 'pictureNo',
+		    				value : id
+		    			}
+		    			, {
+		    				name : 'framePart',
+		    				value : preFileCode
+		    			},{
+		    				name : 'picName',
+		    				value :  fileName
+		    			},{
+		    				name : 'caseCode',
+		    				value :  caseCode
+		    			},{
+		    				name : 'partCode',
+		    				value :  partCode
+		    			}],
+		    			success : function(data) {
+		    			},
+		    			error : function(errors) {
+		    				alert("附件添加出错。");
+		    			}
+		    		});
 		      };
 		      
 		      initImgViewer = function () {
 		    	  
-		    	  $('body').viewer('destroy');
-				  $('body').viewer({zIndex:15001,url:"data"});
+		    	  $('#fileUploadContainer').viewer('destroy');
+				  $('#fileUploadContainer').viewer({zIndex:15001,url:"data"});
 		      };
 		      
 		      return  {
-		    	  initFileUpload : initFileUpload
+		    	  initFileUpload : initFileUpload,
+		    	  updateAttachmentStatus : updateAttachmentStatus
 		    	  
 		      }
 		  

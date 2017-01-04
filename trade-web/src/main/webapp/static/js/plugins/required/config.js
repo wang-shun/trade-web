@@ -15,36 +15,17 @@ require.config({
     	}
     });
 
-/*
-require(['aistFileUpload'], function (aistFileUpload){
-	  aistFileUpload.initFileUpload({
-  		caseCode : "ZY-SH-201609-0035",
-  		partCode : "SpvApplyApprove",
-  		fileUploadcontainer : "fileUploadcontainer",
-  		accept: {
-		        title: 'Images',
-		        extensions: 'jpg',
-		        mimeTypes: '.jpg'
-		    }
-  	}); 
- });
-
-require(['aistMath'], function (aistMath){
-	alert(aistMath.add(1,1));
-}); 
-*/
 
 require(['aistFileUpload'], function (aistFileUpload){
 	  aistFileUpload.initFileUpload({
 		caseCode : "ZY-SH-201609-0035",
 		partCode : "SpvApplyApprove",
-		fileUploadcontainer : "fileUploadcontainer",
-		accept: {
-		        title: 'Images',
-		        extensions: 'jpg',
-		        mimeTypes: '.jpg'
-		    }
-	}); 
+		fileUploadcontainer : "fileUploadcontainer"
+	 }); 
+	  
+	  aistFileUpload.updateAttachmentStatus({
+		  caseCode : "ZY-SH-201609-0035"
+	  });
 });
 
 

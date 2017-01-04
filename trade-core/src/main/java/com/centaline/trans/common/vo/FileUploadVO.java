@@ -10,6 +10,10 @@ public class FileUploadVO {
 	private List<Long> pkIdArr;		 	 /**被删除的图片ID*/
 	private String caseCode;             /**交易单编号*/
 	private String partCode;             /**环节编码*/
+	private String id;                   
+	private String preFileCode;
+	private String fileCat;
+	private String fileName;
 
 	public List<String> getPictureNo() {
 		return pictureNo;
@@ -46,6 +50,30 @@ public class FileUploadVO {
 	}
 	public void setPkIdArr(List<Long> pkIdArr) {
 		this.pkIdArr = pkIdArr;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getPreFileCode() {
+		return preFileCode;
+	}
+	public void setPreFileCode(String preFileCode) {
+		this.preFileCode = preFileCode;
+	}
+	public String getFileCat() {
+		return fileCat;
+	}
+	public void setFileCat(String fileCat) {
+		this.fileCat = fileCat;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 	

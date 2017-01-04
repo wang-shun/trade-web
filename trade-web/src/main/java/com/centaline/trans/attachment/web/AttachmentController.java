@@ -130,6 +130,18 @@ public class AttachmentController {
 		map.put("attList", toAttachmentService.quereyAttachments(toAttachment));
 		return map;
 	}
+	
+	@RequestMapping(value = "updateAvaliableAttachmentByProperty")
+	@ResponseBody
+	public AjaxResponse<String> updateAvaliableAttachmentByProperty(HttpServletRequest request, ToAttachment toAttachment) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try {
+			toAttachmentService.updateAvaliableAttachmentByProperty(toAttachment);
+		} catch (Exception e) {
+			response.setMessage("更新状态失败！");
+		}
+		return response;
+	}
 
 	@RequestMapping(value = "quereyAttachmentsForMaterital")
 	@ResponseBody
@@ -190,6 +202,9 @@ public class AttachmentController {
 	@ResponseBody
 	public ToAttachmentVO queryNewAttachment(HttpServletRequest request, ToAttachment toAttachment) {
 		ToAttachmentVO toAttachmentVO = new ToAttachmentVO();
+		if(StringUtils.isBlank(toAttachment.getAvailable())) {
+			toAttachment.setAvailable(null);
+		}
 		List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
 		if (CollectionUtils.isNotEmpty(attachments)) {
 			for (ToAttachment attachment : attachments) {
@@ -288,6 +303,18 @@ public class AttachmentController {
 			response.setMessage("删除失败！");
 		}
 
+		return response;
+	}
+	
+	@RequestMapping(value = "delAttachmentByFileAddress")
+	@ResponseBody
+	public AjaxResponse<String> delAttachmentByFileAdress(HttpServletRequest request, String preFileAdress) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try {
+			toAttachmentService.deleteByFileAdress(preFileAdress);
+		} catch (Exception e) {
+			response.setMessage("删除失败！");
+		}
 		return response;
 	}
 
