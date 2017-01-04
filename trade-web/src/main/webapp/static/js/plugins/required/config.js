@@ -15,6 +15,9 @@ require.config({
     	}
     });
 
+/*require(['jquery'], function($) {
+    alert($().jquery);
+});*/
 
 require(['aistFileUpload'], function (aistFileUpload){
 	  aistFileUpload.initFileUpload({
