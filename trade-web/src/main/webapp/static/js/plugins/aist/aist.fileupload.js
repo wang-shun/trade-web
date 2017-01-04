@@ -163,9 +163,24 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					    }, uploader.options.thumbnailWidth, uploader.options.thumbnailHeight );
 					    	    
 					    uploader.upload();
+					    
+					    var $li = $( '#'+file.id ),
+				        $error = $li.find('div.error');
+					    // 避免重复创建
+					    if (!$error.length) {
+					        $error = $('<div class="error"></div>').appendTo( $li );
+					    }
+					    $error.text('上传中...');
 					});
 					
 					uploader.on('uploadSuccess', function(file,res) {
+						var $li = $( '#'+file.id ),
+				        $error = $li.find('div.error');
+					    // 避免重复创建
+					    if ($error.length) {
+					    	$error.remove();
+					    }
+					    
 						$.each(res.files, function(index, item){
 							var id = item.id;
 							var fileCat = item.fileCat;
@@ -188,7 +203,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					// 文件上传失败，显示上传出错。
 					uploader.on('uploadError', function(file) {
 					    var $li = $( '#'+file.id ),
-					        $error = $li.find('div.error');
+					    $error = $li.find('div.error');
 
 					    // 避免重复创建
 					    if (!$error.length) {
@@ -226,25 +241,11 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			                    return ;
 
 			                case 1:
-			                    //file.rotation += 90;
 			                    break;
 
 			                case 2:
-			                    //file.rotation -= 90;
 			                    break;
 			            }
-
-			          /*  if ( supportTransition ) {
-			                deg = 'rotate(' + file.rotation + 'deg)';
-			                $li.css({
-			                    '-webkit-transform': deg,
-			                    '-mos-transform': deg,
-			                    '-o-transform': deg,
-			                    'transform': deg
-			                });
-			            } else {
-			            	$li.css( 'filter', 'progid:DXImageTransform.Microsoft.BasicImage(rotation='+ (~~((file.rotation/90)%4 + 4)%4) +')');
-			            }*/
 			        });
 				  
 			  };
