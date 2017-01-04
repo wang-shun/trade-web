@@ -11,7 +11,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 
 			  webUploader = '';
 			  
-			  initFileUpload = function(options) {
+			  init = function(options) {
 				  
 				  var settings = $.extend({
 						ctx  :  window.ctx,
@@ -35,6 +35,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						available : null
 				  },options||{});
 				  
+				  updateAttachmentStatus(settings);
+				  
 				  if (typeof window.WebUploader == 'undefined') {
 					  use(["/js/viewer/viewer.min.css","/js/viewer/viewer.min.js","/js/template.js","/js/plugins/webuploader/attachment-ui.css","/js/plugins/webuploader/webuploader.css"],settings);
 			      }
@@ -48,7 +50,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 				  }*/
 			  };
 			  
-			  updateAttachmentStatus = function(options) {
+			  updateAttachmentStatus = function(settings) {
 				  $.ajax({
 		    			cache : true,
 		    			async : false,//false同步，true异步
@@ -57,7 +59,10 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    			dataType : "json",
 		    			data : [{
 		    				name : 'caseCode',
-		    				value :  options.caseCode
+		    				value :  settings.caseCode
+		    			},{
+		    				name : 'partCode',
+		    				value :  settings.partCode
 		    			}],
 		    			success : function(data) {
 		    			},
@@ -405,10 +410,16 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 				  $('#fileUploadContainer').viewer({zIndex:15001,url:"data"});
 		      };
 		      
-		      return  {
-		    	  initFileUpload : initFileUpload,
-		    	  updateAttachmentStatus : updateAttachmentStatus
+		      isCompletedUpload = function() {
 		    	  
+		    	  
+		    	  
+		    	  return true;
+		      };
+		      
+		      return  {
+		    	  init : init,
+		    	  isCompletedUpload : isCompletedUpload
 		      }
 		  
 });

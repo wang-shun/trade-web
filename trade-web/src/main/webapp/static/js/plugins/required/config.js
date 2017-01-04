@@ -15,27 +15,13 @@ require.config({
     	}
     });
 
-/*require(['jquery'], function($) {
-    alert($().jquery);
-});*/
 
 require(['jquery','aistFileUpload'], function($,aistFileUpload) {
-    alert($().jquery);
-    aistFileUpload.initFileUpload({
+    console.log($().jquery);
+    aistFileUpload.init({
 		caseCode : "ZY-SH-201609-0035",
 		partCode : "SpvApplyApprove",
 		fileUploadcontainer : "fileUploadcontainer"
 	}); 
-    aistFileUpload.updateAttachmentStatus({
-		  caseCode : "ZY-SH-201609-0035"
-	});
 });
-
-/*require(['aistFileUpload'], function (aistFileUpload){
-	  
-	  
-	 
-});*/
-
-
 

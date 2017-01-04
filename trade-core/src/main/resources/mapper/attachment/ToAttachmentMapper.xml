@@ -342,6 +342,9 @@
                 AND CASE_CODE IS NULL
             </otherwise>
        </choose>
+       <if test="partCode != null" >
+     		and PART_CODE = #{partCode,jdbcType=VARCHAR}
+       </if>
   </update> 
   
 </mapper>
