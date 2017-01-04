@@ -21,7 +21,7 @@ require(['jquery','aistFileUpload'], function($,aistFileUpload) {
     aistFileUpload.init({
 		caseCode : "ZY-SH-201609-0035",
 		partCode : "SpvApplyApprove",
-		fileUploadcontainer : "fileUploadcontainer"
+		fileUploadContainer : "fileUploadContainer"
 	}); 
 });
 
