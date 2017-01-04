@@ -32,7 +32,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						thumbnailHeight : 64,
 						pick : 'filePicker',
 						server : appCtx['aist-filesvr-web']+'/webUploader/uploadPicture',
-						available : null
+						available : null,
+						bizCode : null
 				  },options||{});
 				  
 				  updateAttachmentStatus(settings);
@@ -251,10 +252,14 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      queryAttachments = function(settings) {
 		    	  var ctx = settings.ctx;
 		    	  var caseCode = settings.caseCode;
+		    	  var bizCode = settings.bizCode;
 		    	  var partCode = settings.partCode;
 		    	  var available = settings.available;
 		    	  if(available=='') {
 		    		  available = null;
+		    	  }
+		    	  if(bizCode=='') {
+		    		  bizCode = null;
 		    	  }
 		    	
 		    	  var templeteId = settings.templeteId;
@@ -267,6 +272,9 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						data : [{
 							name : 'caseCode',
 							value : caseCode
+						},{
+							name : 'bizCode',
+							value : bizCode
 						},{
 							name : 'partCode',
 							value : partCode
