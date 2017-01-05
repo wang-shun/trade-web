@@ -56,7 +56,7 @@
 	 		//document.domain = '';
 	 	}catch(e){}
 	</script>
-	<script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/config.js"></script>
+	<script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
 </head>
 
 <body>
