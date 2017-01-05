@@ -40,7 +40,6 @@
 	    var ctx = '${ctx}';
 	    window.ctx=ctx;
     </script>
-    <%-- <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/config.js"></script> --%>
 	<script type="text/javascript">
 		try{
 			var ctx="${ctx}";
@@ -57,6 +56,7 @@
 	 		//document.domain = '';
 	 	}catch(e){}
 	</script>
+	<script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/config.js"></script>
 </head>
 
 <body>
@@ -165,9 +165,6 @@
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    
-    <%-- <script src="${ctx}/js/plugins/required/require.js"></script> --%>
-    <script src="${ctx}/js/plugins/required/config.js"></script>
     
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog.jsp"%> 
     <script type="text/javascript" src="${ctx}/transjs/common/INSPINIA_template.js"></script>
