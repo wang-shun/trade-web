@@ -1193,9 +1193,11 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-
+				select 
+				pkId,caseOrigin,CASE_CODE,propertyAddr,status,caseProperty,agentName,agentPhone,grpName,realName,realOrgName
+				 from (
 				select   
-					c.PKID pkId,
+					distinct (c.PKID ) pkId,
 					c.CASE_ORIGIN caseOrigin,
 					t.CASE_CODE CASE_CODE,
 					t.PROPERTY_ADDR propertyAddr,
@@ -1215,11 +1217,10 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				 <if test="caseCode != null">
 					and m.CASE_CODE= #caseCode#
 				 </if>	
-
+				) f
 				]]>
 			</baseSql>
 			<orderBySql>
-			  order by i.CASE_CODE
 			</orderBySql>
 			<groupSql>
 			</groupSql>
