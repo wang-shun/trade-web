@@ -28,6 +28,11 @@
 		<pattern>/*</pattern>
 	</decorator>
 	
+	<!-- 不使用requiredjs的模版 -->
+	<decorator name="no_required_template" page="INSPINIA_template_no_required.jsp">
+		<pattern>/award/bonus</pattern>
+	</decorator>
+	
 	<!-- 新模板 -->
 	 <decorator name="UI_V2" page="INSPINIA_template_new.jsp">
 		<pattern>/workspace/dashboard</pattern>
