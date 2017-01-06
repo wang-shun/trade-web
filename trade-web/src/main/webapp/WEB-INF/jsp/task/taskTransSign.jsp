@@ -1303,6 +1303,7 @@
 		<!-- 改版引入的新的js文件 --> 
 		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 		<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
+		<script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
 	</content>
 </body>
 
