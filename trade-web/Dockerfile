@@ -1,4 +1,4 @@
-FROM docker.aist.io/aist_tomcat
+FROM docker.aist.io/aist_tomcat_apr
 
 MAINTAINER Lin Jiarong <linjr@aisthink.com>
 
