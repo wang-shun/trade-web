@@ -50,11 +50,25 @@
 
 
     <%--  <script src="http://trade.centaline.com:8083/trade-web/static/js/jquery-2.1.1.js"></script> --%>
-    <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/config.js"></script> 
     <script>
-      /*    $(function() {
-				    	
-    	 }); */
+   /*  require(['jquery','aistFileUpload','aistMath'], function($,aistFileUpload) {
+        console.log($().jquery);
+        console.log(aistMath.add(3,5));
+        aistFileUpload.init({
+    		caseCode : "ZY-SH-201609-0035",
+    		partCode : "SpvApplyApprove",
+    		fileUploadContainer : "fileUploadContainer"
+    	}); 
+    }); */
+    require(['main'], function() {
+    	requirejs(['aistFileUpload'],function(aistFileUpload){
+		    aistFileUpload.init({
+	    		caseCode : "ZY-SH-201609-0035",
+	    		partCode : "SpvApplyApprove",
+	    		fileUploadContainer : "fileUploadContainer"
+	    	}); 
+	    });
+    });
     </script>
 
 </body>

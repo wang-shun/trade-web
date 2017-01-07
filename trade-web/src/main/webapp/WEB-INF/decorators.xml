@@ -27,7 +27,7 @@
 	<decorator name="default" page="INSPINIA_template.jsp">
 		<pattern>/*</pattern>
 	</decorator>
-	
+
 	<!-- 新模板 -->
 	 <decorator name="UI_V2" page="INSPINIA_template_new.jsp">
 		<pattern>/workspace/dashboard</pattern>
