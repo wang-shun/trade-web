@@ -16,6 +16,7 @@
 		<customDict id="getCaseOverviewInfo" beanName="getCaseOverviewInfo" />
 		<customDict id="getPropertyCodeByCaseCode" beanName="getPropertyCodeByCaseCode" />
 		<customDict id="getRealNameByUserId" beanName="getRealNameByUserId" />
+		<customDict id="qqcdCaseToQfManager" beanName="qqcdCaseToQfManager" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -1240,7 +1241,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				<column type="both" name="realOrgName" index="" checkbox="" display="realOrgName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				
+				<column type="virtual" name="toQfType" referencecol="CASE_CODE" index="" checkbox="" display="主管"  customDict="qqcdCaseToQfManager" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
