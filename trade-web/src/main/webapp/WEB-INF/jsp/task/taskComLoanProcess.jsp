@@ -1240,7 +1240,7 @@
 													 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
 		                                         </div>
 		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">贷款支行<span class="star">*</span></label>
+		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
 													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
 		                                         </div>
 		                                     </div>
