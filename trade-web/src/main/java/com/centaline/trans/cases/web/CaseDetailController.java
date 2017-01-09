@@ -1338,7 +1338,7 @@ public class CaseDetailController {
 		
 		/** 案件重启中对信息管理员开放 ff80808158af2e600158b98c82340049 ***/
 		if(null != sessionUser)
-		if(StringUtils.equals(sessionUser.getServiceJobId(), "ff80808158af2e600158b98c82340049")){
+		if(StringUtils.equals(sessionUser.getServiceJobCode(), "COXXGLY")){
 			request.setAttribute("serviceJobType", "Y");
 		}else{request.setAttribute("serviceJobType", "N");}
 		request.setAttribute("isMortgageSelect", isMortgageSelect);
