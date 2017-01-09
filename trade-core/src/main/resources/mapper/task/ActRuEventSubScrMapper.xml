@@ -23,7 +23,7 @@
   <select id="listBySelective" parameterType="com.centaline.trans.task.entity.ActRuEventSubScr" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sctrans.ACT_RU_EVENT_SUBSCR with(nolock)
+    from sctrans.ACT_RU_EVENT_SUBSCR with(nolock) 
     where 1=1
     <if test="id != null">
         and id_=#{id,jdbcType=NVARCHAR}
@@ -65,7 +65,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sctrans.ACT_RU_EVENT_SUBSCR
+    from sctrans.ACT_RU_EVENT_SUBSCR with(nolock) 
     where ID_ = #{id,jdbcType=NVARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
