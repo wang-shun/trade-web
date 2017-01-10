@@ -629,5 +629,14 @@ FROM
  		and IS_DELETED=0 and USER_ID= #{userId,jdbcType=VARCHAR}
  </select>
  
+ <select id="getManagerByCaseOwner" parameterType="java.lang.String" resultType="java.lang.String">
+  	SELECT u.REAL_NAME FROM sctrans.T_TO_CASE c
+	LEFT JOIN sctrans.SYS_USER_ORG_JOB suoj ON c.ORG_ID = suoj.ORG_ID
+	LEFT JOIN sctrans.SYS_USER u ON suoj.USER_ID = u.ID
+	LEFT JOIN sctrans.SYS_JOB j ON suoj.JOB_ID = j.ID
+	WHERE c.CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND j.JOB_CODE = 'Manager' 
+	AND j.IS_DELETED = 0 AND u.IS_DELETED = 0 AND suoj.IS_DELETED = 0;
+ </select>
+ 
 
 </mapper>
