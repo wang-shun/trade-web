@@ -54,8 +54,8 @@ public class QuickQueryGetGlCaseCountServiceImpl implements CustomDictService{
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		for (Map<String, Object> key : keys) {
-			Object propertyCode= key.get("propertyCode");
-			Object inputType= key.get("caseOrigin");
+			Object propertyCode= key.get("PROPERTY_CODE");
+			Object inputType= key.get("CASE_ORIGIN");
 			
 			Map paramMap = new HashMap();
 			paramMap.put("propertyCode", propertyCode);

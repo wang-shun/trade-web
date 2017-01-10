@@ -312,7 +312,11 @@ function changeTaskAssignee(page,propertyCode){
 				var callback = $("#myModalsa").attr("callback");
 				if("backCaseMERGE"==callback){
 					alert("没有找到可以拆分的案件！");
-				}else{alert("没有找到可以合流的案件！");}
+				}else{
+					
+					if(distriType && undefined != urlType && '' != urlType){
+					}else{alert("没有找到可以合流的案件！");}
+				}
 				closef();
 			}
 		},complete: function() { },
