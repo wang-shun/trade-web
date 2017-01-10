@@ -114,10 +114,11 @@ function getExplPicByhouseCode() {
 		success : function(data) {
 			//将返回的数据进行包装
 			$.each(data.accList, function(indexAcc, accValue){
+				//data.accList 对应某个环节应该上传的附件记录
 				//实勘描述				
 				var trStr = "";
 				$.each(data.attList,function(index, value) {
-				
+					//data.attList  caseCode数据库中对应的附件信息  在案件进行贷款变更的时候，二者的数量会不相同
 					if(value.preFileCode==accValue.accessoryCode){						
 						dataLength++;
 						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";

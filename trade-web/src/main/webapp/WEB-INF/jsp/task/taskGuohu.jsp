@@ -636,7 +636,7 @@
 							console.log("Result=====" +JSON.stringify(data));
 							if(data != null ){
 								if(data.success){
-									var ctmCode  = data.context;
+									var ctmCode  = data.content;
 									var caseOrigin  = data.message;													
 									if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
 											if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
@@ -662,8 +662,8 @@
 			}			
 		}
 		
-		function  goProcess(b){
-			if (!checkForm() || !deleteAndModify()) {
+		function  goProcess(b){			
+			if (!checkForm() || !deleteAndModify()) {				
 				return;
 			}
 			var jsonData = $("#houseTransferForm").serializeArray();
