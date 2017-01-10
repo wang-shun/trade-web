@@ -431,9 +431,12 @@ function checkAttachmentForLoanLost(loanLostConfirmCode){
 //保存
 function deleteAndModify(){
 	caseCode = $("#caseCode").val();
-	var picDiv=$("div[name='allPicDiv1']");
+	var picDiv=$("div[name='allPicDiv']");
+	var picDiv1=$("div[name='allPicDiv1']");
+	var picLength = picDiv.length+picDiv1.length;
+	
     //所选图片和上传的图片的数目要相同
-    if(picDiv.length>0){
+    if(picLength>0){
     	//获取已知文件类型的长度   已保存的文件数量
 		var input=$("input[name='pic']");
 		//图片的ID 新增的文件数量
