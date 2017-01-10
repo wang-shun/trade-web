@@ -27,7 +27,6 @@ import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
-import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -69,7 +68,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	@Autowired
 	private BizWarnInfoMapper bizWarnInfoMapper;
 	@Autowired
-	private TransplanServiceFacade toTransplanOperateService;//add by zhoujp
+	private TransplanServiceFacade toTransplanOperateService;// add by zhoujp
 
 	@Override
 	@Transactional(readOnly = false)
@@ -127,8 +126,14 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		Map<String, Object> vars = new HashMap<>();
 		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(
 				vo.getOrgId(), "Manager");
+
+		// 根据案件所在组找主管
+		String managerName = toCaseService.getManagerByCaseOwner(vo
+				.getCaseCode());
+
 		vars.put("consultant", vo.getUserName());
-		vars.put("Manager", manager.getUsername());
+		vars.put("Manager", managerName);
+		// vars.put("Manager", manager.getUsername());
 		StartProcessInstanceVo spv = processInstanceService
 				.startWorkFlowByDfId(
 						propertyUtilsService
@@ -163,7 +168,8 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 
 		for (ToWorkFlow workFlowDB : wordkFlowDBList) {
 			workFlowManager.deleteProcess(workFlowDB.getInstCode());
-			toWorkFlowService.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
+			toWorkFlowService
+					.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
 		}
 	}
 
@@ -201,8 +207,8 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		record.setPartCode(vo.getPartCode());
 		record.setProcessInstance(vo.getInstCode());
 		toApproveService.insertToApproveRecord(record);
-		//add by zhoujp
-		if(vo.getIsApproved()){
+		// add by zhoujp
+		if (vo.getIsApproved()) {
 			/* 删除临时银行流程相关 */
 			ToWorkFlow twf = new ToWorkFlow();
 
@@ -216,14 +222,15 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			wf.setCaseCode(vo.getCaseCode());
 			deleteMortFlowByCaseCode(vo.getCaseCode());
 		}
-		//end
-		
+		// end
+
 		if (vo.getIsApproved()) {
 			doApproved(vo);
 		}
-		//如果流程重启申请审批通过的话将交易计划表的数据转移到交易计划历史表并删除交易计划表add by zhoujp
+		// 如果流程重启申请审批通过的话将交易计划表的数据转移到交易计划历史表并删除交易计划表add by zhoujp
 		if (vo.getIsApproved()) {
-			toTransplanOperateService.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESTART);
+			toTransplanOperateService.processRestartOrResetOperate(
+					vo.getCaseCode(), ConstantsUtil.PROCESS_RESTART);
 		}
 
 		// 如果流程重启申请审批通过的话，就删除对应的预警信息
