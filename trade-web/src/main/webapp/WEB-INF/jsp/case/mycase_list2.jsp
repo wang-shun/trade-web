@@ -392,19 +392,19 @@ ts('{{item.STATUS}}');
 {{/if}}
 {{if item.caseOrigin == 'INPUT'}}
  							<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}','{{item.caseOrigin}}')">
-                                <p class="tip">
+                                <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_brown">
                                                                                         自录
-                                  </i>
+                                  </i><span class="total-sum">{{item.glCount}}</span>
                                  </p>
                              </a>
 {{/if}}
 {{if item.caseOrigin == 'CTM'}}
 <a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}','{{item.caseOrigin}}')">
-                                <p class="tip">
+                                <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_blue">
                                     	导入
-                                  </i>
+                                  </i><span class="total-sum">{{item.glCount}}</span>
                                  </p>
 </a>
 {{/if}}

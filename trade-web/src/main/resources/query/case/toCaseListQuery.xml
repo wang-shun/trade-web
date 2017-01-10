@@ -17,6 +17,7 @@
 		<customDict id="getPropertyCodeByCaseCode" beanName="getPropertyCodeByCaseCode" />
 		<customDict id="getRealNameByUserId" beanName="getRealNameByUserId" />
 		<customDict id="qqcdCaseToQfManager" beanName="qqcdCaseToQfManager" />
+		<customDict id="getGlCaseCount" beanName="getGlCaseCount" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -319,6 +320,7 @@
 				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="virtual" isDynamicDict="true" name="caseOrigin" referencecol="CASE_CODE"  customDict="getCaseOriginByCaseCode" />
 				<column type="virtual" isDynamicDict="true" name="propertyCode" referencecol="CASE_CODE"  customDict="getPropertyCodeByCaseCode" />
+				<column type="virtual" isDynamicDict="true" name="glCount" referencecol="propertyCode,caseOrigin"  customDict="getGlCaseCount" />
 				<column type="virtual" isDynamicDict="true"
 					name="FONT_NAME,SELLER,BUYER,PROCESSOR_ID,CASE_PROPERTY_SHOW,STATUS"
 					referencecol="CASE_CODE,CASE_PROPERTY,STATUS_OLD" 
