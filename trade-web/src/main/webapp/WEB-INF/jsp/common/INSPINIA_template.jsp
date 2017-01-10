@@ -204,7 +204,7 @@
 		});
     </script>
     <sitemesh:getProperty property="page.local_script"></sitemesh:getProperty>
-    <script>
-    </script>
+    <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
+    <sitemesh:getProperty property="page.local_require"></sitemesh:getProperty>
 </body>
 </html>

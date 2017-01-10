@@ -11,7 +11,14 @@ require.config({
     		"aistTemplate" : "js/template",
     		"viewer" : "js/viewer/viewer.min",
     		"aistWebuploader" : "js/plugins/webuploader/webuploader.min",
-    		"aistFileUpload" : "js/plugins/aist/aist.fileupload"
+    		"aistFileUpload" : "js/plugins/aist/aist.fileupload",
+    		"validate" : "js/plugins/validate/jquery.validate.min",
+    		"additional" : "js/plugins/validate/common/additional-methods",
+    		"valid" : "js/trunk/task/taskTransSign.validate",
+    		"m" : "js/plugins/validate/common/messages_zh",
+    		"grid" : "js/plugins/jqGrid/i18n/grid.locale-en",
+    		"jqGrid" : "js/plugins/jqGrid/jquery.jqGrid.min",
+    		"datapicker" : "js/plugins/datapicker/bootstrap-datepicker"
     	}
     });
 

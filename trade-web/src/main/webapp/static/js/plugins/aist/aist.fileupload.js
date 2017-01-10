@@ -186,8 +186,11 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					    
 						$.each(res.files, function(index, item){
 							var id = item.id;
-							var fileCat = item.fileCat;
-							var fileName = item.fileName;
+							//var fileCat = item.fileCat;
+							//var fileName = item.fileName;
+							
+							var fileCat = file.ext;
+							var fileName = file.name;
 							
 							//preFileCode
 							var checkedBtn = $("."+settings.pick+".checked");
@@ -418,11 +421,9 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      };
 		      
 		      initImgViewer = function () {
-		    	  
-		    	  $('#fileUploadContainer').viewer('destroy');
-				  $('#fileUploadContainer').viewer({zIndex:15001,url:"data"});
+		    	  $('.wrapper-content').viewer('destroy');
+				  $('.wrapper-content').viewer({zIndex:15001});
 		      };
-		      
 		      isCompletedUpload = function() {
 		    	  var $container = $( '#'+container);
 			      var $error = $container.find('div.error');
