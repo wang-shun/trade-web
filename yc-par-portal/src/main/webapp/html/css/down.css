@@ -1,0 +1,111 @@
+/*
+* @Author: MIUu
+* @Date:   2017-01-09 11:42:37
+* @Last Modified by:   MIUu
+* @Last Modified time: 2017-01-09 16:56:40
+*/
+
+.down-box {
+    background: url('../img/down-bg.jpg') no-repeat;
+    background-size: 100% 100%;
+}
+.down-title {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+.down-title > p {
+    font-size: .6rem;
+    line-height: 1.2rem;
+    color: #171717;
+}
+.invest-log {
+    margin-top: 1rem;
+}
+.invest-log img {
+    width: 98px;
+}
+.invest-title {
+    margin-top: 1rem;
+}
+.invest-title img {
+    width: 183px;
+}
+.invest-title p {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.55rem;
+}
+.down-list {
+    text-align: center;
+    padding: 0 2rem;
+}
+.down-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 0.5rem 0;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    cursor: pointer;
+}
+.down-btn span {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: #fff;
+}
+.down-btn img {
+    vertical-align:middle;
+    width: 19px;
+    margin-right: 10px;
+}
+.andr-icon {
+    margin-top: 0.5rem;
+}
+.slog {
+    position: fixed;
+    bottom: 10px;
+    margin: 0 auto;
+    left: 50%;
+    margin-left: -104px;
+}
+.slog img {
+    width: 209px;
+}
+.slog p {
+    margin-top: 0.3rem;
+    text-align: center;
+    font-size: 0.6rem;
+    color: #fff;
+}
+.slog p span.red {
+    color: #f15121;
+}
+.slog p span.green {
+    color: #7fba00;
+}
+.slog p span.blue {
+    color: #00a3e0;
+}
+.slog p span.yellow {
+    color: #ffb901;
+}
+.modal-down {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10600;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    background: rgba(0, 0, 0, .8);
+    opacity: 0;
+    -webkit-transition-duration: 400ms;
+    -o-transition-duration: 400ms;
+    transition-duration: 400ms;
+    visibility: visible;
+    opacity: 1;
+}
+.browser-tip img {
+    width: 280px;
+    height: 184px;
+}
