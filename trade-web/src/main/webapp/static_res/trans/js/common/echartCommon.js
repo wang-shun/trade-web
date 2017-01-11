@@ -1,5 +1,4 @@
 /**
- * 
  * @param xAxisData  横轴数据
  * @param yAxis      竖轴数据
  * @param legend     维度
@@ -28,28 +27,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart) {
 					borderColoe : '#333',
 					data : xAxisData
 				} ],
-				yAxis :yAxis,
-				series : [ {
-					name : '10月总量',
-					type : 'bar',
-					itemStyle : {//顔色
-						normal : {
-							color : '#52bdbd'
-						}
-					},
-					data : [ 2.0, 4.9, 7.0, 23.2, 25.6 ]
-				//数据
-				}, {
-					name : '11月总量',
-					type : 'bar',
-					itemStyle : {//顔色
-						normal : {
-							color : '#ff9696'
-						}
-					},
-					data : [ 2.6, 5.9, 9.0, 26.4, 28.7 ]
-				}]
-
+				yAxis :yAxis
 			};			
 			if(datas!=[]||datas!=undefined){
 				option.series=[];			
@@ -89,7 +67,6 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart) {
 		}
 
 /**
- * 
  * @param data       维度
  * @param items      表中数据
  * @param myChart1   图表div
