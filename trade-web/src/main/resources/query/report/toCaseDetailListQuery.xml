@@ -53,7 +53,7 @@
 						b.AGENT_CODE as AGENT_CODE
 					FROM sctrans.V_RPT_CASE_PROCESS_STATIS a 
 					INNER JOIN sctrans.V_CASE_LIST_BASE b ON a.CASE_CODE=b.CASE_CODE
-					WHERE 1=1
+					WHERE   b.STATUS != '30001007'
 					<ifNotNull receivedTime>
 						AND a.RECEIVED_TIME IS NOT NULL
 					</ifNotNull> 	

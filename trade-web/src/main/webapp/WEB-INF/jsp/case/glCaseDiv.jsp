@@ -315,7 +315,7 @@ function changeTaskAssignee(page,propertyCode){
 				}else{
 					
 					if(distriType && undefined != urlType && '' != urlType){
-					}else{alert("没有找到可以合流的案件！");}
+					}else{ if(undefined != urlType && '' != urlType ){  }else{ alert("没有找到可以合流的案件！");} }
 				}
 				closef();
 			}
