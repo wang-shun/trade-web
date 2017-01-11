@@ -89,21 +89,15 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 	public String findUserBySrv(String jobCode, String caseCode,
 			String taskDfKey) {
 
-		return findUserByCase(jobCode, caseCode);
+		List<TgServItemAndProcessor> serviceMap = tgServItemAndProcessorService
+				.findTgServItemAndProcessorByCaseCode(caseCode);
+		TgServItemAndProcessor tsg = getServiceCode(serviceMap, taskDfKey);
 
-		// List<TgServItemAndProcessor> serviceMap =
-		// tgServItemAndProcessorService
-		// .findTgServItemAndProcessorByCaseCode(caseCode);
-		// TgServItemAndProcessor tsg = getServiceCode(serviceMap, taskDfKey);
-
-		// if (tsg != null && !StringUtils.isBlank(tsg.getProcessorId())) {
-
-		// return findWorkFlowUser(jobCode, tsg.getProcessorId(),
-		// tsg.getOrgId());
-		// } else {
-		// return null;
-		// return findUserByCase(jobCode, caseCode);
-		// }
+		if (tsg != null && !StringUtils.isBlank(tsg.getProcessorId())) {
+			return findWorkFlowUser(jobCode, tsg.getProcessorId(), tsg.getOrgId());
+		} else {
+			return null;
+		}
 	}
 
 	/**

@@ -71,7 +71,7 @@
 		<td>
 			<p class="big">
 				{{ if item.status == "被合流" }}
-<input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" disabled="disabled" />
+<input type="hidden"  value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" disabled="disabled" qfType="{{item.toQfType}}"  />
 {{else}}
 <input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" />
 {{/if}}
@@ -214,6 +214,19 @@ function merge(){
 }
 /* 调用拆分案件方法  **/
 function qfMerge(){
+	
+	var userData = $('input[name="mergePkid"]').attr("qfType");
+	if(null != userData && "" != userData){}else{alert("对不起你没有拆分这个案件的权限！");return true;}
+	var arr = userData.split(';'); 
+	if(null != arr && arr.length>2){
+		if(null != arr[0] && "" != arr[0] && arr[0] == $("#userId").val() ){
+		if(null != arr[1] && "" != arr[1] && arr[1] == $("#serviceDepId").val() ){}}
+		else{alert("对不起你没有拆分这个案件的权限！");return true;}
+			
+	}else{
+		alert("对不起你没有拆分这个案件的权限！");return true;
+	}
+	
     if(!confirm("确定拆分合流案件吗！")){ return false; }
     var inputType = $("#divCaseName").val();
     var mergePkid;
@@ -299,7 +312,11 @@ function changeTaskAssignee(page,propertyCode){
 				var callback = $("#myModalsa").attr("callback");
 				if("backCaseMERGE"==callback){
 					alert("没有找到可以拆分的案件！");
-				}else{alert("没有找到可以合流的案件！");}
+				}else{
+					
+					if(distriType && undefined != urlType && '' != urlType){
+					}else{ if(undefined != urlType && '' != urlType ){  }else{ alert("没有找到可以合流的案件！");} }
+				}
 				closef();
 			}
 		},complete: function() { },

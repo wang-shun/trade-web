@@ -1,0 +1,37 @@
+.echarsTable td {
+	height: 33px;
+	width: 99px;
+	border: 1px solid #333;
+	text-align: center;
+}
+
+.echarsTable {
+	margin-left: 0px;
+}
+
+.echarsTable .tabletitle {
+	width: 119px;
+	text-align: left;
+}
+
+.echarsTable thead td {
+	z-index: 99999;
+}
+
+.echarsTable thead .tabletitle {
+	border: 0px;
+}
+
+.tabletitle .colorBar {
+	width: 24px;
+	height: 12px;
+	border-radius: 3px;
+	display: inline-block;
+	float: left;
+	margin: 3px 3px 0px 3px;
+}
+
+.tabletitle img {
+	margin: 0px 2px 2px 2px; height：26px;
+	width: 24px;
+}

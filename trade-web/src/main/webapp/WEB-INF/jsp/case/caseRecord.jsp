@@ -287,7 +287,7 @@ function getParams(qId,page,orgid,index) {
 	return data;
 }
 /* 调用查询方法 **/
-$("#searchButton").click(function() { reloadGrid(getParams("queryCaseRecordList",1,null,null)); });
+$("#searchButton").click(function() {  liClick(index); });
 /* 调用查询方法 **/
 function reloadGrid(data) {
 	aist.wrap(data);

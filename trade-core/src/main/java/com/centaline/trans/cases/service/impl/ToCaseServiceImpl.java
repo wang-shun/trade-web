@@ -1032,7 +1032,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(toCase.getCaseCode());
 		//ToPropertyInfo ctmtoPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(ctmToCase.getCaseCode());
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
-		//ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
+		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
 		
 		if(null != toPropertyInfo){}else{throw new BusinessException("没有查询到案件地址信息!"); }
 		
@@ -1045,6 +1045,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMapper.updateByPrimaryKeySelective(setCToCasestoQf(user,ctmToCase));
 		/**3.更新表T_TO_CASE_INFO**/
 		toCaseInfoMapper.updateByPrimaryKey(copyToCaseInfotoQf(user,toCaseInfo,oldtoCaseMerge));
+		toCaseInfoMapper.updateByPrimaryKey(copyCtmToCaseInfotoQf(user,ctmtoCaseInfo,oldtoCaseMerge));
 		/**4.更新表T_TO_PROPERTY_INFO**/
 		toPropertyInfoMapper.updateByPrimaryKeySelective(copyToPropertyInfotoQf(user,toPropertyInfo));
 		
@@ -1150,6 +1151,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 		ctmtoCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 		ctmtoCase.setUpdateBy(user.getId());
 		ctmtoCase.setUpdateTime(new Date());
+		ctmtoCase.setLoanReq("");
+		ctmtoCase.setLeadingProcessId("");
 		return ctmtoCase;
 	}
 	/**
@@ -1182,6 +1185,19 @@ public class ToCaseServiceImpl implements ToCaseService {
 		return toCaseInfo;
 	}
 	/**
+	 * 拷贝ToCaseInfo(拆分)
+	 * @param toCaseInfo
+	 * @param ctmtoCaseInfo
+	 * @return
+	 */
+	public ToCaseInfo copyCtmToCaseInfotoQf(SessionUser user,ToCaseInfo toCaseInfo,ToCaseMerge toCaseMerge){
+		toCaseInfo.setReferConsultantId("");
+		toCaseInfo.setReferConsultantRealname("");
+		toCaseInfo.setUpdateby(user.getId());
+		toCaseInfo.setUpdateTime(new Date());
+		return toCaseInfo;
+	}
+	/**
 	 * 拷贝T_TO_PROPERTY_INFO(拆分)
 	 * @param toPropertyInfo
 	 * @param ctmtoPropertyInfo
@@ -1195,7 +1211,10 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toPropertyInfo.setUpdateTime(new Date());
 		return toPropertyInfo;
 	}
-	
+	@Override
+	public String getManagerByCaseOwner(String caseCode) {
+		return toCaseMapper.getManagerByCaseOwner(caseCode);
+	}
 }
 
 

@@ -112,4 +112,12 @@ public interface ToCaseService {
 	 * @return
 	 */
 	String getMergeInfoList(List<ToPropertyInfo> toPropertyInfos);
+	/**
+	 * 根据案件所在组获取对应的主管
+	 * 
+	 * @param caseCode
+	 *            案件编号
+	 * @return 主管的名称
+	 */
+	public String getManagerByCaseOwner(String caseCode);
 }

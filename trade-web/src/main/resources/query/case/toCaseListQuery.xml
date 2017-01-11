@@ -16,6 +16,8 @@
 		<customDict id="getCaseOverviewInfo" beanName="getCaseOverviewInfo" />
 		<customDict id="getPropertyCodeByCaseCode" beanName="getPropertyCodeByCaseCode" />
 		<customDict id="getRealNameByUserId" beanName="getRealNameByUserId" />
+		<customDict id="qqcdCaseToQfManager" beanName="qqcdCaseToQfManager" />
+		<customDict id="getGlCaseCount" beanName="getGlCaseCount" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -109,7 +111,9 @@
 						NB.CASE_PROPERTY,
 						NB.CLOSE_TIME,
 						NB.CREATE_TIME,
-						NB.RES_DATE,						
+						NB.RES_DATE,
+						NB.PROPERTY_CODE,						
+						NB.CASE_ORIGIN,						
                         (select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=NB.CASE_CODE ) as SUBSCRIBE_COUNT
 					FROM sctrans.V_CASE_LIST_BASE NB 
 			    	  
@@ -255,6 +259,9 @@
 					<ifNotNull isNotResearchCloseCase>
 						and NB.CASE_PROPERTY != '30003002'
 					</ifNotNull>
+					<ifNotNull caseOriginType>
+						and NB.case_origin = #caseOriginType#
+					</ifNotNull>
 
 					<ifNotNull guohuApproveTimeStart>
 						AND t.end_time_ >= #guohuApproveTimeStart#
@@ -316,8 +323,9 @@
 				<column type="both" name="ctmCode"  index="" checkbox="" display="CTM CODE" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="电话" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="virtual" isDynamicDict="true" name="caseOrigin" referencecol="CASE_CODE"  customDict="getCaseOriginByCaseCode" />
-				<column type="virtual" isDynamicDict="true" name="propertyCode" referencecol="CASE_CODE"  customDict="getPropertyCodeByCaseCode" />
+				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="CASE_ORIGIN" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PROPERTY_CODE" index="" checkbox="" display="PROPERTY_CODE" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" isDynamicDict="true" name="glCount" referencecol="PROPERTY_CODE,CASE_ORIGIN"  customDict="getGlCaseCount" />
 				<column type="virtual" isDynamicDict="true"
 					name="FONT_NAME,SELLER,BUYER,PROCESSOR_ID,CASE_PROPERTY_SHOW,STATUS"
 					referencecol="CASE_CODE,CASE_PROPERTY,STATUS_OLD" 
@@ -1149,8 +1157,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				left join sctrans.T_TO_PROPERTY_INFO t on i.CASE_CODE=t.CASE_CODE
 				inner join sctrans.T_TO_CASE c on i.CASE_CODE=c.CASE_CODE 
 				where 
-					  c.CREATE_BY='ctm_proc'
-					  and c.CREATE_TIME >DATEADD(mm,-6,GETDATE())
+					   c.CREATE_TIME >DATEADD(mm,-6,GETDATE())
 					  and c.CREATE_TIME > cast(substring('2016-12-28 00:00:00.000',0,19) as datetime)
 					  and (c.STATUS !='30001005'  and c.STATUS!='30001004') 
 				 <if test="inputType != null">
@@ -1159,6 +1166,9 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				 <if test="propertyCode != null">
 					and t.PROPERTY_CODE = #propertyCode#
 				 </if>	
+				 <if test="inputType != null and inputType == 'INPUT' " >
+					and c.CREATE_BY='ctm_proc'
+				 </if>
 
 				]]>
 			</baseSql>
@@ -1240,7 +1250,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				<column type="both" name="realOrgName" index="" checkbox="" display="realOrgName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				
+				<column type="virtual" name="toQfType" referencecol="CASE_CODE" index="" checkbox="" display="主管"  customDict="qqcdCaseToQfManager" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
@@ -1347,7 +1357,9 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 						 LEFT JOIN  sctrans.T_TO_CASE C ON  PRO.CASE_CODE = C.CASE_CODE
 						 LEFT JOIN  sctrans.T_TO_CASE_INFO CI ON  PRO.CASE_CODE = CI.CASE_CODE
 					
-					WHERE  DATEDIFF(mm,PRO.CREATE_TIME,GETDATE()) &lt; 6  
+					WHERE  
+						PRO.CREATE_TIME  > '2016-12-29'
+						AND DATEDIFF(mm,PRO.CREATE_TIME,GETDATE()) &lt; 6  
 						<ifNotNull propertyCode>
 						     AND  PRO.PROPERTY_CODE = #propertyCode#
 						</ifNotNull>

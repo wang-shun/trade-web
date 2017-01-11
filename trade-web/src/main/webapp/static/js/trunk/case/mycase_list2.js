@@ -339,6 +339,10 @@ function getParamsValue() {
 	if(isSubscribeFilter==null || isSubscribeFilter=='') {
 		isSubscribeFilter = -1;
 	}
+	var caseOriginType = $('#caseOriginType option:selected').val();
+	if(caseOriginType==null || caseOriginType=='') {
+		caseOriginType = null;
+	}
 	
 	// 贷款需求选择
 	var mortageType = $('#mortageService option:selected').val();
@@ -398,6 +402,7 @@ function getParamsValue() {
 	var params = {
 		argu_sessionUserId : $("#userId").val(),
 		argu_isSubscribeFilter : isSubscribeFilter,
+		caseOriginType : caseOriginType,
 		argu_mortageType : mortageType,
 		search_caseCode : caseCode,
 		search_ctmCode : ctmCode,

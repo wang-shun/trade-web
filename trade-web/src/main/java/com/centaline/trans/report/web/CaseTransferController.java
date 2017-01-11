@@ -110,4 +110,9 @@ public class CaseTransferController {
 
 		return "report/case_transfer";
 	}
+	@RequestMapping(value = "report/echart")
+	public String caseTransferList(String num, ServletRequest request) {
+		return "report/echarts/echart_"+num;
+	}
+	
 }

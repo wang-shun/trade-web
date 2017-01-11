@@ -159,6 +159,32 @@ text-decoration: underline !important;
                             </div>
                       </div>
              </div>
+			<div class="row clearfix">
+                  <div class="form_content">
+						<label class="sign_left control-label">案件来源</label>
+						<div class="sign_right big_pad">
+							<select name="" class="form-control" id="caseOriginType">
+								<option value="" selected="selected">请选择</option>
+								<option value="INPUT">自录</option>
+								<option value="CTM">导入</option>
+								<option value="MERGE">合流</option>
+								<option value="PROCESS">合流申请中</option>
+							</select>
+						</div>
+					</div>
+					<div class="form_content" >
+						<label class="sign_left_one control-label">
+							是否关注
+						</label>
+						<div class="sign_right big_pad">
+							<select name="" class="form-control" id="isSubscribeFilter">
+								<option value="" selected="selected">请选择</option>
+								<option value="0">已关注</option>
+								<option value="1">未关注</option>
+							</select>
+						</div>
+					</div>
+             </div>
              <div class="row clearfix">
              		 <div id="select_div_1" class="form_content">
 		           			<div class="sign_left">
@@ -198,18 +224,7 @@ text-decoration: underline !important;
 						</div>
 					</div>
 
-				<div class="form_content" style="margin-left:94px;">
-					<label class="sign_left_two control-label">
-						是否关注
-					</label>
-					<div class="sign_right teamcode"> 
-						<select name="" class="form-control" id="isSubscribeFilter">
-							<option value="" selected="selected">请选择</option>
-							<option value="0">已关注</option>
-							<option value="1">未关注</option>
-						</select>
-					</div>
-				</div>
+				
 			</div>
 			<div class="row clearfix">
 			       <div class="form_content">
@@ -377,11 +392,11 @@ text-decoration: underline !important;
                    {{/if}}
 						
 						<td >
-{{if item.caseOrigin == 'MERGE'}}
+{{if item.CASE_ORIGIN == 'MERGE'}}
 {{if item.STATUS == '已过户' || item.STATUS == '已领证' }}
 ts('{{item.STATUS}}');
 {{else}}
-<a href="javascript:showGlDiv('backCaseMERGE','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}','{{item.caseOrigin}}')">
+<a href="javascript:showGlDiv('backCaseMERGE','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
 {{/if}}
 
                                 <p class="tip">
@@ -390,25 +405,25 @@ ts('{{item.STATUS}}');
                                   </i>
                                  </p>
 {{/if}}
-{{if item.caseOrigin == 'INPUT'}}
- 							<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}','{{item.caseOrigin}}')">
-                                <p class="tip">
+{{if item.CASE_ORIGIN == 'INPUT'}}
+ 							<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+                                <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_brown">
                                                                                         自录
-                                  </i>
+                                  </i><span class="total-sum">{{item.glCount}}</span>
                                  </p>
                              </a>
 {{/if}}
-{{if item.caseOrigin == 'CTM'}}
-<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.propertyCode}}','{{item.caseOrigin}}')">
-                                <p class="tip">
+{{if item.CASE_ORIGIN == 'CTM'}}
+<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+                                <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_blue">
                                     	导入
-                                  </i>
+                                  </i><span class="total-sum">{{item.glCount}}</span>
                                  </p>
 </a>
 {{/if}}
-{{if item.caseOrigin == 'PROCESS'}}
+{{if item.CASE_ORIGIN == 'PROCESS'}}
                                 <p class="tip">
                                  <i class="sign_blue">
                                     	合流申请中

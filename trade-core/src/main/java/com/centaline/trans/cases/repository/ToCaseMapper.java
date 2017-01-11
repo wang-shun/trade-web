@@ -3,7 +3,6 @@ package com.centaline.trans.cases.repository;
 import java.util.List;
 import java.util.Map;
 
-import com.aist.uam.ice.userorg.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
@@ -11,26 +10,27 @@ import com.centaline.trans.common.MyBatisRepository;
 
 @MyBatisRepository
 public interface ToCaseMapper {
-    int deleteByPrimaryKey(Long pkid);
+	int deleteByPrimaryKey(Long pkid);
 
-    int insert(ToCase record);
+	int insert(ToCase record);
 
-    int insertSelective(ToCase record);
+	int insertSelective(ToCase record);
 
-    ToCase selectByPrimaryKey(Long pkid);
+	ToCase selectByPrimaryKey(Long pkid);
 
-    int updateByPrimaryKeySelective(ToCase record);
+	int updateByPrimaryKeySelective(ToCase record);
 
-    int updateByPrimaryKey(ToCase record);
-    
-    int updateByCaseCodeSelective(ToCase record);
-    
+	int updateByPrimaryKey(ToCase record);
 
-    ToCase findToCaseByCaseCode(String caseCode);
-    int findToLoanAgentByCaseCode(String caseCode);
+	int updateByCaseCodeSelective(ToCase record);
+
+	ToCase findToCaseByCaseCode(String caseCode);
+
+	int findToLoanAgentByCaseCode(String caseCode);
 
 	/**
 	 * 查询统计
+	 * 
 	 * @param toCase
 	 * @return ToCaseInfoCountVo
 	 */
@@ -38,6 +38,7 @@ public interface ToCaseMapper {
 
 	/**
 	 * 接单数统计查询
+	 * 
 	 * @param toCase
 	 * @return ToCaseInfoCountVo
 	 */
@@ -45,21 +46,24 @@ public interface ToCaseMapper {
 
 	/**
 	 * 查询接单数
+	 * 
 	 * @param orgId
 	 * @return ToCaseInfoCountVo
 	 */
-	//ToCaseInfoCountVo countToCaseInfoByOrgId(String orgId);
+	// ToCaseInfoCountVo countToCaseInfoByOrgId(String orgId);
 
 	ToCaseInfoCountVo countToCaseInfoByOrgId(ToCase toCase);
 
 	/**
 	 * 获取组织
+	 * 
 	 * @return List<ToCase>
 	 */
 	List<ToCase> getOrgId();
 
 	/**
 	 * 接单数多条统计数据查询
+	 * 
 	 * @param orgId
 	 * @return
 	 */
@@ -67,6 +71,7 @@ public interface ToCaseMapper {
 
 	/**
 	 * 查询统计数据
+	 * 
 	 * @param orgList
 	 * @return
 	 */
@@ -74,16 +79,18 @@ public interface ToCaseMapper {
 
 	/**
 	 * 统计数据列表
+	 * 
 	 * @param strArrayList
 	 * @param startDate
 	 * @param endDate
 	 * @return
 	 */
-	int countToCaseInfoByOrgList(List<String> strArrayList,
-			String startDate, String endDate);
+	int countToCaseInfoByOrgList(List<String> strArrayList, String startDate,
+			String endDate);
 
 	/**
 	 * 初始化统计数据
+	 * 
 	 * @param orgId
 	 * @return
 	 */
@@ -91,12 +98,14 @@ public interface ToCaseMapper {
 
 	/**
 	 * 获取所有org
+	 * 
 	 * @return
 	 */
 	List<ToOrgVo> getOrgIdAll(String dep);
 
 	/**
 	 * 获取红灯数
+	 * 
 	 * @param orgIdList
 	 * @param strNum
 	 * @param endNum
@@ -107,6 +116,7 @@ public interface ToCaseMapper {
 
 	/**
 	 * 查询统计数
+	 * 
 	 * @param idList
 	 * @return
 	 */
@@ -114,6 +124,7 @@ public interface ToCaseMapper {
 
 	/**
 	 * 查询统计
+	 * 
 	 * @param idList
 	 * @param startDate
 	 * @param endDate
@@ -124,21 +135,31 @@ public interface ToCaseMapper {
 
 	/**
 	 * 获取红灯数
+	 * 
 	 * @param idList
 	 * @param strNum
 	 * @param endNum
 	 * @return
 	 */
 	int getRedcountByIdList(List<String> idList, String strNum, String endNum);
-	
+
 	/**
 	 * 获取主岗
+	 * 
 	 * @param idList
 	 * @param strNum
 	 * @param endNum
 	 * @return
 	 */
 	Map getUserIsMain(String userId);
-	
-	
+
+	/**
+	 * 根据案件所在组获取对应的主管
+	 * 
+	 * @param caseCode
+	 *            案件编号
+	 * @return 主管的名称
+	 */
+	public String getManagerByCaseOwner(String caseCode);
+
 }
