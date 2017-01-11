@@ -118,7 +118,7 @@
                                         <li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>9%</span></li>
                                     </ul>
                                 </div>
-                                <p class="zhyu-icon"><img src="../static/trans/img/zhongyuan.png" alt="" /></p>
+                                <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
                             </div>
 
 

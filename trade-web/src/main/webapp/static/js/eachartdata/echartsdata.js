@@ -22,7 +22,7 @@ function echartData (id) {
         },
         legend: {
             y: '10%',
-            data:['11月过户量','10月过户量'],
+            data:['11月总单量','10月总单量'],
             x:'center'
         },
         tooltip: {
@@ -46,7 +46,7 @@ function echartData (id) {
                 type: 'value',//左边
                 name: '单量',
                 min: 0,
-                max: 600,
+                //max: 600,
                 interval: 50,
                 axisLabel: {
                     formatter: '{value} 单'
@@ -55,7 +55,7 @@ function echartData (id) {
         ],
         series: [
             {
-                name:'11月总量',
+                name:'11月总单量',
                 type:'bar',
                 itemStyle:{//顔色
                   normal : {
@@ -65,7 +65,7 @@ function echartData (id) {
                 data:[206, 135, 136, 162, 130, 143, 208, 544]//数据
             },
             {
-                name:'10月总量',
+                name:'10月总单量',
                 type:'bar',
                 itemStyle:{//顔色
                   normal : {

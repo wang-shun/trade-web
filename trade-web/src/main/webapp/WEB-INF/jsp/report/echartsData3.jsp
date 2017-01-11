@@ -6,17 +6,17 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>e+放款流水清单</title>
-        <link href="http://trade.centaline.com:8083/trade-web/static/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="http://trade.centaline.com:8083/trade-web/static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-        <link href="http://trade.centaline.com:8083/trade-web/static/css/animate.css" rel="stylesheet"/>
-        <link href="http://trade.centaline.com:8083/trade-web/static/css/style.css" rel="stylesheet"/>
+        <link href="${ctx }/static/css/bootstrap.min.css" rel="stylesheet"/>
+	    <link href="${ctx }/css/font-awesome.css" rel="stylesheet"/>
+		<link href="${ctx}/css/animate.css" rel="stylesheet">
+	    <link href="${ctx}/css/style.css" rel="stylesheet">
 
         <!-- index_css -->
-        <link rel="stylesheet" href="http://trade.centaline.com:8083/trade-web/static/trans/css/common/table.css" />
-        <link rel="stylesheet" href="http://trade.centaline.com:8083/trade-web/static/trans/css/common/input.css" />
-        <link rel="stylesheet" href="http://trade.centaline.com:8083/trade-web/static/trans/css/common/btn.css" />
-        <link rel="stylesheet" href="http://trade.centaline.com:8083/trade-web/static/iconfont/iconfont.css" ">
-        <link rel="stylesheet" href="http://trade.centaline.com:8083/trade-web/static/trans/css/eachartdata/eachartdata.css">
+        <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
+        <link rel="stylesheet" href="${ctx }/static/trans/css/common/input.css" />
+        <link rel="stylesheet" href="${ctx }/static/trans/css/common/btn.css" />
+        <link rel="stylesheet" href="${ctx }/static/iconfont/iconfont.css" ">
+        <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
     </head>
     <body style="background-color:#fff;">
          <!--*********************** HTML_main*********************** -->
@@ -222,7 +222,7 @@
                                 </div>
                             </div>
                             <div class="plot-righttwo mt10 relative">
-                                <p class="zhyu-icon"><img src="../static/trans/img/zhongyuan.png" alt="" /></p>
+                                <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
                             </div>
 
 
@@ -234,11 +234,11 @@
         <!--*********************** HTML_main*********************** -->
 
         <!-- Mainly scripts -->
-        <script src="http://trade.centaline.com:8083/trade-web/static/js/jquery-2.1.1.js"></script>
-        <script src="http://trade.centaline.com:8083/trade-web/static/js/bootstrap.min.js"></script>
+        <script src="${ctx }/js/jquery-2.1.1.js"></script>
+        <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
-        <script src="http://trade.centaline.com:8083/trade-web/static/js/echarts.min.js"></script>
-        <script src="http://trade.centaline.com:8083/trade-web/static/trans/js/eachartdata/echartsdata.js"></script>
+        <script src="${ctx }/static_res/js/echarts.min.js"></script>
+        <script src="${ctx }/js/eachartdata/echartsdata.js"></script>
         <script>
             echartData("plotCont1");
             echartSet("plotCont2");
