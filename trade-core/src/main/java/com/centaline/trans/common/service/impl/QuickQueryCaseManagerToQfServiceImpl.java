@@ -62,27 +62,38 @@ public class QuickQueryCaseManagerToQfServiceImpl implements CustomDictService {
 			
 			if(key!=null){
 				
-				String sql = "SELECT u.REAL_NAME ,u.ID USER_ID,o.ORG_NAME,o.ID ORG_ID,u.MOBILE FROM sctrans.T_TO_CASE toCase "
-						   + " inner join sctrans.SYS_USER_ORG_JOB uoj on uoj.ORG_ID = toCase.ORG_ID"
-						   + " inner join sctrans.sys_job j on uoj.job_id = j.id "
-						   + " inner join sctrans.sys_user u on uoj.user_id = u.id "
-						   + " inner join sctrans.sys_org o on o.id = uoj.org_id "
-						   + " inner join SCTRANS.T_TO_CASE_INFO A on A.CASE_CODE = toCase.CASE_CODE"
-						   + " WHERE A.CASE_CODE= ? and A.IS_RESPONSED = 1 AND  j.JOB_CODE = 'Manager'"
-						   + "	 and uoj.IS_DELETED = 0";
-				List<Map<String, Object>> orgIdList = jdbcTemplate.queryForList(sql, key);
-				if(CollectionUtils.isEmpty(orgIdList)) {
-					String sql1 = "select su.REAL_NAME  ,su.ID USER_ID,so.ORG_NAME ,so.ID ORG_ID,su.MOBILE from sctrans.T_TS_TEAM_SCOPE_TARGET tst "
-							+ " left join sctrans.SYS_ORG so on tst.YU_TEAM_CODE = so.ORG_CODE "
-							+ " left join sctrans.SYS_USER_ORG_JOB uoj on uoj.ORG_ID = so.id "
-							+ " left join sctrans.SYS_JOB sj on uoj.JOB_ID = sj.ID "
-							+ " left join sctrans.SYS_USER su on su.ID = uoj.USER_ID "
-							+ " where tst.grp_code = (SELECT TARGET_CODE from sctrans.T_TO_CASE_INFO where CASE_CODE = ?) "
-							+ "		and sj.JOB_CODE = 'Manager'  and tst.IS_RESPONSE_TEAM = 1 and uoj.IS_DELETED = 0 ";
-					List<Map<String, Object>> userList = jdbcTemplate.queryForList(sql1, key);
-					val = getJoinUserInfo(userList);
-				} else {
-					val = getJoinUserInfo(orgIdList);
+				String sql0 = 
+						"(SELECT u.ID USER_ID,u.ORG_ID  ORG_ID FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id              WHERE CASE_CODE = ?)"
+					   +" UNION " 
+					   +"(SELECT u.ID USER_ID,u.ORG_ID  ORG_ID FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p inner join sctrans.sys_user u on p.PROCESSOR_ID = u.id WHERE CASE_CODE = ?)";
+				List<Map<String, Object>> orgIdList0 = jdbcTemplate.queryForList(sql0, key,key);
+				
+				if(CollectionUtils.isEmpty(orgIdList0)) {
+				
+					String sql = "SELECT u.REAL_NAME ,u.ID USER_ID,o.ORG_NAME,o.ID ORG_ID,u.MOBILE FROM sctrans.T_TO_CASE toCase "
+							   + " inner join sctrans.SYS_USER_ORG_JOB uoj on uoj.ORG_ID = toCase.ORG_ID"
+							   + " inner join sctrans.sys_job j on uoj.job_id = j.id "
+							   + " inner join sctrans.sys_user u on uoj.user_id = u.id "
+							   + " inner join sctrans.sys_org o on o.id = uoj.org_id "
+							   + " inner join SCTRANS.T_TO_CASE_INFO A on A.CASE_CODE = toCase.CASE_CODE"
+							   + " WHERE A.CASE_CODE= ? and A.IS_RESPONSED = 1 AND  j.JOB_CODE = 'Manager'"
+							   + "	 and uoj.IS_DELETED = 0";
+					List<Map<String, Object>> orgIdList = jdbcTemplate.queryForList(sql, key);
+					if(CollectionUtils.isEmpty(orgIdList)) {
+						String sql1 = "select su.REAL_NAME  ,su.ID USER_ID,so.ORG_NAME ,so.ID ORG_ID,su.MOBILE from sctrans.T_TS_TEAM_SCOPE_TARGET tst "
+								+ " left join sctrans.SYS_ORG so on tst.YU_TEAM_CODE = so.ORG_CODE "
+								+ " left join sctrans.SYS_USER_ORG_JOB uoj on uoj.ORG_ID = so.id "
+								+ " left join sctrans.SYS_JOB sj on uoj.JOB_ID = sj.ID "
+								+ " left join sctrans.SYS_USER su on su.ID = uoj.USER_ID "
+								+ " where tst.grp_code = (SELECT TARGET_CODE from sctrans.T_TO_CASE_INFO where CASE_CODE = ?) "
+								+ "		and sj.JOB_CODE = 'Manager'  and tst.IS_RESPONSE_TEAM = 1 and uoj.IS_DELETED = 0 ";
+						List<Map<String, Object>> userList = jdbcTemplate.queryForList(sql1, key);
+						val = getJoinUserInfo(userList);
+					} else {
+						val = getJoinUserInfo(orgIdList);
+					} 
+				}else {
+					val = getJoinUserInfo(orgIdList0);
 				}
 			}
 			
