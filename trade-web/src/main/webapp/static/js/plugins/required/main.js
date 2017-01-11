@@ -17,7 +17,8 @@ require.config({
     		"valid" : "js/trunk/task/taskTransSign.validate",
     		"m" : "js/plugins/validate/common/messages_zh",
     		"grid" : "js/plugins/jqGrid/i18n/grid.locale-en",
-    		"jqGrid" : "js/plugins/jqGrid/jquery.jqGrid.min"
+    		"jqGrid" : "js/plugins/jqGrid/jquery.jqGrid.min",
+    		"steps" : "js/plugins/staps/jquery.steps.min"
     	}
     });
 
