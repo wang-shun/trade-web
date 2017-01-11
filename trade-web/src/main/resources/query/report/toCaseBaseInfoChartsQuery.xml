@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
+<dicts>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+</dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
@@ -14,36 +17,37 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="querySignFaceList" cacheCount="true">
+	<query id="queryDispatchSignList" cacheCount="true">
 	    <searchCondition>
 	        
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				select main.district_id,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120)= '1998-05') dispatch_num,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120)= '1998-05') sign_num,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120)= '1998-05') guo_num,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS d where d.district_id = main.district_id and d.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) com_num,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS e where e.district_id = main.district_id and e.MORTGAGE_LOAN_TYPE = '30016003') prf_num
+				select main.DISTRICT_ID,
+				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = '2016-11') DISPATCH_NUM,
+				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = '2016-11') SIGN_NUM,
+				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = '1998-05') GUOHU_NUM,
+				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS d where d.district_id = main.district_id and d.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
+				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS e where e.district_id = main.district_id and e.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
 				from sctrans.T_RPT_CASE_PROCESS_STATIS main				
 	            ]]>
 			</baseSql>
 			<orderBySql>
 			</orderBySql>
 			<groupSql>
-			group by main.district_id
+			group by main.DISTRICT_ID
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="district_id" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="dispatch_num" index="" checkbox="" title="派单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="90" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="sign_num" index="" checkbox="" title="签约量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="180" align="" halign="" order="" resizable=""/>
-				<column type="both" name="guo_num" index="" checkbox="" title="过户量" expType="Integer" customDict="" sysDict="" beanFormatter="numberFormater" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="com_num" index="" checkbox="" title="商贷量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" align="" halign="" order="" resizable="" />
-				<column type="both" name="prf_num" index="" checkbox="" title="纯公积金量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" align="" halign="" order="" resizable="" />						
+				<column type="both" name="DISTRICT_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="DISTRICT_NAME" index="" checkbox="" display="主管" customDict="qqcdOrgIdName" referencecol="DISTRICT_ID"/>
+				<column type="both" name="DISPATCH_NUM" index="" checkbox="" title="派单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_NUM" index="" checkbox="" title="签约量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>
+				<column type="both" name="GUOHU_NUM" index="" checkbox="" title="过户量" expType="Integer" customDict="" sysDict="" beanFormatter="integerFormater" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="COM_NUM" index="" checkbox="" title="商贷量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="PRF_NUM" index="" checkbox="" title="纯公积金量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="60" align="" halign="" order="" resizable="" />						
 			</table-row>
 		</grid>
 	</query>

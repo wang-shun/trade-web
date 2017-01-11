@@ -1,3 +1,13 @@
+/**
+ * 
+ * @param xAxisData  横轴数据
+ * @param yAxis      竖轴数据
+ * @param legend     维度
+ * @param datas      表中数据
+ * @param type       数据显示类型(柱状、折线等)
+ * @param color      维度对应颜色
+ * @param myChart    图表div
+ */
 function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart) {
 
 			if(color==null){
@@ -77,47 +87,55 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart) {
 			}
 				$(".echarsTable").append(html);
 		}
-		function returnPie(data, items, myChart1, color) {
-			if(color==null){
-				color=[
-		               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
-		               ]
-			}
-			var option = {
-				tooltip : {
-					trigger : 'item',
-					formatter : "{a} <br/>{b} : {c} ({d}%)"
-				},
-				legend : {
-					x : 'center',
-					data : data
-				},
-				color : color,
-				series : [ {
-					name : '访问来源',
-					type : 'pie',
-					radius : '55%',
-					center : [ '50%', '60%' ],
-					animation : true,
-					selectedMode : 'multiple',
-					data : [],
-					itemStyle : {
-						normal : {
-							label : {
-								show : true,
-								formatter : "{b}:\n{c}个 ({d}%)"
-							}
-						}
+
+/**
+ * 
+ * @param data       维度
+ * @param items      表中数据
+ * @param myChart1   图表div
+ * @param color      维度对应颜色
+ */
+function returnPie(data, items, myChart1, color) {
+	if(color==null){
+		color=[
+               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
+               ]
+	}
+	var option = {
+		tooltip : {
+			trigger : 'item',
+			formatter : "{a} <br/>{b} : {c} ({d}%)"
+		},
+		legend : {
+			x : 'center',
+			data : data
+		},
+		color : color,
+		series : [ {
+			name : '访问来源',
+			type : 'pie',
+			radius : '55%',
+			center : [ '50%', '60%' ],
+			animation : true,
+			selectedMode : 'multiple',
+			data : [],
+			itemStyle : {
+				normal : {
+					label : {
+						show : true,
+						formatter : "{b}:\n{c}个 ({d}%)"
 					}
-				} ]
-			};
-			if(items==undefined ||items==null){return; };
-			for (var i = 0; i < data.length; i++) {
-				var datai = {
-					value : items[i],
-					name : data[i]
 				}
-				option.series[0].data.push(datai);
 			}
-			myChart1.setOption(option);
+		} ]
+	};
+	if(items==undefined ||items==null){return; };
+	for (var i = 0; i < data.length; i++) {
+		var datai = {
+			value : items[i],
+			name : data[i]
 		}
+		option.series[0].data.push(datai);
+	}
+	myChart1.setOption(option);
+}

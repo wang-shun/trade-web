@@ -138,7 +138,11 @@
 	
 	<!-- 签约案件 -->
 	<import resource="query/report/toReportSignCaseQuery.xml" />
-		<!-- 案件状态统计 -->
+	
+	<!-- 派单、签约量统计 -->
+	<import resource="query/report/toCaseBaseInfoChartsQuery.xml"/>
+	
+	<!-- 案件状态统计 -->
 	<import resource="query/dashboard/GetStatus.xml" />
 
 	<!-- 绩效奖金模块 -->
