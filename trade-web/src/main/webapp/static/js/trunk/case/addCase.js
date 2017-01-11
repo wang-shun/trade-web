@@ -319,7 +319,7 @@ function buildingChange(){
 				//总层数
 				var floorTotal=data;
 				if(floorTotal){
-					option="<option value=''>请选择房屋</option>";
+					option="<option value=''>请选择楼层</option>";
 					floorSelect.append(option);
 					for (var i = 1; i <= floorTotal; i++) {
 						option="<option value='"+i+"'>"+i+"层</option>";

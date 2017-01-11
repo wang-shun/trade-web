@@ -1357,7 +1357,9 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 						 LEFT JOIN  sctrans.T_TO_CASE C ON  PRO.CASE_CODE = C.CASE_CODE
 						 LEFT JOIN  sctrans.T_TO_CASE_INFO CI ON  PRO.CASE_CODE = CI.CASE_CODE
 					
-					WHERE  DATEDIFF(mm,PRO.CREATE_TIME,GETDATE()) &lt; 6  
+					WHERE  
+						PRO.CREATE_TIME  > '2016-12-29'
+						AND DATEDIFF(mm,PRO.CREATE_TIME,GETDATE()) &lt; 6  
 						<ifNotNull propertyCode>
 						     AND  PRO.PROPERTY_CODE = #propertyCode#
 						</ifNotNull>
