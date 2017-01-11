@@ -39,179 +39,67 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
                                 </thead>
                                 <tr>
                                     <td class="tabletitle">
                                         <span class="colorBar" style="background-color:#52bdbd;">
                                         </span>
-                                        蒸发量
+                                        11月总单量
                                     </td>
                                     <td>
-                                        1月
+                                        206
                                     </td>
                                     <td>
-                                        2月
+                                        135
                                     </td>
                                     <td>
-                                        3月
+                                        136
                                     </td>
                                     <td>
-                                        4月
+                                        162
                                     </td>
                                     <td>
-                                        5月
+                                        130
                                     </td>
                                     <td>
-                                        6月
+                                        143
                                     </td>
                                     <td>
-                                        7月
+                                        208
                                     </td>
                                     <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
+                                        504
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="tabletitle">
                                         <span class="colorBar" style="background-color:#ff9696;">
                                         </span>
-                                        降水量
+                                        10月总单量
                                     </td>
                                     <td>
-                                        1月
+                                        260
                                     </td>
                                     <td>
-                                        2月
+                                        183
                                     </td>
                                     <td>
-                                        3月
+                                        198
                                     </td>
                                     <td>
-                                        4月
+                                        137
                                     </td>
                                     <td>
-                                        5月
+                                        99
                                     </td>
                                     <td>
-                                        6月
+                                        193
                                     </td>
                                     <td>
-                                        7月
+                                        207
                                     </td>
                                     <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <i class="iconfont al-iconbt ml5 al-blue">&#xe687;</i>
-                                        <p class="al-text">温度</p>
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <i class="iconfont al-iconbt ml5 al-yellow">&#xe687;</i>
-                                        <p class="al-text">温差</p>
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
+                                        559
                                     </td>
                                 </tr>
                             </table>
