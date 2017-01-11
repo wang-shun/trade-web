@@ -25,7 +25,19 @@
             <div class="ibox-content" id="base_info">
                 <div class="row chartwo">
                     <div class="col-md-12">
-                        <h3 class="content-title">过户数据统计</h3>
+                         <div class="clearfix mb30">
+                            <h3 class="content-title pull-left">过户数据统计</h3>
+                            <div class="calendar-watch clearfix">
+                                <p class="calendar-year">
+                                    <a href="#"><em>&lt;</em></a>
+                                    <span>2016</span>
+                                    <a href="#"><em>&gt;</em></a>
+                                </p>
+                                <p class="calendar-month">
+                                    <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
+                                </p>
+                            </div>
+                        </div>
                         <div class="left-content">
                             <div id="plotCont1" class="plot-leftone">
                             </div>

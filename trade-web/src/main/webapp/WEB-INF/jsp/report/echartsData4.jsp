@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>e+放款流水清单</title>
+        <title>过户有贷款流失-贷款银行分布</title>
         <link href="${ctx }/static/css/bootstrap.min.css" rel="stylesheet"/>
 	    <link href="${ctx }/css/font-awesome.css" rel="stylesheet"/>
 		<link href="${ctx}/css/animate.css" rel="stylesheet">
@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
         <link rel="stylesheet" href="${ctx }/static/trans/css/common/input.css" />
         <link rel="stylesheet" href="${ctx }/static/trans/css/common/btn.css" />
-        <link rel="stylesheet" href="${ctx }/static/iconfont/iconfont.css" ">
+        <link rel="stylesheet" href="${ctx }/static/iconfont/iconfont.css">
         <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
     </head>
     <body style="background-color:#fff;">
@@ -24,196 +24,24 @@
             <div class="ibox-content" id="base_info">
                 <div class="row chartwo">
                     <div class="col-md-12">
-                        <h3 class="content-title">过户数据统计</h3>
+                          <div class="clearfix mb30">
+                            <h3 class="content-title pull-left">过户有贷款流失-贷款银行分布</h3>
+                            <div class="calendar-watch clearfix">
+                                <p class="calendar-year">
+                                    <a href="#"><em>&lt;</em></a>
+                                    <span>2016</span>
+                                    <a href="#"><em>&gt;</em></a>
+                                </p>
+                                <p class="calendar-month">
+                                    <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
+                                </p>
+                            </div>
+                        </div>
                         <div class="left-content">
                             <div id="plotCont1" class="plot-leftone">
                             </div>
                             <table class="echarsTable">
-                                <thead>
-                                    <td class="tabletitle"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </thead>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <span class="colorBar" style="background-color:#52bdbd;">
-                                        </span>
-                                        蒸发量
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <span class="colorBar" style="background-color:#ff9696;">
-                                        </span>
-                                        降水量
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <i class="iconfont al-iconbt ml5 al-blue">&#xe687;</i>
-                                        <p class="al-text">温度</p>
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <i class="iconfont al-iconbt ml5 al-yellow">&#xe687;</i>
-                                        <p class="al-text">温差</p>
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
+                               
                             </table>
                         </div>
                         <div class="pull-left">
@@ -235,8 +63,57 @@
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
         <script src="${ctx }/js/eachartdata/echartsdata.js"></script>
+        <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
         <script>
-            echartData("plotCont1");
+		$(function() {
+			// 基于准备好的dom，初始化echarts实例
+			var myChart1 = echarts.init(document.getElementById('plotCont1'));
+			// 使用刚指定的配置项和数据显示图表。
+			$.ajax({
+				url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/BankLoan",
+				method : "GET",
+				dataType : "json",
+				success : function(data) {
+					if(data==null||data==undefined){
+						return;			
+					}
+					var xAxisData=[];
+					var totalAmount=[];
+					var acceptAmount=[];
+					var acceptAmountRate=[];
+					$.each(data,function(i,item){
+						xAxisData.push(item.name);
+						totalAmount.push(item.totalAmount);
+					    acceptAmount.push(item.acceptAmount);
+						acceptAmountRate.push(Number(item.acceptAmountRate));
+					})
+					var datas=[totalAmount,acceptAmount,acceptAmountRate];
+					var legend= ["总金额(万元)","收单金额(金额)","收单率"];
+					var type=["bar","bar","line"];
+					var yAxis =[ {
+						type : 'value',//左边
+						name : '金额(万元)',
+						axisLabel : {
+							formatter : '{value}'
+						}
+					},{
+						type : 'value',//右边
+						name : '比率',
+						axisLabel : {
+							formatter : '{value}'
+						}
+					}
+					
+					];
+					returnBar(xAxisData,yAxis,legend,datas,type,null,myChart1,"贷款银行分配情况");
+					},
+				error : function() {
+				}
+			});
+
+		})
+/*             echartData("plotCont1");
+            echartSet("plotCont2"); */
         </script>
     </body>
 </html>

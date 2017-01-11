@@ -34,7 +34,11 @@ public class caseBaseInfoChartsController {
 		return "report/case_baseinfo_charts";
 		
 	}
-	
+	@RequestMapping(value = "guoHuReport")
+	public String guoHuReport(Model model, ServletRequest request){
+		
+		return "report/echartGuoHu";		
+	}
 	@RequestMapping(value = "echartsData1")
 	public String queryChart1(Model model, ServletRequest request){
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
