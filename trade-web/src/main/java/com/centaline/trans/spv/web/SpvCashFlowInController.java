@@ -84,6 +84,7 @@ public class SpvCashFlowInController {
 			}
 			response.setSuccess(true);
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.setSuccess(false);
 			String sOut = "";
 	        StackTraceElement[] trace = e.getStackTrace();
