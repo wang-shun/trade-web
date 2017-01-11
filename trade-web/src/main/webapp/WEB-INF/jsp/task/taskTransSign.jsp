@@ -1154,7 +1154,7 @@
 		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 		<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 		<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-		<%-- <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> --%>
+		<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 		<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
 		<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
 		<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
@@ -1193,7 +1193,7 @@
 	<content tag="local_require">
     <script>
 	    require(['main'], function() {
-			requirejs(['aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','datapicker'],function(aistFileUpload){
+			requirejs(['aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid'],function(aistFileUpload){
 			    aistFileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "TransSign",
