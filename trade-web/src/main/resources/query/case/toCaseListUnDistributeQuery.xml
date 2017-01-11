@@ -8,6 +8,7 @@
 		<customDict id="qqMainOrgByUserId" beanName="qqMainOrgByUserId" />
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+		<customDict id="getGlCaseCount" beanName="getGlCaseCount" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -55,10 +56,7 @@
 						,ctd.AGENT_CODE AS USER_ID,ctd.AGENT_PHONE,ctd.QYZJ_NAME as qyzjNAME
 						,iif(ctd.QYJL_NAME is null or ctd.QYJL_NAME = '',ctd.qyzj_name,ctd.QYJL_NAME ) LEADER
 						,pi.PROPERTY_CODE propertyCode,
-						(
-						select count(*) from sctrans.T_TO_PROPERTY_INFO where tc.CREATE_TIME>DATEADD(mm,-6,GETDATE()) and 
-						PROPERTY_CODE=pi.PROPERTY_CODE and tc.CASE_ORIGIN != 'MERGE' and  tc.CASE_ORIGIN !='PROCESS'
-						) cuNu,
+						pi.PROPERTY_CODE,
 						tc.CASE_ORIGIN,
 						tc.pkid cpkid ,
 						ctd.GRP_NAME as ORG_NAME
@@ -94,10 +92,11 @@
 				<column type="both" name="CTM_CODE" display="ctmCode" />
 				<column type="both" name="AGENT_PHONE" display="ctmCode" />
 				<column type="both" name="qyzjNAME" display="qyzjNAME" />
-				<column type="both" name="cuNu" display="cuNu" />
 				<column type="both" name="CASE_ORIGIN" display="CASE_ORIGIN" />
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="PROPERTY_CODE"  	title="PROPERTY_CODE" />	
+				<column type="virtual" isDynamicDict="true" name="cuNu" referencecol="PROPERTY_CODE,CASE_ORIGIN"  customDict="getGlCaseCount" />
 			</table-row>
 		</grid>
 	</query>
