@@ -34,7 +34,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						pick : 'filePicker',
 						server : appCtx['aist-filesvr-web']+'/webUploader/uploadPicture',
 						available : null,
-						bizCode : null
+						bizCode : null,
+						readonly:false    //是否只读,true:只读,false:可以添加图片
 				  },options||{});
 				  
 				  container = settings.fileUploadContainer;
@@ -149,7 +150,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					    
 					    var $span = $ul.find("."+settings.pick+".checked");
 					    
-					    var $btns = $('<div class="file-panel">' +
+				    	var $btns = $('<div class="file-panel">' +
 				                '<span class="cancel">删除</span>' +
 				                '</div>').appendTo($li);
 					    
@@ -341,23 +342,20 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			        	  +'</p>'
 			        	  +'<p class="imgWrap">'
 			        	  +'<img src=\"'+appCtx['img-centanet'] +'/salesweb/image/{{item2.preFileAdress}}/80_80_f.jpg\" data=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'+settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight+'\"/>'
-			        	  +'</p>'
-			        	  +'<div class="file-panel" style="height: 0px;">'
-			        	  +'<span class="cancel">'
-			        	  +'删除'
-			        	  +'</span>'
-			        	  +'</div>'
-			        	  +'</li>'
-		        	  +'{{/if}}'
-                      +'{{/each}}'
-		        	  + "<span class='"+ settings.pick +" add-file' id=\"{{item.accessoryCode}}\" name=\"{{item.accessoryCode}}\">"
-		        	  +'</span>'
-		        	  +'</ul>'
-		        	  +'</td>'
-		        	  +'</tr>'
-		        	  +'{{/each}}'
-		        	  +'</tbody>'
-		        	  +'</table>'
+			        	  +'</p>';
+		        	  
+		        	  //如果readonly为false时，可以删除图片操作
+		        	  if(!settings.readonly){
+		        		  templeteSource += '<div class="file-panel" style="height: 0px;"><span class="cancel">删除</span></div>';
+		        	  }
+		        	  
+		        	  templeteSource += '</li>{{/if}}{{/each}}';
+                      
+		        	  if(!settings.readonly){
+		        		  templeteSource += "<span class='"+ settings.pick +" add-file' id=\"{{item.accessoryCode}}\" name=\"{{item.accessoryCode}}\"></span>";
+		        	  }
+                      
+		        	  templeteSource += '</ul></td></tr>{{/each}}</tbody></table>';
 		        		var render = template.compile(templeteSource);
 		        	    fileuploadHtml = render(data);
 		          } else {
