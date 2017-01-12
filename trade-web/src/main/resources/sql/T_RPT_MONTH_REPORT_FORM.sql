@@ -1,9 +1,7 @@
+USE [sctrans_dev]
 GO
 
-/****** Object:  Table [sctrans].[T_RPT_DAYLY_REPORT_FORM]    Script Date: 2017/1/5 11:06:20 *
-*@author caoy
-*负责主管以上的岗位查看8个报表的技术数据的每日整理
-**/
+/****** Object:  Table [sctrans].[T_RPT_MONTH_REPORT_FORM]    Script Date: 2017/1/6 17:45:10 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -25,6 +23,7 @@ CREATE TABLE [sctrans].[T_RPT_MONTH_REPORT_FORM](
 	[PRF_AMOUNT] [decimal](18, 2) NULL,
 	[NO_MORT_COUNT] [int] NULL,
 	[LOST_COUNT] [int] NULL,
+	[LOST_AMOUNT] [decimal](18, 2) NULL,
 	[DISTRIBUTE_COUNT] [int] NULL,
 	[CON_COUNT] [int] NULL,
 	[CREATE_TIME] [datetime] NULL
