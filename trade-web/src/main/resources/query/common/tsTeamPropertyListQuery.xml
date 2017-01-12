@@ -2,6 +2,7 @@
 <querys>
 <dicts>
 		<customDict id="getPropertyNameByCode" beanName="qqcdDictYucuiTeamCat"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
 </dicts>
 	
   	<formatters>
@@ -75,5 +76,27 @@
 			</table-row>
 		</grid>
 	</query>
-	
+
+	<query id="queryDistrict">
+		<searchCondition>
+
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select DISTRICT_ID from sctrans.v_yucui_org_hierarchy where DEP_HIERARCHY='yucui_district' and director is not null  GROUP BY DISTRICT_ID
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="DISTRICT_ID" index="" checkbox="" display="贵宾服务部" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="virtual" name="DISTRICT_NAME"  title="贵宾服务部名称"  referencecol="DISTRICT_ID" isDynamic="true" index="" checkbox="" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
 </querys>

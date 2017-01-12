@@ -125,6 +125,9 @@
 	                   	<c:if test="${toCase.status=='30001006'}">
 	                   		未指定
 	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
+	                   	</c:if>
 	                   </div>                    		
                     </c:if>
                    	<c:if test="${toCase.caseProperty=='30003004'}">
@@ -148,6 +151,9 @@
 	                   	<c:if test="${toCase.status=='30001006'}">
 	                   		未指定
 	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
+	                   	</c:if>
 	                   </div>                    		
                     </c:if>
                   	<c:if test="${toCase.caseProperty=='30003006'}">
@@ -170,6 +176,9 @@
 	                   	</c:if>
 	                   	<c:if test="${toCase.status=='30001006'}">
 	                   		未指定
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
 	                   	</c:if>
 	                   </div>                   		
                    	</c:if>

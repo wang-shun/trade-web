@@ -48,13 +48,13 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 		            right: '54',
 		            bottom: '15%'
 		        },
-				xAxis : [ {
+				xAxis :  {
 					type : 'category',
 					borderColoe : '#333',
-					data : xAxisData
-				} ],
-				yAxis :yAxis
-			};			
+					data : []
+				},
+			yAxis :yAxis
+			}
 			if(datas!=[]||datas!=undefined){
 				option.series=[];			
 			}
@@ -79,7 +79,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 			
 			var html="<thead><td class='tabletitle'></td>";
             for(var k=0;k<xAxisSize;k++){
-           	      html+="<td></td>";
+           	      html+="<td>"+xAxisData[k]+"</td>";
             }
 		          html+="</thead>";
 			for(var i=0;i<legend.length;i++){				

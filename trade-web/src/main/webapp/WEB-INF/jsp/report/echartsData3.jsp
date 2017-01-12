@@ -66,10 +66,14 @@
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
-        <script src="${ctx }/js/eachartdata/echartsdata.js"></script>
+        <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
         <script>
 		$(function() {
+			reload();
+
+		})
+		function reload(){
 			// 基于准备好的dom，初始化echarts实例
 			var myChart1 = echarts.init(document.getElementById('plotCont1'));
 			var myChart2 = echarts.init(document.getElementById('plotCont2'));
@@ -104,7 +108,6 @@
 					if(data==null||data==undefined){
 						return;			
 					}
-					console.info(data);
 					var xAxisData=[];
 					var totalAmount=[];
 					var lossAmount=[];
@@ -117,7 +120,6 @@
 						lossAmountRate.push(Number(item.lossAmountRate));
 						oldlossAmountRate.push(Number(item.oldlossAmountRate));
 					})
-				debugger;
 					var datas=[totalAmount,lossAmount,lossAmountRate,oldlossAmountRate];
 					var legend= ["商贷总额(万元)","流失金额(万元)","流失率","上月流失率"];
 					var type=["bar","bar","line","line"];
@@ -141,8 +143,8 @@
 				error : function() {
 				}
 			});
-
-		})
+			
+		}
 /*             echartData("plotCont1");
             echartSet("plotCont2"); */
         </script>

@@ -30,7 +30,11 @@
                                 <p class="calendar-year">
                                     <a href="#" id="subtract"><em>&lt;</em></a>
                                     <span>2016</span>
+<<<<<<< HEAD
                                     <a href="#"  id="add"><em>&gt;</em></a>
+=======
+                                    <a href="#" id="add"><em>&gt;</em></a>
+>>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
                                 </p>
                                 <p class="calendar-month">
                                     <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
@@ -66,10 +70,14 @@
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
-        <script src="${ctx }/js/eachartdata/echartsdata.js"></script>
+        <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
         <script>
 		$(function() {
+			reload();
+		})
+		
+		function reload(){
 			// 基于准备好的dom，初始化echarts实例
 			var myChart1 = echarts.init(document.getElementById('plotCont1'));
 			var myChart2 = echarts.init(document.getElementById('plotCont2'));
@@ -104,7 +112,6 @@
 					if(data==null||data==undefined){
 						return;			
 					}
-					console.info(data);
 					var xAxisData=[];
 					var total=[];
 					var loss=[];
@@ -117,7 +124,6 @@
 						lossRate.push(Number(item.lossRate));
 						oldLossRate.push(Number(item.oldLossRate));
 					})
-				debugger;
 					var datas=[total,loss,lossRate,oldLossRate];
 					var legend= ["商贷总单数","流失单数","流失率","上月流失率"];
 					var type=["bar","bar","line","line"];
@@ -142,7 +148,7 @@
 				}
 			});
 
-		})
+		}
 /*             echartData("plotCont1");
             echartSet("plotCont2"); */
         </script>

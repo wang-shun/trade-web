@@ -70,7 +70,7 @@
 	<tr>
 		<td>
 			<p class="big">
-				{{ if item.status == "被合流" }}
+				{{ if item.status == "被合流" ||  item.status == "已过户" || item.status == "已领证" }}
 <input type="hidden"  value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" disabled="disabled" qfType="{{item.toQfType}}"  />
 {{else}}
 <input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" />

@@ -1159,7 +1159,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				where 
 					   c.CREATE_TIME >DATEADD(mm,-6,GETDATE())
 					  and c.CREATE_TIME > cast(substring('2016-12-28 00:00:00.000',0,19) as datetime)
-					  and (c.STATUS !='30001005'  and c.STATUS!='30001004') 
+					
 				 <if test="inputType != null">
 					and c.CASE_ORIGIN != #inputType#  and c.CASE_ORIGIN !='PROCESS'
 				 </if>	

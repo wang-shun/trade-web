@@ -62,17 +62,25 @@
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
-        <script src="${ctx }/js/eachartdata/echartsdata.js"></script>
+        <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
         <script>
 		$(function() {
+            reload();
+            
+		})
+		function reload(){
 			// 基于准备好的dom，初始化echarts实例
 			var myChart1 = echarts.init(document.getElementById('plotCont1'));
 			// 使用刚指定的配置项和数据显示图表。
 			$.ajax({
+				async: true,
 				url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/BankLoan",
 				method : "GET",
 				dataType : "json",
+				data:{
+					date:getDate()
+				},
 				success : function(data) {
 					if(data==null||data==undefined){
 						return;			
@@ -111,7 +119,7 @@
 				}
 			});
 
-		})
+		}
 /*             echartData("plotCont1");
             echartSet("plotCont2"); */
         </script>
