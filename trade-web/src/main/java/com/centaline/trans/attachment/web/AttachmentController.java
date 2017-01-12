@@ -25,6 +25,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -205,6 +206,15 @@ public class AttachmentController {
 		if(StringUtils.isBlank(toAttachment.getAvailable())) {
 			toAttachment.setAvailable(null);
 		}
+		
+		ToAccesoryList property = new ToAccesoryList();
+		property.setPartCode(toAttachment.getPartCode());
+		if(!StringUtil.isBlank(toAttachment.getPreFileCode())){
+			property.setAccessoryCode(toAttachment.getPreFileCode());
+		}
+		List<ToAccesoryList> toAccesoryList = toAccesoryListService.qureyToAccesoryList(property);
+		toAttachmentVO.setToAccesoryList(toAccesoryList);
+		toAttachment.setPreFileCode(null);
 		List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
 		if (CollectionUtils.isNotEmpty(attachments)) {
 			for (ToAttachment attachment : attachments) {
@@ -215,10 +225,7 @@ public class AttachmentController {
 		}
 		toAttachmentVO.setAttachmentList(attachments);
 		
-		ToAccesoryList property = new ToAccesoryList();
-		property.setPartCode(toAttachment.getPartCode());
-		List<ToAccesoryList> toAccesoryList = toAccesoryListService.qureyToAccesoryList(property);
-		toAttachmentVO.setToAccesoryList(toAccesoryList);
+		
 		/** 读取上传附件备件表 */
 		return toAttachmentVO;
 	}

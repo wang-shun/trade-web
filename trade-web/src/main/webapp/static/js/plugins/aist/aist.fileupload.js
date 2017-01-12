@@ -263,6 +263,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    	  var bizCode = settings.bizCode;
 		    	  var partCode = settings.partCode;
 		    	  var available = settings.available;
+		    	  var preFileCode = settings.preFileCode;
 		    	  if(available=='') {
 		    		  available = null;
 		    	  }
@@ -289,6 +290,9 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						},{
 							name : 'available',
 							value : available
+						},{
+							name : 'preFileCode',
+							value : preFileCode
 						}],
 						dataType : "json",
 						success : function(data) {
@@ -346,7 +350,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			        	  +'</li>'
 		        	  +'{{/if}}'
                       +'{{/each}}'
-		        	  + "<span class='"+ settings.pick +" add-file' id=\"{{item.accessoryCode}}\">"
+		        	  + "<span class='"+ settings.pick +" add-file' id=\"{{item.accessoryCode}}\" name=\"{{item.accessoryCode}}\">"
 		        	  +'</span>'
 		        	  +'</ul>'
 		        	  +'</td>'
