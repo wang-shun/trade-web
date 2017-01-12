@@ -39,7 +39,10 @@
 	<import resource="query/property/toSourceListQuery.xml" />
 	<!-- 产调来源报表 -->
 	<import resource="query/property/toSourceReportQuery.xml" />
-	
+
+	<!-- 案件基础信息报表 -->
+	<import resource="query/report/toCaseBaseInfoChartsQuery.xml" />
+
 	<!-- 知识库 -->
 	<import resource="query/knowledge/knowledgeListQuery.xml" />
 	<import resource="query/knowledge/knowledgeListQuery1.xml" />

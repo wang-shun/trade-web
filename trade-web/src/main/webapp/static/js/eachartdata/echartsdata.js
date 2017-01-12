@@ -38,7 +38,7 @@ function echartData (id) {
             {
                 type: 'category',
                 borderColoe:'#333',
-                data: ['宝山','嘉定','普陀','市区','松江','闵行','虹杨','浦东']
+                data: ['宝山2','嘉定2','普陀2','市区','松江','闵行','虹杨','浦东']
             }
         ],
         yAxis: [
