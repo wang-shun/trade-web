@@ -29,9 +29,9 @@
                             <h3 class="content-title pull-left">过户数据统计</h3>
                             <div class="calendar-watch clearfix">
                                 <p class="calendar-year">
-                                    <a href="#"><em>&lt;</em></a>
+                                    <a href="#" id="subtract"><em>&lt;</em></a>
                                     <span>2016</span>
-                                    <a href="#"><em>&gt;</em></a>
+                                    <a href="#" id="add"><em>&gt;</em></a>
                                 </p>
                                 <p class="calendar-month">
                                     <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
@@ -81,17 +81,17 @@
          * 案件统计详情
          */
      	var ctx = $("#ctx").val();
-        $(document).ready(function() {        	
-        	// 初始化列表
-        	var data = {};
-        	data.queryId = "queryDispatchSignList";	
-        	data.rows = 12;
-        	data.page = 1;
-        	
+
+        $(document).ready(function() { 
+        	var data={};
         	reloadGrid(data);
         });
         
         function reloadGrid(data) {
+        	// 初始化列表
+        	data.queryId = "queryDispatchSignList";	
+        	data.pagination = false;
+
         	$.ajax({
         		async: true,
                 url: ctx+"/quickGrid/findPage",
@@ -129,27 +129,19 @@
             	var span7Text = 0;
             	//1.
             	$.each(data.rows,function(i,item){
-					xAxisData.push(item.DISTRICT_NAME.substring(0,2));
+					xAxisData.push(item.DISTRICT_NAME.length>2?item.DISTRICT_NAME.substring(0,2):item.DISTRICT_NAME);
 					dispatchNumArr.push(item.DISPATCH_NUM);
-					span1Text = accAdd(Number(span1Text),Number(item.DISPATCH_NUM));
+					span1Text += parseInt(item.DISPATCH_NUM);
 					signNumArr.push(item.SIGN_NUM);
-					span2Text = accAdd(Number(span2Text),Number(item.SIGN_NUM));
+					span2Text += parseInt(item.SIGN_NUM);
 					guohuNumArr.push(item.GUOHU_NUM);
-					span3Text = accAdd(Number(span3Text),Number(item.GUOHU_NUM));
+					span3Text += parseInt(item.GUOHU_NUM);
 					comNumArr.push(item.COM_NUM);
-					span4Text = accAdd(Number(span4Text),Number(item.COM_NUM));
+					span4Text += parseInt(item.COM_NUM);
 					prfNumArr.push(item.PRF_NUM);
-					span5Text = accAdd(Number(span5Text),Number(item.PRF_NUM));
-					if(item.SIGN_NUM != 0){
-						comPercentArr.push(accDiv(item.COM_NUM,item.SIGN_NUM)*100);
-					}else{
-						comPercentArr.push(0);
-					}
-					if(item.SIGN_NUM != 0){
-						prfPercentArr.push(accDiv(item.PRF_NUM,item.SIGN_NUM)*100);
-					}else{
-						prfPercentArr.push(0);
-					}			
+					span5Text += parseInt(item.PRF_NUM);
+					comPercentArr.push(accDiv(item.COM_NUM,item.SIGN_NUM)*100);
+					prfPercentArr.push(accDiv(item.PRF_NUM,item.SIGN_NUM)*100);			
 				})
             	span6Text = accDiv(span4Text,span2Text)*100+"%";
             	span7Text = accDiv(span5Text,span2Text)*100+"%";
@@ -177,7 +169,7 @@
                 }
 				];
             	//3.
-            	legend = ['派单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金签贷占比'];
+            	legend = ['派单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比'];
             	//4.
             	datas = [dispatchNumArr,signNumArr,guohuNumArr,comNumArr,prfNumArr,comPercentArr,prfPercentArr];
             	//5.
@@ -187,7 +179,7 @@
             	//7.
             	myChart = echarts.init(document.getElementById('plotCont1'));
             	//8.
-            	title = "11月派单、签约量统计";
+            	title = "11月签约贷款银行分布";
             	//生成柱状图 
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
             	//填充span数据 

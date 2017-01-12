@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
     </head>
     <body style="background-color:#fff;">
+        <input type="hidden" id="ctx" value="${ctx }"/>
          <!--*********************** HTML_main*********************** -->
         <div>
             <div class="ibox-content" id="base_info">
@@ -28,9 +29,9 @@
                             <h3 class="content-title pull-left">过户数据统计</h3>
                             <div class="calendar-watch clearfix">
                                 <p class="calendar-year">
-                                    <a href="#"><em>&lt;</em></a>
+                                    <a href="#" id="subtract"><em>&lt;</em></a>
                                     <span>2016</span>
-                                    <a href="#"><em>&gt;</em></a>
+                                    <a href="#" id="add"><em>&gt;</em></a>
                                 </p>
                                 <p class="calendar-month">
                                     <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
@@ -41,191 +42,7 @@
                             <div id="plotCont1" class="plot-leftone">
                             </div>
                             <table class="echarsTable">
-                                <thead>
-                                    <td class="tabletitle"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </thead>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <span class="colorBar" style="background-color:#52bdbd;">
-                                        </span>
-                                        蒸发量
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <span class="colorBar" style="background-color:#ff9696;">
-                                        </span>
-                                        降水量
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <i class="iconfont al-iconbt ml5 al-blue">&#xe687;</i>
-                                        <p class="al-text">温度</p>
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tabletitle">
-                                        <i class="iconfont al-iconbt ml5 al-yellow">&#xe687;</i>
-                                        <p class="al-text">温差</p>
-                                    </td>
-                                    <td>
-                                        1月
-                                    </td>
-                                    <td>
-                                        2月
-                                    </td>
-                                    <td>
-                                        3月
-                                    </td>
-                                    <td>
-                                        4月
-                                    </td>
-                                    <td>
-                                        5月
-                                    </td>
-                                    <td>
-                                        6月
-                                    </td>
-                                    <td>
-                                        7月
-                                    </td>
-                                    <td>
-                                        8月
-                                    </td>
-                                    <td>
-                                        9月
-                                    </td>
-                                    <td>
-                                        10月
-                                    </td>
-                                    <td>
-                                        11月
-                                    </td>
-                                    <td>
-                                        12月
-                                    </td>
-                                </tr>
+                            <!-- 图表 -->
                             </table>
                         </div>
                         <div class="pull-left">
@@ -236,11 +53,16 @@
                             <div class="plot-righttwo mt10 relative">
                                 <div class="total-data">
                                     <h3>11月过户总量</h3>
-                                    <ul class="total-list">
-                                        <li><i class="iconfont mr5 al-yellow al-icon-22">&#xe643;</i>11月总量<span>1664</span>单</li>
-                                        <li><i class="iconfont mr5 al-grey al-icon-22">&#xe643;</i>10月总量<span>1836</span>单</li>
-                                        <li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>9%</span></li>
+                                    <ul class="data-list">
+                                        <li><em>签贷合同价</em><span id="span1"></span>万元</li>
+                                        <li><em>商贷金额</em><span id="span2"></span>万元</li>
+                                        <li><em>公积金金额</em><span id="span3"></span>万元</li>
                                     </ul>
+                                    <ul class="data-list data-border">
+                                        <li><em>商贷签贷占比</em><span id="span4" class="red"></span></li>
+                                        <li><em>公积金金额占比</em><span id="span5" class="red"></span></li>
+                                    </ul>
+
                                 </div>
                                 <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
                             </div>
@@ -258,10 +80,118 @@
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
-        <script src="${ctx }/js/eachartdata/echartsdata.js"></script>
+        <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
         <script>
-            echartData("plotCont1");
-            echartSet("plotCont2");
+        /**
+         * 案件统计详情
+         */
+     	var ctx = $("#ctx").val();
+        $(document).ready(function() {        	
+        	// 初始化列表
+        	var data = {};
+        	data.queryId = "queryDispatchSignList";	
+        	data.pagination = false;
+        	
+        	reloadGrid(data);
+        });
+        console.log("6:"+ctx);
+        function reloadGrid(data) {
+        	$.ajax({
+        		async: true,
+                url: ctx+"/quickGrid/findPage",
+                method: "post",
+                dataType: "json",
+                data: data,
+                success: function(data){
+				if(data==null||data==undefined){
+					alert("数据加载失败！");
+					return;			
+				}
+				console.dir(data);
+				var xAxisData=[];
+				var yAxis = [];
+            	var legend = [];
+            	var datas = [];
+            	var type= [];
+            	var color = [];
+            	var myChart = null;
+            	
+            	var totalAmountArr = [];
+            	var comAmountArr = [];
+            	var prfAmountArr = [];
+            	var comPercentArr = [];
+            	var prfPercentArr = [];
+            	var title = null;
+            	//
+            	var span1Text = 0;
+            	var span2Text = 0;
+            	var span3Text = 0;
+            	var span4Text = 0;
+            	var span5Text = 0;
+            	//1.
+            	$.each(data.rows,function(i,item){
+					xAxisData.push(item.DISTRICT_NAME.length>2?item.DISTRICT_NAME.substring(0,2):item.DISTRICT_NAME);
+					totalAmountArr.push(item.TOTAL_AMOUNT);
+					span1Text += parseInt(item.TOTAL_AMOUNT);
+					comAmountArr.push(item.COM_AMOUNT);
+					span2Text += parseInt(item.COM_AMOUNT);
+					prfAmountArr.push(item.PRF_AMOUNT);
+					span3Text += parseInt(item.PRF_AMOUNT);
+					comPercentArr.push(accDiv(item.COM_AMOUNT,item.TOTAL_AMOUNT)*100);
+					prfPercentArr.push(accDiv(item.PRF_AMOUNT,item.TOTAL_AMOUNT)*100);			
+				})
+            	span4Text = accDiv(span2Text,span1Text)*100+"%";
+            	span5Text = accDiv(span3Text,span1Text)*100+"%";
+            	//2.
+            	yAxis =[ 
+            	{
+                    type: 'value',//左边
+                    name: '金额(万)',
+                    min: 0,
+                    //max: 250,
+                    //interval: 50,
+                    axisLabel: {
+                        formatter: '{value} '
+                    }
+                },
+                {
+                    type: 'value',//右边
+                    name: '百分比',
+                    min: 0,
+                    max: 100,
+                    //interval: 6,
+                    axisLabel: {
+                        formatter: '{value} %'
+                    }
+                }
+				];
+            	//3.
+            	legend = ['签贷合同价','商贷金额','公积金金额','商贷签贷占比','公积金签贷占比'];
+            	//4.
+            	datas = [totalAmountArr,comAmountArr,prfAmountArr,comPercentArr,prfPercentArr];
+            	//5.
+            	type = ["bar","bar","bar","line","line"];
+            	//6.
+            	color = null;
+            	//7.
+            	myChart = echarts.init(document.getElementById('plotCont1'));
+            	//8.
+            	title = "11月签约贷款金额占比";
+            	//生成柱状图 
+            	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
+            	//填充span数据 
+            	$("#span1").text(span1Text);
+            	$("#span2").text(span2Text);
+            	$("#span3").text(span3Text);
+            	$("#span4").text(span4Text);
+            	$("#span5").text(span5Text);
+                },
+                error: function (e, jqxhr, settings, exception) {
+                	   	 
+                }  
+          });
+
+        }
         </script>
 
     </body>
