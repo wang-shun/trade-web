@@ -25,12 +25,12 @@
 			<baseSql>
 				<![CDATA[
 				select main.DISTRICT_ID,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = '2016-11') DISPATCH_NUM,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = '2016-11') SIGN_NUM,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = '1998-05') GUOHU_NUM,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS d where d.district_id = main.district_id and d.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
-				(select count(1) from sctrans.T_RPT_CASE_PROCESS_STATIS e where e.district_id = main.district_id and e.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
-				from sctrans.T_RPT_CASE_PROCESS_STATIS main				
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) &lt; '2017-1-11') DISPATCH_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) &lt; '2017-1-11') SIGN_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) &lt; '2017-1-11') GUOHU_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.SIGN_TIME ,120) &lt; '2017-1-11' and d.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.SIGN_TIME ,120) &lt; '2017-1-11' and e.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
+				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main				
 	            ]]>
 			</baseSql>
 			<orderBySql>

@@ -7,21 +7,47 @@
  * @param color      维度对应颜色
  * @param myChart    图表div
  */
-function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart) {
-
+function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
+            //横轴长度
+	        var xAxisSize = xAxisData.length;
+	  
 			if(color==null){
 				color=[
 		               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
 		               ]
 			}
 			var option = {
+		        title : {
+		            text: title,
+		            textStyle: {
+		                color: '#555',
+		                fontSytle: 'normal',
+		                fontWeight: 'normal',
+		                fontSize: '16'
+		            },
+		            x:'left',
+		            y: 'top',
+		            padding: [
+		                0,  // 上
+		                10, // 右
+		                10,  // 下
+		                0, // 左
+		            ],
+		        },
 				tooltip : {
 					trigger : 'axis'
 				},
 				legend : {
 					data : legend,
-					x : 'center'
+					x : 'center',
+					y:'7%'
 				},
+				grid: {
+		            left: '78',
+		            top: '30%',
+		            right: '54',
+		            bottom: '15%'
+		        },
 				xAxis : [ {
 					type : 'category',
 					borderColoe : '#333',
@@ -43,27 +69,40 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart) {
 						},
 						data : item	
 				}
+				if(type[j]=="line"){
+					seriej.yAxisIndex=1;
+				}
 				option.series.push(seriej);
 			})
 
 			myChart.setOption(option);
-			var html="<thead><td class='tabletitle'></td><td></td><td></td><td></td><td></td><td></td>";
-			    html+="<td></td><td></td><td></td></thead>";
-				for(var i=0;i<legend.length;i++){
-					
-					 html+="<tr><td class='tabletitle'>";
-					 if(type[i]=="bar"){
-					    html+= "<span class='colorBar' style='background-color:"+color[i]+"'></span>";
+			
+			var html="<thead><td class='tabletitle'></td>";
+            for(var k=0;k<xAxisSize;k++){
+           	      html+="<td></td>";
+            }
+		          html+="</thead>";
+			for(var i=0;i<legend.length;i++){				
+				 html+="<tr><td class='tabletitle'>";
+				 if(type[i]=="bar"){
+				    html+= "<span class='colorBar' style='background-color:"+color[i]+"'></span>";
+				    html+=legend[i]+"</td>"
+				 }else if(type[i]=="line"){
+					 html+= "<i class='iconfont al-iconbt ml5 ' style='color:"+color[i]+"'>&#xe687;</i>"; 
+					 html+="<p class='al-text'>"+legend[i]+"</p></td>";
+				 }
+				 $.each(datas[i],function(j,item){
+					 if(title == '11月派单、签约量统计' && type[i]=="line"){
+						 html+="<td>"+item+" %</td>"; 
 					 }else{
-						 html+= "<span class='colorBar' style='background-color:"+color[i]+"'></span>"; 
+						 html+="<td>"+item+"</td>"; 
 					 }
-					 html+=legend[i]+"</td>";
-					 $.each(datas[i],function(j,item){
-						 html+="<td>"+item+"</td>";
-					 })
-					 html+="</tr>"
-			}
+				 })
+				 html+="</tr>"
+		    }
 				$(".echarsTable").append(html);
+				//$(".echarsTable td").width(828/xAxisSize);
+				$(".echarsTable td").width($("#plotCont1").width()/xAxisSize);
 		}
 
 /**
@@ -72,26 +111,45 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart) {
  * @param myChart1   图表div
  * @param color      维度对应颜色
  */
-function returnPie(data, items, myChart1, color) {
+function returnPie(data, items, myChart1, color, title) {
 	if(color==null){
 		color=[
                '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
                ]
 	}
 	var option = {
+		 title : {
+	            text: title,
+	            textStyle: {
+	                color: '#555',
+	                fontSytle: 'normal',
+	                fontWeight: 'normal',
+	                fontSize: '16'
+	            },
+	            x:'left',
+	            y: 'top',
+	            padding: [
+	                0,  // 上
+	                10, // 右
+	                10,  // 下
+	                0, // 左
+	            ],
+	        },
 		tooltip : {
 			trigger : 'item',
 			formatter : "{a} <br/>{b} : {c} ({d}%)"
 		},
-		legend : {
-			x : 'center',
+        legend: {
+            orient: 'horizontal',
+            x : 'left',
+            y: '14%',
 			data : data
 		},
 		color : color,
 		series : [ {
 			name : '访问来源',
 			type : 'pie',
-			radius : '55%',
+			radius : '30%',
 			center : [ '50%', '60%' ],
 			animation : true,
 			selectedMode : 'multiple',
@@ -115,4 +173,56 @@ function returnPie(data, items, myChart1, color) {
 		option.series[0].data.push(datai);
 	}
 	myChart1.setOption(option);
+}
+
+/**********************************************JS浮点数精确运算*******************************************************************/
+//加法函数，用来得到精确的加法结果
+//说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+//调用：accAdd(arg1,arg2)
+//返回值：arg1加上arg2的精确结果
+function accAdd(arg1,arg2){
+  var r1,r2,m;
+  try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+  try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+  m=Math.pow(10,Math.max(r1,r2));
+  return ((arg1*m+arg2*m)/m).toFixed(2);
+}
+//减法函数，用来得到精确的加法结果
+//说明：javascript的减法结果会有误差，在两个浮点数相减的时候会比较明显。这个函数返回较为精确的减法结果。
+//调用：accSub(arg1,arg2)
+//返回值：arg1减上arg2的精确结果
+function accSub(arg1,arg2){
+     var r1,r2,m,n;
+     try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+     try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+     m=Math.pow(10,Math.max(r1,r2));
+     //last modify by deeka
+     //动态控制精度长度
+     n=(r1>=r2)?r1:r2;
+     return ((arg2*m-arg1*m)/m).toFixed(2);
+}
+//乘法函数，用来得到精确的乘法结果
+//说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+//调用：accMul(arg1,arg2)
+//返回值：arg1乘以arg2的精确结果
+function accMul(arg1,arg2)
+{
+  var m=0,s1=arg1.toString(),s2=arg2.toString();
+  try{m+=s1.split(".")[1].length}catch(e){}
+  try{m+=s2.split(".")[1].length}catch(e){}
+  return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(2);
+}
+//除法函数，用来得到精确的除法结果
+//说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+//调用：accDiv(arg1,arg2)
+//返回值：arg1除以arg2的精确结果
+function accDiv(arg1,arg2){
+  var t1=0,t2=0,r1,r2;
+  try{t1=arg1.toString().split(".")[1].length}catch(e){}
+  try{t2=arg2.toString().split(".")[1].length}catch(e){}
+  with(Math){
+      r1=Number(arg1.toString().replace(".",""));
+      r2=Number(arg2.toString().replace(".",""));
+      return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
+  }
 }

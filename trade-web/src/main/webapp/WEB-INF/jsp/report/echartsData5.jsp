@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
         <link rel="stylesheet" href="${ctx }/static/trans/css/common/input.css" />
         <link rel="stylesheet" href="${ctx }/static/trans/css/common/btn.css" />
-        <link rel="stylesheet" href="${ctx }/static/iconfont/iconfont.css" />
+        <link rel="stylesheet" href="${ctx }/static/iconfont/iconfont.css">
         <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
     </head>
     <body style="background-color:#fff;">
@@ -50,13 +50,15 @@
                                 <div class="sum-data">
                                     <h3>数据统计</h3>
                                     <ul class="data-list">
-                                        <li><em>欠贷合同价</em><span>1664</span>单</li>
-                                        <li><em>商贷金额</em><span>1836</span>万元</li>
-                                        <li><em>公积金金额</em><span>943</span></li>
+                                        <li><em>派单量</em><span id="span1"></span>单</li>
+                                        <li><em>签约量</em><span id="span2"></span>单</li>
+                                        <li><em>过户量</em><span id="span3"></span>单</li>
+                                        <li><em>商贷量</em><span id="span4"></span>单</li>
+                                        <li><em>纯公积金量</em><span id="span5"></span>单</li>
                                     </ul>
                                     <ul class="data-list data-border">
-                                        <li><em>商贷签贷占比</em><span class="red">57%</span></li>
-                                        <li><em>公积金金额占比</em><span class="red">20%</span></li>
+                                        <li><em>商贷签贷占比</em><span id="span6" class="red"></span></li>
+                                        <li><em>纯公积金签贷占比</em><span id="span7" class="red"></span></li>
                                     </ul>
                                 </div>
                                 <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
@@ -98,6 +100,7 @@
                 data: data,
                 success: function(data){
 				if(data==null||data==undefined){
+					alert("数据加载失败！");
 					return;			
 				}
 				var xAxisData=[];
@@ -115,17 +118,41 @@
             	var prfNumArr = [];
             	var comPercentArr = [];
             	var prfPercentArr = [];
+            	var title = null;
+            	//
+            	var span1Text = 0;
+            	var span2Text = 0;
+            	var span3Text = 0;
+            	var span4Text = 0;
+            	var span5Text = 0;
+            	var span6Text = 0;
+            	var span7Text = 0;
             	//1.
             	$.each(data.rows,function(i,item){
 					xAxisData.push(item.DISTRICT_NAME.substring(0,2));
 					dispatchNumArr.push(item.DISPATCH_NUM);
+					span1Text = accAdd(Number(span1Text),Number(item.DISPATCH_NUM));
 					signNumArr.push(item.SIGN_NUM);
+					span2Text = accAdd(Number(span2Text),Number(item.SIGN_NUM));
 					guohuNumArr.push(item.GUOHU_NUM);
+					span3Text = accAdd(Number(span3Text),Number(item.GUOHU_NUM));
 					comNumArr.push(item.COM_NUM);
+					span4Text = accAdd(Number(span4Text),Number(item.COM_NUM));
 					prfNumArr.push(item.PRF_NUM);
-					comPercentArr.push(item.COM_NUM/item.SIGN_NUM);
-					prfPercentArr.push(item.PRF_NUM/item.SIGN_NUM);
+					span5Text = accAdd(Number(span5Text),Number(item.PRF_NUM));
+					if(item.SIGN_NUM != 0){
+						comPercentArr.push(accDiv(item.COM_NUM,item.SIGN_NUM)*100);
+					}else{
+						comPercentArr.push(0);
+					}
+					if(item.SIGN_NUM != 0){
+						prfPercentArr.push(accDiv(item.PRF_NUM,item.SIGN_NUM)*100);
+					}else{
+						prfPercentArr.push(0);
+					}			
 				})
+            	span6Text = accDiv(span4Text,span2Text)*100+"%";
+            	span7Text = accDiv(span5Text,span2Text)*100+"%";
             	//2.
             	yAxis =[ 
             	{
@@ -142,7 +169,7 @@
                     type: 'value',//右边
                     name: '百分比',
                     min: 0,
-                    //max: 30,
+                    max: 100,
                     //interval: 6,
                     axisLabel: {
                         formatter: '{value} %'
@@ -159,8 +186,18 @@
             	color = null;
             	//7.
             	myChart = echarts.init(document.getElementById('plotCont1'));
+            	//8.
+            	title = "11月派单、签约量统计";
             	//生成柱状图 
-            	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart);
+            	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
+            	//填充span数据 
+            	$("#span1").text(span1Text);
+            	$("#span2").text(span2Text);
+            	$("#span3").text(span3Text);
+            	$("#span4").text(span4Text);
+            	$("#span5").text(span5Text);
+            	$("#span6").text(span6Text);
+            	$("#span7").text(span7Text);
                 },
                 error: function (e, jqxhr, settings, exception) {
                 	   	 
