@@ -19,6 +19,8 @@ import com.centaline.trans.common.vo.AccsoryListVO;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 
+import jodd.util.StringUtil;
+
 @Service
 public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 
@@ -33,6 +35,29 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 
 	@Override
 	public List<ToAccesoryList> qureyToAccesoryList(ToAccesoryList toAccesoryList) {
+		return toAccesoryListMapper.qureyToAccesoryList(toAccesoryList);
+	}
+	@Override
+	public List<ToAccesoryList> qureyToAccesoryList(ToAccesoryList toAccesoryList,String caseCode) {
+		
+		List<ToAccesoryList> list = qureyToAccesoryList(toAccesoryList);
+		String partCode = toAccesoryList.getPartCode();//针对过户环节需要判断是无商贷、纯公积金、商贷
+		if(StringUtil.isNotBlank(partCode) && "Guohu".equals(partCode)){
+			List<ToAccesoryList> removeList = new ArrayList<ToAccesoryList>();
+			/*根据需求调整附件上传项目*/
+			ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+			for(ToAccesoryList tal:list) {
+				if((toMortgage == null || toMortgage.getMortType() == null) && (tal.getAccessoryName().equals("抵押登记表") || tal.getAccessoryName().equals("商贷利率页"))) {/*无贷款*/
+					removeList.add(tal);
+				} else if(toMortgage != null && "30016003".equals(toMortgage.getMortType()) && "商贷利率页".equals(tal.getAccessoryName())) {
+					removeList.add(tal);
+				}
+			}
+			for(ToAccesoryList tal:removeList) {
+				list.remove(tal);
+			}
+		}
+		
 		return toAccesoryListMapper.qureyToAccesoryList(toAccesoryList);
 	}
 

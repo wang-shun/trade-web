@@ -1352,10 +1352,10 @@ $(document).ready(function () {
 	 			}
 	 			return flag;
 	 		}else if(currentIndex == 3 ){
-	 			if(checkAttUp($(".att_first"),$("#mortgageForm"))){
+	 			/*if(checkAttUp($(".att_first"),$("#mortgageForm"))){
 	 				return deleteAndModify();
-	 			}
-	 			return false;
+	 			}*/
+	 			return true;
 	 		}
 
 	 		return true;
@@ -1424,10 +1424,10 @@ $(document).ready(function () {
  			}
  			return flag;
  		}else if(currentIndex == 3 ){
- 			if(checkAttUp($(".att_second"),$("#mortgageForm1"))){
+ 			/*if(checkAttUp($(".att_second"),$("#mortgageForm1"))){
  				return deleteAndModify();
- 			}
- 			return false;
+ 			}*/
+ 			return true;
  		}
  		
  		return true;

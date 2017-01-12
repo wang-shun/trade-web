@@ -1193,7 +1193,7 @@
 	<content tag="local_require">
     <script>
 	    require(['main'], function() {
-			requirejs(['aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid'],function(aistFileUpload){
+	    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
 			    aistFileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "TransSign",

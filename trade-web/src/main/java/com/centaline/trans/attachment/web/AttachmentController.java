@@ -212,7 +212,7 @@ public class AttachmentController {
 		if(!StringUtil.isBlank(toAttachment.getPreFileCode())){
 			property.setAccessoryCode(toAttachment.getPreFileCode());
 		}
-		List<ToAccesoryList> toAccesoryList = toAccesoryListService.qureyToAccesoryList(property);
+		List<ToAccesoryList> toAccesoryList = toAccesoryListService.qureyToAccesoryList(property,toAttachment.getCaseCode());
 		toAttachmentVO.setToAccesoryList(toAccesoryList);
 		toAttachment.setPreFileCode(null);
 		List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);

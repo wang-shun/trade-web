@@ -19,7 +19,11 @@ require.config({
     		"grid" : "js/plugins/jqGrid/i18n/grid.locale-en",
     		"jqGrid" : "js/plugins/jqGrid/jquery.jqGrid.min",
     		"ligerui" : "static/tbsp/js/ligerui/ligerui.all",   //选择人员组织弹出框依赖的js文件
-    		"steps" : "js/plugins/staps/jquery.steps.min"
+    		"steps" : "js/plugins/staps/jquery.steps.min",
+    		"aistJquery" : "js/plugins/aist/aist.jquery.custom",
+    		"modal" : "js/trunk/JSPFileUpload/bootstrap-modal",
+    		"modalmanager" : "js/trunk/JSPFileUpload/bootstrap-modalmanager",
+    		"twbsPagination" : "js/plugins/pager/jquery.twbsPagination.min"
     	}
     });
 

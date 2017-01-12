@@ -9,6 +9,7 @@ import com.centaline.trans.common.vo.AccsoryListVO;
 
 public interface ToAccesoryListService {
 	public List<ToAccesoryList> qureyToAccesoryList(ToAccesoryList toAccesoryList);
+	public List<ToAccesoryList> qureyToAccesoryList(ToAccesoryList toAccesoryList,String caseCode);
 	public String findAccesoryNameByCode(String accessoryCode);
 	public ToAccesoryList findAccesoryByCode(String accessoryCode);
 	public boolean saveAccesoryList(AccsoryListVO accsoryListVO);
