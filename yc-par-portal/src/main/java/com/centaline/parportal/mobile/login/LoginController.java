@@ -378,11 +378,12 @@ public class LoginController {
                                    + "(ID, USER_ID, REALNAME, USERNAME, LOGIN_TYPE, LOGIN_NAME, OPER_TYPE, OPER_HOST, "
                                    + "OPER_TIME, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, VERSION, IS_DELETED) "
                                    + "select replace(newid(),'-',''),u.id, u.real_name, u.username, 'yc-par-app',u.username, '','',"
-                                   + "getdate(),getdate(),'SYSTEM',getdate(),'SYSTEM', 0, '0' from sales.SYS_USER u  "
+                                   + "getdate(),getdate(),'SYSTEM',getdate(),'SYSTEM', 0, '0' from sctrans.SYS_USER u  "
                                    + "WHERE u.IS_DELETED ='0' and u.AVAILABLE='1' and u.username= ? ";
         try {
             jdbcTemplate.update(LOGGING_SQL, username);
         } catch (Exception e) {
+        	e.printStackTrace();
             logger.warn("error in logging logon history");
         }
     }
