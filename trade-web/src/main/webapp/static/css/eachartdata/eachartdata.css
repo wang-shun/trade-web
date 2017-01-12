@@ -191,6 +191,25 @@ p{
 	display:inline-block;
 	position:relative;
 }
+.total-month {
+	position: relative;
+	margin-left: 15px;
+	font-family: "Microsoft Yahei";
+}
+.total-month .iconfont {
+	position: absolute;
+	top: 8px;
+	right: 10px;
+	z-index: 1000;
+	color: #6fdafe;
+}
+.today {
+  color: #fff;
+}
+.today:hover {
+  color: #fff;
+  background-color: #f8ac59!important;
+}
 #examplesList{
 	display:none;
 	background: #282828;
@@ -272,7 +291,7 @@ p{
 }
 
 .echarsTable .tabletitle {
-	width: 68px;
+	width: 98px;
 	text-align: left;
 }
 
@@ -345,10 +364,10 @@ p{
 .total-data {
 	position: relative;
 }
-.total-data h3 {
-	color: #555;
-	font-size: 16px;
-	line-height: 22px;
+.total-data h3, .sum-data h3 {
+    margin: 0 0 6px 0;
+    font-size: 16px;
+    color: #555;
 }
 .total-data ul {
 	margin-top: 10px;
@@ -405,4 +424,84 @@ p{
 .seize-icon {
 	margin-top: 290px;
 	text-align: center;
+}
+
+
+/* 类型2表 */
+.sum-data {
+	position: relative;
+}
+.data-list li {
+    padding: 10px 0 12px 0px;
+    font-family: "Microsoft Yahei";
+    font-size: 14px;
+}
+.else-list li {
+	padding: 5px;
+}
+.sum-data ul li em{
+	display: inline-block;
+	width: 150px;
+}
+.sum-data ul li span{
+	display: inline-block;
+	margin-left: 0px;
+	font-size: 22px;
+	color: #81d8d0;
+}
+.sum-data ul li span.red{
+	color: #ff9695;
+}
+.data-border {
+	margin-top: 15px!important;
+	padding-top: 10px;
+	border-top: 1px solid #eee;
+}
+.else-table > tbody > tr {
+    height: 32px;
+}
+.ok-blue {
+	color: #4bccec;
+}
+
+.calendar-watch {
+	float: left;
+	margin-left: 15px;
+}
+.calendar-year {
+	float: left;
+	font-size: 16px;
+}
+.calendar-year em {
+	display: inline-block;
+	padding: 0px 8px;
+	height: 28px;
+	line-height: 28px;
+	background: #74dafc;
+	color: #fff;
+	font-size: 20px;
+	border-radius: 3px;
+}
+.calendar-year span {
+	margin: 0 3px;
+	font-size: 22px;
+}
+.calendar-month {
+	float: left;
+	margin-left: 12px;
+}
+.calendar-month span {
+	display: block;
+    float: left;
+    margin: 3px 5px 0;
+    padding: 5px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    border: 1px solid #eee;
+    cursor: pointer;
+}
+.select-blue {
+	color: #fff;
+	background-color: #74dafc;
+	border: 0 none!important;
 }

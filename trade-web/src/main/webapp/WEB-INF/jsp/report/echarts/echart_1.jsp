@@ -48,7 +48,9 @@
 	</div>
 
 	<!--*********************** HTML_main*********************** -->
-	<content tag="local_script"> <!-- Peity --> <!-- 组织控件 --> <script
+	<content tag="local_script"> <!-- Peity --> 
+	 <script src="${ctx}/js/jquery-2.1.1.js"></script>
+	 <script
 		src="${ctx}/js/jquery.blockui.min.js"></script> <script
 		src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> <script
 		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <!-- ECharts.js -->
@@ -62,7 +64,7 @@
 			// 指定图表的配置项和数据
 
 			$.ajax({
-				url : "http://10.4.19.211:3001/rest/v1/report/type1/GuoHuCount",
+				url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/Count",
 				method : "GET",
 				dataType : "json",
 				success : function(data) {
@@ -74,6 +76,7 @@
 						items.push(item);
 					});
 					var data = [ "无贷款", "纯公积金", "商业贷款" ];
+					var title="11月过户总量";
 					var option2 = returnPie(data, items, myChart1, null);
 				},
 				error:function(){}
@@ -82,17 +85,18 @@
 
 			// 使用刚指定的配置项和数据显示图表。
 			$.ajax({
-				url : "http://10.4.19.211:3001/rest/v1/report/type1/GuoHuCountBar",
+				url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/CountDistrict",
 				method : "GET",
 				dataType : "json",
 				success : function(data) {
 					if(data==null||data==undefined){
 						return;			
 					}
+					console.info(data);
 					var xAxisData=[];
 					var oldMonth=[];
 					var newMonth=[];
-					$.each(data.rows,function(i,item){
+					$.each(data,function(i,item){
 						xAxisData.push(item.name);
 						newMonth.push(item.currentMonth);
 						oldMonth.push(item.oldMonth);
@@ -103,14 +107,15 @@
 					var color=["#52bdbd","#ff9696"];
 					var yAxis =[ {
 						type : 'value',//左边
-						name : '数量',
+						name : '数量(单)',
 						min : 0,
 						interval : 50,
 						axisLabel : {
-							formatter : '{value} 单'
+							formatter : '{value}'
 						}
 					}];
-					returnBar(xAxisData,yAxis,legend,datas,type,color,myChart2);
+					var title="11月与10月过户量比较"
+					returnBar(xAxisData,yAxis,legend,datas,type,color,myChart2,);
 					},
 				error : function() {
 				}
