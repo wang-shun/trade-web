@@ -42,11 +42,6 @@
                             <div id="plotCont1" class="plot-leftone">
                             </div>
                             <table class="echarsTable">
-<<<<<<< HEAD
-                            <!-- 图表 -->
-=======
-                              
->>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
                             </table>
                         </div>
                         <div class="pull-left">
@@ -84,14 +79,9 @@
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
-<<<<<<< HEAD
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-=======
         <script src="${ctx }/js/eachartdata/select_month.js"></script>
-        <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
->>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
         <script>
-<<<<<<< HEAD
         /**
          * 案件统计详情
          */
@@ -104,7 +94,7 @@
         	
         	reloadGrid(data);
         });
-        console.log("6:"+ctx);
+
         function reloadGrid(data) {
         	$.ajax({
         		async: true,
@@ -117,7 +107,7 @@
 					alert("数据加载失败！");
 					return;			
 				}
-				console.dir(data);
+				
 				var xAxisData=[];
 				var yAxis = [];
             	var legend = [];
@@ -203,67 +193,5 @@
 
         }
         </script>
-=======
-		$(function() {
-            reload();
-            
-		})
-		function reload(){
-			// 基于准备好的dom，初始化echarts实例
-			var myChart1 = echarts.init(document.getElementById('plotCont1'));
-			// 使用刚指定的配置项和数据显示图表。
-			$.ajax({
-				async: true,
-				url : "http://10.4.19.211:3001/rest/v1/report/Sign/SignLoanAmoun",
-				method : "GET",
-				dataType : "json",
-				data:{
-					date:getDate()
-				},
-				success : function(data) {
-					if(data==null||data==undefined){
-						return;			
-					}
-					var xAxisData=[];
-					var contractPrice=[];
-					var comLoan=[];
-					var accLoan=[];
-					var comPercentage=[];
-					var accPercentage=[];
-					$.each(data,function(i,item){
-						xAxisData.push(item.name);
-						contractPrice.push(item.contractPrice);
-					    comLoan.push(item.comLoan);
-						accLoan.push(item.accLoan);
-						comPercentage.push(parseFloat(item.comPercentage));
-						accPercentage.push(parseFloat(item.accPercentage));
-					})
-					var datas=[contractPrice,comLoan,accLoan,comPercentage,accPercentage];
-					var legend= ["签贷合同价","商贷金额","公积金金额","商贷签贷占比","公积金金额占比"];
-					var type=["bar","bar","bar","line","line"];
-					var yAxis =[ {
-						type : 'value',//左边
-						name : '金额(万元)',
-						axisLabel : {
-							formatter : '{value}'
-						}
-					},{
-						type : 'value',//右边
-						name : '占比(%)',
-						axisLabel : {
-							formatter : '{value}'
-						}
-					}
-					
-					];
-					returnBar(xAxisData,yAxis,legend,datas,type,null,myChart1,"签约贷款金额占比");
-					},
-				error : function() {
-				}
-			});
->>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
-
-		}
-</script>
     </body>
 </html>

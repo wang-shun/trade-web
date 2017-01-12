@@ -41,11 +41,6 @@
                             <div id="plotCont1" class="plot-leftone">
                             </div>
                             <table class="echarsTable">
-<<<<<<< HEAD
-                            <!-- 图表 -->
-=======
-                               
->>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
                             </table>
                         </div>
                         <div class="pull-left">
@@ -55,18 +50,11 @@
                             </div>
                             <div class="plot-righttwo mt10 relative">
                                 <div class="total-data">
-<<<<<<< HEAD
-                                    <h3>11月过户总量</h3>
-                                    <ul class="data-list else-list">
-                                        <li><em>商贷贷款单数</em><span>469</span>单</li>
-                                        <li><em>商贷金额</em><span>92844</span>万元</li>
-=======
                                     <h3>签约贷款银行支行流向统计</h3>
                                     <ul class="total-list">
                                         <li><i class="iconfont mr5 al-yellow al-icon-22">&#xe643;</i>11月总量<span>1664</span>单</li>
                                         <li><i class="iconfont mr5 al-grey al-icon-22">&#xe643;</i>10月总量<span>1836</span>单</li>
                                         <li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>9%</span></li>
->>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
                                     </ul>
                                     <hr />
                                     <table class="table table-bordered text-center else-table">
@@ -133,12 +121,7 @@
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
-<<<<<<< HEAD
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-=======
-<script src="${ctx }/js/eachartdata/select_month.js"></script>
-        <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
->>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
         <script>
 <<<<<<< HEAD
         /**
@@ -227,53 +210,5 @@
 
         }
         </script>
-=======
-		$(function() {
-            reload();
-            
-		})
-		function reload(){
-			// 基于准备好的dom，初始化echarts实例
-			var myChart1 = echarts.init(document.getElementById('plotCont1'));
-			// 使用刚指定的配置项和数据显示图表。
-			$.ajax({
-				async: true,
-				url : "http://10.4.19.211:3001/rest/v1/report/Sign/SignLoanBranchBank",
-				method : "GET",
-				dataType : "json",
-				data:{
-					date:getDate()
-				},
-				success : function(data) {
-					if(data==null||data==undefined){
-						return;			
-					}
-					var xAxisData=[];
-					var totalAmount=[];
-					$.each(data,function(i,item){
-						xAxisData.push(item.name);
-						totalAmount.push(item.totalAmount);
-					})
-					var datas=[totalAmount];
-					var legend= ["总金额"];
-					var type=["bar"];
-					var yAxis =[ {
-						type : 'value',//左边
-						name : '金额(万元)',
-						axisLabel : {
-							formatter : '{value}'
-						}
-					}
-					
-					];
-					returnBar(xAxisData,yAxis,legend,datas,type,null,myChart1,"签约贷款银行支行流向统计");
-					},
-				error : function() {
-				}
-			});
->>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
-
-		}
-</script>
     </body>
 </html>

@@ -30,11 +30,7 @@
                                 <p class="calendar-year">
                                     <a href="#" id="subtract"><em>&lt;</em></a>
                                     <span>2016</span>
-<<<<<<< HEAD
-                                    <a href="#"  id="add"><em>&gt;</em></a>
-=======
                                     <a href="#" id="add"><em>&gt;</em></a>
->>>>>>> branch 'develop' of http://git.centaline.com/trade-group/trade-web.git
                                 </p>
                                 <p class="calendar-month">
                                     <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
