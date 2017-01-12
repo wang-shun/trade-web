@@ -394,7 +394,7 @@ text-decoration: underline !important;
 						<td >
 {{if item.CASE_ORIGIN == 'MERGE'}}
 {{if item.STATUS == '已过户' || item.STATUS == '已领证' }}
-ts('{{item.STATUS}}');
+<a href="javascript:ts('{{item.STATUS}}')">
 {{else}}
 <a href="javascript:showGlDiv('backCaseMERGE','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
 {{/if}}
