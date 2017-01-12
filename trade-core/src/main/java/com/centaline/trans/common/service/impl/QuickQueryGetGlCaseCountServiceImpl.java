@@ -30,8 +30,7 @@ public class QuickQueryGetGlCaseCountServiceImpl implements CustomDictService{
 			"	left join sctrans.T_TO_PROPERTY_INFO t on i.CASE_CODE=t.CASE_CODE                                       "+
 			"	inner join sctrans.T_TO_CASE c on i.CASE_CODE=c.CASE_CODE                                               "+
 			"	where                                                                                                   "+
-			"		  c.CREATE_BY='ctm_proc'                                                                            "+
-			"		  and c.CREATE_TIME >DATEADD(mm,-6,GETDATE())                                                       "+
+			"		   c.CREATE_TIME >DATEADD(mm,-6,GETDATE())                                                       "+
 			"		  and c.CREATE_TIME > cast(substring('2016-12-28 00:00:00.000',0,19) as datetime)                   "+
 			"		  and (c.STATUS !='30001005'  and c.STATUS!='30001004')                                             "+
 			"	    and c.CASE_ORIGIN != 'CTM'  and c.CASE_ORIGIN !='PROCESS'									        "+
