@@ -273,6 +273,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    	  }
 		    	
 		    	  var templeteId = settings.templeteId;
+		    	  
 		    	  $.ajax({
 						type : 'post',
 						cache : false,
