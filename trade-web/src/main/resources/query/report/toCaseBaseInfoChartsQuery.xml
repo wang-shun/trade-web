@@ -21,36 +21,100 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="querySignFaceList" cacheCount="true">
-	    <searchCondition>
-	        
+	<query id="queryDispatchSignList" cacheCount="true">
+	    <searchCondition>        
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 				select main.DISTRICT_ID,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) &lt; '2017-1-11') DISPATCH_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) &lt; '2017-1-11') SIGN_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) &lt; '2017-1-11') GUOHU_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.SIGN_TIME ,120) &lt; '2017-1-11' and d.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.SIGN_TIME ,120) &lt; '2017-1-11' and e.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = '2016-11') DISPATCH_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = '2016-11') SIGN_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = '2016-11') GUOHU_NUM,
+				(select sum(d.mortgaget_total_amount) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.SIGN_TIME ,120) = '2016-11') TOTAL_AMOUNT,
+				(select sum(e.mortgaget_com_amount) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.SIGN_TIME ,120) = '2016-11' and e.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_AMOUNT,
+				(select sum(f.mortgaget_prf_amount) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.SIGN_TIME ,120) = '2016-11' and f.MORTGAGE_LOAN_TYPE = '30016003') PRF_AMOUNT,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.SIGN_TIME ,120) = '2016-11' and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.SIGN_TIME ,120) = '2016-11' and h.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main				
 	            ]]>
 			</baseSql>
 			<orderBySql>
 			</orderBySql>
 			<groupSql>
-			group by main.district_id
+			group by main.district_id;
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="district_id" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="dispatch_num" index="" checkbox="" title="派单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="90" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="sign_num" index="" checkbox="" title="签约量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="180" align="" halign="" order="" resizable=""/>
-				<column type="both" name="guo_num" index="" checkbox="" title="过户量" expType="Integer" customDict="" sysDict="" beanFormatter="numberFormater" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="com_num" index="" checkbox="" title="商贷量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" align="" halign="" order="" resizable="" />
-				<column type="both" name="prf_num" index="" checkbox="" title="纯公积金量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" align="" halign="" order="" resizable="" />						
+				<column type="both" name="DISTRICT_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="DISTRICT_NAME" index="" checkbox="" display="主管" customDict="qqcdOrgIdName" referencecol="DISTRICT_ID"/>
+				<column type="both" name="DISPATCH_NUM" index="" checkbox="" title="派单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_NUM" index="" checkbox="" title="签约量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>
+				<column type="both" name="GUOHU_NUM" index="" checkbox="" title="过户量" expType="Integer" customDict="" sysDict="" beanFormatter="integerFormater" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="COM_NUM" index="" checkbox="" title="商贷量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="PRF_NUM" index="" checkbox="" title="纯公积金量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="60" align="" halign="" order="" resizable="" />						
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="querySignBankList" cacheCount="true">
+	    <searchCondition>        
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				select 
+                t.FA_FIN_ORG_CODE,
+				sum(main.MORTGAGET_TOTAL_AMOUNT) CONTRACT_AMOUNT,
+				count(1) SIGN_NUM
+				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main 
+				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE	
+                where convert(varchar(7),main.SIGN_TIME ,120) = '2016-11' 
+                and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
+	            ]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			group by t.FA_FIN_ORG_CODE;
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" title="银行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="FIN_ORG_NAME_YC" index="" checkbox="" display="银行简写名" customDict="" referencecol="FA_FIN_ORG_CODE"/>
+				<column type="both" name="CONTRACT_AMOUNT" index="" checkbox="" title="总金额" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_NUM" index="" checkbox="" title="总单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>					
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="querySignBranchBankList" cacheCount="true">
+	    <searchCondition>        
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				select 
+				main.MORTGAGET_FIN_ORG_CODE,
+				sum(main.MORTGAGET_TOTAL_AMOUNT) CONTRACT_AMOUNT
+				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
+                where convert(varchar(7),main.SIGN_TIME ,120) = '2016-11' 
+                and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
+	            ]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			group by main.MORTGAGET_FIN_ORG_CODE;
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="MORTGAGET_FIN_ORG_CODE" index="" checkbox="" title="支行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="FIN_ORG_NAME_YC" index="" checkbox="" display="支行简写名" customDict="" referencecol="MORTGAGET_FIN_ORG_CODE"/>
+				<column type="both" name="CONTRACT_AMOUNT" index="" checkbox="" title="总金额" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="90" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
