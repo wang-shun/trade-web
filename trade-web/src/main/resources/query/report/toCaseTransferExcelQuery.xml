@@ -97,7 +97,7 @@
 							M.SELF_DEL_REASON, 
 							HT. USE_CARD_PAY,
 							HT.CARD_PAY_AMOUNT,
-							(SELECT TOP 1 AT.END_TIME_ FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE ORDER BY AT.END_TIME_ DESC) TRANSFERDATE,
+							(SELECT TOP 1 AT.START_TIME_ FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE ORDER BY AT.START_TIME_ ASC) TRANSFERDATE,
 							(SELECT TOP 1 AT.END_TIME_ FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='GuohuApprove'  AND AT.PROC_INST_ID_= W.INST_CODE ORDER BY AT.END_TIME_ DESC) CASETRANSFERDATE,
 							V.LONG_ AS status,
 							(SELECT TOP 1 U.REAL_NAME FROM SCTRANS.SYS_USER U WHERE U.ID=(SELECT  TOP 1 OPERATOR from  SCTRANS.T_TO_APPROVE_RECORD ar1  WHERE  ar1.PART_CODE='GuohuApprove'  and ar1.CASE_CODE=C.CASE_CODE ORDER BY  ar1.OPERATOR_TIME DESC)) AS ASSESSOR,
@@ -140,10 +140,10 @@
 								FROM  SCTRANS.ACT_HI_TASKINST AT 
 								WHERE AT.TASK_DEF_KEY_='Guohu'  AND  AT.PROC_INST_ID_= W.INST_CODE
 									<if test="transferDateStart != null  and transferDateStart != '' "> 							
-										AND AT.END_TIME_ &gt;= #transferDateStart#	
+										AND AT.START_TIME_ &gt;= #transferDateStart#	
 									</if>	
 									<if test="transferDateEnd != null  and transferDateEnd != '' "> 	
-										AND AT.END_TIME_ &lt;= #transferDateEnd#
+										AND AT.START_TIME_ &lt;= #transferDateEnd#
 									</if>										
 									AND AT.ID_=(
 										SELECT MAX(ID_) FROM SCTRANS.ACT_HI_TASKINST AT2 

@@ -114,10 +114,11 @@ function getExplPicByhouseCode() {
 		success : function(data) {
 			//将返回的数据进行包装
 			$.each(data.accList, function(indexAcc, accValue){
+				//data.accList 对应某个环节应该上传的附件记录
 				//实勘描述				
 				var trStr = "";
 				$.each(data.attList,function(index, value) {
-				
+					//data.attList  caseCode数据库中对应的附件信息  在案件进行贷款变更的时候，二者的数量会不相同
 					if(value.preFileCode==accValue.accessoryCode){				
 						dataLength++;
 						trStr+="<div id='picContainers"+value.pkid+"' name=\"allPicDiv\" class=\"template-download fade row-fluid span2 in\" style=\"height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;text-align:center;border-radius:4px;float:left;\">";
@@ -430,9 +431,12 @@ function checkAttachmentForLoanLost(loanLostConfirmCode){
 //保存
 function deleteAndModify(){
 	caseCode = $("#caseCode").val();
-	var picDiv=$("div[name='allPicDiv1']");
+	var picDiv=$("div[name='allPicDiv']");
+	var picDiv1=$("div[name='allPicDiv1']");
+	var picLength = picDiv.length+picDiv1.length;
+	
     //所选图片和上传的图片的数目要相同
-    if(picDiv.length>0){
+    if(picLength>0){
     	//获取已知文件类型的长度   已保存的文件数量
 		var input=$("input[name='pic']");
 		//图片的ID 新增的文件数量

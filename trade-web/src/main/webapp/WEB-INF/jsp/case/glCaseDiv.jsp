@@ -308,7 +308,9 @@ function changeTaskAssignee(page,propertyCode){
 		        initpagef(data.total,data.pagesize,data.page, data.records);
 		        $("#myModalsa").modal("show");
 			}else{
-				
+				/*hotfix/1.2.3上的代码
+				alert("没有查询到可以合流的案件！");
+				*/
 				var callback = $("#myModalsa").attr("callback");
 				if("backCaseMERGE"==callback){
 					alert("没有找到可以拆分的案件！");

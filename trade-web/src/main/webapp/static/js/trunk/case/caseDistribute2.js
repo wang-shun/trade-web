@@ -553,30 +553,16 @@ function changeCaseTeam(){
 		
 		var caseInfoList = new Array();
 		var checkeds=$('input[name="my_checkbox"]:checked');
-		$.each(checkeds, function(i, items){
-			var $myCheckbox = $('input[name="my_checkbox"]:checked:eq('+i+')');
-			var $caseCode = $myCheckbox.next('input[name="case_code"]');
-			var $grpCode  = $caseCode.next('input[name="yu_team_code"]');
-			var $leadingProcessId  = $grpCode.next('input[name="leading_process_id"]');
-			
+		$.each(checkeds, function(i, item){
+			var $td = $(item).parent();
 			var toCaseInfo = {
-				caseCode : $caseCode.val(),
-				grpCode : $grpCode.val(),
-				requireProcessorId:$leadingProcessId.val()
-			}
+					caseCode :$('input[name="case_code"]',$td).val(),
+					grpCode :$('input[name="yu_team_code"]',$td).val(),
+					requireProcessorId:$('input[name="leading_process_id"]',$td).val()
+				}
 			caseInfoList.push(toCaseInfo);
-			
 		});
-		//var ids = $("#table_list_1").jqGrid('getGridParam',"selarrrow");
-		//var ids = jQuery("#table_list_1").jqGrid('getDataIDs');
-//		for (var i = 0; i < ids.length; i++) {
-//		   var row = $("#table_list_1").getRowData(ids[i]);
-//		   var toCaseInfo = {
-//			   caseCode	: row.CASE_CODE  ,
-//			   grpCode :  row.YU_TEAM_CODE
-//		   }
-//		   caseInfoList.push(toCaseInfo);
-//		}
+
 		var teamTransferVO = {
 		   caseInfoList	: caseInfoList,
 		   orgId : orgId
