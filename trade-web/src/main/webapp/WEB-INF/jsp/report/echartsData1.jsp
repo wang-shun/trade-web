@@ -28,12 +28,12 @@
                             <h3 class="content-title pull-left">过户数据统计</h3>
                             <div class="calendar-watch clearfix">
                                 <p class="calendar-year">
-                                    <a href="#"><em>&lt;</em></a>
+                                    <a href="#" id="subtract"><em>&lt;</em></a>
                                     <span>2016</span>
-                                    <a href="#"><em>&gt;</em></a>
+                                    <a href="#" id="add"><em>&gt;</em></a>
                                 </p>
                                 <p class="calendar-month">
-                                    <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
+                                    <span>1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
                                 </p>
                             </div>
                         </div>
@@ -74,15 +74,17 @@
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
         <script src="${ctx}/static_res/js/echarts.min.js"></script>
-        <script src="${ctx}/js/eachartdata/echartsdata.js"></script>
         <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
+         <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script>
 		$(function() {
+           reload();
+		})
+				function reload(){
 			// 基于准备好的dom，初始化echarts实例
 			var myChart1 = echarts.init(document.getElementById('plotCont1'));
 			var myChart2 = echarts.init(document.getElementById('plotCont2'));
 			// 指定图表的配置项和数据
-
 			$.ajax({
 				url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/Count",
 				method : "GET",
@@ -112,7 +114,6 @@
 					if(data==null||data==undefined){
 						return;			
 					}
-					console.info(data);
 					var xAxisData=[];
 					var oldMonth=[];
 					var newMonth=[];
@@ -140,8 +141,8 @@
 				}
 			});
 
-		})
-				
+			
+		}
       /*       echartData("plotCont1");
             echartSet("plotCont2"); */
         </script>
