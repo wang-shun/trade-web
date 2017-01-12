@@ -17,7 +17,8 @@ require.config({
     		"valid" : "js/trunk/task/taskTransSign.validate",
     		"m" : "js/plugins/validate/common/messages_zh",
     		"grid" : "js/plugins/jqGrid/i18n/grid.locale-en",
-    		"jqGrid" : "js/plugins/jqGrid/jquery.jqGrid.min"
+    		"jqGrid" : "js/plugins/jqGrid/jquery.jqGrid.min",
+    		"ligerui" : "static/tbsp/js/ligerui/ligerui.all"   //选择人员组织弹出框依赖的js文件
     	}
     });
 
