@@ -120,7 +120,7 @@
                     <div class="ibox-content" id="case_info">
                         <div class="main_titile" style="position: relative;">
                             
-                            <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal">关联案件</button></h5>
+                            <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal" onClick="showPop();">关联案件</button></h5>
 						    <div class="case_content" ${empty caseCode?'style="display:none;"':''}>
 						    
                            <div class="case_row">
@@ -1113,7 +1113,10 @@
    					    			$("input[name='toSpvProperty.prAddr']").val(caseInfoMap['propertyAddr']);
    					    		
    								$('.case_content').show();
-   								$('#myModal').modal('hide');
+   								$(".close").click();
+   								$(".modal-backdrop").hide();
+   								
+   								//$('#myModal').modal('hide');
    					        }else{
    					        	alert(data.message);
    					        }		    		
@@ -1127,7 +1130,12 @@
    	       });
    	     });		   
         });
-
+        
+        function showPop(){
+        	$("#myModal").show();
+			$(".modal-backdrop").show();
+        }
+        
         function reloadGrid() {
         	var data = {};
         	var propertyAddr = $.trim($("#propertyAddr").val());
@@ -1419,16 +1427,16 @@
 		<content tag="local_require">
 	       <script>
 			    require(['main'], function() {
-					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui'],function($,aistFileUpload){
+					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
 					    aistFileUpload.init({
 				    		caseCode : $('#caseCode').val(),
 				    		partCode : "SpvApplyApprove",
 				    		fileUploadContainer : "fileUploadContainer"
-				    	}); 
+				    	});
 				    });
 			    });
 			</script>
-	    </content>
+	    </content>     
 
 </body>
 

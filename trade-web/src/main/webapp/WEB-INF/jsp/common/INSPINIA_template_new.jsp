@@ -154,7 +154,7 @@
     </div>
 
     <!-- Mainly scripts -->
-    <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
+    <script src="${ctx}/js/jquery-2.1.1.js"></script>
     <script src="${ctx}/static/js/bootstrap.min.js"></script>
     <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>

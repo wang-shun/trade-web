@@ -286,7 +286,7 @@ $("#materialApplyUser").click(function() {
 <content tag="local_require">
     <script>
 	    require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui'],function($,aistFileUpload){
+			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
 			    aistFileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "CustomerConfirmation",

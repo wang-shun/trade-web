@@ -23,7 +23,8 @@ require.config({
     		"aistJquery" : "js/plugins/aist/aist.jquery.custom",
     		"modal" : "js/trunk/JSPFileUpload/bootstrap-modal", //为解决弹出框引入的js文件
     		"modalmanager" : "js/trunk/JSPFileUpload/bootstrap-modalmanager", //为解决弹出框引入的js文件
-    		"twbsPagination" : "js/plugins/pager/jquery.twbsPagination.min"
+    		"twbsPagination" : "js/plugins/pager/jquery.twbsPagination.min",
+    		"bootstrapModal" : "js/bootstrap-modal"
     	}
     });
 

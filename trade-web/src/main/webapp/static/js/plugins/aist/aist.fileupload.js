@@ -274,46 +274,52 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    	
 		    	  var templeteId = settings.templeteId;
 		    	  
-		    	  $.ajax({
-						type : 'post',
-						cache : false,
-						async : true,//false同步，true异步
-						dataType : 'json',
-						url : ctx+'/attachment/queryNewAttachment',
-						data : [{
-							name : 'caseCode',
-							value : caseCode
-						},{
-							name : 'bizCode',
-							value : bizCode
-						},{
-							name : 'partCode',
-							value : partCode
-						},{
-							name : 'available',
-							value : available
-						},{
-							name : 'preFileCode',
-							value : preFileCode
-						}],
-						dataType : "json",
-						success : function(data) {
-						  
-							var fileuploadHtml = createTempleteHtml(settings,data);
-							$("#"+settings.fileUploadContainer).empty();
-							$("#"+settings.fileUploadContainer).html(fileuploadHtml);
-			                
-			                if(webUploader!=null && webUploader!=''){
-			                	webUploader.destroy();
-			                }
-			                initWebUploader(settings);
-            
-						},		
-						error : function(errors) {
-							alert("产调加载失败");
-							return false;
+    		  $.ajax({
+					type : 'post',
+					cache : false,
+					async : true,//false同步，true异步
+					dataType : 'json',
+					url : ctx+'/attachment/queryNewAttachment',
+					data : [{
+						name : 'caseCode',
+						value : caseCode
+					},{
+						name : 'bizCode',
+						value : bizCode
+					},{
+						name : 'partCode',
+						value : partCode
+					},{
+						name : 'available',
+						value : available
+					},{
+						name : 'preFileCode',
+						value : preFileCode
+					}],
+					dataType : "json",
+					success : function(data) {
+						
+						//如果没有案件编号，就将图片列表置为空
+						if(caseCode == null || caseCode == ""){
+							data.attachmentList = "";
 						}
-					});
+						
+						var fileuploadHtml = createTempleteHtml(settings,data);
+						$("#"+settings.fileUploadContainer).empty();
+						$("#"+settings.fileUploadContainer).html(fileuploadHtml);
+		                
+		                if(webUploader!=null && webUploader!=''){
+		                	webUploader.destroy();
+		                }
+		                initWebUploader(settings);
+        
+					},		
+					error : function(errors) {
+						alert("产调加载失败");
+						return false;
+					}
+				});
+		    	 
 		      };
 		      
 		      createTempleteHtml = function(settings,data) {

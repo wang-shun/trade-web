@@ -557,7 +557,7 @@
 <content tag="local_require">
     <script>
 	    require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui'],function($,aistFileUpload){
+			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
 			    aistFileUpload.init({
 		    		caseCode : $('.form_list #caseCode').val(),
 		    		partCode : "RiskControl_Mortgage",
