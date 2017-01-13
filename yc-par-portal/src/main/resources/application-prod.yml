@@ -10,7 +10,7 @@ shiroConfig.sessionUserCookie:
 shiroConfig.shiroFilter:
   loginUrl: http://sso.sh.centaline.com.cn/aist-sso-web/login?service=http://a.sh.centanet.com/partner/cas
   successUrl: /
-  unauthorizedUrl: ttp://a.sh.centanet.com/partner
+  unauthorizedUrl: http://a.sh.centanet.com/partner
   filterChainDefinitionMap:
     /casFailure.jsp: anon
     /cas: cas
@@ -40,7 +40,7 @@ shiroConfig.logouFilter:
 casRealm:
   casService: a.sh.centanet.com/partner/cas
   casServerUrlPrefix: http://sso.sh.centaline.com.cn/aist-sso-web
-# Server settings (ServerProperties)
+# Server settings (ServerProperties Spring boot)
 server:
   port: 8090
   #address: 127.0.0.1
@@ -49,18 +49,14 @@ server:
 #数据源
 dataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://10.4.19.11;databaseName=sctrans_prd;applicationName=tradeprod
-  username: centaagency
-  password: C1nta@gency
+  url: jdbc:sqlserver://10.4.19.11;databaseName=sctrans_prd;applicationName=partnetprd
   maxActive: 250
   initialSize: 50
   filters: stat
 #数据源
 readOnlyDataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://10.4.19.89;databaseName=sctrans_prd;applicationName=tradeprod;ApplicationIntent=ReadOnly
-  username: centaagency
-  password: C1nta@gency
+  url: jdbc:sqlserver://10.4.19.89;databaseName=sctrans_prd;applicationName=partnetprd;ApplicationIntent=ReadOnly
   maxActive: 350
   initialSize: 50
   filters: stat
