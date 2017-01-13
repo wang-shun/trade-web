@@ -52,10 +52,8 @@
                             <div class="plot-righttwo mt10 relative">
                                 <div class="total-data">
                                     <h3 id="list_title"></h3>
-                                    <ul class="total-list">
-                                        <li><i class="iconfont mr5 al-yellow al-icon-22">&#xe643;</i>11月总量<span>1664</span>单</li>
-                                        <li><i class="iconfont mr5 al-grey al-icon-22">&#xe643;</i>10月总量<span>1836</span>单</li>
-                                        <li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>9%</span></li>
+                                    <ul class="total-list" id="list_chart">
+
                                     </ul>
                                 </div>
                                 <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
@@ -85,18 +83,12 @@
 			var myChart2 = echarts.init(document.getElementById('plotCont2'));
 
             window.ECHART_LOAD_DATA.getDistrict();//初始化区域
-            window.ECHART_LOAD_DATA.getBarChart(myChart1);
-//            getPieDate(myChart2);//获取当月的饼图数据
-//            //生成饼图
-//            var pie_color=["#BFD8FF","#ff9696","#FFD480"];
-//            var data = [ "无贷款", "纯公积金", "商业贷款" ];
-//           returnPie(data, pie_items, myChart2, pie_color,pie_title);
-
-
+            window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表
+            window.ECHART_LOAD_DATA.buildPieChart(myChart2);//生成饼图报表
+            window.ECHART_LOAD_DATA.buildListChart('list_chart');//生成饼图报表
 		})
 				
-      /*       echartData("plotCont1");
-            echartSet("plotCont2"); */
+
         </script>
 
     </body>
