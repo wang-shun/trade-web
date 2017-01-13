@@ -512,7 +512,6 @@
 			}
 		}
 		function checkAttachments() {
-			var $ul = $("#guohufileUploadContainer ul");
 			$.each($("#guohufileUploadContainer ul"), function(index, value){
 				
 				var length = $(this).find("li").length;

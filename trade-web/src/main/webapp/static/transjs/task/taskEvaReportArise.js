@@ -119,23 +119,23 @@
 	    			caption:"新增报告",	
 	    			onClickButton: function (){ 
 	    				getEvaCompany();
-	    				getAttchInfo();
+	    				//getAttchInfo();
 	    				$("#modal-form-report").modal('show');
 	    		}
 	    });
 	}
 	function checkReportAtt(){
 		var flag = true;
-		for(var i=1;i<4;i++){
-			var length = $("#picContainer"+i).find("img").length;
+		$.each($("#offlineEvafileUploadContainer ul"), function(index, value){
+			var length = $(this).find("li").length;
 			if(length == 0) {
 				alert("备件未完全上传！");
 				flag = false;
-				break;
+				return false;
 			} else {
 				flag = true;
 			}
-		}
+		});
 		return flag;
 	}
 	var index = 0;
@@ -178,19 +178,19 @@
 		}
 	    
 	    $("#reportSubBtn").click(function(){
-	    	if(getUploadPicInfo()){
+	    	/*if(getUploadPicInfo()){
 	    		return;
 	    	};
 	    	if(attachmentIds.length==0&&preFileAdress.length==0){
 	    		alert("图片数据不能为空！");
 	        	return;
-	    	}
-	       	var picDiv=$("div[name='allPicDiv1']");
+	    	}*/
+	       	/*var picDiv=$("div[name='allPicDiv1']");
 		    var spans =$("input[name='preFileAdress']");
 		    if(spans.length < picDiv.length) {
 		    	alert("你有未上传的完成的文件，请稍候再试！");
 		    	return;
-		    }
+		    }*/
 	    	if(!checkReportAtt()){
 	    		return;
 	    	}
