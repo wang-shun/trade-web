@@ -94,7 +94,10 @@ public class ToMortgageController {
 		try{
 			ToMortgage mortgage = toMortgageService.findToMortgageByCaseCodeWithCommLoan(toMortgage);
 			// 分行支行
-			String finOrgCodeString = mortgage.getFinOrgCode();
+			String finOrgCodeString = "";
+			if(null != mortgage){
+				 finOrgCodeString = mortgage.getFinOrgCode();
+			}			
 			if (!StringUtils.isEmpty(finOrgCodeString)) {
 				TsFinOrg bank = tsFinOrgService.findBankByFinOrg(finOrgCodeString);
 				 mortgage.setBankName(bank.getFinOrgName());
