@@ -5,18 +5,18 @@ $(function() {
     $("#subtract").click(function(){
     	var year=$(".calendar-year span").html();
     	$(".calendar-year span").html(year-1);
-    	reload();
+    	reloadGrid();
     })
      $("#add").click(function(){
     	var year=$(".calendar-year span").html();
     	$(".calendar-year span").html(Number(year)+1);
-    	reload();
+    	reloadGrid();
     })
      //点击变换颜色&&默认当前月份
     var $month_list = $(".calendar-month span");
     $month_list.on("click",function() {
         $(this).addClass("select-blue").siblings().removeClass('select-blue');
-        reload();
+        reloadGrid();
     });
     var monthnow = function (){
         var now   = new Date();

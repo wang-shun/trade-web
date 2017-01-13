@@ -341,7 +341,7 @@ p{
 .plot-leftone {
 	width:100%;
 	height:400px;
-	margin-left:20px;
+	/* margin-left:20px; */
 }
 
 .plot-rightone, .plot-righttwo {

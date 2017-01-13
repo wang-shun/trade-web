@@ -97,6 +97,8 @@
 		<pattern>/caseMerge/caseRecord</pattern>
 	</decorator>
 	<decorator name="noTemplate">
+		<pattern>/report/guoHuReport</pattern>
+		<pattern>/report/signReport</pattern>
 	    <pattern>/report/charts</pattern>
 		<pattern>/report/echartsData1</pattern>
 		<pattern>/report/echartsData2</pattern>

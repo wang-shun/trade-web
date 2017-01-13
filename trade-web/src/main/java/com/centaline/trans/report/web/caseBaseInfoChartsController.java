@@ -34,7 +34,7 @@ public class caseBaseInfoChartsController {
 		return "report/case_baseinfo_charts";
 		
 	}
-	@RequestMapping(value = "guoHuReport")
+/*	@RequestMapping(value = "guoHuReport")
 	public String guoHuReport(Model model, ServletRequest request){
 		
 		return "report/echartGuoHu";		
@@ -101,5 +101,86 @@ public class caseBaseInfoChartsController {
 		String ctx = app.genAbsoluteUrl();
 		request.setAttribute("ctx", ctx);
 		return "report/echartsData8";
+	}*/
+	/**********************新链接************************************/
+	@RequestMapping(value = "guoHuReport")
+	public String guoHuReportCharts(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsReport/case_GuoHu_charts";
+		
 	}
+	@RequestMapping(value = "signReport")
+	public String signReportCharts(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsReport/case_Sign_charts";
+		
+	}
+	@RequestMapping(value = "echartsData1")
+	public String queryChart1(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsReport/echartsData1";		
+	}
+	
+	@RequestMapping(value = "echartsData2")
+	public String queryChart2(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsReport/echartsData2";	
+	}
+	
+	@RequestMapping(value = "echartsData3")
+	public String queryChart3(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsData3";
+	}
+	
+	@RequestMapping(value = "echartsData4")
+	public String queryChart4(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsData4";
+	}
+	
+	@RequestMapping(value = "echartsData5")
+	public String queryChart5(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsReport/echartsData5";
+	}
+	
+	@RequestMapping(value = "echartsData6")
+	public String queryChart6(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsReport/echartsData6";
+	}
+	
+	@RequestMapping(value = "echartsData7")
+	public String queryChart7(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsReport/echartsData7";
+	}
+	
+	@RequestMapping(value = "echartsData8")
+	public String queryChart8(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/echartsReport/echartsData8";
+	}
+	
 }
