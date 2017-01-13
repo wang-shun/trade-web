@@ -21,8 +21,8 @@ require.config({
     		"ligerui" : "static/tbsp/js/ligerui/ligerui.all",   //选择人员组织弹出框依赖的js文件
     		"steps" : "js/plugins/staps/jquery.steps.min",
     		"aistJquery" : "js/plugins/aist/aist.jquery.custom",
-    		"modal" : "js/trunk/JSPFileUpload/bootstrap-modal",
-    		"modalmanager" : "js/trunk/JSPFileUpload/bootstrap-modalmanager",
+    		"modal" : "js/trunk/JSPFileUpload/bootstrap-modal", //为解决弹出框引入的js文件
+    		"modalmanager" : "js/trunk/JSPFileUpload/bootstrap-modalmanager", //为解决弹出框引入的js文件
     		"twbsPagination" : "js/plugins/pager/jquery.twbsPagination.min"
     	}
     });

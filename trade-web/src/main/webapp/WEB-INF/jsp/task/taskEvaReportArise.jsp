@@ -130,126 +130,10 @@
 							</div>
 						</div>
 						</form>
-
+						
 						<div class="form-group">
-							<%for(int j=1;j<4;j++) {%>
-							<div class="ibox-content">
-								<%if(j==1){ %>
-								<h5>身份证</h5>
-								<%}else if(j==2) {%>
-								<h5>房产证</h5>
-								<%}else{ %>
-								<h5>购房合同</h5>
-								<%} %>
-								<div class="" id="fileupload_div_pic<%=j%>">
-									<form id="fileupload"
-										action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-										method="POST" enctype="multipart/form-data">
-										<noscript>
-											<input type="hidden" name="redirect"
-												value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-											<input type="hidden" id="preFileCode" name="preFileCode"
-												value="<%=j%>">
-										</noscript>
-										<h5 align="left"></h5>
-										<div class="row-fluid fileupload-buttonbar">
-											<div class="" style="height: auto">
-												<div role="presentation" class="table table-striped "
-													style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-													<div id="picContainer<%=j %>" class="files"
-														data-toggle="modal-gallery"
-														data-target="#modal-gallery"></div>
-													<span class=" fileinput-button "
-														style="margin-left: 0 !important; width: 80px;">
-														<div id="chandiaotuBtn" class=""
-															style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-															<i class="fa fa-plus"></i>
-														</div> <input id="picFileupload<%=j %>" type="file"
-														name="files[]" multiple
-														data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-														data-sequential-uploads="true">
-													</span>
-												</div>
-											</div>
-										</div>
-									</form>
-								</div>
-
-								<div class="row-fluid">
-									<div class="">
-										<script id="templateUpload<%=j %>" type="text/x-tmpl">
-											{% for (var i=0, file; file=o.files[i]; i++) { %}
-												<div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-
-													<div class="preview"><span class="fade"></span></div>
-
-													{% if (file.error) { %}
-														<div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-													{% } else if (o.files.valid && !i) { %}
-
-														<div class="start span1" style="display: none">
-														{% if (!o.options.autoUpload) { %}
-															<button class="btn">
-																<i class="icon-upload icon-white"></i>
-																<span>上传</span>
-															</button>
-														{% } %}
-														</div>
-													{% } else { %}
-														<div class="span1" colspan="2"></div>
-													{% } %}
-													<div class="cancel" style="margin-top:-172px;margin-left:85%;">
-													{% if (!i) { %}
-														<button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-															<i class="icon-remove"></i>
-														</button>
-													{% } %}
-													</div>
-												</div>
-											{% } %}
-										</script>
-										<script id="templateDownload<%=j %>" type="text/x-tmpl">
-											{% for (var i=0, file; file=o.files[i]; i++) { %}
-												<div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-													{% if (file.error) { %}
-														<div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-													{% } else { %}
-														<div class="preview span12">
-														<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-														<input type="hidden" name="picTag" value="<%=j%>"></input>
-														<input type="hidden" name="picName" value="{%=file.name%}"></input>
-														{% if (file.thumbnail_url) { %}
-															<img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="height:80px;width:80px">
-														{% } %}</div>
-														<div class="name" style="display: none">
-															<a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-														</div>
-													{% } %}
-													<div class="delete span2" style="margin-left:85%;margin-top:-179px;">
-													   <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
-															<i class="icon-remove"></i>
-														</button>
-													</div>
-												</div>
-											{% } %}
-										</script>
-									</div>
-								</div>
-
-								<div class="row-fluid" style="display: none;">
-									<div class="span4">
-										<div class="control-group">
-											<a class="btn blue start" id="startUpload"
-												style="height: 30px; width: 50px"> <i
-												class="icon-upload icon-white"></i> <span>上传</span>
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<%} %>
+							<div class="table-box" id="offlineEvafileUploadContainer"></div>
 						</div>
-
 							<input type="button" class="btn btn-success" id="reportSubBtn" value="保存">
 
 						</div>
@@ -312,6 +196,19 @@
 	}
 	</script>
 </content>
+<content tag="local_require">
+    <script>
+	    require(['main'], function() {
+	    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+			    aistFileUpload.init({
+		    		caseCode : $('#caseCode').val(),
+		    		partCode : "OfflineEva",
+		    		fileUploadContainer : "offlineEvafileUploadContainer"
+		    	}); 
+		    });
+	    });
+	</script>
+	</content>
 </body>
 
 </html>
