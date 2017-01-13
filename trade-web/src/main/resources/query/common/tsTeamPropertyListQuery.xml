@@ -84,7 +84,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select DISTRICT_ID from sctrans.v_yucui_org_hierarchy where DEP_HIERARCHY='yucui_district' and director is not null  GROUP BY DISTRICT_ID
+					select DISTRICT_ID from sctrans.v_yucui_org_hierarchy where DEP_HIERARCHY='yucui_district' and director is not null  GROUP BY DISTRICT_ID order by DISTRICT_ID
 				]]>
 			</baseSql>
 			<orderBySql>

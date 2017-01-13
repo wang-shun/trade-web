@@ -284,6 +284,7 @@ p{
 	color: #5e5e5e;
 }
 .echarsTable td {
+	width: 98px;
 	height: 33px;
 	border: 1px solid #333;
 	text-align: center;

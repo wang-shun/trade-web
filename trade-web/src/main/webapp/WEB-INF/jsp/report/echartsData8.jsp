@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
     </head>
     <body style="background-color:#fff;">
+        <input type="hidden" id="ctx" value="${ctx }"/>
          <!--*********************** HTML_main*********************** -->
         <div>
             <div class="ibox-content" id="base_info">
@@ -36,7 +37,7 @@
                                     <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
                                 </p>
                             </div>
-                        </div>3>
+                        </div>
                         <div class="left-content">
                             <div id="plotCont1" class="plot-leftone">
                             </div>
@@ -44,17 +45,12 @@
                             </table>
                         </div>
                         <div class="pull-left">
-                            <div class="plot-rightone">
-                                <div id="plotCont2"  style="width:100%;height:300px; ">
-                                </div>
-                            </div>
-                            <div class="plot-righttwo mt10 relative">
-                                <div class="total-data">
-                                    <h3>签约贷款银行支行流向统计</h3>
-                                    <ul class="total-list">
-                                        <li><i class="iconfont mr5 al-yellow al-icon-22">&#xe643;</i>11月总量<span>1664</span>单</li>
-                                        <li><i class="iconfont mr5 al-grey al-icon-22">&#xe643;</i>10月总量<span>1836</span>单</li>
-                                        <li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>9%</span></li>
+                            <div class="plot-rightone relative merge-box">
+                                <div class="sum-data">
+                                  <h3>数据统计</h3>
+                                    <ul class="data-list else-list">
+                                        <li><em>商贷贷款单数</em><span>469</span>单</li>
+                                        <li><em>商贷金额</em><span>92844</span>万元</li>
                                     </ul>
                                     <hr />
                                     <table class="table table-bordered text-center else-table">
@@ -122,8 +118,8 @@
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
+        <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script>
-<<<<<<< HEAD
         /**
          * 案件统计详情
          */
@@ -166,10 +162,9 @@
             	var span2Text = 0;
             	//1.
             	$.each(data.rows,function(i,item){
-					xAxisData.push(item.FIN_ORG_NAME_YC.substring(0,2));
+					xAxisData.push(item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC);
 					totalAmountArr.push(item.CONTRACT_AMOUNT);
 					span1Text = accAdd(Number(span1Text),Number(item.CONTRACT_AMOUNT));				
-					totalNumArr.push(item.SIGN_NUM);
 					span2Text = accAdd(Number(span2Text),Number(item.SIGN_NUM));
 				})
             	//2.

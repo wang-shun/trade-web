@@ -43,31 +43,24 @@
                             </div>
                             <table class="echarsTable">
                             </table>
-                        </div>
+                        </div>                     
                         <div class="pull-left">
-                            <div class="plot-rightone">
-                                <div id="plotCont2"  style="width:100%;height:300px; ">
-                                </div>
-                            </div>
-                            <div class="plot-righttwo mt10 relative">
-                                <div class="total-data">
-                                    <h3>11月过户总量</h3>
+                            <div class="plot-rightone relative merge-box">
+                                <div class="sum-data">
+                                    <h3>数据统计</h3>
                                     <ul class="data-list">
-                                        <li><em>签贷合同价</em><span id="span1"></span>万元</li>
+                                        <li><em>签贷贷合同价</em><span id="span1"></span>单</li>
                                         <li><em>商贷金额</em><span id="span2"></span>万元</li>
-                                        <li><em>公积金金额</em><span id="span3"></span>万元</li>
+                                        <li><em>公积金金额</em><span id="span3"></span></li>
                                     </ul>
                                     <ul class="data-list data-border">
                                         <li><em>商贷签贷占比</em><span id="span4" class="red"></span></li>
                                         <li><em>公积金金额占比</em><span id="span5" class="red"></span></li>
                                     </ul>
-
                                 </div>
                                 <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
                             </div>
-
-
-                        </div>
+                        </div>     
                     </div>
                 </div>
             </div>
