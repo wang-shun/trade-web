@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
     </head>
     <body style="background-color:#fff;">
+        <input type="hidden" id="ctx" value="${ctx }"/>
          <!--*********************** HTML_main*********************** -->
         <div>
             <div class="ibox-content" id="base_info">
@@ -38,18 +39,14 @@
                             </div>
                         </div>
                         <div class="left-content">
-                            <div id="plotCont1" class="plot-leftone">
+                            <div id="plotCont1" class="plot-leftone" style="width:833px">
                             </div>
                             <table class="echarsTable">
                             </table>
                         </div>
                         <div class="pull-left">
-                            <div class="plot-rightone">
-                                <div id="plotCont2"  style="width:100%;height:300px; ">
-                                </div>
-                            </div>
-                            <div class="plot-righttwo mt10 relative">
-                                <div class="total-data">
+                            <div class="plot-rightone relative merge-box">
+                                <div class="sum-data">
                                     <h3>贷款银行分布</h3>
                                     <ul class="data-list">
                                         <li><em>商贷贷款单数</em><span id="span1"></span>单</li>
@@ -58,8 +55,6 @@
                                 </div>
                                 <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -73,6 +68,7 @@
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
+        <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script>
         /**
          * 案件统计详情
@@ -84,7 +80,7 @@
         	data.queryId = "querySignBankList";	
         	data.rows = 12;
         	data.page = 1;
-        	
+
         	reloadGrid(data);
         });
         
