@@ -218,7 +218,7 @@ function getMergeCount(){
 	for ( var i = 0; i < cuNus.length; i++) {
 		var cu=$(cuNus[i]).attr("cuNu");
 		var caseCode_=$(cuNus[i]).attr("caseCode");
-		if(parseInt(cu)>1){ str += "\n"+caseCode_+"\n"; type=true;}
+		if(parseInt(cu)>0){ str += "\n"+caseCode_+"\n"; type=true;}
 		if(cuNusLength == 1){
 			pkId 		= $(cuNus[i]).attr("pkId");
 			caseCode	= $(cuNus[i]).attr("caseCode");
