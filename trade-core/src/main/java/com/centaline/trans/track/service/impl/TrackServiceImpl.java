@@ -1,5 +1,6 @@
 package com.centaline.trans.track.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.comment.entity.ToCaseComment;
@@ -9,7 +10,9 @@ import com.centaline.trans.track.service.TrackService;
 
 @Service
 public class TrackServiceImpl implements TrackService {
+	@Autowired
 	private ToCaseCommentService toCaseCommentService;
+	@Autowired
 	private StuffService stuffService;
 
 	@Override

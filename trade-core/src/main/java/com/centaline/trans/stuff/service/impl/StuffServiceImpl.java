@@ -51,11 +51,11 @@ public class StuffServiceImpl implements StuffService {
 					propertyUtilsService.getProcessDfId(WorkFlowEnum.REQ_STUFF.getName()), stuffComment.getPkid() + "",
 					vars);
 			ToWorkFlow wf = new ToWorkFlow();
-			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+			wf.setBusinessKey(WorkFlowEnum.REQ_STUFF.getCode());
 			wf.setCaseCode(stuffComment.getCaseCode());
 			wf.setBizCode(stuffComment.getPkid() + "");
 			wf.setProcessOwner(assigneeUser.getId());
-			wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
+			wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.REQ_STUFF.getCode()));
 			wf.setInstCode(vo.getId());
 			workFlowService.insertSelective(wf);
 		} else {
