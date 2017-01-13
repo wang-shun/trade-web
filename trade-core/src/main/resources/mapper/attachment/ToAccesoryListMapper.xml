@@ -103,7 +103,7 @@
 	<select id="findAccessoryNameByCode" resultType="java.lang.String"
 		parameterType="java.lang.String">
 		select
-		ACCESSORY_NAME
+		TOP 1 ACCESSORY_NAME
 		from sctrans.T_TO_ACCESORY_LIST
 		where 1=1
 		and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
