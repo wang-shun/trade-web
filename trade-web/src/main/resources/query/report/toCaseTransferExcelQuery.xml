@@ -118,7 +118,7 @@
 							INNER JOIN (							
 								SELECT P1.PROC_INST_ID_ FROM 
 									(
-										SELECT  AT.PROC_INST_ID_, RANK() OVER (PARTITION BY AT.PROC_INST_ID_ ORDER BY AT.ID_ DESC) RANKID
+										SELECT  AT.PROC_INST_ID_, RANK() OVER (PARTITION BY AT.PROC_INST_ID_ ORDER BY AT.ID_ ASC) RANKID
 										FROM  SCTRANS.ACT_HI_TASKINST AT
 										WHERE AT.TASK_DEF_KEY_=N'Guohu' 
 											<if test="transferDateStart != null  and transferDateStart != '' "> 							
