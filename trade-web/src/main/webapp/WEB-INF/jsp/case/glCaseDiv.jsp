@@ -214,18 +214,21 @@ function merge(){
 }
 /* 调用拆分案件方法  **/
 function qfMerge(){
-	
+	/**   对返回来的案件经办人进入一一比对，如果有同当前登录人相同才有权限拆分当前案件 **/
 	var userData = $('input[name="mergePkid"]').attr("qfType");
 	if(null != userData && "" != userData){}else{alert("对不起你没有拆分这个案件的权限！");return true;}
 	var arr = userData.split(';'); 
 	if(null != arr && arr.length>2){
-		if(null != arr[0] && "" != arr[0] && arr[0] == $("#userId").val() ){
-		if(null != arr[1] && "" != arr[1] && arr[1] == $("#serviceDepId").val() ){}}
-		else{alert("对不起你没有拆分这个案件的权限！");return true;}
-			
-	}else{
-		alert("对不起你没有拆分这个案件的权限！");return true;
-	}
+		var type = false;
+		for(var i=0;i<arr.length-1;i++){
+			if(null != arr[i] && "" != arr[i] && arr[i] == $("#userId").val() ){
+				if(null != arr[i+1] && "" != arr[i+1] && arr[i+1] == $("#serviceDepId").val() ){
+					type = true;
+				}
+			}
+		}
+		if(type){} else{alert("对不起你没有拆分这个案件的权限！");return true;}
+	}else{ alert("对不起你没有拆分这个案件的权限！");return true; }
 	
     if(!confirm("确定拆分合流案件吗！")){ return false; }
     var inputType = $("#divCaseName").val();
