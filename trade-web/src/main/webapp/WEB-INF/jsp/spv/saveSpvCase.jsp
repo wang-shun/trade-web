@@ -90,6 +90,7 @@
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
+		
 		<!-- main Start -->
 		<div
 			class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
@@ -1428,11 +1429,23 @@
 	       <script>
 			    require(['main'], function() {
 					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
-					    aistFileUpload.init({
-				    		caseCode : $('#caseCode').val(),
-				    		partCode : "SpvApplyApprove",
-				    		fileUploadContainer : "fileUploadContainer"
-				    	});
+						var handle = $("#handle").val();
+						
+						if(handle == "SpvApprove" || handle == "SpvSign"){
+							aistFileUpload.init({
+					    		caseCode : $('#caseCode').val(),
+					    		partCode : "SpvApplyApprove",
+					    		fileUploadContainer : "fileUploadContainer",
+					    		readonly : true
+					    	});
+						}
+						else {
+							aistFileUpload.init({
+					    		caseCode : $('#caseCode').val(),
+					    		partCode : "SpvApplyApprove",
+					    		fileUploadContainer : "fileUploadContainer"
+					    	});
+						}
 				    });
 			    });
 			</script>
