@@ -63,48 +63,11 @@
 	<input type="hidden" id="taskId" name="taskId" value="${taskId }"> 
 	<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 	<input type="hidden" id="eva_code" name="eva_code" value="${toEguPricing.evaCode }">
-
-	<div class="scroll_box fadeInDown animated marginbot">
-		<div class="row wrapper white-bg new-heading ">
-			<div class="pl10">
-				<h2 class="newtitle-big">
-					发起报告类评估
-				</h2>
-				<div class="mt20">
-					<button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
-						<i class="iconfont icon">&#xe600;</i> 在途单列表
-					</button>
-					<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
-						<i class="iconfont icon">&#xe63f;</i> 案件视图
-					</button>
-				</div>
-			</div>
-		</div>
-
-		<div class="ibox-content border-bottom clearfix space_box noborder">
-			<div class="clearfix">
-				<h2 class="newtitle title-mark">报告查看</h2>
-				<div class="jqGrid_wrapper">
-					<table id="table_list_1"></table>
-					<div id="pager_list_1"></div>
-				</div>
-			</div>
-
-			<!-- 案件备注信息 -->
-			<div class="view-content" id="caseCommentList"> </div>
-
-			<div class="form-btn">
-				<div class="text-center">
-					<button id="sub" class="btn btn-success btn-space">提交</button>
-				</div>
-			</div>
-						
-		</div>
-<div id="modal-form-report" class="modal fade" aria-hidden="true" style="height: 800px">
-	<div class="modal-dialog" style="width: 1000px; height: 800px">
-		<div class="modal-content">
-			<div class="modal-body" style="height: 700px">
-				<div class="col-lg-12">
+	<div class="modal inmodal in" id="modal-form-report" tabindex="-1" role="dialog" aria-hidden="false" >
+               <div class="modal-dialog " style="width: 1000px; height: 800px">
+					<div class="modal-content">
+					<div class="modal-body" style="height: 700px">
+					<div class="col-lg-12">
 					<div class="ibox ">
 						<div class="ibox-title">
 							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -129,21 +92,56 @@
 								</div>
 							</div>
 						</div>
-						</form>
+						</form> 
 						
 						<div class="form-group">
 							<div class="table-box" id="offlineEvafileUploadContainer"></div>
 						</div>
 							<input type="button" class="btn btn-success" id="reportSubBtn" value="保存">
-
 						</div>
 					</div>
+					</div>
+				</div>
+				</div>
+            </div>
+	<div class="scroll_box fadeInDown animated marginbot">
+		<div class="row wrapper white-bg new-heading " id="serviceFlow">
+			<div class="pl10">
+				<h2 class="newtitle-big">
+					发起报告类评估
+				</h2>
+				<div class="mt20">
+					<button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+						<i class="iconfont icon">&#xe600;</i> 在途单列表
+					</button>
+					<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+						<i class="iconfont icon">&#xe63f;</i> 案件视图
+					</button>
 				</div>
 			</div>
-	</div>
+		</div>
 
-</div>
-	
+		<div class="ibox-content border-bottom clearfix space_box noborder" id="aboutInfo">
+			<div class="clearfix">
+				<h2 class="newtitle title-mark">报告查看</h2>
+				<div class="jqGrid_wrapper">
+					<table id="table_list_1"></table>
+					<div id="pager_list_1"></div>
+				</div>
+			</div>
+
+			<!-- 案件备注信息 -->
+			<div class="view-content" id="caseCommentList"> </div>
+
+			<div class="form-btn">
+				<div class="text-center">
+					<button id="sub" class="btn btn-success btn-space">提交</button>
+				</div>
+			</div>
+		</div>
+
+</div>	
+
 
 <content tag="local_script"> 
 	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
@@ -166,6 +164,7 @@
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
 
@@ -198,15 +197,17 @@
 </content>
 <content tag="local_require">
     <script>
-	    require(['main'], function() {
-	    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-			    aistFileUpload.init({
-		    		caseCode : $('#caseCode').val(),
-		    		partCode : "OfflineEva",
-		    		fileUploadContainer : "offlineEvafileUploadContainer"
-		    	}); 
-		    });
-	    });
+    	require(['main'], function() {
+        	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+    		    aistFileUpload.init({
+    	    		caseCode : $('#caseCode').val(),
+    	    		partCode : "OfflineEva",
+    	    		maskId : "modal-form-report",
+    	    		fileUploadContainer : "offlineEvafileUploadContainer"
+    	    	}); 
+    	    });
+        });
+    
 	</script>
 	</content>
 </body>
