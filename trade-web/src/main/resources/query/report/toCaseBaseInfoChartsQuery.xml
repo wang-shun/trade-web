@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+		<customDict id="qqGetfinOrgYCName" beanName="qqGetfinOrgYCName"></customDict>
+
 		<customDict id="qqGetMortComCount" beanName="qqGetMortComCount" />
 		<customDict id="qqGetMortPrfCount" beanName="qqGetMortPrfCount" />
 		<customDict id="qqGetNoMortCount" beanName="qqGetNoMortCount" />
-		<customDict id="qqGetNoMortCount" beanName="qqGetNoMortCount" />
-		<customDict id="qqGetfinOrgYCName" beanName="qqGetfinOrgYCName" />
-		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />	
+		<customDict id="qqGetLostCount" beanName="qqGetLostCount" />
+		<customDict id="qqGetLostMorTotalAmount" beanName="qqGetLostMorTotalAmount" />
+
+
+
+
 	</dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -119,4 +125,114 @@
 			</table-row>
 		</grid>
 	</query>
+
+	<query id="queryHourseTransferCaseBaseInfoForDistrict">
+		<searchCondition>
+
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select
+						tb1.DISTRICT_ID,--区域ID
+						count(tb1.CASE_CODE) as HOURSE_TRANSFER_COUNT,--过户案件数
+						sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
+						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,--商业贷款金额
+						<ifNotNull choiceMonth>
+						 #choiceMonth# as CHOICE_MONTH,
+						</ifNotNull>
+						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT--公积金贷款金额
+
+					from
+					sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
+					where
+					1=1
+					and HOURSE_TRANSFER_AGREE_STATUS=1
+					and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth#
+
+	            ]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+				group by DISTRICT_ID
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="DISTRICT_ID" title="贵宾服务部ID"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="HOURSE_TRANSFER_COUNT" title="过户案件数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
+				<column type="virtual" name="DISTRICT_NAME"  title="贵宾服务部名称"  referencecol="DISTRICT_ID" isDynamic="true" index="" checkbox="" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORTGAGET_TOTAL_AMOUNT" title="总共贷款金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORTGAGET_COM_AMOUNT"  title="商业贷款金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORTGAGET_PRF_AMOUNT"  title="公积金贷款金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CHOICE_MONTH"  title="选择月份"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="MORTGAGET_TOTAL_COUNT" title="商业贷款的案件数" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamic="true" index="" checkbox="" customDict="qqGetMortComCount" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PRF_COUNT"  title="公积金贷款的案件数" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamicDict="true" customDict="qqGetMortPrfCount" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="NO_MORT_COUNT"  title="无贷款的案件数" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamicDict="true" customDict="qqGetNoMortCount"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="LOST_COUNT"  title="流失案件数" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamicDict="true" customDict="qqGetLostCount"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="LOST_AMOUNT" title="流失贷款金额" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamicDict="true" customDict="qqGetLostMorTotalAmount"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
+			</table-row>
+		</grid>
+	</query>
+
+
+	<query id="queryHourseTransferCaseBaseInfoForFin">
+		<searchCondition>
+
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				select
+					sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
+					sum(MORTGAGET_COM_AMOUNT) as COM_AMOUNT,--商业贷款金额
+					sum(MORTGAGET_PRF_AMOUNT) as PRF_AMOUNT,--公积金贷款金额
+					<ifNotNull choiceMonth>
+					 #choiceMonth# as CHOICE_MONTH,
+					</ifNotNull>
+					(select sum(MORTGAGET_TOTAL_AMOUNT) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where MORTGAGET_FIN_ORG_CODE = tb2.MORTGAGET_FIN_ORG_CODE and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# ) LOST_AMOUNT,--流失金额
+					t1.FA_FIN_ORG_CODE--金融机构code
+				from
+				(
+					select
+					tb1.case_code,
+					tb1.MORTGAGET_FIN_ORG_CODE,
+					tb1.MORTGAGET_TOTAL_AMOUNT,
+					tb1.MORTGAGET_COM_AMOUNT,
+					tb1.MORTGAGET_PRF_AMOUNT,
+					isnull((select FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE=tb1.MORTGAGET_FIN_ORG_CODE),tb1.MORTGAGET_FIN_ORG_CODE) FA_FIN_ORG_CODE
+					from
+					sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
+					where
+					1=1
+					and HOURSE_TRANSFER_AGREE_STATUS=1
+					and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth#
+					and tb1.LOAN_REQ=1
+				) t1
+
+	            ]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+				group by t1.FA_FIN_ORG_CODE
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="MORTGAGET_TOTAL_AMOUNT" title="总共贷款金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="COM_AMOUNT" title="商业贷款金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PRF_AMOUNT" title="公积金贷款金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOST_AMOUNT" title="流失金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CHOICE_MONTH" title="选择月份"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_CODE" title="金融机构code"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_NAME" title="金融机构code"  referencecol="FA_FIN_ORG_CODE" isDynamicDict="true" customDict="qqGetfinOrgYCName"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+
 </querys>

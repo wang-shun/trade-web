@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="${ctx}/css/eachartdata/jquery.fullPage.css" />
     <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css" />
-
 </head>
 <body style="background-color: #fff">
 
