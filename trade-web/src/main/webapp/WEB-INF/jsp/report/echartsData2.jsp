@@ -52,7 +52,7 @@
                             <div class="plot-righttwo mt10 relative">
                                 <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
                             </div>
-
+							<input type="hidden" value="${ctx}" id="ctx">
 
                         </div>
                     </div>
@@ -68,6 +68,7 @@
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
         <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
+		 <script src="${ctx}/static/trans/js/common/caseBaseInfoFormTypeFirstMort.js"></script>
         <script>
 		$(function() {
 			reload();
@@ -78,8 +79,9 @@
 			var myChart1 = echarts.init(document.getElementById('plotCont1'));
 			var myChart2 = echarts.init(document.getElementById('plotCont2'));
 			// 指定图表的配置项和数据
-
-			$.ajax({
+			window.ECHART_LOAD_DATA.getDistrict();//初始化区域
+			window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表
+		/*	$.ajax({
 				url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/ComLoan",
 				method : "GET",
 				dataType : "json",
@@ -97,52 +99,8 @@
 				},
 				error:function(){}
 			})
+*/
 
-
-			// 使用刚指定的配置项和数据显示图表。
-			$.ajax({
-				url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/ComLoanDistrict",
-				method : "GET",
-				dataType : "json",
-				success : function(data) {
-					if(data==null||data==undefined){
-						return;			
-					}
-					var xAxisData=[];
-					var total=[];
-					var loss=[];
-					var lossRate=[];
-					var oldLossRate=[];
-					$.each(data,function(i,item){
-						xAxisData.push(item.name);
-						total.push(item.total);
-						loss.push(item.loss);
-						lossRate.push(Number(item.lossRate));
-						oldLossRate.push(Number(item.oldLossRate));
-					})
-					var datas=[total,loss,lossRate,oldLossRate];
-					var legend= ["商贷总单数","流失单数","流失率","上月流失率"];
-					var type=["bar","bar","line","line"];
-					var yAxis =[ {
-						type : 'value',//左边
-						name : '数量(单)',
-						axisLabel : {
-							formatter : '{value}'
-						}
-					},{
-						type : 'value',//右边
-						name : '比率',
-						axisLabel : {
-							formatter : '{value}'
-						}
-					}
-					
-					];
-					returnBar(xAxisData,yAxis,legend,datas,type,null,myChart1,"各贵宾中心商贷比较");
-					},
-				error : function() {
-				}
-			});
 
 		}
 /*             echartData("plotCont1");
