@@ -112,7 +112,7 @@ public class QuickQueryCaseManagerToQfServiceImpl implements CustomDictService {
 			String userStr = user.get("USER_ID") + ";" + user.get("ORG_ID") + ";" ;
 			tempStrs.add(userStr);
 		}
-		return StringUtils.join(tempStrs, "/");
+		return StringUtils.join(tempStrs, "");
 	}
 	
 	@Override

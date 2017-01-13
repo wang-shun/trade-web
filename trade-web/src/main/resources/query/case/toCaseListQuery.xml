@@ -1204,7 +1204,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 			<baseSql>
 				<![CDATA[
 				select 
-				pkId,caseOrigin,CASE_CODE,propertyAddr,status,caseProperty,agentName,agentPhone,grpName,realName,realOrgName
+				pkId,caseOrigin,CASE_CODE,propertyAddr,status,caseProperty,agentName,agentPhone,grpName,realName,realOrgName,OCASE_CODE
 				 from (
 				select   
 					distinct (c.PKID ) pkId,
@@ -1217,7 +1217,8 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 					i.AGENT_PHONE agentPhone,
 					i.GRP_NAME grpName,
 					(select REAL_NAME FROM sctrans.SYS_USER u where u.ID = c.LEADING_PROCESS_ID )realName,
-					(select ORG_NAME FROM sctrans.SYS_ORG  where ID = c.ORG_ID )realOrgName
+					(select ORG_NAME FROM sctrans.SYS_ORG  where ID = c.ORG_ID )realOrgName,
+					m.CASE_CODE OCASE_CODE
 				from sctrans.T_TO_CASE_MERGE m left join  sctrans.T_TO_CASE_INFO i on i.CASE_CODE = m.C_CASE_CODE
 				left join sctrans.T_TO_PROPERTY_INFO t on i.CASE_CODE=t.CASE_CODE
 				inner join sctrans.T_TO_CASE c on i.CASE_CODE=c.CASE_CODE 
@@ -1240,6 +1241,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				<column type="both" name="pkId" index="" checkbox="" display="pkId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="caseOrigin" index="" checkbox="" display="caseOrigin" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASE_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="OCASE_CODE" index="" checkbox="" display="OCASE_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="propertyAddr" index="" checkbox="" display="propertyAddr" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="status" index="" checkbox="" display="status" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="caseProperty" index="" checkbox="" display="caseProperty" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
@@ -1250,7 +1252,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				<column type="both" name="realOrgName" index="" checkbox="" display="realOrgName" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="toQfType" referencecol="CASE_CODE" index="" checkbox="" display="主管"  customDict="qqcdCaseToQfManager" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="toQfType" referencecol="OCASE_CODE" index="" checkbox="" display="主管"  customDict="qqcdCaseToQfManager" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
