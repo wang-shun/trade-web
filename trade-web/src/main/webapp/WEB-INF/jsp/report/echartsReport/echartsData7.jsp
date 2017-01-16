@@ -74,14 +74,14 @@
          * 案件统计详情
          */
      	var ctx = $("#ctx").val();
-        
+
         function reloadGrid() {
         	// 初始化列表
         	var data = {};
         	data.queryId = "querySignBankList";	
         	data.pagination = false;
         	var year = $(".calendar-year span").html();
-        	var month = $(".calendar-month span").has(".select-blue").html().substring(0,1);
+	        var month = $(".calendar-month span[class$='select-blue']").html().substring(0,1);
         	//data.choiceMonth = year + "-" + month;
             data.choiceMonth = "2016-11";
         	
@@ -114,17 +114,27 @@
             	var span2Text = 0;
             	//1.
             	$.each(data.rows,function(i,item){
-					xAxisData.push(item.FIN_ORG_NAME_YC.substring(0,2));
-					totalAmountArr.push(item.CONTRACT_AMOUNT);
-					span1Text = accAdd(Number(span1Text),Number(item.CONTRACT_AMOUNT));				
-					totalNumArr.push(item.SIGN_NUM);
-					span2Text = accAdd(Number(span2Text),Number(item.SIGN_NUM));
+					xAxisData.push(item.FA_FIN_ORG_NAME_YC.substring(0,2));
+					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
+					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));				
+					totalNumArr.push(parseInt(item.SIGN_NUM));
+					span2Text += parseInt(item.SIGN_NUM);
 				})
             	//2.
             	yAxis =[ 
             	{
                     type: 'value',//左边
-                    name: '金额(万)',
+                    name: '金额',
+                    min: 0,
+                    //max: 250,
+                    //interval: 50,
+                    axisLabel: {
+                        formatter: '{value}万 '
+                    }
+                },
+                {
+                    type: 'value',//右边
+                    name: '单数',
                     min: 0,
                     //max: 250,
                     //interval: 50,
@@ -149,7 +159,7 @@
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
             	//填充span数据 
             	$("#span1").text(span2Text);
-            	$("#span2").text(span1Text);
+            	$("#span2").text(Math.round(span1Text));
                 },
                 error: function (e, jqxhr, settings, exception) {
                 	   	 

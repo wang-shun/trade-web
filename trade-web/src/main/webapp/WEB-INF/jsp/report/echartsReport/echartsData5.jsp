@@ -82,14 +82,38 @@
          * 案件统计详情
          */
      	var ctx = $("#ctx").val();
-     
+        
         function reloadGrid() {
+        	//完整的区(8)
+        	var districtIDArr = [];
+        	var districtNameArr = [];
+        	//获取所有大区
+            var data = {
+                    queryId: "queryDistrict",
+                    pagination : false
+                }
+                $.ajax({
+                    url : $("#ctx").val()+"/quickGrid/findPage",
+                    method : "GET",
+                    data : data,
+                    dataType : "json",
+                    async:false,
+                    success : function(data) {
+                        $.each(data.rows,function(i,item){
+                        	console.dir(data.rows);
+                        	districtIDArr.push(item.DISTRICT_ID)
+                            districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
+                        })
+                    },
+                    error:function(){}
+                });
+        	
         	// 初始化列表
         	var data={};
         	data.queryId = "queryDispatchSignList";	
         	data.pagination = false;
         	var year = $(".calendar-year span").html();
-        	var month = $(".calendar-month span").has(".select-blue").html().substring(0,1);
+	        var month = $(".calendar-month span[class$='select-blue']").html().substring(0,1);
         	//data.choiceMonth = year + "-" + month;
             data.choiceMonth = "2016-11";
         	
@@ -128,34 +152,52 @@
             	var span5Text = 0;
             	var span6Text = 0;
             	var span7Text = 0;
-            	//1.
-            	$.each(data.rows,function(i,item){
-					xAxisData.push(item.DISTRICT_NAME.length>2?item.DISTRICT_NAME.substring(0,2):item.DISTRICT_NAME);
-					dispatchNumArr.push(item.DISPATCH_NUM);
-					span1Text += parseInt(item.DISPATCH_NUM);
-					signNumArr.push(item.SIGN_NUM);
-					span2Text += parseInt(item.SIGN_NUM);
-					guohuNumArr.push(item.GUOHU_NUM);
-					span3Text += parseInt(item.GUOHU_NUM);
-					comNumArr.push(item.COM_NUM);
-					span4Text += parseInt(item.COM_NUM);
-					prfNumArr.push(item.PRF_NUM);
-					span5Text += parseInt(item.PRF_NUM);
-					comPercentArr.push(accDiv(item.COM_NUM,item.SIGN_NUM)*100);
-					prfPercentArr.push(accDiv(item.PRF_NUM,item.SIGN_NUM)*100);			
-				})
-            	span6Text = accDiv(span4Text,span2Text)*100+"%";
-            	span7Text = accDiv(span5Text,span2Text)*100+"%";
+            	//1.	
+        		for(var i in districtIDArr){
+        			var flag = false;
+        			for(var j in data.rows){
+        				item = data.rows[j];
+        				if(districtIDArr[i] == item.DISTRICT_ID){
+        					xAxisData[i] = districtNameArr[i];
+        					dispatchNumArr[i] = item.DISPATCH_NUM;
+        					span1Text += parseInt(item.DISPATCH_NUM);
+        					signNumArr[i] = item.SIGN_NUM;
+        					span2Text += parseInt(item.SIGN_NUM);
+        					guohuNumArr[i] = item.GUOHU_NUM;
+        					span3Text += parseInt(item.GUOHU_NUM);
+        					comNumArr[i] = item.COM_NUM;
+        					span4Text += parseInt(item.COM_NUM);
+        					prfNumArr[i] = item.PRF_NUM;
+        					span5Text += parseInt(item.PRF_NUM);
+        					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","")+"%";
+        					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","")+"%";
+        					flag = true;
+        				}
+        			}    			
+        			if(!flag){
+        				xAxisData[i] = districtNameArr[i];
+        				dispatchNumArr[i] = 0;
+        				signNumArr[i] = 0;
+        				guohuNumArr[i] = 0;
+        				comNumArr[i] = 0;
+        				prfNumArr[i] = 0;
+        				comPercentArr[i] = "0%";
+        				prfPercentArr[i] = "0%";
+        			}
+        		}
+            	
+            	span6Text = accMul(accDiv(span4Text,span2Text),100).replace(".00","")+"%";
+            	span7Text = accMul(accDiv(span5Text,span2Text),100).replace(".00","")+"%";
             	//2.
             	yAxis =[ 
             	{
                     type: 'value',//左边
-                    name: '金额(万)',
+                    name: '金额',
                     min: 0,
                     //max: 250,
                     //interval: 50,
                     axisLabel: {
-                        formatter: '{value} '
+                        formatter: '{value}万 '
                     }
                 },
                 {
@@ -165,7 +207,7 @@
                     max: 100,
                     //interval: 6,
                     axisLabel: {
-                        formatter: '{value} %'
+                        formatter: '{value}%'
                     }
                 }
 				];
@@ -183,7 +225,6 @@
             	title = "月派单、签约量统计";
             	//生成柱状图 
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
-            	console.dir(myChart);
             	//填充span数据 
             	$("#span1").text(span1Text);
             	$("#span2").text(span2Text);

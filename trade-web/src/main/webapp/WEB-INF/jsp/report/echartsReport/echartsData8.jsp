@@ -124,14 +124,14 @@
          * 案件统计详情
          */
      	var ctx = $("#ctx").val();
-        
+
         function reloadGrid() {
         	// 初始化列表
         	var data = {};
         	data.queryId = "querySignBranchBankList";	
         	data.pagination = false;
         	var year = $(".calendar-year span").html();
-        	var month = $(".calendar-month span").has(".select-blue").html().substring(0,1);
+	        var month = $(".calendar-month span[class$='select-blue']").html().substring(0,1);
         	//data.choiceMonth = year + "-" + month;
             data.choiceMonth = "2016-11";
         	
@@ -162,7 +162,8 @@
             	var span2Text = 0;
             	//1.
             	$.each(data.rows,function(i,item){
-					xAxisData.push(item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC);
+            		console.log(item.FIN_ORG_NAME_YC);      		
+					xAxisData.push(FA_FIN_ORG_NAME_YC.length>2?item.FA_FIN_ORG_NAME_YC.substring(0,2):item.FA_FIN_ORG_NAME_YC + item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC);
 					totalAmountArr.push(item.CONTRACT_AMOUNT);
 					span1Text = accAdd(Number(span1Text),Number(item.CONTRACT_AMOUNT));				
 					span2Text = accAdd(Number(span2Text),Number(item.SIGN_NUM));
@@ -171,17 +172,17 @@
             	yAxis =[ 
             	{
                     type: 'value',//左边
-                    name: '金额(万)',
+                    name: '金额',
                     min: 0,
                     //max: 250,
                     //interval: 50,
                     axisLabel: {
-                        formatter: '{value} '
+                        formatter: '{value}万 '
                     }
                 }
 				];
             	//3.
-            	legend = ['总金额','总单量'];
+            	legend = ['总金额'];
             	//4.
             	datas = [totalAmountArr];
             	//5.

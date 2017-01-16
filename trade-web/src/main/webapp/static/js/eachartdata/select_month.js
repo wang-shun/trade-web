@@ -19,7 +19,6 @@ $(function() {
         if(i == monthDisplay) {
             $month_list.eq(i).addClass("select-blue");
         }
-        return false;
     }
     reloadGrid(); 
     

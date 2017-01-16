@@ -113,6 +113,7 @@
                     async:false,
                     success : function(data) {
                         $.each(data.rows,function(i,item){
+                        	console.dir(data.rows);
                             ECHART_LOAD_DATA.districtID.push(item.DISTRICT_ID)
                             ECHART_LOAD_DATA.districtName.push(item.DISTRICT_NAME.substring(0,2));
                             ECHART_LOAD_DATA.newData.push(0);

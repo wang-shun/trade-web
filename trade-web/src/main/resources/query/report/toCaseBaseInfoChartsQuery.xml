@@ -50,12 +50,14 @@
 		<grid>
 			<table-row>
 				<column type="both" name="DISTRICT_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="DISTRICT_NAME" index="" checkbox="" display="主管" customDict="qqcdOrgIdName" referencecol="DISTRICT_ID"/>
 				<column type="both" name="DISPATCH_NUM" index="" checkbox="" title="派单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="90" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SIGN_NUM" index="" checkbox="" title="签约量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>
 				<column type="both" name="GUOHU_NUM" index="" checkbox="" title="过户量" expType="Integer" customDict="" sysDict="" beanFormatter="integerFormater" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="TOTAL_AMOUNT" index="" checkbox="" title="签贷合同价" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="COM_AMOUNT" index="" checkbox="" title="商贷金额" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="PRF_AMOUNT" index="" checkbox="" title="公积金金额" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />	
 				<column type="both" name="COM_NUM" index="" checkbox="" title="商贷量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="60" align="" halign="" order="" resizable="" />
-				<column type="both" name="PRF_NUM" index="" checkbox="" title="纯公积金量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="60" align="" halign="" order="" resizable="" />						
+				<column type="both" name="PRF_NUM" index="" checkbox="" title="纯公积金量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="60" align="" halign="" order="" resizable="" />					
 			</table-row>
 		</grid>
 	</query>
@@ -85,8 +87,8 @@
 		<grid>
 			<table-row>
 				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" title="银行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="FIN_ORG_NAME_YC" index="" checkbox="" display="银行简写名" customDict="qqGetfinOrgYCName" referencecol="FA_FIN_ORG_CODE"/>
-				<column type="both" name="CONTRACT_AMOUNT" index="" checkbox="" title="总金额" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="FA_FIN_ORG_NAME_YC" index="" checkbox="" display="银行简写名" customDict="qqGetfinOrgYCName" referencecol="FA_FIN_ORG_CODE"/>
+				<column type="both" name="CONTRACT_AMOUNT" index="" checkbox="" title="总金额" expType="Double" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SIGN_NUM" index="" checkbox="" title="总单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>					
 			</table-row>
 		</grid>
@@ -99,9 +101,11 @@
 			<baseSql>
 				<![CDATA[
 				select 
+				t.FA_FIN_ORG_CODE,
 				main.MORTGAGET_FIN_ORG_CODE,
 				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
+				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE
                 where convert(varchar(7),main.SIGN_TIME ,120) = #choiceMonth# 
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
 	            ]]>
@@ -114,9 +118,11 @@
 		</searchSql>
 		<grid>
 			<table-row>
+			    <column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" title="银行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="FA_FIN_ORG_NAME_YC" index="" checkbox="" display="银行简写名" customDict="qqGetfinOrgYCName" referencecol="FA_FIN_ORG_CODE"/>
 				<column type="both" name="MORTGAGET_FIN_ORG_CODE" index="" checkbox="" title="支行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="FIN_ORG_NAME_YC" index="" checkbox="" display="支行简写名" customDict="qqGetfinOrgYCName" referencecol="MORTGAGET_FIN_ORG_CODE"/>
-				<column type="both" name="CONTRACT_AMOUNT" index="" checkbox="" title="总金额" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CONTRACT_AMOUNT" index="" checkbox="" title="总金额" expType="Double" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
