@@ -97,6 +97,7 @@ $(function() {
 
 //
 function getExplPicByhouseCode() {
+		
 	$.ajax({
 		type : 'post',
 		cache : false,
@@ -430,6 +431,7 @@ function checkAttachmentForLoanLost(loanLostConfirmCode){
 
 //保存
 function deleteAndModify(){
+	
 	caseCode = $("#caseCode").val();
 	var picDiv=$("div[name='allPicDiv']");
 	var picDiv1=$("div[name='allPicDiv1']");
@@ -441,7 +443,7 @@ function deleteAndModify(){
 		var input=$("input[name='pic']");
 		//图片的ID 新增的文件数量
 	    var spans =$("input[name='preFileAdress']");
-	    if(spans.length < picDiv.length) {
+	    if(spans.length < picLength) {
 	    	alert("你有未上传的完成的文件，请稍候再试！");
 	    	return false;
 	    }

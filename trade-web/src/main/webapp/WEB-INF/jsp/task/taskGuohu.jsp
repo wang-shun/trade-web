@@ -240,55 +240,50 @@
 	            </div>
         </div>
         
-        <!-- 相关信息 -->
-        <div class="view-content" id="caseCommentList" > </div>
-        <div class="" id="aboutInfo">
-			<c:choose>
+            <!-- 案件跟进 -->
+        <div class="view-content" id="caseCommentList"> </div>
+      	<div class="mt30 clearfix" id="aboutInfo">
+        		<c:choose>
 				<c:when test="${accesoryList!=null}">
 					<h2 class="newtitle title-mark">上传备件</h2>
-					<div class="ibox-content"
-						style="height: 410px; overflow-y: scroll;">
-						<h5>${accesoryList[0].accessoryName }</h5>
-						<c:forEach var="accesory" items="${accesoryList}"
-							varStatus="status">
-							<div class="" id="fileupload_div_pic">
-								<form id="fileupload"
-									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-									method="POST" enctype="multipart/form-data">
-								<input type="hidden" name="redirect"
-											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-								<input type="hidden" id="preFileCode" name="preFileCode"
-											value="${accesory.accessoryCode }">
+					<div class="file-list">
+					   <div class="file-content">
+						<h4>${accesoryList[0].accessoryName }</h4>
+						<c:forEach var="accesory" items="${accesoryList}"	varStatus="status">
+							<div class="" id="fileupload_div_pic">							
+								<form id="fileupload"	action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	method="POST" enctype="multipart/form-data">
+									<noscript>
+										<input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
+										<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">
+									</noscript>
 									<c:if test="${status.index != 0}">
-										<h5 align="left">
-											<br>${accesory.accessoryName }</h5>
+										<h5 align="left"><br>${accesory.accessoryName }</h5>
 									</c:if>
+									
 									<div class="row-fluid fileupload-buttonbar">
-						<div class="" style="height: auto">
-							<div role="presentation" class="table table-striped "
-								style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-								<div id="picContainer${accesory.pkid }" class="files" data-toggle="modal-gallery"
-									data-target="#modal-gallery"></div>
-									<span class=" fileinput-button " style="margin-left:10px!important;width:80px;">
-									<div id="chandiaotuBtn" class=""
-										style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-										<i class="fa fa-plus"></i>
-									</div> 
-									<input id="picFileupload${accesory.pkid }" type="file" name="files[]" multiple
-									data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-									data-sequential-uploads="true">
-								</span>
-							</div>
-						</div>
-					</div>
+										<div class="" style="height: auto">
+											<div role="presentation" class="table table-striped "	style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
+												<div id="picContainer${accesory.pkid }" class="files"	data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+												<!-- 用于'客户确认书'验证 -->
+												<input type="hidden" id="fileFlagCode${accesory.pkid }"   value="${accesory.accessoryCode }">
+												
+												<span class=" fileinput-button "	style="margin-left: 10px !important; width: 80px;">
+													<div id="chandiaotuBtn" class="" style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
+														<i class="fa fa-plus"></i>
+													</div> 													
+													<input id="picFileupload${accesory.pkid }" type="file"	name="files[]" multiple 	data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	data-sequential-uploads="true">
+												</span>
+											</div>
+										</div>
+									</div>									
 								</form>
 							</div>
 
 							<div class="row-fluid">
 								<div class="">
 									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
-									{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    	<div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
+							{% for (var i=0, file; file=o.files[i]; i++) { %}
+							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 									<!--图片缩图  -->
 							        <div class="preview"><span class="fade"></span></div>
 									<!--  错误信息 -->
@@ -316,8 +311,8 @@
 									</div>
 							    </div>
 							{% } %}
-							</script>
-							<script id="templateDownload${accesory.pkid }" type="text/x-tmpl">
+						</script>
+						<script id="templateDownload${accesory.pkid }"	type="text/x-tmpl">
 							{% for (var i=0, file; file=o.files[i]; i++) { %}
 							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
 							        {% if (file.error) { %}
@@ -328,12 +323,10 @@
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
 							            {% if (file.id) { %}
-                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
-							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
-                                              {% } else { %}
- 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
-  											  {% } %}
-							            {% } %}
+							                <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="width:80px;height:80px;">
+							            {% } %}</div>
+							            <div class="name" style="display: none">
+							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
 							            </div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
@@ -344,10 +337,10 @@
 							    </div>
 							{% } %}
 						</script>
-							</div> 
-						</div>
+								</div>
+							</div>
 						</c:forEach>
-
+						</div>
 						<div class="row-fluid" style="display: none;">
 							<div class="span4">
 								<div class="control-group">
@@ -358,6 +351,7 @@
 								</div>
 							</div>
 						</div>
+					</div>
 				</c:when>
 				<c:otherwise>
 					<h5>
@@ -365,22 +359,22 @@
 					</h5>
 				</c:otherwise>
 			</c:choose>
-		</div>
+        </div>
         
-        <div class="">
-            <h2 class="newtitle title-mark">审批记录</h2>
-            <div class="jqGrid_wrapper">
-				<table id="reminder_list"></table>
-				<div id="pager_list_1"></div>
-			</div>
-        </div>
-
-        <div class="form-btn">
-            <div class="text-center">
-                <a href="#" class="btn btn-success btn-space" onclick="save(false)">保存</a>
-                 <a href="#" class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</a>
-            </div>
-        </div>
+	        <div class="">
+	            <h2 class="newtitle title-mark">审批记录</h2>
+	            <div class="jqGrid_wrapper">
+					<table id="reminder_list"></table>
+					<div id="pager_list_1"></div>
+				</div>
+	        </div>
+	
+	        <div class="form-btn">
+	            <div class="text-center">
+	                <a href="#" class="btn btn-success btn-space" onclick="save(false)">保存</a>
+	                 <a href="#" class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</a>
+	            </div>
+	        </div>
         
         </div>
 	</div>
