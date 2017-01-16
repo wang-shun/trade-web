@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
-	<dicts>
-	
+	<dicts>	
 		<customDict id="getCaseInfo" beanName="getCaseInfo" />
 		<customDict id="getPostInfo" beanName="getPostInfo" />
 		<customDict id="convertValue" beanName="convertValue" />
@@ -21,7 +20,6 @@
 		<customDict id="qqFinOrgNameYC" beanName="qqFinOrgNameYCForExcel" />
 		<customDict id="getStatus" beanName="getStatus" />
 		<customDict id="qqcdMortName" beanName="qqcdMortName" />
-		<customDict id="custPhoneByCode" beanName="custPhoneByCode" />
 		<customDict id="sumByInstCode" beanName="sumByInstCode" />
 		<customDict id="eloanKaAmount" beanName="eloanKaAmount" />
 		<customDict id="eloanKa" beanName="eloanKa" />
@@ -70,7 +68,7 @@
 				<![CDATA[	
 						SELECT
 							C.DISTRICT_ID,
-							(SELECT TOP 1 VJ.REAL_NAME FROM SCTRANS.V_USER_ORG_JOB VJ LEFT JOIN SCTRANS.ACT_HI_TASKINST AHT ON AHT.ASSIGNEE_=VJ.USERNAME WHERE AHT.TASK_DEF_KEY_ =N'GUOHU' AND AHT.PROC_INST_ID_ = W.INST_CODE) GUOHU_REAL_NAME,
+							(SELECT TOP 1 VJ.REAL_NAME FROM SCTRANS.SYS_USER VJ LEFT JOIN SCTRANS.ACT_HI_TASKINST AHT ON AHT.ASSIGNEE_=VJ.USERNAME WHERE AHT.TASK_DEF_KEY_ =N'GUOHU' AND AHT.PROC_INST_ID_ = W.INST_CODE) GUOHU_REAL_NAME,
 							C.PKID,
 							C.CASE_CODE,
 							C.LEADING_PROCESS_ID,
