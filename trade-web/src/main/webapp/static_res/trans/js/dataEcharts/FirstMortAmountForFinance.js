@@ -60,7 +60,7 @@
                             if(item.MORTGAGET_TOTAL_AMOUNT!=0){
                                 ECHART_LOAD_DATA.getRate.push(accDiv(item.COM_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT));
                             }else{
-                                ECHART_LOAD_DATA.getRate.push(0);
+                                ECHART_LOAD_DATA.getRate.push('0.00');
                             }
                         })
 
