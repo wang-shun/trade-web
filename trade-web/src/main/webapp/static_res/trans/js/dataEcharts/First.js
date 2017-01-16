@@ -35,6 +35,7 @@
                 ECHART_LOAD_DATA.newData.splice(0,ECHART_LOAD_DATA.newData.length);
                 ECHART_LOAD_DATA.oldData.splice(0,ECHART_LOAD_DATA.oldData.length);
                 ECHART_LOAD_DATA.pie_items.splice(0,ECHART_LOAD_DATA.pie_items.length);
+                ECHART_LOAD_DATA.legend.splice(0,ECHART_LOAD_DATA.legend.length);
                 ECHART_LOAD_DATA.noMortCount=0,
                 ECHART_LOAD_DATA.prfMortCount=0,
                 ECHART_LOAD_DATA.comMortCount=0,
@@ -71,7 +72,6 @@
                                 ECHART_LOAD_DATA.totalNewDataCount=ECHART_LOAD_DATA.totalNewDataCount+item.HOURSE_TRANSFER_COUNT;//最新月份过户的案件数
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
-                                        alert(item.HOURSE_TRANSFER_COUNT);
                                         ECHART_LOAD_DATA.newData[i]=item.HOURSE_TRANSFER_COUNT;
                                     }
 
@@ -124,13 +124,19 @@
             },
             buildBarChart : function(myChart){
                 if(ECHART_LOAD_DATA.month!=1){//如果不是1月则有上个月数据
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((ECHART_LOAD_DATA.month-1)),'old');
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(ECHART_LOAD_DATA.month),'new');
+                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)-1)),'old');
+                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month))),'new');
                 }else{
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(ECHART_LOAD_DATA.month),'new');
+                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month))),'new');
                     ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月过户总量";
                 }
-                ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月与"+(ECHART_LOAD_DATA.month-1)+"月过户总量比较";
+                ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月与"+((Number(ECHART_LOAD_DATA.month))-1)+"月过户总量比较";
+                if(ECHART_LOAD_DATA.month!=1){
+                    ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.month))+"月过户总量");
+                    ECHART_LOAD_DATA.legend.push(((Number(ECHART_LOAD_DATA.month))-1)+"月过户总量");
+                }else{
+                    ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.month))+"月过户总量");
+                }
                 //生成柱状图
                 var datas=[ECHART_LOAD_DATA.newData, ECHART_LOAD_DATA.oldData];
                 var type=["bar","bar"];
@@ -156,17 +162,11 @@
             },
             buildListChart : function(list_chart){
                 ECHART_LOAD_DATA.list_title = ECHART_LOAD_DATA.month+'月过户总量'
-                if(ECHART_LOAD_DATA.month!=1){
-                    ECHART_LOAD_DATA.legend.push(ECHART_LOAD_DATA.month+"月过户总量");
-                    ECHART_LOAD_DATA.legend.push((ECHART_LOAD_DATA.month-1)+"月过户总量");
-                }else{
-                    ECHART_LOAD_DATA.legend.push(ECHART_LOAD_DATA.month+"月过户总量");
-                }
 
                 $("#"+list_chart).html('');
                 var html='<li><i class="iconfont mr5 al-yellow al-icon-22">&#xe643;</i>'+ECHART_LOAD_DATA.month+'月总量<span>'+ECHART_LOAD_DATA.totalNewDataCount+'</span>单</li>';
                 if(ECHART_LOAD_DATA.month!=1){
-                    html=html +'<li><i class="iconfont mr5 al-grey al-icon-22">&#xe643;</i>'+(ECHART_LOAD_DATA.month-1)+'月总量<span>'+ECHART_LOAD_DATA.totalOldDataCount+'</span>单</li>';
+                    html=html +'<li><i class="iconfont mr5 al-grey al-icon-22">&#xe643;</i>'+(Number(ECHART_LOAD_DATA.month)-1)+'月总量<span>'+ECHART_LOAD_DATA.totalOldDataCount+'</span>单</li>';
                     var subtraction=ECHART_LOAD_DATA.totalNewDataCount-ECHART_LOAD_DATA.totalOldDataCount;
                     if(subtraction<0){
                         var percent=accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalNewDataCount)*100+"%";

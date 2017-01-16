@@ -88,7 +88,7 @@
 <script src="${ctx}/static/trans/js/dataEcharts/First.js"></script>
 <script>
     $(function() {
-        reloadGrid(2016,12);
+        reloadGrid(window.ECHART_LOAD_DATA.getCurrentYear(),window.ECHART_LOAD_DATA.getCurrentMonth());
     })
 
     function reloadGrid(year,month){
