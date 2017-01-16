@@ -3,16 +3,11 @@
 	<dicts>
 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
 		<customDict id="qqGetfinOrgYCName" beanName="qqGetfinOrgYCName"></customDict>
-
 		<customDict id="qqGetMortComCount" beanName="qqGetMortComCount" />
 		<customDict id="qqGetMortPrfCount" beanName="qqGetMortPrfCount" />
 		<customDict id="qqGetNoMortCount" beanName="qqGetNoMortCount" />
 		<customDict id="qqGetLostCount" beanName="qqGetLostCount" />
 		<customDict id="qqGetLostMorTotalAmount" beanName="qqGetLostMorTotalAmount" />
-
-
-
-
 	</dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -35,14 +30,14 @@
 			<baseSql>
 				<![CDATA[
 				select main.DISTRICT_ID,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = '2016-11') DISPATCH_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = '2016-11') SIGN_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = '2016-11') GUOHU_NUM,
-				(select isnull(sum(d.mortgaget_total_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.SIGN_TIME ,120) = '2016-11') TOTAL_AMOUNT,
-				(select isnull(sum(e.mortgaget_com_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.SIGN_TIME ,120) = '2016-11' and e.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_AMOUNT,
-				(select isnull(sum(f.mortgaget_prf_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.SIGN_TIME ,120) = '2016-11' and f.MORTGAGE_LOAN_TYPE = '30016003') PRF_AMOUNT,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.SIGN_TIME ,120) = '2016-11' and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.SIGN_TIME ,120) = '2016-11' and h.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = #choiceMonth#) DISPATCH_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = #choiceMonth#) SIGN_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = #choiceMonth#) GUOHU_NUM,
+				(select isnull(sum(d.mortgaget_total_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.SIGN_TIME ,120) = #choiceMonth#) TOTAL_AMOUNT,
+				(select isnull(sum(e.mortgaget_com_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.SIGN_TIME ,120) = #choiceMonth# and e.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_AMOUNT,
+				(select isnull(sum(f.mortgaget_prf_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.SIGN_TIME ,120) = #choiceMonth# and f.MORTGAGE_LOAN_TYPE = '30016003') PRF_AMOUNT,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.SIGN_TIME ,120) = #choiceMonth# and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.SIGN_TIME ,120) = #choiceMonth# and h.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main				
 	            ]]>
 			</baseSql>
@@ -77,7 +72,7 @@
 				count(1) SIGN_NUM
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main 
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE	
-                where convert(varchar(7),main.SIGN_TIME ,120) = '2016-11' 
+                where convert(varchar(7),main.SIGN_TIME ,120) = #choiceMonth# 
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
 	            ]]>
 			</baseSql>
@@ -107,7 +102,7 @@
 				main.MORTGAGET_FIN_ORG_CODE,
 				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
-                where convert(varchar(7),main.SIGN_TIME ,120) = '2016-11' 
+                where convert(varchar(7),main.SIGN_TIME ,120) = #choiceMonth# 
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
 	            ]]>
 			</baseSql>

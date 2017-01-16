@@ -134,8 +134,9 @@
         	data.queryId = "querySignBranchBankList";	
         	data.pagination = false;
         	var year = $(".calendar-year span").html();
-        	var month = $(".calendar-month span").hasClass(".select-blue").html().substring(0,1);
-        	data.choiceMonth = year + "-" + month;
+        	var month = $(".calendar-month span").hasClass("select-blue").html().substring(0,1);
+        	//data.choiceMonth = year + "-" + month;
+            data.choiceMonth = "2016-11";
         	
         	$.ajax({
         		async: true,
