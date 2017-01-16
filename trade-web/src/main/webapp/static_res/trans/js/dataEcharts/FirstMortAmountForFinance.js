@@ -15,15 +15,24 @@
             com_total:[],//商业贷款总金额
             mort_loss:[],//流失贷款总金额
             getRate:[],//收单率
-            legend:'',//纬度
+            legend:[],//纬度
 
             url:'',//根路径
             /**
              * 初始化
              */
-            init: function() {
-                /*ECHART_LOAD_DATA.month=ECHART_LOAD_DATA.getCurrentMonth();*///***************************************测试暂时注释掉,正式测试时清打开***************************************
-                /*ECHART_LOAD_DATA.year=ECHART_LOAD_DATA.getCurrentYear();*///***************************************测试暂时注释掉,正式测试时清打开***************************************
+            init: function(year,month) {
+                ECHART_LOAD_DATA.finID.splice(0,ECHART_LOAD_DATA.finID.length);
+                ECHART_LOAD_DATA.finName.splice(0,ECHART_LOAD_DATA.finName.length);
+                ECHART_LOAD_DATA.xAxisData.splice(0,ECHART_LOAD_DATA.xAxisData.length);
+                ECHART_LOAD_DATA.mort_total.splice(0,ECHART_LOAD_DATA.mort_total.length);
+
+                ECHART_LOAD_DATA.com_total.splice(0,ECHART_LOAD_DATA.com_total.length);
+                ECHART_LOAD_DATA.mort_loss.splice(0,ECHART_LOAD_DATA.mort_loss.length);
+                ECHART_LOAD_DATA.getRate.splice(0,ECHART_LOAD_DATA.getRate.length);
+
+                ECHART_LOAD_DATA.month=month;
+                ECHART_LOAD_DATA.year=year;
                 ECHART_LOAD_DATA.url=$("#ctx").val();
                 ECHART_LOAD_DATA.legend= ["总金额(万元)","收单金额(金额)","收单率"];
             },

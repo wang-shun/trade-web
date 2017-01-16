@@ -165,7 +165,7 @@
                             <em>签约时间</em><span class="yuanwid">${caseDetailVO.signDate}</span>
                         </li>
                         <li>
-                            <em>批货时间</em><span class="yuanwid">${caseDetailVO.apprDate}</span>
+                            <em>批贷时间</em><span class="yuanwid">${caseDetailVO.apprDate}</span>
                         </li>
                         <li>
                             <em>他证送达时间</em><span class="yuanwid">${caseDetailVO.tazhengArrDate}</span>
