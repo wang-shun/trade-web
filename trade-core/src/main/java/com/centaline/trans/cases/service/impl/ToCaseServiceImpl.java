@@ -1162,6 +1162,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		ctmtoCase.setUpdateTime(new Date());
 		ctmtoCase.setLoanReq("");
 		ctmtoCase.setLeadingProcessId("");
+		ctmtoCase.setOrgId("");
 		return ctmtoCase;
 	}
 	/**
