@@ -184,13 +184,13 @@ public class LoginController {
         JSONObject result = new JSONObject();
         JSONObject content = new JSONObject();
         TokenVo token = null;
-        String avatar = sessionUser.getAvatar();
+        String avatar = null;
         int avatarJob = 1;
         if (loginResult && sessionUser != null) {
             token = tokenService.generateToken(sessionUser);
             //            avatarUrl = uamBasedataService.getParam("APP_MOBILE", "LOGINPERSON_IMG_URL")
             //                        + sessionUser.getEmployeeCode() + ".jpg";
-
+            avatar = sessionUser.getAvatar();
             //多岗  
             List<UserOrgJob> userOrgJOb = uamUserOrgService
                 .getUserOrgJobByUserId(sessionUser.getId());
@@ -383,7 +383,7 @@ public class LoginController {
         try {
             jdbcTemplate.update(LOGGING_SQL, username);
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             logger.warn("error in logging logon history");
         }
     }
