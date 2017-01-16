@@ -43,15 +43,18 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					y:'7%'
 				},
 				grid: {
-		            left: '78',
-		            top: '30%',
-		            right: '54',
-		            bottom: '15%'
+		            left: '90',
+		            top: '25%',
+		            right: '50',
+		            bottom: '15%',
+	                width:'700'
 		        },
 				xAxis :  {
 					type : 'category',
-					borderColoe : '#333',
-					data : []
+					data : [],
+                    axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+			            show: true,
+			            interval:xAxisSize}
 				},
 			yAxis :yAxis
 			}
@@ -93,7 +96,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 }
 				 $.each(datas[i],function(j,item){
 					 if(title == '11月派单、签约量统计' && type[i]=="line"){
-						 html+="<td>"+item+" %</td>"; 
+						 html+="<td>"+item+"%</td>"; 
 					 }else{
 						 html+="<td>"+item+"</td>"; 
 					 }
@@ -101,6 +104,9 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 html+="</tr>"
 		    }
 				$(".echarsTable").append(html);
+				//$(".echarsTable td").width(828/xAxisSize);
+			var optionWidth=option.grid.width-(2*xAxisSize);
+			 $(".tabletitle~td").width(optionWidth/(xAxisSize));
 		}
 
 /**

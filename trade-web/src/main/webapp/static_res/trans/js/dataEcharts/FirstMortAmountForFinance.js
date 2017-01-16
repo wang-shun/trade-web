@@ -34,7 +34,7 @@
                 ECHART_LOAD_DATA.month=month;
                 ECHART_LOAD_DATA.year=year;
                 ECHART_LOAD_DATA.url=$("#ctx").val();
-                ECHART_LOAD_DATA.legend= ["总金额(万元)","收单金额(金额)","收单率"];
+                ECHART_LOAD_DATA.legend= ["总金额","收单金额","收单率"];
             },
             /*报表一数据获得ajax*/
             getBarAjaxDate: function (dateMonth,dateFlag){

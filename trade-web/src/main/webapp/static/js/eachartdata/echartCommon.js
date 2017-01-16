@@ -44,15 +44,18 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					y:'7%'
 				},
 				grid: {
-		            left: '78',
-		            top: '30%',
-		            right: '54',
-		            bottom: '15%'
+		            left: '90',
+		            top: '25%',
+		            right: '50',
+		            bottom: '15%',
+	                width:'700'
 		        },
-				xAxis : {
+				xAxis :  {
 					type : 'category',
-					borderColoe : '#333',
-					data : []
+					data : [],
+                    axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+			            show: true,
+			            interval:xAxisSize}
 				},
 				yAxis :yAxis
 			};			
@@ -102,8 +105,8 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 html+="</tr>"
 		    }
 				$(".echarsTable").append(html);
-				//$(".echarsTable td").width(828/xAxisSize);
-				$(".echarsTable td").width($("#plotCont1").width()/(xAxisSize+1));
+				var optionWidth=option.grid.width-(2*xAxisSize);
+				 $(".tabletitle~td").width(optionWidth/(xAxisSize));
 		}
 
 /**

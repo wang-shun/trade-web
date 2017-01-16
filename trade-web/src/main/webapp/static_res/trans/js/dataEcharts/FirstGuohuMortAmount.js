@@ -39,7 +39,7 @@
                 ECHART_LOAD_DATA.month=month;
                 ECHART_LOAD_DATA.year=year;
                 ECHART_LOAD_DATA.url=$("#ctx").val();
-                ECHART_LOAD_DATA.legend = ["商贷总额(万元)","流失金额(万元)","流失率","上月流失率"];
+                ECHART_LOAD_DATA.legend = ["商贷总额","流失金额","流失率","上月流失率"];
             },
             /*报表一数据获得ajax*/
             getBarAjaxDate: function (dateMonth,dateFlag){
@@ -137,7 +137,7 @@
                 var type=["bar","bar","line","line"];
                 var yAxis =[ {
                     type : 'value',//左边
-                    name : '数量(单)',
+                    name : '数量(万元)',
                     axisLabel : {
                         formatter : '{value}'
                     }

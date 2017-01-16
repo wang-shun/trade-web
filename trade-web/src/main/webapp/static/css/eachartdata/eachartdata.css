@@ -291,7 +291,7 @@ p{
 }
 
 .echarsTable .tabletitle {
-	width: 98px;
+	width: 90px !important;
 	text-align: left;
 }
 
