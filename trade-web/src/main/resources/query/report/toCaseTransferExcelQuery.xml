@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
+	
+		<customDict id="getPostInfo" beanName="getPostInfo" />
 		<customDict id="convertValue" beanName="convertValue" />
 		<customDict id="convertValueForLoanlostReason" beanName="convertValueForLoanlostReason" />
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
@@ -94,10 +96,8 @@
 							M.IS_DELEGATE_YUCUI,
 							C.LOAN_REQ,	
 							M.loanlost_apply_reason as loanlost_apply_reason_old, 
-							M.SELF_DEL_REASON, 
-							HT. USE_CARD_PAY,
-							HT.CARD_PAY_AMOUNT,
-							(SELECT MIN(AT.START_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE ) TRANSFERDATE,
+							M.SELF_DEL_REASON,
+							(SELECT MIN(AT.START_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_= W.INST_CODE ) TRANSFERDATE,
 							(SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_= W.INST_CODE) CASETRANSFERDATE,
 							V.LONG_ AS status,
 							(SELECT TOP 1 U.REAL_NAME FROM SCTRANS.SYS_USER U WHERE U.ID=(SELECT  TOP 1 OPERATOR from  SCTRANS.T_TO_APPROVE_RECORD ar1  WHERE  ar1.PART_CODE='GuohuApprove'  and ar1.CASE_CODE=C.CASE_CODE ORDER BY  ar1.OPERATOR_TIME DESC)) AS ASSESSOR,
@@ -107,12 +107,12 @@
 							(SELECT SUM(EC.APPLY_AMOUNT)  FROM SCTRANS.T_TO_ELOAN_CASE EC  WHERE EC.CASE_CODE = C.CASE_CODE  AND  EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) ELOAN_APPLYAMOUNT_COUNT
 							
 						FROM
+						
 							SCTRANS.T_TO_CASE C 
 							INNER JOIN SCTRANS.T_TO_CASE_INFO I ON C.CASE_CODE = I.CASE_CODE
 							INNER JOIN SCTRANS.T_TO_WORKFLOW W  ON C.CASE_CODE = W.CASE_CODE	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4)
 							INNER JOIN SCTRANS.ACT_HI_VARINST V ON V.PROC_INST_ID_ = W.INST_CODE AND V.NAME_=N'GuohuApprove'															
-							LEFT JOIN  SCTRANS.T_TO_MORTGAGE M  ON C.CASE_CODE = M.CASE_CODE AND M.IS_ACTIVE ='1' AND M.LAST_LOAN_BANK  IS NOT NULL	
-						    INNER JOIN sctrans.T_TO_HOUSE_TRANSFER HT ON W.CASE_CODE=HT.CASE_CODE
+							LEFT JOIN  SCTRANS.T_TO_MORTGAGE M  ON C.CASE_CODE = M.CASE_CODE AND M.IS_ACTIVE ='1' AND M.LAST_LOAN_BANK  IS NOT NULL							    
 
 							<if test="(transferDateStart != null  and transferDateStart != '')  or  (transferDateEnd != null  and transferDateEnd != '')">	
 							INNER JOIN (							
@@ -196,7 +196,7 @@
 				<column type="both" name="CTM_CODE" title="CTM编号" customDict="" hidden="false" />
 				<column type="both" name="CUST_CODE" title="主贷人id" customDict="" hidden="false" />
 				<column type="both" name="CUST_NAME" title="主贷人姓名"	customDict="" hidden="false" />
-				<column type="virtual" name="GUEST_PHONE" title="主贷人电话"		customDict="custPhoneByCode" hidden="false" referencecol="CUST_CODE"/>
+				<column type="virtual" name="GUEST_PHONE" title="主贷人电话"	customDict="custPhoneByCode"  hidden="false" referencecol="CUST_CODE"/>
 
 				<column type="both" name="FIN_ORG_CODE" title="银行code" customDict="" hidden="false" />
 				<column type="virtual" name="FIN_ORG_NAME" title="银行"		customDict="qqFenHang" hidden="false" referencecol="FIN_ORG_CODE"/>
@@ -243,9 +243,14 @@
 
 				<column type="both" name="AR_NAME" title="片区"	customDict="" hidden="false" />
 
+
+<column type="virtual" name="USE_CARD_PAY,CARD_PAY_AMOUNT" title="是否刷卡,刷卡总金额（元）" customDict="getPostInfo" hidden="false" referencecol="CASE_CODE"/>
 				<column type="both" name="SELF_DEL_REASON" title="流失具体原因" customDict=""		hidden="false" />
-				<column type="virtual" name="USE_CARD_PAY" title="是否刷卡（税费卡/佣金卡）" referencecol="status"  customDict="convertValue"  	hidden="false" />
-				<column type="both" name="CARD_PAY_AMOUNT" title="刷卡总金额（元）" customDict=""		hidden="false" />
+				
+<!-- 				<column type="virtual" name="USE_CARD_PAY" title="是否刷卡（税费卡/佣金卡）" referencecol="status"  customDict="convertValue"  	hidden="false" />
+				<column type="both" name="CARD_PAY_AMOUNT" title="刷卡总金额（元）" customDict=""		hidden="false" /> -->
+				
+				
 				<column type="both" name="loanlost_apply_reason_old" title="loanlost_apply_reason_old"  customDict=""		hidden="false" />
 				<column type="virtual" name="loanlost_apply_reason" title="流失原因"	referencecol="loanlost_apply_reason_old" customDict="convertValueForLoanlostReason" />
 				<column type="virtual" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	referencecol="CASE_CODE"  customDict="eloanProduct" isDynamicDict="true"/>
