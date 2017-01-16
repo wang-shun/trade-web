@@ -1192,6 +1192,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseInfo.setBaName(toCaseMerge.getAgentBaName());
 		toCaseInfo.setUpdateby(user.getId());
 		toCaseInfo.setUpdateTime(new Date());
+		toCaseInfo.setReferConsultantId("");
+		toCaseInfo.setReferConsultantRealname("");
 		return toCaseInfo;
 	}
 	/**
@@ -1201,8 +1203,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 	 * @return
 	 */
 	public ToCaseInfo copyCtmToCaseInfotoQf(SessionUser user,ToCaseInfo toCaseInfo,ToCaseMerge toCaseMerge){
-		toCaseInfo.setReferConsultantId("");
-		toCaseInfo.setReferConsultantRealname("");
 		toCaseInfo.setUpdateby(user.getId());
 		toCaseInfo.setUpdateTime(new Date());
 		return toCaseInfo;
