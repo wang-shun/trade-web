@@ -321,7 +321,11 @@ text-decoration: underline !important;
 		<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>							
 {{/if}}
 {{else}}
-	<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>							
+	{{if item.CASE_ORIGIN =='PROCESS' && item.CTM_CODE.length>2}}
+		<a  href="javascript:processTs()"  target="_blank" >{{item.NAME}}</a>	
+	{{else}}
+		<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>							
+	{{/if}}						
 {{/if}}
                               </i>
                             </p>
