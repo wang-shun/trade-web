@@ -453,6 +453,9 @@ function processfu(pkId,propertyCode,caseCode,propertyAddr,agentName,agentPhone,
 function ts(status){
 	alert(status+"案件不能拆分案件！");
 }
+function processTs(){
+	alert("该案件被申请合流中，请先去审核！");
+}
 /*
 function processfu(pkId,propertyCode,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType){
 	if(null !=propertyCode && ""!=propertyCode){}else{window.open(ctx +'/engine/task/'+pkId+'/process');}
