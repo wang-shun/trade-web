@@ -5,35 +5,40 @@
 (function() {
     window.ECHART_LOAD_DATA = window.ECHART_LOAD_DATA || {
 
-             month:3,//用户选择的月份
-             year:2016,//用户选择的月份
+            month:12,//用户选择的月份
+            year:2016,//用户选择的月份
 
-             districtID:[],//所有贵宾服务部ID
-             districtName:[],//所有贵宾服务部NAME
-             xAxisData:[],//横坐标
-             newData:[],//最新月份的数据
-             oldData:[],//上个月的数据
-             legend: [],//title
-             pie_items : [],//饼图的数据
-             noMortCount:0,//本月无贷款单数
-             prfMortCount:0,//纯公积金单数
-             comMortCount:0,//商业贷款单数
-             totalNewDataCount:0,//最新月份的过户量
-             totalOldDataCount:0,//老新月份的过户量
-             pie_title:'',//饼图title
-             bar_title:'',//柱状图title
-             list_title:'',//列表title
-             url:'',//根路径
+            districtID:[],//所有贵宾服务部ID
+            districtName:[],//所有贵宾服务部NAME
+            xAxisData:[],
+            total:[],//商业贷款总数
+            loss:[],//流失单数
+            lossRate:[],//流失率
+            oldLossRate:[],//上月流失率
+            legend:'',//纬度
+            totalLossCount:0,//本月总流失单数
+            totalMortCount:0,//本月总贷款单数
+            pie_items : [],//饼图的数据
+            url:'',//根路径
             /**
              * 初始化
              */
-            init: function() {
-                /*ECHART_LOAD_DATA.month=ECHART_LOAD_DATA.getCurrentMonth();*///***************************************测试暂时注释掉,正式测试时清打开***************************************
-                /*ECHART_LOAD_DATA.year=ECHART_LOAD_DATA.getCurrentYear();*///***************************************测试暂时注释掉,正式测试时清打开***************************************
+            init: function(year,month) {
+                ECHART_LOAD_DATA.districtID.splice(0,ECHART_LOAD_DATA.districtID.length);//清空数组
+                ECHART_LOAD_DATA.districtName.splice(0,ECHART_LOAD_DATA.districtName.length);
+                ECHART_LOAD_DATA.xAxisData.splice(0,ECHART_LOAD_DATA.xAxisData.length);
+                ECHART_LOAD_DATA.total.splice(0,ECHART_LOAD_DATA.total.length);
+                ECHART_LOAD_DATA.loss.splice(0,ECHART_LOAD_DATA.loss.length);
+                ECHART_LOAD_DATA.lossRate.splice(0,ECHART_LOAD_DATA.lossRate.length);
+                ECHART_LOAD_DATA.oldLossRate.splice(0,ECHART_LOAD_DATA.oldLossRate.length);
+                ECHART_LOAD_DATA.pie_items.splice(0,ECHART_LOAD_DATA.pie_items.length);
+                ECHART_LOAD_DATA.totalLossCount=0,//本月总流失单数
+                ECHART_LOAD_DATA.totalMortCount=0,//本月总贷款单数
+
+                ECHART_LOAD_DATA.month=month;
+                ECHART_LOAD_DATA.year=year;
                 ECHART_LOAD_DATA.url=$("#ctx").val();
-                ECHART_LOAD_DATA.pie_title=ECHART_LOAD_DATA.month+'月过户总单量';
-                ECHART_LOAD_DATA.bar_title= month+"月与"+(month-1)+"月过户总量比较";
-                ECHART_LOAD_DATA.list_title = ECHART_LOAD_DATA.month+'月过户总量'
+                ECHART_LOAD_DATA.legend =["商贷总单数","流失单数","流失率","上月流失率"];
             },
             /*报表一数据获得ajax*/
             getBarAjaxDate: function (dateMonth,dateFlag){
@@ -49,39 +54,51 @@
                     dataType : "json",
                     async:false,
                     success : function(data) {
-
                         if(data==null||data==undefined){
                             return;
                         }
                         $.each(data.rows,function(i,item){
+                            ECHART_LOAD_DATA.totalLossCount= ECHART_LOAD_DATA.totalLossCount+item.LOST_COUNT;
+                            ECHART_LOAD_DATA.totalMortCount= ECHART_LOAD_DATA.totalMortCount+item.MORTGAGET_TOTAL_COUNT;
                             if(dateFlag=='new'){
-                                ECHART_LOAD_DATA.noMortCount=ECHART_LOAD_DATA.noMortCount+item.NO_MORT_COUNT;//最新月份没有贷款的案件数
-                                ECHART_LOAD_DATA.prfMortCount=ECHART_LOAD_DATA.prfMortCount+item.PRF_COUNT;//最新月份公积金贷款的案件数
-                                ECHART_LOAD_DATA.comMortCount=ECHART_LOAD_DATA.comMortCount+item.MORTGAGET_TOTAL_COUNT;//最新月份商业贷款的案件数
-                                ECHART_LOAD_DATA.totalNewDataCount=ECHART_LOAD_DATA.totalNewDataCount+item.HOURSE_TRANSFER_COUNT;//最新月份过户的案件数
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
-                                    if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i])
-                                        ECHART_LOAD_DATA.newData[i]=item.HOURSE_TRANSFER_COUNT;
+                                    if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
+                                        ECHART_LOAD_DATA.total[i]=item.MORTGAGET_TOTAL_COUNT;
+                                        ECHART_LOAD_DATA.loss[i]=item.LOST_COUNT;
+                                        if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
+                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_COUNT,accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT));
+                                        }else{
+                                            ECHART_LOAD_DATA.lossRate[i]=0;
+                                        }
+
+                                    }
                                 }
                             }
                             if(dateFlag=='old'){
-                                ECHART_LOAD_DATA.totalOldDataCount=ECHART_LOAD_DATA.totalOldDataCount+item.HOURSE_TRANSFER_COUNT;//上月份过户的案件数
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
-                                    if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i])
-                                        ECHART_LOAD_DATA.oldData[i] = item.HOURSE_TRANSFER_COUNT;
+                                    if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
+                                        if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
+                                            ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_COUNT,accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT));
+                                        }else{
+                                            ECHART_LOAD_DATA.oldLossRate[i]=0;
+                                        }
+                                    }
+
                                 }
                             }
+
                         })
-                        ECHART_LOAD_DATA.legend.push(ECHART_LOAD_DATA.month+"月过户总量");
+
                     },
                     error:function(){}
                 });
+                ECHART_LOAD_DATA.xAxisData = ECHART_LOAD_DATA.districtName;//初始化横轴数据
             },
 
             getPieDate : function (){
-                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.noMortCount);
-                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.prfMortCount);
-                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.comMortCount);
+                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.totalMortCount);
+                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.totalLossCount);
+
             },
             getDistrict: function (){
                 var data = {
@@ -98,8 +115,10 @@
                         $.each(data.rows,function(i,item){
                             ECHART_LOAD_DATA.districtID.push(item.DISTRICT_ID)
                             ECHART_LOAD_DATA.districtName.push(item.DISTRICT_NAME.substring(0,2));
-                            ECHART_LOAD_DATA.newData.push(0);
-                            ECHART_LOAD_DATA.oldData.push(0);
+                            ECHART_LOAD_DATA.total.push(0);
+                            ECHART_LOAD_DATA.loss.push(0);
+                            ECHART_LOAD_DATA.lossRate.push(0);
+                            ECHART_LOAD_DATA.oldLossRate.push(0);
                         })
                     },
                     error:function(){}
@@ -107,33 +126,38 @@
             },
             buildBarChart : function(myChart){
                 if(ECHART_LOAD_DATA.month!=1){//如果不是1月则有上个月数据
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((ECHART_LOAD_DATA.month-1)),'old');
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(ECHART_LOAD_DATA.month),'new');
+                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)-1)),'old');
+                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
                 }else{
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(ECHART_LOAD_DATA.month),'new');
+
+                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
                     ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月过户总量";
                 }
-                //生成柱状图
-                var datas=[ECHART_LOAD_DATA.newData, ECHART_LOAD_DATA.oldData];
-                var type=["bar","bar"];
-                var bar_color=["#BFD8FF","#ff9696"];
+
+                var datas=[ECHART_LOAD_DATA.total,ECHART_LOAD_DATA.loss,ECHART_LOAD_DATA.lossRate,ECHART_LOAD_DATA.oldLossRate];
+                var type=["bar","bar","line","line"];
                 var yAxis =[ {
                     type : 'value',//左边
                     name : '数量(单)',
-                    min : 0,
-                    interval : 50,
                     axisLabel : {
                         formatter : '{value}'
                     }
-                }];
-                returnBar(ECHART_LOAD_DATA.xAxisData,yAxis,ECHART_LOAD_DATA.legend,datas,type,bar_color,myChart,ECHART_LOAD_DATA.bar_title);
+                },{
+                    type : 'value',//右边
+                    name : '比率',
+                    axisLabel : {
+                        formatter : '{value}'
+                    }
+                }
+
+                ];
+                returnBar(ECHART_LOAD_DATA.xAxisData,yAxis,ECHART_LOAD_DATA.legend,datas,type,null,myChart,"各贵宾中心商贷比较");
             },
             buildPieChart : function(myChart){
                 ECHART_LOAD_DATA.getPieDate();
-                var pie_color=["#BFD8FF","#ff9696","#FFD480"];
-                var data = [ "无贷款", "纯公积金", "商业贷款" ];
-                returnPie(data, ECHART_LOAD_DATA.pie_items, myChart, pie_color,ECHART_LOAD_DATA.pie_title);
-
+                var color=["#BFD8FF","#ff9696"];
+                var data = [ "收单", "流失" ];
+                returnPie(data, ECHART_LOAD_DATA.pie_items, myChart, color,"商贷总单数");
             },
             buildListChart : function(list_chart){
                 $("#"+list_chart).html('');
@@ -180,7 +204,7 @@
                     case 11:x="11";break;
                     case 12:x="12";break;
                 }
-            return x;
+                return x;
             }
 
         };

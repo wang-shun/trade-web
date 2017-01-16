@@ -5,22 +5,25 @@
 (function() {
     window.ECHART_LOAD_DATA = window.ECHART_LOAD_DATA || {
 
-             month:3,//用户选择的月份
-             year:2016,//用户选择的月份
+            month:12,//用户选择的月份
+            year:2016,//用户选择的月份
 
-             districtID:[],//所有贵宾服务部ID
-             districtName:[],//所有贵宾服务部NAME
-             xAxisData:[],
-             total:[],//商业贷款总数
-             loss:[],//流失单数
-             lossRate:[],//流失率
-             oldLossRate:[],//上月流失率
-             legend:'',//纬度
+            districtID:[],//所有贵宾服务部ID
+            districtName:[],//所有贵宾服务部NAME
+            xAxisData:[],
+            mort_total:[],//商业贷款总金额
+            mort_loss:[],//流失贷款总金额
+            lossRate:[],//流失率
+            oldLossRate:[],//上月流失率
+            legend:'',//纬度
+            totalLossAmount:0,//本月总流失金额
+            totalComMortAmount:0,//本月商业贷款金额
+            pie_items : [],//饼图的数据
             /* xAxisData:[],//横坐标
              newData:[],//最新月份的数据
              oldData:[],//上个月的数据
              legend: [],//title
-             pie_items : [],//饼图的数据
+
              noMortCount:0,//本月无贷款单数
              prfMortCount:0,//纯公积金单数
              comMortCount:0,//商业贷款单数
@@ -29,7 +32,7 @@
              pie_title:'',//饼图title
              bar_title:'',//柱状图title
              list_title:'',//列表title*/
-             url:'',//根路径
+            url:'',//根路径
             /**
              * 初始化
              */
@@ -37,10 +40,7 @@
                 /*ECHART_LOAD_DATA.month=ECHART_LOAD_DATA.getCurrentMonth();*///***************************************测试暂时注释掉,正式测试时清打开***************************************
                 /*ECHART_LOAD_DATA.year=ECHART_LOAD_DATA.getCurrentYear();*///***************************************测试暂时注释掉,正式测试时清打开***************************************
                 ECHART_LOAD_DATA.url=$("#ctx").val();
-                ECHART_LOAD_DATA.pie_title=ECHART_LOAD_DATA.month+'月过户总单量';
-                ECHART_LOAD_DATA.bar_title= month+"月与"+(month-1)+"月过户总量比较";
-                ECHART_LOAD_DATA.list_title = ECHART_LOAD_DATA.month+'月过户总量'
-                ECHART_LOAD_DATA.legend =["商贷总单数","流失单数","流失率","上月流失率"];
+                ECHART_LOAD_DATA.legend = ["商贷总额(万元)","流失金额(万元)","流失率","上月流失率"];
             },
             /*报表一数据获得ajax*/
             getBarAjaxDate: function (dateMonth,dateFlag){
@@ -61,21 +61,36 @@
                         }
                         $.each(data.rows,function(i,item){
                             if(dateFlag=='new'){
+                                ECHART_LOAD_DATA.totalLossAmount=accAdd(ECHART_LOAD_DATA.totalLossAmount,item.LOST_AMOUNT);
+                                ECHART_LOAD_DATA.totalComMortAmount= accAdd(ECHART_LOAD_DATA.totalComMortAmount,item.MORTGAGET_COM_AMOUNT);
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
-                                    if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i])
-                                        ECHART_LOAD_DATA.total[i]=item.MORTGAGET_TOTAL_COUNT;
-                                        ECHART_LOAD_DATA.loss[i]=item.LOST_COUNT;
-                                        ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_COUNT,accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT));
+                                    if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
+                                        ECHART_LOAD_DATA.mort_total[i]=item.MORTGAGET_COM_AMOUNT/10000;
+                                        ECHART_LOAD_DATA.mort_loss[i]=item.LOST_AMOUNT/10000;
+                                        if(item.MORTGAGET_TOTAL_AMOUNT!=0){
+                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
+                                        }else{
+                                            ECHART_LOAD_DATA.lossRate[i]=0;
+                                        }
+
+                                    }
                                 }
                             }
                             if(dateFlag=='old'){
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
-                                    if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i])
-                                       ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_COUNT,accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT));
+                                    if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
+                                        if(item.MORTGAGET_TOTAL_AMOUNT!=0){
+                                            ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
+                                        }else{
+                                            ECHART_LOAD_DATA.oldLossRate[i]=0;
+                                        }
+                                    }
+
                                 }
                             }
 
                         })
+
                     },
                     error:function(){}
                 });
@@ -83,9 +98,8 @@
             },
 
             getPieDate : function (){
-                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.noMortCount);
-                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.prfMortCount);
-                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.comMortCount);
+                ECHART_LOAD_DATA.pie_items.push(accDiv(ECHART_LOAD_DATA.totalComMortAmount,10000));
+                ECHART_LOAD_DATA.pie_items.push(accDiv(ECHART_LOAD_DATA.totalLossAmount,10000));
             },
             getDistrict: function (){
                 var data = {
@@ -102,6 +116,10 @@
                         $.each(data.rows,function(i,item){
                             ECHART_LOAD_DATA.districtID.push(item.DISTRICT_ID)
                             ECHART_LOAD_DATA.districtName.push(item.DISTRICT_NAME.substring(0,2));
+                            ECHART_LOAD_DATA.mort_total.push(0);
+                            ECHART_LOAD_DATA.mort_loss.push(0);
+                            ECHART_LOAD_DATA.lossRate.push(0);
+                            ECHART_LOAD_DATA.oldLossRate.push(0);
                         })
                     },
                     error:function(){}
@@ -116,8 +134,7 @@
                     ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月过户总量";
                 }
 
-                var datas=[ECHART_LOAD_DATA.total,ECHART_LOAD_DATA.loss,ECHART_LOAD_DATA.lossRate,ECHART_LOAD_DATA.oldLossRate];
-
+                var datas=[ECHART_LOAD_DATA.mort_total,ECHART_LOAD_DATA.mort_loss,ECHART_LOAD_DATA.lossRate,ECHART_LOAD_DATA.oldLossRate];
                 var type=["bar","bar","line","line"];
                 var yAxis =[ {
                     type : 'value',//左边
@@ -138,27 +155,9 @@
             },
             buildPieChart : function(myChart){
                 ECHART_LOAD_DATA.getPieDate();
-                var pie_color=["#BFD8FF","#ff9696","#FFD480"];
-                var data = [ "无贷款", "纯公积金", "商业贷款" ];
-                returnPie(data, ECHART_LOAD_DATA.pie_items, myChart, pie_color,ECHART_LOAD_DATA.pie_title);
-
-            },
-            buildListChart : function(list_chart){
-                $("#"+list_chart).html('');
-                var html='<li><i class="iconfont mr5 al-yellow al-icon-22">&#xe643;</i>'+ECHART_LOAD_DATA.month+'月总量<span>'+ECHART_LOAD_DATA.totalNewDataCount+'</span>单</li>';
-                if(ECHART_LOAD_DATA.month!=1){
-                    html=html +'<li><i class="iconfont mr5 al-grey al-icon-22">&#xe643;</i>'+(ECHART_LOAD_DATA.month-1)+'月总量<span>'+ECHART_LOAD_DATA.totalOldDataCount+'</span>单</li>';
-                    var subtraction=ECHART_LOAD_DATA.totalNewDataCount-ECHART_LOAD_DATA.totalOldDataCount;
-                    if(subtraction<0){
-                        var percent=accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalNewDataCount)*100+"%";
-                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>'+percent+'</span></li>';
-                    }else{
-                        var percent=accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalNewDataCount)*100+"%";
-                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比上升<span>'+percent+'</span></li>';
-                    }
-                }
-
-                $("#"+list_chart).html(html);
+                var color=["#BFD8FF","#ff9696"];
+                var data = [ "收单", "流失" ];
+                returnPie(data, ECHART_LOAD_DATA.pie_items, myChart, color,"商贷总金额");
             },
             /*获取当前年份数据*/
             getCurrentYear: function() {
@@ -188,7 +187,7 @@
                     case 11:x="11";break;
                     case 12:x="12";break;
                 }
-            return x;
+                return x;
             }
 
         };

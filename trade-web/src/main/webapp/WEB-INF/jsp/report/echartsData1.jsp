@@ -74,14 +74,14 @@
         <script src="${ctx}/static_res/js/echarts.min.js"></script>
         <script src="${ctx}/js/eachartdata/echartsdata.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-        <script src="${ctx}/static/trans/js/common/caseBaseInfoFormTypeFirst.js"></script>
+        <script src="${ctx}/static/trans/js/dataEcharts/caseBaseInfoFormTypeFirst.js"></script>
         <script>
 
         $(function() {
 			// 基于准备好的dom，初始化echarts实例
 			var myChart1 = echarts.init(document.getElementById('plotCont1'));
 			var myChart2 = echarts.init(document.getElementById('plotCont2'));
-
+            window.ECHART_LOAD_DATA.init();
             window.ECHART_LOAD_DATA.getDistrict();//初始化区域
             window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表
             window.ECHART_LOAD_DATA.buildPieChart(myChart2);//生成饼图报表
