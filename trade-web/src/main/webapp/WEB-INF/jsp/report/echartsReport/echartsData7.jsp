@@ -83,8 +83,11 @@
         	// 初始化列表
         	var data = {};
         	data.queryId = "querySignBankList";	
-        	data.rows = 12;
-        	data.page = 1;
+        	data.pagination = false;
+        	var year = $(".calendar-year span").html();
+        	var month = $(".calendar-month span").hasClass(".select-blue").html().substring(0,1);
+        	data.choiceMonth = year + "-" + month;
+        	
         	$.ajax({
         		async: true,
                 url: ctx+"/quickGrid/findPage",

@@ -88,6 +88,10 @@
         	var data = {};
         	data.queryId = "queryDispatchSignList";	
         	data.pagination = false;
+        	var year = $(".calendar-year span").html();
+        	var month = $(".calendar-month span").hasClass(".select-blue").html().substring(0,1);
+        	data.choiceMonth = year + "-" + month;
+        	
         	$.ajax({
         		async: true,
                 url: ctx+"/quickGrid/findPage",
