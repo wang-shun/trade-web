@@ -492,8 +492,11 @@
 
     <!-- 根据custCode 查询主贷人电话 -->
     <bean name="custPhoneByCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCustPhoneByCodeServiceImpl" >    	
-    </bean>
+    </bean> 
     
+    <!-- 根据caseCode 查询caseInfo表信息 -->
+    <bean name="getCaseInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoReportServiceImpl" >    	
+    </bean>
     <!-- 根据caseCode 查询刷卡信息 -->
     <bean name="getPostInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetPostInfoServiceImpl" >    	
     </bean>
