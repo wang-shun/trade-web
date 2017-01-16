@@ -136,8 +136,8 @@
 					select
 						tb1.DISTRICT_ID,--区域ID
 						count(tb1.CASE_CODE) as HOURSE_TRANSFER_COUNT,--过户案件数
-						sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
-						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,--商业贷款金额
+						isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
+						isnull(sum(MORTGAGET_COM_AMOUNT),0) as MORTGAGET_COM_AMOUNT,--商业贷款金额
 						<ifNotNull choiceMonth>
 						 #choiceMonth# as CHOICE_MONTH,
 						</ifNotNull>
@@ -187,13 +187,13 @@
 			<baseSql>
 				<![CDATA[
 				select
-					sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
-					sum(MORTGAGET_COM_AMOUNT) as COM_AMOUNT,--商业贷款金额
-					sum(MORTGAGET_PRF_AMOUNT) as PRF_AMOUNT,--公积金贷款金额
+					isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
+					isnull(sum(MORTGAGET_COM_AMOUNT),0) as COM_AMOUNT,--商业贷款金额
+					isnull(sum(MORTGAGET_PRF_AMOUNT),0) as PRF_AMOUNT,--公积金贷款金额
 					<ifNotNull choiceMonth>
 					 #choiceMonth# as CHOICE_MONTH,
 					</ifNotNull>
-					(select sum(MORTGAGET_TOTAL_AMOUNT) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where MORTGAGET_FIN_ORG_CODE = tb2.MORTGAGET_FIN_ORG_CODE and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# ) LOST_AMOUNT,--流失金额
+					(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where MORTGAGET_FIN_ORG_CODE = tb2.MORTGAGET_FIN_ORG_CODE and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# ) LOST_AMOUNT,--流失金额
 					t1.FA_FIN_ORG_CODE--金融机构code
 				from
 				(

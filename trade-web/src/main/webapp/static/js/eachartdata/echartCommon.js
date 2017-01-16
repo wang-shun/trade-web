@@ -8,6 +8,7 @@
  * @param myChart    图表div
  */
 function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
+		$(".echarsTable").html('');
             //横轴长度
 	        var xAxisSize = xAxisData.length;
 	  
@@ -112,6 +113,12 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
  * @param color      维度对应颜色
  */
 function returnPie(data, items, myChart1, color, title) {
+	var unit = '';
+	if(title=='商贷总金额'){
+		unit = '万元'
+	}else{
+		unit = '个'
+	}
 	if(color==null){
 		color=[
                '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
@@ -158,7 +165,7 @@ function returnPie(data, items, myChart1, color, title) {
 				normal : {
 					label : {
 						show : true,
-						formatter : "{b}:\n{c}个 ({d}%)"
+						formatter : "{b}:\n{c}"+unit+" ({d}%)"
 					}
 				}
 			}

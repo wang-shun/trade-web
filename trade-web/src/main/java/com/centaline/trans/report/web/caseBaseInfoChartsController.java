@@ -140,7 +140,7 @@ public class caseBaseInfoChartsController {
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
 		String ctx = app.genAbsoluteUrl();
 		request.setAttribute("ctx", ctx);
-		return "report/echartsData3";
+		return "report/echartsReport/echartsData3";
 	}
 	
 	@RequestMapping(value = "echartsData4")
@@ -148,7 +148,7 @@ public class caseBaseInfoChartsController {
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
 		String ctx = app.genAbsoluteUrl();
 		request.setAttribute("ctx", ctx);
-		return "report/echartsData4";
+		return "report/echartsReport/echartsData4";
 	}
 	
 	@RequestMapping(value = "echartsData5")

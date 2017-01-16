@@ -41,7 +41,7 @@
                             <div id="plotCont1" class="plot-leftone">
                             </div>
                             <table class="echarsTable">
-                                
+
                             </table>
                         </div>
                         <div class="pull-left">
@@ -52,7 +52,7 @@
                             <div class="plot-righttwo mt10 relative">
                                 <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
                             </div>
-
+							<input type="hidden" value="${ctx}" id="ctx">
 
                         </div>
                     </div>
@@ -68,85 +68,91 @@
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
         <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
-        <script>
-		$(function() {
-			reload();
+		 <script src="${ctx}/static/trans/js/dataEcharts/caseBaseInfoFormTypeFirstMortAmount.js"></script>
+		 <script>
+			 $(function() {
+				 reloadGrid();
 
-		})
-		function reload(){
-			// 基于准备好的dom，初始化echarts实例
-			var myChart1 = echarts.init(document.getElementById('plotCont1'));
-			var myChart2 = echarts.init(document.getElementById('plotCont2'));
-			// 指定图表的配置项和数据
+			 })
+			 function reloadGrid(){
+				 // 基于准备好的dom，初始化echarts实例
+				 var myChart1 = echarts.init(document.getElementById('plotCont1'));
+				 var myChart2 = echarts.init(document.getElementById('plotCont2'));
+				 window.ECHART_LOAD_DATA.init();
+				 // 指定图表的配置项和数据
+				 window.ECHART_LOAD_DATA.getDistrict();//初始化区域
+				 window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表
+				 window.ECHART_LOAD_DATA.buildPieChart(myChart2);//生成饼图报表
 
-			$.ajax({
-				url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/ComLoanAmount",
-				method : "GET",
-				dataType : "json",
-				success : function(data) {
-					if(data==null||data==undefined){
-						return;			
-					}
-					var items = [];
-					$.each(data,function(i,item){
-						items.push(item);
-					});
-					var color=["#BFD8FF","#ff9696"];
-					var data = [ "收单", "流失" ];
-					var option2 = returnPie(data, items, myChart2, color,"商贷总金额");
-				},
-				error:function(){}
-			})
+				 //window.ECHART_LOAD_DATA.buildPieChart(myChart2);//生成饼图报表
+				 /*$.ajax({
+				  url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/ComLoanAmount",
+				  method : "GET",
+				  dataType : "json",
+				  success : function(data) {
+				  if(data==null||data==undefined){
+				  return;
+				  }
+				  var items = [];
+				  $.each(data,function(i,item){
+				  items.push(item);
+				  });
+				  var color=["#BFD8FF","#ff9696"];
+				  var data = [ "收单", "流失" ];
+				  var option2 = returnPie(data, items, myChart2, color,"商贷总金额");
+				  },
+				  error:function(){}
+				  })
 
 
-			// 使用刚指定的配置项和数据显示图表。
-			$.ajax({
-				url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/ComLoanAmountDistrict",
-				method : "GET",
-				dataType : "json",
-				success : function(data) {
-					if(data==null||data==undefined){
-						return;			
-					}
-					var xAxisData=[];
-					var totalAmount=[];
-					var lossAmount=[];
-					var lossAmountRate=[];
-					var oldlossAmountRate=[];
-					$.each(data,function(i,item){
-						xAxisData.push(item.name);
-						totalAmount.push(item.totalAmount);
-						lossAmount.push(item.lossAmount);
-						lossAmountRate.push(Number(item.lossAmountRate));
-						oldlossAmountRate.push(Number(item.oldlossAmountRate));
-					})
-					var datas=[totalAmount,lossAmount,lossAmountRate,oldlossAmountRate];
-					var legend= ["商贷总额(万元)","流失金额(万元)","流失率","上月流失率"];
-					var type=["bar","bar","line","line"];
-					var yAxis =[ {
-						type : 'value',//左边
-						name : '金额(万元)',
-						axisLabel : {
-							formatter : '{value}'
-						}
-					},{
-						type : 'value',//右边
-						name : '比率',
-						axisLabel : {
-							formatter : '{value}'
-						}
-					}
-					
-					];
-					returnBar(xAxisData,yAxis,legend,datas,type,null,myChart1,"各贵宾中心商贷金额比较");
-					},
-				error : function() {
-				}
-			});
-			
-		}
-/*             echartData("plotCont1");
-            echartSet("plotCont2"); */
-        </script>
-    </body>
+				  // 使用刚指定的配置项和数据显示图表。
+				  $.ajax({
+				  url : "http://10.4.19.211:3001/rest/v1/report/GuoHu/ComLoanAmountDistrict",
+				  method : "GET",
+				  dataType : "json",
+				  success : function(data) {
+				  if(data==null||data==undefined){
+				  return;
+				  }
+				  var xAxisData=[];
+				  var totalAmount=[];
+				  var lossAmount=[];
+				  var lossAmountRate=[];
+				  var oldlossAmountRate=[];
+				  $.each(data,function(i,item){
+				  xAxisData.push(item.name);
+				  totalAmount.push(item.totalAmount);
+				  lossAmount.push(item.lossAmount);
+				  lossAmountRate.push(Number(item.lossAmountRate));
+				  oldlossAmountRate.push(Number(item.oldlossAmountRate));
+				  })
+				  var datas=[totalAmount,lossAmount,lossAmountRate,oldlossAmountRate];
+				  var legend= ["商贷总额(万元)","流失金额(万元)","流失率","上月流失率"];
+				  var type=["bar","bar","line","line"];
+				  var yAxis =[ {
+				  type : 'value',//左边
+				  name : '金额(万元)',
+				  axisLabel : {
+				  formatter : '{value}'
+				  }
+				  },{
+				  type : 'value',//右边
+				  name : '比率',
+				  axisLabel : {
+				  formatter : '{value}'
+				  }
+				  }
+
+				  ];
+				  returnBar(xAxisData,yAxis,legend,datas,type,null,myChart1,"各贵宾中心商贷金额比较");
+				  },
+				  error : function() {
+				  }
+				  });*/
+
+			 }
+			 /*             echartData("plotCont1");
+			  echartSet("plotCont2"); */
+		 </script>
+	</body>
 </html>
