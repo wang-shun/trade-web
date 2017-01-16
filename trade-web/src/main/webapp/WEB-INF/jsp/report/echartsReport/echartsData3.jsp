@@ -77,11 +77,11 @@
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
-        <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
 		 <script src="${ctx}/static/trans/js/dataEcharts/FirstMortAmount.js"></script>
         <script>
 		$(function() {
+            window.ECHART_LOAD_DATA.turnDate();
             reloadGrid(window.ECHART_LOAD_DATA.getCurrentYear(),window.ECHART_LOAD_DATA.getCurrentMonth());
 
 		})
