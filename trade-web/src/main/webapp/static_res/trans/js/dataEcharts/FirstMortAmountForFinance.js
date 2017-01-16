@@ -71,7 +71,7 @@
             },
 
             buildBarChart : function(myChart){
-                ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(ECHART_LOAD_DATA.month),'new');
+                ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
 
                 var datas=[ECHART_LOAD_DATA.mort_total,ECHART_LOAD_DATA.com_total,ECHART_LOAD_DATA.getRate];
 
