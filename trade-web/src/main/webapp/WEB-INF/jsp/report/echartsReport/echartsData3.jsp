@@ -82,14 +82,14 @@
 		 <script src="${ctx}/static/trans/js/dataEcharts/FirstMortAmount.js"></script>
         <script>
 		$(function() {
-			reloadGrid();
+            reloadGrid(window.ECHART_LOAD_DATA.getCurrentYear(),window.ECHART_LOAD_DATA.getCurrentMonth());
 
 		})
-		function reloadGrid(){
+        function reloadGrid(year,month){
 			// 基于准备好的dom，初始化echarts实例
 			var myChart1 = echarts.init(document.getElementById('plotCont1'));
 			var myChart2 = echarts.init(document.getElementById('plotCont2'));
-			window.ECHART_LOAD_DATA.init();
+			window.ECHART_LOAD_DATA.init(year,month);
 			// 指定图表的配置项和数据
 			window.ECHART_LOAD_DATA.getDistrict();//初始化区域
 			window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表

@@ -15,30 +15,29 @@
             mort_loss:[],//流失贷款总金额
             lossRate:[],//流失率
             oldLossRate:[],//上月流失率
-            legend:'',//纬度
+            legend:[],//纬度
             totalLossAmount:0,//本月总流失金额
             totalComMortAmount:0,//本月商业贷款金额
             pie_items : [],//饼图的数据
-            /* xAxisData:[],//横坐标
-             newData:[],//最新月份的数据
-             oldData:[],//上个月的数据
-             legend: [],//title
-
-             noMortCount:0,//本月无贷款单数
-             prfMortCount:0,//纯公积金单数
-             comMortCount:0,//商业贷款单数
-             totalNewDataCount:0,//最新月份的过户量
-             totalOldDataCount:0,//老新月份的过户量
-             pie_title:'',//饼图title
-             bar_title:'',//柱状图title
-             list_title:'',//列表title*/
             url:'',//根路径
             /**
              * 初始化
              */
-            init: function() {
-                /*ECHART_LOAD_DATA.month=ECHART_LOAD_DATA.getCurrentMonth();*///***************************************测试暂时注释掉,正式测试时清打开***************************************
-                /*ECHART_LOAD_DATA.year=ECHART_LOAD_DATA.getCurrentYear();*///***************************************测试暂时注释掉,正式测试时清打开***************************************
+            init: function(year,month) {
+                ECHART_LOAD_DATA.districtID.splice(0,ECHART_LOAD_DATA.districtID.length);
+                ECHART_LOAD_DATA.districtName.splice(0,ECHART_LOAD_DATA.districtName.length);
+                ECHART_LOAD_DATA.xAxisData.splice(0,ECHART_LOAD_DATA.xAxisData.length);
+                ECHART_LOAD_DATA.mort_total.splice(0,ECHART_LOAD_DATA.mort_total.length);
+                ECHART_LOAD_DATA.mort_loss.splice(0,ECHART_LOAD_DATA.mort_loss.length);
+                ECHART_LOAD_DATA.lossRate.splice(0,ECHART_LOAD_DATA.lossRate.length);
+                ECHART_LOAD_DATA.oldLossRate.splice(0,ECHART_LOAD_DATA.oldLossRate.length);
+                ECHART_LOAD_DATA.legend.splice(0,ECHART_LOAD_DATA.legend.length);
+                ECHART_LOAD_DATA.pie_items.splice(0,ECHART_LOAD_DATA.pie_items.length);
+                ECHART_LOAD_DATA.totalLossAmount=0;
+                ECHART_LOAD_DATA.totalComMortAmount=0;
+
+                ECHART_LOAD_DATA.month=month;
+                ECHART_LOAD_DATA.year=year;
                 ECHART_LOAD_DATA.url=$("#ctx").val();
                 ECHART_LOAD_DATA.legend = ["商贷总额(万元)","流失金额(万元)","流失率","上月流失率"];
             },
@@ -70,7 +69,7 @@
                                         if(item.MORTGAGET_TOTAL_AMOUNT!=0){
                                             ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
                                         }else{
-                                            ECHART_LOAD_DATA.lossRate[i]=0;
+                                            ECHART_LOAD_DATA.lossRate[i].push('0.00');
                                         }
 
                                     }
@@ -82,7 +81,7 @@
                                         if(item.MORTGAGET_TOTAL_AMOUNT!=0){
                                             ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
                                         }else{
-                                            ECHART_LOAD_DATA.oldLossRate[i]=0;
+                                            ECHART_LOAD_DATA.oldLossRate[i].push('0.00');
                                         }
                                     }
 
@@ -118,19 +117,19 @@
                             ECHART_LOAD_DATA.districtName.push(item.DISTRICT_NAME.substring(0,2));
                             ECHART_LOAD_DATA.mort_total.push(0);
                             ECHART_LOAD_DATA.mort_loss.push(0);
-                            ECHART_LOAD_DATA.lossRate.push(0);
-                            ECHART_LOAD_DATA.oldLossRate.push(0);
+                            ECHART_LOAD_DATA.lossRate.push('0.00');
+                            ECHART_LOAD_DATA.oldLossRate.push('0.00');
                         })
                     },
                     error:function(){}
                 });
             },
             buildBarChart : function(myChart){
-                if(ECHART_LOAD_DATA.month!=1){//如果不是1月则有上个月数据
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((ECHART_LOAD_DATA.month-1)),'old');
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(ECHART_LOAD_DATA.month),'new');
+                if(Number(ECHART_LOAD_DATA.month)!=1){//如果不是1月则有上个月数据
+                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)-1)),'old');
+                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
                 }else{
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(ECHART_LOAD_DATA.month),'new');
+                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
                     ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月过户总量";
                 }
 
