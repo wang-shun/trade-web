@@ -505,3 +505,8 @@ p{
 	background-color: #74dafc;
 	border: 0 none!important;
 }
+.disabled {
+	color: #fff;
+	background-color: #ccc !important;
+	border: 0 none!important;
+}
