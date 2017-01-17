@@ -113,13 +113,15 @@
             	var span1Text = 0;
             	var span2Text = 0;
             	//1.
-            	$.each(data.rows,function(i,item){
-					xAxisData.push(item.FA_FIN_ORG_NAME_YC.substring(0,2));
-					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
-					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));				
-					totalNumArr.push(parseInt(item.SIGN_NUM));
-					span2Text += parseInt(item.SIGN_NUM);
-				})
+            	if(data.rows){
+            		$.each(data.rows,function(i,item){
+    					xAxisData.push(item.FA_FIN_ORG_NAME_YC.substring(0,2));
+    					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
+    					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));				
+    					totalNumArr.push(parseInt(item.SIGN_NUM));
+    					span2Text += parseInt(item.SIGN_NUM);
+    				})
+            	} 	
             	//2.
             	yAxis =[ 
             	{

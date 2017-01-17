@@ -8,7 +8,7 @@ $(function() {
     	monthDisplay = 11;
     	yearDisplay = yearNow - 1;
     }else{
-    	monthDisplay = month - 1;
+    	monthDisplay = monthNow - 1;
     	yearDisplay = yearNow;
     }
 
@@ -16,13 +16,9 @@ $(function() {
     var $month_list = $(".calendar-month span");
     $(".calendar-year span").html(yearDisplay);
     for (var i=0; i<$month_list.length; i++) {
-        if(i == monthDisplay&&monthDisplay!=0) {
-            $(".calendar-year span").html(year);
-            $month_list.eq(i-1).addClass("select-blue");
-        }else{
-        	 $(".calendar-year span").html(year-1);
-             $month_list.eq(11).addClass("select-blue");
-        }
+        if(i == monthDisplay) {
+        	$month_list.eq(i).addClass("select-blue");
+        }            
     }
     reloadGrid(); 
     

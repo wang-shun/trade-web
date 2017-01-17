@@ -100,7 +100,6 @@
                     async:false,
                     success : function(data) {
                         $.each(data.rows,function(i,item){
-                        	console.dir(data.rows);
                         	districtIDArr.push(item.DISTRICT_ID)
                             districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
                         })
@@ -155,25 +154,28 @@
             	//1.	
         		for(var i in districtIDArr){
         			var flag = false;
-        			for(var j in data.rows){
-        				item = data.rows[j];
-        				if(districtIDArr[i] == item.DISTRICT_ID){
-        					xAxisData[i] = districtNameArr[i];
-        					dispatchNumArr[i] = item.DISPATCH_NUM;
-        					span1Text += parseInt(item.DISPATCH_NUM);
-        					signNumArr[i] = item.SIGN_NUM;
-        					span2Text += parseInt(item.SIGN_NUM);
-        					guohuNumArr[i] = item.GUOHU_NUM;
-        					span3Text += parseInt(item.GUOHU_NUM);
-        					comNumArr[i] = item.COM_NUM;
-        					span4Text += parseInt(item.COM_NUM);
-        					prfNumArr[i] = item.PRF_NUM;
-        					span5Text += parseInt(item.PRF_NUM);
-        					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","")+"%";
-        					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","")+"%";
-        					flag = true;
-        				}
-        			}    			
+                	if(data.rows){
+            			for(var j in data.rows){
+            				item = data.rows[j];
+            				if(districtIDArr[i] == item.DISTRICT_ID){
+            					xAxisData[i] = districtNameArr[i];
+            					dispatchNumArr[i] = item.DISPATCH_NUM;
+            					span1Text += parseInt(item.DISPATCH_NUM);
+            					signNumArr[i] = item.SIGN_NUM;
+            					span2Text += parseInt(item.SIGN_NUM);
+            					guohuNumArr[i] = item.GUOHU_NUM;
+            					span3Text += parseInt(item.GUOHU_NUM);
+            					comNumArr[i] = item.COM_NUM;
+            					span4Text += parseInt(item.COM_NUM);
+            					prfNumArr[i] = item.PRF_NUM;
+            					span5Text += parseInt(item.PRF_NUM);
+            					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","")+"%";
+            					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","")+"%";
+            					flag = true;
+            				}
+            			}
+                	}
+    			
         			if(!flag){
         				xAxisData[i] = districtNameArr[i];
         				dispatchNumArr[i] = 0;
@@ -213,6 +215,8 @@
 				];
             	//3.
             	legend = ['派单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比'];
+            	console.dir(comPercentArr);
+            	console.dir(prfPercentArr);
             	//4.
             	datas = [dispatchNumArr,signNumArr,guohuNumArr,comNumArr,prfNumArr,comPercentArr,prfPercentArr];
             	//5.

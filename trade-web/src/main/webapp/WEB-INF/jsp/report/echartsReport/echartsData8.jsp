@@ -49,11 +49,11 @@
                                 <div class="sum-data">
                                   <h3>数据统计</h3>
                                     <ul class="data-list else-list">
-                                        <li><em>商贷贷款单数</em><span>469</span>单</li>
-                                        <li><em>商贷金额</em><span>92844</span>万元</li>
+                                        <li><em>商贷贷款单数</em><span id="span1"></span>单</li>
+                                        <li><em>商贷金额</em><span id="span2"></span>万元</li>
                                     </ul>
                                     <hr />
-                                    <table class="table table-bordered text-center else-table">
+                                    <table class="table table-bordered text-center else-table" style="display:none">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" colspan="3">其他类：40090万元
@@ -161,13 +161,14 @@
             	var span1Text = 0;
             	var span2Text = 0;
             	//1.
-            	$.each(data.rows,function(i,item){
-            		console.log(item.FIN_ORG_NAME_YC);      		
-					xAxisData.push(FA_FIN_ORG_NAME_YC.length>2?item.FA_FIN_ORG_NAME_YC.substring(0,2):item.FA_FIN_ORG_NAME_YC + item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC);
-					totalAmountArr.push(item.CONTRACT_AMOUNT);
-					span1Text = accAdd(Number(span1Text),Number(item.CONTRACT_AMOUNT));				
-					span2Text = accAdd(Number(span2Text),Number(item.SIGN_NUM));
-				})
+            	if(data.rows){
+                	$.each(data.rows,function(i,item){
+    					xAxisData.push(FA_FIN_ORG_NAME_YC.length>2?item.FA_FIN_ORG_NAME_YC.substring(0,2):item.FA_FIN_ORG_NAME_YC + item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC);
+    					totalAmountArr.push(item.CONTRACT_AMOUNT);
+    					span1Text = accAdd(Number(span1Text),Number(item.CONTRACT_AMOUNT));				
+    					span2Text = accAdd(Number(span2Text),Number(item.SIGN_NUM));
+    				})
+            	}
             	//2.
             	yAxis =[ 
             	{

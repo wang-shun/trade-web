@@ -103,7 +103,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 })
 				 html+="</tr>"
 		    }
-				$(".echarsTable").append(html);
+				$(".echarsTable").html(html);
 				//$(".echarsTable td").width(828/xAxisSize);
 			var optionWidth=option.grid.width-(2*xAxisSize);
 			 $(".tabletitle~td").width(optionWidth/(xAxisSize));
