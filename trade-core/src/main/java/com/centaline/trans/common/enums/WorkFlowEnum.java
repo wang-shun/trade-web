@@ -18,7 +18,7 @@ public enum WorkFlowEnum {
 	SPV_OUT("spv_out","businessKey"),
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),
 	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),	
-	LOANLOST_PROCESS("LoanLost_Process:9:712832","LoanLost_Process"),	
+	LOANLOST_PROCESS("LoanLost_Process:10:950004","LoanLost_Process"),	
 	//LOANLOST_PROCESS("LoanLost_Process:7:712784","LoanLost_Process"),	
 	PSFLOAN_PROCESS("PSFLoan_Process:1:645460","PSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),
