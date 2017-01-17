@@ -124,16 +124,19 @@
                 if(ECHART_LOAD_DATA.month!=1){//如果不是1月则有上个月数据
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)-1)),'old');
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month))),'new');
+                    ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月与"+((Number(ECHART_LOAD_DATA.month))-1)+"月过户总量比较";
                 }else{
+                    ECHART_LOAD_DATA.getBarAjaxDate((Number(ECHART_LOAD_DATA.year)-1)+'-12','old');
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month))),'new');
-                    ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月过户总量";
+                    ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月与12月过户总量比较";
                 }
-                ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月与"+((Number(ECHART_LOAD_DATA.month))-1)+"月过户总量比较";
+
                 if(ECHART_LOAD_DATA.month!=1){
                     ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.month))+"月过户总量");
-                    ECHART_LOAD_DATA.legend.push(((Number(ECHART_LOAD_DATA.month))-1)+"月过户总量");
+                    ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.month)-1)+"月过户总量");
                 }else{
-                    ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.month))+"月过户总量");
+                    ECHART_LOAD_DATA.legend.push(ECHART_LOAD_DATA.year+"-"+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)))+"月过户总量");
+                    ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.year)-1)+"-12月过户总量");
                 }
                 //生成柱状图
                 var datas=[ECHART_LOAD_DATA.newData, ECHART_LOAD_DATA.oldData];
