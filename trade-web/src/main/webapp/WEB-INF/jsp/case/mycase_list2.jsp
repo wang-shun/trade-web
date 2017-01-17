@@ -406,20 +406,38 @@ text-decoration: underline !important;
                                  </p>
 {{/if}}
 {{if item.CASE_ORIGIN == 'INPUT'}}
+{{if item.createType == '1'}}
  							<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+{{else}}
+<a>
+{{/if}}
                                 <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_brown">
                                                                                         自录
-                                  </i><span class="total-sum">{{item.glCount}}</span>
+                                  </i>
+{{if item.createType == '1'}}
+<span class="total-sum">{{item.glCount}}</span>
+{{else}}
+<span class="total-sum">0</span>
+{{/if}}
                                  </p>
                              </a>
 {{/if}}
 {{if item.CASE_ORIGIN == 'CTM'}}
+{{if item.createType == '1'}}
 <a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+{{else}}
+<a>
+{{/if}}
                                 <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_blue">
                                     	导入
-                                  </i><span class="total-sum">{{item.glCount}}</span>
+                                  </i>
+{{if item.createType == '1'}}
+<span class="total-sum">{{item.glCount}}</span>
+{{else}}
+<span class="total-sum">0</span>
+{{/if}}
                                  </p>
 </a>
 {{/if}}
