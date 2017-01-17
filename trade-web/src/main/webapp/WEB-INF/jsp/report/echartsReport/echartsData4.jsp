@@ -55,14 +55,15 @@
 
                     </table>
                 </div>
-                <div class="pull-left">
-                    <div class="plot-rightone relative merge-box">
-                        <p class="seize-icon">
-                            <img src="${ctx }/css/images/zhongyuan.png" width="250" alt="" />
-                        </p>
+                  <div class="pull-left">
+                    <div class="plot-rightone">
                     </div>
+                    <div class="plot-righttwo mt10 relative">
+                         <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
+                    </div>
+                    <input type="hidden" value="${ctx}" id="ctx">
+
                 </div>
-                <input type="hidden" value="${ctx}" id="ctx">
             </div>
         </div>
     </div>

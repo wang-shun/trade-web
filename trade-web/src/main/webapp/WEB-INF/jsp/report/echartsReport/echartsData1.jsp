@@ -25,7 +25,7 @@
         <div class="row chartwo">
             <div class="col-md-12">
                 <div class="clearfix mb30">
-                    <h3 class="content-title pull-left">过户数据统计2</h3>
+                    <h3 class="content-title pull-left">过户数据统计</h3>
                     <div class="calendar-watch clearfix">
                         <p class="calendar-year">
                             <a href="#" id="subtract"><em>&lt;</em></a>

@@ -25,8 +25,6 @@ $(function() {
     if(monthDisplay<11){
     $(".calendar-month span:gt("+monthDisplay+")").addClass("disabled");
     }
-    reloadGrid(); 
-    	
     $month_list.on("click",function() {
     	var year=$(".calendar-year span").html();
     	//置灰的月份点击事件失效

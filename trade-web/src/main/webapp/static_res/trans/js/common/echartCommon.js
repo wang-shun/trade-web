@@ -85,15 +85,18 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
            	      html+="<td>"+xAxisData[k]+"</td>";
             }
 		          html+="</thead>";
-			for(var i=0;i<legend.length;i++){				
-				 html+="<tr><td class='tabletitle'>";
-				 if(type[i]=="bar"){
+			for(var i=0;i<xAxisSize;i++){	
+				if(datas[i].length<=0){
+					 return;
+					 }
+					html+="<tr><td class='tabletitle'>"+legend[i]+"</td>";
+/*				 if(type[i]=="bar"){
 				    html+= "<span class='colorBar' style='background-color:"+color[i]+"'></span>";
 				    html+=legend[i]+"</td>"
 				 }else if(type[i]=="line"){
 					 html+= "<i class='iconfont al-iconbt ml5 ' style='color:"+color[i]+"'>&#xe687;</i>"; 
 					 html+="<p class='al-text'>"+legend[i]+"</p></td>";
-				 }
+				 }*/
 				 $.each(datas[i],function(j,item){
 					 if(title != "签约贷款银行分布" && type[i]=="line"){
 						 html+="<td>"+item+"%</td>"; 
@@ -118,8 +121,8 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 function returnPie(data, items, myChart1, color, title) {
 	if(color==null){
 		color=[
-               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
-               ]
+            "#ade9e9","#ffdadb","#7aa6ea","#84d3dc","#ffd480","#fc96d0","#439cf0","#58cfc2","#ffac88","#ff9696","#0e73da","#52bdbd","#ffad6b","#f784a5","#295aa5" 
+            ]
 	}
 	var option = {
 		 title : {

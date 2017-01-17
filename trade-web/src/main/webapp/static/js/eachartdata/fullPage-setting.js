@@ -3,7 +3,7 @@ $(document).ready(function() {
         sectionsColor: ['#f5f5f5', '#f5f5f5', '#f5f5f5', '#f5f5f5', '#f5f5f5', '#f5f5f5', '#f5f5f5', '#f5f5f5', '#f5f5f5'],
         anchors: ['firstPage', 'secondPage', '3rdPage', '4thPage', '5thPage', '6thPage', '7thPage', '8thPage', 'lastPage'],
         menu: '#menu',
-        loopBottom: true,
+        loopBottom: false,
         afterLoad: function(anchorLink, index){
 
             //section 2
