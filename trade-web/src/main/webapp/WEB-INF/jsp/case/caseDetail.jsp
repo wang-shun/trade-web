@@ -125,6 +125,9 @@
 	                   	<c:if test="${toCase.status=='30001006'}">
 	                   		未指定
 	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
+	                   	</c:if>
 	                   </div>                    		
                     </c:if>
                    	<c:if test="${toCase.caseProperty=='30003004'}">
@@ -148,6 +151,9 @@
 	                   	<c:if test="${toCase.status=='30001006'}">
 	                   		未指定
 	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
+	                   	</c:if>
 	                   </div>                    		
                     </c:if>
                   	<c:if test="${toCase.caseProperty=='30003006'}">
@@ -170,6 +176,9 @@
 	                   	</c:if>
 	                   	<c:if test="${toCase.status=='30001006'}">
 	                   		未指定
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
 	                   	</c:if>
 	                   </div>                   		
                    	</c:if>
@@ -378,21 +387,21 @@
 									<c:if test="${toCase.caseProperty != 30003002}">
 										<!-- 已经结案审批通过限制流程重启 -->
 										<!-- 已经过户或者已经领证的案件限制流程重启 -->
-										<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007'}">
-										<shiro:hasPermission name="TRADE.CASE.RESTART">
+										<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' || serviceJobType=='Y' }">
+										<shiro:hasPermission name="TRADE.CASE.RESTART"> 
 											<a role="button" id="processRestart"
 												class="btn btn-primary btn-xm btn-activity"
 												href="javascript:serviceRestart()">流程重启</a>
-										</shiro:hasPermission>
-										</c:if>
+									    </shiro:hasPermission>
+										</c:if> 
 									</c:if>
-									<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007'}">
-									<shiro:hasPermission name="TRADE.CASE.RESET">
+									<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' || serviceJobType == 'Y' }">
+									<shiro:hasPermission name="TRADE.CASE.RESET"> 
 										<a role="button" id="caseResetes"
 											class="btn btn-primary btn-xm btn-activity"
 											href="javascript:caseReset()">案件重置</a>
-									</shiro:hasPermission>
-									</c:if>
+									 </shiro:hasPermission>
+									</c:if> 
 									<c:if test="${isCaseOwner && isNewFlow}">
 										<!-- 主办 &10:445004或者之后的流程-->
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
