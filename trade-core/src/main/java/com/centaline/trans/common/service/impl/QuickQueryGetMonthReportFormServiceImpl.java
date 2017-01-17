@@ -39,7 +39,7 @@ public class QuickQueryGetMonthReportFormServiceImpl implements CustomDictServic
         if("mortComCount".equals(dictType)){
             sql.append("select count(1) as v from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = :code and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=:code2 and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')");
         }else if("mortPrfCount".equals(dictType)){
-            sql.append("select count(1) as v from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = :code and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=:code2 and (tb2.MORTGAGE_LOAN_TYPE='30016003' or tb2.MORTGAGE_LOAN_TYPE='30016002')");
+            sql.append("select count(1) as v from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = :code and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=:code2 and (tb2.MORTGAGE_LOAN_TYPE='30016003')");
         }else if("noMortCount".equals(dictType)){
             sql.append("select count(1) as v from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = :code and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=:code2");
         }else if("lostCount".equals(dictType)){

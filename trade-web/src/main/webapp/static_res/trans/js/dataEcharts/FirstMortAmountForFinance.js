@@ -10,7 +10,7 @@
 
             finID:[],//金融机构
             finName:[],//金融机构NAME
-            xAxisData:[],
+            xAxisData:[],//横坐标
             mort_total:[],//贷款总额
             com_total:[],//商业贷款总金额
             mort_loss:[],//流失贷款总金额
