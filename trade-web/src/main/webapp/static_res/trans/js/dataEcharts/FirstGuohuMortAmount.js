@@ -137,7 +137,7 @@
                 var type=["bar","bar","line","line"];
                 var yAxis =[ {
                     type : 'value',//左边
-                    name : '数量(万元)',
+                    name : '金额(万元)',
                     axisLabel : {
                         formatter : '{value}'
                     }
