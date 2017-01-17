@@ -113,8 +113,7 @@
         	data.pagination = false;
         	var year = $(".calendar-year span").html();
 	        var month = $(".calendar-month span[class$='select-blue']").html().substring(0,1);
-        	//data.choiceMonth = year + "-" + month;
-            data.choiceMonth = "2016-11";
+        	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
         		async: true,
@@ -169,8 +168,8 @@
             					span4Text += parseInt(item.COM_NUM);
             					prfNumArr[i] = item.PRF_NUM;
             					span5Text += parseInt(item.PRF_NUM);
-            					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","")+"%";
-            					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","")+"%";
+            					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","");
+            					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","");
             					flag = true;
             				}
             			}
@@ -183,13 +182,13 @@
         				guohuNumArr[i] = 0;
         				comNumArr[i] = 0;
         				prfNumArr[i] = 0;
-        				comPercentArr[i] = "0%";
-        				prfPercentArr[i] = "0%";
+        				comPercentArr[i] = 0;
+        				prfPercentArr[i] = 0;
         			}
         		}
             	
-            	span6Text = accMul(accDiv(span4Text,span2Text),100).replace(".00","")+"%";
-            	span7Text = accMul(accDiv(span5Text,span2Text),100).replace(".00","")+"%";
+            	span6Text = accMul(accDiv(span4Text,span2Text),100).replace(".00","");
+            	span7Text = accMul(accDiv(span5Text,span2Text),100).replace(".00","");
             	//2.
             	yAxis =[ 
             	{
@@ -215,8 +214,6 @@
 				];
             	//3.
             	legend = ['派单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比'];
-            	console.dir(comPercentArr);
-            	console.dir(prfPercentArr);
             	//4.
             	datas = [dispatchNumArr,signNumArr,guohuNumArr,comNumArr,prfNumArr,comPercentArr,prfPercentArr];
             	//5.
@@ -235,8 +232,8 @@
             	$("#span3").text(span3Text);
             	$("#span4").text(span4Text);
             	$("#span5").text(span5Text);
-            	$("#span6").text(span6Text);
-            	$("#span7").text(span7Text);
+            	$("#span6").text(span6Text+"%");
+            	$("#span7").text(span7Text+"%");
                 },
                 error: function (e, jqxhr, settings, exception) {
                 	   	 

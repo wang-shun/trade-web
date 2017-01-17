@@ -95,7 +95,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					 html+="<p class='al-text'>"+legend[i]+"</p></td>";
 				 }
 				 $.each(datas[i],function(j,item){
-					 if(title == '11月派单、签约量统计' && type[i]=="line"){
+					 if(title != "签约贷款银行分布" && type[i]=="line"){
 						 html+="<td>"+item+"%</td>"; 
 					 }else{
 						 html+="<td>"+item+"</td>"; 

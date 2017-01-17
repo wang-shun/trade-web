@@ -97,7 +97,6 @@
                     async:false,
                     success : function(data) {
                         $.each(data.rows,function(i,item){
-                        	console.dir(data.rows);
                         	districtIDArr.push(item.DISTRICT_ID)
                             districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
                         })
@@ -110,8 +109,7 @@
         	data.pagination = false;
         	var year = $(".calendar-year span").html();
 	        var month = $(".calendar-month span[class$='select-blue']").html().substring(0,1);
-        	//data.choiceMonth = year + "-" + month;
-            data.choiceMonth = "2016-11";
+        	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
         		async: true,
@@ -159,8 +157,8 @@
             					span2Text = accAdd(span2Text,accDiv(parseInt(item.COM_AMOUNT),10000));
             					prfAmountArr[i] = Math.round(accDiv(parseInt(item.PRF_AMOUNT),10000));
             					span3Text = accAdd(span3Text,accDiv(parseInt(item.PRF_AMOUNT),10000));
-            					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_AMOUNT),parseInt(item.TOTAL_AMOUNT)),100).replace(".00","")+"%";
-            					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_AMOUNT),parseInt(item.TOTAL_AMOUNT)),100).replace(".00","")+"%";
+            					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_AMOUNT),parseInt(item.TOTAL_AMOUNT)),100).replace(".00","");
+            					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_AMOUNT),parseInt(item.TOTAL_AMOUNT)),100).replace(".00","");
             					flag = true;
             					}
             				}
@@ -171,13 +169,13 @@
         				totalAmountArr[i] = 0;
         				comAmountArr[i] = 0;
         				prfAmountArr[i] = 0;
-        				comPercentArr[i] = "0%";
-        				prfPercentArr[i] = "0%";
+        				comPercentArr[i] = 0;
+        				prfPercentArr[i] = 0;
         			}
         			}
 				
-            	span4Text = accMul(accDiv(span2Text,span1Text),100).replace(".00","")+"%";
-            	span5Text = accMul(accDiv(span3Text,span1Text),100).replace(".00","")+"%";
+            	span4Text = accMul(accDiv(parseInt(span2Text),parseInt(span1Text)),100).replace(".00","");
+            	span5Text = accMul(accDiv(parseInt(span3Text),parseInt(span1Text)),100).replace(".00","");
             	//2.
             	yAxis =[ 
             	{
@@ -219,8 +217,8 @@
             	$("#span1").text(Math.round(span1Text));
             	$("#span2").text(Math.round(span2Text));
             	$("#span3").text(Math.round(span3Text));
-            	$("#span4").text(span4Text);
-            	$("#span5").text(span5Text);
+            	$("#span4").text(span4Text+"%");
+            	$("#span5").text(span5Text+"%");
                 },
                 error: function (e, jqxhr, settings, exception) {
                 	   	 

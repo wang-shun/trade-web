@@ -101,8 +101,10 @@
 			<baseSql>
 				<![CDATA[
 				select 
-				t.FA_FIN_ORG_CODE,
+				count(1) SIGN_NUM,
+				(select o.FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG o where o.FIN_ORG_CODE = main.MORTGAGET_FIN_ORG_CODE) FA_FIN_ORG_CODE,
 				main.MORTGAGET_FIN_ORG_CODE,
+				main.MORTGAGET_IS_TMP_BANK,
 				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE
@@ -118,10 +120,12 @@
 		</searchSql>
 		<grid>
 			<table-row>
+			    <column type="both" name="SIGN_NUM" index="" checkbox="" title="总单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>					
 			    <column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" title="银行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="FA_FIN_ORG_NAME_YC" index="" checkbox="" display="银行简写名" customDict="qqGetfinOrgYCName" referencecol="FA_FIN_ORG_CODE"/>
 				<column type="both" name="MORTGAGET_FIN_ORG_CODE" index="" checkbox="" title="支行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="FIN_ORG_NAME_YC" index="" checkbox="" display="支行简写名" customDict="qqGetfinOrgYCName" referencecol="MORTGAGET_FIN_ORG_CODE"/>
+				<column type="both" name="MORTGAGET_IS_TMP_BANK" index="" checkbox="" display="是否临时银行" customDict="" referencecol=""/>
 				<column type="both" name="CONTRACT_AMOUNT" index="" checkbox="" title="总金额" expType="Double" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
