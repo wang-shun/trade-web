@@ -149,7 +149,7 @@
             	//4.
             	datas = [totalAmountArr,totalNumArr];
             	//5.
-            	type = ["bar","bar"];
+            	type = ["bar","line"];
             	//6.
             	color = null;
             	//7.
