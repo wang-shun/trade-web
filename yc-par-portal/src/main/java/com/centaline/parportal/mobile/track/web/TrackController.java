@@ -22,6 +22,7 @@ import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.stuff.enums.CommentType;
 import com.centaline.trans.stuff.service.StuffService;
+import com.centaline.trans.track.service.TrackService;
 import com.centaline.trans.utils.BeanUtils;
 
 /**
@@ -43,6 +44,8 @@ public class TrackController {
 
     @Autowired
     private StuffService         stuffService;
+    @Autowired
+    private TrackService trackService;
 
     @RequestMapping(value = "/add")
     @ResponseBody
@@ -64,10 +67,7 @@ public class TrackController {
             case BUJIAN:
                 Boolean isNotifyCustomer = cmtVo.getIsNotifyCustomer() != null
                     ? cmtVo.getIsNotifyCustomer() : false;
-                //启动补件流程
-                stuffService.reqStuff(track, isNotifyCustomer);
-                //插入补件comment
-                resultCount = toCaseCommentService.insertToCaseComment(track);
+               resultCount=trackService.buJian(track, isNotifyCustomer);
                 break;
             case REJECT:
                 break;

@@ -788,7 +788,7 @@
 		                                             <label class="control-label sign_left">信贷员到场</label> 
 		                                             <div class="controls" >
 											              <label class="radio inline"> <input type="radio" value="1" name="isLoanerArrive">是</label> 
-								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive">否</label>
+								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
 		                                             </div>
 		                                         </div>
 		                                     </div>
@@ -806,7 +806,7 @@
 		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
 										             <div class="controls">
                                                          <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
-                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend">否</label>
+                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend" checked="checked">否</label>
                                                      </div>
 		                                         </div>
 		                                     </div>
@@ -816,7 +816,7 @@
 		                                             <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
                                                         <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
-                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' }>否</label>
+                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
                                                      </div>
 		                                         </div>
 		                                         <div class="form_content" style="margin-left:-40px;">

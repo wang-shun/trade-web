@@ -95,10 +95,19 @@
 		<pattern>/report/caseLossRateReasonList</pattern>
 		<pattern>/test/*</pattern>
 		<pattern>/caseMerge/caseRecord</pattern>
-		<pattern>/report/report/*</pattern>
 	</decorator>
 	<decorator name="noTemplate">
-	
+		<pattern>/report/guoHuReport</pattern>
+		<pattern>/report/signReport</pattern>
+	    <pattern>/report/charts</pattern>
+		<pattern>/report/echartsData1</pattern>
+		<pattern>/report/echartsData2</pattern>
+		<pattern>/report/echartsData3</pattern>
+		<pattern>/report/echartsData4</pattern>
+		<pattern>/report/echartsData5</pattern>
+		<pattern>/report/echartsData6</pattern>
+		<pattern>/report/echartsData7</pattern>
+		<pattern>/report/echartsData8</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

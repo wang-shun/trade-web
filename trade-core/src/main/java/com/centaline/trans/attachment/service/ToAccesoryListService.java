@@ -11,6 +11,7 @@ public interface ToAccesoryListService {
 	public List<ToAccesoryList> qureyToAccesoryList(ToAccesoryList toAccesoryList);
 	public List<ToAccesoryList> qureyToAccesoryList(ToAccesoryList toAccesoryList,String caseCode);
 	public String findAccesoryNameByCode(String accessoryCode);
+	public String findAccesoryNameByPartCode(ToAccesoryList toAccesoryList);
 	public ToAccesoryList findAccesoryByCode(String accessoryCode);
 	public boolean saveAccesoryList(AccsoryListVO accsoryListVO);
 	void getAccesoryListCaseClose(HttpServletRequest request, String caseCode);

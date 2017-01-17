@@ -97,7 +97,7 @@
 			   		sctrans.V_RPT_CASE_PROCESS_STATIS A
 			   		INNER JOIN  sctrans.V_CASE_LIST_BASE B 	ON  A.CASE_CODE=B.CASE_CODE	
 				WHERE
-					A.RECEIVED_TIME IS NOT NULL
+					A.RECEIVED_TIME IS NOT NULL and  B.STATUS != '30001007'
 					
 				 <if test="user_Id != null">
 				 	AND A.RECEIVED_USER = #user_Id#

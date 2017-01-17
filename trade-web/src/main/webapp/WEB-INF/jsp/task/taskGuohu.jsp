@@ -240,14 +240,13 @@
 	            </div>
         </div>
         
-        <!-- 相关信息 -->
-        <div class="view-content" id="caseCommentList" > </div>
-        <div class="" id="aboutInfo">
-			<c:choose>
+            <!-- 案件跟进 -->
+        <div class="view-content" id="caseCommentList"> </div>
+      	<div class="mt30 clearfix" id="aboutInfo">
+        		<c:choose>
 				<c:when test="${accesoryList!=null}">
 					<h2 class="newtitle title-mark">上传备件</h2>
-					<div class="ibox-content"
-						style="height: 410px; overflow-y: scroll;">
+					<div class="ibox-content" style="height: 410px; overflow-y: scroll;">
 						<div class="table-box" id="guohufileUploadContainer"></div>
 					</div>
 				</c:when>
@@ -257,22 +256,22 @@
 					</h5>
 				</c:otherwise>
 			</c:choose>
-		</div>
+        </div>
         
-        <div class="">
-            <h2 class="newtitle title-mark">审批记录</h2>
-            <div class="jqGrid_wrapper">
-				<table id="reminder_list"></table>
-				<div id="pager_list_1"></div>
-			</div>
-        </div>
-
-        <div class="form-btn">
-            <div class="text-center">
-                <a href="#" class="btn btn-success btn-space" onclick="save(false)">保存</a>
-                 <a href="#" class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</a>
-            </div>
-        </div>
+	        <div class="">
+	            <h2 class="newtitle title-mark">审批记录</h2>
+	            <div class="jqGrid_wrapper">
+					<table id="reminder_list"></table>
+					<div id="pager_list_1"></div>
+				</div>
+	        </div>
+	
+	        <div class="form-btn">
+	            <div class="text-center">
+	                <a href="#" class="btn btn-success btn-space" onclick="save(false)">保存</a>
+	                 <a href="#" class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</a>
+	            </div>
+	        </div>
         
         </div>
 	</div>
@@ -308,7 +307,7 @@
 	<script src="${ctx}/js/stickUp.js"></script>
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/trunk/task/attachment.js?v=1.1.0"></script> 
+	<script src="${ctx}/js/trunk/task/attachment3.js?v=1.1.0"></script> 
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	<script src="${ctx}/transjs/sms/sms.js"></script> 
@@ -542,7 +541,7 @@
 							console.log("Result=====" +JSON.stringify(data));
 							if(data != null ){
 								if(data.success){
-									var ctmCode  = data.context;
+									var ctmCode  = data.content;
 									var caseOrigin  = data.message;													
 									if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
 											if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
@@ -568,10 +567,15 @@
 			}			
 		}
 		
-		function  goProcess(b){
-			if (!checkForm() || !deleteAndModify()) {
+		function  goProcess(b){	
+			if (!checkForm()) {
 				return;
 			}
+/* 			if (!checkForm() || !deleteAndModify()) {				
+				return;
+			} */
+			
+			deleteAndModify();
 			var jsonData = $("#houseTransferForm").serializeArray();
 
 			var url = "${ctx}/task/ToHouseTransfer/saveToHouseTransfer";

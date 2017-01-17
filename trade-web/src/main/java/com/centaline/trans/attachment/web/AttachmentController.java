@@ -191,7 +191,10 @@ public class AttachmentController {
 		if (attachments != null && attachments.size() > 0) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
-					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+					ToAccesoryList accesoryList=new ToAccesoryList();
+					accesoryList.setAccessoryCode(attachment.getPreFileCode());
+					accesoryList.setPartCode(attachment.getPartCode());
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByPartCode(accesoryList));
 				}
 			}
 		}
@@ -237,7 +240,10 @@ public class AttachmentController {
 		if (attachments != null && attachments.size() > 0) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
-					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+					ToAccesoryList accesoryList=new ToAccesoryList();
+					accesoryList.setAccessoryCode(attachment.getPreFileCode());
+					accesoryList.setPartCode(attachment.getPartCode());
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByPartCode(accesoryList));
 				}
 			}
 		}

@@ -161,6 +161,12 @@
 	<bean name="qqfinOrgIdName" class="com.centaline.trans.common.service.impl.QuickQueryFinOrgImpl">
     	<property name="prop" value="finOrgName"></property>
     </bean>
+
+    <!-- 根据金融机构编码查询最高的金融机构-->
+    <bean name="qqGetfinOrgYCName" class="com.centaline.trans.common.service.impl.QuickQueryFinOrgImpl">
+        <property name="prop" value="finOrgNameYc"></property>
+    </bean>
+
     <!-- 进出账方向 -->
     <bean name="qqcdDictyu_cash_direction" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_cash_direction"></property>
@@ -460,8 +466,6 @@
         <property name="dictType" value="mortgageAmount"></property>
     </bean>
 
-
-	
     <!-- 根据案件编号集合查询贷款银行、贷款支行信息 -->
     <bean name="quickQueryGetMainAndBranchBankService" class="com.centaline.trans.common.service.impl.QuickQueryGetMainAndBranchBankByCaseCodeListServiceImpl"></bean>
 
@@ -491,6 +495,29 @@
     <bean name="qqWorkflow" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
         <property name="dictType" value="wf"></property>
     </bean>
+
+    <!-- 根据区域ID和月份查询当月的商贷案件数量 -->
+    <bean name="qqGetMortComCount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="mortComCount"></property>
+    </bean>
+    <!-- 根据区域ID和月份查询当月的公积金案件数量 -->
+    <bean name="qqGetMortPrfCount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="mortPrfCount"></property>
+    </bean>
+    <!-- 根据区域ID和月份查询当月的无贷款案件数量 -->
+    <bean name="qqGetNoMortCount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="noMortCount"></property>
+    </bean>
+    <!-- 根据区域ID和月份查询当月的流失案件数量 -->
+    <bean name="qqGetLostCount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="lostCount"></property>
+    </bean>
+
+    <!-- 根据金融机构CODE查询所属银行机构的名字 -->
+    <bean name="qqGetLostMorTotalAmount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="lostMorTotalAmount"></property>
+    </bean>
+
 
     <!-- 根据custCode 查询主贷人电话 -->
     <bean name="custPhoneByCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCustPhoneByCodeServiceImpl" >    	

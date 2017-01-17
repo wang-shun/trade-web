@@ -825,3 +825,6 @@ function caseCodeSort(){
 		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 	}
 }
+function ts(status){
+	alert(status+"案件不能拆分案件！");
+}
