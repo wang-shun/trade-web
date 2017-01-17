@@ -101,7 +101,7 @@
         	data.queryId = "querySignBranchBankList";	
         	data.pagination = false;
         	var year = $(".calendar-year span").html();
-	        var month = $(".calendar-month span[class$='select-blue']").html().substring(0,1);
+	        var month = $(".calendar-month span[class$='select-blue']").html().replace("月","");
         	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
@@ -136,7 +136,7 @@
             		var totalAmountArrI = 0;
             		var otherBankNameArr = [];
             		var otherAmountArr = [];
-            		var otherIsTmpBankArr = [];
+            		var otherIsRuweiBankArr = [];
             		$.each(data.rows,function(i,item){
             			span1Text = accAdd(Number(span1Text),accDiv(parseInt(item.CONTRACT_AMOUNT),10000));		
       					span2Text += parseInt(item.SIGN_NUM);
@@ -150,7 +150,7 @@
       					}else{
       						otherBankNameArr.push(fa_fin_org_name_yc+fin_org_name_yc);
       						otherAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
-      						otherIsTmpBankArr.push(item.MORTGAGET_IS_TMP_BANK);
+      						otherIsRuweiBankArr.push(item.RUWEI_BANK == 'cl'?'1':'0');
       						totalAmountArrI = accAdd(totalAmountArrI,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));
             			}                  
         			}) 
@@ -162,9 +162,9 @@
         				for(var j = 0;j < 10;j++){
         					tbodyContent += "<tr>";
         					tbodyContent += "<td>"+otherBankNameArr[j]+"</td><td>"+otherAmountArr[j]+"</td>";
-        					if(otherIsTmpBankArr[i] == '1'){
+        					if(otherIsRuweiBankArr[i] == '1'){
         						tbodyContent += "<td class='ok-blue'>是</td>";
-        					}else if(otherIsTmpBankArr[i] == '0'){
+        					}else if(otherIsRuweiBankArr[i] == '0'){
         						tbodyContent += "<td>否</td>";
         					}else{
         						tbodyContent += "<td></td>";

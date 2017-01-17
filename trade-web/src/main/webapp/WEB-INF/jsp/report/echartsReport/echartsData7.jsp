@@ -81,7 +81,7 @@
         	data.queryId = "querySignBankList";	
         	data.pagination = false;
         	var year = $(".calendar-year span").html();
-	        var month = $(".calendar-month span[class$='select-blue']").html().substring(0,1);
+	        var month = $(".calendar-month span[class$='select-blue']").html().replace("月","");
         	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
