@@ -140,7 +140,7 @@ public class GuohuApproveController {
 		query.setProcessInstanceId(processInstanceId);
 		PageableVo pageableVo=workFlowManager.listHistTasks(query);
 		if(pageableVo.getData() != null && !pageableVo.getData().isEmpty()){
-			guohuUser = uamUserOrgService.getUserByUsername(((TaskVo)pageableVo.getData().get(0)).getAssignee());
+			guohuUser = uamUserOrgService.getHisUserByUsername(((TaskVo)pageableVo.getData().get(0)).getAssignee());
 		}
 		
 		if(guohuUser == null){
