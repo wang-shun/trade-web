@@ -24,7 +24,9 @@ require.config({
     		"modal" : "js/trunk/JSPFileUpload/bootstrap-modal", //为解决弹出框引入的js文件
     		"modalmanager" : "js/trunk/JSPFileUpload/bootstrap-modalmanager", //为解决弹出框引入的js文件
     		"twbsPagination" : "js/plugins/pager/jquery.twbsPagination.min",
-    		"bootstrapModal" : "js/bootstrap-modal"
+    		"bootstrapModal" : "js/bootstrap-modal",
+    		"aistJqueryCustom" : "js/plugins/aist/aist.jquery.custom",   //解决$(...).reloadGrid is not a function的问题
+    		"poshytip" : "js/poshytitle/src/jquery.poshytip"  //解决$(...).poshytip is not a function的问题
     	}
     });
 

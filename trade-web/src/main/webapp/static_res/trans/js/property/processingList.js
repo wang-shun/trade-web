@@ -19,15 +19,18 @@ $(document).ready(function() {
 
 	$("input[name='isScuess']").on('click',function(){
 		if(!!~~$(this).val()){ // 选择有效
-			$(".gradepad").show();
+			$("#fileUploadContainer").show();
+			//$(".gradepad").show();
 			$("#wuxiao").hide();
 			$('#unSuccessReason').val('');
 		}else{                 // 选择无效
 			$("#wuxiao").show();
-		    $(".gradepad").hide();
+			$("#fileUploadContainer").hide();
+			
+		    //$(".gradepad").hide();
 		}
 	});
-
+	
 	// 初始化列表
 	var data = {};
     data.search_prDistrictId = prDistrictId;
@@ -168,36 +171,47 @@ function commitDispose(isSubmit){
 function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr, 
 		distcode, executorId, executorName) {
 	
-	if (cd == null || cd == "") {
-		$("#caseCode").val(pr);
-	} else {
-		$("#caseCode").val(cd);
-	}
-	$("#caseCode").val(pr);
-	caseCode = pr;
-	prCode = pr;
-	pkid = id;
-	taskitem = pc;
-	getAttchInfo();
-	if(isS=='否'){
-		isS='0';
-	}else{
-		isS='1';
-	}
+			if (cd == null || cd == "") {
+				$("#caseCode").val(pr);
+			} else {
+				$("#caseCode").val(cd);
+			}
+			
+			$("#caseCode").val(pr);
+			caseCode = pr;
+			prCode = pr;
+			pkid = id;
+			taskitem = pc;
+			getAttchInfo();
+			if(isS=='否'){
+				isS='0';
+			}else{
+				isS='1';
+			}
 
-	$('#address').text(addr);
-	$('#prcat').text(prcat);
-	$('#applyOrgName').text(applyOrgName);
-	$('#orgMgr').text(orgMgr);
-	$('#distcode').text(distcode);
-	$("#executor").attr('hVal', executorId);
-	$("#executor").val(executorName);
+			$('#address').text(addr);
+			$('#prcat').text(prcat);
+			$('#applyOrgName').text(applyOrgName);
+			$('#orgMgr').text(orgMgr);
+			$('#distcode').text(distcode);
+			$("#executor").attr('hVal', executorId);
+			$("#executor").val(executorName);
 
-	$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
-	if(uns){
-		$('#unSuccessReason').val(uns);
-	}
-	$("#modal-form").modal("show");
+			$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
+			if(uns){
+				$('#unSuccessReason').val(uns);
+			}
+			
+			fileUpload.init({
+	    		caseCode : caseCode,
+	    		partCode : "property_research",
+	    		fileUploadContainer : "fileUploadContainer",
+	    		isNestTable : true,
+	    		tdWidth : 94
+	    	});
+			
+			$("#fileUploadContainer .table thead th").remove();
+			$("#modal-form").modal("show");
 }
 
 	function getAttchInfo() {
@@ -260,18 +274,21 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 	}
 	function save(isSubmit){
 		if(isSubmit&&!!~~$('input[name="isScuess"]:checked ').val()){
+			
 			if(!checkAttachment()){
 				return false;
 			}
 		}
+		
 		if(!checkForm()){
 			return false;
 		}
-		if(!!~~$('input[name="isScuess"]:checked ').val()){
+		/*if(!!~~$('input[name="isScuess"]:checked ').val()){
+			console.log($('input[name="isScuess"]:checked ').val())
 			if(!deleteAndModify()){
 				return false;
 			}
-		}
+		}*/
 		if(isSubmit && !!~~$('input[name="isScuess"]:checked ').val()){
 			checkIsExistFile(isSubmit);
 		}else{
