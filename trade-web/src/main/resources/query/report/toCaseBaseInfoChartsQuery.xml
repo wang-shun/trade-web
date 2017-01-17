@@ -198,7 +198,7 @@
 					<ifNotNull choiceMonth>
 					 #choiceMonth# as CHOICE_MONTH,
 					</ifNotNull>
-					(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where MORTGAGET_FIN_ORG_CODE = tb2.MORTGAGET_FIN_ORG_CODE and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# ) LOST_AMOUNT,--流失金额
+					(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where MORTGAGET_FIN_ORG_CODE = tb2.MORTGAGET_FIN_ORG_CODE and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# ) LOST_AMOUNT,--流失金额
 					t1.FA_FIN_ORG_CODE--金融机构code
 				from
 				(
