@@ -19,6 +19,7 @@ $(function() {
         	$month_list.eq(i).addClass("select-blue");
         }            
     }
+    reloadGrid();
     //增加年份置灰
     $("#add em").addClass("disabled");
     //月份置灰
@@ -32,6 +33,7 @@ $(function() {
         	return false;
         }
         $(this).addClass("select-blue").siblings().removeClass('select-blue');
+        
         reloadGrid();
     });
     //年份加减

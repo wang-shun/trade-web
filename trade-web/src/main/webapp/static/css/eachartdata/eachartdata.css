@@ -306,13 +306,13 @@ p{
 	border: 0px;
 }
 
-.tabletitle .colorBar {
+ .colorBar {
 	width: 24px;
 	height: 12px;
 	border-radius: 3px;
 	display: inline-block;
 	float: left;
-	margin: 3px 3px 0px 3px;
+	margin: 13px 5px 0px 3px;
 }
 
 .tabletitle img {

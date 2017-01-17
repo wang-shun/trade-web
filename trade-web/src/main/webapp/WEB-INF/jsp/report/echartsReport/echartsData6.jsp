@@ -49,9 +49,9 @@
                                 <div class="sum-data">
                                     <h3>数据统计</h3>
                                     <ul class="data-list">
-                                        <li><em>签贷贷合同价</em><span id="span1"></span>万元</li>
-                                        <li><em>商贷金额</em><span id="span2"></span>万元</li>
-                                        <li><em>公积金金额</em><span id="span3"></span>万元</li>
+                                        <li><i class='colorBar' style='background-color:#295aa5'></i><em>签贷贷合同价</em><span id="span1"></span>万元</li>
+                                        <li><i class='colorBar' style='background-color:#f784a5'></i><em>商贷金额</em><span id="span2"></span>万元</li>
+                                        <li><i class='colorBar' style='background-color:#ffad6b'></i><em>公积金金额</em><span id="span3"></span>万元</li>
                                     </ul>
                                     <ul class="data-list data-border">
                                         <li><em>商贷签贷占比</em><span id="span4" class="red"></span></li>

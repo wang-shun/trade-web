@@ -50,11 +50,11 @@
                                 <div class="sum-data">
                                     <h3>数据统计</h3>
                                     <ul class="data-list">
-                                        <li><em>派单量</em><span id="span1"></span>单</li>
-                                        <li><em>签约量</em><span id="span2"></span>单</li>
-                                        <li><em>过户量</em><span id="span3"></span>单</li>
-                                        <li><em>商贷量</em><span id="span4"></span>单</li>
-                                        <li><em>纯公积金量</em><span id="span5"></span>单</li>
+                                        <li><i class='colorBar' style='background-color:#295aa5'></i><em>派单量</em><span id="span1"></span>单</li>
+                                        <li><i class='colorBar' style='background-color:#f784a5'></i><em>签约量</em><span id="span2"></span>单</li>
+                                        <li><i class='colorBar' style='background-color:#ffad6b'></i><em>过户量</em><span id="span3"></span>单</li>
+                                        <li><i class='colorBar' style='background-color:#52bdbd'></i><em>商贷量</em><span id="span4"></span>单</li>
+                                        <li><i class='colorBar' style='background-color:#0e73da'></i><em>纯公积金量</em><span id="span5"></span>单</li>
                                     </ul>
                                     <ul class="data-list data-border">
                                         <li><em>商贷签贷占比</em><span id="span6" class="red"></span></li>

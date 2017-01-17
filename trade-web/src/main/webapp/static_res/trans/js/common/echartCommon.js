@@ -13,7 +13,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 	  
 			if(color==null){
 				color=[
-		               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
+		               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
 		               ]
 			}
 			var option = {
@@ -79,17 +79,17 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 			})
 
 			myChart.setOption(option);
-			
+			$(".echarsTable").html("");
 			var html="<thead><td class='tabletitle'></td>";
             for(var k=0;k<xAxisSize;k++){
            	      html+="<td>"+xAxisData[k]+"</td>";
             }
 		          html+="</thead>";
-			for(var i=0;i<xAxisSize;i++){	
+			for(var i=0;i<legend.length;i++){
 				if(datas[i].length<=0){
-					 return;
-					 }
-					html+="<tr><td class='tabletitle'>"+legend[i]+"</td>";
+				 return;
+				 }
+				html+="<tr><td class='tabletitle'>"+legend[i]+"</td>";
 /*				 if(type[i]=="bar"){
 				    html+= "<span class='colorBar' style='background-color:"+color[i]+"'></span>";
 				    html+=legend[i]+"</td>"
@@ -98,8 +98,8 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					 html+="<p class='al-text'>"+legend[i]+"</p></td>";
 				 }*/
 				 $.each(datas[i],function(j,item){
-					 if(title != "签约贷款银行分布" && type[i]=="line"){
-						 html+="<td>"+item+"%</td>"; 
+					 if(title == '签约贷款银行分布' && type[i]=="line"){
+						 html+="<td>"+item+" %</td>"; 
 					 }else{
 						 html+="<td>"+item+"</td>"; 
 					 }
