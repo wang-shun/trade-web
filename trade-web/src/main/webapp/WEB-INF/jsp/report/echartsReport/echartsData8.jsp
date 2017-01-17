@@ -53,7 +53,7 @@
                                         <li><em>商贷金额</em><span id="span2"></span>万元</li>
                                     </ul>
                                     <hr />
-                                    <table class="table table-bordered text-center else-table" style="display:none">
+                                    <table id="displayTable" class="table table-bordered text-center else-table" style="display:none">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" colspan="3">其他类：40090万元
@@ -66,37 +66,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>工商长宁</td><td>1237</td><td class="ok-blue">是</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>光大隆昌</td><td>1062</td><td>否</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>建设松江</td><td>1062</td><td class="ok-blue">是</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>工商浦东</td><td>1062</td><td class="ok-blue">是</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>招商联洋</td><td>1062</td><td>否</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>农商普陀</td><td>1062</td><td class="ok-blue">是</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>工商虹口</td><td>1062</td><td class="ok-blue">是</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>农商杨思</td><td>1062</td><td>否</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>中信沪西</td><td>1062</td><td>否</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>上海浦西</td><td>1062</td><td>否</td>
-                                                </tr>
-
+                                                    <!-- 其他银行信息 -->
                                             </tbody>
                                     </table>
                                     
@@ -132,8 +102,7 @@
         	data.pagination = false;
         	var year = $(".calendar-year span").html();
 	        var month = $(".calendar-month span[class$='select-blue']").html().substring(0,1);
-        	//data.choiceMonth = year + "-" + month;
-            data.choiceMonth = "2016-11";
+        	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
         		async: true,
@@ -161,13 +130,51 @@
             	var span1Text = 0;
             	var span2Text = 0;
             	//1.
-            	if(data.rows){
-                	$.each(data.rows,function(i,item){
-    					xAxisData.push(FA_FIN_ORG_NAME_YC.length>2?item.FA_FIN_ORG_NAME_YC.substring(0,2):item.FA_FIN_ORG_NAME_YC + item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC);
-    					totalAmountArr.push(item.CONTRACT_AMOUNT);
-    					span1Text = accAdd(Number(span1Text),Number(item.CONTRACT_AMOUNT));				
-    					span2Text = accAdd(Number(span2Text),Number(item.SIGN_NUM));
-    				})
+            	if(data.rows){  
+            		//其他
+            		var xAxisDataI = null;
+            		var totalAmountArrI = 0;
+            		var otherBankNameArr = [];
+            		var otherAmountArr = [];
+            		var otherIsTmpBankArr = [];
+            		$.each(data.rows,function(i,item){
+            			span1Text = accAdd(Number(span1Text),accDiv(parseInt(item.CONTRACT_AMOUNT),10000));		
+      					span2Text += parseInt(item.SIGN_NUM);
+      					var fa_fin_org_name_yc = item.FA_FIN_ORG_NAME_YC.length>2?item.FA_FIN_ORG_NAME_YC.substring(0,2):item.FA_FIN_ORG_NAME_YC;
+                        var fin_org_name_yc = item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC;
+            			//前14个直接显示
+      					if(i < 14){		
+                            xAxisData.push(fa_fin_org_name_yc+fin_org_name_yc);
+          					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));					
+            			//后面的加入到‘其他’
+      					}else{
+      						otherBankNameArr.push(fa_fin_org_name_yc+fin_org_name_yc);
+      						otherAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
+      						otherIsTmpBankArr.push(item.MORTGAGET_IS_TMP_BANK);
+      						totalAmountArrI = accAdd(totalAmountArrI,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));
+            			}                  
+        			}) 
+        			
+        			if(data.rows.length > 14){
+        				xAxisData.push("其他");
+        				totalAmountArr.push(Math.round(totalAmountArrI));
+        				var tbodyContent = "";
+        				for(var j = 0;j < 10;j++){
+        					tbodyContent += "<tr>";
+        					tbodyContent += "<td>"+otherBankNameArr[j]+"</td><td>"+otherAmountArr[j]+"</td>";
+        					if(otherIsTmpBankArr[i] == '1'){
+        						tbodyContent += "<td class='ok-blue'>是</td>";
+        					}else if(otherIsTmpBankArr[i] == '0'){
+        						tbodyContent += "<td>否</td>";
+        					}else{
+        						tbodyContent += "<td></td>";
+        					} 
+                            tbodyContent += "</tr>";
+        				}
+
+        				$("#displayTable tbody").html(tbodyContent);
+        				$("#displayTable").show();
+        			}
             	}
             	//2.
             	yAxis =[ 
@@ -198,7 +205,7 @@
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
             	//填充span数据 
             	$("#span1").text(span2Text);
-            	$("#span2").text(span1Text);
+            	$("#span2").text(Math.round(span1Text));
                 },
                 error: function (e, jqxhr, settings, exception) {
                 	   	 

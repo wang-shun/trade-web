@@ -31,7 +31,7 @@ $(function() {
     	var year=$(".calendar-year span").html();
     	//置灰的月份点击事件失效
         if($(this).hasClass("disabled")){
-        	return;
+        	return false;
         }
         $(this).addClass("select-blue").siblings().removeClass('select-blue');
         reloadGrid();
@@ -42,25 +42,22 @@ $(function() {
         //正常时间显示
         $(".calendar-month span").removeClass("disabled");
         $("#add em").removeClass("disabled");
-        $(".calendar-year span").html(Number(year)-1);
+        $(".calendar-year span").html(parseInt(year)-1);
         reloadGrid();
     })
     $("#add").click(function(){
-        var year=$(".calendar-year span").html();
         //置灰的年份不让增加
         if($("#add em").hasClass("disabled")){
-        	return;
+        	return false;
         }
-        $(".calendar-year span").html(Number(year)+1);
-        reloadGrid();
-        //月份置灰
         var year=$(".calendar-year span").html();
-        if(year==yearDisplay){
+        $(".calendar-year span").html(parseInt(year)+1);
+        if(yearDisplay == (parseInt(year)+1)){
         	$("#add em").addClass("disabled");
         	if(monthDisplay<11){
         	$(".calendar-month span:gt("+monthDisplay+")").addClass("disabled");
         	}
-        	return;
         }
+        reloadGrid();  
     })
 })
