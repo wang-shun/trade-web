@@ -111,7 +111,6 @@
                     async:false,
                     success : function(data) {
                         $.each(data.rows,function(i,item){
-                        	console.dir(data.rows);
                             ECHART_LOAD_DATA.districtID.push(item.DISTRICT_ID)
                             ECHART_LOAD_DATA.districtName.push(item.DISTRICT_NAME.substring(0,2));
                             ECHART_LOAD_DATA.newData.push(0);
@@ -139,7 +138,7 @@
                 //生成柱状图
                 var datas=[ECHART_LOAD_DATA.newData, ECHART_LOAD_DATA.oldData];
                 var type=["bar","bar"];
-                var bar_color=["#BFD8FF","#ff9696"];
+                var bar_color=null;
                 var yAxis =[ {
                     type : 'value',//左边
                     name : '数量(单)',
@@ -154,7 +153,7 @@
             buildPieChart : function(myChart){
                 ECHART_LOAD_DATA.getPieDate();
                 ECHART_LOAD_DATA.pie_title=ECHART_LOAD_DATA.month+'月过户总单量';
-                var pie_color=["#BFD8FF","#ff9696","#FFD480"];
+                var pie_color=null;
                 var data = [ "无贷款", "纯公积金", "商业贷款" ];
                 returnPie(data, ECHART_LOAD_DATA.pie_items, myChart, pie_color,ECHART_LOAD_DATA.pie_title);
 
@@ -180,30 +179,69 @@
             },
             turnDate:function(){//改变年月的方法
                 //年份加减
-                var year=new Date().getFullYear();
-                $(".calendar-year span").html(year);
+                var yearDisplay,monthDisplay;
+                var now = new Date();
+                var yearNow = now.getFullYear();
+                var monthNow = now.getMonth();
+                if(monthNow == 0){
+                	monthDisplay = 11;
+                	yearDisplay = yearNow - 1;
+                }else{
+                	monthDisplay = monthNow - 1;
+                	yearDisplay = yearNow;
+                }
+                $(".calendar-year span").html(yearDisplay);
+                //点击变换颜色&&默认当前月份
+                var $month_list = $(".calendar-month span");
+                for (var i=0; i<$month_list.length; i++) {
+                    if(i == monthDisplay) {
+                    	$month_list.eq(i).addClass("select-blue");
+                        break;
+                    }            
+                }
+                //增加年份置灰
+                $("#add em").addClass("disabled");
+                //月份置灰
+                if(monthDisplay<11){
+                $(".calendar-month span:gt("+monthDisplay+")").addClass("disabled");
+                }
+                $month_list.on("click",function() {
+                    //置灰的月份点击事件失效
+                    if($(this).hasClass("disabled")){
+                    	return;
+                    }
+                    $(this).addClass("select-blue").siblings().removeClass('select-blue');
+                    var year = $(".calendar-year span").html();
+                    var month = $(this).attr("value");
+                    reloadGrid(year,month);
+                });
                 $("#subtract").click(function(){
+                	  //正常时间显示
+                    $(".calendar-month span").removeClass("disabled");
+                    $("#add em").removeClass("disabled");
                     var year=$(".calendar-year span").html();
                     var month=$(".calendar-month span[class='select-blue']").attr("value");
                     $(".calendar-year span").html(year-1);
                     reloadGrid(Number(year)-1,month);
                 })
                 $("#add").click(function(){
+                    //置灰的年份不让增加
+                    if($("#add em").hasClass("disabled")){
+                    	return;
+                    }
                     var year=$(".calendar-year span").html();
                     var month=$(".calendar-month span[class='select-blue']").attr("value");
                     $(".calendar-year span").html(Number(year)+1);
+                    if(yearDisplay == (Number(year)+1)){
+                    	$("#add em").addClass("disabled");
+                    	if(monthDisplay<11){
+                    	$(".calendar-month span:gt("+monthDisplay+")").addClass("disabled");
+                    	}
+                    }
                     reloadGrid(Number(year)+1,month);
                 })
-                //点击变换颜色&&默认当前月份
-                var $month_list = $(".calendar-month span");
-                $month_list.on("click",function() {
-                    $(this).addClass("select-blue").siblings().removeClass('select-blue');
-                    var year = $(".calendar-year span").html();
-                    var month = $(this).attr("value");
 
-                    reloadGrid(year,month);
-                });
-                var monthnow = function (){
+           /*     var monthnow = function (){
                     var now   = new Date();
                     var month = now.getMonth();
                     return month;
@@ -214,19 +252,17 @@
                         $month_list.eq(i).addClass("select-blue");
                     }
                     return false;
-                }
+                }*/
 
             },
             /*获取当前年份数据*/
             getCurrentYear: function() {
-                var date=new Date;
-                var year=date.getFullYear();
+                var year= $(".calendar-year span").html();
                 return year;
             },
             /*获取当前月数据*/
             getCurrentMonth: function() {
-                var date=new Date;
-                var month=date.getMonth()+1;
+                var month=$(".calendar-month span[class='select-blue']").attr("value");
                 return month;
             },
             turnNumber:function(num){
