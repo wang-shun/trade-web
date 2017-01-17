@@ -172,8 +172,7 @@ public class LoanlostApproveController {
 		/* 流程引擎变量设置 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		if (LoanLost_manager.equals("true")) {// 主管审核的结果
-			User seniorManager = uamUserOrgService
-					.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");// 查询高级主管
+			User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");// 查询高级主管
 			RestVariable restVariableSeniorManager = new RestVariable();
 			RestVariable restVariableSeniorManagerType = new RestVariable();
 			if (null != seniorManager
