@@ -168,11 +168,14 @@
                     html=html +'<li><i class="iconfont mr5 al-grey al-icon-22">&#xe643;</i>'+(Number(ECHART_LOAD_DATA.month)-1)+'月总量<span>'+ECHART_LOAD_DATA.totalOldDataCount+'</span>单</li>';
                     var subtraction=ECHART_LOAD_DATA.totalNewDataCount-ECHART_LOAD_DATA.totalOldDataCount;
                     if(subtraction<0){
-                        var percent=accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalNewDataCount)*100+"%";
-                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>'+percent+'</span></li>';
-                    }else{
-                        var percent=accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalNewDataCount)*100+"%";
-                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比上升<span>'+percent+'</span></li>';
+                        var percent=ECHART_LOAD_DATA.accMul(accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalOldDataCount),100);
+                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>'+percent+'%</span></li>';
+                    }else if(subtraction>0){
+                        var percent=ECHART_LOAD_DATA.accMul(accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalOldDataCount),100);
+                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比上升<span>'+percent+'%</span></li>';
+                    }
+                    else{
+                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>无变化<span></span></li>';
                     }
                 }
 
@@ -216,6 +219,13 @@
                     return false;
                 }
 
+            },
+            accMul: function (arg1,arg2)
+            {
+                var m=0,s1=arg1.toString(),s2=arg2.toString();
+                try{m+=s1.split(".")[1].length}catch(e){}
+                try{m+=s2.split(".")[1].length}catch(e){}
+                return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(0);
             },
             /*获取当前年份数据*/
             getCurrentYear: function() {
