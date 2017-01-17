@@ -58,15 +58,15 @@
                             return;
                         }
                         $.each(data.rows,function(i,item){
-                            ECHART_LOAD_DATA.totalLossCount= ECHART_LOAD_DATA.totalLossCount+item.LOST_COUNT;
-                            ECHART_LOAD_DATA.totalMortCount= ECHART_LOAD_DATA.totalMortCount+item.MORTGAGET_TOTAL_COUNT;
                             if(dateFlag=='new'){
+                                ECHART_LOAD_DATA.totalLossCount= ECHART_LOAD_DATA.totalLossCount+item.LOST_COUNT;
+                                ECHART_LOAD_DATA.totalMortCount= ECHART_LOAD_DATA.totalMortCount+item.MORTGAGET_TOTAL_COUNT;
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         ECHART_LOAD_DATA.total[i]=item.MORTGAGET_TOTAL_COUNT;
                                         ECHART_LOAD_DATA.loss[i]=item.LOST_COUNT;
                                         if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
-                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_COUNT,accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT));
+                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
                                         }else{
                                             ECHART_LOAD_DATA.lossRate[i]=0;
                                         }
@@ -78,7 +78,7 @@
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
-                                            ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_COUNT,accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT));
+                                            ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
                                         }else{
                                             ECHART_LOAD_DATA.oldLossRate[i]=0;
                                         }
