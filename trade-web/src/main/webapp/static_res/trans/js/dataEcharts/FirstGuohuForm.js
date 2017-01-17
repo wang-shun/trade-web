@@ -74,9 +74,7 @@
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         ECHART_LOAD_DATA.newData[i]=item.HOURSE_TRANSFER_COUNT;
                                     }
-
                                 }
-
                             }
                             if(dateFlag=='old'){
                                 ECHART_LOAD_DATA.totalOldDataCount=ECHART_LOAD_DATA.totalOldDataCount+item.HOURSE_TRANSFER_COUNT;//上月份过户的案件数

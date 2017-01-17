@@ -138,6 +138,7 @@ function getExplPicByhouseCode() {
 				});
 				
 				$("#picContainer"+accValue.pkid).append(trStr);
+				$('.wrapper-content').viewer();
 			});
 		},		
 		error : function(errors) {

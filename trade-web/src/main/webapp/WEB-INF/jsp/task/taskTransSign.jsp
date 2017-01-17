@@ -1285,7 +1285,7 @@
 		<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 		<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 		<script src="${ctx}/js/stickUp.js"></script>
-		<script src="${ctx}/js/trunk/task/attachment.js"></script>
+		<script src="${ctx}/js/trunk/task/attachment3.js"></script>
 		<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 		<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 		<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
