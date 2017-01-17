@@ -76,13 +76,14 @@ public class CollectionUtils {
 		}
 		
 		for(K key:mergeKeys){
-			if(from.containsKey(key)){
-				V value = from.get(key);
-				if(converters!=null && converters.containsKey(key)){
-					value = converters.get(key).convert(value,from);
-				}
-				to.put(key,value);
+			if(from.containsKey(key)){}
+			
+			V value = from.get(key);
+			if(converters!=null && converters.containsKey(key)){
+				value = converters.get(key).convert(value,from);
 			}
+			to.put(key,value);
+			
 		}
 		return to;
 	}
@@ -136,10 +137,13 @@ public class CollectionUtils {
 				}
 				//joinKeys所对应的值都相等，合并数据
 				if(merge){
-					merge(from,to,mergeKeys,converters);
+					System.out.println("merge(from,to,mergeKeys,converters);");
+					to = merge(from,to,mergeKeys,converters);
 				}
+				System.out.println("after:"+to);
 			}
 		}
+		System.out.println("toList:"+toList);
 		return toList;
 	}
 	

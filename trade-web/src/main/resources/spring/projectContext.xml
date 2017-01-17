@@ -352,6 +352,8 @@
     	<property name="partCode" value="GuohuApprove"></property>
     </bean>
     
+    <bean name="lastContents" class="com.centaline.trans.common.service.impl.QuickQueryGetLastContentServiceImpl">    
+    </bean>
     <!-- 获取商贷预警类型 -->
     <bean name="getShowWarnType" class="com.centaline.trans.common.service.impl.QuickQueryGetShowWarnTypeServiceImpl"></bean>
     

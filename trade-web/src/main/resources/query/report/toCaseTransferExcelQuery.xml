@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>	
+	
+			<customDict id="lastContents" beanName="lastContents" />
 		<customDict id="getCaseInfo" beanName="getCaseInfo" />
 		<customDict id="getPostInfo" beanName="getPostInfo" />
 		<customDict id="convertValue" beanName="convertValue" />
@@ -91,10 +93,6 @@
 							(SELECT MIN(AT.START_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_= W.INST_CODE ) TRANSFERDATE,
 							(SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_= W.INST_CODE) CASETRANSFERDATE,
 							V.LONG_ AS status,
-							(SELECT TOP 1 U.REAL_NAME FROM SCTRANS.SYS_USER U WHERE U.ID=(SELECT  TOP 1 OPERATOR FROM  SCTRANS.T_TO_APPROVE_RECORD AR1  WHERE  AR1.PART_CODE='GuohuApprove'  and AR1.CASE_CODE=C.CASE_CODE ORDER BY  AR1.OPERATOR_TIME DESC)) AS ASSESSOR,
-														
-							(SELECT  TOP 1 AR2.CONTENT FROM  SCTRANS.T_TO_APPROVE_RECORD AR2  WHERE  AR2.PART_CODE='GuohuApprove'  AND AR2.CASE_CODE=C.CASE_CODE ORDER BY  AR2.OPERATOR_TIME  DESC) AS CONTENT,
-							(SELECT  TOP 1 AR3.NOT_APPROVE FROM  SCTRANS.T_TO_APPROVE_RECORD AR3  WHERE  AR3.PART_CODE='GuohuApprove'  AND AR3.CASE_CODE=C.CASE_CODE ORDER BY  AR3.OPERATOR_TIME  DESC) AS NOT_APPROVE,
 							(SELECT SUM(EC.APPLY_AMOUNT)  FROM SCTRANS.T_TO_ELOAN_CASE EC  WHERE EC.CASE_CODE = C.CASE_CODE  AND  EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) ELOAN_APPLYAMOUNT_COUNT
 							
 						FROM
@@ -191,7 +189,7 @@
 				<column type="both" name="CTM_CODE" title="CTM编号" customDict="" hidden="false" />
 				<column type="both" name="CUST_CODE" title="主贷人id" customDict="" hidden="false" />
 				<column type="both" name="CUST_NAME" title="主贷人姓名"	customDict="" hidden="false" />
-				<column type="virtual" name="GUEST_PHONE" title="主贷人电话"	customDict="custPhoneByCode"  hidden="false" referencecol="CUST_CODE"/>
+				<column type="virtual" name="GUEST_PHONE" title="主贷人电话"	referencecol="CUST_CODE"  customDict="custPhoneByCode" isDynamicDict="true"/>
 
 				<column type="both" name="FIN_ORG_CODE" title="银行code" customDict="" hidden="false" />
 				<column type="virtual" name="FIN_ORG_NAME" title="银行"		customDict="qqFenHang" hidden="false" referencecol="FIN_ORG_CODE"/>
@@ -214,19 +212,25 @@
 				<column type="virtual" name="MORT_TYPE_NAME" title="贷款类型" customDict="qqcdMortName" hidden="false"  referencecol="MORT_TYPE"/>
 
 				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"	customDict="" hidden="false" />
-				<column type="virtual" name="LAST_CONTENT" title="审批意见"	referencecol="CONTENT,NOT_APPROVE" index="" checkbox="" display="上家"	customDict="lastContent" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
-
+				
 				<column type="virtual" name="SELLER" title="上家姓名"		referencecol="CASE_CODE" index="" checkbox="" display="上家"		customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
 				<column type="virtual" name="SELLER_MOBILE" title="上家电话"		referencecol="CASE_CODE" index="" checkbox="" display="上家电话"	customDict="qqcdSellerPhone" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" title="下家姓名"	referencecol="CASE_CODE" index="" checkbox="" display="下家" 	customDict="qqcdBuyer" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER_MOBILE" title="下家电话"	referencecol="CASE_CODE" index="" checkbox="" display="下家电话"	customDict="qqcdBuyerPhone" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
 				<column type="both" name="TRANSFERDATE" title="过户提交时间"	customDict="" beanFormatter="dateFormatter" expType="date"		expFmt="yyyy-MM-dd HH:mm:ss" hidden="false" />
 				<column type="both" name="CASETRANSFERDATE" title="过户审批时间"	customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
-				<column type="both" name="ASSESSOR" title="审核人" customDict=""		hidden="false" />
+				<!-- 	<column type="both" name="ASSESSOR" title="审核人111" customDict=""		hidden="false" /> -->
+				<!-- 	<column type="virtual" name="LAST_CONTENT" title="审批意见"	referencecol="CONTENT,NOT_APPROVE" 	customDict="lastContent" sysDict="" /> -->
+				
+				<column type="virtual" name="ASSESSOR,LAST_CONTENT,NOT_APPROVE" title="审核人,审批意见,审核勾选内容"	referencecol="CASE_CODE"  customDict="lastContents" isDynamicDict="true"/>
+
+				
 				<column type="both" name="status" title="是否审批通过" customDict=""	hidden="false" />
 				<column type="virtual" name="status1" title="是否审批通过"	referencecol="status" customDict="convertValue" />
 				<column type="both" name="CONTENT" title="审核结果" customDict=""		hidden="false" />
 				<column type="both" name="NOT_APPROVE" title="审核勾选内容" customDict=""		hidden="false" />
+			
+				
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align=""	halign="" order="" resizable="" />
 
 				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
