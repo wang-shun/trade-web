@@ -58,7 +58,7 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 			}
 		}
 		
-		return toAccesoryListMapper.qureyToAccesoryList(toAccesoryList);
+		return list;
 	}
 
 	@Override
