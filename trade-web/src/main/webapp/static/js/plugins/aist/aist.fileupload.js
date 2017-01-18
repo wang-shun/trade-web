@@ -129,7 +129,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					webUploader = uploader;
 					
 					//初始化事件
-					initDeleteImgEvent(settings.fileUploadContainer);
+					initDeleteImgEvent(settings);
 					initImgViewer(settings.maskId);
 					
 					$("#"+settings.fileUploadContainer).on("click",".webuploader-element-invisible", function() {
@@ -225,6 +225,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			  
 			  initDeleteImgEvent = function (settings) {
 				  	var fileUploadContainer = settings.fileUploadContainer;
+				    var $li = $("#"+fileUploadContainer).find("li");
 				    var $btns = $("#"+fileUploadContainer).find("div.file-panel");
 				    
 				    $("#"+fileUploadContainer).on('mouseenter', 'li', function() {
@@ -436,8 +437,9 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      };
 		      
 		      initImgViewer = function (maskId) {
-		    	  $('.wrapper-content').viewer('destroy');
-				  $('.wrapper-content').viewer({zIndex:15001});
+		    	  
+		    	  $('#fileUploadContainer').viewer('destroy');
+				  $('#fileUploadContainer').viewer({zIndex:15001,url:"data"});
 				  if(maskId){
 					  $('#'+maskId).viewer('destroy');
 	  				  $('#'+maskId).viewer({zIndex:16001});
