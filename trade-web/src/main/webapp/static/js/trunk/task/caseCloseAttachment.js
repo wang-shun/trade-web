@@ -85,6 +85,7 @@ $(function() {
 });
 //
 function getExplPicByhouseCode() {
+	alert(3333333);
 	$.ajax({
 		type : 'post',
 		cache : false,
@@ -94,6 +95,10 @@ function getExplPicByhouseCode() {
 		data : [{
 			name : 'caseCode',
 			value : caseCode
+		},
+		{
+			name : 'available',
+			value : 'Y'
 		}],
 		dataType : "json",
 		success : function(data) {
