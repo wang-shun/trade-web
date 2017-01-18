@@ -97,7 +97,7 @@
             },
 
             getPieDate : function (){
-                ECHART_LOAD_DATA.pie_items.push(accDiv(ECHART_LOAD_DATA.totalComMortAmount,10000));
+                ECHART_LOAD_DATA.pie_items.push(accDiv(accSub(ECHART_LOAD_DATA.totalLossAmount,ECHART_LOAD_DATA.totalComMortAmount),10000));
                 ECHART_LOAD_DATA.pie_items.push(accDiv(ECHART_LOAD_DATA.totalLossAmount,10000));
             },
             getDistrict: function (){
