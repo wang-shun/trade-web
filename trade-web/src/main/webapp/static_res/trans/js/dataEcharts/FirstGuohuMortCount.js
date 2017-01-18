@@ -96,7 +96,7 @@
             },
 
             getPieDate : function (){
-                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.totalMortCount);
+                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.accSub(ECHART_LOAD_DATA.totalLossCount,ECHART_LOAD_DATA.totalMortCount));
                 ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.totalLossCount);
 
             },
@@ -239,20 +239,16 @@
                     }
                     reloadGrid(Number(year)+1,month);
                 })
-
-           /*     var monthnow = function (){
-                    var now   = new Date();
-                    var month = now.getMonth();
-                    return month;
-                }
-                var month = monthnow();
-                for (var i=0; i<$month_list.length; i++) {
-                    if(i == month) {
-                        $month_list.eq(i).addClass("select-blue");
-                    }
-                    return false;
-                }*/
-
+            },
+            accSub:function (arg1,arg2){
+                var r1,r2,m,n;
+                try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+                try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+                m=Math.pow(10,Math.max(r1,r2));
+                //last modify by deeka
+                //动态控制精度长度
+                n=(r1>=r2)?r1:r2;
+                return ((arg2*m-arg1*m)/m).toFixed(0);
             },
             /*获取当前年份数据*/
             getCurrentYear: function() {
