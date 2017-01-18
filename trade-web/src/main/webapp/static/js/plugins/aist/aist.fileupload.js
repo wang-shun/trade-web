@@ -441,11 +441,12 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      
 		      initImgViewer = function (maskId) {
 		    	  
-		    	  $('#fileUploadContainer').viewer('destroy');
-				  $('#fileUploadContainer').viewer({zIndex:15001,url:"data"});
 				  if(maskId){
 					  $('#'+maskId).viewer('destroy');
 	  				  $('#'+maskId).viewer({zIndex:16001});
+				  }else{
+					  $('#fileUploadContainer').viewer('destroy');
+					  $('#fileUploadContainer').viewer({zIndex:15001,url:"data"});
 				  }
 		      };
 		      
