@@ -117,12 +117,13 @@
 		and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
 		and PART_CODE = #{partCode,jdbcType=VARCHAR}
 	</select>
-	<select id="findAccesoryByCode" resultMap="BaseResultMap"
-		parameterType="java.lang.String">
+	<select id="findAccesory" resultMap="BaseResultMap"
+		parameterType="com.centaline.trans.attachment.entity.ToAttachment">
 		select
 		<include refid="Base_Column_List" />
 		from sctrans.T_TO_ACCESORY_LIST
 		where 1=1
-		and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
+		and ACCESSORY_CODE = #{preFileCode,jdbcType=VARCHAR}
+		and PART_CODE = #{partCode,jdbcType=VARCHAR}
 	</select>
 </mapper>

@@ -283,8 +283,7 @@ public class AttachmentController {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
 					attachment
 							.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
-					ToAccesoryList itemAccesoryList = toAccesoryListService
-							.findAccesoryByCode(attachment.getPreFileCode());
+					ToAccesoryList itemAccesoryList = toAccesoryListService.findAccesory(attachment);
 					boolean isHave = false;
 					if (CollectionUtils.isNotEmpty(list)) {
 						for (ToAccesoryList item : list) {
