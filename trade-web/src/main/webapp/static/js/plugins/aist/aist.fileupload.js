@@ -302,6 +302,11 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						dataType : "json",
 						success : function(data) {
 						  
+							//如果没有案件编号，就将图片列表置为空
+							if(caseCode == null || caseCode == ""){
+								data.attachmentList = "";
+							}
+							
 							var fileuploadHtml = createTempleteHtml(settings,data);
 							$("#"+settings.fileUploadContainer).empty();
 							$("#"+settings.fileUploadContainer).html(fileuploadHtml);
