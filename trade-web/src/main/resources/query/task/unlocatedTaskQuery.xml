@@ -2,6 +2,7 @@
 <querys>
 <dicts>
 		<customDict id="getDictPartName" beanName="qqcdDictPartName"></customDict>
+		<customDict id="getUserByUsername" beanName="qqcdUserUsernameName"></customDict>
 </dicts>
 	
   	<formatters>
@@ -118,6 +119,8 @@
 				<!-- <column type="both" name="taskJobCode" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/> -->
 				<column type="both" name="createTime" index="" checkbox="" display="" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="candidateId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
+				
+				<column type="virtual" name="candidateName" display="" referencecol="candidateId"  customDict="getUserByUsername" hidden="false"/>
 				<column type="both" name="taskId" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="taskDfKey_OLD" index="" checkbox="" display="" customDict="" sysDict=""  format=""  width="150" isSort="" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="taskDfKey" display="" referencecol="taskDfKey_OLD"  customDict="getDictPartName" hidden="false"/>

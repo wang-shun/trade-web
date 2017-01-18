@@ -274,7 +274,8 @@ text-decoration: underline !important;
                         </td>
 						<td>
                                 <p class="big">
-                                     {{item.groupParentName}}            
+                                     {{item.groupParentName}}</br>
+									 候选人:{{item.candidateName}}            
                                 </p>
                                 <p>
                                     {{item.taskJobCode}}     
@@ -290,15 +291,13 @@ text-decoration: underline !important;
                         </td>
 						<td class="center">
 
-								{{if '${userServiceJobCode}'=='COXXGLY'}}
-							<button type="button" class="btn btn-success" onclick="showLocate({{item.taskId}})">分配任务</button>
-								{{else}}
-									{{if item.candidateId&&item.candidateId!=''}}
-									<button type="button" class="btn btn-success" onclick="doGroupClaim({{item.taskId}})">分配给自己</button>
-									{{else}}
+								{{if '${userServiceJobCode}'=='COXXGLY' || '${userServiceJobCode}'=='Manager'}}
 									<button type="button" class="btn btn-success" onclick="showLocate({{item.taskId}})">分配任务</button>
-									{{/if}}
 								{{/if}}
+								{{if item.candidateId&&item.candidateId!='' || '${userServiceJobCode}'=='Manager'}}
+									<button type="button" class="btn btn-success" onclick="doGroupClaim({{item.taskId}})">分配给自己</button>
+								{{/if}}
+								
 
                         </td>
 					</tr>
