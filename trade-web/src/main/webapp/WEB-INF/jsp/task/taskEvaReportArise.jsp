@@ -197,14 +197,10 @@
 </content>
 <content tag="local_require">
     <script>
+        var fileUpload;
     	require(['main'], function() {
         	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-    		    aistFileUpload.init({
-    	    		caseCode : $('#caseCode').val(),
-    	    		partCode : "OfflineEva",
-    	    		maskId : "modal-form-report",
-    	    		fileUploadContainer : "offlineEvafileUploadContainer"
-    	    	}); 
+        		fileUpload = aistFileUpload;
     	    });
         });
     

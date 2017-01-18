@@ -120,7 +120,14 @@
 	    			onClickButton: function (){ 
 	    				getEvaCompany();
 	    				//getAttchInfo();
+	    				fileUpload.init({
+	        	    		caseCode : $('#caseCode').val(),
+	        	    		partCode : "OfflineEva",
+	        	    		maskId : "modal-form-report",
+	        	    		fileUploadContainer : "offlineEvafileUploadContainer"
+	        	    	}); 
 	    				$("#modal-form-report").modal('show');
+	    				
 	    		}
 	    });
 	}

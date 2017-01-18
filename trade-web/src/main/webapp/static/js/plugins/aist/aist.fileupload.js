@@ -130,7 +130,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					
 					//初始化事件
 					initDeleteImgEvent(settings.fileUploadContainer);
-					initImgViewer();
+					initImgViewer(settings.maskId);
 					
 					$("#"+settings.fileUploadContainer).on("click",".webuploader-element-invisible", function() {
 						var $this = $(this).parent().parent() ;
@@ -201,7 +201,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 							$('#'+file.id).attr("id",id);
 							
 						});
-					    initImgViewer();
+					    initImgViewer(settings.maskId);
 					});
 
 					// 文件上传失败，显示上传出错。
@@ -223,8 +223,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					});
 			  };
 			  
-			  initDeleteImgEvent = function (fileUploadContainer) {
-				    var $li = $("#"+fileUploadContainer).find("li");
+			  initDeleteImgEvent = function (settings) {
+				  	var fileUploadContainer = settings.fileUploadContainer;
 				    var $btns = $("#"+fileUploadContainer).find("div.file-panel");
 				    
 				    $("#"+fileUploadContainer).on('mouseenter', 'li', function() {
@@ -242,7 +242,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			            switch (index) {
 			                case 0:
 			                	var $li = $(this).parent().parent();
-			                    removeFile($li);
+			                	removeFile($li,settings.maskId);
 			                    return ;
 
 			                case 1:
@@ -371,15 +371,15 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		          return fileuploadHtml;
 		      };
 		      
-		      removeFile = function(li) {
+		      removeFile = function(li,maskId) {
 		    	  var $li = li;
 		    	  
 		    	  var id = $li.attr("id");
 		    	  //li.off().end().find('.file-panel').off().end().remove();
-		    	  deleteAttachment(id, $li);
+		    	  deleteAttachment(id, $li,maskId);
 		      };
 		      
-		      deleteAttachment = function (preFileAdress,li) {
+		      deleteAttachment = function (preFileAdress,li,maskId) {
 		    	  $.ajax({
 		  			type : 'post',
 		  			cache : false,
@@ -390,6 +390,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		  			success : function(data) {
 		  				if(data.success){
 		  					li.off().find('.file-panel').off().end().remove();
+		  					initImgViewer(maskId);
 		  				} else if(!data) {
 		  					alert(data.message);
 		  				}
@@ -429,10 +430,13 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    		});
 		      };
 		      
-		      initImgViewer = function () {
-		    	  
-		    	  $('#fileUploadContainer').viewer('destroy');
-				  $('#fileUploadContainer').viewer({zIndex:15001,url:"data"});
+		      initImgViewer = function (maskId) {
+		    	  $('.wrapper-content').viewer('destroy');
+				  $('.wrapper-content').viewer({zIndex:15001});
+				  if(maskId){
+					  $('#'+maskId).viewer('destroy');
+	  				  $('#'+maskId).viewer({zIndex:16001});
+				  }
 		      };
 		      
 		      isCompletedUpload = function() {
