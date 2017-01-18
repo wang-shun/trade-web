@@ -42,17 +42,17 @@
 </ul>
 
 <div id="fullpage">
-    <div class="section " id="section0">
-        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData1" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+    <div class="section">
+        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData1"  id="iframe1" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
-    <div class="section" id="section1">
-        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData2" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+    <div class="section">
+        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData2"  id="iframe2" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
-    <div class="section" id="section2">
-        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData3" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+    <div class="section">
+        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData3"  id="iframe3" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div> 
-    <div class="section" id="section3">
-        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData4" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+    <div class="section">
+        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData4"  id="iframe4" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
 </div>
 <script  src="${ctx }/js/jquery-2.1.1.js"></script>
