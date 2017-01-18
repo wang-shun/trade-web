@@ -771,7 +771,7 @@
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
 													 <input type="text" name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onkeyup="onkeyuploanerName()">
-													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
 													 </input>			
 													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
@@ -1180,7 +1180,7 @@
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
 													 <input type="text" name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onkeyup="onkeyuploanerName()">
-													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+													 <i style=" position: absolute; top: 5px; right: 20px;  " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser_})" >&#xe627;</i>
 													 </input>			
 													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
