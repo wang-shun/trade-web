@@ -65,7 +65,7 @@
 
 				 <if test="userServiceJobCode != 'COXXGLY' ">
 					<ifNotNull mOrgId>
-						and (ilink.user_id_=#candidateId# or (ilink.user_id_ is null and tca.org_id=#mOrgId#))
+						and (ilink.user_id_=#candidateId# or tca.org_id=#mOrgId#)
 			 		</ifNotNull>
 			 		<ifNotNull managerFlag>
 			 			and ilink.user_id_=#candidateId#
@@ -97,7 +97,7 @@
 					 </ifNotNull>
 					 
 					 <ifNotNull mOrgId>
-						and (t.candidateId=#candidateId# or (t.candidateId is null and t.org_id=#mOrgId#))
+						and (t.candidateId=#candidateId# or  t.org_id=#mOrgId#)
 			 		</ifNotNull>
 			 		<ifNotNull managerFlag>
 			 			and t.candidateId=#candidateId#
