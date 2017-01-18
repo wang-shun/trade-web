@@ -45,7 +45,7 @@ public class QuickQueryGetMonthReportFormServiceImpl implements CustomDictServic
         }else if("lostCount".equals(dictType)){
             sql.append("select count(1) as v from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id=:code and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=:code2");
         }else if("lostMorTotalAmount".equals(dictType)){
-            sql.append("select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as v from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id=:code and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)= :code2");
+            sql.append("select isnull(sum(MORTGAGET_COM_AMOUNT),0) as v from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id=:code and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)= :code2");
         }
         else{
             sql.append("");
