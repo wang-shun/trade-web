@@ -112,9 +112,9 @@ function checkMortgageForm(formId){
 			return false;
 		}*/
 	}else{
-		formId.find("input[name='loanerId']").val("");
-		formId.find("input[name='loanerOrgCode']").val("");
-		formId.find("input[name='loanerOrgId']").val("");
+		//formId.find("input[name='loanerId']").val("");
+		//formId.find("input[name='loanerOrgCode']").val("");
+		//formId.find("input[name='loanerOrgId']").val("");
 	}
 	if(!formId.find("input[name='isTmpBank'][value='1']").prop('checked')){
 		if(afterTimeFlag){
