@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="left-content">
-                            <div id="plotCont1" class="plot-leftone" style="width:833px">
+                            <div id="plotCont1" class="plot-leftone">
                             </div>
                             <table class="echarsTable">
                             </table>
@@ -66,7 +66,7 @@
         <script src="${ctx }/js/jquery-2.1.1.js"></script>
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
-        <script src="${ctx }/static_res/js/echarts.min.js"></script>
+        <script src="${ctx }/static_res/js/echarts-all.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
         <%-- <script src="${ctx }/js/eachartdata/select_month.js"></script> --%>
         <script>
@@ -126,9 +126,6 @@
             	{
                     type: 'value',//左边
                     name: '金额',
-                    min: 0,
-                    //max: 250,
-                    //interval: 50,
                     axisLabel: {
                         formatter: '{value}万 '
                     }
@@ -136,9 +133,6 @@
                 {
                     type: 'value',//右边
                     name: '单数',
-                    min: 0,
-                    //max: 250,
-                    //interval: 50,
                     axisLabel: {
                         formatter: '{value} '
                     }

@@ -145,8 +145,6 @@
                 var yAxis =[ {
                     type : 'value',//左边
                     name : '数量(单)',
-                    min : 0,
-                    interval : 50,
                     axisLabel : {
                         formatter : '{value}'
                     }

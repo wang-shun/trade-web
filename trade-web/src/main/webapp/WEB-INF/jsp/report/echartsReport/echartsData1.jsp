@@ -82,7 +82,7 @@
 <script src="${ctx }/js/jquery-2.1.1.js"></script>
 <script src="${ctx }/js/bootstrap.min.js"></script>
 <!-- ECharts.js -->
-<script src="${ctx }/static_res/js/echarts.min.js"></script>
+<script src="${ctx }/static_res/js/echarts-all.js"></script>
 <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
 
 <script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuForm.js"></script>

@@ -44,21 +44,50 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					y:'7%'
 				},
 				grid: {
-		            left: '90',
-		            top: '25%',
-		            right: '50',
-		            bottom: '15%',
+		            x: '140',
+		            y: '25%',
+		            x2: '50',
+		            y2: '15%',
 	                width:'700'
 		        },
 				xAxis :  {
 					type : 'category',
-					data : [],
-                    axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
-			            show: true,
-			            interval:xAxisSize}
+					data :xAxisData,
+					axisLine:{
+						lineStyle:{
+					    color: '#000',
+					    width: 1,
+					    type: 'solid'
+					}},  
+					axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+			            show: false
+			                },
+			        axisTick:{
+			        	show: false,
+			            interval:0
+			        },
+			        splitLine:{
+			            show:false
+			             }
 				},
 				yAxis :yAxis
-			};			
+			};		
+			option.yAxis[0].axisLine={
+			 lineStyle:{
+			    color: '#000',
+			    width: 1,
+			    type: 'solid'}
+			};
+			if(option.yAxis[1]!=undefined){
+			option.yAxis[1].axisLine={
+			 lineStyle:{
+			    color: '#000',
+			    width: 1,
+			    type: 'solid'}
+				};
+			option.yAxis[1].splitNumber=5;
+			}
+			option.yAxis[0].splitNumber=5;
 			if(datas!=[]||datas!=undefined){
 				option.series=[];			
 			}
@@ -90,14 +119,14 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				if(datas[i].length<=0){
 				 return;
 				 }
-				html+="<tr><td class='tabletitle'>"+legend[i]+"</td>";
-/*				 if(type[i]=="bar"){
+				html+="<tr><td class='tabletitle'>";
+				 if(type[i]=="bar"){
 				    html+= "<span class='colorBar' style='background-color:"+color[i]+"'></span>";
 				    html+=legend[i]+"</td>"
 				 }else if(type[i]=="line"){
 					 html+= "<i class='iconfont al-iconbt ml5 ' style='color:"+color[i]+"'>&#xe687;</i>"; 
 					 html+="<p class='al-text'>"+legend[i]+"</p></td>";
-				 }*/
+				 }
 				 $.each(datas[i],function(j,item){
 					 if(title == '11月派单、签约量统计' && type[i]=="line"){
 						 html+="<td>"+item+" %</td>"; 
@@ -108,7 +137,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 html+="</tr>"
 		    }
 				$(".echarsTable").append(html);
-				var optionWidth=option.grid.width-(2*xAxisSize);
+				var optionWidth=option.grid.width-2-(2*xAxisSize);
 				 $(".tabletitle~td").width(optionWidth/(xAxisSize));
 		}
 
@@ -150,7 +179,7 @@ function returnPie(data, items, myChart1, color, title) {
 	        },
 		tooltip : {
 			trigger : 'item',
-			formatter : "{a} <br/>{b} : {c} ({d}%)"
+			formatter : "{a} <br/>{b} : {c} \n({d}%)"
 		},
         legend: {
             orient: 'horizontal',
@@ -171,7 +200,7 @@ function returnPie(data, items, myChart1, color, title) {
 				normal : {
 					label : {
 						show : true,
-						formatter : "{b}:\n{c}"+unit+" ({d}%)"
+						formatter : "{b}:\n{c}"+unit+" \n({d}%)"
 					}
 				}
 			}
