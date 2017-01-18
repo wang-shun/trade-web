@@ -35,7 +35,10 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						pick : 'filePicker',
 						server : appCtx['aist-filesvr-web']+'/webUploader/uploadPicture',
 						available : null,
-						bizCode : null
+						bizCode : null,
+						readonly:false,    //是否只读,true:只读,false:可以添加图片
+						isNestTable:false,   //是否嵌套表格 例子：产调那边上传图片已经在table里边,如果不做限制会影响页面美观
+						tdWidth : 100         //设置表格单元格宽度,该属性一般跟isNestTable共用
 				  },options||{});
 				  
 				  container = settings.fileUploadContainer;
@@ -329,17 +332,16 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    	  settings.imgCentanet = appCtx['img-centanet'];
 		    	  var fileuploadHtml ='';
 		          if(typeof(settings.templeteId) == "undefined") {
-		        	  var templeteSource = '<table class="table table-bordered customerinfo">'
-	                  +'<thead>'
-		        	  +'<tr>'
-		        	  +'<th style="width: 100px;">类型</th>'
-		        	  +'<th>附件</th>'
-		        	  +'</tr>' 
-		        	  +'</thead>' 
-		        	  +'<tbody>' 
+		        	  var templeteSource = '<table class="table table-bordered customerinfo">';
+		        	  
+		        	  if(!settings.isNestTable){
+		        		  templeteSource += '<thead><tr><th style="width: 100px;">类型</th><th>附件</th></tr></thead>'
+		        	  }
+		        	  
+		        	  templeteSource += '<tbody>' 
 		        	  +'{{each toAccesoryList as item index}}'
 		        	  +'<tr>' 
-		        	  +'<td>' 
+		        	  +'<td style="width: ' + settings.tdWidth + 'px;">' 
 		        	  +'{{item.accessoryName}}'
 		        	  +'</td>' 
 		        	  +'<td>'
@@ -352,23 +354,20 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			        	  +'</p>'
 			        	  +'<p class="imgWrap">'
 			        	  +'<img src=\"'+appCtx['img-centanet'] +'/salesweb/image/{{item2.preFileAdress}}/80_80_f.jpg\" data=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'+settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight+'\"/>'
-			        	  +'</p>'
-			        	  +'<div class="file-panel" style="height: 0px;">'
-			        	  +'<span class="cancel" id="'+ random + '">'
-			        	  +'删除'
-			        	  +'</span>'
-			        	  +'</div>'
-			        	  +'</li>'
-		        	  +'{{/if}}'
-                      +'{{/each}}'
-		        	  + "<span class='"+ settings.pick +" add-file' id=\"{{item.accessoryCode}}\">"
-		        	  +'</span>'
-		        	  +'</ul>'
-		        	  +'</td>'
-		        	  +'</tr>'
-		        	  +'{{/each}}'
-		        	  +'</tbody>'
-		        	  +'</table>'
+			        	  +'</p>';
+		        	  
+		        	  //如果readonly为false时，可以删除图片操作
+		        	  if(!settings.readonly){
+		        		  templeteSource += '<div class="file-panel" style="height: 0px;"><span class="cancel">删除</span></div>';
+		        	  }
+		        	  
+		        	  templeteSource += '</li>{{/if}}{{/each}}';
+                      
+		        	  if(!settings.readonly){
+		        		  templeteSource += "<span class='"+ settings.pick +" add-file' id=\"{{item.accessoryCode}}\" name=\"{{item.accessoryCode}}\"></span>";
+		        	  }
+                      
+		        	  templeteSource += '</ul></td></tr>{{/each}}</tbody></table>';
 		        		var render = template.compile(templeteSource);
 		        	    fileuploadHtml = render(data);
 		          } else {

@@ -207,7 +207,7 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 	    		caseCode : caseCode,
 	    		partCode : "property_research",
 	    		fileUploadContainer : "fileUploadContainer",
-	    		isNestTable : false,
+	    		isNestTable : true,
 	    		tdWidth : 94
 	    	});
 			

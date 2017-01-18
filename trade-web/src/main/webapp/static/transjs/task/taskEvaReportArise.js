@@ -124,7 +124,9 @@
 	        	    		caseCode : $('#caseCode').val(),
 	        	    		partCode : "OfflineEva",
 	        	    		maskId : "modal-form-report",
-	        	    		fileUploadContainer : "offlineEvafileUploadContainer"
+	        	    		fileUploadContainer : "offlineEvafileUploadContainer",
+	        	    		isNestTable : true,
+	        	    		tdWidth : 155
 	        	    	}); 
 	    				$("#modal-form-report").modal('show');
 	    				

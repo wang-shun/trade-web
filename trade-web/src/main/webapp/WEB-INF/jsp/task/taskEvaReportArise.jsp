@@ -95,7 +95,7 @@
 						</form> 
 						
 						<div class="form-group">
-							<div class="table-box" id="offlineEvafileUploadContainer"></div>
+							<div class="table-box" id="offlineEvafileUploadContainer" style="text-align:center;"></div>
 						</div>
 							<input type="button" class="btn btn-success" id="reportSubBtn" value="保存">
 						</div>
