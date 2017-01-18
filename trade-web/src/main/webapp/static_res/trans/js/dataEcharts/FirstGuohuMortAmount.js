@@ -66,8 +66,8 @@
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         ECHART_LOAD_DATA.mort_total[i]=item.MORTGAGET_COM_AMOUNT/10000;
                                         ECHART_LOAD_DATA.mort_loss[i]=item.LOST_AMOUNT/10000;
-                                        if(item.MORTGAGET_TOTAL_AMOUNT!=0){
-                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
+                                        if(item.MORTGAGET_COM_AMOUNT!=0){
+                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_COM_AMOUNT);
                                         }else{
                                             ECHART_LOAD_DATA.lossRate[i].push('0.00');
                                         }

@@ -13,6 +13,24 @@
 
     <link rel="stylesheet" href="${ctx}/css/eachartdata/jquery.fullPage.css" />
     <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css" />
+    <script type="text/javascript">
+        //用户动态选择的年月（月份要小1）
+        var yearDisplay,monthDisplay;
+        var now = new Date();
+        //当前年月
+        var yearNow = now.getFullYear();
+        var monthNow = now.getMonth();
+        if(monthNow == 0){
+            monthDisplay = 11;
+            yearDisplay = yearNow - 1;
+        }else{
+            monthDisplay = monthNow - 1;
+            yearDisplay = yearNow;
+        }
+        //当前月份的上个月对应的年月
+        var yearLast = yearDisplay;
+        var monthLast = monthDisplay;
+    </script>
 </head>
 <body style="background-color: #fff">
 
