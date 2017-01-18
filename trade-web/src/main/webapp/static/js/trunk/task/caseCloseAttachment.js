@@ -85,7 +85,6 @@ $(function() {
 });
 //
 function getExplPicByhouseCode() {
-	alert(3333333);
 	$.ajax({
 		type : 'post',
 		cache : false,
