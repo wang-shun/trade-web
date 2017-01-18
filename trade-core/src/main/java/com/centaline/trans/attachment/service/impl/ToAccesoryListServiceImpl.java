@@ -240,9 +240,9 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
     }
 
 	@Override
-	public ToAccesoryList findAccesoryByCode(String accessoryCode) {
+	public ToAccesoryList findAccesory(ToAttachment toAttachment) {
 		// TODO Auto-generated method stub
-		return toAccesoryListMapper.findAccesoryByCode(accessoryCode);
+		return toAccesoryListMapper.findAccesory(toAttachment);
 	}
 
 	@Override

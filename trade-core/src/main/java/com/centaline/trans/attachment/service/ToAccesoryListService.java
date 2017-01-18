@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.centaline.trans.attachment.entity.ToAccesoryList;
+import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.common.vo.AccsoryListVO;
 
 public interface ToAccesoryListService {
@@ -12,7 +13,7 @@ public interface ToAccesoryListService {
 	public List<ToAccesoryList> qureyToAccesoryList(ToAccesoryList toAccesoryList,String caseCode);
 	public String findAccesoryNameByCode(String accessoryCode);
 	public String findAccesoryNameByPartCode(ToAccesoryList toAccesoryList);
-	public ToAccesoryList findAccesoryByCode(String accessoryCode);
+	public ToAccesoryList findAccesory(ToAttachment toAttachment);
 	public boolean saveAccesoryList(AccsoryListVO accsoryListVO);
 	void getAccesoryListCaseClose(HttpServletRequest request, String caseCode);
 	void getAccesoryList(HttpServletRequest request, String taskitem);

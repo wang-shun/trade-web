@@ -276,6 +276,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    	  var bizCode = settings.bizCode;
 		    	  var partCode = settings.partCode;
 		    	  var available = settings.available;
+		    	  var preFileCode = settings.preFileCode;
 		    	  if(available=='') {
 		    		  available = null;
 		    	  }
@@ -302,6 +303,9 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						},{
 							name : 'available',
 							value : available
+						},{
+							name : 'preFileCode',
+							value : preFileCode
 						}],
 						dataType : "json",
 						success : function(data) {
