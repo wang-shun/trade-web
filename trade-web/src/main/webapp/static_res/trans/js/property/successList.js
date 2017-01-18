@@ -201,6 +201,7 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 	}
 	
 	fileUpload.init({
+		maskId : "modal-form",
 		caseCode : caseCode,
 		partCode : "property_research",
 		fileUploadContainer : "fileUploadContainer",
