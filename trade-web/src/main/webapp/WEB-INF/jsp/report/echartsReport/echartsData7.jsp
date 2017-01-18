@@ -68,7 +68,7 @@
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-        <script src="${ctx }/js/eachartdata/select_month.js"></script>
+        <%-- <script src="${ctx }/js/eachartdata/select_month.js"></script> --%>
         <script>
         /**
          * 案件统计详情
@@ -80,8 +80,8 @@
         	var data = {};
         	data.queryId = "querySignBankList";	
         	data.pagination = false;
-        	var year = $(".calendar-year span").html();
-	        var month = $(".calendar-month span[class$='select-blue']").html().replace("月","");
+        	var year = window.parent.yearDisplay;
+	        var month = parseInt(window.parent.monthDisplay)+1;
         	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({

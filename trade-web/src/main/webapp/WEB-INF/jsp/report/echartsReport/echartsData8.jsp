@@ -53,10 +53,10 @@
                                         <li><em>商贷金额</em><span id="span2"></span>万元</li>
                                     </ul>
                                     <hr />
-                                    <table id="displayTable" class="table table-bordered text-center else-table" style="display:none">
+                                    <table id="displayTable" class="table table-bordered text-center else-table">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center" colspan="3">其他类：40090万元
+                                                    <th class="text-center" colspan="3" id="th1">其他类：0万元
                                                     </th>
                                                 </tr>
                                                 <tr>
@@ -88,7 +88,7 @@
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts.min.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-        <script src="${ctx }/js/eachartdata/select_month.js"></script>
+        <%-- <script src="${ctx }/js/eachartdata/select_month.js"></script> --%>
         <script>
         /**
          * 案件统计详情
@@ -100,8 +100,8 @@
         	var data = {};
         	data.queryId = "querySignBranchBankList";	
         	data.pagination = false;
-        	var year = $(".calendar-year span").html();
-	        var month = $(".calendar-month span[class$='select-blue']").html().replace("月","");
+        	var year = window.parent.yearDisplay;
+	        var month = parseInt(window.parent.monthDisplay)+1;
         	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
@@ -158,6 +158,7 @@
         			if(data.rows.length > 14){
         				xAxisData.push("其他");
         				totalAmountArr.push(Math.round(totalAmountArrI));
+        				$("#th1").html("其他类："+totalAmountArrI+"万元");
         				var tbodyContent = "";
         				for(var j = 0;j < 10;j++){
         					tbodyContent += "<tr>";
@@ -173,7 +174,6 @@
         				}
 
         				$("#displayTable tbody").html(tbodyContent);
-        				$("#displayTable").show();
         			}
             	}
             	//2.

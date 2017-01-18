@@ -81,8 +81,8 @@
         /**
          * 案件统计详情
          */
-     	var ctx = $("#ctx").val();
-        
+        var ctx = $("#ctx").val();
+
         function reloadGrid() {
         	//完整的区(8)
         	var districtIDArr = [];
@@ -111,8 +111,8 @@
         	var data={};
         	data.queryId = "queryDispatchSignList";	
         	data.pagination = false;
-        	var year = $(".calendar-year span").html();
-	        var month = $(".calendar-month span[class$='select-blue']").html().replace("月","");
+        	var year = window.parent.yearDisplay;
+	        var month = parseInt(window.parent.monthDisplay)+1;
         	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
