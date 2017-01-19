@@ -43,6 +43,9 @@
                             </div>
                             <table class="echarsTable">
                             </table>
+                            <div class="label-tip clearfix">
+                                <span class="labelbar laberbarcolor"></span><p>非入围银行</p>
+                            </div>
                         </div>
                         <div class="pull-left">
                             <div class="plot-rightone relative merge-box">
@@ -136,7 +139,9 @@
             		var totalAmountArrI = 0;
             		var otherBankNameArr = [];
             		var otherAmountArr = [];
+            		var IsRuweiBankArr = [];
             		var otherIsRuweiBankArr = [];
+            		
             		$.each(data.rows,function(i,item){
             			span1Text = accAdd(Number(span1Text),accDiv(parseInt(item.CONTRACT_AMOUNT),10000));		
       					span2Text += parseInt(item.SIGN_NUM);
@@ -145,7 +150,8 @@
             			//前14个直接显示
       					if(i < 14){		
                             xAxisData.push(fa_fin_org_name_yc+fin_org_name_yc);
-          					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));					
+          					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));	
+          					IsRuweiBankArr.push(item.RUWEI_BANK == 'cl'?'1':'0');
             			//后面的加入到‘其他’
       					}else{
       						otherBankNameArr.push(fa_fin_org_name_yc+fin_org_name_yc);
@@ -200,6 +206,12 @@
             	title = "签约贷款银行支行流向统计";
             	//生成柱状图 
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
+            	//非入围银行背景颜色修改
+            	$(".echarsTable").find("thead .tabletitle~td").each(function(i,item){
+            		if(IsRuweiBankArr[i] == '1'){
+            			$(item).attr("bgcolor","#ff9695");
+            		}
+            	});
             	//填充span数据 
             	$("#span1").text(span2Text);
             	$("#span2").text(Math.round(span1Text));
