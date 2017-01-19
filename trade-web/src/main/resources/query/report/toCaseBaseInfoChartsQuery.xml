@@ -31,13 +31,13 @@
 				<![CDATA[
 				select main.DISTRICT_ID,
 				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = #choiceMonth#) DISPATCH_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = #choiceMonth#) SIGN_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.MORTAGE_SIGN_DATE ,120) = #choiceMonth#) SIGN_NUM,
 				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = #choiceMonth#) GUOHU_NUM,
-				(select isnull(sum(d.mortgaget_total_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.SIGN_TIME ,120) = #choiceMonth#) TOTAL_AMOUNT,
-				(select isnull(sum(e.mortgaget_com_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.SIGN_TIME ,120) = #choiceMonth# and e.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_AMOUNT,
-				(select isnull(sum(f.mortgaget_prf_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.SIGN_TIME ,120) = #choiceMonth# and f.MORTGAGE_LOAN_TYPE in ('30016002','30016003')) PRF_AMOUNT,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.SIGN_TIME ,120) = #choiceMonth# and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.SIGN_TIME ,120) = #choiceMonth# and h.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
+				(select isnull(sum(d.mortgaget_total_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.MORTAGE_SIGN_DATE ,120) = #choiceMonth#) TOTAL_AMOUNT,
+				(select isnull(sum(e.mortgaget_com_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and e.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_AMOUNT,
+				(select isnull(sum(f.mortgaget_prf_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and f.MORTGAGE_LOAN_TYPE in ('30016002','30016003')) PRF_AMOUNT,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and h.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main where main.DISTRICT_ID is not null		
 	            ]]>
 			</baseSql>
@@ -74,7 +74,7 @@
 				count(1) SIGN_NUM
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main 
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE	
-                where convert(varchar(7),main.SIGN_TIME ,120) = #choiceMonth# 
+                where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
                 and main.IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
 	            ]]>
@@ -110,7 +110,7 @@
 				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE
-                where convert(varchar(7),main.SIGN_TIME ,120) = #choiceMonth# 
+                where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
                 and main.IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
 	            ]]>
