@@ -121,7 +121,8 @@
                 </div>
             </div>
      
-            <div id="caseCommentList" class="view-content"></div>
+           <div class="panel " id="aboutInfo">
+			<div id="caseCommentList" class="view-content"></div>
              <div class="form-btn">
                     <div class="text-center">
                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
@@ -136,17 +137,16 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
 	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <!-- Data picker -->
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> <script
-		src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js?v=1.0.3"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/viewer/viewer.min.js"></script> <script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
+	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1"></script>
+	<script src="${ctx}/js/stickUp.js"></script>
+	<script src="${ctx}/js/template.js" type="text/javascript"></script>  
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	  
+	<script>
 			var source = "${source}";
-
 			$(document).ready(function() {
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : caseCode,
@@ -228,23 +228,11 @@
 				});
 			}
 
-			//验证控件checkUI();
-			function checkForm() {
-				if ($('input[name=lendDate]').val() == '') {
-					alert("放款时间为必填项!");
-					$('input[name=lendDate]').focus();
-					return false;
-				}
-				if (tz && $('input[name=tazhengArrDate]').val() == ''
-						&& isSelfCom == '1') {
-					alert("它证送抵时间为必填项!");
-					$('input[name=tazhengArrDate]').focus();
-					return false;
-				}
-				return true;
-			}
-
-		</script> </content>
+		</script>
+		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+		<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
+		<script<script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
+		 </content>
 </body>
 
 
