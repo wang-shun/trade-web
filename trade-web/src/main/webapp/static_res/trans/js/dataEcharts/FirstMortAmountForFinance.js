@@ -75,12 +75,16 @@
                 var yAxis =[ {
                     type : 'value',//左边
                     name : '金额(万元)',
+                    min:0,
+                    max:1000000,
                     axisLabel : {
                         formatter : '{value}'
                     }
                 },{
                     type : 'value',//右边
                     name : '比例',
+                    min:0,
+                    max:1,
                     axisLabel : {
                         formatter : '{value}'
                     }
