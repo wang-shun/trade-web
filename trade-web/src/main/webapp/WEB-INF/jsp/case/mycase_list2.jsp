@@ -409,7 +409,7 @@ text-decoration: underline !important;
 									{{if item.createType == '1'}}
 															<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
 									{{else}}
-									<a>
+									<a href="javascript:hlts()">
 									{{/if}}
                                 <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_brown">
@@ -427,7 +427,7 @@ text-decoration: underline !important;
 									{{if item.createType == '1'}}
 								<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
 									{{else}}
-								<a>
+								<a href="javascript:hlts()">
 									{{/if}}
                                 <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_blue">
