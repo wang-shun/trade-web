@@ -221,7 +221,7 @@
 						and HOURSE_TRANSFER_AGREE_STATUS=1
 						and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#
 						and MORTGAGET_COM_AMOUNT>0
-						--and tb1.LOAN_REQ=1
+
 				) t1
 					where t1.FA_FIN_ORG_CODE is not null
 	            ]]>

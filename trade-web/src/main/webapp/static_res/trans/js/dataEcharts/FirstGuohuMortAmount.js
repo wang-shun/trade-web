@@ -77,8 +77,6 @@
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         if(item.MORTGAGET_TOTAL_AMOUNT!=0){
                                             ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
-                                        }else{
-                                            ECHART_LOAD_DATA.oldLossRate[i].push('0.00');
                                         }
                                     }
 
