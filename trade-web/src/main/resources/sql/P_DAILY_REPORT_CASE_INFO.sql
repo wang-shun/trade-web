@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/1/19 16:19:35 ******/
+/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/1/19 16:57:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -73,17 +73,17 @@ SELECT
 		CA.[ORG_ID] AS CASE_ORG,--所属组织
 		I.DISPATCH_TIME AS RECEIVED_TIME,--分单时间
 		I.REQUIRE_PROCESSOR_ID AS RECEIVED_USER,--接收人
-		(SELECT ts.org_id FROM sctrans.v_user_job_org_main as ts WHERE user_id=I.REQUIRE_PROCESSOR_ID) AS RECEIVED_TEAM_ID,--接单人组别（新增） 
-		(SELECT DISTRICT_ID FROM sctrans.v_yucui_org_hierarchy WHERE TEAM_ID=(SELECT ts.org_id FROM sctrans.v_user_job_org_main as ts WHERE user_id=I.REQUIRE_PROCESSOR_ID)) AS RECEIVED_DISTRICT_ID,--接单人贵宾服务部
+		(SELECT ts.org_id FROM sctrans.v_user_job_org_main as ts with(nolock) WHERE user_id=I.REQUIRE_PROCESSOR_ID) AS RECEIVED_TEAM_ID,--接单人组别（新增） 
+		(SELECT DISTRICT_ID FROM sctrans.v_yucui_org_hierarchy with(nolock) WHERE TEAM_ID=(SELECT ts.org_id FROM sctrans.v_user_job_org_main as ts with(nolock) WHERE user_id=I.REQUIRE_PROCESSOR_ID)) AS RECEIVED_DISTRICT_ID,--接单人贵宾服务部
 	
 		(SELECT REAL_CON_TIME from  sctrans.T_TO_SIGN ts with(nolock) where ts.CASE_CODE=C.CASE_CODE ) AS SIGN_TIME,--签约时间	
 		(SELECT top(1) ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'TransSign' AND ww.CASE_CODE=C.CASE_CODE   ORDER BY  END_TIME_ DESC ) AS SIGN_USER,--签约人
 		(SELECT top (1) ORG_ID  FROM sctrans.SYS_USER with(nolock)  WHERE USERNAME = (SELECT top (1) ASSIGNEE_  FROM wf as ww  WHERE ww.TASK_DEF_KEY_ = 'TransSign' AND ww.CASE_CODE=C.CASE_CODE ORDER BY    END_TIME_ DESC )) as SIGN_TEAM_ID,--签约人组织	
-		(SELECT DISTRICT_ID  FROM sctrans.v_yucui_org_hierarchy WHERE  TEAM_ID =(SELECT  top (1) ORG_ID  FROM sctrans.SYS_USER with(nolock)  WHERE USERNAME = (SELECT top 1 ASSIGNEE_ FROM  wf as ww WHERE ww.TASK_DEF_KEY_ = 'TransSign' AND ww.CASE_CODE=C.CASE_CODE  ORDER BY  END_TIME_ DESC))) as SIGN_DISTRICT_ID,--签约人贵宾服务部 						
+		(SELECT DISTRICT_ID  FROM sctrans.v_yucui_org_hierarchy with(nolock) WHERE  TEAM_ID =(SELECT  top (1) ORG_ID  FROM sctrans.SYS_USER with(nolock)  WHERE USERNAME = (SELECT top 1 ASSIGNEE_ FROM  wf as ww WHERE ww.TASK_DEF_KEY_ = 'TransSign' AND ww.CASE_CODE=C.CASE_CODE  ORDER BY  END_TIME_ DESC))) as SIGN_DISTRICT_ID,--签约人贵宾服务部 						
 		th.REAL_HT_TIME as HOUSE_TRANFER_TIME ,--过户时间
 		(SELECT top (1) ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'Guohu' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC ) as HOUSE_TRANFER_USER,--过户人
 		(SELECT top (1) ORG_ID FROM sctrans.SYS_USER with(nolock) WHERE USERNAME = ( SELECT top 1 ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'Guohu' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC ) ) as HOUSE_TRANFER_TEAM_ID,--过户组别
-		(SELECT DISTRICT_ID FROM sctrans.v_yucui_org_hierarchy WHERE TEAM_ID = ( SELECT top (1) ORG_ID FROM sctrans.SYS_USER with(nolock) WHERE USERNAME = ( SELECT top 1 ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'Guohu' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC ) ) ) as HOUSE_TRANFER_DISTRICT_ID,--过户贵宾服务部		
+		(SELECT DISTRICT_ID FROM sctrans.v_yucui_org_hierarchy with(nolock) WHERE TEAM_ID = ( SELECT top (1) ORG_ID FROM sctrans.SYS_USER with(nolock) WHERE USERNAME = ( SELECT top 1 ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'Guohu' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC ) ) ) as HOUSE_TRANFER_DISTRICT_ID,--过户贵宾服务部		
 		(SELECT top (1) ww.END_TIME_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'GuohuApprove' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC )  AS HOURSE_TRANSFER_APPROVE_DATE,--过户审批时间		
 		
 		(select top(1) V.LONG_ FROM wf as ww   left join sctrans.ACT_HI_VARINST V on ww.PROC_INST_ID_=v.PROC_INST_ID_ WHERE ww.TASK_DEF_KEY_ = 'GuohuApprove' AND V.NAME_='GuohuApprove' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC		 )AS HOURSE_TRANSFER_AGREE_STATUS,--过户审批状态 1是通过 0是驳回
@@ -91,7 +91,7 @@ SELECT
 		(SELECT APPROVE_TIME from  sctrans.t_to_close  ts with(nolock) where ts.CASE_CODE=C.CASE_CODE ) AS CLOSE_TIME,--结案时间	
 		(SELECT top (1) ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'CaseClose' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC   ) AS CLOSE_USER,--结案用户
 		(SELECT top (1) ORG_ID FROM sctrans.SYS_USER with(nolock) WHERE USERNAME = ( SELECT top 1 ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'CaseClose' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC )  ) as CLOSE_TEAM_ID,--结案店组
-		(SELECT DISTRICT_ID FROM sctrans.v_yucui_org_hierarchy WHERE TEAM_ID = ( SELECT top (1) ORG_ID FROM sctrans.SYS_USER with(nolock) WHERE USERNAME = ( SELECT top 1 ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'CaseClose' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC ) )  ) as CLOSE_DISTRICT_ID,--结案贵宾服务部
+		(SELECT DISTRICT_ID FROM sctrans.v_yucui_org_hierarchy with(nolock) WHERE TEAM_ID = ( SELECT top (1) ORG_ID FROM sctrans.SYS_USER with(nolock) WHERE USERNAME = ( SELECT top 1 ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'CaseClose' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC ) )  ) as CLOSE_DISTRICT_ID,--结案贵宾服务部
 		MG.MORT_TYPE AS MORTGAGE_LOAN_TYPE,--贷款类型
 	
 		MG.MORT_TOTAL_AMOUNT AS MORTGAGET_TOTAL_AMOUNT,--贷款总额
