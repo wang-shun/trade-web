@@ -5,4 +5,7 @@ node('docker-agent'){
 	stage('build'){
 		sh "mvn clean install deploy"	
 	}
+	stage('ship'){
+		echo 'ship the image to nexus'
+	}
 }
