@@ -75,6 +75,7 @@
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main 
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE	
                 where convert(varchar(7),main.SIGN_TIME ,120) = #choiceMonth# 
+                and IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
 	            ]]>
 			</baseSql>
@@ -110,6 +111,7 @@
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE
                 where convert(varchar(7),main.SIGN_TIME ,120) = #choiceMonth# 
+                and IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
 	            ]]>
 			</baseSql>
