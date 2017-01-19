@@ -8,11 +8,11 @@ var iframe4 = window.parent.window.document.getElementById("iframe4");
 var iframesArr = [iframe1,iframe2,iframe3,iframe4];
 
 $(function() {	
-	resetDataModel();
+	resetDataModel(1);
 	addChangeDateEvent();
 })
 
-function resetDataModel(){
+function resetDataModel(count){
     $.each(iframesArr,function(i,item){
     	$(item.contentWindow.document).find(".calendar-year span").html(window.parent.yearDisplay);
     	$(item.contentWindow.document).find(".calendar-month span:eq("+window.parent.monthDisplay+")").addClass("select-blue").siblings().removeClass("select-blue");
@@ -23,12 +23,12 @@ function resetDataModel(){
     		$(item.contentWindow.document).find("#add em").removeClass("disabled");
     	}
         //月份置灰
-        if(window.parent.yearDisplay == yearLast && window.parent.monthDisplay == monthLast){
+        if(count == 1 && window.parent.yearDisplay == yearLast && window.parent.monthDisplay == monthLast){
         	$(item.contentWindow.document).find(".calendar-month span:gt("+window.parent.monthLast+")").removeClass("disabled").addClass("disabled");
         	//首次延迟加载，等待iframe加载完成
         	setTimeout(function(){
         		item.contentWindow.reloadGrid();
-        	},500);
+        	},600);
         }else{
         	item.contentWindow.reloadGrid();
         }
