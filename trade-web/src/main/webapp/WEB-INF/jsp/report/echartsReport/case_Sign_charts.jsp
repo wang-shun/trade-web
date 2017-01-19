@@ -35,7 +35,7 @@
 <body style="background-color: #fff">
 
 <ul id="menu">
-    <li data-menuanchor="firstPage"><a href="#firstPage">派单签约量统计</a></li>
+    <li data-menuanchor="firstPage"><a href="#firstPage">分单签约量统计</a></li>
     <li data-menuanchor="secondPage"><a href="#secondPage">签约贷款金额占比</a></li>
     <li data-menuanchor="3rdPage"><a href="#3rdPage">签约贷款银行分布</a></li>
     <li data-menuanchor="4thPage"><a href="#4thPage">签约贷款银行支行流向统计</a></li>

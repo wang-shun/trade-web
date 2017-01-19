@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>派单签约量统计</title>
+        <title>分单签约量统计</title>
         <link href="${ctx }/static/css/bootstrap.min.css" rel="stylesheet"/>
 	    <link href="${ctx }/css/font-awesome.css" rel="stylesheet"/>
 		<link href="${ctx}/css/animate.css" rel="stylesheet">
@@ -26,7 +26,7 @@
                 <div class="row chartwo">
                     <div class="col-md-12">
                          <div class="clearfix mb30">
-                            <h3 class="content-title pull-left">派单、签约量统计</h3>
+                            <h3 class="content-title pull-left">分单、签约量统计</h3>
                             <div class="calendar-watch clearfix">
                                 <p class="calendar-year">
                                     <a href="#" id="subtract"><em>&lt;</em></a>
@@ -50,7 +50,7 @@
                                 <div class="sum-data">
                                     <h3>数据统计</h3>
                                     <ul class="data-list">
-                                        <li><i class='colorBar' style='background-color:#295aa5'></i><em>派单量</em><span id="span1"></span>单</li>
+                                        <li><i class='colorBar' style='background-color:#295aa5'></i><em>分单量</em><span id="span1"></span>单</li>
                                         <li><i class='colorBar' style='background-color:#f784a5'></i><em>签约量</em><span id="span2"></span>单</li>
                                         <li><i class='colorBar' style='background-color:#ffad6b'></i><em>过户量</em><span id="span3"></span>单</li>
                                         <li><i class='colorBar' style='background-color:#52bdbd'></i><em>商贷量</em><span id="span4"></span>单</li>
@@ -100,7 +100,7 @@
                     async:false,
                     success : function(data) {
                         $.each(data.rows,function(i,item){
-                        	districtIDArr.push(item.DISTRICT_ID)
+                        	districtIDArr.push(item.DISTRICT_ID);
                             districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
                         })
                     },
@@ -207,7 +207,7 @@
                 }
 				];
             	//3.
-            	legend = ['派单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比'];
+            	legend = ['分单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比'];
             	//4.
             	datas = [dispatchNumArr,signNumArr,guohuNumArr,comNumArr,prfNumArr,comPercentArr,prfPercentArr];
             	//5.
@@ -217,7 +217,7 @@
             	//7.
             	myChart = echarts.init(document.getElementById('plotCont1'));
             	//8.
-            	title = "月派单、签约量统计";
+            	title = "月分单、签约量统计";
             	//生成柱状图 
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
             	//填充span数据 

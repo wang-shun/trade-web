@@ -68,17 +68,19 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				select 
+				select
                 t.FA_FIN_ORG_CODE,
 				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT,
 				count(1) SIGN_NUM
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main 
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE	
                 where convert(varchar(7),main.SIGN_TIME ,120) = #choiceMonth# 
+                and main.IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
 	            ]]>
 			</baseSql>
 			<orderBySql>
+			order by CONTRACT_AMOUNT desc
 			</orderBySql>
 			<groupSql>
 			group by t.FA_FIN_ORG_CODE
@@ -109,10 +111,12 @@
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE
                 where convert(varchar(7),main.SIGN_TIME ,120) = #choiceMonth# 
+                and main.IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
 	            ]]>
 			</baseSql>
 			<orderBySql>
+			order by CONTRACT_AMOUNT desc
 			</orderBySql>
 			<groupSql>
 			group by main.MORTGAGET_FIN_ORG_CODE
@@ -217,7 +221,7 @@
 						and HOURSE_TRANSFER_AGREE_STATUS=1
 						and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#
 						and MORTGAGET_COM_AMOUNT>0
-						--and tb1.LOAN_REQ=1
+
 				) t1
 					where t1.FA_FIN_ORG_CODE is not null
 	            ]]>
