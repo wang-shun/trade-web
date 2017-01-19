@@ -79,6 +79,7 @@
 	            ]]>
 			</baseSql>
 			<orderBySql>
+			order by CONTRACT_AMOUNT desc
 			</orderBySql>
 			<groupSql>
 			group by t.FA_FIN_ORG_CODE
@@ -113,6 +114,7 @@
 	            ]]>
 			</baseSql>
 			<orderBySql>
+			order by CONTRACT_AMOUNT desc
 			</orderBySql>
 			<groupSql>
 			group by main.MORTGAGET_FIN_ORG_CODE
