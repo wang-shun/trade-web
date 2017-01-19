@@ -97,7 +97,7 @@
                     async:false,
                     success : function(data) {
                         $.each(data.rows,function(i,item){
-                        	districtIDArr.push(item.DISTRICT_ID)
+                        	districtIDArr.push(item.DISTRICT_ID);
                             districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
                         })
                     },

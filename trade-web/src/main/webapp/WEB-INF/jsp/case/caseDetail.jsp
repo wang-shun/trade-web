@@ -104,7 +104,7 @@
                   		
                   		</div>
                   	</c:if>                    
-                   	<c:if test="${toCase.caseProperty=='30003003'}">
+                   	<c:if test="${toCase.caseProperty=='30003003' || toCase.caseProperty=='30003007' || toCase.caseProperty=='30003008'}">
                    		<div class="sign sign-red">在途</div>
 	                   <div class="sign sign-blue">
 	                   	<c:if test="${toCase.status=='30001001'}">

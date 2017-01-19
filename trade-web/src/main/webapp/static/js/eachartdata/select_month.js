@@ -8,9 +8,35 @@ var iframe4 = window.parent.window.document.getElementById("iframe4");
 var iframesArr = [iframe1,iframe2,iframe3,iframe4];
 
 $(function() {	
-	
-	resetDataModel();
-	
+	resetDataModel(1);
+	addChangeDateEvent();
+})
+
+function resetDataModel(count){
+    $.each(iframesArr,function(i,item){
+    	$(item.contentWindow.document).find(".calendar-year span").html(window.parent.yearDisplay);
+    	$(item.contentWindow.document).find(".calendar-month span:eq("+window.parent.monthDisplay+")").addClass("select-blue").siblings().removeClass("select-blue");
+        //增加年份置灰
+    	if(window.parent.yearDisplay == yearLast){
+        	$(item.contentWindow.document).find("#add em").addClass("disabled");
+    	}else{
+    		$(item.contentWindow.document).find("#add em").removeClass("disabled");
+    	}
+        //月份置灰
+        if(count == 1 && window.parent.yearDisplay == yearLast && window.parent.monthDisplay == monthLast){
+        	$(item.contentWindow.document).find(".calendar-month span:gt("+window.parent.monthLast+")").removeClass("disabled").addClass("disabled");
+        	//首次延迟加载，等待iframe加载完成
+        	setTimeout(function(){
+        		item.contentWindow.reloadGrid();
+        	},600);
+        }else{
+        	item.contentWindow.reloadGrid();
+        }
+
+    });
+}
+
+function addChangeDateEvent(){
 	$.each(iframesArr,function(i,item){
 		//点击变换颜色&&默认当前月份
 	    var $month_list = $(item.contentWindow.document).find(".calendar-month span");
@@ -24,29 +50,11 @@ $(function() {
 	    	resetDataModel();
 	    })
 	    $(item.contentWindow.document).find("#add").click(function(){
+	    	if(window.parent.yearDisplay == yearLast){
+	    		return false;
+	    	}
 	    	window.parent.yearDisplay++;
 	    	resetDataModel();
 	    })
-	})	
-})
-
-function resetDataModel(){
-    $.each(iframesArr,function(i,item){
-    	$(item.contentWindow.document).find(".calendar-year span").html(window.parent.yearDisplay);
-    	$(item.contentWindow.document).find(".calendar-month span:eq("+window.parent.monthDisplay+")").addClass("select-blue").siblings().removeClass("select-blue");
-        //增加年份置灰
-    	if(window.parent.yearDisplay == yearLast){
-        	$(item.contentWindow.document).find("#add em").addClass("disabled");
-    	}else{
-    		$(item.contentWindow.document).find("#add em").removeClass("disabled");
-    	}
-        //月份置灰
-        if(window.parent.monthDisplay<11 
-        		&& window.parent.yearDisplay == yearLast 
-        		&& window.parent.monthDisplay == monthLast){
-        	$(item.contentWindow.document).find(".calendar-month span:gt("+window.parent.monthLast+")").removeClass("disabled").addClass("disabled");
-        }  
-        
-        item.contentWindow.reloadGrid();
-    });
+	})
 }
