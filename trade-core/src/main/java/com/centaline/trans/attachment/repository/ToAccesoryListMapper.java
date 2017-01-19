@@ -25,5 +25,5 @@ public interface ToAccesoryListMapper {
     
 	public String findAccessoryNameByCode(String accessoryCode);
 	
-	public String findAccesoryNameByPartCode(ToAccesoryList toAccesoryList);
+	public ToAccesoryList findAccesoryNameByPartCode(ToAccesoryList toAccesoryList);
 }
