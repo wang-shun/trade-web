@@ -64,6 +64,8 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 
 	@Value("${process.df.key.SpvCloseApplyProcess}")
 	private String SpvCloseApplyProcessDfKey;
+	@Value("${process.df.key.reqStuffProcess}")
+	private String reqStuffProcessDfKey;
 
 	public String getSpvCashflowInProcess() {
 		return spvCashflowInProcess;

@@ -24,4 +24,6 @@ public interface ToAccesoryListMapper {
     List<ToAccesoryList> qureyToAccesoryList(ToAccesoryList record);
     
 	public String findAccessoryNameByCode(String accessoryCode);
+	
+	public ToAccesoryList findAccesoryNameByPartCode(ToAccesoryList toAccesoryList);
 }

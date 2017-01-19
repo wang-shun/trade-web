@@ -64,7 +64,8 @@
                  <div class="form_content">
                 		 <label class="sign_left control-label">案件编号 </label>
                 		 <div class="sign_right teamcode">
-							  <input id="caseCode" type="text" class="teamcode form-control" >
+							  <input id="caseCode" id="caseCode" type="text" class="teamcode form-control"  value="">
+							 
 						 </div>
 				 </div>
                  <div class="form_content">
@@ -232,7 +233,11 @@
                           </p>
 					</td>
 					<td >
-					   <p >经办人：{{item.PROCESSOR_ID}}</p>
+						{{if "" != item.PROCESSOR_ID  && null != item.PROCESSOR_ID}}
+					   			<p>经办人： {{item.PROCESSOR_ID}}</p> 	
+						{{else}}
+								<p>经办人： {{item.REQUIRE}}</p>
+						{{/if}}
 					   <p>主&nbsp;&nbsp;&nbsp;&nbsp;管：{{item.MANAGER}}</p>
 					</td>
 

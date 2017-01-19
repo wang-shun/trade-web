@@ -229,6 +229,7 @@ $(document).ready(function(){
 });
     
     function saveBtnClick(handle,SpvApplyApprove,type){
+    	debugger;
     	if(type == 'checkForSubmit' && handle == 'SpvApply'){
       	  if(!checkFormSubmit()){
         		  return false;
@@ -239,7 +240,7 @@ $(document).ready(function(){
       	  }
       }	 
 
-  	  if(handle == 'SpvApply'){
+  	  if(type == 'checkForSubmit' && handle == 'SpvApply'){
 	  		if(!confirm("是否确定提交申请！")){
 	  		  return false;
 	  	  }

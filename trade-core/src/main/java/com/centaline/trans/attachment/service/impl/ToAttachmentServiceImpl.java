@@ -60,6 +60,7 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 			
 			toAttachment.setPreFileAdress(fileUploadVO.getPictureNo().get(i));
 			toAttachment.setPreFileCode(preFileCodes.get(i));
+			toAttachment.setAvailable("Y");
 			if(toAttachmentMapper.findAttachmentByCount(toAttachment) == 0) {
 				toAttachmentMapper.insertSelective(toAttachment);
 				saveRcAttachment(fileUploadVO.getCaseCode(),fileUploadVO.getPartCode(),toAttachment.getPkid());
@@ -199,4 +200,18 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 		return toAttachmentMapper.updateToAttachmentByCaseCode(caseCode);
 	}
 
+	@Override
+	public boolean deleteByFileAdress(String preFileAdress) {
+		int count = toAttachmentMapper.deleteByFileAdress(preFileAdress);
+		if(count>0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int updateAvaliableAttachmentByProperty(ToAttachment record) {
+		return toAttachmentMapper.updateAvaliableAttachmentByProperty(record);
+	}
 }

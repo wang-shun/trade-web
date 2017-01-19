@@ -49,6 +49,13 @@
     PD_PART, APPLY_CONF_TIME, APPLY_CONF_USER, SIGN_CONF_TIME, SIGN_CONF_USER, IS_REL_FINISH, 
     CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,CHARGE_AMOUNT,REMARK,STATUS,ABAN_REASON,ABAN_TIME,LOANER_NAME,LOANER_PHONE
   </sql>
+  
+  <select id="selectByEloanCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_ELOAN_CASE
+    where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />

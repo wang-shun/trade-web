@@ -14,7 +14,8 @@
 
 <!-- Toastr style -->
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
+<!-- stickUp fixed css -->
+<link href="${ctx}/static/trans/css/common/hint.css" rel="stylesheet" />
 <!-- Gritter -->
 <link href="${ctx}/js/plugins/gritter/jquery.gritter.css"	rel="stylesheet">
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
@@ -85,15 +86,25 @@
 			<div class="scroll_box fadeInDown animated">
 				<div class="top12 panel" id="basicInfo">
                  	<c:if test="${toCase.caseProperty=='30003001'}">
-                   		<div class="sign sign-red">无效</div>
+                   		<div class="sign sign-red" ><span
+                   		<c:if test="${toApproveRecord!=''}">
+                  		class="hint hint-top" data-hint="${toApproveRecord}"
+                  		</c:if> >无效</span></div>
+
                   	</c:if>
                    	<c:if test="${toCase.caseProperty=='30003002'}">
                    			<div class="sign sign-red">结案</div>
                     </c:if>
                  	<c:if test="${toCase.caseProperty=='30003005'}">
-                  		<div class="sign sign-red">爆单</div>
+                  		<div class="sign sign-red ">
+                  		<span
+                   		<c:if test="${toApproveRecord!=''}">
+                  		class="hint hint-top" data-hint="${toApproveRecord}"
+                  		</c:if> >爆单</span>
+                  		
+                  		</div>
                   	</c:if>                    
-                   	<c:if test="${toCase.caseProperty=='30003003'}">
+                   	<c:if test="${toCase.caseProperty=='30003003' || toCase.caseProperty=='30003007' || toCase.caseProperty=='30003008'}">
                    		<div class="sign sign-red">在途</div>
 	                   <div class="sign sign-blue">
 	                   	<c:if test="${toCase.status=='30001001'}">
@@ -113,6 +124,9 @@
 	                   	</c:if>
 	                   	<c:if test="${toCase.status=='30001006'}">
 	                   		未指定
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
 	                   	</c:if>
 	                   </div>                    		
                     </c:if>
@@ -137,6 +151,9 @@
 	                   	<c:if test="${toCase.status=='30001006'}">
 	                   		未指定
 	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
+	                   	</c:if>
 	                   </div>                    		
                     </c:if>
                   	<c:if test="${toCase.caseProperty=='30003006'}">
@@ -159,6 +176,9 @@
 	                   	</c:if>
 	                   	<c:if test="${toCase.status=='30001006'}">
 	                   		未指定
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
 	                   	</c:if>
 	                   </div>                   		
                    	</c:if>
@@ -366,17 +386,22 @@
 									</shiro:hasPermission>
 									<c:if test="${toCase.caseProperty != 30003002}">
 										<!-- 已经结案审批通过限制流程重启 -->
-										<shiro:hasPermission name="TRADE.CASE.RESTART">
+										<!-- 已经过户或者已经领证的案件限制流程重启 -->
+										<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' || serviceJobType=='Y' }">
+										<shiro:hasPermission name="TRADE.CASE.RESTART"> 
 											<a role="button" id="processRestart"
 												class="btn btn-primary btn-xm btn-activity"
 												href="javascript:serviceRestart()">流程重启</a>
-										</shiro:hasPermission>
+									    </shiro:hasPermission>
+										</c:if> 
 									</c:if>
-									<shiro:hasPermission name="TRADE.CASE.RESET">
+									<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' || serviceJobType == 'Y' }">
+									<shiro:hasPermission name="TRADE.CASE.RESET"> 
 										<a role="button" id="caseResetes"
 											class="btn btn-primary btn-xm btn-activity"
 											href="javascript:caseReset()">案件重置</a>
-									</shiro:hasPermission>
+									 </shiro:hasPermission>
+									</c:if> 
 									<c:if test="${isCaseOwner && isNewFlow}">
 										<!-- 主办 &10:445004或者之后的流程-->
 										<a role="button" class="btn btn-primary btn-xm btn-activity"

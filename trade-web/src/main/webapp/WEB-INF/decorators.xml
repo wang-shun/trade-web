@@ -27,7 +27,7 @@
 	<decorator name="default" page="INSPINIA_template.jsp">
 		<pattern>/*</pattern>
 	</decorator>
-	
+
 	<!-- 新模板 -->
 	 <decorator name="UI_V2" page="INSPINIA_template_new.jsp">
 		<pattern>/workspace/dashboard</pattern>
@@ -68,10 +68,16 @@
 		<pattern>/material/materialStorgae</pattern>
 		<pattern>/material/materialDetail</pattern>
 		<pattern>/material/materialStay</pattern>
-	    <pattern>/case/myCaseList</pattern>
+	    <pattern>/case/myCaseList</pattern>    
 	    <pattern>/case/caseForChange</pattern>
 		<pattern>/case/caseDistribute</pattern>
 		<pattern>/case/unlocatedCase</pattern> 
+		<pattern>/caseMerge/addCase/case</pattern>
+	    <pattern>/caseMerge/addCase/eloan</pattern>
+	   	<pattern>/caseMerge/addCase/spv</pattern>
+	    <pattern>/caseMerge/saveCaseInfo/case</pattern>	
+	    <pattern>/caseMerge/saveCaseInfo/eloan</pattern>
+	    <pattern>/caseMerge/saveCaseInfo/spv</pattern>
 		<pattern>/task/toTaskOfGroupList</pattern>
 		<pattern>/case/taskTracking</pattern> 
 		<pattern>/case/tracking</pattern> 
@@ -88,6 +94,20 @@
 		<pattern>/report/caseLossRateList</pattern>
 		<pattern>/report/caseLossRateReasonList</pattern>
 		<pattern>/test/*</pattern>
+		<pattern>/caseMerge/caseRecord</pattern>
+	</decorator>
+	<decorator name="noTemplate">
+		<pattern>/report/guoHuReport</pattern>
+		<pattern>/report/signReport</pattern>
+	    <pattern>/report/charts</pattern>
+		<pattern>/report/echartsData1</pattern>
+		<pattern>/report/echartsData2</pattern>
+		<pattern>/report/echartsData3</pattern>
+		<pattern>/report/echartsData4</pattern>
+		<pattern>/report/echartsData5</pattern>
+		<pattern>/report/echartsData6</pattern>
+		<pattern>/report/echartsData7</pattern>
+		<pattern>/report/echartsData8</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

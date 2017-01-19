@@ -57,7 +57,8 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 		if (yucuiHeadQuarteSet == null) {
 			yucuiHeadQuarteSet = new HashSet<String>();
 			if (!StringUtils.isBlank(yucuiHeadQuarte)) {
-				yucuiHeadQuarteSet.addAll(Arrays.asList(yucuiHeadQuarte.split(",")));
+				yucuiHeadQuarteSet.addAll(Arrays.asList(yucuiHeadQuarte
+						.split(",")));
 			}
 		}
 		return yucuiHeadQuarteSet;
@@ -71,7 +72,8 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 		if (yucuiDistrictSet == null) {
 			yucuiDistrictSet = new HashSet<String>();
 			if (!StringUtils.isBlank(yucuiDistrict)) {
-				yucuiDistrictSet.addAll(Arrays.asList(yucuiDistrict.split(",")));
+				yucuiDistrictSet
+						.addAll(Arrays.asList(yucuiDistrict.split(",")));
 			}
 		}
 		return yucuiDistrictSet;
@@ -79,11 +81,14 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 
 	public String findUserByCase(String jobCode, String caseCode) {
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-		return findWorkFlowUser(jobCode, toCase.getLeadingProcessId(), toCase.getOrgId());
+		return findWorkFlowUser(jobCode, toCase.getLeadingProcessId(),
+				toCase.getOrgId());
 	}
 
 	@Override
-	public String findUserBySrv(String jobCode, String caseCode, String taskDfKey) {
+	public String findUserBySrv(String jobCode, String caseCode,
+			String taskDfKey) {
+
 		List<TgServItemAndProcessor> serviceMap = tgServItemAndProcessorService
 				.findTgServItemAndProcessorByCaseCode(caseCode);
 		TgServItemAndProcessor tsg = getServiceCode(serviceMap, taskDfKey);
@@ -92,7 +97,6 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 			return findWorkFlowUser(jobCode, tsg.getProcessorId(), tsg.getOrgId());
 		} else {
 			return null;
-			// return findUserByCase(jobCode, caseCode);
 		}
 	}
 
@@ -104,7 +108,8 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 	 * @param baseonUserId
 	 * @return
 	 */
-	public String findWorkFlowUser(String groupId, String baseonUserId, String orgId) {
+	public String findWorkFlowUser(String groupId, String baseonUserId,
+			String orgId) {
 		if (baseonUserId == null)
 			return null;
 		User baseonuser = uamUserOrgService.getUserById(baseonUserId);
@@ -129,7 +134,8 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 	 * @return
 	 */
 	private boolean containsJob(String username, String jobCode) {
-		List<UserOrgJob> jobs = uamUserOrgService.findUserOrgJobByUsername(username);
+		List<UserOrgJob> jobs = uamUserOrgService
+				.findUserOrgJobByUsername(username);
 		if (jobs == null || jobs.isEmpty() || StringUtils.isBlank(jobCode))
 			return false;
 		for (UserOrgJob userOrgJob : jobs) {
@@ -174,7 +180,8 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 	 * @return
 	 */
 	private String findTeam(String groupId, String orgId) {
-		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, groupId);
+		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(orgId,
+				groupId);
 		if (users != null && !users.isEmpty() && users.size() < 2)
 			return users.get(0).getUsername();
 		else if (users.size() > 1) {
@@ -199,7 +206,8 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 	 * @param taskDefinitionKey
 	 * @return
 	 */
-	private TgServItemAndProcessor getServiceCode(List<TgServItemAndProcessor> serviceMap, String taskDefinitionKey) {
+	private TgServItemAndProcessor getServiceCode(
+			List<TgServItemAndProcessor> serviceMap, String taskDefinitionKey) {
 		String dicCode = taskDefinitionKey;
 		if (serviceMap != null && !serviceMap.isEmpty()) {
 			for (TgServItemAndProcessor tgs : serviceMap) {

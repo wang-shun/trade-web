@@ -28,9 +28,48 @@ public class ToCase {
     private Date closeTime;
     
     private String startDate;
+    
     private String endDate;
     
-  
+	private String caseOrigin;
+	
+	private String createBy;
+
+	private String updateBy;
+	
+	private Date updateTime;
+	
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+	
+    public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getCaseOrigin() {
+		return caseOrigin;
+	}
+
+	public void setCaseOrigin(String caseOrigin) {
+		this.caseOrigin = caseOrigin;
+	}
 
 	public String getStartDate() {
 		return startDate;
@@ -142,6 +181,5 @@ public class ToCase {
 	public void setLoanReq(String loanReq) {
 		this.loanReq = loanReq;
 	}
-    
     
 }

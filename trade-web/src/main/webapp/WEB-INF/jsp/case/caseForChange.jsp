@@ -179,7 +179,6 @@
 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 <script src="${ctx}/js/plugins/jquery.custom.js"></script> 
 <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-<script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
 <script src="${ctx}/js/trunk/case/caseForChange.js"></script>
 
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 

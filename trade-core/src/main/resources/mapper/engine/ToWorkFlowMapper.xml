@@ -408,6 +408,14 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     and status=#{status,jdbcType=VARCHAR}
   </select>
+  <select id="queryToWorkFlowByCaseCodeAndBusinessKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.engine.entity.ToWorkFlow" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_WORKFLOW
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+          AND BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR}
+    and status=#{status,jdbcType=VARCHAR}
+  </select>
   <select id="queryOutTimeTaskList" resultMap="OutTimeTaskResultMap">
 	    
 	SELECT 

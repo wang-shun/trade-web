@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.centaline.parportal.mobile.login.entity.TSmMobileToken;
 import com.centaline.parportal.mobile.login.repository.TokenRepositoryCustom;
-import com.centaline.parportal.mobile.login.vo.TokenVo;
+import com.centaline.trans.common.vo.TokenVo;
 
 @Repository
 public class TokenRepositoryCustomImpl implements TokenRepositoryCustom {

@@ -36,7 +36,7 @@
       </extensionElements>
     </userTask>
     <exclusiveGateway id="sid-87823D66-F26C-4FF6-A9AE-717F202D3B53"></exclusiveGateway>
-    <userTask id="CaseCloseSecondApprove" name="主管审批" activiti:assignee="#{commonUserService.getAssignee(execution,'Manager')}" activiti:formKey="/task/caselostApprove/second/process">
+    <userTask id="CaseCloseSecondApprove" name="主管审批" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'Manager')}" activiti:formKey="/task/caselostApprove/second/process">
       <extensionElements>
         <activiti:formProperty id="CaseCloseSecondCheck" name="结案二级审核" type="boolean"></activiti:formProperty>
       </extensionElements>
@@ -355,7 +355,7 @@
         <omgdi:waypoint x="81.0" y="177.0"></omgdi:waypoint>
         <omgdi:waypoint x="169.0" y="177.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="44.0" x="81.0" y="177.0"></omgdc:Bounds>
+          <omgdc:Bounds height="42.0" width="44.0" x="81.0" y="177.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-E623CF1C-6460-42CC-B4AF-70FE3F5ACD27" id="BPMNEdge_sid-E623CF1C-6460-42CC-B4AF-70FE3F5ACD27">

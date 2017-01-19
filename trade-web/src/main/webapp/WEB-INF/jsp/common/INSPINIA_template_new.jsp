@@ -32,7 +32,13 @@
     <link href="${ctx}/static/css/style.css" rel="stylesheet">
     <link href="${ctx}/css/plugins/jqGrid/aist-jqgird-ui.custom.css" rel="stylesheet">
     
+    
     <sitemesh:head></sitemesh:head>
+   <script type="text/javascript">
+	    var ctx = '${ctx}';
+	    window.ctx=ctx;
+    </script>
+    <%-- <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/config.js"></script> --%>
 	<script type="text/javascript">
 		try{
 			var ctx="${ctx}";
@@ -152,14 +158,15 @@
     <script src="${ctx}/static/js/bootstrap.min.js"></script>
     <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    
+      
     <!-- Custom and plugin javascript -->
     <script src="${ctx}/static/js/inspinia.js"></script>
+    <%--
     <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
-    
+     --%>
     <!-- jQuery UI -->
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    
+   
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%> 
     <script type="text/javascript" src="${ctx}/static/js/INSPINIA_template.js"></script>
     <script type="text/javascript">
@@ -200,6 +207,6 @@
     </script>
     <sitemesh:getProperty property="page.local_script"></sitemesh:getProperty>
     <script>
-    </script>
+    </script>  
 </body>
 </html>

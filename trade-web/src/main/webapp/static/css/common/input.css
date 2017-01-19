@@ -212,7 +212,7 @@ h2, h3, h4, h5, p, button, table {
   color: inherit;
   font-size: 14px;
   font-family: 'Microsoft Yahei';
-  background-color: #fff;
+/*   background-color: #fff; */
   background-image: none;
   border: 1px solid #e5e6e7;
   border-radius: 0px;
@@ -383,10 +383,10 @@ input {
 .input-group-addon {
   float: left;
   display: inline-block;
-  width: 32px !important;
+  width: 35px !important;
   margin-left: -5px;
   margin-right: -5px;
-  padding: 6px 5px !important;
+  padding: 9px 5px !important;
   line-height: 1.428571429;
   text-align: center;
   text-shadow: 0 1px 0 #fff;
@@ -684,4 +684,17 @@ input {
 }
 .btn-lightyellow:hover{
     color: #f8af65;
+}
+
+.sign_left_one {
+    width: 130px;
+    text-align: right;
+    margin-right: 20px;
+}
+.info-text {
+  display: inline-block;
+  width: 330px;
+}
+.ver-top{
+  vertical-align: top;
 }

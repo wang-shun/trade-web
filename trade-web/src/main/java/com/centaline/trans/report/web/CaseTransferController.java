@@ -110,4 +110,5 @@ public class CaseTransferController {
 
 		return "report/case_transfer";
 	}
+	
 }

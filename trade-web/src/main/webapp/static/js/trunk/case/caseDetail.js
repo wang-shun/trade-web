@@ -1420,7 +1420,7 @@ function casePause(){
 }
 function buttonActivity(){
 	var activityFlag = $("#activityFlag").val();
-	if(activityFlag == "30003003"){
+	if(activityFlag == "30003003" || activityFlag == "30003007" || activityFlag == "30003008"){
 		$('.btn-activity').show();
 		$('#casePause').text("案件挂起");
 		$('#casePause').show();

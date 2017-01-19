@@ -94,7 +94,10 @@ public class ToMortgageController {
 		try{
 			ToMortgage mortgage = toMortgageService.findToMortgageByCaseCodeWithCommLoan(toMortgage);
 			// 分行支行
-			String finOrgCodeString = mortgage.getFinOrgCode();
+			String finOrgCodeString = "";
+			if(null != mortgage){
+				 finOrgCodeString = mortgage.getFinOrgCode();
+			}			
 			if (!StringUtils.isEmpty(finOrgCodeString)) {
 				TsFinOrg bank = tsFinOrgService.findBankByFinOrg(finOrgCodeString);
 				 mortgage.setBankName(bank.getFinOrgName());
@@ -135,7 +138,14 @@ public class ToMortgageController {
 			response.setContent(mortgage);
 		}catch(Exception e){
 			response.setSuccess(false);
-			response.setMessage("查询出错！"+e.getMessage());
+			StringBuffer sOut = new StringBuffer();
+            sOut.append(e.getMessage() + "\r\n");
+            StackTraceElement[] trace = e.getStackTrace();
+            for (StackTraceElement s : trace) {
+                sOut.append("\tat " + s + "\r\n");
+            }
+			response.setMessage("查询出错！"+sOut);
+			e.printStackTrace();
 		}
 		
         return response;

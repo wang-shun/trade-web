@@ -161,6 +161,12 @@
 	<bean name="qqfinOrgIdName" class="com.centaline.trans.common.service.impl.QuickQueryFinOrgImpl">
     	<property name="prop" value="finOrgName"></property>
     </bean>
+
+    <!-- 根据金融机构编码查询最高的金融机构-->
+    <bean name="qqGetfinOrgYCName" class="com.centaline.trans.common.service.impl.QuickQueryFinOrgImpl">
+        <property name="prop" value="finOrgNameYc"></property>
+    </bean>
+
     <!-- 进出账方向 -->
     <bean name="qqcdDictyu_cash_direction" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="yu_cash_direction"></property>
@@ -279,6 +285,8 @@
 
 	<bean name="qqcdCaseManager" class="com.centaline.trans.common.service.impl.QuickQueryCaseManagerServiceImpl">
     </bean>
+	<bean name="qqcdCaseToQfManager" class="com.centaline.trans.common.service.impl.QuickQueryCaseManagerToQfServiceImpl">
+    </bean>
 	<bean name="qqcdSeller" class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoCustomDictServiceImpl">
     	<property name="transPosition" value="30006001"></property>
     </bean>
@@ -352,6 +360,8 @@
     	<property name="partCode" value="GuohuApprove"></property>
     </bean>
     
+    <bean name="lastContents" class="com.centaline.trans.common.service.impl.QuickQueryGetLastContentServiceImpl">    
+    </bean>
     <!-- 获取商贷预警类型 -->
     <bean name="getShowWarnType" class="com.centaline.trans.common.service.impl.QuickQueryGetShowWarnTypeServiceImpl"></bean>
     
@@ -458,8 +468,6 @@
         <property name="dictType" value="mortgageAmount"></property>
     </bean>
 
-
-	
     <!-- 根据案件编号集合查询贷款银行、贷款支行信息 -->
     <bean name="quickQueryGetMainAndBranchBankService" class="com.centaline.trans.common.service.impl.QuickQueryGetMainAndBranchBankByCaseCodeListServiceImpl"></bean>
 
@@ -490,8 +498,38 @@
         <property name="dictType" value="wf"></property>
     </bean>
 
+    <!-- 根据区域ID和月份查询当月的商贷案件数量 -->
+    <bean name="qqGetMortComCount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="mortComCount"></property>
+    </bean>
+    <!-- 根据区域ID和月份查询当月的公积金案件数量 -->
+    <bean name="qqGetMortPrfCount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="mortPrfCount"></property>
+    </bean>
+    <!-- 根据区域ID和月份查询当月的无贷款案件数量 -->
+    <bean name="qqGetNoMortCount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="noMortCount"></property>
+    </bean>
+    <!-- 根据区域ID和月份查询当月的流失案件数量 -->
+    <bean name="qqGetLostCount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="lostCount"></property>
+    </bean>
+
+    <!-- 根据金融机构CODE查询所属银行机构的名字 -->
+    <bean name="qqGetLostMorTotalAmount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
+        <property name="dictType" value="lostMorTotalAmount"></property>
+    </bean>
+
+
     <!-- 根据custCode 查询主贷人电话 -->
     <bean name="custPhoneByCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCustPhoneByCodeServiceImpl" >    	
+    </bean> 
+    
+    <!-- 根据caseCode 查询caseInfo表信息 -->
+    <bean name="getCaseInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoReportServiceImpl" >    	
+    </bean>
+    <!-- 根据caseCode 查询刷卡信息 -->
+    <bean name="getPostInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetPostInfoServiceImpl" >    	
     </bean>
     <!-- 根据code查询支行信息 -->
     <bean name="qqFinOrgNameYC" class="com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl">
@@ -547,6 +585,17 @@
     </bean>      	
     
     <!-- 根据caseCode 查询 产证地址 -->
-    <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" ></bean>   	
+    <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" ></bean>  
+    <!-- 根据CaseCode查询案件的渠道属性-->
+    <bean name="getCaseOriginByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseOriginServiceImpl"></bean>	 	
+    <!-- 根据CaseCode查询案件的地址Code-->
+    <bean name="getPropertyCodeByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetPropertyCodeServiceImpl"></bean>	 	
+    <!-- 根据用户Id查询用户名-->
+    <bean name="getRealNameByUserId" class="com.centaline.trans.common.service.impl.QuickQueryGetRealNameServiceImpl"></bean>	 	
+    <!-- 根据用户Id查询用户名-->
+    <bean name="getMegerCuntByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetMegerCuntServiceImpl"></bean>	 	
+    <!-- 根据地址查询可以关联的案件数-->
+    <bean name="getGlCaseCount" class="com.centaline.trans.common.service.impl.QuickQueryGetGlCaseCountServiceImpl"> 
+    </bean>	
 <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

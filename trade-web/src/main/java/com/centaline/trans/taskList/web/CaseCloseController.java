@@ -37,6 +37,7 @@ import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value="/task/CaseClose")
@@ -77,7 +78,7 @@ public class CaseCloseController {
 		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
 		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
 		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
-		return "task/taskCaseClose";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskCaseClose";
 	}
 
 	

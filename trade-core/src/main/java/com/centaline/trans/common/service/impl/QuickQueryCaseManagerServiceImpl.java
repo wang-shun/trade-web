@@ -33,7 +33,8 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 		String sql = "SELECT uoj.REAL_NAME ,uoj.ORG_NAME,uoj.MOBILE FROM sctrans.T_TO_CASE toCase "
 				   + " inner join sctrans.V_USER_ORG_JOB uoj on uoj.ORG_ID = toCase.ORG_ID"
 				   + " inner join SCTRANS.T_TO_CASE_INFO A on A.CASE_CODE = toCase.CASE_CODE"
-				   + " WHERE A.CASE_CODE= ? and A.IS_RESPONSED = 1 AND  uoj.JOB_CODE = 'Manager'";
+				   + " WHERE A.CASE_CODE= ? and A.IS_RESPONSED = 1 AND  uoj.JOB_CODE = 'Manager'"
+				   + "	and uoj.is_deleted = 0 ";
 		List<Map<String, Object>> orgIdList = jdbcTemplate.queryForList(sql, key);
 		if(CollectionUtils.isEmpty(orgIdList)) {
 			String sql1 = "select su.REAL_NAME ,so.ORG_NAME,su.MOBILE " + "	from sctrans.T_TS_TEAM_SCOPE_TARGET tst "
@@ -41,7 +42,8 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 					+ " left join sctrans.SYS_USER_ORG_JOB uoj on uoj.ORG_ID = so.id "
 					+ " left join sctrans.SYS_JOB sj on uoj.JOB_ID = sj.ID "
 					+ " left join sctrans.SYS_USER su on su.ID = uoj.USER_ID "
-					+ " where tst.grp_code = (SELECT TARGET_CODE from sctrans.T_TO_CASE_INFO where CASE_CODE = ?) and sj.JOB_CODE = 'Manager'  and tst.IS_RESPONSE_TEAM = 1";
+					+ " where tst.grp_code = (SELECT TARGET_CODE from sctrans.T_TO_CASE_INFO where CASE_CODE = ?) "
+					+ "	and sj.JOB_CODE = 'Manager'  and tst.IS_RESPONSE_TEAM = 1 and uoj.is_deleted = 0";
 			List<Map<String, Object>> userList = jdbcTemplate.queryForList(sql1, key);
 			String managerInfo = getJoinUserInfo(userList);
 			return managerInfo;
@@ -60,18 +62,23 @@ public class QuickQueryCaseManagerServiceImpl implements CustomDictService {
 			
 			if(key!=null){
 				
-				String sql = "SELECT uoj.REAL_NAME ,uoj.ORG_NAME,uoj.MOBILE FROM sctrans.T_TO_CASE toCase "
-						   + " inner join sctrans.V_USER_ORG_JOB uoj on uoj.ORG_ID = toCase.ORG_ID"
+				String sql = "SELECT u.REAL_NAME ,o.ORG_NAME,u.MOBILE FROM sctrans.T_TO_CASE toCase "
+						   + " inner join sctrans.SYS_USER_ORG_JOB uoj on uoj.ORG_ID = toCase.ORG_ID"
+						   + " inner join sctrans.sys_job j on uoj.job_id = j.id "
+						   + " inner join sctrans.sys_user u on uoj.user_id = u.id "
+						   + " inner join sctrans.sys_org o on o.id = uoj.org_id "
 						   + " inner join SCTRANS.T_TO_CASE_INFO A on A.CASE_CODE = toCase.CASE_CODE"
-						   + " WHERE A.CASE_CODE= ? and A.IS_RESPONSED = 1 AND  uoj.JOB_CODE = 'Manager'";
+						   + " WHERE A.CASE_CODE= ? and A.IS_RESPONSED = 1 AND  j.JOB_CODE = 'Manager'"
+						   + "	 and uoj.IS_DELETED = 0";
 				List<Map<String, Object>> orgIdList = jdbcTemplate.queryForList(sql, key);
 				if(CollectionUtils.isEmpty(orgIdList)) {
-					String sql1 = "select su.REAL_NAME ,so.ORG_NAME,su.MOBILE " + "	from sctrans.T_TS_TEAM_SCOPE_TARGET tst "
+					String sql1 = "select su.REAL_NAME ,so.ORG_NAME,su.MOBILE from sctrans.T_TS_TEAM_SCOPE_TARGET tst "
 							+ " left join sctrans.SYS_ORG so on tst.YU_TEAM_CODE = so.ORG_CODE "
 							+ " left join sctrans.SYS_USER_ORG_JOB uoj on uoj.ORG_ID = so.id "
 							+ " left join sctrans.SYS_JOB sj on uoj.JOB_ID = sj.ID "
 							+ " left join sctrans.SYS_USER su on su.ID = uoj.USER_ID "
-							+ " where tst.grp_code = (SELECT TARGET_CODE from sctrans.T_TO_CASE_INFO where CASE_CODE = ?) and sj.JOB_CODE = 'Manager'  and tst.IS_RESPONSE_TEAM = 1";
+							+ " where tst.grp_code = (SELECT TARGET_CODE from sctrans.T_TO_CASE_INFO where CASE_CODE = ?) "
+							+ "		and sj.JOB_CODE = 'Manager'  and tst.IS_RESPONSE_TEAM = 1 and uoj.IS_DELETED = 0 ";
 					List<Map<String, Object>> userList = jdbcTemplate.queryForList(sql1, key);
 					val = getJoinUserInfo(userList);
 				} else {

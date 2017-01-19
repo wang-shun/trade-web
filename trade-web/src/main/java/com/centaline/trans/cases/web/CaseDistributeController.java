@@ -28,6 +28,7 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
@@ -147,13 +148,16 @@ public class CaseDistributeController {
 	 */
     @RequestMapping(value="/getUserOrgCpUserList")
     @ResponseBody
-	public List<VCaseDistributeUserVO>  getUserOrgCpUserList(HttpServletRequest request) throws ParseException{
+	public List<VCaseDistributeUserVO>  getUserOrgCpUserList(HttpServletRequest request,String caseCode) throws ParseException{
     	List<VCaseDistributeUserVO> res=new ArrayList<VCaseDistributeUserVO>();
     	//获取当前用户
     	SessionUser sessionUser = uamSessionService.getSessionUser();
     	//获取机构交易顾问列表
     	List<User> userList= uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(), TransJobs.TJYGW.getCode());
-    	
+    	if(!StringUtils.isBlank(caseCode)){
+	    	VCaseDistributeUserVO vd = toCaseService.getVCaseDistributeUserVO(caseCode);
+	    	if(null !=vd){res.add(vd);};
+    	}
     	for(int i=0;i<userList.size();i++){
     		VCaseDistributeUserVO vo = new VCaseDistributeUserVO();
     		User user = userList.get(i);
@@ -168,8 +172,8 @@ public class CaseDistributeController {
             vo.setUserCaseMonthCount(userCaseMonthCount);
             vo.setUserCaseUnTransCount(userCaseUnTransCount);
             String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+user.getEmployeeCode()+".jpg";
-           
-            
+            /**所用合作顾问**/
+            vo.setType("ALL");
             vo.setImgUrl(url);
             
             res.add(vo);
@@ -424,9 +428,32 @@ public class CaseDistributeController {
        		return AjaxResponse.fail("请选择一个片区！");
        	}
     }
+
+	/**
+	 * 查询是否有可以合流的案件
+	 * @author hejf10	2016-12-26 11:08:00
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value="/getMergeInfoList")
+	@ResponseBody
+	public AjaxResponse<?>  getMergeInfoList(HttpServletRequest request,List<ToPropertyInfo> toPropertyInfos) throws ParseException{
+		AjaxResponse<String> response = new AjaxResponse<>();
+		try{
+			toCaseService.getMergeInfoList(toPropertyInfos);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			String sOut = "";
+			StackTraceElement[] trace = e.getStackTrace();
+			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
+			response.setMessage(e.getMessage()+"异常："+sOut);
+			e.printStackTrace();
+		}
+		return response;
+	}
+
 }
-
-
 
 
 

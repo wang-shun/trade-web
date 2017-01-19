@@ -184,6 +184,10 @@
 					                                <i class="icon iconfont"></i>
 					                                   	 查询
 					                                </button>
+					                                
+					                                <button type="button" class="btn btn-success" id="addNewCase"  >					                                
+					                                   	 新增案件
+					                                </button>
 					                            </div>
 					                        </div>
 				                    	</div>
@@ -958,9 +962,7 @@
     
 
 	<!-- Mainly scripts -->
-	<content tag="local_script"> <!-- Custom and plugin javascript -->
-	<script src="${ctx}/static/js/inspinia.js"></script> <script
-		src="${ctx}/static/js/plugins/pace/pace.min.js"></script> <!-- Toastr script -->
+	<content tag="local_script"> 
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> <script
 		src="${ctx}/static/js/morris/morris.js"></script> <script
 		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
@@ -1166,6 +1168,11 @@
     	 	// 查询
  			$('#searchButton').click(function() {
  				reloadGrid();
+ 			});
+    	 	
+    	 	// 查询
+ 			$('#addNewCase').click(function() {
+ 				window.location.href = ctx+"/caseMerge/addCase/spv";
  			});
     	 	
     	 	// 关联案件

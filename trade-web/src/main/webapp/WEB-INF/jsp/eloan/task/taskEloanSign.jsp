@@ -322,6 +322,15 @@
             });
             
             $('.submit_From').click(function(){
+            	if($("#signAmount").val()=="" ||$("#signAmount").val()==null){
+            		alert("签约金额为必填信息");
+            		return;
+            	}
+            	var date=$("#signTime").val()
+            	if(date=='' || date==null ){
+            		alert("签约时间为必填信息");
+            		return;
+            	}
             	saveEloanSign();
             })
         });

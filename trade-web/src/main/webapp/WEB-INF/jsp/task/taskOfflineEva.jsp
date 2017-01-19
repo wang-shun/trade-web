@@ -23,6 +23,16 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+
+
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
+
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -41,49 +51,64 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
-		<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-	<div >
+<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+	<div>
 		<div class="wrapper border-bottom white-bg page-heading">
-			<div class="row">
-				<div class="col-lg-10">
-					<h2>线下评估报告发起</h2>
-					<ol class="breadcrumb">
-						<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-						<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-					</ol>
+			<div class="row wrapper white-bg new-heading ">
+				<div class="pl10">
+					<h2 class="newtitle-big">
+						线下评估发起
+					</h2>
+					<div class="mt20">
+						<button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+							<i class="iconfont icon">&#xe600;</i> 在途单列表
+						</button>
+						<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+							<i class="iconfont icon">&#xe63f;</i> 案件视图
+						</button>
+					</div>
 				</div>
-				<div class="col-lg-2"></div>
 			</div>
 		</div>
-		<div class="ibox-title">
-			<h5>评估信息</h5>
+		<div class="ibox-content border-bottom clearfix space_box noborder">
+			<h2 class="newtitle title-mark">评估信息</h2>
+			<div class="text_list">
+				<ul class="textinfo">
+					<li>
+						<em>报告类型</em><span class="yuanwid"><aist:dict display="label" id="reportType" name="reportType" dictCode="${OfflineEva.reportType}" dictType="report_type" /></span>
+					</li>
+					<li>
+						<em>期望评估价</em><span class="yuanwid">${OfflineEva.expectedPrice}</span>
+					</li>
+					<li>
+						<em>面积</em><span class="yuanwid">${OfflineEva.square}平方</span>
+					</li>
+					<li>
+						<em>楼层</em><span class="yuanwid">${OfflineEva.locateFloor}/${OfflineEva.totalFloor}</span>
+					</li>
 
-			<div class="panel-body ibox-content">
-				<div class="row" style="margin-left: 90px;">
-					<label class="col-sm-3 control-label">评估公司：${OfflineEva.finOrgName}</label>
-					<label class="col-sm-3 control-label">支行：${OfflineEva.lastLoanBank}</label>
-					<label class="col-sm-3 control-label">报告类型：
-					<aist:dict display="label" id="reportType" name="reportType" dictCode="${OfflineEva.reportType}" dictType="report_type" />
-					</label>
-				</div>
-				<div class="row" style="margin-left: 90px;">
-					<label class="col-sm-3 control-label">物业地址：${OfflineEva.propertyAddr}</label>
-					<label class="col-sm-3 control-label">楼层：${OfflineEva.locateFloor}/${OfflineEva.totalFloor}</label>
-					<label class="col-sm-3 control-label">面积：${OfflineEva.square}平方</label>
-				</div>
-				<div class="row" style="margin-left: 90px;">
-					<label class="col-sm-3 control-label">期望评估价：${OfflineEva.expectedPrice}</label>
-					<label class="col-sm-3 control-label">信贷员姓名：${OfflineEva.loanerName}</label>
-					<label class="col-sm-3 control-label">信贷员电话：${OfflineEva.loanerPhone}</label>
-				</div>
-				<div class="row" style="margin-left: 90px;">
-					<label class="col-sm-9 control-label">备注：${OfflineEva.comment}</label>
-				</div>
+					<li>
+						<em>信贷员姓名</em><span class="yuanwid">${OfflineEva.loanerName}</span>
+					</li>
+					<li>
+						<em>信贷员电话</em><span class="yuanwid">${OfflineEva.loanerPhone}</span>
+					</li>
+					<li>
+						<em>评估公司</em><span class="yuanwid">${OfflineEva.finOrgName}</span>
+					</li>
+					<li>
+						<em class="pull-left">支行</em><span class="infolong pull-left">${OfflineEva.lastLoanBank}</span>
+					</li>
+					<li>
+						<em class="pull-left">物业地址</em><span class="infolong pull-left">${OfflineEva.propertyAddr}</span>
+					</li>
+					<li>
+						<em class="pull-left">备注</em><span class="infolong pull-left">${OfflineEva.comment}</span>
+					</li>
+				</ul>
 			</div>
-			<%-- <div class="ibox-content">
-				<img onClick="downLoad('ff8080814faae259014fabb432c1002b')" src=">
-			</div> --%>
-            <h5>附件下载<br></h5>
+
+			<h2 class="newtitle title-mark">附件下载</h2>
 			<div class="ibox-content">
                 <div id="imgShow" class="lightBoxGallery">
                     <!-- <a href="#" onClick="downLoad('ff8080814faae259014fabb432c1002b')" data-gallery="" style="padding-bottom: 5px;padding-top: 5px;">
@@ -92,46 +117,47 @@
                 </div>
 
             </div>
-            <h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form method="post" class="form-horizontal" id="loanlostApplyForm">
-					<%--环节编码 --%>
-					<%-- <input type="hidden" id="partCode" name="partCode" value="${taskitem}"> --%>
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-					<!-- 流程引擎需要字段 -->
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="pkid" name="pkid" value="${OfflineEva.pkid}">
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">当前状态</label>
-						<div class="col-sm-2">
-							<aist:dict clazz="form-control m-b" id="status" name="status" display="select" defaultvalue="${OfflineEva.status}" dictType="report_status_code" />
+			<h2 class="newtitle title-mark">填写任务信息</h2>
+			<div class="form_list">
+				<div class="marinfo">
+					<div class="line">
+						<div class="form_content">
+							<form method="post" class="form-horizontal" id="loanlostApplyForm">
+								<%--环节编码 --%>
+								<%-- <input type="hidden" id="partCode" name="partCode" value="${taskitem}"> --%>
+								<!-- 交易单编号 -->
+								<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+								<!-- 流程引擎需要字段 -->
+								<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+								<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+								<%-- 原有数据对应id --%>
+								<input type="hidden" id="pkid" name="pkid" value="${OfflineEva.pkid}">
+							<label class="control-label sign_left_small">当前状态</label>
+							<aist:dict clazz="select_control data_style" id="status" name="status" display="select" defaultvalue="${OfflineEva.status}" dictType="report_status_code" />
+							<input type="hidden" name="feedback" id="feedback" />
 						</div>
-						<input type="hidden" name="feedback" id="feedback" />
-					</div>
-					<div class="form-group" id="data_1">
-						<label class="col-sm-2 control-label">时间</label>
-						<div class="input-group date" style="margin-left: 197px;">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="text" class="form-control" id="reportResponseTime" style="width:127px;"
-									name="reportResponseTime" value="<fmt:formatDate  value='${OfflineEva.reportResponseTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+						<div class="form_content">
+							<label class="control-label sign_left_small select_style mend_select">
+								时间
+							</label>
+							<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+								<input type="text" class="input_type yuanwid datatime" id="reportResponseTime" style="width:127px;"
+									   name="reportResponseTime" value="<fmt:formatDate  value='${OfflineEva.reportResponseTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+							</div>
 						</div>
 					</div>
-				</form>
-
+				</div>
 			</div>
+			<!-- 案件备注信息 -->
+			<div id="caseCommentList" class="add_form"></div>
+
 		</div>
 
-		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
-		</div>
-
-		<div class="ibox-title">
-			<a href="#" class="btn" onclick="save(false)">保存</a> <a
-				href="myTaskList" class="btn btn-primary" onclick="submit()">提交</a>
+		<div class="form-btn">
+			<div class="text-center">
+				<button  class="btn btn-success btn-space"  onclick="save(false)">保存</button>
+				<button class="btn btn-success btn-space"  onclick="submit()">提交</button>
+			</div>
 		</div>
 	</div>
 	<content tag="local_script"> 
@@ -153,10 +179,13 @@
 	<script src="${ctx}/transjs/task/showAttachment.js"></script>
 	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 
-<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	<script>
 		$(document).ready(function() {
 

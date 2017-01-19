@@ -14,6 +14,7 @@ import com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeSer
 import com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl;
 
 /**
  * 
@@ -23,10 +24,53 @@ import com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServi
 @Configuration
 public class ProjectContextConfig {
 
-    @Bean(name = "qqcdMortName")
+    //人员、组织相关CustomDict
+    @Bean(name = "qqcdOrgIdName")
+    public CustomDictService qqcdOrgIdName() {
+        QuickQueryOrgCustomDictServiceImpl dict = new QuickQueryOrgCustomDictServiceImpl();
+        dict.setProp("orgName");
+        return dict;
+    };
+
+    @Bean(name = "qqRealName")
+    public CustomDictService qqRealName() {
+        QuickQueryPropertyServiceImpl dict = new QuickQueryPropertyServiceImpl();
+        dict.setDictType("getRealName");
+        return dict;
+    };
+
+    @Bean(name = "qqUserIdMobile")
+    public CustomDictService qqUserIdMobile() {
+        QuickQueryUserCustomDictServiceImpl dict = new QuickQueryUserCustomDictServiceImpl();
+        dict.setProp("mobile");
+        return dict;
+    };
+
+    @Bean(name = "qqcdMortType")
     public CustomDictService qqcdMortName() {
         QuickQuerySrvsDictCustomDictServiceImpl dict = new QuickQuerySrvsDictCustomDictServiceImpl();
         dict.setDictType("30016");
+        return dict;
+    };
+
+    @Bean(name = "qqcdMortLendWay")
+    public CustomDictService qqcdMortLendWay() {
+        QuickQuerySrvsDictCustomDictServiceImpl dict = new QuickQuerySrvsDictCustomDictServiceImpl();
+        dict.setDictType("30017");
+        return dict;
+    };
+
+    @Bean(name = "qqcdCaseStatus")
+    public CustomDictService qqcdCaseStatus() {
+        QuickQuerySrvsDictCustomDictServiceImpl dict = new QuickQuerySrvsDictCustomDictServiceImpl();
+        dict.setDictType("30001");
+        return dict;
+    };
+    
+    @Bean(name = "qqcdMortServName")
+    public CustomDictService qqcdMortServName() {
+        QuickQuerySrvsDictCustomDictServiceImpl dict = new QuickQuerySrvsDictCustomDictServiceImpl();
+        dict.setDictType("part_code");
         return dict;
     };
 
@@ -55,20 +99,6 @@ public class ProjectContextConfig {
     public CustomDictService qqFenHang() {
         QuickQueryPropertyServiceImpl dict = new QuickQueryPropertyServiceImpl();
         dict.setDictType("fenHang");
-        return dict;
-    };
-
-    @Bean(name = "qqcdOrgIdName")
-    public CustomDictService qqcdOrgIdName() {
-        QuickQueryOrgCustomDictServiceImpl dict = new QuickQueryOrgCustomDictServiceImpl();
-        dict.setProp("orgName");
-        return dict;
-    };
-
-    @Bean(name = "qqRealName")
-    public CustomDictService qqRealName() {
-        QuickQueryPropertyServiceImpl dict = new QuickQueryPropertyServiceImpl();
-        dict.setDictType("getRealName");
         return dict;
     };
 

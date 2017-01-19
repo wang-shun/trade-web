@@ -44,6 +44,7 @@
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
+<link rel="stylesheet" href="${ctx}/css/workflow/newRecordpop.css" />
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 
@@ -106,12 +107,19 @@ text-decoration: underline !important;
  text-decoration: underline !important;
 }
 #searchButton{margin-right:5px;}
+.table_content .big a{
+	min-width: 140px;
+	display: inline-block;
+}
 
+.sign_right_one_case{
+	width:130px;
+}
 </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
+<jsp:include page="/WEB-INF/jsp/case/glCaseDiv.jsp"></jsp:include>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox-content border-bottom clearfix space_box">
         <h2 class="title">
@@ -122,7 +130,7 @@ text-decoration: underline !important;
                   <div class="form_content">
 						<label class="sign_left control-label">案件类型</label>
 						<div class="sign_right big_pad">
-							<aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one"  />
+							<aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/>
 						</div>
 					</div>
 					<div class="form_content">
@@ -130,7 +138,7 @@ text-decoration: underline !important;
                                                                              案件状态
                         </label>
                         <div class="sign_right big_pad">
-                                <aist:dict id="status" name="case_status" display="select" dictType="30001" clazz="select_control sign_right_one"  />
+                                <aist:dict id="status" name="case_status" display="select" dictType="30001" clazz="select_control sign_right_one_case"/>
                          </div>
                     </div>
                     <div class="form_content">
@@ -150,6 +158,32 @@ text-decoration: underline !important;
                                 </div>
                             </div>
                       </div>
+             </div>
+			<div class="row clearfix">
+                  <div class="form_content">
+						<label class="sign_left control-label">案件来源</label>
+						<div class="sign_right big_pad">
+							<select name="" class="form-control" id="caseOriginType">
+								<option value="" selected="selected">请选择</option>
+								<option value="INPUT">自录</option>
+								<option value="CTM">导入</option>
+								<option value="MERGE">合流</option>
+								<option value="PROCESS">合流申请中</option>
+							</select>
+						</div>
+					</div>
+					<div class="form_content" >
+						<label class="sign_left_one control-label">
+							是否关注
+						</label>
+						<div class="sign_right big_pad">
+							<select name="" class="form-control" id="isSubscribeFilter">
+								<option value="" selected="selected">请选择</option>
+								<option value="0">已关注</option>
+								<option value="1">未关注</option>
+							</select>
+						</div>
+					</div>
              </div>
              <div class="row clearfix">
              		 <div id="select_div_1" class="form_content">
@@ -171,7 +205,7 @@ text-decoration: underline !important;
                     <div class="form_content">
                     		 <label class="sign_left_two control-label">贷款需求选择</label>
 							 <div class="sign_right">
-									<aist:dict clazz="select_control sign_right_one" id="mortageService" name="mortageService" display="select" defaultvalue="" dictType="mortage_service" />
+									<aist:dict clazz="teamcode form-control" id="mortageService" name="mortageService" display="select" defaultvalue="" dictType="mortage_service" />
 							 </div>
                     </div>            
 			</div>
@@ -190,18 +224,7 @@ text-decoration: underline !important;
 						</div>
 					</div>
 
-				<div class="form_content" style="margin-left:94px;">
-					<label class="sign_left_two control-label">
-						是否关注
-					</label>
-					<div class="sign_right teamcode"> 
-						<select name="" class="form-control" id="isSubscribeFilter">
-							<option value="" selected="selected">请选择</option>
-							<option value="0">已关注</option>
-							<option value="1">未关注</option>
-						</select>
-					</div>
-				</div>
+				
 			</div>
 			<div class="row clearfix">
 			       <div class="form_content">
@@ -221,7 +244,7 @@ text-decoration: underline !important;
 						<div class="more_btn">
 							<button id="more" type="button" class="btn  btn-default btn_more"> 更多搜索条件<i class="fa fa-caret-up"></i> </button>
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-							
+							<button id="addNewCase"  type="button" class="btn btn-success">新增案件</button>
 							<!-- <button  onclick="showExcelIn()" class="btn btn-success" >案件导出</button>  -->
 							 <!-- <div id="exportExcel"> -->
                             	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
@@ -239,6 +262,7 @@ text-decoration: underline !important;
 					<table class="table table_blue table-striped table-bordered table-hover " >
 						<thead>
 							<tr>
+								<th></th>
 								<th ><span class="sort" sortColumn="B.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 								<th >案件状态</th>
 								<th >产证地址</th>
@@ -368,6 +392,64 @@ text-decoration: underline !important;
                    {{/if}}
 						
 						<td >
+								{{if item.CASE_ORIGIN == 'MERGE'}}
+									{{if item.STATUS == '已过户' || item.STATUS == '已领证' }}
+									<a href="javascript:ts('{{item.STATUS}}')">
+										{{else}}
+									<a href="javascript:showGlDiv('backCaseMERGE','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+									{{/if}}
+
+                                <p class="tip">
+                                 <i class="sign_blue">
+                                                                                        合流
+                                  </i>
+                                 </p>
+								{{/if}}
+								{{if item.CASE_ORIGIN == 'INPUT'}}
+									{{if item.createType == '1'}}
+															<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+									{{else}}
+									<a href="javascript:hlts()">
+									{{/if}}
+                                <p class="tip" style="position:relative;overflow:visible;">
+                                 <i class="sign_brown">
+                                                                                        自录
+                                  </i>
+									{{if item.createType == '1'}}
+										<span class="total-sum">{{item.glCount}}</span>
+									{{else}}
+										<span class="total-sum">0</span>
+									{{/if}}
+                                 </p>
+                             </a>
+								{{/if}}
+								{{if item.CASE_ORIGIN == 'CTM'}}
+									{{if item.createType == '1'}}
+								<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+									{{else}}
+								<a href="javascript:hlts()">
+									{{/if}}
+                                <p class="tip" style="position:relative;overflow:visible;">
+                                 <i class="sign_blue">
+                                    	导入
+                                  </i>
+									{{if item.createType == '1'}}
+										<span class="total-sum">{{item.glCount}}</span>
+									{{else}}
+										<span class="total-sum">0</span>
+									{{/if}}
+                                </p>
+									</a>
+									{{/if}}
+									{{if item.CASE_ORIGIN == 'PROCESS'}}
+                                <p class="tip">
+                                 <i class="sign_blue">
+                                    	合流申请中
+                                  </i>
+                                 </p>
+								{{/if}}
+						</td >
+						<td >
  							<p class="big">
 								<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>
 								{{if item.SUBSCRIBE_COUNT == 0}}
@@ -396,28 +478,28 @@ text-decoration: underline !important;
 						</td>
 						<td >
 						
-{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
-{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
-{{else}}
-<p>
-{{item.PROPERTY_ADDR}}
-{{/if}}					 
+						{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+						<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+						{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+						{{else}}
+						<p>
+						{{item.PROPERTY_ADDR}}
+						{{/if}}					 
 						</p>
  							<p >
 								 <i class="salesman-icon"> </i>
 								 
-{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11 }}		
-<a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
-{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
-{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
-{{else}}
-{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
-{{/if}}
-{{else}}
-</a><a>
-{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
-{{/if}}	
+								{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11 }}		
+								<a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
+								{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
+								{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
+								{{else}}
+								{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
+								{{/if}}
+								{{else}}
+								</a><a>
+								{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
+								{{/if}}	
 								 </a>
 							</p>
 						</td>
@@ -425,53 +507,53 @@ text-decoration: underline !important;
 						<td class="center">
                           <p  >
 						
-{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
-{{if item.SELLER.split("/").length-1 >1}}
-<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
-{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
-{{
-(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
-}}</br>...
-{{else}}
-{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
-{{
-(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
-}}</br>
-</a></p><p>
-{{/if}}
-{{else}}
-{{ if item.SELLER.length>5}}<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
-{{item.SELLER.substring(0,5)}}...</a>
-{{else}}
-{{item.SELLER}}
-{{/if}}
-{{/if}}
+							{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
+							{{if item.SELLER.split("/").length-1 >1}}
+							<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
+							{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+							{{
+							(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
+							}}</br>...
+							{{else}}
+							{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+							{{
+							(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
+							}}</br>
+							</a></p><p>
+							{{/if}}
+							{{else}}
+							{{ if item.SELLER.length>5}}<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
+							{{item.SELLER.substring(0,5)}}...</a>
+							{{else}}
+							{{item.SELLER}}
+							{{/if}}
+							{{/if}}
 						</p>
                          
                        </td>
                        <td class="center">
                          <p>
-{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
-{{if item.BUYER.split("/").length-1 >1}}
-<a class="demo-left" title="下家信息:{{item.BUYER}}" >
-{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
-{{
-(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
-}}</br>...
-{{else}}
-{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
-{{
-(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
-}}</br>
-</a></p><p>
-{{/if}}
-{{else}}
-{{ if item.BUYER.length>5}}<a class="demo-left" title="下家信息:{{item.BUYER}}" >
-{{item.BUYER.substring(0,5)}}...</a>
-{{else}}
-{{item.BUYER}}
-{{/if}}
-{{/if}}
+							{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
+							{{if item.BUYER.split("/").length-1 >1}}
+							<a class="demo-left" title="下家信息:{{item.BUYER}}" >
+							{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+							{{
+							(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
+							}}</br>...
+							{{else}}
+							{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+							{{
+							(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
+							}}</br>
+							</a></p><p>
+							{{/if}}
+							{{else}}
+							{{ if item.BUYER.length>5}}<a class="demo-left" title="下家信息:{{item.BUYER}}" >
+							{{item.BUYER.substring(0,5)}}...</a>
+							{{else}}
+							{{item.BUYER}}
+							{{/if}}
+							{{/if}}
                           </p>
                           
                         </td>
@@ -489,14 +571,6 @@ text-decoration: underline !important;
 				  </tr>
        {{/each}}
 </script> 
-<!-- <script>
-$(function() {		
-	$("#productType").hide();
-	$("#more").click(function() {
-		$("#productType").toggle();
-	});			
-})
-</script>  -->
 </content>
 </body>
 </html>

@@ -106,22 +106,22 @@
 								      <div class="tab-pane active" id="tabZb" style="display: block" >
 								   </c:when> 
 								</c:choose>	
-                                   <table class="table table_blue table-striped table-bordered table-hover " >
+                                   <table class="table table-small table-striped table-bordered table-hover " >
                                        <thead>
                                        <tr>
 											<th >组别</th>
-											<th class="demo-top" title="收入、流水不足 ">收入</th>
-											<th class="demo-top" title="客户资质差、征信有问题 ">客户</th>
-											<th class="demo-top" title="客户亲戚、朋友在银行上班 ">客户</th>
-											<th class="demo-top" title="客户是银行VIP ">客户</th>
-											<th class="demo-top" title="客户自己找的银行优惠折扣大 ">客户</th>
-											<th class="demo-top" title="客户不愿意支付评估费 ">客户</th>
-											<th class="demo-top" title="客户坚持自己办理 ">客户</th>
-											<th class="demo-top" title="房东坚持客户到他指定银行办理">房东</th>
-											<th class="demo-top" title="房龄老、面积小等不予受理案件 ">房龄</th>
-											<th class="demo-top" title="银行退单，客户自办 ">银行</th>
-											<th class="demo-top" title="中原无法办理案件 ">中原</th>
-											<th class="demo-top" title="分行原因导致案件流失 ">分行</th>
+											<th class="demo-top" title="收入、流水不足 ">收入、流水...</th>
+											<th class="demo-top" title="客户资质差、征信有问题 ">客户资质差...</th>
+											<th class="demo-top" title="客户亲戚、朋友在银行上班 ">客户亲戚、...</th>
+											<th class="demo-top" title="客户是银行VIP ">客户是银行VIP</th>
+											<th class="demo-top" title="客户自己找的银行优惠折扣大 ">客户自己找...</th>
+											<th class="demo-top" title="客户不愿意支付评估费 ">客户不愿意...</th>
+											<th class="demo-top" title="客户坚持自己办理 ">客户坚持自己... </th>
+											<th class="demo-top" title="房东坚持客户到他指定银行办理">房东坚持客...</th>
+											<th class="demo-top" title="房龄老、面积小等不予受理案件 ">房龄老、....</th>
+											<th class="demo-top" title="银行退单，客户自办 ">银行退单，...</th>
+											<th class="demo-top" title="中原无法办理案件 ">中原无法办...</th>
+											<th class="demo-top" title="分行原因导致案件流失 ">分行原因导...</th>
 											<th class="demo-top" title="其他 ">其他</th>
 										</tr>
 										</thead>
@@ -139,22 +139,22 @@
 							      <div class="tab-pane active" id="tabGb" style="display: none" >
 							   </c:when> 
 							</c:choose>	
-                                   <table class="table table_blue table-striped table-bordered table-hover " >
+                                   <table class="table table-small table-striped table-bordered table-hover " >
                                        <thead>
                                        <tr>
 											<th>贵宾服务部</th>
-											<th class="demo-top" title="收入、流水不足 ">收入</th>
-											<th class="demo-top" title="客户资质差、征信有问题 ">客户</th>
-											<th class="demo-top" title="客户亲戚、朋友在银行上班 ">客户</th>
-											<th class="demo-top" title="客户是银行VIP ">客户</th>
-											<th class="demo-top" title="客户自己找的银行优惠折扣大 ">客户</th>
-											<th class="demo-top" title="客户不愿意支付评估费 ">客户</th>
-											<th class="demo-top" title="客户坚持自己办理 ">客户</th>
-											<th class="demo-top" title="房东坚持客户到他指定银行办理">房东</th>
-											<th class="demo-top" title="房龄老、面积小等不予受理案件 ">房龄</th>
-											<th class="demo-top" title="银行退单，客户自办 ">银行</th>
-											<th class="demo-top" title="中原无法办理案件 ">中原</th>
-											<th class="demo-top" title="分行原因导致案件流失 ">分行</th>
+											<th class="demo-top" title="收入、流水不足 ">收入、流水...</th>
+											<th class="demo-top" title="客户资质差、征信有问题 ">客户资质差...</th>
+											<th class="demo-top" title="客户亲戚、朋友在银行上班 ">客户亲戚、...</th>
+											<th class="demo-top" title="客户是银行VIP ">客户是银行VIP</th>
+											<th class="demo-top" title="客户自己找的银行优惠折扣大 ">客户自己找...</th>
+											<th class="demo-top" title="客户不愿意支付评估费 ">客户不愿意...</th>
+											<th class="demo-top" title="客户坚持自己办理 ">客户坚持自己... </th>
+											<th class="demo-top" title="房东坚持客户到他指定银行办理">房东坚持客...</th>
+											<th class="demo-top" title="房龄老、面积小等不予受理案件 ">房龄老、....</th>
+											<th class="demo-top" title="银行退单，客户自办 ">银行退单，...</th>
+											<th class="demo-top" title="中原无法办理案件 ">中原无法办...</th>
+											<th class="demo-top" title="分行原因导致案件流失 ">分行原因导...</th>
 											<th class="demo-top" title="其他 ">其他</th>
 										</tr>
 										</thead>

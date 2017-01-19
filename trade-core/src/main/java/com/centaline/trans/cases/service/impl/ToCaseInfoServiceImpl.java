@@ -221,6 +221,12 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 	}
 
 	@Override
+	public int updateCaseInfoByOrgId(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return toCaseInfoMapper.updateCaseInfoByOrgId(param);
+	}
+	
+	@Override
 	public int updateByPrimaryKey(ToCaseInfo record) {
 		// TODO Auto-generated method stub
 		return toCaseInfoMapper.updateByPrimaryKey(record);
@@ -332,4 +338,17 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 	public Integer exportCTMCase(String ctmCode) {
 		return toCaseInfoMapper.exportCTMCase(ctmCode);
 	}
+
+	@Override
+	public int insertSelective(ToCaseInfo record) {
+		// TODO Auto-generated method stub
+		return toCaseInfoMapper.insertSelective(record);
+	}
+
+	@Override
+	public int updateCaseInfoByAngetId(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return toCaseInfoMapper.updateCaseInfoByAngetId(param);
+	}
+
 }

@@ -2,7 +2,7 @@
 <querys>
 	<dicts>
 		<customDict id="convertValue" beanName="convertValue" />
-		<customDict id="convertValueForLoanlostReason" beanName="convertValueForLoanlostReason" />		
+		<customDict id="convertValueForLoanlostReason" beanName="convertValueForLoanlostReason" />
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
 		<customDict id="qqcdSellerPhone" beanName="qqcdSellerPhone" />
@@ -18,29 +18,29 @@
 		<customDict id="qqFinOrgNameYC" beanName="qqFinOrgNameYCForExcel" />
 		<customDict id="getStatus" beanName="getStatus" />
 		<customDict id="qqcdMortName" beanName="qqcdMortName" />
-		<customDict id="custPhoneByCode" beanName="custPhoneByCode" />	
-		<customDict id="sumByInstCode" beanName="sumByInstCode" />	
-		<customDict id="eloanKaAmount" beanName="eloanKaAmount" />	
-		<customDict id="eloanKa" beanName="eloanKa" />	
-		<customDict id="eloanProduct" beanName="eloanProduct" />	
+		<customDict id="custPhoneByCode" beanName="custPhoneByCode" />
+		<customDict id="sumByInstCode" beanName="sumByInstCode" />
+		<customDict id="eloanKaAmount" beanName="eloanKaAmount" />
+		<customDict id="eloanKa" beanName="eloanKa" />
+		<customDict id="eloanProduct" beanName="eloanProduct" />
 	</dicts>
 	<formatters>
 		<!-- 通过id确定时间格式化的样式 -->
 		<formatter id="dateFormatterOne" ref=""
-			class="com.aist.common.quickQuery.formatter.DateFormatter">
+				   class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd</property>
 			</properties>
 		</formatter>
-		
+
 		<formatter id="dateFormatter" ref=""
-			class="com.aist.common.quickQuery.formatter.DateFormatter">
+				   class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref=""
-			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+				   class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="groupingUsed">true</property>
 				<property name="maximumFractionDigits">3</property>
@@ -50,15 +50,15 @@
 			</properties>
 		</formatter>
 		<formatter id="integerFormater" ref=""
-			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+				   class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="maximumFractionDigits">0</property>
 			</properties>
 		</formatter>
 		<formatter id="emailFormater" ref=""
-			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+				   class="com.aist.common.quickQuery.formatter.EmailFormatter" />
 	</formatters>
-	
+
 	<query id="newQueryCastTransferExcelItemList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
@@ -95,6 +95,8 @@
 							C.LOAN_REQ,	
 							M.loanlost_apply_reason as loanlost_apply_reason_old, 
 							M.SELF_DEL_REASON, 
+							HT. USE_CARD_PAY,
+							HT.CARD_PAY_AMOUNT,
 							(SELECT TOP 1 AT.END_TIME_ FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE ORDER BY AT.END_TIME_ DESC) TRANSFERDATE,
 							(SELECT TOP 1 AT.END_TIME_ FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_='GuohuApprove'  AND AT.PROC_INST_ID_= W.INST_CODE ORDER BY AT.END_TIME_ DESC) CASETRANSFERDATE,
 							V.LONG_ AS status,
@@ -110,12 +112,13 @@
 							INNER JOIN SCTRANS.T_TO_WORKFLOW W  ON C.CASE_CODE = W.CASE_CODE	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4)
 							INNER JOIN SCTRANS.ACT_HI_VARINST V ON V.PROC_INST_ID_ = W.INST_CODE AND V.NAME_='GuohuApprove'															
 							LEFT JOIN  SCTRANS.T_TO_MORTGAGE M  ON C.CASE_CODE = M.CASE_CODE AND M.IS_ACTIVE=1 AND M.LAST_LOAN_BANK  IS NOT NULL	
-					
+						    INNER JOIN sctrans.T_TO_HOUSE_TRANSFER HT ON W.CASE_CODE=HT.CASE_CODE
 					    where 1=1
 							<if test="propertyAddr != null and propertyAddr !='' ">
 								AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE C.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
 							</if>
-							<if test="orgName != null and orgName != '' ">					
+
+							<if test="orgName != null and orgName != '' ">
 								AND C.ORG_ID = #orgName#  
 							</if>
 							<if test="caseCode != null and caseCode != ''">					
@@ -166,7 +169,12 @@
 									)					
 								)
 						</if>	
-					
+					<if test="jobCode != 'consultant'">
+						 and exists(select 1 from SCTRANS.V_YUCUI_ORG_HIERARCHY VYOH where VYOH.ORG_ID =c.ORG_ID and VYOH.TEAM_ID=#orgId# or VYOH.DISTRICT_ID=#orgId# or VYOH.hq_id=#orgId#)
+					</if>
+					<if test="jobCode == 'consultant'">
+						C.LEADING_PROCESS_ID=#userId#
+					</if>
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -177,44 +185,44 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="BA_NAME" title="大区" customDict="" hidden="false" />					
+				<column type="both" name="BA_NAME" title="大区" customDict="" hidden="false" />
 				<column type="both" name="QJDS_NAME" title="区董" customDict=""		hidden="false" />
 				<column type="both" name="GRP_NAME" title="分行"	customDict="" hidden="false" />
-				<column type="both" name="AGENT_NAME" title="业务员姓名"	customDict="" hidden="false" />				
-				<column type="both" name="AGENT_PHONE" title="业务员电话"	customDict="" hidden="false" />				
-				<column type="both" name="DISTRICT_ID" title="区域id" customDict="" hidden="false" />							
-				<column type="virtual" name="GUOHU_ORG_NAME" title="贵宾服务部"	customDict="qqcdOrgIdName" hidden="false" referencecol="DISTRICT_ID"/>								
+				<column type="both" name="AGENT_NAME" title="业务员姓名"	customDict="" hidden="false" />
+				<column type="both" name="AGENT_PHONE" title="业务员电话"	customDict="" hidden="false" />
+				<column type="both" name="DISTRICT_ID" title="区域id" customDict="" hidden="false" />
+				<column type="virtual" name="GUOHU_ORG_NAME" title="贵宾服务部"	customDict="qqcdOrgIdName" hidden="false" referencecol="DISTRICT_ID"/>
 				<column type="both" name="GUOHU_REAL_NAME" title="过户交易员"	customDict="" hidden="false" />
 				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />
-				
+
 				<column type="both" name="CTM_CODE" title="CTM编号" customDict="" hidden="false" />
 				<column type="both" name="CUST_CODE" title="主贷人id" customDict="" hidden="false" />
 				<column type="both" name="CUST_NAME" title="主贷人姓名"	customDict="" hidden="false" />
 				<column type="virtual" name="GUEST_PHONE" title="主贷人电话"		customDict="custPhoneByCode" hidden="false" referencecol="CUST_CODE"/>
-				
+
 				<column type="both" name="FIN_ORG_CODE" title="银行code" customDict="" hidden="false" />
 				<column type="virtual" name="FIN_ORG_NAME" title="银行"		customDict="qqFenHang" hidden="false" referencecol="FIN_ORG_CODE"/>
-				<column type="virtual" name="FIN_ORG_NAME_YC" title="支行"	customDict="qqFinOrgNameYC" hidden="false" referencecol="FIN_ORG_CODE"/>				
+				<column type="virtual" name="FIN_ORG_NAME_YC" title="支行"	customDict="qqFinOrgNameYC" hidden="false" referencecol="FIN_ORG_CODE"/>
 				<column type="virtual" name="GUOHUDJ,DISTNAME,PROPERTY_ADDR,CON_PRICE,REAL_HT_TIME,EVAL_FEE" title="过户单价,过户区域,产证地址,合同价（万元）,实际过户时间,评估费" customDict="guoHuPrice" hidden="false" referencecol="CASE_CODE"/>
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"	customDict="" hidden="false" expType="Double"/>
 				<column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"	customDict="" hidden="false" expType="Double"/>
 				<column type="both" name="ACCOUNT" title="贷款总额(万元)" customDict=""	hidden="false" expType="Double"/>
 				<column type="both" name="COM_DISCOUNT" title="贷款利率"	customDict="" hidden="false" />
 				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />
-				<column type="both" name="LOANER_NAME" title="货代专员"	customDict="" hidden="false" />				
-				<column type="both" name="LEADING_PROCESS_ID" title="货代专员"	customDict="" hidden="false" />				
-				<column type="virtual" name="SPONSOR" title="案件主办人"	customDict="qqcdUserIdName" hidden="false"  referencecol="LEADING_PROCESS_ID"/>		
-				
-				<column type="both" name="MORT_TYPE" title="贷款类似代码"	customDict="" hidden="false" />	
-				<column type="both" name="IS_DELEGATE_YUCUI" title="办理情况"	customDict="" hidden="false" />	
-				<column type="both" name="LOAN_REQ" title="贷款需求"	customDict="" hidden="false" />	
-				
+				<column type="both" name="LOANER_NAME" title="货代专员"	customDict="" hidden="false" />
+				<column type="both" name="LEADING_PROCESS_ID" title="货代专员"	customDict="" hidden="false" />
+				<column type="virtual" name="SPONSOR" title="案件主办人"	customDict="qqcdUserIdName" hidden="false"  referencecol="LEADING_PROCESS_ID"/>
+
+				<column type="both" name="MORT_TYPE" title="贷款类似代码"	customDict="" hidden="false" />
+				<column type="both" name="IS_DELEGATE_YUCUI" title="办理情况"	customDict="" hidden="false" />
+				<column type="both" name="LOAN_REQ" title="贷款需求"	customDict="" hidden="false" />
+
 				<column type="virtual" name="SDSTATUS" title="收单状况"  customDict="getStatus"	hidden="false"  referencecol="MORT_TYPE,IS_DELEGATE_YUCUI,LOAN_REQ"/>
 				<column type="virtual" name="MORT_TYPE_NAME" title="贷款类型" customDict="qqcdMortName" hidden="false"  referencecol="MORT_TYPE"/>
-				
-				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"	customDict="" hidden="false" />					
+
+				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"	customDict="" hidden="false" />
 				<column type="virtual" name="LAST_CONTENT" title="审批意见"	referencecol="CONTENT,NOT_APPROVE" index="" checkbox="" display="上家"	customDict="lastContent" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
-								
+
 				<column type="virtual" name="SELLER" title="上家姓名"		referencecol="CASE_CODE" index="" checkbox="" display="上家"		customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
 				<column type="virtual" name="SELLER_MOBILE" title="上家电话"		referencecol="CASE_CODE" index="" checkbox="" display="上家电话"	customDict="qqcdSellerPhone" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" title="下家姓名"	referencecol="CASE_CODE" index="" checkbox="" display="下家" 	customDict="qqcdBuyer" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
@@ -227,20 +235,21 @@
 				<column type="both" name="CONTENT" title="审核结果" customDict=""		hidden="false" />
 				<column type="both" name="NOT_APPROVE" title="审核勾选内容" customDict=""		hidden="false" />
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align=""	halign="" order="" resizable="" />
-				
-				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />				
+
+				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="REAL_NAME" index="" checkbox="" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/>
 				<column type="virtual" name="ORG_NAME" index="" checkbox="" display="组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
-			
-				<column type="both" name="INST_CODE" title="片区"	customDict="" hidden="false" />	
+
+				<column type="both" name="INST_CODE" title="片区"	customDict="" hidden="false" />
 				<column type="virtual" name="START_TIME"  title="过户创建时间" index="" checkbox="" display="组别" customDict="sumByInstCode" referencecol="INST_CODE" beanFormatter="dateFormatterOne"/>
-				
-				<column type="both" name="AR_NAME" title="片区"	customDict="" hidden="false" />	
+
+				<column type="both" name="AR_NAME" title="片区"	customDict="" hidden="false" />
 
 				<column type="both" name="SELF_DEL_REASON" title="流失具体原因" customDict=""		hidden="false" />
+				<column type="virtual" name="USE_CARD_PAY" title="是否刷卡（税费卡/佣金卡）" referencecol="status"  customDict="convertValue"  	hidden="false" />
+				<column type="both" name="CARD_PAY_AMOUNT" title="刷卡总金额" customDict=""		hidden="false" />
 				<column type="both" name="loanlost_apply_reason_old" title="loanlost_apply_reason_old"  customDict=""		hidden="false" />
 				<column type="virtual" name="loanlost_apply_reason" title="流失原因"	referencecol="loanlost_apply_reason_old" customDict="convertValueForLoanlostReason" />
-								
 				<column type="virtual" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	referencecol="CASE_CODE"  customDict="eloanProduct" isDynamicDict="true"/>
 				<column type="virtual" name="ELOAN_PRO_TYPE_KA" title="E+卡类产品类别"	referencecol="CASE_CODE"  customDict="eloanKa"  isDynamicDict="true"/>
 				<column type="virtual" name="ELOAN_APPLYAMOUNT_COUNT_STRING" title="E+卡类金额"	referencecol="CASE_CODE"  customDict="eloanKaAmount"  isDynamicDict="true"/>
@@ -275,7 +284,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			ORDER BY t2.org_name 
+				ORDER BY t2.org_name
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -287,7 +296,7 @@
 				<column type="both" name="NOT_APPROVE" title="不通过" customDict="" hidden="false" />
 				<column type="both" name="APPROVE" title="通过" customDict="" hidden="false" />
 				<column type="both" name="RATE" title="驳回率" customDict="" hidden="false" />
-				</table-row>
+			</table-row>
 		</grid>
 	</query>
 	<query id="exportCaseRejectionRateGbList" cacheCount="true">
@@ -317,7 +326,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			ORDER BY t2.org_name 
+				ORDER BY t2.org_name
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -329,7 +338,7 @@
 				<column type="both" name="NOT_APPROVE" title="不通过" customDict="" hidden="false" />
 				<column type="both" name="APPROVE" title="通过" customDict="" hidden="false" />
 				<column type="both" name="RATE" title="驳回率" customDict="" hidden="false" />
-				</table-row>
+			</table-row>
 		</grid>
 	</query>
 	<query id="exportCaseRejectionRateReasonZbList" cacheCount="true">
@@ -368,10 +377,10 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			order by grouping(j.ORG_NAME) asc
+				order by grouping(j.ORG_NAME) asc
 			</orderBySql>
 			<groupSql>
-			group by j.ORG_NAME WITH ROLLUP 
+				group by j.ORG_NAME WITH ROLLUP
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -430,10 +439,10 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			order by grouping(j.ORG_NAME) asc
+				order by grouping(j.ORG_NAME) asc
 			</orderBySql>
 			<groupSql>
-			group by j.ORG_NAME WITH ROLLUP 
+				group by j.ORG_NAME WITH ROLLUP
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -499,7 +508,7 @@
 				order by grouping(j.ORG_NAME) asc
 			</orderBySql>
 			<groupSql>
-				group by j.ORG_NAME WITH ROLLUP 
+				group by j.ORG_NAME WITH ROLLUP
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -520,7 +529,7 @@
 				<column type="both" name="reason13" title="其他" customDict="" hidden="false" />
 			</table-row>
 		</grid>
-	</query> 
+	</query>
 	<query id="exportcaseLossRateReasonZbList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
@@ -565,7 +574,7 @@
 				order by grouping(j.ORG_NAME) asc
 			</orderBySql>
 			<groupSql>
-				group by j.ORG_NAME WITH ROLLUP 
+				group by j.ORG_NAME WITH ROLLUP
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -586,5 +595,5 @@
 				<column type="both" name="reason13" title="其他" customDict="" hidden="false" />
 			</table-row>
 		</grid>
-	</query> 
+	</query>
 </querys>

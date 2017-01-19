@@ -8,11 +8,18 @@ package com.centaline.trans.common.enums;
  * @author Wanggh</a>
  */
 public enum CaseStatusEnum {
+	/** 未分单 **/
 	WFD("30001001", "未分单"),
+	/** 已分单 **/
 	YFD("30001002", "已分单"),
+	/** 已签约 **/
 	YQY("30001003", "已签约"),
+	/** 已过户 **/
 	YGH("30001004", "已过户"),
-	YLZ("30001005", "已领证");
+	/** 已领证 **/
+	YLZ("30001005", "已领证"),
+	/** 已终止 **/
+	YZZ("30001007", "已终止");
     
     private String name;
 

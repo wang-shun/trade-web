@@ -29,7 +29,12 @@ public enum TransJobs {
 		}
 		return null;
 	}
-	
+
+	/**
+	 *
+	 * @param name
+	 * @return
+	 */
 	public static String getCode(String name) {
 		for (TransJobs cte : TransJobs.values()) {
 			if (cte.getName().equalsIgnoreCase(name))

@@ -74,10 +74,6 @@
 		var idList = [];
 	}
 </script>
-<style>
-	.borderClass {border:1px solid red!important;resize: none;}
-	.borderClass:focus {border:1px solid red!important;resize: none;}
-</style>
 </head>
 
 <body>
@@ -980,9 +976,7 @@
     
 
 	<!-- Mainly scripts -->
-	<content tag="local_script"> <!-- Custom and plugin javascript -->
-	<script src="${ctx}/static/js/inspinia.js"></script> 
-	<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script> <!-- Toastr script -->
+	<content tag="local_script">
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
 	<script src="${ctx}/static/js/morris/morris.js"></script> 
 	<script src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->

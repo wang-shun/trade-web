@@ -11,7 +11,7 @@ public enum DepTypeEnum {
 	TYCTEAM("yucui_team", "组别"),
 	TYCQY("yucui_district", "区域"),
 	BUSIAR("BUSIAR","片区");
-    
+
     private String name;
 
     private String code;

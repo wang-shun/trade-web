@@ -18,6 +18,8 @@ public class QuickQueryFinOrgImpl implements CustomDictService{
 
 	private String prop;
 	
+	private String type;
+	
 	@Override
 	@Cacheable(value="QuickQueryFinOrgImpl",key="#root.target.getProp()+'/'+#key")
 	public String getValue(String key) {
@@ -39,8 +41,13 @@ public class QuickQueryFinOrgImpl implements CustomDictService{
 			try {
 				Object key = keyer.values().iterator().next();
 				if(key!=null){
-					TsFinOrg finOrg = finOrgService.findBankByFinOrg(key.toString());
-					val = BeanUtils.getProperty(finOrg, prop);
+					if("fa".equals(type)){
+						TsFinOrg finOrg = finOrgService.findBankByFinOrg(key.toString());
+						val = BeanUtils.getProperty(finOrg, prop);
+					}else{
+						TsFinOrg finOrg = finOrgService.findBankByFinOrg(key.toString());
+						val = BeanUtils.getProperty(finOrg, prop);
+					}
 				}
 			} catch (Exception e) {
 			} 

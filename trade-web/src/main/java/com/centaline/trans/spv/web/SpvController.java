@@ -1060,7 +1060,7 @@ public class SpvController {
     	}else if("out".equals(inOutProcessTag)){
     		response.setMessage("尚有‘出账’流程进行中，不能开启‘中止/结束’流程！");
     	}else if("inout".equals(inOutProcessTag)){
-    		response.setMessage("尚有‘出/入账’流程进行中，不能开启‘中止/结束’流程！");
+    		response.setMessage("尚有‘入账’和‘出账’流程进行中，不能开启‘中止/结束’流程！");
     	}else if("".equals(inOutProcessTag)){
     		response.setSuccess(true);
     	}

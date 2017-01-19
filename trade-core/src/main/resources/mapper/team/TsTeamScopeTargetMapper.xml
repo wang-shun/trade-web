@@ -71,6 +71,16 @@
 		</where>
 	</select>
 
+
+	<select id="getTeamScopeTargetInfo" parameterType="java.util.HashMap"  resultMap="BaseResultMap">	
+		select		
+			*
+		from sctrans.T_TS_TEAM_SCOPE_TARGET targetScope	
+		WHERE	1=1
+		AND   targetScope.GRP_CODE = #{grpCode}
+		AND   targetScope.IS_RESPONSE_TEAM = #{isResponseTeam}
+	</select> 
+	
 	<update id="updateGrpMap">
 		exec [sctrans].[P_MK_YC_GRP_MAP_TABLE]
 	</update>

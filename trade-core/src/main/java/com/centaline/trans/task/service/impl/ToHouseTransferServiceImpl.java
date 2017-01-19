@@ -69,6 +69,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 		toHouseTransfer.setHouseHodingTax(toHouseTransfer.getHouseHodingTax()!=null?toHouseTransfer.getHouseHodingTax().multiply(new BigDecimal(10000)):null);
 		toHouseTransfer.setLandIncrementTax(toHouseTransfer.getLandIncrementTax()!=null?toHouseTransfer.getLandIncrementTax().multiply(new BigDecimal(10000)):null);
 		toHouseTransfer.setPersonalIncomeTax(toHouseTransfer.getPersonalIncomeTax()!=null?toHouseTransfer.getPersonalIncomeTax().multiply(new BigDecimal(10000)):null);
+		toHouseTransfer.setCardPayAmount(toHouseTransfer.getCardPayAmount()!=null?toHouseTransfer.getCardPayAmount():null);
 		if(toHouseTransfer.getPkid() != null) {
 			toHouseTransferMapper.updateByPrimaryKeySelective(toHouseTransfer);
 			

@@ -212,8 +212,10 @@ public class WarnListController {
 			object.put("excutorName", excutor.getRealName());
 			object.put("excutorPhone", excutor.getMobile());
 			}
-			object.put("jingbanName", jingban.getRealName());
-			object.put("jingbanPhone",jingban.getMobile());
+			if(jingban!=null){
+				object.put("jingbanName", jingban.getRealName());
+				object.put("jingbanPhone",jingban.getMobile());
+			}
 			// 物业信息
 			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
 			object.put("propertyAddr", toPropertyInfo.getPropertyAddr());

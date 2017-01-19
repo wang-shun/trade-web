@@ -7,11 +7,15 @@ package com.centaline.trans.common.enums;
  * @author <a href="zhaoqianjava@foxmail.com">LionCredo</a>
  */
 public enum CasePropertyEnum {
+	/** 无效案件**/
 	TPWX("30003001", "无效案件"),
 	TPJA("30003002", "结案案件"),
 	TPZT("30003003", "在途案件"),
 	TPGQ("30003004", "挂起案件"),
-	TPBD("30003005", "爆单案件");
+	TPBD("30003005", "爆单案件"),	
+	TPQB("30003006", "全部案件"),
+	TPHL("30003007", "合流案件"),
+	TPZJ("30003008", "自建案件");
     
     private String name;
 

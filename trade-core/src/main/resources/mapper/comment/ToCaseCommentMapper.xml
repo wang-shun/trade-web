@@ -10,11 +10,28 @@
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="CREATOR_ORG_ID" property="creatorOrgId" jdbcType="VARCHAR" />
+    <result column="BIZ_CODE" property="bizCode" jdbcType="VARCHAR" />
+    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, SRV_CODE, COMMENT, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    PKID, CASE_CODE, SRV_CODE, COMMENT, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+    CREATOR_ORG_ID, BIZ_CODE, SOURCE, TYPE, PARENT_ID
   </sql>
-  
+      <select id="getCommentById" resultMap="BaseResultMap" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_COMMENT
+    where pkid =#{pkid,jdbcType=BIGINT}
+  </select>
+    <select id="getCommentParentByBizCode" resultMap="BaseResultMap" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_COMMENT
+    where biz_code =#{bizCode,jdbcType=VARCHAR} and parent_id is null
+  </select>
   <select id="getToCaseCommentList" resultMap="BaseResultMap" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
     select 
     <include refid="Base_Column_List" />
@@ -32,19 +49,23 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
+  <selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="pkid">
+select @@identity
+</selectKey>
     insert into sctrans.T_TO_CASE_COMMENT (PKID, CASE_CODE, SRV_CODE, 
       COMMENT, CREATE_TIME, CREATE_BY, 
-      UPDATE_TIME, UPDATE_BY)
+      UPDATE_TIME, UPDATE_BY, CREATOR_ORG_ID, BIZ_CODE, SOURCE, TYPE, PARENT_ID)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{srvCode,jdbcType=VARCHAR}, 
-      #{comment,jdbcType=NVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+      #{comment,jdbcType=NVARCHAR}, GETDATE(), @{SESSION_USER_ID} , GETDATE(), @{SESSION_USER_ID}  , 
+      #{creatorOrgId,jdbcType=VARCHAR}, #{bizCode,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT},)
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
+    <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="pkid">
+select @@identity
+</selectKey>
     insert into sctrans.T_TO_CASE_COMMENT
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        PKID,
-      </if>
+      
       <if test="caseCode != null" >
         CASE_CODE,
       </if>
@@ -58,24 +79,52 @@
         CREATE_BY,
         UPDATE_TIME,
         UPDATE_BY,
+      <if test="creatorOrgId != null" >
+        CREATOR_ORG_ID,
+      </if>
+      <if test="bizCode != null" >
+        BIZ_CODE,
+      </if>
+      <if test="source != null" >
+        SOURCE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        #{pkid,jdbcType=BIGINT},
-      </if>
+      
       <if test="caseCode != null" >
-        #{caseCode,jdbcType=VARCHAR},
+        #{caseCode, jdbcType=VARCHAR},
       </if>
       <if test="srvCode != null" >
-        #{srvCode,jdbcType=VARCHAR},
+        #{srvCode, jdbcType=VARCHAR},
       </if>
       <if test="comment != null" >
-        #{comment,jdbcType=NVARCHAR},
+        #{comment, jdbcType=NVARCHAR},
       </if>
         GETDATE(),
         @{SESSION_USER_ID},
         GETDATE(),
-        @{SESSION_USER_ID}
+        @{SESSION_USER_ID},
+      <if test="creatorOrgId != null" >
+         #{creatorOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCode != null" >
+        #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+         #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+         #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+         #{parentId,jdbcType=BIGINT}
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.comment.entity.ToCaseComment" >
@@ -90,17 +139,26 @@
       <if test="comment != null" >
         COMMENT = #{comment,jdbcType=NVARCHAR},
       </if>
-      <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createBy != null" >
-        CREATE_BY = #{createBy,jdbcType=VARCHAR},
-      </if>
       <if test="updateTime != null" >
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateBy != null" >
         UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorOrgId != null" >
+        CREATOR_ORG_ID = #{creatorOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCode != null" >
+        BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        SOURCE = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=BIGINT}
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -109,11 +167,14 @@
     update sctrans.T_TO_CASE_COMMENT
     set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       SRV_CODE = #{srvCode,jdbcType=VARCHAR},
-      COMMENT = #{comment,jdbcType=NVARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      CREATOR_ORG_ID = #{creatorOrgId,jdbcType=VARCHAR},
+      BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+      SOURCE = #{source,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=BIGINT}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
 </mapper>

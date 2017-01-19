@@ -60,6 +60,7 @@ import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value="/task/guohuApprove")
@@ -139,7 +140,7 @@ public class GuohuApproveController {
 		query.setProcessInstanceId(processInstanceId);
 		PageableVo pageableVo=workFlowManager.listHistTasks(query);
 		if(pageableVo.getData() != null && !pageableVo.getData().isEmpty()){
-			guohuUser = uamUserOrgService.getUserByUsername(((TaskVo)pageableVo.getData().get(0)).getAssignee());
+			guohuUser = uamUserOrgService.getHisUserByUsername(((TaskVo)pageableVo.getData().get(0)).getAssignee());
 		}
 		
 		if(guohuUser == null){
@@ -154,7 +155,7 @@ public class GuohuApproveController {
 		}
 
 		
-		return "task/taskGuohuApprove";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohuApprove";
 	}
 	
 	@RequestMapping("showPic")

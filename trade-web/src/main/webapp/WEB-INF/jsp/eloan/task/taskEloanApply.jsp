@@ -156,6 +156,10 @@
 													id="searchButton">
 													<i class="icon iconfont"></i> 查询
 												</button>
+												
+												<button type="button" class="btn btn-success"
+													id="addNewCase">新增案件
+												</button>
 											</div>
 										</div>
 									</div>
@@ -368,10 +372,7 @@
 								</label> <input type="text" name="loanerName" id="loanerName"
 									style="background-color: #FFFFFF;" 
 									class="sign_right_two input_type" id="txt_proOrgId_gb"
-									value='${eloanCase.loanerName}'  readonly="readonly" 
-									onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" 
-									>
+									value='${eloanCase.loanerName}' onkeyup="onkeyuploanerName()">
 									<i style=" position: absolute; top: 5px; right: 5px; color:#52cdec; " id="loanerNameImage" name ="loanerNameImage" class="icon iconfont"
 									onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" 
@@ -725,6 +726,13 @@
 							$('#searchButton').click(function() {
 								reloadGrid();
 							});
+							
+							// 查询
+							$('#addNewCase').click(function() {
+								window.location.href = ctx+"/caseMerge/addCase/eloan";
+							});
+							
+							
 
 							// 关联案件
 							$('.eloanApply-table').on("click",'.linkCase',function() {

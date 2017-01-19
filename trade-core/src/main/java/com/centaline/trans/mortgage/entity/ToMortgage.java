@@ -7,555 +7,577 @@ import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ToMortgage {
-	private Long pkid;
+    private Long       pkid;
 
-	private String caseCode;
+    private String     caseCode;
 
-	private String mortType;
+    private String     mortType;
 
-	private BigDecimal mortTotalAmount;
+    private BigDecimal mortTotalAmount;
 
-	private String finOrgCode;
+    private String     finOrgCode;
 
-	private String custCode;
+    private String     custCode;
 
-	private BigDecimal comAmount;
+    private BigDecimal comAmount;
 
-	private Integer comYear;
+    private Integer    comYear;
 
-	private BigDecimal comDiscount;
+    private BigDecimal comDiscount;
 
-	private BigDecimal prfAmount;
+    private BigDecimal prfAmount;
 
-	private Integer prfYear;
+    private Integer    prfYear;
 
-	private String lendWay;
+    private String     lendWay;
 
-	private Integer houseNum;
+    private Integer    houseNum;
 
-	private String isLoanerArrive;
+    private String     isLoanerArrive;
 
-	private String partCode;
+    private String     partCode;
 
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	private Date signDate;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       signDate;
 
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	private Date apprDate;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       apprDate;
 
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	private Date tazhengArrDate;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       tazhengArrDate;
 
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	private Date lendDate;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       lendDate;
 
-	private String custCompany;
+    private String     custCompany;
 
-	private String ifReportBeforeLend;
+    private String     ifReportBeforeLend;
 
-	private String loanerName;
+    private String     loanerName;
 
-	private String loanerPhone;
-	
-	private String loanerId;
-	
-	private String loanerOrgCode;
-	
-	private String loanerOrgId;
+    private String     loanerPhone;
 
-	private String remark;
+    private String     loanerId;
 
-	private String lastLoanBank;
+    private String     loanerOrgCode;
 
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	private Date prfApplyDate;
+    private String     loanerOrgId;
 
-	private String ifRequireReconsider;
+    private String     remark;
 
-	private ToSupDocu toSupDocu;
+    private String     lastLoanBank;
 
-	private String isDelegateYucui;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       prfApplyDate;
 
-	private String isMainLoanBank;
+    private String     ifRequireReconsider;
 
-	private String custName;
+    private ToSupDocu  toSupDocu;
 
-	private String selfDelReason;
+    private String     isDelegateYucui;
 
-	private String tmpBankReason;
+    private String     isMainLoanBank;
 
-	private String isActive;
-	/* 是否商贷 */
-	private String formCommLoan;
-	/** 推荐函编号 */
-	private String recLetterNo;
+    private String     custName;
 
-	/** 申请贷款流失原因 */
-	private String loanLostApplyReason;
+    private String     selfDelReason;
 
-	/** 贷款流失确认函编号 */
-	private String loanLostConfirmCode;
+    private String     tmpBankReason;
 
-	private String loanAgent;
+    private String     isActive;
+    /* 是否商贷 */
+    private String     formCommLoan;
+    /** 推荐函编号 */
+    private String     recLetterNo;
 
-	private String loanAgentTeam;
+    /** 申请贷款流失原因 */
+    private String     loanLostApplyReason;
 
-	private String isTmpBank;
-	private String tmpBankUpdateByStr;
-	private String tmpBankUpdateBy;
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	private Date createTime;
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	private Date updateTime;
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-	private Date tmpBankUpdateTime;
-	private String createBy;
-	private String updateBy;
-	private String bankName;
+    /** 贷款流失确认函编号 */
+    private String     loanLostConfirmCode;
 
-	private String parentBankName;
+    private String     loanAgent;
 
-	private String tmpBankStatus;
+    private String     loanAgentTeam;
 
-	private String tmpBankRejectReason;
+    private String     isTmpBank;
+    private String     tmpBankUpdateByStr;
+    private String     tmpBankUpdateBy;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       createTime;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       updateTime;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       tmpBankUpdateTime;
+    private String     createBy;
+    private String     updateBy;
+    private String     bankName;
 
-	public Long getPkid() {
-		return pkid;
-	}
+    private String     parentBankName;
 
-	public void setPkid(Long pkid) {
-		this.pkid = pkid;
-	}
+    private String     tmpBankStatus;
 
-	public String getCaseCode() {
-		return caseCode;
-	}
+    private String     tmpBankRejectReason;
 
-	public void setCaseCode(String caseCode) {
-		this.caseCode = caseCode == null ? null : caseCode.trim();
-	}
+    /*贷款在银行内部的状态--由信贷员填写*/
+    private String     stateInBank;
 
-	public String getMortType() {
-		return mortType;
-	}
+    public Long getPkid() {
+        return pkid;
+    }
 
-	public void setMortType(String mortType) {
-		this.mortType = mortType == null ? null : mortType.trim();
-	}
+    public void setPkid(Long pkid) {
+        this.pkid = pkid;
+    }
 
-	public BigDecimal getMortTotalAmount() {
-		return mortTotalAmount;
-	}
+    public String getCaseCode() {
+        return caseCode;
+    }
 
-	public void setMortTotalAmount(BigDecimal mortTotalAmount) {
-		this.mortTotalAmount = mortTotalAmount;
-	}
+    public void setCaseCode(String caseCode) {
+        this.caseCode = caseCode == null ? null : caseCode.trim();
+    }
 
-	public String getFinOrgCode() {
-		return finOrgCode;
-	}
+    public String getMortType() {
+        return mortType;
+    }
 
-	public void setFinOrgCode(String finOrgCode) {
-		this.finOrgCode = finOrgCode == null ? null : finOrgCode.trim();
-	}
+    public void setMortType(String mortType) {
+        this.mortType = mortType == null ? null : mortType.trim();
+    }
 
-	public String getCustCode() {
-		return custCode;
-	}
+    public BigDecimal getMortTotalAmount() {
+        return mortTotalAmount;
+    }
 
-	public void setCustCode(String custCode) {
-		this.custCode = custCode == null ? null : custCode.trim();
-	}
+    public void setMortTotalAmount(BigDecimal mortTotalAmount) {
+        this.mortTotalAmount = mortTotalAmount;
+    }
 
-	public BigDecimal getComAmount() {
-		return comAmount;
-	}
+    public String getFinOrgCode() {
+        return finOrgCode;
+    }
 
-	public void setComAmount(BigDecimal comAmount) {
-		this.comAmount = comAmount;
-	}
+    public void setFinOrgCode(String finOrgCode) {
+        this.finOrgCode = finOrgCode == null ? null : finOrgCode.trim();
+    }
 
-	public Integer getComYear() {
-		return comYear;
-	}
+    public String getCustCode() {
+        return custCode;
+    }
 
-	public void setComYear(Integer comYear) {
-		this.comYear = comYear;
-	}
+    public void setCustCode(String custCode) {
+        this.custCode = custCode == null ? null : custCode.trim();
+    }
 
-	public BigDecimal getComDiscount() {
-		return comDiscount;
-	}
+    public BigDecimal getComAmount() {
+        return comAmount;
+    }
 
-	public void setComDiscount(BigDecimal comDiscount) {
-		this.comDiscount = comDiscount;
-	}
+    public void setComAmount(BigDecimal comAmount) {
+        this.comAmount = comAmount;
+    }
 
-	public BigDecimal getPrfAmount() {
-		return prfAmount;
-	}
+    public Integer getComYear() {
+        return comYear;
+    }
 
-	public void setPrfAmount(BigDecimal prfAmount) {
-		this.prfAmount = prfAmount;
-	}
+    public void setComYear(Integer comYear) {
+        this.comYear = comYear;
+    }
 
-	public Integer getPrfYear() {
-		return prfYear;
-	}
+    public BigDecimal getComDiscount() {
+        return comDiscount;
+    }
 
-	public void setPrfYear(Integer prfYear) {
-		this.prfYear = prfYear;
-	}
+    public void setComDiscount(BigDecimal comDiscount) {
+        this.comDiscount = comDiscount;
+    }
 
-	public String getLendWay() {
-		return lendWay;
-	}
+    public BigDecimal getPrfAmount() {
+        return prfAmount;
+    }
 
-	public void setLendWay(String lendWay) {
-		this.lendWay = lendWay == null ? null : lendWay.trim();
-	}
+    public void setPrfAmount(BigDecimal prfAmount) {
+        this.prfAmount = prfAmount;
+    }
 
-	public Integer getHouseNum() {
-		return houseNum;
-	}
+    public Integer getPrfYear() {
+        return prfYear;
+    }
 
-	public void setHouseNum(Integer houseNum) {
-		this.houseNum = houseNum;
-	}
+    public void setPrfYear(Integer prfYear) {
+        this.prfYear = prfYear;
+    }
 
-	public String getIsLoanerArrive() {
-		return isLoanerArrive;
-	}
+    public String getLendWay() {
+        return lendWay;
+    }
 
-	public void setIsLoanerArrive(String isLoanerArrive) {
-		this.isLoanerArrive = isLoanerArrive == null ? null : isLoanerArrive.trim();
-	}
+    public void setLendWay(String lendWay) {
+        this.lendWay = lendWay == null ? null : lendWay.trim();
+    }
 
-	public Date getSignDate() {
-		return signDate;
-	}
+    public Integer getHouseNum() {
+        return houseNum;
+    }
 
-	public void setSignDate(Date signDate) {
-		this.signDate = signDate;
-	}
+    public void setHouseNum(Integer houseNum) {
+        this.houseNum = houseNum;
+    }
 
-	public Date getApprDate() {
-		return apprDate;
-	}
+    public String getIsLoanerArrive() {
+        return isLoanerArrive;
+    }
 
-	public void setApprDate(Date apprDate) {
-		this.apprDate = apprDate;
-	}
+    public void setIsLoanerArrive(String isLoanerArrive) {
+        this.isLoanerArrive = isLoanerArrive == null ? null : isLoanerArrive.trim();
+    }
 
-	public Date getTazhengArrDate() {
-		return tazhengArrDate;
-	}
+    public Date getSignDate() {
+        return signDate;
+    }
 
-	public void setTazhengArrDate(Date tazhengArrDate) {
-		this.tazhengArrDate = tazhengArrDate;
-	}
+    public void setSignDate(Date signDate) {
+        this.signDate = signDate;
+    }
 
-	public Date getLendDate() {
-		return lendDate;
-	}
+    public Date getApprDate() {
+        return apprDate;
+    }
 
-	public void setLendDate(Date lendDate) {
-		this.lendDate = lendDate;
-	}
+    public void setApprDate(Date apprDate) {
+        this.apprDate = apprDate;
+    }
 
-	public String getCustCompany() {
-		return custCompany;
-	}
+    public Date getTazhengArrDate() {
+        return tazhengArrDate;
+    }
 
-	public void setCustCompany(String custCompany) {
-		this.custCompany = custCompany == null ? null : custCompany.trim();
-	}
+    public void setTazhengArrDate(Date tazhengArrDate) {
+        this.tazhengArrDate = tazhengArrDate;
+    }
 
-	public String getIfReportBeforeLend() {
-		return ifReportBeforeLend;
-	}
+    public Date getLendDate() {
+        return lendDate;
+    }
 
-	public void setIfReportBeforeLend(String ifReportBeforeLend) {
-		this.ifReportBeforeLend = ifReportBeforeLend == null ? null : ifReportBeforeLend.trim();
-	}
+    public void setLendDate(Date lendDate) {
+        this.lendDate = lendDate;
+    }
 
-	public String getLoanerName() {
-		return loanerName;
-	}
+    public String getCustCompany() {
+        return custCompany;
+    }
 
-	public void setLoanerName(String loanerName) {
-		this.loanerName = loanerName == null ? null : loanerName.trim();
-	}
+    public void setCustCompany(String custCompany) {
+        this.custCompany = custCompany == null ? null : custCompany.trim();
+    }
 
-	public String getLoanerPhone() {
-		return loanerPhone;
-	}
+    public String getIfReportBeforeLend() {
+        return ifReportBeforeLend;
+    }
 
-	public void setLoanerPhone(String loanerPhone) {
-		this.loanerPhone = loanerPhone == null ? null : loanerPhone.trim();
-	}
+    public void setIfReportBeforeLend(String ifReportBeforeLend) {
+        this.ifReportBeforeLend = ifReportBeforeLend == null ? null : ifReportBeforeLend.trim();
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getLoanerName() {
+        return loanerName;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark == null ? null : remark.trim();
-	}
+    public void setLoanerName(String loanerName) {
+        this.loanerName = loanerName == null ? null : loanerName.trim();
+    }
 
-	public String getLastLoanBank() {
-		return lastLoanBank;
-	}
+    public String getLoanerPhone() {
+        return loanerPhone;
+    }
 
-	public void setLastLoanBank(String lastLoanBank) {
-		this.lastLoanBank = lastLoanBank;
-	}
+    public void setLoanerPhone(String loanerPhone) {
+        this.loanerPhone = loanerPhone == null ? null : loanerPhone.trim();
+    }
 
-	public Date getPrfApplyDate() {
-		return prfApplyDate;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setPrfApplyDate(Date prfApplyDate) {
-		this.prfApplyDate = prfApplyDate;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
 
-	public String getIfRequireReconsider() {
-		return ifRequireReconsider;
-	}
+    public String getLastLoanBank() {
+        return lastLoanBank;
+    }
 
-	public void setIfRequireReconsider(String ifRequireReconsider) {
-		this.ifRequireReconsider = ifRequireReconsider;
-	}
+    public void setLastLoanBank(String lastLoanBank) {
+        this.lastLoanBank = lastLoanBank;
+    }
 
-	public ToSupDocu getToSupDocu() {
-		return toSupDocu;
-	}
+    public Date getPrfApplyDate() {
+        return prfApplyDate;
+    }
 
-	public void setToSupDocu(ToSupDocu toSupDocu) {
-		this.toSupDocu = toSupDocu;
-	}
+    public void setPrfApplyDate(Date prfApplyDate) {
+        this.prfApplyDate = prfApplyDate;
+    }
 
-	public String getIsDelegateYucui() {
-		return isDelegateYucui;
-	}
+    public String getIfRequireReconsider() {
+        return ifRequireReconsider;
+    }
 
-	public void setIsDelegateYucui(String isDelegateYucui) {
-		this.isDelegateYucui = isDelegateYucui;
-	}
+    public void setIfRequireReconsider(String ifRequireReconsider) {
+        this.ifRequireReconsider = ifRequireReconsider;
+    }
 
-	public String getIsMainLoanBank() {
-		return isMainLoanBank;
-	}
+    public ToSupDocu getToSupDocu() {
+        return toSupDocu;
+    }
 
-	public void setIsMainLoanBank(String isMainLoanBank) {
-		this.isMainLoanBank = isMainLoanBank;
-	}
+    public void setToSupDocu(ToSupDocu toSupDocu) {
+        this.toSupDocu = toSupDocu;
+    }
 
-	public String getCustName() {
-		return custName;
-	}
+    public String getIsDelegateYucui() {
+        return isDelegateYucui;
+    }
 
-	public void setCustName(String custName) {
-		this.custName = custName;
-	}
+    public void setIsDelegateYucui(String isDelegateYucui) {
+        this.isDelegateYucui = isDelegateYucui;
+    }
 
-	public String getPartCode() {
-		return partCode;
-	}
+    public String getIsMainLoanBank() {
+        return isMainLoanBank;
+    }
 
-	public void setPartCode(String partCode) {
-		this.partCode = partCode;
-	}
+    public void setIsMainLoanBank(String isMainLoanBank) {
+        this.isMainLoanBank = isMainLoanBank;
+    }
 
-	public String getIsActive() {
-		return isActive;
-	}
+    public String getCustName() {
+        return custName;
+    }
 
-	public void setIsActive(String isActive) {
-		this.isActive = isActive;
-	}
+    public void setCustName(String custName) {
+        this.custName = custName;
+    }
 
-	public String getSelfDelReason() {
-		return selfDelReason;
-	}
+    public String getPartCode() {
+        return partCode;
+    }
 
-	public void setSelfDelReason(String selfDelReason) {
-		this.selfDelReason = selfDelReason;
-	}
+    public void setPartCode(String partCode) {
+        this.partCode = partCode;
+    }
 
-	public String getFormCommLoan() {
-		return formCommLoan;
-	}
+    public String getIsActive() {
+        return isActive;
+    }
 
-	public void setFormCommLoan(String formCommLoan) {
-		this.formCommLoan = formCommLoan;
-	}
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
 
-	public String getRecLetterNo() {
-		return recLetterNo;
-	}
+    public String getSelfDelReason() {
+        return selfDelReason;
+    }
 
-	public void setRecLetterNo(String recLetterNo) {
-		this.recLetterNo = recLetterNo;
-	}
-
-	public String getIsTmpBank() {
-		return isTmpBank;
-	}
-
-	public void setIsTmpBank(String isTmpBank) {
-		this.isTmpBank = isTmpBank;
-	}
-
-	public String getTmpBankUpdateBy() {
-		return tmpBankUpdateBy;
-	}
-
-	public void setTmpBankUpdateBy(String tmpBankUpdateBy) {
-		this.tmpBankUpdateBy = tmpBankUpdateBy;
-	}
-
-	public Date getTmpBankUpdateTime() {
-		return tmpBankUpdateTime;
-	}
-
-	public void setTmpBankUpdateTime(Date tmpBankUpdateTime) {
-		this.tmpBankUpdateTime = tmpBankUpdateTime;
-	}
-
-	public String getTmpBankReason() {
-		return tmpBankReason;
-	}
-
-	public void setTmpBankReason(String tmpBankReason) {
-		this.tmpBankReason = tmpBankReason;
-	}
-
-	public String getBankName() {
-		return bankName;
-	}
-
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-
-	public String getParentBankName() {
-		return parentBankName;
-	}
-
-	public void setParentBankName(String parentBankName) {
-		this.parentBankName = parentBankName;
-	}
-
-	public String getTmpBankUpdateByStr() {
-		return tmpBankUpdateByStr;
-	}
-
-	public void setTmpBankUpdateByStr(String tmpBankUpdateByStr) {
-		this.tmpBankUpdateByStr = tmpBankUpdateByStr;
-	}
-
-	public String getTmpBankStatus() {
-		return tmpBankStatus;
-	}
-
-	public void setTmpBankStatus(String tmpBankStatus) {
-		this.tmpBankStatus = tmpBankStatus;
-	}
-
-	public String getTmpBankRejectReason() {
-		return tmpBankRejectReason;
-	}
-
-	public void setTmpBankRejectReason(String tmpBankRejectReason) {
-		this.tmpBankRejectReason = tmpBankRejectReason;
-	}
-
-	public String getLoanLostApplyReason() {
-		return loanLostApplyReason;
-	}
-
-	public void setLoanLostApplyReason(String loanLostApplyReason) {
-		this.loanLostApplyReason = loanLostApplyReason;
-	}
-
-	public String getLoanAgent() {
-		return loanAgent;
-	}
-
-	public void setLoanAgent(String loanAgent) {
-		this.loanAgent = loanAgent;
-	}
-
-	public String getLoanAgentTeam() {
-		return loanAgentTeam;
-	}
-
-	public void setLoanAgentTeam(String loanAgentTeam) {
-		this.loanAgentTeam = loanAgentTeam;
-	}
-	
-	public String getLoanLostConfirmCode() {
-		return loanLostConfirmCode;
-	}
-
-	public void setLoanLostConfirmCode(String loanLostConfirmCode) {
-		this.loanLostConfirmCode = loanLostConfirmCode;
-	}
-	public String getLoanerId() {
-		return loanerId;
-	}
-
-	public void setLoanerId(String loanerId) {
-		this.loanerId = loanerId;
-	}
-
-	public String getLoanerOrgCode() {
-		return loanerOrgCode;
-	}
-
-	public void setLoanerOrgCode(String loanerOrgCode) {
-		this.loanerOrgCode = loanerOrgCode;
-	}
-
-	public String getLoanerOrgId() {
-		return loanerOrgId;
-	}
-
-	public void setLoanerOrgId(String loanerOrgId) {
-		this.loanerOrgId = loanerOrgId;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public String getCreateBy() {
-		return createBy;
-	}
-
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
-	}
-
-	public String getUpdateBy() {
-		return updateBy;
-	}
-
-	public void setUpdateBy(String updateBy) {
-		this.updateBy = updateBy;
-	}
+    public void setSelfDelReason(String selfDelReason) {
+        this.selfDelReason = selfDelReason;
+    }
+
+    public String getFormCommLoan() {
+        return formCommLoan;
+    }
+
+    public void setFormCommLoan(String formCommLoan) {
+        this.formCommLoan = formCommLoan;
+    }
+
+    public String getRecLetterNo() {
+        return recLetterNo;
+    }
+
+    public void setRecLetterNo(String recLetterNo) {
+        this.recLetterNo = recLetterNo;
+    }
+
+    public String getIsTmpBank() {
+        return isTmpBank;
+    }
+
+    public void setIsTmpBank(String isTmpBank) {
+        this.isTmpBank = isTmpBank;
+    }
+
+    public String getTmpBankUpdateBy() {
+        return tmpBankUpdateBy;
+    }
+
+    public void setTmpBankUpdateBy(String tmpBankUpdateBy) {
+        this.tmpBankUpdateBy = tmpBankUpdateBy;
+    }
+
+    public Date getTmpBankUpdateTime() {
+        return tmpBankUpdateTime;
+    }
+
+    public void setTmpBankUpdateTime(Date tmpBankUpdateTime) {
+        this.tmpBankUpdateTime = tmpBankUpdateTime;
+    }
+
+    public String getTmpBankReason() {
+        return tmpBankReason;
+    }
+
+    public void setTmpBankReason(String tmpBankReason) {
+        this.tmpBankReason = tmpBankReason;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getParentBankName() {
+        return parentBankName;
+    }
+
+    public void setParentBankName(String parentBankName) {
+        this.parentBankName = parentBankName;
+    }
+
+    public String getTmpBankUpdateByStr() {
+        return tmpBankUpdateByStr;
+    }
+
+    public void setTmpBankUpdateByStr(String tmpBankUpdateByStr) {
+        this.tmpBankUpdateByStr = tmpBankUpdateByStr;
+    }
+
+    public String getTmpBankStatus() {
+        return tmpBankStatus;
+    }
+
+    public void setTmpBankStatus(String tmpBankStatus) {
+        this.tmpBankStatus = tmpBankStatus;
+    }
+
+    public String getTmpBankRejectReason() {
+        return tmpBankRejectReason;
+    }
+
+    public void setTmpBankRejectReason(String tmpBankRejectReason) {
+        this.tmpBankRejectReason = tmpBankRejectReason;
+    }
+
+    public String getLoanLostApplyReason() {
+        return loanLostApplyReason;
+    }
+
+    public void setLoanLostApplyReason(String loanLostApplyReason) {
+        this.loanLostApplyReason = loanLostApplyReason;
+    }
+
+    public String getLoanAgent() {
+        return loanAgent;
+    }
+
+    public void setLoanAgent(String loanAgent) {
+        this.loanAgent = loanAgent;
+    }
+
+    public String getLoanAgentTeam() {
+        return loanAgentTeam;
+    }
+
+    public void setLoanAgentTeam(String loanAgentTeam) {
+        this.loanAgentTeam = loanAgentTeam;
+    }
+
+    public String getLoanLostConfirmCode() {
+        return loanLostConfirmCode;
+    }
+
+    public void setLoanLostConfirmCode(String loanLostConfirmCode) {
+        this.loanLostConfirmCode = loanLostConfirmCode;
+    }
+
+    public String getLoanerId() {
+        return loanerId;
+    }
+
+    public void setLoanerId(String loanerId) {
+        this.loanerId = loanerId;
+    }
+
+    public String getLoanerOrgCode() {
+        return loanerOrgCode;
+    }
+
+    public void setLoanerOrgCode(String loanerOrgCode) {
+        this.loanerOrgCode = loanerOrgCode;
+    }
+
+    public String getLoanerOrgId() {
+        return loanerOrgId;
+    }
+
+    public void setLoanerOrgId(String loanerOrgId) {
+        this.loanerOrgId = loanerOrgId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    /**
+     * Getter method for property <tt>stateInBank</tt>.
+     * 
+     * @return property value of stateInBank
+     */
+    public String getStateInBank() {
+        return stateInBank;
+    }
+
+    /**
+     * Setter method for property <tt>stateInBank</tt>.
+     * 
+     * @param stateInBank value to be assigned to property stateInBank
+     */
+    public void setStateInBank(String stateInBank) {
+        this.stateInBank = stateInBank;
+    }
 
 }

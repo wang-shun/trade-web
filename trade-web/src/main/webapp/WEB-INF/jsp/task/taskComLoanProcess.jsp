@@ -31,7 +31,15 @@
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
+
+<link rel="stylesheet" href="${ctx}/css/common/step-mend.css" >
 <style type="text/css">
 .wizard-big.wizard>.content {
 	min-height: 450px;
@@ -75,7 +83,13 @@
     height: 120px;
     overflow-y: scroll;
 } */
+.wizard > .content > .body {
+    width:100%;
+}
 
+.wizard > .content > .body input {
+    display: inline-block;
+}
 </style>
 <script language="javascript">
 	var taskitem = "${taskitem}";
@@ -95,34 +109,38 @@
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 
-	<%--环节编码 --%>
-	<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-	<input type="hidden" id="taskitem" name="taskitem" value="${taskitem}">
-	
-	<!-- 交易单编号 -->
-	<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-	<!-- 流程引擎需要字段 -->
-	<input type="hidden" id="taskId" name="taskId" value="${taskId }"> 
-	<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-	<input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="1"/>
-	<!-- 临时银行审批 -->
-	<input type="hidden" id="tmpBankStatus" name="tmpBankStatus"/>
-	<div class="row wrapper border-bottom white-bg page-heading">
-		<div class="col-lg-10">
-			<h2>商贷审批</h2>
-			<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-			</ol>
-         <!--    <button class="btn btn-outline btn-primary " id="sub" type="button"><i class="fa fa-check"></i>&nbsp;提交</button>
-            <button class="btn btn-outline btn-success " id="save" type="button"><i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">保存</span></button>
-           -->              
-		</div>
-	</div>
+<%--环节编码 --%>
+<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+<input type="hidden" id="taskitem" name="taskitem" value="${taskitem}">
 
-	<div id="modal-form" class="modal fade" aria-hidden="true" >
+<!-- 交易单编号 -->
+<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+<!-- 流程引擎需要字段 -->
+<input type="hidden" id="taskId" name="taskId" value="${taskId }"> 
+<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+<input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="1"/>
+<!-- 临时银行审批 -->
+<input type="hidden" id="tmpBankStatus" name="tmpBankStatus"/>
+	<!-- 服务流程 -->
+		<div class="panel " id="serviceFlow">
+        <div class="row wrapper white-bg new-heading ">
+             <div class="pl10">
+                 <h2 class="newtitle-big">
+                        商贷审批
+                    </h2>
+                <div class="mt20">
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+                            <i class="iconfont icon">&#xe600;</i> 在途单列表
+                        </button>
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+                            <i class="iconfont icon">&#xe63f;</i> 案件视图
+                        </button>
+                    </div>
+             </div>
+        </div>
+        
+        	<div id="modal-form" class="modal fade" aria-hidden="true" >
 		<div class="modal-dialog" style="width: 1000px;height:98%;overflow-y:scroll">
 			<div class="modal-content">
 				<div class="modal-body" >
@@ -617,266 +635,250 @@
 	</div>
 	</div>
 	</div>
-	<div class="panel-body">
-	<div class="panel-group" id="accordion" aria-multiselectable="true">
-	
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="ibox">
-					<div class="ibox-title" id="firBank">
-						<a data-toggle="collapse" data-parent="#accordion" href="#first" class="myDataToggle" data-m='1'> <h5 id="firstBank">主选银行</h5>
-						</a> 
-					</div>
-					<div class="ibox-content panel-collapse collapse in" id="first">
-						<div id="wizard">
 
-							<h1>询价</h1>
+        <div class="ibox-content border-bottom clearfix space_box noborder">
+            <div class="">
+                    <div class="panel blank-panel">
+                        <div class="panel-heading" style="padding:0;">
+                            <div class="panel-options">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#tab-1">主选银行</a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab-2">候选银行</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="panel-body no-padding">
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                   <div class="ibox float-e-margins">
+                                        <div>
+                                        
+                          <div id="wizard">
+							<h3>询价</h3>
+							<section>
+							<h4>询价结果查看</h4>
+								 <div class="jqGrid_wrapper">
+	                                <table id="table_list_1"></table>
+	                                <div id="pager_list_1"></div>
+	                             </div>
+							</section>
+							
+							<h3>提醒清单</h3>
+							<section>
 						    <div style="width:100%">
-							<div class="step-content" style="margin-top: -25px;">
-								<div class="ibox">
-								<div class="ibox-title">
-									<h5>询价结果查看</h5>
-								</div>
+								<div class="step-content" style="margin-top: -25px;">
+									<div class="ibox">
+									<div class="ibox-title">
+										<h4>备件列表</h4>
+										<a class="btn btn-primary pull-right" href="#" id="sendSMS" style="clear:both;margin-top:-31px">发送短信提醒</a>
+									</div>
 									<div class="ibox-content">
 										 <div class="jqGrid_wrapper">
-			                                <table id="table_list_1"></table>
-			                                <div id="pager_list_1"></div>
-			                           </div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="text-center">
-										<div style="margin-top: 20px">
-											<i class="fa fa-sign-in"
-												style="font-size: 12px; color: #e5e5e5"></i>
-										</div>
-									</div>
-								</div>
-								  </div>
-							</div>
-							
-							<h1>提醒清单</h1>
-							
-						    <div style="width:100%">
-							<div class="step-content">
-
-								<div class="ibox-title">
-									<h5>备件列表</h5>
-									<a class="btn btn-primary pull-right" href="#" id="sendSMS">发送短信提醒</a>
-									
-								</div>
-
-								<table id="table_list_2"></table>
-								<div id="pager_list_2"></div>
-
-								<div class="col-lg-4">
-									<div class="text-center">
-										<div style="margin-top: 20px">
-											<i class="fa fa-sign-in"
-												style="font-size: 12px; color: #e5e5e5"></i>
-										</div>
-									</div>
-								</div>
-								  </div>
-							</div>
-							
-							<h1>贷款签约</h1>
-							<!--  <fieldset>-->
-							<div class="step-content" style="margin-top: -15px;">
-								<div class="row">
-								<form id="mortgageForm">
-									<input type="hidden" name="pkid" id="pkid"/>
-									<input type="hidden" name="caseCode" value="${caseCode}">
-									<input type="hidden" name="isMainLoanBank" value="1"/>
-									
-									<div class="form-group">
-										<label class="col-sm-2 control-label">贷款类型<span class="star">*</span>：</label>
-										<div class="col-sm-10">
-											<aist:dict id="mortType" name="mortType"
-												clazz="form-control m-b" display="select" dictType="30016"
-												defaultvalue="" />
-
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">贷款总额<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<input type="text" name="mortTotalAmount"
-												id="mortTotalAmount" class="form-control" onkeyup="checknum(this)" placeholder="万元">
-										</div>
-										<label class="col-sm-2 control-label" style="width:15%">商贷部分金额<span class="star">*</span>：</label>
-										<div class="col-md-2" style="width:18%">
-											<input type="text" name="comAmount" id="comAmount"
-												class="form-control" onkeyup="checknum(this)" placeholder="万元">
-										</div>
-										<label class="col-sm-2 control-label">商贷部分年限<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<input type="text" name="comYear" id="comYear"
-												class="form-control" onkeyup="checknum(this)">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间"
-												class="form-control"  onkeyup="autoCompleteComDiscount(this)">
-										</div>
-										<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>
-										<div class="col-md-2" style="width:18%">
-											<input type="text" name="prfAmount" id="prfAmount"
-												class="form-control" onkeyup="checknum(this)" placeholder="万元">
-										</div>
-										<label class="col-sm-2 control-label">公积金贷款年限：</label>
-										<div class="col-md-2">
-											<input type="text" name="prfYear" id="prfYear"
-												class="form-control" onkeyup="checknum(this)">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-sm-2 control-label">主贷人<span class="star">*</span>：</label>
-										<div class="col-md-2">
-										<select name="custCode" id="custCode" class="form-control">
-										</select>
-										<input type="hidden" name="custName" id="custName" />
-										</div>
-										<label class="col-sm-2 control-label" style="width:15%">主贷人单位：</label>
-										<div class="col-md-2" style="width:18%">
-											<input type="text" name="custCompany" id="custCompany"
-												class="form-control">
-										</div>
-										<label class="col-sm-2 control-label">放款方式<span class="star">*</span>：</label>
-										<div class="col-md-2">
-											<aist:dict id="lendWay" name="lendWay" clazz="form-control"
-												display="select" dictType="30017" defaultvalue="" />
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-sm-2 control-label">信贷员姓名<span class="star">*</span>：</label>
-										<div class="col-md-2" style="position: relative;" >
-											<input type="text" name="loanerName" id="loanerName" placeholder="姓名" class="form-control" onkeyup="onkeyuploanerName()">
-											<i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
-											</input>
-											<input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
-											<input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
-											<input type="hidden"  id="loanerId" name="loanerId" />
-										</div>
-										<label class="col-sm-2 control-label" style="width:15%">信贷员电话<span class="star">*</span>：</label>
-										<div class="col-md-2" style="width:18%">
-											<input type="text" name="loanerPhone" id="loanerPhone"
-												placeholder="联系方式" class="form-control">
-										</div>
-										<label class="col-sm-2 control-label">信贷员到场：</label>
-										<div class="col-md-2">
-											<label class="checkbox-inline"> <input
-												type="checkbox" value="1" name="isLoanerArrive"
-												id="isLoanerArrive"> 是
-											</label>
-										</div>
-
-									</div>
-									<div style="clear: both"></div>
-
-									<div class="form-group">
-										<label class="col-sm-2 control-label">认定套数：</label>
-										<div class="col-md-2">
-											<input type="text" name="houseNum" id="houseNum"
-												class="form-control" onkeyup="checkInt(this)">
-										</div>
-										
-										<label class="col-sm-2 control-label" style="width:15%">签约时间<span class="star" >*</span>：</label>
-										<div class="col-md-2" style="width:18%">
-										<div class="input-group date readOnly_date" id="date_4">
-											<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="signDate" id="signDate" readonly>
-										</div>
-											
-										</div>
-										<label class="col-sm-2 control-label">需要放款前报告：</label>
-										<div class="col-md-2">
-										<label class="checkbox-inline">
-											<input type="checkbox" value="1" name="ifReportBeforeLend"
-												id="ifReportBeforeLend"> 是
-										</label>
-										</div>
-									</div>
-									
-									<div style="clear: both"></div>
-									<div class="form-group">
-									<label class="col-sm-2 control-label">是否临时银行：</label>
-									<div class="col-sm-4">
-										<input type="checkbox" value="1" name="isTmpBank" id="isTmpBank" ${empty source?'':'readonly="true"' }>是
-										<!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="tmpBankRejectReason" style="color:red"></span> -->
-										<!-- <input type="button" class="btn btn-primary btn-xm btn-activity" onclick="javascript:startWorkFlow()" value="启动流程" > -->
-									</div>    
-									<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
-										<div class="col-sm-4">
-											<input type="text" name="recLetterNo" id="recLetterNo" class="form-control">
-										</div>
-									</div>
-									<div style="clear: both"></div>
-									<div class="tmpBankReasonDiv">
-										<label class="col-sm-2 control-label">临时银行原因<span class="star">*</span> </label>
-										<div class="col-sm-10">
-											<input type="text" name="tmpBankReason" class="form-control">
-										</div>
-									</div>
-									<div style="clear: both"></div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">贷款银行：</label>
-										<div class="col-md-4" style="height:38px">																										
-											<select  name="bank_type" class="form-control"
-												id="bank_type" >
-											</select>
-											
-										</div>
-									
-										<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：</label>
-										<div class="col-md-4" style="height:38px">
-											<select  name="finOrgCode" class="form-control"
-																	id="finOrgCode" >
-
-											</select>
-											
-										</div>
-									</div>
-
-									<div style="clear: both"></div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">补件名称：</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" name="supContent" id="supContent">										
-										</div>
-										<label class="col-sm-2 control-label">补件时间：</label>
-										<div class="col-md-4" >
-											<div class="input-group date" id="date_1">
-												<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="remindTime" id="remindTime" readonly>
+											<table id="table_list_2"></table>
+											<div id="pager_list_2"></div>
 											</div>
 										</div>
-									</div>
-									<div style="clear: both"></div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">备注：</label>
-										<div class="col-sm-10">
-											<input type="text" name="remark" id="remark" class="form-control">
-										</div>
-									</div>
-									</form>
+									  </div>
 								</div>
 							</div>
+							</section>
 							
-							<h1>上传备件</h1>
 							
-						    <div style="width:100%">
-							<div class="step-content">
-
-							<div class="ibox-title" style="height:615px;">
+							<h3>贷款签约</h3>
+							<!--  <fieldset>-->
+							<section>
+							<div class="step-content" style="margin-top: -30px;">
+								<div class="ibox" style="width:988px;">
+								<div class="ibox-content">
+								<form id="mortgageForm" class="form_list">
+								    <input type="hidden" name="pkid" id="pkid"/>
+									<input type="hidden" name="caseCode" value="${caseCode}">
+									<input type="hidden" name="isMainLoanBank" value="1"/>
+		                            <div class="marinfo">
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small"> 主贷人<span class="star">*</span></label> 
+													 <select name="custCode" id="custCode" class="input_type yuanwid">
+													 </select>
+													 <input type="hidden" name="custName" id="custName" />
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small"> 贷款总额<span class="star">*</span></label>
+		                                             <input type="text" name="mortTotalAmount" id="mortTotalAmount" class="input_type yuanwid" onkeyup="checknum(this)" placeholder="">
+													 <span class="date_icon">万元</span>
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">贷款类型<span class="star">*</span></label>
+														<aist:dict id="mortType" name="mortType"
+															clazz="select_control data_style" display="select" dictType="30016"
+															defaultvalue="" />
+		                                         </div>
+		                                     </div>    
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">主贷人单位</label>
+													 <input type="text" name="custCompany" id="custCompany"
+														class="input_type mendwidth">
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">认定套数</label>
+													 <input type="text" name="houseNum" id="houseNum"
+															class="input_type data_style" onkeyup="checkInt(this)">
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">商贷金额<span class="star">*</span></label>
+													 <input type="text" name="comAmount" id="comAmount"
+															class="input_type yuanwid" onkeyup="checknum(this)" placeholder="">
+													 <span class="date_icon">万元</span>
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">商贷利率折扣<span class="star">*</span></label>
+													 <input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间"
+															class="input_type yuanwid"  onkeyup="autoCompleteComDiscount(this)">
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">商贷年限<span class="star">*</span></label>
+													 <input type="text" name="comYear" id="comYear"
+														    class="input_type data_style" onkeyup="checknum(this)">
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">公积金贷款金额</label>
+													 <input type="text" name="prfAmount" id="prfAmount"
+															class="input_type yuanwid" onkeyup="checknum(this)" placeholder="">
+													 <span class="date_icon">万元</span>		
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">公积金贷款年限</label>
+													 <input type="text" name="prfYear" id="prfYear"
+															class="input_type data_style" onkeyup="checknum(this)">
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left">放款方式<span class="star">*</span></label>
+													 <aist:dict id="lendWay" name="lendWay" clazz="select_control data_style"
+															display="select" dictType="30017" defaultvalue="" />
+		                                         </div>
+		                                     </div>
+	
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
+													 <input type="text" name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onkeyup="onkeyuploanerName()">
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
+													 </input>			
+													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+													 <input type="hidden"  id="loanerId" name="loanerId" />
+													 <div class="input-group float_icon organize_icon" ></div>	
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
+													 <input type="text" name="loanerPhone" id="loanerPhone"
+															placeholder="联系方式" class="input_type data_style">
+		                                         </div>
+		                                         <div class="form_content" style="margin-top:8px;">
+		                                             <label class="control-label sign_left">信贷员到场</label> 
+		                                             <div class="controls" >
+											              <label class="radio inline"> <input type="radio" value="1" name="isLoanerArrive">是</label> 
+								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
+		                                             </div>
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small select_style mend_select">
+		                                                 签约时间<span class="star" >*</span>
+		                                             </label>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
+                                                     </div>										
+		                                         </div>
+		                                         <div class="form_content radio-seat" style="margin-top:7px;">
+		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
+										             <div class="controls">
+                                                         <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
+                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend" checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content radio-seat" style="margin-top:5px;">
+		                                             <label class="control-label sign_left_small">是否临时银行</label>
+													 <div class="controls ">
+                                                        <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
+                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                         <div class="form_content" style="margin-left:-40px;">
+		                                             <label class="control-label sign_left_small" style="width: 170px;">推荐函编号<span class="star">*</span></label>
+													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type yuanwid">
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content tmpBankReasonDiv">
+		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
+													 <input type="text" name="tmpBankReason" class="input_type optionwid">
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">贷款银行</label>																										
+													 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
+													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">补件名称</label>
+											         <input type="text" class="input_type yuanwid" name="supContent" id="supContent">										
+		                                         </div>
+		                                         <div class="form_content" style="margin-left:-28px;">
+		                                             <label class="control-label sign_left select_style mend_select" style="width: 204px;">
+		                                                 补件时间
+		                                             </label>										             
+										             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_1" data-date-format="yyyy-mm-dd">
+                                                            <input class="input_type yuanwid datatime" type="text" name="remindTime" id="remindTime" readonly>
+                                                     </div>
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">备注</label>
+													 <input type="text" name="remark" id="remark" class="input_type optionwid">
+		                                         </div>
+		                                     </div>
+		                                     
+		                               </div>
+									</form>
+									</div>
+								</div>
+							</div>
+							</section>
+							
+							
+							<h3>上传备件</h3>
+							<section>
 							<input type="hidden" name = "accesoryCount" id="accesoryCount" value="${fn:length(accesoryList)} "/>
 							<c:choose>  
 						    <c:when test="${accesoryList!=null}">  
-							<h5>上传备件<br><br><br>${accesoryList[0].accessoryName }</h5>
+							<h4>上传备件<br><br><br>${accesoryList[0].accessoryName }</h4>
 							<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
 					            <div class="att_first" id="fileupload_div_pic"> 
 					               <form id="fileupload"
@@ -977,299 +979,307 @@
 					<h5>上传备件<br>无需上传备件</h5>
 				    </c:otherwise>  
 					</c:choose> 
-					</div>
-								  </div>
-							</div>
-							<h1>有收费评估报告发起</h1>
-							<div style="width:100%">							
-							<div class="step-content" style="margin-top: -25px;">
-								<div class="col-lg-12">
-									<div class="ibox">
-										<div class="ibox-title">
-											<h5>报告查看</h5>
-										</div>
-										<div class="ibox-content">
-											<div class="jqGrid_wrapper">
-												<table id="table_list_4"></table>
-												<div id="pager_list_4"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							</div>
-
-							<h1>完成</h1>
-							<div class="step-content" >
-										<div class="ibox-content" style="height:300px">
-							<form id="completeForm">
-								<input type="hidden" name="pkid" />
-								<input type="hidden" name="finOrgCode" />
-								<input type="hidden" id="fl_is_tmp_bank"/>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">支 行：</label><span id="sp_sub_bank" class="col-sm-3">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-3">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行审批结果：</label><span id="tmpBankRejectReason" class="col-sm-3"></span></div>
-								<div class="form-group row tmpBankDiv"  ><label class="col-sm-3 control-label">临时银行处理人：</label><span id="sp_tmp_bank_u" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行处理时间：</label><span id="sp_tmp_bank_t" class="col-sm-3">&nbsp;</span></div>
-								<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
-									<label class="checkbox-inline" > <input type="checkbox"
-										value="1" id="lastBankSub" name="lastBankSub"> 是
-									</label>
-								</div>
-								<div class="form-group row"  >
-									<label class="col-sm-3 control-label">审批时间<span class="star" >*</span>：</label>
-									<div class="col-sm-4" style="padding-left:0px">
-									<div class="input-group date readOnly_date" id="date_2">
-										<span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="apprDate" id="apprDate" readonly >
-									</div>
-									</div>
-								</div>
-							</form>	
-							</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	
-	
-	
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="ibox">
-					<div class="ibox-title" id="secBank">
-						<a data-toggle="collapse" data-parent="#accordion" href="#second" class="myDataToggle" data-m='0'><h5 id="secondBank">候选银行</h5>
-						</a> 
-					</div>
-					
-					<div class="ibox-content panel-collapse collapse" id="second">						
-						<div id="wizard1">
-							<h1>询价</h1>
-						   <div style="width:100%">
-							<div class="step-content" style="margin-top: -25px;">
-								<div class="ibox">
-									<div class="ibox-title">
-										<h5>询价结果查看</h5>
-									</div>
-									<div class="ibox-content" >
-										<div class="jqGrid_wrapper">
-											<table id="table_list_3"></table>
-											<div id="pager_list_3"></div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="text-center">
-										<div style="margin-top: 20px">
-											<i class="fa fa-sign-in"
-												style="font-size: 12px; color: #e5e5e5"></i>
-										</div>
-									</div>
-								</div>
-								  </div>
-							</div>
-
-							<h1>提醒清单</h1>							
-						    <div style="width:100%">
-							<div class="step-content">
-
-								<div class="ibox-title">
-									<h5>备件列表</h5>
-									<a class="btn btn-primary pull-right" href="#" id="sendSMS1">发送短信提醒</a>									
-								</div>
-
-								<table id="table_list_5"></table>
-								<div id="pager_list_5"></div>
-
-								<div class="col-lg-4">
-									<div class="text-center">
-										<div style="margin-top: 20px">
-											<i class="fa fa-sign-in"
-												style="font-size: 12px; color: #e5e5e5"></i>
-										</div>
-									</div>
-								</div>
-								  </div>
-							</div>
-
-							<h1>贷款签约</h1>
-							<!--  <fieldset>-->
-							<div class="step-content" style="margin-top: -15px;">
-								<div class="row">
-								<form id="mortgageForm1">
-										<input type="hidden" name="pkid" id="pkid"/>
-										<input type="hidden" name="caseCode" value="${caseCode}">
-										<input type="hidden" name="isMainLoanBank" value="0"/>									
-										<div class="form-group">
-											<label class="col-sm-2 control-label">贷款类型<span class="star">*</span>：</label>
-											<div class="col-sm-10">
-												<aist:dict id="mortType" name="mortType"
-													clazz="form-control m-b" display="select" dictType="30016"
-													defaultvalue="" />
-	
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">贷款总额<span class="star">*</span>：</label>
-											<div class="col-md-2">
-												<input type="text" name="mortTotalAmount"
-													id="mortTotalAmount" class="form-control" onkeyup="checknum(this)" placeholder="万元">
-											</div>
-											<label class="col-sm-2 control-label" style="width:15%">商贷部分金额<span class="star">*</span>：</label>
-											<div class="col-md-2" style="width:18%">
-												<input type="text" name="comAmount" id="comAmount"
-													class="form-control" onkeyup="checknum(this)" placeholder="万元">
-											</div>
-											<label class="col-sm-2 control-label">商贷部分年限<span class="star">*</span>：</label>
-											<div class="col-md-2">
-												<input type="text" name="comYear" id="comYear"
-													class="form-control" onkeyup="checknum(this)">
-											</div>
-										</div>
-	
-										<div class="form-group">
-											<label class="col-sm-2 control-label">商贷部分利率折扣<span class="star">*</span>：</label>
-											<div class="col-md-2">
-												<input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间"
-													class="form-control"  onkeyup="autoCompleteComDiscount(this)">
-											</div>
-											<label class="col-sm-2 control-label" style="width:15%">公积金贷款金额：</label>
-											<div class="col-md-2" style="width:18%">
-												<input type="text" name="prfAmount" id="prfAmount"
-													class="form-control" onkeyup="checknum(this)" placeholder="万元">
-											</div>
-											<label class="col-sm-2 control-label">公积金贷款年限：</label>
-											<div class="col-md-2">
-												<input type="text" name="prfYear" id="prfYear"
-													class="form-control" onkeyup="checknum(this)">
-											</div>
-										</div>
-	
-										<div class="form-group">
-											<label class="col-sm-2 control-label">主贷人<span class="star">*</span>：</label>
-											<div class="col-md-2">
-											<select name="custCode" id="custCode" class="form-control">
-											</select>
-											<input type="hidden" name="custName" id="custName" />
-											</div>
-											<label class="col-sm-2 control-label" style="width:15%">主贷人单位：</label>
-											<div class="col-md-2" style="width:18%">
-												<input type="text" name="custCompany" id="custCompany"
-													class="form-control">
-											</div>
-											<label class="col-sm-2 control-label">放款方式<span class="star">*</span>：</label>
-											<div class="col-md-2">
-												<aist:dict id="lendWay" name="lendWay" clazz="form-control"
-													display="select" dictType="30017" defaultvalue="" />
-											</div>
-										</div>
-	
-										<div class="form-group">
-											<label class="col-sm-2 control-label">信贷员姓名<span class="star">*</span>：</label>
-											<div class="col-md-2">
-												<input type="text" name="loanerName" id="loanerName"
-													placeholder="姓名" class="form-control">
-											</div>
-											<label class="col-sm-2 control-label" style="width:15%">信贷员电话<span class="star">*</span>：</label>
-											<div class="col-md-2" style="width:18%">
-												<input type="text" name="loanerPhone" id="loanerPhone"
-													placeholder="联系方式" class="form-control">
-											</div>
-											<label class="col-sm-2 control-label">信贷员到场：</label>
-											<div class="col-md-2">
-												<label class="checkbox-inline"> <input
-													type="checkbox" value="1" name="isLoanerArrive"
-													id="isLoanerArrive"> 是
-												</label>
-											</div>
-										</div>
-										<div style="clear: both"></div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">认定套数：</label>
-											<div class="col-md-2">
-												<input type="text" name="houseNum" id="houseNum"
-													class="form-control" onkeyup="checkInt(this)">
-											</div>
-											
-											<label class="col-sm-2 control-label" style="width:15%">签约时间<span class="star" >*</span>：</label>
-											<div class="col-md-2" style="width:18%">
-											<div class="input-group date readOnly_date" id="date_44">
-												<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="signDate" id="signDate" readonly>
-											</div>
-												
-											</div>
-											<label class="col-sm-2 control-label">需要放款前报告：</label>
-											<div class="col-md-2">
-											<label class="checkbox-inline">
-												<input type="checkbox" value="1" name="ifReportBeforeLend"
-													id="ifReportBeforeLend"> 是
-											</label>
-											</div>
-										</div>
-										<div style="clear: both"></div>
-										<div class="form-group">
-										<label class="col-sm-2 control-label">是否临时银行：</label>
-										<div class="col-sm-4">
-											<input type="checkbox" value="1" name="isTmpBank" disabled="true">是
-										</div>
-										<label class="col-sm-2 control-label">推荐函编号<span class="star">*</span>：</label>
-											<div class="col-sm-4">
-												<input type="text" name="recLetterNo" id="recLetterNo" class="form-control">
-											</div>
-										</div>
-										<div style="clear: both"></div>
-										<div class="tmpBankReasonDiv">
-											<label class="col-sm-2 control-label">临时银行原因<span class="star">*</span>: </label>
-											<div class="col-sm-10">
-												<input type="text" name="tmpBankReason" class="form-control">
-											</div>
-										</div>
-										<div style="clear: both"></div>
-	
-										<div class="form-group">
-											<label class="col-sm-2 control-label">贷款银行：</label>
-											<div class="col-md-4" style="height:38px">																										
-												<select  name="bank_type" class="form-control" id="bank_type" ></select>
-											</div>									
-											<label class="col-sm-2 control-label">贷款支行<span class="star">*</span>：</label>
-											<div class="col-md-4" style="height:38px">
-												<select name="finOrgCode" class="form-control"	id="finOrgCode" ></select>
-											</div>
-										</div>
-	
-										<div style="clear: both"></div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">补件名称：</label>
-											<div class="col-md-4">
-												<input type="text" class="form-control" name="supContent" id="supContent">										
-											</div>
-											<label class="col-sm-2 control-label">补件时间：</label>
-											<div class="col-md-4" >
-												<div class="input-group date" id="date_11">
-													<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="remindTime" id="remindTime" readonly>
-												</div>
-											</div>
-										</div>
-										<div style="clear: both"></div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label">备注：</label>
-											<div class="col-sm-10">
-												<input type="text" name="remark" id="remark" class="form-control">
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-
-							<h1>上传备件</h1>
+					</section>
 							
-						    <div style="width:100%">
-							<div class="step-content">
+					<h3>有收费评估报告发起</h3>
+					<section>							
+						<h4>报告查看</h4>
+						<div class="jqGrid_wrapper">
+							<table id="table_list_4"></table>
+							<div id="pager_list_4"></div>
+						</div>
+					</section>
 
-		<div class="ibox-title" style="height:615px;">
+					<h3>完成</h3>
+					<section>
+                         <form id="completeForm" class="form_list">
+                         	<input type="hidden" name="pkid" />
+							<input type="hidden" name="finOrgCode" />
+							<input type="hidden" id="fl_is_tmp_bank"/>
+	                         <div class="marinfo">
+	                             <div class="line">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one ver-top">贷款银行</label>
+	                                     <span id="sp_bank">&nbsp;</span>
+	                                 </div>
+	
+	                             </div>
+	                             <div class="line">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one ver-top">支行</label>
+	                                     <span id="sp_sub_bank">&nbsp;</span>
+	                                 </div>
+	                             </div>
+	                             <div class="line" style="width:988px;">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">商贷金额</label>
+	                                     <span id="comAmount" class="info-text">&nbsp;</span>
+	                                 </div>
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">商业贷款利率</label>
+	                                     <span id="comDiscount" class="info-text">&nbsp;</span>
+	                                 </div>
+	                             </div>
+	                             <div class="line" style="width:988px;">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">是否临时银行</label>
+	                                     <span id="sp_is_tmp_bank" class="info-text">&nbsp;</span>
+	                                 </div>
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">临时银行审批结果</label>
+	                                     <span id="tmpBankRejectReason" class="info-text"></span>
+	                                 </div>
+	                             </div>
+	                             <div class="line" style="width:988px;">
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">临时银行处理人</label>
+	                                     <span id="sp_tmp_bank_u" class="info-text">&nbsp;</span>
+	                                 </div>
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one">临时银行处理时间</label>
+	                                     <span id="sp_tmp_bank_t" class="info-text">&nbsp;</span>
+	                                 </div>
+	                             </div>
+	                             <div class="line" style="width:988px;">
+	                                 <div class="form_content mt5">
+	                                     <label class="control-label sign_left_one">作为最终贷款银行</label>
+	                                     <label ><input type="checkbox" value="1" id="lastBankSub" name="lastBankSub" /> 是</label>
+	                                 </div>
+	                                 <div class="form_content">
+	                                     <label class="control-label sign_left_one" style="float: left;margin-top: 6px;margin-left:300px;">审批时间</label>
+	                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+	                                         <input name="apprDate" id="apprDate" class="input_type yuanwid datatime" type="text" readonly >
+	                                     </div>
+	                                 </div>
+	                             </div>
+	                         </div>
+                           </form>		
+						</section>
+						</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="tab-2" class="tab-pane">
+                                    <div class="ibox float-e-margins">
+                                        <div>
+                                        
+                            <div id="wizard1">
+							<h3>询价</h3>
+							<section>
+								<h4>询价结果查看</h4>
+									<div class="jqGrid_wrapper">
+										<table id="table_list_3"></table>
+										<div id="pager_list_3"></div>
+									</div>
+							</section>
+
+							<h3>提醒清单</h3>	
+							<section>						
+						    <div style="width:100%">
+							<div class="step-content" style="margin-top: -25px;">
+							<div class="ibox">
+								<div class="ibox-title">
+									<h4>备件列表</h4>
+									<a class="btn btn-primary pull-right" href="#" id="sendSMS1" style="clear:both;margin-top:-31px">发送短信提醒</a>									
+								</div>
+								<div class="ibox-content">
+									<div class="jqGrid_wrapper">
+										<table id="table_list_5"></table>
+										<div id="pager_list_5"></div>
+										</div>
+									</div>
+							    </div>
+							</div>
+							</div>
+							</section>
+
+							<h3>贷款签约</h3>
+							<!--  <fieldset>-->
+							<section>
+							<div class="step-content" style="margin-top: -30px;">
+								<div class="ibox" style="width:988px;">
+								<div class="ibox-content">
+								<form id="mortgageForm1" class="form_list">
+								    <input type="hidden" name="pkid" id="pkid"/>
+									<input type="hidden" name="caseCode" value="${caseCode}">
+									<input type="hidden" name="isMainLoanBank" value="0"/>
+		                            <div class="marinfo">
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small"> 主贷人<span class="star">*</span></label> 
+													 <select name="custCode" id="custCode" class="input_type yuanwid">
+													 </select>
+													 <input type="hidden" name="custName" id="custName" />
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small"> 贷款总额<span class="star">*</span></label>
+		                                             <input type="text" name="mortTotalAmount" id="mortTotalAmount" class="input_type yuanwid" onkeyup="checknum(this)" placeholder="">
+													 <span class="date_icon">万元</span>
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">贷款类型<span class="star">*</span></label>
+														<aist:dict id="mortType" name="mortType"
+															clazz="select_control data_style" display="select" dictType="30016"
+															defaultvalue="" />
+		                                         </div>
+		                                     </div>    
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">主贷人单位</label>
+													 <input type="text" name="custCompany" id="custCompany"
+														class="input_type mendwidth">
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">认定套数</label>
+													 <input type="text" name="houseNum" id="houseNum"
+															class="input_type data_style" onkeyup="checkInt(this)">
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">商贷金额<span class="star">*</span></label>
+													 <input type="text" name="comAmount" id="comAmount"
+															class="input_type yuanwid" onkeyup="checknum(this)" placeholder="">
+													 <span class="date_icon">万元</span>
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">商贷利率折扣<span class="star">*</span></label>
+													 <input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间"
+															class="input_type yuanwid"  onkeyup="autoCompleteComDiscount(this)">
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">商贷年限<span class="star">*</span></label>
+													 <input type="text" name="comYear" id="comYear"
+														    class="input_type data_style" onkeyup="checknum(this)">
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">公积金贷款金额</label>
+													 <input type="text" name="prfAmount" id="prfAmount"
+															class="input_type yuanwid" onkeyup="checknum(this)" placeholder="">
+													 <span class="date_icon">万元</span>		
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">公积金贷款年限</label>
+													 <input type="text" name="prfYear" id="prfYear"
+															class="input_type data_style" onkeyup="checknum(this)">
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left">放款方式<span class="star">*</span></label>
+													 <aist:dict id="lendWay" name="lendWay" clazz="select_control data_style"
+															display="select" dictType="30017" defaultvalue="" />
+		                                         </div>
+		                                     </div>
+	
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
+													 <input type="text" name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onkeyup="onkeyuploanerName()">
+													 <i style=" position: absolute; top: 5px; right: 20px;  " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser_})" >&#xe627;</i>
+													 </input>			
+													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+													 <input type="hidden"  id="loanerId" name="loanerId" />
+													 <div class="input-group float_icon organize_icon" ></div>	
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
+													 <input type="text" name="loanerPhone" id="loanerPhone"
+															placeholder="联系方式" class="input_type data_style">
+		                                         </div>
+		                                         <div class="form_content" style="margin-top:8px;">
+		                                             <label class="control-label sign_left">信贷员到场</label> 
+		                                             <div class="controls" >
+											              <label class="radio inline"> <input type="radio" value="1" name="isLoanerArrive">是</label> 
+								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive">否</label>
+		                                             </div>
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small select_style mend_select">
+		                                                 签约时间<span class="star" >*</span>
+		                                             </label>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
+                                                     </div>										
+		                                         </div>
+		                                         <div class="form_content radio-seat" style="margin-top:7px;">
+		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
+										             <div class="controls">
+                                                         <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
+                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend">否</label>
+                                                     </div>
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content radio-seat" style="margin-top:5px;">
+		                                             <label class="control-label sign_left_small">是否临时银行</label>
+													 <div class="controls ">
+                                                        <label class="radio inline"> <input type="radio" value="1" name="isTmpBank" disabled="true">是</label>
+                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" disabled="true" checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                         <div class="form_content" style="margin-left:-40px;">
+		                                             <label class="control-label sign_left_small" style="width: 170px;">推荐函编号<span class="star">*</span></label>
+													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type yuanwid">
+		                                         </div>
+		                                     </div>              
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">贷款银行</label>																										
+													 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
+													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">补件名称</label>
+											         <input type="text" class="input_type yuanwid" name="supContent" id="supContent">										
+		                                         </div>
+		                                         <div class="form_content" style="margin-left:-28px;">
+		                                             <label class="control-label sign_left select_style mend_select" style="width: 204px;">
+		                                                 补件时间
+		                                             </label>										             
+										             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_1" data-date-format="yyyy-mm-dd">
+                                                            <input class="input_type yuanwid datatime" type="text" name="remindTime" id="remindTime" readonly>
+                                                     </div>
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">备注</label>
+													 <input type="text" name="remark" id="remark" class="input_type optionwid">
+		                                         </div>
+		                                     </div>
+		                                     
+		                               </div>
+									</form>
+								  </div>
+								</div>
+							</div>
+							</section>
+
+		<h3>上传备件</h3>
+		<section>
+		<input type="hidden" name = "accesoryCount" id="accesoryCount" value="${fn:length(accesoryList)} "/>
 		<c:choose>  
 	    <c:when test="${accesoryList1!=null}">  
-		<h5>上传备件<br><br><br>${accesoryList1[0].accessoryName }</h5>
+		<h4>上传备件<br><br><br>${accesoryList1[0].accessoryName }</h4>
 		<c:forEach var="accesory" items="${accesoryList1}" varStatus="status">
                <div class="att_second" id="fileupload_div_pic"> 
                <form id="fileupload"	action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	method="POST" enctype="multipart/form-data">				
@@ -1342,15 +1352,17 @@
 										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
 										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
 										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.thumbnail_url) { %}
-							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
-							            {% } %}</div>
-							            <div class="name" style="display: none">
-							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+							            {% if (file.id) { %}
+                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
+							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
+                                              {% } else { %}
+ 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
+  											  {% } %}
+							            {% } %}
 							            </div>
 							        {% } %}
 							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
+							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
 							                <i class="icon-remove"></i>
 							            </button>
 							        </div>
@@ -1375,70 +1387,317 @@
 		<h5>上传备件<br>无需上传备件</h5>
 	    </c:otherwise>  
 		</c:choose> 
-		</div>
-								  </div>
-							</div>
+</section>
 
-							<h1>有收费评估报告发起</h1>
-							<div style="width:100%">							
-								<div class="step-content" style="margin-top: -25px;">
-									<div class="col-lg-12">
-										<div class="ibox">
-											<div class="ibox-title">
-												<h5>报告查看</h5>
-											</div>
-											<div class="ibox-content" >
-												<div class="jqGrid_wrapper">
-													<table id="table_list_6"></table>
-													<div id="pager_list_6"></div>
-												</div>
-											</div>
-										</div>
+							<h3>有收费评估报告发起</h3>
+							<section>
+								<h4>报告查看</h4>
+								<div class="jqGrid_wrapper">
+									<table id="table_list_6"></table>
+									<div id="pager_list_6"></div>
+								</div>
+							</section>
+
+							<h3>完成</h3>
+							<section>
+									<form id="completeForm1" class="form_list">
+				                         	<input type="hidden" name="pkid" />
+											<input type="hidden" name="finOrgCode" />
+											<input type="hidden" id="fl_is_tmp_bank"/>
+                                                 <div class="marinfo">
+                                                     <div class="line">
+                                                         <div class="form_content">
+                                                             <label class="control-label sign_left_one ver-top">贷款银行</label>
+                                                             <span id="sp_bank">&nbsp;</span>
+                                                         </div>
+
+                                                     </div>
+                                                     <div class="line">
+                                                         <div class="form_content">
+                                                             <label class="control-label sign_left_one ver-top">支行</label>
+                                                             <span id="sp_sub_bank">&nbsp;</span>
+                                                         </div>
+                                                     </div>
+                                                     <div class="line" style="width:988px;">
+                                                         <div class="form_content">
+                                                             <label class="control-label sign_left_one">商贷金额</label>
+                                                             <span id="comAmount" class="info-text">&nbsp;</span>
+                                                         </div>
+                                                         <div class="form_content">
+                                                             <label class="control-label sign_left_one">商业贷款利率</label>
+                                                             <span id="comDiscount" class="info-text">&nbsp;</span>
+                                                         </div>
+                                                     </div>
+                                                     <div class="line" style="width:988px;">
+                                                         <div class="form_content">
+                                                             <label class="control-label sign_left_one">是否临时银行</label>
+                                                             <span id="sp_is_tmp_bank" class="info-text">&nbsp;</span>
+                                                         </div>
+                                                         <div class="form_content">
+                                                             <label class="control-label sign_left_one">临时银行审批结果</label>
+                                                             <span id="tmpBankRejectReason" class="info-text"></span>
+                                                         </div>
+                                                     </div>
+                                                     <div class="line" style="width:988px;">
+                                                         <div class="form_content">
+                                                             <label class="control-label sign_left_one">临时银行处理人</label>
+                                                             <span id="sp_tmp_bank_u" class="info-text">&nbsp;</span>
+                                                         </div>
+                                                         <div class="form_content">
+                                                             <label class="control-label sign_left_one">临时银行处理时间</label>
+                                                             <span id="sp_tmp_bank_t" class="info-text">&nbsp;</span>
+                                                         </div>
+                                                     </div>
+                                                     <div class="line" style="width:988px;">
+                                                         <div class="form_content mt5">
+                                                             <label class="control-label sign_left_one">作为最终贷款银行</label>
+                                                             <label ><input type="checkbox" value="1" id="lastBankSub" name="lastBankSub" /> 是</label>
+                                                         </div>
+                                                         <div class="form_content">
+                                                             <label class="control-label sign_left_one" style="float: left;margin-top: 6px;margin-left:300px;">审批时间</label>
+                                                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                                                                 <input name="apprDate" id="apprDate" class="input_type yuanwid datatime" type="text" readonly >
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </form>		
+										</section>
 									</div>
-								</div>
-							</div>
+                                     
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="aboutInfo">   
+               <div class="view-content" id="caseCommentList"> </div>
+            </div>
+          </div>  
 
-							<h1>完成</h1>
-							<div class="step-content" >
-								<div class="ibox-content" style="height:300px;">
-									<form id="completeForm1">
-										<input type="hidden" name="pkid" />
-										<input type="hidden" name="finOrgCode" />
-										<div class="form-group row"  ><label class="col-sm-3 control-label">贷款银行：</label><span id="sp_bank" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">支 行：</label><span id="sp_sub_bank" class="col-sm-3">&nbsp;</span></div>
-										<div class="form-group row"  ><label class="col-sm-3 control-label">商贷金额：</label><span id="comAmount" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">商业贷款利率：</label><span id="comDiscount" class="col-sm-3">&nbsp;</span></div>
-										<div class="form-group row"  ><label class="col-sm-3 control-label">是否临时银行：</label><span id="sp_is_tmp_bank" class="col-sm-3">&nbsp;</span></div>
-										<div class="form-group row tmpBankDiv"  ><label class="col-sm-3 control-label">临时银行处理人：</label><span id="sp_tmp_bank_u" class="col-sm-3">&nbsp;</span><label class="col-sm-3 control-label">临时银行处理时间：</label><span id="sp_tmp_bank_t" class="col-sm-3">&nbsp;</span></div>
-										<div class="form-group row"  ><label class="col-sm-3 control-label">作为最终贷款银行：</label>
-											<label class="checkbox-inline"> <input type="checkbox"
-												value="1" id="lastBankSub" name="lastBankSub"> 是
-											</label>
-										</div>
-		
-										<div class="form-group row"  >
-											<label class="col-sm-3 control-label">审批时间<span class="star">*</span>：</label>
-											<div class="col-sm-4">
-											<div class="input-group date readOnly_date" id="date_22">
-												<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" name="apprDate" id="apprDate" readonly >
-											</div>
-											</div>
-										</div>
-									</form>	
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>		
-		<div id="smsPlatFrom"></div>		
-		<div id="caseCommentList" class="add_form"></div>
-</div>
-</div>
+    <div class="modal inmodal fade in file-popup" id="myFile" tabindex="-1" role="dialog" aria-hidden="false" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">附件库</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="tab">
+                        <div class="tab_menu">
+                            <ul>
+                                <li class="selected">分类1</li>
+                                <li>分类2</li>
+                            </ul>
+                        </div>
+                        <div class="tab_box">
+                            <div>
+                                <table class="table table-file" >
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                <input type="checkbox" id="CheckedAll" />
+                                            </th>
+                                            <th>
+                                                文件名
+                                                <a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                            </th>
+                                            <th>
+                                                类型
+                                                <a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                            </th>
+                                            <th>
+                                                上传时间
+                                                <a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                            </th>
+                                            <th>
+                                                操作
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="items" />
+                                            </td>
+                                            <td>
+                                               20161103test1.jpg
+                                            </td>
+                                            <td>
+                                                类型1
+                                            </td>
+                                            <td>
+                                                2016-12-06 15:30:21
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0)" class="fa-blue mr10">查看</a>
+                                                <a href="javascript:void(0)" class="fa-pink">删除</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="items" />
+                                            </td>
+                                            <td>
+                                               20161103test1.jpg
+                                            </td>
+                                            <td>
+                                                类型1
+                                            </td>
+                                            <td>
+                                                2016-12-06 15:30:21
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0)" class="fa-blue mr10">查看</a>
+                                                <a href="javascript:void(0)" class="fa-pink">删除</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-center page_box">
+                                    <span id="currentTotalPage">
+                                        <strong>
+                                            1/8
+                                        </strong>
+                                    </span>
+                                    <span class="ml15">
+                                        共
+                                        <strong id="totalP">
+                                            144
+                                        </strong>
+                                        条
+                                    </span>
+                                    &nbsp;
+                                    <div id="pageBar" class="pagination text-center">
+                                        <ul class="pagination">
+                                            <li class="first disabled">
+                                                <a href="#"><i class="fa fa-step-backward"></i></a>
+                                            </li>
+                                            <li class="prev disabled">
+                                                <a href="#"><i class="fa fa-chevron-left"></i></a>
+                                            </li>
+                                            <li class="page active">
+                                                <a href="#">
+                                                    1
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    2
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    3
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    4
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    5
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    6
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    7
+                                                </a>
+                                            </li>
+                                            <li class="page">
+                                                <a href="#">
+                                                    8
+                                                </a>
+                                            </li>
+                                            <li class="next">
+                                                <a href="#"><i class="fa fa-chevron-right"></i></a>
+                                            </li>
+                                            <li class="last">
+                                                <a href="#"><i class="fa fa-step-forward"></i></a>
+                                            </li>
+                                        </ul>
+                                        <div class="pagergoto">
+                                            <span class="go_text">
+                                                跳转至
+                                            </span>
+                                            <span>
+                                            <input type="text" class="go_input" value="">
+                                            <input type="button" class="go_btn" value="GO"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                             <div class="cover">
+                                 <table class="table table-file" >
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                <input type="checkbox" id="CheckedAll" />
+                                            </th>
+                                            <th>
+                                                文件名
+                                                <a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                            </th>
+                                            <th>
+                                                文件类型
+                                                <a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                            </th>
+                                            <th>
+                                                上传时间
+                                                <a href="#"><i class="fa fa-sort-desc fa_down"></i></a>
+                                            </th>
+                                            <th>
+                                                操作
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="file" class="btn btn-danger">上传新附件</button>
+                    <button type="button" class="btn btn-success">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <content tag="local_script"> 
-<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+<script>
+var source = "${source}";
 
+//‘我要修改’时不可修改签约时间和审批时间
+if('caseDetails'==source){
+	readOnlyForm();
+}
+
+function readOnlyForm(){
+	$("input[name='signDate']").attr('readOnly',true).css("background-color","#eee").parent().removeClass("input-daterange");
+	$("input[name='apprDate']").attr('readOnly',true).css("background-color","#eee").parent().removeClass("input-daterange");
+}
+</script>
+<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
- 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 <script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 <script src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> 
@@ -1451,49 +1710,34 @@
 <script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
-
 <script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
 <script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 <script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-
 <script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
 <script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
-
-<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4。9"></script> 
-<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
+<!-- 上传附件结束 -->
+<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4.9"></script> 
+<script	src="${ctx}/js/trunk/task/attachment3.js"></script> 
 <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
-
 <script src="${ctx}/transjs/sms/sms.js"></script>	
 <script src="${ctx}/js/jquery.blockui.min.js"></script>
-
 <script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
-
 <script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+<script src="${ctx}/js/stickUp.js"></script>
+<!-- 改版引入的新的js文件 --> 
+<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <script>
-	var source = "${source}";
-	var afterTimeFlag=${afterTimeFlag};
-	function readOnlyForm(){
-		$(".readOnly_date").removeClass('date');
-		$(".readOnly_date input").attr('readOnly',true);
-		$("select[readOnlydata=1]").closest('.row').hide();
-		$("[readOnlydata=1]").attr('readonly',true);
-		$("[readOnlydata=1]").each(function(){
-			if($(this).is('a')){
-				$(this).hide();
-			}
-		});
-	}
-	if('caseDetails'==source){
-		readOnlyForm();
-	}
+var afterTimeFlag=${afterTimeFlag};
+
 function checknum(obj){
 	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
 	obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
@@ -1522,10 +1766,9 @@ function checkInt(obj){
 	obj.value = obj.value.replace(/[^\d]/g,"");  
 }
 
-
  	var ctx = "${ctx}";
-	var step = ${step1};
-	var step1 = ${step};
+	var step = ${step};
+	var step1 = ${step1};
 
 	var evaCode = "${evaCode}";
 	if(evaCode != ""){
@@ -1638,12 +1881,20 @@ function checkInt(obj){
 		//设置初始操作步骤
 		getPricingList("table_list_3","pager_list_3",0);
 		getPricingList("table_list_1","pager_list_1",1);
-		if(mainLoanBank == "0"){
+		if(step1 == 1){
+ 			getReminderList("table_list_5","pager_list_5");
+		}else if(step1 == 2||step1==3){
+	 		getMortgageInfo($("#caseCode").val(),0);
+		}else if(step1 == 4){
+			getReportList("table_list_6","pager_list_6",0);
+		}else if(step1 == 5){
+			getCompleteMortInfo(0);
+		}
+/* 		if(mainLoanBank == "0"){
 			$("#isMainLoanBank").val("0");
 			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(0);
-			/* $("#first").css("display","none");
-			$("#second").css("display","block"); */
-			
+		    $("#first").css("display","none");
+			$("#second").css("display","block");
 			if(step1 == 1){
 	 			getReminderList("table_list_5","pager_list_5");
 			}else if(step1 == 2||step1==3){
@@ -1654,7 +1905,7 @@ function checkInt(obj){
 				getCompleteMortInfo(mainLoanBank);
 			}
 
-		}else{
+		}else{ */
 			$("#isMainLoanBank").val("1");
 			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
 			/* $("#first").css("display","block");
@@ -1663,13 +1914,13 @@ function checkInt(obj){
 			if(step == 1){
 	 			getReminderList("table_list_2","pager_list_2");
 			}else if(step == 2||step==3){
-		 		getMortgageInfo($("#caseCode").val(),mainLoanBank);
+		 		getMortgageInfo($("#caseCode").val(),1);
 			}else if(step == 4){
-				getReportList("table_list_4","pager_list_4",mainLoanBank);
+				getReportList("table_list_4","pager_list_4",1);
 			}else if(step == 5){
-				getCompleteMortInfo(mainLoanBank);
+				getCompleteMortInfo(1);
 			}
-		}
+/* 		} */
 
 	 	$(".myDataToggle").click(function(){
 	 		$("#isMainLoanBank").val($(this).attr('data-m'));
@@ -1757,12 +2008,7 @@ function checkInt(obj){
 		if(!$("#isTmpBank").is(':checked')){
 			return;
 		}
-		
-		var f=$("#mortgageForm");
-		if(isMainLoanBank != 1){
-			f=$('#mortgageForm1');
-		}
-		
+
 	 	$.ajax({
 		    url:ctx+"/mortgage/tmpBankAudit/start",
 		    async:false,
@@ -1776,8 +2022,16 @@ function checkInt(obj){
 
 	}
 	function selectLoanerUser(array) {
+		selectLoanerUserCom(array,$("#mortgageForm"));
+	}
+	
+	function selectLoanerUser_(array) {
+		selectLoanerUserCom(array,$("#mortgageForm1"));
+	}
+	
+	function selectLoanerUserCom(array,$form){
 		if (array && array.length > 0) {
-			$("#loanerName").val(array[0].username);
+			$form.find("#loanerName").val(array[0].username);
 			$.ajax({
 				url : ctx + "/eloan/LoanerCode",
 				method : "post",
@@ -1786,17 +2040,17 @@ function checkInt(obj){
 					"userId" : array[0].userId
 				},
 				success : function(data) {
-					$("#loanerNameImage").css("color","#52cdec");
-					$("#loanerPhone").val(data.user.mobile);
-					$("#loanerId").val(data.user.id);
-					$("#loanerOrgCode").val(data.user.orgName);
-					$("#loanerOrgId").val(data.user.orgId);
+					$form.find("#loanerNameImage").css("color","#52cdec");
+					$form.find("#loanerPhone").val(data.user.mobile);
+					$form.find("#loanerId").val(data.user.id);
+					$form.find("#loanerOrgCode").val(data.user.orgName);
+					$form.find("#loanerOrgId").val(data.user.orgId);
 				}
 			})
 		} else {
-			$("#loanerName").val("");
-			$("#loanerOrgCode").val("");
-			$("#loanerOrgId").val("");
+			$form.find("#loanerName").val("");
+			$form.find("#loanerOrgCode").val("");
+			$form.find("#loanerOrgId").val("");
 		}
 	}
 	

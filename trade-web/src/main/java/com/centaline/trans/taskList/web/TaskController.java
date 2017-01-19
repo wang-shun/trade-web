@@ -84,6 +84,7 @@ import com.centaline.trans.task.service.ToTaxService;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.utils.UiImproveUtil;
 
 
 @Controller
@@ -432,7 +433,7 @@ public class TaskController {
     		plan.setPartCode("LoanRelease");//放款
     		request.setAttribute("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
     	}
-        return "task/task"+taskitem;
+        return "task"+UiImproveUtil.getPageType(request)+"/task"+taskitem;
   
     }
     

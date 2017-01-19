@@ -18,6 +18,8 @@ public interface ToAttachmentService {
 	public List<ToAttachment> quereyAttachmentForMaterial(ToAttachment toAttachment);
 	
 	public boolean delAttachment(List<Long> pkIdArr);
+	
+	public boolean deleteByFileAdress(String preFileAdress);
 
 	void saveToAttachment(ToAttachment toAttachment);
 
@@ -50,6 +52,8 @@ public interface ToAttachmentService {
 	 */
 	public int setMainFlowVailable(String caseCode);
 	
-	public int updateToAttachmentByCaseCode(String caseCode);	
+	public int updateToAttachmentByCaseCode(String caseCode);
+	
+	int updateAvaliableAttachmentByProperty(ToAttachment record);
 
 }

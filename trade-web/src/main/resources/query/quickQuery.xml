@@ -39,7 +39,10 @@
 	<import resource="query/property/toSourceListQuery.xml" />
 	<!-- 产调来源报表 -->
 	<import resource="query/property/toSourceReportQuery.xml" />
-	
+
+	<!-- 案件基础信息报表 -->
+	<import resource="query/report/toCaseBaseInfoChartsQuery.xml" />
+
 	<!-- 知识库 -->
 	<import resource="query/knowledge/knowledgeListQuery.xml" />
 	<import resource="query/knowledge/knowledgeListQuery1.xml" />
@@ -138,7 +141,11 @@
 	
 	<!-- 签约案件 -->
 	<import resource="query/report/toReportSignCaseQuery.xml" />
-		<!-- 案件状态统计 -->
+	
+	<!-- 派单、签约量统计 -->
+	<import resource="query/report/toCaseBaseInfoChartsQuery.xml"/>
+	
+	<!-- 案件状态统计 -->
 	<import resource="query/dashboard/GetStatus.xml" />
 
 	<!-- 绩效奖金模块 -->
@@ -155,6 +162,14 @@
 	<import resource="query/eloan/eloanContractList.xml" />
 	<!-- 商贷信息列表 -->
 	<import resource="query/mortgage/toMortgageInfoListQuery.xml" />
+	<!-- 商贷案件列表YCParApp -->
+	<!-- <import resource="query/mortgage/toMortgageCaseList.xml" /> -->
+	<!-- 商贷案件详情YCParApp -->
+	<!-- <import resource="query/mortgage/toMortgageCaseDetail.xml" /> -->
+	<!-- 商贷案件审批流程YCParApp -->
+	<!-- <import resource="query/mortgage/toMortProcess.xml" /> -->
+	<!-- 商贷案件交易流程YCParApp -->
+	<!-- <import resource="query/mortgage/toTradeProcess.xml" /> -->
 	<!-- 贷款类型分析 -->
 	<import resource="query/mortgage/toMortgageTypeAnalysis.xml" />	
 	<!-- 贷款收单评估费分析 -->

@@ -35,6 +35,14 @@
 <link href="${ctx}/css/style.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<!-- 新调整页面样式 -->
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
+
 <link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -56,23 +64,27 @@
 
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-	<div class="">
-		<div class=" wrapper border-bottom white-bg page-heading">
-			<div class="row">
-			<div class="col-lg-10">
-				<h2>放款</h2>
-				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
-					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
-				</ol>
-			</div>
-			<div class="col-lg-2"></div>
-			</div>
-		</div>
-		<div class="ibox-title">
-			<h5>填写任务信息</h5>
-			<div class="ibox-content">
-				<form method="get" class="form-horizontal" id="loanReleaseForm">
+	   <!-- 服务流程 -->
+		<div class="row wrapper white-bg new-heading " id="serviceFlow">
+             <div class="pl10">
+                 <h2 class="newtitle-big">
+                        放款
+                    </h2>
+                <div class="mt20">
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+                            <i class="iconfont icon">&#xe600;</i> 在途单列表
+                        </button>
+                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+                            <i class="iconfont icon">&#xe63f;</i> 案件视图
+                        </button>
+                </div>
+             </div>
+        </div>
+		<div class="ibox-content border-bottom clearfix space_box noborder">
+        <div>
+            <h2 class="newtitle title-mark">填写任务信息</h2>
+            <div class="form_list">
+            <form method="get" class="form-horizontal" id="loanReleaseForm">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<input type="hidden" id="taskitem" name="taskitem" value="${taskitem}">
@@ -85,160 +97,53 @@
 					<input type="hidden" id="pkid" name="pkid" value="${loanRelease.pkid}">
 					
 					<c:if test="${tz}">
-					<div class="form-group" id="data_1">
-						<label class="col-sm-2 control-label">他证送抵时间<c:if test="${loanRelease.isDelegateYucui=='1'}"><font color="red">*</font></c:if></label>
-						<div class="input-group date readOnly_date">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="text" class="form-control" id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
+					<div class="marinfo">
+                    <div class="line">
+                        <div class="form_content" id="data_1">
+                            <label class="control-label sign_left select_style mend_select">
+									他证送抵时间<c:if test="${loanRelease.isDelegateYucui=='1'}"><font color=" red" class="mr5" >*</font></c:if>
+                            </label>
+                            <div class="input-group sign-right dataleft input-daterange pull-left date" data-date-format="yyyy-mm-dd">
+                                <input type="text" class="input_type yuanwid datatime" id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
 									value="<fmt:formatDate  value='${loanRelease.tazhengArrDate}' type='both' pattern='yyyy-MM-dd'/>">
-						</div>
-					</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 					</c:if>
 					
-					<div class="form-group" id="data_1_forBank">
-						<label class="col-sm-2 control-label">银行真实放款时间<font color="red">*</font></label>
-						<div class="input-group date readOnly_date">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="text" class="form-control" id="lendDate" name="lendDate" onfocus="this.blur()"
+                <div class="marinfo">
+                    <div class="line">
+                        <div class="form_content" id="data_1_forBank">
+                            <label class="control-label sign_left select_style mend_select">
+                                	银行真实放款时间<font color=" red" class="mr5" >*</font>
+                            </label>
+                            <div class="input-group sign-right dataleft input-daterange pull-left date" data-date-format="yyyy-mm-dd">
+                                <input type="text" class="input_type yuanwid datatime" id="lendDate" name="lendDate" onfocus="this.blur()"
 								value="<fmt:formatDate  value='${loanRelease.lendDate}' type='both' pattern='yyyy-MM-dd'/>" >
-						</div>
-					</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- 相关信息 -->
+		<div id="aboutInfo">
+		<!-- 案件跟进 -->
+        <div class="view-content" id="caseCommentList"> </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 control-label">备注</label>
-						<div class="col-sm-10 input-group">
-							<input type="text" class="form-control" id="remark" name="remark" value="${loanRelease.remark}">
-						</div>
-					</div>
-				</form>
-
-			</div>
-		</div>
-
-		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
-		</div>
-
-		<div class="ibox-title">
-		<c:choose>  
-	    <c:when test="${accesoryList!=null}">  
-		<h5>上传备件<br>${accesoryList[0].accessoryName }</h5>
-		<c:forEach var="accesory" items="${accesoryList}" varStatus="status">
-               <div class="" id="fileupload_div_pic"> 
-               <form id="fileupload"
-				action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-				method="POST" enctype="multipart/form-data">
-				<noscript>
-					<input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-					<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">
-				</noscript>
-				<c:if test="${status.index != 0}">
-					<h5 align="left"><br>${accesory.accessoryName }</h5>
-				</c:if>
-				<div class="row-fluid fileupload-buttonbar">
-					<div class="" style="height: auto">
-						<div role="presentation" class="table table-striped "
-							style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-							<div id="picContainer${accesory.pkid }" class="files" data-toggle="modal-gallery"
-								data-target="#modal-gallery"></div>
-								<span class=" fileinput-button " style="margin-left:10px!important;width:80px;">
-								<div id="chandiaotuBtn" class=""
-									style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-									<i class="fa fa-plus"></i>
-								</div> 
-								<input id="picFileupload${accesory.pkid }" type="file" name="files[]" multiple
-								data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-								data-sequential-uploads="true">
-							</span>
-						</div>
-					</div>
-				</div>  
-				</form>
-			</div>
-			
-		<div class="row-fluid">
-		<div class="">
-			<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-									<!--图片缩图  -->
-							        <div class="preview"><span class="fade"></span></div>
-									<!--  错误信息 -->
-							        {% if (file.error) { %}
-							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else if (o.files.valid && !i) { %}
-									<!-- 单个对应的按钮  -->
-							            <div class="start span1" style="display: none">
-										{% if (!o.options.autoUpload) { %}
-							                <button class="btn">
-							                    <i class="icon-upload icon-white"></i>
-							                    <span>上传</span>
-							                </button>
-							            {% } %}
-										</div>
-							        {% } else { %}
-							            <div class="span1" colspan="2"></div>
-							        {% } %}
-							        <div class="cancel" style="margin-top:-172px;margin-left:85%;">
-									{% if (!i) { %}
-							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        {% } %}
-									</div>
-							    </div>
-							{% } %}
-						</script>
-						<script id="templateDownload${accesory.pkid }" type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-							        {% if (file.error) { %}
-							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else { %}
-							            <div class="preview span12">
-										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
-										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.thumbnail_url) { %}
-							                <img src="http://img.sh.centaline.com.cn/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;margin-left:10px;">
-							            {% } %}</div>
-							            <div class="name" style="display: none">
-							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-							            </div>
-							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-130px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        </div>
-							    </div>
-							{% } %}
-						</script>
-				</div> 
-			</div>
-			</c:forEach>
-			
-			<div class="row-fluid" style="display:none;">
-				<div class="span4">
-					<div class="control-group">
-						<a class="btn blue start" id="startUpload" style="height: 30px; width: 50px"> 
-							<i class="icon-upload icon-white"></i> <span>上传</span>
-						</a>
-					</div>
-				</div>
-			</div>
-	    </c:when>  
-	    <c:otherwise> 
-		<h5>上传备件<br>无需上传备件</h5>
-	    </c:otherwise>  
-		</c:choose> 
-		</div>
-	
-		<div class="ibox-title">
-			<a href="#" class="btn" onclick="save(false)">保存</a>
-			<a href="#" class="btn btn-primary" onclick="submit()" readOnlydata="1">提交</a>
-		</div>
-	</div>
+        <div class="form-btn">
+            <div class="text-center">
+                <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
+                <button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
+            </div>
+        </div>
+        </div>
+        
+        </div>
+        
 
 	<content tag="local_script"> 
 	<!-- Peity --> 
@@ -270,7 +175,8 @@
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script> 
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
 	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
@@ -285,11 +191,24 @@
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>	
     <script src="${ctx}/js/viewer/viewer.min.js"></script>
+    
+    <!-- 改版引入的新的js文件 -->
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
-		$(".readOnly_date").removeClass('date');
-		$(".readOnly_date input").attr('readOnly',true);
+		
+		//设置银行真实放款时间不可修改 
+		$("#lendDate").parent().removeClass("input-daterange");
+		$("#lendDate").removeClass("datatime");
+		$("#lendDate").attr("readonly",true);
+		$("#lendDate").css("background-color","#ccc");	
+		//设置他证送抵时间不可修改 
+		$("#tazhengArrDate").parent().removeClass("input-daterange");
+		$("#tazhengArrDate").removeClass("datatime");
+		$("#tazhengArrDate").attr("readonly",true);
+		$("#tazhengArrDate").css("background-color","#ccc");	
+		
 		$("select[readOnlydata=1]").closest('.row').hide();
 		$("[readOnlydata=1]").attr('readonly',true);
 		$("[readOnlydata=1]").each(function(){
@@ -297,6 +216,9 @@
 				$(this).hide();
 			}
 		});
+		
+		//设置提交按钮隐藏
+		$("#btnSubmit").hide();
 	}
 
 	
@@ -421,6 +343,7 @@
 			$('.wrapper-content').viewer();
 		}
 	</script> 
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 	</content>
 </body>
 

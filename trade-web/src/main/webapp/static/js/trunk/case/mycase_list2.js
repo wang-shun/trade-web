@@ -72,6 +72,11 @@ $('#datepicker_0').datepicker({
 $('#searchButton').click(function() {
 	searchMethod();
 });
+
+//查询
+$('#addNewCase').click(function() {	
+	window.location.href = ctx+"/caseMerge/addCase/case";
+});
 // 添加日期查询条件
 var divIndex = 1;
 var count = $('#case_date_0 option:last').index();
@@ -334,6 +339,10 @@ function getParamsValue() {
 	if(isSubscribeFilter==null || isSubscribeFilter=='') {
 		isSubscribeFilter = -1;
 	}
+	var caseOriginType = $('#caseOriginType option:selected').val();
+	if(caseOriginType==null || caseOriginType=='') {
+		caseOriginType = null;
+	}
 	
 	// 贷款需求选择
 	var mortageType = $('#mortageService option:selected').val();
@@ -393,6 +402,7 @@ function getParamsValue() {
 	var params = {
 		argu_sessionUserId : $("#userId").val(),
 		argu_isSubscribeFilter : isSubscribeFilter,
+		caseOriginType : caseOriginType,
 		argu_mortageType : mortageType,
 		search_caseCode : caseCode,
 		search_ctmCode : ctmCode,
@@ -814,4 +824,10 @@ function caseCodeSort(){
 	}else{
 		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 	}
+}
+function ts(status){
+	alert(status+"案件不能拆分案件！");
+}
+function hlts(){
+	 alert("没有找到可以合流的案件！");
 }
