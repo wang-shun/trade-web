@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/1/19 16:57:13 ******/
+/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/1/19 17:48:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -55,6 +55,7 @@ BEGIN
 	CLOSE_TEAM_ID,--结案店组
 	CLOSE_DISTRICT_ID,--结案贵宾服务部
 	
+	MORTAGE_SIGN_DATE,--贷款签约时间
 	MORTGAGE_LOAN_TYPE,--贷款类型
 	MORTGAGET_TOTAL_AMOUNT,--贷款总额
 	MORTGAGET_COM_AMOUNT,--商业贷款金额
@@ -92,6 +93,8 @@ SELECT
 		(SELECT top (1) ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'CaseClose' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC   ) AS CLOSE_USER,--结案用户
 		(SELECT top (1) ORG_ID FROM sctrans.SYS_USER with(nolock) WHERE USERNAME = ( SELECT top 1 ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'CaseClose' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC )  ) as CLOSE_TEAM_ID,--结案店组
 		(SELECT DISTRICT_ID FROM sctrans.v_yucui_org_hierarchy with(nolock) WHERE TEAM_ID = ( SELECT top (1) ORG_ID FROM sctrans.SYS_USER with(nolock) WHERE USERNAME = ( SELECT top 1 ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'CaseClose' AND ww.CASE_CODE=C.CASE_CODE ORDER BY END_TIME_ DESC ) )  ) as CLOSE_DISTRICT_ID,--结案贵宾服务部
+		
+		MG.SIGN_DATE as MORTAGE_SIGN_DATE,--贷款签约时间
 		MG.MORT_TYPE AS MORTGAGE_LOAN_TYPE,--贷款类型
 	
 		MG.MORT_TOTAL_AMOUNT AS MORTGAGET_TOTAL_AMOUNT,--贷款总额

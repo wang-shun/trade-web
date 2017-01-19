@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/1/19 15:44:16 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/1/19 17:49:09 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -11,7 +11,7 @@ GO
 -- Description:	每个月的sctrans.T_RPT_CASE_BASE_INFO备份与报表数据的生成
 -- =============================================
 ALTER PROCEDURE [sctrans].[P_MONTH_REPORT_CASE_INFO]
-
+	
 AS
 BEGIN
 	DECLARE @update_date datetime;
@@ -40,18 +40,19 @@ BEGIN
 	SIGN_TIME,--签约时间
 	SIGN_USER,--签约人
 	SIGN_TEAM_ID,--签约人组织
-	SIGN_DISTRICT_ID,--签约人贵宾服务部
-	HOUSE_TRANFER_TIME,--过户时间
+	SIGN_DISTRICT_ID,--签约人贵宾服务部	
+	HOUSE_TRANFER_TIME,--过户时间	
 	HOUSE_TRANFER_USER,--过户人
 	HOUSE_TRANFER_TEAM_ID,--过户组别
-	HOUSE_TRANFER_DISTRICT_ID,--过户贵宾服务部
+	HOUSE_TRANFER_DISTRICT_ID,--过户贵宾服务部	
 	HOURSE_TRANSFER_APPROVE_DATE,--过户审批时间--------xiugai!!!!!
-	HOURSE_TRANSFER_AGREE_STATUS,--过户审批状态
+	HOURSE_TRANSFER_AGREE_STATUS,--过户审批状态	
 	CLOSE_TIME,--结案时间
 	CLOSE_USER,--结案用户
 	CLOSE_TEAM_ID,--结案店组
 	CLOSE_DISTRICT_ID,--结案贵宾服务部
-
+	
+	MORTAGE_SIGN_DATE,--贷款签约时间
 	MORTGAGE_LOAN_TYPE,--贷款类型
 	MORTGAGET_TOTAL_AMOUNT,--贷款总额
 	MORTGAGET_COM_AMOUNT,--商业贷款金额
@@ -76,18 +77,19 @@ SELECT
 	SIGN_TIME,--签约时间
 	SIGN_USER,--签约人
 	SIGN_TEAM_ID,--签约人组织
-	SIGN_DISTRICT_ID,--签约人贵宾服务部
-	HOUSE_TRANFER_TIME,--过户时间
+	SIGN_DISTRICT_ID,--签约人贵宾服务部	
+	HOUSE_TRANFER_TIME,--过户时间	
 	HOUSE_TRANFER_USER,--过户人
 	HOUSE_TRANFER_TEAM_ID,--过户组别
-	HOUSE_TRANFER_DISTRICT_ID,--过户贵宾服务部
+	HOUSE_TRANFER_DISTRICT_ID,--过户贵宾服务部	
 	HOURSE_TRANSFER_APPROVE_DATE,--过户审批时间--------xiugai!!!!!
-	HOURSE_TRANSFER_AGREE_STATUS,--过户审批状态
+	HOURSE_TRANSFER_AGREE_STATUS,--过户审批状态	
 	CLOSE_TIME,--结案时间
 	CLOSE_USER,--结案用户
 	CLOSE_TEAM_ID,--结案店组
 	CLOSE_DISTRICT_ID,--结案贵宾服务部
-
+	
+	MORTAGE_SIGN_DATE,--贷款签约时间
 	MORTGAGE_LOAN_TYPE,--贷款类型
 	MORTGAGET_TOTAL_AMOUNT,--贷款总额
 	MORTGAGET_COM_AMOUNT,--商业贷款金额
@@ -98,13 +100,13 @@ SELECT
 	GETDATE(),
 	CREATE_TIME--所属月份
 
-	FROM
+	FROM    
 	  SCTRANS.T_RPT_CASE_BASE_INFO
 
 	END TRY
 
 	BEGIN CATCH
-
+		
 
 	END CATCH
 
