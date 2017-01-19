@@ -208,7 +208,7 @@
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
             	//非入围银行背景颜色修改
             	$(".echarsTable").find("thead .tabletitle~td").each(function(i,item){
-            		if(IsRuweiBankArr[i] == '1'){
+            		if(IsRuweiBankArr[i] == '0'){
             			$(item).attr("bgcolor","#ff9695");
             		}
             	});
