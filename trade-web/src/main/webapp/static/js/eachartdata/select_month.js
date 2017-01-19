@@ -50,6 +50,9 @@ function addChangeDateEvent(){
 	    	resetDataModel();
 	    })
 	    $(item.contentWindow.document).find("#add").click(function(){
+	    	if(window.parent.yearDisplay == yearLast){
+	    		return false;
+	    	}
 	    	window.parent.yearDisplay++;
 	    	resetDataModel();
 	    })
