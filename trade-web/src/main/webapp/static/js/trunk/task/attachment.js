@@ -138,6 +138,7 @@ function getExplPicByhouseCode() {
 				});
 				
 				$("#picContainer"+accValue.pkid).append(trStr);
+				$('.wrapper-content').viewer();
 			});
 		},		
 		error : function(errors) {
@@ -443,6 +444,7 @@ function deleteAndModify(){
 		var input=$("input[name='pic']");
 		//图片的ID 新增的文件数量
 	    var spans =$("input[name='preFileAdress']");
+	    alert(spans.length+"++and++"+picLength+"++and++"+input.length);
 	    if(spans.length < picLength) {
 	    	alert("你有未上传的完成的文件，请稍候再试！");
 	    	return false;

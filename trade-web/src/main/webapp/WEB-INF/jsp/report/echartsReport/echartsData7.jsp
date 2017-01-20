@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="left-content">
-                            <div id="plotCont1" class="plot-leftone" style="width:833px">
+                            <div id="plotCont1" class="plot-leftone">
                             </div>
                             <table class="echarsTable">
                             </table>
@@ -66,9 +66,9 @@
         <script src="${ctx }/js/jquery-2.1.1.js"></script>
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
-        <script src="${ctx }/static_res/js/echarts.min.js"></script>
+        <script src="${ctx }/static_res/js/echarts-all.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-        <script src="${ctx }/js/eachartdata/select_month.js"></script>
+        <%-- <script src="${ctx }/js/eachartdata/select_month.js"></script> --%>
         <script>
         /**
          * 案件统计详情
@@ -80,10 +80,9 @@
         	var data = {};
         	data.queryId = "querySignBankList";	
         	data.pagination = false;
-        	var year = $(".calendar-year span").html();
-	        var month = $(".calendar-month span[class$='select-blue']").html().substring(0,1);
-        	//data.choiceMonth = year + "-" + month;
-            data.choiceMonth = "2016-11";
+        	var year = window.parent.yearDisplay;
+	        var month = parseInt(window.parent.monthDisplay)+1;
+        	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
         		async: true,
@@ -113,21 +112,22 @@
             	var span1Text = 0;
             	var span2Text = 0;
             	//1.
-            	$.each(data.rows,function(i,item){
-					xAxisData.push(item.FA_FIN_ORG_NAME_YC.substring(0,2));
-					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
-					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));				
-					totalNumArr.push(parseInt(item.SIGN_NUM));
-					span2Text += parseInt(item.SIGN_NUM);
-				})
+            	if(data.rows){
+            		$.each(data.rows,function(i,item){
+    					xAxisData.push(item.FA_FIN_ORG_NAME_YC.substring(0,2));
+    					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
+    					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));				
+    					totalNumArr.push(parseInt(item.SIGN_NUM));
+    					span2Text += parseInt(item.SIGN_NUM);
+    				})
+            	} 	
             	//2.
             	yAxis =[ 
             	{
                     type: 'value',//左边
                     name: '金额',
-                    min: 0,
-                    //max: 250,
-                    //interval: 50,
+                    min:0,
+                    max:1000000,
                     axisLabel: {
                         formatter: '{value}万 '
                     }
@@ -135,9 +135,8 @@
                 {
                     type: 'value',//右边
                     name: '单数',
-                    min: 0,
-                    //max: 250,
-                    //interval: 50,
+                    min:0,
+                    max:600,
                     axisLabel: {
                         formatter: '{value} '
                     }
@@ -148,7 +147,7 @@
             	//4.
             	datas = [totalAmountArr,totalNumArr];
             	//5.
-            	type = ["bar","bar"];
+            	type = ["bar","line"];
             	//6.
             	color = null;
             	//7.

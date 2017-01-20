@@ -291,7 +291,7 @@ p{
 }
 
 .echarsTable .tabletitle {
-	width: 90px !important;
+	width: 140px !important;
 	text-align: left;
 }
 
@@ -307,13 +307,22 @@ p{
 	border: 0px;
 }
 
-.tabletitle .colorBar {
+ span.colorBar {
 	width: 24px;
 	height: 12px;
 	border-radius: 3px;
 	display: inline-block;
 	float: left;
-	margin: 3px 3px 0px 3px;
+	margin: 3px 5px 0px 3px;
+}
+
+ i.colorBar {
+	width: 24px;
+	height: 12px;
+	border-radius: 3px;
+	display: inline-block;
+	float: left;
+	margin: 13px 5px 0px 3px;
 }
 
 .tabletitle img {
@@ -332,7 +341,7 @@ p{
 }
 
 .left-content {
-	width: 850px;
+	width: 910px;
 	height: 650px;
 	float: left;
 	border: 1px solid #eee;
@@ -345,7 +354,7 @@ p{
 }
 
 .plot-rightone, .plot-righttwo {
-	width:380px;
+	width:320px;
 	margin-left:10px;
 	padding: 15px;
 	border: 1px solid #eee;
@@ -504,4 +513,27 @@ p{
 	color: #fff;
 	background-color: #74dafc;
 	border: 0 none!important;
+}
+.disabled {
+	color: #fff;
+	background-color: #ccc !important;
+	border: 0 none!important;
+}
+.label-tip {
+	margin-top: 15px;
+}
+.label-tip p{
+	font-size: 14px;
+	color: #b0b0b0;
+}
+.labelbar {
+	display: block;
+	float: left;
+	width: 24px;
+	height: 12px;
+	margin: 4px 8px 0px 35px;
+	border-radius: 3px;
+}
+.laberbarcolor {
+	background-color:#ff9695;
 }

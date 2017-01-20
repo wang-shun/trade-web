@@ -58,15 +58,15 @@
                             return;
                         }
                         $.each(data.rows,function(i,item){
-                            ECHART_LOAD_DATA.totalLossCount= ECHART_LOAD_DATA.totalLossCount+item.LOST_COUNT;
-                            ECHART_LOAD_DATA.totalMortCount= ECHART_LOAD_DATA.totalMortCount+item.MORTGAGET_TOTAL_COUNT;
                             if(dateFlag=='new'){
+                                ECHART_LOAD_DATA.totalLossCount= ECHART_LOAD_DATA.totalLossCount+item.LOST_COUNT;
+                                ECHART_LOAD_DATA.totalMortCount= ECHART_LOAD_DATA.totalMortCount+item.MORTGAGET_TOTAL_COUNT;
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         ECHART_LOAD_DATA.total[i]=item.MORTGAGET_TOTAL_COUNT;
                                         ECHART_LOAD_DATA.loss[i]=item.LOST_COUNT;
                                         if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
-                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_COUNT,accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT));
+                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
                                         }else{
                                             ECHART_LOAD_DATA.lossRate[i]=0;
                                         }
@@ -78,7 +78,7 @@
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
-                                            ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_COUNT,accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT));
+                                            ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
                                         }else{
                                             ECHART_LOAD_DATA.oldLossRate[i]=0;
                                         }
@@ -96,7 +96,7 @@
             },
 
             getPieDate : function (){
-                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.totalMortCount);
+                ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.accSub(ECHART_LOAD_DATA.totalLossCount,ECHART_LOAD_DATA.totalMortCount));
                 ECHART_LOAD_DATA.pie_items.push(ECHART_LOAD_DATA.totalLossCount);
 
             },
@@ -139,12 +139,16 @@
                 var yAxis =[ {
                     type : 'value',//左边
                     name : '数量(单)',
+                    min:0,
+                    max:800,
                     axisLabel : {
                         formatter : '{value}'
                     }
                 },{
                     type : 'value',//右边
-                    name : '比率',
+                    name : '比例',
+                    min:0,
+                    max:1,
                     axisLabel : {
                         formatter : '{value}'
                     }
@@ -155,7 +159,7 @@
             },
             buildPieChart : function(myChart){
                 ECHART_LOAD_DATA.getPieDate();
-                var color=["#BFD8FF","#ff9696"];
+                var color=null;
                 var data = [ "收单", "流失" ];
                 returnPie(data, ECHART_LOAD_DATA.pie_items, myChart, color,"商贷总单数");
             },
@@ -176,54 +180,24 @@
 
                 $("#"+list_chart).html(html);
             },
-            turnDate:function(){//改变年月的方法
-                //年份加减
-                var year=new Date().getFullYear();
-                $(".calendar-year span").html(year);
-                $("#subtract").click(function(){
-                    var year=$(".calendar-year span").html();
-                    var month=$(".calendar-month span[class='select-blue']").attr("value");
-                    $(".calendar-year span").html(year-1);
-                    reloadGrid(Number(year)-1,month);
-                })
-                $("#add").click(function(){
-                    var year=$(".calendar-year span").html();
-                    var month=$(".calendar-month span[class='select-blue']").attr("value");
-                    $(".calendar-year span").html(Number(year)+1);
-                    reloadGrid(Number(year)+1,month);
-                })
-                //点击变换颜色&&默认当前月份
-                var $month_list = $(".calendar-month span");
-                $month_list.on("click",function() {
-                    $(this).addClass("select-blue").siblings().removeClass('select-blue');
-                    var year = $(".calendar-year span").html();
-                    var month = $(this).attr("value");
-
-                    reloadGrid(year,month);
-                });
-                var monthnow = function (){
-                    var now   = new Date();
-                    var month = now.getMonth();
-                    return month;
-                }
-                var month = monthnow();
-                for (var i=0; i<$month_list.length; i++) {
-                    if(i == month) {
-                        $month_list.eq(i).addClass("select-blue");
-                    }
-                    return false;
-                }
+            accSub:function (arg1,arg2){
+                var r1,r2,m,n;
+                try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+                try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+                m=Math.pow(10,Math.max(r1,r2));
+                //last modify by deeka
+                //动态控制精度长度
+                n=(r1>=r2)?r1:r2;
+                return ((arg2*m-arg1*m)/m).toFixed(0);
             },
             /*获取当前年份数据*/
             getCurrentYear: function() {
-                var date=new Date;
-                var year=date.getFullYear();
+                var year= $(".calendar-year span").html();
                 return year;
             },
             /*获取当前月数据*/
             getCurrentMonth: function() {
-                var date=new Date;
-                var month=date.getMonth()+1;
+                var month=$(".calendar-month span[class='select-blue']").attr("value");
                 return month;
             },
             turnNumber:function(num){

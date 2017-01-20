@@ -113,7 +113,8 @@
 						NB.CREATE_TIME,
 						NB.RES_DATE,
 						NB.PROPERTY_CODE,						
-						NB.CASE_ORIGIN,						
+						NB.CASE_ORIGIN,
+						CASE WHEN NB.CREATE_TIME > cast(substring('2016-12-28 00:00:00.000',0,19) as datetime) then 1 else 0 end createType ,						
                         (select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=NB.CASE_CODE ) as SUBSCRIBE_COUNT
 					FROM sctrans.V_CASE_LIST_BASE NB 
 			    	  
@@ -325,6 +326,7 @@
 				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="CASE_ORIGIN" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PROPERTY_CODE" index="" checkbox="" display="PROPERTY_CODE" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="createType" index="" checkbox="" display="createType" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="virtual" isDynamicDict="true" name="glCount" referencecol="PROPERTY_CODE,CASE_ORIGIN"  customDict="getGlCaseCount" />
 				<column type="virtual" isDynamicDict="true"
 					name="FONT_NAME,SELLER,BUYER,PROCESSOR_ID,CASE_PROPERTY_SHOW,STATUS"

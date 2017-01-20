@@ -10,14 +10,13 @@
 function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
             //横轴长度
 	        var xAxisSize = xAxisData.length;
-	  
 			if(color==null){
 				color=[
-		               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
+		               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#439cf0','#ffac88','#58cfc2','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
 		               ]
 			}
 			var option = {
-		        title : {
+		       /* title : {
 		            text: title,
 		            textStyle: {
 		                color: '#555',
@@ -33,7 +32,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 		                10,  // 下
 		                0, // 左
 		            ],
-		        },
+		        },*/
 				tooltip : {
 					trigger : 'axis'
 				},
@@ -43,21 +42,51 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					y:'7%'
 				},
 				grid: {
-		            left: '90',
-		            top: '25%',
-		            right: '50',
-		            bottom: '15%',
+		            x: '140',
+		            y: '25%',
+		            x2: '50',
+		            y2: '15%',
 	                width:'700'
 		        },
 				xAxis :  {
 					type : 'category',
-					data : [],
-                    axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
-			            show: true,
-			            interval:xAxisSize}
+					data : xAxisData,
+					axisLine:{
+						lineStyle:{
+					    color: '#000',
+					    width: 1,
+					    type: 'solid'
+					}}, 
+					axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+			            show: false
+			                },
+			        axisTick:{
+			        	show: false,
+			            interval:0
+			        },
+			        splitLine:{
+			            show:false
+			             }
+
 				},
 			yAxis :yAxis
 			}
+			option.yAxis[0].axisLine={
+					 lineStyle:{
+					    color: '#000',
+					    width: 1,
+					    type: 'solid'}
+					};
+					if(option.yAxis[1]!=undefined){
+					option.yAxis[1].axisLine={
+					 lineStyle:{
+					    color: '#000',
+					    width: 1,
+					    type: 'solid'}
+						};
+					option.yAxis[1].splitNumber=5;
+					}
+					option.yAxis[0].splitNumber=5;
 			if(datas!=[]||datas!=undefined){
 				option.series=[];			
 			}
@@ -65,6 +94,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				var seriej={
 						name :legend[j] ,
 						type : type[j],
+						barMaxWidth : 50,
 						itemStyle : {//顔色
 							normal : {
 								color : color[j]
@@ -95,7 +125,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					 html+="<p class='al-text'>"+legend[i]+"</p></td>";
 				 }
 				 $.each(datas[i],function(j,item){
-					 if(title == '11月派单、签约量统计' && type[i]=="line"){
+					 if(title != "签约贷款银行分布" && type[i]=="line"){
 						 html+="<td>"+item+"%</td>"; 
 					 }else{
 						 html+="<td>"+item+"</td>"; 
@@ -103,9 +133,9 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 })
 				 html+="</tr>"
 		    }
-				$(".echarsTable").append(html);
+				$(".echarsTable").html(html);
 				//$(".echarsTable td").width(828/xAxisSize);
-			var optionWidth=option.grid.width-(2*xAxisSize);
+			var optionWidth=option.grid.width-2-(2*xAxisSize);
 			 $(".tabletitle~td").width(optionWidth/(xAxisSize));
 		}
 
@@ -141,7 +171,7 @@ function returnPie(data, items, myChart1, color, title) {
 	        },
 		tooltip : {
 			trigger : 'item',
-			formatter : "{a} <br/>{b} : {c} ({d}%)"
+			formatter : "{a} <br/>{b} : {c}<br/> ({d}%)"
 		},
         legend: {
             orient: 'horizontal',
@@ -162,7 +192,7 @@ function returnPie(data, items, myChart1, color, title) {
 				normal : {
 					label : {
 						show : true,
-						formatter : "{b}:\n{c}个 ({d}%)"
+						formatter : "{b}:\n{c}个  \n ({d}%)"
 					}
 				}
 			}

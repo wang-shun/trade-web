@@ -66,12 +66,9 @@
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         ECHART_LOAD_DATA.mort_total[i]=item.MORTGAGET_COM_AMOUNT/10000;
                                         ECHART_LOAD_DATA.mort_loss[i]=item.LOST_AMOUNT/10000;
-                                        if(item.MORTGAGET_TOTAL_AMOUNT!=0){
-                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
-                                        }else{
-                                            ECHART_LOAD_DATA.lossRate[i].push('0.00');
+                                        if(item.MORTGAGET_COM_AMOUNT!=0){
+                                            ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_COM_AMOUNT);
                                         }
-
                                     }
                                 }
                             }
@@ -80,8 +77,6 @@
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         if(item.MORTGAGET_TOTAL_AMOUNT!=0){
                                             ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
-                                        }else{
-                                            ECHART_LOAD_DATA.oldLossRate[i].push('0.00');
                                         }
                                     }
 
@@ -97,7 +92,7 @@
             },
 
             getPieDate : function (){
-                ECHART_LOAD_DATA.pie_items.push(accDiv(ECHART_LOAD_DATA.totalComMortAmount,10000));
+                ECHART_LOAD_DATA.pie_items.push(accDiv(accSub(ECHART_LOAD_DATA.totalLossAmount,ECHART_LOAD_DATA.totalComMortAmount),10000));
                 ECHART_LOAD_DATA.pie_items.push(accDiv(ECHART_LOAD_DATA.totalLossAmount,10000));
             },
             getDistrict: function (){
@@ -137,13 +132,17 @@
                 var type=["bar","bar","line","line"];
                 var yAxis =[ {
                     type : 'value',//左边
-                    name : '数量(万元)',
+                    name : '金额(万元)',
+                    min:0,
+                    max:100000,
                     axisLabel : {
                         formatter : '{value}'
                     }
                 },{
                     type : 'value',//右边
-                    name : '比率',
+                    name : '比例',
+                    min:0,
+                    max:1,
                     axisLabel : {
                         formatter : '{value}'
                     }
@@ -154,59 +153,18 @@
             },
             buildPieChart : function(myChart){
                 ECHART_LOAD_DATA.getPieDate();
-                var color=["#BFD8FF","#ff9696"];
+                var color=null;
                 var data = [ "收单", "流失" ];
                 returnPie(data, ECHART_LOAD_DATA.pie_items, myChart, color,"商贷总金额");
             },
-            turnDate:function(){//改变年月的方法
-                //年份加减
-                var year=new Date().getFullYear();
-                $(".calendar-year span").html(year);
-                $("#subtract").click(function(){
-                    var year=$(".calendar-year span").html();
-                    var month=$(".calendar-month span[class='select-blue']").attr("value");
-                    $(".calendar-year span").html(year-1);
-                    reloadGrid(Number(year)-1,month);
-                })
-                $("#add").click(function(){
-                    var year=$(".calendar-year span").html();
-                    var month=$(".calendar-month span[class='select-blue']").attr("value");
-                    $(".calendar-year span").html(Number(year)+1);
-                    reloadGrid(Number(year)+1,month);
-                })
-                //点击变换颜色&&默认当前月份
-                var $month_list = $(".calendar-month span");
-                $month_list.on("click",function() {
-                    $(this).addClass("select-blue").siblings().removeClass('select-blue');
-                    var year = $(".calendar-year span").html();
-                    var month = $(this).attr("value");
-
-                    reloadGrid(year,month);
-                });
-                var monthnow = function (){
-                    var now   = new Date();
-                    var month = now.getMonth();
-                    return month;
-                }
-                var month = monthnow();
-                for (var i=0; i<$month_list.length; i++) {
-                    if(i == month) {
-                        $month_list.eq(i).addClass("select-blue");
-                    }
-                    return false;
-                }
-
-            },
             /*获取当前年份数据*/
             getCurrentYear: function() {
-                var date=new Date;
-                var year=date.getFullYear();
+                var year= $(".calendar-year span").html();
                 return year;
             },
             /*获取当前月数据*/
             getCurrentMonth: function() {
-                var date=new Date;
-                var month=date.getMonth()+1;
+                var month=$(".calendar-month span[class='select-blue']").attr("value");
                 return month;
             },
             turnNumber:function(num){
