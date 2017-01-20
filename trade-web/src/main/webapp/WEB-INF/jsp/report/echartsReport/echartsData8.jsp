@@ -104,9 +104,12 @@
         	data.queryId = "querySignBranchBankList";	
         	data.pagination = false;
         	var year = window.parent.yearDisplay;
-	        var month = parseInt(window.parent.monthDisplay)+1;
+	        var month_ = parseInt(window.parent.monthDisplay)+1;
+	        var month = month_ > 9 ? month_:("0"+month_);
         	data.choiceMonth = year + "-" + month;
-        	
+        	console.log(year);
+        	console.log(month);
+        	console.log(data.choiceMonth);
         	$.ajax({
         		async: true,
                 url: ctx+"/quickGrid/findPage",
@@ -210,7 +213,7 @@
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
             	//非入围银行背景颜色修改
             	$(".echarsTable").find("thead .tabletitle~td").each(function(i,item){
-            		if(IsRuweiBankArr[i] == '0'){
+            		if(IsRuweiBankArr[i] && IsRuweiBankArr[i] == '0'){
             			$(item).attr("bgcolor","#ff9695");
             		}
             	});
