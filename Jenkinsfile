@@ -6,6 +6,12 @@ node('docker-agent'){
 		sh "mvn clean install deploy"	
 	}
 	stage('ship'){
-		echo 'ship the image to nexus'
+		sh "sudo docker login -u admin -p admin123 docker.aist.io"
+		dir('trade-web') {
+		    sh "sh Dockermake.sh"
+		}
+		dir("yc-par-portal"){
+			sh "sh Dockermake.sh"
+		}
 	}
 }
