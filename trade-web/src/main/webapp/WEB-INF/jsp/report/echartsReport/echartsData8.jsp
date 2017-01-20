@@ -107,9 +107,7 @@
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_);
         	data.choiceMonth = year + "-" + month;
-        	console.log(year);
-        	console.log(month);
-        	console.log(data.choiceMonth);
+
         	$.ajax({
         		async: true,
                 url: ctx+"/quickGrid/findPage",
