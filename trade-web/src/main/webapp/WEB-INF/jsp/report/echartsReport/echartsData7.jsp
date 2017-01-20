@@ -81,7 +81,8 @@
         	data.queryId = "querySignBankList";	
         	data.pagination = false;
         	var year = window.parent.yearDisplay;
-	        var month = parseInt(window.parent.monthDisplay)+1;
+	        var month_ = parseInt(window.parent.monthDisplay)+1;
+	        var month = month_ > 9 ? month_:("0"+month_);
         	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
