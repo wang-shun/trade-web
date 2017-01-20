@@ -18,7 +18,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 		               ]
 			}
 			var option = {
-		        title : {
+		     /*   title : {
 		            text: title,
 		            textStyle: {
 		                color: '#555',
@@ -34,7 +34,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 		                10,  // 下
 		                0, // 左
 		            ],
-		        },
+		        },*/
 				tooltip : {
 					trigger : 'axis'
 				},
@@ -200,8 +200,9 @@ function returnPie(data, items, myChart1, color, title) {
 				normal : {
 					label : {
 						show : true,
+						position:'outer',
 						formatter : "{b}:\n{c}"+unit+" \n({d}%)"
-					}
+					},labelLine:{length:2,show:true}
 				}
 			}
 		} ]

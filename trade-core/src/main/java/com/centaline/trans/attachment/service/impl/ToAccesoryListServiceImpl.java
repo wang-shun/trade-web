@@ -221,7 +221,7 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 	}
 
 	@Override
-	public String findAccesoryNameByPartCode(ToAccesoryList toAccesoryList) {
+	public ToAccesoryList findAccesoryNameByPartCode(ToAccesoryList toAccesoryList) {
 		// TODO Auto-generated method stub
 		return toAccesoryListMapper.findAccesoryNameByPartCode(toAccesoryList);
 	}

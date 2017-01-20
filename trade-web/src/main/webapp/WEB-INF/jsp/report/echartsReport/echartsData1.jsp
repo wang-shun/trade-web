@@ -84,7 +84,7 @@
 <!-- ECharts.js -->
 <script src="${ctx }/static_res/js/echarts-all.js"></script>
 <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
-
+<script src="${ctx }/js/eachartdata/select_month.js"></script>
 <script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuForm.js"></script>
 <script>
 
@@ -101,6 +101,6 @@
         window.ECHART_LOAD_DATA.buildListChart('list_chart');//生成饼图报表
     }
 </script>
-<script src="${ctx }/js/eachartdata/select_month.js"></script>
+
 </body>
 </html>

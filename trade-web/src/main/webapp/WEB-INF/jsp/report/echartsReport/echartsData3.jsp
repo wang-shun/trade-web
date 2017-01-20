@@ -78,8 +78,7 @@
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts-all.js"></script>
         <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
-
-		 <script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuMortAmount.js"></script>
+         <script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuMortAmount.js"></script>
         <script>
         function reloadGrid(){
             var year = window.parent.yearDisplay;

@@ -97,7 +97,7 @@
                     async:false,
                     success : function(data) {
                         $.each(data.rows,function(i,item){
-                        	districtIDArr.push(item.DISTRICT_ID)
+                        	districtIDArr.push(item.DISTRICT_ID);
                             districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
                         })
                     },
@@ -181,6 +181,8 @@
             	{
                     type: 'value',//左边
                     name: '金额',
+                    min:0,
+                    max:100000,
                     axisLabel: {
                         formatter: '{value}万 '
                     }
@@ -188,6 +190,8 @@
                 {
                     type: 'value',//右边
                     name: '百分比',
+                    min:0,
+                    max:100,
                     axisLabel: {
                         formatter: '{value}%'
                     }

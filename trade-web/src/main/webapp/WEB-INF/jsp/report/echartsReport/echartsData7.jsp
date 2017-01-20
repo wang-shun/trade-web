@@ -126,6 +126,8 @@
             	{
                     type: 'value',//左边
                     name: '金额',
+                    min:0,
+                    max:1000000,
                     axisLabel: {
                         formatter: '{value}万 '
                     }
@@ -133,6 +135,8 @@
                 {
                     type: 'value',//右边
                     name: '单数',
+                    min:0,
+                    max:600,
                     axisLabel: {
                         formatter: '{value} '
                     }

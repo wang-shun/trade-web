@@ -139,12 +139,16 @@
                 var yAxis =[ {
                     type : 'value',//左边
                     name : '数量(单)',
+                    min:0,
+                    max:800,
                     axisLabel : {
                         formatter : '{value}'
                     }
                 },{
                     type : 'value',//右边
                     name : '比例',
+                    min:0,
+                    max:1,
                     axisLabel : {
                         formatter : '{value}'
                     }

@@ -16,7 +16,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 		               ]
 			}
 			var option = {
-		        title : {
+		       /* title : {
 		            text: title,
 		            textStyle: {
 		                color: '#555',
@@ -32,7 +32,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 		                10,  // 下
 		                0, // 左
 		            ],
-		        },
+		        },*/
 				tooltip : {
 					trigger : 'axis'
 				},
