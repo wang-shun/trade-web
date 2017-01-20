@@ -50,5 +50,12 @@ public interface TgServItemAndProcessorMapper {
 	 * 作者：zhangxb16
 	 */
     TgServItemAndProcessor selectServItem(TgServItemAndProcessor tp);
+    /**
+     * 查询审核结果
+     * @author hejf10
+     * @param caseCode
+     * @return
+     */
+    String findGuohuApproveTypeByCaseCode(String caseCode);
     
 }

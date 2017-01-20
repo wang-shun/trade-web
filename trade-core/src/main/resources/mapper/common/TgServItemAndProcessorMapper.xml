@@ -477,4 +477,10 @@
 	    delete from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE=#{caseCode,jdbcType=VARCHAR} and SRV_CODE in('3000400201','3000400101'); 
   </delete>
   
+  <select id="findGuohuApproveTypeByCaseCode" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT count(*) FROM sctrans.T_TO_WORKFLOW   W
+	INNER JOIN  sctrans.ACT_HI_VARINST  V  ON  W.INST_CODE = V.PROC_INST_ID_ AND V.NAME_ = 'GuohuApprove'  
+	WHERE V.LONG_=1  AND CASE_CODE= #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>
