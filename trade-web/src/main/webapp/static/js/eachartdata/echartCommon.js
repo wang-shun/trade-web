@@ -109,7 +109,6 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 			})
 
 			myChart.setOption(option);
-			
 			var html="<thead><td class='tabletitle'></td>";
             for(var k=0;k<xAxisSize;k++){
            	      html+="<td>"+xAxisData[k]+"</td>";
@@ -137,7 +136,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 html+="</tr>"
 		    }
 				$(".echarsTable").append(html);
-				var optionWidth=option.grid.width-2-(2*xAxisSize);
+				var optionWidth=option.grid.width-2-(2*xAxisSize)-0.5*xAxisSize;
 				 $(".tabletitle~td").width(optionWidth/(xAxisSize));
 		}
 
