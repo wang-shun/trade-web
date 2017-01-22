@@ -36,6 +36,10 @@
             },
             /*报表一数据获得ajax*/
             getBarAjaxDate: function (dateMonth,dateFlag){
+                var isOutBound=false;
+                var outBoundComTotal=0;
+                var outBoundShouTotal=0;
+                var outBoundRate=0;
                 var data = {
                     queryId: "queryHourseTransferCaseBaseInfoForFin",
                     choiceMonth : dateMonth,
@@ -52,20 +56,36 @@
                             return;
                         }
                         $.each(data.rows,function(i,item){
-                            ECHART_LOAD_DATA.finName.push(item.FA_FIN_ORG_NAME),
-                            ECHART_LOAD_DATA.com_total.push(accDiv(item.COM_AMOUNT,10000)),
-                            ECHART_LOAD_DATA.shou_total.push(accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
-                            if(item.COM_AMOUNT!=0){
-                                ECHART_LOAD_DATA.getRate.push(accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),item.COM_AMOUNT));
-                            }else{
-                                ECHART_LOAD_DATA.getRate.push('0.00');
+                            if(i<14){
+                                ECHART_LOAD_DATA.finName.push(item.FA_FIN_ORG_NAME)
+                                ECHART_LOAD_DATA.com_total.push(accDiv(item.COM_AMOUNT,10000));
+                                ECHART_LOAD_DATA.shou_total.push(accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
+                                if(item.COM_AMOUNT!=0){
+                                    ECHART_LOAD_DATA.getRate.push(accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),item.COM_AMOUNT));
+                                }else{
+                                    ECHART_LOAD_DATA.getRate.push('0.00');
+                                }
+                            }
+                        else{
+                                isOutBound=true;
+                                outBoundComTotal=outBoundComTotal+accDiv(item.COM_AMOUNT,10000);
+                                outBoundShouTotal=outBoundShouTotal+accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000);
                             }
                         })
-
                     },
                     error:function(){}
                 });
                 ECHART_LOAD_DATA.xAxisData = ECHART_LOAD_DATA.finName;//初始化横轴数据
+                if(isOutBound){
+                    ECHART_LOAD_DATA.finName.push('其他')
+                    ECHART_LOAD_DATA.com_total.push(outBoundComTotal);
+                    ECHART_LOAD_DATA.shou_total.push(outBoundShouTotal);
+                    if(item.outBoundComTotal!=0){
+                        ECHART_LOAD_DATA.getRate.push(outBoundShouTotal,outBoundComTotal);
+                    }else{
+                        ECHART_LOAD_DATA.getRate.push('0.00');
+                    }
+                }
             },
 
             buildBarChart : function(myChart){

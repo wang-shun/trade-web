@@ -23,7 +23,7 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="queryDispatchSignList" cacheCount="true">
+	<query id="queryDispatchSignList" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -62,7 +62,7 @@
 		</grid>
 	</query>
 	
-	<query id="querySignBankList" cacheCount="true">
+	<query id="querySignBankList" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -96,7 +96,7 @@
 		</grid>
 	</query>
 	
-	<query id="querySignBranchBankList" cacheCount="true">
+	<query id="querySignBranchBankList" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -135,7 +135,7 @@
 		</grid>
 	</query>
 
-	<query id="queryHourseTransferCaseBaseInfoForDistrict">
+	<query id="queryHourseTransferCaseBaseInfoForDistrict" cacheResult="true">
 		<searchCondition>
 
 		</searchCondition>
@@ -188,7 +188,7 @@
 	</query>
 
 
-	<query id="queryHourseTransferCaseBaseInfoForFin">
+	<query id="queryHourseTransferCaseBaseInfoForFin" cacheResult="true">
 		<searchCondition>
 
 		</searchCondition>
