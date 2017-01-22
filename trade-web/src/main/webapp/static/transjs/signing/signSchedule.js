@@ -36,7 +36,7 @@ function reloadGrid(bm) {
 			  $("#tradeCenterSchedule").empty();
 			  $("#tradeCenterSchedule").html(tradeCenterSchedule);
           }else{
-        	  alert(data.message);
+        	  window.wxc.error(data.message);
           }
         },
         error: function (e, jqxhr, settings, exception) {
@@ -97,10 +97,10 @@ function dealDutyOfficerBack(array){
 	        success: function(data){
 	          $.unblockUI();   	
 	          if(data.success){
-	        	  alert(data.message);
+	        	  window.wxc.success(data.message);
 	        	  $("#"+dutyDate+dutyType).html(officerName);
 	          }else{
-	        	  alert(data.message);
+	        	  window.wxc.error(data.message);
 	          }
 	        },
 	        error: function (e, jqxhr, settings, exception) {
@@ -129,10 +129,10 @@ function dealDutyOfficerBack(array){
 		        success: function(data){
 		          $.unblockUI();   	
 		          if(data.success){
-		        	  alert(data.message);
+		        	  window.wxc.success(data.message);
 		        	  $("#"+dutyDate+dutyType).html("空置");
 		          }else{
-		        	  alert(data.message);
+		        	  window.wxc.error(data.message);
 		          }
 		        },
 		        error: function (e, jqxhr, settings, exception) {

@@ -1254,7 +1254,7 @@ function getParentBank(selector, selectorBranch, finOrgCode, tag, flag) {
 					}
 				},
 				error : function(e) {
-					alert(e);
+					window.wxc.error(e);
 				}
 			});
 

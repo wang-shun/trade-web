@@ -71,7 +71,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    			success : function(data) {
 		    			},
 		    			error : function(errors) {
-		    				alert("更新状态失败");
+		    				window.wxc.error("更新状态失败");
 		    			}
 		    		});
 			  };
@@ -89,7 +89,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						   var script = ctx+url;
 						   jQuery.getScript(ctx+url).done(function() {
 						   }).fail(function() {
-				                alert("请检查"+ ctx+url +"的路径是否正确!");
+							   window.wxc.alert("请检查"+ ctx+url +"的路径是否正确!");
 				           });
 					   }
 				  }
@@ -301,7 +301,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
             
 						},		
 						error : function(errors) {
-							alert("产调加载失败");
+							window.wxc.error("产调加载失败");
 							return false;
 						}
 					});
@@ -379,7 +379,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		  				if(data.success){
 		  					li.off().find('.file-panel').off().end().remove();
 		  				} else if(!data) {
-		  					alert(data.message);
+		  					window.wxc.error(data.message);
 		  				}
 		  			}
 		  		});
@@ -412,7 +412,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    			success : function(data) {
 		    			},
 		    			error : function(errors) {
-		    				alert("附件添加出错。");
+		    				window.wxc.error("附件添加出错。");
 		    			}
 		    		});
 		      };
