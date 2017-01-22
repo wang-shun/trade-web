@@ -29,7 +29,7 @@ var knowledgeList = function () {
 		            	createDivList(data,_ctx,loginUserId,_ctx);	
 		            },
 		            error: function (data) {
-	                    alert("data:" + data.responseText);
+		            	window.wxc.error("data:" + data.responseText);
 	                    $.unblockUI();
 	                }
 		       });
