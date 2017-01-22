@@ -80,7 +80,7 @@
                     ECHART_LOAD_DATA.finName.push('其他')
                     ECHART_LOAD_DATA.com_total.push(outBoundComTotal);
                     ECHART_LOAD_DATA.shou_total.push(outBoundShouTotal);
-                    if(item.outBoundComTotal!=0){
+                    if(outBoundComTotal!=0){
                         ECHART_LOAD_DATA.getRate.push(outBoundShouTotal,outBoundComTotal);
                     }else{
                         ECHART_LOAD_DATA.getRate.push('0.00');
