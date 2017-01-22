@@ -154,7 +154,7 @@
             	//1.	
         		for(var i in districtIDArr){
         			var flag = false;
-                	if(data.rows){
+                	if(data.rows.length > 0){
             			for(var j in data.rows){
             				item = data.rows[j];
             				if(districtIDArr[i] == item.DISTRICT_ID){
@@ -212,7 +212,7 @@
                 }
 				];
             	//3.
-            	legend = ['分单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比'];
+            	legend = data.rows.length>0?['分单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比']:[];
             	//4.
             	datas = [dispatchNumArr,signNumArr,guohuNumArr,comNumArr,prfNumArr,comPercentArr,prfPercentArr];
             	//5.

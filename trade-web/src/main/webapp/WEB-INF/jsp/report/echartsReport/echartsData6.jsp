@@ -49,7 +49,7 @@
                                 <div class="sum-data">
                                     <h3>数据统计</h3>
                                     <ul class="data-list">
-                                        <li><i class='colorBar' style='background-color:#295aa5'></i><em>签贷贷合同价</em><span id="span1"></span>万元</li>
+                                        <li><i class='colorBar' style='background-color:#295aa5'></i><em>签贷合同价</em><span id="span1"></span>万元</li>
                                         <li><i class='colorBar' style='background-color:#f784a5'></i><em>商贷金额</em><span id="span2"></span>万元</li>
                                         <li><i class='colorBar' style='background-color:#ffad6b'></i><em>公积金金额</em><span id="span3"></span>万元</li>
                                     </ul>
@@ -147,7 +147,7 @@
             	//1.				
 				for(var i in districtIDArr){
         			var flag = false;
-        			if(data.rows){
+        			if(data.rows.length > 0){
             			for(var j in data.rows){
             				item = data.rows[j];
             				if(districtIDArr[i] == item.DISTRICT_ID){
@@ -199,7 +199,7 @@
                 }
 				];
             	//3.
-            	legend = ['签贷合同价','商贷金额','公积金金额','商贷签贷占比','公积金签贷占比'];
+            	legend = data.rows.length>0?['签贷合同价','商贷金额','公积金金额','商贷签贷占比','公积金签贷占比']:[];
             	//4.
             	datas = [totalAmountArr,comAmountArr,prfAmountArr,comPercentArr,prfPercentArr];
             	//5.

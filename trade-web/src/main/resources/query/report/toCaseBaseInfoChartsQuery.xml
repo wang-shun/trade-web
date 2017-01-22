@@ -107,7 +107,7 @@
 				(select o.FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG o where o.FIN_ORG_CODE = main.MORTGAGET_FIN_ORG_CODE) FA_FIN_ORG_CODE,
 				main.MORTGAGET_FIN_ORG_CODE,
 				(select top 1 s.TAGS from sctrans.T_TS_SUP s where s.FIN_ORG_CODE = main.MORTGAGET_FIN_ORG_CODE) RUWEI_BANK,
-				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT
+				isnull(sum(main.SIGN_CON_PRICE),0) SIGN_CON_PRICE
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE
                 where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
@@ -116,7 +116,7 @@
 	            ]]>
 			</baseSql>
 			<orderBySql>
-			order by CONTRACT_AMOUNT desc
+			order by SIGN_CON_PRICE desc
 			</orderBySql>
 			<groupSql>
 			group by main.MORTGAGET_FIN_ORG_CODE
@@ -130,7 +130,7 @@
 				<column type="both" name="MORTGAGET_FIN_ORG_CODE" index="" checkbox="" title="支行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="FIN_ORG_NAME_YC" index="" checkbox="" display="支行简写名" customDict="qqGetfinOrgYCName" referencecol="MORTGAGET_FIN_ORG_CODE"/>
 				<column type="both" name="RUWEI_BANK" index="" checkbox="" display="是否入围银行" customDict="" referencecol=""/>
-				<column type="both" name="CONTRACT_AMOUNT" index="" checkbox="" title="总金额" expType="Double" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_CON_PRICE" index="" checkbox="" title="总金额" expType="Double" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

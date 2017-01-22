@@ -107,6 +107,8 @@
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_);
         	data.choiceMonth = year + "-" + month;
+        	
+        	$(".label-tip").show()
 
         	$.ajax({
         		async: true,
@@ -134,7 +136,7 @@
             	var span1Text = 0;
             	var span2Text = 0;
             	//1.
-            	if(data.rows){  
+            	if(data.rows.length > 0){  
             		//其他
             		var xAxisDataI = null;
             		var totalAmountArrI = 0;
@@ -144,35 +146,44 @@
             		var otherIsRuweiBankArr = [];
             		
             		$.each(data.rows,function(i,item){
-            			span1Text = accAdd(Number(span1Text),accDiv(parseInt(item.CONTRACT_AMOUNT),10000));		
+            			span1Text = accAdd(Number(span1Text),accDiv(parseInt(item.SIGN_CON_PRICE),10000));		
       					span2Text += parseInt(item.SIGN_NUM);
       					var fa_fin_org_name_yc = item.FA_FIN_ORG_NAME_YC.length>2?item.FA_FIN_ORG_NAME_YC.substring(0,2):item.FA_FIN_ORG_NAME_YC;
                         var fin_org_name_yc = item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC;
             			//前14个直接显示
       					if(i < 14){		
                             xAxisData.push(fa_fin_org_name_yc+fin_org_name_yc);
-          					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));	
+          					totalAmountArr.push(Math.round(accDiv(parseInt(item.SIGN_CON_PRICE),10000)));	
           					IsRuweiBankArr.push(item.RUWEI_BANK == 'cl'?'1':'0');
             			//后面的加入到‘其他’
       					}else{
       						otherBankNameArr.push(fa_fin_org_name_yc+fin_org_name_yc);
-      						otherAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
+      						otherAmountArr.push(Math.round(accDiv(parseInt(item.SIGN_CON_PRICE),10000)));
       						otherIsRuweiBankArr.push(item.RUWEI_BANK == 'cl'?'1':'0');
-      						totalAmountArrI = accAdd(totalAmountArrI,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));
+      						totalAmountArrI = accAdd(totalAmountArrI,accDiv(parseInt(item.SIGN_CON_PRICE),10000));
             			}                  
         			}) 
         			
         			if(data.rows.length > 14){
         				xAxisData.push("其他");
         				totalAmountArr.push(Math.round(totalAmountArrI));
-        				$("#th1").html("其他类："+totalAmountArrI+"万元");
+        				$("#th1").html("其他类："+Math.round(totalAmountArrI)+"万元");
         				var tbodyContent = "";
         				for(var j = 0;j < 10;j++){
         					tbodyContent += "<tr>";
-        					tbodyContent += "<td>"+otherBankNameArr[j]+"</td><td>"+otherAmountArr[j]+"</td>";
-        					if(otherIsRuweiBankArr[i] == '1'){
+        					if(!otherBankNameArr[j]){
+        						tbodyContent += "<td></td>";
+        					}else{
+        						tbodyContent += "<td>"+otherBankNameArr[j]+"</td>";
+        					}
+        					if(!otherAmountArr[j]){
+        						tbodyContent += "<td></td>";
+        					}else{
+        						tbodyContent += "<td>"+otherAmountArr[j]+"</td>";
+        					}
+        					if(otherIsRuweiBankArr[j] == '1'){
         						tbodyContent += "<td class='ok-blue'>是</td>";
-        					}else if(otherIsRuweiBankArr[i] == '0'){
+        					}else if(otherIsRuweiBankArr[j] == '0'){
         						tbodyContent += "<td>否</td>";
         					}else{
         						tbodyContent += "<td></td>";
@@ -182,6 +193,8 @@
 
         				$("#displayTable tbody").html(tbodyContent);
         			}
+            	}else{
+            		$(".label-tip").hide();
             	}
             	//2.
             	yAxis =[ 
@@ -196,7 +209,7 @@
                 }
 				];
             	//3.
-            	legend = ['总金额'];
+            	legend = data.rows.length>0?['总金额']:[];
             	//4.
             	datas = [totalAmountArr];
             	//5.
