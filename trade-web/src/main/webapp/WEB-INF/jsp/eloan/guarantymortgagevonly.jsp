@@ -588,13 +588,13 @@
      					$.unblockUI();
      				},
      				success : function(data) {
-     					window.wxc.alert(data.message);
+     					window.wxc.success(data.message);
      	     			// 保存附件相关信息
      	     			deleteAndModify();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
-     					window.wxc.alert("数据保存出错");
+     					window.wxc.error("数据保存出错");
      				}
      			});
              });

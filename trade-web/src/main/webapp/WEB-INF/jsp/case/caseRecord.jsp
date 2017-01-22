@@ -329,8 +329,8 @@ function merge(pkId,type){
 		data : data,
 		beforeSend:function(){},
 		success : function(data) {
-			if(data.success){ if(data.content){ window.wxc.alert("合流成功！");} else{ window.wxc.alert("驳回成功！");} }else{
-				if(data.content){ window.wxc.alert("合流失败！"+data.message);} else{ window.wxc.alert("驳回失败！"+data.message);}
+			if(data.success){ if(data.content){ window.wxc.success("合流成功！");} else{ window.wxc.success("驳回成功！");} }else{
+				if(data.content){ window.wxc.error("合流失败！"+data.message);} else{ window.wxc.error("驳回失败！"+data.message);}
 			}
 			window.location.reload();
 		},complete: function() {  },

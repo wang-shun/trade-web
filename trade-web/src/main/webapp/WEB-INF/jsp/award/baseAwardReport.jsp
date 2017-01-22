@@ -447,7 +447,7 @@
 
 	    		$('#excelChangeForm').attr('action', url);
 	    		$('#excelChangeForm').submit();
-	    		window.wxc.alert("导出至 Excel成功");
+	    		window.wxc.success("导出至 Excel成功");
 	    	}
 	    </script>
 	    </content> 

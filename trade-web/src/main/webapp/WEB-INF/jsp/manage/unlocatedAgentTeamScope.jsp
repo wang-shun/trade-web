@@ -402,7 +402,7 @@
 	 	    		        $("#backTeam").empty();
 	 	    		        $("#backTeam").html(tempBackTeam);
 	 	    			}else{
-	 	    				window.wxc.alert(data.message);
+	 	    				window.wxc.error(data.message);
 	 	    			}
 	 	    		}
 	 	    	});
@@ -417,12 +417,15 @@
   	 	        		dataType:"json",
   	 	        		data:$("#addOrModifyForm").serialize(),
   	 	        		success:function(data){
-  	 	        			window.wxc.alert(data.message);
   	 	        			if(data.success){
+  	 	        				window.wxc.success(data.message);
   	 	        				$("#modal-addOrModifyForm").modal("hide");
 
   	 	        				//$("#gridTable").trigger("reloadGrid");
   	 	        				window.location.reload();
+  	 	        			}
+  	 	        			else {
+  	 	        				window.wxc.error(data.message);
   	 	        			}
   	 	        			$("#agenTeamCode").val("");
   	 	        		}
@@ -473,13 +476,16 @@
 	 	   	 	      		    contentType: "application/json; charset=utf-8",
 	 	   	 	        		data: tsTeamScopeVOList,
 	 	   	 	        		success: function(data){
-	 	   	 	        			window.wxc.alert(data.message);
 	 	   	 	   					if(data.success){
+	 	   	 	   						window.wxc.success(data.message);
 		   	 	        				$("#modal-addOrModifyForm").modal("hide");
 		   	 	        				
 		   	 	        				//$("#gridTable").trigger("reloadGrid");
 		   	 	        				window.location.reload();
 	   	 	        				}
+	 	   	 	   					else {
+	 	   	 	   						window.wxc.error(data.message);
+	 	   	 	   					}
 	   	 	        				$("#agenTeamCode").val("");
 	 	   	 	        		}
 	 	    				});
@@ -559,7 +565,7 @@
 
 		    		$('#excelForm').attr('action', url);
 		    		$('#excelForm').submit();
-		    		window.wxc.alert("导出至 Excel成功");
+		    		window.wxc.success("导出至 Excel成功");
 		    		//caseDistribute();
 		    		//停顿2s后再执行
 		    		var ids = jQuery("#gridTable").jqGrid('getDataIDs');
@@ -590,7 +596,7 @@
 						}
 		    		},
 					error : function(errors) {
-						window.wxc.alert("处理出错,请刷新后再次尝试！");
+						window.wxc.error("处理出错,请刷新后再次尝试！");
 					}
 		    	});
 		    }
@@ -619,7 +625,7 @@
 
 	    		$('#excelChangeForm').attr('action', url);
 	    		$('#excelChangeForm').submit();
-	    		window.wxc.alert("导出至 Excel成功");
+	    		window.wxc.success("导出至 Excel成功");
 	    		//caseDistribute();
 	    		//停顿2s后再执行
 	    		//setTimeout(function(){caseDistribute();},2000);

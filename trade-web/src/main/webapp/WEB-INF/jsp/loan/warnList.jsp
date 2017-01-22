@@ -234,7 +234,7 @@
 
 		    		$('#excelForm').attr('action', url);
 		    		$('#excelForm').submit();
-		    		window.wxc.alert("导出至 Excel成功");
+		    		window.wxc.success("导出至 Excel成功");
 		    		//caseDistribute();
 		    		//停顿2s后再执行
 		    		var ids = jQuery("#gridTable").jqGrid('getDataIDs');
@@ -265,7 +265,7 @@
 						}
 		    		},
 					error : function(errors) {
-						window.wxc.alert("处理出错,请刷新后再次尝试！");
+						window.wxc.error("处理出错,请刷新后再次尝试！");
 					}
 		    	});
 		    }
@@ -294,7 +294,7 @@
 
 	    		$('#excelChangeForm').attr('action', url);
 	    		$('#excelChangeForm').submit();
-	    		window.wxc.alert("导出至 Excel成功");
+	    		window.wxc.success("导出至 Excel成功");
 	    		//caseDistribute();
 	    		//停顿2s后再执行
 	    		//setTimeout(function(){caseDistribute();},2000);

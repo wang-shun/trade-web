@@ -266,9 +266,9 @@
 					data : data,
 					success : function(data) {
 						if (data.success) {
-							window.wxc.alert("修改成功!");
+							window.wxc.success("修改成功!");
 						} else {
-							window.wxc.alert("修改失败!");
+							window.wxc.error("修改失败!");
 						}
 					}
 				});
@@ -301,9 +301,9 @@
 					data : data,
 					success : function(data) {
 						if (data.success) {
-							window.wxc.alert("修改成功!");
+							window.wxc.success("修改成功!");
 						} else {
-							window.wxc.alert("修改失败!");
+							window.wxc.error("修改失败!");
 						}
 					}
 				});
@@ -375,9 +375,9 @@
 					data : data,
 					success : function(data) {
 						if (data.success) {
-							window.wxc.alert("修改成功!");
+							window.wxc.success("修改成功!");
 						} else {
-							window.wxc.alert(data.message);
+							window.wxc.error(data.message);
 						}
 					}
 				});

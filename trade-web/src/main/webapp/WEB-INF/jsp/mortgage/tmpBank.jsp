@@ -124,10 +124,10 @@
 					success:function(data){
 						$.unblockUI();
 						if(!!data.success){
-							window.wxc.alert('处理成功');
+							window.wxc.success('处理成功');
 							parent.$.fancybox.close();
 						}else{
-							window.wxc.alert(data.message);
+							window.wxc.error(data.message);
 						}
 						
 					}

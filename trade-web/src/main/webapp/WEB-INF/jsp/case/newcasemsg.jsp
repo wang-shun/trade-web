@@ -67,10 +67,10 @@
 			    	}],
 			        success: function(data) {
 			        	console.info(data);
-			        	window.wxc.alert(data.status);
+			        	window.wxc.success(data.status);
 			        },
 			        error: function(errors) {
-			        	window.wxc.alert("信息修改失败，请刷新后再次尝试！");
+			        	window.wxc.error("信息修改失败，请刷新后再次尝试！");
 			        }
 				});
 			}

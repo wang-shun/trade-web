@@ -254,16 +254,16 @@
 					if(b) {
 						caseTaskCheck();
 						if(null!=data.message){
-							alert(data.message);
+							window.wxc.alert(data.message);
 						}
 					} else {
-						alert("保存成功。");
+						 window.wxc.success("保存成功。");
 						 window.close();
 						 window.opener.callback();
 					}
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
@@ -271,7 +271,7 @@
 		//验证控件checkUI();
 		function checkForm() {
 			if ($('input[name=]').val() == '') {
-				alert("实际审税时间为必填项!");
+				window.wxc.alert("实际审税时间为必填项!");
 				$('input[name=]').focus();
 				return false;
 			}

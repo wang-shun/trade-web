@@ -427,12 +427,12 @@ $(document).ready(function() {
 			data:fData,
 			success:function(data){
 				if(1==data.result){
-					window.wxc.alert('保存成功');
+					window.wxc.success('保存成功');
 					parent.$.fancybox.close();
 				}else if (2==data.result){
-					window.wxc.alert('当前案件上该产品已有人('+data.optUser+')填报。请误重复填报,如有问题联系'+data.optUser+'解决');
+					window.wxc.error('当前案件上该产品已有人('+data.optUser+')填报。请误重复填报,如有问题联系'+data.optUser+'解决');
 				}else if(3==data.result){
-					window.wxc.alert('当前案件上项目不存在,请联系案件负责人');
+					window.wxc.error('当前案件上项目不存在,请联系案件负责人');
 				}
 			$.unblockUI();
 			}

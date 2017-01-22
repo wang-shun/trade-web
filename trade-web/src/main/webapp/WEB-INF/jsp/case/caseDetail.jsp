@@ -1266,7 +1266,7 @@
 						if(data.success){
 							location.href = "../case/caseDetail?caseId=" + caseId;
 						}else{
-							window.wxc.alert('添加失败');
+							window.wxc.error('添加失败');
 						}
 					}
 				});
@@ -1321,7 +1321,7 @@
 						if(data.success){
 							location.href = "../case/caseDetail?caseId=" + caseId;
 						}else{
-							window.wxc.alert('修改失败');
+							window.wxc.error('修改失败');
 						}
 					}
 				});
@@ -1344,7 +1344,7 @@
   							$("#spnRelieveTime").html(getCurrentDate());
   							$("#relieve").hide();
   						}else{
-  							window.wxc.alert('解除失败');
+  							window.wxc.error('解除失败');
   						}
   					}
   				});

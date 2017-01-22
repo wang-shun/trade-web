@@ -429,12 +429,12 @@
     					$.unblockUI();
     				},
     				success : function(data) {
-    					window.wxc.alert(data.message);
+    					window.wxc.success(data.message);
     					window.close();
     					window.opener.callback();
     				},
     				error : function(errors) {
-    					window.wxc.alert("数据保存出错");
+    					window.wxc.error("数据保存出错");
     				}
     			});
             })
@@ -472,7 +472,7 @@
 					msg = data.message;
 				},
 				error : function(errors) {
-					window.wxc.alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 			return msg;

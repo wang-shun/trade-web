@@ -432,7 +432,7 @@
 			
 							},
 							error : function(errors) {
-								window.wxc.alert("数据出错。");
+								window.wxc.error("数据出错。");
 							}
 						});
 					}
@@ -546,7 +546,7 @@
 									}						
 								},
 								error : function(errors) {
-									window.wxc.alert("数据出错。");
+									window.wxc.error("数据出错。");
 								}
 							});
 					 }
@@ -652,14 +652,14 @@
 									if (data.firstFollowVO.isrepeat == true) {
 										window.wxc.alert("请不要重复保存数据");
 									} else {
-										window.wxc.alert("保存成功.");
+										window.wxc.success("保存成功.");
 										window.close();
 										window.opener.callback();
 									}
 								}
 							},
 							error : function(errors) {
-								window.wxc.alert("数据保存出错");
+								window.wxc.error("数据保存出错");
 							}
 						});
 					}

@@ -143,7 +143,7 @@
                 data: data,
                 success: function(data){
 				if(data==null||data==undefined){
-					window.wxc.alert("数据加载失败！");
+					window.wxc.error("数据加载失败！");
 					return;			
 				}
 				var xAxisData=[];

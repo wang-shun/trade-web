@@ -950,7 +950,7 @@
 					flag = data.content;
 				},
 				error : function(errors) {
-					window.wxc.alert("检测CaseCode绑定案件信息出错");
+					window.wxc.error("检测CaseCode绑定案件信息出错");
 				}
 			});
 			return flag;
@@ -986,7 +986,7 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					window.wxc.alert(data.message);
+					window.wxc.success(data.message);
 					var bohui = $("#processInstanceId").val();
 					if (bohui != null && bohui != '') {
 						window.close();
@@ -997,7 +997,7 @@
 
 				},
 				error : function(errors) {
-					window.wxc.alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}

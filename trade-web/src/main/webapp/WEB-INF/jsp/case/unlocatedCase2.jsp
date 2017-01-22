@@ -379,14 +379,14 @@
 			            } , 
 				success : function(data) {
 					if(data.success){
-						window.wxc.alert("分配成功");
+						window.wxc.success("分配成功");
 						$('#team-modal-form').modal("hide");
 						//jqGrid reload
 						$("#table_list_1").trigger('reloadGrid');
 						$("#checkAllNot").attr('checked',false);
 						loadGrid(1);
 					}else{
-						window.wxc.alert(data.message);
+						window.wxc.error(data.message);
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {

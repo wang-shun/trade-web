@@ -197,16 +197,16 @@ function merge(){
 		success : function(data) {
 			if(data.success){ 
 				if(distriType && undefined != urlType && '' != urlType){
-					window.wxc.alert("合流申请成功！"); 
+					window.wxc.success("合流申请成功！"); 
 					$("#myModalsa").modal("hide");
 					caseDistributeType();
 					window.location.reload();
 				}else{
-					window.wxc.alert("合流申请成功！"); 
+					window.wxc.success("合流申请成功！"); 
 					$("#myModalsa").modal("hide");
 					window.location.reload();
 				}
-			}else{ window.wxc.alert("合流申请失败！"+data.message);  }
+			}else{ window.wxc.error("合流申请失败！"+data.message);  }
 		},complete: function() {  },
 		error : function(errors) {
 		}
@@ -251,16 +251,16 @@ function qfMerge(){
 		success : function(data) {
 			if(data.success){ 
 				if(distriType && undefined != urlType && '' != urlType){
-					window.wxc.alert("拆分成功！"); 
+					window.wxc.success("拆分成功！"); 
 					$("#myModalsa").modal("hide");
 					caseDistributeType();
 					window.location.reload();
 				}else{
-					window.wxc.alert("拆分成功！"); 
+					window.wxc.success("拆分成功！"); 
 					$("#myModalsa").modal("hide");
 					window.location.reload();
 				}
-			}else{ window.wxc.alert("拆分失败！"+data.message);  }
+			}else{ window.wxc.error("拆分失败！"+data.message);  }
 		},complete: function() {  },
 		error : function(errors) {
 		}

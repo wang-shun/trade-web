@@ -109,7 +109,7 @@
 				data : jsonData,
 				success : function(data) {
 					if(data) {
-						window.wxc.alert("操作完成。");
+						window.wxc.success("操作完成。");
 					} else {
 						window.wxc.alert('数据无变更。');
 					}
@@ -117,7 +117,7 @@
 					initGuestInfo(value);
 				},
 				error : function(errors) {
-					window.wxc.alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
@@ -193,7 +193,7 @@
 					}
 				},
 				error : function(errors) {
-					window.wxc.alert("备件列表失败！");
+					window.wxc.error("备件列表失败！");
 				}
 			});
 		}

@@ -258,7 +258,7 @@
 								dataType:'json',
 								data:{pkid:pkid,action:status},
 								success:function(data){
-										window.wxc.alert(data.message);
+										window.wxc.success(data.message);
 										initData();//刷新列表
 									    $.unblockUI();
 								}
@@ -371,7 +371,7 @@
 							
 							var busFlag = "${busFlag}";
 							if(busFlag !="" && busFlag != null && busFlag != undefined){
-								window.wxc.alert("恭喜,新建案件成功,请等待主管分配！");
+								window.wxc.success("恭喜,新建案件成功,请等待主管分配！");
 							}
 							initData();
 						});

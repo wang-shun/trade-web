@@ -657,7 +657,7 @@
 				success : function(data) {
 				},
 				error : function(errors) {
-					window.wxc.alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}

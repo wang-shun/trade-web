@@ -27,11 +27,11 @@
 			    		value:caseCode
 			    	}],
 			        success: function(data) {
-			        	window.wxc.alert(data.message);
-			        	window.wxc.alert(data.content);
+			        	window.wxc.success(data.message);
+			        	window.wxc.success(data.content);
 			        },
 			        error: function(errors) {
-			        	window.wxc.alert("信息修改失败，请刷新后再次尝试！");
+			        	window.wxc.error("信息修改失败，请刷新后再次尝试！");
 			        }
 				});
 			}

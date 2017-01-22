@@ -670,7 +670,7 @@
 						}
 		    		},
 					error : function(errors) {
-						window.wxc.alert("处理出错,请刷新后再次尝试！");
+						window.wxc.error("处理出错,请刷新后再次尝试！");
 					}
 		    	});
 		    }

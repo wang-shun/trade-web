@@ -608,18 +608,18 @@
 				var isValid = true;
 				
 				if(!number.exec(mobile)){					
-					alert("电话号码只能由数字组成！");
+					window.wxc.alert("电话号码只能由数字组成！");
 					isValid = false;
 					return isValid;
 				}
 				if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){				
-					alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
+					window.wxc.alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
 					isValid = false;
 					return isValid;
 				}
 				
 				if(isUniqueChar(mobile)){
-					alert("电话号码不能为全部相同的数字！");
+					window.wxc.alert("电话号码不能为全部相同的数字！");
 					isValid = false;
 					return isValid;
 				}
@@ -751,55 +751,55 @@
 				var checkGuest = true;
 				
 				if ($('input[name=realConTime]').val() == '') {
-					alert("实际签约时间为必填项!");
+					window.wxc.alert("实际签约时间为必填项!");
 					$('input[name=realConTime]').focus();
 					return false;
 				}
 				
 				if ($('input[name=realPrice]').val() == '') {
-					alert("成交价为必填项!");
+					window.wxc.alert("成交价为必填项!");
 					$('input[name=realPrice]').focus();
 					return false;
 				}
 				
 				if (Number($('input[name=realPrice]').val()) <= 0) {
-					alert("成交价必须大于0!");
+					window.wxc.alert("成交价必须大于0!");
 					$('input[name=realPrice]').focus();
 					return false;
 				}
 				
 				if ($('input[name=conPrice]').val() == '') {
-					alert("合同价为必填项!");
+					window.wxc.alert("合同价为必填项!");
 					$('input[name=conPrice]').focus();
 					return false;
 				}
 				
 				if (Number($('input[name=conPrice]').val()) <= 0) {
-					alert("合同价必须大于0!");
+					window.wxc.alert("合同价必须大于0!");
 					$('input[name=conPrice]').focus();
 					return false;
 				}
 
 				if ($('select[name=isLoanClose]').val() == '') {
-					alert("抵押情况为必选项!");
+					window.wxc.alert("抵押情况为必选项!");
 					$('select[name=isLoanClose]').focus();
 					return false;
 				}
 				
 				
 				if ($('select[name=isPerchaseReserachNeed]').val() == '') {
-					alert("查限购为必选项!");
+					window.wxc.alert("查限购为必选项!");
 					$('select[name=isPerchaseReserachNeed]').focus();
 					return false;
 				}
 				
 				if($("#topHome").children().length == 1){
-					alert("上家信息为必填项!");
+					window.wxc.alert("上家信息为必填项!");
 					return false;
 				}
 				
 				if($("#downHome").children().length == 1){
-					alert("下家信息为必填项!");
+					window.wxc.alert("下家信息为必填项!");
 					return false;
 				}
 				
@@ -812,80 +812,80 @@
 				}	
 				
 				if ($('input[name=square]').val() == '') {
-					alert("产证面积为必填项!");
+					window.wxc.alert("产证面积为必填项!");
 					$('input[name=square]').focus();
 					return false;
 				}
 				
 				if ($('input[name=propertyAddr]').val() == '') {
-					alert("产证地址为必填项!");
+					window.wxc.alert("产证地址为必填项!");
 					$('input[name=propertyAddr]').focus();
 					return false;
 				}
 				
 				if ($('input[name=locateFloor]').val() == '') {
-					alert("所在楼层为必填项!");
+					window.wxc.alert("所在楼层为必填项!");
 					$('input[name=locateFloor]').focus();
 					return false;
 				}
 				
 				if ($('input[name=totalFloor]').val() == '') {
-					alert("总层高为必填项!");
+					window.wxc.alert("总层高为必填项!");
 					$('input[name=totalFloor]').focus();
 					return false;
 				}
 				
 				if ($('select[name=propertyType]').val() == '') {
-					alert("房屋类型为必选项!");
+					window.wxc.alert("房屋类型为必选项!");
 					$('select[name=propertyType]').focus();
 					return false;
 				}
 				
 				if ($('select[name=isHukou]').val() == '') {
-					alert("合同公证为必选项!");
+					window.wxc.alert("合同公证为必选项!");
 					$('select[name=isHukou]').focus();
 					return false;
 				}
 				
 				if ($('select[name=isConCert]').val() == '') {
-					alert("房屋户口为必选项!");
+					window.wxc.alert("房屋户口为必选项!");
 					$('select[name=isConCert]').focus();
 					return false;
 				}
 				
 				if ($('input[name=houseHodingTax]').val() == '') {
-					alert("房产税为必填项!");
+					window.wxc.alert("房产税为必填项!");
 					$('input[name=houseHodingTax]').focus();
 					return false;
 				}
 				
 				if ($('input[name=personalIncomeTax]').val() == '') {
-					alert("个人所得税为必填项!");
+					window.wxc.alert("个人所得税为必填项!");
 					$('input[name=personalIncomeTax]').focus();
 					return false;
 				}
 				
 				if ($('input[name=businessTax]').val() == '') {
-					alert("上家营业税为必填项!");
+					window.wxc.alert("上家营业税为必填项!");
 					$('input[name=businessTax]').focus();
 					return false;
 				}
 				
 				if ($('input[name=contractTax]').val() == '') {
-					alert("下家契税为必填项!");
+					window.wxc.alert("下家契税为必填项!");
 					$('input[name=contractTax]').focus();
 					return false;
 				}
 				
 				if ($('input[name=landIncrementTax]').val() == '') {
-					alert("土地增值税为必填项!");
+					window.wxc.alert("土地增值税为必填项!");
 					$('input[name=landIncrementTax]').focus();
 					return false;
 				}
 				
 				if ($('input[name=picName]').val() == undefined
 						&& $('input[name=pic]').val() == undefined) {
-					alert("产调为必填项!");
+					window.wxc.alert("产调为必填项!");
 					return false;
 				}
 				return true;
@@ -959,16 +959,16 @@
 						if (b) {
 							caseTaskCheck();
 							if (null != data.message) {
-								alert(data.message);
+								window.wxc.alert(data.message);
 							}
 						} else {
-							alert("保存成功。");
+							window.wxc.success("保存成功。");
 							window.close();
 							window.opener.callback();
 						}
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}
@@ -1001,7 +1001,7 @@
 				
 				$.each(selectsPhoneUp, function(j, item) {
 					if (item.value == '') {
-						alert("上家电话为必填项!");
+						window.wxc.alert("上家电话为必填项!");
 						selectsPhoneUp[j].focus();
 						checkGuestPhone = false;						
 					} else {						
@@ -1020,7 +1020,7 @@
 				//验证下家电话号码
 				$.each(selectsPhoneDown, function(j, item) {
 					if (item.value == '') {
-						alert("下家电话为必填项!");
+						window.wxc.alert("下家电话为必填项!");
 						selectsPhoneDown[j].focus();
 						checkGuestPhone = false;
 					} else {
@@ -1041,7 +1041,7 @@
 							$.each(selectsPhoneDown,function(j,	itemPhoneDown) {
 								if (itemPhoneDown.value != '') {
 									if (itemPhoneUp.value.trim() == itemPhoneDown.value.trim()) {
-												alert("上下家电话不能填写一样!");
+												window.wxc.alert("上下家电话不能填写一样!");
 												checkGuestPhone=false;
 												return checkGuestPhone;
 									}
@@ -1059,12 +1059,12 @@
 				var selectsUp = $("input[name='guestNameUp']");
 				$.each(selectsUp, function(j, item) {
 					if (item.value == '') {
-						alert("上家姓名为必填项!");
+						window.wxc.alert("上家姓名为必填项!");
 						selectsUp[j].focus();
 						checkGuest = false;
 						return false;
 					} else if (item.value.trim().indexOf(" ") > -1) {
-						alert("上家姓名中不能包含空格!");
+						window.wxc.alert("上家姓名中不能包含空格!");
 						selectsUp[j].focus();
 						checkGuest = false;
 						return false;
@@ -1073,7 +1073,7 @@
 							|| item.value.indexOf("叔叔") > 0
 							|| item.value.indexOf("阿姨") > 0
 							|| item.value.indexOf("女士") > 0) {
-						alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
+						window.wxc.alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
 						selectsUp[j].focus();
 						checkGuest = false;
 						return false;
@@ -1089,12 +1089,12 @@
 				selectsDown = $("input[name='guestNameDown']");
 				$.each(selectsDown, function(j, item) {
 					if (item.value == '') {
-						alert("下家姓名为必填项!");
+						window.wxc.alert("下家姓名为必填项!");
 						selectsDown[j].focus();
 						checkGuest = false;
 						return false;
 					} else if (item.value.trim().indexOf(" ") > -1) {
-						alert("下家姓名中不能包含空格!");
+						window.wxc.alert("下家姓名中不能包含空格!");
 						selectsDown[j].focus();
 						checkGuest = false;
 						return false;
@@ -1103,7 +1103,7 @@
 							|| item.value.indexOf("叔叔") > 0
 							|| item.value.indexOf("阿姨") > 0
 							|| item.value.indexOf("女士") > 0) {
-						alert("下家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
+						window.wxc.alert("下家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
 						selectsDown[j].focus();
 						checkGuest = false;
 						return false;
@@ -1242,7 +1242,7 @@
 								}
 							},
 							error : function(errors) {
-								alert("上下家加载失败！");
+								window.wxc.error("上下家加载失败！");
 							}
 						});
 			}

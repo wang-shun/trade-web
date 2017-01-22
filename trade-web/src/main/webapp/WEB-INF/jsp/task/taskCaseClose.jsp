@@ -946,7 +946,7 @@
 					});
 				},
 				error : function(errors) {
-					window.wxc.alert("获取主贷人失败");
+					window.wxc.error("获取主贷人失败");
 				}
 			});
 		}
@@ -1025,7 +1025,7 @@
 	    		            } , 
 					success : function(data) {
 							if(data.message){
-								window.wxc.alert(data.message);
+								window.wxc.success(data.message);
 							}
 							if(window.opener)
 						    {
@@ -1037,7 +1037,7 @@
 							//window.location.href = "${ctx }/task/myTaskList";
 					},
 					error : function(errors) {
-						window.wxc.alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}
@@ -1174,7 +1174,7 @@
 					}
 				},
 				error : function(errors) {
-					window.wxc.alert("上下家加载失败！");
+					window.wxc.error("上下家加载失败！");
 				}
 			});
 		}

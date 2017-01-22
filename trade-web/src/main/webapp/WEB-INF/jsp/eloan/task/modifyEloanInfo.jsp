@@ -339,13 +339,13 @@
 					},
 					success : function(data) {	
 						if(data.success == true){
-							window.wxc.alert("数据修改成功");
+							window.wxc.success("数据修改成功");
 							 window.location.reload(); 
 						} 
 					},
 					error : function(errors) {
 						$.unblockUI();    
-						window.wxc.alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}

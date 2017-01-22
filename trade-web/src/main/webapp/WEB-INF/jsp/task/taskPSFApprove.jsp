@@ -339,7 +339,7 @@
     		            } ,  
 				success : function(data) {
 						if(null!=data.message){
-							alert(data.message);
+							window.wxc.success(data.message);
 						}
 						 if(window.opener)
 					     {
@@ -350,14 +350,14 @@
 					     }
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
 		//验证控件checkUI();
 		function checkForm() {
 			if($('input[name=apprDate]').val()=='') {
-                alert("审批时间为必填项!");
+				window.wxc.alert("审批时间为必填项!");
                 $('input[name=apprDate]').focus();
                 return false;
            }

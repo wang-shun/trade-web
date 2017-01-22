@@ -598,7 +598,7 @@
 						isExist = data.ajaxResponse.success;
 					},
 					error : function(errors) {
-						window.wxc.alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 				return isExist;
@@ -632,7 +632,7 @@
 						setTimeout('refresh()',1000);
 					},
 					error : function(errors) {
-						window.wxc.alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 		   }
