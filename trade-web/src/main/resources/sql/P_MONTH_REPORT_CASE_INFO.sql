@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/1/19 17:49:09 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/1/22 14:38:34 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -37,6 +37,8 @@ BEGIN
 	RECEIVED_USER,--接单人
 	RECEIVED_TEAM_ID,--接单人组别
 	RECEIVED_DISTRICT_ID,--接单人贵宾服务部
+	
+	SIGN_CON_PRICE,--签约合同价
 	SIGN_TIME,--签约时间
 	SIGN_USER,--签约人
 	SIGN_TEAM_ID,--签约人组织
@@ -74,6 +76,7 @@ SELECT
 	RECEIVED_USER,--接单人
 	RECEIVED_TEAM_ID,--接单人组别
 	RECEIVED_DISTRICT_ID,--接单人贵宾服务部
+	SIGN_CON_PRICE,--签约合同价
 	SIGN_TIME,--签约时间
 	SIGN_USER,--签约人
 	SIGN_TEAM_ID,--签约人组织

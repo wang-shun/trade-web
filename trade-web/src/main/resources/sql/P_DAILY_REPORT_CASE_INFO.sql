@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/1/20 18:12:04 ******/
+/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/1/22 14:38:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -40,6 +40,7 @@ BEGIN
 	RECEIVED_USER,--接单人
 	RECEIVED_TEAM_ID,--接单人组别
 	RECEIVED_DISTRICT_ID,--接单人贵宾服务部
+	SIGN_CON_PRICE,--签约合同价
 	SIGN_TIME,--签约时间
 	SIGN_USER,--签约人
 	SIGN_TEAM_ID,--签约人组织
@@ -76,7 +77,8 @@ SELECT
 		I.REQUIRE_PROCESSOR_ID AS RECEIVED_USER,--接收人
 		(SELECT ts.org_id FROM sctrans.v_user_job_org_main as ts with(nolock) WHERE user_id=I.REQUIRE_PROCESSOR_ID) AS RECEIVED_TEAM_ID,--接单人组别（新增） 
 		(SELECT DISTRICT_ID FROM sctrans.v_yucui_org_hierarchy with(nolock) WHERE TEAM_ID=(SELECT ts.org_id FROM sctrans.v_user_job_org_main as ts with(nolock) WHERE user_id=I.REQUIRE_PROCESSOR_ID)) AS RECEIVED_DISTRICT_ID,--接单人贵宾服务部
-	
+			
+		(SELECT CON_PRICE FROM sctrans.T_TO_SIGN ts with(nolock) WHERE ts.CASE_CODE= C.CASE_CODE ) AS SIGN_CON_PRICE,--签约合同价
 		(SELECT REAL_CON_TIME from  sctrans.T_TO_SIGN ts with(nolock) where ts.CASE_CODE=C.CASE_CODE ) AS SIGN_TIME,--签约时间	
 		(SELECT top(1) ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'TransSign' AND ww.CASE_CODE=C.CASE_CODE   ORDER BY  END_TIME_ DESC ) AS SIGN_USER,--签约人
 		(SELECT top (1) ORG_ID  FROM sctrans.SYS_USER with(nolock)  WHERE USERNAME = (SELECT top (1) ASSIGNEE_  FROM wf as ww  WHERE ww.TASK_DEF_KEY_ = 'TransSign' AND ww.CASE_CODE=C.CASE_CODE ORDER BY    END_TIME_ DESC )) as SIGN_TEAM_ID,--签约人组织	
