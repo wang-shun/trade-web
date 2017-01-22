@@ -152,12 +152,12 @@
                         var fin_org_name_yc = item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC;
             			//前14个直接显示
       					if(i < 14){		
-                            xAxisData.push(fa_fin_org_name_yc+fin_org_name_yc);
+                            xAxisData.push((fa_fin_org_name_yc+fin_org_name_yc) == ""?"未选择":(fa_fin_org_name_yc+fin_org_name_yc));
           					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));	
           					IsRuweiBankArr.push(item.RUWEI_BANK == 'cl'?'1':'0');
             			//后面的加入到‘其他’
       					}else{
-      						otherBankNameArr.push(fa_fin_org_name_yc+fin_org_name_yc);
+      						otherBankNameArr.push((fa_fin_org_name_yc+fin_org_name_yc) == ""?"未选择":(fa_fin_org_name_yc+fin_org_name_yc));
       						otherAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
       						otherIsRuweiBankArr.push(item.RUWEI_BANK == 'cl'?'1':'0');
       						totalAmountArrI = accAdd(totalAmountArrI,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));

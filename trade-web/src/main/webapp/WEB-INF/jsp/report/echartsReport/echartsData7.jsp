@@ -116,7 +116,7 @@
             	if(data.rows.length > 0){
             		$.each(data.rows,function(i,item){
             			if(i<15){
-        					xAxisData.push(item.FA_FIN_ORG_NAME_YC.substring(0,2));
+        					xAxisData.push(item.FA_FIN_ORG_NAME_YC == ""?"未选择":item.FA_FIN_ORG_NAME_YC.substring(0,2));
         					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
         					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));				
         					totalNumArr.push(parseInt(item.SIGN_NUM));
