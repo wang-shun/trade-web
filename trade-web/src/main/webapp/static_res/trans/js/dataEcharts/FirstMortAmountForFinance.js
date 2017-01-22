@@ -68,8 +68,8 @@
                             }
                         else{
                                 isOutBound=true;
-                                outBoundComTotal=outBoundComTotal+accDiv(item.COM_AMOUNT,10000);
-                                outBoundShouTotal=outBoundShouTotal+accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000);
+                                outBoundComTotal=accAdd(Number(outBoundComTotal),accDiv(item.COM_AMOUNT,10000));
+                                outBoundShouTotal=accAdd(Number(outBoundShouTotal),accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
                             }
                         })
                     },
@@ -78,8 +78,8 @@
                 ECHART_LOAD_DATA.xAxisData = ECHART_LOAD_DATA.finName;//初始化横轴数据
                 if(isOutBound){
                     ECHART_LOAD_DATA.finName.push('其他')
-                    ECHART_LOAD_DATA.com_total.push(outBoundComTotal.toFixed(2));
-                    ECHART_LOAD_DATA.shou_total.push(outBoundShouTotal.toFixed(2));
+                    ECHART_LOAD_DATA.com_total.push(outBoundComTotal);
+                    ECHART_LOAD_DATA.shou_total.push(outBoundShouTotal);
                     if(outBoundComTotal!=0){
                         ECHART_LOAD_DATA.getRate.push(accDiv(outBoundShouTotal,outBoundComTotal));
                     }else{
