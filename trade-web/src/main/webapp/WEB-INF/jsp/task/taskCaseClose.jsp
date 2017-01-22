@@ -946,7 +946,7 @@
 					});
 				},
 				error : function(errors) {
-					alert("获取主贷人失败");
+					window.wxc.alert("获取主贷人失败");
 				}
 			});
 		}
@@ -969,24 +969,24 @@
 			var _mortType = $('#mortType').find(':selected').val();
 			
 			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
-				alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
+				window.wxc.alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
 				$('#comDiscount').focus();
 				flag = false;
 			}
 			
 			if((_mortType=='30016001'&&_comDiscount!='')||(_mortType=='30016002'&&_comDiscount!='')){
 				if(isNaN(_comDiscount)){
-		            alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
+					window.wxc.alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 		            $('#comDiscount').focus();
 		            flag = false;
 		        }else if(_comDiscount>1.5 || _comDiscount<0.5){
-		    		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+		        	window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		    		$('#comDiscount').focus();
 		    		flag = false;
 		    	}else if(_comDiscount<=1.5 || _comDiscount>=0.5){
 	        		var reg =/^[01]{1}\.{1}\d{3,}$/;
 	        		if(reg.test(_comDiscount)){
-	        			alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+	        			window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 	        			$('#comDiscount').focus();
 	        			flag = false;
 	        		}		    		
@@ -1025,7 +1025,7 @@
 	    		            } , 
 					success : function(data) {
 							if(data.message){
-								alert(data.message);
+								window.wxc.alert(data.message);
 							}
 							if(window.opener)
 						    {
@@ -1037,7 +1037,7 @@
 							//window.location.href = "${ctx }/task/myTaskList";
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.alert("数据保存出错");
 					}
 				});
 			}
@@ -1174,7 +1174,7 @@
 					}
 				},
 				error : function(errors) {
-					alert("上下家加载失败！");
+					window.wxc.alert("上下家加载失败！");
 				}
 			});
 		}

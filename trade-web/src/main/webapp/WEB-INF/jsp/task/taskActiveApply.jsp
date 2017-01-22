@@ -61,7 +61,7 @@ $.fn.serializeObject = function() {
 		  //convert form element to json format. if only certain element, use comma to seperate;Remenber to set id for the element
 		  //or can use document.FormName.Comment (as example)
     	  var jsonuserinfo = $('#comment').serializeObject();  
-          alert(JSON.stringify(jsonuserinfo));  
+    	  window.wxc.alert(JSON.stringify(jsonuserinfo));  
 
    /*  $.ajax({         
             	

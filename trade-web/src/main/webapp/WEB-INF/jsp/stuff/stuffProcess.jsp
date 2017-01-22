@@ -213,16 +213,16 @@
 						if (b) {
 							caseTaskCheck();
 							if (null != data.message) {
-								alert(data.message);
+								window.wxc.alert(data.message);
 							}
 						} else {
-							alert("保存成功。");
+							window.wxc.alert("保存成功。");
 							window.close();
 							window.opener.callback();
 						}
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.alert("数据保存出错");
 						$.unblockUI();
 					}
 				});

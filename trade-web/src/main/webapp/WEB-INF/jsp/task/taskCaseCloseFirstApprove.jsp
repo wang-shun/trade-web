@@ -180,7 +180,7 @@
     		            } , 
 				success : function(data) {
 					if(data.message){
-						alert(data.message);
+						window.wxc.alert(data.message);
 					}
 					 if(window.opener)
 				     {
@@ -191,7 +191,7 @@
 				     }
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.alert("数据保存出错");
 				}
 			});
 		}

@@ -715,7 +715,7 @@ function getUploadImage2(thisIndex,fileUrl,fileId,fileName){
 //删除入账申请信息tr
 function getDel(k){
 	if($("input[name$='receiver']").size()==1){
-		alert("入账申请信息不能少于一行数据！");
+		window.wxc.alert("入账申请信息不能少于一行数据！");
 		return false;
 	}
 	if(!confirm("是否删除！")){

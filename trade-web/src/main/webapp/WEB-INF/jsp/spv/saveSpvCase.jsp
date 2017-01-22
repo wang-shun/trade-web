@@ -1226,14 +1226,14 @@
    								$('.case_content').show();
    								$('#myModal').modal('hide');
    					        }else{
-   					        	alert(data.message);
+   					        	window.wxc.alert(data.message);
    					        }		    		
    						    
 							$.unblockUI();
    					},		
    				error : function(errors) {
    						$.unblockUI();   
-   						alert("数据保存出错:"+JSON.stringify(errors));
+   						window.wxc.alert("数据保存出错:"+JSON.stringify(errors));
    					}  
    	       });
    	     });		   

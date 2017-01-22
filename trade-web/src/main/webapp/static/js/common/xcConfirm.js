@@ -21,10 +21,11 @@
 	 * params.isAutoHide:是否自动消失,默认为ture,自动消失;fasle,不自动小时。
 	 * params.showTime:显示时间,不设置默认2s消失。
 	 */
-	window.wxc.alert = function(message,params){
 	
-		window.wxc.xcConfirm(message,window.wxc.xcConfirm.typeEnum.info);
-		
+	
+	
+	window.wxc.info = function(message,params,typeEnum){
+		window.wxc.xcConfirm(message,typeEnum);
 		var settings = params?params:{};
 		
 		var isAutoHide = (settings.isAutoHide==undefined)?true:settings.isAutoHide;
@@ -34,6 +35,18 @@
 				$(".xcConfirm").remove();
 			},showTime);
 		}
+	}
+	
+	window.wxc.alert = function(message,params){
+		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.info);
+	}
+	
+	window.wxc.error = function(message,params){
+		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.error);
+	}
+	
+	window.wxc.success = function(message,params){
+		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.success);
 	}
 	
 	window.wxc.xcConfirm = function(popHtml, type, options) {
