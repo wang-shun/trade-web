@@ -511,27 +511,27 @@
 				var propertyCode = $("#propertyCode").val();
 				var otherCode = $("#otherCode").val();
 				if(mortgageContractCode == ""){
-					 alert("请填写抵押合同编号！");
+					 window.wxc.alert("请填写抵押合同编号！");
 					 return false;
 				}
 				if(mortgageTime == ""){
-					 alert("请填写抵押登记时间！");
+					 window.wxc.alert("请填写抵押登记时间！");
 					 return false;
 				}
 				if(mortgagePropertyAddress == ""){
-					 alert("请填写抵押物业地址！");
+					 window.wxc.alert("请填写抵押物业地址！");
 					 return false;
 				}
 				if(propertyName == ""){
-					 alert("请填写 产权人姓名！");
+					 window.wxc.alert("请填写 产权人姓名！");
 					 return false;
 				}
 				if(propertyCode == ""){
-					 alert("请填写产证编号！");
+					 window.wxc.alert("请填写产证编号！");
 					 return false;
 				}
 				if(otherCode == ""){
-					 alert("请填写他证编号！");
+					 window.wxc.alert("请填写他证编号！");
 					 return false;
 				}
 				var validataItemManager = false;
@@ -571,7 +571,7 @@
              	})
              	
             	if(validataItemManager) {
-             		alert("请选择保管人！");
+            		window.wxc.alert("请选择保管人！");
 					return false;
              	}
              	
@@ -622,13 +622,13 @@
      					$.unblockUI();
      				},
      				success : function(data) {
-     					alert(data.message);
+     					window.wxc.alert(data.message);
      	     			// 保存附件相关信息
      	     			deleteAndModify();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
-     					alert("数据保存出错");
+     					window.wxc.alert("数据保存出错");
      				}
      			});
              });

@@ -109,15 +109,15 @@
 				data : jsonData,
 				success : function(data) {
 					if(data) {
-						alert("操作完成。");
+						window.wxc.alert("操作完成。");
 					} else {
-						alert('数据无变更。');
+						window.wxc.alert('数据无变更。');
 					}
 					var value = $("#partCode").val();
 					initGuestInfo(value);
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.alert("数据保存出错");
 				}
 			});
 		}
@@ -126,7 +126,7 @@
 		function addAccsory() {
 			var value = $("#partCode").val();
 			if(value == null || value == "" || value == undefined) {
-				alert("请选择操作环节！");
+				window.wxc.alert("请选择操作环节！");
 				return;
 			}
 			var txt = '<div id="dateDivU_' + divIndexUp + '" class="form-group">';
@@ -193,7 +193,7 @@
 					}
 				},
 				error : function(errors) {
-					alert("备件列表失败！");
+					window.wxc.alert("备件列表失败！");
 				}
 			});
 		}

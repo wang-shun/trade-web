@@ -440,7 +440,7 @@
 								"page":1 
 							}).trigger('reloadGrid');
 						} else {
-							alert("请不要选择同样的日期类型或者金额类型！");
+							window.wxc.alert("请不要选择同样的日期类型或者金额类型！");
 						}
 				   });
 				   
@@ -631,7 +631,7 @@
 		    		if (getSearchDateValues() && getSearchMoneyValues()) {
 						params = getParamsValues();
 					} else {
-						alert("请不要选择同样的日期类型或者金额类型！");
+						window.wxc.alert("请不要选择同样的日期类型或者金额类型！");
 						return false;
 					}
 		    		var queryId = '&queryId=loanManageList';
@@ -670,7 +670,7 @@
 						}
 		    		},
 					error : function(errors) {
-						alert("处理出错,请刷新后再次尝试！");
+						window.wxc.alert("处理出错,请刷新后再次尝试！");
 					}
 		    	});
 		    }

@@ -323,12 +323,12 @@
             
             $('.submit_From').click(function(){
             	if($("#signAmount").val()=="" ||$("#signAmount").val()==null){
-            		alert("签约金额为必填信息");
+            		window.wxc.alert("签约金额为必填信息");
             		return;
             	}
             	var date=$("#signTime").val()
             	if(date=='' || date==null ){
-            		alert("签约时间为必填信息");
+            		window.wxc.alert("签约时间为必填信息");
             		return;
             	}
             	saveEloanSign();
@@ -388,12 +388,12 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					alert(data.message);
+					window.wxc.alert(data.message);
 					window.close();
 					window.opener.callback();
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.alert("数据保存出错");
 				}
 			});
 		}

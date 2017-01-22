@@ -370,12 +370,12 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					alert(data.message);
+					window.wxc.alert(data.message);
 					window.close();
 					window.opener.callback();
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.alert("数据保存出错");
 				}
 			});
 		}

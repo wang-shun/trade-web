@@ -300,7 +300,7 @@
 				    // 单个分配
 			 	    $("#modifyBtn").click(function(){
 			    		if($("#agenTeamCode").val()==""){
-			    			alert("请选择要修改的记录！");
+			    			window.wxc.alert("请选择要修改的记录！");
 			    			return;
 			    		}
 			    		$("#isAgentModify").show();
@@ -312,7 +312,7 @@
 			 	   // 批量分配
 			 	    $("#batchModifyBtn").click(function(){
 			    		if($("#oriGrpId").val()==""){
-			    			alert("请选择要分配的区域！");
+			    			window.wxc.alert("请选择要分配的区域！");
 			    			return;
 			    		}
 			      		$("#isAgentModify").hide();
@@ -402,7 +402,7 @@
 	 	    		        $("#backTeam").empty();
 	 	    		        $("#backTeam").html(tempBackTeam);
 	 	    			}else{
-	 	    				alert(data.message);
+	 	    				window.wxc.alert(data.message);
 	 	    			}
 	 	    		}
 	 	    	});
@@ -417,7 +417,7 @@
   	 	        		dataType:"json",
   	 	        		data:$("#addOrModifyForm").serialize(),
   	 	        		success:function(data){
-  	 	    				alert(data.message);
+  	 	        			window.wxc.alert(data.message);
   	 	        			if(data.success){
   	 	        				$("#modal-addOrModifyForm").modal("hide");
 
@@ -473,7 +473,7 @@
 	 	   	 	      		    contentType: "application/json; charset=utf-8",
 	 	   	 	        		data: tsTeamScopeVOList,
 	 	   	 	        		success: function(data){
-	 	   	 	        			alert(data.message);
+	 	   	 	        			window.wxc.alert(data.message);
 	 	   	 	   					if(data.success){
 		   	 	        				$("#modal-addOrModifyForm").modal("hide");
 		   	 	        				
@@ -506,7 +506,7 @@
 	 	    		        $("#"+backId).empty();
 	 	    		        $("#"+backId).html(tempBackTeam);
 	 	    			}else{
-	 	    				alert(data.message);
+	 	    				window.wxc.alert(data.message);
 	 	    			}
 	 	    		}
 	 	    	});
@@ -559,7 +559,7 @@
 
 		    		$('#excelForm').attr('action', url);
 		    		$('#excelForm').submit();
-		    		alert("导出至 Excel成功");
+		    		window.wxc.alert("导出至 Excel成功");
 		    		//caseDistribute();
 		    		//停顿2s后再执行
 		    		var ids = jQuery("#gridTable").jqGrid('getDataIDs');
@@ -590,7 +590,7 @@
 						}
 		    		},
 					error : function(errors) {
-						alert("处理出错,请刷新后再次尝试！");
+						window.wxc.alert("处理出错,请刷新后再次尝试！");
 					}
 		    	});
 		    }
@@ -619,7 +619,7 @@
 
 	    		$('#excelChangeForm').attr('action', url);
 	    		$('#excelChangeForm').submit();
-	    		alert("导出至 Excel成功");
+	    		window.wxc.alert("导出至 Excel成功");
 	    		//caseDistribute();
 	    		//停顿2s后再执行
 	    		//setTimeout(function(){caseDistribute();},2000);

@@ -326,11 +326,11 @@
         		var notaryName = $("#notaryName").val();
  				var executeTime = $("#executeTime").val();
  				if(notaryName == ""){
- 					 alert("请填写公正处名称！");
+ 					 window.wxc.alert("请填写公正处名称！");
  					 return false;
  				}
  				if(executeTime == ""){
- 					 alert("请填写执行时间！");
+ 					 window.wxc.alert("请填写执行时间！");
  					 return false;
  				}
              	var toRcForceRegister = {
@@ -374,11 +374,11 @@
      					$.unblockUI();
      				},
      				success : function(data) {
-     					alert(data.message);
+     					window.wxc.alert(data.message);
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
-     					alert("数据保存出错");
+     					window.wxc.alert("数据保存出错");
      				}
      			});
      			

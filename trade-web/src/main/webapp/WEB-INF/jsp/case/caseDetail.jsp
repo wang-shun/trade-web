@@ -60,7 +60,7 @@
 		var resourceDistributionBtn = false;
 		<%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
 		<%} else {%>
-			alert("<%=request.getAttribute("msg")%>");
+			window.wxc.alert("<%=request.getAttribute("msg")%>");
 		<%}%>
 		<shiro:hasPermission name="TRADE.CASE.DISTRIBUTION">
 		 resourceDistributionBtn = true;
@@ -1266,7 +1266,7 @@
 						if(data.success){
 							location.href = "../case/caseDetail?caseId=" + caseId;
 						}else{
-							alert('添加失败');
+							window.wxc.alert('添加失败');
 						}
 					}
 				});
@@ -1297,7 +1297,7 @@
 				});
  	    	  
  	    	 	if(status == "1"){
- 	    	 		alert("解除状态不能修改商贷预警信息！");
+ 	    	 		window.wxc.alert("解除状态不能修改商贷预警信息！");
  	    	 		return false;
  	    	 	}
  	    	 	
@@ -1321,7 +1321,7 @@
 						if(data.success){
 							location.href = "../case/caseDetail?caseId=" + caseId;
 						}else{
-							alert('修改失败');
+							window.wxc.alert('修改失败');
 						}
 					}
 				});
@@ -1344,7 +1344,7 @@
   							$("#spnRelieveTime").html(getCurrentDate());
   							$("#relieve").hide();
   						}else{
-  							alert('解除失败');
+  							window.wxc.alert('解除失败');
   						}
   					}
   				});

@@ -27,11 +27,11 @@
 			    		value:ctmCode
 			    	}],
 			        success: function(data) {
-			        	alert(data.message);
-			        	alert(data.content);
+			        	window.wxc.alert(data.message);
+			        	window.wxc.alert(data.content);
 			        },
 			        error: function(errors) {
-			        	alert("信息修改失败，请刷新后再次尝试！");
+			        	window.wxc.alert("信息修改失败，请刷新后再次尝试！");
 			        }
 				});
 			}

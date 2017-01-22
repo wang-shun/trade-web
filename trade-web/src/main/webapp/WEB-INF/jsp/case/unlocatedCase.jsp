@@ -367,12 +367,12 @@ width:160px;
 			            } , 
 				success : function(data) {
 					if(data.success){
-						alert("分配成功");
+						window.wxc.alert("分配成功");
 						$('#team-modal-form').modal("hide");
 						//jqGrid reload
 						$("#table_list_1").trigger('reloadGrid');
 					}else{
-						alert(data.message);
+						window.wxc.alert(data.message);
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {

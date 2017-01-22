@@ -34,8 +34,9 @@
     
     <link href="${ctx}/css/style.css" rel="stylesheet">
     <link href="${ctx}/css/font-awesome.min.css" rel="stylesheet">
-    
     <link href="${ctx}/css/plugins/jqGrid/aist-jqgird-ui.custom.css" rel="stylesheet">
+    <!--弹出框样式  -->
+	<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
     <script type="text/javascript">
 	    var ctx = '${ctx}';
 	    window.ctx=ctx;
@@ -165,9 +166,11 @@
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog.jsp"%> 
     <script type="text/javascript" src="${ctx}/transjs/common/INSPINIA_template.js"></script>
+    <!-- 引入弹出框js文件 -->
+	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+    
     <script type="text/javascript">
     	var ctx = '${ctx}';
     	window.ctx=ctx;

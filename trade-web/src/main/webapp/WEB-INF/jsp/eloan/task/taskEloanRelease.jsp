@@ -346,7 +346,7 @@
             	var month = $('#month').val();
             	var signAmount = $('#signAmount').val(); */   
             	if(isRelFinish==""){
-            		alert("请选择放款是否完成");
+            		window.wxc.alert("请选择放款是否完成");
             		return;
             	}
             	var sumAmount = 0;
@@ -373,12 +373,12 @@
             
             	var size=$("input[name='eloanRelSize']").val();
             	if(clickCount<=0&&size==undefined){
-            		alert("请添加一条放款记录");
+            		window.wxc.alert("请添加一条放款记录");
             		return;
             	}
             	
             	if(eloanRelList[0].releaseAmount==""||eloanRelList[0].releaseTime==""){
-            		alert("请将信息填写完整");
+            		window.wxc.alert("请将信息填写完整");
             		return;
             	}
 /*             	var toEloanCase = {};
@@ -401,7 +401,7 @@
             	var msg = validateIsFinishRelease(eloanCode,sumAmount);
             	if(($.trim(msg) === '请选择放款完成!' && $('#isRelFinish').val()==1) || $.trim(msg) === '操作成功') {
             	}else {
-            		alert(msg);
+            		window.wxc.alert(msg);
             		return false;
             	}
             	var url = "${ctx}/eloan/saveEloanRelease";
@@ -429,12 +429,12 @@
     					$.unblockUI();
     				},
     				success : function(data) {
-    					alert(data.message);
+    					window.wxc.alert(data.message);
     					window.close();
     					window.opener.callback();
     				},
     				error : function(errors) {
-    					alert("数据保存出错");
+    					window.wxc.alert("数据保存出错");
     				}
     			});
             })
@@ -472,7 +472,7 @@
 					msg = data.message;
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.alert("数据保存出错");
 				}
 			});
 			return msg;

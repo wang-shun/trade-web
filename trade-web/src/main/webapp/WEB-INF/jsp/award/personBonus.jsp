@@ -354,7 +354,7 @@
 		    				  		$("#awardAmount").html(data.content);
 		    					 }
 		    				  }else{
-		    					  alert(data.message);
+		    					  window.wxc.alert(data.message);
 		    				  }
 		    	          }
 		    	     });

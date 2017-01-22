@@ -192,7 +192,7 @@
 		    }
 		    
 		    function cleanButton() {
-		    	alert(1);
+		    	window.wxc.alert(1);
 	    	   $("input[type=text]").val();
 	    	   $("input[type=select]").attr("value","");
 		    }
@@ -234,7 +234,7 @@
 
 		    		$('#excelForm').attr('action', url);
 		    		$('#excelForm').submit();
-		    		alert("导出至 Excel成功");
+		    		window.wxc.alert("导出至 Excel成功");
 		    		//caseDistribute();
 		    		//停顿2s后再执行
 		    		var ids = jQuery("#gridTable").jqGrid('getDataIDs');
@@ -265,7 +265,7 @@
 						}
 		    		},
 					error : function(errors) {
-						alert("处理出错,请刷新后再次尝试！");
+						window.wxc.alert("处理出错,请刷新后再次尝试！");
 					}
 		    	});
 		    }
@@ -294,7 +294,7 @@
 
 	    		$('#excelChangeForm').attr('action', url);
 	    		$('#excelChangeForm').submit();
-	    		alert("导出至 Excel成功");
+	    		window.wxc.alert("导出至 Excel成功");
 	    		//caseDistribute();
 	    		//停顿2s后再执行
 	    		//setTimeout(function(){caseDistribute();},2000);
