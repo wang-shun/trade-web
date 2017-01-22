@@ -115,7 +115,10 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
            	      html+="<td>"+xAxisData[k]+"</td>";
             }
 		          html+="</thead>";
-			for(var i=0;i<legend.length;i++){				
+			for(var i=0;i<legend.length;i++){	
+				if(datas[i].length<=0){
+					 break;
+					 }
 				 html+="<tr><td class='tabletitle'>";
 				 if(type[i]=="bar"){
 				    html+= "<span class='colorBar' style='background-color:"+color[i]+"'></span>";
@@ -134,8 +137,8 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 html+="</tr>"
 		    }
 				$(".echarsTable").html(html);
-				//$(".echarsTable td").width(828/xAxisSize);
-			var optionWidth=option.grid.width-2-(2*xAxisSize);
+				var cha=xAxisSize%2==0?1:2;
+				var optionWidth=option.grid.width-(cha*xAxisSize)-0.5*xAxisSize;
 			 $(".tabletitle~td").width(optionWidth/(xAxisSize));
 		}
 
