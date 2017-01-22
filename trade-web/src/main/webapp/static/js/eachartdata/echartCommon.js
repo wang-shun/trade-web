@@ -136,7 +136,8 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 html+="</tr>"
 		    }
 				$(".echarsTable").append(html);
-				var optionWidth=option.grid.width-2-(2*xAxisSize)-0.5*xAxisSize;
+				var cha=xAxisSize%2==0?1:2;
+				var optionWidth=option.grid.width-(cha*xAxisSize)-0.5*xAxisSize;
 				 $(".tabletitle~td").width(optionWidth/(xAxisSize));
 		}
 
