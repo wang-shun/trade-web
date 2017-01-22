@@ -112,18 +112,30 @@
             	//
             	var span1Text = 0;
             	var span2Text = 0;
+            	//其他 
+            	var otherAmountI = 0;
+            	var otherNumI = 0;
             	//1.
             	if(data.rows.length > 0){
             		$.each(data.rows,function(i,item){
-            			if(i<15){
+    					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));	
+    					span2Text += parseInt(item.SIGN_NUM);
+            			if(i < 14){
         					xAxisData.push(item.FA_FIN_ORG_NAME_YC == ""?"未选择":item.FA_FIN_ORG_NAME_YC.substring(0,2));
-        					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
-        					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));				
+                			totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
         					totalNumArr.push(parseInt(item.SIGN_NUM));
-        					span2Text += parseInt(item.SIGN_NUM);
+            			}else{
+            				otherAmountI = accAdd(otherAmountI,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));
+            				otherNumI += parseInt(item.SIGN_NUM);
             			}
     				})
             	} 	
+            	
+            	if(data.rows.length > 14){
+            		xAxisData.push("其他");
+            		totalAmountArr.push(Math.round(otherAmountI));
+            		totalNumArr.push(otherNumI);
+            	}
             	//2.
             	yAxis =[ 
             	{
