@@ -146,21 +146,21 @@
             		var otherIsRuweiBankArr = [];
             		
             		$.each(data.rows,function(i,item){
-            			span1Text = accAdd(Number(span1Text),accDiv(parseInt(item.SIGN_CON_PRICE),10000));		
+            			span1Text = accAdd(Number(span1Text),accDiv(parseInt(item.CONTRACT_AMOUNT),10000));		
       					span2Text += parseInt(item.SIGN_NUM);
       					var fa_fin_org_name_yc = item.FA_FIN_ORG_NAME_YC.length>2?item.FA_FIN_ORG_NAME_YC.substring(0,2):item.FA_FIN_ORG_NAME_YC;
                         var fin_org_name_yc = item.FIN_ORG_NAME_YC.length>2?item.FIN_ORG_NAME_YC.substring(0,2):item.FIN_ORG_NAME_YC;
             			//前14个直接显示
       					if(i < 14){		
                             xAxisData.push(fa_fin_org_name_yc+fin_org_name_yc);
-          					totalAmountArr.push(Math.round(accDiv(parseInt(item.SIGN_CON_PRICE),10000)));	
+          					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));	
           					IsRuweiBankArr.push(item.RUWEI_BANK == 'cl'?'1':'0');
             			//后面的加入到‘其他’
       					}else{
       						otherBankNameArr.push(fa_fin_org_name_yc+fin_org_name_yc);
-      						otherAmountArr.push(Math.round(accDiv(parseInt(item.SIGN_CON_PRICE),10000)));
+      						otherAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
       						otherIsRuweiBankArr.push(item.RUWEI_BANK == 'cl'?'1':'0');
-      						totalAmountArrI = accAdd(totalAmountArrI,accDiv(parseInt(item.SIGN_CON_PRICE),10000));
+      						totalAmountArrI = accAdd(totalAmountArrI,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));
             			}                  
         			}) 
         			
@@ -192,6 +192,8 @@
         				}
 
         				$("#displayTable tbody").html(tbodyContent);
+        			}else{
+        				$("#displayTable tbody").empty();
         			}
             	}else{
             		$(".label-tip").hide();

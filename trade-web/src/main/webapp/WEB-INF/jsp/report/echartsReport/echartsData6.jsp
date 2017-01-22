@@ -152,14 +152,14 @@
             				item = data.rows[j];
             				if(districtIDArr[i] == item.DISTRICT_ID){
             					xAxisData[i] = districtNameArr[i];
-            					totalAmountArr[i] = Math.round(accDiv(parseInt(item.TOTAL_AMOUNT),10000));
-            					span1Text = accAdd(span1Text,accDiv(parseInt(item.TOTAL_AMOUNT),10000));
+            					totalAmountArr[i] = Math.round(accDiv(parseInt(item.SIGN_CON_PRICE),10000));
+            					span1Text = accAdd(span1Text,accDiv(parseInt(item.SIGN_CON_PRICE),10000));
             					comAmountArr[i] = Math.round(accDiv(parseInt(item.COM_AMOUNT),10000));
             					span2Text = accAdd(span2Text,accDiv(parseInt(item.COM_AMOUNT),10000));
             					prfAmountArr[i] = Math.round(accDiv(parseInt(item.PRF_AMOUNT),10000));
             					span3Text = accAdd(span3Text,accDiv(parseInt(item.PRF_AMOUNT),10000));
-            					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_AMOUNT),parseInt(item.TOTAL_AMOUNT)),100).replace(".00","");
-            					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_AMOUNT),parseInt(item.TOTAL_AMOUNT)),100).replace(".00","");
+            					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_AMOUNT),parseInt(item.SIGN_CON_PRICE)),100).replace(".00","");
+            					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_AMOUNT),parseInt(item.SIGN_CON_PRICE)),100).replace(".00","");
             					flag = true;
             					}
             				}
