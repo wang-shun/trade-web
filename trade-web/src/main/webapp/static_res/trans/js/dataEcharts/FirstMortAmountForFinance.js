@@ -78,10 +78,10 @@
                 ECHART_LOAD_DATA.xAxisData = ECHART_LOAD_DATA.finName;//初始化横轴数据
                 if(isOutBound){
                     ECHART_LOAD_DATA.finName.push('其他')
-                    ECHART_LOAD_DATA.com_total.push(outBoundComTotal);
-                    ECHART_LOAD_DATA.shou_total.push(outBoundShouTotal);
+                    ECHART_LOAD_DATA.com_total.push(outBoundComTotal.toFixed(2));
+                    ECHART_LOAD_DATA.shou_total.push(outBoundShouTotal.toFixed(2));
                     if(outBoundComTotal!=0){
-                        ECHART_LOAD_DATA.getRate.push(outBoundShouTotal,outBoundComTotal);
+                        ECHART_LOAD_DATA.getRate.push(accDiv(outBoundShouTotal,outBoundComTotal));
                     }else{
                         ECHART_LOAD_DATA.getRate.push('0.00');
                     }
