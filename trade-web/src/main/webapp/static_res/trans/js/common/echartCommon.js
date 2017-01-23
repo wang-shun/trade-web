@@ -42,7 +42,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					y:'7%'
 				},
 				grid: {
-		            x: '105',
+		            x: '130',
 		            y: '25%',
 		            x2: '50',
 		            y2: '15%',
@@ -137,7 +137,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				$(".echarsTable").html(html);
 				 $(".tabletitle~td").width(700/(xAxisSize));			
 				var width=$(".echarsTable").width();
-				option.grid.width=width-105;
+				option.grid.width=width-130;
 				myChart.setOption(option);
 		}
 
