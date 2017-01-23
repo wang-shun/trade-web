@@ -159,15 +159,15 @@
             				item = data.rows[j];
             				if(districtIDArr[i] == item.DISTRICT_ID){
             					xAxisData[i] = districtNameArr[i];
-            					dispatchNumArr[i] = item.DISPATCH_NUM;
+            					dispatchNumArr[i] = parseInt(item.DISPATCH_NUM);
             					span1Text += parseInt(item.DISPATCH_NUM);
-            					signNumArr[i] = item.SIGN_NUM;
+            					signNumArr[i] = parseInt(item.SIGN_NUM);
             					span2Text += parseInt(item.SIGN_NUM);
-            					guohuNumArr[i] = item.GUOHU_NUM;
+            					guohuNumArr[i] = parseInt(item.GUOHU_NUM);
             					span3Text += parseInt(item.GUOHU_NUM);
-            					comNumArr[i] = item.COM_NUM;
+            					comNumArr[i] = parseInt(item.COM_NUM);
             					span4Text += parseInt(item.COM_NUM);
-            					prfNumArr[i] = item.PRF_NUM;
+            					prfNumArr[i] = parseInt(item.PRF_NUM);
             					span5Text += parseInt(item.PRF_NUM);
             					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","");
             					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","");
