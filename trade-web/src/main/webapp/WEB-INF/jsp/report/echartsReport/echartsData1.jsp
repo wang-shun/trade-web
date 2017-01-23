@@ -85,12 +85,12 @@
 <script src="${ctx }/static_res/js/echarts-all.js"></script>
 <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
 <script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuForm.js"></script>
-<script src="${ctx }/js/eachartdata/select_month.js"></script>
 <script>
-
-    function reloadGrid(){
-        var year = window.parent.yearDisplay;
-        var month = parseInt(window.parent.monthDisplay)+1;
+    $(function() {
+        window.ECHART_LOAD_DATA.turnDate();
+        reloadGrid(window.ECHART_LOAD_DATA.getCurrentYear(),window.ECHART_LOAD_DATA.getCurrentMonth());
+    })
+    function reloadGrid(year,month){
         // 基于准备好的dom，初始化echarts实例
         var myChart1 = echarts.init(document.getElementById('plotCont1'));
         var myChart2 = echarts.init(document.getElementById('plotCont2'));
