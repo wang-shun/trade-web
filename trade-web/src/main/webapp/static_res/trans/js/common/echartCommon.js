@@ -42,7 +42,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					y:'7%'
 				},
 				grid: {
-		            x: '140',
+		            x: '105',
 		            y: '25%',
 		            x2: '50',
 		            y2: '15%',
@@ -108,8 +108,6 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				option.series.push(seriej);
 			})
 
-			myChart.setOption(option);
-			
 			var html="<thead><td class='tabletitle'></td>";
             for(var k=0;k<xAxisSize;k++){
            	      html+="<td>"+xAxisData[k]+"</td>";
@@ -137,9 +135,10 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 html+="</tr>"
 		    }
 				$(".echarsTable").html(html);
-				var cha=xAxisSize%2==0?1:2;
-				var optionWidth=option.grid.width-(cha*xAxisSize)-0.5*xAxisSize;
-			 $(".tabletitle~td").width(optionWidth/(xAxisSize));
+				 $(".tabletitle~td").width(700/(xAxisSize));			
+				var width=$(".echarsTable").width();
+				option.grid.width=width-105;
+				myChart.setOption(option);
 		}
 
 /**

@@ -196,7 +196,7 @@
                     type: 'value',//左边
                     name: '单数',
                     min:0,
-                    max:600,
+                    max:800,
                     axisLabel: {
                         formatter: '{value}单 '
                     }

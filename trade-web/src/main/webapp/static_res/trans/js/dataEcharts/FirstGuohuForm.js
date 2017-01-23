@@ -145,7 +145,7 @@
                 var yAxis =[ {
                     type : 'value',//左边
                     min:0,
-                    max:800,
+                    max:600,
                     name : '数量(单)',
                     axisLabel : {
                         formatter : '{value}'

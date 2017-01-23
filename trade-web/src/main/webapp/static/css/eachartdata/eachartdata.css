@@ -284,14 +284,14 @@ p{
 	color: #5e5e5e;
 }
 .echarsTable td {
-	width: 98px;
+	width: auto;
 	height: 33px;
 	border: 1px solid #333;
 	text-align: center;
 }
 
 .echarsTable .tabletitle {
-	width: 139px !important;
+	width: 105px !important;
 	text-align: left;
 }
 

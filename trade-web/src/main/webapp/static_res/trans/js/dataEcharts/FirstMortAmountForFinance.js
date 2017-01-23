@@ -95,7 +95,7 @@
                     type : 'value',//左边
                     name : '金额(万元)',
                     min:0,
-                    max:100000,
+                    max:80000,
                     axisLabel : {
                         formatter : '{value}'
                     }
