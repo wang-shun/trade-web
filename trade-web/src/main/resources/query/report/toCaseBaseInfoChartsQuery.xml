@@ -143,14 +143,14 @@
 			<baseSql>
 				<![CDATA[
 					select
-						tb1.DISTRICT_ID,--区域ID
-						count(tb1.CASE_CODE) as HOURSE_TRANSFER_COUNT,--过户案件数
-						isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
-						isnull(sum(MORTGAGET_COM_AMOUNT),0) as MORTGAGET_COM_AMOUNT,--商业贷款金额
+						tb1.DISTRICT_ID,
+						count(tb1.CASE_CODE) as HOURSE_TRANSFER_COUNT,
+						isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as MORTGAGET_TOTAL_AMOUNT,
+						isnull(sum(MORTGAGET_COM_AMOUNT),0) as MORTGAGET_COM_AMOUNT,
 						<ifNotNull choiceMonth>
 						 #choiceMonth# as CHOICE_MONTH,
 						</ifNotNull>
-						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT--公积金贷款金额
+						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT
 
 					from
 					sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
@@ -196,14 +196,14 @@
 			<baseSql>
 				<![CDATA[
 				select
-					isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
-					isnull(sum(MORTGAGET_COM_AMOUNT),0) as COM_AMOUNT,--商业贷款金额
-					isnull(sum(MORTGAGET_PRF_AMOUNT),0) as PRF_AMOUNT,--公积金贷款金额
+					isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as MORTGAGET_TOTAL_AMOUNT,
+					isnull(sum(MORTGAGET_COM_AMOUNT),0) as COM_AMOUNT,
+					isnull(sum(MORTGAGET_PRF_AMOUNT),0) as PRF_AMOUNT,
 					<ifNotNull choiceMonth>
 					 #choiceMonth# as CHOICE_MONTH,
 					</ifNotNull>
-					sum(LOST_AMOUNT) as LOST_AMOUNT,--流失金额
-					t1.FA_FIN_ORG_CODE--金融机构code
+					sum(LOST_AMOUNT) as LOST_AMOUNT,
+					t1.FA_FIN_ORG_CODE
 
 				from
 				(
