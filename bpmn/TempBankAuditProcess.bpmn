@@ -15,7 +15,7 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{commonUserService.findAnyAssigneeByCaseOwner(execution,'DirectorAudit','director') && isSeniorManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="exclusivegateway1" targetRef="SuperManagerAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{commonUserService.findAnyAssigneeByCaseOwner(execution,'SuperManagerAudit','SeniorManager') && isManagerApprove == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{commonUserService.findAnyAssigneeByCaseOwner(execution,'SuperManagerAudit','Senior_Manager') && isManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow10" sourceRef="exclusivegateway1" targetRef="DirectorAudit">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isManagerApprove == true && (SeniorManager == null || SeniorManager == Manager)}]]></conditionExpression>
