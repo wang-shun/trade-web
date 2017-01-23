@@ -89,6 +89,9 @@
     $(function() {
         window.ECHART_LOAD_DATA.turnDate();
         reloadGrid(window.ECHART_LOAD_DATA.getCurrentYear(),window.ECHART_LOAD_DATA.getCurrentMonth());
+        setTimeout(function(){
+            $("#iframe2",window.parent.document).attr("src","${ctx}/report/echartsData2");
+        },300);
     })
     function reloadGrid(year,month){
 
@@ -101,12 +104,6 @@
         window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表
         window.ECHART_LOAD_DATA.buildPieChart(myChart2);//生成饼图报表
         window.ECHART_LOAD_DATA.buildListChart('list_chart');//生成饼图报表
-        if( parent.loadflag==1){
-            $("#iframe2",window.parent.document).attr("src","${ctx}/report/echartsData2");
-            $("#iframe3",window.parent.document).attr("src","${ctx}/report/echartsData3");
-            $("#iframe4",window.parent.document).attr("src","${ctx}/report/echartsData4");
-            parent.loadflag=0;
-        }
     }
 </script>
 

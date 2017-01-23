@@ -83,6 +83,9 @@
             $(function() {
                 window.ECHART_LOAD_DATA.turnDate();
                 reloadGrid(window.ECHART_LOAD_DATA.getCurrentYear(),window.ECHART_LOAD_DATA.getCurrentMonth());
+                setTimeout(function(){
+                    $("#iframe4",window.parent.document).attr("src","${ctx}/report/echartsData4");
+                },300);
             })
             function reloadGrid(year,month){
 			// 基于准备好的dom，初始化echarts实例
