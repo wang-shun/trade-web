@@ -35,7 +35,7 @@
                 ECHART_LOAD_DATA.legend= ["总金额","收单金额","收单率"];
             },
             /*报表一数据获得ajax*/
-            getBarAjaxDate: function (dateMonth,dateFlag){
+            getBarAjaxDate: function (dateMonth,dateFlag,myChart){
                 var isOutBound=false;
                 var outBoundComTotal=0;
                 var outBoundShouTotal=0;
@@ -49,7 +49,7 @@
                     method : "GET",
                     data : data,
                     dataType : "json",
-                    async:false,
+                    async:true,
                     success : function(data) {
                         if(data==null||data==undefined){
                             return;
@@ -70,25 +70,28 @@
                                 outBoundComTotal=ECHART_LOAD_DATA.accAdd(Number(outBoundComTotal),accDiv(item.COM_AMOUNT,10000));
                                 outBoundShouTotal=ECHART_LOAD_DATA.accAdd(Number(outBoundShouTotal),accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
                             }
-                        })
+                        });
+                        if(isOutBound){
+                            ECHART_LOAD_DATA.finName.push('其他')
+                            ECHART_LOAD_DATA.com_total.push(outBoundComTotal);
+                            ECHART_LOAD_DATA.shou_total.push(outBoundShouTotal);
+                            if(outBoundComTotal!=0){
+                                ECHART_LOAD_DATA.getRate.push(accDiv(outBoundShouTotal,outBoundComTotal));
+                            }else{
+                                ECHART_LOAD_DATA.getRate.push('0.00');
+                            }
+                        }
+                        ECHART_LOAD_DATA.xAxisData = ECHART_LOAD_DATA.finName;//初始化横轴数据
+                        ECHART_LOAD_DATA.barChartShow(myChart);
                     },
                     error:function(){}
                 });
-                ECHART_LOAD_DATA.xAxisData = ECHART_LOAD_DATA.finName;//初始化横轴数据
-                if(isOutBound){
-                    ECHART_LOAD_DATA.finName.push('其他')
-                    ECHART_LOAD_DATA.com_total.push(outBoundComTotal);
-                    ECHART_LOAD_DATA.shou_total.push(outBoundShouTotal);
-                    if(outBoundComTotal!=0){
-                        ECHART_LOAD_DATA.getRate.push(accDiv(outBoundShouTotal,outBoundComTotal));
-                    }else{
-                        ECHART_LOAD_DATA.getRate.push('0.00');
-                    }
-                }
             },
 
             buildBarChart : function(myChart){
-                ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
+                ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new',myChart);
+            },
+            barChartShow : function(myChart){
                 var datas=[ECHART_LOAD_DATA.com_total,ECHART_LOAD_DATA.shou_total,ECHART_LOAD_DATA.getRate];
                 var type=["bar","bar","line"];
                 var yAxis =[ {

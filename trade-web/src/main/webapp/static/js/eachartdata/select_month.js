@@ -26,9 +26,9 @@ function resetDataModel(count){
         if(count == 1 && window.parent.yearDisplay == yearLast && window.parent.monthDisplay == monthLast){
         	$(item.contentWindow.document).find(".calendar-month span:gt("+window.parent.monthLast+")").removeClass("disabled").addClass("disabled");
         	//首次延迟加载，等待iframe加载完成
-        	setTimeout(function(){
-        		item.contentWindow.reloadGrid();
-        	},600);
+			setTimeout(function(){
+				item.contentWindow.reloadGrid();
+			},600);
         }else{
         	item.contentWindow.reloadGrid();
         }

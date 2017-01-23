@@ -135,7 +135,7 @@
 		</grid>
 	</query>
 
-	<query id="queryHourseTransferCaseBaseInfoForDistrict" cacheResult="true">
+	<query id="queryHourseTransferCaseBaseInfoForDistrict">
 		<searchCondition>
 
 		</searchCondition>
@@ -188,7 +188,7 @@
 	</query>
 
 
-	<query id="queryHourseTransferCaseBaseInfoForFin" cacheResult="true">
+	<query id="queryHourseTransferCaseBaseInfoForFin">
 		<searchCondition>
 
 		</searchCondition>
@@ -204,6 +204,7 @@
 					</ifNotNull>
 					sum(LOST_AMOUNT) as LOST_AMOUNT,--流失金额
 					t1.FA_FIN_ORG_CODE--金融机构code
+
 				from
 				(
 					select

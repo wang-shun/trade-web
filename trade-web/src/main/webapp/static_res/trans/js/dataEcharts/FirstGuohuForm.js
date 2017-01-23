@@ -60,7 +60,6 @@
                     dataType : "json",
                     async:false,
                     success : function(data) {
-
                         if(data==null||data==undefined){
                             return;
                         }
@@ -111,7 +110,7 @@
                     async:false,
                     success : function(data) {
                         $.each(data.rows,function(i,item){
-                            ECHART_LOAD_DATA.districtID.push(item.DISTRICT_ID)
+                            ECHART_LOAD_DATA.districtID.push(item.DISTRICT_ID);
                             ECHART_LOAD_DATA.districtName.push(item.DISTRICT_NAME.substring(0,2));
                             ECHART_LOAD_DATA.newData.push(0);
                             ECHART_LOAD_DATA.oldData.push(0);
@@ -138,6 +137,7 @@
                     ECHART_LOAD_DATA.legend.push(ECHART_LOAD_DATA.year+"-"+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)))+"月过户总量");
                     ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.year)-1)+"-12月过户总量");
                 }
+
                 //生成柱状图
                 var datas=[ECHART_LOAD_DATA.newData, ECHART_LOAD_DATA.oldData];
                 var type=["bar","bar"];
@@ -162,7 +162,7 @@
 
             },
             buildListChart : function(list_chart){
-                ECHART_LOAD_DATA.list_title = ECHART_LOAD_DATA.month+'月过户总量'
+                ECHART_LOAD_DATA.list_title = ECHART_LOAD_DATA.month+'月过户总量';
 
                 $("#"+list_chart).html('');
                 var html='<li><i class="iconfont mr5 al-yellow al-icon-22">&#xe643;</i>'+ECHART_LOAD_DATA.month+'月总量<span>'+ECHART_LOAD_DATA.totalNewDataCount+'</span>单</li>';
