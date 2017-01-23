@@ -77,7 +77,7 @@
 		</grid>
 	</query>
 
-	<query id="queryDistrict">
+	<query id="queryDistrict" cacheResult="true">
 		<searchCondition>
 
 		</searchCondition>
