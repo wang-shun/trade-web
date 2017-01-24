@@ -3,7 +3,7 @@
  */
 
 (function() {
-    window.ECHART_LOAD_DATA = window.ECHART_LOAD_DATA || {
+    window.ECHART_D4_ = window.ECHART_D4_ || {
 
             month:11,//用户选择的月份
             year:2016,//用户选择的月份
@@ -21,21 +21,22 @@
              * 初始化
              */
             init: function(year,month) {
-                ECHART_LOAD_DATA.finID.splice(0,ECHART_LOAD_DATA.finID.length);
-                ECHART_LOAD_DATA.finName.splice(0,ECHART_LOAD_DATA.finName.length);
-                ECHART_LOAD_DATA.xAxisData.splice(0,ECHART_LOAD_DATA.xAxisData.length);
-                ECHART_LOAD_DATA.com_total.splice(0,ECHART_LOAD_DATA.com_total.length);
+                ECHART_D4_.finID.splice(0,ECHART_D4_.finID.length);
+                ECHART_D4_.finName.splice(0,ECHART_D4_.finName.length);
+                ECHART_D4_.xAxisData.splice(0,ECHART_D4_.xAxisData.length);
+                ECHART_D4_.com_total.splice(0,ECHART_D4_.com_total.length);
 
-                ECHART_LOAD_DATA.shou_total.splice(0,ECHART_LOAD_DATA.shou_total.length);
-                ECHART_LOAD_DATA.getRate.splice(0,ECHART_LOAD_DATA.getRate.length);
+                ECHART_D4_.shou_total.splice(0,ECHART_D4_.shou_total.length);
+                ECHART_D4_.getRate.splice(0,ECHART_D4_.getRate.length);
 
-                ECHART_LOAD_DATA.month=month;
-                ECHART_LOAD_DATA.year=year;
-                ECHART_LOAD_DATA.url=$("#ctx").val();
-                ECHART_LOAD_DATA.legend= ["总金额","收单金额","收单率"];
+                ECHART_D4_.month=month;
+                ECHART_D4_.year=year;
+                ECHART_D4_.url=$("#ctx").val();
+                ECHART_D4_.legend= ["总金额","收单金额","收单率"];
             },
             /*报表一数据获得ajax*/
-            getBarAjaxDate: function (dateMonth,dateFlag,myChart){
+            getBarAjaxDate: function (dateMonth){
+                var myChart1 = echarts.init(document.getElementById('plotCont1'));
                 var isOutBound=false;
                 var outBoundComTotal=0;
                 var outBoundShouTotal=0;
@@ -55,65 +56,64 @@
                             return;
                         }
                         $.each(data.rows,function(i,item){
-                            if(i<ECHART_LOAD_DATA.finLimit){
-                                ECHART_LOAD_DATA.finName.push(item.FA_FIN_ORG_NAME);
-                                ECHART_LOAD_DATA.com_total.push(ECHART_LOAD_DATA.accDiv(item.COM_AMOUNT,10000));
-                                ECHART_LOAD_DATA.shou_total.push(ECHART_LOAD_DATA.accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
+                            if(i<ECHART_D4_.finLimit){
+                                ECHART_D4_.finName.push(item.FA_FIN_ORG_NAME);
+                                ECHART_D4_.com_total.push(ECHART_D4_.accDiv(item.COM_AMOUNT,10000));
+                                ECHART_D4_.shou_total.push(ECHART_D4_.accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
                                 if(item.COM_AMOUNT!=0){
-                                    ECHART_LOAD_DATA.getRate.push(accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),item.COM_AMOUNT));
+                                    ECHART_D4_.getRate.push(accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),item.COM_AMOUNT));
                                 }else{
-                                    ECHART_LOAD_DATA.getRate.push('0.00');
+                                    ECHART_D4_.getRate.push('0.00');
                                 }
                             }
                             else{
                                 isOutBound=true;
-                                outBoundComTotal=ECHART_LOAD_DATA.accAdd(Number(outBoundComTotal),accDiv(item.COM_AMOUNT,10000));
-                                outBoundShouTotal=ECHART_LOAD_DATA.accAdd(Number(outBoundShouTotal),accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
+                                outBoundComTotal=ECHART_D4_.accAdd(Number(outBoundComTotal),accDiv(item.COM_AMOUNT,10000));
+                                outBoundShouTotal=ECHART_D4_.accAdd(Number(outBoundShouTotal),accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
                             }
                         });
                         if(isOutBound){
-                            ECHART_LOAD_DATA.finName.push('其他')
-                            ECHART_LOAD_DATA.com_total.push(outBoundComTotal);
-                            ECHART_LOAD_DATA.shou_total.push(outBoundShouTotal);
+                            ECHART_D4_.finName.push('其他')
+                            ECHART_D4_.com_total.push(outBoundComTotal);
+                            ECHART_D4_.shou_total.push(outBoundShouTotal);
                             if(outBoundComTotal!=0){
-                                ECHART_LOAD_DATA.getRate.push(accDiv(outBoundShouTotal,outBoundComTotal));
+                                ECHART_D4_.getRate.push(accDiv(outBoundShouTotal,outBoundComTotal));
                             }else{
-                                ECHART_LOAD_DATA.getRate.push('0.00');
+                                ECHART_D4_.getRate.push('0.00');
                             }
                         }
-                        ECHART_LOAD_DATA.xAxisData = ECHART_LOAD_DATA.finName;//初始化横轴数据
-                        ECHART_LOAD_DATA.barChartShow(myChart);
+                        ECHART_D4_.xAxisData = ECHART_D4_.finName;//初始化横轴数据
+                        var datas=[ECHART_D4_.com_total,ECHART_D4_.shou_total,ECHART_D4_.getRate];
+                        var type=["bar","bar","line"];
+                        var yAxis =[ {
+                            type : 'value',//左边
+                            name : '金额(万元)',
+                            min:0,
+                            max:80000,
+                            axisLabel : {
+                                formatter : '{value}'
+                            }
+                        },{
+                            type : 'value',//右边
+                            name : '比例',
+                            min:0,
+                            max:1,
+                            axisLabel : {
+                                formatter : '{value}'
+                            }
+                        }
+                        ];
+                        returnBar(ECHART_D4_.xAxisData,yAxis,ECHART_D4_.legend,datas,type,null,myChart1,"贷款银行分配情况");
+
                     },
                     error:function(){}
                 });
             },
 
-            buildBarChart : function(myChart){
-                ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new',myChart);
+            buildBarChart : function(){
+                ECHART_D4_.getBarAjaxDate(ECHART_D4_.year+'-'+ECHART_D4_.turnNumber(Number(ECHART_D4_.month)));
             },
-            barChartShow : function(myChart){
-                var datas=[ECHART_LOAD_DATA.com_total,ECHART_LOAD_DATA.shou_total,ECHART_LOAD_DATA.getRate];
-                var type=["bar","bar","line"];
-                var yAxis =[ {
-                    type : 'value',//左边
-                    name : '金额(万元)',
-                    min:0,
-                    max:80000,
-                    axisLabel : {
-                        formatter : '{value}'
-                    }
-                },{
-                    type : 'value',//右边
-                    name : '比例',
-                    min:0,
-                    max:1,
-                    axisLabel : {
-                        formatter : '{value}'
-                    }
-                }
-                ];
-                returnBar(ECHART_LOAD_DATA.xAxisData,yAxis,ECHART_LOAD_DATA.legend,datas,type,null,myChart,"贷款银行分配情况");
-            },
+
             turnDate:function(){//改变年月的方法
                 //默认选定上个月
                 var yearDisplay,monthDisplay;

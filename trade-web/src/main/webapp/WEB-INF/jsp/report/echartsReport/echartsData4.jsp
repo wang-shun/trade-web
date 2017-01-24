@@ -80,16 +80,16 @@
 <script src="${ctx}/static/trans/js/dataEcharts/FirstMortAmountForFinance.js"></script>
 <script>
     $(function() {
-        window.ECHART_LOAD_DATA.turnDate();
-        reloadGrid(window.ECHART_LOAD_DATA.getCurrentYear(),window.ECHART_LOAD_DATA.getCurrentMonth());
+        window.ECHART_D4_.turnDate();
+        reloadGrid(window.ECHART_D4_.getCurrentYear(),window.ECHART_D4_.getCurrentMonth());
     })
     function reloadGrid(year,month){
         // 基于准备好的dom，初始化echarts实例
-        var myChart1 = echarts.init(document.getElementById('plotCont1'));
+
         // 使用刚指定的配置项和数据显示图表。
-        window.ECHART_LOAD_DATA.init(year,month);
+        window.ECHART_D4_.init(year,month);
         // 指定图表的配置项和数据
-        window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表
+        window.ECHART_D4_.buildBarChart();//生成柱状报表
 
     }
 

@@ -81,21 +81,16 @@
          <script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuMortAmount.js"></script>
         <script>
             $(function() {
-                window.ECHART_LOAD_DATA.turnDate();
-                reloadGrid(window.ECHART_LOAD_DATA.getCurrentYear(),window.ECHART_LOAD_DATA.getCurrentMonth());
+                window.ECHART_D3_.turnDate();
+                reloadGrid(window.ECHART_D3_.getCurrentYear(),window.ECHART_D3_.getCurrentMonth());
                 setTimeout(function(){
                     $("#iframe4",window.parent.document).attr("src","${ctx}/report/echartsData4");
                 },300);
             })
             function reloadGrid(year,month){
-			// 基于准备好的dom，初始化echarts实例
-			var myChart1 = echarts.init(document.getElementById('plotCont1'));
-			var myChart2 = echarts.init(document.getElementById('plotCont2'));
-			window.ECHART_LOAD_DATA.init(year,month);
-			// 指定图表的配置项和数据
-			window.ECHART_LOAD_DATA.getDistrict();//初始化区域
-			window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表
-			window.ECHART_LOAD_DATA.buildPieChart(myChart2);//生成饼图报表
+                window.ECHART_D3_.init(year,month);
+                window.ECHART_D3_.getDistrict();//初始化区域
+                window.ECHART_D3_.buildChart();//生成柱状报表
 
 		}
 
