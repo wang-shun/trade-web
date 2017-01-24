@@ -79,196 +79,26 @@
 <script src="${ctx }/static_res/js/echarts-all.js"></script>
 <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
 
+<script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuMortCount.js"></script>
 <script>
     $(function() {
-        //window.ECHART_LOAD_DATA.turnDate();
-        reloadGrid(2016,12);
+        window.ECHART_LOAD_DATA.turnDate();
+        reloadGrid(window.ECHART_LOAD_DATA.getCurrentYear(),window.ECHART_LOAD_DATA.getCurrentMonth());
+        setTimeout(function(){
+            $("#iframe3",window.parent.document).attr("src","${ctx}/report/echartsData3");
+        },300);
     })
-
-    function reloadGrid(year,month) {
+    function reloadGrid(year,month){
+        // 基于准备好的dom，初始化echarts实例
         var myChart1 = echarts.init(document.getElementById('plotCont1'));
         var myChart2 = echarts.init(document.getElementById('plotCont2'));
-        //完整的区(8)
-        var districtID = [];
-        var districtName = [];
-        var data = {
-            queryId: "queryDistrict",
-            pagination : false
-        }
-        $.ajax({
-            url : $("#ctx").val()+"/quickGrid/findPage",
-            method : "GET",
-            data : data,
-            dataType : "json",
-            async:false,
-            success : function(data) {
-                $.each(data.rows,function(i,item){
-                    districtID.push(item.DISTRICT_ID);
-                    districtName.push(item.DISTRICT_NAME.substring(0,2));
-//                    ECHART_LOAD_DATA.newData.push(0);
-//                    ECHART_LOAD_DATA.oldData.push(0);
-                })
-            },
-            error:function(){}
-        })
-
-        var xAxisData=[];
-        var yAxis = [];
-        var legend = [];
-        var datas = [];
-        var type= [];
-        var color = [];
-        var myChart = null;
-        var pie_items=[];
-        var pie_title='';
-
-        var dateMonth='2016-12';
-
-
-        var newData=[];//最新月份的数据
-        var oldData=[];//最新月份的数据
-
-        var total=[];//商业贷款总数
-        var loss=[];//流失单数
-        var lossRate=[];//流失率
-        var oldLossRate=[];//上月流失率
-        var totalLossCount=0;//本月总流失单数
-        var totalMortCount=0;//本月总贷款单数
-
-
-        var data = {
-            queryId: "queryHourseTransferCaseBaseInfoForDistrict",
-            choiceMonth : dateMonth,
-            pagination : false
-        }
-
-        $.ajax({
-            url : $("#ctx").val()+"/quickGrid/findPage",
-            method : "GET",
-            data : data,
-            dataType : "json",
-            async:false,
-            success : function(data) {
-                if(data==null||data==undefined){
-                    return;
-                }
-                $.each(data.rows,function(i,item){
-                    totalLossCount= totalLossCount+item.LOST_COUNT;
-                    totalMortCount= totalMortCount+item.MORTGAGET_TOTAL_COUNT;
-                    for(var i=0;i<districtID.length;i++){
-                        if(item.DISTRICT_ID == districtID[i]){
-                            total[i]=item.MORTGAGET_TOTAL_COUNT;
-                            loss[i]=item.LOST_COUNT;
-                            if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
-                                lossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
-                            }else{
-                                lossRate[i]=0;
-                            }
-
-                        }
-                    }
-                })
-            },
-            error:function(){}
-        });
-        dateMonth='2016-11';
-        data = {
-            queryId: "queryHourseTransferCaseBaseInfoForDistrict",
-            choiceMonth : dateMonth,
-            pagination : false
-        }
-
-        $.ajax({
-            url : $("#ctx").val()+"/quickGrid/findPage",
-            method : "GET",
-            data : data,
-            dataType : "json",
-            async:false,
-            success : function(data) {
-                if(data==null||data==undefined){
-                    return;
-                }
-                $.each(data.rows,function(i,item){
-                    for(var i=0;i<districtID.length;i++){
-                        if(item.DISTRICT_ID == districtID[i]){
-                            if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
-                                oldLossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
-                            }else{
-                                oldLossRate[i]=0;
-                            }
-                        }
-
-                    }
-                })
-            },
-            error:function(){}
-        });
-        xAxisData = districtName;//初始化横轴数据
-
-
-        var datas=[total,loss,lossRate,oldLossRate];
-        var type=["bar","bar","line","line"];
-        legend =["商贷总单数","流失单数","流失率","上月流失率"];
-        var yAxis =[ {
-            type : 'value',//左边
-            name : '数量(单)',
-            min:0,
-            max:600,
-            axisLabel : {
-                formatter : '{value}'
-            }
-        },{
-            type : 'value',//右边
-            name : '比例',
-            min:0,
-            max:1,
-            axisLabel : {
-                formatter : '{value}'
-            }
-        }
-
-        ];
-        returnBar(xAxisData,yAxis,legend,datas,type,null,myChart1,"各贵宾中心商贷比较");
-
-        pie_items.push(accSub(totalLossCount,totalMortCount));
-        pie_items.push(totalLossCount);
-
-        var color=null;
-        var dataPie = [ "收单", "流失" ];
-        returnPie(dataPie, pie_items, myChart2, color,"商贷总单数");
+        window.ECHART_LOAD_DATA.init(year,month);
+        // 指定图表的配置项和数据
+        window.ECHART_LOAD_DATA.getDistrict();//初始化区域
+        window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表
+        window.ECHART_LOAD_DATA.buildPieChart(myChart2);//生成柱状报表
     }
 
-
-
-
-    /*获取当前年份数据*/
-    function getCurrentYear() {
-        var year= $(".calendar-year span").html();
-        return year;
-    }
-    /*获取当前月数据*/
-    function getCurrentMonth() {
-        var month=$(".calendar-month span[class='select-blue']").attr("value");
-        return month;
-    }
-    function turnNumber(num){
-        var x;
-        switch (num){
-            case 1:x="01";break;
-            case 2:x="02";break;
-            case 3:x="03";break;
-            case 4:x="04";break;
-            case 5:x="05";break;
-            case 6:x="06";break;
-            case 7:x="07";break;
-            case 8:x="08";break;
-            case 9:x="09";break;
-            case 10:x="10";break;
-            case 11:x="11";break;
-            case 12:x="12";break;
-        }
-        return x;
-    }
 </script>
 </body>
 </html>

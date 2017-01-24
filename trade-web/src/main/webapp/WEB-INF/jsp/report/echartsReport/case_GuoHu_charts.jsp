@@ -31,12 +31,12 @@
     <div class="section">
         <iframe src="${ctx}/report/echartsData2" id="iframe2" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
-    <div class="section">
+   <div class="section">
         <iframe id="iframe3" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div> 
     <div class="section">
         <iframe id="iframe4" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
-    </div>
+    </div>   
 </div>
 <script  src="${ctx }/js/jquery-2.1.1.js"></script>
 <script  src="${ctx }/js/eachartdata/jquery-ui.min.js"></script>

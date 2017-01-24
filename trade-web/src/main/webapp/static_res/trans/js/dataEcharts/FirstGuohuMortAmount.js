@@ -68,11 +68,12 @@
                                         ECHART_LOAD_DATA.mort_loss[i]=item.LOST_AMOUNT/10000;
                                         if(item.MORTGAGET_COM_AMOUNT!=0){
                                             ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_COM_AMOUNT);
+                                            ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
                                         }
                                     }
                                 }
                             }
-                            if(dateFlag=='old'){
+          /*                  if(dateFlag=='old'){
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         if(item.MORTGAGET_TOTAL_AMOUNT!=0){
@@ -81,7 +82,7 @@
                                     }
 
                                 }
-                            }
+                            }*/
 
                         })
 
@@ -121,7 +122,7 @@
             },
             buildBarChart : function(myChart){
                 if(Number(ECHART_LOAD_DATA.month)!=1){//如果不是1月则有上个月数据
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)-1)),'old');
+                    //ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)-1)),'old');
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
                 }else{
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');

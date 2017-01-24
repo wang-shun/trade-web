@@ -67,14 +67,16 @@
                                         ECHART_LOAD_DATA.loss[i]=item.LOST_COUNT;
                                         if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
                                             ECHART_LOAD_DATA.lossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
+                                            ECHART_LOAD_DATA.oldLossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
                                         }else{
                                             ECHART_LOAD_DATA.lossRate[i]=0;
+                                            ECHART_LOAD_DATA.oldLossRate[i]=0;
                                         }
 
                                     }
                                 }
                             }
-                            if(dateFlag=='old'){
+                /*            if(dateFlag=='old'){
                                 for(var i=0;i<ECHART_LOAD_DATA.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
@@ -85,7 +87,7 @@
                                     }
 
                                 }
-                            }
+                            }*/
 
                         })
 
@@ -126,7 +128,7 @@
             },
             buildBarChart : function(myChart){
                 if(ECHART_LOAD_DATA.month!=1){//如果不是1月则有上个月数据
-                    ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)-1)),'old');
+                   // ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)-1)),'old');
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
                 }else{
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
