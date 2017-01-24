@@ -29,7 +29,7 @@
         <iframe src="${ctx}/report/echartsData1"  id="iframe1" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
     <div class="section">
-        <iframe id="iframe2" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+        <iframe src="${ctx}/report/echartsData2" id="iframe2" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
     <div class="section">
         <iframe id="iframe3" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>

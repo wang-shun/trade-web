@@ -89,9 +89,6 @@
     $(function() {
         //window.ECHART_LOAD_DATA.turnDate();
         reloadGrid(2016,12);
-        setTimeout(function(){
-            $("#iframe2",window.parent.document).attr("src","${ctx}/report/echartsData2");
-        },300);
     })
 
     function reloadGrid(year,month) {
