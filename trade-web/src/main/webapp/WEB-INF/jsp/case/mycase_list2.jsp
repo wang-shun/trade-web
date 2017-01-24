@@ -415,10 +415,8 @@ text-decoration: underline !important;
                                  <i class="sign_brown">
                                                                                         自录
                                   </i>
-									{{if item.createType == '1'}}
+									{{if item.createType == '1' && item.glCount>0 }}
 										<span class="total-sum">{{item.glCount}}</span>
-									{{else}}
-										<span class="total-sum">0</span>
 									{{/if}}
                                  </p>
                              </a>
@@ -433,10 +431,8 @@ text-decoration: underline !important;
                                  <i class="sign_blue">
                                     	导入
                                   </i>
-									{{if item.createType == '1'}}
+									{{if item.createType == '1'  && item.glCount>0  }}
 										<span class="total-sum">{{item.glCount}}</span>
-									{{else}}
-										<span class="total-sum">0</span>
 									{{/if}}
                                 </p>
 									</a>
