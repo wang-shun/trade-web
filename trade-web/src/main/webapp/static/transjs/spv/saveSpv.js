@@ -109,23 +109,23 @@
 	}
 	function checkform(){
 		if($("#spvCode").val()==""){
-			alert("请输入监管协议号！");
+			window.wxc.alert("请输入监管协议号！");
 			$("#spvCode").focus();
 			return false;
 		}else if($("#amount").val() == ""){
-			alert("请输入监管金额！");
+			window.wxc.alert("请输入监管金额！");
 			$("#amount").focus();
 			return false;
 		}else if($("#signTime").val()==""){
-			alert("请选择签约时间！");
+			window.wxc.alert("请选择签约时间！");
 			$("#signTime").focus();
 			return false;
 		}else if($("#flowAmount").val()==""){
-			alert("请输入进账金额！");
+			window.wxc.alert("请输入进账金额！");
 			$("#flowAmount").focus();
 			return false;
 		}else if($("#in_flowTime").val()==""){
-			alert("请输入进账时间！");
+			window.wxc.alert("请输入进账时间！");
 			$("#in_flowTime").focus();
 			return false;
 		}
@@ -199,7 +199,7 @@
 		        		},
 		        		   		        				        		    
 		        		success:function(data){
-		        			alert(data.message);
+		        			window.wxc.alert(data.message);
 		        			if(data.content != null && data.content != ""){
 		        				window.location.href=ctx+"/case/caseDetail?caseId="+data.content;
 		        			}

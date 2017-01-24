@@ -547,7 +547,7 @@
 											if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
 												goProcess(b);
 											}else{											
-												alert("自建案件必须完成案件合流才能提交过户申请");
+												window.wxc.error("自建案件必须完成案件合流才能提交过户申请");
 												return;
 											}
 									}else{
@@ -558,7 +558,7 @@
 							}
 						},
 						error: function(errors) {
-						   	alert("获取案件合流信息出错！");   //弹出失败提示框
+							window.wxc.error("获取案件合流信息出错！");   //弹出失败提示框
 						}
 					}); 				
 				}
@@ -631,11 +631,11 @@
 					if (b) {
 						caseTaskCheck();						
 						if (null != data.message) {
-							alert(data.message);
+							window.wxc.alert(data.message);
 						}
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
-						alert("保存成功。");
+						window.wxc.success("保存成功。");
 						if (window.opener != null) {
 							window.close();
 							window.opener.callback();
@@ -644,7 +644,7 @@
 					}
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
@@ -664,12 +664,12 @@
 		//验证控件checkUI();
 		function checkForm() {
 			if ($('input[name=realHtTime]').val() == '') {
-				alert("实际过户时间为必填项!");
+				window.wxc.alert("实际过户时间为必填项!");
 				$('input[name=realHtTime]').focus();
 				return false;
 			}
 			if ($('input[name=houseHodingTax]').val() == '') {
-				alert("房产税为必填项!");
+				window.wxc.alert("房产税为必填项!");
 				$('input[name=houseHodingTax]').focus();
 				return false;
 			}
@@ -679,27 +679,27 @@
 			    return false;
 			} */
 			if ($('input[name=personalIncomeTax]').val() == '') {
-				alert("个人所得税为必填项!");
+				window.wxc.alert("个人所得税为必填项!");
 				$('input[name=personalIncomeTax]').focus();
 				return false;
 			}
 			if ($('input[name=businessTax]').val() == '') {
-				alert("上家营业税为必填项!");
+				window.wxc.alert("上家营业税为必填项!");
 				$('input[name=businessTax]').focus();
 				return false;
 			}
 			if ($('input[name=contractTax]').val() == '') {
-				alert("下家契税为必填项!");
+				window.wxc.alert("下家契税为必填项!");
 				$('input[name=contractTax]').focus();
 				return false;
 			}
 			if ($('input[name=landIncrementTax]').val() == '') {
-				alert("土地增值税为必填项!");
+				window.wxc.alert("土地增值税为必填项!");
 				$('input[name=landIncrementTax]').focus();
 				return false;
 			}
 			if ($('select[name=useCardPay]').val() ==1&& $('input[name=cardPayAmount]').val() == '') {
-				alert("刷卡总金额为必填项!");
+				window.wxc.alert("刷卡总金额为必填项!");
 				$('input[name=cardPayAmount]').focus();
 				return false;
 			}
@@ -707,7 +707,7 @@
 			var _comDiscount = $('input[name=comDiscount]').val();
 			if ((_mortType == '30016001' && _comDiscount == '')
 					|| (_mortType == '30016002' && _comDiscount == '')) {
-				alert('纯商贷和组合贷款必须填写商贷部分利率折扣, 不能为空');
+				window.wxc.alert('纯商贷和组合贷款必须填写商贷部分利率折扣, 不能为空');
 				$('input[name=comDiscount]').focus();
 				return false;
 			}
@@ -715,17 +715,17 @@
 			if ((_mortType == '30016001' && _comDiscount != '')
 					|| (_mortType == '30016002' && _comDiscount != '')) {
 				if (isNaN(_comDiscount)) {
-					alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
+					window.wxc.alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 					$('input[name=comDiscount]').focus();
 					return false;
 				} else if (_comDiscount > 1.5 || _comDiscount <= 0.5) {
-					alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+					window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 					$('input[name=comDiscount]').focus();
 					return false;
 				} else if (_comDiscount<=1.5 || _comDiscount>= 0.5) {
 					var reg = /^[01]{1}\.{1}\d{3,}$/;
 					if (reg.test(_comDiscount)) {
-						alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+						window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 						$('input[name=comDiscount]').focus();
 						return false;
 					}

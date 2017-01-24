@@ -112,7 +112,7 @@ function searchMethod(page) {
 		}).trigger('reloadGrid');*/
 		reloadGrid(params);
 	} else {
-		alert("请不要选择同样的日期类型！");
+		window.wxc.alert("请不要选择同样的日期类型！");
 	}
 
 };
@@ -550,7 +550,7 @@ function exportToExcel() {
 		$('#excelForm').method="post" ;
 		$('#excelForm').submit();
 	} else {
-		alert("请不要选择同样的日期类型！");
+		window.wxc.alert("请不要选择同样的日期类型！");
 	}
 }
 function intextTypeChange(){

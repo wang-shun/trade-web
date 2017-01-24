@@ -301,16 +301,16 @@
 							if(b) {
 								caseTaskCheck();
 								if(null!=data.message){
-									alert(data.message);
+									window.wxc.alert(data.message);
 								}
 							} else {
-								alert("保存成功。");
+								window.wxc.success("保存成功。");
 								 window.close();
 								 window.opener.callback();
 							}
 						},
 						error : function(errors) {
-							alert("数据保存出错");
+							window.wxc.error("数据保存出错");
 						}
 					});
 			}		
@@ -320,12 +320,12 @@
 		//验证控件checkUI();
 		function checkForm() {
 			if($('input[name=lendDate]').val()=='') {
-                alert("放款时间为必填项!");
+				window.wxc.alert("放款时间为必填项!");
                 $('input[name=lendDate]').focus();
                 return false;
            }
 			if(tz && $('input[name=tazhengArrDate]').val()=='' && isSelfCom=='1') {
-                alert("它证送抵时间为必填项!");
+				window.wxc.alert("它证送抵时间为必填项!");
                 $('input[name=tazhengArrDate]').focus();
                 return false;
            }

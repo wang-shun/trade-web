@@ -163,7 +163,7 @@ function reloadGrid() {
 	        maxHeight:220,
 	    });
 	}
-
+	
 	jQuery(function($) {
         $(document).ready( function() {
            $('.stickup-nav-bar').stickUp({

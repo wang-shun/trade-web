@@ -412,15 +412,15 @@
 				 var isModifyPhone=$("input[name='isModifyPhone']:checked").val();
 				  var phoneNumber = $("#phoneNumber").val();
 				 if(cardPerson == ""){
-					 alert("请填写押卡对象！");
+					 window.wxc.alert("请填写押卡对象！");
 					 return false;
 				 }
 				 if(cardTime == ""){
-					 alert("请填写押卡时间！");
+					 window.wxc.alert("请填写押卡时间！");
 					 return false;
 				 }
 				 if(isModifyPhone==1&&phoneNumber== ""){
-					 alert("请填写修改到账后手机号！");
+					 window.wxc.alert("请填写修改到账后手机号！");
 					 return false;
 				 }
 				 if(phoneNumber!=null & phoneNumber!=''){
@@ -471,11 +471,11 @@
              	})
              	
              	if(validataCard) {
-             		alert("请填写正确的身份证号码！");
+             		window.wxc.alert("请填写正确的身份证号码！");
 					return false;
              	}
             	if(validataItemManager) {
-             		alert("请选择保管人！");
+            		window.wxc.alert("请选择保管人！");
 					return false;
              	}
              	
@@ -524,13 +524,13 @@
      					$.unblockUI();
      				},
      				success : function(data) {
-     					alert(data.message);
+     					window.wxc.success(data.message);
      					// 保存附件相关信息
      		     		deleteAndModify();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
-     					alert("数据保存出错");
+     					window.wxc.error("数据保存出错");
      				}
      			}); 
              })
@@ -588,18 +588,18 @@
 			var isValid = true;
 			
 			if(!number.exec(mobile)){					
-				alert("电话号码只能由数字组成！");
+				window.wxc.alert("电话号码只能由数字组成！");
 				isValid = false;
 				return isValid;
 			}
 			if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13)){				
-				alert("电话号码只能由是8位、11位或者13位的数字组成！");
+				window.wxc.alert("电话号码只能由是8位、11位或者13位的数字组成！");
 				isValid = false;
 				return isValid;
 			}
 			
 			if(isUniqueChar(mobile)){
-				alert("电话号码不能为全部相同的数字！");
+				window.wxc.alert("电话号码不能为全部相同的数字！");
 				isValid = false;
 				return isValid;
 			}

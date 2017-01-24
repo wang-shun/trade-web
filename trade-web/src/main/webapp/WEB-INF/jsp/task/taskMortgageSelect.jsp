@@ -274,7 +274,7 @@
 					},
 					
 					error : function(errors) {
-						alert("数据出错。");
+						window.wxc.error("数据出错。");
 					}
 				});
 			}
@@ -366,7 +366,7 @@
 					}
 				},
 				error : function(errors) {
-					alert("数据出错。");
+					window.wxc.error("数据出错。");
 				}
 			});
         }
@@ -425,7 +425,7 @@
 						//$('#case-task-modal-form').modal("show");
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					 window.wxc.error("数据保存出错");
 					 $.unblockUI();
 				}
 			});
@@ -449,14 +449,14 @@
 				var flag = false;
 				$('select[name="unCrossPartner"] option:selected').each(function(i,item){
 					if(item.value == "0"){
-						 alert("合作顾问为必选项!");
+						 window.wxc.alert("合作顾问为必选项!");
 //	 					 item.focus();
 						 flag = true;
 						 return false;
 					}else if(item.value == "-1"){
 						$('#consult'+index+' option:selected').each(function(j,item2){
 							if(item2.value == "0"){
-								 alert("跨区合作顾问未选择!");
+								 window.wxc.alert("跨区合作顾问未选择!");
 								 flag = true;
 								 return false;
 							}
@@ -464,11 +464,11 @@
 					}
 				});
 				if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[name="unCrossPartner"]').size()==0){
-					 alert("正在加载合作项目!");
+					 window.wxc.alert("正在加载合作项目!");
 					 return false;
 				}
 				if($('#mortageService').val()!='0'&& $('#estPartTime').val()==''){
-					alert('请选择预计放款时间');
+					window.wxc.alert('请选择预计放款时间');
 					return false;
 				}
 				if(flag)return false;

@@ -224,13 +224,13 @@
 								if(b) {
 									caseTaskCheck();
 								} else {
-								 	alert("保存成功。");
+									window.wxc.success("保存成功。");
 								 	window.close();
 								 	window.opener.callback();
 								}
 						},
 						error : function(errors) {
-							alert("数据保存出错");
+							window.wxc.error("数据保存出错");
 						}
 						
 					});
@@ -244,29 +244,29 @@
 				function checkForm() {
 					if(dy) {
 						if($('input[name=estPartTimeHd]').val()=='') {
-			                alert("预计还贷时间为必填项!");
+							window.wxc.alert("预计还贷时间为必填项!");
 			                $('input[name=estPartTimeHd]').focus();
 			                return false;
 			           }
 					}
 					if($('input[name=estPartTimeTr]').val()=='') {
-		                alert("预计审税时间为必填项!");
+						window.wxc.alert("预计审税时间为必填项!");
 		                $('input[name=estPartTimeTr]').focus();
 		                return false;
 		           }
 					if($('input[name=estPartTimeGh]').val()=='') {
-		                alert("预计过户时间为必填项!");
+						window.wxc.alert("预计过户时间为必填项!");
 		                $('input[name=estPartTimeGh]').focus();
 		                return false;
 		           }
 					if($('input[name=estPartTimeLz]').val()=='') {
-		                alert("预计领证时间为必填项!");
+						window.wxc.alert("预计领证时间为必填项!");
 		                $('input[name=estPartTimeLz]').focus();
 		                return false;
 		           }
 					if(dk) {
 						if($('input[name=estPartTimeFk]').val()=='') {
-			                alert("预计放款时间为必填项!");
+							window.wxc.alert("预计放款时间为必填项!");
 			                $('input[name=estPartTimeFk]').focus();
 			                return false;
 			           }

@@ -304,9 +304,9 @@
 							 data:{pkid:pkid},
 							 success:function(data){
 								 if(data.ajaxResponse.success==true){
-									 alert(data.ajaxResponse.message);
+									 window.wxc.success(data.ajaxResponse.message);
 								 }else{
-									 alert("删除出错！");
+									 window.wxc.error("删除出错！");
 								 } 
 								 initData();
 							 }

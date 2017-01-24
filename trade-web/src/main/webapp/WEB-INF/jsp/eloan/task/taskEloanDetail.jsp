@@ -536,7 +536,7 @@
 			   $(".cardButton").click(function() {
 				   var type="card";
 				   if(isExistsType(type,eloanCode)) {
-					   alert('已经存在该风控类型，你只能修改!');
+					   window.wxc.alert('已经存在该风控类型，你只能修改!');
 				   } else {
 					   window.location.href = "${ctx}/riskControl/guarantycards?pkid=${pkId}";
 				   }
@@ -545,7 +545,7 @@
  			   $(".mortgageButton").click(function() {
  				   var type="mortgage";
  				   if(isExistsType(type,eloanCode)) {
- 					   alert('已经存在该风控类型，你只能修改!');
+ 					  window.wxc.alert('已经存在该风控类型，你只能修改!');
 				   } else {
 					   window.location.href = "${ctx}/riskControl/guarantymortgage?pkid=${pkId}";
 				   }
@@ -554,7 +554,7 @@
  			   $(".forceFairButton").click(function() {
  				  var type="forceRegister";
  				  if(isExistsType(type,eloanCode)) {
- 					 alert('已经存在该风控类型，你只能修改!');
+ 					 window.wxc.alert('已经存在该风控类型，你只能修改!');
 				  } else {
 					 window.location.href = "${ctx}/riskControl/guarantyfair?pkid=${pkId}";
 				  }
@@ -598,7 +598,7 @@
 						isExist = data.ajaxResponse.success;
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 				return isExist;
@@ -632,7 +632,7 @@
 						setTimeout('refresh()',1000);
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 		   }

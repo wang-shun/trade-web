@@ -212,7 +212,7 @@ function searchMethod(page) {
 		}).trigger('reloadGrid');*/
 		reloadGrid(params);
 	} else {
-		alert("请不要选择同样的日期类型！");
+		window.wxc.alert("请不要选择同样的日期类型！");
 	}
 
 };
@@ -744,7 +744,7 @@ function exportToExcel() {
 		$('#excelForm').method="post" ;
 		$('#excelForm').submit();
 	} else {
-		alert("请不要选择同样的日期类型！");
+		window.wxc.alert("请不要选择同样的日期类型！");
 	}
 }
 function intextTypeChange(){
@@ -826,8 +826,8 @@ function caseCodeSort(){
 	}
 }
 function ts(status){
-	alert(status+"案件不能拆分案件！");
+	window.wxc.alert(status+"案件不能拆分案件！");
 }
 function hlts(){
-	 alert("没有找到可以合流的案件！");
+	window.wxc.alert("没有找到可以合流的案件！");
 }

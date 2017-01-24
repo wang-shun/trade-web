@@ -31,8 +31,8 @@
     
     <link href="${ctx}/static/css/style.css" rel="stylesheet">
     <link href="${ctx}/css/plugins/jqGrid/aist-jqgird-ui.custom.css" rel="stylesheet">
-    
-    
+    <!--弹出框样式  -->
+	<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
     <sitemesh:head></sitemesh:head>
    <script type="text/javascript">
 	    var ctx = '${ctx}';
@@ -166,7 +166,8 @@
      --%>
     <!-- jQuery UI -->
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-   
+    <!-- 引入弹出框js文件 -->
+	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%> 
     <script type="text/javascript" src="${ctx}/static/js/INSPINIA_template.js"></script>
     <script type="text/javascript">

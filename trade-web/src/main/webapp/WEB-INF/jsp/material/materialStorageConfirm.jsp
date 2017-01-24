@@ -230,7 +230,7 @@ function itemAddrCodeCheck(){
 	var itemAddrCode = $("#itemAddrCode").val();
 	if(null == itemAddrCode || ""==itemAddrCode){
 		itemAddrCodeFlag = false;
-		alert("文件位置编号必须填写！");
+		window.wxc.alert("文件位置编号必须填写！");
 	}
 	return itemAddrCodeFlag;
 }
@@ -241,7 +241,7 @@ function  imgCheckNum(){
 	var picDiv=$("div[name='allPicDiv1']");
 	if(picDiv.length > 1){
 		imgFlag = false;
-		alert("客户确认书请做成一张附件再上传！");
+		window.wxc.alert("客户确认书请做成一张附件再上传！");
 	}
 	return imgFlag;
 }

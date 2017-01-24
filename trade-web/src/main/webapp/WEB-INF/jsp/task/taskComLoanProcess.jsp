@@ -1820,7 +1820,7 @@ function checkInt(obj){
 	    	dataType:"json",
 	    	data:{caseCode:$("#caseCode").val()},
 	    	success:function(data){
-	    		alert(data.message);
+	    		window.wxc.success(data.message);
 	    	}
 	 	});
 

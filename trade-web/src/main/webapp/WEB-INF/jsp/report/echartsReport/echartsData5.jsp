@@ -112,7 +112,8 @@
         	data.queryId = "queryDispatchSignList";	
         	data.pagination = false;
         	var year = window.parent.yearDisplay;
-	        var month = parseInt(window.parent.monthDisplay)+1;
+	        var month_ = parseInt(window.parent.monthDisplay)+1;
+	        var month = month_ > 9 ? month_:("0"+month_);
         	data.choiceMonth = year + "-" + month;
         	
         	$.ajax({
@@ -123,7 +124,7 @@
                 data: data,
                 success: function(data){
 				if(data==null||data==undefined){
-					alert("数据加载失败！");
+					window.wxc.error("数据加载失败！");
 					return;			
 				}
 				var xAxisData=[];

@@ -8,7 +8,7 @@ $(document).ready(function() {
 					// /$("#case_date").addClass('btn btn-white chosen-select');
 	var saveMsg = $("#saveMsg").val();
 	if(saveMsg!=""){
-		alert(saveMsg);
+		window.wxc.alert(saveMsg);
 	}
 					cleanSearch();
 					var url = "/quickGrid/findPage";
@@ -101,7 +101,7 @@ $(document).ready(function() {
 						pgtext : " {0} 共 {1} 页",
 
 						onSelectRow : function(rowid, status) {
-							alert(rowid);
+							window.wxc.alert(rowid);
 						},
 						postData : {
 							queryId : "queryTsTeamPropertyList"
@@ -325,7 +325,7 @@ function delRow(id){
 			                }
 			            } ,
 				success : function(data) {
-					alert(data.message);
+					window.wxc.alert(data.message);
 					if(data.success){
 						$('#modal-form').modal("hide");
 						//jqGrid reload

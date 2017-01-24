@@ -395,16 +395,16 @@
 						if (b) {
 							caseTaskCheck();
 							if (null != data.message) {
-								alert(data.message);
+								window.wxc.alert(data.message);
 							}
 						} else {
-							alert("保存成功。");
+							window.wxc.success("保存成功。");
 							window.close();
 							window.opener.callback();
 						}						
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});				
 			}
@@ -412,12 +412,12 @@
 			//验证控件checkUI();
 			function checkForm() {
 				if ($("input[name='mortTotalAmount']").val() == '') {
-					alert("贷款流失金额为必填项!");
+					window.wxc.alert("贷款流失金额为必填项!");
 					$("input[name='mortTotalAmount']").focus();
 					return false;
 				}
 				if ($("select[name='custCode']").val() == '') {
-					alert('请选择主贷人');
+					window.wxc.alert('请选择主贷人');
 					return false;
 				}
 				$("input[name='custName']").val($("select[name='custCode']").find("option:selected").text());
@@ -428,20 +428,20 @@
 			function checkLoanLostApplyReasons() {
 				var loanLostApplyFlag = true
 				if ($("input[name='loanLostApplyReason']").val() == '') {
-					alert("贷款流失必须勾选相应原因!");
+					window.wxc.alert("贷款流失必须勾选相应原因!");
 					$("input[name='loanLostApplyReason']").focus();
 					loanLostApplyFlag = false;
 					return loanLostApplyFlag;
 				}
 				//获取textarea文本域的值
 				if ($("#selfDelReason").val() == '') {
-					alert("贷款流失具体原因不能为空!");
+					window.wxc.alert("贷款流失具体原因不能为空!");
 					$("#selfDelReason").focus();
 					loanLostApplyFlag = false;
 					return loanLostApplyFlag;
 				} else {
 					if ($("#selfDelReason").val().length < 30) {
-						alert("贷款流失具体原因不详细,具体原因不能少于30字！");
+						window.wxc.alert("贷款流失具体原因不详细,具体原因不能少于30字！");
 						$("#selfDelReason").focus();
 						loanLostApplyFlag = false;
 						return loanLostApplyFlag;
@@ -568,7 +568,7 @@
 					/* $.each(idList, function(index, value){//遍历所传附件的fileId
 						var length = $("#picContainer"+value).find("img").length;
 						if(length == 0) {
-							alert("请上传附件信息！");
+							window.wxc.alert("请上传附件信息！");
 							checkAtt = false;
 							return false;
 						} else {
@@ -595,7 +595,7 @@
 						var length = $("#picContainer"+value).find("img").length;
 						if($("#fileFlagCode"+value).val() == 'loan_lost_confirmation'){
 							if(length != 0){
-								alert("[客户自办贷款确认函]附件须与[客户自办贷款确认函编号]同步！");
+								window.wxc.alert("[客户自办贷款确认函]附件须与[客户自办贷款确认函编号]同步！");
 								checkAtt = false;
 								return false;
 							}else{
@@ -603,7 +603,7 @@
 							}
 						}else{
 							if(length == 0) {
-								alert("请上传附件信息！");
+								window.wxc.alert("请上传附件信息！");
 								checkAtt = false;
 								return false;
 							} else {

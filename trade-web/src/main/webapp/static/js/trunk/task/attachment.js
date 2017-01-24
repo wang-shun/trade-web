@@ -33,13 +33,13 @@ function getUploadPicOkInfo() {
 	});
 	// 必须上传图片
 	if (picIdArr.length <= 0) {
-		alert("请先上传图片成功后再提交！");
+		window.wxc.alert("请先上传图片成功后再提交！");
 		return true;
 	}
 	var picDiv = $("div[name='allPicDiv1']");
 	// 所选图片和上传的图片的数目要相同
 	if (picDiv.length !== spans.length) {
-		alert("请先上传图片成功后再提交！");
+		window.wxc.alert("请先上传图片成功后再提交！");
 		return true;
 	}
 	var picNames = $("input[name='picName']");
@@ -142,7 +142,7 @@ function getExplPicByhouseCode() {
 			});
 		},		
 		error : function(errors) {
-			alert("产调加载失败");
+			window.wxc.error("产调加载失败");
 			return false;
 		}
 	});
@@ -155,7 +155,7 @@ function subAddFrom() {
 		return;
 	};
 	if(picIdArr==''){
-		alert("当前没有要新增的图片数据！");
+		window.wxc.alert("当前没有要新增的图片数据！");
     	return;
 	};
 	$.ajax({
@@ -201,7 +201,7 @@ function subAddFrom() {
 				}
 		},
 		error : function(errors) {
-			alert("附件添加出错。");
+			window.wxc.error("附件添加出错。");
 		}
 	});
 }
@@ -212,7 +212,7 @@ function subAddFromWithProperty() {
 		return;
 	};
 	if(picIdArr==''){
-		alert("当前没有要新增的图片数据！");
+		window.wxc.alert("当前没有要新增的图片数据！");
     	return;
 	};
 	$.ajax({
@@ -244,13 +244,13 @@ function subAddFromWithProperty() {
 		}],
 		success : function(data) {
 				if(data){
-					alert("保存成功");
+					window.wxc.success("保存成功");
 				}else if(!data) {
 					Modal.alert({msg:data.message});
 				}
 		},
 		error : function(errors) {
-			alert("附件添加出错。");
+			window.wxc.error("附件添加出错。");
 		}
 	});
 }
@@ -258,7 +258,7 @@ function subAddFromWithProperty() {
 //修改图片在原来实勘上
 function subUpdFrom() {
 	if(pkIdArr==''){
-		alert("请选择一张要修改的照片！！！");
+		window.wxc.alert("请选择一张要修改的照片！！！");
     	return;
     }
 	//获取上传成功的图片的信息，包括ID，类型
@@ -300,11 +300,11 @@ function subUpdFrom() {
 					    	parent.$.fancybox.close();
 					    });
 					}else if(!data) {
-						alert("附件修改出错"+errors);
+						window.wxc.error("附件修改出错"+errors);
 					}
 			},
 			error : function(errors) {
-				alert("附件修改出错"+errors);
+				window.wxc.error("附件修改出错"+errors);
 			}
 		});
 }
@@ -318,7 +318,7 @@ function romoveDiv(type,pkid){
 	if(typeof pkid=='number'){
 		pkIdArr.push(pkid);
 		if(pkIdArr==''){
-			alert("删除当前图片失败。");
+			window.wxc.error("删除当前图片失败。");
 		} 
 	}
 	$("#"+type+pkid).remove();
@@ -351,7 +351,7 @@ function deletePicBatch(){
 				    aa = true;
 				}else if(!data) {
 					pkIdArr==[];
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			}
 		});
@@ -364,7 +364,7 @@ function checkAttachment() {
 	$.each(idList, function(index, value){
 		var length = $("#picContainer"+value).find("img").length;
 		if(length == 0) {
-			alert("请上传备件！");
+			window.wxc.alert("请上传备件！");
 			checkAtt = false;
 			return false;
 		} else {
@@ -384,7 +384,7 @@ function checkAttachment2() {
 		}
 	});
     if(!succcess) {
-		alert("请上传备件！");
+    	window.wxc.alert("请上传备件！");
 		checkAtt = false;
     } else {
     	checkAtt = true;
@@ -397,7 +397,7 @@ function checkAttachmentForLoanLost(loanLostConfirmCode){
 		$.each(idList, function(index, value){
 			var length = $("#picContainer"+value).find("img").length;
 			if(length == 0) {
-				alert("请上传备件！");
+				window.wxc.alert("请上传备件！");
 				checkAtt = false;
 				return false;
 			} else {
@@ -409,7 +409,7 @@ function checkAttachmentForLoanLost(loanLostConfirmCode){
 			var length = $("#picContainer"+value).find("img").length;
 			if($("#fileFlagCode"+value).val() == 'loan_lost_confirmation'){
 				if(length != 0){
-					alert("【贷款自办确认函】备件须与【贷款自办确认函编号】同步！");
+					window.wxc.alert("【贷款自办确认函】备件须与【贷款自办确认函编号】同步！");
 					checkAtt = false;
 					return false;
 				}else{
@@ -417,7 +417,7 @@ function checkAttachmentForLoanLost(loanLostConfirmCode){
 				}
 			}else{
 				if(length == 0) {
-					alert("请上传备件！");
+					window.wxc.alert("请上传备件！");
 					checkAtt = false;
 					return false;
 				} else {
@@ -444,9 +444,9 @@ function deleteAndModify(){
 		var input=$("input[name='pic']");
 		//图片的ID 新增的文件数量
 	    var spans =$("input[name='preFileAdress']");
-	    alert(spans.length+"++and++"+picLength+"++and++"+input.length);
+	    window.wxc.alert(spans.length+"++and++"+picLength+"++and++"+input.length);
 	    if(spans.length < picLength) {
-	    	alert("你有未上传的完成的文件，请稍候再试！");
+	    	window.wxc.alert("你有未上传的完成的文件，请稍候再试！");
 	    	return false;
 	    }
 	    //如果原来数据的长度等于复选框的长度--》调用新增的方法

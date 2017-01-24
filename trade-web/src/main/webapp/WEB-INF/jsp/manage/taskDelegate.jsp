@@ -279,9 +279,9 @@
 			  		   },
 					success : function(data) {
 						if(data.sc&&data.sc=='0'){
-							alert('取消成功！');
+							window.wxc.success('取消成功！');
 						}else{
-							alert('取消失败！');
+							window.wxc.error('取消失败！');
 						}
 						$.unblockUI();  
 						taskDelGrid.trigger('reloadGrid');
@@ -308,9 +308,9 @@
 		  		   },
 					success : function(data) {
 						if(data.sc&&data.sc=='0'){
-							alert('授权成功！');
+							window.wxc.success('授权成功！');
 						}else{
-							alert('授权失败！');
+							window.wxc.error('授权失败！');
 						}
 						$.unblockUI();  
 						$('#modal-form').modal("hide");
