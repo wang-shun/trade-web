@@ -261,6 +261,7 @@ function accMul(arg1,arg2)
 //调用：accDiv(arg1,arg2)
 //返回值：arg1除以arg2的精确结果
 function accDiv(arg1,arg2){
+  if(!arg1 || !arg2) return 0;
   var t1=0,t2=0,r1,r2;
   try{t1=arg1.toString().split(".")[1].length}catch(e){}
   try{t2=arg2.toString().split(".")[1].length}catch(e){}

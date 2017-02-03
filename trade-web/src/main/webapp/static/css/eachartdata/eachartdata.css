@@ -341,7 +341,7 @@ p{
 }
 
 .left-content {
-	width: 910px;
+	width: 930px;
 	height: 650px;
 	float: left;
 	border: 1px solid #eee;
@@ -354,7 +354,7 @@ p{
 }
 
 .plot-rightone, .plot-righttwo {
-	width:320px;
+	width:300px;
 	margin-left:10px;
 	padding: 15px;
 	border: 1px solid #eee;
