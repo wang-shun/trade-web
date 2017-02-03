@@ -45,7 +45,7 @@
 							C.PKID,
 							C.CASE_CODE , 
 							C.ORG_ID,
-							(SELECT MIN(AT.START_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE) TRANSFERDATE,
+							(SELECT MIN(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE) TRANSFERDATE,
 							(SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_=W.INST_CODE) CASETRANSFERDATE,
 							V.LONG_ AS status,
 							W.INST_CODE					
@@ -60,10 +60,10 @@
 										FROM  SCTRANS.ACT_HI_TASKINST AT
 										WHERE AT.TASK_DEF_KEY_=N'Guohu' 
 											<if test="transferDateStart != null  and transferDateStart != '' "> 							
-												AND AT.START_TIME_ &gt;= #transferDateStart#	
+												AND AT.END_TIME_ &gt;= #transferDateStart#	
 											</if>	
 											<if test="transferDateEnd != null  and transferDateEnd != '' "> 	
-												AND AT.START_TIME_ &lt;= #transferDateEnd#
+												AND AT.END_TIME_ &lt;= #transferDateEnd#
 											</if>
 									) P1 WHERE P1.RANKID = 1
 								)TASKHISTORY1 ON TASKHISTORY1.PROC_INST_ID_ = CONVERT(NVARCHAR(64),W.INST_CODE)							
