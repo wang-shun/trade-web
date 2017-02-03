@@ -18,9 +18,11 @@ function resetDataModel(count){
     	$(item.contentWindow.document).find(".calendar-month span:eq("+window.parent.monthDisplay+")").addClass("select-blue").siblings().removeClass("select-blue");
         //增加年份置灰
     	if(window.parent.yearDisplay == yearLast){
-        	$(item.contentWindow.document).find("#add em").addClass("disabled");
+    		$(item.contentWindow.document).find("#add em").addClass("disabled");
+        	$(item.contentWindow.document).find(".calendar-month span:gt("+window.parent.monthLast+")").addClass("disabled");
     	}else{
     		$(item.contentWindow.document).find("#add em").removeClass("disabled");
+    		$(item.contentWindow.document).find(".calendar-month span:gt("+window.parent.monthLast+")").removeClass("disabled");
     	}
         //月份置灰
         if(count == 1 && window.parent.yearDisplay == yearLast && window.parent.monthDisplay == monthLast){
@@ -41,6 +43,9 @@ function addChangeDateEvent(){
 		//点击变换颜色&&默认当前月份
 	    var $month_list = $(item.contentWindow.document).find(".calendar-month span");
 	 	$month_list.on("click",function() {
+	 		if($(this).hasClass("disabled")){
+	 			return false;
+	 		}
 	 		window.parent.monthDisplay = parseInt($(this).html().replace("月","")) - 1;
 	    	resetDataModel();
 	    });

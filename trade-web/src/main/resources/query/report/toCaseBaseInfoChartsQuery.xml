@@ -143,18 +143,18 @@
 			<baseSql>
 				<![CDATA[
 					select
-						tb1.DISTRICT_ID,--区域ID
+						tb1.DISTRICT_ID,
 						--(select ORG_NAME from sctrans.SYS_ORG where id=tb1.DISTRICT_ID) as DISTRICT_NAME,
 						count(tb1.case_code) as HOURSE_TRANSFER_COUNT,
-						sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
-						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,--商业贷款金额
-						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT,--公积金贷款金额
-						#choiceMonth# as CHOICE_MONTH,--选择月份
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,--商业贷款的案件数
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,--公积金贷款的案件数
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#) NO_MORT_COUNT,--无贷款的案件数
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#) LOST_COUNT,--流失案件数
-						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#) LOST_AMOUNT--流失贷款金额
+						sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,
+						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,
+						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT,
+						#choiceMonth# as CHOICE_MONTH,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#) NO_MORT_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#) LOST_COUNT,
+						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#) LOST_AMOUNT
 					from
 					sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
 					where
@@ -166,18 +166,18 @@
 					<ifNotNull oldChoiceMonth>
 					UNION ALL
 					select
-						tb1.DISTRICT_ID,--区域ID
+						tb1.DISTRICT_ID,
 						--(select ORG_NAME from sctrans.SYS_ORG where id=tb1.DISTRICT_ID) as DISTRICT_NAME,
 						count(tb1.case_code) as HOURSE_TRANSFER_COUNT,
-						sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
-						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,--商业贷款金额
-						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT,--公积金贷款金额
-						#oldChoiceMonth# as CHOICE_MONTH,--选择月份
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,--商业贷款的案件数
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,--公积金贷款的案件数
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#) NO_MORT_COUNT,--无贷款的案件数
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#) LOST_COUNT,--流失案件数
-						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#) LOST_AMOUNT--流失贷款金额
+						sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,
+						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,
+						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT,
+						#oldChoiceMonth# as CHOICE_MONTH,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#) NO_MORT_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#) LOST_COUNT,
+						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#) LOST_AMOUNT
 					from
 					sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
 					where
