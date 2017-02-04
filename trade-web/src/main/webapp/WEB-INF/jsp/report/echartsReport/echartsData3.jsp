@@ -77,17 +77,19 @@
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
         <script src="${ctx }/static_res/js/echarts-all.js"></script>
-        <script src="${ctx }/js/eachartdata/echartCommon.js"></script>
+        <script src="${ctx }/static/trans/js/common/echartCommon.js"></script>
          <script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuMortAmount.js"></script>
         <script>
-            $(function() {
+  /*           $(function() {
                 window.ECHART_D3_.turnDate();
                 reloadGrid(window.ECHART_D3_.getCurrentYear(),window.ECHART_D3_.getCurrentMonth());
                 setTimeout(function(){
                     $("#iframe4",window.parent.document).attr("src","${ctx}/report/echartsData4");
                 },300);
-            })
-            function reloadGrid(year,month){
+            }) */
+            function reloadGrid(){
+            	var year = window.parent.yearDisplay;
+                var month= parseInt(window.parent.monthDisplay)+1;
                 window.ECHART_D3_.init(year,month);
                 window.ECHART_D3_.getDistrict();//初始化区域
                 window.ECHART_D3_.buildChart();//生成柱状报表

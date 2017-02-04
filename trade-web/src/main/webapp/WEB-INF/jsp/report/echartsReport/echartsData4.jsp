@@ -75,17 +75,17 @@
 <script src="${ctx }/js/bootstrap.min.js"></script>
 <!-- ECharts.js -->
 <script src="${ctx }/static_res/js/echarts-all.js"></script>
-<script src="${ctx }/js/eachartdata/echartCommon.js"></script>
-
+<script src="${ctx }/static/trans/js/common/echartCommon.js"></script>
 <script src="${ctx}/static/trans/js/dataEcharts/FirstMortAmountForFinance.js"></script>
 <script>
-    $(function() {
+   /*  $(function() {
         window.ECHART_D4_.turnDate();
         reloadGrid(window.ECHART_D4_.getCurrentYear(),window.ECHART_D4_.getCurrentMonth());
-    })
+    }) */
     function reloadGrid(year,month){
         // 基于准备好的dom，初始化echarts实例
-
+    	var year = window.parent.yearDisplay;
+        var month= parseInt(window.parent.monthDisplay)+1;
         // 使用刚指定的配置项和数据显示图表。
         window.ECHART_D4_.init(year,month);
         // 指定图表的配置项和数据
