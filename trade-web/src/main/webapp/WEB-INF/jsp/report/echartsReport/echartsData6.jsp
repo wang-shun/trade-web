@@ -91,7 +91,7 @@
     		reloadGrid();
     	})
         
-        function test() {
+        function reRenderChart() {
         	//改变按钮样式
         	changeBtnClass();
         	//初始化

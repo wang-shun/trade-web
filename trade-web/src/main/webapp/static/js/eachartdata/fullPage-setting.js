@@ -9,7 +9,7 @@ $(function() {
         afterLoad: function(anchorLink, index){       	
         	var item = $("#iframe"+index)[0];
         	if(times > 0){
-                item.contentWindow.test();
+                item.contentWindow.reRenderChart();
         	}
 
             times++;

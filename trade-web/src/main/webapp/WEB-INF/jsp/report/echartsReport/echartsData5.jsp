@@ -80,7 +80,7 @@
         var ctx = $("#ctx").val();
         
         $(function() {
-        	test();
+        	reRenderChart();
         })
         
         //年份加减
@@ -98,7 +98,7 @@
        		reloadGrid();
         })
         	
-        function test() {
+        function reRenderChart() {
         	//改变按钮样式
         	changeBtnClass();
         	//初始化
