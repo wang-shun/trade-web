@@ -238,13 +238,14 @@
 						tb1.MORTGAGET_TOTAL_AMOUNT,
 						tb1.MORTGAGET_COM_AMOUNT,
 						tb1.MORTGAGET_PRF_AMOUNT,
-						isnull((select MORTGAGET_COM_AMOUNT from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb4 where tb4.CASE_CODE=tb1.CASE_CODE and tb4.IS_LOSE=1 and tb4.HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),tb4.HOUSE_TRANFER_TIME,120)=#choiceMonth# and convert(varchar(7),tb1.BELONG_MONTH,120)=#choiceMonth#),0) as LOST_AMOUNT,
+						isnull((select MORTGAGET_COM_AMOUNT from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb4 where tb4.CASE_CODE=tb1.CASE_CODE and tb4.IS_LOSE=1 and tb4.HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),tb4.HOUSE_TRANFER_TIME,120)=#choiceMonth# and convert(varchar(7),tb4.BELONG_MONTH,120)=#choiceMonth#),0) as LOST_AMOUNT,
 						isnull((select FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE=tb1.MORTGAGET_FIN_ORG_CODE),tb1.MORTGAGET_FIN_ORG_CODE) FA_FIN_ORG_CODE
 						from
 						sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
 						where
 						1=1
 						and HOURSE_TRANSFER_AGREE_STATUS=1
+						and convert(varchar(7),BELONG_MONTH,120)=#choiceMonth#
 						and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#
 						and MORTGAGET_COM_AMOUNT>0
 
