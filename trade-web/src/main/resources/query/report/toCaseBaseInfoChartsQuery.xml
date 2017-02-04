@@ -38,7 +38,7 @@
 				(select isnull(sum(f.mortgaget_prf_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and f.MORTGAGE_LOAN_TYPE in ('30016002','30016003')) PRF_AMOUNT,
 				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
 				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and h.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
-				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main where main.DISTRICT_ID is not null		
+				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main where main.DISTRICT_ID is not null and convert(varchar(7),main.BELONG_MONTH,120)=#choiceMonth#	
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -76,7 +76,8 @@
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE	
                 where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
                 and main.IS_LOSE = '0'
-                and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
+                and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
+                and convert(varchar(7),main.BELONG_MONTH,120)=#choiceMonth#			
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -113,6 +114,7 @@
                 where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
                 and main.IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
+                and convert(varchar(7),main.BELONG_MONTH,120)=#choiceMonth#
 	            ]]>
 			</baseSql>
 			<orderBySql>

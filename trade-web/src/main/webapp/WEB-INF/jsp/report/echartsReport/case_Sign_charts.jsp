@@ -42,7 +42,7 @@
 </ul>
 
 <div id="fullpage">
-    <div class="section " id="section0">
+    <div class="section" id="section0">
         <iframe id="iframe1" src="${ctx}/report/echartsData5" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
     <div class="section" id="section1">
@@ -52,7 +52,7 @@
         <iframe id="iframe3" src="${ctx}/report/echartsData7" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div> 
     <div class="section" id="section3">
-        <iframe id="iframe4"src="${ctx}/report/echartsData8" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+        <iframe id="iframe4" src="${ctx}/report/echartsData8" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
 </div>
 <script  src="${ctx }/js/jquery-2.1.1.js"></script>
