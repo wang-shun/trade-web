@@ -7,11 +7,10 @@ $(function() {
         menu: '#menu',
         loopBottom: false,
         afterLoad: function(anchorLink, index){       	
-        	var item = $("#iframe"+index)[0];
+        	var item = document.getElementById("iframe"+index);
         	if(times > 0){
-                item.contentWindow.reRenderChart();
+                reRenderChart(item);
         	}
-
             times++;
         }
     });

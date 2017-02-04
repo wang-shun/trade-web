@@ -78,62 +78,7 @@
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
         <script>
         var ctx = $("#ctx").val();
-        
-        $(function() {
-        	reRenderChart();
-        })
-        
-        //年份加减
-       	$("#subtract").click(function(){
-       		window.parent.yearDisplay--;
-       		changeBtnClass();
-       		reloadGrid();
-       	})
-       	$("#add").click(function(){
-       		if(window.parent.yearDisplay == window.parent.yearLast){
-       			return false;
-       		}
-       		window.parent.yearDisplay++;
-       		changeBtnClass();
-       		reloadGrid();
-        })
-        	
-        function reRenderChart() {
-        	//改变按钮样式
-        	changeBtnClass();
-        	//初始化
-        	reloadGrid();
-            
-        	//点击变换颜色&&默认当前月份
-        	$(".calendar-month span:eq("+window.parent.monthDisplay+")").addClass("select-blue").siblings().removeClass("select-blue");
-        	var $month_list = $(".calendar-month span");  
-        	$month_list.on("click",function() {
-        		if($(this).hasClass("disabled")){
-        			return false;
-        		}
-        		window.parent.monthDisplay = parseInt($(this).html().replace("月","")) - 1;
-        		$(this).addClass("select-blue").siblings().removeClass("select-blue");
-        		reloadGrid();
-        	});
-
-        }
-        
-        function changeBtnClass(){
-        	$(".calendar-year span").html(window.parent.yearDisplay);
-            //年份置灰
-        	if(window.parent.yearDisplay == window.parent.yearLast){
-        		$("#add em").addClass("disabled");
-            	$(".calendar-month span:gt("+window.parent.monthLast+")").addClass("disabled");
-        	}else{
-        		$("#add em").removeClass("disabled");
-        		$(".calendar-month span:gt("+window.parent.monthLast+")").removeClass("disabled");
-        	}
-            //月份置灰
-            if(window.parent.yearDisplay == window.parent.yearLast && window.parent.monthDisplay == window.parent.monthLast){
-            	$(".calendar-month span:gt("+window.parent.monthLast+")").removeClass("disabled").addClass("disabled");
-            }
-        }
-        
+ 
         function reloadGrid() {
         	//完整的区(8)
         	var districtIDArr = [];
