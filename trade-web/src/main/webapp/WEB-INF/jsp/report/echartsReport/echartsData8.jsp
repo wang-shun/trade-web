@@ -117,6 +117,10 @@
 					alert("数据加载失败！");
 					return;			
 				}
+				//置空表格 
+				$("#th1").html("其他类：0 万元");
+				$("#displayTable tbody").empty();
+				
 				var xAxisData=[];
 				var yAxis = [];
             	var legend = [];
@@ -188,9 +192,7 @@
         				}
 
         				$("#displayTable tbody").html(tbodyContent);
-        			}else{
-        				$("#displayTable tbody").empty();
-        			}
+        			}        				
             	}else{
             		$(".label-tip").hide();
             	}
