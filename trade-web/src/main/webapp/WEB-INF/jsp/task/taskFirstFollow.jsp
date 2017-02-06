@@ -721,7 +721,7 @@
 							}
 							
 							if ($('select[name=chaxiangou]').val() == '') {
-								window.wxc.alert("限购查询为必选项!");
+								window.wxc.alert("查限购为必选项!");
 								$('select[name=chaxiangou]').focus();
 								return false;
 							}

@@ -728,15 +728,15 @@
 					return false;
 				}
 				
-				if ($('select[name=isHukou]').val() == '') {
+				if ($('select[name=isConCert]').val() == '') {
 					window.wxc.alert("合同公证为必选项!");
-					$('select[name=isHukou]').focus();
+					$('select[name=isConCert]').focus();
 					return false;
 				}
 				
-				if ($('select[name=isConCert]').val() == '') {
-					window.wxc.alert("房屋户口为必选项!");
-					$('select[name=isConCert]').focus();
+				if ($('select[name=isHukou]').val() == '') {
+					window.wxc.alert("房屋有户口为必选项!");
+					$('select[name=isHukou]').focus();
 					return false;
 				}
 				
@@ -772,7 +772,7 @@
 			
 				if ($("#property_research_letter_pic_list li").length == undefined
 						|| $("#property_research_letter_pic_list li").length == 0 ) {
-					window.wxc.alert("产调为必填项!");
+					window.wxc.alert("产调附件未上传!");
 
 					return false;
 				}

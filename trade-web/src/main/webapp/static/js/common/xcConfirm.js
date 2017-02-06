@@ -38,6 +38,9 @@
 	}
 	
 	window.wxc.alert = function(message,params){
+		var params = [];
+		params.isAutoHide = false;
+		$("input[type='text']").attr("readonly",true);   //解决弹出提示弹出框后仍可以在文本框中输入的问题
 		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.info);
 	}
 	
@@ -185,6 +188,9 @@
 		        config.onOk();
 			$("#" + popId).remove();
 			config.onClose(eventType.ok);
+			
+			//点击确认按钮之后让文本框置为可编辑状态
+			$("input[type='text']").attr("readonly",false);
 		}
 
 		//取消按钮事件
@@ -200,6 +206,9 @@
 			$("#" + popId).remove();
 			config.onClose(eventType.close);
 			$(window).unbind("keydown");
+			
+			//点击关闭操作之后让文本框置为可编辑状态
+			$("input[type='text']").attr("readonly",false);
 		}
 
 		//生成按钮组
