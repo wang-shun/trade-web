@@ -10,6 +10,9 @@ node('docker-agent'){
 		dir('trade-web') {
 		    sh "sh Dockermake.sh"
 		}
+		dir('yc-par-portal') {
+		    sh "sh Dockermake.sh"
+		}
 	}
 }
 
