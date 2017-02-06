@@ -74,9 +74,7 @@
                                     if(item.DISTRICT_ID == ECHART_LOAD_DATA.districtID[i]){
                                         ECHART_LOAD_DATA.newData[i]=item.HOURSE_TRANSFER_COUNT;
                                     }
-
                                 }
-
                             }
                             if(dateFlag=='old'){
                                 ECHART_LOAD_DATA.totalOldDataCount=ECHART_LOAD_DATA.totalOldDataCount+item.HOURSE_TRANSFER_COUNT;//上月份过户的案件数
@@ -126,26 +124,29 @@
                 if(ECHART_LOAD_DATA.month!=1){//如果不是1月则有上个月数据
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)-1)),'old');
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month))),'new');
+                    ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月与"+((Number(ECHART_LOAD_DATA.month))-1)+"月过户总量比较";
                 }else{
+                    ECHART_LOAD_DATA.getBarAjaxDate((Number(ECHART_LOAD_DATA.year)-1)+'-12','old');
                     ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month))),'new');
-                    ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月过户总量";
+                    ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月与12月过户总量比较";
                 }
-                ECHART_LOAD_DATA.bar_title= ECHART_LOAD_DATA.month+"月与"+((Number(ECHART_LOAD_DATA.month))-1)+"月过户总量比较";
+
                 if(ECHART_LOAD_DATA.month!=1){
                     ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.month))+"月过户总量");
-                    ECHART_LOAD_DATA.legend.push(((Number(ECHART_LOAD_DATA.month))-1)+"月过户总量");
+                    ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.month)-1)+"月过户总量");
                 }else{
-                    ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.month))+"月过户总量");
+                    ECHART_LOAD_DATA.legend.push(ECHART_LOAD_DATA.year+"-"+ECHART_LOAD_DATA.turnNumber((Number(ECHART_LOAD_DATA.month)))+"月过户总量");
+                    ECHART_LOAD_DATA.legend.push((Number(ECHART_LOAD_DATA.year)-1)+"-12月过户总量");
                 }
                 //生成柱状图
                 var datas=[ECHART_LOAD_DATA.newData, ECHART_LOAD_DATA.oldData];
                 var type=["bar","bar"];
-                var bar_color=["#BFD8FF","#ff9696"];
+                var bar_color=null;
                 var yAxis =[ {
                     type : 'value',//左边
+                    min:0,
+                    max:800,
                     name : '数量(单)',
-                    min : 0,
-                    interval : 50,
                     axisLabel : {
                         formatter : '{value}'
                     }
@@ -155,7 +156,7 @@
             buildPieChart : function(myChart){
                 ECHART_LOAD_DATA.getPieDate();
                 ECHART_LOAD_DATA.pie_title=ECHART_LOAD_DATA.month+'月过户总单量';
-                var pie_color=["#BFD8FF","#ff9696","#FFD480"];
+                var pie_color=null;
                 var data = [ "无贷款", "纯公积金", "商业贷款" ];
                 returnPie(data, ECHART_LOAD_DATA.pie_items, myChart, pie_color,ECHART_LOAD_DATA.pie_title);
 
@@ -169,65 +170,34 @@
                     html=html +'<li><i class="iconfont mr5 al-grey al-icon-22">&#xe643;</i>'+(Number(ECHART_LOAD_DATA.month)-1)+'月总量<span>'+ECHART_LOAD_DATA.totalOldDataCount+'</span>单</li>';
                     var subtraction=ECHART_LOAD_DATA.totalNewDataCount-ECHART_LOAD_DATA.totalOldDataCount;
                     if(subtraction<0){
-                        var percent=accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalNewDataCount)*100+"%";
-                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>'+percent+'</span></li>';
-                    }else{
-                        var percent=accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalNewDataCount)*100+"%";
-                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比上升<span>'+percent+'</span></li>';
+                        var percent=ECHART_LOAD_DATA.accMul(accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalOldDataCount),100);
+                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比下降<span>'+percent+'%</span></li>';
+                    }else if(subtraction>0){
+                        var percent=ECHART_LOAD_DATA.accMul(accDiv(Math.abs(subtraction),ECHART_LOAD_DATA.totalOldDataCount),100);
+                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>环比上升<span>'+percent+'%</span></li>';
+                    }
+                    else{
+                        html=html+'<li><i class="iconfont mr5 al-maize  al-icon-22">&#xe651;</i>无变化<span></span></li>';
                     }
                 }
 
                 $("#"+list_chart).html(html);
             },
-            turnDate:function(){//改变年月的方法
-                //年份加减
-                var year=new Date().getFullYear();
-                $(".calendar-year span").html(year);
-                $("#subtract").click(function(){
-                    var year=$(".calendar-year span").html();
-                    var month=$(".calendar-month span[class='select-blue']").attr("value");
-                    $(".calendar-year span").html(year-1);
-                    reloadGrid(Number(year)-1,month);
-                })
-                $("#add").click(function(){
-                    var year=$(".calendar-year span").html();
-                    var month=$(".calendar-month span[class='select-blue']").attr("value");
-                    $(".calendar-year span").html(Number(year)+1);
-                    reloadGrid(Number(year)+1,month);
-                })
-                //点击变换颜色&&默认当前月份
-                var $month_list = $(".calendar-month span");
-                $month_list.on("click",function() {
-                    $(this).addClass("select-blue").siblings().removeClass('select-blue');
-                    var year = $(".calendar-year span").html();
-                    var month = $(this).attr("value");
-
-                    reloadGrid(year,month);
-                });
-                var monthnow = function (){
-                    var now   = new Date();
-                    var month = now.getMonth();
-                    return month;
-                }
-                var month = monthnow();
-                for (var i=0; i<$month_list.length; i++) {
-                    if(i == month) {
-                        $month_list.eq(i).addClass("select-blue");
-                    }
-                    return false;
-                }
-
+            accMul: function (arg1,arg2)
+            {
+                var m=0,s1=arg1.toString(),s2=arg2.toString();
+                try{m+=s1.split(".")[1].length}catch(e){}
+                try{m+=s2.split(".")[1].length}catch(e){}
+                return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(0);
             },
             /*获取当前年份数据*/
             getCurrentYear: function() {
-                var date=new Date;
-                var year=date.getFullYear();
+                var year= $(".calendar-year span").html();
                 return year;
             },
             /*获取当前月数据*/
             getCurrentMonth: function() {
-                var date=new Date;
-                var month=date.getMonth()+1;
+                var month=$(".calendar-month span[class='select-blue']").attr("value");
                 return month;
             },
             turnNumber:function(num){

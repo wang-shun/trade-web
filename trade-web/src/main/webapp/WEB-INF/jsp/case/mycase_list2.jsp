@@ -392,44 +392,58 @@ text-decoration: underline !important;
                    {{/if}}
 						
 						<td >
-{{if item.CASE_ORIGIN == 'MERGE'}}
-{{if item.STATUS == '已过户' || item.STATUS == '已领证' }}
-<a href="javascript:ts('{{item.STATUS}}')">
-{{else}}
-<a href="javascript:showGlDiv('backCaseMERGE','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
-{{/if}}
+								{{if item.CASE_ORIGIN == 'MERGE'}}
+									{{if item.STATUS == '已过户' || item.STATUS == '已领证' }}
+									<a href="javascript:ts('{{item.STATUS}}')">
+										{{else}}
+									<a href="javascript:showGlDiv('backCaseMERGE','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+									{{/if}}
 
                                 <p class="tip">
                                  <i class="sign_blue">
                                                                                         合流
                                   </i>
                                  </p>
-{{/if}}
-{{if item.CASE_ORIGIN == 'INPUT'}}
- 							<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+								{{/if}}
+								{{if item.CASE_ORIGIN == 'INPUT'}}
+									{{if item.createType == '1'}}
+															<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+									{{else}}
+									<a href="javascript:hlts()">
+									{{/if}}
                                 <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_brown">
                                                                                         自录
-                                  </i><span class="total-sum">{{item.glCount}}</span>
+                                  </i>
+									{{if item.createType == '1' && item.glCount>0 }}
+										<span class="total-sum">{{item.glCount}}</span>
+									{{/if}}
                                  </p>
                              </a>
-{{/if}}
-{{if item.CASE_ORIGIN == 'CTM'}}
-<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+								{{/if}}
+								{{if item.CASE_ORIGIN == 'CTM'}}
+									{{if item.createType == '1'}}
+								<a href="javascript:showGlDiv('backCase1','{{item.PKID}}','{{item.CASE_CODE}}','{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.AGENT_PHONE}}','{{item.AGENT_ORG_NAME}}','{{item.SELLER}}','{{item.BUYER}}','{{item.PROPERTY_CODE}}','{{item.CASE_ORIGIN}}')">
+									{{else}}
+								<a href="javascript:hlts()">
+									{{/if}}
                                 <p class="tip" style="position:relative;overflow:visible;">
                                  <i class="sign_blue">
                                     	导入
-                                  </i><span class="total-sum">{{item.glCount}}</span>
-                                 </p>
-</a>
-{{/if}}
-{{if item.CASE_ORIGIN == 'PROCESS'}}
+                                  </i>
+									{{if item.createType == '1'  && item.glCount>0  }}
+										<span class="total-sum">{{item.glCount}}</span>
+									{{/if}}
+                                </p>
+									</a>
+									{{/if}}
+									{{if item.CASE_ORIGIN == 'PROCESS'}}
                                 <p class="tip">
                                  <i class="sign_blue">
                                     	合流申请中
                                   </i>
                                  </p>
-{{/if}}
+								{{/if}}
 						</td >
 						<td >
  							<p class="big">
@@ -460,28 +474,28 @@ text-decoration: underline !important;
 						</td>
 						<td >
 						
-{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
-{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
-{{else}}
-<p>
-{{item.PROPERTY_ADDR}}
-{{/if}}					 
+						{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+						<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+						{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+						{{else}}
+						<p>
+						{{item.PROPERTY_ADDR}}
+						{{/if}}					 
 						</p>
  							<p >
 								 <i class="salesman-icon"> </i>
 								 
-{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11 }}		
-<a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
-{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
-{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
-{{else}}
-{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
-{{/if}}
-{{else}}
-</a><a>
-{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
-{{/if}}	
+								{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11 }}		
+								<a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
+								{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
+								{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
+								{{else}}
+								{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
+								{{/if}}
+								{{else}}
+								</a><a>
+								{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
+								{{/if}}	
 								 </a>
 							</p>
 						</td>
@@ -489,53 +503,53 @@ text-decoration: underline !important;
 						<td class="center">
                           <p  >
 						
-{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
-{{if item.SELLER.split("/").length-1 >1}}
-<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
-{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
-{{
-(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
-}}</br>...
-{{else}}
-{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
-{{
-(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
-}}</br>
-</a></p><p>
-{{/if}}
-{{else}}
-{{ if item.SELLER.length>5}}<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
-{{item.SELLER.substring(0,5)}}...</a>
-{{else}}
-{{item.SELLER}}
-{{/if}}
-{{/if}}
+							{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
+							{{if item.SELLER.split("/").length-1 >1}}
+							<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
+							{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+							{{
+							(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
+							}}</br>...
+							{{else}}
+							{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+							{{
+							(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
+							}}</br>
+							</a></p><p>
+							{{/if}}
+							{{else}}
+							{{ if item.SELLER.length>5}}<a  class="demo-top" title="上家信息:{{item.SELLER}}" >
+							{{item.SELLER.substring(0,5)}}...</a>
+							{{else}}
+							{{item.SELLER}}
+							{{/if}}
+							{{/if}}
 						</p>
                          
                        </td>
                        <td class="center">
                          <p>
-{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
-{{if item.BUYER.split("/").length-1 >1}}
-<a class="demo-left" title="下家信息:{{item.BUYER}}" >
-{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
-{{
-(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
-}}</br>...
-{{else}}
-{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
-{{
-(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
-}}</br>
-</a></p><p>
-{{/if}}
-{{else}}
-{{ if item.BUYER.length>5}}<a class="demo-left" title="下家信息:{{item.BUYER}}" >
-{{item.BUYER.substring(0,5)}}...</a>
-{{else}}
-{{item.BUYER}}
-{{/if}}
-{{/if}}
+							{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
+							{{if item.BUYER.split("/").length-1 >1}}
+							<a class="demo-left" title="下家信息:{{item.BUYER}}" >
+							{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+							{{
+							(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
+							}}</br>...
+							{{else}}
+							{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+							{{
+							(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
+							}}</br>
+							</a></p><p>
+							{{/if}}
+							{{else}}
+							{{ if item.BUYER.length>5}}<a class="demo-left" title="下家信息:{{item.BUYER}}" >
+							{{item.BUYER.substring(0,5)}}...</a>
+							{{else}}
+							{{item.BUYER}}
+							{{/if}}
+							{{/if}}
                           </p>
                           
                         </td>
@@ -553,14 +567,6 @@ text-decoration: underline !important;
 				  </tr>
        {{/each}}
 </script> 
-<!-- <script>
-$(function() {		
-	$("#productType").hide();
-	$("#more").click(function() {
-		$("#productType").toggle();
-	});			
-})
-</script>  -->
 </content>
 </body>
 </html>

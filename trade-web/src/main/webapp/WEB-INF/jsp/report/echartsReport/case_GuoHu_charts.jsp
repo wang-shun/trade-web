@@ -13,6 +13,24 @@
 
     <link rel="stylesheet" href="${ctx}/css/eachartdata/jquery.fullPage.css" />
     <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css" />
+    <script type="text/javascript">
+        //用户动态选择的年月（月份要小1）
+        var yearDisplay,monthDisplay;
+        var now = new Date();
+        //当前年月
+        var yearNow = now.getFullYear();
+        var monthNow = now.getMonth();
+        if(monthNow == 0){
+            monthDisplay = 11;
+            yearDisplay = yearNow - 1;
+        }else{
+            monthDisplay = monthNow - 1;
+            yearDisplay = yearNow;
+        }
+        //当前月份的上个月对应的年月
+        var yearLast = yearDisplay;
+        var monthLast = monthDisplay;
+    </script>
 </head>
 <body style="background-color: #fff">
 
@@ -24,17 +42,17 @@
 </ul>
 
 <div id="fullpage">
-    <div class="section " id="section0">
-        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData1" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+    <div class="section">
+        <iframe src="${ctx}/report/echartsData1"  id="iframe1" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
-    <div class="section" id="section1">
-        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData2" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+    <div class="section">
+        <iframe src="${ctx}/report/echartsData2"  id="iframe2" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
-    <div class="section" id="section2">
-        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData3" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+    <div class="section">
+        <iframe src="${ctx}/report/echartsData3"  id="iframe3" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div> 
-    <div class="section" id="section3">
-        <iframe src="http://trade.centaline.com:8083/trade-web/report/echartsData4" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+    <div class="section">
+        <iframe src="${ctx}/report/echartsData4"  id="iframe4" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
 </div>
 <script  src="${ctx }/js/jquery-2.1.1.js"></script>

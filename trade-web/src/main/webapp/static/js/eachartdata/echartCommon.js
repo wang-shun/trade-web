@@ -14,11 +14,11 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 	  
 			if(color==null){
 				color=[
-		               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
+		               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
 		               ]
 			}
 			var option = {
-		        title : {
+		     /*   title : {
 		            text: title,
 		            textStyle: {
 		                color: '#555',
@@ -34,7 +34,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 		                10,  // 下
 		                0, // 左
 		            ],
-		        },
+		        },*/
 				tooltip : {
 					trigger : 'axis'
 				},
@@ -44,18 +44,50 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					y:'7%'
 				},
 				grid: {
-		            left: '78',
-		            top: '30%',
-		            right: '54',
-		            bottom: '15%'
+		            x: '140',
+		            y: '25%',
+		            x2: '50',
+		            y2: '15%',
+	                width:'700'
 		        },
-				xAxis : {
+				xAxis :  {
 					type : 'category',
-					borderColoe : '#333',
-					data : []
+					data :xAxisData,
+					axisLine:{
+						lineStyle:{
+					    color: '#000',
+					    width: 1,
+					    type: 'solid'
+					}},  
+					axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+			            show: false
+			                },
+			        axisTick:{
+			        	show: false,
+			            interval:0
+			        },
+			        splitLine:{
+			            show:false
+			             }
 				},
 				yAxis :yAxis
-			};			
+			};		
+			option.yAxis[0].axisLine={
+			 lineStyle:{
+			    color: '#000',
+			    width: 1,
+			    type: 'solid'}
+			};
+			if(option.yAxis[1]!=undefined){
+			option.yAxis[1].axisLine={
+			 lineStyle:{
+			    color: '#000',
+			    width: 1,
+			    type: 'solid'}
+				};
+			option.yAxis[1].splitNumber=5;
+			}
+			option.yAxis[0].splitNumber=5;
 			if(datas!=[]||datas!=undefined){
 				option.series=[];			
 			}
@@ -83,8 +115,11 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
            	      html+="<td>"+xAxisData[k]+"</td>";
             }
 		          html+="</thead>";
-			for(var i=0;i<legend.length;i++){				
-				 html+="<tr><td class='tabletitle'>";
+			for(var i=0;i<legend.length;i++){
+				if(datas[i].length<=0){
+				 return;
+				 }
+				html+="<tr><td class='tabletitle'>";
 				 if(type[i]=="bar"){
 				    html+= "<span class='colorBar' style='background-color:"+color[i]+"'></span>";
 				    html+=legend[i]+"</td>"
@@ -102,8 +137,8 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 html+="</tr>"
 		    }
 				$(".echarsTable").append(html);
-				//$(".echarsTable td").width(828/xAxisSize);
-				$(".echarsTable td").width($("#plotCont1").width()/(xAxisSize+1));
+				var optionWidth=option.grid.width-2-(2*xAxisSize);
+				 $(".tabletitle~td").width(optionWidth/(xAxisSize));
 		}
 
 /**
@@ -121,8 +156,8 @@ function returnPie(data, items, myChart1, color, title) {
 	}
 	if(color==null){
 		color=[
-               '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
-               ]
+	            "#ade9e9","#ffdadb","#7aa6ea","#84d3dc","#ffd480","#fc96d0","#439cf0","#58cfc2","#ffac88","#ff9696","#0e73da","#52bdbd","#ffad6b","#f784a5","#295aa5" 
+	            ]
 	}
 	var option = {
 		 title : {
@@ -144,7 +179,7 @@ function returnPie(data, items, myChart1, color, title) {
 	        },
 		tooltip : {
 			trigger : 'item',
-			formatter : "{a} <br/>{b} : {c} ({d}%)"
+			formatter : "{a} <br/>{b} : {c} \n({d}%)"
 		},
         legend: {
             orient: 'horizontal',
@@ -165,8 +200,9 @@ function returnPie(data, items, myChart1, color, title) {
 				normal : {
 					label : {
 						show : true,
-						formatter : "{b}:\n{c}"+unit+" ({d}%)"
-					}
+						position:'outer',
+						formatter : "{b}:\n{c}"+unit+" \n({d}%)"
+					},labelLine:{length:2,show:true}
 				}
 			}
 		} ]

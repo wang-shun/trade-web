@@ -453,34 +453,8 @@ function processfu(pkId,propertyCode,caseCode,propertyAddr,agentName,agentPhone,
 function ts(status){
 	alert(status+"案件不能拆分案件！");
 }
-/*
-function processfu(pkId,propertyCode,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType){
-	if(null !=propertyCode && ""!=propertyCode){}else{window.open(ctx +'/engine/task/'+pkId+'/process');}
-	var data = {};
-	if(!page) {data.page = 1;} else {data.page = page;}  
-	data.propertyCode=propertyCode;
-	data.queryId="queryMergeType";
-	data.rows = 5;
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url:ctx+ "/quickGrid/findPage" ,
-		dataType : "json",
-		data : data,
-		beforeSend:function(){},
-		success : function(data) {debugger;
-		if(data.cu>1){
-			showGlDiv('backCase1',pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType);
-		}else{
-			window.open(ctx +'/engine/task/'+pkid+'/process');
-		}
-		},complete: function() { },
-		error : function(errors) { }
-	});
-	
+function processTs(){
+	alert("该案件被申请合流中，请先去审核！");
 }
-*/
-
 
 

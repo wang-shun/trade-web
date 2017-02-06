@@ -66,8 +66,8 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	static {
 		claimByActivitMap = new HashMap<>();
 		claimByActivitMap.put("ComLoan_Process", "ComLoan_Process:6:712521");		
-		claimByActivitMap.put("LoanLost_Process", "LoanLost_Process:7:712784");
-		//claimByActivitMap.put("LoanLost_Process", "LoanLost_Process:3:712524");
+		claimByActivitMap.put("LoanLost_Process", "LoanLost_Process:10:950004");		
+		//claimByActivitMap.put("LoanLost_Process", "LoanLost_Process:7:712784");		
 		claimByActivitMap.put("PSFLoan_Process", "PSFLoan_Process:3:712530");
 		claimByActivitMap.put("offline_eva", "offline_eva:3:712527");
 		claimByActivitMap.put("service_change", "service_change:6:712533");

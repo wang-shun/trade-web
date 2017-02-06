@@ -410,7 +410,7 @@
 	<script src="${ctx}/js/stickUp.js"></script>
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/trunk/task/attachment.js?v=1.1.0"></script> 
+	<script src="${ctx}/js/trunk/task/attachment3.js?v=1.1.0"></script> 
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	<script src="${ctx}/transjs/sms/sms.js"></script> 
@@ -656,10 +656,15 @@
 			}			
 		}
 		
-		function  goProcess(b){			
-			if (!checkForm() || !deleteAndModify()) {				
+		function  goProcess(b){	
+			if (!checkForm()) {
 				return;
 			}
+/* 			if (!checkForm() || !deleteAndModify()) {				
+				return;
+			} */
+			
+			deleteAndModify();
 			var jsonData = $("#houseTransferForm").serializeArray();
 
 			var url = "${ctx}/task/ToHouseTransfer/saveToHouseTransfer";

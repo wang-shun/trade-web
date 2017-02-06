@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="left-content">
-                            <div id="plotCont1" class="plot-leftone" style="width:833px">
+                            <div id="plotCont1" class="plot-leftone">
                             </div>
                             <table class="echarsTable">
                             </table>
@@ -66,25 +66,25 @@
         <script src="${ctx }/js/jquery-2.1.1.js"></script>
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
-        <script src="${ctx }/static_res/js/echarts.min.js"></script>
+        <script src="${ctx }/static_res/js/echarts-all.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-        <script src="${ctx }/js/eachartdata/select_month.js"></script>
+        <%-- <script src="${ctx }/js/eachartdata/select_month.js"></script> --%>
         <script>
         /**
          * 案件统计详情
          */
      	var ctx = $("#ctx").val();
-        $(document).ready(function() {        	
 
-        	reloadGrid();
-        });
-        
         function reloadGrid() {
         	// 初始化列表
         	var data = {};
         	data.queryId = "querySignBankList";	
-        	data.rows = 12;
-        	data.page = 1;
+        	data.pagination = false;
+        	var year = window.parent.yearDisplay;
+	        var month_ = parseInt(window.parent.monthDisplay)+1;
+	        var month = month_ > 9 ? month_:("0"+month_);
+        	data.choiceMonth = year + "-" + month;
+        	
         	$.ajax({
         		async: true,
                 url: ctx+"/quickGrid/findPage",
@@ -113,21 +113,32 @@
             	var span1Text = 0;
             	var span2Text = 0;
             	//1.
-            	$.each(data.rows,function(i,item){
-					xAxisData.push(item.FIN_ORG_NAME_YC.substring(0,2));
-					totalAmountArr.push(item.CONTRACT_AMOUNT);
-					span1Text = accAdd(Number(span1Text),Number(item.CONTRACT_AMOUNT));				
-					totalNumArr.push(item.SIGN_NUM);
-					span2Text = accAdd(Number(span2Text),Number(item.SIGN_NUM));
-				})
+            	if(data.rows){
+            		for(var i = 0;i++;i < 15){
+            			var item = data.rows[i];
+            			xAxisData.push(item.FA_FIN_ORG_NAME_YC.substring(0,2));
+    					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
+    					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));				
+    					totalNumArr.push(parseInt(item.SIGN_NUM));
+    					span2Text += parseInt(item.SIGN_NUM);
+            		}
+            	} 	
             	//2.
             	yAxis =[ 
             	{
                     type: 'value',//左边
-                    name: '金额(万)',
-                    min: 0,
-                    //max: 250,
-                    //interval: 50,
+                    name: '金额',
+                    min:0,
+                    max:100000,
+                    axisLabel: {
+                        formatter: '{value}万 '
+                    }
+                },
+                {
+                    type: 'value',//右边
+                    name: '单数',
+                    min:0,
+                    max:600,
                     axisLabel: {
                         formatter: '{value} '
                     }
@@ -138,7 +149,7 @@
             	//4.
             	datas = [totalAmountArr,totalNumArr];
             	//5.
-            	type = ["bar","bar"];
+            	type = ["bar","line"];
             	//6.
             	color = null;
             	//7.
@@ -149,7 +160,7 @@
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
             	//填充span数据 
             	$("#span1").text(span2Text);
-            	$("#span2").text(span1Text);
+            	$("#span2").text(Math.round(span1Text));
                 },
                 error: function (e, jqxhr, settings, exception) {
                 	   	 

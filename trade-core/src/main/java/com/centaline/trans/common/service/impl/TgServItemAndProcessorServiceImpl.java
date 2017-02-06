@@ -115,6 +115,11 @@ public class TgServItemAndProcessorServiceImpl implements
 		// TODO Auto-generated method stub
 		return tgServItemAndProcessorMapper.findSrvCatsByCaseCode(caseCode);
 	}
+	@Override
+	public String findGuohuApproveTypeByCaseCode(String caseCode) {
+		// TODO Auto-generated method stub
+		return tgServItemAndProcessorMapper.findGuohuApproveTypeByCaseCode(caseCode);
+	}
 
 	@Override
 	public int updateByCaseCode(TgServItemAndProcessor record) {

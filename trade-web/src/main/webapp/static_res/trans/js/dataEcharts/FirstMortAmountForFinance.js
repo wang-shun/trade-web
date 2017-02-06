@@ -10,10 +10,9 @@
 
             finID:[],//金融机构
             finName:[],//金融机构NAME
-            xAxisData:[],
-            mort_total:[],//贷款总额
-            com_total:[],//商业贷款总金额
-            mort_loss:[],//流失贷款总金额
+            xAxisData:[],//横坐标
+            com_total:[],//贷款总额
+            shou_total:[],//收单金额
             getRate:[],//收单率
             legend:[],//纬度
 
@@ -25,16 +24,15 @@
                 ECHART_LOAD_DATA.finID.splice(0,ECHART_LOAD_DATA.finID.length);
                 ECHART_LOAD_DATA.finName.splice(0,ECHART_LOAD_DATA.finName.length);
                 ECHART_LOAD_DATA.xAxisData.splice(0,ECHART_LOAD_DATA.xAxisData.length);
-                ECHART_LOAD_DATA.mort_total.splice(0,ECHART_LOAD_DATA.mort_total.length);
-
                 ECHART_LOAD_DATA.com_total.splice(0,ECHART_LOAD_DATA.com_total.length);
-                ECHART_LOAD_DATA.mort_loss.splice(0,ECHART_LOAD_DATA.mort_loss.length);
+
+                ECHART_LOAD_DATA.shou_total.splice(0,ECHART_LOAD_DATA.shou_total.length);
                 ECHART_LOAD_DATA.getRate.splice(0,ECHART_LOAD_DATA.getRate.length);
 
                 ECHART_LOAD_DATA.month=month;
                 ECHART_LOAD_DATA.year=year;
                 ECHART_LOAD_DATA.url=$("#ctx").val();
-                ECHART_LOAD_DATA.legend= ["总金额(万元)","收单金额(金额)","收单率"];
+                ECHART_LOAD_DATA.legend= ["总金额","收单金额","收单率"];
             },
             /*报表一数据获得ajax*/
             getBarAjaxDate: function (dateMonth,dateFlag){
@@ -55,10 +53,10 @@
                         }
                         $.each(data.rows,function(i,item){
                             ECHART_LOAD_DATA.finName.push(item.FA_FIN_ORG_NAME),
-                            ECHART_LOAD_DATA.mort_total.push(accDiv(item.MORTGAGET_TOTAL_AMOUNT,10000)),
-                            ECHART_LOAD_DATA.com_total.push(accDiv(item.COM_AMOUNT,10000));
-                            if(item.MORTGAGET_TOTAL_AMOUNT!=0){
-                                ECHART_LOAD_DATA.getRate.push(accDiv(item.COM_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT));
+                            ECHART_LOAD_DATA.com_total.push(accDiv(item.COM_AMOUNT,10000)),
+                            ECHART_LOAD_DATA.shou_total.push(accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
+                            if(item.COM_AMOUNT!=0){
+                                ECHART_LOAD_DATA.getRate.push(accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),item.COM_AMOUNT));
                             }else{
                                 ECHART_LOAD_DATA.getRate.push('0.00');
                             }
@@ -72,77 +70,36 @@
 
             buildBarChart : function(myChart){
                 ECHART_LOAD_DATA.getBarAjaxDate(ECHART_LOAD_DATA.year+'-'+ECHART_LOAD_DATA.turnNumber(Number(ECHART_LOAD_DATA.month)),'new');
-
-                var datas=[ECHART_LOAD_DATA.mort_total,ECHART_LOAD_DATA.com_total,ECHART_LOAD_DATA.getRate];
-
+                var datas=[ECHART_LOAD_DATA.com_total,ECHART_LOAD_DATA.shou_total,ECHART_LOAD_DATA.getRate];
                 var type=["bar","bar","line"];
                 var yAxis =[ {
                     type : 'value',//左边
                     name : '金额(万元)',
+                    min:0,
+                    max:1000000,
                     axisLabel : {
                         formatter : '{value}'
                     }
                 },{
                     type : 'value',//右边
-                    name : '比率',
+                    name : '比例',
+                    min:0,
+                    max:1,
                     axisLabel : {
                         formatter : '{value}'
                     }
                 }
-
-
                 ];
                 returnBar(ECHART_LOAD_DATA.xAxisData,yAxis,ECHART_LOAD_DATA.legend,datas,type,null,myChart,"贷款银行分配情况");
             },
-            turnDate:function(){//改变年月的方法
-                //年份加减
-                var year=new Date().getFullYear();
-                $(".calendar-year span").html(year);
-                $("#subtract").click(function(){
-                    var year=$(".calendar-year span").html();
-                    var month=$(".calendar-month span[class='select-blue']").attr("value");
-                    $(".calendar-year span").html(year-1);
-                    reloadGrid(Number(year)-1,month);
-                })
-                $("#add").click(function(){
-                    var year=$(".calendar-year span").html();
-                    var month=$(".calendar-month span[class='select-blue']").attr("value");
-                    $(".calendar-year span").html(Number(year)+1);
-                    reloadGrid(Number(year)+1,month);
-                })
-                //点击变换颜色&&默认当前月份
-                var $month_list = $(".calendar-month span");
-                $month_list.on("click",function() {
-                    $(this).addClass("select-blue").siblings().removeClass('select-blue');
-                    var year = $(".calendar-year span").html();
-                    var month = $(this).attr("value");
-
-                    reloadGrid(year,month);
-                });
-                var monthnow = function (){
-                    var now   = new Date();
-                    var month = now.getMonth();
-                    return month;
-                }
-                var month = monthnow();
-                for (var i=0; i<$month_list.length; i++) {
-                    if(i == month) {
-                        $month_list.eq(i).addClass("select-blue");
-                    }
-                    return false;
-                }
-
-            },
             /*获取当前年份数据*/
             getCurrentYear: function() {
-                var date=new Date;
-                var year=date.getFullYear();
+                var year= $(".calendar-year span").html();
                 return year;
             },
             /*获取当前月数据*/
             getCurrentMonth: function() {
-                var date=new Date;
-                var month=date.getMonth()+1;
+                var month=$(".calendar-month span[class='select-blue']").attr("value");
                 return month;
             },
             turnNumber:function(num){

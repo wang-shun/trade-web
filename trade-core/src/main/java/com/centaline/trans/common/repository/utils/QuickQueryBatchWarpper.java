@@ -11,7 +11,7 @@ public class QuickQueryBatchWarpper {
 	/*单批次查询实现*/
 	private BatchQuery batchQuery;
 	/*批次查询行数,默认每批次处理5000条*/
-	private int batchSize = 5000;
+	private int batchSize = 3000;
 	
 	public QuickQueryBatchWarpper(BatchQuery batchQuery){
 		this.batchQuery = batchQuery;

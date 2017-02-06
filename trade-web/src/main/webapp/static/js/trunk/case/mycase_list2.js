@@ -828,3 +828,6 @@ function caseCodeSort(){
 function ts(status){
 	alert(status+"案件不能拆分案件！");
 }
+function hlts(){
+	 alert("没有找到可以合流的案件！");
+}

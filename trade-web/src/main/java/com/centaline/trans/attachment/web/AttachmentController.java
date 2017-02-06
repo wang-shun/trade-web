@@ -190,7 +190,10 @@ public class AttachmentController {
 		if (attachments != null && attachments.size() > 0) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
-					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+					ToAccesoryList accesoryList=new ToAccesoryList();
+					accesoryList.setAccessoryCode(attachment.getPreFileCode());
+					accesoryList.setPartCode(attachment.getPartCode());
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByPartCode(accesoryList).getAccessoryName());
 				}
 			}
 		}
@@ -230,7 +233,10 @@ public class AttachmentController {
 		if (attachments != null && attachments.size() > 0) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
-					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+					ToAccesoryList accesoryList=new ToAccesoryList();
+					accesoryList.setAccessoryCode(attachment.getPreFileCode());
+					accesoryList.setPartCode(attachment.getPartCode());
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByPartCode(accesoryList).getAccessoryName());
 				}
 			}
 		}
@@ -268,10 +274,13 @@ public class AttachmentController {
 					continue;
 				}
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
-					attachment
-							.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
-					ToAccesoryList itemAccesoryList = toAccesoryListService
-							.findAccesoryByCode(attachment.getPreFileCode());
+					/*attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));*/
+					ToAccesoryList accesoryList=new ToAccesoryList();
+					accesoryList.setAccessoryCode(attachment.getPreFileCode());
+					accesoryList.setPartCode(attachment.getPartCode());
+					ToAccesoryList itemAccesoryList =toAccesoryListService.findAccesoryNameByPartCode(accesoryList);
+					attachment.setPreFileName(itemAccesoryList.getAccessoryName());
+/*					ToAccesoryList itemAccesoryList = toAccesoryListService.findAccesoryNameByPartCode(accesoryList);*/
 					boolean isHave = false;
 					if (CollectionUtils.isNotEmpty(list)) {
 						for (ToAccesoryList item : list) {

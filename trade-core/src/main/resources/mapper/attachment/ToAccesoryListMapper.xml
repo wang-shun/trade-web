@@ -108,6 +108,19 @@
 		where 1=1
 		and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
 	</select>
+		<select id="findAccesoryNameByPartCode" resultMap="BaseResultMap"
+		parameterType="com.centaline.trans.attachment.entity.ToAccesoryList">
+		select
+		<include refid="Base_Column_List" />
+		from sctrans.T_TO_ACCESORY_LIST
+		where 1=1
+		<if test="partCode!=null">
+			and PART_CODE = #{partCode,jdbcType=VARCHAR}
+		</if>
+		<if test="accessoryCode!=null">
+			and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
+		</if>
+	</select>
 	<select id="findAccesoryByCode" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
 		select

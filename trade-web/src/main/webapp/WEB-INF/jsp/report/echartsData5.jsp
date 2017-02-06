@@ -183,7 +183,6 @@
             	title = "11月签约贷款银行分布";
             	//生成柱状图 
             	returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title);
-            	console.dir(myChart);
             	//填充span数据 
             	$("#span1").text(span1Text);
             	$("#span2").text(span2Text);

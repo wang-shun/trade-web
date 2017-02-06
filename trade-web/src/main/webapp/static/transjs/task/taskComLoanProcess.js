@@ -112,9 +112,9 @@ function checkMortgageForm(formId){
 			return false;
 		}*/
 	}else{
-		formId.find("input[name='loanerId']").val("");
-		formId.find("input[name='loanerOrgCode']").val("");
-		formId.find("input[name='loanerOrgId']").val("");
+		//formId.find("input[name='loanerId']").val("");
+		//formId.find("input[name='loanerOrgCode']").val("");
+		//formId.find("input[name='loanerOrgId']").val("");
 	}
 	if(!formId.find("input[name='isTmpBank'][value='1']").prop('checked')){
 		if(afterTimeFlag){
@@ -604,6 +604,12 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='loanerOrgId']").val(data.content.loanerOrgId);
 		    			f.find("input[name='loanerOrgCode']").val(data.content.loanerOrgCode);
 		    			f.find("input[name='loanerPhone']").val(data.content.loanerPhone);
+		    			
+		    			if(undefined != data.content.loanerId && ""!= data.content.loanerId){
+		    				$(".loanerNameImage").css("color","#52cdec");
+		    			}else{$(".loanerNameImage").css("color","#676A6C");}
+		    			
+		    			
 		    			if(data.content.isLoanerArrive == 1){
 		    				f.find("input[name='isLoanerArrive'][value='1']").prop("checked",true);
 		    			}else if(data.content.isLoanerArrive == 0){
