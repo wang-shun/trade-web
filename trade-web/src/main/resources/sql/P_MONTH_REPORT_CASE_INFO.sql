@@ -10,11 +10,21 @@ GO
 -- Create date: 2017-01-10
 -- Description:	每个月的sctrans.T_RPT_CASE_BASE_INFO备份与报表数据的生成
 -- =============================================
-ALTER PROCEDURE [sctrans].[P_MONTH_REPORT_CASE_INFO]
+ALTER PROCEDURE [sctrans].[P_MONTH_REPORT_CASE_INFO](
+    @belong_month int
+)
 	
 AS
 BEGIN
 	DECLARE @update_date datetime;
+
+
+
+  IF @belong_month = 0
+		BEGIN
+			set @belong_month = year(getdate())*100 + month(dateadd(month,-1,getdate()));
+		END
+  
 
 	set @update_date = getdate();
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -24,7 +34,7 @@ BEGIN
 
 	--删除当月统计的数据
     DELETE  FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO
-    WHERE   DATEDIFF(MONTH, CREATE_TIME,  getdate()) = 0;
+    WHERE   BELONG_MONTH = @belong_month;
 
 	INSERT INTO sctrans.T_RPT_HISTORY_CASE_BASE_INFO(
 	CASE_CODE,--案件编号
@@ -37,6 +47,8 @@ BEGIN
 	RECEIVED_USER,--接单人
 	RECEIVED_TEAM_ID,--接单人组别
 	RECEIVED_DISTRICT_ID,--接单人贵宾服务部
+	
+	SIGN_CON_PRICE,--签约合同价
 	SIGN_TIME,--签约时间
 	SIGN_USER,--签约人
 	SIGN_TEAM_ID,--签约人组织
@@ -74,6 +86,7 @@ SELECT
 	RECEIVED_USER,--接单人
 	RECEIVED_TEAM_ID,--接单人组别
 	RECEIVED_DISTRICT_ID,--接单人贵宾服务部
+	SIGN_CON_PRICE,--签约合同价
 	SIGN_TIME,--签约时间
 	SIGN_USER,--签约人
 	SIGN_TEAM_ID,--签约人组织
@@ -98,7 +111,7 @@ SELECT
 	MORTGAGET_IS_TMP_BANK,--是否是临时银行
 	IS_LOSE,--是否流失
 	GETDATE(),
-	CREATE_TIME--所属月份
+	@belong_month--所属月份
 
 	FROM    
 	  SCTRANS.T_RPT_CASE_BASE_INFO
