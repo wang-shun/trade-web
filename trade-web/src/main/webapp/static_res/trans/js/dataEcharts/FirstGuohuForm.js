@@ -93,6 +93,7 @@
                         ECHART_D1_.xAxisData = ECHART_D1_.districtName;//初始化横轴数据
                         ECHART_D1_.list_title = ECHART_D1_.month+'月过户总量';//列表title
                         //生成柱状图
+                        ECHART_D1_.legend=["过户总量","上月过户总量"];
                         var datas=[ECHART_D1_.newData, ECHART_D1_.oldData];
                         var type=["bar","bar"];
                         var bar_color=null;
@@ -151,14 +152,14 @@
                     ECHART_D1_.choiceMonth=ECHART_D1_.year+'-'+ECHART_D1_.turnNumber((Number(ECHART_D1_.month)));//选择的年月
                     ECHART_D1_.oldChoiceMonth=ECHART_D1_.year+'-'+ECHART_D1_.turnNumber((Number(ECHART_D1_.month)-1));//老的年月
                     ECHART_D1_.bar_title= ECHART_D1_.month+"月与"+((Number(ECHART_D1_.month))-1)+"月过户总量比较";
-                    ECHART_D1_.legend.push((Number(ECHART_D1_.month))+"月过户总量");
-                    ECHART_D1_.legend.push((Number(ECHART_D1_.month)-1)+"月过户总量");
+                   /* ECHART_D1_.legend.push((Number(ECHART_D1_.month))+"月过户总量");
+                    ECHART_D1_.legend.push((Number(ECHART_D1_.month)-1)+"月过户总量");*/
                 }else{
                     ECHART_D1_.choiceMonth=ECHART_D1_.year+'-'+ECHART_D1_.turnNumber((Number(ECHART_D1_.month)));//选择的年月
                     ECHART_D1_.oldChoiceMonth=(Number(ECHART_D1_.year)-1)+'-12';//老的年月
                     ECHART_D1_.bar_title= ECHART_D1_.month+"月与去年12月过户总量比较";
-                    ECHART_D1_.legend.push(ECHART_D1_.year+"-"+ECHART_D1_.turnNumber((Number(ECHART_D1_.month)))+"月过户总量");
-                    ECHART_D1_.legend.push((Number(ECHART_D1_.year)-1)+"-12月过户总量");
+                   /* ECHART_D1_.legend.push(ECHART_D1_.year+"-"+ECHART_D1_.turnNumber((Number(ECHART_D1_.month)))+"月过户总量");
+                    ECHART_D1_.legend.push((Number(ECHART_D1_.year)-1)+"-12月过户总量");*/
                 }
                 ECHART_D1_.drawChart(ECHART_D1_.choiceMonth,ECHART_D1_.oldChoiceMonth);
 
