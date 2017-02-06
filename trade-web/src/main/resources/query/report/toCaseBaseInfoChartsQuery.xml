@@ -152,16 +152,17 @@
 						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,
 						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT,
 						#choiceMonth# as CHOICE_MONTH,
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#) NO_MORT_COUNT,
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#) LOST_COUNT,
-						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#) LOST_AMOUNT
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#choiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#choiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#choiceMonth#) NO_MORT_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#choiceMonth#) LOST_COUNT,
+						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#choiceMonth#) LOST_AMOUNT
 					from
 					sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
 					where
 					1=1
 					and HOURSE_TRANSFER_AGREE_STATUS=1
+					and convert(varchar(7),tb1.BELONG_MONTH,120)=#choiceMonth#
 					and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#
 					group by DISTRICT_ID
 
@@ -175,17 +176,18 @@
 						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,
 						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT,
 						#oldChoiceMonth# as CHOICE_MONTH,
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#) NO_MORT_COUNT,
-						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#) LOST_COUNT,
-						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#) LOST_AMOUNT
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#oldChoiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#oldChoiceMonth# and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#oldChoiceMonth#) NO_MORT_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#oldChoiceMonth#) LOST_COUNT,
+						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth# and convert(varchar(7),tb2.BELONG_MONTH,120)=#oldChoiceMonth#) LOST_AMOUNT
 					from
 					sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
 					where
 					1=1
 					and HOURSE_TRANSFER_AGREE_STATUS=1
 					and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#oldChoiceMonth#
+					and convert(varchar(7),tb1.BELONG_MONTH,120)=#oldChoiceMonth#
 					group by DISTRICT_ID
 					</ifNotNull>
 	            ]]>
