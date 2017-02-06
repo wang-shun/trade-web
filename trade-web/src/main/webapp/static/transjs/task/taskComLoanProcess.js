@@ -1341,85 +1341,19 @@ $(document).ready(function () {
 		});
 	});
 	$("#wizard").steps({labels:{
-			next:"下一步",
-			previous:"上一步",
-			finish:"提交",		
-	 	},
-	 	onInit:function(event, currentIndex){
-	 		$("#winzard").find("li").css("width","16%");
-	 	},
-        headerTag: "h3",
-        bodyTag: "section",
-        transitionEffect: "slide",
-		startIndex:step,
-		showFinishButtonAlways:false,
-	 	enableCancelButton:false,
-	 	onStepChanging: function (event, currentIndex, newIndex){
-	 		if(currentIndex == 0){
-	 			/*if(accPricing == null){
-	 				alert("请先接受询价结果！");
-	 				return false;
-	 			}*/
-	 			if(accPricing){
-	 				$("#eva_code").val(accPricing['EVA_CODE']);
-	 			}
-	
-	 		}else if(currentIndex == 2){
-	 			var flag = false;
-	 			if(checkMortgageForm($("#mortgageForm"))){
-		 			saveMortgage($("#mortgageForm"));
-		 			flag = true;
-	 			}
-	 			return flag;
-	 		}else if(currentIndex == 3 ){
-	 			/*if(checkAttUp($(".att_first"),$("#mortgageForm"))){
-	 				return deleteAndModify();
-	 			}*/
-	 			return true;
-	 		}
-
-	 		return true;
-	 	},
-	 	onStepChanged: function (event, currentIndex, priorIndex){
-	 		stepIndex = currentIndex;		
-	 		if(currentIndex > step){
-		 		saveStep(1,stepIndex);
-	 		}
-	 		if(currentIndex == 1){
-	 			getReminderList("table_list_2","pager_list_2");
-	 		}else if(currentIndex == 2){
-		 		getMortgageInfo($("#caseCode").val(),1);
-	 		}else if(currentIndex == 3 && priorIndex !=2){
-	 			getMortgageInfo($("#caseCode").val(),1);
-	 		}else if(currentIndex == 4){
-	 			getMortgageInfo($("#caseCode").val(),1);
-	 			getReportList("table_list_4","pager_list_4",1);
-	 		}else if(currentIndex == 5 && priorIndex == 4){
-	 			//离开报告步骤执行临时银行审批流程
-	 			startTmpBankWorkFlow();
-	 			getCompleteMortInfo(1);
-	 		}
-	 	},
-	 	onFinished: function (event, currentIndex)
-		{
-	 		completeMortgage($("#completeForm"));	
-	    }
-	});
-	
-	$("#wizard1").steps({labels:{
 		next:"下一步",
 		previous:"上一步",
-		finish:"提交"
+		finish:"提交",		
  	},
- 	headerTag: "h3",
+ 	onInit:function(event, currentIndex){
+ 		$("#winzard").find("li").css("width","16%");
+ 	},
+    headerTag: "h3",
     bodyTag: "section",
     transitionEffect: "slide",
- 	showFinishButtonAlways:false,
+	startIndex:step,
+	showFinishButtonAlways:false,
  	enableCancelButton:false,
- 	startIndex:step1,
- 	onInit:function(event, currentIndex){
- 		
- 	},
  	onStepChanging: function (event, currentIndex, newIndex){
  		if(currentIndex == 0){
  			/*if(accPricing == null){
@@ -1429,53 +1363,139 @@ $(document).ready(function () {
  			if(accPricing){
  				$("#eva_code").val(accPricing['EVA_CODE']);
  			}
- 			/*if(accPricingIds.length != 0 && accPricing == null){
- 				alert("请先接受询价结果！");
- 				return false;
- 			}else if(accPricing != null){
-				$("#eva_code").val(accPricing['EVA_CODE']);
- 			}*/
 
- 		}else if(currentIndex == 2 ){
+ 		}else if(currentIndex == 2){
  			var flag = false;
- 			if(checkMortgageForm($("#mortgageForm1"))){
-	 			saveMortgage($("#mortgageForm1"));
+ 			if(checkMortgageForm($("#mortgageForm"))){
+	 			saveMortgage($("#mortgageForm"));
 	 			flag = true;
  			}
  			return flag;
  		}else if(currentIndex == 3 ){
- 			/*if(checkAttUp($(".att_second"),$("#mortgageForm1"))){
+ 			/*if(checkAttUp($(".att_first"),$("#mortgageForm"))){
  				return deleteAndModify();
  			}*/
+ 			if ($("#loan_doc_confirm_letter_first_pic_list li").length == undefined
+					|| $("#loan_doc_confirm_letter_first_pic_list li").length == 0 ) {
+				window.wxc.alert("贷款材料确认书未上传!");
+				return false;
+			}
+ 			if ($("#rec_letter_first_pic_list li").length == undefined
+					|| $("#rec_letter_first_pic_list li").length == 0 ) {
+				window.wxc.alert("推荐函未上传!");
+				return false;
+			}
  			return true;
  		}
- 		
+
  		return true;
  	},
  	onStepChanged: function (event, currentIndex, priorIndex){
- 		stepIndex = currentIndex;
- 		if(currentIndex > step1){
-	 		saveStep(0,stepIndex);
+ 		stepIndex = currentIndex;		
+ 		if(currentIndex > step){
+	 		saveStep(1,stepIndex);
  		}
  		if(currentIndex == 1){
- 			getReminderList("table_list_5","pager_list_5");
+ 			getReminderList("table_list_2","pager_list_2");
  		}else if(currentIndex == 2){
-	 		getMortgageInfo($("#caseCode").val(),0);
- 		}else if(currentIndex == 3 && priorIndex != 2){
- 			getMortgageInfo($("#caseCode").val(),0);
+	 		getMortgageInfo($("#caseCode").val(),1);
+ 		}else if(currentIndex == 3 && priorIndex !=2){
+ 			getMortgageInfo($("#caseCode").val(),1);
  		}else if(currentIndex == 4){
- 			getMortgageInfo($("#caseCode").val(),0);
- 			getReportList("table_list_6","pager_list_6",0);
+ 			getMortgageInfo($("#caseCode").val(),1);
+ 			getReportList("table_list_4","pager_list_4",1);
  		}else if(currentIndex == 5 && priorIndex == 4){
- 			//startTmpBankWorkFlow();
- 			getCompleteMortInfo(0);
+ 			//离开报告步骤执行临时银行审批流程
+ 			startTmpBankWorkFlow();
+ 			getCompleteMortInfo(1);
  		}
  	},
  	onFinished: function (event, currentIndex)
-    {
- 		completeMortgage($("#completeForm1"));
- 		return true;
+	{
+ 		completeMortgage($("#completeForm"));	
     }
+});
+
+$("#wizard1").steps({labels:{
+	next:"下一步",
+	previous:"上一步",
+	finish:"提交"
+	},
+	headerTag: "h3",
+bodyTag: "section",
+transitionEffect: "slide",
+	showFinishButtonAlways:false,
+	enableCancelButton:false,
+	startIndex:step1,
+	onInit:function(event, currentIndex){
+		
+	},
+	onStepChanging: function (event, currentIndex, newIndex){
+		if(currentIndex == 0){
+			/*if(accPricing == null){
+				alert("请先接受询价结果！");
+				return false;
+			}*/
+			if(accPricing){
+				$("#eva_code").val(accPricing['EVA_CODE']);
+			}
+			/*if(accPricingIds.length != 0 && accPricing == null){
+				alert("请先接受询价结果！");
+				return false;
+			}else if(accPricing != null){
+			$("#eva_code").val(accPricing['EVA_CODE']);
+			}*/
+
+		}else if(currentIndex == 2 ){
+			var flag = false;
+			if(checkMortgageForm($("#mortgageForm1"))){
+ 			saveMortgage($("#mortgageForm1"));
+ 			flag = true;
+			}
+			return flag;
+		}else if(currentIndex == 3 ){
+			/*if(checkAttUp($(".att_second"),$("#mortgageForm1"))){
+				return deleteAndModify();
+			}*/
+			if ($("#loan_doc_confirm_letter_sec_pic_list li").length == undefined
+				|| $("#loan_doc_confirm_letter_sec_pic_list li").length == 0 ) {
+			window.wxc.alert("贷款材料确认书未上传!");
+			return false;
+		}
+			if ($("#rec_letter_sec_pic_list li").length == undefined
+				|| $("#rec_letter_sec_pic_list li").length == 0 ) {
+			window.wxc.alert("推荐函未上传!");
+			return false;
+		}
+			return true;
+		}
+		
+		return true;
+	},
+	onStepChanged: function (event, currentIndex, priorIndex){
+		stepIndex = currentIndex;
+		if(currentIndex > step1){
+ 		saveStep(0,stepIndex);
+		}
+		if(currentIndex == 1){
+			getReminderList("table_list_5","pager_list_5");
+		}else if(currentIndex == 2){
+ 		getMortgageInfo($("#caseCode").val(),0);
+		}else if(currentIndex == 3 && priorIndex != 2){
+			getMortgageInfo($("#caseCode").val(),0);
+		}else if(currentIndex == 4){
+			getMortgageInfo($("#caseCode").val(),0);
+			getReportList("table_list_6","pager_list_6",0);
+		}else if(currentIndex == 5 && priorIndex == 4){
+			//startTmpBankWorkFlow();
+			getCompleteMortInfo(0);
+		}
+	},
+	onFinished: function (event, currentIndex)
+{
+		completeMortgage($("#completeForm1"));
+		return true;
+}
 });
 //    $("#finOrgCode").change(function(){
 //    	if($("#finOrgCode").val() == "P00021"){
