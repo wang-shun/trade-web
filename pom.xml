@@ -986,7 +986,7 @@
 
         <aspectj.version>1.7.4</aspectj.version>
         <spring.version>4.3.4.RELEASE</spring.version>
-        <spring.data.jpa.version>1.4.1.RELEASE</spring.data.jpa.version>
+        <spring.data.jpa.version>1.10.5.RELEASE</spring.data.jpa.version>
         <hibernate.core.version>4.2.21.Final</hibernate.core.version>
         <hibernate.ehcache.version>4.2.21.Final</hibernate.ehcache.version>
         <hibernate.commons.annotaions.version>4.0.4.Final</hibernate.commons.annotaions.version>
