@@ -11,7 +11,7 @@ GO
 -- Description:	每个月的sctrans.T_RPT_CASE_BASE_INFO备份与报表数据的生成
 -- =============================================
 ALTER PROCEDURE [sctrans].[P_MONTH_REPORT_CASE_INFO](
-    @belong_month int
+    @belong_month int = 0
 )
 	
 AS
