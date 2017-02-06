@@ -30,15 +30,15 @@
 			<baseSql>
 				<![CDATA[
 				select main.DISTRICT_ID,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = #choiceMonth# and convert(varchar(7),a.BELONG_MONTH,120)=#choiceMonth#) DISPATCH_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = #choiceMonth# and convert(varchar(7),b.BELONG_MONTH,120)=#choiceMonth#) SIGN_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = #choiceMonth# and convert(varchar(7),c.BELONG_MONTH,120)=#choiceMonth#) GUOHU_NUM,
-				(select isnull(sum(d.SIGN_CON_PRICE),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and convert(varchar(7),d.BELONG_MONTH,120)=#choiceMonth#) SIGN_CON_PRICE,
-				(select isnull(sum(e.mortgaget_com_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and e.MORTGAGE_LOAN_TYPE in ('30016001','30016002') and convert(varchar(7),e.BELONG_MONTH,120)=#choiceMonth#) COM_AMOUNT,
-				(select isnull(sum(f.mortgaget_prf_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and f.MORTGAGE_LOAN_TYPE in ('30016002','30016003') and convert(varchar(7),f.BELONG_MONTH,120)=#choiceMonth#) PRF_AMOUNT,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002') and convert(varchar(7),g.BELONG_MONTH,120)=#choiceMonth#) COM_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and h.MORTGAGE_LOAN_TYPE = '30016003' and convert(varchar(7),h.BELONG_MONTH,120)=#choiceMonth#) PRF_NUM
-				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main where main.DISTRICT_ID is not null and convert(varchar(7),main.BELONG_MONTH,120)=#choiceMonth#
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = #choiceMonth# and a.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) DISPATCH_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = #choiceMonth# and b.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) SIGN_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = #choiceMonth# and c.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) GUOHU_NUM,
+				(select isnull(sum(d.SIGN_CON_PRICE),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and d.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) SIGN_CON_PRICE,
+				(select isnull(sum(e.mortgaget_com_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and e.MORTGAGE_LOAN_TYPE in ('30016001','30016002') and e.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) COM_AMOUNT,
+				(select isnull(sum(f.mortgaget_prf_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and f.MORTGAGE_LOAN_TYPE in ('30016002','30016003') and f.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) PRF_AMOUNT,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002') and g.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) COM_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and h.MORTGAGE_LOAN_TYPE = '30016003' and h.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) PRF_NUM
+				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main where main.DISTRICT_ID is not null and main.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -77,7 +77,7 @@
                 where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
                 and main.IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
-                and convert(varchar(7),main.BELONG_MONTH,120)=#choiceMonth#			
+                and main.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))			
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -114,7 +114,7 @@
                 where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
                 and main.IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
-                and convert(varchar(7),main.BELONG_MONTH,120)=#choiceMonth#
+                and main.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))
 	            ]]>
 			</baseSql>
 			<orderBySql>
