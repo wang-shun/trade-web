@@ -515,7 +515,7 @@
 				
 				var length = $(this).find("li").length;
 				if(length == 0) {
-					alert("请上传备件！");
+					window.wxc.alert("请上传备件！");
 					checkAtt = false;
 					return false;
 				} else {
@@ -569,7 +569,7 @@
 		
 		function  goProcess(b){	
 			if (!checkForm()) {
-				return;
+				return false;
 			}
 /* 			if (!checkForm() || !deleteAndModify()) {				
 				return;
@@ -663,14 +663,18 @@
 
 		//验证控件checkUI();
 		function checkForm() {
+			$("input").css("border-color","#ccc");
+			
 			if ($('input[name=realHtTime]').val() == '') {
 				window.wxc.alert("实际过户时间为必填项!");
 				$('input[name=realHtTime]').focus();
+				$('input[name=realHtTime]').css("border-color","red");
 				return false;
 			}
 			if ($('input[name=houseHodingTax]').val() == '') {
 				window.wxc.alert("房产税为必填项!");
 				$('input[name=houseHodingTax]').focus();
+				$('input[name=houseHodingTax]').css("border-color","red");
 				return false;
 			}
 			/* if($('input[name=commet]').val()=='') {
@@ -681,26 +685,33 @@
 			if ($('input[name=personalIncomeTax]').val() == '') {
 				window.wxc.alert("个人所得税为必填项!");
 				$('input[name=personalIncomeTax]').focus();
+				$('input[name=personalIncomeTax]').css("border-color","red");
+				
 				return false;
 			}
 			if ($('input[name=businessTax]').val() == '') {
 				window.wxc.alert("上家营业税为必填项!");
 				$('input[name=businessTax]').focus();
+				$('input[name=businessTax]').css("border-color","red");
 				return false;
 			}
 			if ($('input[name=contractTax]').val() == '') {
 				window.wxc.alert("下家契税为必填项!");
 				$('input[name=contractTax]').focus();
+				$('input[name=contractTax]').css("border-color","red");
+				
 				return false;
 			}
 			if ($('input[name=landIncrementTax]').val() == '') {
 				window.wxc.alert("土地增值税为必填项!");
 				$('input[name=landIncrementTax]').focus();
+				$('input[name=landIncrementTax]').css("border-color","red");
 				return false;
 			}
 			if ($('select[name=useCardPay]').val() ==1&& $('input[name=cardPayAmount]').val() == '') {
 				window.wxc.alert("刷卡总金额为必填项!");
 				$('input[name=cardPayAmount]').focus();
+				$('input[name=cardPayAmount]').css("border-color","red");
 				return false;
 			}
 			var _mortType = $('#mortType').find(':selected').val();
@@ -717,16 +728,19 @@
 				if (isNaN(_comDiscount)) {
 					window.wxc.alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 					$('input[name=comDiscount]').focus();
+					$('input[name=comDiscount]').css("border-color","red");
 					return false;
 				} else if (_comDiscount > 1.5 || _comDiscount <= 0.5) {
 					window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 					$('input[name=comDiscount]').focus();
+					$('input[name=comDiscount]').css("border-color","red");
 					return false;
 				} else if (_comDiscount<=1.5 || _comDiscount>= 0.5) {
 					var reg = /^[01]{1}\.{1}\d{3,}$/;
 					if (reg.test(_comDiscount)) {
 						window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 						$('input[name=comDiscount]').focus();
+						$('input[name=comDiscount]').css("border-color","red");
 						return false;
 					}
 				}
@@ -734,7 +748,11 @@
 
 			return true;
 		}
-				
+		
+		$("input[type='text']").focus(function(){
+			$(this).css("border-color","rgb(204, 204, 204)");
+		});
+		
 		//渲染图片 
 		function renderImg(){		
 			$('.wrapper-content').viewer('destroy');
