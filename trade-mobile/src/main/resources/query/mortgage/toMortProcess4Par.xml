@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdMortServName" beanName="qqcdMortServName"></customDict>
+		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>
+		<customDict id="qqRealName" beanName="qqRealName"></customDict>
+		<customDict id="qqcdCaseStatus" beanName="qqcdCaseStatus"></customDict>
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>
+
+	<query id="queryMortProcess">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+ 				SELECT 
+			        CMT.CASE_CODE,
+			        CMT.BIZ_CODE,
+                    CMT.SRV_CODE,
+                    CMT.CREATE_TIME AS REAL_TIME,
+                    ISNULL(CMT.CREATE_BY,'') AS CREATE_BY,
+                    ISNULL(CMT.COMMENT,'') AS COMMENT,
+                    CMT.SOURCE,
+                    CMT.TYPE
+			        FROM SCTRANS.T_TO_CASE_COMMENT CMT 
+			        WHERE BIZ_CODE = #bizCode#
+ 					AND CMT.SOURCE = 'MORT'
+					
+ 					ORDER BY CMT.CREATE_TIME DESC
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+			<column type="both" name="SRV_CODE"/>
+			<column type="virtual" name="SRV_NAME" referencecol="SRV_CODE" customDict="qqcdMortServName"  />
+			<column type="both" name="REAL_TIME"  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" />
+			<column type="both" name="CREATE_BY" display="createBy" />
+			<column type="virtual" name="REAL_NAME" display="yuOperator_name" referencecol="CREATE_BY" customDict="qqRealName"  />
+			<column type="both" name="COMMENT" display="comments" />
+			<column type="both" name="SOURCE" display="source" />
+			<column type="both" name="TYPE" display="type" />
+			</table-row>
+		</grid>
+	</query>
+</querys>
