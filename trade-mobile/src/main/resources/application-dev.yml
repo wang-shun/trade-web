@@ -1,0 +1,76 @@
+#shiro setting
+shiroConfig.sessionIdCookie:
+  name: clid
+  domain: partner.centaline.com
+  path: /partner
+shiroConfig.sessionUserCookie:
+  name: suid
+  domain: centaline.com
+  path: /
+shiroConfig.shiroFilter:
+  loginUrl: http://sso.centaline.com:8080/aist-sso-web/login?service=http://partner.centaline.com:8080/partner/cas
+  successUrl: /
+  unauthorizedUrl: http://partner.centaline.com:8080/partner/
+  filterChainDefinitionMap:
+    /casFailure.jsp: anon
+    /cas: cas
+    /html/**: anon
+    /remote/**: anon
+    /mobile/**: anon
+    /test/**: anon
+    /momedia/**: anon
+    /webservices/**: anon
+    /userorg/org/findOrgZTreeListByAdminOrg.json: anon
+    /anon/**: anon
+    /login: authc
+    /logout: logout
+    /api/**: anon
+    /rest/**: anon
+    /authenticated: authc
+    /weixin/**: weiXinUser
+    /tweixin/**: weiXinUser
+    /weixinAuth: weixinAuth
+    /**: user
+  filters:
+    weiXinUser:
+      corpId: wx7b47806a86fe27db
+      corpsecret: du8lu_E-kC1zyvofc4CPw53tNFdtF4AnbBXRJ9l9Z3d316FzsLRl1WB2Yqw4VVzB
+shiroConfig.logouFilter:
+  redirectUrl: http://sso.centaline.com:8080/aist-sso-web/logout?service=http://partner.centaline.com:8080/partner/cas
+casRealm:
+  casService: http://partner.centaline.com:8080/partner/cas
+  casServerUrlPrefix: http://sso.centaline.com:8080/aist-sso-web
+# Server settings (ServerProperties)
+server:
+  port: 8090
+  #address: 127.0.0.1
+  sessionTimeout: 30
+  contextPath: /partner
+#数据源
+dataSource:
+  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  url: jdbc:sqlserver://10.4.19.22:1433;databaseName=sctrans_dev
+  username: dev
+  password: dev.good
+  maxActive: 10
+  initialSize: 5
+  filters: stat
+#数据源
+readOnlyDataSource:
+  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  url: jdbc:sqlserver://10.4.19.22:1433;databaseName=sctrans_dev
+  username: dev
+  password: dev.good
+  maxActive: 11
+  initialSize: 6
+  filters: stat
+#微信相关
+weiXin.number:
+  corpId: wx7b47806a86fe27db
+  corpsecret: du8lu_E-kC1zyvofc4CPw53tNFdtF4AnbBXRJ9l9Z3d316FzsLRl1WB2Yqw4VVzB
+#Mybatis
+mybatis: 
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  typeAliasesPackage: com.centaline.parportal.**.repository
+  configLocation: classpath:/mapper/mappers.xml
+    

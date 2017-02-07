@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdMortServName" beanName="qqcdMortServName"></customDict>
+		<customDict id="qqcdMortType" beanName="qqcdMortType"></customDict>
+		<customDict id="qqcdMortLendWay" beanName="qqcdMortLendWay"></customDict>
+		<customDict id="qqcdCaseStatus" beanName="qqcdCaseStatus"></customDict>
+		<customDict id="qqRealName" beanName="qqRealName"></customDict>
+		<customDict id="qqUserIdMobile" beanName="qqUserIdMobile"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict"></customDict>
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>
+
+	<query id="queryMortgageCaseDetail">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[  	
+			   SELECT
+			   				M.PKID,
+						    CAST(M.PKID as varchar)	AS bizCode,
+						    'MORT'              			AS prdType,
+						    M.PKID         AS mortInfo_mortCode,
+						    M.MORT_TYPE         AS mortInfo_mortType,
+						    ''                  				AS mortInfo_refundType,
+						    M.LEND_WAY         	AS mortInfo_lendWay,
+						    M.MORT_TOTAL_AMOUNT 	AS mortInfo_totalAmount,
+						    M.COM_AMOUNT       			AS mortInfo_comAmount,
+						    CAST(M.COM_YEAR as varchar) + '年'          	AS mortInfo_comYear,
+						    M.COM_DISCOUNT      			AS mortInfo_comDiscount,
+						    ISNULL(M.PRF_AMOUNT,0) 	AS mortInfo_prfAmount                   ,
+            					ISNULL(CAST(M.PRF_YEAR AS VARCHAR) + '年','') 	AS mortInfo_prfYear,
+            					ISNULL(M.STATE_IN_BANK,'') 	AS mortInfo_statusCode,
+						    M.LOAN_AGENT        			AS yuOperator_userId,
+						    M.LOAN_AGENT_TEAM   		AS yuOperator_teamId,
+						    
+						    M.CUST_NAME         			AS custInfo_name,
+						    M.CUST_CODE         			AS custInfo_custCode,
+						    TCUST.PKID          				AS custInfo_custID,
+						    TCUST.GUEST_PHONE   		AS custInfo_mobile,
+						    PRI.PROPERTY_ADDR   		AS tradeInfo_addr,
+						    TCASE.CASE_CODE     		AS tradeInfo_caseCode,
+						    TCASE.STATUS        			AS tradeInfo_status
+						FROM
+						    SCTRANS.T_TO_MORTGAGE AS M
+						INNER JOIN
+						    SCTRANS.T_TO_CASE AS TCASE
+						ON
+						    M.CASE_CODE = TCASE.CASE_CODE
+						AND m.PKID = #bizCode#
+						AND (
+						        m.MORT_TYPE = '30016001'
+						    OR  m.MORT_TYPE = '30016002')
+						AND m.IS_DELEGATE_YUCUI = 1
+						AND m.IS_ACTIVE = 1
+						AND m.LOANER_ID = #userId#
+						LEFT JOIN
+						    SCTRANS.T_TO_PROPERTY_INFO AS PRI
+						ON
+						    M.CASE_CODE = PRI.CASE_CODE
+						LEFT JOIN
+						    SCTRANS.T_TG_GUEST_INFO AS TCUST
+						ON
+						    M.CUST_CODE = TCUST.PKID 
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+						 ORDER BY M.PKID DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+			<column type="both" name="prdType" display="prdType"  />
+			<column type="both" name="bizCode" display="bizCode"  />
+			<column type="both" name="mortInfo_mortCode" display="abc"  />
+			<column type="both" name="mortInfo_mortType" display="mortInfo.mortType"  customDict="qqcdMortType" />
+			<column type="both" name="mortInfo_refundType" display="mortInfo_refundType"  />
+			<column type="both" name="mortInfo_lendWay" display="mortInfo_lendWay"  customDict="qqcdMortLendWay"  />
+			<column type="both" name="mortInfo_totalAmount" display="mortInfo_totalAmount"  />
+			<column type="both" name="mortInfo_comAmount" display="mortInfo_comAmount"  />
+			<column type="both" name="mortInfo_comYear" display="mortInfo_comYear"  />
+			<column type="both" name="mortInfo_comDiscount" display="mortInfo_comDiscount"  />
+			<column type="both" name="mortInfo_prfAmount" display="mortInfo_prfAmount"  />
+			<column type="both" name="mortInfo_prfYear" display="mortInfo_prfYear"  />
+			<column type="both" name="mortInfo_statusCode" display="mortInfo_statusCode"  />
+			<column type="virtual" name="mortInfo_status"  referencecol="mortInfo_statusCode" customDict="qqcdMortServName" />
+			<column type="both" name="yuOperator_userId" display="yuOperator_userId"  />
+			<column type="both" name="yuOperator_teamId" display="yuOperator_teamId"  />
+			<column type="virtual" name="yuOperator_name" display="yuOperator_name" referencecol="yuOperator_userId" customDict="qqRealName"  />
+			<column type="virtual" name="yuOperator_mobile" display="yuOperator_mobile" referencecol="yuOperator_userId" customDict="qqUserIdMobile"  />
+			<column type="virtual" name="yuOperator_org" display="yuOperator_org" referencecol="yuOperator_teamId" customDict="qqcdOrgIdName"  />
+			
+			<column type="both" name="custInfo_name" display="custInfo_name"  />
+			<column type="both" name="custInfo_custCode" display="custInfo_custCode"  />
+			<column type="both" name="custInfo_custID" display="custInfo_custID"  />
+			<column type="both" name="custInfo_mobile" display="custInfo_mobile"  />
+			<column type="both" name="tradeInfo_addr" display="tradeInfo_addr"  />
+			<column type="both" name="tradeInfo_caseCode" display="tradeInfo_caseCode"  />
+			<column type="both" name="tradeInfo_status" display="tradeInfo_status"  customDict="qqcdCaseStatus" />
+			
+			</table-row>
+		</grid>
+	</query>
+</querys>

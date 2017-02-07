@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys id="tasks">
+	<query id="queryTaskListItemList">
+		<searchScript>
+			SELECT
+			SYSUSER.ORG_ID as orgId2, 
+			SYSUSER.ORG_ID,
+			ART.ID_ AS ID,
+			ART.CREATE_TIME_ CREATE_TIME,
+			DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE()) AS DATELAMP,
+			ART.NAME_ AS NAME,
+			ART.TASK_DEF_KEY_ AS PART_CODE,
+			ART.PROC_INST_ID_ AS INST_CODE,
+			ART.DELEGATION_ AS DELEGATION,
+			tw.CASE_CODE,
+			A.GRP_NAME AS AGENT_ORG_NAME,
+			A.AGENT_NAME,
+			E.PROPERTY_ADDR,
+			tp.RED_LOCK,
+			tp.EST_PART_TIME,
+			a.agent_phone as MOBILE,
+			A.CTM_CODE as CTM_CODE,
+			b.pkid as PKID,
+			wfe.WFE_NAME as WFE_NAME
+			FROM
+			sctrans.ACT_RU_TASK ART
+			INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_ =tw.INST_CODE
+			INNER JOIN sctrans.T_TO_CASE_INFO AS A ON tw.CASE_CODE=A.CASE_CODE
+			LEFT JOIN sctrans.T_TO_CASE as b on b.case_code=a.case_code
+			INNER JOIN sctrans.T_TO_PROPERTY_INFO AS E ON A.CASE_CODE = E.CASE_CODE
+			LEFT JOIN sctrans.T_TO_TRANS_PLAN AS tp ON A.CASE_CODE = tp.CASE_CODE
+			AND tp.PART_CODE = ART.TASK_DEF_KEY_
+			LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
+			left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE
+			<where>
+				ART.ASSIGNEE_ = #{SYS_USER_LOGIN_NAME}
+				and ART.SUSPENSION_STATE_ in 
+				<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+				<trim prefix="and" prefixOverrides="and|or">
+					<if test="allType != null and allType != ''">
+						AND ART.DELEGATION_ IS NULL
+					</if>
+					<if test="guestname !=null and guestname != '' ">
+						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE =
+						A.CASE_CODE and GUEST_NAME LIKE '%'+#{guestname}+'%' )
+					</if>
+				</trim>
+			</where>
+			ORDER BY case when EST_PART_TIME IS NULL THEN 1 ELSE 0 END
+			,EST_PART_TIME,ART.ID_ DESC
+		</searchScript>
+		<grid>
+			<column name="ID" title="TASKID" hidden="true" />
+			<column name="PKID" title="CASEID" hidden="true" />
+			<column name="CASE_CODE" title="CASECODE" hidden="true" />
+			<column name="CTM_CODE" title="CTM_CODE" hidden="true" />
+			<column name="PART_CODE" title="PARTCODE" hidden="true" />
+			<column name="INST_CODE" title="INSTCODE" hidden="true" />
+			<column name="DATELAMP" title="红绿灯" />
+			<column name="NAME" title="任务名" />
+			<column name="PROPERTY_ADDR" title="产证地址" />
+			<column name="AGENT_NAME" title="经纪人" />
+			<column name="MOBILE" title="手机" />
+			<column name="ORG_ID" title="ORG_ID" hidden="true" />
+
+			<column name="SELLER" field="CASE_CODE" title="上家"
+				customDict="qqcdSeller" />
+			<column name="MANAGER_INFO" field="ORG_ID" customDict="qqManagerInfo" />
+			<column name="BUYER" field="CASE_CODE" title="下家"
+				customDict="qqcdBuyer" />
+			<column name="CREATE_TIME" title="创建时间" />
+			<column name="EST_PART_TIME" title="预计执行时间" />
+			<column name="RED_LOCK" title="红灯记录" />
+			<column name="AGENT_ORG_NAME" title="所属分行" />
+			<column name="WFE_NAME" title="流程环节" />
+		</grid>
+	</query>
+</querys>

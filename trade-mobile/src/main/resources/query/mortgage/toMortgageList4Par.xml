@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><querys>
+	<dicts>
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqPropertyAddr" beanName="qqPropertyAddr"></customDict>
+		<customDict id="qqFinOrgNameYC" beanName="qqFinOrgNameYC"></customDict>
+		<customDict id="qqFenHang" beanName="qqFenHang"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+		<customDict id="qqFenHang" beanName="qqFenHang"></customDict>
+		<customDict id="qqRealName" beanName="qqRealName"></customDict>
+		<customDict id="qqIsLost" beanName="qqIsLost"></customDict>
+	
+		<customDict id="qqSignPrice" beanName="qqSignPrice"></customDict>
+		<customDict id="qqEvalFee" beanName="qqEvalFee"></customDict>
+		<customDict id="qqCaseProperty" beanName="qqCaseProperty"></customDict>
+		<customDict id="qqMortgageAmount" beanName="qqMortgageAmount"></customDict>
+		<customDict id="qqcdMortServName" beanName="qqcdMortServName"></customDict>
+
+
+	</dicts>
+
+	<formatters>
+		
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>
+	
+	<query id="findToMortgage4Par">
+	    <searchCondition>      
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[  				
+					select
+					uoj.employee_code 	as avartaUrl,
+					uoj.real_name 		as consultantName,
+					m.loan_agent 		as consultantID,
+					m.cust_name 		as custName,
+					ISNULL(M.STATE_IN_BANK,'') 	AS statusCode,
+					M.MORT_TOTAL_AMOUNT as loanAmount,
+					CAST(m.COM_YEAR as varchar)+'年'		as loanTime,
+					pi.PROPERTY_ADDR 	as addr,
+					m.SIGN_DATE 			as applyTime,
+					'MORT'	 				as prdType,
+					M.case_code 		as caseCode,
+					CAST(M.PKID as varchar)			as bizCode
+				from
+					sctrans.T_TO_MORTGAGE M
+					INNER JOIN 	sctrans.T_TO_PROPERTY_INFO pi 
+								ON		m.CASE_CODE = pi.CASE_CODE
+								AND		M.LOANER_ID = #userId# 
+								AND		m.is_active = '1'	
+					INNER JOIN		sctrans.V_USER_ORG_JOB uoj
+								ON 		m.loan_agent = uoj.user_id
+								AND		uoj.ismain = 1
+								AND		uoj.JOB_CODE = 'consultant'
+					WHERE EXISTS
+								(select 1 from sctrans.T_TO_CASE c where c.CASE_CODE=M.CASE_CODE and c.LOAN_REQ=1)
+					<ifNotNull q_text>
+					     		AND		(	m.cust_name 			LIKE		'%'+#q_text#+'%'
+					     					OR pi.property_addr	LIKE		'%'+#q_text#+'%'
+					     					OR uoj.real_name		LIKE		'%'+#q_text#+'%')
+					</ifNotNull>				
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  ORDER BY m.SIGN_DATE DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="avartaUrl" index="" />
+				<column type="both" name="consultantName" index="" />
+				<column type="both" name="consultantID" index="" />
+				<column type="both" name="custName" index="" />
+				<column type="both" name="loanAmount" index="" />
+				<column type="both" name="loanTime" index="" />
+				<column type="both" name="addr" index="" />
+				<column type="both" name="applyTime" index=""  beanFormatter="dateFormatter" expFmt="yyyy/MM/dd" expType="date" />
+				<column type="both" name="prdType" index="" />
+				<column type="both" name="caseCode" index="" />
+				<column type="both" name="bizCode" index="" />
+				<column type="both" name="statusCode" display="mortInfo_statusCode"  />
+				<column type="virtual" name="status"  referencecol="statusCode" customDict="qqcdMortServName" />
+			</table-row>
+		</grid>
+	</query>
+</querys>
