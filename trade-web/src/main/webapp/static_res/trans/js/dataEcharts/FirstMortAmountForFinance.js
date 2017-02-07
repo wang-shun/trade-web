@@ -43,6 +43,7 @@
                 var data = {
                     queryId: "queryHourseTransferCaseBaseInfoForFin",
                     choiceMonth : dateMonth,
+                    belongMoth  : getBelongMonth(dateMonth),
                     pagination : false
                 }
                 $.ajax({
