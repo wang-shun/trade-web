@@ -114,7 +114,8 @@
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_);
         	data.choiceMonth = year + "-" + month;
-        	
+			data.belongMoth  = getBelongMonth(year + "-" + month),
+
         	$(".label-tip").show()
 
         	$.ajax({

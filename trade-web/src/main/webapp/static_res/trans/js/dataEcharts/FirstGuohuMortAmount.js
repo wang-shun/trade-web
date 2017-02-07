@@ -52,6 +52,7 @@
                     queryId: "queryHourseTransferCaseBaseInfoForDistrict",
                     choiceMonth : choiceMonth,
                     oldChoiceMonth:oldChoiceMonth,
+                    belongMoth  : getBelongMonth(choiceMonth),
                     pagination : false
                 }
                 $.ajax({
