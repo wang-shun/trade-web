@@ -44,7 +44,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					y:'7%'
 				},
 				grid: {
-		            x: '140',
+		            x: '130',
 		            y: '25%',
 		            x2: '50',
 		            y2: '15%',
@@ -108,8 +108,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				option.series.push(seriej);
 			})
 
-			myChart.setOption(option);
-			
+			/*myChart.setOption(option);*/
 			var html="<thead><td class='tabletitle'></td>";
             for(var k=0;k<xAxisSize;k++){
            	      html+="<td>"+xAxisData[k]+"</td>";
@@ -136,9 +135,11 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 })
 				 html+="</tr>"
 		    }
-				$(".echarsTable").append(html);
-				var optionWidth=option.grid.width-2-(2*xAxisSize);
-				 $(".tabletitle~td").width(optionWidth/(xAxisSize));
+				$(".echarsTable").html(html);
+				 $(".tabletitle~td").width(700/(xAxisSize));			
+				var width=$(".echarsTable").width();
+				option.grid.width=width-130;
+				myChart.setOption(option);
 		}
 
 /**
@@ -260,6 +261,7 @@ function accMul(arg1,arg2)
 //调用：accDiv(arg1,arg2)
 //返回值：arg1除以arg2的精确结果
 function accDiv(arg1,arg2){
+  if(!arg1 || !arg2) return 0;
   var t1=0,t2=0,r1,r2;
   try{t1=arg1.toString().split(".")[1].length}catch(e){}
   try{t2=arg2.toString().split(".")[1].length}catch(e){}

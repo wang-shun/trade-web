@@ -284,14 +284,14 @@ p{
 	color: #5e5e5e;
 }
 .echarsTable td {
-	width: 98px;
+	width: auto;
 	height: 33px;
 	border: 1px solid #333;
 	text-align: center;
 }
 
 .echarsTable .tabletitle {
-	width: 140px !important;
+	width: 130px !important;
 	text-align: left;
 }
 
@@ -341,7 +341,7 @@ p{
 }
 
 .left-content {
-	width: 910px;
+	width: 930px;
 	height: 650px;
 	float: left;
 	border: 1px solid #eee;
@@ -354,7 +354,7 @@ p{
 }
 
 .plot-rightone, .plot-righttwo {
-	width:320px;
+	width:300px;
 	margin-left:10px;
 	padding: 15px;
 	border: 1px solid #eee;
@@ -450,7 +450,7 @@ p{
 }
 .sum-data ul li em{
 	display: inline-block;
-	width: 150px;
+	width: 110px;
 }
 .sum-data ul li span{
 	display: inline-block;

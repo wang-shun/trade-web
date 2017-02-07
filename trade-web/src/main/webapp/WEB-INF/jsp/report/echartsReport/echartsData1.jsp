@@ -82,23 +82,24 @@
 <script src="${ctx }/js/jquery-2.1.1.js"></script>
 <script src="${ctx }/js/bootstrap.min.js"></script>
 <!-- ECharts.js -->
-<script src="${ctx }/static_res/js/echarts-all.js"></script>
-<script src="${ctx }/js/eachartdata/echartCommon.js"></script>
-<script src="${ctx }/js/eachartdata/select_month.js"></script>
+<script src="${ctx }/static/js/echarts-all.js"></script>
+<script src="${ctx }/static/trans/js/common/echartCommon.js"></script>
 <script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuForm.js"></script>
 <script>
-
+   /*  $(function() {
+        window.ECHART_D1_.turnDate();
+        reloadGrid(window.ECHART_D1_.getCurrentYear(),window.ECHART_D1_.getCurrentMonth());
+        setTimeout(function(){
+            $("#iframe2",window.parent.document).attr("src","${ctx}/report/echartsData2");
+        },300);
+    }) */
     function reloadGrid(){
-        var year = window.parent.yearDisplay;
+    	var year = window.parent.yearDisplay;
         var month = parseInt(window.parent.monthDisplay)+1;
-        // 基于准备好的dom，初始化echarts实例
-        var myChart1 = echarts.init(document.getElementById('plotCont1'));
-        var myChart2 = echarts.init(document.getElementById('plotCont2'));
-        window.ECHART_LOAD_DATA.init(year,month);
-        window.ECHART_LOAD_DATA.getDistrict();//初始化区域
-        window.ECHART_LOAD_DATA.buildBarChart(myChart1);//生成柱状报表
-        window.ECHART_LOAD_DATA.buildPieChart(myChart2);//生成饼图报表
-        window.ECHART_LOAD_DATA.buildListChart('list_chart');//生成饼图报表
+        window.ECHART_D1_.init(year,month);
+        window.ECHART_D1_.getDistrict();//初始化区域
+        window.ECHART_D1_.buildChart();//生成柱状报表
+
     }
 </script>
 

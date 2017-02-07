@@ -34,7 +34,18 @@
                                     <a href="#" id="add"><em>&gt;</em></a>
                                 </p>
                                 <p class="calendar-month">
-                                    <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
+		                            <span value="1">1月</span>
+		                            <span value="2">2月</span>
+		                            <span value="3">3月</span>
+		                            <span value="4">4月</span>
+		                            <span value="5">5月</span>
+		                            <span value="6">6月</span>
+		                            <span value="7">7月</span>
+		                            <span value="8">8月</span>
+		                            <span value="9">9月</span>
+		                            <span value="10">10月</span>
+		                            <span value="11">11月</span>
+		                            <span value="12">12月</span>
                                 </p>
                             </div>
                         </div>
@@ -49,7 +60,7 @@
                                 <div class="sum-data">
                                     <h3>数据统计</h3>
                                     <ul class="data-list">
-                                        <li><i class='colorBar' style='background-color:#295aa5'></i><em>签贷贷合同价</em><span id="span1"></span>万元</li>
+                                        <li><i class='colorBar' style='background-color:#295aa5'></i><em>签贷合同价</em><span id="span1"></span>万元</li>
                                         <li><i class='colorBar' style='background-color:#f784a5'></i><em>商贷金额</em><span id="span2"></span>万元</li>
                                         <li><i class='colorBar' style='background-color:#ffad6b'></i><em>公积金金额</em><span id="span3"></span>万元</li>
                                     </ul>
@@ -71,15 +82,11 @@
         <script src="${ctx }/js/jquery-2.1.1.js"></script>
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
-        <script src="${ctx }/static_res/js/echarts-all.js"></script>
+        <script src="${ctx }/static/js/echarts-all.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-        <%-- <script src="${ctx }/js/eachartdata/select_month.js"></script> --%>
         <script>
-        /**
-         * 案件统计详情
-         */
      	var ctx = $("#ctx").val();
-
+     	
         function reloadGrid() {
         	//完整的区(8)
         	var districtIDArr = [];
@@ -89,20 +96,20 @@
                     queryId: "queryDistrict",
                     pagination : false
                 }
-                $.ajax({
-                    url : $("#ctx").val()+"/quickGrid/findPage",
-                    method : "GET",
-                    data : data,
-                    dataType : "json",
-                    async:false,
-                    success : function(data) {
-                        $.each(data.rows,function(i,item){
-                        	districtIDArr.push(item.DISTRICT_ID);
-                            districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
-                        })
-                    },
-                    error:function(){}
-                });
+            $.ajax({
+                url : $("#ctx").val()+"/quickGrid/findPage",
+                method : "GET",
+                data : data,
+                dataType : "json",
+                async:false,
+                success : function(data) {
+                    $.each(data.rows,function(i,item){
+                    	districtIDArr.push(item.DISTRICT_ID);
+                        districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
+                    })
+                },
+                error:function(){}
+            });
         	
         	var data = {};
         	data.queryId = "queryDispatchSignList";	
@@ -147,19 +154,19 @@
             	//1.				
 				for(var i in districtIDArr){
         			var flag = false;
-        			if(data.rows){
+        			if(data.rows.length > 0){
             			for(var j in data.rows){
             				item = data.rows[j];
             				if(districtIDArr[i] == item.DISTRICT_ID){
             					xAxisData[i] = districtNameArr[i];
-            					totalAmountArr[i] = Math.round(accDiv(parseInt(item.TOTAL_AMOUNT),10000));
-            					span1Text = accAdd(span1Text,accDiv(parseInt(item.TOTAL_AMOUNT),10000));
+            					totalAmountArr[i] = Math.round(accDiv(parseInt(item.SIGN_CON_PRICE),10000));
+            					span1Text = accAdd(span1Text,accDiv(parseInt(item.SIGN_CON_PRICE),10000));
             					comAmountArr[i] = Math.round(accDiv(parseInt(item.COM_AMOUNT),10000));
             					span2Text = accAdd(span2Text,accDiv(parseInt(item.COM_AMOUNT),10000));
             					prfAmountArr[i] = Math.round(accDiv(parseInt(item.PRF_AMOUNT),10000));
             					span3Text = accAdd(span3Text,accDiv(parseInt(item.PRF_AMOUNT),10000));
-            					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_AMOUNT),parseInt(item.TOTAL_AMOUNT)),100).replace(".00","");
-            					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_AMOUNT),parseInt(item.TOTAL_AMOUNT)),100).replace(".00","");
+            					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_AMOUNT),parseInt(item.SIGN_CON_PRICE)),100).replace(".00","");
+            					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_AMOUNT),parseInt(item.SIGN_CON_PRICE)),100).replace(".00","");
             					flag = true;
             					}
             				}
@@ -183,7 +190,7 @@
                     type: 'value',//左边
                     name: '金额',
                     min:0,
-                    max:100000,
+                    max:150000,
                     axisLabel: {
                         formatter: '{value}万 '
                     }
@@ -199,7 +206,7 @@
                 }
 				];
             	//3.
-            	legend = ['签贷合同价','商贷金额','公积金金额','商贷签贷占比','公积金签贷占比'];
+            	legend = data.rows.length>0?['签贷合同价','商贷金额','公积金金额','商贷签贷占比','公积金签贷占比']:[];
             	//4.
             	datas = [totalAmountArr,comAmountArr,prfAmountArr,comPercentArr,prfPercentArr];
             	//5.

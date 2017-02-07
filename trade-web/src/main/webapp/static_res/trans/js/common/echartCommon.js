@@ -42,7 +42,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					y:'7%'
 				},
 				grid: {
-		            x: '140',
+		            x: '130',
 		            y: '25%',
 		            x2: '50',
 		            y2: '15%',
@@ -108,14 +108,15 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				option.series.push(seriej);
 			})
 
-			myChart.setOption(option);
-			
 			var html="<thead><td class='tabletitle'></td>";
             for(var k=0;k<xAxisSize;k++){
            	      html+="<td>"+xAxisData[k]+"</td>";
             }
 		          html+="</thead>";
-			for(var i=0;i<legend.length;i++){				
+			for(var i=0;i<legend.length;i++){	
+				if(datas[i].length<=0){
+					 break;
+					 }
 				 html+="<tr><td class='tabletitle'>";
 				 if(type[i]=="bar"){
 				    html+= "<span class='colorBar' style='background-color:"+color[i]+"'></span>";
@@ -125,7 +126,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					 html+="<p class='al-text'>"+legend[i]+"</p></td>";
 				 }
 				 $.each(datas[i],function(j,item){
-					 if(title != "签约贷款银行分布" && type[i]=="line"){
+					 if((title == "月分单、签约量统计" || title == "签约贷款金额占比") && type[i]=="line"){
 						 html+="<td>"+item+"%</td>"; 
 					 }else{
 						 html+="<td>"+item+"</td>"; 
@@ -134,9 +135,10 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 				 html+="</tr>"
 		    }
 				$(".echarsTable").html(html);
-				//$(".echarsTable td").width(828/xAxisSize);
-			var optionWidth=option.grid.width-2-(2*xAxisSize);
-			 $(".tabletitle~td").width(optionWidth/(xAxisSize));
+				 $(".tabletitle~td").width(700/(xAxisSize));			
+				var width=$(".echarsTable").width();
+				option.grid.width=width-130;
+				myChart.setOption(option);
 		}
 
 /**

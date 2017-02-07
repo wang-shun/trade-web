@@ -34,7 +34,18 @@
                                     <a href="#" id="add"><em>&gt;</em></a>
                                 </p>
                                 <p class="calendar-month">
-                                    <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
+		                            <span value="1">1月</span>
+		                            <span value="2">2月</span>
+		                            <span value="3">3月</span>
+		                            <span value="4">4月</span>
+		                            <span value="5">5月</span>
+		                            <span value="6">6月</span>
+		                            <span value="7">7月</span>
+		                            <span value="8">8月</span>
+		                            <span value="9">9月</span>
+		                            <span value="10">10月</span>
+		                            <span value="11">11月</span>
+		                            <span value="12">12月</span>
                                 </p>
                             </div>
                         </div>
@@ -74,15 +85,11 @@
         <script src="${ctx }/js/jquery-2.1.1.js"></script>
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
-        <script src="${ctx }/static_res/js/echarts-all.js"></script>
+        <script src="${ctx }/static/js/echarts-all.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-        <script src="${ctx }/js/eachartdata/select_month.js"></script>
         <script>
-        /**
-         * 案件统计详情
-         */
         var ctx = $("#ctx").val();
-
+ 
         function reloadGrid() {
         	//完整的区(8)
         	var districtIDArr = [];
@@ -92,20 +99,20 @@
                     queryId: "queryDistrict",
                     pagination : false
                 }
-                $.ajax({
-                    url : $("#ctx").val()+"/quickGrid/findPage",
-                    method : "GET",
-                    data : data,
-                    dataType : "json",
-                    async:false,
-                    success : function(data) {
-                        $.each(data.rows,function(i,item){
-                        	districtIDArr.push(item.DISTRICT_ID);
-                            districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
-                        })
-                    },
-                    error:function(){}
-                });
+           $.ajax({
+               url : $("#ctx").val()+"/quickGrid/findPage",
+               method : "GET",
+               data : data,
+               dataType : "json",
+               async:false,
+               success : function(data) {
+                   $.each(data.rows,function(i,item){
+                   	districtIDArr.push(item.DISTRICT_ID);
+                       districtNameArr.push(item.DISTRICT_NAME.substring(0,2));
+                   })
+               },
+               error:function(){}
+           });
         	
         	// 初始化列表
         	var data={};
@@ -154,20 +161,20 @@
             	//1.	
         		for(var i in districtIDArr){
         			var flag = false;
-                	if(data.rows){
+                	if(data.rows.length > 0){
             			for(var j in data.rows){
             				item = data.rows[j];
             				if(districtIDArr[i] == item.DISTRICT_ID){
             					xAxisData[i] = districtNameArr[i];
-            					dispatchNumArr[i] = item.DISPATCH_NUM;
+            					dispatchNumArr[i] = parseInt(item.DISPATCH_NUM);
             					span1Text += parseInt(item.DISPATCH_NUM);
-            					signNumArr[i] = item.SIGN_NUM;
+            					signNumArr[i] = parseInt(item.SIGN_NUM);
             					span2Text += parseInt(item.SIGN_NUM);
-            					guohuNumArr[i] = item.GUOHU_NUM;
+            					guohuNumArr[i] = parseInt(item.GUOHU_NUM);
             					span3Text += parseInt(item.GUOHU_NUM);
-            					comNumArr[i] = item.COM_NUM;
+            					comNumArr[i] = parseInt(item.COM_NUM);
             					span4Text += parseInt(item.COM_NUM);
-            					prfNumArr[i] = item.PRF_NUM;
+            					prfNumArr[i] = parseInt(item.PRF_NUM);
             					span5Text += parseInt(item.PRF_NUM);
             					comPercentArr[i] = accMul(accDiv(parseInt(item.COM_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","");
             					prfPercentArr[i] = accMul(accDiv(parseInt(item.PRF_NUM),parseInt(item.SIGN_NUM)),100).replace(".00","");
@@ -196,7 +203,7 @@
                     type: 'value',//左边
                     name: '单数',
                     min:0,
-                    max:600,
+                    max:800,
                     axisLabel: {
                         formatter: '{value}单 '
                     }
@@ -212,7 +219,7 @@
                 }
 				];
             	//3.
-            	legend = ['分单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比'];
+            	legend = data.rows.length>0?['分单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比']:[];
             	//4.
             	datas = [dispatchNumArr,signNumArr,guohuNumArr,comNumArr,prfNumArr,comPercentArr,prfPercentArr];
             	//5.

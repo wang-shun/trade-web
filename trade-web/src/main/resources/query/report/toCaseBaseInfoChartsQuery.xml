@@ -23,22 +23,22 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="queryDispatchSignList" cacheCount="true">
+	<query id="queryDispatchSignList" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 				select main.DISTRICT_ID,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = #choiceMonth#) DISPATCH_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = #choiceMonth#) SIGN_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = #choiceMonth#) GUOHU_NUM,
-				(select isnull(sum(d.mortgaget_total_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.MORTAGE_SIGN_DATE ,120) = #choiceMonth#) TOTAL_AMOUNT,
-				(select isnull(sum(e.mortgaget_com_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and e.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_AMOUNT,
-				(select isnull(sum(f.mortgaget_prf_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and f.MORTGAGE_LOAN_TYPE in ('30016002','30016003')) PRF_AMOUNT,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002')) COM_NUM,
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and h.MORTGAGE_LOAN_TYPE = '30016003') PRF_NUM
-				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main where main.DISTRICT_ID is not null		
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO a where a.district_id = main.district_id and convert(varchar(7),a.RECEIVED_TIME ,120) = #choiceMonth# and a.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) DISPATCH_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO b where b.district_id = main.district_id and convert(varchar(7),b.SIGN_TIME ,120) = #choiceMonth# and b.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) SIGN_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO c where c.district_id = main.district_id and convert(varchar(7),c.HOUSE_TRANFER_TIME ,120) = #choiceMonth# and c.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) GUOHU_NUM,
+				(select isnull(sum(d.SIGN_CON_PRICE),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO d where d.district_id = main.district_id and convert(varchar(7),d.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and d.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) SIGN_CON_PRICE,
+				(select isnull(sum(e.mortgaget_com_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO e where e.district_id = main.district_id and convert(varchar(7),e.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and e.MORTGAGE_LOAN_TYPE in ('30016001','30016002') and e.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) COM_AMOUNT,
+				(select isnull(sum(f.mortgaget_prf_amount),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO f where f.district_id = main.district_id and convert(varchar(7),f.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and f.MORTGAGE_LOAN_TYPE in ('30016002','30016003') and f.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) PRF_AMOUNT,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO g where g.district_id = main.district_id and convert(varchar(7),g.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and g.MORTGAGE_LOAN_TYPE in ('30016001','30016002') and g.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) COM_NUM,
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO h where h.district_id = main.district_id and convert(varchar(7),h.MORTAGE_SIGN_DATE ,120) = #choiceMonth# and h.MORTGAGE_LOAN_TYPE = '30016003' and h.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))) PRF_NUM
+				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main where main.DISTRICT_ID is not null and main.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -50,19 +50,19 @@
 		<grid>
 			<table-row>
 				<column type="both" name="DISTRICT_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="DISPATCH_NUM" index="" checkbox="" title="派单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="90" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="SIGN_NUM" index="" checkbox="" title="签约量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>
-				<column type="both" name="GUOHU_NUM" index="" checkbox="" title="过户量" expType="Integer" customDict="" sysDict="" beanFormatter="integerFormater" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="TOTAL_AMOUNT" index="" checkbox="" title="签贷合同价" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="DISPATCH_NUM" index="" checkbox="" title="派单量" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_NUM" index="" checkbox="" title="签约量"  customDict="" sysDict="" format=""  width="180" align="" halign="" order="" resizable=""/>
+				<column type="both" name="GUOHU_NUM" index="" checkbox="" title="过户量"  customDict="" sysDict=""  format="" width="60" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="SIGN_CON_PRICE" index="" checkbox="" title="签贷合同价" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
 				<column type="both" name="COM_AMOUNT" index="" checkbox="" title="商贷金额" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
 				<column type="both" name="PRF_AMOUNT" index="" checkbox="" title="公积金金额" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />	
-				<column type="both" name="COM_NUM" index="" checkbox="" title="商贷量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="60" align="" halign="" order="" resizable="" />
-				<column type="both" name="PRF_NUM" index="" checkbox="" title="纯公积金量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="60" align="" halign="" order="" resizable="" />					
+				<column type="both" name="COM_NUM" index="" checkbox="" title="商贷量" customDict="" sysDict="" format=""  width="60" align="" halign="" order="" resizable="" />
+				<column type="both" name="PRF_NUM" index="" checkbox="" title="纯公积金量"  customDict="" sysDict="" format=""  width="60" align="" halign="" order="" resizable="" />					
 			</table-row>
 		</grid>
 	</query>
 	
-	<query id="querySignBankList" cacheCount="true">
+	<query id="querySignBankList" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -70,13 +70,14 @@
 				<![CDATA[
 				select
                 t.FA_FIN_ORG_CODE,
-				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT,
+				isnull(sum(main.MORTGAGET_COM_AMOUNT),0) CONTRACT_AMOUNT,
 				count(1) SIGN_NUM
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main 
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE	
                 where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
                 and main.IS_LOSE = '0'
-                and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')			
+                and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
+                and main.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))			
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -96,7 +97,7 @@
 		</grid>
 	</query>
 	
-	<query id="querySignBranchBankList" cacheCount="true">
+	<query id="querySignBranchBankList" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -107,12 +108,13 @@
 				(select o.FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG o where o.FIN_ORG_CODE = main.MORTGAGET_FIN_ORG_CODE) FA_FIN_ORG_CODE,
 				main.MORTGAGET_FIN_ORG_CODE,
 				(select top 1 s.TAGS from sctrans.T_TS_SUP s where s.FIN_ORG_CODE = main.MORTGAGET_FIN_ORG_CODE) RUWEI_BANK,
-				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT
+				isnull(sum(main.MORTGAGET_COM_AMOUNT),0) CONTRACT_AMOUNT
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE
                 where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
                 and main.IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
+                and main.BELONG_MONTH = convert(int ,replace(#choiceMonth#,'-',''))
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -124,7 +126,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			    <column type="both" name="SIGN_NUM" index="" checkbox="" title="总单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>					
+			    <column type="both" name="SIGN_NUM" index="" checkbox="" title="总单量"  customDict="" sysDict="" format=""  width="180" align="" halign="" order="" resizable=""/>					
 			    <column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" title="银行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="FA_FIN_ORG_NAME_YC" index="" checkbox="" display="银行简写名" customDict="qqGetfinOrgYCName" referencecol="FA_FIN_ORG_CODE"/>
 				<column type="both" name="MORTGAGET_FIN_ORG_CODE" index="" checkbox="" title="支行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
@@ -135,7 +137,7 @@
 		</grid>
 	</query>
 
-	<query id="queryHourseTransferCaseBaseInfoForDistrict">
+	<query id="queryHourseTransferCaseBaseInfoForDistrict" cacheResult="true">
 		<searchCondition>
 
 		</searchCondition>
@@ -143,29 +145,54 @@
 			<baseSql>
 				<![CDATA[
 					select
-						tb1.DISTRICT_ID,--区域ID
-						count(tb1.CASE_CODE) as HOURSE_TRANSFER_COUNT,--过户案件数
-						isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
-						isnull(sum(MORTGAGET_COM_AMOUNT),0) as MORTGAGET_COM_AMOUNT,--商业贷款金额
-						<ifNotNull choiceMonth>
-						 #choiceMonth# as CHOICE_MONTH,
-						</ifNotNull>
-						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT--公积金贷款金额
-
+						tb1.DISTRICT_ID,
+						--(select ORG_NAME from sctrans.SYS_ORG where id=tb1.DISTRICT_ID) as DISTRICT_NAME,
+						count(tb1.case_code) as HOURSE_TRANSFER_COUNT,
+						sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,
+						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,
+						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT,
+						#choiceMonth# as CHOICE_MONTH,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#choiceMonth#,'-','')) and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#choiceMonth#,'-','')) and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#choiceMonth#,'-',''))) NO_MORT_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#choiceMonth#,'-',''))) LOST_COUNT,
+						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#choiceMonth#,'-',''))) LOST_AMOUNT
 					from
 					sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
 					where
 					1=1
 					and HOURSE_TRANSFER_AGREE_STATUS=1
-					and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#
+					and tb1.BELONG_MONTH=convert(int ,replace(#choiceMonth#,'-',''))
+					and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth#
+					group by DISTRICT_ID
 
+					<ifNotNull oldChoiceMonth>
+					UNION ALL
+					select
+						tb1.DISTRICT_ID,
+						count(tb1.case_code) as HOURSE_TRANSFER_COUNT,
+						sum(MORTGAGET_TOTAL_AMOUNT) as MORTGAGET_TOTAL_AMOUNT,
+						sum(MORTGAGET_COM_AMOUNT) as MORTGAGET_COM_AMOUNT,
+						sum(MORTGAGET_PRF_AMOUNT) as MORTGAGET_PRF_AMOUNT,
+						#oldChoiceMonth# as CHOICE_MONTH,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#oldChoiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#oldChoiceMonth#,'-','')) and (tb2.MORTGAGE_LOAN_TYPE='30016001' or tb2.MORTGAGE_LOAN_TYPE='30016002')) MORTGAGET_TOTAL_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#oldChoiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#oldChoiceMonth#,'-','')) and (tb2.MORTGAGE_LOAN_TYPE='30016003')) PRF_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.LOAN_REQ=0 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#oldChoiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#oldChoiceMonth#,'-',''))) NO_MORT_COUNT,
+						(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#oldChoiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#oldChoiceMonth#,'-',''))) LOST_COUNT,
+						(select isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb2 where tb2.district_id = tb1.district_id and tb2.IS_LOSE=1 and HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#oldChoiceMonth# and tb2.BELONG_MONTH=convert(int ,replace(#oldChoiceMonth#,'-',''))) LOST_AMOUNT
+					from
+					sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
+					where
+					1=1
+					and HOURSE_TRANSFER_AGREE_STATUS=1
+					and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#oldChoiceMonth#
+					and tb1.BELONG_MONTH=convert(int ,replace(#oldChoiceMonth#,'-',''))
+					group by DISTRICT_ID
+					</ifNotNull>
 	            ]]>
 			</baseSql>
 			<orderBySql>
 			</orderBySql>
-			<groupSql>
-				group by DISTRICT_ID
-			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
@@ -177,18 +204,19 @@
 				<column type="both" name="MORTGAGET_COM_AMOUNT"  title="商业贷款金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORTGAGET_PRF_AMOUNT"  title="公积金贷款金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CHOICE_MONTH"  title="选择月份"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="MORTGAGET_TOTAL_COUNT" title="商业贷款的案件数" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamic="true" index="" checkbox="" customDict="qqGetMortComCount" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="PRF_COUNT"  title="公积金贷款的案件数" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamicDict="true" customDict="qqGetMortPrfCount" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="NO_MORT_COUNT"  title="无贷款的案件数" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamicDict="true" customDict="qqGetNoMortCount"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="LOST_COUNT"  title="流失案件数" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamicDict="true" customDict="qqGetLostCount"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="LOST_AMOUNT" title="流失贷款金额" referencecol="DISTRICT_ID,CHOICE_MONTH" isDynamicDict="true" customDict="qqGetLostMorTotalAmount"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
+				<column type="both" name="MORTGAGET_TOTAL_COUNT" title="商业贷款的案件数"  index="" checkbox="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PRF_COUNT"  title="公积金贷款的案件数" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="NO_MORT_COUNT"  title="无贷款的案件数" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOST_COUNT"  title="流失案件数" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOST_AMOUNT" title="流失贷款金额" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 
 			</table-row>
 		</grid>
 	</query>
 
 
-	<query id="queryHourseTransferCaseBaseInfoForFin">
+	<query id="queryHourseTransferCaseBaseInfoForFin" cacheResult="true">
 		<searchCondition>
 
 		</searchCondition>
@@ -196,14 +224,15 @@
 			<baseSql>
 				<![CDATA[
 				select
-					isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as MORTGAGET_TOTAL_AMOUNT,--总共贷款金额
-					isnull(sum(MORTGAGET_COM_AMOUNT),0) as COM_AMOUNT,--商业贷款金额
-					isnull(sum(MORTGAGET_PRF_AMOUNT),0) as PRF_AMOUNT,--公积金贷款金额
+					isnull(sum(MORTGAGET_TOTAL_AMOUNT),0) as MORTGAGET_TOTAL_AMOUNT,
+					isnull(sum(MORTGAGET_COM_AMOUNT),0) as COM_AMOUNT,
+					isnull(sum(MORTGAGET_PRF_AMOUNT),0) as PRF_AMOUNT,
 					<ifNotNull choiceMonth>
 					 #choiceMonth# as CHOICE_MONTH,
 					</ifNotNull>
-					sum(LOST_AMOUNT) as LOST_AMOUNT,--流失金额
-					t1.FA_FIN_ORG_CODE--金融机构code
+					sum(LOST_AMOUNT) as LOST_AMOUNT,
+					t1.FA_FIN_ORG_CODE
+
 				from
 				(
 					select
@@ -212,14 +241,15 @@
 						tb1.MORTGAGET_TOTAL_AMOUNT,
 						tb1.MORTGAGET_COM_AMOUNT,
 						tb1.MORTGAGET_PRF_AMOUNT,
-						isnull((select MORTGAGET_COM_AMOUNT from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb4 where tb4.CASE_CODE=tb1.CASE_CODE and tb1.IS_LOSE=1 and tb1.HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),tb1.HOUSE_TRANFER_TIME,120)=#choiceMonth#),0) as LOST_AMOUNT,
+						isnull((select MORTGAGET_COM_AMOUNT from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb4 where tb4.CASE_CODE=tb1.CASE_CODE and tb4.IS_LOSE=1 and tb4.HOURSE_TRANSFER_AGREE_STATUS=1 and convert(varchar(7),tb4.HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth# and tb4.BELONG_MONTH=convert(int ,replace(#choiceMonth#,'-',''))),0) as LOST_AMOUNT,
 						isnull((select FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE=tb1.MORTGAGET_FIN_ORG_CODE),tb1.MORTGAGET_FIN_ORG_CODE) FA_FIN_ORG_CODE
 						from
 						sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1
 						where
 						1=1
 						and HOURSE_TRANSFER_AGREE_STATUS=1
-						and convert(varchar(7),HOUSE_TRANFER_TIME,120)=#choiceMonth#
+						and tb1.BELONG_MONTH=convert(int ,replace(#choiceMonth#,'-',''))
+						and convert(varchar(7),HOURSE_TRANSFER_APPROVE_DATE,120)=#choiceMonth#
 						and MORTGAGET_COM_AMOUNT>0
 
 				) t1
