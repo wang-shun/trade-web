@@ -34,7 +34,18 @@
                                     <a href="#" id="add"><em>&gt;</em></a>
                                 </p>
                                 <p class="calendar-month">
-                                    <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
+		                            <span value="1">1月</span>
+		                            <span value="2">2月</span>
+		                            <span value="3">3月</span>
+		                            <span value="4">4月</span>
+		                            <span value="5">5月</span>
+		                            <span value="6">6月</span>
+		                            <span value="7">7月</span>
+		                            <span value="8">8月</span>
+		                            <span value="9">9月</span>
+		                            <span value="10">10月</span>
+		                            <span value="11">11月</span>
+		                            <span value="12">12月</span>
                                 </p>
                             </div>
                         </div>

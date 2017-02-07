@@ -70,7 +70,7 @@
 				<![CDATA[
 				select
                 t.FA_FIN_ORG_CODE,
-				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT,
+				isnull(sum(main.MORTGAGET_COM_AMOUNT),0) CONTRACT_AMOUNT,
 				count(1) SIGN_NUM
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main 
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE	
@@ -108,7 +108,7 @@
 				(select o.FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG o where o.FIN_ORG_CODE = main.MORTGAGET_FIN_ORG_CODE) FA_FIN_ORG_CODE,
 				main.MORTGAGET_FIN_ORG_CODE,
 				(select top 1 s.TAGS from sctrans.T_TS_SUP s where s.FIN_ORG_CODE = main.MORTGAGET_FIN_ORG_CODE) RUWEI_BANK,
-				isnull(sum(main.MORTGAGET_TOTAL_AMOUNT),0) CONTRACT_AMOUNT
+				isnull(sum(main.MORTGAGET_COM_AMOUNT),0) CONTRACT_AMOUNT
 				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main
 				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE
                 where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 

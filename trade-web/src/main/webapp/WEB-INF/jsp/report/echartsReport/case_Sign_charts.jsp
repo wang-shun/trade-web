@@ -59,7 +59,7 @@
 <script  src="${ctx }/js/eachartdata/jquery-ui.min.js"></script>
 <script  src="${ctx }/js/eachartdata/scrolloverflow.js"></script>
 <script  src="${ctx }/js/eachartdata/jquery.fullPage.js"></script>
-
+<script  src="${ctx }/js/eachartdata/fullPage-setting.js"></script>
 <script type="text/javascript">
 //声明各iframe
 var iframe1 = document.getElementById("iframe1");
@@ -103,7 +103,7 @@ function reRenderChart(item) {
 		if($(this).hasClass("disabled")){
 			return false;
 		}
-		monthDisplay = parseInt($(this).html().replace("月","")) - 1;
+		monthDisplay = parseInt($(this).attr("value")) - 1;
 		$(this).addClass("select-blue").siblings().removeClass("select-blue");
 		item.contentWindow.reloadGrid();
 	});
@@ -125,6 +125,5 @@ function changeBtnClass(item){
     }
 }
 </script>
-<script  src="${ctx }/js/eachartdata/fullPage-setting.js"></script>
 </body>
 </html>
