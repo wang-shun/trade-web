@@ -52,6 +52,14 @@
                     dataType : "json",
                     async:true,
                     success : function(data) {
+                        ECHART_D4_.finID.splice(0,ECHART_D4_.finID.length);
+                        ECHART_D4_.finName.splice(0,ECHART_D4_.finName.length);
+                        ECHART_D4_.xAxisData.splice(0,ECHART_D4_.xAxisData.length);
+                        ECHART_D4_.com_total.splice(0,ECHART_D4_.com_total.length);
+
+                        ECHART_D4_.shou_total.splice(0,ECHART_D4_.shou_total.length);
+                        ECHART_D4_.getRate.splice(0,ECHART_D4_.getRate.length);
+
                         if(data==null||data==undefined){
                             return;
                         }
