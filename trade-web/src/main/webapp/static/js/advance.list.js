@@ -37,7 +37,7 @@ var JQAdvanceList = function () {
 	            },
 	             
 	            error: function (data) {
-                    alert("data:" + data.responseText);
+	            	window.wxc.error("data:" + data.responseText);
                 }
 	       });
            

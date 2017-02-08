@@ -483,10 +483,10 @@ function doGroupClaim(taskId){
 		dataType : "json",
 		success : function(data) {
 			if(data.sc&&data.sc=='0'){
-				alert('分配成功！');
+				window.wxc.success('分配成功！');
 				reloadGrid(1);
 			}else{
-				alert('分配失败！');
+				window.wxc.error('分配失败！');
 				reloadGrid(1);
 			}
 			//taskDelGrid.trigger('reloadGrid');

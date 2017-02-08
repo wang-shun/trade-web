@@ -71,6 +71,7 @@
 
 				<div class="ibox-content ibox-space">
 					<form method="get" class="form_list">
+						<input type="hidden" id="caseCode" value="${eloanCase.eloanCode }"/>
 						<input type="hidden" id="riskControlId" name="riskControlId"
 							value="${toRcForceRegister.rcId }">
 						<div class="modal_title">强制公证信息登记</div>
@@ -144,76 +145,8 @@
 						<div class="ibox-title" style="height: auto;">
 							<c:choose>
 								<c:when test="${accesoryList!=null}">
-									<h5>
-										附件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
-									<c:forEach var="accesory" items="${accesoryList}"
-										varStatus="status">
-										<div class="" id="fileupload_div_pic">
-											<form id="fileupload"
-												action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-												method="POST" enctype="multipart/form-data">
-												<noscript>
-													<input type="hidden" name="redirect"
-														value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-													<input type="hidden" id="preFileCode" name="preFileCode"
-														value="${accesory.accessoryCode }">
-												</noscript>
-												<c:if test="${status.index != 0}">
-													<h5 align="left">
-														<br>${accesory.accessoryName }</h5>
-												</c:if>
-												<div class="row-fluid fileupload-buttonbar">
-													<div class="" style="height: auto">
-														<div role="presentation" class="table table-striped "
-															style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-															<div id="picContainer${accesory.pkid }" class="files"
-																data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-														</div>
-													</div>
-												</div>
-											</form>
-										</div>
-
-										<div class="row-fluid">
-											<div class="">
-												<script id="templateUpload${accesory.pkid }"
-													type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-									<!--图片缩图  -->
-							        <div class="preview"><span class="fade"></span></div>
-									<!--  错误信息 -->
-							        {% if (file.error) { %}
-							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } %}
-							    </div>
-							{% } %}
-						</script>
-												<script id="templateDownload${accesory.pkid }"
-													type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-							        {% if (file.error) { %}
-							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else { %}
-							            <div class="preview span12">
-										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
-										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.id) { %}
-                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
-							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
-                                              {% } else { %}
- 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
-  											  {% } %}
-							            {% } %}</div>
-							        {% } %}
-							    </div>
-							{% } %}
-						</script>
-											</div>
-										</div>
-									</c:forEach>
+									<h5>附件</h5>
+									<div class="table-box" id="fileUploadContainer"></div>
 								</c:when>
 							</c:choose>
 						</div>
@@ -285,11 +218,11 @@
         		var notaryName = $("#notaryName").val();
  				var executeTime = $("#executeTime").val();
  				if(notaryName == ""){
- 					 alert("请填写公正处名称！");
+ 					 window.wxc.alert("请填写公正处名称！");
  					 return false;
  				}
  				if(executeTime == ""){
- 					 alert("请填写执行时间！");
+ 					 window.wxc.alert("请填写执行时间！");
  					 return false;
  				}
              	var toRcForceRegister = {
@@ -333,13 +266,13 @@
      					$.unblockUI();
      				},
      				success : function(data) {
-     					alert(data.message);
+     					window.wxc.success(data.message);
      					window.close();
      					//window.opener.callback();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
-     					alert("数据保存出错");
+     					window.wxc.error("数据保存出错");
      				}
      			});
      			
@@ -354,6 +287,21 @@
 	    });
     
     </script> </content>
+    
+    <content tag="local_require">
+    <script>
+	    require(['main'], function() {
+			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','bootstrapModal','modalmanager'],function($,aistFileUpload){
+			    aistFileUpload.init({
+		    		caseCode : $('.form_list #caseCode').val(),
+		    		partCode : "RiskControl",
+		    		fileUploadContainer : "fileUploadContainer"
+		    	}); 
+		    });
+	    });
+	</script>
+</content>
+    
 </body>
 
 </html>

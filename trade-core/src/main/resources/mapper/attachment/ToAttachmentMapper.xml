@@ -60,6 +60,8 @@
     delete from sctrans.T_TO_ATTACHMENT
     where PRE_FILE_ADRESS = #{preFileAdress,jdbcType=VARCHAR}
   </delete>
+  
+  
   <insert id="insert" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     insert into sctrans.T_TO_ATTACHMENT (CASE_CODE,BIZ_CODE,PRE_FILE_ADRESS, 
       PRE_FILE_CODE, PART_CODE, FILE_CAT, 
@@ -70,6 +72,7 @@
       #{fileName,jdbcType=NVARCHAR},#{available,jdbcType=VARCHAR},GETDATE(), @{SESSION_USER_ID}, 
       GETDATE(), @{SESSION_USER_ID})
   </insert>
+  
   <insert id="insertSelective" parameterType="com.centaline.trans.attachment.entity.ToAttachment" useGeneratedKeys="true" keyProperty="pkid">
     insert into sctrans.T_TO_ATTACHMENT
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -228,7 +231,7 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_ATTACHMENT
-    where 1=1
+    where AVAILABLE='Y'
      
     <if test="caseCode != null" >
       	and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
@@ -259,7 +262,7 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_ATTACHMENT
-    where 1=1 
+    where AVAILABLE = 'Y'
     <if test="pkid != null" >
     	and PKID = #{pkid,jdbcType=BIGINT}
     </if>

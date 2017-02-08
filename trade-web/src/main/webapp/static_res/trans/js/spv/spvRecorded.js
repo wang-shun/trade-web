@@ -22,7 +22,7 @@ $(document).ready(function(){
 function checkFormSubmit(){
 	
     if($("#toSpvCashFlowApplyAttachType").val() == null || $("#toSpvCashFlowApplyAttachType").val() == ''){
-    	alert("请选择出账条件！");
+    	window.wxc.alert("请选择出账条件！");
     	return false;
     }
     
@@ -37,7 +37,7 @@ function checkFormSubmit(){
     });
     
     if(!receiverFlag){
-    	alert("请填写收款人姓名！");
+    	window.wxc.alert("请填写收款人姓名！");
     	changeClass(receiverEle);
     	return false;
     }
@@ -53,7 +53,7 @@ function checkFormSubmit(){
 		});
 	
     if(!receiverAccFlag){
-    	alert("请填写有效的银行卡号！");
+    	window.wxc.alert("请填写有效的银行卡号！");
 	    changeClass(receiverAccEle);
 		return false;
     }
@@ -69,7 +69,7 @@ function checkFormSubmit(){
 		});
 	
     if(!receiverBankFlag){
-    	alert("请填写银行名称！");
+    	window.wxc.alert("请填写银行名称！");
 	    changeClass(receiverBankEle);
 		return false;
     }
@@ -86,7 +86,7 @@ function checkFormSubmit(){
 	});
 	
     if(!amountFlag){
-    	alert("请填写有效的出账金额！");
+    	window.wxc.alert("请填写有效的出账金额！");
 	    changeClass(amountEle);
 		return false;
     }  
@@ -103,7 +103,7 @@ function checkFormSubmit(){
 
     if(!handle || handle == 'apply'){
     	if(accAdd(Number(sumAmount),accAdd(totalCashFlowOutAmount,totalProcessCashFlowOutAmout)) > totalCashFlowInAmount){
-        	alert("已经超过可出账的金额！");
+    		window.wxc.alert("已经超过可出账的金额！");
         	return false;
         }
     }
@@ -119,7 +119,7 @@ function checkFormSubmit(){
 		});
 	
     if(!voucherNoFlag){
-    	alert("请填写有效的贷记凭证编号！");
+    	window.wxc.alert("请填写有效的贷记凭证编号！");
 	    changeClass(voucherNoEle);
 		return false;
     }
@@ -137,7 +137,7 @@ function checkFormSubmit(){
 		});
 	
 	if(vouNoRepeatFlag){
-		alert("贷记凭证编号不能相同！");
+		window.wxc.alert("贷记凭证编号不能相同！");
 		return false;
 	}
     
@@ -152,7 +152,7 @@ function checkFormSubmit(){
 		});
 	
     if(!directionFlag){
-    	alert("请选择付款方式！");
+    	window.wxc.alert("请选择付款方式！");
 	    changeClass(directionEle);
 		return false;
     }
@@ -167,7 +167,7 @@ function checkFormSubmit(){
     });
     
     if(!imgFlag){
-    	alert("需要上传至少一张附件！");
+    	window.wxc.alert("需要上传至少一张附件！");
     	return false;
     }
     
@@ -183,7 +183,7 @@ function changeClass(object){
 //保存按钮方法
 function saveBtnClick(){
 	if($("#addSum").val() != $("#doneSum").val()){
-		alert("请先上传图片成功后再提交");
+		window.wxc.alert("请先上传图片成功后再提交");
 		return false;
 	}
 
@@ -220,9 +220,9 @@ function saveBtnClick(){
  			            } ,   
  			success : function(data) {   
 	 				if(data.ajaxResponse.success){
-	 						alert("数据保存成功！");
+	 					window.wxc.success("数据保存成功！");
 	 				}else{
-	 					    alert("数据保存出错:"+data.ajaxResponse.message);
+	 					window.wxc.error("数据保存出错:"+data.ajaxResponse.message);
 	 				}
 			    	 if($("#urlType").val() == 'myTask'){    	 
  				    	 window.location.reload(); //刷新父窗口
@@ -250,7 +250,7 @@ function submitBtnClick(handle,chargeOutAppr){
 	  }else if(handle == 'directorAudit'){
 		  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 	   	   if(refuseReason=='' || refuseReason==null){
-	   		   alert("请在备注栏填写驳回原因！");
+	   		window.wxc.alert("请在备注栏填写驳回原因！");
 	   		   return false;
 	   	   }
 		  if(chargeOutAppr){
@@ -265,7 +265,7 @@ function submitBtnClick(handle,chargeOutAppr){
 	  }else if(handle == 'financeAudit'){
 		   var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 	   	   if(refuseReason=='' || refuseReason==null){
-	   		   alert("请填写审批意见！");
+	   		window.wxc.alert("请填写审批意见！");
 	   		   return false;
 	   	   }
 		  if(chargeOutAppr){
@@ -280,7 +280,7 @@ function submitBtnClick(handle,chargeOutAppr){
 	  }else if(handle == 'financeSecondAudit'){
 		   var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 	   	   if(refuseReason=='' || refuseReason==null){
-	   		   alert("请填写审批意见！");
+	   		window.wxc.alert("请填写审批意见！");
 	   		   return false;
 	   	   }
 		  if(chargeOutAppr){
@@ -328,15 +328,15 @@ function submitBtnClick(handle,chargeOutAppr){
 		success : function(data) {   
 			if(data.ajaxResponse.success){
 				if(!handle){
-					alert("流程开启成功！");
+					window.wxc.success("流程开启成功！");
 					window.location.href = ctx+"/spv/spvList";
 				}else{
-					alert("任务提交成功！");
+					window.wxc.success("任务提交成功！");
 					window.opener.location.reload(); //刷新父窗口
 		        	window.close(); //关闭子窗口.
 				}
 			}else{
-				alert("数据保存出错:"+data.ajaxResponse.message);
+				window.wxc.error("数据保存出错:"+data.ajaxResponse.message);
 			}
 			    // if($("#urlType").val() == 'myTask'){    	 
 			    	// window.opener.location.reload(); //刷新父窗口

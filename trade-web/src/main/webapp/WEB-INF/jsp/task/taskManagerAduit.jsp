@@ -242,7 +242,7 @@ select[readonly] option {
 					
 					error : function(errors) {
 						$.unblockUI();   
-						alert("数据保存出错:"+JSON.stringify(errors));
+						window.wxc.error("数据保存出错:"+JSON.stringify(errors));
 					}
 			});
 
@@ -313,12 +313,12 @@ select[readonly] option {
 		
 		function fCheck(){
 			if(''==$("#finOrgCode").val()){
-				alert('请选择贷款支行！');
+				window.wxc.alert('请选择贷款支行！');
 				return false;
 			}
 			//审批意见必填 
 			if(!$("#temBankRejectReason").val() && $("#optionsRadios2").prop("checked")){
-				alert("请填写审批意见！");
+				window.wxc.alert("请填写审批意见！");
 				return false;
 			}
 

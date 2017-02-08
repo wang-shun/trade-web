@@ -43,7 +43,7 @@ function knowledgeSubmit(ctx){
 		contentType: "application/json; charset=utf-8",
 		data:knowledgeRepoAddVO,
 		success : function(data) {
-			alert(data.message); 
+			window.wxc.success(data.message); 
 			parent.$.fancybox.close();
 			
 			/*if(data.success){
@@ -52,7 +52,7 @@ function knowledgeSubmit(ctx){
 			}*/
 		},
 		error : function(data) {
-			alert(data.message);  
+			window.wxc.error(data.message);  
 			parent.$.fancybox.close();
 		}
 	});
@@ -77,13 +77,13 @@ function getAddFilesIsOk() {
 	
 	//必须上传文件
 	if(pics.length<=0){
-		 alert("请先上传文件成功后再提交！");
+		window.wxc.alert("请先上传文件成功后再提交！");
 		 return null;
 	}
 	var picDiv=$("div[name='allPicDiv']");
 	//所选图片和上传的图片的数目要相同
 	if(picDiv.length!==pics.length){
-		 alert("请成功上传所有的文件后再提交！");
+		window.wxc.alert("请成功上传所有的文件后再提交！");
 		 return null;
 	}
 	return pics;

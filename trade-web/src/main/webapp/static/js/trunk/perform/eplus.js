@@ -5,7 +5,7 @@
 $(document).ready(function() {
 	var ex_message = $("#ex_message").val();
 	if(ex_message!=""){
-		alert(ex_message);
+		window.wxc.alert(ex_message);
 	}
 	if(!!hasError){
 		$('#error-modal-form').modal("show");
@@ -187,7 +187,7 @@ function excelIn(){
 
 function calculatedIn(){
 	if($("#belongMonth").val()=='')
-	{alert('请先选择计算月份！');return false;}
+	{window.wxc.alert('请先选择计算月份！');return false;}
 	$.ajax({
 		cache:false,
 		async:true,
@@ -197,10 +197,10 @@ function calculatedIn(){
 		data:{belongMonth:$("#belongMonth").val()+'-01'},
 		success:function(data){
 			if(data.success){
-				alert('计算成功');
+				window.wxc.success('计算成功');
 				$('#calculated-modal-form').modal("close");
 			}else{
-				alert('计算失败');
+				window.wxc.error('计算失败');
 			}			
 		}
 	});
@@ -217,7 +217,7 @@ function checkFileTypeExcel()
     //判断文件类型是否允许上传
     if(AllowExt!=0&&AllowExt.indexOf(FileExt)==-1) {
         ErrMsg="\n该文件类型不允许上传。请上传 "+AllowExt+" 类型的文件，当前文件类型为"+FileExt;
-        alert(ErrMsg);
+        window.wxc.alert(ErrMsg);
         return false;
   	}
 

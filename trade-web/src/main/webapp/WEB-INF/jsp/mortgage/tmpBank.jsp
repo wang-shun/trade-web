@@ -104,7 +104,7 @@
 			});
 			function fCheck(){
 				if(''==$("#finOrgCode").val()){
-					alert('请选择贷款支行');
+					window.wxc.alert('请选择贷款支行');
 					return false;
 				}
 				return true;
@@ -124,10 +124,10 @@
 					success:function(data){
 						$.unblockUI();
 						if(!!data.success){
-							alert('处理成功');
+							window.wxc.success('处理成功');
 							parent.$.fancybox.close();
 						}else{
-							alert(data.message);
+							window.wxc.error(data.message);
 						}
 						
 					}

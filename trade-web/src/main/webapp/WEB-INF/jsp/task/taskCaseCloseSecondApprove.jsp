@@ -202,7 +202,7 @@
     		            } , 
 				success : function(data) {
 					if(data.message){
-						alert(data.message);
+						window.wxc.success(data.message);
 					}
 					 if(window.opener)
 				     {
@@ -214,7 +214,7 @@
 					//window.location.href = "${ctx }/task/myTaskList";
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}

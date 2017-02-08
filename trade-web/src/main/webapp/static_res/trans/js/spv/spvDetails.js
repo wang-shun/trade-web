@@ -173,17 +173,17 @@ $(document).ready(function(){
 			            } ,   
 			success : function(data) {   
 					if(data.success){
-						alert("流程开启成功！");  	 
+						window.wxc.success("流程开启成功！");  	 
 					    window.location.href = ctx+"/spv/spvList";
 					}else{
-						alert("流程开启失败：\n"+data.message);  	 
+						window.wxc.error("流程开启失败：\n"+data.message);  	 
 					    window.location.href = ctx+"/spv/spvList";
 					}     
 					 $.unblockUI();
 				},		
 			error : function(errors) {
 					$.unblockUI();   
-					alert("数据保存出错:"+JSON.stringify(errors));
+					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
 				}  
        });
      });
@@ -247,7 +247,7 @@ $(document).ready(function(){
   	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
-	  		   alert("请填写审批意见！");
+	  	    	window.wxc.alert("请填写审批意见！");
 	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
@@ -258,7 +258,7 @@ $(document).ready(function(){
   	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
-	  		   alert("请填写审批意见！");
+	  	    	window.wxc.alert("请填写审批意见！");
 	  		   changeClass($("#passOrRefuseReason"));
 	  		   return false;
 	  	    }
@@ -313,20 +313,20 @@ $(document).ready(function(){
 		 				    	 window.opener.location.reload(); //刷新父窗口
 		 			        	 window.close(); //关闭子窗口.
 		 				     }else{
-		 				    	 alert(data.message);
+		 				    	window.wxc.success(data.message);
 		 				    	 //window.location.href = ctx+"/spv/saveHTML?pkid="+data.content;
 						    	 window.location.href = ctx+"/spv/spvList";
 					     } 
 				    	 }else{
 				    		 isSuccess = false;
-				    		 alert("保存资金监管签约失败！"+data.message);
+				    		 window.wxc.error("保存资金监管签约失败！"+data.message);
 				    	 }
 				    	 
 	 					 $.unblockUI();
 	 				},		
 	 			error : function(errors) {
 	 					$.unblockUI();   
-	 					alert("数据保存出错:"+JSON.stringify(errors));
+	 					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
 	 				}	 
 	      	  });
 	      	  
@@ -338,14 +338,14 @@ $(document).ready(function(){
 	function checkFormSave(){
 		var ds = $('.case_content').css('display');
 		if(ds=='none'){
-			alert("请选择关联案件！");
+			window.wxc.alert("请选择关联案件！");
 			return false;	
 		}
 		
 		var signAmount = $("input[name='toSpvProperty.signAmount']").val();
 		if(signAmount != null && signAmount != ''){
 			if(!isNumber(signAmount)){
-				alert("请填写有效的网签金额！(首位非0且小数位不超过2位的数字)");
+				window.wxc.alert("请填写有效的网签金额！(首位非0且小数位不超过2位的数字)");
 				changeClass($("input[name='toSpvProperty.signAmount']"));
 				return false;
 			}
@@ -353,7 +353,7 @@ $(document).ready(function(){
 		var toSpvAmount = $("input[name='toSpv.amount']").val();
         if(toSpvAmount != null && toSpvAmount != ''){
         	if(!isNumber(toSpvAmount)){
-        		alert("请填写有效的监管总金额！(首位非0且小数位不超过2位的数字)");
+        		window.wxc.alert("请填写有效的监管总金额！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpvProperty.signAmount']"));
         		return false;
         	}
@@ -365,28 +365,28 @@ $(document).ready(function(){
         var amountMortPsf = $("input[name='toSpv.amountMortPsf']");
         if(amountOwn.val() != null && amountOwn.val() != ''){
         	if(!isNumber(amountOwn.val())){
-        		alert("请填写有效的自筹资金！(首位非0且小数位不超过2位的数字)");
+        		window.wxc.alert("请填写有效的自筹资金！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpv.amountOwn']"));
         		return false;
         	}
         }
         if(amountMort.val() != null && amountMort.val() != ''){
         	if(!isNumber(amountMort.val())){
-        		alert("请填写有效的贷款资金！(首位非0且小数位不超过2位的数字)");
+        		window.wxc.alert("请填写有效的贷款资金！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpv.amountMort']"));
         		return false;
         	}
         }
         if(amountMortCom.val() != null && amountMortCom.val() != ''){
         	if(!isNumber(amountMortCom.val())){
-        		alert("请填写有效的商业贷款！(首位非0且小数位不超过2位的数字)");
+        		window.wxc.alert("请填写有效的商业贷款！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpv.amountMortCom']"));
         		return false;
         	}
         }
         if(amountMortPsf.val() != null && amountMortPsf.val() != ''){
         	if(!isNumber(amountMortPsf.val())){
-        		alert("请填写有效的公积金贷款！(首位非0且小数位不超过2位的数字)");
+        		window.wxc.alert("请填写有效的公积金贷款！(首位非0且小数位不超过2位的数字)");
         		changeClass($("input[name='toSpv.amountMortPsf']"));
         		return false;
         	}
@@ -405,7 +405,7 @@ $(document).ready(function(){
 		});
 
         if(!deAmountFlag){
-        	alert("请填写有效的监管资金金额！(首位非0且小数位不超过2位的数字)");
+        	window.wxc.alert("请填写有效的监管资金金额！(首位非0且小数位不超过2位的数字)");
 		    changeClass(deAmountEle);
 			return false;
         }
@@ -414,50 +414,50 @@ $(document).ready(function(){
 		  if($("#handle").val() == 'SpvSign'){
 			  var spvAccountName = $("input[name='toSpvAccountList[1].name']").val();
 			  if(spvAccountName == null || spvAccountName == ''){
-				  alert("请填写卖方收款账号名称！");
+				  window.wxc.alert("请填写卖方收款账号名称！");
 				  changeClass($("input[name='toSpvAccountList[1].name']"));
 				  return false;
 			  }
 			  var spvAccountAcc = $("input[name='toSpvAccountList[1].account']").val();
 			  if(spvAccountAcc == null || spvAccountAcc == ''){
-				  alert("请填写卖方收款账号！");
+				  window.wxc.alert("请填写卖方收款账号！");
 				  changeClass($("input[name='toSpvAccountList[1].account']"));
 				  return false;
 			  }
 			  var spvAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
 			  if(spvAccountTelephone == null || spvAccountTelephone == ''){
-				  alert("请填写卖方电话！");
+				  window.wxc.alert("请填写卖方电话！");
 				  changeClass($("input[name='toSpvAccountList[1].telephone']"));
 				  return false;
 			  }
 			  if(spvAccountTelephone != null && spvAccountTelephone != ''){
 				  if(!isMobile(spvAccountTelephone)){
-					  alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
+					  window.wxc.alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
 					  changeClass($("input[name='toSpvAccountList[1].telephone']"));
 					  return false;
 				  }
 			  }
 			  var spvAccountBank = $("input[name='toSpvAccountList[1].bank']").val();
 			  if(spvAccountBank == null || spvAccountBank == ''){
-				  alert("请填写卖方收款账号开户行（银行）！");
+				  window.wxc.alert("请填写卖方收款账号开户行（银行）！");
 				  changeClass($("input[name='toSpvAccountList[1].bank']"));
 				  return false;
 			  }
 			  var spvAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
 			  if(spvAccountBranchBank == null || spvAccountBranchBank == ''){
-				  alert("请填写卖方收款账号开户行（支行）！");
+				  window.wxc.alert("请填写卖方收款账号开户行（支行）！");
 				  changeClass($("input[name='toSpvAccountList[1].branchBank']"));
 				  return false;
 			  }
 			  var spvConCode = $("input[name='toSpv.spvConCode']").val();
 			  if(spvConCode == null || spvConCode == ''){
-				  alert("请填写签约合同号！");
+				  window.wxc.alert("请填写签约合同号！");
 				  changeClass($("input[name='toSpv.spvConCode']"));
 				  return false;
 			  }
 			  var signTime = $("input[name='toSpv.signTime']").val();
 			  if(signTime == null || signTime == ''){
-				  alert("请填写签约时间！");
+				  window.wxc.alert("请填写签约时间！");
 				  changeClass($("input[name='toSpv.signTime']"));
 				  return false;
 			  }
@@ -476,7 +476,7 @@ $(document).ready(function(){
 	function checkFormSubmit(){
 		var ds = $('.case_content').css('display');
 		if(ds=='none'){
-			alert("请选择关联案件！");
+			window.wxc.alert("请选择关联案件！");
 			return false;	
 		}
 		
@@ -484,60 +484,60 @@ $(document).ready(function(){
 		
 		var buyerName = $("input[name='spvCustList[0].name']").val();
 		if(buyerName == null || buyerName == ''){
-			alert("请填写买方姓名！");
+			window.wxc.alert("请填写买方姓名！");
 			changeClass($("input[name='spvCustList[0].name']"));
 			return false;
 		}
 		
 		if(!isName(buyerName)){
-			alert("请填写有效的买方姓名！(1-5个汉字或者多个英文)");
+			window.wxc.alert("请填写有效的买方姓名！(1-5个汉字或者多个英文)");
 			changeClass($("input[name='spvCustList[0].name']"));
 			return false;
 		}
 		
 		var buyerGender = $("input[name='spvCustList[0].gender']:checked").val();
 		if(buyerGender == null || buyerGender == ''){
-			alert("请选择买方性别！");
+			window.wxc.alert("请选择买方性别！");
 			return false;
 		}
 		
 		var buyerMobile = $("input[name='spvCustList[0].phone']").val();
 		if(buyerMobile == ""){
-			alert("请填写买方手机号码！");
+			window.wxc.alert("请填写买方手机号码！");
 			changeClass($("input[name='spvCustList[0].phone']"));
 			return false;
 		}
 		
 		if(!isMobile(buyerMobile)) 
 		{ 
-		    alert('请输入有效的买方手机号码！');
+			window.wxc.alert('请输入有效的买方手机号码！');
 		    changeClass($("input[name='spvCustList[0].phone']"));
 		    return false; 
 		} 
 		
 		var buyerIdValiDate = $("input[name='spvCustList[0].idValiDate']").val();
 		if(buyerIdValiDate == ""){
-			alert('请填写买方证件有效期！');
+			window.wxc.alert('请填写买方证件有效期！');
 			changeClass($("input[name='spvCustList[0].idValiDate']"));
 		    return false; 
 		}
 		
 		var buyerIdCode = $("input[name='spvCustList[0].idCode']").val();
 		if(buyerIdCode == ""){
-			alert('请填写买方证件编号！');
+			window.wxc.alert('请填写买方证件编号！');
 			changeClass($("input[name='spvCustList[0].idCode']"));
 		    return false; 
 		}
 		
 		if($("select[name='spvCustList[0].idType']").val() == 'SFZ'){
 			if(!isIdCard(buyerIdCode)){
-				alert("请填写有效的买方证件编号！");
+				window.wxc.alert("请填写有效的买方证件编号！");
 				changeClass($("input[name='spvCustList[0].idCode']"));
 				return false;
 			}
 		}else{
 			if(!/^[a-zA-Z0-9]+$/.test(buyerIdCode)){
-				alert("请填写有效的买方证件编号！");
+				window.wxc.alert("请填写有效的买方证件编号！");
 				changeClass($("input[name='spvCustList[0].idCode']"));
 				return false;
 			}
@@ -545,7 +545,7 @@ $(document).ready(function(){
 		
 		var buyAddress = $("input[name='spvCustList[0].homeAddr']").val();
 		if(buyAddress == ''){
-			alert("请填写买房家庭地址！");
+			window.wxc.alert("请填写买房家庭地址！");
 			changeClass($("input[name='spvCustList[0].homeAddr']"));
 			return false;
 		}
@@ -554,14 +554,14 @@ $(document).ready(function(){
 		
 		var buyerAgentName = $("input[name='spvCustList[0].agentName']").val();
 		if(buyerHasDele && (buyerAgentName == null || buyerAgentName == '')){
-			alert("请填写买方委托人姓名！");
+			window.wxc.alert("请填写买方委托人姓名！");
 			changeClass($("input[name='spvCustList[0].agentName']"));
 			return false;
 		}
 		
 		if(buyerHasDele && (buyerAgentName != null && buyerAgentName != '')){
 			if(!isName(buyerAgentName)){
-				alert("请填写有效的买方委托人姓名！(1-5个汉字或者多个英文)");
+				window.wxc.alert("请填写有效的买方委托人姓名！(1-5个汉字或者多个英文)");
 				changeClass($("input[name='spvCustList[0].agentName']"));
 				return false;
 			}
@@ -569,19 +569,19 @@ $(document).ready(function(){
 		
 		var buyerAgentIdCode = $("input[name='spvCustList[0].agentIdCode']").val();
 		if(buyerHasDele && (buyerAgentIdCode == null || buyerAgentIdCode == '')){
-			alert("请填写买方委托人证件编号！");
+			window.wxc.alert("请填写买方委托人证件编号！");
 			changeClass($("input[name='spvCustList[0].agentIdCode']"));
 			return false;
 		}
 		if(buyerHasDele && $("select[name='spvCustList[0].agentIdType']").val() == 'SFZ'){
 			if(!isIdCard(buyerAgentIdCode)){
-				alert("请填写有效的买方委托人证件编号！");
+				window.wxc.alert("请填写有效的买方委托人证件编号！");
 				changeClass($("input[name='spvCustList[0].agentIdCode']"));
 				return false;
 			}
 		}else if(buyerHasDele &&  $("select[name='spvCustList[0].agentIdType']").val() != 'SFZ'){
 			if(!/^[a-zA-Z0-9]+$/.test(buyerAgentIdCode)){
-				alert("请填写有效的买方委托人证件编号！");
+				window.wxc.alert("请填写有效的买方委托人证件编号！");
 				changeClass($("input[name='spvCustList[0].agentIdCode']"));
 				return false;
 			}
@@ -592,60 +592,60 @@ $(document).ready(function(){
 		/** ------卖方信息验证开始--------  **/
 		var sellerName = $("input[name='spvCustList[1].name']").val();
 		if(sellerName == ""){
-			alert("请填写卖方姓名！");
+			window.wxc.alert("请填写卖方姓名！");
 			changeClass($("input[name='spvCustList[1].name']"));
 			return false;
 		}
 		
 		if(!isName(sellerName)){
-			alert("请填写有效的卖方姓名！(1-5个汉字或者多个英文)");
+			window.wxc.alert("请填写有效的卖方姓名！(1-5个汉字或者多个英文)");
 			changeClass($("input[name='spvCustList[1].name']"));
 			return false;
 		}
 		
 		var sellerGender = $("input[name='spvCustList[1].gender']:checked").val();
 		if(sellerGender == null || sellerGender == ''){
-			alert("请选择卖方性别！");
+			window.wxc.alert("请选择卖方性别！");
 			return false;
 		}
 		
 		var sellerMobile = $("input[name='spvCustList[1].phone']").val();
 		if(sellerMobile == ""){
-			alert("请填写卖方手机号码！");
+			window.wxc.alert("请填写卖方手机号码！");
 			changeClass($("input[name='spvCustList[1].phone']"));
 			return false;
 		}
 		 
 		if(!isMobile(sellerMobile)) 
 		{ 
-		    alert('请输入有效的卖方手机号码！');
+			window.wxc.alert('请输入有效的卖方手机号码！');
 		    changeClass($("input[name='spvCustList[1].phone']"));
 		    return false; 
 		} 
 		
 		var sellerIdValiDate = $("input[name='spvCustList[1].idValiDate']").val();
 		if(sellerIdValiDate == ""){
-			alert("请填写卖方证件有效期！");
+			window.wxc.alert("请填写卖方证件有效期！");
 			changeClass($("input[name='spvCustList[1].idValiDate']"));
 			return false;
 		}
 		
 		var sellerIdCode = $("input[name='spvCustList[1].idCode']").val();
 		if(sellerIdCode == ""){
-			alert("请填写卖方证件编号！");
+			window.wxc.alert("请填写卖方证件编号！");
 			changeClass($("input[name='spvCustList[1].idCode']"));
 			return false;
 		}
 		
 		if($("select[name='spvCustList[1].idType']").val() == 'SFZ'){
 			if(!isIdCard(sellerIdCode)){
-				alert("请填写有效的卖方证件编号！");
+				window.wxc.alert("请填写有效的卖方证件编号！");
 				changeClass($("input[name='spvCustList[1].idCode']"));
 				return false;
 			}
 		}else{
 			if(!/^[a-zA-Z0-9]+$/.test(sellerIdCode)){
-				alert("请填写有效的卖方证件编号！");
+				window.wxc.alert("请填写有效的卖方证件编号！");
 				changeClass($("input[name='spvCustList[1].idCode']"));
 				return false;
 			}
@@ -653,7 +653,7 @@ $(document).ready(function(){
 		
 		var sellerAddress = $("input[name='spvCustList[1].homeAddr']").val();
 		if(sellerAddress == ""){
-			alert("请填写卖方家庭地址！");
+			window.wxc.alert("请填写卖方家庭地址！");
 			changeClass($("input[name='spvCustList[1].homeAddr']"));
 			return false;
 		}
@@ -662,14 +662,14 @@ $(document).ready(function(){
 		
 		var sellerAgentName = $("input[name='spvCustList[1].agentName']").val();
 		if(sellerHasDele && (sellerAgentName == null || sellerAgentName == '')){
-			alert("请填写卖方委托人姓名！");
+			window.wxc.alert("请填写卖方委托人姓名！");
 			changeClass($("input[name='spvCustList[1].agentName']"));
 			return false;
 		}
 		
 		if(sellerHasDele && (sellerAgentName != null && sellerAgentName != '')){
 			if(!isName(sellerAgentName)){
-				alert("请填写有效的卖方委托人姓名！(1-5个汉字或者多个英文)");
+				window.wxc.alert("请填写有效的卖方委托人姓名！(1-5个汉字或者多个英文)");
 				changeClass($("input[name='spvCustList[1].agentName']"));
 				return false;
 			}
@@ -677,19 +677,19 @@ $(document).ready(function(){
 		
 		var sellerAgentIdCode = $("input[name='spvCustList[1].agentIdCode']").val();
 		if(sellerHasDele && (sellerAgentIdCode == null || sellerAgentIdCode == '')){
-			alert("请填写卖方委托人证件编号！");
+			window.wxc.alert("请填写卖方委托人证件编号！");
 			changeClass($("input[name='spvCustList[1].agentIdCode']"));
 			return false;
 		}
 		if(sellerHasDele && $("select[name='spvCustList[1].agentIdType']").val() == 'SFZ'){
 			if(!isIdCard(sellerAgentIdCode)){
-				alert("请填写有效的卖方委托人证件编号！");
+				window.wxc.alert("请填写有效的卖方委托人证件编号！");
 				changeClass($("input[name='spvCustList[1].agentIdCode']"));
 				return false;
 			}
 		}else if(sellerHasDele &&  $("select[name='spvCustList[1].agentIdType']").val() != 'SFZ'){
 			if(!/^[a-zA-Z0-9]+$/.test(sellerAgentIdCode)){
-				alert("请填写有效的卖方委托人证件编号！");
+				window.wxc.alert("请填写有效的卖方委托人证件编号！");
 				changeClass($("input[name='spvCustList[1].agentIdCode']"));
 				return false;
 			}
@@ -701,40 +701,40 @@ $(document).ready(function(){
 		
 		var prOwnerName = $("input[name='toSpvProperty.prOwnerName']").val();
 		if(prOwnerName == ""){
-			alert("请填写房产权利人！");
+			window.wxc.alert("请填写房产权利人！");
 			changeClass($("input[name='toSpvProperty.prOwnerName']"));
 			return false;
 		}
 		
 		if(!isName(prOwnerName)){
-			alert("请填写有效的房产权利人！(1-5个汉字或者多个英文)");
+			window.wxc.alert("请填写有效的房产权利人！(1-5个汉字或者多个英文)");
 			changeClass($("input[name='toSpvProperty.prOwnerName']"));
 			return false;
 		}
 		
 		var prNo = $("input[name='toSpvProperty.prNo']").val();
 		if(prNo == ""){
-			alert("请输入房产证号！");
+			window.wxc.alert("请输入房产证号！");
 			changeClass($("input[name='toSpvProperty.prNo']"));
 			return false;
 		}
 		
 		var prSize = $("input[name='toSpvProperty.prSize']").val();
 		if(prSize == ""){
-			alert("请填写房屋面积！");
+			window.wxc.alert("请填写房屋面积！");
 			changeClass($("input[name='toSpvProperty.prSize']"));
 			return false;
 		}
 		
 		if(!isNumber(prSize)){
-			alert("请填写有效的房屋面积！(首位非0且小数位不超过2位的数字)");
+			window.wxc.alert("请填写有效的房屋面积！(首位非0且小数位不超过2位的数字)");
 			changeClass($("input[name='toSpvProperty.prSize']"));
 			return false;
 		}
 		
 		var prAddr = $("input[name='toSpvProperty.prAddr']").val();
 		if(prAddr == ""){
-			alert("请填写产证地址！");
+			window.wxc.alert("请填写产证地址！");
 			changeClass($("input[name='toSpvProperty.prAddr']"));
 			return false;
 		}
@@ -742,40 +742,40 @@ $(document).ready(function(){
 		var mortgageeName = $("input[name='toSpvProperty.mortgageeName']").val();
 		var isMortClear = $("input[name='toSpvProperty.isMortClear'][value='0']").is(":checked");
 		if(isMortClear && (mortgageeName == null || mortgageeName == '')){
-			alert("请填写抵押方！");
+			window.wxc.alert("请填写抵押方！");
 			changeClass($("input[name='toSpvProperty.mortgageeName']"));
 			return false;
 		}
 		
 		var mortgageeBank = $("input[name='toSpvProperty.mortgageeBank']").val();
 		if(isMortClear && (mortgageeBank == null || mortgageeBank == '')){
-			alert("请填写开户行！");
+			window.wxc.alert("请填写开户行！");
 			changeClass($("input[name='toSpvProperty.mortgageeBank']"));
 			return false;
 		}
 		
 		var signNo = $("input[name='toSpvProperty.signNo']").val();
 		if(signNo == ""){
-			alert("请填写网签合同号！");
+			window.wxc.alert("请填写网签合同号！");
 			changeClass($("input[name='toSpvProperty.signNo']"));
 			return false;
 		}
 		
 		if(!isNumber3(signNo)){
-			alert("请填写有效的网签合同号！(纯数字)");
+			window.wxc.alert("请填写有效的网签合同号！(纯数字)");
 			changeClass($("input[name='toSpvProperty.signNo']"));
 			return false;
 		}
 		
 		var signAmount = $("input[name='toSpvProperty.signAmount']");
 		if(signAmount.val() == ""){
-			alert("请填写网签金额！");
+			window.wxc.alert("请填写网签金额！");
 			changeClass(signAmount);
 			return false;
 		}
 		
 		if(!isNumber(signAmount.val())){
-			alert("请填写有效的网签金额！(首位非0且小数位不超过2位的数字)");
+			window.wxc.alert("请填写有效的网签金额！(首位非0且小数位不超过2位的数字)");
 			changeClass(signAmount);
 			return false;
 		}
@@ -788,13 +788,13 @@ $(document).ready(function(){
 		
 		var amount = $("input[name='toSpv.amount']");  //监管总金额
 		if(amount.val() == ""){
-			alert("请填写监管总金额！");
+			window.wxc.alert("请填写监管总金额！");
 			changeClass(amount);
 			return false;
 		}
 		
 		if(!isNumber(amount.val())){
-			alert("请填写有效的监管总金额！(首位非0且小数位不超过2位的数字)");
+			window.wxc.alert("请填写有效的监管总金额！(首位非0且小数位不超过2位的数字)");
 			changeClass(amount);
 			return false;
 		}
@@ -803,7 +803,7 @@ $(document).ready(function(){
 		signAmountV = Number(signAmount.val());
 		
 		if(amountV > signAmountV){
-			alert("监管总金额应小于等于网签金额！");
+			window.wxc.alert("监管总金额应小于等于网签金额！");
 			changeClass(amount);
 			return false;
 		}
@@ -818,49 +818,49 @@ $(document).ready(function(){
         var amountMortPsf = $("input[name='toSpv.amountMortPsf']"); 
 
         if(amountOwn.parent().find("i").length>0 && (amountOwn.val() == null || amountOwn.val() == '')){
-        	alert("请填写自筹资金！");
+        	window.wxc.alert("请填写自筹资金！");
         	changeClass(amountOwn);
         	return false;
         }  
         if(amountOwn.val() != null && amountOwn.val() != ''){
         	if(!isNumber(amountOwn.val())){
-        		alert("请填写有效的自筹资金！(首位非0且小数位不超过2位的数字)");
+        		window.wxc.alert("请填写有效的自筹资金！(首位非0且小数位不超过2位的数字)");
         		changeClass(amountOwn);
         		return false;
         	}
         }
         if(amountMort.parent().find("i").length>0 && (amountMort.val() == null || amountMort.val() == '')){
-        	alert("请填写贷款资金！");
+        	window.wxc.alert("请填写贷款资金！");
         	changeClass(amountMort);
         	return false;
         }
         if(amountMort.val() != null && amountMort.val() != ''){
         	if(!isNumber(amountMort.val())){
-        		alert("请填写有效的贷款资金！(首位非0且小数位不超过2位的数字)");
+        		window.wxc.alert("请填写有效的贷款资金！(首位非0且小数位不超过2位的数字)");
         		changeClass(amountMort);
         		return false;
         	}
         }
         if(amountMortCom.parent().find("i").length>0 && (amountMortCom.val() == null || amountMortCom.val() == '')){
-        	alert("请填写商业贷款！");
+        	window.wxc.alert("请填写商业贷款！");
         	changeClass(amountMortCom);
         	return false;
         }
         if(amountMortCom.val() != null && amountMortCom.val() != ''){
         	if(!isNumber(amountMortCom.val())){
-        		alert("请填写有效的商业贷款！(首位非0且小数位不超过2位的数字)");
+        		window.wxc.alert("请填写有效的商业贷款！(首位非0且小数位不超过2位的数字)");
         		changeClass(amountMortCom);
         		return false;
         	}
         }
         if(amountMortPsf.parent().find("i").length>0 && (amountMortPsf.val() == null || amountMortPsf.val() == '')){
-        	alert("请填写公积金贷款！");
+        	window.wxc.alert("请填写公积金贷款！");
         	changeClass(amountMortPsf);
         	return false;
         }
         if(amountMortPsf.val() != null && amountMortPsf.val() != ''){
         	if(!isNumber(amountMortPsf.val())){
-        		alert("请填写有效的公积金贷款！(首位非0且小数位不超过2位的数字)");
+        		window.wxc.alert("请填写有效的公积金贷款！(首位非0且小数位不超过2位的数字)");
         		changeClass(amountMortPsf);
         		return false;
         	}
@@ -872,13 +872,13 @@ $(document).ready(function(){
         var amountMortPsfV = Number(amountMortPsf.val()); 
 
         if(amountMortV != accAdd(amountMortComV,amountMortPsfV)){
-        	alert("贷款资金需等于商业贷款与公积金贷款之和！");
+        	window.wxc.alert("贷款资金需等于商业贷款与公积金贷款之和！");
         	changeClass(amountMort);
         	return false;
         }
         
         if(amountV != accAdd(amountOwnV,amountMortV)){
-        	alert("监管总金额需等于自筹资金与贷款资金之和！");
+        	window.wxc.alert("监管总金额需等于自筹资金与贷款资金之和！");
         	changeClass(amount);
         	return false;
         }	
@@ -890,7 +890,7 @@ $(document).ready(function(){
 		var sellerAccount = $("input[name='toSpvAccountList[1].account']").val();
 		if(sellerAccount != null && sellerAccount != ''){
 			if(!isNumber2(sellerAccount)){
-				alert("请填写有效的卖方收款账号！(纯数字(首位非0))");
+				window.wxc.alert("请填写有效的卖方收款账号！(纯数字(首位非0))");
 				changeClass($("input[name='toSpvAccountList[1].account']"));
 				return false;
 			}
@@ -899,7 +899,7 @@ $(document).ready(function(){
 		var sellerAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
 		if(sellerAccountTelephone != null && sellerAccountTelephone != ''){
 			if(!isMobile(sellerAccountTelephone)){
-				alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
+				window.wxc.alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
 				changeClass($("input[name='toSpvAccountList[1].telephone']"));
 				return false;
 			}
@@ -907,21 +907,21 @@ $(document).ready(function(){
 		/**买方*/
 		var buyerAccountName = $("input[name='toSpvAccountList[0].name']").val();
 		if(buyerAccountName == null || buyerAccountName == ''){
-			alert("请填写买方退款账户名称！");
+			window.wxc.alert("请填写买方退款账户名称！");
 			changeClass($("input[name='toSpvAccountList[0].name']"));
 			return false;
 		}
 		
 		var buyerAccount = $("input[name='toSpvAccountList[0].account']").val();
 		if(buyerAccount == null || buyerAccount == ''){
-			alert("请填写买方退款账号！");
+			window.wxc.alert("请填写买方退款账号！");
 			changeClass($("input[name='toSpvAccountList[0].account']"));
 			return false;
 		}
 		
 		if(buyerAccount != null && buyerAccount != ''){
 		    if(!isNumber2(buyerAccount)){
-		    	alert("请填写有效的买方退款账号！(纯数字(首位非0))");
+		    	window.wxc.alert("请填写有效的买方退款账号！(纯数字(首位非0))");
 		    	changeClass($("input[name='toSpvAccountList[0].account']"));
 		    	return false;
 		    }
@@ -929,14 +929,14 @@ $(document).ready(function(){
 		
 		var buyerAccountTelephone = $("input[name='toSpvAccountList[0].telephone']").val();
 		if(buyerAccountTelephone == null || buyerAccountTelephone == ''){
-			alert("请填写买方电话！");
+			window.wxc.alert("请填写买方电话！");
 			changeClass($("input[name='toSpvAccountList[0].telephone']"));
 			return false;
 		}
 		
 		if(buyerAccountTelephone != null && buyerAccountTelephone != ''){
 			if(!isMobile(buyerAccountTelephone)){
-				alert("请填写有效的买方电话！(1(3、4、5、7、8)+9位数字)");
+				window.wxc.alert("请填写有效的买方电话！(1(3、4、5、7、8)+9位数字)");
 				changeClass($("input[name='toSpvAccountList[0].telephone']"));
 				return false;
 			}
@@ -944,14 +944,14 @@ $(document).ready(function(){
 		
 		var buyerBank = $("input[name='toSpvAccountList[0].bank']").val();
 		if(buyerBank == null || buyerBank == ''){
-			alert("请填写买方开户行（银行）！");
+			window.wxc.alert("请填写买方开户行（银行）！");
 			changeClass($("input[name='toSpvAccountList[0].bank']"));
 			return false;
 		}
 		
 		var buyerBranchBank = $("input[name='toSpvAccountList[0].branchBank']").val();
 		if(buyerBranchBank == null || buyerBranchBank == ''){
-			alert("请填写买方开户行（支行）！");
+			window.wxc.alert("请填写买方开户行（支行）！");
 			changeClass($("input[name='toSpvAccountList[0].branchBank']"));
 			return false;
 		}
@@ -959,21 +959,21 @@ $(document).ready(function(){
 		/**托管方*/
 		var spvAccountName = $("select[name='toSpvAccountList[2].name'] option:selected").val();
 		if(spvAccountName == null || spvAccountName == ''){
-			alert("请选择托管账户名称！");
+			window.wxc.alert("请选择托管账户名称！");
 			changeClass($("select[name='toSpvAccountList[2].name']"));
 			return false;
 		}
 		
 		var spvAccount = $("input[name='toSpvAccountList[2].account']").val();
 		if(spvAccount == null || spvAccount == ''){
-			alert("请填写托管账号！");
+			window.wxc.alert("请填写托管账号！");
 			changeClass($("input[name='toSpvAccountList[2].account']"));
 			return false;
 		}	
 		
 		if(spvAccount != null && spvAccount != ''){
 		    if(!isNumber2(spvAccount)){
-		    	alert("请填写有效的托管账号！(纯数字(首位非0))");
+		    	window.wxc.alert("请填写有效的托管账号！(纯数字(首位非0))");
 		    	changeClass($("input[name='toSpvAccountList[2].account']"));
 		    	return false;
 		    }
@@ -986,7 +986,7 @@ $(document).ready(function(){
 	   if(parseInt(index) > 3){
 		var customAccountName = $("input[name='toSpvAccountList["+index+"].name']").val();
 		if(customAccountName == null || customAccountName == ''){
-			alert("请填写新增账户名称！");
+			window.wxc.alert("请填写新增账户名称！");
 			changeClass($("input[name='toSpvAccountList["+index+"].name']"));
 			customFlag = false;
 			return false;
@@ -994,7 +994,7 @@ $(document).ready(function(){
 		
 		var customAccount = $("input[name='toSpvAccountList["+index+"].account']").val();
 		if(customAccount == null || customAccount == ''){
-			alert("请填写新增账户账号！");
+			window.wxc.alert("请填写新增账户账号！");
 			changeClass($("input[name='toSpvAccountList["+index+"].account']"));
 			customFlag = false;
 			return false;
@@ -1002,7 +1002,7 @@ $(document).ready(function(){
 		
 		if(customAccount != null && customAccount != ''){
 		    if(!isNumber2(customAccount)){
-		    	alert("请填写有效的新增账户账号！(纯数字(首位非0))");
+		    	window.wxc.alert("请填写有效的新增账户账号！(纯数字(首位非0))");
 		    	changeClass($("input[name='toSpvAccountList["+index+"].account']"));
 		    	customFlag = false;
 		    	return false;
@@ -1011,7 +1011,7 @@ $(document).ready(function(){
 		
 		var customAccountTelephone = $("input[name='toSpvAccountList["+index+"].telephone']").val();
 		if(customAccountTelephone == null || customAccountTelephone == ''){
-			alert("请填写新增账户电话！");
+			window.wxc.alert("请填写新增账户电话！");
 			changeClass($("input[name='toSpvAccountList["+index+"].telephone']"));
 			customFlag = false;
 			return false;
@@ -1019,7 +1019,7 @@ $(document).ready(function(){
 		
 		if(customAccountTelephone != null && customAccountTelephone != ''){
 			if(!isMobile(customAccountTelephone)){
-				alert("请填写有效的新增账户电话！(1(3、4、5、7、8)+9位数字)");
+				window.wxc.alert("请填写有效的新增账户电话！(1(3、4、5、7、8)+9位数字)");
 				changeClass($("input[name='toSpvAccountList["+index+"].telephone']"));
 				customFlag = false;
 				return false;
@@ -1028,7 +1028,7 @@ $(document).ready(function(){
 		
 		var customBank = $("input[name='toSpvAccountList["+index+"].bank']").val();
 		if(customBank == null || customBank == ''){
-			alert("请填写新增账户开户行（银行）！");
+			window.wxc.alert("请填写新增账户开户行（银行）！");
 			changeClass($("input[name='toSpvAccountList["+index+"].bank']"));
 			customFlag = false;
 			return false;
@@ -1036,7 +1036,7 @@ $(document).ready(function(){
 		
 		var customBranchBank = $("input[name='toSpvAccountList["+index+"].branchBank']").val();
 		if(customBranchBank == null || customBranchBank == ''){
-			alert("请填写新增账户开户行（支行）！");
+			window.wxc.alert("请填写新增账户开户行（支行）！");
 			changeClass($("input[name='toSpvAccountList["+index+"].branchBank']"));
 			customFlag = false;
 			return false;
@@ -1050,7 +1050,7 @@ $(document).ready(function(){
         
         var applyUser = $("input[name='toSpv.applyUser']").val();
         if(applyUser == null || applyUser == ''){
-        	alert("请选择申请人！");
+        	window.wxc.alert("请选择申请人！");
         	changeClass($("input[id='realName']"));
 			return false;
         }
@@ -1089,20 +1089,20 @@ $(document).ready(function(){
         });
 		
 		if(!isVerify){
-			alert("划转条件、账户、金额这三项信息不能为空！");
+			window.wxc.alert("划转条件、账户、金额这三项信息不能为空！");
 			changeClass(rowElement1);
 			return false;
 		}
 		
 		if(isRepeat){
-			alert("同一划转条件同一账户只允许一条监管合约！");
+			window.wxc.alert("同一划转条件同一账户只允许一条监管合约！");
 			changeClass(rowElement2);
 			return false;
 		}
 	
 		var rowsAmount = getRowsAmount();
 		if(rowsAmount != amountV){
-			alert("监管总金额应等于资金出款约定金额之和！");
+			window.wxc.alert("监管总金额应等于资金出款约定金额之和！");
 			return false;
 		}
 		
@@ -1152,7 +1152,7 @@ $(document).ready(function(){
 				},
 				error : function(errors) {
 					$.unblockUI();   
-					alert("数据保存出错:"+JSON.stringify(errors));
+					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
 				}
 		});
 	}

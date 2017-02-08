@@ -128,7 +128,7 @@
 				function save() {
 					
 					if($("#content").val().trim() == ''){
-						alert("请填写重启原因！");
+						window.wxc.alert("请填写重启原因！");
 						$("#content").focus();
 						return false;						
 					}
@@ -165,14 +165,14 @@
 		    		            } , 
 						success : function(data) {
 							if(data) {
-								alert("操作成功。");
+								window.wxc.success("操作成功。");
 								caseTaskCheck();
 							} else {
-								alert("操作失败。");
+								window.wxc.error("操作失败。");
 							}
 						},
 						error : function(errors) {
-							alert("操作失败。");
+							window.wxc.error("操作失败。");
 						}
 					});
 				}

@@ -394,7 +394,8 @@ function checkForm(){
 	var isSelectTransactItem = false;
 	
 	if(numberOfPeople == ""){
-		showTip("请输入参与人数");
+		window.wxc.alert("请输入参与人数");
+		//showTip("请输入参与人数");
 		return false;
 	}
 	else {

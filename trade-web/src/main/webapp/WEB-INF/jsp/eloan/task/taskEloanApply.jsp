@@ -548,7 +548,7 @@
 										var reg = new RegExp(
 												"^[0-9]+(.[0-9]{2})?$", "g");
 										if (value != "" && !reg.test(value)) {
-											alert("请输入一个数字，最多只能有两位小数！");
+											window.wxc.alert("请输入一个数字，最多只能有两位小数！");
 											$(this).focus().select();
 										}
 									});
@@ -590,13 +590,13 @@
 															'hVal'));
 										}
 										if ($.isBlank($("#caseCode").val())) {
-											alert('请选择关联案件');
+											window.wxc.alert('请选择关联案件');
 											return false;
 										}
 										if (validateEloanApply()) {
 											saveEloanApply();
 										} else {
-											alert('该案件的产品已经存在，不允许重复添加');
+											window.wxc.alert('该案件的产品已经存在，不允许重复添加');
 											return false;
 										}
 									})
@@ -605,7 +605,7 @@
 								var charge = $("#chargeAmount").val();
 
 								if (charge == "") {
-									alert("请填写手续费！");
+									window.wxc.alert("请填写手续费！");
 									return false;
 								}
 
@@ -617,7 +617,7 @@
 									var remark = $("#remark").val();
 
 									if (remark == "") {
-										alert("请填写情况说明！");
+										window.wxc.alert("请填写情况说明！");
 										return false;
 									}
 								}
@@ -628,48 +628,48 @@
 							function checkForm() {
 								var ds = $('.case_content').css('display');
 								if (ds == 'none') {
-									alert("请选择关联案件");
+									window.wxc.alert("请选择关联案件");
 									return false;
 								}
 								var loanSrvCode = $("#loanSrvCode").val();
 								if (loanSrvCode == null || loanSrvCode == '') {
-									alert("请选择产品类型");
+									window.wxc.alert("请选择产品类型");
 									return false;
 								}
 								var applyAmount = $("#applyAmount").val();
 								if (applyAmount == null || applyAmount == '') {
-									alert("请填写申请金额");
+									window.wxc.alert("请填写申请金额");
 									return false;
 								}
 								var date = $("#applyTime").val();
 								if (date == null || date == '') {
-									alert("请选择申请时间");
+									window.wxc.alert("请选择申请时间");
 									return false;
 								}
 								var month = $('#month').val();
 								if (month == null || month == '') {
-									alert("请填写申请期数");
+									window.wxc.alert("请填写申请期数");
 									return false;
 								}
 								pdName
 								var pdName = $('#pdName').val();
 								if (pdName == null || pdName == '') {
-									alert("请填写产品部姓名");
+									window.wxc.alert("请填写产品部姓名");
 									return false;
 								}
 								var zjName = $('#zjName').val();
 								if (zjName == null || zjName == '') {
-									alert("请填写转介人");
+									window.wxc.alert("请填写转介人");
 									return false;
 								}
 								var loanerName = $('#loanerName').val();
 								if (loanerName == null || loanerName == '') {
-									alert("请填写信贷员");
+									window.wxc.alert("请填写信贷员");
 									return false;
 								}
 								var loanerPhone = $('#loanerPhone').val();
 								if (loanerPhone == null || loanerPhone == '') {
-									alert("请填写信贷员电话");
+									window.wxc.alert("请填写信贷员电话");
 									return false;
 								}
 								var loanSrvCode = $(
@@ -783,7 +783,7 @@
 			var charge = $("#chargeAmount").val();
 
 			if (charge == "") {
-				alert("请填写手续费！");
+				window.wxc.alert("请填写手续费！");
 				return false;
 			}
 
@@ -795,7 +795,7 @@
 				var remark = $("#remark").val();
 
 				if (remark == "") {
-					alert("请填写情况说明！");
+					window.wxc.alert("请填写情况说明！");
 					return false;
 				}
 			}
@@ -806,53 +806,53 @@
 		function checkForm() {
 			var ds = $('.case_content').css('display');
 			if (ds == 'none') {
-				alert("请选择关联案件");
+				window.wxc.alert("请选择关联案件");
 				return false;
 			}
 			var loanSrvCode = $("#loanSrvCode").val();
 			if (loanSrvCode == null || loanSrvCode == '') {
-				alert("请选择产品类型");
+				window.wxc.alert("请选择产品类型");
 				return false;
 			}
 			var custPhone = $('#custPhone').val();
 			if (custPhone == null || custPhone == '') {
-				alert("请填写客户电话");
+				window.wxc.alert("请填写客户电话");
 				return false;
 			}
 			var applyAmount = $("#applyAmount").val();
 			if (applyAmount == null || applyAmount == '') {
-				alert("请填写申请金额");
+				window.wxc.alert("请填写申请金额");
 				return false;
 			}
 			var date = $("#applyTime").val();
 			if (date == null || date == '') {
-				alert("请选择申请时间");
+				window.wxc.alert("请选择申请时间");
 				return false;
 			}
 			var month = $('#month').val();
 			if (month == null || month == '') {
-				alert("请填写申请期数");
+				window.wxc.alert("请填写申请期数");
 				return false;
 			}
 			pdName
 			var pdName = $('#pdName').val();
 			if (pdName == null || pdName == '') {
-				alert("请填写产品部姓名");
+				window.wxc.alert("请填写产品部姓名");
 				return false;
 			}
 			var zjName = $('#zjName').val();
 			if (zjName == null || zjName == '') {
-				alert("请填写转介人");
+				window.wxc.alert("请填写转介人");
 				return false;
 			}
 			var loanerName = $('#loanerName').val();
 			if (loanerName == null || loanerName == '') {
-				alert("请填写信贷员");
+				window.wxc.alert("请填写信贷员");
 				return false;
 			}
 			var loanerPhone = $('#loanerPhone').val();
 			if (loanerPhone == null || loanerPhone == '') {
-				alert("请填写信贷员电话");
+				window.wxc.alert("请填写信贷员电话");
 				return false;
 			}
 			var loanSrvCode = $("#loanSrvCode option:selected").val();
@@ -950,7 +950,7 @@
 					flag = data.content;
 				},
 				error : function(errors) {
-					alert("检测CaseCode绑定案件信息出错");
+					window.wxc.error("检测CaseCode绑定案件信息出错");
 				}
 			});
 			return flag;
@@ -986,7 +986,7 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					alert(data.message);
+					window.wxc.success(data.message);
 					var bohui = $("#processInstanceId").val();
 					if (bohui != null && bohui != '') {
 						window.close();
@@ -997,7 +997,7 @@
 
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
