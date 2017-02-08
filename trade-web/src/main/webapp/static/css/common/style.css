@@ -775,8 +775,8 @@ fieldset[disabled] .btn-warning.active {
   border-color: #f9b66d;
 }
 .btn-danger {
-  background-color: #ed5565;
-  border-color: #ed5565;
+  background-color: #f784a5;
+  border-color: #f784a5;
   color: #FFFFFF;
 }
 .btn-danger:hover,
@@ -3623,6 +3623,7 @@ a.close-canvas-menu:hover {
   height: 200px;
   padding-top: 70px;
 }
+
 /* MARGINS & PADDINGS */
 .p-xxs {
   padding: 5px;
@@ -6418,60 +6419,15 @@ body.skin-3 {
     display: none;
   }
 }
-.shead {
-    width: 38px;
-    height: 38px;
-    display: inline-block;
-    border-radius: 50%;
-    background-size: 38px 50.66px;
-    vertical-align: middle;
-    background-image: url(../img/a5.png);
-}
-.nullData {
-    background: #fff url(../img/no-records.png) center center no-repeat;
-}
-.himg {
-    display: none;
-}
-.img-circle {
-    border-radius: 50%;
-}
-
 .copyright {
-	 background: #f3f3f4;
-	 margin-left: 220px;
-	 margin-right: 0;
-	 padding: 15px 0;
-	 color:  #b0b0b0;
-	 text-align:  center;
-	 z-index: 999;
-	 font-size: 14px
-}
-.copyrightstyle {
-	 background: #f3f3f4;
-	 margin-left: -15px;
-	 margin-right: -15px;
-	 padding: 15px 0;
-	 color:  #b0b0b0;
-	 text-align:  center;
-	 z-index: 999;
-	 font-size: 14px
-}
-.copyrightnew {
   position: absolute;
-  bottom: 0;
   left: 0;
-  margin: 0 15px;
+  right: 0;
+  bottom: 5px;
+  margin-left: -15px;
+  margin-right: -15px;
   padding: 15px 0;
   color:  #b0b0b0;
-  text-align:  left;
+  text-align:  center;
   z-index: 999;
-  font-size:  13px;
-  width: 200px;
-}
-#wrapper {
-  position:  relative;
-}
-#page-wrapper {
-	padding-bottom: 50px;
 }

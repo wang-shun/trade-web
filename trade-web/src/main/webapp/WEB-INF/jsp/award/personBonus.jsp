@@ -174,8 +174,6 @@
                 </div>
             </div>
             <!-- /Main view -->
-        </div>
-        
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
         <content tag="local_script"> 

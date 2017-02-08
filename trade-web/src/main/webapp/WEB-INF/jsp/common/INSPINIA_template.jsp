@@ -115,7 +115,9 @@
                 </ul>
 				<input type="hidden" id="ctx" value="${ctx}"/>
             </div>
+
         </nav>
+
 
 		<!-- 右侧内容 -->
         <div id="page-wrapper" class="gray-bg dashbard-1">
@@ -140,18 +142,25 @@
 	                </li>
 	                <li>
 	                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-	                	切换岗位
+	                	切换岗位1234
 	                </a>
 	                <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob">
 	                </ul>
 	            </ul>
 	
 	        </nav>
+	        
 	        </div>
 	        
 	        <!-- 右侧页面主体内容 -->
-	        <sitemesh:body></sitemesh:body>
-                
+	        <sitemesh:body>
+	        
+		        
+	        </sitemesh:body>
+	        <div class="copyright">
+            	Copyright ©2017 AIST All rights reserved. Version : <%=com.centaline.trans.workspace.web.TradeApplication.getPackageVersion()%>
+            </div>  
+            
         </div>
     </div>
 

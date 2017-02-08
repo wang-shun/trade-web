@@ -258,8 +258,6 @@
    	</div>    
 </div>
 <!--*********************** HTML_main*********************** -->
-</div>
-</div>
 </body>
 <content tag="local_script">
     <!-- js模板引擎 -->

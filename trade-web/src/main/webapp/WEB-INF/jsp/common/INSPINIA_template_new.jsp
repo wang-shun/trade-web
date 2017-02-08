@@ -149,7 +149,10 @@
 	        
 	        <!-- 右侧页面主体内容 -->
 	        <sitemesh:body></sitemesh:body>
-                
+	        
+            <div class="copyrightstyle">
+            	Copyright ©2017 AIST All rights reserved. Version : <%=com.centaline.trans.workspace.web.TradeApplication.getPackageVersion()%>
+            </div>    
         </div>
     </div>
 

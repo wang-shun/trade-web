@@ -322,8 +322,6 @@
    	</div>    
 </div>
 <!--*********************** HTML_main*********************** -->
-</div>
-</div>
 <content tag="local_script">
     <!-- js模板引擎 -->
     <script src="${ctx}/static/js/template.js"></script>
