@@ -1023,6 +1023,7 @@ public class WorkSpaceController {
 
 		return "workspace/report/headquarter";
 	}
+	
 
 	// 跟进userid查询统计数据
 	private ToCaseInfoCountVo getToCaseInfoCount(String userId) {// 查询统计 接单

@@ -348,10 +348,10 @@
 					data:{pkid:pkid},
 					success:function(data){
 						if(data.result==1){
-							alert('删除成功');
+							window.wxc.success('删除成功');
 							caseList.trigger("reloadGrid");//刷新列表
 						}else{
-							alert('删除失败');
+							window.wxc.error('删除失败');
 						}
 						$.unblockUI();
 					}

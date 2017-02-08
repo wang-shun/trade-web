@@ -51,17 +51,17 @@ function changeTaskAssignee(sendData){
          },
 		success : function(data) {
 			if(data.success){
-				alert("变更成功");
+				window.wxc.success("变更成功");
 				location.reload();
 			}else{
-				alert(data.message);
+				window.wxc.error(data.message);
 			}
 		},complete: function() { 
 			 $.unblockUI(); 
 			 optTaskId='';
 		},
 		error : function(errors) {
-			alert("数据保存出错");
+			window.wxc.error("数据保存出错");
 			 $.unblockUI();
 		}
 	});
@@ -88,7 +88,7 @@ $(document).ready(function() {
 			});
 			$("#changeForm-form").submit(function(){
 				if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
-					alert('请选择要修改的项目！');
+					window.wxc.alert('请选择要修改的项目！');
 					return false;
 				}
 			});
@@ -393,16 +393,16 @@ function chgLoanReqment(){
          },
 		success : function(data) {
 			if(data.success){
-				alert("变更成功");
+				window.wxc.success("变更成功");
 				location.reload();
 			}else{
-				alert(data.message);
+				window.wxc.error(data.message);
 			}
 		},complete: function() { 
 			 $.unblockUI(); 
 		},
 		error : function(errors) {
-			alert("数据保存出错");
+			window.wxc.error("数据保存出错");
 			 $.unblockUI();
 		}
 	});
@@ -413,24 +413,24 @@ function chgLoanReqmentCheck() {
 	var flag = false;
 	$('select[id="cooperationUser0"] option:selected').each(function(i,item){
 		if(item.value == "0"){
-			 alert("合作顾问为必选项!");
+			window.wxc.alert("合作顾问为必选项!");
 //				 item.focus();
 			 flag = true;
 			 return false;
 		}else if(item.value=="-1"){
 			if($('#partner0').find(':selected').val()=="0"){
-				alert("请选择跨区合作顾问!");
+				window.wxc.alert("请选择跨区合作顾问!");
 			 flag = true;
 			 return false;
 			}
 		}
 	});
 	if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[id="cooperationUser0"]').size()==0){
-		 alert("正在加载合作项目!");
+		window.wxc.alert("正在加载合作项目!");
 		 return false;
 	}
 	if($('#mortageService').val()!='0'&& $("#loan_reqment_chg_form").find('#estPartTime').val()==''){
-		alert('请选择预计放款时间');
+		window.wxc.alert('请选择预计放款时间');
 		return false;
 	}
 	if(flag)return false;
@@ -539,7 +539,7 @@ function mortageService() {
 				},
 			
 			error : function(errors) {
-				alert("数据出错。");
+				window.wxc.error("数据出错。");
 			}
 		});
 	}
@@ -619,7 +619,7 @@ function mortageCrossAreaCooperation(){
 			}
 		},
 		error : function(errors) {
-			alert("数据出错。");
+			window.wxc.error("数据出错。");
 		}
 	});
 }
@@ -885,7 +885,7 @@ function crossAreaCooperation(i){
 			
 		},
 		error : function(errors) {
-			alert("数据出错。");
+			window.wxc.error("数据出错。");
 		}
 	});
 }
@@ -904,7 +904,7 @@ function check(){
 		$.each(crossAreas, function(i,items){
 			 var crossProcessorId = $('.wd445:eq('+i+')').children('select[name="crossProcessorId"]').find(':selected').val();
 			if(crossProcessorId=='0'){
-				alert("跨区合作交易顾问不能为空!");
+				window.wxc.alert("跨区合作交易顾问不能为空!");
 				return false;
 			}
 		});
@@ -945,10 +945,10 @@ function changeLeadingUser(index) {
 			
 			success : function(data) {
 				if(data.success){
-					alert("变更成功");
+					window.wxc.success("变更成功");
 					location.reload();
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 				
 			},
@@ -973,7 +973,7 @@ function startCasePrairses() {
 			prItems.push(this.value);
 		});
 		if(prItems.length == 0){
-			alert("请至少选择一项");
+			window.wxc.alert("请至少选择一项");
 			return;
 		}
 		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems;
@@ -1004,10 +1004,10 @@ function startCasePrairses() {
 		            } , 
 			success : function(data) {
 				if(data.success){
-					alert("保存成功");
+					window.wxc.success("保存成功");
 					$('#pr-modal-form').modal("hide");
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1077,7 +1077,7 @@ function saveSrvItems(){
 		var resSrvCheck1 = $("input[name='srvCode'][value="+resSrvs[0]+"]").prop('checked');
 		var resSrvCheck2 = $("input[name='srvCode'][value="+resSrvs[1]+"]").prop('checked');
 		if(resSrvCheck1 && resSrvCheck2){
-			alert("商贷/组合贷和纯公积金贷只允许存在一种！");
+			window.wxc.alert("商贷/组合贷和纯公积金贷只允许存在一种！");
 			return;
 		}else if(resSrvCheck1 && srvs.indexOf(resSrvs[0])==-1){
 			isRes = true;
@@ -1134,13 +1134,13 @@ function saveSrvItems(){
 							window.location.reload();
 							window.location.href=ctx+"/task/ServiceChangeApply?&caseCode="+caseCode +"&taskId="+data.content;
 						}else{
-							alert("保存成功");
+							window.wxc.success("保存成功");
 							window.location.reload();
 							changeSrvsHidden();
 							$('#srv-modal-form').modal("hide");
 						}
 					}else{
-						alert(data.message);
+						window.wxc.error(data.message);
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1153,7 +1153,7 @@ function saveSrvItemsForManager(){
 		var resSrvCheck1 = $("input[name='srvCode'][value="+resSrvs[0]+"]").prop('checked');
 		var resSrvCheck2 = $("input[name='srvCode'][value="+resSrvs[1]+"]").prop('checked');
 		if(resSrvCheck1 && resSrvCheck2) {
-			alert("商贷/组合贷和纯公积金贷只允许存在一种！");
+			window.wxc.alert("商贷/组合贷和纯公积金贷只允许存在一种！");
 			return;
 		}
 
@@ -1193,10 +1193,10 @@ function saveSrvItemsForManager(){
 				} ,
 				success : function(data) {
 					if(data.success){
-						alert(data.message);
+						window.wxc.success(data.message);
 						window.location.reload();
 					}else{
-						alert(data.message);
+						window.wxc.error(data.message);
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1331,7 +1331,7 @@ function savePlanItems(){
 		whyChanges.push($(this).val());
 	});
 	if(msg!=""){
-		alert(msg);
+		window.wxc.alert(msg);
 		return false;
 	}
 	params+="&isChanges="+isChanges+"&estIds="+estIds+"&estDates="+estTimes+"&whyChanges="+whyChanges;
@@ -1362,10 +1362,10 @@ function savePlanItems(){
 	            } , 
 		success : function(data) {
 			if(data.success){
-				alert("保存成功");
+				window.wxc.success("保存成功");
 				window.location.reload();
 			}else{
-				alert(data.message);
+				window.wxc.error(data.message);
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1406,11 +1406,11 @@ function casePause(){
 			data : params,
 			success : function(data) {
 				if(data.success){
-					alert("操作成功");
+					window.wxc.success("操作成功");
 					$("#activityFlag").val(data.content);
 					buttonActivity();
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1483,7 +1483,7 @@ function startSpvOutApplyProcess(caseCode){
 			success:function(data){
                 $.unblockUI();   
 				if(!data.success){
-					alert(data.message);
+					window.wxc.error(data.message);
 				}else{
 					window.location.href=ctx+"/task/spvOutApply?taskId="+data.content.taskId+"&instCode="+data.content.processInstanceId+"&caseCode="+data.content.caseCode;
 				}
@@ -1575,10 +1575,10 @@ function changeCaseTeam(){
 		            } , 
 			success : function(data) {
 				if(data.success){
-					alert("转组成功");
+					window.wxc.success("转组成功");
 					$('#team-modal-form').modal("hide");
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1613,7 +1613,7 @@ function serviceRestart(){
 		   } , success:function(data){
 				if(!data.success){
 					$.unblockUI();   
-					alert(data.message);
+					window.wxc.error(data.message);
 				}else{
 					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
 				}
@@ -1643,9 +1643,9 @@ function caseReset(){
 		   } , success:function(data){
 				if(!data.success){
 					$.unblockUI();   
-					alert(data.message);
+					window.wxc.error(data.message);
 				}else{
-					alert("案件重置成功.");
+					window.wxc.success("案件重置成功.");
 					window.location.reload();
 				}
 			}

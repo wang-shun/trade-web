@@ -334,7 +334,7 @@
 			    	 var approved = $("#approved").val();
 			     	 if(approved==0){
 			     		 if(eContent == '' || eContent == null){
-				     		 alert("申请驳回时请填写驳回原因！");
+			     			window.wxc.alert("申请驳回时请填写驳回原因！");
 				     		 return;
 			     		 }
 			     	 }
@@ -399,13 +399,13 @@
 					data : jsonData,
 					success : function(data) {
 						$.unblockUI();
-						alert(data.message);
+						window.wxc.success(data.message);
 						window.close();
 						window.opener.callback();
 					},
 					error : function(errors) {
 						$.unblockUI();
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}

@@ -94,6 +94,10 @@ function getExplPicByhouseCode() {
 		data : [{
 			name : 'caseCode',
 			value : caseCode
+		},
+		{
+			name : 'available',
+			value : 'Y'
 		}],
 		dataType : "json",
 		success : function(data) {

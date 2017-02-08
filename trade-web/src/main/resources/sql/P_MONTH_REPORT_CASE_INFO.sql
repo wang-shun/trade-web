@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/1/22 14:38:34 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/2/7 19:30:49 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -10,11 +10,21 @@ GO
 -- Create date: 2017-01-10
 -- Description:	每个月的sctrans.T_RPT_CASE_BASE_INFO备份与报表数据的生成
 -- =============================================
-ALTER PROCEDURE [sctrans].[P_MONTH_REPORT_CASE_INFO]
+ALTER PROCEDURE [sctrans].[P_MONTH_REPORT_CASE_INFO](
+    @belong_month int = 0
+)
 	
 AS
 BEGIN
 	DECLARE @update_date datetime;
+
+
+
+  IF @belong_month = 0
+		BEGIN
+			set @belong_month = year(getdate())*100 + month(dateadd(month,-1,getdate()));
+		END
+  
 
 	set @update_date = getdate();
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -24,7 +34,7 @@ BEGIN
 
 	--删除当月统计的数据
     DELETE  FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO
-    WHERE   DATEDIFF(MONTH, CREATE_TIME,  getdate()) = 0;
+    WHERE   BELONG_MONTH = @belong_month;
 
 	INSERT INTO sctrans.T_RPT_HISTORY_CASE_BASE_INFO(
 	CASE_CODE,--案件编号
@@ -59,9 +69,11 @@ BEGIN
 	MORTGAGET_TOTAL_AMOUNT,--贷款总额
 	MORTGAGET_COM_AMOUNT,--商业贷款金额
 	MORTGAGET_PRF_AMOUNT,--公积金贷款金额
+	FA_FIN_ORG_CODE,--贷款机构父类
 	MORTGAGET_FIN_ORG_CODE,--贷款机构
 	MORTGAGET_IS_TMP_BANK,--是否是临时银行
 	IS_LOSE,--是否流失
+	LOST_AMOUNT,--贷款流失金额
 	CREATE_TIME,
 	BELONG_MONTH--所属月份
 	)
@@ -97,11 +109,13 @@ SELECT
 	MORTGAGET_TOTAL_AMOUNT,--贷款总额
 	MORTGAGET_COM_AMOUNT,--商业贷款金额
 	MORTGAGET_PRF_AMOUNT,--公积金贷款金额
+	FA_FIN_ORG_CODE,--贷款机构父类
 	MORTGAGET_FIN_ORG_CODE,--贷款机构
 	MORTGAGET_IS_TMP_BANK,--是否是临时银行
 	IS_LOSE,--是否流失
+	LOST_AMOUNT,--贷款流失金额
 	GETDATE(),
-	CREATE_TIME--所属月份
+	@belong_month--所属月份
 
 	FROM    
 	  SCTRANS.T_RPT_CASE_BASE_INFO

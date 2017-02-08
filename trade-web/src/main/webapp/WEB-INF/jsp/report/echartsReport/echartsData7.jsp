@@ -34,7 +34,18 @@
                                     <a href="#" id="add"><em>&gt;</em></a>
                                 </p>
                                 <p class="calendar-month">
-                                    <span >1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span>
+		                            <span value="1">1月</span>
+		                            <span value="2">2月</span>
+		                            <span value="3">3月</span>
+		                            <span value="4">4月</span>
+		                            <span value="5">5月</span>
+		                            <span value="6">6月</span>
+		                            <span value="7">7月</span>
+		                            <span value="8">8月</span>
+		                            <span value="9">9月</span>
+		                            <span value="10">10月</span>
+		                            <span value="11">11月</span>
+		                            <span value="12">12月</span>
                                 </p>
                             </div>
                         </div>
@@ -66,16 +77,12 @@
         <script src="${ctx }/js/jquery-2.1.1.js"></script>
         <script src="${ctx }/js/bootstrap.min.js"></script>
         <!-- ECharts.js -->
-        <script src="${ctx }/static_res/js/echarts-all.js"></script>
+        <script src="${ctx }/static/js/echarts-all.js"></script>
         <script src="${ctx}/static/trans/js/common/echartCommon.js"></script>
-        <%-- <script src="${ctx }/js/eachartdata/select_month.js"></script> --%>
         <script>
-        /**
-         * 案件统计详情
-         */
      	var ctx = $("#ctx").val();
-
-        function reloadGrid() {
+        
+     	function reloadGrid() {
         	// 初始化列表
         	var data = {};
         	data.queryId = "querySignBankList";	
@@ -84,7 +91,8 @@
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_);
         	data.choiceMonth = year + "-" + month;
-        	
+			data.belongMoth  = getBelongMonth(year + "-" + month),
+
         	$.ajax({
         		async: true,
                 url: ctx+"/quickGrid/findPage",
@@ -93,7 +101,7 @@
                 data: data,
                 success: function(data){
 				if(data==null||data==undefined){
-					alert("数据加载失败！");
+					window.wxc.error("数据加载失败！");
 					return;			
 				}
 				var xAxisData=[];
@@ -112,24 +120,37 @@
             	//
             	var span1Text = 0;
             	var span2Text = 0;
+            	//其他 
+            	var otherAmountI = 0;
+            	var otherNumI = 0;
             	//1.
-            	if(data.rows){
-            		for(var i = 0;i++;i < 15){
-            			var item = data.rows[i];
-            			xAxisData.push(item.FA_FIN_ORG_NAME_YC.substring(0,2));
-    					totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
-    					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));				
-    					totalNumArr.push(parseInt(item.SIGN_NUM));
+            	if(data.rows.length > 0){
+            		$.each(data.rows,function(i,item){
+    					span1Text = accAdd(span1Text,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));	
     					span2Text += parseInt(item.SIGN_NUM);
-            		}
+            			if(i < 14){
+        					xAxisData.push(item.FA_FIN_ORG_NAME_YC == ""?"未选择":item.FA_FIN_ORG_NAME_YC.substring(0,2));
+                			totalAmountArr.push(Math.round(accDiv(parseInt(item.CONTRACT_AMOUNT),10000)));
+        					totalNumArr.push(parseInt(item.SIGN_NUM));
+            			}else{
+            				otherAmountI = accAdd(otherAmountI,accDiv(parseInt(item.CONTRACT_AMOUNT),10000));
+            				otherNumI += parseInt(item.SIGN_NUM);
+            			}
+    				})
             	} 	
+            	
+            	if(data.rows.length > 14){
+            		xAxisData.push("其他");
+            		totalAmountArr.push(Math.round(otherAmountI));
+            		totalNumArr.push(otherNumI);
+            	}
             	//2.
             	yAxis =[ 
             	{
                     type: 'value',//左边
                     name: '金额',
                     min:0,
-                    max:100000,
+                    max:80000,
                     axisLabel: {
                         formatter: '{value}万 '
                     }
@@ -145,7 +166,7 @@
                 }
 				];
             	//3.
-            	legend = ['总金额','总单量'];
+            	legend = data.rows.length>0?['总金额','总单量']:[];
             	//4.
             	datas = [totalAmountArr,totalNumArr];
             	//5.

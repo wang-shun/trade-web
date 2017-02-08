@@ -386,7 +386,7 @@ text-decoration: underline !important;
 				}else{
 					var chks=$("input[name='ckb_task']:checked");
 					if(chks.length==0){
-						alert('请至少选择一个任务');
+						window.wxc.alert('请至少选择一个任务');
 						return ;
 					}
 				}
@@ -426,17 +426,17 @@ text-decoration: underline !important;
 			         },
 					success : function(data) {
 						if(data.success){
-							alert("变更成功");
+							window.wxc.success("变更成功");
 							reloadGrid();
 						}else{
-							alert(data.message);
+							window.wxc.error(data.message);
 						}
 					},complete: function() { 
 						 $.unblockUI(); 
 						 optTaskId='';
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						 window.wxc.error("数据保存出错");
 						 $.unblockUI();
 					}
 				});

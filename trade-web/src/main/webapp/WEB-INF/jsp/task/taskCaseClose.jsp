@@ -687,41 +687,44 @@
 		</div>
 	</div>
 	</div>
-	<content tag="local_script"> <!-- Steps --> <script
-		src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> <!-- jqGrid -->
+	<content tag="local_script"> 
+	<!-- Steps --> 
+	<script	src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> 
+	<!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- 上传附件相关 -->
-	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<!-- 上传附件相关 -->
+	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <script
-		src="${ctx}/transjs/task/loanlostApprove.js"></script> <script
-		src="${ctx}/transjs/task/showAttachment.js"></script> <script
-		src="${ctx}/js/trunk/task/caseCloseAttachment.js"></script> <!-- bank select -->
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <!-- Data picker -->
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
+	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script>
+	<script	src="${ctx}/transjs/task/showAttachment.js"></script>
+	<script	src="${ctx}/js/trunk/task/caseCloseAttachment.js"></script> 
+	<!-- bank select -->
+	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+	<!-- Data picker -->
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/trunk/comment/caseComment.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/viewer/viewer.min.js"></script> 
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script	src="${ctx}/js/template.js" type="text/javascript"></script>
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script	src="${ctx}/js/viewer/viewer.min.js"></script> 
 	<!-- 改版引入的新的js文件 -->
     <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
 	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
@@ -946,7 +949,7 @@
 					});
 				},
 				error : function(errors) {
-					alert("获取主贷人失败");
+					window.wxc.error("获取主贷人失败");
 				}
 			});
 		}
@@ -969,24 +972,24 @@
 			var _mortType = $('#mortType').find(':selected').val();
 			
 			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
-				alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
+				window.wxc.alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
 				$('#comDiscount').focus();
 				flag = false;
 			}
 			
 			if((_mortType=='30016001'&&_comDiscount!='')||(_mortType=='30016002'&&_comDiscount!='')){
 				if(isNaN(_comDiscount)){
-		            alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
+					window.wxc.alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 		            $('#comDiscount').focus();
 		            flag = false;
 		        }else if(_comDiscount>1.5 || _comDiscount<0.5){
-		    		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+		        	window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		    		$('#comDiscount').focus();
 		    		flag = false;
 		    	}else if(_comDiscount<=1.5 || _comDiscount>=0.5){
 	        		var reg =/^[01]{1}\.{1}\d{3,}$/;
 	        		if(reg.test(_comDiscount)){
-	        			alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+	        			window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 	        			$('#comDiscount').focus();
 	        			flag = false;
 	        		}		    		
@@ -1025,7 +1028,7 @@
 	    		            } , 
 					success : function(data) {
 							if(data.message){
-								alert(data.message);
+								window.wxc.success(data.message);
 							}
 							if(window.opener)
 						    {
@@ -1037,7 +1040,7 @@
 							//window.location.href = "${ctx }/task/myTaskList";
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}
@@ -1174,7 +1177,7 @@
 					}
 				},
 				error : function(errors) {
-					alert("上下家加载失败！");
+					window.wxc.error("上下家加载失败！");
 				}
 			});
 		}

@@ -55,7 +55,7 @@
                         $this_c.attr("isSubscribe",true);
                     }
                 },function(obj){
-                    alert(obj.msg);
+                	window.wxc.alert(obj.msg);
                 });
             });
             $.fn.subscribeToggle.defaults={

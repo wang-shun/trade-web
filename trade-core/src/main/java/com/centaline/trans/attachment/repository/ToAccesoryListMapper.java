@@ -3,13 +3,14 @@ package com.centaline.trans.attachment.repository;
 import java.util.List;
 
 import com.centaline.trans.attachment.entity.ToAccesoryList;
+import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.common.MyBatisRepository;
 
 @MyBatisRepository
 public interface ToAccesoryListMapper {
     int deleteByPrimaryKey(Long pkid);
 
-	ToAccesoryList findAccesoryByCode(String accessoryCode);
+	ToAccesoryList findAccesory(ToAttachment toAttachment);
 
     int insert(ToAccesoryList record);
 

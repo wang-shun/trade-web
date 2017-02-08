@@ -29,13 +29,12 @@
 	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">    
     
     	<!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
     
 	<!-- owner -->
     <link rel="stylesheet" href="${ctx}/static/trans/css/property/processingList.css" />
     <link href="${ctx}/static/trans/css/property/popmac.css" rel="stylesheet" />
 	<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
-	
 	<script type="text/javascript">
 		var optTransferRole=false;
 		<shiro:hasPermission name="TRADE.PRSEARCH.TRANSFER">
@@ -132,113 +131,7 @@
 						              	<input type="radio" name="isScuess" value="1" checked="checked">有效
 						            </td>
 						        </tr>
-						        <tr class="gradeA gradepad" role="row">
-						            <td style="width:59px !important;">上传产调</td>
-						            <td colspan="5" class="inputlab">
-						                <div class="form-group">
-											<div class="" id="fileupload_div_pic">
-												<form id="fileupload" action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-													method="POST" enctype="multipart/form-data">
-													<noscript>
-														<input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-														<input type="hidden" id="preFileCode" name="preFileCode" value="property_research_letter">
-													</noscript>
-													<div class="row-fluid fileupload-buttonbar">
-														<div class="" style="height: auto">
-															<div role="presentation" class="table table-striped "
-																style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left; border-bottom:none;">
-																<div id="picContainer1" class="files"
-																	data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-																<span class=" fileinput-button "
-																	style="margin-left: 10px !important; width: 80px;">
-																	<div id="chandiaotuBtn" class=""
-																		style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-																		<i class="fa fa-plus"></i>
-																	</div> <input id="picFileupload1" type="file" name="files[]"
-																	multiple
-																	data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-																	data-sequential-uploads="true">
-																</span>
-															</div>
-														</div>
-													</div>
-												</form>
-											</div>
-											<div class="row-fluid">
-												<div class="">
-													<script id="templateUpload1" type="text/x-tmpl">
-
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-right:5px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-									<!--图片缩图  -->
-							        <div class="preview"><span class="fade"></span></div>
-									<!--  错误信息 -->
-							        {% if (file.error) { %}
-							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else if (o.files.valid && !i) { %}
-									<!-- 单个对应的按钮  -->
-							            <div class="start span1" style="display: none">
-										{% if (!o.options.autoUpload) { %}
-							                <button class="btn">
-							                    <i class="icon-upload icon-white"></i>
-							                    <span>上传</span>
-							                </button>
-							            {% } %}
-										</div>
-							        {% } else { %}
-							            <div class="span1" colspan="2"></div>
-							        {% } %}
-							        <div class="cancel" style="margin-top:-115px;margin-left:90%;">
-									{% if (!i) { %}
-							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-							                <i class="iconfont">&#xe60a;</i>
-							            </button>
-							        {% } %}
-									</div>
-							    </div>
-							{% } %}
-													</script>
-													<script id="templateDownload1" type="text/x-tmpl">
-
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-							        {% if (file.error) { %}
-							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else { %}
-							            <div class="preview span12">
-										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="property_research_letter"></input>
-										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.thumbnail_url) { %}
-							                <img src="http://aimg.sh.centanet.com/salesweb/image/{%=file.id%}/80_80_f.jpg" style="width:80px;height:80px;">
-							            {% } %}</div>
-							            <div class="name" style="display: none">
-							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-							            </div>
-							        {% } %}
-							        <div class="delete span2" style="margin-left:75%;margin-top:-93px;line-height:0;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId=ff8080814ecf6e41014ee8ce912d04be" data-type="GET" class="btn red" style="line-height:10px;width:25px;padding:0;height:25px;text-align:center;border-radius:25px!important;">
-							                <i class="iconfont">&#xe60a;</i>
-							            </button>
-							        </div>
-							    </div>
-							{% } %}
-													</script>
-												</div>
-											</div>
-											<div class="row-fluid" style="display: none;">
-												<div class="span4">
-													<div class="control-group">
-														<a class="btn blue start" id="startUpload"
-															style="height: 30px; width: 50px"> <i
-															class="icon-upload icon-white"></i> <span>上传</span>
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-						            </td>
-						        </tr>
+						       
 						        <tr class="gradeA" role="row" id="wuxiao">
 						            <td>无效原因</td>
 						            <td colspan="5" class="inputlab">
@@ -247,6 +140,8 @@
 						        </tr>
         					</tbody>
         				</table>
+        				
+        				<div class="table-box" id="fileUploadContainer"></div>
 		            </form>
                 </div>
                 <div class="modal-footer btn-center" style="padding-top:20px !important;">
@@ -360,6 +255,35 @@ function renderImg(){
 	$('.wrapper-content').viewer('destroy');
 	$('.wrapper-content').viewer();
 }
+
+function checkAttachment() {
+	var length = $("#fileUploadContainer ul li").length;
+	
+	if(length == 0){
+		alert("请上传备件！");
+		checkAtt = false;
+		return false;
+	}
+	else {
+		checkAtt = true;
+	}
+	
+	return checkAtt;
+}
 </script>	    
 </content>
+
+<content tag="local_require">
+       <script>
+       		var fileUpload;
+       
+		    require(['main'], function() {
+				requirejs(['jquery','aistFileUpload','validate','grid','jqGrid',
+				           'additional','blockUI','valid','ligerui','bootstrapModal',
+				           'modalmanager','aistJqueryCustom','twbsPagination','poshytip'],function($,aistFileUpload){
+					fileUpload = aistFileUpload;
+			    });
+		    });
+		</script>
+    </content>
 </html>
