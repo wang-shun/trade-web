@@ -126,7 +126,7 @@
                 data: data,
                 success: function(data){
 				if(data==null||data==undefined){
-					window.wxc.error("数据加载失败！");
+					alert("数据加载失败！");
 					return;			
 				}
 				//置空表格 

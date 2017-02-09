@@ -69,11 +69,10 @@
 			<baseSql>
 				<![CDATA[
 				select
-                t.FA_FIN_ORG_CODE,
+                main.FA_FIN_ORG_CODE,
 				isnull(sum(main.MORTGAGET_COM_AMOUNT),0) CONTRACT_AMOUNT,
 				count(1) SIGN_NUM
-				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main 
-				left join sctrans.T_TS_FIN_ORG t on main.MORTGAGET_FIN_ORG_CODE=t.FIN_ORG_CODE	
+				from sctrans.T_RPT_HISTORY_CASE_BASE_INFO main 	
                 where convert(varchar(7),main.MORTAGE_SIGN_DATE,120) = #choiceMonth# 
                 and main.IS_LOSE = '0'
                 and main.MORTGAGE_LOAN_TYPE in ('30016001','30016002')
@@ -84,7 +83,7 @@
 			order by CONTRACT_AMOUNT desc
 			</orderBySql>
 			<groupSql>
-			group by t.FA_FIN_ORG_CODE
+			group by main.FA_FIN_ORG_CODE
 			</groupSql>
 		</searchSql>
 		<grid>
