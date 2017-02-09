@@ -142,7 +142,6 @@
                         <index>true</index>
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <!--<addClasspath>true</addClasspath>-->
                         </manifest>
                         <manifestEntries>
                             <commit>${buildNumber}</commit>
@@ -157,7 +156,12 @@
                 <version>2.3</version>
                 <configuration>
                     <warName>${project.artifactId}</warName>
-                    <archive>    
+                    <archive>
+						<index>true</index>
+						<manifest>
+							  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+				              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
                         <manifestEntries>    
                             <commit>${buildNumber}</commit>
 							<branch>${scmBranch}</branch>

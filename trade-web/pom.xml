@@ -321,19 +321,6 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-				              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
         </plugins>
     </build>
 
@@ -356,17 +343,6 @@
 			</activation>
 			<properties>
 				<tomcat.url>http://10.4.19.212:18015/manager/text</tomcat.url>
-				<tomcat.username>admin</tomcat.username>
-				<tomcat.password>admin</tomcat.password>
-			</properties>
-		</profile>
-		<profile>
-			<id>213</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<tomcat.url>http://10.4.19.213:8083/manager/text</tomcat.url>
 				<tomcat.username>admin</tomcat.username>
 				<tomcat.password>admin</tomcat.password>
 			</properties>
