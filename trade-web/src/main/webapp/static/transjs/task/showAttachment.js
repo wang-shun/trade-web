@@ -40,7 +40,7 @@ function getExplPicByhouseCode() {
 	});
 }
 
-function getShowAttachment() {
+function getShowAttachment() {	
 	$.ajax({
 		type : 'post',
 		cache : false,

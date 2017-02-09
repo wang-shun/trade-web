@@ -13,6 +13,8 @@
 
     <link rel="stylesheet" href="${ctx}/css/eachartdata/jquery.fullPage.css" />
     <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css" />
+    <!--弹出框样式  -->
+    <link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
     <script type="text/javascript">
 		//用户动态选择的年月（月份要小1）
 		var yearDisplay,monthDisplay;
@@ -59,6 +61,9 @@
 <script  src="${ctx }/js/eachartdata/jquery-ui.min.js"></script>
 <script  src="${ctx }/js/eachartdata/scrolloverflow.js"></script>
 <script  src="${ctx }/js/eachartdata/jquery.fullPage.js"></script>
+<script  src="${ctx }/js/eachartdata/fullPage-setting.js"></script>
+<!-- 引入弹出框js文件 -->
+<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 
 <script type="text/javascript">
 //声明各iframe
@@ -125,6 +130,5 @@ function changeBtnClass(item){
     }
 }
 </script>
-<script  src="${ctx }/js/eachartdata/fullPage-setting.js"></script>
 </body>
 </html>

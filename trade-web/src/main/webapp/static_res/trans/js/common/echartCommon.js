@@ -153,6 +153,11 @@ function returnPie(data, items, myChart1, color, title) {
                '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
                ]
 	}
+	var format = "{b}:\n{c}个  \n ({d}%)";
+	if(title=='商贷总金额'){
+		format="{b}:\n{c}万元  \n ({d}%)";
+	}
+
 	var option = {
 		 title : {
 	            text: title,
@@ -194,7 +199,7 @@ function returnPie(data, items, myChart1, color, title) {
 				normal : {
 					label : {
 						show : true,
-						formatter : "{b}:\n{c}个  \n ({d}%)"
+						formatter : format
 					}
 				}
 			}
@@ -262,4 +267,22 @@ function accDiv(arg1,arg2){
       r2=Number(arg2.toString().replace(".",""));
       return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
   }
+}
+//得到数据快照月份
+function getBelongMonth(choiceMonth){
+	var minBelongMoth = 201701
+	if(!choiceMonth){
+		return minBelongMoth
+	}
+
+	try{
+		var belongMoth = parseInt(replace(choiceMonth,'-',''))
+		if(belongMoth<minBelongMoth){
+			belongMoth =  minBelongMoth
+		}
+		return belongMoth;
+	}catch(e){
+		return minBelongMoth
+	}
+
 }

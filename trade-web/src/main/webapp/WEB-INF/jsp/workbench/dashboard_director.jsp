@@ -81,8 +81,7 @@
 
 
 	<!-- main Start -->
-	<div
-		class="row wrapper border-bottom white-bg page-heading stickup-nav-bar"
+	<div class="row wrapper border-bottom white-bg page-heading stickup-nav-bar"
 		style="z-index: 1 !important;">
 		<ul class="nav navbar-nav">
 			<li class="menuItem active"><a href="#base_info">基本信息</a></li>
@@ -726,8 +725,6 @@
 	</div>
 	<!-- main End -->
 
-	</div>
-	</div>
 	<content tag="local_script"> <!-- stickup plugin --> <script
 		src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> <!-- Toastr script -->
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> <script

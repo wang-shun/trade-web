@@ -191,7 +191,7 @@ function getCheck(){
 		pkids=ids.substring(0,ids.length-1);	
 		return pkids; 
 	}else { 
-		alert('请至少选择一条记录！'); 
+		window.wxc.alert('请至少选择一条记录！'); 
 		return null; 
 	} 
 }
@@ -247,7 +247,7 @@ function compareCaseCodeAndCreateBy(a,b){
 		  if(i != b){
 			  if(($(caseCodeArray[i]).attr("caseFlag") != $(a).attr("caseFlag"))  ||  ($(caseCodeArray[i]).attr("createFlag") != $(a).attr("createFlag")) ){
 				caseCodeAndCreateByFlag = false;
-				alert("单次操作请选择相同案件编号和相同申请人对应的物品！");
+				window.wxc.alert("单次操作请选择相同案件编号和相同申请人对应的物品！");
 			  }
 		  }
 		  
@@ -277,7 +277,7 @@ function compareCaseCode(a,b){
 		  if(i != b){
 			  if($(caseCodeArray[i]).attr("caseFlag") != $(a).attr("caseFlag")){
 				caseCodeFlag = false;
-				alert("单次操作请选择相同案件编号对应的物品！");
+				window.wxc.alert("单次操作请选择相同案件编号对应的物品！");
 			  }
 		  }
 		 if(caseCodeFlag==false){				
@@ -315,7 +315,7 @@ function statusInstockCheck(){
 		//statusFlag.value  js对象
 		if($(statusFlag).attr("statusFlag") != "instock"){
 			flag = false;
-			alert("只有在库状态的物品才可借用或退还！");
+			window.wxc.alert("只有在库状态的物品才可借用或退还！");
 		}
 		
 		if(flag == false){
@@ -347,19 +347,19 @@ function logActionBorrowSubmit(pkids,actionUser,actionPreDate,actionReason,actio
 				if(data != null ){
 					if(data.success){
 						$("#myModal").hide();
-						alert(data.message);	
+						window.wxc.success(data.message);	
 						 window.location.href = ctx+"/material/materialList";
 						//window.location.reload();
 					}else{
 						$("#myModal").hide();
-						alert(data.message);
+						window.wxc.error(data.message);
 						window.location.href = ctx+"/material/materialList";
 						//window.location.reload();
 					}
 				}	
 			},       
 			error:function(e){
-		    	 alert(e);
+				window.wxc.error(e);
 		   }
 		});
 	}
@@ -401,7 +401,7 @@ function statusBorrowCheck(){
 		//statusFlag.value  js对象
 		if($(statusFlag).attr("statusFlag") != "borrow"){
 			flag = false;
-			alert("只有在外借状态下的物品才可归还！");
+			window.wxc.alert("只有在外借状态下的物品才可归还！");
 		}
 		
 		if(flag == false){
@@ -422,17 +422,17 @@ function logActionReturnSubmit(pkids,actionUser,actionRemark,flag){
 			if(data != null ){
 				if(data.success){
 					$("#Return").hide();
-					alert(data.message);						
+					window.wxc.success(data.message);						
 					window.location.reload();
 				}else{
 					$("#Return").hide();
-					alert(data.message);
+					window.wxc.error(data.message);
 					window.location.reload();
 				}
 			}	
 		},       
 		error:function(e){
-	    	 alert(e);
+			window.wxc.error(e);
 	   }
 	});
 }
@@ -482,18 +482,18 @@ $("#materialDelete").click(function(){
 				//console.log("Result=====" +JSON.stringify(data));
 					if(data != null ){						
 						if(data.success){								
-							alert(data.message);	
+							window.wxc.success(data.message);	
 							reloadGrid();							
 							//window.location.reload();
 						}else{								
-							alert(data.message);
+							window.wxc.error(data.message);
 							reloadGrid();
 							//window.location.reload();
 						}
 					}	
 				},       
 				error:function(e){
-			    	 alert(e);
+					window.wxc.error(e);
 			   }
 			});
 		}		 				
@@ -508,7 +508,7 @@ function statusFlagCheck(){
 		//statusFlag.value  js对象
 		if($(statusFlag).attr("statusFlag") != "stay"){
 			flag = false;
-			alert("待入库状态的物品才可入库或者删除！");
+			window.wxc.alert("待入库状态的物品才可入库或者删除！");
 		}
 		
 		if(flag == false){

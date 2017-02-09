@@ -277,16 +277,16 @@
 						if(b) {
 							caseTaskCheck();
 							if(null!=data.message){
-								alert(data.message);
+								window.wxc.alert(data.message);
 							}
 						} else {
-							alert("保存成功。");
+							window.wxc.success("保存成功。");
 							 window.close();
 							 window.opener.callback();
 						}
 					},
 					error : function(errors) {
-						alert("数据保存出错。");
+						window.wxc.error("数据保存出错。");
 					}
 				});
 			}
@@ -306,13 +306,13 @@
 			//验证控件checkUI();
 			function checkForm() {
 				if($('input[name=loanCloseCode]').val()=='') {
-	                alert("还款时间为必填项!");
+					window.wxc.alert("还款时间为必填项!");
 	                $('input[name=loanCloseCode]').focus();
 	                return false;
 	            }
 				
 				if($('input[name=uncloseMoney]').val()=='') {
-	                alert("上手抵押金额为必填项!");
+					window.wxc.alert("上手抵押金额为必填项!");
 	                $('input[name=uncloseMoney]').focus();
 	                return false;
 	            }
@@ -320,7 +320,7 @@
 			    var closeType = $("#closeType option:selected").val();
 				
 				if(closeType == '') {
-	                alert("还款资金来源为必填项!");
+					window.wxc.alert("还款资金来源为必填项!");
 	                $('#closeType').focus();
 	                return false;
 	            }

@@ -56,6 +56,7 @@
                 var data = {
                     queryId: "queryHourseTransferCaseBaseInfoForDistrict",
                     choiceMonth : choiceMonth,
+                    belongMoth  : getBelongMonth(choiceMonth),
                     oldChoiceMonth:oldChoiceMonth,
                     pagination : false
                 }

@@ -5,7 +5,7 @@
 $(document).ready(function() {
 	var ex_message = $("#ex_message").val();
 	if(ex_message!=""){
-		alert(ex_message);
+		window.wxc.alert(ex_message);
 	}
 	if(!!hasError){
 		$('#error-modal-form').modal("show");
@@ -188,7 +188,7 @@ function checkFileTypeExcel()
     //判断文件类型是否允许上传
     if(AllowExt!=0&&AllowExt.indexOf(FileExt)==-1) {
         ErrMsg="\n该文件类型不允许上传。请上传 "+AllowExt+" 类型的文件，当前文件类型为"+FileExt;
-        alert(ErrMsg);
+        window.wxc.alert(ErrMsg);
         return false;
   	}
 

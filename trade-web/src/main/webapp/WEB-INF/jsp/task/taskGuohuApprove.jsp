@@ -615,7 +615,7 @@
 					}
 				});
 				if(!flag){
-					alert("请至少选择一个处理人！");
+					window.wxc.alert("请至少选择一个处理人！");
 					return false;
 				}
 			}
@@ -667,7 +667,7 @@
 						}
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}

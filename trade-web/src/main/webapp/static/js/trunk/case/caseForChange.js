@@ -195,7 +195,7 @@ $("#leadingProSubmit").click(function(){
 	 var caseCode = $("#caseCodeForChange").val(); // 案件的caseCode
 	 var leadingProId = $("#leadingProId").val();//新的责任人userId	
 	 if(leadingProId == "" || leadingProId ==  null || leadingProId == undefined){
-		 alert("若要变更项目责任人，请先选择新的案件责任人！");
+		 window.wxc.alert("若要变更项目责任人，请先选择新的案件责任人！");
 		 return;
 	 }
 	 
@@ -217,10 +217,10 @@ $("#leadingProSubmit").click(function(){
 				success : function(data) {
 					if(data.success){
 						$("#leadingProForChang").hide();
-						alert("恭喜，责任人变更成功！");
+						window.wxc.success("恭喜，责任人变更成功！");
 						reloadGrid(getParams(1));						
 					}else{
-						alert(data.message);
+						window.wxc.error(data.message);
 					}
 					
 				},
@@ -298,7 +298,7 @@ function changeCooper(caseCode,tdId){
 			}
 		});
 	}else{
-		alert("变更请求参数有误,请核实！");
+		window.wxc.error("变更请求参数有误,请核实！");
 		return;
 	}	
 }
@@ -347,7 +347,7 @@ function cleanForm(){
 $("#cooperSubmit").click(function(){	
 	 
 	 if(!checkProId()){
-		 alert("若要变更项目合作对象，请先选择合作人！");
+		 window.wxc.alert("若要变更项目合作对象，请先选择合作人！");
 		 return;
 	 }
 	 var  data = getParamForCooper();
@@ -382,9 +382,9 @@ $("#cooperSubmit").click(function(){
 						}
 						$tdId.html("合作顾问："+names);					
 						$("#cooperForChang").hide();												
-						alert(data.message);																		
+						window.wxc.success(data.message);																		
 					}else{
-						alert(data.message);
+						window.wxc.error(data.message);
 					}	
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {

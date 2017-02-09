@@ -11,6 +11,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 
 			  webUploader = '';
 			  container = '';
+			  var random = 'hwT6tmrtX45NiDMepFnDw6nnsAzJRKD7';
 			  
 			  init = function(options) {
 				  
@@ -34,7 +35,10 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						pick : 'filePicker',
 						server : appCtx['aist-filesvr-web']+'/webUploader/uploadPicture',
 						available : null,
-						bizCode : null
+						bizCode : null,
+						readonly:false,    //是否只读,true:只读,false:可以添加图片
+						isNestTable:false,   //是否嵌套表格 例子：产调那边上传图片已经在table里边,如果不做限制会影响页面美观
+						tdWidth : 100         //设置表格单元格宽度,该属性一般跟isNestTable共用
 				  },options||{});
 				  
 				  container = settings.fileUploadContainer;
@@ -71,7 +75,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    			success : function(data) {
 		    			},
 		    			error : function(errors) {
-		    				alert("更新状态失败");
+		    				window.wxc.error("更新状态失败");
 		    			}
 		    		});
 			  };
@@ -89,7 +93,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						   var script = ctx+url;
 						   jQuery.getScript(ctx+url).done(function() {
 						   }).fail(function() {
-				                alert("请检查"+ ctx+url +"的路径是否正确!");
+							   window.wxc.alert("请检查"+ ctx+url +"的路径是否正确!");
 				           });
 					   }
 				  }
@@ -128,8 +132,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					webUploader = uploader;
 					
 					//初始化事件
-					initDeleteImgEvent(settings.fileUploadContainer);
-					initImgViewer();
+					initDeleteImgEvent(settings);
+					initImgViewer(settings.maskId);
 					
 					$("#"+settings.fileUploadContainer).on("click",".webuploader-element-invisible", function() {
 						var $this = $(this).parent().parent() ;
@@ -150,7 +154,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					    var $span = $ul.find("."+settings.pick+".checked");
 					    
 					    var $btns = $('<div class="file-panel">' +
-				                '<span class="cancel">删除</span>' +
+				                '<span class="cancel" id="'+ random +'">删除</span>' +
 				                '</div>').appendTo($li);
 					    
 					    //$ul.append($li);
@@ -200,7 +204,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 							$('#'+file.id).attr("id",id);
 							
 						});
-					    initImgViewer();
+					    initImgViewer(settings.maskId);
 					});
 
 					// 文件上传失败，显示上传出错。
@@ -222,7 +226,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					});
 			  };
 			  
-			  initDeleteImgEvent = function (fileUploadContainer) {
+			  initDeleteImgEvent = function (settings) {
+				  	var fileUploadContainer = settings.fileUploadContainer;
 				    var $li = $("#"+fileUploadContainer).find("li");
 				    var $btns = $("#"+fileUploadContainer).find("div.file-panel");
 				    
@@ -241,7 +246,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			            switch (index) {
 			                case 0:
 			                	var $li = $(this).parent().parent();
-			                    removeFile($li);
+			                	removeFile($li,settings.maskId);
 			                    return ;
 
 			                case 1:
@@ -253,6 +258,17 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			        });
 				  
 			  };
+			  
+			  getRandomString = function _getRandomString(len) {  
+				    len = len || 32;  
+				    var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1  
+				    var maxPos = $chars.length;  
+				    var pwd = '';  
+				    for (i = 0; i < len; i++) {  
+				        pwd += $chars.charAt(Math.floor(Math.random() * maxPos));  
+				    }  
+				    return pwd;  
+			  };
 		      
 		      queryAttachments = function(settings) {
 		    	  var ctx = settings.ctx;
@@ -260,6 +276,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    	  var bizCode = settings.bizCode;
 		    	  var partCode = settings.partCode;
 		    	  var available = settings.available;
+		    	  var preFileCode = settings.preFileCode;
 		    	  if(available=='') {
 		    		  available = null;
 		    	  }
@@ -286,10 +303,18 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						},{
 							name : 'available',
 							value : available
+						},{
+							name : 'preFileCode',
+							value : preFileCode
 						}],
 						dataType : "json",
 						success : function(data) {
 						  
+							//如果没有案件编号，就将图片列表置为空
+							if(caseCode == null || caseCode == ""){
+								data.attachmentList = "";
+							}
+							
 							var fileuploadHtml = createTempleteHtml(settings,data);
 							$("#"+settings.fileUploadContainer).empty();
 							$("#"+settings.fileUploadContainer).html(fileuploadHtml);
@@ -301,7 +326,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
             
 						},		
 						error : function(errors) {
-							alert("产调加载失败");
+							window.wxc.error("产调加载失败");
 							return false;
 						}
 					});
@@ -311,17 +336,16 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    	  settings.imgCentanet = appCtx['img-centanet'];
 		    	  var fileuploadHtml ='';
 		          if(typeof(settings.templeteId) == "undefined") {
-		        	  var templeteSource = '<table class="table table-bordered customerinfo">'
-	                  +'<thead>'
-		        	  +'<tr>'
-		        	  +'<th style="width: 100px;">类型</th>'
-		        	  +'<th>附件</th>'
-		        	  +'</tr>' 
-		        	  +'</thead>' 
-		        	  +'<tbody>' 
+		        	  var templeteSource = '<table class="table table-bordered customerinfo">';
+		        	  
+		        	  if(!settings.isNestTable){
+		        		  templeteSource += '<thead><tr><th style="width: 100px;">类型</th><th>附件</th></tr></thead>'
+		        	  }
+		        	  
+		        	  templeteSource += '<tbody>' 
 		        	  +'{{each toAccesoryList as item index}}'
 		        	  +'<tr>' 
-		        	  +'<td>' 
+		        	  +'<td style="width: ' + settings.tdWidth + 'px;">' 
 		        	  +'{{item.accessoryName}}'
 		        	  +'</td>' 
 		        	  +'<td>'
@@ -334,23 +358,20 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			        	  +'</p>'
 			        	  +'<p class="imgWrap">'
 			        	  +'<img src=\"'+appCtx['img-centanet'] +'/salesweb/image/{{item2.preFileAdress}}/80_80_f.jpg\" data=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'+settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight+'\"/>'
-			        	  +'</p>'
-			        	  +'<div class="file-panel" style="height: 0px;">'
-			        	  +'<span class="cancel">'
-			        	  +'删除'
-			        	  +'</span>'
-			        	  +'</div>'
-			        	  +'</li>'
-		        	  +'{{/if}}'
-                      +'{{/each}}'
-		        	  + "<span class='"+ settings.pick +" add-file' id=\"{{item.accessoryCode}}\">"
-		        	  +'</span>'
-		        	  +'</ul>'
-		        	  +'</td>'
-		        	  +'</tr>'
-		        	  +'{{/each}}'
-		        	  +'</tbody>'
-		        	  +'</table>'
+			        	  +'</p>';
+		        	  
+		        	  //如果readonly为false时，可以删除图片操作
+		        	  if(!settings.readonly){
+		        		  templeteSource += '<div class="file-panel" style="height: 0px;"><span class="cancel">删除</span></div>';
+		        	  }
+		        	  
+		        	  templeteSource += '</li>{{/if}}{{/each}}';
+                      
+		        	  if(!settings.readonly){
+		        		  templeteSource += "<span class='"+ settings.pick +" add-file' id=\"{{item.accessoryCode}}\" name=\"{{item.accessoryCode}}\"></span>";
+		        	  }
+                      
+		        	  templeteSource += '</ul></td></tr>{{/each}}</tbody></table>';
 		        		var render = template.compile(templeteSource);
 		        	    fileuploadHtml = render(data);
 		          } else {
@@ -359,15 +380,15 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		          return fileuploadHtml;
 		      };
 		      
-		      removeFile = function(li) {
+		      removeFile = function(li,maskId) {
 		    	  var $li = li;
 		    	  
 		    	  var id = $li.attr("id");
 		    	  //li.off().end().find('.file-panel').off().end().remove();
-		    	  deleteAttachment(id, $li);
+		    	  deleteAttachment(id, $li,maskId);
 		      };
 		      
-		      deleteAttachment = function (preFileAdress,li) {
+		      deleteAttachment = function (preFileAdress,li,maskId) {
 		    	  $.ajax({
 		  			type : 'post',
 		  			cache : false,
@@ -378,8 +399,9 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		  			success : function(data) {
 		  				if(data.success){
 		  					li.off().find('.file-panel').off().end().remove();
+		  					initImgViewer(maskId);
 		  				} else if(!data) {
-		  					alert(data.message);
+		  					window.wxc.error(data.message);
 		  				}
 		  			}
 		  		});
@@ -412,15 +434,19 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    			success : function(data) {
 		    			},
 		    			error : function(errors) {
-		    				alert("附件添加出错。");
+		    				window.wxc.error("附件添加出错。");
 		    			}
 		    		});
 		      };
 		      
-		      initImgViewer = function () {
-		    	  
-		    	  $('#fileUploadContainer').viewer('destroy');
-				  $('#fileUploadContainer').viewer({zIndex:15001,url:"data"});
+		      initImgViewer = function (maskId) {
+				  if(maskId){
+					  $('#'+maskId).viewer('destroy');
+	  				  $('#'+maskId).viewer({zIndex:16001});
+				  }else{
+					  $('.wrapper-content').viewer('destroy');
+					  $('.wrapper-content').viewer({zIndex:15001});
+				  }
 		      };
 		      
 		      isCompletedUpload = function() {

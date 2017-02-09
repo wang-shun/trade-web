@@ -68,7 +68,7 @@ $(function () {
           if (selected) {
               $('.icon').css('background-color');
           }
-          alert(value);
+          window.wxc.alert(value);
       }
     });
 });

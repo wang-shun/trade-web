@@ -229,7 +229,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+
         <content tag="local_script"> 
 			<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 			<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 

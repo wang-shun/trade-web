@@ -174,8 +174,6 @@
                 </div>
             </div>
             <!-- /Main view -->
-        </div>
-        
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
         <content tag="local_script"> 
@@ -354,7 +352,7 @@
 		    				  		$("#awardAmount").html(data.content);
 		    					 }
 		    				  }else{
-		    					  alert(data.message);
+		    					  window.wxc.error(data.message);
 		    				  }
 		    	          }
 		    	     });

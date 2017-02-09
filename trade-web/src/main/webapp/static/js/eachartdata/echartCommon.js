@@ -271,3 +271,21 @@ function accDiv(arg1,arg2){
       return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
   }
 }
+//得到数据快照月份
+function getBelongMonth(choiceMonth){
+	var minBelongMoth = 201701
+	if(!choiceMonth){
+		return minBelongMoth
+	}
+
+	try{
+		var belongMoth = parseInt(replace(choiceMonth,'-',''))
+		if(belongMoth<minBelongMoth){
+			belongMoth =  minBelongMoth
+		}
+		return belongMoth;
+	}catch(e){
+		return minBelongMoth
+	}
+
+}

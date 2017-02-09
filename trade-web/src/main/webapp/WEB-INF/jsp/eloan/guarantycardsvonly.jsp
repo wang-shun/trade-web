@@ -59,6 +59,7 @@
 
                     <div class="ibox-content ibox-space">
                         <form method="get" class="form_list">
+                        	<input type="hidden" id="caseCode" value="${eloanCase.caseCode }"/>
                             <input type="hidden" id="riskControlId" name="riskControlId" value="${toRcMortgageCardVO.toRcMortgageCard.rcId }">
                             <div class="modal_title title-mark">
                                 押卡信息登记
@@ -290,120 +291,8 @@
          <div class="ibox-title" style="height: auto;">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
-					<h5>
-						上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
-					<c:forEach var="accesory" items="${accesoryList}"
-						varStatus="status">
-						<div class="" id="fileupload_div_pic">
-							<form id="fileupload"
-								action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-								method="POST" enctype="multipart/form-data">
-								<noscript>
-									<input type="hidden" name="redirect"
-										value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-									<input type="hidden" id="preFileCode" name="preFileCode"
-										value="${accesory.accessoryCode }">
-								</noscript>
-								<c:if test="${status.index != 0}">
-									<h5 align="left">
-										<br>${accesory.accessoryName }</h5>
-								</c:if>
-								<div class="row-fluid fileupload-buttonbar">
-									<div class="" style="height: auto">
-										<div role="presentation" class="table table-striped "
-											style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-											<div id="picContainer${accesory.pkid }" class="files"
-												data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-											<span class=" fileinput-button "
-												style="margin-left: 10px !important; width: 80px;">
-												<div id="chandiaotuBtn" class=""
-													style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-													<i class="fa fa-plus"></i>
-												</div> <input disabled="disabled" id="picFileupload${accesory.pkid }" type="file"
-												name="files[]" multiple
-												data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-												data-sequential-uploads="true">
-											</span>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-
-						<div class="row-fluid">
-							<div class="">
-								<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-									<!--图片缩图  -->
-							        <div class="preview"><span class="fade"></span></div>
-									<!--  错误信息 -->
-							        {% if (file.error) { %}
-							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else if (o.files.valid && !i) { %}
-									<!-- 单个对应的按钮  -->
-							            <div class="start span1" style="display: none">
-										{% if (!o.options.autoUpload) { %}
-							                <!-- <button class="btn">
-							                    <i class="icon-upload icon-white"></i>
-							                    <span>上传</span>
-							                </button> -->
-							            {% } %}
-										</div>
-							        {% } else { %}
-							            <div class="span1" colspan="2"></div>
-							        {% } %}
-							        <div class="cancel" style="margin-top:-125px;margin-left:85%;">
-									{% if (!i) { %}
-							            <!-- <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-							                <i class="icon-remove"></i>
-							            </button> -->
-							        {% } %}
-									</div>
-							    </div>
-							{% } %}
-						</script>
-								<script id="templateDownload${accesory.pkid }"
-									type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-							        {% if (file.error) { %}
-							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else { %}
-							            <div class="preview span12">
-										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
-										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.id) { %}
-                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
-							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
-                                              {% } else { %}
- 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
-  											  {% } %}
-							            {% } %}</div>
-							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <!-- <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
-							                <i class="icon-remove"></i>
-							            </button> -->
-							        </div>
-							    </div>
-							{% } %}
-						</script>
-							</div>
-						</div>
-					</c:forEach>
-
-					<!-- <div class="row-fluid" style="display: none;">
-						<div class="span4">
-							<div class="control-group">
-								<a class="btn blue start" id="startUpload"
-									style="height: 30px; width: 50px"> <i
-									class="icon-upload icon-white"></i> <span>上传</span>
-								</a>
-							</div>
-						</div>
-					</div> -->
+					<h5>上传备件</h5></br>
+					<div class="table-box" id="fileUploadContainer"></div>
 				</c:when>
 				<c:otherwise>
 					<h5>
@@ -523,15 +412,15 @@
 				 var isModifyPhone=$("input[name='isModifyPhone']:checked").val();
 				  var phoneNumber = $("#phoneNumber").val();
 				 if(cardPerson == ""){
-					 alert("请填写押卡对象！");
+					 window.wxc.alert("请填写押卡对象！");
 					 return false;
 				 }
 				 if(cardTime == ""){
-					 alert("请填写押卡时间！");
+					 window.wxc.alert("请填写押卡时间！");
 					 return false;
 				 }
 				 if(isModifyPhone==1&&phoneNumber== ""){
-					 alert("请填写修改到账后手机号！");
+					 window.wxc.alert("请填写修改到账后手机号！");
 					 return false;
 				 }
 				 if(phoneNumber!=null & phoneNumber!=''){
@@ -582,11 +471,11 @@
              	})
              	
              	if(validataCard) {
-             		alert("请填写正确的身份证号码！");
+             		window.wxc.alert("请填写正确的身份证号码！");
 					return false;
              	}
             	if(validataItemManager) {
-             		alert("请选择保管人！");
+            		window.wxc.alert("请选择保管人！");
 					return false;
              	}
              	
@@ -635,13 +524,13 @@
      					$.unblockUI();
      				},
      				success : function(data) {
-     					alert(data.message);
+     					window.wxc.success(data.message);
      					// 保存附件相关信息
      		     		deleteAndModify();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
-     					alert("数据保存出错");
+     					window.wxc.error("数据保存出错");
      				}
      			}); 
              })
@@ -699,18 +588,18 @@
 			var isValid = true;
 			
 			if(!number.exec(mobile)){					
-				alert("电话号码只能由数字组成！");
+				window.wxc.alert("电话号码只能由数字组成！");
 				isValid = false;
 				return isValid;
 			}
 			if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13)){				
-				alert("电话号码只能由是8位、11位或者13位的数字组成！");
+				window.wxc.alert("电话号码只能由是8位、11位或者13位的数字组成！");
 				isValid = false;
 				return isValid;
 			}
 			
 			if(isUniqueChar(mobile)){
-				alert("电话号码不能为全部相同的数字！");
+				window.wxc.alert("电话号码不能为全部相同的数字！");
 				isValid = false;
 				return isValid;
 			}
@@ -767,6 +656,21 @@
 		}
        </script>
 	</content>
+	
+	<content tag="local_require">
+       <script>
+		    require(['main'], function() {
+				requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
+				    aistFileUpload.init({
+			    		caseCode : $('.form_list #caseCode').val(),
+			    		partCode : "RiskControl_Card",
+			    		fileUploadContainer : "fileUploadContainer",
+			    		readonly : true
+			    	}); 
+			    });
+		    });
+		</script>
+    </content>
 </body>
 
 </html>

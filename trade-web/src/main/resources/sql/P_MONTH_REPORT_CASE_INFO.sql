@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/1/22 14:38:34 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/2/8 10:10:54 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -69,9 +69,12 @@ BEGIN
 	MORTGAGET_TOTAL_AMOUNT,--贷款总额
 	MORTGAGET_COM_AMOUNT,--商业贷款金额
 	MORTGAGET_PRF_AMOUNT,--公积金贷款金额
+	FA_FIN_ORG_CODE,--贷款机构父类
 	MORTGAGET_FIN_ORG_CODE,--贷款机构
 	MORTGAGET_IS_TMP_BANK,--是否是临时银行
+	RUWEI_BANK,--是否是入围银行
 	IS_LOSE,--是否流失
+	LOST_AMOUNT,--贷款流失金额
 	CREATE_TIME,
 	BELONG_MONTH--所属月份
 	)
@@ -107,9 +110,12 @@ SELECT
 	MORTGAGET_TOTAL_AMOUNT,--贷款总额
 	MORTGAGET_COM_AMOUNT,--商业贷款金额
 	MORTGAGET_PRF_AMOUNT,--公积金贷款金额
+	FA_FIN_ORG_CODE,--贷款机构父类
 	MORTGAGET_FIN_ORG_CODE,--贷款机构
 	MORTGAGET_IS_TMP_BANK,--是否是临时银行
+	RUWEI_BANK,--是否是入围银行
 	IS_LOSE,--是否流失
+	LOST_AMOUNT,--贷款流失金额
 	GETDATE(),
 	@belong_month--所属月份
 

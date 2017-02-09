@@ -508,7 +508,7 @@ $('#eloanListCleanButton').click(function() {
 });	
 //eloan编号排序
 function eloanCodeSort() {
-	alert("eloancodesort");
+	window.wxc.alert("eloancodesort");
 	if ($("#eloanCodeSorti").attr("class") == "fa fa-sort-desc fa_down") {
 		$("#eloanCodeSorti").attr("class", 'fa fa-sort-asc fa_up ');
 	} else if ($("#eloanCodeSorti").attr("class") == "fa fa-sort-desc fa_down icon-chevron-down") {
