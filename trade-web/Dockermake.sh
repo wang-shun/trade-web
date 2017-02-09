@@ -7,6 +7,8 @@ branch=`git branch | grep "^\*" | sed -e "s/^\*\ //"`
 sudo docker build -t docker.aist.io/trade-web:$version . \
      --label commit=$commit \
 	 --label branch=$branch \
-	 --label version=$version 
+	 --label version=$version \
+	 --label vendor=AIST \
+	 --label name=trade-web
 sudo docker push docker.aist.io/trade-web:$version
 sudo docker rmi docker.aist.io/trade-web:$version
