@@ -30,7 +30,9 @@ shiroConfig.shiroFilter:
     /weixin/**: weiXinUser
     /tweixin/**: weiXinUser
     /weixinAuth: weixinAuth
-    /**: user
+    /restful/login**: restfulAuth
+    /restful/refreshToken**: restfulAuth
+    /**: customUser
   filters:
     weiXinUser:
       corpId: wx7b47806a86fe27db
