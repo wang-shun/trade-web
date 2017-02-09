@@ -1002,15 +1002,20 @@ public class WorkSpaceController {
 		String orgName = "";
 		String orgId = "";
 		Map<String, String> toCaseOrgNameList = new HashMap<>();
+		//取TOCASE表的前台组的交易顾问的orgid
 		List<ToCase> orgIdList = toCaseService.getOrgId();
 		for (ToCase toCase : orgIdList) {
 			if (null != toCase) {
 				Org org = uamUserOrgService.getOrgById(toCase.getOrgId());
-				Org orgParent = uamUserOrgService.getOrgById(org.getParentId());
-				if (!orgName.equals(orgParent.getOrgName())) {
-					orgName = orgParent.getOrgName();
-					orgId = orgParent.getId();
-					toCaseOrgNameList.put(orgId, orgName);
+				if(null !=org){
+					Org orgParent = uamUserOrgService.getOrgById(org.getParentId()==null?"":org.getParentId());
+					if(null != orgParent){
+						if (!orgName.equals(orgParent.getOrgName())) {
+							orgName = orgParent.getOrgName();
+							orgId = orgParent.getId();
+							toCaseOrgNameList.put(orgId, orgName);
+						}
+					}
 				}
 			}
 		}
@@ -1018,6 +1023,7 @@ public class WorkSpaceController {
 
 		return "workspace/report/headquarter";
 	}
+	
 
 	// 跟进userid查询统计数据
 	private ToCaseInfoCountVo getToCaseInfoCount(String userId) {// 查询统计 接单

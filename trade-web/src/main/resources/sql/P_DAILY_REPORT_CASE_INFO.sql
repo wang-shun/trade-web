@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/1/19 17:48:39 ******/
+/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/2/8 10:06:09 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -40,6 +40,7 @@ BEGIN
 	RECEIVED_USER,--接单人
 	RECEIVED_TEAM_ID,--接单人组别
 	RECEIVED_DISTRICT_ID,--接单人贵宾服务部
+	SIGN_CON_PRICE,--签约合同价
 	SIGN_TIME,--签约时间
 	SIGN_USER,--签约人
 	SIGN_TEAM_ID,--签约人组织
@@ -60,9 +61,12 @@ BEGIN
 	MORTGAGET_TOTAL_AMOUNT,--贷款总额
 	MORTGAGET_COM_AMOUNT,--商业贷款金额
 	MORTGAGET_PRF_AMOUNT,--公积金贷款金额
+	FA_FIN_ORG_CODE,--贷款机构父类
 	MORTGAGET_FIN_ORG_CODE,--贷款机构
 	MORTGAGET_IS_TMP_BANK,--是否是临时银行
+	RUWEI_BANK,--是否是入围银行
 	IS_LOSE,--是否流失
+	LOST_AMOUNT,--贷款流失金额
 	CREATE_TIME
 	)
 SELECT
@@ -76,7 +80,8 @@ SELECT
 		I.REQUIRE_PROCESSOR_ID AS RECEIVED_USER,--接收人
 		(SELECT ts.org_id FROM sctrans.v_user_job_org_main as ts with(nolock) WHERE user_id=I.REQUIRE_PROCESSOR_ID) AS RECEIVED_TEAM_ID,--接单人组别（新增） 
 		(SELECT DISTRICT_ID FROM sctrans.v_yucui_org_hierarchy with(nolock) WHERE TEAM_ID=(SELECT ts.org_id FROM sctrans.v_user_job_org_main as ts with(nolock) WHERE user_id=I.REQUIRE_PROCESSOR_ID)) AS RECEIVED_DISTRICT_ID,--接单人贵宾服务部
-	
+			
+		(SELECT CON_PRICE FROM sctrans.T_TO_SIGN ts with(nolock) WHERE ts.CASE_CODE= C.CASE_CODE ) AS SIGN_CON_PRICE,--签约合同价
 		(SELECT REAL_CON_TIME from  sctrans.T_TO_SIGN ts with(nolock) where ts.CASE_CODE=C.CASE_CODE ) AS SIGN_TIME,--签约时间	
 		(SELECT top(1) ASSIGNEE_ FROM wf as ww WHERE ww.TASK_DEF_KEY_ = 'TransSign' AND ww.CASE_CODE=C.CASE_CODE   ORDER BY  END_TIME_ DESC ) AS SIGN_USER,--签约人
 		(SELECT top (1) ORG_ID  FROM sctrans.SYS_USER with(nolock)  WHERE USERNAME = (SELECT top (1) ASSIGNEE_  FROM wf as ww  WHERE ww.TASK_DEF_KEY_ = 'TransSign' AND ww.CASE_CODE=C.CASE_CODE ORDER BY    END_TIME_ DESC )) as SIGN_TEAM_ID,--签约人组织	
@@ -96,22 +101,31 @@ SELECT
 		
 		MG.SIGN_DATE as MORTAGE_SIGN_DATE,--贷款签约时间
 		MG.MORT_TYPE AS MORTGAGE_LOAN_TYPE,--贷款类型
-	
 		MG.MORT_TOTAL_AMOUNT AS MORTGAGET_TOTAL_AMOUNT,--贷款总额
-		MG.COM_AMOUNT AS MORTGAGET_COM_AMOUNT,--商业贷款金额
-		MG.PRF_AMOUNT AS MORTGAGET_PRF_AMOUNT,--公积金贷款金额
+	
+		MG.COM_AMOUNT as MORTGAGET_COM_AMOUNT,--商业款金额
+		MG.PRF_AMOUNT MORTGAGET_PRF_AMOUNT,--公积金贷款金额		
+		
+		(select top(1) FA_FIN_ORG_CODE from sctrans.T_TS_FIN_ORG where FIN_ORG_CODE=ISNULL(MG.LAST_LOAN_BANK,MG.FIN_ORG_CODE)) as FA_FIN_ORG_CODE,--贷款机构父类
 		ISNULL(MG.LAST_LOAN_BANK,MG.FIN_ORG_CODE) AS MORTGAGET_FIN_ORG_CODE,--贷款机构
 		MG.IS_TMP_BANK AS MORTGAGET_IS_TMP_BANK,--是否是临时银行
+		(select top(1) s.TAGS from sctrans.T_TS_SUP s where s.FIN_ORG_CODE = ISNULL(MG.LAST_LOAN_BANK,MG.FIN_ORG_CODE)) AS RUWEI_BANK,--是否是入围银行	
 		case 
 			when CA.LOAN_REQ=1 and MG.IS_DELEGATE_YUCUI=1 and (MG.MORT_TYPE='30016001' or MG.MORT_TYPE ='30016002' ) THEN  '0'--没流失
 			when CA.LOAN_REQ=1 and  MG.IS_DELEGATE_YUCUI=0 and (MG.MORT_TYPE='30016001' or MG.MORT_TYPE ='30016002' ) THEN  '1'--流失	
 		end   IS_LOSE,--是否流失
+
+		case 
+			when CA.LOAN_REQ=1 and MG.IS_DELEGATE_YUCUI=1 and (MG.MORT_TYPE='30016001' or MG.MORT_TYPE ='30016002' ) THEN  0 --没流失
+			when CA.LOAN_REQ=1 and  MG.IS_DELEGATE_YUCUI=0 and (MG.MORT_TYPE='30016001' or MG.MORT_TYPE ='30016002' ) THEN  MG.COM_AMOUNT--流失	
+		end LOST_AMOUNT,--贷款流失金额
+
 		GETDATE() as CREATE_TIME
 
 		FROM      
 		(select distinct case_code from SCTRANS.T_TO_CASE with(nolock)) C 
 		INNER join SCTRANS.T_TO_CASE CA with(nolock) on c.CASE_CODE=CA.CASE_CODE
-		LEFT JOIN sctrans.T_TO_MORTGAGE MG with(nolock) ON  MG.CASE_CODE=C.CASE_CODE AND MG.IS_ACTIVE=1 AND MG.LAST_LOAN_BANK is not null
+		LEFT JOIN sctrans.T_TO_MORTGAGE MG with(nolock) ON  MG.CASE_CODE=C.CASE_CODE AND MG.IS_ACTIVE=1 AND (MG.LAST_LOAN_BANK is not null and MG.LAST_LOAN_BANK<>'')
 		LEFT JOIN SCTRANS.T_TO_CASE_INFO I with(nolock) 			ON C.CASE_CODE = I.CASE_CODE
 		LEFT JOIN sctrans.T_TO_HOUSE_TRANSFER TH with(nolock)       ON TH.CASE_CODE=C.CASE_CODE
 		where 1=1

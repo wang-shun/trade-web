@@ -3,7 +3,7 @@
   <process id="TempBankAudit_Process" name="TempBankAudit_Process" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="ManagerAduit" name="主管审批" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'Manager')}" activiti:formKey="/mortgage/tmpBankAudit/process?post=manager"></userTask>
-    <userTask id="SuperManagerAudit" name="高级主管审批" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'SeniorManager')}" activiti:formKey="/mortgage/tmpBankAudit/process?post=seniorManager"></userTask>
+    <userTask id="SuperManagerAudit" name="高级主管审批" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'Senior_Manager')}" activiti:formKey="/mortgage/tmpBankAudit/process?post=seniorManager"></userTask>
     <userTask id="DirectorAudit" name="总监审批" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'director')}" activiti:formKey="/mortgage/tmpBankAudit/process?post=director"></userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="ManagerAduit"></sequenceFlow>
@@ -15,7 +15,7 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{commonUserService.findAnyAssigneeByCaseOwner(execution,'DirectorAudit','director') && isSeniorManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="exclusivegateway1" targetRef="SuperManagerAudit">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{commonUserService.findAnyAssigneeByCaseOwner(execution,'SuperManagerAudit','SeniorManager') && isManagerApprove == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[#{commonUserService.findAnyAssigneeByCaseOwner(execution,'SuperManagerAudit','Senior_Manager') && isManagerApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow10" sourceRef="exclusivegateway1" targetRef="DirectorAudit">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isManagerApprove == true && (SeniorManager == null || SeniorManager == Manager)}]]></conditionExpression>

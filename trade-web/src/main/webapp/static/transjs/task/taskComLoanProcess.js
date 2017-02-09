@@ -352,6 +352,13 @@ function completeMortgage(form){
 		alert("贷款信息不存在！");
 		return;
 	}
+	
+	var finOrgCode = form.find("input[name='finOrgCode']").val()
+	if(finOrgCode == null || finOrgCode == ""){
+		alert("请先选择贷款银行和支行！");
+		return;
+	}
+	
 	if(lastBankSub.val() == undefined){
 		alert("最终贷款银行未确认！");
 		return;
