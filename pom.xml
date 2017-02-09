@@ -18,7 +18,7 @@
 	</modules>
 	
 	<scm>
-	<developerConnection>git@git.centaline.com:trade-group/trade-web.git</developerConnection>
+		<developerConnection>scm:git:git@git.centaline.com:trade-group/trade-web.git</developerConnection>
 	</scm>
     <repositories>
         <repository>
@@ -117,6 +117,22 @@
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.4</version>
+				<configuration>
+				   <shortRevisionLength>8</shortRevisionLength>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					 </execution>
+				</executions>
+			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -129,7 +145,8 @@
                             <!--<addClasspath>true</addClasspath>-->
                         </manifest>
                         <manifestEntries>
-                            <commit>${svn.revision}</commit>    
+                            <commit>${buildNumber}</commit>
+							<branch>${scmBranch}</branch>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -142,7 +159,8 @@
                     <warName>${project.artifactId}</warName>
                     <archive>    
                         <manifestEntries>    
-                            <commit>${svn.revision}</commit>    
+                            <commit>${buildNumber}</commit>
+							<branch>${scmBranch}</branch>
                         </manifestEntries>    
                     </archive>  
                 </configuration>
@@ -177,24 +195,6 @@
                     </execution>
                 </executions>
             </plugin>
-			<!-- plugin>
-				<groupId>external.atlassian.jgitflow</groupId>
-				<artifactId>jgitflow-maven-plugin</artifactId>
-				<configuration>
-					<pushFeatures>true</pushFeatures>
-					<pushHotfixes>true</pushHotfixes>
-					<pushReleases>true</pushReleases>
-					<enableSshAgent>true</enableSshAgent>
-					<flowInitContext>
-						<masterBranchName>master</masterBranchName>
-						<developBranchName>develop</developBranchName>
-						<featureBranchPrefix>feature/</featureBranchPrefix>
-						<releaseBranchPrefix>release/</releaseBranchPrefix>
-						<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-						<versionTagPrefix>v</versionTagPrefix>
-					</flowInitContext>
-				</configuration>
-			</plugin -->
             <!-- 单元测试 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -912,36 +912,12 @@
             <artifactId>janino</artifactId>
             <version>2.5.10</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>javax.jms</groupId>
-            <artifactId>javax.jms-api</artifactId>
-            <version>2.0</version>
-        </dependency> -->
-        <!-- memcached begin -->
-        <!--<dependency>
-            <groupId>net.spy</groupId>
-            <artifactId>spymemcached</artifactId>
-            <version>2.11.6</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode</groupId>
-            <artifactId>hibernate-memcached</artifactId>
-            <version>1.5-20130720.072142</version>
-        </dependency>-->
-        <dependency>
-            <groupId>com.googlecode.xmemcached</groupId>
-            <artifactId>xmemcached</artifactId>
-            <version>2.0.0</version>
-        </dependency>
-        <!-- memcached end -->
         <!-- redis -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
             <version>1.7.5.RELEASE</version>
         </dependency>
-
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
@@ -1023,7 +999,6 @@
 
         <cxf.version>3.0.3</cxf.version>
         <poi.version>3.11</poi.version>
-        <com.ibm.mq.version>7.5.0.2</com.ibm.mq.version>
         <aist.version>1.5.8-SNAPSHOT</aist.version>
         <!-- ` 服务器配置 Begin -->
         <sonar.jdbc.url>jdbc:mysql://10.4.19.211:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true</sonar.jdbc.url>
