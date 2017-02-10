@@ -408,7 +408,7 @@
 										txt = "<div class='form_content line34'><label class='control-label sign_left_small'> 合作项目 </label>";
 										txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/><span class='' placeholder='' value=''>" + data.dic.name + "</span></div>"
 										txt += "<div class='form_content'><label class='control-label sign_left_small'><font color='red' class='mr5' >*</font>合作顾问 </label>";
-										txt += "<select class='select_control mendwidth' name='unCrossCooperationUser' id='cooperationUser" + index + "'>";
+										txt += "<select class='select_control mendwidth' name='unCrossCooperationUser' id='cooperationUser" + index + "' onchange='resetColor();'>";
 										txt += "<option value='0'>----未选择----</option>";
 										
 										$.each(data.users, function(j, user){
@@ -681,6 +681,7 @@
 					function checkForm() {
 						var optionsRadios = $('input[name=caseProperty]:checked').val();
 						var params = {};
+						$("input,select").css("border-color","#e5e6e7");
 						
 						if(optionsRadios == "30003003"){
 							if ($('input[name=realPrice]').val() == '') {
@@ -688,53 +689,64 @@
 								window.wxc.alert("成交价为必填项!");
 								
 								$('input[name=realPrice]').focus();
+								$('input[name=realPrice]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('input[name=conPrice]').val() == '') {
 								window.wxc.alert("合同价为必填项!");
 								$('input[name=conPrice]').focus();
+								$('input[name=conPrice]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('input[name=square]').val() == '') {
 								window.wxc.alert("产证面积为必填项!");
 								$('input[name=square]').focus();
+								$('input[name=square]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('input[name=propertyAddr]').val() == '') {
 								window.wxc.alert("产证地址为必填项!");
 								$('input[name=propertyAddr]').focus();
+								$('input[name=propertyAddr]').css("border-color","red");
 								return false;
 							}
 							
 							
 							if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
 								window.wxc.alert("合作顾问未选择");
+								$('#cooperationUser0').focus();
+								$('#cooperationUser0').css("border-color","red");
 								return false;
 							}
 							// 如果选择了跨区合作并且人员为空
 							if ($("#cooperationUser0").val() == -1 && $("#consult0").val() == 0) {
 								window.wxc.alert("跨区合作顾问未选择");
+								$('#cooperationUser0').focus();
+								$('#cooperationUser0').css("border-color","red");
 								return false;
 							}
 							
 							if ($('select[name=chaxiangou]').val() == '') {
 								window.wxc.alert("查限购为必选项!");
 								$('select[name=chaxiangou]').focus();
+								$('select[name=chaxiangou]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('select[name=diya]').val() == '') {
 								window.wxc.alert("抵押情况为必选项!");
 								$('select[name=diya]').focus();
+								$('select[name=diya]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('input[name=realConTime]').val() == '') {
 								window.wxc.alert("预计签约日期为必填项!");
 								$('input[name=realConTime]').focus();
+								$('input[name=realConTime]').css("border-color","red");
 								return false;
 							}
 			
@@ -745,6 +757,7 @@
 								if ($('#distCode').val() == "") {
 									window.wxc.alert("所在区域为必选项!");
 									$('#distCode').focus();
+									$('#distCode').css("border-color","red");
 									return false;
 								}
 								
@@ -753,7 +766,8 @@
 								 var cooperationUser = $('select[name="unCrossCooperationUser"] option:selected').val();
 								 if(cooperationUser == "0"){
 									 window.wxc.alert("合作顾问为必选项!");
-									 $('select[name="unCrossCooperationUser"]').focus();
+									 $('.chosen-single').focus();
+									 $('.chosen-single').css("border-color","red");
 									 return false;
 								 }
 								 else if(cooperationUser == "-1"){
@@ -788,6 +802,8 @@
 							
 							if(!flag){
 								 window.wxc.alert("跨区合作顾问未选择!"); 
+								 $('#cooperationUser0').focus();
+								 $('#cooperationUser0').css("border-color","red");
 								 return false;
 							}
 							
@@ -797,6 +813,7 @@
 								if(content == ""){
 									window.wxc.alert("请填写预警内容！");
 									$('input[name=content]').focus();
+									$('input[name=content]').css("border-color","red");
 									return false;
 								}
 							}
@@ -807,12 +824,22 @@
 							if(invalid_reason == ""){
 								window.wxc.alert("无效案件必须填写失效原因!");
 								$('input[name=invalid_reason]').focus();
+								$('input[name=invalid_reason]').css("border-color","red");
 								return;
 							}
 						}
 						
 						return true;
 					}
+					
+					$("input[type='text'],select").focus(function(){
+						$(this).css("border-color","rgb(229, 230, 231)");
+					});
+					
+					function resetColor(){
+						$(".chosen-single").css("border-color","#CBD5DD");
+					}
+					
 				</script> 
 			</content>
 	</body>

@@ -446,6 +446,15 @@
 		//验证控件checkUI();
 		function checkForm() {
 			
+				if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[name="unCrossPartner"]').size()==0){
+					 window.wxc.alert("正在加载合作项目!");
+					 return false;
+				}
+				if($('#mortageService').val()!='0'&& $('#estPartTime').val()==''){
+					window.wxc.alert('请选择预计放款时间');
+					return false;
+				}
+				
 				var flag = false;
 				$('select[name="unCrossPartner"] option:selected').each(function(i,item){
 					if(item.value == "0"){
@@ -463,14 +472,7 @@
 						});						
 					}
 				});
-				if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[name="unCrossPartner"]').size()==0){
-					 window.wxc.alert("正在加载合作项目!");
-					 return false;
-				}
-				if($('#mortageService').val()!='0'&& $('#estPartTime').val()==''){
-					window.wxc.alert('请选择预计放款时间');
-					return false;
-				}
+				
 				if(flag)return false;
 				
 			return true;

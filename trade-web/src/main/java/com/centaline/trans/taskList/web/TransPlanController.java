@@ -66,6 +66,7 @@ public class TransPlanController {
 	public Boolean saveTransPlan(HttpServletRequest request,
 			TransPlanVO transPlanVO) {
 		transplanServiceFacade.saveToTransPlan(transPlanVO);
+
 		return true;
 	}
 
