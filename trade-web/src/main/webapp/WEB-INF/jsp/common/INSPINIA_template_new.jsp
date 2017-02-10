@@ -151,8 +151,9 @@
 	        <sitemesh:body></sitemesh:body>
 	        
             <div class="copyrightstyle">
-            	Copyright ©2017 AIST All rights reserved. Version : <%=com.centaline.trans.workspace.web.TradeApplication.getPackageVersion()%>
+            	Copyright ©2017 AIST All rights reserved. Version : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("Implementation-Version")%> commit : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("commit")%> branch : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("branch")%> 
             </div>    
+            
         </div>
     </div>
 
