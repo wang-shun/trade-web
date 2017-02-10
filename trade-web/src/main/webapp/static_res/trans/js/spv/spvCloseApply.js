@@ -97,15 +97,15 @@ function submitBtnClick(handle,continueApply,result){
 	success : function(data) {   
 		if(data.success){
 			if(!handle){
-				alert("流程开启成功！");
+				window.wxc.alert("流程开启成功！");
 				window.location.href = ctx+"/spv/spvList";
 			}else{
-				alert("任务提交成功！");
+				window.wxc.alert("任务提交成功！");
 				window.opener.location.reload(); //刷新父窗口
 	        	window.close(); //关闭子窗口.
 			}
 		}else{
-			alert("数据保存出错:\n"+data.message);
+			window.wxc.error("数据保存出错:\n"+data.message);
 			rescCallback();
 		}
 		}
@@ -116,13 +116,13 @@ function submitBtnClick(handle,continueApply,result){
 function validateForm(){
 	var $closeType = $("input[name='toSpvCloseApply.closeType']:checked");
 	if($.trim($closeType.val()) == ''){
-		alert("请选择申请状态！");
+		window.wxc.alert("请选择申请状态！");
 		return false;
 	}
 	
 	var $comment = $("textarea[name='toSpvCloseApply.comment']");
 	if($.trim($comment.val()) == ''){
-		alert("请填写原因！");
+		window.wxc.alert("请填写原因！");
 		changeClass($comment);
 		return false;
 	}
@@ -130,7 +130,7 @@ function validateForm(){
 	if(handle == 'hostAudit' || handle == 'directorAudit'){
 		var $content = $("textarea[name='toSpvCloseApplyAuditList[0].content']");
 		if($.trim($content.val()) == ''){
-			alert("请填写审核意见！");
+			window.wxc.alert("请填写审核意见！");
 			changeClass($cotent);
 			return false;
 		}
@@ -202,7 +202,7 @@ $.ajax({
 	data:{spvCode:spvCode},   		        				        		      
 	success : function(data) {	
 		if(!data.success){
-			alert(data.message);
+			window.wxc.alert(data.message);
 			res = false;
 		}
 		}

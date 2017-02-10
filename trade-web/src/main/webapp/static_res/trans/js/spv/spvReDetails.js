@@ -145,7 +145,7 @@ function checkReceiptNo(){
 		});
 	
 	 if(!payerNameFlag){
-    	alert("请填写有效的付款人姓名！");
+		 window.wxc.alert("请填写有效的付款人姓名！");
 	    changeClass(payerNameEle);
 		return false;
 	 }
@@ -160,7 +160,7 @@ function checkReceiptNo(){
 		}
 	});
 	 if(!payerAccFlag){
-    	alert("请填写有效的付款人银行卡号！");
+		 window.wxc.alert("请填写有效的付款人银行卡号！");
 	    changeClass(payerAccEle);
 		return false;
 	 }
@@ -174,7 +174,7 @@ function checkReceiptNo(){
 		}
 	});
 	 if(!payerBankFlag){
-	    	alert("请填写有效的付款人银行名称！");
+		 	window.wxc.alert("请填写有效的付款人银行名称！");
 		    changeClass(payerAccEle);
 			return false;
 		 }
@@ -190,7 +190,7 @@ function checkReceiptNo(){
 		}
 	});
 	if(!payerAmountFlag){
-	    	alert("请填写有效的金额！");
+			window.wxc.alert("请填写有效的金额！");
 		    changeClass(payerAmountEle);
 			return false;
 	}
@@ -205,26 +205,26 @@ function checkReceiptNo(){
 		}
 	});
 	 if(!receiptNoFlag){
-	    	alert("请填写有效的贷记凭证编号！");
+		 	window.wxc.alert("请填写有效的贷记凭证编号！");
 		    changeClass(receiptNoEle);
 			return false;
 		 }
 	 
 	 var reg = /^[0-9]*$/;
 		if(receiptNoArray.length<0){
-			alert("贷记凭证编号不能为空！");
+			window.wxc.alert("贷记凭证编号不能为空！");
 			return  false;	
 		}
 			
 		for(var i=0; i<receiptNoArray.length; i++){	
 			if($.trim(receiptNoArray[i].value).length<1){
-				alert("贷记凭证编号不能为空！");
+				window.wxc.alert("贷记凭证编号不能为空！");
 				return  false;
 			}
 			for(var j=i+1; j<receiptNoArray.length ;j++){
 					if(receiptNoArray[i].value == receiptNoArray[j].value){
 						theSameFlag=false;
-						alert("贷记凭证编号不能重复！");
+						window.wxc.alert("贷记凭证编号不能重复！");
 					}
 					if(theSameFlag==false){
 						//break;
@@ -261,7 +261,7 @@ function checkReceiptNo(){
 		}
 	});
 	if(!voucherNoFlag){
-    	alert("请选择有效的付款方式！");
+		window.wxc.alert("请选择有效的付款方式！");
 	    changeClass(voucherNoEle);
 		return false;
 	 }
@@ -276,7 +276,7 @@ function checkReceiptNo(){
     });
     
     if(!imgFlag){
-    	alert("需要上传至少一张附件！");
+    	window.wxc.alert("需要上传至少一张附件！");
     	return false;
     }
 	
@@ -290,7 +290,7 @@ function checkReceiptNo(){
 		}
 	});
 	if(!cashFlowCreateTimeFlag){
-		alert("请选择有效的入账时间！");
+		window.wxc.alert("请选择有效的入账时间！");
 		changeClass(cashFlowCreateTimeEle);
 		return false;
 	}
@@ -309,7 +309,7 @@ function checkBankNoAndPayerAmount(){
 	 $.each(bankNoArray,function(i, item) {
 			if (item.value != '') {				
 				if(!regForBankNo.test(item.value.trim())){
-					alert("银行卡号只能由数字组成！");
+					window.wxc.alert("银行卡号只能由数字组成！");
 					flag = false;
 					return flag;
 				}				
@@ -323,7 +323,7 @@ function checkBankNoAndPayerAmount(){
 			if (item.value != '') {
 				//if(!reg.exec(item.value.trim())){
 				if(!regForPayerAmount.test(item.value.trim())){
-					alert("入职金额只能由数字和小数点组成！");
+					window.wxc.alert("入职金额只能由数字和小数点组成！");
 					flag = false;
 					return flag;
 				}				
@@ -337,7 +337,7 @@ function checkBankNoAndPayerAmount(){
 function checkSumbitHtml(){
 	
 	if(imageSumb <0 || imageSum != imageSumb){			//附件
-		alert("请先上传图片成功后再提交");
+		window.wxc.alert("请先上传图片成功后再提交");
 		return false;
 	}
 	if(!checkReceiptNo()){				//验证凭证编号不能重复和只能为数字
@@ -372,10 +372,10 @@ function sumbitRe(){
          },
 		success : function(data) {
 			if(data.success){
-				alert("流程开启成功！");
+				window.wxc.success("流程开启成功！");
 				window.location.href = ctx+"/spv/spvList";
 			}else{
-				alert("流程开启失败！"+data.message); 
+				window.wxc.error("流程开启失败！"+data.message); 
 			}
 		},complete: function() { 
 		},

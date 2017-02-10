@@ -50,7 +50,8 @@
 	<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 	<!-- 必须CSS -->
 	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
- 	 
+ 	<!--弹出框样式  -->
+	<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
 
 </head>
 
@@ -255,6 +256,8 @@
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+<!-- 引入弹出框js文件 -->
+<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 
 <script type="text/javascript">
 $(function(){

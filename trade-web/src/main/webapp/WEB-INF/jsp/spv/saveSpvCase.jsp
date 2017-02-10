@@ -60,6 +60,8 @@
 <link href="${ctx}/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
+<!--弹出框样式  -->
+<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
 <!-- stickUp fixed css -->
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -887,7 +889,9 @@
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>
-	    <script src="${ctx}/js/viewer/viewer.min.js"></script>	
+	<!-- 引入弹出框js文件 -->
+    <script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>	
 
 		<script id="queryCastListItemList2" type= "text/html">
         {{each rows as item index}}

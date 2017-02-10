@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
+    <!--弹出框样式  -->
+	<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
     <style>
 	.borderClass {border:1px solid red!important;resize: none;}
 	.borderClass:focus {border:1px solid red!important;resize: none;}
@@ -558,6 +560,8 @@
     <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
     <script src="${ctx}/js/viewer/viewer.min.js"></script>
+    <!-- 引入弹出框js文件 -->
+    <script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 <script>
 var sum = parseInt($("#sum").val());
 var attSum_ = parseInt($("#attSum_").val());

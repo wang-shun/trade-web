@@ -1147,13 +1147,7 @@ public class SpvController {
      */
     private void setExMsgForResp(AjaxResponse<?> response,Exception e) {
     	response.setSuccess(false);
-    	StringBuffer sOut = new StringBuffer();
-    	sOut.append(e.getMessage() + "\r\n");
-        StackTraceElement[] trace = e.getStackTrace();
-        for (StackTraceElement s : trace) {
-            sOut.append("\tat " + s + "\r\n");
-        }
-		response.setMessage(sOut.toString());
+		response.setMessage(e.getMessage());
 		e.printStackTrace();
 	}
     
