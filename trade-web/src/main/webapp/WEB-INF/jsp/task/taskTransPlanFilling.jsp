@@ -186,6 +186,7 @@
 					if(!checkForm()) {
 						return;
 					}
+					
 					var jsonData = $("#transPlanForm").serializeArray();
 					
 					var url = "${ctx}/task/transPlan/saveTransPlan";

@@ -45,10 +45,14 @@
 	}
 	
 	window.wxc.error = function(message,params){
+		var params = [];
+		params.isAutoHide = false;
 		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.error);
 	}
 	
 	window.wxc.success = function(message,params){
+		var params = [];
+		params.isAutoHide = false;
 		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.success);
 	}
 	
