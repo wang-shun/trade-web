@@ -61,22 +61,22 @@
 		var eventType = window.wxc.xcConfirm.eventEnum;
 		var popType = {
 			info: {
-				title: "",
+				title: "信息",
 				icon: "0 0",//蓝色i
 				btn: btnType.ok
 			},
 			success: {
-				title: "",
+				title: "成功",
 				icon: "0 -48px",//绿色对勾
 				btn: btnType.ok
 			},
 			error: {
-				title: "",
+				title: "错误",
 				icon: "-48px -48px",//红色叉
 				btn: btnType.ok
 			},
 			confirm: {
-				title: "",
+				title: "警告",
 				icon: "-48px 0",//黄色问号
 				btn: btnType.okcancel
 			},
