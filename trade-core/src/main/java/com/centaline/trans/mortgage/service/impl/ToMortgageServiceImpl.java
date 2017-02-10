@@ -453,17 +453,11 @@ public class ToMortgageServiceImpl implements ToMortgageService {
             } else if (director == null) {
                 response.setMessage("开启临时银行审批流程失败:找不到案件所属组织上级组织的总监！");
             } else {
-                StringBuffer sOut = new StringBuffer();
-                sOut.append(e.getMessage() + "\r\n");
-                StackTraceElement[] trace = e.getStackTrace();
-                for (StackTraceElement s : trace) {
-                    sOut.append("\tat " + s + "\r\n");
-                }
-                response.setMessage("开启临时银行审批流程报错，请联系管理员！\r\n" + sOut);
+                response.setMessage("开启临时银行审批流程报错，请联系管理员！");
             }
 
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
         return response;
     }
