@@ -62,8 +62,8 @@ public class QuickQueryGetLastContentServiceImpl implements CustomDictService{
 		//转换操作人员
 		converters.put("ASSESSOR", new Converter<String,Object>(){//ASSESSOR 具体展示内容
 			//new Converter<String,Object>(){} 查询结果集，具体转化操作
-			public Object convert(Object value, java.util.Map<String,Object> data) {
-				Object operator = data.get("OPERATOR");
+			public Object convert(Object value, Map<String,Object> from,Map<String,Object> to) {
+				Object operator = from.get("OPERATOR");
 				if(operator==null){
 					return null;
 				}
@@ -74,9 +74,9 @@ public class QuickQueryGetLastContentServiceImpl implements CustomDictService{
 		});
 		//转换审批不通过内容
 		converters.put("LAST_CONTENT", new Converter<String,Object>(){
-			public Object convert(Object value, java.util.Map<String,Object> data) {
-				String notApprove = data.get("NOT_APPROVE")==null?"":data.get("NOT_APPROVE").toString();
-				String content = data.get("CONTENT")==null?"":data.get("CONTENT").toString();	
+			public Object convert(Object value, Map<String,Object> from,Map<String,Object> to) {
+				String notApprove = from.get("NOT_APPROVE")==null?"":from.get("NOT_APPROVE").toString();
+				String content = from.get("CONTENT")==null?"":from.get("CONTENT").toString();	
 				
 				StringBuilder lastContent = new StringBuilder();
 				if(!"".equals(notApprove)){
