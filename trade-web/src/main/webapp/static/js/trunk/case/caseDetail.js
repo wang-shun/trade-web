@@ -394,7 +394,6 @@ function chgLoanReqment(){
 		success : function(data) {
 			if(data.success){
 				window.wxc.success("变更成功");
-				location.reload();
 			}else{
 				window.wxc.error(data.message);
 			}

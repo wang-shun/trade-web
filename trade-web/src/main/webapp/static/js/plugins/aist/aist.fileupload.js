@@ -452,6 +452,19 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      isCompletedUpload = function() {
 		    	  var $container = $( '#'+container);
 			      var $error = $container.find('div.error');
+			      
+		    	  if (!$error.length) {
+				     return true;
+				  } else {
+					 return false;
+				  }
+		      };
+		      
+		      isCompletedUploadById = function(options) {
+		    	  var container = options.container;
+		    	  var $container = $( '#'+container);
+			      var $error = $container.find('div.error');
+			      
 		    	  if (!$error.length) {
 				     return true;
 				  } else {
@@ -461,7 +474,8 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      
 		      return  {
 		    	  init : init,
-		    	  isCompletedUpload : isCompletedUpload
+		    	  isCompletedUpload : isCompletedUpload,
+		    	  isCompletedUploadById : isCompletedUploadById
 		      }
 		  
 });

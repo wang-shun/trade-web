@@ -188,6 +188,7 @@
 					<div class="panel-body">
 						<div class="ibox-content-head lh24">
 							<h5>案件基本信息</h5>
+							<input type="hidden" name="flag" id="flag" value="caseDetail"/>							
 							<p class="star-position" id="subscribe">
 
 								<c:if test="${isSubscribe}">
@@ -1249,7 +1250,7 @@
  	    	var str = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
 	    	return str;
     	  }
- 	      
+ 	     
  	      $("#btnSave").click(function(){
  	    	  var content = $("#bizwarnForm-modal-form input[name=content]").val();
  	    	  var caseCode = $("#bizwarnForm-modal-form input[name=caseCode]").val();
@@ -1526,7 +1527,10 @@
                                   });
             });
         });
-
+            
+            
+            
+    
 	</script>
 </content>
 

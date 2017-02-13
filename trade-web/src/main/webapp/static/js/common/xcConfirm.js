@@ -163,8 +163,17 @@
 		}
 
 		function bind(){
-			//点击确认按钮
-			$ok.click(doOk);
+			var flag = $("#flag").val();
+			
+			if(flag == "caseDetail"){
+				$ok.click(refresh);
+			}
+			else {
+				//点击确认按钮
+				$ok.click(doOk);
+			}
+			
+			
 
 			//回车键触发确认按钮事件
 			$(window).bind("keydown", function(e){
@@ -181,10 +190,14 @@
 			//点击关闭按钮
 			$clsBtn.click(doClose);
 		}
+		
+		//点击确认按钮刷新页面
+		function refresh(){
+			location.reload();
+		}
 
 		//确认按钮事件
 		function doOk(){
-			console.log("222222");
 			var $o = $(this);
 			var v = $.trim($input.val());
 			if ($input.is(":visible"))
