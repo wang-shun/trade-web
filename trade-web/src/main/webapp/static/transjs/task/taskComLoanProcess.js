@@ -1,3 +1,4 @@
+
 var popInited=false;
 function checkAssess(){
 	
@@ -62,6 +63,7 @@ function checkMortgageForm(formId){
 		formId.find("input[name='comAmount']").css("border-color","red");
 		return false;
 	}else if(formId.find("input[name='comDiscount']").val() == ""){
+		window.wxc.alert('商贷利率折扣为必填项');
 		formId.find("input[name='comDiscount']").css("border-color","red");
 		return false;
 	}else if(formId.find("input[name='comDiscount']").val()<0.5||formId.find("input[name='comDiscount']").val()>1.5){
@@ -1207,7 +1209,7 @@ function submitMortgage(){
 		dataType:"json",
 		data:{caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),processInstanceId:$("#processInstanceId").val(),isMainLoanBank:$("#isMainLoanBank").val()},
 		success:function(data){
-			window.wxc.alert(data.message);
+			//window.wxc.alert(data.message);
 			if(data.success){
 				//window.location.href=ctx+"/task/myTaskList?"+new Date().getTime();
 				caseTaskCheck();
@@ -1387,11 +1389,24 @@ $(document).ready(function () {
 				window.wxc.alert("贷款材料确认书未上传!");
 				return false;
 			}
+ 			
+ 			var option = [];
+ 			option.container = "comLoanProcessfileUploadContainer";
+ 			
+ 			//验证上传文件是否全部上传
+			var isCompletedUpload = fileUpload.isCompletedUploadById(option);
+			
+			if(!isCompletedUpload){
+				window.wxc.alert("附件还未全部上传!");
+				return false;
+			}
+ 			
  			if ($("#rec_letter_first_pic_list li").length == undefined
 					|| $("#rec_letter_first_pic_list li").length == 0 ) {
 				window.wxc.alert("推荐函未上传!");
 				return false;
 			}
+ 			
  			return true;
  		}
 
@@ -1469,6 +1484,18 @@ transitionEffect: "slide",
 			window.wxc.alert("贷款材料确认书未上传!");
 			return false;
 		}
+			
+			var option = [];
+ 			option.container = "comLoanProcess1fileUploadContainer";
+ 			
+			//验证上传文件是否全部上传
+			var isCompletedUpload = fileUpload.isCompletedUploadById(option);
+			
+			if(!isCompletedUpload){
+				window.wxc.alert("附件还未全部上传!");
+				return false;
+			}
+			
 			if ($("#rec_letter_sec_pic_list li").length == undefined
 				|| $("#rec_letter_sec_pic_list li").length == 0 ) {
 			window.wxc.alert("推荐函未上传!");

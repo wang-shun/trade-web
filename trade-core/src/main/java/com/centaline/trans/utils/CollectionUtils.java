@@ -54,7 +54,7 @@ public class CollectionUtils {
 	
 	
 	public static interface Converter<K,V>{
-		public V convert(V value,Map<K,V> data);
+		public V convert(V value,Map<K,V> from,Map<K,V> to);
 	}
 	
 	/** 根据联合列的值比较，当列的值都相等时，将Map<K,V> from中的数据合并到Map<K,V> to.
@@ -78,7 +78,7 @@ public class CollectionUtils {
 		for(K key:mergeKeys){
 			V value = from.get(key);
 			if(converters!=null && converters.containsKey(key)){
-				value = converters.get(key).convert(value,from);
+				value = converters.get(key).convert(value,from,to);
 			}
 			to.put(key,value);
 			
@@ -201,13 +201,13 @@ public class CollectionUtils {
 		//值转换类
 		Map<String,Converter<String,String>> converters  = new HashMap<String,Converter<String,String>>();
 		converters.put("CASE_CODE",new Converter<String,String>(){
-			public String convert(String value,Map<String,String> data){
+			public String convert(String value,Map<String,String> from,Map<String,String> to){
 				return "案件编号："+value;
 			}
 		});
 		converters.put("JOB_NAME",new Converter<String,String>(){
-			public String convert(String value,Map<String,String> data){
-				return "名字被改写了:"+data.hashCode();
+			public String convert(String value,Map<String,String> from,Map<String,String> to){
+				return "名字被改写了:"+from.hashCode();
 			}
 		});
 		

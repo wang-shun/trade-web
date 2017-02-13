@@ -1867,22 +1867,30 @@ function checkInt(obj){
  </content>
  <content tag="local_require">
     <script>
+    	var fileUpload;
+    
 	    require(['main'], function() {
 			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-			    aistFileUpload.init({
+				fileUpload = aistFileUpload; 
+				
+				aistFileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "ComLoanProcess",
 		    		preFileCode : "_letter_first",
 		    		fileUploadContainer : "comLoanProcessfileUploadContainer"
-		    	}); 
-			    aistFileUpload.init({
-		    		caseCode : $('#caseCode').val(),
-		    		partCode : "ComLoanProcess",
-		    		preFileCode : "_letter_sec",
-		    		fileUploadContainer : "comLoanProcess1fileUploadContainer"
-		    	}); 
+		    	});
+				
+				aistFileUpload.init({
+			    		caseCode : $('#caseCode').val(),
+			    		partCode : "ComLoanProcess",
+			    		preFileCode : "_letter_sec",
+			    		fileUploadContainer : "comLoanProcess1fileUploadContainer"
+			    	});
+			    
 		    });
 	    });
+	    
+	    
 	</script>
 	</content>
 </body>

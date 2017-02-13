@@ -67,12 +67,22 @@ public class QuickQueryGetSellerAndBuyerAndProcessorInfoServiceImpl implements
 
 		List<Map<String, Object>> tradeConsultantMapList = jdbcTemplate
 				.queryForList(sql, paramMap);
+		
+		//根据caseCode集合获取红灯锁记录
+		sql= "SELECT COUNT(RED_LOCK) AS RED_COUNT, CASE_CODE FROM sctrans.T_TO_TRANS_PLAN WHERE RED_LOCK='1' AND CASE_CODE IN (:caseCodeList) GROUP BY CASE_CODE";
+		// 设置条件参数
+		paramMap = new HashMap<String, Object>();
+		paramMap.put("caseCodeList", caseCodeList);
+		List<Map<String, Object>> redLockMapList = jdbcTemplate
+				.queryForList(sql, paramMap);
 
+		
 		// 如果上家和下家信息都查不到,直接返回
 		if ((sellerMapList == null || sellerMapList.size() == 0)
 				&& (buyerMapList == null || buyerMapList.size() == 0)
-				&& (tradeConsultantMapList == null || tradeConsultantMapList
-						.size() == 0)) {
+				&& (tradeConsultantMapList == null || tradeConsultantMapList.size() == 0)
+				&& org.springframework.util.CollectionUtils.isEmpty(redLockMapList)
+				) {
 			return keys;
 		}
 
@@ -121,6 +131,17 @@ public class QuickQueryGetSellerAndBuyerAndProcessorInfoServiceImpl implements
 					}
 				}
 			}
+			
+			if(!org.springframework.util.CollectionUtils.isEmpty(redLockMapList)){
+				for(Map<String, Object> map:redLockMapList){
+					if(caseCode.equals(map.get("CASE_CODE"))){
+						keyer.put("RED_COUNT", map.get("RED_COUNT"));
+						break;
+					}
+					
+				}
+			}
+			
 		}
 
 		return keys;

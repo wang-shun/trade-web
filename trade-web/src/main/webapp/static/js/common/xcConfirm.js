@@ -25,7 +25,7 @@
 	
 	
 	window.wxc.info = function(message,params,typeEnum){
-		window.wxc.xcConfirm(message,typeEnum);
+		window.wxc.xcConfirm(message,typeEnum,params);
 		var settings = params?params:{};
 		
 		var isAutoHide = (settings.isAutoHide==undefined)?true:settings.isAutoHide;
@@ -56,45 +56,51 @@
 		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.success);
 	}
 	
+	window.wxc.confirm = function(message,settings){
+		var params = settings?settings:{};
+		params.isAutoHide = false;
+		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.confirm);
+	}
+	
 	window.wxc.xcConfirm = function(popHtml, type, options) {
 	    var btnType = window.wxc.xcConfirm.btnEnum;
 		var eventType = window.wxc.xcConfirm.eventEnum;
 		var popType = {
-			info: {
-				title: "",
-				icon: "0 0",//蓝色i
-				btn: btnType.ok
-			},
-			success: {
-				title: "",
-				icon: "0 -48px",//绿色对勾
-				btn: btnType.ok
-			},
-			error: {
-				title: "",
-				icon: "-48px -48px",//红色叉
-				btn: btnType.ok
-			},
-			confirm: {
-				title: "",
-				icon: "-48px 0",//黄色问号
-				btn: btnType.okcancel
-			},
-			warning: {
-				title: "警告",
-				icon: "0 -96px",//黄色叹号
-				btn: btnType.okcancel
-			},
-			input: {
-				title: "输入",
-				icon: "",
-				btn: btnType.ok
-			},
-			custom: {
-				title: "",
-				icon: "",
-				btn: btnType.ok
-			}
+				info: {
+					title: "信息",
+					icon: "0 0",//蓝色i
+					btn: btnType.ok
+				},
+				success: {
+					title: "成功",
+					icon: "0 -28px",//绿色对勾
+					btn: btnType.ok
+				},
+				error: {
+					title: "错误",
+					icon: "-28px -28px",//红色叉
+					btn: btnType.ok
+				},
+				confirm: {
+					title: "提示",
+					icon: "-28px 0",//黄色问号
+					btn: btnType.okcancel
+				},
+				warning: {
+					title: "警告",
+					icon: "0 -56px",//黄色叹号
+					btn: btnType.okcancel
+				},
+				input: {
+					title: "输入",
+					icon: "",
+					btn: btnType.ok
+				},
+				custom: {
+					title: "",
+					icon: "",
+					btn: btnType.ok
+				}
 		};
 		var itype = type ? type instanceof Object ? type : popType[type] || {} : {};//格式化输入的参数:弹窗类型
 		var config = $.extend(true, {
@@ -107,7 +113,6 @@
 			onCancel: $.noop,//点击取消的按钮回调
 			onClose: $.noop//弹窗关闭的回调,返回触发事件
 		}, itype, options);
-
 		var $txt = $("<p>").html(popHtml);//弹窗文本dom
 		var $tt = $("<span>").addClass("tt").text(config.title);//标题
 		var icon = config.icon;
@@ -163,8 +168,17 @@
 		}
 
 		function bind(){
-			//点击确认按钮
-			$ok.click(doOk);
+			var flag = $("#flag").val();
+			
+			if(flag == "caseDetail"){
+				$ok.click(refresh);
+			}
+			else {
+				//点击确认按钮
+				$ok.click(doOk);
+			}
+			
+			
 
 			//回车键触发确认按钮事件
 			$(window).bind("keydown", function(e){
@@ -181,6 +195,11 @@
 			//点击关闭按钮
 			$clsBtn.click(doClose);
 		}
+		
+		//点击确认按钮刷新页面
+		function refresh(){
+			location.reload();
+		}
 
 		//确认按钮事件
 		function doOk(){
@@ -190,11 +209,17 @@
 		        config.onOk(v);
 		    else
 		        config.onOk();
+
+			$("#" + popId).parent().attr("clickBtn","ok");
 			$("#" + popId).remove();
 			config.onClose(eventType.ok);
 			
 			//点击确认按钮之后让文本框置为可编辑状态
 			$("input[type='text']").attr("readonly",false);
+			
+			if($.isFunction(config.wxcOk)){
+				config.wxcOk();
+			}
 		}
 
 		//取消按钮事件
