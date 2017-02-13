@@ -260,8 +260,8 @@
 				if(!checkForm()) {
 					return;
 				}
-					
-				if(confirm("请确认银行是否已真实放款")){
+
+				window.wxc.confirm("请确认银行是否已真实放款",{"wxcOk":function(){
 					var jsonData = $("#loanReleaseForm").serializeArray();
 					deleteAndModify();
 					
@@ -314,7 +314,8 @@
 							window.wxc.error("数据保存出错");
 						}
 					});
-			}		
+				}});
+						
 
 		}
 		

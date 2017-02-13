@@ -25,7 +25,7 @@
 	
 	
 	window.wxc.info = function(message,params,typeEnum){
-		window.wxc.xcConfirm(message,typeEnum);
+		window.wxc.xcConfirm(message,typeEnum,params);
 		var settings = params?params:{};
 		
 		var isAutoHide = (settings.isAutoHide==undefined)?true:settings.isAutoHide;
@@ -54,6 +54,12 @@
 		var params = [];
 		params.isAutoHide = false;
 		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.success);
+	}
+	
+	window.wxc.confirm = function(message,settings){
+		var params = settings?settings:{};
+		params.isAutoHide = false;
+		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.confirm);
 	}
 	
 	window.wxc.xcConfirm = function(popHtml, type, options) {
@@ -107,7 +113,6 @@
 			onCancel: $.noop,//点击取消的按钮回调
 			onClose: $.noop//弹窗关闭的回调,返回触发事件
 		}, itype, options);
-
 		var $txt = $("<p>").html(popHtml);//弹窗文本dom
 		var $tt = $("<span>").addClass("tt").text(config.title);//标题
 		var icon = config.icon;
@@ -204,11 +209,17 @@
 		        config.onOk(v);
 		    else
 		        config.onOk();
+
+			$("#" + popId).parent().attr("clickBtn","ok");
 			$("#" + popId).remove();
 			config.onClose(eventType.ok);
 			
 			//点击确认按钮之后让文本框置为可编辑状态
 			$("input[type='text']").attr("readonly",false);
+			
+			if($.isFunction(config.wxcOk)){
+				config.wxcOk();
+			}
 		}
 
 		//取消按钮事件
