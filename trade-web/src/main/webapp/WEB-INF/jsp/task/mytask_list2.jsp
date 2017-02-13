@@ -86,6 +86,7 @@ text-decoration: underline !important;
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/case/glCaseDiv.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="userId" value="${userId}" />

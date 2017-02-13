@@ -288,12 +288,17 @@ function searchMethod(page){
 
 function reloadGrid(data) {
 	$.ajax({
-		async: false,
+		async: true,
         url:ctx+ "/quickGrid/findPage" ,
         method: "post",
         dataType: "json",
         data: data,
+        beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
         success: function(data){
+          $.unblockUI();
       	  data.lamp1 = lamp1;
       	  data.lamp2 = lamp2;
       	  data.lamp3 = lamp3;
