@@ -60,41 +60,41 @@
 	    var btnType = window.wxc.xcConfirm.btnEnum;
 		var eventType = window.wxc.xcConfirm.eventEnum;
 		var popType = {
-			info: {
-				title: "信息",
-				icon: "0 0",//蓝色i
-				btn: btnType.ok
-			},
-			success: {
-				title: "成功",
-				icon: "0 -48px",//绿色对勾
-				btn: btnType.ok
-			},
-			error: {
-				title: "错误",
-				icon: "-48px -48px",//红色叉
-				btn: btnType.ok
-			},
-			confirm: {
-				title: "警告",
-				icon: "-48px 0",//黄色问号
-				btn: btnType.okcancel
-			},
-			warning: {
-				title: "警告",
-				icon: "0 -96px",//黄色叹号
-				btn: btnType.okcancel
-			},
-			input: {
-				title: "输入",
-				icon: "",
-				btn: btnType.ok
-			},
-			custom: {
-				title: "",
-				icon: "",
-				btn: btnType.ok
-			}
+				info: {
+					title: "信息",
+					icon: "0 0",//蓝色i
+					btn: btnType.ok
+				},
+				success: {
+					title: "成功",
+					icon: "0 -28px",//绿色对勾
+					btn: btnType.ok
+				},
+				error: {
+					title: "错误",
+					icon: "-28px -28px",//红色叉
+					btn: btnType.ok
+				},
+				confirm: {
+					title: "提示",
+					icon: "-28px 0",//黄色问号
+					btn: btnType.okcancel
+				},
+				warning: {
+					title: "警告",
+					icon: "0 -56px",//黄色叹号
+					btn: btnType.okcancel
+				},
+				input: {
+					title: "输入",
+					icon: "",
+					btn: btnType.ok
+				},
+				custom: {
+					title: "",
+					icon: "",
+					btn: btnType.ok
+				}
 		};
 		var itype = type ? type instanceof Object ? type : popType[type] || {} : {};//格式化输入的参数:弹窗类型
 		var config = $.extend(true, {
@@ -184,6 +184,7 @@
 
 		//确认按钮事件
 		function doOk(){
+			console.log("222222");
 			var $o = $(this);
 			var v = $.trim($input.val());
 			if ($input.is(":visible"))
