@@ -62,6 +62,7 @@ function checkMortgageForm(formId){
 		formId.find("input[name='comAmount']").css("border-color","red");
 		return false;
 	}else if(formId.find("input[name='comDiscount']").val() == ""){
+		window.wxc.alert('商贷利率折扣为必填项');
 		formId.find("input[name='comDiscount']").css("border-color","red");
 		return false;
 	}else if(formId.find("input[name='comDiscount']").val()<0.5||formId.find("input[name='comDiscount']").val()>1.5){
