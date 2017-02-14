@@ -70,14 +70,14 @@ $(function () {
      		},	 
 			success : function(data) {   
 					if(data.success){
-						alert(data.message);
+						window.wxc.success(data.message);
 						window.location.href = ctx+"/signroom/signingManage";
 					}else{
-						alert(data.message);
+						window.wxc.error(data.message);
 					}
 				},		
 			error : function(errors) {
-					alert("数据保存出错:"+JSON.stringify(errors));
+					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
 				}	 
       });
    });
@@ -122,29 +122,29 @@ $(function () {
 
 function checkFormSave(){
 	if($("select[name='rmSignRoom.centerId']").val()==''){
-		alert("请选择签约中心！");
+		window.wxc.alert("请选择签约中心！");
 		$("select[name='rmSignRoom.centerId']").focus();
 		return false;
 	}
 	var roomNo = $.trim($("input[name='rmSignRoom.roomNo']").val());
 	if(roomNo==''){
-		alert("请输入房间编号！");
+		window.wxc.alert("请输入房间编号！");
 		$("input[name='rmSignRoom.roomNo']").focus();
 		return false;
 	}
 	if(isChineseChar(roomNo)){
-		alert("请输入正确的房间编号");
+		window.wxc.alert("请输入正确的房间编号");
 		$("input[name='rmSignRoom.roomNo']").focus();
 		return false;
 	}
 	
 	var numbeOfAccommodatePeople = $("input[name='rmSignRoom.numbeOfAccommodatePeople']").val();
 	if($.trim(numbeOfAccommodatePeople)==''){
-		alert("请输入可容纳人数！");
+		window.wxc.alert("请输入可容纳人数！");
 		$("input[name='rmSignRoom.numbeOfAccommodatePeople']").focus();
 		return false;
 	}else if(!checkZhengShu($.trim(numbeOfAccommodatePeople))){
-		alert("请输入正确的可容纳人数！");
+		window.wxc.alert("请输入正确的可容纳人数！");
 		$("input[name='rmSignRoom.numbeOfAccommodatePeople']").focus();
 		return false;
 	}
@@ -152,7 +152,7 @@ function checkFormSave(){
 	var remark = $.trim($("textarea[name='rmSignRoom.remark']").val());
 	if(remark != ''){
 		if(remark.length<2 || remark.length>20){
-			alert("请输入2~20个字备注！");
+			window.wxc.alert("请输入2~20个字备注！");
 			$("textarea[name='rmSignRoom.remark']").focus();
 			return false;
 		}
@@ -165,7 +165,7 @@ function checkFormSave(){
         }
     });
 	if(!flag){
-		alert("请选择开放策略！");
+		window.wxc.alert("请选择开放策略！");
 		return false;
 	}
 	return true;
@@ -275,7 +275,7 @@ function ajaxSubmit() {
 				
 			   $("#schedualable tbody").append(th);
 		    }else{
-		    	alert(data.message);
+		    	window.wxc.error(data.message);
 		    }
 			$.unblockUI();
 		},
@@ -327,8 +327,7 @@ function updateSignRoom(centerId,roomNo,numbeOfAccommodatePeople,roomType,remark
 }
 
 function deleteSignRoom(pkid,stragegyPkid){
-	
-	if(confirm("是否确定解除？")){
+	window.wxc.confirm("是否确定解除？",{"wxcOk":function(){
 		$.ajax({
 	   		url:ctx+"/signroom/deleteSignRoom",
 	   		method:"post",
@@ -339,18 +338,17 @@ function deleteSignRoom(pkid,stragegyPkid){
 	   		},	 
 				success : function(data) {   
 						if(data.success){
-							alert(data.message);
+							window.wxc.success(data.message);
 							window.location.href = ctx+"/signroom/signingManage";
 						}else{
-							alert(data.message);
+							window.wxc.error(data.message);
 						}
 					},		
 				error : function(errors) {
-						alert("数据保存出错:"+JSON.stringify(errors));
+					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
 					}	 
 	    });
-	}
-	
+	}});
 }
 
 

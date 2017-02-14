@@ -37,21 +37,21 @@
 		}
 	}
 	
-	window.wxc.alert = function(message,params){
-		var params = [];
+	window.wxc.alert = function(message,settings){
+		var params = settings?settings:{};
 		params.isAutoHide = false;
 		$("input[type='text']").attr("readonly",true);   //解决弹出提示弹出框后仍可以在文本框中输入的问题
 		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.info);
 	}
 	
-	window.wxc.error = function(message,params){
-		var params = [];
+	window.wxc.error = function(message,settings){
+		var params = settings?settings:{};
 		params.isAutoHide = false;
 		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.error);
 	}
 	
-	window.wxc.success = function(message,params){
-		var params = [];
+	window.wxc.success = function(message,settings){
+		var params = settings?settings:{};
 		params.isAutoHide = false;
 		window.wxc.info(message,params,window.wxc.xcConfirm.typeEnum.success);
 	}
@@ -168,9 +168,7 @@
 		}
 
 		function bind(){
-			var flag = $("#flag").val();
-			
-			if(flag == "caseDetail"){
+			if(config.isFresh){
 				$ok.click(refresh);
 			}
 			else {
@@ -178,8 +176,6 @@
 				$ok.click(doOk);
 			}
 			
-			
-
 			//回车键触发确认按钮事件
 			$(window).bind("keydown", function(e){
 				if(e.keyCode == 13) {

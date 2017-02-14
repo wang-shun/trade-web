@@ -315,8 +315,20 @@ function reloadGrid(data) {
 }
 /** * 确认  */
 function merge(pkId,type){
-	if(type == "1"){if(!confirm("确定合流案件吗,合流后案件流程信息会被删除，请谨慎操作！")){ return false; }}
-	if(type == "0"){if(!confirm("确定驳回合流案件吗！")){ return false; }}
+	if(type == "1"){
+		window.wxc.confirm("确定合流案件吗,合流后案件流程信息会被删除，请谨慎操作！",{"wxcOk":function(){
+			mergeAndReject(); 
+		}});
+	}
+	
+	if(type == "0"){
+		window.wxc.confirm("确定驳回合流案件吗！",{"wxcOk":function(){
+			mergeAndReject(); 
+		}});
+	}
+}
+
+function mergeAndReject(){
 	var data = {};
 	data.id = pkId;
 	data.type = type;
@@ -337,6 +349,7 @@ function merge(pkId,type){
 		error : function(errors) { }
 	});
 }
+
 /* 分页 **/
 function initpagef(totalCount,pageSize,currentPage,records)
 {

@@ -122,8 +122,8 @@ function knowledgeSubmit(knowledgePkid,ctx){
  * 取消按钮事件
  */
 function closeFancybox() {
-	if (confirm("确定要取消吗?")) {
+	window.wxc.confirm("确定要取消吗?",{"wxcOk":function(){
 		//返回父窗口
 		parent.$.fancybox.close();
-	}
+	}});
 }

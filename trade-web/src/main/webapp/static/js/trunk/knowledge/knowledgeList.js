@@ -159,7 +159,7 @@ function knowledgeUpdate(ctx,rowid){
  * @param knowledgeCode 知识编码
  */
 function knowledgeDelete(ctx,rowid,knowledgeCode){
-	if(confirm("确定要删除吗？")){
+	window.wxc.confirm("确定要删除吗？",{"wxcOk":function(){
 		$.ajax({
 			cache:false,
 			async:false,
@@ -174,14 +174,14 @@ function knowledgeDelete(ctx,rowid,knowledgeCode){
 					value:knowledgeCode
 			}],
 			success:function(data){
-				alert(data.message);
+				window.wxc.success(data.message);
 				jQuery("#table_knowledge_list").trigger("reloadGrid");//刷新列表
 			},
 			error:function(data){
-				alert(data.message);
+				window.wxc.error(data.message);
 			}
 		});
-	}
+	}});
 }
 /**
  * 置顶/取消置顶
@@ -190,8 +190,8 @@ function knowledgeDelete(ctx,rowid,knowledgeCode){
  * @param num
  */
 function knowledgeTop(ctx,rowid,num){
-	if(num == 0 ){		
-		if(confirm("确定要取消置顶吗？")){
+	if(num == 0 ){	
+		window.wxc.confirm("确定要取消置顶吗？",{"wxcOk":function(){
 			$.ajax({
 				cache:false,
 				async:false,
@@ -207,17 +207,17 @@ function knowledgeTop(ctx,rowid,num){
 				}],
 				success:function(data){
 					if(data.ajaxResponse.success){
-						alert(data.ajaxResponse.message);
+						window.wxc.success(data.ajaxResponse.message);
 					}
 					jQuery("#table_knowledge_list").trigger("reloadGrid");//刷新列表
 				},
 				error:function(data){
-					alert("操作失败,请刷新后重试!");
+					window.wxc.error("操作失败,请刷新后重试!");
 				}
 			});
-		}
+		}});
 	}else{
-		if(confirm("确定要置顶吗？")){
+		window.wxc.confirm("确定要置顶吗？",{"wxcOk":function(){
 			$.ajax({
 				cache:false,
 				async:false,
@@ -233,18 +233,16 @@ function knowledgeTop(ctx,rowid,num){
 				}],
 				success:function(data){
 					if(data.ajaxResponse.success){
-						alert(data.ajaxResponse.message);
+						window.wxc.success(data.ajaxResponse.message);
 					}
 					jQuery("#table_knowledge_list").trigger("reloadGrid");//刷新列表
 				},
 				error:function(data){
-					alert("操作失败,请刷新后重试!");
+					window.wxc.error("操作失败,请刷新后重试!");
 				}
 			});
-		}	
-		
+		}});	
 	}
-		
 }
 /**
  * 推荐/取消推荐
@@ -254,7 +252,7 @@ function knowledgeTop(ctx,rowid,num){
  */
 function knowledgeRecom(ctx,rowid,num){
 	if(num == 0 ){		
-		if(confirm("确定要取消推荐吗？")){
+		window.wxc.confirm("确定要取消推荐吗？",{"wxcOk":function(){
 			$.ajax({
 				cache:false,
 				async:false,
@@ -270,17 +268,17 @@ function knowledgeRecom(ctx,rowid,num){
 				}],
 				success:function(data){
 					if(data.ajaxResponse.success){
-						alert(data.ajaxResponse.message);
+						window.wxc.success(data.ajaxResponse.message);
 					}
 					jQuery("#table_knowledge_list").trigger("reloadGrid");//刷新列表
 				},
 				error:function(data){
-					alert("操作失败,请刷新后重试!");
+					window.wxc.error("操作失败,请刷新后重试!");
 				}
 			});
-		}
+		}});
 	}else{
-		if(confirm("确定要推荐吗？")){
+		window.wxc.confirm("确定要推荐吗？",{"wxcOk":function(){
 			$.ajax({
 				cache:false,
 				async:false,
@@ -296,18 +294,16 @@ function knowledgeRecom(ctx,rowid,num){
 				}],
 				success:function(data){
 					if(data.ajaxResponse.success){
-						alert(data.ajaxResponse.message);
+						window.wxc.success(data.ajaxResponse.message);
 					}
 					jQuery("#table_knowledge_list").trigger("reloadGrid");//刷新列表
 				},
 				error:function(data){
-					alert("操作失败,请刷新后重试!");
+					window.wxc.error("操作失败,请刷新后重试!");
 				}
 			});
-		}	
-		
+		}});	
 	}
-	
 }
 
 

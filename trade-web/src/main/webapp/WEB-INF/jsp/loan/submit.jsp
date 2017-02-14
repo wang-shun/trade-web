@@ -334,28 +334,26 @@
 				$("#alertOper").trigger('click');
 			}
 			function deleteLoan(pkid) {
-				if(!confirm("是否确定删除？")){
-					return false;	
-				}
-				
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
-				$.ajax({
-					cache:false,
-					async:true,
-					type:"POST",
-					url:ctx+"/loan/doDelete",
-					dataType:'json',
-					data:{pkid:pkid},
-					success:function(data){
-						if(data.result==1){
-							window.wxc.success('删除成功');
-							caseList.trigger("reloadGrid");//刷新列表
-						}else{
-							window.wxc.error('删除失败');
+				window.wxc.confirm("是否确定删除？",{"wxcOk":function(){
+					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+					$.ajax({
+						cache:false,
+						async:true,
+						type:"POST",
+						url:ctx+"/loan/doDelete",
+						dataType:'json',
+						data:{pkid:pkid},
+						success:function(data){
+							if(data.result==1){
+								window.wxc.success('删除成功');
+								caseList.trigger("reloadGrid");//刷新列表
+							}else{
+								window.wxc.error('删除失败');
+							}
+							$.unblockUI();
 						}
-						$.unblockUI();
-					}
-				});
+					});	
+				}});
 			}
 		</script> </content>
 </body>

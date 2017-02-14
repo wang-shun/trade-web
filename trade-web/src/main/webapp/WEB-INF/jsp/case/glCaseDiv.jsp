@@ -170,47 +170,49 @@ function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,selle
 /* 调用关联案件方法  **/
 function merge(){
 	if(undefined == $('input[name="mergePkid"]:checked').val()){window.wxc.alert("请选择一条案件！");return;}
-    if(!confirm("确定申请合流案件吗！")){ return false; }
-    var inputType = $("#divCaseName").val();
-    var mergePkid;
-    var pkId;
-    if("CTM" == inputType){
-    	mergePkid = $("#pkId").val();
-        pkId = $('input[name="mergePkid"]:checked').val();
-    }
-    if("INPUT" == inputType){
-    	mergePkid = $('input[name="mergePkid"]:checked').val();
-        pkId = $("#pkId").val();
-    }
-	var data = {};
-	data.mergePkid= mergePkid;
-	data.pkId= pkId;
-	data.inputType= inputType;
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url:ctx+ "/caseMerge/mergeCase",
-		dataType : "json",
-		data : data,
-		beforeSend:function(){ },
-		success : function(data) {
-			if(data.success){ 
-				if(distriType && undefined != urlType && '' != urlType){
-					window.wxc.success("合流申请成功！"); 
-					$("#myModalsa").modal("hide");
-					caseDistributeType();
-					window.location.reload();
-				}else{
-					window.wxc.success("合流申请成功！"); 
-					$("#myModalsa").modal("hide");
-					window.location.reload();
-				}
-			}else{ window.wxc.error("合流申请失败！"+data.message);  }
-		},complete: function() {  },
-		error : function(errors) {
-		}
-	});
+	
+	window.wxc.confirm("确定申请合流案件吗！",{"wxcOk":function(){
+    	var inputType = $("#divCaseName").val();
+   	    var mergePkid;
+   	    var pkId;
+   	    if("CTM" == inputType){
+   	    	mergePkid = $("#pkId").val();
+   	        pkId = $('input[name="mergePkid"]:checked').val();
+   	    }
+   	    if("INPUT" == inputType){
+   	    	mergePkid = $('input[name="mergePkid"]:checked').val();
+   	        pkId = $("#pkId").val();
+   	    }
+   		var data = {};
+   		data.mergePkid= mergePkid;
+   		data.pkId= pkId;
+   		data.inputType= inputType;
+   		$.ajax({
+   			cache : false,
+   			async : false,//false同步，true异步
+   			type : "POST",
+   			url:ctx+ "/caseMerge/mergeCase",
+   			dataType : "json",
+   			data : data,
+   			beforeSend:function(){ },
+   			success : function(data) {
+   				if(data.success){ 
+   					if(distriType && undefined != urlType && '' != urlType){
+   						window.wxc.success("合流申请成功！"); 
+   						$("#myModalsa").modal("hide");
+   						caseDistributeType();
+   						window.location.reload();
+   					}else{
+   						window.wxc.success("合流申请成功！"); 
+   						$("#myModalsa").modal("hide");
+   						window.location.reload();
+   					}
+   				}else{ window.wxc.error("合流申请失败！"+data.message);  }
+   			},complete: function() {  },
+   			error : function(errors) {
+   			}
+   		});
+    }});
 }
 /* 调用拆分案件方法  **/
 function qfMerge(){
@@ -230,41 +232,42 @@ function qfMerge(){
 		if(type){} else{window.wxc.alert("对不起你没有拆分这个案件的权限！");return true;}
 	}else{ window.wxc.alert("对不起你没有拆分这个案件的权限！");return true; }
 	
-    if(!confirm("确定拆分合流案件吗！")){ return false; }
-    var inputType = $("#divCaseName").val();
-    var mergePkid;
-    var pkId;
-    mergePkid = $('input[name="mergePkid"]:checked').val();
-    pkId = $("#pkId").val();
-	var data = {};
-	data.mergePkid= mergePkid;
-	data.pkId= pkId;
-	data.inputType= inputType;
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url:ctx+ "/caseMerge/qfMergeCase",
-		dataType : "json",
-		data : data,
-		beforeSend:function(){ },
-		success : function(data) {
-			if(data.success){ 
-				if(distriType && undefined != urlType && '' != urlType){
-					window.wxc.success("拆分成功！"); 
-					$("#myModalsa").modal("hide");
-					caseDistributeType();
-					window.location.reload();
-				}else{
-					window.wxc.success("拆分成功！"); 
-					$("#myModalsa").modal("hide");
-					window.location.reload();
-				}
-			}else{ window.wxc.error("拆分失败！"+data.message);  }
-		},complete: function() {  },
-		error : function(errors) {
-		}
-	});
+	window.wxc.confirm("确定拆分合流案件吗？",{"wxcOk":function(){
+    	var inputType = $("#divCaseName").val();
+        var mergePkid;
+        var pkId;
+        mergePkid = $('input[name="mergePkid"]:checked').val();
+        pkId = $("#pkId").val();
+    	var data = {};
+    	data.mergePkid= mergePkid;
+    	data.pkId= pkId;
+    	data.inputType= inputType;
+    	$.ajax({
+    		cache : false,
+    		async : false,//false同步，true异步
+    		type : "POST",
+    		url:ctx+ "/caseMerge/qfMergeCase",
+    		dataType : "json",
+    		data : data,
+    		beforeSend:function(){ },
+    		success : function(data) {
+    			if(data.success){ 
+    				if(distriType && undefined != urlType && '' != urlType){
+    					window.wxc.success("拆分成功！"); 
+    					$("#myModalsa").modal("hide");
+    					caseDistributeType();
+    					window.location.reload();
+    				}else{
+    					window.wxc.success("拆分成功！"); 
+    					$("#myModalsa").modal("hide");
+    					window.location.reload();
+    				}
+    			}else{ window.wxc.error("拆分失败！"+data.message);  }
+    		},complete: function() {  },
+    		error : function(errors) {
+    		}
+    	});
+    }});
 }
 /* 取消关联案件页面  **/
 function closef(){ 

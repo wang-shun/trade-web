@@ -293,26 +293,24 @@
 
 						//删除
 						function deleteSpv(pkid){
-							var deleteItem= confirm("确定要删除这条数据吗？")
-							if(!deleteItem){
-							return
-							}
-							$.ajax({
-							 url:ctx+"/spv/deleteSpv",
-							 method:"post",
-							 dataType:"json",
-							 data:{pkid:pkid},
-							 success:function(data){
-								 if(data.ajaxResponse.success==true){
-									 window.wxc.success(data.ajaxResponse.message);
-								 }else{
-									 window.wxc.error("删除出错！");
-								 } 
-								 initData();
-							 }
-									
-						})
 							
+							window.wxc.confirm("确定要删除这条数据吗？",{"wxcOk":function(){
+								$.ajax({
+									 url:ctx+"/spv/deleteSpv",
+									 method:"post",
+									 dataType:"json",
+									 data:{pkid:pkid},
+									 success:function(data){
+										 if(data.ajaxResponse.success==true){
+											 window.wxc.success(data.ajaxResponse.message);
+										 }else{
+											 window.wxc.error("删除出错！");
+										 } 
+										 initData();
+									 }
+											
+								});
+							}});
 						}
 					 
 						//查询

@@ -6,8 +6,7 @@ function relieve(caseCode,status){
 		return false;
 	}
 	
-	if(confirm("是否确定解除？")){
-		
+	window.wxc.confirm("是否确定解除？",{"wxcOk":function(){
 			$.ajax({
 				cache:false,
 				async:true,
@@ -17,15 +16,15 @@ function relieve(caseCode,status){
 				data:{caseCode:caseCode},
 				success:function(data){
 					if(data.success){
-						alert('解除成功');
+						window.wxc.alert('解除成功');
 						reloadGrid();
 					}else{
-						alert('解除失败');
+						window.wxc.alert('解除失败');
 					}
 					$.unblockUI();
 				}
 			});
-		}
+	}});
 }
 
 function reloadGrid(){

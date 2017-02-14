@@ -1235,20 +1235,24 @@
 			$("select[name^='toSpvDeDetailList'][name$='payeeAccountType']").each(function(i,e){
 				var eVal = $(e).val();
 				if(eVal == accountType){
-					if(!confirm("出款约定中已选择该账户类型，是否确定删除?")){
-						deleteFlag = false;
+					
+					window.wxc.confirm("出款约定中已选择该账户类型，是否确定删除?",{"wxcOk":function(){
+						$(this_).parents('.form-rowbot').prev().remove();
+						$(this_).parents('.form-rowbot').remove();
+						updateAccTypeOptions();
+						
 						return false;
-					}
+					}});
 				}
 			});
 			
-			if(!deleteFlag){
+			/* if(!deleteFlag){
 				return false;
 			}
 			
 			$(this_).parents('.form-rowbot').prev().remove();
 			$(this_).parents('.form-rowbot').remove();
-			updateAccTypeOptions();
+			updateAccTypeOptions(); */
 		}
 		
 		/**

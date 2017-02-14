@@ -188,7 +188,6 @@
 					<div class="panel-body">
 						<div class="ibox-content-head lh24">
 							<h5>案件基本信息</h5>
-							<input type="hidden" name="flag" id="flag" value="caseDetail"/>							
 							<p class="star-position" id="subscribe">
 
 								<c:if test="${isSubscribe}">
@@ -1331,7 +1330,7 @@
  	      $("#relieve").click(function(){
  	    	  var status = $("input[name=status]").val();
  	    	  
- 	    	 if(confirm("是否确定解除？")){
+ 	    	 window.wxc.confirm("是否确定解除？",{"wxcOk":function(){
   				$.ajax({
   					cache:false,
   					async:true,
@@ -1349,7 +1348,7 @@
   						}
   					}
   				});
- 	    	 }
+ 	    	}});
  	      });
  	      
 		//jqGrid 初始化

@@ -413,7 +413,8 @@ $(document).ready(function() {
 					
 	$("#btn_save").click(function(){
 		if(!fcheck())return;
-		if(confirm("是否保存？")){
+		
+		window.wxc.confirm("是否保存？",{"wxcOk":function(){
 		$("#executorId").val($("#executorName").attr('hVal'));
 		var fData=$("#f_main").serialize();
 		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
@@ -437,7 +438,7 @@ $(document).ready(function() {
 			$.unblockUI();
 			}
 		});
-		}
+		}});
 	});
 	
 	$('.input-group.date').datepicker({

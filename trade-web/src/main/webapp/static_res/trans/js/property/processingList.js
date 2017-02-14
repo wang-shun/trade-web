@@ -314,11 +314,10 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 	function radioYuCuiOrgSelectCallBack(array){
 		if(array && array.length >0){
 			if(checkOrg(array[0])){
-				if(confirm('是否确认转组')){
-
+				window.wxc.confirm("是否确认转组？",{"wxcOk":function(){
 					$("#yuCuiOriGrpId").val(array[0].id);
 					doTransfer(optPkid,array[0].id,array[0].name);
-				}
+				}});
 			}else{
 				return false;
 			}

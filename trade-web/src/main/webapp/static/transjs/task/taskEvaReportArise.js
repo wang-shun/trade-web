@@ -138,7 +138,7 @@
 		$.each($("#offlineEvafileUploadContainer ul"), function(index, value){
 			var length = $(this).find("li").length;
 			if(length == 0) {
-				alert("备件未完全上传！");
+				window.wxc.alert("备件未完全上传！");
 				flag = false;
 				return false;
 			} else {
@@ -247,14 +247,13 @@
 	    		                }
 	    		            } , 
 	        		success:function(data){
-	        			alert(data.message);
+	        			window.wxc.success(data.message);
 	    				$("#modal-form-report").modal('hide');
 	    				getReportList();
 	        		}
 	        	});
 	    	}else{
-	    		if(confirm("点击该按钮将会启动线下发起报告单流程，请确认输入正确！")){
-
+	    		window.wxc.confirm("点击该按钮将会启动线下发起报告单流程，请确认输入正确?",{"wxcOk":function(){
 		        	$.ajax({
 		        		url:ctx+"/task/submitEvaReport",
 		        		method:"post",
@@ -288,13 +287,12 @@
 		    		                }
 		    		            } ,    
 		        		success:function(data){
-		        			alert(data.message);
+		        			window.wxc.success(data.message);
 		    				$("#modal-form-report").modal('hide');
 		    				getReportList();
-	
 		        		}
 		        	});
-	    		}
+	    		}});
 	    	}
 	    });
 	    

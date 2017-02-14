@@ -1624,7 +1624,7 @@ transitionEffect: "slide",
         		}
         	});
     	}else{
-    		if(confirm("点击该按钮将会启动线下发起报告单流程，请确认输入正确！")){
+    		window.wxc.confirm("点击该按钮将会启动线下发起报告单流程，请确认输入正确？",{"wxcOk":function(){
 	        	$.ajax({
 	        		url:ctx+"/task/submitEvaReport",
 	        		method:"post",
@@ -1682,7 +1682,7 @@ transitionEffect: "slide",
 	        			
 	        		}
 	        	});
-    		}
+    		}});
     	}
     });
     $("input[name='isTmpBank']").on('click',isTmpBankChange);

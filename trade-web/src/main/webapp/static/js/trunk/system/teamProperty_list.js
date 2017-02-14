@@ -295,7 +295,7 @@ function saveTeamPropertyItem(){
 
 function delRow(id){
 	if(id!=null){
-	    if(confirm('谨慎操作提示,确认删除组别配置?')){
+		window.wxc.confirm("谨慎操作提示,确认删除组别配置?",{"wxcOk":function(){
 	    	var ctx = $("#ctx").val();
 	    	var url='/setting/delTeamPropertyItem?';
 	    	var params="pkid="+id;
@@ -335,9 +335,8 @@ function delRow(id){
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}
 			}); 
-	    }
+	    }});
 	}
-   
 }
 
 function trim(str){ //删除左右两端的空格

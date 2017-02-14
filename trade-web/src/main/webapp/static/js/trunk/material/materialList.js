@@ -472,7 +472,8 @@ $("#materialDelete").click(function(){
 		 if(!statusFlagCheck()){
 			 return false;
 		 }
- 		if(confirm("确定要删除您选中的物品信息吗？")){
+		 
+		window.wxc.confirm("确定要删除您选中的物品信息吗？",{"wxcOk":function(){
 			$.ajax({
 				url:ctx+"/material/materialDelete",
 				method:"post",
@@ -496,7 +497,7 @@ $("#materialDelete").click(function(){
 					window.wxc.error(e);
 			   }
 			});
-		}		 				
+ 		}});		 				
 	}	
 })
 

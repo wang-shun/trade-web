@@ -193,7 +193,7 @@ function saveReminderItem(){
 
 function delRow(id){
 	if(id!=null){
-	    if(confirm('谨慎操作提示,确认删除载货单?')){
+		window.wxc.confirm("谨慎操作提示,确认删除载货单?",{"wxcOk":function(){
 	    	var ctx = $("#ctx").val();
 	    	var url='/setting/delReminderItem?';
 	    	var params="pkid="+id;
@@ -233,7 +233,7 @@ function delRow(id){
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}
 			}); 
-	    }
+	    }});
 	}
    
 }

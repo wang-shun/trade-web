@@ -377,7 +377,7 @@ function saveTaskPlanSet(){
 
 function delRow(id){
 	if(id!=null){
-	    if(confirm('谨慎操作提示,确认删除任务项配置?')){
+		window.wxc.confirm("谨慎操作提示,确认删除任务项配置?",{"wxcOk":function(){
 	    	var ctx = $("#ctx").val();
 	    	var url='/setting/delTaskPlanSet?';
 	    	var params="pkid="+id;
@@ -415,7 +415,7 @@ function delRow(id){
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}
 			}); 
-	    }
+	    }});
 	}else {
 		window.wxc.alert('请选择删除项!');
 	}
