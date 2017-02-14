@@ -72,53 +72,13 @@ public class QuickQueryGetGlCaseCountServiceImpl implements CustomDictService{
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		
-		/*List<String> caseCodeList = new ArrayList<String>();
-		for (Map<String, Object> keyer : keys) {
-			Object caseCodeKey = keyer.get("CASE_CODE");
-			// 先将案件编号统一放到集合里边
-			caseCodeList.add(caseCodeKey.toString());
-		}*/
-		/*
-		for (Map<String, Object> key : keys) {
-			Object inputType= key.get("CASE_ORIGIN");
-			Object caseCode = key.get("CASE_CODE");
-			paramMap.put("inputType", inputType);
-			paramMap.put("caseCode", caseCode);
-			String glCount = "";
-			if(!StringUtils.isBlank((String)inputType)){
-				if("CTM".equals(inputType)){
-					glCount = jdbcTemplate.queryForObject(sql0, paramMap, String.class);
-				}else{
-					glCount = jdbcTemplate.queryForObject(sql1, paramMap, String.class);
-				}
-			}
-			key.put("glCount", glCount);
-		}
-		//查询产证地址、产证编码
-		for (Map<String, Object> keyer : keys) {
-			Object caseCodeKey = keyer.get("CASE_CODE");
-			String caseCode = caseCodeKey.toString();
-			if(!org.springframework.util.CollectionUtils.isEmpty(propertyInfoMapList)){
-				for(Map<String, Object> map:propertyInfoMapList){
-					if(caseCode.equals(map.get("CASE_CODE"))){
-						keyer.put("PROPERTY_ADDR", map.get("PROPERTY_ADDR"));
-						keyer.put("PROPERTY_CODE", map.get("PROPERTY_CODE"));
-						break;
-					}
-					
-				}
-			}
-		}
-		*/
-		
-		
 		StringBuilder[] joins = CollectionUtils.join(keys, new String[]{"','"}, new String[]{"CASE_CODE"});
 		// 设置条件参数
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		String sql = sql2.replace(":caseCode","'"+joins[0].toString()+"'");
 		List<Map<String, Object>> propertyInfoMapList = jdbcTemplate.queryForList(sql, paramMap);
-		CollectionUtils.merge(propertyInfoMapList, keys, new String[]{"CASE_CODE"},new String[]{"PROPERTY_ADDR","PROPERTY_CODE","glCount"},converters);
-
+		CollectionUtils.merge(propertyInfoMapList, keys, new String[]{"CASE_CODE"});
+		CollectionUtils.convert(keys, converters);
 		return keys;
 	}
 	private Map<String,Converter<String,Object>> converters = new HashMap<String,Converter<String,Object>>();
@@ -126,7 +86,7 @@ public class QuickQueryGetGlCaseCountServiceImpl implements CustomDictService{
 		//转换操作人员
 		converters.put("glCount", new Converter<String,Object>(){//ASSESSOR 具体展示内容
 			//new Converter<String,Object>(){} 查询结果集，具体转化操作
-			public Object convert(Object value, Map<String,Object> from,Map<String,Object> to) {
+			public Object convert(Map<String,Object> to) {
 				Object inputType = to.get("CASE_ORIGIN");
 				Object caseCode  = to.get("CASE_CODE");
 				String glCount = "";

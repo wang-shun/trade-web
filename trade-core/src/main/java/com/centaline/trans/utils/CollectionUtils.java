@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class CollectionUtils {
 
@@ -54,50 +55,15 @@ public class CollectionUtils {
 	
 	
 	public static interface Converter<K,V>{
-		public V convert(V value,Map<K,V> from,Map<K,V> to);
+		public V convert(Map<K,V> to);
 	}
-	
-	/** 根据联合列的值比较，当列的值都相等时，将Map<K,V> from中的数据合并到Map<K,V> to.
-	 * @param Map<K,V> from 合并源数据
-	 * @param Map<K,V> to 合并后数据
-	 * @param K[] mergeKeys 需要合并数据的列
-	 * @param Map<K,Converter<K,V>> converters值转换接口
-	 * @return Map<K,V>合并之后的数据
-	 * */
-	public static <K,V> Map<K,V> merge(Map<K,V> from,Map<K,V> to,K[] mergeKeys,Map<K,Converter<K,V>> converters){
-		if(from == null){
-			throw new NullPointerException("'Map<K,V> from' is null.");
-		}
-		if(to == null){
-			throw new NullPointerException("'Map<K,V> to' is null.");
-		}
-		if(mergeKeys == null||mergeKeys.length==0){
-			throw new NullPointerException("'K[] mergeKeys' is empty.");
-		}
-		
-		for(K key:mergeKeys){
-			V value = from.get(key);
-			if(converters!=null && converters.containsKey(key)){
-				value = converters.get(key).convert(value,from,to);
-			}
-			to.put(key,value);
-			
-		}
-		return to;
-	}
-	
 	/** 根据联合列的值比较，当列的值都相等时，将List<Map<K,V>> fromList中的数据合并到List<Map<K,V>> toList。
 	 * @param List<Map<K,V>> fromList 合并源数据
 	 * @param List<Map<K,V>> toList 合并后数据
 	 * @param K[] joinKeys 需要比较数据的列，列表中子元素所有列的值都相等才会进行数据合并
-	 * @param K[] mergeKeys 需要合并数据的列
-	 * @param Map<K,Converter<K,V>> converters值转换接口
 	 * @return List<Map<K,V>>合并之后的列表
 	 * */
-	public static <K,V> List<Map<K,V>> merge(List<Map<K,V>> fromList,List<Map<K,V>> toList,K[] joinKeys,K[] mergeKeys){
-		return merge(fromList, toList, joinKeys, mergeKeys,null);
-	}
-	public static <K,V> List<Map<K,V>> merge(List<Map<K,V>> fromList,List<Map<K,V>> toList,K[] joinKeys,K[] mergeKeys,Map<K,Converter<K,V>> converters){
+	public static <K,V> List<Map<K,V>> merge(List<Map<K,V>> fromList,List<Map<K,V>> toList,K[] joinKeys){
 		if(fromList == null){
 			throw new NullPointerException("'List<Map<K,V>> fromList' is null.");
 		}
@@ -107,12 +73,9 @@ public class CollectionUtils {
 		if(joinKeys==null || joinKeys.length==0){
 			throw new NullPointerException("'K[] joinKeys' is empty.");
 		}
-		if(mergeKeys == null||mergeKeys.length==0){
-			throw new NullPointerException("'K[] mergeKeys' is empty.");
-		}
-		
-		for(Map<K,V> from:fromList){
-			for(Map<K,V> to:toList){
+
+		for(Map<K,V> to:toList){
+			for(Map<K,V> from:fromList){
 				boolean merge = true;
 				//查找合并数据
 				for(K joinKey:joinKeys){
@@ -134,13 +97,32 @@ public class CollectionUtils {
 					}
 				}
 				//joinKeys所对应的值都相等，合并数据
-				if(merge){					
-					to = merge(from,to,mergeKeys,converters);
-				}				
+				if(merge){	
+					to.putAll(from);
+				}
 			}
 		}		
 		return toList;
 	}
+	
+	/** 计算list中map对应key的值*/
+	public static <K,V> List<Map<K,V>> convert(List<Map<K,V>> list,Map<K,Converter<K,V>> converters){
+		if(null==list || null ==converters){
+			return list;
+		}
+		for(Map<K,V> map:list){
+			for(Entry<K,Converter<K,V>> entry:converters.entrySet()){
+				Converter<K,V> converter = entry.getValue();
+				if(null !=converter){
+					V value = converter.convert(map);
+					map.put(entry.getKey(),value);
+				}
+			}
+		}
+		return list;
+	}
+	
+	
 	
 	//测试方法
 	public static void main(String[] args) {
@@ -201,25 +183,25 @@ public class CollectionUtils {
 		//值转换类
 		Map<String,Converter<String,String>> converters  = new HashMap<String,Converter<String,String>>();
 		converters.put("CASE_CODE",new Converter<String,String>(){
-			public String convert(String value,Map<String,String> from,Map<String,String> to){
-				return "案件编号："+value;
+			public String convert(Map<String,String> to){
+				return "案件编号："+to.get("CASE_CODE");
 			}
 		});
 		converters.put("JOB_NAME",new Converter<String,String>(){
-			public String convert(String value,Map<String,String> from,Map<String,String> to){
-				return "名字被改写了:"+from.hashCode();
+			public String convert(Map<String,String> to){
+				return "名字被改写了:"+to.hashCode();
 			}
 		});
 		
 		
 		//////////////////////合并测试
 		String[] joinKeys = new String[]{"USER_ID","ORG_ID","JOB_ID"};
-		String[] mergeKeys = new String[]{"CASE_CODE","JOB_NAME"};
 		//值不做转换
-		CollectionUtils.merge(fromList, toList, joinKeys, mergeKeys);
+		CollectionUtils.merge(fromList, toList, joinKeys);
 		System.out.println(toList);
 		//值做了转换
-		CollectionUtils.merge(fromList, toList, joinKeys, mergeKeys,converters);
+		CollectionUtils.merge(fromList, toList, joinKeys);
+		CollectionUtils.convert(toList, converters);
 		System.out.println(toList);
 
 		//////////////////////分割测试
