@@ -635,12 +635,12 @@
 						}
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
-						window.wxc.success("保存成功。");
-						if (window.opener != null) {
-							window.close();
-							window.opener.callback();
-						}
-
+						window.wxc.success("保存成功。",{"wxcOk":function(){
+							if (window.opener != null) {
+								window.close();
+								window.opener.callback();
+							}
+						}});
 					}
 				},
 				error : function(errors) {

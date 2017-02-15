@@ -180,14 +180,15 @@
 	    		            } , 
 					success : function(data) {
 						if(data.success) {
-							window.wxc.success(data.message);
-							if(window.opener)
-						    {
-								 window.close();
-								 window.opener.callback();
-						    } else {
-						    	 window.location.href = "${ctx }/task/myTaskList";
-						    } 
+							window.wxc.success(data.message,{"wxcOk":function(){
+								if(window.opener)
+							    {
+									 window.close();
+									 window.opener.callback();
+							    } else {
+							    	 window.location.href = "${ctx }/task/myTaskList";
+							    } 
+							}});
 							//window.location.href = "${ctx }/task/myTaskList";
 						} else {
 							window.wxc.error("操作失败。");
