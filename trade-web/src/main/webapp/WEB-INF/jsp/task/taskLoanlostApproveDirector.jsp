@@ -272,12 +272,16 @@
 						}
 					},
 					success : function(data) {
-						if (window.opener) {
-							window.close();
-							window.opener.callback();
-						} else {
-							window.location.href = "${ctx }/task/myTaskList";
-						}
+						window.wxc.success("保存成功！",{"wxcOk":function(){
+							if (window.opener) {
+								window.close();
+								window.opener.callback();
+							} else {
+								window.location.href = "${ctx }/task/myTaskList";
+							}
+						}});
+						
+						
 						//window.location.href = "${ctx }/task/myTaskList";
 					},
 					error : function(errors) {

@@ -414,12 +414,13 @@
 						caseTaskCheck();
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
-						window.wxc.success("保存成功。");
+						window.wxc.success("保存成功。",{"wxcOk":function(){
+							window.close();
+						 	window.opener.callback();
+						}});
 						/* if(data.content != null && data.content != ""){
 							$("#pkid").val(data.content);
 						} */
-						window.close();
-					 	window.opener.callback();
 					}
 				},
 				error : function(errors) {

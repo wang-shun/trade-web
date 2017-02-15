@@ -168,13 +168,9 @@
 		}
 
 		function bind(){
-			if(config.isFresh){
-				$ok.click(refresh);
-			}
-			else {
-				//点击确认按钮
-				$ok.click(doOk);
-			}
+		
+			//点击确认按钮
+			$ok.click(doOk);
 			
 			//回车键触发确认按钮事件
 			$(window).bind("keydown", function(e){
@@ -192,11 +188,6 @@
 			$clsBtn.click(doClose);
 		}
 		
-		//点击确认按钮刷新页面
-		function refresh(){
-			location.reload();
-		}
-
 		//确认按钮事件
 		function doOk(){
 			var $o = $(this);

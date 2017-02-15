@@ -555,7 +555,7 @@
 					function submit() {
 					if ($('#optionsRadios2:checked').val() == "30003001") {
 							if ($('input[name=invalid_reason]').val() == '') {
-								window.wxc.alert("无效案件必须填写失效原因!");
+								window.wxc.alert("无效案件必须填写无效原因!");
 								$('input[name=invalid_reason]').focus();
 								return;
 							}
@@ -652,9 +652,10 @@
 									if (data.firstFollowVO.isrepeat == true) {
 										window.wxc.alert("请不要重复保存数据");
 									} else {
-										window.wxc.success("保存成功.");
-										window.close();
-										window.opener.callback();
+										window.wxc.success("保存成功.",{"wxcOk":function(){
+											window.close();
+											window.opener.callback();
+										}});
 									}
 								}
 							},
