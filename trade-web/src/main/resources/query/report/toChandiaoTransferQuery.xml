@@ -35,7 +35,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT count(*) as singular ,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME))/count(*) as acceptanceTime,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME))/count(*) as completeTime,o.ORG_NAME as departName,o.id
+					SELECT count(1) as singular ,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_ACCPET_TIME))/count(1) as acceptanceTime,sum(DATEDIFF(hh,PR_APPLY_TIME,PR_COMPLETE_TIME))/count(1) as completeTime,o.ORG_NAME as departName,o.id
  						 FROM [SCTRANS].[T_TO_PROPERTY_RESEARCH] pr
   						 INNER JOIN SCTRANS.SYS_ORG o
   						 ON pr.PR_DISTRICT_ID=o.ID
