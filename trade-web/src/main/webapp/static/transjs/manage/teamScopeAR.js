@@ -130,7 +130,7 @@
         		    		postData: data
         		    	}).trigger('reloadGrid'); 
         			} else {
-        				alert(data.message);
+        				window.wxc.error(data.message);
         			}
         			//$("#pkid").val("");
         		}
@@ -143,7 +143,7 @@
     		dataType:"json",
     		data:{pkid:$("#pkid").val()},
     		success:function(data){
-				alert(data.message);
+    			window.wxc.alert(data.message);
 
 				var data = {};
 		    	data.queryId="queryTeamScopeAR";
@@ -175,7 +175,7 @@
     		        
     		        $("#modal-addOrModifyForm").modal("show");
     			}else{
-    				alert(data.message);
+    				window.wxc.error(data.message);
     			}
     		}
     		
@@ -197,7 +197,7 @@
     		        $("#"+backId).empty();
     		        $("#"+backId).html(tempTeam);
     			}else{
-    				alert(data.message);
+    				window.wxc.error(data.message);
     			}
     		}
     		
@@ -254,7 +254,7 @@
     	});
     	$("#modifyBtn").click(function(){
     		if($("#pkid").val()==""){
-    			alert("请选择要修改的记录！");
+    			window.wxc.alert("请选择要修改的记录！");
     			return;
     		}
     		getTeamScopeArInfo();
@@ -262,12 +262,13 @@
     	});
     	$("#delBtn").click(function(){
     		if($("#pkid").val() == ""){
-    			alert("请选择要删除的记录！");
+    			window.wxc.alert("请选择要删除的记录！");
 				return;
     		}
-    		if(confirm("确定要删除该组别！")){
+    		
+    		window.wxc.confirm("确定要删除该组别？",{"wxcOk":function(){
     			delTeamScopeAr();
-    		}
+    		}});
     	});
     	$("#recoveryBtn").click(function(){
     		$.ajax({

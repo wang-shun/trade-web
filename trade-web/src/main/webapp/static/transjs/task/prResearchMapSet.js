@@ -77,7 +77,7 @@
     		                } 
     		            } , 
         		success:function(data){
-    				alert(data.message);
+        			window.wxc.alert(data.message);
 
         			if(data.success){
         				$("#modal-addOrModifyForm").modal("hide");
@@ -95,7 +95,7 @@
     		dataType:"json",
     		data:{pkid:$("#pkid").val()},
     		success:function(data){
-				alert(data.message);
+    			window.wxc.alert(data.message);
 
     			getPrResearchMapList();
     			
@@ -118,7 +118,7 @@
     				$("#yuDistName").val(data.content.yuDistName);
 
     			}else{
-    				alert(data.message);
+    				window.wxc.error(data.message);
     			}
     		}
     	});
@@ -199,7 +199,7 @@
     	});
     	$("#modifyBtn").click(function(){
     		if($("#pkid").val()==""){
-    			alert("请选择要修改的记录！");
+    			window.wxc.alert("请选择要修改的记录！");
     			return;
     		}
     		$("#distCode").attr("readonly","readonly");
@@ -210,12 +210,13 @@
     	});
     	$("#delBtn").click(function(){
     		if($("#pkid").val() == ""){
-    			alert("请选择要删除的记录！");
+    			window.wxc.alert("请选择要删除的记录！");
 				return;
     		}
-    		if(confirm("确定要删除该记录！")){
+    		
+    		window.wxc.confirm("确定要删除该记录？",{"wxcOk":function(){
     			delPrResearchMap();
-    		}
+    		}});
     	});
     	$("#saveOrModifyBtn").click(function(){
     		savePrResearchMap();

@@ -578,12 +578,6 @@
     	<property name="dictType_caseStatus" value="30001"></property>
     </bean>	 
     
-    <!-- 根据案件编号获取上家、下家、经办人信息 -->
-    <bean name="quickQuerySellerAndBuyerAndProcessorInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetSellerAndBuyerAndProcessorInfoServiceImpl">
-    	<property name="sellerTransPosition" value="30006001"></property>
-    	<property name="buyerTransPosition" value="30006002"></property>
-    </bean>      	
-    
     <!-- 根据caseCode 查询 产证地址 -->
     <bean name="qqProaddrByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetProaddrByCaseCodeServiceImpl" ></bean>  
     <!-- 根据CaseCode查询案件的渠道属性-->

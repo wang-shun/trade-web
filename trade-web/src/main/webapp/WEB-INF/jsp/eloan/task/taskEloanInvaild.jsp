@@ -204,11 +204,10 @@
         		   window.wxc.alert("请填写作废原因")
         		   return;
         	   }
-        	   var confim= confirm("确定要作废这条数据吗？")
-				if(!confim){
-					return
-					}
-           		saveEloanInfoForUpdate();
+        	   
+        	   window.wxc.confirm("确定要作废这条数据吗？",{"wxcOk":function(){
+        		   saveEloanInfoForUpdate();
+        	   }});
            })
            
            $("#backEloanList").click(function(){

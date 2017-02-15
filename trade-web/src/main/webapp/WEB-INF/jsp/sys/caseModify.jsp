@@ -253,26 +253,25 @@
 					window.wxc.alert("ctm编号为空!");
 					return;
 				}
-				if (!confirm("请确认是否是否要导入案件：" + ctmCode)) {
-					return;
-				}
-				var data = {};
-				data.ctmCode = ctmCode;
-				$.ajax({
-					async : false,
-					url : ctx + "/caseModify/exportCTMCase.json",
-					method : "post",
-					dataType : "json",
-					data : data,
-					success : function(data) {
-						if (data.success) {
-							window.wxc.success("修改成功!");
-						} else {
-							window.wxc.error("修改失败!");
+				
+				window.wxc.confirm("请确认是否要导入案件：" + ctmCode,{"wxcOk":function(){
+					var data = {};
+					data.ctmCode = ctmCode;
+					$.ajax({
+						async : false,
+						url : ctx + "/caseModify/exportCTMCase.json",
+						method : "post",
+						dataType : "json",
+						data : data,
+						success : function(data) {
+							if (data.success) {
+								window.wxc.success("修改成功!");
+							} else {
+								window.wxc.error("修改失败!");
+							}
 						}
-					}
-				});
-
+					});
+				}});
 			}
 
 			function modifTagetCode() {
@@ -286,27 +285,27 @@
 					window.wxc.alert("tagetCode为空!");
 					return;
 				}
-				if (!confirm("请确认是否是否要修改案件：" + ctmCode)) {
-					return;
-				}
-				var data = {};
-				data.ctmCode = ctmCode;
-				data.targetCode = targetCode;
+				
+				window.wxc.confirm("请确认是否要修改案件：" + ctmCode,{"wxcOk":function(){
+					var data = {};
+					data.ctmCode = ctmCode;
+					data.targetCode = targetCode;
 
-				$.ajax({
-					async : false,
-					url : ctx + "/caseModify/updateTagetCode.json",
-					method : "post",
-					dataType : "json",
-					data : data,
-					success : function(data) {
-						if (data.success) {
-							window.wxc.success("修改成功!");
-						} else {
-							window.wxc.error("修改失败!");
+					$.ajax({
+						async : false,
+						url : ctx + "/caseModify/updateTagetCode.json",
+						method : "post",
+						dataType : "json",
+						data : data,
+						success : function(data) {
+							if (data.success) {
+								window.wxc.success("修改成功!");
+							} else {
+								window.wxc.error("修改失败!");
+							}
 						}
-					}
-				});
+					});
+				}});
 			}
 
 			function getAllTeamList() {
@@ -360,27 +359,27 @@
 					window.wxc.alert("誉萃组别为空!");
 					return;
 				}
-				if (!confirm("请确认是否是否要添加配置?")) {
-					return;
-				}
-				var data = {};
-				data.salesOrgId = salesOrgId;
-				data.yuTeamCode = yuTeamCode;
+				
+				window.wxc.confirm("请确认是否要添加配置?",{"wxcOk":function(){
+					var data = {};
+					data.salesOrgId = salesOrgId;
+					data.yuTeamCode = yuTeamCode;
 
-				$.ajax({
-					async : false,
-					url : ctx + "/caseModify/addCaseMapping.json",
-					method : "post",
-					dataType : "json",
-					data : data,
-					success : function(data) {
-						if (data.success) {
-							window.wxc.success("修改成功!");
-						} else {
-							window.wxc.error(data.message);
+					$.ajax({
+						async : false,
+						url : ctx + "/caseModify/addCaseMapping.json",
+						method : "post",
+						dataType : "json",
+						data : data,
+						success : function(data) {
+							if (data.success) {
+								window.wxc.success("修改成功!");
+							} else {
+								window.wxc.error(data.message);
+							}
 						}
-					}
-				});
+					});
+				}});
 			}
 
 			function checkCaseMapping() {

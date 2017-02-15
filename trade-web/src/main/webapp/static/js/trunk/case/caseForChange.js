@@ -199,7 +199,7 @@ $("#leadingProSubmit").click(function(){
 		 return;
 	 }
 	 
-	 if (confirm("您确定要进行责任人变更？")) {
+	 window.wxc.confirm("您确定要进行责任人变更？",{"wxcOk":function(){
 			var url = "/case/changeLeadingPro";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
@@ -227,7 +227,7 @@ $("#leadingProSubmit").click(function(){
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}
 			});
-		} 
+	 }}); 
 	 
 })
 
@@ -358,7 +358,8 @@ $("#cooperSubmit").click(function(){
 	 var tdId = $(this).attr("tdId");
 /*	 alert(JSON.stringify(data));
 	 alert("url==="+url);*/
-	 if (confirm("您确定要进行案件合作对象变更？")) {		 	
+	 
+	 window.wxc.confirm("您确定要进行案件合作对象变更？",{"wxcOk":function(){
 			$.ajax({
 				cache : false,
 				async : true,
@@ -390,7 +391,7 @@ $("#cooperSubmit").click(function(){
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}
 			});
-		} 
+	 }}); 
 })
 
 function getParamForCooper(){

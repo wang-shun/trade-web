@@ -23,6 +23,7 @@
         <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
     </head>
     <body class="pace-done">
+    <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
         <div id="wrapper" class="Index">
        			<!-- Main view -->
                 <div class="main-bonus">
@@ -31,7 +32,7 @@
 	                         <div class="bonus-m">
 	                            <div class="ibox-title">
 	                                <input type="button" class="btn btn-warning m-r-sm" value="&lt;">
-	                                <h5 class="month">yyyy/MM月</h5>
+	                                <h5 class="month"></h5>
 	                                <input type="button" class="btn btn-warning m-r-sm disable" disabled value="&gt;" style="margin-left:10px;">
 	                            </div>
 	                            <div class="ibox-tools">
@@ -87,82 +88,7 @@
                                 </tr>
                             </thead>
                             <tbody id="TsAwardBaseList">
-                                <tr class="border-e7">
-                                    <td></td>
-                                    <td>ZY-AJ-201604-0352</td>
-                                    <td>上海虹口区临平路片区物华路246弄4号2402室</td>
-                                    <td>2016-03-21</td>
-                                    <td>2016-03-30</td>
-                                    <td>780</td>
-                                    <td><a class="expand">收起</a></td>
-                                </tr>
-                                <tr class="toogle-show border-e7">
-                                    <td colspan="7" class="two-td">
-                                        <table class="two-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>人员</th>
-                                                    <th>服务</th>
-                                                    <th>基础奖金</th>
-                                                    <th>满意度</th>
-                                                    <th>是否达标</th>
-                                                    <th>考核结果</th>
-                                                    <th>占比</th>
-                                                    <th>绩效奖金</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr class="border-e7">
-                                    <td></td>
-                                    <td>ZY-AJ-201604-0352</td>
-                                    <td>上海虹口区临平路片区物华路246弄4号2402室</td>
-                                    <td>2016-03-21</td>
-                                    <td>2016-03-30</td>
-                                    <td>780</td>
-                                    <td><a class="expand">展开</a></td>
-                                </tr>
-                                <tr class="border-e7">
-                                    <td></td>
-                                    <td>ZY-AJ-201604-0352</td>
-                                    <td>上海虹口区临平路片区物华路246弄4号2402室</td>
-                                    <td>2016-03-21</td>
-                                    <td>2016-03-30</td>
-                                    <td>780</td>
-                                    <td><a class="expand">展开</a></td>
-                                </tr>
-                                <tr class="border-e7">
-                                    <td class="td-tag"><label class="label label-warning">NEW</label></td>
-                                    <td>ZY-AJ-201604-0352</td>
-                                    <td>上海虹口区临平路片区物华路246弄4号2402室</td>
-                                    <td>2016-03-21</td>
-                                    <td>2016-03-30</td>
-                                    <td>780</td>
-                                    <td><a class="expand">展开</a></td>
-                                </tr>
+                                <!-- 列表 -->
                             </tbody>
                         </table>                     
                     </div>
@@ -279,12 +205,17 @@
    				    	    data.search_caseCode = id;
    				    	 	data.argu_belongMonth = monthSel.getDate().format('yyyy-MM-dd');
    				    		$.ajax({
-   				    			  async: false,
+   				    			  async: true,
    				    	          url:ctx+ "/quickGrid/findPage" ,
    				    	          method: "post",
    				    	          dataType: "json",
    				    	          data: data,
+	   				    	      beforeSend: function () { 
+	   				 	        	 $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	   				 				 $(".blockOverlay").css({'z-index':'9998'});
+	   				 	          }, 
    				    	          success: function(data){
+   				    	        	  $.unblockUI();
    				    	        	  var tsAwardSrvList= template('tsAwardSrvList' , data);
    				    				  $("#toggle"+id).empty();
    				    				  $("#toggle"+id).html(tsAwardSrvList);

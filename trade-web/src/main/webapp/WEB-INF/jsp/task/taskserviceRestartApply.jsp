@@ -165,8 +165,9 @@
 		    		            } , 
 						success : function(data) {
 							if(data) {
-								window.wxc.success("操作成功。");
-								caseTaskCheck();
+								window.wxc.success("操作成功。",{"wxcOk":function(){
+									caseTaskCheck();
+								}});
 							} else {
 								window.wxc.error("操作失败。");
 							}

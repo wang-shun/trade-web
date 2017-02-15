@@ -1209,11 +1209,12 @@ function submitMortgage(){
 		dataType:"json",
 		data:{caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),processInstanceId:$("#processInstanceId").val(),isMainLoanBank:$("#isMainLoanBank").val()},
 		success:function(data){
-			//window.wxc.alert(data.message);
-			if(data.success){
-				//window.location.href=ctx+"/task/myTaskList?"+new Date().getTime();
-				caseTaskCheck();
-			}
+			window.wxc.success(data.message,{"wxcOk" : function(){
+				if(data.success){
+					//window.location.href=ctx+"/task/myTaskList?"+new Date().getTime();
+					caseTaskCheck();
+				}
+			}});
 		}
 	});
 }
@@ -1624,7 +1625,7 @@ transitionEffect: "slide",
         		}
         	});
     	}else{
-    		if(confirm("点击该按钮将会启动线下发起报告单流程，请确认输入正确！")){
+    		window.wxc.confirm("点击该按钮将会启动线下发起报告单流程，请确认输入正确？",{"wxcOk":function(){
 	        	$.ajax({
 	        		url:ctx+"/task/submitEvaReport",
 	        		method:"post",
@@ -1682,7 +1683,7 @@ transitionEffect: "slide",
 	        			
 	        		}
 	        	});
-    		}
+    		}});
     	}
     });
     $("input[name='isTmpBank']").on('click',isTmpBankChange);

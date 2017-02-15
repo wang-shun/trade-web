@@ -74,7 +74,7 @@
 						B.AGENT_NAME,
 						B.RES_DATE,
 					    B.GRP_NAME AGENT_ORG_NAME,
-						CASE WHEN A.CREATE_TIME > cast(substring('2016-12-28 00:00:00.000',0,19) as datetime) then 1 else 0 end createType ,						
+						CASE WHEN A.CREATE_TIME > '2016-12-28 00:00:00' then 1 else 0 end createType ,						
 					   (select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE ) as SUBSCRIBE_COUNT
 					FROM
 					    sctrans.T_TO_CASE  A
@@ -96,9 +96,13 @@
 							AND G.SRV_CODE IN ( '3000400201', '3000401002' ) )
 			    	  )
 			    	  
-			    	<ifNotNull propertyAddr>
-			    		AND EXISTS(SELECT 1 FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE = A.CASE_CODE AND PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
-			    	</ifNotNull>
+			    	
+			    		AND EXISTS(SELECT 1 FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE = A.CASE_CODE 
+			    		<ifNotNull propertyAddr>
+			    		         AND PROPERTY_ADDR like '%' + #propertyAddr# + '%'
+			    		</ifNotNull>
+			    		         ) 
+			    	
 					<ifNotNull realConTimeStart>
 						AND EXISTS(select 1 from sctrans.T_TO_SIGN G where A.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME >= #realConTimeStart#)
 					</ifNotNull>

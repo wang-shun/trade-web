@@ -722,10 +722,11 @@ function getDel(k){
 		window.wxc.alert("入账申请信息不能少于一行数据！");
 		return false;
 	}
-	if(!confirm("是否删除！")){
-		  return false;
-	    }
-    $(k).parents('tr').remove();
+	
+	window.wxc.confirm("是否删除？",{"wxcOk":function(){
+		$(k).parents('tr').remove();
+	}});
+    
 }
 
 function showImg(imgId){

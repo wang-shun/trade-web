@@ -408,9 +408,10 @@
 					if(b) {
 						caseTaskCheck();
 					} else {
-						 window.wxc.success("保存成功。");
-						 window.close();
-						 window.opener.callback();
+						 window.wxc.success("保存成功。",{"wxcOk":function(){
+							 window.close();
+							 window.opener.callback();
+						 }});
 					}
 				},
 				error : function(errors) {

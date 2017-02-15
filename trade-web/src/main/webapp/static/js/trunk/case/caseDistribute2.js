@@ -483,7 +483,8 @@ function distributeCase(index){
 				 } else {
 					 confrimMsg = "案件所属区域与主办或合作对象不匹配,您是否确认分配给"+userName+"?";
 				 }
-				 if(confirm(confrimMsg)){
+				 
+				 window.wxc.confirm(confrimMsg,{"wxcOk":function(){
 		            $("#myCaseList").html("");
 					var url = "/case/bindCaseDist";
 					var ctx = $("#ctx").val();
@@ -516,7 +517,7 @@ function distributeCase(index){
 				            
 							success : function(data) {
 								if(data.success){
-									alert("分配成功");
+									window.wxc.success("分配成功");
 									$('#modal-form').modal("hide");
 									//jqGrid reload
 									/*
@@ -530,7 +531,7 @@ function distributeCase(index){
 							error : function(XMLHttpRequest, textStatus, errorThrown) {
 							}
 						});
-				 }
+				 }});
 			}
 		}); 
 }
@@ -541,8 +542,8 @@ function distributeCase(index){
 function changeCaseTeam(){
 	//var orgName =$('input[name="teamRadio"]:checked').parent().text();
 	var orgName =$('select[name="yuTeamCode"]').find("option:selected").text();
-	if(confirm("您是否确认分配给"+orgName+"?")){
-
+	
+	window.wxc.confirm("您是否确认分配给"+orgName+"?",{"wxcOk":function(){
     	//var orgId =$('input[name="teamRadio"]:checked').val();
 		var orgId =$('select[name="yuTeamCode"]').val();
 		var url = "/case/bindCaseTeam";
@@ -611,7 +612,7 @@ function changeCaseTeam(){
 				
 			}
 		}); 
-	}
+	}});
 }
 
 

@@ -7,6 +7,14 @@
 	
 	<description>跟平台和部署相关，便于根据不同平台替换的，只能放跟平台和部署相关的Bean</description>
 	
+	<beans profile="redisson">
+			<import resource="applicationCache_redisson.xml"/>
+	</beans>
+	
+	<beans profile="jedis">
+			<import resource="applicationCache_jedis.xml"/>
+	</beans>
+	
 	<beans profile="development">
 		<context:property-placeholder ignore-resource-not-found="true" 
 			location="classpath:properties/resources.development.properties"/>

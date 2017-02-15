@@ -20,12 +20,21 @@ clusterServersConfig:
   masterConnectionPoolSize: 250
   readMode: "SLAVE"
   nodeAddresses:
+<<<<<<< Updated upstream
   - "//redis01:6379"
   - "//redis02:6380"
   - "//redis03:6381"
   - "//redis04:6379"
   - "//redis05:6380"
   - "//redis06:6381"
+=======
+  - "redis://10.28.19.88:6379"
+  - "redis://10.28.19.88:6380"
+  - "redis://10.28.19.88:6381"
+  - "redis://10.28.19.89:6379"
+  - "redis://10.28.19.89:6380"
+  - "redis://10.28.19.89:6381"
+>>>>>>> Stashed changes
   scanInterval: 1000
 threads: 0
 nettyThreads: 0

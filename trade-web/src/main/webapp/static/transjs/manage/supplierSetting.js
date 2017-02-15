@@ -69,7 +69,7 @@
         		dataType:"json",
         		data:$("#addOrModifyForm").serialize(),
         		success:function(data){
-    				alert(data.message);
+        			window.wxc.alert(data.message);
 
         			if(data.success){
         				$("#modal-addOrModifyForm").modal("hide");
@@ -87,7 +87,7 @@
     		dataType:"json",
     		data:{pkid:$("#pkid").val()},
     		success:function(data){
-				alert(data.message);
+    			window.wxc.alert(data.message);
 
 		    	getSupList();
 				$("#pkid").val("");
@@ -113,7 +113,7 @@
     				$("#coLevel").val(data.content.coLevel);
     				$("#tags").val(data.content.tags);
     			}else{
-    				alert(data.message);
+    				window.wxc.error(data.message);
     			}
     		}
     	});
@@ -222,7 +222,7 @@
     	$("#modifyBtn").click(function(){
     		getSelectPkid();
     		if($("#pkid").val()==""){
-    			alert("请选择要修改的记录！");
+    			window.wxc.alert("请选择要修改的记录！");
     			return;
     		}
     		$("#finOrgCode").attr('readonly','readonly');
@@ -232,12 +232,13 @@
     	$("#delBtn").click(function(){
     		getSelectPkid();
     		if($("#pkid").val() == ""){
-    			alert("请选择要删除的记录！");
+    			window.wxc.alert("请选择要删除的记录！");
 				return;
     		}
-    		if(confirm("确定要删除该供应商！")){
+    		
+    		window.wxc.confirm("确定要删除该供应商？",{"wxcOk":function(){
     			delSup();
-    		}
+    		}});
     	});
     	$("#saveOrModifyBtn").click(function(){
 

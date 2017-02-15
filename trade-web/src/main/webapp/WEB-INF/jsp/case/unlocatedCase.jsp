@@ -316,8 +316,8 @@ width:160px;
 	function changeCaseTeam(){
 		//var orgName =$('input[name="teamRadio"]:checked').parent().text();
 		var orgName =$('select[name="yuTeamCode"]').find("option:selected").text();
-		if(confirm("您是否确认分配给"+orgName+"?")){
-
+		
+		window.wxc.confirm("您是否确认分配给"+orgName+"?",{"wxcOk":function(){
 	    	//var orgId =$('input[name="teamRadio"]:checked').val();
 			var orgId =$('select[name="yuTeamCode"]').val();
 			var url = "/case/bindCaseTeam";
@@ -379,7 +379,7 @@ width:160px;
 					
 				}
 			}); 
-		}
+		}});
 	}
 	</script>	
  </content>

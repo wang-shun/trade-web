@@ -175,7 +175,8 @@ function taskUserSelectBack(array){
 		var selectUserId=array[0].userId;
 		var selectUserRName=array[0].username;
 		//alert(selectUserId+"==="+selectUserRName);
-		if(confirm('是否确定将任务分配给"'+selectUserRName+'"?')){
+		
+		window.wxc.confirm('是否确定将任务分配给"'+selectUserRName+'"?',{"wxcOk":function(){
 			$("#h_userId").val(selectUserId);
 			if(optTaskId){
 				var sendData={'taskIds[0]':optTaskId,userId:selectUserId,'caseCodes[0]':caseCode};
@@ -183,7 +184,7 @@ function taskUserSelectBack(array){
 			}else{
 				changeTaskAssignee();
 			}
-		}
+		}});
 	}
 }
 function changeTaskAssignee(sendData){

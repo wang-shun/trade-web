@@ -210,7 +210,9 @@
 						}
 					},
 					success : function(data) {
-						window.location.href = "${ctx }/task/myTaskList";
+						window.wxc.success("数据保存成功！",{"wxcOk":function(){
+							window.location.href = "${ctx }/task/myTaskList";
+						}});
 					},
 					error : function(errors) {
 						window.wxc.error("数据保存出错");
