@@ -1,18 +1,18 @@
 package com.centaline.trans.common.service.impl;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.common.quickQuery.utils.QuickQueryJdbcTemplate;
 import com.centaline.trans.common.repository.utils.QuickQueryBatchWarpper;
 import com.centaline.trans.common.repository.utils.QuickQueryBatchWarpper.BatchQuery;
+import com.centaline.trans.utils.CollectionUtils;
+import com.centaline.trans.utils.CollectionUtils.Converter;
 
 
 
@@ -21,8 +21,6 @@ public class QuickQueryGetCaseInfoReportServiceImpl implements CustomDictService
 	
 	@Autowired
 	private QuickQueryJdbcTemplate jdbcTemplate;
-
-	private static String CASE_SQL = "SELECT  CASE_CODE,GRP_NAME,GRP_CODE,AR_NAME,WZ_NAME,QJDS_NAME,BA_NAME,AGENT_NAME,AGENT_PHONE FROM sctrans.T_TO_CASE_INFO WHERE CASE_CODE  IN (:caseCode)";
     
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		if(keys==null || keys.isEmpty()){
@@ -33,47 +31,35 @@ public class QuickQueryGetCaseInfoReportServiceImpl implements CustomDictService
   
 	private QuickQueryBatchWarpper batchWarpper = new QuickQueryBatchWarpper(new BatchQuery<Map<String, Object>>(){
 		public List<Map<String, Object>> query(List<Map<String, Object>> rs) {
-			
-			List<String> caseCodeList = new ArrayList<String>();
-			if(rs!=null && !rs.isEmpty()){
-				for (Map<String, Object> key : rs) {
-					Object caseCode   = key.get("CASE_CODE");					
-					if(caseCode!=null){
-						caseCodeList.add(caseCode.toString());
-					}
-
-				}
-				Map<String,Object> paramMap = new HashMap<String,Object>();
-				
-				List<Map<String, Object>>  caseInfos = new ArrayList<Map<String, Object>>();
-				paramMap.put("caseCode", caseCodeList);
-				caseInfos = jdbcTemplate.queryForList(CASE_SQL, paramMap);
-
-				for (Map<String, Object> key : rs) {
-					Object caseCode   = key.get("CASE_CODE");
-					
-					for(Map<String, Object> caseInfo:caseInfos){
-						if(caseInfo.get("CASE_CODE") !=null && caseCode != null){
-							if(caseCode.equals(caseInfo.get("CASE_CODE"))){
-								key.put("GRP_NAME", caseInfo.get("GRP_NAME"));								
-								key.put("AR_NAME", caseInfo.get("AR_NAME"));
-								key.put("WZ_NAME", caseInfo.get("WZ_NAME"));
-								key.put("QJDS_NAME", caseInfo.get("QJDS_NAME"));
-								
-								key.put("GRP_CODE", caseInfo.get("GRP_CODE"));
-								key.put("BA_NAME", caseInfo.get("BA_NAME"));
-								key.put("AGENT_NAME", caseInfo.get("AGENT_NAME"));
-								key.put("AGENT_PHONE", caseInfo.get("AGENT_PHONE"));													
-								continue;
-							}
-						}
-					}					
-				}
-			}
-			
+			Map<String,Object> paramMap = new HashMap<String,Object>();
+			StringBuilder[] joins = CollectionUtils.join(rs, new String[]{"','"}, new String[]{"CASE_CODE"});
+			//分行,片区,区域,区董,分行Code,大区,业务员姓名,业务员电话
+			String sql = "SELECT  CASE_CODE,GRP_NAME,GRP_CODE,AR_NAME,WZ_NAME,QJDS_NAME,BA_NAME,AGENT_NAME,AGENT_PHONE FROM sctrans.T_TO_CASE_INFO WHERE CASE_CODE  IN ('"+joins[0].toString()+"')";
+			List<Map<String, Object>> caseInfos = jdbcTemplate.queryForList(sql, paramMap);
+			CollectionUtils.merge(caseInfos, rs, new String[]{"CASE_CODE"});
+			sql = "SELECT CASE_CODE,PROPERTY_ADDR FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE in ('"+joins[0].toString()+"')";
+			List<Map<String, Object>> propertyInfos = jdbcTemplate.queryForList(sql, paramMap);
+			//产证地址
+			CollectionUtils.merge(propertyInfos, rs, new String[]{"CASE_CODE"});
+			//是否审批通过转换
+			CollectionUtils.convert(rs, converters);
 			return rs;
 		}
 	},1000);
+	
+	private Map<String,Converter<String,Object>> converters = new HashMap<String,Converter<String,Object>>();
+	public QuickQueryGetCaseInfoReportServiceImpl() {
+		converters.put("N_STATUS", new Converter<String,Object>(){
+			public Object convert(Map<String,Object> to) {
+				Object status = to.get("status");
+				if ( null == status ) {
+					return null;
+				}
+				status = "1".equals(status.toString())?"是":"否";
+				return status;
+			};
+		});
+	}
 
 	
 	@Override
