@@ -395,24 +395,17 @@ function packgeData(page){
 }
 function fetchData(p){
 	  $.ajax({
- 			  async: false,
+ 			  async: true,
  	          url:ctx+ "/quickGrid/findPage" ,
  	          method: "post",
  	          dataType: "json",
  	          data: p,
 			  beforeSend:function(){  				
-					$.blockUI({
-						message : $("#salesLoading"),
-						css : {
-							'border' : 'none',
-							'z-index' : '9999'
-						}
-					});
-					$(".blockOverlay").css({
-						'z-index' : '9998'
-					});
+				  $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	 			  $(".blockOverlay").css({'z-index':'9998'});
 		       },
  	          success: function(data){
+          		  $.unblockUI();
  	        	  //console.log("数据"+JSON.stringify(data));
  	        	  data.ctx = ctx;
  	        	  var tsAwardBaseList= template('template_unlocatedTask' , data);
@@ -440,7 +433,6 @@ function fetchData(p){
          			offsetX: 8,
          			offsetY: 5,
          		});
-         		 $.unblockUI();
  	          }
  	     });
 } 

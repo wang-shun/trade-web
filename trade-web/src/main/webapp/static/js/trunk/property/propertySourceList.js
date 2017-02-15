@@ -94,7 +94,7 @@ $(document)
 							.addClass(
 									"table table_blue table-striped table-bordered table-hover");
 
-					reloadGrid();
+					/*reloadGrid();*/
 
 					$(".charone").hide();
 					$("#sourceReportBtn").click(function() {

@@ -58,6 +58,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="row">
 		<div class="col-md-12">
 			<!--*********************** HTML_main*********************** -->
