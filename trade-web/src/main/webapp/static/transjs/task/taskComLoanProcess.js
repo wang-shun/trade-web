@@ -1209,11 +1209,12 @@ function submitMortgage(){
 		dataType:"json",
 		data:{caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),processInstanceId:$("#processInstanceId").val(),isMainLoanBank:$("#isMainLoanBank").val()},
 		success:function(data){
-			//window.wxc.alert(data.message);
-			if(data.success){
-				//window.location.href=ctx+"/task/myTaskList?"+new Date().getTime();
-				caseTaskCheck();
-			}
+			window.wxc.success(data.message,{"wxcOk" : function(){
+				if(data.success){
+					//window.location.href=ctx+"/task/myTaskList?"+new Date().getTime();
+					caseTaskCheck();
+				}
+			}});
 		}
 	});
 }

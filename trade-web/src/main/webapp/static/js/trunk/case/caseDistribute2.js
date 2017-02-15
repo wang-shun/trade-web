@@ -517,7 +517,7 @@ function distributeCase(index){
 				            
 							success : function(data) {
 								if(data.success){
-									alert("分配成功");
+									window.wxc.success("分配成功");
 									$('#modal-form').modal("hide");
 									//jqGrid reload
 									/*

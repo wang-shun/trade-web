@@ -555,7 +555,7 @@
 					function submit() {
 					if ($('#optionsRadios2:checked').val() == "30003001") {
 							if ($('input[name=invalid_reason]').val() == '') {
-								window.wxc.alert("无效案件必须填写失效原因!");
+								window.wxc.alert("无效案件必须填写无效原因!");
 								$('input[name=invalid_reason]').focus();
 								return;
 							}
