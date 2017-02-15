@@ -99,6 +99,7 @@ public class CollectionUtils {
 				//joinKeys所对应的值都相等，合并数据
 				if(merge){	
 					to.putAll(from);
+					break;
 				}
 			}
 		}		
