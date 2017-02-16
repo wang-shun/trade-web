@@ -421,7 +421,7 @@
     		                } 
     		            } ,  
 				success : function(data) {
-						window.wxc.succes("数据保存成功！",{"wxcOk":function(){
+						window.wxc.success("提交成功！",{"wxcOk":function(){
 							caseTaskCheck();
 						}});
 						

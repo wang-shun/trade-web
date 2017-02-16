@@ -123,6 +123,10 @@
 				<version>1.4</version>
 				<configuration>
 				   <shortRevisionLength>8</shortRevisionLength>
+				   <timestampFormat>{0,date,yyyy-MM-dd HH:mm:ss}</timestampFormat>
+					<items>
+						<item>timestamp</item>
+					</items>
 				</configuration>
 				<executions>
 					<execution>
@@ -146,6 +150,7 @@
                         <manifestEntries>
                             <commit>${buildNumber}</commit>
 							<branch>${scmBranch}</branch>
+							<buildTime>${timestamp}</buildTime>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -165,6 +170,7 @@
                         <manifestEntries>    
                             <commit>${buildNumber}</commit>
 							<branch>${scmBranch}</branch>
+							<buildTime>${timestamp}</buildTime>
                         </manifestEntries>    
                     </archive>  
                 </configuration>

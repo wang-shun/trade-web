@@ -254,7 +254,7 @@
 						}
 					},
 					success : function(data) {
-						window.wxc.succes("数据保存成功！",{"wxcOk":function(){
+						window.wxc.success("数据保存成功！",{"wxcOk":function(){
 							window.close();
 							if (window.opener) {
 								window.opener.callback();
