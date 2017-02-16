@@ -120,13 +120,13 @@ function checkIsExistFile(isSubmit){
 		data : "",
 		success : function(data) {
 			if (data.success == false) {
-				alert(data.message);
+				window.wxc.error(data.message);
 			} else {
 				commitDispose(isSubmit);
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
+			window.wxc.error("处理出错,请刷新后再次尝试！");
 		}
 	});
 	}
@@ -147,14 +147,15 @@ function checkIsExistFile(isSubmit){
 				executorId:executorId
 			} ,
 			success : function(data) {
-				alert(data.message)
 				if (data.success) {
-					$("#modal-form").modal("hide");
-					reloadGrid();
+					window.wxc.success(data.message,{"wxcOk":function(){
+						$("#modal-form").modal("hide");
+						reloadGrid();
+					}});
 				}
 			},
 			error : function(errors) {
-				alert("处理出错,请刷新后再次尝试！");
+				window.wxc.error("处理出错,请刷新后再次尝试！");
 			}
 		});
 	}
@@ -250,12 +251,12 @@ function checkIsExistFile(isSubmit){
 	}
 	function checkForm(){
 		if($("#executor").val() == ''){
-			alert('请选择执行人！');
+			window.wxc.alert('请选择执行人！');
 			return false;
 		}
 		if(!~~$('input[name="isScuess"]:checked ').val()){
 			if($('#unSuccessReason').val()==''){
-				alert('请输入无效原因！');
+				window.wxc.alert('请输入无效原因！');
 				return false;
 			}
 		}
@@ -285,7 +286,7 @@ function checkIsExistFile(isSubmit){
 
 	function checkOrg(o){
 		if(o.extendField!='yucui_district'){
-			alert('请选择一个贵宾服务总进行转组');
+			window.wxc.alert('请选择一个贵宾服务总进行转组');
 			return false;
 		}
 		return true;
@@ -319,14 +320,15 @@ function checkIsExistFile(isSubmit){
 			dataType : "json",
 			data :transferData,
 			success : function(data) {
-				alert(data.message)
 				$.unblockUI();
 				if(data.success){
-					reloadGrid();
+					window.wxc.success(data.message,{"wxcOk":function(){
+						reloadGrid();
+					}});
 				}
 			},
 			error : function(errors) {
-				alert("处理出错,请刷新后再次尝试！");
+				window.wxc.error("处理出错,请刷新后再次尝试！");
 				  $.unblockUI();
 			}
 		});

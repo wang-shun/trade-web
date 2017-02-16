@@ -55,7 +55,7 @@
 	<div class="wrapper wrapper-content">
         <div class="row animated fadeInDown">
             <div class="scroll_box fadeInDown animated marginbot">
-            <div class="row wrapper white-bg new-heading ">
+            <div class="row wrapper white-bg new-heading"  id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                                                        归档确认和结案审核
@@ -108,7 +108,7 @@
                 </div>
             </div>
         </div>
-            <div class="clearfix">
+            <div class="clearfix" id="aboutInfo">
 						<h2 class="newtitle title-mark">审批记录</h2>
 						<div class="jqGrid_wrapper">
 							<table id="reminder_list"></table>
@@ -140,6 +140,7 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script>
 		<!-- 改版引入的新的js文件 -->
     <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
 	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
@@ -179,8 +180,8 @@
     		                } 
     		            } , 
 				success : function(data) {
-					if(data.message){
-						window.wxc.success(data.message,{"wxcOk":function(){
+					if(data){
+						window.wxc.success("提交成功！",{"wxcOk":function(){
 							if(window.opener)
 						     {
 								 window.close();
@@ -192,7 +193,7 @@
 					}
 				},
 				error : function(errors) {
-					window.wxc.error("数据保存出错");
+					window.wxc.error("数据提交出错");
 				}
 			});
 		}

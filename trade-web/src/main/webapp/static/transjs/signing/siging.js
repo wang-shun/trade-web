@@ -58,7 +58,7 @@ $(function () {
     $("#searchBtn").click(function(){
     	var curDate = $.trim($('#curDate').val());
     	if(curDate==''){
-    		alert("请选择预约日期！");
+    		window.wxc.alert("请选择预约日期！");
     		return;
     	}
     	signRommAjaxSubmit(1);
@@ -130,15 +130,16 @@ $(function () {
 	     		},	 
 				success : function(data) {   
 						if(data.success){
-							alert(data.message);
-							$("#closeBtn").click();
-							signRommAjaxSubmit(1);
+							window.wxc.success(data.message,{"wxcOk":function(){
+								$("#closeBtn").click();
+								signRommAjaxSubmit(1);
+							}});
 						}else{
-							alert(data.message);
+							window.wxc.error(data.message);
 						}
 					},		
 				error : function(errors) {
-						alert("数据保存出错:"+JSON.stringify(errors));
+						window.wxc.error("数据保存出错:"+JSON.stringify(errors));
 					}	 
 	      });
 	   });
@@ -272,7 +273,7 @@ function signRommAjaxSubmit(obj) {
 			   }
 			   $("#signRoomTable tbody").append(th);
 		    }else{
-		    	alert(data.message);
+		    	window.wxc.error(data.message);
 		    }
 		},
 		error: function (e, jqxhr, settings, exception) {
@@ -313,34 +314,34 @@ function goSlotRoom(roomNo,roomType,slotTime,scheduleId,tradeCenter,tradeCenterI
 function checkFormSave(isMeet){
 	
 	if($.trim($("#jjrName").val())==''){
-		alert("请选择经纪人！");
+		window.wxc.alert("请选择经纪人！");
 		$("#jjrName").focus();
 		return false;
 	}
 	var mobile = $.trim($("#mobile").val());
 	if(mobile==''){
-		alert("请输入经纪人电话！");
+		window.wxc.alert("请输入经纪人电话！");
 		$("#mobile").focus();
 		return false;
 	}
 	if(!isMobile(mobile)){
-		alert("请输入正确格式的经纪人电话！");
+		window.wxc.alert("请输入正确格式的经纪人电话！");
 		$("#mobile").focus();
 		return false;
 	}
 	if(!isMeet){
 		if($.trim($("#propertyAddress").val())==''){
-			alert("请输入交易地址！");
+			window.wxc.alert("请输入交易地址！");
 			$("#propertyAddress").focus();
 			return false;
 		}
 	}
 	if($.trim($("#numberOfParticipants").val())==''){
-		alert("请输入参与人数！");
+		window.wxc.alert("请输入参与人数！");
 		$("#numberOfParticipants").focus();
 		return false;
 	}else if(!checkZhengShu($("#numberOfParticipants").val())){
-		alert("请输入正确的参与人数！");
+		window.wxc.alert("请输入正确的参与人数！");
 		$("#numberOfParticipants").focus();
 		return false;
 	}
@@ -352,7 +353,7 @@ function checkFormSave(isMeet){
         } 
     });
 	if(!flag){
-		alert("请选择办理事项！");
+		window.wxc.alert("请选择办理事项！");
 		return false;
 	}
 	

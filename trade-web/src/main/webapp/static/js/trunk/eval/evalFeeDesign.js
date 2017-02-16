@@ -287,7 +287,11 @@ function saveEvalItem(){
 	//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 	//$(".blockOverlay").css({'z-index':'9998'});
 	$('#editForm').attr('action', url);
-	$('#commit-form').modal("show");
+	
+	window.wxc.confirm("确定保存吗？",{"wxcOk":function(){
+		commitItem();
+	}});
+	//$('#commit-form').modal("show");
 	//$("#editForm").submit();
 }
 function commitItem(){

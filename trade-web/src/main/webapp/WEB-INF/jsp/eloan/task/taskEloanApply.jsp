@@ -986,15 +986,15 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					window.wxc.success(data.message);
-					var bohui = $("#processInstanceId").val();
-					if (bohui != null && bohui != '') {
-						window.close();
-						window.opener.callback();
-					} else {
-						window.location.href = ctx + "/eloan/Eloanlist";
-					}
-
+					window.wxc.success(data.message,{"wxcOk":function(){
+						var bohui = $("#processInstanceId").val();
+						if (bohui != null && bohui != '') {
+							window.close();
+							window.opener.callback();
+						} else {
+							window.location.href = ctx + "/eloan/Eloanlist";
+						}
+					}});
 				},
 				error : function(errors) {
 					window.wxc.error("数据保存出错");

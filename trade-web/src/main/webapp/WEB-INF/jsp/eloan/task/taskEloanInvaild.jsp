@@ -222,8 +222,9 @@
     				dataType : "json",
 					success : function(data) {	
 						if(data.success == true){
-							 window.wxc.success("数据保存成功");
-							 window.location.href = "${ctx}/eloan/Eloanlist";
+							 window.wxc.success("数据保存成功",{"wxcOk":function(){
+								 window.location.href = "${ctx}/eloan/Eloanlist";
+							 }});
 						}else{
 							window.wxc.error("数据保存出错");
 						} 
