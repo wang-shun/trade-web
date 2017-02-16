@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>新建自录单</title>
 
+
 <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
 <link rel="stylesheet" href="${ctx}/static/css/select2.min.css">
 <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
