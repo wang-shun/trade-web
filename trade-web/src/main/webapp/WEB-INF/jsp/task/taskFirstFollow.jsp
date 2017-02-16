@@ -643,6 +643,7 @@
 								}
 							},
 							success : function(data) {
+								console.log(data);
 								if (b) {
 									if(data.message){
 										window.wxc.alert(data.message);

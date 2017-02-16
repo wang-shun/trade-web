@@ -181,11 +181,12 @@ function doTransfer(pkid,districtId,orgName){
 		dataType : "json",
 		data :transferData,
 		success : function(data) {
-			window.wxc.alert(data.message)
+			
 			$.unblockUI();
 			if(data.success){
-				
-				reloadGrid();
+				window.wxc.success(data.message,{"wxcOk":function(){
+					reloadGrid();
+				}});
 				
 //				$('#table_property_list').jqGrid({
 //					queryId : "queryProcessWaitList",

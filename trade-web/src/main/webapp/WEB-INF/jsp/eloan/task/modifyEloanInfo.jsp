@@ -339,8 +339,10 @@
 					},
 					success : function(data) {	
 						if(data.success == true){
-							window.wxc.success("数据修改成功");
-							 window.location.reload(); 
+							window.wxc.success("数据修改成功",{"wxcOk":function(){
+								//window.location.reload();
+								window.location.href = ctx + "/eloan/Eloanlist";
+							}});
 						} 
 					},
 					error : function(errors) {
