@@ -517,15 +517,16 @@ function distributeCase(index){
 				            
 							success : function(data) {
 								if(data.success){
-									window.wxc.success("分配成功");
-									$('#modal-form').modal("hide");
-									//jqGrid reload
-									/*
-									reloadGrid(1);*/
-									$("#checkAllNot").attr('checked',false);
-									searchMethod(1);
+									window.wxc.success("分配成功",{"wxcOk":function(){
+										$('#modal-form').modal("hide");
+										//jqGrid reload
+										/*
+										reloadGrid(1);*/
+										$("#checkAllNot").attr('checked',false);
+										searchMethod(1);
+									}});
 								}else{
-									alert(data.message);
+									window.wxc.error(data.message);
 								}
 							},
 							error : function(XMLHttpRequest, textStatus, errorThrown) {
