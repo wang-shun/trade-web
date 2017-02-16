@@ -69,11 +69,11 @@
         		dataType:"json",
         		data:$("#addOrModifyForm").serialize(),
         		success:function(data){
-        			window.wxc.alert(data.message);
-
         			if(data.success){
-        				$("#modal-addOrModifyForm").modal("hide");
-        		    	getSupList();
+        				window.wxc.success(data.message,{"wxcOk":function(){
+        					$("#modal-addOrModifyForm").modal("hide");
+            		    	getSupList();
+        				}});
         			}
         			$("#pkid").val("");
         		}
@@ -87,10 +87,10 @@
     		dataType:"json",
     		data:{pkid:$("#pkid").val()},
     		success:function(data){
-    			window.wxc.alert(data.message);
-
-		    	getSupList();
-				$("#pkid").val("");
+    			window.wxc.success(data.message,{"wxcOk":function(){
+    				getSupList();
+    				$("#pkid").val("");
+    			}});
     		}
     	});
     }
