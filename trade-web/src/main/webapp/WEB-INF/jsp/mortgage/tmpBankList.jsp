@@ -89,7 +89,7 @@
 </head>
 
 <body>
-
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="row">
 		<div class="wrapper wrapper-content  animated fadeInRight">
 			<div class="col-md-12">

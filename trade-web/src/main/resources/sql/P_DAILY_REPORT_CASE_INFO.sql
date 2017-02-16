@@ -1,7 +1,8 @@
-/****** Object:  StoredProcedure [sctrans].[P_T_RPT_CASE_BASE_INFO]    Script Date: 2017/2/4 14:36:40 ******/  
+USE [sctrans_dev]
+GO
+/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/2/15 16:14:41 ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -10,7 +11,7 @@ GO
 -- Create date: <2017-02-04>
 -- Description:	<caseBaseInfo table>
 -- =============================================
-CREATE PROCEDURE [sctrans].[P_T_RPT_CASE_BASE_INFO]
+ALTER PROCEDURE [sctrans].[P_DAILY_REPORT_CASE_INFO]
 AS
 BEGIN
 
@@ -130,6 +131,7 @@ BEGIN
 				MORT_APPR_DATE              ,
 				MORT_LEND_DATE              ,
 				CASE_REC_STATUS             ,
+				CASE_REC_STATUS_CN          ,
 				LOAN_LOST_AMOUNT			,
 				LOAN_SELF_DEL_REASON        ,
 				LOAN_LOST_APPLY_REASON      ,
@@ -332,10 +334,14 @@ BEGIN
 				M.APPR_DATE,--批贷
 				M.LEND_DATE,--放贷		
 				CASE 
-					WHEN C.LOAN_REQ=1 and  M.IS_DELEGATE_YUCUI=1 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  '收单'--没流失
-					WHEN C.LOAN_REQ=1 and  M.IS_DELEGATE_YUCUI=0 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  '流失'--流失	
-					ELSE '不确定'
+					WHEN C.LOAN_REQ=1 and  M.IS_DELEGATE_YUCUI=1 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  '0'--没流失
+					WHEN C.LOAN_REQ=1 and  M.IS_DELEGATE_YUCUI=0 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  '1'--流失
 				END   CASE_REC_STATUS,
+				CASE
+					WHEN C.LOAN_REQ=1 and  M.IS_DELEGATE_YUCUI=1 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  '收单'--没流失
+					WHEN C.LOAN_REQ=1 and  M.IS_DELEGATE_YUCUI=0 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  '流失'--流失
+					ELSE '不确定'
+				END   CASE_REC_STATUS_CN,
 				CASE 
 					WHEN C.LOAN_REQ=1 and M.IS_DELEGATE_YUCUI=1 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  0 --没流失
 					WHEN C.LOAN_REQ=1 and M.IS_DELEGATE_YUCUI=0 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  M.COM_AMOUNT--流失	
@@ -546,6 +552,4 @@ BEGIN
 	END CATCH;  
 
 END
-
-GO
 
