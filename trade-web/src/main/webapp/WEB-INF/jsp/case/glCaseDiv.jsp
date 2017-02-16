@@ -294,8 +294,6 @@ function changeTaskAssignee(page,propertyCode){
 	if("backCaseMERGE"==callback){ data.queryId="queryQfCastListListdiv";
 								   data.caseCode=$("#caseCode_").val(); 
 							}else{ data.queryId="queryGlCastListListdiv";}
-    
-	
    	data.rows = 5;
 	$.ajax({
 		cache : false,
