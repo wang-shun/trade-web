@@ -276,10 +276,17 @@ public class CaseMergeController {
 	private String getManagerUserId(String grpCode) {		
 		String userId ="";
 		Map<String, Object> map = new HashMap<String, Object>();
+		TsTeamScopeTarget tsTeamScopeTarget =  new TsTeamScopeTarget();
 		if(null != grpCode && !"".equals(grpCode)){
 			map.put("grpCode", grpCode);
 			map.put("isResponseTeam", 1);			
-			TsTeamScopeTarget tsTeamScopeTarget = tsTeamScopeTargetService.getTeamScopeTargetInfo(map);
+			List<TsTeamScopeTarget> tsTeamScopeTargetList = tsTeamScopeTargetService.getTeamScopeTargetInfo(map);
+			if(tsTeamScopeTargetList.size() > 1){
+				userId ="";
+			}else if(tsTeamScopeTargetList.size() == 1){
+				tsTeamScopeTarget = tsTeamScopeTargetList.get(0);
+			}
+			
 			if( null != tsTeamScopeTarget ){
 				String yuTeamCode = tsTeamScopeTarget.getYuTeamCode();
 				if(null !=yuTeamCode && !"".equals(yuTeamCode)){

@@ -123,7 +123,7 @@ public class TsTeamScopeTargetServiceImpl implements TsTeamScopeTargetService {
 	}
 
 	@Override
-	public TsTeamScopeTarget getTeamScopeTargetInfo(Map<String, Object> param) {
+	public List<TsTeamScopeTarget> getTeamScopeTargetInfo(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		
 		return tsTeamScopeTargetMapper.getTeamScopeTargetInfo(param);		
