@@ -201,8 +201,8 @@
     		                } 
     		            } , 
 				success : function(data) {
-					if(data.message){
-						window.wxc.success(data.message,{"wxcOk":function(){
+					if(data){
+						window.wxc.success("提交成功！",{"wxcOk":function(){
 							if(window.opener)
 						     {
 								 window.close();
@@ -215,7 +215,7 @@
 					//window.location.href = "${ctx }/task/myTaskList";
 				},
 				error : function(errors) {
-					window.wxc.error("数据保存出错");
+					window.wxc.error("提交失败！");
 				}
 			});
 		}
