@@ -282,6 +282,7 @@ public class CaseMergeController {
 			map.put("isResponseTeam", 1);			
 			List<TsTeamScopeTarget> tsTeamScopeTargetList = tsTeamScopeTargetService.getTeamScopeTargetInfo(map);
 			if(tsTeamScopeTargetList.size() > 1){
+				//对应多个组别的情况不设置默认主管
 				userId ="";
 			}else if(tsTeamScopeTargetList.size() == 1){
 				tsTeamScopeTarget = tsTeamScopeTargetList.get(0);
