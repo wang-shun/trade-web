@@ -334,7 +334,8 @@ function($, window) {
 		var settings = $.extend({
 			url : "/quickGrid/findPage",
 			page : 1,
-			rows : 12
+			rows : 12,
+			isMobile : false
 		},options||{});
 		
 		var ctx = settings.ctx;
@@ -343,6 +344,7 @@ function($, window) {
 		data.queryId = settings.queryId;
 		data.page = settings.page;
 		data.rows = settings.rows;
+		data.isMobile = settings.data.isMobile;
 		aist.wrap(data);
 		var templeteId = settings.templeteId;
 		var templeteSource = settings.templeteSource;
@@ -355,12 +357,17 @@ function($, window) {
 	          method: "post",
 	          dataType: "json",
 	          data: data,
-	          beforeSend: function () {  
-	          	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-	  			$(".blockOverlay").css({'z-index':'9998'});
+	          beforeSend: function () { 
+	        	  if(!data.isMobile){
+	        		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	  	  			$(".blockOverlay").css({'z-index':'9998'});
+	        	  }
 	          },  
 	          success: function(data){
-	        	  $.unblockUI();  
+	        	  if(!data.isMobile){
+	        		  $.unblockUI();
+	        	  }
+	        	  
 	        	  if(!$.isBlank(wrapperData)) {
 	        		  data.wrapperData = wrapperData;
 	        	  } 
