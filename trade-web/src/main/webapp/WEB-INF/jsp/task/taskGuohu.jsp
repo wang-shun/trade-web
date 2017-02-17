@@ -507,6 +507,13 @@
 		/**提交数据*/
 		function submit() {
 			if (checkAttachments()) {
+				//验证上传文件是否全部上传
+				var isCompletedUpload = fileUpload.isCompletedUpload();
+				
+				if(!isCompletedUpload){
+					window.wxc.alert("附件还未全部上传!");
+					return false;
+				}
 				save(true);
 			}
 		}
@@ -761,9 +768,11 @@
 	</script> </content>
 	<content tag="local_require">
     <script>
+    	var fileUpload;
 	    require(['main'], function() {
 	    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-			    aistFileUpload.init({
+	    		fileUpload = aistFileUpload;
+	    		fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "Guohu",
 		    		fileUploadContainer : "guohufileUploadContainer"

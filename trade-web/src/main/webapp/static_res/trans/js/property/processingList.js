@@ -282,6 +282,14 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 			}
 		}
 		
+		//验证上传文件是否全部上传
+		var isCompletedUpload = fileUpload.isCompletedUpload();
+		
+		if(!isCompletedUpload){
+			window.wxc.alert("产调附件还未全部上传!");
+			return false;
+		}
+		
 		if(!checkForm()){
 			return false;
 		}

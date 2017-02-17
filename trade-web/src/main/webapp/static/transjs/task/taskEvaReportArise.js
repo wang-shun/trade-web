@@ -9,7 +9,7 @@
 		preFileAdress = [];
 		picTag = [];
 		picName = [];
-
+	
 		// 图片的ID
 		$("input[name='preFileAdress']").each(function(){
 			preFileAdress.push($(this).val());
@@ -203,6 +203,13 @@
 	    	if(!checkReportAtt()){
 	    		return;
 	    	}
+	    	//验证上传文件是否全部上传
+			var isCompletedUpload = fileUpload.isCompletedUpload();
+			
+			if(!isCompletedUpload){
+				window.wxc.alert("你有未上传的完成的文件，请稍候再试！");
+				return false;
+			}
 	    	var reportType = $("#reportType").val();
 	    	var evaCode = $("#eva_code").val();
 	    	var caseCode = $("#caseCode").val();

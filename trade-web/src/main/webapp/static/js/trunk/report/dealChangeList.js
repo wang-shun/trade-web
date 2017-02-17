@@ -319,7 +319,7 @@ $("#submitBtn").click(function(){
   		}
      });
 	if(content==''){
-		alert("请输入回访跟进内容！");
+		window.wxc.alert("请输入回访跟进内容！");
 		return;
 	}
 	var params = {};
@@ -334,42 +334,43 @@ $("#submitBtn").click(function(){
 		data : params,
 		success : function(data) {
 			if(data.success){
-				alert(data.message);
-				$("#close").click();
-				reloadGrid(goPage);
-				var newTitle = '';
-				if(remarkVisit=='1'){
-					$('#span'+batchId).html('<span class="yes_color">正常</span>');
-					newTitle+= "1. "+"正常 "+data.content.content+" "+data.content.createTime+"<br>";
-				}else if(remarkVisit=='0'){
-					$('#span'+batchId).html('<span class="red_color">异常</span>');
-					newTitle+= "1. "+"异常 "+data.content.content+" "+data.content.createTime+"<br>";
-				}else if(remarkVisit=='2'){
-					$('#span'+batchId).html('<span class="no_color">下次处理</span>');
-					newTitle+= "1. "+"下次处理 "+data.content.content+" "+data.content.createTime+"<br>";
-				}
-				var title = $('#i'+batchId).attr('title');
-				var titles = title.split("<br>");
-				for(var i=0;i<titles.length-1;i++){
-					var cont = titles[i].split(".")[1];
-					newTitle+= (i+2)+"."+cont+"<br>";
-				}
-				$('#i'+batchId).attr("title",newTitle);
-				$('.demo-top').poshytip({
-					className: 'tip-twitter',
-					showTimeout: 1,
-					alignTo: 'target',
-					alignX: 'center',
-					alignY: 'top',
-					offsetX: 8,
-					offsetY: 5,
-				});
+				window.wxc.success(data.message,{"wxcOk":function(){
+					$("#close").click();
+					reloadGrid(goPage);
+					var newTitle = '';
+					if(remarkVisit=='1'){
+						$('#span'+batchId).html('<span class="yes_color">正常</span>');
+						newTitle+= "1. "+"正常 "+data.content.content+" "+data.content.createTime+"<br>";
+					}else if(remarkVisit=='0'){
+						$('#span'+batchId).html('<span class="red_color">异常</span>');
+						newTitle+= "1. "+"异常 "+data.content.content+" "+data.content.createTime+"<br>";
+					}else if(remarkVisit=='2'){
+						$('#span'+batchId).html('<span class="no_color">下次处理</span>');
+						newTitle+= "1. "+"下次处理 "+data.content.content+" "+data.content.createTime+"<br>";
+					}
+					var title = $('#i'+batchId).attr('title');
+					var titles = title.split("<br>");
+					for(var i=0;i<titles.length-1;i++){
+						var cont = titles[i].split(".")[1];
+						newTitle+= (i+2)+"."+cont+"<br>";
+					}
+					$('#i'+batchId).attr("title",newTitle);
+					$('.demo-top').poshytip({
+						className: 'tip-twitter',
+						showTimeout: 1,
+						alignTo: 'target',
+						alignX: 'center',
+						alignY: 'top',
+						offsetX: 8,
+						offsetY: 5,
+					});
+				}});
 			}else{
-				alert(data.message);
+				window.wxc.error(data.message);
 			}
 		},		
 		error : function(errors) {
-			alert("数据保存出错:"+JSON.stringify(errors));
+			window.wxc.error("数据保存出错:"+JSON.stringify(errors));
 		}	 
     });
 	

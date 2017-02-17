@@ -1209,7 +1209,7 @@
 	    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
 	    		fileUpload = aistFileUpload;
 	    		
-	    		aistFileUpload.init({
+	    		fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "TransSign",
 		    		fileUploadContainer : "transSignfileUploadContainer"

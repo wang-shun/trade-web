@@ -180,7 +180,7 @@ function confrimStatus(ctx,pkid,stTo,changePkId){
 			    		postData:data1,
 			    	}).trigger('reloadGrid');
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			}
 		}
@@ -214,7 +214,7 @@ function cancelStatus(ctx,pkid,stFrom,changePkId) {
 			    		postData:data1,
 			    	}).trigger('reloadGrid');
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			}
 		}

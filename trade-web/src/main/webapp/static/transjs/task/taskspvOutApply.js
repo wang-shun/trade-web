@@ -19,10 +19,10 @@
 	}
 	function checkform(){
 		if($("#condId").val()==null || $("#condId").val() == ""){
-			alert("请选择解除条件！");
+			window.wxc.alert("请选择解除条件！");
 			return false;
 		}else if($("#deAmount").val() == ""){
-			alert("解除金额不能为空！");
+			window.wxc.alert("解除金额不能为空！");
 			$("#deAmount").focus();
 			return false;
 		}
@@ -102,7 +102,7 @@
     				//window.location.href=ctx+"/task/myTaskList";
     				caseTaskCheck();
     			}else{
-    				alert(data.message);
+    				window.wxc.error(data.message);
     			}
     		}
     	});

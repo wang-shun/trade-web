@@ -90,7 +90,7 @@
 					if(data.success){
 						t.hide();
 					}else{
-						alert('发送失败！');
+						window.wxc.error('发送失败！');
 					}
 				}
 		});

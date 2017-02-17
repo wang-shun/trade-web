@@ -49,7 +49,7 @@ $(document).ready(function() {
 					jQuery("#table_redcount_lists").setGridHeight($(window).width()*0.2);
 				},
 				error : function(data) {
-					alert(data.message);  
+					window.wxc.error(data.message);  
 				}
 			 });
 });
@@ -99,7 +99,7 @@ function searchRedcount(){
 					jQuery("#table_redcount_lists").setGridHeight($(window).width()*0.2);
 				},
 				error : function(data) {
-					alert(data.message);  
+					window.wxc.error(data.message);  
 				}
 			 });
 }

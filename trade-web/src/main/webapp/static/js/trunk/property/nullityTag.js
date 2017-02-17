@@ -10,7 +10,7 @@ function tagSubmit(ctx){
 	//var unSuccessReason = $("#unSuccessReason").val();
 	//var tagId = $("#tagId").val();
 	if($("#unSuccessReason").val()==''){
-		alert('请输入无效原因');
+		window.wxc.alert('请输入无效原因');
 		return false;
 	}
 	var toPropertyResearch ={
@@ -26,14 +26,15 @@ function tagSubmit(ctx){
 		dataType : "json",
 		data :toPropertyResearch,
 		success : function(data) {
-			alert(data.message)
 			if(data.success){
-				parent.location.reload();
-				 parent.$.fancybox.close();
+				window.wxc.success(data.message,{"wxcOk":function(){
+					parent.location.reload();
+					parent.$.fancybox.close();
+				}});
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
+			window.wxc.error("处理出错,请刷新后再次尝试！");
 		}
 	});
 }

@@ -468,8 +468,8 @@
 		</div>
 	</div>
 
-	<div id="modal-form-report" class="modal fade" aria-hidden="true">
-		<div class="modal-dialog" style="width: 1000px; height:100%;overflow-y:scroll">
+	<div id="modal-form-report" class="modal inmodal in" aria-hidden="false" tabindex="-1" role="dialog">
+		<div class="modal-dialog" style="width: 1000px; overflow-y:scroll">
 			<div class="modal-content" >
 				<div class="modal-body" style="height: 800px">
 				<div class="col-lg-12">
@@ -509,7 +509,8 @@
 						</form>
 					
 					<div class="form-group">
-						<%for(int j=1;j<4;j++) {%>
+					  <div class="table-box" id="comLoanProcess2fileUploadContainer" style="text-align:center;"></div>
+						<%-- <%for(int j=1;j<4;j++) {%>
 						<div class="ibox-content">
 							<%if(j==1){ %>
 							<h5>身份证</h5>
@@ -623,8 +624,8 @@
 									</div>
 								</div>
 							</div>
-						</div>
-						<%} %>
+						</div> --%>
+					<%-- 	<%} %> --%>
 					</div>
 
 					<input type="button" class="btn btn-success" id="reportSubBtn" value="提交">
@@ -1873,19 +1874,20 @@ function checkInt(obj){
 			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
 				fileUpload = aistFileUpload; 
 				
-				aistFileUpload.init({
+				fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "ComLoanProcess",
 		    		preFileCode : "_letter_first",
 		    		fileUploadContainer : "comLoanProcessfileUploadContainer"
 		    	});
 				
-				aistFileUpload.init({
+				fileUpload.init({
 			    		caseCode : $('#caseCode').val(),
 			    		partCode : "ComLoanProcess",
 			    		preFileCode : "_letter_sec",
 			    		fileUploadContainer : "comLoanProcess1fileUploadContainer"
 			    	});
+				
 			    
 		    });
 	    });

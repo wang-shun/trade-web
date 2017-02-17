@@ -35,7 +35,7 @@ function getExplPicByhouseCode() {
 			$('.wrapper-content').viewer();
 		},
 		error : function(errors) {
-			alert("产调加载失败");
+			window.wxc.error("产调加载失败");
 			return false;
 		}
 	});
@@ -71,7 +71,7 @@ function getShowAttachment11() {
 			$(".wrapper-content").viewer();
 		},
 		error : function(errors) {
-			alert("产调加载失败");
+			window.wxc.error("产调加载失败");
 			return false;
 		}
 	});
