@@ -999,6 +999,7 @@
 			if(flag){
 				var url = ctx+"/task/CaseClose/saveCaseClose";
 				if(b) {
+					
 					url = ctx+"/task/CaseClose/submitCaseClose";
 				}
 				$.ajax({
@@ -1026,20 +1027,19 @@
 	    		  			});	 
 	    		                } 
 	    		            } , 
-					success : function(data) {
-							if(data.message){
-								window.wxc.success(data.message,{"wxcOk":function(){
-									if(window.opener)
-								    {
-										 window.close();
-										 window.opener.callback();
-								    } else {
-								    	 window.location.href = "${ctx }/task/myTaskList";
-								    } 
-								}});
-							}
-							
-							//window.location.href = "${ctx }/task/myTaskList";
+	    		            
+	    			success : function(data) {
+								if(data.message){
+									window.wxc.alert(data.message);
+								}
+								if(window.opener)
+							    {
+									 window.close();
+									 window.opener.callback();
+							    } else {
+							    	 window.location.href = "${ctx }/task/myTaskList";
+							    } 
+								//window.location.href = "${ctx }/task/myTaskList";
 					},
 					error : function(errors) {
 						window.wxc.error("数据保存出错");
