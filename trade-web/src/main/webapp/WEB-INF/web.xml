@@ -27,7 +27,7 @@
 	<!-- 設定Spring Context的默认Profile -->
 	<context-param>
     	<param-name>spring.profiles.default</param-name>
-    	<param-value>development,redisson</param-value>
+    	<param-value>development,jedis</param-value>
 	</context-param>
 	
 	<!-- 启用Session Scope -->
