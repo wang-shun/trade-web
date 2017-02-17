@@ -70,6 +70,9 @@ var LogoutUtils = {
 			iframe.src = LogoutUtils.appLogout[appName] + '/logout';
 			document.body.appendChild(iframe);
 		}
+		
+		//最新退出方式，对于cas 5.0.2 已经不需要上述登出方式，直接如此即可。
+		//window.location = appCtx['trade-web']+'/logout';
 	},
 	logoutFinishCallback : function() {
 		LogoutUtils.appIndex++;
