@@ -643,8 +643,8 @@
                         <div class="panel-heading" style="padding:0;">
                             <div class="panel-options">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#tab-1">主选银行</a></li>
-                                    <li class=""><a data-toggle="tab" href="#tab-2">候选银行</a></li>
+                                    <li class="active"><a id="tab1" data-toggle="tab" href="#tab-1">主选银行</a></li>
+                                    <li class=""><a id="tab2" data-toggle="tab" href="#tab-2">候选银行</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -1542,6 +1542,20 @@ function readOnlyForm(){
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <script>
 var afterTimeFlag=${afterTimeFlag};
+var popInited=false;
+//点击tab页面触发函数   -----From Bootstrap 标签页（Tab）插件
+$(".nav-tabs").find("a").on('shown.bs.tab', function (e) {
+	  var id = e.target.id;
+	  if(id == 'tab1'){
+		  //点击主选银行
+		  $("#isMainLoanBank").val(1);
+		  $("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
+	  }else if(id == 'tab2'){
+		  //点击候选银行
+		  $("#isMainLoanBank").val(0);
+		  $("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(0);
+	  }
+	})
 
 function checknum(obj){
 	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
@@ -1686,6 +1700,55 @@ function checkInt(obj){
 		//设置初始操作步骤
 		getPricingList("table_list_3","pager_list_3",0);
 		getPricingList("table_list_1","pager_list_1",1);
+		 //银行下拉列表
+		getParentBank($("#addToEguPricingForm").find("select[name='bank_type']"),$("#bank_branch_id"),"",null,"egu");
+		
+		$("#addToEguPricingForm").find("select[name='bank_type']").change(function(){
+			/*$("#bank_branch_id").chosen("destroy");*/
+    	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"",null,"egu");
+        });
+		 document.getElementById('optionsRadios1').checked=true;
+            if($("input[name='optionsRadios']:checked").val()==0){
+                $("#direct_launch_div").hide();
+            }else{
+                $("#direct_launch_div").show();
+                 $("#addToEguPricingForm").find("input").each(function(){
+                     $(this).removeAttr("disabled");
+                     if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
+                         $(this).val("");
+                     }
+                 });
+                 $("#addToEguPricingForm").find("select").each(function(){
+                     $(this).removeAttr("disabled");
+                     if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
+                         $(this).val("");
+                     }
+                 });
+            }
+		if(popInited)return true;
+		popInited=true;
+		$("input[name='optionsRadios']").click(function(){
+			 if($(this).val()==0){
+				 $("#direct_launch_div").hide();
+				 $("#addToEguPricingForm").find("input").each(function(){
+					 if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios"){
+       					 $(this).attr("disabled","disabled");
+					 }
+   				 });
+				 $("#addToEguPricingForm").find("select").each(function(){
+   					 $(this).attr("disabled","disabled");
+   				 });
+			 }else{
+				 $("#direct_launch_div").show();
+				 $("#addToEguPricingForm").find("input").each(function(){
+       				 $(this).removeAttr("disabled");
+   				 });
+				 $("#addToEguPricingForm").find("select").each(function(){
+       				 $(this).removeAttr("disabled");
+   				 });
+			 }
+		 });
+			
 		if(step1 == 1){
  			getReminderList("table_list_5","pager_list_5");
 		}else if(step1 == 2||step1==3){
@@ -1695,26 +1758,9 @@ function checkInt(obj){
 		}else if(step1 == 5){
 			getCompleteMortInfo(0);
 		}
-/* 		if(mainLoanBank == "0"){
-			$("#isMainLoanBank").val("0");
-			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(0);
-		    $("#first").css("display","none");
-			$("#second").css("display","block");
-			if(step1 == 1){
-	 			getReminderList("table_list_5","pager_list_5");
-			}else if(step1 == 2||step1==3){
-		 		getMortgageInfo($("#caseCode").val(),mainLoanBank);
-			}else if(step1 == 4){
-				getReportList("table_list_6","pager_list_6",mainLoanBank);
-			}else if(step1 == 5){
-				getCompleteMortInfo(mainLoanBank);
-			}
 
-		}else{ */
 			$("#isMainLoanBank").val("1");
 			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
-			/* $("#first").css("display","block");
-			$("#second").css("display","none"); */
 			
 			if(step == 1){
 	 			getReminderList("table_list_2","pager_list_2");
@@ -1725,7 +1771,6 @@ function checkInt(obj){
 			}else if(step == 5){
 				getCompleteMortInfo(1);
 			}
-/* 		} */
 
 	 	$(".myDataToggle").click(function(){
 	 		$("#isMainLoanBank").val($(this).attr('data-m'));
@@ -1735,29 +1780,7 @@ function checkInt(obj){
 	 		}else{
 	 			$("#second").removeClass("in");
 	 		}
-	 		
-	 		/* if($("#isMainLoanBank").val() == "0"){
-				$("#isMainLoanBank").val("1");
-				getPricingList("table_list_1","pager_list_1");
-
-	 		}else{
-				$("#isMainLoanBank").val("0");
-				getPricingList("table_list_3","pager_list_3");
-
-	 		} */
 		});
-	/* 	$("#secBank i").click(function(){
-			if($("#isMainLoanBank").val() == "0"){
-				$("#isMainLoanBank").val("1");
-				getPricingList("table_list_1","pager_list_1");
-
-	 		}else{
-				$("#isMainLoanBank").val("0");
-				getPricingList("table_list_3","pager_list_3");
-
-	 		}
-			
-		});  */
 		$("#caseCommentList").caseCommentGrid({
 			caseCode : caseCode,
 			srvCode : taskitem

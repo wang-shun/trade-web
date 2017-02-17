@@ -1,7 +1,5 @@
 
-var popInited=false;
 function checkAssess(){
-	
 	if($("#building_no").val() == ""){
 		$("#building_no").css("border-color","red");
 		return false;
@@ -203,11 +201,11 @@ function assess(){
 	        		}
 		
 					if(isMainLoanBank == 1){
-						searchPricingList("table_list_1");
-		    		//	getPricingList("table_list_1","pager_list_1");
+						//searchPricingList("table_list_1");
+		    			getPricingList("table_list_1","pager_list_1",1);
 					}else{
-						searchPricingList("table_list_3");
-		    		//	getPricingList("table_list_3","pager_list_3");
+						//searchPricingList("table_list_3");
+		    			getPricingList("table_list_3","pager_list_3",0);
 					}
 	    		}	    		
 	    	}
@@ -245,11 +243,11 @@ function disagree(){
 					window.wxc.alert(data.message);
 					if(data.success){
 		    			if(isMainLoanBank == 0){
-							searchPricingList("table_list_3");
-		        	//		getPricingList("table_list_3","pager_list_3");
+		    				//searchPricingList("table_list_3");
+		        			getPricingList("table_list_3","pager_list_3",0);
 		    			}else{
-							searchPricingList("table_list_1");
-		        	//		getPricingList("table_list_1","pager_list_1");
+		    				//searchPricingList("table_list_1");
+		        			getPricingList("table_list_1","pager_list_1",1);
 		    			}
 						$("#modal-applyForm").modal("hide");
 					}
@@ -301,11 +299,11 @@ function acceptPricing(tableId,pkid){
 			if(data.success){
 				$("#"+tableId+"_btn_"+pkid).html("取消");
     			if(isMainLoanBank == 0){
-					searchPricingList("table_list_3");
-        	//		getPricingList("table_list_3","pager_list_3");
+    				//searchPricingList("table_list_3");
+        			getPricingList("table_list_3","pager_list_3",0);
     			}else{
-					searchPricingList("table_list_1");
-        	//		getPricingList("table_list_1","pager_list_1");
+    				//searchPricingList("table_list_1");
+        			getPricingList("table_list_1","pager_list_1",1);
     			}
 			}else{
 				window.wxc.error(data.message);	
@@ -327,11 +325,11 @@ function cancelAccept(tableId,pkid){
 			if(data.success){
 				$("#"+tableId+"_btn_"+pkid).html("接受");
     			if(isMainLoanBank == 0){
-					searchPricingList("table_list_3");
-        	//		getPricingList("table_list_3","pager_list_3");
+    				//searchPricingList("table_list_3");
+        			getPricingList("table_list_3","pager_list_3",0);
     			}else{
-					searchPricingList("table_list_1");
-        	//		getPricingList("table_list_1","pager_list_1");
+    				//searchPricingList("table_list_1");
+        			getPricingList("table_list_1","pager_list_1",1);
     			}
 			}else{
 				window.wxc.error(data.message);	
@@ -542,7 +540,6 @@ var mCustCode='';
 var custCode='';
 //查询贷款信息
 function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
-	/*var isMainLoanBank = $("#isMainLoanBank").val();*/
 	if(isMainLoanBank=='0'&&!mCustCode){
 		getMortgageInfo(caseCode,'1',true);
 	}
@@ -1120,57 +1117,6 @@ function getPricingList(tableId,pageId,isMainLoanBank){
  							}
  						}
  				  });
-    				 document.getElementById('optionsRadios1').checked=true;
-                     if($("input[name='optionsRadios']:checked").val()==0){
-                         $("#direct_launch_div").hide();
-                     }else{
-                         $("#direct_launch_div").show();
-                          $("#addToEguPricingForm").find("input").each(function(){
-                              $(this).removeAttr("disabled");
-                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
-                                  $(this).val("");
-                              }
-                          });
-                          $("#addToEguPricingForm").find("select").each(function(){
-                              $(this).removeAttr("disabled");
-                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
-                                  $(this).val("");
-                              }
-                          });
-                     }
-    				if(popInited)return true;
-    				popInited=true;
-    				$("input[name='optionsRadios']").click(function(){
-    					 if($(this).val()==0){
-    						 $("#direct_launch_div").hide();
-    						 $("#addToEguPricingForm").find("input").each(function(){
-    							 if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios"){
-                					 $(this).attr("disabled","disabled");
-    							 }
-            				 });
-    						 $("#addToEguPricingForm").find("select").each(function(){
-            					 $(this).attr("disabled","disabled");
-            				 });
-    					 }else{
-    						 $("#direct_launch_div").show();
-    						 $("#addToEguPricingForm").find("input").each(function(){
-                				 $(this).removeAttr("disabled");
-            				 });
-    						 $("#addToEguPricingForm").find("select").each(function(){
-                				 $(this).removeAttr("disabled");
-            				 });
-    					 }
-    				 });
-  				   
-  				   
-  				   
-  				 //银行下拉列表
-  				getParentBank($("#addToEguPricingForm").find("select[name='bank_type']"),$("#bank_branch_id"),"",null,"egu");
-  				
-  				$("#addToEguPricingForm").find("select[name='bank_type']").change(function(){
-  					/*$("#bank_branch_id").chosen("destroy");*/
-			    	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"",null,"egu");
-			    }); 
     		}
 	    }); 
 }
@@ -1180,7 +1126,7 @@ function searchPricingList(table_list_id){
 		"postData" : {
 			queryId:"queryToEguPricingPage",
         	search_caseCode:$("#caseCode").val(),
-        	search_isMainLoanBank:$("#isMainLoanBank").val()
+        	search_isMainLoanBank:isMainLoanBank
         },
 		"page":1 
 	}).trigger('reloadGrid');
@@ -1198,11 +1144,11 @@ function bindEvaCode(){
 				$("#modal-form").modal("hide");
 				var isMainLoanBank = $("#isMainLoanBank").val();
 				if(isMainLoanBank == 1){
-					searchPricingList("table_list_1");
-	    		//	getPricingList("table_list_1","pager_list_1");
+					//searchPricingList("table_list_1");
+	    			getPricingList("table_list_1","pager_list_1",1);
 				}else{
-					searchPricingList("table_list_3");
-	    		//	getPricingList("table_list_3","pager_list_3");
+					//searchPricingList("table_list_3");
+	    			getPricingList("table_list_3","pager_list_3",0);
 				}
 			}
 		}
@@ -1314,11 +1260,11 @@ $(document).ready(function () {
 	 $("#pricingClose").click(function(){
 		 var isMainLoanBank = $("#isMainLoanBank").val();
 		 if(isMainLoanBank == 1){
-			 searchPricingList("table_list_1");
-			// getPricingList("table_list_1","pager_list_1");
+			 //searchPricingList("table_list_1");
+			 getPricingList("table_list_1","pager_list_1",1);
 		 }else{
-			 searchPricingList("table_list_3");
-			// getPricingList("table_list_3","pager_list_3");
+			 //searchPricingList("table_list_3");
+			 getPricingList("table_list_3","pager_list_3",0);
 		 }
 	 });
 	 

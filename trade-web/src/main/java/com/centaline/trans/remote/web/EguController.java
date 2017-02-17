@@ -116,13 +116,9 @@ public class EguController {
     public AjaxResponse<String> assess(HouseInfoVo houseInfo, HttpServletRequest request) {
 
 		AjaxResponse<String> response = new AjaxResponse<String>();
+		
 		try{
-			eguService.assess(houseInfo);
-			response.setMessage("询价申请成功！");
-		}catch(BusinessException e){
-			response.setSuccess(false);
-			response.setCode(e.getCode());
-			response.setMessage(e.getMessage());
+			eguService.assess(response,houseInfo);
 		}catch(Exception e1){
 			response.setSuccess(false);
 			response.setMessage(e1.getMessage());
