@@ -160,8 +160,8 @@
     <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script> -->
 
     <!-- Custom and plugin javascript -->
-    <script src="${ctx}/static/js/inspinia.js"></script>
-    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
+    <%-- <script src="${ctx}/static/js/inspinia.js"></script>
+    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script> --%>
     <script type="text/javascript" src="${ctx}/static/trans/js/plugins/poshytip/jquery.poshytip.js"></script>
 	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <!-- 开关按钮js -->

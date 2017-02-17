@@ -340,8 +340,8 @@
     </div>
             
 	<content tag="local_script"> 
-	   <script src="${ctx}/js/inspinia.js"></script> 
-	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> 
+	   <%-- <script src="${ctx}/js/inspinia.js"></script> 
+	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> --%> 
 	   <script src="${ctx}/static/trans/js/plugins/poshytip/jquery.poshytip.min.js"></script>
 	   <!-- 开关按钮js -->
        <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
