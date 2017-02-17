@@ -91,7 +91,7 @@ $(document).ready(function() {
 						pgtext : " {0} 共 {1} 页",
 
 						onSelectRow : function(rowid, status) {
-							alert(rowid);
+							window.wxc.alert(rowid);
 						},
 						postData : {
 							queryId : "queryEvalItemList",

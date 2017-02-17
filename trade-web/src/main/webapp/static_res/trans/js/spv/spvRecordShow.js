@@ -8,7 +8,7 @@ function approvalby(){
 		  return false;
 	    }
 	if(null ==$.trim($("#turndownContent_").val()) || "" == $.trim($("#turndownContent_").val())){
-		alert("请填写审批意见！");
+		window.wxc.alert("请填写审批意见！");
 		 return false;
 	}
 	//设置流程判断参数
@@ -47,7 +47,7 @@ function turndown(){
 		  return false;
 	    }
 	if(null ==$.trim($("#turndownContent_").val()) || "" == $.trim($("#turndownContent_").val())){
-		alert("请填写审批意见！");
+		window.wxc.alert("请填写审批意见！");
 		 return false;
 	}
 	$('#chargeInAppr').val(false);

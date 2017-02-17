@@ -34,7 +34,7 @@ var TaskTransSignValidate  = function () {
       msg += (v.message + "\r\n");  
      });  
      if (msg != "")
-    	alert(msg);
+    	 window.wxc.alert(msg);
      	/*layer.alert(msg,{
      		icon: 2
      		//time : 2000

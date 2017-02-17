@@ -456,10 +456,10 @@ function processfu(pkId,propertyCode,caseCode,propertyAddr,agentName,agentPhone,
 	showGlDiv('backCase1',pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType,ctx +"/engine/task/"+id+"/process",false);
 }
 function ts(status){
-	alert(status+"案件不能拆分案件！");
+	window.wxc.alert(status+"案件不能拆分案件！");
 }
 function processTs(){
-	alert("该案件被申请合流中，请先去审核！");
+	window.wxc.alert("该案件被申请合流中，请先去审核！");
 }
 
 

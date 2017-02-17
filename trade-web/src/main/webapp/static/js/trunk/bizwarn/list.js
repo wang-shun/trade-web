@@ -2,7 +2,7 @@ var ctx = $("#ctx").val();
 
 function relieve(caseCode,status){
 	if(status == "1"){
-		alert("该案件状态已经处于解除状态！");
+		window.wxc.alert("该案件状态已经处于解除状态！");
 		return false;
 	}
 	

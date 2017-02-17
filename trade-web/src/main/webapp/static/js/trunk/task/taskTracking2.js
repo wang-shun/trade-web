@@ -5,17 +5,17 @@ $(document).ready(function() {
 	var caseCode = getParameter("caseCode");	
 	if(caseCode != "" && caseCode != null && caseCode != undefined){
 		$("#caseCode").val(caseCode);
-		alert("恭喜,新建案件成功,请等待主管分配！");
-	
-		startList=1;
-		var data = {				
-				search_caseCode:$.trim(caseCode),			
-				queryId : "queryCastTrackingListItemList",
-				rows : 10,
-				page : 1
-			};
-	    aist.wrap(data);	   
-		reloadGrid(data);
+		window.wxc.success("恭喜,新建案件成功,请等待主管分配！",{"wxcOk":function(){
+			startList=1;
+			var data = {				
+					search_caseCode:$.trim(caseCode),			
+					queryId : "queryCastTrackingListItemList",
+					rows : 10,
+					page : 1
+				};
+		    aist.wrap(data);	   
+			reloadGrid(data);
+		}});
 	}
 
 });

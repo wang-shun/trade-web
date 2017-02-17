@@ -52,7 +52,7 @@ $(document).ready(function() {
 					jQuery("#table_report_lists").setGridHeight($(window).width()*0.2);
 				},
 				error : function(data) {
-					alert(data.message);  
+					window.wxc.error(data.message);  
 				}
 			 });
 });
@@ -105,7 +105,7 @@ function searchCount(){
 					jQuery("#table_report_lists").setGridHeight($(window).width()*0.2);
 				},
 				error : function(data) {
-					alert(data.message);  
+					window.wxc.error(data.message);  
 				}
 			 });
 }
