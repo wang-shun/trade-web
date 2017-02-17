@@ -877,7 +877,14 @@ function getReportList(tableId,pageId,isMainLoanBank){
     				}
     				confirmPricing();
     				getEvaCompany();
-    				getAttchInfo();
+    				//getAttchInfo();
+    				fileUpload.init({
+    		    		caseCode : $('#caseCode').val(),
+    		    		partCode : "ComLoanProcess",
+    		    		preFileCode : "_eg",
+    		    		maskId : "modal-form-report",
+    		    		fileUploadContainer : "comLoanProcess2fileUploadContainer"
+    		    	});
     				$("#modal-form-report").modal('show');
     		}
     }); 
@@ -1391,6 +1398,12 @@ $(document).ready(function () {
 				return false;
 			}
  			
+ 			if ($("#rec_letter_first_pic_list li").length == undefined
+					|| $("#rec_letter_first_pic_list li").length == 0 ) {
+				window.wxc.alert("推荐函未上传!");
+				return false;
+			}
+ 			
  			var option = [];
  			option.container = "comLoanProcessfileUploadContainer";
  			
@@ -1399,12 +1412,6 @@ $(document).ready(function () {
 			
 			if(!isCompletedUpload){
 				window.wxc.alert("附件还未全部上传!");
-				return false;
-			}
- 			
- 			if ($("#rec_letter_first_pic_list li").length == undefined
-					|| $("#rec_letter_first_pic_list li").length == 0 ) {
-				window.wxc.alert("推荐函未上传!");
 				return false;
 			}
  			
@@ -1485,7 +1492,11 @@ transitionEffect: "slide",
 			window.wxc.alert("贷款材料确认书未上传!");
 			return false;
 		}
-			
+			if ($("#rec_letter_sec_pic_list li").length == undefined
+				|| $("#rec_letter_sec_pic_list li").length == 0 ) {
+			window.wxc.alert("推荐函未上传!");
+			return false;
+		}
 			var option = [];
  			option.container = "comLoanProcess1fileUploadContainer";
  			
@@ -1496,12 +1507,6 @@ transitionEffect: "slide",
 				window.wxc.alert("附件还未全部上传!");
 				return false;
 			}
-			
-			if ($("#rec_letter_sec_pic_list li").length == undefined
-				|| $("#rec_letter_sec_pic_list li").length == 0 ) {
-			window.wxc.alert("推荐函未上传!");
-			return false;
-		}
 			return true;
 		}
 		
@@ -1545,7 +1550,7 @@ transitionEffect: "slide",
     	if(getUploadPicInfo()){
     		return;
     	};
-    	if(attachmentIds.length==0&&preFileAdress.length==0){
+    	/*if(attachmentIds.length==0&&preFileAdress.length==0){
     		window.wxc.alert("图片数据不能为空！");
         	return;
     	}
@@ -1557,13 +1562,41 @@ transitionEffect: "slide",
 	    }
     	if(!checkReportAtt()){
     		return;
-    	}
+    	}*/
+    	if ($("#identification_card_eg_pic_list li").length == undefined
+				|| $("#identification_card_eg_pic_list li").length == 0 ) {
+			window.wxc.alert("身份证未上传!");
+			return false;
+		}
+    	if ($("#housing_contract_eg_pic_list li").length == undefined
+				|| $("#housing_contract_eg_pic_list li").length == 0 ) {
+			window.wxc.alert("购房合同未上传!");
+			return false;
+		}
+    	if ($("#property_certificate_eg_pic_list li").length == undefined
+				|| $("#property_certificate_eg_pic_list li").length == 0 ) {
+			window.wxc.alert("房产证未上传!");
+			return false;
+		}
+    	var option = [];
+			option.container = "comLoanProcess2fileUploadContainer";
+			//验证上传文件是否全部上传
+		var isCompletedUpload = fileUpload.isCompletedUploadById(option);
+		
+		if(!isCompletedUpload){
+			window.wxc.alert("附件还未全部上传!");
+			return false;
+		}
+    	
+    	
+    	
     	var reportType = $("#reportType").val();
     	var evaCode = $("#eva_code").val();
     	var caseCode = $("#caseCode").val();
     	var isMainLoanBank = $("#isMainLoanBank").val();
     	var url = "";
     	var finOrgCode = $("#orgPricing").val();
+    	
     	if(finOrgCode!=null && finOrgCode=="P00021"){
         	if(reportType == "1"){  //预估单
         		url = ctx+"/remote/egu/"+evaCode+"/prereport";
