@@ -239,6 +239,20 @@
              		rcRiskControl : rcRiskControl
              	}
              	
+             	//校验附件是否上传
+             	if ($("#fair_letter_pic_list li").length == undefined
+				|| $("#fair_letter_pic_list li").length == 0 ) {
+					window.wxc.alert("公证书未上传!");
+					return false;
+				}  
+             	//验证上传文件是否全部上传
+        		var isCompletedUpload = fileUpload.isCompletedUpload();
+        		
+        		if(!isCompletedUpload){
+        			window.wxc.alert("公证书还未全部上传!");
+        			return false;
+        		}
+             	
              	var url = "${ctx}/riskControl/saveToRcForceRegister";
      			$.ajax({
      				cache : true,
@@ -273,7 +287,7 @@
      			});
      			
      			// 保存附件相关信息
-     			deleteAndModify();
+     			//deleteAndModify();
         	 });
         	 
              $(".close_btn").click(function(){
@@ -291,9 +305,11 @@
 
 <content tag="local_require">
     <script>
+    	var fileUpload;
 	    require(['main'], function() {
 			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','bootstrapModal','modalmanager'],function($,aistFileUpload){
-			    aistFileUpload.init({
+				fileUpload = aistFileUpload;
+				fileUpload.init({
 		    		caseCode : $('.form_list #caseCode').val(),
 		    		partCode : "RiskControl",
 		    		fileUploadContainer : "fileUploadContainer"
