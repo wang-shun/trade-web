@@ -659,7 +659,7 @@
 					},
 					success : function(data) {
 						//	alert("数据已保存。");
-						window.wxc.success("保存成功！",{"wxcOk":function(){
+						window.wxc.success("提交成功！",{"wxcOk":function(){
 							if (window.opener) {
 								window.close();
 								window.opener.callback();
@@ -669,7 +669,7 @@
 						}});
 					},
 					error : function(errors) {
-						window.wxc.error("数据保存出错");
+						window.wxc.error("提交失败");
 					}
 				});
 			}

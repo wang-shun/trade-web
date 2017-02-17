@@ -338,8 +338,7 @@
     		                } 
     		            } ,  
 				success : function(data) {
-						if(null!=data.message){
-							window.wxc.success(data.message,{"wxcOk":function(){
+							window.wxc.success("提交成功！",{"wxcOk":function(){
 								if(window.opener)
 							     {
 									 window.close();
@@ -348,7 +347,7 @@
 							    	 window.location.href = "${ctx }/task/myTaskList";
 							     }
 							}});
-						}
+						
 				},
 				error : function(errors) {
 					window.wxc.error("数据保存出错");
