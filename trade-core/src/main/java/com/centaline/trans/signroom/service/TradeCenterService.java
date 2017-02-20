@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.centaline.trans.signroom.entity.TradeCenter;
+import com.centaline.trans.signroom.vo.Consultant;
 
 public interface TradeCenterService {
 
@@ -21,4 +22,13 @@ public interface TradeCenterService {
 	 * @return
 	 */
 	TradeCenter getTradeCenter(Map map);
+
+	/**
+	 * 根据交易中心id获取处于该交易中心下的所有前台交易顾问
+	 * 
+	 * @param tradeCenterId
+	 *            交易中心id
+	 * @return 前台交易顾问列表
+	 */
+	public List<Consultant> getConsultantListByTradecentId(Long tradeCenterId);
 }

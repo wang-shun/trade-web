@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.repository.TradeCenterMapper;
 import com.centaline.trans.signroom.service.TradeCenterService;
+import com.centaline.trans.signroom.vo.Consultant;
 
 @Service
 public class TradeCenterServiceImpl implements TradeCenterService {
@@ -24,6 +25,11 @@ public class TradeCenterServiceImpl implements TradeCenterService {
 	@Override
 	public TradeCenter getTradeCenter(Map map) {
 		return tradeCenterMapper.getTradeCenter(map);
+	}
+
+	@Override
+	public List<Consultant> getConsultantListByTradecentId(Long tradeCenterId) {
+		return tradeCenterMapper.getConsultantListByTradecentId(tradeCenterId);
 	}
 
 }
