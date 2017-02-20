@@ -45,6 +45,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="serviceDepHierarchy"
 		value="${sessionUser.serviceDepHierarchy }">
