@@ -18,7 +18,7 @@ AS
 BEGIN
 	DECLARE @update_date datetime;
 	DECLARE @weekday int;
-	DECLARE @last_week_5 datetime;
+	DECLARE @last_week_4 datetime;
  
   IF @belong_week = 0
 		BEGIN
@@ -26,14 +26,14 @@ BEGIN
 			set @weekday = datepart(dw,getdate());
 			IF @weekday = 6 or @weekday = 7
 			BEGIN
-				set @last_week_5 = dateadd(dw,5-datepart(dw,getdate()),getdate());
+				set @last_week_4 = dateadd(dw,5-datepart(dw,getdate()),getdate());
 			END 
 			ELSE IF  @weekday = 1 or @weekday = 2 or @weekday = 3 or @weekday = 4 or @weekday = 5
 			BEGIN
-				set @last_week_5 = dateadd(dw,-2-datepart(dw,getdate()),getdate());
+				set @last_week_4 = dateadd(dw,-2-datepart(dw,getdate()),getdate());
 			END 	
 			
-			set @belong_week = year(@last_week_5)*10000 + month(@last_week_5)*100 + day(@last_week_5);
+			set @belong_week = year(@last_week_4)*10000 + month(@last_week_4)*100 + day(@last_week_4);
 		END
   
 
