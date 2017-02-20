@@ -506,12 +506,12 @@
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">贷款金额</label>
-														<input class=" input_type yuanwid" id="mortTotalAmount"  name="mortTotalAmount" onkeyup="checkNum(this)"
+														<input class=" input_type yuanwid" id="mortTotalAmount"  name="mortTotalAmount" onkeyup="checkNum(this)" 
 												value="<fmt:formatNumber value='${ editCaseDetailVO.mortTotalAmount}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">公积金贷款金额</label>
-														<input class=" input_type yuanwid" id="prfAmount" name="prfAmount" onkeyup="checkNum(this)"
+														<input class=" input_type yuanwid" id="prfAmount" name="prfAmount" onkeyup="checkNum(this)" 
 												value="<fmt:formatNumber value='${ editCaseDetailVO.prfAmount}' type='number' pattern='#0.00' />">  <span class="date_icon">万元</span>
 													</div>
 													<div class="form_content">
@@ -747,13 +747,22 @@
 		}
 		$(document).ready(function() {
 			isAccumulation=$('#mortType').val()=='30016003';
-			if(isAccumulation){
+/* 			if(isAccumulation){
 				$('#comAmount').val('').attr("disabled","disabled");
 				$('#comYear').val('').attr("disabled","disabled");
 			}else if($('#mortType').val()=='30016001'){
 				$('#prfAmount').val('').attr("disabled","disabled");
 				$('#prfYear').val('').attr("disabled","disabled");
-			}
+			} */
+			
+			$('#comAmount').attr("disabled","disabled");
+			$('#comYear').attr("disabled","disabled");
+			$('#comDiscount').attr("disabled","disabled");
+			$('#mortTotalAmount').attr("disabled","disabled");
+			//$("#tab-2").find("select").attr("disabled","disabled");			
+			$('#prfAmount').attr("disabled","disabled");
+			$('#prfYear').attr("disabled","disabled");
+			
 			
 			if(!~~loanReq){
 				$("#tab-2").find("input").attr("disabled","disabled");

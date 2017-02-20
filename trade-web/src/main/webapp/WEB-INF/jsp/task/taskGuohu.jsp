@@ -346,6 +346,16 @@
         }
 		$(document).ready(
 				function() {
+					
+					//过户环节贷款信息不能修改
+ 					$('#mortType').attr("disabled","disabled");					
+					$('#mortTotalAmount').attr("disabled","disabled");
+					$('#comAmount').attr("disabled","disabled");
+					$('#comYear').attr("disabled","disabled");
+					$('#comDiscount').attr("disabled","disabled");
+					$('#prfAmount').attr("disabled","disabled");
+					$('#prfYear').attr("disabled","disabled");
+					
 					var isDelegateYucui = '${toMortgage.isDelegateYucui}';
 					var initMortType = '${toMortgage.mortType}';
 					if (isDelegateYucui == '1') {
