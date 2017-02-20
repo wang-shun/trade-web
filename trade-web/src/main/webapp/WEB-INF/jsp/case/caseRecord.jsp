@@ -341,10 +341,27 @@ function mergeAndReject(){
 		data : data,
 		beforeSend:function(){},
 		success : function(data) {
-			if(data.success){ if(data.content){ window.wxc.success("合流成功！");} else{ window.wxc.success("驳回成功！");} }else{
-				if(data.content){ window.wxc.error("合流失败！"+data.message);} else{ window.wxc.error("驳回失败！"+data.message);}
+			if(data.success){ if(data.content){ 
+					window.wxc.success("合流成功！",{"wxcOk":function(){
+						window.location.reload();
+					}});
+				} else{ 
+					window.wxc.success("驳回成功！",{"wxcOk":function(){
+						window.location.reload();
+					}});
+				} 
+			}else{
+				if(data.content){ 
+					window.wxc.error("合流失败！"+data.message,{"wxcOk":function(){
+						window.location.reload();
+					}});
+				} else{ 
+					window.wxc.error("驳回失败！"+data.message,{"wxcOk":function(){
+						window.location.reload();
+					}});
+				}
 			}
-			window.location.reload();
+			
 		},complete: function() {  },
 		error : function(errors) { }
 	});
