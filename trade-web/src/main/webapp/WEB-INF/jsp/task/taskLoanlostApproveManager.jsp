@@ -261,7 +261,7 @@
 						}
 					},
 					success : function(data) {
-						window.wxc.success("数据保存成功！",{"wxcOk":function(){
+						window.wxc.success("提交成功！",{"wxcOk":function(){
 							window.close();
 							if (window.opener) {
 								window.opener.callback();
@@ -269,7 +269,7 @@
 						}});
 					},
 					error : function(errors) {
-						window.wxc.error("数据保存出错");
+						window.wxc.error("提交失败！");
 					}
 				});
 			}

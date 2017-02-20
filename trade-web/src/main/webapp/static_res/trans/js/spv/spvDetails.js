@@ -133,61 +133,64 @@ $(document).ready(function(){
      		  return false;
      	  }
      	  if($("#handle").val() == null || $("#handle").val() == ''){
-     		 if(!confirm("确定提交并开启流程吗！")){
-       		  return false;
-       	  } 	
+     		 window.wxc.confirm("确定提交并开启流程吗？",{"wxcOk":function(){
+     			submitNewSpv();
+     		 }}); 	
      	  }else{
-     		 if(!confirm("确定提交任务吗！")){
-          		  return false;
-          	  } 
+     		 window.wxc.confirm("确定提交任务吗？",{"wxcOk":function(){
+     			submitNewSpv();
+     		 }}); 
      	  }
-     	  
-      	  var totalArr = [];
-      	  $("form").each(function(){
-      		 var obj = $(this).serializeArray();
-      		for(var i in obj){
-      			if(obj[i].name.indexOf("idValiDate") != -1 && obj[i].value == '长期有效'){
-      				obj[i].value = '3000-01-01';
-      			}
-           		totalArr.push(obj[i]);
-      		}
-      	  });
-      	  
-    	  $.ajax({
-      		url:ctx+"/spv/submitNewSpv",
-      		method:"post",
-      		dataType:"json",
-      		data:totalArr,   		        				        		    
-       		beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-				$(".blockOverlay").css({'z-index':'9998'});
-            },
-	        complete: function() {
-	                 $.unblockUI(); 
-	                 if(status=='timeout'){ //超时,status还有success,error等值的情况
-		          	  Modal.alert(
-					  {
-					    msg:"抱歉，系统处理超时。"
-					  }); 
-			                } 
-			            } ,   
-			success : function(data) {   
-					if(data.success){
-						window.wxc.success("流程开启成功！");  	 
-					    window.location.href = ctx+"/spv/spvList";
-					}else{
-						window.wxc.error("流程开启失败：\n"+data.message);  	 
-					    window.location.href = ctx+"/spv/spvList";
-					}     
-					 $.unblockUI();
-				},		
-			error : function(errors) {
-					$.unblockUI();   
-					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
-				}  
-       });
      });
        
+       function submitNewSpv(){
+    	   var totalArr = [];
+       	  $("form").each(function(){
+       		 var obj = $(this).serializeArray();
+       		for(var i in obj){
+       			if(obj[i].name.indexOf("idValiDate") != -1 && obj[i].value == '长期有效'){
+       				obj[i].value = '3000-01-01';
+       			}
+            		totalArr.push(obj[i]);
+       		}
+       	  });
+       	  
+     	  $.ajax({
+       		url:ctx+"/spv/submitNewSpv",
+       		method:"post",
+       		dataType:"json",
+       		data:totalArr,   		        				        		    
+        		beforeSend:function(){  
+ 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+ 				$(".blockOverlay").css({'z-index':'9998'});
+             },
+ 	        complete: function() {
+ 	                 $.unblockUI(); 
+ 	                 if(status=='timeout'){ //超时,status还有success,error等值的情况
+ 		          	  Modal.alert(
+ 					  {
+ 					    msg:"抱歉，系统处理超时。"
+ 					  }); 
+ 			                } 
+ 			            } ,   
+ 			success : function(data) {   
+ 					if(data.success){
+ 						window.wxc.success("流程开启成功！",{"wxcOk":function(){
+ 							window.location.href = ctx+"/spv/spvList";
+ 						}});  	 
+ 					}else{
+ 						window.wxc.error("流程开启失败：\n"+data.message,{"wxcOk":function(){
+ 							window.location.href = ctx+"/spv/spvList";
+ 						}});  	 
+ 					}     
+ 					 $.unblockUI();
+ 				},		
+ 			error : function(errors) {
+ 					$.unblockUI();   
+ 					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
+ 				}  
+        });
+       }
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
