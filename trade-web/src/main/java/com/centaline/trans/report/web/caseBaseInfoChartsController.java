@@ -106,5 +106,47 @@ public class caseBaseInfoChartsController {
 		request.setAttribute("ctx", ctx);
 		return "report/echartsReport/echartsData8";
 	}
+	/***
+	 * 一周数据统计报表
+	 */
+	@RequestMapping(value = "weeklyData")
+	public String weeklyData(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/weeklyReport/elist";
+		
+	}
+	@RequestMapping(value = "elist1")
+	public String queryElist1(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/weeklyReport/elist1";		
+	}
+	
+	@RequestMapping(value = "elist2")
+	public String queryElist2(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/weeklyReport/elist2";	
+	}
+	
+	@RequestMapping(value = "elist3")
+	public String queryElist3(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/weeklyReport/elist3";
+	}
+	
+	@RequestMapping(value = "elist4")
+	public String queryElist4(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/weeklyReport/elist4";
+	}
 	
 }

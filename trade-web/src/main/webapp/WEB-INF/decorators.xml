@@ -107,6 +107,11 @@
 		<pattern>/report/echartsData6</pattern>
 		<pattern>/report/echartsData7</pattern>
 		<pattern>/report/echartsData8</pattern>
+		<pattern>/report/weeklyData</pattern>
+		<pattern>/report/elist1</pattern>
+		<pattern>/report/elist2</pattern>
+		<pattern>/report/elist3</pattern>
+		<pattern>/report/elist4</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
