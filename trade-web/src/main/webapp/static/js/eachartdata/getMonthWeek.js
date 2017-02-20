@@ -13,7 +13,7 @@ function getweeks(year, month,day) {
     week_count = Math.ceil((dd+7-d1+1)/7);
     var weeks=[];
     for (var i = 0; i < week_count; i++) {
-        var monday = d1+1+i*7;
+        var monday = d1+5+i*7;
         var sunday = monday + 6;
         if(monday!=1){
         	d.setFullYear(year, month-1, monday);

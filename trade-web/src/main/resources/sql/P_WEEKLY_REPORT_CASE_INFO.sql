@@ -18,7 +18,7 @@ AS
 BEGIN
 	DECLARE @update_date datetime;
 	DECLARE @weekday int;
-	DECLARE @last_week_5 int;
+	DECLARE @last_week_5 datetime;
  
   IF @belong_week = 0
 		BEGIN
