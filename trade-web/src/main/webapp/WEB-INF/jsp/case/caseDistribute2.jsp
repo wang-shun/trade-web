@@ -241,7 +241,7 @@ width: 80px;
             {{/if}}
 				<td class="center">
 					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.CASE_CODE}}" 
-					 cuNu="{{item.cuNu}}"
+					 cuNu="{{item.glCount}}"
 					 pkId="{{item.cpkid}}"
 					 propertyAddr="{{item.PROPERTY_ADDR}}"
 					 agentName="{{item.AGENT_NAME}}"
@@ -249,11 +249,11 @@ width: 80px;
 					 agentOrgName="{{item.ORG_NAME}}"
 					 seller="{{item.SELLER}}"
 					 buyer="{{item.BUYER}}"
-					 propertyCode="{{item.propertyCode}}" 
+					 propertyCode="{{item.PROPERTY_CODE}}" 
 					 caseOrigin="{{item.CASE_ORIGIN}}" 
 					 caseCode="{{item.CASE_CODE}}" /> 
 					<input type="hidden" name="case_code" value="{{item.CASE_CODE}}"/>
-					<input type="hidden" name="cuNu" value="{{item.cuNu}}" propertyCode="{{item.propertyCode}}" caseCode="{{item.CASE_CODE}}"/>
+					<input type="hidden" name="cuNu" value="{{item.glCount}}" propertyCode="{{item.PROPERTY_CODE}}" caseCode="{{item.CASE_CODE}}"/>
 					<input type="hidden" name="yu_team_code" value="{{item.YU_TEAM_CODE}}"/>
 					<input type="hidden" name="leading_process_id" value="{{item.LEADING_PROCESS_ID}}"/>
 

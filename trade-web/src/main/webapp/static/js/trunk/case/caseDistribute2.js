@@ -83,6 +83,7 @@ function reloadGrid(data) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
+        	console.log(data);
         	
         	$.unblockUI();   	 
         	var myCaseList = template('template_myCaseList' , data);
