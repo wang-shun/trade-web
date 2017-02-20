@@ -76,7 +76,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<!-- 主要内容页面 -->
 	<div class="wrapper wrapper-content">
-		<div class="row animated fadeInDown">
+		<div class="row animated fadeInDown" id="serviceFlow">
 			<div class="scroll_box fadeInDown animated marginbot">
 				<div class="row wrapper white-bg new-heading ">
 					<div class="pl10">
@@ -666,23 +666,23 @@
 
 							</div>
 
-					<div class="clearfix">
+					<div class="clearfix" id="aboutInfo">
 						<h2 class="newtitle title-mark">审批记录</h2>
 						<div class="jqGrid_wrapper">
 							<table id="reminder_list"></table>
 							<div id="pager_list_1"></div>
 						</div>
 					</div>
-					<!-- 案件备注信息 -->
-					<div id="caseCommentList" class="view-content"></div>
-					<div class="form-btn">
-						<div class="text-center">
-							<button class="btn btn-success btn-space" onclick="save(false)">保存</button>
-							<button class="btn btn-success btn-space" onclick="submitFrom()">提交</button>
-						</div>
-					</div>
 				</div>
 				</form>
+				<!-- 案件备注信息 -->
+				<div id="caseCommentList" class="view-content"></div>
+				<div class="form-btn">
+					<div class="text-center">
+						<button class="btn btn-success btn-space" onclick="save(false)">保存</button>
+						<button class="btn btn-success btn-space" onclick="submitFrom()">提交</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -701,6 +701,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script>
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script>
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
