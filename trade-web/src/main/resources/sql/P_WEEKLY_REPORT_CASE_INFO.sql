@@ -24,11 +24,11 @@ BEGIN
 		BEGIN
 			--默认之前一个统计周期：如果今天是周5、6，默认本周四；如果今天是周1、2、3、4、7，默认上周四
 			set @weekday = datepart(dw,getdate());
-			IF @weekday = 6 or @weekday = 7
+			IF @weekday in (6, 7)
 			BEGIN
 				set @last_week_4 = dateadd(dw,5-datepart(dw,getdate()),getdate());
 			END 
-			ELSE IF  @weekday = 1 or @weekday = 2 or @weekday = 3 or @weekday = 4 or @weekday = 5
+			ELSE IF  @weekday in (1, 2, 3, 4, 5)
 			BEGIN
 				set @last_week_4 = dateadd(dw,-2-datepart(dw,getdate()),getdate());
 			END 	
