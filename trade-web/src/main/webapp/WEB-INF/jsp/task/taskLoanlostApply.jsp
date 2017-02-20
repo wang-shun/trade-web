@@ -567,7 +567,7 @@
 					
 					if (($("#loan_lost_letter_pic_list li").length == undefined || $("#loan_lost_letter_pic_list li").length == 0)
 						|| ($("#loan_lost_confirmation_pic_list li").length == undefined || $("#loan_lost_confirmation_pic_list li").length == 0) ) {
-						alert("请上传附件信息！");
+						window.wxc.alert("请上传附件信息！");
 						checkAtt = false;
 						return false;
 					}else{
@@ -585,7 +585,7 @@
 					}); */
 				}else{
 					if ($("#loan_lost_letter_pic_list li").length == undefined || $("#loan_lost_letter_pic_list li").length == 0) {
-						alert("请上传附件信息！");
+						window.wxc.alert("请上传附件信息！");
 						checkAtt = false;
 						return false;
 					}else{
@@ -595,7 +595,7 @@
 					if ($("#loan_lost_confirmation_pic_list li").length == undefined || $("#loan_lost_confirmation_pic_list li").length == 0) {
 						checkAtt = true;
 					}else{
-						alert("[客户自办贷款确认函]附件须与[客户自办贷款确认函编号]同步！");
+						window.wxc.alert("[客户自办贷款确认函]附件须与[客户自办贷款确认函编号]同步！");
 						checkAtt = false;
 						return false;
 					}

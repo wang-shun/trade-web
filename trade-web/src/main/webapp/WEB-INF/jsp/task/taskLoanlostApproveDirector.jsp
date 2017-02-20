@@ -272,7 +272,7 @@
 						}
 					},
 					success : function(data) {
-						window.wxc.success("保存成功！",{"wxcOk":function(){
+						window.wxc.success("提交成功！",{"wxcOk":function(){
 							if (window.opener) {
 								window.close();
 								window.opener.callback();
@@ -285,7 +285,7 @@
 						//window.location.href = "${ctx }/task/myTaskList";
 					},
 					error : function(errors) {
-						window.wxc.error("数据保存出错");
+						window.wxc.error("提交失败！");
 					}
 				});
 			}

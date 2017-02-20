@@ -306,7 +306,7 @@
 	    		                }
 	    		            } ,
 					success : function(data) {
-							window.wxc.success("数据保存成功！",{"wxcOk":function(){
+							window.wxc.success("操作成功！",{"wxcOk":function(){
 								 window.close();
 								 if(window.opener)
 							     {
@@ -315,7 +315,7 @@
 							}});
 					},
 					error : function(errors) {
-						window.wxc.error("数据保存出错" + errors);
+						window.wxc.error("操作失败：" + errors);
 					}
 				});
 			}
