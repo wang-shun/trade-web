@@ -22,7 +22,7 @@ BEGIN
  
   IF @belong_week = 0
 		BEGIN
-			--默认之前一个统计周期：如果今天是周5、6，默认上周四；如果今天是周1、2、3、4、7，默认上上周四
+			--默认之前一个统计周期：如果今天是周5、6，默认本周四；如果今天是周1、2、3、4、7，默认上周四
 			set @weekday = datepart(dw,getdate());
 			IF @weekday = 6 or @weekday = 7
 			BEGIN
