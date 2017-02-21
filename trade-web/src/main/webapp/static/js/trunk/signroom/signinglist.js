@@ -494,7 +494,6 @@ function followup(obj){
 }
 
 function canceReservation(resId,resPersonId,actStartTime,actEndTime,resDateTime,signingCenter){
-	
 	$("#canceModal input[name='resId']").val(resId);
 	$("#canceModal input[name='resPersonId']").val(resPersonId);
 	$("#canceModal input[name='actStartTime']").val(actStartTime);

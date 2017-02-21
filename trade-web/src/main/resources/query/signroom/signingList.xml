@@ -130,6 +130,7 @@
 				<column type="both" name="currentDate"  index="" checkbox="" display="当前日期" title="当前日期" beanFormatter="dateFormatter1" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="numberOfPeople" index="" checkbox="" display="房间容纳人数" title="房间容纳人数" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="resStatus" display="预约状态" title="预约状态" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="resPersonId" index="" checkbox=""  />
 				<column type="both" name="realName" index="" checkbox="" display="预约人姓名" title="预约人姓名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="mobile" index="" checkbox="" display="手机号" title="手机号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="specialReq" index="" checkbox="" display="特殊需求" title="特殊需求" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>

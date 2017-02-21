@@ -540,7 +540,7 @@
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
 								{{if item.resStatus == '0'}}
 									<c:if test="${isCurrenDayDuty == true }">
-                                    	  <li class="liStartUse"><a href="#" data-toggle="modal" data-target="#canceModal" onClick="canceReservation('{{item.resId}}','{{item.resPersonId}}','{{{{item.actStartTime}}}}','{{item.actEndTime}}','{{item.resDateTime}}','{{item.signingCenter}}')">取消</a></li>
+                                    	  <li class="liStartUse"><a href="#" data-toggle="modal" data-target="#canceModal" onClick="canceReservation('{{item.resId}}','{{item.resPersonId}}','{{item.actStartTime}}','{{item.actEndTime}}','{{item.resDateTime}}','{{item.signingCenter}}')">取消</a></li>
                                     </c:if>
 									<shiro:hasPermission name="TRADE.SIGNROOM.SIGN">
                                     	<c:if test="${isCurrenDayDuty == true }">
