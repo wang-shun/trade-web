@@ -237,5 +237,12 @@ public interface ReservationMapper {
 	 * @return 闲置房间信息
 	 */
 	public FreeRoomInfo getSignRoomByRoomAndCurtime(ReservationVo reservationVo);
+	
+	/**
+	 * 更新预约信息
+	 * @param reservation
+	 * @return
+	 */
+	public int updateReservation(Reservation reservation);
 
 }

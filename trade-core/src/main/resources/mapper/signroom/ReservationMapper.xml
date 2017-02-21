@@ -417,4 +417,21 @@ WHERE   (R.START_DATE>=GETDATE() OR (R.START_DATE &lt; GETDATE() AND R.END_DATE 
 		WHERE rs.ROOM_ID = #{roomId,jdbcType=BIGINT} AND rs.START_DATE = #{startDate,jdbcType=VARCHAR} AND rs.END_DATE = #{endDate,jdbcType=VARCHAR}
 		AND r.RES_STATUS = '1' and r.CHECKED_OUT_TIME IS NULL;
   </select>
+  
+  <update id="updateReservation" parameterType="com.centaline.trans.signroom.entity.Reservation">
+		update sctrans.T_RM_RESERVATION
+		<set>
+			<if test="isCanceConfirm != null">
+				IS_CANCE_CONFIRM = #{isCanceConfirm,jdbcType=VARCHAR},
+			</if>
+			<if test="resStatus != null">
+				RES_STATUS = #{resStatus,jdbcType=VARCHAR},
+			</if>
+			UPDATE_TIME = GETDATE(),
+			UPDATE_BY = @{SESSION_USER_ID}
+		</set>
+		where PKID = #{pkid,jdbcType=BIGINT}
+	</update>
+  
+  
 </mapper>
