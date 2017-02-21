@@ -1379,8 +1379,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}else{
 				throw new BusinessException("申请人信息为空！");
 			}
-		
-			toSpvCashFlowApply.setApplyAuditor("8a8493d45095534b0150a338bcf26063");//申请复审人	 wufeng01
+			User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+			toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());//申请复审人	 wufeng01
 			//toSpvCashFlowApply.setFtPreAuditor("ff80808156b51e7b0156b55f02ce0008");//财务初审人	
 			//toSpvCashFlowApply.setFtPostAuditor("ff80808156b51e7b0156b55f02ce0008");//财务复审人	现在测试设置为wangqaio7
 			toSpvCashFlowApply.setCreateTime(new Date());//创建时间
