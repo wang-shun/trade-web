@@ -148,5 +148,62 @@ public class caseBaseInfoChartsController {
 		request.setAttribute("ctx", ctx);
 		return "report/weeklyReport/elist4";
 	}
+	/***
+	 * 签约贷款统计报表
+	 */
+	@RequestMapping(value = "signLoan")
+	public String signLoan(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/signLoan/signLoan";
+		
+	}
+	@RequestMapping(value = "sign1")
+	public String sign1(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/signLoan/sign1";		
+	}
 	
+	@RequestMapping(value = "sign2")
+	public String sign2(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		request.setAttribute("serviceDepId", "ff8080814f459a78014f45a73d820006");
+		return "report/signLoan/sign2";	
+	}
+	
+	@RequestMapping(value = "sign3")
+	public String sign3(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/signLoan/sign3";
+	}
+	
+	@RequestMapping(value = "sign4")
+	public String sign4(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/signLoan/sign4";
+	}
+	@RequestMapping(value = "sign5")
+	public String sign5(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/signLoan/sign5";
+	}
+	
+	@RequestMapping(value = "sign6")
+	public String sign6(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/signLoan/sign6";
+	}
 }

@@ -14,4 +14,38 @@
 			<column name="JOB_CODE"/>
 		</grid>
 	</query>
+	<query id="getGroup">
+		<searchScript>
+		<if test="#searchType=='user'">
+		 SELECT users.ID as id ,users.REAL_NAME as name FROM sctrans.SYS_USER users
+		 <where>
+			  <trim prefix="and" prefixOverrides="and|or">
+			   <if test="#parentId !=null and #parentId != ''">
+				users.ORG_ID=#{parentId}
+			  </if>
+			  <if test="#gb=='true'" >
+			  and users.ORG_NAME like '%贵宾服务部%'
+			  </if>
+			   </trim>
+			</where>
+		</if>
+		<if test="#searchType=='group'">
+           SELECT so.ID as id ,so.ORG_NAME as name FROM sctrans.SYS_ORG so
+			<where>
+			  <trim prefix="and" prefixOverrides="and|or">
+			   <if test="#parentId !=null and #parentId != ''">
+				so.PARENT_ID=#{parentId}
+			  </if>
+			  <if test="#gb=='true'" >
+			  and so.ORG_NAME like '%贵宾服务部%'
+			  </if>
+			   </trim>
+			</where>
+		  </if> 
+		</searchScript>
+		<grid>
+			 <column name="id" title="id" hidden="true" />
+		     <column name="name" title="name" hidden="true" />
+		</grid>
+	</query>
 </querys>
