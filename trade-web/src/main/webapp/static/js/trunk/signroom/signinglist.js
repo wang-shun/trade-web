@@ -131,6 +131,51 @@ $(function(){
     	
     });
     
+    //取消预约操作
+    $("#canceConfirmBtn").click(function(){
+    	var resId = $("#canceModal input[name='resId']").val();
+    	var resPersonId=$("#canceModal input[name='resPersonId']").val();
+    	var comment = $.trim($("#canceModal textarea[name='comment']").val());
+    	if(comment==''){
+    		window.wxc.alert("请输入取消原因！");
+    		return;
+    	}
+    	var isCanceConfirm = 0;
+      	$("#canceModal input[name='isCanceConfirm']").each(function(){
+      		if($(this).prop("checked")){
+      			isCanceConfirm = $(this).prop("value");
+      		}
+         });
+    	$.ajax({
+    		cache:false,
+    		async:true,
+    		type:"POST",
+    		dataType:"json",
+    		url:ctx+"/reservation/canceReservation",
+    		data:{
+    			resId:resId,
+    			resPersonId:resPersonId,
+    			isCanceConfirm:isCanceConfirm,
+    			comment:comment
+    		},
+    		beforeSend: function () {  
+	        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+	        }, 
+    		success:function(data){
+    			$.unblockUI();  
+    			if(data.success){
+    				window.wxc.success(data.message,{"wxcOk":function(){
+						$("#closeBtn").click();
+						reloadGrid();
+					}});
+    			}else{
+    				window.wxc.error(data.message);
+    			}
+    		}
+    	});
+    });
+    
   //清除
   $("#clear").click(function(){
 	$("#searchForm input[name='resPersonId']").val("");
@@ -438,6 +483,21 @@ function followup(obj){
 	$("#mobile").html(mobile);
 	$("#followUpDate").html(getCurrentTime());
 	$("textarea[name='comment']").val("");
+}
+
+function canceReservation(resId,resPersonId){
+	
+	$("#canceModal input[name='resId']").val(resId);
+	$("#canceModal input[name='resPersonId']").val(resPersonId);
+	$("#canceModal textarea[name='comment']").val("");
+	$("#canceModal input[name='isCanceConfirm']").each(function(){
+        if($(this).prop("value")=="0"){
+             $(this).prop("checked",true);
+         }else{
+         	$(this).prop("checked",false);
+         }
+     });
+	
 }
 
 

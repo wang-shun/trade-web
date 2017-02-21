@@ -95,11 +95,11 @@ p.caption {
  */
 
 .autocompleter {
-    width: 100%;
+    width: 71%;
     background: #fff;
     position: absolute;
     top: 45px;
-    left: 0;
+    right: 0;
     z-index: 100;
     padding-right: 15px;
     margin-bottom: 20px;

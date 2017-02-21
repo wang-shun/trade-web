@@ -25,6 +25,7 @@ import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomOrgMappingService;
 import com.centaline.trans.signroom.service.TradeCenterService;
+import com.centaline.trans.signroom.vo.Consultant;
 import com.centaline.trans.signroom.vo.FreeRoomInfo;
 import com.centaline.trans.signroom.vo.PropertyAddrInfoVo;
 import com.centaline.trans.signroom.vo.PropertyAddrSearchVo;
@@ -66,6 +67,22 @@ public class ReservationMobileController {
 
 	@Autowired
 	private RmSignRoomOrgMappingService rmSignRoomOrgMappingService;
+
+	/**
+	 * ajax根据交易中心标识获取前台交易顾问列表
+	 * 
+	 * @return 前台交易顾问列表
+	 */
+	@RequestMapping(value = "getConsultantListByTradecentId")
+	@ResponseBody
+	public List<Consultant> getConsultantListByTradecentId(Model model,
+			HttpServletRequest request) {
+
+		Long tradeCenterId = Long.parseLong(request
+				.getParameter("tradeCenterId"));
+
+		return tradeCenterService.getConsultantListByTradecentId(tradeCenterId);
+	}
 
 	/**
 	 * 获取该用户两周内剩余预约次数
@@ -322,13 +339,14 @@ public class ReservationMobileController {
 		request.setAttribute("agentCode", currentUser.getId());
 		request.setAttribute("remainBespeakNumber", remainBespeakNumber);
 
-		/* 获取日历数据*/
-		List<Map<String,String>> listCalendar = reservationService.getBespeakCalendar();
+		/* 获取日历数据 */
+		List<Map<String, String>> listCalendar = reservationService
+				.getBespeakCalendar();
 		request.setAttribute("listCalendar", listCalendar);
-		
+
 		return "mobile/signroom/reservation/bespeak";
 	}
-	
+
 	/**
 	 * 预约取号保存
 	 * 

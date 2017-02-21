@@ -40,17 +40,44 @@ $(function() {
     					+ "<p class='text-center'>(请选择你所要的预约时间)</p></div>";
     	
     	$("#signroomList").html(strHtml);
+    	
+    	//获取前台交易顾问列表
+    	getFrontConsultantList(value,"change");
     });
     
     //产证地址文本框失去焦点获取对应的caseCode
 	$("#propertyAddress").blur(function(){
-		$(".autocompleter").hide();
+		$("#propertyAddress").siblings(".autocompleter").hide();
 		getServiceSpecialistByPropertyAddr(this.value);
 	});
 	
 	$("#propertyAddress").focus(function(){
-		$(".autocompleter").show();
+		$("#propertyAddress").siblings(".autocompleter").show();
 	});
+	
+	$("#serviceSpecialist").focus(function(){
+		if(this.value != ""){
+			$("#serviceSpecialist").siblings(".autocompleter").show();
+		}
+		else {
+			$("#serviceSpecialist").siblings(".autocompleter").hide();
+		}
+	});
+	
+	$("#serviceSpecialist").keyup(function(){
+		
+		if(this.value != ""){
+			$("#serviceSpecialist").siblings(".autocompleter").show();
+		}
+		else {
+			$("#serviceSpecialist").siblings(".autocompleter").hide();
+		}
+	});
+	
+	$("#serviceSpecialist").blur(function(){
+		$("#serviceSpecialist").siblings(".autocompleter").hide();
+	});
+	
     
     //遮罩弹窗层隐藏显示
     $roomlist.hide();
@@ -112,6 +139,9 @@ function init(){
 
 	//产证地址初始化
 	getPropertyAddress();
+	
+	//初始化前台交易顾问列表信息
+	getFrontConsultantList(defaultTradeCenterId,"init");
 }
 
 //获取交易中心信息列表
@@ -197,7 +227,41 @@ function getPropertyAddress(){
 				       callback: function (value, index, selected) {
 				    	   getServiceSpecialistByPropertyAddr(value);
 				      }
-				   });
+				  }); 
+			}
+		}
+	});
+}
+
+//获取前台交易顾问列表
+function getFrontConsultantList(tradeCenterId,flag){
+	$.ajax({
+		cache:false,
+		async:false,
+		type:"POST",
+		dataType:"json",
+		url: ctx + "/weixin/signroom/getConsultantListByTradecentId",
+		data: {tradeCenterId : tradeCenterId},
+		success:function(data){
+			if(data.length > 0){
+				 if(flag == "init"){
+					 $("#serviceSpecialist").autocompleter({
+					       source: data,
+					       callback: function (value, index, selected) {
+					    	   $("#serviceSpecialist").val(value);
+					      }
+					  }); 
+				 }
+				 else if(flag == "change"){
+					 //销毁autocompleter
+					 $('#serviceSpecialist').autocompleter('destroy');
+					 $("#serviceSpecialist").autocompleter({
+					       source: data,
+					       callback: function (value, index, selected) {
+					    	   $("#serviceSpecialist").val(value);
+					      }
+					  }); 
+				 }
 			}
 		}
 	});
@@ -470,7 +534,7 @@ function getServiceSpecialistByPropertyAddr(propertyAddress){
 	       			$("#serviceSpecialist").css("color","#808080");
        			}
        			else {
-       				$("#serviceSpecialist").val("");
+       				var serviceSpecialist = $("#serviceSpecialist").val();
 	       			$("#serviceSpecialist").attr("readonly",false);
        			}
        		}
