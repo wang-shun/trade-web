@@ -135,6 +135,10 @@ $(function(){
     $("#canceConfirmBtn").click(function(){
     	var resId = $("#canceModal input[name='resId']").val();
     	var resPersonId=$("#canceModal input[name='resPersonId']").val();
+    	var actStartTime=$("#canceModal input[name='actStartTime']").val();
+    	var actEndTime=$("#canceModal input[name='actEndTime']").val();
+    	var resDateTime=$("#canceModal input[name='resDateTime']").val();
+    	var signingCenter=$("#canceModal input[name='signingCenter']").val();
     	var comment = $.trim($("#canceModal textarea[name='comment']").val());
     	if(comment==''){
     		window.wxc.alert("请输入取消原因！");
@@ -155,6 +159,10 @@ $(function(){
     		data:{
     			resId:resId,
     			resPersonId:resPersonId,
+    			actStartTime : actStartTime,
+    			actEndTime : actEndTime,
+    			resDateTime : resDateTime,
+    			signingCenter : signingCenter,
     			isCanceConfirm:isCanceConfirm,
     			comment:comment
     		},
@@ -485,10 +493,14 @@ function followup(obj){
 	$("textarea[name='comment']").val("");
 }
 
-function canceReservation(resId,resPersonId){
+function canceReservation(resId,resPersonId,actStartTime,actEndTime,resDateTime,signingCenter){
 	
 	$("#canceModal input[name='resId']").val(resId);
 	$("#canceModal input[name='resPersonId']").val(resPersonId);
+	$("#canceModal input[name='actStartTime']").val(actStartTime);
+	$("#canceModal input[name='actEndTime']").val(actEndTime);
+	$("#canceModal input[name='resDateTime']").val(resDateTime);
+	$("#canceModal input[name='signingCenter']").val(signingCenter);
 	$("#canceModal textarea[name='comment']").val("");
 	$("#canceModal input[name='isCanceConfirm']").each(function(){
         if($(this).prop("value")=="0"){

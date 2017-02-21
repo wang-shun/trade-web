@@ -78,7 +78,8 @@
 						r.SCHEDULE_ID as scheduleId,
 						getdate() as currentDate,
 						(SELECT COMMENT FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as latestComment,
-						(SELECT CREATE_TIME FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as followDateTime
+						(SELECT CREATE_TIME FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as followDateTime,
+						r.SIGNING_CENTER AS signingCenter
 						FROM sctrans.T_RM_RESERVATION r
 						where r.IS_DELETE = 0 and r.SIGNING_CENTER_ID in (SELECT DISTINCT TRADE_CENTER_ID FROM sctrans.T_RM_SIGN_ROOM_ORG_MAPPING WHERE DISTRICT_ID = #distinctId#)
 						
@@ -157,7 +158,7 @@
 				sr.ROOM_TYPE as roomType(已获取),
 				
 				-->
-				
+				<column type="both" name="signingCenter"  index="" checkbox=""  />
 				<column type="virtual"
 						isDynamic="true"
 						name="startTime,endTime,actStartTime,actEndTime,actCheckInTime,actCheckOutTime,roomId,roomNO,roomType,transactItemCodeList,flowupInfoList,timeDifference" 

@@ -714,22 +714,30 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 		resFlowup.setUpdateBy(currentUser.getId());
 		resFlowup.setUpdateTime(Calendar.getInstance().getTime());
 		resFlowupMapper.insertSelective(resFlowup);
-		//发送站内信
-		// String content = uamTemplateService.mergeTemplate("TMP_BANK_REMINDER", params);
-	    /* Message message = new Message();
-	     // 消息标题
-	     message.setTitle("签约室预约取消提醒");
-	     // 消息类型
-	     message.setType(MessageType.SITE);
-	      设置提醒列别 
-	     message.setMsgCatagory(MsgCatagoryEnum.NEWS.getCode());
-	      内容 
-	    // message.setContent(content);
-	      发送人 
-	     String senderId = currentUser.getId();
-	      设置发送人 
-	     message.setSenderId(senderId);
-	     uamMessageService.sendMessageByUser(message, canceReservionVo.getResPersonId());*/
+		//经纪人不为空发站内信
+		if(!StringUtils.isEmpty(canceReservionVo.getResPersonId())){
+			//发送站内信
+			Map<String,Object> params = new HashMap<String,Object>();
+			params.put("createTime", canceReservionVo.getResDateTime()+" "+canceReservionVo.getActStartTime()+"-"+canceReservionVo.getActEndTime());
+			params.put("signingCenter", canceReservionVo.getSigningCenter());
+			params.put("dutyOfficer", currentUser.getUsername());
+			params.put("mobile", currentUser.getMobile());
+			String content = uamTemplateService.mergeTemplate("TMP_SIGNROOM_CANCE", params);
+		    Message message = new Message();
+		    // 消息标题
+		    message.setTitle("签约室预约取消提醒");
+		    // 消息类型
+		    message.setType(MessageType.SITE);
+		    //设置提醒列别 
+		    message.setMsgCatagory(MsgCatagoryEnum.NEWS.getCode());
+		    //内容 
+		    message.setContent(content);
+		    // 发送人 
+		    String senderId = currentUser.getId();
+		    //设置发送人 
+		    message.setSenderId(senderId);
+		    uamMessageService.sendMessageByUser(message, canceReservionVo.getResPersonId());
+		}
 		
 	}
 

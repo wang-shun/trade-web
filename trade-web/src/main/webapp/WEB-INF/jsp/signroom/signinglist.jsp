@@ -189,6 +189,11 @@
                     <div class="modal-dialog" style="width: 790px;">
                     <input type="hidden" id="resId" name="resId" />
                     <input type="hidden" id="resPersonId" name="resPersonId" />
+                    <input type="hidden" id="actStartTime" name="actStartTime" />
+                    <input type="hidden" id="actEndTime" name="actEndTime" />
+                    <input type="hidden" id="resDateTime" name="resDateTime" />
+                    <input type="hidden" id="signingCenter" name="signingCenter" />
+                    
                         <div class="modal-content animated fadeIn popup-box">
                             <div class="modal_title">
                                	 取消预约
@@ -535,7 +540,7 @@
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
 								{{if item.resStatus == '0'}}
 									<c:if test="${isCurrenDayDuty == true }">
-                                    	  <li class="liStartUse"><a href="#" data-toggle="modal" data-target="#canceModal" onClick="canceReservation('{{item.resId}}','{{item.resPersonId}}')">取消</a></li>
+                                    	  <li class="liStartUse"><a href="#" data-toggle="modal" data-target="#canceModal" onClick="canceReservation('{{item.resId}}','{{item.resPersonId}}','{{{{item.actStartTime}}}}','{{item.actEndTime}}','{{item.resDateTime}}','{{item.signingCenter}}')">取消</a></li>
                                     </c:if>
 									<shiro:hasPermission name="TRADE.SIGNROOM.SIGN">
                                     	<c:if test="${isCurrenDayDuty == true }">
