@@ -1635,6 +1635,7 @@ function serviceRestart(){
 		info="点击该按钮将会启动流程重启审批流程，您确定要启动该流程吗？";
 	}
 	
+	
 	window.wxc.confirm(info,{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
@@ -1654,9 +1655,11 @@ function serviceRestart(){
 				  });
 		        }
 		   } , success:function(data){
+			   console.log("===Result==="+JSON.stringify(data));
 				if(!data.success){
 					$.unblockUI();   
 					window.wxc.error(data.message);
+				
 				}else{
 					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
 				}
@@ -1664,6 +1667,8 @@ function serviceRestart(){
 		});
 	}});
 }
+
+
 function caseReset(){
 	window.wxc.confirm("您的操作将恢复案件至未分单状态，是否确定要重置案件？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();

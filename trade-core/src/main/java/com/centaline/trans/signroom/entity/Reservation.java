@@ -59,6 +59,8 @@ public class Reservation {
 	private String resPersonName;// 预约人姓名
 
 	private int isDelete; // 是否删除(0:未删除,1:已删除)
+	
+	private int isCanceConfirm;//是否与经纪人确认
 
 	public int getIsDelete() {
 		return isDelete;
@@ -264,5 +266,15 @@ public class Reservation {
 	public void setResPersonName(String resPersonName) {
 		this.resPersonName = resPersonName;
 	}
+
+	public int getIsCanceConfirm() {
+		return isCanceConfirm;
+	}
+
+	public void setIsCanceConfirm(int isCanceConfirm) {
+		this.isCanceConfirm = isCanceConfirm;
+	}
+	
+	
 
 }

@@ -189,7 +189,8 @@ function chooseManager(id) {
 
 //选取人员的回调函数
 function signRoomSelectUserBack(array) {
-	console.log(array);
+	$("#propertyAddress").val("");
+	$('#propertyAddress').autocompleter('destroy');
 	if (array && array.length > 0) {
 		$("#jjrName").val(array[0].username);
 		$("#jjrName").attr('hVal', array[0].userId);

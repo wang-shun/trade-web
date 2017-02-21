@@ -131,6 +131,59 @@ $(function(){
     	
     });
     
+    //取消预约操作
+    $("#canceConfirmBtn").click(function(){
+    	var resId = $("#canceModal input[name='resId']").val();
+    	var resPersonId=$("#canceModal input[name='resPersonId']").val();
+    	var actStartTime=$("#canceModal input[name='actStartTime']").val();
+    	var actEndTime=$("#canceModal input[name='actEndTime']").val();
+    	var resDateTime=$("#canceModal input[name='resDateTime']").val();
+    	var signingCenter=$("#canceModal input[name='signingCenter']").val();
+    	var comment = $.trim($("#canceModal textarea[name='comment']").val());
+    	if(comment==''){
+    		window.wxc.alert("请输入取消原因！");
+    		return;
+    	}
+    	var isCanceConfirm = 0;
+      	$("#canceModal input[name='isCanceConfirm']").each(function(){
+      		if($(this).prop("checked")){
+      			isCanceConfirm = $(this).prop("value");
+      		}
+         });
+    	$.ajax({
+    		cache:false,
+    		async:true,
+    		type:"POST",
+    		dataType:"json",
+    		url:ctx+"/reservation/canceReservation",
+    		data:{
+    			resId:resId,
+    			resPersonId:resPersonId,
+    			actStartTime : actStartTime,
+    			actEndTime : actEndTime,
+    			resDateTime : resDateTime,
+    			signingCenter : signingCenter,
+    			isCanceConfirm:isCanceConfirm,
+    			comment:comment
+    		},
+    		beforeSend: function () {  
+	        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+	        }, 
+    		success:function(data){
+    			$.unblockUI();  
+    			if(data.success){
+    				window.wxc.success(data.message,{"wxcOk":function(){
+						$("#closeBtn").click();
+						reloadGrid();
+					}});
+    			}else{
+    				window.wxc.error(data.message);
+    			}
+    		}
+    	});
+    });
+    
   //清除
   $("#clear").click(function(){
 	$("#searchForm input[name='resPersonId']").val("");
@@ -438,6 +491,24 @@ function followup(obj){
 	$("#mobile").html(mobile);
 	$("#followUpDate").html(getCurrentTime());
 	$("textarea[name='comment']").val("");
+}
+
+function canceReservation(resId,resPersonId,actStartTime,actEndTime,resDateTime,signingCenter){
+	$("#canceModal input[name='resId']").val(resId);
+	$("#canceModal input[name='resPersonId']").val(resPersonId);
+	$("#canceModal input[name='actStartTime']").val(actStartTime);
+	$("#canceModal input[name='actEndTime']").val(actEndTime);
+	$("#canceModal input[name='resDateTime']").val(resDateTime);
+	$("#canceModal input[name='signingCenter']").val(signingCenter);
+	$("#canceModal textarea[name='comment']").val("");
+	$("#canceModal input[name='isCanceConfirm']").each(function(){
+        if($(this).prop("value")=="0"){
+             $(this).prop("checked",true);
+         }else{
+         	$(this).prop("checked",false);
+         }
+     });
+	
 }
 
 

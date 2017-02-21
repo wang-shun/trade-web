@@ -184,6 +184,60 @@
                     </div>
                 </div>
                 
+                <!-- 取消预约弹出框 -->
+				<div class="modal inmodal in" id="canceModal" tabindex="-1" role="dialog" aria-hidden="false" >
+                    <div class="modal-dialog" style="width: 790px;">
+                    <input type="hidden" id="resId" name="resId" />
+                    <input type="hidden" id="resPersonId" name="resPersonId" />
+                    <input type="hidden" id="actStartTime" name="actStartTime" />
+                    <input type="hidden" id="actEndTime" name="actEndTime" />
+                    <input type="hidden" id="resDateTime" name="resDateTime" />
+                    <input type="hidden" id="signingCenter" name="signingCenter" />
+                    
+                        <div class="modal-content animated fadeIn popup-box">
+                            <div class="modal_title">
+                               	 取消预约
+                            </div>
+                            <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small select_style mend_select">
+                                            	已与经纪人确认
+                                        </label>
+                                        <div class="checkbox i-checks radio-inline sign sign_right" style="margin-top: 5px;margin-left: 10px;">
+                                            <label>
+                                                <input type="radio" value="0"  name="isCanceConfirm" checked="checked">
+                                                否
+                                            </label>
+                                            <label>
+                                                <input type="radio" value="1"  name="isCanceConfirm">
+                                                是
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small pull-left" style="margin-left: 38px;margin-right: 8px;">
+                                            	取消原因
+                                        </label>
+                                        <textarea name="comment" id="" class="pull-left textareasmall" placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <div class="add_btn" style="float:left;margin:15px 117px;">
+                                        <button type="button" class="btn btn-success" id="canceConfirmBtn">
+                                            	提交
+                                        </button>
+                                        <button type="button" class="btn btn-grey" data-dismiss="modal" id="closeBtn">
+                                            	关闭
+                                        </button>
+                                    </div>
+                                </div>
+                        </div>
+                        <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+                </div>
+                
                 <!-- 最新更进弹出框 -->
 				<div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="false" >
                     <div class="modal-dialog" style="width: 790px;">
@@ -485,6 +539,9 @@
 						  {{/if}}
                           <ul class="dropdown-menu" role="menu" style="left:-95px;">
 								{{if item.resStatus == '0'}}
+									<c:if test="${isCurrenDayDuty == true }">
+                                    	  <li class="liStartUse"><a href="#" data-toggle="modal" data-target="#canceModal" onClick="canceReservation('{{item.resId}}','{{item.resPersonId}}','{{item.actStartTime}}','{{item.actEndTime}}','{{item.resDateTime}}','{{item.signingCenter}}')">取消</a></li>
+                                    </c:if>
 									<shiro:hasPermission name="TRADE.SIGNROOM.SIGN">
                                     	<c:if test="${isCurrenDayDuty == true }">
                                     	  <li class="liStartUse"><a href="javascript:void(0);" onClick="startUse(this,'{{item.resDateTime}}','{{item.actStartTime}}','{{item.actEndTime}}','{{item.roomId}}','{{item.resId}}','{{item.scheduleId}}');">开始使用</a></li>
