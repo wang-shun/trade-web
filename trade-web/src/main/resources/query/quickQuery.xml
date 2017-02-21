@@ -42,6 +42,7 @@
 
 	<!-- 案件基础信息报表 -->
 	<import resource="query/report/toCaseBaseInfoChartsQuery.xml" />
+	<import resource="query/report/guoHuChartsQuery.xml" />
 
 	<!-- 知识库 -->
 	<import resource="query/knowledge/knowledgeListQuery.xml" />
