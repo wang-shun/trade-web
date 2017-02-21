@@ -148,8 +148,15 @@ function commitDispose(isSubmit){
 			executorId:executorId
 		} ,
 		success : function(data) {
+			var message = "";
 			if (data.success) {
-				window.wxc.success(data.message,{"wxcOk":function(){
+				if(isSubmit){
+					message = "提交成功！";
+				}else{
+					message = "保存成功！";
+				}
+				
+				window.wxc.success(message,{"wxcOk":function(){
 					$("#modal-form").modal("hide");
 					reloadGrid();
 				}});

@@ -1,10 +1,11 @@
 package com.centaline.trans.task.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.aist.uam.userorg.remote.vo.User;
 
-public class ToPropertyResearchVo {
+public class ToPropertyResearchVo implements Serializable {
 	private String caseCode;
 	private String prCat;
 	private String district;
@@ -18,22 +19,22 @@ public class ToPropertyResearchVo {
 	private String prCostOrgId;
 	private String prCostOrgName;
 	private String prCostOrgMgr;
-	
+
 	private String agentCode;
-	
+
 	private String appliant;
-	
-	//记录产调申请人的组织
+
+	// 记录产调申请人的组织
 	private String prApplyDepId;
 
 	private String prApplyDepName;
 
-	
-	public String getAgentCode(){
+	public String getAgentCode() {
 		return this.agentCode;
 	}
-	public void setAgentCode(String agentCode){
-		this.agentCode=agentCode;
+
+	public void setAgentCode(String agentCode) {
+		this.agentCode = agentCode;
 	}
 
 	public String getPrApplyOrgId() {
@@ -189,16 +190,19 @@ public class ToPropertyResearchVo {
 	public void setAppliant(String appliant) {
 		this.appliant = appliant;
 	}
-	
+
 	public String getPrApplyDepId() {
 		return prApplyDepId;
 	}
+
 	public void setPrApplyDepId(String prApplyDepId) {
 		this.prApplyDepId = prApplyDepId;
 	}
+
 	public String getPrApplyDepName() {
 		return prApplyDepName;
 	}
+
 	public void setPrApplyDepName(String prApplyDepName) {
 		this.prApplyDepName = prApplyDepName;
 	}
