@@ -1094,6 +1094,12 @@
    					        if(data.success){
    					        	var caseInfoMap = eval('('+data.content+')');
    					    		$("#caseCode").val(caseInfoMap['caseCode']);
+   					    		fileUpload.init({
+							    		caseCode : $('#caseCode').val(),
+							    		partCode : "SpvApplyApprove",
+							    		fileUploadContainer : "fileUploadContainer"
+							    });
+   					    		
    					    		$("#content_caseCode").html(caseInfoMap['caseCode']);
    					    		$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
    					    		$("#content_processorId").html(caseInfoMap['processorName']);
@@ -1435,23 +1441,17 @@
 		
 		<content tag="local_require">
 	       <script>
+	       		var fileUpload;
 			    require(['main'], function() {
 					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
+						fileUpload = aistFileUpload;
 						var handle = $("#handle").val();
-						
 						if(handle == "SpvApprove" || handle == "SpvSign"){
-							aistFileUpload.init({
+							fileUpload.init({
 					    		caseCode : $('#caseCode').val(),
 					    		partCode : "SpvApplyApprove",
 					    		fileUploadContainer : "fileUploadContainer",
 					    		readonly : true
-					    	});
-						}
-						else {
-							aistFileUpload.init({
-					    		caseCode : $('#caseCode').val(),
-					    		partCode : "SpvApplyApprove",
-					    		fileUploadContainer : "fileUploadContainer"
 					    	});
 						}
 				    });
