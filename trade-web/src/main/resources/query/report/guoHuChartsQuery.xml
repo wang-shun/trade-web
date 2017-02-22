@@ -45,38 +45,26 @@
 					<ifNotNull teamId>
 						and CASE_ORG_ID_F=#districtId#
 					</ifNotNull>
-
 					and tb1.BELONG_MONTH='201701'
 					and TRANSFER_ISPASS=1
-					and convert(varchar(7),TRANSFER_APP_TIME,120)='2017-01')
+					and convert(varchar(7),TRANSFER_APP_TIME,120)='2016-11')
 
 					select
-					'NO_LOAN_REQ' AS CASE_LOAN_REQ,
-					isnull((select count(1) from tb where tb.CASE_LOAN_REQ=0),0) as CASE_COUNT,
-					isnull((select sum(tb.CASE_CON_PRICE) from tb where tb.CASE_LOAN_REQ=0),0) as CON_PRICE,
-					isnull((select sum(tb.MORT_COM_AMOUNT) from tb where tb.CASE_LOAN_REQ=0),0) as MORT_COM_AMOUNT,
-					isnull((select sum(tb.MORT_PRF_AMOUNT) from tb where tb.CASE_LOAN_REQ=0),0) as MORT_PRF_AMOUNT
-					 union all
+						tb.MORT_TYPE as MORT_TYPE,
+						count(tb.MORT_TYPE) CASE_COUNT,
+						isnull(sum(tb.CASE_CON_PRICE),0) CASE_CON_PRICE,
+						isnull(sum(tb.MORT_COM_AMOUNT),0) MORT_COM_AMOUNT,
+						isnull(sum(tb.MORT_PRF_AMOUNT),0) MORT_PRF_AMOUNT
+					from tb where tb.CASE_LOAN_REQ = 1 and (tb.MORT_TYPE is not null and tb.MORT_TYPE<>'')
+					group by tb.MORT_TYPE
+					union all
 					select
-					'MORT_PRF' AS CASE_LOAN_REQ,
-					isnull((select count(1) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016003'),0) as CASE_COUNT,
-					isnull((select sum(tb.CASE_CON_PRICE) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016003'),0) as CON_PRICE,
-					isnull((select sum(tb.MORT_COM_AMOUNT) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016003'),0) as MORT_COM_AMOUNT,
-					isnull((select sum(tb.MORT_PRF_AMOUNT) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016003'),0) as MORT_PRF_AMOUNT
-					 union all
-					select
-					'MORT_COM' AS CASE_LOAN_REQ,
-					isnull((select count(1) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016001'),0) as CASE_COUNT,
-					isnull((select sum(tb.CASE_CON_PRICE) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016001'),0) as CON_PRICE,
-					isnull((select sum(tb.MORT_COM_AMOUNT) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016001'),0) as MORT_COM_AMOUNT,
-					isnull((select sum(tb.MORT_PRF_AMOUNT) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016001'),0) as MORT_PRF_AMOUNT
-					 union all
-					select
-					'MORT_COMBINATION' AS CASE_LOAN_REQ,
-					isnull((select count(1) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016002'),0) as CASE_COUNT,
-					isnull((select sum(tb.CASE_CON_PRICE) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016002'),0) as CON_PRICE,
-					isnull((select sum(tb.MORT_COM_AMOUNT) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016002'),0) as MORT_COM_AMOUNT,
-					isnull((select sum(tb.MORT_PRF_AMOUNT) from tb where tb.CASE_LOAN_REQ=1 and tb.MORT_TYPE='30016002'),0) as MORT_PRF_AMOUNT
+						'NO_LOAN_REQ' as MORT_TYPE,
+						count(*) CASE_COUNT,
+						isnull(sum(tb.CASE_CON_PRICE),0) CASE_CON_PRICE,
+						0 MORT_COM_AMOUNT,
+						0 MORT_PRF_AMOUNT
+					from tb where tb.CASE_LOAN_REQ = 0
 
 	            ]]>
 			</baseSql>
@@ -89,9 +77,9 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="CASE_LOAN_REQ" title="贷款类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_TYPE" title="贷款类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_COUNT" title="过户单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CON_PRICE" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_CON_PRICE" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORT_PRF_AMOUNT" title="公积金金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
