@@ -351,7 +351,6 @@
 	<!-- 分页控件  -->
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<!-- 日期拖拽 -->
 	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.js"></script>	
 	<script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script>

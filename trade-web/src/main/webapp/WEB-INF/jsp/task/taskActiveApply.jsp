@@ -13,6 +13,7 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <div class="ibox-title">
                   <h5>填写表单，完成任务 </h5>    
                     							        
