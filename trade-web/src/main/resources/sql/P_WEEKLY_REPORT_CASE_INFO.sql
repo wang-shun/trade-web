@@ -11,32 +11,35 @@ GO
 -- Description:	每周的sctrans.T_RPT_CASE_BASE_INFO备份与报表数据的生成
 -- =============================================
 ALTER PROCEDURE sctrans.P_WEEKLY_REPORT_CASE_INFO(
-    @belong_week int = 0
+    @belong_week_start int = 0,
+    @belong_week_end int = 0
 )
 	
 AS
 BEGIN
 	DECLARE @update_date datetime;
 	DECLARE @weekday int;
-	DECLARE @last_week_4 datetime;
+	DECLARE @last_period_week_4 datetime;
+	DECLARE @last_period_week_5 datetime;
  
-  IF @belong_week = 0
+  IF @belong_week_start = 0 and @belong_week_end = 0
 		BEGIN
 			--默认之前一个统计周期：如果今天是周5、6，默认本周四；如果今天是周1、2、3、4、7，默认上周四
 			set @weekday = datepart(dw,getdate());
 			IF @weekday in (6, 7)
 			BEGIN
-				set @last_week_4 = dateadd(dw,5-datepart(dw,getdate()),getdate());
+				set @last_period_week_4 = dateadd(dw,5-datepart(dw,getdate()),getdate());
 			END 
 			ELSE IF  @weekday in (1, 2, 3, 4, 5)
 			BEGIN
-				set @last_week_4 = dateadd(dw,-2-datepart(dw,getdate()),getdate());
+				set @last_period_week_4 = dateadd(dw,-2-datepart(dw,getdate()),getdate());
 			END 	
 			
-			set @belong_week = year(@last_week_4)*10000 + month(@last_week_4)*100 + day(@last_week_4);
+			set @last_period_week_5 = dateadd(day,-6,@last_period_week_4);
+			set @belong_week_start = year(@last_period_week_5)*10000 + month(@last_period_week_5)*100 + day(@last_period_week_5);
+			set @belong_week_end = year(@last_period_week_4)*10000 + month(@last_period_week_4)*100 + day(@last_period_week_4);
 		END
   
-
 	set @update_date = getdate();
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
@@ -45,7 +48,7 @@ BEGIN
 
 	--删除当周统计的数据
     DELETE  FROM sctrans.T_RPT_WEEKLY_CASE_BASE_INFO
-    WHERE   BELONG_WEEK_LAST_DAY = @belong_week;
+    WHERE   BELONG_WEEK_START_DAY =@belong_week_start AND BELONG_WEEK_END_DAY = @belong_week_end;
 
 	INSERT INTO sctrans.T_RPT_WEEKLY_CASE_BASE_INFO(
 	CASE_PKID ,
@@ -209,7 +212,8 @@ BEGIN
 	CASE_USE_CARD_PAY_CN ,
 	CASE_CARD_PAY_AMOUNT ,
 	CREATE_TIME ,
-	BELONG_WEEK_LAST_DAY
+	BELONG_WEEK_START_DAY ,
+	BELONG_WEEK_END_DAY
 	)
 SELECT
 	CASE_PKID ,
@@ -372,8 +376,9 @@ SELECT
 	CASE_USE_CARD_PAY ,
 	CASE_USE_CARD_PAY_CN ,
 	CASE_CARD_PAY_AMOUNT ,
-	GETDATE(),
-	@belong_week
+	GETDATE() ,
+	@belong_week_start ,
+	@belong_week_end
 
 	FROM    
 	  SCTRANS.T_RPT_CASE_BASE_INFO
