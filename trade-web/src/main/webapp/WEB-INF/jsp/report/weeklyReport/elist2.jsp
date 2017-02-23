@@ -38,11 +38,11 @@
 						<h3 class="content-title pull-left">评估转化率</h3>
 						<div class="calendar-watch clearfix">
 							<p class="calendar-year">
-								<a href="#" id="subtract"><em>&lt;</em></a> <span>2016年11月</span>
+								<a href="#" id="subtract"><em>&lt;</em></a> <span></span>
 								<a href="#" id="add"><em>&gt;</em></a>
 							</p>
 							<p class="calendar-month">
-								<span>29-05</span><span>06-13</span><span>14-21</span><span>22-29</span>
+								<span></span><span></span><span></span><span></span>
 							</p>
 						</div>
 					</div>
@@ -64,17 +64,7 @@
 							</tr>
 						</thead>
 						<tbody id="assessmentList">
-							<tr>
-								<td>宝山贵宾A组</td>
-								<td>12</td>
-								<td>4</td>
-								<td>33%</td>
-								<td>38%</td>
-								<td>35102</td>
-								<td>6300</td>
-								<td>19%</td>
-								<td>27%</td>
-							</tr>
+							<!-- 模板数据 -->
 						</tbody>
 					</table>
 					<div class="text-center">
@@ -100,21 +90,20 @@
 	<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
 	<!-- 排序插件 -->
 	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-		<!-- 个人js -->
+	<!-- 个人js -->
 	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
 	<script id="template_assessmentList" type="text/html">
           {{each rows as item index}}
 		    <tr>
-              <td>宝山贵宾A组</td>
-              <td>1</td>
-              <td>12</td>
-              <td>13</td>
-              <td>8%</td>
-              <td>11%</td>
-              <td>11%</td>
-              <td>57</td>
-              <td>1282</td>
-              <td>1339</td>
+              <td>{{item.ORG_NAME}}</td>
+              <td>{{item.REC_NUM_WEEK}}</td>
+              <td>{{item.EVA_NUM_WEEK}}</td>
+              <td>{{item.REC_NUM_MONTH}}</td>
+              <td>{{item.EVA_NUM_MONTH}}</td>
+              <td>{{item.EVA_AMOUNT_WEEK}}</td>
+              <td>{{item.EVA_ACT_AMOUNT_WEEK}}</td>
+              <td>{{item.EVA_AMOUNT_MONTH}}</td>
+              <td>{{item.EVA_ACT_AMOUNT_MONTH}}</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -123,13 +112,15 @@
 		function reloadGrid() {
 			var week = window.parent.week.split("至");
 			var data = {
-				startTime : week[0],
-				endTime : week[1],
+				queryId : "queryList2",
+				startWeekDay : week[0].replace(/-/g,''),
+				endWeekDay : week[1].replace(/-/g,''),
 				rows : 10,
-				page : 1,
-				queryId : "queryDistrict"
+				page : 1
+				
 			}
-			initData(data,"template_assessmentList","assessmentList");
+			var url = ctx+"/quickGrid/findPage";
+			initData(url,data,"template_assessmentList","assessmentList");
 		}
 	</script>
 </body>

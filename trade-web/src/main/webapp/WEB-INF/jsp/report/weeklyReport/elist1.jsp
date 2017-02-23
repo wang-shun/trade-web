@@ -38,11 +38,12 @@
 						<h3 class="content-title pull-left">贷款流失率</h3>
 						<div class="calendar-watch clearfix">
 							<p class="calendar-year">
-								<a href="#" id="subtract"><em>&lt;</em></a> <span>2016年11月</span>
+								<a href="#" id="subtract"><em>&lt;</em></a> 
+								<span><!-- 当前年月 --></span>
 								<a href="#" id="add"><em>&gt;</em></a>
 							</p>
 							<p class="calendar-month">
-								<span>29-05</span><span>06-13</span><span>14-21</span><span>22-29</span>
+								<!-- 每周的span -->
 							</p>
 						</div>
 					</div>
@@ -66,24 +67,11 @@
 								<th>本月累计</th>
 							</tr>
 						</thead>
-						<tbody id="loanlossList">
-							<tr>
-								<td>宝山贵宾A组</td>
-								<td>1</td>
-								<td>12</td>
-								<td>13</td>
-								<td>8%</td>
-								<td>11%</td>
-								<td>11%</td>
-								<td>57</td>
-								<td>1282</td>
-								<td>1339</td>
-								<td>4%</td>
-								<td>10%</td>
-							</tr>
+						<tbody id="loanLoseList">
+							<!-- 模板数据 -->
 						</tbody>
 					</table>
-						<div class="text-center">
+					<div class="text-center">
 						<span id="currentTotalPage"><strong class="bold"></strong></span>
 						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
 						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
@@ -106,23 +94,22 @@
 	<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
 	<!-- 排序插件 -->
 	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-		<!-- 个人js -->
+	<!-- 个人js -->
 	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
-	<script id="template_loanlossList" type="text/html">
+	<script id="template_loanLoseList" type="text/html">
           {{each rows as item index}}
 		    <tr>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.lossRate}}%</td>
-              <td>{{item.oldMonthLossRate}}%</td>
-              <td>{{item.monthLossRate}}%</td>
-              <td>{{item.lossAmount}}</td>
-              <td>{{item.successAmount}}</td>
-              <td>{{item.totalAmount}}</td>
-              <td>{{item.AmountLossRate}}%</td>
-              <td>{{item.MonthAmountLossRate}}%</td>
+              <td>{{item.ORG_NAME}}</td>
+              <td>{{item.LOSE_NUM_WEEK}}</td>
+              <td>{{item.REC_NUM_WEEK}}</td>
+              <td>{{item.TOTAL_NUM_WEEK}}</td>
+              <td>{{item.LOSE_AMOUNT_WEEK}}</td>
+              <td>{{item.REC_AMOUNT_WEEK}}</td>
+              <td>{{item.TOTAL_AMOUNT_WEEK}}</td>
+              <td>{{item.LOSE_AMOUNT_LAST_MONTH}}</td>
+              <td>{{item.TOTAL_AMOUNT_LAST_MONTH}}</td>
+              <td>{{item.LOSE_AMOUNT_MONTH}}</td>
+              <td>{{item.TOTAL_AMOUNT_MONTH}}</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -132,14 +119,14 @@
 		function reloadGrid() {
 			var week = window.parent.week.split("至");
 			var data = {
-				startTime : week[0],
-				endTime : week[1],
-				rows : 8,
-				page : 1
-				
-			};
-			var url = ctx+"/js/eachartdata/loanloss.json"
-			initData(url,data,"template_loanlossList","loanlossList");
+				queryId : "queryList1",
+				startWeekDay : week[0].replace(/-/g,''),
+				endWeekDay : week[1].replace(/-/g,''),
+				rows : 10,
+				page : 1	
+			}
+			var url = ctx+"/quickGrid/findPage";
+			initData(url,data,"template_loanLoseList","loanLoseList");
 		}
 	</script>
 

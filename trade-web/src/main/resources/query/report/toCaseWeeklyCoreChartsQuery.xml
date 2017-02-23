@@ -11,39 +11,38 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				--1.贷款流失率
 				select
-				CASE_ORG_ID_F district_id,
-				sum(case when CASE_REC_STATUS = 1 and BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then 1 else 0 end) NUM1,--流失单数
+				CASE_ORG_ID_F ORG_ID,
+				sum(case when CASE_REC_STATUS = 1 and BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then 1 else 0 end) LOSE_NUM_WEEK,--流失单数
 				
-				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then 1 else 0 end) NUM2,--收单数
+				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then 1 else 0 end) REC_NUM_WEEK,--收单数
 				
-				sum(case when BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then 1 else 0 end) NUM3,--总单数
+				sum(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then 1 else 0 end) TOTAL_NUM_WEEK,--总单数
 				--NUM1/NUM2--单数流失率
 				--12月流失率
-				sum(isnull(case when CASE_REC_STATUS = 1 and BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then LOAN_LOST_AMOUNT else 0 end,0)) AMOUNT1,--流失金额
+				sum(isnull(case when CASE_REC_STATUS = 1 and BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then LOAN_LOST_AMOUNT else 0 end,0)) LOSE_AMOUNT_WEEK,--流失金额
 				
-				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then MORT_COM_AMOUNT else 0 end,0)) AMOUNT2,--收单金额
+				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then MORT_COM_AMOUNT else 0 end,0)) REC_AMOUNT_WEEK,--收单金额
 				
-				sum(isnull(case when BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then MORT_TOTAL_AMOUNT else 0 end,0)) AMOUNT3,--总金额
+				sum(isnull(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then MORT_TOTAL_AMOUNT else 0 end,0)) TOTAL_AMOUNT_WEEK,--总金额
 				
 				--AMOUNT1/AMOUNT3--金额流失率
 				
-				sum(isnull(case when CASE_REC_STATUS = 1 and BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_END_DAY/100-1 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100-1 then LOAN_LOST_AMOUNT else 0 end,0)) AMOUNT11,--流失金额
+				sum(isnull(case when CASE_REC_STATUS = 1 and BELONG_WEEK_START_DAY/100 = #endWeekDay#/100-1 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100-1 then LOAN_LOST_AMOUNT else 0 end,0)) LOSE_AMOUNT_LAST_MONTH,--流失金额
 				
-				sum(isnull(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_END_DAY/100-1 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100-1  then LOAN_LOST_AMOUNT else 0 end,0)) AMOUNT31,--总金额
+				sum(isnull(case when BELONG_WEEK_START_DAY/100 = #endWeekDay#/100-1 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100-1  then LOAN_LOST_AMOUNT else 0 end,0)) TOTAL_AMOUNT_LAST_MONTH,--总金额
 				
 				--AMOUNT11/AMOUNT31 --11月流失率
 				
-				sum(isnull(case when CASE_REC_STATUS = 1 and BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100 then LOAN_LOST_AMOUNT else 0 end,0)) AMOUNT12,--流失金额
+				sum(isnull(case when CASE_REC_STATUS = 1 and BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100 then LOAN_LOST_AMOUNT else 0 end,0)) LOSE_AMOUNT_MONTH,--流失金额
 				
-				sum(isnull(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  then LOAN_LOST_AMOUNT else 0 end,0)) AMOUNT32--总金额
+				sum(isnull(case when BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then LOAN_LOST_AMOUNT else 0 end,0)) TOTAL_AMOUNT_MONTH--总金额
 				
 				--AMOUNT12/AMOUNT32 --本月累计
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO where  MORT_TYPE in ('30016001','30016002') and TRANSFER_ISPASS = 1
@@ -57,8 +56,18 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			    <column type="both" name="DISTRICT_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="DISTRICT_NAME"  title="贵宾服务部名称"  referencecol="DISTRICT_ID" isDynamic="true" index="" checkbox="" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="ORG_ID" index="" checkbox="" title="组织ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="virtual" name="ORG_NAME" index="" checkbox="" display="组织名称" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
+			    <column type="both" name="LOSE_NUM_WEEK" index="" checkbox="" title="流失单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="REC_NUM_WEEK" index="" checkbox="" title="收单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="TOTAL_NUM_WEEK" index="" checkbox="" title="总单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="LOSE_AMOUNT_WEEK" index="" checkbox="" title="流失金额(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="REC_AMOUNT_WEEK" index="" checkbox="" title="收单金额(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="TOTAL_AMOUNT_WEEK" index="" checkbox="" title="总金额(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="LOSE_AMOUNT_LAST_MONTH" index="" checkbox="" title="流失金额(上月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="TOTAL_AMOUNT_LAST_MONTH" index="" checkbox="" title="总金额(上月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="LOSE_AMOUNT_MONTH" index="" checkbox="" title="流失金额(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="TOTAL_AMOUNT_MONTH" index="" checkbox="" title="总金额(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
@@ -69,30 +78,29 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				--2.评估转化率
 				select 
-				CASE_ORG_ID_F district_id,
-				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then 1 else 0 end) NUM1,--收单案件总量
+				CASE_ORG_ID_F ORG_ID,
+				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then 1 else 0 end) REC_NUM_WEEK,--收单案件总量
 				
-				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY and EVA_EVAL_FEE is not null then 1 else 0 end) NUM2,--有评估费单数
+				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# and EVA_EVAL_FEE is not null then 1 else 0 end) EVA_NUM_WEEK,--有评估费单数
 				
 				--NUM2/NUM1--评估转化率
 				
-				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  then 1 else 0 end) NUM11,--收单案件总量
+				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then 1 else 0 end) REC_NUM_MONTH,--收单案件总量
 				
-				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  and EVA_EVAL_FEE is not null then 1 else 0 end) NUM21,--有评估费单数
+				sum(case when CASE_REC_STATUS = 0 and BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and EVA_EVAL_FEE is not null then 1 else 0 end) EVA_NUM_MONTH,--有评估费单数
 				--NUM11/NUM21--本月累计
-				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then MORT_COM_AMOUNT*0.0001 else 0 end,0)) AMOUNT1,--评估费应收
+				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_WEEK,--评估费应收
 				
-				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then EVA_EVAL_FEE else 0 end,0)) AMOUNT2,--评估费实收
+				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_WEEK,--评估费实收
 				
 				--AMOUNT2/AMOUNT1--收益率
-				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  then MORT_COM_AMOUNT*0.0001 else 0 end,0)) AMOUNT11,--评估费应收
-				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  EVA_EVAL_FEE else 0 end,0)) AMOUNT21--评估费实收
+				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_MONTH,--评估费应收
+				sum(isnull(case when CASE_REC_STATUS = 0 and BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_MONTH--评估费实收
 				--AMOUNT21/AMOUNT11--本月累计
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO where MORT_TYPE in ('30016001','30016002') and TRANSFER_ISPASS = 1 and CASE_REC_STATUS = 0
 	            ]]>
@@ -105,8 +113,16 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="DISTRICT_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="DISTRICT_NAME"  title="贵宾服务部名称"  referencecol="DISTRICT_ID" isDynamic="true" index="" checkbox="" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ORG_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="ORG_NAME" index="" checkbox="" display="组织名称" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
+				<column type="both" name="REC_NUM_WEEK" index="" checkbox="" title="收单案件总量(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_NUM_WEEK" index="" checkbox="" title="有评估费单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="REC_NUM_MONTH" index="" checkbox="" title="收单案件总量(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_NUM_MONTH" index="" checkbox="" title="有评估费单数(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_AMOUNT_WEEK" index="" checkbox="" title="评估费应收(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_ACT_AMOUNT_WEEK" index="" checkbox="" title="评估费实收(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_AMOUNT_MONTH" index="" checkbox="" title="评估费应收(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_ACT_AMOUNT_MONTH" index="" checkbox="" title="评估费实收(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
@@ -117,23 +133,22 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				--3.金融产品转化率（卡类）
 				select 
-				CASE_ORG_ID_F district_id,
-				sum(case when BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then 1 else 0 end) NUM1,--本周 过户单数
+				CASE_ORG_ID_F ORG_ID,
+				sum(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then 1 else 0 end) GUOHU_NUM_WEEK,--本周 过户单数
 				
-				sum(case when BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY and ELOAN_KA is not null then 1 else 0 end) NUM2,--本周 卡申请单数
+				sum(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# and ELOAN_KA is not null then 1 else 0 end) KA_APP_NUM_WEEK,--本周 卡申请单数
 				
 				--NUM2/NUM1--本周 单数转化率
 				
-				sum(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  then 1 else 0 end) NUM11,--本月 过户单数
-				sum(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  and ELOAN_KA is not null then 1 else 0 end) NUM21,--本月 卡申请单数
-				NUM21/NUM11--本月 单数转化率
-				sum(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  and ELOAN_KA is not null and ELOAN_KA_AMOUNT is not null then 1 else 0 end) NUM31,--本月 刷卡单数
-				NUM31/NUM11--本月 刷卡率
-				--此处是用快速查询//sum(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and exists(select COUNT(1) EC_NUM from sctrans.T_TO_ELOAN_CASE EC where CASE_CODE = EC.CASE_CODE AND EC.LOAN_SRV_CODE IN ('30004005','30004015') AND cast(convert(varchar(6) , CREATE_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100)  and ELOAN_KA is not null then EC_NUM else 0 end) NUM4--本月 E+卡申请总量
+				sum(case when BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then 1 else 0 end) GUOHU_NUM_MONTH,--本月 过户单数
+				sum(case when BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and ELOAN_KA is not null then 1 else 0 end) KA_APP_NUM_MONTH,--本月 卡申请单数
+				--NUM21/NUM11--本月 单数转化率
+				sum(case when BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and ELOAN_KA is not null and ELOAN_KA_AMOUNT is not null then 1 else 0 end) KA_NUM_MONTH--本月 刷卡单数
+				--NUM31/NUM11--本月 刷卡率
+				--此处使用快速查询   ELOAN_KA_APP_NUM_MONTH--本月 E+卡申请总量
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO where TRANSFER_ISPASS = 1
 	            ]]>
 			</baseSql>
@@ -145,8 +160,14 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="DISTRICT_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="DISTRICT_NAME"  title="贵宾服务部名称"  referencecol="DISTRICT_ID" isDynamic="true" index="" checkbox="" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ORG_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="ORG_NAME" index="" checkbox="" display="组织名称" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
+				<column type="both" name="GUOHU_NUM_WEEK" index="" checkbox="" title="过户单数" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="KA_APP_NUM_WEEK" index="" checkbox="" title="卡申请单数" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="GUOHU_NUM_MONTH" index="" checkbox="" title="过户单数" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="KA_APP_NUM_MONTH" index="" checkbox="" title="卡申请单数" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="KA_NUM_MONTH" index="" checkbox="" title="刷卡单数" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<!-- <column type="both" name="ELOAN_KA_APP_NUM_MONTH" index="" checkbox="" title="E+卡申请总量(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/> -->
 			</table-row>
 		</grid>
 	</query>
@@ -157,31 +178,30 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				--4.金融产品转化率（贷款类）
 				select 
-				CASE_ORG_ID_F district_id,
-				sum(case when BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY and ELOAN_PRO is not null then 1 else 0 end) NUM1,--本周 E+过户单数
+				CASE_ORG_ID_F ORG_ID,
+				sum(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then 1 else 0 end) GUOHU_NUM_WEEK,--本周 E+过户单数
 				
-				sum(isnull(case when BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then CASE_CON_PRICE else 0 end,0)) AMOUNT1,--本周 房屋价格
+				sum(isnull(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then CASE_CON_PRICE else 0 end,0)) HOUSE_PRICE_WEEK,--本周 房屋价格
 				
-				sum(case when BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY and ELOAN_PRO is not null then 1 else 0 end) NUM2,--本周 E+申请单数
+				sum(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# and ELOAN_PRO is not null then 1 else 0 end) PRO_APP_NUM_WEEK,--本周 E+申请单数
 				
-				sum(isnull(case when BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY and ELOAN_PRO is not null then  else 0 end,0))) AMOUNT2,--本周 E+申请金额
+				sum(isnull(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# and ELOAN_PRO is not null then ELOAN_PRO_AMOUNT else 0 end,0)) PRO_APP_AMOUNT_WEEK,--本周 E+申请金额
 				
 				--AMOUNT2/AMOUNT1--本周 金额转化率
 				
-				sum(case when BELONG_WEEK_END_DAY = @BELONG_WEEK_END_DAY and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between @BELONG_WEEK_START_DAY and 
-				@BELONG_WEEK_END_DAY then 1 else 0 end) NUM3,--本周 过户单数
+				sum(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then 1 else 0 end) GUOHU_NUM_WEEK,--本周 过户单数
 				
-				sum(isnull(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  then CASE_CON_PRICE else 0 end,0)) AMOUNT11,--本月 房屋价格
-				sum(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  and ELOAN_PRO is not null then 1 else 0 end) NUM21,--本月 E+申请单数
-				sum(isnull(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  and ELOAN_PRO is not null then  else 0 end,0)) AMOUNT21,--本月 E+申请金额
+				sum(isnull(case when BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then CASE_CON_PRICE else 0 end,0)) HOUSE_PRICE_MONTH,--本月 房屋价格
+				sum(case when BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and ELOAN_PRO is not null then 1 else 0 end) PRO_APP_NUM_MONTH,--本月 E+申请单数
+				sum(isnull(case when BELONG_WEEK_START_DAY/100 = #startWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and ELOAN_PRO is not null then ELOAN_PRO_AMOUNT else 0 end,0)) PRO_APP_AMOUNT_MONTH--本月 E+申请金额
 				--AMOUNT21/AMOUNT11--本月 金额转化率
-				--此处是用快速查询sum(case when BELONG_WEEK_START_DAY/100 = @BELONG_WEEK_START_DAY/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = @BELONG_WEEK_END_DAY/100  and ELOAN_PRO is not null then 1 else 0 end) NUM4--本月 e+申请总量
+				--此处使用快速查询  ELOAN_PRO_APP_NUM_MONTH--本月 E+申请总量
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO where TRANSFER_ISPASS = 1
 	            ]]>
 			</baseSql>
@@ -193,8 +213,17 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			    <column type="both" name="DISTRICT_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="DISTRICT_NAME"  title="贵宾服务部名称"  referencecol="DISTRICT_ID" isDynamic="true" index="" checkbox="" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="ORG_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="virtual" name="ORG_NAME" index="" checkbox="" display="组织名称" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
+			    <column type="both" name="GUOHU_NUM_WEEK" index="" checkbox="" title="E+过户单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="HOUSE_PRICE_WEEK" index="" checkbox="" title="房屋价格(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="PRO_APP_NUM_WEEK" index="" checkbox="" title="E+申请单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="PRO_APP_AMOUNT_WEEK" index="" checkbox="" title="E+申请金额(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="GUOHU_NUM_WEEK" index="" checkbox="" title="过户单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="HOUSE_PRICE_MONTH" index="" checkbox="" title="房屋价格(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="PRO_APP_NUM_MONTH" index="" checkbox="" title="E+申请单数(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="PRO_APP_AMOUNT_MONTH" index="" checkbox="" title="E+申请金额(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <!-- <column type="both" name="ELOAN_PRO_APP_NUM_MONTH" index="" checkbox="" title="E+申请总量(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/> -->
 			</table-row>
 		</grid>
 	</query>

@@ -22,14 +22,13 @@
 		var num=-1;
 		var week="";
 		var now = new Date();
+		now.setDate(now.getDate()-(now.getDay() == 0?7:now.getDay())); 
+		var lastWeekEnd = now;//上周周日 
 		//当前年月
-		var yearNow = now.getFullYear();
-		var monthNow = now.getMonth();
-			monthDisplay = (monthNow+1);
-			yearDisplay = yearNow;
-		//当前月份的上个月对应的年月
-		var yearLast = yearDisplay;
-		var monthLast = monthDisplay;
+		var yearNow = lastWeekEnd.getFullYear();
+		var monthNow = lastWeekEnd.getMonth();
+		monthDisplay = monthNow+1;
+		yearDisplay = yearNow;
 	</script>
 </head>
 <body style="background-color: #fff">
@@ -80,15 +79,15 @@ $.each(iframesArr,function(i,item){
 	    //年份加减
 	   	$(item.contentWindow.document).find("#subtract").click(function(){
 	   		monthDisplay--;
-	   		if(monthDisplay==0){
+	   		if(monthDisplay == 0){
 	   			yearDisplay--;
 	   			monthDisplay=12;
 	   		}
 	   		changeBtnClass(item);
-	   	/* 	item.contentWindow.reloadGrid(); */
+	   	 	item.contentWindow.reloadGrid(); 
 	   	})
 	   	$(item.contentWindow.document).find("#add").click(function(){
-	   		if(yearDisplay == yearLast&&monthDisplay==monthLast){
+	   		if(yearDisplay == yearNow && monthDisplay == (monthNow+1)){
 	   			return false;
 	   		}
 	   		monthDisplay++;
@@ -97,54 +96,53 @@ $.each(iframesArr,function(i,item){
 	   			monthDisplay=1;
 	   		}
 	   		changeBtnClass(item);
-	   	/* 	item.contentWindow.reloadGrid(); */
+	   		item.contentWindow.reloadGrid();
 	    })
 	}
 })
 
-function reRenderChart(item) {
-	changeBtnClass(item)
-
-	
+function reRenderChart(item) {	
+	//改变按钮样式
+	changeBtnClass(item);
+	//初始化
+	item.contentWindow.reloadGrid();
 }
 
 function changeBtnClass(item){
-	//点击变换颜色&&默认当前月份
-	var spanHtml=getspanHtml(yearDisplay,monthDisplay,0);
-	if(yearDisplay == yearLast&&monthDisplay == monthLast){
-		spanHtml=getspanHtml(yearDisplay,monthDisplay,now.getDate());
-		num=-1;
-	}
+	//默认上周日所在年月
+	$(item.contentWindow.document).find(".calendar-year span")
+	                              .html(yearDisplay+'年'+(monthDisplay>9?monthDisplay:"0"+monthDisplay)+'月');
+	
+	//点击变换颜色
+	var spanHtml = getSpanHtml(yearDisplay, monthDisplay, 0);	
 	$(item.contentWindow.document).find(".calendar-month").html(spanHtml);
-	$(item.contentWindow.document).find(".calendar-month span:eq("+num+")").addClass("select-blue").siblings().removeClass("select-blue");
-	if(num==-1){
-		$(item.contentWindow.document).find(".calendar-month span:last").addClass("select-blue").siblings().removeClass("select-blue");		
-	} 
-	week=$(item.contentWindow.document).find(".select-blue").html();
-	var $month_list = $(item.contentWindow.document).find(".calendar-month span"); 
+	
+	//默认当前月份
+	if(num == -1){
+		$(item.contentWindow.document).find(".calendar-month span:last").addClass("select-blue").siblings().removeClass("select-blue");
+	}else{
+		$(item.contentWindow.document).find(".calendar-month span:eq("+num+")").addClass("select-blue").siblings().removeClass("select-blue");
+	}
+	week=$(item.contentWindow.document).find(".select-blue").html();	
+	
+	var $month_list = $(item.contentWindow.document).find(".calendar-month span");  
 	$month_list.on("click",function() {
 		if($(this).hasClass("disabled")){
 			return false;
 		}
- 		num = parseInt($(this).attr("value")); 
 		$(this).addClass("select-blue").siblings().removeClass("select-blue");
-		week=$(this).context.innerHTML;
+		week = $(this).text();
+		num = $(this).index();
 		item.contentWindow.reloadGrid();
-	});
-	$(item.contentWindow.document).find(".calendar-year span").html(yearDisplay+'年'+(monthDisplay>9?monthDisplay:"0"+monthDisplay)+'月');
-	//年份置灰
-	if(yearDisplay == yearLast&&monthDisplay == monthLast){
+	});	
+	//年月置灰 + 星期置灰 
+	if(yearDisplay == yearNow && monthDisplay == (monthNow+1)){
 		$(item.contentWindow.document).find("#add em").addClass("disabled");
-		$(item.contentWindow.document).find(".calendar-month span:gt("+monthLast+")").addClass("disabled");
+		$(item.contentWindow.document).find(".calendar-month span:gt("+num+")").addClass("disabled");
 	}else{
 		$(item.contentWindow.document).find("#add em").removeClass("disabled");
-		$(item.contentWindow.document).find(".calendar-month span:gt("+monthLast+")").removeClass("disabled");
-	}
-    //月份置灰
-    if(yearDisplay == yearLast && monthDisplay == monthLast){
-    	$(item.contentWindow.document).find(".calendar-month span:gt("+monthLast+")").removeClass("disabled").addClass("disabled");
-    }
-	item.contentWindow.reloadGrid(); 
+		$(item.contentWindow.document).find(".calendar-month span:gt("+num+")").removeClass("disabled");
+	}   
 }
 </script>
 </body>

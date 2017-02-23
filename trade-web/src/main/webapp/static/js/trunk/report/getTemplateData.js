@@ -3,10 +3,11 @@ function initData(url,data,templateId,tbodyId) {
 			$.ajax({
 				async : true,
 				url : url,
-				method : "get",
+				method : "post",
 				dataType : "json",
 				data : data,
 				success : function(data) {
+					JSON.stringify(data);
 					if(data==null||data==undefined){
 	                    window.parent.wxc.alert("数据加载失败！");
 						return;			
@@ -16,10 +17,10 @@ function initData(url,data,templateId,tbodyId) {
 					$("#"+tbodyId).empty();
 					$("#"+tbodyId).html(templateData);
 					// 显示分页 
-			          initpage(data.total,data.pagesize,data.page, data.records);
+			        initpage(data.total,data.pagesize,data.page, data.records);
 				},
 				error : function(e, jqxhr, settings, exception) {
-					$.unblockUI();
+					//$.unblockUI();
 				}
 			});
 		}

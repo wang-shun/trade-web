@@ -3,10 +3,10 @@
 	pageEncoding="utf-8"%>
 <html>
     <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>金融产品转化率-贷款类</title>
-	<link href="${ctx }/static/css/bootstrap.min.css" rel="stylesheet" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>金融产品转化率-贷款类</title>
+<link href="${ctx }/static/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 <link rel="stylesheet" href="${ctx}/static/css/animate.css" />
@@ -72,20 +72,7 @@
                                 </tr>
                             </thead>
                             <tbody id="eloanList">
-                                <tr>
-                                    <td>宝山贵宾A组</td>
-                                    <td>18</td>
-                                    <td>4225</td>
-                                    <td>2</td>
-                                    <td>166</td>
-                                    <td>4.0%</td>
-                                    <td>66</td>
-                                    <td>15299</td>
-                                    <td>4</td>
-                                    <td>480</td>
-                                    <td>3.1%</td>
-                                    <td>2</td>
-                                </tr>
+                                <!-- 模板数据 -->
                             </tbody>
                         </table>
                         <div class="text-center">
@@ -110,23 +97,20 @@
 	<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
 	<!-- 排序插件 -->
 	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-		<!-- 个人js -->
+	<!-- 个人js -->
 	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
 	<script id="template_eloanList" type="text/html">
           {{each rows as item index}}
 		    <tr>
-              <td>宝山贵宾A组</td>
-              <td>1</td>
-              <td>12</td>
-              <td>13</td>
-              <td>8%</td>
-              <td>11%</td>
-              <td>11%</td>
-              <td>57</td>
-              <td>1282</td>
-              <td>1339</td>
-              <td>4%</td>
-              <td>10%</td>
+              <td>{{item.ORG_NAME}}</td>
+              <td>{{item.GUOHU_NUM_WEEK}}</td>
+              <td>{{item.HOUSE_PRICE_WEEK}}</td>
+              <td>{{item.PRO_APP_NUM_WEEK}}</td>
+              <td>{{item.PRO_APP_AMOUNT_WEEK}}</td>
+              <td>{{item.GUOHU_NUM_WEEK}}</td>
+              <td>{{item.HOUSE_PRICE_MONTH}}</td>
+              <td>{{item.PRO_APP_NUM_MONTH}}</td>
+              <td>{{item.PRO_APP_AMOUNT_MONTH}}</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -136,13 +120,14 @@
 		function reloadGrid() {
 			var week = window.parent.week.split("至");
 			var data = {
-				startTime : week[0],
-				endTime : week[1],
+				queryId : "queryList4",
+				startWeekDay : week[0].replace(/-/g,''),
+				endWeekDay : week[1].replace(/-/g,''),
 				rows : 10,
-				page : 1,
-				queryId : "queryDistrict"
+				page : 1
 			}
-			initData(data,"template_eloanList","eloanList");
+			var url = ctx+"/quickGrid/findPage";
+			initData(url,data,"template_eloanList","eloanList");
 		}
 	</script>
     </body>

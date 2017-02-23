@@ -1,4 +1,15 @@
-function getweeks(year, month,day) {
+//得到整周并生产span
+function getSpanHtml(year, month,day){
+	var weeks=getWeeks(year, month,day)
+	var spanhtml="";
+	for(var i=0;i<weeks.length;i++){
+		spanhtml+="<span value="+i+">"+weeks[i]+"</span>";	
+	}
+	return spanhtml;
+}
+
+//获取本月当前日期前(包括今天)的所有整周
+function getWeeks(year, month,day) {
     var d = new Date();
     // what day is first day
     d.setFullYear(year, month-1, 1);
@@ -31,11 +42,3 @@ function getweeks(year, month,day) {
         }
         return weeks;
     }
-function getspanHtml(year, month,day){
-	var weeks=getweeks(year, month,day)
-	var spanhtml="";
-		for(var i=0;i<weeks.length;i++){
-			spanhtml+="<span value="+i+">"+weeks[i]+"</span>";	
-		}
-		return spanhtml;
-}
