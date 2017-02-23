@@ -39,11 +39,11 @@
                             <div class="calendar-watch clearfix">
                                 <p class="calendar-year">
                                     <a href="#" id="subtract"><em>&lt;</em></a>
-                                    <span>2016年11月</span>
+                                    <span><!-- 当前年月 --></span>
                                     <a href="#" id="add"><em>&gt;</em></a>
                                 </p>
                                 <p class="calendar-month">
-                                    <span>29-05</span><span>06-13</span><span>14-21</span><span>22-29</span>
+                                    <!-- 每周的span -->
                                 </p>
                             </div>
                         </div>

@@ -38,11 +38,12 @@
 						<h3 class="content-title pull-left">评估转化率</h3>
 						<div class="calendar-watch clearfix">
 							<p class="calendar-year">
-								<a href="#" id="subtract"><em>&lt;</em></a> <span></span>
+								<a href="#" id="subtract"><em>&lt;</em></a> 
+								<span><!-- 当前年月 --></span>
 								<a href="#" id="add"><em>&gt;</em></a>
 							</p>
 							<p class="calendar-month">
-								<span></span><span></span><span></span><span></span>
+								<!-- 每周的span -->
 							</p>
 						</div>
 					</div>
