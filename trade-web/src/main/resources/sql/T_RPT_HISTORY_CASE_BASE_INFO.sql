@@ -21,11 +21,12 @@ CREATE TABLE [sctrans].[T_RPT_HISTORY_CASE_BASE_INFO](
 	[ELOAN_PRO] [varchar](256) NULL,--案件对应的金融类产品
 	[ELOAN_PRO_AMOUNT] [decimal](18, 2) NULL,--金融产品总金额
 	[ELOAN_KA] [varchar](64) NULL,--案件对应的卡类产品
+	[ELOAN_KA_AMOUNT] [decimal](18, 2) NULL,--卡类产品金额
 	[CASE_USE_CARD_PAY_CN] [varchar](10) NULL,--案件是否刷卡
 	[CASE_CARD_PAY_AMOUNT] [decimal](18, 2) NULL,--刷卡金额
 
 
-
+	[TRANSFER_APP_PASS_TIME] [datetime] NULL,--过户审批通过时间
 	[TRANSFER_REAL_HT_TIME] [datetime] NULL,
 	[TRANSFER_APP_TIME] [datetime] NULL,
 	[TRANSFER_ISPASS] [numeric](19, 0) NULL,
@@ -59,4 +60,5 @@ CREATE TABLE [sctrans].[T_RPT_HISTORY_CASE_BASE_INFO](
 	[CREATE_TIME] [datetime] NULL,
 	[BELONG_MONTH] [int] NULL
 ) ON [PRIMARY]
+
 

@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/2/21 17:30:15 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/2/23 10:24:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -55,8 +55,10 @@ BEGIN
 	[ELOAN_PRO],--案件对应的金融类产品
 	[ELOAN_PRO_AMOUNT],--金融产品总金额
 	[ELOAN_KA],--案件对应的卡类产品
+	[ELOAN_KA_AMOUNT],--卡类产品金额
 	[CASE_USE_CARD_PAY_CN],--案件是否刷卡
 	[CASE_CARD_PAY_AMOUNT],--刷卡金额
+	[TRANSFER_APP_PASS_TIME],--过户审批通过时间
 	TRANSFER_REAL_HT_TIME,
 	TRANSFER_APP_TIME,
 	TRANSFER_ISPASS,
@@ -105,8 +107,10 @@ SELECT
 	[ELOAN_PRO],--案件对应的金融类产品
 	[ELOAN_PRO_AMOUNT],--金融产品总金额
 	[ELOAN_KA],--案件对应的卡类产品
+	[ELOAN_KA_AMOUNT],--卡类产品金额
 	[CASE_USE_CARD_PAY_CN],--案件是否刷卡
 	[CASE_CARD_PAY_AMOUNT],--刷卡金额
+	[TRANSFER_APP_PASS_TIME],--过户审批通过时间
 	TRANSFER_REAL_HT_TIME,
 	TRANSFER_APP_TIME,
 	TRANSFER_ISPASS,
