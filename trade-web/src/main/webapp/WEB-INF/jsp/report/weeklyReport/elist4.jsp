@@ -103,7 +103,7 @@
           {{each rows as item index}}
 		    <tr>
               <td>{{item.ORG_NAME}}</td>
-              <td>{{item.GUOHU_NUM_WEEK}}</td>
+              <td>{{item.GUOHU_NUM_WEEK1}}</td>
               <td>{{item.HOUSE_PRICE_WEEK}}</td>
               <td>{{item.PRO_APP_NUM_WEEK}}</td>
               <td>{{item.PRO_APP_AMOUNT_WEEK}}</td>

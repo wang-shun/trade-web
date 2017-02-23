@@ -181,7 +181,7 @@
 				select 
 				CASE_ORG_ID_F ORG_ID,
 				sum(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then 1 else 0 end) GUOHU_NUM_WEEK,--本周 E+过户单数
+				#endWeekDay# then 1 else 0 end) GUOHU_NUM_WEEK1,--本周 E+过户单数
 				
 				sum(isnull(case when BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
 				#endWeekDay# then CASE_CON_PRICE else 0 end,0)) HOUSE_PRICE_WEEK,--本周 房屋价格
@@ -215,7 +215,7 @@
 			<table-row>
 			    <column type="both" name="ORG_ID" index="" checkbox="" title="地区" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="virtual" name="ORG_NAME" index="" checkbox="" display="组织名称" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
-			    <column type="both" name="GUOHU_NUM_WEEK" index="" checkbox="" title="E+过户单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="GUOHU_NUM_WEEK1" index="" checkbox="" title="E+过户单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="HOUSE_PRICE_WEEK" index="" checkbox="" title="房屋价格(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="PRO_APP_NUM_WEEK" index="" checkbox="" title="E+申请单数(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="PRO_APP_AMOUNT_WEEK" index="" checkbox="" title="E+申请金额(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>

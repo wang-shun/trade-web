@@ -7,7 +7,6 @@ function initData(url,data,templateId,tbodyId) {
 				dataType : "json",
 				data : data,
 				success : function(data) {
-					JSON.stringify(data);
 					if(data==null||data==undefined){
 	                    window.parent.wxc.alert("数据加载失败！");
 						return;			
