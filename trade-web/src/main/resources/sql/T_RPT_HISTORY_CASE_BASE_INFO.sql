@@ -7,9 +7,16 @@ CREATE TABLE [sctrans].[T_RPT_HISTORY_CASE_BASE_INFO](
 	[CASE_STATUS] [nvarchar](10) NULL,
 	[CASE_PROPERTY] [nvarchar](10) NULL,
 
-	[CASE_LEADING_PROCESS_ID_F] [varchar](64) NULL,--案件主办userID
+	[CASE_LEADING_PROCESS_ID_F] [varchar](64) NULL,--前台组案件主办userID
 	[CASE_REAL_NAME_F] [varchar](32) NULL,--案件主办姓名
 	[CASE_ORG_NAME_F] [varchar](64) NULL,--组别名称
+	[CASE_LEADING_PROCESS_ID_B] [varchar](64) NULL,--后台组案件主办userID
+	[CASE_REAL_NAME_B] [varchar](32) NULL,--后台组案件主办姓名
+	[CASE_ORG_ID_B] [varchar](64) NULL,--案件主办OrgId[后台组]
+	[CASE_ORG_NAME_B] [varchar](64) NULL,--案件主办组名称[后台组]
+
+
+
 	[CASE_DISTRICT_ID] [varchar](64) NULL,--贵宾服务部ID
 	[CASE_DISTRICT_NAME] [varchar](64) NULL,--贵宾服务部名称
 	[CASE_ORG_ID_F] [varchar](64) NULL,
