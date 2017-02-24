@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryCaseSalerInfoServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryGetCaseOverviewInfoServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryGetGlCaseCountServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl;
@@ -129,5 +132,32 @@ public class ProjectContextConfig {
         dict.setDictType("mortgageAmount");
         return dict;
     };
+    
+    @Bean(name = "getGlCaseCount")
+    public QuickQueryGetGlCaseCountServiceImpl getGlCaseCount(){
+    	QuickQueryGetGlCaseCountServiceImpl dict = new QuickQueryGetGlCaseCountServiceImpl();
+    	return dict;
+    }
 
+    @Bean(name="getCaseOverviewInfo")
+    public QuickQueryGetCaseOverviewInfoServiceImpl getCaseOverviewInfo(){
+    	QuickQueryGetCaseOverviewInfoServiceImpl dict = new QuickQueryGetCaseOverviewInfoServiceImpl();
+    	dict.setDictType_caseProperty("30003");
+    	dict.setDictType_caseStatus("30001");
+    	return dict;
+    }
+    
+    @Bean(name="getCaseSalerInfo")
+    public QuickQueryCaseSalerInfoServiceImpl getCaseSalerInfo(){
+    	QuickQueryCaseSalerInfoServiceImpl dict = new QuickQueryCaseSalerInfoServiceImpl();
+    	dict.setTransPosition("30006001");
+    	return dict;
+    }
+    
+    @Bean(name="getCaseBuyyerInfo")
+    public QuickQueryCaseSalerInfoServiceImpl getCaseBuyyerInfo(){
+    	QuickQueryCaseSalerInfoServiceImpl dict = new QuickQueryCaseSalerInfoServiceImpl();
+    	dict.setTransPosition("30006002");
+    	return dict;
+    }
 }
