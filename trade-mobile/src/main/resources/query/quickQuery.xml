@@ -23,5 +23,6 @@
 	<import resource="query/eloan/ELoanCaseList.xml" />
 	<import resource="query/eloan/eloanContractList.xml" />
 	
+	<import resource="query/tradeCase/toCaseListQueryMobile.xml" />
 
 </queryConfig>
