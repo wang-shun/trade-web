@@ -70,7 +70,7 @@
                             </div>
                             <div class="form_content space">
                                 <div class="add_btn mr5">
-                                    <button type="button" class="btn btn-success" style="padding: 5px 12px;">
+                                    <button type="button" onclick="reloadGrid()" class="btn btn-success" style="padding: 5px 12px;">
                                     <i class="icon iconfont"></i>
                                         查询
                                     </button>
