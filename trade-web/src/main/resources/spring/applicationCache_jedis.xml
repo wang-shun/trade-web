@@ -45,7 +45,7 @@
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnFactory" />
 		<property name="defaultSerializer" >
-			<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
 		</property>
 	</bean>
 	
@@ -58,10 +58,16 @@
 	
 	<bean id="shiroSessionRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
 		  p:connection-factory-ref="jedisConnFactory" >
-		  <property name="enableTransactionSupport" value="true" />
-		  <property name="defaultSerializer" >
-			<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
-		  </property>
+			 <property name="enableTransactionSupport" value="true" />
+			 <property name="defaultSerializer" >
+			     <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+			 </property>
+	        <property name="keySerializer">
+	            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+	        </property>
+	        <property name="valueSerializer">
+	            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+	        </property>
     </bean>
     
     <bean id="shiroSessionRedisManager" class="org.springframework.data.redis.cache.RedisCacheManager">
@@ -76,7 +82,7 @@
 		  p:connection-factory-ref="jedisConnFactory" >
 		  <property name="enableTransactionSupport" value="true" />
 		  <property name="defaultSerializer" >
-			<bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
 		  </property>
     </bean>
     
