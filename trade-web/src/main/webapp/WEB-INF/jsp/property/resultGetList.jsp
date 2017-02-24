@@ -67,7 +67,7 @@
 </head>
 
 <body>
-
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}"/>
 	<input type="hidden" id="userId" value="${userId}"/>
 	<input type="hidden" id="prStatus" value="2"/>

@@ -80,7 +80,7 @@ text-decoration: underline !important;
 
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="taskId">
 	 <div class="wrapper wrapper-content animated fadeInRight">
              <div class="ibox-content border-bottom clearfix space_box">

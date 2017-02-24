@@ -7,9 +7,16 @@ CREATE TABLE [sctrans].[T_RPT_HISTORY_CASE_BASE_INFO](
 	[CASE_STATUS] [nvarchar](10) NULL,
 	[CASE_PROPERTY] [nvarchar](10) NULL,
 
-	[CASE_LEADING_PROCESS_ID_F] [varchar](64) NULL,--案件主办userID
+	[CASE_LEADING_PROCESS_ID_F] [varchar](64) NULL,--前台组案件主办userID
 	[CASE_REAL_NAME_F] [varchar](32) NULL,--案件主办姓名
 	[CASE_ORG_NAME_F] [varchar](64) NULL,--组别名称
+	[CASE_LEADING_PROCESS_ID_B] [varchar](64) NULL,--后台组案件主办userID
+	[CASE_REAL_NAME_B] [varchar](32) NULL,--后台组案件主办姓名
+	[CASE_ORG_ID_B] [varchar](64) NULL,--案件主办OrgId[后台组]
+	[CASE_ORG_NAME_B] [varchar](64) NULL,--案件主办组名称[后台组]
+
+
+
 	[CASE_DISTRICT_ID] [varchar](64) NULL,--贵宾服务部ID
 	[CASE_DISTRICT_NAME] [varchar](64) NULL,--贵宾服务部名称
 	[CASE_ORG_ID_F] [varchar](64) NULL,
@@ -21,11 +28,12 @@ CREATE TABLE [sctrans].[T_RPT_HISTORY_CASE_BASE_INFO](
 	[ELOAN_PRO] [varchar](256) NULL,--案件对应的金融类产品
 	[ELOAN_PRO_AMOUNT] [decimal](18, 2) NULL,--金融产品总金额
 	[ELOAN_KA] [varchar](64) NULL,--案件对应的卡类产品
+	[ELOAN_KA_AMOUNT] [decimal](18, 2) NULL,--卡类产品金额
 	[CASE_USE_CARD_PAY_CN] [varchar](10) NULL,--案件是否刷卡
 	[CASE_CARD_PAY_AMOUNT] [decimal](18, 2) NULL,--刷卡金额
 
 
-
+	[TRANSFER_APP_PASS_TIME] [datetime] NULL,--过户审批通过时间
 	[TRANSFER_REAL_HT_TIME] [datetime] NULL,
 	[TRANSFER_APP_TIME] [datetime] NULL,
 	[TRANSFER_ISPASS] [numeric](19, 0) NULL,
@@ -59,4 +67,5 @@ CREATE TABLE [sctrans].[T_RPT_HISTORY_CASE_BASE_INFO](
 	[CREATE_TIME] [datetime] NULL,
 	[BELONG_MONTH] [int] NULL
 ) ON [PRIMARY]
+
 

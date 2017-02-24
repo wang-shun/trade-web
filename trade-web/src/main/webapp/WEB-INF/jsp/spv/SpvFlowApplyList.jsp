@@ -145,7 +145,6 @@
 	<!-- 分页控件  --> <script
 		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- 模板 -->
        <script src="${ctx}/static/trans/js/spv/FlowDetail.js"></script>
        <script src="${ctx}/static/trans/js/spv/spvFlowList.js"></script>
 	<script id="querSpvCaseFlowApplyList" type="text/html">

@@ -54,6 +54,7 @@
 </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <div class="wrapper wrapper-content animated fadeInRight">
      <div class="ibox-content border-bottom clearfix space_box">
          <h2 class="title">

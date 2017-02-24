@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/2/21 17:30:15 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/2/23 17:40:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -44,6 +44,11 @@ BEGIN
 	[CASE_LEADING_PROCESS_ID_F],--案件主办userID
 	[CASE_REAL_NAME_F],--案件主办姓名
 	[CASE_ORG_NAME_F],--组别名称
+	[CASE_LEADING_PROCESS_ID_B],--后台组案件主办userID
+	[CASE_REAL_NAME_B],--后台组案件主办姓名
+	[CASE_ORG_ID_B],--案件主办OrgId[后台组]
+	[CASE_ORG_NAME_B],--案件主办组名称[后台组]
+
 	[CASE_DISTRICT_ID],--贵宾服务部ID
 	[CASE_DISTRICT_NAME],--贵宾服务部名称
 	CASE_ORG_ID_F,
@@ -55,8 +60,10 @@ BEGIN
 	[ELOAN_PRO],--案件对应的金融类产品
 	[ELOAN_PRO_AMOUNT],--金融产品总金额
 	[ELOAN_KA],--案件对应的卡类产品
+	[ELOAN_KA_AMOUNT],--卡类产品金额
 	[CASE_USE_CARD_PAY_CN],--案件是否刷卡
 	[CASE_CARD_PAY_AMOUNT],--刷卡金额
+	[TRANSFER_APP_PASS_TIME],--过户审批通过时间
 	TRANSFER_REAL_HT_TIME,
 	TRANSFER_APP_TIME,
 	TRANSFER_ISPASS,
@@ -94,6 +101,10 @@ SELECT
 	[CASE_LEADING_PROCESS_ID_F],--案件主办userID
 	[CASE_REAL_NAME_F],--案件主办姓名
 	[CASE_ORG_NAME_F],--组别名称
+	[CASE_LEADING_PROCESS_ID_B],--后台组案件主办userID
+	[CASE_REAL_NAME_B],--后台组案件主办姓名
+	[CASE_ORG_ID_B],--案件主办OrgId[后台组]
+	[CASE_ORG_NAME_B],--案件主办组名称[后台组]
 	[CASE_DISTRICT_ID],--贵宾服务部ID
 	[CASE_DISTRICT_NAME],--贵宾服务部名称
 	CASE_ORG_ID_F,
@@ -105,8 +116,10 @@ SELECT
 	[ELOAN_PRO],--案件对应的金融类产品
 	[ELOAN_PRO_AMOUNT],--金融产品总金额
 	[ELOAN_KA],--案件对应的卡类产品
+	[ELOAN_KA_AMOUNT],--卡类产品金额
 	[CASE_USE_CARD_PAY_CN],--案件是否刷卡
 	[CASE_CARD_PAY_AMOUNT],--刷卡金额
+	[TRANSFER_APP_PASS_TIME],--过户审批通过时间
 	TRANSFER_REAL_HT_TIME,
 	TRANSFER_APP_TIME,
 	TRANSFER_ISPASS,
