@@ -58,8 +58,7 @@
 								<th>收单单数</th>
 								<th>总单数</th>
 								<th>单数流失率</th>
-								<th>11月流失率</th>
-								<th>12月流失率</th>
+								<th class="stress01">本月累计</th>
 								<th>流失金额</th>
 								<th>收单金额</th>
 								<th>总金额</th>
@@ -104,12 +103,12 @@
               <td>{{item.REC_NUM_WEEK}}</td>
               <td>{{item.TOTAL_NUM_WEEK}}</td>
               <td>{{item.LOSE_AMOUNT_WEEK}}</td>
-              <td>{{item.REC_AMOUNT_WEEK}}</td>
+              <td class="stress01">{{item.REC_AMOUNT_WEEK}}</td>
               <td>{{item.TOTAL_AMOUNT_WEEK}}</td>
               <td>{{item.LOSE_AMOUNT_LAST_MONTH}}</td>
               <td>{{item.TOTAL_AMOUNT_LAST_MONTH}}</td>
               <td>{{item.LOSE_AMOUNT_MONTH}}</td>
-              <td>{{item.TOTAL_AMOUNT_MONTH}}</td>
+              <td class="stress02">{{item.TOTAL_AMOUNT_MONTH}}</td>
              </tr>
 		{{/each}}
 	    </script>
