@@ -42,3 +42,21 @@ function getWeeks(year, month,day) {
         }
         return weeks;
     }
+
+//将形如2017-2-17至2017-2-23 转换为  20170217至20170223 方便sql传参
+function convertWeekForSql(week){
+	var paramWeekArr = [];
+	var startWeekDay = week.split("至")[0];
+	var endWeekDay = week.split("至")[1];
+	var startWeekDay_ = startWeekDay.substr(0,4);
+	var endWeekDay_ = endWeekDay.substr(0,4);
+
+	startWeekDay_ += (startWeekDay.split("-")[1].length == 1?"0"+startWeekDay.split("-")[1]:startWeekDay.split("-")[1])
+	              + (startWeekDay.split("-")[2].length == 1?"0"+startWeekDay.split("-")[2]:startWeekDay.split("-")[2]);
+    endWeekDay_   += (endWeekDay.split("-")[1].length == 1?"0"+endWeekDay.split("-")[1]:endWeekDay.split("-")[1])
+	              + (endWeekDay.split("-")[2].length == 1?"0"+endWeekDay.split("-")[2]:endWeekDay.split("-")[2]);
+
+	paramWeekArr[0] = startWeekDay_;
+	paramWeekArr[1] = endWeekDay_;
+	return paramWeekArr;
+}

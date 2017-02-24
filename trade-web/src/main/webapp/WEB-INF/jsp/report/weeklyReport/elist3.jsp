@@ -26,6 +26,11 @@
 <link rel="stylesheet"
 	href="${ctx}/static/trans/css/property/popmac.css" />
 <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
+<style type="text/css">
+th,td {
+ text-align: center;
+} 
+</style>
     </head>
     <body style="background-color:#fff;">
          <!--*********************** HTML_main*********************** -->
@@ -103,20 +108,24 @@
               <td>{{item.ORG_NAME}}</td>
               <td>{{item.GUOHU_NUM_WEEK}}</td>
               <td>{{item.KA_APP_NUM_WEEK}}</td>
+			  <td>{{item.GUOHU_NUM_WEEK == 0?0:(item.KA_APP_NUM_WEEK/item.GUOHU_NUM_WEEK*100).toFixed()}}%</td>
               <td>{{item.GUOHU_NUM_MONTH}}</td>
               <td>{{item.KA_APP_NUM_MONTH}}</td>
-              <td>{{item.KA_NUM_MONTH}}</td>
+		      <td>{{item.GUOHU_NUM_MONTH == 0?0:(item.KA_APP_NUM_MONTH/item.GUOHU_NUM_MONTH*100).toFixed()}}%</td>
+			  <td>{{item.KA_NUM_MONTH}}</td>
+              <td>{{item.KA_APP_NUM_MONTH == 0?0:(item.KA_NUM_MONTH/item.KA_APP_NUM_MONTH*100).toFixed()}}%</td>
+              <td>{{item.ELOAN_KA_APP_NUM_MONTH}}</td>
              </tr>
 		{{/each}}
 	    </script>
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
-			var week = window.parent.week.split("至");
+			var weekParamArr = window.parent.weekParam;
 			var data = {
 				queryId : "queryList3",
-				startWeekDay : week[0].replace(/-/g,''),
-				endWeekDay : week[1].replace(/-/g,''),
+				startWeekDay : weekParamArr[0],
+				endWeekDay : weekParamArr[1],
 				rows : 10,
 				page : 1
 			}
