@@ -62,12 +62,6 @@
 			 <property name="defaultSerializer" >
 			     <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
 			 </property>
-	        <property name="keySerializer">
-	            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
-	        </property>
-	        <property name="valueSerializer">
-	            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
-	        </property>
     </bean>
     
     <bean id="shiroSessionRedisManager" class="org.springframework.data.redis.cache.RedisCacheManager">
