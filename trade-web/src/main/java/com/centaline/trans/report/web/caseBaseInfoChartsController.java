@@ -206,4 +206,49 @@ public class caseBaseInfoChartsController {
 		request.setAttribute("ctx", ctx);
 		return "report/signLoan/sign6";
 	}
+	/***
+	 * 过户数据统计报表
+	 */
+	@RequestMapping(value = "guoHuData")
+	public String guoHuData(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/guohuReport/guoHu";
+		
+	}
+	@RequestMapping(value = "guohu1")
+	public String guohu1(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("serviceDepId", "ff8080814f459a78014f45a73d820006");
+		request.setAttribute("ctx", ctx);
+		return "report/guohuReport/guohu1";		
+	}
+	
+	@RequestMapping(value = "guohu2")
+	public String guohu2(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		request.setAttribute("serviceDepId", "1D29BB468F504774ACE653B946A393EE");
+		
+		return "report/guohuReport/guohu2";	
+	}
+	
+	@RequestMapping(value = "guohu3")
+	public String guohu3(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/guohuReport/guohu3";
+	}
+	
+	@RequestMapping(value = "guohu4")
+	public String guohu4(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/guohuReport/guohu4";
+	}
 }

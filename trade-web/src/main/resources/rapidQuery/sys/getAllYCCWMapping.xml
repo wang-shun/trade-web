@@ -48,4 +48,57 @@
 		     <column name="name" title="name" hidden="true" />
 		</grid>
 	</query>
+	
+		<query id="getQuDong">
+		<searchScript>
+          SELECT u.ID as userId,
+          u.REAL_NAME as userName,
+          u.org_id as orgId ,
+          org.ORG_NAME as orgName,
+          j.id as jobId,
+          j.job_code as jobCode,
+          j.job_name as jobName 
+          FROM sctrans.SYS_USER_ORG_JOB uj
+          left join sctrans.sys_user u on uj.USER_ID=u.ID and uj.ORG_ID=u.ORG_ID
+          left JOIN sctrans.sys_job j on uj.JOB_ID=j.ID
+          left join sctrans.SYS_ORG org on u.ORG_ID=org.ID
+			<where>
+			   uj.IS_DELETED=0
+			    <trim prefix="and" prefixOverrides="and|or">
+			   <if test="#jobCode !=null and #jobCode != ''">
+				and j.job_code=#{jobCode}
+			  </if>
+			   <if test="#parentId !=null and #parentId != ''">
+				org.PARENT_ID=#{parentId}
+			  </if>
+			   </trim>
+			</where>
+		</searchScript>
+		<grid>
+			 <column name="userId" title="userId" hidden="true" />
+		     <column name="userName" title="userName" hidden="true" />
+		     <column name="orgId" title="orgId" hidden="true" />
+		     <column name="orgName" title="orgName" hidden="true" />
+		     <column name="jobId" title="jobId" hidden="true" />
+		     <column name="jobCode" title="jobCode" hidden="true" />
+		     <column name="jobName" title="jobName" hidden="true" />
+		</grid>
+	</query>
+			<query id="get">
+		<searchScript>
+           SELECT org.ID as orgId ,org.ORG_NAME as orgName FROM sctrans.SYS_ORG org
+			<where>
+			    <trim prefix="and" prefixOverrides="and|or">
+			   <if test="#parentId !=null and #parentId != ''">
+				org.PARENT_ID=#{parentId}
+			  </if>
+			   </trim>
+			</where>
+		</searchScript>
+		<grid>
+			 <column name="orgId" title="orgId" hidden="true" />
+		     <column name="orgName" title="orgName" hidden="true" />
+
+		</grid>
+	</query>
 </querys>

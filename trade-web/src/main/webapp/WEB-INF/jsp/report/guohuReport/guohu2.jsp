@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>明细表</title>
+        <title>商业贷款统计表一</title>
         <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
         <link href="${ctx}/static/css/animate.css" rel="stylesheet"/>
@@ -31,7 +31,7 @@
                 <div class="row chartwo">
                     <div class="col-md-12">
                         <div class="clearfix mb30">
-                            <h3 class="content-title pull-left">明细表</h3>
+                            <h3 class="content-title pull-left">商业贷款统计表一</h3>
                             <div class="calendar-watch clearfix">
                                 <p class="calendar-year">
                                     <a href="#" id="subtract"><em>&lt;</em></a>
@@ -87,41 +87,36 @@
                         <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                             <thead>
                                 <tr>
-                                    <th rowspan="2">组别</th>
-                                    <th rowspan="2">受理量</th>
-                                    <th rowspan="2">签约量</th>
-                                    <th rowspan="2">商贷办理量</th>
-                                    <th rowspan="2">客户自办量</th>
-                                    <th rowspan="2">公积金量</th>
-                                    <th rowspan="2">过户量</th>
-                                    <th rowspan="2">评估转化率</th>
-                                    <th rowspan="2">评估实收</th>
-                                    <th colspan="2">E+申请量（卡）</th>
-                                    <th colspan="2">E+申请量（贷款）</th>
-
-                                </tr>
-                                <tr>
-                                  <th>申请单数</th>
-                                  <th>申请金额</th>
-                                  <th>申请单数</th>
-                                  <th>申请金额</th>
+                                    <th>交易顾问</th>
+                                    <th>商贷单数</th>
+                                    <th>商贷金额</th>
+                                    <th>合同价</th>
+                                    <th>流失单数</th>
+                                    <th>单数流失率</th>
+                                    <th>流失金额</th>
+                                    <th>金额流失率</th>
+                                    <th>评估转化率</th>
+                                    <th>评估费实收</th>
+                                    <th>E+卡转化率（单数）</th>
+                                    <th>刷卡率</th>
+                                    <th>E+贷款转化率（金额）</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableTemplate" >
+                            <tbody id="tableTemplate">
                                 <tr>
-                                    <td>A</td>
+                                    <td>A某某</td>
                                     <td>12</td>
-                                    <td>4</td>
+                                    <td>4%</td>
                                     <td>33</td>
                                     <td>38</td>
                                     <td>35</td>
                                     <td>63</td>
                                     <td>19%</td>
-                                    <td>270</td>
-                                    <td>19</td>
-                                    <td>27</td>
-                                    <td>19</td>
-                                    <td>27</td>
+                                    <td>38</td>
+                                    <td>35</td>
+                                    <td>35</td>
+                                    <td>63</td>
+                                    <td>19%</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -165,6 +160,28 @@
 	    </script>     
         <script type="text/javascript">
         var ctx=$("#ctx").val();
+        function reloadGrid() {
+  		   	var year = window.parent.yearDisplay;
+  	        var month_ = parseInt(window.parent.monthDisplay)+1;
+  	        var month = month_ > 9 ? month_:("0"+month_)
+  			var data = {
+  				rows : 8,
+  				page : 1,
+  			};
+  			var orgId="";
+  			if($("#districtId").val()!=0){
+  				orgId=$("#districtId").val();
+  			}else if($("#orgId").val()!=0){
+  				orgId=$("#orgId").val();
+  			}else if($("#userId").val()!=0){
+  				orgId=$("#userId").val();
+  			}
+  			data.orgId=orgId;
+          	data.choiceMonth = year + "-" + month;
+/*               	data.belongMoth  = getBelongMonth(year + "-" + month); */
+  			var url = ctx+"/js/eachartdata/loanloss.json"
+  			initData(url,data,"template_table","tableTemplate");
+  		} var ctx=$("#ctx").val();
         $(function(){
         	getGroup("ff8080814f459a78014f45a73d820006","true","districtId","group");
         	$("#districtId").change(function(item){
@@ -204,28 +221,6 @@
               });
 
         }
-        function reloadGrid() {
-  		   	var year = window.parent.yearDisplay;
-  	        var month_ = parseInt(window.parent.monthDisplay)+1;
-  	        var month = month_ > 9 ? month_:("0"+month_)
-  			var data = {
-  				rows : 8,
-  				page : 1,
-  			};
-  			var orgId="";
-  			if($("#districtId").val()!=0){
-  				orgId=$("#districtId").val();
-  			}else if($("#orgId").val()!=0){
-  				orgId=$("#orgId").val();
-  			}else if($("#userId").val()!=0){
-  				orgId=$("#userId").val();
-  			}
-  			data.orgId=orgId;
-          	data.choiceMonth = year + "-" + month;
-/*               	data.belongMoth  = getBelongMonth(year + "-" + month); */
-  			var url = ctx+"/js/eachartdata/loanloss.json"
-  			initData(url,data,"template_table","tableTemplate");
-  		}
-        </script>
+	</script>
     </body>
 </html>

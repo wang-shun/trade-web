@@ -119,6 +119,11 @@
 		<pattern>/report/sign4</pattern>
 		<pattern>/report/sign5</pattern>
 		<pattern>/report/sign6</pattern>
+		<pattern>/report/guoHuData</pattern>
+		<pattern>/report/guohu1</pattern>
+		<pattern>/report/guohu2</pattern>
+		<pattern>/report/guohu3</pattern>
+		<pattern>/report/guohu4</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

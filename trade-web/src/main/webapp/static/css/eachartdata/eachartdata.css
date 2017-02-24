@@ -537,3 +537,13 @@ p{
 .laberbarcolor {
 	background-color:#ff9695;
 }
+/*  em .disabled{
+	background-color:#ccc !important;
+} */
+ .customerinfo tr th.stress01,.customerinfo tr td.stress01,.customerinfo tr th.stress02,.customerinfo tr td.stress02 {
+    border-right: 6px solid #fff !important;
+}
+
+.stress01,.stress02 {
+	background-color: #f1f8ff;
+}

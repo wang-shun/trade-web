@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-	<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>明细表</title>
+        <title>商业贷款统计表二</title>
         <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
         <link href="${ctx}/static/css/animate.css" rel="stylesheet"/>
@@ -27,11 +26,10 @@
          <!--*********************** HTML_main*********************** -->
         <div>
             <div class="ibox-content" id="base_info">
-            <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
                 <div class="row chartwo">
                     <div class="col-md-12">
                         <div class="clearfix mb30">
-                            <h3 class="content-title pull-left">明细表</h3>
+                            <h3 class="content-title pull-left">商业贷款统计表二</h3>
                             <div class="calendar-watch clearfix">
                                 <p class="calendar-year">
                                     <a href="#" id="subtract"><em>&lt;</em></a>
@@ -56,7 +54,7 @@
                             </div>
                         </div>
                         <div class="form_list">
-                            <div class="form_content">
+                        <div class="form_content">
 				      <select  id ="districtId" class="select_control mr5">
                                     <option value="">
                                         请选择
@@ -83,54 +81,55 @@
                             </div>
                         </div>
 
-                        <!-- table -->
-                        <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
-                            <thead>
-                                <tr>
-                                    <th rowspan="2">组别</th>
-                                    <th rowspan="2">受理量</th>
-                                    <th rowspan="2">签约量</th>
-                                    <th rowspan="2">商贷办理量</th>
-                                    <th rowspan="2">客户自办量</th>
-                                    <th rowspan="2">公积金量</th>
-                                    <th rowspan="2">过户量</th>
-                                    <th rowspan="2">评估转化率</th>
-                                    <th rowspan="2">评估实收</th>
-                                    <th colspan="2">E+申请量（卡）</th>
-                                    <th colspan="2">E+申请量（贷款）</th>
-
-                                </tr>
-                                <tr>
-                                  <th>申请单数</th>
-                                  <th>申请金额</th>
-                                  <th>申请单数</th>
-                                  <th>申请金额</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableTemplate" >
-                                <tr>
-                                    <td>A</td>
-                                    <td>12</td>
-                                    <td>4</td>
-                                    <td>33</td>
-                                    <td>38</td>
-                                    <td>35</td>
-                                    <td>63</td>
-                                    <td>19%</td>
-                                    <td>270</td>
-                                    <td>19</td>
-                                    <td>27</td>
-                                    <td>19</td>
-                                    <td>27</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                       <div class="table-scroll">
+                            <table class="table table_blue  table-striped table-bordered table-hover customerinfo " >
+                                <thead>
+                                    <tr>
+                                        <th>区董</th>
+                                        <th>过户总单数</th>
+                                        <th>占比</th>
+                                        <th>合同价</th>
+                                        <th>商贷单数</th>
+                                        <th>商贷金额</th>
+                                        <th>公司办理</th>
+                                        <th>客户自办</th>
+                                        <th>流失金额</th>
+                                        <th>金额流失率</th>
+                                        <th>评估转化率</th>
+                                        <th>应收评估费</th>
+                                        <th>实收评估费</th>
+                                        <th>E+卡转化率（单数）</th>
+                                        <th>E+贷款转化率（金额）</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableTemplate">
+                                    <tr>
+                                        <td>金磊</td>
+                                        <td>12</td>
+                                        <td>4%</td>
+                                        <td>33</td>
+                                        <td>38</td>
+                                        <td>35</td>
+                                        <td>63</td>
+                                        <td>19%</td>
+                                        <td>38</td>
+                                        <td>35</td>
+                                        <td>35</td>
+                                        <td>63</td>
+                                        <td>19%</td>
+                                        <td>35</td>
+                                        <td>63</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <!--*********************** HTML_main*********************** -->
 
+        <!-- Mainly scripts -->
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -160,72 +159,27 @@
               <td>{{item.AmountLossRate}}%</td>
               <td>{{item.MonthAmountLossRate}}%</td>
               <td>{{item.MonthAmountLossRate}}%</td>
+               <td>{{item.totalAmount}}</td>
+              <td>{{item.AmountLossRate}}%</td>
              </tr>
 		{{/each}}
 	    </script>     
-        <script type="text/javascript">
-        var ctx=$("#ctx").val();
-        $(function(){
-        	getGroup("ff8080814f459a78014f45a73d820006","true","districtId","group");
-        	$("#districtId").change(function(item){
-        		var parentId=$("#districtId").val();
-        		getGroup(parentId,false,"orgId","group");
-        		var userId=$("#orgId").val();
-        		getGroup(userId,false,"userId","user");
-        	})
-        	$("#orgId").change(function(item){
-        		var userId=$("#orgId").val();
-        		getGroup(userId,false,"userId","user");
-        	})
-        	
-        })
-        function getGroup(parentId,gb,id,type){
-        	  $.ajax({
-                  url : ctx+"/rapidQuery/findPage",
-                  method : "GET",
-                  data : {
-                	  parentId:parentId,
-                	  gb:gb,
-                	  queryId:'getGroup',
-                	  searchType:type,
-                	  pagination : false
-                  },
-                  dataType : "json",
-                  async:true,
-                  success : function(data) {
-                	  var optionHtml="";
-                	  optionHtml+="<option value='0'>请选择</option>"
-                      $.each(data.rows,function(i,item){
-                    	  optionHtml+="<option value="+item.id+">"+item.name+"</option>"
-                      })
-                      $("#"+id).html(optionHtml);
-                  },
-                  error:function(){}
-              });
-
-        }
-        function reloadGrid() {
-  		   	var year = window.parent.yearDisplay;
-  	        var month_ = parseInt(window.parent.monthDisplay)+1;
-  	        var month = month_ > 9 ? month_:("0"+month_)
-  			var data = {
-  				rows : 8,
-  				page : 1,
-  			};
-  			var orgId="";
-  			if($("#districtId").val()!=0){
-  				orgId=$("#districtId").val();
-  			}else if($("#orgId").val()!=0){
-  				orgId=$("#orgId").val();
-  			}else if($("#userId").val()!=0){
-  				orgId=$("#userId").val();
-  			}
-  			data.orgId=orgId;
-          	data.choiceMonth = year + "-" + month;
-/*               	data.belongMoth  = getBelongMonth(year + "-" + month); */
-  			var url = ctx+"/js/eachartdata/loanloss.json"
-  			initData(url,data,"template_table","tableTemplate");
-  		}
-        </script>
+       	<script type="text/javascript">
+		var ctx = $("#ctx").val();
+		function reloadGrid() {
+		   	var year = window.parent.yearDisplay;
+	        var month_ = parseInt(window.parent.monthDisplay)+1;
+	        var month = month_ > 9 ? month_:("0"+month_)
+			var data = {
+				rows : 8,
+				page : 1
+				
+			};
+        	data.choiceMonth = year + "-" + month;
+/*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
+			var url = ctx+"/js/eachartdata/loanloss.json"
+			initData(url,data,"template_table","tableTemplate");
+		}
+	</script
     </body>
 </html>
