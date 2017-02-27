@@ -55,17 +55,22 @@
                         </div>
                         <div class="form_list">
                         <div class="form_content">
-				      <select  id ="districtId" class="select_control mr5">
+				      <select  id ="dsId" class="select_control mr5">
                                     <option value="">
                                         请选择
                                     </option>
                                 </select>
-                                <select id="orgId" class="select_control mr5">
+                                <select id="zjId" class="select_control mr5">
                                     <option value="">
                                         请选择
                                     </option>
                                 </select>
-                                <select id="userId" class="select_control">
+                                <select id="jlId" class="select_control mr5">
+                                    <option value="">
+                                        请选择
+                                    </option>
+                                </select>
+                                <select id="fhId" class="select_control">
                                     <option value="">
                                         请选择
                                     </option>
@@ -73,7 +78,7 @@
                             </div>
                             <div class="form_content space">
                                 <div class="add_btn mr5">
-                                    <button type="button" class="btn btn-success" style="padding: 5px 12px;">
+                                    <button type="button" onclick="reloadGrid()" class="btn btn-success" style="padding: 5px 12px;">
                                     <i class="icon iconfont"></i>
                                         查询
                                     </button>
@@ -173,13 +178,98 @@
 			var data = {
 				rows : 8,
 				page : 1
-				
 			};
+	        var userId="";
+	        var orgId="";
+	        if($("#dsId").val()!=0){
+	        	userId=$("#dsId").val();
+	        }
+			 if($("#zjId").val()!=0){
+				 userId=$("#zjId").val();      	
+				        }
+			 if($("#jlId").val()!=0){
+				 userId=$("#jlId").val();
+			 }
+			 if($("#fhId").val()!=0){
+				 userId="";
+				 orgId=$("#fhId").val();
+			 }
+			 data.userId=userId;
+			 data.orgId=orgId;
         	data.choiceMonth = year + "-" + month;
 /*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
 			var url = ctx+"/js/eachartdata/loanloss.json"
 			initData(url,data,"template_table","tableTemplate");
 		}
+		 $(function(){
+	        	getGroup("1D29BB468F504774ACE653B946A393EE","JQYDS","dsId");
+	        	$("#dsId").change(function(item){
+	        		var parentId=$("#dsId option:selected").attr("hval");
+	        		getGroup(parentId,"JQYZJ","zjId");
+	        		$("#jlId").html(" <option value='0'> </option>");
+	        		$("#fhId").html("<option value='0'> </option>");
+	        	})
+	        	$("#zjId").change(function(item){
+	        		var parentId=$("#zjId option:selected").attr("hval");
+	        		getGroup(parentId,"JQYJL","jlId");
+	        		$("#fhId").html("<option value='0'> </option>");
+	        	})
+	        	$("#jlId").change(function(item){
+	        		var parentId=$("#jlId option:selected").attr("hval");
+	  	        	  $.ajax({
+	  	                  url : ctx+"/rapidQuery/findPage",
+	  	                  method : "GET",
+	  	                  data : {
+	  	                	  parentId:parentId,
+	  	                	  queryId:'getFH',
+	  	                	  pagination : false
+	  	                  },
+	  	                  dataType : "json",
+	  	                  async:true,
+	  	                  success : function(data) {
+	  	                	  var optionHtml="";
+	  	                	  optionHtml+="<option value='0'>请选择</option>"
+	  	                	  {
+	  	                		  $.each(data.rows,function(i,item){
+	  		                    	  optionHtml+="<option  value="+item.org_id+">"+item.org_name+"</option>";
+	  		                      })
+	  	                	  }
+	  	                      $("#fhId").html(optionHtml);
+	  	                  },
+	  	                  error:function(){}
+	  	              });
+	  	        	})
+	        })
+	        function getGroup(parentId,jobCode,id){
+	        	  $.ajax({
+	                  url : ctx+"/rapidQuery/findPage",
+	                  method : "GET",
+	                  data : {
+	                	  orgId:parentId,
+	                	  queryId:'getQD',
+	                	  jobCode:jobCode,
+	                	  pagination : false
+	                  },
+	                  dataType : "json",
+	                  async:true,
+	                  success : function(data) {
+	                	  var optionHtml="";
+	                	  optionHtml+="<option value='0'>请选择</option>"
+	                	  if(id!="dsId"){
+	                      $.each(data.rows,function(i,item){
+	                    	  optionHtml+="<option hval="+item.org_id+" value="+item.user_id+">"+item.org_name+"</option>";
+	                      })
+	                	  }else{
+	                		  $.each(data.rows,function(i,item){
+		                    	  optionHtml+="<option hval="+item.org_id+" value="+item.user_id+">"+item.org_name+"("+item.real_name+")</option>";
+		                      })
+	                	  }
+	                      $("#"+id).html(optionHtml);
+	                  },
+	                  error:function(){}
+	              });
+
+	        }
 	</script
     </body>
 </html>

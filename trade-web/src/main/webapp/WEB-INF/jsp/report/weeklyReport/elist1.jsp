@@ -26,6 +26,11 @@
 <link rel="stylesheet"
 	href="${ctx}/static/trans/css/property/popmac.css" />
 <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
+<style type="text/css">
+th,td {
+ text-align: center;
+} 
+</style>
 </head>
 <body style="background-color: #fff;">
 	<!--*********************** HTML_main*********************** -->
@@ -103,13 +108,14 @@
               <td>{{item.LOSE_NUM_WEEK}}</td>
               <td>{{item.REC_NUM_WEEK}}</td>
               <td>{{item.TOTAL_NUM_WEEK}}</td>
-              <td>{{item.LOSE_AMOUNT_WEEK}}</td>
-              <td>{{item.REC_AMOUNT_WEEK}}</td>
-              <td>{{item.TOTAL_AMOUNT_WEEK}}</td>
-              <td>{{item.LOSE_AMOUNT_LAST_MONTH}}</td>
-              <td>{{item.TOTAL_AMOUNT_LAST_MONTH}}</td>
-              <td>{{item.LOSE_AMOUNT_MONTH}}</td>
-              <td>{{item.TOTAL_AMOUNT_MONTH}}</td>
+              <td>{{item.TOTAL_NUM_WEEK == 0?0:(item.LOSE_NUM_WEEK/item.TOTAL_NUM_WEEK*100).toFixed()}}%</td>
+              <td>{{item.TOTAL_NUM_LAST_MONTH == 0?0:(item.LOSE_NUM_LAST_MONTH/item.TOTAL_NUM_LAST_MONTH*100).toFixed()}}%</td>
+              <td>{{item.TOTAL_AMOUNT_MONTH == 0?0:(item.LOSE_AMOUNT_MONTH/item.TOTAL_AMOUNT_MONTH*100).toFixed()}}%</td>
+ 			  <td>{{item.LOSE_AMOUNT_WEEK/10000}}</td>
+			  <td>{{item.REC_AMOUNT_WEEK/10000}}</td>
+              <td>{{item.TOTAL_AMOUNT_WEEK/10000}}</td>
+              <td>{{item.TOTAL_AMOUNT_WEEK == 0?0:(item.LOSE_AMOUNT_WEEK/item.TOTAL_AMOUNT_WEEK*100).toFixed()}}%</td>
+              <td>{{item.TOTAL_AMOUNT_MONTH == 0?0:(item.LOSE_AMOUNT_MONTH/item.TOTAL_AMOUNT_MONTH*100).toFixed()}}%</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -117,11 +123,11 @@
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
-			var week = window.parent.week.split("至");
+			var weekParamArr = window.parent.weekParam;
 			var data = {
 				queryId : "queryList1",
-				startWeekDay : week[0].replace(/-/g,''),
-				endWeekDay : week[1].replace(/-/g,''),
+				startWeekDay : weekParamArr[0],
+				endWeekDay : weekParamArr[1],
 				rows : 10,
 				page : 1	
 			}

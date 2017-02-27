@@ -19,7 +19,8 @@
     <script type="text/javascript">
 		//用户动态选择的年月（月份要小1）
 		var yearDisplay,monthDisplay;
-		var week="";
+		var week = "";
+		var weekParam = [];
 		var now = new Date();	
 		//上一个统计周的最后一天(周四)
 		if(now.getDay() == 5 || now.getDay() == 6 || now.getDay() == 0){
@@ -129,7 +130,8 @@ function changeBtnClass(item){
 	//默认当前月份
 	$(item.contentWindow.document).find(".calendar-month span:eq("+weekIndex+")").addClass("select-blue").siblings().removeClass("select-blue");
 	
-	week=$(item.contentWindow.document).find(".select-blue").html();	
+	week = $(item.contentWindow.document).find(".select-blue").html();
+	weekParam = convertWeekForSql(week);
 	
 	var $month_list = $(item.contentWindow.document).find(".calendar-month span");  
 	$month_list.on("click",function() {
@@ -138,6 +140,7 @@ function changeBtnClass(item){
 		}
 		$(this).addClass("select-blue").siblings().removeClass("select-blue");
 		week = $(this).text();
+		weekParam = convertWeekForSql(week);
 		weekIndex = $(this).index();
 		item.contentWindow.reloadGrid();
 	});	
