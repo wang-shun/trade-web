@@ -6,23 +6,19 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>过户数据</title>
-        <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-        <link href="${ctx}/static/css/animate.css" rel="stylesheet"/>
-        <link href="${ctx}/static/css/style.css" rel="stylesheet"/>
+<link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet" />
+<link href="${ctx}/static/font-awesome/css/font-awesome.css"
+	rel="stylesheet" />
+<link href="${ctx}/static/css/animate.css" rel="stylesheet" />
+<link href="${ctx}/static/css/style.css" rel="stylesheet" />
+<!-- index_css -->
 
-        <!-- index_css -->
-        <link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-		<!-- 分页控件 -->
-		<!-- jQuery UI -->
-			<link rel="stylesheet" href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" />
-		<link rel="stylesheet" href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
-		<link rel="stylesheet" href="${ctx}/static/trans/css/property/popmac.css" />
-        <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-        <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-        <link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
-        <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
-        <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css">
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+<link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css">
+<link rel="stylesheet" href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
     </head>
     <body style="background-color:#fff;">
          <!--*********************** HTML_main*********************** -->
@@ -113,8 +109,7 @@
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-       		<!-- block UI -->
-		<script src="${ctx}/js/jquery.blockui.min.js"></script>
+
 		<!-- 分页控件  -->
 		   <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
