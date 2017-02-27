@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<query id="getProcessListMobile" cacheCount="true">
+		<searchSql>
+			<baseSql>
+				select *
+				from sctrans.V_PROCESS_AND_COMMENT_QUERY
+				 where srvCode = #caseCode#
+			</baseSql>
+		</searchSql>
+	</query>
+</querys>
