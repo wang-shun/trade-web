@@ -133,6 +133,11 @@ th,td {
 			}
 			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_loanLoseList","loanLoseList");
+            var yearStrPart = weekParamArr[1].substr(4,2);
+            var thisMonth = parseInt(yearStrPart);
+            var lastMonth = thisMonth - 1 == 0?12:thisMonth - 1;
+            $("#thisMonthTitle").text(thisMonth+"月流失率");
+            $("#lastMonthTitle").text(lastMonth+"月流失率");
 		}
 	</script>
 
