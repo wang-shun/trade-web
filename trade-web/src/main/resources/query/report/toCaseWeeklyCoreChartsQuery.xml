@@ -13,38 +13,34 @@
 				<![CDATA[
 				select
 				week.CASE_ORG_ID_F ORG_ID,
+				
 				sum(case when week.CASE_REC_STATUS = 1 and week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then 1 else 0 end) LOSE_NUM_WEEK,--流失单数
+				#endWeekDay# then 1 else 0 end) LOSE_NUM_WEEK,
 				
 				sum(case when week.CASE_REC_STATUS = 0 and week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then 1 else 0 end) REC_NUM_WEEK,--收单数
+				#endWeekDay# then 1 else 0 end) REC_NUM_WEEK,
 				
 				sum(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then 1 else 0 end) TOTAL_NUM_WEEK,--总单数
-				--NUM1/NUM2--单数流失率
-				--12月流失率
+				#endWeekDay# then 1 else 0 end) TOTAL_NUM_WEEK,
+				
 				sum(isnull(case when week.CASE_REC_STATUS = 1 and week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.LOAN_LOST_AMOUNT else 0 end,0)) LOSE_AMOUNT_WEEK,--流失金额
+				#endWeekDay# then week.LOAN_LOST_AMOUNT else 0 end,0)) LOSE_AMOUNT_WEEK,
 				
 				sum(isnull(case when week.CASE_REC_STATUS = 0 and week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.MORT_COM_AMOUNT else 0 end,0)) REC_AMOUNT_WEEK,--收单金额
+				#endWeekDay# then week.MORT_COM_AMOUNT else 0 end,0)) REC_AMOUNT_WEEK,
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.MORT_TOTAL_AMOUNT else 0 end,0)) TOTAL_AMOUNT_WEEK,--总金额
+				#endWeekDay# then week.MORT_TOTAL_AMOUNT else 0 end,0)) TOTAL_AMOUNT_WEEK,
+								
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO hi where hi.CASE_ORG_ID_F = week.CASE_ORG_ID_F and hi.CASE_REC_STATUS = 1 and hi.BELONG_MONTH = #endWeekDay#/100-1 and hi.MORT_TYPE in ('30016001','30016002') and hi.TRANSFER_ISPASS = 1) LOSE_NUM_LAST_MONTH,
 				
-				--AMOUNT1/AMOUNT3--金额流失率
+				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO hi where hi.CASE_ORG_ID_F = week.CASE_ORG_ID_F and hi.BELONG_MONTH = #endWeekDay#/100-1 and hi.MORT_TYPE in ('30016001','30016002') and hi.TRANSFER_ISPASS = 1) TOTAL_NUM_LAST_MONTH,
 				
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO hi where hi.CASE_ORG_ID_F = week.CASE_ORG_ID_F and hi.CASE_REC_STATUS = 1 and hi.BELONG_MONTH = #endWeekDay#/100-1 and hi.MORT_TYPE in ('30016001','30016002') and hi.TRANSFER_ISPASS = 1) LOSE_NUM_LAST_MONTH,--流失单数
 				
-				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO hi where hi.CASE_ORG_ID_F = week.CASE_ORG_ID_F and hi.BELONG_MONTH = #endWeekDay#/100-1 and hi.MORT_TYPE in ('30016001','30016002') and hi.TRANSFER_ISPASS = 1) TOTAL_NUM_LAST_MONTH,--总单数
+				sum(isnull(case when week.CASE_REC_STATUS = 1 and week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100 then week.LOAN_LOST_AMOUNT else 0 end,0)) LOSE_AMOUNT_MONTH,
 				
-				--AMOUNT11/AMOUNT31 --11月流失率
+				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.LOAN_LOST_AMOUNT else 0 end,0)) TOTAL_AMOUNT_MONTH
 				
-				sum(isnull(case when week.CASE_REC_STATUS = 1 and week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100 then week.LOAN_LOST_AMOUNT else 0 end,0)) LOSE_AMOUNT_MONTH,--流失金额
-				
-				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.LOAN_LOST_AMOUNT else 0 end,0)) TOTAL_AMOUNT_MONTH--总金额
-				
-				--AMOUNT12/AMOUNT32 --本月累计
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where  week.MORT_TYPE in ('30016001','30016002') and week.TRANSFER_ISPASS = 1
 	            ]]>
 			</baseSql>
@@ -80,28 +76,27 @@
 				<![CDATA[
 				select 
 				week.CASE_ORG_ID_F ORG_ID,
-				sum(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then 1 else 0 end) REC_NUM_WEEK,--收单案件总量
 				
 				sum(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# and week.EVA_EVAL_FEE is not null then 1 else 0 end) EVA_NUM_WEEK,--有评估费单数
+				#endWeekDay# then 1 else 0 end) REC_NUM_WEEK,
 				
-				--NUM2/NUM1--评估转化率
+				sum(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# and week.EVA_EVAL_FEE is not null then 1 else 0 end) EVA_NUM_WEEK,
 				
-				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then 1 else 0 end) REC_NUM_MONTH,--收单案件总量
+				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then 1 else 0 end) REC_NUM_MONTH,
 				
-				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.EVA_EVAL_FEE is not null then 1 else 0 end) EVA_NUM_MONTH,--有评估费单数
-				--NUM11/NUM21--本月累计
-				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_WEEK,--评估费应收
+				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.EVA_EVAL_FEE is not null then 1 else 0 end) EVA_NUM_MONTH,
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_WEEK,--评估费实收
+				#endWeekDay# then week.MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_WEEK,
 				
-				--AMOUNT2/AMOUNT1--收益率
-				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_MONTH,--评估费应收
-				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_MONTH--评估费实收
-				--AMOUNT21/AMOUNT11--本月累计
+				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then week.EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_WEEK,
+				
+				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_MONTH,
+				
+				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_MONTH
+				
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where week.MORT_TYPE in ('30016001','30016002') and week.TRANSFER_ISPASS = 1 and week.CASE_REC_STATUS = 0
 	            ]]>
 			</baseSql>
@@ -135,20 +130,21 @@
 				<![CDATA[
 				select 
 				week.CASE_ORG_ID_F ORG_ID,
-				sum(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then 1 else 0 end) GUOHU_NUM_WEEK,--本周 过户单数
 				
 				sum(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# and week.ELOAN_KA is not null then 1 else 0 end) KA_APP_NUM_WEEK,--本周 卡申请单数
+				#endWeekDay# then 1 else 0 end) GUOHU_NUM_WEEK,
 				
-				--NUM2/NUM1--本周 单数转化率
+				sum(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# and week.ELOAN_KA is not null then 1 else 0 end) KA_APP_NUM_WEEK,
 				
-				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then 1 else 0 end) GUOHU_NUM_MONTH,--本月 过户单数
-				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.ELOAN_KA is not null then 1 else 0 end) KA_APP_NUM_MONTH,--本月 卡申请单数
-				--NUM21/NUM11--本月 单数转化率
-				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.ELOAN_KA is not null and week.ELOAN_KA_AMOUNT is not null then 1 else 0 end) KA_NUM_MONTH,--本月 刷卡单数
-				--NUM31/NUM11--本月 刷卡率
-				(select count(1) from sctrans.T_TO_ELOAN_CASE ec where ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE IN ('30004005','30004015') and cast(convert(varchar(6) , EC.CREATE_TIME, 112 ) as int) = #endWeekDay#/100)  ELOAN_KA_APP_NUM_MONTH--本月 E+卡申请总量
+				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then 1 else 0 end) GUOHU_NUM_MONTH,
+				
+				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.ELOAN_KA is not null then 1 else 0 end) KA_APP_NUM_MONTH,
+				
+				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.ELOAN_KA is not null and week.ELOAN_KA_AMOUNT is not null then 1 else 0 end) KA_NUM_MONTH,
+				
+				(select count(1) from sctrans.T_TO_ELOAN_CASE ec where ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE IN ('30004005','30004015') and cast(convert(varchar(6) , EC.CREATE_TIME, 112 ) as int) = #endWeekDay#/100)  ELOAN_KA_APP_NUM_MONTH
+				
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where week.TRANSFER_ISPASS = 1
 	            ]]>
 			</baseSql>
@@ -180,28 +176,30 @@
 				<![CDATA[
 				select 
 				week.CASE_ORG_ID_F ORG_ID,
+				
 				sum(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then 1 else 0 end) GUOHU_NUM_WEEK,--本周 E+过户单数
+				#endWeekDay# then 1 else 0 end) GUOHU_NUM_WEEK,
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.CASE_CON_PRICE else 0 end,0)) HOUSE_PRICE_WEEK,--本周 房屋价格
+				#endWeekDay# then week.CASE_CON_PRICE else 0 end,0)) HOUSE_PRICE_WEEK,
 				
 				sum(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# and week.ELOAN_PRO is not null then 1 else 0 end) PRO_APP_NUM_WEEK,--本周 E+申请单数
+				#endWeekDay# and week.ELOAN_PRO is not null then 1 else 0 end) PRO_APP_NUM_WEEK,
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) ,week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# and week.ELOAN_PRO is not null then week.ELOAN_PRO_AMOUNT else 0 end,0)) PRO_APP_AMOUNT_WEEK,--本周 E+申请金额
-				
-				--AMOUNT2/AMOUNT1--本周 金额转化率
-				
+				#endWeekDay# and week.ELOAN_PRO is not null then week.ELOAN_PRO_AMOUNT else 0 end,0)) PRO_APP_AMOUNT_WEEK,
+								
 				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then 1 else 0 end) GUOHU_NUM_MONTH,--本月 过户单数
+				#endWeekDay# then 1 else 0 end) GUOHU_NUM_MONTH,
 				
-				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.CASE_CON_PRICE else 0 end,0)) HOUSE_PRICE_MONTH,--本月 房屋价格
-				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.ELOAN_PRO is not null then 1 else 0 end) PRO_APP_NUM_MONTH,--本月 E+申请单数
-				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.ELOAN_PRO is not null then week.ELOAN_PRO_AMOUNT else 0 end,0)) PRO_APP_AMOUNT_MONTH,--本月 E+申请金额
-				--AMOUNT21/AMOUNT11--本月 金额转化率
-				(select count(1) from sctrans.T_TO_ELOAN_CASE ec where ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE NOT IN ('30004005','30004015') and cast(convert(varchar(6) , EC.CREATE_TIME, 112 ) as int) = #endWeekDay#/100)  ELOAN_PRO_APP_NUM_MONTH--本月 E+申请总量
+				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.CASE_CON_PRICE else 0 end,0)) HOUSE_PRICE_MONTH,
+				
+				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.ELOAN_PRO is not null then 1 else 0 end) PRO_APP_NUM_MONTH,
+				
+				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.ELOAN_PRO is not null then week.ELOAN_PRO_AMOUNT else 0 end,0)) PRO_APP_AMOUNT_MONTH,
+				
+				(select count(1) from sctrans.T_TO_ELOAN_CASE ec where ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE NOT IN ('30004005','30004015') and cast(convert(varchar(6) , EC.CREATE_TIME, 112 ) as int) = #endWeekDay#/100)  ELOAN_PRO_APP_NUM_MONTH
+				
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where week.TRANSFER_ISPASS = 1
 	            ]]>
 			</baseSql>
