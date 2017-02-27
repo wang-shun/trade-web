@@ -92,10 +92,11 @@ BEGIN
 			IF @whole_week_num_init <> 1
 				BEGIN
 					set @count = @whole_week_num_init - @whole_week_num;
-					set @belong_week_start_date = dateadd(day,7 * @count,@belong_week_start_date);
-					set @belong_week_end_date = dateadd(day,7 * @count,@belong_week_end_date);
-					set @belong_week_start = cast(convert(VARCHAR(8),@belong_week_start_date,112) AS int);
-					set @belong_week_end = cast(convert(VARCHAR(8),@belong_week_end_date,112) AS int);
+					set @last_period_week_5 = dateadd(day,CASE @count WHEN 0 THEN 0 ELSE 7 END,@last_period_week_5);
+					set @last_period_week_4 = dateadd(day,6,@last_period_week_5);
+					set @belong_week_start = cast(convert(VARCHAR(8),@last_period_week_5,112) AS int);
+					set @belong_week_end = cast(convert(VARCHAR(8),@last_period_week_4,112) AS int);
+					PRINT cast(@whole_week_num_init as VARCHAR)+'+++'+cast(@whole_week_num as VARCHAR) +'+++'+ cast(@belong_week_start as VARCHAR) + '--->' + cast(@belong_week_end as VARCHAR);
 				END
 
 			--删除当周统计的数据
