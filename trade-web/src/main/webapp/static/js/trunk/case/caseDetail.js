@@ -1403,8 +1403,9 @@ function savePlanItems(){
 	            } , 
 		success : function(data) {
 			if(data.success){
-				window.wxc.success("保存成功");
-				window.location.reload();
+				window.wxc.success("提交成功",{"wxcOk":function(){
+					window.location.reload();
+				}});
 			}else{
 				window.wxc.error(data.message);
 			}

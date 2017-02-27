@@ -20,14 +20,14 @@ clusterServersConfig:
   masterConnectionPoolSize: 250
   readMode: "SLAVE"
   nodeAddresses:
-  - "//10.28.19.88:6379"
-  - "//10.28.19.88:6380"
-  - "//10.28.19.88:6381"
-  - "//10.28.19.89:6379"
-  - "//10.28.19.89:6380"
-  - "//10.28.19.89:6381"
+  - "redis://redis01:6379"
+  - "redis://redis02:6380"
+  - "redis://redis03:6381"
+  - "redis://redis04:6379"
+  - "redis://redis05:6380"
+  - "redis://redis06:6381"
   scanInterval: 1000
 threads: 0
 nettyThreads: 0
-codec: !<org.redisson.codec.FstCodec> {}
+codec: !<org.redisson.codec.JsonJacksonCodec> {}
 useLinuxNativeEpoll: false
