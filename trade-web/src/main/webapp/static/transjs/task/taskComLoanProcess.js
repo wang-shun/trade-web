@@ -1628,6 +1628,7 @@ $(document).ready(function () {
    // getPricingList("table_list_1","pager_list_1");
  
  });
+//
 function onkeyuploanerName(){
 	$("#loanerNameImage").css("color","#676A6C");
 	$("#loanerId").val("");
