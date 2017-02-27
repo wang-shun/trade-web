@@ -26,6 +26,11 @@
 <link rel="stylesheet"
 	href="${ctx}/static/trans/css/property/popmac.css" />
 <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
+<style type="text/css">
+th,td {
+ text-align: center;
+} 
+</style>
 </head>
 <body style="background-color: #fff;">
 	<!--*********************** HTML_main*********************** -->
@@ -58,7 +63,8 @@
 								<th>收单单数</th>
 								<th>总单数</th>
 								<th>单数流失率</th>
-								<th class="stress01">本月累计</th>
+								<th>11月流失率</th>
+								<th>12月流失率</th>
 								<th>流失金额</th>
 								<th>收单金额</th>
 								<th>总金额</th>
@@ -102,13 +108,14 @@
               <td>{{item.LOSE_NUM_WEEK}}</td>
               <td>{{item.REC_NUM_WEEK}}</td>
               <td>{{item.TOTAL_NUM_WEEK}}</td>
-              <td>{{item.LOSE_AMOUNT_WEEK}}</td>
-              <td class="stress01">{{item.REC_AMOUNT_WEEK}}</td>
-              <td>{{item.TOTAL_AMOUNT_WEEK}}</td>
-              <td>{{item.LOSE_AMOUNT_LAST_MONTH}}</td>
-              <td>{{item.TOTAL_AMOUNT_LAST_MONTH}}</td>
-              <td>{{item.LOSE_AMOUNT_MONTH}}</td>
-              <td class="stress02">{{item.TOTAL_AMOUNT_MONTH}}</td>
+              <td>{{item.TOTAL_NUM_WEEK == 0?0:(item.LOSE_NUM_WEEK/item.TOTAL_NUM_WEEK*100).toFixed()}}%</td>
+              <td>{{item.TOTAL_NUM_LAST_MONTH == 0?0:(item.LOSE_NUM_LAST_MONTH/item.TOTAL_NUM_LAST_MONTH*100).toFixed()}}%</td>
+              <td>{{item.TOTAL_AMOUNT_MONTH == 0?0:(item.LOSE_AMOUNT_MONTH/item.TOTAL_AMOUNT_MONTH*100).toFixed()}}%</td>
+ 			  <td>{{item.LOSE_AMOUNT_WEEK/10000}}</td>
+			  <td>{{item.REC_AMOUNT_WEEK/10000}}</td>
+              <td>{{item.TOTAL_AMOUNT_WEEK/10000}}</td>
+              <td>{{item.TOTAL_AMOUNT_WEEK == 0?0:(item.LOSE_AMOUNT_WEEK/item.TOTAL_AMOUNT_WEEK*100).toFixed()}}%</td>
+              <td>{{item.TOTAL_AMOUNT_MONTH == 0?0:(item.LOSE_AMOUNT_MONTH/item.TOTAL_AMOUNT_MONTH*100).toFixed()}}%</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -116,11 +123,11 @@
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
-			var week = window.parent.week.split("至");
+			var weekParamArr = window.parent.weekParam;
 			var data = {
 				queryId : "queryList1",
-				startWeekDay : week[0].replace(/-/g,''),
-				endWeekDay : week[1].replace(/-/g,''),
+				startWeekDay : weekParamArr[0],
+				endWeekDay : weekParamArr[1],
 				rows : 10,
 				page : 1	
 			}

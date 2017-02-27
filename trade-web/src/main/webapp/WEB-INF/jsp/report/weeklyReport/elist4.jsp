@@ -26,6 +26,11 @@
 <link rel="stylesheet"
 	href="${ctx}/static/trans/css/property/popmac.css" />
 <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
+<style type="text/css">
+th,td {
+ text-align: center;
+} 
+</style>
     </head>
     <body style="background-color:#fff;">
          <!--*********************** HTML_main*********************** -->
@@ -53,8 +58,8 @@
                             <thead>
                                 <tr>
                                     <th rowspan="2">所属组别</th>
-                                    <th colspan="6">本周过户案件中E+贷款申请量</th>
-                                    <th colspan="4">本月过户案件累计</th>
+                                    <th colspan="5">本周过户案件中E+贷款申请量</th>
+                                    <th colspan="5">本月过户案件累计</th>
                                     <th>本月E+卡申请量</th>
                                 </tr>
                                 <tr>
@@ -103,14 +108,17 @@
           {{each rows as item index}}
 		    <tr>
               <td>{{item.ORG_NAME}}</td>
-              <td>{{item.GUOHU_NUM_WEEK1}}</td>
-              <td>{{item.HOUSE_PRICE_WEEK}}</td>
-              <td>{{item.PRO_APP_NUM_WEEK}}</td>
-              <td>{{item.PRO_APP_AMOUNT_WEEK}}</td>
               <td>{{item.GUOHU_NUM_WEEK}}</td>
-              <td>{{item.HOUSE_PRICE_MONTH}}</td>
+              <td>{{item.HOUSE_PRICE_WEEK/10000}}</td>
+              <td>{{item.PRO_APP_NUM_WEEK}}</td>
+              <td>{{item.PRO_APP_AMOUNT_WEEK/10000}}</td>
+              <td>{{item.HOUSE_PRICE_WEEK == 0?0:(item.PRO_APP_AMOUNT_WEEK/item.HOUSE_PRICE_WEEK*100).toFixed()}}%</td>
+			  <td>{{item.GUOHU_NUM_MONTH}}</td>
+              <td>{{item.HOUSE_PRICE_MONTH/10000}}</td>
               <td>{{item.PRO_APP_NUM_MONTH}}</td>
-              <td>{{item.PRO_APP_AMOUNT_MONTH}}</td>
+              <td>{{item.PRO_APP_AMOUNT_MONTH/10000}}</td>
+              <td>{{item.HOUSE_PRICE_MONTH == 0?0:(item.PRO_APP_AMOUNT_MONTH/item.HOUSE_PRICE_MONTH*100).toFixed()}}%</td>
+			  <td>{{item.ELOAN_PRO_APP_NUM_MONTH}}</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -118,11 +126,11 @@
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
-			var week = window.parent.week.split("至");
+			var weekParamArr = window.parent.weekParam;
 			var data = {
 				queryId : "queryList4",
-				startWeekDay : week[0].replace(/-/g,''),
-				endWeekDay : week[1].replace(/-/g,''),
+				startWeekDay : weekParamArr[0],
+				endWeekDay : weekParamArr[1],
 				rows : 10,
 				page : 1
 			}

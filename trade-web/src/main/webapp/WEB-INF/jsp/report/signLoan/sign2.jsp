@@ -224,7 +224,6 @@
   			data.orgId=orgId;
   			data.userId=userId;
           	data.choiceMonth = year + "-" + month;
-/*               	data.belongMoth  = getBelongMonth(year + "-" + month); */
   			var url = ctx+"/js/eachartdata/loanloss.json"
   			initData(url,data,"template_table","tableTemplate");
   		}

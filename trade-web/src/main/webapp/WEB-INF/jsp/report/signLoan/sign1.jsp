@@ -95,17 +95,17 @@
         <!-- ECharts.js -->
         <script src="${ctx }/static/js/echarts-all.js"></script>
         <script src="${ctx}/js/eachartdata/elistdata.js"></script> 
-        		<!-- block UI -->
-			<script src="${ctx}/js/jquery.blockui.min.js"></script>
-			<!-- 分页控件  -->
-			   <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-			<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
-			<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
-			<!-- 排序插件 -->
-			<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-				<!-- 个人js -->
-			<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
-			<script id="template_table" type="text/html">
+        <!-- block UI -->
+		<script src="${ctx}/js/jquery.blockui.min.js"></script>
+		<!-- 分页控件  -->
+		<script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+		<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
+		<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
+		<!-- 排序插件 -->
+		<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
+		<!-- 个人js -->
+		<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
+		<script id="template_table" type="text/html">
           {{each rows as item index}}
 		    <tr>
               <td>{{item.groupName}}</td>
@@ -127,7 +127,8 @@
 				
 			};
         	data.choiceMonth = year + "-" + month;
-/*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
+        	
+        	
 			var url = ctx+"/js/eachartdata/loanloss.json"
 			initData(url,data,"template_table","tableTemplate");
 		}
