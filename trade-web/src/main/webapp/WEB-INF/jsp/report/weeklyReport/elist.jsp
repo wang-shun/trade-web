@@ -69,10 +69,10 @@
 <script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 <script type="text/javascript">
 //声明各iframe
-var iframe1 = document.getElementById("iframe1");
-var iframe2 = document.getElementById("iframe2"); 
-var iframe3 = document.getElementById("iframe3");
-var iframe4 = document.getElementById("iframe4");
+var iframe1 = $("#iframe1")[0];
+var iframe2 = $("iframe2")[0];
+var iframe3 = $("iframe3")[0];
+var iframe4 = $("iframe4")[0];
 var iframesArr = [iframe1,iframe2,iframe3,iframe4];
 
 //周索引
@@ -127,8 +127,14 @@ function changeBtnClass(item){
 	var spanHtml = getSpanHtml(yearDisplay, monthDisplay, 0);	
 	$(item.contentWindow.document).find(".calendar-month").html(spanHtml);
 	
-	//默认当前月份
-	$(item.contentWindow.document).find(".calendar-month span:eq("+weekIndex+")").addClass("select-blue").siblings().removeClass("select-blue");
+	//默认当前索引对应的周,没有就取最后一个月份
+    var weekIndexSpan = $(item.contentWindow.document).find(".calendar-month span:eq("+weekIndex+")");
+    if(weekIndexSpan.length > 0){
+        weekIndexSpan.addClass("select-blue").siblings().removeClass("select-blue");
+    }else{
+        $(item.contentWindow.document).find(".calendar-month span:last").addClass("select-blue").siblings().removeClass("select-blue");
+        weekIndex = $(item.contentWindow.document).find(".calendar-month span:last").index();
+    }
 	
 	week = $(item.contentWindow.document).find(".select-blue").html();
 	weekParam = convertWeekForSql(week);
