@@ -70,9 +70,9 @@
 <script type="text/javascript">
 //声明各iframe
 var iframe1 = $("#iframe1")[0];
-var iframe2 = $("iframe2")[0];
-var iframe3 = $("iframe3")[0];
-var iframe4 = $("iframe4")[0];
+var iframe2 = $("#iframe2")[0];
+var iframe3 = $("#iframe3")[0];
+var iframe4 = $("#iframe4")[0];
 var iframesArr = [iframe1,iframe2,iframe3,iframe4];
 
 //周索引
