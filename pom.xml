@@ -15,6 +15,7 @@
 		<module>trade-frontend</module>
 		<module>trade-service</module>
 		<module>yc-par-portal</module>
+		<module>trade-mobile</module>
 	</modules>
 	
 	<scm>
