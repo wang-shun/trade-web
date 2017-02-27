@@ -1180,7 +1180,8 @@
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input type="text" name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onkeyup="onkeyuploanerName()">
+													 <input readonly='readonly' type="text" name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser_})">
 													 <i style=" position: absolute; top: 5px; right: 20px;  " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser_})" >&#xe627;</i>
 													 </input>			
@@ -1194,6 +1195,7 @@
 													 <input type="text" name="loanerPhone" id="loanerPhone"
 															placeholder="联系方式" class="input_type data_style">
 		                                         </div>
+		                                         
 		                                         <div class="form_content" style="margin-top:8px;">
 		                                             <label class="control-label sign_left">信贷员到场</label> 
 		                                             <div class="controls" >

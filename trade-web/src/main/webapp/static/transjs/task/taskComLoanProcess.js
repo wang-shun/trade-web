@@ -80,6 +80,11 @@ function checkMortgageForm(formId){
 	}else if(formId.find("input[name='loanerName']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;
+		
+	}else if(formId.find("input[name='loanerId']").val() == ""){
+		formId.find("input[name='loanerName']").css("border-color","red");
+		return false;
+		
 	}else if(formId.find("input[name='loanerPhone']").val() == ""){
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		return false;
