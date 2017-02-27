@@ -112,7 +112,7 @@ th, td {
               <td>{{item.PRO_APP_AMOUNT_WEEK/10000}}</td>
               <td>{{item.HOUSE_PRICE_WEEK == 0?0:(item.PRO_APP_AMOUNT_WEEK/item.HOUSE_PRICE_WEEK*100).toFixed()}}%</td>
 			  <td>{{item.GUOHU_NUM_MONTH}}</td>
-              <td>{{item.HOUSE_PRICE_MONTH/10000}}</td>
+              <td>{{(item.HOUSE_PRICE_MONTH/10000).toFixed()}}</td>
               <td>{{item.PRO_APP_NUM_MONTH}}</td>
               <td>{{item.PRO_APP_AMOUNT_MONTH/10000}}</td>
               <td>{{item.HOUSE_PRICE_MONTH == 0?0:(item.PRO_APP_AMOUNT_MONTH/item.HOUSE_PRICE_MONTH*100).toFixed()}}%</td>

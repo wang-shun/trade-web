@@ -88,12 +88,12 @@
 				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.EVA_EVAL_FEE is not null then 1 else 0 end) EVA_NUM_MONTH,
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_WEEK,
+				#endWeekDay# then week.MORT_COM_AMOUNT*0.001 else 0 end,0)) EVA_AMOUNT_WEEK,
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
 				#endWeekDay# then week.EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_WEEK,
 				
-				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_MONTH,
+				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.MORT_COM_AMOUNT*0.001 else 0 end,0)) EVA_AMOUNT_MONTH,
 				
 				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_MONTH
 				
