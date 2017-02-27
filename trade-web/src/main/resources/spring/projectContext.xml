@@ -591,5 +591,8 @@
     <!-- 根据地址查询可以关联的案件数-->
     <bean name="getGlCaseCount" class="com.centaline.trans.common.service.impl.QuickQueryGetGlCaseCountServiceImpl"> 
     </bean>	
+    
+    <!-- 计算评估费转化率 -->
+    <bean name="calPgfRate" class="com.centaline.trans.common.service.impl.QuickQueryCalPgfRateServiceImpl"></bean>	
 <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

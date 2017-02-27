@@ -41,9 +41,6 @@
 								<a href="#" id="subtract"><em>&lt;</em></a> <span>2016年11月</span>
 								<a href="#" id="add"><em>&gt;</em></a>
 							</p>
-							<p class="calendar-month">
-								<span>29-05</span><span>06-13</span><span>14-21</span><span>22-29</span>
-							</p>
 						</div>
 					</div>
 
@@ -63,7 +60,7 @@
 								<th>本月累计</th>
 							</tr>
 						</thead>
-						<tbody id="assessmentList">
+						<tbody id="tableTemplate">
 							<tr>
 								<td>宝山贵宾A组</td>
 								<td>12</td>
@@ -102,7 +99,7 @@
 	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
 		<!-- 个人js -->
 	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
-	<script id="template_assessmentList" type="text/html">
+	<script id="template_table" type="text/html">
           {{each rows as item index}}
 		    <tr>
               <td>宝山贵宾A组</td>
@@ -121,15 +118,15 @@
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
-			var week = window.parent.week.split("至");
+		   	var year = window.parent.yearDisplay;
 			var data = {
-				startTime : week[0],
-				endTime : week[1],
-				rows : 10,
-				page : 1,
-				queryId : "queryDistrict"
-			}
-			initData(data,"template_assessmentList","assessmentList");
+				rows : 8,
+				page : 1
+				
+			};
+        	data.choiceYear = year;
+        	var url = ctx+"/js/eachartdata/loanloss.json"
+			initData(url,data,"template_table","tableTemplate");
 		}
 	</script>
 </body>

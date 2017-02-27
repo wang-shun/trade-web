@@ -124,6 +124,10 @@
 		<pattern>/report/guohu2</pattern>
 		<pattern>/report/guohu3</pattern>
 		<pattern>/report/guohu4</pattern>
+		<pattern>/report/OperateData</pattern>
+		<pattern>/report/operate1</pattern>
+		<pattern>/report/operate2</pattern>
+		<pattern>/report/operate3</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
