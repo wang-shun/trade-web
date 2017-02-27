@@ -13,6 +13,9 @@ node('docker-agent'){
 		dir('yc-par-portal') {
 		    sh "sh Dockermake.sh"
 		}
+		dir('trade-mobile') {
+		    sh "sh Dockermake.sh"
+		}
 	}
 }
 
