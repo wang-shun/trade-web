@@ -78,7 +78,7 @@
 					    sd.name status,
 						CASE WHEN ms.pkid is null then 'false' else 'true' end isFocus,
 						pi.PROPERTY_ADDR addr,
-						su.EMPLOYEE_CODE 	employee_code			
+						su.EMPLOYEE_CODE			
 					FROM
 					    sctrans.T_TO_CASE  A
 					    INNER JOIN sctrans.T_TO_CASE_INFO  B ON A.CASE_CODE = B.CASE_CODE
@@ -95,15 +95,15 @@
 								where tgi.case_code = a.case_code and tgi.GUEST_NAME like '%' + #q_text# + '%' )
 							) and
 						</ifNotNull>
-						<if test="onlyFocus">
+						<ifNotNull onlyFocus>
 							ms.pkid is not null and
-						</if>
+						</ifNotNull>
 						<ifNotNull status>
 							a.property = #case_property# and
-						</if>
+						</ifNotNull>
 						<ifNotNull status>
 							a.status = #status# and
-						</if>
+						</ifNotNull>
 						(EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = A.CASE_CODE
 					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
 					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
@@ -304,14 +304,45 @@
 		<grid>
 			<table-row>
 				<column type="both" name="AGENT_NAME" />
-				<column type="both" name="employee_code" />
+				<column type="both" name="EMPLOYEE_CODE" />
 				<column type="both" name="AGENT_PHONE" />
 				<column type="both" name="caseCode" />
 				<column type="both" name="addr" />
 				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" />
 				<column type="both" name="status" />
 				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" />
-				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode"></column>
+				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryTradeCaseInfoMoblie">
+		<searchSql>
+			<baseSql>
+				select tc.CASE_CODE caseCode, sd.name status,pi.PROPERTY_ADDR addr,
+					CASE WHEN ms.pkid is null then 'false' else 'true' end isFocus,
+					ti.AGENT_CODE,ti.AGENT_PHONE,ti.AGENT_USERNAME AGENT_NAME,su.EMPLOYEE_CODE
+				from sctrans.T_TO_CASE tc
+					LEFT JOIN sctrans.SYS_DICT sd on sd.type='30001' and sd.is_deleted = '0' and tc.STATUS = sd.code
+					left join SCTRANS.T_TO_PROPERTY_INFO pi on pi.case_code = tc.case_code 
+					left join SCTRANS.T_TO_MODULE_SUBSCRIBE ms on ms.module_code = tc.case_code 
+							and ms.SUBSCRIBER_ID = #userId#
+					left join sctrans.T_TO_CASE_INFO ti on ti.CASE_CODE = tc.case_code
+    				left join sctrans.sys_user su on su.id = ti.AGENT_CODE
+				where tc.case_code = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="caseCode" />
+				<column type="both" name="status" />
+				<column type="both" name="isFocus" />
+				<column type="both" name="addr" />
+				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" />
+				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" />
+				<column type="both" name="AGENT_PHONE" />
+				<column type="both" name="AGENT_NAME" />
+				<column type="both" name="EMPLOYEE_CODE" />
 			</table-row>
 		</grid>
 	</query>
