@@ -170,8 +170,7 @@
         	$("#districtId").change(function(item){
         		var parentId=$("#districtId").val();
         		getGroup(parentId,false,"orgId","group");
-        		var userId=$("#orgId").val();
-        		getGroup(userId,false,"userId","user");
+        		$("#userId").html("<option value='0'>请选择</option>");
         	})
         	$("#orgId").change(function(item){
         		var userId=$("#orgId").val();
@@ -212,6 +211,7 @@
   				rows : 8,
   				page : 1,
   			};
+  	        
   			var condition="district";
   			if($("#districtId").val()!=0){
   				condition="team";
