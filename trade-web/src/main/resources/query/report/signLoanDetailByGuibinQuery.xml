@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+
+	</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+
+
+	<query id="signLoanDetailByGuibinQuery" cacheResult="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					
+					SELECT 
+						 <if test="condition == 'district'">
+							 c.CASE_DISTRICT_ID,
+							 c.CASE_DISTRICT_NAME,
+						 </if>
+						 
+						 <if test="condition == 'team'">
+							 c.CASE_ORG_ID_F,
+			 				 c.CASE_ORG_NAME_F,
+						 </if>
+						 
+						 <if test="condition == 'consultant'">
+							 c.CASE_LEADING_PROCESS_ID_F,
+			 				 c.CASE_REAL_NAME_F,
+						 </if>
+						 
+						 COUNT(c.CASE_DISPATCH_TIME) AS slCount,  --受理量
+						 COUNT(c.CASE_REAL_CON_TIME) AS qyCount,  --签约量
+						 COUNT(c.MORT_SIGN_DATE) AS sdCount,      --商贷办理量
+						 
+						 <if test="condition == 'district'">
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI = 0 AND CASE_DISTRICT_ID = c.CASE_DISTRICT_ID  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# and BELONG_MONTH = #searchBelongMonth#) AS zbCount,    --客户自办量
+						    (SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE MORT_TYPE = '30016003' AND CASE_DISTRICT_ID = c.CASE_DISTRICT_ID  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,  --公积金量
+						 	(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_DISTRICT_ID = c.CASE_DISTRICT_ID  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  --收到评估费单数
+						    (SELECT isnull(SUM(EVA_EVAL_FEE),0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_DISTRICT_ID = c.CASE_DISTRICT_ID  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,  --评估费实收
+						 </if>
+						 
+						  <if test="condition == 'team'">
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI = 0 AND CASE_ORG_ID_F = c.CASE_ORG_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# and BELONG_MONTH = #searchBelongMonth#) AS zbCount,    --客户自办量
+			 				(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE MORT_TYPE = '30016003' AND CASE_ORG_ID_F = c.CASE_ORG_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,  --公积金量
+						 	(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_ORG_ID_F = c.CASE_ORG_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  --收到评估费单数
+			 				(SELECT isnull(SUM(EVA_EVAL_FEE),0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_ORG_ID_F = c.CASE_ORG_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,  --评估费实收
+						 </if>
+						 
+						 <if test="condition == 'consultant'">
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI = 0 AND CASE_LEADING_PROCESS_ID_F = c.CASE_LEADING_PROCESS_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# and BELONG_MONTH = #searchBelongMonth#) AS zbCount,    --客户自办量
+						    (SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE MORT_TYPE = '30016003' AND CASE_LEADING_PROCESS_ID_F = c.CASE_LEADING_PROCESS_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,  --公积金量
+						 	(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_LEADING_PROCESS_ID_F = c.CASE_LEADING_PROCESS_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  --收到评估费单数
+						    (SELECT isnull(SUM(EVA_EVAL_FEE),0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_LEADING_PROCESS_ID_F = c.CASE_LEADING_PROCESS_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,  --评估费实收
+						 </if>
+						 
+						 COUNT(c.TRANSFER_APP_PASS_TIME) AS ghCount,    --过户量
+						 COUNT(c.ELOAN_KA_AMOUNT) AS eCardCount,  --E+卡证申请单数
+						 isnull(SUM(c.ELOAN_KA_AMOUNT),0) as eCardAmount,    --E+卡证金额
+					     COUNT(c.ELOAN_PRO_AMOUNT) AS eProCount,   --E+贷款申请单数
+						 isnull(SUM(c.ELOAN_PRO_AMOUNT),0) AS eProAmount     --E+贷款金额
+					FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c
+					WHERE convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#
+					
+					<if test="condition == 'district'">
+						GROUP BY c.CASE_DISTRICT_ID,c.CASE_DISTRICT_NAME
+					</if>
+					
+					<if test="condition == 'team'">
+						GROUP BY c.CASE_ORG_ID_F,c.CASE_ORG_NAME_F
+					</if>
+					
+					<if test="condition == 'consultant'">
+						GROUP BY c.CASE_LEADING_PROCESS_ID_F,c.CASE_REAL_NAME_F
+					</if>
+	            ]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_DISTRICT_ID" title="案件所属贵宾服务部Id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_DISTRICT_NAME" title="案件所属贵宾服务部名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_ORG_ID_F" title="案件主办所在组id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_ORG_NAME_F" title="案件主办所在组名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_LEADING_PROCESS_ID_F" title="案件主办用户id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_REAL_NAME_F" title="案件主办用户姓名"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="slCount" title="受理量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="qyCount" title="签约量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="sdCount" title="商贷办理量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="zbCount" title="客户自办量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="gjjCount" title="公积金量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="pgfCount" title="收到评估费单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="pgfAmount" title="评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eCardCount" title="E+卡证申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eCardAmount" title="E+卡证金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eProCount" title="E+贷款申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eProAmount" title="E+贷款金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+			</table-row>
+		</grid>
+	</query>
+
+
+	<query id="queryGuoHuForMortConsultant" cacheResult="true">
+		<searchCondition>
+
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					with tb as(select
+					CASE_CODE
+					,CASE_LOAN_REQ
+					,CASE_CON_PRICE
+					,MORT_TYPE
+					,MORT_COM_AMOUNT
+					,MORT_PRF_AMOUNT
+					,CASE_LEADING_PROCESS_ID_F--案件主办userID
+					,CASE_REAL_NAME_F--案件主办姓名
+					,CASE_ORG_ID_F--组别ID
+					,CASE_ORG_NAME_F--组别名称
+					,CASE_DISTRICT_ID--贵宾服务部ID
+					,CASE_DISTRICT_NAME--贵宾服务部名称
+					,CASE_REC_STATUS--是否流失
+					,LOAN_LOST_AMOUNT--流失金额
+					,EVA_EVAL_FEE--案件评估费
+					,EVA_RECORD_TIME--案件评估费确实时间
+					,ELOAN_PRO--案件对应的金融类产品
+					,ELOAN_PRO_AMOUNT--金融产品总金额
+					,ELOAN_KA--案件对应的卡类产品
+					,CASE_USE_CARD_PAY_CN--案件是否刷卡
+					,CASE_CARD_PAY_AMOUNT--刷卡金额
+					 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
+					1=1
+					and tb1.BELONG_MONTH='201701'
+					and TRANSFER_ISPASS=1
+					and convert(varchar(7),TRANSFER_APP_TIME,120)='2017-01')
+
+					select
+					count(1) as CASE_COUNT,
+					(select count(1) from tb as t1 where 1=1
+					and t1.CASE_LOAN_REQ=1
+					and t1.MORT_TYPE='30016001'
+					<if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+					) as MORT_COM_COUNT,
+					isnull((select sum(MORT_COM_AMOUNT) from tb as t1 where 1=1
+					and t1.CASE_LOAN_REQ=1
+					and t1.MORT_TYPE='30016001'
+
+					<if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+					 ),0) as MORT_COM_AMOUNT,
+					isnull((select sum(t1.CASE_CON_PRICE) from tb as t1 where 1=1
+					<if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+					),0) as CASE_CON_PRICE,
+					(select count(1) from tb as t1 where 1=1
+					 and t1.CASE_LOAN_REQ=1
+					 and t1.CASE_REC_STATUS='1'
+					 <if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+					 ) as LOST_COUNT,
+					isnull((select sum(LOAN_LOST_AMOUNT) from tb as t1 where 1=1
+					and t1.CASE_LOAN_REQ=1
+
+					<if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+
+					 ),0) as LOST_AMOUNT,
+					(select count(1) from tb as t1 where 1=1
+					and t1.EVA_EVAL_FEE is not null
+
+					<if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+
+					 ) as EVA_COUNT,
+					isnull((select sum(EVA_EVAL_FEE) from tb as t1 where 1=1
+					 and t1.EVA_EVAL_FEE is not null
+
+					<if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+
+					),0) as EVA_FEE,
+					(select count(1) from tb as t1 where 1=1
+					 and t1.ELOAN_KA is not null
+
+					<if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					 <if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+
+					 ) as E_CARD_COUNT,
+					(select count(1) from tb as t1 where 1=1
+					and  t1.CASE_USE_CARD_PAY_CN='1'
+
+					<if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+
+					) as CARD_COUNT,
+					isnull((select sum(ELOAN_PRO_AMOUNT) from tb as t1 where 1=1
+
+					<if test="produceType == 'consultant'">
+						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						and t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F --(按照组别)
+					</if>
+					<if test="produceType == 'district'">
+						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
+					</if>
+					),0) as E_AMOUNT,
+					<if test="produceType == 'consultant'">
+						CASE_LEADING_PROCESS_ID_F,--(按照交易顾问)
+						(select top(1) CASE_REAL_NAME_F from tb as t1 where t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F ) as CASE_REAL_NAME_F
+					</if>
+					<if test="produceType == 'team'">
+						CASE_ORG_ID_F,--(按照组别)
+						(select top(1) CASE_ORG_NAME_F from tb as t1 where t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F ) as CASE_ORG_NAME_F
+					</if>
+					<if test="produceType == 'district'">
+						CASE_DISTRICT_ID,--(按照贵宾服务部)
+						(select top(1) CASE_DISTRICT_NAME from tb as t1 where t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID ) as CASE_DISTRICT_NAME
+					</if>
+
+					from tb as t
+					<if test="produceType == 'consultant'">
+						group by CASE_LEADING_PROCESS_ID_F--(按照交易顾问)
+					</if>
+					<if test="produceType == 'team'">
+						group by CASE_ORG_ID_F
+					</if>
+					<if test="produceType == 'district'">
+						group by CASE_DISTRICT_ID
+					</if>
+
+
+	            ]]>
+			</baseSql>
+			<orderBySql>
+				order by CASE_COUNT
+			</orderBySql>
+			<groupSql>
+
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_COUNT" title="过户案件数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_COM_COUNT" title="商贷单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_CON_PRICE" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOST_COUNT" title="流失单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
+				<column type="both" name="LOST_AMOUNT" title="流失金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_COUNT" title="收评估费单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_FEE" title="收评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="E_CARD_COUNT" title="e卡类申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CARD_COUNT" title="刷卡案件数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="E_AMOUNT" title="E贷款申请金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_DISTRICT_NAME" title="贵宾服务部名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_ORG_NAME_F" title="组别名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_REAL_NAME_F" title="交易顾问"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryGuoHuForMortTeam" cacheResult="true">
+		<searchCondition>
+
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				with tb as(select
+				CASE_CODE
+				,CASE_LOAN_REQ
+				,CASE_CON_PRICE
+				,MORT_TYPE
+				,MORT_COM_AMOUNT
+				,MORT_PRF_AMOUNT
+				,CASE_LEADING_PROCESS_ID_F--案件主办userID
+				,CASE_REAL_NAME_F--案件主办姓名
+				,CASE_ORG_ID_F--组别ID
+				,CASE_ORG_NAME_F--组别名称
+				,CASE_DISTRICT_ID--贵宾服务部ID
+				,CASE_DISTRICT_NAME--贵宾服务部名称
+				,CASE_REC_STATUS--是否流失
+				,IS_DELEGATE_YUCUI--是否是中原办理
+				,LOAN_LOST_AMOUNT--流失金额
+				,EVA_EVAL_FEE--案件评估费
+				,EVA_RECORD_TIME--案件评估费确实时间
+				,ELOAN_PRO--案件对应的金融类产品
+				,ELOAN_PRO_AMOUNT--金融产品总金额
+				,ELOAN_KA--案件对应的卡类产品
+				,CASE_USE_CARD_PAY_CN--案件是否刷卡
+				,CASE_CARD_PAY_AMOUNT--刷卡金额
+				[JQYDS_NAME],--区域董事姓名
+				[JQYDS_EMPLOYEE_CODE],--区域董事雇员编号
+				[JQYZJ_NAME],--区域总监姓名
+				[JQYZJ_CODE],--区域总监雇员编号
+				[JQYJL_NAME],--区域经理姓名
+				[JQYJL_EMPLOYEE_CODE],--区域经理雇员编号
+				[JFHJL_NAME],--分行经理姓名
+				[JFHJL_EMPLOYEE_CODE]--分行经理雇员编号
+				 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
+				1=1
+				and tb1.BELONG_MONTH='201701'
+				and TRANSFER_ISPASS=1
+				and convert(varchar(7),TRANSFER_APP_TIME,120)='2017-01')
+
+				select
+				<if test="produceType == 'qyds'">
+				JQYDS_NAME as EMPLOYEE_NAME,--(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				JQYZJ_NAME as EMPLOYEE_NAME, --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				JQYJL_NAME as EMPLOYEE_NAME,--(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				JFHJL_NAME as EMPLOYEE_NAME, --(按照分行经理)
+				</if>
+				count(1) as CASE_COUNT,
+				isnull((select sum(t1.CASE_CON_PRICE) from tb as t1 where 1=1
+				<if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+				),0) as CON_PRICE,
+				(select count(1) from tb as t1 where 1=1
+				and t1.CASE_LOAN_REQ=1
+				and t1.MORT_TYPE='30016001'
+
+				<if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+
+				) as MORT_COM_COUNT,
+				isnull((select sum(MORT_COM_AMOUNT) from tb as t1 where 1=1
+				and t1.CASE_LOAN_REQ=1
+				and t1.MORT_TYPE='30016001'
+
+				<if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+
+				 ),0) as MORT_COM_AMOUNT,
+				 (select count(1)  from tb as t1 where 1=1
+				 and t1.IS_DELEGATE_YUCUI='1'
+				 <if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+
+				 ) as IS_DELEGATE_YUCUI_COUNT,
+				(select count(1)  from tb as t1 where 1=1
+				 and t1.IS_DELEGATE_YUCUI='0'
+				 <if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+				 ) as IS_DELEGATE_CUSTOMER_COUNT,
+				 isnull((select sum(LOAN_LOST_AMOUNT) from tb as t1 where 1=1
+				and t1.CASE_LOAN_REQ=1
+
+				<if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+
+				 ),0) as LOST_AMOUNT,
+				 (select count(1) from tb as t1 where 1=1
+				and t1.EVA_EVAL_FEE is not null
+
+				<if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+				 ) as EVA_COUNT,
+				 isnull((select sum(EVA_EVAL_FEE) from tb as t1 where 1=1
+				 and t1.EVA_EVAL_FEE is not null
+
+				<if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+
+				),0) as EVA_AMOUNT,
+				(select count(1) from tb as t1 where 1=1
+				 and t1.ELOAN_KA is not null
+
+				<if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+
+				 ) as E_CARD_COUNT,
+				 isnull((select sum(ELOAN_PRO_AMOUNT) from tb as t1 where 1=1
+
+				<if test="produceType == 'qyds'">
+				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				</if>
+				),0) as E_CARD_AMOUNT,
+				<if test="produceType == 'qyds'">
+				JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				JQYZJ_CODE  --(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				JQYJL_EMPLOYEE_CODE--(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				JFHJL_EMPLOYEE_CODE--(按照分行经理)
+				</if>
+				from tb as t
+
+				where
+				<if test="produceType == 'qyds'">
+				JQYDS_EMPLOYEE_CODE is not null--(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				JQYZJ_CODE is not null--(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				JQYJL_EMPLOYEE_CODE is not null--(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				JFHJL_EMPLOYEE_CODE is not null--(按照分行经理)
+				</if>
+
+				<if test="produceType == 'qyds'">
+				group by t.JQYDS_EMPLOYEE_CODE,JQYDS_NAME--(按照区域董事)
+				</if>
+				<if test="produceType == 'qyzj'">
+				group by t.JQYZJ_CODE,JQYZJ_NAME--(按照区域总监)
+				</if>
+				<if test="produceType == 'qyjl'">
+				group by t.JQYJL_EMPLOYEE_CODE,JQYJL_NAME--(按照区域经理)
+				</if>
+				<if test="produceType == 'fhjl'">
+				group by t.JFHJL_EMPLOYEE_CODE,JFHJL_NAME--(按照分行经理)
+				</if>
+	            ]]>
+			</baseSql>
+			<orderBySql>
+				order by CASE_COUNT
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="EMPLOYEE_NAME" title="代理人姓名"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_COUNT" title="过户案件数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CON_PRICE" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_COM_COUNT" title="商贷单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
+				<column type="both" name="IS_DELEGATE_YUCUI_COUNT" title="公司办理"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="IS_DELEGATE_CUSTOMER_COUNT" title="客户自办"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOST_AMOUNT" title="流失金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_COUNT" title="收评估费单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_AMOUNT" title="收评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="E_CARD_COUNT" title="e卡类申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="E_CARD_AMOUNT" title="E贷款申请金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryGuoHuForMortBank" cacheResult="true">
+		<searchCondition>
+
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				with tb as(select
+				CASE_CODE
+				,CASE_LOAN_REQ
+				,CASE_CON_PRICE
+				,MORT_TYPE
+				,MORT_TOTAL_AMOUNT
+				,MORT_COM_AMOUNT
+				,MORT_PRF_AMOUNT
+				,MORT_FIN_ORG_CODE
+				,MORT_FA_FIN_ORG_CODE
+				,MORT_FIN_BRANCH_NAME
+				,MORT_FIN_SUB_BRANCH_NAME
+				 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
+				1=1
+				and tb1.BELONG_MONTH='201701'
+				and TRANSFER_ISPASS=1
+				and convert(varchar(7),TRANSFER_APP_TIME,120)='2017-01')
+
+				select
+				count(1) as CASE_COUNT,
+				sum(MORT_TOTAL_AMOUNT) as MORT_COM_AMOUNT,
+				MORT_FA_FIN_ORG_CODE,
+				MORT_FIN_BRANCH_NAME
+				 from tb as t
+				 where CASE_LOAN_REQ=1
+				 and MORT_FA_FIN_ORG_CODE is not null
+				 group by MORT_FA_FIN_ORG_CODE,MORT_FIN_BRANCH_NAME
+	            ]]>
+			</baseSql>
+			<orderBySql>
+				order by sum(MORT_TOTAL_AMOUNT) desc
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_COUNT" title="过户单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_FA_FIN_ORG_CODE" title="银行"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_FIN_BRANCH_NAME" title="银行名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryGuoHuForMortBranchBank" cacheResult="true">
+		<searchCondition>
+
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				with tb as(select
+				CASE_CODE
+				,CASE_LOAN_REQ
+				,CASE_CON_PRICE
+				,MORT_TYPE
+				,MORT_TOTAL_AMOUNT
+				,MORT_COM_AMOUNT
+				,MORT_PRF_AMOUNT
+				,MORT_FIN_ORG_CODE
+				,MORT_FA_FIN_ORG_CODE
+				,MORT_FIN_BRANCH_NAME
+				,MORT_FIN_SUB_BRANCH_NAME
+				,IS_RUWEI_BANK
+				 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
+				1=1
+				and tb1.BELONG_MONTH='201701'
+				and TRANSFER_ISPASS=1
+				and convert(varchar(7),TRANSFER_APP_TIME,120)='2017-01')
+				select
+				count(1) as CASE_COUNT,
+				sum(MORT_COM_AMOUNT) as MORT_COM_AMOUNT,
+				MORT_FIN_ORG_CODE as MORT_FIN_ORG_CODE,
+				MORT_FIN_SUB_BRANCH_NAME as MORT_FIN_SUB_BRANCH_NAME,
+				(select top(1) IS_RUWEI_BANK from tb as t1 where t1.MORT_FIN_ORG_CODE=t.MORT_FIN_ORG_CODE) as IS_RUWEI_BANK
+				 from tb as t
+				 where CASE_LOAN_REQ=1
+				and MORT_FIN_ORG_CODE is not null
+				group by MORT_FIN_ORG_CODE,MORT_FIN_SUB_BRANCH_NAME
+	            ]]>
+			</baseSql>
+			<orderBySql>
+				order by sum(MORT_TOTAL_AMOUNT) desc
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_COUNT" title="过户单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_FIN_ORG_CODE" title="支行"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_FIN_SUB_BRANCH_NAME" title="支行名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="IS_RUWEI_BANK" title="是否入围"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>
