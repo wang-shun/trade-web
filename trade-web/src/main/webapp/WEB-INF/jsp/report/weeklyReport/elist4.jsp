@@ -126,7 +126,7 @@ th, td {
 		function reloadGrid() {
 			var weekParamArr = window.parent.weekParam;
 			var data = {
-				queryId : "queryList4",
+				queryId : "queryWeeklyBaseInfoList4",
 				startWeekDay : weekParamArr[0],
 				endWeekDay : weekParamArr[1],
 				rows : 10,

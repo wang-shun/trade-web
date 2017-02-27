@@ -5,7 +5,7 @@
 	</dicts>
     <formatters>
 	</formatters>
-	<query id="queryList1" cacheResult="true">
+	<query id="queryWeeklyBaseInfoList1" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -68,7 +68,7 @@
 		</grid>
 	</query>
 	
-	<query id="queryList2" cacheResult="true">
+	<query id="queryWeeklyBaseInfoList2" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -122,7 +122,7 @@
 		</grid>
 	</query>
 	
-	<query id="queryList3" cacheResult="true">
+	<query id="queryWeeklyBaseInfoList3" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -168,7 +168,7 @@
 		</grid>
 	</query>
 	
-	<query id="queryList4" cacheResult="true">
+	<query id="queryWeeklyBaseInfoList4" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
