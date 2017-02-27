@@ -3,7 +3,7 @@ function initData(url,data,templateId,tbodyId) {
 			$.ajax({
 				async : true,
 				url : url,
-				method : "post",
+				method : "get",
 				dataType : "json",
 				data : data,
 				success : function(data) {

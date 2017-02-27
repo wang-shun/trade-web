@@ -37,20 +37,6 @@
                                     <a href="#" id="add"><em>&gt;</em></a>
                                 </p>
                                 <input type="hidden" value="${ctx}" id="ctx">
-                                 <p class="calendar-month">
-                                    <span value="1">1月</span>
-		                            <span value="2">2月</span>
-		                            <span value="3">3月</span>
-		                            <span value="4">4月</span>
-		                            <span value="5">5月</span>
-		                            <span value="6">6月</span>
-		                            <span value="7">7月</span>
-		                            <span value="8">8月</span>
-		                            <span value="9">9月</span>
-		                            <span value="10">10月</span>
-		                            <span value="11">11月</span>
-		                            <span value="12">12月</span>
-		                        </p>
                             </div>
                         </div>
 
@@ -91,10 +77,6 @@
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-        <!-- ECharts.js -->
-        <script src="${ctx }/static/js/echarts-all.js"></script>
-        <script src="${ctx}/js/eachartdata/elistdata.js"></script> 
         		<!-- block UI -->
 			<script src="${ctx}/js/jquery.blockui.min.js"></script>
 			<!-- 分页控件  -->
@@ -123,14 +105,12 @@
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
 		   	var year = window.parent.yearDisplay;
-	        var month_ = parseInt(window.parent.monthDisplay)+1;
-	        var month = month_ > 9 ? month_:("0"+month_)
 			var data = {
 				rows : 8,
 				page : 1
 				
 			};
-        	data.choiceMonth = year + "-" + month;
+        	data.choiceYear = year
 /*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
 			var url = ctx+"/js/eachartdata/loanloss.json"
 			initData(url,data,"template_table","tableTemplate");

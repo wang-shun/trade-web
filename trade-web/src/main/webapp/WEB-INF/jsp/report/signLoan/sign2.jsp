@@ -170,8 +170,7 @@
         	$("#districtId").change(function(item){
         		var parentId=$("#districtId").val();
         		getGroup(parentId,false,"orgId","group");
-        		var userId=$("#orgId").val();
-        		getGroup(userId,false,"userId","user");
+        		$("#userId").html("<option value='0'>请选择</option>");
         	})
         	$("#orgId").change(function(item){
         		var userId=$("#orgId").val();
@@ -213,14 +212,17 @@
   				page : 1,
   			};
   			var orgId="";
+  			var userId="";
   			if($("#districtId").val()!=0){
   				orgId=$("#districtId").val();
   			}else if($("#orgId").val()!=0){
   				orgId=$("#orgId").val();
   			}else if($("#userId").val()!=0){
-  				orgId=$("#userId").val();
+  				orgId="";
+  				userId=$("#userId").val();
   			}
   			data.orgId=orgId;
+  			data.userId=userId;
           	data.choiceMonth = year + "-" + month;
 /*               	data.belongMoth  = getBelongMonth(year + "-" + month); */
   			var url = ctx+"/js/eachartdata/loanloss.json"
