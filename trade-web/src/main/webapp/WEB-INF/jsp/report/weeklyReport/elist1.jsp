@@ -63,8 +63,8 @@ th,td {
 								<th>收单单数</th>
 								<th>总单数</th>
 								<th>单数流失率</th>
-								<th>11月流失率</th>
-								<th>12月流失率</th>
+								<th id="lastMonthTitle">11月流失率</th>
+								<th id="thisMonthTitle">12月流失率</th>
 								<th>流失金额</th>
 								<th>收单金额</th>
 								<th>总金额</th>
@@ -133,6 +133,11 @@ th,td {
 			}
 			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_loanLoseList","loanLoseList");
+			var yearStrPart = weekParamArr[1].substr(4,2);
+            var thisMonth = parseInt(yearStrPart);
+            var lastMonth = thisMonth - 1 == 0?12:thisMonth - 1;
+            $("#thisMonthTitle").text(thisMonth+"月流失率");
+            $("#lastMonthTitle").text(lastMonth+"月流失率");
 		}
 	</script>
 
