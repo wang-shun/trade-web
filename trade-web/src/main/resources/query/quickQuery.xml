@@ -207,4 +207,12 @@
 	
 	<!-- 变更记录列表 -->
 	<import resource="query/case/changeRecordListQuery.xml"/>
+	
+	<!-- 签约贷款报表统计模块开始 -->
+	
+	<!-- 按贵宾中心、组别、个人统计 -->
+	<import resource="query/report/signLoanDetailByGuibinQuery.xml"/>
+	
+	
+	<!-- 签约贷款报表统计模块结束 -->
 </queryConfig>

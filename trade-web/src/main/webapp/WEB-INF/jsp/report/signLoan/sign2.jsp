@@ -148,18 +148,18 @@
           {{each rows as item index}}
 		    <tr>
               <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.lossRate}}%</td>
-              <td>{{item.oldMonthLossRate}}%</td>
-              <td>{{item.monthLossRate}}%</td>
-              <td>{{item.lossAmount}}</td>
-              <td>{{item.successAmount}}</td>
-              <td>{{item.totalAmount}}</td>
-              <td>{{item.AmountLossRate}}%</td>
-              <td>{{item.MonthAmountLossRate}}%</td>
-              <td>{{item.MonthAmountLossRate}}%</td>
+              <td>{{item.slCount}}</td>
+              <td>{{item.qyCount}}</td>
+              <td>{{item.sdCount}}</td>
+              <td>{{item.zbCount}}</td>
+              <td>{{item.gjjCount}}</td>
+              <td>{{item.ghCount}}</td>
+              <td>{{item.pgfRate}}%</td>
+              <td>{{item.pgfAmount}}</td>
+              <td>{{item.eCardCount}}</td>
+              <td>{{item.eCardAmount}}</td>
+              <td>{{item.eProCount}}</td>
+              <td>{{item.eProAmount}}</td>
              </tr>
 		{{/each}}
 	    </script>     
@@ -212,17 +212,25 @@
   				rows : 8,
   				page : 1,
   			};
-  			var orgId="";
+  			var condition="district";
   			if($("#districtId").val()!=0){
-  				orgId=$("#districtId").val();
-  			}else if($("#orgId").val()!=0){
-  				orgId=$("#orgId").val();
-  			}else if($("#userId").val()!=0){
-  				orgId=$("#userId").val();
+  				condition="team";
   			}
-  			data.orgId=orgId;
-          	data.choiceMonth = year + "-" + month;
-  			var url = ctx+"/js/eachartdata/loanloss.json"
+  			
+  			if($("#orgId").val()!=0){
+  				condition="consultant";
+  			}
+  			
+  			if($("#userId").val()!=0){
+  				condition="consultant";
+  			}
+  			
+  			console.log("condition:" + condition);
+  			data.condition = condition;
+          	data.searchDateTime = year + "-" + month;
+          	data.searchBelongMonth = year + month;
+          	data.queryId = "signLoanDetailByGuibinQuery";
+  			var url = ctx+"/quickGrid/findPage";
   			initData(url,data,"template_table","tableTemplate");
   		}
         </script>
