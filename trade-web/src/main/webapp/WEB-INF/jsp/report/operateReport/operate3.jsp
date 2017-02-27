@@ -10,11 +10,6 @@
         <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
         <link href="${ctx}/static/css/animate.css" rel="stylesheet"/>
         <link href="${ctx}/static/css/style.css" rel="stylesheet"/>
-		<!-- 分页控件 -->
-		<!-- jQuery UI -->
-			<link rel="stylesheet" href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" />
-		<link rel="stylesheet" href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
-		<link rel="stylesheet" href="${ctx}/static/trans/css/property/popmac.css" />
         <!-- index_css -->
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
@@ -44,14 +39,19 @@
                         <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                             <thead>
                                 <tr>
-                                    <th>类型</th>
-                                    <th>单数</th>
-                                    <th>占比</th>
-                                    <th>合同价</th>
-                                    <th>商贷金额</th>
-                                    <th>公积金金额</th>
-                                    <th>商贷金额占比</th>
-                                    <th>公积金金额占比</th>
+                                    <th>签约贷款数据</th>
+                                    <th>1月</th>
+                                    <th>2月</th>
+                                    <th>3月</th>
+                                    <th>4月</th>
+                                    <th>5月</th>
+                                    <th>6月</th>
+                                    <th>7月</th>
+                                    <th>8月</th>
+                                    <th>9月</th>
+                                    <th>10月</th>
+                                    <th>11月</th>
+                                    <th>12月</th>
                                 </tr>
                             </thead>
                             <tbody id="tableTemplate">
@@ -77,30 +77,6 @@
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-        		<!-- block UI -->
-			<script src="${ctx}/js/jquery.blockui.min.js"></script>
-			<!-- 分页控件  -->
-			   <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-			<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
-			<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
-			<!-- 排序插件 -->
-			<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-				<!-- 个人js -->
-			<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
-			<script id="template_table" type="text/html">
-          {{each rows as item index}}
-		    <tr>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-             </tr>
-		{{/each}}
-	    </script>     
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
@@ -110,10 +86,54 @@
 				page : 1
 				
 			};
-        	data.choiceYear = year
-/*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
-			var url = ctx+"/js/eachartdata/loanloss.json"
-			initData(url,data,"template_table","tableTemplate");
+			data.choiceYear = year;
+			var url = ctx + "/js/eachartdata/loanloss.json"
+			$.ajax({
+				async : true,
+				url : url,
+				method : "get",
+				dataType : "json",
+				data : data,
+				success : function(data) {
+					if (data == null || data == undefined) {
+						window.parent.wxc.alert("数据加载失败！");
+						return;
+					}
+					var title = [
+					             "派单量",
+					             "签约量（买卖）",
+					             "过户量",
+					            " 商贷签约量",
+					            " 公积金签约量",
+					            " 商贷案件占比",
+					             "纯公积金案件占比",
+					             "签贷合同价",
+					             "商贷金额",
+					             "公积金金额",
+					             "商贷金额占比",
+					             "公积金金额占比"
+ ];
+					var trHtml = "";
+					$.each(data.rows, function(i, item) {
+						trHtml += "<tr><td>" + title[i] + "</td>"
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.lossCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "</tr>";
+
+					})
+					$("#tableTemplate").html(trHtml);
+				}
+			})
 		}
 	</script>
     </body>
