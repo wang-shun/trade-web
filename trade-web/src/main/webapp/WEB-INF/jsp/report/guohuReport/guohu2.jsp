@@ -124,21 +124,21 @@
 	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
 	<script id="template_table" type="text/html">
           {{each rows as item index}}
-		    <tr>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.lossRate}}%</td>
-              <td>{{item.oldMonthLossRate}}%</td>
-              <td>{{item.monthLossRate}}%</td>
-              <td>{{item.lossAmount}}</td>
-              <td>{{item.successAmount}}</td>
-              <td>{{item.totalAmount}}</td>
-              <td>{{item.AmountLossRate}}%</td>
-              <td>{{item.MonthAmountLossRate}}%</td>
-              <td>{{item.MonthAmountLossRate}}%</td>
-             </tr>
+		  <tr>
+			  <td>{{item.CASE_PART}}</td>
+			  <td>{{item.MORT_COM_COUNT}}</td>
+			  <td>{{item.MORT_COM_AMOUNT}}</td>
+			  <td>{{item.CASE_CON_PRICE}}</td>
+			  <td>{{item.LOST_COUNT}}</td>
+			  <td>{{item.CASE_LOST_COUNT_PERCENT}}</td>
+			  <td>{{item.LOST_AMOUNT}}</td>
+			  <td>{{item.CASE_LOST_AMOUNT_PERCENT}}</td>
+			  <td>{{item.PING_GU_COUNT_PERCENT}}</td>
+			  <td>{{item.EVA_FEE}}</td>
+			  <td>{{item.E_COUNT_PERCENT}}</td>
+			  <td>{{item.CARD_COUNT_PERCENT}}</td>
+			  <td>{{item.E_AMOUNT_PERCENT}}</td>
+		  </tr>
 		{{/each}}
 	    </script>
 	<script type="text/javascript">
@@ -152,12 +152,15 @@
   				rows : 8,
   				page : 1,
   			};
+			data.pagination=false
   			data.teamId=$("#orgId").val();
   			data.districtId=$("#districtId").val();
   		/* 	data.userId=$("#userId").val(); */
-  		      data.produceType=type;
+			data.produceType=type;
+			data.queryId='queryGuoHuForMortConsultant';
           	data.choiceMonth = year + "-" + month;
-  			var url = ctx+"/js/eachartdata/loanloss.json"
+			data.belongMonth =getBelongMonth(data.choiceMonth);
+			var url = ctx+"/quickGrid/findPage";
   			initData(url,data,"template_table","tableTemplate");
   		} var ctx=$("#ctx").val();
         $(function(){
@@ -166,7 +169,7 @@
         		var parentId=$("#districtId").val();
         		getGroup(parentId,false,"orgId","group");
         		$("#userId").html("<option value=''>请选择</option>");
-        		type="disreict";
+        		type="district";
         	})
         	$("#orgId").change(function(item){
          /* var userId=$("#orgId").val();
@@ -198,8 +201,23 @@
                   },
                   error:function(){}
               });
-
         }
+		//得到数据快照月份
+		function getBelongMonth(choiceMonth){
+			var minBelongMoth = 201701;
+			if(!choiceMonth){
+				return minBelongMoth
+			}
+			try{
+				var belongMoth = parseInt(replace(choiceMonth,'-',''))
+				if(belongMoth<minBelongMoth){
+					belongMoth =  minBelongMoth
+				}
+				return belongMoth;
+			}catch(e){
+				return minBelongMoth
+			}
+		}
 	</script>
 </body>
 </html>

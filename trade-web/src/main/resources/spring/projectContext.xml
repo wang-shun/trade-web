@@ -616,10 +616,27 @@
     <bean name="qqGetLostCountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
         <property name="dictType" value="qqGetLostCountPercent"></property>
     </bean>
+    <!-- 计算金额流失率 -->
+    <bean name="qqGetLostAmountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetLostAmountPercent"></property>
+    </bean>
+    <!-- 计算评估率 -->
+    <bean name="qqGetPingGuCountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetPingGuCountPercent"></property>
+    </bean>
     <!-- 计算E卡转换率 -->
     <bean name="qqGetECountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
         <property name="dictType" value="qqGetECountPercent"></property>
     </bean>
+    <!-- 刷卡率 -->
+    <bean name="qqGetCardCountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetCardCountPercent"></property>
+    </bean>
+    <!-- E转化率金额 -->
+    <bean name="qqGetEAMountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetEAMountPercent"></property>
+    </bean>
+
 
 <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>
