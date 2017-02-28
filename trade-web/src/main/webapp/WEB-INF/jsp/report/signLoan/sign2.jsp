@@ -65,9 +65,6 @@
 							</div>
 						</div>
 					</div>
-
-<<<<<<< HEAD
-                        <!-- table -->
                         <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                             <thead>
                                 <tr>
@@ -99,57 +96,6 @@
             </div>
         </div>
         <!--*********************** HTML_main*********************** -->
-=======
-					<!-- table -->
-					<table
-						class="table table_blue  table-striped table-bordered table-hover customerinfo">
-						<thead>
-							<tr>
-								<th rowspan="2">组别</th>
-								<th rowspan="2">受理量</th>
-								<th rowspan="2">签约量</th>
-								<th rowspan="2">商贷办理量</th>
-								<th rowspan="2">客户自办量</th>
-								<th rowspan="2">公积金量</th>
-								<th rowspan="2">过户量</th>
-								<th rowspan="2">评估转化率</th>
-								<th rowspan="2">评估实收</th>
-								<th colspan="2">E+申请量（卡）</th>
-								<th colspan="2">E+申请量（贷款）</th>
-
-							</tr>
-							<tr>
-								<th>申请单数</th>
-								<th>申请金额</th>
-								<th>申请单数</th>
-								<th>申请金额</th>
-							</tr>
-						</thead>
-						<tbody id="tableTemplate">
-							<tr>
-								<td>A</td>
-								<td>12</td>
-								<td>4</td>
-								<td>33</td>
-								<td>38</td>
-								<td>35</td>
-								<td>63</td>
-								<td>19%</td>
-								<td>270</td>
-								<td>19</td>
-								<td>27</td>
-								<td>19</td>
-								<td>27</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--*********************** HTML_main*********************** -->
->>>>>>> 103173ae1b17b12c00a52804d4726f4476d26cd9
-
 	<script src="${ctx}/js/jquery-2.1.1.js"></script>
 	<script src="${ctx}/js/bootstrap.min.js"></script>
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
