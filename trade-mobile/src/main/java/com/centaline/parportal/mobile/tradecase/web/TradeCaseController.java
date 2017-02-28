@@ -65,12 +65,12 @@ public class TradeCaseController {
 
 		Map<String, Object> paramMap = gp.getParamtMap();
 		paramMap.put("q_text", q_text);
-		if (onlyFocus) {
+		if (null != onlyFocus && onlyFocus) {
 			paramMap.put("onlyFocus", onlyFocus);
 		}
 		paramMap.put("status", status);
 		paramMap.put("property", property);
-		if (onlyLoanLostAlert) {
+		if (null != onlyLoanLostAlert && onlyLoanLostAlert) {
 			paramMap.put("onlyLoanLostAlert", onlyLoanLostAlert);
 		}
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
