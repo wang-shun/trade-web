@@ -4,6 +4,8 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,8 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
 import com.centaline.trans.common.enums.TransDictEnum;
+import com.centaline.trans.common.service.ToModuleSubscribeService;
+import com.centaline.trans.common.vo.ToModuleSubscribeVo;
 
 @RestController
 @RequestMapping(value = "/tradeCase")
@@ -42,6 +46,9 @@ public class TradeCaseController {
 
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	
+    @Resource
+    private ToModuleSubscribeService toModuleSubscribeService;
 	
 	@RequestMapping(value = "list")
 	@ResponseBody
@@ -273,5 +280,22 @@ public class TradeCaseController {
 
 		return Pages2JSONMoblie.pages2JsonMoblie(pages);
 	}
-
+	
+	
+	@RequestMapping(value = "{caseCode}/focus")
+	@ResponseBody
+	public String focus( @PathVariable("caseCode") String caseCode,
+			@RequestParam(required = true)Boolean action){
+		SessionUser user = sessionService.getSessionUser();
+		ToModuleSubscribeVo vo = new ToModuleSubscribeVo();
+		vo.setModuleCode(caseCode);
+		vo.setSubscriberId(user.getId());
+		vo.setSubscribeType("2001");
+		vo.setModuleType("1001");
+		vo.setIsSubscribe(action);
+        toModuleSubscribeService.saveOrDeleteCaseSubscribe(vo);
+        JSONObject jo = new JSONObject();
+        jo.put("success", true);
+        return jo.toJSONString();
+	}
 }
