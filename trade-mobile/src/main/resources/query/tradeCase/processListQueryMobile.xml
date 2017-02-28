@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
+	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+	</formatters>
 	<query id="getProcessListMobile" cacheCount="true">
 		<searchSql>
 			<baseSql>
@@ -9,7 +16,7 @@
 					finishTime ,
 					todoTime ,
 					
-					avatarUrl ,
+					avatarUrl+'.jpj' avatarUrl,
 					comments,
 					prdType,
 					srvCode,
@@ -23,9 +30,9 @@
 		<grid>
 			<table-row>
 				<column type="both" name="status" />
-				<column type="both" name="createTime" />
+				<column type="both" name="createTime" beanFormatter="dateFormatter" />
 				<column type="both" name="createBy" />
-				<column type="both" name="finishTime" />
+				<column type="both" name="finishTime" beanFormatter="dateFormatter"/>
 				<column type="both" name="todoTime" />
 				
 				<column type="both" name="avatarUrl" />
