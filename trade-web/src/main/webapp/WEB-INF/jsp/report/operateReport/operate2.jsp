@@ -7,7 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>评估转化率</title>
 <link href="${ctx }/static/css/bootstrap.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet"
+	href="${ctx}/static/font-awesome/css/font-awesome.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 <link rel="stylesheet" href="${ctx}/static/css/animate.css" />
 <link rel="stylesheet" href="${ctx}/static/css/style.css" />
@@ -17,14 +18,6 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx }/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx }/static/trans/css/common/btn.css" />
-<!-- 分页控件 -->
-<!-- jQuery UI -->
-<link rel="stylesheet"
-	href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" />
-<link rel="stylesheet"
-	href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
-<link rel="stylesheet"
-	href="${ctx}/static/trans/css/property/popmac.css" />
 <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
 </head>
 <body style="background-color: #fff;">
@@ -41,9 +34,6 @@
 								<a href="#" id="subtract"><em>&lt;</em></a> <span>2016年11月</span>
 								<a href="#" id="add"><em>&gt;</em></a>
 							</p>
-							<p class="calendar-month">
-								<span>29-05</span><span>06-13</span><span>14-21</span><span>22-29</span>
-							</p>
 						</div>
 					</div>
 
@@ -52,18 +42,22 @@
 						class="table table_blue  table-striped table-bordered table-hover customerinfo">
 						<thead>
 							<tr>
-								<th>主管组别</th>
-								<th>收单案件总量</th>
-								<th>有评估费单数</th>
-								<th>评估转化率</th>
-								<th>本月累计</th>
-								<th>评估费应收（元）</th>
-								<th>评估费实收（元）</th>
-								<th>收益率</th>
-								<th>本月累计</th>
+								<th>过户数据</th>
+								<th>1月</th>
+								<th>2月</th>
+								<th>3月</th>
+								<th>4月</th>
+								<th>5月</th>
+								<th>6月</th>
+								<th>7月</th>
+								<th>8月</th>
+								<th>9月</th>
+								<th>10月</th>
+								<th>11月</th>
+								<th>12月</th>
 							</tr>
 						</thead>
-						<tbody id="assessmentList">
+						<tbody id="tableTemplate">
 							<tr>
 								<td>宝山贵宾A组</td>
 								<td>12</td>
@@ -79,9 +73,10 @@
 					</table>
 					<div class="text-center">
 						<span id="currentTotalPage"><strong class="bold"></strong></span>
-						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-				    </div>
+						<span class="ml15">共<strong class="bold" id="totalP"></strong>条
+						</span>&nbsp;
+						<div id="pageBar" class="pagination my-pagination text-center m0"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -91,45 +86,55 @@
 	<!-- Mainly scripts -->
 	<script src="${ctx }/js/jquery-2.1.1.js"></script>
 	<script src="${ctx }/js/bootstrap.min.js"></script>
-	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-		<!-- block UI -->
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	<!-- 分页控件  -->
-    <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
-	<!-- 排序插件 -->
-	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-		<!-- 个人js -->
-	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
-	<script id="template_assessmentList" type="text/html">
-          {{each rows as item index}}
-		    <tr>
-              <td>宝山贵宾A组</td>
-              <td>1</td>
-              <td>12</td>
-              <td>13</td>
-              <td>8%</td>
-              <td>11%</td>
-              <td>11%</td>
-              <td>57</td>
-              <td>1282</td>
-              <td>1339</td>
-             </tr>
-		{{/each}}
-	    </script>
+	<script
+		src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
-			var week = window.parent.week.split("至");
+			var year = window.parent.yearDisplay;
 			var data = {
-				startTime : week[0],
-				endTime : week[1],
-				rows : 10,
-				page : 1,
-				queryId : "queryDistrict"
-			}
-			initData(data,"template_assessmentList","assessmentList");
+				rows : 8,
+				page : 1
+
+			};
+			data.choiceYear = year;
+			var url = ctx + "/js/eachartdata/loanloss.json"
+			$.ajax({
+				async : true,
+				url : url,
+				method : "get",
+				dataType : "json",
+				data : data,
+				success : function(data) {
+					if (data == null || data == undefined) {
+						window.parent.wxc.alert("数据加载失败！");
+						return;
+					}
+					var title = [ "无贷款单数", "公积金单数", "商贷单数", "商贷单数占比", "过户房价",
+							"商贷金额", "公积金金额", "杠杆率", "有商贷案件房价", "贷款金额占比",
+							"商贷收单（商贷）", "流失单数（商贷）", "单数流失率（商贷）", "收单金额（商贷）",
+							"流失金额（商贷）", "金额流失率（商贷）" ];
+					var trHtml = "";
+					$.each(data.rows, function(i, item) {
+						trHtml += "<tr><td>" + title[i] + "</td>"
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.lossCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "<td>" + item.successCount + "</td>";
+						trHtml += "</tr>";
+
+					})
+					$("#tableTemplate").html(trHtml);
+				}
+			})
 		}
 	</script>
 </body>

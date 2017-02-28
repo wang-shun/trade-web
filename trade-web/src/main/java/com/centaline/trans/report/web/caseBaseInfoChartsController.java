@@ -251,4 +251,41 @@ public class caseBaseInfoChartsController {
 		request.setAttribute("ctx", ctx);
 		return "report/guohuReport/guohu4";
 	}
+	/***
+	 * 运用大数据统计报表
+	 */
+	@RequestMapping(value = "OperateData")
+	public String guoOperate(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/operateReport/operateData";
+		
+	}
+	@RequestMapping(value = "operate1")
+	public String operate1(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		request.setAttribute("serviceDepId", "1D29BB468F504774ACE653B946A393EE");
+		
+		return "report/operateReport/operate1";	
+	}
+	@RequestMapping(value = "operate2")
+	public String operate2(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		request.setAttribute("serviceDepId", "1D29BB468F504774ACE653B946A393EE");
+		
+		return "report/operateReport/operate2";	
+	}
+	
+	@RequestMapping(value = "operate3")
+	public String operate3(Model model, ServletRequest request){
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		return "report/operateReport/operate3";
+	}
 }

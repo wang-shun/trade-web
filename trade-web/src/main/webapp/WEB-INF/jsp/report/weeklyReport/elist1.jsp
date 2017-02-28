@@ -18,13 +18,8 @@
 <link rel="stylesheet" href="${ctx }/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx }/static/trans/css/common/btn.css" />
 <!-- 分页控件 -->
-<!-- jQuery UI -->
-<link rel="stylesheet"
-	href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" />
 <link rel="stylesheet"
 	href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
-<link rel="stylesheet"
-	href="${ctx}/static/trans/css/property/popmac.css" />
 <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
 <style type="text/css">
 th,td {
@@ -63,8 +58,8 @@ th,td {
 								<th>收单单数</th>
 								<th>总单数</th>
 								<th>单数流失率</th>
-								<th>11月流失率</th>
-								<th>12月流失率</th>
+								<th id="lastMonthTitle">11月流失率</th>
+								<th id="thisMonthTitle">12月流失率</th>
 								<th>流失金额</th>
 								<th>收单金额</th>
 								<th>总金额</th>
@@ -91,8 +86,6 @@ th,td {
 	<script src="${ctx }/js/jquery-2.1.1.js"></script>
 	<script src="${ctx }/js/bootstrap.min.js"></script>
 	<script rc="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-		<!-- block UI -->
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	<!-- 分页控件  -->
     <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
@@ -125,7 +118,7 @@ th,td {
 		function reloadGrid() {
 			var weekParamArr = window.parent.weekParam;
 			var data = {
-				queryId : "queryList1",
+				queryId : "queryWeeklyBaseInfoList1",
 				startWeekDay : weekParamArr[0],
 				endWeekDay : weekParamArr[1],
 				rows : 10,
@@ -133,6 +126,11 @@ th,td {
 			}
 			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_loanLoseList","loanLoseList");
+            var yearStrPart = weekParamArr[1].substr(4,2);
+            var thisMonth = parseInt(yearStrPart);
+            var lastMonth = thisMonth - 1 == 0?12:thisMonth - 1;
+            $("#thisMonthTitle").text(thisMonth+"月流失率");
+            $("#lastMonthTitle").text(lastMonth+"月流失率");
 		}
 	</script>
 

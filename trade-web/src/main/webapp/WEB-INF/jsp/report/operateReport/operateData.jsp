@@ -41,13 +41,13 @@
 
 <div id="fullpage">
     <div class="section " id="section0">
-        <iframe id="iframe1" src="${ctx}/report/opreate1" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+        <iframe id="iframe1" src="${ctx}/report/operate1" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
     <div  class="section" id="section1">
-        <iframe id="iframe2" src="${ctx}/report/opreate2" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+        <iframe id="iframe2" src="${ctx}/report/operate2" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
     <div class="section" id="section2">
-        <iframe id="iframe3" src="${ctx}/report/opreate3" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
+        <iframe id="iframe3" src="${ctx}/report/operate3" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
 </div>
 <script src="${ctx}/js/jquery-2.1.1.js"></script>
@@ -89,19 +89,8 @@ function reRenderChart(item) {
 	//改变按钮样式
 	changeBtnClass(item);
 	//初始化
-		$(item.contentWindow.document).find(".calendar-month span:eq("+monthDisplay+")").addClass("select-blue").siblings().removeClass("select-blue");
 	item.contentWindow.reloadGrid();      
 	//点击变换颜色&&默认当前月份
-	//$(item.contentWindow.document).find(".calendar-month span:eq("+monthDisplay+")").addClass("select-blue").siblings().removeClass("select-blue");
-	var $month_list = $(item.contentWindow.document).find(".calendar-month span");  
-	$month_list.on("click",function() {
-		if($(this).hasClass("disabled")){
-			return false;
-		}
-		monthDisplay = parseInt($(this).attr("value")) - 1;
-		$(this).addClass("select-blue").siblings().removeClass("select-blue");
-		item.contentWindow.reloadGrid();
-	});
 }
 
 function changeBtnClass(item){
@@ -109,15 +98,9 @@ function changeBtnClass(item){
     //年份置灰
 	if(yearDisplay == yearLast){
 		$(item.contentWindow.document).find("#add em").addClass("disabled");
-		$(item.contentWindow.document).find(".calendar-month span:gt("+monthLast+")").addClass("disabled");
 	}else{
 		$(item.contentWindow.document).find("#add em").removeClass("disabled");
-		$(item.contentWindow.document).find(".calendar-month span:gt("+monthLast+")").removeClass("disabled");
 	}
-    //月份置灰
-    if(yearDisplay == yearLast && monthDisplay == monthLast){
-    	$(item.contentWindow.document).find(".calendar-month span:gt("+monthLast+")").removeClass("disabled").addClass("disabled");
-    }
 }
 </script>
 </body>

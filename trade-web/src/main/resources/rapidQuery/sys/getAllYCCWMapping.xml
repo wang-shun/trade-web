@@ -20,8 +20,9 @@
 		 SELECT users.ID as id ,users.REAL_NAME as name FROM sctrans.SYS_USER users
 		 <where>
 			  <trim prefix="and" prefixOverrides="and|or">
+			  users.is_deleted=0
 			   <if test="#parentId !=null and #parentId != ''">
-				users.ORG_ID=#{parentId}
+			  and users.ORG_ID=#{parentId}
 			  </if>
 			  <if test="#gb=='true'" >
 			  and users.ORG_NAME like '%贵宾服务部%'
@@ -33,8 +34,9 @@
            SELECT so.ID as id ,so.ORG_NAME as name FROM sctrans.SYS_ORG so
 			<where>
 			  <trim prefix="and" prefixOverrides="and|or">
+			  so.is_deleted=0
 			   <if test="#parentId !=null and #parentId != ''">
-				so.PARENT_ID=#{parentId}
+			   and so.PARENT_ID=#{parentId}
 			  </if>
 			  <if test="#gb=='true'" >
 			  and so.ORG_NAME like '%贵宾服务部%'
@@ -53,9 +55,9 @@
 		<searchScript>
 		<if test="#jobCode!='JQYDS'">
 		 with o as(
-			    select p.id,p.parent_id from sctrans.sys_org p where p.id =#{orgId}
+			    select p.id,p.parent_id from sctrans.sys_org p where p.id =#{orgId} and p.is_deleted=0
 			    union all
-			    select c.id,c.parent_id from o inner join sctrans.sys_org c on c.parent_id = o.id
+			    select c.id,c.parent_id from o inner join sctrans.sys_org c on c.parent_id = o.id and c.is_deleted=0
 			) 
 		</if>
 			SELECT uoj.user_id,uoj.org_id, org.org_name,uoj.job_id,uoj.job_name,uoj.real_name FROM sctrans.v_user_org_job uoj 
@@ -84,8 +86,9 @@
             select id as org_id,org_name from sctrans.sys_org
 			<where>
 			 <trim prefix="and" prefixOverrides="and|or">
+			    is_deleted=0
 				<if test="#parentId !=null and #parentId != ''">
-				 parent_id=#{parentId}
+				and parent_id=#{parentId}
 				</if>
 			   </trim>
 			</where>
