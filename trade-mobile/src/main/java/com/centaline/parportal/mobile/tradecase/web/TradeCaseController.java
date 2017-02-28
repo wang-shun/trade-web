@@ -55,7 +55,7 @@ public class TradeCaseController {
 	@ResponseBody
 	public String list(@RequestParam(required = true) Integer page,
 			@RequestParam(required = true) Integer pageSize, Integer property, Integer status, Boolean onlyFocus,
-			Integer onlyLoanLostAlert, String q_text) {
+			Boolean onlyLoanLostAlert, String q_text) {
 		SessionUser user = sessionService.getSessionUser();
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("queryTradeCastListMoblie");
@@ -64,11 +64,14 @@ public class TradeCaseController {
 
 		Map<String, Object> paramMap = gp.getParamtMap();
 		paramMap.put("q_text", q_text);
-		paramMap.put("onlyFocus", onlyFocus);
-
+		if (onlyFocus) {
+			paramMap.put("onlyFocus", onlyFocus);
+		}
 		paramMap.put("status", status);
 		paramMap.put("property", property);
-
+		if (onlyLoanLostAlert) {
+			paramMap.put("onlyLoanLostAlert", onlyLoanLostAlert);
+		}
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
 		for (Map<String, Object> map : list) {
