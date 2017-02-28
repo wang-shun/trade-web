@@ -15,6 +15,10 @@ CREATE TABLE [sctrans].[T_RPT_HISTORY_CASE_BASE_INFO](
 	[CASE_ORG_ID_B] [varchar](64) NULL,--案件主办OrgId[后台组]
 	[CASE_ORG_NAME_B] [varchar](64) NULL,--案件主办组名称[后台组]
 
+	[CASE_REAL_PLS_TIME] [datetime] NULL,--案件查限购时间
+	[CASE_PRICING_TIME] [datetime] NULL,--案件核价时间
+	[CASE_TAX_TIME] [datetime] NULL,--案件审税时间
+	[CASE_REAL_PROPERTY_GET_TIME] [datetime] NULL,--案件领证时间
 
 
 	[CASE_DISTRICT_ID] [varchar](64) NULL,--贵宾服务部ID
