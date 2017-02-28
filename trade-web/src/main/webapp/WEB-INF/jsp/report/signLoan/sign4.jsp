@@ -61,24 +61,14 @@
                                     <th>类型</th>
                                     <th>单数</th>
                                     <th>占比</th>
-                                    <th>合同价</th>
-                                    <th>商贷金额</th>
-                                    <th>公积金金额</th>
+                                    <th>合同价(万元)</th>
+                                    <th>商贷金额(万元)</th>
+                                    <th>公积金金额(万元)</th>
                                     <th>商贷金额占比</th>
                                     <th>公积金金额占比</th>
                                 </tr>
                             </thead>
                             <tbody id="tableTemplate">
-                                <tr>
-                                    <td>纯商</td>
-                                    <td>12</td>
-                                    <td>4%</td>
-                                    <td>33</td>
-                                    <td>38</td>
-                                    <td>35</td>
-                                    <td>63</td>
-                                    <td>19%</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -108,16 +98,43 @@
 			<script id="template_table" type="text/html">
           {{each rows as item index}}
 		    <tr>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
+              <td>
+				{{if item.groupName == '30016001'}} 纯商  {{/if}}
+				{{if item.groupName == '30016002'}} 组合 {{/if}}
+				{{if item.groupName == '30016003'}} 纯公积 {{/if}}
+			  </td>
+              <td>{{item.caseCount}}</td>
+              <td>{{item.caseCountRate}}%</td>
+              <td>{{item.htAmount}}</td>
+              <td>{{item.sdAmount}}</td>
+              <td>{{item.gjjAmount}}</td>
+              <td>{{item.sdAmountRate}}%</td>
+              <td>{{item.gjjAmountRate}}%</td>
              </tr>
 		{{/each}}
+		{{if rows.length > 0}}
+			<tr>
+              <td>总计</td>
+              <td>{{rows[rows.length-1].tatalCaseCount}}</td>
+              <td>{{rows[rows.length-1].totalCaseCountRate}}%</td>
+              <td>{{rows[rows.length-1].totalHtAmount}}</td>
+              <td>{{rows[rows.length-1].totalSdAmount}}</td>
+              <td>{{rows[rows.length-1].totalGjjAmount}}</td>
+              <td>{{rows[rows.length-1].totalSdAmountRate}}%</td>
+              <td>{{rows[rows.length-1].totalGjjAmountRate}}%</td>
+             </tr>
+		{{else}}
+			 <tr>
+              <td>总计</td>
+              <td>0</td>
+              <td>0%</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0%</td>
+              <td>0%</td>
+             </tr>
+		{{/if}}
 	    </script>     
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
@@ -130,9 +147,11 @@
 				page : 1
 				
 			};
-        	data.choiceMonth = year + "-" + month;
-/*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
-			var url = ctx+"/js/eachartdata/loanloss.json"
+	        
+	        data.searchDateTime = year + "-" + month;
+          	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
+          	data.queryId = "signLoanQuery";
+  			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate");
 		}
 	</script>

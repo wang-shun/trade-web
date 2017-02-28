@@ -98,33 +98,18 @@
                                     <th rowspan="2">公积金量</th>
                                     <th rowspan="2">过户量</th>
                                     <th rowspan="2">评估转化率</th>
-                                    <th rowspan="2">评估实收</th>
+                                    <th rowspan="2">评估实收(万元)</th>
                                     <th colspan="2">E+申请量（卡）</th>
                                     <th colspan="2">E+申请量（贷款）</th>
                                 </tr>
                                 <tr>
                                   <th>申请单数</th>
-                                  <th>申请金额</th>
+                                  <th>申请金额(万元)</th>
                                   <th>申请单数</th>
-                                  <th>申请金额</th>
+                                  <th>申请金额(万元)</th>
                                 </tr>
                             </thead>
                             <tbody id="tableTemplate">
-                                <tr>
-                                    <td>A</td>
-                                    <td>12</td>
-                                    <td>4</td>
-                                    <td>33</td>
-                                    <td>38</td>
-                                    <td>35</td>
-                                    <td>63</td>
-                                    <td>19%</td>
-                                    <td>270</td>
-                                    <td>19</td>
-                                    <td>27</td>
-                                    <td>19</td>
-                                    <td>27</td>
-                                </tr>
 
                             </tbody>
                         </table>
@@ -152,18 +137,18 @@
           {{each rows as item index}}
 		    <tr>
               <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.groupName}}</td>
+              <td>{{item.slCount}}</td>
+              <td>{{item.qyCount}}</td>
+              <td>{{item.sdCount}}</td>
+              <td>{{item.zbCount}}</td>
+              <td>{{item.gjjCount}}</td>
+              <td>{{item.ghCount}}</td>
+              <td>{{item.pgfRate}}%</td>
+              <td>{{item.pgfAmount}}</td>
+              <td>{{item.eCardCount}}</td>
+              <td>{{item.eCardAmount}}</td>
+              <td>{{item.eProCount}}</td>
+              <td>{{item.eProAmount}}</td>
              </tr>
 		{{/each}}
 	    </script>     
@@ -177,27 +162,39 @@
 				rows : 8,
 				page : 1
 			};
-	        var userId="";
-	        var orgId="";
+	        
+	        var condition = "init";
 	        if($("#dsId").val()!=0){
+	        	condition = "qudong";
+	        	data.condition_qudongId = $("#dsId").val();
 	        	userId=$("#dsId").val();
 	        }
-			 if($("#zjId").val()!=0){
+	        
+			if($("#zjId").val()!=0){
+				 condition = "director";
+				 data.condition_directorId = $("#zjId").val();
 				 userId=$("#zjId").val();      	
-				        }
-			 if($("#jlId").val()!=0){
-				 userId=$("#jlId").val();
-			 }
-			 if($("#fhId").val()!=0){
-				 userId="";
+			}
+			 
+			if($("#jlId").val()!=0){
+				condition = "qyManager";
+				data.condition_qyManagerId = $("#jlId").val();
+				userId=$("#jlId").val();
+			}
+			
+			if($("#fhId").val()!=0){
+				 condition = "fhManager";
+				 data.condition_fhManagerId = $("#fhId").val();
 				 orgId=$("#fhId").val();
 			 }
-			 data.userId=userId;
-			 data.orgId=orgId;
-        	data.choiceMonth = year + "-" + month;
-/*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
-			var url = ctx+"/js/eachartdata/loanloss.json"
-			initData(url,data,"template_table","tableTemplate");
+			 
+			 data.condition = condition;
+			 data.searchDateTime = year + "-" + month;
+	         data.searchBelongMonth = year + month;
+	         data.queryId = "signLoanDetailByQudongQuery";
+	         
+	  		 var url = ctx+"/quickGrid/findPage";
+			 initData(url,data,"template_table","tableTemplate");
 		}
 		 $(function(){
 	        	getGroup("1D29BB468F504774ACE653B946A393EE","JQYDS","dsId");

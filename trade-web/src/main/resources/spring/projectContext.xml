@@ -592,7 +592,16 @@
     <bean name="getGlCaseCount" class="com.centaline.trans.common.service.impl.QuickQueryGetGlCaseCountServiceImpl"> 
     </bean>	
     
-    <!-- 计算评估费转化率 -->
+    <!-- 签约贷款模块中贵宾中心、组别、个人中统计评估费转化率 -->
     <bean name="calPgfRate" class="com.centaline.trans.common.service.impl.QuickQueryCalPgfRateServiceImpl"></bean>	
+    
+    <!-- 签约贷款模块中签贷款数据统计中计算占比、商贷金额占比、公积金金额占比以及总计 -->
+    <bean name="calRate" class="com.centaline.trans.common.service.impl.QuickQueryCalRateServiceImpl"></bean>	
+    
+     <!-- 签约贷款模块中分行、支行统计计算总计案件单数、商贷金额-->
+    <bean name="calTotalByBank" class="com.centaline.trans.common.service.impl.QuickQueryCalTotalByBankServiceImpl"></bean>	
+    
+    <!-- 签约贷款模块中后台交易顾问工作量总计-->
+    <bean name="calTotalByBackConsultantWork" class="com.centaline.trans.common.service.impl.QuickQueryCalTotalByBackConsultantWorkServiceImpl"></bean>	
 <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

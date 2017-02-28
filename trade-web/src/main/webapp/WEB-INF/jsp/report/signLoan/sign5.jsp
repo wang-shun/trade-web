@@ -60,15 +60,10 @@
                                         <tr>
                                             <th>银行</th>
                                             <th>单数</th>
-                                            <th>金额</th>
+                                            <th>金额(万元)</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tableTemplate">
-                                        <tr>
-                                            <td>建设银行浦东分行</td>
-                                            <td>10</td>
-                                            <td>33500</td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -79,16 +74,10 @@
                                             <th>银行</th>
                                             <th>支行</th>
                                             <th>单数</th>
-                                            <th>金额</th>
+                                            <th>金额(万元)</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tableTemplate1">
-                                        <tr>
-                                            <td>建设银行</td>
-                                            <td>建设银行浦东分行</td>
-                                            <td>10</td>
-                                            <td>33500</td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -124,20 +113,53 @@
           {{each rows as item index}}
 		    <tr>
               <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
+              <td>{{item.caseCount}}</td>
+              <td>{{item.sdAmount}}</td>
              </tr>
-		{{/each}}
+		  {{/each}}
+
+		  {{if rows.length > 0}}
+		  <tr>
+             <td>总计</td>
+             <td>{{rows[rows.length-1].totalCaseCount}}</td>
+             <td>{{rows[rows.length-1].totalSdAmount}}</td>
+          </tr>
+		  {{else}}
+				<tr>
+             		<td>总计</td>
+             		<td>0</td>
+             		<td>0</td>
+          		</tr>
+		  {{/if}}
 	    </script>
 	    <script id="template_table1" type="text/html">
           {{each rows as item index}}
-		    <tr>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.successCount}}</td>
-             </tr>
+		    	<tr>
+              		<td>{{item.branchBankName}}</td>
+              		<td>
+						{{item.subBranchBankName}}
+						({{if item.isRuweiBank == 'cl'}} 入围 {{else}} 非入围 {{/if}})
+			  		</td>
+              		<td>{{item.caseCount}}</td>
+              		<td>{{item.sdAmount}}</td>
+             	</tr>
 		{{/each}}
+
+		{{if rows.length > 0}}
+			<tr>
+             	<td>总计</td>
+             	<td>&nbsp;</td>
+             	<td>{{rows[rows.length-1].totalCaseCount}}</td>
+             	<td>{{rows[rows.length-1].totalSdAmount}}</td>
+         	</tr>
+		{{else}}
+			<tr>
+             	<td>总计</td>
+             	<td>&nbsp;</td>
+             	<td>0</td>
+             	<td>0</td>
+         	</tr>
+		{{/if}}
 	    </script>     
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
@@ -150,10 +172,18 @@
 				page : 1
 				
 			};
-        	data.choiceMonth = year + "-" + month;
-/*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
-			var url = ctx+"/js/eachartdata/loanloss.json"
+	        
+	        //统计分行数据
+	        data.searchDateTime = year + "-" + month;
+          	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
+          	data.queryId = "branchBankQuery";
+  			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate");
+			
+			//初始化支行数据
+			data.queryId = "subBranchBankQuery";
+			data.pagination = false;
+  			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table1","tableTemplate1");
 		}
 	</script>

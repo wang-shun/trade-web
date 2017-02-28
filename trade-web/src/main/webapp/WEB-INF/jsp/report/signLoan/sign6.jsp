@@ -68,15 +68,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tableTemplate">
-                                        <tr>
-                                            <td>A某某</td>
-                                            <td>6532</td>
-                                            <td>6832</td>
-                                            <td>6832</td>
-                                            <td>6832</td>
-                                            <td>6832</td>
-                                            <td>6832</td>
-                                            </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -90,36 +82,50 @@
         </div>
         <!--*********************** HTML_main*********************** -->
 
-        <!-- Mainly scripts -->
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-        <!-- ECharts.js -->
         <script src="${ctx }/static/js/echarts-all.js"></script>
         <script src="${ctx}/js/eachartdata/elistdata.js"></script> 
-        		<!-- block UI -->
-			<script src="${ctx}/js/jquery.blockui.min.js"></script>
-			<!-- 分页控件  -->
-			   <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-			<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
-			<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
-			<!-- 排序插件 -->
-			<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-				<!-- 个人js -->
-			<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
-			<script id="template_table" type="text/html">
+		<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	    <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+		<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
+		<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
+		<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
+		<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
+		<script id="template_table" type="text/html">
           {{each rows as item index}}
 		    <tr>
               <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
+              <td>{{item.cxgCount}}</td>
+              <td>{{item.hjCount}}</td>
+              <td>{{item.ssCount}}</td>
+              <td>{{item.gjjCount}}</td>
+ 			  <td>{{item.ghCount}}</td>
+              <td>{{item.lzCount}}</td>
              </tr>
 		{{/each}}
+		{{if rows.length > 0}}
+			<tr>
+              <td>总计</td>
+              <td>{{rows[rows.length-1].totalCxgCount}}</td>
+              <td>{{rows[rows.length-1].totalHjCount}}</td>
+              <td>{{rows[rows.length-1].totalSsCount}}</td>
+              <td>{{rows[rows.length-1].totalGjjCount}}</td>
+ 			  <td>{{rows[rows.length-1].totalGhCount}}</td>
+              <td>{{rows[rows.length-1].totalLzCount}}</td>
+             </tr>
+		{{else}}
+			<tr>
+              <td>总计</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+ 			  <td>0</td>
+              <td>0</td>
+             </tr>
+		{{/if}}
 	    </script>     
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
@@ -132,9 +138,11 @@
 				page : 1
 				
 			};
-        	data.choiceMonth = year + "-" + month;
-/*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
-			var url = ctx+"/js/eachartdata/loanloss.json"
+	        data.searchDateTime = year + "-" + month;
+          	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
+          	data.queryId = "backConsultantWorkQuery";
+          	
+  			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate");
 		}
 	</script>

@@ -95,34 +95,19 @@
                                     <th rowspan="2">公积金量</th>
                                     <th rowspan="2">过户量</th>
                                     <th rowspan="2">评估转化率</th>
-                                    <th rowspan="2">评估实收</th>
+                                    <th rowspan="2">评估实收(万元)</th>
                                     <th colspan="2">E+申请量（卡）</th>
                                     <th colspan="2">E+申请量（贷款）</th>
 
                                 </tr>
                                 <tr>
                                   <th>申请单数</th>
-                                  <th>申请金额</th>
+                                  <th>申请金额(万元)</th>
                                   <th>申请单数</th>
-                                  <th>申请金额</th>
+                                  <th>申请金额(万元)</th>
                                 </tr>
                             </thead>
                             <tbody id="tableTemplate" >
-                                <tr>
-                                    <td>A</td>
-                                    <td>12</td>
-                                    <td>4</td>
-                                    <td>33</td>
-                                    <td>38</td>
-                                    <td>35</td>
-                                    <td>63</td>
-                                    <td>19%</td>
-                                    <td>270</td>
-                                    <td>19</td>
-                                    <td>27</td>
-                                    <td>19</td>
-                                    <td>27</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -162,6 +147,39 @@
               <td>{{item.eProAmount}}</td>
              </tr>
 		{{/each}}
+		{{if rows.length > 0}}
+			<tr>
+              <td>总计</td>
+              <td>{{rows[rows.length-1].totalSlCount}}</td>
+              <td>{{rows[rows.length-1].totalQyCount}}</td>
+              <td>{{rows[rows.length-1].totalSdCount}}</td>
+              <td>{{rows[rows.length-1].totalZbCount}}</td>
+              <td>{{rows[rows.length-1].totalGjjCount}}</td>
+              <td>{{rows[rows.length-1].totalGhCount}}</td>
+              <td>{{rows[rows.length-1].totalPgfRate}}%</td>
+              <td>{{rows[rows.length-1].totalPgfAmount}}</td>
+              <td>{{rows[rows.length-1].totalECardCount}}</td>
+              <td>{{rows[rows.length-1].totalECardAmount}}</td>
+              <td>{{rows[rows.length-1].totalEProCount}}</td>
+              <td>{{rows[rows.length-1].totalEProAmount}}</td>
+             </tr>
+		{{else}}
+			<tr>
+              <td>总计</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0%</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+             </tr>
+		{{/if}}
 	    </script>     
         <script type="text/javascript">
         var ctx=$("#ctx").val();
@@ -212,24 +230,27 @@
   				page : 1,
   			};
   	        
-  			var condition="district";
+  			var condition="init";
   			if($("#districtId").val()!=0){
-  				condition="team";
+  				data.condition_distinctId = $("#districtId").val();
+  				condition="distinct";
   			}
   			
   			if($("#orgId").val()!=0){
-  				condition="consultant";
+  				data.condition_orgId = $("#orgId").val();
+  				condition="team";
   			}
   			
   			if($("#userId").val()!=0){
+  				data.condition_leadingProcessId = $("#userId").val();
   				condition="consultant";
   			}
   			
-  			console.log("condition:" + condition);
   			data.condition = condition;
           	data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = year + month;
           	data.queryId = "signLoanDetailByGuibinQuery";
+          	
   			var url = ctx+"/quickGrid/findPage";
   			initData(url,data,"template_table","tableTemplate");
   		}
