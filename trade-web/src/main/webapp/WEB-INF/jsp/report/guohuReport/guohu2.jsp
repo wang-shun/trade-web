@@ -150,18 +150,9 @@
   				rows : 8,
   				page : 1,
   			};
-  			var orgId="";
-  			var userId="";
-  			if($("#districtId").val()!=0){
-  				orgId=$("#districtId").val();
-  			}else if($("#orgId").val()!=0){
-  				orgId=$("#orgId").val();
-  			}else if($("#userId").val()!=0){
-  				orgId="";
-  				userId=$("#userId").val();
-  			}
-  			data.orgId=orgId;
-  			data.userId=userId;
+  			data.teamId=$("#orgId").val();
+  			data.districtId=$("#districtId").val();
+  			data.userId=$("#userId").val();
           	data.choiceMonth = year + "-" + month;
 /*               	data.belongMoth  = getBelongMonth(year + "-" + month); */
   			var url = ctx+"/js/eachartdata/loanloss.json"
@@ -172,7 +163,7 @@
         	$("#districtId").change(function(item){
         		var parentId=$("#districtId").val();
         		getGroup(parentId,false,"orgId","group");
-        		$("#userId").html("<option value='0'>请选择</option>");
+        		$("#userId").html("<option value=''>请选择</option>");
         	})
         	$("#orgId").change(function(item){
         		var userId=$("#orgId").val();
@@ -195,7 +186,7 @@
                   async:true,
                   success : function(data) {
                 	  var optionHtml="";
-                	  optionHtml+="<option value='0'>请选择</option>"
+                	  optionHtml+="<option value=''>请选择</option>"
                       $.each(data.rows,function(i,item){
                     	  optionHtml+="<option value="+item.id+">"+item.name+"</option>"
                       })

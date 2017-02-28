@@ -19,14 +19,14 @@ function getWeeks(year, month,day) {
     d.setFullYear(year, month, day);
     var dd = d.getDate();
     // first Monday
-    if (w1 != 1) d1 = -(w1-1);
-    else d1 = 1;
-    week_count = Math.ceil((dd+7-d1+1)/7);
+    if  (w1 >=5) d1 =w1-5; 
+    else d1=7+w1-5
+    week_count = Math.ceil((dd+d1)/7);
     var weeks=[];
     for (var i = 0; i < week_count; i++) {
-        var monday = d1+5+i*7;
+        var monday = -d1+1+i*7;
         var sunday = monday + 6;
-        if(monday!=1){
+        if(monday!=5){
         	d.setFullYear(year, month-1, monday);
         	from =d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
         }else{

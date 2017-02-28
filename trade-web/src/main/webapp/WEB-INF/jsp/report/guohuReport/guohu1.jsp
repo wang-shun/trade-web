@@ -139,10 +139,6 @@
 	        		var parentId=$("#districtId").val();
 	        		getGroup(parentId,false,"orgId","group");
 	        	})
-/* 	        	$("#orgId").change(function(item){
-	        		var userId=$("#orgId").val();
-	        		getGroup(userId,false,"userId","user");
-	        	}) */
 	        	
 	        })
 	        function getGroup(parentId,gb,id,type){
@@ -160,7 +156,7 @@
 	                  async:true,
 	                  success : function(data) {
 	                	  var optionHtml="";
-	                	  optionHtml+="<option value='0'>请选择</option>"
+	                	  optionHtml+="<option value=''>请选择</option>"
 	                      $.each(data.rows,function(i,item){
 	                    	  optionHtml+="<option value="+item.id+">"+item.name+"</option>"
 	                      })
@@ -179,15 +175,8 @@
 				page : 1
 				
 			};
-	        var orgId="";
-  			if($("#districtId").val()!=0){
-  				orgId=$("#districtId").val();
-  			}else if($("#orgId").val()!=0){
-  				orgId=$("#orgId").val();
-  			}else{
-  				orgId='ff8080814f459a78014f45a73d820006';
-  			}
-  			data.orgId=orgId;
+  			data.teamId=$("#orgId").val();
+  			data.districtId=$("#districtId").val();
         	data.choiceMonth = year + "-" + month;
 /*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
 			var url = ctx+"/js/eachartdata/loanloss.json"
