@@ -15,6 +15,7 @@ function getWeeks(year, month,day) {
     d.setFullYear(year, month-1, 1);
     var w1 = d.getDay();//1号周几
     if (w1 == 0) w1 = 7;
+    d.setFullYear(year, month,day);
     var dd = d.getDate();//获取天数
     // 
     if  (w1 >=5) d1 =w1-5; //第一周差的天数
