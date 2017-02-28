@@ -22,6 +22,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
 import com.centaline.trans.common.enums.TransDictEnum;
@@ -52,7 +53,7 @@ public class TradeCaseController {
 	
 	@RequestMapping(value = "list")
 	@ResponseBody
-	public String tradeCaseList(@RequestParam(required = true) Integer page,
+	public String list(@RequestParam(required = true) Integer page,
 			@RequestParam(required = true) Integer pageSize, Integer property, Integer status, Boolean onlyFocus,
 			Integer onlyLoanLostAlert, String q_text) {
 		SessionUser user = sessionService.getSessionUser();
@@ -70,6 +71,9 @@ public class TradeCaseController {
 
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
+		for (Map<String, Object> map : list) {
+			buildShangxiajiaInfo(map);
+		}
 		buildZhongjieInfo(list);
 
 		return Pages2JSONMoblie.pages2JsonMoblie(pages).toJSONString();
@@ -204,6 +208,21 @@ public class TradeCaseController {
 		result.put("tradeInfo", json);
 	}
 	
+	private void buildShangxiajiaInfo(Map<String, Object> map){
+		if(map.containsKey("shangjia")){
+			Object obj = map.get("shangjia");
+			if(null != obj && obj instanceof String){
+				map.put("shangjia", JSON.parseArray(obj.toString()));
+			}
+		}
+		if(map.containsKey("xiajia")){
+			Object obj = map.get("xiajia");
+			if(null != obj && obj instanceof String){
+				map.put("xiajia", JSON.parseArray(obj.toString()));
+			}
+		}
+	}
+	
 	private void buildBaseInfo(JSONObject result,String caseCode,SessionUser user){
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("queryTradeCaseInfoMoblie");
@@ -218,6 +237,7 @@ public class TradeCaseController {
 		}
 		
 		Map<String, Object> map = list.get(0);
+		buildShangxiajiaInfo(map);
 		buildQianTaiInfo(map);
 		buildZhongjieInfo(list);
 		result.put("caseInfo", list.get(0));
