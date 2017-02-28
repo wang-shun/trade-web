@@ -593,6 +593,24 @@
     </bean>	
     
     <!-- 计算评估费转化率 -->
-    <bean name="calPgfRate" class="com.centaline.trans.common.service.impl.QuickQueryCalPgfRateServiceImpl"></bean>	
+    <bean name="calPgfRate" class="com.centaline.trans.common.service.impl.QuickQueryCalPgfRateServiceImpl"></bean>
+
+    <!-- 计算过户案件数占比 -->
+    <bean name="qqGetCountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetCountPercent"></property>
+    </bean>
+    <!-- 计算过户案件贷款成数 -->
+    <bean name="qqGetMortPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetMortPercent"></property>
+    </bean>
+    <!-- 计算单数流失率 -->
+    <bean name="qqGetLostCountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetLostCountPercent"></property>
+    </bean>
+    <!-- 计算E卡转换率 -->
+    <bean name="qqGetECountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetECountPercent"></property>
+    </bean>
+
 <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

@@ -111,7 +111,7 @@
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
 		<!-- 分页控件  -->
-		   <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+		<script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
 		<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
 		<!-- 排序插件 -->
@@ -120,17 +120,17 @@
 		<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
 		<script id="template_table" type="text/html">
           {{each rows as item index}}
-		    <tr>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
+          <tr>
+              <td>{{item.MORT_TYPE_CN}}</td>
+              <td>{{item.CASE_COUNT}}</td>
+              <td>{{item.CASE_COUNT_PERCENT}}</td>
+              <td>{{item.CASE_CON_PRICE}}</td>
+              <td>{{item.MORT_COM_AMOUNT}}</td>
+              <td>{{item.MORT_PRF_AMOUNT}}</td>
+              <td>{{item.MORT_PERCENT}}</td>
              </tr>
 		{{/each}}
-	    </script>     
+	    </script>
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		 $(function(){
@@ -139,6 +139,10 @@
 	        		var parentId=$("#districtId").val();
 	        		getGroup(parentId,false,"orgId","group");
 	        	})
+/* 	        	$("#orgId").change(function(item){
+	        		var userId=$("#orgId").val();
+	        		getGroup(userId,false,"userId","user");
+	        	}) */
 	        	
 	        })
 	        function getGroup(parentId,gb,id,type){
@@ -156,7 +160,7 @@
 	                  async:true,
 	                  success : function(data) {
 	                	  var optionHtml="";
-	                	  optionHtml+="<option value=''>请选择</option>"
+	                	  optionHtml+="<option value='0'>请选择</option>"
 	                      $.each(data.rows,function(i,item){
 	                    	  optionHtml+="<option value="+item.id+">"+item.name+"</option>"
 	                      })
@@ -173,15 +177,40 @@
 			var data = {
 				rows : 8,
 				page : 1
-				
 			};
-  			data.teamId=$("#orgId").val();
-  			data.districtId=$("#districtId").val();
+	        var orgId="";
+  			if($("#districtId").val()!=0){
+  				orgId=$("#districtId").val();
+  			}else if($("#orgId").val()!=0){
+  				orgId=$("#orgId").val();
+  			}else{
+  				orgId='';
+  			}
+            data.pagination=false
+  			data.districtId=orgId;
         	data.choiceMonth = year + "-" + month;
+            data.belongMonth=getBelongMonth(data.choiceMonth);
+            data.queryId='queryGuoHuForMortOrg';
 /*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
-			var url = ctx+"/js/eachartdata/loanloss.json"
+			var url = ctx+"/quickGrid/findPage"
 			initData(url,data,"template_table","tableTemplate");
 		}
+        //得到数据快照月份
+        function getBelongMonth(choiceMonth){
+            var minBelongMoth = 201701;
+            if(!choiceMonth){
+                return minBelongMoth
+            }
+            try{
+                var belongMoth = parseInt(replace(choiceMonth,'-',''))
+                if(belongMoth<minBelongMoth){
+                    belongMoth =  minBelongMoth
+                }
+                return belongMoth;
+            }catch(e){
+                return minBelongMoth
+            }
+        }
 	</script>
     </body>
 </html>

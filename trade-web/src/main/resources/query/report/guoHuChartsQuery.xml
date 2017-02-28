@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
-		<customDict id="qqGetfinOrgYCName" beanName="qqGetfinOrgYCName"></customDict>
+		<customDict id="qqGetCountPercent" beanName="qqGetCountPercent"></customDict>
+		<customDict id="qqGetMortPercent" beanName="qqGetMortPercent"></customDict>
+		<customDict id="qqGetLostCountPercent" beanName="qqGetLostCountPercent"></customDict>
+		<customDict id="qqGetLostAmountPercent" beanName="qqGetLostAmountPercent"></customDict>
+		<customDict id="qqGetPingGuCountPercent" beanName="qqGetPingGuCountPercent"></customDict>
+		<customDict id="qqGetECountPercent" beanName="qqGetECountPercent"></customDict>
+		<customDict id="qqGetCardCountPercent" beanName="qqGetCardCountPercent"></customDict>
+		<customDict id="qqGetEAMountPercent" beanName="qqGetEAMountPercent"></customDict>
 
 	</dicts>
 <formatters>
@@ -21,7 +27,7 @@
 	</formatters>
 
 
-	<query id="queryGuoHuForMortOrg" cacheResult="true">
+	<query id="queryGuoHuForMortOrg">
 		<searchCondition>
 
 		</searchCondition>
@@ -37,7 +43,7 @@
 					,MORT_PRF_AMOUNT
 					,CASE_ORG_ID_F--组别ID
 					,CASE_DISTRICT_ID--贵宾服务部ID
-					 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
+						from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
 					1=1
 					<ifNotNull districtId>
 						and CASE_DISTRICT_ID=#districtId#
@@ -45,31 +51,48 @@
 					<ifNotNull teamId>
 						and CASE_ORG_ID_F=#districtId#
 					</ifNotNull>
-					and tb1.BELONG_MONTH='201701'
+					and tb1.BELONG_MONTH=#belongMonth#
 					and TRANSFER_ISPASS=1
-					and convert(varchar(7),TRANSFER_APP_TIME,120)='2016-11')
+					and convert(varchar(7),TRANSFER_APP_TIME,120)=#choiceMonth#)
 
 					select
-						tb.MORT_TYPE as MORT_TYPE,
-						count(tb.MORT_TYPE) CASE_COUNT,
-						isnull(sum(tb.CASE_CON_PRICE),0) CASE_CON_PRICE,
-						isnull(sum(tb.MORT_COM_AMOUNT),0) MORT_COM_AMOUNT,
-						isnull(sum(tb.MORT_PRF_AMOUNT),0) MORT_PRF_AMOUNT
-					from tb where tb.CASE_LOAN_REQ = 1 and (tb.MORT_TYPE is not null and tb.MORT_TYPE<>'')
-					group by tb.MORT_TYPE
-					union all
-					select
-						'NO_LOAN_REQ' as MORT_TYPE,
-						count(*) CASE_COUNT,
-						isnull(sum(tb.CASE_CON_PRICE),0) CASE_CON_PRICE,
-						0 MORT_COM_AMOUNT,
-						0 MORT_PRF_AMOUNT
-					from tb where tb.CASE_LOAN_REQ = 0
-
-	            ]]>
+					 CASE
+						 WHEN GROUPING(tn.MORT_TYPE) =1 THEN  'TOTAL'
+						 ELSE MORT_TYPE
+					 END AS MORT_TYPE,
+					  CASE
+						 WHEN GROUPING(tn.MORT_TYPE) =1 THEN  '合计'
+						 WHEN tn.MORT_TYPE='30016001' THEN '纯商'
+						 WHEN tn.MORT_TYPE='30016003' THEN '纯公积金'
+						 WHEN tn.MORT_TYPE='30016002' THEN '组合'
+						  WHEN tn.MORT_TYPE='NO_LOAN_REQ' THEN '无贷款'
+					  END AS MORT_TYPE_CN,
+					count(tn.MORT_TYPE) CASE_COUNT,
+					isnull(sum(tn.CASE_CON_PRICE),0) CASE_CON_PRICE,
+					isnull(sum(tn.MORT_COM_AMOUNT),0) MORT_COM_AMOUNT,
+					isnull(sum(tn.MORT_PRF_AMOUNT),0) MORT_PRF_AMOUNT
+					 from
+					(
+						select
+							tb.MORT_TYPE as MORT_TYPE,
+							CASE_CON_PRICE as CASE_CON_PRICE,
+							MORT_COM_AMOUNT as MORT_COM_AMOUNT,
+							MORT_PRF_AMOUNT as MORT_PRF_AMOUNT
+						from tb where CASE_LOAN_REQ = 1 and (MORT_TYPE is not null and MORT_TYPE&lt;&gt;'')
+						union all
+						select
+							'NO_LOAN_REQ' as MORT_TYPE,
+							CASE_CON_PRICE as CASE_CON_PRICE,
+							0 MORT_COM_AMOUNT,
+							0 MORT_PRF_AMOUNT
+						from tb where CASE_LOAN_REQ = 0
+					)  as tn
+					group by MORT_TYPE
+					WITH ROLLUP
+				]]>
 			</baseSql>
 			<orderBySql>
-				order by CASE_COUNT
+				order by MORT_TYPE
 			</orderBySql>
 			<groupSql>
 
@@ -77,11 +100,14 @@
 		</searchSql>
 		<grid>
 			<table-row>
+				<column type="both" name="MORT_TYPE_CN" title="贷款类型转"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORT_TYPE" title="贷款类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_COUNT" title="过户单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CASE_COUNT_PERCENT" title="占比" customDict="qqGetCountPercent" referencecol="MORT_TYPE,CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_CON_PRICE" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORT_PRF_AMOUNT" title="公积金金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="MORT_PERCENT" title="贷款成数" customDict="qqGetMortPercent" referencecol="MORT_COM_AMOUNT,MORT_PRF_AMOUNT,CASE_CON_PRICE"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
@@ -115,7 +141,7 @@
 					,ELOAN_PRO_AMOUNT--金融产品总金额
 					,ELOAN_KA--案件对应的卡类产品
 					,CASE_USE_CARD_PAY_CN--案件是否刷卡
-					,CASE_CARD_PAY_AMOUNT--刷卡金额
+					,CASE_CARD_PAY_AMOUNT--刷卡金额1
 					 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
 					1=1
 					and tb1.BELONG_MONTH='201701'
@@ -298,13 +324,19 @@
 				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_CON_PRICE" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="LOST_COUNT" title="流失单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-
+				<column type="virtual" name="CASE_LOST_COUNT_PERCENT" title="单数流失率" customDict="qqGetLostCountPercent" referencecol="LOST_COUNT,CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="LOST_AMOUNT" title="流失金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CASE_LOST_AMOUNT_PERCENT" title="金额流失率" customDict="qqGetLostAmountPercent" referencecol="LOST_AMOUNT,MORT_COM_AMOUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="EVA_COUNT" title="收评估费单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PING_GU_COUNT_PERCENT" title="评估转化率" customDict="qqGetPingGuCountPercent" referencecol="EVA_COUNT,MORT_COM_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="EVA_FEE" title="收评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="E_CARD_COUNT" title="e卡类申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="E_COUNT_PERCENT" title="E+卡转化率(单数)" customDict="qqGetECountPercent" referencecol="E_CARD_COUNT,CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CARD_COUNT" title="刷卡案件数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CARD_COUNT_PERCENT" title="刷卡率" customDict="qqGetCardCountPercent" referencecol="CARD_COUNT,CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="E_AMOUNT" title="E贷款申请金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="E_AMOUNT_PERCENT" title="E+卡转化率(金额)" customDict="qqGetEAMountPercent" referencecol="E_AMOUNT,MORT_COM_AMOUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
 				<column type="both" name="CASE_DISTRICT_NAME" title="贵宾服务部名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_ORG_NAME_F" title="组别名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_REAL_NAME_F" title="交易顾问"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
