@@ -59,3 +59,54 @@ function convertWeekForSql(week){
 	paramWeekArr[1] = endWeekDay_;
 	return paramWeekArr;
 }
+
+/**
+ *
+ * @param year
+ * @param month
+ * @param day
+ * @returns {Array}
+ * @author gongjd
+ * @for @TEST FUNC
+ *
+ * function getWeeks(year, month,day) {
+    var d1 = new Date();
+    // what day is first day
+    d1.setFullYear(year, month-1, 1);
+    var _start = d1;
+    var startDate = _start.getDate();
+    var startWeekDay = _start.getDay();
+    //找到之后第一个周四:周日、1、2、3、4取本周周四，周5、6取下周四
+    if(startWeekDay == 0 || startWeekDay == 1 || startWeekDay == 2 || startWeekDay == 3 || startWeekDay == 4){
+        _start.setDate(_start.getDate() - startWeekDay + 4);
+    }else if(startWeekDay == 5 || startWeekDay == 6){
+        _start.setDate(_start.getDate() - startWeekDay + 4 + 7);
+    }
+    var d2 = new Date();
+    d2.setFullYear(year, month-1, day);
+    var _end = d2;
+    var endDate = _end.getDate();
+
+    var thursdayDay = _start.getDate();
+    _start.setDate(_start.getDate() - 6);
+    var _friday = _start;
+
+    var weeks=[];
+    var from,to;
+    for (var i = 0; i < 6; i++) {
+        if(i == 0){
+            from = _friday.getFullYear() + "-" + (_friday.getMonth()+1) + "-" + _friday.getDate();
+            to = year + "-" + month + "-" + thursdayDay;
+        }else if(thursdayDay <= endDate){
+            from =year + "-" + month + "-" + (thursdayDay - 6);
+            to = year + "-" + month + "-" + thursdayDay;
+        }else{
+            break;
+        }
+        weeks.push(from+"至"+to);
+
+        thursdayDay = thursdayDay + 7;
+    }
+    return weeks;
+}
+ */
