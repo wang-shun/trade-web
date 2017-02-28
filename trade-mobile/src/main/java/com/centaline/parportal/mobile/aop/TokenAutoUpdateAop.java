@@ -10,18 +10,22 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.login.service.TokenService;
-import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.common.vo.TokenVo;
 
 @Component
@@ -33,6 +37,10 @@ public class TokenAutoUpdateAop {
     @Autowired
     private UamUserOrgService uamUserOrgService;
 
+	@Autowired
+	private UamSessionService sessionService;
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * Pointcut 定义Pointcut，Pointcut的名称为aspectjMethod()，此方法没有返回值和参数
      * 该方法就是一个标识，不进行调用
@@ -76,15 +84,22 @@ public class TokenAutoUpdateAop {
             }
 
             if (needProcess) {
-                if (MobileHolder.getMobileUser() == null) {// 没有登录 情况下自行处理返回消息格式
+            	SessionUser user = sessionService.getSessionUser();
+                if (user == null) {// 没有登录 情况下自行处理返回消息格式
                     return returnValue;
                 }
                 if (method.isAnnotationPresent(RefreshTokenAutoAop.class)) { //刷新oldToken换newToken的情况下自行处理返回消息格式 
                     return returnValue;
                 }
+                
+                Object obj = null;
 
-                Object obj = JSONObject.parse(returnValue.toString());
-
+                if(returnValue instanceof String){
+                	obj = JSONObject.parse(returnValue.toString());
+                }else{
+                	obj = returnValue;
+                }
+                
                 JSONObject returnObj = new JSONObject();
                 if (obj instanceof JSONObject) {
                     JSONObject jsonObj = (JSONObject) obj;
@@ -93,14 +108,10 @@ public class TokenAutoUpdateAop {
                     JSONArray jsonObj = (JSONArray) obj;
                     returnObj.put("content", jsonObj);
                 }
-
-                String newToken = doAutoUpdateToken(MobileHolder.getToken());
-                if (newToken != null) {
-                    returnObj.put("token", newToken);
-                } else {
-                    returnObj.put("token", MobileHolder.getToken().getToken());
-                }
-                returnObj.put("empId", MobileHolder.getMobileUser().getId());
+                String newToken = getToken();
+//                String newToken = doAutoUpdateToken(MobileHolder.getToken());
+                returnObj.put("token", newToken);
+                returnObj.put("empId", user.getId());
                 returnObj.put("msg", "处理成功");
                 returnObj.put("isSuccess", true);
                 return returnObj.toJSONString();
@@ -110,6 +121,11 @@ public class TokenAutoUpdateAop {
             return handlException(e);
         }
     }
+    
+    private String getToken(){
+    	String token = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getParameter("token");
+        return token;
+    }
 
     private String handlException(Throwable e) {
         String showExcMsg = "未知异常";
@@ -117,18 +133,18 @@ public class TokenAutoUpdateAop {
         if (e instanceof BusinessException) {
             showExcMsg = e.getMessage();
         } else {
-            System.out.println("未知异常详情：" + e.getMessage());
+        	logger.error("未知异常详情：" + e.getMessage());
             e.printStackTrace();
         }
 
         JSONObject returnObj = new JSONObject();
-        TokenVo tokenvo = MobileHolder.getToken();
-        SessionUser sessionUser = MobileHolder.getMobileUser();
+        String token = getToken();
+        SessionUser sessionUser = sessionService.getSessionUser();
         returnObj.put("content", "");
         returnObj.put("empId", sessionUser != null ? sessionUser.getId() : "");
         returnObj.put("msg", showExcMsg);
         returnObj.put("isSuccess", false);
-        returnObj.put("token", tokenvo != null ? tokenvo.getToken() : "");
+        returnObj.put("token", token);
         return returnObj.toJSONString();
     }
 

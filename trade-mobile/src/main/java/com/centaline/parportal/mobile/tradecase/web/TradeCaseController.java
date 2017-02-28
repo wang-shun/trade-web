@@ -1,4 +1,4 @@
-package com.centaline.parportal.mobile.tradecase;
+package com.centaline.parportal.mobile.tradecase.web;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -21,6 +21,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
 import com.centaline.trans.common.enums.TransDictEnum;
 
 @RestController
@@ -44,7 +45,7 @@ public class TradeCaseController {
 	
 	@RequestMapping(value = "list")
 	@ResponseBody
-	public Page<Map<String, Object>> tradeCaseList(@RequestParam(required = true) Integer page,
+	public String tradeCaseList(@RequestParam(required = true) Integer page,
 			@RequestParam(required = true) Integer pageSize, Integer property, Integer status, Boolean onlyFocus,
 			Integer onlyLoanLostAlert, String q_text) {
 		SessionUser user = sessionService.getSessionUser();
@@ -64,9 +65,9 @@ public class TradeCaseController {
 		List<Map<String, Object>> list = pages.getContent();
 		buildZhongjieInfo(list);
 
-		return pages;
+		return Pages2JSONMoblie.pages2JsonMoblie(pages).toJSONString();
 	}
-
+	
 	private void buildZhongjieInfo(List<Map<String, Object>> list) {
 		for (Map<String, Object> map : list) {
 			Object agentNameObj = map.get("AGENT_NAME");
@@ -91,7 +92,8 @@ public class TradeCaseController {
 	}
 
 	@RequestMapping(value = "{caseCode}")
-	public JSONObject getCaseInfo(@PathVariable("caseCode") String caseCode) {
+	@ResponseBody
+	public String getCaseInfo(@PathVariable("caseCode") String caseCode) {
 		JSONObject result = new JSONObject();
 		SessionUser user = sessionService.getSessionUser();
 
@@ -101,7 +103,7 @@ public class TradeCaseController {
 		
 		buildEplusInfo(result,caseCode,user);
 		buildJianguanInfo(result,caseCode,user);
-		return result;
+		return result.toJSONString();
 	}
 	
 	private void buildEplusInfo(JSONObject result, String caseCode, SessionUser user) {
@@ -250,4 +252,26 @@ public class TradeCaseController {
 		map.put("qiantai", json);
 		map.remove("leadingProcessId");
 	}
+	
+	
+	@RequestMapping(value = "{caseCode}/process")
+	@ResponseBody
+	public JSONObject process(@RequestParam(required = true) Integer page,
+			@RequestParam(required = true) Integer pageSize, @PathVariable("caseCode") String caseCode ) {
+		SessionUser user = sessionService.getSessionUser();
+		JQGridParam gp = new JQGridParam();
+		gp.setQueryId("getProcessListMobile");
+		gp.setPage(page);
+		gp.setRows(pageSize);
+
+		Map<String, Object> paramMap = gp.getParamtMap();
+		paramMap.put("caseCode", caseCode);
+
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
+		List<Map<String, Object>> list = pages.getContent();
+		buildZhongjieInfo(list);
+
+		return Pages2JSONMoblie.pages2JsonMoblie(pages);
+	}
+
 }

@@ -3,10 +3,38 @@
 	<query id="getProcessListMobile" cacheCount="true">
 		<searchSql>
 			<baseSql>
-				select *
+				select status ,
+					createTime ,
+					createBy ,
+					finishTime ,
+					todoTime ,
+					
+					avatarUrl ,
+					comments,
+					prdType,
+					srvCode,
+					star,
+					type
 				from sctrans.V_PROCESS_AND_COMMENT_QUERY
 				 where srvCode = #caseCode#
 			</baseSql>
 		</searchSql>
+		
+		<grid>
+			<table-row>
+				<column type="both" name="status" />
+				<column type="both" name="createTime" />
+				<column type="both" name="createBy" />
+				<column type="both" name="finishTime" />
+				<column type="both" name="todoTime" />
+				
+				<column type="both" name="avatarUrl" />
+				<column type="both" name="comments" />
+				<column type="both" name="prdType" />
+				<column type="both" name="srvCode" />
+				<column type="both" name="star" />
+				<column type="both" name="type" />
+			</table-row>
+		</grid>
 	</query>
 </querys>
