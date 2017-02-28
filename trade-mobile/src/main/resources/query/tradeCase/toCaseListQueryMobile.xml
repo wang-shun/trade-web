@@ -87,7 +87,11 @@
 					    left join SCTRANS.T_TO_MODULE_SUBSCRIBE ms on ms.module_code = a.case_code and ms.SUBSCRIBER_ID = #userId#
 					    left join SCTRANS.T_TO_PROPERTY_INFO pi on pi.case_code = a.case_code
 					    left join sctrans.sys_user su on su.id = B.AGENT_CODE
+					    left join sctrans.T_TO_BIZ_WARN tw on tw.case_code = a.case_code and warn_type='LOANLOSS'
 					WHERE 
+						<ifNotNull onlyLoanLostAlert>
+							tw.pkid is not null and
+						</ifNotNull>
 						<ifNotNull q_text>
 							(
 							B.AGENT_NAME like '%' + #q_text# + '%'
@@ -99,8 +103,8 @@
 						<ifNotNull onlyFocus>
 							ms.pkid is not null and
 						</ifNotNull>
-						<ifNotNull status>
-							a.property = #case_property# and
+						<ifNotNull property>
+							a.CASE_PROPERTY = #property# and
 						</ifNotNull>
 						<ifNotNull status>
 							a.status = #status# and
