@@ -52,7 +52,7 @@
 								<option value="">请选择</option>
 							</select> <select id="jlId" class="select_control mr5">
 								<option value="">请选择</option>
-<!-- 							</select> <select id="fhId" class="select_control">
+							</select><!-- <select id="fhId" class="select_control">
 								<option value="">请选择</option>
 							</select> -->
 						</div>
@@ -186,12 +186,12 @@
 	        		var parentId=$("#dsId option:selected").attr("hval");
 	        		getGroup(parentId,"JQYZJ","zjId");
 	        		$("#jlId").html(" <option value='0'>请选择</option>");
-	        		$("#fhId").html("<option value='0'>请选择</option>");
+	        		/* $("#fhId").html("<option value='0'>请选择</option>"); */
 	        	})
 	        	$("#zjId").change(function(item){
 	        		var parentId=$("#zjId option:selected").attr("hval");
 	        		getGroup(parentId,"JQYJL","jlId");
-	        		$("#fhId").html("<option value='0'>请选择</option>");
+	        		/* $("#fhId").html("<option value='0'>请选择</option>"); */
 	        	})
 	        	$("#jlId").change(function(item){
 	       /*  		var parentId=$("#jlId option:selected").attr("hval");
