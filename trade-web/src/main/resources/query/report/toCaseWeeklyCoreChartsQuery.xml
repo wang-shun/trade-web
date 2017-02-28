@@ -5,7 +5,7 @@
 	</dicts>
     <formatters>
 	</formatters>
-	<query id="queryList1" cacheResult="true">
+	<query id="queryWeeklyBaseInfoList1" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -24,10 +24,10 @@
 				#endWeekDay# then 1 else 0 end) TOTAL_NUM_WEEK,
 				
 				sum(isnull(case when week.CASE_REC_STATUS = 1 and week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.LOAN_LOST_AMOUNT else 0 end,0)) LOSE_AMOUNT_WEEK,
+				#endWeekDay# then week.MORT_TOTAL_AMOUNT else 0 end,0)) LOSE_AMOUNT_WEEK,
 				
 				sum(isnull(case when week.CASE_REC_STATUS = 0 and week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.MORT_COM_AMOUNT else 0 end,0)) REC_AMOUNT_WEEK,
+				#endWeekDay# then week.MORT_TOTAL_AMOUNT else 0 end,0)) REC_AMOUNT_WEEK,
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
 				#endWeekDay# then week.MORT_TOTAL_AMOUNT else 0 end,0)) TOTAL_AMOUNT_WEEK,
@@ -37,9 +37,9 @@
 				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO hi where hi.CASE_ORG_ID_F = week.CASE_ORG_ID_F and hi.BELONG_MONTH = #endWeekDay#/100-1 and hi.MORT_TYPE in ('30016001','30016002') and hi.TRANSFER_ISPASS = 1) TOTAL_NUM_LAST_MONTH,
 				
 				
-				sum(isnull(case when week.CASE_REC_STATUS = 1 and week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100 then week.LOAN_LOST_AMOUNT else 0 end,0)) LOSE_AMOUNT_MONTH,
+				sum(isnull(case when week.CASE_REC_STATUS = 1 and week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100 then week.MORT_TOTAL_AMOUNT else 0 end,0)) LOSE_AMOUNT_MONTH,
 				
-				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.LOAN_LOST_AMOUNT else 0 end,0)) TOTAL_AMOUNT_MONTH
+				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.MORT_TOTAL_AMOUNT else 0 end,0)) TOTAL_AMOUNT_MONTH
 				
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where  week.MORT_TYPE in ('30016001','30016002') and week.TRANSFER_ISPASS = 1
 	            ]]>
@@ -68,7 +68,7 @@
 		</grid>
 	</query>
 	
-	<query id="queryList2" cacheResult="true">
+	<query id="queryWeeklyBaseInfoList2" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -88,12 +88,12 @@
 				sum(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  and week.EVA_EVAL_FEE is not null then 1 else 0 end) EVA_NUM_MONTH,
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
-				#endWeekDay# then week.MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_WEEK,
+				#endWeekDay# then week.MORT_COM_AMOUNT*0.001 else 0 end,0)) EVA_AMOUNT_WEEK,
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #endWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
 				#endWeekDay# then week.EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_WEEK,
 				
-				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.MORT_COM_AMOUNT*0.0001 else 0 end,0)) EVA_AMOUNT_MONTH,
+				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.MORT_COM_AMOUNT*0.001 else 0 end,0)) EVA_AMOUNT_MONTH,
 				
 				sum(isnull(case when week.BELONG_WEEK_START_DAY/100 = #endWeekDay#/100 and cast(convert(varchar(6) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) = #endWeekDay#/100  then week.EVA_EVAL_FEE else 0 end,0)) EVA_ACT_AMOUNT_MONTH
 				
@@ -122,7 +122,7 @@
 		</grid>
 	</query>
 	
-	<query id="queryList3" cacheResult="true">
+	<query id="queryWeeklyBaseInfoList3" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>
@@ -168,7 +168,7 @@
 		</grid>
 	</query>
 	
-	<query id="queryList4" cacheResult="true">
+	<query id="queryWeeklyBaseInfoList4" cacheResult="true">
 	    <searchCondition>        
         </searchCondition>
 		<searchSql>

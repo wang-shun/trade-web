@@ -73,15 +73,11 @@
                                 </table>
                             </div>
                         </div>
-
-                        <!-- table -->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--*********************** HTML_main*********************** -->
-
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--*********************** HTML_main*********************** -->
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -146,5 +142,5 @@
 			initData(url,data,"template_table","tableTemplate");
 		}
 	</script>
-    </body>
+</body>
 </html>

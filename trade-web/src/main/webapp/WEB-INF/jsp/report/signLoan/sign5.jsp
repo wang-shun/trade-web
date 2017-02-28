@@ -82,34 +82,27 @@
                                 </table>
                             </div>
                         </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--*********************** HTML_main*********************** -->
 
-                        <!-- table -->
+	<!-- Mainly scripts -->
+	<script src="${ctx}/js/jquery-2.1.1.js"></script>
+	<script src="${ctx}/js/bootstrap.min.js"></script>
+	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--*********************** HTML_main*********************** -->
-
-        <!-- Mainly scripts -->
-        <script src="${ctx}/js/jquery-2.1.1.js"></script>
-        <script src="${ctx}/js/bootstrap.min.js"></script>
-        <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-        <!-- ECharts.js -->
-        <script src="${ctx }/static/js/echarts-all.js"></script>
-        <script src="${ctx}/js/eachartdata/elistdata.js"></script> 
-        		<!-- block UI -->
-			<script src="${ctx}/js/jquery.blockui.min.js"></script>
-			<!-- 分页控件  -->
-			   <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-			<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
-			<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
-			<!-- 排序插件 -->
-			<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-				<!-- 个人js -->
-			<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
-			<script id="template_table" type="text/html">
+	<!-- 分页控件  -->
+	<script
+		src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src="${ctx}/static/js/template.js" type="text/javascript"></script>
+	<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
+	<!-- 排序插件 -->
+	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
+	<!-- 个人js -->
+	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
+	<script id="template_table" type="text/html">
           {{each rows as item index}}
 		    <tr>
               <td>{{item.groupName}}</td>
@@ -132,7 +125,7 @@
           		</tr>
 		  {{/if}}
 	    </script>
-	    <script id="template_table1" type="text/html">
+	<script id="template_table1" type="text/html">
           {{each rows as item index}}
 		    	<tr>
               		<td>{{item.branchBankName}}</td>
@@ -144,7 +137,6 @@
               		<td>{{item.sdAmount}}</td>
              	</tr>
 		{{/each}}
-
 		{{if rows.length > 0}}
 			<tr>
              	<td>总计</td>
@@ -187,5 +179,5 @@
 			initData(url,data,"template_table1","tableTemplate1");
 		}
 	</script>
-    </body>
+</body>
 </html>
