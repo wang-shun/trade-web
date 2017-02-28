@@ -68,7 +68,7 @@
                         <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                             <thead>
                                 <tr>
-                                    <th rowspan="2">组别</th>
+                                    <th rowspan="2">组织</th>
                                     <th rowspan="2">受理量</th>
                                     <th rowspan="2">签约量</th>
                                     <th rowspan="2">商贷办理量</th>
