@@ -103,8 +103,8 @@ th, td {
               <td>{{item.EVA_NUM_WEEK}}</td>
               <td>{{item.REC_NUM_WEEK == 0?0:(item.EVA_NUM_WEEK/item.REC_NUM_WEEK*100).toFixed()}}%</td>
               <td>{{item.REC_NUM_MONTH == 0?0:(item.EVA_NUM_MONTH/item.REC_NUM_MONTH*100).toFixed()}}%</td>
-              <td>{{item.EVA_AMOUNT_WEEK}}</td>
-              <td>{{item.EVA_ACT_AMOUNT_WEEK}}</td>
+              <td>{{item.EVA_AMOUNT_WEEK}}万元</td>
+              <td>{{item.EVA_ACT_AMOUNT_WEEK}}万元</td>
 			  <td>{{item.EVA_AMOUNT_WEEK == 0?0:(item.EVA_ACT_AMOUNT_WEEK/item.EVA_AMOUNT_WEEK*100).toFixed()}}%</td>
               <td>{{item.EVA_AMOUNT_MONTH == 0?0:(item.EVA_ACT_AMOUNT_MONTH/item.EVA_AMOUNT_MONTH*100).toFixed()}}%</td>
              </tr>
