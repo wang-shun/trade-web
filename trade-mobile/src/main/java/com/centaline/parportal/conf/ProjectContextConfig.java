@@ -16,6 +16,7 @@ import com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServ
 import com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryQianHouTaiServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl;
 
@@ -158,6 +159,12 @@ public class ProjectContextConfig {
     public QuickQueryCaseSalerInfoServiceImpl getCaseBuyyerInfo(){
     	QuickQueryCaseSalerInfoServiceImpl dict = new QuickQueryCaseSalerInfoServiceImpl();
     	dict.setTransPosition("30006002");
+    	return dict;
+    }
+    
+    @Bean(name="getQianHouTai")
+    public QuickQueryQianHouTaiServiceImpl getQianHouTai(){
+    	QuickQueryQianHouTaiServiceImpl dict = new QuickQueryQianHouTaiServiceImpl();
     	return dict;
     }
 }

@@ -21,6 +21,7 @@
 		
 		<customDict id="getCaseSalerInfo" beanName="getCaseSalerInfo" />
 		<customDict id="getCaseBuyyerInfo" beanName="getCaseBuyyerInfo" />
+		<customDict id="getQianHouTai" beanName="getQianHouTai" />
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -319,9 +320,10 @@
 	<query id="queryTradeCaseInfoMoblie">
 		<searchSql>
 			<baseSql>
-				select tc.CASE_CODE caseCode, sd.name status,pi.PROPERTY_ADDR addr,
+				select tc.CASE_CODE caseCode, sd.name status,LEADING_PROCESS_ID leadingProcessId,pi.PROPERTY_ADDR addr,
 					CASE WHEN ms.pkid is null then 'false' else 'true' end isFocus,
-					ti.AGENT_CODE,ti.AGENT_PHONE,ti.AGENT_USERNAME AGENT_NAME,su.EMPLOYEE_CODE
+					ti.AGENT_CODE,ti.AGENT_PHONE,ti.AGENT_USERNAME AGENT_NAME,su.EMPLOYEE_CODE,
+					CASE WHEN tw.pkid is null then 'false' else 'true' end loanLostAlert
 				from sctrans.T_TO_CASE tc
 					LEFT JOIN sctrans.SYS_DICT sd on sd.type='30001' and sd.is_deleted = '0' and tc.STATUS = sd.code
 					left join SCTRANS.T_TO_PROPERTY_INFO pi on pi.case_code = tc.case_code 
@@ -329,6 +331,7 @@
 							and ms.SUBSCRIBER_ID = #userId#
 					left join sctrans.T_TO_CASE_INFO ti on ti.CASE_CODE = tc.case_code
     				left join sctrans.sys_user su on su.id = ti.AGENT_CODE
+    				left join sctrans.T_TO_BIZ_WARN tw on tw.case_code = tc.case_code and warn_type='LOANLOSS'
 				where tc.case_code = #caseCode#
 			</baseSql>
 		</searchSql>
@@ -343,6 +346,89 @@
 				<column type="both" name="AGENT_PHONE" />
 				<column type="both" name="AGENT_NAME" />
 				<column type="both" name="EMPLOYEE_CODE" />
+				
+				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai"/>
+				<column type="both" name="leadingProcessId" />
+				<column type="both" name="loanLostAlert" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryTradeCaseMortInfoMoblie">
+		<searchSql>
+			<baseSql>
+				select sd.name refundType, sd2.NAME mortType,
+					tm.MORT_TOTAL_AMOUNT totalAmount,tm.COM_AMOUNT comAmount,
+					tm.COM_YEAR comYear,tm.COM_DISCOUNT comDiscount,tm.PRF_AMOUNT psfAmount,
+					tm.PRF_YEAR psfYear,tm.STATE_IN_BANK status,
+					tm.LOANER_NAME loanerName,tm.LOANER_PHONE loanerPhone,fo.FIN_ORG_NAME loanerOrg
+				from sctrans.T_TO_MORTGAGE tm
+					left join sctrans.T_TS_FIN_ORG fo on fo.FIN_ORG_CODE = tm.LOANER_ORG_CODE
+					left join sctrans.SYS_DICT sd on sd.CODE = tm.LEND_WAY and sd.TYPE =  '30017'
+					left join sctrans.SYS_DICT sd2 on sd2.CODE = tm.MORT_TYPE and sd2.TYPE =  '30016'
+				where tm.case_code = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="refundType" />
+				<column type="both" name="mortType" />
+				<column type="both" name="totalAmount" />
+				<column type="both" name="comAmount" />
+				
+				<column type="both" name="comYear" />
+				<column type="both" name="comDiscount" />
+				<column type="both" name="psfAmount" />
+				<column type="both" name="psfYear" />
+				
+				<column type="both" name="status" />
+				<column type="both" name="loanerName" />
+				<column type="both" name="loanerPhone" />
+				<column type="both" name="loanerOrg" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryTradeCaseTradeInfoMoblie">
+		<searchSql>
+			<baseSql>
+			    select CON_PRICE conPrice,
+			    		HOLD_YEAR holdYear,
+			    		IS_UNIQUE_HOME isUniqueHome,
+			    		HOUSE_PROPERTY houseProperty,
+			    		AMOUNT1 amount1,
+			    		
+			    		AMOUNT2 amount2,
+			    		AMOUNT3 amount3,
+			    		AMOUNT4 amount4,
+			    		HOUSE_HODING_TAX houseHodingTax,
+			    		CONTRACT_TAX contractTax,
+			    		
+			    		BUSINESS_TAX yingyeTax,
+			    		LAND_INCREMENT_TAX tudiTax,
+			    		PERSONAL_INCOME_TAX gerenTax
+			    	from sctrans.V_CASE_TRADE_INFO_VIEW
+			    where CASE_CODE = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="conPrice" />
+				<column type="both" name="holdYear" />
+				<column type="both" name="isUniqueHome" />
+				<column type="both" name="houseProperty" />
+				<column type="both" name="amount1" />
+				
+				<column type="both" name="amount2" />
+				<column type="both" name="amount3" />
+				<column type="both" name="amount4" />
+				
+				<column type="both" name="houseHodingTax" />
+				<column type="both" name="contractTax" />
+				<column type="both" name="yingyeTax" />
+				<column type="both" name="tudiTax" />
+				<column type="bothe" name="gerenTax" />
+				
 			</table-row>
 		</grid>
 	</query>
