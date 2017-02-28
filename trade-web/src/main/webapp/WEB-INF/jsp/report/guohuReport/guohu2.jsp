@@ -52,9 +52,10 @@
 								<option value="">请选择</option>
 							</select> <select id="orgId" class="select_control mr5">
 								<option value="">请选择</option>
-							</select> <select id="userId" class="select_control">
+								</select> 
+<!-- 							<select id="userId" class="select_control">
 								<option value="">请选择</option>
-							</select>
+							</select> -->
 						</div>
 						<div class="form_content space">
 							<div class="add_btn mr5">
@@ -71,7 +72,7 @@
 						class="table table_blue  table-striped table-bordered table-hover customerinfo">
 						<thead>
 							<tr>
-								<th>交易顾问</th>
+								<th>组织</th>
 								<th>商贷单数</th>
 								<th>商贷金额</th>
 								<th>合同价</th>
@@ -142,6 +143,7 @@
 	    </script>
 	<script type="text/javascript">
         var ctx=$("#ctx").val();
+        var type="";
         function reloadGrid() {
   		   	var year = window.parent.yearDisplay;
   	        var month_ = parseInt(window.parent.monthDisplay)+1;
@@ -152,9 +154,9 @@
   			};
   			data.teamId=$("#orgId").val();
   			data.districtId=$("#districtId").val();
-  			data.userId=$("#userId").val();
+  		/* 	data.userId=$("#userId").val(); */
+  		      data.produceType=type;
           	data.choiceMonth = year + "-" + month;
-/*               	data.belongMoth  = getBelongMonth(year + "-" + month); */
   			var url = ctx+"/js/eachartdata/loanloss.json"
   			initData(url,data,"template_table","tableTemplate");
   		} var ctx=$("#ctx").val();
@@ -164,10 +166,12 @@
         		var parentId=$("#districtId").val();
         		getGroup(parentId,false,"orgId","group");
         		$("#userId").html("<option value=''>请选择</option>");
+        		type="disreict";
         	})
         	$("#orgId").change(function(item){
-        		var userId=$("#orgId").val();
-        		getGroup(userId,false,"userId","user");
+         /* var userId=$("#orgId").val();
+       		getGroup(userId,false,"userId","user"); */
+       		type="team";
         	})
         	
         })

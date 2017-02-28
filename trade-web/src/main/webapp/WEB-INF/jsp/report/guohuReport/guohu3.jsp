@@ -52,9 +52,9 @@
 								<option value="">请选择</option>
 							</select> <select id="jlId" class="select_control mr5">
 								<option value="">请选择</option>
-							</select> <select id="fhId" class="select_control">
+<!-- 							</select> <select id="fhId" class="select_control">
 								<option value="">请选择</option>
-							</select>
+							</select> -->
 						</div>
 						<div class="form_content space">
 							<div class="add_btn mr5">
@@ -71,7 +71,7 @@
 							class="table table_blue  table-striped table-bordered table-hover customerinfo ">
 							<thead>
 								<tr>
-									<th>区董</th>
+									<th>组织</th>
 									<th>过户总单数</th>
 									<th>占比</th>
 									<th>合同价</th>
@@ -194,7 +194,7 @@
 	        		$("#fhId").html("<option value='0'>请选择</option>");
 	        	})
 	        	$("#jlId").change(function(item){
-	        		var parentId=$("#jlId option:selected").attr("hval");
+	       /*  		var parentId=$("#jlId option:selected").attr("hval");
 	  	        	  $.ajax({
 	  	                  url : ctx+"/rapidQuery/findPage",
 	  	                  method : "GET",
@@ -216,7 +216,8 @@
 	  	                      $("#fhId").html(optionHtml);
 	  	                  },
 	  	                  error:function(){}
-	  	              });
+	  	              }); */
+	  	              
 	  	        	})
 	        })
 	        function getGroup(parentId,jobCode,id){
