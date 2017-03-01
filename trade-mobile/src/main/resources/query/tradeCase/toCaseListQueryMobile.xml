@@ -262,41 +262,6 @@
 					<ifNotNull guohuApproveTime>
 						)
 					</ifNotNull>
-					<choose>
-						<when test	="mortageType==0">
-						  AND A.STATUS != '30001001'
-					      AND NOT EXISTS (
-					     SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND CASE_CODE = A.CASE_CODE
-							 )
-					     </when>
-					     <when test	="mortageType==1">
-					      AND EXISTS (
-					     SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 1 AND CASE_CODE = A.CASE_CODE
-							 )
-					     </when>
-					     <when test	="mortageType==2">
-					       AND EXISTS (
-					     SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE = '30016003' AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 1 AND CASE_CODE = A.CASE_CODE
-							 )
-					     </when>
-					     <when test	="mortageType==3">
-					       AND EXISTS (
-					     SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0 AND CASE_CODE = A.CASE_CODE
-							 )
-					     </when>
-					</choose>
-					<choose>
-						<when test	="isSubscribeFilter==0">
-							AND EXISTS (
-								SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE
-							)
-					     </when>
-					     <when test	="isSubscribeFilter==1">
-							AND NOT EXISTS (
-								SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE
-							)
-					     </when>
-					</choose>
 				
 				]]>
 			</baseSql>
