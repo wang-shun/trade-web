@@ -12,7 +12,7 @@ var FollowPicList = (function(){
     			rownumWidth:true,
     			rowNum : 18,
     			/*   rowList: [10, 20, 30], */
-    			colNames : [ '附件类型','附件名称','上传时间','操作'],
+    			colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
     			colModel : [ {
     				name : 'ATT_TYPE',
     				index : 'ATT_TYPE',
@@ -26,6 +26,13 @@ var FollowPicList = (function(){
     				width : 20,
     				resizable : false
     			}, {
+    				name : 'ATT_PATH',
+    				index : 'ATT_PATH',
+    				align : "center",
+    				width : 20,
+    				resizable : false
+    				//formatter : linkhouseInfo
+    			}, {
     				name : 'UPLOAD_DATE',
     				index : 'UPLOAD_DATE',
     				align : "center",
@@ -35,7 +42,7 @@ var FollowPicList = (function(){
     				name : 'READ',
     				index : 'READ',
     				align : "center",
-    				width : 30,
+    				width : 20,
     				resizable : false
     			}],
     			multiselect: true,
@@ -54,7 +61,7 @@ var FollowPicList = (function(){
 	    				var id = ids[i];
 	    				var rowDatas = jQuery("#"+gridTableId).jqGrid('getRowData', ids[i]); // 获取当前行
 	    				
-	    				
+	    				console.log(JSON.stringify(rowDatas))
 	    				var link = "<button  class='btn red' onclick='addAttachmentReadLog(\""+ctx+"\",\""+ctmCode+"\",\""+caseCode+"\",\""+rowDatas['ATT_NAME']+"\",\""+rowDatas['ATT_PATH']+"\")'>查看附件</a>";
 	    				
 	    				//var detailBtn = "<button  class='btn red' id='alertOper' onclick='openLoan(\""+ctx+"\",\""+rowDatas['pkId']+"\")' style='width:90px;'>详细</button>";
