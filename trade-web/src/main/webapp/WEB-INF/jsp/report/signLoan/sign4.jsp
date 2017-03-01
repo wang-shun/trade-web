@@ -61,6 +61,11 @@
                             <tbody id="tableTemplate">
                             </tbody>
                         </table>
+                        <div class="text-center">
+						<span id="currentTotalPage"><strong class="bold"></strong></span>
+						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+				    </div>
                     </div>
                 </div>
             </div>
@@ -123,19 +128,17 @@
 	    </script>     
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
-		function reloadGrid() {
+		function reloadGrid(page) {
 		   	var year = window.parent.yearDisplay;
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_)
-			var data = {
-				rows : 8,
-				page : 1
-				
-			};
-	        
+	        var data={};		
+	    	if(!page)page=1;
+  	        data.rows=10;
+  	        data.page=page;
 	        data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
-          	data.pagination = false;
+          	/* data.pagination = false; */
           	data.queryId = "signLoanQuery";
   			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate");

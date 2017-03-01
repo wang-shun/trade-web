@@ -1,9 +1,13 @@
 function initData(url,data,templateId,tbodyId) {
-			/*aist.wrap(data);*/
+			aist.wrap(data);
+			var sortColumn=$('span.active').attr("sortColumn");
+			var sortgz=$('span.active').attr("sord");
+			data.sidx=sortColumn;
+			data.sord=sortgz;
 			$.ajax({
 				async : true,
 				url : url,
-				method : "get",
+				method : "post",
 				dataType : "json",
 				data : data,
 				success : function(data) {
@@ -16,14 +20,14 @@ function initData(url,data,templateId,tbodyId) {
 					$("#"+tbodyId).empty();
 					$("#"+tbodyId).html(templateData);
 					// 显示分页 
-			        initpage(data.total,data.pagesize,data.page, data.records);
+			        initpage(data.total,data.pagesize,data.page, data.records,tbodyId);
 				},
 				error : function(e, jqxhr, settings, exception) {
 					//$.unblockUI();
 				}
 			});
 		}
-		function initpage(totalCount,pageSize,currentPage,records) {
+		function initpage(totalCount,pageSize,currentPage,records,tbodyId) {
 			
 			if(totalCount>1500){
 				totalCount = 1500;
@@ -50,11 +54,16 @@ function initData(url,data,templateId,tbodyId) {
 				last:'<i class="fa fa-step-forward"></i>',
 				showGoto:true,
 				onPageClick: function (event, page) {
-					searchMethod(page);
+					if(tbodyId=="tableTemplate1"){
+						reloadGrid1(page)
+					}else if(tbodyId=="tableTemplate2"){
+						reloadGrid2(page)
+					}else{
+					    reloadGrid(page);
+					}
 			    }
 			});
 		}
-
 		//得到数据快照月份
 		function getBelongMonth(choiceMonth){
 			var minBelongMoth = 201702;
