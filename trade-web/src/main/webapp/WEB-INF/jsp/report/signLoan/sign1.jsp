@@ -76,10 +76,10 @@
 	<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
 	<!-- 排序插件 -->
 	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-		<!-- 个人js -->
 	<!-- ECharts.js -->
 	<script src="${ctx }/static/js/echarts-all.js"></script>
 	<script src="${ctx}/js/eachartdata/elistdata.js"></script>
+	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
 	<script id="template_table" type="text/html">
           {{each rows as item index}}
 		    <tr>
@@ -108,13 +108,14 @@
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		var url = ctx + "/quickGrid/findPage";
-		var searchDateTime = year + "-" + month;
-		var searchBelongMonth = getBelongMonth(searchDateTime);
 		
 		function reloadGrid() {
 		   	var year = window.parent.yearDisplay;
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_)
+	        var searchDateTime = year + "-" + month;
+			var searchBelongMonth = getBelongMonth(searchDateTime);
+			
 			var data = {
 				rows : 8,
 				page : 1,

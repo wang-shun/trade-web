@@ -26,7 +26,7 @@ public class QuickQueryCalTotalBySignStatisticsServiceImpl implements
 		String strTotalHtAmount = "0"; // 格式化后的总的案件单数
 		String strTotalCaseCountRate = "0";
 
-		DecimalFormat df = new DecimalFormat("#.00");
+		DecimalFormat df = new DecimalFormat("0.00");
 
 		// 计算总的案件单数
 		for (Map<String, Object> keyer : keys) {

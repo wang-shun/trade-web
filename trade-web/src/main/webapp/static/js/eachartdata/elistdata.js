@@ -48,7 +48,7 @@ function echartData (id,data) {
 	for (var i = 0; i < items.length; i++) {
 		if(i>4){break;};
 		var datai = {
-			value : items[i].totalCount,
+			value : items[i].caseCount,
 			name : legend[i]
 		}
 		option1.series[0].data.push(datai);

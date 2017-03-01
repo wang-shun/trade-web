@@ -160,7 +160,7 @@
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_)
 			var data = {
-				rows : 8,
+				rows : 9999,
 				page : 1
 				
 			};
@@ -174,7 +174,6 @@
 			
 			//初始化支行数据
 			data.queryId = "subBranchBankQuery";
-			data.pagination = false;
   			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table1","tableTemplate1");
 		}

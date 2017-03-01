@@ -21,7 +21,7 @@ public class QuickQueryCalTotalByBankServiceImpl implements CustomDictService {
 		int totalCount = 0; // 总的案件单数
 		double totalSdAmount = 0; // 总的商贷金额
 		String strTotalSdAmount = "0";
-		DecimalFormat df = new DecimalFormat("#.00");
+		DecimalFormat df = new DecimalFormat("0.00");
 
 		for (Map<String, Object> keyer : keys) {
 			int caseCount = (Integer) keyer.get("caseCount");

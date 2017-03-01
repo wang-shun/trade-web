@@ -135,6 +135,7 @@
 	        
 	        data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
+          	data.pagination = false;
           	data.queryId = "signLoanQuery";
   			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate");

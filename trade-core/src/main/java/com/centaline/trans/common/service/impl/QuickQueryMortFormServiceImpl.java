@@ -48,7 +48,7 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 				TOTAL_EVA_FEE,TOTAL_E_COUNT_PERCENT,TOTAL_CARD_COUNT_PERCENT,TOTAL_E_AMOUNT_PERCENT,TOTAL_CASE_PART*/
 
 
-		DecimalFormat df = new DecimalFormat("#.00");
+		DecimalFormat df = new DecimalFormat("0.00");
 		if("qqGetCountPercent".equals(dictType)){
 			for(Map<String, Object> keyer:keys){
 				if(keyer.get("MORT_TYPE")!=null){
