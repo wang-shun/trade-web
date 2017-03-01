@@ -173,6 +173,7 @@
 	        //统计分行数据
 	        data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
+          	data.pagination = true;
           	data.queryId = "branchBankQuery";
   			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate1");
@@ -185,7 +186,6 @@
 			var data = {};
 	        data.page=page;
 	        data.rows=20;
-	    	data.pagination = false; 
 	        data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
 			//初始化支行数据
@@ -194,8 +194,6 @@
   			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table1","tableTemplate2");
 		}
-		
-		
 	</script>
 </body>
 </html>

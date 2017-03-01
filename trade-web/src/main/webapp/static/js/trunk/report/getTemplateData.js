@@ -4,6 +4,9 @@ function initData(url,data,templateId,tbodyId) {
 			var sortgz=$('span.active').attr("sord");
 			data.sidx=sortColumn;
 			data.sord=sortgz;
+			
+			var pagination = data.pagination;
+			
 			$.ajax({
 				async : true,
 				url : url,
@@ -11,6 +14,7 @@ function initData(url,data,templateId,tbodyId) {
 				dataType : "json",
 				data : data,
 				success : function(data) {
+					
 					if(data==null||data==undefined){
 	                    window.parent.wxc.alert("数据加载失败！");
 						return;			
@@ -19,8 +23,11 @@ function initData(url,data,templateId,tbodyId) {
 					var templateData = template(templateId, data);
 					$("#"+tbodyId).empty();
 					$("#"+tbodyId).html(templateData);
-					// 显示分页 
-			        initpage(data.total,data.pagesize,data.page, data.records,tbodyId);
+					
+					if(pagination == undefined || pagination){
+						// 显示分页 
+				        initpage(data.total,data.pagesize,data.page, data.records,tbodyId);
+					} 
 				},
 				error : function(e, jqxhr, settings, exception) {
 					//$.unblockUI();
