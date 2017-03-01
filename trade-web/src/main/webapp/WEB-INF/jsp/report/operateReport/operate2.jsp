@@ -43,7 +43,6 @@
 						<thead>
 							<tr>
 								<th>过户数据</th>
-								<th>过户数据</th>
 								<th>1月</th>
 								<th>2月</th>
 								<th>3月</th>
@@ -62,12 +61,6 @@
 							
 						</tbody>
 					</table>
-					<!-- <div class="text-center">
-						<span id="currentTotalPage"><strong class="bold"></strong></span>
-						<span class="ml15">共<strong class="bold" id="totalP"></strong>条
-						</span>&nbsp;
-						<div id="pageBar" class="pagination my-pagination text-center m0"></div>
-					</div> -->
 				</div>
 			</div>
 		</div>
@@ -99,6 +92,31 @@
 			return num1 + num2;
 		}
 		
+		//除法函数，用来得到精确的除法结果
+		//说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+		//调用：accDiv(arg1,arg2)
+		//返回值：arg1除以arg2的精确结果
+		function accDiv(arg1,arg2){
+		    var t1=0,t2=0,r1,r2;
+		    try{t1=arg1.toString().split(".")[1].length}catch(e){}
+		    try{t2=arg2.toString().split(".")[1].length}catch(e){}
+		    with(Math){
+		        r1=Number(arg1.toString().replace(".",""));
+		        r2=Number(arg2.toString().replace(".",""));
+		        return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
+		    }
+		}
+		//加法函数，用来得到精确的加法结果
+		//说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+		//调用：accAdd(arg1,arg2)
+		//返回值：arg1加上arg2的精确结果
+		function accAdd(arg1,arg2){
+		    var r1,r2,m;
+		    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+		    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+		    m=Math.pow(10,Math.max(r1,r2));
+		    return ((arg1*m+arg2*m)/m).toFixed(2);
+		}
 		function reloadGrid() {
 			var year = window.parent.yearDisplay;
 			var data = {
@@ -126,15 +144,15 @@
 					var tbHtml = "";
 					var tr1Html = "<tr><td>无贷款单数</td>";
 					var tr2Html = "<tr><td>公积金单数</td>";
-					var tr3Html = "<tr><td>商贷单数占比</td>";
-					var tr4Html = "<tr><td>过户房价</td>";
-					var tr5Html = "<tr><td>商贷金额</td>";
-					var tr6Html = "<tr><td>公积金金额</td>";
-					var tr7Html = "<tr><td>杠杆率</td>";
-					var tr8Html = "<tr><td>有商贷案件房价</td>";
-					var tr9Html = "<tr><td>贷款金额占比</td>";
-					var tr10Html = "<tr><td>商贷收单（商贷）</td>";
-					var tr11Html = "<tr><td流失单数（商贷）数</td>";
+					var tr3Html = "<tr><td>商贷单数</td>";
+					var tr4Html = "<tr><td>商贷单数占比</td>";
+					var tr5Html = "<tr><td>过户房价</td>";
+					var tr6Html = "<tr><td>商贷金额</td>";
+					var tr7Html = "<tr><td>公积金金额</td>";
+					var tr8Html = "<tr><td>杠杆率</td>";
+					var tr9Html = "<tr><td>有商贷案件房价</td>";
+					var tr10Html = "<tr><td>贷款金额占比</td>";
+					var tr11Html = "<tr><td>商贷收单（商贷）</td>";
 					var tr12Html = "<tr><td>流失单数（商贷）</td>";
 					var tr13Html = "<tr><td>单数流失率（商贷）</td>";
 					var tr14Html = "<tr><td>收单金额（商贷）</td>";
@@ -166,22 +184,22 @@
 						 		var num1 = getNum(row.mortComAmount);
 						 		var num2 = getNum(row.mortPrfAmount);
 						 		var numA = sum(num1,num2);
-						 		td1Html = "<td>"+num1+"</td>";
-						 		td2Html = "<td>"+num2+"</td>";
-						 		td3Html = "<td>"+numA+"</td>";
-						 		td4Html = "<td>"+numA+"</td>";
-						 		td5Html = "<td>"+numA+"</td>";
-						 		td6Html = "<td>"+numA+"</td>";
-						 		td7Html = "<td>"+numA+"</td>";
-						 		td8Html = "<td>"+numA+"</td>";
-						 		td9Html = "<td>"+numA+"</td>";
-						 		td10Html = "<td>"+numA+"</td>";
-						 		td11Html = "<td>"+numA+"</td>";
-						 		td12Html = "<td>"+numA+"</td>";
-						 		td13Html = "<td>"+numA+"</td>";
-						 		td14Html = "<td>"+numA+"</td>";
-						 		td15Html = "<td>"+numA+"</td>";
-						 		td16Html = "<td>"+numA+"</td>";
+						 		td1Html = "<td>"+getNum(row.loanReqNum)+"</td>";
+						 		td2Html = "<td>"+getNum(row.prfNum)+"</td>";
+						 		td3Html = "<td>"+getNum(row.comNum)+"</td>";
+						 		td4Html = "<td>"+accDiv(row.comNum,row.allNum)+"</td>";
+						 		td5Html = "<td>"+getNum(row.allRealPrice)+"</td>";
+						 		td6Html = "<td>"+num1+"</td>";
+						 		td7Html = "<td>"+num2+"</td>";
+						 		td8Html = "<td>"+accDiv(accAdd(num1,num2),getNum(row.allRealPrice))+"</td>";
+						 		td9Html = "<td>"+getNum(row.realPrice)+"</td>";
+						 		td10Html = "<td>"+accDiv(num1,getNum(row.realPrice))+"</td>";
+						 		td11Html = "<td>"+getNum(row.comRec)+"</td>";
+						 		td12Html = "<td>"+getNum(row.lsRec)+"</td>";
+						 		td13Html = "<td>"+accDiv(getNum(row.lsRec),getNum(row.comNum))+"</td>";
+						 		td14Html = "<td>"+getNum(row.sdAmount)+"</td>";
+						 		td15Html = "<td>"+getNum(row.lsAmount)+"</td>";
+						 		td16Html = "<td>"+accDiv(getNum(row.lsAmount),num1)+"</td>";
 						 		break;
 						 	}
 						 }

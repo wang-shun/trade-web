@@ -88,7 +88,29 @@
 			}
 			return num1 + num2;
 		}
-		
+		function account(num1,num2){
+			if(isNaN(num1)){
+				return 0
+			}
+			if(isNaN(num2)){
+				return 0
+			}
+			return num1/num2;
+		}
+		//除法函数，用来得到精确的除法结果
+		//说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+		//调用：accDiv(arg1,arg2)
+		//返回值：arg1除以arg2的精确结果
+		function accDiv(arg1,arg2){
+		    var t1=0,t2=0,r1,r2;
+		    try{t1=arg1.toString().split(".")[1].length}catch(e){}
+		    try{t2=arg2.toString().split(".")[1].length}catch(e){}
+		    with(Math){
+		        r1=Number(arg1.toString().replace(".",""));
+		        r2=Number(arg2.toString().replace(".",""));
+		        return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
+		    }
+		}		
        	
 		function reloadGrid() {
 		   	var year = window.parent.yearDisplay;
@@ -106,27 +128,26 @@
 				dataType : "json",
 				data : data,
 				success : function(data) {
-					if (data == null || data == undefined) {
+					if (data == null || data == undefined || !(data.ajaxResponse.success)) {
 						window.parent.wxc.alert("数据加载失败！");
 						return;
 					}
 					
 					data.ctx = ctx;
-					//data.rows = 6;
 					$('#tableTemplate').empty();
 					var tbHtml = "";
 					var tr1Html =  "<tr><td>派单量 		</td>";			
-					var tr2Html =  "<tr><td>签约量（买卖）		</td>";              
-					var tr3Html =  "<tr><td>过户量	</td>";      
+					var tr2Html =  "<tr><td>签约量（买卖）	</td>";              
+					var tr3Html =  "<tr><td>过户量		</td>";      
 					var tr4Html =  "<tr><td>商贷签约量		</td>";      
-					var tr5Html =  "<tr><td>商贷签约量		</td>";      
-					var tr6Html =  "<tr><td>商贷案件占比		</td>";      
-					var tr7Html =  "<tr><td>纯公积金案件占比	</td>";          
-					var tr8Html =  "<tr><td>签贷合同价    </td>";    
-					var tr9Html =  "<tr><td>商贷金额	</td>";      
-					var tr10Html = "<tr><td>公积金金额</td>";     
-					var tr11Html = "<tr><td>商贷金额占比</td>";     
-					var tr12Html = "<tr><td>公积金金额占比  </td>";    
+					var tr5Html =  "<tr><td>公积金签约量	</td>";      
+					var tr6Html =  "<tr><td>商贷案件占比	</td>";      
+					var tr7Html =  "<tr><td>纯公积金案件占比</td>";          
+					var tr8Html =  "<tr><td>签贷合同价    	</td>";    
+					var tr9Html =  "<tr><td>商贷金额		</td>";      
+					var tr10Html = "<tr><td>公积金金额		</td>";     
+					var tr11Html = "<tr><td>商贷金额占比	</td>";     
+					var tr12Html = "<tr><td>公积金金额占比  	</td>";    
 					var tempTd = "<td>0</td>";
 					var list = data.voList[0];
 					var listSize = list.length;debugger;
@@ -149,18 +170,18 @@
 						 		var num1 = getNum(row.mortComAmount);
 						 		var num2 = getNum(row.mortPrfAmount);
 						 		var numA = sum(num1,num2);
-						 		td1Html = "<td>"+num1+"</td>";
-						 		td2Html = "<td>"+num2+"</td>";
-						 		td3Html = "<td>"+numA+"</td>";
-						 		td4Html = "<td>"+numA+"</td>";
-						 		td5Html = "<td>"+numA+"</td>";
-						 		td6Html = "<td>"+numA+"</td>";
-						 		td7Html = "<td>"+numA+"</td>";
-						 		td8Html = "<td>"+numA+"</td>";
-						 		td9Html = "<td>"+numA+"</td>";
-						 		td10Html = "<td>"+numA+"</td>";
-						 		td11Html = "<td>"+numA+"</td>";
-						 		td12Html = "<td>"+numA+"</td>";
+						 		td1Html = "<td>"+getNum(row.dispatchSum)+"</td>";
+						 		td2Html = "<td>"+getNum(row.realConSum)+"</td>";
+						 		td3Html = "<td>"+getNum(row.transferAppPassSum)+"</td>";
+						 		td4Html = "<td>"+getNum(row.comSum)+"</td>";
+						 		td5Html = "<td>"+getNum(row.prfSum)+"</td>";
+						 		td6Html = "<td>"+accDiv(getNum(row.comSum),getNum(row.realConSum))+"</td>";
+						 		td7Html = "<td>"+accDiv(getNum(row.prfSum),getNum(row.realConSum))+"</td>";
+						 		td8Html = "<td>"+row.conPrice+"</td>";
+						 		td9Html = "<td>"+num1+"</td>";
+						 		td10Html = "<td>"+num2+"</td>";
+						 		td11Html = "<td>"+accDiv(num1,getNum(row.conPrice))+"</td>";
+						 		td12Html = "<td>"+accDiv(num2,getNum(row.conPrice))+"</td>";
 						 		break;
 						 	}
 						 }
@@ -202,40 +223,6 @@
 					tbHtml+=tr11Html;
 					tbHtml+=tr12Html;
 					$("#tableTemplate").append(tbHtml);
-					
-					/* var title = [
-					             "派单量",
-					             "签约量（买卖）",
-					             "过户量",
-					            " 商贷签约量",
-					            " 公积金签约量",
-					            " 商贷案件占比",
-					             "纯公积金案件占比",
-					             "签贷合同价",
-					             "商贷金额",
-					             "公积金金额",
-					             "商贷金额占比",
-					             "公积金金额占比"
- 						];
-					var trHtml = "";
-					$.each(data.rows, function(i, item) {
-						trHtml += "<tr><td>" + title[i] + "</td>"
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.lossCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "</tr>";
-
-					})
-					$("#tableTemplate").html(trHtml); */
 				}
 			})
 		}
