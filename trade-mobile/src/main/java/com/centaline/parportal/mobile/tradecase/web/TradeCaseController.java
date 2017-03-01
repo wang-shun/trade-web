@@ -69,7 +69,10 @@ public class TradeCaseController {
 			paramMap.put("onlyFocus", onlyFocus);
 		}
 		paramMap.put("status", status);
-		paramMap.put("property", property);
+		//全部案件
+		if(30003006 != property){
+			paramMap.put("property", property);
+		}
 		if (null != onlyLoanLostAlert && onlyLoanLostAlert) {
 			paramMap.put("onlyLoanLostAlert", onlyLoanLostAlert);
 		}
