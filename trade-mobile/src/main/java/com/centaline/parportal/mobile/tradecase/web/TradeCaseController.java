@@ -23,6 +23,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
 import com.centaline.trans.common.enums.TransDictEnum;
@@ -64,12 +65,12 @@ public class TradeCaseController {
 
 		Map<String, Object> paramMap = gp.getParamtMap();
 		paramMap.put("q_text", q_text);
-		if (onlyFocus) {
+		if (null != onlyFocus && onlyFocus) {
 			paramMap.put("onlyFocus", onlyFocus);
 		}
 		paramMap.put("status", status);
 		paramMap.put("property", property);
-		if (onlyLoanLostAlert) {
+		if (null != onlyLoanLostAlert && onlyLoanLostAlert) {
 			paramMap.put("onlyLoanLostAlert", onlyLoanLostAlert);
 		}
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
@@ -286,22 +287,18 @@ public class TradeCaseController {
 	
 	@RequestMapping(value = "{caseCode}/process")
 	@ResponseBody
-	public JSONObject process(@RequestParam(required = true) Integer page,
-			@RequestParam(required = true) Integer pageSize, @PathVariable("caseCode") String caseCode ) {
+	public String process(@PathVariable("caseCode") String caseCode ) {
 		SessionUser user = sessionService.getSessionUser();
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("getProcessListMobile");
-		gp.setPage(page);
-		gp.setRows(pageSize);
-
+		gp.setPagination(false);
 		Map<String, Object> paramMap = gp.getParamtMap();
 		paramMap.put("caseCode", caseCode);
 
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
-		buildZhongjieInfo(list);
-
-		return Pages2JSONMoblie.pages2JsonMoblie(pages);
+		JSONArray ja = (JSONArray) JSONArray.toJSON(list);
+		return ja.toJSONString();
 	}
 	
 	

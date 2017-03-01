@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/2/28 9:32:11 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/2/28 10:00:16 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17,12 +17,18 @@ ALTER PROCEDURE [sctrans].[P_MONTH_REPORT_CASE_INFO](
 AS
 BEGIN
 	DECLARE @update_date datetime;
-
+	DECLARE @update_year INT;
+	DECLARE @update_month INT;
 
 
   IF @belong_month = 0
 		BEGIN
 			set @belong_month = year(getdate())*100 + month(dateadd(month,-1,getdate()));
+
+			set @update_year =year(getdate());
+
+			set @update_month =month(dateadd(month,-1,getdate()));
+
 		END
   
 
@@ -93,7 +99,9 @@ BEGIN
 	[JFHJL_NAME],--分行经理姓名	
 	[JFHJL_EMPLOYEE_CODE],--分行经理雇员编号	
 	CREATE_TIME,
-	BELONG_MONTH
+	BELONG_MONTH,
+	[BELONG_FOR_YEAR] ,
+	[BELONG_FOR_MONTH]
 	)
 SELECT
 	CASE_CODE,
@@ -152,8 +160,9 @@ SELECT
 	[JFHJL_NAME],--分行经理姓名	
 	[JFHJL_EMPLOYEE_CODE],--分行经理雇员编号	
 	GETDATE(),
-	@belong_month--所属月份
-
+	@belong_month,--所属月份
+	@update_year,
+	@update_month
 	FROM    
 	  SCTRANS.T_RPT_CASE_BASE_INFO
 	  commit tran;
