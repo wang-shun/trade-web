@@ -54,30 +54,9 @@
 								<th>10月</th>
 								<th>11月</th>
 								<th>12月</th>
-
 							</tr>
 						</thead>
 						<tbody id="tableTemplate">
-							<tr>
-								<td rowspan="3">过户数据（签贷款）</td>
-								<td>商贷金额</td>
-							</tr>
-							<tr>
-								<td>公积金金额</td>
-							</tr>
-							<tr>
-								<td>总计</td>
-							</tr>
-							<tr>
-								<td rowspan="3">贷款签约数据</td>
-								<td>商贷金额</td>
-							</tr>
-							<tr>
-								<td>公积金金额</td>
-							</tr>
-							<tr>
-								<td>总计</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -92,6 +71,24 @@
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
+		function getNum(num){
+			if(isNaN(num)){
+				return 0;
+			}
+			//return num/1000;
+			return num;
+		}
+		function sum(num1,num2){
+			if(isNaN(num1)){
+				return 0
+			}
+			if(isNaN(num2)){
+				return 0
+			}
+			return num1 + num2;
+		}
+		
+		
 		function reloadGrid() {
 		   	var year = window.parent.yearDisplay;
 			var data = {
@@ -99,8 +96,8 @@
 				page : 1
 				
 			};
-        	data.choiceYear = year;
-			var url = ctx+"/js/eachartdata/loanloss.json"
+        	data.year = year;
+        	var url = ctx+"/operateData/operateOne"
 			$.ajax({
 				async : true,
 				url : url,
@@ -113,30 +110,78 @@
 						return;			
 					}
 					data.ctx = ctx;
-					debugger;
-					var trHtml="";
-					$.each(data.rows,function(i,item){
-					    if(i>5){return};
-						if(i==0)trHtml+="<tr ><td rowspan='3'>过户数据（签贷款</td><td>商贷金额</td>";
-						if(i==3)trHtml+="<tr><td rowspan='3'>贷款签约数据</td><td>商贷金额</td>";
-						if(i==1||i==4)trHtml+="<tr><td>公积金金额</td>"
-						if(i==2||i==5)trHtml+="<tr><td>总计</td>"
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.lossCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-							trHtml+="<td>"+item.successCount+"</td>";
-                            trHtml+="</tr>";
-						
-					})
-					$("#tableTemplate").html(trHtml);
+					//data.rows = 6;
+					$('#tableTemplate').empty();
+					var tbHtml = "";
+					var tr1Html = "<tr><td rowspan='3'>过户数据（签贷款）</td><td>商贷金额</td>";
+					var tr2Html = "<tr><td>公积金金额</td>";
+					var tr3Html = "<tr><td>总计</td>";
+					var tempTd = "<td>0</td>";
+					var list = data.voList[0];
+					var listSize = list.length;
+					 for(var month = 1;month<=12;month++){
+						var td1Html = "";
+						var td2Html = "";
+						var td3Html = "";
+						console.log("month==="+month);
+						 for(var i = 0;i< listSize;i++){
+							 var row = list[i];
+						 	if(parseInt(row.month)==(month)){
+						 		var num1 = getNum(row.mortComAmount);
+						 		var num2 = getNum(row.mortPrfAmount);
+						 		var numA = sum(num1,num2);
+						 		td1Html = "<td>"+num1+"</td>";
+						 		td2Html = "<td>"+num2+"</td>";
+						 		td3Html = "<td>"+numA+"</td>";
+						 		break;
+						 	}
+						 }
+						 tr1Html+= (td1Html=="")?tempTd:td1Html;
+						 tr2Html+= (td2Html=="")?tempTd:td2Html;
+						 tr3Html+= (td3Html=="")?tempTd:td3Html;
+					} 
+					tr1Html +="</tr>";
+					tr2Html +="</tr>";
+					tr3Html +="</tr>";
+					tbHtml+=tr1Html;
+					tbHtml+=tr2Html;
+					tbHtml+=tr3Html;
+					$("#tableTemplate").append(tbHtml);
+					
+					tbHtml = "";
+					tr1Html = "<tr><td rowspan='3'>贷款签约数据</td><td>商贷金额</td>";
+					tr2Html = "<tr><td>公积金金额</td>";
+					tr3Html = "<tr><td>总计</td>";
+					list = data.voList[1];
+					listSize = list.length;
+					 for(var month = 1;month<=12;month++){
+						var td1Html = "";
+						var td2Html = "";
+						var td3Html = "";
+						console.log("month==="+month);
+						 for(var i = 0;i< listSize;i++){
+							 var row = list[i];
+						 	if(parseInt(row.month)==(month)){
+						 		var num1 = getNum(row.dkmortComAmount);
+						 		var num2 = getNum(row.dkmortPrfAmount);
+						 		var numA = sum(num1,num2);
+						 		td1Html = "<td>"+num1+"</td>";
+						 		td2Html = "<td>"+num2+"</td>";
+						 		td3Html = "<td>"+numA+"</td>";
+						 		break;
+						 	}
+						 }
+						 tr1Html+= (td1Html=="")?tempTd:td1Html;
+						 tr2Html+= (td2Html=="")?tempTd:td2Html;
+						 tr3Html+= (td3Html=="")?tempTd:td3Html;
+					} 
+					tr1Html +="</tr>";
+					tr2Html +="</tr>";
+					tr3Html +="</tr>";
+					tbHtml+=tr1Html;
+					tbHtml+=tr2Html;
+					tbHtml+=tr3Html;
+					$("#tableTemplate").append(tbHtml);
 					// 显示分页 
 		},error : function(e, jqxhr, settings, exception) {
 			//$.unblockUI();
