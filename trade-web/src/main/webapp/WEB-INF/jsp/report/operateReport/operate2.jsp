@@ -28,7 +28,7 @@
 			<div class="row chartwo">
 				<div class="col-md-12">
 					<div class="clearfix mb30">
-						<h3 class="content-title pull-left">评估转化率</h3>
+						<h3 class="content-title pull-left">过户数据</h3>
 						<div class="calendar-watch clearfix">
 							<p class="calendar-year">
 								<a href="#" id="subtract"><em>&lt;</em></a> <span>2016年11月</span>
@@ -117,6 +117,17 @@
 		    m=Math.pow(10,Math.max(r1,r2));
 		    return ((arg1*m+arg2*m)/m).toFixed(2);
 		}
+		//乘法函数，用来得到精确的乘法结果
+		//说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+		//调用：accMul(arg1,arg2)
+		//返回值：arg1乘以arg2的精确结果
+		function accMul(arg1,arg2)
+		{
+		    var m=0,s1=arg1.toString(),s2=arg2.toString();
+		    try{m+=s1.split(".")[1].length}catch(e){}
+		    try{m+=s2.split(".")[1].length}catch(e){}
+		    return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(2);
+		}
 		function reloadGrid() {
 			var year = window.parent.yearDisplay;
 			var data = {
@@ -181,25 +192,27 @@
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
-						 		var num1 = getNum(row.mortComAmount);
-						 		var num2 = getNum(row.mortPrfAmount);
+						 		var num1 = accDiv(getNum(row.mortComAmount),10000);
+						 		var num2 = accDiv(getNum(row.mortPrfAmount),10000);
 						 		var numA = sum(num1,num2);
 						 		td1Html = "<td>"+getNum(row.loanReqNum)+"</td>";
 						 		td2Html = "<td>"+getNum(row.prfNum)+"</td>";
 						 		td3Html = "<td>"+getNum(row.comNum)+"</td>";
-						 		td4Html = "<td>"+accDiv(row.comNum,row.allNum)+"</td>";
-						 		td5Html = "<td>"+getNum(row.allRealPrice)+"</td>";
+						 		td4Html = "<td>"+accMul(accDiv(row.comNum,row.allNum),100)+'%'+"</td>";
+						 		td5Html = "<td>"+accDiv(getNum(row.allRealPrice),10000)+"</td>";
 						 		td6Html = "<td>"+num1+"</td>";
 						 		td7Html = "<td>"+num2+"</td>";
-						 		td8Html = "<td>"+accDiv(accAdd(num1,num2),getNum(row.allRealPrice))+"</td>";
-						 		td9Html = "<td>"+getNum(row.realPrice)+"</td>";
-						 		td10Html = "<td>"+accDiv(num1,getNum(row.realPrice))+"</td>";
+						 		td8Html = "<td>"+accMul(accDiv(accAdd(getNum(row.mortComAmount),getNum(row.mortPrfAmount)),getNum(row.allRealPrice)),100)+"%</td>";
+						 		td9Html = "<td>"+accDiv(getNum(row.realPrice),10000)+"</td>";
+						 		td10Html = "<td>"+accMul(accDiv(getNum(row.mortPrfAmount),getNum(row.realPrice)),100)+"%</td>";
 						 		td11Html = "<td>"+getNum(row.comRec)+"</td>";
 						 		td12Html = "<td>"+getNum(row.lsRec)+"</td>";
-						 		td13Html = "<td>"+accDiv(getNum(row.lsRec),getNum(row.comNum))+"</td>";
-						 		td14Html = "<td>"+getNum(row.sdAmount)+"</td>";
-						 		td15Html = "<td>"+getNum(row.lsAmount)+"</td>";
-						 		td16Html = "<td>"+accDiv(getNum(row.lsAmount),num1)+"</td>";
+						 		if(getNum(row.lsRec)==0 || getNum(row.comNum)==0) td13Html = "<td>"+0.00+"%</td>";
+						 		else td13Html = "<td>"+accMul(accDiv(getNum(row.lsRec),getNum(row.comNum)),100)+"%</td>";
+						 		td14Html = "<td>"+accDiv(getNum(row.sdAmount),10000)+"</td>";
+						 		td15Html = "<td>"+accDiv(getNum(row.lsAmount),10000)+"</td>";
+						 		if(getNum(row.lsAmount)==0 || getNum(row.mortPrfAmount)==0) td16Html = "<td>"+0.00+"%</td>";
+						 		else td16Html = "<td>"+accMul(accDiv(getNum(row.lsAmount),getNum(row.mortPrfAmount)),100)+"%</td>";
 						 		break;
 						 	}
 						 }

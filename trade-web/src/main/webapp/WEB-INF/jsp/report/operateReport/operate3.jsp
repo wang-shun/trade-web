@@ -110,7 +110,18 @@
 		        r2=Number(arg2.toString().replace(".",""));
 		        return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
 		    }
-		}		
+		}	
+		//乘法函数，用来得到精确的乘法结果
+		//说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+		//调用：accMul(arg1,arg2)
+		//返回值：arg1乘以arg2的精确结果
+		function accMul(arg1,arg2)
+		{
+		    var m=0,s1=arg1.toString(),s2=arg2.toString();
+		    try{m+=s1.split(".")[1].length}catch(e){}
+		    try{m+=s2.split(".")[1].length}catch(e){}
+		    return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(2);
+		}
        	
 		function reloadGrid() {
 		   	var year = window.parent.yearDisplay;
@@ -175,13 +186,17 @@
 						 		td3Html = "<td>"+getNum(row.transferAppPassSum)+"</td>";
 						 		td4Html = "<td>"+getNum(row.comSum)+"</td>";
 						 		td5Html = "<td>"+getNum(row.prfSum)+"</td>";
-						 		td6Html = "<td>"+accDiv(getNum(row.comSum),getNum(row.realConSum))+"</td>";
-						 		td7Html = "<td>"+accDiv(getNum(row.prfSum),getNum(row.realConSum))+"</td>";
-						 		td8Html = "<td>"+row.conPrice+"</td>";
-						 		td9Html = "<td>"+num1+"</td>";
-						 		td10Html = "<td>"+num2+"</td>";
-						 		td11Html = "<td>"+accDiv(num1,getNum(row.conPrice))+"</td>";
-						 		td12Html = "<td>"+accDiv(num2,getNum(row.conPrice))+"</td>";
+						 		if(getNum(row.comSum) == 0 || getNum(row.realConSum)==0) td6Html = "<td>"+0.00+"%</td>";
+						 		else td6Html = "<td>"+accMul(accDiv(getNum(row.comSum),getNum(row.realConSum)),100)+"%</td>";
+						 		if(getNum(row.prfSum)==0 || getNum(row.realConSum)==0)td7Html = "<td>"+0.00+"%</td>";
+						 		else td7Html = "<td>"+accMul(accDiv(getNum(row.prfSum),getNum(row.realConSum)),100)+"%</td>";
+						 		td8Html = "<td>"+accDiv(getNum(row.conPrice),10000)+"</td>";
+						 		td9Html = "<td>"+accDiv(num1,10000)+"</td>";
+						 		td10Html = "<td>"+accDiv(num2,10000)+"</td>";
+						 		if(num1==0 || getNum(row.conPrice)==0) td11Html = "<td>"+0.00+"%</td>";
+						 		else td11Html = "<td>"+accMul(accDiv(num1,getNum(row.conPrice)),100)+"%</td>";
+						 		if(num2==0 || getNum(row.conPrice)==0) td12Html = "<td>"+0.00+"%</td>";
+						 		else td12Html = "<td>"+accMul(accDiv(num2,getNum(row.conPrice)),100)+"%</td>";
 						 		break;
 						 	}
 						 }
