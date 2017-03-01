@@ -446,15 +446,25 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT c.MORT_FIN_BRANCH_NAME AS branchBankName,
-						   c.MORT_FIN_SUB_BRANCH_NAME AS subBranchBankName,
-						   c.IS_RUWEI_BANK as isRuweiBank,
-						   COUNT(*) AS caseCount,    --案件单数
-						   round(isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0),2) AS sdAmount  --商贷金额,不统计公积金金额
-					FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c
-					WHERE c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#
-					GROUP BY c.MORT_FIN_BRANCH_NAME,c.MORT_FIN_SUB_BRANCH_NAME,c.IS_RUWEI_BANK
-					ORDER BY SUM(c.MORT_COM_AMOUNT) DESC
+					SELECT 
+						t.branchBankName,
+						t.FIN_ORG_NAME_YC AS subBranchBankName,
+						t.caseCount,
+						t.sdAmount,
+						t.isRuweiBank
+					FROM
+					(
+					select 
+						ts.*,
+						(SELECT FIN_ORG_NAME_YC FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = ts.fa_fin_org_code) AS branchBankName,
+						(SELECT count(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = ts.FA_FIN_ORG_CODE AND c.MORT_FIN_ORG_CODE = ts.FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS caseCount,
+						(SELECT round(isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = ts.FA_FIN_ORG_CODE AND c.MORT_FIN_ORG_CODE = ts.FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdAmount,
+						(SELECT DISTINCT c.IS_RUWEI_BANK FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = ts.FA_FIN_ORG_CODE AND c.MORT_FIN_ORG_CODE = ts.FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS isRuweiBank
+					from sctrans.T_TS_FIN_ORG ts 
+					right join sctrans.T_TS_SUP as tt on tt.fin_org_code= ts.fin_org_code and tt.sup_cat='0' 
+					) t
+					WHERE t.branchBankName IS NOT NULL
+					ORDER BY t.sdAmount DESC
 					OFFSET 0 ROWS FETCH  next 20 ROWS ONLY
 	            ]]>
 			</baseSql>

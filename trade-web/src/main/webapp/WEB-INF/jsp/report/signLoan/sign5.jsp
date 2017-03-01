@@ -72,7 +72,7 @@
 								<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
 						        </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="height:565px;overflow-y:auto;">
                                 <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                                     <thead>
                                         <tr>
@@ -182,6 +182,7 @@
 			
 			//初始化支行数据
 			data.queryId = "subBranchBankQuery";
+			data.pagination = false;
   			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table1","tableTemplate1");
 		}
