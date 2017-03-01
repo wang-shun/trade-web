@@ -57,7 +57,7 @@ function initData(url,data,templateId,tbodyId) {
 
 		//得到数据快照月份
 		function getBelongMonth(choiceMonth){
-			var minBelongMoth = 201701;
+			var minBelongMoth = 201702;
 			if(choiceMonth==''||choiceMonth=='undefined'||choiceMonth==undefined){
 				return minBelongMoth
 			}
