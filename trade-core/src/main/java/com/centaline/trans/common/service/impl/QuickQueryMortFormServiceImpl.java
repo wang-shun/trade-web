@@ -35,15 +35,15 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 		double case_count_percent=0;//案件占比
 		double case_total_count=0;//总案件数
 
-		int TOTAL_MORT_COM_COUNT = 0;//商贷案件总和
-		int TOTAL_CASE_COUNT=0;
-		int TOTAL_E_CARD_COUNT=0;
+		double TOTAL_MORT_COM_COUNT = 0;//商贷案件总和
+		double TOTAL_CASE_COUNT=0;
+		double TOTAL_E_CARD_COUNT=0;
 		double TOTAL_CARD_COUNT=0;
 		double TOTAL_E_AMOUNT=0;
-		int TOTAL_EVA_COUNT=0;
+		double TOTAL_EVA_COUNT=0;
 		double TOTAL_MORT_COM_AMOUNT = 0;//商贷金额总和
 		double TOTAL_CASE_CON_PRICE = 0;//合同价总和
-		int TOTAL_LOST_COUNT = 0;//流失案件总和
+		double TOTAL_LOST_COUNT = 0;//流失案件总和
 		double TOTAL_CASE_LOST_COUNT_PERCENT =0;//案件流失率
 		double TOTAL_LOST_AMOUNT =0;//流失金额总和
 		double TOTAL_CASE_LOST_AMOUNT_PERCENT =0;//金额流失率
@@ -140,34 +140,34 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 				}
 
 				if("qqGetTotalForConsultant".equals(dictType)){
-					TOTAL_MORT_COM_COUNT += Integer.valueOf(keyer.get("MORT_COM_COUNT").toString());
+					TOTAL_MORT_COM_COUNT += Double.valueOf(keyer.get("MORT_COM_COUNT").toString());
 					TOTAL_MORT_COM_AMOUNT+= Double.valueOf(keyer.get("MORT_COM_AMOUNT").toString());
 
-					TOTAL_LOST_COUNT += Integer.valueOf(keyer.get("LOST_COUNT").toString());
+					TOTAL_LOST_COUNT += Double.valueOf(keyer.get("LOST_COUNT").toString());
 					TOTAL_LOST_AMOUNT+= Double.valueOf(keyer.get("LOST_AMOUNT").toString());
 
 					TOTAL_EVA_FEE+= Double.valueOf(keyer.get("EVA_FEE").toString());
 
-					TOTAL_CASE_COUNT+= Integer.valueOf(keyer.get("CASE_COUNT").toString());
+					TOTAL_CASE_COUNT+= Double.valueOf(keyer.get("CASE_COUNT").toString());
 					TOTAL_E_CARD_COUNT+= Double.valueOf(keyer.get("E_CARD_COUNT").toString());
-					TOTAL_CARD_COUNT+= Integer.valueOf(keyer.get("CARD_COUNT").toString());
+					TOTAL_CARD_COUNT+= Double.valueOf(keyer.get("CARD_COUNT").toString());
 					TOTAL_E_AMOUNT+= Double.valueOf(keyer.get("E_AMOUNT").toString());
 					TOTAL_CASE_CON_PRICE+= Double.valueOf(keyer.get("CASE_CON_PRICE").toString());
-					TOTAL_EVA_COUNT+= Integer.valueOf(keyer.get("EVA_COUNT").toString());
+					TOTAL_EVA_COUNT+= Double.valueOf(keyer.get("EVA_COUNT").toString());
 
 					if(TOTAL_MORT_COM_COUNT!=0){
-						TOTAL_PING_GU_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_EVA_COUNT / TOTAL_MORT_COM_COUNT));
+						TOTAL_PING_GU_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_EVA_COUNT/TOTAL_MORT_COM_COUNT));
 					}
 					if(TOTAL_CASE_COUNT!=0){
 						TOTAL_CASE_LOST_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_LOST_COUNT/TOTAL_CASE_COUNT));
-						TOTAL_E_COUNT_PERCENT =  Double.valueOf(df.format(TOTAL_E_CARD_COUNT / TOTAL_CASE_COUNT));
-						TOTAL_CARD_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_CARD_COUNT / TOTAL_CASE_COUNT));
+						TOTAL_E_COUNT_PERCENT =  Double.valueOf(df.format(TOTAL_E_CARD_COUNT/TOTAL_CASE_COUNT));
+						TOTAL_CARD_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_CARD_COUNT/TOTAL_CASE_COUNT));
 					}
 					if(TOTAL_MORT_COM_AMOUNT!=0){
-						TOTAL_CASE_LOST_AMOUNT_PERCENT = Double.valueOf(df.format(TOTAL_LOST_AMOUNT / TOTAL_MORT_COM_AMOUNT));
+						TOTAL_CASE_LOST_AMOUNT_PERCENT = Double.valueOf(df.format(TOTAL_LOST_AMOUNT/TOTAL_MORT_COM_AMOUNT));
 					}
 					if(TOTAL_CASE_CON_PRICE!=0){
-						TOTAL_E_AMOUNT_PERCENT = Double.valueOf(df.format(TOTAL_E_AMOUNT / TOTAL_CASE_CON_PRICE));
+						TOTAL_E_AMOUNT_PERCENT = Double.valueOf(df.format(TOTAL_E_AMOUNT/TOTAL_CASE_CON_PRICE));
 					}
 
 					keyer.put("TOTAL_CASE_PART", TOTAL_CASE_PART);
