@@ -69,6 +69,7 @@ function getMinWeek(week){
 	if(week[0] < 20161230){
 		_week[0] = 20161230;
 		_week[1] = 20170105;
+		
 		return _week;
 	}
 		return week;
