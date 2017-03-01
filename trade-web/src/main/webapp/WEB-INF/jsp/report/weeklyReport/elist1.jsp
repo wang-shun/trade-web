@@ -116,17 +116,23 @@ th,td {
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
-			var weekParamArr = window.parent.weekParam;
+			
+			var weekParamOrigin = window.parent.weekParam;
+			var startWeekDay = weekParamOrigin[0];
+			var endWeekDay = weekParamOrigin[1];
+			var weekParamAlter = parent.getMinWeek(weekParamOrigin);
+			
 			var data = {
 				queryId : "queryWeeklyBaseInfoList1",
-				startWeekDay : weekParamArr[0],
-				endWeekDay : weekParamArr[1],
+				startWeekDay : startWeekDay,
+				endWeekDay : endWeekDay,
+				belongEndWeekDay : weekParamAlter[1],
 				rows : 10,
 				page : 1	
 			}
 			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_loanLoseList","loanLoseList");
-            var yearStrPart = weekParamArr[1].substr(4,2);
+            var yearStrPart = weekParamOrigin[1].substr(4,2);
             var thisMonth = parseInt(yearStrPart);
             var lastMonth = thisMonth - 1 == 0?12:thisMonth - 1;
             $("#thisMonthTitle").text(thisMonth+"月流失率");

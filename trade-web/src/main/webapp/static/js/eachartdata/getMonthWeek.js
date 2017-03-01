@@ -61,6 +61,20 @@ function convertWeekForSql(week){
 }
 
 /**
+ * 获取最小周
+ */
+function getMinWeek(week){
+	var _week = [];
+	
+	if(week[0] < 20161230){
+		_week[0] = 20161230;
+		_week[1] = 20170105;
+		return _week;
+	}
+		return week;
+}
+
+/**
  *
  * @param year
  * @param month

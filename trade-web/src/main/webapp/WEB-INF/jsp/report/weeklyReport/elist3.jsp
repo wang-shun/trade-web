@@ -119,11 +119,17 @@ th, td {
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
-			var weekParamArr = window.parent.weekParam;
+			
+			var weekParamOrigin = window.parent.weekParam;
+			var startWeekDay = weekParamOrigin[0];
+			var endWeekDay = weekParamOrigin[1];
+			var weekParamAlter = parent.getMinWeek(weekParamOrigin);
+			
 			var data = {
 				queryId : "queryWeeklyBaseInfoList3",
-				startWeekDay : weekParamArr[0],
-				endWeekDay : weekParamArr[1],
+				startWeekDay : startWeekDay,
+				endWeekDay : endWeekDay,
+				belongEndWeekDay : weekParamAlter[1],
 				rows : 10,
 				page : 1
 			}
