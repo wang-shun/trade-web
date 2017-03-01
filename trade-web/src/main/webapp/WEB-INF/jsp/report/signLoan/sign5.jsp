@@ -66,6 +66,11 @@
                                     <tbody id="tableTemplate">
                                     </tbody>
                                 </table>
+		                        <div class="text-center">
+								<span id="currentTotalPage"><strong class="bold"></strong></span>
+								<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+								<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+						        </div>
                             </div>
                             <div class="col-md-6">
                                 <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
@@ -80,6 +85,11 @@
                                     <tbody id="tableTemplate1">
                                     </tbody>
                                 </table>
+                               <div class="text-center">
+								<span id="currentTotalPage"><strong class="bold"></strong></span>
+								<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+								<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+						        </div>
                             </div>
                         </div>
 				</div>
@@ -160,11 +170,9 @@
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_)
 			var data = {
-				rows : 9999,
+				rows : 10,
 				page : 1
-				
 			};
-	        
 	        //统计分行数据
 	        data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
