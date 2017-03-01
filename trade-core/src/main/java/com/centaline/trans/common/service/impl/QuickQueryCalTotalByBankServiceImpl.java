@@ -13,8 +13,7 @@ import com.aist.common.quickQuery.service.CustomDictService;
  * @author yinjf2
  *
  */
-public class QuickQueryCalTotalByBankServiceImpl implements
-		CustomDictService {
+public class QuickQueryCalTotalByBankServiceImpl implements CustomDictService {
 
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
@@ -22,6 +21,8 @@ public class QuickQueryCalTotalByBankServiceImpl implements
 		int totalCount = 0; // 总的案件单数
 		double totalSdAmount = 0; // 总的商贷金额
 		String strTotalSdAmount = "0";
+		DecimalFormat df = new DecimalFormat("#.00");
+
 		for (Map<String, Object> keyer : keys) {
 			int caseCount = (Integer) keyer.get("caseCount");
 
@@ -33,7 +34,6 @@ public class QuickQueryCalTotalByBankServiceImpl implements
 
 			if (totalSdAmount != 0) {
 				// 格式化占比四舍五入
-				DecimalFormat df = new DecimalFormat("#.00");
 				strTotalSdAmount = df.format(totalSdAmount);
 			}
 

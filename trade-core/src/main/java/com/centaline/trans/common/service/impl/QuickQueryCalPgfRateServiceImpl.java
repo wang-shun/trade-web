@@ -17,6 +17,7 @@ public class QuickQueryCalPgfRateServiceImpl implements CustomDictService {
 
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
+		DecimalFormat df = new DecimalFormat("#.00");
 
 		int totalSlCount = 0; // 总的受理案件量
 		int totalQyCount = 0; // 总的签约量
@@ -68,8 +69,6 @@ public class QuickQueryCalPgfRateServiceImpl implements CustomDictService {
 			totalGhCount += ghCount;
 			totalECardCount += eCardCount;
 			totalEProCount += eProCount;
-
-			DecimalFormat df = new DecimalFormat("#.00");
 
 			String strPgfRate = "0";
 			if (sdCount != 0) {

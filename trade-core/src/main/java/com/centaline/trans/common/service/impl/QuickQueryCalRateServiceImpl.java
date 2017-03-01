@@ -17,8 +17,10 @@ public class QuickQueryCalRateServiceImpl implements CustomDictService {
 
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
-		double tatalCount = 0; // 纯商+组合+纯公积金案件总和
+		// 格式化占比四舍五入
+		DecimalFormat df = new DecimalFormat("#.00");
 
+		double tatalCount = 0; // 纯商+组合+纯公积金案件总和
 		double totalSdAmount = 0; // 总商贷金额
 		double totalGjjAmount = 0; // 总公积金金额
 		double totalHtAmount = 0; // 总合同金额
@@ -76,9 +78,6 @@ public class QuickQueryCalRateServiceImpl implements CustomDictService {
 				totalSdAmountRate += sdAmountRate;
 				totalGjjAmountRate += gjjAmountRate;
 			}
-
-			// 格式化占比四舍五入
-			DecimalFormat df = new DecimalFormat("#.00");
 
 			if (caseCountRate != 0) {
 				strCaseCountRate = df.format(caseCountRate);

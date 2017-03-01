@@ -227,7 +227,7 @@
   			
   			data.condition = condition;
           	data.searchDateTime = year + "-" + month;
-          	data.searchBelongMonth = year + month;
+          	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
           	data.queryId = "signLoanDetailByGuibinQuery";
           	
   			var url = ctx+"/quickGrid/findPage";

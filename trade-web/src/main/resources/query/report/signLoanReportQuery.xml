@@ -5,6 +5,7 @@
 		<customDict id="calRate" beanName="calRate"></customDict>
 		<customDict id="calTotalByBank" beanName="calTotalByBank"></customDict>
 		<customDict id="calTotalByBackConsultantWork" beanName="calTotalByBackConsultantWork"></customDict>
+		<customDict id="calTotalBySignStatistics" beanName="calTotalBySignStatistics"></customDict>
 	</dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -20,6 +21,52 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
+	
+	<!-- 
+		签约贷款模块-签约数据统计(总表)
+	-->
+	<query id="signStatisticsQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT '一次性付款' as groupName,
+			 			(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE CASE_LOAN_REQ = 0 AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS caseCount,
+			 			(SELECT round(isnull(SUM(CASE_CON_PRICE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE CASE_LOAN_REQ = 0 AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) as htAmount
+					UNION ALL
+					SELECT '纯公积金' as groupName,
+			 			(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE MORT_TYPE = '30016003' AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS caseCount,
+			 			(SELECT round(isnull(SUM(CASE_CON_PRICE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE MORT_TYPE = '30016003' AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) as htAmount
+					UNION ALL
+					SELECT '公司办理' as groupName,
+			 			(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI=1 and (MORT_TYPE = '30016001' or MORT_TYPE = '30016002') AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS caseCount,
+			 			(SELECT round(isnull(SUM(CASE_CON_PRICE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI=1 and (MORT_TYPE = '30016001' or MORT_TYPE = '30016002') AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) as htAmount
+					UNION ALL
+					SELECT '客户自办' as groupName,
+			 			(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI=0 and (MORT_TYPE = '30016001' or MORT_TYPE = '30016002') AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS caseCount,
+			 			(SELECT round(isnull(SUM(CASE_CON_PRICE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI=0 and (MORT_TYPE = '30016001' or MORT_TYPE = '30016002') AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) as htAmount
+					UNION ALL
+					SELECT '贷款待办' as groupName,
+			 			(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE CASE_LOAN_REQ = 1 and MORT_TYPE is null AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS caseCount,
+			 			(SELECT round(isnull(SUM(CASE_CON_PRICE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE CASE_LOAN_REQ = 1 and MORT_TYPE is null AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) as htAmount
+	            ]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="groupName" title="类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="caseCount" title="单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="htAmount" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+				
+				<column type="virtual" 
+						name="caseCountRate,totalCaseCount,totalHtAmount,totalCaseCountRate" 
+						referencecol="caseCount,htAmount" 
+						customDict="calTotalBySignStatistics" /> 
+			</table-row>
+		</grid>
+	</query>
 
 	<!-- 
 		签约贷款模块-按照贵宾中心-组别-个人统计 

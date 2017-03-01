@@ -61,12 +61,6 @@
 									</tr>
 								</thead>
 								<tbody id="tableTemplate">
-									<tr>
-										<td>一次性付款</td>
-										<td>10</td>
-										<td>335</td>
-										<td>31.54%</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -101,11 +95,26 @@
           {{each rows as item index}}
 		    <tr>
               <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.totalCount}}</td>
+              <td>{{item.caseCount}}</td>
+              <td>{{item.htAmount}}</td>
+              <td>{{item.caseCountRate}}%</td>
              </tr>
 		{{/each}}
+		{{if rows.length > 0}}
+			<tr>
+              <td>总计</td>
+              <td>{{rows[rows.length-1].totalCaseCount}}</td>
+              <td>{{rows[rows.length-1].totalHtAmount}}</td>
+              <td>{{rows[rows.length-1].totalCaseCountRate}}%</td>
+             </tr>
+		{{else}}
+			<tr>
+              <td>总计</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0%</td>
+             </tr>
+		{{/if}}
 	    </script>
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
@@ -116,12 +125,13 @@
 			var data = {
 				rows : 8,
 				page : 1
-				
 			};
-        	data.choiceMonth = year + "-" + month;
-        	
-        	
-			var url = ctx+"/js/eachartdata/loanloss.json"
+	        
+	        data.searchDateTime = year + "-" + month;
+          	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
+          	data.pagination = false;
+          	data.queryId = "signStatisticsQuery";
+  			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate");
 		}
 	</script>
