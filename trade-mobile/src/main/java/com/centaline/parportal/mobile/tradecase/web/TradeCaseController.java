@@ -1,11 +1,13 @@
 package com.centaline.parportal.mobile.tradecase.web;
 
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -21,11 +23,17 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
+import com.centaline.trans.bizwarn.entity.BizWarnInfo;
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.vo.ToModuleSubscribeVo;
@@ -52,6 +60,13 @@ public class TradeCaseController {
     @Resource
     private ToModuleSubscribeService toModuleSubscribeService;
 	
+    @Resource
+    private BizWarnInfoService bizWarnInfoService;
+    
+    @Resource
+    private ToCaseService toCaseService;
+    @Resource
+    private UamUserOrgService uamUserOrgService;
 	@RequestMapping(value = "list")
 	@ResponseBody
 	public String list(@RequestParam(required = true) Integer page,
@@ -317,6 +332,47 @@ public class TradeCaseController {
 		vo.setModuleType("1001");
 		vo.setIsSubscribe(action);
         toModuleSubscribeService.saveOrDeleteCaseSubscribe(vo);
+        JSONObject jo = new JSONObject();
+        jo.put("success", true);
+        return jo.toJSONString();
+	}
+	
+	@RequestMapping(value = "{caseCode}/loanLostAlert")
+	@ResponseBody
+	public String loanLostAlert(@PathVariable("caseCode")String caseCode,
+			@RequestParam(required = true)Boolean action,@RequestParam(required = true)String reason){
+		BizWarnInfo bizWarnInfo = new BizWarnInfo();
+		
+		ToCase  toCase  = toCaseService.findToCaseByCaseCode(caseCode);
+		SessionUser currentUser = sessionService.getSessionUser();
+		
+		bizWarnInfo.setCaseCode(caseCode);
+		bizWarnInfo.setContent(reason);
+		bizWarnInfo.setWarnType("LOANLOSS");
+		bizWarnInfo.setCreateBy(currentUser.getId());
+		bizWarnInfo.setParticipant(toCase.getLeadingProcessId());
+		
+		if(!StringUtils.isBlank(toCase.getOrgId())){
+			Org currentOrg = uamUserOrgService.getOrgById(toCase.getOrgId());
+			Org parentOrg = uamUserOrgService.getOrgById(currentOrg.getParentId());
+			bizWarnInfo.setTeamId(toCase.getOrgId());
+			bizWarnInfo.setDistrictId(parentOrg.getId());
+		}
+		bizWarnInfo.setStatus("0");
+		bizWarnInfo.setCreateTime(new Date());
+		bizWarnInfo.setWarnTime(new Date());
+		bizWarnInfo.setCreateBy(currentUser.getId());
+		bizWarnInfo.setParticipant(currentUser.getId());
+		if(action){
+			BizWarnInfo  bwi = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
+			if(bwi == null){
+				bizWarnInfoService.insertSelective(bizWarnInfo);
+			}else{
+				bizWarnInfoService.updateByCaseCode(bizWarnInfo);
+			}
+		}else{
+			bizWarnInfoService.deleteByCaseCode(caseCode);
+		}
         JSONObject jo = new JSONObject();
         jo.put("success", true);
         return jo.toJSONString();
