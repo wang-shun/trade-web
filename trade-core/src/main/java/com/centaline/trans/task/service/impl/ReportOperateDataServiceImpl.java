@@ -1,10 +1,7 @@
 package com.centaline.trans.task.service.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +16,13 @@ public class ReportOperateDataServiceImpl implements ReportOperateDataService {
 	@Autowired
 	private ReportOperateDataMapper reportOperateDataMapper;
 
+	/**
+	 * 
+	 * @author hejf10 [贷款签约与过户对比]
+	 * @param year参数年（根据年查询一年的大数据分析）	
+	 * @date 2017年3月1日14:54:52
+	 * @return reportOperateDataList
+	 */
 	@Override
 	public List<List<ReportOperateData>> getReportOperateDataOne(int year) {
 
@@ -29,7 +33,13 @@ public class ReportOperateDataServiceImpl implements ReportOperateDataService {
 		reportOperateDataList.add(1,loanList);
 		return reportOperateDataList;
 	}
-	
+	/**
+	 * 
+	 * @author hejf10 [过户数据]
+	 * @param year参数年（根据年查询一年的大数据分析）	
+	 * @date 2017年3月1日14:54:52
+	 * @return reportOperateDataList
+	 */
 	@Override
 	public List<List<ReportOperateData>> getReportOperateDataTwo(int year) {
 		
@@ -38,7 +48,13 @@ public class ReportOperateDataServiceImpl implements ReportOperateDataService {
 		reportOperateDataList.add(0,transferList);
 		return reportOperateDataList;
 	}
-	
+	/**
+	 * 
+	 * @author hejf10 [签贷款数据]
+	 * @param year参数年（根据年查询一年的大数据分析）	
+	 * @date 2017年3月1日14:54:52
+	 * @return reportOperateDataList
+	 */
 	@Override
 	public List<List<ReportOperateData>> getReportOperateDataThree(int year) {
 		

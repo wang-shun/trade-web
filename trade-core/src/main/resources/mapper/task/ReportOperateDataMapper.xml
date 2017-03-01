@@ -76,7 +76,7 @@
 			sum((CASE WHEN  t.MORT_TYPE='30016003'   THEN 1 ELSE 0 END)) prfSum,-- '公积金签约量',
 			sum(t.MORT_COM_AMOUNT) mortComAmount,-- ' 商贷金额',
 			sum(t.MORT_PRF_AMOUNT) mortPrfAmount,-- ' 公积金金额',
-			sum(t.CASE_CON_PRICE) conPrice--' 案件合同价'
+			sum(t.MORT_TOTAL_AMOUNT) conPrice--' 案件合同价'
 		from  sctrans.T_RPT_HISTORY_CASE_BASE_INFO t  
 		where
 		 <if test="type != null">

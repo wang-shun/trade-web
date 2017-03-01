@@ -279,7 +279,7 @@ function getBelongMonth(choiceMonth){
 	}
 
 	try{
-		var belongMoth = parseInt(replace(choiceMonth,'-',''))
+		var belongMoth = parseInt(choiceMonthreplace('-',''))
 		if(belongMoth<minBelongMoth){
 			belongMoth =  minBelongMoth
 		}

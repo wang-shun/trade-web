@@ -11,10 +11,8 @@
         <link href="${ctx}/static/css/animate.css" rel="stylesheet"/>
         <link href="${ctx}/static/css/style.css" rel="stylesheet"/>
 		<!-- 分页控件 -->
-		<!-- jQuery UI -->
-			<link rel="stylesheet" href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" />
 		<link rel="stylesheet" href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
-		<link rel="stylesheet" href="${ctx}/static/trans/css/property/popmac.css" />
+
         <!-- index_css -->
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
@@ -71,6 +69,11 @@
                                         
                                     </tbody>
                                 </table>
+                                 <div class="text-center">
+								<span id="currentTotalPage"><strong class="bold"></strong></span>
+								<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+								<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+						        </div>
                             </div>
                         </div>
 				</div>
@@ -81,9 +84,6 @@
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-        <script src="${ctx }/static/js/echarts-all.js"></script>
-        <script src="${ctx}/js/eachartdata/elistdata.js"></script> 
-		<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	    <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
 		<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
@@ -125,15 +125,14 @@
 	    </script>     
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
-		function reloadGrid() {
+		function reloadGrid(page) {
 		   	var year = window.parent.yearDisplay;
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_)
-			var data = {
-				rows : 8,
-				page : 1
-				
-			};
+	        var data={};		
+	    	if(!page)page=1;
+  	        data.rows=10;
+  	        data.page=page;
 	        data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
           	data.queryId = "backConsultantWorkQuery";

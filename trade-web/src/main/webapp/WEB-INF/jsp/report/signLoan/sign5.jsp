@@ -13,9 +13,7 @@
 		<!-- 分页控件 -->
 		<!-- jQuery UI -->
 			<link rel="stylesheet" href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" />
-		<link rel="stylesheet" href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
-		<link rel="stylesheet" href="${ctx}/static/trans/css/property/popmac.css" />
-        <!-- index_css -->
+		<link rel="stylesheet" href="${ctx}/static/css/plugins/pager/centaline.pager.css" />        <!-- index_css -->
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
@@ -63,7 +61,7 @@
                                             <th>金额(万元)</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tableTemplate">
+                                    <tbody id="tableTemplate1">
                                     </tbody>
                                 </table>
 		                        <div class="text-center">
@@ -82,14 +80,9 @@
                                             <th>金额(万元)</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tableTemplate1">
+                                    <tbody id="tableTemplate2">
                                     </tbody>
                                 </table>
-                               <div class="text-center">
-								<span id="currentTotalPage"><strong class="bold"></strong></span>
-								<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-								<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-						        </div>
                             </div>
                         </div>
 				</div>
@@ -165,27 +158,44 @@
 	    </script>     
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
-		function reloadGrid() {
+		function reloadGrid(){
+			reloadGrid1(1);
+			reloadGrid2(1);
+		}
+		function reloadGrid1(page) {
 		   	var year = window.parent.yearDisplay;
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_)
-			var data = {
-				rows : 10,
-				page : 1
-			};
+	        if(!page) page=1;
+			var data = {};
+	        data.page=page;
+	        data.rows=10;
 	        //统计分行数据
 	        data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
           	data.queryId = "branchBankQuery";
   			var url = ctx+"/quickGrid/findPage";
-			initData(url,data,"template_table","tableTemplate");
-			
+			initData(url,data,"template_table","tableTemplate1");
+		}
+		function reloadGrid2(page) {
+		   	var year = window.parent.yearDisplay;
+	        var month_ = parseInt(window.parent.monthDisplay)+1;
+	        var month = month_ > 9 ? month_:("0"+month_)
+	        if(!page) page=1;
+			var data = {};
+	        data.page=page;
+	        data.rows=20;
+	    	data.pagination = false; 
+	        data.searchDateTime = year + "-" + month;
+          	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
 			//初始化支行数据
 			data.queryId = "subBranchBankQuery";
 			data.pagination = false;
   			var url = ctx+"/quickGrid/findPage";
-			initData(url,data,"template_table1","tableTemplate1");
+			initData(url,data,"template_table1","tableTemplate2");
 		}
+		
+		
 	</script>
 </body>
 </html>

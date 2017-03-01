@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>贷款签约与过户对比</title>
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet" />
-<link href="${ctx}/static/font-awesome/css/font-awesome.css"
-	rel="stylesheet" />
+<link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href="${ctx}/static/css/animate.css" rel="stylesheet" />
 <link href="${ctx}/static/css/style.css" rel="stylesheet" />
 <!-- index_css -->
@@ -69,26 +67,9 @@
 	<script src="${ctx}/js/jquery-2.1.1.js"></script>
 	<script src="${ctx}/js/bootstrap.min.js"></script>
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/js/trunk/report/calculation_main.js"></script> 
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
-		function getNum(num){
-			if(isNaN(num)){
-				return 0;
-			}
-			//return num/1000;
-			return num;
-		}
-		function sum(num1,num2){
-			if(isNaN(num1)){
-				return 0
-			}
-			if(isNaN(num2)){
-				return 0
-			}
-			return num1 + num2;
-		}
-		
-		
 		function reloadGrid() {
 		   	var year = window.parent.yearDisplay;
 			var data = {
@@ -105,12 +86,11 @@
 				dataType : "json",
 				data : data,
 				success : function(data) {
-					if(data==null||data==undefined){
+					if(data==null||data==undefined || !(data.ajaxResponse.success)) {
 	                    window.parent.wxc.alert("数据加载失败！");
 						return;			
 					}
 					data.ctx = ctx;
-					//data.rows = 6;
 					$('#tableTemplate').empty();
 					var tbHtml = "";
 					var tr1Html = "<tr><td rowspan='3'>过户数据（签贷款）</td><td>商贷金额</td>";
@@ -127,9 +107,9 @@
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
-						 		var num1 = getNum(row.mortComAmount);
-						 		var num2 = getNum(row.mortPrfAmount);
-						 		var numA = sum(num1,num2);
+						 		var num1 = accDiv(getNum(row.mortComAmount),10000);
+						 		var num2 = accDiv(getNum(row.mortPrfAmount),10000);
+						 		var numA = accAdd(num1,num2);
 						 		td1Html = "<td>"+num1+"</td>";
 						 		td2Html = "<td>"+num2+"</td>";
 						 		td3Html = "<td>"+numA+"</td>";
@@ -162,9 +142,9 @@
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
-						 		var num1 = getNum(row.dkmortComAmount);
-						 		var num2 = getNum(row.dkmortPrfAmount);
-						 		var numA = sum(num1,num2);
+						 		var num1 = accDiv(getNum(row.dkmortComAmount),10000);
+						 		var num2 = accDiv(getNum(row.dkmortPrfAmount),10000);
+						 		var numA = accAdd(num1,num2);
 						 		td1Html = "<td>"+num1+"</td>";
 						 		td2Html = "<td>"+num2+"</td>";
 						 		td3Html = "<td>"+numA+"</td>";

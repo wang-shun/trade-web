@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>评估转化率</title>
 <link href="${ctx }/static/css/bootstrap.min.css" rel="stylesheet" />
-<link rel="stylesheet"
-	href="${ctx}/static/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 <link rel="stylesheet" href="${ctx}/static/css/animate.css" />
 <link rel="stylesheet" href="${ctx}/static/css/style.css" />
 <!-- index_css -->
-<link href="${ctx}/static/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
+<link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx }/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx }/static/trans/css/common/btn.css" />
@@ -28,7 +25,7 @@
 			<div class="row chartwo">
 				<div class="col-md-12">
 					<div class="clearfix mb30">
-						<h3 class="content-title pull-left">评估转化率</h3>
+						<h3 class="content-title pull-left">过户数据</h3>
 						<div class="calendar-watch clearfix">
 							<p class="calendar-year">
 								<a href="#" id="subtract"><em>&lt;</em></a> <span>2016年11月</span>
@@ -42,7 +39,6 @@
 						class="table table_blue  table-striped table-bordered table-hover customerinfo">
 						<thead>
 							<tr>
-								<th>过户数据</th>
 								<th>过户数据</th>
 								<th>1月</th>
 								<th>2月</th>
@@ -62,12 +58,6 @@
 							
 						</tbody>
 					</table>
-					<!-- <div class="text-center">
-						<span id="currentTotalPage"><strong class="bold"></strong></span>
-						<span class="ml15">共<strong class="bold" id="totalP"></strong>条
-						</span>&nbsp;
-						<div id="pageBar" class="pagination my-pagination text-center m0"></div>
-					</div> -->
 				</div>
 			</div>
 		</div>
@@ -77,28 +67,10 @@
 	<!-- Mainly scripts -->
 	<script src="${ctx }/js/jquery-2.1.1.js"></script>
 	<script src="${ctx }/js/bootstrap.min.js"></script>
-	<script
-		src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/js/trunk/report/calculation_main.js"></script> 
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
-		
-		function getNum(num){
-			if(isNaN(num)){
-				return 0;
-			}
-			//return num/1000;
-			return num;
-		}
-		function sum(num1,num2){
-			if(isNaN(num1)){
-				return 0
-			}
-			if(isNaN(num2)){
-				return 0
-			}
-			return num1 + num2;
-		}
-		
 		function reloadGrid() {
 			var year = window.parent.yearDisplay;
 			var data = {
@@ -115,26 +87,24 @@
 				dataType : "json",
 				data : data,
 				success : function(data) {
-					if (data == null || data == undefined) {
+					if (data == null || data == undefined || !(data.ajaxResponse.success)) {
 						window.parent.wxc.alert("数据加载失败！");
 						return;
 					}
-					
 					data.ctx = ctx;
-					//data.rows = 6;
 					$('#tableTemplate').empty();
 					var tbHtml = "";
 					var tr1Html = "<tr><td>无贷款单数</td>";
 					var tr2Html = "<tr><td>公积金单数</td>";
-					var tr3Html = "<tr><td>商贷单数占比</td>";
-					var tr4Html = "<tr><td>过户房价</td>";
-					var tr5Html = "<tr><td>商贷金额</td>";
-					var tr6Html = "<tr><td>公积金金额</td>";
-					var tr7Html = "<tr><td>杠杆率</td>";
-					var tr8Html = "<tr><td>有商贷案件房价</td>";
-					var tr9Html = "<tr><td>贷款金额占比</td>";
-					var tr10Html = "<tr><td>商贷收单（商贷）</td>";
-					var tr11Html = "<tr><td流失单数（商贷）数</td>";
+					var tr3Html = "<tr><td>商贷单数</td>";
+					var tr4Html = "<tr><td>商贷单数占比</td>";
+					var tr5Html = "<tr><td>过户房价</td>";
+					var tr6Html = "<tr><td>商贷金额</td>";
+					var tr7Html = "<tr><td>公积金金额</td>";
+					var tr8Html = "<tr><td>杠杆率</td>";
+					var tr9Html = "<tr><td>有商贷案件房价</td>";
+					var tr10Html = "<tr><td>贷款金额占比</td>";
+					var tr11Html = "<tr><td>商贷收单（商贷）</td>";
 					var tr12Html = "<tr><td>流失单数（商贷）</td>";
 					var tr13Html = "<tr><td>单数流失率（商贷）</td>";
 					var tr14Html = "<tr><td>收单金额（商贷）</td>";
@@ -163,25 +133,27 @@
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
-						 		var num1 = getNum(row.mortComAmount);
-						 		var num2 = getNum(row.mortPrfAmount);
+						 		var num1 = accDiv(getNum(row.mortComAmount),10000);
+						 		var num2 = accDiv(getNum(row.mortPrfAmount),10000);
 						 		var numA = sum(num1,num2);
-						 		td1Html = "<td>"+num1+"</td>";
-						 		td2Html = "<td>"+num2+"</td>";
-						 		td3Html = "<td>"+numA+"</td>";
-						 		td4Html = "<td>"+numA+"</td>";
-						 		td5Html = "<td>"+numA+"</td>";
-						 		td6Html = "<td>"+numA+"</td>";
-						 		td7Html = "<td>"+numA+"</td>";
-						 		td8Html = "<td>"+numA+"</td>";
-						 		td9Html = "<td>"+numA+"</td>";
-						 		td10Html = "<td>"+numA+"</td>";
-						 		td11Html = "<td>"+numA+"</td>";
-						 		td12Html = "<td>"+numA+"</td>";
-						 		td13Html = "<td>"+numA+"</td>";
-						 		td14Html = "<td>"+numA+"</td>";
-						 		td15Html = "<td>"+numA+"</td>";
-						 		td16Html = "<td>"+numA+"</td>";
+						 		td1Html = "<td>"+getNum(row.loanReqNum)+"</td>";
+						 		td2Html = "<td>"+getNum(row.prfNum)+"</td>";
+						 		td3Html = "<td>"+getNum(row.comNum)+"</td>";
+						 		td4Html = "<td>"+accMul(accDiv(row.comNum,row.allNum),100)+'%'+"</td>";
+						 		td5Html = "<td>"+accDiv(getNum(row.allRealPrice),10000)+"</td>";
+						 		td6Html = "<td>"+num1+"</td>";
+						 		td7Html = "<td>"+num2+"</td>";
+						 		td8Html = "<td>"+accMul(accDiv(accAdd(getNum(row.mortComAmount),getNum(row.mortPrfAmount)),getNum(row.allRealPrice)),100)+"%</td>";
+						 		td9Html = "<td>"+accDiv(getNum(row.realPrice),10000)+"</td>";
+						 		td10Html = "<td>"+accMul(accDiv(getNum(row.mortPrfAmount),getNum(row.realPrice)),100)+"%</td>";
+						 		td11Html = "<td>"+getNum(row.comRec)+"</td>";
+						 		td12Html = "<td>"+getNum(row.lsRec)+"</td>";
+						 		if(getNum(row.lsRec)==0 || getNum(row.comNum)==0) td13Html = "<td>"+0.00+"%</td>";
+						 		else td13Html = "<td>"+accMul(accDiv(getNum(row.lsRec),getNum(row.comNum)),100)+"%</td>";
+						 		td14Html = "<td>"+accDiv(getNum(row.sdAmount),10000)+"</td>";
+						 		td15Html = "<td>"+accDiv(getNum(row.lsAmount),10000)+"</td>";
+						 		if(getNum(row.lsAmount)==0 || getNum(row.mortPrfAmount)==0) td16Html = "<td>"+0.00+"%</td>";
+						 		else td16Html = "<td>"+accMul(accDiv(getNum(row.lsAmount),getNum(row.mortPrfAmount)),100)+"%</td>";
 						 		break;
 						 	}
 						 }
@@ -235,33 +207,6 @@
 					tbHtml+=tr15Html;
 					tbHtml+=tr16Html;
 					$("#tableTemplate").append(tbHtml);
-					
-					
-					
-					
-					/* var title = [ "无贷款单数", "公积金单数", "商贷单数", "商贷单数占比", "过户房价",
-							"商贷金额", "公积金金额", "杠杆率", "有商贷案件房价", "贷款金额占比",
-							"商贷收单（商贷）", "流失单数（商贷）", "单数流失率（商贷）", "收单金额（商贷）",
-							"流失金额（商贷）", "金额流失率（商贷）" ];
-					var trHtml = "";
-					$.each(data.rows, function(i, item) {
-						trHtml += "<tr><td>" + title[i] + "</td>"
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.lossCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "<td>" + item.successCount + "</td>";
-						trHtml += "</tr>";
-
-					}) */
-					//$("#tableTemplate").html(trHtml);
 				}
 			})
 		}
