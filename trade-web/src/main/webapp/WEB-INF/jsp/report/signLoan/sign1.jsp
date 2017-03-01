@@ -11,13 +11,7 @@
 	rel="stylesheet" />
 <link href="${ctx}/static/css/animate.css" rel="stylesheet" />
 <link href="${ctx}/static/css/style.css" rel="stylesheet" />
-
 <!-- index_css -->
-<link href="${ctx}/static/css/plugins/datapicker/datepicker3.css"
-	rel="stylesheet">
-<!-- 分页控件 -->
-<link rel="stylesheet"
-	href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
@@ -78,19 +72,14 @@
 	<script src="${ctx}/js/jquery-2.1.1.js"></script>
 	<script src="${ctx}/js/bootstrap.min.js"></script>
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
+	<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
+	<!-- 排序插件 -->
+	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
+		<!-- 个人js -->
 	<!-- ECharts.js -->
 	<script src="${ctx }/static/js/echarts-all.js"></script>
 	<script src="${ctx}/js/eachartdata/elistdata.js"></script>
-	<!-- 分页控件  -->
-	<script
-		src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src="${ctx}/static/js/template.js" type="text/javascript"></script>
-	<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
-	<!-- 排序插件 -->
-	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
-	<!-- 个人js -->
-	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
 	<script id="template_table" type="text/html">
           {{each rows as item index}}
 		    <tr>
@@ -118,21 +107,42 @@
 	    </script>
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
+		var url = ctx + "/quickGrid/findPage";
+		var searchDateTime = year + "-" + month;
+		var searchBelongMonth = getBelongMonth(searchDateTime);
+		
 		function reloadGrid() {
 		   	var year = window.parent.yearDisplay;
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_)
 			var data = {
 				rows : 8,
-				page : 1
+				page : 1,
+				searchDateTime : searchDateTime,
+				queryId : "signStatisticsQuery",
+				url : url,
+				pagination : false,
+				searchBelongMonth : searchBelongMonth
 			};
 	        
-	        data.searchDateTime = year + "-" + month;
-          	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
-          	data.pagination = false;
-          	data.queryId = "signStatisticsQuery";
-  			var url = ctx+"/quickGrid/findPage";
-			initData(url,data,"template_table","tableTemplate");
+        	$.ajax({
+				async : true,
+				url : url,
+				method : "get",
+				dataType : "json",
+				data : data,
+				success : function(data) {
+					if(data==null||data==undefined){
+	                    window.parent.wxc.alert("数据加载失败！");
+						return;			
+					}
+					data.ctx = ctx;
+					echartData("signChart",data);
+					var templateData = template("template_table", data);
+					$("#tableTemplate").empty();
+					$("#tableTemplate").html(templateData);
+				}
+        	}) 
 		}
 	</script>
 </body>

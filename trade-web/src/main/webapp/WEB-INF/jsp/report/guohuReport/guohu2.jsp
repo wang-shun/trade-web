@@ -142,8 +142,7 @@
 		{{/each}}
 	    </script>
 	<script type="text/javascript">
-        var ctx=$("#ctx").val();
-        var type="";
+        var ctx=$("#ctx").val(); 
         function reloadGrid() {
   		   	var year = window.parent.yearDisplay;
   	        var month_ = parseInt(window.parent.monthDisplay)+1;
@@ -152,30 +151,37 @@
   				rows : 8,
   				page : 1,
   			};
+  	        var type="";
 			data.pagination=false
   			data.teamId=$("#orgId").val();
   			data.districtId=$("#districtId").val();
   		/* 	data.userId=$("#userId").val(); */
+			if($("#districtId").val()!=0){
+  				type="district";
+  			}
+			if($("#orgId").val()!=0){
+  				type="team";
+  			}
 			data.produceType=type;
 			data.queryId='queryGuoHuForMortConsultant';
           	data.choiceMonth = year + "-" + month;
 			data.belongMonth =getBelongMonth(data.choiceMonth);
 			var url = ctx+"/quickGrid/findPage";
   			initData(url,data,"template_table","tableTemplate");
-  		} var ctx=$("#ctx").val();
+  		} 
         $(function(){
         	getGroup("ff8080814f459a78014f45a73d820006","true","districtId","group");
         	$("#districtId").change(function(item){
         		var parentId=$("#districtId").val();
         		getGroup(parentId,false,"orgId","group");
-        		$("#userId").html("<option value=''>请选择</option>");
-        		type="district";
+        	/* 	$("#userId").html("<option value=''>请选择</option>");
+        		type="district"; */
         	})
-        	$("#orgId").change(function(item){
-         /* var userId=$("#orgId").val();
-       		getGroup(userId,false,"userId","user"); */
+        	/*$("#orgId").change(function(item){
+            var userId=$("#orgId").val();
+       		getGroup(userId,false,"userId","user"); 
        		type="team";
-        	})
+        	})*/
         	
         })
         function getGroup(parentId,gb,id,type){
@@ -193,7 +199,7 @@
                   async:true,
                   success : function(data) {
                 	  var optionHtml="";
-                	  optionHtml+="<option value=''>请选择</option>"
+                	  optionHtml+="<option value='0'>请选择</option>"
                       $.each(data.rows,function(i,item){
                     	  optionHtml+="<option value="+item.id+">"+item.name+"</option>"
                       })
