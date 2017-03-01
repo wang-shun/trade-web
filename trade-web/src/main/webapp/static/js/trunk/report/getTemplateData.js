@@ -1,5 +1,5 @@
 function initData(url,data,templateId,tbodyId) {
-			aist.wrap(data);
+			/*aist.wrap(data);*/
 			var sortColumn=$('span.active').attr("sortColumn");
 			var sortgz=$('span.active').attr("sord");
 			data.sidx=sortColumn;
