@@ -195,22 +195,6 @@
 			var url = ctx+"/quickGrid/findPage"
 			initData(url,data,"template_table","tableTemplate");
 		}
-        //得到数据快照月份
-        function getBelongMonth(choiceMonth){
-            var minBelongMoth = 201701;
-            if(!choiceMonth){
-                return minBelongMoth
-            }
-            try{
-                var belongMoth = parseInt(replace(choiceMonth,'-',''))
-                if(belongMoth<minBelongMoth){
-                    belongMoth =  minBelongMoth
-                }
-                return belongMoth;
-            }catch(e){
-                return minBelongMoth
-            }
-        }
 	</script>
     </body>
 </html>

@@ -9,6 +9,7 @@
 		<customDict id="qqGetECountPercent" beanName="qqGetECountPercent"></customDict>
 		<customDict id="qqGetCardCountPercent" beanName="qqGetCardCountPercent"></customDict>
 		<customDict id="qqGetEAMountPercent" beanName="qqGetEAMountPercent"></customDict>
+		<customDict id="qqGetTotalForConsultant" beanName="qqGetTotalForConsultant"></customDict>
 
 	</dicts>
 <formatters>
@@ -302,15 +303,27 @@
 					),0) as E_AMOUNT,
 					<if test="produceType == 'team'">
 						CASE_LEADING_PROCESS_ID_F,--(按照交易顾问)
-						(select top(1) CASE_REAL_NAME_F from tb as t1 where t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F ) as CASE_PART
+						 CASE
+						 WHEN GROUPING(CASE_LEADING_PROCESS_ID_F) =1 THEN  '合计'
+						 ELSE (select top(1) CASE_REAL_NAME_F from tb as t1 where t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F )
+						 END
+						 as CASE_PART
 					</if>
 					<if test="produceType == 'district'">
 						CASE_ORG_ID_F,--(按照组别)
-						(select top(1) CASE_ORG_NAME_F from tb as t1 where t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F ) as CASE_PART
+						 CASE
+						 WHEN GROUPING(CASE_ORG_ID_F) =1 THEN  '合计'
+						 ELSE (select top(1) CASE_ORG_NAME_F from tb as t1 where t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F )
+						 END
+						 as CASE_PART
 					</if>
 					<if test="produceType == ''">
-						CASE_DISTRICT_ID,--(按照贵宾服务部)
-						(select top(1) CASE_DISTRICT_NAME from tb as t1 where t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID ) as CASE_PART
+					 CASE_DISTRICT_ID,--(按照贵宾服务部)
+					 CASE
+						 WHEN GROUPING(CASE_DISTRICT_ID) =1 THEN  '合计'
+						 ELSE (select top(1) CASE_DISTRICT_NAME from tb as t1 where t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID )
+						 END
+						 as CASE_PART
 					</if>
 
 					from tb as t
@@ -323,7 +336,6 @@
 					<if test="produceType == ''">
 						group by CASE_DISTRICT_ID
 					</if>
-
 
 	            ]]>
 			</baseSql>
@@ -353,9 +365,14 @@
 				<column type="virtual" name="CARD_COUNT_PERCENT" title="刷卡率" customDict="qqGetCardCountPercent" referencecol="CARD_COUNT,CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="E_AMOUNT" title="E贷款申请金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="E_AMOUNT_PERCENT" title="E+卡转化率(金额)" customDict="qqGetEAMountPercent" referencecol="E_AMOUNT,MORT_COM_AMOUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-
 				<column type="both" name="CASE_PART" title="名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 
+			<!--	<column type="virtual"
+						name="TOTAL_MORT_COM_COUNT,TOTAL_MORT_COM_AMOUNT,TOTAL_CASE_CON_PRICE,TOTAL_LOST_COUNT,TOTAL_CASE_LOST_COUNT_PERCENT,TOTAL_LOST_AMOUNT,TOTAL_CASE_LOST_AMOUNT_PERCENT,TOTAL_PING_GU_COUNT_PERCENT,
+						TOTAL_EVA_FEE,TOTAL_E_COUNT_PERCENT,TOTAL_CARD_COUNT_PERCENT,TOTAL_E_AMOUNT_PERCENT,TOTAL_CASE_PART"
+						referencecol="MORT_COM_COUNT,MORT_COM_AMOUNT,CASE_CON_PRICE,LOST_COUNT,CASE_LOST_COUNT_PERCENT,LOST_AMOUNT,CASE_LOST_AMOUNT_PERCENT,PING_GU_COUNT_PERCENT,
+						EVA_FEE,E_COUNT_PERCENT,CARD_COUNT_PERCENT,E_AMOUNT_PERCENT,CASE_PART"
+						customDict="qqGetTotalForConsultant"/>-->
 			</table-row>
 		</grid>
 	</query>

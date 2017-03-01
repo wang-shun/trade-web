@@ -54,20 +54,20 @@ function initData(url,data,templateId,tbodyId) {
 			    }
 			});
 		}
-		
-		 //得到数据快照月份
-        function getBelongMonth(choiceMonth){
-            var minBelongMoth = 201701;
-            if(!choiceMonth){
-                return minBelongMoth
-            }
-            try{
-                var belongMoth = parseInt(replace(choiceMonth,'-',''))
-                if(belongMoth<minBelongMoth){
-                    belongMoth =  minBelongMoth;
-                }
-                return belongMoth;
-            }catch(e){
-                return minBelongMoth
-            }
-        }
+
+		//得到数据快照月份
+		function getBelongMonth(choiceMonth){
+			var minBelongMoth = 201701;
+			if(choiceMonth==''||choiceMonth=='undefined'||choiceMonth==undefined){
+				return minBelongMoth
+			}
+			try{
+				var belongMoth = parseInt(choiceMonth.replace('-',''));
+				if(belongMoth<minBelongMoth){
+					belongMoth =  minBelongMoth
+				}
+				return belongMoth;
+			}catch(e){
+				return minBelongMoth
+			}
+		}

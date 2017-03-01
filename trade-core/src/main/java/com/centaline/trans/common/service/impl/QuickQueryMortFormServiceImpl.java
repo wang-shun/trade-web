@@ -34,6 +34,20 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 		double case_count_percent=0;//案件占比
 		double case_total_count=0;//总案件数
 
+	/*	int TOTAL_MORT_COM_COUNT = 0;//商贷案件总和
+		double TOTAL_MORT_COM_AMOUNT = 0;//商贷金额总和
+		double TOTAL_CASE_CON_PRICE = 0;//合同价总和
+		int TOTAL_LOST_COUNT = 0;//流失案件总和
+		double TOTAL_CASE_LOST_COUNT_PERCENT =0;//案件流失率
+		double TOTAL_LOST_AMOUNT =0;//流失金额总和
+		double TOTAL_CASE_LOST_AMOUNT_PERCENT =0;//金额流失率
+
+		double TOTAL_PING_GU_COUNT_PERCENT = 0;//
+
+		,,,,,,,TOTAL_PING_GU_COUNT_PERCENT,
+				TOTAL_EVA_FEE,TOTAL_E_COUNT_PERCENT,TOTAL_CARD_COUNT_PERCENT,TOTAL_E_AMOUNT_PERCENT,TOTAL_CASE_PART*/
+
+
 		DecimalFormat df = new DecimalFormat("#.00");
 		if("qqGetCountPercent".equals(dictType)){
 			for(Map<String, Object> keyer:keys){
@@ -102,6 +116,10 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 					if(com_amount!=0){
 						keyer.put("val", Double.valueOf(df.format(e_amount/com_amount)));
 					}
+				}
+
+				if("qqGetTotalForConsultant".equals(dictType)){
+
 				}
 
 			}
