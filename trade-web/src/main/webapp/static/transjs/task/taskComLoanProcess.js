@@ -89,6 +89,11 @@ function checkMortgageForm(formId){
 		window.wxc.alert("信贷员为必填项！");
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;
+		
+	}else if(formId.find("input[name='loanerId']").val() == ""){
+		formId.find("input[name='loanerName']").css("border-color","red");
+		return false;
+		
 	}else if(formId.find("input[name='loanerPhone']").val() == ""){
 		window.wxc.alert("信贷员电话为必填项！");
 		formId.find("input[name='loanerPhone']").css("border-color","red");
@@ -1669,6 +1674,7 @@ transitionEffect: "slide",
    // getPricingList("table_list_1","pager_list_1");
  
  });
+//
 function onkeyuploanerName(){
 	$("#loanerNameImage").css("color","#676A6C");
 	$("#loanerId").val("");
