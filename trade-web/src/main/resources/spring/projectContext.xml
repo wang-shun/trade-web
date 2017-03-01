@@ -636,7 +636,11 @@
     <bean name="qqGetEAMountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
         <property name="dictType" value="qqGetEAMountPercent"></property>
     </bean>
-    
+    <!-- 合计 -->
+    <bean name="qqGetTotalForConsultant" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetTotalForConsultant"></property>
+    </bean>
+
     <!-- 签约贷款模块中签约数据(总表)总计-->
     <bean name="calTotalBySignStatistics" class="com.centaline.trans.common.service.impl.QuickQueryCalTotalBySignStatisticsServiceImpl"></bean>	
 
