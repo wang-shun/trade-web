@@ -294,7 +294,11 @@
 				<column type="both" name="eCardAmount" title="E+卡证金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="eProCount" title="E+贷款申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="eProAmount" title="E+贷款金额" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="pgfRate" referencecol="pgfCount,sdCount" customDict="calPgfRate" title="评估费转化率"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+				<column type="virtual" 
+						name="totalSlCount,totalQyCount,totalSdCount,totalZbCount,totalGjjCount,totalGhCount,totalPgfRate,totalPgfAmount,totalECardCount,totalECardAmount,totalEProCount,totalEProAmount,pgfRate" 
+						referencecol="slCount,qyCount,zbCount,gjjCount,ghCount,pgfCount,sdCount,pgfAmount,eCardCount,eCardAmount,eProCount,eProAmount" 
+						customDict="calPgfRate" />
 			</table-row>
 		</grid>
 	</query>
@@ -307,15 +311,26 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select
-					     c.MORT_TYPE as groupName,
-						 COUNT(*) AS caseCount,   --案件单数
-						 round(isnull(SUM(c.CASE_CON_PRICE) / 10000,0),2) AS htAmount,   --合同价
-						 round(isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0),2) AS sdAmount,  --商贷金额
-						 round(isnull(SUM(c.MORT_PRF_AMOUNT) / 10000,0),2) AS gjjAmount  --公积金金额
-					FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c
-					WHERE c.IS_DELEGATE_YUCUI = 1 AND c.MORT_TYPE IS NOT NULL AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#
-					GROUP BY c.MORT_TYPE
+					SELECT 
+						'30016001' AS groupName,
+			 			(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016001' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS caseCount,  
+						(SELECT isnull(SUM(c.CASE_CON_PRICE) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016001' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS htAmount,  
+						(SELECT isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016001' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdAmount,  
+						(SELECT isnull(SUM(c.MORT_PRF_AMOUNT) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016001' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS gjjAmount  
+					UNION 
+					SELECT 
+						'30016002' AS groupName,
+			 			(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016002' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS caseCount,  
+						(SELECT isnull(SUM(c.CASE_CON_PRICE) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016002' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS htAmount,  
+						(SELECT isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016002' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdAmount,  
+						(SELECT isnull(SUM(c.MORT_PRF_AMOUNT) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016002' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS gjjAmount  
+					UNION 
+					SELECT 
+						'30016003' AS groupName,
+			 			(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS caseCount,  
+						(SELECT isnull(SUM(c.CASE_CON_PRICE) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS htAmount,  
+						(SELECT isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdAmount,  
+						(SELECT isnull(SUM(c.MORT_PRF_AMOUNT) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.IS_DELEGATE_YUCUI = 1 AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS gjjAmount  
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -388,17 +403,25 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT 
-						   c.MORT_FIN_BRANCH_NAME as groupName,
-						   COUNT(*) AS caseCount,   --案件单数
-						   round(isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0),2) AS sdAmount  --商贷金额,不统计公积金金额
-					FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c
-					WHERE c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#
-					GROUP BY c.MORT_FIN_BRANCH_NAME
+					SELECT *
+					FROM
+					(
+					select 
+						FIN_ORG_NAME_YC as groupName,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS caseCount,
+						(SELECT isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdAmount
+					from sctrans.T_TS_FIN_ORG 
+					where fin_org_code in 
+					(
+						select distinct FA_FIN_ORG_CODE 
+						from sctrans.T_TS_FIN_ORG 
+						where FIN_ORG_CODE in (select FIN_ORG_CODE from sctrans.T_TS_SUP ts where ts.SUP_CAT='0')
+					) 
+					) t
+					ORDER BY t.sdAmount DESC
 	            ]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY SUM(c.MORT_COM_AMOUNT) DESC
 			</orderBySql>
 		</searchSql>
 		<grid>

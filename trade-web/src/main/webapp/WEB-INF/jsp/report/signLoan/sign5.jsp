@@ -160,7 +160,7 @@
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_)
 			var data = {
-				rows : 9999,
+				rows : 8,
 				page : 1
 				
 			};
