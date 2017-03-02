@@ -52,8 +52,6 @@
 								<option value="">请选择</option>
 							</select> <select id="jlId" class="select_control mr5">
 								<option value="">请选择</option>
-							</select> <select id="fhId" class="select_control">
-								<option value="">请选择</option>
 							</select>
 						</div>
 						<div class="form_content space">
@@ -196,11 +194,11 @@
 				userId=$("#jlId").val();
 			}
 			
-			if($("#fhId").val()!=0){
+/* 			if($("#fhId").val()!=0){
 				 condition = "fhManager";
 				 data.condition_fhManagerId = $("#fhId").val();
 				 orgId=$("#fhId").val();
-			 }
+			 } */
 			 
 			 data.condition = condition;
 			 data.searchDateTime = year + "-" + month;
@@ -217,38 +215,13 @@
 	        		var parentId=$("#dsId option:selected").attr("hval");
 	        		getGroup(parentId,"JQYZJ","zjId");
 	        		$("#jlId").html(" <option value='0'>请选择</option>");
-	        		$("#fhId").html("<option value='0'>请选择</option>");
+	        	/* 	$("#fhId").html("<option value='0'>请选择</option>"); */
 	        	})
 	        	$("#zjId").change(function(item){
 	        		var parentId=$("#zjId option:selected").attr("hval");
 	        		getGroup(parentId,"JQYJL","jlId");
-	        		$("#fhId").html("<option value='0'>请选择</option>");
+	        	/* 	$("#fhId").html("<option value='0'>请选择</option>"); */
 	        	})
-	        	$("#jlId").change(function(item){
-	        		var parentId=$("#jlId option:selected").attr("hval");
-	  	        	  $.ajax({
-	  	                  url : ctx+"/rapidQuery/findPage",
-	  	                  method : "GET",
-	  	                  data : {
-	  	                	  parentId:parentId,
-	  	                	  queryId:'getFH',
-	  	                	  pagination : false
-	  	                  },
-	  	                  dataType : "json",
-	  	                  async:true,
-	  	                  success : function(data) {
-	  	                	  var optionHtml="";
-	  	                	  optionHtml+="<option value='0'>请选择</option>"
-	  	                	  {
-	  	                		  $.each(data.rows,function(i,item){
-	  		                    	  optionHtml+="<option  value="+item.org_id+">"+item.org_name+"</option>";
-	  		                      })
-	  	                	  }
-	  	                      $("#fhId").html(optionHtml);
-	  	                  },
-	  	                  error:function(){}
-	  	              });
-	  	        	})
 	        })
 	        function getGroup(parentId,jobCode,id){
 	        	  $.ajax({

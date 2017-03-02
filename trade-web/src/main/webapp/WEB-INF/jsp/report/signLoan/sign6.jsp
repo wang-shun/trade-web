@@ -51,12 +51,29 @@
 		                        </p>
                             </div>
                         </div>
+                        <div class="form_list">
+						<div class="form_content">
+							<select id="districtId" class="select_control mr5">
+								<option value="">请选择</option>
+							</select> <select id="orgId" class="select_control mr5">
+								<option value="">请选择</option>
+							</select>
+						</div>
+						<div class="form_content space">
+							<div class="add_btn mr5">
+								<button type="button" onclick="reloadGrid()"
+									class="btn btn-success" style="padding: 5px 12px;">
+									<i class="icon iconfont"></i> 查询
+								</button>
+							</div>
+						</div>
+					</div>
                         <div class="sign-content clearfix">
                             <div>
                                 <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                                     <thead>
                                         <tr>
-                                            <th>交易顾问</th>
+                                            <th>组织</th>
                                             <th>查限购</th>
                                             <th>核价</th>
                                             <th>审税</th>
@@ -125,6 +142,43 @@
 	    </script>     
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
+        $(function(){
+        	getGroup("ff8080814f459a78014f45a73d820006","true","districtId",null);
+        	$("#districtId").change(function(item){
+        		var parentId=$("#districtId").val();
+        		getGroup(parentId,"false","orgId","HT");
+        	})
+/*         	$("#orgId").change(function(item){
+        		var userId=$("#orgId").val();
+        		getGroup(userId,false,"userId","user");
+        	}) */
+        	
+        })
+        function getGroup(parentId,gb,id,type){
+        	  $.ajax({
+                  url : ctx+"/rapidQuery/findPage",
+                  method : "GET",
+                  data : {
+                	  parentId:parentId,
+                	  gb:gb,
+                	  queryId:'getGroup',
+                	  type:type,
+                	  pagination : false
+                  },
+                  dataType : "json",
+                  async:true,
+                  success : function(data) {
+                	  var optionHtml="";
+                	  optionHtml+="<option value='0'>请选择</option>"
+                      $.each(data.rows,function(i,item){
+                    	  optionHtml+="<option value="+item.id+">"+item.name+"</option>"
+                      })
+                      $("#"+id).html(optionHtml);
+                  },
+                  error:function(){}
+              });
+
+        }
 		function reloadGrid(page) {
 		   	var year = window.parent.yearDisplay;
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
@@ -134,6 +188,16 @@
   	        data.rows=10;
   	        data.page=page;
 	        data.searchDateTime = year + "-" + month;
+  			var condition="init";
+  			if($("#districtId").val()!=0){
+  				data.condition_distinctId = $("#districtId").val();
+  				condition="distinct";
+  			}
+  			if($("#orgId").val()!=0){
+  				data.condition_orgId = $("#orgId").val();
+  				condition="team";
+  			}
+  			data.condition = condition;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
           	data.queryId = "backConsultantWorkQuery";
           	

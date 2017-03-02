@@ -15,35 +15,28 @@
 		</grid>
 	</query>
 	<query id="getGroup">
-		<searchScript>
-		<if test="#searchType=='user'">
-		 SELECT users.ID as id ,users.REAL_NAME as name FROM sctrans.SYS_USER users
-		 <where>
-			  <trim prefix="and" prefixOverrides="and|or">
-			  users.is_deleted=0
-			   <if test="#parentId !=null and #parentId != ''">
-			  and users.ORG_ID=#{parentId}
-			  </if>
-			  <if test="#gb=='true'" >
-			  and users.ORG_NAME like '%贵宾服务部%'
-			  </if>
-			   </trim>
-			</where>
-		</if>
-		<if test="#searchType=='group'">
-           SELECT so.ID as id ,so.ORG_NAME as name FROM sctrans.SYS_ORG so
+		<searchScript>	
+         select o.id,o.org_name as name from sctrans.sys_org o
+         <if test="#gb=='false'" >
+          inner JOIN sctrans.T_TS_TEAM_PROPERTY t on o.org_code=t.YU_TEAM_CODE
+          </if>
 			<where>
 			  <trim prefix="and" prefixOverrides="and|or">
-			  so.is_deleted=0
+			  o.is_deleted=0
 			   <if test="#parentId !=null and #parentId != ''">
-			   and so.PARENT_ID=#{parentId}
+			   and o.PARENT_ID=#{parentId}
 			  </if>
 			  <if test="#gb=='true'" >
-			  and so.ORG_NAME like '%贵宾服务部%'
+			  and o.ORG_NAME like '%贵宾服务部%'
+			  </if>
+			  <if test="#type=='QT'" >
+			   and t.TEAM_PROPERTY ='yu_front'
+			  </if>
+			  <if test="#type=='HT'" >
+			   and t.TEAM_PROPERTY !='yu_front'
 			  </if>
 			   </trim>
 			</where>
-		  </if> 
 		</searchScript>
 		<grid>
 			 <column name="id" title="id" hidden="true" />
