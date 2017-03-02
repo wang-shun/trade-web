@@ -25,12 +25,6 @@ function initData(url,data,templateId,tbodyId) {
 					$("#"+tbodyId).html(templateData);
 					
 					if(pagination == undefined || pagination){
-						// 显示分页 
-                       var pageHtml="<div class='text-center'>";
-                       pageHtml+="<span id='currentTotalPage'><strong class=''bold'></strong></span>";
-                       pageHtml+="<span class='ml15'>共<strong class='bold' id=''totalP'></strong>条</span>&nbsp;";
-                       pageHtml+="<div id='pageBar' class='pagination my-pagination text-center m0'></div></div>"
-						$("#"+tbodyId).parent("table:eq(0)").after(pageHtml); 
 				        initpage(data.total,data.pagesize,data.page, data.records,tbodyId);
 					} 
 				},
@@ -40,7 +34,15 @@ function initData(url,data,templateId,tbodyId) {
 			});
 		}
 		function initpage(totalCount,pageSize,currentPage,records,tbodyId) {
-			
+			// 显示分页 
+			var pageBar=$("#pageBar").html();
+			if(!pageBar){
+		    var pageHtml="<div class='text-center'>";
+		    pageHtml+="<span id='currentTotalPage'><strong class=''bold'></strong></span>";
+		    pageHtml+="<span class='ml15'>共<strong class='bold' id=''totalP'></strong>条</span>&nbsp;";
+		    pageHtml+="<div id='pageBar' class='pagination my-pagination text-center m0'></div></div>"
+		    $("#"+tbodyId).parent("table:eq(0)").after(pageHtml); 
+			}
 			if(totalCount>1500){
 				totalCount = 1500;
 			}
@@ -54,8 +56,6 @@ function initData(url,data,templateId,tbodyId) {
 			$(currentTotalstrong).empty();
 			$(currentTotalstrong).text(currentPage+'/'+totalCount);
 			$('#totalP').text(records);
-			
-			
 			$("#pageBar").twbsPagination({
 				totalPages:totalCount,
 				visiblePages:9,
