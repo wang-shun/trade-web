@@ -203,10 +203,10 @@
   			initData(url,data,"template_table","tableTemplate");
   		} 
         $(function(){
-        	getGroup("ff8080814f459a78014f45a73d820006","true","districtId","group");
+        	getGroup("ff8080814f459a78014f45a73d820006","true","districtId",null);
         	$("#districtId").change(function(item){
         		var parentId=$("#districtId").val();
-        		getGroup(parentId,false,"orgId","group");
+        		getGroup(parentId,false,"orgId",null);
         	/* 	$("#userId").html("<option value=''>请选择</option>");
         		type="district"; */
         	})
@@ -225,7 +225,7 @@
                 	  parentId:parentId,
                 	  gb:gb,
                 	  queryId:'getGroup',
-                	  searchType:type,
+                	  type:type,
                 	  pagination : false
                   },
                   dataType : "json",

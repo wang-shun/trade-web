@@ -52,8 +52,6 @@
 								<option value="">请选择</option>
 							</select> <select id="orgId" class="select_control mr5">
 								<option value="">请选择</option>
-							</select> <select id="userId" class="select_control">
-								<option value="">请选择</option>
 							</select>
 						</div>
 						<div class="form_content space">
@@ -168,16 +166,15 @@
 	<script type="text/javascript">
         var ctx=$("#ctx").val();
         $(function(){
-        	getGroup("ff8080814f459a78014f45a73d820006","true","districtId","group");
+        	getGroup("ff8080814f459a78014f45a73d820006","true","districtId",null);
         	$("#districtId").change(function(item){
         		var parentId=$("#districtId").val();
-        		getGroup(parentId,false,"orgId","group");
-        		$("#userId").html("<option value='0'>请选择</option>");
+        		getGroup(parentId,"false","orgId",null);
         	})
-        	$("#orgId").change(function(item){
+/*         	$("#orgId").change(function(item){
         		var userId=$("#orgId").val();
         		getGroup(userId,false,"userId","user");
-        	})
+        	}) */
         	
         })
         function getGroup(parentId,gb,id,type){
@@ -188,7 +185,7 @@
                 	  parentId:parentId,
                 	  gb:gb,
                 	  queryId:'getGroup',
-                	  searchType:type,
+                	  type:type,
                 	  pagination : false
                   },
                   dataType : "json",
@@ -223,10 +220,6 @@
   			if($("#orgId").val()!=0){
   				data.parentTeamId = $("#orgId").val();
   				queryId = "signLoanDetailByConsultant";
-  			}
-  			
-  			if($("#userId").val()!=0){
-  				data.condition_leadingProcessId = $("#userId").val();
   			}
   			
           	data.searchDateTime = year + "-" + month;

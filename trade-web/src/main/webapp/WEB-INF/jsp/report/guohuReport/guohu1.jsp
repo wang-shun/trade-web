@@ -134,10 +134,10 @@
        	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		 $(function(){
-	        	getGroup("ff8080814f459a78014f45a73d820006","true","districtId","group");
+	        	getGroup("ff8080814f459a78014f45a73d820006","true","districtId",null);
 	        	$("#districtId").change(function(item){
 	        		var parentId=$("#districtId").val();
-	        		getGroup(parentId,false,"orgId","group");
+	        		getGroup(parentId,"false","orgId",null);
 	        	})
 /* 	        	$("#orgId").change(function(item){
 	        		var userId=$("#orgId").val();
@@ -153,7 +153,7 @@
 	                	  parentId:parentId,
 	                	  gb:gb,
 	                	  queryId:'getGroup',
-	                	  searchType:type,
+	                	  type:type,
 	                	  pagination : false
 	                  },
 	                  dataType : "json",
