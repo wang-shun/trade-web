@@ -66,9 +66,9 @@ function convertWeekForSql(week){
 function getMinWeek(week){
 	var _week = [];
 	
-	if(week[0] < 20161230){
-		_week[0] = 20161230;
-		_week[1] = 20170105;
+	if(week[0] < 20170217){
+		_week[0] = 20170217;
+		_week[1] = 20170223;
 		
 		return _week;
 	}
