@@ -36,7 +36,7 @@ public class QuickQueryQianHouTaiServiceImpl implements CustomDictService{
 		
 		Map<String,List<Object>> paramMap = new HashMap<String,List<Object>>();
 		paramMap.put("caseCodeList", caseCodeList);
-		String sql = "select distinct su.REAL_NAME name,su.EMPLOYEE_CODE employeeCode,so.ORG_NAME orgName,tc.case_code caseCode  from "
+		String sql = "select distinct su.REAL_NAME name,su.EMPLOYEE_CODE employeeCode,su.mobile mobile,so.ORG_NAME orgName,tc.case_code caseCode  from "
 				+ " sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tp"
 				+ " 	left join sctrans.T_TO_CASE tc on tp.CASE_CODE = tc.CASE_CODE and tp.PROCESSOR_ID != tc.LEADING_PROCESS_ID"
 				+ " 	left join sctrans.SYS_USER su on su.ID = tp.PROCESSOR_ID"
@@ -51,6 +51,7 @@ public class QuickQueryQianHouTaiServiceImpl implements CustomDictService{
 			String name = !map.containsKey("name") ? "" : String.valueOf(map.get("name"));
 			String avatar = null == employeeCode ? ""
 					: MessageFormat.format(imgUrl, String.valueOf(employeeCode)) + ".jpg";
+			String mobile = !map.containsKey("mobile") ? "" : String.valueOf(map.get("mobile"));
 			
 			JSONArray ja = null ;
 			if(valMap.containsKey(caseCode)){
@@ -60,8 +61,9 @@ public class QuickQueryQianHouTaiServiceImpl implements CustomDictService{
 			}
 			JSONObject jo = new JSONObject();
 			jo.put("name", name);
-			jo.put("orgName", orgName);
+			jo.put("org", orgName);
 			jo.put("avatar", avatar);
+			jo.put("mobile", mobile);
 			ja.add(jo);
 			valMap.put(caseCode, ja);
 		}

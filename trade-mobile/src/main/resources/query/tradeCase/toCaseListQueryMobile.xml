@@ -291,8 +291,9 @@
 			<baseSql>
 				select tc.CASE_CODE caseCode, sd.name status,LEADING_PROCESS_ID leadingProcessId,pi.PROPERTY_ADDR addr,
 					CASE WHEN ms.pkid is null then 'false' else 'true' end isFocus,
-					ti.AGENT_CODE,ti.AGENT_PHONE,ti.AGENT_USERNAME AGENT_NAME,su.EMPLOYEE_CODE,
-					CASE WHEN tw.pkid is null then 'false' else 'true' end loanLostAlert
+					ti.AGENT_CODE,ti.AGENT_PHONE,ti.AGENT_NAME,su.EMPLOYEE_CODE,
+					CASE WHEN tw.pkid is null then 'false' else 'true' end loanLostAlert,
+					so.org_name org 
 				from sctrans.T_TO_CASE tc
 					LEFT JOIN sctrans.SYS_DICT sd on sd.type='30001' and sd.is_deleted = '0' and tc.STATUS = sd.code
 					left join SCTRANS.T_TO_PROPERTY_INFO pi on pi.case_code = tc.case_code 
@@ -300,6 +301,7 @@
 							and ms.SUBSCRIBER_ID = #userId#
 					left join sctrans.T_TO_CASE_INFO ti on ti.CASE_CODE = tc.case_code
     				left join sctrans.sys_user su on su.id = ti.AGENT_CODE
+    				left join sctrans.sys_org so on su.org_id = so.id
     				left join sctrans.T_TO_BIZ_WARN tw on tw.case_code = tc.case_code and warn_type='LOANLOSS'
 				where tc.case_code = #caseCode#
 			</baseSql>
@@ -319,6 +321,7 @@
 				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai"/>
 				<column type="both" name="leadingProcessId" />
 				<column type="both" name="loanLostAlert" />
+				<column type="both" name="org" />
 			</table-row>
 		</grid>
 	</query>
