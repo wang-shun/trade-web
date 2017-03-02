@@ -262,8 +262,10 @@ public class TradeCaseController {
 		if(list == null || list.get(0) == null){
 			return;
 		}
-		
 		Map<String, Object> map = list.get(0);
+		if(!map.containsKey("houtai")){
+			map.put("houtai", new JSONArray());
+		}
 		buildShangxiajiaInfo(map);
 		buildQianTaiInfo(map);
 		buildZhongjieInfo(list);
