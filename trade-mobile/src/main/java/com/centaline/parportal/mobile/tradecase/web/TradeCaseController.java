@@ -94,6 +94,8 @@ public class TradeCaseController {
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
 		for (Map<String, Object> map : list) {
+			map.put("isFocus", Boolean.valueOf(map.get("isFocus")+""));
+			map.put("loanLostAlert", Boolean.valueOf(map.get("loanLostAlert")+""));
 			buildShangxiajiaInfo(map);
 		}
 		buildZhongjieInfo(list);
