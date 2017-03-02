@@ -158,67 +158,42 @@
 				rows : 8,
 				page : 1
 			};
-	        var userId="";
-	        var orgId="";
+	        var condition = "init";
 	        if($("#dsId").val()!=0){
-	        	userId=$("#dsId").val();
+	        	condition = "quds";
+	        	data.condition_qudongId = $("#dsId").val();
+	        	/* userId=$("#dsId").val() */;
 	        }
-			 if($("#zjId").val()!=0){
-				 userId=$("#zjId").val();      	
-				        }
-			 if($("#jlId").val()!=0){
-				 userId=$("#jlId").val();
-			 }
-			 if($("#fhId").val()!=0){
-				 userId="";
-				 orgId=$("#fhId").val();
-			 }
-			 data.userId=userId;
-			 data.orgId=orgId;
+	        
+	        else if($("#zjId").val()!=0){
+				 condition = "quzj";
+				 data.condition_directorId = $("#zjId").val();
+				/*  userId=$("#zjId").val();   */    	
+			}
+			 
+	        else if($("#jlId").val()!=0){
+				condition = "qujl";
+				data.condition_qyManagerId = $("#jlId").val();
+				/* userId=$("#jlId").val(); */
+			}else {
+				condition = "init";
+			}
+			 data.produceType = condition;
         	data.choiceMonth = year + "-" + month;
-/*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
 			var url = ctx+"/js/eachartdata/loanloss.json"
 			initData(url,data,"template_table","tableTemplate");
 		}
 		 $(function(){
 	        	getGroup("1D29BB468F504774ACE653B946A393EE","JQYDS","dsId");
 	        	$("#dsId").change(function(item){
-	        		var parentId=$("#dsId option:selected").attr("hval");
+	        		var parentId=$("#dsId").val();
 	        		getGroup(parentId,"JQYZJ","zjId");
 	        		$("#jlId").html(" <option value='0'>请选择</option>");
-	        		/* $("#fhId").html("<option value='0'>请选择</option>"); */
 	        	})
 	        	$("#zjId").change(function(item){
-	        		var parentId=$("#zjId option:selected").attr("hval");
+	        		var parentId=$("#zjId").val();
 	        		getGroup(parentId,"JQYJL","jlId");
-	        		/* $("#fhId").html("<option value='0'>请选择</option>"); */
 	        	})
-	        	$("#jlId").change(function(item){
-	       /*  		var parentId=$("#jlId option:selected").attr("hval");
-	  	        	  $.ajax({
-	  	                  url : ctx+"/rapidQuery/findPage",
-	  	                  method : "GET",
-	  	                  data : {
-	  	                	  parentId:parentId,
-	  	                	  queryId:'getFH',
-	  	                	  pagination : false
-	  	                  },
-	  	                  dataType : "json",
-	  	                  async:true,
-	  	                  success : function(data) {
-	  	                	  var optionHtml="";
-	  	                	  optionHtml+="<option value='0'>请选择</option>"
-	  	                	  {
-	  	                		  $.each(data.rows,function(i,item){
-	  		                    	  optionHtml+="<option  value="+item.org_id+">"+item.org_name+"</option>";
-	  		                      })
-	  	                	  }
-	  	                      $("#fhId").html(optionHtml);
-	  	                  },
-	  	                  error:function(){}
-	  	              }); */
-	  	              
-	  	        	})
 	        })
 	        function getGroup(parentId,jobCode,id){
 	        	  $.ajax({
@@ -237,11 +212,11 @@
 	                	  optionHtml+="<option value='0'>请选择</option>"
 	                	  if(id!="dsId"){
 	                      $.each(data.rows,function(i,item){
-	                    	  optionHtml+="<option hval="+item.org_id+" value="+item.user_id+">"+item.org_name+"</option>";
+	                    	  optionHtml+="<option hval="+item.user_id+" value="+item.org_id+">"+item.org_name+"</option>";
 	                      })
 	                	  }else{
 	                		  $.each(data.rows,function(i,item){
-		                    	  optionHtml+="<option hval="+item.org_id+" value="+item.user_id+">"+item.org_name+"("+item.real_name+")</option>";
+		                    	  optionHtml+="<option hval="+item.user_id+" value="+item.org_id+">"+item.org_name+"("+item.real_name+")</option>";
 		                      })
 	                	  }
 	                      $("#"+id).html(optionHtml);
