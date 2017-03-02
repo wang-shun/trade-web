@@ -61,10 +61,6 @@
                             <tbody id="tableTemplate">
                             </tbody>
                         </table>
-                        <div class="text-center">
-						<span id="currentTotalPage"><strong class="bold"></strong></span>
-						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
 				    </div>
                     </div>
                 </div>
@@ -138,7 +134,7 @@
   	        data.page=page;
 	        data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
-          	/* data.pagination = false; */
+          	data.pagination = false; 
           	data.queryId = "signLoanQuery";
   			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate");

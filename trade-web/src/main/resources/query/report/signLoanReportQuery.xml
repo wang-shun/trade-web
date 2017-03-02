@@ -69,81 +69,139 @@
 	</query>
 
 	<!-- 
-		签约贷款模块-按照贵宾中心-组别-个人统计 
+		签约贷款模块-按照贵宾中心进行统计 
 	-->
-	<query id="signLoanDetailByGuibinQuery">
+	<query id="signLoanDetailByDistinct">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+						ORG_NAME AS groupName,
+						(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
+						(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
+						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount, 
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfCount, 
+						(SELECT round(isnull(SUM(EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfAmount, 
+						(SELECT COUNT(c.TRANSFER_APP_PASS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount, 
+						(SELECT COUNT(c.ELOAN_KA_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardCount, 
+						(SELECT round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardAmount,
+						(SELECT COUNT(c.ELOAN_PRO_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProCount,
+						(SELECT round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProAmount
+					from sctrans.SYS_ORG 
+					where DEP_HIERARCHY = 'yucui_district' and IS_DELETED = 0 and AVAILABLE = 1
+	            ]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_DISTRICT_ID" title="案件所属贵宾服务部Id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_ORG_ID_F" title="案件主办所在组id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_LEADING_PROCESS_ID_F" title="案件主办用户id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="groupName" title="案件所属贵宾服务部名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="slCount" title="受理量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="qyCount" title="签约量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="sdCount" title="商贷办理量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="zbCount" title="客户自办量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="gjjCount" title="公积金量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ghCount" title="过户量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="pgfCount" title="收到评估费单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="pgfAmount" title="评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eCardCount" title="E+卡证申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eCardAmount" title="E+卡证金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="eProCount" title="E+贷款申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eProAmount" title="E+贷款金额" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+				<column type="virtual" 
+						name="totalSlCount,totalQyCount,totalSdCount,totalZbCount,totalGjjCount,totalGhCount,totalPgfRate,totalPgfAmount,totalECardCount,totalECardAmount,totalEProCount,totalEProAmount,pgfRate" 
+						referencecol="slCount,qyCount,zbCount,gjjCount,ghCount,pgfCount,sdCount,pgfAmount,eCardCount,eCardAmount,eProCount,eProAmount" 
+						customDict="calPgfRate" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<!-- 
+		签约贷款模块-按照组别统计 
+	-->
+	<query id="signLoanDetailByTeam">
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						 <if test="condition == 'init'">
-							 c.CASE_DISTRICT_ID,
-							 c.CASE_DISTRICT_NAME as groupName,
-						 </if>
-						 
-						 <if test="condition == 'distinct'">
-							 c.CASE_ORG_ID_F,
-			 				 c.CASE_ORG_NAME_F as groupName,
-						 </if>
-						 
-						 <if test="condition == 'team' || condition == 'consultant'">
-							 c.CASE_LEADING_PROCESS_ID_F,
-			 				 c.CASE_REAL_NAME_F as groupName,
-						 </if>
-						 
-						 COUNT(c.CASE_DISPATCH_TIME) AS slCount,  --受理量
-						 COUNT(c.CASE_REAL_CON_TIME) AS qyCount,  --签约量
-						 COUNT(c.MORT_SIGN_DATE) AS sdCount,      --商贷办理量
-						 
-						 <if test="condition == 'init'">
-							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI = 0 AND CASE_DISTRICT_ID = c.CASE_DISTRICT_ID  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# and BELONG_MONTH = #searchBelongMonth#) AS zbCount,    --客户自办量
-						    (SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE MORT_TYPE = '30016003' AND CASE_DISTRICT_ID = c.CASE_DISTRICT_ID  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,  --公积金量
-						 	(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_DISTRICT_ID = c.CASE_DISTRICT_ID  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  --收到评估费单数
-						    (SELECT round(isnull(SUM(EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_DISTRICT_ID = c.CASE_DISTRICT_ID  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,  --评估费实收
-						 </if>
-						 
-						  <if test="condition == 'distinct'">
-							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI = 0 AND CASE_ORG_ID_F = c.CASE_ORG_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# and BELONG_MONTH = #searchBelongMonth#) AS zbCount,    --客户自办量
-			 				(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE MORT_TYPE = '30016003' AND CASE_ORG_ID_F = c.CASE_ORG_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,  --公积金量
-						 	(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_ORG_ID_F = c.CASE_ORG_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  --收到评估费单数
-			 				(SELECT round(isnull(SUM(EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_ORG_ID_F = c.CASE_ORG_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,  --评估费实收
-						 </if>
-						 
-						 <if test="condition == 'team' || condition == 'consultant'">
-							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE IS_DELEGATE_YUCUI = 0 AND CASE_LEADING_PROCESS_ID_F = c.CASE_LEADING_PROCESS_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# and BELONG_MONTH = #searchBelongMonth#) AS zbCount,    --客户自办量
-						    (SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE MORT_TYPE = '30016003' AND CASE_LEADING_PROCESS_ID_F = c.CASE_LEADING_PROCESS_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,  --公积金量
-						 	(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_LEADING_PROCESS_ID_F = c.CASE_LEADING_PROCESS_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  --收到评估费单数
-						    (SELECT round(isnull(SUM(EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO WHERE EVA_EVAL_FEE IS NOT NULL AND MORT_SIGN_DATE IS NOT NULL AND CASE_LEADING_PROCESS_ID_F = c.CASE_LEADING_PROCESS_ID_F  AND convert(varchar(7),CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,  --评估费实收
-						 </if>
-						 
-						 COUNT(c.TRANSFER_APP_PASS_TIME) AS ghCount,    --过户量
-						 COUNT(c.ELOAN_KA_AMOUNT) AS eCardCount,  --E+卡证申请单数
-						 round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) as eCardAmount,    --E+卡证金额
-					     COUNT(c.ELOAN_PRO_AMOUNT) AS eProCount,   --E+贷款申请单数
-						 round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) AS eProAmount     --E+贷款金额
-					FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c
-					
-					WHERE convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#
-					
-					
-					<if test="condition == 'init'">
-						GROUP BY c.CASE_DISTRICT_ID,c.CASE_DISTRICT_NAME
-					</if>
-					
-					<if test="condition == 'distinct'">
-					    and c.CASE_DISTRICT_ID = #condition_distinctId#
-						GROUP BY c.CASE_ORG_ID_F,c.CASE_ORG_NAME_F
-					</if>
-					
-					<if test="condition == 'team'">
-						and c.CASE_ORG_ID_F = #condition_orgId#
-						GROUP BY c.CASE_LEADING_PROCESS_ID_F,c.CASE_REAL_NAME_F
-					</if>
-					
-					<if test="condition == 'consultant'">
-						and c.CASE_LEADING_PROCESS_ID_F = #condition_leadingProcessId#
-						GROUP BY c.CASE_LEADING_PROCESS_ID_F,c.CASE_REAL_NAME_F
-					</if>
+						ORG_NAME AS groupName,
+						(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
+						(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
+						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount, 
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfCount, 
+						(SELECT round(isnull(SUM(EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfAmount, 
+						(SELECT COUNT(c.TRANSFER_APP_PASS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount, 
+						(SELECT COUNT(c.ELOAN_KA_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardCount, 
+						(SELECT round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardAmount,
+						(SELECT COUNT(c.ELOAN_PRO_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProCount,
+						(SELECT round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProAmount
+					FROM sctrans.SYS_ORG 
+					WHERE PARENT_ID = #parentDistinct# AND DEP_HIERARCHY = 'yucui_team' and IS_DELETED = 0 and AVAILABLE = 1
+	            ]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_DISTRICT_ID" title="案件所属贵宾服务部Id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_ORG_ID_F" title="案件主办所在组id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_LEADING_PROCESS_ID_F" title="案件主办用户id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="groupName" title="案件所属贵宾服务部名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="slCount" title="受理量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="qyCount" title="签约量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="sdCount" title="商贷办理量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="zbCount" title="客户自办量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="gjjCount" title="公积金量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ghCount" title="过户量"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="pgfCount" title="收到评估费单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="pgfAmount" title="评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eCardCount" title="E+卡证申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eCardAmount" title="E+卡证金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="eProCount" title="E+贷款申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eProAmount" title="E+贷款金额" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+				<column type="virtual" 
+						name="totalSlCount,totalQyCount,totalSdCount,totalZbCount,totalGjjCount,totalGhCount,totalPgfRate,totalPgfAmount,totalECardCount,totalECardAmount,totalEProCount,totalEProAmount,pgfRate" 
+						referencecol="slCount,qyCount,zbCount,gjjCount,ghCount,pgfCount,sdCount,pgfAmount,eCardCount,eCardAmount,eProCount,eProAmount" 
+						customDict="calPgfRate" />
+			</table-row>
+		</grid>
+	</query>
+	
+	
+	<!-- 
+		签约贷款模块-按照交易顾问统计 
+	-->
+	<query id="signLoanDetailByConsultant">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						 REAL_NAME AS groupName,
+						(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
+						(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
+						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount, 
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfCount, 
+						(SELECT round(isnull(SUM(EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfAmount, 
+						(SELECT COUNT(c.TRANSFER_APP_PASS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount, 
+						(SELECT COUNT(c.ELOAN_KA_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardCount, 
+						(SELECT round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardAmount,
+						(SELECT COUNT(c.ELOAN_PRO_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProCount,
+						(SELECT round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProAmount
+					FROM sctrans.SYS_USER
+					WHERE ORG_ID = #parentTeamId# AND IS_DELETED = 0 AND AVAILABLE = 1
 	            ]]>
 			</baseSql>
 			<orderBySql>

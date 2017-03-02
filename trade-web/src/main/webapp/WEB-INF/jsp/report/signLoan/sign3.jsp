@@ -205,7 +205,7 @@
 			 data.condition = condition;
 			 data.searchDateTime = year + "-" + month;
 	         data.searchBelongMonth = getBelongMonth(data.searchDateTime);
-	        /*  data.pagination = false; */
+	         data.pagination = false; 
 	         data.queryId = "signLoanDetailByQudongQuery";
 	         
 	  		 var url = ctx+"/quickGrid/findPage";

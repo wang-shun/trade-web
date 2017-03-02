@@ -213,26 +213,26 @@
   	        if(!page)page=1;
   	        data.rows=10;
   	        data.page=page;
-  			var condition="init";
+  	        
+  			var queryId = "signLoanDetailByDistinct";
   			if($("#districtId").val()!=0){
-  				data.condition_distinctId = $("#districtId").val();
-  				condition="distinct";
+  				data.parentDistinct = $("#districtId").val();
+  				queryId = "signLoanDetailByTeam";
   			}
   			
   			if($("#orgId").val()!=0){
-  				data.condition_orgId = $("#orgId").val();
-  				condition="team";
+  				data.parentTeamId = $("#orgId").val();
+  				queryId = "signLoanDetailByConsultant";
   			}
   			
   			if($("#userId").val()!=0){
   				data.condition_leadingProcessId = $("#userId").val();
-  				condition="consultant";
   			}
   			
-  			data.condition = condition;
           	data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
-          	data.queryId = "signLoanDetailByGuibinQuery";
+          	data.pagination = false;
+          	data.queryId = queryId;
           	
   			var url = ctx+"/quickGrid/findPage";
   			initData(url,data,"template_table","tableTemplate");

@@ -74,9 +74,6 @@ public class QuickQueryCalRateServiceImpl implements CustomDictService {
 			if (htAmount != 0) {
 				sdAmountRate = sdAmount / htAmount * 100;
 				gjjAmountRate = gjjAmount / htAmount * 100;
-
-				totalSdAmountRate += sdAmountRate;
-				totalGjjAmountRate += gjjAmountRate;
 			}
 
 			if (caseCountRate != 0) {
@@ -112,12 +109,17 @@ public class QuickQueryCalRateServiceImpl implements CustomDictService {
 				strTotalCaseCountRate = df.format(totalCaseCountRate);
 			}
 
-			if (totalSdAmountRate != 0) {
-				strTotalSdAmountRate = df.format(totalSdAmountRate);
-			}
+			if (totalHtAmount != 0) {
+				totalSdAmountRate = totalSdAmount / totalHtAmount * 100;
+				totalGjjAmountRate = totalGjjAmount / totalHtAmount * 100;
 
-			if (totalGjjAmountRate != 0) {
-				strTotalGjjAmountRate = df.format(totalGjjAmountRate);
+				if (totalSdAmountRate != 0) {
+					strTotalSdAmountRate = df.format(totalSdAmountRate);
+				}
+
+				if (totalGjjAmountRate != 0) {
+					strTotalGjjAmountRate = df.format(totalGjjAmountRate);
+				}
 			}
 
 			keyer.put("caseCountRate", strCaseCountRate);
