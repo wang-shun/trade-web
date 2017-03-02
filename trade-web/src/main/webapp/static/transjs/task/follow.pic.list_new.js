@@ -9,8 +9,7 @@ var FollowPicList = (function(){
     			height : 250,
     			autowidth : true,
     			shrinkToFit : true,
-    			rownumWidth:true,
-    			rowNum : 18,
+    			rowNum : 50,
     			/*   rowList: [10, 20, 30], */
     			colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
     			colModel : [ {
@@ -61,12 +60,14 @@ var FollowPicList = (function(){
 	    				var id = ids[i];
 	    				var rowDatas = jQuery("#"+gridTableId).jqGrid('getRowData', ids[i]); // 获取当前行
 	    				
+	    				
 	    				var link = "<button  class='btn red' onclick='addAttachmentReadLog(\""+ctx+"\",\""+ctmCode+"\",\""+caseCode+"\",\""+rowDatas['ATT_NAME']+"\",\""+rowDatas['ATT_PATH']+"\")'>查看附件</a>";
 	    				
 	    				//var detailBtn = "<button  class='btn red' id='alertOper' onclick='openLoan(\""+ctx+"\",\""+rowDatas['pkId']+"\")' style='width:90px;'>详细</button>";
 	    				
 	    				jQuery("#"+gridTableId).jqGrid('setRowData', ids[i], { READ: link});
     				}
+    				$(".jqgfirstrow").remove();
     			},
     			postData : {
     				queryId : "followPicListQuery",
