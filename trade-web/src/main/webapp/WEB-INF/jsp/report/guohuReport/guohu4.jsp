@@ -7,13 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>贷款银行流向</title>
 <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet" />
-<link href="${ctx}/static/font-awesome/css/font-awesome.css"
-	rel="stylesheet" />
+<link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href="${ctx}/static/css/animate.css" rel="stylesheet" />
 <link href="${ctx}/static/css/style.css" rel="stylesheet" />
 <!-- 分页控件 -->
-<link rel="stylesheet"
-	href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
+<link rel="stylesheet" href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
 <!-- index_css -->
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
@@ -45,7 +43,7 @@
 						</div>
 					</div>
 
-					<div class="sign-content row  clearfix">
+					<div class="sign-content row  clearfix" style="overflow: auto;height: 500px;">
 						<div class="col-md-6">
 							<table
 								class="table table_blue  table-striped table-bordered table-hover customerinfo">
@@ -56,7 +54,7 @@
 										<th>金额</th>
 									</tr>
 								</thead>
-								<tbody id="tableTemplate">
+								<tbody id="tableTemplate1">
 									<tr>
 										<td>建设银行浦东分行</td>
 										<td>10</td>
@@ -64,6 +62,11 @@
 									</tr>
 								</tbody>
 							</table>
+							<div class="text-center">
+								<span id="currentTotalPage"><strong class="bold"></strong></span>
+								<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+								<div id="pageBar" class="pagination my-pagination text-center m0"></div>
+							</div>
 						</div>
 						<div class="col-md-6">
 							<table
@@ -76,7 +79,7 @@
 										<th>金额</th>
 									</tr>
 								</thead>
-								<tbody id="tableTemplate1">
+								<tbody id="tableTemplate2">
 									<tr>
 										<td>建设银行</td>
 										<td>建设银行浦东分行</td>
@@ -109,38 +112,68 @@
 	<script id="template_table" type="text/html">
           {{each rows as item index}}
 		    <tr>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
+              <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
+              <td>{{item.CASE_COUNT}}</td>
+              <td>{{item.MORT_COM_AMOUNT}}</td>
              </tr>
 		{{/each}}
 	    </script>
 	<script id="template_table1" type="text/html">
           {{each rows as item index}}
-		    <tr>
-              <td>{{item.groupName}}</td>
-              <td>{{item.lossCount}}</td>
-              <td>{{item.successCount}}</td>
-              <td>{{item.successCount}}</td>
-             </tr>
+		  {{if item.IS_RUWEI_BANK=='cl'}}
+		  <tr style="background: red;">
+			  <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
+			  <td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
+			  <td>{{item.CASE_COUNT}}</td>
+			  <td>{{item.MORT_COM_AMOUNT}}</td>
+		  </tr>
+		  {{else}}
+		  <tr>
+			  <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
+			  <td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
+			  <td>{{item.CASE_COUNT}}</td>
+			  <td>{{item.MORT_COM_AMOUNT}}</td>
+		  </tr>
+
+		  {{/if}}
+
 		{{/each}}
 	    </script>
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
-		function reloadGrid() {
+		function reloadGrid(){
+			reloadGrid1(1);
+			loadT(1);
+		}
+		function reloadGrid1(page) {
 		   	var year = window.parent.yearDisplay;
 	        var month_ = parseInt(window.parent.monthDisplay)+1;
 	        var month = month_ > 9 ? month_:("0"+month_)
-			var data = {
-				rows : 8,
-				page : 1
-				
-			};
+			if(!page) page=1;
+			var data = {};
+			data.page=page;
+			data.rows=20;
         	data.choiceMonth = year + "-" + month;
-/*         	data.belongMoth  = getBelongMonth(year + "-" + month); */
-			var url = ctx+"/js/eachartdata/loanloss.json"
-			initData(url,data,"template_table","tableTemplate");
-			initData(url,data,"template_table1","tableTemplate1");
+			data.belongMonth =getBelongMonth(data.choiceMonth);
+			data.pagination=true;
+			data.queryId='queryGuoHuForMortBank';
+			var url = ctx+"/quickGrid/findPage";
+			initData(url,data,"template_table","tableTemplate1");
+		}
+		function loadT(page){
+			var year = window.parent.yearDisplay;
+			var month_ = parseInt(window.parent.monthDisplay)+1;
+			var month = month_ > 9 ? month_:("0"+month_)
+			if(!page) page=1;
+			var data = {};
+			data.page=page;
+			data.rows=10;
+			data.choiceMonth = year + "-" + month;
+			data.belongMonth =getBelongMonth(data.choiceMonth);
+			data.pagination=false;
+			data.queryId='queryGuoHuForMortBranchBank';
+			var url = ctx+"/quickGrid/findPage";
+			initData(url,data,"template_table1","tableTemplate2");
 		}
 	</script>
 </body>

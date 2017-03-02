@@ -661,104 +661,82 @@
 		</grid>
 	</query>
 
-	<query id="queryGuoHuForMortBank" cacheResult="true">
+	<query id="queryGuoHuForMortBank">
 		<searchCondition>
 
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				with tb as(select
-				CASE_CODE
-				,CASE_LOAN_REQ
-				,CASE_CON_PRICE
-				,MORT_TYPE
-				,MORT_TOTAL_AMOUNT
-				,MORT_COM_AMOUNT
-				,MORT_PRF_AMOUNT
-				,MORT_FIN_ORG_CODE
-				,MORT_FA_FIN_ORG_CODE
-				,MORT_FIN_BRANCH_NAME
-				,MORT_FIN_SUB_BRANCH_NAME
-				 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
-				1=1
-				and tb1.BELONG_MONTH='201701'
-				and TRANSFER_ISPASS=1
-				and convert(varchar(7),TRANSFER_APP_TIME,120)='2017-01')
-
-				select
-				count(1) as CASE_COUNT,
-				sum(MORT_TOTAL_AMOUNT) as MORT_COM_AMOUNT,
-				MORT_FA_FIN_ORG_CODE,
-				MORT_FIN_BRANCH_NAME
-				 from tb as t
-				 where CASE_LOAN_REQ=1
-				 and MORT_FA_FIN_ORG_CODE is not null
-				 group by MORT_FA_FIN_ORG_CODE,MORT_FIN_BRANCH_NAME
+					SELECT *
+					FROM
+					(
+					select
+						FIN_ORG_NAME_YC as MORT_FIN_BRANCH_NAME,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.TRANSFER_APP_TIME,120) = #choiceMonth# AND c.BELONG_MONTH =#belongMonth#) AS CASE_COUNT,
+						(SELECT isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.TRANSFER_APP_TIME,120) = #choiceMonth# AND c.BELONG_MONTH = #belongMonth#) AS MORT_COM_AMOUNT
+					from sctrans.T_TS_FIN_ORG
+					where fin_org_code in
+					(
+						select distinct FA_FIN_ORG_CODE
+						from sctrans.T_TS_FIN_ORG
+						where FIN_ORG_CODE in (select FIN_ORG_CODE from sctrans.T_TS_SUP ts where ts.SUP_CAT='0')
+					)
+					) t
+					ORDER BY t.CASE_COUNT DESC
 	            ]]>
 			</baseSql>
-			<orderBySql>
-				order by sum(MORT_TOTAL_AMOUNT) desc
-			</orderBySql>
+
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="CASE_COUNT" title="过户单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="MORT_FA_FIN_ORG_CODE" title="银行"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORT_FIN_BRANCH_NAME" title="银行名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_COUNT" title="案件单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
 			</table-row>
 		</grid>
 	</query>
 
-	<query id="queryGuoHuForMortBranchBank" cacheResult="true">
+	<query id="queryGuoHuForMortBranchBank">
 		<searchCondition>
 
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				with tb as(select
-				CASE_CODE
-				,CASE_LOAN_REQ
-				,CASE_CON_PRICE
-				,MORT_TYPE
-				,MORT_TOTAL_AMOUNT
-				,MORT_COM_AMOUNT
-				,MORT_PRF_AMOUNT
-				,MORT_FIN_ORG_CODE
-				,MORT_FA_FIN_ORG_CODE
-				,MORT_FIN_BRANCH_NAME
-				,MORT_FIN_SUB_BRANCH_NAME
-				,IS_RUWEI_BANK
-				 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
-				1=1
-				and tb1.BELONG_MONTH='201701'
-				and TRANSFER_ISPASS=1
-				and convert(varchar(7),TRANSFER_APP_TIME,120)='2017-01')
-				select
-				count(1) as CASE_COUNT,
-				sum(MORT_COM_AMOUNT) as MORT_COM_AMOUNT,
-				MORT_FIN_ORG_CODE as MORT_FIN_ORG_CODE,
-				MORT_FIN_SUB_BRANCH_NAME as MORT_FIN_SUB_BRANCH_NAME,
-				(select top(1) IS_RUWEI_BANK from tb as t1 where t1.MORT_FIN_ORG_CODE=t.MORT_FIN_ORG_CODE) as IS_RUWEI_BANK
-				 from tb as t
-				 where CASE_LOAN_REQ=1
-				and MORT_FIN_ORG_CODE is not null
-				group by MORT_FIN_ORG_CODE,MORT_FIN_SUB_BRANCH_NAME
+					SELECT
+						top(20)
+						t.MORT_FIN_BRANCH_NAME,
+						t.FIN_ORG_NAME_YC AS MORT_FIN_SUB_BRANCH_NAME,
+						t.CASE_COUNT,
+						t.MORT_COM_AMOUNT,
+						t.IS_RUWEI_BANK
+					FROM
+					(
+					select
+						ts.*,
+						(SELECT FIN_ORG_NAME_YC FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = ts.fa_fin_org_code) AS MORT_FIN_BRANCH_NAME,
+						(SELECT count(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = ts.FA_FIN_ORG_CODE AND c.MORT_FIN_ORG_CODE = ts.FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.TRANSFER_APP_TIME,120) = #choiceMonth# AND c.BELONG_MONTH = #belongMonth#) AS CASE_COUNT,
+						(SELECT round(isnull(SUM(c.MORT_COM_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = ts.FA_FIN_ORG_CODE AND c.MORT_FIN_ORG_CODE = ts.FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.TRANSFER_APP_TIME,120) = #choiceMonth# AND c.BELONG_MONTH = #belongMonth#) AS MORT_COM_AMOUNT,
+						(SELECT DISTINCT c.IS_RUWEI_BANK FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_FA_FIN_ORG_CODE = ts.FA_FIN_ORG_CODE AND c.MORT_FIN_ORG_CODE = ts.FIN_ORG_CODE AND c.IS_DELEGATE_YUCUI = 1 AND (c.MORT_TYPE = '30016001' OR c.MORT_TYPE = '30016002') AND convert(varchar(7),c.TRANSFER_APP_TIME,120) = #choiceMonth# AND c.BELONG_MONTH = #belongMonth#) AS IS_RUWEI_BANK
+					from sctrans.T_TS_FIN_ORG ts
+					right join sctrans.T_TS_SUP as tt on tt.fin_org_code= ts.fin_org_code and tt.sup_cat='0'
+					) t
+					WHERE t.MORT_FIN_BRANCH_NAME IS NOT NULL
+					ORDER BY t.MORT_COM_AMOUNT DESC
 	            ]]>
 			</baseSql>
-			<orderBySql>
-				order by sum(MORT_TOTAL_AMOUNT) desc
-			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="CASE_COUNT" title="过户单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="MORT_FIN_ORG_CODE" title="支行"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
+				<column type="both" name="MORT_FIN_BRANCH_NAME" title="银行名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORT_FIN_SUB_BRANCH_NAME" title="支行名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="IS_RUWEI_BANK" title="是否入围"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="IS_RUWEI_BANK" title="是否是入围银行"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_COUNT" title="案件单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
 			</table-row>
 		</grid>
 	</query>
