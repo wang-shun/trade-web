@@ -64,11 +64,6 @@
                                     <tbody id="tableTemplate1">
                                     </tbody>
                                 </table>
-		                        <div class="text-center">
-								<span id="currentTotalPage"><strong class="bold"></strong></span>
-								<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-								<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-						        </div>
                             </div>
                             <div class="col-md-6" style="height:565px;overflow-y:auto;">
                                 <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >

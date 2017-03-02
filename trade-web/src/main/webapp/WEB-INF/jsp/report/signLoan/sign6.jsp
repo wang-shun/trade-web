@@ -86,11 +86,6 @@
                                         
                                     </tbody>
                                 </table>
-                                 <div class="text-center">
-								<span id="currentTotalPage"><strong class="bold"></strong></span>
-								<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-								<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-						        </div>
                             </div>
                         </div>
 				</div>
