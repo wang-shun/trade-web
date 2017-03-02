@@ -414,21 +414,20 @@
 	<!-- 
 		签约贷款模块-后台交易顾问工作量统计
 	-->
-	<query id="backConsultantWorkQuery">
+	<query id="backConsultantWorkByDistictQuery">
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT c.CASE_LEADING_PROCESS_ID_B,
-						   c.CASE_REAL_NAME_B as groupName,
-						   COUNT(c.CASE_REAL_PLS_TIME) AS cxgCount,  --查限购单数
-						   COUNT(c.CASE_PRICING_TIME) AS hjCount,    --核价单数
-						   COUNT(c.CASE_TAX_TIME) AS ssCount, --审税单数
-						   COUNT(c.MORT_SIGN_DATE) AS gjjCount, --公积金办理单数
-						   COUNT(c.TRANSFER_REAL_HT_TIME) AS ghCount,  --过户单数
-						   COUNT(c.CASE_REAL_PROPERTY_GET_TIME) AS lzCount   --领证单数
-					FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c
-					WHERE c.CASE_REAL_NAME_B is not null and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#
-					GROUP BY c.CASE_LEADING_PROCESS_ID_B,c.CASE_REAL_NAME_B
+					select 
+						ORG_NAME AS groupName,
+						(SELECT COUNT(c.CASE_REAL_PLS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS cxgCount,
+						(SELECT COUNT(c.CASE_PRICING_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS hjCount,
+						(SELECT COUNT(c.CASE_TAX_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ssCount,
+						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
+						(SELECT COUNT(c.TRANSFER_REAL_HT_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
+						(SELECT COUNT(c.CASE_REAL_PROPERTY_GET_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS lzCount
+					from sctrans.SYS_ORG 
+					where DEP_HIERARCHY = 'yucui_district' and IS_DELETED = 0 and AVAILABLE = 1
 	            ]]>
 			</baseSql>
 			<orderBySql>

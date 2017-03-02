@@ -188,18 +188,18 @@
   	        data.rows=10;
   	        data.page=page;
 	        data.searchDateTime = year + "-" + month;
-  			var condition="init";
+  			var queryId="backConsultantWorkByDistictQuery";
+  			data.pagination = false;
+  			
   			if($("#districtId").val()!=0){
-  				data.condition_distinctId = $("#districtId").val();
-  				condition="distinct";
+  				
   			}
   			if($("#orgId").val()!=0){
-  				data.condition_orgId = $("#orgId").val();
-  				condition="team";
+  				
   			}
-  			data.condition = condition;
+  			
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
-          	data.queryId = "backConsultantWorkQuery";
+          	data.queryId = queryId;
           	
   			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate");
