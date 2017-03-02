@@ -112,7 +112,7 @@ th, td {
 		      <td>{{item.GUOHU_NUM_MONTH == 0?0:(item.KA_APP_NUM_MONTH/item.GUOHU_NUM_MONTH*100).toFixed()}}%</td>
 			  <td>{{item.KA_NUM_MONTH}}</td>
               <td>{{item.KA_APP_NUM_MONTH == 0?0:(item.KA_NUM_MONTH/item.KA_APP_NUM_MONTH*100).toFixed()}}%</td>
-              <td>{{item.ELOAN_KA_APP_NUM_MONTH}}</td>
+              <td>{{item.ELOAN_KA_APP_NUM_MONTH_1 + item.ELOAN_KA_APP_NUM_MONTH_2}}</td>
              </tr>
 		{{/each}}
 	    </script>
