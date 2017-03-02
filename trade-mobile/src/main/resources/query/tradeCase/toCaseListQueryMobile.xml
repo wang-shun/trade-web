@@ -78,6 +78,7 @@
 					    B.GRP_NAME AGENT_ORG_NAME,
 					    sd.name status,
 						CASE WHEN ms.pkid is null then 'false' else 'true' end isFocus,
+						CASE WHEN tw.pkid is null then 'false' else 'true' end loanLostAlert,
 						pi.PROPERTY_ADDR addr,
 						su.EMPLOYEE_CODE			
 					FROM
@@ -282,6 +283,9 @@
 				<column type="both" name="status" />
 				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" />
 				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" />
+			
+				<column type="both" name="loanLostAlert" />
+				<column type="both" name="isFocus" />
 			</table-row>
 		</grid>
 	</query>
