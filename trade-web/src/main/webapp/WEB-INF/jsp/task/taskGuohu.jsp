@@ -209,6 +209,7 @@
 	                            <input type="text" name="comYear" id="comYear"
 									value="${toMortgage.comYear }" class=" input_type yuanwid"
 									onkeyup="checknum(this)">
+								<span class="date_icon">年</span>
 	                        </div>
 	                        <div class="form_content">
 	                            <label class="control-label sign_left_small">商贷利率折扣</label> 
@@ -231,7 +232,7 @@
 	                            <input type="text" name="prfYear" id="prfYear"
 									value="${toMortgage.prfYear }" class=" input_type yuanwid"
 									onkeyup="checknum(this)">
-	                           <span class="date_icon">万元</span>
+	                           <span class="date_icon">年</span>
 	                        </div>
 	                    </div>
 	                    </c:if>

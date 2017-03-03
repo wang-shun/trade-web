@@ -516,7 +516,7 @@
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">公积金贷款年限</label>
-														<input class=" input_type yuanwid" id="prfYear" name="prfYear" value="${ editCaseDetailVO.prfYear}" onkeyup="checkNum2(this)"> <span class="date_icon">万元</span>
+														<input class=" input_type yuanwid" id="prfYear" name="prfYear" value="${ editCaseDetailVO.prfYear}" onkeyup="checkNum2(this)"> <span class="date_icon">年</span>
 													</div>
 
 												</div>
@@ -528,7 +528,7 @@
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">商贷年限</label>
-														<input class=" input_type yuanwid" id="comYear" name="comYear" value="${ editCaseDetailVO.comYear}">
+														<input class=" input_type yuanwid" id="comYear" name="comYear" value="${ editCaseDetailVO.comYear}"><span class="date_icon">年</span>
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">商贷利率折扣</label>
