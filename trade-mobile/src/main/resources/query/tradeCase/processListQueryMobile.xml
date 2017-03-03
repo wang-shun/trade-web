@@ -29,18 +29,18 @@
 		
 		<grid>
 			<table-row>
-				<column type="both" name="status" />
-				<column type="both" name="createTime" beanFormatter="dateFormatter" />
-				<column type="both" name="createBy" />
-				<column type="both" name="finishTime" beanFormatter="dateFormatter"/>
-				<column type="both" name="todoTime" />
+				<column type="both" name="status" defaultVal=""/>
+				<column type="both" name="createTime" beanFormatter="dateFormatter" defaultVal=""/>
+				<column type="both" name="createBy" defaultVal=""/>
+				<column type="both" name="finishTime" beanFormatter="dateFormatter" defaultVal=""/>
+				<column type="both" name="todoTime" defaultVal=""/>
 				
-				<column type="both" name="avatarUrl" />
-				<column type="both" name="comments" />
-				<column type="both" name="prdType" />
-				<column type="both" name="srvCode" />
-				<column type="both" name="star" />
-				<column type="both" name="type" />
+				<column type="both" name="avatarUrl" defaultVal=""/>
+				<column type="both" name="comments" defaultVal=""/>
+				<column type="both" name="prdType" defaultVal=""/>
+				<column type="both" name="srvCode" defaultVal=""/>
+				<column type="both" name="star" defaultVal=""/>
+				<column type="both" name="type" defaultVal=""/>
 			</table-row>
 		</grid>
 	</query>

@@ -61,6 +61,7 @@ public class QuickQueryCaseSalerInfoServiceImpl implements CustomDictService{
 			JSONObject jo = new JSONObject();
 			jo.put("name", nameObj == null ? "" : String.valueOf(nameObj));
 			jo.put("mobile", mobileObj== null ? "" : String.valueOf(mobileObj));
+			jo.put("avatar", "");
 			ja.add(jo);
 			valMap.put(caseCode, ja);
 		}
