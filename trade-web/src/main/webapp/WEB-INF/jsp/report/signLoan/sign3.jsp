@@ -171,34 +171,27 @@
   	        data.rows=10;
   	        data.page=page;
 	        var condition = "init";
+	        data.parentOrgId = "1D29BB468F504774ACE653B946A393EE";
+	        
 	        if($("#dsId").val()!=0){
 	        	condition = "qudong";
-	        	data.condition_qudongId = $("#dsId").val();
-	        	userId=$("#dsId").val();
+	        	data.parentOrgId = $("#dsId option:selected").attr("hval");
 	        }
 	        
 			if($("#zjId").val()!=0){
 				 condition = "director";
-				 data.condition_directorId = $("#zjId").val();
-				 userId=$("#zjId").val();      	
+				 data.parentOrgId = $("#zjId option:selected").attr("hval"); 	
 			}
 			 
 			if($("#jlId").val()!=0){
 				condition = "qyManager";
-				data.condition_qyManagerId = $("#jlId").val();
-				userId=$("#jlId").val();
+				data.parentOrgId = $("#jlId option:selected").attr("hval");
 			}
 			
-/* 			if($("#fhId").val()!=0){
-				 condition = "fhManager";
-				 data.condition_fhManagerId = $("#fhId").val();
-				 orgId=$("#fhId").val();
-			 } */
-			 
 			 data.condition = condition;
 			 data.searchDateTime = year + "-" + month;
 	         data.searchBelongMonth = getBelongMonth(data.searchDateTime);
-	         data.pagination = false; 
+	         data.pagination = true; 
 	         data.queryId = "signLoanDetailByQudongQuery";
 	         
 	  		 var url = ctx+"/quickGrid/findPage";
