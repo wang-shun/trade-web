@@ -92,6 +92,11 @@ BEGIN
 				WZ_NAME                     ,
 				BA_CODE                     ,
 				BA_NAME                     ,
+				GROUP_ORG_ID				,
+				BUSIWZ_ORG_ID				,
+				BUSISWZ_ORG_ID				,
+				BUSIAR_ORG_ID				,
+				BUSISH_ORG_ID				,
 				JQYJL_NAME                  ,
 				JQYJL_EMPLOYEE_CODE         ,
 				JQYJL_PHONE                 ,
@@ -280,6 +285,11 @@ BEGIN
 				CI.WZ_NAME,
 				CI.BA_CODE,
 				CI.BA_NAME,
+				SH.GROUP_ID,   --组别
+				SH.BUSIWZ_ID,  --区董
+				SH.BUSISWZ_ID, --总监
+				SH.BUSIAR_ID,  --区经
+				SH.BUSISH_ID,  --分行经理组别
 
 				SH.JQYJL_MGR,
 				SH.JQYDS_MGR_CODE,--EMPLOYCODE

@@ -179,7 +179,7 @@ $(document).ready(function(){
  							window.location.href = ctx+"/spv/spvList";
  						}});  	 
  					}else{
- 						window.wxc.error("流程开启失败：\n"+data.message,{"wxcOk":function(){
+ 						window.wxc.error("流程开启失败！",{"wxcOk":function(){
  							window.location.href = ctx+"/spv/spvList";
  						}});  	 
  					}     
@@ -187,7 +187,7 @@ $(document).ready(function(){
  				},		
  			error : function(errors) {
  					$.unblockUI();   
- 					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
+ 					window.wxc.error("数据保存出错！");
  				}  
         });
        }
@@ -232,6 +232,7 @@ $(document).ready(function(){
 });
     
     function saveBtnClick(handle,SpvApplyApprove,type){
+ 	  	var isSuccess = false;
     	debugger;
     	if(type == 'checkForSubmit' && handle == 'SpvApply'){
       	  if(!checkFormSubmit()){
@@ -244,41 +245,37 @@ $(document).ready(function(){
       }	 
 
   	  if(type == 'checkForSubmit' && handle == 'SpvApply'){
-	  		if(!confirm("是否确定提交申请！")){
-	  		  return false;
-	  	  }
+	  		window.wxc.confirm("是否确定提交申请！",{"wxcOk":function(){
+	  			isSuccess = saveNewSpv();
+	  		}});
   	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  	    	window.wxc.alert("请填写审批意见！");
 	  		   changeClass($("#passOrRefuseReason"));
-	  		   return false;
 	  	    }
-  		  
-	   	    if(!confirm("是否确定通过！")){
-	 		   return false;
-	 	    }
+	  		window.wxc.confirm("是否确定通过！",{"wxcOk":function(){
+	  			isSuccess = saveNewSpv();
+	  		}});
   	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  	    	window.wxc.alert("请填写审批意见！");
 	  		   changeClass($("#passOrRefuseReason"));
-	  		   return false;
 	  	    }
-    	   
-	  		if(!confirm("是否确定驳回！")){
-	     		return false;
-	     	  }
+	  		window.wxc.confirm("是否确定驳回！",{"wxcOk":function(){
+	  			isSuccess = saveNewSpv();
+	  		}});
   	  }else if(handle == 'SpvSign'){
-	   	   if(!confirm("是否确定签约！")){
-	 		  return false;
-	 	  }
-  	  }else{
-  		  //do nothing
+	  		window.wxc.confirm("是否确定签约！",{"wxcOk":function(){
+	  			isSuccess = saveNewSpv();
+	  		}});
   	  }
-	   
-  	  
-  	  	var isSuccess = false;
+  	  return isSuccess;
+    }
+    
+    function saveNewSpv(){
+ 	  	var isSuccess = false;
    	  	var totalArr = [];
 	      	  $("form").each(function(){
 	      		 var obj = $(this).serializeArray();
@@ -322,20 +319,19 @@ $(document).ready(function(){
 					     } 
 				    	 }else{
 				    		 isSuccess = false;
-				    		 window.wxc.error("保存资金监管签约失败！"+data.message);
+				    		 window.wxc.error("保存资金监管签约失败！");
 				    	 }
 				    	 
 	 					 $.unblockUI();
 	 				},		
 	 			error : function(errors) {
 	 					$.unblockUI();   
-	 					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
+	 					window.wxc.error("数据保存出错！");
 	 				}	 
 	      	  });
 	      	  
  	   return isSuccess;
     }
-    
     
     //保存必填项
 	function checkFormSave(){

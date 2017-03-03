@@ -1694,12 +1694,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public Map<String,Object> queryInfoByCaseCode(String caseCode) {
-		Map<String,Object> infoMap = new HashMap<String,Object>();
         Map<String,Object> caseInfoMap = queryCaseInfoMapByCaseCode(caseCode);
-		ToSpv toSpv = queryToSpvByCaseCode(caseCode);
-		infoMap.put("toSpv", toSpv);
-		infoMap.put("caseInfoMap", caseInfoMap);
-		return infoMap;
+		return caseInfoMap;
 	}
 
 	@Override

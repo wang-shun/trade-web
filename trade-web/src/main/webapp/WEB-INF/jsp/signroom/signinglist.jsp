@@ -34,7 +34,6 @@
         <link rel="stylesheet" href="${ctx}/css/common/table.css" />
         <link rel="stylesheet" href="${ctx}/css/common/input.css" />
         <link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" ">
-        
         <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 </head>
 <body>
@@ -520,8 +519,8 @@
                  </td>
 				 <td>
                       <p class="smll_sign big latestFollupDateTime">{{item.followDateTime}}</p>
-                      <p>
-                         <a href="#"  class="demo-right latestComment" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.realName}}&nbsp;&nbsp;{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
+                      <p class="demo-right" title="{{each item.flowupInfoList as flowupInfo index1}}{{index1 + 1}}.{{flowupInfo.realName}}&nbsp;&nbsp;{{flowupInfo.createDateTime}}&nbsp;&nbsp;{{flowupInfo.comment}}</br>{{/each}}">
+                         <a href="#"  class="latestComment">
 							{{if item.latestComment != null && item.latestComment!="" && item.latestComment.length > 8}}
 								{{item.latestComment.substring(0,8)}}....
 					  		{{else}}
@@ -589,29 +588,7 @@
 		   </tr>
        {{/each}}
 	</script>  
-	<script type="text/javascript">
-		$(function(){
-			$('.demo-right').poshytip({
-				className: 'tip-twitter',
-				showTimeout: 1,
-				alignTo: 'target',
-				alignX: 'right',
-				alignY: 'center',
-				offsetX: 8,
-				offsetY: 5,
-				});
-			
-			$('.demo-top').poshytip({
-				className: 'tip-twitter',
-				showTimeout: 1,
-				alignTo: 'target',
-				alignX: 'center',
-				alignY: 'top',
-				offsetX: 8,
-				offsetY: 5,
-			});
-			});
-	</script>
+	
 </content>
 </body>
 </html>

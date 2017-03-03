@@ -516,7 +516,7 @@
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">公积金贷款年限</label>
-														<input class=" input_type yuanwid" id="prfYear" name="prfYear" value="${ editCaseDetailVO.prfYear}" onkeyup="checkNum2(this)"> <span class="date_icon">万元</span>
+														<input class=" input_type yuanwid" id="prfYear" name="prfYear" value="${ editCaseDetailVO.prfYear}" onkeyup="checkNum2(this)"> <span class="date_icon">年</span>
 													</div>
 
 												</div>
@@ -528,7 +528,7 @@
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">商贷年限</label>
-														<input class=" input_type yuanwid" id="comYear" name="comYear" value="${ editCaseDetailVO.comYear}">
+														<input class=" input_type yuanwid" id="comYear" name="comYear" value="${ editCaseDetailVO.comYear}"><span class="date_icon">年</span>
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">商贷利率折扣</label>
@@ -616,17 +616,17 @@
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">信贷员</label> <input
-															class=" input_type yuanwid" id="loanerName" readonly="readonly" disabled="disabled" name="loanerName" value="${ editCaseDetailVO.loanerName}">
+															class=" input_type yuanwid" id="loanerName" readonly="readonly"  name="loanerName" value="${ editCaseDetailVO.loanerName}">
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">信贷员电话</label>
-														<input class=" input_type yuanwid" readonly="readonly" disabled="disabled" id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
+														<input class=" input_type yuanwid" readonly="readonly"  id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
 													</div>
 												</div>
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">评估公司</label>
-														<input class=" input_type yuanwid" readonly="readonly" disabled="disabled" id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
+														<input class=" input_type yuanwid" readonly="readonly"  id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
 													</div>
 												</div>
 												<div class="line">
@@ -739,8 +739,9 @@
 			$('#basicInfo').viewer();
 		}
 		
+		//select框 设置只读
 		function readOnlyF(){
-			$("#mortType").attr("disabled","disabled");
+			$("#mortType").attr("disabled","disabled"); //贷款类型
 			$("#isDelegateYucui").attr("disabled","disabled");
 			$("#lastLoanBank").attr("disabled","disabled");
 			$("#custCode").attr("disabled","disabled");
@@ -756,13 +757,13 @@
 				$('#prfYear').val('').attr("disabled","disabled");
 			} */
 			
-			$('#comAmount').attr("disabled","disabled");
-			$('#comYear').attr("disabled","disabled");
-			$('#comDiscount').attr("disabled","disabled");
-			$('#mortTotalAmount').attr("disabled","disabled");
+			$('#comAmount').attr("readonly","readonly");
+			$('#comYear').attr("readonly","readonly");
+			$('#comDiscount').attr("readonly","readonly");
+			$('#mortTotalAmount').attr("readonly","readonly");
 			//$("#tab-2").find("select").attr("disabled","disabled");			
-			$('#prfAmount').attr("disabled","disabled");
-			$('#prfYear').attr("disabled","disabled");
+			$('#prfAmount').attr("readonly","readonly");
+			$('#prfYear').attr("readonly","readonly");
 			
 			
 			if(!~~loanReq){

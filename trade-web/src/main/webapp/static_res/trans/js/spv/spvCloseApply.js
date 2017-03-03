@@ -109,7 +109,7 @@ function dealSpvCloseApply(continueApply,result){
 		        	window.close(); //关闭子窗口.
 				}
 			}else{
-				window.wxc.error("数据保存出错:\n"+data.message);
+				window.wxc.error("数据保存出错！");
 				rescCallback();
 			}
 		}

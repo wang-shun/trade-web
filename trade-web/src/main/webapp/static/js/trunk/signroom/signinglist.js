@@ -721,9 +721,6 @@ function reloadGrid(){
 	    data : data,
 	    wrapperData : data
     });
-	
-	//重新初始化标题效果
-	initTitle();
 }
 
 function getParams() {
