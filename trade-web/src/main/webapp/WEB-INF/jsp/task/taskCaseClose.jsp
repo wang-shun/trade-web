@@ -739,8 +739,9 @@
 			$('#basicInfo').viewer();
 		}
 		
+		//select框 设置只读
 		function readOnlyF(){
-			$("#mortType").attr("disabled","disabled");
+			$("#mortType").attr("disabled","disabled"); //贷款类型
 			$("#isDelegateYucui").attr("disabled","disabled");
 			$("#lastLoanBank").attr("disabled","disabled");
 			$("#custCode").attr("disabled","disabled");
