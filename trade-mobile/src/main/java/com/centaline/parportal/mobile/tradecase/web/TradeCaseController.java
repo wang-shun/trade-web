@@ -28,6 +28,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
@@ -37,9 +38,11 @@ import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.vo.ToModuleSubscribeVo;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @RestController
 @RequestMapping(value = "/tradeCase")
+@JsonInclude()
 public class TradeCaseController {
 
 	@Value("${agent.img.url}")
@@ -93,14 +96,11 @@ public class TradeCaseController {
 		}
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
-		for (Map<String, Object> map : list) {
-			map.put("isFocus", Boolean.valueOf(map.get("isFocus")+""));
-			map.put("loanLostAlert", Boolean.valueOf(map.get("loanLostAlert")+""));
-			buildShangxiajiaInfo(map);
-		}
 		buildZhongjieInfo(list);
 
-		return Pages2JSONMoblie.pages2JsonMoblie(pages).toJSONString();
+		JSON json = Pages2JSONMoblie.pages2JsonMoblie(pages);
+		String resultStr = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue);
+		return resultStr;
 	}
 	
 	private void buildZhongjieInfo(List<Map<String, Object>> list) {

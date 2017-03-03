@@ -274,18 +274,19 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="AGENT_NAME" />
-				<column type="both" name="EMPLOYEE_CODE" />
-				<column type="both" name="AGENT_PHONE" />
-				<column type="both" name="caseCode" />
-				<column type="both" name="addr" />
-				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" />
-				<column type="both" name="status" />
-				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" />
-				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" />
-			
-				<column type="both" name="loanLostAlert" />
-				<column type="both" name="isFocus" />
+				<column type="both" name="AGENT_NAME" dataType="String" defaultVal=""/>
+				<column type="both" name="EMPLOYEE_CODE" dataType="String" defaultVal=""/>
+				<column type="both" name="AGENT_PHONE" dataType="String" defaultVal=""/>
+				<column type="both" name="caseCode" dataType="String" defaultVal=""/>
+				<column type="both" name="addr" dataType="String" defaultVal=""/>
+				
+				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" dataType="String" defaultVal=""/>
+				<column type="both" name="status" dataType="String" defaultVal=""/>
+				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" dataType="JSONARRAY"/>
+				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" dataType="JSONARRAY"/>
+
+				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
+				<column type="both" name="isFocus" dataType="BOOLEAN"/>
 			</table-row>
 		</grid>
 	</query>
@@ -314,7 +315,7 @@
 			<table-row>
 				<column type="both" name="caseCode" />
 				<column type="both" name="status" />
-				<column type="both" name="isFocus" />
+				<column type="both" name="isFocus" dataType="BOOLEAN"/>
 				<column type="both" name="addr" />
 				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" />
 				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" />
@@ -322,9 +323,9 @@
 				<column type="both" name="AGENT_NAME" />
 				<column type="both" name="EMPLOYEE_CODE" />
 				
-				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai"/>
-				<column type="both" name="leadingProcessId" />
-				<column type="both" name="loanLostAlert" />
+				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai" dataType="JSONARRAY"/>
+				<column type="both" name="leadingProcessId" dataType="BOOLEAN"/>
+				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
 				<column type="both" name="org" />
 			</table-row>
 		</grid>

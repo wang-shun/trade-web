@@ -16,7 +16,7 @@
 					finishTime ,
 					todoTime ,
 					
-					avatarUrl+'.jpj' avatarUrl,
+					avatarUrl+'.jpg' avatarUrl,
 					comments,
 					prdType,
 					srvCode,
