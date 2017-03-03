@@ -1,6 +1,8 @@
 package com.centaline.trans.workspace.entity;
 
-public class WorkLoad {
+import java.io.Serializable;
+
+public class WorkLoad  implements Serializable{
 	private String userId;
 	private String userName;
 	// 任务数
