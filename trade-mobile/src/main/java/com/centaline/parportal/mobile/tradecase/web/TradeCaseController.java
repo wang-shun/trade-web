@@ -33,8 +33,8 @@ import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.enums.TransDictEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.vo.ToModuleSubscribeVo;
 
@@ -85,7 +85,7 @@ public class TradeCaseController {
 		}
 		paramMap.put("status", status);
 		//全部案件
-		if(30003006 != property){
+		if(null != property && 30003006 != property){
 			paramMap.put("property", property);
 		}
 		if (null != onlyLoanLostAlert && onlyLoanLostAlert) {
@@ -94,6 +94,8 @@ public class TradeCaseController {
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
 		for (Map<String, Object> map : list) {
+			map.put("isFocus", Boolean.valueOf(map.get("isFocus")+""));
+			map.put("loanLostAlert", Boolean.valueOf(map.get("loanLostAlert")+""));
 			buildShangxiajiaInfo(map);
 		}
 		buildZhongjieInfo(list);
@@ -103,6 +105,7 @@ public class TradeCaseController {
 	
 	private void buildZhongjieInfo(List<Map<String, Object>> list) {
 		for (Map<String, Object> map : list) {
+			
 			Object agentNameObj = map.get("AGENT_NAME");
 			String name = null == agentNameObj ? "" : String.valueOf(agentNameObj);
 			Object agentCodeObj = map.get("EMPLOYEE_CODE");
@@ -110,12 +113,16 @@ public class TradeCaseController {
 					: MessageFormat.format(imgUrl, String.valueOf(agentCodeObj)) + ".jpg";
 			Object agentPhoneObj = map.get("AGENT_PHONE");
 			String agentPhone = agentPhoneObj == null ? "" : String.valueOf(agentPhoneObj);
-
+			
+			
 			JSONObject json = new JSONObject();
 			json.put("name", name);
 			json.put("avatar", avatar);
 			json.put("mobile", agentPhone);
-
+			if(map.containsKey("org")){
+				json.put("org",map.get("org"));
+			}
+			
 			map.put("zhongjie", json);
 			
 			map.remove("AGENT_NAME");
@@ -257,15 +264,34 @@ public class TradeCaseController {
 		if(list == null || list.get(0) == null){
 			return;
 		}
-		
 		Map<String, Object> map = list.get(0);
+		if(!map.containsKey("houtai")){
+			map.put("houtai", new JSONArray());
+		}
 		buildShangxiajiaInfo(map);
 		buildQianTaiInfo(map);
 		buildZhongjieInfo(list);
+		buildZhuliInfo(map);
 		result.put("caseInfo", list.get(0));
 		
 	}
 	
+	private void buildZhuliInfo(Map<String, Object> map) {
+		String orgId = String.valueOf(map.get("orgId"));
+		// 助理
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
+		JSONObject ja = new JSONObject();
+		if (asList != null && asList.size() > 0) {
+			User assistUser = asList.get(0);
+			ja.put("name", assistUser.getRealName());
+			String ec = assistUser.getEmployeeCode();
+			ja.put("avatar", ec == null ? "" : MessageFormat.format(imgUrl,ec) + ".jpg");
+			ja.put("org", assistUser.getOrgName());
+			ja.put("mobile", assistUser.getMobile());
+		}
+		map.put("zhuli", ja);
+	}
+
 	private  void buildMortInfo(JSONObject result,String caseCode,SessionUser user){
 		JQGridParam gp2 = new JQGridParam();
 		gp2.setQueryId("queryTradeCaseMortInfoMoblie");
@@ -297,6 +323,7 @@ public class TradeCaseController {
 		json.put("name", user.getRealName());
 		json.put("avatar", avatar);
 		json.put("mobile", user.getMobile());
+		json.put("org", user.getOrgName());
 		
 		map.put("qiantai", json);
 		map.remove("leadingProcessId");
