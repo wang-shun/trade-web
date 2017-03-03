@@ -349,29 +349,28 @@
 				function() {
 					
 					//过户环节贷款信息不能修改
- 					$('#mortType').attr("disabled","disabled");					
-					$('#mortTotalAmount').attr("disabled","disabled");
-					$('#comAmount').attr("disabled","disabled");
-					$('#comYear').attr("disabled","disabled");
-					$('#comDiscount').attr("disabled","disabled");
-					$('#prfAmount').attr("disabled","disabled");
-					$('#prfYear').attr("disabled","disabled");
+ 					$('#mortType').attr("readonly","readonly");					
+					$('#mortTotalAmount').attr("readonly","readonly");
+					$('#comAmount').attr("readonly","readonly");
+					$('#comYear').attr("readonly","readonly");
+					$('#comDiscount').attr("readonly","readonly");
+					$('#prfAmount').attr("readonly","readonly");
+					$('#prfYear').attr("readonly","readonly");
+					
 					
 					var isDelegateYucui = '${toMortgage.isDelegateYucui}';
 					var initMortType = '${toMortgage.mortType}';
 					if (isDelegateYucui == '1') {
 						if ('30016003' == initMortType) {
-							$("select[name='mortType']").prop('disabled',
-									true);
+							$("select[name='mortType']").prop('disabled',true);
 						} else {
-							$("select[name='mortType']").each(
-									function() {
-										$(this).find(
-												"option[value='30016003']")
-												.remove();
-									});
+							$("select[name='mortType']").each(function() {
+								$(this).find("option[value='30016003']").remove();
+							});
 						}
 					}
+					
+					$("select[name='mortType']").prop('disabled',true);	//待定				
 
 					if ('caseDetails' == source) {
 						readOnlyForm();

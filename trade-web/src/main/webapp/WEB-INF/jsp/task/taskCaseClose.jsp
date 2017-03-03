@@ -616,17 +616,17 @@
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">信贷员</label> <input
-															class=" input_type yuanwid" id="loanerName" readonly="readonly" disabled="disabled" name="loanerName" value="${ editCaseDetailVO.loanerName}">
+															class=" input_type yuanwid" id="loanerName" readonly="readonly"  name="loanerName" value="${ editCaseDetailVO.loanerName}">
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">信贷员电话</label>
-														<input class=" input_type yuanwid" readonly="readonly" disabled="disabled" id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
+														<input class=" input_type yuanwid" readonly="readonly"  id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
 													</div>
 												</div>
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">评估公司</label>
-														<input class=" input_type yuanwid" readonly="readonly" disabled="disabled" id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
+														<input class=" input_type yuanwid" readonly="readonly"  id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
 													</div>
 												</div>
 												<div class="line">
@@ -756,13 +756,13 @@
 				$('#prfYear').val('').attr("disabled","disabled");
 			} */
 			
-			$('#comAmount').attr("disabled","disabled");
-			$('#comYear').attr("disabled","disabled");
-			$('#comDiscount').attr("disabled","disabled");
-			$('#mortTotalAmount').attr("disabled","disabled");
+			$('#comAmount').attr("readonly","readonly");
+			$('#comYear').attr("readonly","readonly");
+			$('#comDiscount').attr("readonly","readonly");
+			$('#mortTotalAmount').attr("readonly","readonly");
 			//$("#tab-2").find("select").attr("disabled","disabled");			
-			$('#prfAmount').attr("disabled","disabled");
-			$('#prfYear').attr("disabled","disabled");
+			$('#prfAmount').attr("readonly","readonly");
+			$('#prfYear').attr("readonly","readonly");
 			
 			
 			if(!~~loanReq){
