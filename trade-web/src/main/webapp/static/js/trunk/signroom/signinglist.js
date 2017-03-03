@@ -763,6 +763,7 @@ function getParams() {
 	data.startResTime = startResTime;
 	data.endResTime = endResTime;
 	data.resStatus = resStatus;
+	data.isInitTitle = true;
 	
 	return data;
 }

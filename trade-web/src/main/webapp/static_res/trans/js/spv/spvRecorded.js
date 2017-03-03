@@ -240,13 +240,13 @@ function submitBtnClick(handle,chargeOutAppr){
 		  return false;
 	  }
 	  if(!handle){
-		  if(!confirm("确定提交并开启流程吗！")){
-			  return false;
-		  } 
+		  window.wxc.confirm("确定提交并开启流程吗？",{"wxcOk":function(){
+			  cashFlowOutApprDeal(chargeOutAppr);
+		  }});
 	  }else if(handle == 'apply'){
-	  		if(!confirm("是否确定提交申请！")){
-	  		  return false;
-	  	    }
+		  window.wxc.confirm("是否确定提交申请？",{"wxcOk":function(){
+			  cashFlowOutApprDeal(chargeOutAppr);
+		  }});
 	  }else if(handle == 'directorAudit'){
 		  var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
 	   	   if(refuseReason=='' || refuseReason==null){
@@ -254,13 +254,13 @@ function submitBtnClick(handle,chargeOutAppr){
 	   		   return false;
 	   	   }
 		  if(chargeOutAppr){
-		   	   if(!confirm("是否确定通过！")){
-			 		  return false;
-			 	  } 
+			  window.wxc.confirm("是否确定通过？",{"wxcOk":function(){
+				  cashFlowOutApprDeal(chargeOutAppr);
+			  }});
 		  }else{
-		  	   if(!confirm("是否确定驳回！")){
-		     		  return false;
-		     	  } 
+			  window.wxc.confirm("是否确定驳回？",{"wxcOk":function(){
+				  cashFlowOutApprDeal(chargeOutAppr);
+			  }});
 		  }
 	  }else if(handle == 'financeAudit'){
 		   var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
@@ -269,13 +269,13 @@ function submitBtnClick(handle,chargeOutAppr){
 	   		   return false;
 	   	   }
 		  if(chargeOutAppr){
-		   	   if(!confirm("是否确定通过！")){
-			 		  return false;
-			 	  } 
+			  window.wxc.confirm("是否确定通过？",{"wxcOk":function(){
+				  cashFlowOutApprDeal(chargeOutAppr);
+			  }});
 		  }else{
-		  		if(!confirm("是否确定驳回！")){
-		     		  return false;
-		     	  } 
+			  window.wxc.confirm("是否确定驳回？",{"wxcOk":function(){
+				  cashFlowOutApprDeal(chargeOutAppr);
+			  }});
 		  }
 	  }else if(handle == 'financeSecondAudit'){
 		   var refuseReason = $("textarea[name='toSpvAduitList[0].content']").val();
@@ -284,26 +284,29 @@ function submitBtnClick(handle,chargeOutAppr){
 	   		   return false;
 	   	   }
 		  if(chargeOutAppr){
-		   	   if(!confirm("是否确定通过！")){
-			 		  return false;
-			 	  } 
+			  window.wxc.confirm("是否确定通过？",{"wxcOk":function(){
+				  cashFlowOutApprDeal(chargeOutAppr);
+			  }});
 		  }else{
-		  	   if(!confirm("是否确定驳回！")){
-		     		  return false;
-		     	  } 
+			  window.wxc.confirm("是否确定驳回？",{"wxcOk":function(){
+				  cashFlowOutApprDeal(chargeOutAppr);
+			  }});
 		  }
 	  }else if(handle == 'cashFlowOut'){
-		  if(!confirm("是否确定提交申请！")){
-	  		  return false;
-	  	  }
+		  window.wxc.confirm("是否确定提交申请？",{"wxcOk":function(){
+			  cashFlowOutApprDeal(chargeOutAppr);
+		  }});
 	  }
-	  
-	  var totalArr = [];
+};
+
+
+function cashFlowOutApprDeal(chargeOutAppr){
+	var totalArr = [];
 	  totalArr.push({"name":"chargeOutAppr","value":chargeOutAppr});
 	  $("form").each(function(){
 		 var obj = $(this).serializeArray();
 		for(var i in obj){
-     		totalArr.push(obj[i]);
+   		totalArr.push(obj[i]);
 		}
 	  });
 
@@ -312,13 +315,13 @@ function submitBtnClick(handle,chargeOutAppr){
 		method:"post",
 		dataType:"json",
 		data:totalArr,   		        				        		    
- 		beforeSend:function(){  
+		beforeSend:function(){  
 			//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 			$(".blockOverlay").css({'z-index':'9998'});
-      },
-      complete: function() {
-               //$.unblockUI(); 
-               if(status=='timeout'){ //超时,status还有success,error等值的情况
+    },
+    complete: function() {
+             //$.unblockUI(); 
+             if(status=='timeout'){ //超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {
 				    msg:"抱歉，系统处理超时。"
@@ -328,12 +331,14 @@ function submitBtnClick(handle,chargeOutAppr){
 		success : function(data) {   
 			if(data.ajaxResponse.success){
 				if(!handle){
-					window.wxc.success("流程开启成功！");
-					window.location.href = ctx+"/spv/spvList";
+					window.wxc.success("流程开启成功！",{"wxcOk":function(){
+						window.location.href = ctx+"/spv/spvList";
+					}});
 				}else{
-					window.wxc.success("任务提交成功！");
-					window.opener.location.reload(); //刷新父窗口
-		        	window.close(); //关闭子窗口.
+					window.wxc.success("任务提交成功！",{"wxcOk":function(){
+						window.opener.location.reload(); //刷新父窗口
+			        	window.close(); //关闭子窗口.
+					}});
 				}
 			}else{
 				window.wxc.error("数据保存出错:"+data.ajaxResponse.message);
@@ -346,8 +351,8 @@ function submitBtnClick(handle,chargeOutAppr){
 			    // }
 				 //$.unblockUI();
 			}
- });
-};
+});
+}
 
 function readOnlyRiskForm(){
 	$("input").prop("readOnly",true);

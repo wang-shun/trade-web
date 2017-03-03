@@ -159,37 +159,38 @@ function sumbitRe(){
 	if(!checkSumbitHtml()){
 		return;
 	}
-	if(!confirm("是否确定重新提交申请！")){
-		  return false;
-	}
 	
-	$('#chargeInAppr').val(true);
-	//提交页面的参数
-	var data = $("#teacForm").serialize();
-	var url = ctx+"/spv/task/cashflowIntApply/deal";
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url : url,
-		dataType : "json",
-		data : data,
-		beforeSend:function(){  
-         },
-		success : function(data) {
-		   	if(data.success){
-		   		window.opener.location.reload(); //刷新父窗口
-			   	window.close(); //关闭子窗口.
-			}else{
-				window.wxc.error("提交失败！"+data.message); 
+	window.wxc.confirm("是否确定重新提交申请？",{"wxcOk":function(){
+		$('#chargeInAppr').val(true);
+		//提交页面的参数
+		var data = $("#teacForm").serialize();
+		var url = ctx+"/spv/task/cashflowIntApply/deal";
+		$.ajax({
+			cache : false,
+			async : false,//false同步，true异步
+			type : "POST",
+			url : url,
+			dataType : "json",
+			data : data,
+			beforeSend:function(){  
+	         },
+			success : function(data) {
+			   	if(data.success){
+			   		window.wxc.success("提交成功！",{"wxcOk":function(){
+			   			window.opener.location.reload(); //刷新父窗口
+					   	window.close(); //关闭子窗口.
+			   		}}); 
+				}else{
+					window.wxc.error("提交失败！"+data.message); 
+				}
+				
+			},complete: function() { 
+			},
+			error : function(errors) {
 			}
 			
-		},complete: function() { 
-		},
-		error : function(errors) {
-		}
-		
-	});
+		});
+	}});
 }
 //得到页面数据 
 function getFormData(){
