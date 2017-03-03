@@ -336,7 +336,7 @@ function submitBtnClick(handle,chargeOutAppr){
 		        	window.close(); //关闭子窗口.
 				}
 			}else{
-				window.wxc.error("数据保存出错:"+data.ajaxResponse.message);
+				window.wxc.error("数据保存出错！");
 			}
 			    // if($("#urlType").val() == 'myTask'){    	 
 			    	// window.opener.location.reload(); //刷新父窗口
