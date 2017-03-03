@@ -273,7 +273,6 @@ $(document).ready(function(){
     }
     
     function saveNewSpv(url,data1){
- 	  	var isSuccess = false;
    	  	var totalArr = [];
 	      	  $("form").each(function(){
 	      		 var obj = $(this).serializeArray();
@@ -306,8 +305,6 @@ $(document).ready(function(){
 	 			            } ,   
 	 			success : function(data) {
 				    	 if(data.success){
-				    		 isSuccess = true;
-				    		 alert("11111");
 				    		 ajaxCall(url,data1);
 				    		 
 				    		 if($("#urlType").val() == 'myTask'){    	 
@@ -319,7 +316,6 @@ $(document).ready(function(){
 						    	window.location.href = ctx+"/spv/spvList";
 					     } 
 				    	 }else{
-				    		 isSuccess = false;
 				    		 window.wxc.error("保存资金监管签约失败！");
 				    	 }
 				    	 
@@ -331,7 +327,6 @@ $(document).ready(function(){
 	 				}	 
 	      	  });
 	      	  
- 	   return isSuccess;
     }
     
     //保存必填项
