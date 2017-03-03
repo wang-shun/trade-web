@@ -475,11 +475,13 @@ function doGroupClaim(taskId){
 		dataType : "json",
 		success : function(data) {
 			if(data.sc&&data.sc=='0'){
-				window.wxc.success('分配成功！');
-				reloadGrid(1);
+				window.wxc.success('分配成功！',{"wxcOk":function(){
+					reloadGrid(1);
+				}});
 			}else{
-				window.wxc.error('分配失败！');
-				reloadGrid(1);
+				window.wxc.error('分配失败！',{"wxcOk":function(){
+					reloadGrid(1);
+				}});
 			}
 			//taskDelGrid.trigger('reloadGrid');
 		}

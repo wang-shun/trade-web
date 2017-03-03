@@ -721,9 +721,6 @@ function reloadGrid(){
 	    data : data,
 	    wrapperData : data
     });
-	
-	//重新初始化标题效果
-	initTitle();
 }
 
 function getParams() {
@@ -763,7 +760,6 @@ function getParams() {
 	data.startResTime = startResTime;
 	data.endResTime = endResTime;
 	data.resStatus = resStatus;
-	data.isInitTitle = true;
 	
 	return data;
 }
