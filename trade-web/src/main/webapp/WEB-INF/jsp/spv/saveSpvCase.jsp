@@ -1443,7 +1443,7 @@
 	       <script>
 	       		var fileUpload;
 			    require(['main'], function() {
-					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
+					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','twbsPagination','bootstrapModal','modalmanager'],function($,aistFileUpload){
 						fileUpload = aistFileUpload;
 						var handle = $("#handle").val();
 						if(handle == "SpvApprove" || handle == "SpvSign"){
