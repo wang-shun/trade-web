@@ -44,7 +44,7 @@
 					,MORT_PRF_AMOUNT
 					,CASE_ORG_ID_F--组别ID
 					,CASE_DISTRICT_ID--贵宾服务部ID
-						from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
+					from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
 					1=1
 					<ifNotNull districtId>
 						and CASE_DISTRICT_ID=#districtId#
@@ -53,21 +53,40 @@
 						and CASE_ORG_ID_F=#districtId#
 					</ifNotNull>
 					and tb1.BELONG_MONTH=#belongMonth#
-					and TRANSFER_ISPASS=1
-					and convert(varchar(7),TRANSFER_APP_TIME,120)=#choiceMonth#)
-
+						and TRANSFER_ISPASS=1
+						and convert(varchar(7),TRANSFER_APP_TIME,120)=#choiceMonth#),
+					tb2 as (
+					select
+					'30016001' as 'MORT_TYPE'
+					union all
+					select '30016003' as 'MORT_TYPE'
+					union all
+					select '30016002' as 'MORT_TYPE'
+					union all
+					select 'NO_LOAN_REQ' as 'MORT_TYPE'
+					union all
+					select 'TOTAL' as 'TOTAL'
+					)
+				select
+				tb2.MORT_TYPE as MORT_TYPE,
+				CASE
+					WHEN tb2.MORT_TYPE='TOTAL' THEN  '合计'
+					WHEN tb2.MORT_TYPE='30016001' THEN '纯商'
+					WHEN tb2.MORT_TYPE='30016003' THEN '纯公积金'
+					WHEN tb2.MORT_TYPE='30016002' THEN '组合'
+					WHEN tb2.MORT_TYPE='NO_LOAN_REQ' THEN '无贷款'
+				END AS MORT_TYPE_CN
+				,isnull(l1.CASE_COUNT,0) as CASE_COUNT
+				,isnull(l1.CASE_CON_PRICE,0) as CASE_CON_PRICE
+				,isnull(l1.MORT_COM_AMOUNT,0) as MORT_COM_AMOUNT
+				,isnull(l1.MORT_PRF_AMOUNT,0) as MORT_PRF_AMOUNT
+				from tb2 left join
+				(
 					select
 					 CASE
 						 WHEN GROUPING(tn.MORT_TYPE) =1 THEN  'TOTAL'
 						 ELSE MORT_TYPE
 					 END AS MORT_TYPE,
-					  CASE
-						 WHEN GROUPING(tn.MORT_TYPE) =1 THEN  '合计'
-						 WHEN tn.MORT_TYPE='30016001' THEN '纯商'
-						 WHEN tn.MORT_TYPE='30016003' THEN '纯公积金'
-						 WHEN tn.MORT_TYPE='30016002' THEN '组合'
-						  WHEN tn.MORT_TYPE='NO_LOAN_REQ' THEN '无贷款'
-					  END AS MORT_TYPE_CN,
 					count(tn.MORT_TYPE) CASE_COUNT,
 					isnull(sum(tn.CASE_CON_PRICE),0) CASE_CON_PRICE,
 					isnull(sum(tn.MORT_COM_AMOUNT),0) MORT_COM_AMOUNT,
@@ -88,13 +107,11 @@
 							0 MORT_PRF_AMOUNT
 						from tb where CASE_LOAN_REQ = 0
 					)  as tn
-					group by MORT_TYPE
+					group by tn.MORT_TYPE
 					WITH ROLLUP
+				) as l1 on tb2.MORT_TYPE=l1.MORT_TYPE
 				]]>
 			</baseSql>
-			<orderBySql>
-				order by MORT_TYPE
-			</orderBySql>
 			<groupSql>
 
 			</groupSql>
@@ -415,12 +432,12 @@
 				[JFHJL_EMPLOYEE_CODE]--分行经理雇员编号
 				 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
 				1=1
-				and tb1.BELONG_MONTH='201701'
+				and tb1.BELONG_MONTH=#belongMonth#
 				and TRANSFER_ISPASS=1
-				and convert(varchar(7),TRANSFER_APP_TIME,120)='2017-01')
+				and convert(varchar(7),TRANSFER_APP_TIME,120)=#choiceMonth#)
 
 				select
-				<if test="produceType == 'qyds'">
+				<if test="produceType == 'JQYDS'">
 				JQYDS_NAME as EMPLOYEE_NAME,--(按照区域董事)
 				</if>
 				<if test="produceType == 'qyzj'">
