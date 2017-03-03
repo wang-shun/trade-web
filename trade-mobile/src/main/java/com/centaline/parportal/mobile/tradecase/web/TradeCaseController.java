@@ -170,71 +170,19 @@ public class TradeCaseController {
 		Map<String, Object> map = list.get(0);
 
 		
-		JSONObject json = new JSONObject();
-		
-		// 合同价
-		if (map.containsKey("conPrice")) {
-			json.put("conPrice",map.get("conPrice"));
-		}
 		// 购房年数
-		if (map.containsKey("holdYear")) {
-			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), String.valueOf(map.get("holdYear")));
-			json.put("holdYear",holdYear);
-		}
-		// 是否唯一
-		if (map.containsKey("isUniqueHome")) {
-			String isUniqueHome = uamBasedataService.getDictValue(TransDictEnum.TWYZF.getCode(), String.valueOf(map.get("isUniqueHome")));
-			json.put("isUniqueHome",isUniqueHome);
+		if (map.containsKey("year")) {
+			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), String.valueOf(map.get("year")));
+			map.put("year",holdYear);
 		}
 		// 房屋性质
 		if (map.containsKey("houseProperty")) {
 			String houseProperty = uamBasedataService.getDictValue(TransDictEnum.TFWXZ.getCode(),
 					String.valueOf(map.get("houseProperty")));
-			json.put("houseProperty",houseProperty);
+			map.put("houseProperty",houseProperty);
 		}
 		
-		// 首期款
-		if (map.containsKey("amount1")) {
-			json.put("amount1",map.get("amount1"));
-		}
-		// 首期款
-		if (map.containsKey("amount2")) {
-			json.put("amount2",map.get("amount2"));
-		}
-		// 尾款
-		if (map.containsKey("amount3")) {
-			json.put("amount3",map.get("amount3"));
-		}
-		// 装修款
-		if (map.containsKey("amount4")) {
-			json.put("amount4",map.get("amount4"));
-		}
-		
-		//房产税
-		if (map.containsKey("houseHodingTax")) {
-			json.put("houseHodingTax",map.get("houseHodingTax"));
-		}
-		//契税 
-		if (map.containsKey("contractTax")) {
-			json.put("contractTax",map.get("contractTax"));
-		}
-		//营业税
-		if (map.containsKey("yingyeTax")) {
-			json.put("yingyeTax",map.get("yingyeTax"));
-		}
-		
-		//营业税
-		if (map.containsKey("tudiTax")) {
-			json.put("tudiTax",map.get("tudiTax"));
-		}
-		
-		//个人所得
-		if (map.containsKey("gerenTax")) {
-			json.put("gerenTax",map.get("gerenTax"));
-		}
-		
-		
-		result.put("tradeInfo", json);
+		result.put("tradeInfo", map);
 	}
 	
 	private void buildShangxiajiaInfo(Map<String, Object> map){
