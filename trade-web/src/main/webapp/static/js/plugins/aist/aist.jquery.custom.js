@@ -157,7 +157,27 @@ function($, window) {
 					return false;
 				}
 			},
-			
+			initTitle:function(){
+				$('.demo-right').poshytip({
+  					className: 'tip-twitter',
+  					showTimeout: 1,
+  					alignTo: 'target',
+  					alignX: 'right',
+  					alignY: 'center',
+  					offsetX: 8,
+  					offsetY: 5,
+  					});
+  				
+  				$('.demo-top').poshytip({
+  					className: 'tip-twitter',
+  					showTimeout: 1,
+  					alignTo: 'target',
+  					alignX: 'center',
+  					alignY: 'top',
+  					offsetX: 8,
+  					offsetY: 5,
+  				});
+			},
 			initPage : function(elements,options,pageData) {
 				var _self = $(elements);
 				
@@ -203,31 +223,11 @@ function($, window) {
 						options.page = page;
 	      				_self.reloadGrid(options);
 	      				
-	      				initTitle();
+	      				aist.initTitle();
 				    }
 				});
-			},
-			initTitle:function(){
-				$('.demo-right').poshytip({
-  					className: 'tip-twitter',
-  					showTimeout: 1,
-  					alignTo: 'target',
-  					alignX: 'right',
-  					alignY: 'center',
-  					offsetX: 8,
-  					offsetY: 5,
-  					});
-  				
-  				$('.demo-top').poshytip({
-  					className: 'tip-twitter',
-  					showTimeout: 1,
-  					alignTo: 'target',
-  					alignX: 'center',
-  					alignY: 'top',
-  					offsetX: 8,
-  					offsetY: 5,
-  				});
 			}
+			
 	 }
 	 window.aist = aist;
 	 jQuery.fn.changeSelect = function(params){

@@ -179,7 +179,7 @@ $(document).ready(function(){
  							window.location.href = ctx+"/spv/spvList";
  						}});  	 
  					}else{
- 						window.wxc.error("流程开启失败：\n"+data.message,{"wxcOk":function(){
+ 						window.wxc.error("流程开启失败！",{"wxcOk":function(){
  							window.location.href = ctx+"/spv/spvList";
  						}});  	 
  					}     
@@ -187,7 +187,7 @@ $(document).ready(function(){
  				},		
  			error : function(errors) {
  					$.unblockUI();   
- 					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
+ 					window.wxc.error("数据保存出错！");
  				}  
         });
        }
@@ -319,14 +319,14 @@ $(document).ready(function(){
 					     } 
 				    	 }else{
 				    		 isSuccess = false;
-				    		 window.wxc.error("保存资金监管签约失败！"+data.message);
+				    		 window.wxc.error("保存资金监管签约失败！");
 				    	 }
 				    	 
 	 					 $.unblockUI();
 	 				},		
 	 			error : function(errors) {
 	 					$.unblockUI();   
-	 					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
+	 					window.wxc.error("数据保存出错！");
 	 				}	 
 	      	  });
 	      	  
