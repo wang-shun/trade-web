@@ -410,4 +410,26 @@
 			</table-row>
 		</grid>
 	</query>
+	
+	<query id="queryTradeCaseZhuliMoblie">
+		<searchSql>
+			<baseSql>
+			   	select su.REAL_NAME name,su.MOBILE moblie,su.EMPLOYEE_CODE employeeCode,
+					so.ORG_NAME org
+				 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tp
+				 inner join sctrans.SYS_USER su on su.ID = tp.PROCESSOR_ID
+				 left join sctrans.SYS_ORG so on so.ID = su.ORG_ID
+				 where tp.SRV_CODE = '3000401002'
+			     	and  tp.CASE_CODE = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="name" defaultVal="0"/>
+				<column type="both" name="moblie"  defaultVal=""/>
+				<column type="both" name="employeeCode" />
+				<column type="both" name="org" defaultVal=""/>
+			</table-row>
+		</grid>
+	</query>
 </querys>
