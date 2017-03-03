@@ -182,15 +182,18 @@
 	    	if(!page)page=1;
   	        data.rows=10;
   	        data.page=page;
-	        data.searchDateTime = year + "-" + month;
   			var queryId="backConsultantWorkByDistictQuery";
   			data.pagination = false;
   			
   			if($("#districtId").val()!=0){
-  				
+  				data.parentDistinctId = $("#districtId").val();
+  				queryId = "backConsultantWorkByTeamQuery";
   			}
+  			
   			if($("#orgId").val()!=0){
-  				
+  				data.parentTeamId = $("#orgId").val();
+  				queryId = "backConsultantWorkByConsultantQuery";
+  				data.pagination = true;
   			}
   			
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
