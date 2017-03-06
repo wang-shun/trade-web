@@ -371,7 +371,7 @@
 		<searchSql>
 			<baseSql>
 			    select CON_PRICE conPrice,
-			    		HOLD_YEAR holdYear,
+			    		HOLD_YEAR year,
 			    		IS_UNIQUE_HOME isUniqueHome,
 			    		HOUSE_PROPERTY houseProperty,
 			    		AMOUNT1 firstPay,

@@ -160,7 +160,8 @@ public class TradeCaseController {
 
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
-		if(list == null || list.get(0) == null){
+		if(list == null || list.isEmpty()){
+			result.put("tradeInfo", new JSONObject());
 			return;
 		}
 		
