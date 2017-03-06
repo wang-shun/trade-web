@@ -11,7 +11,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 
 @Controller
-@RequestMapping({"/weixin/loan","/anon/loan"})
+@RequestMapping({"/weixin/loan","/weixin/loan/anon"})
 public class loanCountController {
 
 	@Autowired

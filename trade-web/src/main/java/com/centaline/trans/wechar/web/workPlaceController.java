@@ -11,7 +11,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 
 @Controller
-@RequestMapping({"/weixin/work","/anon/work"})
+@RequestMapping({"/weixin/work","/weixin/work/anon"})
 public class workPlaceController {
 
 	@Autowired
