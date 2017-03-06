@@ -108,7 +108,7 @@
 					var tr12Html = "<tr><td>公积金金额占比  	</td>";    
 					var tempTd = "<td>0</td>";
 					var list = data.voList[0];
-					var listSize = list.length;debugger;
+					var listSize = list.length;
 					 for(var month = 1;month<=12;month++){
 						var td1Html = "";
 						var td2Html = "";

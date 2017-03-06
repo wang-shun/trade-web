@@ -103,7 +103,6 @@
 						var td1Html = "";
 						var td2Html = "";
 						var td3Html = "";
-						console.log("month==="+month);
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
@@ -138,7 +137,6 @@
 						var td1Html = "";
 						var td2Html = "";
 						var td3Html = "";
-						console.log("month==="+month);
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
@@ -150,6 +148,7 @@
 						 		td3Html = "<td>"+numA+"</td>";
 						 		break;
 						 	}
+						 	
 						 }
 						 tr1Html+= (td1Html=="")?tempTd:td1Html;
 						 tr2Html+= (td2Html=="")?tempTd:td2Html;
