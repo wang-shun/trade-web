@@ -152,7 +152,7 @@ public class TsFinOrgController {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		if (StringUtils.isNotBlank(finOrgCode)) {
 			TsFinOrg org = tsFinOrgService.findBankByFinOrg(finOrgCode);
-			response.setContent(org.getFaFinOrgCode());
+			if(org != null) response.setContent(org.getFaFinOrgCode());
 		}
 		return response;
 	}

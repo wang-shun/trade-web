@@ -11,12 +11,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.auth.remote.UamSessionService;
@@ -29,19 +32,25 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.centaline.parportal.mobile.track.vo.CommentVo;
 import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.comment.entity.ToCaseComment;
+import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
+import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.common.vo.ToModuleSubscribeVo;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.stuff.enums.CommentType;
+import com.centaline.trans.track.service.TrackService;
+import com.centaline.trans.utils.BeanUtils;
 
 @RestController
 @RequestMapping(value = "/tradeCase")
-@JsonInclude()
 public class TradeCaseController {
 
 	@Value("${agent.img.url}")
@@ -67,8 +76,19 @@ public class TradeCaseController {
     
     @Resource
     private ToCaseService toCaseService;
+    
     @Resource
     private UamUserOrgService uamUserOrgService;
+    
+    @Autowired
+    private ToCaseCommentService toCaseCommentService;
+
+    @Autowired
+    private ToMortgageService    toMortgageService;
+    
+    @Autowired
+    private TrackService trackService;
+    
 	@RequestMapping(value = "list")
 	@ResponseBody
 	public String list(@RequestParam(required = true) Integer page,
@@ -154,6 +174,13 @@ public class TradeCaseController {
 	}
 
 	private void buildTradeInfo(JSONObject result,String caseCode,SessionUser user){
+		
+		Map<String,Object> jo = (Map<String,Object>)result.get("caseInfo");
+		if("未分单".equals(jo.get("status") + "")){
+			result.put("tradeInfo", new JSONObject());
+			return;
+		}
+		
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("queryTradeCaseTradeInfoMoblie");
 		gp.setPagination(false);
@@ -162,7 +189,8 @@ public class TradeCaseController {
 
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
-		if(list == null || list.get(0) == null){
+		if(list == null || list.isEmpty()){
+			result.put("tradeInfo", new JSONObject());
 			return;
 		}
 		
@@ -172,7 +200,7 @@ public class TradeCaseController {
 		// 购房年数
 		if (map.containsKey("year")) {
 			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), String.valueOf(map.get("year")));
-			map.put("year",holdYear);
+			map.put("year",StringUtils.isBlank(holdYear) ? "" : holdYear);
 		}
 		// 房屋性质
 		if (map.get("houseProperty") != null ) {
@@ -226,7 +254,6 @@ public class TradeCaseController {
 	}
 	
 	private void buildZhuliInfo(Map<String, Object> map,String caseCode) {
-		String orgId = String.valueOf(map.get("caseCode"));
 		// 助理
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("queryTradeCaseZhuliMoblie");
@@ -360,4 +387,62 @@ public class TradeCaseController {
         jo.put("success", true);
         return jo.toJSONString();
 	}
+	
+	
+    @RequestMapping(value = "{caseCode}/track")
+    @ResponseBody
+    public String addTrack(@PathVariable("caseCode")String caseCode, @RequestBody CommentVo cmtVo) {
+
+    	cmtVo.setCaseCode(caseCode);
+        ToCaseComment track = new ToCaseComment();
+        //        boolean isNofigyCustomer = cmt.isNotifyCustomer();
+        BeanUtils.copyProperties(cmtVo, track);
+
+        //检查track的完整性。不完整时抛出业务异常
+        this.checkTrackIntegrity(track);
+        int resultCount = 0;
+
+        switch (CommentType.valueOf(track.getType())) {
+            case CMT:
+                resultCount = toCaseCommentService.insertToCaseComment(track);
+                break;
+            case BUJIAN:
+                Boolean isNotifyCustomer = cmtVo.getIsNotifyCustomer() != null
+                    ? cmtVo.getIsNotifyCustomer() : false;
+               resultCount=trackService.buJian(track, isNotifyCustomer);
+                break;
+            case REJECT:
+                break;
+            case TRACK:
+                resultCount = toMortgageService.addMortgageTrack4Par(track);
+                break;
+            default:
+                break;
+        }
+
+        if (resultCount <= 0) {
+            throw new BusinessException("对不起,跟进保存失败");
+        } else {
+            return new StringBuilder("{\"msg\":\"").append(track.getCaseCode()).append("跟进保存成功")
+                .append("\"}").toString();
+        }
+
+    }
+    
+    private boolean checkTrackIntegrity(ToCaseComment track) {
+
+        if (null == track)
+            throw new BusinessException("抱歉，提交的跟进为空");
+        if (null == track.getSource())
+            throw new BusinessException("抱歉，提交的跟进source为空,请联系技术支持");
+        if (null == track.getType())
+            throw new BusinessException("抱歉，提交的跟进type为空,请联系技术支持");
+        if (null == track.getBizCode())
+            throw new BusinessException("抱歉，提交的跟进bizCode为空,请联系技术支持");
+
+        if (MobileHolder.getMobileUser() != null)
+            track.setCreatorOrgId(MobileHolder.getMobileUser().getServiceDepId());
+
+        return false;
+    }
 }
