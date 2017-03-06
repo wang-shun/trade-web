@@ -394,7 +394,7 @@
 				<column type="both" name="conPrice" dataType="DOUBLE" defaultVal="0"/>
 				<column type="both" name="year" dataType="INTEGER" defaultVal="0"/>
 				<column type="both" name="unique" dataType="BOOLEAN" defaultVal="false"/>
-				<column type="both" name="houseProperty" defaultVal=""/>
+				<column type="both" name="houseProperty"/>
 				<column type="both" name="firstPay" dataType="DOUBLE" defaultVal="0"/>
 				
 				<column type="both" name="secondPay" dataType="DOUBLE" defaultVal="0"/>

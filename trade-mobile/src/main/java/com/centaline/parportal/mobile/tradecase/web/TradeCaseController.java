@@ -175,10 +175,12 @@ public class TradeCaseController {
 			map.put("year",holdYear);
 		}
 		// 房屋性质
-		if (map.containsKey("houseProperty")) {
+		if (map.get("houseProperty") != null ) {
 			String houseProperty = uamBasedataService.getDictValue(TransDictEnum.TFWXZ.getCode(),
 					String.valueOf(map.get("houseProperty")));
-			map.put("houseProperty",houseProperty);
+			map.put("houseProperty",StringUtils.isBlank(houseProperty) ? "" : houseProperty);
+		}else{
+			map.put("houseProperty","");
 		}
 		
 		result.put("tradeInfo", map);
