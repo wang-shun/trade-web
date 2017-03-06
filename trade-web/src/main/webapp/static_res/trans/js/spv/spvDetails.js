@@ -302,12 +302,15 @@ $(document).ready(function(){
 				    	 if(data.success){
 				    		 ajaxCall(url,data1);		    		 
 				    		 if($("#urlType").val() == 'myTask'){    	
-		 				    	 window.opener.location.reload(); //刷新父窗口
-		 			        	 window.close(); //关闭子窗口.
+		 			        	window.wxc.success(data.message,{"wxcOk":function(){
+		 			        		window.opener.location.reload(); //刷新父窗口
+			 			        	window.close(); //关闭子窗口.
+		 				  		}});
 		 				     }else{
-		 				    	window.wxc.success(data.message);
+		 				    	window.wxc.success(data.message,{"wxcOk":function(){
+		 				    		window.location.href = ctx+"/spv/spvList";
+		 				  		}});
 		 				    	 //window.location.href = ctx+"/spv/saveHTML?pkid="+data.content;
-						    	window.location.href = ctx+"/spv/spvList";
 					     } 
 				    	 }else{
 				    		 window.wxc.error("保存资金监管签约失败！");
@@ -1154,7 +1157,7 @@ $(document).ready(function(){
     		                } 
     		            } ,   
 			success : function(data) {
-				     rescCallbocak();
+				     //rescCallbocak();
 					 $.unblockUI();
 				},
 				error : function(errors) {
