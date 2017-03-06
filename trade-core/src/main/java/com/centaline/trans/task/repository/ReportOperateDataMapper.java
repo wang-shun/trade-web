@@ -17,7 +17,7 @@ public interface ReportOperateDataMapper {
 	 * 贷款签约与过户对比 过户数据（签贷款）
 	 * @param year 年
 	 * @author hejf10
-	 * @Data 时间
+	 * @Data 2017年3月2日14:54:08
 	 * @return ReportOperateData
 	 */
 	List<ReportOperateData> getReportOperateData(@Param("type")int type );
@@ -25,7 +25,7 @@ public interface ReportOperateDataMapper {
 	 * 贷款签约与过户对比 过户数据（签贷款）贷款签约数据
 	 * @param year 年 
 	 * @author hejf10
-	 * @Data 时间
+	 * @Data 2017年3月2日14:54:08
 	 * @return ReportOperateData
 	 */
 	List<ReportOperateData> getReportOperateDataToMortSignDate(@Param("type")int type);
@@ -33,7 +33,7 @@ public interface ReportOperateDataMapper {
 	 * 过户数据
 	 * @param year 年
 	 * @author hejf10
-	 * @Data 时间
+	 * @Data 2017年3月2日14:54:08
 	 * @return ReportOperateData
 	 */
 	List<ReportOperateData> getReportOperateDataTwo(@Param("type")int type);
@@ -41,7 +41,7 @@ public interface ReportOperateDataMapper {
 	 * 签贷款数据
 	 * @param year 年 
 	 * @author hejf10
-	 * @Data 时间
+	 * @Data 2017年3月2日14:54:08
 	 * @return ReportOperateData
 	 */
 	List<ReportOperateData> getReportOperateDataThree(@Param("type")int type);
