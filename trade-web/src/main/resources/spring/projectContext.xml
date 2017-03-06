@@ -636,9 +636,18 @@
     <bean name="qqGetEAMountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
         <property name="dictType" value="qqGetEAMountPercent"></property>
     </bean>
+    <!-- 根据组织id得到岗位负责人名字 -->
+    <bean name="qqGetRealNameForLeader" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetRealNameForLeader"></property>
+    </bean>
+
     <!-- 合计 -->
     <bean name="qqGetTotalForConsultant" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
         <property name="dictType" value="qqGetTotalForConsultant"></property>
+    </bean>
+    <!-- 合计 -->
+    <bean name="qqGetCountPercentForMath" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetCountPercentForMath"></property>
     </bean>
 
     <!-- 签约贷款模块中签约数据(总表)总计-->

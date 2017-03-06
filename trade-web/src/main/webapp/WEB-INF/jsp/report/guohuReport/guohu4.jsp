@@ -121,18 +121,18 @@
 	<script id="template_table1" type="text/html">
           {{each rows as item index}}
 		  {{if item.IS_RUWEI_BANK=='cl'}}
-		  <tr style="background: red;">
+		  <tr style="background: #f23c3c;color: white;">
 			  <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
 			  <td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
 			  <td>{{item.CASE_COUNT}}</td>
-			  <td>{{item.MORT_COM_AMOUNT}}</td>
+			  <td>{{item.MORT_COM_AMOUNT}}元</td>
 		  </tr>
 		  {{else}}
 		  <tr>
 			  <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
 			  <td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
 			  <td>{{item.CASE_COUNT}}</td>
-			  <td>{{item.MORT_COM_AMOUNT}}</td>
+			  <td>{{item.MORT_COM_AMOUNT}}元</td>
 		  </tr>
 
 		  {{/if}}

@@ -53,6 +53,8 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 		double TOTAL_E_COUNT_PERCENT=0;//e卡转化率
 		double TOTAL_CARD_COUNT_PERCENT=0;//刷卡率
 		double TOTAL_E_AMOUNT_PERCENT=0;//e贷转化率
+		double TOTAL_IS_DELEGATE_CUSTOMER_COUNT=0;//客户办理案件数
+		double TOTAL_IS_DELEGATE_YUCUI_COUNT=0;//公司办理案件数
 		String TOTAL_CASE_PART="合计";
 
 		DecimalFormat df = new DecimalFormat("0.00");
@@ -65,9 +67,24 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 				}
 			}
 		}
+		if("qqGetCountPercentForMath".equals(dictType)){
+			for(Map<String, Object> keyer:keys){
+				if(keyer.get("CASE_COUNT")!=null){
+						case_total_count+=Double.valueOf(keyer.get("CASE_COUNT").toString());
+				}
+			}
+		}
+
 		for(Map<String, Object> keyer:keys){
 			if(keyer!=null){
 				if("qqGetCountPercent".equals(dictType)){
+					double case_count = Double.valueOf(keyer.get("CASE_COUNT").toString());
+					if(case_total_count!=0){
+						case_count_percent = Double.valueOf(df.format(case_count/case_total_count));
+					}
+					keyer.put("val", case_count_percent);
+				}
+				if("qqGetCountPercentForMath".equals(dictType)){
 					double case_count = Double.valueOf(keyer.get("CASE_COUNT").toString());
 					if(case_total_count!=0){
 						case_count_percent = Double.valueOf(df.format(case_count/case_total_count));
@@ -140,20 +157,46 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 				}
 
 				if("qqGetTotalForConsultant".equals(dictType)){
-					TOTAL_MORT_COM_COUNT += Double.valueOf(keyer.get("MORT_COM_COUNT").toString());
-					TOTAL_MORT_COM_AMOUNT+= Double.valueOf(keyer.get("MORT_COM_AMOUNT").toString());
+					if(keyer.get("MORT_COM_COUNT")!=null){
+						TOTAL_MORT_COM_COUNT += Double.valueOf(keyer.get("MORT_COM_COUNT").toString());
+					}
+					if(keyer.get("MORT_COM_AMOUNT")!=null){
+						TOTAL_MORT_COM_AMOUNT+= Double.valueOf(keyer.get("MORT_COM_AMOUNT").toString());
+					}
+					if(keyer.get("LOST_COUNT")!=null){
+						TOTAL_LOST_COUNT += Double.valueOf(keyer.get("LOST_COUNT").toString());
+					}
+					if(keyer.get("LOST_AMOUNT")!=null){
+						TOTAL_LOST_AMOUNT+= Double.valueOf(keyer.get("LOST_AMOUNT").toString());
+					}
+					if(keyer.get("EVA_FEE")!=null){
+						TOTAL_EVA_FEE+= Double.valueOf(keyer.get("EVA_FEE").toString());
+					}
+					if(keyer.get("CASE_COUNT")!=null){
+						TOTAL_CASE_COUNT+= Double.valueOf(keyer.get("CASE_COUNT").toString());
+					}
+					if(keyer.get("E_CARD_COUNT")!=null){
+						TOTAL_E_CARD_COUNT+= Double.valueOf(keyer.get("E_CARD_COUNT").toString());
+					}
+					if(keyer.get("CARD_COUNT")!=null){
+						TOTAL_CARD_COUNT+= Double.valueOf(keyer.get("CARD_COUNT").toString());
+					}
+					if(keyer.get("E_AMOUNT")!=null){
+						TOTAL_E_AMOUNT+= Double.valueOf(keyer.get("E_AMOUNT").toString());
+					}
+					if(keyer.get("CASE_CON_PRICE")!=null){
+						TOTAL_CASE_CON_PRICE+= Double.valueOf(keyer.get("CASE_CON_PRICE").toString());
+					}
+					if(keyer.get("EVA_COUNT")!=null){
+						TOTAL_EVA_COUNT+= Double.valueOf(keyer.get("EVA_COUNT").toString());
+					}
 
-					TOTAL_LOST_COUNT += Double.valueOf(keyer.get("LOST_COUNT").toString());
-					TOTAL_LOST_AMOUNT+= Double.valueOf(keyer.get("LOST_AMOUNT").toString());
-
-					TOTAL_EVA_FEE+= Double.valueOf(keyer.get("EVA_FEE").toString());
-
-					TOTAL_CASE_COUNT+= Double.valueOf(keyer.get("CASE_COUNT").toString());
-					TOTAL_E_CARD_COUNT+= Double.valueOf(keyer.get("E_CARD_COUNT").toString());
-					TOTAL_CARD_COUNT+= Double.valueOf(keyer.get("CARD_COUNT").toString());
-					TOTAL_E_AMOUNT+= Double.valueOf(keyer.get("E_AMOUNT").toString());
-					TOTAL_CASE_CON_PRICE+= Double.valueOf(keyer.get("CASE_CON_PRICE").toString());
-					TOTAL_EVA_COUNT+= Double.valueOf(keyer.get("EVA_COUNT").toString());
+					if(keyer.get("IS_DELEGATE_CUSTOMER_COUNT")!=null){
+						TOTAL_IS_DELEGATE_CUSTOMER_COUNT+= Double.valueOf(keyer.get("IS_DELEGATE_CUSTOMER_COUNT").toString());
+					}
+					if(keyer.get("IS_DELEGATE_YUCUI_COUNT")!=null){
+						TOTAL_IS_DELEGATE_YUCUI_COUNT+= Double.valueOf(keyer.get("IS_DELEGATE_YUCUI_COUNT").toString());
+					}
 
 					if(TOTAL_MORT_COM_COUNT!=0){
 						TOTAL_PING_GU_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_EVA_COUNT/TOTAL_MORT_COM_COUNT));
@@ -183,6 +226,38 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 					keyer.put("TOTAL_E_COUNT_PERCENT", TOTAL_E_COUNT_PERCENT);
 					keyer.put("TOTAL_CARD_COUNT_PERCENT", TOTAL_CARD_COUNT_PERCENT);
 					keyer.put("TOTAL_E_AMOUNT_PERCENT", TOTAL_E_AMOUNT_PERCENT);
+					keyer.put("TOTAL_CASE_COUNT", TOTAL_CASE_COUNT);
+					keyer.put("TOTAL_IS_DELEGATE_YUCUI_COUNT", TOTAL_IS_DELEGATE_YUCUI_COUNT);
+					keyer.put("TOTAL_IS_DELEGATE_CUSTOMER_COUNT", TOTAL_IS_DELEGATE_CUSTOMER_COUNT);
+
+				}
+				if("qqGetRealNameForLeader".equals(dictType)){
+					if("TOTAL".equals(keyer.get("MORT_TYPE"))){
+						keyer.put("val", "总计");
+					}else{
+						StringBuilder sql = new StringBuilder();
+						sql.append(" SELECT uoj.real_name as v FROM sctrans.v_user_org_job uoj INNER join sctrans.sys_org org on uoj.org_id=org.id")
+								.append(" where uoj.job_code =:JOB_CODE and uoj.ORG_ID=:ORGANIZATION_ID and IS_LEADER='1' and ismain='1' ");
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("ORGANIZATION_ID", keyer.get("ORGANIZATION_ID"));
+						param.put("JOB_CODE", keyer.get("JOB_CODE"));
+						List<Map<String, Object>> list = jdbcTemplate.queryForList(sql.toString(), param);
+						if(list.size()!=0){
+							StringBuilder name = new StringBuilder();
+							for(int i = 0;i<list.size();i++){
+								Map<String, Object> map = list.get(i);
+								if(map.get("v")!=null){
+									if(i==0){
+										name.append(map.get("v"));
+									}else{
+										name.append(",").append(map.get("v"));
+									}
+								}
+							}
+							keyer.put("val", name);
+						}
+
+					}
 				}
 			}
 		}

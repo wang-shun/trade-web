@@ -2,6 +2,7 @@
 <querys>
 	<dicts>
 		<customDict id="qqGetCountPercent" beanName="qqGetCountPercent"></customDict>
+		<customDict id="qqGetCountPercentForMath" beanName="qqGetCountPercentForMath"></customDict>
 		<customDict id="qqGetMortPercent" beanName="qqGetMortPercent"></customDict>
 		<customDict id="qqGetLostCountPercent" beanName="qqGetLostCountPercent"></customDict>
 		<customDict id="qqGetLostAmountPercent" beanName="qqGetLostAmountPercent"></customDict>
@@ -10,6 +11,7 @@
 		<customDict id="qqGetCardCountPercent" beanName="qqGetCardCountPercent"></customDict>
 		<customDict id="qqGetEAMountPercent" beanName="qqGetEAMountPercent"></customDict>
 		<customDict id="qqGetTotalForConsultant" beanName="qqGetTotalForConsultant"></customDict>
+		<customDict id="qqGetRealNameForLeader" beanName="qqGetRealNameForLeader"></customDict>
 
 	</dicts>
 <formatters>
@@ -422,14 +424,19 @@
 				,ELOAN_KA--案件对应的卡类产品
 				,CASE_USE_CARD_PAY_CN--案件是否刷卡
 				,CASE_CARD_PAY_AMOUNT--刷卡金额
-				[JQYDS_NAME],--区域董事姓名
-				[JQYDS_EMPLOYEE_CODE],--区域董事雇员编号
-				[JQYZJ_NAME],--区域总监姓名
-				[JQYZJ_CODE],--区域总监雇员编号
-				[JQYJL_NAME],--区域经理姓名
-				[JQYJL_EMPLOYEE_CODE],--区域经理雇员编号
-				[JFHJL_NAME],--分行经理姓名
-				[JFHJL_EMPLOYEE_CODE]--分行经理雇员编号
+				,[JQYDS_NAME]--区域董事姓名
+				,[JQYDS_EMPLOYEE_CODE]--区域董事雇员编号
+				,[JQYZJ_NAME]--区域总监姓名
+				,[JQYZJ_CODE]--区域总监雇员编号
+				,[JQYJL_NAME]--区域经理姓名
+				,[JQYJL_EMPLOYEE_CODE]--区域经理雇员编号
+				,[JFHJL_NAME]--分行经理姓名
+				,[JFHJL_EMPLOYEE_CODE]--分行经理雇员编号
+				,[GROUP_ORG_ID]
+				,[BUSIAR_ORG_ID]
+				,[BUSISWZ_ORG_ID]
+				,[BUSIWZ_ORG_ID]
+				,[BUSISH_ORG_ID]
 				 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
 				1=1
 				and tb1.BELONG_MONTH=#belongMonth#
@@ -437,221 +444,214 @@
 				and convert(varchar(7),TRANSFER_APP_TIME,120)=#choiceMonth#)
 
 				select
-				<if test="produceType == 'JQYDS'">
-				JQYDS_NAME as EMPLOYEE_NAME,--(按照区域董事)
-				</if>
-				<if test="produceType == 'qyzj'">
-				JQYZJ_NAME as EMPLOYEE_NAME, --(按照区域总监)
-				</if>
-				<if test="produceType == 'qyjl'">
-				JQYJL_NAME as EMPLOYEE_NAME,--(按照区域经理)
-				</if>
-				<if test="produceType == 'fhjl'">
-				JFHJL_NAME as EMPLOYEE_NAME, --(按照分行经理)
-				</if>
+				 #produceType# as JOB_CODE,
 				count(1) as CASE_COUNT,
 				isnull((select sum(t1.CASE_CON_PRICE) from tb as t1 where 1=1
-				<if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
-				),0) as CON_PRICE,
+				),0) as CASE_CON_PRICE,
 				(select count(1) from tb as t1 where 1=1
 				and t1.CASE_LOAN_REQ=1
 				and t1.MORT_TYPE='30016001'
-
-				<if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
-
 				) as MORT_COM_COUNT,
 				isnull((select sum(MORT_COM_AMOUNT) from tb as t1 where 1=1
 				and t1.CASE_LOAN_REQ=1
 				and t1.MORT_TYPE='30016001'
 
-				<if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
-
 				 ),0) as MORT_COM_AMOUNT,
 				 (select count(1)  from tb as t1 where 1=1
 				 and t1.IS_DELEGATE_YUCUI='1'
-				 <if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				 <if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
-
 				 ) as IS_DELEGATE_YUCUI_COUNT,
 				(select count(1)  from tb as t1 where 1=1
 				 and t1.IS_DELEGATE_YUCUI='0'
-				 <if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				 <if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
 				 ) as IS_DELEGATE_CUSTOMER_COUNT,
 				 isnull((select sum(LOAN_LOST_AMOUNT) from tb as t1 where 1=1
 				and t1.CASE_LOAN_REQ=1
-
-				<if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
-
 				 ),0) as LOST_AMOUNT,
 				 (select count(1) from tb as t1 where 1=1
 				and t1.EVA_EVAL_FEE is not null
 
-				<if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
 				 ) as EVA_COUNT,
 				 isnull((select sum(EVA_EVAL_FEE) from tb as t1 where 1=1
 				 and t1.EVA_EVAL_FEE is not null
 
-				<if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+					and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
 
-				),0) as EVA_AMOUNT,
+				),0) as EVA_FEE,
 				(select count(1) from tb as t1 where 1=1
 				 and t1.ELOAN_KA is not null
 
-				<if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+					and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
 
 				 ) as E_CARD_COUNT,
 				 isnull((select sum(ELOAN_PRO_AMOUNT) from tb as t1 where 1=1
 
-				<if test="produceType == 'qyds'">
-				and t1.JQYDS_EMPLOYEE_CODE=t.JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				and t1.JQYZJ_CODE=t.JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				and t1.JQYJL_EMPLOYEE_CODE=t.JQYJL_EMPLOYEE_CODE  --(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				and t1.JFHJL_EMPLOYEE_CODE=t.JFHJL_EMPLOYEE_CODE  --(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
-				),0) as E_CARD_AMOUNT,
-				<if test="produceType == 'qyds'">
-				JQYDS_EMPLOYEE_CODE --(按照区域董事)
+				),0) as E_AMOUNT,
+				<if test="produceType == 'JQYDS'">
+				BUSIWZ_ORG_ID as ORGANIZATION_ID --(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				JQYZJ_CODE  --(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				BUSISWZ_ORG_ID as ORGANIZATION_ID  --(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				JQYJL_EMPLOYEE_CODE--(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				BUSIAR_ORG_ID  as ORGANIZATION_ID--(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				JFHJL_EMPLOYEE_CODE--(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				GROUP_ORG_ID as ORGANIZATION_ID--(按照分行经理)
 				</if>
 				from tb as t
 
 				where
-				<if test="produceType == 'qyds'">
-				JQYDS_EMPLOYEE_CODE is not null--(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				BUSIWZ_ORG_ID is not null--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				JQYZJ_CODE is not null--(按照区域总监)
+				<if test="produceType == 'JQYZJ'">
+				BUSIWZ_ORG_ID is not null--(按照区域总监)
+					<ifNotNull condition_qudongId>
+							and BUSIWZ_ORG_ID=#condition_qudongId#
+					</ifNotNull>
 				</if>
-				<if test="produceType == 'qyjl'">
-				JQYJL_EMPLOYEE_CODE is not null--(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				BUSISWZ_ORG_ID is not null--(按照区域经理)
+					<ifNotNull condition_directorId>
+						and BUSISWZ_ORG_ID=#condition_directorId#
+					</ifNotNull>
 				</if>
-				<if test="produceType == 'fhjl'">
-				JFHJL_EMPLOYEE_CODE is not null--(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+					BUSIAR_ORG_ID is not null--(按照分行经理)
+					<ifNotNull condition_directorId>
+						and BUSIAR_ORG_ID=#condition_qyManagerId#
+					</ifNotNull>
 				</if>
 
-				<if test="produceType == 'qyds'">
-				group by t.JQYDS_EMPLOYEE_CODE,JQYDS_NAME--(按照区域董事)
+				<if test="produceType == 'JQYDS'">
+				group by BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
-				<if test="produceType == 'qyzj'">
-				group by t.JQYZJ_CODE,JQYZJ_NAME--(按照区域总监)
+
+				<if test="produceType == 'JQYZJ'">
+				group by t.BUSISWZ_ORG_ID--(按照区域总监)
 				</if>
-				<if test="produceType == 'qyjl'">
-				group by t.JQYJL_EMPLOYEE_CODE,JQYJL_NAME--(按照区域经理)
+				<if test="produceType == 'JQYJL'">
+				group by t.BUSIAR_ORG_ID--(按照区域经理)
 				</if>
-				<if test="produceType == 'fhjl'">
-				group by t.JFHJL_EMPLOYEE_CODE,JFHJL_NAME--(按照分行经理)
+				<if test="produceType == 'JFHJL'">
+				group by t.GROUP_ORG_ID--(按照分行经理)
 				</if>
 	            ]]>
 			</baseSql>
@@ -661,19 +661,33 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="EMPLOYEE_NAME" title="代理人姓名"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="JOB_CODE" title="岗位编号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_TYPE" title="是否是总计行"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_COUNT" title="过户案件数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CON_PRICE" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CASE_COUNT_PERCENT" title="占比" customDict="qqGetCountPercentForMath" referencecol="CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_CON_PRICE" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORT_COM_COUNT" title="商贷单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-
 				<column type="both" name="IS_DELEGATE_YUCUI_COUNT" title="公司办理"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="IS_DELEGATE_CUSTOMER_COUNT" title="客户自办"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="LOST_AMOUNT" title="流失金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="CASE_LOST_AMOUNT_PERCENT" title="金额流失率" customDict="qqGetLostAmountPercent" referencecol="LOST_AMOUNT,MORT_COM_AMOUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
 				<column type="both" name="EVA_COUNT" title="收评估费单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="EVA_AMOUNT" title="收评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PING_GU_COUNT_PERCENT" title="评估转化率" customDict="qqGetPingGuCountPercent" referencecol="EVA_COUNT,MORT_COM_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_FEE" title="收评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="E_CARD_COUNT" title="e卡类申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="E_CARD_AMOUNT" title="E贷款申请金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="E_AMOUNT" title="E贷款申请金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="E_COUNT_PERCENT" title="E+卡转化率(单数)" customDict="qqGetECountPercent" referencecol="E_CARD_COUNT,CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="E_AMOUNT_PERCENT" title="E+卡转化率(金额)" customDict="qqGetEAMountPercent" referencecol="E_AMOUNT,CASE_CON_PRICE"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ORGANIZATION_ID" title="组织ID"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="EMPLOYEE_NAME" title="代理人姓名" customDict="qqGetRealNameForLeader" referencecol="MORT_TYPE,ORGANIZATION_ID,JOB_CODE"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual"
+						name="TOTAL_CASE_COUNT,TOTAL_MORT_COM_COUNT,TOTAL_MORT_COM_AMOUNT,TOTAL_CASE_CON_PRICE,TOTAL_LOST_COUNT,TOTAL_CASE_LOST_COUNT_PERCENT,TOTAL_IS_DELEGATE_YUCUI_COUNT,TOTAL_IS_DELEGATE_CUSTOMER_COUNT,TOTAL_LOST_AMOUNT,TOTAL_CASE_LOST_AMOUNT_PERCENT,TOTAL_PING_GU_COUNT_PERCENT,TOTAL_EVA_FEE,TOTAL_E_COUNT_PERCENT,TOTAL_CARD_COUNT_PERCENT,TOTAL_E_AMOUNT_PERCENT,TOTAL_CASE_PART"
+						referencecol="EVA_COUNT,CASE_COUNT,MORT_COM_COUNT,MORT_COM_AMOUNT,CASE_CON_PRICE,LOST_AMOUNT,EVA_FEE,E_CARD_COUNT,E_AMOUNT,IS_DELEGATE_YUCUI_COUNT,IS_DELEGATE_CUSTOMER_COUNT"
+						customDict="qqGetTotalForConsultant"/>
+
+
 			</table-row>
 		</grid>
 	</query>
