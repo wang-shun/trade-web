@@ -184,7 +184,6 @@
   	        data.page=page;
   			var queryId="backConsultantWorkByDistictQuery";
   			data.pagination = false;
-  			
   			if($("#districtId").val()!=0){
   				data.parentDistinctId = $("#districtId").val();
   				queryId = "backConsultantWorkByTeamQuery";
@@ -196,6 +195,8 @@
   				data.pagination = true;
   			}
   			
+  			var searchDateTime = year + "-" + month;
+  			data.searchDateTime = searchDateTime;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
           	data.queryId = queryId;
           	

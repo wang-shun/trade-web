@@ -255,18 +255,18 @@
 							uoj.real_name + '(' + org.org_name + ')' as groupName,
 				  			
 				  			<if test="condition == 'init'">
-					  			(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
-					 			(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
-								(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
-								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
-								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
-								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  
-								(SELECT round(isnull(SUM(c.EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,
-								(SELECT COUNT(c.TRANSFER_APP_PASS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
-								(SELECT COUNT(c.ELOAN_KA_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardCount,
-								(SELECT round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardAmount,
-								(SELECT COUNT(c.ELOAN_PRO_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProCount,
-								(SELECT round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProAmount
+					  			(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
+					 			(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
+								(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
+								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
+								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
+								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  
+								(SELECT round(isnull(SUM(c.EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,
+								(SELECT COUNT(c.TRANSFER_APP_PASS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
+								(SELECT COUNT(c.ELOAN_KA_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardCount,
+								(SELECT round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardAmount,
+								(SELECT COUNT(c.ELOAN_PRO_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProCount,
+								(SELECT round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYDS_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProAmount
 							</if>
 							
 							<if test="condition == 'qudong'">
@@ -285,33 +285,33 @@
 							</if>
 							
 							 <if test="condition == 'director'">
-							 	(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
-					 			(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
-								(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
-								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
-								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
-								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  
-								(SELECT round(isnull(SUM(c.EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,
-								(SELECT COUNT(c.TRANSFER_APP_PASS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
-								(SELECT COUNT(c.ELOAN_KA_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardCount,
-								(SELECT round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardAmount,
-								(SELECT COUNT(c.ELOAN_PRO_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProCount,
-								(SELECT round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIWZ_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProAmount
+							 	(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID  = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
+					 			(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID  = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
+								(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID  = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
+								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.BUSIAR_ORG_ID  = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
+								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.BUSIAR_ORG_ID  = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
+								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  
+								(SELECT round(isnull(SUM(c.EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,
+								(SELECT COUNT(c.TRANSFER_APP_PASS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
+								(SELECT COUNT(c.ELOAN_KA_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardCount,
+								(SELECT round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardAmount,
+								(SELECT COUNT(c.ELOAN_PRO_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProCount,
+								(SELECT round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSIAR_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JQYJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProAmount
 							 </if>
 							 
 							 <if test="condition == 'qyManager'">
-								 (SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
-					 			(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
-								(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
-								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
-								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
-								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  
-								(SELECT round(isnull(SUM(c.EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,
-								(SELECT COUNT(c.TRANSFER_APP_PASS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
-								(SELECT COUNT(c.ELOAN_KA_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardCount,
-								(SELECT round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardAmount,
-								(SELECT COUNT(c.ELOAN_PRO_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProCount,
-								(SELECT round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.BUSISH_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProAmount
+								(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
+					 			(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
+								(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
+								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
+								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.MORT_TYPE = '30016003' AND c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
+								(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfCount,  
+								(SELECT round(isnull(SUM(c.EVA_EVAL_FEE) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.EVA_EVAL_FEE IS NOT NULL AND c.MORT_SIGN_DATE IS NOT NULL AND c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS pgfAmount,
+								(SELECT COUNT(c.TRANSFER_APP_PASS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
+								(SELECT COUNT(c.ELOAN_KA_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardCount,
+								(SELECT round(isnull(SUM(c.ELOAN_KA_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eCardAmount,
+								(SELECT COUNT(c.ELOAN_PRO_AMOUNT) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProCount,
+								(SELECT round(isnull(SUM(c.ELOAN_PRO_AMOUNT) / 10000,0),2) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.GROUP_ORG_ID = uoj.org_id AND uoj.EMPLOYEE_CODE = c.JFHJL_EMPLOYEE_CODE AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS eProAmount
 							 </if>
 						
 						FROM sctrans.v_user_org_job uoj 
@@ -424,16 +424,53 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select 
-						ORG_NAME AS groupName,
-						(SELECT COUNT(c.CASE_REAL_PLS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS cxgCount,
-						(SELECT COUNT(c.CASE_PRICING_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS hjCount,
-						(SELECT COUNT(c.CASE_TAX_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ssCount,
-						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
-						(SELECT COUNT(c.TRANSFER_REAL_HT_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
-						(SELECT COUNT(c.CASE_REAL_PROPERTY_GET_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID and convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# AND c.BELONG_MONTH = #searchBelongMonth#) AS lzCount
-					from sctrans.SYS_ORG 
-					where DEP_HIERARCHY = 'yucui_district' and IS_DELETED = 0 and AVAILABLE = 1
+					SELECT 
+						 t.ORG_NAME AS groupName,
+						 isnull(t1.cxgCount,0) AS cxgCount,
+						 isnull(t1.hjCount,0) AS hjCount,
+						 isnull(t1.ssCount,0) AS ssCount,
+						 isnull(t1.gjjCount,0) AS gjjCount,
+						 isnull(t1.ghCount,0) AS ghCount,
+						 isnull(t1.lzCount,0) AS lzCount
+					FROM 
+						(select 
+									ID,
+									ORG_NAME 
+						from sctrans.SYS_ORG 
+						where DEP_HIERARCHY = 'yucui_district' and IS_DELETED = 0 and AVAILABLE = 1
+						) t
+					LEFT JOIN 
+						(
+						SELECT 
+								t.districtID,
+								t.districtName,
+								SUM(cxgCount) AS cxgCount,
+								SUM(hjCount) AS hjCount,
+								SUM(ssCount) AS ssCount,
+								SUM(gjjCount) AS gjjCount,
+								SUM(ghCount) AS ghCount,
+								SUM(lzCount) AS lzCount
+						FROM 
+						(
+						SELECT 
+							(SELECT o1.ID FROM sctrans.SYS_ORG o1 WHERE o1.ID = (SELECT PARENT_ID FROM sctrans.SYS_ORG o2 WHERE o2.ID = o.ID)) AS districtID,
+							(SELECT o1.ORG_NAME FROM sctrans.SYS_ORG o1 WHERE o1.ID = (SELECT PARENT_ID FROM sctrans.SYS_ORG o2 WHERE o2.ID = o.ID)) AS districtName,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_REAL_PLS_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS cxgCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_PRICING_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS hjCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_TAX_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ssCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and convert(varchar(7),c.MORT_SIGN_DATE,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.TRANSFER_REAL_HT_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_REAL_PROPERTY_GET_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS lzCount
+						FROM sctrans.SYS_USER u 
+						LEFT JOIN sctrans.SYS_ORG o ON u.ORG_ID = o.ID
+						WHERE u.ORG_ID IN (
+							SELECT o1.ID FROM sctrans.SYS_ORG o1
+							INNER JOIN sctrans.T_TS_TEAM_PROPERTY t on o1.ORG_CODE = t.YU_TEAM_CODE
+							WHERE t.TEAM_PROPERTY != 'yu_front' AND o1.IS_DELETED = 0
+						) AND u.IS_DELETED = 0 AND u.AVAILABLE = 1
+						) t
+						GROUP BY t.districtID,t.districtName
+					) t1 ON t.ID = t1.districtID
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -465,17 +502,54 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select 
-						o.ORG_NAME as groupName,
-						(SELECT COUNT(c.CASE_REAL_PLS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = #parentDistinctId# and c.CASE_ORG_ID_B = o.ID AND c.BELONG_MONTH = #searchBelongMonth#) AS cxgCount,
-						(SELECT COUNT(c.CASE_PRICING_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = #parentDistinctId# and c.CASE_ORG_ID_B = o.ID AND c.BELONG_MONTH = #searchBelongMonth#) AS hjCount,
-						(SELECT COUNT(c.CASE_TAX_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = #parentDistinctId# and c.CASE_ORG_ID_B = o.ID and c.BELONG_MONTH = #searchBelongMonth#) AS ssCount,
-						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = #parentDistinctId# and c.CASE_ORG_ID_B = o.ID and c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
-						(SELECT COUNT(c.TRANSFER_REAL_HT_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = #parentDistinctId# and c.CASE_ORG_ID_B = o.ID AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
-						(SELECT COUNT(c.CASE_REAL_PROPERTY_GET_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = #parentDistinctId# and c.CASE_ORG_ID_B = o.ID AND c.BELONG_MONTH = #searchBelongMonth#) AS lzCount
-					from sctrans.SYS_ORG o
-					INNER JOIN sctrans.T_TS_TEAM_PROPERTY t on o.ORG_CODE = t.YU_TEAM_CODE
-					where o.IS_DELETED = 0 and o.PARENT_ID = #parentDistinctId# and t.TEAM_PROPERTY != 'yu_front'
+					SELECT t.ORG_NAME AS groupName,
+						 isnull(t1.cxgCount,0) AS cxgCount,
+						 isnull(t1.hjCount,0) AS hjCount,
+						 isnull(t1.ssCount,0) AS ssCount,
+						 isnull(t1.gjjCount,0) AS gjjCount,
+						 isnull(t1.ghCount,0) AS ghCount,
+						 isnull(t1.lzCount,0) AS lzCount
+					FROM 
+						(select 
+								o.ID,
+								o.ORG_NAME
+						from sctrans.SYS_ORG o
+						INNER JOIN sctrans.T_TS_TEAM_PROPERTY t on o.ORG_CODE = t.YU_TEAM_CODE
+						where o.IS_DELETED = 0 and o.PARENT_ID = #parentDistinctId# and t.TEAM_PROPERTY != 'yu_front'
+						) t
+					LEFT JOIN 
+						(
+							SELECT 
+									t.ID,
+									t.ORG_NAME,
+									SUM(cxgCount) AS cxgCount,
+									SUM(hjCount) AS hjCount,
+									SUM(ssCount) AS ssCount,
+									SUM(gjjCount) AS gjjCount,
+									SUM(ghCount) AS ghCount,
+									SUM(lzCount) AS lzCount
+							FROM 
+								(
+								SELECT 
+									u.REAL_NAME AS groupName,
+									o.ORG_NAME,
+									o.ID,
+									(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_REAL_PLS_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS cxgCount,
+									(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_PRICING_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS hjCount,
+									(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_TAX_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ssCount,
+									(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and convert(varchar(7),c.MORT_SIGN_DATE,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
+									(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.TRANSFER_REAL_HT_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
+									(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_REAL_PROPERTY_GET_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS lzCount
+								FROM sctrans.SYS_USER u 
+								LEFT JOIN sctrans.SYS_ORG o ON u.ORG_ID = o.ID
+								WHERE u.ORG_ID IN (
+									SELECT o1.ID FROM sctrans.SYS_ORG o1
+									INNER JOIN sctrans.T_TS_TEAM_PROPERTY t on o1.ORG_CODE = t.YU_TEAM_CODE
+									WHERE o1.PARENT_ID = #parentDistinctId# AND t.TEAM_PROPERTY != 'yu_front' AND o1.IS_DELETED = 0
+								) AND u.IS_DELETED = 0 AND u.AVAILABLE = 1
+								) t
+								GROUP BY t.ID,t.ORG_NAME
+							) t1 ON t.ID = t1.ID
 	            ]]>
 			</baseSql>
 			<orderBySql>
@@ -508,12 +582,12 @@
 				<![CDATA[
 					SELECT 
 						u.REAL_NAME AS groupName,
-						(SELECT COUNT(c.CASE_REAL_PLS_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and c.CASE_ORG_ID_B = #parentTeamId# AND c.BELONG_MONTH = #searchBelongMonth#) AS cxgCount,
-						(SELECT COUNT(c.CASE_PRICING_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and c.CASE_ORG_ID_B = #parentTeamId# AND c.BELONG_MONTH = #searchBelongMonth#) AS hjCount,
-						(SELECT COUNT(c.CASE_TAX_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and c.CASE_ORG_ID_B = #parentTeamId# AND c.BELONG_MONTH = #searchBelongMonth#) AS ssCount,
-						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and c.CASE_ORG_ID_B = #parentTeamId# AND c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
-						(SELECT COUNT(c.TRANSFER_REAL_HT_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and c.CASE_ORG_ID_B = #parentTeamId# AND c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
-						(SELECT COUNT(c.CASE_REAL_PROPERTY_GET_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and c.CASE_ORG_ID_B = #parentTeamId# AND c.BELONG_MONTH = #searchBelongMonth#) AS lzCount
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_REAL_PLS_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS cxgCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_PRICING_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS hjCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_TAX_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ssCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and convert(varchar(7),c.MORT_SIGN_DATE,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.TRANSFER_REAL_HT_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_REAL_PROPERTY_GET_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS lzCount
 					FROM sctrans.SYS_USER u
 					WHERE u.ORG_ID = #parentTeamId# AND u.IS_DELETED = 0 AND u.AVAILABLE = 1
 	            ]]>
