@@ -193,9 +193,7 @@ $(document).ready(function(){
        
        //风控专员提交申请
        $("#riskOfficerApply").click(function(){
-    	   if(deleteAndModify()){
-        	   riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
-    	   }
+           riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
        });
        
        //风控总监审批通过
@@ -1102,6 +1100,22 @@ $(document).ready(function(){
 		}
 		
 		/** ------资金出款约定验证结束--------  **/
+		
+		/** ------附件验证开始--------------  **/
+		var imgIsEmpty = false;
+		$("ul[class='filelist']").each(function(i,e){
+			var length = $(e).find("img").length;
+			if(length == 0){
+				imgIsEmpty = true;
+				return false;
+			}
+		});
+		
+		if(imgIsEmpty){
+			window.wxc.alert("每种类型请至少上传一张附件！");
+			return false;
+		}
+		/** ------附件验证结束--------------  **/
 		
 		return true;
 	}
