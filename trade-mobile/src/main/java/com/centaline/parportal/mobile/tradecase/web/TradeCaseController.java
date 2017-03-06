@@ -152,6 +152,13 @@ public class TradeCaseController {
 	}
 
 	private void buildTradeInfo(JSONObject result,String caseCode,SessionUser user){
+		
+		Map<String,Object> jo = (Map<String,Object>)result.get("caseInfo");
+		if("未分单".equals(jo.get("status") + "")){
+			result.put("tradeInfo", new JSONObject());
+			return;
+		}
+		
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("queryTradeCaseTradeInfoMoblie");
 		gp.setPagination(false);
