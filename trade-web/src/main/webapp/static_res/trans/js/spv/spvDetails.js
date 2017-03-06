@@ -119,16 +119,11 @@ $(document).ready(function(){
        
        
        $("#saveBtn").click(function(){
-    	   if(deleteAndModify()){
-    	      saveBtnClick($("#handle").val(),null,'checkForSave',null,null);
-    	   }
+    	   saveBtnClick($("#handle").val(),null,'checkForSave',null,null);
        });
 
        
        $("#submitBtn").click(function(){
-      	  if(!deleteAndModify()){
-     		  return false;
-     	  }
      	  if(!checkFormSubmit()){
      		  return false;
      	  }
@@ -267,6 +262,8 @@ $(document).ready(function(){
 	  		window.wxc.confirm("是否确定签约！",{"wxcOk":function(){
 	  			saveNewSpv(url,data);
 	  		}});
+  	  }else if(type == 'checkForSave'){
+  		    saveNewSpv(url,data);
   	  }
     }
     
@@ -303,21 +300,24 @@ $(document).ready(function(){
 	 			            } ,   
 	 			success : function(data) {
 				    	 if(data.success){
-				    		 ajaxCall(url,data1);
-				    		 
-				    		 if($("#urlType").val() == 'myTask'){    	 
-		 				    	 window.opener.location.reload(); //刷新父窗口
-		 			        	 window.close(); //关闭子窗口.
+				    		 ajaxCall(url,data1);		    		 
+				    		 if($("#urlType").val() == 'myTask'){    	
+		 			        	window.wxc.success("提交成功！",{"wxcOk":function(){
+		 			        		window.opener.location.reload(); //刷新父窗口
+			 			        	window.close(); //关闭子窗口.
+		 				  		}});
 		 				     }else{
-		 				    	window.wxc.success(data.message);
+		 				    	window.wxc.success(data.message,{"wxcOk":function(){
+		 				    		window.location.href = ctx+"/spv/spvList";
+		 				  		}});
 		 				    	 //window.location.href = ctx+"/spv/saveHTML?pkid="+data.content;
-						    	window.location.href = ctx+"/spv/spvList";
 					     } 
 				    	 }else{
 				    		 window.wxc.error("保存资金监管签约失败！");
 				    	 }
 				    	 
 	 					 $.unblockUI();
+
 	 				},		
 	 			error : function(errors) {
 	 					$.unblockUI();   
@@ -1137,6 +1137,7 @@ $(document).ready(function(){
 	}
 	
 	function ajaxCall(url,data){
+		if(url == null) return;
 		$.ajax({
 			url:url,
 			method:"post",
@@ -1157,7 +1158,7 @@ $(document).ready(function(){
     		                } 
     		            } ,   
 			success : function(data) {
-				     rescCallbocak();
+				     //rescCallbocak();
 					 $.unblockUI();
 				},
 				error : function(errors) {

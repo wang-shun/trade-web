@@ -1452,7 +1452,7 @@
 					    		fileUploadContainer : "fileUploadContainer",
 					    		readonly : true
 					    	});
-						}else if(handle == "SpvApply"){
+						}else if(handle == "" || handle == "SpvApply"){
 							fileUpload.init({
 					    		caseCode : $('#caseCode').val(),
 					    		partCode : "SpvApplyApprove",
