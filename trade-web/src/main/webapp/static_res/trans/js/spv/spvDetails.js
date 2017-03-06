@@ -302,7 +302,7 @@ $(document).ready(function(){
 				    	 if(data.success){
 				    		 ajaxCall(url,data1);		    		 
 				    		 if($("#urlType").val() == 'myTask'){    	
-		 			        	window.wxc.success(data.message,{"wxcOk":function(){
+		 			        	window.wxc.success("提交成功！",{"wxcOk":function(){
 		 			        		window.opener.location.reload(); //刷新父窗口
 			 			        	window.close(); //关闭子窗口.
 		 				  		}});
