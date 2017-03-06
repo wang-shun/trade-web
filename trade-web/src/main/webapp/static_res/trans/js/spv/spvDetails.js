@@ -119,16 +119,11 @@ $(document).ready(function(){
        
        
        $("#saveBtn").click(function(){
-    	   if(deleteAndModify()){
-    	      saveBtnClick($("#handle").val(),null,'checkForSave',null,null);
-    	   }
+    	   saveBtnClick($("#handle").val(),null,'checkForSave',null,null);
        });
 
        
        $("#submitBtn").click(function(){
-      	  if(!deleteAndModify()){
-     		  return false;
-     	  }
      	  if(!checkFormSubmit()){
      		  return false;
      	  }
@@ -267,6 +262,8 @@ $(document).ready(function(){
 	  		window.wxc.confirm("是否确定签约！",{"wxcOk":function(){
 	  			saveNewSpv(url,data);
 	  		}});
+  	  }else if(type == 'checkForSave'){
+  		    saveNewSpv(url,data);
   	  }
     }
     
@@ -303,9 +300,8 @@ $(document).ready(function(){
 	 			            } ,   
 	 			success : function(data) {
 				    	 if(data.success){
-				    		 ajaxCall(url,data1);
-				    		 
-				    		 if($("#urlType").val() == 'myTask'){    	 
+				    		 ajaxCall(url,data1);		    		 
+				    		 if($("#urlType").val() == 'myTask'){    	
 		 				    	 window.opener.location.reload(); //刷新父窗口
 		 			        	 window.close(); //关闭子窗口.
 		 				     }else{
@@ -1137,6 +1133,7 @@ $(document).ready(function(){
 	}
 	
 	function ajaxCall(url,data){
+		if(url == null) return;
 		$.ajax({
 			url:url,
 			method:"post",
