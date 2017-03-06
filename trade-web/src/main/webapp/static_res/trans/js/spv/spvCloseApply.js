@@ -101,16 +101,18 @@ function dealSpvCloseApply(continueApply,result){
 		success : function(data) {   
 			if(data.success){
 				if(!handle){
-					window.wxc.alert("流程开启成功！");
-					window.location.href = ctx+"/spv/spvList";
+					window.wxc.alert("流程开启成功！",{"wxcOk":function(){
+                        window.location.href = ctx+"/spv/spvList";
+                    }});
 				}else{
-					window.wxc.alert("任务提交成功！");
-					window.opener.location.reload(); //刷新父窗口
-		        	window.close(); //关闭子窗口.
+					window.wxc.alert("任务提交成功！",{"wxcOk":function(){
+                        window.opener.location.reload(); //刷新父窗口
+                        window.close(); //关闭子窗口.
+                    }});
 				}
 			}else{
 				window.wxc.error("数据保存出错！");
-				rescCallback();
+				//rescCallback();
 			}
 		}
 	});

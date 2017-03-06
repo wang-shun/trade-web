@@ -220,15 +220,17 @@ function saveBtnClick(){
  			            } ,   
  			success : function(data) {   
 	 				if(data.ajaxResponse.success){
-	 					window.wxc.success("数据保存成功！");
+	 					window.wxc.success("数据保存成功！",{"wxcOk":function(){
+                            if($("#urlType").val() == 'myTask'){
+                                window.location.reload(); //刷新父窗口
+                            }else{
+                                window.location.href=ctx+"/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
+                            }
+                        }});
 	 				}else{
-	 					window.wxc.error("数据保存出错:"+data.ajaxResponse.message);
+	 					window.wxc.error("数据保存出错！");
 	 				}
-			    	 if($("#urlType").val() == 'myTask'){    	 
- 				    	 window.location.reload(); //刷新父窗口
- 				     }else{
-			    	     window.location.href=ctx+"/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
-			     }
+
  					// $.unblockUI();
  				}	 
       	  });
