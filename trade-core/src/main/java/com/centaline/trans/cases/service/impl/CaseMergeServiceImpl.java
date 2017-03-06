@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
-import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
@@ -32,7 +31,6 @@ import com.centaline.trans.common.service.ToPropertyInfoService;
 
 import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
-import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class CaseMergeServiceImpl implements CaseMergeService {
@@ -44,9 +42,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	private ToPropertyInfoService toPropertyInfoService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
-	@Autowired
-	private UamBasedataService uamBasedataService;
-	
+
 	@Autowired(required = true)
 	TsTeamScopeTargetService tsTeamScopeTargetService;
 	
@@ -71,17 +67,19 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 		
 		int insertUp=0,insertDown=0,insertCase=0,insertCaseInfo=0;		
-						
-		List<String>  nameUpList = caseMergeVo.getGuestNameUp();
-		List<String>  namePhoneList = caseMergeVo.getGuestPhoneUp();
-		List<String>  nameDownList = caseMergeVo.getGuestNameDown();
-		List<String>  phoneDownList = caseMergeVo.getGuestPhoneDown();
-		//插入上下家信息
-		insertUp = insertIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
-		insertDown = insertIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
-		
 		
 		try {
+			
+			List<String>  nameUpList = caseMergeVo.getGuestNameUp();
+			List<String>  namePhoneList = caseMergeVo.getGuestPhoneUp();
+			List<String>  nameDownList = caseMergeVo.getGuestNameDown();
+			List<String>  phoneDownList = caseMergeVo.getGuestPhoneDown();		
+			
+			//插入上下家信息
+			insertUp = insertIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
+			insertDown = insertIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
+			
+			//插入房屋信息
 			toPropertyInfo.setCaseCode(caseCode);
 			toPropertyInfo.setPropertyCode(caseMergeVo.getPropertyCode() == null? "":caseMergeVo.getPropertyCode());
 			toPropertyInfo.setPropertyAddr(caseMergeVo.getPropertyAddr() == null? "":caseMergeVo.getPropertyAddr());
@@ -95,13 +93,14 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 			}				
 			toPropertyInfoService.insertSelective(toPropertyInfo);
 			
-			
+			//插入案件信息
 			toCase.setCaseCode(caseCode);
 			toCase.setCaseProperty(CasePropertyEnum.TPZJ.getCode());//自建案件
 			toCase.setStatus(CaseStatusEnum.WFD.getCode());//未分单
 			toCase.setCaseOrigin(CaseOriginEnum.INPUT.getCode());					
 			insertCase = toCaseService.insertSelective(toCase);
 			
+			//插入案件详细信息
 			toCaseInfo.setCaseCode(caseCode);
 			toCaseInfo.setAgentCode(caseMergeVo.getAgentCode() == null?"":caseMergeVo.getAgentCode());
 			toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentName());
