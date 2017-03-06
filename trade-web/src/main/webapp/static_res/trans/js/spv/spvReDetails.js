@@ -354,35 +354,36 @@ function sumbitRe(){
 	if(!checkSumbitHtml()){
 		return;
 	}
-	if(!confirm("是否确定提交申请，开启流程！")){
-	  return false;
-    }
-	//提交页面的参数
-	var data = $("#teacForm").serialize();
-	//console.log(data);
-	var url = ctx+"/spv/task/cashflowIntApply/sumbitDate";
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url : url,
-		dataType : "json",
-		data : data,
-		beforeSend:function(){  
-         },
-		success : function(data) {
-			if(data.success){
-				window.wxc.success("流程开启成功！");
-				window.location.href = ctx+"/spv/spvList";
-			}else{
-				window.wxc.error("流程开启失败！"+data.message); 
+	
+	window.wxc.confirm("是否确定提交申请，开启流程？",{"wxcOk":function(){
+		//提交页面的参数
+		var data = $("#teacForm").serialize();
+		//console.log(data);
+		var url = ctx+"/spv/task/cashflowIntApply/sumbitDate";
+		$.ajax({
+			cache : false,
+			async : false,//false同步，true异步
+			type : "POST",
+			url : url,
+			dataType : "json",
+			data : data,
+			beforeSend:function(){  
+	         },
+			success : function(data) {
+				if(data.success){
+					window.wxc.success("流程开启成功！",{"wxcOk":function(){
+						window.location.href = ctx+"/spv/spvList";
+					}});
+				}else{
+					window.wxc.error("流程开启失败！"+data.message); 
+				}
+			},complete: function() { 
+			},
+			error : function(errors) {
 			}
-		},complete: function() { 
-		},
-		error : function(errors) {
-		}
-		
-	});
+			
+		});
+	}});
 }
 //得到页面数据 
 function getFormData(){

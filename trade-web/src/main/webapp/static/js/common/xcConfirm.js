@@ -215,6 +215,10 @@
 			config.onCancel();
 			$("#" + popId).remove();
 			config.onClose(eventType.cancel);
+			
+			if($.isFunction(config.wxcCancel)){
+				config.wxcCancel();
+			}
 		}
 
 		//关闭按钮事件

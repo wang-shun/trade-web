@@ -28,18 +28,20 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.enums.TransDictEnum;
-import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.vo.ToModuleSubscribeVo;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @RestController
 @RequestMapping(value = "/tradeCase")
+@JsonInclude()
 public class TradeCaseController {
 
 	@Value("${agent.img.url}")
@@ -93,14 +95,11 @@ public class TradeCaseController {
 		}
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
-		for (Map<String, Object> map : list) {
-			map.put("isFocus", Boolean.valueOf(map.get("isFocus")+""));
-			map.put("loanLostAlert", Boolean.valueOf(map.get("loanLostAlert")+""));
-			buildShangxiajiaInfo(map);
-		}
 		buildZhongjieInfo(list);
 
-		return Pages2JSONMoblie.pages2JsonMoblie(pages).toJSONString();
+		JSON json = Pages2JSONMoblie.pages2JsonMoblie(pages);
+		String resultStr = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue);
+		return resultStr;
 	}
 	
 	private void buildZhongjieInfo(List<Map<String, Object>> list) {
@@ -170,71 +169,19 @@ public class TradeCaseController {
 		Map<String, Object> map = list.get(0);
 
 		
-		JSONObject json = new JSONObject();
-		
-		// 合同价
-		if (map.containsKey("conPrice")) {
-			json.put("conPrice",map.get("conPrice"));
-		}
 		// 购房年数
-		if (map.containsKey("holdYear")) {
-			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), String.valueOf(map.get("holdYear")));
-			json.put("holdYear",holdYear);
-		}
-		// 是否唯一
-		if (map.containsKey("isUniqueHome")) {
-			String isUniqueHome = uamBasedataService.getDictValue(TransDictEnum.TWYZF.getCode(), String.valueOf(map.get("isUniqueHome")));
-			json.put("isUniqueHome",isUniqueHome);
+		if (map.containsKey("year")) {
+			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), String.valueOf(map.get("year")));
+			map.put("year",holdYear);
 		}
 		// 房屋性质
 		if (map.containsKey("houseProperty")) {
 			String houseProperty = uamBasedataService.getDictValue(TransDictEnum.TFWXZ.getCode(),
 					String.valueOf(map.get("houseProperty")));
-			json.put("houseProperty",houseProperty);
+			map.put("houseProperty",houseProperty);
 		}
 		
-		// 首期款
-		if (map.containsKey("amount1")) {
-			json.put("amount1",map.get("amount1"));
-		}
-		// 首期款
-		if (map.containsKey("amount2")) {
-			json.put("amount2",map.get("amount2"));
-		}
-		// 尾款
-		if (map.containsKey("amount3")) {
-			json.put("amount3",map.get("amount3"));
-		}
-		// 装修款
-		if (map.containsKey("amount4")) {
-			json.put("amount4",map.get("amount4"));
-		}
-		
-		//房产税
-		if (map.containsKey("houseHodingTax")) {
-			json.put("houseHodingTax",map.get("houseHodingTax"));
-		}
-		//契税 
-		if (map.containsKey("contractTax")) {
-			json.put("contractTax",map.get("contractTax"));
-		}
-		//营业税
-		if (map.containsKey("yingyeTax")) {
-			json.put("yingyeTax",map.get("yingyeTax"));
-		}
-		
-		//营业税
-		if (map.containsKey("tudiTax")) {
-			json.put("tudiTax",map.get("tudiTax"));
-		}
-		
-		//个人所得
-		if (map.containsKey("gerenTax")) {
-			json.put("gerenTax",map.get("gerenTax"));
-		}
-		
-		
-		result.put("tradeInfo", json);
+		result.put("tradeInfo", map);
 	}
 	
 	private void buildShangxiajiaInfo(Map<String, Object> map){
@@ -271,23 +218,30 @@ public class TradeCaseController {
 		buildShangxiajiaInfo(map);
 		buildQianTaiInfo(map);
 		buildZhongjieInfo(list);
-		buildZhuliInfo(map);
+		buildZhuliInfo(map,caseCode);
 		result.put("caseInfo", list.get(0));
 		
 	}
 	
-	private void buildZhuliInfo(Map<String, Object> map) {
-		String orgId = String.valueOf(map.get("orgId"));
+	private void buildZhuliInfo(Map<String, Object> map,String caseCode) {
+		String orgId = String.valueOf(map.get("caseCode"));
 		// 助理
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
+		JQGridParam gp = new JQGridParam();
+		gp.setQueryId("queryTradeCaseZhuliMoblie");
+		gp.setPagination(false);
+		Map<String, Object> paramMap = gp.getParamtMap();
+		paramMap.put("caseCode", caseCode);
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		
+		List<Map<String,Object>> asList = pages.getContent();
 		JSONObject ja = new JSONObject();
 		if (asList != null && asList.size() > 0) {
-			User assistUser = asList.get(0);
-			ja.put("name", assistUser.getRealName());
-			String ec = assistUser.getEmployeeCode();
+			Map<String,Object> reusltMap = asList.get(0);
+			ja.put("name", reusltMap.get("name"));
+			Object ec = reusltMap.get("employeeCode");
 			ja.put("avatar", ec == null ? "" : MessageFormat.format(imgUrl,ec) + ".jpg");
-			ja.put("org", assistUser.getOrgName());
-			ja.put("mobile", assistUser.getMobile());
+			ja.put("org", reusltMap.get("org"));
+			ja.put("mobile", reusltMap.get("moblie"));
 		}
 		map.put("zhuli", ja);
 	}

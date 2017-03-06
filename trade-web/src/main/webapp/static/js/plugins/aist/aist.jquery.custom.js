@@ -348,6 +348,7 @@ function($, window) {
 		var templeteSource = settings.templeteSource;
 		var wrapperData = settings.wrapperData;
 		var _self = $(this);
+		var isInitTitle = data.isInitTitle;
 		
 		$.ajax({
 			  async: true,
@@ -386,7 +387,7 @@ function($, window) {
 	        		  _self.empty();
 	        		  _self.html(templateHtml);
 	        	  }   
-	        	 
+	        	  
 	               // 显示分页 
 	        	  var pageData = {};
 	        	  pageData.total = data.total;
@@ -394,6 +395,7 @@ function($, window) {
 	        	  pageData.page = data.page;
 	        	  pageData.records = data.records;
 	        	  aist.initPage(_self,settings,pageData);
+	        	  aist.initTitle();
 	          }
 	    });
 	};

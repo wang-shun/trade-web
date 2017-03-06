@@ -120,7 +120,7 @@ $(document).ready(function(){
        
        $("#saveBtn").click(function(){
     	   if(deleteAndModify()){
-    	      saveBtnClick($("#handle").val(),null,'checkForSave');
+    	      saveBtnClick($("#handle").val(),null,'checkForSave',null,null);
     	   }
        });
 
@@ -142,7 +142,6 @@ $(document).ready(function(){
      		 }}); 
      	  }
      });
-       
        function submitNewSpv(){
     	   var totalArr = [];
        	  $("form").each(function(){
@@ -179,7 +178,7 @@ $(document).ready(function(){
  							window.location.href = ctx+"/spv/spvList";
  						}});  	 
  					}else{
- 						window.wxc.error("流程开启失败：\n"+data.message,{"wxcOk":function(){
+ 						window.wxc.error("流程开启失败！",{"wxcOk":function(){
  							window.location.href = ctx+"/spv/spvList";
  						}});  	 
  					}     
@@ -187,7 +186,7 @@ $(document).ready(function(){
  				},		
  			error : function(errors) {
  					$.unblockUI();   
- 					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
+ 					window.wxc.error("数据保存出错！");
  				}  
         });
        }
@@ -231,8 +230,7 @@ $(document).ready(function(){
     }); 
 });
     
-    function saveBtnClick(handle,SpvApplyApprove,type){
-    	debugger;
+    function saveBtnClick(handle,SpvApplyApprove,type,url,data){
     	if(type == 'checkForSubmit' && handle == 'SpvApply'){
       	  if(!checkFormSubmit()){
         		  return false;
@@ -244,41 +242,37 @@ $(document).ready(function(){
       }	 
 
   	  if(type == 'checkForSubmit' && handle == 'SpvApply'){
-	  		if(!confirm("是否确定提交申请！")){
-	  		  return false;
-	  	  }
+	  		window.wxc.confirm("是否确定提交申请！",{"wxcOk":function(){
+	  			saveNewSpv(url,data);
+	  		}});
   	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  	    	window.wxc.alert("请填写审批意见！");
-	  		   changeClass($("#passOrRefuseReason"));
-	  		   return false;
+	  		    changeClass($("#passOrRefuseReason"));
+	  		    return false;
 	  	    }
-  		  
-	   	    if(!confirm("是否确定通过！")){
-	 		   return false;
-	 	    }
+	  		window.wxc.confirm("是否确定通过！",{"wxcOk":function(){	  			
+	  			saveNewSpv(url,data);
+	  		}});
   	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
 	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
 	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
 	  	    	window.wxc.alert("请填写审批意见！");
-	  		   changeClass($("#passOrRefuseReason"));
-	  		   return false;
+	  		    changeClass($("#passOrRefuseReason"));
+	  		    return false;
 	  	    }
-    	   
-	  		if(!confirm("是否确定驳回！")){
-	     		return false;
-	     	  }
+	  		window.wxc.confirm("是否确定驳回！",{"wxcOk":function(){
+	  			saveNewSpv(url,data);
+	  		}});
   	  }else if(handle == 'SpvSign'){
-	   	   if(!confirm("是否确定签约！")){
-	 		  return false;
-	 	  }
-  	  }else{
-  		  //do nothing
+	  		window.wxc.confirm("是否确定签约！",{"wxcOk":function(){
+	  			saveNewSpv(url,data);
+	  		}});
   	  }
-	   
-  	  
-  	  	var isSuccess = false;
+    }
+    
+    function saveNewSpv(url,data1){
    	  	var totalArr = [];
 	      	  $("form").each(function(){
 	      		 var obj = $(this).serializeArray();
@@ -311,31 +305,29 @@ $(document).ready(function(){
 	 			            } ,   
 	 			success : function(data) {
 				    	 if(data.success){
-				    		 isSuccess = true;
+				    		 ajaxCall(url,data1);
+				    		 
 				    		 if($("#urlType").val() == 'myTask'){    	 
 		 				    	 window.opener.location.reload(); //刷新父窗口
 		 			        	 window.close(); //关闭子窗口.
 		 				     }else{
 		 				    	window.wxc.success(data.message);
 		 				    	 //window.location.href = ctx+"/spv/saveHTML?pkid="+data.content;
-						    	 window.location.href = ctx+"/spv/spvList";
+						    	window.location.href = ctx+"/spv/spvList";
 					     } 
 				    	 }else{
-				    		 isSuccess = false;
-				    		 window.wxc.error("保存资金监管签约失败！"+data.message);
+				    		 window.wxc.error("保存资金监管签约失败！");
 				    	 }
 				    	 
 	 					 $.unblockUI();
 	 				},		
 	 			error : function(errors) {
 	 					$.unblockUI();   
-	 					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
+	 					window.wxc.error("数据保存出错！");
 	 				}	 
 	      	  });
 	      	  
- 	   return isSuccess;
     }
-    
     
     //保存必填项
 	function checkFormSave(){
@@ -1135,6 +1127,7 @@ $(document).ready(function(){
 			url:url,
 			method:"post",
 			dataType:"json",
+			async:false,
 			data:data,
 			beforeSend:function(){  
     				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
@@ -1171,16 +1164,9 @@ $(document).ready(function(){
 	    	data.signTime = $("input[name='toSpv.signTime']").val();
 	    }
     	//验证参数是否填写正确
-    	var startWorkfollow = saveBtnClick(handle,SpvApplyApprove,'checkForSubmit');
-
-	    //是否启动流程标记，false不启动，true启动
-	    if(!startWorkfollow){
-	    	return false;
-    	} 
-
-	    //调用ajax方法
-	    ajaxCall(url,data);
+    	saveBtnClick(handle,SpvApplyApprove,'checkForSubmit',url,data);
     }
+
     
     //风控申请审批时只读表单
     function readOnlyRiskForm(){

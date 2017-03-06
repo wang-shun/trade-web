@@ -1129,14 +1129,14 @@
    								
    								//$('#myModal').modal('hide');
    					        }else{
-   					        	window.wxc.error(data.message);
+   					        	window.wxc.error("案件关联失败！");
    					        }		    		
    						    
 							$.unblockUI();
    					},		
    				error : function(errors) {
    						$.unblockUI();   
-   						window.wxc.error("数据保存出错:"+JSON.stringify(errors));
+   						window.wxc.error("数据保存出错！");
    					}  
    	       });
    	     });		   

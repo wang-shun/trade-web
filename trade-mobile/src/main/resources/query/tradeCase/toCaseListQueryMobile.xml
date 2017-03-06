@@ -274,18 +274,19 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="AGENT_NAME" />
-				<column type="both" name="EMPLOYEE_CODE" />
-				<column type="both" name="AGENT_PHONE" />
-				<column type="both" name="caseCode" />
-				<column type="both" name="addr" />
-				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" />
-				<column type="both" name="status" />
-				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" />
-				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" />
-			
-				<column type="both" name="loanLostAlert" />
-				<column type="both" name="isFocus" />
+				<column type="both" name="AGENT_NAME" dataType="String" defaultVal=""/>
+				<column type="both" name="EMPLOYEE_CODE" dataType="String" defaultVal=""/>
+				<column type="both" name="AGENT_PHONE" dataType="String" defaultVal=""/>
+				<column type="both" name="caseCode" dataType="String" defaultVal=""/>
+				<column type="both" name="addr" dataType="String" defaultVal=""/>
+				
+				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" dataType="String" defaultVal=""/>
+				<column type="both" name="status" dataType="String" defaultVal=""/>
+				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" dataType="JSONARRAY"/>
+				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" dataType="JSONARRAY"/>
+
+				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
+				<column type="both" name="isFocus" dataType="BOOLEAN"/>
 			</table-row>
 		</grid>
 	</query>
@@ -314,7 +315,7 @@
 			<table-row>
 				<column type="both" name="caseCode" />
 				<column type="both" name="status" />
-				<column type="both" name="isFocus" />
+				<column type="both" name="isFocus" dataType="BOOLEAN"/>
 				<column type="both" name="addr" />
 				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" />
 				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" />
@@ -322,10 +323,10 @@
 				<column type="both" name="AGENT_NAME" />
 				<column type="both" name="EMPLOYEE_CODE" />
 				
-				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai"/>
-				<column type="both" name="leadingProcessId" />
-				<column type="both" name="loanLostAlert" />
-				<column type="both" name="org" />
+				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai" dataType="JSONARRAY"/>
+				<column type="both" name="leadingProcessId" dataType="BOOLEAN"/>
+				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
+				<column type="both" name="org" defaultVal=""/>
 			</table-row>
 		</grid>
 	</query>
@@ -336,31 +337,32 @@
 				select sd.name refundType, sd2.NAME mortType,
 					tm.MORT_TOTAL_AMOUNT totalAmount,tm.COM_AMOUNT comAmount,
 					tm.COM_YEAR comYear,tm.COM_DISCOUNT comDiscount,tm.PRF_AMOUNT psfAmount,
-					tm.PRF_YEAR psfYear,tm.STATE_IN_BANK status,
+					tm.PRF_YEAR psfYear,sd3.name status,
 					tm.LOANER_NAME loanerName,tm.LOANER_PHONE loanerPhone,fo.FIN_ORG_NAME loanerOrg
 				from sctrans.T_TO_MORTGAGE tm
 					left join sctrans.T_TS_FIN_ORG fo on fo.FIN_ORG_CODE = tm.LOANER_ORG_CODE
 					left join sctrans.SYS_DICT sd on sd.CODE = tm.LEND_WAY and sd.TYPE =  '30017'
 					left join sctrans.SYS_DICT sd2 on sd2.CODE = tm.MORT_TYPE and sd2.TYPE =  '30016'
+					left join sctrans.SYS_DICT sd3 on sd3.CODE = tm.STATE_IN_BANK and sd3.TYPE = 'part_code'
 				where tm.case_code = #caseCode#
 			</baseSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="refundType" />
-				<column type="both" name="mortType" />
-				<column type="both" name="totalAmount" />
-				<column type="both" name="comAmount" />
+				<column type="both" name="refundType" defaultVal=""/>
+				<column type="both" name="mortType" defaultVal=""/>
+				<column type="both" name="totalAmount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="comAmount" dataType="DOUBLE" defaultVal="0"/>
 				
-				<column type="both" name="comYear" />
-				<column type="both" name="comDiscount" />
-				<column type="both" name="psfAmount" />
-				<column type="both" name="psfYear" />
+				<column type="both" name="comYear" dataType="INTEGER" defaultVal="0"/>
+				<column type="both" name="comDiscount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="psfAmount" dataType="INTEGER" defaultVal="0"/>
+				<column type="both" name="psfYear" dataType="INTEGER" defaultVal="0"/>
 				
-				<column type="both" name="status" />
-				<column type="both" name="loanerName" />
-				<column type="both" name="loanerPhone" />
-				<column type="both" name="loanerOrg" />
+				<column type="both" name="status" defaultVal=""/>
+				<column type="both" name="loanerName" defaultVal=""/>
+				<column type="both" name="loanerPhone" defaultVal=""/>
+				<column type="both" name="loanerOrg" defaultVal=""/>
 			</table-row>
 		</grid>
 	</query>
@@ -372,13 +374,13 @@
 			    		HOLD_YEAR holdYear,
 			    		IS_UNIQUE_HOME isUniqueHome,
 			    		HOUSE_PROPERTY houseProperty,
-			    		AMOUNT1 amount1,
+			    		AMOUNT1 firstPay,
 			    		
-			    		AMOUNT2 amount2,
-			    		AMOUNT3 amount3,
-			    		AMOUNT4 amount4,
-			    		HOUSE_HODING_TAX houseHodingTax,
-			    		CONTRACT_TAX contractTax,
+			    		AMOUNT2 secondPay,
+			    		AMOUNT3 thirdPay,
+			    		AMOUNT4 forthPay,
+			    		HOUSE_HODING_TAX fangchanTax,
+			    		CONTRACT_TAX qishuiTax,
 			    		
 			    		BUSINESS_TAX yingyeTax,
 			    		LAND_INCREMENT_TAX tudiTax,
@@ -389,22 +391,44 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="conPrice" />
-				<column type="both" name="holdYear" />
-				<column type="both" name="isUniqueHome" />
-				<column type="both" name="houseProperty" />
-				<column type="both" name="amount1" />
+				<column type="both" name="conPrice" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="year" dataType="INTEGER" defaultVal="0"/>
+				<column type="both" name="unique" dataType="BOOLEAN" defaultVal="false"/>
+				<column type="both" name="houseProperty" defaultVal=""/>
+				<column type="both" name="firstPay" dataType="DOUBLE" defaultVal="0"/>
 				
-				<column type="both" name="amount2" />
-				<column type="both" name="amount3" />
-				<column type="both" name="amount4" />
+				<column type="both" name="secondPay" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="thirdPay" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="forthPay" dataType="DOUBLE" defaultVal="0"/>
 				
-				<column type="both" name="houseHodingTax" />
-				<column type="both" name="contractTax" />
-				<column type="both" name="yingyeTax" />
-				<column type="both" name="tudiTax" />
-				<column type="bothe" name="gerenTax" />
+				<column type="both" name="fangchanTax" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="qishuiTax" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="yingyeTax" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="tudiTax" dataType="DOUBLE" defaultVal="0"/>
+				<column type="bothe" name="gerenTax" dataType="DOUBLE" defaultVal="0"/>
 				
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryTradeCaseZhuliMoblie">
+		<searchSql>
+			<baseSql>
+			   	select su.REAL_NAME name,su.MOBILE moblie,su.EMPLOYEE_CODE employeeCode,
+					so.ORG_NAME org
+				 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tp
+				 inner join sctrans.SYS_USER su on su.ID = tp.PROCESSOR_ID
+				 left join sctrans.SYS_ORG so on so.ID = su.ORG_ID
+				 where tp.SRV_CODE = '3000401002'
+			     	and  tp.CASE_CODE = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="name" defaultVal="0"/>
+				<column type="both" name="moblie"  defaultVal=""/>
+				<column type="both" name="employeeCode" />
+				<column type="both" name="org" defaultVal=""/>
 			</table-row>
 		</grid>
 	</query>
