@@ -37,11 +37,9 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.vo.ToModuleSubscribeVo;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 @RestController
 @RequestMapping(value = "/tradeCase")
-@JsonInclude()
 public class TradeCaseController {
 
 	@Value("${agent.img.url}")
@@ -172,7 +170,7 @@ public class TradeCaseController {
 		// 购房年数
 		if (map.containsKey("year")) {
 			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), String.valueOf(map.get("year")));
-			map.put("year",holdYear);
+			map.put("year",StringUtils.isBlank(holdYear) ? "" : holdYear);
 		}
 		// 房屋性质
 		if (map.get("houseProperty") != null ) {
@@ -226,7 +224,6 @@ public class TradeCaseController {
 	}
 	
 	private void buildZhuliInfo(Map<String, Object> map,String caseCode) {
-		String orgId = String.valueOf(map.get("caseCode"));
 		// 助理
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("queryTradeCaseZhuliMoblie");

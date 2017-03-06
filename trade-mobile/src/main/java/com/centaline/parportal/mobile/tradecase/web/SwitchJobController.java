@@ -14,12 +14,10 @@ import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 @RestController
-@RequestMapping(value = "/userOrgJob")
-@JsonInclude()
-public class ChangeJobController {
+@RequestMapping(value = "/tradeCase")
+public class SwitchJobController {
 	
 	@Autowired
 	private UamSessionService uamSessionService;
@@ -27,9 +25,9 @@ public class ChangeJobController {
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 	
-	@RequestMapping(value = "userOrgJobList")
+	@RequestMapping(value = "findUserOrgJobList")
 	@ResponseBody
-	public String getUserOrgJobList(){
+	public String findUserOrgJobList(){
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 		List<UserOrgJob> uojs = uamUserOrgService
 				.getUserOrgJobByUserId(sessionUser.getId());
