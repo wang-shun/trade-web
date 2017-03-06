@@ -585,6 +585,7 @@
 		}
 		
 		function  goProcess(b){	
+			
 			if (!checkForm()) {
 				return false;
 			}
@@ -645,11 +646,12 @@
 					}
 				},
 				success : function(data) {						
-					if (b) {
+					$.unblockUI();
+					if (b) {						
 						caseTaskCheck();						
 						if (null != data.message) {
 							window.wxc.alert(data.message);
-						}
+						}						
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						window.wxc.success("保存成功。",{"wxcOk":function(){

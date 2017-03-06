@@ -143,6 +143,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		String userId ="";
 		Map<String, Object> map = new HashMap<String, Object>();
 		TsTeamScopeTarget tsTeamScopeTarget =  new TsTeamScopeTarget();
+		
 		if(null != grpCode && !"".equals(grpCode)){
 			map.put("grpCode", grpCode);
 			map.put("isResponseTeam", 1);			
