@@ -344,7 +344,7 @@
 					left join sctrans.SYS_DICT sd on sd.CODE = tm.LEND_WAY and sd.TYPE =  '30017'
 					left join sctrans.SYS_DICT sd2 on sd2.CODE = tm.MORT_TYPE and sd2.TYPE =  '30016'
 					left join sctrans.SYS_DICT sd3 on sd3.CODE = tm.STATE_IN_BANK and sd3.TYPE = 'part_code'
-				where tm.case_code = #caseCode#
+				where tm.case_code = #caseCode# and IS_ACTIVE = 1 
 			</baseSql>
 		</searchSql>
 		<grid>
@@ -356,7 +356,7 @@
 				
 				<column type="both" name="comYear" dataType="INTEGER" defaultVal="0"/>
 				<column type="both" name="comDiscount" dataType="DOUBLE" defaultVal="0"/>
-				<column type="both" name="psfAmount" dataType="INTEGER" defaultVal="0"/>
+				<column type="both" name="psfAmount" dataType="DOUBLE" defaultVal="0"/>
 				<column type="both" name="psfYear" dataType="INTEGER" defaultVal="0"/>
 				
 				<column type="both" name="status" defaultVal=""/>
