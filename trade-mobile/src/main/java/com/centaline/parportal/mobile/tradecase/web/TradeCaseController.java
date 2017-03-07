@@ -479,7 +479,8 @@ public class TradeCaseController {
             throw new BusinessException("抱歉，提交的跟进type为空,请联系技术支持");
         if (null == track.getBizCode())
             throw new BusinessException("抱歉，提交的跟进bizCode为空,请联系技术支持");
-
+        if (StringUtils.isBlank(track.getSrvCode()))
+            throw new BusinessException("抱歉，提交的跟进srvCode为空,请联系技术支持");
         if (MobileHolder.getMobileUser() != null)
             track.setCreatorOrgId(MobileHolder.getMobileUser().getServiceDepId());
 
