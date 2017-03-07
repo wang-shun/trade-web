@@ -428,7 +428,7 @@ public class TradeCaseController {
 	
     @RequestMapping(value = "{caseCode}/track")
     @ResponseBody
-    public String addTrack(@PathVariable("caseCode")String caseCode, @RequestBody CommentVo cmtVo) {
+    public String addTrack(@PathVariable("caseCode")String caseCode, CommentVo cmtVo) {
 
     	cmtVo.setCaseCode(caseCode);
         ToCaseComment track = new ToCaseComment();
