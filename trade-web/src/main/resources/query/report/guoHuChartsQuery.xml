@@ -172,14 +172,44 @@
 					<if test="produceType == 'district'">
 						and tb1.CASE_DISTRICT_ID=#districtId# --(按照贵宾服务部)
 					</if>
-					and convert(varchar(7),TRANSFER_APP_TIME,120)=#choiceMonth#)
-
+					and convert(varchar(7),TRANSFER_APP_TIME,120)=#choiceMonth#),
+					<if test="produceType == ''">
+						tb2 as (select DISTRICT_ID,DISTRICT_NAME from sctrans.v_yucui_org_hierarchy where DEP_HIERARCHY='yucui_district' and director is not null  GROUP BY DISTRICT_ID,DISTRICT_NAME)
+					</if>
+					<if test="produceType == 'district'">
+						tb2 as (select ORG_ID,TEAM_NAME from sctrans.v_yucui_org_hierarchy where DEP_HIERARCHY='yucui_team' and DISTRICT_ID=#districtId#)
+					</if>
+					<if test="produceType == 'team'">
+						tb2 as (select USER_ID,REAL_NAME from sctrans.V_USER_ORG_JOB where JOB_CODE='consultant' and ORG_ID=#teamId#)
+					</if>
+			select
+				isnull(l2.CASE_COUNT,0) as CASE_COUNT
+				<if test="produceType == ''">
+				,tb2.DISTRICT_NAME as CASE_PART
+				</if>
+				<if test="produceType == 'district'">
+				,tb2.TEAM_NAME as CASE_PART
+				</if>
+				<if test="produceType == 'team'">
+				,tb2.REAL_NAME as CASE_PART
+				</if>
+				,isnull(l2.MORT_COM_COUNT,0) as MORT_COM_COUNT
+				,isnull(l2.MORT_COM_AMOUNT,0) as MORT_COM_AMOUNT
+				,isnull(l2.CASE_CON_PRICE,0) as CASE_CON_PRICE
+				,isnull(l2.LOST_COUNT,0) as LOST_COUNT
+				,isnull(l2.LOST_AMOUNT,0) as LOST_AMOUNT
+				,isnull(l2.EVA_COUNT,0) as EVA_COUNT
+				,isnull(l2.EVA_FEE,0) as EVA_FEE
+				,isnull(l2.E_CARD_COUNT,0) as E_CARD_COUNT
+				,isnull(l2.CARD_COUNT,0) as CARD_COUNT
+				,isnull(l2.E_AMOUNT,0) as E_AMOUNT
+				from tb2 left join
+				(
 					select
 					count(1) as CASE_COUNT,
 					(select count(1) from tb as t1 where 1=1
 					and t1.CASE_LOAN_REQ=1
-					and t1.MORT_TYPE='30016001'
-
+					and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -190,12 +220,10 @@
 					<if test="produceType == ''">
 						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
 					</if>
-
 					) as MORT_COM_COUNT,
 					isnull((select sum(MORT_COM_AMOUNT) from tb as t1 where 1=1
 					and t1.CASE_LOAN_REQ=1
-					and t1.MORT_TYPE='30016001'
-
+					and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -208,7 +236,7 @@
 					</if>
 					 ),0) as MORT_COM_AMOUNT,
 					isnull((select sum(t1.CASE_CON_PRICE) from tb as t1 where 1=1
-						<if test="produceType == 'team'">
+					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
 					<if test="produceType == 'district'">
@@ -222,7 +250,7 @@
 					(select count(1) from tb as t1 where 1=1
 					 and t1.CASE_LOAN_REQ=1
 					 and t1.CASE_REC_STATUS='1'
-						<if test="produceType == 'team'">
+					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
 					<if test="produceType == 'district'">
@@ -235,8 +263,7 @@
 					 ) as LOST_COUNT,
 					isnull((select sum(LOAN_LOST_AMOUNT) from tb as t1 where 1=1
 					and t1.CASE_LOAN_REQ=1
-
-						<if test="produceType == 'team'">
+					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
 					<if test="produceType == 'district'">
@@ -246,12 +273,10 @@
 					<if test="produceType == ''">
 						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
 					</if>
-
 					 ),0) as LOST_AMOUNT,
 					(select count(1) from tb as t1 where 1=1
 					and t1.EVA_EVAL_FEE is not null
-
-						<if test="produceType == 'team'">
+					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
 					<if test="produceType == 'district'">
@@ -264,7 +289,6 @@
 					 ) as EVA_COUNT,
 					isnull((select sum(EVA_EVAL_FEE) from tb as t1 where 1=1
 					 and t1.EVA_EVAL_FEE is not null
-
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -275,11 +299,9 @@
 					<if test="produceType == ''">
 						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
 					</if>
-
 					),0) as EVA_FEE,
 					(select count(1) from tb as t1 where 1=1
 					 and t1.ELOAN_KA is not null
-
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -290,11 +312,9 @@
 					<if test="produceType == ''">
 						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
 					</if>
-
 					 ) as E_CARD_COUNT,
 					(select count(1) from tb as t1 where 1=1
 					and  t1.CASE_USE_CARD_PAY_CN='1'
-
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -305,10 +325,8 @@
 					<if test="produceType == ''">
 						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
 					</if>
-
 					) as CARD_COUNT,
 					isnull((select sum(ELOAN_PRO_AMOUNT) from tb as t1 where 1=1
-
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -321,28 +339,13 @@
 					</if>
 					),0) as E_AMOUNT,
 					<if test="produceType == 'team'">
-						CASE_LEADING_PROCESS_ID_F,--(按照交易顾问)
-						 CASE
-						 WHEN GROUPING(CASE_LEADING_PROCESS_ID_F) =1 THEN  '合计'
-						 ELSE (select top(1) CASE_REAL_NAME_F from tb as t1 where t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F )
-						 END
-						 as CASE_PART
+						CASE_LEADING_PROCESS_ID_F--(按照交易顾问)
 					</if>
 					<if test="produceType == 'district'">
-						CASE_ORG_ID_F,--(按照组别)
-						 CASE
-						 WHEN GROUPING(CASE_ORG_ID_F) =1 THEN  '合计'
-						 ELSE (select top(1) CASE_ORG_NAME_F from tb as t1 where t1.CASE_ORG_ID_F=t.CASE_ORG_ID_F )
-						 END
-						 as CASE_PART
+						CASE_ORG_ID_F--(按照组别)
 					</if>
 					<if test="produceType == ''">
-					 CASE_DISTRICT_ID,--(按照贵宾服务部)
-					 CASE
-						 WHEN GROUPING(CASE_DISTRICT_ID) =1 THEN  '合计'
-						 ELSE (select top(1) CASE_DISTRICT_NAME from tb as t1 where t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID )
-						 END
-						 as CASE_PART
+					 CASE_DISTRICT_ID--(按照贵宾服务部)
 					</if>
 
 					from tb as t
@@ -355,15 +358,22 @@
 					<if test="produceType == ''">
 						group by CASE_DISTRICT_ID
 					</if>
+					 ) l2 on
+					<if test="produceType == 'team'">
+						tb2.USER_ID=l2.CASE_LEADING_PROCESS_ID_F
+					</if>
+					<if test="produceType == 'district'">
+						 tb2.ORG_ID=l2.CASE_ORG_ID_F
+					</if>
+					<if test="produceType == ''">
+					 tb2.DISTRICT_ID=l2.CASE_DISTRICT_ID
+					</if>
+
+					order by l2.CASE_COUNT desc
 
 	            ]]>
 			</baseSql>
-			<orderBySql>
-				order by CASE_COUNT
-			</orderBySql>
-			<groupSql>
 
-			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
@@ -462,7 +472,7 @@
 				),0) as CASE_CON_PRICE,
 				(select count(1) from tb as t1 where 1=1
 				and t1.CASE_LOAN_REQ=1
-				and t1.MORT_TYPE='30016001'
+				and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 				<if test="produceType == 'JQYDS'">
 				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
@@ -478,7 +488,7 @@
 				) as MORT_COM_COUNT,
 				isnull((select sum(MORT_COM_AMOUNT) from tb as t1 where 1=1
 				and t1.CASE_LOAN_REQ=1
-				and t1.MORT_TYPE='30016001'
+				and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 
 				<if test="produceType == 'JQYDS'">
 				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
