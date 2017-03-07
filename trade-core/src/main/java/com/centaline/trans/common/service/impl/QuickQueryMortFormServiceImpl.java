@@ -236,8 +236,8 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 						keyer.put("val", "总计");
 					}else{
 						StringBuilder sql = new StringBuilder();
-						sql.append(" SELECT uoj.real_name as v FROM sctrans.v_user_org_job uoj INNER join sctrans.sys_org org on uoj.org_id=org.id")
-								.append(" where uoj.job_code =:JOB_CODE and uoj.ORG_ID=:ORGANIZATION_ID and IS_LEADER='1' and ismain='1' ");
+						sql.append(" SELECT t2.real_name as v FROM sctrans.SYS_USER_ORG_JOB t1 left join sctrans.SYS_USER t2 on t1.USER_ID=t2.id")
+								.append(" left join sctrans.SYS_JOB t3 on t3.id=t1.JOB_ID where t3.job_code =:JOB_CODE and  t1.ORG_ID=:ORGANIZATION_ID and IS_LEADER='1' and ismain='1' ");
 						Map<String, Object> param = new HashMap<String, Object>();
 						param.put("ORGANIZATION_ID", keyer.get("ORGANIZATION_ID"));
 						param.put("JOB_CODE", keyer.get("JOB_CODE"));

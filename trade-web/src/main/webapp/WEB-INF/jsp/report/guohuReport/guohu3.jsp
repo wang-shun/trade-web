@@ -66,9 +66,9 @@
 					</div>
 				</div>
 
-				<div class="table-scroll">
+				<div class="table-scroll" style="height:500px;overflow: auto">
 					<table
-							class="table table_blue  table-striped table-bordered table-hover customerinfo ">
+							class="table table_blue  table-striped table-bordered table-hover customerinfo " >
 						<thead>
 						<tr>
 							<th>组织</th>
@@ -131,7 +131,7 @@
 	{{each rows as item index}}
 	<tr>
        
-		<td>{{item.org_name}} {{if item.job_code=='JQYDS'}}({{item.EMPLOYEE_NAME}}){{/if}}</td>
+		<td>{{item.org_name}} {{if item.JOB_CODE=='JQYDS'}}({{item.EMPLOYEE_NAME}}){{/if}}</td>
 		<td>{{item.CASE_COUNT}}</td>
 		<td>{{item.CASE_COUNT_PERCENT}}</td>
 		<td>{{item.CASE_CON_PRICE}}元</td>
@@ -324,15 +324,17 @@
 					    item.E_AMOUNT = 0.00;
 					    item.IS_DELEGATE_CUSTOMER_COUNT = 0;
 					   /*  var savadata=item; */
+					alert("sss");
 					$.each(data.rows,function(j,item1){
 						if(item1.ORGANIZATION_ID==item.org_id){
 							item1.org_name=item.org_name;
-							item=item1;
+							nullData.rows[i]=item1;
 						    }
 
 					})
 					
-				}) 
+				})
+				console.info(nullData)
 				data.ctx = ctx;
 				var templateData = template(templateId, nullData);
 				$("#"+tbodyId).empty();

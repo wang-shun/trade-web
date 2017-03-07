@@ -114,7 +114,7 @@
 		    <tr>
               <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
               <td>{{item.CASE_COUNT}}</td>
-              <td>{{item.MORT_COM_AMOUNT}}</td>
+              <td>{{item.MORT_COM_AMOUNT/10000}}万元</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -125,18 +125,16 @@
 			  <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
 			  <td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
 			  <td>{{item.CASE_COUNT}}</td>
-			  <td>{{item.MORT_COM_AMOUNT}}元</td>
+			  <td>{{item.MORT_COM_AMOUNT/10000}}万元</td>
 		  </tr>
 		  {{else}}
 		  <tr>
 			  <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
 			  <td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
 			  <td>{{item.CASE_COUNT}}</td>
-			  <td>{{item.MORT_COM_AMOUNT}}元</td>
+			  <td>{{item.MORT_COM_AMOUNT/10000}}万元</td>
 		  </tr>
-
 		  {{/if}}
-
 		{{/each}}
 	    </script>
 	<script type="text/javascript">

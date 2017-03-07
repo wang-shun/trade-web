@@ -56,8 +56,9 @@
 			SELECT uoj.user_id,uoj.org_id, org.org_name,uoj.job_code,uoj.job_name,uoj.real_name FROM sctrans.v_user_org_job uoj 
 			INNER join sctrans.sys_org org on uoj.org_id=org.id
 			<where>
+				ismain=1 and is_leader=1
 			 <trim prefix="and" prefixOverrides="and|or">
-			    uoj.job_code =#{jobCode}
+			     and uoj.job_code =#{jobCode}
 				<if test="#jobCode!='JQYDS'">
 				 and exists(select 1 from o where uoj.org_id = o.id)
 				</if>

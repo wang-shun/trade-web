@@ -124,9 +124,9 @@
               <td>{{item.MORT_TYPE_CN}}</td>
               <td>{{item.CASE_COUNT}}</td>
               <td>{{item.CASE_COUNT_PERCENT}}</td>
-              <td>{{item.CASE_CON_PRICE}}元</td>
-              <td>{{item.MORT_COM_AMOUNT}}元</td>
-              <td>{{item.MORT_PRF_AMOUNT}}元</td>
+              <td>{{item.CASE_CON_PRICE/10000}}万元</td>
+              <td>{{item.MORT_COM_AMOUNT/10000}}万元</td>
+              <td>{{item.MORT_PRF_AMOUNT/10000}}万元</td>
               <td>{{item.MORT_PERCENT}}</td>
              </tr>
 		{{/each}}

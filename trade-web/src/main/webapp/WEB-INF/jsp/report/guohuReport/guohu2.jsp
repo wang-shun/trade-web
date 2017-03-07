@@ -127,14 +127,14 @@
 		  <tr>
 			  <td>{{item.CASE_PART}}</td>
 			  <td>{{item.MORT_COM_COUNT}}</td>
-			  <td>{{item.MORT_COM_AMOUNT}}</td>
-			  <td>{{item.CASE_CON_PRICE}}</td>
+			  <td>{{item.MORT_COM_AMOUNT/10000}}万元</td>
+			  <td>{{item.CASE_CON_PRICE/10000}}万元</td>
 			  <td>{{item.LOST_COUNT}}</td>
 			  <td>{{item.CASE_LOST_COUNT_PERCENT}}</td>
-			  <td>{{item.LOST_AMOUNT}}</td>
+			  <td>{{item.LOST_AMOUNT/10000}}万元</td>
 			  <td>{{item.CASE_LOST_AMOUNT_PERCENT}}</td>
 			  <td>{{item.PING_GU_COUNT_PERCENT}}</td>
-			  <td>{{item.EVA_FEE}}</td>
+			  <td>{{item.EVA_FEE/10000}}万元</td>
 			  <td>{{item.E_COUNT_PERCENT}}</td>
 			  <td>{{item.CARD_COUNT_PERCENT}}</td>
 			  <td>{{item.E_AMOUNT_PERCENT}}</td>
@@ -144,14 +144,14 @@
 		  <tr>
 			  <td>{{rows[rows.length-1].TOTAL_CASE_PART}}</td>
 			  <td>{{rows[rows.length-1].TOTAL_MORT_COM_COUNT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_MORT_COM_AMOUNT}}元</td>
-			  <td>{{rows[rows.length-1].TOTAL_CASE_CON_PRICE}}元</td>
+			  <td>{{rows[rows.length-1].TOTAL_MORT_COM_AMOUNT/10000}}万元</td>
+			  <td>{{rows[rows.length-1].TOTAL_CASE_CON_PRICE/10000}}万元</td>
 			  <td>{{rows[rows.length-1].TOTAL_LOST_COUNT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_CASE_LOST_COUNT_PERCENT}}元</td>
-			  <td>{{rows[rows.length-1].TOTAL_LOST_AMOUNT}}元</td>
+			  <td>{{rows[rows.length-1].TOTAL_CASE_LOST_COUNT_PERCENT}}</td>
+			  <td>{{rows[rows.length-1].TOTAL_LOST_AMOUNT/10000}}万元</td>
 			  <td>{{rows[rows.length-1].TOTAL_CASE_LOST_AMOUNT_PERCENT}}</td>
 			  <td>{{rows[rows.length-1].TOTAL_PING_GU_COUNT_PERCENT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_EVA_FEE}}元</td>
+			  <td>{{rows[rows.length-1].TOTAL_EVA_FEE/10000}}万元</td>
 			  <td>{{rows[rows.length-1].TOTAL_E_COUNT_PERCENT}}</td>
 			  <td>{{rows[rows.length-1].TOTAL_CARD_COUNT_PERCENT}}</td>
 			  <td>{{rows[rows.length-1].TOTAL_E_AMOUNT_PERCENT}}</td>
