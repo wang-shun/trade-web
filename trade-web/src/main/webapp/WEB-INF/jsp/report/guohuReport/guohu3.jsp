@@ -415,7 +415,6 @@
 					   /*  var savadata=item; */
 					$.each(data.rows,function(j,item1){
 						if(item1.ORGANIZATION_ID==item.org_id){
-							alert(item.org_name);
 							item1.org_name=item.org_name;
 							nullData.rows[i]=item1;
 						    }
