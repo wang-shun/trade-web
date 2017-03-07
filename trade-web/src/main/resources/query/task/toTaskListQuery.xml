@@ -11,6 +11,7 @@
 		<customDict id="qqFindTranPlan" beanName="qqFindTranPlan" />
 		<customDict id="qqWorkflow" beanName="qqWorkflow" />
 		<customDict id="getMegerCuntByCaseCode" beanName="getMegerCuntByCaseCode" />
+		<customDict id="getTaskNameTypeByTaskName" beanName="getTaskNameTypeByTaskName" />
 
 	</dicts>
 	<formatters>
@@ -140,6 +141,7 @@
 				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" isDynamicDict="true" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,PART_CODE" index="" checkbox="" customDict="qqFindTranPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="WFE_NAME" isDynamicDict="true" display="流程环节" referencecol="BUSINESS_KEY" index="" checkbox="" customDict="qqWorkflow" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="cu" isDynamicDict="true" display="流程环节" referencecol="propertyCode" index="" checkbox="" customDict="getMegerCuntByCaseCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="taskNameType" isDynamicDict="true" display="流程环节名" referencecol="NAME" index="" checkbox="" customDict="getTaskNameTypeByTaskName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="propertyCode" index="" checkbox="" display="propertyCode" customDict="" sysDict="" />
 				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="CASE_ORIGIN" customDict="" sysDict="" />

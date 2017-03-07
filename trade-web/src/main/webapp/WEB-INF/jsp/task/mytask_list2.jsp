@@ -312,7 +312,7 @@ text-decoration: underline !important;
 							<p>
                               <i class="sign_blue">
 {{if item.CASE_ORIGIN =='CTM' || item.CASE_ORIGIN == 'INPUT'}}
-{{if item.cu >1}}
+{{if item.cu >1 && item.taskNameType }}
 <a  href="javascript:processfu('{{item.PKID}}',
 '{{item.propertyCode==null?null:item.propertyCode}}','{{item.CASE_CODE}}',
 '{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.MOBILE}}','{{item.AGENT_ORG_NAME}}',
@@ -435,7 +435,7 @@ text-decoration: underline !important;
                     <td class="text-center">
                            <i class="iconfont icon_revise">
 {{if item.CASE_ORIGIN =='CTM' || item.CASE_ORIGIN == 'INPUT'}}
- {{if item.cu >1}}
+ {{if item.cu >1 && item.taskNameType }}
 <a  href="javascript:processfu('{{item.PKID}}',
 '{{item.propertyCode==null?null:item.propertyCode}}','{{item.CASE_CODE}}',
 '{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.MOBILE}}','{{item.AGENT_ORG_NAME}}',
