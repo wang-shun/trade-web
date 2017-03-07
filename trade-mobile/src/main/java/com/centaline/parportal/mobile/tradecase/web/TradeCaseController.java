@@ -106,7 +106,10 @@ public class TradeCaseController {
 		
 		buildDataAuthorityParam(paramMap,user);
 		
-		paramMap.put("q_text", q_text);
+		if(!StringUtils.isBlank(q_text)){
+			paramMap.put("q_text", q_text);
+		}
+
 		if (null != onlyFocus && onlyFocus) {
 			paramMap.put("onlyFocus", onlyFocus);
 		}
