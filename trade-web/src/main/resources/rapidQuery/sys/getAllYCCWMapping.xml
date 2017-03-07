@@ -53,7 +53,7 @@
 			    select c.id,c.parent_id from o inner join sctrans.sys_org c on c.parent_id = o.id and c.is_deleted=0
 			) 
 		</if>
-			SELECT uoj.user_id,uoj.org_id, org.org_name,uoj.job_id,uoj.job_name,uoj.real_name FROM sctrans.v_user_org_job uoj 
+			SELECT uoj.user_id,uoj.org_id, org.org_name,uoj.job_code,uoj.job_name,uoj.real_name FROM sctrans.v_user_org_job uoj 
 			INNER join sctrans.sys_org org on uoj.org_id=org.id
 			<where>
 			 <trim prefix="and" prefixOverrides="and|or">
@@ -68,7 +68,7 @@
 			 <column name="user_id" title="user_id" hidden="true" />
 		     <column name="org_id" title="org_id" hidden="true" />
 		     <column name="org_name" title="org_name" hidden="true" />
-		     <column name="job_id" title="job_id" hidden="true" />
+		     <column name="job_code" title="job_code" hidden="true" />
 		     <column name="job_name" title="job_name" hidden="true" />
 		     <column name="real_name" title="real_name" hidden="true" />
 		</grid>

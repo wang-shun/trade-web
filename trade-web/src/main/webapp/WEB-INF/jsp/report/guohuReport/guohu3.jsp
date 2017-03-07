@@ -130,7 +130,8 @@
 <script id="template_table" type="text/html">
 	{{each rows as item index}}
 	<tr>
-		<td>{{item.EMPLOYEE_NAME}}</td>
+       
+		<td>{{item.org_name}} {{if item.job_code=='JQYDS'}}({{item.EMPLOYEE_NAME}}){{/if}}</td>
 		<td>{{item.CASE_COUNT}}</td>
 		<td>{{item.CASE_COUNT_PERCENT}}</td>
 		<td>{{item.CASE_CON_PRICE}}元</td>
@@ -186,6 +187,7 @@
 </script>
 <script type="text/javascript">
 	var ctx = $("#ctx").val();
+	var nullData;
 	function reloadGrid() {
 		var year = window.parent.yearDisplay;
 		var month_ = parseInt(window.parent.monthDisplay)+1;
@@ -247,6 +249,7 @@
 			async:true,
 			success : function(data) {
 				var optionHtml="";
+				nullData=data;
 				optionHtml+="<option value='0'>请选择</option>"
 				if(id!="dsId"){
 					$.each(data.rows,function(i,item){
@@ -262,6 +265,87 @@
 			error:function(){}
 		});
 
+	}
+	function initData(url,data,templateId,tbodyId) {
+		/*aist.wrap(data);*/
+		var sortColumn=$('span.active').attr("sortColumn");
+		var sortgz=$('span.active').attr("sord");
+		data.sidx=sortColumn;
+		data.sord=sortgz;
+		
+		var pagination = data.pagination;
+		
+		$.ajax({
+			async : true,
+			url : url,
+			method : "post",
+			dataType : "json",
+			data : data,
+			success : function(data) {
+				
+				if(data==null||data==undefined){
+                    window.parent.wxc.alert("数据加载失败！");
+					return;			
+				}
+ 				$.each(nullData.rows,function(i,item){
+					  item.E_AMOUNT_PERCENT = 0.0;
+					  item.TOTAL_CASE_COUNT = 0.0;
+					  item.TOTAL_E_AMOUNT_PERCENT = 0.0;
+					  item.TOTAL_IS_DELEGATE_YUCUI_COUNT = 0.0;
+					  item.TOTAL_EVA_FEE = 0.0;
+					  item.LOST_AMOUNT = 0.00;
+					  item.PING_GU_COUNT_PERCENT = 0.0;
+					  item.ORGANIZATION_ID="";
+					  item.TOTAL_CASE_PART= "合计",
+					  item.TOTAL_CARD_COUNT_PERCENT = 0.0;
+					  item.JOB_CODE = item.job_code;
+					  item.TOTAL_MORT_COM_AMOUNT =0.0;
+					  item.TOTAL_CASE_CON_PRICE = 0.0;
+					  item.CASE_COUNT_PERCENT = 0.0;
+					  item.MORT_COM_COUNT = 0;
+					  item.EVA_FEE = 0.00;
+					  item.TOTAL_E_COUNT_PERCENT = 0.0;
+					  item.EVA_COUNT= 0;
+					  item.TOTAL_CASE_LOST_AMOUNT_PERCENT = 0.0;
+					  item.TOTAL_IS_DELEGATE_CUSTOMER_COUNT = 0.0;
+					  item.TOTAL_MORT_COM_COUNT = 0.0;
+					  item.CASE_LOST_AMOUNT_PERCENT = 0.0;
+					    item.E_CARD_COUNT = 0;
+					    item.TOTAL_PING_GU_COUNT_PERCENT = 0.0;
+					    item.EMPLOYEE_NAME = item.real_name;
+					    item.TOTAL_LOST_COUNT = 0.0;
+					    item.E_COUNT_PERCENT = 0.0;
+					    item.MORT_COM_AMOUNT =0.00,
+					    item.TOTAL_CASE_LOST_COUNT_PERCENT = 0.0;
+					    item.TOTAL_LOST_AMOUNT = 0.0;
+					    item.CASE_CON_PRICE = 0.00;
+					    item.CASE_COUNT = 0;
+					    item.IS_DELEGATE_YUCUI_COUNT = 0;
+					    item.E_AMOUNT = 0.00;
+					    item.IS_DELEGATE_CUSTOMER_COUNT = 0;
+					   /*  var savadata=item; */
+					$.each(data.rows,function(j,item1){
+						if(item1.ORGANIZATION_ID==item.org_id){
+							item1.org_name=item.org_name;
+							item=item1;
+						    }
+
+					})
+					
+				}) 
+				data.ctx = ctx;
+				var templateData = template(templateId, nullData);
+				$("#"+tbodyId).empty();
+				$("#"+tbodyId).html(templateData);
+				
+		/* 		if(pagination == undefined || pagination){
+			        initpage(nullData.total,data.pagesize,data.page, data.records,tbodyId);
+				}  */
+			},
+			error : function(e, jqxhr, settings, exception) {
+				//$.unblockUI();
+			}
+		});
 	}
 </script
 </body>
