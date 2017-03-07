@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -42,33 +43,28 @@ public class ServiceRestartController {
 	@ResponseBody
 	public AjaxResponse<StartProcessInstanceVo> restart(Model model,
 			ServiceRestartVo vo) {
-		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();
-		//案件详情页面未刷新时判断时候可以流程重启
-		String caseCode = "";
-		if(null != vo){
-			caseCode = vo.getCaseCode() == null ? "":vo.getCaseCode();
-		}
-		ToCase  toCase = toCaseService.findToCaseByCaseCode(caseCode);
-		if(null != toCase){
-			String status = toCase.getStatus();
-			if(null != status && !"".equals(status)){
-				if("30001004".equals(status)){
-					resp.setSuccess(false);
-					resp.setMessage("此案件已过户，不能重启流程！");
-					return resp;
-				}
-			}			
-		}
 		
+		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();
 		SessionUser u = uamSessionService.getSessionUser();
-		vo.setUserId(u.getId());
+		String userId = u.getId();
+		
+		try{
+			boolean flag = serviceRestart.restartCheckout(vo,userId);
+			if(flag == false){
+				 resp.setSuccess(false);
+				 resp.setMessage("此案件已过户，不能重启流程！");
+				 return resp;
+			}
+		}catch(Exception e){
+			throw new BusinessException("重启流程异常！");	 
+		}
+
+		vo.setUserId(userId);
 		vo.setUserName(u.getUsername());
 		vo.setOrgId(u.getServiceDepId());		
 		
 		// 删除相关
-		StartProcessInstanceVo piv = serviceRestart
-				.restartAndDeleteSubProcess(vo);
-		
+		StartProcessInstanceVo piv = serviceRestart.restartAndDeleteSubProcess(vo);		
 		resp.setContent(piv);
 		return resp;
 	}
