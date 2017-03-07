@@ -134,15 +134,15 @@
 		<td>{{item.org_name}} {{if item.JOB_CODE=='JQYDS'}}({{item.EMPLOYEE_NAME}}){{/if}}</td>
 		<td>{{item.CASE_COUNT}}</td>
 		<td>{{item.CASE_COUNT_PERCENT}}</td>
-		<td>{{item.CASE_CON_PRICE}}元</td>
+		<td>{{item.CASE_CON_PRICE/10000}}万元</td>
 		<td>{{item.MORT_COM_COUNT}}</td>
-		<td>{{item.MORT_COM_AMOUNT}}元</td>
+		<td>{{item.MORT_COM_AMOUNT/10000}}万元</td>
 		<td>{{item.IS_DELEGATE_YUCUI_COUNT}}</td>
 		<td>{{item.IS_DELEGATE_CUSTOMER_COUNT}}</td>
-		<td>{{item.LOST_AMOUNT}}</td>
+		<td>{{item.LOST_AMOUNT/10000}}万元</td>
 		<td>{{item.CASE_LOST_AMOUNT_PERCENT}}</td>
 		<td>{{item.PING_GU_COUNT_PERCENT}}</td>
-		<td>{{item.EVA_FEE}}元</td>
+		<td>{{item.CASE_CON_PRICE/1000}}元</td>
 		<td>{{item.EVA_FEE}}元</td>
 		<td>{{item.E_COUNT_PERCENT}}</td>
 		<td>{{item.E_AMOUNT_PERCENT}}</td>
@@ -153,15 +153,15 @@
 		<td>{{rows[rows.length-1].TOTAL_CASE_PART}}</td>
 		<td>{{rows[rows.length-1].TOTAL_CASE_COUNT}}</td>
 		<td>1</td>
-		<td>{{rows[rows.length-1].TOTAL_CASE_CON_PRICE}}元</td>
+		<td>{{rows[rows.length-1].TOTAL_CASE_CON_PRICE/10000}}万元</td>
 		<td>{{rows[rows.length-1].TOTAL_MORT_COM_COUNT}}</td>
-		<td>{{rows[rows.length-1].TOTAL_MORT_COM_AMOUNT}}元</td>
+		<td>{{rows[rows.length-1].TOTAL_MORT_COM_AMOUNT/10000}}万元</td>
 		<td>{{rows[rows.length-1].TOTAL_IS_DELEGATE_YUCUI_COUNT}}</td>
 		<td>{{rows[rows.length-1].TOTAL_IS_DELEGATE_CUSTOMER_COUNT}}</td>
-		<td>{{rows[rows.length-1].TOTAL_LOST_AMOUNT}}元</td>
+		<td>{{rows[rows.length-1].TOTAL_LOST_AMOUNT/10000}}万元</td>
 		<td>{{rows[rows.length-1].TOTAL_CASE_LOST_AMOUNT_PERCENT}}</td>
 		<td>{{rows[rows.length-1].TOTAL_PING_GU_COUNT_PERCENT}}</td>
-		<td>{{rows[rows.length-1].TOTAL_EVA_FEE}}元</td>
+		<td>{{rows[rows.length-1].TOTAL_CASE_CON_PRICE/1000}}元</td>
 		<td>{{rows[rows.length-1].TOTAL_EVA_FEE}}元</td>
 
 		<td>{{rows[rows.length-1].TOTAL_E_COUNT_PERCENT}}</td>
@@ -282,59 +282,118 @@
 			dataType : "json",
 			data : data,
 			success : function(data) {
-				
 				if(data==null||data==undefined){
                     window.parent.wxc.alert("数据加载失败！");
 					return;			
 				}
- 				$.each(nullData.rows,function(i,item){
-					  item.E_AMOUNT_PERCENT = 0.0;
-					  item.TOTAL_CASE_COUNT = 0.0;
-					  item.TOTAL_E_AMOUNT_PERCENT = 0.0;
-					  item.TOTAL_IS_DELEGATE_YUCUI_COUNT = 0.0;
-					  item.TOTAL_EVA_FEE = 0.0;
-					  item.LOST_AMOUNT = 0.00;
-					  item.PING_GU_COUNT_PERCENT = 0.0;
-					  item.ORGANIZATION_ID="";
-					  item.TOTAL_CASE_PART= "合计",
-					  item.TOTAL_CARD_COUNT_PERCENT = 0.0;
-					  item.JOB_CODE = item.job_code;
-					  item.TOTAL_MORT_COM_AMOUNT =0.0;
-					  item.TOTAL_CASE_CON_PRICE = 0.0;
-					  item.CASE_COUNT_PERCENT = 0.0;
-					  item.MORT_COM_COUNT = 0;
-					  item.EVA_FEE = 0.00;
-					  item.TOTAL_E_COUNT_PERCENT = 0.0;
-					  item.EVA_COUNT= 0;
-					  item.TOTAL_CASE_LOST_AMOUNT_PERCENT = 0.0;
-					  item.TOTAL_IS_DELEGATE_CUSTOMER_COUNT = 0.0;
-					  item.TOTAL_MORT_COM_COUNT = 0.0;
-					  item.CASE_LOST_AMOUNT_PERCENT = 0.0;
-					    item.E_CARD_COUNT = 0;
-					    item.TOTAL_PING_GU_COUNT_PERCENT = 0.0;
-					    item.EMPLOYEE_NAME = item.real_name;
-					    item.TOTAL_LOST_COUNT = 0.0;
-					    item.E_COUNT_PERCENT = 0.0;
-					    item.MORT_COM_AMOUNT =0.00,
-					    item.TOTAL_CASE_LOST_COUNT_PERCENT = 0.0;
-					    item.TOTAL_LOST_AMOUNT = 0.0;
-					    item.CASE_CON_PRICE = 0.00;
-					    item.CASE_COUNT = 0;
-					    item.IS_DELEGATE_YUCUI_COUNT = 0;
-					    item.E_AMOUNT = 0.00;
-					    item.IS_DELEGATE_CUSTOMER_COUNT = 0;
+				$.each(nullData.rows,function(i,item){
+
+					if(data.rows[data.rows.length-1].TOTAL_CASE_COUNT){
+						item.TOTAL_CASE_COUNT = data.rows[data.rows.length-1].TOTAL_CASE_COUNT;
+					}else{
+						item.TOTAL_CASE_COUNT=0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_E_AMOUNT_PERCENT){
+						item.TOTAL_E_AMOUNT_PERCENT = data.rows[data.rows.length-1].TOTAL_E_AMOUNT_PERCENT;
+					}else{
+						item.TOTAL_E_AMOUNT_PERCENT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_IS_DELEGATE_YUCUI_COUNT){
+						item.TOTAL_IS_DELEGATE_YUCUI_COUNT = data.rows[data.rows.length-1].TOTAL_IS_DELEGATE_YUCUI_COUNT;
+					}else{
+						item.TOTAL_IS_DELEGATE_YUCUI_COUNT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_EVA_FEE){
+						item.TOTAL_EVA_FEE = data.rows[data.rows.length-1].TOTAL_EVA_FEE;
+					}else{
+						item.TOTAL_EVA_FEE = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_CARD_COUNT_PERCENT){
+						item.TOTAL_CARD_COUNT_PERCENT = data.rows[data.rows.length-1].TOTAL_CARD_COUNT_PERCENT;
+					}else{
+						item.TOTAL_CARD_COUNT_PERCENT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_MORT_COM_AMOUNT){
+						item.TOTAL_MORT_COM_AMOUNT = data.rows[data.rows.length-1].TOTAL_MORT_COM_AMOUNT;
+					}else{
+						item.TOTAL_MORT_COM_AMOUNT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_CASE_CON_PRICE){
+						item.TOTAL_CASE_CON_PRICE = data.rows[data.rows.length-1].TOTAL_CASE_CON_PRICE;
+					}else{
+						item.TOTAL_CASE_CON_PRICE = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_E_COUNT_PERCENT){
+						item.TOTAL_E_COUNT_PERCENT = data.rows[data.rows.length-1].TOTAL_E_COUNT_PERCENT;
+					}else{
+						item.TOTAL_E_COUNT_PERCENT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_CASE_LOST_AMOUNT_PERCENT){
+						item.TOTAL_CASE_LOST_AMOUNT_PERCENT = data.rows[data.rows.length-1].TOTAL_CASE_LOST_AMOUNT_PERCENT;
+					}else{
+						item.TOTAL_CASE_LOST_AMOUNT_PERCENT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_IS_DELEGATE_CUSTOMER_COUNT){
+						item.TOTAL_IS_DELEGATE_CUSTOMER_COUNT = data.rows[data.rows.length-1].TOTAL_IS_DELEGATE_CUSTOMER_COUNT;
+					}else{
+						item.TOTAL_IS_DELEGATE_CUSTOMER_COUNT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_PING_GU_COUNT_PERCENT){
+						item.TOTAL_PING_GU_COUNT_PERCENT = data.rows[data.rows.length-1].TOTAL_PING_GU_COUNT_PERCENT;
+					}else{
+						item.TOTAL_PING_GU_COUNT_PERCENT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_MORT_COM_COUNT){
+						item.TOTAL_MORT_COM_COUNT = data.rows[data.rows.length-1].TOTAL_MORT_COM_COUNT;
+					}else{
+						item.TOTAL_MORT_COM_COUNT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_LOST_COUNT){
+						item.TOTAL_LOST_COUNT = data.rows[data.rows.length-1].TOTAL_LOST_COUNT;
+					}else{
+						item.TOTAL_LOST_COUNT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_CASE_LOST_COUNT_PERCENT){
+						item.TOTAL_CASE_LOST_COUNT_PERCENT = data.rows[data.rows.length-1].TOTAL_CASE_LOST_COUNT_PERCENT;
+					}else{
+						item.TOTAL_CASE_LOST_COUNT_PERCENT = 0;
+					}
+					if(data.rows[data.rows.length-1].TOTAL_LOST_AMOUNT){
+						item.TOTAL_LOST_AMOUNT = data.rows[data.rows.length-1].TOTAL_LOST_AMOUNT;
+					}else{
+						item.TOTAL_LOST_AMOUNT = 0;
+					}
+					item.E_AMOUNT_PERCENT = 0.0;
+					item.LOST_AMOUNT = 0.00;
+					item.PING_GU_COUNT_PERCENT = 0.0;
+					item.ORGANIZATION_ID="";
+					item.TOTAL_CASE_PART= "合计",
+					item.JOB_CODE = item.job_code;
+
+					item.CASE_COUNT_PERCENT = 0.0;
+					item.MORT_COM_COUNT = 0;
+					item.EVA_FEE = 0.00;
+					item.EVA_COUNT= 0;
+
+					item.CASE_LOST_AMOUNT_PERCENT = 0.0;
+					item.E_CARD_COUNT = 0;
+					item.EMPLOYEE_NAME = item.real_name;
+					item.E_COUNT_PERCENT = 0.0;
+					item.MORT_COM_AMOUNT =0.00,
+					item.CASE_CON_PRICE = 0.00;
+					item.CASE_COUNT = 0;
+					item.IS_DELEGATE_YUCUI_COUNT = 0;
+					item.E_AMOUNT = 0.00;
+					item.IS_DELEGATE_CUSTOMER_COUNT = 0;
 					   /*  var savadata=item; */
-					alert("sss");
 					$.each(data.rows,function(j,item1){
 						if(item1.ORGANIZATION_ID==item.org_id){
 							item1.org_name=item.org_name;
 							nullData.rows[i]=item1;
 						    }
-
 					})
-					
+					//console.log(item);
 				})
-				console.info(nullData)
 				data.ctx = ctx;
 				var templateData = template(templateId, nullData);
 				$("#"+tbodyId).empty();
@@ -349,6 +408,6 @@
 			}
 		});
 	}
-</script
+</script>
 </body>
 </html>
