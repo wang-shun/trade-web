@@ -40,7 +40,9 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
+import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.common.vo.ToModuleSubscribeVo;
@@ -101,10 +103,14 @@ public class TradeCaseController {
 		gp.setRows(pageSize);
 
 		Map<String, Object> paramMap = gp.getParamtMap();
+		
+		buildDataAuthorityParam(paramMap,user);
+		
 		paramMap.put("q_text", q_text);
 		if (null != onlyFocus && onlyFocus) {
 			paramMap.put("onlyFocus", onlyFocus);
 		}
+		paramMap.put("isNotResearchCloseCase", true);
 		paramMap.put("status", status);
 		//全部案件
 		if(null != property && 30003006 != property){
@@ -120,6 +126,37 @@ public class TradeCaseController {
 		JSON json = Pages2JSONMoblie.pages2JsonMoblie(pages);
 		String resultStr = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue);
 		return resultStr;
+	}
+	
+	private void buildDataAuthorityParam(Map<String, Object> paramMap,SessionUser user){
+		boolean isAdminFlag = false;
+
+        StringBuffer reBuffer = new StringBuffer();
+        //如果登录用户不是交易顾问
+		if(!TransJobs.TJYGW.getCode().equals(user.getServiceJobCode())){
+			String depString = user.getServiceDepHierarchy();
+			String userOrgIdString = user.getServiceDepId();
+			//组别
+			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
+				reBuffer.append(userOrgIdString);
+			//区域
+			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
+				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
+				for(Org org:orgList){
+					reBuffer.append(org.getId());
+					reBuffer.append(",");
+				}
+				reBuffer.deleteCharAt(reBuffer.length()-1);
+				
+			}else{
+				isAdminFlag=true;
+			}
+		}
+		paramMap.put("queryOrgs", reBuffer.toString());
+		paramMap.put("isAdminFlag", isAdminFlag);
+		if(StringUtils.isBlank(reBuffer.toString())){
+			paramMap.put("idflag", true);
+		}
 	}
 	
 	private void buildZhongjieInfo(List<Map<String, Object>> list) {
@@ -391,7 +428,7 @@ public class TradeCaseController {
 	
     @RequestMapping(value = "{caseCode}/track")
     @ResponseBody
-    public String addTrack(@PathVariable("caseCode")String caseCode, @RequestBody CommentVo cmtVo) {
+    public String addTrack(@PathVariable("caseCode")String caseCode, CommentVo cmtVo) {
 
     	cmtVo.setCaseCode(caseCode);
         ToCaseComment track = new ToCaseComment();
