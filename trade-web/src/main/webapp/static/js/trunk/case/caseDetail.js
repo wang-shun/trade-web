@@ -1005,8 +1005,9 @@ function startCasePrairses() {
 		            } , 
 			success : function(data) {
 				if(data.success){
-					window.wxc.success("保存成功");
-					$('#pr-modal-form').modal("hide");
+					window.wxc.success("提交成功",{"wxcOk":function(){
+						$('#pr-modal-form').modal("hide");
+					}});
 				}else{
 					window.wxc.error(data.message);
 				}
@@ -1102,17 +1103,17 @@ function saveSrvItems(){
 		if(isDel)confirmStr = "您的选择会进行案件爆单操作，是否继续？";
 		
 		if(!isRes && !isDel){
-			serviceChangeApply(params);
+			serviceChangeApply(params,url);
 		}
 		else {
 			window.wxc.confirm(confirmStr,{"wxcOk":function(){
-				serviceChangeApply(params);
+				serviceChangeApply(params,url);
 			}});
 		}
 	}});
 }
 
-function serviceChangeApply(params){
+function serviceChangeApply(params,url){
 	$.ajax({
 		cache : false,
 		async : true,
@@ -1144,10 +1145,11 @@ function serviceChangeApply(params){
 					window.location.reload();
 					window.location.href=ctx+"/task/ServiceChangeApply?&caseCode="+caseCode +"&taskId="+data.content;
 				}else{
-					window.wxc.success("保存成功");
-					window.location.reload();
-					changeSrvsHidden();
-					$('#srv-modal-form').modal("hide");
+					window.wxc.success("提交成功！",{"wxcOk":function(){
+						window.location.reload();
+						changeSrvsHidden();
+						$('#srv-modal-form').modal("hide");
+					}});
 				}
 			}else{
 				window.wxc.error(data.message);
@@ -1275,12 +1277,12 @@ function resetPlanModal(){
 				inHtml+='<span style="position: relative; z-index: 9999;">';
 				inHtml+='<div class="input-group date"><span class="input-group-addon">';
 				inHtml+='<i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>';
-				inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" onchange="javascript:changeEstTime('+k+')">';
+				inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime('+k+')">';
 				inHtml+='</div>	</span></div>';
 				inHtml+='<div class="col-lg-1 control-label">';
 				inHtml+= '变更理由';
 				inHtml+='</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
-				inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="">';
+				inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
 				inHtml+='</div>';
 				inHtml+='</div>';
 
@@ -1303,6 +1305,12 @@ function resetPlanModal(){
 function changeEstTime(index){
 	$("#isChange_"+index).val("true");
 }
+
+function initBorderColor(obj){
+	$(obj).css("border-color","#e5e6e7");
+}
+
+
 //交易计划变更 - 保存
 function savePlanItems(){
 	var url = "/case/savePlanItems";
@@ -1326,7 +1334,30 @@ function savePlanItems(){
 		}
 		isChanges.push($(this).val());
 	});
-
+	
+	var isChange = false;
+	$("#plan-form input[name='estPartTime']").each(function(index){
+		var newEstPartTime = this.value;
+		var oldEstPartTime = $(this).attr("lang");
+		
+		if(newEstPartTime != oldEstPartTime){
+			var reason = $("#whyChange_" + index).val();
+			
+			if(reason == ""){
+				$("#whyChange_" + index).css("border-color","red");
+				isChange = true;
+				return false;
+			}
+		}
+		
+	});
+	
+	
+	if(isChange){
+		window.wxc.alert("变更理由为必填项！");
+		return false;
+	}
+	
 	$("#plan-form").find("input:text[name='estPartTime']").each(function(k) {
 		if($(this).val()==""||$(this).val().trim==""){
 			msg = "交易计划不允许为空";
@@ -1372,8 +1403,9 @@ function savePlanItems(){
 	            } , 
 		success : function(data) {
 			if(data.success){
-				window.wxc.success("保存成功");
-				window.location.reload();
+				window.wxc.success("提交成功",{"wxcOk":function(){
+					window.location.reload();
+				}});
 			}else{
 				window.wxc.error(data.message);
 			}
@@ -1604,6 +1636,7 @@ function serviceRestart(){
 		info="点击该按钮将会启动流程重启审批流程，您确定要启动该流程吗？";
 	}
 	
+	
 	window.wxc.confirm(info,{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
@@ -1623,9 +1656,11 @@ function serviceRestart(){
 				  });
 		        }
 		   } , success:function(data){
+			   console.log("===Result==="+JSON.stringify(data));
 				if(!data.success){
 					$.unblockUI();   
 					window.wxc.error(data.message);
+				
 				}else{
 					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
 				}
@@ -1633,6 +1668,8 @@ function serviceRestart(){
 		});
 	}});
 }
+
+
 function caseReset(){
 	window.wxc.confirm("您的操作将恢复案件至未分单状态，是否确定要重置案件？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();

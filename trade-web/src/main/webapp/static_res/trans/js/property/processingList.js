@@ -120,13 +120,13 @@ function checkIsExistFile(isSubmit){
 		data : "",
 		success : function(data) {
 			if (data.success == false) {
-				alert(data.message);
+				window.wxc.error(data.message);
 			} else {
 				commitDispose(isSubmit);
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
+			window.wxc.error("处理出错,请刷新后再次尝试！");
 		}
 	});
 }
@@ -148,14 +148,22 @@ function commitDispose(isSubmit){
 			executorId:executorId
 		} ,
 		success : function(data) {
-			alert(data.message)
+			var message = "";
 			if (data.success) {
-				$("#modal-form").modal("hide");
-				reloadGrid();
+				if(isSubmit){
+					message = "提交成功！";
+				}else{
+					message = "保存成功！";
+				}
+				
+				window.wxc.success(message,{"wxcOk":function(){
+					$("#modal-form").modal("hide");
+					reloadGrid();
+				}});
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
+			window.wxc.error("处理出错,请刷新后再次尝试！");
 		}
 	});
 }
@@ -262,12 +270,12 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 	}
 	function checkForm(){
 		if($("#executor").val() == ''){
-			alert('请选择执行人！');
+			window.wxc.alert('请选择执行人！');
 			return false;
 		}
 		if(!~~$('input[name="isScuess"]:checked ').val()){
 			if($('#unSuccessReason').val()==''){
-				alert('请输入无效原因！');
+				window.wxc.alert('请输入无效原因！');
 				return false;
 			}
 		}
@@ -279,6 +287,14 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 			if(!checkAttachment()){
 				return false;
 			}
+		}
+		
+		//验证上传文件是否全部上传
+		var isCompletedUpload = fileUpload.isCompletedUpload();
+		
+		if(!isCompletedUpload){
+			window.wxc.alert("产调附件还未全部上传!");
+			return false;
 		}
 		
 		if(!checkForm()){
@@ -300,7 +316,7 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 
 	function checkOrg(o){
 		if(o.extendField!='yucui_district'){
-			alert('请选择一个贵宾服务总进行转组');
+			window.wxc.alert('请选择一个贵宾服务总进行转组');
 			return false;
 		}
 		return true;
@@ -334,14 +350,15 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 			dataType : "json",
 			data :transferData,
 			success : function(data) {
-				alert(data.message)
 				$.unblockUI();
 				if(data.success){
-					reloadGrid();
+					window.wxc.success(data.message,{"wxcOk":function(){
+						reloadGrid();
+					}});
 				}
 			},
 			error : function(errors) {
-				alert("处理出错,请刷新后再次尝试！");
+				window.wxc.error("处理出错,请刷新后再次尝试！");
 				  $.unblockUI();
 			}
 		});

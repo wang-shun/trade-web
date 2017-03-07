@@ -38,39 +38,41 @@
 		<searchCondition>
            <condition field="ctd.CTM_CODE"  name="ctmNo" label="CTM编号" searchType="LIKE" />
            <condition field="ctd.CASE_CODE" name="caseNo" label="案件编号" searchType="LIKE" />		
-           <condition field="pi.PROPERTY_ADDR" name="caseAddr" label="案件地址" searchType="LIKE" />		
         </searchCondition>	
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 
-					SELECT ctd.pkid
-						,ctd.CASE_CODE
-						,ctd.CTM_CODE
-						,ctd.AGENT_NAME
-						,pi.PROPERTY_ADDR
-						,ctd.GRP_CODE AS AGENT_ORG_CODE
-						,tc.status
-						,ctd.IMPORT_TIME AS CREATE_TIME
-						,tst.YU_TEAM_CODE YU_TEAM_CODE
-						,ctd.AGENT_CODE AS USER_ID,ctd.AGENT_PHONE,ctd.QYZJ_NAME as qyzjNAME
-						,iif(ctd.QYJL_NAME is null or ctd.QYJL_NAME = '',ctd.qyzj_name,ctd.QYJL_NAME ) LEADER
-						,pi.PROPERTY_CODE propertyCode,
-						pi.PROPERTY_CODE,
+					SELECT ctd.pkid,
+						ctd.CASE_CODE,
+						ctd.CTM_CODE,
+						ctd.AGENT_NAME,
+						ctd.GRP_CODE AS AGENT_ORG_CODE,
+						ctd.IMPORT_TIME AS CREATE_TIME,
+						tst.YU_TEAM_CODE YU_TEAM_CODE,
+						ctd.AGENT_CODE AS USER_ID,
+						ctd.AGENT_PHONE,
+						ctd.QYZJ_NAME as qyzjNAME,
+						iif(ctd.QYJL_NAME is null or ctd.QYJL_NAME = '',ctd.qyzj_name,ctd.QYJL_NAME ) LEADER,
 						tc.CASE_ORIGIN,
 						tc.pkid cpkid ,
+						tc.STATUS,
 						ctd.GRP_NAME as ORG_NAME
 					FROM sctrans.T_TO_CASE_INFO ctd
 					INNER JOIN sctrans.T_TS_TEAM_SCOPE_TARGET tst ON ctd.TARGET_CODE = tst.GRP_CODE and tst.IS_RESPONSE_TEAM = 1
-					LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON pi.CASE_CODE = ctd.CASE_CODE
-					inner JOIN sctrans.T_TO_CASE tc ON tc.CASE_CODE = ctd.CASE_CODE
+					INNER JOIN sctrans.T_TO_CASE tc ON tc.CASE_CODE = ctd.CASE_CODE
 					where (tc.STATUS = '30001001' or tc.STATUS  is null)
-						and exists ( select 1 from sctrans.SYS_ORG soh
+					AND EXISTS ( SELECT 1 from sctrans.SYS_ORG soh
 							 where soh.id = #orgId# and tst.yu_team_code = soh.org_code)
+					AND EXISTS(SELECT 1 FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE = ctd.CASE_CODE 
+			    		<ifNotNull propertyAddr>
+			    		         AND PROPERTY_ADDR like '%' + #propertyAddr# + '%'
+			    		</ifNotNull>
+			    		         ) 
 				]]>
 			</baseSql>
 			<orderBySql>
-			   ORDER BY CREATE_TIME desc, ctd.CASE_CODE DESC 
+			   ORDER BY CREATE_TIME desc, ctd.PKID DESC 
 			</orderBySql>
 		</searchSql>
 		<grid>
@@ -78,12 +80,10 @@
 				<column type="both" name="PKID"   display="CASEID" hide="true"/>
 				<column type="both" name="cpkid"   display="cpkid" />
 				<column type="both" name="CASE_CODE"   display="案件编号"   />
-				<column type="both" name="PROPERTY_ADDR"   display="产证地址" />
 				<column type="both" name="STATUS"   display="案件状态" customDict="getStatusNameByCode" />
 				<column type="both" name="CREATE_TIME"   display="派单时间"   beanFormatter="dateFormatter1"  />
 				<column type="both" name="AGENT_ORG_CODE"  />
 				<column type="both" name="LEADER"  	title="区经/区总" />	
-				<column type="both" name="propertyCode"  	title="propertyCode" />	
 				<column type="both" name="YU_TEAM_CODE" display="YU_TEAM_CODE"/>
 				<column type="both" name="AGENT_NAME" display="经纪人" />
 				<column type="both" name="USER_ID" />
@@ -95,8 +95,7 @@
 				<column type="both" name="CASE_ORIGIN" display="CASE_ORIGIN" />
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="PROPERTY_CODE"  	title="PROPERTY_CODE" />	
-				<column type="virtual" isDynamicDict="true" name="cuNu" referencecol="PROPERTY_CODE,CASE_ORIGIN"  customDict="getGlCaseCount" />
+				<column type="virtual" isDynamicDict="true" name="PROPERTY_ADDR,PROPERTY_CODE,glCount" display="产证地址,PROPERTY_CODE,glCount" referencecol="CASE_CODE,CASE_ORIGIN"  customDict="getGlCaseCount" />
 			</table-row>
 		</grid>
 	</query>

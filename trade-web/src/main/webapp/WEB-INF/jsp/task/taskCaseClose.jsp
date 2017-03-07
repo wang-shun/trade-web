@@ -76,7 +76,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<!-- 主要内容页面 -->
 	<div class="wrapper wrapper-content">
-		<div class="row animated fadeInDown">
+		<div class="row animated fadeInDown" id="serviceFlow">
 			<div class="scroll_box fadeInDown animated marginbot">
 				<div class="row wrapper white-bg new-heading ">
 					<div class="pl10">
@@ -506,17 +506,17 @@
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">贷款金额</label>
-														<input class=" input_type yuanwid" id="mortTotalAmount"  name="mortTotalAmount" onkeyup="checkNum(this)"
+														<input class=" input_type yuanwid" id="mortTotalAmount"  name="mortTotalAmount" onkeyup="checkNum(this)" 
 												value="<fmt:formatNumber value='${ editCaseDetailVO.mortTotalAmount}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">公积金贷款金额</label>
-														<input class=" input_type yuanwid" id="prfAmount" name="prfAmount" onkeyup="checkNum(this)"
+														<input class=" input_type yuanwid" id="prfAmount" name="prfAmount" onkeyup="checkNum(this)" 
 												value="<fmt:formatNumber value='${ editCaseDetailVO.prfAmount}' type='number' pattern='#0.00' />">  <span class="date_icon">万元</span>
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">公积金贷款年限</label>
-														<input class=" input_type yuanwid" id="prfYear" name="prfYear" value="${ editCaseDetailVO.prfYear}" onkeyup="checkNum2(this)"> <span class="date_icon">万元</span>
+														<input class=" input_type yuanwid" id="prfYear" name="prfYear" value="${ editCaseDetailVO.prfYear}" onkeyup="checkNum2(this)"> <span class="date_icon">年</span>
 													</div>
 
 												</div>
@@ -528,7 +528,7 @@
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">商贷年限</label>
-														<input class=" input_type yuanwid" id="comYear" name="comYear" value="${ editCaseDetailVO.comYear}">
+														<input class=" input_type yuanwid" id="comYear" name="comYear" value="${ editCaseDetailVO.comYear}"><span class="date_icon">年</span>
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">商贷利率折扣</label>
@@ -616,17 +616,17 @@
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">信贷员</label> <input
-															class=" input_type yuanwid" id="loanerName" readonly="readonly" disabled="disabled" name="loanerName" value="${ editCaseDetailVO.loanerName}">
+															class=" input_type yuanwid" id="loanerName" readonly="readonly"  name="loanerName" value="${ editCaseDetailVO.loanerName}">
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">信贷员电话</label>
-														<input class=" input_type yuanwid" readonly="readonly" disabled="disabled" id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
+														<input class=" input_type yuanwid" readonly="readonly"  id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
 													</div>
 												</div>
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">评估公司</label>
-														<input class=" input_type yuanwid" readonly="readonly" disabled="disabled" id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
+														<input class=" input_type yuanwid" readonly="readonly"  id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
 													</div>
 												</div>
 												<div class="line">
@@ -666,23 +666,23 @@
 
 							</div>
 
-					<div class="clearfix">
+					<div class="clearfix" id="aboutInfo">
 						<h2 class="newtitle title-mark">审批记录</h2>
 						<div class="jqGrid_wrapper">
 							<table id="reminder_list"></table>
 							<div id="pager_list_1"></div>
 						</div>
 					</div>
-					<!-- 案件备注信息 -->
-					<div id="caseCommentList" class="view-content"></div>
-					<div class="form-btn">
-						<div class="text-center">
-							<button class="btn btn-success btn-space" onclick="save(false)">保存</button>
-							<button class="btn btn-success btn-space" onclick="submitFrom()">提交</button>
-						</div>
-					</div>
 				</div>
 				</form>
+				<!-- 案件备注信息 -->
+				<div id="caseCommentList" class="view-content"></div>
+				<div class="form-btn">
+					<div class="text-center">
+						<button class="btn btn-success btn-space" onclick="save(false)">保存</button>
+						<button class="btn btn-success btn-space" onclick="submitFrom()">提交</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -701,6 +701,7 @@
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script>
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
 	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script>
 
 	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script>
 	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
@@ -738,8 +739,9 @@
 			$('#basicInfo').viewer();
 		}
 		
+		//select框 设置只读
 		function readOnlyF(){
-			$("#mortType").attr("disabled","disabled");
+			$("#mortType").attr("disabled","disabled"); //贷款类型
 			$("#isDelegateYucui").attr("disabled","disabled");
 			$("#lastLoanBank").attr("disabled","disabled");
 			$("#custCode").attr("disabled","disabled");
@@ -747,13 +749,22 @@
 		}
 		$(document).ready(function() {
 			isAccumulation=$('#mortType').val()=='30016003';
-			if(isAccumulation){
+/* 			if(isAccumulation){
 				$('#comAmount').val('').attr("disabled","disabled");
 				$('#comYear').val('').attr("disabled","disabled");
 			}else if($('#mortType').val()=='30016001'){
 				$('#prfAmount').val('').attr("disabled","disabled");
 				$('#prfYear').val('').attr("disabled","disabled");
-			}
+			} */
+			
+			$('#comAmount').attr("readonly","readonly");
+			$('#comYear').attr("readonly","readonly");
+			$('#comDiscount').attr("readonly","readonly");
+			$('#mortTotalAmount').attr("readonly","readonly");
+			//$("#tab-2").find("select").attr("disabled","disabled");			
+			$('#prfAmount').attr("readonly","readonly");
+			$('#prfYear').attr("readonly","readonly");
+			
 			
 			if(!~~loanReq){
 				$("#tab-2").find("input").attr("disabled","disabled");
@@ -999,6 +1010,7 @@
 			if(flag){
 				var url = ctx+"/task/CaseClose/saveCaseClose";
 				if(b) {
+					
 					url = ctx+"/task/CaseClose/submitCaseClose";
 				}
 				$.ajax({
@@ -1026,18 +1038,19 @@
 	    		  			});	 
 	    		                } 
 	    		            } , 
-					success : function(data) {
-							if(data.message){
-								window.wxc.success(data.message);
-							}
-							if(window.opener)
-						    {
-								 window.close();
-								 window.opener.callback();
-						    } else {
-						    	 window.location.href = "${ctx }/task/myTaskList";
-						    } 
-							//window.location.href = "${ctx }/task/myTaskList";
+	    		            
+	    			success : function(data) {
+								if(data.message){
+									window.wxc.alert(data.message);
+								}
+								if(window.opener)
+							    {
+									 window.close();
+									 window.opener.callback();
+							    } else {
+							    	 window.location.href = "${ctx }/task/myTaskList";
+							    } 
+								//window.location.href = "${ctx }/task/myTaskList";
 					},
 					error : function(errors) {
 						window.wxc.error("数据保存出错");

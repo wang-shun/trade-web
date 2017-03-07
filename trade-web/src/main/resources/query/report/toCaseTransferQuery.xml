@@ -4,9 +4,7 @@
 	
 	
 		<customDict id="getCaseInfo" beanName="getCaseInfo"></customDict>
-		<customDict id="convertValue" beanName="convertValue"></customDict>
 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
-		<customDict id="qqManagerByOrgIdAndJobCode" beanName="qqManagerByOrgIdAndJobCode"></customDict>
 		<customDict id="qqProaddrByCaseCode" beanName="qqProaddrByCaseCode"></customDict>
 	</dicts>
 	<formatters>
@@ -66,7 +64,7 @@
 												AND AT.END_TIME_ &lt;= #transferDateEnd#
 											</if>
 									) P1 WHERE P1.RANKID = 1
-								)TASKHISTORY1 ON TASKHISTORY1.PROC_INST_ID_ = CONVERT(NVARCHAR(64),W.INST_CODE)							
+								)TASKHISTORY1 ON TASKHISTORY1.PROC_INST_ID_ = W.INST_CODE						
 							</if>
 
 						<if test="(caseTransferDateStart != null  and caseTransferDateStart != '')  or  (caseTransferDateEnd != null  and caseTransferDateEnd != '')">	
@@ -83,7 +81,7 @@
 												AND AT.END_TIME_ &lt;= #caseTransferDateEnd#
 											</if>
 									) P2 WHERE P2.RANKID = 1
-								)TASKHISTORY2 ON TASKHISTORY2.PROC_INST_ID_ = CONVERT(NVARCHAR(64),W.INST_CODE)						
+								)TASKHISTORY2 ON TASKHISTORY2.PROC_INST_ID_ = W.INST_CODE						
 							</if>
 					where 1=1
 					<if test="propertyAddr != null and propertyAddr !='' ">
@@ -95,8 +93,8 @@
 					<if test="caseCode != null and caseCode != ''">					
 						AND C.CASE_CODE = #caseCode#  
 					</if>
-					<if test="vrealName != null and vrealName != ''">					
-						AND I.QJDS_NAME LIKE '%' + #vrealName# + '%'
+					<if test="vrealName != null and vrealName != ''">	
+					   AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE_INFO I WHERE C.CASE_CODE = I.CASE_CODE AND I.QJDS_NAME LIKE '%' + #vrealName# + '%' )			
 					</if>
 					<if test="managerName != null and managerName != ''">	
 						AND EXISTS( SELECT 1 FROM sctrans.V_USER_ORG_JOB_ACTIVE UA WHERE UA.USER_ID = #managerName# AND JOB_CODE = 'Manager' AND UA.ORG_ID = C.ORG_ID)						
@@ -123,23 +121,15 @@
 			<table-row>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="qqProaddrByCaseCode"  referencecol="CASE_CODE"/>
+				<!-- <column type="virtual" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="qqProaddrByCaseCode"  referencecol="CASE_CODE"/> -->
 				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
-
-				<column type="virtual" name="REAL_NAME" index="" checkbox="" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/>
-				<column type="virtual" name="ORG_NAME" index="" checkbox="" display="组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
+				<column type="virtual" name="REAL_NAME,ORG_NAME" index="" checkbox="" display="主管,组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
 				<column type="both" name="TRANSFERDATE" index="" checkbox="" display="过户时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CASETRANSFERDATE" index="" checkbox="" display="过户审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="status" index="" checkbox="" display="是否审批通过" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				
-				<column type="virtual" name="GRP_NAME,AR_NAME,WZ_NAME,QJDS_NAME" title="店组,片区,区域,区董" customDict="getCaseInfo" hidden="false" referencecol="CASE_CODE"/>
-<!-- 				
-				<column type="both" name="GRP_NAME" index="" checkbox="" display="店组" customDict="" sysDict="" format="" width="" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="AR_NAME" index="" checkbox="" display="片区" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="WZ_NAME" index="" checkbox="" display="区域" customDict="" sysDict="" format="" width="60" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="QJDS_NAME" index="" checkbox="" display="区董" customDict="" sysDict="" format="" width="120" isSort="" align="" halign="" order="" resizable="" />
- -->
-				<column type="virtual" name="N_STATUS" display="是否审批通过"  referencecol="status"  customDict="convertValue"/>
+				<column type="virtual" name="GRP_NAME,AR_NAME,WZ_NAME,QJDS_NAME,PROPERTY_ADDR,N_STATUS" title="店组,片区,区域,区董,产证地址,是否审批通过" customDict="getCaseInfo" hidden="false" referencecol="CASE_CODE,status"/>
+				<!-- <column type="virtual" name="N_STATUS" display="是否审批通过"  referencecol="status"  customDict="convertValue"/> -->
 			</table-row>
 		</grid>
 	</query>

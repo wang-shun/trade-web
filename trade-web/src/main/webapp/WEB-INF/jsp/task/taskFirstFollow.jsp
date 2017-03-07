@@ -643,6 +643,7 @@
 								}
 							},
 							success : function(data) {
+								console.log(data);
 								if (b) {
 									if(data.message){
 										window.wxc.alert(data.message);
@@ -652,9 +653,10 @@
 									if (data.firstFollowVO.isrepeat == true) {
 										window.wxc.alert("请不要重复保存数据");
 									} else {
-										window.wxc.success("保存成功.");
-										window.close();
-										window.opener.callback();
+										window.wxc.success("保存成功.",{"wxcOk":function(){
+											window.close();
+											window.opener.callback();
+										}});
 									}
 								}
 							},

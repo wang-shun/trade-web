@@ -10,12 +10,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.ss.formula.functions.T;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -26,6 +30,7 @@ import com.centaline.trans.signroom.entity.TradeCenterSchedule;
 import com.centaline.trans.signroom.service.ResFlowupService;
 import com.centaline.trans.signroom.service.ReservationService;
 import com.centaline.trans.signroom.service.RmSignRoomService;
+import com.centaline.trans.signroom.vo.CanceReservionVo;
 import com.centaline.trans.signroom.vo.ChangeRoomResult;
 import com.centaline.trans.signroom.vo.ReservationVo;
 import com.centaline.trans.signroom.vo.SaveResFlowupResult;
@@ -41,6 +46,8 @@ import com.centaline.trans.signroom.vo.StartAndEndUseResult;
 @Controller
 @RequestMapping(value = "/reservation")
 public class ReservationManageController {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private ReservationService reservationService;
@@ -324,5 +331,27 @@ public class ReservationManageController {
 		// startAndEndUseResult.setOperateDateTime(operateDateTime);
 
 		return startAndEndUseResult;
+	}
+	
+	/**
+	 * 签约室排班
+	 * @return
+	 */
+	@RequestMapping("/canceReservation")
+	@ResponseBody
+	public AjaxResponse<T> canceReservation(CanceReservionVo canceReservionVo){
+		AjaxResponse<T> response = new AjaxResponse<T>();
+		try{
+			rmSignRoomService.canceReservation(canceReservionVo);
+			response.setCode("400");
+			response.setMessage("签约室预约取消成功！");
+			response.setSuccess(true);
+		}catch(Exception e){
+			logger.error("签约室预约取消失败:", e);
+			response.setCode("500");
+			response.setMessage("签约室预约取消失败！");
+			response.setSuccess(false);
+		}
+		return response;
 	}
 }

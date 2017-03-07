@@ -114,7 +114,7 @@ function searchMethod(page) {
 		params.queryId = "findToMortgageIsActive";
 		reloadGrid(params);
 	} else {
-		alert("请不要选择同样的日期类型！");
+		window.wxc.alert("请不要选择同样的日期类型！");
 	}
 };
 

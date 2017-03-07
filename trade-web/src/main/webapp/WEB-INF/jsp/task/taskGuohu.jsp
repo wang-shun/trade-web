@@ -209,6 +209,7 @@
 	                            <input type="text" name="comYear" id="comYear"
 									value="${toMortgage.comYear }" class=" input_type yuanwid"
 									onkeyup="checknum(this)">
+								<span class="date_icon">年</span>
 	                        </div>
 	                        <div class="form_content">
 	                            <label class="control-label sign_left_small">商贷利率折扣</label> 
@@ -231,7 +232,7 @@
 	                            <input type="text" name="prfYear" id="prfYear"
 									value="${toMortgage.prfYear }" class=" input_type yuanwid"
 									onkeyup="checknum(this)">
-	                           <span class="date_icon">万元</span>
+	                           <span class="date_icon">年</span>
 	                        </div>
 	                    </div>
 	                    </c:if>
@@ -346,21 +347,30 @@
         }
 		$(document).ready(
 				function() {
+					
+					//过户环节贷款信息不能修改
+ 					$('#mortType').attr("readonly","readonly");					
+					$('#mortTotalAmount').attr("readonly","readonly");
+					$('#comAmount').attr("readonly","readonly");
+					$('#comYear').attr("readonly","readonly");
+					$('#comDiscount').attr("readonly","readonly");
+					$('#prfAmount').attr("readonly","readonly");
+					$('#prfYear').attr("readonly","readonly");
+					
+					
 					var isDelegateYucui = '${toMortgage.isDelegateYucui}';
 					var initMortType = '${toMortgage.mortType}';
 					if (isDelegateYucui == '1') {
 						if ('30016003' == initMortType) {
-							$("select[name='mortType']").prop('disabled',
-									true);
+							$("select[name='mortType']").prop('disabled',true);
 						} else {
-							$("select[name='mortType']").each(
-									function() {
-										$(this).find(
-												"option[value='30016003']")
-												.remove();
-									});
+							$("select[name='mortType']").each(function() {
+								$(this).find("option[value='30016003']").remove();
+							});
 						}
 					}
+					
+					$("select[name='mortType']").prop('disabled',true);	//待定				
 
 					if ('caseDetails' == source) {
 						readOnlyForm();
@@ -507,6 +517,13 @@
 		/**提交数据*/
 		function submit() {
 			if (checkAttachments()) {
+				//验证上传文件是否全部上传
+				var isCompletedUpload = fileUpload.isCompletedUpload();
+				
+				if(!isCompletedUpload){
+					window.wxc.alert("附件还未全部上传!");
+					return false;
+				}
 				save(true);
 			}
 		}
@@ -568,6 +585,7 @@
 		}
 		
 		function  goProcess(b){	
+			
 			if (!checkForm()) {
 				return false;
 			}
@@ -628,19 +646,20 @@
 					}
 				},
 				success : function(data) {						
-					if (b) {
+					$.unblockUI();
+					if (b) {						
 						caseTaskCheck();						
 						if (null != data.message) {
 							window.wxc.alert(data.message);
-						}
+						}						
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
-						window.wxc.success("保存成功。");
-						if (window.opener != null) {
-							window.close();
-							window.opener.callback();
-						}
-
+						window.wxc.success("保存成功。",{"wxcOk":function(){
+							if (window.opener != null) {
+								window.close();
+								window.opener.callback();
+							}
+						}});
 					}
 				},
 				error : function(errors) {
@@ -761,9 +780,11 @@
 	</script> </content>
 	<content tag="local_require">
     <script>
+    	var fileUpload;
 	    require(['main'], function() {
 	    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-			    aistFileUpload.init({
+	    		fileUpload = aistFileUpload;
+	    		fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "Guohu",
 		    		fileUploadContainer : "guohufileUploadContainer"

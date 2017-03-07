@@ -51,7 +51,7 @@ server:
 #数据源
 dataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://10.4.19.22:1433;databaseName=sctrans_dev
+  url: jdbc:sqlserver://10.28.19.215:1433;databaseName=sctrans_dev
   username: dev
   password: dev.good
   maxActive: 10
@@ -60,7 +60,7 @@ dataSource:
 #数据源
 readOnlyDataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://10.4.19.22:1433;databaseName=sctrans_dev
+  url: jdbc:sqlserver://10.28.19.215:1433;databaseName=sctrans_dev
   username: dev
   password: dev.good
   maxActive: 11

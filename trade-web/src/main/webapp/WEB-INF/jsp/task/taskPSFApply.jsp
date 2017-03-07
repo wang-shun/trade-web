@@ -91,10 +91,11 @@
                 <div class="jqGrid_wrapper">
 				       <div class="jqGrid_wrapper">
 					     <table id="reminder_list"></table>
-					     <div id="pager_list_1"></div>	
-	                    <button type="button" class="btn btn-primary mt20" id="sendSMS">
-	                        <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
-	                    </button>
+					     <div id="pager_list_1"></div>
+					     <!-- <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS"> -->	
+	                     <button type="button" class="btn btn-icon btn-grey-border mt20">
+		                    <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
+		                 </button>
                   </div>
                 </div>
             </div>
@@ -414,12 +415,13 @@
 						caseTaskCheck();
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
-						window.wxc.success("保存成功。");
+						window.wxc.success("保存成功。",{"wxcOk":function(){
+							window.close();
+						 	window.opener.callback();
+						}});
 						/* if(data.content != null && data.content != ""){
 							$("#pkid").val(data.content);
 						} */
-						window.close();
-					 	window.opener.callback();
 					}
 				},
 				error : function(errors) {

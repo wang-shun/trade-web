@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.mortgage.vo.ToEvaReportVo;
 import com.centaline.trans.remote.vo.BankSearchVo;
 import com.centaline.trans.remote.vo.DisagreeApplyVo;
@@ -20,7 +21,7 @@ public interface EguService {
 
 	String saveAttachment(MortgageAttamentVo mortgageAttament);
 
-	void assess(HouseInfoVo houseInfo) throws JsonParseException,
+	AjaxResponse<String> assess(AjaxResponse<String> response, HouseInfoVo houseInfo) throws JsonParseException,
 			JsonMappingException, IOException;
 
 	void disagree(DisagreeApplyVo disagreeApply)

@@ -466,11 +466,11 @@
     </div>
 	<!-- main End -->
 	<content tag="local_script"> 
-	   <script src="${ctx}/js/inspinia.js"></script> 
-	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> 
+	   <%-- <script src="${ctx}/js/inspinia.js"></script> 
+	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script>  --%>
 	   <!-- 开关按钮js -->
        <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
-       <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
+       <%-- <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> --%>
        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
        <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
        <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>

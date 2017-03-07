@@ -143,7 +143,7 @@
 	                </li>
 	                <li>
 	                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-	                	切换岗位1234
+	                	切换岗位
 	                </a>
 	                <ul class="dropdown-menu animated fadeInRight m-t-xs" id="portalOrgJob">
 	                </ul>
@@ -159,7 +159,7 @@
 		        
 	        </sitemesh:body>
 	        <div class="copyrightstyle">
-            	Copyright ©2017 AIST All rights reserved. Version : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("Implementation-Version")%> commit : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("commit")%> branch : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("branch")%> 
+            	Copyright ©2017 AIST All rights reserved. Version : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("Implementation-Version")%> commit : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("commit")%> branch : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("branch")%> buildTime : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("buildTime")%> hostname: <%=java.net.InetAddress.getLocalHost().getHostName() %>
             </div>   
             
         </div>

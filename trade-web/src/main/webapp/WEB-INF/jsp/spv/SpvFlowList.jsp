@@ -45,6 +45,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="serviceDepHierarchy"
 		value="${sessionUser.serviceDepHierarchy }">
@@ -145,7 +146,6 @@
 	<!-- 分页控件  --> <script
 		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- 模板 -->
        <script src="${ctx}/static/trans/js/spv/FlowDetail.js"></script>
        <script src="${ctx}/static/trans/js/spv/spvFlowList.js"></script>
 	<script id="querSpvCaseFlowList" type="text/html">

@@ -215,12 +215,27 @@ $("#materialStorgaeSubmit").click(function(){
 		if(!itemAddrCodeCheck()){			
 			return false;
 		}
-		//上传附件只能上传一张
-		if(!imgCheckNum()){
+		
+		//校验附件是否上传
+     	if ($("#customer_confirmation_pic_list li").length == undefined
+		|| $("#customer_confirmation_pic_list li").length == 0 ) {
+			window.wxc.alert("客户确认书未上传!");
+			return false;
+		}  
+     	//上传附件只能上传一张
+     	if ($("#customer_confirmation_pic_list li").length != undefined
+     			&& $("#customer_confirmation_pic_list li").length > 1 ) {
+     				window.wxc.alert("客户确认书只能上传一份!");
+     				return false;
+		}
+		
+     	//验证上传文件是否全部上传
+		var isCompletedUpload = fileUpload.isCompletedUpload();
+		
+		if(!isCompletedUpload){
+			window.wxc.alert("你有未上传完成的文件，请稍候再试！!");
 			return false;
 		}
-		//上传附件信息
-		materialAttachmentSave();
 		//表单提交保存业务信息
 		$("#materialStorgaeInfoSave").submit();
 })
@@ -285,9 +300,11 @@ $("#materialApplyUser").click(function() {
 
 <content tag="local_require">
     <script>
+    	var fileUpload;
 	    require(['main'], function() {
 			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
-			    aistFileUpload.init({
+				fileUpload = aistFileUpload;
+				fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "CustomerConfirmation",
 		    		fileUploadContainer : "fileUploadContainer"

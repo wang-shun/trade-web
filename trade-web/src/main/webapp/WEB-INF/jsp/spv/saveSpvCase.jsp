@@ -879,8 +879,7 @@
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/trunk/task/attachment4.js"></script>
-			
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
@@ -1094,6 +1093,12 @@
    					        if(data.success){
    					        	var caseInfoMap = eval('('+data.content+')');
    					    		$("#caseCode").val(caseInfoMap['caseCode']);
+   					    		fileUpload.init({
+							    		caseCode : $('#caseCode').val(),
+							    		partCode : "SpvApplyApprove",
+							    		fileUploadContainer : "fileUploadContainer"
+							    });
+   					    		
    					    		$("#content_caseCode").html(caseInfoMap['caseCode']);
    					    		$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
    					    		$("#content_processorId").html(caseInfoMap['processorName']);
@@ -1123,14 +1128,14 @@
    								
    								//$('#myModal').modal('hide');
    					        }else{
-   					        	window.wxc.error(data.message);
+   					        	window.wxc.error("案件关联失败！");
    					        }		    		
    						    
 							$.unblockUI();
    					},		
    				error : function(errors) {
    						$.unblockUI();   
-   						window.wxc.error("数据保存出错:"+JSON.stringify(errors));
+   						window.wxc.error("数据保存出错！");
    					}  
    	       });
    	     });		   
@@ -1435,20 +1440,20 @@
 		
 		<content tag="local_require">
 	       <script>
+	       		var fileUpload;
 			    require(['main'], function() {
-					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
+					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager'],function($,aistFileUpload){
+						fileUpload = aistFileUpload;
 						var handle = $("#handle").val();
-						
 						if(handle == "SpvApprove" || handle == "SpvSign"){
-							aistFileUpload.init({
+							fileUpload.init({
 					    		caseCode : $('#caseCode').val(),
 					    		partCode : "SpvApplyApprove",
 					    		fileUploadContainer : "fileUploadContainer",
 					    		readonly : true
 					    	});
-						}
-						else {
-							aistFileUpload.init({
+						}else if(handle == "" || handle == "SpvApply"){
+							fileUpload.init({
 					    		caseCode : $('#caseCode').val(),
 					    		partCode : "SpvApplyApprove",
 					    		fileUploadContainer : "fileUploadContainer"

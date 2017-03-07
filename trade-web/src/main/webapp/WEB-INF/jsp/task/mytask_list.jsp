@@ -149,6 +149,7 @@ text-decoration: underline !important;
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="Lamp1" value="${Lamp1}" />
 	<input type="hidden" id="Lamp2" value="${Lamp2}" />

@@ -95,7 +95,8 @@
 	            <div class="jqGrid_wrapper">
 	                <table id="reminder_list"></table>
 					<div id="pager_list_1"></div>
-	                <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS">
+					<!-- <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS"> -->	
+	                <button type="button" class="btn btn-icon btn-grey-border mt20">
 	                    <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
 	                </button>
 	            </div>
@@ -859,9 +860,10 @@
 								window.wxc.alert(data.message);
 							}
 						} else {
-							window.wxc.success("保存成功。");
-							window.close();
-							window.opener.callback();
+							window.wxc.success("保存成功。",{"wxcOk":function(){
+								window.close();
+								window.opener.callback();
+							}});
 						}
 					},
 					error : function(errors) {
@@ -1208,7 +1210,7 @@
 	    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
 	    		fileUpload = aistFileUpload;
 	    		
-	    		aistFileUpload.init({
+	    		fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "TransSign",
 		    		fileUploadContainer : "transSignfileUploadContainer"

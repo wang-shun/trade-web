@@ -42,6 +42,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="ctm" value="${toCaseInfo.ctmCode}" />
 	<input type="hidden" id="Lamp1" value="${Lamp1}" />

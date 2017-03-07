@@ -61,10 +61,11 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 			toAttachment.setPreFileAdress(fileUploadVO.getPictureNo().get(i));
 			toAttachment.setPreFileCode(preFileCodes.get(i));
 			toAttachment.setAvailable("Y");
-			if(toAttachmentMapper.findAttachmentByCount(toAttachment) == 0) {
+			toAttachmentMapper.insertSelective(toAttachment);
+			/*if(toAttachmentMapper.findAttachmentByCount(toAttachment) == 0) {
 				toAttachmentMapper.insertSelective(toAttachment);
 				saveRcAttachment(fileUploadVO.getCaseCode(),fileUploadVO.getPartCode(),toAttachment.getPkid());
-			}
+			}*/
 		}
 	}
 	/**

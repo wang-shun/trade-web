@@ -588,6 +588,8 @@
     <bean name="getRealNameByUserId" class="com.centaline.trans.common.service.impl.QuickQueryGetRealNameServiceImpl"></bean>	 	
     <!-- 根据用户Id查询用户名-->
     <bean name="getMegerCuntByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetMegerCuntServiceImpl"></bean>	 	
+    <!-- 根据用户Id查询用户名-->
+    <bean name="getTaskNameTypeByTaskName" class="com.centaline.trans.common.service.impl.QuickQueryTaskNameTypeServiceImpl"></bean>	 	
     <!-- 根据地址查询可以关联的案件数-->
     <bean name="getGlCaseCount" class="com.centaline.trans.common.service.impl.QuickQueryGetGlCaseCountServiceImpl"> 
     </bean>	
@@ -655,4 +657,5 @@
 
 
 <aop:aspectj-autoproxy expose-proxy="true"/>
+
 </beans>

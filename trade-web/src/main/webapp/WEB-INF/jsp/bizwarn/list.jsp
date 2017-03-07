@@ -19,7 +19,7 @@
 	<link href="${ctx}/css/common/drawtable.css" rel="stylesheet" />
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="ibox float-e-margins" style="margin-top: 10px;margin-bottom: 5px;">

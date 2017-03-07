@@ -162,7 +162,7 @@ function showOptUsers(taskId,cc){
 	}else{
 		var chks=$("input[name='ckb_task']:checked");
 		if(chks.length==0){
-			alert('请至少选择一个任务');
+			window.wxc.alert('请至少选择一个任务');
 			return ;
 		}
 	}
@@ -204,23 +204,23 @@ function changeTaskAssignee(sendData){
          },
 		success : function(data) {
 			if(data.success){
-				alert("变更成功");
-				$("#myTaskList").empty();
-				searchMethod(1);
-				
+				window.wxc.success("变更成功",{"wxcOk":function(){
+					$("#myTaskList").empty();
+					searchMethod(1);
+				}});
 				//reloadGrid();
 				/*var data = getParams(1);
 			    aist.wrap(data);
 				reloadGrid(data);*/
 			}else{
-				alert(data.message);
+				window.wxc.error(data.message);
 			}
 		},complete: function() { 
 			 $.unblockUI(); 
 			 optTaskId='';
 		},
 		error : function(errors) {
-			alert("数据保存出错");
+			window.wxc.error("数据保存出错");
 			 $.unblockUI();
 		}
 	});

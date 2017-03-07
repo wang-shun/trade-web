@@ -83,6 +83,7 @@ function reloadGrid(data) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
+        	console.log(data);
         	
         	$.unblockUI();   	 
         	var myCaseList = template('template_myCaseList' , data);
@@ -241,7 +242,7 @@ function getMergeCount(){
 		return true;
 	}
 	if(cuNus.length>1 && "" != str){
-		alert("批量分配案件中有如下案件可以合流(请先合流案件)："+str+"");
+		window.wxc.alert("批量分配案件中有如下案件可以合流(请先合流案件)："+str+"");
 		return true;
 	}else{
 		caseDistributeType();
@@ -517,15 +518,16 @@ function distributeCase(index){
 				            
 							success : function(data) {
 								if(data.success){
-									window.wxc.success("分配成功");
-									$('#modal-form').modal("hide");
-									//jqGrid reload
-									/*
-									reloadGrid(1);*/
-									$("#checkAllNot").attr('checked',false);
-									searchMethod(1);
+									window.wxc.success("分配成功",{"wxcOk":function(){
+										$('#modal-form').modal("hide");
+										//jqGrid reload
+										/*
+										reloadGrid(1);*/
+										$("#checkAllNot").attr('checked',false);
+										searchMethod(1);
+									}});
 								}else{
-									alert(data.message);
+									window.wxc.error(data.message);
 								}
 							},
 							error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -597,15 +599,13 @@ function changeCaseTeam(){
 		            } , 
 			success : function(data) {
 				if(data.success){
-					alert("分配成功");
-					$('#team-modal-form').modal("hide");
-					//jqGrid reload
-					/*
-					reloadGrid(1);*/
-					$("#checkAllNot").attr('checked',false);
-					searchMethod(1);
+					window.wxc.success("分配成功",{"":function(){
+						$('#team-modal-form').modal("hide");
+						$("#checkAllNot").attr('checked',false);
+						searchMethod(1);
+					}});
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {

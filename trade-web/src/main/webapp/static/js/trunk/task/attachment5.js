@@ -192,7 +192,7 @@ function subAddFrom() {
 				}
 		},
 		error : function(errors) {
-			window.wxc.alert("附件添加出错。");
+			window.wxc.error("附件添加出错。");
 		}
 	});
 }
@@ -235,7 +235,7 @@ function subAddFromWithProperty() {
 		}],
 		success : function(data) {
 				if(data){
-					window.wxc.alert("保存成功");
+					window.wxc.success("保存成功");
 				}else if(!data) {
 					Modal.alert({msg:data.message});
 				}
@@ -342,7 +342,7 @@ function deletePicBatch(){
 				    aa = true;
 				}else if(!data) {
 					pkIdArr==[];
-					window.wxc.alert(data.message);
+					window.wxc.error(data.message);
 				}
 			}
 		});

@@ -9,10 +9,9 @@ var FollowPicList = (function(){
     			height : 250,
     			autowidth : true,
     			shrinkToFit : true,
-    			rownumWidth:true,
-    			rowNum : 18,
+    			rowNum : 50,
     			/*   rowList: [10, 20, 30], */
-    			colNames : [ '附件类型','附件名称','上传时间','操作'],
+    			colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
     			colModel : [ {
     				name : 'ATT_TYPE',
     				index : 'ATT_TYPE',
@@ -26,6 +25,13 @@ var FollowPicList = (function(){
     				width : 20,
     				resizable : false
     			}, {
+    				name : 'ATT_PATH',
+    				index : 'ATT_PATH',
+    				align : "center",
+    				width : 20,
+    				resizable : false
+    				//formatter : linkhouseInfo
+    			}, {
     				name : 'UPLOAD_DATE',
     				index : 'UPLOAD_DATE',
     				align : "center",
@@ -35,7 +41,7 @@ var FollowPicList = (function(){
     				name : 'READ',
     				index : 'READ',
     				align : "center",
-    				width : 30,
+    				width : 20,
     				resizable : false
     			}],
     			multiselect: true,
@@ -61,6 +67,7 @@ var FollowPicList = (function(){
 	    				
 	    				jQuery("#"+gridTableId).jqGrid('setRowData', ids[i], { READ: link});
     				}
+    				$(".jqgfirstrow").remove();
     			},
     			postData : {
     				queryId : "followPicListQuery",

@@ -383,7 +383,9 @@ public class TaskController {
     	} else if(taskitem.equals("CaseClose")) {/*结案审批，验证数据是否正确*/
     		initApproveRecord(request, caseCode, "3");
     		getAccesoryListCaseClose(request, caseCode);
+    		
     		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
+    		
     		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
     		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
     	} else if(taskitem.equals("ServiceChangeApply")) {/*服务项变更*/

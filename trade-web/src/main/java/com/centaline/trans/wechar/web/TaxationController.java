@@ -11,7 +11,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 
 @Controller
-@RequestMapping("/weixin/taxation")
+@RequestMapping({"/weixin/taxation","/anon/weixin/taxation"})
 public class TaxationController {
 
 	@Autowired

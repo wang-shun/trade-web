@@ -32,13 +32,13 @@ function getUploadPicOkInfo() {
 	});
 	// 必须上传图片
 	if (picIdArr.length <= 0) {
-		alert("请先上传图片成功后再提交！");
+		window.wxc.alert("请先上传图片成功后再提交！");
 		return true;
 	}
 	var picDiv = $("div[name='allPicDiv1']");
 	// 所选图片和上传的图片的数目要相同
 	if (picDiv.length !== spans.length) {
-		alert("请先上传图片成功后再提交！");
+		window.wxc.alert("请先上传图片成功后再提交！");
 		return true;
 	}
 	var picNames = $("input[name='picName']");
@@ -131,7 +131,7 @@ function getExplPicByhouseCode() {
 			});
 		},
 		error : function(errors) {
-			alert("产调加载失败");
+			window.wxc.error("产调加载失败");
 			return false;
 		}
 	});
@@ -143,7 +143,7 @@ function subAddFrom() {
 		return;
 	};
 	if(picIdArr==''){
-		alert("当前没有要新增的图片数据！");
+		window.wxc.alert("当前没有要新增的图片数据！");
     	return;
 	};
 	$.ajax({
@@ -185,7 +185,7 @@ function subAddFrom() {
 				}
 		},
 		error : function(errors) {
-			alert("附件添加出错。");
+			window.wxc.error("附件添加出错。");
 		}
 	});
 }
@@ -193,7 +193,7 @@ function subAddFrom() {
 //修改图片在原来实勘上
 function subUpdFrom() {
 	if(pkIdArr==''){
-		alert("请选择一张要修改的照片！！！");
+		window.wxc.alert("请选择一张要修改的照片！！！");
     	return;
     }
 	//获取上传成功的图片的信息，包括ID，类型
@@ -239,7 +239,7 @@ function subUpdFrom() {
 				}
 		},
 			error : function(errors) {
-				alert("附件修改出错"+errors);
+				window.wxc.error("附件修改出错"+errors);
 			}
 		});
 }
@@ -253,7 +253,7 @@ function romoveDiv(type,pkid){
 	if(typeof pkid=='number'){
 		pkIdArr.push(pkid);
 		if(pkIdArr==''){
-			alert("删除当前图片失败。");
+			window.wxc.alert("删除当前图片失败。");
 		} 
 	}
 	$("#"+type+pkid).remove();
@@ -262,7 +262,7 @@ function romoveDiv(type,pkid){
 //批量删除
 function deletePicBatch(){
 	if(pkIdArr==''){
-    	alert("请选择至少一张图片删除!");
+		window.wxc.alert("请选择至少一张图片删除!");
 		return;
 	}
 		$.ajax({
@@ -277,14 +277,14 @@ function deletePicBatch(){
 			}],
 			success : function(data) {
 				if(data){
-					alert('提示', '图片已删除。'); 
+					window.wxc.success('提示', '图片已删除。'); 
 				    $(".cancel").hide();
 				    $(".btn-primary").one("click",function(){
 				    	parent.$.fancybox.close();
 				    });
 				}else if(!data) {
 					pkIdArr==[];
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			}
 		});
@@ -295,7 +295,7 @@ function checkAttachment() {
 	$.each(idList, function(index, value){
 		var length = $("#picContainer"+value).find("img").length;
 		if(length == 0) {
-			alert("请上传备件！");
+			window.wxc.alert("请上传备件！");
 			checkAtt = false;
 			return false;
 		} else {
@@ -315,7 +315,7 @@ function checkAttachment2() {
 	$.each(idList, function(index, value){
 		var length = $("#picContainer"+value).find("img").length;
 		if(length == 0) {
-			alert("请上传备件！");
+			window.wxc.alert("请上传备件！");
 			checkAtt = false;
 		} else {
 			checkAtt = true;
@@ -341,7 +341,7 @@ function materialAttachmentSave(){
 		//图片的ID 新增的文件数量
 	    var spans =$("input[name='preFileAdress']");
 	    if(spans.length < picDiv.length) {
-	    	alert("你有未上传的完成的文件，请稍候再试！");
+	    	window.wxc.alert("你有未上传的完成的文件，请稍候再试！");
 	    	return;
 	    }
 	    //如果原来数据的长度等于复选框的长度--》调用新增的方法

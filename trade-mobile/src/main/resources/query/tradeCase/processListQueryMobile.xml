@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+	</formatters>
+	<query id="getProcessListMobile" cacheCount="true">
+		<searchSql>
+			<baseSql>
+				select status ,
+					createTime ,
+					createBy ,
+					finishTime ,
+					todoTime ,
+					
+					avatarUrl+'.jpg' avatarUrl,
+					comments,
+					prdType,
+					srvCode,
+					star,
+					type
+				from sctrans.V_PROCESS_AND_COMMENT_QUERY
+				 where srvCode = #caseCode#
+			</baseSql>
+		</searchSql>
+		
+		<grid>
+			<table-row>
+				<column type="both" name="status" defaultVal=""/>
+				<column type="both" name="createTime" beanFormatter="dateFormatter" defaultVal=""/>
+				<column type="both" name="createBy" defaultVal=""/>
+				<column type="both" name="finishTime" beanFormatter="dateFormatter" defaultVal=""/>
+				<column type="both" name="todoTime" defaultVal=""/>
+				
+				<column type="both" name="avatarUrl" defaultVal=""/>
+				<column type="both" name="comments" defaultVal=""/>
+				<column type="both" name="prdType" defaultVal=""/>
+				<column type="both" name="srvCode" defaultVal=""/>
+				<column type="both" name="star" defaultVal=""/>
+				<column type="both" name="type" defaultVal=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

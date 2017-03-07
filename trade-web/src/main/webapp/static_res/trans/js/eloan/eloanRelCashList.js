@@ -228,7 +228,12 @@
 								method : "post",
 								dataType : "json",
 								data : params,
+								beforeSend: function () {  
+						        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+									$(".blockOverlay").css({'z-index':'9998'});
+						        },
 								success : function(data) {
+									$.unblockUI();
 									var all = data.rows;
 									var kas = [];
 									var dais = [];
@@ -284,6 +289,7 @@
 											xAxis);
 								},
 								error : function() {
+									$.unblockUI();
 									$("#Cont").addClass("nullData");
 								}
 							});
@@ -297,7 +303,12 @@
 								method : "post",
 								dataType : "json",
 								data : params,
+								beforeSend: function () {  
+						        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+									$(".blockOverlay").css({'z-index':'9998'});
+						        },
 								success : function(data) {
+									$.unblockUI();
 									var all = data.rows;
 									var  numbers=[];
 									var amounts=[];
@@ -342,6 +353,7 @@
 									StatusEchart2(finOrgNames,numbers,amounts);
 								},
 								error : function() {
+									$.unblockUI();
 									/* $("#Cont").addClass("nullData"); */
 								}
 							});

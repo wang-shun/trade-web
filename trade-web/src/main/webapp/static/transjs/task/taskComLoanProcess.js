@@ -1,7 +1,5 @@
 
-var popInited=false;
 function checkAssess(){
-	
 	if($("#building_no").val() == ""){
 		$("#building_no").css("border-color","red");
 		return false;
@@ -91,6 +89,11 @@ function checkMortgageForm(formId){
 		window.wxc.alert("信贷员为必填项！");
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;
+		
+	}else if(formId.find("input[name='loanerId']").val() == ""){
+		formId.find("input[name='loanerName']").css("border-color","red");
+		return false;
+		
 	}else if(formId.find("input[name='loanerPhone']").val() == ""){
 		window.wxc.alert("信贷员电话为必填项！");
 		formId.find("input[name='loanerPhone']").css("border-color","red");
@@ -203,11 +206,11 @@ function assess(){
 	        		}
 		
 					if(isMainLoanBank == 1){
-						searchPricingList("table_list_1");
-		    		//	getPricingList("table_list_1","pager_list_1");
+						//searchPricingList("table_list_1");
+		    			getPricingList("table_list_1","pager_list_1",1);
 					}else{
-						searchPricingList("table_list_3");
-		    		//	getPricingList("table_list_3","pager_list_3");
+						//searchPricingList("table_list_3");
+		    			getPricingList("table_list_3","pager_list_3",0);
 					}
 	    		}	    		
 	    	}
@@ -245,11 +248,11 @@ function disagree(){
 					window.wxc.alert(data.message);
 					if(data.success){
 		    			if(isMainLoanBank == 0){
-							searchPricingList("table_list_3");
-		        	//		getPricingList("table_list_3","pager_list_3");
+		    				//searchPricingList("table_list_3");
+		        			getPricingList("table_list_3","pager_list_3",0);
 		    			}else{
-							searchPricingList("table_list_1");
-		        	//		getPricingList("table_list_1","pager_list_1");
+		    				//searchPricingList("table_list_1");
+		        			getPricingList("table_list_1","pager_list_1",1);
 		    			}
 						$("#modal-applyForm").modal("hide");
 					}
@@ -301,11 +304,11 @@ function acceptPricing(tableId,pkid){
 			if(data.success){
 				$("#"+tableId+"_btn_"+pkid).html("取消");
     			if(isMainLoanBank == 0){
-					searchPricingList("table_list_3");
-        	//		getPricingList("table_list_3","pager_list_3");
+    				//searchPricingList("table_list_3");
+        			getPricingList("table_list_3","pager_list_3",0);
     			}else{
-					searchPricingList("table_list_1");
-        	//		getPricingList("table_list_1","pager_list_1");
+    				//searchPricingList("table_list_1");
+        			getPricingList("table_list_1","pager_list_1",1);
     			}
 			}else{
 				window.wxc.error(data.message);	
@@ -327,11 +330,11 @@ function cancelAccept(tableId,pkid){
 			if(data.success){
 				$("#"+tableId+"_btn_"+pkid).html("接受");
     			if(isMainLoanBank == 0){
-					searchPricingList("table_list_3");
-        	//		getPricingList("table_list_3","pager_list_3");
+    				//searchPricingList("table_list_3");
+        			getPricingList("table_list_3","pager_list_3",0);
     			}else{
-					searchPricingList("table_list_1");
-        	//		getPricingList("table_list_1","pager_list_1");
+    				//searchPricingList("table_list_1");
+        			getPricingList("table_list_1","pager_list_1",1);
     			}
 			}else{
 				window.wxc.error(data.message);	
@@ -542,7 +545,6 @@ var mCustCode='';
 var custCode='';
 //查询贷款信息
 function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
-	/*var isMainLoanBank = $("#isMainLoanBank").val();*/
 	if(isMainLoanBank=='0'&&!mCustCode){
 		getMortgageInfo(caseCode,'1',true);
 	}
@@ -877,7 +879,14 @@ function getReportList(tableId,pageId,isMainLoanBank){
     				}
     				confirmPricing();
     				getEvaCompany();
-    				getAttchInfo();
+    				//getAttchInfo();
+    				fileUpload.init({
+    		    		caseCode : $('#caseCode').val(),
+    		    		partCode : "ComLoanProcess",
+    		    		preFileCode : "_eg",
+    		    		maskId : "modal-form-report",
+    		    		fileUploadContainer : "comLoanProcess2fileUploadContainer"
+    		    	});
     				$("#modal-form-report").modal('show');
     		}
     }); 
@@ -1113,57 +1122,6 @@ function getPricingList(tableId,pageId,isMainLoanBank){
  							}
  						}
  				  });
-    				 document.getElementById('optionsRadios1').checked=true;
-                     if($("input[name='optionsRadios']:checked").val()==0){
-                         $("#direct_launch_div").hide();
-                     }else{
-                         $("#direct_launch_div").show();
-                          $("#addToEguPricingForm").find("input").each(function(){
-                              $(this).removeAttr("disabled");
-                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
-                                  $(this).val("");
-                              }
-                          });
-                          $("#addToEguPricingForm").find("select").each(function(){
-                              $(this).removeAttr("disabled");
-                              if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
-                                  $(this).val("");
-                              }
-                          });
-                     }
-    				if(popInited)return true;
-    				popInited=true;
-    				$("input[name='optionsRadios']").click(function(){
-    					 if($(this).val()==0){
-    						 $("#direct_launch_div").hide();
-    						 $("#addToEguPricingForm").find("input").each(function(){
-    							 if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios"){
-                					 $(this).attr("disabled","disabled");
-    							 }
-            				 });
-    						 $("#addToEguPricingForm").find("select").each(function(){
-            					 $(this).attr("disabled","disabled");
-            				 });
-    					 }else{
-    						 $("#direct_launch_div").show();
-    						 $("#addToEguPricingForm").find("input").each(function(){
-                				 $(this).removeAttr("disabled");
-            				 });
-    						 $("#addToEguPricingForm").find("select").each(function(){
-                				 $(this).removeAttr("disabled");
-            				 });
-    					 }
-    				 });
-  				   
-  				   
-  				   
-  				 //银行下拉列表
-  				getParentBank($("#addToEguPricingForm").find("select[name='bank_type']"),$("#bank_branch_id"),"",null,"egu");
-  				
-  				$("#addToEguPricingForm").find("select[name='bank_type']").change(function(){
-  					/*$("#bank_branch_id").chosen("destroy");*/
-			    	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"",null,"egu");
-			    }); 
     		}
 	    }); 
 }
@@ -1173,7 +1131,7 @@ function searchPricingList(table_list_id){
 		"postData" : {
 			queryId:"queryToEguPricingPage",
         	search_caseCode:$("#caseCode").val(),
-        	search_isMainLoanBank:$("#isMainLoanBank").val()
+        	search_isMainLoanBank:isMainLoanBank
         },
 		"page":1 
 	}).trigger('reloadGrid');
@@ -1191,11 +1149,11 @@ function bindEvaCode(){
 				$("#modal-form").modal("hide");
 				var isMainLoanBank = $("#isMainLoanBank").val();
 				if(isMainLoanBank == 1){
-					searchPricingList("table_list_1");
-	    		//	getPricingList("table_list_1","pager_list_1");
+					//searchPricingList("table_list_1");
+	    			getPricingList("table_list_1","pager_list_1",1);
 				}else{
-					searchPricingList("table_list_3");
-	    		//	getPricingList("table_list_3","pager_list_3");
+					//searchPricingList("table_list_3");
+	    			getPricingList("table_list_3","pager_list_3",0);
 				}
 			}
 		}
@@ -1307,11 +1265,11 @@ $(document).ready(function () {
 	 $("#pricingClose").click(function(){
 		 var isMainLoanBank = $("#isMainLoanBank").val();
 		 if(isMainLoanBank == 1){
-			 searchPricingList("table_list_1");
-			// getPricingList("table_list_1","pager_list_1");
+			 //searchPricingList("table_list_1");
+			 getPricingList("table_list_1","pager_list_1",1);
 		 }else{
-			 searchPricingList("table_list_3");
-			// getPricingList("table_list_3","pager_list_3");
+			 //searchPricingList("table_list_3");
+			 getPricingList("table_list_3","pager_list_3",0);
 		 }
 	 });
 	 
@@ -1391,6 +1349,12 @@ $(document).ready(function () {
 				return false;
 			}
  			
+ 			if ($("#rec_letter_first_pic_list li").length == undefined
+					|| $("#rec_letter_first_pic_list li").length == 0 ) {
+				window.wxc.alert("推荐函未上传!");
+				return false;
+			}
+ 			
  			var option = [];
  			option.container = "comLoanProcessfileUploadContainer";
  			
@@ -1399,12 +1363,6 @@ $(document).ready(function () {
 			
 			if(!isCompletedUpload){
 				window.wxc.alert("附件还未全部上传!");
-				return false;
-			}
- 			
- 			if ($("#rec_letter_first_pic_list li").length == undefined
-					|| $("#rec_letter_first_pic_list li").length == 0 ) {
-				window.wxc.alert("推荐函未上传!");
 				return false;
 			}
  			
@@ -1485,7 +1443,11 @@ transitionEffect: "slide",
 			window.wxc.alert("贷款材料确认书未上传!");
 			return false;
 		}
-			
+			if ($("#rec_letter_sec_pic_list li").length == undefined
+				|| $("#rec_letter_sec_pic_list li").length == 0 ) {
+			window.wxc.alert("推荐函未上传!");
+			return false;
+		}
 			var option = [];
  			option.container = "comLoanProcess1fileUploadContainer";
  			
@@ -1496,12 +1458,6 @@ transitionEffect: "slide",
 				window.wxc.alert("附件还未全部上传!");
 				return false;
 			}
-			
-			if ($("#rec_letter_sec_pic_list li").length == undefined
-				|| $("#rec_letter_sec_pic_list li").length == 0 ) {
-			window.wxc.alert("推荐函未上传!");
-			return false;
-		}
 			return true;
 		}
 		
@@ -1545,7 +1501,7 @@ transitionEffect: "slide",
     	if(getUploadPicInfo()){
     		return;
     	};
-    	if(attachmentIds.length==0&&preFileAdress.length==0){
+    	/*if(attachmentIds.length==0&&preFileAdress.length==0){
     		window.wxc.alert("图片数据不能为空！");
         	return;
     	}
@@ -1557,13 +1513,41 @@ transitionEffect: "slide",
 	    }
     	if(!checkReportAtt()){
     		return;
-    	}
+    	}*/
+    	if ($("#identification_card_eg_pic_list li").length == undefined
+				|| $("#identification_card_eg_pic_list li").length == 0 ) {
+			window.wxc.alert("身份证未上传!");
+			return false;
+		}
+    	if ($("#housing_contract_eg_pic_list li").length == undefined
+				|| $("#housing_contract_eg_pic_list li").length == 0 ) {
+			window.wxc.alert("购房合同未上传!");
+			return false;
+		}
+    	if ($("#property_certificate_eg_pic_list li").length == undefined
+				|| $("#property_certificate_eg_pic_list li").length == 0 ) {
+			window.wxc.alert("房产证未上传!");
+			return false;
+		}
+    	var option = [];
+			option.container = "comLoanProcess2fileUploadContainer";
+			//验证上传文件是否全部上传
+		var isCompletedUpload = fileUpload.isCompletedUploadById(option);
+		
+		if(!isCompletedUpload){
+			window.wxc.alert("附件还未全部上传!");
+			return false;
+		}
+    	
+    	
+    	
     	var reportType = $("#reportType").val();
     	var evaCode = $("#eva_code").val();
     	var caseCode = $("#caseCode").val();
     	var isMainLoanBank = $("#isMainLoanBank").val();
     	var url = "";
     	var finOrgCode = $("#orgPricing").val();
+    	
     	if(finOrgCode!=null && finOrgCode=="P00021"){
         	if(reportType == "1"){  //预估单
         		url = ctx+"/remote/egu/"+evaCode+"/prereport";
@@ -1690,6 +1674,7 @@ transitionEffect: "slide",
    // getPricingList("table_list_1","pager_list_1");
  
  });
+//
 function onkeyuploanerName(){
 	$("#loanerNameImage").css("color","#676A6C");
 	$("#loanerId").val("");

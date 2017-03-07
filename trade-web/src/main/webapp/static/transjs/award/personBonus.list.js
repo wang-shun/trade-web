@@ -3,12 +3,17 @@ var PersonBonus = function () {
 		init : function (_ctx,data1) {
 		  ctx=_ctx;
 		  $.ajax({
-  			  async: false,
+  			  async: true,
   	          url:ctx+ "/quickGrid/findPage" ,
   	          method: "post",
   	          dataType: "json",
   	          data: data1,
+	  	      beforeSend: function () {  
+  	        	 $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+  				 $(".blockOverlay").css({'z-index':'9998'});
+	  	      },  
   	          success: function(data){
+  	        	  $.unblockUI();
   	        	  var tsAwardBaseList= template('tsAwardBaseList' , data);
 	                  $("#TsAwardBaseList").empty();
 	                  $("#TsAwardBaseList").html(tsAwardBaseList);

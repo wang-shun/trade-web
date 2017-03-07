@@ -91,14 +91,15 @@ function caseDistribute(){
 				}],
 				success : function(data) {
 					$.unblockUI();  
-					alert(data.message)
 					if(data.success){
-						location.reload();
+						window.wxc.success(data.message,{"wxcOk":function(){
+							location.reload();
+						}});
 					}
 				},
 				error : function(errors) {
-					alert("处理出错,请刷新后再次尝试！");
-					  $.unblockUI();  
+					window.wxc.error("处理出错,请刷新后再次尝试！");
+					 $.unblockUI();  
 				}
 		});
 	
@@ -150,7 +151,7 @@ var optPkid='';
 
 function checkOrg(o){
 	if(o.extendField!='yucui_district'){
-		alert('请选择一个贵宾服务总进行转组');
+		window.wxc.alert('请选择一个贵宾服务总进行转组');
 		return false;
 	}
 	return true;
@@ -184,11 +185,12 @@ function doTransfer(pkid,districtId,orgName){
 		dataType : "json",
 		data :transferData,
 		success : function(data) {
-			alert(data.message)
 			$.unblockUI();
 			if(data.success){
+				window.wxc.success(data.message,{"wxcOk":function(){
+					reloadGrid();
+				}});
 				
-				reloadGrid();
 				
 //				$('#table_property_list').jqGrid({
 //					queryId : "queryProcessWaitList",
@@ -198,8 +200,8 @@ function doTransfer(pkid,districtId,orgName){
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
-			  $.unblockUI();  
+			window.wxc.error("处理出错,请刷新后再次尝试！");
+			$.unblockUI();  
 		}
 	});
 }

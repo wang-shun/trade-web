@@ -21,6 +21,9 @@
 		<pattern>/weixin/taxation/*</pattern>
 		<pattern>/weixin/loan/*</pattern>
 		<pattern>/weixin/work/*</pattern>
+        <pattern>/anon/weixin/taxation/*</pattern>
+        <pattern>/anon/weixin/loan/*</pattern>
+        <pattern>/anon/weixin/work/*</pattern>
 		<pattern>/weixinAuth/*</pattern>
 	</excludes>
 

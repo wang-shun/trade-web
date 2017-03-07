@@ -421,7 +421,10 @@
     		                } 
     		            } ,  
 				success : function(data) {
-						caseTaskCheck();
+						window.wxc.success("提交成功！",{"wxcOk":function(){
+							caseTaskCheck();
+						}});
+						
 						//$('#case-task-modal-form').modal("show");
 				},
 				error : function(errors) {

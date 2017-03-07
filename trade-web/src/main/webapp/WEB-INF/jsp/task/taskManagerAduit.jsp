@@ -229,15 +229,17 @@ select[readonly] option {
 	    				  }); 
 	    		                } 
 	    		            } ,   
-				success : function(data) {   
-						 if(window.opener)
-					     {
-							 window.close();
-							 window.opener.callback();
-					     } else {
-					    	 window.location.href = "${ctx }/task/myTaskList";
-					     }
-						 $.unblockUI();
+				success : function(data) {
+						window.wxc.success("数据保存成功！",{"wxcOk":function(){
+							if(window.opener)
+						     {
+								 window.close();
+								 window.opener.callback();
+						     } else {
+						    	 window.location.href = "${ctx }/task/myTaskList";
+						     }
+							 $.unblockUI();
+						}});
 					},
 					
 					error : function(errors) {

@@ -306,14 +306,16 @@
 	    		                }
 	    		            } ,
 					success : function(data) {
-							 window.close();
-							 if(window.opener)
-						     {
-								 window.opener.callback();
-						     } 
+							window.wxc.success("操作成功！",{"wxcOk":function(){
+								 window.close();
+								 if(window.opener)
+							     {
+									 window.opener.callback();
+							     } 
+							}});
 					},
 					error : function(errors) {
-						window.wxc.error("数据保存出错" + errors);
+						window.wxc.error("操作失败：" + errors);
 					}
 				});
 			}

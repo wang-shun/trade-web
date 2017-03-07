@@ -18,7 +18,7 @@
 	 * window.wxc.alert(message,params)
 	 * message:提示信息内容
 	 * params:可选参数
-	 * params.isAutoHide:是否自动消失,默认为ture,自动消失;fasle,不自动小时。
+	 * params.isAutoHide:是否自动消失,默认为ture,自动消失;fasle,不自动消失。
 	 * params.showTime:显示时间,不设置默认2s消失。
 	 */
 	
@@ -215,6 +215,10 @@
 			config.onCancel();
 			$("#" + popId).remove();
 			config.onClose(eventType.cancel);
+			
+			if($.isFunction(config.wxcCancel)){
+				config.wxcCancel();
+			}
 		}
 
 		//关闭按钮事件

@@ -34,7 +34,7 @@ function getExplPicByhouseCode() {
 			$("#imgShow").append(trStr);
 		},
 		error : function(errors) {
-			alert("产调加载失败");
+			window.wxc.error("产调加载失败");
 			return false;
 		}
 	});
@@ -67,7 +67,7 @@ function getShowAttachment() {
 			$("#imgShow").append(trStr);
 		},
 		error : function(errors) {
-			alert("产调加载失败");
+			window.wxc.error("产调加载失败");
 			return false;
 		}
 	});

@@ -5,7 +5,7 @@
 $(document).ready(function() {
 	var ex_message = $("#ex_message").val();
 	if(ex_message!=""){
-		alert(ex_message);
+		window.wxc.alert(ex_message);
 	}
 	if(!!hasError){
 		$('#error-modal-form').modal("show");

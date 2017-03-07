@@ -42,7 +42,7 @@ public class QuickQueryGetGlCaseCountServiceImpl implements CustomDictService{
 			+ " WHERE   EXISTS ( SELECT 1 FROM   sctrans.T_TO_PROPERTY_INFO tpi"
 			+ " WHERE  tpi.PROPERTY_CODE = t.PROPERTY_CODE AND tpi.CASE_CODE =:caseCode )"
 			+ " AND EXISTS ( SELECT 1 FROM   sctrans.T_TO_CASE c WHERE  t.CASE_CODE = c.CASE_CODE"
-			+ " AND c.CREATE_BY = 'ctm_proc' AND c.CREATE_TIME > DATEADD(mm, -6, GETDATE())"
+			+ " AND c.CREATE_TIME > DATEADD(mm, -6, GETDATE())"
 			+ " AND c.CREATE_TIME > CAST(SUBSTRING('2016-12-28 00:00:00.000', 0, 19) AS DATETIME)"
 			+ " AND c.CASE_ORIGIN != 'CTM' AND c.CASE_ORIGIN != 'PROCESS' )";
 

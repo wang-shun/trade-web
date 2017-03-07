@@ -510,19 +510,31 @@ function getHouseInfo(houseId){
 			
 			$("#floor").val(result.FLOOR);
 			$("#totalFloor").val(result.TOTAL_FLOOR);
-			
-			var finishYear = (result.BUILD_END_YEAR).trim();
+
+			if(result.BUILD_END_YEAR != null && result.BUILD_END_YEAR !="" && result.BUILD_END_YEAR && undefined){
+				var finishYear = (result.BUILD_END_YEAR).trim();
+				if(finishYear =="" || finishYear == null || finishYear == undefined){
+					finishYear = 2000;
+				}			
+				initSelectYear("finishYear", finishYear);
+			}else{				
+				var finishYear = 2000;
+				initSelectYear("finishYear", finishYear);	
+			}
+/*			var finishYear = (result.BUILD_END_YEAR).trim();
 			if(finishYear =="" || finishYear == null || finishYear == undefined){
 				finishYear = 2000;
-			}
-			initSelectYear("finishYear", finishYear);	
-			
-			var buildType = (result.BUILDING_TYPE).trim();
-			if(buildType =="" || buildType == null || buildType == undefined){
-				buildType = "30014002";
 			}			
-			$("#propertyType").attr("defaultvalue",buildType);
-			$("#propertyType").find("option[value="+ buildType +"]").attr("selected",true);		
+			initSelectYear("finishYear", finishYear);	*/
+			if(result.BUILDING_TYPE != null && result.BUILDING_TYPE !="" && result.BUILDING_TYPE && undefined){
+				var buildType = (result.BUILDING_TYPE).trim();		
+				
+				if(buildType =="" || buildType == null || buildType == undefined){
+					buildType = "30014002";
+				}	
+				$("#propertyType").attr("defaultvalue",buildType);
+				$("#propertyType").find("option[value="+ buildType +"]").attr("selected",true);		
+			}
 
 			$("#distCode").attr("defaultvalue",(result.DISTRICT_CODE).trim());
 			$("#distCode").find("option[value="+ (result.DISTRICT_CODE).trim() +"]").attr("selected",true);

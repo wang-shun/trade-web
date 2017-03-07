@@ -63,7 +63,7 @@ function saveCaseComment() {
 	var commentType=$("#caseComment_commentType").val();
 	var bizCode=$("#caseComment_bizCode").val();
 	if(comment==''){
-		alert('添加案件备注不能为空');
+		window.wxc.alert('添加案件备注不能为空');
 		return false;
 	}
 	var srvCode = $('#caseComment_srvCode').val();

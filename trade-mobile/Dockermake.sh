@@ -11,5 +11,5 @@ sudo docker build -t docker.aist.io/trade-mobile:$version . \
 	 --label version=$version \
 	 --label vendor=AIST \
 	 --label name=trade-mobile
-sudo docker push docker.aist.io/yc-par-web:$version
-sudo docker rmi docker.aist.io/yc-par-web:$version
+sudo docker push docker.aist.io/trade-mobile:$version
+sudo docker rmi docker.aist.io/trade-mobile:$version

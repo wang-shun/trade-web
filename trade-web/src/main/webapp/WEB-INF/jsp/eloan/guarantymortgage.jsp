@@ -341,8 +341,8 @@
     <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script> -->
 
     <!-- Custom and plugin javascript -->
-    <script src="${ctx}/static/js/inspinia.js"></script>
-    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
+    <%-- <script src="${ctx}/static/js/inspinia.js"></script>
+    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script> --%>
     <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="${ctx}/static/trans/js/plugins/poshytip/jquery.poshytip.js"></script>
     <script src="${ctx}/js/jquery.blockui.min.js"></script>
@@ -486,6 +486,21 @@
              		rcRiskControl : rcRiskControl
              	}
              	
+             	//校验附件是否上传
+             	if ($("#risk_control_mortgage_pic_list li").length == undefined
+				|| $("#risk_control_mortgage_pic_list li").length == 0 ) {
+					window.wxc.alert("押卡附件未上传!");
+					return false;
+				}  
+             	//验证上传文件是否全部上传
+        		var isCompletedUpload = fileUpload.isCompletedUpload();
+        		
+        		if(!isCompletedUpload){
+        			window.wxc.alert("押卡附件还未全部上传!");
+        			return false;
+        		}
+             	
+             	
              	var url = "${ctx}/riskControl/saveRcMortgage";
      			$.ajax({
      				cache : true,
@@ -513,7 +528,7 @@
      				success : function(data) {
      					window.wxc.success(data.message);
      	     			// 保存附件相关信息
-     	     			deleteAndModify();
+     	     			//deleteAndModify();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
@@ -575,9 +590,11 @@
 </content>
 <content tag="local_require">
     <script>
+    	var fileUpload;
 	    require(['main'], function() {
 			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
-			    aistFileUpload.init({
+				fileUpload = aistFileUpload;
+				fileUpload.init({
 		    		caseCode : $('.form_list #caseCode').val(),
 		    		partCode : "RiskControl_Mortgage",
 		    		fileUploadContainer : "fileUploadContainer"

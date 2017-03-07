@@ -340,12 +340,12 @@
     </div>
             
 	<content tag="local_script"> 
-	   <script src="${ctx}/js/inspinia.js"></script> 
-	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> 
+	   <%-- <script src="${ctx}/js/inspinia.js"></script> 
+	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> --%> 
 	   <script src="${ctx}/static/trans/js/plugins/poshytip/jquery.poshytip.min.js"></script>
 	   <!-- 开关按钮js -->
        <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
-       <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
+       <%-- <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> --%>
        <script src="${ctx}/static/trans/js/eloan/eloan_guarant.js"></script>
          <script src="${ctx}/js/jquery.editable-select.min.js"></script>
              <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -499,6 +499,20 @@
              	}
              	//console.log(JSON.stringify(toRcMortgageCardVO));
              	
+             	//校验附件是否上传
+             	if ($("#risk_control_card_pic_list li").length == undefined
+				|| $("#risk_control_card_pic_list li").length == 0 ) {
+					window.wxc.alert("押卡附件未上传!");
+					return false;
+				}  
+             	//验证上传文件是否全部上传
+        		var isCompletedUpload = fileUpload.isCompletedUpload();
+        		
+        		if(!isCompletedUpload){
+        			window.wxc.alert("押卡附件还未全部上传!");
+        			return false;
+        		}
+             	
              	var url = "${ctx}/riskControl/saveRcMortgageCard";
      			$.ajax({
      				cache : true,
@@ -526,13 +540,14 @@
      				success : function(data) {
      					window.wxc.success(data.message);
      					// 保存附件相关信息
-     		     		deleteAndModify();
+     		     		//deleteAndModify();
      					window.location.href = ctx+"/eloan/getEloanCaseDetails?pkid="+pkid;
      				},
      				error : function(errors) {
      					window.wxc.error("数据保存出错");
      				}
      			}); 
+     			
              })
              
              $(".close_btn").click(function(){
@@ -656,9 +671,11 @@
 	
 	<content tag="local_require">
        <script>
+       		var fileUpload;
 		    require(['main'], function() {
 				requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','valid','ligerui','bootstrapModal','modalmanager'],function($,aistFileUpload){
-				    aistFileUpload.init({
+					fileUpload = aistFileUpload;
+					fileUpload.init({
 			    		caseCode : $('.form_list #caseCode').val(),
 			    		partCode : "RiskControl_Card",
 			    		fileUploadContainer : "fileUploadContainer"

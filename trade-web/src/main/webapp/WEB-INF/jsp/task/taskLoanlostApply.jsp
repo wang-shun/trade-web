@@ -340,6 +340,13 @@
 			/**提交数据*/
 			function submit() {
 				if (checkAttachmentForLoanLost($("#loanLostConfirmCode").val())) {//验证是否上传附件
+					//验证上传文件是否全部上传
+					var isCompletedUpload = fileUpload.isCompletedUpload();
+					
+					if(!isCompletedUpload){
+						window.wxc.alert("附件还未全部上传!");
+						return false;
+					}
 					save(true);
 				}
 			}
@@ -398,9 +405,10 @@
 								window.wxc.alert(data.message);
 							}
 						} else {
-							window.wxc.success("保存成功。");
-							window.close();
-							window.opener.callback();
+							window.wxc.success("保存成功。",{"wxcOk":function(){
+								window.close();
+								window.opener.callback();
+							}});
 						}						
 					},
 					error : function(errors) {
@@ -559,7 +567,7 @@
 					
 					if (($("#loan_lost_letter_pic_list li").length == undefined || $("#loan_lost_letter_pic_list li").length == 0)
 						|| ($("#loan_lost_confirmation_pic_list li").length == undefined || $("#loan_lost_confirmation_pic_list li").length == 0) ) {
-						alert("请上传附件信息！");
+						window.wxc.alert("请上传附件信息！");
 						checkAtt = false;
 						return false;
 					}else{
@@ -577,7 +585,7 @@
 					}); */
 				}else{
 					if ($("#loan_lost_letter_pic_list li").length == undefined || $("#loan_lost_letter_pic_list li").length == 0) {
-						alert("请上传附件信息！");
+						window.wxc.alert("请上传附件信息！");
 						checkAtt = false;
 						return false;
 					}else{
@@ -587,7 +595,7 @@
 					if ($("#loan_lost_confirmation_pic_list li").length == undefined || $("#loan_lost_confirmation_pic_list li").length == 0) {
 						checkAtt = true;
 					}else{
-						alert("[客户自办贷款确认函]附件须与[客户自办贷款确认函编号]同步！");
+						window.wxc.alert("[客户自办贷款确认函]附件须与[客户自办贷款确认函编号]同步！");
 						checkAtt = false;
 						return false;
 					}
@@ -626,9 +634,11 @@
 	</content>
 	<content tag="local_require">
     <script>
+    	var fileUpload;
 	    require(['main'], function() {
 			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-			    aistFileUpload.init({
+				fileUpload = aistFileUpload;
+				fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "LoanlostApply",
 		    		fileUploadContainer : "loanlostApplyfileUploadContainer"
