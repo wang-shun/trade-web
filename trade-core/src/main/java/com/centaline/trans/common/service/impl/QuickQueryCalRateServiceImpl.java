@@ -18,7 +18,7 @@ public class QuickQueryCalRateServiceImpl implements CustomDictService {
 	@Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {
 		// 格式化占比四舍五入
-		DecimalFormat df = new DecimalFormat("0.00");
+		DecimalFormat df = new DecimalFormat("0");
 
 		double tatalCount = 0; // 纯商+组合+纯公积金案件总和
 		double totalSdAmount = 0; // 总商贷金额
