@@ -50,7 +50,7 @@
 									<tr>
 										<th>类型</th>
 										<th>单数</th>
-										<th>合同价</th>
+										<th>合同价(万元)</th>
 										<th>占比</th>
 									</tr>
 								</thead>
