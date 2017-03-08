@@ -111,11 +111,13 @@ public class TradeCaseController {
 		if (null != onlyFocus && onlyFocus) {
 			paramMap.put("onlyFocus", onlyFocus);
 		}
-		paramMap.put("isNotResearchCloseCase", true);
 		paramMap.put("status", status);
 		//全部案件
 		if(null != property && 30003006 != property){
 			paramMap.put("property", property);
+		}
+		if(!Integer.valueOf(30003002).equals(property)){
+			paramMap.put("isNotResearchCloseCase", true);
 		}
 		if (null != onlyLoanLostAlert && onlyLoanLostAlert) {
 			paramMap.put("onlyLoanLostAlert", onlyLoanLostAlert);
