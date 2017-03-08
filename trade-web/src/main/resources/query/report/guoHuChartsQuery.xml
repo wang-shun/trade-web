@@ -411,7 +411,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-				with tb as(select
+					with tb as(select
 				CASE_CODE
 				,CASE_LOAN_REQ
 				,CASE_CON_PRICE
@@ -451,10 +451,66 @@
 				1=1
 				and tb1.BELONG_MONTH=#belongMonth#
 				and TRANSFER_ISPASS=1
-				and convert(varchar(7),TRANSFER_APP_TIME,120)=#choiceMonth#)
-
+				and convert(varchar(7),TRANSFER_APP_TIME,120)=#choiceMonth#),
+				 os as(
+					select p.id,p.parent_id from sctrans.sys_org p where 1=1
+					<if test="produceType == 'JQYDS'">
+						and  p.id='1D29BB468F504774ACE653B946A393EE'
+					</if>
+					<if test="produceType == 'JQYZJ'">
+						<ifNotNull condition_qudongId>
+								and  p.id=#condition_qudongId#
+						</ifNotNull>
+					</if>
+					<if test="produceType == 'JQYJL'">
+						<ifNotNull condition_directorId>
+							and  p.id=#condition_directorId#
+						</ifNotNull>
+					</if>
+					<if test="produceType == 'JFHJL'">
+						<ifNotNull condition_directorId>
+							and  p.id=#condition_qyManagerId#
+						</ifNotNull>
+					</if>
+					and p.is_deleted=0
+					union all
+					select c.id,c.parent_id from os inner join sctrans.sys_org c on c.parent_id = os.id and c.is_deleted=0
+				),
+				o as(
+				   SELECT uoj.user_id,uoj.org_id, org.org_name,uoj.job_code,uoj.job_name,uoj.real_name FROM sctrans.v_user_org_job uoj
+		    		INNER join sctrans.sys_org org on uoj.org_id=org.id where ismain=1 and is_leader=1
+					<if test="produceType == 'JQYDS'">
+					 and uoj.job_code ='JQYDS'
+					</if>
+					<if test="produceType == 'JQYZJ'">
+					 and uoj.job_code ='JQYZJ'
+					</if>
+					<if test="produceType == 'JQYJL'">
+					 and uoj.job_code ='JQYJL'
+					</if>
+					<if test="produceType == 'JFHJL'">
+					 and uoj.job_code ='JFHJL'
+					</if>
+					 and exists(select 1 from os where uoj.org_id = os.id)
+				)
 				select
-				 #produceType# as JOB_CODE,
+				l1.ORG_ID as ORGANIZATION_ID
+				,l1.REAL_NAME
+				,l1.JOB_CODE
+				,isnull(l2.CASE_COUNT,0) as CASE_COUNT
+				,isnull(l2.CASE_CON_PRICE,0) as CASE_CON_PRICE
+				,isnull(l2.MORT_COM_COUNT,0) as MORT_COM_COUNT
+				,isnull(l2.MORT_COM_AMOUNT,0) as MORT_COM_AMOUNT
+				,isnull(l2.IS_DELEGATE_YUCUI_COUNT,0) as IS_DELEGATE_YUCUI_COUNT
+				,isnull(l2.IS_DELEGATE_CUSTOMER_COUNT,0) as IS_DELEGATE_CUSTOMER_COUNT
+				,isnull(l2.LOST_AMOUNT,0) as LOST_AMOUNT
+				,isnull(l2.EVA_COUNT,0) as EVA_COUNT
+				,isnull(l2.EVA_FEE,0) as EVA_FEE
+				,isnull(l2.E_CARD_COUNT,0) as E_CARD_COUNT
+				,isnull(l2.E_AMOUNT,0) as E_AMOUNT
+				 from o l1 left join
+				(
+				select
 				count(1) as CASE_COUNT,
 				isnull((select sum(t1.CASE_CON_PRICE) from tb as t1 where 1=1
 				<if test="produceType == 'JQYDS'">
@@ -489,7 +545,6 @@
 				isnull((select sum(MORT_COM_AMOUNT) from tb as t1 where 1=1
 				and t1.CASE_LOAN_REQ=1
 				and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
-
 				<if test="produceType == 'JQYDS'">
 				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
@@ -505,7 +560,7 @@
 				 ),0) as MORT_COM_AMOUNT,
 				 (select count(1)  from tb as t1 where 1=1
 				 and t1.IS_DELEGATE_YUCUI='1'
-				 <if test="produceType == 'JQYDS'">
+				<if test="produceType == 'JQYDS'">
 				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
 				<if test="produceType == 'JQYZJ'">
@@ -520,7 +575,7 @@
 				 ) as IS_DELEGATE_YUCUI_COUNT,
 				(select count(1)  from tb as t1 where 1=1
 				 and t1.IS_DELEGATE_YUCUI='0'
-				 <if test="produceType == 'JQYDS'">
+				<if test="produceType == 'JQYDS'">
 				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
 				<if test="produceType == 'JQYZJ'">
@@ -550,7 +605,6 @@
 				 ),0) as LOST_AMOUNT,
 				 (select count(1) from tb as t1 where 1=1
 				and t1.EVA_EVAL_FEE is not null
-
 				<if test="produceType == 'JQYDS'">
 				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
@@ -566,7 +620,6 @@
 				 ) as EVA_COUNT,
 				 isnull((select sum(EVA_EVAL_FEE) from tb as t1 where 1=1
 				 and t1.EVA_EVAL_FEE is not null
-
 				<if test="produceType == 'JQYDS'">
 				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
@@ -577,13 +630,11 @@
 				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
 				<if test="produceType == 'JFHJL'">
-					and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
-
 				),0) as EVA_FEE,
 				(select count(1) from tb as t1 where 1=1
 				 and t1.ELOAN_KA is not null
-
 				<if test="produceType == 'JQYDS'">
 				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
@@ -594,12 +645,10 @@
 				and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
 				</if>
 				<if test="produceType == 'JFHJL'">
-					and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
+				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
-
 				 ) as E_CARD_COUNT,
 				 isnull((select sum(ELOAN_PRO_AMOUNT) from tb as t1 where 1=1
-
 				<if test="produceType == 'JQYDS'">
 				and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 				</if>
@@ -613,22 +662,22 @@
 				and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 				</if>
 				),0) as E_AMOUNT,
+
 				<if test="produceType == 'JQYDS'">
 				BUSIWZ_ORG_ID as ORGANIZATION_ID --(按照区域董事)
 				</if>
 				<if test="produceType == 'JQYZJ'">
-				BUSISWZ_ORG_ID as ORGANIZATION_ID  --(按照区域总监)
+				BUSISWZ_ORG_ID as ORGANIZATION_ID --(按照区域总监)
 				</if>
 				<if test="produceType == 'JQYJL'">
-				BUSIAR_ORG_ID  as ORGANIZATION_ID--(按照区域经理)
+				BUSIAR_ORG_ID as ORGANIZATION_ID --(按照区域经理)
 				</if>
 				<if test="produceType == 'JFHJL'">
-				GROUP_ORG_ID as ORGANIZATION_ID--(按照分行经理)
+				GROUP_ORG_ID as ORGANIZATION_ID --(按照分行经理)
 				</if>
 				from tb as t
-
 				where
-				<if test="produceType == 'JQYDS'">
+			<if test="produceType == 'JQYDS'">
 				BUSIWZ_ORG_ID is not null--(按照区域董事)
 				</if>
 				<if test="produceType == 'JQYZJ'">
@@ -663,16 +712,17 @@
 				<if test="produceType == 'JFHJL'">
 				group by t.GROUP_ORG_ID--(按照分行经理)
 				</if>
+				) l2 on l1.org_id=l2.ORGANIZATION_ID
 	            ]]>
 			</baseSql>
 			<orderBySql>
-				order by CASE_COUNT
+				order by l2.CASE_COUNT desc
 			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
 				<column type="both" name="JOB_CODE" title="岗位编号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="MORT_TYPE" title="是否是总计行"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="REAL_NAME" title="真实姓名"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_COUNT" title="过户案件数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="CASE_COUNT_PERCENT" title="占比" customDict="qqGetCountPercentForMath" referencecol="CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_CON_PRICE" title="合同价"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
@@ -691,12 +741,10 @@
 				<column type="virtual" name="E_COUNT_PERCENT" title="E+卡转化率(单数)" customDict="qqGetECountPercent" referencecol="E_CARD_COUNT,CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="E_AMOUNT_PERCENT" title="E+卡转化率(金额)" customDict="qqGetEAMountPercent" referencecol="E_AMOUNT,CASE_CON_PRICE"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ORGANIZATION_ID" title="组织ID"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="EMPLOYEE_NAME" title="代理人姓名" customDict="qqGetRealNameForLeader" referencecol="MORT_TYPE,ORGANIZATION_ID,JOB_CODE"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual"
 						name="TOTAL_CASE_COUNT,TOTAL_MORT_COM_COUNT,TOTAL_MORT_COM_AMOUNT,TOTAL_CASE_CON_PRICE,TOTAL_LOST_COUNT,TOTAL_CASE_LOST_COUNT_PERCENT,TOTAL_IS_DELEGATE_YUCUI_COUNT,TOTAL_IS_DELEGATE_CUSTOMER_COUNT,TOTAL_LOST_AMOUNT,TOTAL_CASE_LOST_AMOUNT_PERCENT,TOTAL_PING_GU_COUNT_PERCENT,TOTAL_EVA_FEE,TOTAL_E_COUNT_PERCENT,TOTAL_CARD_COUNT_PERCENT,TOTAL_E_AMOUNT_PERCENT,TOTAL_CASE_PART"
 						referencecol="EVA_COUNT,CASE_COUNT,MORT_COM_COUNT,MORT_COM_AMOUNT,CASE_CON_PRICE,LOST_AMOUNT,EVA_FEE,E_CARD_COUNT,E_AMOUNT,IS_DELEGATE_YUCUI_COUNT,IS_DELEGATE_CUSTOMER_COUNT"
 						customDict="qqGetTotalForConsultant"/>
-
 
 			</table-row>
 		</grid>
