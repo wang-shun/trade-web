@@ -11,9 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -478,8 +476,6 @@ public class TradeCaseController {
             throw new BusinessException("抱歉，提交的跟进type为空,请联系技术支持");
         if (null == track.getBizCode())
             throw new BusinessException("抱歉，提交的跟进bizCode为空,请联系技术支持");
-        if (StringUtils.isBlank(track.getSrvCode()))
-            throw new BusinessException("抱歉，提交的跟进srvCode为空,请联系技术支持");
         if (MobileHolder.getMobileUser() != null)
             track.setCreatorOrgId(MobileHolder.getMobileUser().getServiceDepId());
 
