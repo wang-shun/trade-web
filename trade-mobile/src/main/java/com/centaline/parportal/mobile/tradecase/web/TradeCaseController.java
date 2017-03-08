@@ -106,7 +106,10 @@ public class TradeCaseController {
 		
 		buildDataAuthorityParam(paramMap,user);
 		
-		paramMap.put("q_text", q_text);
+		if(!StringUtils.isBlank(q_text)){
+			paramMap.put("q_text", q_text);
+		}
+
 		if (null != onlyFocus && onlyFocus) {
 			paramMap.put("onlyFocus", onlyFocus);
 		}
@@ -152,7 +155,7 @@ public class TradeCaseController {
 				isAdminFlag=true;
 			}
 		}
-		paramMap.put("queryOrgs", reBuffer.toString());
+		paramMap.put("queryorgs", reBuffer.toString().split(","));
 		paramMap.put("isAdminFlag", isAdminFlag);
 		if(StringUtils.isBlank(reBuffer.toString())){
 			paramMap.put("idflag", true);
@@ -476,7 +479,8 @@ public class TradeCaseController {
             throw new BusinessException("抱歉，提交的跟进type为空,请联系技术支持");
         if (null == track.getBizCode())
             throw new BusinessException("抱歉，提交的跟进bizCode为空,请联系技术支持");
-
+        if (StringUtils.isBlank(track.getSrvCode()))
+            throw new BusinessException("抱歉，提交的跟进srvCode为空,请联系技术支持");
         if (MobileHolder.getMobileUser() != null)
             track.setCreatorOrgId(MobileHolder.getMobileUser().getServiceDepId());
 
