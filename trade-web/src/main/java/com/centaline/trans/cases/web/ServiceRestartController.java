@@ -53,19 +53,19 @@ public class ServiceRestartController {
 				 resp.setSuccess(false);
 				 resp.setMessage("此案件已过户，不能重启流程！");
 				 return resp;
+			}else{
+				vo.setUserId(userId);
+				vo.setUserName(u.getUsername());
+				vo.setOrgId(u.getServiceDepId());		
+				
+				// 删除相关
+				StartProcessInstanceVo piv = serviceRestart.restartAndDeleteSubProcess(vo);		
+				resp.setContent(piv);
+				return resp;
 			}
 		}catch(Exception e){
 			throw new BusinessException("重启流程异常！");	 
 		}
-
-		vo.setUserId(userId);
-		vo.setUserName(u.getUsername());
-		vo.setOrgId(u.getServiceDepId());		
-		
-		// 删除相关
-		StartProcessInstanceVo piv = serviceRestart.restartAndDeleteSubProcess(vo);		
-		resp.setContent(piv);
-		return resp;
 	}
 
 	
