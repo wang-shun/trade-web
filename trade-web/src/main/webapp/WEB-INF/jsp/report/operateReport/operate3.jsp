@@ -127,24 +127,24 @@
 						 	if(parseInt(row.month)==(month)){
 						 		var num1 = getNum(row.mortComAmount);
 						 		var num2 = getNum(row.mortPrfAmount);
-						 		var numA = sum(num1,num2);
-						 		td1Html = "<td>"+getNum(row.dispatchSum)+"</td>";
-						 		td2Html = "<td>"+getNum(row.realConSum)+"</td>";
-						 		td3Html = "<td>"+getNum(row.transferAppPassSum)+"</td>";
-						 		td4Html = "<td>"+getNum(row.comSum)+"</td>";
-						 		td5Html = "<td>"+getNum(row.prfSum)+"</td>";
-						 		if(getNum(row.comSum) == 0 || getNum(row.realConSum)==0) td6Html = "<td>"+0.00+"%</td>";
-						 		else td6Html = "<td>"+accMul(accDiv(getNum(row.comSum),getNum(row.realConSum)),100)+"%</td>";
-						 		if(getNum(row.prfSum)==0 || getNum(row.realConSum)==0)td7Html = "<td>"+0.00+"%</td>";
-						 		else td7Html = "<td>"+accMul(accDiv(getNum(row.prfSum),getNum(row.realConSum)),100)+"%</td>";
-						 		td8Html = "<td>"+accDiv(getNum(row.conPrice),10000)+"</td>";
-						 		td9Html = "<td>"+accDiv(num1,10000)+"</td>";
-						 		td10Html = "<td>"+accDiv(num2,10000)+"</td>";
-						 		if(num1==0 || getNum(row.conPrice)==0) td11Html = "<td>"+0.00+"%</td>";
-						 		else td11Html = "<td>"+accMul(accDiv(num1,getNum(row.conPrice)),100)+"%</td>";
-						 		if(num2==0 || getNum(row.conPrice)==0) td12Html = "<td>"+0.00+"%</td>";
-						 		else td12Html = "<td>"+accMul(accDiv(num2,getNum(row.conPrice)),100)+"%</td>";
-						 		break;
+						 		var numA = sum(num1,num2);                                                                     
+						 		td1Html = "<td>"+getNum(row.dispatchSum)+"</td>";		                                        /*1派单量**/      
+						 		td2Html = "<td>"+getNum(row.realConSum)+"</td>";                                                /*2签约量（买卖）**/      
+						 		td3Html = "<td>"+getNum(row.transferAppPassSum)+"</td>";                                        /*3过户量**/      
+						 		td4Html = "<td>"+getNum(row.comSum)+"</td>";                                                    /*4商贷签约量**/      
+						 		td5Html = "<td>"+getNum(row.prfSum)+"</td>";                                                    /*5公积金签约量**/      
+						 		if(getNum(row.comSum) == 0 || getNum(row.realConSum)==0) td6Html = "<td>"+0.00+"%</td>";        /*6商贷案件占比**/      
+						 		else td6Html = "<td>"+accMul(accDiv(getNum(row.comSum),getNum(row.realConSum)),100)+"%</td>";   /*6商贷案件占比**/      
+						 		if(getNum(row.prfSum)==0 || getNum(row.realConSum)==0)td7Html = "<td>"+0.00+"%</td>";           /*7纯公积金案件占比**/      
+						 		else td7Html = "<td>"+accMul(accDiv(getNum(row.prfSum),getNum(row.realConSum)),100)+"%</td>";   /*7纯公积金案件占比**/      
+						 		td8Html = "<td>"+accDiv(getNum(row.conPrice),10000)+"</td>";                                    /*8签贷合同价**/      
+						 		td9Html = "<td>"+accDiv(num1,10000)+"</td>";                                                    /*9商贷金额**/      
+						 		td10Html = "<td>"+accDiv(num2,10000)+"</td>";                                                   /*10公积金金额**/      
+						 		if(num1==0 || getNum(row.conPrice)==0) td11Html = "<td>"+0.00+"%</td>";                         /*11商贷金额占比**/      
+						 		else td11Html = "<td>"+accMul(accDiv(num1,getNum(row.conPrice)),100)+"%</td>";                  /*11商贷金额占比**/      
+						 		if(num2==0 || getNum(row.conPrice)==0) td12Html = "<td>"+0.00+"%</td>";                         /*12公积金金额占比**/      
+						 		else td12Html = "<td>"+accMul(accDiv(num2,getNum(row.conPrice)),100)+"%</td>";                  /*12公积金金额占比**/      
+						 		break;                                                                                                
 						 	}
 						 }
 						 tr1Html+= (td1Html=="")?tempTd:td1Html;

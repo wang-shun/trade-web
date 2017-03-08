@@ -109,9 +109,9 @@
 						 		var num1 = accDiv(getNum(row.mortComAmount),10000);
 						 		var num2 = accDiv(getNum(row.mortPrfAmount),10000);
 						 		var numA = accAdd(num1,num2);
-						 		td1Html = "<td>"+num1+"</td>";
-						 		td2Html = "<td>"+num2+"</td>";
-						 		td3Html = "<td>"+numA+"</td>";
+						 		td1Html = "<td>"+num1+"</td>";/*1商贷金额*/
+						 		td2Html = "<td>"+num2+"</td>";/*2公积金金额*/
+						 		td3Html = "<td>"+numA+"</td>";/*3总计*/
 						 		break;
 						 	}
 						 }
@@ -143,9 +143,9 @@
 						 		var num1 = accDiv(getNum(row.dkmortComAmount),10000);
 						 		var num2 = accDiv(getNum(row.dkmortPrfAmount),10000);
 						 		var numA = accAdd(num1,num2);
-						 		td1Html = "<td>"+num1+"</td>";
-						 		td2Html = "<td>"+num2+"</td>";
-						 		td3Html = "<td>"+numA+"</td>";
+						 		td1Html = "<td>"+num1+"</td>";/*1商贷金额*/
+						 		td2Html = "<td>"+num2+"</td>";/*2公积金金额*/
+						 		td3Html = "<td>"+numA+"</td>";/*3总计*/
 						 		break;
 						 	}
 						 	
