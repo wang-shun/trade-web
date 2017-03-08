@@ -107,6 +107,7 @@
 
         <!-- Mainly scripts -->
         <script src="${ctx}/js/jquery-2.1.1.js"></script>
+         <script src="${ctx}/js/trunk/report/overwriteAlgorithm.js"></script>
         <script src="${ctx}/js/bootstrap.min.js"></script>
         <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
@@ -123,11 +124,11 @@
           <tr>
               <td>{{item.MORT_TYPE_CN}}</td>
               <td>{{item.CASE_COUNT}}</td>
-              <td>{{item.CASE_COUNT_PERCENT}}</td>
-              <td>{{item.CASE_CON_PRICE/10000}}万元</td>
-              <td>{{item.MORT_COM_AMOUNT/10000}}万元</td>
-              <td>{{item.MORT_PRF_AMOUNT/10000}}万元</td>
-              <td>{{item.MORT_PERCENT}}</td>
+              <td>{{(item.CASE_COUNT_PERCENT*100).toFixed()}}%</td>
+              <td>{{(item.CASE_CON_PRICE/10000).toFixed()}}万元</td>
+              <td>{{(item.MORT_COM_AMOUNT/10000).toFixed()}}万元</td>
+              <td>{{(item.MORT_PRF_AMOUNT/10000).toFixed()}}万元</td>
+              <td>{{(item.MORT_PERCENT*100).toFixed()}}%</td>
              </tr>
 		{{/each}}
 	    </script>

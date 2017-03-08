@@ -103,9 +103,9 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 				}
 				if("qqGetLostCountPercent".equals(dictType)){
 					double lost_count = Double.valueOf(keyer.get("LOST_COUNT").toString());
-					double case_count = Double.valueOf(keyer.get("CASE_COUNT").toString());
-					if(case_count!=0){
-						keyer.put("val", Double.valueOf(df.format(lost_count/case_count)));
+					double com_count = Double.valueOf(keyer.get("MORT_COM_COUNT").toString());
+					if(com_count!=0){
+						keyer.put("val", Double.valueOf(df.format(lost_count/com_count)));
 					}else{
 						keyer.put("val",0);
 					}
@@ -201,8 +201,8 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 					if(TOTAL_MORT_COM_COUNT!=0){
 						TOTAL_PING_GU_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_EVA_COUNT/TOTAL_MORT_COM_COUNT));
 					}
-					if(TOTAL_CASE_COUNT!=0){
-						TOTAL_CASE_LOST_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_LOST_COUNT/TOTAL_CASE_COUNT));
+					if(TOTAL_MORT_COM_COUNT!=0){
+						TOTAL_CASE_LOST_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_LOST_COUNT/TOTAL_MORT_COM_COUNT));
 						TOTAL_E_COUNT_PERCENT =  Double.valueOf(df.format(TOTAL_E_CARD_COUNT/TOTAL_CASE_COUNT));
 						TOTAL_CARD_COUNT_PERCENT = Double.valueOf(df.format(TOTAL_CARD_COUNT/TOTAL_CASE_COUNT));
 					}

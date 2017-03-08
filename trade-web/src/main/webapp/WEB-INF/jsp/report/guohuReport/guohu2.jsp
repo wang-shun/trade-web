@@ -112,6 +112,7 @@
 	<!--*********************** HTML_main*********************** -->
 
 	<script src="${ctx}/js/jquery-2.1.1.js"></script>
+	<script src="${ctx}/js/trunk/report/overwriteAlgorithm.js"></script>
 	<script src="${ctx}/js/bootstrap.min.js"></script>
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<!-- 分页控件  -->
@@ -122,39 +123,40 @@
 	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
 	<!-- 个人js -->
 	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
+
 	<script id="template_table" type="text/html">
           {{each rows as item index}}
 		  <tr>
 			  <td>{{item.CASE_PART}}</td>
 			  <td>{{item.MORT_COM_COUNT}}</td>
-			  <td>{{item.MORT_COM_AMOUNT/10000}}万元</td>
-			  <td>{{item.CASE_CON_PRICE/10000}}万元</td>
+			  <td>{{(item.MORT_COM_AMOUNT/10000).toFixed()}}万元</td>
+			  <td>{{(item.CASE_CON_PRICE/10000).toFixed()}}万元</td>
 			  <td>{{item.LOST_COUNT}}</td>
-			  <td>{{item.CASE_LOST_COUNT_PERCENT}}</td>
-			  <td>{{item.LOST_AMOUNT/10000}}万元</td>
-			  <td>{{item.CASE_LOST_AMOUNT_PERCENT}}</td>
-			  <td>{{item.PING_GU_COUNT_PERCENT}}</td>
-			  <td>{{item.EVA_FEE/10000}}万元</td>
-			  <td>{{item.E_COUNT_PERCENT}}</td>
-			  <td>{{item.CARD_COUNT_PERCENT}}</td>
-			  <td>{{item.E_AMOUNT_PERCENT}}</td>
+			  <td>{{(item.CASE_LOST_COUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(item.LOST_AMOUNT/10000).toFixed()}}万元</td>
+			  <td>{{(item.CASE_LOST_AMOUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(item.PING_GU_COUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(item.EVA_FEE/10000).toFixed()}}万元</td>
+			  <td>{{(item.E_COUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(item.CARD_COUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(item.E_AMOUNT_PERCENT*100).toFixed()}}%</td>
 		  </tr>
 		{{/each}}
 		  {{if rows.length > 0}}
 		  <tr>
 			  <td>{{rows[rows.length-1].TOTAL_CASE_PART}}</td>
 			  <td>{{rows[rows.length-1].TOTAL_MORT_COM_COUNT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_MORT_COM_AMOUNT/10000}}万元</td>
-			  <td>{{rows[rows.length-1].TOTAL_CASE_CON_PRICE/10000}}万元</td>
+			  <td>{{(rows[rows.length-1].TOTAL_MORT_COM_AMOUNT/10000).toFixed()}}万元</td>
+			  <td>{{(rows[rows.length-1].TOTAL_CASE_CON_PRICE/10000).toFixed()}}万元</td>
 			  <td>{{rows[rows.length-1].TOTAL_LOST_COUNT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_CASE_LOST_COUNT_PERCENT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_LOST_AMOUNT/10000}}万元</td>
-			  <td>{{rows[rows.length-1].TOTAL_CASE_LOST_AMOUNT_PERCENT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_PING_GU_COUNT_PERCENT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_EVA_FEE/10000}}万元</td>
-			  <td>{{rows[rows.length-1].TOTAL_E_COUNT_PERCENT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_CARD_COUNT_PERCENT}}</td>
-			  <td>{{rows[rows.length-1].TOTAL_E_AMOUNT_PERCENT}}</td>
+			  <td>{{(rows[rows.length-1].TOTAL_CASE_LOST_COUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(rows[rows.length-1].TOTAL_LOST_AMOUNT/10000).toFixed()}}万元</td>
+			  <td>{{(rows[rows.length-1].TOTAL_CASE_LOST_AMOUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(rows[rows.length-1].TOTAL_PING_GU_COUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(rows[rows.length-1].TOTAL_EVA_FEE/10000).toFixed()}}万元</td>
+			  <td>{{(rows[rows.length-1].TOTAL_E_COUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(rows[rows.length-1].TOTAL_CARD_COUNT_PERCENT*100).toFixed()}}%</td>
+			  <td>{{(rows[rows.length-1].TOTAL_E_AMOUNT_PERCENT*100).toFixed()}}%</td>
 		  </tr>
 		  {{else}}
 		  <tr>
