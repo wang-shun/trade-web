@@ -84,6 +84,7 @@ th,td {
 
 	<!-- Mainly scripts -->
 	<script src="${ctx }/js/jquery-2.1.1.js"></script>
+	<script src="${ctx}/js/trunk/report/overwriteAlgorithm.js"></script>
 	<script src="${ctx }/js/bootstrap.min.js"></script>
 	<script rc="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<!-- 分页控件  -->
@@ -93,7 +94,7 @@ th,td {
 	<!-- 排序插件 -->
 	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
 	<!-- 个人js -->
-	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
+	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>	
 	<script id="template_loanLoseList" type="text/html">
           {{each rows as item index}}
 		    <tr>
