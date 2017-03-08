@@ -101,9 +101,9 @@
 					var tr5Html =  "<tr><td>公积金签约量	</td>";      
 					var tr6Html =  "<tr><td>商贷案件占比	</td>";      
 					var tr7Html =  "<tr><td>纯公积金案件占比</td>";          
-					var tr8Html =  "<tr><td>签贷合同价    	</td>";    
-					var tr9Html =  "<tr><td>商贷金额		</td>";      
-					var tr10Html = "<tr><td>公积金金额		</td>";     
+					var tr8Html =  "<tr><td>签贷合同价(万元)</td>";    
+					var tr9Html =  "<tr><td>商贷金额(万元)</td>";      
+					var tr10Html = "<tr><td>公积金金额	(万元)</td>";     
 					var tr11Html = "<tr><td>商贷金额占比	</td>";     
 					var tr12Html = "<tr><td>公积金金额占比  	</td>";    
 					var tempTd = "<td>0</td>";

@@ -93,9 +93,9 @@
 					data.ctx = ctx;
 					$('#tableTemplate').empty();
 					var tbHtml = "";
-					var tr1Html = "<tr><td rowspan='3'>过户数据（签贷款）</td><td>商贷金额</td>";
-					var tr2Html = "<tr><td>公积金金额</td>";
-					var tr3Html = "<tr><td>总计</td>";
+					var tr1Html = "<tr><td rowspan='3'>过户数据（签贷款）</td><td>商贷金额(万元)</td>";
+					var tr2Html = "<tr><td>公积金金额(万元)</td>";
+					var tr3Html = "<tr><td>总计(万元)</td>";
 					var tempTd = "<td>0</td>";
 					var list = data.voList[0];
 					var listSize = list.length;
@@ -128,9 +128,9 @@
 					$("#tableTemplate").append(tbHtml);
 					
 					tbHtml = "";
-					tr1Html = "<tr><td rowspan='3'>贷款签约数据</td><td>商贷金额</td>";
-					tr2Html = "<tr><td>公积金金额</td>";
-					tr3Html = "<tr><td>总计</td>";
+					tr1Html = "<tr><td rowspan='3'>贷款签约数据</td><td>商贷金额(万元)</td>";
+					tr2Html = "<tr><td>公积金金额(万元)</td>";
+					tr3Html = "<tr><td>总计(万元)</td>";
 					list = data.voList[1];
 					listSize = list.length;
 					 for(var month = 1;month<=12;month++){
