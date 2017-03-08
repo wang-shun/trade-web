@@ -140,9 +140,9 @@
 						 		td8Html = "<td>"+accDiv(getNum(row.conPrice),10000)+"</td>";                                    /*8签贷合同价**/      
 						 		td9Html = "<td>"+accDiv(num1,10000)+"</td>";                                                    /*9商贷金额**/      
 						 		td10Html = "<td>"+accDiv(num2,10000)+"</td>";                                                   /*10公积金金额**/      
-						 		if(num1==0 || getNum(row.conPrice)==0) td11Html = "<td>"+0.00+"%</td>";                         /*11商贷金额占比**/      
+						 		if(num1==0 || getNum(row.conPrice)==0) td11Html = "<td>"+0+"%</td>";                         /*11商贷金额占比**/      
 						 		else td11Html = "<td>"+accMul(accDiv(num1,getNum(row.conPrice)),100)+"%</td>";                  /*11商贷金额占比**/      
-						 		if(num2==0 || getNum(row.conPrice)==0) td12Html = "<td>"+0.00+"%</td>";                         /*12公积金金额占比**/      
+						 		if(num2==0 || getNum(row.conPrice)==0) td12Html = "<td>"+0+"%</td>";                         /*12公积金金额占比**/      
 						 		else td12Html = "<td>"+accMul(accDiv(num2,getNum(row.conPrice)),100)+"%</td>";                  /*12公积金金额占比**/      
 						 		break;                                                                                                
 						 	}
