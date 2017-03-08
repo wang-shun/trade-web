@@ -157,7 +157,7 @@ public class TradeCaseController {
 		}
 		paramMap.put("queryorgs", reBuffer.toString().split(","));
 		paramMap.put("isAdminFlag", isAdminFlag);
-		if(StringUtils.isBlank(reBuffer.toString())){
+		if(!StringUtils.isBlank(reBuffer.toString())){
 			paramMap.put("idflag", true);
 		}
 	}
