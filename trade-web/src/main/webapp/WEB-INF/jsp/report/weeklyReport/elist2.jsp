@@ -59,8 +59,8 @@ th, td {
 								<th>有评估费单数</th>
 								<th>评估转化率</th>
 								<th>本月累计</th>
-								<th>评估费应收（元）</th>
-								<th>评估费实收（元）</th>
+								<th>评估费应收</th>
+								<th>评估费实收</th>
 								<th>收益率</th>
 								<th>本月累计</th>
 							</tr>
@@ -104,8 +104,8 @@ th, td {
               <td>{{item.EVA_NUM_WEEK}}</td>
               <td>{{item.REC_NUM_WEEK == 0?0:(item.EVA_NUM_WEEK/item.REC_NUM_WEEK*100).toFixed()}}%</td>
               <td>{{item.REC_NUM_MONTH == 0?0:(item.EVA_NUM_MONTH/item.REC_NUM_MONTH*100).toFixed()}}%</td>
-              <td>{{(item.EVA_AMOUNT_WEEK).toFixed()}}</td>
-              <td>{{(item.EVA_ACT_AMOUNT_WEEK).toFixed()}}</td>
+              <td>{{(item.EVA_AMOUNT_WEEK).toFixed()}}元</td>
+              <td>{{(item.EVA_ACT_AMOUNT_WEEK).toFixed()}}元</td>
 			  <td>{{item.EVA_AMOUNT_WEEK == 0?0:(item.EVA_ACT_AMOUNT_WEEK/item.EVA_AMOUNT_WEEK*100).toFixed()}}%</td>
               <td>{{item.EVA_AMOUNT_MONTH == 0?0:(item.EVA_ACT_AMOUNT_MONTH/item.EVA_AMOUNT_MONTH*100).toFixed()}}%</td>
              </tr>
