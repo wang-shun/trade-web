@@ -332,7 +332,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	@Override
 	public boolean restartCheckout(ServiceRestartVo vo, String userId) {
 		
-		if(null == userId || !"".equals(userId)){
+		if(null == userId || "".equals(userId)){
 			throw new BusinessException("用户未登录！");	
 		}		
 		
