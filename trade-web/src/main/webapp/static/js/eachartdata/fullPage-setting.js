@@ -2,8 +2,8 @@ var times = 0;
 
 $(function() {
     $('#fullpage').fullpage({
-        sectionsColor: ['#f5f5f5', '#f5f5f5', '#f5f5f5', '#f5f5f5'],
-        anchors: ['firstPage', 'secondPage', '3rdPage', '4thPage'],
+        sectionsColor: ['#f5f5f5', '#f5f5f5', '#f5f5f5', '#f5f5f5','#f5f5f5','#f5f5f5'],
+        anchors: ['firstPage', 'secondPage', '3rdPage','4thPage','5thPage','lastPage'],
         menu: '#menu',
         loopBottom: false,
         afterLoad: function(anchorLink, index){       	

@@ -593,5 +593,69 @@
     <!-- 根据地址查询可以关联的案件数-->
     <bean name="getGlCaseCount" class="com.centaline.trans.common.service.impl.QuickQueryGetGlCaseCountServiceImpl"> 
     </bean>	
+    
+    <!-- 签约贷款模块中贵宾中心、组别、个人中统计评估费转化率 -->
+    <bean name="calPgfRate" class="com.centaline.trans.common.service.impl.QuickQueryCalPgfRateServiceImpl"></bean>	
+    
+    <!-- 签约贷款模块中签贷款数据统计中计算占比、商贷金额占比、公积金金额占比以及总计 -->
+    <bean name="calRate" class="com.centaline.trans.common.service.impl.QuickQueryCalRateServiceImpl"></bean>	
+    
+     <!-- 签约贷款模块中分行、支行统计计算总计案件单数、商贷金额-->
+    <bean name="calTotalByBank" class="com.centaline.trans.common.service.impl.QuickQueryCalTotalByBankServiceImpl"></bean>	
+    
+    <!-- 签约贷款模块中后台交易顾问工作量总计-->
+    <bean name="calTotalByBackConsultantWork" class="com.centaline.trans.common.service.impl.QuickQueryCalTotalByBackConsultantWorkServiceImpl"></bean>	
+
+    <!-- 计算过户案件数占比 -->
+    <bean name="qqGetCountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetCountPercent"></property>
+    </bean>
+    <!-- 计算过户案件贷款成数 -->
+    <bean name="qqGetMortPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetMortPercent"></property>
+    </bean>
+    <!-- 计算单数流失率 -->
+    <bean name="qqGetLostCountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetLostCountPercent"></property>
+    </bean>
+    <!-- 计算金额流失率 -->
+    <bean name="qqGetLostAmountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetLostAmountPercent"></property>
+    </bean>
+    <!-- 计算评估率 -->
+    <bean name="qqGetPingGuCountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetPingGuCountPercent"></property>
+    </bean>
+    <!-- 计算E卡转换率 -->
+    <bean name="qqGetECountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetECountPercent"></property>
+    </bean>
+    <!-- 刷卡率 -->
+    <bean name="qqGetCardCountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetCardCountPercent"></property>
+    </bean>
+    <!-- E转化率金额 -->
+    <bean name="qqGetEAMountPercent" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetEAMountPercent"></property>
+    </bean>
+    <!-- 根据组织id得到岗位负责人名字 -->
+    <bean name="qqGetRealNameForLeader" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetRealNameForLeader"></property>
+    </bean>
+
+    <!-- 合计 -->
+    <bean name="qqGetTotalForConsultant" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetTotalForConsultant"></property>
+    </bean>
+    <!-- 合计 -->
+    <bean name="qqGetCountPercentForMath" class="com.centaline.trans.common.service.impl.QuickQueryMortFormServiceImpl">
+        <property name="dictType" value="qqGetCountPercentForMath"></property>
+    </bean>
+
+    <!-- 签约贷款模块中签约数据(总表)总计-->
+    <bean name="calTotalBySignStatistics" class="com.centaline.trans.common.service.impl.QuickQueryCalTotalBySignStatisticsServiceImpl"></bean>	
+
+
 <aop:aspectj-autoproxy expose-proxy="true"/>
+
 </beans>

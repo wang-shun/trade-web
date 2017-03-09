@@ -42,6 +42,7 @@
 
 	<!-- 案件基础信息报表 -->
 	<import resource="query/report/toCaseBaseInfoChartsQuery.xml" />
+	<import resource="query/report/guoHuChartsQuery.xml" />
 
 	<!-- 知识库 -->
 	<import resource="query/knowledge/knowledgeListQuery.xml" />
@@ -143,7 +144,10 @@
 	<import resource="query/report/toReportSignCaseQuery.xml" />
 	
 	<!-- 派单、签约量统计 -->
-	<import resource="query/report/toCaseBaseInfoChartsQuery.xml"/>
+	<import resource="query/report/toCaseBaseInfoChartsQuery.xml"/>	
+		
+	<!-- 一周核心报表 -->
+	<import resource="query/report/toCaseWeeklyCoreChartsQuery.xml"/>
 	
 	<!-- 案件状态统计 -->
 	<import resource="query/dashboard/GetStatus.xml" />
@@ -203,4 +207,12 @@
 	
 	<!-- 变更记录列表 -->
 	<import resource="query/case/changeRecordListQuery.xml"/>
+	
+	<!-- 签约贷款报表统计模块开始 -->
+	
+	<!-- 按贵宾中心、组别、个人统计 -->
+	<import resource="query/report/signLoanReportQuery.xml"/>
+	
+	
+	<!-- 签约贷款报表统计模块结束 -->
 </queryConfig>
