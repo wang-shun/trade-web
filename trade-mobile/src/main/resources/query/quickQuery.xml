@@ -26,4 +26,5 @@
 	<import resource="query/tradeCase/toCaseListQueryMobile.xml" />
 	<import resource="query/tradeCase/processListQueryMobile.xml" />
 
+   	<import resource="query/task/toTaskListQueryMobile.xml" />
 </queryConfig>
