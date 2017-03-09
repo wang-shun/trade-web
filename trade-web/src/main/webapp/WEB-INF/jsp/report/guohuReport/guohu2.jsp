@@ -112,7 +112,6 @@
 	<!--*********************** HTML_main*********************** -->
 
 	<script src="${ctx}/js/jquery-2.1.1.js"></script>
-	<script src="${ctx}/js/trunk/report/overwriteAlgorithm.js"></script>
 	<script src="${ctx}/js/bootstrap.min.js"></script>
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<!-- 分页控件  -->
