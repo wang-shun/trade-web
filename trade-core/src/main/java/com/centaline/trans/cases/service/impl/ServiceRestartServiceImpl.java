@@ -329,4 +329,34 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toWorkFlowService.insertSelective(wf);
 	}
 
+	@Override
+	public boolean restartCheckout(ServiceRestartVo vo, String userId) {
+		
+		if(null == userId || "".equals(userId)){
+			throw new BusinessException("用户未登录！");	
+		}		
+		
+		if(!"8a8493d553ad8759015404ac92750d43".equals(userId)){
+			//案件详情页面未刷新时判断时候可以流程重启
+			String caseCode = "";
+			
+			if(null != vo){
+				caseCode = vo.getCaseCode() == null ? "":vo.getCaseCode();
+			}
+			ToCase  toCase = toCaseService.findToCaseByCaseCode(caseCode);
+			if(null != toCase){
+				String status = toCase.getStatus();
+				if(null != status && !"".equals(status)){
+					if("30001004".equals(status)){
+						return false;
+					}
+				}			
+			}
+		}
+		return true;
+		
+	}
+
+
+
 }

@@ -282,8 +282,8 @@
 				
 				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" dataType="String" defaultVal=""/>
 				<column type="both" name="status" dataType="String" defaultVal=""/>
-				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" dataType="JSONARRAY"/>
-				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" dataType="JSONARRAY"/>
+				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" dataType="JSONARRAY" defaultVal="[]"/>
+				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" dataType="JSONARRAY" defaultVal="[]"/>
 
 				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
 				<column type="both" name="isFocus" dataType="BOOLEAN"/>

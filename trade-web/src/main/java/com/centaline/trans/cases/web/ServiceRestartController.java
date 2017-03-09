@@ -9,11 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.attachment.service.ToAttachmentService;
-import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ServiceRestartService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
@@ -42,35 +42,30 @@ public class ServiceRestartController {
 	@ResponseBody
 	public AjaxResponse<StartProcessInstanceVo> restart(Model model,
 			ServiceRestartVo vo) {
+		
 		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();
-		//案件详情页面未刷新时判断时候可以流程重启
-		String caseCode = "";
-		if(null != vo){
-			caseCode = vo.getCaseCode() == null ? "":vo.getCaseCode();
-		}
-		ToCase  toCase = toCaseService.findToCaseByCaseCode(caseCode);
-		if(null != toCase){
-			String status = toCase.getStatus();
-			if(null != status && !"".equals(status)){
-				if("30001004".equals(status)){
-					resp.setSuccess(false);
-					resp.setMessage("此案件已过户，不能重启流程！");
-					return resp;
-				}
-			}			
-		}
-		
 		SessionUser u = uamSessionService.getSessionUser();
-		vo.setUserId(u.getId());
-		vo.setUserName(u.getUsername());
-		vo.setOrgId(u.getServiceDepId());		
+		String userId = u.getId();
 		
-		// 删除相关
-		StartProcessInstanceVo piv = serviceRestart
-				.restartAndDeleteSubProcess(vo);
-		
-		resp.setContent(piv);
-		return resp;
+		try{
+			boolean flag = serviceRestart.restartCheckout(vo,userId);
+			if(flag == false){
+				 resp.setSuccess(false);
+				 resp.setMessage("此案件已过户，不能重启流程！");
+				 return resp;
+			}else{
+				vo.setUserId(userId);
+				vo.setUserName(u.getUsername());
+				vo.setOrgId(u.getServiceDepId());		
+				
+				// 删除相关
+				StartProcessInstanceVo piv = serviceRestart.restartAndDeleteSubProcess(vo);		
+				resp.setContent(piv);
+				return resp;
+			}
+		}catch(Exception e){
+			throw new BusinessException("重启流程异常！");	 
+		}
 	}
 
 	

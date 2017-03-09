@@ -11,9 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -106,15 +104,20 @@ public class TradeCaseController {
 		
 		buildDataAuthorityParam(paramMap,user);
 		
-		paramMap.put("q_text", q_text);
+		if(!StringUtils.isBlank(q_text)){
+			paramMap.put("q_text", q_text);
+		}
+
 		if (null != onlyFocus && onlyFocus) {
 			paramMap.put("onlyFocus", onlyFocus);
 		}
-		paramMap.put("isNotResearchCloseCase", true);
 		paramMap.put("status", status);
 		//全部案件
 		if(null != property && 30003006 != property){
 			paramMap.put("property", property);
+		}
+		if(!Integer.valueOf(30003002).equals(property)){
+			paramMap.put("isNotResearchCloseCase", true);
 		}
 		if (null != onlyLoanLostAlert && onlyLoanLostAlert) {
 			paramMap.put("onlyLoanLostAlert", onlyLoanLostAlert);
@@ -152,9 +155,8 @@ public class TradeCaseController {
 				isAdminFlag=true;
 			}
 		}
-		paramMap.put("queryOrgs", reBuffer.toString());
-		paramMap.put("isAdminFlag", isAdminFlag);
-		if(StringUtils.isBlank(reBuffer.toString())){
+		paramMap.put("queryorgs", reBuffer.toString().split(","));
+		if(!isAdminFlag && StringUtils.isBlank(reBuffer.toString())){
 			paramMap.put("idflag", true);
 		}
 	}
@@ -428,7 +430,7 @@ public class TradeCaseController {
 	
     @RequestMapping(value = "{caseCode}/track")
     @ResponseBody
-    public String addTrack(@PathVariable("caseCode")String caseCode, @RequestBody CommentVo cmtVo) {
+    public String addTrack(@PathVariable("caseCode")String caseCode, CommentVo cmtVo) {
 
     	cmtVo.setCaseCode(caseCode);
         ToCaseComment track = new ToCaseComment();
@@ -476,7 +478,6 @@ public class TradeCaseController {
             throw new BusinessException("抱歉，提交的跟进type为空,请联系技术支持");
         if (null == track.getBizCode())
             throw new BusinessException("抱歉，提交的跟进bizCode为空,请联系技术支持");
-
         if (MobileHolder.getMobileUser() != null)
             track.setCreatorOrgId(MobileHolder.getMobileUser().getServiceDepId());
 
