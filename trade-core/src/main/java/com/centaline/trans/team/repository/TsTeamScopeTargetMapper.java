@@ -20,5 +20,5 @@ public interface TsTeamScopeTargetMapper {
      */
     Integer updateGrpMap();
     
-    TsTeamScopeTarget getTeamScopeTargetInfo(Map<String, Object> param);   
+    List<TsTeamScopeTarget> getTeamScopeTargetInfo(Map<String, Object> param);   
 }

@@ -83,6 +83,7 @@ function reloadGrid(data) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
+        	console.log(data);
         	
         	$.unblockUI();   	 
         	var myCaseList = template('template_myCaseList' , data);
@@ -241,7 +242,7 @@ function getMergeCount(){
 		return true;
 	}
 	if(cuNus.length>1 && "" != str){
-		alert("批量分配案件中有如下案件可以合流(请先合流案件)："+str+"");
+		window.wxc.alert("批量分配案件中有如下案件可以合流(请先合流案件)："+str+"");
 		return true;
 	}else{
 		caseDistributeType();
@@ -483,7 +484,8 @@ function distributeCase(index){
 				 } else {
 					 confrimMsg = "案件所属区域与主办或合作对象不匹配,您是否确认分配给"+userName+"?";
 				 }
-				 if(confirm(confrimMsg)){
+				 
+				 window.wxc.confirm(confrimMsg,{"wxcOk":function(){
 		            $("#myCaseList").html("");
 					var url = "/case/bindCaseDist";
 					var ctx = $("#ctx").val();
@@ -516,21 +518,22 @@ function distributeCase(index){
 				            
 							success : function(data) {
 								if(data.success){
-									alert("分配成功");
-									$('#modal-form').modal("hide");
-									//jqGrid reload
-									/*
-									reloadGrid(1);*/
-									$("#checkAllNot").attr('checked',false);
-									searchMethod(1);
+									window.wxc.success("分配成功",{"wxcOk":function(){
+										$('#modal-form').modal("hide");
+										//jqGrid reload
+										/*
+										reloadGrid(1);*/
+										$("#checkAllNot").attr('checked',false);
+										searchMethod(1);
+									}});
 								}else{
-									alert(data.message);
+									window.wxc.error(data.message);
 								}
 							},
 							error : function(XMLHttpRequest, textStatus, errorThrown) {
 							}
 						});
-				 }
+				 }});
 			}
 		}); 
 }
@@ -541,8 +544,8 @@ function distributeCase(index){
 function changeCaseTeam(){
 	//var orgName =$('input[name="teamRadio"]:checked').parent().text();
 	var orgName =$('select[name="yuTeamCode"]').find("option:selected").text();
-	if(confirm("您是否确认分配给"+orgName+"?")){
-
+	
+	window.wxc.confirm("您是否确认分配给"+orgName+"?",{"wxcOk":function(){
     	//var orgId =$('input[name="teamRadio"]:checked').val();
 		var orgId =$('select[name="yuTeamCode"]').val();
 		var url = "/case/bindCaseTeam";
@@ -596,22 +599,20 @@ function changeCaseTeam(){
 		            } , 
 			success : function(data) {
 				if(data.success){
-					alert("分配成功");
-					$('#team-modal-form').modal("hide");
-					//jqGrid reload
-					/*
-					reloadGrid(1);*/
-					$("#checkAllNot").attr('checked',false);
-					searchMethod(1);
+					window.wxc.success("分配成功",{"":function(){
+						$('#team-modal-form').modal("hide");
+						$("#checkAllNot").attr('checked',false);
+						searchMethod(1);
+					}});
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				
 			}
 		}); 
-	}
+	}});
 }
 
 

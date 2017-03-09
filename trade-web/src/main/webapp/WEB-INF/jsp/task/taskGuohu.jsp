@@ -209,6 +209,7 @@
 	                            <input type="text" name="comYear" id="comYear"
 									value="${toMortgage.comYear }" class=" input_type yuanwid"
 									onkeyup="checknum(this)">
+								<span class="date_icon">年</span>
 	                        </div>
 	                        <div class="form_content">
 	                            <label class="control-label sign_left_small">商贷利率折扣</label> 
@@ -231,7 +232,7 @@
 	                            <input type="text" name="prfYear" id="prfYear"
 									value="${toMortgage.prfYear }" class=" input_type yuanwid"
 									onkeyup="checknum(this)">
-	                           <span class="date_icon">万元</span>
+	                           <span class="date_icon">年</span>
 	                        </div>
 	                    </div>
 	                    </c:if>
@@ -246,111 +247,8 @@
         		<c:choose>
 				<c:when test="${accesoryList!=null}">
 					<h2 class="newtitle title-mark">上传备件</h2>
-					<div class="file-list">
-					   <div class="file-content">
-						<h4>${accesoryList[0].accessoryName }</h4>
-						<c:forEach var="accesory" items="${accesoryList}"	varStatus="status">
-							<div class="" id="fileupload_div_pic">							
-								<form id="fileupload"	action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	method="POST" enctype="multipart/form-data">
-									<noscript>
-										<input type="hidden" name="redirect" value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-										<input type="hidden" id="preFileCode" name="preFileCode" value="${accesory.accessoryCode }">
-									</noscript>
-									<c:if test="${status.index != 0}">
-										<h5 align="left"><br>${accesory.accessoryName }</h5>
-									</c:if>
-									
-									<div class="row-fluid fileupload-buttonbar">
-										<div class="" style="height: auto">
-											<div role="presentation" class="table table-striped "	style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-												<div id="picContainer${accesory.pkid }" class="files"	data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-												<!-- 用于'客户确认书'验证 -->
-												<input type="hidden" id="fileFlagCode${accesory.pkid }"   value="${accesory.accessoryCode }">
-												
-												<span class=" fileinput-button "	style="margin-left: 10px !important; width: 80px;">
-													<div id="chandiaotuBtn" class="" style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-														<i class="fa fa-plus"></i>
-													</div> 													
-													<input id="picFileupload${accesory.pkid }" type="file"	name="files[]" multiple 	data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"	data-sequential-uploads="true">
-												</span>
-											</div>
-										</div>
-									</div>									
-								</form>
-							</div>
-
-							<div class="row-fluid">
-								<div class="">
-									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-									<!--图片缩图  -->
-							        <div class="preview"><span class="fade"></span></div>
-									<!--  错误信息 -->
-							        {% if (file.error) { %}
-							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else if (o.files.valid && !i) { %}
-									<!-- 单个对应的按钮  -->
-							            <div class="start span1" style="display: none">
-										{% if (!o.options.autoUpload) { %}
-							                <button class="btn">
-							                    <i class="icon-upload icon-white"></i>
-							                    <span>上传</span>
-							                </button>
-							            {% } %}
-										</div>
-							        {% } else { %}
-							            <div class="span1" colspan="2"></div>
-							        {% } %}
-							        <div class="cancel" style="margin-top:-172px;margin-left:85%;">
-									{% if (!i) { %}
-							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        {% } %}
-									</div>
-							    </div>
-							{% } %}
-						</script>
-						<script id="templateDownload${accesory.pkid }"	type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-							        {% if (file.error) { %}
-							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else { %}
-							            <div class="preview span12">
-										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
-										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.id) { %}
-							                <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" style="width:80px;height:80px;">
-							            {% } %}</div>
-							            <div class="name" style="display: none">
-							                <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-							            </div>
-							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        </div>
-							    </div>
-							{% } %}
-						</script>
-								</div>
-							</div>
-						</c:forEach>
-						</div>
-						<div class="row-fluid" style="display: none;">
-							<div class="span4">
-								<div class="control-group">
-									<a class="btn blue start" id="startUpload"
-										style="height: 30px; width: 50px"> <i
-										class="icon-upload icon-white"></i> <span>上传</span>
-									</a>
-								</div>
-							</div>
-						</div>
+					<div class="ibox-content" style="height: 410px; overflow-y: scroll;">
+						<div class="table-box" id="guohufileUploadContainer"></div>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -449,21 +347,30 @@
         }
 		$(document).ready(
 				function() {
+					
+					//过户环节贷款信息不能修改
+ 					$('#mortType').attr("readonly","readonly");					
+					$('#mortTotalAmount').attr("readonly","readonly");
+					$('#comAmount').attr("readonly","readonly");
+					$('#comYear').attr("readonly","readonly");
+					$('#comDiscount').attr("readonly","readonly");
+					$('#prfAmount').attr("readonly","readonly");
+					$('#prfYear').attr("readonly","readonly");
+					
+					
 					var isDelegateYucui = '${toMortgage.isDelegateYucui}';
 					var initMortType = '${toMortgage.mortType}';
 					if (isDelegateYucui == '1') {
 						if ('30016003' == initMortType) {
-							$("select[name='mortType']").prop('disabled',
-									true);
+							$("select[name='mortType']").prop('disabled',true);
 						} else {
-							$("select[name='mortType']").each(
-									function() {
-										$(this).find(
-												"option[value='30016003']")
-												.remove();
-									});
+							$("select[name='mortType']").each(function() {
+								$(this).find("option[value='30016003']").remove();
+							});
 						}
 					}
+					
+					$("select[name='mortType']").prop('disabled',true);	//待定				
 
 					if ('caseDetails' == source) {
 						readOnlyForm();
@@ -609,9 +516,30 @@
 
 		/**提交数据*/
 		function submit() {
-			if (checkAttachment()) {
+			if (checkAttachments()) {
+				//验证上传文件是否全部上传
+				var isCompletedUpload = fileUpload.isCompletedUpload();
+				
+				if(!isCompletedUpload){
+					window.wxc.alert("附件还未全部上传!");
+					return false;
+				}
 				save(true);
 			}
+		}
+		function checkAttachments() {
+			$.each($("#guohufileUploadContainer ul"), function(index, value){
+				
+				var length = $(this).find("li").length;
+				if(length == 0) {
+					window.wxc.alert("请上传备件！");
+					checkAtt = false;
+					return false;
+				} else {
+					checkAtt = true;
+				}
+			});
+			return checkAtt;
 		}
 
 		/**保存数据*/
@@ -636,7 +564,7 @@
 											if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
 												goProcess(b);
 											}else{											
-												alert("自建案件必须完成案件合流才能提交过户申请");
+												window.wxc.error("自建案件必须完成案件合流才能提交过户申请");
 												return;
 											}
 									}else{
@@ -647,7 +575,7 @@
 							}
 						},
 						error: function(errors) {
-						   	alert("获取案件合流信息出错！");   //弹出失败提示框
+							window.wxc.error("获取案件合流信息出错！");   //弹出失败提示框
 						}
 					}); 				
 				}
@@ -657,8 +585,9 @@
 		}
 		
 		function  goProcess(b){	
+			
 			if (!checkForm()) {
-				return;
+				return false;
 			}
 /* 			if (!checkForm() || !deleteAndModify()) {				
 				return;
@@ -717,23 +646,24 @@
 					}
 				},
 				success : function(data) {						
-					if (b) {
+					$.unblockUI();
+					if (b) {						
 						caseTaskCheck();						
 						if (null != data.message) {
-							alert(data.message);
-						}
+							window.wxc.alert(data.message);
+						}						
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
-						alert("保存成功。");
-						if (window.opener != null) {
-							window.close();
-							window.opener.callback();
-						}
-
+						window.wxc.success("保存成功。",{"wxcOk":function(){
+							if (window.opener != null) {
+								window.close();
+								window.opener.callback();
+							}
+						}});
 					}
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
@@ -752,14 +682,18 @@
 
 		//验证控件checkUI();
 		function checkForm() {
+			$("input").css("border-color","#ccc");
+			
 			if ($('input[name=realHtTime]').val() == '') {
-				alert("实际过户时间为必填项!");
+				window.wxc.alert("实际过户时间为必填项!");
 				$('input[name=realHtTime]').focus();
+				$('input[name=realHtTime]').css("border-color","red");
 				return false;
 			}
 			if ($('input[name=houseHodingTax]').val() == '') {
-				alert("房产税为必填项!");
+				window.wxc.alert("房产税为必填项!");
 				$('input[name=houseHodingTax]').focus();
+				$('input[name=houseHodingTax]').css("border-color","red");
 				return false;
 			}
 			/* if($('input[name=commet]').val()=='') {
@@ -768,35 +702,42 @@
 			    return false;
 			} */
 			if ($('input[name=personalIncomeTax]').val() == '') {
-				alert("个人所得税为必填项!");
+				window.wxc.alert("个人所得税为必填项!");
 				$('input[name=personalIncomeTax]').focus();
+				$('input[name=personalIncomeTax]').css("border-color","red");
+				
 				return false;
 			}
 			if ($('input[name=businessTax]').val() == '') {
-				alert("上家营业税为必填项!");
+				window.wxc.alert("上家营业税为必填项!");
 				$('input[name=businessTax]').focus();
+				$('input[name=businessTax]').css("border-color","red");
 				return false;
 			}
 			if ($('input[name=contractTax]').val() == '') {
-				alert("下家契税为必填项!");
+				window.wxc.alert("下家契税为必填项!");
 				$('input[name=contractTax]').focus();
+				$('input[name=contractTax]').css("border-color","red");
+				
 				return false;
 			}
 			if ($('input[name=landIncrementTax]').val() == '') {
-				alert("土地增值税为必填项!");
+				window.wxc.alert("土地增值税为必填项!");
 				$('input[name=landIncrementTax]').focus();
+				$('input[name=landIncrementTax]').css("border-color","red");
 				return false;
 			}
 			if ($('select[name=useCardPay]').val() ==1&& $('input[name=cardPayAmount]').val() == '') {
-				alert("刷卡总金额为必填项!");
+				window.wxc.alert("刷卡总金额为必填项!");
 				$('input[name=cardPayAmount]').focus();
+				$('input[name=cardPayAmount]').css("border-color","red");
 				return false;
 			}
 			var _mortType = $('#mortType').find(':selected').val();
 			var _comDiscount = $('input[name=comDiscount]').val();
 			if ((_mortType == '30016001' && _comDiscount == '')
 					|| (_mortType == '30016002' && _comDiscount == '')) {
-				alert('纯商贷和组合贷款必须填写商贷部分利率折扣, 不能为空');
+				window.wxc.alert('纯商贷和组合贷款必须填写商贷部分利率折扣, 不能为空');
 				$('input[name=comDiscount]').focus();
 				return false;
 			}
@@ -804,18 +745,21 @@
 			if ((_mortType == '30016001' && _comDiscount != '')
 					|| (_mortType == '30016002' && _comDiscount != '')) {
 				if (isNaN(_comDiscount)) {
-					alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
+					window.wxc.alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 					$('input[name=comDiscount]').focus();
+					$('input[name=comDiscount]').css("border-color","red");
 					return false;
 				} else if (_comDiscount > 1.5 || _comDiscount <= 0.5) {
-					alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+					window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 					$('input[name=comDiscount]').focus();
+					$('input[name=comDiscount]').css("border-color","red");
 					return false;
 				} else if (_comDiscount<=1.5 || _comDiscount>= 0.5) {
 					var reg = /^[01]{1}\.{1}\d{3,}$/;
 					if (reg.test(_comDiscount)) {
-						alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+						window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 						$('input[name=comDiscount]').focus();
+						$('input[name=comDiscount]').css("border-color","red");
 						return false;
 					}
 				}
@@ -823,13 +767,33 @@
 
 			return true;
 		}
-				
+		
+		$("input[type='text']").focus(function(){
+			$(this).css("border-color","rgb(204, 204, 204)");
+		});
+		
 		//渲染图片 
 		function renderImg(){		
 			$('.wrapper-content').viewer('destroy');
 			$('.wrapper-content').viewer({zIndex:15001});
 		}
 	</script> </content>
+	<content tag="local_require">
+    <script>
+    	var fileUpload;
+	    require(['main'], function() {
+	    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+	    		fileUpload = aistFileUpload;
+	    		fileUpload.init({
+		    		caseCode : $('#caseCode').val(),
+		    		partCode : "Guohu",
+		    		fileUploadContainer : "guohufileUploadContainer"
+		    	}); 
+		    });
+	    });
+	</script>
+	</content>
+	
 </body>
 
 

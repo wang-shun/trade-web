@@ -180,16 +180,18 @@
 		                } 
 		            } ,  
 			success : function(data) {
-				if(window.opener)
-			     {
-					 window.close();
-					 window.opener.callback();
-			     } else {
-			    	 window.location.href = "${ctx }/task/myTaskList";
-			     } 
+				window.wxc.success("数据保存成功！",{"wxcOk":function(){
+					if(window.opener)
+				     {
+						 window.close();
+						 window.opener.callback();
+				     } else {
+				    	 window.location.href = "${ctx }/task/myTaskList";
+				     } 
+				}});
 			},
 			error : function(errors) {
-				alert("数据保存出错");
+				window.wxc.error("数据保存出错");
 			}
 		});
 	}

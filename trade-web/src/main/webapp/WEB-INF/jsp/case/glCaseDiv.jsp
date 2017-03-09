@@ -169,54 +169,56 @@ function init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,selle
 }
 /* 调用关联案件方法  **/
 function merge(){
-	if(undefined == $('input[name="mergePkid"]:checked').val()){alert("请选择一条案件！");return;}
-    if(!confirm("确定申请合流案件吗！")){ return false; }
-    var inputType = $("#divCaseName").val();
-    var mergePkid;
-    var pkId;
-    if("CTM" == inputType){
-    	mergePkid = $("#pkId").val();
-        pkId = $('input[name="mergePkid"]:checked').val();
-    }
-    if("INPUT" == inputType){
-    	mergePkid = $('input[name="mergePkid"]:checked').val();
-        pkId = $("#pkId").val();
-    }
-	var data = {};
-	data.mergePkid= mergePkid;
-	data.pkId= pkId;
-	data.inputType= inputType;
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url:ctx+ "/caseMerge/mergeCase",
-		dataType : "json",
-		data : data,
-		beforeSend:function(){ },
-		success : function(data) {
-			if(data.success){ 
-				if(distriType && undefined != urlType && '' != urlType){
-					alert("合流申请成功！"); 
-					$("#myModalsa").modal("hide");
-					caseDistributeType();
-					window.location.reload();
-				}else{
-					alert("合流申请成功！"); 
-					$("#myModalsa").modal("hide");
-					window.location.reload();
-				}
-			}else{ alert("合流申请失败！"+data.message);  }
-		},complete: function() {  },
-		error : function(errors) {
-		}
-	});
+	if(undefined == $('input[name="mergePkid"]:checked').val()){window.wxc.alert("请选择一条案件！");return;}
+	
+	window.wxc.confirm("确定申请合流案件吗！",{"wxcOk":function(){
+    	var inputType = $("#divCaseName").val();
+   	    var mergePkid;
+   	    var pkId;
+   	    if("CTM" == inputType){
+   	    	mergePkid = $("#pkId").val();
+   	        pkId = $('input[name="mergePkid"]:checked').val();
+   	    }
+   	    if("INPUT" == inputType){
+   	    	mergePkid = $('input[name="mergePkid"]:checked').val();
+   	        pkId = $("#pkId").val();
+   	    }
+   		var data = {};
+   		data.mergePkid= mergePkid;
+   		data.pkId= pkId;
+   		data.inputType= inputType;
+   		$.ajax({
+   			cache : false,
+   			async : false,//false同步，true异步
+   			type : "POST",
+   			url:ctx+ "/caseMerge/mergeCase",
+   			dataType : "json",
+   			data : data,
+   			beforeSend:function(){ },
+   			success : function(data) {
+   				if(data.success){ 
+   					if(distriType && undefined != urlType && '' != urlType){
+   						window.wxc.success("合流申请成功！"); 
+   						$("#myModalsa").modal("hide");
+   						caseDistributeType();
+   						window.location.reload();
+   					}else{
+   						window.wxc.success("合流申请成功！"); 
+   						$("#myModalsa").modal("hide");
+   						window.location.reload();
+   					}
+   				}else{ window.wxc.error("合流申请失败！"+data.message);  }
+   			},complete: function() {  },
+   			error : function(errors) {
+   			}
+   		});
+    }});
 }
 /* 调用拆分案件方法  **/
 function qfMerge(){
 	/**   对返回来的案件经办人进入一一比对，如果有同当前登录人相同才有权限拆分当前案件 **/
 	var userData = $('input[name="mergePkid"]').attr("qfType");
-	if(null != userData && "" != userData){}else{alert("对不起你没有拆分这个案件的权限！");return true;}
+	if(null != userData && "" != userData){}else{window.wxc.alert("对不起你没有拆分这个案件的权限！");return true;}
 	var arr = userData.split(';'); 
 	if(null != arr && arr.length>2){
 		var type = false;
@@ -227,44 +229,45 @@ function qfMerge(){
 				}
 			}
 		}
-		if(type){} else{alert("对不起你没有拆分这个案件的权限！");return true;}
-	}else{ alert("对不起你没有拆分这个案件的权限！");return true; }
+		if(type){} else{window.wxc.alert("对不起你没有拆分这个案件的权限！");return true;}
+	}else{ window.wxc.alert("对不起你没有拆分这个案件的权限！");return true; }
 	
-    if(!confirm("确定拆分合流案件吗！")){ return false; }
-    var inputType = $("#divCaseName").val();
-    var mergePkid;
-    var pkId;
-    mergePkid = $('input[name="mergePkid"]:checked').val();
-    pkId = $("#pkId").val();
-	var data = {};
-	data.mergePkid= mergePkid;
-	data.pkId= pkId;
-	data.inputType= inputType;
-	$.ajax({
-		cache : false,
-		async : false,//false同步，true异步
-		type : "POST",
-		url:ctx+ "/caseMerge/qfMergeCase",
-		dataType : "json",
-		data : data,
-		beforeSend:function(){ },
-		success : function(data) {
-			if(data.success){ 
-				if(distriType && undefined != urlType && '' != urlType){
-					alert("拆分成功！"); 
-					$("#myModalsa").modal("hide");
-					caseDistributeType();
-					window.location.reload();
-				}else{
-					alert("拆分成功！"); 
-					$("#myModalsa").modal("hide");
-					window.location.reload();
-				}
-			}else{ alert("拆分失败！"+data.message);  }
-		},complete: function() {  },
-		error : function(errors) {
-		}
-	});
+	window.wxc.confirm("确定拆分合流案件吗？",{"wxcOk":function(){
+    	var inputType = $("#divCaseName").val();
+        var mergePkid;
+        var pkId;
+        mergePkid = $('input[name="mergePkid"]:checked').val();
+        pkId = $("#pkId").val();
+    	var data = {};
+    	data.mergePkid= mergePkid;
+    	data.pkId= pkId;
+    	data.inputType= inputType;
+    	$.ajax({
+    		cache : false,
+    		async : false,//false同步，true异步
+    		type : "POST",
+    		url:ctx+ "/caseMerge/qfMergeCase",
+    		dataType : "json",
+    		data : data,
+    		beforeSend:function(){ },
+    		success : function(data) {
+    			if(data.success){ 
+    				if(distriType && undefined != urlType && '' != urlType){
+    					window.wxc.success("拆分成功！"); 
+    					$("#myModalsa").modal("hide");
+    					caseDistributeType();
+    					window.location.reload();
+    				}else{
+    					window.wxc.success("拆分成功！"); 
+    					$("#myModalsa").modal("hide");
+    					window.location.reload();
+    				}
+    			}else{ window.wxc.error("拆分失败！"+data.message);  }
+    		},complete: function() {  },
+    		error : function(errors) {
+    		}
+    	});
+    }});
 }
 /* 取消关联案件页面  **/
 function closef(){ 
@@ -272,9 +275,7 @@ function closef(){
 	if(distriType && undefined != urlType && '' != urlType){
 		caseDistributeType();
 	}else{
-		if(undefined != urlType && '' != urlType ){ 
-			window.open(urlType);
-			}
+		if(undefined != urlType && '' != urlType ){  window.open(urlType); }
 	}
 }
 	
@@ -291,8 +292,6 @@ function changeTaskAssignee(page,propertyCode){
 	if("backCaseMERGE"==callback){ data.queryId="queryQfCastListListdiv";
 								   data.caseCode=$("#caseCode_").val(); 
 							}else{ data.queryId="queryGlCastListListdiv";}
-    
-	
    	data.rows = 5;
 	$.ajax({
 		cache : false,
@@ -311,16 +310,13 @@ function changeTaskAssignee(page,propertyCode){
 		        initpagef(data.total,data.pagesize,data.page, data.records);
 		        $("#myModalsa").modal("show");
 			}else{
-				/*hotfix/1.2.3上的代码
-				alert("没有查询到可以合流的案件！");
-				*/
 				var callback = $("#myModalsa").attr("callback");
 				if("backCaseMERGE"==callback){
-					alert("没有找到可以拆分的案件！");
+					window.wxc.alert("没有找到可以拆分的案件！");
 				}else{
 					
 					if(distriType && undefined != urlType && '' != urlType){
-					}else{ if(undefined != urlType && '' != urlType ){  }else{ alert("没有找到可以合流的案件！");} }
+					}else{ if(undefined != urlType && '' != urlType ){  }else{ window.wxc.alert("没有找到可以合流的案件！");} }
 				}
 				closef();
 			}

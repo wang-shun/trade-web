@@ -302,7 +302,7 @@
             		eloanRelList.push(eloanRel);
             	}) 
 			   if(sumAmount > signAmount){
-				   alert("放款总金额不能大于面签金额");
+				   window.wxc.alert("放款总金额不能大于面签金额");
 				   return;
 			   }
             	
@@ -339,13 +339,15 @@
 					},
 					success : function(data) {	
 						if(data.success == true){
-							 alert("数据修改成功");
-							 window.location.reload(); 
+							window.wxc.success("数据修改成功",{"wxcOk":function(){
+								//window.location.reload();
+								window.location.href = ctx + "/eloan/Eloanlist";
+							}});
 						} 
 					},
 					error : function(errors) {
 						$.unblockUI();    
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}
@@ -367,30 +369,30 @@
 	        	
 				if (custName == null || custName == '') {
 					flag = false;					
-					alert("请填写客户姓名");					
+					window.wxc.alert("请填写客户姓名");					
 				}	
 				if (custPhone == null || custPhone == '') {
 					flag = false;					
-					alert("请填写客户电话");					
+					window.wxc.alert("请填写客户电话");					
 				}		
 				
 				if(!isMobile.exec(mobile)){					
-					alert("手机号码格式不正确");
+					window.wxc.alert("手机号码格式不正确");
 					flag = false;					
 				}
 				
 				if (applyAmount == null || applyAmount == '') {					
 					flag = false;
-					alert("请填写申请金额");
+					window.wxc.alert("请填写申请金额");
 				}			
 				if (month == null || month == '') {
 					flag = false;
-					alert("请填写申请期数");					
+					window.wxc.alert("请填写申请期数");					
 				}
 				if($('#signAmountForShow').attr("class")!= "abc"){
 					if (signAmount == null || signAmount == '') {
 						flag = false;
-						alert("请填写面签金额");					
+						window.wxc.alert("请填写面签金额");					
 					}
 				}				
 				return flag;

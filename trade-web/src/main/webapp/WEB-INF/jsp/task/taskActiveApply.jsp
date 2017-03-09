@@ -13,6 +13,7 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <div class="ibox-title">
                   <h5>填写表单，完成任务 </h5>    
                     							        
@@ -61,7 +62,7 @@ $.fn.serializeObject = function() {
 		  //convert form element to json format. if only certain element, use comma to seperate;Remenber to set id for the element
 		  //or can use document.FormName.Comment (as example)
     	  var jsonuserinfo = $('#comment').serializeObject();  
-          alert(JSON.stringify(jsonuserinfo));  
+    	  window.wxc.alert(JSON.stringify(jsonuserinfo));  
 
    /*  $.ajax({         
             	

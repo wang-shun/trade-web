@@ -338,26 +338,26 @@
     		                } 
     		            } ,  
 				success : function(data) {
-						if(null!=data.message){
-							alert(data.message);
-						}
-						 if(window.opener)
-					     {
-							 window.close();
-							 window.opener.callback();
-					     } else {
-					    	 window.location.href = "${ctx }/task/myTaskList";
-					     }
+							window.wxc.success("提交成功！",{"wxcOk":function(){
+								if(window.opener)
+							     {
+									 window.close();
+									 window.opener.callback();
+							     } else {
+							    	 window.location.href = "${ctx }/task/myTaskList";
+							     }
+							}});
+						
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
 		//验证控件checkUI();
 		function checkForm() {
 			if($('input[name=apprDate]').val()=='') {
-                alert("审批时间为必填项!");
+				window.wxc.alert("审批时间为必填项!");
                 $('input[name=apprDate]').focus();
                 return false;
            }

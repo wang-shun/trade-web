@@ -53,6 +53,7 @@ function getParams() {
 	var data = {};
 	data.resPersonId = agentCode;
 	data.pagination = false;
+	data.isMobile = true;
 	
 	return data;
 }

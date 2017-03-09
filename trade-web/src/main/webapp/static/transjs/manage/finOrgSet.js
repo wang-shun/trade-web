@@ -7,7 +7,7 @@
     		return false;
     	}
     	if($("#finOrgCode").val() == $("#faFinOrgCode").val() ){
-    		alert('不能选择自己为父机构');
+    		window.wxc.alert('不能选择自己为父机构');
     		return false;
     	}
     	return true;
@@ -67,7 +67,7 @@
         		dataType:"json",
         		data:$("#addOrModifyForm").serialize(),
         		success:function(data){
-    				alert(data.message);
+        			window.wxc.alert(data.message);
 
         			if(data.success){
         				$("#modal-addOrModifyForm").modal("hide");
@@ -85,7 +85,7 @@
     		dataType:"json",
     		data:{pkid:getSelectPkid()},
     		success:function(data){
-				alert(data.message);
+    			window.wxc.alert(data.message);
 
 		    	getFinOrgList();
 				$("#pkid").val("");
@@ -106,9 +106,8 @@
     				$("#faFinOrgCode").val(data.content.faFinOrgCode);
     				$("#faFinOrgName").val(data.content.faFinOrgName);
     				$("#finOrgNameYc").val(data.content.finOrgNameYc);
-    				
     			}else{
-    				alert(data.message);
+    				window.wxc.error(data.message);
     			}
     		}
     	});
@@ -196,7 +195,7 @@
     	});
     	$("#modifyBtn").click(function(){
     		if(getSelectPkid()==""){
-    			alert("请选择要修改的记录！");
+    			window.wxc.alert("请选择要修改的记录！");
     			return;
     		}
     		$("#finOrgCode").attr("readonly","readonly");
@@ -205,12 +204,13 @@
     	});
     	$("#delBtn").click(function(){
     		if(getSelectPkid() == ""){
-    			alert("请选择要删除的记录！");
+    			window.wxc.alert("请选择要删除的记录！");
 				return;
     		}
-    		if(confirm("确定要删除该金融机构！")){
+    		
+    		window.wxc.confirm("确定要删除该金融机构？",{"wxcOk":function(){
     			delFinOrg();
-    		}
+    		}});
     	});
     	$("#saveOrModifyBtn").click(function(){
     		saveFinOrg();

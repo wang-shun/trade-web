@@ -25,5 +25,5 @@ public interface TsTeamScopeTargetService {
 	Boolean checkCaseMapping(String salesOrgId);
 	
 	
-	TsTeamScopeTarget getTeamScopeTargetInfo(Map<String, Object> param);
+	List<TsTeamScopeTarget> getTeamScopeTargetInfo(Map<String, Object> param);
 }

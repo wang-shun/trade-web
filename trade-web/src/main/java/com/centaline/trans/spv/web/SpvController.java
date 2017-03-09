@@ -781,14 +781,11 @@ public class SpvController {
 		
         AjaxResponse<String> response = new AjaxResponse<String>();
     	try{
-    		Map<String,Object> infoMap = toSpvService.queryInfoByCaseCode(caseCode);
-    		ToSpv toSpv = (ToSpv) infoMap.get("toSpv");
-    		Map<String,Object> caseInfoMap = (Map<String, Object>) infoMap.get("caseInfoMap");
+    		Map<String,Object> caseInfoMap = (Map<String, Object>)toSpvService.queryInfoByCaseCode(caseCode);
     		response.setContent(JSONObject.toJSONString(caseInfoMap));
     		response.setSuccess(true);
     	}catch(Exception e){
-    		response.setSuccess(false);
-    		response.setMessage(e.getMessage());	
+    		setExMsgForResp(response, e);
     	}
     	return response;
 	}
@@ -1147,13 +1144,7 @@ public class SpvController {
      */
     private void setExMsgForResp(AjaxResponse<?> response,Exception e) {
     	response.setSuccess(false);
-    	StringBuffer sOut = new StringBuffer();
-    	sOut.append(e.getMessage() + "\r\n");
-        StackTraceElement[] trace = e.getStackTrace();
-        for (StackTraceElement s : trace) {
-            sOut.append("\tat " + s + "\r\n");
-        }
-		response.setMessage(sOut.toString());
+		response.setMessage(e.getMessage());
 		e.printStackTrace();
 	}
     

@@ -86,6 +86,7 @@ text-decoration: underline !important;
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/case/glCaseDiv.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="userId" value="${userId}" />
@@ -311,7 +312,7 @@ text-decoration: underline !important;
 							<p>
                               <i class="sign_blue">
 {{if item.CASE_ORIGIN =='CTM' || item.CASE_ORIGIN == 'INPUT'}}
-{{if item.cu >1}}
+{{if item.cu >1  }}
 <a  href="javascript:processfu('{{item.PKID}}',
 '{{item.propertyCode==null?null:item.propertyCode}}','{{item.CASE_CODE}}',
 '{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.MOBILE}}','{{item.AGENT_ORG_NAME}}',
@@ -434,7 +435,7 @@ text-decoration: underline !important;
                     <td class="text-center">
                            <i class="iconfont icon_revise">
 {{if item.CASE_ORIGIN =='CTM' || item.CASE_ORIGIN == 'INPUT'}}
- {{if item.cu >1}}
+ {{if item.cu >1  }}
 <a  href="javascript:processfu('{{item.PKID}}',
 '{{item.propertyCode==null?null:item.propertyCode}}','{{item.CASE_CODE}}',
 '{{item.PROPERTY_ADDR}}','{{item.AGENT_NAME}}','{{item.MOBILE}}','{{item.AGENT_ORG_NAME}}',

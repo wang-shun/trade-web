@@ -615,7 +615,7 @@
 					}
 				});
 				if(!flag){
-					alert("请至少选择一个处理人！");
+					window.wxc.alert("请至少选择一个处理人！");
 					return false;
 				}
 			}
@@ -659,15 +659,17 @@
 					},
 					success : function(data) {
 						//	alert("数据已保存。");
-						if (window.opener) {
-							window.close();
-							window.opener.callback();
-						} else {
-							window.location.href = "${ctx }/task/myTaskList";
-						}
+						window.wxc.success("提交成功！",{"wxcOk":function(){
+							if (window.opener) {
+								window.close();
+								window.opener.callback();
+							} else {
+								window.location.href = "${ctx }/task/myTaskList";
+							}
+						}});
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.error("提交失败");
 					}
 				});
 			}

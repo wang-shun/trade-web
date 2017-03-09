@@ -21,6 +21,9 @@
 		<pattern>/weixin/taxation/*</pattern>
 		<pattern>/weixin/loan/*</pattern>
 		<pattern>/weixin/work/*</pattern>
+        <pattern>/anon/weixin/taxation/*</pattern>
+        <pattern>/anon/weixin/loan/*</pattern>
+        <pattern>/anon/weixin/work/*</pattern>
 		<pattern>/weixinAuth/*</pattern>
 	</excludes>
 
@@ -99,7 +102,6 @@
 	<decorator name="noTemplate">
 		<pattern>/report/guoHuReport</pattern>
 		<pattern>/report/signReport</pattern>
-	    <pattern>/report/charts</pattern>
 		<pattern>/report/echartsData1</pattern>
 		<pattern>/report/echartsData2</pattern>
 		<pattern>/report/echartsData3</pattern>

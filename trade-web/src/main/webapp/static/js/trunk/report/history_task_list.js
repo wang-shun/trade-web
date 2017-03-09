@@ -128,85 +128,83 @@ $('#searchButton').click(function(){
 
 /*导出Excel报表*/
 $('#exportExcel').click(function(){
-	if(!confirm('是否导出Excel报表?')){
-		return false;
-	}
-	
-	var ctx = $('#ctx').val();
-	var url = "/quickGrid/findPage?xlsx&";
-	var queryIdArg = 'queryHistoryTaskListDetail';
-	var displayColomn =[
-	    'CASE_CODE', 'CTM_CODE', 'TASK_NAME', 'SELLER', 'BUYER', 'PROPERTY_ADDR',
-	    'AGENT_NAME', 'AGENT_PHONE', 'GRP_NAME', 'START_TIME', 'END_TIME',
-	    'CONSULTANT_NAME', 'YUCUI_ORG_ID', 'CONSULTANT_TEL'
-	];
-	var param = {};
-	var handleTimeStart = $('#dtBegin_0').val();
-	if(handleTimeStart==''){
-		handleTimeStart=null;
-	}else{
-		handleTimeStart += ' 00:00:00';
-	}
-	param.argu_handleTimeStart=handleTimeStart;
-	
-	var handleTimeEnd = $('#dtEnd_0').val();
-	if(handleTimeEnd==''){
-		handleTimeEnd=null;
-	}else{
-		handleTimeEnd += ' 23:59:59';
-	}
-	param.argu_handleTimeEnd=handleTimeEnd;
-	
-	var org = $('#yuCuiOriGrpId').val();
-	if(org=='ff8080814f459a78014f45a73d820006'){
-		org=null;
-	}else if(org==''){
-		if($('#org').val()!='ff8080814f459a78014f45a73d820006'){
-			org=$('#org').val();
+	window.wxc.confirm("是否导出Excel报表?",{"wxcOk":function(){
+		var ctx = $('#ctx').val();
+		var url = "/quickGrid/findPage?xlsx&";
+		var queryIdArg = 'queryHistoryTaskListDetail';
+		var displayColomn =[
+		    'CASE_CODE', 'CTM_CODE', 'TASK_NAME', 'SELLER', 'BUYER', 'PROPERTY_ADDR',
+		    'AGENT_NAME', 'AGENT_PHONE', 'GRP_NAME', 'START_TIME', 'END_TIME',
+		    'CONSULTANT_NAME', 'YUCUI_ORG_ID', 'CONSULTANT_TEL'
+		];
+		var param = {};
+		var handleTimeStart = $('#dtBegin_0').val();
+		if(handleTimeStart==''){
+			handleTimeStart=null;
 		}else{
-			org=null;
+			handleTimeStart += ' 00:00:00';
 		}
-	}
-	param.argu_org=org;
-	
-	var consultantId = $('#inTextVal').attr('hVal');
-	if(consultantId==''){
-		consultantId=null;
-	}
-	param.argu_consultantId=consultantId;
-	
-	var taskName = $('#queryTaskName').find(':selected').val();
-	if(taskName==''){
-		taskName=null;
-	}
-	param.argu_taskName = taskName;
-	
-	var num2 = $('#queryItems').find(':selected').val();
-	var content = $('#queryContent').val();
-	if(content==''){
-		content=null;
-	}
-	if(num2=='1'){
-		param.search_caseAddress = content;
-	}else if(num2=='2'){
-		param.search_agentName = content;
-	}else if(num2=='3'){
-		param.search_grpName = content;
-	}else if(num2=='4'){
-		param.search_caseCode = content;
-	}else if(num2=='5'){
-		param.search_ctmCode = content;
-	}
-	
-	url = ctx + url + $.param(param) + '&queryId='+ queryIdArg + '&colomns='+ displayColomn;
-	$('#excelForm').attr('action', url);
-	$('#excelForm').submit();	
-	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-	$(".blockOverlay").css({'z-index':'9998'});
-	//2s后刷新页面
-	setTimeout(function(){
-		reloadGrid(1);
-	},2000);
+		param.argu_handleTimeStart=handleTimeStart;
+		
+		var handleTimeEnd = $('#dtEnd_0').val();
+		if(handleTimeEnd==''){
+			handleTimeEnd=null;
+		}else{
+			handleTimeEnd += ' 23:59:59';
+		}
+		param.argu_handleTimeEnd=handleTimeEnd;
+		
+		var org = $('#yuCuiOriGrpId').val();
+		if(org=='ff8080814f459a78014f45a73d820006'){
+			org=null;
+		}else if(org==''){
+			if($('#org').val()!='ff8080814f459a78014f45a73d820006'){
+				org=$('#org').val();
+			}else{
+				org=null;
+			}
+		}
+		param.argu_org=org;
+		
+		var consultantId = $('#inTextVal').attr('hVal');
+		if(consultantId==''){
+			consultantId=null;
+		}
+		param.argu_consultantId=consultantId;
+		
+		var taskName = $('#queryTaskName').find(':selected').val();
+		if(taskName==''){
+			taskName=null;
+		}
+		param.argu_taskName = taskName;
+		
+		var num2 = $('#queryItems').find(':selected').val();
+		var content = $('#queryContent').val();
+		if(content==''){
+			content=null;
+		}
+		if(num2=='1'){
+			param.search_caseAddress = content;
+		}else if(num2=='2'){
+			param.search_agentName = content;
+		}else if(num2=='3'){
+			param.search_grpName = content;
+		}else if(num2=='4'){
+			param.search_caseCode = content;
+		}else if(num2=='5'){
+			param.search_ctmCode = content;
+		}
+		
+		url = ctx + url + $.param(param) + '&queryId='+ queryIdArg + '&colomns='+ displayColomn;
+		$('#excelForm').attr('action', url);
+		$('#excelForm').submit();	
+		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		$(".blockOverlay").css({'z-index':'9998'});
+		//2s后刷新页面
+		setTimeout(function(){
+			reloadGrid(1);
+		},2000);
+	}});
 });
 
 /*分页插件*/

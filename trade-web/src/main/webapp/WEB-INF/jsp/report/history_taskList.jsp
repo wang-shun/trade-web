@@ -193,6 +193,7 @@ margin-left:15px;}
 </head>
 
 <body class="main">
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="taskName" value="${taskName}" />
 	<input type="hidden" id="handleTimeStart" value="${handleTimeStart}" />
@@ -339,7 +340,6 @@ margin-left:15px;}
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<!-- 自定义js -->
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script id="template_myTaskList" type= "text/html">
       {{each rows as item index}}

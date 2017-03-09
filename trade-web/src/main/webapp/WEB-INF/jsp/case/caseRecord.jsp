@@ -315,8 +315,20 @@ function reloadGrid(data) {
 }
 /** * 确认  */
 function merge(pkId,type){
-	if(type == "1"){if(!confirm("确定合流案件吗,合流后案件流程信息会被删除，请谨慎操作！")){ return false; }}
-	if(type == "0"){if(!confirm("确定驳回合流案件吗！")){ return false; }}
+	if(type == "1"){
+		window.wxc.confirm("确定合流案件吗,合流后案件流程信息会被删除，请谨慎操作！",{"wxcOk":function(){
+			mergeAndReject(); 
+		}});
+	}
+	
+	if(type == "0"){
+		window.wxc.confirm("确定驳回合流案件吗！",{"wxcOk":function(){
+			mergeAndReject(); 
+		}});
+	}
+}
+
+function mergeAndReject(){
 	var data = {};
 	data.id = pkId;
 	data.type = type;
@@ -329,14 +341,32 @@ function merge(pkId,type){
 		data : data,
 		beforeSend:function(){},
 		success : function(data) {
-			if(data.success){ if(data.content){ alert("合流成功！");} else{ alert("驳回成功！");} }else{
-				if(data.content){ alert("合流失败！"+data.message);} else{ alert("驳回失败！"+data.message);}
+			if(data.success){ if(data.content){ 
+					window.wxc.success("合流成功！",{"wxcOk":function(){
+						window.location.reload();
+					}});
+				} else{ 
+					window.wxc.success("驳回成功！",{"wxcOk":function(){
+						window.location.reload();
+					}});
+				} 
+			}else{
+				if(data.content){ 
+					window.wxc.error("合流失败！"+data.message,{"wxcOk":function(){
+						window.location.reload();
+					}});
+				} else{ 
+					window.wxc.error("驳回失败！"+data.message,{"wxcOk":function(){
+						window.location.reload();
+					}});
+				}
 			}
-			window.location.reload();
+			
 		},complete: function() {  },
 		error : function(errors) { }
 	});
 }
+
 /* 分页 **/
 function initpagef(totalCount,pageSize,currentPage,records)
 {

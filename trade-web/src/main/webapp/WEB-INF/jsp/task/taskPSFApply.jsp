@@ -91,10 +91,11 @@
                 <div class="jqGrid_wrapper">
 				       <div class="jqGrid_wrapper">
 					     <table id="reminder_list"></table>
-					     <div id="pager_list_1"></div>	
-	                    <button type="button" class="btn btn-primary mt20" id="sendSMS">
-	                        <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
-	                    </button>
+					     <div id="pager_list_1"></div>
+					     <!-- <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS"> -->	
+	                     <button type="button" class="btn btn-icon btn-grey-border mt20">
+		                    <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
+		                 </button>
                   </div>
                 </div>
             </div>
@@ -414,16 +415,17 @@
 						caseTaskCheck();
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
-						alert("保存成功。");
+						window.wxc.success("保存成功。",{"wxcOk":function(){
+							window.close();
+						 	window.opener.callback();
+						}});
 						/* if(data.content != null && data.content != ""){
 							$("#pkid").val(data.content);
 						} */
-						window.close();
-					 	window.opener.callback();
 					}
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
@@ -431,12 +433,12 @@
 		//验证控件checkUI();
 		function checkForm() {
 			if($('input[name=prfApplyDate]').val()=='') {
-                alert("公积金贷款申请时间为必填项!");
+				window.wxc.alert("公积金贷款申请时间为必填项!");
                 $('input[name=prfApplyDate]').focus();
                 return false;
            }
 			if($('input[name=estPartTime]').val()=='') {
-                alert("预计签约时间为必填项!");
+				window.wxc.alert("预计签约时间为必填项!");
                 $('input[name=estPartTime]').focus();
                 return false;
            }

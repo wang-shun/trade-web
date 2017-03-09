@@ -9,6 +9,7 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.entity.TradeCenterSchedule;
+import com.centaline.trans.signroom.vo.CanceReservionVo;
 import com.centaline.trans.signroom.vo.DateWeekVo;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
 
@@ -110,5 +111,10 @@ public interface RmSignRoomService {
 	 * @return
 	 */
 	boolean isCurrenDayDuty();
+	/**
+	 * 取消预约操作
+	 * @param canceReservionVo
+	 */
+	public void canceReservation(CanceReservionVo canceReservionVo);
 
 }

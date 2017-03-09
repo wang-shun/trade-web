@@ -74,7 +74,7 @@
         		dataType:"json",
         		data:$("#addOrModifyForm").serialize(),
         		success:function(data){
-    				alert(data.message);
+        			window.wxc.alert(data.message);
 
         			if(data.success){
         				$("#modal-addOrModifyForm").modal("hide");
@@ -92,7 +92,7 @@
     		dataType:"json",
     		data:{pkid:$("#pkid").val()},
     		success:function(data){
-				alert(data.message);
+    			window.wxc.alert(data.message);
 
 		    	getTeamScopeList();
 				$("#pkid").val("");
@@ -111,8 +111,6 @@
     				$("#yuAgentTeamCode").val($("#agenTeamCode").val());
     				$("#yuAgentTeamName").val($("#agenTeamName").val());
     				$("#modal-addOrModifyForm").modal("show");
-    				console.log(data);			
-    				console.log(data);
     		        var tempFontTeam= template('yuCuiFontTeamList', data); 
     		        $("#fontTeam").empty();
     		        $("#fontTeam").html(tempFontTeam);
@@ -121,7 +119,7 @@
     		        $("#backTeam").empty();
     		        $("#backTeam").html(tempBackTeam);
     			}else{
-    				alert(data.message);
+    				window.wxc.error(data.message);
     			}
     		}
     	});
@@ -168,7 +166,7 @@
     		        $("#"+backId).empty();
     		        $("#"+backId).html(tempBackTeam);
     			}else{
-    				alert(data.message);
+    				window.wxc.error(data.message);
     			}
     		}
     	});
@@ -200,7 +198,7 @@
     	});
     	$("#modifyBtn").click(function(){
     		if($("#pkid").val()==""){
-    			alert("请选择要修改的记录！");
+    			window.wxc.alert("请选择要修改的记录！");
     			return;
     		}
     		getTeamScopeInfo();
@@ -208,12 +206,13 @@
     	});
     	$("#delBtn").click(function(){
     		if($("#pkid").val() == ""){
-    			alert("请选择要删除的记录！");
+    			window.wxc.alert("请选择要删除的记录！");
 				return;
     		}
-    		if(confirm("确定要删除该组别！")){
+    		
+    		window.wxc.confirm("确定要删除该组别？",{"wxcOk":function(){
     			delTeamScope();
-    		}
+    		}});
     	});
     	$("#recoveryBtn").click(function(){
     		$.ajax({

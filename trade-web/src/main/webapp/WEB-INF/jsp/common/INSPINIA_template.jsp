@@ -34,8 +34,9 @@
     
     <link href="${ctx}/css/style.css" rel="stylesheet">
     <link href="${ctx}/css/font-awesome.min.css" rel="stylesheet">
-    
     <link href="${ctx}/css/plugins/jqGrid/aist-jqgird-ui.custom.css" rel="stylesheet">
+    <!--弹出框样式  -->
+	<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
     <script type="text/javascript">
 	    var ctx = '${ctx}';
 	    window.ctx=ctx;
@@ -115,7 +116,9 @@
                 </ul>
 				<input type="hidden" id="ctx" value="${ctx}"/>
             </div>
+
         </nav>
+
 
 		<!-- 右侧内容 -->
         <div id="page-wrapper" class="gray-bg dashbard-1">
@@ -147,11 +150,18 @@
 	            </ul>
 	
 	        </nav>
+	        
 	        </div>
 	        
 	        <!-- 右侧页面主体内容 -->
-	        <sitemesh:body></sitemesh:body>
-                
+	        <sitemesh:body>
+	        
+		        
+	        </sitemesh:body>
+	        <div class="copyrightstyle">
+            	Copyright ©2017 AIST All rights reserved. Version : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("Implementation-Version")%> commit : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("commit")%> branch : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("branch")%> buildTime : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("buildTime")%> hostname: <%=java.net.InetAddress.getLocalHost().getHostName() %>
+            </div>   
+            
         </div>
     </div>
 
@@ -165,9 +175,11 @@
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog.jsp"%> 
     <script type="text/javascript" src="${ctx}/transjs/common/INSPINIA_template.js"></script>
+    <!-- 引入弹出框js文件 -->
+	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+    
     <script type="text/javascript">
     	var ctx = '${ctx}';
     	window.ctx=ctx;
@@ -204,7 +216,7 @@
 		});
     </script>
     <sitemesh:getProperty property="page.local_script"></sitemesh:getProperty>
-    <script>
-    </script>
+    <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
+    <sitemesh:getProperty property="page.local_require"></sitemesh:getProperty>
 </body>
 </html>

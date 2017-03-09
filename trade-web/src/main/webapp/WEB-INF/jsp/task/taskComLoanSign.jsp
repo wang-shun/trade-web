@@ -13,7 +13,7 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 </head>
 <body>
-									
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>									
         <div class="row">                           
              <div class="ibox-title">
                    <h5>完成提醒 </h5>

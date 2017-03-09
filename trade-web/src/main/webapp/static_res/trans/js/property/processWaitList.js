@@ -88,13 +88,13 @@ function caseDistribute(){
 				}],
 				success : function(data) {
 					$.unblockUI();  
-					alert(data.message)
+					window.wxc.success(data.message)
 					if(data.success){
 						location.reload();
 					}
 				},
 				error : function(errors) {
-					alert("处理出错,请刷新后再次尝试！");
+					window.wxc.error("处理出错,请刷新后再次尝试！");
 					  $.unblockUI();  
 				}
 		});
@@ -103,35 +103,33 @@ function caseDistribute(){
 
 //导出Excel
 function exportToExcel() {
-		if(!confirm('是否导出/处理?')){
-			return false;
-		}
-		var pkid ;
-		//pkid = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
-		var url = "/quickGrid/findPage?xlsx&";
-		var ctx = $("#ctx").val();
-		var displayColomn = new Array;
-		displayColomn.push('PROPERTY_ADDR');// 物业地址
-		displayColomn.push('PR_CAT');  // 产调项目
-		displayColomn.push('orgName');  // 产调项目
-		displayColomn.push('applyOrgName'); // 区域分行信息
-		displayColomn.push('orgMgr'); // 区蕫信息
-		displayColomn.push('PR_APPLY_TIME');// 分行信息
-		
-		var params = getParamsValue(pkid);
-		var queryId = '&queryId=queryProcessWaitList';
-		var colomns = '&colomns=' + displayColomn;
-		url = ctx + url + jQuery.param(params) + queryId + colomns;
+		window.wxc.confirm("是否导出/处理?",{"wxcOk":function(){
+			var pkid ;
+			//pkid = jQuery("#table_property_list").jqGrid('getGridParam', 'selarrrow');
+			var url = "/quickGrid/findPage?xlsx&";
+			var ctx = $("#ctx").val();
+			var displayColomn = new Array;
+			displayColomn.push('PROPERTY_ADDR');// 物业地址
+			displayColomn.push('PR_CAT');  // 产调项目
+			displayColomn.push('orgName');  // 产调项目
+			displayColomn.push('applyOrgName'); // 区域分行信息
+			displayColomn.push('orgMgr'); // 区蕫信息
+			displayColomn.push('PR_APPLY_TIME');// 分行信息
+			
+			var params = getParamsValue(pkid);
+			var queryId = '&queryId=queryProcessWaitList';
+			var colomns = '&colomns=' + displayColomn;
+			url = ctx + url + jQuery.param(params) + queryId + colomns;
 
-		$('#excelForm').attr('action', url);
-		$('#excelForm').submit();
-		alert("产调导出至 Excel成功");
-		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-		$(".blockOverlay").css({'z-index':'9998'});
-		//caseDistribute();
-		//停顿2s后再执行
-		setTimeout(function(){caseDistribute();},2000);
-		 
+			$('#excelForm').attr('action', url);
+			$('#excelForm').submit();
+			window.wxc.success("产调导出至 Excel成功");
+			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+			//caseDistribute();
+			//停顿2s后再执行
+			setTimeout(function(){caseDistribute();},2000);
+		}});
 }
 
 //获取参数(查询条件)
@@ -149,7 +147,7 @@ var optPkid='';
 
 function checkOrg(o){
 	if(o.extendField!='yucui_district'){
-		alert('请选择一个贵宾服务总进行转组');
+		window.wxc.alert('请选择一个贵宾服务总进行转组');
 		return false;
 	}
 	return true;
@@ -163,11 +161,10 @@ function showOrgSelect(id){
 function radioYuCuiOrgSelectCallBack(array){
 	if(array && array.length >0){
 		if(checkOrg(array[0])){
-			if(confirm('是否确认转组')){
-		        
+			window.wxc.confirm("是否确认转组？",{"wxcOk":function(){
 				$("#yuCuiOriGrpId").val(array[0].id);		
 				doTransfer(optPkid,array[0].id,array[0].name);
-			}
+			}});
 		}else{
 			return false;
 		}
@@ -184,11 +181,12 @@ function doTransfer(pkid,districtId,orgName){
 		dataType : "json",
 		data :transferData,
 		success : function(data) {
-			alert(data.message)
+			
 			$.unblockUI();
 			if(data.success){
-				
-				reloadGrid();
+				window.wxc.success(data.message,{"wxcOk":function(){
+					reloadGrid();
+				}});
 				
 //				$('#table_property_list').jqGrid({
 //					queryId : "queryProcessWaitList",
@@ -198,7 +196,7 @@ function doTransfer(pkid,districtId,orgName){
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
+			window.wxc.error("处理出错,请刷新后再次尝试！");
 			  $.unblockUI();  
 		}
 	});

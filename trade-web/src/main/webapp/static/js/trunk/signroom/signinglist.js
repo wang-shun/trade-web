@@ -131,6 +131,59 @@ $(function(){
     	
     });
     
+    //取消预约操作
+    $("#canceConfirmBtn").click(function(){
+    	var resId = $("#canceModal input[name='resId']").val();
+    	var resPersonId=$("#canceModal input[name='resPersonId']").val();
+    	var actStartTime=$("#canceModal input[name='actStartTime']").val();
+    	var actEndTime=$("#canceModal input[name='actEndTime']").val();
+    	var resDateTime=$("#canceModal input[name='resDateTime']").val();
+    	var signingCenter=$("#canceModal input[name='signingCenter']").val();
+    	var comment = $.trim($("#canceModal textarea[name='comment']").val());
+    	if(comment==''){
+    		window.wxc.alert("请输入取消原因！");
+    		return;
+    	}
+    	var isCanceConfirm = 0;
+      	$("#canceModal input[name='isCanceConfirm']").each(function(){
+      		if($(this).prop("checked")){
+      			isCanceConfirm = $(this).prop("value");
+      		}
+         });
+    	$.ajax({
+    		cache:false,
+    		async:true,
+    		type:"POST",
+    		dataType:"json",
+    		url:ctx+"/reservation/canceReservation",
+    		data:{
+    			resId:resId,
+    			resPersonId:resPersonId,
+    			actStartTime : actStartTime,
+    			actEndTime : actEndTime,
+    			resDateTime : resDateTime,
+    			signingCenter : signingCenter,
+    			isCanceConfirm:isCanceConfirm,
+    			comment:comment
+    		},
+    		beforeSend: function () {  
+	        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+	        }, 
+    		success:function(data){
+    			$.unblockUI();  
+    			if(data.success){
+    				window.wxc.success(data.message,{"wxcOk":function(){
+						$("#closeBtn").click();
+						reloadGrid();
+					}});
+    			}else{
+    				window.wxc.error(data.message);
+    			}
+    		}
+    	});
+    });
+    
   //清除
   $("#clear").click(function(){
 	$("#searchForm input[name='resPersonId']").val("");
@@ -309,7 +362,7 @@ function startUse(obj,resDate,startTime,endTime,roomId,resId,scheduleId){
 			startAndEndUse($obj,"startUse");
 		}
 		else {
-			alert("该房间上个预约时间段未签退,不能开始使用！");
+			window.wxc.alert("该房间上个预约时间段未签退,不能开始使用！");
 		}
 	}
 	
@@ -327,7 +380,7 @@ function startUse(obj,resDate,startTime,endTime,roomId,resId,scheduleId){
 		
 		//提前使用的当天日期要与预约日期是同一天才能提前使用
 		if(currentDate != resDate){
-			alert("提前使用只限当天的预约！");
+			window.wxc.alert("提前使用只限当天的预约！");
 			return false;
 		}
 		
@@ -340,14 +393,14 @@ function startUse(obj,resDate,startTime,endTime,roomId,resId,scheduleId){
 		//判断该预约上一个时间段是否签退
 		var isPass = isOvertimeUse(scheduleId,roomId);
 		if(!isPass){
-			alert("该房间上个预约时间段未签退,不能开始使用！");
+			window.wxc.alert("该房间上个预约时间段未签退,不能开始使用！");
 			return false;
 		}
 		
 		//当前时间点是否有空闲的同一房间号房间
 		var isExist = isHasFreeRoomByCurrentTimeAndRoomNo(roomId);
 		if(!isExist){
-			alert("当前时间没有可闲置房间信息,请联系值班经理进行临时分配！")
+			window.wxc.alert("当前时间没有可闲置房间信息,请联系值班经理进行临时分配！")
 			return false;
 		}
 			
@@ -357,7 +410,7 @@ function startUse(obj,resDate,startTime,endTime,roomId,resId,scheduleId){
 	
 	//如果当前时间超过预约结束时间
 	if(currentDateTime > endDateTime){
-		alert("当前时间已经超过预约结束时间,不能签到！");
+		window.wxc.alert("当前时间已经超过预约结束时间,不能签到！");
 	}
 }
 
@@ -384,8 +437,7 @@ function isOvertimeUse(scheduleId,roomId){
 
 //提前签到
 function startUseInAdvance(resId,roomId){
-	
-	if(confirm("请确定是否开始使用？")){
+	window.wxc.confirm("请确定是否开始使用？",{"wxcOk":function(){
 		$.ajax({
 			cache:false,
 			async:false,
@@ -395,16 +447,15 @@ function startUseInAdvance(resId,roomId){
 			data:{roomId:roomId,resId:resId},
 			success:function(data){
 				if(data == "true"){
-					alert("已为您临时分配一个房间，请置顶查看！");
+					window.wxc.success("已为您临时分配一个房间，请置顶查看！");
 					reloadGrid();
 				}
 				else if(data == "false"){
-					alert("操作失败！");
+					window.wxc.error("操作失败！");
 				}
 			}
 		});
-	}
-	
+	}});
 }
 
 //签约室结束使用
@@ -442,6 +493,24 @@ function followup(obj){
 	$("textarea[name='comment']").val("");
 }
 
+function canceReservation(resId,resPersonId,actStartTime,actEndTime,resDateTime,signingCenter){
+	$("#canceModal input[name='resId']").val(resId);
+	$("#canceModal input[name='resPersonId']").val(resPersonId);
+	$("#canceModal input[name='actStartTime']").val(actStartTime);
+	$("#canceModal input[name='actEndTime']").val(actEndTime);
+	$("#canceModal input[name='resDateTime']").val(resDateTime);
+	$("#canceModal input[name='signingCenter']").val(signingCenter);
+	$("#canceModal textarea[name='comment']").val("");
+	$("#canceModal input[name='isCanceConfirm']").each(function(){
+        if($(this).prop("value")=="0"){
+             $(this).prop("checked",true);
+         }else{
+         	$(this).prop("checked",false);
+         }
+     });
+	
+}
+
 
 function init(){
 	//加载预约时间
@@ -462,8 +531,7 @@ function startAndEndUse(obj,flag){
 		message = "请确定是否结束使用？";
 	}
 	
-	
-	if(confirm(message)){
+	window.wxc.confirm(message,{"wxcOk":function(){
 		var resId = obj.parents(".dropdown-menu").find("input[name='resId']").val();
 		
 		$.ajax({
@@ -484,7 +552,7 @@ function startAndEndUse(obj,flag){
 				}
 			}
 		});
-	}
+	}});
 }
 
 //设置操作时间及预约状态
@@ -540,7 +608,7 @@ function saveChangeRoom(resId,scheduleId,flag){
 	var length = $selButton.length;
 	
 	if(length == 0){
-		alert("请选择房间编号！");
+		window.wxc.alert("请选择房间编号！");
 		return false;
 	}
 	
@@ -556,7 +624,7 @@ function saveChangeRoom(resId,scheduleId,flag){
 	
 	if(flag == "changeAndSave"){
 		if(currentDateTime < resStartDateTime || currentDateTime > resEndDateTime){
-			alert("不能开始，不在预约时间内！");
+			window.wxc.alert("不能开始，不在预约时间内！");
 			return false;
 		}
 	}
@@ -653,9 +721,6 @@ function reloadGrid(){
 	    data : data,
 	    wrapperData : data
     });
-	
-	//重新初始化标题效果
-	initTitle();
 }
 
 function getParams() {

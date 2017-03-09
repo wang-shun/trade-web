@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -267,7 +268,7 @@ public class EguServiceImpl implements EguService {
     }
 
     @Override
-    public void assess(HouseInfoVo houseInfo) throws JsonParseException, JsonMappingException,
+    public AjaxResponse<String> assess(AjaxResponse<String> response, HouseInfoVo houseInfo) throws JsonParseException, JsonMappingException,
                                               IOException, BusinessException {
 
         ObjectMapper obj = new ObjectMapper();
@@ -298,7 +299,10 @@ public class EguServiceImpl implements EguService {
         Header header = entity.getContentType();
         if (header.getValue().indexOf("html") != -1) {
             apiLogService.apiLog(EGU_MODULE, "/assess", url, returnStr, "0", returnStr);
-            throw new BusinessException("-1", null, "egu接口访问出错！");
+            response.setSuccess(false);
+            response.setCode("-1");
+            response.setMessage("egu接口访问出错！");
+            return response;
         }
         JSONObject object = JSONObject.parseObject(returnStr);
         if (!object.getString("sc").equals(SC.SUCCESS.getCode())) {
@@ -310,11 +314,16 @@ public class EguServiceImpl implements EguService {
                     sb = JSONObject.toJSONString(list);
                 }
                 apiLogService.apiLog(EGU_MODULE, "/assess", url, returnStr, "0", returnStr);
-                throw new BusinessException(SC.MULTI_ADDRESS.getCode(), null, sb);
+                response.setSuccess(false);
+                response.setCode(SC.MULTI_ADDRESS.getCode());
+                response.setMessage(sb);
+                return response;
             } else {
                 apiLogService.apiLog(EGU_MODULE, "/assess", url, returnStr, "0", returnStr);
-                throw new BusinessException(object.getString("sc"), null,
-                    SC.getValueByCode(object.getString("sc")));
+                response.setSuccess(false);
+                response.setCode(object.getString("sc"));
+                response.setMessage(SC.getValueByCode(object.getString("sc")));
+                return response;
             }
         }
         apiLogService.apiLog(EGU_MODULE, "/assess", url, returnStr, "1", null);
@@ -357,6 +366,8 @@ public class EguServiceImpl implements EguService {
         toEguPricing.setExpectRate(houseInfo.getDeal_price() * 10000);
         toEguPricing.setAriserId(user.getId());
         toEguPricingService.saveToEguPricing(toEguPricing);
+        
+        return response;
     }
 
     @Override

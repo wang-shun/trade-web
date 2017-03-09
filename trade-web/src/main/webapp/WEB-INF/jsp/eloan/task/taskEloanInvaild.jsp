@@ -201,14 +201,13 @@
 		   
            $("#invalidEloan").click(function(){  
         	   if($("#eContent").val()==null||$("#eContent").val()==""){
-        		   alert("请填写作废原因")
+        		   window.wxc.alert("请填写作废原因")
         		   return;
         	   }
-        	   var confim= confirm("确定要作废这条数据吗？")
-				if(!confim){
-					return
-					}
-           		saveEloanInfoForUpdate();
+        	   
+        	   window.wxc.confirm("确定要作废这条数据吗？",{"wxcOk":function(){
+        		   saveEloanInfoForUpdate();
+        	   }});
            })
            
            $("#backEloanList").click(function(){
@@ -223,15 +222,16 @@
     				dataType : "json",
 					success : function(data) {	
 						if(data.success == true){
-							 alert("数据保存成功");
-							 window.location.href = "${ctx}/eloan/Eloanlist";
+							 window.wxc.success("数据保存成功",{"wxcOk":function(){
+								 window.location.href = "${ctx}/eloan/Eloanlist";
+							 }});
 						}else{
-							alert("数据保存出错");
+							window.wxc.error("数据保存出错");
 						} 
 					},
 					error : function(errors) {
 						$.unblockUI();    
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}

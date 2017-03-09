@@ -250,63 +250,62 @@
 			function exportCase() {
 				var ctmCode = $("#expCtmCode").val().trim();
 				if (ctmCode.length == 0) {
-					alert("ctm编号为空!");
+					window.wxc.alert("ctm编号为空!");
 					return;
 				}
-				if (!confirm("请确认是否是否要导入案件：" + ctmCode)) {
-					return;
-				}
-				var data = {};
-				data.ctmCode = ctmCode;
-				$.ajax({
-					async : false,
-					url : ctx + "/caseModify/exportCTMCase.json",
-					method : "post",
-					dataType : "json",
-					data : data,
-					success : function(data) {
-						if (data.success) {
-							alert("修改成功!");
-						} else {
-							alert("修改失败!");
+				
+				window.wxc.confirm("请确认是否要导入案件：" + ctmCode,{"wxcOk":function(){
+					var data = {};
+					data.ctmCode = ctmCode;
+					$.ajax({
+						async : false,
+						url : ctx + "/caseModify/exportCTMCase.json",
+						method : "post",
+						dataType : "json",
+						data : data,
+						success : function(data) {
+							if (data.success) {
+								window.wxc.success("修改成功!");
+							} else {
+								window.wxc.error("修改失败!");
+							}
 						}
-					}
-				});
-
+					});
+				}});
 			}
 
 			function modifTagetCode() {
 				var ctmCode = $("#ctmCode").val().trim();
 				var targetCode = $("#targetCode").val().trim();
 				if (ctmCode.length == 0) {
-					alert("ctm编号为空!");
+					window.wxc.alert("ctm编号为空!");
 					return;
 				}
 				if (targetCode.length == 0) {
-					alert("tagetCode为空!");
+					window.wxc.alert("tagetCode为空!");
 					return;
 				}
-				if (!confirm("请确认是否是否要修改案件：" + ctmCode)) {
-					return;
-				}
-				var data = {};
-				data.ctmCode = ctmCode;
-				data.targetCode = targetCode;
+				
+				window.wxc.confirm("请确认是否要修改案件：" + ctmCode,{"wxcOk":function(){
+					var data = {};
+					data.ctmCode = ctmCode;
+					data.targetCode = targetCode;
 
-				$.ajax({
-					async : false,
-					url : ctx + "/caseModify/updateTagetCode.json",
-					method : "post",
-					dataType : "json",
-					data : data,
-					success : function(data) {
-						if (data.success) {
-							alert("修改成功!");
-						} else {
-							alert("修改失败!");
+					$.ajax({
+						async : false,
+						url : ctx + "/caseModify/updateTagetCode.json",
+						method : "post",
+						dataType : "json",
+						data : data,
+						success : function(data) {
+							if (data.success) {
+								window.wxc.success("修改成功!");
+							} else {
+								window.wxc.error("修改失败!");
+							}
 						}
-					}
-				});
+					});
+				}});
 			}
 
 			function getAllTeamList() {
@@ -353,40 +352,40 @@
 				var salesOrgId = $("#salesCode").val().trim();
 				var yuTeamCode = $("#yuTeamCode").val().trim();
 				if (salesOrgId.length == 0) {
-					alert("组织为空!");
+					window.wxc.alert("组织为空!");
 					return;
 				}
 				if (yuTeamCode.length == 0) {
-					alert("誉萃组别为空!");
+					window.wxc.alert("誉萃组别为空!");
 					return;
 				}
-				if (!confirm("请确认是否是否要添加配置?")) {
-					return;
-				}
-				var data = {};
-				data.salesOrgId = salesOrgId;
-				data.yuTeamCode = yuTeamCode;
+				
+				window.wxc.confirm("请确认是否要添加配置?",{"wxcOk":function(){
+					var data = {};
+					data.salesOrgId = salesOrgId;
+					data.yuTeamCode = yuTeamCode;
 
-				$.ajax({
-					async : false,
-					url : ctx + "/caseModify/addCaseMapping.json",
-					method : "post",
-					dataType : "json",
-					data : data,
-					success : function(data) {
-						if (data.success) {
-							alert("修改成功!");
-						} else {
-							alert(data.message);
+					$.ajax({
+						async : false,
+						url : ctx + "/caseModify/addCaseMapping.json",
+						method : "post",
+						dataType : "json",
+						data : data,
+						success : function(data) {
+							if (data.success) {
+								window.wxc.success("修改成功!");
+							} else {
+								window.wxc.error(data.message);
+							}
 						}
-					}
-				});
+					});
+				}});
 			}
 
 			function checkCaseMapping() {
 				var salesOrgId = $("#salesCode").val().trim();
 				if (salesOrgId.length == 0) {
-					alert("组织为空!");
+					window.wxc.alert("组织为空!");
 					return;
 				}
 				var data = {};
@@ -400,9 +399,9 @@
 					data : data,
 					success : function(data) {
 						if (data.success) {
-							alert("配置已经存在！");
+							window.wxc.alert("配置已经存在！");
 						} else {
-							alert("配置不存在！");
+							window.wxc.alert("配置不存在！");
 						}
 					}
 				});

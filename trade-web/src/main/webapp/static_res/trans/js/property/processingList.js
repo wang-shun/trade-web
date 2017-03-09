@@ -19,15 +19,18 @@ $(document).ready(function() {
 
 	$("input[name='isScuess']").on('click',function(){
 		if(!!~~$(this).val()){ // 选择有效
-			$(".gradepad").show();
+			$("#fileUploadContainer").show();
+			//$(".gradepad").show();
 			$("#wuxiao").hide();
 			$('#unSuccessReason').val('');
 		}else{                 // 选择无效
 			$("#wuxiao").show();
-		    $(".gradepad").hide();
+			$("#fileUploadContainer").hide();
+			
+		    //$(".gradepad").hide();
 		}
 	});
-
+	
 	// 初始化列表
 	var data = {};
     data.search_prDistrictId = prDistrictId;
@@ -117,13 +120,13 @@ function checkIsExistFile(isSubmit){
 		data : "",
 		success : function(data) {
 			if (data.success == false) {
-				alert(data.message);
+				window.wxc.error(data.message);
 			} else {
 				commitDispose(isSubmit);
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
+			window.wxc.error("处理出错,请刷新后再次尝试！");
 		}
 	});
 }
@@ -145,14 +148,22 @@ function commitDispose(isSubmit){
 			executorId:executorId
 		} ,
 		success : function(data) {
-			alert(data.message)
+			var message = "";
 			if (data.success) {
-				$("#modal-form").modal("hide");
-				reloadGrid();
+				if(isSubmit){
+					message = "提交成功！";
+				}else{
+					message = "保存成功！";
+				}
+				
+				window.wxc.success(message,{"wxcOk":function(){
+					$("#modal-form").modal("hide");
+					reloadGrid();
+				}});
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
+			window.wxc.error("处理出错,请刷新后再次尝试！");
 		}
 	});
 }
@@ -168,36 +179,48 @@ function commitDispose(isSubmit){
 function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMgr, 
 		distcode, executorId, executorName) {
 	
-	if (cd == null || cd == "") {
-		$("#caseCode").val(pr);
-	} else {
-		$("#caseCode").val(cd);
-	}
-	$("#caseCode").val(pr);
-	caseCode = pr;
-	prCode = pr;
-	pkid = id;
-	taskitem = pc;
-	getAttchInfo();
-	if(isS=='否'){
-		isS='0';
-	}else{
-		isS='1';
-	}
+			if (cd == null || cd == "") {
+				$("#caseCode").val(pr);
+			} else {
+				$("#caseCode").val(cd);
+			}
+			
+			$("#caseCode").val(pr);
+			caseCode = pr;
+			prCode = pr;
+			pkid = id;
+			taskitem = pc;
+			getAttchInfo();
+			if(isS=='否'){
+				isS='0';
+			}else{
+				isS='1';
+			}
 
-	$('#address').text(addr);
-	$('#prcat').text(prcat);
-	$('#applyOrgName').text(applyOrgName);
-	$('#orgMgr').text(orgMgr);
-	$('#distcode').text(distcode);
-	$("#executor").attr('hVal', executorId);
-	$("#executor").val(executorName);
+			$('#address').text(addr);
+			$('#prcat').text(prcat);
+			$('#applyOrgName').text(applyOrgName);
+			$('#orgMgr').text(orgMgr);
+			$('#distcode').text(distcode);
+			$("#executor").attr('hVal', executorId);
+			$("#executor").val(executorName);
 
-	$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
-	if(uns){
-		$('#unSuccessReason').val(uns);
-	}
-	$("#modal-form").modal("show");
+			$("input[name='isScuess'][value='"+isS+"']").attr('checked',true).click();
+			if(uns){
+				$('#unSuccessReason').val(uns);
+			}
+			
+			fileUpload.init({
+				maskId : "modal-form",
+	    		caseCode : caseCode,
+	    		partCode : "property_research",
+	    		fileUploadContainer : "fileUploadContainer",
+	    		isNestTable : true,
+	    		tdWidth : 94
+	    	});
+			
+			$("#fileUploadContainer .table thead th").remove();
+			$("#modal-form").modal("show");
 }
 
 	function getAttchInfo() {
@@ -247,12 +270,12 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 	}
 	function checkForm(){
 		if($("#executor").val() == ''){
-			alert('请选择执行人！');
+			window.wxc.alert('请选择执行人！');
 			return false;
 		}
 		if(!~~$('input[name="isScuess"]:checked ').val()){
 			if($('#unSuccessReason').val()==''){
-				alert('请输入无效原因！');
+				window.wxc.alert('请输入无效原因！');
 				return false;
 			}
 		}
@@ -260,18 +283,29 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 	}
 	function save(isSubmit){
 		if(isSubmit&&!!~~$('input[name="isScuess"]:checked ').val()){
+			
 			if(!checkAttachment()){
 				return false;
 			}
 		}
+		
+		//验证上传文件是否全部上传
+		var isCompletedUpload = fileUpload.isCompletedUpload();
+		
+		if(!isCompletedUpload){
+			window.wxc.alert("产调附件还未全部上传!");
+			return false;
+		}
+		
 		if(!checkForm()){
 			return false;
 		}
-		if(!!~~$('input[name="isScuess"]:checked ').val()){
+		/*if(!!~~$('input[name="isScuess"]:checked ').val()){
+			console.log($('input[name="isScuess"]:checked ').val())
 			if(!deleteAndModify()){
 				return false;
 			}
-		}
+		}*/
 		if(isSubmit && !!~~$('input[name="isScuess"]:checked ').val()){
 			checkIsExistFile(isSubmit);
 		}else{
@@ -282,7 +316,7 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 
 	function checkOrg(o){
 		if(o.extendField!='yucui_district'){
-			alert('请选择一个贵宾服务总进行转组');
+			window.wxc.alert('请选择一个贵宾服务总进行转组');
 			return false;
 		}
 		return true;
@@ -296,11 +330,10 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 	function radioYuCuiOrgSelectCallBack(array){
 		if(array && array.length >0){
 			if(checkOrg(array[0])){
-				if(confirm('是否确认转组')){
-
+				window.wxc.confirm("是否确认转组？",{"wxcOk":function(){
 					$("#yuCuiOriGrpId").val(array[0].id);
 					doTransfer(optPkid,array[0].id,array[0].name);
-				}
+				}});
 			}else{
 				return false;
 			}
@@ -317,14 +350,15 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 			dataType : "json",
 			data :transferData,
 			success : function(data) {
-				alert(data.message)
 				$.unblockUI();
 				if(data.success){
-					reloadGrid();
+					window.wxc.success(data.message,{"wxcOk":function(){
+						reloadGrid();
+					}});
 				}
 			},
 			error : function(errors) {
-				alert("处理出错,请刷新后再次尝试！");
+				window.wxc.error("处理出错,请刷新后再次尝试！");
 				  $.unblockUI();
 			}
 		});

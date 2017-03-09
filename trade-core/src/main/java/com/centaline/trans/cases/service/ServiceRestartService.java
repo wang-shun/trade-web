@@ -1,5 +1,6 @@
 package com.centaline.trans.cases.service;
 
+
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 
@@ -8,4 +9,6 @@ public interface ServiceRestartService {
 	boolean apply(ServiceRestartVo vo);
 	boolean approve(ServiceRestartVo vo);
 	StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo);
+	
+	boolean restartCheckout(ServiceRestartVo vo,String userId);
 }

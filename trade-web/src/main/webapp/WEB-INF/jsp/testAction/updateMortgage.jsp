@@ -468,7 +468,7 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					alert(data.message);
+					window.wxc.success(data.message);
 					debugger;
 					var bohui = $("#processInstanceId").val();
 					if (bohui != null && bohui != '') {
@@ -481,7 +481,7 @@
 
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}

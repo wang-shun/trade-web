@@ -3,7 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.centaline</groupId>
 	<artifactId>trade-service</artifactId>
-	<version>1.2.5</version>
+	<version>1.2.8</version>
+	
+	<scm>
+		<developerConnection>scm:git:git@git.centaline.com:trade-group/trade-web.git</developerConnection>
+	</scm>
 
 	<dependencies />
 
@@ -65,6 +69,40 @@
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.4</version>
+				<configuration>
+				   <shortRevisionLength>8</shortRevisionLength>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					 </execution>
+				</executions>
+			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <index>true</index>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <!--<addClasspath>true</addClasspath>-->
+                        </manifest>
+                        <manifestEntries>
+                            <commit>${buildNumber}</commit>
+							<branch>${scmBranch}</branch>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>

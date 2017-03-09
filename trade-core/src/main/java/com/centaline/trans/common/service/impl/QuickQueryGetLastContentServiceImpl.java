@@ -45,8 +45,9 @@ public class QuickQueryGetLastContentServiceImpl implements CustomDictService{
 			List<Map<String, Object>>  recordInfos = jdbcTemplate.queryForList(sql, paramMap);
 			//组合数据
 			//结果集recordInfos，封装到rs，返回到xml进行显示；参数三new String[]{"CASE_CODE"}结果进行映射的比对参数；参数四即xml中需要展示的字段
+			CollectionUtils.merge(recordInfos, rs, new String[]{"CASE_CODE"});
 			//converters对需要展示字段进行封装转换
-			CollectionUtils.merge(recordInfos, rs, new String[]{"CASE_CODE"},new String[]{"NOT_APPROVE","LAST_CONTENT","ASSESSOR"},converters);
+			CollectionUtils.convert(rs, converters);
 			//返回结果
 			return rs;
 		}
@@ -62,8 +63,8 @@ public class QuickQueryGetLastContentServiceImpl implements CustomDictService{
 		//转换操作人员
 		converters.put("ASSESSOR", new Converter<String,Object>(){//ASSESSOR 具体展示内容
 			//new Converter<String,Object>(){} 查询结果集，具体转化操作
-			public Object convert(Object value, java.util.Map<String,Object> data) {
-				Object operator = data.get("OPERATOR");
+			public Object convert(Map<String,Object> to) {
+				Object operator = to.get("OPERATOR");
 				if(operator==null){
 					return null;
 				}
@@ -74,9 +75,9 @@ public class QuickQueryGetLastContentServiceImpl implements CustomDictService{
 		});
 		//转换审批不通过内容
 		converters.put("LAST_CONTENT", new Converter<String,Object>(){
-			public Object convert(Object value, java.util.Map<String,Object> data) {
-				String notApprove = data.get("NOT_APPROVE")==null?"":data.get("NOT_APPROVE").toString();
-				String content = data.get("CONTENT")==null?"":data.get("CONTENT").toString();	
+			public Object convert(Map<String,Object> to) {
+				String notApprove = to.get("NOT_APPROVE")==null?"":to.get("NOT_APPROVE").toString();
+				String content = to.get("CONTENT")==null?"":to.get("CONTENT").toString();	
 				
 				StringBuilder lastContent = new StringBuilder();
 				if(!"".equals(notApprove)){

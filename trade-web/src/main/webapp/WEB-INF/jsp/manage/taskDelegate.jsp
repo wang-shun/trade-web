@@ -279,9 +279,9 @@
 			  		   },
 					success : function(data) {
 						if(data.sc&&data.sc=='0'){
-							alert('取消成功！');
+							window.wxc.success('取消成功！');
 						}else{
-							alert('取消失败！');
+							window.wxc.error('取消失败！');
 						}
 						$.unblockUI();  
 						taskDelGrid.trigger('reloadGrid');
@@ -289,35 +289,36 @@
 				});
 			}								
 			function doDelegate(username) {
-				if(!confirm('新增授权将会取消之前所有授权，是否确定继续？')){return;}
-				$.ajax({
-					url : ctx + "/manage/doTaskDelegate/"+username,
-					method : "post",
-					dataType : "json",
-					beforeSend:function(){  
-						$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-						$(".blockOverlay").css({'z-index':'9998'});
-		            },complete: function() {  
-		                if(status=='timeout'){//超时,status还有success,error等值的情况
-		  	          	  Modal.alert(
-		  				  {
-		  				    msg:"抱歉，系统处理超时。"
-		  				  });
-		  	          	$.unblockUI();  
-		  		        }
-		  		   },
-					success : function(data) {
-						if(data.sc&&data.sc=='0'){
-							alert('授权成功！');
-						}else{
-							alert('授权失败！');
+				
+				window.wxc.confirm("新增授权将会取消之前所有授权，是否确定继续？",{"wxcOk":function(){
+					$.ajax({
+						url : ctx + "/manage/doTaskDelegate/"+username,
+						method : "post",
+						dataType : "json",
+						beforeSend:function(){  
+							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+							$(".blockOverlay").css({'z-index':'9998'});
+			            },complete: function() {  
+			                if(status=='timeout'){//超时,status还有success,error等值的情况
+			  	          	  Modal.alert(
+			  				  {
+			  				    msg:"抱歉，系统处理超时。"
+			  				  });
+			  	          	$.unblockUI();  
+			  		        }
+			  		   },
+						success : function(data) {
+							if(data.sc&&data.sc=='0'){
+								window.wxc.success('授权成功！');
+							}else{
+								window.wxc.error('授权失败！');
+							}
+							$.unblockUI();  
+							$('#modal-form').modal("hide");
+							taskDelGrid.trigger('reloadGrid');
 						}
-						$.unblockUI();  
-						$('#modal-form').modal("hide");
-						taskDelGrid.trigger('reloadGrid');
-					}
-				});
-
+					});
+				}});
 			}
 		</script> </content>
 </body>

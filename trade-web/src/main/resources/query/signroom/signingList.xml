@@ -78,7 +78,8 @@
 						r.SCHEDULE_ID as scheduleId,
 						getdate() as currentDate,
 						(SELECT COMMENT FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as latestComment,
-						(SELECT CREATE_TIME FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as followDateTime
+						(SELECT CREATE_TIME FROM sctrans.T_RM_RES_FLOW_UP WHERE RES_ID = r.PKID ORDER BY CREATE_TIME DESC OFFSET 0 ROWS FETCH  next 1 ROWS ONLY) as followDateTime,
+						r.SIGNING_CENTER AS signingCenter
 						FROM sctrans.T_RM_RESERVATION r
 						where r.IS_DELETE = 0 and r.SIGNING_CENTER_ID in (SELECT DISTINCT TRADE_CENTER_ID FROM sctrans.T_RM_SIGN_ROOM_ORG_MAPPING WHERE DISTRICT_ID = #distinctId#)
 						
@@ -129,6 +130,7 @@
 				<column type="both" name="currentDate"  index="" checkbox="" display="当前日期" title="当前日期" beanFormatter="dateFormatter1" sysDict="" format=""  width="120" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="numberOfPeople" index="" checkbox="" display="房间容纳人数" title="房间容纳人数" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="resStatus" display="预约状态" title="预约状态" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="resPersonId" index="" checkbox=""  />
 				<column type="both" name="realName" index="" checkbox="" display="预约人姓名" title="预约人姓名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="mobile" index="" checkbox="" display="手机号" title="手机号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="specialReq" index="" checkbox="" display="特殊需求" title="特殊需求" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
@@ -157,7 +159,7 @@
 				sr.ROOM_TYPE as roomType(已获取),
 				
 				-->
-				
+				<column type="both" name="signingCenter"  index="" checkbox=""  />
 				<column type="virtual"
 						isDynamic="true"
 						name="startTime,endTime,actStartTime,actEndTime,actCheckInTime,actCheckOutTime,roomId,roomNO,roomType,transactItemCodeList,flowupInfoList,timeDifference" 

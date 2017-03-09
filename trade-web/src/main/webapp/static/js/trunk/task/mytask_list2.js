@@ -288,12 +288,17 @@ function searchMethod(page){
 
 function reloadGrid(data) {
 	$.ajax({
-		async: false,
+		async: true,
         url:ctx+ "/quickGrid/findPage" ,
         method: "post",
         dataType: "json",
         data: data,
+        beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
         success: function(data){
+          $.unblockUI();
       	  data.lamp1 = lamp1;
       	  data.lamp2 = lamp2;
       	  data.lamp3 = lamp3;
@@ -451,10 +456,10 @@ function processfu(pkId,propertyCode,caseCode,propertyAddr,agentName,agentPhone,
 	showGlDiv('backCase1',pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,propertyCode,inputType,ctx +"/engine/task/"+id+"/process",false);
 }
 function ts(status){
-	alert(status+"案件不能拆分案件！");
+	window.wxc.alert(status+"案件不能拆分案件！");
 }
 function processTs(){
-	alert("该案件被申请合流中，请先去审核！");
+	window.wxc.alert("该案件被申请合流中，请先去审核！");
 }
 
 

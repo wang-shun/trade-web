@@ -59,6 +59,8 @@
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
 <!-- stickUp fixed css -->
+<!--弹出框样式  -->
+<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
 <style>
 .borderClass {border:1px solid red!important;resize: none;}
 .borderClass:focus {border:1px solid red!important;resize: none;}
@@ -1006,6 +1008,9 @@
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>	
+	<!-- 引入弹出框js文件 -->
+    <script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+		
 		<script>
 		$(document).ready(function(){
 			$("#amountDX").val(DX($("input[name='toSpv.amount']").val()*10000));

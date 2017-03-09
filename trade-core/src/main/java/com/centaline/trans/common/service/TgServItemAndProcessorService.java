@@ -35,6 +35,12 @@ public interface TgServItemAndProcessorService {
     int updateCoope(TgServItemAndProcessor pro);
 
     TgServItemAndProcessor findTgServItemAndProcessor(TgServItemAndProcessor record);
+    /**
+     * 查询审核结果
+     * @param caseCode
+     * @return
+     */
+	String findGuohuApproveTypeByCaseCode(String caseCode);
 
     
 }

@@ -237,7 +237,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('BUYER_MOBILE');
 	displayColomn.push('TRANSFERDATE');
 	displayColomn.push('CASETRANSFERDATE');	
-	displayColomn.push('status1');
+	displayColomn.push('N_STATUS');
 	displayColomn.push('ASSESSOR');
 	displayColomn.push('LAST_CONTENT');
 	displayColomn.push('NOT_APPROVE');

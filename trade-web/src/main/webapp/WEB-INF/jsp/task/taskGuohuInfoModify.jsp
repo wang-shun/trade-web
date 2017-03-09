@@ -225,7 +225,7 @@
 				});
 				$("#changeForm-form").submit(function(){
 					if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
-						alert('请选择要修改的项目！');
+						window.wxc.alert('请选择要修改的项目！');
 						return false;
 					}
 				});
@@ -268,7 +268,7 @@
 				
 				error : function(errors) {
 					$.unblockUI();   
-					alert("数据保存出错:"+JSON.stringify(errors));
+					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
 				}
 		});
 	}

@@ -171,7 +171,7 @@
 			function save() {
 				
 				if($("#optionsRadios2").prop("checked") && $("#LoanLost_GeneralManager_response").val().trim() == ''){
-					alert("驳回时需填写审批意见！");
+					window.wxc.alert("驳回时需填写审批意见！");
 					$("#LoanLost_GeneralManager_response").focus();
 					return false;
 				}
@@ -210,10 +210,12 @@
 						}
 					},
 					success : function(data) {
-						window.location.href = "${ctx }/task/myTaskList";
+						window.wxc.success("数据保存成功！",{"wxcOk":function(){
+							window.location.href = "${ctx }/task/myTaskList";
+						}});
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}

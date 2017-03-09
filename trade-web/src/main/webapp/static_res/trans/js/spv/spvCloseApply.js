@@ -23,44 +23,48 @@ function submitBtnClick(handle,continueApply,result){
 	  }
 
 	  if(!handle){
-		  if(!confirm("确定提交并开启流程吗！")){
-			  return false;
-		  } 
-		  if(!checkInOutWorkFlowProcess($("input[name='toSpvCloseApply.spvCode']").val())){
-	   		   return false;
-	   	   }
+		  window.wxc.confirm("确定提交并开启流程吗？",{"wxcOk":function(){
+			  if(!checkInOutWorkFlowProcess($("input[name='toSpvCloseApply.spvCode']").val())){
+		   		   return false;
+		   	   }
+			  
+			  dealSpvCloseApply(continueApply,result);
+		  }});
+		  
 	  }else if(handle == 'apply'){
 	  		if(continueApply){
-			   	   if(!confirm("是否确定提交申请！")){
-				 		  return false;
-				 	  }
-			  }else{
-			  	   if(!confirm("是否确定取消申请！")){
-			     		  return false;
-			     	  } 
+	  			window.wxc.confirm("是否确定提交申请？",{"wxcOk":function(){
+	  				 dealSpvCloseApply(continueApply,result);
+	  			}});
+			 }else{
+				 window.wxc.confirm("是否确定取消申请？",{"wxcOk":function(){
+					 dealSpvCloseApply(continueApply,result);
+				 }});
 			  }
 	  }else if(handle == 'hostAudit'){
 		  if(result){
-		   	   if(!confirm("是否确定通过！")){
-			 		  return false;
-			 	  } 
+			  window.wxc.confirm("是否确定通过？",{"wxcOk":function(){
+				  dealSpvCloseApply(continueApply,result);
+			  }});
 		  }else{
-		  	   if(!confirm("是否确定驳回！")){
-		     		  return false;
-		     	  } 
+			  window.wxc.confirm("是否确定驳回？",{"wxcOk":function(){
+				  dealSpvCloseApply(continueApply,result);
+			  }});
 		  }
 	  }else if(handle == 'directorAudit'){
 		  if(result){
-		   	   if(!confirm("是否确定通过！")){
-			 		  return false;
-			 	  } 
+			   window.wxc.confirm("是否确定通过？",{"wxcOk":function(){
+		   		   dealSpvCloseApply(continueApply,result);  
+		   	   }}); 
 		  }else{
-		  		if(!confirm("是否确定驳回！")){
-		     		  return false;
-		     	  } 
+			  window.wxc.confirm("是否确定驳回？",{"wxcOk":function(){
+		  			dealSpvCloseApply(continueApply,result);
+		  	  }}); 
 		  }
 	  }
+};
 
+function dealSpvCloseApply(continueApply,result){
 	  var totalArr = [];
 	  if(continueApply != null){
 		  totalArr.push({"name":"continueApply","value":continueApply}); 
@@ -72,7 +76,7 @@ function submitBtnClick(handle,continueApply,result){
 	  $("#spvfive,#auditContent,#instForm").each(function(){
 		var obj = $(this).serializeArray();
 		for(var i in obj){
-   		totalArr.push(obj[i]);
+ 		totalArr.push(obj[i]);
 		}
 	  });
 
@@ -84,45 +88,47 @@ function submitBtnClick(handle,continueApply,result){
 		beforeSend:function(){  
 			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 			$(".blockOverlay").css({'z-index':'9998'});
-    },
-    complete: function() {
-             if(status=='timeout'){ //超时,status还有success,error等值的情况
-	          	  Modal.alert(
-				  {
-				    msg:"抱歉，系统处理超时。"
-				  }); 
-		                }
-             $.unblockUI(); 
-		            } ,   
-	success : function(data) {   
-		if(data.success){
-			if(!handle){
-				alert("流程开启成功！");
-				window.location.href = ctx+"/spv/spvList";
+	  },
+	  complete: function() {
+	           if(status=='timeout'){ //超时,status还有success,error等值的情况
+		          	  Modal.alert(
+					  {
+					    msg:"抱歉，系统处理超时。"
+					  }); 
+			                }
+	           $.unblockUI(); 
+			            } ,   
+		success : function(data) {   
+			if(data.success){
+				if(!handle){
+					window.wxc.alert("流程开启成功！",{"wxcOk":function(){
+                        window.location.href = ctx+"/spv/spvList";
+                    }});
+				}else{
+					window.wxc.alert("任务提交成功！",{"wxcOk":function(){
+                        window.opener.location.reload(); //刷新父窗口
+                        window.close(); //关闭子窗口.
+                    }});
+				}
 			}else{
-				alert("任务提交成功！");
-				window.opener.location.reload(); //刷新父窗口
-	        	window.close(); //关闭子窗口.
+				window.wxc.error("数据保存出错！");
+				//rescCallback();
 			}
-		}else{
-			alert("数据保存出错:\n"+data.message);
-			rescCallback();
 		}
-		}
-});
-};
+	});
+}
 
 //验证
 function validateForm(){
 	var $closeType = $("input[name='toSpvCloseApply.closeType']:checked");
 	if($.trim($closeType.val()) == ''){
-		alert("请选择申请状态！");
+		window.wxc.alert("请选择申请状态！");
 		return false;
 	}
 	
 	var $comment = $("textarea[name='toSpvCloseApply.comment']");
 	if($.trim($comment.val()) == ''){
-		alert("请填写原因！");
+		window.wxc.alert("请填写原因！");
 		changeClass($comment);
 		return false;
 	}
@@ -130,7 +136,7 @@ function validateForm(){
 	if(handle == 'hostAudit' || handle == 'directorAudit'){
 		var $content = $("textarea[name='toSpvCloseApplyAuditList[0].content']");
 		if($.trim($content.val()) == ''){
-			alert("请填写审核意见！");
+			window.wxc.alert("请填写审核意见！");
 			changeClass($cotent);
 			return false;
 		}
@@ -202,7 +208,7 @@ $.ajax({
 	data:{spvCode:spvCode},   		        				        		      
 	success : function(data) {	
 		if(!data.success){
-			alert(data.message);
+			window.wxc.alert(data.message);
 			res = false;
 		}
 		}

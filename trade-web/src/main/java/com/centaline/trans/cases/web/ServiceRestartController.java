@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -41,18 +42,34 @@ public class ServiceRestartController {
 	@ResponseBody
 	public AjaxResponse<StartProcessInstanceVo> restart(Model model,
 			ServiceRestartVo vo) {
-		SessionUser u = uamSessionService.getSessionUser();
-		vo.setUserId(u.getId());
-		vo.setUserName(u.getUsername());
-		vo.setOrgId(u.getServiceDepId());
-		// 删除相关
-		StartProcessInstanceVo piv = serviceRestart
-				.restartAndDeleteSubProcess(vo);
+		
 		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();
-		resp.setContent(piv);
-		return resp;
+		SessionUser u = uamSessionService.getSessionUser();
+		String userId = u.getId();
+		
+		try{
+			boolean flag = serviceRestart.restartCheckout(vo,userId);
+			if(flag == false){
+				 resp.setSuccess(false);
+				 resp.setMessage("此案件已过户，不能重启流程！");
+				 return resp;
+			}else{
+				vo.setUserId(userId);
+				vo.setUserName(u.getUsername());
+				vo.setOrgId(u.getServiceDepId());		
+				
+				// 删除相关
+				StartProcessInstanceVo piv = serviceRestart.restartAndDeleteSubProcess(vo);		
+				resp.setContent(piv);
+				return resp;
+			}
+		}catch(Exception e){
+			throw new BusinessException("重启流程异常！");	 
+		}
 	}
 
+	
+	
 	@RequestMapping("apply/process")
 	public String toApplyProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source,

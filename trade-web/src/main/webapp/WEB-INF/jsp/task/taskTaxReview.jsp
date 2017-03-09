@@ -447,17 +447,18 @@
 					if(b) {
 						caseTaskCheck();
 						if(null!=data.message){
-							alert(data.message);
+							window.wxc.alert(data.message);
 						}
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
-						alert("保存成功。");
-						 window.close();
-						 window.opener.callback();
+						window.wxc.success("保存成功。",{"wxcOk":function(){
+							window.close();
+							window.opener.callback();
+						}});
 					}
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
@@ -465,15 +466,15 @@
 		//验证控件checkUI();
 		function checkForm() {
 			if($('input[name=taxTime]').val()=='') {
-                alert("实际审税时间为必填项!");
+				window.wxc.alert("实际审税时间为必填项!");
                 return false;
            }
 		   if($("#isUniqueHome").val()=='') {
-                alert("是否唯一住房为必填项!");
+			    window.wxc.alert("是否唯一住房为必填项!");
                 return false;
            }
 		   if($("#holdYear").val()=='') {
-               alert("购房年代为必填项!");
+			   window.wxc.alert("购房年代为必填项!");
                return false;
            }
 			/* if($('input[name=commet]').val()=='') {

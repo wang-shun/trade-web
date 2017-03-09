@@ -15,21 +15,29 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.message.core.remote.UamMessageService;
+import com.aist.message.core.remote.vo.Message;
+import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.template.remote.UamTemplateService;
+import com.centaline.trans.common.enums.MsgCatagoryEnum;
+import com.centaline.trans.signroom.entity.ResFlowup;
 import com.centaline.trans.signroom.entity.Reservation;
 import com.centaline.trans.signroom.entity.RmRoomScheStragegy;
 import com.centaline.trans.signroom.entity.RmRoomSchedule;
 import com.centaline.trans.signroom.entity.RmSignRoom;
 import com.centaline.trans.signroom.entity.TradeCenter;
 import com.centaline.trans.signroom.entity.TradeCenterSchedule;
+import com.centaline.trans.signroom.repository.ResFlowupMapper;
 import com.centaline.trans.signroom.repository.ReservationMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheStragegyMapper;
 import com.centaline.trans.signroom.repository.RmRoomScheduleMapper;
@@ -37,6 +45,7 @@ import com.centaline.trans.signroom.repository.RmSignRoomMapper;
 import com.centaline.trans.signroom.repository.TradeCenterMapper;
 import com.centaline.trans.signroom.repository.TradeCenterScheduleMapper;
 import com.centaline.trans.signroom.service.RmSignRoomService;
+import com.centaline.trans.signroom.vo.CanceReservionVo;
 import com.centaline.trans.signroom.vo.DateWeekVo;
 import com.centaline.trans.signroom.vo.FreeRoomVo;
 import com.centaline.trans.signroom.vo.ReservationInfoVo;
@@ -72,6 +81,13 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 	private UamBasedataService uamBasedataService;
 	@Resource
 	TradeCenterScheduleMapper tradeCenterScheduleMapper;
+	@Resource
+	private ResFlowupMapper resFlowupMapper;
+	@Resource
+    private UamTemplateService       uamTemplateService;
+	@Qualifier("uamMessageServiceClient")
+	@Autowired
+    private UamMessageService        uamMessageService;
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass()); 
 	@Override
@@ -677,6 +693,52 @@ public class RmSignRoomServiceImpl implements RmSignRoomService {
 				signRoom.setRmRoomSchedules(rrs);
 			}
 		}
+	}
+
+	@Override
+	public void canceReservation(CanceReservionVo canceReservionVo) {
+		SessionUser currentUser = uamSessionService.getSessionUser();
+		//更新预约状态为已取消
+		Reservation reservation = new Reservation();
+		reservation.setPkid(canceReservionVo.getResId());
+		reservation.setResStatus("4");
+		reservation.setIsCanceConfirm(canceReservionVo.getIsCanceConfirm());
+		reservationMapper.updateReservation(reservation);
+		
+		//最新跟进内容
+		ResFlowup resFlowup = new ResFlowup();
+		resFlowup.setResId(canceReservionVo.getResId());
+		resFlowup.setComment("取消预约原因:"+canceReservionVo.getComment());
+		resFlowup.setCreateTime(Calendar.getInstance().getTime());
+		resFlowup.setCreateBy(currentUser.getId());
+		resFlowup.setUpdateBy(currentUser.getId());
+		resFlowup.setUpdateTime(Calendar.getInstance().getTime());
+		resFlowupMapper.insertSelective(resFlowup);
+		//经纪人不为空发站内信
+		if(!StringUtils.isEmpty(canceReservionVo.getResPersonId())){
+			//发送站内信
+			Map<String,Object> params = new HashMap<String,Object>();
+			params.put("createTime", canceReservionVo.getResDateTime()+" "+canceReservionVo.getActStartTime()+"-"+canceReservionVo.getActEndTime());
+			params.put("signingCenter", canceReservionVo.getSigningCenter());
+			params.put("dutyOfficer", currentUser.getUsername());
+			params.put("mobile", currentUser.getMobile());
+			String content = uamTemplateService.mergeTemplate("TMP_SIGNROOM_CANCE", params);
+		    Message message = new Message();
+		    // 消息标题
+		    message.setTitle("签约室预约取消提醒");
+		    // 消息类型
+		    message.setType(MessageType.SITE);
+		    //设置提醒列别 
+		    message.setMsgCatagory(MsgCatagoryEnum.NEWS.getCode());
+		    //内容 
+		    message.setContent(content);
+		    // 发送人 
+		    String senderId = currentUser.getId();
+		    //设置发送人 
+		    message.setSenderId(senderId);
+		    uamMessageService.sendMessageByUser(message, canceReservionVo.getResPersonId());
+		}
+		
 	}
 
 }

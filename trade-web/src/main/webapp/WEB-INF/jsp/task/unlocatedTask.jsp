@@ -69,6 +69,7 @@ text-decoration: underline !important;
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="taskId">
 <div class="row">
 	<div class="wrapper wrapper-content  animated fadeInRight">
@@ -356,10 +357,10 @@ text-decoration: underline !important;
 					dataType : "json",
 					success : function(data) {
 						if(data.sc&&data.sc=='0'){
-							alert('分配成功！');
+							window.wxc.success('分配成功！');
 							reloadGrid(1);
 						}else{
-							alert('分配失败！');
+							window.wxc.error('分配失败！');
 						}
 						taskDelGrid.trigger('reloadGrid');
 					}
@@ -377,9 +378,9 @@ text-decoration: underline !important;
 					dataType : "json",
 					success : function(data) {
 						if(data.sc&&data.sc=='0'){
-							alert('分配成功！');
+							window.wxc.success('分配成功！');
 						}else{
-							alert('分配失败！');
+							window.wxc.error('分配失败！');
 						}
 						$('#modal-form').modal("hide");
 						taskDelGrid.trigger('reloadGrid');

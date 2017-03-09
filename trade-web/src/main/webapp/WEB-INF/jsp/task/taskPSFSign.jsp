@@ -92,10 +92,11 @@
                 <div class="jqGrid_wrapper">
 				       <div class="jqGrid_wrapper">
 					     <table id="reminder_list"></table>
-					     <div id="pager_list_1"></div>	
-	                    <button type="button" class="btn btn-primary mt20" id="sendSMS">
-	                        <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
-	                    </button>
+					     <div id="pager_list_1"></div>
+					     <!-- <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS"> -->	
+					     <button type="button" class="btn btn-icon btn-grey-border mt20">
+		                    <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
+		                 </button>
                   </div>
                 </div>
             </div>
@@ -408,13 +409,14 @@
 					if(b) {
 						caseTaskCheck();
 					} else {
-						alert("保存成功。");
-						 window.close();
-						 window.opener.callback();
+						 window.wxc.success("保存成功。",{"wxcOk":function(){
+							 window.close();
+							 window.opener.callback();
+						 }});
 					}
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
@@ -434,12 +436,12 @@
 		//验证控件checkUI();
 		function checkForm() {
 			if($('input[name=signDate]').val()=='') {
-                alert("实际签约时间为必填项!");
+				window.wxc.alert("实际签约时间为必填项!");
                 $('input[name=signDate]').focus();
                 return false;
            }
 			if($('input[name=mortTotalAmount]').val()=='') {
-                alert("贷款金额为必填项!");
+				window.wxc.alert("贷款金额为必填项!");
                 $('input[name=mortTotalAmount]').focus();
                 return false;
            }
@@ -449,7 +451,7 @@
                 return false;
            } */
 			if($('input[name=prfYear]').val()=='') {
-                alert("贷款年限为必填项!");
+				window.wxc.alert("贷款年限为必填项!");
                 $('input[name=prfYear]').focus();
                 return false;
            }
@@ -483,7 +485,7 @@
 					});
 				},
 				error : function(errors) {
-					alert("获取主贷人失败");
+					window.wxc.error("获取主贷人失败");
 				}
 			});
 		}

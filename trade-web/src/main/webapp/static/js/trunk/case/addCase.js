@@ -270,7 +270,7 @@ function select2DivClick( data ){
 				buildingChange(); 
 			},
 			error: function(errors) {
-			   	alert("获得楼盘栋座出错!");   //弹出失败提示框
+				window.wxc.error("获得楼盘栋座出错!");   //弹出失败提示框
 			}
 		});  
 	}
@@ -333,7 +333,7 @@ function buildingChange(){
 						     
 		},
 	error: function(errors) {
-	   	alert("获得楼盘层数出错!");   //弹出失败提示框	  
+		window.wxc.error("获得楼盘层数出错!");   //弹出失败提示框	  
 		}
 	});
 }	
@@ -392,7 +392,7 @@ function floorChange(){
 						     
 		},
 	error: function(errors) {
-		 alert("获得房屋号出错!");	   
+		window.wxc.error("获得房屋号出错!");	   
 		}
 	});
 	if(roomChanged){
@@ -510,26 +510,38 @@ function getHouseInfo(houseId){
 			
 			$("#floor").val(result.FLOOR);
 			$("#totalFloor").val(result.TOTAL_FLOOR);
-			
-			var finishYear = (result.BUILD_END_YEAR).trim();
+
+			if(result.BUILD_END_YEAR != null && result.BUILD_END_YEAR !="" && result.BUILD_END_YEAR && undefined){
+				var finishYear = (result.BUILD_END_YEAR).trim();
+				if(finishYear =="" || finishYear == null || finishYear == undefined){
+					finishYear = 2000;
+				}			
+				initSelectYear("finishYear", finishYear);
+			}else{				
+				var finishYear = 2000;
+				initSelectYear("finishYear", finishYear);	
+			}
+/*			var finishYear = (result.BUILD_END_YEAR).trim();
 			if(finishYear =="" || finishYear == null || finishYear == undefined){
 				finishYear = 2000;
-			}
-			initSelectYear("finishYear", finishYear);	
-			
-			var buildType = (result.BUILDING_TYPE).trim();
-			if(buildType =="" || buildType == null || buildType == undefined){
-				buildType = "30014002";
 			}			
-			$("#propertyType").attr("defaultvalue",buildType);
-			$("#propertyType").find("option[value="+ buildType +"]").attr("selected",true);		
+			initSelectYear("finishYear", finishYear);	*/
+			if(result.BUILDING_TYPE != null && result.BUILDING_TYPE !="" && result.BUILDING_TYPE && undefined){
+				var buildType = (result.BUILDING_TYPE).trim();		
+				
+				if(buildType =="" || buildType == null || buildType == undefined){
+					buildType = "30014002";
+				}	
+				$("#propertyType").attr("defaultvalue",buildType);
+				$("#propertyType").find("option[value="+ buildType +"]").attr("selected",true);		
+			}
 
 			$("#distCode").attr("defaultvalue",(result.DISTRICT_CODE).trim());
 			$("#distCode").find("option[value="+ (result.DISTRICT_CODE).trim() +"]").attr("selected",true);
 							     
 		},
 		error: function(errors) {
-			 alert("获取房屋基本信息出错！");	   
+			window.wxc.error("获取房屋基本信息出错！");	   
 			}
 		});
 	
@@ -612,53 +624,53 @@ function checkForm(){
 	var formSubmitFlag = true;	
 
 	if ($("#blocksSelect").val() == '') {	
-		alert("楼盘信息不能为空！");
+		window.wxc.alert("楼盘信息不能为空！");
 		$("#blocksSelect").focus();		
 		return false;
 	}	
 	if ($("#buildingsSelect option:selected").val() == '') {
-		alert("楼栋信息不能为空！");
+		window.wxc.alert("楼栋信息不能为空！");
 		$("#buildingsSelect").focus();		
 		return false;
 	}	
 	if ($("#floorSelect option:selected").val() == '') {
-		alert("楼层信息不能为空！");
+		window.wxc.alert("楼层信息不能为空！");
 		$("#floorSelect").focus();		
 		return false;
 	}	
 	if ($("#roomSelect option:selected").val() == '') {
-		alert("房屋号信息不能为空！");
+		window.wxc.alert("房屋号信息不能为空！");
 		$("#roomSelect").focus();	
 		return false;
 	}	
 	
 	if ($('input[name=agentName]').val() == '') {
-		alert("经纪人姓名不能为空!");
+		window.wxc.alert("经纪人姓名不能为空!");
 		$('input[name=agentName]').focus();
 		return false;
 	}
 	if ($('input[name=agentPhone]').val() == '') {
-		alert("经纪人电话不能为空!");
+		window.wxc.alert("经纪人电话不能为空!");
 		$('input[name=agentPhone]').focus();
 		return false;
 	}
 	if ($('input[name=guestNameUp]').val() == '') {
-		alert("上家姓名不能为空!");
+		window.wxc.alert("上家姓名不能为空!");
 		$('input[name=guestNameUp]').focus();
 		return false;
 	}
 	if ($('input[name=guestPhoneUp]').val() == '') {
-		alert("上家电话不能为空!");
+		window.wxc.alert("上家电话不能为空!");
 		$('input[name=guestPhoneUp]').focus();
 		return false;
 	}
 	if ($('input[name=guestNameDown]').val() == '') {
-		alert("下家姓名不能为空!");
+		window.wxc.alert("下家姓名不能为空!");
 		$('input[name=guestNameDown]').focus();
 		return false;
 	}
 	if ($('input[name=guestPhoneDown]').val() == '') {
-		alert("下家电话不能为空!");
+		window.wxc.alert("下家电话不能为空!");
 		$('input[name=guestPhoneDown]').focus();
 		return false;
 	}
@@ -676,7 +688,7 @@ function phoneUpAndphoneDownCheck() {
 	
 	$.each(selectsPhoneUp, function(j, item) {
 		if (item.value == '') {
-			alert("上家电话为必填项!");
+			window.wxc.alert("上家电话为必填项!");
 			selectsPhoneUp[j].focus();
 			checkGuestPhone = false;						
 		} else {						
@@ -694,7 +706,7 @@ function phoneUpAndphoneDownCheck() {
 	//验证下家电话号码
 	$.each(selectsPhoneDown, function(j, item) {
 		if (item.value == '') {
-			alert("下家电话为必填项!");
+			window.wxc.alert("下家电话为必填项!");
 			selectsPhoneDown[j].focus();
 			checkGuestPhone = false;
 		} else {
@@ -714,7 +726,7 @@ function phoneUpAndphoneDownCheck() {
 				$.each(selectsPhoneDown,function(j,	itemPhoneDown) {
 					if (itemPhoneDown.value != '') {
 						if (itemPhoneUp.value.trim() == itemPhoneDown.value.trim()) {
-									alert("上下家电话不能填写一样!");
+							window.wxc.alert("上下家电话不能填写一样!");
 									checkGuestPhone=false;
 									return checkGuestPhone;
 						}
@@ -751,18 +763,18 @@ function checkContactNumber(ContactNumber) {
 	var isValid = true;
 	
 	if(!number.exec(mobile)){					
-		alert("电话号码只能由数字组成！");
+		window.wxc.alert("电话号码只能由数字组成！");
 		isValid = false;
 		return isValid;
 	}
 	if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){				
-		alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
+		window.wxc.alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
 		isValid = false;
 		return isValid;
 	}
 	
 	if(isUniqueChar(mobile)){
-		alert("电话号码不能为全部相同的数字！");
+		window.wxc.alert("电话号码不能为全部相同的数字！");
 		isValid = false;
 		return isValid;
 	}

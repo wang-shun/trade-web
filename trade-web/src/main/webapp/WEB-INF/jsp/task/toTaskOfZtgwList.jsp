@@ -386,7 +386,7 @@ text-decoration: underline !important;
 				}else{
 					var chks=$("input[name='ckb_task']:checked");
 					if(chks.length==0){
-						alert('请至少选择一个任务');
+						window.wxc.alert('请至少选择一个任务');
 						return ;
 					}
 				}
@@ -398,7 +398,8 @@ text-decoration: underline !important;
 				if(array && array.length >0){
 					var selectUserId=array[0].userId;
 					var selectUserRName=array[0].username;
-					if(confirm('是否确定将任务分配给"'+selectUserRName+'"?')){
+					
+					window.wxc.confirm('是否确定将任务分配给"'+selectUserRName+'"?',{"wxcOk":function(){
 						$("#h_userId").val(selectUserId);
 						if(optTaskId){
 							var sendData={'taskIds[0]':optTaskId,userId:selectUserId,'caseCodes[0]':caseCode};
@@ -406,7 +407,7 @@ text-decoration: underline !important;
 						}else{
 							changeTaskAssignee();
 						}
-					}
+					}});
 				}
 			}
 			function changeTaskAssignee(sendData){
@@ -426,17 +427,17 @@ text-decoration: underline !important;
 			         },
 					success : function(data) {
 						if(data.success){
-							alert("变更成功");
+							window.wxc.success("变更成功");
 							reloadGrid();
 						}else{
-							alert(data.message);
+							window.wxc.error(data.message);
 						}
 					},complete: function() { 
 						 $.unblockUI(); 
 						 optTaskId='';
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						 window.wxc.error("数据保存出错");
 						 $.unblockUI();
 					}
 				});

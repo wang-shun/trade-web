@@ -82,7 +82,7 @@ $(document).ready(function() {
 						pgtext : " {0} 共 {1} 页",
 
 						onSelectRow : function(rowid, status) {
-							alert(rowid);
+							window.wxc.alert(rowid);
 						},
 						postData : {
 							queryId : "queryTaskPlanSetList"
@@ -154,7 +154,7 @@ $(document).ready(function() {
 								pgtext : " {0} 共 {1} 页",
 
 								onSelectRow : function(rowid, status) {
-									alert(rowid);
+									window.wxc.alert(rowid);
 								},
 								postData : {
 									queryId : "queryLampRuleList"
@@ -291,7 +291,7 @@ function rowEdit(id){
 	    
 	    $('#modal-form').modal("show");
 	} else {
-		alert('请选择相应的配置项!');
+		window.wxc.alert('请选择相应的配置项!');
 	}
 }
 
@@ -320,7 +320,7 @@ function saveLampRule(){
             }
 	    },
 		success : function(data) {
-			alert(data.message);
+			window.wxc.alert(data.message);
 			if(data.success){
 				$('#modal-form-lampRule').modal("hide");
 				$("#table_list_2").trigger('reloadGrid');
@@ -336,7 +336,7 @@ function saveTaskPlanSet(){
     var planDays = $("#planDays").val();
     var isManualSet =$("#isManualSet").val();
 	if(planDays ==""){
-		alert("计划天数为必输项！");
+		window.wxc.alert("计划天数为必输项！");
 		return;
 	}
 	
@@ -364,7 +364,7 @@ function saveTaskPlanSet(){
             }
 	    },
 		success : function(data) {
-			alert(data.message);
+			window.wxc.alert(data.message);
 			if(data.success){
 				$('#modal-form').modal("hide");
 				$("#table_list_1").trigger('reloadGrid');
@@ -377,7 +377,7 @@ function saveTaskPlanSet(){
 
 function delRow(id){
 	if(id!=null){
-	    if(confirm('谨慎操作提示,确认删除任务项配置?')){
+		window.wxc.confirm("谨慎操作提示,确认删除任务项配置?",{"wxcOk":function(){
 	    	var ctx = $("#ctx").val();
 	    	var url='/setting/delTaskPlanSet?';
 	    	var params="pkid="+id;
@@ -407,7 +407,7 @@ function delRow(id){
 			                }
 			            } ,
 				success : function(data) {
-					alert(data.message);
+					window.wxc.alert(data.message);
 					if(data.success){
 						$("#table_list_1").trigger('reloadGrid');
 					}
@@ -415,9 +415,9 @@ function delRow(id){
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}
 			}); 
-	    }
+	    }});
 	}else {
-	   alert('请选择删除项!');
+		window.wxc.alert('请选择删除项!');
 	}
    
 }

@@ -26,6 +26,7 @@
         <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
     </head>
     <body class="pace-done">
+    <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 		 <div class="row">
 			<div class="col-md-12">
 			<div class="ibox float-e-margins">

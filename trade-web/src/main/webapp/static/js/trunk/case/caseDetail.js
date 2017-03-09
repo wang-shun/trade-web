@@ -31,10 +31,11 @@ function taskUserSelectBack(array){
 	if(array && array.length >0&&optTaskId!=''){
 		var selectUserId=array[0].userId;
 		var selectUserRName=array[0].username;
-		if(confirm('是否确定将任务分配给"'+selectUserRName+'"?')){
+		
+		window.wxc.confirm('是否确定将任务分配给"'+selectUserRName+'"?',{"wxcOk":function(){
 			var sendData={'taskIds[0]':optTaskId,userId:selectUserId,'caseCodes[0]':$("#caseCode").val()};
 			changeTaskAssignee(sendData);
-		}
+		}});
 	}
 }
 function changeTaskAssignee(sendData){
@@ -51,17 +52,17 @@ function changeTaskAssignee(sendData){
          },
 		success : function(data) {
 			if(data.success){
-				alert("变更成功");
+				window.wxc.success("变更成功");
 				location.reload();
 			}else{
-				alert(data.message);
+				window.wxc.error(data.message);
 			}
 		},complete: function() { 
 			 $.unblockUI(); 
 			 optTaskId='';
 		},
 		error : function(errors) {
-			alert("数据保存出错");
+			window.wxc.error("数据保存出错");
 			 $.unblockUI();
 		}
 	});
@@ -88,7 +89,7 @@ $(document).ready(function() {
 			});
 			$("#changeForm-form").submit(function(){
 				if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
-					alert('请选择要修改的项目！');
+					window.wxc.alert('请选择要修改的项目！');
 					return false;
 				}
 			});
@@ -393,16 +394,17 @@ function chgLoanReqment(){
          },
 		success : function(data) {
 			if(data.success){
-				alert("变更成功");
-				location.reload();
+				window.wxc.success("变更成功",{"wxcOk": function(){
+					location.reload();
+				}});
 			}else{
-				alert(data.message);
+				window.wxc.error(data.message);
 			}
 		},complete: function() { 
 			 $.unblockUI(); 
 		},
 		error : function(errors) {
-			alert("数据保存出错");
+			window.wxc.error("数据保存出错");
 			 $.unblockUI();
 		}
 	});
@@ -413,24 +415,24 @@ function chgLoanReqmentCheck() {
 	var flag = false;
 	$('select[id="cooperationUser0"] option:selected').each(function(i,item){
 		if(item.value == "0"){
-			 alert("合作顾问为必选项!");
+			window.wxc.alert("合作顾问为必选项!");
 //				 item.focus();
 			 flag = true;
 			 return false;
 		}else if(item.value=="-1"){
 			if($('#partner0').find(':selected').val()=="0"){
-				alert("请选择跨区合作顾问!");
+				window.wxc.alert("请选择跨区合作顾问!");
 			 flag = true;
 			 return false;
 			}
 		}
 	});
 	if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[id="cooperationUser0"]').size()==0){
-		 alert("正在加载合作项目!");
+		window.wxc.alert("正在加载合作项目!");
 		 return false;
 	}
 	if($('#mortageService').val()!='0'&& $("#loan_reqment_chg_form").find('#estPartTime').val()==''){
-		alert('请选择预计放款时间');
+		window.wxc.alert('请选择预计放款时间');
 		return false;
 	}
 	if(flag)return false;
@@ -539,7 +541,7 @@ function mortageService() {
 				},
 			
 			error : function(errors) {
-				alert("数据出错。");
+				window.wxc.error("数据出错。");
 			}
 		});
 	}
@@ -619,7 +621,7 @@ function mortageCrossAreaCooperation(){
 			}
 		},
 		error : function(errors) {
-			alert("数据出错。");
+			window.wxc.error("数据出错。");
 		}
 	});
 }
@@ -885,7 +887,7 @@ function crossAreaCooperation(i){
 			
 		},
 		error : function(errors) {
-			alert("数据出错。");
+			window.wxc.error("数据出错。");
 		}
 	});
 }
@@ -904,7 +906,7 @@ function check(){
 		$.each(crossAreas, function(i,items){
 			 var crossProcessorId = $('.wd445:eq('+i+')').children('select[name="crossProcessorId"]').find(':selected').val();
 			if(crossProcessorId=='0'){
-				alert("跨区合作交易顾问不能为空!");
+				window.wxc.alert("跨区合作交易顾问不能为空!");
 				return false;
 			}
 		});
@@ -924,7 +926,7 @@ function submit_change(){
  * @param index
  */
 function changeLeadingUser(index) {
-	if (confirm("您是否确认进行责任人变更")) {
+	window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		var instCode = $("#instCode").val();
 		var userId = $("#user_" + index).val();
@@ -945,25 +947,24 @@ function changeLeadingUser(index) {
 			
 			success : function(data) {
 				if(data.success){
-					alert("变更成功");
+					window.wxc.success("变更成功");
 					location.reload();
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 				
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 			}
 		});
-	}
+	}});
 }
 /**
  * 产调发起
  * 
  */
 function startCasePrairses() {
-	if (confirm("您是否确认进行产调发起？")) {
-
+	window.wxc.confirm("您是否确认进行产调发起？",{"wxcOk":function(){
 		var url = "/case/startCasePrairses";
 		var ctx = $("#ctx").val();
 		url = ctx + url;
@@ -973,7 +974,7 @@ function startCasePrairses() {
 			prItems.push(this.value);
 		});
 		if(prItems.length == 0){
-			alert("请至少选择一项");
+			window.wxc.alert("请至少选择一项");
 			return;
 		}
 		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems;
@@ -1004,16 +1005,17 @@ function startCasePrairses() {
 		            } , 
 			success : function(data) {
 				if(data.success){
-					alert("保存成功");
-					$('#pr-modal-form').modal("hide");
+					window.wxc.success("提交成功",{"wxcOk":function(){
+						$('#pr-modal-form').modal("hide");
+					}});
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 			}
 		});
-	}
+	}});
 }
 function managerShowSrvModal(){
 	resetSrvModal();
@@ -1063,8 +1065,7 @@ var resSrvs = [ '30004001', '30004002'];
 var delSrv='30004010';
 //保存服务项
 function saveSrvItems(){
-
-	if (confirm("您是否确认进行服务项变更？")) {
+	window.wxc.confirm("您是否确认进行服务项变更？",{"wxcOk":function(){
 		var isDel = false;
 		var delSrvCheck = $("input[name='srvCode'][value="+delSrv+"]").prop('checked');
 		if(srvs.indexOf(delSrv)>-1 && !delSrvCheck){
@@ -1077,7 +1078,7 @@ function saveSrvItems(){
 		var resSrvCheck1 = $("input[name='srvCode'][value="+resSrvs[0]+"]").prop('checked');
 		var resSrvCheck2 = $("input[name='srvCode'][value="+resSrvs[1]+"]").prop('checked');
 		if(resSrvCheck1 && resSrvCheck2){
-			alert("商贷/组合贷和纯公积金贷只允许存在一种！");
+			window.wxc.alert("商贷/组合贷和纯公积金贷只允许存在一种！");
 			return;
 		}else if(resSrvCheck1 && srvs.indexOf(resSrvs[0])==-1){
 			isRes = true;
@@ -1100,60 +1101,70 @@ function saveSrvItems(){
 		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems+ '&isDel=' + isDel+ '&isRes=' + isRes+"&srvs="+srvs;
 		var confirmStr = "您的选择会进行流程重启，是否继续？";
 		if(isDel)confirmStr = "您的选择会进行案件爆单操作，是否继续？";
-
 		
-		if ((!isRes&&!isDel )|| confirm(confirmStr)){
-			$.ajax({
-				cache : false,
-				async : true,
-				type : "POST",
-				url : url,
-				dataType : "json",
-				timeout : 10000,
-				data : params,
-				beforeSend:function(){  
-					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-					$(".blockOverlay").css({'z-index':'9998'});
-	            },  
-	            complete: function() {  
-	                $.unblockUI();   
-	                if(status=='timeout'){//超时,status还有success,error等值的情况
-		          	  Modal.alert(
-					  {
-					    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
-					  });
-			  		 $(".btn-primary").one("click",function(){
-			  				parent.$.fancybox.close();
-			  			});	 
-			                }
-			            } , 
-				success : function(data) {
-					if(data.success){
-
-						if(data.message!="变更成功！"){
-							window.location.reload();
-							window.location.href=ctx+"/task/ServiceChangeApply?&caseCode="+caseCode +"&taskId="+data.content;
-						}else{
-							alert("保存成功");
-							window.location.reload();
-							changeSrvsHidden();
-							$('#srv-modal-form').modal("hide");
-						}
-					}else{
-						alert(data.message);
-					}
-				},
-				error : function(XMLHttpRequest, textStatus, errorThrown) {
-				}
-			});
+		if(!isRes && !isDel){
+			serviceChangeApply(params,url);
 		}
-	}
+		else {
+			window.wxc.confirm(confirmStr,{"wxcOk":function(){
+				serviceChangeApply(params,url);
+			}});
+		}
+	}});
 }
+
+function serviceChangeApply(params,url){
+	$.ajax({
+		cache : false,
+		async : true,
+		type : "POST",
+		url : url,
+		dataType : "json",
+		timeout : 10000,
+		data : params,
+		beforeSend:function(){  
+			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },  
+        complete: function() {  
+            $.unblockUI();   
+            if(status=='timeout'){//超时,status还有success,error等值的情况
+          	  Modal.alert(
+			  {
+			    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
+			  });
+	  		 $(".btn-primary").one("click",function(){
+	  				parent.$.fancybox.close();
+	  			});	 
+	                }
+	            } , 
+		success : function(data) {
+			if(data.success){
+
+				if(data.message!="变更成功！"){
+					window.location.reload();
+					window.location.href=ctx+"/task/ServiceChangeApply?&caseCode="+caseCode +"&taskId="+data.content;
+				}else{
+					window.wxc.success("提交成功！",{"wxcOk":function(){
+						window.location.reload();
+						changeSrvsHidden();
+						$('#srv-modal-form').modal("hide");
+					}});
+				}
+			}else{
+				window.wxc.error(data.message);
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		}
+	});
+}
+
 function saveSrvItemsForManager(){
 		var resSrvCheck1 = $("input[name='srvCode'][value="+resSrvs[0]+"]").prop('checked');
 		var resSrvCheck2 = $("input[name='srvCode'][value="+resSrvs[1]+"]").prop('checked');
 		if(resSrvCheck1 && resSrvCheck2) {
-			alert("商贷/组合贷和纯公积金贷只允许存在一种！");
+			window.wxc.alert("商贷/组合贷和纯公积金贷只允许存在一种！");
 			return;
 		}
 
@@ -1167,7 +1178,8 @@ function saveSrvItemsForManager(){
 		});
 		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems+"&srvs="+srvs;
 		var confirmStr = "您目前在更新服务状态,，是否继续？";
-		if (confirm(confirmStr)){
+		
+		window.wxc.confirm(confirmStr,{"wxcOk":function(){
 			$.ajax({
 				async : true,
 				type : "POST",
@@ -1193,16 +1205,16 @@ function saveSrvItemsForManager(){
 				} ,
 				success : function(data) {
 					if(data.success){
-						alert(data.message);
+						window.wxc.success(data.message);
 						window.location.reload();
 					}else{
-						alert(data.message);
+						window.wxc.error(data.message);
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}
 			});
-		}
+		}});
 	}
 
 
@@ -1265,12 +1277,12 @@ function resetPlanModal(){
 				inHtml+='<span style="position: relative; z-index: 9999;">';
 				inHtml+='<div class="input-group date"><span class="input-group-addon">';
 				inHtml+='<i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>';
-				inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" onchange="javascript:changeEstTime('+k+')">';
+				inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime('+k+')">';
 				inHtml+='</div>	</span></div>';
 				inHtml+='<div class="col-lg-1 control-label">';
 				inHtml+= '变更理由';
 				inHtml+='</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
-				inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="">';
+				inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
 				inHtml+='</div>';
 				inHtml+='</div>';
 
@@ -1293,6 +1305,12 @@ function resetPlanModal(){
 function changeEstTime(index){
 	$("#isChange_"+index).val("true");
 }
+
+function initBorderColor(obj){
+	$(obj).css("border-color","#e5e6e7");
+}
+
+
 //交易计划变更 - 保存
 function savePlanItems(){
 	var url = "/case/savePlanItems";
@@ -1316,7 +1334,30 @@ function savePlanItems(){
 		}
 		isChanges.push($(this).val());
 	});
-
+	
+	var isChange = false;
+	$("#plan-form input[name='estPartTime']").each(function(index){
+		var newEstPartTime = this.value;
+		var oldEstPartTime = $(this).attr("lang");
+		
+		if(newEstPartTime != oldEstPartTime){
+			var reason = $("#whyChange_" + index).val();
+			
+			if(reason == ""){
+				$("#whyChange_" + index).css("border-color","red");
+				isChange = true;
+				return false;
+			}
+		}
+		
+	});
+	
+	
+	if(isChange){
+		window.wxc.alert("变更理由为必填项！");
+		return false;
+	}
+	
 	$("#plan-form").find("input:text[name='estPartTime']").each(function(k) {
 		if($(this).val()==""||$(this).val().trim==""){
 			msg = "交易计划不允许为空";
@@ -1331,7 +1372,7 @@ function savePlanItems(){
 		whyChanges.push($(this).val());
 	});
 	if(msg!=""){
-		alert(msg);
+		window.wxc.alert(msg);
 		return false;
 	}
 	params+="&isChanges="+isChanges+"&estIds="+estIds+"&estDates="+estTimes+"&whyChanges="+whyChanges;
@@ -1362,10 +1403,11 @@ function savePlanItems(){
 	            } , 
 		success : function(data) {
 			if(data.success){
-				alert("保存成功");
-				window.location.reload();
+				window.wxc.success("提交成功",{"wxcOk":function(){
+					window.location.reload();
+				}});
 			}else{
-				alert(data.message);
+				window.wxc.error(data.message);
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1390,7 +1432,8 @@ function casePause(){
 	}else if(activityFlag == "30003004"){
 		showStr = "您是否确认进行案件恢复操作？";
 	}
-	if(confirm(showStr)){
+	
+	window.wxc.confirm(showStr,{"wxcOk":function(){
 		var url = "/case/casePause";
 		var ctx = $("#ctx").val();
 		url = ctx + url;
@@ -1406,17 +1449,17 @@ function casePause(){
 			data : params,
 			success : function(data) {
 				if(data.success){
-					alert("操作成功");
+					window.wxc.success("操作成功");
 					$("#activityFlag").val(data.content);
 					buttonActivity();
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 			}
 		});
-	}
+	}});
 }
 function buttonActivity(){
 	var activityFlag = $("#activityFlag").val();
@@ -1459,7 +1502,7 @@ function cleanPRItem() {
 }
 
 function startSpvOutApplyProcess(caseCode){
-	if(confirm("点击该按钮将会启动资金监管解除审批流程，您确定要启动该流程吗？")){
+	window.wxc.confirm("点击该按钮将会启动资金监管解除审批流程，您确定要启动该流程吗？",{"wxcOk":function(){
 		$.ajax({
 			url:ctx+"/spv/startSpvOutApplyProcess",
 			method:"post",
@@ -1483,13 +1526,13 @@ function startSpvOutApplyProcess(caseCode){
 			success:function(data){
                 $.unblockUI();   
 				if(!data.success){
-					alert(data.message);
+					window.wxc.error(data.message);
 				}else{
 					window.location.href=ctx+"/task/spvOutApply?taskId="+data.content.taskId+"&instCode="+data.content.processInstanceId+"&caseCode="+data.content.caseCode;
 				}
 			}
 		});
-	}
+	}});
 }
 /**
  * 案件转组初始化
@@ -1540,8 +1583,8 @@ function showChangeFormModal(){
  */
 function changeCaseTeam(){
 	var orgName =$('input[name="teamRadio"]:checked').parent().text();
-	if(confirm("您是否确认分配给"+orgName+"?")){
-
+	
+	window.wxc.confirm("您是否确认分配给"+orgName+"?",{"wxcOk":function(){
     	var orgId =$('input[name="teamRadio"]:checked').val();
 		var url = "/case/orgChange";
 		var ctx = $("#ctx").val();
@@ -1575,24 +1618,26 @@ function changeCaseTeam(){
 		            } , 
 			success : function(data) {
 				if(data.success){
-					alert("转组成功");
+					window.wxc.success("转组成功");
 					$('#team-modal-form').modal("hide");
 				}else{
-					alert(data.message);
+					window.wxc.error(data.message);
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				
 			}
 		}); 
-	}
+	}});
 }
 function serviceRestart(){
 	var info='如果需要变更贷款需求,可以在过户之前使用\"贷款需求选择\"无需流程重启，是否继续重启流程？';
 	if(!isNewFlow){
 		info="点击该按钮将会启动流程重启审批流程，您确定要启动该流程吗？";
 	}
-	if(confirm(info)){
+	
+	
+	window.wxc.confirm(info,{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
 			url:ctx+"/service/restart",
@@ -1611,18 +1656,22 @@ function serviceRestart(){
 				  });
 		        }
 		   } , success:function(data){
+			   console.log("===Result==="+JSON.stringify(data));
 				if(!data.success){
 					$.unblockUI();   
-					alert(data.message);
+					window.wxc.error(data.message);
+				
 				}else{
 					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
 				}
 			}
 		});
-	}
+	}});
 }
+
+
 function caseReset(){
-	if(confirm('您的操作将恢复案件至未分单状态，是否确定要重置案件？')){
+	window.wxc.confirm("您的操作将恢复案件至未分单状态，是否确定要重置案件？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
 			url:ctx+"/case/reset",
@@ -1643,14 +1692,14 @@ function caseReset(){
 		   } , success:function(data){
 				if(!data.success){
 					$.unblockUI();   
-					alert(data.message);
+					window.wxc.error(data.message);
 				}else{
-					alert("案件重置成功.");
+					window.wxc.success("案件重置成功.");
 					window.location.reload();
 				}
 			}
 		});
-	}
+	}});
 }
 
 

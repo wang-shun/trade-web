@@ -325,48 +325,48 @@ function fcheck(){
 		flag=f;
 	}
 	if($("#executorName")&&$("#executorName").val()==''){
-		alert('请选择归属人');
+		window.wxc.alert('请选择归属人');
 		return false;
 	}
 	if($("#select_loanSrvCode").val()==''){
-		alert('请选择产品类型');
+		window.wxc.alert('请选择产品类型');
 		return false;
 	}
 	if($("#select_applyStatus").val()==''){
-		alert('请选择跟进状态');
+		window.wxc.alert('请选择跟进状态');
 		return false;
 	}
 	if((flag&2)!=0){
 		if($("#txt_loanAmount").val()==''||$("#txt_loanAmount").val()==0){
-			alert('请输入 申请金额');
+			window.wxc.alert('请输入 申请金额');
 			return false;
 		}
 		if($("#txt_applyTime").val()==''){
-			alert('请输入 申请时间');
+			window.wxc.alert('请输入 申请时间');
 			return false;
 		}
 		if($("#txt_month").val()==''&&$("#txt_month").val()==0){
-			alert('请输入期数');
+			window.wxc.alert('请输入期数');
 			return false;
 		}
 	}
 	if((flag&4)!=0){
 		if($("#txt_signAmount").val()==''||$("#txt_signAmount").val()==0){
-			alert('请输入 面签金额');
+			window.wxc.alert('请输入 面签金额');
 			return false;
 		}
 		if($("#txt_signTime").val()==''){
-			alert('请输入 面签时间');
+			window.wxc.alert('请输入 面签时间');
 			return false;
 		}
 	}
 	if((flag&8)!=0){
 		if($("#txt_actualAmount").val()==''||$("#txt_actualAmount").val()==0){
-			alert('请输入 放款金额');
+			window.wxc.alert('请输入 放款金额');
 			return false;
 		}
 		if($("#txt_releaseTime").val()==''){
-			alert('请输入放款时间');
+			window.wxc.alert('请输入放款时间');
 			return false;
 		}
 	}
@@ -413,7 +413,8 @@ $(document).ready(function() {
 					
 	$("#btn_save").click(function(){
 		if(!fcheck())return;
-		if(confirm("是否保存？")){
+		
+		window.wxc.confirm("是否保存？",{"wxcOk":function(){
 		$("#executorId").val($("#executorName").attr('hVal'));
 		var fData=$("#f_main").serialize();
 		$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
@@ -427,17 +428,17 @@ $(document).ready(function() {
 			data:fData,
 			success:function(data){
 				if(1==data.result){
-					alert('保存成功');
+					window.wxc.success('保存成功');
 					parent.$.fancybox.close();
 				}else if (2==data.result){
-					alert('当前案件上该产品已有人('+data.optUser+')填报。请误重复填报,如有问题联系'+data.optUser+'解决');
+					window.wxc.error('当前案件上该产品已有人('+data.optUser+')填报。请误重复填报,如有问题联系'+data.optUser+'解决');
 				}else if(3==data.result){
-					alert('当前案件上项目不存在,请联系案件负责人');
+					window.wxc.error('当前案件上项目不存在,请联系案件负责人');
 				}
 			$.unblockUI();
 			}
 		});
-		}
+		}});
 	});
 	
 	$('.input-group.date').datepicker({

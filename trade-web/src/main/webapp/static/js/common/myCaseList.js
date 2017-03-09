@@ -55,7 +55,7 @@ function addDateDiv() {
     txt += '<span class="input-group-addon"><a href="javascript:removeDateDiv('
         + divIndex + ');"><font>删除</font></a></span>';
     txt += '</div></div></div>';
-    // alert(txt);
+    // window.wxc.alert(txt);
     $(".date-info").after(txt);
     // 日期控件
     $('#datepicker_' + divIndex).datepicker({
@@ -115,7 +115,7 @@ function searchMethod(page) {
          }).trigger('reloadGrid');*/
         reloadGrid(params);
     } else {
-        alert("请不要选择同样的日期类型！");
+        window.wxc.alert("请不要选择同样的日期类型！");
     }
 
 };
@@ -539,13 +539,13 @@ function exportToExcel() {
         url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
         //url+= "&_s(earch=true";
         //url= decodeURI(url);
-//		alert(url);
+//		window.wxc.alert(url);
         $('#excelForm').attr('action', url);
 
         $('#excelForm').method="post" ;
         $('#excelForm').submit();
     } else {
-        alert("请不要选择同样的日期类型！");
+        window.wxc.alert("请不要选择同样的日期类型！");
     }
 }
 function intextTypeChange(){

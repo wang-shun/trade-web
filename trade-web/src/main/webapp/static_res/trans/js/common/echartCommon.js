@@ -270,13 +270,12 @@ function accDiv(arg1,arg2){
 }
 //得到数据快照月份
 function getBelongMonth(choiceMonth){
-	var minBelongMoth = 201701
-	if(!choiceMonth){
+	var minBelongMoth = 201702;
+	if(choiceMonth==''||choiceMonth=='undefined'||choiceMonth==undefined){
 		return minBelongMoth
 	}
-
 	try{
-		var belongMoth = parseInt(replace(choiceMonth,'-',''))
+		var belongMoth = parseInt(choiceMonth.replace('-',''));
 		if(belongMoth<minBelongMoth){
 			belongMoth =  minBelongMoth
 		}
@@ -284,5 +283,4 @@ function getBelongMonth(choiceMonth){
 	}catch(e){
 		return minBelongMoth
 	}
-
 }

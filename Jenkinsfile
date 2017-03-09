@@ -10,8 +10,16 @@ node('docker-agent'){
 		dir('trade-web') {
 		    sh "sh Dockermake.sh"
 		}
-		dir("yc-par-portal"){
-			sh "sh Dockermake.sh"
+		dir('yc-par-portal') {
+		    sh "sh Dockermake.sh"
+		}
+		dir('trade-mobile') {
+		    sh "sh Dockermake.sh"
 		}
 	}
+}
+
+def version() {
+    def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+    matcher ? matcher[0][1] : null
 }

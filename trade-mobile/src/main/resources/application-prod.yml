@@ -1,0 +1,74 @@
+#shiro setting
+shiroConfig.sessionIdCookie:
+  name: clid
+  domain: partner.centaline.com
+  path: /partner
+shiroConfig.sessionUserCookie:
+  name: suid
+  domain: centaline.com
+  path: /
+shiroConfig.shiroFilter:
+  loginUrl: http://sso.sh.centaline.com.cn/aist-sso-web/login?service=http://a.sh.centanet.com/partner/cas
+  successUrl: /
+  unauthorizedUrl: http://a.sh.centanet.com/partner
+  filterChainDefinitionMap:
+    /casFailure.jsp: anon
+    /cas: cas
+    /html/**: anon
+    /remote/**: anon
+    /mobile/**: anon
+    /test/**: anon
+    /momedia/**: anon
+    /webservices/**: anon
+    /userorg/org/findOrgZTreeListByAdminOrg.json: anon
+    /anon/**: anon
+    /login: authc
+    /logout: logout
+    /api/**: anon
+    /rest/**: anon
+    /authenticated: authc
+    /weixin/**: weiXinUser
+    /tweixin/**: weiXinUser
+    /weixinAuth: weixinAuth
+    /restful/login**: restfulAuth
+    /restful/refreshToken**: restfulAuth
+    /**: customUser
+  filters:
+    weiXinUser:
+      corpId: wx7b47806a86fe27db
+      corpsecret: du8lu_E-kC1zyvofc4CPw53tNFdtF4AnbBXRJ9l9Z3d316FzsLRl1WB2Yqw4VVzB
+shiroConfig.logouFilter:
+  redirectUrl: http://sso.sh.centaline.com.cn/aist-sso-web/login?service=http://a.sh.centanet.com/partner/cas
+casRealm:
+  casService: a.sh.centanet.com/partner/cas
+  casServerUrlPrefix: http://sso.sh.centaline.com.cn/aist-sso-web
+# Server settings (ServerProperties Spring boot)
+server:
+  port: 8090
+  #address: 127.0.0.1
+  sessionTimeout: 30
+  contextPath: /partner
+#数据源
+dataSource:
+  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  url: jdbc:sqlserver://10.4.19.11;databaseName=sctrans_prd;applicationName=partnetprd
+  maxActive: 250
+  initialSize: 50
+  filters: stat
+#数据源
+readOnlyDataSource:
+  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  url: jdbc:sqlserver://10.4.19.89;databaseName=sctrans_prd;applicationName=partnetprd;ApplicationIntent=ReadOnly
+  maxActive: 350
+  initialSize: 50
+  filters: stat
+#微信相关
+weiXin.number:
+  corpId: wx7b47806a86fe27db
+  corpsecret: du8lu_E-kC1zyvofc4CPw53tNFdtF4AnbBXRJ9l9Z3d316FzsLRl1WB2Yqw4VVzB
+#Mybatis
+mybatis: 
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  typeAliasesPackage: com.centaline.parportal.**.repository
+  configLocation: classpath:/mapper/mappers.xml
+    

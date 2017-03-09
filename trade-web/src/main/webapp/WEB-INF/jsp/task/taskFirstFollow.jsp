@@ -36,6 +36,8 @@
 <link href="${ctx}/css/common/btn.css" rel="stylesheet">
 <link href="${ctx}/css/common/input.css" rel="stylesheet">
 <link href="${ctx}/css/common/table.css" rel="stylesheet">
+<!--弹出框样式  -->
+<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
 
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -71,7 +73,7 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
-		<div class="row wrapper white-bg new-heading ">
+		<div class="row wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         	首次跟进
@@ -234,7 +236,7 @@
             	
             	<div class="view-content" id="caseCommentList"> </div>
 
-	            <div class="title title-mark">
+	            <div class="title title-mark" id="aboutInfo">
 	               <strong style="font-weight:bold;">ctm附件</strong>
 	            </div>
 	            
@@ -276,10 +278,10 @@
 				<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 				<script src="${ctx}/js/template.js"></script>
 				<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+				<script src="${ctx}/js/stickUp.js"></script>
 				<!-- 改版引入的新的js文件 -->
 				<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 				<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
-				
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
@@ -406,7 +408,7 @@
 										txt = "<div class='form_content line34'><label class='control-label sign_left_small'> 合作项目 </label>";
 										txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/><span class='' placeholder='' value=''>" + data.dic.name + "</span></div>"
 										txt += "<div class='form_content'><label class='control-label sign_left_small'><font color='red' class='mr5' >*</font>合作顾问 </label>";
-										txt += "<select class='select_control mendwidth' name='unCrossCooperationUser' id='cooperationUser" + index + "'>";
+										txt += "<select class='select_control mendwidth' name='unCrossCooperationUser' id='cooperationUser" + index + "' onchange='resetColor();'>";
 										txt += "<option value='0'>----未选择----</option>";
 										
 										$.each(data.users, function(j, user){
@@ -430,7 +432,7 @@
 			
 							},
 							error : function(errors) {
-								alert("数据出错。");
+								window.wxc.error("数据出错。");
 							}
 						});
 					}
@@ -544,7 +546,7 @@
 									}						
 								},
 								error : function(errors) {
-									alert("数据出错。");
+									window.wxc.error("数据出错。");
 								}
 							});
 					 }
@@ -553,7 +555,7 @@
 					function submit() {
 					if ($('#optionsRadios2:checked').val() == "30003001") {
 							if ($('input[name=invalid_reason]').val() == '') {
-								alert("无效案件必须填写失效原因!");
+								window.wxc.alert("无效案件必须填写无效原因!");
 								$('input[name=invalid_reason]').focus();
 								return;
 							}
@@ -641,23 +643,25 @@
 								}
 							},
 							success : function(data) {
+								console.log(data);
 								if (b) {
 									if(data.message){
-										alert(data.message);
+										window.wxc.alert(data.message);
 									}
 									setTimeout('caseTaskCheck()', 1000);
 								} else {
 									if (data.firstFollowVO.isrepeat == true) {
-										alert("请不要重复保存数据");
+										window.wxc.alert("请不要重复保存数据");
 									} else {
-										alert("保存成功.");
-										window.close();
-										window.opener.callback();
+										window.wxc.success("保存成功.",{"wxcOk":function(){
+											window.close();
+											window.opener.callback();
+										}});
 									}
 								}
 							},
 							error : function(errors) {
-								alert("数据保存出错");
+								window.wxc.error("数据保存出错");
 							}
 						});
 					}
@@ -678,58 +682,73 @@
 					//验证控件checkUI();
 					function checkForm() {
 						var optionsRadios = $('input[name=caseProperty]:checked').val();
+						var params = {};
+						$("input,select").css("border-color","#e5e6e7");
 						
 						if(optionsRadios == "30003003"){
 							if ($('input[name=realPrice]').val() == '') {
-								alert("成交价为必填项!");
+								//alert("成交价为必填项!");
+								window.wxc.alert("成交价为必填项!");
+								
 								$('input[name=realPrice]').focus();
+								$('input[name=realPrice]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('input[name=conPrice]').val() == '') {
-								alert("合同价为必填项!");
+								window.wxc.alert("合同价为必填项!");
 								$('input[name=conPrice]').focus();
+								$('input[name=conPrice]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('input[name=square]').val() == '') {
-								alert("产证面积为必填项!");
+								window.wxc.alert("产证面积为必填项!");
 								$('input[name=square]').focus();
+								$('input[name=square]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('input[name=propertyAddr]').val() == '') {
-								alert("产证地址为必填项!");
+								window.wxc.alert("产证地址为必填项!");
 								$('input[name=propertyAddr]').focus();
+								$('input[name=propertyAddr]').css("border-color","red");
 								return false;
 							}
 							
 							
 							if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
-								alert("合作顾问未选择");
+								window.wxc.alert("合作顾问未选择");
+								$('#cooperationUser0').focus();
+								$('#cooperationUser0').css("border-color","red");
 								return false;
 							}
 							// 如果选择了跨区合作并且人员为空
 							if ($("#cooperationUser0").val() == -1 && $("#consult0").val() == 0) {
-								alert("跨区合作顾问未选择");
+								window.wxc.alert("跨区合作顾问未选择");
+								$('#cooperationUser0').focus();
+								$('#cooperationUser0').css("border-color","red");
 								return false;
 							}
 							
 							if ($('select[name=chaxiangou]').val() == '') {
-								alert("限购查询为必选项!");
+								window.wxc.alert("查限购为必选项!");
 								$('select[name=chaxiangou]').focus();
+								$('select[name=chaxiangou]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('select[name=diya]').val() == '') {
-								alert("抵押情况为必选项!");
+								window.wxc.alert("抵押情况为必选项!");
 								$('select[name=diya]').focus();
+								$('select[name=diya]').css("border-color","red");
 								return false;
 							}
 							
 							if ($('input[name=realConTime]').val() == '') {
-								alert("预计签约日期为必填项!");
+								window.wxc.alert("预计签约日期为必填项!");
 								$('input[name=realConTime]').focus();
+								$('input[name=realConTime]').css("border-color","red");
 								return false;
 							}
 			
@@ -738,8 +757,9 @@
 									|| (optionsRadios != '30003001' && optionsRadios != undefined)) {
 								//有效案件
 								if ($('#distCode').val() == "") {
-									alert("所在区域为必选项!");
+									window.wxc.alert("所在区域为必选项!");
 									$('#distCode').focus();
+									$('#distCode').css("border-color","red");
 									return false;
 								}
 								
@@ -747,8 +767,9 @@
 								
 								 var cooperationUser = $('select[name="unCrossCooperationUser"] option:selected').val();
 								 if(cooperationUser == "0"){
-									 alert("合作顾问为必选项!");
-									 $('select[name="unCrossCooperationUser"]').focus();
+									 window.wxc.alert("合作顾问为必选项!");
+									 $('.chosen-single').focus();
+									 $('.chosen-single').css("border-color","red");
 									 return false;
 								 }
 								 else if(cooperationUser == "-1"){
@@ -782,7 +803,9 @@
 							}
 							
 							if(!flag){
-								 alert("跨区合作顾问未选择!"); 
+								 window.wxc.alert("跨区合作顾问未选择!"); 
+								 $('#cooperationUser0').focus();
+								 $('#cooperationUser0').css("border-color","red");
 								 return false;
 							}
 							
@@ -790,8 +813,9 @@
 								var content = $("input[name=content]").val();
 								
 								if(content == ""){
-									alert("请填写预警内容！");
+									window.wxc.alert("请填写预警内容！");
 									$('input[name=content]').focus();
+									$('input[name=content]').css("border-color","red");
 									return false;
 								}
 							}
@@ -800,14 +824,24 @@
 							var invalid_reason = $("#invalid_reason").val();
 							
 							if(invalid_reason == ""){
-								alert("无效案件必须填写失效原因!");
+								window.wxc.alert("无效案件必须填写失效原因!");
 								$('input[name=invalid_reason]').focus();
+								$('input[name=invalid_reason]').css("border-color","red");
 								return;
 							}
 						}
 						
 						return true;
 					}
+					
+					$("input[type='text'],select").focus(function(){
+						$(this).css("border-color","rgb(229, 230, 231)");
+					});
+					
+					function resetColor(){
+						$(".chosen-single").css("border-color","#CBD5DD");
+					}
+					
 				</script> 
 			</content>
 	</body>

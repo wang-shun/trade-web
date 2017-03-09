@@ -95,7 +95,8 @@
 	            <div class="jqGrid_wrapper">
 	                <table id="reminder_list"></table>
 					<div id="pager_list_1"></div>
-	                <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS">
+					<!-- <button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS"> -->	
+	                <button type="button" class="btn btn-icon btn-grey-border mt20">
 	                    <i class="iconfont icon">&#xe62a;</i> 发送短信提醒
 	                </button>
 	            </div>
@@ -441,129 +442,15 @@
 		            </div>
 		        </div>
 	        </form>
-	        </div>
-	        </div>
 	        <!-- 相关信息 -->
-		    <div class="panel " id="aboutInfo">
 			<div id="caseCommentList" class="view-content"></div>
 	
-            <div class="ibox-title" style="height: auto;border:0;padding-left:0;">
+            <div class="ibox-title" style="height: auto;border:0;padding-left:0;" id="aboutInfo">
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
 					<h5 class="title-mark">
-						上传备件</h5><br> <br> <br><h5>${accesoryList[0].accessoryName }</h5>
-					<c:forEach var="accesory" items="${accesoryList}"
-						varStatus="status">
-						<div class="" id="fileupload_div_pic">
-							<form id="fileupload"
-								action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-								method="POST" enctype="multipart/form-data">
-								<noscript>
-									<input type="hidden" name="redirect"
-										value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-									<input type="hidden" id="preFileCode" name="preFileCode"
-										value="${accesory.accessoryCode }">
-								</noscript>
-								<c:if test="${status.index != 0}">
-									<h5 align="left">
-										<br>${accesory.accessoryName }</h5>
-								</c:if>
-								<div class="row-fluid fileupload-buttonbar">
-									<div class="" style="height: auto">
-										<div role="presentation" class="table table-striped "
-											style="height: auto;border:none; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-											<div id="picContainer${accesory.pkid }" class="files"
-												data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-											<span class=" fileinput-button "
-												style="margin-left: 10px !important; width: 80px;">
-												<div id="chandiaotuBtn" class=""
-													style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-													<i class="fa fa-plus"></i>
-												</div> <input id="picFileupload${accesory.pkid }" type="file"
-												name="files[]" multiple
-												data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-												data-sequential-uploads="true">
-											</span>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-
-						<div class="row-fluid">
-							<div class="">
-								<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-									<!--图片缩图  -->
-							        <div class="preview"><span class="fade"></span></div>
-									<!--  错误信息 -->
-							        {% if (file.error) { %}
-							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else if (o.files.valid && !i) { %}
-									<!-- 单个对应的按钮  -->
-							            <div class="start span1" style="display: none">
-										{% if (!o.options.autoUpload) { %}
-							                <button class="btn">
-							                    <i class="icon-upload icon-white"></i>
-							                    <span>上传</span>
-							                </button>
-							            {% } %}
-										</div>
-							        {% } else { %}
-							            <div class="span1" colspan="2"></div>
-							        {% } %}
-							        <div class="cancel" style="margin-top:-125px;margin-left:85%;">
-									{% if (!i) { %}
-							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        {% } %}
-									</div>
-							    </div>
-							{% } %}
-						</script>
-								<script id="templateDownload${accesory.pkid }"
-									type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-							        {% if (file.error) { %}
-							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else { %}
-							            <div class="preview span12">
-										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
-										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.id) { %}
-                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
-							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
-                                              {% } else { %}
- 												 <img src="${imgweb}/filesvr/downLoad?id={%=file.id%}" alt="" width="80px" height="80px">
-  											  {% } %}
-							            {% } %}</div>
-							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        </div>
-							    </div>
-							{% } %}
-						</script>
-							</div>
-						</div>
-					</c:forEach>
-
-					<div class="row-fluid" style="display: none;">
-						<div class="span4">
-							<div class="control-group">
-								<a class="btn blue start" id="startUpload"
-									style="height: 30px; width: 50px"> <i
-									class="icon-upload icon-white"></i> <span>上传</span>
-								</a>
-							</div>
-						</div>
-					</div>
+						上传备件</h5><br>
+					<div class="table-box" id="transSignfileUploadContainer"></div>
 				</c:when>
 				<c:otherwise>
 					<h5>
@@ -571,14 +458,15 @@
 					</h5>
 				</c:otherwise>
 			</c:choose>
-		</div>
-		<div class="form-btn clear pt20">
+			</div>
+			<div class="form-btn clear pt20">
 	        <div class="text-center">
 	            <button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
 	            <button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
 	        </div>
 	    </div>
-	    </div>
+	        </div>
+	        </div>
 	</div>
  </div>
 
@@ -608,18 +496,18 @@
 				var isValid = true;
 				
 				if(!number.exec(mobile)){					
-					alert("电话号码只能由数字组成！");
+					window.wxc.alert("电话号码只能由数字组成！");
 					isValid = false;
 					return isValid;
 				}
 				if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){				
-					alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
+					window.wxc.alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
 					isValid = false;
 					return isValid;
 				}
 				
 				if(isUniqueChar(mobile)){
-					alert("电话号码不能为全部相同的数字！");
+					window.wxc.alert("电话号码不能为全部相同的数字！");
 					isValid = false;
 					return isValid;
 				}
@@ -751,55 +639,55 @@
 				var checkGuest = true;
 				
 				if ($('input[name=realConTime]').val() == '') {
-					alert("实际签约时间为必填项!");
+					window.wxc.alert("实际签约时间为必填项!");
 					$('input[name=realConTime]').focus();
 					return false;
 				}
 				
 				if ($('input[name=realPrice]').val() == '') {
-					alert("成交价为必填项!");
+					window.wxc.alert("成交价为必填项!");
 					$('input[name=realPrice]').focus();
 					return false;
 				}
 				
 				if (Number($('input[name=realPrice]').val()) <= 0) {
-					alert("成交价必须大于0!");
+					window.wxc.alert("成交价必须大于0!");
 					$('input[name=realPrice]').focus();
 					return false;
 				}
 				
 				if ($('input[name=conPrice]').val() == '') {
-					alert("合同价为必填项!");
+					window.wxc.alert("合同价为必填项!");
 					$('input[name=conPrice]').focus();
 					return false;
 				}
 				
 				if (Number($('input[name=conPrice]').val()) <= 0) {
-					alert("合同价必须大于0!");
+					window.wxc.alert("合同价必须大于0!");
 					$('input[name=conPrice]').focus();
 					return false;
 				}
 
 				if ($('select[name=isLoanClose]').val() == '') {
-					alert("抵押情况为必选项!");
+					window.wxc.alert("抵押情况为必选项!");
 					$('select[name=isLoanClose]').focus();
 					return false;
 				}
 				
 				
 				if ($('select[name=isPerchaseReserachNeed]').val() == '') {
-					alert("查限购为必选项!");
+					window.wxc.alert("查限购为必选项!");
 					$('select[name=isPerchaseReserachNeed]').focus();
 					return false;
 				}
 				
 				if($("#topHome").children().length == 1){
-					alert("上家信息为必填项!");
+					window.wxc.alert("上家信息为必填项!");
 					return false;
 				}
 				
 				if($("#downHome").children().length == 1){
-					alert("下家信息为必填项!");
+					window.wxc.alert("下家信息为必填项!");
 					return false;
 				}
 				
@@ -812,82 +700,92 @@
 				}	
 				
 				if ($('input[name=square]').val() == '') {
-					alert("产证面积为必填项!");
+					window.wxc.alert("产证面积为必填项!");
 					$('input[name=square]').focus();
 					return false;
 				}
 				
 				if ($('input[name=propertyAddr]').val() == '') {
-					alert("产证地址为必填项!");
+					window.wxc.alert("产证地址为必填项!");
 					$('input[name=propertyAddr]').focus();
 					return false;
 				}
 				
 				if ($('input[name=locateFloor]').val() == '') {
-					alert("所在楼层为必填项!");
+					window.wxc.alert("所在楼层为必填项!");
 					$('input[name=locateFloor]').focus();
 					return false;
 				}
 				
 				if ($('input[name=totalFloor]').val() == '') {
-					alert("总层高为必填项!");
+					window.wxc.alert("总层高为必填项!");
 					$('input[name=totalFloor]').focus();
 					return false;
 				}
 				
 				if ($('select[name=propertyType]').val() == '') {
-					alert("房屋类型为必选项!");
+					window.wxc.alert("房屋类型为必选项!");
 					$('select[name=propertyType]').focus();
 					return false;
 				}
 				
-				if ($('select[name=isHukou]').val() == '') {
-					alert("合同公证为必选项!");
-					$('select[name=isHukou]').focus();
-					return false;
-				}
-				
 				if ($('select[name=isConCert]').val() == '') {
-					alert("房屋户口为必选项!");
+					window.wxc.alert("合同公证为必选项!");
 					$('select[name=isConCert]').focus();
 					return false;
 				}
 				
+				if ($('select[name=isHukou]').val() == '') {
+					window.wxc.alert("房屋有户口为必选项!");
+					$('select[name=isHukou]').focus();
+					return false;
+				}
+				
 				if ($('input[name=houseHodingTax]').val() == '') {
-					alert("房产税为必填项!");
+					window.wxc.alert("房产税为必填项!");
 					$('input[name=houseHodingTax]').focus();
 					return false;
 				}
 				
 				if ($('input[name=personalIncomeTax]').val() == '') {
-					alert("个人所得税为必填项!");
+					window.wxc.alert("个人所得税为必填项!");
 					$('input[name=personalIncomeTax]').focus();
 					return false;
 				}
 				
 				if ($('input[name=businessTax]').val() == '') {
-					alert("上家营业税为必填项!");
+					window.wxc.alert("上家营业税为必填项!");
 					$('input[name=businessTax]').focus();
 					return false;
 				}
 				
 				if ($('input[name=contractTax]').val() == '') {
-					alert("下家契税为必填项!");
+					window.wxc.alert("下家契税为必填项!");
 					$('input[name=contractTax]').focus();
 					return false;
 				}
 				
 				if ($('input[name=landIncrementTax]').val() == '') {
-					alert("土地增值税为必填项!");
+					window.wxc.alert("土地增值税为必填项!");
 					$('input[name=landIncrementTax]').focus();
 					return false;
 				}
-				
-				if ($('input[name=picName]').val() == undefined
-						&& $('input[name=pic]').val() == undefined) {
-					alert("产调为必填项!");
+			
+				if ($("#property_research_letter_pic_list li").length == undefined
+						|| $("#property_research_letter_pic_list li").length == 0 ) {
+					window.wxc.alert("产调附件未上传!");
+
 					return false;
 				}
+				
+				//验证上传文件是否全部上传
+				var isCompletedUpload = fileUpload.isCompletedUpload();
+				
+				if(!isCompletedUpload){
+					window.wxc.alert("产调附件还未全部上传!");
+					return false;
+				}
+				
 				return true;
 			}
 			
@@ -959,16 +857,17 @@
 						if (b) {
 							caseTaskCheck();
 							if (null != data.message) {
-								alert(data.message);
+								window.wxc.alert(data.message);
 							}
 						} else {
-							alert("保存成功。");
-							window.close();
-							window.opener.callback();
+							window.wxc.success("保存成功。",{"wxcOk":function(){
+								window.close();
+								window.opener.callback();
+							}});
 						}
 					},
 					error : function(errors) {
-						alert("数据保存出错");
+						window.wxc.error("数据保存出错");
 					}
 				});
 			}
@@ -1001,7 +900,7 @@
 				
 				$.each(selectsPhoneUp, function(j, item) {
 					if (item.value == '') {
-						alert("上家电话为必填项!");
+						window.wxc.alert("上家电话为必填项!");
 						selectsPhoneUp[j].focus();
 						checkGuestPhone = false;						
 					} else {						
@@ -1020,7 +919,7 @@
 				//验证下家电话号码
 				$.each(selectsPhoneDown, function(j, item) {
 					if (item.value == '') {
-						alert("下家电话为必填项!");
+						window.wxc.alert("下家电话为必填项!");
 						selectsPhoneDown[j].focus();
 						checkGuestPhone = false;
 					} else {
@@ -1041,7 +940,7 @@
 							$.each(selectsPhoneDown,function(j,	itemPhoneDown) {
 								if (itemPhoneDown.value != '') {
 									if (itemPhoneUp.value.trim() == itemPhoneDown.value.trim()) {
-												alert("上下家电话不能填写一样!");
+												window.wxc.alert("上下家电话不能填写一样!");
 												checkGuestPhone=false;
 												return checkGuestPhone;
 									}
@@ -1059,12 +958,12 @@
 				var selectsUp = $("input[name='guestNameUp']");
 				$.each(selectsUp, function(j, item) {
 					if (item.value == '') {
-						alert("上家姓名为必填项!");
+						window.wxc.alert("上家姓名为必填项!");
 						selectsUp[j].focus();
 						checkGuest = false;
 						return false;
 					} else if (item.value.trim().indexOf(" ") > -1) {
-						alert("上家姓名中不能包含空格!");
+						window.wxc.alert("上家姓名中不能包含空格!");
 						selectsUp[j].focus();
 						checkGuest = false;
 						return false;
@@ -1073,7 +972,7 @@
 							|| item.value.indexOf("叔叔") > 0
 							|| item.value.indexOf("阿姨") > 0
 							|| item.value.indexOf("女士") > 0) {
-						alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
+						window.wxc.alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
 						selectsUp[j].focus();
 						checkGuest = false;
 						return false;
@@ -1089,12 +988,12 @@
 				selectsDown = $("input[name='guestNameDown']");
 				$.each(selectsDown, function(j, item) {
 					if (item.value == '') {
-						alert("下家姓名为必填项!");
+						window.wxc.alert("下家姓名为必填项!");
 						selectsDown[j].focus();
 						checkGuest = false;
 						return false;
 					} else if (item.value.trim().indexOf(" ") > -1) {
-						alert("下家姓名中不能包含空格!");
+						window.wxc.alert("下家姓名中不能包含空格!");
 						selectsDown[j].focus();
 						checkGuest = false;
 						return false;
@@ -1103,7 +1002,7 @@
 							|| item.value.indexOf("叔叔") > 0
 							|| item.value.indexOf("阿姨") > 0
 							|| item.value.indexOf("女士") > 0) {
-						alert("下家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
+						window.wxc.alert("下家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
 						selectsDown[j].focus();
 						checkGuest = false;
 						return false;
@@ -1242,7 +1141,7 @@
 								}
 							},
 							error : function(errors) {
-								alert("上下家加载失败！");
+								window.wxc.error("上下家加载失败！");
 							}
 						});
 			}
@@ -1262,7 +1161,6 @@
 				$('.wrapper-content').viewer('destroy');
 				$('.wrapper-content').viewer();
 			}
-			
 		</script> 
 		<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
 		<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
@@ -1303,7 +1201,23 @@
 		<!-- 改版引入的新的js文件 --> 
 		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 		<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
-		<script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
+	</content>
+	<content tag="local_require">
+    <script>
+   		var fileUpload;
+    
+	    require(['main'], function() {
+	    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+	    		fileUpload = aistFileUpload;
+	    		
+	    		fileUpload.init({
+		    		caseCode : $('#caseCode').val(),
+		    		partCode : "TransSign",
+		    		fileUploadContainer : "transSignfileUploadContainer"
+		    	}); 
+		    });
+	    });
+	</script>
 	</content>
 </body>
 

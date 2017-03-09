@@ -180,21 +180,22 @@
 	    		            } , 
 					success : function(data) {
 						if(data.success) {
-							alert(data.message);
-							if(window.opener)
-						    {
-								 window.close();
-								 window.opener.callback();
-						    } else {
-						    	 window.location.href = "${ctx }/task/myTaskList";
-						    } 
+							window.wxc.success(data.message,{"wxcOk":function(){
+								if(window.opener)
+							    {
+									 window.close();
+									 window.opener.callback();
+							    } else {
+							    	 window.location.href = "${ctx }/task/myTaskList";
+							    } 
+							}});
 							//window.location.href = "${ctx }/task/myTaskList";
 						} else {
-							alert("操作失败。");
+							window.wxc.error("操作失败。");
 						}
 					},
 					error : function(errors) {
-						alert("操作失败。");
+						window.wxc.error("操作失败。");
 					}
 				});
 			}

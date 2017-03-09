@@ -175,15 +175,16 @@
     		            } , 
 				success : function(data) {
 					if(data) {
-						alert("操作成功。");
-						caseTaskCheck();
+						window.wxc.success("操作成功。",{"wxcOk":function(){
+							caseTaskCheck();
+						}});
 					} else {
-						alert("操作失败。");
+						window.wxc.error("操作失败。");
 					}
 					//window.location.href = "${ctx }/task/myTaskList";
 				},
 				error : function(errors) {
-					alert("操作失败。");
+					window.wxc.error("操作失败。");
 				}
 			});
 		}

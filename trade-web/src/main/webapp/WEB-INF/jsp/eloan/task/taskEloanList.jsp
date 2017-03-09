@@ -245,25 +245,23 @@
 						};
 						//删除
 						function deleteItem(pkid,status){
-							var confim= confirm("确定要删除这条数据吗？")  
-							if(!confim){
-							return
-							}
-							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
-							$.ajax({
-								cache:false,
-								async:true,
-								type:"POST",
-								url:ctx+"/eloan/deteleItem",
-								dataType:'json',
-								data:{pkid:pkid,action:status},
-								success:function(data){
-										alert(data.message);
-										initData();//刷新列表
-									    $.unblockUI();
-								}
-							});
-							
+							window.wxc.confirm("确定要删除这条数据吗？",{"wxcOk":function(){
+								$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+								
+								$.ajax({
+									cache:false,
+									async:true,
+									type:"POST",
+									url:ctx+"/eloan/deteleItem",
+									dataType:'json',
+									data:{pkid:pkid,action:status},
+									success:function(data){
+											window.wxc.success(data.message);
+											initData();//刷新列表
+										    $.unblockUI();
+									}
+								});
+							}});
 						}
 						//查询数据
 						$("#btn_search")
@@ -371,7 +369,7 @@
 							
 							var busFlag = "${busFlag}";
 							if(busFlag !="" && busFlag != null && busFlag != undefined){
-								alert("恭喜,新建案件成功,请等待主管分配！");
+								window.wxc.success("恭喜,新建案件成功,请等待主管分配！");
 							}
 							initData();
 						});

@@ -60,6 +60,8 @@
 <link href="${ctx}/css/font-awesome.css" rel="stylesheet">
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
+<!--弹出框样式  -->
+<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
 <!-- stickUp fixed css -->
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -90,6 +92,7 @@
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
+		
 		<!-- main Start -->
 		<div
 			class="row wrapper border-bottom white-bg page-heading stickup-nav-bar">
@@ -120,7 +123,7 @@
                     <div class="ibox-content" id="case_info">
                         <div class="main_titile" style="position: relative;">
                             
-                            <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal">关联案件</button></h5>
+                            <h5>关联案件<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal" onClick="showPop();">关联案件</button></h5>
 						    <div class="case_content" ${empty caseCode?'style="display:none;"':''}>
 						    
                            <div class="case_row">
@@ -799,119 +802,8 @@
 				<div style="height: auto;">
 				<c:choose>
 					<c:when test="${accesoryList!=null}">
-						<h5>上传备件<br> <br> <br>${accesoryList[0].accessoryName }</h5>
-						<c:forEach var="accesory" items="${accesoryList}"
-							varStatus="status">
-							<div class="" id="fileupload_div_pic">
-								<form id="fileupload"
-									action="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-									method="POST" enctype="multipart/form-data">
-									<noscript>
-										<input type="hidden" name="redirect"
-											value="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload">
-										<input type="hidden" id="preFileCode" name="preFileCode"
-											value="${accesory.accessoryCode }">
-									</noscript>
-									<c:if test="${status.index != 0}">
-										<h5 align="left">
-											<br>${accesory.accessoryName }</h5>
-									</c:if>
-									<div class="row-fluid fileupload-buttonbar">
-										<div class="" style="height: auto">
-											<div role="presentation" class="table table-striped "
-												style="height: auto; margin-bottom: 10px; line-height: 80px; text-align: center; border-radius: 4px; float: left;">
-												<div id="picContainer${accesory.pkid }" class="files"
-													data-toggle="modal-gallery" data-target="#modal-gallery"></div>
-												<span class=" fileinput-button "
-													style="margin-left: 10px !important; width: 80px;">
-													<div id="chandiaotuBtn" class=""
-														style="height: 80px; width: 100%; border: 1px solid #ccc; line-height: 80px; text-align: center; border-radius: 4px;">
-														<i class="fa fa-plus"></i>
-													</div> <input id="picFileupload${accesory.pkid }" type="file"
-													name="files[]" multiple
-													data-url="<aist:appCtx appName='shcl-filesvr-web'/>/servlet/jqueryFileUpload"
-													data-sequential-uploads="true">
-												</span>
-											</div>
-										</div>
-									</div>
-								</form>
-							</div>
-		
-							<div class="row-fluid">
-								<div class="">
-									<script id="templateUpload${accesory.pkid }" type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-upload fade row-fluid span2 in" style="height:80px;border:1px solid #ccc;margin-left:10px;margin-bottom:20px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-									<!--图片缩图  -->
-							        <div class="preview"><span class="fade"></span></div>
-									<!--  错误信息 -->
-							        {% if (file.error) { %}
-							            <div class="error span12" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else if (o.files.valid && !i) { %}
-									<!-- 单个对应的按钮  -->
-							            <div class="start span1" style="display: none">
-										{% if (!o.options.autoUpload) { %}
-							                <button class="btn">
-							                    <i class="icon-upload icon-white"></i>
-							                    <span>上传</span>
-							                </button>
-							            {% } %}
-										</div>
-							        {% } else { %}
-							            <div class="span1" colspan="2"></div>
-							        {% } %}
-							        <div class="cancel" style="margin-top:-125px;margin-left:85%;">
-									{% if (!i) { %}
-							            <button class="btn red" style="width:20px;height:20px;border-radius:80px;line-height:20px;text-align:center;padding:0!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        {% } %}
-									</div>
-							    </div>
-							{% } %}
-						</script>
-									<script id="templateDownload${accesory.pkid }"
-										type="text/x-tmpl">
-							{% for (var i=0, file; file=o.files[i]; i++) { %}
-							    <div name="allPicDiv1" class="template-download fade row-fluid span2" style="height:80px;border:1px solid #ccc;margin-bottom:20px;margin-left:10px;line-height:80px;text-align:center;border-radius:4px;float:left;">
-							        {% if (file.error) { %}
-							            <div class="error span2" colspan="2"><span class="label label-important">错误</span> {%=file.error%}</div>
-							        {% } else { %}
-							            <div class="preview span12">
-										<input type="hidden" name="preFileAdress" value="{%=file.id%}"></input>
-										<input type="hidden" name="picTag" value="${accesory.accessoryCode }"></input>
-										<input type="hidden" name="picName" value="{%=file.name%}"></input>
-							            {% if (file.id) { %}
-                                              {% if (((file.name).substring((file.name).lastIndexOf(".")+1))=='tif') { %}
-							               		<img src="${ctx }/img/tif.png" alt="" width="80px" height="80px">
-                                              {% } else { %}
- 												 <img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId={%=file.id%}" alt="" width="80px" height="80px">
-  											  {% } %}
-							            {% } %}</div>
-							        {% } %}
-							        <div class="delete span2" style="margin-left:85%;margin-top:-120px;">
-							           <button data-url="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/deleteFile?fileId={%=file.id%}" data-type="GET" class="btn red" style="line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;">
-							                <i class="icon-remove"></i>
-							            </button>
-							        </div>
-							    </div>
-							{% } %}
-						</script>
-								</div>
-							</div>
-						</c:forEach>
-		
-						<div class="row-fluid" style="display: none;">
-							<div class="span4">
-								<div class="control-group">
-									<a class="btn blue start" id="startUpload"
-										style="height: 30px; width: 50px"> <i
-										class="icon-upload icon-white"></i> <span>上传</span>
-									</a>
-								</div>
-							</div>
-						</div>
+						<h5>上传备件</h5>
+						<div class="table-box" id="fileUploadContainer"></div>		
 					</c:when>
 					<c:otherwise>
 						<h5>
@@ -987,8 +879,7 @@
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
 		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/trunk/task/attachment4.js"></script>
-			
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
 	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
@@ -997,7 +888,9 @@
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>
-	    <script src="${ctx}/js/viewer/viewer.min.js"></script>	
+	<!-- 引入弹出框js文件 -->
+    <script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+	<script src="${ctx}/js/viewer/viewer.min.js"></script>	
 
 		<script id="queryCastListItemList2" type= "text/html">
         {{each rows as item index}}
@@ -1200,6 +1093,12 @@
    					        if(data.success){
    					        	var caseInfoMap = eval('('+data.content+')');
    					    		$("#caseCode").val(caseInfoMap['caseCode']);
+   					    		fileUpload.init({
+							    		caseCode : $('#caseCode').val(),
+							    		partCode : "SpvApplyApprove",
+							    		fileUploadContainer : "fileUploadContainer"
+							    });
+   					    		
    					    		$("#content_caseCode").html(caseInfoMap['caseCode']);
    					    		$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
    					    		$("#content_processorId").html(caseInfoMap['processorName']);
@@ -1224,21 +1123,29 @@
    					    			$("input[name='toSpvProperty.prAddr']").val(caseInfoMap['propertyAddr']);
    					    		
    								$('.case_content').show();
-   								$('#myModal').modal('hide');
+   								$(".close").click();
+   								$(".modal-backdrop").hide();
+   								
+   								//$('#myModal').modal('hide');
    					        }else{
-   					        	alert(data.message);
+   					        	window.wxc.error("案件关联失败！");
    					        }		    		
    						    
 							$.unblockUI();
    					},		
    				error : function(errors) {
    						$.unblockUI();   
-   						alert("数据保存出错:"+JSON.stringify(errors));
+   						window.wxc.error("数据保存出错！");
    					}  
    	       });
    	     });		   
         });
-
+        
+        function showPop(){
+        	$("#myModal").show();
+			$(".modal-backdrop").show();
+        }
+        
         function reloadGrid() {
         	var data = {};
         	var propertyAddr = $.trim($("#propertyAddr").val());
@@ -1333,20 +1240,24 @@
 			$("select[name^='toSpvDeDetailList'][name$='payeeAccountType']").each(function(i,e){
 				var eVal = $(e).val();
 				if(eVal == accountType){
-					if(!confirm("出款约定中已选择该账户类型，是否确定删除?")){
-						deleteFlag = false;
+					
+					window.wxc.confirm("出款约定中已选择该账户类型，是否确定删除?",{"wxcOk":function(){
+						$(this_).parents('.form-rowbot').prev().remove();
+						$(this_).parents('.form-rowbot').remove();
+						updateAccTypeOptions();
+						
 						return false;
-					}
+					}});
 				}
 			});
 			
-			if(!deleteFlag){
+			/* if(!deleteFlag){
 				return false;
 			}
 			
 			$(this_).parents('.form-rowbot').prev().remove();
 			$(this_).parents('.form-rowbot').remove();
-			updateAccTypeOptions();
+			updateAccTypeOptions(); */
 		}
 		
 		/**
@@ -1526,6 +1437,32 @@
 
 		</script> 
 		</content>
+		
+		<content tag="local_require">
+	       <script>
+	       		var fileUpload;
+			    require(['main'], function() {
+					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager'],function($,aistFileUpload){
+						fileUpload = aistFileUpload;
+						var handle = $("#handle").val();
+						if(handle == "SpvApprove" || handle == "SpvSign"){
+							fileUpload.init({
+					    		caseCode : $('#caseCode').val(),
+					    		partCode : "SpvApplyApprove",
+					    		fileUploadContainer : "fileUploadContainer",
+					    		readonly : true
+					    	});
+						}else if(handle == "" || handle == "SpvApply"){
+							fileUpload.init({
+					    		caseCode : $('#caseCode').val(),
+					    		partCode : "SpvApplyApprove",
+					    		fileUploadContainer : "fileUploadContainer"
+					    	});
+						}
+				    });
+			    });
+			</script>
+	    </content>     
 
 </body>
 

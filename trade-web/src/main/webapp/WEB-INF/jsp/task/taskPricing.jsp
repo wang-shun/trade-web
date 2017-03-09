@@ -255,16 +255,17 @@
 					if(b) {
 						caseTaskCheck();
 						if(null!=data.message){
-							alert(data.message);
+							window.wxc.alert(data.message);
 						}
 					} else {
-						alert("保存成功。");
-						window.close();
-						window.opener.callback();
+						window.wxc.success("保存成功。",{"wxcOk":function(){
+							window.close();
+							window.opener.callback();
+						}});
 					}
 				},
 				error : function(errors) {
-					alert("数据保存出错");
+					window.wxc.error("数据保存出错");
 				}
 			});
 		}
@@ -284,18 +285,18 @@
 		//验证控件checkUI();
 		function checkForm() {
 			if($('input[name=pricingTime]').val()=='') {
-                alert("核价时间为必填项!");
+				window.wxc.alert("核价时间为必填项!");
                 $('input[name=pricingTime]').focus();
                 return false;
            }
 			if($('input[name=taxPricing]').val()=='') {
-                alert("税务核定价为必填项!");
+				window.wxc.alert("税务核定价为必填项!");
                 $('input[name=taxPricing]').focus();
                 return false;
            }
 			
 			if($("#houseProperty").val()=='') {
-                alert("房屋性质为必填项!");
+				window.wxc.alert("房屋性质为必填项!");
                 return false;
            }
 			return true;

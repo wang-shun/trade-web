@@ -257,10 +257,11 @@
 		
 		/**保存数据*/
 		function save(b) {
-			if(confirm("请确认银行是否已真实放款")){
-					if(!checkForm()) {
-						return;
-					}
+				if(!checkForm()) {
+					return;
+				}
+
+				window.wxc.confirm("请确认银行是否已真实放款",{"wxcOk":function(){
 					var jsonData = $("#loanReleaseForm").serializeArray();
 					deleteAndModify();
 					
@@ -301,32 +302,39 @@
 							if(b) {
 								caseTaskCheck();
 								if(null!=data.message){
-									alert(data.message);
+									window.wxc.alert(data.message);
 								}
 							} else {
-								alert("保存成功。");
-								 window.close();
-								 window.opener.callback();
+								window.wxc.success("保存成功。",{"wxcOk":function(){
+									window.close();
+									window.opener.callback();
+								}});
 							}
 						},
 						error : function(errors) {
-							alert("数据保存出错");
+							window.wxc.error("数据保存出错");
 						}
 					});
-			}		
+				}});
+						
 
 		}
 		
 		//验证控件checkUI();
 		function checkForm() {
-			if($('input[name=lendDate]').val()=='') {
-                alert("放款时间为必填项!");
-                $('input[name=lendDate]').focus();
+			$("input").css("border-color","#ccc");
+			
+			if(tz && $('input[name=tazhengArrDate]').val()=='' && isSelfCom=='1') {
+				window.wxc.alert("他证送抵时间为必填项!");
+                $('input[name=tazhengArrDate]').focus();
+                $('input[name=tazhengArrDate]').css("border-color","red");
                 return false;
            }
-			if(tz && $('input[name=tazhengArrDate]').val()=='' && isSelfCom=='1') {
-                alert("它证送抵时间为必填项!");
-                $('input[name=tazhengArrDate]').focus();
+			
+			if($('input[name=lendDate]').val()=='') {
+				window.wxc.alert("银行真实放款时间为必填项!");
+                $('input[name=lendDate]').focus();
+                $('input[name=lendDate]').css("border-color","red");
                 return false;
            }
 			/* if($('input[name=commet]').val()=='') {
@@ -336,6 +344,10 @@
            } */
 			return true;
 		}
+		
+		$("input[type='text']").focus(function(){
+			$(this).css("border-color","rgb(204, 204, 204)");
+		});
 		
 		//渲染图片 
 		function renderImg(){

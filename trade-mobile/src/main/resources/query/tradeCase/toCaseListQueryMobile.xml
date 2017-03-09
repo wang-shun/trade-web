@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
+		<customDict id="qqcdProcessorName" beanName="qqcdProcessorName"></customDict>
+		<customDict id="qqcdUojByUserId" beanName="qqcdUojByUserId" />
+		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+		<customDict id="qqcdBackProcessorName" beanName="qqcdBackProcessorName" />
+		<customDict id="qqcdDict30003" beanName="qqcdDict30003" />
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+		<customDict id="getCaseOriginByCaseCode" beanName="getCaseOriginByCaseCode" />
+		
+		<customDict id="getCaseOverviewInfo" beanName="getCaseOverviewInfo" />
+		<customDict id="getPropertyCodeByCaseCode" beanName="getPropertyCodeByCaseCode" />
+		<customDict id="getRealNameByUserId" beanName="getRealNameByUserId" />
+		<customDict id="qqcdCaseToQfManager" beanName="qqcdCaseToQfManager" />
+		<customDict id="getGlCaseCount" beanName="getGlCaseCount" />
+		
+		<customDict id="getCaseSalerInfo" beanName="getCaseSalerInfo" />
+		<customDict id="getCaseBuyyerInfo" beanName="getCaseBuyyerInfo" />
+		<customDict id="getQianHouTai" beanName="getQianHouTai" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryTradeCastListMoblie" cacheCount="true">
+		<searchCondition>
+
+		   <condition field="A.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		   <condition field="A.CTM_CODE"  name="ctmCode" label="CTM编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="A.CASE_PROPERTY"  name="caseProperty" label="案件类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="A.STATUS"         name="status" label="服务阶段选择" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+           <condition field="A.ClOSE_TIME"  name="approveTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="A.ClOSE_TIME"  name="approveTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="A.CREATE_TIME"    name="createTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="A.CREATE_TIME"    name="createTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.RES_DATE"       name="resDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.RES_DATE"       name="resDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+           <condition field="B.AGENT_NAME"     name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						A.PKID,
+						A.CASE_CODE caseCode,
+						A.ClOSE_TIME,
+						A.CTM_CODE as ctmCode,
+						A.CASE_PROPERTY,
+						A.CREATE_TIME,
+						A.CASE_ORIGIN,
+						B.AGENT_PHONE,
+						B.AGENT_CODE,
+						B.AGENT_NAME,
+						B.RES_DATE dispatchTime,
+					    B.GRP_NAME AGENT_ORG_NAME,
+					    sd.name status,
+						CASE WHEN ms.pkid is null then 'false' else 'true' end isFocus,
+						CASE WHEN tw.pkid is null then 'false' else 'true' end loanLostAlert,
+						pi.PROPERTY_ADDR addr,
+						su.EMPLOYEE_CODE			
+					FROM
+					    sctrans.T_TO_CASE  A
+					    INNER JOIN sctrans.T_TO_CASE_INFO  B ON A.CASE_CODE = B.CASE_CODE
+					    LEFT JOIN sctrans.SYS_DICT sd on sd.type='30001' and sd.is_deleted = '0' and a.STATUS = sd.code
+					    left join SCTRANS.T_TO_MODULE_SUBSCRIBE ms on ms.module_code = a.case_code and ms.SUBSCRIBER_ID = #userId#
+					    left join SCTRANS.T_TO_PROPERTY_INFO pi on pi.case_code = a.case_code
+					    left join sctrans.sys_user su on su.id = B.AGENT_CODE
+					    left join sctrans.T_TO_BIZ_WARN tw on tw.case_code = a.case_code and warn_type='LOANLOSS'
+					WHERE 
+						<ifNotNull onlyLoanLostAlert>
+							tw.pkid is not null and
+						</ifNotNull>
+						<ifNotNull q_text>
+							(
+							B.AGENT_NAME like '%' + #q_text# + '%'
+							or pi.PROPERTY_ADDR like '%' + #q_text# + '%'
+							or EXISTS (select 1 FROM sctrans.T_TG_GUEST_INFO tgi 
+								where tgi.case_code = a.case_code and tgi.GUEST_NAME like '%' + #q_text# + '%' )
+							) and
+						</ifNotNull>
+						<ifNotNull onlyFocus>
+							ms.pkid is not null and
+						</ifNotNull>
+						<ifNotNull property>
+							a.CASE_PROPERTY = #property# and
+						</ifNotNull>
+						<ifNotNull status>
+							a.status = #status# and
+						</ifNotNull>
+						(EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = A.CASE_CODE
+					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
+					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
+			    	  	OR EXISTS ( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = A.CASE_CODE
+			    	  		<ifNotNull idflag> and C.PROCESSOR_ID = #userId# 	</ifNotNull>
+			    	  		<ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)    </ifNotNull>)
+			    	  	OR EXISTS (SELECT 1 FROM  SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR G
+							INNER JOIN ( SELECT T.CASE_CODE,T.NEW_ASSIGNEE,S.id
+							FROM SCTRANS.T_TL_TASK_REASSIGNT_LOG T
+							LEFT JOIN sctrans.SYS_USER S ON t.ORI_ASSIGNEE = S.username
+                            ) L ON L.id = G.PROCESSOR_ID and L.case_code = G.case_code
+							<ifNotNull userLoginName> AND L.NEW_ASSIGNEE = #userLoginName#</ifNotNull>
+                      		WHERE     A.CASE_CODE = G.CASE_CODE
+							AND G.SRV_CODE IN ( '3000400201', '3000401002' ) )
+			    	  )
+			    	  
+			    	
+			    		AND EXISTS(SELECT 1 FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE = A.CASE_CODE 
+			    		<ifNotNull propertyAddr>
+			    		         AND PROPERTY_ADDR like '%' + #propertyAddr# + '%'
+			    		</ifNotNull>
+			    		         ) 
+			    	
+					<ifNotNull realConTimeStart>
+						AND EXISTS(select 1 from sctrans.T_TO_SIGN G where A.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME >= #realConTimeStart#)
+					</ifNotNull>
+					<ifNotNull realConTimeEnd>
+						AND EXISTS(select 1 from sctrans.T_TO_SIGN G where A.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME &lt;= #realConTimeEnd#)
+					</ifNotNull>
+					<ifNotNull realHtTimeStart>
+						AND EXISTS(select 1 from sctrans.T_TO_HOUSE_TRANSFER H where A.CASE_CODE = H.CASE_CODE and H.REAL_HT_TIME >= #realHtTimeStart#)
+					</ifNotNull>
+					<ifNotNull realHtTimeEnd>
+						AND EXISTS(select 1 from sctrans.T_TO_HOUSE_TRANSFER H where A.CASE_CODE = H.CASE_CODE AND H.REAL_HT_TIME &lt;= #realHtTimeEnd#)
+					</ifNotNull>
+					<ifNotNull realPropertyGetTimeStart>
+						AND EXISTS(select 1 from sctrans.T_TO_GET_PROPERTY_BOOK I where A.CASE_CODE = I.CASE_CODE AND I.REAL_PROPERTY_GET_TIME >= #realPropertyGetTimeStart#)
+					</ifNotNull>
+					<ifNotNull realPropertyGetTimeEnd>
+						AND EXISTS(select 1 from sctrans.T_TO_GET_PROPERTY_BOOK I where A.CASE_CODE = I.CASE_CODE AND I.REAL_PROPERTY_GET_TIME &lt;= #realPropertyGetTimeEnd#)
+					</ifNotNull>
+     				<ifNotNull guestname>
+						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = A.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
+					</ifNotNull>
+					<ifNotNull proName>
+						AND (EXISTS (SELECT 1 FROM sctrans.T_TO_CASE c where c.CASE_CODE = A.CASE_CODE and c.LEADING_PROCESS_ID = #proName#)
+						    OR
+						    EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p where p.CASE_CODE = A.CASE_CODE and p.PROCESSOR_ID = #proName#))
+					</ifNotNull>
+					<ifNotNull agentOrgName>
+						AND  EXISTS(SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = A.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
+					</ifNotNull>
+					<ifNotNull srvCode1>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode1#)
+					</ifNotNull>
+					<ifNotNull srvCode2>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode2#)
+					</ifNotNull>
+					<ifNotNull srvCode3>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode3#)
+					</ifNotNull>
+					<ifNotNull srvCode4>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode4#)
+					</ifNotNull>
+					<ifNotNull srvCode5>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode5#)
+					</ifNotNull>
+					<ifNotNull srvCode6>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode6#)
+					</ifNotNull>
+					<ifNotNull srvCode7>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode7#)
+					</ifNotNull>
+					<ifNotNull srvCode8>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode8#)
+					</ifNotNull>
+					<ifNotNull srvCode9>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode9#)
+					</ifNotNull>
+					<ifNotNull srvCode10>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode10#)
+					</ifNotNull>
+					<ifNotNull srvCode11>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode11#)
+					</ifNotNull>
+					<ifNotNull srvCode12>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode12#)
+					</ifNotNull>
+					<ifNotNull srvCode13>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode13#)
+					</ifNotNull>
+					<ifNotNull srvCode14>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode14#)
+					</ifNotNull>
+					<ifNotNull srvCode15>
+						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode15#)
+					</ifNotNull>
+					<ifNotNull signlendDate>
+					  AND EXISTS ( select 1 from sctrans.T_TO_MORTGAGE J where A.CASE_CODE = J.CASE_CODE and is_active='1'
+					</ifNotNull>
+					<ifNotNull signDateStart>
+					  AND J.SIGN_DATE >= #signDateStart#
+					</ifNotNull>
+					<ifNotNull signDateEnd>
+					  and J.SIGN_DATE &lt;= #signDateEnd#
+					</ifNotNull>
+					<ifNotNull lendDateStart>
+					  and J.LEND_DATE >= #lendDateStart#
+					</ifNotNull>
+					<ifNotNull lendDateEnd>
+					  and J.LEND_DATE &lt;= #lendDateEnd#
+					</ifNotNull>
+					<ifNotNull signlendDate>
+					  )
+					</ifNotNull>
+
+					<ifNotNull yuCuiOriGrpId>
+						AND EXISTS (
+							SELECT F.CASE_CODE,F.ORG_ID FROM (SELECT C.CASE_CODE,C.ORG_ID FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = A.CASE_CODE
+							UNION
+							SELECT P.CASE_CODE,P.ORG_ID FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR P WHERE P.CASE_CODE = A.CASE_CODE ) F
+							INNER JOIN SCTRANS.SYS_ORG AS YCORG
+							ON F.ORG_ID = YCORG.ID
+							WHERE (YCORG.ID = #yuCuiOriGrpId# OR YCORG.PARENT_ID = #yuCuiOriGrpId#) )
+					</ifNotNull>
+					<ifNotNull isNotResearchCloseCase>
+						AND A.CASE_PROPERTY != '30003002'
+					</ifNotNull>
+					<ifNotNull caseOriginType>
+						AND A.CASE_ORIGIN = #caseOriginType#
+					</ifNotNull>
+					<ifNotNull guohuApproveTime>
+					   AND EXISTS (
+						SELECT 1 FROM
+					sctrans.T_HI_WORKFLOW w 
+						LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE AND v.name_ = 'GuohuApprove' AND v.long_ = 1
+						LEFT JOIN (
+							select proc_inst_id_,end_time_ from (
+							 select proc_inst_id_,assignee_,end_time_,row_number() over(partition by proc_inst_id_ order by end_time_ desc) rn
+							 from sctrans.act_hi_taskinst WHERE task_def_key_ = 'GuohuApprove'
+							) taskInst where taskInst.rn &lt;= 1
+						) t ON t.proc_inst_id_ = w.inst_code
+						WHERE A.CASE_CODE = w.CASE_CODE AND w.BUSINESS_KEY = 'operation_process' AND w.STATUS IN ('0', '4') AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
+					</ifNotNull>
+					<ifNotNull guohuApproveTimeStart>
+						AND t.end_time_ >= #guohuApproveTimeStart#
+					</ifNotNull>
+					<ifNotNull guohuApproveTimeEnd>
+							AND t.end_time_ &lt;= #guohuApproveTimeEnd#
+					</ifNotNull>
+					<ifNotNull guohuApproveTime>
+						)
+					</ifNotNull>
+				
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY A.STATUS,A.PKID DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="AGENT_NAME" dataType="String" defaultVal=""/>
+				<column type="both" name="EMPLOYEE_CODE" dataType="String" defaultVal=""/>
+				<column type="both" name="AGENT_PHONE" dataType="String" defaultVal=""/>
+				<column type="both" name="caseCode" dataType="String" defaultVal=""/>
+				<column type="both" name="addr" dataType="String" defaultVal=""/>
+				
+				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" dataType="String" defaultVal=""/>
+				<column type="both" name="status" dataType="String" defaultVal=""/>
+				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" dataType="JSONARRAY" defaultVal="[]"/>
+				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" dataType="JSONARRAY" defaultVal="[]"/>
+
+				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
+				<column type="both" name="isFocus" dataType="BOOLEAN"/>
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryTradeCaseInfoMoblie">
+		<searchSql>
+			<baseSql>
+				select tc.CASE_CODE caseCode, sd.name status,LEADING_PROCESS_ID leadingProcessId,pi.PROPERTY_ADDR addr,
+					CASE WHEN ms.pkid is null then 'false' else 'true' end isFocus,
+					ti.AGENT_CODE,ti.AGENT_PHONE,ti.AGENT_NAME,su.EMPLOYEE_CODE,
+					CASE WHEN tw.pkid is null then 'false' else 'true' end loanLostAlert,
+					so.org_name org 
+				from sctrans.T_TO_CASE tc
+					LEFT JOIN sctrans.SYS_DICT sd on sd.type='30001' and sd.is_deleted = '0' and tc.STATUS = sd.code
+					left join SCTRANS.T_TO_PROPERTY_INFO pi on pi.case_code = tc.case_code 
+					left join SCTRANS.T_TO_MODULE_SUBSCRIBE ms on ms.module_code = tc.case_code 
+							and ms.SUBSCRIBER_ID = #userId#
+					left join sctrans.T_TO_CASE_INFO ti on ti.CASE_CODE = tc.case_code
+    				left join sctrans.sys_user su on su.id = ti.AGENT_CODE
+    				left join sctrans.sys_org so on su.org_id = so.id
+    				left join sctrans.T_TO_BIZ_WARN tw on tw.case_code = tc.case_code and warn_type='LOANLOSS'
+				where tc.case_code = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="caseCode" />
+				<column type="both" name="status" />
+				<column type="both" name="isFocus" dataType="BOOLEAN"/>
+				<column type="both" name="addr" />
+				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" />
+				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" />
+				<column type="both" name="AGENT_PHONE" />
+				<column type="both" name="AGENT_NAME" />
+				<column type="both" name="EMPLOYEE_CODE" />
+				
+				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai" dataType="JSONARRAY"/>
+				<column type="both" name="leadingProcessId" dataType="BOOLEAN"/>
+				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
+				<column type="both" name="org" defaultVal=""/>
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryTradeCaseMortInfoMoblie">
+		<searchSql>
+			<baseSql>
+				select sd.name refundType, sd2.NAME mortType,
+					tm.MORT_TOTAL_AMOUNT totalAmount,tm.COM_AMOUNT comAmount,
+					tm.COM_YEAR comYear,tm.COM_DISCOUNT comDiscount,tm.PRF_AMOUNT psfAmount,
+					tm.PRF_YEAR psfYear,sd3.name status,
+					tm.LOANER_NAME loanerName,tm.LOANER_PHONE loanerPhone,fo.FIN_ORG_NAME loanerOrg
+				from sctrans.T_TO_MORTGAGE tm
+					left join sctrans.T_TS_FIN_ORG fo on fo.FIN_ORG_CODE = tm.LOANER_ORG_CODE
+					left join sctrans.SYS_DICT sd on sd.CODE = tm.LEND_WAY and sd.TYPE =  '30017'
+					left join sctrans.SYS_DICT sd2 on sd2.CODE = tm.MORT_TYPE and sd2.TYPE =  '30016'
+					left join sctrans.SYS_DICT sd3 on sd3.CODE = tm.STATE_IN_BANK and sd3.TYPE = 'part_code'
+				where tm.case_code = #caseCode# and IS_ACTIVE = 1 
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="refundType" defaultVal=""/>
+				<column type="both" name="mortType" defaultVal=""/>
+				<column type="both" name="totalAmount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="comAmount" dataType="DOUBLE" defaultVal="0"/>
+				
+				<column type="both" name="comYear" dataType="INTEGER" defaultVal="0"/>
+				<column type="both" name="comDiscount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="psfAmount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="psfYear" dataType="INTEGER" defaultVal="0"/>
+				
+				<column type="both" name="status" defaultVal=""/>
+				<column type="both" name="loanerName" defaultVal=""/>
+				<column type="both" name="loanerPhone" defaultVal=""/>
+				<column type="both" name="loanerOrg" defaultVal=""/>
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryTradeCaseTradeInfoMoblie">
+		<searchSql>
+			<baseSql>
+			    select CON_PRICE conPrice,
+			    		HOLD_YEAR year,
+			    		IS_UNIQUE_HOME isUniqueHome,
+			    		HOUSE_PROPERTY houseProperty,
+			    		AMOUNT1 firstPay,
+			    		
+			    		AMOUNT2 secondPay,
+			    		AMOUNT3 thirdPay,
+			    		AMOUNT4 forthPay,
+			    		HOUSE_HODING_TAX fangchanTax,
+			    		CONTRACT_TAX qishuiTax,
+			    		
+			    		BUSINESS_TAX yingyeTax,
+			    		LAND_INCREMENT_TAX tudiTax,
+			    		PERSONAL_INCOME_TAX gerenTax
+			    	from sctrans.V_CASE_TRADE_INFO_VIEW
+			    where CASE_CODE = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="conPrice" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="year" dataType="INTEGER" defaultVal="0"/>
+				<column type="both" name="unique" dataType="BOOLEAN" defaultVal="false"/>
+				<column type="both" name="houseProperty"/>
+				<column type="both" name="firstPay" dataType="DOUBLE" defaultVal="0"/>
+				
+				<column type="both" name="secondPay" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="thirdPay" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="forthPay" dataType="DOUBLE" defaultVal="0"/>
+				
+				<column type="both" name="fangchanTax" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="qishuiTax" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="yingyeTax" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="tudiTax" dataType="DOUBLE" defaultVal="0"/>
+				<column type="bothe" name="gerenTax" dataType="DOUBLE" defaultVal="0"/>
+				
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryTradeCaseZhuliMoblie">
+		<searchSql>
+			<baseSql>
+			   	select su.REAL_NAME name,su.MOBILE moblie,su.EMPLOYEE_CODE employeeCode,
+					so.ORG_NAME org
+				 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tp
+				 inner join sctrans.SYS_USER su on su.ID = tp.PROCESSOR_ID
+				 left join sctrans.SYS_ORG so on so.ID = su.ORG_ID
+				 where tp.SRV_CODE = '3000401002'
+			     	and  tp.CASE_CODE = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="name" defaultVal="0"/>
+				<column type="both" name="moblie"  defaultVal=""/>
+				<column type="both" name="employeeCode" />
+				<column type="both" name="org" defaultVal=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

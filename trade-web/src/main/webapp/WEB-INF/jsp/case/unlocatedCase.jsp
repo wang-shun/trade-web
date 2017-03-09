@@ -316,8 +316,8 @@ width:160px;
 	function changeCaseTeam(){
 		//var orgName =$('input[name="teamRadio"]:checked').parent().text();
 		var orgName =$('select[name="yuTeamCode"]').find("option:selected").text();
-		if(confirm("您是否确认分配给"+orgName+"?")){
-
+		
+		window.wxc.confirm("您是否确认分配给"+orgName+"?",{"wxcOk":function(){
 	    	//var orgId =$('input[name="teamRadio"]:checked').val();
 			var orgId =$('select[name="yuTeamCode"]').val();
 			var url = "/case/bindCaseTeam";
@@ -367,19 +367,19 @@ width:160px;
 			            } , 
 				success : function(data) {
 					if(data.success){
-						alert("分配成功");
+						window.wxc.success("分配成功");
 						$('#team-modal-form').modal("hide");
 						//jqGrid reload
 						$("#table_list_1").trigger('reloadGrid');
 					}else{
-						alert(data.message);
+						window.wxc.error(data.message);
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 					
 				}
 			}); 
-		}
+		}});
 	}
 	</script>	
  </content>

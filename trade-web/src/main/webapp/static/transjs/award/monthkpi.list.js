@@ -116,5 +116,5 @@ function test() {
 		 var item=$("#gridTable").jqGrid('getRowData',pkidList[i]);
 		 prCodeArray.push(item.PKID);
 	 }
-	 alert(prCodeArray);
+	 window.wxc.alert(prCodeArray);
 }

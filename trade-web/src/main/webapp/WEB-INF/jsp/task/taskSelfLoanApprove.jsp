@@ -306,14 +306,16 @@
 	    		                }
 	    		            } ,
 					success : function(data) {
-							 window.close();
-							 if(window.opener)
-						     {
-								 window.opener.callback();
-						     } 
+							window.wxc.success("操作成功！",{"wxcOk":function(){
+								 window.close();
+								 if(window.opener)
+							     {
+									 window.opener.callback();
+							     } 
+							}});
 					},
 					error : function(errors) {
-						alert("数据保存出错" + errors);
+						window.wxc.error("操作失败：" + errors);
 					}
 				});
 			}
@@ -371,13 +373,13 @@
 			//验证控件checkUI();
 			function checkForm() {
 				if($('#mortType').val()=='') {
-	                alert("贷款类型为必填项!");
+					window.wxc.alert("贷款类型为必填项!");
 	                $('input[name=mortType]').focus();
 	                return false;
 	            }
 				
 				if($('input[name=mortTotalAmount]').val()=='') {
-	                alert("贷款总额为必填项!");
+					window.wxc.alert("贷款总额为必填项!");
 	                $('input[name=mortTotalAmount]').focus();
 	                return false;
 	            }
@@ -385,36 +387,36 @@
 	            var _mortType = $('#mortType').find(':selected').val();
 	           
 				if($('input[name=comAmount]').val()==''&&_mortType!='30016003') {
-	                alert("商贷部分金额为必填项!");
+					window.wxc.alert("商贷部分金额为必填项!");
 	                $('input[name=comAmount]').focus();
 	                return false;
 	            }
 				
 				if($('input[name=comYear]').val()==''&&_mortType!='30016003') {
-	                alert("商贷部分年限为必填项!");
+					window.wxc.alert("商贷部分年限为必填项!");
 	                $('input[name=comYear]').focus();
 	                return false;
 	            }
 				
 				if($('input[name=comDiscount]').val()==''&&_mortType!='30016003') {
-	                alert("商贷部分利率折扣为必填项!");
+					window.wxc.alert("商贷部分利率折扣为必填项!");
 	                $('input[name=comDiscount]').focus();
 	                return false;
 	 			} 
 	
 				if($('input[name=comDiscount]').val()!=''&&_mortType!='30016003') {
 					if(isNaN($('input[name=comDiscount]').val())){
-		                alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
+						window.wxc.alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
 		                $('input[name=comDiscount]').focus();				
 		                return false;
 		            }else if($('input[name=comDiscount]').val()>1.5 || $('input[name=comDiscount]').val()<0.5){
-		        		alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+		            	window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		            	$('input[name=comDiscount]').focus();
 		        		return false;
 		        	}else if($('input[name=comDiscount]').val()<=1.5 || $('input[name=comDiscount]').val()>=0.5){
 		        		var reg =/^[01]{1}\.{1}\d{3,}$/;
 		        		if(reg.test($('input[name=comDiscount]').val())){
-		        			alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+		        			window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
 		        			$('input[name=comDiscount]').focus();
 		        			return false;
 		        		}
@@ -422,13 +424,13 @@
 	 			} 			
 				
 				if($('input[name=houseNum]').val()=='') {
-	                alert("认定套数为必填项!");
+					window.wxc.alert("认定套数为必填项!");
 	                $('input[name=houseNum]').focus();
 	                return false;
 	            }
 				
 				if($('input[name=finOrgCode]').val()=='') {
-	                alert("支行名称为必填项!");
+					window.wxc.alert("支行名称为必填项!");
 	                $('input[name=finOrgCode]').focus();
 	                return false;
 	            }
@@ -441,7 +443,7 @@
 				var comAmount1 = isNaN(comAmount)?0:comAmount;
 				
 				if((mortTotalAmount-prfAmount).toFixed(5)!=comAmount1){
-					alert('贷款总额必须等于商贷和公积金之和');
+					window.wxc.alert('贷款总额必须等于商贷和公积金之和');
 			    	return false;
 				}
 				

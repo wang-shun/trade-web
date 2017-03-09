@@ -49,16 +49,42 @@ $(document).ready(function() {
 		if(!!~~$(this).val()){
 //			$("#div_s").show();
 //			$("#div_f").hide();
-			$(".gradepad").show();
+			//$(".gradepad").show();
+			$("#fileUploadContainer").show();
 			$("#wuxiao").hide();
 			$('#unSuccessReason').val('');
 		}else{
 //			$("#div_f").show();
 //			$("#div_s").hide();
 			$("#wuxiao").show();
-		    $(".gradepad").hide();
+			$("#fileUploadContainer").hide();
+			
+			$("#fileUploadContainer ul li").each(function(){
+				  var $li = $(this);
+		    	  var id = $li.attr("id");
+		    	  deleteAttachs(id,$li);
+			});
+			
+		    //$(".gradepad").hide();
 		}
 	});
+	
+	function deleteAttachs(preFileAdress,li){
+		$.ajax({
+  			type : 'post',
+  			cache : false,
+  			async : false,//false同步，true异步
+  			dataType : 'json',
+  			url : ctx+'/attachment/delAttachmentByFileAddress',
+  			data : {preFileAdress:preFileAdress},
+  			success : function(data) {
+  				if(data.success){
+  					li.off().find('.file-panel').off().end().remove();
+  					//initImgViewer(maskId);
+  				} 
+  			}
+  		});
+	}
 	
 	$("#btn_save").click(function() {
 		save(false);
@@ -173,17 +199,27 @@ function showAttchBox(cd, pr, pc, id, isS, uns, addr, prcat, applyOrgName, orgMg
 	if(uns){
 		$('#unSuccessReason').val(uns);
 	}
+	
+	fileUpload.init({
+		maskId : "modal-form",
+		caseCode : caseCode,
+		partCode : "property_research",
+		fileUploadContainer : "fileUploadContainer",
+		isNestTable : true,
+		tdWidth : 130
+	});
+	
 	$("#modal-form").modal("show");
 };
 
 function checkForm(){
 	if($("#executor").val() == ''){
-		alert('请选择执行人！');
+		window.wxc.alert('请选择执行人！');
 		return false;
 	}
 	if(!~~$('input[name="isScuess"]:checked ').val()){
 		if($('#unSuccessReason').val()==''){
-			alert('请输入无效原因！');
+			window.wxc.alert('请输入无效原因！');
 			return false;
 		}
 	}
@@ -199,11 +235,11 @@ function save(isSubmit){
 	if(!checkForm()){
 		return false;
 	}
-	if(!!~~$('input[name="isScuess"]:checked ').val()){
+	/*if(!!~~$('input[name="isScuess"]:checked ').val()){
 		if(!deleteAndModify()){
 			return false;
 		}
-	}
+	}*/
 	if(isSubmit && !!~~$('input[name="isScuess"]:checked ').val()){
 		checkIsExistFile(isSubmit);
 	}else{
@@ -264,14 +300,15 @@ function commitDispose(isSubmit){
 			executorId:$("#executor").attr('hVal')
 		} ,
 		success : function(data) {
-			alert(data.message)
 			if (data.success) {
-				$("#modal-form").modal("hide");
-				reloadGrid();
+				window.wxc.success(data.message,{"wxcOk":function(){
+					$("#modal-form").modal("hide");
+					reloadGrid();
+				}});
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
+			window.wxc.error("处理出错,请刷新后再次尝试！");
 		}
 	});
 }
@@ -286,13 +323,13 @@ function checkIsExistFile(isSubmit){
 		data : "",
 		success : function(data) {
 			if (data.success == false) {
-				alert(data.message);
+				window.wxc.error(data.message);
 			} else {
 				commitDispose(isSubmit);
 			}
 		},
 		error : function(errors) {
-			alert("处理出错,请刷新后再次尝试！");
+			window.wxc.error("处理出错,请刷新后再次尝试！");
 		}
 	});
 }

@@ -14,6 +14,7 @@ import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.common.quickQuery.utils.QuickQueryJdbcTemplate;
 import com.centaline.trans.common.repository.utils.QuickQueryBatchWarpper;
 import com.centaline.trans.common.repository.utils.QuickQueryBatchWarpper.BatchQuery;
+import com.centaline.trans.utils.CollectionUtils;
 
 /**
  * 
@@ -22,10 +23,6 @@ import com.centaline.trans.common.repository.utils.QuickQueryBatchWarpper.BatchQ
  */
 public class QuickQueryGetRealNameAndOrgNameServiceImpl implements
 		CustomDictService {
-	
-	
-	private static String USER_SQL = "SELECT ID,REAL_NAME FROM SCTRANS.SYS_USER WHERE ID in (:userId)";
-	private static String ORG_SQL = "SELECT ID,ORG_NAME FROM SCTRANS.SYS_ORG WHERE ID in (:orgId)";
 	
 	@Autowired
 	private QuickQueryJdbcTemplate jdbcTemplate;
@@ -45,47 +42,16 @@ public class QuickQueryGetRealNameAndOrgNameServiceImpl implements
 	
 	private QuickQueryBatchWarpper batchWarpper = new QuickQueryBatchWarpper(new BatchQuery<Map<String, Object>>(){
 		public List<Map<String, Object>> query(List<Map<String, Object>> rs) {
-			List<String> userId = new ArrayList<String>();
-			List<String> orgId = new ArrayList<String>();
-			if(rs!=null && !rs.isEmpty()){
-				for (Map<String, Object> key : rs) {
-					Object user_id   = key.get("PR_APPLIANT");
-					Object org_id     = key.get("PR_DISTRICT_ID");
-					if(user_id!=null){
-						userId.add(user_id.toString());
-					}
-					if(org_id!=null){
-						orgId.add(org_id.toString());
-					}
-				}
+			// 设置条件参数
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			StringBuilder[] joins = CollectionUtils.join(rs, new String[]{"','","','"}, new String[]{"PR_APPLIANT","PR_DISTRICT_ID"});
+			String sql = "SELECT ID AS PR_APPLIANT,REAL_NAME FROM SCTRANS.SYS_USER WHERE ID in ('"+joins[0].toString()+"')";
+			List<Map<String, Object>> users = jdbcTemplate.queryForList(sql, paramMap);
+			CollectionUtils.merge(users, rs, new String[]{"PR_APPLIANT"});
+			sql = "SELECT ID AS PR_DISTRICT_ID,ORG_NAME FROM SCTRANS.SYS_ORG WHERE ID in ('"+joins[1].toString()+"')";
+			List<Map<String, Object>>  orgs = jdbcTemplate.queryForList(sql, paramMap);
+			CollectionUtils.merge(orgs, rs, new String[]{"PR_DISTRICT_ID"});
 				
-				Map<String,Object> paramMap = new HashMap<String,Object>();
-				
-				List<Map<String, Object>>  users = new ArrayList<Map<String, Object>>();
-				List<Map<String, Object>>  orgs = new ArrayList<Map<String, Object>>();
-				
-				paramMap.put("userId", userId);
-				users = jdbcTemplate.queryForList(USER_SQL, paramMap);
-				paramMap.clear();
-				paramMap.put("orgId", orgId);
-				orgs = jdbcTemplate.queryForList(ORG_SQL, paramMap);
-				for (Map<String, Object> key : rs) {
-					Object user_id   = key.get("PR_APPLIANT");
-					Object org_id     = key.get("PR_DISTRICT_ID");
-					for(Map<String, Object> user:users){
-						if(user_id.equals(user.get("ID"))){
-							key.put("REAL_NAME", user.get("REAL_NAME"));
-							continue;
-						}
-					}
-					for(Map<String, Object> org:orgs){
-						if(org_id.equals(org.get("ID"))){
-							key.put("ORG_NAME", org.get("ORG_NAME"));
-							continue;
-						}
-					}
-				}
-			}
 			return rs;
 		}
 

@@ -97,7 +97,7 @@
                     pagination : false
                 }
             $.ajax({
-                url : $("#ctx").val()+"/quickGrid/findPage",
+                url : ctx+"/quickGrid/findPage",
                 method : "GET",
                 data : data,
                 dataType : "json",
@@ -127,7 +127,7 @@
                 data: data,
                 success: function(data){
 				if(data==null||data==undefined){
-					alert("数据加载失败！");
+                    window.parent.wxc.alert("数据加载失败！");
 					return;			
 				}
 				

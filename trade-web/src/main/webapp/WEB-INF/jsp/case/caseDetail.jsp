@@ -42,6 +42,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="ctm" value="${toCaseInfo.ctmCode}" />
 	<input type="hidden" id="Lamp1" value="${Lamp1}" />
@@ -60,7 +61,7 @@
 		var resourceDistributionBtn = false;
 		<%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
 		<%} else {%>
-			alert("<%=request.getAttribute("msg")%>");
+			window.wxc.alert("<%=request.getAttribute("msg")%>");
 		<%}%>
 		<shiro:hasPermission name="TRADE.CASE.DISTRIBUTION">
 		 resourceDistributionBtn = true;
@@ -1249,7 +1250,7 @@
  	    	var str = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
 	    	return str;
     	  }
- 	      
+ 	     
  	      $("#btnSave").click(function(){
  	    	  var content = $("#bizwarnForm-modal-form input[name=content]").val();
  	    	  var caseCode = $("#bizwarnForm-modal-form input[name=caseCode]").val();
@@ -1266,7 +1267,7 @@
 						if(data.success){
 							location.href = "../case/caseDetail?caseId=" + caseId;
 						}else{
-							alert('添加失败');
+							window.wxc.error('添加失败');
 						}
 					}
 				});
@@ -1297,7 +1298,7 @@
 				});
  	    	  
  	    	 	if(status == "1"){
- 	    	 		alert("解除状态不能修改商贷预警信息！");
+ 	    	 		window.wxc.alert("解除状态不能修改商贷预警信息！");
  	    	 		return false;
  	    	 	}
  	    	 	
@@ -1321,7 +1322,7 @@
 						if(data.success){
 							location.href = "../case/caseDetail?caseId=" + caseId;
 						}else{
-							alert('修改失败');
+							window.wxc.error('修改失败');
 						}
 					}
 				});
@@ -1330,7 +1331,7 @@
  	      $("#relieve").click(function(){
  	    	  var status = $("input[name=status]").val();
  	    	  
- 	    	 if(confirm("是否确定解除？")){
+ 	    	 window.wxc.confirm("是否确定解除？",{"wxcOk":function(){
   				$.ajax({
   					cache:false,
   					async:true,
@@ -1344,11 +1345,11 @@
   							$("#spnRelieveTime").html(getCurrentDate());
   							$("#relieve").hide();
   						}else{
-  							alert('解除失败');
+  							window.wxc.error('解除失败');
   						}
   					}
   				});
- 	    	 }
+ 	    	}});
  	      });
  	      
 		//jqGrid 初始化
@@ -1526,7 +1527,10 @@
                                   });
             });
         });
-
+            
+            
+            
+    
 	</script>
 </content>
 

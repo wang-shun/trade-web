@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
     <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
     <link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
+    <!--弹出框样式  -->
+	<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
     <style>
 	.borderClass {border:1px solid red!important;resize: none;}
 	.borderClass:focus {border:1px solid red!important;resize: none;}
@@ -558,6 +560,8 @@
     <script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
     <script src="${ctx}/static_res/trans/js/spv/spvRecorded.js"></script>
     <script src="${ctx}/js/viewer/viewer.min.js"></script>
+    <!-- 引入弹出框js文件 -->
+    <script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 <script>
 var sum = parseInt($("#sum").val());
 var attSum_ = parseInt($("#attSum_").val());
@@ -715,13 +719,14 @@ function getUploadImage2(thisIndex,fileUrl,fileId,fileName){
 //删除入账申请信息tr
 function getDel(k){
 	if($("input[name$='receiver']").size()==1){
-		alert("入账申请信息不能少于一行数据！");
+		window.wxc.alert("入账申请信息不能少于一行数据！");
 		return false;
 	}
-	if(!confirm("是否删除！")){
-		  return false;
-	    }
-    $(k).parents('tr').remove();
+	
+	window.wxc.confirm("是否删除？",{"wxcOk":function(){
+		$(k).parents('tr').remove();
+	}});
+    
 }
 
 function showImg(imgId){

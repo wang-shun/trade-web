@@ -73,7 +73,7 @@ $(document).ready(function() {
 						pgtext : " {0} 共 {1} 页",
 
 						onSelectRow : function(rowid, status) {
-							alert(rowid);
+							window.wxc.alert(rowid);
 						},
 						postData : {
 							queryId : "queryToReminderList",
@@ -174,7 +174,7 @@ function rowEdit(id){
 function saveReminderItem(){
     var remindItem = trim($("#remindItem").val());
 	if(remindItem ==""){
-		alert("提醒事项为必输项！");
+		window.wxc.alert("提醒事项为必输项！");
 		return;
 	}
 	var pkId = $("#pkId").val();
@@ -193,7 +193,7 @@ function saveReminderItem(){
 
 function delRow(id){
 	if(id!=null){
-	    if(confirm('谨慎操作提示,确认删除载货单?')){
+		window.wxc.confirm("谨慎操作提示,确认删除载货单?",{"wxcOk":function(){
 	    	var ctx = $("#ctx").val();
 	    	var url='/setting/delReminderItem?';
 	    	var params="pkid="+id;
@@ -223,17 +223,18 @@ function delRow(id){
 			                }
 			            } ,
 				success : function(data) {
-					alert(data.message);
 					if(data.success){
-						$('#modal-form').modal("hide");
-						//jqGrid reload
-						$("#table_list_1").trigger('reloadGrid');
+						window.wxc.success(data.message,{"wxcOk":function(){
+							$('#modal-form').modal("hide");
+							//jqGrid reload
+							$("#table_list_1").trigger('reloadGrid');
+						}});
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}
 			}); 
-	    }
+	    }});
 	}
    
 }

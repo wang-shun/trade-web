@@ -5,7 +5,6 @@
 			<customDict id="lastContents" beanName="lastContents" />
 		<customDict id="getCaseInfo" beanName="getCaseInfo" />
 		<customDict id="getPostInfo" beanName="getPostInfo" />
-		<customDict id="convertValue" beanName="convertValue" />
 		<customDict id="convertValueForLoanlostReason" beanName="convertValueForLoanlostReason" />
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
@@ -90,7 +89,7 @@
 							C.LOAN_REQ,	
 							M.loanlost_apply_reason as loanlost_apply_reason_old, 
 							M.SELF_DEL_REASON,
-							(SELECT MIN(AT.START_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_= W.INST_CODE ) TRANSFERDATE,
+							(SELECT MIN(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_= W.INST_CODE ) TRANSFERDATE,
 							(SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_= W.INST_CODE) CASETRANSFERDATE,
 							V.LONG_ AS status,
 							(SELECT SUM(EC.APPLY_AMOUNT)  FROM SCTRANS.T_TO_ELOAN_CASE EC  WHERE EC.CASE_CODE = C.CASE_CODE  AND  EC.LOAN_SRV_CODE NOT IN ('30004005','30004015')) ELOAN_APPLYAMOUNT_COUNT
@@ -110,10 +109,10 @@
 										FROM  SCTRANS.ACT_HI_TASKINST AT
 										WHERE AT.TASK_DEF_KEY_=N'Guohu' 
 											<if test="transferDateStart != null  and transferDateStart != '' "> 							
-												AND AT.START_TIME_ &gt;= #transferDateStart#	
+												AND AT.END_TIME_ &gt;= #transferDateStart#	
 											</if>	
 											<if test="transferDateEnd != null  and transferDateEnd != '' "> 	
-												AND AT.START_TIME_ &lt;= #transferDateEnd#
+												AND AT.END_TIME_ &lt;= #transferDateEnd#
 											</if>
 									) P1 WHERE P1.RANKID = 1
 								)TASKHISTORY1 ON TASKHISTORY1.PROC_INST_ID_ = CONVERT(NVARCHAR(64),W.INST_CODE)							
@@ -172,7 +171,8 @@
 		<grid>
 			<table-row>
 				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />
-				<column type="virtual" name="GRP_NAME,AR_NAME,WZ_NAME,QJDS_NAME,GRP_CODE,BA_NAME,AGENT_NAME,AGENT_PHONE" title="分行,片区,区域,区董,分行Code,大区,业务员姓名,业务员电话" customDict="getCaseInfo" hidden="false" referencecol="CASE_CODE"/>
+				<column type="both" name="status" title="是否审批通过" customDict=""	hidden="false" />
+				<column type="virtual" name="GRP_NAME,AR_NAME,WZ_NAME,QJDS_NAME,GRP_CODE,BA_NAME,AGENT_NAME,AGENT_PHONE,N_STATUS" title="分行,片区,区域,区董,分行Code,大区,业务员姓名,业务员电话,是否审批通过" customDict="getCaseInfo" hidden="false" referencecol="CASE_CODE,status"/>
 			
 <!-- 			<column type="both" name="BA_NAME" title="大区" customDict="" hidden="false" />
 				<column type="both" name="QJDS_NAME" title="区董" customDict=""		hidden="false" />
@@ -223,10 +223,7 @@
 				<!-- 	<column type="virtual" name="LAST_CONTENT" title="审批意见"	referencecol="CONTENT,NOT_APPROVE" 	customDict="lastContent" sysDict="" /> -->
 				
 				<column type="virtual" name="ASSESSOR,LAST_CONTENT,NOT_APPROVE" title="审核人,审批意见,审核勾选内容"	referencecol="CASE_CODE"  customDict="lastContents" isDynamicDict="true"/>
-
-				
-				<column type="both" name="status" title="是否审批通过" customDict=""	hidden="false" />
-				<column type="virtual" name="status1" title="是否审批通过"	referencecol="status" customDict="convertValue" />
+				<!-- <column type="virtual" name="status1" title="是否审批通过"	referencecol="status" customDict="convertValue" /> -->
 				<column type="both" name="CONTENT" title="审核结果" customDict=""		hidden="false" />
 				<column type="both" name="NOT_APPROVE" title="审核勾选内容" customDict=""		hidden="false" />
 			
@@ -234,8 +231,8 @@
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align=""	halign="" order="" resizable="" />
 
 				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="REAL_NAME" index="" checkbox="" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/>
-				<column type="virtual" name="ORG_NAME" index="" checkbox="" display="组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
+				<!-- <column type="virtual" name="REAL_NAME" index="" checkbox="" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/> -->
+				<column type="virtual" name="REAL_NAME,ORG_NAME" index="" checkbox="" display="主管,组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
 
 				<column type="both" name="INST_CODE" title="片区"	customDict="" hidden="false" />
 				<column type="virtual" name="START_TIME"  title="过户创建时间" index="" checkbox="" display="组别" customDict="sumByInstCode" referencecol="INST_CODE" beanFormatter="dateFormatterOne"/>
