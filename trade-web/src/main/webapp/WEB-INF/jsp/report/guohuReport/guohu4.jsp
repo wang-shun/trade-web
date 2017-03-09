@@ -98,7 +98,6 @@
 
 	<!-- Mainly scripts -->
 	<script src="${ctx}/js/jquery-2.1.1.js"></script>
-	<script src="${ctx}/js/trunk/report/overwriteAlgorithm.js"></script>
 	<script src="${ctx}/js/bootstrap.min.js"></script>
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<!-- 分页控件  -->
@@ -117,7 +116,7 @@
               <td>{{item.CASE_COUNT}}</td>
               <td>{{(item.MORT_COM_AMOUNT/10000).toFixed()}}万元</td>
              </tr>
-		{{/each}}
+		  {{/each}}
 	    </script>
 	<script id="template_table1" type="text/html">
           {{each rows as item index}}
