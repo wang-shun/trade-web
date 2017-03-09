@@ -104,7 +104,7 @@ th,td {
               <td>{{item.TOTAL_NUM_WEEK}}</td>
               <td>{{item.TOTAL_NUM_WEEK == 0?0:(item.LOSE_NUM_WEEK/item.TOTAL_NUM_WEEK*100).toFixed()}}%</td>
               <td>{{item.TOTAL_NUM_LAST_MONTH == 0?0:(item.LOSE_NUM_LAST_MONTH/item.TOTAL_NUM_LAST_MONTH*100).toFixed()}}%</td>
-              <td>{{item.TOTAL_AMOUNT_MONTH == 0?0:(item.LOSE_AMOUNT_MONTH/item.TOTAL_AMOUNT_MONTH*100).toFixed()}}%</td>
+              <td>{{item.TOTAL_NUM_MONTH == 0?0:(item.LOSE_NUM_MONTH/item.TOTAL_NUM_MONTH*100).toFixed()}}%</td>
  			  <td>{{(item.LOSE_AMOUNT_WEEK/10000).toFixed()}}万元</td>
 			  <td>{{(item.REC_AMOUNT_WEEK/10000).toFixed()}}万元</td>
               <td>{{(item.TOTAL_AMOUNT_WEEK/10000).toFixed()}}万元</td>
