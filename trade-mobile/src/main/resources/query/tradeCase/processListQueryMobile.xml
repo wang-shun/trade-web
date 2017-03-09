@@ -19,11 +19,11 @@
 					avatarUrl+'.jpg' avatarUrl,
 					comments,
 					prdType,
-					srvCode,
+					caseCode,
 					star,
 					type
 				from sctrans.V_PROCESS_AND_COMMENT_QUERY
-				 where srvCode = #caseCode#
+				 where caseCode = #caseCode#
 			</baseSql>
 		</searchSql>
 		
@@ -38,7 +38,7 @@
 				<column type="both" name="avatarUrl" defaultVal=""/>
 				<column type="both" name="comments" defaultVal=""/>
 				<column type="both" name="prdType" defaultVal=""/>
-				<column type="both" name="srvCode" defaultVal=""/>
+				<column type="both" name="caseCode" defaultVal=""/>
 				<column type="both" name="star" defaultVal=""/>
 				<column type="both" name="type" defaultVal=""/>
 			</table-row>

@@ -125,7 +125,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 			
 			
 		} catch (Exception e) {				
-			throw new BusinessException("新建自录案件，请求信息为空！");
+			throw new BusinessException("新建自录案件信息保存异常！");
 		}			
 			
 	}
