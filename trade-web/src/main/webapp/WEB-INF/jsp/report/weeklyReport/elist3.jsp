@@ -119,7 +119,7 @@ th, td {
 	    </script>
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
-		function reloadGrid() {
+		function reloadGrid(page) {
 			
 			var weekParamOrigin = window.parent.weekParam;
 			var startWeekDay = weekParamOrigin[0];
@@ -132,7 +132,7 @@ th, td {
 				endWeekDay : endWeekDay,
 				belongEndWeekDay : weekParamAlter[1],
 				rows : 10,
-				page : 1
+				page : page||1
 			}
 			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_LoankaList","LoankaList");
