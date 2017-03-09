@@ -31,6 +31,12 @@
 				
 				sum(isnull(case when week.BELONG_WEEK_END_DAY = #belongEndWeekDay# and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
 				#endWeekDay# then week.MORT_TOTAL_AMOUNT else 0 end,0)) TOTAL_AMOUNT_WEEK,
+				
+				sum(case when week.BELONG_WEEK_END_DAY/100 = #belongEndWeekDay#/100 and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then 1 else 0 end) LOSE_NUM_MONTH,
+				
+				sum(case when week.CASE_REC_STATUS = 1 and week.BELONG_WEEK_END_DAY/100 = #belongEndWeekDay#/100 and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #startWeekDay# and 
+				#endWeekDay# then 1 else 0 end) TOTAL_NUM_MONTH,
 								
 				(select count(1) from sctrans.T_RPT_HISTORY_CASE_BASE_INFO hi where hi.CASE_ORG_ID_F = week.CASE_ORG_ID_F and hi.CASE_REC_STATUS = 1 and hi.BELONG_MONTH = #endWeekDay#/100-1 and hi.MORT_TYPE in ('30016001','30016002') and hi.TRANSFER_ISPASS = 1) LOSE_NUM_LAST_MONTH,
 				
@@ -60,6 +66,8 @@
 			    <column type="both" name="LOSE_AMOUNT_WEEK" index="" checkbox="" title="流失金额(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="REC_AMOUNT_WEEK" index="" checkbox="" title="收单金额(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="TOTAL_AMOUNT_WEEK" index="" checkbox="" title="总金额(周)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="LOSE_NUM_MONTH" index="" checkbox="" title="流失单数(本月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			    <column type="both" name="TOTAL_NUM_MONTH" index="" checkbox="" title="总单数(本月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="LOSE_NUM_LAST_MONTH" index="" checkbox="" title="流失单数(上月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="TOTAL_NUM_LAST_MONTH" index="" checkbox="" title="总单数(上月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="LOSE_AMOUNT_MONTH" index="" checkbox="" title="流失金额(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
