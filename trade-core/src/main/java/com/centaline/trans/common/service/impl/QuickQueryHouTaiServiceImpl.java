@@ -40,7 +40,8 @@ public class QuickQueryHouTaiServiceImpl implements CustomDictService{
 				+ " sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tp"
 				+ " 	left join sctrans.T_TO_CASE tc on tp.CASE_CODE = tc.CASE_CODE and tp.PROCESSOR_ID != tc.LEADING_PROCESS_ID"
 				+ " 	left join sctrans.SYS_USER su on su.ID = tp.PROCESSOR_ID"
-				+ " 	left join sctrans.SYS_ORG so on so.ID = tp.ORG_ID where tc.CASE_CODE in (:caseCodeList)";
+				+ " 	left join sctrans.SYS_ORG so on so.ID = tp.ORG_ID"
+				+ " where tc.CASE_CODE in (:caseCodeList) and tp.srv_code in ('3000401002','3000400201')";
 		List<Map<String, Object>>  List = jdbcTemplate.queryForList(sql, paramMap);
 		
 		Map<String,JSONArray> valMap = new HashMap<String,JSONArray>();
