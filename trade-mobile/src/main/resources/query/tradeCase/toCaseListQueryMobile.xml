@@ -298,7 +298,7 @@
 					CASE WHEN ms.pkid is null then 'false' else 'true' end isFocus,
 					ti.AGENT_CODE,ti.AGENT_PHONE,ti.AGENT_NAME,su.EMPLOYEE_CODE,
 					CASE WHEN tw.pkid is null then 'false' else 'true' end loanLostAlert,
-					so.org_name org 
+					so.org_name org ,tc.ORG_ID orgId
 				from sctrans.T_TO_CASE tc
 					LEFT JOIN sctrans.SYS_DICT sd on sd.type='30001' and sd.is_deleted = '0' and tc.STATUS = sd.code
 					left join SCTRANS.T_TO_PROPERTY_INFO pi on pi.case_code = tc.case_code 
@@ -327,6 +327,7 @@
 				<column type="both" name="leadingProcessId" dataType="String"/>
 				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
 				<column type="both" name="org" defaultVal=""/>
+				<column type="both" name="orgId" dataType="String" defaultVal=""/>
 			</table-row>
 		</grid>
 	</query>

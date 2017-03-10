@@ -294,22 +294,17 @@ public class TradeCaseController {
 	
 	private void buildZhuliInfo(Map<String, Object> map,String caseCode) {
 		// 助理
-		JQGridParam gp = new JQGridParam();
-		gp.setQueryId("queryTradeCaseZhuliMoblie");
-		gp.setPagination(false);
-		Map<String, Object> paramMap = gp.getParamtMap();
-		paramMap.put("caseCode", caseCode);
-		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		String orgId = String.valueOf(map.get("orgId"));
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
 		
-		List<Map<String,Object>> asList = pages.getContent();
+//		List<Map<String,Object>> asList = pages.getContent();
 		JSONObject ja = new JSONObject();
 		if (asList != null && asList.size() > 0) {
-			Map<String,Object> reusltMap = asList.get(0);
-			ja.put("name", reusltMap.get("name"));
-			Object ec = reusltMap.get("employeeCode");
-			ja.put("avatar", ec == null ? "" : MessageFormat.format(imgUrl,ec) + ".jpg");
-			ja.put("org", reusltMap.get("org"));
-			ja.put("mobile", reusltMap.get("moblie"));
+			User user = asList.get(0);
+			ja.put("name", user.getRealName());
+			ja.put("avatar", StringUtils.isBlank(user.getEmployeeCode()) ? "" : MessageFormat.format(imgUrl,user.getEmployeeCode()) + ".jpg");
+			ja.put("org", user.getOrgName());
+			ja.put("mobile", user.getMobile());
 		}
 		map.put("zhuli", ja);
 	}
