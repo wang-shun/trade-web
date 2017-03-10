@@ -1,6 +1,7 @@
 package com.centaline.parportal.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -11,7 +12,8 @@ import org.springframework.core.io.ClassPathResource;
 @Configuration
 public class ApplicationContextConfiguration {
 	@Autowired
-    public Environment env;
+	public Environment env;
+
 	@Bean
 	@Profile("dev")
 	public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurerDev() {
@@ -20,6 +22,7 @@ public class ApplicationContextConfiguration {
 		propertyPlaceholderConfigurer.setLocation(resource);
 		return propertyPlaceholderConfigurer;
 	}
+
 	@Bean
 	@Profile("prod")
 	public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurerPrd() {
@@ -27,5 +30,12 @@ public class ApplicationContextConfiguration {
 		PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
 		propertyPlaceholderConfigurer.setLocation(resource);
 		return propertyPlaceholderConfigurer;
+	}
+
+	@Bean
+	public FilterRegistrationBean loggingFilterRegistration() {
+		FilterRegistrationBean registration = new FilterRegistrationBean(new com.github.isrsal.logging.LoggingFilter());
+		registration.addUrlPatterns("/*");
+		return registration;
 	}
 }
