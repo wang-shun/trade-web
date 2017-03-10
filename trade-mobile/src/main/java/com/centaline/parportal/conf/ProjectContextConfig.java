@@ -12,11 +12,11 @@ import com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl
 import com.centaline.trans.common.service.impl.QuickQueryCaseSalerInfoServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryGetCaseOverviewInfoServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryGetGlCaseCountServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryHouTaiServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl;
-import com.centaline.trans.common.service.impl.QuickQueryQianHouTaiServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl;
 
@@ -163,8 +163,8 @@ public class ProjectContextConfig {
     }
     
     @Bean(name="getQianHouTai")
-    public QuickQueryQianHouTaiServiceImpl getQianHouTai(){
-    	QuickQueryQianHouTaiServiceImpl dict = new QuickQueryQianHouTaiServiceImpl();
+    public QuickQueryHouTaiServiceImpl getQianHouTai(){
+    	QuickQueryHouTaiServiceImpl dict = new QuickQueryHouTaiServiceImpl();
     	return dict;
     }
 }

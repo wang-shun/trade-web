@@ -324,7 +324,7 @@
 				<column type="both" name="EMPLOYEE_CODE" />
 				
 				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai" dataType="JSONARRAY"/>
-				<column type="both" name="leadingProcessId" dataType="BOOLEAN"/>
+				<column type="both" name="leadingProcessId" dataType="String"/>
 				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
 				<column type="both" name="org" defaultVal=""/>
 			</table-row>

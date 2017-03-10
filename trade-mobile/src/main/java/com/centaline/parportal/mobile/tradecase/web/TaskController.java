@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
 
 @RestController
 @RequestMapping(value = "/task")

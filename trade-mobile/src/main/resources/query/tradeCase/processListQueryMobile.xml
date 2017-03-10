@@ -24,6 +24,7 @@
 					type
 				from sctrans.V_PROCESS_AND_COMMENT_QUERY
 				 where caseCode = #caseCode#
+				 order by createTime desc
 			</baseSql>
 		</searchSql>
 		
