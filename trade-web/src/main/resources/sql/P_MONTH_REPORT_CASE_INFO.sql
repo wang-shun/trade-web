@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/3/1 11:10:09 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/3/3 9:31:23 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -102,6 +102,11 @@ BEGIN
 	[WZ_NAME],
 	[BA_CODE],
 	[BA_NAME],
+	[GROUP_ORG_ID],
+	[BUSIAR_ORG_ID],
+	[BUSISWZ_ORG_ID],
+	[BUSIWZ_ORG_ID],
+	[BUSISH_ORG_ID],
 	[JQYJL_NAME],
 	[JQYJL_EMPLOYEE_CODE],
 	[JQYJL_PHONE],
@@ -269,6 +274,11 @@ SELECT
 	[WZ_NAME],
 	[BA_CODE],
 	[BA_NAME],
+	[GROUP_ORG_ID],
+	[BUSIAR_ORG_ID],
+	[BUSISWZ_ORG_ID],
+	[BUSIWZ_ORG_ID],
+	[BUSISH_ORG_ID],
 	[JQYJL_NAME],
 	[JQYJL_EMPLOYEE_CODE],
 	[JQYJL_PHONE],
