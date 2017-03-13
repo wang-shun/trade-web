@@ -134,7 +134,6 @@
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE"   display="上家" customDict="qqcdSeller"/>
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE"   display="下家" customDict="qqcdBuyer" />
 				<column type="virtual" name="AGENT_ORG_NAME,AGENT_NAME,CTM_CODE,MOBILE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE"   customDict="qqFindCaseInfo" />
-				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" isDynamicDict="true" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,taskCode"   customDict="qqFindTranPlan" />
 				<column type="virtual" name="WFE_NAME" isDynamicDict="true" display="流程环节" referencecol="BUSINESS_KEY"   customDict="qqWorkflow" />
 				<column type="virtual" name="cu" isDynamicDict="true" display="流程环节" referencecol="propertyCode"   customDict="getMegerCuntByCaseCode" />
 				<column type="virtual" name="taskNameType" isDynamicDict="true" display="流程环节名" referencecol="taskName"   customDict="getTaskNameTypeByTaskName" />
@@ -147,6 +146,7 @@
 				<column type="virtual" name="addr" referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCasePropertyInfo"   display="产证地址" />
 				<column type="both" name="createTime"   display="创建时间"   beanFormatter="dateFormatter1"/>
 				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" isDynamicDict="true" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,taskCode"   customDict="qqFindTranPlan" />
+				<column type="both" name="CASE_CODE"/>
 			</table-row>
 		</grid>
 	</query>
