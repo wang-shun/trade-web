@@ -146,8 +146,8 @@
 						 		td7Html = "<td>"+num2+"</td>";/*7公积金金额*/
 						 		td8Html = "<td>"+accMul(accDiv(accAdd(getNum(row.mortComAmount),getNum(row.mortPrfAmount)),getNum(row.allRealPrice)),100)+"%</td>";/*8杠杆率*/
 						 		td9Html = "<td>"+accDivN(getNum(row.realPrice),10000)+"</td>";/*9有商贷案件房价*/
-						 		if(getNum(row.mortPrfAmount)==0 || getNum(row.realPrice)==0) td10Html = "<td>"+0+"%</td>";/*10贷款金额占比*/
-						 		else td10Html = "<td>"+accMul(accDiv(getNum(row.mortPrfAmount),getNum(row.realPrice)),100)+"%</td>";/*10贷款金额占比*/
+						 		if(getNum(row.mortComAmount)==0 || getNum(row.realPrice)==0) td10Html = "<td>"+0+"%</td>";/*10贷款金额占比*/ 
+						 		else td10Html = "<td>"+accMul(accDiv(getNum(row.mortComAmount),getNum(row.realPrice)),100)+"%</td>";/*10贷款金额占比*/
 						 		td11Html = "<td>"+getNum(row.comRec)+"</td>";/*11商贷收单（商贷）*/
 						 		td12Html = "<td>"+getNum(row.lsRec)+"</td>";/*12流失单数（商贷）*/
 						 		if(getNum(row.lsRec)==0 || getNum(row.comNum)==0) td13Html = "<td>"+0+"%</td>";/*13单数流失率（商贷）*/
