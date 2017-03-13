@@ -76,6 +76,26 @@ function getMinWeek(week){
 }
 
 /**
+ *	获取本月第一天和最后一天
+ */
+function getFirstAndLastDay(year,month) {         
+     var new_year = year;    //取当前的年份          
+     var new_month = month++;//取下一个月的第一天，方便计算（最后一天不固定）          
+     if(month>12) {         
+      new_month -=12;        //月份减          
+      new_year++;            //年份增          
+     }         
+     var first_day = new Date(new_year,new_month,1);            //取当年当月中的第一天          
+     var last_day = new Date(first_day.getTime()-1000*60*60*24);//获取当月最后一天日期 
+     first_day.setMonth(first_day.getMonth()-1);
+     var sectionMap = [];
+     sectionMap.push(String(first_day.getFullYear())+String((first_day.getMonth()+1)<9?"0"+(first_day.getMonth()+1):(first_day.getMonth()+1))+String(first_day.getDate()<9?"0"+first_day.getDate():first_day.getDate()));
+     sectionMap.push(String(last_day.getFullYear())+String((last_day.getMonth()+1)<9?"0"+(last_day.getMonth()+1):(last_day.getMonth()+1))+String(last_day.getDate()<9?"0"+last_day.getDate():last_day.getDate()));
+     
+     return sectionMap;
+} 
+
+/**
  *
  * @param year
  * @param month

@@ -58,24 +58,18 @@ th,td {
 								<th>收单单数</th>
 								<th>总单数</th>
 								<th>单数流失率</th>
-								<th id="lastMonthTitle">11月流失率</th>
-								<th id="thisMonthTitle">12月流失率</th>
+								<th>本月单数流失率</th>
 								<th>流失金额</th>
 								<th>收单金额</th>
 								<th>总金额</th>
 								<th>金额流失率</th>
-								<th>本月累计</th>
+								<th>本月金额流失率</th>
 							</tr>
 						</thead>
 						<tbody id="loanLoseList">
 							<!-- 模板数据 -->
 						</tbody>
 					</table>
-					<div class="text-center">
-						<span id="currentTotalPage"><strong class="bold"></strong></span>
-						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-				    </div>
 				</div>
 			</div>
 		</div>
@@ -103,7 +97,6 @@ th,td {
               <td>{{item.REC_NUM_WEEK}}</td>
               <td>{{item.TOTAL_NUM_WEEK}}</td>
               <td>{{item.TOTAL_NUM_WEEK == 0?0:(item.LOSE_NUM_WEEK/item.TOTAL_NUM_WEEK*100).toFixed()}}%</td>
-              <td>{{item.TOTAL_NUM_LAST_MONTH == 0?0:(item.LOSE_NUM_LAST_MONTH/item.TOTAL_NUM_LAST_MONTH*100).toFixed()}}%</td>
               <td>{{item.TOTAL_NUM_MONTH == 0?0:(item.LOSE_NUM_MONTH/item.TOTAL_NUM_MONTH*100).toFixed()}}%</td>
  			  <td>{{(item.LOSE_AMOUNT_WEEK/10000).toFixed()}}万元</td>
 			  <td>{{(item.REC_AMOUNT_WEEK/10000).toFixed()}}万元</td>
@@ -122,22 +115,20 @@ th,td {
 			var startWeekDay = weekParamOrigin[0];
 			var endWeekDay = weekParamOrigin[1];
 			var weekParamAlter = parent.getMinWeek(weekParamOrigin);
+			var sectionMap = parent.getFirstAndLastDay(startWeekDay.substr(0,4),startWeekDay.substr(4,2));
 			
 			var data = {
 				queryId : "queryWeeklyBaseInfoList1",
-				startWeekDay : startWeekDay,
-				endWeekDay : endWeekDay,
-				belongEndWeekDay : weekParamAlter[1],
+				startWeekDay : parseInt(startWeekDay),
+				endWeekDay : parseInt(endWeekDay),
+				belongEndWeekDay : parseInt(weekParamAlter[1]),
+				lastMonthStartDay : parseInt(sectionMap[0]),
+				lastMonthEndDay : parseInt(sectionMap[1]),
 				rows : 10,
 				page : page||1	
 			}
 			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_loanLoseList","loanLoseList");
-            var yearStrPart = weekParamOrigin[1].substr(4,2);
-            var thisMonth = parseInt(yearStrPart);
-            var lastMonth = thisMonth - 1 == 0?12:thisMonth - 1;
-            $("#thisMonthTitle").text(thisMonth+"月流失率");
-            $("#lastMonthTitle").text(lastMonth+"月流失率");
 		}
 	</script>
 

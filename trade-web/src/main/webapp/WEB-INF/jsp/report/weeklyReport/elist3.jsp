@@ -125,12 +125,15 @@ th, td {
 			var startWeekDay = weekParamOrigin[0];
 			var endWeekDay = weekParamOrigin[1];
 			var weekParamAlter = parent.getMinWeek(weekParamOrigin);
+			var sectionMap = parent.getFirstAndLastDay(startWeekDay.substr(0,4),startWeekDay.substr(4,2));
 			
 			var data = {
 				queryId : "queryWeeklyBaseInfoList3",
-				startWeekDay : startWeekDay,
-				endWeekDay : endWeekDay,
-				belongEndWeekDay : weekParamAlter[1],
+				startWeekDay : parseInt(startWeekDay),
+				endWeekDay : parseInt(endWeekDay),
+				belongEndWeekDay : parseInt(weekParamAlter[1]),
+				lastMonthStartDay : parseInt(sectionMap[0]),
+				lastMonthEndDay : parseInt(sectionMap[1]),
 				rows : 10,
 				page : page||1
 			}
