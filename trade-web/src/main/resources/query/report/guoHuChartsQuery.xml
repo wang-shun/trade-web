@@ -31,9 +31,6 @@
 
 
 	<query id="queryGuoHuForMortOrg" cacheResult="true">
-		<searchCondition>
-
-		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
