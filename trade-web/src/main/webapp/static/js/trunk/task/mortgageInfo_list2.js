@@ -774,7 +774,7 @@ $('#datepicker_0').datepicker({
 /* 查询按钮查询 */
 $('#mortgageInfoSearchButton').click(function() {
 	loanLostApproveSearchMethod();
-	//setPieCharts();
+	setPieCharts();
 	reportTurnOnOffFlag = true;
 	$(".charone").hide();
 	$(".chartwo").hide();
