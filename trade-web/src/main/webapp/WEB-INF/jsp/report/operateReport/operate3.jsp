@@ -51,6 +51,7 @@
                                     <th>10月</th>
                                     <th>11月</th>
                                     <th>12月</th>
+                                    <th>总计</th>
                                 </tr>
                             </thead>
                             <tbody id="tableTemplate">
@@ -109,7 +110,7 @@
 					var tempTd = "<td>0</td>";
 					var list = data.voList[0];
 					var listSize = list.length;
-					 for(var month = 1;month<=12;month++){
+					 for(var month = 1;month<=13;month++){
 						var td1Html = "";
 						var td2Html = "";
 						var td3Html = "";
@@ -137,9 +138,9 @@
 						 		else td6Html = "<td>"+accMul(accDiv(getNum(row.comSum),getNum(row.realConSum)),100)+"%</td>";   /*6商贷案件占比**/      
 						 		if(getNum(row.prfSum)==0 || getNum(row.realConSum)==0)td7Html = "<td>"+0.00+"%</td>";           /*7纯公积金案件占比**/      
 						 		else td7Html = "<td>"+accMul(accDiv(getNum(row.prfSum),getNum(row.realConSum)),100)+"%</td>";   /*7纯公积金案件占比**/      
-						 		td8Html = "<td>"+accDiv(getNum(row.conPrice),10000)+"</td>";                                    /*8签贷合同价**/      
-						 		td9Html = "<td>"+accDiv(num1,10000)+"</td>";                                                    /*9商贷金额**/      
-						 		td10Html = "<td>"+accDiv(num2,10000)+"</td>";                                                   /*10公积金金额**/      
+						 		td8Html = "<td>"+accDivN(getNum(row.conPrice),10000)+"</td>";                                    /*8签贷合同价**/      
+						 		td9Html = "<td>"+accDivN(num1,10000)+"</td>";                                                    /*9商贷金额**/      
+						 		td10Html = "<td>"+accDivN(num2,10000)+"</td>";                                                   /*10公积金金额**/      
 						 		if(num1==0 || getNum(row.conPrice)==0) td11Html = "<td>"+0+"%</td>";                         /*11商贷金额占比**/      
 						 		else td11Html = "<td>"+accMul(accDiv(num1,getNum(row.conPrice)),100)+"%</td>";                  /*11商贷金额占比**/      
 						 		if(num2==0 || getNum(row.conPrice)==0) td12Html = "<td>"+0+"%</td>";                         /*12公积金金额占比**/      

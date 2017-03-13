@@ -52,6 +52,7 @@
 								<th>10月</th>
 								<th>11月</th>
 								<th>12月</th>
+								<th>总计</th>
 							</tr>
 						</thead>
 						<tbody id="tableTemplate">
@@ -99,7 +100,7 @@
 					var tempTd = "<td>0</td>";
 					var list = data.voList[0];
 					var listSize = list.length;
-					 for(var month = 1;month<=12;month++){
+					 for(var month = 1;month<=13;month++){
 						var td1Html = "";
 						var td2Html = "";
 						var td3Html = "";
@@ -133,7 +134,7 @@
 					tr3Html = "<tr><td>总计(万元)</td>";
 					list = data.voList[1];
 					listSize = list.length;
-					 for(var month = 1;month<=12;month++){
+					 for(var month = 1;month<=13;month++){
 						var td1Html = "";
 						var td2Html = "";
 						var td3Html = "";

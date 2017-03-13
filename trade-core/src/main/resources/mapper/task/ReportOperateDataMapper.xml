@@ -5,7 +5,7 @@
     <select id="getReportOperateData"  resultType="com.centaline.trans.task.entity.ReportOperateData" >
   	 
 		select  
-				distinct month(t.TRANSFER_APP_PASS_TIME) month,
+				CASE WHEN GROUPING(month(t.TRANSFER_APP_PASS_TIME)  ) = 1 THEN 13 else month(t.TRANSFER_APP_PASS_TIME)  end month ,
 				sum((CASE WHEN  (t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002')  THEN t.MORT_COM_AMOUNT ELSE 0 END))  mortComAmount, --	商贷金额
 				sum((CASE WHEN  (t.MORT_TYPE='30016003')  THEN t.MORT_PRF_AMOUNT ELSE 0 END)) mortPrfAmount  --公积金金额
 				--sum(sum(t.MORT_COM_AMOUNT)+sum(t.MORT_PRF_AMOUNT)) mortAllAmount --总计
@@ -17,32 +17,32 @@
 	    </if>
 		    
 			
-		group by month(t.TRANSFER_APP_PASS_TIME)
+		group by month(t.TRANSFER_APP_PASS_TIME) WITH ROLLUP
 		order by month(t.TRANSFER_APP_PASS_TIME) asc
 
   </select>
   <select id="getReportOperateDataToMortSignDate"      parameterType="java.lang.String"  resultType="com.centaline.trans.task.entity.ReportOperateData">
   	 
 		select  
-				distinct month(t.MORT_SIGN_DATE) month,
+				CASE WHEN GROUPING(month(t.MORT_SIGN_DATE)  ) = 1 THEN 13 else month(t.MORT_SIGN_DATE)  end month ,
 				sum((CASE WHEN  (t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002')  THEN t.MORT_COM_AMOUNT ELSE 0 END))  dkmortComAmount, --	商贷金额
 				sum((CASE WHEN  (t.MORT_TYPE='30016003')  THEN t.MORT_PRF_AMOUNT ELSE 0 END))  dkmortPrfAmount  --公积金金额
 				--sum(sum(t.MORT_COM_AMOUNT)+sum(t.MORT_PRF_AMOUNT)) dkmortAllAmount --总计
 		from sctrans.T_RPT_HISTORY_CASE_BASE_INFO t 
 		where 
-		    t.MORT_SIGN_DATE is not null
+		    t.MORT_SIGN_DATE is not null and t.IS_DELEGATE_YUCUI=1
 		    <if test="type != null">
 		      and year(t.MORT_SIGN_DATE)=#{type,jdbcType=INTEGER}  
 		    </if>
 
-		group by month(t.MORT_SIGN_DATE)
+		group by month(t.MORT_SIGN_DATE) WITH ROLLUP
 		order by month(t.MORT_SIGN_DATE) asc
 
   </select>
   <select id="getReportOperateDataTwo"      parameterType="java.lang.String"  resultType="com.centaline.trans.task.entity.ReportOperateData">
   	 
 		select 
-			month(t.TRANSFER_APP_PASS_TIME) month,
+			CASE WHEN GROUPING(month(t.TRANSFER_APP_PASS_TIME)  ) = 1 THEN 13 else month(t.TRANSFER_APP_PASS_TIME)  end month ,
 			sum((CASE WHEN  t.CASE_LOAN_REQ=0 THEN 1 ELSE 0 END)) loanReqNum,--'无贷款单数' ,
 			sum((CASE WHEN  t.MORT_TYPE='30016003' THEN 1 ELSE 0 END)) prfNum,-- '公积金单数',
 			sum((CASE WHEN  t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002' THEN 1 ELSE 0 END)) comNum,-- '商贷单数', 
@@ -62,13 +62,13 @@
 		      year(t.TRANSFER_APP_PASS_TIME)=#{type,jdbcType=INTEGER}  
 		  </if>
 		 
-		group by month(t.TRANSFER_APP_PASS_TIME)
+		group by month(t.TRANSFER_APP_PASS_TIME) WITH ROLLUP
 
   </select>
   <select id="getReportOperateDataThree"      parameterType="java.lang.String"  resultType="com.centaline.trans.task.entity.ReportOperateData">
   	 
 		select 
-			month(t.MORT_SIGN_DATE) month,
+			CASE WHEN GROUPING(month(t.MORT_SIGN_DATE)  ) = 1 THEN 13 else month(t.MORT_SIGN_DATE)  end month ,
 			sum((CASE WHEN  month(t.CASE_DISPATCH_TIME) = month(t.MORT_SIGN_DATE) THEN 1 ELSE 0 END)) dispatchSum,--'派单量' ,
 			sum((CASE WHEN  month(t.CASE_REAL_CON_TIME)=month(t.MORT_SIGN_DATE) THEN 1 ELSE 0 END)) realConSum,-- '签约量（买卖）',
 			sum((CASE WHEN  month(t.TRANSFER_APP_PASS_TIME) = month(t.MORT_SIGN_DATE) THEN 1 ELSE 0 END)) transferAppPassSum,-- '过户量', 
@@ -78,11 +78,11 @@
 			sum((CASE WHEN  t.MORT_TYPE='30016003'   THEN t.MORT_PRF_AMOUNT ELSE 0 END))  mortPrfAmount,-- ' 公积金金额',
 			sum(t.CASE_CON_PRICE) conPrice--' 案件合同价'
 		from  sctrans.T_RPT_HISTORY_CASE_BASE_INFO t  
-		where
+		where   t.IS_DELEGATE_YUCUI=1
 		 <if test="type != null">
-		      year(t.MORT_SIGN_DATE)=#{type,jdbcType=INTEGER}  
+		      and year(t.MORT_SIGN_DATE)=#{type,jdbcType=INTEGER}  
 		  </if>
-		group by month(t.MORT_SIGN_DATE) 
+		group by month(t.MORT_SIGN_DATE)  WITH ROLLUP
 
   </select>
       
