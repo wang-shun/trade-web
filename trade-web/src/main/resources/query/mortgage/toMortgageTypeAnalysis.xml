@@ -132,7 +132,31 @@
 			AND M.CREATE_TIME &lt;= #createTimeEnd#
 			</ifNotNull>
 
-			<ifNotNull transferTimeStart>
+
+<if test="(transferTimeStart != null  and transferTimeStart != '')  or  (transferTimeEnd != null  and transferTimeEnd != '')">	
+			AND  exists
+				(
+				
+				SELECT LASE_APP_TIME FROM(
+					SELECT MAX(END_TIME_) LASE_APP_TIME FROM SCTRANS.ACT_HI_TASKINST AT  with(nolock)  
+					INNER JOIN  SCTRANS.ACT_HI_VARINST AV  with(nolock) ON AT.PROC_INST_ID_ = AV.PROC_INST_ID_ AND AV.LONG_ = 1  AND AV.NAME_ =N'GuohuApprove' 
+					
+					WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  
+						  AND  AT.DELETE_REASON_ = 'completed' 
+						  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE FROM sctrans.T_TO_WORKFLOW TW WHERE TW.CASE_CODE=M.CASE_CODE AND  TW.BUSINESS_KEY = 'operation_process' AND TW.STATUS in (0, 4))
+				) W
+				
+				WHERE 
+					1=1
+					<if test="transferTimeStart != null  and transferTimeStart != '' "> 	
+					  AND W.LASE_APP_TIME >= #transferTimeStart#
+					</if>
+					<if test="transferTimeEnd != null  and transferTimeEnd != '' "> 	
+					  AND  W.LASE_APP_TIME &lt;= #transferTimeEnd#
+					</if>
+				)		
+			</if>
+<!-- 			<ifNotNull transferTimeStart>
 			AND  exists
 				(
 					select
@@ -144,7 +168,7 @@
 					AND V.LAST_UPDATED_TIME_ >= #transferTimeStart#
 					AND V.LAST_UPDATED_TIME_ &lt;= #transferTimeEnd#
 				)
-			</ifNotNull>
+			</ifNotNull> -->
 
 			<ifNotNull comAmountStart>
 			AND M.COM_AMOUNT >= #comAmountStart#

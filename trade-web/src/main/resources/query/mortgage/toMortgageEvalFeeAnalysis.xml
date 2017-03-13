@@ -145,10 +145,18 @@
 					ISNULL(S.CON_PRICE,0)/1000 DUE_EVAL_FEE,
 					(CASE WHEN EFR.CASE_CODE IS NULL THEN 0 ELSE 1 END) AS IS_EVAL,
 					M.CREATE_TIME,
-					(select TOP 1 V.LAST_UPDATED_TIME_ FROM  sctrans.ACT_HI_VARINST V  
+					(					
+					SELECT MAX(END_TIME_) FROM SCTRANS.ACT_HI_TASKINST AT  with(nolock)  
+					INNER JOIN  SCTRANS.ACT_HI_VARINST AV  with(nolock) ON AT.PROC_INST_ID_ = AV.PROC_INST_ID_ AND AV.LONG_ = 1  AND AV.NAME_ =N'GuohuApprove' 
+					
+					WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  
+						  AND  AT.DELETE_REASON_ = 'completed' 
+						  AND AT.PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE FROM sctrans.T_TO_WORKFLOW TW WHERE TW.CASE_CODE=M.CASE_CODE AND  TW.BUSINESS_KEY = 'operation_process' AND TW.STATUS in (0, 4))
+					)CASETRANSFERDATE
+<!-- 					(select TOP 1 V.LAST_UPDATED_TIME_ FROM  sctrans.ACT_HI_VARINST V  
 					where PROC_INST_ID_=(SELECT TOP 1 TW.INST_CODE 	FROM sctrans.T_TO_WORKFLOW TW  	WHERE TW.CASE_CODE=M.CASE_CODE AND  TW.BUSINESS_KEY = 'operation_process' 	AND TW.STATUS in (0, 4) ) 
 						  AND V.NAME_='GuohuApprove'	
-						  AND V.LONG_=1) CASETRANSFERDATE	
+						  AND V.LONG_=1) CASETRANSFERDATE	 -->
                 from 
 					sctrans.T_TO_MORTGAGE m 
 					left join sctrans.T_TO_PROPERTY_INFO p on m.case_code = p.case_code
