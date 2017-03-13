@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/3/3 9:31:23 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/3/13 17:50:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -24,7 +24,8 @@ BEGIN
   IF @belong_month = 0
 		BEGIN
 			set @belong_month = year(getdate())*100 + month(dateadd(month,-1,getdate()));
-		
+			set @update_year =year(getdate());
+			set @update_month =month(dateadd(month,-1,getdate()));
 		END
   
 
@@ -381,7 +382,9 @@ SELECT
 	[INFO_CREATE_TIME],
 
 	GETDATE(),
-	@belong_month--所属月份
+	@belong_month,--所属月份
+	@update_year,
+	@update_month
 	FROM    
 	  SCTRANS.T_RPT_CASE_BASE_INFO
 	  commit tran;
