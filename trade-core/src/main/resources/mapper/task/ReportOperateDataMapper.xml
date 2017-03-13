@@ -7,7 +7,7 @@
 		select  
 				CASE WHEN GROUPING(month(t.TRANSFER_APP_PASS_TIME)  ) = 1 THEN 13 else month(t.TRANSFER_APP_PASS_TIME)  end month ,
 				sum((CASE WHEN  (t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002')  THEN t.MORT_COM_AMOUNT ELSE 0 END))  mortComAmount, --	商贷金额
-				sum((CASE WHEN  (t.MORT_TYPE='30016003')  THEN t.MORT_PRF_AMOUNT ELSE 0 END)) mortPrfAmount  --公积金金额
+				sum((CASE WHEN  (t.MORT_TYPE='30016003' or t.MORT_TYPE='30016001')  THEN t.MORT_PRF_AMOUNT ELSE 0 END)) mortPrfAmount  --公积金金额
 				--sum(sum(t.MORT_COM_AMOUNT)+sum(t.MORT_PRF_AMOUNT)) mortAllAmount --总计
 		from sctrans.T_RPT_HISTORY_CASE_BASE_INFO t 
 		where 
@@ -26,7 +26,7 @@
 		select  
 				CASE WHEN GROUPING(month(t.MORT_SIGN_DATE)  ) = 1 THEN 13 else month(t.MORT_SIGN_DATE)  end month ,
 				sum((CASE WHEN  (t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002')  THEN t.MORT_COM_AMOUNT ELSE 0 END))  dkmortComAmount, --	商贷金额
-				sum((CASE WHEN  (t.MORT_TYPE='30016003')  THEN t.MORT_PRF_AMOUNT ELSE 0 END))  dkmortPrfAmount  --公积金金额
+				sum((CASE WHEN  (t.MORT_TYPE='30016003' or t.MORT_TYPE='30016001' )  THEN t.MORT_PRF_AMOUNT ELSE 0 END))  dkmortPrfAmount  --公积金金额
 				--sum(sum(t.MORT_COM_AMOUNT)+sum(t.MORT_PRF_AMOUNT)) dkmortAllAmount --总计
 		from sctrans.T_RPT_HISTORY_CASE_BASE_INFO t 
 		where 
@@ -49,7 +49,7 @@
 			count(*) allNum,--'总单数',
 			sum(t.CASE_REAL_PRICE) allRealPrice,--' 过户房价',
 			sum((CASE WHEN  t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002' THEN t.MORT_COM_AMOUNT ELSE 0 END))  mortComAmount,-- ' 商贷金额',
-			sum((CASE WHEN  t.MORT_TYPE='30016003' THEN t.MORT_PRF_AMOUNT ELSE 0 END))  mortPrfAmount,-- ' 公积金金额',
+			sum((CASE WHEN  (t.MORT_TYPE='30016003' or t.MORT_TYPE='30016001' ) THEN t.MORT_PRF_AMOUNT ELSE 0 END))  mortPrfAmount,-- ' 公积金金额',
 			sum((CASE WHEN  t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002' THEN t.CASE_REAL_PRICE ELSE 0 END)) realPrice,-- '有商贷案件房价', 
 			sum((CASE WHEN  (t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002') and t.CASE_REC_STATUS=0 THEN 1 ELSE 0 END)) comRec,-- '商贷收单（商贷）', 
 			sum((CASE WHEN  (t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002') and t.CASE_REC_STATUS=1 THEN 1 ELSE 0 END)) lsRec,--'流失单数（商贷）',  
@@ -75,7 +75,7 @@
 			sum((CASE WHEN  (t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002')  THEN 1 ELSE 0 END)) comSum,--  '商贷签约量',
 			sum((CASE WHEN  t.MORT_TYPE='30016003'   THEN 1 ELSE 0 END)) prfSum,-- '公积金签约量',
 			sum((CASE WHEN  (t.MORT_TYPE='30016001' or  t.MORT_TYPE='30016002')  THEN t.MORT_COM_AMOUNT ELSE 0 END))  mortComAmount,-- ' 商贷金额',
-			sum((CASE WHEN  t.MORT_TYPE='30016003'   THEN t.MORT_PRF_AMOUNT ELSE 0 END))  mortPrfAmount,-- ' 公积金金额',
+			sum((CASE WHEN  (t.MORT_TYPE='30016003' or t.MORT_TYPE='30016001')  THEN t.MORT_PRF_AMOUNT ELSE 0 END))  mortPrfAmount,-- ' 公积金金额',
 			sum(t.CASE_CON_PRICE) conPrice--' 案件合同价'
 		from  sctrans.T_RPT_HISTORY_CASE_BASE_INFO t  
 		where   t.IS_DELEGATE_YUCUI=1
