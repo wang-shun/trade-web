@@ -1191,3 +1191,7 @@ table thead tr th {
  .pink {
     color: #f784a5;
 }
+.table-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+}
