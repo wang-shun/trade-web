@@ -34,6 +34,7 @@
 					</div>
 
 					<!-- table -->
+					 <div class="table-scroll">
 					<table
 						class="table table_blue  table-striped table-bordered table-hover customerinfo">
 						<thead>
@@ -58,6 +59,7 @@
 						<tbody id="tableTemplate">
 						</tbody>
 					</table>
+				</div>
 				</div>
 			</div>
 		</div>

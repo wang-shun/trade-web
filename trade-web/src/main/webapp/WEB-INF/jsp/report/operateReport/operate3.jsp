@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
         <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
         <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css">
+        
     </head>
     <body style="background-color:#fff;">
          <!--*********************** HTML_main*********************** -->
@@ -35,6 +36,7 @@
                         </div>
 
                         <!-- table -->
+                        <div class="table-scroll">
                         <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                             <thead>
                                 <tr>
@@ -58,6 +60,7 @@
                                 
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
