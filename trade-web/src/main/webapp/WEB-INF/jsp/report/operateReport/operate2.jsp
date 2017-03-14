@@ -52,6 +52,7 @@
 								<th>10月</th>
 								<th>11月</th>
 								<th>12月</th>
+								<th>总计</th>
 							</tr>
 						</thead>
 						<tbody id="tableTemplate">
@@ -68,7 +69,7 @@
 	<script src="${ctx }/js/jquery-2.1.1.js"></script>
 	<script src="${ctx }/js/bootstrap.min.js"></script>
 	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/trunk/report/calculation_main.js"></script> 
+	<script src="${ctx}/js/trunk/report/calculation_main.js?v=1.0"></script> 
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {
@@ -113,7 +114,7 @@
 					var tempTd = "<td>0</td>";
 					var list = data.voList[0];
 					var listSize = list.length;
-					 for(var month = 1;month<=12;month++){
+					 for(var month = 1;month<=13;month++){
 						var td1Html = "";
 						var td2Html = "";
 						var td3Html = "";
@@ -133,26 +134,26 @@
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
-						 		var num1 = accDiv(getNum(row.mortComAmount),10000);
-						 		var num2 = accDiv(getNum(row.mortPrfAmount),10000);
+						 		var num1 = accDivN(getNum(row.mortComAmount),10000);
+						 		var num2 = accDivN(getNum(row.mortPrfAmount),10000);
 						 		var numA = sum(num1,num2);
 						 		td1Html = "<td>"+getNum(row.loanReqNum)+"</td>";/*1无贷款单数*/
 						 		td2Html = "<td>"+getNum(row.prfNum)+"</td>";/*2公积金单数*/
 						 		td3Html = "<td>"+getNum(row.comNum)+"</td>";/*3.商贷单数*/
 						 		td4Html = "<td>"+accMul(accDiv(row.comNum,row.allNum),100)+'%'+"</td>";/*4商贷单数占比*/
-						 		td5Html = "<td>"+accDiv(getNum(row.allRealPrice),10000)+"</td>";/*5过户房价*/
+						 		td5Html = "<td>"+accDivN(getNum(row.allRealPrice),10000)+"</td>";/*5过户房价*/
 						 		td6Html = "<td>"+num1+"</td>";/*6商贷金额*/
 						 		td7Html = "<td>"+num2+"</td>";/*7公积金金额*/
 						 		td8Html = "<td>"+accMul(accDiv(accAdd(getNum(row.mortComAmount),getNum(row.mortPrfAmount)),getNum(row.allRealPrice)),100)+"%</td>";/*8杠杆率*/
-						 		td9Html = "<td>"+accDiv(getNum(row.realPrice),10000)+"</td>";/*9有商贷案件房价*/
-						 		if(getNum(row.mortPrfAmount)==0 || getNum(row.realPrice)==0) td10Html = "<td>"+0+"%</td>";/*10贷款金额占比*/
-						 		else td10Html = "<td>"+accMul(accDiv(getNum(row.mortPrfAmount),getNum(row.realPrice)),100)+"%</td>";/*10贷款金额占比*/
+						 		td9Html = "<td>"+accDivN(getNum(row.realPrice),10000)+"</td>";/*9有商贷案件房价*/
+						 		if(getNum(row.mortComAmount)==0 || getNum(row.realPrice)==0) td10Html = "<td>"+0+"%</td>";/*10贷款金额占比*/ 
+						 		else td10Html = "<td>"+accMul(accDiv(getNum(row.mortComAmount),getNum(row.realPrice)),100)+"%</td>";/*10贷款金额占比*/
 						 		td11Html = "<td>"+getNum(row.comRec)+"</td>";/*11商贷收单（商贷）*/
 						 		td12Html = "<td>"+getNum(row.lsRec)+"</td>";/*12流失单数（商贷）*/
 						 		if(getNum(row.lsRec)==0 || getNum(row.comNum)==0) td13Html = "<td>"+0+"%</td>";/*13单数流失率（商贷）*/
 						 		else td13Html = "<td>"+accMul(accDiv(getNum(row.lsRec),getNum(row.comNum)),100)+"%</td>";/*13单数流失率（商贷）*/
-						 		td14Html = "<td>"+accDiv(getNum(row.sdAmount),10000)+"</td>";/*14收单金额（商贷）*/
-						 		td15Html = "<td>"+accDiv(getNum(row.lsAmount),10000)+"</td>";/*15流失金额（商贷）*/
+						 		td14Html = "<td>"+accDivN(getNum(row.sdAmount),10000)+"</td>";/*14收单金额（商贷）*/
+						 		td15Html = "<td>"+accDivN(getNum(row.lsAmount),10000)+"</td>";/*15流失金额（商贷）*/
 						 		if(getNum(row.lsAmount)==0 || getNum(row.mortPrfAmount)==0) td16Html = "<td>"+0+"%</td>";/*16金额流失率（商贷）*/
 						 		else td16Html = "<td>"+accMul(accDiv(getNum(row.lsAmount),getNum(row.mortPrfAmount)),100)+"%</td>";/*16金额流失率（商贷）*/
 						 		break;
