@@ -69,6 +69,13 @@
 				select
 				tb2.MORT_TYPE as MORT_TYPE,
 				CASE
+					WHEN tb2.MORT_TYPE='TOTAL' THEN  5
+					WHEN tb2.MORT_TYPE='30016001' THEN 3
+					WHEN tb2.MORT_TYPE='30016003' THEN 2
+					WHEN tb2.MORT_TYPE='30016002' THEN 4
+					WHEN tb2.MORT_TYPE='NO_LOAN_REQ' THEN 1
+				END AS ORDER_NO,
+				CASE
 					WHEN tb2.MORT_TYPE='TOTAL' THEN  '合计'
 					WHEN tb2.MORT_TYPE='30016001' THEN '纯商'
 					WHEN tb2.MORT_TYPE='30016003' THEN '纯公积金'
@@ -109,6 +116,7 @@
 					group by tn.MORT_TYPE
 					WITH ROLLUP
 				) as l1 on tb2.MORT_TYPE=l1.MORT_TYPE
+				order by ORDER_NO
 				]]>
 			</baseSql>
 			<groupSql>
