@@ -1192,6 +1192,6 @@ table thead tr th {
     color: #f784a5;
 }
 .table-scroll {
-  overflow-x: auto;
+  overflow: auto;
   white-space: nowrap;
 }

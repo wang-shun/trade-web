@@ -759,6 +759,6 @@ table thead tr th {
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;}
 .table-scroll {
-  overflow-x: auto;
+  overflow: auto;
   white-space: nowrap;
 }
