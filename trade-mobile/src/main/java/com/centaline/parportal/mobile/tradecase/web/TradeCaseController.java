@@ -433,11 +433,6 @@ public class TradeCaseController {
         ToCaseComment track = new ToCaseComment();
         //        boolean isNofigyCustomer = cmt.isNotifyCustomer();
         BeanUtils.copyProperties(cmtVo, track);
-        track.setCreateBy(user.getRealName());
-        track.setUpdateBy(user.getRealName());
-        Date date = new Date();
-        track.setCreateTime(date);
-        track.setUpdateTime(date);
         //检查track的完整性。不完整时抛出业务异常
         this.checkTrackIntegrity(track);
         int resultCount = 0;

@@ -1,6 +1,9 @@
 package com.centaline.parportal.conf;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.centaline.trans.common.service.impl.QuickQueryLightServiceImpl;
 
 /**
  * Created by linjiarong on 2016/10/11.
@@ -71,5 +74,11 @@ public class DeployContextConfiguration {
             logger.error("Error creating data source",e);
         }
         return ds;
+    }
+    
+    @Bean(name="qqLightService")
+    public QuickQueryLightServiceImpl qqLightServiceImpl() {
+    	QuickQueryLightServiceImpl dict = new QuickQueryLightServiceImpl();
+    	return dict;
     }
 }
