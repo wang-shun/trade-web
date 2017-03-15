@@ -22,6 +22,7 @@ BEGIN
 	@UP_COLUMN  VARCHAR(1000),--逗号分割获取到更新的字段名称
 	@UP_SQL  VARCHAR(2000)--最终执行的更新sql
 	SET @UP_COLUMN=''
+
 	SET @UP_SQL=''
 	SET @I=0
 	WHILE @I<LEN(@COLUMNS)
