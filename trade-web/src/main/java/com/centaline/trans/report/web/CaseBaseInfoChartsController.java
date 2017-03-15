@@ -12,7 +12,7 @@ import com.aist.uam.permission.remote.vo.App;
 import com.centaline.trans.common.enums.AppTypeEnum;
 
 /**
- * ClassName: caseBaseInfoChartsController <br/> 
+ * ClassName: CaseBaseInfoChartsController <br/> 
  * Description: 案件统计报表 (1~8)<br/>  
  * date: 2017年1月10日 下午4:50:30 <br/> 
  * 
@@ -22,7 +22,7 @@ import com.centaline.trans.common.enums.AppTypeEnum;
  */
 @Controller
 @RequestMapping("/report")
-public class caseBaseInfoChartsController {
+public class CaseBaseInfoChartsController {
 	@Autowired
 	private UamPermissionService uamPermissionService;
 	
