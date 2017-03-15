@@ -27,6 +27,7 @@ public class QuickQueryCalTotalBySignStatisticsServiceImpl implements
 		String strTotalCaseCountRate = "0";
 
 		DecimalFormat df = new DecimalFormat("0");
+		DecimalFormat df1 = new DecimalFormat("0.00");
 
 		// 计算总的案件单数
 		for (Map<String, Object> keyer : keys) {
@@ -48,7 +49,7 @@ public class QuickQueryCalTotalBySignStatisticsServiceImpl implements
 				caseCountRate = caseCount / totalCaseCount * 100;
 
 				if (caseCountRate != 0) {
-					strCaseCountRate = df.format(caseCountRate);
+					strCaseCountRate = df1.format(caseCountRate);
 					totalCaseCountRate += caseCountRate;
 				}
 			}

@@ -42,7 +42,6 @@
 						</div>
 					</div>
 					<div class="sign-content row clearfix">
-						<div id="signChart" class="col-md-6" style="height: 480px;"></div>
 						<div class="col-md-6">
 							<table
 								class="table table_blue  table-striped table-bordered table-hover customerinfo mt100">
@@ -58,6 +57,7 @@
 								</tbody>
 							</table>
 						</div>
+						<div id="signChart" class="col-md-6" style="height: 480px;"></div>
 					</div>
 
 					<!-- table -->
