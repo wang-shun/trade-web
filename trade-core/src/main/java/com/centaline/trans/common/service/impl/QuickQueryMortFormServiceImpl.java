@@ -122,8 +122,10 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 				if("qqGetPingGuCountPercent".equals(dictType)){
 					double eva_count = Double.valueOf(keyer.get("EVA_COUNT").toString());
 					double com_count = Double.valueOf(keyer.get("MORT_COM_COUNT").toString());
-					if(com_count!=0){
-						keyer.put("val", Double.valueOf(df.format(eva_count/com_count)));
+					double lost_count = Double.valueOf(keyer.get("LOST_COUNT").toString());
+
+					if(com_count!=0&&(com_count-lost_count)!=0){
+						keyer.put("val", Double.valueOf(df.format(eva_count/(com_count-lost_count))));
 					}else{
 						keyer.put("val",0);
 					}

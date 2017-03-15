@@ -241,6 +241,7 @@
 					</if>
 					 ),0) as MORT_COM_AMOUNT,
 					isnull((select sum(t1.CASE_CON_PRICE) from tb as t1 where 1=1
+						and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -281,6 +282,7 @@
 					 ),0) as LOST_AMOUNT,
 					(select count(1) from tb as t1 where 1=1
 					and t1.EVA_EVAL_FEE is not null
+					and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -294,6 +296,7 @@
 					 ) as EVA_COUNT,
 					isnull((select sum(EVA_EVAL_FEE) from tb as t1 where 1=1
 					 and t1.EVA_EVAL_FEE is not null
+					 and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -320,6 +323,7 @@
 					 ) as E_CARD_COUNT,
 					(select count(1) from tb as t1 where 1=1
 					and  t1.CASE_USE_CARD_PAY_CN='1'
+					and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -391,7 +395,7 @@
 				<column type="both" name="LOST_AMOUNT" title="流失金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="CASE_LOST_AMOUNT_PERCENT" title="金额流失率" customDict="qqGetLostAmountPercent" referencecol="LOST_AMOUNT,MORT_COM_AMOUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="EVA_COUNT" title="收评估费单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="PING_GU_COUNT_PERCENT" title="评估转化率" customDict="qqGetPingGuCountPercent" referencecol="EVA_COUNT,MORT_COM_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PING_GU_COUNT_PERCENT" title="评估转化率" customDict="qqGetPingGuCountPercent" referencecol="EVA_COUNT,MORT_COM_COUNT,LOST_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="EVA_FEE" title="收评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="E_CARD_COUNT" title="e卡类申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="E_COUNT_PERCENT" title="E+卡转化率(单数)" customDict="qqGetECountPercent" referencecol="E_CARD_COUNT,CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
@@ -508,6 +512,7 @@
 					,isnull(l2.MORT_COM_AMOUNT,0) as MORT_COM_AMOUNT
 					,isnull(l2.IS_DELEGATE_YUCUI_COUNT,0) as IS_DELEGATE_YUCUI_COUNT
 					,isnull(l2.IS_DELEGATE_CUSTOMER_COUNT,0) as IS_DELEGATE_CUSTOMER_COUNT
+					,isnull(l2.LOST_COUNT,0) as LOST_COUNT
 					,isnull(l2.LOST_AMOUNT,0) as LOST_AMOUNT
 					,isnull(l2.EVA_COUNT,0) as EVA_COUNT
 					,isnull(l2.EVA_FEE,0) as EVA_FEE
@@ -593,6 +598,23 @@
 					and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 					</if>
 					 ) as IS_DELEGATE_CUSTOMER_COUNT,
+
+					  isnull((select COUNT(1) from tb as t1 where 1=1
+					and t1.CASE_LOAN_REQ=1
+					<if test="produceType == 'JQYDS'">
+					and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
+					</if>
+					<if test="produceType == 'JQYZJ'">
+					and t1.BUSISWZ_ORG_ID=t.BUSISWZ_ORG_ID  --(按照区域总监)
+					</if>
+					<if test="produceType == 'JQYJL'">
+					and t1.BUSIAR_ORG_ID=t.BUSIAR_ORG_ID  --(按照区域经理)
+					</if>
+					<if test="produceType == 'JFHJL'">
+					and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
+					</if>
+					 ),0) as LOST_COUNT,
+
 					 isnull((select sum(LOAN_LOST_AMOUNT) from tb as t1 where 1=1
 					and t1.CASE_LOAN_REQ=1
 					<if test="produceType == 'JQYDS'">
@@ -608,6 +630,7 @@
 					and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 					</if>
 					 ),0) as LOST_AMOUNT,
+
 					 (select count(1) from tb as t1 where 1=1
 					and t1.EVA_EVAL_FEE is not null
 					<if test="produceType == 'JQYDS'">
@@ -735,11 +758,12 @@
 				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="IS_DELEGATE_YUCUI_COUNT" title="公司办理"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="IS_DELEGATE_CUSTOMER_COUNT" title="客户自办"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOST_COUNT" title="流失单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="LOST_AMOUNT" title="流失金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="CASE_LOST_AMOUNT_PERCENT" title="金额流失率" customDict="qqGetLostAmountPercent" referencecol="LOST_AMOUNT,MORT_COM_AMOUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 
 				<column type="both" name="EVA_COUNT" title="收评估费单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="PING_GU_COUNT_PERCENT" title="评估转化率" customDict="qqGetPingGuCountPercent" referencecol="EVA_COUNT,MORT_COM_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PING_GU_COUNT_PERCENT" title="评估转化率" customDict="qqGetPingGuCountPercent" referencecol="EVA_COUNT,MORT_COM_COUNT,LOST_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="EVA_FEE" title="收评估费实收"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="E_CARD_COUNT" title="e卡类申请单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="E_AMOUNT" title="E贷款申请金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>

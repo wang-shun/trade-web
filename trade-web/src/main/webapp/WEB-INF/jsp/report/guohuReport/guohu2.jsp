@@ -66,45 +66,45 @@
 							</div>
 						</div>
 					</div>
-
-					<!-- table -->
-					<table
-						class="table table_blue  table-striped table-bordered table-hover customerinfo">
-						<thead>
-							<tr>
-								<th>组织</th>
-								<th>商贷单数</th>
-								<th>商贷金额</th>
-								<th>合同价</th>
-								<th>流失单数</th>
-								<th>单数流失率</th>
-								<th>流失金额</th>
-								<th>金额流失率</th>
-								<th>评估转化率</th>
-								<th>评估费实收</th>
-								<th>E+卡转化率（单数）</th>
-								<th>刷卡率</th>
-								<th>E+贷款转化率（金额）</th>
-							</tr>
-						</thead>
-						<tbody id="tableTemplate">
-							<tr>
-								<td>A某某</td>
-								<td>12</td>
-								<td>4%</td>
-								<td>33</td>
-								<td>38</td>
-								<td>35</td>
-								<td>63</td>
-								<td>19%</td>
-								<td>38</td>
-								<td>35</td>
-								<td>35</td>
-								<td>63</td>
-								<td>19%</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="table-scroll">
+						<!-- table -->
+						<table class="table table_blue  table-striped table-bordered table-hover customerinfo">
+							<thead>
+								<tr>
+									<th>组织</th>
+									<th>商贷单数</th>
+									<th>商贷金额</th>
+									<th>合同价</th>
+									<th>流失单数</th>
+									<th>单数流失率</th>
+									<th>流失金额</th>
+									<th>金额流失率</th>
+									<th>评估转化率</th>
+									<th>评估费实收</th>
+									<th>E+卡转化率（单数）</th>
+									<th>刷卡率</th>
+									<th>E+贷款转化率（金额）</th>
+								</tr>
+							</thead>
+							<tbody id="tableTemplate">
+								<tr>
+									<td>A某某</td>
+									<td>12</td>
+									<td>4%</td>
+									<td>33</td>
+									<td>38</td>
+									<td>35</td>
+									<td>63</td>
+									<td>19%</td>
+									<td>38</td>
+									<td>35</td>
+									<td>35</td>
+									<td>63</td>
+									<td>19%</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

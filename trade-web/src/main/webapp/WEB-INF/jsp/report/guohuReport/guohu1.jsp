@@ -73,32 +73,33 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- table -->
-                        <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
-                            <thead>
-                                <tr>
-                                    <th>类型</th>
-                                    <th>单数</th>
-                                    <th>占比</th>
-                                    <th>合同价</th>
-                                    <th>商贷金额</th>
-                                    <th>公积金金额</th>
-                                    <th>贷款成数</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableTemplate">
-                                <tr>
-                                    <td>总计</td>
-                                    <td>12</td>
-                                    <td>4%</td>
-                                    <td>33</td>
-                                    <td>38</td>
-                                    <td>35</td>
-                                    <td>19%</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-scroll">
+                            <!-- table -->
+                            <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
+                                <thead>
+                                    <tr>
+                                        <th>类型</th>
+                                        <th>单数</th>
+                                        <th>占比</th>
+                                        <th>合同价</th>
+                                        <th>商贷金额</th>
+                                        <th>公积金金额</th>
+                                        <th>贷款成数</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableTemplate">
+                                    <tr>
+                                        <td>总计</td>
+                                        <td>12</td>
+                                        <td>4%</td>
+                                        <td>33</td>
+                                        <td>38</td>
+                                        <td>35</td>
+                                        <td>19%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
