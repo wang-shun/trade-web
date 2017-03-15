@@ -20,7 +20,7 @@ public interface ReportOperateDataMapper {
 	 * @Data 2017年3月2日14:54:08
 	 * @return ReportOperateData
 	 */
-	List<ReportOperateData> getReportOperateData(@Param("type")int type );
+	List<ReportOperateData> getReportOperateData(@Param("type")int type,@Param("typeM")String typeM,@Param("typeY")String typeY  );
 	/**
 	 * 贷款签约与过户对比 过户数据（签贷款）贷款签约数据
 	 * @param year 年 
@@ -28,7 +28,7 @@ public interface ReportOperateDataMapper {
 	 * @Data 2017年3月2日14:54:08
 	 * @return ReportOperateData
 	 */
-	List<ReportOperateData> getReportOperateDataToMortSignDate(@Param("type")int type);
+	List<ReportOperateData> getReportOperateDataToMortSignDate(@Param("type")int type,@Param("typeM")String typeM,@Param("typeY")String typeY );
 	/**
 	 * 过户数据
 	 * @param year 年
@@ -36,7 +36,7 @@ public interface ReportOperateDataMapper {
 	 * @Data 2017年3月2日14:54:08
 	 * @return ReportOperateData
 	 */
-	List<ReportOperateData> getReportOperateDataTwo(@Param("type")int type);
+	List<ReportOperateData> getReportOperateDataTwo(@Param("type")int type,@Param("typeM")String typeM,@Param("typeY")String typeY );
 	/**
 	 * 签贷款数据
 	 * @param year 年 
@@ -44,5 +44,29 @@ public interface ReportOperateDataMapper {
 	 * @Data 2017年3月2日14:54:08
 	 * @return ReportOperateData
 	 */
-	List<ReportOperateData> getReportOperateDataThree(@Param("type")int type);
+	List<ReportOperateData> getReportOperateDataThree(@Param("type")int type,@Param("typeM")String typeM,@Param("typeY")String typeY );
+	/**
+	 * 签贷款数据
+	 * @param year 年 
+	 * @author hejf10
+	 * @Data 2017年3月2日14:54:08
+	 * @return ReportOperateData
+	 */
+	List<ReportOperateData> getReportOperateDataToPdl(@Param("type")int type,@Param("typeM")String typeM,@Param("typeY")String typeY );
+	/**
+	 * 签贷款数据
+	 * @param year 年 
+	 * @author hejf10
+	 * @Data 2017年3月2日14:54:08
+	 * @return ReportOperateData
+	 */
+	List<ReportOperateData> getReportOperateDataToCyl(@Param("type")int type,@Param("typeM")String typeM,@Param("typeY")String typeY );
+	/**
+	 * 签贷款数据
+	 * @param year 年 
+	 * @author hejf10
+	 * @Data 2017年3月2日14:54:08
+	 * @return ReportOperateData
+	 */
+	List<ReportOperateData> getReportOperateDataToghl(@Param("type")int type,@Param("typeM")String typeM,@Param("typeY")String typeY );
 }

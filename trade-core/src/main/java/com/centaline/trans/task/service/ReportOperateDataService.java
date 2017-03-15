@@ -31,4 +31,28 @@ public interface ReportOperateDataService {
 	 * @return ReportOperateData
 	 */
 	List<List<ReportOperateData>> getReportOperateDataThree(int year);
+	/**
+	 * 签贷款数据
+	 * @param year 年
+	 * @author hejf10
+	 * @Data 时间
+	 * @return ReportOperateData
+	 */
+	List<List<ReportOperateData>> getReportOperateDataToPdl(int year);
+	/**
+	 * 签贷款数据
+	 * @param year 年
+	 * @author hejf10
+	 * @Data 时间
+	 * @return ReportOperateData
+	 */
+	List<List<ReportOperateData>> getReportOperateDataToCyl(int year);
+	/**
+	 * 签贷款数据
+	 * @param year 年
+	 * @author hejf10
+	 * @Data 时间
+	 * @return ReportOperateData
+	 */
+	List<List<ReportOperateData>> getReportOperateDataToghl(int year);
 }

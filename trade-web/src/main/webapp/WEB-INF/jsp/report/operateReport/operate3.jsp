@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
         <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
         <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css">
+        
     </head>
     <body style="background-color:#fff;">
          <!--*********************** HTML_main*********************** -->
@@ -35,6 +36,7 @@
                         </div>
 
                         <!-- table -->
+                        <div class="table-scroll">
                         <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                             <thead>
                                 <tr>
@@ -51,12 +53,14 @@
                                     <th>10月</th>
                                     <th>11月</th>
                                     <th>12月</th>
+                                    <th>总计</th>
                                 </tr>
                             </thead>
                             <tbody id="tableTemplate">
                                 
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,8 +112,14 @@
 					var tr12Html = "<tr><td>公积金金额占比  	</td>";    
 					var tempTd = "<td>0</td>";
 					var list = data.voList[0];
+					var voListToPdl = data.voListToPdl[0];
+					var voListToCyl = data.voListToCyl[0];
+					var voListToghl = data.voListToghl[0];
 					var listSize = list.length;
-					 for(var month = 1;month<=12;month++){
+					var voListToPdlSize = voListToPdl.length;
+					var voListToCyllistSize = voListToCyl.length;
+					var voListToghllistSize = voListToghl.length;
+					 for(var month = 1;month<=13;month++){
 						var td1Html = "";
 						var td2Html = "";
 						var td3Html = "";
@@ -122,24 +132,56 @@
 						var td10Html = "";
 						var td11Html = "";
 						var td12Html = "";
+						
+						
+						
+						 for(var i = 0;i< voListToPdlSize;i++){
+							 var row = voListToPdl[i];
+							 	if(parseInt(row.month)==(month)){
+							 		td1Html = "<td>"+getNum(row.dispatchSum)+"</td>";		                                        /*1派单量**/ 
+							 		break;   
+							 	}
+							 
+						 }
+						 for(var i = 0;i< voListToCyllistSize;i++){
+							 var row = voListToCyl[i];
+							 	if(parseInt(row.month)==(month)){
+							 		td2Html = "<td>"+getNum(row.realConSum)+"</td>";                                                /*2签约量（买卖）**/   
+							 		 for(var j = 0;j< listSize;j++){
+										 var row2 = list[j];
+									 	if(parseInt(row2.month)==(month)){
+									 		if(getNum(row2.comSum) == 0 || getNum(row.realConSum)==0) td6Html = "<td>"+0.00+"%</td>";        /*6商贷案件占比**/      
+									 		else td6Html = "<td>"+accMul(accDiv(getNum(row2.comSum),getNum(row.realConSum)),100)+"%</td>";   /*6商贷案件占比**/      
+									 		if(getNum(row2.prfSum)==0 || getNum(row.realConSum)==0)td7Html = "<td>"+0.00+"%</td>";           /*7纯公积金案件占比**/      
+									 		else td7Html = "<td>"+accMul(accDiv(getNum(row2.prfSum),getNum(row.realConSum)),100)+"%</td>";   /*7纯公积金案件占比**/   
+									 		break; 
+									 	}
+							 		 }
+							 		
+							 		break;   
+							 	}
+							 
+						 }
+						 for(var i = 0;i< voListToghllistSize;i++){
+							 var row = voListToghl[i];
+							 	if(parseInt(row.month)==(month)){
+							 		td3Html = "<td>"+getNum(row.transferAppPassSum)+"</td>";                                        /*3过户量**/      
+							 		break;   
+							 	}
+							 
+						 }
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
 						 		var num1 = getNum(row.mortComAmount);
 						 		var num2 = getNum(row.mortPrfAmount);
 						 		var numA = sum(num1,num2);                                                                     
-						 		td1Html = "<td>"+getNum(row.dispatchSum)+"</td>";		                                        /*1派单量**/      
-						 		td2Html = "<td>"+getNum(row.realConSum)+"</td>";                                                /*2签约量（买卖）**/      
-						 		td3Html = "<td>"+getNum(row.transferAppPassSum)+"</td>";                                        /*3过户量**/      
 						 		td4Html = "<td>"+getNum(row.comSum)+"</td>";                                                    /*4商贷签约量**/      
 						 		td5Html = "<td>"+getNum(row.prfSum)+"</td>";                                                    /*5公积金签约量**/      
-						 		if(getNum(row.comSum) == 0 || getNum(row.realConSum)==0) td6Html = "<td>"+0.00+"%</td>";        /*6商贷案件占比**/      
-						 		else td6Html = "<td>"+accMul(accDiv(getNum(row.comSum),getNum(row.realConSum)),100)+"%</td>";   /*6商贷案件占比**/      
-						 		if(getNum(row.prfSum)==0 || getNum(row.realConSum)==0)td7Html = "<td>"+0.00+"%</td>";           /*7纯公积金案件占比**/      
-						 		else td7Html = "<td>"+accMul(accDiv(getNum(row.prfSum),getNum(row.realConSum)),100)+"%</td>";   /*7纯公积金案件占比**/      
-						 		td8Html = "<td>"+accDiv(getNum(row.conPrice),10000)+"</td>";                                    /*8签贷合同价**/      
-						 		td9Html = "<td>"+accDiv(num1,10000)+"</td>";                                                    /*9商贷金额**/      
-						 		td10Html = "<td>"+accDiv(num2,10000)+"</td>";                                                   /*10公积金金额**/      
+						 		   
+						 		td8Html = "<td>"+accDivN(getNum(row.conPrice),10000)+"</td>";                                    /*8签贷合同价**/      
+						 		td9Html = "<td>"+accDivN(num1,10000)+"</td>";                                                    /*9商贷金额**/      
+						 		td10Html = "<td>"+accDivN(num2,10000)+"</td>";                                                   /*10公积金金额**/      
 						 		if(num1==0 || getNum(row.conPrice)==0) td11Html = "<td>"+0+"%</td>";                         /*11商贷金额占比**/      
 						 		else td11Html = "<td>"+accMul(accDiv(num1,getNum(row.conPrice)),100)+"%</td>";                  /*11商贷金额占比**/      
 						 		if(num2==0 || getNum(row.conPrice)==0) td12Html = "<td>"+0+"%</td>";                         /*12公积金金额占比**/      

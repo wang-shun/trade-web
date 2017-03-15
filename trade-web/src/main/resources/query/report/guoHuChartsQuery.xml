@@ -49,7 +49,7 @@
 						and CASE_DISTRICT_ID=#districtId#
 					</ifNotNull>
 					<ifNotNull teamId>
-						and CASE_ORG_ID_F=#districtId#
+						and CASE_ORG_ID_F=#teamId#
 					</ifNotNull>
 					and tb1.BELONG_MONTH=#belongMonth#
 						and TRANSFER_ISPASS=1
