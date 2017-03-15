@@ -93,7 +93,13 @@ public class ReportOperateDataController {
 		AjaxResponse<ToCaseInfoCountVo> result = new AjaxResponse<>();
 		try{
 			List<List<ReportOperateData>> voList = reportOperateDataService.getReportOperateDataThree(year);
+			List<List<ReportOperateData>> voListToPdl = reportOperateDataService.getReportOperateDataToPdl(year);
+			List<List<ReportOperateData>> voListToCyl = reportOperateDataService.getReportOperateDataToCyl(year);
+			List<List<ReportOperateData>> voListToghl = reportOperateDataService.getReportOperateDataToghl(year);
 			model.addAttribute("voList", voList);
+			model.addAttribute("voListToPdl", voListToPdl);
+			model.addAttribute("voListToCyl", voListToCyl);
+			model.addAttribute("voListToghl", voListToghl);
 			result.setSuccess(true);
 		 }catch(Exception e){
 			result.setMessage(e.getMessage());
@@ -102,5 +108,6 @@ public class ReportOperateDataController {
 		 }
 		return result;
 	}
+	
 	
 }

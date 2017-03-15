@@ -179,15 +179,15 @@
 				page : 1
 			};
 	        var orgId="";
-  			if($("#districtId").val()!=0){
+  			if($("#districtId").val()!=0&&$("#orgId").val()==0){
   				orgId=$("#districtId").val();
-  			}else if($("#orgId").val()!=0){
+                data.districtId=orgId;
+  			}
+            if($("#orgId").val()!=0&&$("#districtId").val()!=0){
   				orgId=$("#orgId").val();
-  			}else{
-  				orgId='';
+                data.teamId=orgId;
   			}
             data.pagination=false
-  			data.districtId=orgId;
         	data.choiceMonth = year + "-" + month;
             data.belongMonth=getBelongMonth(data.choiceMonth);
             data.queryId='queryGuoHuForMortOrg';
