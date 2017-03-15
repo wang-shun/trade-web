@@ -69,7 +69,42 @@ function queryBizwarnCaseCount(){
 				        $(this).find(".icon,.line,span").removeClass('white');
 				    });
 					$("#bizwarnCaseCount").parents("li").children().wrapAll(function() {
-						  return '<a href="'+ctx+'/bizwarn/list?status=0" target="_blank"></a>';
+						  return '<a href="'+ctx+'/bizwarn/list?status=0&warnType=LOANLOSS" target="_blank"></a>';
+					});
+				}
+				
+				
+				
+				//还贷预期预警
+				if(data.repayOverdueCaseCount!=undefined && data.repayOverdueCaseCount>=0){
+					//$('.light_info').prepend($("#bizwarnCaseCount").parents("li"));
+					$("#repayOverdueCaseCount").html(data.repayOverdueCaseCount).parent('p').siblings("i").addClass('martop20');
+					$("#repayOverdueCaseCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+				        $(this).css("background","#52cdec");
+				        $(this).find(".icon,.line,span").addClass('white');
+				    },function() {
+				        $(this).css("background","#edfcfd");
+				        $(this).find(".icon,.line,span").removeClass('white');
+				    });
+					$("#repayOverdueCaseCount").parents("li").children().wrapAll(function() {
+						  return '<a href="'+ctx+'/bizwarn/list?status=0&warnType=RepayOverdue" target="_blank"></a>';
+					});
+				}
+				
+				
+				//过户逾期预警
+				if(data.transferOverdueCaseCount!=undefined && data.transferOverdueCaseCount>=0){
+					//$('.light_info').prepend($("#bizwarnCaseCount").parents("li"));
+					$("#transferOverdueCaseCount").html(data.transferOverdueCaseCount).parent('p').siblings("i").addClass('martop20');
+					$("#transferOverdueCaseCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+				        $(this).css("background","#52cdec");
+				        $(this).find(".icon,.line,span").addClass('white');
+				    },function() {
+				        $(this).css("background","#edfcfd");
+				        $(this).find(".icon,.line,span").removeClass('white');
+				    });
+					$("#transferOverdueCaseCount").parents("li").children().wrapAll(function() {
+						  return '<a href="'+ctx+'/bizwarn/list?status=0&warnType=TransferOverdue" target="_blank"></a>';
 					});
 				}
 				

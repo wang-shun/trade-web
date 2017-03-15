@@ -1111,12 +1111,20 @@ public class WorkSpaceController {
 		//Long caseDistributeCount =  getCaseDistributeCount();
 		
 		int bizwarnCaseCount = 0;
+		int repayOverdueCaseCount = 0;
+		int transferOverdueCaseCount = 0;
 		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
-			bizwarnCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername());
+			bizwarnCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"LOANLOSS");
+			repayOverdueCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"RepayOverdue");
+			transferOverdueCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"TransferOverdue");
 		} else {
-			bizwarnCaseCount = benchBizwarnCaseCountQueryByDistinct(currentUser.getServiceCompanyId());
+			bizwarnCaseCount = benchBizwarnCaseCountQueryByDistinct(currentUser.getServiceCompanyId(),"LOANLOSS");
+			repayOverdueCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"RepayOverdue");
+			transferOverdueCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"TransferOverdue");
 		}		
 		map.put("bizwarnCaseCount", bizwarnCaseCount);
+		map.put("repayOverdueCaseCount", repayOverdueCaseCount);
+		map.put("transferOverdueCaseCount", transferOverdueCaseCount);
 		map.put("redLight", redLight);
 		map.put("yeLight", yeLight);
 		
@@ -1214,11 +1222,12 @@ public class WorkSpaceController {
 	}
 	
 	//查找本组流失预警数量
-	private int benchBizwarnCaseCountQueryByTeam(String userName) {	
+	private int benchBizwarnCaseCountQueryByTeam(String userName,String warnType) {	
 		
 		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);				
 		gp.put("user_LoginName", userName);
+		gp.put("warnType", warnType);
 		
 		gp.setQueryId("personalWorkbenchBizwarnCaseCountQueryByTeam");
 		Page<Map<String, Object>> benchBizwarnCaseResultByTeam = quickGridService.findPageForSqlServer(gp);		
@@ -1230,11 +1239,12 @@ public class WorkSpaceController {
 	}
 	
 	//查找本组流失预警数量
-	private int benchBizwarnCaseCountQueryByDistinct(String ServiceCompanyId) {	
+	private int benchBizwarnCaseCountQueryByDistinct(String ServiceCompanyId,String warnType) {	
 		
 		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);				
 		gp.put("currentOrgId", ServiceCompanyId);
+		gp.put("warnType", warnType);
 		
 		gp.setQueryId("personalWorkbenchBizwarnCaseCountQueryByDistinct");
 		Page<Map<String, Object>> benchBizwarnCaseResultByDistinct = quickGridService.findPageForSqlServer(gp);		

@@ -878,7 +878,10 @@
 				 			t.SUSPENSION_STATE_ = '1' 
 				 			AND t.STATUS = '0' 
 				 			<if test="user_LoginName != null">
-							 AND t.ASSIGNEE_ = #user_LoginName#
+								 AND t.ASSIGNEE_ = #user_LoginName#
+					 		</if>
+					 		<if test="warnType != null">
+							 	 AND t.WARN_TYPE = #warnType#
 					 		</if>
 				 			 
 			    ) t
@@ -927,7 +930,12 @@
 				  		LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE) t
 				  where 
 				  	t.SUSPENSION_STATE_ = '1' 
-				  	AND t.STATUS = '0' AND t.ORG_ID IN (
+				  	AND t.STATUS = '0' 
+				  	<if test="warnType != null">
+						AND t.WARN_TYPE = #warnType#
+					</if>
+				  	
+				  	AND t.ORG_ID IN (
 				  		SELECT ORG_ID 
 				  		FROM sctrans.v_yucui_org_hierarchy orgHierarchy
 				  		WHERE  1=1

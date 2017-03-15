@@ -3,9 +3,13 @@
  */
 package com.centaline.trans.bizwarn.service.impl;
 
+import java.util.Date;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.exception.BusinessException;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
@@ -58,6 +62,23 @@ public class BizWarnInfoServiceImpl implements BizWarnInfoService {
 	@Override
 	public int getAllBizwarnCountByDistinct(String currentOrgId) {
 		return bizWarnInfoMapper.getAllBizwarnCountByDistinct(currentOrgId);
+	}
+
+	@Override
+	public int relieveWarn(Map<String, Object> map) {	
+		int k = 0;
+		try {
+			BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectBizWarnInfoByMap(map);
+			
+			bizWarnInfo.setStatus("1");
+			bizWarnInfo.setRelieveTime(new Date());
+
+			k = bizWarnInfoMapper.updateStatusByCaseCode(bizWarnInfo);		
+			
+		}catch(BusinessException e){
+			throw new BusinessException("案件取消预警异常！");
+		}
+		return k;
 	}
 
 }

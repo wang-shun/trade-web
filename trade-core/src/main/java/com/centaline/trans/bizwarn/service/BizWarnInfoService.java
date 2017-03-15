@@ -3,6 +3,8 @@
  */
 package com.centaline.trans.bizwarn.service;
 
+import java.util.Map;
+
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 
 /**
@@ -41,6 +43,18 @@ public interface BizWarnInfoService {
 	 * @return 商贷预警对象信息
 	 */
 	public BizWarnInfo getBizWarnInfoByCaseCode(String caseCode);
+	
+	
+	/**
+	 * 通过案件编号获取商贷预警信息
+	 * 
+	 * @param caseCode
+	 *            案件编号
+	 * @return 商贷预警对象信息
+	 */
+	public int relieveWarn(Map<String,Object> map);
+	
+	
 
 	/**
 	 * 保存商贷预警信息
