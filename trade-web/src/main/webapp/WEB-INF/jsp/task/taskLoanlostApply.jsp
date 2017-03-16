@@ -636,7 +636,7 @@
     <script>
     	var fileUpload;
 	    require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','closen','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
 				fileUpload = aistFileUpload;
 				fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
