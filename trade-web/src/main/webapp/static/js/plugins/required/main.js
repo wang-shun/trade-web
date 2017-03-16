@@ -26,7 +26,8 @@ require.config({
     		"twbsPagination" : "js/plugins/pager/jquery.twbsPagination.min",
     		"bootstrapModal" : "js/bootstrap-modal",
     		"aistJqueryCustom" : "js/plugins/aist/aist.jquery.custom",   //解决$(...).reloadGrid is not a function的问题
-    		"poshytip" : "js/poshytitle/src/jquery.poshytip"  //解决$(...).poshytip is not a function的问题
+    		"poshytip" : "js/poshytitle/src/jquery.poshytip",  //解决$(...).poshytip is not a function的问题
+    		"closen" : "js/plugins/chosen/chosen.jquery"
     	}
     });
 

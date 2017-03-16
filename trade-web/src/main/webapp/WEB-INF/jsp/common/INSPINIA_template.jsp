@@ -215,8 +215,8 @@
 			});
 		});
     </script>
+    <sitemesh:getProperty property="page.local_require"></sitemesh:getProperty>
     <sitemesh:getProperty property="page.local_script"></sitemesh:getProperty>
     <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
-    <sitemesh:getProperty property="page.local_require"></sitemesh:getProperty>
 </body>
 </html>
