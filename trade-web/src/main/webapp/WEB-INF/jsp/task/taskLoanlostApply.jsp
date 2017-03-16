@@ -239,7 +239,7 @@
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	<!-- bank select -->
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
@@ -324,8 +324,10 @@
 
 				$("#bank").change(function() {
 					var selectValue = $("#bank").val();
-					getBranchBankList(selectValue)
+					getBranchBankList(selectValue);
+					$("#lastLoanBank").chosen('destroy');
 				});
+				//alert($("#bank").val())
 
 				getBankList(finOrgCode);
 				getGuestInfo();
@@ -483,18 +485,23 @@
 															+ "</option>");
 										}
 									}
+									
+									if (pcode == null || pcode == ""
+											|| pcode == undefined) {
+										getBranchBankList(data.bankList[0].finOrgCode);
+										$("#lastLoanBank").chosen('destroy');
+									} else {
+										getBranchBankList(data.bankCode);
+										$("#lastLoanBank").chosen('destroy');
+									}
 									friend.chosen({
 										no_results_text : "未找到该选项",
 										
 										search_contains : true,
 										disable_search_threshold : 10
 									});
-									if (pcode == null || pcode == ""
-											|| pcode == undefined) {
-										getBranchBankList(data.bankList[0].finOrgCode);
-									} else {
-										getBranchBankList(data.bankCode);
-									}
+									
+									
 								}
 							}
 						});
@@ -503,20 +510,23 @@
 			/*获取支行列表*/
 			function getBranchBankList(pcode) {
 				var friend = $("#lastLoanBank");
-				if (document.getElementById("lastLoanBank")["options"].length > 0) {
+				friend.chosen('destroy');
+				/* if (document.getElementById("lastLoanBank")["options"].length > 0) {
+					alert(2);
 					friend.chosen('destroy');
-				}
+				} */
 				friend.empty();
-				$
-						.ajax({
+				$.ajax({
 							url : ctx + "/manage/queryBankListByParentCode",
 							method : "post",
 							dataType : "json",
 							data : {
 								faFinOrgCode : pcode
 							},
+							async:false,
 							success : function(data) {
 								if (data != null) {
+									
 									for (var i = 0; i < data.length; i++) {
 										if (finOrgCode == data[i].finOrgCode) {
 											friend
@@ -636,7 +646,7 @@
     <script>
     	var fileUpload;
 	    require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination','chosen'],function($,aistFileUpload){
 				fileUpload = aistFileUpload;
 				fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
