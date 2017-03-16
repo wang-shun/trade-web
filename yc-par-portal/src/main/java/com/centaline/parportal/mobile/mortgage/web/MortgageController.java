@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.uam.auth.remote.UamSessionService;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.common.vo.MobileHolder;
 
 @Controller
 @RequestMapping({ "/mobile/case", "/case" })
@@ -33,6 +34,9 @@ public class MortgageController {
     private final static String queryMortProcess  = "queryMortProcess";
     private final static String queryTradeProcess = "queryTradeProcess";
 
+    @Autowired
+    private UamSessionService sessionService;
+    
     @RequestMapping(value = "/{bizCode}")
     @ResponseBody
     public String mortgageCaseDetail(@PathVariable String bizCode) {
@@ -66,7 +70,7 @@ public class MortgageController {
             gp.setRows(rows);
             gp.setQueryId(queryId);
             Page<Map<String, Object>> result = quickGridService.findPageForSqlServer(gp,
-                MobileHolder.getMobileUser());
+            		sessionService.getSessionUser());
 
             if (null != result && null != result.getContent() && result.getContent().size() > 0)
                 return result.getContent();

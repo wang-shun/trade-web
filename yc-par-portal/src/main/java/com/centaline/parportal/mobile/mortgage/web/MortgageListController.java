@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.common.vo.MobileHolder;
 
 /**
  * 
@@ -46,12 +46,16 @@ public class MortgageListController {
     @Autowired
     private QuerysParseService querysParseService;
 
+    @Autowired
+    private UamSessionService sessionService;
+    
     @RequestMapping(value = "list")
     @ResponseBody
     public String caseList(HttpServletRequest request, HttpServletResponse response, Integer page,
                            Integer pageSize, String sidx, String sord, String userid,
                            String q_text) {
-
+    	
+        SessionUser sessionUser = sessionService.getSessionUser();
         long millisecond = System.currentTimeMillis();
         logger.info("Start:caseList 房源列表数据加载开始 ：" + millisecond + "/毫秒");
         JQGridParam gp = new JQGridParam();
@@ -63,7 +67,7 @@ public class MortgageListController {
         gp.setSord(sord);
         Map<String, Object> paramter = new HashMap<String, Object>();
 
-        SessionUser sessionUser = MobileHolder.getMobileUser();
+
         paramter.put("userid", sessionUser.getId());
 
         if (StringUtils.isNotBlank(q_text) && StringUtils.isNotEmpty(q_text)) {
@@ -73,7 +77,7 @@ public class MortgageListController {
         gp.putAll(paramter);
         querysParseService.reloadFile();
         Page<Map<String, Object>> returnPage = quickGridService.findPageForSqlServer(gp,
-            MobileHolder.getMobileUser());
+        		sessionUser);
 
         JSONObject result = new JSONObject();
         result.put("page", page);
