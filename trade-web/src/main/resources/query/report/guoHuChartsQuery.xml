@@ -165,6 +165,8 @@
 					,ELOAN_PRO--案件对应的金融类产品
 					,ELOAN_PRO_AMOUNT--金融产品总金额
 					,ELOAN_KA--案件对应的卡类产品
+					,ELOAN_KA_APPLY_COUNT--E+卡类申请单数
+					,ELOAN_KA_CARD_COUNT--E+卡类刷卡单数
 					,CASE_USE_CARD_PAY_CN--案件是否刷卡
 					,CASE_CARD_PAY_AMOUNT--刷卡金额1
 					 from sctrans.T_RPT_HISTORY_CASE_BASE_INFO tb1 where
@@ -308,8 +310,7 @@
 						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
 					</if>
 					),0) as EVA_FEE,
-					(select count(1) from tb as t1 where 1=1
-					 and t1.ELOAN_KA is not null
+					(select sum(ELOAN_KA_APPLY_COUNT) from tb as t1 where 1=1
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -321,9 +322,8 @@
 						and t1.CASE_DISTRICT_ID=t.CASE_DISTRICT_ID --(按照贵宾服务部)
 					</if>
 					 ) as E_CARD_COUNT,
-					(select count(1) from tb as t1 where 1=1
-					and  t1.CASE_USE_CARD_PAY_CN='1'
-					and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
+					(select sum(ELOAN_KA_CARD_COUNT) from tb as t1 where 1=1
+
 					<if test="produceType == 'team'">
 						and t1.CASE_LEADING_PROCESS_ID_F=t.CASE_LEADING_PROCESS_ID_F --(按照交易顾问)
 					</if>
@@ -441,6 +441,7 @@
 					,ELOAN_PRO--案件对应的金融类产品
 					,ELOAN_PRO_AMOUNT--金融产品总金额
 					,ELOAN_KA--案件对应的卡类产品
+					,ELOAN_KA_APPLY_COUNT--E+卡类申请单数
 					,CASE_USE_CARD_PAY_CN--案件是否刷卡
 					,CASE_CARD_PAY_AMOUNT--刷卡金额
 					,[JQYDS_NAME]--区域董事姓名
@@ -661,8 +662,7 @@
 					and t1.GROUP_ORG_ID=t.GROUP_ORG_ID  --(按照分行经理)
 					</if>
 					),0) as EVA_FEE,
-					(select count(1) from tb as t1 where 1=1
-					 and t1.ELOAN_KA is not null
+					(select sum(ELOAN_KA_APPLY_COUNT) from tb as t1 where 1=1
 					<if test="produceType == 'JQYDS'">
 					and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 					</if>
