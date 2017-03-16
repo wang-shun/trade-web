@@ -29,9 +29,11 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
+import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -73,6 +75,7 @@ public class LoanlostApproveController {
 
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
+
 
 	@RequestMapping(value = { "loanlostApproveManager/process",
 			"loanlostApproveSeniorManager/process",
@@ -305,7 +308,14 @@ public class LoanlostApproveController {
 			restVariable1.setValue(LoanLost_director_response);
 			variables.add(restVariable1);
 		}
-
+		
+		/** 服务编码[srv_code]和案件编号[case_code]到服务表[T_TG_SERV_ITEM_AND_PROCESSOR]中去查询交易顾问id[processor_id] 30004010029交易过户（除签约外）)**/
+		TgServItemAndProcessor ts = toCaseService.selectServItem(processInstanceVO.getCaseCode(),"3000401002");
+		RestVariable rv = new RestVariable();
+		rv.setName("loanHandler");
+		rv.setValue(ts.getSrvName());
+		variables.add(rv);
+		
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO
 				.getCaseCode());
 		return workFlowManager.submitTask(variables,

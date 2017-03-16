@@ -48,7 +48,7 @@
 	<div class="row wrapper white-bg new-heading ">
             <div class="pl10">
                 <h2 class="newtitle-big">
-                    	自办贷款审批
+                    	自办贷款信息补充
                 </h2>
                 <div class="mt20">
                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
