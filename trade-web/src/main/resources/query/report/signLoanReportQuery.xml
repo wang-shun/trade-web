@@ -77,7 +77,7 @@
 				<![CDATA[
 					select 
 						ORG_NAME AS groupName,
-						(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_DISPATCH_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
 						(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
 						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
 						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.CASE_DISTRICT_ID = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
@@ -132,7 +132,7 @@
 				<![CDATA[
 					SELECT 
 						ORG_NAME AS groupName,
-						(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_DISPATCH_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
 						(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
 						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
 						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.CASE_ORG_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
@@ -188,7 +188,7 @@
 				<![CDATA[
 					SELECT 
 						 REAL_NAME AS groupName,
-						(SELECT COUNT(c.CASE_DISPATCH_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
+						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_DISPATCH_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS slCount,
 						(SELECT COUNT(c.CASE_REAL_CON_TIME) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS qyCount,
 						(SELECT COUNT(c.MORT_SIGN_DATE) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS sdCount,
 						(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.IS_DELEGATE_YUCUI = 0 AND c.CASE_LEADING_PROCESS_ID_F = ID  AND convert(varchar(7),c.CASE_REAL_CON_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS zbCount,
