@@ -965,14 +965,11 @@
 		}
 
 		function saveEloanApply() {
-			//alert($("#zjCode").val());
-			//alert($("#pdPart").val());			
+				
 			var jsonData = $("#eloanApplyForm").serializeArray();
 			console.log("===Result==="+JSON.stringify(jsonData));			
-			var url = "${ctx}/eloan/saveEloanApply";
-			//alert(JSON.stringify(jsonData))
+			var url = "${ctx}/eloan/saveEloanApply";			
 			
-			//return;
 			$.ajax({
 				cache : false,
 				async : true,//false同步，true异步
