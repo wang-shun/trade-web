@@ -247,8 +247,8 @@
 							</shiro:hasPermission>
 							
 							
-							<div class="form_content">
-								<label class="control-label sign_left_two"> <i  style="color:red">* </i> 办卡人证件
+							<div class="form_content"  style="display:none">
+								<label class="control-label sign_left_two"> <i  style="color:red">* </i> 办卡人证件号
 								</label> <input class="input_type sign_right_two"
 									value="${eloanCase.custPaper}" name="custPaper" id="custPaper">
 							</div> 
@@ -642,13 +642,13 @@
 									window.wxc.alert("请填写申请金额");
 									return false;
 								}
-								
+								/*
 								var custPaper = $("#custPaper").val();
 								if (custPaper == null || custPaper == '') {
 									window.wxc.alert("请填写办卡人证件");
 									return false;
 								}
-								
+								*/
 								var date = $("#applyTime").val();
 								if (date == null || date == '') {
 									window.wxc.alert("请选择申请时间");
