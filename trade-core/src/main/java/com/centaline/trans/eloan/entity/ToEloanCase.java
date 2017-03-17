@@ -17,6 +17,8 @@ public class ToEloanCase {
 	private String custName;
 
 	private String custPhone;
+	
+	private String custPaper;
 
 	private Date applyTime;
 
@@ -454,5 +456,15 @@ public class ToEloanCase {
 	public void setAbanTime(Date abanTime) {
 		this.abanTime = abanTime;
 	}
+
+	public String getCustPaper() {
+		return custPaper;
+	}
+
+	public void setCustPaper(String custPaper) {
+		this.custPaper = custPaper;
+	}
+	
+	
 
 }
