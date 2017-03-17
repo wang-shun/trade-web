@@ -111,6 +111,7 @@
 				</div>
 			</div>
 		</div>
+		<div style="height: 34px;line-height: 34px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>无主案件数:<span id="notHaveOwnerVal"></span></div>
 	</div>
 </div>
 <!--*********************** HTML_main*********************** -->
@@ -152,6 +153,7 @@
 	<tr>
 		<td>{{rows[rows.length-1].TOTAL_CASE_PART}}</td>
 		<td>{{rows[rows.length-1].TOTAL_CASE_COUNT}}</td>
+		<input type="hidden" value="{{(rows[rows.length-1].TOTAL_ALL_COUNT-rows[rows.length-1].TOTAL_CASE_COUNT)}}" id="notHaveOwner" />
 		<td>100%</td>
 		<td>{{(rows[rows.length-1].TOTAL_CASE_CON_PRICE/10000).toFixed()}}万元</td>
 		<td>{{rows[rows.length-1].TOTAL_MORT_COM_COUNT}}</td>
@@ -187,6 +189,7 @@
 </script>
 <script type="text/javascript">
 	var ctx = $("#ctx").val();
+
 	function reloadGrid() {
 		var year = window.parent.yearDisplay;
 		var month_ = parseInt(window.parent.monthDisplay)+1;
@@ -221,6 +224,7 @@
 		data.belongMonth =getBelongMonth(data.choiceMonth);
 		var url = ctx+"/quickGrid/findPage";
 		initData(url,data,"template_table","tableTemplate");
+
 	}
 	$(function(){
 		getGroup("1D29BB468F504774ACE653B946A393EE","JQYDS","dsId");
@@ -264,6 +268,6 @@
 		});
 
 	}
-</script
+</script>
 </body>
 </html>
