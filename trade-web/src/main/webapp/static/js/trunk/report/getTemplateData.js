@@ -37,8 +37,8 @@ function initData(url,data,templateId,tbodyId) {
 			var pageBar=$("#pageBar").html();
 			if(!pageBar){
 		    var pageHtml="<div class='text-center'>";
-		    pageHtml+="<span id='currentTotalPage'><strong class=''bold'></strong></span>";
-		    pageHtml+="<span class='ml15'>共<strong class='bold' id=''totalP'></strong>条</span>&nbsp;";
+		    pageHtml+="<span id='currentTotalPage'><strong class='bold'></strong></span>";
+		    pageHtml+="<span class='ml15'>共<strong class='bold' id='totalP'></strong>条</span>&nbsp;";
 		    pageHtml+="<div id='pageBar' class='pagination my-pagination text-center m0'></div></div>"
 		    $("#"+tbodyId).parent("table:eq(0)").after(pageHtml); 
 			}
