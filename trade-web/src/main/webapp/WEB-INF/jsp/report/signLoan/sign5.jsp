@@ -125,11 +125,10 @@
 	    </script>
 	<script id="template_table1" type="text/html">
           {{each rows as item index}}
-		    	<tr>
+		    	<tr {{if item.isRuweiBank != 'cl'}} style="background-color:red;" {{/if}}>
               		<td>{{item.branchBankName}}</td>
               		<td>
 						{{item.subBranchBankName}}
-						({{if item.isRuweiBank == 'cl'}} 入围 {{else}} 非入围 {{/if}})
 			  		</td>
               		<td>{{item.caseCount}}</td>
               		<td>{{item.sdAmount}}</td>
