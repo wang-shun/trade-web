@@ -154,11 +154,11 @@
                         <ul class="form_lump loan_ul">
                             <li>
                                 <div class="form_content">
-                                    <label class="control-label sign_left_two">客户姓名 </label>
+                                    <label class="control-label sign_left_two">办卡人姓名 </label>
                                     <input class="input_type sign_right_two" name="custName" id="custName" value="${eloanCase.custName}" >
                                 </div>
                                 <div class="form_content">
-                                    <label class="control-label sign_left_two">客户电话</label>
+                                    <label class="control-label sign_left_two">办卡人电话</label>
                                     <input class="input_type sign_right_two"  name="custPhone" id="custPhone" value="${eloanCase.custPhone}" >
                                 </div>
                                 <div class="form_content">
