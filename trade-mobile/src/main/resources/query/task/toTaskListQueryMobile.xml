@@ -140,21 +140,6 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			<!-- 
-				<column type="both" name="CASE_CODE"   display="CASECODE" hide="true"/>
-				<column type="both" name="INST_CODE"   display="INSTCODE" hide="true"/>
-				<column type="both" name="SUBSCRIBE_COUNT"   display="是否关注"/>
-				<column type="both" name="BUSINESS_KEY"   display=""/>
-				<column type="virtual" name="PKID"  referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCaseId"  title="caseId" />
-				<column type="virtual" name="SELLER" referencecol="CASE_CODE"   display="上家" customDict="qqcdSeller"/>
-				<column type="virtual" name="BUYER" referencecol="CASE_CODE"   display="下家" customDict="qqcdBuyer" />
-				<column type="virtual" name="AGENT_ORG_NAME,AGENT_NAME,CTM_CODE,MOBILE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE"   customDict="qqFindCaseInfo" />
-				<column type="virtual" name="WFE_NAME" isDynamicDict="true" display="流程环节" referencecol="BUSINESS_KEY"   customDict="qqWorkflow" />
-				<column type="virtual" name="cu" isDynamicDict="true" display="流程环节" referencecol="propertyCode"   customDict="getMegerCuntByCaseCode" />
-				<column type="virtual" name="taskNameType" isDynamicDict="true" display="流程环节名" referencecol="taskName"   customDict="getTaskNameTypeByTaskName" />
-				<column type="both" name="propertyCode"   display="propertyCode"   />
-				<column type="both" name="CASE_ORIGIN"   display="CASE_ORIGIN"   />
-			-->
 				<column type="both" name="taskName"   display="任务名"/>
 				<column type="both" name="taskCode"   display="taskCode"/>
 				<column type="both" name="taskID"   display="TASKID" hide="true"/>

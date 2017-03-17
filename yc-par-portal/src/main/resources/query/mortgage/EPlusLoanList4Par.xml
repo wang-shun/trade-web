@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdSrvStrCodeName" beanName="qqcdSrvStrCodeName"></customDict>
+		<customDict id="qqcdYuEplusStatus" beanName="qqcdYuEplusStatus"></customDict>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
+		<customDict id="getUserPhone" beanName="qqcdUserPhone"></customDict>
+		<customDict id="ePlusLoanStatus" beanName="ePlusLoanStatus" ></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy/MM/dd</property>
+			</properties>
+		</formatter>
+	</formatters>
+	<query id="EPlusLoanList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select 
+						u.EMPLOYEE_CODE employeeCode,
+						CUST_NAME custName,
+						APPLY_AMOUNT loanAmount,
+						MONTH loanTime,
+						tpi.PROPERTY_ADDR addr,
+						tc.CREATE_TIME applyTime,
+						loan_srv_code prdType,
+						tc.ELOAN_CODE eloanCode
+					from sctrans.T_TO_ELOAN_CASE tc
+						left join sctrans.SYS_USER u on u.ID = tc.EXCUTOR_ID
+						left join sctrans.T_TO_PROPERTY_INFO tpi on tc.CASE_CODE = tpi.CASE_CODE
+					where loaner_id = #userId#
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="employeeCode" dataType="String" defaultVal=""/>
+				<column type="both" name="custName" dataType="String" defaultVal=""/>
+				<column type="both" name="loanAmount" dataType="String" defaultVal=""/>
+				<column type="both" name="loanTime" dataType="String" defaultVal=""/>
+				<column type="both" name="addr" dataType="String" defaultVal=""/>
+				<column type="both" name="applyTime" beanFormatter="dateFormatter" dataType="String" defaultVal=""/>
+				<column type="both" name="prdType" dataType="String" defaultVal=""/>
+				<column type="both" name="eloanCode" />
+				<column type="virtual" name="status" referencecol="eloanCode" customDict="ePlusLoanStatus" dataType="String" defaultVal=""/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

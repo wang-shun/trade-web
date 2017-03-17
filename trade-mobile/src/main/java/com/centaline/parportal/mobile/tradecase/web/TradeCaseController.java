@@ -31,7 +31,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.centaline.parportal.mobile.track.vo.CommentVo;
-import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
@@ -48,6 +47,7 @@ import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.stuff.enums.CommentType;
 import com.centaline.trans.track.service.TrackService;
 import com.centaline.trans.utils.BeanUtils;
+import com.centaline.trans.utils.Pages2JSONMoblie;
 
 @RestController
 @RequestMapping(value = "/tradeCase")

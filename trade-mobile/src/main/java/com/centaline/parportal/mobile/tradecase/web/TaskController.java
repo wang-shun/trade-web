@@ -18,7 +18,7 @@ import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
+import com.centaline.trans.utils.Pages2JSONMoblie;
 
 @RestController
 @RequestMapping(value = "/task")
