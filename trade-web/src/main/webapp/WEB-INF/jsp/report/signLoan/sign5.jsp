@@ -125,7 +125,7 @@
 	    </script>
 	<script id="template_table1" type="text/html">
           {{each rows as item index}}
-		    	<tr {{if item.isRuweiBank != 'cl'}} style="background-color:red;" {{/if}}>
+		    	<tr {{if item.isRuweiBank != 'cl'}} style="background-color:red;color:#fff;" {{/if}}>
               		<td>{{item.branchBankName}}</td>
               		<td>
 						{{item.subBranchBankName}}
