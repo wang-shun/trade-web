@@ -11,8 +11,9 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<description>Jedis Cluster Configuration集群</description>
-
+    <description>Redisson Cluster Configuration集群</description>
+    <context:component-scan base-package="com.aist.common.conf.Redisson"/>
+    
 	<bean name="mapPropertySource"  class="org.springframework.core.env.MapPropertySource">
 		<constructor-arg name="name" value="redisClusterConfig" />
 		<constructor-arg name="source" >
