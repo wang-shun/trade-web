@@ -90,10 +90,13 @@
                                 </div>
                                 <div class="case_row">
                                    <div class="case_lump">
-                                       <p><em>客户姓名</em><span class="span_one">${eloanCase.custName}</span></p>
+                                       <p><em>办卡人姓名</em><span class="span_one">${eloanCase.custName}</span></p>
                                    </div>
                                    <div class="case_lump">
-                                       <p><em>客户电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
+                                       <p><em>办卡人电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
+                                   </div>
+                                    <div class="case_lump">
+                                       <p><em>办卡人证件</em><span class="span_one">${eloanCase.custPaper}</span></p>
                                    </div>
                                 </div>
                                 <div class="case_row">
