@@ -504,6 +504,7 @@
 						 and exists(select 1 from os where uoj.org_id = os.id)
 					)
 					select
+					ALL_COUNT,
 					l1.ORG_ID as ORGANIZATION_ID
 					,l1.REAL_NAME
 					,l1.JOB_CODE
@@ -522,6 +523,7 @@
 					 from o l1 left join
 					(
 					select
+					(select count(1) from tb) as ALL_COUNT,
 					count(1) as CASE_COUNT,
 					isnull((select sum(t1.CASE_CON_PRICE) from tb as t1 where 1=1
 					<if test="produceType == 'JQYDS'">
@@ -601,7 +603,8 @@
 					 ) as IS_DELEGATE_CUSTOMER_COUNT,
 
 					  isnull((select COUNT(1) from tb as t1 where 1=1
-					and t1.CASE_LOAN_REQ=1
+					 and t1.CASE_LOAN_REQ=1
+					 and t1.CASE_REC_STATUS='1'
 					<if test="produceType == 'JQYDS'">
 					and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 					</if>
@@ -749,6 +752,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
+				<column type="both" name="ALL_COUNT" title="过户案件总数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="JOB_CODE" title="岗位编号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="REAL_NAME" title="真实姓名"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_COUNT" title="过户案件数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
@@ -771,8 +775,8 @@
 				<column type="virtual" name="E_AMOUNT_PERCENT" title="E+卡转化率(金额)" customDict="qqGetEAMountPercent" referencecol="E_AMOUNT,CASE_CON_PRICE"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ORGANIZATION_ID" title="组织ID"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual"
-						name="TOTAL_CASE_COUNT,TOTAL_MORT_COM_COUNT,TOTAL_MORT_COM_AMOUNT,TOTAL_CASE_CON_PRICE,TOTAL_LOST_COUNT,TOTAL_CASE_LOST_COUNT_PERCENT,TOTAL_IS_DELEGATE_YUCUI_COUNT,TOTAL_IS_DELEGATE_CUSTOMER_COUNT,TOTAL_LOST_AMOUNT,TOTAL_CASE_LOST_AMOUNT_PERCENT,TOTAL_PING_GU_COUNT_PERCENT,TOTAL_EVA_FEE,TOTAL_E_COUNT_PERCENT,TOTAL_CARD_COUNT_PERCENT,TOTAL_E_AMOUNT_PERCENT,TOTAL_CASE_PART"
-						referencecol="EVA_COUNT,CASE_COUNT,MORT_COM_COUNT,MORT_COM_AMOUNT,CASE_CON_PRICE,LOST_AMOUNT,EVA_FEE,E_CARD_COUNT,E_AMOUNT,IS_DELEGATE_YUCUI_COUNT,IS_DELEGATE_CUSTOMER_COUNT"
+						name="TOTAL_ALL_COUNT,TOTAL_CASE_COUNT,TOTAL_MORT_COM_COUNT,TOTAL_MORT_COM_AMOUNT,TOTAL_CASE_CON_PRICE,TOTAL_LOST_COUNT,TOTAL_CASE_LOST_COUNT_PERCENT,TOTAL_IS_DELEGATE_YUCUI_COUNT,TOTAL_IS_DELEGATE_CUSTOMER_COUNT,TOTAL_LOST_AMOUNT,TOTAL_CASE_LOST_AMOUNT_PERCENT,TOTAL_PING_GU_COUNT_PERCENT,TOTAL_EVA_FEE,TOTAL_E_COUNT_PERCENT,TOTAL_CARD_COUNT_PERCENT,TOTAL_E_AMOUNT_PERCENT,TOTAL_CASE_PART"
+						referencecol="EVA_COUNT,CASE_COUNT,MORT_COM_COUNT,MORT_COM_AMOUNT,CASE_CON_PRICE,LOST_AMOUNT,EVA_FEE,E_CARD_COUNT,E_AMOUNT,IS_DELEGATE_YUCUI_COUNT,IS_DELEGATE_CUSTOMER_COUNT,ALL_COUNT"
 						customDict="qqGetTotalForConsultant"/>
 
 			</table-row>

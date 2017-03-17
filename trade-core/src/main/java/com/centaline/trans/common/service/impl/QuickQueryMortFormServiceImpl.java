@@ -55,6 +55,8 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 		double TOTAL_E_AMOUNT_PERCENT=0;//e贷转化率
 		double TOTAL_IS_DELEGATE_CUSTOMER_COUNT=0;//客户办理案件数
 		double TOTAL_IS_DELEGATE_YUCUI_COUNT=0;//公司办理案件数
+
+		double TOTAL_ALL_COUNT =0;//过户案件总数
 		String TOTAL_CASE_PART="合计";
 
 		DecimalFormat df = new DecimalFormat("0.00");
@@ -159,6 +161,10 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 				}
 
 				if("qqGetTotalForConsultant".equals(dictType)){
+					if(keyer.get("ALL_COUNT")!=null){
+						TOTAL_ALL_COUNT = Double.valueOf(keyer.get("ALL_COUNT").toString());
+					}
+
 					if(keyer.get("MORT_COM_COUNT")!=null){
 						TOTAL_MORT_COM_COUNT += Double.valueOf(keyer.get("MORT_COM_COUNT").toString());
 					}
@@ -231,6 +237,7 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 					keyer.put("TOTAL_CASE_COUNT", TOTAL_CASE_COUNT);
 					keyer.put("TOTAL_IS_DELEGATE_YUCUI_COUNT", TOTAL_IS_DELEGATE_YUCUI_COUNT);
 					keyer.put("TOTAL_IS_DELEGATE_CUSTOMER_COUNT", TOTAL_IS_DELEGATE_CUSTOMER_COUNT);
+					keyer.put("TOTAL_ALL_COUNT", TOTAL_ALL_COUNT);
 
 				}
 				if("qqGetRealNameForLeader".equals(dictType)){

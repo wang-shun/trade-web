@@ -25,7 +25,11 @@ function initData(url,data,templateId,tbodyId) {
 					
 					if(pagination == undefined || pagination){
 				        initpage(data.total,data.pagesize,data.page, data.records,tbodyId);
-					} 
+					}
+					if($("#notHaveOwnerVal")){
+						$("#notHaveOwnerVal").html($("#notHaveOwner").val());
+					}
+
 				},
 				error : function(e, jqxhr, settings, exception) {
 					//$.unblockUI();
