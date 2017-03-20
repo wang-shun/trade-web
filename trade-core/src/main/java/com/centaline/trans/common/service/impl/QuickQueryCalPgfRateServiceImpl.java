@@ -25,6 +25,7 @@ public class QuickQueryCalPgfRateServiceImpl implements CustomDictService {
 		int totalZbCount = 0; // 总的客户自办量
 		int totalGjjCount = 0; // 总的公积金量
 		int totalGhCount = 0; // 总的过户量
+		int totalGhSdCount = 0; // 总的实际过户商贷收单
 		double totalPgfRate = 0; // 总的评估费转化率
 		double totalPgfCount = 0; // 总的收到评估费单数
 		double totalPgfAmount = 0; // 总的评估费金额
@@ -43,6 +44,7 @@ public class QuickQueryCalPgfRateServiceImpl implements CustomDictService {
 			int zbCount = (Integer) keyer.get("zbCount");
 			int gjjCount = (Integer) keyer.get("gjjCount");
 			int ghCount = (Integer) keyer.get("ghCount");
+			int ghSdCount = (Integer) keyer.get("ghSdCount");
 
 			double pgfAmount = Double.parseDouble(String
 					.valueOf((BigDecimal) keyer.get("pgfAmount")));
@@ -71,10 +73,11 @@ public class QuickQueryCalPgfRateServiceImpl implements CustomDictService {
 			totalECardCount += eCardCount;
 			totalEProCount += eProCount;
 			totalPgfCount += pgfCount;
+			totalGhSdCount += ghSdCount;
 
 			String strPgfRate = "0";
-			if (sdCount != 0) {
-				double pgfRate = pgfCount / sdCount * 100;
+			if (ghSdCount != 0) {
+				double pgfRate = pgfCount / ghSdCount * 100;
 
 				if (pgfRate != 0) {
 					strPgfRate = df.format(pgfRate);
@@ -93,8 +96,8 @@ public class QuickQueryCalPgfRateServiceImpl implements CustomDictService {
 				strTotalEProAmount = df.format(totalEProAmount);
 			}
 
-			if (totalSdCount != 0) {
-				totalPgfRate = totalPgfCount / totalSdCount * 100;
+			if (totalGhSdCount != 0) {
+				totalPgfRate = totalPgfCount / totalGhSdCount * 100;
 
 				if (totalPgfRate != 0) {
 					strTotalPgfRate = df.format(totalPgfRate);
