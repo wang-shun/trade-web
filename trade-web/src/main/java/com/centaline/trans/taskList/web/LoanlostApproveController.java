@@ -1,6 +1,7 @@
 package com.centaline.trans.taskList.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -310,11 +311,13 @@ public class LoanlostApproveController {
 		}
 		
 		/** 服务编码[srv_code]和案件编号[case_code]到服务表[T_TG_SERV_ITEM_AND_PROCESSOR]中去查询交易顾问id[processor_id] 30004010029交易过户（除签约外）)**/
-		TgServItemAndProcessor ts = toCaseService.selectServItem(processInstanceVO.getCaseCode(),"3000401002");
-		RestVariable rv = new RestVariable();
-		rv.setName("loanHandler");
-		rv.setValue(ts.getSrvName());
-		variables.add(rv);
+		String ts = toCaseService.selectServItem(processInstanceVO.getCaseCode(),"3000401002");
+		List<String> membersList = null;
+		if(ts != null && ts.length() > 0){
+			membersList = Arrays.asList(ts.split(","));
+		}
+		variables.add(new RestVariable("loanHandlers",membersList)); 
+		
 		
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO
 				.getCaseCode());

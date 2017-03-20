@@ -129,5 +129,5 @@ public interface ToCaseService {
 	 * @date 2017-3-16 13:55:58
 	 * @return
 	 */
-	public TgServItemAndProcessor selectServItem(String caseCode,String srvCode);
+	public String selectServItem(String caseCode,String srvCode);
 }
