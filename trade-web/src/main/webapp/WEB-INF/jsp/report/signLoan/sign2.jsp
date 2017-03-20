@@ -74,7 +74,7 @@
                                     <th rowspan="2">公积金量</th>
                                     <th rowspan="2">过户量</th>
                                     <th rowspan="2">评估转化率</th>
-                                    <th rowspan="2">评估实收(万元)</th>
+                                    <th rowspan="2">评估实收</th>
                                     <th colspan="2">E+申请量（卡）</th>
                                     <th colspan="2">E+申请量（贷款）</th>
 
