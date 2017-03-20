@@ -573,6 +573,7 @@
 					 ),0) as MORT_COM_AMOUNT,
 					 (select count(1)  from tb as t1 where 1=1
 					 and t1.IS_DELEGATE_YUCUI='1'
+					 and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 					<if test="produceType == 'JQYDS'">
 					and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 					</if>
@@ -588,6 +589,7 @@
 					 ) as IS_DELEGATE_YUCUI_COUNT,
 					(select count(1)  from tb as t1 where 1=1
 					 and t1.IS_DELEGATE_YUCUI='0'
+					  and (t1.MORT_TYPE='30016001' or t1.MORT_TYPE='30016002')
 					<if test="produceType == 'JQYDS'">
 					and t1.BUSIWZ_ORG_ID=t.BUSIWZ_ORG_ID--(按照区域董事)
 					</if>
