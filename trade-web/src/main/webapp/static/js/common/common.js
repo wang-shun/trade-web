@@ -26,7 +26,7 @@
 		commentButton += '<input type="hidden" name="caseComment_caseCode" id="caseComment_caseCode"/>';
 		commentButton += '<input type="hidden" name="caseComment_srvCode" id="caseComment_srvCode"/>';
 		commentButton += '<div class="form_list clearfix"><input class="input_type pull-left" name="caseComment" id="caseComment" placeholder="" value="" style="width:93%;">';
-		commentButton += '<button class="btn btn_more pull-right" style="width:60px;" onclick="saveCaseComment()">跟进</button>';
+		commentButton += '<button type="button" class="btn btn_more pull-right" style="width:60px;" onclick="saveCaseComment()">跟进</button>';
 		/*commentButton += '<div class="pull-left"><textarea class="chackTextarea" name="caseComment" id="caseComment"></textarea></div>';
 		commentButton += '<div class="pull-left"><button type="button" class="btn btn-icon btn-blue ml10" onclick="saveCaseComment()">提交跟进</button></div></div>';*/
 		$(this).after(commentButton);	
