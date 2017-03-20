@@ -51,10 +51,17 @@ public interface TgServItemAndProcessorMapper {
 	 */
     TgServItemAndProcessor selectServItem(TgServItemAndProcessor tp);
     /**
-     * 功能：案件交易顾问
+     * 功能：根据案件编号，查询案件交易顾问
      * 作者：hejf
+     * 时间：2017-3-16 17:50:26
      */
     TgServItemAndProcessor selectServItemandName(TgServItemAndProcessor tp);
+    /**
+     * 功能：根据案件编号，查询案件交易顾问
+     * 作者：hejf
+     * 时间：2017-3-16 17:50:26
+     */
+    TgServItemAndProcessor selectServItemandNameF(TgServItemAndProcessor tp);
    
     /**
      * 查询审核结果

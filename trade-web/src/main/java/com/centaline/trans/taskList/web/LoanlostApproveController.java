@@ -1,6 +1,7 @@
 package com.centaline.trans.taskList.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -310,11 +311,35 @@ public class LoanlostApproveController {
 		}
 		
 		/** 服务编码[srv_code]和案件编号[case_code]到服务表[T_TG_SERV_ITEM_AND_PROCESSOR]中去查询交易顾问id[processor_id] 30004010029交易过户（除签约外）)**/
-		TgServItemAndProcessor ts = toCaseService.selectServItem(processInstanceVO.getCaseCode(),"3000401002");
-		RestVariable rv = new RestVariable();
+		String ts = toCaseService.selectServItem(processInstanceVO.getCaseCode(),"3000401002");
+		/*RestVariable rv = new RestVariable();
 		rv.setName("loanHandler");
 		rv.setValue(ts.getSrvName());
-		variables.add(rv);
+		variables.add(rv);*/
+		
+	/*	RestVariable rvfk = new RestVariable();
+		
+		rvfk.setName("loanHandler");
+		rvfk.setValue("puyp,suad1,gufy03");
+		
+		List<RestVariable> vs = new ArrayList<RestVariable>();
+		vs.add(rv);
+		rv.setName("loanHandler");
+		rv.setValue("xuqq");
+		vs.add(rv);
+		RestVariable rvf = new RestVariable();
+		rvf.setName("loanHandler");
+		rvf.setValue("xuqq,hujh");
+		
+		String ts = "xuqq,hujh";*/
+		List<String> membersList = null;
+		List<RestVariable> a = new ArrayList<RestVariable>();
+		if(ts != null && ts.length() > 0){
+			membersList = Arrays.asList(ts.split(","));
+		}
+		
+		variables.add(new RestVariable("loanHandlers",membersList)); 
+		
 		
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO
 				.getCaseCode());

@@ -1251,12 +1251,25 @@ public class ToCaseServiceImpl implements ToCaseService {
 	 * @date 2017-3-16 13:55:58
 	 * @return
 	 */
-	public TgServItemAndProcessor selectServItem(String caseCode,String srvCode){
+	public String selectServItem(String caseCode,String srvCode){
 		TgServItemAndProcessor tp = new TgServItemAndProcessor();
+		String st = null;
 		tp.setCaseCode(caseCode);
 		tp.setSrvCode(srvCode);
 		TgServItemAndProcessor tsip = tgservItemAndProcessorMapper.selectServItemandName(tp);
-		return tsip;
+		TgServItemAndProcessor tsipF = tgservItemAndProcessorMapper.selectServItemandNameF(tp);
+		if(null != tsip && !StringUtils.isBlank(tsip.getSrvName())){
+			st = tsip.getSrvName();
+		}
+		if(null != tsipF && !StringUtils.isBlank(tsipF.getSrvName())){
+			if(null == st){
+				st = tsipF.getSrvName();
+			}else{
+				st = st+","+tsipF.getSrvName();
+			}
+			
+		}
+		return st;
 	}
 	
 
