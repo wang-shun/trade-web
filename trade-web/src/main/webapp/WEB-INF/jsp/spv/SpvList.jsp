@@ -232,13 +232,13 @@
 												 <a href="#"><em>申请人：{{item.APPLY_USER}}</em></a>
                                             </span>
                                             <span class="manager">
-                                                <a href="#"><em>经办人{{}}：{{item.CREATE_BY}}</em></a>
+                                                <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
                                             </span>
                                         </td>
                                         <td class="text-center"> 
                                         
                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-success dropdown-toggle"    {{if wrapperData.job != 'JYFKZY'}} disabled="true" {{/if}}                                  
+                                                <button type="button" class="btn btn-success dropdown-toggle"                                  
                                                 data-toggle="dropdown" >操作
                                                     <span class="caret"></span>
                                                 </button>
@@ -255,17 +255,17 @@
                                                     	{{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">{{
-                                                      {{if item.STATUS==2&&item.signTime!=undefined}}
+                                                      {{if item.STATUS==2&&item.signTime!=undefined&&item.prdCode==1}}
                                                         <li><a href="${ctx}/spv/task/cashflowIntApply/spvRecorded?pkid={{item.PKID}}">入账</a></li>
                                                       {{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.OUT">
-													{{if item.ru>0&&item.STATUS==2}}
+													{{if item.ru>0&&item.STATUS==2&&item.prdCode==1}}
                                                         <li><a href="${ctx}/spv/task/cashFlowOutAppr/process?spvCode={{item.SPV_CODE}}">出账</a></li>
                                                      {{/if}}
 													</shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.CLOSE">
-                                                          {{if item.STATUS>0&&item.STATUS<=3}}
+                                                          {{if item.STATUS>0&&item.STATUS<=3&&item.prdCode==1}}
                                                    		 <li><a href="${ctx}/spv/task/spvCloseApply/process?spvCode={{item.SPV_CODE}}">中止/结束</a></li>
                                                           {{/if}}
                                                     </shiro:hasPermission>

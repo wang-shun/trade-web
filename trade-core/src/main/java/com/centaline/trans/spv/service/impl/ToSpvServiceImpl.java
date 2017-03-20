@@ -522,6 +522,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvMapper.updateByPrimaryKeySelective(toSpv);
 			} else {
 				toSpv.setStatus(SpvStatusEnum.DRAFT.getCode());
+				toSpv.setApplyUser(user.getId());
+				toSpv.setApplyTeam(user.getServiceDepId());
 				toSpv.setCreateBy(user.getId());
 				toSpv.setCreateTime(new Date());
 				toSpv.setSpvCode(spvCode);
@@ -679,9 +681,12 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		// 查询风控专员和总监
 		Map<String, Object> vars = new HashMap<String, Object>();
-		String spvPkid = spvBaseInfoVO.getToSpv().getPkid().toString();
+		ToSpv toSpv = spvBaseInfoVO.getToSpv();
+		String spvPkid = toSpv.getPkid().toString();
 		vars.put("spvPkid", spvPkid);
-		vars.put("RiskControlOfficer",user.getUsername());
+		vars.put("consultant", user.getUsername());
+		SessionUser RiskControlOfficer = uamSessionService.getSessionUserById(toSpv.getRiskControlOfficer());
+		vars.put("RiskControlOfficer",RiskControlOfficer.getUsername());
 		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
 		vars.put("RiskControlDirector",riskControlDirector.getUsername());
 
@@ -707,9 +712,12 @@ public class ToSpvServiceImpl implements ToSpvService {
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(workFlow);
 
-		// 首次开启流程时间为申请时间
+		// 首次开启流程时间为申请时间,当前交易顾问为申请人
 		if (spvBaseInfoVO.getToSpv().getApplyTime() == null) {
 			spvBaseInfoVO.getToSpv().setApplyTime(new Date());
+		}
+		if (spvBaseInfoVO.getToSpv().getRiskControlOfficer() == null){
+			spvBaseInfoVO.getToSpv().setRiskControlOfficer(RiskControlOfficer.getId());
 		}
 		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.AUDIT.getCode());
 		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());

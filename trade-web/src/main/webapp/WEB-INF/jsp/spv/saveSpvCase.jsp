@@ -511,7 +511,8 @@
 						    <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label>
 									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }">
-									<option value="1">光大四方资金监管</option>
+									<option value="1" ${spvBaseInfoVO.toSpv.prdCode eq 1?'selected="selected"':''}>光大四方资金监管</option>
+									<option value="2" ${spvBaseInfoVO.toSpv.prdCode eq 2?'selected="selected"':''}>光大三方资金监管</option>
 									</select>
 									<%-- <select id="prd" class="form-control input-one"></select>
 									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }"></select> --%>
@@ -630,7 +631,7 @@
 							</div>	
 						</div>
 						
-						<div class="form-row form-rowbot">
+						<div id="spvAccountDiv" class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[2].accountType" value="SPV" />
@@ -714,19 +715,18 @@
 						</c:if>
 						</c:forEach>
 						</c:if>
-						
-						<div id="spvAccDiv" class="form-row form-rowbot">
+				
+ 						<div id="spvAccDiv" class="form-row form-rowbot">
 						    <div class="form-group form-margin form-space-one">
-						        <label for="" class="lable-one"><i style="color:red;">*</i> 申请人</label>
-						        <input type="hidden" id="userName" name="toSpv.applyUser" value='${spvBaseInfoVO.toSpv.applyUser }'>
+						        <label for="" class="lable-one"><i style="color:red;">*</i> 风控专员</label>
+						        <input type="hidden" id="userName" name="toSpv.riskControlOfficer" value='${spvBaseInfoVO.toSpv.riskControlOfficer }'>
 						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${applyUserName }'>
-							    <input type="hidden" id="team" name="toSpv.applyTeam"  value='${spvBaseInfoVO.toSpv.applyTeam }'>
+												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${riskControlOfficerName }'>
 							<div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont">&#xe627;</i>
                                     </div>
 							</div>
-					    </div>
+					    </div> 
 					    
 						<div class="form-row form-rowbot" id="signDiv" style="display:none;">
 						    <div class="form-group form-margin form-space-one">
@@ -741,7 +741,7 @@
 							</div>
 						</div>
 									
-					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" ${handle eq 'SpvApprove'?'':'style="display:none;"'}>						
+					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" ${handle eq 'SpvApprove' or handle eq 'SpvAudit'?'':'style="display:none;"'}>						
 						<div class="form-group form-margin form-space-one">
 							<label class="lable-one"  style="text-align: right;"><i style="color:red;">*</i> 审批意见</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
@@ -816,8 +816,16 @@
 							<div class="form-btn">						
 							<c:if test="${handle eq 'SpvApply' }">
 							    <div>
-									<a id="riskOfficerApply" class="btn btn-success">提交申请</a>
-									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
+									<a id="consultantApply" class="btn btn-success">提交申请</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
+								</div>
+							</c:if>
+							
+							<c:if test="${handle eq 'SpvAudit' }">
+							    <div>
+									<a id="riskOfficerApproveY" class="btn btn-success">通过</a>
+									<a id="riskOfficerApproveN" class="btn btn-success">驳回</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
@@ -825,21 +833,21 @@
 							    <div>
 									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>
 									<a id="riskDirectorApproveN" class="btn btn-success">驳回</a>
-									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 													
 							<c:if test="${handle eq 'SpvSign' }">
 							    <div>
 									<a id="RiskOfficerSign" class="btn btn-success">提交签约</a>
-									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
-							<c:if test="${handle ne 'SpvApply' and handle ne 'SpvApprove' and handle ne 'SpvSign' }">
+							<c:if test="${empty handle}">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
-									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>			
 							</div>
@@ -947,6 +955,15 @@
         var accTypeSum;//账户类型 
 		
 		$(document).ready(function(){
+			
+			$("select[name='toSpv.prdCode']").change(function(){
+				if($(this).val() == 2){
+					$("#spvAccountDiv").hide();
+				}else{
+					$("#spvAccountDiv").show();
+				}
+			});
+			
 			longTermSuit(0);
 			longTermSuit(1);
 
@@ -1289,11 +1306,9 @@
 			if(array && array.length >0){
 		        $("#realName").val(array[0].username);
 				$("#userName").val(array[0].userId);
-                $("#team").val(array[0].orgId);
 			}else{
 				$("#realName").val("");
 				$("#userName").val("");
-				$("#team").val("");
 			}
 		}
 		
@@ -1445,7 +1460,7 @@
 					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager'],function($,aistFileUpload){
 						fileUpload = aistFileUpload;
 						var handle = $("#handle").val();
-						if(handle == "SpvApprove" || handle == "SpvSign"){
+						if(handle == "SpvAudit" || handle == "SpvApprove" || handle == "SpvSign"){
 							fileUpload.init({
 					    		caseCode : $('#caseCode').val(),
 					    		partCode : "SpvApplyApprove",

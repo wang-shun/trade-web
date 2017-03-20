@@ -154,9 +154,9 @@ $(document).ready(function(){
        		method:"post",
        		dataType:"json",
        		data:totalArr,   		        				        		    
-        		beforeSend:function(){  
- 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
- 				$(".blockOverlay").css({'z-index':'9998'});
+    		beforeSend:function(){  
+			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
              },
  	        complete: function() {
  	                 $.unblockUI(); 
@@ -186,9 +186,19 @@ $(document).ready(function(){
         });
        }
        
-       //风控专员提交申请
-       $("#riskOfficerApply").click(function(){
+       //交易顾问提交申请
+       $("#consultantApply").click(function(){
            riskAjaxRequest(null,'SpvApply',ctx+'/spv/spvApply/deal');	
+       });
+       
+       //风控专员审核通过
+       $("#riskOfficerApproveY").click(function(){
+           riskAjaxRequest(true,'SpvAudit',ctx+'/spv/spvAudit/deal');	
+       });
+       
+       //风控专员审核驳回
+       $("#riskOfficerApproveN").click(function(){
+           riskAjaxRequest(true,'SpvAudit',ctx+'/spv/spvAudit/deal');	
        });
        
        //风控总监审批通过
@@ -236,6 +246,26 @@ $(document).ready(function(){
 
   	  if(type == 'checkForSubmit' && handle == 'SpvApply'){
 	  		window.wxc.confirm("是否确定提交申请！",{"wxcOk":function(){
+	  			saveNewSpv(url,data);
+	  		}});
+  	  }else if(handle == 'SpvAudit' && SpvApplyApprove){
+	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
+	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
+	  	    	window.wxc.alert("请填写审批意见！");
+	  		    changeClass($("#passOrRefuseReason"));
+	  		    return false;
+	  	    }
+	  	  window.wxc.confirm("是否确定通过！",{"wxcOk":function(){	  			
+	  			saveNewSpv(url,data);
+	  		}});
+  	  }else if(handle == 'SpvAudit' && !SpvApplyApprove){
+	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
+	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
+	  	    	window.wxc.alert("请填写审批意见！");
+	  		    changeClass($("#passOrRefuseReason"));
+	  		    return false;
+	  	    }
+	  		window.wxc.confirm("是否确定驳回！",{"wxcOk":function(){
 	  			saveNewSpv(url,data);
 	  		}});
   	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
@@ -1041,9 +1071,9 @@ $(document).ready(function(){
         	return false;
         }
         
-        var applyUser = $("input[name='toSpv.applyUser']").val();
-        if(applyUser == null || applyUser == ''){
-        	window.wxc.alert("请选择申请人！");
+        var riskControlOfficer = $("input[name='toSpv.riskControlOfficer']").val();
+        if(riskControlOfficer == null || riskControlOfficer == ''){
+        	window.wxc.alert("请选择风控专员！");
         	changeClass($("input[id='realName']"));
 			return false;
         }
@@ -1158,7 +1188,6 @@ $(document).ready(function(){
     		                } 
     		            } ,   
 			success : function(data) {
-				     //rescCallbocak();
 					 $.unblockUI();
 				},
 				error : function(errors) {
@@ -1476,7 +1505,7 @@ function accSub(arg1,arg2){
 //    return accSub(arg,this);
 //}
 
-function rescCallbocak(){
+function rescCallback(){
  	   if($("#urlType").val() == 'myTask'){    	 
  		   window.opener.location.reload(); //刷新父窗口
      	   window.close(); //关闭子窗口.

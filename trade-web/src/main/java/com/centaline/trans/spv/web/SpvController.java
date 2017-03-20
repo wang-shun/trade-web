@@ -145,20 +145,17 @@ public class SpvController {
 		return "spv/SpvFlowList";
 	}
 	
-	
 	//新增页面
 	@RequestMapping("saveHTML")
 	public String saveHTML(Long pkid,HttpServletRequest request){
-		SessionUser currentUser = uamSessionService.getSessionUser();
-		String currentDeptId = currentUser.getServiceDepId();
-		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
-		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
+		
+		Org riskControllerOrg = uamUserOrgService.getOrgByCode("112A011");
 
 		toSpvService.findSpvBaseInfoVOAndSetAttr(request,pkid);
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
 		
-		request.setAttribute("orgId", parentOrg.getId());
+		request.setAttribute("orgId", riskControllerOrg.getId());
 		request.setAttribute("urlType", "spv");
 		return "spv/saveSpvCase";
 	}
@@ -196,7 +193,10 @@ public class SpvController {
 		//申请人
 		User applyUser =uamUserOrgService.getUserById(spv.getApplyUser());
 		//人物信息
-		User jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		User jingban = null; 
+		if(StringUtils.isNotBlank(toCase.getLeadingProcessId())){
+			jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
+		}
 		//风控总监
 		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(user.getOrgId(), "JYFKZJ");
 		User FKZJ=new User();
@@ -225,7 +225,7 @@ public class SpvController {
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
-		request.setAttribute("jingban", jingban.getRealName());
+		request.setAttribute("jingban", jingban == null?null:jingban.getRealName());
 	    request.setAttribute("zj",FKZJ);
 	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
@@ -539,7 +539,7 @@ public class SpvController {
     }
     
     /**
-     * 资金监管申请页面
+     * 资金监管交易顾问申请页面
      * @param request
      * @param response
      * @param caseCode
@@ -550,6 +550,84 @@ public class SpvController {
      */
     @RequestMapping("task/SpvApply/process")
 	public String toSpvApplyProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
+    	
+        SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(instCode);
+		Map<String, Object> caseInfoMap = new HashMap<String, Object>();
+		
+		if (spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null && StringUtils.isNotBlank(spvBaseInfoVO.getToSpv().getCaseCode())) {
+		    caseInfoMap	= toSpvService.queryCaseInfoMapByCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+			request.setAttribute("caseCode", caseInfoMap.get("caseCode"));
+		    request.setAttribute("caseInfoMap", caseInfoMap);
+		}
+		
+		//查询审核结果
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();
+		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
+			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
+		}		
+		toApproveRecordForItem.setProcessInstance(instCode);
+		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
+		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
+		request.setAttribute("toApproveRecord", toApproveRecord);
+		
+		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
+		
+		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
+	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
+	    request.setAttribute("imgweb", app.genAbsoluteUrl());	    
+		
+		Org riskControllerOrg = uamUserOrgService.getOrgByCode("112A011");
+		
+		request.setAttribute("orgId", riskControllerOrg.getId());
+    	request.setAttribute("taskId", taskId); 
+    	request.setAttribute("instCode", instCode);
+		request.setAttribute("pkid", pkid);
+		request.setAttribute("source", source);
+		request.setAttribute("handle", "SpvApply");
+		request.setAttribute("urlType", "myTask");
+		
+		return "spv/saveSpvCase";
+	}
+    
+    /**
+     * 资金监管交易顾问申请操作
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+    @RequestMapping("spvApply/deal")
+	public AjaxResponse<?> spvApply(String spvCode,String caseCode,String source,String instCode,String taskId){
+
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
+		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
+		
+		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
+		spv.setStatus(SpvStatusEnum.AUDIT.getCode());
+
+		//spv.setRemark(remark);
+		toSpvService.updateByPrimaryKey(spv);
+		
+		return AjaxResponse.success();
+	}
+    
+    /**
+     * 资金监管风控专员审核页面
+     * @param request
+     * @param response
+     * @param caseCode
+     * @param source
+     * @param instCode
+     * @param taskitem
+     * @return
+     */
+    @RequestMapping("task/SpvAudit/process")
+	public String toSpvAuditProcess(HttpServletRequest request,Long pkid,String source,String instCode,String taskId){
     	   	
         SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(instCode);
 		Map<String, Object> caseInfoMap = new HashMap<String, Object>();
@@ -576,29 +654,21 @@ public class SpvController {
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());	    
 		
-		SessionUser currentUser = uamSessionService.getSessionUser();
-		String currentDeptId = currentUser.getServiceDepId();
-		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
-		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
+	    Org riskControllerOrg = uamUserOrgService.getOrgByCode("112A011");
 		
-		request.setAttribute("orgId", parentOrg.getId());
+		request.setAttribute("orgId", riskControllerOrg.getId());
     	request.setAttribute("taskId", taskId); 
     	request.setAttribute("instCode", instCode);
 		request.setAttribute("pkid", pkid);
 		request.setAttribute("source", source);
-		request.setAttribute("handle", "SpvApply");
+		request.setAttribute("handle", "SpvAudit");
 		request.setAttribute("urlType", "myTask");
-		
-		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
-				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
-			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
-		}
 		
 		return "spv/saveSpvCase";
 	}
     
     /**
-     * 资金监管申请操作
+     * 资金监管风控专员审核操作
      * @param request
      * @param response
      * @param caseCode
@@ -607,8 +677,8 @@ public class SpvController {
      * @param taskitem
      * @return
      */
-    @RequestMapping("spvApply/deal")
-	public AjaxResponse<?> spvApply(String spvCode,String caseCode,String source,String instCode,String taskId){
+    @RequestMapping("spvAudit/deal")
+	public AjaxResponse<?> spvAudit(String spvCode,String caseCode,String source,String instCode,String taskId){
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
@@ -661,10 +731,6 @@ public class SpvController {
 		request.setAttribute("urlType", "myTask");
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
-		}
-		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
-				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
-			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
 		}
 		
 		return "spv/saveSpvCase";
@@ -741,10 +807,6 @@ public class SpvController {
 		request.setAttribute("urlType", "myTask");
 		if(spvBaseInfoVO.getToSpv() != null && spvBaseInfoVO.getToSpv().getCaseCode() != null){
 			request.setAttribute("caseCode", spvBaseInfoVO.getToSpv().getCaseCode());
-		}
-		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
-				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
-			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
 		}
 		
 		return "spv/saveSpvCase";
