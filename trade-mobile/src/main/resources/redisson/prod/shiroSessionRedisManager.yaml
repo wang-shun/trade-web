@@ -1,4 +1,4 @@
 ---
 testMap:
-  ttl: 1440000
-  maxIdleTime: 36000
+  ttl: 3600000
+  maxIdleTime: 3600000
