@@ -87,6 +87,12 @@
                                    <div class="case_lump">
                                        <p><em>合作机构</em><span class="span_one">${info.finOrgName}</span></p>
                                    </div>
+                                   <div class="case_lump">
+                                       <p><em>证件类型</em><span class="span_one">
+                                       <aist:dict id="custCardType" name="custCardType" clazz="select_control sign_right_two"
+										display="onlyLabel"  dictType="CERT_TYPE" tag="forEloanApply" dictCode="${eloanCase.custCardType}"
+										ligerui='none'></aist:dict></span></p>
+                                   </div>
                                 </div>
                                 <div class="case_row">
                                    <div class="case_lump">
@@ -97,7 +103,7 @@
                                    </div>
                                    
                                    <div class="case_lump">
-                                       <p><em>办卡人证件</em><span class="span_one">${eloanCase.custPaper}</span></p>
+                                       <p><em>办卡人证件号</em><span class="span_one">${eloanCase.custPaper}</span></p>
                                    </div>
                                 </div>
                                 <div class="case_row">

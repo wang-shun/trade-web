@@ -10,6 +10,7 @@
     <result column="CUST_NAME" property="custName" jdbcType="NVARCHAR" />
     <result column="CUST_PHONE" property="custPhone" jdbcType="VARCHAR" />
     <result column="CUST_PAPER" property="custPaper" jdbcType="VARCHAR" />
+    <result column="CUST_CARD_TYPE" property="custCardType" jdbcType="VARCHAR" />
     <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
     <result column="APPLY_AMOUNT" property="applyAmount" jdbcType="DECIMAL" />
     <result column="MONTH" property="month" jdbcType="INTEGER" />
@@ -44,7 +45,7 @@
     <result column="LOANER_PHONE" property="loanerPhone" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, ELOAN_CODE, CASE_CODE, LOAN_SRV_CODE, FIN_ORG_CODE, CUST_NAME, CUST_PHONE, CUST_PAPER,
+    PKID, ELOAN_CODE, CASE_CODE, LOAN_SRV_CODE, FIN_ORG_CODE, CUST_NAME, CUST_PHONE, CUST_PAPER,CUST_CARD_TYPE,
     APPLY_TIME, APPLY_AMOUNT, MONTH, SIGN_AMOUNT, SIGN_TIME, EXCUTOR_ID, EXCUTOR_TEAM, 
     EXCUTOR_DISTRICT, ZJ_NAME, ZJ_CODE, CO_NAME, CO_CODE, CO_PART, PD_CODE, PD_NAME, 
     PD_PART, APPLY_CONF_TIME, APPLY_CONF_USER, SIGN_CONF_TIME, SIGN_CONF_USER, IS_REL_FINISH, 
@@ -71,7 +72,7 @@
   <insert id="insert" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
     insert into sctrans.T_TO_ELOAN_CASE (PKID, ELOAN_CODE, CASE_CODE, 
       LOAN_SRV_CODE, FIN_ORG_CODE, CUST_NAME, 
-      CUST_PHONE,CUST_PAPER, APPLY_TIME, APPLY_AMOUNT, 
+      CUST_PHONE,CUST_PAPER, CUST_CARD_TYPE,APPLY_TIME, APPLY_AMOUNT, 
       MONTH, SIGN_AMOUNT, SIGN_TIME, 
       EXCUTOR_ID, EXCUTOR_TEAM, EXCUTOR_DISTRICT, 
       ZJ_NAME, ZJ_CODE, CO_NAME, 
@@ -82,7 +83,8 @@
       UPDATE_TIME, UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{eloanCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
       #{loanSrvCode,jdbcType=VARCHAR}, #{finOrgCode,jdbcType=VARCHAR}, #{custName,jdbcType=NVARCHAR}, 
-      #{custPhone,jdbcType=VARCHAR}, #{custPaper,jdbcType=VARCHAR},#{applyTime,jdbcType=TIMESTAMP}, #{applyAmount,jdbcType=DECIMAL}, 
+      #{custPhone,jdbcType=VARCHAR}, #{custPaper,jdbcType=VARCHAR},#{custCardType,jdbcType=VARCHAR},
+      #{applyTime,jdbcType=TIMESTAMP}, #{applyAmount,jdbcType=DECIMAL}, 
       #{month,jdbcType=INTEGER}, #{signAmount,jdbcType=DECIMAL}, #{signTime,jdbcType=TIMESTAMP}, 
       #{excutorId,jdbcType=VARCHAR}, #{excutorTeam,jdbcType=VARCHAR}, #{excutorDistrict,jdbcType=VARCHAR}, 
       #{zjName,jdbcType=NVARCHAR}, #{zjCode,jdbcType=VARCHAR}, #{coName,jdbcType=NVARCHAR}, 
@@ -120,6 +122,9 @@
       </if>
       <if test="custPaper != null" >
         CUST_PAPER,
+      </if>
+      <if test="custCardType != null" >
+        CUST_CARD_TYPE,
       </if>
       <if test="applyTime != null" >
         APPLY_TIME,
@@ -239,6 +244,9 @@
       <if test="custPaper != null" >
         #{custPaper,jdbcType=VARCHAR},
       </if>
+      <if test="custCardType != null" >
+        #{custCardType,jdbcType=VARCHAR},
+      </if>
       <if test="applyTime != null" >
         #{applyTime,jdbcType=TIMESTAMP},
       </if>
@@ -357,6 +365,9 @@
       <if test="custPaper != null" >
         CUST_PAPER = #{custPaper,jdbcType=VARCHAR},
       </if>
+      <if test="custCardType != null" >
+        CUST_CARD_TYPE = #{custCardType,jdbcType=VARCHAR},
+      </if>
       <if test="applyTime != null" >
         APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
       </if>
@@ -463,6 +474,9 @@
       
       <if test="custPaper != null" >
         CUST_PAPER = #{custPaper,jdbcType=VARCHAR},
+      </if>
+      <if test="custCardType != null" >
+        CUST_CARD_TYPE = #{custCardType,jdbcType=VARCHAR},
       </if>
       <if test="applyTime != null" >
         APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
@@ -574,6 +588,9 @@
       <if test="custPaper != null" >
         CUST_PAPER = #{custPaper,jdbcType=VARCHAR},
       </if>
+      <if test="custCardType != null" >
+        CUST_CARD_TYPE = #{custCardType,jdbcType=VARCHAR},
+      </if>
       <if test="applyTime != null" >
         APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
       </if>
@@ -669,6 +686,7 @@
       CUST_NAME = #{custName,jdbcType=NVARCHAR},
       CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
       CUST_PAPER = #{custPaper,jdbcType=VARCHAR},
+      CUST_CARD_TYPE = #{custCardType,jdbcType=VARCHAR},
       APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
       APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
       MONTH = #{month,jdbcType=INTEGER},
@@ -700,6 +718,7 @@
       CUST_NAME = #{custName,jdbcType=NVARCHAR},
       CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
       CUST_PAPER = #{custPaper,jdbcType=VARCHAR},
+      CUST_CARD_TYPE = #{custCardType,jdbcType=VARCHAR},
       APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
       APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
       MONTH = #{month,jdbcType=INTEGER},

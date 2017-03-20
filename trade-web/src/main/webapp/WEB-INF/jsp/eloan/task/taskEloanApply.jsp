@@ -200,7 +200,7 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i> 产品类型
+									style="color:red">* </i> 产品类型1${eloanCase.loanSrvCode}
 								</label>
 								<aist:dict id="loanSrvCode" name="loanSrvCode"
 									clazz="select_control sign_right_two" display="select"
@@ -214,7 +214,14 @@
 									id="finOrgCode" value="${eloanCase.finOrgCode}">
 								</select>
 							</div>
-
+							<div class="form_content">
+								<label class="control-label sign_left_two"> <i
+									style="color:red">* </i>证件类型
+								</label>  							
+									<aist:dict id="custCardType"  name="custCardType" clazz="select_control sign_right_two"
+									display="select" dictType="CERT_TYPE"  tag="forEloanApply"  ligerui='none'  defaultvalue="${eloanCase.custCardType}" >									
+									</aist:dict>												
+							</div>
 						</li>
 						<li>
 							<div class="form_content">
@@ -247,7 +254,7 @@
 							</shiro:hasPermission>
 							
 							
-							<div class="form_content"  style="display:none">
+							<div class="form_content">
 								<label class="control-label sign_left_two"> <i  style="color:red">* </i> 办卡人证件号
 								</label> <input class="input_type sign_right_two"
 									value="${eloanCase.custPaper}" name="custPaper" id="custPaper">
@@ -641,14 +648,19 @@
 								if (applyAmount == null || applyAmount == '') {
 									window.wxc.alert("请填写申请金额");
 									return false;
+								}	
+								
+								var custCardType = $("#custCardType").val();
+								if (custCardType == null || custCardType == '') {
+									window.wxc.alert("请选择办卡人证件类型");
+									return false;
 								}
-								/*
 								var custPaper = $("#custPaper").val();
 								if (custPaper == null || custPaper == '') {
 									window.wxc.alert("请填写办卡人证件");
 									return false;
 								}
-								*/
+								
 								var date = $("#applyTime").val();
 								if (date == null || date == '') {
 									window.wxc.alert("请选择申请时间");

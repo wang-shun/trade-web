@@ -19,6 +19,8 @@ public class ToEloanCase {
 	private String custPhone;
 	
 	private String custPaper;
+	
+	private String custCardType;
 
 	private Date applyTime;
 
@@ -463,6 +465,14 @@ public class ToEloanCase {
 
 	public void setCustPaper(String custPaper) {
 		this.custPaper = custPaper;
+	}
+
+	public String getCustCardType() {
+		return custCardType;
+	}
+
+	public void setCustCardType(String custCardType) {
+		this.custCardType = custCardType;
 	}
 	
 	
