@@ -46,7 +46,7 @@
 						ART.PROC_INST_ID_ AS INST_CODE,
 						ART.DELEGATION_ AS DELEGATION,
 						tw.CASE_CODE caseCode,
-						tw.BUSINESS_KEY prdType,
+						swt.WFE_CATAGORY prdType,
 						tpi.PROPERTY_ADDR addr,
 						tpi.PROPERTY_CODE propertyCode,
 						ttp.EST_PART_TIME todoTime,
@@ -68,6 +68,7 @@
 					    inner join sctrans.T_TO_CASE_INFO  tci on tci.CASE_CODE=tw.CASE_CODE
 					    left join sctrans.sys_user su on su.id = tci.AGENT_CODE
 					    left join sctrans.t_ts_task_plan_set tps on tps.part_code = art.TASK_DEF_KEY_
+					    left join sctrans.SYS_WFE_TEMPLATE swt on swt.WFE_CODE = tw.BUSINESS_KEY
 					WHERE  ART.ASSIGNEE_ = #userLoginName#
 					    AND ART.SUSPENSION_STATE_ = '1'
 						<ifNotNull q_text>
