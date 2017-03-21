@@ -76,7 +76,7 @@
 								or tpi.PROPERTY_ADDR like '%' + #q_text# + '%'
 								or ART.NAME_ like '%' + #q_text# + '%'
 								or EXISTS (select 1 FROM sctrans.T_TG_GUEST_INFO tgi 
-									where tgi.case_code = a.case_code and tgi.GUEST_NAME like '%' + #q_text# + '%' )
+									where tgi.case_code = tci.case_code and tgi.GUEST_NAME like '%' + #q_text# + '%' )
 							) 
 						</ifNotNull>
 						<ifNotNull allType>

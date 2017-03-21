@@ -18,7 +18,7 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
-@ComponentScan(basePackages="com.aist.common.redisson")
+@ComponentScan(basePackages="com.aist.common.conf.Redisson")
 public class CacheConfiguration {
 
 	/**jedis连接池*//*
