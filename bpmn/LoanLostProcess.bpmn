@@ -6,7 +6,11 @@
     <userTask id="LoanlostApply" name="贷款流失申请" activiti:assignee="${partner}" activiti:formKey="/task/loanlostApply/process"></userTask>
     <userTask id="LoanlostApproveManager" name="贷款流失审批－主管" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'Manager')}" activiti:formKey="/task/loanlostApproveManager/process"></userTask>
     <userTask id="LoanlostApproveDirector" name="贷款流失审批－总监" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'director')}" activiti:formKey="/task/loanlostApproveDirector/process"></userTask>
-    <userTask id="SelfLoanApprove" name="自办贷款审批" activiti:assignee="#{commonUserService.getAssigneeNonApproval(execution,'consultant')}" activiti:formKey="/task/selfLoanApprove/process"></userTask>
+    <userTask id="SelfLoanApprove" name="自办贷款审批" activiti:assignee="${member}" activiti:formKey="/task/selfLoanApprove/process">
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${members}" activiti:elementVariable="member">
+        <completionCondition>${nrOfCompletedInstances &gt;= 1}</completionCondition>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="LoanlostApply"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="LoanlostApply" targetRef="LoanlostApproveManager"></sequenceFlow>
     <sequenceFlow id="flow3" sourceRef="LoanlostApproveManager" targetRef="exclusivegateway1"></sequenceFlow>
