@@ -75,10 +75,4 @@ public class DeployContextConfiguration {
         }
         return ds;
     }
-    
-    @Bean(name="qqLightService")
-    public QuickQueryLightServiceImpl qqLightServiceImpl() {
-    	QuickQueryLightServiceImpl dict = new QuickQueryLightServiceImpl();
-    	return dict;
-    }
 }

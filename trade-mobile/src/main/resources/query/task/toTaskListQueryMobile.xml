@@ -56,9 +56,9 @@
 						iif(tps.IS_MANUAL_SET = 0 ,'false','true' ) planChangePermit,
 						tw.BIZ_CODE srvCode,
 						case when ttp.EST_PART_TIME is null then '2'
-							when datediff(day, ttp.EST_PART_TIME, GETDATE()) &lt; 0 then '-1'
-                        	when datediff(day, ttp.EST_PART_TIME, GETDATE()) = 0  then '0'   
-                         	when datediff(day, ttp.EST_PART_TIME, GETDATE()) > 0 then '1'  
+							when datediff(day, GETDATE(), ttp.EST_PART_TIME) &lt; 0 then '-1'
+                        	when datediff(day, GETDATE(), ttp.EST_PART_TIME) = 0  then '0'   
+                         	when datediff(day, GETDATE(), ttp.EST_PART_TIME) > 0 then '1'  
                       		else 2  end taskTag
 					FROM
 						sctrans.ACT_RU_TASK ART
@@ -161,7 +161,6 @@
 				<column type="both" name="planChangePermit" dataType="boolean" defaultVal="false"/>
 				<column type="both" name="srvCode" dataType="String" defaultVal=""/>
 				
-				<column type="virtual" name="light" customDict="qqLightService" dataType="String" defaultVal="GREEN"/>
 				<column type="both" name="prdType" dataType="String" defaultVal=""></column>
 			</table-row>
 		</grid>

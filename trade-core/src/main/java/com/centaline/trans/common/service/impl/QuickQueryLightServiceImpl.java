@@ -29,9 +29,9 @@ public class QuickQueryLightServiceImpl implements CustomDictService{
 			
 		    String val = "";
 		    
-		    if(days < Long.valueOf(LampEnum.GREEN.getCode())) {
+		    if(days <= Long.valueOf(LampEnum.GREEN.getCode())) {
 		    	val = LampEnum.GREEN.toString();
-		    }else if (days < Long.valueOf(LampEnum.YELLOW.getCode())) {
+		    }else if (days <= Long.valueOf(LampEnum.YELLOW.getCode())) {
 		    	val = LampEnum.YELLOW.toString();
 			}else {
 				val = LampEnum.RED.toString();
