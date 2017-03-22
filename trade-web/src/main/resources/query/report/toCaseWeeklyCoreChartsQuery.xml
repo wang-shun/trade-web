@@ -149,7 +149,7 @@
 		        isnull(sum(case when week.EVA_EVAL_FEE is not null and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #endWeekDay#/100*100+1 and 
 				#endWeekDay# then week.CASE_CON_PRICE*0.001 else 0 end),0)
 				else 		        
-				isnull(sum(case when and week.EVA_EVAL_FEE is not null and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #lastMonthStartDay# and 
+				isnull(sum(case when week.EVA_EVAL_FEE is not null and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #lastMonthStartDay# and 
 				#lastMonthEndDay# then week.CASE_CON_PRICE*0.001 else 0 end),0)
 				end 
 				EVA_AMOUNT_MONTH,
