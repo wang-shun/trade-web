@@ -67,7 +67,7 @@ CREATE TABLE [sctrans].[T_RPT_WEEKLY_CASE_BASE_INFO] (
 	[JQYJL_EMPLOYEE_CODE] varchar(32)  NULL ,
 	[JQYJL_PHONE] varchar(32)  NULL ,
 	[JQYZJ_NAME] varchar(32)  NULL ,
-	[JQYZJ_CODE] varchar(32)  NULL ,
+	[JQYZJ_EMPLOYEE_CODE] varchar(32)  NULL ,
 	[JQYZJ_PHONE] varchar(32)  NULL ,
 	[JQYDS_NAME] varchar(32)  NULL ,
 	[JQYDS_EMPLOYEE_CODE] varchar(32)  NULL ,
