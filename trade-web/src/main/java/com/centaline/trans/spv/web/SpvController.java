@@ -19,6 +19,7 @@ import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -566,9 +567,17 @@ public class SpvController {
 			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
 		}		
 		toApproveRecordForItem.setProcessInstance(instCode);
-		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
-		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
-		request.setAttribute("toApproveRecord", toApproveRecord);
+		toApproveRecordForItem.setPartCode("SpvDirectorApprove");		
+		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);	
+		//审批记录：总监审批记录，没有就取专员审批记录
+		if(toApproveRecord != null){
+			request.setAttribute("toApproveRecord", toApproveRecord);
+		}else{
+			toApproveRecordForItem.setProcessInstance(instCode);
+			toApproveRecordForItem.setPartCode("SpvOfficerApprove");		
+			ToApproveRecord record=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);	
+			request.setAttribute("toApproveRecord", record);
+		}
 		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		
@@ -600,20 +609,20 @@ public class SpvController {
      * @return
      */
     @RequestMapping("spvApply/deal")
-	public AjaxResponse<?> spvApply(String spvCode,String caseCode,String source,String instCode,String taskId){
-
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-
-		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
-		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
+    @ResponseBody
+	public AjaxResponse<?> spvApply(@RequestBody SpvBaseInfoVO spvBaseInfoVO, String spvCode, String caseCode, String source, String instCode,
+			String taskId){	
+    	AjaxResponse<?> response = new AjaxResponse<>();
+    	try {
+    		//保存相关信息
+    		SessionUser user= uamSessionService.getSessionUser();
+    		toSpvService.spvApply(spvBaseInfoVO, spvCode, caseCode, source, instCode, taskId, user);
+    		response.setSuccess(true);
+		} catch (Exception e) {
+			setExMsgForResp(response,e);
+		}
 		
-		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
-		spv.setStatus(SpvStatusEnum.AUDIT.getCode());
-
-		//spv.setRemark(remark);
-		toSpvService.updateByPrimaryKey(spv);
-		
-		return AjaxResponse.success();
+		return response;
 	}
     
     /**
@@ -644,7 +653,7 @@ public class SpvController {
 			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
 		}		
 		toApproveRecordForItem.setProcessInstance(instCode);
-		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
+		toApproveRecordForItem.setPartCode("SpvOfficerApprove");		
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
 		
@@ -678,20 +687,21 @@ public class SpvController {
      * @return
      */
     @RequestMapping("spvAudit/deal")
-	public AjaxResponse<?> spvAudit(String spvCode,String caseCode,String source,String instCode,String taskId){
-
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-
-		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
-		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
+    @ResponseBody
+	public AjaxResponse<?> spvAudit(String spvCode, Boolean spvApplyApprove, String caseCode, String source, String instCode, 
+			String taskId, String remark){
+    	AjaxResponse<?> response = new AjaxResponse<>();
+    	try {
+    		//保存相关信息
+    		SessionUser user= uamSessionService.getSessionUser();
+    		toSpvService.spvAudit(spvApplyApprove, spvCode, caseCode, source, instCode, taskId, remark, user);
+    		response.setSuccess(true);
+		} catch (Exception e) {
+			setExMsgForResp(response,e);
+		}
 		
-		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
-		spv.setStatus(SpvStatusEnum.AUDIT.getCode());
-
-		//spv.setRemark(remark);
-		toSpvService.updateByPrimaryKey(spv);
+		return response;
 		
-		return AjaxResponse.success();
 	}
     
     /**
@@ -715,7 +725,7 @@ public class SpvController {
 			toApproveRecordForItem.setCaseCode(spvBaseInfoVO.getToSpv().getCaseCode());
 		}		
 		toApproveRecordForItem.setProcessInstance(instCode);
-		toApproveRecordForItem.setPartCode("SpvApplyApprove");		
+		toApproveRecordForItem.setPartCode("SpvDirectorApprove");		
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
 		
@@ -747,37 +757,20 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvApprove/deal")
-	public AjaxResponse<?> spvApprove(String spvCode,Boolean SpvApplyApprove,String caseCode,String instCode,String taskId,String remark){
-		
-		SessionUser user = uamSessionService.getSessionUser();
-		
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		variables.add(new RestVariable("SpvApplyApprove",SpvApplyApprove));
-		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
-		
-		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
-		if(!SpvApplyApprove){
-			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
-		}else{
-			spv.setStatus(SpvStatusEnum.AUDIT.getCode());
+	@ResponseBody
+	public AjaxResponse<?> spvApprove(String spvCode, Boolean spvApplyApprove, String caseCode, String source, String instCode, 
+			String taskId, String remark){
+    	AjaxResponse<?> response = new AjaxResponse<>();
+    	try {
+    		//保存相关信息
+    		SessionUser user= uamSessionService.getSessionUser();
+    		toSpvService.spvApprove(spvApplyApprove, spvCode, caseCode, source, instCode, taskId, remark, user);
+    		response.setSuccess(true);
+		} catch (Exception e) {
+			setExMsgForResp(response,e);
 		}
-		//spv.setRemark(remark);
-		toSpvService.updateByPrimaryKey(spv);
 		
-		//添加审核记录到ToApproveRecord
-		ToApproveRecord toApproveRecord=new ToApproveRecord();
-		toApproveRecord.setCaseCode(caseCode);
-		toApproveRecord.setContent(remark);
-		toApproveRecord.setApproveType("8");//todo
-		toApproveRecord.setOperator(user.getId());
-		toApproveRecord.setTaskId(taskId);
-		toApproveRecord.setOperatorTime(new Date());
-		toApproveRecord.setPartCode("SpvApplyApprove");//todo
-		toApproveRecord.setProcessInstance(instCode);		
-		
-		toApproveRecordService.insertToApproveRecord(toApproveRecord);
-
-		return AjaxResponse.success();
+		return response;
 	}
 	
     /**
@@ -791,8 +784,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("task/SpvSign/process")
-	public String toSpvSignProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){
-		
+	public String toSpvSignProcess(HttpServletRequest request,String caseCode,String source,String instCode,String taskId){		
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByInstCode(instCode);	
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		
@@ -823,18 +815,18 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove,String spvCode,String caseCode,String instCode,String taskId, String spvConCode, Date signTime){
-
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove, String spvCode, String caseCode, String source, String instCode, String taskId, String spvConCode, Date signTime){
+    	AjaxResponse<?> response = new AjaxResponse<>();
+    	try {
+    		//保存相关信息
+    		SessionUser user= uamSessionService.getSessionUser();
+    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, user);
+    		response.setSuccess(true);
+		} catch (Exception e) {
+			setExMsgForResp(response,e);
+		}
 		
-		ToSpv spv = toSpvService.findToSpvBySpvCode(spvCode);
-		spv.setStatus("2");
-		spv.setSpvConCode(spvConCode);
-		spv.setSignTime(signTime);
-		toSpvService.updateByPrimaryKey(spv);
-
-		return AjaxResponse.success();
+		return response;
 	}
 	
 	@RequestMapping("queryByCaseCode")

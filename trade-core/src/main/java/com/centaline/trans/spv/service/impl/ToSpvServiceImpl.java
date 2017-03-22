@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
@@ -683,6 +684,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		Map<String, Object> vars = new HashMap<String, Object>();
 		ToSpv toSpv = spvBaseInfoVO.getToSpv();
 		String spvPkid = toSpv.getPkid().toString();
+		vars.put("isFourParties", "1".equals(toSpv.getPrdCode()));
 		vars.put("spvPkid", spvPkid);
 		vars.put("consultant", user.getUsername());
 		SessionUser RiskControlOfficer = uamSessionService.getSessionUserById(toSpv.getRiskControlOfficer());
@@ -1763,6 +1765,103 @@ public class ToSpvServiceImpl implements ToSpvService {
 		caseInfoMap.put("buyerMobil", buyerMobil.indexOf("/") == -1?buyerMobil:buyerMobil.substring(0, buyerMobil.indexOf("/")));
 		
 		return caseInfoMap;
+	}
+
+	@Override
+	public void spvApply(SpvBaseInfoVO spvBaseInfoVO, String spvCode, String caseCode, String source, String instCode,
+			String taskId, SessionUser user) {
+		
+		saveNewSpv(spvBaseInfoVO, user);
+
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+
+		ToSpv toSpv = spvBaseInfoVO.getToSpv();
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
+		variables.add(new RestVariable("isFourParties", "1".equals(toSpv.getPrdCode())));
+		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
+		
+		ToSpv spv = findToSpvBySpvCode(spvCode);
+		spv.setStatus(SpvStatusEnum.AUDIT.getCode());
+
+		updateByPrimaryKey(spv);	
+	}
+
+	@Override
+	public void spvAudit(Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
+			String taskId, String remark, SessionUser user) {
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+
+		variables.add(new RestVariable("SpvOfficerApprove",spvApplyApprove));
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		ToSpv spv = findToSpvBySpvCode(spvCode);
+		if(!spvApplyApprove){
+			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
+		}else{
+			spv.setStatus(SpvStatusEnum.APPROVE.getCode());
+		}
+		//spv.setRemark(remark);
+		updateByPrimaryKey(spv);
+		
+		//添加审核记录到ToApproveRecord
+		ToApproveRecord toApproveRecord=new ToApproveRecord();
+		toApproveRecord.setCaseCode(caseCode);
+		toApproveRecord.setContent(remark);
+		toApproveRecord.setApproveType("8");//todo
+		toApproveRecord.setOperator(user.getId());
+		toApproveRecord.setTaskId(taskId);
+		toApproveRecord.setOperatorTime(new Date());
+		toApproveRecord.setPartCode("SpvOfficerApprove");//todo
+		toApproveRecord.setProcessInstance(instCode);		
+		
+		toApproveRecordService.insertToApproveRecord(toApproveRecord);
+
+		updateByPrimaryKey(spv);
+	}
+
+	@Override
+	public void spvApprove(Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
+			String taskId, String remark, SessionUser user) {
+		
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		variables.add(new RestVariable("SpvDirectorApprove",spvApplyApprove));
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		ToSpv spv = findToSpvBySpvCode(spvCode);
+		if(!spvApplyApprove){
+			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
+		}else{
+			spv.setStatus(SpvStatusEnum.SIGN.getCode());
+		}
+		//spv.setRemark(remark);
+		updateByPrimaryKey(spv);
+		
+		//添加审核记录到ToApproveRecord
+		ToApproveRecord toApproveRecord=new ToApproveRecord();
+		toApproveRecord.setCaseCode(caseCode);
+		toApproveRecord.setContent(remark);
+		toApproveRecord.setApproveType("8");//todo
+		toApproveRecord.setOperator(user.getId());
+		toApproveRecord.setTaskId(taskId);
+		toApproveRecord.setOperatorTime(new Date());
+		toApproveRecord.setPartCode("SpvDirectorApprove");//todo
+		toApproveRecord.setProcessInstance(instCode);		
+		
+		toApproveRecordService.insertToApproveRecord(toApproveRecord);
+	}
+
+	@Override
+	public void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId,
+			String spvConCode, Date signTime, SessionUser user) {
+		
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		ToSpv spv = findToSpvBySpvCode(spvCode);
+		spv.setStatus(SpvStatusEnum.SIGNCOMPLETE.getCode());
+		spv.setSpvConCode(spvConCode);
+		spv.setSignTime(signTime);
+		updateByPrimaryKey(spv);
 	}
 	
 }

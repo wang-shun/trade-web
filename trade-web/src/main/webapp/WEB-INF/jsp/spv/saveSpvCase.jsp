@@ -109,12 +109,6 @@
 				<button id="saveBtn" class="btn btn-warning">保存</button>
 			</div>
 			</c:if>
-			<c:if test="${handle eq 'SpvSign'}">
-			<div class="menu_btn"
-				style="margin-left: 960px; margin-top: 7px;display:none;" >
-				<button id="saveBtn" class="btn btn-warning">保存</button>
-			</div>
-			</c:if>
 		</div>
 		<div class="row">
 			<div class="wrapper wrapper-content animated fadeInUp">

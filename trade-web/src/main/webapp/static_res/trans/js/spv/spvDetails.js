@@ -117,11 +117,9 @@ $(document).ready(function(){
 
        });
        
-       
        $("#saveBtn").click(function(){
-    	   saveBtnClick($("#handle").val(),null,'checkForSave',null,null);
+    	   saveNewSpv();
        });
-
        
        $("#submitBtn").click(function(){
      	  if(!checkFormSubmit()){
@@ -138,7 +136,7 @@ $(document).ready(function(){
      	  }
      });
        function submitNewSpv(){
-    	   var totalArr = [];
+    	  var totalArr = [];
        	  $("form").each(function(){
        		 var obj = $(this).serializeArray();
        		for(var i in obj){
@@ -233,71 +231,7 @@ $(document).ready(function(){
     }); 
 });
     
-    function saveBtnClick(handle,SpvApplyApprove,type,url,data){
-    	if(type == 'checkForSubmit' && handle == 'SpvApply'){
-      	  if(!checkFormSubmit()){
-        		  return false;
-        	  }
-        }else{
-    	  if(!checkFormSave()){
-      		  return false;
-      	  }
-      }	 
-
-  	  if(type == 'checkForSubmit' && handle == 'SpvApply'){
-	  		window.wxc.confirm("是否确定提交申请！",{"wxcOk":function(){
-	  			saveNewSpv(url,data);
-	  		}});
-  	  }else if(handle == 'SpvAudit' && SpvApplyApprove){
-	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
-	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
-	  	    	window.wxc.alert("请填写审批意见！");
-	  		    changeClass($("#passOrRefuseReason"));
-	  		    return false;
-	  	    }
-	  	  window.wxc.confirm("是否确定通过！",{"wxcOk":function(){	  			
-	  			saveNewSpv(url,data);
-	  		}});
-  	  }else if(handle == 'SpvAudit' && !SpvApplyApprove){
-	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
-	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
-	  	    	window.wxc.alert("请填写审批意见！");
-	  		    changeClass($("#passOrRefuseReason"));
-	  		    return false;
-	  	    }
-	  		window.wxc.confirm("是否确定驳回！",{"wxcOk":function(){
-	  			saveNewSpv(url,data);
-	  		}});
-  	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
-	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
-	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
-	  	    	window.wxc.alert("请填写审批意见！");
-	  		    changeClass($("#passOrRefuseReason"));
-	  		    return false;
-	  	    }
-	  		window.wxc.confirm("是否确定通过！",{"wxcOk":function(){	  			
-	  			saveNewSpv(url,data);
-	  		}});
-  	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
-	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
-	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
-	  	    	window.wxc.alert("请填写审批意见！");
-	  		    changeClass($("#passOrRefuseReason"));
-	  		    return false;
-	  	    }
-	  		window.wxc.confirm("是否确定驳回！",{"wxcOk":function(){
-	  			saveNewSpv(url,data);
-	  		}});
-  	  }else if(handle == 'SpvSign'){
-	  		window.wxc.confirm("是否确定签约！",{"wxcOk":function(){
-	  			saveNewSpv(url,data);
-	  		}});
-  	  }else if(type == 'checkForSave'){
-  		    saveNewSpv(url,data);
-  	  }
-    }
-    
-    function saveNewSpv(url,data1){
+    function saveNewSpv(){
    	  	var totalArr = [];
 	      	  $("form").each(function(){
 	      		 var obj = $(this).serializeArray();
@@ -330,7 +264,6 @@ $(document).ready(function(){
 	 			            } ,   
 	 			success : function(data) {
 				    	 if(data.success){
-				    		 ajaxCall(url,data1);		    		 
 				    		 if($("#urlType").val() == 'myTask'){    	
 		 			        	window.wxc.success("提交成功！",{"wxcOk":function(){
 		 			        		window.opener.location.reload(); //刷新父窗口
@@ -1166,38 +1099,7 @@ $(document).ready(function(){
 		return total;
 	}
 	
-	function ajaxCall(url,data){
-		if(url == null) return;
-		$.ajax({
-			url:url,
-			method:"post",
-			dataType:"json",
-			async:false,
-			data:data,
-			beforeSend:function(){  
-    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-    				$(".blockOverlay").css({'z-index':'9998'});
-                },
-            complete: function() {
-	                 $.unblockUI(); 
-                     if(status=='timeout'){ //超时,status还有success,error等值的情况
-    	          	  Modal.alert(
-    				  {
-    				    msg:"抱歉，系统处理超时。"
-    				  }); 
-    		                } 
-    		            } ,   
-			success : function(data) {
-					 $.unblockUI();
-				},
-				error : function(errors) {
-					$.unblockUI();   
-					window.wxc.error("数据保存出错:"+JSON.stringify(errors));
-				}
-		});
-	}
-	
-	//风控总监审批公共方法   
+	//流程开启、提交通用方法   
     function riskAjaxRequest(SpvApplyApprove,handle,url){
 	    var data = {spvCode:$("input[name='toSpv.spvCode']").val(),caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),remark:$("#passOrRefuseReason").val(),source:$("#source").val()};
 	    if(SpvApplyApprove != null){
@@ -1207,9 +1109,99 @@ $(document).ready(function(){
 	    	data.spvConCode = $("input[name='toSpv.spvConCode']").val();
 	    	data.signTime = $("input[name='toSpv.signTime']").val();
 	    }
-    	//验证参数是否填写正确
-    	saveBtnClick(handle,SpvApplyApprove,'checkForSubmit',url,data);
+    	//申请时验证参数
+    	if(handle == 'SpvApply'){
+    	  if(!checkFormSubmit()){
+      		  return false;
+      	  }
+        }
+    	//审批时验证填写审批意见
+    	if(handle == 'SpvAudit' || handle == 'SpvApprove'){
+  	  		var passOrRefuseReason = $("#passOrRefuseReason").val();
+  	  	    if(passOrRefuseReason=='' || passOrRefuseReason==null){
+  	  	    	window.wxc.alert("请填写审批意见！");
+  	  		    changeClass($("#passOrRefuseReason"));
+  	  		    return false;
+  	  	    }
+    	}
+
+    	  if(handle == 'SpvApply'){
+  	  		window.wxc.confirm("是否确定提交申请！",{"wxcOk":function(){
+  	  			requestUrl(handle,url,data);
+  	  		}});
+    	  }else if(handle == 'SpvAudit' && SpvApplyApprove){
+	  	  	window.wxc.confirm("是否确定通过！",{"wxcOk":function(){	  			
+	  	  		requestUrl(handle,url,data);
+	  	    }});
+    	  }else if(handle == 'SpvAudit' && !SpvApplyApprove){
+  	  		window.wxc.confirm("是否确定驳回！",{"wxcOk":function(){
+  	  			requestUrl(handle,url,data);
+  	  		}});
+    	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
+  	  		window.wxc.confirm("是否确定通过！",{"wxcOk":function(){	  			
+  	  			requestUrl(handle,url,data);
+  	  		}});
+    	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
+  	  		window.wxc.confirm("是否确定驳回！",{"wxcOk":function(){
+  	  			requestUrl(handle,url,data);
+  	  		}});
+    	  }else if(handle == 'SpvSign'){
+  	  		window.wxc.confirm("是否确定签约！",{"wxcOk":function(){
+  	  			requestUrl(handle,url,data);
+  	  		}});
+    	  }
     }
+    
+    function requestUrl(handle,url,data){
+    	var totalArr = [];
+     	  $("form").each(function(){
+     		 var obj = $(this).serializeArray();
+     		for(var i in obj){
+     			if(obj[i].name.indexOf("idValiDate") != -1 && obj[i].value == '长期有效'){
+     				obj[i].value = '3000-01-01';
+     			}
+          		totalArr.push(obj[i]);
+     		}
+     	  });
+     	  
+      data.spvBaseInfoVO = totalArr;
+      
+   	  $.ajax({
+     		url:url,
+     		method:"post",
+     		dataType:"json",
+     		data:data,   		        				        		    
+  		beforeSend:function(){  
+			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+           },
+	        complete: function() {
+	                 $.unblockUI(); 
+	                 if(status=='timeout'){ //超时,status还有success,error等值的情况
+		          	  Modal.alert(
+					  {
+					    msg:"抱歉，系统处理超时。"
+					  }); 
+			                } 
+			            } ,   
+			success : function(data) {   
+					if(data.success){
+						window.wxc.success(handle == 'SpvApply'?"开启资金监管流程成功！":"流程提交成功！",{"wxcOk":function(){
+							window.location.href = ctx+"/spv/spvList";
+						}});  	 
+					}else{
+						window.wxc.error(handle == 'SpvApply'?"开启资金监管流程失败！":"流程提交失败！",{"wxcOk":function(){
+							window.location.href = ctx+"/spv/spvList";
+						}});  	 
+					}     
+					 $.unblockUI();
+				},		
+			error : function(errors) {
+					$.unblockUI();   
+					window.wxc.error("数据保存出错！");
+				}  
+      });
+    } 
 
     
     //风控申请审批时只读表单
