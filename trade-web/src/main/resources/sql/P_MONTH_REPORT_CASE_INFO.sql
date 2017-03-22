@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/3/13 17:50:58 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/3/22 16:16:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -406,6 +406,10 @@ SELECT
 		select error_message();
 		THROW;
 	END CATCH
+
+	EXEC [sctrans].[P_MONTH_ELOAN_CASE_BASE_INFO];
+
+
 
 END
 
