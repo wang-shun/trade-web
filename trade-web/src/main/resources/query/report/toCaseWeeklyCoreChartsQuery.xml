@@ -55,20 +55,20 @@
 				case when 
         		#startWeekDay#/100 = #endWeekDay#/100 then 
         		sum(case when week.CASE_REC_STATUS = 0 and week.BELONG_WEEK_END_DAY/100 = #belongEndWeekDay#/100 and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #endWeekDay#/100*100+1 and 
-				#endWeekDay# then week.MORT_TOTAL_AMOUNT else 0 end) 
+				#endWeekDay# then week.MORT_COM_AMOUNT else 0 end)
 				else 
         		sum(case when week.CASE_REC_STATUS = 0 and week.BELONG_WEEK_END_DAY/100 = #belongEndWeekDay#/100 and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #lastMonthStartDay# and 
-				#lastMonthEndDay# then week.MORT_TOTAL_AMOUNT else 0 end) 
+				#lastMonthEndDay# then week.MORT_COM_AMOUNT else 0 end)
                 end 
 				LOSE_AMOUNT_MONTH,
 				
 				case when 
         		#startWeekDay#/100 = #endWeekDay#/100 then 
         		isnull(sum(case when week.BELONG_WEEK_END_DAY/100 = #belongEndWeekDay#/100 and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #endWeekDay#/100*100+1 and 
-				#endWeekDay# then week.MORT_TOTAL_AMOUNT else 0 end), 0)
+				#endWeekDay# then week.MORT_COM_AMOUNT else 0 end), 0)
 				else         		
 				isnull(sum(case when week.BELONG_WEEK_END_DAY/100 = #belongEndWeekDay#/100 and cast(convert(varchar(8) , week.TRANSFER_APP_PASS_TIME, 112 ) as int) between #lastMonthStartDay# and 
-				#lastMonthEndDay# then week.MORT_TOTAL_AMOUNT else 0 end), 0)
+				#lastMonthEndDay# then week.MORT_COM_AMOUNT else 0 end), 0)
 				end 
 				TOTAL_AMOUNT_MONTH
 				
