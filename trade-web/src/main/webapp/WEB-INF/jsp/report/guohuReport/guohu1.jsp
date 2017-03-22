@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="form_list">
-                            <div class="form_content">
+                            <div class="form_content" style="height: 42px;overflow: hidden;">
                              	      <select  id ="districtId" class="select_control mr5">
                                     <option value="">
                                         请选择

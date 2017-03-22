@@ -12,6 +12,7 @@
 		<customDict id="qqGetEAMountPercent" beanName="qqGetEAMountPercent"></customDict>
 		<customDict id="qqGetTotalForConsultant" beanName="qqGetTotalForConsultant"></customDict>
 		<customDict id="qqGetRealNameForLeader" beanName="qqGetRealNameForLeader"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
 
 	</dicts>
 	<formatters>
@@ -447,7 +448,6 @@
 					,[JQYDS_NAME]--区域董事姓名
 					,[JQYDS_EMPLOYEE_CODE]--区域董事雇员编号
 					,[JQYZJ_NAME]--区域总监姓名
-					,[JQYZJ_CODE]--区域总监雇员编号
 					,[JQYJL_NAME]--区域经理姓名
 					,[JQYJL_EMPLOYEE_CODE]--区域经理雇员编号
 					,[JFHJL_NAME]--分行经理姓名
@@ -797,10 +797,12 @@
 				<column type="virtual" name="E_COUNT_PERCENT" title="E+卡转化率(单数)" customDict="qqGetECountPercent" referencecol="E_CARD_COUNT,CASE_COUNT"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="E_AMOUNT_PERCENT" title="E+卡转化率(金额)" customDict="qqGetEAMountPercent" referencecol="E_AMOUNT,CASE_CON_PRICE"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ORGANIZATION_ID" title="组织ID"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ORGANIZATION_NAME" title="组织名称" customDict="qqcdOrgIdName" referencecol="ORGANIZATION_ID" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
 				<column type="virtual"
-						name="TOTAL_ALL_COUNT,TOTAL_CASE_COUNT,TOTAL_MORT_COM_COUNT,TOTAL_MORT_COM_AMOUNT,TOTAL_CASE_CON_PRICE,TOTAL_CASE_COM_CON_PRICE,TOTAL_LOST_COUNT,TOTAL_CASE_LOST_COUNT_PERCENT,TOTAL_IS_DELEGATE_YUCUI_COUNT,TOTAL_IS_DELEGATE_CUSTOMER_COUNT,TOTAL_LOST_AMOUNT,TOTAL_CASE_LOST_AMOUNT_PERCENT,TOTAL_PING_GU_COUNT_PERCENT,TOTAL_EVA_FEE,TOTAL_E_COUNT_PERCENT,TOTAL_CARD_COUNT_PERCENT,TOTAL_E_AMOUNT_PERCENT,TOTAL_CASE_PART"
-						referencecol="EVA_COUNT,CASE_COUNT,MORT_COM_COUNT,MORT_COM_AMOUNT,CASE_CON_PRICE,CASE_COM_CON_PRICE,LOST_AMOUNT,EVA_FEE,E_CARD_COUNT,E_AMOUNT,IS_DELEGATE_YUCUI_COUNT,IS_DELEGATE_CUSTOMER_COUNT,ALL_COUNT"
-						customDict="qqGetTotalForConsultant"/>
+				name="TOTAL_ALL_COUNT,TOTAL_CASE_COUNT,TOTAL_MORT_COM_COUNT,TOTAL_MORT_COM_AMOUNT,TOTAL_CASE_CON_PRICE,TOTAL_CASE_COM_CON_PRICE,TOTAL_LOST_COUNT,TOTAL_CASE_LOST_COUNT_PERCENT,TOTAL_IS_DELEGATE_YUCUI_COUNT,TOTAL_IS_DELEGATE_CUSTOMER_COUNT,TOTAL_LOST_AMOUNT,TOTAL_CASE_LOST_AMOUNT_PERCENT,TOTAL_PING_GU_COUNT_PERCENT,TOTAL_EVA_FEE,TOTAL_E_COUNT_PERCENT,TOTAL_CARD_COUNT_PERCENT,TOTAL_E_AMOUNT_PERCENT,TOTAL_CASE_PART"
+				referencecol="EVA_COUNT,CASE_COUNT,MORT_COM_COUNT,MORT_COM_AMOUNT,CASE_CON_PRICE,CASE_COM_CON_PRICE,LOST_AMOUNT,EVA_FEE,E_CARD_COUNT,E_AMOUNT,IS_DELEGATE_YUCUI_COUNT,IS_DELEGATE_CUSTOMER_COUNT,ALL_COUNT"
+				customDict="qqGetTotalForConsultant"/>
 
 			</table-row>
 		</grid>

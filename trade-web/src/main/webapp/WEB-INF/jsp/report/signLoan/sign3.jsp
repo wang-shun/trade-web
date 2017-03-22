@@ -168,7 +168,7 @@
 	        var month = month_ > 9 ? month_:("0"+month_)
 	        var data = {};
 	      	if(!page)page=1;
-  	        data.rows=10;
+  	        data.rows=8;
   	        data.page=page;
 	        var condition = "init";
 	        data.parentOrgId = "1D29BB468F504774ACE653B946A393EE";
