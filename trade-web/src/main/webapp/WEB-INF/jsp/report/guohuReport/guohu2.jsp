@@ -47,7 +47,7 @@
 						</div>
 					</div>
 					<div class="form_list">
-						<div class="form_content">
+						<div class="form_content" style="height: 42px;overflow: hidden;">
 							<select id="districtId" class="select_control mr5">
 								<option value="">请选择</option>
 							</select> <select id="orgId" class="select_control mr5">
@@ -207,7 +207,7 @@
         	getGroup("ff8080814f459a78014f45a73d820006","true","districtId",null);
         	$("#districtId").change(function(item){
         		var parentId=$("#districtId").val();
-        		getGroup(parentId,false,"orgId",null);
+        		getGroup(parentId,false,"orgId","HT");
         	/* 	$("#userId").html("<option value=''>请选择</option>");
         		type="district"; */
         	})
