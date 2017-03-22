@@ -18,7 +18,7 @@
 		<searchScript>	
          select o.id,o.org_name as name from sctrans.sys_org o
          <if test="#gb=='false'" >
-          inner JOIN sctrans.T_TS_TEAM_PROPERTY t on o.org_code=t.YU_TEAM_CODE and t.IS_RESPONSE_TEAM=1
+          inner JOIN sctrans.T_TS_TEAM_PROPERTY t on o.org_code=t.YU_TEAM_CODE
           </if>
 			<where>
 			  <trim prefix="and" prefixOverrides="and|or">
