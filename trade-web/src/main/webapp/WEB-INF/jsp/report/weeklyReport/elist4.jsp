@@ -139,7 +139,7 @@ th, td {
 			}
 			var url = ctx+"/quickGrid/findPage";
 			var result = initData(url,data,"template_eloanList","eloanList");
-			if(result){
+			if(result && result.rows){
 				var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0,tb10 = 0,tb11 = 0,tb12 = 0;
 				
 				for(var i in result.rows){

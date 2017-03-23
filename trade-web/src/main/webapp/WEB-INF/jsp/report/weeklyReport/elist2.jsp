@@ -128,7 +128,7 @@ th, td {
 			}
 			var url = ctx + "/quickGrid/findPage";
 			var result = initData(url, data, "template_assessmentList", "assessmentList");
-			if(result){
+			if(result && result.rows){
 				var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0;
 				var eva_num_month = 0,rec_num_month = 0,eva_act_amount_month = 0,eva_amount_month = 0;
 				
