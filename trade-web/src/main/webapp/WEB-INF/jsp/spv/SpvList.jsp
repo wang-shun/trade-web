@@ -168,16 +168,16 @@
                                               	  {{if item.STATUS==0}}
                                                 <span class="yes_color">起草</span>
 												  {{/if}}
-                                                  {{if item.STATUS==4}}
+                                                  {{if item.STATUS==5}}
                                                 <span class="yes_color">中止审批中</span>
 												  {{/if}}
-                                                  {{if item.STATUS==5}}
+                                                  {{if item.STATUS==6}}
                                                 <span class="yes_color">结束审批中</span>
 												  {{/if}}
-                                                 {{if item.STATUS==6}}
+                                                 {{if item.STATUS==7}}
                                                 <span class="yes_color">合约完成</span>
 												  {{/if}}
-                                                 {{if item.STATUS==7}}
+                                                 {{if item.STATUS==8}}
                                                 <span class="yes_color">合约中止</span>
 												  {{/if}}
                                         </td>
@@ -232,13 +232,13 @@
 												 <a href="#"><em>申请人：{{item.APPLY_USER}}</em></a>
                                             </span>
                                             <span class="manager">
-                                                <a href="#"><em>经办人{{}}：{{item.CREATE_BY}}</em></a>
+                                                <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
                                             </span>
                                         </td>
                                         <td class="text-center"> 
                                         
                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-success dropdown-toggle"    {{if wrapperData.job != 'JYFKZY'}} disabled="true" {{/if}}                                  
+                                                <button type="button" class="btn btn-success dropdown-toggle"                                  
                                                 data-toggle="dropdown" >操作
                                                     <span class="caret"></span>
                                                 </button>
@@ -255,17 +255,17 @@
                                                     	{{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">{{
-                                                      {{if item.STATUS==2&&item.signTime!=undefined}}
+                                                      {{if item.STATUS==4&&item.signTime!=undefined&&item.prdCode==1}}
                                                         <li><a href="${ctx}/spv/task/cashflowIntApply/spvRecorded?pkid={{item.PKID}}">入账</a></li>
                                                       {{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.OUT">
-													{{if item.ru>0&&item.STATUS==2}}
+													{{if item.ru>0&&item.STATUS==4&&item.prdCode==1}}
                                                         <li><a href="${ctx}/spv/task/cashFlowOutAppr/process?spvCode={{item.SPV_CODE}}">出账</a></li>
                                                      {{/if}}
 													</shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.CLOSE">
-                                                          {{if item.STATUS>0&&item.STATUS<=3}}
+                                                          {{if item.STATUS==4&&item.prdCode==1}}
                                                    		 <li><a href="${ctx}/spv/task/spvCloseApply/process?spvCode={{item.SPV_CODE}}">中止/结束</a></li>
                                                           {{/if}}
                                                     </shiro:hasPermission>

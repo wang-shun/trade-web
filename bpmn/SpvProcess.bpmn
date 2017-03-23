@@ -3,77 +3,126 @@
   <message id="SpvFinishMsg" name="SpvFinishMsg"></message>
   <process id="SpvProcess" name="SpvProcess" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="SpvApply" name="资金监管申请" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/SpvApply/process?__decorator=UI_V2"></userTask>
-    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="SpvApply"></sequenceFlow>
-    <userTask id="SpvApprove" name="资金监管审批" activiti:assignee="${RiskControlDirector}" activiti:formKey="/spv/task/SpvApprove/process?__decorator=UI_V2"></userTask>
-    <sequenceFlow id="flow2" sourceRef="SpvApply" targetRef="SpvApprove"></sequenceFlow>
+    <userTask id="SpvAudit" name="资金监管专员审核" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/SpvAudit/process?__decorator=UI_V2"></userTask>
+    <userTask id="SpvApprove" name="资金监管总监审批" activiti:assignee="${RiskControlDirector}" activiti:formKey="/spv/task/SpvApprove/process?__decorator=UI_V2"></userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <userTask id="SpvSign" name="资金监管签约" activiti:assignee="${RiskControlOfficer}" activiti:formKey="/spv/task/SpvSign/process?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow3" sourceRef="SpvApprove" targetRef="exclusivegateway1"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="SpvSign">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SpvApplyApprove}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SpvDirectorApprove}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="SpvApply">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SpvApplyApprove==false}]]></conditionExpression>
+    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="SpvConsultantApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SpvDirectorApprove==false}]]></conditionExpression>
     </sequenceFlow>
     <intermediateCatchEvent id="SpvFinishMsgEventCatch" name="SpvFinishMsgEventCatch">
       <messageEventDefinition messageRef="SpvFinishMsg"></messageEventDefinition>
     </intermediateCatchEvent>
-    <sequenceFlow id="flow6" sourceRef="SpvSign" targetRef="SpvFinishMsgEventCatch"></sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow7" sourceRef="SpvFinishMsgEventCatch" targetRef="endevent1"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow8" sourceRef="SpvSign" targetRef="exclusivegateway2"></sequenceFlow>
+    <userTask id="SpvConsultantApply" name="资金监管申请" activiti:assignee="${consultant}" activiti:formKey="/spv/task/SpvApply/process?__decorator=UI_V2"></userTask>
+    <sequenceFlow id="flow9" sourceRef="startevent1" targetRef="SpvConsultantApply"></sequenceFlow>
+    <sequenceFlow id="flow11" sourceRef="exclusivegateway2" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isFourParties==false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow12" sourceRef="exclusivegateway2" targetRef="SpvFinishMsgEventCatch">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isFourParties}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow13" sourceRef="SpvConsultantApply" targetRef="SpvAudit"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow14" sourceRef="SpvAudit" targetRef="exclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow15" sourceRef="exclusivegateway3" targetRef="SpvApprove">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SpvOfficerApprove}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow16" sourceRef="exclusivegateway3" targetRef="SpvConsultantApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SpvOfficerApprove == false}]]></conditionExpression>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_SpvProcess">
     <bpmndi:BPMNPlane bpmnElement="SpvProcess" id="BPMNPlane_SpvProcess">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="80.0" y="70.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="40.0" y="195.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="SpvApply" id="BPMNShape_SpvApply">
-        <omgdc:Bounds height="51.0" width="131.0" x="32.0" y="160.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="SpvAudit" id="BPMNShape_SpvAudit">
+        <omgdc:Bounds height="51.0" width="131.0" x="261.0" y="185.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="SpvApprove" id="BPMNShape_SpvApprove">
-        <omgdc:Bounds height="51.0" width="131.0" x="32.0" y="280.0"></omgdc:Bounds>
+        <omgdc:Bounds height="51.0" width="131.0" x="554.0" y="187.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
-        <omgdc:Bounds height="40.0" width="40.0" x="260.0" y="165.0"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="740.0" y="192.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="SpvSign" id="BPMNShape_SpvSign">
-        <omgdc:Bounds height="51.0" width="131.0" x="380.0" y="160.0"></omgdc:Bounds>
+        <omgdc:Bounds height="51.0" width="131.0" x="830.0" y="187.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="SpvFinishMsgEventCatch" id="BPMNShape_SpvFinishMsgEventCatch">
-        <omgdc:Bounds height="35.0" width="35.0" x="600.0" y="168.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="1036.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="730.0" y="168.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="1180.0" y="195.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
-        <omgdi:waypoint x="97.0" y="105.0"></omgdi:waypoint>
-        <omgdi:waypoint x="97.0" y="160.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
-        <omgdi:waypoint x="97.0" y="211.0"></omgdi:waypoint>
-        <omgdi:waypoint x="97.0" y="280.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="1034.0" y="192.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="SpvConsultantApply" id="BPMNShape_SpvConsultantApply">
+        <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="185.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway3" id="BPMNShape_exclusivegateway3">
+        <omgdc:Bounds height="40.0" width="40.0" x="457.0" y="192.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
-        <omgdi:waypoint x="163.0" y="305.0"></omgdi:waypoint>
-        <omgdi:waypoint x="280.0" y="305.0"></omgdi:waypoint>
-        <omgdi:waypoint x="280.0" y="205.0"></omgdi:waypoint>
+        <omgdi:waypoint x="685.0" y="212.0"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="212.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
-        <omgdi:waypoint x="300.0" y="185.0"></omgdi:waypoint>
-        <omgdi:waypoint x="380.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="780.0" y="212.0"></omgdi:waypoint>
+        <omgdi:waypoint x="830.0" y="212.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
-        <omgdi:waypoint x="260.0" y="185.0"></omgdi:waypoint>
-        <omgdi:waypoint x="163.0" y="185.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
-        <omgdi:waypoint x="511.0" y="185.0"></omgdi:waypoint>
-        <omgdi:waypoint x="600.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="760.0" y="192.0"></omgdi:waypoint>
+        <omgdi:waypoint x="759.0" y="139.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="139.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="185.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
-        <omgdi:waypoint x="635.0" y="185.0"></omgdi:waypoint>
-        <omgdi:waypoint x="730.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1071.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1197.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1197.0" y="195.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="961.0" y="212.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1034.0" y="212.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="75.0" y="212.0"></omgdi:waypoint>
+        <omgdi:waypoint x="110.0" y="212.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="1074.0" y="212.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1180.0" y="212.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="1054.0" y="192.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1053.0" y="155.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="215.0" y="212.0"></omgdi:waypoint>
+        <omgdi:waypoint x="261.0" y="210.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="392.0" y="210.0"></omgdi:waypoint>
+        <omgdi:waypoint x="457.0" y="212.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="497.0" y="212.0"></omgdi:waypoint>
+        <omgdi:waypoint x="554.0" y="212.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="477.0" y="232.0"></omgdi:waypoint>
+        <omgdi:waypoint x="476.0" y="282.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="282.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="240.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

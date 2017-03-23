@@ -177,7 +177,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="m-b-md">
-									<h4>关联合约</h4>
+									<h4>关联案件</h4>
 								</div>
 							</div>
 						</div>
