@@ -408,10 +408,12 @@ function getParamsValue() {
 		search_ctmCode : ctmCode,
 		search_caseProperty : caseProperty,
 		search_status : status,
+		
 		argu_guestname : guestName,
 		search_agentName :agentName,
 		argu_proName : proName,
 		argu_agentOrgName : agentOrgName,
+		
 		search_propertyAddr : propertyAddr,
 		argu_srvCode : srvCode,
 		argu_srvCode1 : srvCode1,

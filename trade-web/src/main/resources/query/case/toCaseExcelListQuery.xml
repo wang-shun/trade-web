@@ -589,6 +589,14 @@
 							B.CASE_PROPERTY_CN,--在途等
 							B.CASE_ORIGIN,
 							B.CASE_CREATE_TIME,
+							
+							--查询
+							B.CASE_LEADING_PROCESS_ID_F,
+							B.CASE_ORG_ID_F,
+							B.CASE_ISSUBSCRIBE,
+							B.CASE_ORIGIN,
+							B.CASE_LOAN_REQ,
+							
 							B.CASE_DISPATCH_TIME,
 							B.CASE_REAL_NAME_F,
 							B.CASE_EMPLOYEE_CODE_F,
@@ -659,10 +667,81 @@
 					
 					FROM  sctrans.T_RPT_CASE_BASE_INFO B
 					
-					WHERE 1=1	
-					<if test="itemManagerId != null and itemManagerId !='' ">
-						 AND  M.ITEM_MANAGER = #itemManagerId# 
+					WHERE 
+						1=1		AND		  
+						  
+					 (EXISTS ( SELECT 1 FROM  SCTRANS.T_TO_CASE C  WHERE C.CASE_CODE = B.CASE_CODE  
+					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
+					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
+			    	  OR EXISTS ( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = B.CASE_CODE 
+			    	  		<ifNotNull idflag> and C.PROCESSOR_ID = #userId# 	</ifNotNull>
+			    	  		<ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)    </ifNotNull>)
+			    	  OR EXISTS ( SELECT    1
+                      			  FROM      SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR A  
+                                INNER JOIN ( SELECT T.*,S.id
+                                             FROM   SCTRANS.T_TL_TASK_REASSIGNT_LOG T  LEFT JOIN sctrans.SYS_USER S ON t.ORI_ASSIGNEE = S.username
+                                           ) L ON L.id = A.PROCESSOR_ID and L.CASE_CODE = A.CASE_CODE
+                                             <ifNotNull userLoginName> AND L.NEW_ASSIGNEE = #userLoginName#</ifNotNull>
+                      			WHERE     B.CASE_CODE = A.CASE_CODE
+                                AND A.SRV_CODE IN ( '3000400201', '3000401002' ) )
+                      )	                 
+                      
+					<if test="isSubscribeFilter != null and isSubscribeFilter !='' ">
+						 AND  B.CASE_ISSUBSCRIBE = #isSubscribeFilter# 
 					</if>
+					
+					<if test="caseOriginType != null and caseOriginType !='' ">
+						 AND  B.CASE_ORIGIN = #caseOriginType# 
+					</if>
+					
+					<if test="caseProperty != null and caseProperty !='' ">
+						 AND  B.CASE_PROPERTY = #caseProperty# 
+					</if>
+					
+					<if test="status != null and status !='' ">
+						 AND  B.CASE_STATUS = #status# 
+					</if>
+					
+					<if test="caseCode != null and caseCode !='' ">
+						 AND  B.CASE_CODE = #caseCode# 
+					</if>
+					<if test="ctmCode != null and ctmCode !='' ">
+						 AND  B.CTM_CODE = #ctmCode# 
+					</if>
+					
+					<if test="propertyAddr != null and propertyAddr !='' ">
+						 AND  B.HOUSR_PROPERTY_ADDR  LIKE '%'+#propertyAddr#+'%' 
+					</if>
+				
+					<if test="guestname != null and guestname !='' ">
+						 AND  (B.GUEST_NAME_UP  LIKE '%'+#guestname#+'%'   OR B.GUEST_NAME_DOWN  LIKE '%'+#guestname#+'%')
+					</if>
+					
+					<ifNotNull proName>
+						AND ( EXISTS (SELECT 1 FROM sctrans.T_TO_CASE c where c.LEADING_PROCESS_ID = #proName# and  CASE_CODE = B.CASE_CODE)
+						    OR  
+						      EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p where p.PROCESSOR_ID = #proName# and CASE_CODE = B.CASE_CODE) )
+					</ifNotNull>
+					
+					<ifNotNull agentOrgName>
+						AND  EXISTS ( SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = B.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
+					</ifNotNull>
+					<choose>
+						<when test	="mortageType==0">
+						  	AND B.CASE_LOAN_REQ = '0'
+					     </when>
+					     <when test	="mortageType==1">
+					     	AND B.CASE_LOAN_REQ = '1'  AND B.MORT_TYPE IN ('30016001','30016002')  AND B.IS_DELEGATE_YUCUI='1'
+					     </when>
+					     <when test	="mortageType==2">
+							AND B.CASE_LOAN_REQ = '1'  AND B.MORT_TYPE IN ('30016003')  AND B.IS_DELEGATE_YUCUI='1'
+					     </when>
+					     <when test	="mortageType==3">
+							AND B.CASE_LOAN_REQ = '1'  AND B.MORT_TYPE IN ('30016001','30016002')  AND B.IS_DELEGATE_YUCUI='0'
+					     </when>
+					</choose> 
+					
+					
 				]]>
 			</baseSql>
 			<orderBySql>
