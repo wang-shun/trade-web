@@ -32,7 +32,7 @@
 <!-- bank  select -->
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" /> 
 
 <!-- 新调整页面样式 -->
 <link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
@@ -479,14 +479,16 @@
 			function checkAttachmentForLoanLost(loanLostConfirmCode){	
 				if(loanLostConfirmCode != '' && loanLostConfirmCode != null){
 					
-					if (($("#loan_lost_letter_pic_list li").length == undefined || $("#loan_lost_letter_pic_list li").length == 0)
+				/* 	if (($("#loan_lost_letter_pic_list li").length == undefined || $("#loan_lost_letter_pic_list li").length == 0)
 						|| ($("#loan_lost_confirmation_pic_list li").length == undefined || $("#loan_lost_confirmation_pic_list li").length == 0) ) {
 						window.wxc.alert("请上传附件信息！");
 						checkAtt = false;
 						return false;
 					}else{
 						checkAtt = true;
-					}
+					} */
+					//贷款流失申请中，附件部分“贷款流失申请书”不再作为必填项上传
+					checkAtt = true;
 					/* $.each(idList, function(index, value){//遍历所传附件的fileId
 						var length = $("#picContainer"+value).find("img").length;
 						if(length == 0) {
@@ -498,13 +500,15 @@
 						}
 					}); */
 				}else{
-					if ($("#loan_lost_letter_pic_list li").length == undefined || $("#loan_lost_letter_pic_list li").length == 0) {
+					/* if ($("#loan_lost_letter_pic_list li").length == undefined || $("#loan_lost_letter_pic_list li").length == 0) {
 						window.wxc.alert("请上传附件信息！");
 						checkAtt = false;
 						return false;
 					}else{
 						checkAtt = true;
-					}
+					} */
+					//贷款流失申请中，附件部分“贷款流失申请书”不再作为必填项上传
+					checkAtt = true;
 					
 					if ($("#loan_lost_confirmation_pic_list li").length == undefined || $("#loan_lost_confirmation_pic_list li").length == 0) {
 						checkAtt = true;

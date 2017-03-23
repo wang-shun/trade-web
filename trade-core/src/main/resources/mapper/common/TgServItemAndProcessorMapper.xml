@@ -468,6 +468,23 @@
   		SELECT PROCESSOR_ID, ORG_ID FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR 
   			where case_code=#{caseCode,jdbcType=VARCHAR} and srv_code=#{srvCode,jdbcType=VARCHAR}
   </select>
+  <!-- 功能：案件交易顾问 作者：hejf -->
+  <select id="selectServItemandName" resultType="com.centaline.trans.common.entity.TgServItemAndProcessor">
+  		SELECT 
+			PROCESSOR_ID, 
+			ORG_ID ,
+			(select u.USERNAME from sctrans.SYS_USER u where u.ID=PROCESSOR_ID) srvName 
+		FROM 
+			sctrans.T_TG_SERV_ITEM_AND_PROCESSOR 
+		where 
+			case_code=#{caseCode,jdbcType=VARCHAR} and srv_code=#{srvCode,jdbcType=VARCHAR}
+  </select>
+  <!-- 功能：案件交易顾问 作者：hejf -->
+  <select id="selectServItemandNameF" resultType="com.centaline.trans.common.entity.TgServItemAndProcessor">
+  		select 
+		 (select u.USERNAME from sctrans.SYS_USER u where u.ID=c.LEADING_PROCESS_ID) srvName
+		 from sctrans.T_TO_CASE c where c.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </select>
   
   
   <delete id="deleteByCaseCode" parameterType="java.lang.String">

@@ -200,7 +200,7 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i> 产品类型1${eloanCase.loanSrvCode}
+									style="color:red">* </i> 产品类型
 								</label>
 								<aist:dict id="loanSrvCode" name="loanSrvCode"
 									clazz="select_control sign_right_two" display="select"

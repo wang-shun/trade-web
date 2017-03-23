@@ -145,7 +145,16 @@
 	    select 
 		<include refid="Base_Column_List" />
 	    from sctrans.T_TO_BIZ_WARN
-	    	where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+	    where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+  </select> 
+  
+  
+   <select id="selectBizWarnInfoByMap" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+	    select 
+		<include refid="Base_Column_List" />
+	    from sctrans.T_TO_BIZ_WARN
+	    where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
+	    AND WARN_TYPE=#{warnType,jdbcType=VARCHAR} 
   </select> 
   
   <select id="getAllBizwarnCountByTeam" parameterType="java.lang.String" resultType="java.lang.Integer">

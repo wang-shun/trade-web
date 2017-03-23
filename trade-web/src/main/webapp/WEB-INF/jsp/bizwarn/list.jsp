@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
-<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%><!--封装 aist:dict需要引入的  -->
+
 
 <html>
 
@@ -20,11 +21,12 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+
 	<div class="row">
 		<div class="col-md-12">
 			<div class="ibox float-e-margins" style="margin-top: 10px;margin-bottom: 5px;">
 				<div class="ibox-title">
-					<h4>商贷流失预警案件列表</h4>
+					<h4>预警案件列表</h4>
 				</div>
 				<div class="ibox-content" style="padding-bottom: 5px;">
 					<form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id ='myForm'>
@@ -35,10 +37,13 @@
 					    	<div class="row form-group">
 			    				<label class="col-md-1  control-label">预警类型</label>
 			    				<div class="col-md-3">
-			    					<select id="warnType" class="form-control pull-left">
-			    						<option value="">请选择</option>
-			    						<option value="LOANLOSS">贷款流失</option>
-			    					</select>
+			    					  <!-- 数据字段配置  调整 -->			    				
+				    				  <select id="warnType" class="form-control pull-left">
+				    						<option value="">请选择</option>
+				    						<option value="LOANLOSS">贷款流失</option>
+				    						<option value="RepayOverdue">还贷逾期</option>
+				    						<option value="TransferOverdue">过户逾期</option>
+				    					</select> 			    					
 			    				</div>
 			    				<label class="col-md-1  control-label">状态</label>
 			    				<div class="col-md-3">
@@ -119,7 +124,7 @@
 						<td>{{item.warnDatetime}}</td>
 						<td>{{item.relieveDatetime}}</td>
 						<td class="btn-g">
-							<a href="javascript:relieve('{{item.caseCode}}','{{item.status}}')" class="btn-y" target='_blank'>解除</a>
+							<a href="javascript:relieve('{{item.caseCode}}','{{item.status}}','{{item.warnType}}')" class="btn-y" target='_blank'>解除</a>
 						</td>
 					</tr>
 			{{/each}}

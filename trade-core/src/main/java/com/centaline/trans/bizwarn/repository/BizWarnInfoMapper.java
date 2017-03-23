@@ -1,5 +1,7 @@
 package com.centaline.trans.bizwarn.repository;
 
+import java.util.Map;
+
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.common.MyBatisRepository;
 
@@ -15,6 +17,8 @@ public interface BizWarnInfoMapper {
 	int insert(BizWarnInfo bizWarnInfo);
 
 	int insertSelective(BizWarnInfo record);
+	
+	BizWarnInfo  selectBizWarnInfoByMap(Map<String,Object> map);
 
 	int updateByCaseCode(BizWarnInfo bizWarnInfo);
 

@@ -7,6 +7,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.common.entity.CaseMergerParameter;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
@@ -120,4 +121,13 @@ public interface ToCaseService {
 	 * @return 主管的名称
 	 */
 	public String getManagerByCaseOwner(String caseCode);
+	/**
+	 * 服务编码[srv_code]和案件编号[case_code]到服务表[T_TG_SERV_ITEM_AND_PROCESSOR]中去查询交易顾问id[processor_id]
+	 * @author hejf10 2017-3-16 13:55:58
+	 * @param srvCode
+	 * @param caseCode  
+	 * @date 2017-3-16 13:55:58
+	 * @return
+	 */
+	public String selectServItem(String caseCode,String srvCode);
 }
