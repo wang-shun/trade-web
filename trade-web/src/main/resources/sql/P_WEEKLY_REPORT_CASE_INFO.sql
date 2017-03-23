@@ -10,6 +10,12 @@ GO
 -- Create date: 2017-02-20
 -- Description:	每周的sctrans.T_RPT_CASE_BASE_INFO备份与报表数据的生成
 -- =============================================
+
+-- =============================================
+-- Author:		gongjd
+-- Create date: 2017-02-20
+-- Description:	每周的sctrans.T_RPT_CASE_BASE_INFO备份与报表数据的生成
+-- =============================================
 ALTER PROCEDURE sctrans.P_WEEKLY_REPORT_CASE_INFO(
     @belong_week_start int = 0,
     @belong_week_end int = 0
@@ -19,14 +25,12 @@ AS
 BEGIN
 	DECLARE @update_date datetime;
 	DECLARE @weekday int;
-	--开始时间到结束时间整周数  （循环可变）
-	DECLARE @whole_week_num int;
-	--开始时间到结束时间整周数
-	DECLARE @whole_week_num_init int;
+	--开始时间到结束时间整周数 + 1 （循环可变）
+	DECLARE @whole_week_num int = 1;
+	--开始时间到结束时间整周数 + 1
+	DECLARE @whole_week_num_init int = 1;
 	--循环到第几周
 	DECLARE @count int;
-	DECLARE @count_start int;
-	DECLARE @count_end int;
 	DECLARE @belong_week_start_date datetime;
 	DECLARE @belong_week_end_date datetime;
 	DECLARE @last_period_week_4 datetime;
@@ -49,8 +53,6 @@ BEGIN
 			set @last_period_week_5 = dateadd(day,-6,@last_period_week_4);
 			set @belong_week_start = year(@last_period_week_5)*10000 + month(@last_period_week_5)*100 + day(@last_period_week_5);
 			set @belong_week_end = year(@last_period_week_4)*10000 + month(@last_period_week_4)*100 + day(@last_period_week_4);
-			set @whole_week_num = 1;
-			set @whole_week_num_init = 1;
 		END
   ELSE IF @belong_week_start > @belong_week_end
     BEGIN
@@ -61,11 +63,7 @@ BEGIN
     BEGIN
 			set @belong_week_start_date = cast(cast(@belong_week_start AS VARCHAR) AS datetime);
 			set @belong_week_end_date = cast(cast(@belong_week_end AS VARCHAR) AS datetime);
-			
-			set @count_start = case when datepart(dw,@belong_week_start_date)>5 then datepart(dd,@belong_week_start_date)-datepart(dw,@belong_week_start_date) else datepart(dd,@belong_week_start_date)-datepart(dw,@belong_week_start_date)+7 end;
-			set @count_end = case when datepart(dw,@belong_week_end_date)>5 then datepart(dd,@belong_week_end_date)-datepart(dw,@belong_week_end_date)+7 else datepart(dd,@belong_week_end_date)-datepart(dw,@belong_week_end_date) end;
-			
-			set @whole_week_num = (@count_end - @count_start) / 7;
+			set @whole_week_num = ((datediff(dd,@belong_week_start_date,@belong_week_end_date) - (8-datepart(dw, @belong_week_start_date)) - datepart(dw, @belong_week_end_date-1)) / 7) + 1;
 			set @whole_week_num_init = @whole_week_num;
 			set @weekday = datepart(dw,@belong_week_start_date);
 			--获取开始时间之后第一个周四:如果今天是周5、6，默认下周四；如果今天是周1、2、3、4、7，默认本周四
@@ -179,7 +177,7 @@ BEGIN
 				JQYJL_EMPLOYEE_CODE ,
 				JQYJL_PHONE ,
 				JQYZJ_NAME ,
-				JQYZJ_CODE ,
+				JQYZJ_EMPLOYEE_CODE ,
 				JQYZJ_PHONE ,
 				JQYDS_NAME ,
 				JQYDS_EMPLOYEE_CODE ,
@@ -267,8 +265,13 @@ BEGIN
 				EVA_RECORD_TIME ,
 				ELOAN_PRO ,
 				ELOAN_PRO_AMOUNT ,
+				ELOAN_PRO_APPLY_COUNT ,
 				ELOAN_KA ,
 				ELOAN_KA_AMOUNT ,
+				ELOAN_KA_APPLY_COUNT ,
+				ELOAN_KA_CARD_COUNT ,
+				ELOAN_KA_CARD_AMOUNT ,
+				ELOAN_KA_CARD_TYPE ,
 				CASE_USE_CARD_PAY ,
 				CASE_USE_CARD_PAY_CN ,
 				CASE_CARD_PAY_AMOUNT ,
@@ -344,7 +347,7 @@ BEGIN
 					JQYJL_EMPLOYEE_CODE ,
 					JQYJL_PHONE ,
 					JQYZJ_NAME ,
-					JQYZJ_CODE ,
+					JQYZJ_EMPLOYEE_CODE ,
 					JQYZJ_PHONE ,
 					JQYDS_NAME ,
 					JQYDS_EMPLOYEE_CODE ,
@@ -432,8 +435,13 @@ BEGIN
 					EVA_RECORD_TIME ,
 					ELOAN_PRO ,
 					ELOAN_PRO_AMOUNT ,
+					ELOAN_PRO_APPLY_COUNT ,
 					ELOAN_KA ,
 					ELOAN_KA_AMOUNT ,
+					ELOAN_KA_APPLY_COUNT ,
+					ELOAN_KA_CARD_COUNT ,
+					ELOAN_KA_CARD_AMOUNT ,
+					ELOAN_KA_CARD_TYPE ,
 					CASE_USE_CARD_PAY ,
 					CASE_USE_CARD_PAY_CN ,
 					CASE_CARD_PAY_AMOUNT ,

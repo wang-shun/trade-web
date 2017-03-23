@@ -6,7 +6,7 @@ $(function() {
         anchors: ['firstPage', 'secondPage', '3rdPage','4thPage','5thPage','lastPage'],
         menu: '#menu',
         loopBottom: false,
-        afterLoad: function(anchorLink, index){       	
+        afterLoad: function(anchorLink, index){
         	var item = document.getElementById("iframe"+index);
         	if(times > 0){
                 reRenderChart(item);

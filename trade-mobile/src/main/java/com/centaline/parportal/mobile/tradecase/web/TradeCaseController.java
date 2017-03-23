@@ -2,6 +2,7 @@ package com.centaline.parportal.mobile.tradecase.web;
 
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -205,11 +206,41 @@ public class TradeCaseController {
 	}
 	
 	private void buildEplusInfo(JSONObject result, String caseCode, SessionUser user) {
-		result.put("eplusInfo", new JSONObject());
+		JQGridParam gp = new JQGridParam();
+		gp.setQueryId("queryEplusInfo");
+		gp.setPagination(false);
+		Map<String, Object> paramMap = gp.getParamtMap();
+		paramMap.put("caseCode", caseCode);
+
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
+		List<Map<String, Object>> list = pages.getContent();
+		if(list == null || list.isEmpty()){
+			result.put("eplusInfo", new JSONObject());
+			return;
+		}
+		generateWantData(list,"queryEplusInfo");
+		result.put("eplusInfo", list);
 	}
 	
+	
+
 	private void buildJianguanInfo(JSONObject result, String caseCode, SessionUser user) {
-		result.put("jianguanInfo", new JSONObject());
+		
+		JQGridParam gp = new JQGridParam();
+		gp.setQueryId("queryJianguanInfo");
+		gp.setPagination(false);
+		Map<String, Object> paramMap = gp.getParamtMap();
+		paramMap.put("caseCode", caseCode);
+
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
+		List<Map<String, Object>> list = pages.getContent();
+		if(list == null || list.isEmpty()){
+			result.put("jianguanInfo", new JSONObject());
+			return;
+		}
+		generateWantData(list,"jianguanInfo");
+		
+		result.put("jianguanInfo", list);
 	}
 
 	private void buildTradeInfo(JSONObject result,String caseCode,SessionUser user){
@@ -479,4 +510,103 @@ public class TradeCaseController {
 
         return false;
     }
+    
+    private void generateWantData(List<Map<String, Object>> list,String type) {
+		Map<String,Object> map = null;
+		if("queryEplusInfo".equals(type)){
+			for(Map<String, Object> singleMap:list){
+				map = new HashMap<String,Object>();
+				// 申请时间
+				if (null!=singleMap.get("applyTime")) {
+					String applyTime = singleMap.get("applyTime").toString();
+					map.put("applyTime", StringUtils.isBlank(applyTime) ? "" : applyTime);
+				}else{
+					map.put("applyTime","");
+				}
+				//申请金额
+				if (null!=singleMap.get("amount")) {
+					String amount = singleMap.get("amount").toString();
+					map.put("applyAmount", StringUtils.isBlank(amount) ? "" : amount);
+				}else{
+					map.put("applyAmount","");
+				}
+				//签约时间
+				if (null!=singleMap.get("signTime")) {
+					String signTime = singleMap.get("signTime").toString();
+					map.put("signTime", StringUtils.isBlank(signTime) ? "" : signTime);
+				}else{
+					map.put("signTime","");
+				}
+				//签约金额
+				if (null!=singleMap.get("signAmount")) {
+					String signAmount = singleMap.get("signAmount").toString();
+					map.put("signAmount", StringUtils.isBlank(signAmount) ? "" : signAmount);
+				}else{
+					map.put("signAmount","");
+				}
+				//放款时间
+				if (null!=singleMap.get("releaseTime")) {
+					String releaseTime = singleMap.get("releaseTime").toString();
+					map.put("releaseTime", StringUtils.isBlank(releaseTime) ? "" : releaseTime);
+				}else{
+					map.put("releaseTime","");
+				}
+				//放款金额
+				if (null!=singleMap.get("releaseAmount")) {
+					String releaseAmount = singleMap.get("releaseAmount").toString();
+					map.put("releaseAmount", StringUtils.isBlank(releaseAmount) ? "" : releaseAmount);
+				}else{
+					map.put("releaseAmount","");
+				}
+				
+				singleMap.put("progress", map);
+				singleMap.remove("LOAN_SRV_CODE");
+				singleMap.remove("LOANER_ORG_CODE");
+				singleMap.remove("EXCUTOR_ID");
+				singleMap.remove("EXCUTOR_TEAM");
+				singleMap.remove("applyTime");
+				singleMap.remove("signAmount");
+				singleMap.remove("releaseTime");
+				singleMap.remove("signTime");
+				singleMap.remove("releaseAmount");
+			}
+		}else if("jianguanInfo".equals(type)){
+			for(Map<String, Object> singleMap:list){
+				map = new HashMap<String,Object>();
+				// 申请时间
+				if (null!=singleMap.get("applyTime")) {
+					String applyTime = singleMap.get("applyTime").toString();
+					map.put("applyTime", StringUtils.isBlank(applyTime) ? "" : applyTime);
+				}else{
+					map.put("applyTime","");
+				}
+				
+				//签约时间
+				if (null!=singleMap.get("signTime")) {
+					String signTime = singleMap.get("signTime").toString();
+					map.put("signTime", StringUtils.isBlank(signTime) ? "" : signTime);
+				}else{
+					map.put("signTime","");
+				}
+				
+				//结束时间
+				if (null!=singleMap.get("closeTime")) {
+					String closeTime = singleMap.get("closeTime").toString();
+					map.put("closeTime", StringUtils.isBlank(closeTime) ? "" : closeTime);
+				}else{
+					map.put("closeTime","");
+				}
+				singleMap.put("progress", map);
+				singleMap.remove("APPLY_USER");
+				singleMap.remove("RISK_CONTROL_OFFICER");
+				singleMap.remove("applyTime");
+				singleMap.remove("signTime");
+				singleMap.remove("closeTime");
+			}
+			
+		}
+		
+		
+	}
+    
 }

@@ -63,7 +63,7 @@
 							</div>
 						</div>
 					</div>
-
+					<div class="table-scroll" style="height:500px;overflow: auto">
                         <!-- table -->
                         <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                             <thead>
@@ -89,6 +89,7 @@
                             </thead>
                             <tbody id="tableTemplate"></tbody>
 					</table>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -168,8 +169,9 @@
 	        var month = month_ > 9 ? month_:("0"+month_)
 	        var data = {};
 	      	if(!page)page=1;
-  	        data.rows=10;
+  	        data.rows=8;
   	        data.page=page;
+  	        data.pagination = false;
 	        var condition = "init";
 	        data.parentOrgId = "1D29BB468F504774ACE653B946A393EE";
 	        
@@ -191,7 +193,6 @@
 			 data.condition = condition;
 			 data.searchDateTime = year + "-" + month;
 	         data.searchBelongMonth = getBelongMonth(data.searchDateTime);
-	         data.pagination = true; 
 	         data.queryId = "signLoanDetailByQudongQuery";
 	         
 	  		 var url = ctx+"/quickGrid/findPage";

@@ -43,6 +43,8 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 		double TOTAL_EVA_COUNT=0;
 		double TOTAL_MORT_COM_AMOUNT = 0;//商贷金额总和
 		double TOTAL_CASE_CON_PRICE = 0;//合同价总和
+		double TOTAL_CASE_COM_CON_PRICE = 0;//商贷合同价
+
 		double TOTAL_LOST_COUNT = 0;//流失案件总和
 		double TOTAL_CASE_LOST_COUNT_PERCENT =0;//案件流失率
 		double TOTAL_LOST_AMOUNT =0;//流失金额总和
@@ -163,6 +165,9 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 				if("qqGetTotalForConsultant".equals(dictType)){
 					if(keyer.get("ALL_COUNT")!=null){
 						TOTAL_ALL_COUNT = Double.valueOf(keyer.get("ALL_COUNT").toString());
+					}
+					if(keyer.get("CASE_COM_CON_PRICE")!=null){
+						TOTAL_CASE_COM_CON_PRICE += Double.valueOf(keyer.get("CASE_COM_CON_PRICE").toString());
 					}
 
 					if(keyer.get("MORT_COM_COUNT")!=null){

@@ -150,7 +150,7 @@
         	
         })
         function getGroup(parentId,gb,id,type){
-        	  $.ajax({
+        	$.ajax({
                   url : ctx+"/rapidQuery/findPage",
                   method : "GET",
                   data : {
