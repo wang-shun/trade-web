@@ -200,7 +200,7 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i> 产品类型1${eloanCase.loanSrvCode}
+									style="color:red">* </i> 产品类型
 								</label>
 								<aist:dict id="loanSrvCode" name="loanSrvCode"
 									clazz="select_control sign_right_two" display="select"
@@ -214,6 +214,9 @@
 									id="finOrgCode" value="${eloanCase.finOrgCode}">
 								</select>
 							</div>
+						</li>
+						
+						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									style="color:red">* </i>证件类型
@@ -222,7 +225,14 @@
 									display="select" dictType="CERT_TYPE"  tag="forEloanApply"  ligerui='none'  defaultvalue="${eloanCase.custCardType}" >									
 									</aist:dict>												
 							</div>
+							
+							<div class="form_content">
+								<label class="control-label sign_left_two"> <i  style="color:red">* </i> 办卡人证件号
+								</label> <input class="input_type sign_right_two" style="width: 172px;"
+									value="${eloanCase.custPaper}" name="custPaper" id="custPaper">
+							</div> 
 						</li>
+						
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 办卡人姓名</label>
@@ -254,11 +264,7 @@
 							</shiro:hasPermission>
 							
 							
-							<div class="form_content">
-								<label class="control-label sign_left_two"> <i  style="color:red">* </i> 办卡人证件号
-								</label> <input class="input_type sign_right_two"
-									value="${eloanCase.custPaper}" name="custPaper" id="custPaper">
-							</div> 
+
 							
 						</li>
 						<li>
