@@ -4,11 +4,12 @@ function initData(url,data,templateId,tbodyId) {
 			var sortgz=$('span.active').attr("sord");
 			data.sidx=sortColumn;
 			data.sord=sortgz;
+			var result = null;
 			
 			var pagination = data.pagination;
 			
 			$.ajax({
-				async : true,
+				async : false,
 				url : url,
 				method : "post",
 				dataType : "json",
@@ -18,6 +19,9 @@ function initData(url,data,templateId,tbodyId) {
 	                    window.parent.wxc.alert("数据加载失败！");
 						return;			
 					}
+					
+					result = data;
+					
 					data.ctx = ctx;
 					var templateData = template(templateId, data);
 					$("#"+tbodyId).empty();
@@ -35,6 +39,7 @@ function initData(url,data,templateId,tbodyId) {
 					//$.unblockUI();
 				}
 			});
+			return result;
 		}
 		function initpage(totalCount,pageSize,currentPage,records,tbodyId) {
 			// 显示分页 

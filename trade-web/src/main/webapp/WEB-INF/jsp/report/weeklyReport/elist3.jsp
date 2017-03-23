@@ -49,6 +49,7 @@ th, td {
 						</div>
 					</div>
 
+				<div class="table-scroll" style="height:500px;overflow: auto">
 					<!-- table -->
 					<table
 						class="table table_blue  table-striped table-bordered table-hover customerinfo">
@@ -75,6 +76,7 @@ th, td {
 							<!-- 模板数据 -->
 						</tbody>
 					</table>
+				   </div>
 				</div>
 			</div>
 		</div>
@@ -107,7 +109,7 @@ th, td {
 		      <td>{{item.GUOHU_NUM_MONTH == 0?0:(item.KA_APP_NUM_MONTH/item.GUOHU_NUM_MONTH*100).toFixed()}}%</td>
 			  <td>{{item.KA_NUM_MONTH}}</td>
               <td>{{item.KA_APP_NUM_MONTH == 0?0:(item.KA_NUM_MONTH/item.KA_APP_NUM_MONTH*100).toFixed()}}%</td>
-              <td>{{item.ELOAN_KA_APP_NUM_MONTH_1 + item.ELOAN_KA_APP_NUM_MONTH_2}}</td>
+              <td>{{item.ELOAN_KA_APP_NUM_MONTH}}</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -128,11 +130,38 @@ th, td {
 				belongEndWeekDay : parseInt(weekParamAlter[1]),
 				lastMonthStartDay : parseInt(sectionMap[0]),
 				lastMonthEndDay : parseInt(sectionMap[1]),
-				rows : 10,
-				page : page||1
+				pagination : false
 			}
 			var url = ctx+"/quickGrid/findPage";
-			initData(url,data,"template_LoankaList","LoankaList");
+			var result = initData(url,data,"template_LoankaList","LoankaList");
+			if(result && result.rows){
+			var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0,tb10 = 0;
+			
+			for(var i in result.rows){
+				var row = result.rows[i];
+				tb2 += parseInt(row.GUOHU_NUM_WEEK);
+				tb3 += parseInt(row.KA_APP_NUM_WEEK);
+				tb5 += parseInt(row.GUOHU_NUM_MONTH);
+				tb6 += parseInt(row.KA_APP_NUM_MONTH);
+				tb8 += parseInt(row.KA_NUM_MONTH);
+				tb10 += parseInt(row.ELOAN_KA_APP_NUM_MONTH);
+			}
+			tb4 = tb2 == 0?0:(tb3/tb2*100).toFixed();
+			tb7 = tb5 == 0?0:(tb6/tb5*100).toFixed();
+			tb9 = tb6 == 0?0:(tb8/tb6*100).toFixed();
+			var trStr = "<tr>";
+			trStr += "<td>总计</td>";
+			trStr += "<td>"+tb2+"</td>";
+			trStr += "<td>"+tb3+"</td>";
+			trStr += "<td>"+tb4+"%</td>";
+			trStr += "<td>"+tb5+"</td>";
+			trStr += "<td>"+tb6+"</td>";
+			trStr += "<td>"+tb7+"%</td>";
+			trStr += "<td>"+tb8+"</td>";
+			trStr += "<td>"+tb9+"%</td>";
+			trStr += "<td>"+tb10+"</td>";
+			$("#LoankaList").append(trStr);
+			}
 		}
 	</script>
 </body>

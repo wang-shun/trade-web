@@ -48,6 +48,7 @@ th,td {
 						</div>
 					</div>
 
+				<div class="table-scroll" style="height:500px;overflow: auto">
 					<!-- table -->
 					<table
 						class="table table_blue  table-striped table-bordered table-hover customerinfo">
@@ -70,6 +71,7 @@ th,td {
 							<!-- 模板数据 -->
 						</tbody>
 					</table>
+				  </div>
 				</div>
 			</div>
 		</div>
@@ -90,7 +92,7 @@ th,td {
 	<!-- 个人js -->
 	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>	
 	<script id="template_loanLoseList" type="text/html">
-          {{each rows as item index}}
+        {{each rows as item index}}
 		    <tr>
               <td>{{item.ORG_NAME}}</td>
               <td>{{item.LOSE_NUM_WEEK}}</td>
@@ -124,11 +126,45 @@ th,td {
 				belongEndWeekDay : parseInt(weekParamAlter[1]),
 				lastMonthStartDay : parseInt(sectionMap[0]),
 				lastMonthEndDay : parseInt(sectionMap[1]),
-				rows : 10,
-				page : page||1	
+				pagination : false	
 			}
 			var url = ctx+"/quickGrid/findPage";
-			initData(url,data,"template_loanLoseList","loanLoseList");
+			var result = initData(url,data,"template_loanLoseList","loanLoseList");
+			if(result && result.rows){
+				var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0,tb10 = 0,tb11 = 0;
+				var lose_num_month = 0,total_num_month = 0,lose_amount_month = 0,total_amount_month = 0;
+				
+				for(var i in result.rows){
+					var row = result.rows[i];
+					tb2 += parseInt(row.LOSE_NUM_WEEK);
+					tb3 += parseInt(row.REC_NUM_WEEK);
+					tb4 += parseInt(row.TOTAL_NUM_WEEK);
+					tb7 += Number(row.LOSE_AMOUNT_WEEK);
+					tb8 += Number(row.REC_AMOUNT_WEEK);
+					tb9 += Number(row.TOTAL_AMOUNT_WEEK);
+					lose_num_month += parseInt(row.LOSE_NUM_MONTH);
+					total_num_month += parseInt(row.TOTAL_NUM_MONTH);
+					lose_amount_month += Number(row.LOSE_AMOUNT_MONTH);
+					total_amount_month += Number(row.TOTAL_AMOUNT_MONTH);
+				}
+				tb5 = tb4 == 0?0:(tb2/tb4*100).toFixed();
+				tb6 = total_num_month == 0?0:(lose_num_month/total_num_month*100).toFixed();
+				tb10 = tb9 == 0?0:(tb7/tb9*100).toFixed();
+				tb11 = total_amount_month == 0?0:(lose_amount_month/total_amount_month*100).toFixed();
+				var trStr = "<tr>";
+				trStr += "<td>总计</td>";
+				trStr += "<td>"+tb2+"</td>";
+				trStr += "<td>"+tb3+"</td>";
+				trStr += "<td>"+tb4+"</td>";
+				trStr += "<td>"+tb5+"%</td>";
+				trStr += "<td>"+tb6+"%</td>";
+				trStr += "<td>"+(tb7/10000).toFixed()+"万元</td>";
+				trStr += "<td>"+(tb8/10000).toFixed()+"万元</td>";
+				trStr += "<td>"+(tb9/10000).toFixed()+"万元</td>";
+				trStr += "<td>"+tb10+"%</td>";
+				trStr += "<td>"+tb11+"%</td>";
+				$("#loanLoseList").append(trStr);
+			}
 		}
 	</script>
 

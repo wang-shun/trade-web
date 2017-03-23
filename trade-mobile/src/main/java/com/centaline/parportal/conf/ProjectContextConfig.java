@@ -10,8 +10,12 @@ import org.springframework.context.annotation.Configuration;
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryCaseSalerInfoServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryFinOrgImpl;
 import com.centaline.trans.common.service.impl.QuickQueryGetCaseOverviewInfoServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryGetGlCaseCountServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryGetOperatorInfoServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryGetRishControlOfficerInfoServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryGetSolutionListServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryHouTaiServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryLightServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl;
@@ -20,6 +24,7 @@ import com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImp
 import com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryUserCustomDictServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQuerygetLoanTypeNameServiceImpl;
 
 /**
  * 
@@ -172,6 +177,41 @@ public class ProjectContextConfig {
     @Bean(name="qqLightService")
     public QuickQueryLightServiceImpl qqLightServiceImpl() {
     	QuickQueryLightServiceImpl dict = new QuickQueryLightServiceImpl();
+    	return dict;
+    }
+    
+    @Bean(name="getLoanTypeName")
+    public QuickQuerygetLoanTypeNameServiceImpl getLoanTypeName() {
+    	QuickQuerygetLoanTypeNameServiceImpl dict = new QuickQuerygetLoanTypeNameServiceImpl();
+    	return dict;
+    }
+    
+    @Bean(name="qqfinOrgIdName")
+    public QuickQueryFinOrgImpl qqfinOrgIdName() {
+    	QuickQueryFinOrgImpl dict = new QuickQueryFinOrgImpl();
+    	return dict;
+    }
+    
+    @Bean(name="getOperatorInfo")
+    public QuickQueryGetOperatorInfoServiceImpl getOperatorInfo() {
+    	QuickQueryGetOperatorInfoServiceImpl dict = new QuickQueryGetOperatorInfoServiceImpl();
+    	return dict;
+    }
+    
+    @Bean(name="getRishControlOfficerInfo")
+    public QuickQueryGetRishControlOfficerInfoServiceImpl getRishControlOfficerInfo() {
+    	QuickQueryGetRishControlOfficerInfoServiceImpl dict = new QuickQueryGetRishControlOfficerInfoServiceImpl();
+    	return dict;
+    }
+    @Bean(name="qqcdUserIdName")
+    public QuickQueryUserCustomDictServiceImpl qqcdUserIdName() {
+    	QuickQueryUserCustomDictServiceImpl dict = new QuickQueryUserCustomDictServiceImpl();
+    	dict.setProp("realName");
+    	return dict;
+    }
+    @Bean(name="getSolutionList")
+    public QuickQueryGetSolutionListServiceImpl getSolutionList() {
+    	QuickQueryGetSolutionListServiceImpl dict = new QuickQueryGetSolutionListServiceImpl();
     	return dict;
     }
 }

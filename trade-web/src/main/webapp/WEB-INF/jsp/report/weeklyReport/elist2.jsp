@@ -49,6 +49,7 @@ th, td {
 						</div>
 					</div>
 
+				<div class="table-scroll" style="height:500px;overflow: auto">
 					<!-- table -->
 					<table
 						class="table table_blue  table-striped table-bordered table-hover customerinfo">
@@ -69,6 +70,7 @@ th, td {
 							<!-- 模板数据 -->
 						</tbody>
 					</table>
+				  </div>
 				</div>
 			</div>
 		</div>
@@ -122,12 +124,41 @@ th, td {
 				belongEndWeekDay : parseInt(weekParamAlter[1]),
 				lastMonthStartDay : parseInt(sectionMap[0]),
 				lastMonthEndDay : parseInt(sectionMap[1]),
-				rows : 10,
-				page : page||1
-
+				pagination : false
 			}
 			var url = ctx + "/quickGrid/findPage";
-			initData(url, data, "template_assessmentList", "assessmentList");
+			var result = initData(url, data, "template_assessmentList", "assessmentList");
+			if(result && result.rows){
+				var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0;
+				var eva_num_month = 0,rec_num_month = 0,eva_act_amount_month = 0,eva_amount_month = 0;
+				
+				for(var i in result.rows){
+					var row = result.rows[i];
+					tb2 += parseInt(row.REC_NUM_WEEK);
+					tb3 += parseInt(row.EVA_NUM_WEEK);
+					tb6 += Number(row.EVA_AMOUNT_WEEK);
+					tb7 += Number(row.EVA_ACT_AMOUNT_WEEK);
+					eva_num_month += parseInt(row.EVA_NUM_MONTH);
+					rec_num_month += parseInt(row.REC_NUM_MONTH);
+					eva_act_amount_month += Number(row.EVA_ACT_AMOUNT_MONTH);
+					eva_amount_month += Number(row.EVA_AMOUNT_MONTH);
+				}
+				tb4 = tb2 == 0?0:(tb3/tb2*100).toFixed();
+				tb5 = rec_num_month == 0?0:(eva_num_month/rec_num_month*100).toFixed();
+				tb8 = tb6 == 0?0:(tb7/tb6*100).toFixed();
+				tb9 = eva_amount_month == 0?0:(eva_act_amount_month/eva_amount_month*100).toFixed();
+				var trStr = "<tr>";
+				trStr += "<td>总计</td>";
+				trStr += "<td>"+tb2+"</td>";
+				trStr += "<td>"+tb3+"</td>";
+				trStr += "<td>"+tb4+"%</td>";
+				trStr += "<td>"+tb5+"%</td>";
+				trStr += "<td>"+tb6+"元</td>";
+				trStr += "<td>"+tb7+"元</td>";
+				trStr += "<td>"+tb8+"%</td>";
+				trStr += "<td>"+tb9+"%</td>";
+				$("#assessmentList").append(trStr);
+			}
 		}
 	</script>
 </body>

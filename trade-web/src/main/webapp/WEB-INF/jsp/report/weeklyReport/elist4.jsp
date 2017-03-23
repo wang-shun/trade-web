@@ -49,6 +49,7 @@ th, td {
 						</div>
 					</div>
 
+				<div class="table-scroll" style="height:500px;overflow: auto">
 					<!-- table -->
 					<table
 						class="table table_blue  table-striped table-bordered table-hover customerinfo">
@@ -57,7 +58,7 @@ th, td {
 								<th rowspan="2">所属组别</th>
 								<th colspan="5">本周过户案件中E+贷款申请量</th>
 								<th colspan="5">本月过户案件累计</th>
-								<th>本月E+卡申请量</th>
+								<th>本月E+贷款申请量</th>
 							</tr>
 							<tr>
 								<th>过户单数</th>
@@ -77,6 +78,7 @@ th, td {
 							<!-- 模板数据 -->
 						</tbody>
 					</table>
+				   </div>
 				</div>
 			</div>
 		</div>
@@ -111,7 +113,7 @@ th, td {
               <td>{{item.PRO_APP_NUM_MONTH}}</td>
               <td>{{(item.PRO_APP_AMOUNT_MONTH/10000).toFixed()}}万元</td>
               <td>{{item.HOUSE_PRICE_MONTH == 0?0:(item.PRO_APP_AMOUNT_MONTH/item.HOUSE_PRICE_MONTH*100).toFixed()}}%</td>
-			  <td>{{item.ELOAN_PRO_APP_NUM_MONTH_1 + item.ELOAN_PRO_APP_NUM_MONTH_2}}</td>
+			  <td>{{item.ELOAN_PRO_APP_NUM_MONTH}}</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -133,11 +135,42 @@ th, td {
 				belongEndWeekDay : parseInt(weekParamAlter[1]),
 				lastMonthStartDay : parseInt(sectionMap[0]),
 				lastMonthEndDay : parseInt(sectionMap[1]),
-				rows : 10,
-				page : page||1
+				pagination : false
 			}
 			var url = ctx+"/quickGrid/findPage";
-			initData(url,data,"template_eloanList","eloanList");
+			var result = initData(url,data,"template_eloanList","eloanList");
+			if(result && result.rows){
+				var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0,tb10 = 0,tb11 = 0,tb12 = 0;
+				
+				for(var i in result.rows){
+					var row = result.rows[i];
+					tb2 += parseInt(row.GUOHU_NUM_WEEK);
+					tb3 += Number(row.HOUSE_PRICE_WEEK);
+					tb4 += parseInt(row.PRO_APP_NUM_WEEK);
+					tb5 += Number(row.PRO_APP_AMOUNT_WEEK);
+					tb7 += parseInt(row.GUOHU_NUM_MONTH);
+					tb8 += Number(row.HOUSE_PRICE_MONTH);
+					tb9 += parseInt(row.PRO_APP_NUM_MONTH);
+					tb10 += Number(row.PRO_APP_AMOUNT_MONTH);
+					tb12 += parseInt(row.ELOAN_PRO_APP_NUM_MONTH);
+				}
+				tb6 = tb3 == 0?0:(tb5/tb3*100).toFixed(); 
+				tb11 = tb8 == 0?0:(tb10/tb8*100).toFixed();
+				var trStr = "<tr>";
+				trStr += "<td>总计</td>";
+				trStr += "<td>"+tb2+"</td>";
+				trStr += "<td>"+(tb3/10000).toFixed()+"万元</td>";
+				trStr += "<td>"+tb4+"</td>";
+				trStr += "<td>"+(tb5/10000).toFixed()+"万元</td>";
+				trStr += "<td>"+tb6+"%</td>";
+				trStr += "<td>"+tb7+"</td>";
+				trStr += "<td>"+(tb8/10000).toFixed()+"万元</td>";
+				trStr += "<td>"+tb9+"</td>";
+				trStr += "<td>"+(tb10/10000).toFixed()+"万元</td>";
+				trStr += "<td>"+tb11+"%</td>";
+				trStr += "<td>"+tb12+"</td>";
+				$("#eloanList").append(trStr);
+			}
 		}
 	</script>
 </body>
